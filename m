@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D210D45D5F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17D445D5FB;
 	Wed, 22 Jul 2026 23:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784763680; cv=none; b=uEQuDGY8fOqeAp/pYGchKwhg6rlDojcpf111GiMvQYndQN3tyDf57mhLF4jEjtCn4G4iVO1oUqb+bzyKLs+bq3ZIZmWwgvkOoYTz+s02GOXX0UyYC15kbsERNBaHXoOpX+qyfmkaQzcZFJzJ3I0tIGxrSUOz4HhiosjIXL4MBcc=
+	t=1784763681; cv=none; b=EYJ2fz3SfPTq4CFVF63T0Burs2pvFVyNjvENgrNJV3o+L9XWph9wEpnGf5xLyM8sgLTsXd6VlJM/eYtwmfMDMTwdNaqYUqQYcw9roZAMG3TGneN7vAJc6Ins4tLJ1OJ4E04lcRV/kqbZVrSljX2/9PsUhva3VRyEErTDYc1w6k0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784763680; c=relaxed/simple;
-	bh=tQO4lhRXKQ6uEvJGNjKAll868IKX9d/or000tzu8DAA=;
+	s=arc-20240116; t=1784763681; c=relaxed/simple;
+	bh=IaSkp3fdmtv7NRhfe3SroO5xQIMOPLdrrRcj/2IEtlE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=merzugLiuRSSJEtRye4nfSkEY0jC3Xz9yU+lFCyxjh5Qjv/mWNmdEExY07JL7LVoKhJ9Z5rctA9KDzBn6JIIvWyWQz5rEEdULM15Uo28SHsv/sLEmnDrepSz10WImcLCD/WOz3lRE+IYrCKX3lYWr8AXqtOzbwdT8Vt2U2Z6EeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Da/RE/zo; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=J1cMrIk41ufCYI3lT4/73H//eb+bo5twIlz2rVrqUFQI0MnlbPbthw+SkrjlD5dEt2Si9KT0VQ91FQkyrLjNYFvE3Ksdnb6lDf4YayMZorIUuE8Y4PrE7r+FCoGPcZinNXCiAUMYVVD6vyWPfXSql0dYToLJ6XkyjhDiGn3mBRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XlQib/ow; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Da/RE/zo"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ADAE6C19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlQib/ow"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BF269C2BCF7;
 	Wed, 22 Jul 2026 23:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1784763680;
-	bh=tQO4lhRXKQ6uEvJGNjKAll868IKX9d/or000tzu8DAA=;
+	bh=IaSkp3fdmtv7NRhfe3SroO5xQIMOPLdrrRcj/2IEtlE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Da/RE/zoJl4bsjzKC3/H6wBhxJjhv27xrkhGf2e6DeYX9aq6zIh+n6ytW5Gp6GUll
-	 ec3Y3rU+Amik1YEt1lejx7UURMqrjTazilzUhYdGgWMKY9/ZJIUN0xPOctaL6JwcSe
-	 KnAZyPXxm6Nb9oGSP0ap2pMOrlBKq6jvUtnEKc8YW/omG8kzGSvdj89nppnrvSATBA
-	 jU5l+YcJFIA3ooIyyd4Fi4fQARsM5hg+hUek35mgd8ozVwjLqWesvg5WNaiwE2ItoU
-	 qOjtW/Fl4hCjl3LsF1sG0Oivg+ODaW0T/kECmSYG+7Ln163AXtbZNgzJY4z44n0y0K
-	 724cJdjfF3u3g==
+	b=XlQib/owPAVh3H7KfaNS4PyZkmlCbiHxJjSJbi29AcA2PUhaNCMdYbn3nFoRKC9xf
+	 9z7uj6VoT2q8h7zOKugYJorEvmpU3Ogas/oag/J0kR4AO2H+LU63b7FxgJ4Gr1HRvm
+	 XgUXx2mabgUEG1SbqIrZybG/YFb+q/b8g/7wgFb08ytsJltdsj4feTnw9aEAejYHuR
+	 E9YKl0Fbd/Wm5TdI5yiu0eV1JkPbKkcLxscGACQJPCWJW1kfX8kMWHjTV0SZP4ji1m
+	 zTuPDeKmBWVqyzfVfxxz5YIWSu284D3KT0zYL+zxGSRlK87q7wKxeFgXEQCE/u3/cC
+	 j7G2h1Adnf0Mw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99666C4453A;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA00C4453F;
 	Wed, 22 Jul 2026 23:41:20 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Wed, 22 Jul 2026 16:41:21 -0700
-Subject: [PATCH v4 13/16] WIP: Reproducer for allocation failure due to
- cgroup v2 memory limits
+Date: Wed, 22 Jul 2026 16:41:22 -0700
+Subject: [PATCH v4 14/16] WIP: Reproducer for subpool usage leak
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260722-hugetlb-alloc-failure-fixes-v4-13-88e8b81970dc@google.com>
+Message-Id: <20260722-hugetlb-alloc-failure-fixes-v4-14-88e8b81970dc@google.com>
 References: <20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com>
 In-Reply-To: <20260722-hugetlb-alloc-failure-fixes-v4-0-88e8b81970dc@google.com>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -62,11 +61,11 @@ Cc: vannapurve@google.com, erdemaktas@google.com, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
  linux-doc@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784763678; l=6966;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784763678; l=4644;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=JlTcWmu4YylYJqF+iA2BMg6mM33pft18C72PLT5bBdc=;
- b=CsPLTCLuBSVGQbXs8wDx4crR6XxCc1FrWqzQJTSbrryBKU8/Kqta9FxI5P4Zfib63Gi8X9Vyh
- BLsF9HAKYoDCxA69jvJVKW35iNPeQTIvHSYzk03E2p3reohwsAxU8Hk
+ bh=E4drmq1mZkjUTuE98aQslvvt9cikJbWZghcgFkli30k=;
+ b=HiSFLR0mil6K38uaer8wl9Fy+05WtiROHkCptxCr9umgO7pDRf//LRN/q++nLpLWmSKUyE1xs
+ 3Zjk/paa3R0Cx5A8PWmokVRUBC6lXEwTZfCv4jw5HxO6WGQpOvLFmfx
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -78,228 +77,127 @@ From: Ackerley Tng <ackerleytng@google.com>
 
 (This reproducer was hacked up and not meant to be merged.)
 
-cgroup_v2_allocation_failure.c triggers HugeTLB allocation failure by exploiting
-cgroup v2 memory limits. This allows testing the error paths in the kernel when
-memory control charging fails, even when physical huge pages are available.
+The kernel leaks subpool usage and the subpool structure itself if a HugeTLBfs
+mount specifying size (which sets max_hpages on the subpool) is created.
 
-The program performs the following steps to trigger the failure:
+subpool_leak_max_size.sh reproduces this with the following steps:
 
-1. Enable hugetlb accounting in cgroup v2.
-     + The program checks if memory_hugetlb_accounting is enabled in the cgroup2
-       mount options. If not, it remounts /sys/fs/cgroup with this option
-       enabled. This ensures that HugeTLB allocations are charged against the
-       cgroup memory limits.
+1. Create mount, specifying size=2M (1 page). This sets max_hpages = 1 on the
+   subpool, but does not reserve any pages.
+2. Set nr_hugepages = 0 and nr_overcommit_hugepages = 0 so that physical
+   allocations will fail.
+3. Run fallocate -l 2M on a file in the mount.
+     + This calls hugetlbfs_fallocate, which attempts to allocate a page by
+       calling alloc_hugetlb_folio.
+     + alloc_hugetlb_folio calls hugepage_subpool_get_pages to track the
+       allocation against the subpool limit. This increments used_hpages to 1.
+     + Physical allocation fails because nr_hugepages is 0.
+     + Before patch (Buggy):
+         + The error path in alloc_hugetlb_folio sees gbl_chg is 1 (indicating
+           we tried to allocate a global page) and incorrectly skips calling
+           hugepage_subpool_put_pages.
+         + fallocate fails and returns to userspace, but the subpool used_hpages
+           counter remains leaked at 1.
+     + After patch:
+         + The error path always calls hugepage_subpool_put_pages if map_chg is
+           true, restoring used_hpages to 0.
 
-2. Create a test cgroup and set limits.
-     + The program creates a new cgroup subdirectory named test_reproducer under
-       /sys/fs/cgroup.
-     + It sets the memory.max limit of this cgroup to 1MB (which is less than
-       the 2MB huge page size).
-
-3. Fork a child process and move it to the test cgroup.
-     + The program forks a child process.
-     + The child process moves itself into the test_reproducer cgroup by writing
-       its PID (using 0 for current process) to cgroup.procs in the test cgroup
-       directory.
-
-4. Attempt to allocate and touch a 2MB huge page.
-     + The child process maps a 2MB anonymous huge page using mmap with
-       MAP_PRIVATE, MAP_ANONYMOUS, and MAP_HUGETLB.
-     + The child process writes to the mapped address, triggering a page fault.
-
-5. Triggering the kernel bugs.
-     + The page fault handler calls alloc_hugetlb_folio to allocate the huge
-       page.
-     + The allocation of the physical page from buddy allocator succeeds
-       (assuming nr_hugepages is sufficient).
-     + The kernel then attempts to charge this allocation to the child process's
-       cgroup by calling mem_cgroup_charge_hugetlb.
-     + Since the child's cgroup memory limit is 1MB and the page is 2MB, the
-       charge fails and mem_cgroup_charge_hugetlb returns -ENOMEM.
-     + This triggers the error path in alloc_hugetlb_folio where the bugs (folio
-       refcount mismatch, infinite loop on ENOMEM, and reservation leaks) are
-       handled.
+4. Unmount the filesystem.
+     + During unmount, the kernel calls unlock_or_release_subpool to clean up
+       the subpool.
+     + It checks if the subpool is free using subpool_is_free, which returns
+       whether used_hpages is 0.
+     + Before patch (Buggy):
+         + Since used_hpages leaked and is 1, subpool_is_free returns false.
+         + The kernel skips freeing the subpool structure, leaking the
+           hugepage_subpool structure in kernel memory.
+     + After patch:
+         + Since used_hpages is 0, subpool_is_free returns true, and the subpool
+           structure is correctly freed.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- cgroup_v2_allocation_failure.c | 169 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 169 insertions(+)
+ subpool_leak_max_size.sh | 72 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
-diff --git a/cgroup_v2_allocation_failure.c b/cgroup_v2_allocation_failure.c
-new file mode 100644
-index 0000000000000..1a813678d8cd2
+diff --git a/subpool_leak_max_size.sh b/subpool_leak_max_size.sh
+new file mode 100755
+index 0000000000000..226fd2766c4d0
 --- /dev/null
-+++ b/cgroup_v2_allocation_failure.c
-@@ -0,0 +1,169 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+#include <sys/mman.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <string.h>
-+#include <errno.h>
++++ b/subpool_leak_max_size.sh
+@@ -0,0 +1,72 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
 +
-+#define CGROUP_PATH "/sys/fs/cgroup"
-+#define TEST_CGROUP "test_reproducer"
-+#define TEST_CGROUP_PATH CGROUP_PATH "/" TEST_CGROUP
++if [ "$EUID" -ne 0 ]; then
++    echo "Please run as root"
++    exit 1
++fi
 +
-+static void write_file_val(const char *path, const char *val)
-+{
-+	int fd = open(path, O_WRONLY);
++MNT_PATH="/tmp/mnt_hugetlb"
++FILE_PATH="$MNT_PATH/test_file"
 +
-+	if (fd < 0) {
-+		fprintf(stderr, "Failed to open %s: %s\n", path, strerror(errno));
-+		exit(1);
-+	}
-+	if (write(fd, val, strlen(val)) < 0) {
-+		fprintf(stderr, "Failed to write %s to %s: %s\n", val, path, strerror(errno));
-+		close(fd);
-+		exit(1);
-+	}
-+	close(fd);
++# Save original values
++orig_nr=$(cat /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages)
++orig_overcommit=$(cat /sys/kernel/mm/hugepages/hugepages-2048kB/nr_overcommit_hugepages)
++
++cleanup() {
++    echo "Cleaning up..."
++    rm -f "$FILE_PATH"
++    umount "$MNT_PATH" 2>/dev/null
++    rmdir "$MNT_PATH" 2>/dev/null
++    echo "$orig_nr" > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
++    echo "$orig_overcommit" > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_overcommit_hugepages
++    echo "Cleanup done."
 +}
++trap cleanup EXIT
 +
-+static int is_hugetlb_accounting_enabled(void)
-+{
-+	char spec[256], file[256], type[256], opts[512];
-+	char line[1024];
-+	int enabled = 0;
-+	FILE *fp;
++# 1. Mount hugetlbfs with size=2M (1 page)
++mkdir -p "$MNT_PATH"
++if ! mount -t hugetlbfs -o size=2M none "$MNT_PATH"; then
++    echo "Failed to mount hugetlbfs"
++    exit 1
++fi
 +
-+	fp = fopen("/proc/mounts", "r");
-+	if (!fp) {
-+		perror("fopen /proc/mounts");
-+		return -1;
-+	}
++# 2. Set nr_hugepages to 0, overcommit to 0
++echo 0 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
++echo 0 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_overcommit_hugepages
 +
-+	while (fgets(line, sizeof(line), fp)) {
-+		if (sscanf(line, "%255s %255s %255s %511s", spec, file, type, opts) == 4) {
-+			if (strcmp(file, CGROUP_PATH) == 0 && strcmp(type, "cgroup2") == 0) {
-+				if (strstr(opts, "memory_hugetlb_accounting") != NULL)
-+					enabled = 1;
-+				break;
-+			}
-+		}
-+	}
-+	fclose(fp);
-+	return enabled;
-+}
++# Check subpool usage before running
++read total free < <(stat -f -c "%b %f" "$MNT_PATH")
++used_before=$((total - free))
++echo "Before test - Subpool total blocks: $total"
++echo "Before test - Subpool free blocks:  $free"
++echo "Before test - Subpool used blocks:  $used_before"
++if [ "$used_before" -ne 0 ]; then
++    echo "ERROR: Subpool is not clean before test starts!"
++    exit 1
++fi
 +
-+static int enable_hugetlb_accounting(void)
-+{
-+	int ret;
++# Run fallocate (expecting failure)
++echo "Running fallocate (expecting failure)..."
++if fallocate -l 2M "$FILE_PATH" 2>/dev/null; then
++    echo "ERROR: fallocate succeeded but should have failed (nr_hugepages is 0)"
++    exit 1
++fi
 +
-+	printf("Attempting to remount cgroup2 with memory_hugetlb_accounting...\n");
-+	ret = system("mount -o remount,memory_hugetlb_accounting " CGROUP_PATH);
-+	if (ret != 0) {
-+		fprintf(stderr, "Failed to remount: system() returned %d\n", ret);
-+		return -1;
-+	}
-+	return 0;
-+}
++# Check subpool usage via statfs
++# %b: Total blocks
++# %f: Free blocks
++read total free < <(stat -f -c "%b %f" "$MNT_PATH")
++used=$((total - free))
 +
-+int main(int argc, char **argv)
-+{
-+	struct stat st;
-+	size_t size;
-+	void *addr;
-+	pid_t pid;
-+	int enabled;
-+	int status;
-+	int fd;
++echo "Subpool total blocks: $total"
++echo "Subpool free blocks:  $free"
++echo "Subpool used blocks (leaked if > 0): $used"
 +
-+	if (stat(CGROUP_PATH, &st) != 0 || !S_ISDIR(st.st_mode)) {
-+		fprintf(stderr, "cgroup v2 not mounted at %s\n", CGROUP_PATH);
-+		return 1;
-+	}
-+
-+	enabled = is_hugetlb_accounting_enabled();
-+	if (enabled < 0)
-+		return 1;
-+
-+	if (!enabled) {
-+		if (enable_hugetlb_accounting() != 0) {
-+			fprintf(stderr, "Could not enable memory_hugetlb_accounting\n");
-+			return 1;
-+		}
-+		/* Re-check */
-+		enabled = is_hugetlb_accounting_enabled();
-+		if (enabled <= 0) {
-+			fprintf(stderr, "Failed to enable memory_hugetlb_accounting (re-check failed)\n");
-+			return 1;
-+		}
-+		printf("Successfully enabled memory_hugetlb_accounting\n");
-+	} else {
-+		printf("memory_hugetlb_accounting is already enabled\n");
-+	}
-+
-+	/* Enable memory controller in subtree */
-+	fd = open(CGROUP_PATH "/cgroup.subtree_control", O_WRONLY);
-+	if (fd >= 0) {
-+		(void)write(fd, "+memory", 7);
-+		close(fd);
-+	}
-+
-+	if (mkdir(TEST_CGROUP_PATH, 0755) != 0) {
-+		if (errno != EEXIST) {
-+			perror("mkdir test_reproducer");
-+			return 1;
-+		}
-+	}
-+
-+	/* Set memory limit to 1MB (less than 2MB hugepage) */
-+	write_file_val(TEST_CGROUP_PATH "/memory.max", "1M");
-+
-+	pid = fork();
-+	if (pid < 0) {
-+		perror("fork");
-+		return 1;
-+	}
-+
-+	if (pid == 0) {
-+		/* Child: Move to cgroup */
-+		write_file_val(TEST_CGROUP_PATH "/cgroup.procs", "0");
-+
-+		printf("Child: Attempting to allocate and touch 2MB hugepage...\n");
-+		/* Allocate 2MB hugepage */
-+		size = 2 * 1024 * 1024;
-+		addr = mmap(NULL, size, PROT_READ | PROT_WRITE,
-+			    MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0);
-+		if (addr == MAP_FAILED) {
-+			perror("Child: mmap MAP_HUGETLB");
-+			exit(1);
-+		}
-+
-+		printf("Child: mmap succeeded at %p, touching it now...\n", addr);
-+		*(char *)addr = 1;
-+
-+		printf("Child: Successfully touched page (bug not triggered?).\n");
-+		munmap(addr, size);
-+		exit(0);
-+	}
-+
-+	/* Parent */
-+	waitpid(pid, &status, 0);
-+
-+	printf("Parent: Child exited. Cleaning up.\n");
-+	rmdir(TEST_CGROUP_PATH);
-+
-+	if (WIFSIGNALED(status)) {
-+		printf("Parent: Child killed by signal %d (%s)\n",
-+		       WTERMSIG(status), strsignal(WTERMSIG(status)));
-+		if (WTERMSIG(status) == SIGBUS)
-+			printf("Parent: Child got SIGBUS as expected.\n");
-+	} else if (WIFEXITED(status)) {
-+		printf("Parent: Child exited with status %d\n", WEXITSTATUS(status));
-+	}
-+
-+	return 0;
-+}
++if [ "$used" -gt 0 ]; then
++    echo "RESULT: LEAK DETECTED (FAIL)"
++    exit 1
++else
++    echo "RESULT: NO LEAK (PASS)"
++    exit 0
++fi
 
 -- 
 2.55.0.229.g6434b31f56-goog
