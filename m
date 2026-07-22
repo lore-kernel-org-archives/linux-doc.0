@@ -1,167 +1,137 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F3C331EC9;
-	Wed, 22 Jul 2026 05:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70562F4A05
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 06:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784699969; cv=none; b=bKhM2sznuWcaDsmCoJM/SKA/DFpGg9EI6jh7lS2ocOwo2XL0Z/YjNtF53MHeSbErL6sCfgnwVettGuJdKHF/rLPau+OLVelkzlwTx6PplA3ymB7XWlzDvKUS/8hTWhN+Xlp1TnRsur/lwnkSun95fs4Y2LSv1jk3HScGdVuxia4=
+	t=1784700463; cv=none; b=rrt1GAHjnJF5yYcoQdYhRef1WUu4olAl6cWbF8C78AEhPKXGgBrWbZSF84obqQVfoqOY8/M0uGPpOT5MHVHh8FlKi6aUQAqUQY1OKr6TE1d+GpLlbs6NNRamh+JSfKjauvCtKSAI4pZCd5bfidSvYt+RJAjnA5/vnArPOSHJ5fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784699969; c=relaxed/simple;
-	bh=BUtoyWqo8hHh51ufZgbD2+/4ap/luAAtRwkjA0cje5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SLcT8aO27fXfBaEISf3CoS65uQxlQ2ECl+G/q/ln64yubMkOujJYakP60N5S1A6oHYzPhtYC1h1dqm36VOSK5nKKYhVcAkWXIY74j7m7XqpV1hXR1TrWE62TzikaZYG0XZ6bZXdW3sOGF3d4+49gxAJiSiy3T9KWjhgSqOMQdb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GiLg25iX; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1784700463; c=relaxed/simple;
+	bh=EItOFMrzD5J0dUaznC9Hvz0SZ+f4YhpCUrgg2lIJKqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kk7pS492zRIlO8b/wzOO8JmoBz+GsUP/5fkaPLYXdws61jnTmy6logYsH0MoJVuVA3me+QthRs1mQm/JR3GVX1FGZ9bmoBB0YpWF207V512WcrjKuZosGVVHP7lPGFePrcFq9dG5jDCLnVC+/96L7q9cnmkun2LgXH6BD1lAx5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QeTW8BnX; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=H3hzLWSv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GiLg25iX"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66M5Bnjt3152891;
-	Wed, 22 Jul 2026 05:58:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=B0W/aO
-	WXVQjI8IfpoQVtBte2anI1EBYumbYb8b/oY1w=; b=GiLg25iX8LNT8gysq+NA1A
-	OipYB0tfQmPZ/fk+I5d/v/oOh9ncZIQqGNIwRCRynqsuIBG37Kkx6ifKxD2DhVWZ
-	4FdO37gnwSAk+IJRXweY/tVJTCF5/bHoOoDjhoIryMdwIdzAMmi8WwTM/XOI9yAR
-	gm90Yr4e/Xf1dx/dLrry2GVTakx5661Eg5Euc0jkpI0bDQUSytoOAuIJE22u8zoC
-	hGKecSXvl7LzjioS1kfwkAJrgN2GGMpbZ7JMzVHB9P4uyJy2isJK+xC6DNMZwH21
-	h3KNAx+3KCP31NdEsu7L2TM6dsR/TH2hkWIpaTUim/4bmGREagTonSMd9c4rDVVg
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fg7ah81x1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Jul 2026 05:58:48 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66M5ngFb030991;
-	Wed, 22 Jul 2026 05:58:47 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fgktq637a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Jul 2026 05:58:46 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66M5wgJg47317306
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 Jul 2026 05:58:42 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D011E2007B;
-	Wed, 22 Jul 2026 05:38:59 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CFB7B20077;
-	Wed, 22 Jul 2026 05:38:50 +0000 (GMT)
-Received: from [9.124.218.133] (unknown [9.124.218.133])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 22 Jul 2026 05:38:50 +0000 (GMT)
-Message-ID: <2bfa5d49-0ca9-41db-9729-244fcbb351b0@linux.ibm.com>
-Date: Wed, 22 Jul 2026 11:08:49 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QeTW8BnX";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="H3hzLWSv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784700460;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UATT60izd8r2IgiySOiquvvuPaRo1zLjW77cpIyRqiE=;
+	b=QeTW8BnXemlsVYNXa/vg6wKL1Mf1mdI8zNaeIPJh9ixqcDJt8VjuhwXNS78eiNOS8NnTEz
+	yNaxRZ6sIzUNJPA38y8Xt7RYmBzlLTYtJ7sqPAo25z/eJ/Ak7GR6eQnBjGxfOoT5Y7iBuk
+	tTemGsSwvpKxnVcyTOFAGOIWTChAmXg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-20-bsg3N3jMOiKznTR6K3tHZw-1; Wed, 22 Jul 2026 02:07:39 -0400
+X-MC-Unique: bsg3N3jMOiKznTR6K3tHZw-1
+X-Mimecast-MFC-AGG-ID: bsg3N3jMOiKznTR6K3tHZw_1784700458
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4955b84e25eso26869795e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jul 2026 23:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1784700457; x=1785305257; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UATT60izd8r2IgiySOiquvvuPaRo1zLjW77cpIyRqiE=;
+        b=H3hzLWSvKY9H5gfb5MJ/Q4Ve2sBSGe5+frXCK/vUhYKOWeOv71n1wTXGeyq79g1UAF
+         acYeg6gSIu3XYVXB50sABQ4MX5jBIKCLUBlFlLe5V2D0qOXP4veCgBtZkPmKeMaFK5Ke
+         CkH+gBOjIO4SDpJj6jfoL2obfbqfqC6yhrnQoxIDLt7FwPafBczGBqe9Z5s/5OBljAUN
+         7w5NMVwCg/diLhyLPNDW5pXrhKxJhXFXRzfGWZmp2rPZwUsOeQIbuiZ251tX/JnshkIa
+         lB0X2sK01BcKLlzGeEDR9OHosjqNE2NOYxekwKYnZgvRwHEkcWTdQlZVyYdColswdjIo
+         +sIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784700457; x=1785305257;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UATT60izd8r2IgiySOiquvvuPaRo1zLjW77cpIyRqiE=;
+        b=Uw/QLbyiKi/NN1+yKu6Gw3yIgLvKAy7JEL7pj10KLKp/agekykM3gjgj5XdsimLDdm
+         noJkSvxtj2UNly47RFyQgT1ara5h0wmrUA5EaaZe9oi8bmoSwXsA6zu2IICcUj5zWGsh
+         UEbjt2uQbjWrv83dAhNbhPGk57cLk0cxzHCIeU9GYXDuuhU2rFc76hxNfyjg8KVOT732
+         nOUQ9Ipmi2V/8ntM+Vmtdso7eI+a99zjZFKfaji5Vdiq5GcUiOdZAgsIsDbgNGozbx3l
+         8Q7R/xCCkh0IXMAXgvv7mhsX369ymuYcarUNlDKKqotnI0l50Rz02HuuuUArJVDjXLL7
+         qVOA==
+X-Forwarded-Encrypted: i=1; AHgh+RpQXD+DU1lsDKGUceFOpjgIu1F1Tm4USK28tV4gtAOcPm8fV0wUx6ISUwNI7bpi0Zx70beeG9nejHI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPNMFqs2UNrXPVu8/uTGqTAvALZYMuDItOKjNoLK4Jl5Ln9tE7
+	/cJyOssDMaoJXobtIhChceCCBkYeda3tX+9L3tL9E1PLZrmYO/8VjXXv8rzvBktynFxq2MJxUb4
+	VFKRV3EGHa8X2+BoEmwJ/A/SbPZYTVRLy2QOVHb84/HdpxsajmJCGVSDMKboNLg==
+X-Gm-Gg: AR+sD10qmbtUUFrzAsxcFE+uKqm445+0RnNYvkD4yDoS2Qf6UJN7I1BrS0OtYWgrKlb
+	dyHd92sal3w66dUuDPhHPccUdxpFc8eUTNzcH4bXAnra7rJy9e06XoF2GkEEDfSYD7RSqmQT3c5
+	30yE2ZOABuheyBQ+EP2/KM8YMzN5QFE4pnwtPB4RBZw3ufIIqyv++TEvhAEJu6m+ewtT7d1uF63
+	vJpgLo8utIaBLshxNoJKwCJRxW2IvDNsNwjGILaMxBL0rXO4gkxQGZ4Gw7d4E3Mq7WXpTioUw7Y
+	DIiEQkcC5iDWdaJDQG37wcLMrEuOX9IWGB6EBAKZqxHSoB31tKRXj4CiQHaxtBVsCeqoaiSLxuw
+	6k6g4MgWi5MvkkUa39LTUug==
+X-Received: by 2002:a05:600c:6a0c:b0:493:a5d0:d1a1 with SMTP id 5b1f17b1804b1-4954a40bd0fmr180569815e9.31.1784700457504;
+        Tue, 21 Jul 2026 23:07:37 -0700 (PDT)
+X-Received: by 2002:a05:600c:6a0c:b0:493:a5d0:d1a1 with SMTP id 5b1f17b1804b1-4954a40bd0fmr180569565e9.31.1784700456958;
+        Tue, 21 Jul 2026 23:07:36 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-37-66.inter.net.il. [80.230.37.66])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c9d99sm123740345e9.12.2026.07.21.23.07.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 23:07:36 -0700 (PDT)
+Date: Wed, 22 Jul 2026 02:07:33 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Simon Schippers <simon.schippers@tu-dortmund.de>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Tim Gebauer <tim.gebauer@tu-dortmund.de>,
+	Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
+ opt-in via IFF_BACKPRESSURE
+Message-ID: <20260722020611-mutt-send-email-mst@kernel.org>
+References: <20260709095511.168235-1-simon.schippers@tu-dortmund.de>
+ <20260714092506-mutt-send-email-mst@kernel.org>
+ <5016ae84-7049-4a5f-91c9-ba0047b06ee3@tu-dortmund.de>
+ <5089fc5e-2fb8-41fb-9aab-42b22cc2c201@tu-dortmund.de>
+ <20260721105853-mutt-send-email-mst@kernel.org>
+ <20260721100715.5b43412d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 08/11] virt: Introduce steal governor driver
-To: Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org, jgross@suse.com,
-        virtualization@lists.linux.dev
-References: <20260720172250.2257582-1-sshegde@linux.ibm.com>
- <20260720172250.2257582-9-sshegde@linux.ibm.com> <al-n0iPGnlTr39P9@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <al-n0iPGnlTr39P9@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: sr7KaQdur-H0UOWs1OGIOXdcmj6aDUbh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDA1MCBTYWx0ZWRfX7Uh3xuQz4/yp
- FAjTHavWPXHOUAj0T/tpULCFOU+DV4Sb27iLcQ9c6uhQcFXlt+c3jbNcOM8I98nfu1xeWltJSzm
- A43ngYwq2LAoDj1FyT0GNeVeO2t6cZtgIL7AISuyvKUhMzPXtdBKdkzhmCvBu0UdSrgA9Lbm9MF
- 6STmxEocEmPhaW1MtMPdyPoIQK4DBw4GbXfdf6TV2c/5E0VkPrLcTKjgwD74/IU4eAIm9xIRkv2
- 8zUH0b8yuESId9MNqfTvqj0hqF5P+Mr4rB/sTkBjZPtAhzCCK+b9YJknQnfIUENIOyLINQ4w9L6
- OtxREDELNG6fdy403C9UGk0eUSqmTQdZDPxW5OpoBD7w8AhyZHpb0wEHCJf5w04u0hgtIkC8CVB
- mwxBZ8rz7FPIIJBm2OAi2ECt3q9tSOuxhKT8ckjDeop6amFgx0JSU67rXAQ2WJ/DMDETzvzgpTf
- xxkzrj7rMqpaibU5Xag==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDA1MCBTYWx0ZWRfX7v2e+gmaquUD
- zexr/+TCmDMrtNm2RwHags8M4niJ8sej6lo/uqGUsmEuUHlM/KeAnK26yYOEikMfoddsLqUm0t6
- 2mj2DSIekmfPzEkqp8ox4W4zi+ByUXI=
-X-Proofpoint-GUID: 6TkdxTCnHZxNi9SpA4xI2TAmM8DfSCz_
-X-Authority-Analysis: v=2.4 cv=SM5ykuvH c=1 sm=1 tr=0 ts=6a605c18 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
- a=KrMzzVSTZiWGVZp01ooA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-22_02,2026-07-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607220050
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260721100715.5b43412d@kernel.org>
 
-Hi Yury,
-Thanks for taking a look at the series. Much appreciated _/\_
-
-On 7/21/26 10:39 PM, Yury Norov wrote:
-> On Mon, Jul 20, 2026 at 10:52:47PM +0530, Shrikanth Hegde wrote:
->> Introduce a new driver in virt named steal_governor. This driver
->> will compute the steal time and drive the policy decisions of preferred
->> CPU state.
->>
->> More on it can be found in the Documentation/driver-api/steal-governor.rst
->>
->> There is a new kconfig called STEAL_GOVERNOR which is introduced in
->> subsequent patches. That driver is going to select PREFERRED_CPU.
->> This makes configs driven by user preference.
->> When the driver is disabled, preferred CPUs is same as active CPUs.
->>
->> File layout of the driver is being kept simple.
->> - core.c - contains main driver code. This includes the periodic
->>    work function and take action on steal time which is introduced
->>    in subsequent patches.
->> - core.h - header file which includes data structure.
->>
->> Main structure of steal governor has,
->> - work: deferred periodic work function
->> - steal, time: To calculate the delta in periodic work.
->> - interval_ms, high_threshold, low_threshold: debug knobs of
->>    steal_governor.
->>
->> While there, Add MAINTAINERS entry for this new driver.
->>
->> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->> ---
->>   Documentation/driver-api/index.rst          |   1 +
->>   Documentation/driver-api/steal-governor.rst | 117 ++++++++++++++++++++
->>   MAINTAINERS                                 |   9 ++
->>   drivers/virt/steal_governor/core.c          |  48 ++++++++
->>   drivers/virt/steal_governor/core.h          |  25 +++++
+On Tue, Jul 21, 2026 at 10:07:15AM -0700, Jakub Kicinski wrote:
+> On Tue, 21 Jul 2026 10:59:52 -0400 Michael S. Tsirkin wrote:
+> > > > I prefer applying it, but you maintainers must decide that.
+> > > 
+> > > Hi,
+> > > just a gentle ping.
+> > > Has there been any decision on this patch?
+> > 
+> > Hi netdev maintainers. Given there's a perf regression otherwise,
+> > we should either take this or revert the original and reapply
+> > in next.
 > 
-> Unless I missed something, you don't use struct steal_governor out of
-> the driver. If so, you don't need this layout. Just put everything in
-> drivers/virt/steal_governor.c.
->
+> Revert, please. We were AFK and are now working thru a backlog
+> of 1k patches. The new IFF_* flag needs scrutiny we can't afford
+> at present.
 
-Ok.
+okay. Simon can you post it pls or should I? And once merged post
+re-apply for next with the flag included?
 
-By that I assume you mean to move all those headers also into 
-steal_governor.c, remove core.h and remove folder for steal_governor.
+Thanks!
 
-
-> Thanks,
-> Yury
+-- 
+MST
 
