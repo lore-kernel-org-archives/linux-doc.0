@@ -1,160 +1,268 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB38372B27
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 14:48:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB32369219
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 14:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784731726; cv=none; b=ZCWalGEYyj2RVU+S/dnB/E1reOsOCNoRbh/yHQvIzBJf3KUMXv3fBSbtunoAU2vuHMD/sf8kyjmJg+8a8NrjsJ5ziCxrEBbNCNHURbJ9/JCsphdVo2nSf4DktHVhzy7W5GVJHhRnRIVErmtjr9E/zMJ1AB0ELnt3NID4EzoXleA=
+	t=1784731792; cv=none; b=d/hrC5+X+Ble/dtBcBa5BubB0/21/exH3D6TVyqkVVjMhIEdiVlQN65a7CWzqH9TX1bCA7RVePof3wx+CgCC6wqVSJ4WMLByHjRZIcOCX+Ii2VwpgY87+B6HR1AMgO3Oy0D1XZEpLM20ke+0XqVAyepdqOPu+k8ilLuYXLxaNls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784731726; c=relaxed/simple;
-	bh=gUEHACkXYvpGprjPLuYE0Ck8o2knaEouUYtnGcFW/58=;
+	s=arc-20240116; t=1784731792; c=relaxed/simple;
+	bh=FRw3L2TolAFwQfgd99bn9X5rZKhPPZ+brWSdo6BpVLA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BZtgdzU7zz3pvBicmMdSahPQkYWzNPo+er8jbTJOBivzMNC3kq6pQh6yN0KfuC5rMhLMEhdZ6OMKirUedi/j83rIZHeBo1i6CiypkSJi3MxnIf4jzD9ETeew9rHSyUiUSSNsER8L2wDOKGrcINtm3YmeapqXL3NeECiliy2UyLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=ZqOJTzyx; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=VDSqwt/Xuro1EC6Liqswkh9YE+GhuNfcNzW8VvWx138TnX618hc1X260NL3M77Xy+KKf6omP2cKKIyBEnUKe2Ln1EdTYnItXTmj7b4LKER1Ebm/5tPuNfuMgnemhebmZoh/hcp5bq8T8FHUTS/AWdVwnHULgYcZn9OMJm4ZQm+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ptawoV4K; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="ZqOJTzyx"
-Date: Wed, 22 Jul 2026 22:48:26 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784731719;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+/zHGM89k5oCLmeFIWt4axkN+0Ol8vePALGxhhFUh5E=;
-	b=ZqOJTzyxHmYE5Iv6nnqg+iI7vvk7DDkP8/5dx/1oXmoKEB6Zr7Bl1+q7BUFlJKOLqFJKvz
-	fsjUuSS8QfP+P3vAOVYfq2NEOX076g2NnS52FGa7YSe2PqRSJjmkQnPmWQuyl5rj+bKhJf
-	f9BquEJvxIzlw4l71CSsOo7M64f6hDPcPFh4gvDfjTarYAiqlHmFgJMd2eo/qo2bTISvXo
-	xJsqDz1waVJfGE/KDwd8sHsbbkrtdVssARbEH/m1JqZ2FSN15EfkbMq56s4YU9k6pJJzSX
-	rzvZ30odbysWM2DxTSRzLzCk4jjKk3g8bvJArZkdP3s6pVD2W/RIkO0lEY7ILQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ptawoV4K"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-845c92bc464so8092551b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 07:49:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1784731790; x=1785336590; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zSdvhGvgLhUhnHE4OmhWyoNK/rsRW9LOiDp1/0CytrQ=;
+        b=ptawoV4KzpCFek8pAS5EjT/DiDccef6jAnjdyjT9W8wkryDrY2j+KXk8Ly/35N2u3q
+         2T+Cl28AyXCjJOFdbgLC8sdcKkjrdX7VIGF1xvoAx37aTvas/Lrvf26Wmfcf8hW0aEO5
+         317XeXErrcHEKSyFf2ChQhIYu18w0LRJkGD6ZqOYG8wYTuGkwJM8J6j/saIYrn6y2RGW
+         Epdy6qZebftQfIHud/ZziWqOYWbdqB8LbfndigR7ZmFr1rdmcC4TPF89O05M9UU+cP7f
+         Hfl+tAse5myW9geomXqoiT/tkzNucAaC5gM50LARvHmWrBxuMjXZQY9sPtL2gpzpWZdX
+         GKvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784731790; x=1785336590;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zSdvhGvgLhUhnHE4OmhWyoNK/rsRW9LOiDp1/0CytrQ=;
+        b=sdok/0dRYKqoZ0QWeltmtHNuhuCx9LeG4C5IUT0r9bFQo2MkIQriIt4WTrkUxh6RdP
+         Hq3SU8qXjVsckUcQU/DAeTZoJrQ9UQUzmg3s4UoAsoh2v8Wr62WQOUr8ifhpsZFnt5r6
+         DFtTyer+zIlJa2FSe3JsURXJHyMHiPAC+3vvtqdy6FhcQPaa3nBOi3OFPoxYppsUIikx
+         SmmJnMElZhkFp0uJ7FjqJIPbX4/fchznmiyzGzyqEdUWTZjWBDNXoGaWu75y39AoRxwJ
+         h/GtR8F3cQ0TADXEr59/ZNxBIyaSa4lWR27vnnPFrECCb3EaUauRiHlXMmp2P9FqMjaf
+         9SIA==
+X-Forwarded-Encrypted: i=1; AHgh+RrIgPgVoQdUHBpohYraI4Zz6qC2of96rl6y5pj0L/hYUuardnKv1okRlBWjCguTst7R54NTHMCjFPQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0IhX3/K3RZQCIulFvzGoTR+dm4JHrdAxtriURBWfTFmfHKgi8
+	RKaCLtLIfoLFbas9+/MZ3UkzstU/Y2MHug/X5TuBdtL4XCDYrbAY4fYj7oFfnyQLLsA=
+X-Gm-Gg: AR+sD13KeS6je7xgpOXX4E9Ohf1n0WD3+QNjCECqPjWIR3ppg5+6DgmGdV9oUYXgxMc
+	ZRK0UL2XakraW09OWRc5wVMufEX5OfLtMerKokqAam4pAR/Cu4glPOdVMYFeLq/B+x70ClCeI0O
+	VP2mYM5Go+cwzkxXdOGvaXiWCVmdye7eRFVPYDNV+hODYcot5BRQonMnuzbKDT8k4heLESJ8IlO
+	/TpS1Lp7qUHrDufxWa4NHhytzzrdgCCJ4kgeDWeXEn253JBF6Z9L74Gn8X5w0E4XNThgrIIkGZ+
+	jIPy7BAU1jRa7tQ6lBGDK/famTiCybBu3STaycE9P2LoujLjdkMyplf/bto1PA8ZB2RLnFLjiAp
+	7BXLkYGvSPrTKlB0TzDgzJnps9+JBCqqbJcDq9KsDkNtTzW4wTPGcxTfkgfFEPAnr1ox00gan7f
+	wPisLxog==
+X-Received: by 2002:a05:6a00:3a2a:b0:845:e04b:565f with SMTP id d2e1a72fcca58-84c292634e4mr24038102b3a.14.1784731790039;
+        Wed, 22 Jul 2026 07:49:50 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:ffc8:5f3a:2bec:f5de])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e1760025esm1494629b3a.57.2026.07.22.07.49.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 07:49:49 -0700 (PDT)
+Date: Wed, 22 Jul 2026 08:49:47 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: tanmay.shah@amd.com
+Cc: andersson@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/16] docs/zh_TW: process: localize terminology in
- coding-style.rst
-Message-ID: <amDYOmUlDWCOCa4M@wyuan.org>
-References: <20260721215542.98435-1-chenyou910331@gmail.com>
- <20260721215542.98435-8-chenyou910331@gmail.com>
+Subject: Re: [PATCH v5 3/5] rpmsg: virtio_rpmsg_bus: get buffer size from
+ config space
+Message-ID: <amDYiyTFFLkkTv5K@p14s>
+References: <20260710192831.3440427-1-tanmay.shah@amd.com>
+ <20260710192831.3440427-4-tanmay.shah@amd.com>
+ <ale0KIu6hXNvN0q9@p14s>
+ <66e4a85c-be14-4bd8-8328-bf17d2437994@amd.com>
+ <CANLsYkyL8_YSb39QqbC0Z+udahMtCV1e+OeoKGvmGSxQ6h3_qA@mail.gmail.com>
+ <c8f62152-fb7b-4771-87d7-9420c7e3f452@amd.com>
+ <al-VRUCcl6NWzQkY@p14s>
+ <a37bb772-2b27-44fa-9bf1-30707c419141@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260721215542.98435-8-chenyou910331@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <a37bb772-2b27-44fa-9bf1-30707c419141@amd.com>
 
-On Wed, Jul 22, 2026 at 05:55:33AM +0800, Chen-Yu Yeh wrote:
-> Localize mainland terms to Taiwanese Mandarin (內核→核心, 函數→函式,
-> 宏→巨集, 枚舉→列舉, 聲明→宣告, 寄存器→暫存器, ...) and sync with the
-> English original: update the memory allocator list and array
-> allocation examples to the type-aware kmalloc_objs()/kzalloc_objs()
-> forms.
+On Tue, Jul 21, 2026 at 11:02:13AM -0500, Shah, Tanmay wrote:
 > 
-> update to commit 323fa4b9608b ("Documentation: Fix syntax of kmalloc_objs example in coding style doc")
 > 
-> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
-
-Except the wrapping issue of the commit message (leave it to the
-maintainers to handle it):
-
-Reviewed-by: Weijie Yuan <wy@wyuan.org>
-
-> ---
->  .../zh_TW/process/coding-style.rst            | 580 +++++++++---------
->  1 file changed, 292 insertions(+), 288 deletions(-)
+> On 7/21/2026 10:50 AM, Mathieu Poirier wrote:
+> > On Thu, Jul 16, 2026 at 11:12:55AM -0500, Shah, Tanmay wrote:
+> >>
+> >>
+> >> On 7/16/2026 10:48 AM, Mathieu Poirier wrote:
+> >>> On Wed, 15 Jul 2026 at 11:28, Shah, Tanmay <tanmays@amd.com> wrote:
+> >>>>
+> >>>> Hi,
+> >>>>
+> >>>> Please find my response below:
+> >>>>
+> >>>> On 7/15/2026 11:24 AM, Mathieu Poirier wrote:
+> >>>>> On Fri, Jul 10, 2026 at 12:28:29PM -0700, Tanmay Shah wrote:
+> >>>>>> 512 bytes isn't always suitable for all case, let firmware
+> >>>>>> maker decide the best value from resource table.
+> >>>>>> enable by VIRTIO_RPMSG_F_BUFSZ feature bit.
+> >>>>>>
+> >>>>>> Signed-off-by: Tanmay Shah <tanmay.shah@amd.com>
+> >>>>>> ---
+> >>>>>> Changes in v5:
+> >>>>>>
+> >>>>>>   - fix documentation about alignment of the buffer size
+> >>>>>>   - change version field from u16 to u8
+> >>>>>>   - remove buffer alignment check
+> >>>>>>   - Separate buffer alignment vs MTU of a single buffer
+> >>>>>>   - Use buffer alignment only to get next buffer address at alignment
+> >>>>>>     boundary
+> >>>>>>
+> >>>>
+> >>>> [...]
+> >>>>
+> >>>>>> +#ifndef _LINUX_VIRTIO_RPMSG_H
+> >>>>>> +#define _LINUX_VIRTIO_RPMSG_H
+> >>>>>> +
+> >>>>>> +#include <linux/types.h>
+> >>>>>> +#include <linux/virtio_types.h>
+> >>>>>> +
+> >>>>>> +/* The feature bitmap for virtio rpmsg */
+> >>>>>> +#define VIRTIO_RPMSG_F_NS   0 /* RP supports name service notifications */
+> >>>>>> +#define VIRTIO_RPMSG_F_BUFSZ        1 /* RP get buffer size from config space */
+> >>>>>> +
+> >>>>>> +/* Version of struct virtio_rpmsg_config understood by this driver */
+> >>>>>> +#define RPMSG_VDEV_CONFIG_V1        1
+> >>>>>> +
+> >>>>>> +/**
+> >>>>>> + * struct virtio_rpmsg_config - config space for rpmsg virtio device
+> >>>>>> + *
+> >>>>>> + * @version:        version of this structure, currently %RPMSG_VDEV_CONFIG_V1.
+> >>>>>> + * @size:   size of this structure in bytes.
+> >>>>>> + * @rpmsg_buf_align: alignment in bytes for each buffer. Must be a power of
+> >>>>>> + *               two. If 0 then no alignment will be done. This alignment
+> >>>>>> + *               will not decide actual size of the buffer but will be
+> >>>>>> + *               used to decided the start address of the buffer. The
+> >>>>>> + *               actual size of the buffer can be different than the
+> >>>>>> + *               aligned size of the buffer.
+> >>>>>
+> >>>>> Is there really a need to have a buffer size different from its alignment?  It's
+> >>>>> not like the (small) delta between the buffer size and its alignment will be
+> >>>>> used for something else.  I'm fine with a buffer alignment requirement but in
+> >>>>> those cases, the firmware should set the size of the buffer in accordance with
+> >>>>> its alignment requirement.  Otherwise, the complexity needed to manage the
+> >>>>> discrpancy between the two yields a driver that is hard to maintain and prone to
+> >>>>> bugs.
+> >>>>>
+> >>>>
+> >>>> I had the same concern before. However, following example changed my mind:
+> >>>>
+> >>>> So, a single buffer size is the MTU size of a packet for the protocol
+> >>>> supported by the firmware. Now that can be different than the aligned
+> >>>> size of the buffer.
+> >>>>
+> >>>> For example, the higher level protocol (not rpmsg) has 430 bytes as the
+> >>>> max size of a payload. However, cache line alignment is 64-bytes. Then
+> >>>> in that case, the aligned buffer size is 448 bytes. But, that doesn't
+> >>>> mean we can say protocol's MTU size is 448 bytes. If user end up
+> >>>> treating MTU size 448 bytes and use space beyond 430 bytes, then the
+> >>>> higher level apps might discard that data and communication may fail.
+> >>>>
+> >>>
+> >>> How is that scenario different from today's 512 byte buffer size?
+> >>> Most users don't use all 512 bytes and we don't run in the problem
+> >>> described above?
+> >>>
+> >>
+> >> 512 buffer size is hardcoded, so it is enforced on the protocol by the
+> >> framework. But by allowing the configuration of the buffer size we are
+> >> allowing the protocol to decide what the buffer size should be. So, when
+> >> user request the buffer via rpmsg_get_mtu() API, then that should be the
+> >> original buffer size which is expected by the protocol, which may not be
+> >> same as the aligned buffer size.
+> > 
+> > Regardless of the buffer size, whether it is set to 512 byte or some arbitrary
+> > value by the remote processsor's firmware, there is a possibility of a
+> > discrepancy with what is expected by the protocol.  Right now rpmsg_get_mtu()
+> > returns 512 regardless of what a protocol uses.  The only thing that should be
+> > important to the protocol is not to exceed that limit.
+> > 
 > 
+> I think I am missing something. Are you saying that buffer size can not
+> be configured greater than 512 bytes?
 
-[...]
+I am not.
 
->  9) 你已經把事情弄糟了
->  ---------------------
->  
->  這沒什麼，我們都是這樣。可能你長期使用 Unix 的朋友已經告訴你
-> -``GNU emacs`` 能自動幫你格式化 C 源代碼，而且你也注意到了，確實是這樣，不過它
-> -所使用的默認值和我們想要的相去甚遠 (實際上，甚至比隨機打的還要差——無數個猴子
-> -在 GNU emacs 裏打字永遠不會創造出一個好程序)
-> +``GNU emacs`` 能自動幫你格式化 C 原始程式碼，而且你也注意到了，確實是這樣，不過它
-> +所使用的預設值和我們想要的相去甚遠 (實際上，甚至比隨機打的還要差——無數個猴子
-> +在 GNU emacs 裡打字永遠不會創造出一個好程式)
+What I am saying is that if alignment is important to a remote processor, it
+should choose the buffer size accordingly.  rpmsg_get_mtu() should return the
+value of the buffer size, exactly the way it is today. 
 
-Change to:
+> 
+> If the higher level protocol (not RPMsg) wants to use 4030 bytes for
+> single packet payload then that is what the MTU size should be. And so
+> the firmware will configure 4030 bytes as single buffer size in the vdev
+> config space. That is why alignment should be treated separately.
+> Because it is not equal to payload size needed by higher level protocol.
 
-``GNU emacs`` 能自動幫你格式化 C 原始程式碼，而且你也注意到了，確實是這樣，
-不過它所使用的預設值和我們想要的相去甚遠 (實際上，甚至比隨機打的還要差——
-無數個猴子在 GNU emacs 裡打字永遠不會創造出一個好程式)
+In that case and assuming alignment is required, the buffer size should be 4096
+and rpmsg_get_mtu() should also return 4096.  How a higher protocol uses the
+buffer space is none of our concern.
 
-?
+Currently, the buffer size is set to 512 and users don't always fill the entire
+buffer.  I don't see why things should be different with a configurable buffer
+size.   
 
->  *(譯註：Infinite Monkey Theorem)*
->  
->  所以你要麼放棄 GNU emacs，要麼改變它讓它使用更合理的設定。要採用後一個方案，
-> -你可以把下面這段粘貼到你的 .emacs 文件裏。
-> +你可以把下面這段貼上到你的 .emacs 檔案裡。
->  
->  .. code-block:: elisp
->  
-> @@ -640,31 +641,31 @@ Documentation/translations/zh_CN/doc-guide/index.rst 和 tools/docs/kernel-doc 
->     (expand-file-name "~/src/linux-trees")
->     'linux-kernel)
->  
-> -這會讓 emacs 在 ``~/src/linux-trees`` 下的 C 源文件獲得更好的內核代碼風格。
-> +這會讓 emacs 在 ``~/src/linux-trees`` 下的 C 原始檔獲得更好的核心程式碼風格。
->  
-> -不過就算你嘗試讓 emacs 正確的格式化代碼失敗了，也並不意味着你失去了一切：還可
-> +不過就算你嘗試讓 emacs 正確的格式化程式碼失敗了，也並不意味著你失去了一切：還可
->  以用 ``indent`` 。
->  
->  不過，GNU indent 也有和 GNU emacs 一樣有問題的設定，所以你需要給它一些命令選
-> -項。不過，這還不算太糟糕，因爲就算是 GNU indent 的作者也認同 K&R 的權威性
-> +項。不過，這還不算太糟糕，因為就算是 GNU indent 的作者也認同 K&R 的權威性
->  (GNU 的人並不是壞人，他們只是在這個問題上被嚴重的誤導了)，所以你只要給 indent
-> -指定選項 ``-kr -i8`` (代表 ``K&R，8 字符縮進``)，或使用 ``scripts/Lindent``
-> -這樣就可以以最時髦的方式縮進源代碼。
-> +指定選項 ``-kr -i8`` (代表 ``K&R，8 字元縮排``)，或使用 ``scripts/Lindent``
-> +這樣就可以以最時髦的方式縮排原始程式碼。
->  
-> -``indent`` 有很多選項，特別是重新格式化註釋的時候，你可能需要看一下它的手冊。
-> -不過記住： ``indent`` 不能修正壞的編程習慣。
-> +``indent`` 有很多選項，特別是重新格式化註解的時候，你可能需要看一下它的手冊。
-> +不過記住： ``indent`` 不能修正壞的程式設計習慣。
->  
->  請注意，您還可以使用 ``clang-format`` 工具幫助您處理這些規則，快速自動重新格
-> -式化部分代碼，並審閱整個文件以發現代碼風格錯誤、打字錯誤和可能的改進。它還可
-> -以方便地排序 ``#include`` ，對齊變量/宏，重排文本和其他類似任務。
-> +式化部分程式碼，並審閱整個檔案以發現程式碼風格錯誤、打字錯誤和可能的改進。它還可
-> +以方便地排序 ``#include`` ，對齊變數/巨集，重排文字和其他類似任務。
->  詳見 Documentation/dev-tools/clang-format.rst 。
-
-[...]
-
-> -分配一個數組的首選形式是這樣的：
-> +分配一個陣列的首選形式是這樣的：
->  
->  .. code-block:: c
->  
-> -	p = kmalloc_array(n, sizeof(...), ...);
-> +	p = kmalloc_objs(*p, n, ...);
->  
-> -分配一個零長數組的首選形式是這樣的：
-> +分配一個零長陣列的首選形式是這樣的：
->  
->  .. code-block:: c
->  
-> -	p = kcalloc(n, sizeof(...), ...);
-> +	p = kzalloc_objs(*p, n, ...);
-> +
-> +這兩種形式都會檢查分配大小 n * sizeof(...) 是否溢位，如果發生溢位則回傳
-> +NULL。
-
-I would say splitting this part into a small patch is better. But for this
-time, it's fine.
+> 
+> >>
+> >> If for internal management we want to treat buffer size = aligned buffer
+> >> size, I am okay. But rpmsg_get_mtu() must give unaligned buffer size
+> >> which is expected by the protocol.
+> > 
+> > I agree with the first sentence but not the second.  The only thing protocols
+> > should care about is the start address of a buffer and that its size is
+> > sufficient for what it needs.
+> > 
+> >>
+> >> Thanks,
+> >> Tanmay
+> >>
+> >>>> The alignment field is used only to decide where the next buffer start
+> >>>> address is to ease cache operations.
+> >>>>
+> >>>> Sure, we need to maintain this complexity, but I think it's worth it.
+> >>>>
+> >>>
+> >>> The same as in my previous email to Arnaud applies here - is this an
+> >>> immediate requirement of something we think may be happening in the
+> >>> future?
+> >>>
+> >>
+> >> IMHO, vendors will use it if the feature is available, otherwise the
+> >> need to optimize alignment is not easily encountered.
+> >>
+> >>>
+> >>>> Thanks,
+> >>>> Tanmay
+> >>>>
+> >>>>>> + * @txbuf_size:     Tx buf size from remote's view. For Linux this is rx buf size.
+> >>>>>> + * @rxbuf_size:     Rx buf size from remote's view. For Linux this is tx buf size.
+> >>>>>> + *
+> >>>>>> + * This is the configuration structure shared by the device and the driver,
+> >>>>>> + * read when %VIRTIO_RPMSG_F_BUFSZ is negotiated. The fields are laid out so
+> >>>>>> + * the structure is naturally 32-bit aligned.
+> >>>>>> + */
+> >>>>>> +struct virtio_rpmsg_config {
+> >>>>>> +    u8 version;
+> >>>>>> +    __virtio16 size;
+> >>>>>> +    __virtio16 rpmsg_buf_align;
+> >>>>>> +    /* The tx/rx individual buffer size (if VIRTIO_RPMSG_F_BUFSZ) */
+> >>>>>> +    __virtio32 txbuf_size;
+> >>>>>> +    __virtio32 rxbuf_size;
+> >>>>>> +} __packed;
+> >>>>>> +
+> >>>>>> +#endif /* _LINUX_VIRTIO_RPMSG_H */
+> >>>>>> --
+> >>>>>> 2.34.1
+> >>>>>>
+> >>>>
+> >>
+> 
