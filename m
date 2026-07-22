@@ -1,310 +1,196 @@
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2391356762
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 15:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784733144; cv=none; b=QuY7cx9C/8hcZgtx2U3vdm1gbK83qrihvvO9jyDn1kODTOfD1fTMzWhzI6klq8vYXA/DuegOejOyYYN8sOcBQFbwJ6uX+DV1U4uPbqXYzuDmWHD118fPREzgS/vccyw6n1gw9JLlCV8iIxRqgbC72QskmAK44ecT7xP44ddG7aY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784733144; c=relaxed/simple;
-	bh=gwL+7pw1dy+OP01p49q/MyWPmKcKJMcpY7Nwq/eqxik=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=prMyoKAEMIf+l7qHotcJrB8rvXqrCQQgdXYTrdVrPdL8Wbq16frtxjYiJrd9NCPTKGCbGkuLEb6vYgItU4HDN84EU4GX29lIVoTQ63Enf5pF8nTZCBGlCCD1qop7Lxv+D/RA4tE+KgMXe/ezj26u6tXBzqJwkpbk7HifQx/dSLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=blRAz5rb; arc=none smtp.client-ip=209.85.210.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529E4390CAC
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 15:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784733869; cv=pass; b=nqjj29wWET8w8wRotwa/SeKqb8wwEqhiEWeX+0nMrYTNs0xqq4/5e+133HNU6MkYDZ9cqlyuk5EBQBNezoyc9SftheJzuO4bnKXiAeiWs3tayjkbjKHdmLYzupbkz5OkUd/HFpl2qSiUF14ZSfYvFUhF6XqP5Ske1sN7N2G6s4A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784733869; c=relaxed/simple;
+	bh=FmqQi9tHDOGtMRA8eYccGrCqdDwhdIqG1ghsXPY1Uts=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VvmW0F5v6QKEUSpLTP98dDZpFDEqyKqOxup/EG2MNlZOYRnod2Vu5Dg+B6tKqAFsG0SPS66Wwy913Q7yemJsE5RHJQwh5MtA8Y9hsJJlYKi8SN0HNOKM+3yt7Dvjonoz1WgHqFCQSs6e8CpOrAWWOPI2msXIemcDv2S3uSO+2fo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=id3l4Dsm; arc=pass smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="blRAz5rb"
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-84885a4fcabso10281874b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 08:12:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="id3l4Dsm"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92e50a650a0so764750085a.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 08:24:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784733856; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ly+yFZsPjZ9pgj7e/cDXUf6UAhoAhGZ+Gwh09zi2qKMvxR8mDkKI6YVRjLfZBny7YV
+         e3E5UpC3cXQsnns0NMxvgfzPOlImJVJNesu1LZF9AeNXrpymEOcebwAKua5lZxBPvK0U
+         9LoFXnO2GnrDsZcEVw9hJmP6iiF/dqpBz+WnBemDhP+8VsQJWyicTG+EXzzTn7yp7Lqy
+         OtXO1VKrtZDu+0Fnr3pup0qL2cgqLl16rmNtjEE1ESB4T8k+jN8qsApzlXTf9Dcc77UC
+         iDFdsMo0VP4wJr2u9/TI/pnGHK7/GteEAQIbcwoZ70xKaxd1IWey6mHpOtf4jOXgfolY
+         k8sA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
+        fh=3QGA53OPNhgOM5u+Ju4mWDozHkT2KMhp/5zi5aSCCsw=;
+        b=lzppMPA3G3qV4ePTYhArSNsqMRQ06h7tDfoTpkr7/b6hB47awPXeccH/J9E3UlKOnG
+         Rofz7VdUHxN55EVD41/bxm4Vs8Dh6reOQ/CHKiEGzMqMFee+FMJHNu6DQs+BpUWHEmzn
+         mwnj29QhpmmWcK616xjV0YSi2IW7c6pScD/q2L7Y1BpZ7LIUFlFUHPGCVXe4jihtVWu/
+         IVBVXcG8VTDKTAlHzBZWlmp48V0qb/FJgE9c8M2GioGuxh0gvYEN8U3ncO043hmzkvj1
+         Ga0H5PVuJ/aE4xsKb0EHiEYfU6ZLaQnUcLEjsDk3IWmMvuM9vR68Fj29DPtLx/2fSNye
+         /mVw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784733141; x=1785337941; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1784733856; x=1785338656; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=I7f9lZbSdhEgbSxr67hS2Jrj3sXRGAdvMtjr5VpXokM=;
-        b=blRAz5rbL1xRd7VlxqoabdLCGlT41+NgeRYtQbyJOJedBTfwuLTArKwSxgXZfnLUPd
-         GVYaPzHiSYal+DIFHzgmVh1jzxxI2SNVATrP3W0FtNtO0SGE4q/LYWvMqZUaRLKKNB0H
-         g6ghV2Wc8DQxAsUqo3EtIHduXZ7uWuoiKObyYnCK0HJ11SEzY5YWO48KNGDdO8n+2Tjo
-         woMAMYB3B8AMJP2kLmAPKwZfSkg35tLjYieD90lm5XToZ1Gy5ErAffLJg4SYJV2oSjaz
-         41jurqQ8CLWVFe/DxfCPd6fQ2VdHahhDhEvDt3v/mUDph9yms7T6YOI1MGwOJYqbfTkT
-         jirw==
+        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
+        b=id3l4DsmZgREBbR6h/yxiO8eKv7LGI8EgxPiuuBbKGEHhiFxQwAxjladnBswED/Qmw
+         Ax33XN2mHBzIUzHztECMTaNs72eqwSZtXmZaaifQAOiIk1JvMm4VNBEOaCCSeomIAJO0
+         bmRifZH5PIDCqagNJN3TFMKqmosgxKwkzoa5k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784733141; x=1785337941;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=I7f9lZbSdhEgbSxr67hS2Jrj3sXRGAdvMtjr5VpXokM=;
-        b=UToC6igqYDd77ZWOVS7O5UBRWrVGG5/ld5wer3AIopHDpRfest46kpPaU17rR6Vlqw
-         lniPuH9XS6Q4IFhfaEfSPOlVyouqC0LHqwziQo7n/3oNnwZj/9n/fUWk071WWp4u/gNF
-         SZyof9qzkoMfzG6JWRFF0XY0DeDYIiqORdegbmWtp5QyV9VhDhvk4CYXCiTKgn7UVWHU
-         RFAHmP0Ebd7AKgj/+iJTmFEK0s8qZKImicS530fltblfd9ToW60eFg0Eku8eXQec7/ox
-         Rb+fzzVv1JIKB9Glg4JEXDiPSS1YWcoS5pw9FalI6Ic1qa1vuv1SxNv8lDvUUe4Si4ge
-         Mhfg==
-X-Forwarded-Encrypted: i=1; AHgh+RpeZ1rz7WyErZSyTLJ4gVO89Eqxt+D7YlgvTIe+t05AvTkVskzCnTsCrYUeI1OlZ9lXLLA9ff8Kxo4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCRa4I30UjPRd78x2tgY1X+CZk0tPiABXWfoKs6Z5ryOtw93G0
-	Jc0VjQrvATP2o5w0/A1ACwcdmkyKO48YUh3WUzTTwhQ6nC24Dp3ESWnZf1AD6+4ZbCeuDEXNhNz
-	7e03DAg==
-X-Received: from pfkm8.prod.google.com ([2002:a05:6a00:808:b0:848:48a0:41e6])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:14d5:b0:848:6ef9:f5ca
- with SMTP id d2e1a72fcca58-84c2954e130mr23069474b3a.63.1784733140595; Wed, 22
- Jul 2026 08:12:20 -0700 (PDT)
-Date: Wed, 22 Jul 2026 08:12:20 -0700
-In-Reply-To: <1417841720b8435f8fb95ac0bd95be6e0e9390d4.camel@intel.com>
+        d=1e100.net; s=20251104; t=1784733856; x=1785338656;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
+        b=oB+wTA8SYvIDsZWTZCb713mLrGXNzkaoooa3y4YBoixThI/1gQzEToZLk2oId7tIMc
+         Wm814/yJwxla13leSfXmWLWdOUxIqbeG5qqkUZVcwy/iZqjy40Me6R+2m2ih/P3wMUuT
+         BdDoXWNY5Dn2IQJDY84OiZEWTHr8pN/orz94VxzkIXkvtotp5M7kwEKH7QZioyhBsGUi
+         Fo9qWyVeoNYXiR2B10rzhkFZUh/KqB+CtQ78+BixMU6ZdfrcafhE+PkN2lVNvTKtmq+r
+         ld08AnNmQ3I9AAbhLxCcojThBXej1Jl1ePejylD5T7hLXknlow/GKEaV2k+DUhT88HbM
+         ZLrA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq5j2RHOSQ/r9S0VYIvUgsXKRZxwa8EACoSmiaIE16GNhcJEZ4mF7RL89/cTqQTy/VTB9dlJqyp0zE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW3HoKI+pb6Yw6zdcREDa3uUGGpNgT4r2AP9AzBKfrTjojklZ1
+	4HxpWewYNI7FUH3R4Gr9Ugk8PJ+Jd6gSWtHVRVuIJOtAMsQyDOBhLD/fHqdcWYiiCSHxWQKIjvS
+	VY8LC0jQWpfzfAxSn/WCFyabDEhYO/uDjsqksgXjpow==
+X-Gm-Gg: AR+sD11NExw7IyAP3Ui7aZGLEGC12zrGQuVo/txYiNFDjS4Lt6c0dMWFKjIEbDPMTLC
+	tdrsVcnsf+cvp787ndcv9WAWt6eldncttI8e+iCsWH+JvuvWL7jwP+BBfWKdlYeN4auK39Dd2A/
+	FA9HOwcYQbPjRx0dHFb42nWn7fwDHs9HARVLtAvHfaUH4PjQCwGPUD/HaHMspAc31uBoOeg7iG2
+	wuxH3c1v+wm8RzNUxIvnBkgqatCM2Ek/kBQ+jSzN8E7vrpOT/7w3jqBE2pZEm8UGy0KiuK/UdoK
+	pEOItV3K16X0Jgz8KA==
+X-Received: by 2002:a05:620a:2844:b0:92e:9cb3:3f71 with SMTP id
+ af79cd13be357-930b3ed66f6mr2281752885a.36.1784733856139; Wed, 22 Jul 2026
+ 08:24:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260718014500.2231262-1-rick.p.edgecombe@intel.com>
- <20260718014500.2231262-9-rick.p.edgecombe@intel.com> <20260718061050.E17B01F000E9@smtp.kernel.org>
- <1417841720b8435f8fb95ac0bd95be6e0e9390d4.camel@intel.com>
-Message-ID: <amDd1Ip3XTvKSTcb@google.com>
-Subject: Re: [PATCH v7 08/11] KVM: TDX: Get/put PAMT pages when (un)mapping
- private memory
-From: Sean Christopherson <seanjc@google.com>
-To: Rick P Edgecombe <rick.p.edgecombe@intel.com>
-Cc: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, Kai Huang <kai.huang@intel.com>, 
-	Dave Hansen <dave.hansen@intel.com>, Yan Y Zhao <yan.y.zhao@intel.com>, 
-	"tony.lindgren@linux.intel.com" <tony.lindgren@linux.intel.com>, Binbin Wu <binbin.wu@intel.com>, 
-	"kas@kernel.org" <kas@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
-	"nik.borisov@suse.com" <nik.borisov@suse.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
-	"tglx@kernel.org" <tglx@kernel.org>, Vishal Annapurve <vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>, 
-	Chao Gao <chao.gao@intel.com>, "x86@kernel.org" <x86@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20260720034553.68798-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
+In-Reply-To: <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 22 Jul 2026 17:24:05 +0200
+X-Gm-Features: AUfX_mxUSuw0ZWzZWiq2Rpl7efuyYxiFK3IBC4AQjtyaBV6Cq7Rj41foWBlGbSE
+Message-ID: <CAJfpegvkbK4xtQsssn3yrdLn7zZRGB8MeRcauP8mbmJRCnFouw@mail.gmail.com>
+Subject: Re: [PATCH V11 4/9] famfs_fuse: Create files with famfs fmaps
+To: John Groves <john@jagalactic.com>
+Cc: John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 20, 2026, Rick P Edgecombe wrote:
-> On Sat, 2026-07-18 at 06:10 +0000, sashiko-bot@kernel.org wrote:
-> > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> > - [High] Infinite kernel loop in `kvm_tdp_mmu_map_private_pfn` due to permanent PAMT cache depletion on transient TDX module contention.
-> > --
-> 
-> Our internal Sashiko found this too. It's a false positive as a real bug.
-> 
-> Today kvm_tdp_mmu_map_private_pfn() is only called tdx_gmem_post_populate()
-> during TD setup. It holds the heavyweight tdx_vm_state_guard which grabs vm-
-> >lock, kvm->slots_lock, and all vcpu->mutex. So there should be no contention
-> possible.
-> 
-> Any potential confusion is not new either, because a similar thing could happen
-> with the external page tables.
-> 
-> But Yan and I were discussing that it would be a good cleanup to fix this anyway
-> because the reason it is not a functional issue is not clear from the code. For
-> improved readability (and quieter sashiko reports) the topup can happen inside
-> the retry loop. Either by moving the retry loop or moving the topup.
+On Mon, 20 Jul 2026 at 05:46, John Groves <john@jagalactic.com> wrote:
 
-Hmm, yeah, I think I agree.  Super duper technically, that's a fix for an existing
-flaw.  Because very, very, VERY theoretically, the cache of page table pages could
-be exhausted.  E.g. if some other task managed to free non-leaf page tables while
-mmu_lock was dropped, thus forcing kvm_tdp_mmu_map_private_pfn() to allocate from
-its cache over and over.  In practice, that's likely impossible thanks to holding
-slots_lock, but given that (a) retry should be rare and (b) kvm_mmu_topup_memory_cache()
-is basically free if no work needs to be done, I don't see any reason to do topup
-outside of the retry loop.
+> +/* Famfs fmap message components */
+> +
+> +#define FAMFS_FMAP_VERSION 1
 
-The other thing we should address is the call to kvm_mmu_reload().  Like cache
-exhaustion, it *should* be impossible for the root to be invalidated/obsoleted,
-thanks to holding slots lock.  But as evidenced by the rash of recent shadow MMU
-bugs, we don't always get things perfect, and lack of defense-in-depth can be
-*extremely* painful.
+Please don't use separate versioning for extents.  It doesn't help
+with feature negotiation, so let's just use the INIT feature flags for
+this purpose.
 
-I don't think I want to just move kvm_mmu_reload() into the loop, because KVM
-should provide stronger guarantees with respect to the validity of the loop,
-versus the population of the caches.  I.e. I want to WARN if the root becomes
-obsolete after the initial reload.  And more importantly, KVM really should
-check the validity of the root after acquiring mmu_lock.
+> +
+> +#define FAMFS_FMAP_MAX 32768 /* Largest supported fmap message */
 
-We can't simply call is_page_fault_stale(), because mmu_invalidate_retry_gfn()
-is inherently fuzzy, i.e. could get false positives, even though the pfn provided
-by guest_memfd is guaranteed to be valid.  E.g. if shared gfns surrounding the
-to-be-mapped gfn are concurrently invalidated.
+Not sure if it makes sense declaring this on the user API.
 
-So, this?
+> +
+> +enum fuse_famfs_file_type {
+> +       FUSE_FAMFS_FILE_REG,
+> +       FUSE_FAMFS_FILE_SUPERBLOCK,
+> +       FUSE_FAMFS_FILE_LOG,
+> +};
 
-	r = kvm_mmu_reload(vcpu);
-	if (r)
-		return r;
+Unused, apparently.
 
-	do {
-		if (signal_pending(current))
-			return -EINTR;
+> +
+> +enum famfs_ext_type {
+> +       FUSE_FAMFS_EXT_SIMPLE = 0,
+> +};
 
-		if (kvm_test_request(KVM_REQ_VM_DEAD, vcpu))
-			return -EIO;
+An enum with a single value is not useful.
 
-		r = mmu_topup_memory_caches(vcpu, false);
-		if (r)
-			return r;
+> +
+> +struct fuse_famfs_simple_ext {
 
-		cond_resched();
-	
-		guard(read_lock)(&kvm->mmu_lock);
+struct fuse_extent {
 
-		if (WARN_ON_ONCE(kvm_test_request(KVM_REQ_MMU_FREE_OBSOLETE_ROOTS, vcpu)))
-			return -EIO;
+> +       uint32_t se_devindex;
 
-		r = kvm_tdp_mmu_map(vcpu, &fault);
-	} while (r == RET_PF_RETRY);
+uint64_t backing_id.
 
-The other option would be to gracefully handle an obsolete root instead of WARNing,
-but as above, I think I prefer to WARN.
+> +       uint32_t reserved;
+> +       uint64_t se_offset;
+> +       uint64_t se_len;
 
-	do {
-		if (signal_pending(current))
-			return -EINTR;
+Please  drop the "se_" prefix.
 
-		if (kvm_test_request(KVM_REQ_VM_DEAD, vcpu))
-			return -EIO;
+Please add more spare space here (e.g. uint64_t space[3]).
 
-		r = kvm_mmu_reload(vcpu);
-		if (r)
-			return r;
+> +};
 
-		r = mmu_topup_memory_caches(vcpu, false);
-		if (r)
-			return r;
+> +
+> +struct fuse_famfs_fmap_header {
 
-		cond_resched();
-	
-		guard(read_lock)(&kvm->mmu_lock);
+struct fuse_extents_header {
 
-		fault.mmu_seq = vcpu->kvm->mmu_invalidate_seq;
-		if (is_page_fault_stale(vcpu, &fault))
-			continue;
+> +       uint8_t file_type; /* enum fuse_famfs_file_type */
 
-		r = kvm_tdp_mmu_map(vcpu, &fault);
-	} while (r == RET_PF_RETRY);
+Unused
 
-My only hesitation with manually checking KVM_REQ_MMU_FREE_OBSOLETE_ROOTS is that
-if more checks/functionality were added to is_page_fault_stale() in the future,
-then we could end up missing kvm_tdp_mmu_map_private_pfn() and introduce a bug.
+> +       uint8_t reserved;
+> +       uint16_t fmap_version;
 
-Maybe we can have it both ways?  WARN if roots are unexpectedly made obsolete,
-but fully check is_page_fault_stale() and gracefully handle an obsolete root
-instead of effectively terminating the guest.
+Don't use, plese.
 
-	do {
-		if (signal_pending(current))
-			return -EINTR;
+> +       uint32_t ext_type; /* enum famfs_ext_type */
 
-		if (kvm_test_request(KVM_REQ_VM_DEAD, vcpu))
-			return -EIO;
+Unused.
 
-		r = kvm_mmu_reload(vcpu);
-		if (r)
-			return r;
+> +       uint32_t nextents;
 
-		r = mmu_topup_memory_caches(vcpu, false);
-		if (r)
-			return r;
+Okay.
 
-		cond_resched();
-	
-		guard(read_lock)(&kvm->mmu_lock);
+> +       uint32_t fmap_size; /* Inclusive of this header */
 
-		WARN_ON_ONCE(kvm_test_request(KVM_REQ_MMU_FREE_OBSOLETE_ROOTS, vcpu));
+That's the same as outh.len.
 
-		/*
-		 * Snapshot the invalidation sequence counter after acquiring
-		 * mmu_lock, as guest_memfd guarantees the validity of the pfn,
-		 * i.e. any concurrent invalidations are guaranteed to be
-		 * irrelevant.
-		 */
-		fault.mmu_seq = vcpu->kvm->mmu_invalidate_seq;
-		if (is_page_fault_stale(vcpu, &fault))
-			continue;
+> +       uint64_t file_size;
 
-		r = kvm_tdp_mmu_map(vcpu, &fault);
-	} while (r == RET_PF_RETRY);
+Same as i_size
 
-
-> > --- Patch [8]: [PATCH v7 08/11] KVM: TDX: Get/put PAMT pages when (un)mapping private memory ---
-> > commit 3474807f1c1bc4dedc75e2a756b65254c986a41d
-> > Author: Kiryl Shutsemau <kas@kernel.org>
-> > 
-> > KVM: TDX: Get/put PAMT pages when (un)mapping private memory
-> >     
-> > Add Dynamic PAMT support to KVM's S-EPT MMU by "getting" a PAMT page when
-> > adding guest memory (PAGE.ADD or PAGE.AUG), and "putting" the page when
-> > removing guest memory (PAGE.REMOVE).
-> > 
-> > > diff --git a/arch/x86/kvm/vmx/tdx.c b/arch/x86/kvm/vmx/tdx.c
-> > > index 528ebb3cb0389..049da8559882b 100644
-> > > --- a/arch/x86/kvm/vmx/tdx.c
-> > > +++ b/arch/x86/kvm/vmx/tdx.c
-> > > @@ -1679,16 +1693,28 @@ static struct page *tdx_spte_to_sept_pt(struct kvm *kvm, gfn_t gfn,
-> > >  static int tdx_sept_map_nonleaf_spte(struct kvm *kvm, gfn_t gfn,
-> > >  				     enum pg_level level, u64 new_spte)
-> > >  {
-> > > +	struct kvm_vcpu *vcpu = kvm_get_running_vcpu();
-> > >  	gpa_t gpa = gfn_to_gpa(gfn);
-> > >  	u64 err, entry, level_state;
-> > >  	struct page *sept_pt;
-> > > +	int ret;
-> > > +
-> > > +	if (KVM_BUG_ON(!vcpu, kvm))
-> > > +		return -EIO;
-> > >  
-> > >  	sept_pt = tdx_spte_to_sept_pt(kvm, gfn, new_spte, level);
-> > >  	if (!sept_pt)
-> > >  		return -EIO;
-> > >  
-> > > +	ret = tdx_pamt_get(page_to_pfn(sept_pt), &to_tdx(vcpu)->pamt_cache);
-> > > +	if (ret)
-
-Shouldn't this be a KVM_BUG_ON()?  To Sashiko's point about this creating an
-infinite fault loop, that simply shouldn't happen.  The whole point of using
-caches for the paging assets is to guarantee success.
-
-> > > +		return ret;
-> > > +
-> > >  	err = tdh_mem_sept_add(&to_kvm_tdx(kvm)->td, gpa, level, sept_pt,
-> > >  			       &entry, &level_state);
-> > > +	if (err)
-> > > +		tdx_pamt_put(page_to_pfn(sept_pt));
-> > > +
-> > >  	if (unlikely(tdx_operand_busy(err)))
-> > >  		return -EBUSY;
-> > 
-> > [Severity: High]
-> > Does this error path risk causing an infinite loop if the TDX module
-> > contention leads to TDX_OPERAND_BUSY?
-> > 
-> > When tdh_mem_sept_add() returns TDX_OPERAND_BUSY, tdx_pamt_put() frees the
-> > PAMT pages directly back to the buddy allocator, not back into the vCPU's
-> > PAMT cache.
-> > 
-> > If this happens during VM initialization in a retry loop like
-> > kvm_tdp_mmu_map_private_pfn(), the vCPU memory caches are topped up outside
-> > of the loop:
-> > 
-> >     r = mmu_topup_memory_caches(vcpu, false);
-> >     if (r)
-> >         return r;
-> > 
-> >     do {
-> >         ...
-> >         r = kvm_tdp_mmu_map(vcpu, &fault);
-> >     } while (r == RET_PF_RETRY);
-> > 
-> > Since the PAMT pages are discarded rather than returned to the cache, a few
-> > busy retries will completely empty the vCPU's PAMT cache.
-> > 
-> > On the next retry, tdx_pamt_get() will return -ENOMEM because the cache is
-> > empty and it does not fall back to alloc_page() when a cache is provided.
-> > 
-> > The TDP MMU handles -ENOMEM by returning RET_PF_RETRY, but because the cache
-> > is never replenished inside the loop, the loop will infinitely fail and retry.
-> > 
-> > Could the PAMT pages be returned to the vCPU cache instead of the buddy
-> > allocator during transient failures, or should the cache top-up be moved
-> > inside the retry loop?
-> > 
-> 
+Thanks,
+Miklos
