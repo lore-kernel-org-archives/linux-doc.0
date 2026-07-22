@@ -1,169 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039D14F7998;
-	Wed, 22 Jul 2026 15:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1A736197A;
+	Wed, 22 Jul 2026 15:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784735459; cv=none; b=SG5PPXL9NFrZ8d63VnOM20uwrFX81poWbHgbEO8R8L9gxTpdqtNbk2fpIVXAQG7/8Aa0NVgBvVPlyMxL4vm36p+eNjkh8zwKfMW0S35+wBXclXHeIs4CqcFXl2HYJR8FTxlZ6rNVhaQQaeAcehWAKGuG0DZx0JSt8vsKCKHgGJ4=
+	t=1784735722; cv=none; b=raA7hVaGZX3TNcE1b9xCo6jYKuzpdnWCAaQ/AqXs5rMZnKIPs4MZiMhwlq2r5X286CzNuMOGxrr3GAXAVOk/YbMnNmfnJexGdVR/iRTVgawxXHx1UlulWfCLXodxiq3UyTNYdMPW0yHDnCDWjGp9SIy+izAnRzgZ8bv5P33EL6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784735459; c=relaxed/simple;
-	bh=5+f9zGuJaDqs3Qd5BGYpu7W0XnuOiVpM1LuzsifS1ag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L/u4XgJkxjjTacplqcMAtkHT14PJOBQwDL7C7Izx8U3F/okDRxi3oUzSGSdjOMgwvr2eNQ/gq7dXOIQ3zvlOjVymLdpSFwy7oT30sxztSnEoiDIOwdporFG6BkPJEwI7SZL0rq2L5VVEw6SjoJIWycSxJc3UllNoH/MLv8qO4pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKun//7n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784735722; c=relaxed/simple;
+	bh=0a/FtB9FALMgp/J4S6ndcA1A2BqiBUp6NBxPyxyX78g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MrczJ9aAkmmJiStfTgHOzDNJETyxnO6RBKQrtrMCSGueTqUzbYjbMb7dfzezGACYrfN+0/vpx959/PQE7GGSpOPOxRk5EiolkwimSKgeeBchFkRw/CK3LaWvDcghdCwXNsTEU3g3I/TsUUQ3abJDSmCfXjtLZUrnFlfQyODHhKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJn6B+hJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKun//7n"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CCD86C4AF11;
-	Wed, 22 Jul 2026 15:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784735458;
-	bh=5+f9zGuJaDqs3Qd5BGYpu7W0XnuOiVpM1LuzsifS1ag=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=EKun//7ny5WZhFLxu1Ern4r7/NaKX/gr/EfhP/aQn/7mznOkB1wbyYAmZZzRPTNYu
-	 Wcu8/PqicCu2K/gqLEpblh3IsR3/5KK0sjt5mG1N/rWHkQAzsDr/ob3Kc8MNB160Eg
-	 +CbQ4EEDD5lyKQ/NojCovp5UbiW6QbtXWIUiCGMvGuWzOwadPNq7ezXoqHFylIO4zM
-	 1S7lWIoJCLmyAqYw2uB32VGqrZgkNFA2JQObe+1/BGUQopq6UZQ06Ek+5m3PjdxjQ5
-	 WZPvNdxl5HqK531W/RGYg7tVrTj+eviZLWWEQQANr98/K4uESBqvSWzdE+FyKBrATg
-	 U/+VCo0As8hhw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B99CFC4453E;
-	Wed, 22 Jul 2026 15:50:58 +0000 (UTC)
-From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Wed, 22 Jul 2026 16:50:25 +0100
-Subject: [PATCH v9 16/17] iio: ABI: add docs for ad9910 sysfs and debugfs
- entries
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJn6B+hJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D38CF1F000E9;
+	Wed, 22 Jul 2026 15:55:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784735719;
+	bh=dUefdxIhGJPfMY9ctPzkQiXm7IuDd5B49RvTH61on9g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ZJn6B+hJ6f2flseBfXIcxxFZhrSpEStdni/pWR07W36aLwOy91ajf/caSrY8flKvv
+	 Qvkaw8T3wqwO5ALivz7QhLzJgZs3AHOqsiKxrGwAMpiwexEXbO3LpH0V7MLb4ZB5yV
+	 0+VUdhsjX0ATUF2kWElqoJeZnkvtuATSicgyrpbxNXPhw1iC58satCDdMWQNX0xmIY
+	 cEEMHLhdQYN8LAMGd3mWJ+gm7kzQ85BqPYQNizupX3sx+8So+Naev8icM+HsCzmGQj
+	 SZOtP2Y5yexU28hQjODIT3po7BkvysS/xCMfdfXIm6sAkODc3sDgnhqP1+5q1E+3Pt
+	 3u/oy0p4BXpbA==
+From: Simon Horman <horms@kernel.org>
+To: anthony.l.nguyen@intel.com
+Cc: Simon Horman <horms@kernel.org>,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org,
+	larysa.zaremba@intel.com,
+	przemyslaw.kitszel@intel.com,
+	aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	michal.swiatkowski@linux.intel.com,
+	maciej.fijalkowski@intel.com,
+	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
+	joshua.a.hay@intel.com,
+	jacob.e.keller@intel.com,
+	jayaprakash.shanmugam@intel.com,
+	jiri@resnulli.us,
+	corbet@lwn.net,
+	richardcochran@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	Bharath.r@intel.com
+Subject: Re: [PATCH net-next v5 04/15] libie: add control queue support
+Date: Wed, 22 Jul 2026 16:54:58 +0100
+Message-ID: <20260722155458.538349-1-horms@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260715180042.1972010-5-anthony.l.nguyen@intel.com>
+References: <20260715180042.1972010-5-anthony.l.nguyen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260722-ad9910-iio-driver-v9-16-459d1df5ac56@analog.com>
-References: <20260722-ad9910-iio-driver-v9-0-459d1df5ac56@analog.com>
-In-Reply-To: <20260722-ad9910-iio-driver-v9-0-459d1df5ac56@analog.com>
-To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-hardening@vger.kernel.org
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784735456; l=4220;
- i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=ODvLxJPODA5YQ+w5a0lwK7q83k4NXyONagfc42uDQZ8=;
- b=jN4Kxsc4z+pToJcmX5xQ0n1lmnChabpn46djbYi5EJiKfcildlt9aqqpBZy7T+enlRoreOJ21
- cLEoD/zVVwgB8FbFOTA3hzLK68kVD4U+myYyiKIMDethOi4dKoDhn5e
-X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
- pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
-X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
- with auth_id=561
-X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Reply-To: rodrigo.alencar@analog.com
+Content-Transfer-Encoding: 8bit
 
-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-
-Add custom ABI documentation files for the DDS AD9910 with sysfs and
-debugfs entries. The sysfs ones control parameters from the Digital Ramp
-Generator and OSK engine. The debugfs attributes are read-only and
-evalutate into source channel labels for each DDS core parameter.
-
-Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+https://sashiko.dev/#/patchset/20260715180042.1972010-2-anthony.l.nguyen@intel.com?part=4
 ---
- Documentation/ABI/testing/debugfs-iio-ad9910       | 23 ++++++++++++++++
- .../ABI/testing/sysfs-bus-iio-frequency-ad9910     | 31 ++++++++++++++++++++++
- MAINTAINERS                                        |  2 ++
- 3 files changed, 56 insertions(+)
+--- Patch [4]: [PATCH net-next v5 04/15] libie: add control queue support ---
+commit 1bdb26ce5f332eed97512271b4f8acb160c1f3d5
+Author: Phani R Burra <phani.r.burra@intel.com>
 
-diff --git a/Documentation/ABI/testing/debugfs-iio-ad9910 b/Documentation/ABI/testing/debugfs-iio-ad9910
-new file mode 100644
-index 000000000000..7083a20d5a40
---- /dev/null
-+++ b/Documentation/ABI/testing/debugfs-iio-ad9910
-@@ -0,0 +1,23 @@
-+What:		/sys/kernel/debug/iio/iio:deviceX/frequency_source
-+KernelVersion:	7.3
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Read-only. Reports the channel label that is read from the
-+		<dir>_<type>[Y]_label attribute, which corresponds to the on-chip
-+		signal generator that is currently driving the output frequency.
-+
-+What:		/sys/kernel/debug/iio/iio:deviceX/phase_source
-+KernelVersion:	7.3
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Read-only. Reports the channel label that is read from the
-+		<dir>_<type>[Y]_label attribute, which corresponds to the on-chip
-+		signal generator that is currently driving the output phase.
-+
-+What:		/sys/kernel/debug/iio/iio:deviceX/amplitude_source
-+KernelVersion:	7.3
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Read-only. Reports the channel label that is read from the
-+		<dir>_<type>[Y]_label attribute, which corresponds to the on-chip
-+		signal generator that is currently driving the output amplitude.
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9910 b/Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9910
-new file mode 100644
-index 000000000000..4e25f538af4a
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9910
-@@ -0,0 +1,31 @@
-+What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_dwell_en
-+What:		/sys/bus/iio/devices/iio:deviceX/out_frequencyY_dwell_en
-+What:		/sys/bus/iio/devices/iio:deviceX/out_phaseY_dwell_en
-+KernelVersion:	7.3
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		For a channel that produces parametric sweeps, this attribute controls
-+		the sweep behavior at the configured limit. It enables dwell mode at a
-+		sweep limit when set to 1, i.e., after the sweep is complete the output
-+		value stays at the limit. Otherwise (setting this value to 0), the sweep
-+		may stop or restart from the initial position, or even continue by
-+		reversing the sweep direction.
-+
-+What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_raw_roc
-+What:		/sys/bus/iio/devices/iio:deviceX/out_frequencyY_raw_roc
-+What:		/sys/bus/iio/devices/iio:deviceX/out_phaseY_raw_roc
-+KernelVersion:	7.3
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		For a channel that produces parametric sweeps, this attribute controls
-+		the rate of change of the parameter in raw units per second (slope).
-+		This value may be influenced by the channel sampling_frequency attribute
-+		if available. Multiplying this value by the scale attribute of the
-+		channel yields the rate of change in physical units per second.
-+
-+What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_raw_roc_available
-+KernelVersion:	7.3
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Lists the available roc values for the channel. Values are
-+		space-separated in ascending order.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 83342b577aa6..182f7db0010a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1683,6 +1683,8 @@ M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
- L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
-+F:	Documentation/ABI/testing/debugfs-iio-ad9910
-+F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9910
- F:	Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
- F:	drivers/iio/frequency/ad9910.c
- 
+libie: add control queue support
 
--- 
-2.43.0
+Libie will now support control queue setup and configuration APIs. These
+are mainly used for mailbox communication between drivers and control
+plane. Make use of the libeth_rx page pool support for managing controlq
+buffers.
 
+> diff --git a/drivers/net/ethernet/intel/libie/controlq.c b/drivers/net/ethernet/intel/libie/controlq.c
+> new file mode 100644
+> index 0000000000000..a3aa241f03b9a
+> --- /dev/null
+> +++ b/drivers/net/ethernet/intel/libie/controlq.c
+> @@ -96,30 +96,30 @@ int libie_ctlq_post_rx_buffs(struct libie_ctlq_info *ctlq)
 
+[ ... ]
+
+>  	while (num_to_post--) {
+>  		dma_addr_t addr;
+>  
+>  		ctlq->descs[ntp] = (struct libie_ctlq_desc) {};
+>  
+>  		addr = libeth_rx_alloc(&fq, ntp);
+>  		if (unlikely(addr == DMA_MAPPING_ERROR)) {
+>  			ret = -ENOMEM;
+>  			goto post_bufs;
+>  		}
+>  
+>  		libie_ctlq_prep_rx_desc(&ctlq->descs[ntp], addr, fq.truesize);
+
+[Severity: High]
+Since libeth_rx_alloc() updates buf->truesize to reflect the actual space
+available for DMA, should this use ctlq->rx_fqes[ntp].truesize instead of
+the fixed fq.truesize? Using the fixed maximum size could allow the hardware
+to DMA data beyond the allocated page pool buffer boundaries.
+
+>  
+>  		if (unlikely(++ntp == ctlq->ring_len))
+>  			ntp = 0;
+>  	}
+
+[ ... ]
+
+> @@ -478,13 +478,13 @@ u32 libie_ctlq_send_desc_avail(const struct libie_ctlq_info *ctlq)
+>  {
+>  	u32 ntu = ctlq->next_to_use, ntc = ctlq->next_to_clean;
+>  
+>  	return (ntc > ntu ? 0 : ctlq->ring_len) + ntc - ntu - 1;
+>  }
+
+[Severity: High]
+Is there a missing API to reap TX completions? The available TX slots are
+calculated based on next_to_clean, but there doesn't appear to be any
+function provided to advance next_to_clean for TX queues. This would lead
+to the TX queue eventually becoming permanently exhausted.
+
+[ ... ]
+
+> @@ -524,30 +524,30 @@ static void libie_ctlq_fill_rx_msg(struct libie_ctlq_msg *msg,
+>  				   const struct libie_ctlq_desc *desc,
+>  				    struct libeth_fqe *rx_buf)
+>  {
+
+[ ... ]
+
+>  	if (likely(msg->data_len)) {
+>  		if (unlikely(msg->data_len > LIBIE_CTLQ_MAX_BUF_LEN)) {
+>  			msg->data_len = LIBIE_CTLQ_MAX_BUF_LEN;
+>  			msg->chnl_retval = U32_MAX;
+>  		}
+
+[Severity: High]
+Does this length validation need to check against the actual available space?
+Checking against LIBIE_CTLQ_MAX_BUF_LEN instead of rx_buf->truesize could
+lead to out-of-bounds CPU memory accesses when syncing and processing the
+received data, as it might exceed what was actually allocated.
+
+>  		msg->recv_mem = (struct kvec) {
+>  			.iov_base = netmem_address(rx_buf->netmem) +
+>  				    rx_buf->offset,
+>  			.iov_len = msg->data_len,
+>  		};
+
+[Severity: High]
+Can this virtual address calculation omit the page pool's p.offset?
+
+In libeth_rx_alloc(), the DMA address correctly incorporates it:
+
+	return page_pool_get_dma_addr_netmem(buf->netmem) + buf->offset +
+	       fq->pp->p.offset;
+
+If p.offset is non-zero in the page pool configuration, omitting it here
+would result in reading from the wrong memory location, pointing prior to
+the actual data payload.
+
+>  		libeth_rx_sync_for_cpu(rx_buf, msg->data_len);
+>  	} else {
+
+[ ... ]
+
+> @@ -584,20 +584,20 @@ u32 libie_ctlq_recv(struct libie_ctlq_info *ctlq, struct libie_ctlq_msg *msg,
+>  		    u32 num_q_msg)
+>  {
+>  	u32 ntc, i;
+>  
+>  	ntc = ctlq->next_to_clean;
+>  
+>  	for (i = 0; i < num_q_msg; i++) {
+>  		const struct libie_ctlq_desc *desc = &ctlq->descs[ntc];
+>  		struct libeth_fqe *rx_buf = &ctlq->rx_fqes[ntc];
+
+[Severity: High]
+What happens if a caller attempts to use this function to reap completions
+on a TX queue?
+
+Since rx_fqes and tx_msg share a union in struct libie_ctlq_info:
+
+	union {
+		struct libeth_fqe		*rx_fqes;
+		struct libie_ctlq_msg		**tx_msg;
+	};
+
+Blindly accessing rx_fqes without verifying the queue type would treat a
+pointer to struct libie_ctlq_msg as a struct libeth_fqe, leading to
+type confusion and wild pointer dereferences in libie_ctlq_fill_rx_msg().
