@@ -1,192 +1,88 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3311D63F0
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 12:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6022FF144;
+	Wed, 22 Jul 2026 12:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784723569; cv=none; b=VB9qQuspJpXVZ8+4aktpCb4wfexP9Qa1/x5qVlJOc2A34CAoNxEaaMRDut/w73bx10EL7seGWq9DmL1mPkay1auhqWS1FK7PN32lTFbGe5co9oeIoodgXIzNu75br+AzyykT8AI7Gi59Jstx+EwESfrYUYeDiomTOoINATTEFEU=
+	t=1784723889; cv=none; b=uIghThWicYEmRsIawA9RmaFmV7tGb8jpb52HnIsOIYmnXwF2w0oXlBtLosHwLFCknVk+X7n/wAlze5kOL+qNX/jZlYRCykQdJWI61h4uGhl8Zvf5/JEv7mJ+XIANylvpBqS+a4mMlD+7XCx5m4Inw39bQe67WWeLX9sl7c4cOLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784723569; c=relaxed/simple;
-	bh=aQJgPOFPZ9JoQML28absNKd4L8mV6PpZA3gD6v063Ms=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WbYnBgPsTmxQYCvpazMb9jJ8qjljk7ENVz2/LtvtUWZ6XbWa70J2WakxacH0/PeQ9HLXtbly7zcqQM2PZKdo1WdGoVxU0AqMHuE5nqYg6wgX1fmo7m9VpVJwMlljN9Vv1dxX9IIprvUwz2EK41aH5rcP9eHR4OwN0Kyc/r1rZzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jlg+KBBg; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784723889; c=relaxed/simple;
+	bh=ZvLlYsoMdMFZaqIS1I423rwWee8uS4YkCkdFSnj5whk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TLdfkv4Di09pFe6QbPvYayLiwjFJR6veipXLtCddLVOyC4wiMJzj+nWeZvWhuDhD2Mkjs6mGQDYRSxGjByTdx0SIu5kL1HAfDa4W1tnXwCLRan9+Wog/7HMJ8tuIAeY0Y8YeIeJ28rinqtiA3WZ/TyHiR7SZeDVrxc0xiqh6lUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zmy6ZDQa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jlg+KBBg"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so11654741a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 05:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784723568; x=1785328368; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CK2ZLWyf+muvl8psJScyhh6NfjeFwxv4Xz+rzjTylvQ=;
-        b=jlg+KBBg15wv1VblnOjdFi1Zdyu9zOWy0J3RFv6tIVJkso6D99z3bMp3gCm+XVI+z0
-         3MbePdIzQ0aKEh2ZnY8FzWv811X1gdc893ay5ktql9D897qJhrClb0sv7XiPLIR9ZiLH
-         2NE8nyIXndAJrVa164q9IillPmEyilAmqkwx/ZocZDnGF2xwStwgup9vUtrXRwcAayU3
-         cWODRFLGvmyDvPagy/R0geM5pmKHMZtZRLaWzzBLMwFT4eBngxOgNwMht5ziufwzng2R
-         mET3FY0DuNe2NZFxlrqTkdg4rk7Ve8UNLTwUMIkk8efIkzRo0GY+AonsUmXVeWFJnPMj
-         0oow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784723568; x=1785328368;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CK2ZLWyf+muvl8psJScyhh6NfjeFwxv4Xz+rzjTylvQ=;
-        b=U39ZkDsfC84CpastNhoMlAMdT85yrVBdS6pXvrUgsSIPo/0zteymJqjayg03MyCKj+
-         5biP8CcmxE5cfk68RITd6KJCO7ESgRK44rg7BviojpDN57eG8aVJpSP/xrao6qjHjdql
-         evUceLSiWMP39lP0fEmk9uLfeLBM2Edifo03hW8xS7oK4QNJK8TCMuF+JGNAi/e1yH4t
-         OgaKXpHRuMynJt7LYMZENHLPEM6JHLmAtE3cD8vuxIoZXddGWJfsWU+1clPZhfqAjJL1
-         hZcgWaWnqV8Lk76BumdHTOix1cT1RDumAn9X6qZv9p0dqctMOPchHDo40QJr4G+4kdUs
-         yvCQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp40RxS+Pp00LSDPW6oPzBjoOIM4oydZQlEQPg9pw2YHRpnMR2YCmcOqqWtb9PNhwxSYW7bhYRmdAs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLt9ChuG3PQiTpBHGCxg+0HDw6yqXawt32H7J60VckGI/f36hU
-	SrYl9YrFBVaa7zFDfNSvHaDuBSsg7m2Q2R5sEnLUN3ZIxUwhmKNfRCpsS6KvV+0s
-X-Gm-Gg: AR+sD11kjcUsxCmzH5T9bUQZ7lu7vMQuwqzTg/Q4SE3MxaYJViz+xbFeOzGoi3KieKp
-	D9xYNV67LYapzep10TZxAcwIYnujvJWXprYGfxCe/GK4K/cjI5cnQUF3o+kKErEzDo/tZm7FI0A
-	GZ0el/yIBozWLJQeahMMqy/7XxAh3yXN7kUKmMvFiNhcAQ6mHB12R5yzW0rMxy5UqhnEdtfP0Mb
-	azwkSYs77lEfz51rrd7PKHqGzgEKKsbFKqh1oawgRZCWX5QAtZYSALSP6mWs+L1cZ19QFOg7Sjb
-	RBFUahwr5oElNMz8OML5hII31MZY4kMytw+f5gyXk7+ZbVlXb4hyMnaSIqK7DioXKsdZcKXNPfz
-	WkeYZpZ9t0PIKRohClrWxfIkimofWcmo0hQJ6dJhgWvJccXDDOWDI+GhNQdIZGTwMG/1bxyqhBd
-	tw5WDqhyWfWRR7vmkfbdBPQxGAgMN08KL24Ey81/Y0lhSPaQtrDq10TsLCf7XMBu++KMgVaj57U
-	P1UcQN9NHlWhNBBOThA4yimMTCO3R6kNLFhR0vuR35jpw==
-X-Received: by 2002:a17:90b:2703:b0:37f:9cdf:f0ab with SMTP id 98e67ed59e1d1-38e4b53898fmr22746726a91.26.1784723567659;
-        Wed, 22 Jul 2026 05:32:47 -0700 (PDT)
-Received: from localhost.localdomain ([240e:391:eb4:a950:65e6:ca6f:2b58:5ba8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38eb016cffcsm503692a91.2.2026.07.22.05.32.44
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 22 Jul 2026 05:32:47 -0700 (PDT)
-From: cuishuang <imcusg@gmail.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	wangyuli@aosc.io,
-	kezijie@leap-io-kernel.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Cui Shuang <imcusg@gmail.com>
-Subject: [PATCH v3] docs/zh_CN: Add configurable error injection translation
-Date: Wed, 22 Jul 2026 20:32:40 +0800
-Message-ID: <20260722123240.22979-1-imcusg@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zmy6ZDQa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 478CA1F000E9;
+	Wed, 22 Jul 2026 12:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784723886;
+	bh=iBj9zW2gPJekmQDZp/gsMdlmXiGZjbKWwdD8GbmT/jo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Zmy6ZDQaUNljEgDrw7+tFeP8sTCaoA88FR41Ijgn+DGEZyRVzmIHS4CHhPUFIx7ey
+	 mJKjtO29dBI5J9qxHHS6ZDBdMqaUGX+6F/cleSlys7NYIarVtDumAdge1Sh2vj5s5l
+	 KKv8B/SGPzIXSCSehfZRGHPNPqZKUN8VHt4FrYrpuc7+XR6Mwcw0Vk0014ihJH845D
+	 7rcKyh9WCJWYyBFv+imDw8gjAr84BECV3JH9Fhkvo9r0uBP5f8m4EhN8TkGE1NuNvS
+	 olTK0ckJxs2aOtHHA0CeBScHUMaB6OTpOotuigkUSKFFUanXID2RDl8QaIxLj4RHsa
+	 YpIcherlIjzCw==
+Date: Wed, 22 Jul 2026 13:37:47 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Boris Burkov <boris@bur.io>, Jeff Layton <jlayton@kernel.org>, 
+	Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Brian Foster <bfoster@redhat.com>, 
+	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, 
+	Mark Brown <broonie@kernel.org>, Jani Nikula <jani.nikula@intel.com>, 
+	Jens Axboe <axboe@kernel.dk>, Vlastimil Babka <vbabka@kernel.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: remove the requirement for LLM attribution
+Message-ID: <amC5iJPzGAUXKc3D@lucifer>
+References: <e93d28e4-750c-4a4f-8bfd-7a0b404cd05c@kernel.org>
+ <akzETpsps4TMfqpC@lucifer>
+ <0ba6bf66-e48f-40df-a953-503d317b3dbe@kernel.org>
+ <20260707124031.GC211515@killaraus.ideasonboard.com>
+ <ebc1f034-7297-459e-975d-5c143567392f@kernel.org>
+ <20260707141803.GA254690@killaraus.ideasonboard.com>
+ <20260707-siebzehn-geleast-gastmahl-4889a8f6b474@brauner>
+ <20260707-impfschutz-lerngruppen-klubhaus-7aabcc82f3b4@brauner>
+ <878q7mr59k.fsf@trenco.lwn.net>
+ <20260722-haarausfall-giftschlange-klotz-820f0391533e@brauner>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260722-haarausfall-giftschlange-klotz-820f0391533e@brauner>
 
-From: Cui Shuang <imcusg@gmail.com>
+On Wed, Jul 22, 2026 at 02:08:51PM +0200, Christian Brauner wrote:
+> On 2026-07-07 13:03 -0600, Jonathan Corbet wrote:
+> > Christian Brauner <brauner@kernel.org> writes:
+> >
+> > >> Then someone can basically just merge the original patch I sent since
+> > >> everyone seems to agree on that front. And then the extension to include
+> > >> how the LLM was used can be discussed in a separate patch.
+> > >
+> > > https://patch.msgid.link/20260701-work-coding-assistants-v1-1-a20a94d1d606@kernel.org
+> >
+> > I still have it around :)  I can apply it if that's truly the
+> > consensus... I'll confess to having not entirely kept up with the
+> > conversation over the holiday weekend, though, and needing to review
+> > things.
+>
+> I read the article. :) Feel free to massage the commit message to
+> whatever seems right and resubmit.
+>
 
-Translate Documentation/block/error-injection.rst into Chinese and add
-it to the Chinese block documentation index.
+It probably got lost at this point so also please add my R-b to it:
 
-Update the translation through commit e8dcf2d142bd
-("block: add configurable error injection").
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Assisted-by: Codex:gpt-5
-Signed-off-by: Cui Shuang <imcusg@gmail.com>
----
-v2->v3:
-  - Add the missing Assisted-by trailer to the commit message.
-  - Use "Cui Shuang" consistently as the contributor name.
-
-v1->v2:
-  - Resend via authenticated SMTP after the original message was only
-    partially delivered and did not reach the linux-doc archive.
-
- .../zh_CN/block/error-injection.rst           | 63 +++++++++++++++++++
- .../translations/zh_CN/block/index.rst        |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/block/error-injection.rst
-
-diff --git a/Documentation/translations/zh_CN/block/error-injection.rst b/Documentation/translations/zh_CN/block/error-injection.rst
-new file mode 100644
-index 000000000000..63aac2fb38f8
---- /dev/null
-+++ b/Documentation/translations/zh_CN/block/error-injection.rst
-@@ -0,0 +1,63 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/block/error-injection.rst
-+
-+:翻译:
-+
-+ Cui Shuang <imcusg@gmail.com>
-+
-+==============
-+可配置错误注入
-+==============
-+
-+概述
-+----
-+
-+可配置错误注入允许针对块设备的扇区范围注入特定的块层状态码。错误可以无条件
-+注入，也可以按给定概率注入。
-+
-+要使用可配置错误注入，必须启用 ``CONFIG_BLK_ERROR_INJECTION``。
-+
-+唯一的接口是 ``error_injection`` debugfs 文件，每个已注册的 gendisk 都会
-+创建该文件。写入此文件用于创建或删除规则，读取则返回当前错误注入点的列表。
-+
-+选项
-+----
-+
-+以下选项指定操作：
-+
-+===================	=======================================================
-+add			添加一条新规则
-+removeall		删除所有现有规则
-+===================	=======================================================
-+
-+以下选项指定 ``add`` 操作的规则详情：
-+
-+===================	=======================================================
-+op=<string>		此规则适用的块层操作。它使用每个 ``REQ_OP_XYZ``
-+			操作中的 ``XYZ``，例如 ``READ``、``WRITE`` 或
-+			``DISCARD``。必填。
-+status=<string>		要返回的状态。它使用每个 ``BLK_STS_XYZ`` 状态码
-+			中的 ``XYZ``，例如 ``IOERR`` 或 ``MEDIUM``。必填。
-+start=<number>		此规则适用的第一个块层扇区。可选，默认为 0。
-+nr_sectors=<number>	此规则适用的扇区数。可选，默认覆盖设备的剩余部分。
-+chance=<number>		仅以 ``1/chance`` 的概率返回失败。可选，默认为 1
-+			（总是失败）。
-+===================	=======================================================
-+
-+示例
-+----
-+
-+对 ``/dev/nvme0n1`` 扇区 0 的读取，每 10 次中有一次返回
-+``BLK_STS_IOERR``：
-+
-+	$ echo 'add,op=READ,start=0,status=IOERR,chance=10' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
-+对 ``/dev/nvme0n1`` 的每次写入都返回 ``BLK_STS_MEDIUM``：
-+
-+	$ echo 'add,op=WRITE,start=0,status=MEDIUM' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
-+删除 ``/dev/nvme0n1`` 的所有规则：
-+
-+	$ echo 'removeall' > /sys/kernel/debug/block/nvme0n1/error_injection
-diff --git a/Documentation/translations/zh_CN/block/index.rst b/Documentation/translations/zh_CN/block/index.rst
-index f2ae5096ed68..4877432cc4ff 100644
---- a/Documentation/translations/zh_CN/block/index.rst
-+++ b/Documentation/translations/zh_CN/block/index.rst
-@@ -18,6 +18,7 @@ Block
- 
-    blk-mq
-    data-integrity
-+   error-injection
- 
- TODOList:
- * bfq-iosched
--- 
-2.50.1 (Apple Git-155)
-
+Cheers, Lorenzo
