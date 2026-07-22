@@ -1,175 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCFC35837C;
-	Wed, 22 Jul 2026 16:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BEF27F017;
+	Wed, 22 Jul 2026 16:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784736985; cv=none; b=d7Aak+Wh3JFphRvlNbFCi8vHOBq2SfYm+gfZIKu4T8onVbZPRdiyKDbLkheI7FdMLJslm9i55hINrMFyIIyuqGSlNXr0e9yPBPkQd5EaHmF2bJxaXrUSioC5qmoML40JhOalkFuXi0Zs7h3dpfYJxQOU62qD/EOdQFEoZVKg6jg=
+	t=1784737031; cv=none; b=Ysi5i6KprX6GZBnSm6j+75bQnFTfhPsPzO6L8g/eomib1DJSlZ1I/PxxHQIWskBNfL63PRueZ8bbjxtzeD3Gjh4Z1ohouFSl0GO+9J3OnderoCgauK5Dcz3n5tckmKtjrmEid8UQfKbIyp9f5e1F0iP4I/Osw40jdX5ypb9iOZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784736985; c=relaxed/simple;
-	bh=/Zcjto8xP9EvdxXT7mM1A5K0aW+GmHBjYLWG40Q6YJs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a1HT7JYcSXRa3xTP/RRXF6OuIGUjez17btGNdWBhl7XKuSoIy7ixIbBLU1gUjOyZEM0bkKs92of0h9x5kCe3dwgsONbyf5SmbRjbz6vhe/SM/+vc2BCHv1/nWMug0IgFbgMMMurPobJ4DjAm16CQ52z8ZumhFUK7G7dpQOXb/1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q1t0o38M; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784737031; c=relaxed/simple;
+	bh=ZkUR2/lrE1+NGNslP/RvXuHv6R8c1mVO0x17JOkQVZw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=uqZRE0ctkKJPf2DrZ+aallwvk8rqIJHbuk5KwZESf4ouGbadxxdf7e9ilNXYJr4m4S3yWwUPcy2EjyrpalR+eClOyUPaBAxCFMhrCcrP8YWInYAkgaxoaa3DXMyVjOJ7rnduMZ3CSmvDDxHz88DMgrmGVUME5wFIS4xRBrB84qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BRtGFj0N; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q1t0o38M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C5B1F000E9;
-	Wed, 22 Jul 2026 16:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784736983;
-	bh=QhJ/EAHFRirVf4HqrZszcfdFB0neAZ7q25qE3L8HUXk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Q1t0o38M3aQ8BsBYeYurv9RTl5wnu6eT4ygJBvzR9fZV1tu3dy5QvknioOZAG+XFF
-	 77tvZLIGL51sC0HuM1xrpzOiqeYPG+O5fvis/Fs8rm10Wb9HNJQ1dbubpTm+OCJL4T
-	 XAccWYccsTCjmCAedb8jSn4k4ATac0hfKzAin3E9DGh2kt2Wr6sCbYX3gD9YBY52IQ
-	 vaZ9OeLbt4EXhAvxs4E87lkspxcOyPkf7BsTVkAZoj6kfCCuXrI4tyhMWGx7srvnT2
-	 5tQfWSSfUaPOc+7Nd3gpjjedRxtPt5G8p+Q2J4c9RpwYotl8MuijXi5kh+Ixf7GzEY
-	 cEOHgWL4ASsXQ==
-From: Simon Horman <horms@kernel.org>
-To: anthony.l.nguyen@intel.com
-Cc: Simon Horman <horms@kernel.org>,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org,
-	larysa.zaremba@intel.com,
-	przemyslaw.kitszel@intel.com,
-	aleksander.lobakin@intel.com,
-	sridhar.samudrala@intel.com,
-	michal.swiatkowski@linux.intel.com,
-	maciej.fijalkowski@intel.com,
-	emil.s.tantilov@intel.com,
-	madhu.chittim@intel.com,
-	joshua.a.hay@intel.com,
-	jacob.e.keller@intel.com,
-	jayaprakash.shanmugam@intel.com,
-	jiri@resnulli.us,
-	corbet@lwn.net,
-	richardcochran@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	Bharath.r@intel.com
-Subject: Re: [PATCH net-next v5 09/15] idpf: refactor idpf to use libie control queues
-Date: Wed, 22 Jul 2026 17:16:09 +0100
-Message-ID: <20260722161609.543609-1-horms@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260715180042.1972010-10-anthony.l.nguyen@intel.com>
-References: <20260715180042.1972010-10-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BRtGFj0N"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F2145408B4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1784737029; bh=fFd0MZZ4RASB/FXpamv5r4UwbVLj3uli8OWMg4Ec4mM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BRtGFj0N5YOuZHWIlS0Ncm35gkHPY/Wh2EgaVFfZc+vR6Khgh/d/2UNiP9uJdT7z1
+	 nyrO2hlD5W3U8M/9+/x0Wj1dGbZRp7UASLFU9YOMClfJLxRwj3J4iajf3ZXLr+7E1r
+	 zs88dHQ9LK6LBPRB9slH3zvMOJAP1G9Mn0WdaufbSEw3jFvSuTUS4xpNiHI4NfGwnx
+	 1Y8a9WVnY752UAke+Yv/I72FyGL1lG5e8RfWST8CcCXkxfWvISp0fMMqzMNMgq6kJ0
+	 Wa7a72av1B40QrdD98xFlMMKMskfrMJV1vOi9Olda4PMG5wkIYY84HYQZoinhU1ttf
+	 63QS63lbTXfFQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id F2145408B4;
+	Wed, 22 Jul 2026 16:17:08 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Yahya Toubali <yahya@yahyatoubali.me>, Shuah Khan
+ <skhan@linuxfoundation.org>, "open list:PROC FILESYSTEM"
+ <linux-kernel@vger.kernel.org>, "open list:PROC FILESYSTEM"
+ <linux-fsdevel@vger.kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>
+Cc: Yahya Toubali <yahya@yahyatoubali.me>
+Subject: Re: [PATCH v3] Documentation: proc: fix repeated word 'page'
+In-Reply-To: <20260718165613.1923550-1-yahya@yahyatoubali.me>
+References: <20260718165613.1923550-1-yahya@yahyatoubali.me>
+Date: Wed, 22 Jul 2026 10:17:08 -0600
+Message-ID: <87fr1bc83f.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-https://sashiko.dev/#/patchset/20260715180042.1972010-2-anthony.l.nguyen@intel.com?part=9
----
---- Patch [9]: [PATCH net-next v5 09/15] idpf: refactor idpf to use libie control queues ---
-commit 06a0b55dccd2a8bd004309d725e04b4253d24231
-Author: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-Subject: idpf: refactor idpf to use libie control queues
+Yahya Toubali <yahya@yahyatoubali.me> writes:
 
-This commit refactors the idpf driver to use the libie control queue
-APIs for initializing, configuring, and managing control queue
-transactions. It replaces the local control queue implementation with
-libie equivalents, which introduces DMA mapping of send buffers rather
-than performing memory copies.
+> Remove the duplicate 'page' in the sentence describing large page
+> allocation accounting. The extra word makes the description confusing.
+>
+> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
+> ---
+>  Documentation/filesystems/proc.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 2ccd5b2dfdd3..d22ac0addd42 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -513,7 +513,7 @@ In some kernel configurations, the semantics of pages part of a larger
+>  allocation (e.g., THP) can differ: a page is accounted as "private" if all
+>  pages part of the corresponding large allocation are *certainly* mapped in the
+>  same process, even if the page is mapped multiple times in that process. A
+> -page is accounted as "shared" if any page page of the larger allocation
+> +page is accounted as "shared" if any page of the larger allocation
+>  is *maybe* mapped in a different process. In some cases, a large allocation
 
-> diff --git a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-> --- a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-> +++ b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+Applied, thanks.
 
-[ ... ]
-
-> -static int idpf_mb_clean(struct idpf_adapter *adapter,
-> -			 struct idpf_ctlq_info *asq)
-> +static void idpf_mb_clean(struct idpf_adapter *adapter,
-> +			  struct libie_ctlq_info *asq, bool deinit)
->  {
-> -	u16 i, num_q_msg = IDPF_DFLT_MBX_Q_LEN;
-> -	struct idpf_ctlq_msg **q_msg;
-> -	struct idpf_dma_mem *dma_mem;
-> -	int err;
-> -
-> -	q_msg = kzalloc_objs(struct idpf_ctlq_msg *, num_q_msg, GFP_ATOMIC);
-> -	if (!q_msg)
-> -		return -ENOMEM;
-> -
-> -	err = idpf_ctlq_clean_sq(asq, &num_q_msg, q_msg);
-> -	if (err)
-> -		goto err_kfree;
-> -
-> -	for (i = 0; i < num_q_msg; i++) {
-> -		if (!q_msg[i])
-> -			continue;
-> -		dma_mem = q_msg[i]->ctx.indirect.payload;
-> -		if (dma_mem)
-> -			dma_free_coherent(&adapter->pdev->dev, dma_mem->size,
-> -					  dma_mem->va, dma_mem->pa);
-> -		kfree(q_msg[i]);
-> -		kfree(dma_mem);
-> -	}
-> -
-> -err_kfree:
-> -	kfree(q_msg);
-> +	struct libie_ctlq_xn_clean_params clean_params = {
-> +		.ctlq		= asq,
-> +		.rel_tx_buf	= kfree,
-> +		.num_msgs	= IDPF_DFLT_MBX_Q_LEN,
-> +		.force		= deinit,
-> +	};
->  
-> -	return err;
-> +	libie_ctlq_xn_send_clean(&clean_params);
->  }
-
-[Severity: Medium]
-Does setting force = deinit here cause a memory leak when encountering
-zero-length messages?
-
-If a zero-length payload message (like a VF reset message) is enqueued
-followed by a non-zero length message, libie_ctlq_xn_send_clean evaluates
-the loop break condition on the zero-length payload. If the condition
-!(params->force && msg->data_len) evaluates to true due to data_len being 0,
-the cleanup loop terminates early.
-
-Could this cause any subsequent pending messages in the queue to be skipped,
-leaking their DMA mappings during a teardown path?
-
-[ ... ]
-
-> +void idpf_send_vf_reset_msg(struct idpf_adapter *adapter)
-> +{
-> +	struct libie_ctlq_info *ctlq = adapter->asq;
-> +
-> +	/* Forcefully claim send queue slot */
-> +	idpf_mb_clean(adapter, ctlq, true);
-
-[Severity: High]
-Could this forceful cleanup unmap DMA buffers that the hardware is still
-actively reading?
-
-During driver unload or VF reset, the hardware is still active since the
-reset message hasn't been sent yet. Calling idpf_mb_clean with deinit=true
-bypasses the hardware Done check for non-empty messages and immediately
-unmaps their DMA buffers.
-
-Can this lead to a DMA use-after-free and trigger IOMMU faults if the
-hardware attempts to read the unmapped buffers?
-
-> +
-> +	scoped_guard(spinlock, &ctlq->lock) {
-> +		*ctlq->tx_msg[ctlq->next_to_use] = (struct libie_ctlq_msg) {
-> +			.opcode = LIBIE_CTLQ_SEND_MSG_TO_CP,
-> +			.chnl_opcode = VIRTCHNL2_OP_RESET_VF,
-> +		};
-> +
-> +		libie_ctlq_send(adapter->asq, 1);
-> +	}
-> +}
+jon
