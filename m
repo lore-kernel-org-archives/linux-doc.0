@@ -1,251 +1,160 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D043546FE
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 14:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784731392; cv=pass; b=R2gmPu80MuBMl3KEGcIU4Xj6o089Zvvm2MGXsYwbSrfdQZKjVEmNEv3z11lQ1Qk2Cg7M79LQe1ZaICX/wa04DvSOrFXypzhOaxsLNFxZ05ax7MDBPQfflmz9kLzghBx4WYGc+ucSCD9l0iNhwbpoKNbgSmIqBXVZlGc8A/GIe+M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784731392; c=relaxed/simple;
-	bh=ahrPeW46a3z7uaEO1zJL6eWoGd4K9B9MS3EeUm2ySI8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GVwbl0AFJ+3Rb4V33nUTLOxPWJqcwASJLvvws5ujjGVDVrL/ltVb7BWKa7qezKSPrRntxzEs5NrkjOMBi+xCCcOnmtW56RnEGRpQZOTYXaIFbutXBPQYmRznPsHIKuotf5oSwDDrhoPmNEpdpWHInviSqXinHs571OweOFclg/U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=on3kEE9O; arc=pass smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB38372B27
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 14:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784731726; cv=none; b=ZCWalGEYyj2RVU+S/dnB/E1reOsOCNoRbh/yHQvIzBJf3KUMXv3fBSbtunoAU2vuHMD/sf8kyjmJg+8a8NrjsJ5ziCxrEBbNCNHURbJ9/JCsphdVo2nSf4DktHVhzy7W5GVJHhRnRIVErmtjr9E/zMJ1AB0ELnt3NID4EzoXleA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784731726; c=relaxed/simple;
+	bh=gUEHACkXYvpGprjPLuYE0Ck8o2knaEouUYtnGcFW/58=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BZtgdzU7zz3pvBicmMdSahPQkYWzNPo+er8jbTJOBivzMNC3kq6pQh6yN0KfuC5rMhLMEhdZ6OMKirUedi/j83rIZHeBo1i6CiypkSJi3MxnIf4jzD9ETeew9rHSyUiUSSNsER8L2wDOKGrcINtm3YmeapqXL3NeECiliy2UyLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=ZqOJTzyx; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="on3kEE9O"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47de008b020so4683666f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 07:43:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784731387; cv=none;
-        d=google.com; s=arc-20260327;
-        b=L5HsjeRHf4sAMXUFLWSuDH5hAOdR2OU6Usizy4bVclxVMqaNNho7OKNjwqbyA9f0+H
-         Qw86mVXNMqJZ12yyO0uZl7iMcnaBKrDmKftS92yXfcylPIEohEnPt0Ei9Jw4+6ZrFVU2
-         S3V/uw4y4O0dsRZ/GvNoVxzKO4Yb9CuqmT1lGnm7PjtKHKOguKK/B8dsk1UKaKgoJBuN
-         Me55rsxhZlJQSu6uaU5NbiQK2co632m5W3RYQYAHkfzm7GIBCbAVxJbEWh2m+r5AplkJ
-         I3vU40H4wChJRKG673qOedDsYXCzizFznpUpeY30Bvj2YMvuvTlO3N+hviuZWBd8immr
-         oMeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nbVVn3kwJvwjtX0fZqdUSffXklqAZ5aOd6f3vVAXXIo=;
-        fh=WZkLc6JH878znW70tGBjOutwfyxV3M1eq0itUKGBPWg=;
-        b=rlz/k8ReubUtvO/nsu12Tu4cZGtYTQbLSDY+GwgoJ64JkYQqOYUXnZGSzgdQZjJYgP
-         UZITB6gVcM9swQbDp1hCjU3rnmHYUo7sJc+5fOReTPaOrUwfgCkF0+Jh1JI8ZuylsTeG
-         V6dNxY9UKiZQUiSX3rVENUFEWGjuxcrDe76LnOVAWmvUt2RJgnGfN8xDTv+x5JRGBfpq
-         r1g7nlqXXamepQ+kFH6qUKRL9kIEeSNjir6IkMjXakc86HZ/DqU/McjfP/59hHvM6h+d
-         bAf2CqRuXI82kZAS9X8CNvZnq1K+OJKoihT2vRyAliAtvbYg8jahhYQsEVWwtIHYee0f
-         IfuQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784731387; x=1785336187; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nbVVn3kwJvwjtX0fZqdUSffXklqAZ5aOd6f3vVAXXIo=;
-        b=on3kEE9OMNB+hJeb4twn9+ZM0qPUJrVcaUoVNwCKVJM/eOzbi2ZssHB/P20oep9oib
-         cIUZqIws6cW5gUr28iHN8kmxKCnvXFZWPRg/cGtfqU4zCGNpY70r9eFpV1oUNd+ZpSmI
-         9VzHGXInYEyNvXTxMjsa1KYq+Ha0PBMKRq/YdAArIfm504MO87chHQ14GgY+SePOMbyf
-         D1uiH+W3lbqwkFTOAm1l2yd4niQs6g09xtx2q+E5TcRP5o4t9lOZlmRnpd2E+/eFLfp5
-         /vg13KZ/j7Y7tV1QRUkEFP+PpXEloc6tTFBtTIwSizgTRxx+g7VoQmTGbkRRkNuEG8xY
-         fLgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784731387; x=1785336187;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nbVVn3kwJvwjtX0fZqdUSffXklqAZ5aOd6f3vVAXXIo=;
-        b=bMatc/sACye3e6QHCCDsw/6gDas4YD8ehbQgL7xkU4HXCssBH4obn2W/4LWMED7EoD
-         2nM+Y5/9cYiBOuQAQdF2MniXOdy6jBufXNmvYFwoWJyaQSpFtURhqDeDM9/jlByuekqM
-         Gn4olKvSBA5/smSImF8qEN2pRxEmy6oJpEPugEkjLVaL7QvuoqA2EUXYyten7osMjMiz
-         mKHeu7s4SMerl9tP2Ds2B1erRiaCSBKWqNi2SnURKFcdU3gvo+WsvJjROTr78apoVKbs
-         tiEOiARUu8OJwld6oz3slmQt3ZYO9dh/AB+7iAsPcH2cMdD3Y5H19xM0DtjL8tDXqTLs
-         AVoA==
-X-Forwarded-Encrypted: i=1; AHgh+Roey35CjdIrGtsty4WeSu6GkKn1fBrw7MOP1+rWOESTGu62HTaHoYgU6o/s4zS0cdjip692oQosmCg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4caZhZ3HHBzG0+JH3PZFmYwXFKOpyLBZ59bCs2t9YH6ERIMMP
-	cuA9Yk/qORKInXrvTtSQcxMLri5GMrdTHKr4ylwsydXxgOfC0lk6TwSyzkHFHLex8q8F3gxAqWb
-	Vteu9vRc5ku5D+WLji5Ho0Qm10aB9Q18=
-X-Gm-Gg: AR+sD11p4q0vvtT8uGWqbokWogejPa6qcpSnONsuKAUJCQWnjFUD82Yv61iQBwvsJQG
-	szeudZumd3gWKnLRvg49pTfKsoTGJ324WyCmkNsVOPhktr5w09VZPi5KsQM8MjL6jnvRbe5+D3w
-	sslauzsoV28gPxLZoNfPQxiazBhXNxQvPPYsAJzCdaQU0xzCE2V+fn10wNks7tWBFvuX3cOZL2c
-	htKkuoNyssvEE09kih2W5XmtHKzxkDyc0UktRs40mmQys0hYlJz2/B8xynJIjA7cs+Yc/u2lD/G
-	qV4mQEAoR0G846u3HOALyHmffBjZs6wIXB2/tw6GhQ==
-X-Received: by 2002:a05:6000:2a0f:b0:47f:6d9b:f204 with SMTP id
- ffacd0b85a97d-47f840d1199mr3725320f8f.23.1784731386878; Wed, 22 Jul 2026
- 07:43:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="ZqOJTzyx"
+Date: Wed, 22 Jul 2026 22:48:26 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1784731719;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+/zHGM89k5oCLmeFIWt4axkN+0Ol8vePALGxhhFUh5E=;
+	b=ZqOJTzyxHmYE5Iv6nnqg+iI7vvk7DDkP8/5dx/1oXmoKEB6Zr7Bl1+q7BUFlJKOLqFJKvz
+	fsjUuSS8QfP+P3vAOVYfq2NEOX076g2NnS52FGa7YSe2PqRSJjmkQnPmWQuyl5rj+bKhJf
+	f9BquEJvxIzlw4l71CSsOo7M64f6hDPcPFh4gvDfjTarYAiqlHmFgJMd2eo/qo2bTISvXo
+	xJsqDz1waVJfGE/KDwd8sHsbbkrtdVssARbEH/m1JqZ2FSN15EfkbMq56s4YU9k6pJJzSX
+	rzvZ30odbysWM2DxTSRzLzCk4jjKk3g8bvJArZkdP3s6pVD2W/RIkO0lEY7ILQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 07/16] docs/zh_TW: process: localize terminology in
+ coding-style.rst
+Message-ID: <amDYOmUlDWCOCa4M@wyuan.org>
+References: <20260721215542.98435-1-chenyou910331@gmail.com>
+ <20260721215542.98435-8-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
- <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com> <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 22 Jul 2026 07:42:52 -0700
-X-Gm-Features: AUfX_mwxuEB8MpcAvVdcxrfmXjtIkJPDlLRoLVxYiUNlL8we5MhuKUq5tNA-EIo
-Message-ID: <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
-Subject: Re: [PATCH V11 0/9] famfs: port into fuse
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, John Groves <john@jagalactic.com>, 
-	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260721215542.98435-8-chenyou910331@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jul 22, 2026 at 5:47=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
->
-> On Wed, Jul 22, 2026 at 12:47=E2=80=AFPM Miklos Szeredi <miklos@szeredi.h=
-u> wrote:
-> >
-> > On Mon, 20 Jul 2026 at 12:07, Amir Goldstein <amir73il@gmail.com> wrote=
-:
-> >
-> > > It's not about this ioctl, it's about infrastructure reuse.
-> > > It's about the fact that there is NOTHING special about dax_devlist;
-> > > and no reason not to manage it via backing_files_map.
-> > >
-> > > The reason you stated was that you want userspace to determine the
-> > > daxdev_index/backing_id - fine, no problem - this is why I asked that
-> > > you pass it the desired backing_id in the ioctl.
-> > > In fact I think that all fuse backing_ids would be better assigned by=
- user space
-> > > so the extension of padding =3D> backing_id is not unique to famfs.
-> >
-> > Right, so I suggest to just reuse FUSE_DEV_IOC_BACKING_OPEN and add
-> > two flags: one to enable user supplied backing ID and the other to
-> > indicate that fd refers to DAX device.  The changes to do compared to
-> > the current patchset are quite minimal.
-> >
-> > > And the best part is that this request requires no changes to your us=
-erspace.
-> > > You already bite the bullet and maintain the new/old uapi but changin=
-g the
-> > > kernel implementation does not require this burden from you, so to be=
- honest
-> > > I really don't understand why you did not follow Miklos' suggestion.
-> >
-> > Code reuse is also important, but I understand John's position to want
-> > to separate famfs from existing codebase as much as possible.  And
-> > because this is an implementation detail I don't want to make this a
-> > show stopper.  We can easily fix it later.
-> >
-> > > > - Lose the famfs interleaved extent format. I have complied with th=
-is request.
-> > > >   It makes some things worse, but we'll discuss that later.
-> > > >
-> > >
-> > > I am really not aware of a request to lose the interleaved extent for=
-mat.
-> > > How can this patch [2] from Miklos which reimplements this format as =
-a generic
-> > > uapi be mistaken for a request to lose this format?
-> >
-> > Let's not care.  We can easily add this later if famfs (or any other
-> > use case) decides to want this after all.
-> >
-> > Making the initial patchset smaller is win in any case.
-> >
-> > > Let me recap the former review requests as I understand them:
-> > >
-> > > 1. Use ioctl instead of GET_DAXDEV
-> >
-> > This is done, just need to reuse the existing ioctl instead of add a
-> > new one with the same semantics (okay not true because of the fixed
-> > backing ID extension...)
-> >
-> > > 2. Use backing files infra for daxdev table
-> >
-> > Leave this later.
-> >
-> > > 3. Use ioctl instead of GET_FMAP
-> >
-> > Not sure we agreed to use an ioctl for extent mapping.   What we did
-> > agree on was to use a generic interface that doesn't have anything
-> > famfs specific in it.
->
-> My bad. I thought that FUSE_DEV_IOC_STRIPE_OPEN was an
-> example of how GET_FMAP should be made into a generic interface.
+On Wed, Jul 22, 2026 at 05:55:33AM +0800, Chen-Yu Yeh wrote:
+> Localize mainland terms to Taiwanese Mandarin (內核→核心, 函數→函式,
+> 宏→巨集, 枚舉→列舉, 聲明→宣告, 寄存器→暫存器, ...) and sync with the
+> English original: update the memory allocator list and array
+> allocation examples to the type-aware kmalloc_objs()/kzalloc_objs()
+> forms.
+> 
+> update to commit 323fa4b9608b ("Documentation: Fix syntax of kmalloc_objs example in coding style doc")
+> 
+> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 
-I had the same impression as Amir. The FUSE_DEV_IOC_STRIPE_OPEN patch
-[1] right now is only for the interleaved case to handle striping, but
-imo it seems a lot cleaner to make FUSE_DEV_IOC_STRIPE_OPEN a generic
-interface for handling any backing layout that corresponds to a
-backing id, and having the simple extent case go through this same
-infrastructure / path. Especially since John's future patches for
-adding the interleaving will go through the ioctl, it seems nicer
-server-side as well for famfs to have one consolidated path instead of
-needing two totally different ones. I think also file passthrough will
-want this infrastructure in the future too, and their use case would
-be mostly non-striped extents.
+Except the wrapping issue of the commit message (leave it to the
+maintainers to handle it):
 
-I was imagining something like:
+Reviewed-by: Weijie Yuan <wy@wyuan.org>
 
-struct fuse_backing_member {
-    uint32_t backing_id;
-    uint32_t reserved;
-    uint64_t offset;
-    uint64_t length;
-};
+> ---
+>  .../zh_TW/process/coding-style.rst            | 580 +++++++++---------
+>  1 file changed, 292 insertions(+), 288 deletions(-)
+> 
 
-struct fuse_backing_layout {
-    uint16_t nr_members;
-    uint16_t reserved1;
-    uint32_t reserved2;
-    uint64_t chunk_size;
-    uint64_t flags;
+[...]
 
-    struct fuse_backing_member members[] __counted_by(nr_members);
-};
+>  9) 你已經把事情弄糟了
+>  ---------------------
+>  
+>  這沒什麼，我們都是這樣。可能你長期使用 Unix 的朋友已經告訴你
+> -``GNU emacs`` 能自動幫你格式化 C 源代碼，而且你也注意到了，確實是這樣，不過它
+> -所使用的默認值和我們想要的相去甚遠 (實際上，甚至比隨機打的還要差——無數個猴子
+> -在 GNU emacs 裏打字永遠不會創造出一個好程序)
+> +``GNU emacs`` 能自動幫你格式化 C 原始程式碼，而且你也注意到了，確實是這樣，不過它
+> +所使用的預設值和我們想要的相去甚遠 (實際上，甚至比隨機打的還要差——無數個猴子
+> +在 GNU emacs 裡打字永遠不會創造出一個好程式)
 
-which is the same as what was in the FUSE_DEV_IOC_STRIPE_OPEN patch
-but just renamed and a uint64_t flags and uint64_t length field added.
+Change to:
 
-This would let us eliminate GET_FMAP, which imo needs to be
-eliminated. The ioctl also gives famfs more flexibility with being
-able to preload extent mappings outside of the hot path instead of
-being forced to only upload it on opens.
+``GNU emacs`` 能自動幫你格式化 C 原始程式碼，而且你也注意到了，確實是這樣，
+不過它所使用的預設值和我們想要的相去甚遠 (實際上，甚至比隨機打的還要差——
+無數個猴子在 GNU emacs 裡打字永遠不會創造出一個好程式)
 
-If not the ioctl, what did you have in mind for a generic interface? I
-think anything else would have to keep GET_FMAP, but maybe I'm wrong
-here.
+?
 
-I think John has patiently endured a lot of demands in the last 2
-years, so I agree that anything that isn't uapi-dependent should just
-be done in the future as follow-up work and shouldn't block this
-series. imo the ideal version of this series would have nothing famfs
-specific in it, but I think a lot of that can be renamed /
-restructured internally later on. But the extent uploading / GET_FMAP
-part seems like the last thing needed to figure out.
+>  *(譯註：Infinite Monkey Theorem)*
+>  
+>  所以你要麼放棄 GNU emacs，要麼改變它讓它使用更合理的設定。要採用後一個方案，
+> -你可以把下面這段粘貼到你的 .emacs 文件裏。
+> +你可以把下面這段貼上到你的 .emacs 檔案裡。
+>  
+>  .. code-block:: elisp
+>  
+> @@ -640,31 +641,31 @@ Documentation/translations/zh_CN/doc-guide/index.rst 和 tools/docs/kernel-doc 
+>     (expand-file-name "~/src/linux-trees")
+>     'linux-kernel)
+>  
+> -這會讓 emacs 在 ``~/src/linux-trees`` 下的 C 源文件獲得更好的內核代碼風格。
+> +這會讓 emacs 在 ``~/src/linux-trees`` 下的 C 原始檔獲得更好的核心程式碼風格。
+>  
+> -不過就算你嘗試讓 emacs 正確的格式化代碼失敗了，也並不意味着你失去了一切：還可
+> +不過就算你嘗試讓 emacs 正確的格式化程式碼失敗了，也並不意味著你失去了一切：還可
+>  以用 ``indent`` 。
+>  
+>  不過，GNU indent 也有和 GNU emacs 一樣有問題的設定，所以你需要給它一些命令選
+> -項。不過，這還不算太糟糕，因爲就算是 GNU indent 的作者也認同 K&R 的權威性
+> +項。不過，這還不算太糟糕，因為就算是 GNU indent 的作者也認同 K&R 的權威性
+>  (GNU 的人並不是壞人，他們只是在這個問題上被嚴重的誤導了)，所以你只要給 indent
+> -指定選項 ``-kr -i8`` (代表 ``K&R，8 字符縮進``)，或使用 ``scripts/Lindent``
+> -這樣就可以以最時髦的方式縮進源代碼。
+> +指定選項 ``-kr -i8`` (代表 ``K&R，8 字元縮排``)，或使用 ``scripts/Lindent``
+> +這樣就可以以最時髦的方式縮排原始程式碼。
+>  
+> -``indent`` 有很多選項，特別是重新格式化註釋的時候，你可能需要看一下它的手冊。
+> -不過記住： ``indent`` 不能修正壞的編程習慣。
+> +``indent`` 有很多選項，特別是重新格式化註解的時候，你可能需要看一下它的手冊。
+> +不過記住： ``indent`` 不能修正壞的程式設計習慣。
+>  
+>  請注意，您還可以使用 ``clang-format`` 工具幫助您處理這些規則，快速自動重新格
+> -式化部分代碼，並審閱整個文件以發現代碼風格錯誤、打字錯誤和可能的改進。它還可
+> -以方便地排序 ``#include`` ，對齊變量/宏，重排文本和其他類似任務。
+> +式化部分程式碼，並審閱整個檔案以發現程式碼風格錯誤、打字錯誤和可能的改進。它還可
+> +以方便地排序 ``#include`` ，對齊變數/巨集，重排文字和其他類似任務。
+>  詳見 Documentation/dev-tools/clang-format.rst 。
 
-Thanks,
-Joanne
+[...]
 
-[1] https://lore.kernel.org/linux-fsdevel/20260601152327.2069787-1-mszeredi=
-@redhat.com/#t
+> -分配一個數組的首選形式是這樣的：
+> +分配一個陣列的首選形式是這樣的：
+>  
+>  .. code-block:: c
+>  
+> -	p = kmalloc_array(n, sizeof(...), ...);
+> +	p = kmalloc_objs(*p, n, ...);
+>  
+> -分配一個零長數組的首選形式是這樣的：
+> +分配一個零長陣列的首選形式是這樣的：
+>  
+>  .. code-block:: c
+>  
+> -	p = kcalloc(n, sizeof(...), ...);
+> +	p = kzalloc_objs(*p, n, ...);
+> +
+> +這兩種形式都會檢查分配大小 n * sizeof(...) 是否溢位，如果發生溢位則回傳
+> +NULL。
+
+I would say splitting this part into a small patch is better. But for this
+time, it's fine.
