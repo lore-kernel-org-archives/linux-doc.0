@@ -1,114 +1,190 @@
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FE3403E89
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 19:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D379D3B7B70;
+	Wed, 22 Jul 2026 19:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784749232; cv=none; b=qfVUa226cK7lTM6lkbeOafTndQQ2+1TYG1p/5+WqbRKH746WPzEDiZhzK/+hNJemisLMYl26TX1D3Cg8y0+Ayly1qZINemv13ZXDfgO0AhOccSQ8/7J+JCB3eMrYbHD+L7zwFd9+933/oZ6dSykalxgw3Jd8aR0r6UiVuhUls1k=
+	t=1784749252; cv=none; b=VVcxNQt/Mz/vLeLiFD+nejINsZLH/P2I2OBxxqSIzOSvWTUo47f/aSphI/H+5yxJ4tUPRij3kGptKX+qEmjXvuA0lD+4/F1maTq+IfPUUccAmoSN7GLa0GW1J6ZoSQzLUc88ocBiEXhSQPIYJUMBTjcLRs3Dlb7N6w0g+AxxUG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784749232; c=relaxed/simple;
-	bh=nyBkYgKwOn4jVc5C8Fouc1FeTmY3h02EMe0OQ5ytqsI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XuyQ6tRRRVdp95sE0WsJVsKCUovYhdTLU8DX5kqAWBdP/O7TWbGw1rTozZrXEn2Z2Ks9SfuDKNJPAhSCJ7QsCdocmTBlFxPsWkYSqNidAcatBJSw9FYm4+MHB3Z2ri7lWpPGDYFJ7YGOuPmIUHELeJcOhxnAerUqW3ZSvW8n4eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hovqb5P3; arc=none smtp.client-ip=209.85.215.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1784749252; c=relaxed/simple;
+	bh=H1GhD+wdiGfBFkkrXGiPA1yBJH1W/n/cUKvHuJo0hYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xdzqxw/WWf/x21fqrDpt6J37805U90kyqrMVZir8EgOD1lEakUqINY4JaJhTNgWfv+WJuFnjkvwuPahXKCcfJWWmDZhIeCPo8rmMLDf3AenV1l+UQKb1ppQPG0g4nfLde/ICyfN8s5Xu/UPFpYV4e9CUrqsXFvQX7wZepE7+IG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=R1X/8/Zj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LXj8lngD; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hovqb5P3"
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cb6dd278512so3307147a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 12:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784749229; x=1785354029; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ptao9s40NBhMm9qoNoLOa2VZyEW6G4SG8hWVVOs/sao=;
-        b=hovqb5P3n8VEqY52HNZccABZ9r0eeTb7CNfrnv5TVVoQkGIanFwTwexRUwgjHgPApg
-         DGB2wDB6xXbra5LEz4UL0Y7qJRiv5vR+/i9JArTfesPNvf+gJjKpnNamlGuK539oakHz
-         M3uv5FqGreIid2H4tlUK4bSkVxgAE8pVoVa2NyqqsO29PF8u94hUgHcfn8R9Cw7/2/PF
-         hHxP01e74ara8BggeSQOMMD/H8mltABdBNXzJI89LVSwjYLtpoCkJAUxcGIL88XbTPHc
-         bjEXrTSDRj2GYVp3x0rglPMtmzr0LvFRTH26JWu/If/DLPrTWMa426GRXsnETvEUt54g
-         JnlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784749229; x=1785354029;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Ptao9s40NBhMm9qoNoLOa2VZyEW6G4SG8hWVVOs/sao=;
-        b=oh5spBazaVSGBHQ8X2Y8l4rvZLKl5ebpKeRiR9bs3BC9+9x5kAtwxugTVBlM1Tbah/
-         thNCYs5LHKemdX0bL+vPrimtvY+cq92uRAdMWbs5b95qzIUkqPhTi7TPaxx9sJIkGa+8
-         ZfPmt+rfZSeiHNtstoM8yCFl53uQRwZ0Dc//0QSxj2h8yl1tIiqEsOISsoZyhtHct4ju
-         pPmzmealIGC5EMi+e2LU/hJzk3hR4wxIUZZx5lGLW55AjpMbpqJlYVowotJZ3QfuNx8r
-         lW6WMufZtCrZXY3tpCXYvwUhK1ngicyWtkjODmQt5eM7b3HKyGvdQm7esJf+KpLK+cgI
-         yLtQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoiC4f3STLVztB+JyF8F+7TfSPaY7f3iBdu5OgxSREVoV3e+o79Q9Bzy0KqEtczoqpHd1sRq9K89tI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN4zlwPYMkZqGf0iYwU8xXzJjTayjGKTcwmX1xSGnRYtVd2fEq
-	O6f2z0Ilh0oAzKWSm81zeC5sGlPOBZLdnJgJxZCrSbFLdiwT9p1sszz0sCpzEAETEDmI3eQKFYf
-	g6aXQvQ==
-X-Received: from pfbhj6.prod.google.com ([2002:a05:6a00:8706:b0:847:840c:ba17])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:299a:b0:845:c6fc:2821
- with SMTP id d2e1a72fcca58-84e2b8a6521mr317062b3a.22.1784749228959; Wed, 22
- Jul 2026 12:40:28 -0700 (PDT)
-Date: Wed, 22 Jul 2026 12:40:28 -0700
-In-Reply-To: <20260718014500.2231262-7-rick.p.edgecombe@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="R1X/8/Zj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LXj8lngD"
+Date: Wed, 22 Jul 2026 21:40:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784749249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IF2svoHyMZT2NyJ/aKZK4KhaQNgnII8nedcS032BJ8I=;
+	b=R1X/8/ZjcQGhuAcoYMYkSuxwFD/HdWblJcEQXvGPeUObBKu/SidERA8uK+UmNvYDOJ90gu
+	A63EvGGXLtorDnFVBmXxukfdeP+bXMTQx+URnu4bH/rTy7m65GH6irYQIVMIHu4xBGUFq9
+	28PveXMU9v+MtLJjftPnl53FpYWaS56LMaeQjxN3WkAH4Jnv7JYbyrHQ1MwvYK9hZse/hr
+	1Fi38GzpFb4x9tgMjkhrUoA285uf8zCRU1gPD07TTTGg8F7kimgZXM9wWNwuVSZkrL7+iv
+	RikIkg4gcBMnJiDo7LsLel+nVoFqh63/E4mUrx3I01gIxcHmjp/EheMPaMbHFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784749249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IF2svoHyMZT2NyJ/aKZK4KhaQNgnII8nedcS032BJ8I=;
+	b=LXj8lngDaqgVfuN/LRUFRwuX50Cbbyv7/e80vbgpEx62gk2/Fb6iCKuxYJ+Q95JEtD6Cb+
+	mld5kJ8deqR3TgBg==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev,
+	Matthew Wilcox <willy@infradead.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/1] Documentation: real-time: Add kernel
+ configuration guide
+Message-ID: <amEcvta4-GiFrg-Q@lx-t490>
+References: <20260716195716.256025-1-darwi@linutronix.de>
+ <20260716195716.256025-2-darwi@linutronix.de>
+ <20260721130248.ndwsFtHE@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260718014500.2231262-1-rick.p.edgecombe@intel.com> <20260718014500.2231262-7-rick.p.edgecombe@intel.com>
-Message-ID: <amEcrPzZELfQ4jU9@google.com>
-Subject: Re: [PATCH v7 06/11] KVM: TDX: Allocate PAMT memory for TD and vCPU
- control structures
-From: Sean Christopherson <seanjc@google.com>
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
-	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, 
-	pbonzini@redhat.com, tglx@kernel.org, vannapurve@google.com, x86@kernel.org, 
-	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
-	tony.lindgren@linux.intel.com, binbin.wu@intel.com, 
-	Binbin Wu <binbin.wu@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260721130248.ndwsFtHE@linutronix.de>
 
-On Fri, Jul 17, 2026, Rick Edgecombe wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> 
-> Use control page helpers for allocating and freeing TD control structures,
-> such that these operations can work for Dynamic PAMT.
-> 
-> The TDX module tracks some state for each page of physical memory that it
-> might use. It calls this state the PAMT. It includes separate state for
-> each page size a physical page could be utilized at within the TDX module
-> (1GB, 2MB, 4KB). In Dynamic PAMT, only the 4KB page size state is
-> allocated dynamically. So the kernel must ensure PAMT backing is installed
-> for any 4KB page being gifted to the TDX module, and must tear down the
-> backing when all associated gifted pages are reclaimed.
-> 
-> TD scoped control pages (TDR, TDCS) and vCPU scoped control pages (TDVPR,
-> TDCX) are all handed to the TDX module at 4KB page size and are therefore
-> subject to this requirement. Replace the raw alloc_page()/__free_page()
-> calls for these pages with tdx_alloc/free_control_page().
-> 
-> Switching between special Dynamic PAMT operations or normal page
-> alloc/free operations is handled internally in
-> tdx_alloc/free_control_page(). So don't check for Dynamic PAMT around these
-> calls. Just call them unconditionally. Similarly, drop the NULL checks
-> before freeing, as tdx_free_control_page() handles NULL internally.
-> 
-> No functional change intended when Dynamic PAMT is not in use.
-> 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> [sean: handle alloc+free+reclaim in one patch]
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> [rick: enhance log, reviewing, rebase, with help from AI tooling]
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-> Reviewed-by: Chao Gao <chao.gao@intel.com>
-> Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
-> Reviewed-by: Tony Lindgren <tony.lindgren@linux.intel.com>
-> ---
+On Tue, 21 Jul 2026, Sebastian Andrzej Siewior wrote:
+>
+> On 2026-07-16 21:57:14 [+0200], Ahmed S. Darwish wrote:
+> > +``CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE``
+> > +-------------------------------------------
+> > +
+> > +:Expectation: enabled
+> > +:Severity: *high*
+> > +
+> > +Real-Time workloads expect a fixed CPU frequency during execution.  Using
+> > +the performance governor is an easy way to achieve that purely from kernel
+> > +configuration.
+> > +
+> > +This is not a blanket rule.  Some setups might prefer to clock the CPU to
+> > +lower speeds due to thermal packaging or other requirements.  The key is
+> > +that the CPU frequency remains constant once set.
+>
+> A dynamic governor such as CONFIG_CPU_FREQ_GOV_POWERSAVE must be
+> avoided.
+>
 
-Acked-by: Sean Christopherson <seanjc@google.com>
+ACK.
+
+>
+> > …
+> > +
+> > +- :doc:`Regarding hardware (System memory and cache) </core-api/real-time/hardware>`
+> > +- :doc:`/filesystems/resctrl`>
+>
+> I've been told by Jonathan to avoid this and just use plain file
+> references such as
+> - Documentation/admin-guide/pm/cpuidle.rst
+> - Documentation/admin-guide/pm/index.rst
+>
+
+ACK.
+
+> > +- `Real-Time and Graphics: A Contradiction?`_
+>
+> And this might be included inline, too.
+>
+> > +``CONFIG_TRACING`` (and tracing options)
+> > +----------------------------------------
+> > +
+> > +:Expectation: enabled
+> > +:Severity: *info*
+> > +
+> > +Shipping kernels with tracing support enabled (but not actively running) is
+> > +highly recommended.  This will allow the users to extract more information
+> > +if latency problems arise.  Nonetheless, some tracers do incur latency
+> > +overhead by just being enabled; see :ref:`tracers`.
+>
+> Instead of this jumping forth and back while reading, couldn't the
+> CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER be added here?
+>
+
+I'll think of something.
+
+> >
+> > +Non-performance CPU frequency governors
+> > +---------------------------------------
+>
+> so here it is.
+> > …
+> > …
+>
+> Could we please merge this in the previous section so that we don't have
+> two times the CPU frequency governors.
+>
+
+OK.
+
+>
+> Could we merge the caution box from before here somehow? The statement
+> is that lockdep is very helpful in validating lockchains and so on
+> especially on paths which are only seen if the real-time workload is
+> active. However, since it can easily introduce scheduling latencies of
+> 10ms it is hardly an option that ca be enabled in production.
+>
+
+I'll think of something.
+
+> > +
+> > +``CONFIG_DEBUG_FS``
+> > +^^^^^^^^^^^^^^^^^^^
+> > +
+> > +This is safe to include in real-time kernels, *provided that debugfs is
+> > +not accessed during production runtime*.
+>
+> It is safe to have as long as you don't use it.
+
+which is what I said above.
+
+>
+> I would drop it.
+>
+
+Well, earlier I stated that debug options need to be disabled for a
+real-time kernel, except the explicitly list debug options which are deemed
+OK.  So I need to mention that CONFIG_DEBUG_FS is deemed OK.  The list
+above is not saying, "enable it for RT".  It rather says, "if you need it,
+it's not problematic for RT."
+
+>
+> > +
+> > +``CONFIG_DEBUG_KERNEL``
+> > +^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +Meta-option which allows debug features to be enabled.  This configuration
+> > +option has no runtime impact, but be aware of any debug features that it
+> > +may have allowed to be enabled.
+>
+> This one should come first (if at all) because it enables to access of
+> few of the options mentioned in this section.
+>
+
+All the options are alphabetically listed, so that the 3-level table of
+contents on top (which lists all options) is clear and users cannot miss anything.
+
+I'll think about this.
+
+Thanks,
+Ahmed
