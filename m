@@ -1,174 +1,251 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11023142.outbound.protection.outlook.com [40.107.162.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DEE3382DE;
-	Wed, 22 Jul 2026 14:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D043546FE
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 14:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784730772; cv=fail; b=Nkb9gGZMskptsnxdJeIrpTcVbMw/TkzNtPTREUjRBvfIVYlTYH+wKO2ZR6UaMPWMfRXQgW6rrX6OyfjNfzXcOVfGBPnqY70a/GEwQC6RMfwrBLIB0TjaULMBldRqmsAdgkg0GuwFX3KFRY4biyZb6OZEh3X579YRQEVvwQj0Uio=
+	t=1784731392; cv=pass; b=R2gmPu80MuBMl3KEGcIU4Xj6o089Zvvm2MGXsYwbSrfdQZKjVEmNEv3z11lQ1Qk2Cg7M79LQe1ZaICX/wa04DvSOrFXypzhOaxsLNFxZ05ax7MDBPQfflmz9kLzghBx4WYGc+ucSCD9l0iNhwbpoKNbgSmIqBXVZlGc8A/GIe+M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784730772; c=relaxed/simple;
-	bh=7hgk/gzO7vE9VOEZcsla5o8EecW8ydqia3mpMNwAYwU=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=pAxDSEq1PS35ffyNdiMZ/hE6fmBp8/rC8+wlvkL8sjQ0Ak/bqsT26t9TaMcOR2IxwhSZjeh2CFGJesRxV2MDtnefwRQSYNJtRPuH6U3BNq69NHW5C7eENvYcDtpfil+c9nMEGeLRg1MLK0OZS6HCnmeEvwqHmLlqp2I00t3lcAE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de; spf=pass smtp.mailfrom=kontron.de; dkim=pass (2048-bit key) header.d=kontron.de header.i=@kontron.de header.b=pF1zRn0U; arc=fail smtp.client-ip=40.107.162.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kontron.de
+	s=arc-20240116; t=1784731392; c=relaxed/simple;
+	bh=ahrPeW46a3z7uaEO1zJL6eWoGd4K9B9MS3EeUm2ySI8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GVwbl0AFJ+3Rb4V33nUTLOxPWJqcwASJLvvws5ujjGVDVrL/ltVb7BWKa7qezKSPrRntxzEs5NrkjOMBi+xCCcOnmtW56RnEGRpQZOTYXaIFbutXBPQYmRznPsHIKuotf5oSwDDrhoPmNEpdpWHInviSqXinHs571OweOFclg/U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=on3kEE9O; arc=pass smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kontron.de header.i=@kontron.de header.b="pF1zRn0U"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pnLUVEn1kFzlyWdKeHxrk0G7fJNuL5WW+ijgpTOBG/KXEz80SQ/Mr27Fo6k1jY+UeLI8y5FC6BKOpQdgULqPlvBmxBxw0kqd0Vv2iWTTRGMdifeeBma7wkDEmYCMCpPsKGh6nAlqJDX1D0MP0SyEpCTIvNi1lLNxdDL6jJR9NNyALm2wopk/oQlumEynADlrKDiPoJKafg3uULp60KCkmHxMoqWkisUEYwLf10MoCaw/FmHVrlivmSeL8qWObJinujkHVP0WoqenMs8xjhKf6NSt4Jqd9Xx6YYyutMRJOJk5bnWOWDYFfOd6g8BDtqXtA1xdwJzt7rN+24OkokUNpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AwNXMUyFYo2+LFH+9oJIG/GKwCWDRj6Dj2VZYR+nU1A=;
- b=RGJbd/5aL5qvZbRUvvWWKeBliPkHdoRlLRWOK2ekfF0Fh/UYgnZCpgpvPNxzl7y9l3I7+YsVfUnG7Ip+s4YghsnNRUzbuf09TGlpfxfjwvqR6gpMEJADEyV3dbwOgn2G7ZYxPmtZzHIbVMvVPCIY7EfT9UVXyfEEpFU0/unnaUILTyzKq75xNYM6BZSK7HjMcXB+n+jkiwIkSEMcxrmOA+ajTzNUaZXrbVU++CwYiBe90UZtGxObuEK/9iXrPrgDKv338QxtTVBZEIoPRJb4QiRf1swJqIH6DRQn0NK/Hf+Egdi1edvroX8B1mGlV2+dSVIFEgaAYmKi8hfdATHZ3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kontron.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AwNXMUyFYo2+LFH+9oJIG/GKwCWDRj6Dj2VZYR+nU1A=;
- b=pF1zRn0UgfMOeoH/3IYklM4uB2lJnj23luVog6qSSbGEdlSXVRqWpwrjaQnowszzF7xlZxDNStTrCFVb23POv1srQ/lu80xWYIZpp8/KB7mVrxH64B5eD9E51BI/FnRbx2M/xI9lH9oS4uPwrbqZXsfUICrZIsMDXpAXzwk90hlSOHtjxxv3oadM0Wj60BP+uYlm9n7dudW2J3PvSJRXupPy8iHYKkVqnUKAzEGoOiHEyPUkxLXFZTyjrJmDcl/uk786yFqUsdWLddV72eCdQGnMJG2KZDfoPP3YH6JPfOChhBty+IhGQK6UBZBFoidim4KH7Ab5QgP3zWJiFFp/aQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fb::23)
- by DU0PR10MB5411.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:32a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 14:32:45 +0000
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22]) by AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22%6]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
- 14:32:45 +0000
-Message-ID: <710cb8fb-3ef4-41ec-beb2-36acc9fac34b@kontron.de>
-Date: Wed, 22 Jul 2026 16:32:43 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v29 3/7] firmware: imx: add driver for NXP EdgeLock
- Enclave
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-To: pankaj.gupta@oss.nxp.com, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, sashiko-bot <sashiko-bot@kernel.org>
-References: <20260721-imx-se-if-v29-0-04a362f4fcca@nxp.com>
- <20260721-imx-se-if-v29-3-04a362f4fcca@nxp.com>
- <7a799385-fcc4-49a5-bef1-700e3bfb7c5d@kontron.de>
-Content-Language: en-US, de-DE
-In-Reply-To: <7a799385-fcc4-49a5-bef1-700e3bfb7c5d@kontron.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0431.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d1::19) To AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:1fb::23)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="on3kEE9O"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47de008b020so4683666f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 07:43:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784731387; cv=none;
+        d=google.com; s=arc-20260327;
+        b=L5HsjeRHf4sAMXUFLWSuDH5hAOdR2OU6Usizy4bVclxVMqaNNho7OKNjwqbyA9f0+H
+         Qw86mVXNMqJZ12yyO0uZl7iMcnaBKrDmKftS92yXfcylPIEohEnPt0Ei9Jw4+6ZrFVU2
+         S3V/uw4y4O0dsRZ/GvNoVxzKO4Yb9CuqmT1lGnm7PjtKHKOguKK/B8dsk1UKaKgoJBuN
+         Me55rsxhZlJQSu6uaU5NbiQK2co632m5W3RYQYAHkfzm7GIBCbAVxJbEWh2m+r5AplkJ
+         I3vU40H4wChJRKG673qOedDsYXCzizFznpUpeY30Bvj2YMvuvTlO3N+hviuZWBd8immr
+         oMeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nbVVn3kwJvwjtX0fZqdUSffXklqAZ5aOd6f3vVAXXIo=;
+        fh=WZkLc6JH878znW70tGBjOutwfyxV3M1eq0itUKGBPWg=;
+        b=rlz/k8ReubUtvO/nsu12Tu4cZGtYTQbLSDY+GwgoJ64JkYQqOYUXnZGSzgdQZjJYgP
+         UZITB6gVcM9swQbDp1hCjU3rnmHYUo7sJc+5fOReTPaOrUwfgCkF0+Jh1JI8ZuylsTeG
+         V6dNxY9UKiZQUiSX3rVENUFEWGjuxcrDe76LnOVAWmvUt2RJgnGfN8xDTv+x5JRGBfpq
+         r1g7nlqXXamepQ+kFH6qUKRL9kIEeSNjir6IkMjXakc86HZ/DqU/McjfP/59hHvM6h+d
+         bAf2CqRuXI82kZAS9X8CNvZnq1K+OJKoihT2vRyAliAtvbYg8jahhYQsEVWwtIHYee0f
+         IfuQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784731387; x=1785336187; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nbVVn3kwJvwjtX0fZqdUSffXklqAZ5aOd6f3vVAXXIo=;
+        b=on3kEE9OMNB+hJeb4twn9+ZM0qPUJrVcaUoVNwCKVJM/eOzbi2ZssHB/P20oep9oib
+         cIUZqIws6cW5gUr28iHN8kmxKCnvXFZWPRg/cGtfqU4zCGNpY70r9eFpV1oUNd+ZpSmI
+         9VzHGXInYEyNvXTxMjsa1KYq+Ha0PBMKRq/YdAArIfm504MO87chHQ14GgY+SePOMbyf
+         D1uiH+W3lbqwkFTOAm1l2yd4niQs6g09xtx2q+E5TcRP5o4t9lOZlmRnpd2E+/eFLfp5
+         /vg13KZ/j7Y7tV1QRUkEFP+PpXEloc6tTFBtTIwSizgTRxx+g7VoQmTGbkRRkNuEG8xY
+         fLgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784731387; x=1785336187;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nbVVn3kwJvwjtX0fZqdUSffXklqAZ5aOd6f3vVAXXIo=;
+        b=bMatc/sACye3e6QHCCDsw/6gDas4YD8ehbQgL7xkU4HXCssBH4obn2W/4LWMED7EoD
+         2nM+Y5/9cYiBOuQAQdF2MniXOdy6jBufXNmvYFwoWJyaQSpFtURhqDeDM9/jlByuekqM
+         Gn4olKvSBA5/smSImF8qEN2pRxEmy6oJpEPugEkjLVaL7QvuoqA2EUXYyten7osMjMiz
+         mKHeu7s4SMerl9tP2Ds2B1erRiaCSBKWqNi2SnURKFcdU3gvo+WsvJjROTr78apoVKbs
+         tiEOiARUu8OJwld6oz3slmQt3ZYO9dh/AB+7iAsPcH2cMdD3Y5H19xM0DtjL8tDXqTLs
+         AVoA==
+X-Forwarded-Encrypted: i=1; AHgh+Roey35CjdIrGtsty4WeSu6GkKn1fBrw7MOP1+rWOESTGu62HTaHoYgU6o/s4zS0cdjip692oQosmCg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4caZhZ3HHBzG0+JH3PZFmYwXFKOpyLBZ59bCs2t9YH6ERIMMP
+	cuA9Yk/qORKInXrvTtSQcxMLri5GMrdTHKr4ylwsydXxgOfC0lk6TwSyzkHFHLex8q8F3gxAqWb
+	Vteu9vRc5ku5D+WLji5Ho0Qm10aB9Q18=
+X-Gm-Gg: AR+sD11p4q0vvtT8uGWqbokWogejPa6qcpSnONsuKAUJCQWnjFUD82Yv61iQBwvsJQG
+	szeudZumd3gWKnLRvg49pTfKsoTGJ324WyCmkNsVOPhktr5w09VZPi5KsQM8MjL6jnvRbe5+D3w
+	sslauzsoV28gPxLZoNfPQxiazBhXNxQvPPYsAJzCdaQU0xzCE2V+fn10wNks7tWBFvuX3cOZL2c
+	htKkuoNyssvEE09kih2W5XmtHKzxkDyc0UktRs40mmQys0hYlJz2/B8xynJIjA7cs+Yc/u2lD/G
+	qV4mQEAoR0G846u3HOALyHmffBjZs6wIXB2/tw6GhQ==
+X-Received: by 2002:a05:6000:2a0f:b0:47f:6d9b:f204 with SMTP id
+ ffacd0b85a97d-47f840d1199mr3725320f8f.23.1784731386878; Wed, 22 Jul 2026
+ 07:43:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4277:EE_|DU0PR10MB5411:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a733ba0-7455-4dcb-303b-08dee7fe1855
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|11063799006|4143699003|10067099003|56012099006|18002099003|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	svwmeIhLnmLgrqdsyQZ2iAFEGneDWQaRhoTlnxsUzoWGXfpzUR8rJ8o9Nv25I+xPWkiYTdfRc8Z3ms9vrtnvjLlZg5kpdy7NqQ5Aw/PPj4ZthBnq7Q8I37X8Sm9MZGd7UusRm1wYhPzyEq2cZSlIBAIcn5CnN2xtjmv87sfwzL/eSYSEdqVrIP4192OtikxTyDhkHZs4kGwAmspZNr0L3I5IjUcqXPt5u4Ge74pGbicaju8Z9qWeB4xo3UDoZ/G8D2t96mIJCv3Goo52cJsYrGYbs9/uDZan/dB+K3vd1EfDGoCSeoneYmhV5DFogm5mkBdayVPdathNc/ldQbNlSdP3Gc3zEx/DxXicaFD8MiVvE7T6v2FMeHKMNsD5/Gyfi894gHRugRRUTEQEAmBvZtzV0q74beXbQKcefPs2aaRstdgZU3Na0LmMVcoKhO8sApFvQk5wSZlkKMCRinjlHnu6QOLzIW2VYL2GKjUCl15A3iNowjWeDAuOX208cCshZCOi81Vv0nBDXmScuVx3xTbEOhUP6es3lklqw1JH8f1Ts6i8Oy4CLO6ge70f7SVdIF9FGaVyzXmT/sq4kE2pEEF+XhnDdFHlK0QVhNQ68a6PSQt4bEof1OrZ8zrapTrHYYud9gz8TC0mviwbNYtRiBfP8DBnvjCbVLIuXKmYPNYDkhu+osV4eB2mAVQL6gQnAgipNd0Sxv9VblOl0Gj/YQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(11063799006)(4143699003)(10067099003)(56012099006)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YTVwSXFjQ3V2VWFWbis2anloQmdBeFVmK1VTdVlkaW1zRUtNZmFaRlI5c3Uv?=
- =?utf-8?B?YWladXVMbjJEQ1FmUUdQOTh4cndOdm9WNUlxU2o0d04reW9KVit2S2lkYTVt?=
- =?utf-8?B?aVU1UGF1ZS9lNGNRYmx5V2k5NVI2OGlyNG9lQTVTYUFxeS8rN0tSNXBDZktk?=
- =?utf-8?B?bFE3RG50eTExUnc3ZmNnTlNrQkV4QnNLaDBJZUxlemxlTGJvTXFiUGtQT20w?=
- =?utf-8?B?RTRkeDdRWHQzV21NVkluT2JYdEF5Z01Pam5jRVJDc0J4T005YmIybDZaK3F2?=
- =?utf-8?B?cVJTcU4xWUF5SngyOWFLcXhHUDd4MXdVOFk2RkNHVkZVaDVzL05hT3piSWh2?=
- =?utf-8?B?SVhhOENUSWpjRHU0dlpkZEhuZ0svY3gwakFGVTM3c2toa25HaVdKNnl0UVJj?=
- =?utf-8?B?Q0ZiMC9rLzFSdEMyVTVQbU1wb2JRcU5yTWF5dm5tNlIzT2xzcDF1N05SM0Fu?=
- =?utf-8?B?RzhJMUlURkhIS2hmVi9najZKY2lpSmNYVVZTUFNsVjArTXBPSFZEdHQyZGVs?=
- =?utf-8?B?cmZSSEFBd2hmZ1oxRDl2V2llOEw2UkFmWHZzTlBRcGp3bVp4OUNnb3dkeXVL?=
- =?utf-8?B?aDV5alVURHF3aWh1eURjNG9DelhJYXlxeU0vemxPQ3dRMGJaaGFLYzRWUzV1?=
- =?utf-8?B?VXdickowWHRidXhFdG0weVFlYm1LZE05OXJhOFNsS2ZmZTNWd2hJV0VVb0Zl?=
- =?utf-8?B?eW5IZTI1SG5UbWJscGJzREZBZVVxaEtqQTlyZHl2cVdCMHhZUUtucStwL0sv?=
- =?utf-8?B?WDNCUmNFakVyNE96ODV0VlZXT2pSdHFNa2lRbWpHQ2dpdjJFTGI5MDB2d2ZH?=
- =?utf-8?B?RE92UnpqRUlKb3RISWpGTERwM2swRC93eHlQODF4SWpnK21zS3VQU1RnL1da?=
- =?utf-8?B?bEZFVURhWlBCSWw1aDdSQk9RZWJiTHlvME5aZFA0YXJhQ2QyWEZ3NklxdURK?=
- =?utf-8?B?dTBSQ29BZG90MlA4ZGZzc1RoQlBJOHJXSk05cjltNU8raVN6dGx6MHNmQmZ2?=
- =?utf-8?B?QkZrcFJUaXhxeUgvODh3Rmc4SjRYZmhESDFvZ1owam5KVUVFWk5PZzFHNzBo?=
- =?utf-8?B?VnNrcm9jcXNNbHpuSGN1VXEwdDMyUFpFVEtKVDh4THFWVnhWaWhWR01mYkhE?=
- =?utf-8?B?RUtRd3gvZlhZYXBKMmd4V0xjNGtVSzZlelhuQnRrMUZEN3BvTEFWVjJZMmxK?=
- =?utf-8?B?WlRHd1VIQ3hGVHBFVENHN0ZTanplbTlOdWl6QXk0clZRYzM2SDNPWHFncEZp?=
- =?utf-8?B?amNTOHJaZ1Vzd2U1U3VrMEhPYWxQbGRDcVlXVEtLSW13WFNRUFVXSVRUeCtK?=
- =?utf-8?B?SkRkQ0k1Nmt4UzNOSXZGdUQ2U0t3eEd1cDZybnI5OGkxdUhUQWJ5RUc1bnRq?=
- =?utf-8?B?MnJaVUs4T3grT2pqcVV2dWJHM2NCeU9PRW4wblBPQzQ4S3RnYVByclJaSFF2?=
- =?utf-8?B?Wk85Zlp3Rm1SZk9BclpmdE1CVm9zNVpkcGlQNHlpWVBlbDhyRGVRNHJkZ2hV?=
- =?utf-8?B?WXl0ODFpNSt6RStWZ21lQzBKZ0RGT0RyMVg3NVFvQzROaCsydks1Um1wQncz?=
- =?utf-8?B?L3JZamNRRU1wZ0hTVzZNNzFPY3JMQjhEbG02c0NKc0xTNUlJdGx4YUxraGJo?=
- =?utf-8?B?RllUaGZxOVhlMHNkVC8rcmRqQzFxRjFReDhDNGk3RlQ1TExkSjIwdHlSWkJv?=
- =?utf-8?B?UGJEaHhWSDFNSkxONDIySUdTelpqVmRpMzdmdklkRnV6dXFBT21LSEJXZzRR?=
- =?utf-8?B?VndVbGhUaVc5M1VjdEhwYVY2U2tyMjZ6NGcvZk1mR2dqT0NQcnUvclM4RGZu?=
- =?utf-8?B?T2lpdWdvbnlvMlVOVWE5THFRcU51bWJUaGY2cmFZc09OVjFXWG43SGFpV3FY?=
- =?utf-8?B?ZjRXQ3B6Rm5vY3Q0OTJZdXNoWWRvNGk3OW1tR0Q0SHc1bGFHYTBMTzNyOXV4?=
- =?utf-8?B?WFprTWxhV1FWelF4RStqSXZnc2VOdGNGeEllNG4wNGQ1TVJqUnNZQXNYamdI?=
- =?utf-8?B?RmJoNEx4VS85N0dlbUdnNzJ1VzZ2UlhtTVZCQm80VTNXamExeW0xTTllUlgw?=
- =?utf-8?B?V1l4aFBTRDVwV01MaFg1d0RxOXhWQ081Tm5ESmpYay9NT3c0U1FPeUxqWis5?=
- =?utf-8?B?UGRPdGV5aEFIVGVMWmY4TGhOMTlreHZkZTlod0RLek1TTGFQT25EUENmMVJS?=
- =?utf-8?B?RHRHZTJmSU1BL25RZGxiT1YwSjcwZ0pJd3BDT0hqOTFTUlppZVVkWmRtUjAw?=
- =?utf-8?B?Z2NLSTVKRzVYZ3o5eG0rVTlLMGlKQzRRN2ZSMTBHOGFVZEV3aVBXeE5QdkFm?=
- =?utf-8?B?WUMwci9GVEJEWUNaZm81c3c3emZVWGg4ZTU0Rm9lMlJ5VUxoQlN3b3lCOTV1?=
- =?utf-8?Q?8bfF7G1X6nfm1qrw=3D?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a733ba0-7455-4dcb-303b-08dee7fe1855
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 14:32:45.0897
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: acqfbe4lWICt5K/kgMhE6421prM3IMf+rDP0A9oNGH+3sKD3J7LxA4Gn7MkfOIuMoFCgRLu2lzv06ctOqUbNYAU6HBdzpyYBwv0Zv8GzAhc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5411
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com> <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 22 Jul 2026 07:42:52 -0700
+X-Gm-Features: AUfX_mwxuEB8MpcAvVdcxrfmXjtIkJPDlLRoLVxYiUNlL8we5MhuKUq5tNA-EIo
+Message-ID: <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 21.07.26 12:50, Frieder Schrempf wrote:
-> On 21.07.26 13:23, pankaj.gupta@oss.nxp.com wrote:
->> From: Pankaj Gupta <pankaj.gupta@nxp.com>
->>
->> Add MU-based communication interface for secure enclave.
->>
->> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are
->> embedded in the SoC to support the features like HSM, SHE & V2X, using
->> message based communication interface.
->>
->> The secure enclave FW communicates with Linux over single or multiple
->> dedicated messaging unit(MU) based interface(s).
->> Exists on i.MX SoC(s) like i.MX8ULP, i.MX93, i.MX95 etc.
->>
->> For i.MX9x SoC(s) there is at least one dedicated ELE MU(s) for each
->> world - Linux(one or more) and OPTEE-OS (one or more).
->>
->> Other dependent kernel drivers will be:
->> - NVMEM: that supports non-volatile devices like EFUSES,
->>   managed by NXP's secure-enclave.
->>
->> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
->> Reviewed-by: Frank Li <Frank.Li@nxp.com>
->> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
->> Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> My test and review tags were sent for v25 of this patchset. Meanwhile it
-> looks like you have added tons of fixes for Sashiko reports and it is
-> quite obvious that I haven't reviewed and tested those. So my tags
-> definitely don't apply anymore and should be dropped. Thanks!
+On Wed, Jul 22, 2026 at 5:47=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+>
+> On Wed, Jul 22, 2026 at 12:47=E2=80=AFPM Miklos Szeredi <miklos@szeredi.h=
+u> wrote:
+> >
+> > On Mon, 20 Jul 2026 at 12:07, Amir Goldstein <amir73il@gmail.com> wrote=
+:
+> >
+> > > It's not about this ioctl, it's about infrastructure reuse.
+> > > It's about the fact that there is NOTHING special about dax_devlist;
+> > > and no reason not to manage it via backing_files_map.
+> > >
+> > > The reason you stated was that you want userspace to determine the
+> > > daxdev_index/backing_id - fine, no problem - this is why I asked that
+> > > you pass it the desired backing_id in the ioctl.
+> > > In fact I think that all fuse backing_ids would be better assigned by=
+ user space
+> > > so the extension of padding =3D> backing_id is not unique to famfs.
+> >
+> > Right, so I suggest to just reuse FUSE_DEV_IOC_BACKING_OPEN and add
+> > two flags: one to enable user supplied backing ID and the other to
+> > indicate that fd refers to DAX device.  The changes to do compared to
+> > the current patchset are quite minimal.
+> >
+> > > And the best part is that this request requires no changes to your us=
+erspace.
+> > > You already bite the bullet and maintain the new/old uapi but changin=
+g the
+> > > kernel implementation does not require this burden from you, so to be=
+ honest
+> > > I really don't understand why you did not follow Miklos' suggestion.
+> >
+> > Code reuse is also important, but I understand John's position to want
+> > to separate famfs from existing codebase as much as possible.  And
+> > because this is an implementation detail I don't want to make this a
+> > show stopper.  We can easily fix it later.
+> >
+> > > > - Lose the famfs interleaved extent format. I have complied with th=
+is request.
+> > > >   It makes some things worse, but we'll discuss that later.
+> > > >
+> > >
+> > > I am really not aware of a request to lose the interleaved extent for=
+mat.
+> > > How can this patch [2] from Miklos which reimplements this format as =
+a generic
+> > > uapi be mistaken for a request to lose this format?
+> >
+> > Let's not care.  We can easily add this later if famfs (or any other
+> > use case) decides to want this after all.
+> >
+> > Making the initial patchset smaller is win in any case.
+> >
+> > > Let me recap the former review requests as I understand them:
+> > >
+> > > 1. Use ioctl instead of GET_DAXDEV
+> >
+> > This is done, just need to reuse the existing ioctl instead of add a
+> > new one with the same semantics (okay not true because of the fixed
+> > backing ID extension...)
+> >
+> > > 2. Use backing files infra for daxdev table
+> >
+> > Leave this later.
+> >
+> > > 3. Use ioctl instead of GET_FMAP
+> >
+> > Not sure we agreed to use an ioctl for extent mapping.   What we did
+> > agree on was to use a generic interface that doesn't have anything
+> > famfs specific in it.
+>
+> My bad. I thought that FUSE_DEV_IOC_STRIPE_OPEN was an
+> example of how GET_FMAP should be made into a generic interface.
 
+I had the same impression as Amir. The FUSE_DEV_IOC_STRIPE_OPEN patch
+[1] right now is only for the interleaved case to handle striping, but
+imo it seems a lot cleaner to make FUSE_DEV_IOC_STRIPE_OPEN a generic
+interface for handling any backing layout that corresponds to a
+backing id, and having the simple extent case go through this same
+infrastructure / path. Especially since John's future patches for
+adding the interleaving will go through the ioctl, it seems nicer
+server-side as well for famfs to have one consolidated path instead of
+needing two totally different ones. I think also file passthrough will
+want this infrastructure in the future too, and their use case would
+be mostly non-striped extents.
 
-I rebased my patchset for the OCOTP driver on the v29 and it seems to
-work. So the Tested-by can stay, but the Reviewed-by can not.
+I was imagining something like:
+
+struct fuse_backing_member {
+    uint32_t backing_id;
+    uint32_t reserved;
+    uint64_t offset;
+    uint64_t length;
+};
+
+struct fuse_backing_layout {
+    uint16_t nr_members;
+    uint16_t reserved1;
+    uint32_t reserved2;
+    uint64_t chunk_size;
+    uint64_t flags;
+
+    struct fuse_backing_member members[] __counted_by(nr_members);
+};
+
+which is the same as what was in the FUSE_DEV_IOC_STRIPE_OPEN patch
+but just renamed and a uint64_t flags and uint64_t length field added.
+
+This would let us eliminate GET_FMAP, which imo needs to be
+eliminated. The ioctl also gives famfs more flexibility with being
+able to preload extent mappings outside of the hot path instead of
+being forced to only upload it on opens.
+
+If not the ioctl, what did you have in mind for a generic interface? I
+think anything else would have to keep GET_FMAP, but maybe I'm wrong
+here.
+
+I think John has patiently endured a lot of demands in the last 2
+years, so I agree that anything that isn't uapi-dependent should just
+be done in the future as follow-up work and shouldn't block this
+series. imo the ideal version of this series would have nothing famfs
+specific in it, but I think a lot of that can be renamed /
+restructured internally later on. But the extent uploading / GET_FMAP
+part seems like the last thing needed to figure out.
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-fsdevel/20260601152327.2069787-1-mszeredi=
+@redhat.com/#t
