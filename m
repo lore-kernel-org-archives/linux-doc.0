@@ -1,173 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B0333A9FF;
-	Wed, 22 Jul 2026 12:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E86336923F
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 12:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784722992; cv=none; b=muHHPE4mcQE/x+3m8mU2ybsC4o6VeMGmOOmUibt1rynN+nh+buz+PfXIffYLx0a4zWrg8sNf8vm4wREEwXqBmOtI9kg6IWX4dzb2d5G9dkCsz4Z3316FVqTQ+fD58ddxycH10P5SCg/BLH8d1sEBsWi/33A6KqjtkeYwmK9FKL4=
+	t=1784723338; cv=none; b=iyjL9+6OOFn7CmXeVXA/wmGUwig808HgbGxQdzw7RBhcyRdbmYA8duTdfjrKMU0md4WLPn2Kzoai3hOk6b33uizvoE4a3SV+bfKfo3T2L+1UfoF/6BGb3yuzATbbeQYqjOTqJ3nCfpt/s4q0CvWeSCVWWf/y7DUqJeTH+EhQNHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784722992; c=relaxed/simple;
-	bh=/isOhpp5WmvCwxYkq1/y1tPUMoJBD2pPItulA2x6lTg=;
+	s=arc-20240116; t=1784723338; c=relaxed/simple;
+	bh=iQpjr5fJ0FGJnIGe3ONTjxP/7vJYxnkvS87QkOPQeac=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MQit5XbEBDroR8v2zwJDHXG1LifRLzBuIBhupDxFBFnPt211Q70HbZlqkYqYHcbUnDIsFCxKo2lOlpNeslBW5euddMiLVDZ3zsGRc0ZUx512Cq/4076Q9E6XbcVoPBK6o6C3odRuA9Gc7deEMeP60nfU/w6p3sedW5/SS2+H8EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8Y9HrY7; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=uBbaZJU/9kub6gTS3l69h+pGRHPlhtXColPnwfq7wT0HCxEO6Lt2H+HcCyZjkTgMExGWJnc5ZQXKO3+YitRS9dT0iGMutDs5PpqAKuLxHXdWXdtKPorUk/lcJl2bCi12cUyfl2cmAsauVvElfpSJJAesdIGFheAtPZ1LDOkpbQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=l0IvwqsM; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8Y9HrY7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B357B1F000E9;
-	Wed, 22 Jul 2026 12:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784722983;
-	bh=EMbZsERoJKBM6voGPp6fXnvJFBr+APUW50AqH0s+A4k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=U8Y9HrY71uz3pEV5Nuq2yk8ortlGJVX0l72Ii0UtB9p7jNTxNFB6/sW4NXNIZe43h
-	 9H+DPi0u4qhgwEL9Dx+B0Av4+tsSvsC7hE5p74o07zC2u32r92SnIRv4BZ86aX0XTG
-	 j6Ib0DqU7asFsSnt5rtfHxCt4T6uAsgcaLLQnTYRkn+ouBy48xcPQgjdzaRGD+4d9c
-	 YgS3WYi/LrzQFmV4XFWqNN1Z2+Hp0ZpAtinEkhr+d95fMqTo0nTY1MohHweqv2ArPn
-	 NsIZGbAmCQhSzp8g+dbsnEWxsFesV3PRn96tagH7X8aj7+MyRWk1pd8tCv17Ycoj39
-	 5KiwnaX8TDlFA==
-Date: Wed, 22 Jul 2026 14:22:53 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
-	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v6 7/7] bus: mhi: Expose DDR training data via controller
- sysfs
-Message-ID: <rwjiriaurj2ajowddjjerrr5wsu4ios6lpm6adglvlzsrxf4x3@tw2wbobghgca>
-References: <20260701-sahara_protocol_new_v2-v6-0-3a78362c4741@oss.qualcomm.com>
- <20260701-sahara_protocol_new_v2-v6-7-3a78362c4741@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="l0IvwqsM"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51c1372f84dso87378231cf.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 05:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1784723335; x=1785328135; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xIVz1DID8CeKWsK6GdOZ3gM4R5/BpOF1rbBDSWQ/gXQ=;
+        b=l0IvwqsM6zlM7NkEgYXDzeGbn6uOx1oqhRhYMdNJCeynL7xP69Zoq2WDhy/+9575uV
+         GvrY/ubHPcryeLmgg4oLIe3VCLLynP9wz4toMy89OkfW8FI6crAKbGIbnfMXCvqMHIVY
+         dcj2JUzLCI3Oz3712KvA1Dayhf8UwqMYWl915SLcQTK52TLIUtQ0ejLswXfYZ0Mp6ku0
+         FyZu2DsnTjLVxHKHI+NtM3TaGCYWXLkjnODgNmg2bQJCnVQP56n5qdeGTyEmoKKKo439
+         kwQOfJoqzLvuwXCn58xKmZlz0wI6AlItNlAyZPYt9zavEvBTzo1UNTXFhaWJUw52we74
+         TS7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784723335; x=1785328135;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xIVz1DID8CeKWsK6GdOZ3gM4R5/BpOF1rbBDSWQ/gXQ=;
+        b=EC0zx+IhMN9xNCTGgnRocLcQZJ6CT66Z2ebOw7gAzklGuSMMWRbxjFVm5aPChsuuvx
+         Zuskire6BpkoPKWd4MYeYZRweRmt78tCDcJ42tkx78YYvX0vTG93gryXdml/o2a2NX/r
+         f1f8R6qeyDHzCKd4zAs9kXZYJ5y5wMkK+VSzQY94dI3a5CQlppJ2DrETDNonP4yCtfQ+
+         qauJ7MtjLsUGufQ/v4EKAc9AhQ6ccAe0dGVd4RP4I/IjlecOa2mo3PVKKByM1uaBrPjk
+         CpW2Y+qSvk0WgrwgAodTql1Lxx/4vymUA5Uav6PBayA3GrC1JY8+4vNiLoY/LtNSNvMb
+         m8gw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrnehn66K3UAuoN+AP2zYJmcGqe3BK/2XxBb31kVS/SdQIWSEjbHfsKcdB1U+i4XjNPJ3z4txX8o7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yza3PHh3jWBZtgTicONe9TNItdblDMima05nPDio3P6PkVtFJsV
+	WxUWCyDdpq9jMWGVKxoGB4+BXgAANxyq2llIH/d34bWkpCNRrZSCygkdyIUmMlMWqT4=
+X-Gm-Gg: AR+sD11LDkghoolNH39BBXFqlNgoxLnZcXP+eDFk/JrhIEgj+L/4ZescPkdKZcEhXkm
+	rGO+7DCWr3ZvNI0Ycaeh3ynEp25MpdHdNva9jzv1GNZNZompUqI3v/0lmLtpZjTul6xG0GPw+zo
+	+8FlALa0rz5okVbb0E7WMP/2hZlTNZdJyW0aiwmStjx9XHfBWDFiHDgIRoMOuteaasjOzIWX3KY
+	z+RnYE4kPnVUP1MDRB1K9OzrXW+gPvebhcU7xDjXxLNjFQVT0uBU1VHVNQO877bmAgbeylTYtFv
+	Pij3rRWSHVUH8MDydjF10JyZVOgRUFpGZFo/SfjdHi/f9ToAyjmOOtVYXjHZ8qHQoQWwZSv7Yiy
+	8oBZUMMu6QXxhoYiizpaE+kk1TvCZqqLQJz3DzexHbVE3iGNnPDsWq3ZpxDIC3p1qfODF2jezMx
+	43n2polfZibPLuN3m8aQ/FyHsexS7cqPD+9y2x8iJtYBasBPjHe65d/2PQ5Q==
+X-Received: by 2002:ac8:5ad6:0:b0:51b:efbb:fbf with SMTP id d75a77b69052e-5213aa6e321mr250430031cf.18.1784723334838;
+        Wed, 22 Jul 2026 05:28:54 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d3b3f66dsm13968621cf.27.2026.07.22.05.28.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 05:28:54 -0700 (PDT)
+Date: Wed, 22 Jul 2026 08:28:48 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <amC0vzXEEnZaWim0@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
+ <al-2D_7NcwMxqmsM@gourry-fedora-PF4VCD3F>
+ <1d8b6857-de1e-4807-8201-4f6a49a3b8f7@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260701-sahara_protocol_new_v2-v6-7-3a78362c4741@oss.qualcomm.com>
+In-Reply-To: <1d8b6857-de1e-4807-8201-4f6a49a3b8f7@nvidia.com>
 
-On Wed, Jul 01, 2026 at 04:07:41PM +0530, Kishore Batta wrote:
-> DDR training data captured during Sahara command mode needs to be
-> accessible to userspace so it can be persisted and reused on subsequent
-> boots. Currently, the training data is stored internally in the driver
-> but has no external visibility once the Sahara channel is torn down.
+On Wed, Jul 22, 2026 at 06:29:53PM +1000, Balbir Singh wrote:
+> On 7/22/26 4:16 AM, Gregory Price wrote:
+> > 
+> > User-numa
+> > 
+> >    Some devices don't want the user to have control over placement.
+> >    I have been working on compressed memory, for example, which only
+> >    ever wants to be used as a reclaim-demotion target.
+> >    
+> >    (The reasoning for this is another thread, i plan on publishing
+> >     my research on this this year)
+> > 
 > 
-> Expose the captured DDR training data via a read-only binary sysfs
-> attribute on the MHI controller device:
-> 
-> /sys/bus/mhi/devices/<mhi_cntrl>/ddr_training_data
-> 
-> The sysfs read callback serves data directly from controller scoped storage
-> and protects access with the controller training data lock. The attribute
-> lifetime is tied to the controller device via devres, allowing the data to
-> remain readable after Sahara channel teardown and ensuring automatic
-> cleanup when controller device is removed.
-> 
-> Userspace flow:
-> 1. For each controller device, userspace reads the ddr_training_data sysfs
->    attribute.
-> 2. If the read returns non-zero data, userspace persists it using a
->    serial specific filename (for example, mdmddr_0x<serial_no>.mbn).
-> 3. On subsequent boots, the Sahara driver attempts to load this serial
->    specific DDR training image before falling back to the default
->    training image, restoring DDR calibration data and avoiding retraining.
-> 
-> Add ABI documentation for the DDR training data sysfs attribute exposed by
-> Sahara MHI driver.
-> 
-> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
-> ---
->  .../ABI/testing/sysfs-bus-mhi-ddr_training_data    | 19 +++++++
->  drivers/bus/mhi/host/clients/sahara/sahara.c       | 62 ++++++++++++++++++++++
->  2 files changed, 81 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-> @@ -0,0 +1,19 @@
-> +What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
-> +
-> +Date:                   March 2026
-> +
-> +Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
-> +
-> +Description:            Contains the DDR training data for the Qualcomm device
-> +                        connected. MHI driver populates different controller
-> +                        nodes for each device. The DDR training data is exposed
-> +                        to userspace to read and save the training data file to
-> +                        the filesystem. In the subsequent boot up of the device,
-> +                        the training data is restored from host to device
-> +                        optimizing the boot up time of the device.
-> +
-> +Usage:                  Example for reading DDR training data:
-> +                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-> +
-> +Permissions:            The file permissions are set to 0444 allowing read
-> +                        access.
-> diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
-> index 07bc743aa061dd2fa85638067d494562152474e3..72ac751c302a98448b5756c9feb438647bd0ce4b 100644
-> --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
-> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
-> @@ -273,6 +273,66 @@ static struct sahara_cntrl_training_data *sahara_cntrl_training_get(struct devic
->  	return ct;
->  }
->  
-> +static ssize_t ddr_training_data_read(struct file *filp, struct kobject *kobj,
-> +				      const struct bin_attribute *attr, char *buf,
-> +				      loff_t offset, size_t count)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj);
-> +	struct sahara_cntrl_training_data *ct;
-> +	size_t available;
-> +
-> +	ct = sahara_cntrl_training_get(dev);
-> +	if (!ct)
-> +		return -ENODEV;
-> +
-> +	mutex_lock(&ct->lock);
-> +
-> +	/* No data yet or offset past end */
-> +	if (!ct->data || offset >= ct->size) {
-> +		mutex_unlock(&ct->lock);
-> +		return 0;
-> +	}
-> +
-> +	available = ct->size - offset;
-> +	count = min(count, available);
-> +	memcpy(buf, (u8 *)ct->data + offset, count);
-> +
-> +	mutex_unlock(&ct->lock);
-> +
-> +	return count;
-> +}
-> +static BIN_ATTR_RO(ddr_training_data, 0);
-> +
-> +static void sahara_sysfs_devres_release(struct device *dev, void *res)
-> +{
-> +	device_remove_bin_file(dev, &bin_attr_ddr_training_data);
-> +}
-> +
-> +static void sahara_sysfs_create(struct mhi_device *mhi_dev)
-> +{
-> +	struct device *dev = &mhi_dev->mhi_cntrl->mhi_dev->dev;
-> +	void *cookie;
-> +	int ret;
-> +
-> +	if (devres_find(dev, sahara_sysfs_devres_release, NULL, NULL))
-> +		return;
-> +
+> I don't fully understand, how do we allocate memory on these devices then? Is
+> the driver expected to allocate and map via vm_insert_page()?
+>
 
-I think I asked this question before, but didn't follow up. This attribute
-should be tied to the SAHARA channel, not the controller. There is no reason for
-it to be available when the channel is gone.
+It depends on your use case, but yes that's one possibility.
 
-- Mani
+In another use case, you could enable (CAP_RECLAIM | CAP_DEMOTION) and
+pages are allocated via alloc_demotion_target() in the reclaim path.
 
--- 
-மணிவண்ணன் சதாசிவம்
+For general "device hosted memory", you can do a variety of things:
+
+Direct alloc 
+    ioctl(...) ->  explicit alloc call
+    mmap(/dev/my_device) + mm_fault handler
+
+Or a kernel-internal mempolicy
+    ioctl(...) ->  set kernel-internal mempolicy on a vma
+    mmap(/dev/my_device) + kernel-internal only mempolicy on the vma
+
+The KVM guest_memfd patch included at the end of the series uses the
+kernel-internal mempolicy mechanism:
+https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#me04a7e3556677babd82bfe3947b1a83b7f0017e1
+
+This pattern is needed because the memory is never mapped into userland,
+so userland actually *can't* set a mempolicy on this memory itself.
+
+and then of course: CAP_USER_NUMA + mbind/set_mempolicy directly
+
+This is kind of the point - the source of the memory has some control
+over how it can be used.
+
+> > Hot-unplug:
+> > 
+> >    Some devices can't necessarily handle unexpected migration, and
+> >    hot-unplug is fundamentally a migration.  So the HOTUNPLUG cap
+> >    actually means "hot-unplug can execute migrations".
+> > 
+> >    If the entire device has pre-drained the memory (all memory is free)
+> >    then unplug works - it's just not very hot (no migrations) :]
+> > 
+> >    Maybe a naming issue?
+> > 
+> 
+> Yes, I would prefer MIGRATION in the name, HOTUNPLUG made me wonder how these
+> devices come online and because it is a device, it can go offline while the
+> system is still online
+> 
+
+There's a difference between device hotplug and memory hotplug.  The
+kernel's memory hotunplug system can at best be described as "best
+effort", and if hotplugged as ZONE_NORMAL (on a non-private node) you're
+unlikely to ever be able to hotunplug.
+
+It's possible that this CAP bit should just go away and if the device
+doesn't want its memory to be run migratable then it needs to hold extra
+references on the folios.  That's probably reasonable and looks a lot
+like a long term pin.
+
+(note: I have to respin for Sashiko fixes, i'm likely going to drop most
+of the CAP bits except USER_NUMA in v6 and have them come in with
+specific use cases).
+
+~Gregory
