@@ -1,278 +1,198 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2286F37FF5D
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 19:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784748028; cv=none; b=XhgeE2ImviEnpRtJY7SF1Q3PSEhAT0CzqxNRj22AGzodPDHph7ZhGfsaddJyVfZNpcLrxk1kriNGWkTXVY6r01DwjmdhjSC1ZFUzITVNXvfh0OhidAZmSiVIkfyOA+jWrrpexqPgABKuat52L09we4msXulYDqZeLwY93uNf9x0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784748028; c=relaxed/simple;
-	bh=wFnFepjXhk3d9KAku2SyRkA+5UdvY2YGAuzuGAufSno=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bsH2UwlmARd+GfGqRbk0cWbIQuO5zFQkcEQY2PphenUkJ5keSlPjbosteWx20N31zIdSOotIBmJjnaN/tK0eVAI3iOZEJRhEoVB41isgRQqkdxZ3Zfyma04EuId8/yWsiLm+hoZtdYA0C7ic3ljIOHQuvC5zrWEFufz1QL9Pqmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XmicvrHO; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA1A470E8A;
+	Wed, 22 Jul 2026 19:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784748066; cv=fail; b=QnSb6gbx2ss3ojJL9654Gcouq7t0wsbz11PZkrxVIHBqPgFBhgVkfpIByO/LFudzDT47PcJ7okmafk0+YysBH84GnLbJH/vPMBNKCrN4Udu9l23zeNa5e07eBl3zZ5IFpUi8diAc2Up0mI2JnpBMYrHhibts5yFHUInOI0/SRww=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784748066; c=relaxed/simple;
+	bh=TbVtLztJQhA0p3AdKwoS02sl8OpCuTHEuEgi0GuxyOg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=rS/mr2COQyRRR63683c+LuqqMg2U+K2r8sv2P0LzV4zyChHwUWeDZuVOgMdbhFWup0AsTu0RRTQcgwcPUCMFnmH0cS99AmRsTgF7yqfUkPZUmWAyP7AX60br/gFsHuYCNgjCoYzE/kdI7JIlroMM5QOqhaebMBzlto3SBY0r5Kk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YlgXLUWD; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XmicvrHO"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso13028110a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 12:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784748026; x=1785352826; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GQzB294z8azDnddZeKlOTHpRuawaaJiN4K26cKT8f1g=;
-        b=XmicvrHOcvRe+iaXK5xC6Wey0NsXgg/sBifMBAfoKfYvHWh3MPZ68cLbkilxNdEvCc
-         CoJwspqSci0H/8+gBTI3rXi6H4VtpRy4ZnMyYQ5hoKhCGWF05aDVhtfjP5lP84RaLhz5
-         PEww+aABUMZhIU04zfTeLjfSOQHlNLtem2FdkMVDqspA+e72wWSeaFxyYOO6d+aUa3Oi
-         2CQF/fovqw7SN83Hi5nvuvnt8D0Ncbd2VZyL+RVvg7/U8V7zjamndfZ2lcZSRXi4MIJE
-         Fi1Hf0muISKGuoZ7yIlv2ANn+Jp50tScQmoqW2P4m93oGmBZ7/iC+PegaJeJIjA8mbTK
-         b78A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784748026; x=1785352826;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GQzB294z8azDnddZeKlOTHpRuawaaJiN4K26cKT8f1g=;
-        b=cM+JpM1PZv4eB0DqVcvSB5QYbhkmOGqjDBfuREUDilUcATmWRkD9k2IxCSeDUILUpb
-         BiW4xuv/86g7XvjxpOh+w8tEteQ38RTxHvPPKfzeLqhn+B86ax3DjH8q1j+8B24fkADf
-         YDHhTaij51v7HBVh6m2JWYN9lqHeFWXjvQRFnjFsArE8zLxvlFSijxVv8R1AWQ0j1F8j
-         uHZ7s2vGI5i3OFeOgQc83nUEsmdHZUir1/PLOMHz0nnN9N4zWxXTuJJ7AIEOxreqBV5J
-         oxZ2AS+p28ifNKbi7KDsPqseUUnV7lXJzy3ttz5ncKfx7r/G+63iNtpaSxbpqKVh8/zD
-         ZVlA==
-X-Gm-Message-State: AOJu0YzF3fVk7YFwGc7Tb6yiao2vnFQOXt65lIy9Hcyi//bGMxq+w/i3
-	Rhnj/Mnca7E3KKlIcrfd7JhVsA29qBA0z2eOXfOdQE6hjEPYd+THNJsV
-X-Gm-Gg: AR+sD132M149u2Q8Aj+S5AjepxDPsmURTutIqCMA/x7BBsaPwxhW5LByh6NlIP2glps
-	oJzV7bxPIOBhAWVQNHe5hP5mEjWZBqsSqYKxQKq/FeMFjBarxREUDJwB+43Afin0G5AgetjDcpy
-	qKLSeDfoh11cGVZgZXcqKIwUj+1NZorTIuqJxqRPm0o4yzHz7ez9xDGdDkfz/X8vfJYBncKMRz9
-	Z6njn2s3p79HAALhE3LZ8XMCGbvMDac351+JgpAtBD9uyXd5AfGSrTX72nwy8XaqDc4WohWKENF
-	/6XSoO+hgVT+KL3xKN4uGPo3VMgDAdu4M3s7uQJcdwKi138tN0oOfkWGzwN0Sb9x1MEA9xoKQ6n
-	yAW9/oqytNZzMfIk87vRvCdhd4UGJ/Lp1xFESg42sQc2QwTu7myn3uckobiLn1uI+iPdXlxY1g4
-	0FIOD2+of49vXvk7M=
-X-Received: by 2002:a17:90a:c890:b0:38e:dc4:3fbb with SMTP id 98e67ed59e1d1-38ec68982femr9232a91.43.1784748026339;
-        Wed, 22 Jul 2026 12:20:26 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38ea7aa9167sm1522345a91.11.2026.07.22.12.20.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 12:20:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-To: Hardware Monitoring <linux-hwmon@vger.kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Manaf Meethalavalappu Pallikunhi <manaf.pallikunhi@oss.qualcomm.com>
-Subject: [RFT PATCH v2] hwmon: Add support for currX_emergency and inX_emergency attributes
-Date: Wed, 22 Jul 2026 12:20:24 -0700
-Message-ID: <20260722192024.2314973-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YlgXLUWD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784748065; x=1816284065;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=TbVtLztJQhA0p3AdKwoS02sl8OpCuTHEuEgi0GuxyOg=;
+  b=YlgXLUWDazyjW0a6TlANcC1PU1Eai01KIOEchoNKX2pllOGYexbh2WDG
+   TNbzQ8OcmdsLDwFRBFo5WKCf/a2C3E4O9ZgiAIpiF+f8sx+iPUJHrsxNX
+   WTksnBph8EMqrWVASvIuUmRjIp4m1IN8Pjm0+zfq3Ck4XFQQiOASsP+eM
+   Vzqpa/3NKfAbgSbhfgmDPDhE+oMS8GwyrXls+cEHyftK3gNlrwOgaoPaR
+   l46sfZqps1nO5oNKavtqjv+j+blbeCK3rjxCmpw8FyzQEEB+alrlQv4yi
+   nImjKSJXMP8RN+mpxKezn+GSWLRlqXWSq5MJvKhz3J2j7eLy+/txejswT
+   w==;
+X-CSE-ConnectionGUID: DFOt+koURoC7Hnsjs6odxQ==
+X-CSE-MsgGUID: trBiJRYdSL+tOGXx9K9ZHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="96054042"
+X-IronPort-AV: E=Sophos;i="6.25,179,1779174000"; 
+   d="scan'208";a="96054042"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 12:21:04 -0700
+X-CSE-ConnectionGUID: mOMcpgCZSP6w5jK2j+Sy8Q==
+X-CSE-MsgGUID: hfMh6s7LSQ2vFpuMpHZrmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,179,1779174000"; 
+   d="scan'208";a="256393737"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 12:21:04 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 22 Jul 2026 12:21:03 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Wed, 22 Jul 2026 12:21:03 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.65) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 22 Jul 2026 12:21:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UyGqkWEOb1m+P2SfddJq/CEa14Z+se5BVsGiMiXT7AEu8u5Sl2sC9kLSx2nEF/LLyTPmHop/y+hCHdn/5KiB9essEONL2EAmHnh0nWdEG0tmsvhlvt/J91bWUbZ04bwbB7B0ILm+bszfJREGNQDEWtIOiJKkM9LnPCoREXGnXJgPDQNR6KLnYwi8YeLsh5mCVGCeuMZ1LdJOxtdKhE9mCwIJVIeBDTkd9nnFDfhwkY/pCWSoPOTdeVfxMArisezoyXe3p4iCliFLX8n1ajvi5wCx8UU6QF/CvJF3lv4BoU7QjpXskfUHcksMj5hXro0aNbvZhoH19j6y42IPqLWw5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TbVtLztJQhA0p3AdKwoS02sl8OpCuTHEuEgi0GuxyOg=;
+ b=VHdsd552KGK3up5vsGz4QBQ0IhSqQvKZ7sL9ROhkNecjGcG+9/f0ur9J+mnPjZhoNsGFMrwA8DJB/h/AVJ1meX9rnFon0tYjvGldeOZbfqyK3LMiJWZWpGcilCwGpTI9j9mhObj0rWBQGCDgrhEEbD/b/wDoOF2lbPGKIDbQH5PYShUSu6T4MGHVAQGvcNqK+jHJD4WujfoFz6wAErk0cYmn0VBlHKO/YgdyQHwqiUFqfykk9BSe07EuH1cSKBu7GJUtpQjBRLEkQ4fuskKCUFC95sx5DkQb0oiE4pFHw+C4b8dPtB+Yat+wFRzsYA1FF2gW7mC5cgV5mlWhzfwfYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH7PR11MB6771.namprd11.prod.outlook.com (2603:10b6:510:1b5::20)
+ by IA1PR11MB6418.namprd11.prod.outlook.com (2603:10b6:208:3aa::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 19:20:54 +0000
+Received: from PH7PR11MB6771.namprd11.prod.outlook.com
+ ([fe80::effa:162e:c9c9:a1b4]) by PH7PR11MB6771.namprd11.prod.outlook.com
+ ([fe80::effa:162e:c9c9:a1b4%4]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 19:20:53 +0000
+From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "Huang, Kai" <kai.huang@intel.com>, "Hansen,
+ Dave" <dave.hansen@intel.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
+	"tony.lindgren@linux.intel.com" <tony.lindgren@linux.intel.com>, "Wu, Binbin"
+	<binbin.wu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "seanjc@google.com"
+	<seanjc@google.com>, "mingo@redhat.com" <mingo@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "nik.borisov@suse.com"
+	<nik.borisov@suse.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"tglx@kernel.org" <tglx@kernel.org>, "Annapurve, Vishal"
+	<vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>, "Gao, Chao"
+	<chao.gao@intel.com>, "x86@kernel.org" <x86@kernel.org>
+CC: "binbin.wu@linux.intel.com" <binbin.wu@linux.intel.com>
+Subject: Re: [PATCH v7 08/11] KVM: TDX: Get/put PAMT pages when (un)mapping
+ private memory
+Thread-Topic: [PATCH v7 08/11] KVM: TDX: Get/put PAMT pages when (un)mapping
+ private memory
+Thread-Index: AQHdFlcgM4x/Hv8VdkeOGppLXPcVVLZ5lHIAgABdRAA=
+Date: Wed, 22 Jul 2026 19:20:53 +0000
+Message-ID: <4ad035a82ee10dc4645e26a4bd1daf40786a743a.camel@intel.com>
+References: <20260718014500.2231262-1-rick.p.edgecombe@intel.com>
+	 <20260718014500.2231262-9-rick.p.edgecombe@intel.com>
+	 <20900cd6-6d05-4a20-a21d-2a1d4a6ef5e5@suse.com>
+In-Reply-To: <20900cd6-6d05-4a20-a21d-2a1d4a6ef5e5@suse.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.44.4-0ubuntu2.1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR11MB6771:EE_|IA1PR11MB6418:EE_
+x-ms-office365-filtering-correlation-id: 865815a6-b8ef-44a3-100f-08dee82658fd
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|7416014|376014|921020|38070700021|56012099006|4143699003|11063799006|10067099003|18002099003|22082099003;
+x-microsoft-antispam-message-info: MfXUgyDTtrjvsb6PE8HQwSPsgcN2V7GcvGYuUyVJ8+FCfeHJS3cfL5lGZPzAda4XtSLcbkdrFDIXUkb9ChhihNGxlqWMtkyf9LRJU1oRKrR872dflYaj88Ilosxl5FSbneEKkHlgJeJS+sV5FK4K9MJaaP8bu7tVfMl0ZHYcgZ80O5dPy10POvP6YpZRyAxJ2A+M6qUvlQERtXMGMXg6DReKOoGv3cRJ6JekncoH9xq7EoNBHODj4opiVBnDxVMM/LalhSmD9fcIZav/ejzpJDKWqHfr5RDJB1aThbMvunOGzY75JokJbhp5OqaghC/fuWonwFgJD5f1MqUjeU36shEPh8ZmVD4+AGJl0eQP9txrVBWmQfl3E0bqxVGpBaqg2mXiDcodsMTfcUzHenWXtgy27hYxwFbSBF+n/PCoR4jQSPIxfG28h2bjLRGJAhQGQwq5oKVG9fQPwYVCY846KMm037zOSx/zceB1SjzUG0M3P0dsNoj8G2toI+rLOOCvMH+EZSa9ga0yD2H+Iy4JijMvtZeS5HMd9Zi0tLBPzJH8SNFUxvkTGb5BF/AvlbCMul7BLQVZkwLCEHwnfBIbUwKV7E8DXOdT40FcMxxqmrL6e3/lsGbaHuYeOiW3va3Mw1RARAlXPF8Pol2/QCJmfY3D/9jtoeNtJY8XlQHrBjfb/svSHvvEzYCGQ0DwhTBpCV+JyvH3/KWwY+eQWZQsdSiyKBozpP4JcjEWkv2b6VPBPYxj2sZDu2EHwtvGSuQX
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6771.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(7416014)(376014)(921020)(38070700021)(56012099006)(4143699003)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R1JoWnB6ZGxCT01mT25pbWxtREVZSWtJd0RHQnAwVDcvbVg5Y3VMZkRER1M3?=
+ =?utf-8?B?U20zaUEzVE5qSUtMWk02V29WSHN0cHljYVcvMlNZUjBMV1FmbmEvUS8yK3Fz?=
+ =?utf-8?B?VFhVanhhZ1lqQ1BGTjIyam5BeDBMVEhiQkt6bUFaOUVIMFVQbk5HY0o5bUZB?=
+ =?utf-8?B?YVBOdm52VFMybk5SeVZDMjdDbTFKWXBPbE5PVTN0aWRHU3hpeEVISGhCMlJG?=
+ =?utf-8?B?d3BLWjJqcXdGODMxNldLempYVW8xMllzZEpTRkxqUkxUWkNhNmVUUXBHMVZL?=
+ =?utf-8?B?Vkttc2J4WUl0OEE4UnZWSUhBT0ROWXM0dVhvQWFtOG80azUxTVpvNE1kTDRV?=
+ =?utf-8?B?NzJBMGpiS1dWTnJiV1BldkxmZmVZMXNNa1JTVkl5L1g5eXVZWVF1Q3l4NWFa?=
+ =?utf-8?B?TW1MelJJL2hXOXBwMzFYbWxYTUtrOVpPTFczNWxkZE1mV1dlQnlpWFJQK0w5?=
+ =?utf-8?B?djdiS3VnS08xMVc0SzBNbzlYUUxnNEZWS2twT0VnSmFWR1ZGVTQzT3NMSjYv?=
+ =?utf-8?B?aEx1eTVZRDlWL2lJVkJNUENRZDJzMzFxRWUwaXZua3ZjQ1NOZ1dFWnhadXo3?=
+ =?utf-8?B?NmdxMHFwcy9vak83TVZjdlBIWE1yOGJJc3BRdGd2Y0U3enN5U3c5NkRxSDBh?=
+ =?utf-8?B?WmVUZEVWbFdGVm4wMHZRaG5FSEYwdDFWb3NPb0lxdEdyaFJQRnEvSzZvUjNj?=
+ =?utf-8?B?N1NOakxsSHBPNnV1RHoyWVE5d3RJYUNVdzZsR01RUEJxZFhlSkpBVitwcFFU?=
+ =?utf-8?B?NVB1VUNUZi9rK1MyUm5zM2NwT3hOMUxYcm96SjQwVTVQSVRhSm1pVlorSGpN?=
+ =?utf-8?B?S0w0T0xKVFV1ZGlDSnFNSElnaXB0VXluZ3pySGVZeEEyaXR0dGM3bVphTk1O?=
+ =?utf-8?B?Z1BOam5kOG4yTnR5ZWNPWFlRZ2pOcFFVTlIxbVpqd2tMQmJVUHZCUHZ6bmVq?=
+ =?utf-8?B?aHpaL2JCTmJHUFJadm5sUDFEZVRmRjMvK1oxTGk3Q2lJNFhVNG51azFNTm51?=
+ =?utf-8?B?azRZeDlBZ0Franl1SXVDRHJteGl1czRoMHM0bUR1RW8zSENydCtEU2JvN2k5?=
+ =?utf-8?B?VXN6Ni9veERjN0Y4SEFuVVk5RHE4THppVUpmcmZsOWpnMUdKcFVIMnZDZXlN?=
+ =?utf-8?B?ZFZ1aFdUczBWaXp0eUh4YTZ2eUkxWDYwS1U2Q2xUc2IyN3lTR1dOR0FZNGFu?=
+ =?utf-8?B?TVFIc0pId3ZSUHp4OVRZUGswZ1pUcXZXaHZ0OVEzYnl3NSs4TWZLbjgzUDRM?=
+ =?utf-8?B?VTZiQUtTUHpTSkNCK1BWVWNOeVp3dVNJNHhEUnRaNVRIamlCUkhUN3NSekdI?=
+ =?utf-8?B?amk0UnlZVTQ5SWN1dHV3b2JCcHowN0FHOEhhWHR2TlptbVJPZTNxejZPZDhD?=
+ =?utf-8?B?VGJZUzZhd3p3UjhVeDlLMk9GM3RYL1JMU2ppZzFMaHlybXlXQ2Y5U2hST0Va?=
+ =?utf-8?B?QlJCVDZDSEdtRllsUXArRGcvbjFBK2JUWU5MRjdRSWlWNFljSGxOS0JQWFdZ?=
+ =?utf-8?B?dlZtTlFtWlFCajUwaktyNzJvMTBROHNQQ1h4MGxpZzhHaDRJZENGNmp3YUgy?=
+ =?utf-8?B?K1R0WmM0R0NsSTI5RmVMejdESVlONDRHWGJmeFNWcmpOd0R1TDJOQ05RK1Fq?=
+ =?utf-8?B?NmJORnY4NVZTVEE4VC9BMFBiSkUvMk5PZjRnR0tmYjk1bCtUclJtZGRCanhy?=
+ =?utf-8?B?VDlrdEdBK09TUnRUUlpvNjR2aEd1R2QwTEtXSGZWNS9oNzVDQjErSm5BNUJx?=
+ =?utf-8?B?WWYvM1NwOEJRcVFtVThMbzRKZ2tSMDlnNzBUOG83RDVxck1YWStWYndWU3Rh?=
+ =?utf-8?B?ak5RL0QxT1RsM1BPcXVhdWpvUWNSYTNKMUEvTmVsb0lqYmd1QTZDMEU2S0lh?=
+ =?utf-8?B?d0NCc3RPWlJ0YnpwK3hGUlNvTmpNendUWXJHUE1PYytvMGdXSGN6WXk2ME03?=
+ =?utf-8?B?Z0Y4Y1Vrc2lJcHM4MVdXTVEybDlCZlUrYWl2Y1dmNkZuTWtXMG1vbFo2MlNl?=
+ =?utf-8?B?UGJ0VUh0dzJBcEZpajNPckFhM0tLam9vU3ZoWTcwQ01SMkNoTFZ1aVpKUGJa?=
+ =?utf-8?B?UVkwbkdCSzAvWTZBMmVnN2trRldKVEFhVmdTVFduOG5Tc01BSkFlaTIwd3R1?=
+ =?utf-8?B?dXMrbC9pUEhuYjM4ZGlYS0w1aVA0THFVb1RKaVlMSWl0UWdESExDc3kwVjZB?=
+ =?utf-8?B?ak1aNzIyc1VYa3BTZkdlSmgyZm5YWitkMEZoa1JWOUNOUnR2bG1IZ283b2Rw?=
+ =?utf-8?B?WTZyeWc1M1JkYjR3V25LV3FDNUlFUUNQUmJzWXpQVDUxZloxMVJ1djUzanlv?=
+ =?utf-8?B?TU5LR0UweTVMOTUxNHBDSmorV2IzTGltTzRPZ1V5cnVLbFpwSUhFSWFBTnMw?=
+ =?utf-8?Q?HRSpurmBc5hSVQEc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2AF53FCE1C3BA4419FDBD6A8EB566DEF@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked: EnnwUqD9mC1BEBTmWxGRk6uCTB9i0T0/QpuuEWp2dUClTAoaAfvXnQhUiTN24mgtpYZh60oNKcxpN0qeHvBb+68GoP47lbREyTDEUAiGfyyGlsYP8WIlslGZZC2zWstbx7NXz04VI4fDTUsaaHlXCS8fzswXzf0WRdLQ292nC5Q2lgAlgYi/Ulo3Bfa2FUsjzb+grYJW+gq7dtDH4m04Os1XsU74gqgaUNNbkZ+OXwh0TtnrpkBdKXAq8naC8vdU3MNCii8gw46ClRjmyCZwzwsTb73K3wUyrHOHAe0Vhg1tU5hzdlCnzRlDBRSd6ES2t1rZQqDagHyqNv3EKXsl3g==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6771.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 865815a6-b8ef-44a3-100f-08dee82658fd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2026 19:20:53.1039
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: z3OWo8XyEWhdX19Lo67nE8ZArVbklkJ0jctLTwIQZkmFqBBNuYLTtvpP5lu0fGJ4aNFvujrnVXArdnpmSTNEiRH8S0jR4MUpxWPxBxF/iRQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6418
+X-OriginatorOrg: intel.com
 
-Some hardware monitoring chips support three alarm levels for current and
-voltage measurements. Add support for currX_emergency and inX_emergency
-attributes to support such chips.
-
-Cc: Manaf Meethalavalappu Pallikunhi <manaf.pallikunhi@oss.qualcomm.com>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v2: Also add emergency alarm attributes, and drop stray What: entry from
-    documentation.
-
- Documentation/ABI/testing/sysfs-class-hwmon | 24 +++++++++++++++++++++
- Documentation/hwmon/sysfs-interface.rst     |  8 +++++++
- drivers/hwmon/hwmon.c                       |  4 ++++
- include/linux/hwmon.h                       |  8 +++++++
- 4 files changed, 44 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
-index b185bdfc7186..24937054f0c0 100644
---- a/Documentation/ABI/testing/sysfs-class-hwmon
-+++ b/Documentation/ABI/testing/sysfs-class-hwmon
-@@ -81,6 +81,18 @@ Description:
- 		take drastic action such as power down or reset. At the very
- 		least, it should report a fault.
- 
-+What:		/sys/class/hwmon/hwmonX/inY_emergency
-+Description:
-+		Voltage emergency max value.
-+
-+		Unit: millivolt
-+
-+		RW
-+
-+		If voltage reaches or exceeds this limit, the system is expected
-+		to take drastic action such as immediate power down or reset.
-+		At the very least, it should report a fault.
-+
- What:		/sys/class/hwmon/hwmonX/inY_input
- Description:
- 		Voltage input value.
-@@ -647,6 +659,18 @@ Description:
- 
- 		RW
- 
-+What:		/sys/class/hwmon/hwmonX/currY_emergency
-+Description:
-+		Current emergency high value.
-+
-+		Unit: milliampere
-+
-+		RW
-+
-+		If a current reaches or exceeds this limit, the system is
-+		expected to take drastic action such as immediate power down
-+		or reset. At the very least, it should report a fault.
-+
- What:		/sys/class/hwmon/hwmonX/currY_input
- Description:
- 		Current input value
-diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
-index 94e1bbce172a..47faca56a979 100644
---- a/Documentation/hwmon/sysfs-interface.rst
-+++ b/Documentation/hwmon/sysfs-interface.rst
-@@ -127,6 +127,9 @@ Voltages
- `in[0-*]_crit`
- 		Voltage critical max value.
- 
-+`in[0-*]_emergency`
-+		Voltage emergency max value.
-+
- `in[0-*]_input`
- 		Voltage input value.
- 
-@@ -332,6 +335,9 @@ Currents
- `curr[1-*]_crit`
- 		Current critical high value.
- 
-+`curr[1-*]_emergency`
-+		Current emergency high value.
-+
- `curr[1-*]_input`
- 		Current input value.
- 
-@@ -529,10 +535,12 @@ implementation.
- | `in[0-*]_max_alarm`,		|			|
- | `in[0-*]_lcrit_alarm`,	|   - 0: no alarm	|
- | `in[0-*]_crit_alarm`,		|   - 1: alarm		|
-+| `in[0-*]_emergency_alarm`,	|			|
- | `curr[1-*]_min_alarm`,	|			|
- | `curr[1-*]_max_alarm`,	| RO			|
- | `curr[1-*]_lcrit_alarm`,	|			|
- | `curr[1-*]_crit_alarm`,	|			|
-+| `curr[1-*]_emergency_alarm`,	|			|
- | `power[1-*]_cap_alarm`,	|			|
- | `power[1-*]_max_alarm`,	|			|
- | `power[1-*]_crit_alarm`,	|			|
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index 55a9a3ddd4aa..91a43fc35532 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -621,6 +621,7 @@ static const char * const hwmon_in_attr_templates[] = {
- 	[hwmon_in_max] = "in%d_max",
- 	[hwmon_in_lcrit] = "in%d_lcrit",
- 	[hwmon_in_crit] = "in%d_crit",
-+	[hwmon_in_emergency] = "in%d_emergency",
- 	[hwmon_in_average] = "in%d_average",
- 	[hwmon_in_lowest] = "in%d_lowest",
- 	[hwmon_in_highest] = "in%d_highest",
-@@ -631,6 +632,7 @@ static const char * const hwmon_in_attr_templates[] = {
- 	[hwmon_in_max_alarm] = "in%d_max_alarm",
- 	[hwmon_in_lcrit_alarm] = "in%d_lcrit_alarm",
- 	[hwmon_in_crit_alarm] = "in%d_crit_alarm",
-+	[hwmon_in_emergency_alarm] = "in%d_emergency_alarm",
- 	[hwmon_in_rated_min] = "in%d_rated_min",
- 	[hwmon_in_rated_max] = "in%d_rated_max",
- 	[hwmon_in_beep] = "in%d_beep",
-@@ -644,6 +646,7 @@ static const char * const hwmon_curr_attr_templates[] = {
- 	[hwmon_curr_max] = "curr%d_max",
- 	[hwmon_curr_lcrit] = "curr%d_lcrit",
- 	[hwmon_curr_crit] = "curr%d_crit",
-+	[hwmon_curr_emergency] = "curr%d_emergency",
- 	[hwmon_curr_average] = "curr%d_average",
- 	[hwmon_curr_lowest] = "curr%d_lowest",
- 	[hwmon_curr_highest] = "curr%d_highest",
-@@ -654,6 +657,7 @@ static const char * const hwmon_curr_attr_templates[] = {
- 	[hwmon_curr_max_alarm] = "curr%d_max_alarm",
- 	[hwmon_curr_lcrit_alarm] = "curr%d_lcrit_alarm",
- 	[hwmon_curr_crit_alarm] = "curr%d_crit_alarm",
-+	[hwmon_curr_emergency_alarm] = "curr%d_emergency_alarm",
- 	[hwmon_curr_rated_min] = "curr%d_rated_min",
- 	[hwmon_curr_rated_max] = "curr%d_rated_max",
- 	[hwmon_curr_beep] = "curr%d_beep",
-diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-index 77a6f2bffcba..9ebd482a42db 100644
---- a/include/linux/hwmon.h
-+++ b/include/linux/hwmon.h
-@@ -134,6 +134,7 @@ enum hwmon_in_attributes {
- 	hwmon_in_max,
- 	hwmon_in_lcrit,
- 	hwmon_in_crit,
-+	hwmon_in_emergency,
- 	hwmon_in_average,
- 	hwmon_in_lowest,
- 	hwmon_in_highest,
-@@ -144,6 +145,7 @@ enum hwmon_in_attributes {
- 	hwmon_in_max_alarm,
- 	hwmon_in_lcrit_alarm,
- 	hwmon_in_crit_alarm,
-+	hwmon_in_emergency_alarm,
- 	hwmon_in_rated_min,
- 	hwmon_in_rated_max,
- 	hwmon_in_beep,
-@@ -156,6 +158,7 @@ enum hwmon_in_attributes {
- #define HWMON_I_MAX		BIT(hwmon_in_max)
- #define HWMON_I_LCRIT		BIT(hwmon_in_lcrit)
- #define HWMON_I_CRIT		BIT(hwmon_in_crit)
-+#define HWMON_I_EMERGENCY	BIT(hwmon_in_emergency)
- #define HWMON_I_AVERAGE		BIT(hwmon_in_average)
- #define HWMON_I_LOWEST		BIT(hwmon_in_lowest)
- #define HWMON_I_HIGHEST		BIT(hwmon_in_highest)
-@@ -166,6 +169,7 @@ enum hwmon_in_attributes {
- #define HWMON_I_MAX_ALARM	BIT(hwmon_in_max_alarm)
- #define HWMON_I_LCRIT_ALARM	BIT(hwmon_in_lcrit_alarm)
- #define HWMON_I_CRIT_ALARM	BIT(hwmon_in_crit_alarm)
-+#define HWMON_I_EMERGENCY_ALARM	BIT(hwmon_in_emergency_alarm)
- #define HWMON_I_RATED_MIN	BIT(hwmon_in_rated_min)
- #define HWMON_I_RATED_MAX	BIT(hwmon_in_rated_max)
- #define HWMON_I_BEEP		BIT(hwmon_in_beep)
-@@ -178,6 +182,7 @@ enum hwmon_curr_attributes {
- 	hwmon_curr_max,
- 	hwmon_curr_lcrit,
- 	hwmon_curr_crit,
-+	hwmon_curr_emergency,
- 	hwmon_curr_average,
- 	hwmon_curr_lowest,
- 	hwmon_curr_highest,
-@@ -188,6 +193,7 @@ enum hwmon_curr_attributes {
- 	hwmon_curr_max_alarm,
- 	hwmon_curr_lcrit_alarm,
- 	hwmon_curr_crit_alarm,
-+	hwmon_curr_emergency_alarm,
- 	hwmon_curr_rated_min,
- 	hwmon_curr_rated_max,
- 	hwmon_curr_beep,
-@@ -199,6 +205,7 @@ enum hwmon_curr_attributes {
- #define HWMON_C_MAX		BIT(hwmon_curr_max)
- #define HWMON_C_LCRIT		BIT(hwmon_curr_lcrit)
- #define HWMON_C_CRIT		BIT(hwmon_curr_crit)
-+#define HWMON_C_EMERGENCY	BIT(hwmon_curr_emergency)
- #define HWMON_C_AVERAGE		BIT(hwmon_curr_average)
- #define HWMON_C_LOWEST		BIT(hwmon_curr_lowest)
- #define HWMON_C_HIGHEST		BIT(hwmon_curr_highest)
-@@ -209,6 +216,7 @@ enum hwmon_curr_attributes {
- #define HWMON_C_MAX_ALARM	BIT(hwmon_curr_max_alarm)
- #define HWMON_C_LCRIT_ALARM	BIT(hwmon_curr_lcrit_alarm)
- #define HWMON_C_CRIT_ALARM	BIT(hwmon_curr_crit_alarm)
-+#define HWMON_C_EMERGENCY_ALARM	BIT(hwmon_curr_emergency_alarm)
- #define HWMON_C_RATED_MIN	BIT(hwmon_curr_rated_min)
- #define HWMON_C_RATED_MAX	BIT(hwmon_curr_rated_max)
- #define HWMON_C_BEEP		BIT(hwmon_curr_beep)
--- 
-2.45.2
-
+T24gV2VkLCAyMDI2LTA3LTIyIGF0IDE2OjQ2ICswMzAwLCBOaWtvbGF5IEJvcmlzb3Ygd3JvdGU6
+DQo+ID4gK3N0YXRpYyBpbnQgdGR4X3RvcHVwX2V4dGVybmFsX3BhbXRfY2FjaGUoc3RydWN0IGt2
+bV92Y3B1ICp2Y3B1LCBpbnQNCj4gPiBtaW5fbnJfc3B0cykNCj4gPiArew0KPiA+ICsJLyoNCj4g
+PiArCSAqIERvbid0IGNvdmVyIHRoZSByb290IFNQVCwgYnV0IGNvdmVyIGEgcG9zc2libGUgNEtC
+IHByaXZhdGUNCj4gPiArCSAqIHBhZ2UgaW4gYWRkaXRpb24gdG8gdGhlIFNQVHMuIFNvIC0xIHRv
+IGV4Y2x1ZGUgdGhlIHJvb3QNCj4gPiArCSAqIFNQVCwgYW5kICsxIGZvciB0aGUgZ3Vlc3QgcGFn
+ZSBjYW5jZWwgb3V0Lg0KPiA+ICsJICovDQo+IA0KPiBUaGF0IGNvbW1lbnQgaGVyZSBkb2Vzbid0
+IHNlZW0gdG8gY29ycmVzcG9uZCB0byB0aGUgY29kZSBpbiBhbnl3YXkuIA0KPiBUaGVyZSBhcmUg
+bm8gKy0xIGFkanVzdG1lbnRzLg0KDQpUaGUgKzEgYW5kIC0xIGNhbmNlbCBlYWNoIG90aGVyIG91
+dC4gSG1tLCBob3cgYWJvdXQ6DQoJLyoNCgkgKiBEb24ndCBjb3ZlciB0aGUgcm9vdCBTUFQsIGJ1
+dCBjb3ZlciBhIHBvc3NpYmxlIDRLQiBwcml2YXRlDQoJICogcGFnZSBpbiBhZGRpdGlvbiB0byB0
+aGUgU1BUcy4gVGhlIC0xIHRvIGV4Y2x1ZGUgdGhlIHJvb3QNCgkgKiBTUFQgYW5kICsxIGZvciB0
+aGUgZ3Vlc3QgcGFnZSBjYW5jZWwgZWFjaCBvdGhlciBvdXQuIFNvDQoJICogbWFrZSBubyBhZGp1
+c3RtZW50cy4NCgkgKi8NCg0KQW5kIHRoYW5rcyBmb3IgdGhlIFJCIHRhZ3MhDQoNCj4gPiArCXJl
+dHVybiB0ZHhfdG9wdXBfcGFtdF9jYWNoZSgmdG9fdGR4KHZjcHUpLT5wYW10X2NhY2hlLA0KPiA+
+IG1pbl9ucl9zcHRzKTsNCg0K
