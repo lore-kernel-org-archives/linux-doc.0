@@ -1,214 +1,173 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012042.outbound.protection.outlook.com [52.101.48.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226C840B0E6
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 17:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9DB416843;
+	Wed, 22 Jul 2026 17:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784739639; cv=pass; b=afyRUTKGWbotGBhMPutWOHm67aIbmznRc5zstd+t7ggTfc9G5J3qDiszTLoFQw2gw8SSL65U93K8UdJEGYMCCERAH9ODazF3pgrgRERjRA0sc3+cNzxG+E1cZaoJgh3MK07dOyYYr3LGToLtX37qhdxSraXt+ycYmumBP4ZbOeA=
+	t=1784739754; cv=fail; b=cumIzzX59iv2ai/1zgZvGfuAkStG8uFUsnFHjgUWkpGTRLy/l2G3IRTyNyTvhB6RxTGWjLaNAvYjfn0La5j90fAFO+MWEpwBUTGTPSgUyShz8T+ivVBauPC6YQfU0KhF6CP4FFXC4KmM44nfe6zPozR/WJqDBotqHT5AEcQ1tJY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784739639; c=relaxed/simple;
-	bh=6V6kom/z+kESg4y/hUUgBifatIFy6BKWqM8OtFqWQ6o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P6DwQIzMxHx7kcgTiLtm40iaLn+mp1+WjlwGxq+rLu2m3VOvjYwdr7HfJOIFJ7OXAAXwfGrVmOv/fTwRJPC7FuJnoR+W8jbsmZLBuJAgnEp/PxQfyJUamjneQt+NmiZ5RwGt0SUzJJMJ3OeL6ppqSlZwHW0PrOfyqbGmgHT8aTk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dG7JSt3f; arc=pass smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1784739754; c=relaxed/simple;
+	bh=0Fl41eoWSfiYNQFxlwoHqOnqQD1/QQT3kNQQv+BBaZ4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=arDR6vHTUjWMmrJdkedBmdEjJUndZbRYKJ2SyK5qD1rY1bQmRb7PwEKwwBSOyH1AfqendLAa4mqjGNoc/E6OrQ5U8mftZ2jjpxakRQPvnsjqMsucOYHcsV6nyQTKHV7Gv0Z6AjERIcgYN8WD+Yn9cudYODfjTeUP8qNWOIwjz/o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=W5egLu3Y; arc=fail smtp.client-ip=52.101.48.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dG7JSt3f"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso718345a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 10:00:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784739635; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GL+fzGo/M3ElnBVchGLjA93oG9uoo9+uJsz/M18rb3PyfKSoRngN9dWE5NroQ1eyhH
-         UocYN5XGxkwXnu2ZT7ULls1fMvTW2SROtd7fiMeIhtvT9qi7noq8MnSwkKd4QejlTMEY
-         nkcN0JTGUg0OFoJl+aNLrqbBd0Sk74nk85kIu9LS2nMNbOYtSgOqtFzcQICYxaNgjoXZ
-         v2CSIL7H82VVkPR4uF0KMDckA0EflII26zJDv0RMCh+5bBhJOGLoTBV5CyDFVqGQXgMd
-         k2qbvnzn80XnZhDHjwxGRHYPHYYkpJo4AAdgSH99jLVvVmoLJEaUHSn8/MEQhRLclRkm
-         7mww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=b6BLtSCxCp7M8WEIqu/WUMj2zfCCYaejhLZ7J9DExtM=;
-        fh=QAvZpOPhErIhRShWlu6VM88GhkeSHznW0SbH14fd0ts=;
-        b=ZJ+Jkjx2UcIG5ldy13eXUwj73x4ygqFsW+fbg9xSia85qoCt7v5QrKqEiB19CmiQ0S
-         y6Fx4p8qR+T0HUIdT8NINpH9rU8p2zC/nxAPhF9UBt9lNvGuChkFo8DBt+lRSzIVCmNE
-         QUBiZ9qt564dzR31B8eIqqaVyOAH8t7Nr6Zp5XKVPaWolsuMisXa9VCznXfB/YTyh00H
-         D3fOA2nmEmNnlmPgFLVbdke3POynmjg2ZO6jSIo6gWYQ86YxXJ3vaMeIbgg2Nc0b10Af
-         dRHozyZbwth8B37sTPk20FYdzda1YJxqbEGe0fuKDHURB8UVA1RBPmEe6Fe51zw4pTNq
-         01Ww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784739635; x=1785344435; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=b6BLtSCxCp7M8WEIqu/WUMj2zfCCYaejhLZ7J9DExtM=;
-        b=dG7JSt3fnE13iaRvAmoo9g4yjRs4OFmIAYoHp2m/DY1Qb9ajfooO0zJFa6rVXb+/S7
-         92oQv0b25KU90cPvrxQ7gT/H//rFfG8Abgpren+PQzksQwX3wHM11GjhPoWoEyetaKBj
-         P1LwiU7BVGzQUtVR7+lYai23ZfodmXNeBQdvI/IrRdeeMAIBLIdxRXvwfhynywh30pPP
-         j/+AjrSg49qDTOs6Wrh4OLYauPaiZT/4f/q+55CuW6pNp+m2MPs5wJRQ1IHj5CHh4YNd
-         YoBeWthpEV7B6R+oEwliHXWiOeaJyPfHg7XaoIZ0gH8C9XyVSWq9E9ZxCZBnSDZDQkWd
-         Aufw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784739635; x=1785344435;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=b6BLtSCxCp7M8WEIqu/WUMj2zfCCYaejhLZ7J9DExtM=;
-        b=E3RQ+UHDjZYmRZDVI0sqnRmjYpkFmXM8EpwWUZzCtumqXayx1pV3orfQIWKK/C9+Ax
-         kZVVz1ZB0ebKzvVz6rcaMq6mastSvSvkl+SL4NIcEB77GP47MW4YilyPam6B7nWDkvQ3
-         9y881lNzWbI04ssifuKwzdSXm6CJ5fzFEzc7wVuc8mmlU8si5tNXJ2ByQo6wsGXdmuBH
-         WJ7PQDwX9dNI04T4wAN0q+cjDTwzaKVg8HvPKh4b3W8+dtm3Ke3XM/ST27aXT74R2Dw0
-         dpoD7mSA1ElfZ8LvKETvy9Q255oUv9iyBD0wFbQQs5J7J/4Pa49IZm9F4Aj5Zyb+xQSb
-         MAZw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp50FmrhbtLy832ce4/oyBqSYC2FqXPIJS1aEztHWHYsb8mg6K7o63YbN3h5RGP7/ffvCkQkym7qNs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8DygVW+Gix7JqYkZrXxuLH7aFe0FDtlRe9KghAp10+FydrGE6
-	cb3eSLTvD9hIPBySRvqsbapPVTD4TpeVt9FuCP+P+uXogyNZPfNK6tjoFtRXZjsDc4BUaka1I0c
-	3RMfCZPagLzw+F5hXwJj5NTBFb8plgSNxMmzfgcwE
-X-Gm-Gg: AR+sD12P0I3srZFnKT8aPA0FrPmUhfA3+zvyIwc9tO5pcD+KuwinHU4uTsWEQ5swN9Q
-	qBoVL0QlElaIMZ+PUIEyX4i50Z3pvvHyGA3P5n6KnXvdHgbJ+sbDxNGz7dTWCSgoGQgbqCidmxp
-	5A0nE05U4y3tuvvEIkuERhGXxpLgchcoGCjcoZ46SlY7daS7kVjhEG0ehdpN4Sdd4XFXEEM7QEm
-	UCBhzEstcjqz3lU4ZSvVUb6Z5WnaKC3OKJmRwAQBbgmZvcIg8xdGXnZ674UMMD9qZO+BC8rk1PP
-	EqdvSVflD8yrVXM=
-X-Received: by 2002:a17:90b:1f88:b0:38d:f1a4:1116 with SMTP id
- 98e67ed59e1d1-38e4b537bedmr20414674a91.33.1784739634476; Wed, 22 Jul 2026
- 10:00:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="W5egLu3Y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gkVwuwWzsQudGu6In9EgqZyVwVgbh2xf9fJLLajete+WZmkuLC6Y6mV2IScgr+jIQg+OCcK8ZnPC1RPN7ZYW6uthme+sOUYSxJtrX93W5dXBVFjWD4D/eQyYkuk+RyQxLMMwVVBlbzdoqLXm+1pbSVyTDUFC8HYsLDxWHpKbwWmEQKz3ZQOcIYD2v5QcGnZtSVEYMWAfBa+chBJmg/vM8wUqEAS1qOwnGlDTGDVGiE+0pFkcSaugfa2e4ksBw5TELu5oBTri4jo3srI92PiYMT5V67zediNq/SpBvIZCbUtKjjUkoqt4UyPggrf/QEtQ3wZNUrf2wpUNbZNftVCfKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0Fl41eoWSfiYNQFxlwoHqOnqQD1/QQT3kNQQv+BBaZ4=;
+ b=fRzcDADkXwh4x99OSLLpvqtgl3XTWzpyB3FzGpusauvjuPVKGkM5CSNfOhKJ9aS2JieZhYsFrTqME18hWnvGSR9Bud1vWUITrw+LzNHCuTBH0AU5krpDauaewSJE1bHxSJo/G+NmckyOvRSancmSpVmAYMr01t7bvhOkyYdIxAO7iv0hjUkoiu/w0HLVpYXQ9YKhMcUcg5jSdUAOWza8L9fmcYNo9nnYOns0XcavL5LkC+P0oqqxgQHVjgV1KcoTYLqh6QqkMYyGxACoHJdhIVvasumz6EtznTqZZXkAb7+oeynjPwXK3q46H7JXVuPkHKFWr1QN5uvK6NiSB59xEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0Fl41eoWSfiYNQFxlwoHqOnqQD1/QQT3kNQQv+BBaZ4=;
+ b=W5egLu3YlyBuxTJhrJn63Rh7jvLDtuOrn+uCcsFR+PMmKcRjDJ1/g3S2fydbXJ1vnjwJ1BW4HMrDy/z1landOC8avjyVFRdKk6hLT3k80hgjMdQVbih42jvIP8XOhM9EDHjrVkSLCObVT53a+bMviWC/50IEBYjGoFncIu20/rBRjWN6v8hjym22z4KFuFYZj1YXtPBOd7O98z1S9fVdBMubsl/Wt1yzLS9zd0tdSL9BlbZHBZqCC9kD97CWRdpJE5ljb9J8PFQaJKMHYcFLhNod4rdQDj8iCEZ2tzKEHOu12dvaJL8fQ1NM3JVcEqU0LHwv9KZw4lpdIQsYvc4OUg==
+Received: from DS0PR11MB7624.namprd11.prod.outlook.com (2603:10b6:8:141::6) by
+ PH8PR11MB9832.namprd11.prod.outlook.com (2603:10b6:510:3c4::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 17:02:29 +0000
+Received: from DS0PR11MB7624.namprd11.prod.outlook.com
+ ([fe80::33b1:3e53:2b94:9990]) by DS0PR11MB7624.namprd11.prod.outlook.com
+ ([fe80::33b1:3e53:2b94:9990%7]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 17:02:29 +0000
+From: <Marius.Cristea@microchip.com>
+To: <conor@kernel.org>, <janani.sunil@analog.com>
+CC: <corbet@lwn.net>, <linux-doc@vger.kernel.org>, <robh@kernel.org>,
+	<andy@kernel.org>, <nedo80@gmail.com>, <kent@minoris.se>,
+	<Michael.Hennerich@analog.com>, <jan.sun97@gmail.com>, <lars@metafoo.de>,
+	<conor+dt@kernel.org>, <linux-spi@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<skhan@linuxfoundation.org>, <dlechner@baylibre.com>, <nuno.sa@analog.com>,
+	<p.zabel@pengutronix.de>, <jic23@kernel.org>, <marcus.folkesson@gmail.com>,
+	<krzk+dt@kernel.org>, <linux-iio@vger.kernel.org>, <broonie@kernel.org>
+Subject: Re: [PATCH v7 3/7] iio: adc: mcp3564: Add support for spi-device-addr
+Thread-Topic: [PATCH v7 3/7] iio: adc: mcp3564: Add support for
+ spi-device-addr
+Thread-Index: AQHdGa9vZSBX56/xs0etMzmGWafakLZ5v4IAgAAE3wA=
+Date: Wed, 22 Jul 2026 17:02:28 +0000
+Message-ID: <3b5253f88b8363727dedee9481212e5be222bc9f.camel@microchip.com>
+References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
+	 <20260722-ad5529r-driver-v7-3-7781cd74ad75@analog.com>
+	 <20260722-violet-dayroom-f1ec88771772@spud>
+In-Reply-To: <20260722-violet-dayroom-f1ec88771772@spud>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR11MB7624:EE_|PH8PR11MB9832:EE_
+x-ms-office365-filtering-correlation-id: 01953f54-3d4f-40e2-fcb2-08dee8130342
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|38070700021|11063799006|4143699003|56012099006|10067099003|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ EDM82NQ3deTDSb+YX1Tn6etZEN1RsjCXHa40n9ypaYrS02BQK/15/TvFzp08g685eY448JXx7G1VMpKfohc0uP6mxHHLRAgNiwLCIvJQnK1rZToVwhkwiDxBbudOSNgiZJJKPhLx4OZ00y17m5Kg3kRnj49C1haxOfgOogagPzDoBi15vk7MRkroev5aCCU1MKpA6rswZfnU/VZxDjy+h+FR3lQwf4C0bajisPhklA6EPP3LUxuHklv02HCPJGSEH8Un+h8pbr/1+snWEeP0qj5xN2D8bWB8QZ9awfS7FQEPnEQzFzzpEfNfa848wkVwWMAscEPJlLIuYL39N9khEMXAEwuJ99qngiaRDTIltGWo47AZDZlLo65x+e7uYNl9rcsIOvRCjoQgutuweVDrU2QZChJO7JzVzipvqX2wrR0DbZZck/3IeFpcbGG1DpmK8nEnLQ/U6TjW2ZM0D24rmFWRcVQwQg5+bogqFL6t4GyRkvRRdpqUVCCRBFNATLTGRK+zEPrG53c1ftCr1qg4/FrpKkKU9OBZzqkGhLpvowoRwjQcbpvtKoqLZGzq45P0XB0eF8+yNlSMk2/Oq3ltYybtXpzGQbfzn2U/Xxyhdt4CHiuMFOii2Kp0mpJwCj87cbnGR9PXQmXDWfFaM2x9npENtncJ6QKv3X81ircwsyZWdzZ1APS8UYXnOvQcatic2Wp8yrwwGujjn/Z7KNH5wA==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7624.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(38070700021)(11063799006)(4143699003)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Vm9oUW9wN2NTQjZBTXRNaVl4MFB6V2VZOE9HZjJkSzBOMVZXRDk0cnBWKzdW?=
+ =?utf-8?B?NUhUMjNoRi95NkI1bDNUY252blpaeVh2TzJXYWs0b3prN3IvYjdjd2JRRFpC?=
+ =?utf-8?B?V3d6YnFONHd3aXczYjR4NkV1cFZVV0lhRG93VmRJTFEzbDR4bXNRaHd1QUk3?=
+ =?utf-8?B?UC9tekRub3l2SEpzU1RHeVR2dVdxNEVuLzRGdkJRbkJBSnl0b3I0N2RDbEZ0?=
+ =?utf-8?B?QmVEdEJxLzkveHhQb2hpYzFxVTBVcHJLYVh5TWxhRFJTWDZmV2hmWWV2WEdT?=
+ =?utf-8?B?cWpTZUdNQ05iTWxRYlJ0WE01Ynl5QkxaYWpwdjJGTVRiZnVoWnZrTW85TlU0?=
+ =?utf-8?B?NVpxZGpvZFFvYnZUWHpmd3l2TTdySzdkbXRXOHNPbVlNV2hjbWpCblp2S2l0?=
+ =?utf-8?B?WXlGa3pCSmJvNm5tanRJbW5SV0hjRTBVc1dhQmNVcy93YmsxczBsalNDakpP?=
+ =?utf-8?B?T2xyVGtud010ZThmeUpHa29HbFBUZG1OZkthRVJBWlA0VUxobXU0bFdRWk9K?=
+ =?utf-8?B?YVBqL2J4ZXc0ekFFeU9IQmpwVU5YZkU4Y0h2UjVCcnFuTkplZDQ3MVFEa3gw?=
+ =?utf-8?B?aFN5aXIyeGY1VUZ1UEZtZy9jdWpLOVNMNXl5R1ZkSXd3bHlITmhvaTl4a1pv?=
+ =?utf-8?B?SlFKRGhoVFlYZ1hzaHZHanhjTU9vSTMzTFFkYnh1aXdZaWVOYmtsWWlHNWZF?=
+ =?utf-8?B?SVdPclUrSTZOQTdreEpiZlJJZklORmZ1T3N1cmYyRGdMUXpmQkhwTzFiSEhl?=
+ =?utf-8?B?ZzFyZGQvbzYxMmlUNVdSaWVndHlYMnhXTUhkb2tIR2lvMXI3ZG9nS2VKSmFu?=
+ =?utf-8?B?ZisrMmhXMUIzWGd0YWtZZEVIeGY4QTVNbVZqd3FWY1paUjlNaGJjcUN1UjQ3?=
+ =?utf-8?B?YmxhS2dWTGpFUVUwd0tPUDdZYVN6NXp5czdqQ0NQaTVIUFhoN25HaEhaRFpO?=
+ =?utf-8?B?Z05OdEZGY0J2QVgycVJ4WWhna3YxN1kxTGRwcE9EdElyZk9zc1ZrYkQ3SmVJ?=
+ =?utf-8?B?VkVubVFFbkpVOHlBYmUrZ21EbWxEaEVpNnVBbEY5TnNUMDRzdGcvSUgwSUx4?=
+ =?utf-8?B?MXVUUWxYNXJTd0VhaTMxbVh2ZzJPVkV2WWtyMmwvRVVIWXhsdE9NNE5haDN5?=
+ =?utf-8?B?c054VVFUQlVnS0tnWm1PdEUzdG9NUGs2UXl3R1VMNkFPTnRBSlVOdnhKdFVw?=
+ =?utf-8?B?aTQyaXRyZU9iSHY1N3k4eDFOWDhWVzVPazZzVFBZYkVjRFAyQ3VNcXZxUzk1?=
+ =?utf-8?B?YkJTV1ZDeVJEYmxhd203L29IU1hPV3oxdUJTY2xxWGhGVFl6cEIwSVcwd01F?=
+ =?utf-8?B?d3k4MUZ2dWo0ME9PQWMxcHFLNjRJdTJ4ekdPWldNQ0FCb1VPc3F0aEw4Sklv?=
+ =?utf-8?B?Y1V4c25lUXMwUE1GRUFIanZvSVFOK1k2TFNaZUpXRmM0ZlFQTUxZSlVsY1E4?=
+ =?utf-8?B?MDZWS09RdlRJT1NxUWFuY3EyMlBpYjNWRWRoNHU5UHIxWUhBNHExOUtxUk1W?=
+ =?utf-8?B?M2kybUlCaXRzYlRxaUFGWW9OMEZLNmpkYzFVMzlpR0c1dDI5KytxQ01XZ1gv?=
+ =?utf-8?B?RG5XQ2hRdmdEVDczV09YaENEdGh2MlpzY1d0TFdxZk92Y3lZRFdWM0s1Skc2?=
+ =?utf-8?B?UHl1VTJnWWJpREdnZUxBWVV0cDY5clMrZ3BRRWh6UHBqQzBOR2xZMnV6RDRW?=
+ =?utf-8?B?U25STmgza0p6bkZDMjgwamkydTNGcWFVQzNKVW5OMHBaV2NJcVo2UTZrd0Zn?=
+ =?utf-8?B?M1A3eUdxZFpDVFRKSnJXek1Cc2ZUdFpETUVnbDI2NWR6TkZVU2VBREF4KzdP?=
+ =?utf-8?B?M3lwRkRXUlVwTnlMM0RjeHVBdGxxM0lWcmpWV2hrZDZCSVR5dXgydUtTS2lC?=
+ =?utf-8?B?SGFzY05xZ3AwZ3RMMFU3clFmeWhCNWVubmtJNEpIcnZ0NVRFZFNNYk9XZVFG?=
+ =?utf-8?B?b2ZVQ2F2dTh0eUQ5NlFsSHlqY28xWjhveDBpUWU3d3d4WFl5VS9YeDFROWRY?=
+ =?utf-8?B?dWtSZHRHU0dPcW1CS21JQzZVa1Q2aTU5aHZOUEczTWxpVWpCS3ArT1MrMkFh?=
+ =?utf-8?B?SjFNV3Brd3N0c0JnWE9HYTBZQ1RINXdzR3Vwc2NiNDFjMWQ5QTdwQ2o0cGhk?=
+ =?utf-8?B?KzZzcW9KeW9CN085bzFCaTc1VXJsVmlIU0hMdnVFdXUxQUQybnhleEk4ZmNk?=
+ =?utf-8?B?NFliTjdvb1dKa1BSVWlTQ3E1ZDh5cXhBdHZzTGVmRTVKZmNEZlEvY3dETEY0?=
+ =?utf-8?B?cnJRWmxERE1zQnNBbDd5SGpsR3BJUS90cjRYbnZ5bytjYk5zd3dIdmdTVVZP?=
+ =?utf-8?B?cXZJT0p5d0k2WVNPTFRaT3kwVUpKL1E0VEZKWmE3ZkI5M2lWcHRzby9veFNl?=
+ =?utf-8?Q?KBWYkKJdTtguTTnc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C103F56BAC8BC14ABDBEE316068033A9@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260710212616.1351130-1-dmatlack@google.com> <20260710212616.1351130-4-dmatlack@google.com>
- <178432481253.189683.3297727348836286619.b4-review@b4> <CALzav=e1Gcu-9TD7F--41cYqKBrStKOE4VqQ4K3PKdNuYnNmcQ@mail.gmail.com>
- <al_3nOssZoa6RoCq@google.com> <CALzav=dvc_bdmFtV1U2APfs1FM-6Zi5=VShcAYQjZ0wwNRfC-Q@mail.gmail.com>
- <CALzav=fYx7R7c6FTQ5bC4bbQ+_KNaC3gopcPihOtKmHGaB6s1Q@mail.gmail.com> <amAExy1vqMbx31WU@plex>
-In-Reply-To: <amAExy1vqMbx31WU@plex>
-From: David Matlack <dmatlack@google.com>
-Date: Wed, 22 Jul 2026 10:00:07 -0700
-X-Gm-Features: AUfX_mw9U43t-da8vfCp9-yZYFJuwnLedP2gk2wgS7EP9CWA2swr-hVEqcna6rY
-Message-ID: <CALzav=dHJ6g9FZmoWC5hFRCwCtf=BTHOmEFqbFFaDZiYDbRBvw@mail.gmail.com>
-Subject: Re: [PATCH v7 03/12] PCI: liveupdate: Track incoming preserved PCI devices
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Samiullah Khawaja <skhawaja@google.com>, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
-	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: microchip.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7624.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01953f54-3d4f-40e2-fcb2-08dee8130342
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2026 17:02:28.9496
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lMBIfaleh9cHxh9Xa5b3ruw5Wv3fMGY2+6B3rtjW9MTopUgT7qwW7b504qTtaofwJu/qbe9Ysk/WMFgj3z1o9gI3L95EXqsCpiXWWYPrm0E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB9832
 
-On Tue, Jul 21, 2026 at 4:46=E2=80=AFPM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
->
-> On 07-21 16:18, David Matlack wrote:
-> > On Tue, Jul 21, 2026 at 4:16=E2=80=AFPM David Matlack <dmatlack@google.=
-com> wrote:
-> > >
-> > > On Tue, Jul 21, 2026 at 4:02=E2=80=AFPM Samiullah Khawaja <skhawaja@g=
-oogle.com> wrote:
-> > > >
-> > > > On Mon, Jul 20, 2026 at 02:54:51PM -0700, David Matlack wrote:
-> > > > >On Fri, Jul 17, 2026 at 2:47=E2=80=AFPM Pasha Tatashin
-> > > > ><pasha.tatashin@soleen.com> wrote:
-> > > > >>
-> > > > >> On Fri, 10 Jul 2026 21:26:06 +0000, David Matlack <dmatlack@goog=
-le.com> wrote:
-> > > > >> > diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate=
-.c
-> > > > >> > index 03075ce06ac9..df6a02240aa4 100644
-> > > > >> > --- a/drivers/pci/liveupdate.c
-> > > > >> > +++ b/drivers/pci/liveupdate.c
-> > > > >> > @@ -298,6 +377,87 @@ void pci_liveupdate_unpreserve(struct pci=
-_dev *dev)
-> > > > >> > [ ... skip 76 lines ... ]
-> > > > >> > +     /*
-> > > > >> > +      * Hold the ref on the incoming FLB until pci_liveupdate=
-_finish() so
-> > > > >> > +      * that dev->liveupdate.incoming cannot get freed while =
-the PCI core
-> > > > >> > +      * has a pointer to it. It's better to leak the incoming=
- FLB than do a
-> > > > >> > +      * use-after-free if driver does not call pci_liveupdate=
-_finish().
-> > > > >> > +      */
-> > > > >>
-> > > > >> I am confused by this. Each preserved PCI device must have an as=
-sociated
-> > > > >> FD preserved with it via LUO. I.e., vfiofd would need to be pres=
-erved. If
-> > > > >> the vfiofd was not reclaimed, and finish is not possible, that v=
-fiofd
-> > > > >> would still be owned by LUO, and therefore PCI FLB refcount woul=
-d stay
-> > > > >> positive.
-> > > > >>
-> > > > >> However, if finish is possible, and this is the last vfiofd that=
- is
-> > > > >> finished, FLB will be freed as soon as the reference count reach=
-es zero,
-> > > > >> which I would think is the expected behavior.
-> > > > >>
-> > > > >> What is the point of holding a reference here, instead of only f=
-or the
-> > > > >> duration of FLB access, i.e. to make sure we are accessing a val=
-id data?
-> > > > >
-> > > > >The duration of the access is from here until pci_liveupdate_finis=
-h()
-> > > > >because that it when the pointer (dev->liveupdate.incoming) is
-> > > > >cleared. So that is why the PCI core holds the reference from here
-> > > > >until pci_liveupdate_finish().
-> > > >
-> > > > I think LUO gives you guarantee that this pointer remains valid unt=
-il
-> > > > the FLB finish(), because all the vfiofd that were preserved have n=
-ot
-> > > > finished. And when all vfiofd have finished, LUO lets you know that=
- the
-> > > > pointer is becoming invalid so you can unset these in the finish()
-> > > > callback from LUO?
-> > > >
-> > > > If I understand this correctly, I think by keeping long references =
-until
-> > > > finish you are replicating the vfiofd bound lifecycle that LUO alre=
-ady
-> > > > gives you.
-> > >
-> > > Yes that's right. I am taking the approach of not trusting drivers
-> > > (i.e. VFIO) and having the PCI core maintain it's own references so
-> > > that FLB finish() is guaranteed to never be called while a device has
-> > > device->liveupdate.incoming set.
-> > >
-> > > Alternatively, the PCI core could avoid taking a reference and instea=
-d
-> > > check for driver bugs in FLB finish(). I previously explored that
-> > > approach and ran into a circular lock dependency between the FLB mute=
-x
-> > > and pci_liveupdate.rwsem. But I can look into that again, or just do =
-a
-> > > lockless walk of all PCI devices and panic if any still has
-> > > dev->liveupdate.incoming set. It will only happen if the driver is
-> > > completely broken so panicking seems fine.
-> >
-> > Pasha what do you think of this approach?
->
-> I like it, let's do lockless sanity checking in flb finish callback, and
-> avoid messing with references.
-
-Great! I'll take this approach in v8.
-
-> >
-> > It avoids the PCI core taking a long reference (your conern) and also
-> > avoids the PCI core needing to take lots of short references to access
-> > dev->liveupdate.incoming (my concern). So seems like a good
-> > compromise.
+T24gV2VkLCAyMDI2LTA3LTIyIGF0IDE3OjQ1ICswMTAwLCBDb25vciBEb29sZXkgd3JvdGU6DQo+
+IE9uIFdlZCwgSnVsIDIyLCAyMDI2IGF0IDA5OjU0OjE1QU0gKzAyMDAsIEphbmFuaSBTdW5pbCB3
+cm90ZToNCj4gPiBSZWFkIHRoZSBnZW5lcmljIHNwaS1kZXZpY2UtYWRkciBwcm9wZXJ0eSB3aGVu
+IGRldGVybWluaW5nIHRoZQ0KPiA+IGhhcmR3YXJlDQo+ID4gZGV2aWNlIGFkZHJlc3MuIEZhbGwg
+YmFjayB0byB0aGUgZGVwcmVjYXRlZCBtaWNyb2NoaXAsaHctZGV2aWNlLQ0KPiA+IGFkZHJlc3MN
+Cj4gPiBwcm9wZXJ0eSB0byBwcmVzZXJ2ZSBjb21wYXRpYmlsaXR5IHdpdGggZXhpc3RpbmcgZGV2
+aWNlIHRyZWVzLg0KPiA+IA0KPiA+IFRoZSBkZXZpY2UgYWRkcmVzcyByZW1haW5zIDEgd2hlbiBu
+ZWl0aGVyIHByb3BlcnR5IGlzIHByZXNlbnQuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogSmFu
+YW5pIFN1bmlsIDxqYW5hbmkuc3VuaWxAYW5hbG9nLmNvbT4NCj4gPiAtLS0NCj4gPiDCoGRyaXZl
+cnMvaWlvL2FkYy9tY3AzNTY0LmMgfCA0ICsrKy0NCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAzIGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9paW8vYWRjL21jcDM1NjQuYyBiL2RyaXZlcnMvaWlvL2FkYy9tY3AzNTY0LmMNCj4gPiBpbmRl
+eCAzNjY3NTU2MzgyOWUuLjcxZGViMDVlODc4ZSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2lp
+by9hZGMvbWNwMzU2NC5jDQo+ID4gKysrIGIvZHJpdmVycy9paW8vYWRjL21jcDM1NjQuYw0KPiA+
+IEBAIC0xMTIyLDcgKzExMjIsOSBAQCBzdGF0aWMgaW50IG1jcDM1NjRfY29uZmlnKHN0cnVjdCBp
+aW9fZGV2DQo+ID4gKmluZGlvX2RldiwgYm9vbCAqdXNlX2ludGVybmFsX3ZyZWZfYXR0DQo+ID4g
+wqAJICogYWRkcmVzc2VzIGFyZSBhdmFpbGFibGUgd2hlbiBtdWx0aXBsZSBkZXZpY2VzIGFyZQ0K
+PiA+IHByZXNlbnQgb24gdGhlIHNhbWUNCj4gPiDCoAkgKiBTUEkgYnVzIHdpdGggb25seSBvbmUg
+Q2hpcCBTZWxlY3QgbGluZSBmb3IgYWxsIGRldmljZXMuDQo+ID4gwqAJICovDQo+ID4gLQlkZXZp
+Y2VfcHJvcGVydHlfcmVhZF91MzIoZGV2LCAibWljcm9jaGlwLGh3LWRldmljZS0NCj4gPiBhZGRy
+ZXNzIiwgJnRtcCk7DQo+ID4gKwlyZXQgPSBkZXZpY2VfcHJvcGVydHlfcmVhZF91MzIoZGV2LCAi
+c3BpLWRldmljZS1hZGRyIiwNCj4gPiAmdG1wKTsNCj4gPiArCWlmIChyZXQpDQo+ID4gKwkJZGV2
+aWNlX3Byb3BlcnR5X3JlYWRfdTMyKGRldiwgIm1pY3JvY2hpcCxody0NCj4gPiBkZXZpY2UtYWRk
+cmVzcyIsICZ0bXApOw0KPiANCj4gU2FtZSBvbiB0aGlzIG9uZSwgc2hvdWxkbid0IGl0IGNoZWNr
+IHRoZSByZXR1cm4gdmFsdWUgc28gdGhhdCB0aGUNCj4gYmVsb3cNCj4gY2hlY2sgb2YgdGVtcCA+
+IDMgZG9lc24ndCBqdXN0IHBhc3Mgd2l0aCB0aGUgZGVmYXVsdCB2YWx1ZSBvZiB0bXA/DQo+IA0K
+DQpEZWZhdWx0IGhhcmR3YXJlIGFkZHJlc3MgaXMgMHgwMSwgdW5sZXNzIGEgc3BlY2lhbCBvcmRl
+ciB3aXRoIGN1c3RvbQ0KaGFyZHdhcmUgYWRkcmVzcyBpcyBtYWRlLiBJIHRoaW5rIGlzIHNhZmUg
+dG8gdHJ5IHRvIGNvbW11bmljYXRlIHdpdGgNCnRoZSBkZWZhdWx0IEhXIGFkZHJlc3MuDQoNCj4g
+PiDCoA0KPiA+IMKgCWlmICh0bXAgPiAzKSB7DQo+ID4gwqAJCWRldl9lcnJfcHJvYmUoZGV2LCB0
+bXAsDQo+ID4gDQo+ID4gLS0gDQo+ID4gMi40My4wDQo+ID4gDQo=
