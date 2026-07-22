@@ -1,176 +1,187 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F47F40F74D
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 10:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784717232; cv=pass; b=kj7mzdj8GIeChiPvzLj0zgZPpou6NuZqx5NuBdLZr88XE+FYnkz2SitLHCLu+ykEkn01th0D70WO6md/KbIOI6AoGjONLntJm8l8bZjlCoIYAm9vZhOlrprV9auE6KAi/Yzevg7uG457IO+/9+DN3e4i4EQsePgYvjGyY8Hx/kw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784717232; c=relaxed/simple;
-	bh=guAhZjJfEBfSY1xp7Mz+NJHa/zurYwT9YHjF7Gv7gyU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vy/rIqBixWMMpN1FlYs0bTCezbghIYSDuoIjB0Q5iKgn5LgmcjLdU9Faj/CNG7R0NnuuNaaxqoeYGSPPeacGpvZCg2X58TyVnizGAARho78Z9lRMpyADwn2/UltZpVFVsE7S8+ysQqOSkilYTS7EG0oye9aVwAqrIas8mqBuQyQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=WzF0IGAO; arc=pass smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF6C339371
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 10:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784717438; cv=none; b=Fa0Y94a6RD3fYZDPYpTguRuZYLeukc+9d+ljI6q4CO5VsKIg0yzcIWawO4DQ3PqKWy/rGYranqZHaB9FxQh0Xx/Th/fuu5EECFKxNodAsIiGOll5tNEJ7nRZoKwaFdblbBN5hmq8gOA0vzzVxAtpxL4F8Gt+0Bg2nxf+hQ6sqFE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784717438; c=relaxed/simple;
+	bh=cT26bkOTYpm3jtpcO4eFItyZdPCZz1fdM1MVN1Hdaxw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gJDctBct8/CIIMDFmc7jExtTN6nCYgEXpqRyOtdgTsJd7n5WqTRnWurWMYWyOtJ63lGXnMxvYN0rrqDMh2mcuuw1w2QMJgufrHUNF0M5O5ALlwejMDbCp04dL6oiziBAoi5WgNJ0P1qXqdSZtQ/XcvZ7tS7+EU2RoEbbTULQ4HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=W+VYNuCk; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="WzF0IGAO"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92e5c9211d2so1107791185a.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 03:47:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784717229; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EXhX6wInxWGDoEgKu7X6on5zUzGiy5QEgVagRGEskzjTT+7iLZm/x0/HEZxmFbxjXd
-         Tb+FGRmkJzCVOOj7PKacbGb8x4144LfzS8mjwUgUcC/6Lql5YD98e9zfnKXL1ATU/vKu
-         r0Y8p0nfvBcMGdjfmI9ocnzWF3MAnGU7Xl8a5GabFqfvgbblNjhYgo+X+6GyKboqHg6T
-         NaM2dHqOdKTkCldGiXO3WdPjrqyZdyqMNh+w1aHyOCOur0nZxBJIcBF3YNPNq/yPG1Um
-         l75n3enIyoNaa0p1bswZb5C0CyHDNr30MCWynnVDkIGIf1wlAjDT0upYRiU5BhCM55JI
-         nyrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7RG0U3kjlqqprl+YQXEPz8chW66ssUd6wO7da8Gt0so=;
-        fh=jKkn3eN2IL+BiKBilnK8ss1XhmaGErwmPhiwIj9JCWs=;
-        b=nLcYgoksXzWkalilSZcPfk7cG0wvyTEXKW5YIFoZCGImDf6zddtk2mg3vpGKsIAKi1
-         mpmnOMfFAqczHiMUn/HLzb+JZ5Hks+j7FYAWxPB2o2/xQF5SylLbX+izE1F04uxueeVB
-         5UFYltPXlfUpACqKw4Q0H66dJ1+4e0xMln5gcb+1o61pT5ybG2ebRlJSIDES5RsMqMxZ
-         gDgwtmNxw4a9W4/u1SUbYDgWdLwL8dqFHmRa5ill1QksWDsaBbNHaUUYnIkzqIr6uhLM
-         nAkRhkemelJ4tE3ytqq1VibWALSod7Mm581iubJMJPR6qOlXdgkgW7a8HxSJ8L8gcbpv
-         CQQg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="W+VYNuCk"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4956242332dso25669545e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 03:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1784717229; x=1785322029; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7RG0U3kjlqqprl+YQXEPz8chW66ssUd6wO7da8Gt0so=;
-        b=WzF0IGAO8mdfhq9zY44w4C5y2L/qBa3gVWxDXR8IV0PNZdJPpSNBFYMY5Zy1xo+Yts
-         pxh19SRJBfAZg7UXoyxxNCoRuWhdiFV+EUPu5TU6JDGsnV0kX0k7br5iJ/D1GUcgganS
-         LmLPrKR8ufjbA+A2HHUYQQXuCOnPNlUA3CCWI=
+        d=suse.com; s=google; t=1784717435; x=1785322235; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=zXZVyY5wvEWXnofFGkPYwR4wB5dvlpWTyOutOPfcI/8=;
+        b=W+VYNuCkPhKtgOwgyPKrePXcvlgs3AKC4Pq+LNKCaOcQC4U/N+NdUBoZzzssTS9Rgn
+         VgMNWiYVxDj+XtaOLNMn4IyGkZtK30p1c/WwOJ3EA/2MT9+m0L2Wp+ZYyW7IjkPpI7vX
+         DFdnS0k2kGXNf+gn+r+wU6WcdRt9jTvzlldTDLOSrOgQNjF+3nTTvDOcqK/uTz+Lq4tl
+         mGHJFwAAtbxyhv2ieYLXm4QGYsXYOxw4V6COO4yYS9QvxzRJvfGTEzzAUF5HKl3yCDDr
+         rSiGuWbc2UESJOKXVido0X4ACWKdDYNot+XrqhN+Q3+2ddGRWBRq5vv7LjNxM3IR7XDs
+         G2gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784717229; x=1785322029;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1784717435; x=1785322235;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=7RG0U3kjlqqprl+YQXEPz8chW66ssUd6wO7da8Gt0so=;
-        b=GX8QYuPR7DlRSQ4Y54vA4dDuyJ90h49HCiPkJTjQ6moG/cNq0MzG2g9YJSaBgTUWnr
-         fP/fGmtmo7TadG9YNTeliqyk207neFHoseUy8hjNRIX9cl+LWD6wngFL7oU3j4PCKy4W
-         +paaitrgjWOtcqxhaBv9yKwfl7Sh+jI+tJn4Saq/WnBsYuTxrZlTA+qk9qwfpkvHcmVb
-         Hb3SAUH+VDVRJMVyzEn510XOOJ3mIcApWwWpYOYwNk6nQXZO86vrBl7CoWCuJBNTyS90
-         4YEZUWDUXDdmgAo5kRmVwKtwrNFfPLwiwk/MsBD4dYkwa0DrjUbkcQtEhVTbuMFNpvrW
-         VirQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp8HvabPuezU/y5vCs7TZWZ8rdGA+eEHJSunllCdXmLKXWwakOGdjrUSquQpUznrhPIYbTaFR4k7FY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlTzb1itVH8ZI7QR2WFxrw2VwEQryDBxeMJh5EH/GCM2TdMim3
-	7EyZj2r4bMRSL9CfI5cm+kI1th+OITnc++p7N3eaXwl6GXxHKfLdk7Y4t8D07sEWcDy93Wk6NN4
-	cK+mSRdcbyZFNEi13faKr+uYlUPa21LzkxzH0zqAn/A==
-X-Gm-Gg: AR+sD10Sdmqsr+yN95+wVyVYwc5NW+PM471EJWCLIwBWcJCRXNxjoQf+W96GHN53CzI
-	owcUgsvTrCX0F24/ROokJcd3BFzMevTTKMDhwbWza84f1RVcrLRCo8iN4BY4Su4JP88+PCidtTR
-	JCv93NMDa/ua5NV4ljkKO01ju8rGFS5q8L06qNUINkQiMv/nX+jbrxYBSyZq/CJd/9VuzeAkkLu
-	aPY1bMQKr9c9cwEoD4YmB3ejNb+Kh5o3NphtzjjePuZWP8reJ4S3d2korSGyaOn0/gGbAIGzNMc
-	ppj6Lb8xvHqR/mOS6g==
-X-Received: by 2002:a05:620a:4608:b0:92e:c118:18b9 with SMTP id
- af79cd13be357-930b43c45a4mr2167343785a.88.1784717229070; Wed, 22 Jul 2026
- 03:47:09 -0700 (PDT)
+        bh=zXZVyY5wvEWXnofFGkPYwR4wB5dvlpWTyOutOPfcI/8=;
+        b=Dp59FSdzgNINb73Ex7jOwB4rfEIn5rDAgRCwKvtDbSowsnY0C6MMveqRHY2sV8vJ8E
+         bRjvTtEeNzis5p81TN3MJIT3bQaAmXmokDLnCjGReA6QTMw+8eow59Gl4B5yaLVG3vRQ
+         Ecs/m6txN24nZjIvPVrMmabtCfrQQ1vetU8dgzsnJXbM3Qu9Pr/sQNmbcp6UThYvyzKT
+         YfNPz2O2f+0dtghi4r1NFOdFE09JKfCE2X0RlbfJPcJCufN6xduayEnqzaWUsQ6UqLLX
+         w1Z/1GwSuHW5SfHtRIaJGRHHi8WkF8L9O4wS6Tw2vgGTqbIIxoCGrvmSOG8HT6DbyhBH
+         IEag==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+cq3pfXzbR9ivSsNXI5AGx2jF4F1Cl6InKpL58zTeg5tJ9CROwAAF4AxLS2smiIGuTB/mUd8WLTo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSPzyd7U4GSs4iPePnFa+dvYI9Mtxtr5cOl7Szjj9YIsa7jB3q
+	o8aZYgQv2CuCIVBZPLLvZUosUQZy61m1YzbvnIt2qV5uZuf0xDq4dXT5DKEUfghOfLg=
+X-Gm-Gg: AR+sD10MQCVuS2o0xA+zCbcpaZbZ0a2lrknakbVfQt0gG6KK1qPuJZtKd9J5rGkiBIb
+	NZCr2s2Cum13TkBimWX6F91/fR4b16ZYBmNH/RtkjNWg9wWypnfCqwK+4tZph/wshX+3m5Roj04
+	jO1YddwoOoSFOitfEUBWJ7UZ10FZIW/lo4ipaKUbx4pOkiMQuFtAl/wHgY69JsaV6/YbsZOejZY
+	WgZEU/IDdgQ7bFydHF4MpiEgUPHtv9uT2XQLnQIoDFtsy4N7fI1+PQzSMmu+7N6IIIHNLZDFLMC
+	Qh/3zodOwjOye7Q8AYIHloJeTES9vlEC1WMgb3Ex/spVKYIdVeICsmY2AiqfoLDTl5c2o2RfWZV
+	/yz4zkzRRvcI54/TkIDM1sqWlCoazSdE7xVBHACQtCqYEQS+a88a2hGQBAIdyP2qyI+Q8Bxc85W
+	SXhR5w2fU5MubxfPs=
+X-Received: by 2002:a05:600c:4584:b0:493:f5bf:4da4 with SMTP id 5b1f17b1804b1-4954a50e970mr252767515e9.28.1784717434661;
+        Wed, 22 Jul 2026 03:50:34 -0700 (PDT)
+Received: from [10.20.4.146] ([149.62.206.101])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956537c7desm198765855e9.7.2026.07.22.03.50.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2026 03:50:34 -0700 (PDT)
+Message-ID: <c16ef391-845a-40b1-a05c-245ddee6da51@suse.com>
+Date: Wed, 22 Jul 2026 13:50:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 22 Jul 2026 12:46:57 +0200
-X-Gm-Features: AUfX_mwdbQYshU7Eh86-5S9-gpZDCDD0EXLkbKHjoCISvWGty4DcFL-X4n78Y2Y
-Message-ID: <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
-Subject: Re: [PATCH V11 0/9] famfs: port into fuse
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 07/11] x86/tdx: Add APIs to support Dynamic PAMT ops
+ from KVM's fault path
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>, bp@alien8.de,
+ dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, kvm@vger.kernel.org,
+ linux-coco@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mingo@redhat.com, pbonzini@redhat.com,
+ seanjc@google.com, tglx@kernel.org, vannapurve@google.com, x86@kernel.org,
+ chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com,
+ tony.lindgren@linux.intel.com, binbin.wu@intel.com
+Cc: Binbin Wu <binbin.wu@linux.intel.com>
+References: <20260718014500.2231262-1-rick.p.edgecombe@intel.com>
+ <20260718014500.2231262-8-rick.p.edgecombe@intel.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+Content-Language: en-US
+Autocrypt: addr=nik.borisov@suse.com; keydata=
+ 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
+In-Reply-To: <20260718014500.2231262-8-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 20 Jul 2026 at 12:07, Amir Goldstein <amir73il@gmail.com> wrote:
 
-> It's not about this ioctl, it's about infrastructure reuse.
-> It's about the fact that there is NOTHING special about dax_devlist;
-> and no reason not to manage it via backing_files_map.
->
-> The reason you stated was that you want userspace to determine the
-> daxdev_index/backing_id - fine, no problem - this is why I asked that
-> you pass it the desired backing_id in the ioctl.
-> In fact I think that all fuse backing_ids would be better assigned by user space
-> so the extension of padding => backing_id is not unique to famfs.
 
-Right, so I suggest to just reuse FUSE_DEV_IOC_BACKING_OPEN and add
-two flags: one to enable user supplied backing ID and the other to
-indicate that fd refers to DAX device.  The changes to do compared to
-the current patchset are quite minimal.
+On 7/18/26 04:44, Rick Edgecombe wrote:
+> When handling an EPT violation, KVM holds a spinlock while manipulating
+> the EPT. Before entering the spinlock it doesn't know how many EPT page
+> tables will need to be installed or whether a huge page will be used. For
+> this reason it allocates a worst case number of page tables that it might
+> need as part of servicing the EPT violation.
+> 
+> Under Dynamic PAMT these pre-allocated pages will potentially need to have
+> Dynamic PAMT backing pages installed for them. KVM already has helpers to
+> manage topping up page caches before taking the MMU lock, but they cannot
+> be passed from KVM to arch/x86 code.
+> 
+> The problem of how and when to install the Dynamic PAMT backing pages for
+> the pages given to the TDX module during the fault path has had a lot of
+> design attempts.
+>   - Extracting KVM's MMU caches requires too much inlined code added to
+>     headers.
+>   - A few varieties of installing Dynamic PAMT backing when allocating the
+>     S-EPT page tables. (see links)
+>   - Using mempool_t to transfer the pages between KVM and arch/x86 doesn't
+>     work because the component is designed more around maintaining a pool
+>     of pages, rather than topping up a continually drained cache.
+> 
+> So don't do these as they all had various problems. Instead just create a
+> small simple data structure to use for handing a pre-allocated list of
+> pages between KVM and arch/x86 code. Model this on KVM's existing MMU
+> memory caches.
+> 
+> Add a tdx_pamt_cache arg to tdx_pamt_get() so it can draw pages from a
+> cache when needed. Not all Dynamic PAMT page installations will happen
+> under spinlock, for example TD and vCPU scoped control pages. So have
+> tdx_pamt_get() maintain the existing behavior of allocating from the page
+> allocator when NULL is passed for the struct tdx_pamt_cache arg. This
+> prevents excess allocations for cases where it can be avoided.
+> 
+> Export the new helpers for KVM.
+> 
+> AI was used under supervision to review code and workshop logs.
+> 
+> Co-developed-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+> Reviewed-by: Chao Gao <chao.gao@intel.com>
+> Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
+> Reviewed-by: Tony Lindgren <tony.lindgren@linux.intel.com>
+> Link: https://lore.kernel.org/kvm/aXENNKjAKTM9UJNH@google.com/
+> Link: https://lore.kernel.org/kvm/20260129011517.3545883-20-seanjc@google.com/
+> Link: https://lore.kernel.org/kvm/aYW5CbUvZrLogsWF@yzhao56-desk.sh.intel.com/
+> ---
 
-> And the best part is that this request requires no changes to your userspace.
-> You already bite the bullet and maintain the new/old uapi but changing the
-> kernel implementation does not require this burden from you, so to be honest
-> I really don't understand why you did not follow Miklos' suggestion.
-
-Code reuse is also important, but I understand John's position to want
-to separate famfs from existing codebase as much as possible.  And
-because this is an implementation detail I don't want to make this a
-show stopper.  We can easily fix it later.
-
-> > - Lose the famfs interleaved extent format. I have complied with this request.
-> >   It makes some things worse, but we'll discuss that later.
-> >
->
-> I am really not aware of a request to lose the interleaved extent format.
-> How can this patch [2] from Miklos which reimplements this format as a generic
-> uapi be mistaken for a request to lose this format?
-
-Let's not care.  We can easily add this later if famfs (or any other
-use case) decides to want this after all.
-
-Making the initial patchset smaller is win in any case.
-
-> Let me recap the former review requests as I understand them:
->
-> 1. Use ioctl instead of GET_DAXDEV
-
-This is done, just need to reuse the existing ioctl instead of add a
-new one with the same semantics (okay not true because of the fixed
-backing ID extension...)
-
-> 2. Use backing files infra for daxdev table
-
-Leave this later.
-
-> 3. Use ioctl instead of GET_FMAP
-
-Not sure we agreed to use an ioctl for extent mapping.   What we did
-agree on was to use a generic interface that doesn't have anything
-famfs specific in it.
-
-John, can you please also look at review comments provided by Sashiko?
-
-Thanks,
-Miklos
+Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
