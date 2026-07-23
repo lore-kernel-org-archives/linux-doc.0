@@ -1,78 +1,93 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB90350298
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 02:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C086363090
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 03:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784773637; cv=none; b=pdOwzJ0l0QAw/wDiAv21lEtuBn/TNSZoUqs5Z2kOrxnUmMpi9uEMl7alBTzavpaNBnLVi7srvP2iDuMkp+IJXpxgGIuDblt1SoDiK+umYtbLT+H6fFE+UqtbcEnV4Ww5a9cys5PI7AnJ4CTB1M9XE2MDn6UKkPy10CB9MlYfaPU=
+	t=1784777125; cv=none; b=Ze+k0vCVX4vGv4GGuEp/LdYiX7iqW97U+C0s8Cf/q7sF4V4gJ+Lq8ju3t1zlkiRiTCUaCp/p6IKbke26Y376n9vAFVm4/ZyNJ9W2Vb95SoK16O57PVDnI8tk/TUNLThvyfCGAhyFkzUgZztOS6I2DvCP3afNXntlNzcZwUGZtg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784773637; c=relaxed/simple;
-	bh=1Zc+csD27sMljIPDEVrcZuKVZFqkreAOnt8H294xZbk=;
+	s=arc-20240116; t=1784777125; c=relaxed/simple;
+	bh=gfT0G2h32Mgahppc0W5ji5WK8maIODJ9zFl+mqtZVuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TQvzrTPV/HJf31+V+29VJSJA9VXZiBRc2miMBV/WlWSt0agFWucrETjtumHBUvTVgSpJULVB+qpWf80WKjQcZWCnaPU08KPEPb3DsfLyXHzZR99faZuiBw0ju2uiYe7ndhYwdrsdM2sgDsrtPiez3AmcgerAsp+OnmrkPglKWVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=hCtkZ+95; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=aBLmhHtTdGqyFhWTwTF63TWSso+9RLUzo/VVkBJUE/ElVPs+16owzEmf7J+B2XH0VnCjV/+0IugtzzGsIGOBPvVWcH0jNa+Ax58quo0/hoXHR3dpRDBhZBpU3XUoBPwVQTawUfheIwJ0DHCkyWgzp4/r9llLTY8kppVujlKUe5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=S5k+/km/; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="hCtkZ+95"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92f03daaa97so13267485a.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 19:27:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="S5k+/km/"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c0a81d286so1280981cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 20:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1784773633; x=1785378433; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1784777122; x=1785381922; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=nkcumUgk1ANWHXgVO66BrCeyROSAiTypIfEMcbMxo1s=;
-        b=hCtkZ+95rsEOcrIAqdvfFiHIIdTxGxGk1KyoqBmiJNWV4O3LdA57hwqSuliNTsVBiK
-         dIO1N6uQGaMqjW1Y2c5Q6L6H+icBCKH7y/RQGAtU2DuiOkMRkP0aoNHOk8xSHgm6okVv
-         8+3qJDWue+VfIadG359GE4hDzC1yBg5TpMx5hCK+ssgvpIXP8PVlf1l/40jCnqRGuw4E
-         qylEhZDxVYs0COp5OoujYkfhOnXohuDxV48XRdL2wsDLvDcTO6TfVv0S68inlOXkyu6R
-         kKdiFVKSkV4j8L5yKTxd9zgCo27kNV50nBNTnPu6rdFRcgkvAs74Ck8gWqbflpm6UhOx
-         NaCA==
+        bh=Kd13UizLWaDa1rNXvY/PJ0N43yZ3Vd9IZn7XTlTXtfM=;
+        b=S5k+/km/W3hDbRibPNpOoB80+fMcI4MbaVCKgEaeGawR+FQWl9kNV2iUGzMuP5o587
+         /iaVfV9Jd+R4VNTdxnjkkgdz20NTR/Eu8b80hXADBRflMrWslncYyJ3SvD3gwvv5ngtC
+         ziCEhyqOck9EWcwsKAG1K0Fzc1bP7k6aIwfto2hePcg8FFQ5b1ILjIFtAueuSZJkiFL5
+         nYdguJXw90nDowVcfKGttiFdnF1n59L9sXbcemc/huQrcwmkhJfTVLcf0o+RBBzMGJDB
+         vgBWGT12txaO7gCP8wM5mTntpmBdTwxcjXyxbZfzrXl9J3a1TwC6EBaOEEphMqOrCOjK
+         FmPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784773633; x=1785378433;
+        d=1e100.net; s=20251104; t=1784777122; x=1785381922;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nkcumUgk1ANWHXgVO66BrCeyROSAiTypIfEMcbMxo1s=;
-        b=Fz+k1Tf9Hfyk7l09RbuJo+TAXmtGiqtlR1FGH+0IbO+BTCAzOawh+B0ZTyIdMFtIsb
-         PuUaYqPOKWB0btou6FcXyntfFY6uxPrswBJZ5Ev8GXFE7WgssKIlFhhrvhUKNUz76mdF
-         /huVVp5gjfKqP7DV1VBlFZfTQ+JZjO1QNvdBttFWHAUv7GvnGY//8RhtM4u3k7yIWa1Z
-         FYg6UWGnPhiJFJsKHxxqluH1KYlSW7kxzgJwPaDSkqTIUbrBp7qAaJu8uGa4IW+RUhZi
-         swDTvkbPEaxU77Z3EZmb+ZfFcedz8/snxq1piXesqoIidIeo8Eu+Jt+V7cwTK17ggWvi
-         zr1g==
-X-Forwarded-Encrypted: i=1; AHgh+RoeIZctljXbKBU9x+EVfkF7d1zvoAD5z3/b0rRGte8qWLMzMVOOhQIhtmsjm4UMRIPLN1TCeCo2Sc8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFhv2f5J1bUTdf5L3t515Cv+lRSW5gMSIRNzyu8EVTZo9Afaur
-	U29jdJose8HUGp3v9aWjSiRizFJGbgaE4ZludMKjYCnHinyeCGuVWN3kChdG5vhY6Bs=
-X-Gm-Gg: AR+sD13sAl8obPEL5MteWmue0VEZVWQYhqUNk/eKeQ0F4FbVLqDIgfrVcE8eiwszLpi
-	G0Wc+vfO/TydDpoNIjKqzqLtkdZf2g2C8RDI9incdmNbJkExTtE+/EEitslIC3x3Wlmf1KSZXCl
-	Z95tWFcvbj3FoIsw8o3yJxbHkSsSR/ZvaQMh+Et8vPLNp/lt2iPkF/aWQNCESXtvwUxQcF8fkd5
-	YgqKOoYMLtC9i445SDBx8NCeGZFuNdZgwQHhzWDC7t2YvL7W0N7fYn+C1lQct2Qxm3IROITmCRc
-	I+rPJIvdj1HLXVlE/kHF+ASCXhOCz8qpH2I9IEw3EJcdDq2tBg7FaX2RUlLmrKCY+ambiBZXOTT
-	zI93Xn/Ul+3K8Jc21ndUY1juFDYEGebQiziYyRcOgLI+Eb6D+o9pT0r2dktjc8DFsEimY6xyzMv
-	3n5u7dAIm/Zi8=
-X-Received: by 2002:a05:620a:44d3:b0:931:1d6:8a98 with SMTP id af79cd13be357-931038c7f92mr142596385a.41.1784773633581;
-        Wed, 22 Jul 2026 19:27:13 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930f6a03834sm304453585a.30.2026.07.22.19.27.12
+        bh=Kd13UizLWaDa1rNXvY/PJ0N43yZ3Vd9IZn7XTlTXtfM=;
+        b=iuBnqbdjIWnTycw0nHfdTl2C5ie5dh63hkcp8tSNBJ/uQ6AX2Ut2XS2TRUaSTzFwOu
+         5v77/OK/zyV8tusdq8TRSLIvIpk7UT4zqAH8QUn0DOf0crUb/1x+yizeXxw2oN79sYM9
+         Wr6oln+CaMCqmEd1CAEWAoBjgGQ+EiyXnla+3/zpmfSE4PnKNA7IfwpZlKkTFuYqzO09
+         HOr4TI7/EzmY0xlMo1rO3RPjghn/dxtBbLbZB8lvLazDMKDuoEQjCHG+PHl+znpz4qlm
+         BhN6QAkGVcsv+1nXGrYySy80cAq7GtyDtIO0eiNtqcCaES9KcofzrwY78gyz87mQwzAK
+         c1fg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqd1v2Le39lLTvXRVRuLeKkI8NAwavXY9vBQopnFiUN8jQwDYOK72ZPx7r6dAuxSPXUkpaF7Es62RQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8olqK44NrnMET58tdQA2rG+N8b+7ZMhNgSY4ES8IJEuHoRFcD
+	SZsa3SmK0cVl/Qco+Sx4SuXX47IE3TYzrUeK7WxhkMENC5K7zSk40+kFpt67Dul8Fv4=
+X-Gm-Gg: AR+sD116TM1DupLeFEtpRl5ktNgpHJhSogNjRTIhGgW2cBWHw/iv37OCVmfAJ5TbqA/
+	w+G9++YGxg58wPlp7LqQaQRFyclgElqo4jAJYsiQHefW2hGBbiPE5rpf39jMSqgK5dj1Et1NM91
+	Im3uIHZ5Sic2M02Z3u4YQPKmA04dfwP9uRK4rosoQ30oG/rlfNGx8EIYZ2zvMY+Hep4SqP8ZCku
+	c3reKhFVogT1Ukk/abvBqdTCtLqtt0kvN/YvvCjTm5SBxWBVwHfkVc1zn7HXyzzM/XQRW9DvnNf
+	nHuigpyhguuqc6ROyoh0ABhOpCFjqY67yyMEJo6Om+5FEaKIevpABSCSbbzGbw6Ap8zRXNmHTnJ
+	GEWNwDWiCrpklz/Ka3nvG5fuF+HaqDuyl5FI/TdNZ1GiCv0c5EMXg0yRDT286TuYGOgBWYJRU42
+	EX+yMaH9U03Vav/8z9QC0SC39iz5tF1Xq3SCynOexPs5RBQF7scQ2UZ+/j5SwLEDanLtXp
+X-Received: by 2002:a05:620a:808c:b0:92b:67e6:4b79 with SMTP id af79cd13be357-931048880c8mr90170685a.35.1784777122066;
+        Wed, 22 Jul 2026 20:25:22 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-931062c4ea8sm34465885a.28.2026.07.22.20.25.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 19:27:12 -0700 (PDT)
-Date: Wed, 22 Jul 2026 22:27:08 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, shakeel.butt@linux.dev,
-	mhocko@kernel.org, yosry@kernel.org, mkoutny@suse.com,
-	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
-	roman.gushchin@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Hao Jia <jiahao1@lixiang.com>
-Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in
- shrink_memcg()
-Message-ID: <amF7_GB5Rl6OJmt4@cmpxchg.org>
-References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
- <20260717085151.22822-3-jiahao.kernel@gmail.com>
+        Wed, 22 Jul 2026 20:25:21 -0700 (PDT)
+Date: Wed, 22 Jul 2026 23:25:15 -0400
+From: Gregory Price <gourry@gourry.net>
+To: SJ Park <sj@kernel.org>
+Cc: arun.george@samsung.com, balbirs@nvidia.com, brendan.jackman@linux.dev, 
+	yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, 
+	baolin.wang@linux.alibaba.com, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	lance.yang@linux.dev, usama.arif@linux.dev, xu.xin16@zte.com.cn, 
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, driver-core@lists.linux.dev, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, cgroups@vger.kernel.org, 
+	damon@lists.linux.dev, linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON
+ migration and pageout
+Message-ID: <amGHuputMNCFZ9CV@gourry-fedora-PF4VCD3F>
+References: <amCzmkdOr6AFv_kQ@gourry-fedora-PF4VCD3F>
+ <20260723001943.95854-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,30 +96,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260717085151.22822-3-jiahao.kernel@gmail.com>
+In-Reply-To: <20260723001943.95854-1-sj@kernel.org>
 
-On Fri, Jul 17, 2026 at 04:51:51PM +0800, Hao Jia wrote:
-> @@ -1369,7 +1402,7 @@ static void shrink_worker(struct work_struct *w)
->  			goto resched;
->  		}
->  
-> -		ret = shrink_memcg(memcg);
-> +		ret = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
->  		/* drop the extra reference */
->  		mem_cgroup_put(memcg);
->  
-> @@ -1493,7 +1526,7 @@ bool zswap_store(struct folio *folio)
->  	objcg = get_obj_cgroup_from_folio(folio);
->  	if (objcg && !obj_cgroup_may_zswap(objcg)) {
->  		memcg = get_mem_cgroup_from_objcg(objcg);
-> -		if (shrink_memcg(memcg)) {
-> +		if (shrink_memcg(memcg, 1)) {
+On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
+> On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
+> 
+> > > "by default".  Does that mean it could be reclaimable in some situations?  If
+> > > so, could we check if it is reclaimable?
+> > > 
+> > 
+> > See the damon changes in:
+> > 
+> > https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
+> 
+> Summarizing what you want to say, quoting something from the patch, or at least
+> calling it "26th patch of this series" would have made reviewing much easier.
+> Cc-ing damon@ for only patches that toucing DAMON source files and the cover
+> letter of the series could also be helpful.  Please consider doing some of
+> these for future replies.
+> 
 
-Why 64 for the global limit but only 1 for the cgroup limit? That
-seems arbitrary in multiple ways.
+I have been very much discouraged from this kind of trimming because it
+removes the context of the series from the individual patches - making it
+even more confusing.
 
-Direct reclaim, kswapd, proactive reclaim, cgroup limit reclaim use
-SWAP_CLUSTER_MAX for the batch size near-universally. It's magic too
-to be sure, but at least you wouldn't have to make up new magic?
+But I understand, I will try to remember to do this for you.
 
-Otherwise, the patch looks good to me.
+> So, I understand later patches will make it optionally reclaimable and update
+> this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
+> default" from the above comment for reducing the confusion?
+
+Yes, but you bring up a good point - I think this two-step process is
+actually poor form and that I need to redo it.
+
+Maybe this can be redone as node states (features?) such as:
+
+   N_MEMORY_RECLAIMABLE
+   N_MEMORY_DEMOTABLE
+   N_MEMORY_TIERABLE
+
+so these damon changes will forego this confusing intermediate step of:
+
+   if (folio_is_private_node(folio))
+
+and go straight to
+
+   if (node_is_reclaimable(folio_nid(folio)))
+
+In the first patch - without ever having to revisit damon again.
+
+> > 
+> > Technically there is nothing in migration core to prevent migration
+> > operations, it's done on a service basis - hotunplug, reclaim/demotion,
+> > user numa (mbind, migrate/move_pages) etc.
+> > 
+> > Operations on private nodes/private node folioes are refused if the
+> > capability bit is not set.
+> 
+> I haven't had a chance to read the entire series, sorry about that.  So, do you
+> mean the above blocking is not really needed, or that will conditionally be
+> allowed by another later patch?
+> 
+
+I will reduce this all to a single patch in v6, I see where things can
+be improved now based on a few pieces of feedback.
+
+Thanks SJ!
+~Gregory
