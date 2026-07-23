@@ -1,156 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from eidolon.nox.tf (eidolon.nox.tf [185.142.180.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81719471D0C;
-	Thu, 23 Jul 2026 11:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926B947B437;
+	Thu, 23 Jul 2026 12:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784806263; cv=none; b=S8oUppYTLjb2UlQafbli5ivJe30WWTkWj33Pk5VbnaBxyUFXMc7xIY0dL+zjBYLPV3MPEWPlVacnKsn/jgd9BnQnDWYnSi4T/StpTAGQgoCNozEEagEEFqxixJ4v1zUxZmPQWC2isbxzf/df4oKLuxuzRCdQZxYiIBGvjxeraww=
+	t=1784809318; cv=none; b=CtxJvySZfxhScEcQm05Ej33wEVeWc6cJi4qHVNrsWmrynqLkJ7zpykpHkfFODPlE0kB1E3npxepvCCbWWDgNyQ+fzWR7anwXly2DzqEbh1+mInh2RNy5RgYiXf6vyTikK+YuTvLAcW8LyFMwuWVHCcHlY+nx8lU6QkwKYmjbNtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784806263; c=relaxed/simple;
-	bh=C++APXasOEg8g/XQcYBrRPDHVq5h8OHVddjqmZ0vcd8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b54A3CJye76J52LeAYHMMvkRqHPubw7KbTG8kXvye7LMejsekSqBPgIF+GAoh3TNiXeJS+UebQQZHscvsHsUgASNMOq8mMex5GGRlgr9JmYQKO6Eb8zPlFa3vZvewCOAlz9AldyzuZUiQ0bCCGG5Qut7Ckj6ulc/agIm+ra9TF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EftVfQ47; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EftVfQ47"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B42081F00A3E;
-	Thu, 23 Jul 2026 11:30:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784806261;
-	bh=xARf2O0qu7qCYZPDkTyhea6H3gAN0CxcFQpfXrpAzPY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EftVfQ47BWM2HcE46jmhKFntDoTIzB/h1rEI3b48MkBs8Rqxr84orUugmhpH1sG+O
-	 +oXOS+DVsSuAYCJzr0jCVsfUg2l5HqzrR9qryFl5nvJEiUI+O8qrySo7mUNHUqtkQ+
-	 AmcPNXhqvG3+icJXR4YCb9f7Kmi4IHuIoy/wyPnx4usLkC4/MV0D0sxZzrIvbXWhnN
-	 lzRBeM14zn8YzsZNL3UEmrVSsfF97gZDKbXL5+DjH/BzdKG/5bv4/01NbUlTOyN4ac
-	 J8Lfo8fIHK9lFmKVQwnpcHG0lzDu3n03P/Wn34lWIqajX/Cg1xXoQ4X75caz9v6hlr
-	 7b+sj91K+gxAg==
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 23 Jul 2026 13:30:26 +0200
-Subject: [PATCH RFC 7/7] Documentation: add failfs documentation
+	s=arc-20240116; t=1784809318; c=relaxed/simple;
+	bh=WHI5cLVO5lQ8Q1PYlbWgfNiAy/jGa/p+sf1WRlvJEOc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PLd7gHmNuGGuuDUaWFFOSKsJUKFxdgK/PwsNEgRaX4b44PKgGIN4yZQb5oRS2t72ejjvos2D44IuQBeEIwQ8JPpZA6Rs94EkbTFMIbz74YYp/e8QW4BpaKufQ1CBG3jIVjcPpCxvpi/n2Zs7rn/Dg22ZIYzT5aS0VpQ5aYwuXQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=diac24.net; spf=pass smtp.mailfrom=diac24.net; arc=none smtp.client-ip=185.142.180.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=diac24.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=diac24.net
+Received: from [2001:67c:370:1998:30cb:b625:4f9:61b4] (helo=alea)
+	by eidolon.nox.tf with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <equinox@diac24.net>)
+	id 1wmsQk-00000003WkO-1NBS;
+	Thu, 23 Jul 2026 14:21:38 +0200
+Received: from equinox by alea with local (Exim 4.99.2)
+	(envelope-from <equinox@diac24.net>)
+	id 1wmsQJ-00000000Pzk-3tEo;
+	Thu, 23 Jul 2026 14:21:11 +0200
+From: David 'equinox' Lamparter <equinox@diac24.net>
+To: Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Simon Horman <horms@kernel.org>
+Cc: Ido Schimmel <idosch@nvidia.com>,
+	David Ahern <dsahern@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Fernando Fernandez Mancera <fmancera@suse.de>,
+	Lorenzo Colitti <lorenzo@google.com>,
+	=?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH net-next v2 0/10] RFC 6724 rule 5.5 support
+Date: Thu, 23 Jul 2026 14:19:26 +0200
+Message-ID: <20260723122106.99772-1-equinox@diac24.net>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-work-failfs-v1-7-3f69b9a9e958@kernel.org>
-References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
-In-Reply-To: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>, 
- Jann Horn <jannh@google.com>
-Cc: John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
- Farid Zakaria <farid.m.zakaria@gmail.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.16-dev-0e65f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3730; i=brauner@kernel.org;
- h=from:subject:message-id; bh=C++APXasOEg8g/XQcYBrRPDHVq5h8OHVddjqmZ0vcd8=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQl/g4XSZigIL1NyNJvr9vGC0WqzsceKu0MDztz8cMRI
- 9Egq8KyjhIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlIHWb4psib9p+7LV5x3ZbO
- F1ZCnzeJeSyvv/HDJmmhzeVLmU28DP8L2yTeH/haLiSY0lOnsDOyI12O+//WuXzmUbEvwt4s2cA
- CAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Document the failfs semantics, the FD_FAILFS_ROOT sentinel, the
-fchroot() entry requirements, and the ways back out.
+Hi all,
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- Documentation/filesystems/failfs.rst | 64 ++++++++++++++++++++++++++++++++++++
- Documentation/filesystems/index.rst  |  1 +
- 2 files changed, 65 insertions(+)
 
-diff --git a/Documentation/filesystems/failfs.rst b/Documentation/filesystems/failfs.rst
-new file mode 100644
-index 000000000000..46d91525916b
---- /dev/null
-+++ b/Documentation/filesystems/failfs.rst
-@@ -0,0 +1,64 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======
-+failfs
-+======
-+
-+failfs is a kernel-internal filesystem that fails every operation
-+reaching it with ``EOPNOTSUPP``. It is the counterpart to nullfs. Where
-+nullfs is a permanently empty failfs means "nothing is supported here". It
-+cannot be mounted from userspace, nothing can be mounted on top of it. It
-+cannot be cloned.
-+
-+The only way into it is the ``FD_FAILFS_ROOT`` file descriptor sentinel which
-+is understood by ``fchdir(2)`` and ``fchroot(2)``.
-+
-+Semantics
-+=========
-+
-+Every path walk of a component through failfs fails with
-+``EOPNOTSUPP`` before that component is parsed, including ``.``.
-+
-+The root itself cannot be opened at all not even with ``O_PATH``.
-+
-+A process with its working directory in failfs fails every
-+``AT_FDCWD``-relative lookup. As with any working directory that is
-+unreachable from the process root, the ``getcwd(2)`` system call returns
-+a path prefixed with ``(unreachable)``.
-+
-+A process with its root directory in failfs fails every absolute path
-+lookup including absolute symlinks and the interpreter of dynamically
-+linked binaries. In other words, this fails exec.
-+
-+Lookups anchored at explicit directory file descriptors keep working. It
-+is the ``fs_struct`` equivalent of ``RESOLVE_BENEATH``. The process must
-+anchor every lookup at a file descriptor it explicitly holds.
-+
-+Entering
-+========
-+
-+``fchroot(FD_FAILFS_ROOT, 0)`` requires ``CAP_SYS_CHROOT`` in the
-+caller's user namespace, mirroring ``chroot(2)``. Unprivileged callers
-+may enter if both of the following hold:
-+
-+* ``no_new_privs`` is set: setuid binaries on regular mounts remain
-+  reachable via inherited directory file descriptors and executing them
-+  with an unusable root directory is the classic confused deputy.
-+
-+* The caller is not already chrooted: the root directory is what
-+  confines ``..`` resolution and the failfs root can never be reached by
-+  walking up a real mount tree, so moving the root of a chrooted task to
-+  failfs would allow it to escape its chroot via ``openat(fd, "..")``.
-+
-+Leaving
-+=======
-+
-+A process that entered failfs counts as chrooted. It cannot create user
-+namespaces to regain ``CAP_SYS_CHROOT``, and ``chroot(2)`` or
-+``fchroot(2)`` back out require ``CAP_SYS_CHROOT``. The only other exit
-+is ``setns(2)`` with a mount namespace file descriptor, which requires
-+``CAP_SYS_ADMIN`` over the target mount namespace as well as
-+``CAP_SYS_CHROOT`` and ``CAP_SYS_ADMIN`` in the caller's user namespace
-+and resets both root and working directory. A process that holds no such
-+file descriptor and restricts ``*chdir()``/``*chroot()``/``setns()`` via
-+seccomp has thrown away the key.
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1f71cf159547..734a45e51667 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -91,6 +91,7 @@ Documentation for filesystem implementations.
-    ext3
-    ext4/index
-    f2fs
-+   failfs
-    gfs2/index
-    hfs
-    hfsplus
+changes relative to previous version:
 
--- 
-2.53.0
+- ipv6_saddr_rule5p5() now makes a local copy of the flowi6; I was trying
+  to avoid that but it's just an invitation for breakage.
+- added check + WARN_ONCE on subtree routes w/ nexthop objects.  The kernel
+  doesn't allow adding such routes, this is just a safety guard.
+  (this probably fixes the false positive complaint by Sashiko, it's a
+  reasonable safety guard to have independent of that.)
+- new commit that does adds a comment about this on the kernel reject of
+  subtree + nexthop object routes, also reword the error texts to make sense
+- added missing _rcu on iterating nexthops
+- added missing +x on selftest
+- fixed a comment & 2 checkpatch nits
+- rephrased 2 parts of the documentation a little bit, actually include it in
+  the doc build (from ipv6.rst)
+- added a selftest that uses (non-nexthop-object) ECMP routes
 
+remainder is the original cover letter:
+
+
+this patchset implements RFC6724 rule 5.5.  For the unaquainted:
+
+   Rule 5.5: Prefer addresses in a prefix advertised by the next-hop.
+   If SA or SA's prefix is assigned by the selected next-hop that will
+   be used to send to D and SB or SB's prefix is assigned by a different
+   next-hop, then prefer SA.  Similarly, if SB or SB's prefix is
+   assigned by the next-hop that will be used to send to D and SA or
+   SA's prefix is assigned by a different next-hop, then prefer SB.
+
+The way this is done is through IPv6 subtree routes.  If a router
+advertises some prefix in its RA/PIOs, source specific subtree routes
+should be created for the default route (and RIOs) installed as a result
+of processing that RA.
+
+This may initially sound like a weird way to do it, but for one RFC8028
+requires the subtree routes anyway, and also I did try the more obvious
+approaches (explicitly tracking it, putting it on the address, putting
+it on the neighbor entry) and all of them break in some scenarios.
+
+I've put together a selftest, there's also a rather hacky test suite
+created for an IETF hackathon: https://github.com/eqvinox/rule5p5-tests
+(it's not specific to this patchset.)  I've also been dogfooding these
+patches on my personal devices for more than a year.
+
+Rule 5.5 itself has extensive history at the IETF, including changing
+from optional to mandatory in the recent 6724 update.  It is immensely
+useful (really: required) to make multihoming, renumbering and failover
+work.
+
+@Jakub you had previously asked me to resubmit the "prep" patches since
+it was at a poor time (cf. Fri, Jul 25, 2025 at 05:39:58PM -0700).
+(I had tried submitting the preparation bits on its own.)
+
+@Paolo you had looked at the lookup fix:
+On Tue, Nov 11, 2025 at 11:13:30AM +0100, Paolo Abeni wrote:
+> The patch LGTM, and I agree this should go via net-next, given that it's
+> really a corner case and I could miss nasty side-effects.
+>
+> It looks like you have some testing scenario handy: it would be great to
+> include it as a paired self-test; could you please add it?
+
+Cheers,
+
+
+equi (David)
+
+
+
+diffstat:
+ Documentation/networking/ipv6-addrsel.rst                |  73 +++++++++++++++++++
+ Documentation/networking/ipv6.rst                        |   2 +
+ MAINTAINERS                                              |   1 +
+ include/net/addrconf.h                                   |   4 +
+ include/net/ip6_route.h                                  |  26 -------
+ net/ipv4/nexthop.c                                       |   5 +-
+ net/ipv6/Kconfig                                         |  18 ++++-
+ net/ipv6/addrconf.c                                      | 156 ++++++++++++++++++++++++++++++++++++---
+ net/ipv6/ip6_fib.c                                       |   5 +-
+ net/ipv6/ip6_output.c                                    |  26 +++++--
+ net/ipv6/route.c                                         |  26 +++++--
+ tools/testing/selftests/net/Makefile                     |   1 +
+ tools/testing/selftests/net/config                       |   1 +
+ tools/testing/selftests/net/ipv6_saddr_rfc6724rule5p5.py | 285 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 14 files changed, 574 insertions(+), 55 deletions(-)
