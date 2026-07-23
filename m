@@ -1,367 +1,597 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED323346A8;
-	Thu, 23 Jul 2026 21:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784843191; cv=fail; b=AEXdB/+7uhHfmcmE3GdcLTz1sVTFXiXxckQdfTfosTCHnBak48tm9uab3VeggQLOM2ucLMsi+/Fccca4iZvey/nfXPUTQsFIvg8rZBm/hqpdnJAYunzCjxI7Qadoacyds0RErML89QAkNAp/H6fYtvJUM2tWtKZ5cHgQ0XX78VU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784843191; c=relaxed/simple;
-	bh=Or3Tk9So34SVgpbla5A5v8JldN5Kdl318+kaWm6fNQk=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pcn2N2LxDlsYO/spLJDQmVbwvjX9eUn4/1Six6QejQibvXYXv4LUoaMJ6hvAmasPsuSf0fmKv5HWuWVaLYDU1oNfXS0tF3oLkV4wzslJy5vR7YUcrPzfg8t9jV+y/pmy+pgbNbrefEGuN/0bohOHZLj/jspgjFJVJ8B/UJo+hzQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJQS8x28; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6A9318BA8
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 21:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784843723; cv=none; b=pPYJaZt4gmgK9y6K8JAjJwKbRfOcs3+DHcpjQgYLgDenQTUzYR54r/dUJsgy2dRNeeCQHzGcOlcF9rCPqIkBGLUmiJi2OUgATfEmq4JUyjzB8jmDIPIjAhZGlVx1nsrduOZERrMZYO/2qE2CWIvNCs+Bnt0uUqVRPXIiaj6cB6s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784843723; c=relaxed/simple;
+	bh=UPsACBuicuIQN57BKuzBLP8PI347otHv77xeSIzfaR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XuD1V0Ne+tNcjEZg9jkFomgRlqn+uTjiIwI60ezI5ldw8QwbafTqMICf6J9Qmfqyt0I5qHDEYoalWmtMC4+Go6yOxo7OFjZPL6Z4OhlYjFMkxM0GbvUKXSvwkDiOEVLMythTQYqqJGcICdujMD7diy0aFpropQQx6jqjageiK14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Yv2FEkYv; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJQS8x28"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784843189; x=1816379189;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Or3Tk9So34SVgpbla5A5v8JldN5Kdl318+kaWm6fNQk=;
-  b=AJQS8x28aI5LYRBePmQHX0+imhZNLvZGJH5pqyG9OqDBH/Ghg71yYlJW
-   0GV34SE1ql12GAgWbElRZkXayanS6LL0ojozqRc6VjavUzYKx8zXSACuX
-   tSRmFpdBqiXYTTulLaW7TTOrWx5Pzh6fxR72pX3G3xPW47xEtaWGh5UXJ
-   qVKjtkDuxT7DDBjg2YvAabqrzRdRMdTlzISNOmhaPPnJfo/W7cJTqUBxD
-   nc14p+4OPAzSlwgXttLA3yKVr7kaUAbZ7TybsY6tvpVSkNZM92qGr0Kxs
-   dKuECFEUDI9o8egQT++3ZMdC5n1poKA4TbFQOKcCFsxI/a9tfQ1+bhhnb
-   A==;
-X-CSE-ConnectionGUID: KfN82/DOSOufH2MxJWH6HA==
-X-CSE-MsgGUID: AzXNIll5SuWk2E0HwxYgMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="95865458"
-X-IronPort-AV: E=Sophos;i="6.25,181,1779174000"; 
-   d="scan'208";a="95865458"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 14:46:28 -0700
-X-CSE-ConnectionGUID: Flp4LmZPQk+pwYuQ0VUF1A==
-X-CSE-MsgGUID: 9D5lc2sOSaKzrcuyY50zaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,181,1779174000"; 
-   d="scan'208";a="283037240"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 14:46:27 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 23 Jul 2026 14:46:27 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Thu, 23 Jul 2026 14:46:27 -0700
-Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.63) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 23 Jul 2026 14:46:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sCw+UdMRsdJgrpLnfDKFzgxMWHSjGISnJ/bfaDMUgXhXKgoipLTj3Z58SFhWmBi5BEWST8T64mnKeEXzitJ6H+AjzmSRBYpAnQn2C2xfnTsGwZjY/3tZ+/keIuWVsW/LaR6UN3iHGx9yF2n1V4TscqEmA12eRvv7/dgNLQFnU64uRWbMGADX/hRt6D/iIvwXCOY/g1t+J/1xldvGYpdU28/wrR+ksQHzICZ4zFsTsBrGs2ZC3vAYTyud6TZ6Gyj/eTG5KiTyhzGNyQsgXJbL6TjxjnV8Q50zslMxl63DHL9jWyo5YhHqhDHLatyqepuWXDZPMLNrJt3TIvolmmGAQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qajlG9W0ZB3jb4V7c6mc/nuEIV2vQ73xMmTONqBXFYY=;
- b=OhUQOkflrpYT/mP5LOV9SeDiQslFuf0HWjftiJQBF0Ow8Ed2PUV/AMLXWz1V5znG2d57ypFqbtNbk9FFB7JHwF/lgE6WV8D+Jb2UIv65BVpo/YkPycD5rpkCrnuwcbU4uLJ+nOw7Xo/FAaSkh0GNj4DfD9NoAvdgsnI7Ob/uMvn4OiW3hqaJgJrK9e4Pd276pRkSFJu/x/HWftQA9wR1A9PEof6hf0VVzb5jOHOQe+R0Cr5VnPjNvXO5xS4kl4cCPz3+SKej1IZZN8nJqnXq1gMfr0HlSX8w/BdoDEpG4tcvzhmuNewCgXs12jeiGgW9++ard0fQn0d5jTeXggT3WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by SJ2PR11MB7620.namprd11.prod.outlook.com (2603:10b6:a03:4d1::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 21:46:22 +0000
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 21:46:22 +0000
-Message-ID: <bd739e7e-7a86-4291-9c08-f2c72bc2dc3e@intel.com>
-Date: Thu, 23 Jul 2026 14:46:19 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-To: Babu Moger <babu.moger@amd.com>, <tony.luck@intel.com>, <bp@alien8.de>
-CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<eranian@google.com>, <peternewman@google.com>
-References: <8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger@amd.com>
- <d337915a-ef4c-43b2-a915-e97381b7dca0@intel.com>
- <b0dc49dc-ac35-457b-90c6-842a3cfcf8e1@amd.com>
- <f3fd774d-0662-4094-90b6-f0c5a4bc5d26@intel.com>
- <78996219-a8de-4dc3-90ee-db4c19e0d66a@amd.com>
- <dbbe2eac-bb0a-4655-9d0e-6e8feb702717@intel.com>
- <e77ef79c-5241-4f7c-b0af-dde6f131600a@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <e77ef79c-5241-4f7c-b0af-dde6f131600a@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0047.namprd04.prod.outlook.com
- (2603:10b6:303:6a::22) To SJ2PR11MB8370.namprd11.prod.outlook.com
- (2603:10b6:a03:540::20)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Yv2FEkYv"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ccdf36f63dso49915ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 14:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784843721; x=1785448521; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WIzr+JgqewNTQ/0gbtkS7twloS48+dLUG20Ii2mnmEA=;
+        b=Yv2FEkYvU+FXbN1Da7eAFU3anBKQGmfZys+4biXwavl94PGUfNUpwoM5bU3A/uRLxJ
+         Qc5ktglp/jvuBpuWWTxOxRGcZh4+Mzfv6OvoBw15cIyFoVzFhTBYa2e0o+LlaBXia331
+         WRP9JJiV9KzL/p5f9lrKsXzUcsLVXfF1WyKNxI/U1TPLTnQ4aCW798tXnWwIyvFHChw8
+         l/cYoO75kRMR5jL9WYvZ47FJVzYzTmZ6K32jn57qK9+WwuNbn4HXRCVSYNDwNCT1rYjU
+         tMSqbDydSntHbbApp1MMgWpmibsZN1SAgFgagpTpzwvX57q335t890QuIMN87uDkCp2k
+         D5DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784843721; x=1785448521;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WIzr+JgqewNTQ/0gbtkS7twloS48+dLUG20Ii2mnmEA=;
+        b=DvpS8NILRp0QBiBIVZ4fKkGsOYFbCtqDWxaKQ6PIYQBTEy9raybeiVLqXO/r9YIO1r
+         665xVCy5wgFGiKxTVktjReHPjMM28Rry9wfbqCktS8GpxSs6NG7cf7vtlKgll//cOQYX
+         IlSFLw2Rystki2ggAgDjUD6xCSlSWZPrcVO2WB94VwS9Q7TpR4CfL+nNEb1oGcOsYcmr
+         oPHXSg8S7UgWxRtypabQvvJlaeUZ6+eZ0fHzRCe79Zr7J84z6GVBVSsvXJLPD4wJXosd
+         8L5kh7s2h31HaLq0cVYrog6mLCawekfTB+d+B+mkNIBBYQyayZYUEgtXHxu3RRRqVbwH
+         eXgQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8oXMH/42oyTBt2ASxjMW01Gnk3KbZ65p05+mGxQTD0D52h51eMufwmWudrb/4Pw4U+DiTc/qCMgs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB5APJB0Nn0E3mxoctBPgKbC6sF6TsqH60JQIrDVlSpIFCl9ZA
+	RNSGgwUbDHtWO2n8rfUWHBH8uTedeNTYDSKllIA9CXttqRHWb+MVeq5cCpyQRrxz0g==
+X-Gm-Gg: AR+sD10o56zPu9Fdsj+ZPuAGfSp1Qvoc2iJ/K3vBEvy7t1WIK2Dw6aAPuz6hlG8XSWm
+	cN2bN/ayHMi6+ZDokGrf5bEPm3ql0bI1i2LII5R1SFreOFdgyxKByjkdxbKmZvnxi/w7RN9zYHK
+	uSfvpOou9Ui03p7yx/FD36JiwOUgs1RiEGraLt3P9gt94KFubOLOOD6iSSwLmnwX17s2ckTTsCu
+	iHl1nnUexHO+TqQ9QtRfakXDrNcdzyxX9T6XBTlYkJKTKzNksk5BGJ6pqdV1OJ4bLPa6r47KDbG
+	uC19WQOXHp/h/30C17TTnHiiJ86i7jsSr24t639hCYy82kbkdPTypCY1WZU90C+5yr3a8H/DOQv
+	J1VpIqGLl/zFemgNaDgn4wA45BYwxaPTtaU+hLsFFSKVtC/ibZue5c+VNrAPwW1ZQ7aCBx3aIpt
+	Znku997q4w2U3EInGWjEzO+2Zwu4lEZ+TO69FQ
+X-Received: by 2002:a17:902:f687:b0:2b9:e831:5e5c with SMTP id d9443c01a7336-2cfc01915f2mr1526335ad.4.1784843719386;
+        Thu, 23 Jul 2026 14:55:19 -0700 (PDT)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8f2e6252sm40455355ad.52.2026.07.23.14.55.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 14:55:18 -0700 (PDT)
+Date: Thu, 23 Jul 2026 14:55:14 -0700
+From: Vipin Sharma <vipinsh@google.com>
+To: Josh Hilke <jrhilke@google.com>, alex@shazbot.org, dmatlack@google.com
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com, 
+	ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com, chrisl@kernel.org, 
+	christian.koenig@amd.com, corbet@lwn.net, dmatlack@google.com, graf@amazon.com, 
+	jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, julianr@linux.ibm.com, 
+	kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, 
+	lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com, parav@nvidia.com, 
+	pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, rananta@google.com, 
+	rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, 
+	schnelle@linux.ibm.com, skhan@linuxfoundation.org, skhawaja@google.com, 
+	vivek.kasireddy@intel.com, witu@nvidia.com, yanjun.zhu@linux.dev, yi.l.liu@intel.com
+Subject: Re: [PATCH v5 06/20] vfio/pci: Preserve vfio-pci device files across
+ Live Update
+Message-ID: <20260723181436.GB260824.vipinsh@google.com>
+References: <20260714151505.3466855-1-vipinsh@google.com>
+ <20260714151505.3466855-7-vipinsh@google.com>
+ <al_8v_I9Z2Dc_qjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|SJ2PR11MB7620:EE_
-X-MS-Office365-Filtering-Correlation-Id: b95f8eb5-293d-4c34-6150-08dee903d650
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|6133799003|5023799004|11063799006|56012099006|10067099003|4143699003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info: VNAmfv330h34c5iJBhL1syakg/oslWHsd8PWSqyHVBJXXavFO4aFnnPeTM8jAvwar1eZMVTRSe3lzvLB/yXU8EAdZyFKrhSPT7y4Ktr8VF9QqLNTygF48v8K3IKqDBO3YWTAHP2Dx7Z7GOmuh7KFW4c2H2AdVLEzZVgm8QSkudbSH42dm5aC3U7qVeiPn+U+uv3zYc9tSKrJj2oP1AgspChkskUM0phjMAFxLVXVMsJUVeJevl6sj72q+B1jC8TvpHybTctZOGDQb0zCK+aWmOGcauvJRl+aTRvrpAYrDAApqMYtSpTPmqaWCmR64rz8SDM/fCnMPJ3CnA7ETQYLzko6VmefMjLuFsL7BsWukwC7MeW+XFyaro+WV4MSrSP0hhFbrRdzBBNBBTEjV2OvaU03H+GCOek0fhqRm66bEOQzLISv9mQPfygYuNo5yE6b2TDqwdBOBMi0PrzeHRf3WDZdWC84kbWSB8xDpgAKiDfojynSRqWsvkSq0vO1chjNtED3w8RXCnW5HDZ0gJIdP2LV0Pzxl0fB+BxvlSySwJil7tSjJ5WbmsttuHwJ8SKWvkiMFBuOCOd+MPtqn1W62wGUPJCJMiP4gEPTQ+EUtiPOoXw8NXhWM2CeVaqiUOvIV1xbIwosMwGoEynWqM/QSIhuYg+qXJfQDOeD4I7nwbE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(6133799003)(5023799004)(11063799006)(56012099006)(10067099003)(4143699003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDQ3Smt4WnBkcklSQU55aENwV2pPazduZHFFNWkvVWp0azJubHIzUVZPRHIw?=
- =?utf-8?B?T1p6T044aHVHbitXa2hRQzZ4cnU4WlVmNXZGd3JwZEVONlozaDZKY05iTDV6?=
- =?utf-8?B?a3U4QmIrbEw3QUtzZWJBSnRpTGZzYU0vbjdRTE4zT3JGWHJxb09mS1dLT3BT?=
- =?utf-8?B?eVZyY0xQdVRmcTcyZjVWb0dkVEtzQ2tyNEdqMkdUZlZmdkJOV29zK1NhOTRx?=
- =?utf-8?B?T3hTanJ6QWhGTCt2dm1pVWpOcCtHNC9wQTZsSTVRcGpLUTVlN2hMYUtZNzI5?=
- =?utf-8?B?ZkdQYUhYN3ZLbzJZZVBWYkdGa0Z1ZDRGWG1PcG1vME5BV2VUdjFxQ0ZFcXY5?=
- =?utf-8?B?YVlaSlkyaWtMd0VTdkFNR3loSGU2Y0pHeFRyRTJpRytuSzVQckhZdVVPazBX?=
- =?utf-8?B?OGd0QXFvdTJkbTZPdkI2d29IREtNZ2NpT2t2UnRqMU5kZFdmYTY2QlZWM0tC?=
- =?utf-8?B?T0oxaEtTWDFUb1BWNnZHVzlDT2Ntdy9OaFZBWjNsU2RGYXhPekd5RHhucnVF?=
- =?utf-8?B?UkVITzhFVnp4MnlSVzRETlJOOFBDK3lDZERDUGhBOWdXUGxwM240azNmY1l6?=
- =?utf-8?B?OWJ4S01CUGYwNlkvVysrYjc3MTM1SnN1cDR6TEJxRklralByVWw0WDNIaDlQ?=
- =?utf-8?B?VXVNV0hWSkJSejlLQWFOL0Q2bld5aFhsc2RoQndVRG43RjJVRy96Z2JoTUJJ?=
- =?utf-8?B?VmVMbkpTVjgxUXlKTjRwUVJQcUE0WWZaM2Z4c1RoT2pRT3MzYmxzOHVQckFs?=
- =?utf-8?B?dW44aDNJNlROejNncmpEbElLV2lHbUZzdDJabWtSempqQjdKcDlmS2F5R2hx?=
- =?utf-8?B?dnNPWlBPRk1LN3poVnJPdWQxRnNnWkNLVm4zV2ZYQk5LUzVsSWd2SHRUaDZK?=
- =?utf-8?B?MldZSGpjbG5TN2VLOHYxd2R3Wmdyb1RqNm5YWkZZS2c2Q3RWbHJ3UnlGQTdu?=
- =?utf-8?B?YndzeGdyNjdiQm1Zb1JyRlZLVXZVaVljSElXODhkVEF5U1N5NDRtblc3bWtU?=
- =?utf-8?B?Q0gydGNYalJNNlhsaC93VlBIV1hoQ3lYeTdZcllnbkE2MUhrRFA0eWlSMlNz?=
- =?utf-8?B?VjB2RHljNHB5MWtUK2h1dnV5YjJ3NU9XVCt3SkxWL1Zac2VsZHA0dHdWRUFL?=
- =?utf-8?B?Z3FSUkpHYVFPeDZBS29kb2hLVldkQkZxczZ0aEtpSlZmblNYa1l0OGx6YXZ5?=
- =?utf-8?B?WlJjWWFIbXpXOWxRSXo1ZHlDVytYMXBTcnZEcXpLRllUWWpKMEk2b0dMVmlN?=
- =?utf-8?B?by95TUVjUlBOUC9iMjN6YkNoek5NT0R1b0JMUnFtd2xvSFpWWDZObis3a3VI?=
- =?utf-8?B?aDlCckZYVTNmcGpBaS9wckJST1VqbWRsVjBaYVdpODMzVlY5djE2WWMyZjRk?=
- =?utf-8?B?azFScWtxeS9GMkZIYjJhVmNVNkJ6UnhZMktjV0t1K0d4OERCbDF4OThMcmxL?=
- =?utf-8?B?SHUvRVpuMXRsTnVjbVpxaG9EdHU1SUI2ZU1oQW16dTVEMUVpWVA2cStDeThY?=
- =?utf-8?B?d3A0MWlPemJBK2tXbGE5c2dlMlU5RGhqQVdyZWVkNUF0UlRoWGJCbDR3YTlr?=
- =?utf-8?B?c3FkNUZOVUJnT3hwRzVPV0hoeGkwYWxjMTkxaDJ3bndONno5ZDkvRjBlRTZV?=
- =?utf-8?B?Ym9PNXVvQ2x2KzJhdUo3NENNRm8zcEJnWE9kNmJMM1A0NUhjUmlYa0dnTkdX?=
- =?utf-8?B?SDVNMmp6THF1T082U0JuTWR6ZkppN0ZjYkhQR3FVZW1MS1Z2cWI4SjNzWUp1?=
- =?utf-8?B?bGYxemlnZWZ3bG1GQ3RvOTRDeFZuU1hHdHVROHFHMTd4emdTUDBnS2NyUHp5?=
- =?utf-8?B?dVBUdXZQTmZEL0FsVGF3OGRVcXh6MEhRUkdBTWJDQ1ZKUWloT3N1TVpjOWNN?=
- =?utf-8?B?UVhmbXVvZFdJRmEydUVkZDN2MjlCV29nR3o0VHBHMTlWZmRrUnNxTVZvSWlp?=
- =?utf-8?B?d2hVRFUxNklpbDUzYVhxV01xZnlLdzRHLy9xLy9zVDRhUWxJWUsxOWFlK0FQ?=
- =?utf-8?B?RHZaOWFJTGNBSEVvLytncDN0L05BWlZySEFza2ZRS1Z1TkhJZmQvVU52NmhV?=
- =?utf-8?B?SUMzanJKRW9McmpSYmg1Vk44ZzdaVEdQMEVKZEVncFRmWUUzbDVOcXFRWFdL?=
- =?utf-8?B?V1BYVVU2ODJ3TU51WmZWMUFIS09FeTNQS0htRXNCRGZ3NUg4UzdieEtHTFZi?=
- =?utf-8?B?SkFjRnRBMHp1ZHBSTDdadmhzTExUSFFDZzhBQ0licUNPdnUyRjZPeWZsYVhJ?=
- =?utf-8?B?TlRYMkxaT2xSOWRYOUJkVklFUkM5VUE0cHRrNXIvM0pyQklxdHlkWWZMcTdC?=
- =?utf-8?B?TlpwTW9JZ1V6dTZ0TlVhVkhsdTVTKzBudDFjV3czT09aQmlCclFlWVdjck9H?=
- =?utf-8?Q?ZMRSe0BM2UNZ98U4=3D?=
-X-Exchange-RoutingPolicyChecked: KOboPjSj3L/Vg4SeGG/3nZqS+IqPjc0rciGMiLA/sIakcSeK68WE3QOylXwiY1uHtSWeLNUIFRHXaqejFbBPYhlY2DnztC2C21hW+Y5uIuyVRhWJ95KEPU4uBy7ryhpETmzTs/Kz6R3VQX9SktQUkg5wZvWV5iB+sC9uFztx5e+Qgs11rktVGZv1wjTG8qatiudpzQj4J1I8LaSHFOq7uP7SedWY58g58y7s8ndHFdSDpkeCXTmLmH0AyecN2zBGENp2D8/ztwx8OKycE3Fy7N1ouOnTTAYSOMEglCnGfwRdhrQmJTPsD+tvtHh+B09BhFtxeoOI0F+c2PFEdc719A==
-X-MS-Exchange-CrossTenant-Network-Message-Id: b95f8eb5-293d-4c34-6150-08dee903d650
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 21:46:22.5585
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9RWCcJAP1zMCVudgJk4paeI59/zEjjXHz/C78Qr3GYduCMp3hSu7otgM8HKfDNg3xMqKoEFon4K2U0f/cZ+FbxdAvKrZC4b6W85MR34hF2U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7620
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <al_8v_I9Z2Dc_qjc@google.com>
 
-Hi Babu,
-
-On 7/23/26 11:03 AM, Babu Moger wrote:
-> On 7/21/26 15:54, Reinette Chatre wrote:
->> On 7/20/26 12:15 PM, Babu Moger wrote:
->>> On 7/20/26 13:27, Reinette Chatre wrote:
->>>> On 7/20/26 10:00 AM, Babu Moger wrote:
->>>>> On 7/17/26 17:56, Reinette Chatre wrote:
->>>>>> On 7/17/26 2:13 PM, Babu Moger wrote:
->>>>>>> The kernel currently enables the ABMC-based "mbm_event" mode by default on
->>>>>>> hardware that supports it. However, this can cause bandwidth monitoring
->>>>>>> failures with existing userspace tools such as pqos.
->>>>>>>
->>>>>>> The pqos tool mounts the resctrl filesystem and creates 16 or more resctrl
->>>>>>> groups by default. On systems with 32 or fewer ABMC counters, this default
->>>>>>> configuration can consume all available counters, since each group requires
->>>>>>> one counter for local MBM and another for total MBM. If additional
->>>>>>> monitoring groups are created, counter resources are exhausted and pqos
->>>>>>> tool reports memory bandwidth counters as zero for those groups.
->>>>>>
->>>>>> It is not obvious to me that this is a problem. If I understand correctly
->>>>>> there are two scenarios possible with this pqos behavior:
->>>>>>
->>>>>> - ABMC is not in use ("mbm_assign_mode" is set to "default")
->>>>>>      - pqos can create 16 or more monitor groups
->>>>>>      - hardware still supports a limited number of counters with consequence that
->>>>>>        underlying counters reset at any time as the different monitoring groups
->>>>>>        need to be tracked.
->>>>>>      - pqos can read monitoring data of all 16 monitor groups, sometimes reading the
->>>>>>        events would return "Unavailable", sometimes reading the events return data.
->>>>>>      - *None* of the monitoring numbers returned are guaranteed to be accurate.
->>>>>>
->>>>>> - ABMC is in use ("mbm_assign_mode" is set to "mbm_event"):
->>>>>>      - pqos can create 16 or more monitor groups
->>>>>>      - only a subset of monitoring groups have counters assigned and these counters
->>>>>>        are guaranteed to only track the monitor groups/events they are assigned to
->>>>>>      - pqos can read monitoring data of all 16 monitor groups with two possibilities:
->>>>>>        - monitor group/event has counter assigned: monitoring numbers are guaranteed to be accurate
->>>>>>        - monitor group/event does not have counter assigned: monitoring numbers return 0
->>>>>>
->>>>>> If my understanding is correct then the preference is to rather have wrong data than
->>>>>> see 0? This does not sound right. What am I missing?
->>>>>
->>>>>
->>>>> This hardware can monitor up to 64 RMIDs without any counter resets.
->>>>
->>>> How many RMIDs does the hardware claim to support via CPUID that ends up being shown to user
->>>> space via "num_rmids"?
->>>
->>> #cat /sys/fs/resctrl/info/L3_MON/num_rmids
->>> 4096
->>>
->>>>
->>>> I understood from original ABMC enabling that the underlying hardware counters of "default"
->>>> and "mbm_event" mode on AMD are the same. That is, in "default" mode the hardware does a
->>>> "best effort" assignment of hardware counters to events while "mbm_event" mode lets the user
->>>> control the assignment. It instead sounds like this is not the case and there are actually
->>>> two distinct underlying hardware counter mechanisms?
->>>
->>> That is correct. They are two different counters.
->>>
->>>>
->>>>
->>>>> As you know, the pqos tool creates COS1 through COS15 regardless of
->>>>> the command-line options used, resulting in a total of 16 groups
->>>>> including the default group. With ABMC enabled, this consumes all
->>>>> available ABMC counters(32 counters, 2 counters for each group).
->>>>
->>>>>
->>>>> When pqos is invoked with the -m option, it creates additional monitoring groups. For example:
->>>>>
->>>>> pqos -m all:0     -> creates 1 monitoring group
->>>>> pqos -m all:0,1   -> creates 2 monitoring groups
->>>>>
->>>>>
->>>>> Since all ABMC counters have already been allocated to the default
->>>>> set of groups, no counters remain for these additional monitoring
->>>>> groups. As a result, the monitoring commands report zero values,
->>>>> effectively making monitoring unusable.
->>>>>
->>>>> In contrast, the default monitoring mode can still support up to 48
->>>>> additional monitoring groups (64 total RMIDs minus the 16 default
->>>>> groups created by pqos).
->>>>>
->>>>> For this reason, I still believe keeping the default monitoring mode as the default is the better option.
->>>>
->>>> It is not clear to me where the "64" number comes from. Even if resctrl sets the "default"
->>>
->>> The count of 64 is known from internal information. It can also be determined by allocating monitoring counters in a loop until the hardware starts returning an "unavailable" response, which occurs after all 64 counters have been assigned. This information is not documented.
->>>
->>>> mode as default, what will happen to the scenario you describe and 49, instead of 48,
->>>> additional groups are created? From what I understand the moment the 65th group is created user will
->>>> transition from "accurate per monitor group monitoring data for all 64 monitoring groups" to "inaccurate
->>>> per monitor group monitoring data for all 65 monitoring groups" with no indication that this is happening?
->>>
->>> Yes. That is correct.
->>>
->>>>
->>>> I believe AMD supports more than 64 RMIDs and in this case there seems to be three ranges:
->>>> [supported by ABMC, depends on events but lets say RMID 0 to 16] < [RMID 17 to 64] < [RMID 65 to total number of RMIDs supported]
->>>>
->>>> Current default "mbm_event" mode uses ABMC so as you state this always results in:
->>>> - accurate counts for 16 monitor groups
->>>> - zero for all other monitor groups up to total number of RMIDs supported
->>>
->>> That is correct. With ABMC, there are 32 available counters, allowing up to 32 monitoring events to be tracked simultaneously. Since each monitoring group requires two counters—one for local MBM and one for total MBM—the system can support only 16 monitoring groups at a time.
->>>
->>>>
->>>> As I see it switching to the "default" mode would result in:
->>>> Scenario 1, 64 or fewer monitor groups are created:
->>>> - accurate counts for all monitor groups
->>>> Scenario 2, 65 or more monitor groups are created:
->>>> - inaccurate counts for all monitor groups
->>>
->>> That is true.
->>>
->>>>
->>>> I do not believe there is any way for user space to know when or if system switches from "scenario 1" to
->>>> "scenario 2" on these systems and this unpredictable behavior that results in wrong data does not
->>>> sound ideal to me.
->>>   I agree, it's not an ideal situation, but that's how it has always worked. At the moment, I'm not sure about a better alternative.
->> I see the current behavior (return accurate data when available and zero when no
->> accurate data available) as the "better alternative". Intentionally returning wrong
->> data when it can be avoided does not sound right to me.
->>
->> The changelog states:
->>     The kernel currently enables the ABMC-based "mbm_event" mode by default on
->>     hardware that supports it. However, this can cause bandwidth monitoring
->>     failures with existing userspace tools such as pqos.
->>
->> Could another view be that mbm_event mode is the *only* reliable accurate bandwidth
->> monitoring and any other mode (AMD hardware not supporting assignable counters or
->> AMD hardware with assignable counters choosing to use "default" mode) can cause
->> bandwidth monitoring failures (with existing userspace tools such as pqos)?
+On Tue, Jul 21, 2026 at 11:16:25PM +0000, Josh Hilke wrote:
+> On Tue, Jul 14, 2026 at 08:14:51AM -0700, Vipin Sharma wrote:
+> > +static int vfio_pci_liveupdate_freeze(struct liveupdate_file_op_args *args)
+> > +{
+> > +	struct vfio_device *device = vfio_device_from_file(args->file);
+> > +	struct vfio_pci_core_device *vdev;
+> > +	struct pci_dev *pdev;
+> > +
+> > +	vdev = container_of(device, struct vfio_pci_core_device, vdev);
+> > +	pdev = vdev->pdev;
+> > +
+> > +	guard(mutex)(&device->dev_set->lock);
+> > +	guard(mutex)(&vdev->igate);
+> > +	guard(rwsem_write)(&vdev->memory_lock);
+> > +
+> > +	/*
+> > +	 * Userspace must disable interrupts on the device prior to freeze so
+> > +	 * that the device does not send any interrupts until new interrupt
+> > +	 * handlers have been established by the next kernel.
+> > +	 */
+> > +	if (vdev->irq_type != VFIO_PCI_NUM_IRQS) {
+> > +		pci_err(pdev, "Freeze failed! Interrupts are still enabled.\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (pdev->current_state != PCI_D0) {
+> > +		pci_err(pdev, "Freeze failed! Device not in D0 state.\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Reset is a temporary measure to provide kernel after kexec a clean
+> > +	 * device while VFIO live update work is under development and not
+> > +	 * fully supported. It will go away once continuous DMA support is
+> > +	 * added to device preservation.
+> > +	 */
+> > +	vfio_pci_zap_bars(vdev);
+> > +	vfio_pci_dma_buf_move(vdev, true);
+> > +	vfio_pci_core_try_reset(vdev);
 > 
-> Yes, that is correct. However, the bandwidth counters become
-> inaccurate only when users start monitoring more than a certain
-> number of groups (64 in this case). In typical deployments, users do
-> not create more than 64 groups, so the counters remain accurate for
-> the vast majority of use cases. We do not want to introduce
+> I'm seeing the same lockdep splat the David found in v4.
+> https://lore.kernel.org/all/ag-aFA1BJxdJMywr@google.com/#t
 
-oh ... hmmm ... I have a different view of deployments since the message I
-keep hearing is "we need more RMIDs".
-
-
-> unnecessary complexity or inconvenience for those users.
-
-This sounds like a request to (temporarily) change resctrl user interface to
-accommodate users that create between 16 and 64 monitor groups (where 64 is
-a magic number not exposed to users) at the expense of users that create between
-65 (magic number + 1) and 4096 monitor groups?
-
-
-> Additionally, changing the current behavior could disrupt existing
-> tools and workflows, which would likely result in a significant
-> increase in support requests.
-
-resctrl should aim to maintain a consistent user interface and changes to
-that interface should be done with a lot of care and with very good motivation.
-Above motivation sounds vague to me. You are concerned about support
-requests from users that create between 16 and 64 monitor groups but not
-concerned about support requests from users that create between 65 and
-4096 monitor groups?
-
-One could instead argue that this patch would cause more support requests 
-since users will start seeing unavailable and wrong data the moment they
-create more than (the magic) 64 monitor groups.
- 
-> At the same time, we are not taking away the option for users who
-> require strictly accurate measurements while monitoring a large
-> number of groups. That capability remains available. We also plan to
-> add more counters and enhancements over time, and it is possible
-> that the mbm_event option could become the default in the future.
-
-Similarly, the default capability remains for users that prefer to
-create between 16 and 64 monitor groups and do not want to assign
-counters. 
-
-Without exposing the magic 64 resctrl needs to provide a good default
-and I continue to find the accurate data the better option.
+Thanks for reminding this.
 
 > 
-> For now, however, our goal is for the default mode to remain the
-> boot-time default. This avoids unexpected behavior changes and
-> prevents users from being unnecessarily alarmed by issues that do
-> not affect their typical usage scenarios.
+> ======================================================
+> WARNING: possible circular locking dependency detected
+> 7.2.0-dbg-DEV #3 Tainted: G S
+> ------------------------------------------------------
+> kexec/13355 is trying to acquire lock:
+> ff3f086c95315d08 (&group->mutex){+.+.}-{4:4}, at: pci_dev_reset_iommu_prepare+0x6e/0x200
+> 
+> but task is already holding lock:
+> ff3f082de7f399a8 (&vdev->memory_lock){++++}-{4:4}, at: vfio_pci_liveupdate_freeze+0x58/0x100
+> 
+> which lock already depends on the new lock.
+> 
+> 
+> the existing dependency chain (in reverse order) is:
+> 
+> -> #5 (&vdev->memory_lock){++++}-{4:4}:
+>        down_read+0x3d/0x160
+>        vfio_pci_mmap_huge_fault+0xb9/0x150
+>        __do_fault+0x46/0x150
+>        do_pte_missing+0x21a/0x1000
+>        handle_mm_fault+0x7f8/0xb60
+>        do_user_addr_fault+0x476/0x6c0
+>        exc_page_fault+0x68/0xa0
+>        asm_exc_page_fault+0x26/0x30
+> 
+> -> #4 (&mm->mmap_lock){++++}-{4:4}:
+>        __might_fault+0x5e/0x80
+>        _copy_to_user+0x23/0x60
+>        perf_read+0x114/0x310
+>        vfs_read+0xe7/0x360
+>        ksys_read+0x73/0x100
+>        do_syscall_64+0x15f/0x4e0
+>        entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> -> #3 (&cpuctx_mutex){+.+.}-{4:4}:
+>        __mutex_lock+0x8c/0xd80
+>        perf_event_ctx_lock_nested+0x15a/0x210
+>        perf_event_enable+0x18/0xa0
+>        lockup_detector_online_cpu+0x22/0x30
+>        cpuhp_invoke_callback+0xfb/0x2c0
+>        cpuhp_thread_fun+0x164/0x1e0
+>        smpboot_thread_fn+0x17e/0x280
+>        kthread+0x10c/0x140
+>        ret_from_fork+0x16b/0x310
+>        ret_from_fork_asm+0x1a/0x30
+> 
+> -> #2 (cpuhp_state-up){+.+.}-{0:0}:
+>        cpuhp_thread_fun+0x95/0x1e0
+>        smpboot_thread_fn+0x17e/0x280
+>        kthread+0x10c/0x140
+>        ret_from_fork+0x16b/0x310
+>        ret_from_fork_asm+0x1a/0x30
+> 
+> -> #1 (cpu_hotplug_lock){++++}-{0:0}:
+>        cpus_read_lock+0x3b/0xd0
+>        __cpuhp_state_add_instance+0x19/0x40
+>        iova_domain_init_rcaches+0x1ef/0x230
+>        iommu_setup_dma_ops+0x18a/0x560
+>        iommu_device_register+0x188/0x220
+>        intel_iommu_init+0x35a/0x440
+>        pci_iommu_init+0x16/0x40
+>        do_one_initcall+0xf5/0x400
+>        do_initcall_level+0x82/0xa0
+>        do_initcalls+0x59/0xa0
+>        kernel_init_freeable+0x152/0x1d0
+>        kernel_init+0x1a/0x130
+>        ret_from_fork+0x16b/0x310
+>        ret_from_fork_asm+0x1a/0x30
+> 
+> -> #0 (&group->mutex){+.+.}-{4:4}:
+>        __lock_acquire+0x14c8/0x2750
+>        lock_acquire+0xd3/0x2c0
+>        __mutex_lock+0x8c/0xd80
+>        pci_dev_reset_iommu_prepare+0x6e/0x200
+>        pcie_flr+0x32/0xc0
+>        __pci_reset_function_locked+0x84/0x120
+>        vfio_pci_core_try_reset+0xa4/0x110
+>        vfio_pci_liveupdate_freeze+0x8a/0x100
+>        luo_file_freeze+0xd1/0x290
+>        luo_session_serialize+0xa6/0x240
+>        liveupdate_reboot+0x19/0x30
+>        kernel_kexec+0x39/0xb0
+>        __se_sys_reboot+0xfd/0x210
+>        do_syscall_64+0x15f/0x4e0
+>        entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> other info that might help us debug this:
+> 
+> Chain exists of:
+>   &group->mutex --> &mm->mmap_lock --> &vdev->memory_lock
+> 
+>  Possible unsafe locking scenario:
+> 
+>        CPU0                    CPU1
+>        ----                    ----
+>   lock(&vdev->memory_lock);
+>                                lock(&mm->mmap_lock);
+>                                lock(&vdev->memory_lock);
+>   lock(&group->mutex);
+> 
+>  *** DEADLOCK ***
+> 
+> 9 locks held by kexec/13355:
+>  #0: ffffffff85a81270 (system_transition_mutex){+.+.}-{4:4}, at: __se_sys_reboot+0xe4/0x210
+>  #1: ffffffff85e1cfa8 (luo_session_serialize_rwsem){++++}-{4:4}, at: luo_session_serialize+0x30/0x240
+>  #2: ffffffff85e1d140 (luo_session_global.outgoing.rwsem){+.+.}-{4:4}, at: luo_session_serialize+0x43/0x240
+>  #3: ff3f082dee702108 (&session->mutex){+.+.}-{4:4}, at: luo_session_serialize+0x99/0x240
+>  #4: ff3f082db51c2588 (&luo_file->mutex){+.+.}-{4:4}, at: luo_file_freeze+0x81/0x290
+>  #5: ff3f082d8af761a8 (&new_dev_set->lock){+.+.}-{4:4}, at: vfio_pci_liveupdate_freeze+0x38/0x100
+>  #6: ff3f082de7f39780 (&vdev->igate){+.+.}-{4:4}, at: vfio_pci_liveupdate_freeze+0x49/0x100
+>  #7: ff3f082de7f399a8 (&vdev->memory_lock){++++}-{4:4}, at: vfio_pci_liveupdate_freeze+0x58/0x100
+>  #8: ff3f086c908911f8 (&dev->mutex){....}-{4:4}, at: pci_dev_trylock+0x25/0x60
+> 
+> stack backtrace:
+> CPU: 132 UID: 0 PID: 13355 Comm: kexec Tainted: G S                  7.2.0-dbg-DEV #3 PREEMPTLAZY
+> Tainted: [S]=CPU_OUT_OF_SPEC
+> Hardware name: Google Izumi/izumi, BIOS 0.20260327.0-0 03/27/2026
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x54/0x70
+>  print_circular_bug+0x2e1/0x300
+>  check_noncircular+0xf9/0x120
+>  ? __bfs+0x129/0x200
+>  __lock_acquire+0x14c8/0x2750
+>  ? __lock_acquire+0x1223/0x2750
+>  ? check_noncircular+0xa5/0x120
+>  ? pci_dev_reset_iommu_prepare+0x6e/0x200
+>  lock_acquire+0xd3/0x2c0
+>  ? pci_dev_reset_iommu_prepare+0x6e/0x200
+>  ? lock_is_held_type+0x76/0x100
+>  ? pci_dev_reset_iommu_prepare+0x6e/0x200
+>  __mutex_lock+0x8c/0xd80
+>  ? pci_dev_reset_iommu_prepare+0x6e/0x200
+>  ? lockdep_hardirqs_on_prepare+0x152/0x220
+>  ? _raw_spin_unlock_irqrestore+0x35/0x50
+>  pci_dev_reset_iommu_prepare+0x6e/0x200
+>  pcie_flr+0x32/0xc0
+>  __pci_reset_function_locked+0x84/0x120
+>  vfio_pci_core_try_reset+0xa4/0x110
+>  vfio_pci_liveupdate_freeze+0x8a/0x100
+>  luo_file_freeze+0xd1/0x290
+>  luo_session_serialize+0xa6/0x240
+>  liveupdate_reboot+0x19/0x30
+>  kernel_kexec+0x39/0xb0
+>  __se_sys_reboot+0xfd/0x210
+>  ? check_object+0x1e8/0x390
+>  ? init_object+0x34/0x110
+>  ? lock_release+0xf0/0x330
+>  ? kmem_cache_free+0x1b5/0x520
+>  ? kmem_cache_free+0x1c9/0x520
+>  ? _raw_spin_unlock_irqrestore+0x35/0x50
+>  ? kmem_cache_free+0x1b5/0x520
+>  ? __x64_sys_close+0x3d/0x80
+>  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>  ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>  do_syscall_64+0x15f/0x4e0
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f04e7233313
+> Code: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc 89 fa b8 a9 00 00 00 bf ad de e1 fe be 69 19 12 28 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 f7 d8 48 8b 0d eb fb 06 00 64 89 01 48
+> RSP: 002b:00007ffe7c91b688 EFLAGS: 00000246 ORIG_RAX: 00000000000000a9
+> RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f04e7233313
+> RDX: 0000000045584543 RSI: 0000000028121969 RDI: 00000000fee1dead
+> RBP: 00007ffe7c91b9b0 R08: 000000000000000a R09: 00007f04e72a4ff0
+> R10: 0000000000000011 R11: 0000000000000246 R12: 0000000000000001
+> R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000002
+>  </TASK>
+> 
 
-At the same time this commit states that, essentially, this commit is
-planned to be reverted in the future. Users cannot be expected to upgrade
-their hardware when upgrading the kernel so this behavior is already planned
-to be reverted on the hardware that it claims to support. Why not just
-keep existing behavior?
+This lock chain is slightly different than what David reported in his
+email on v4.
 
-Reinette
+Current dependency chain for v5:
+  -> #5 (&vdev->memory_lock){++++}-{4:4}:
+  -> #4 (&mm->mmap_lock){++++}-{4:4}:
+  -> #3 (&cpuctx_mutex){+.+.}-{4:4}:       // Different
+  -> #2 (cpuhp_state-up){+.+.}-{0:0}:      // Different
+  -> #1 (cpu_hotplug_lock){++++}-{0:0}:
+  -> #0 (&group->mutex){+.+.}-{4:4}:
+
+David's dependency chain on v4:
+  -> #4 (&vdev->memory_lock){++++}-{4:4}:
+  -> #3 (&mm->mmap_lock){++++}-{4:4}:
+  -> #2 (&type->i_mutex_dir_key#4){++++}-{4:4}:    // Different
+  -> #1 (cpu_hotplug_lock){++++}-{0:0}:
+  -> #0 (&group->mutex){+.+.}-{4:4}:
+
+This seems like &group->mutex connects to cpu_hotplug_lock during boot,
+and cpu_hotplug_lock can connect to &mm->mmap_lock through any 
+subsystems like Perf, VFS, etc.
+
+One thing to note, VFIO has an existing ioctl VFIO_DEVICE_RESET which
+calls vfio_pci_ioctl_reset() and locks are taken in the same order in
+that function:
+
+Lock vdev->memory_lock
+ -> pci_try_reset_function()
+    -> pcie_flr()
+       -> pci_dev_reset_iommu_prepare()
+          -> Try to lock iommu_group->mutex
+
+pci_dev_reset_iommu_prepare() is added in pcie_flr() in the commit
+f5b16b802174 ("PCI: Suspend iommu function prior to resetting a
+device"). So, this is relatively a new change and may have not been
+caught yet.
+
+This is similar to what vfio_pci_liveupdate_freeze() is also doing
+regarding locks and reset.
+
+I am not 100% this is an actual issue considering group->mutex to
+cpu_hotplug_lock dependency happens early in boot.
+
+If this is an issue which must be fixed, I think we would have to makea
+flow like:
+  1. lock vdev->memory_lock
+  2. Disable memory in PCI_COMMAND.
+  3. Unlock vdev->memory_lock
+  4. Do PCI reset
+  5. Lock vdev->memory_lock and resume as old flow.
+
+I wrote a test code (with assistance from GEMINI) to trigger lockdep
+warning in 7.2-rc1 kernel commit without any liveupdate patches and I
+can reproduce issue on a host having Intel DSA device (8086:0b25). This
+program mmaps a BAR of a VFIO device and reads it, after that it
+resets the device.
+
+Expected: Program exits cleanly, without any lockdep warning.
+Actual: Lockdep warning is printed similar to above.
+
+--------------------------------------
+/*
+ * vfio_cdev_lockdep_reproducer.c
+ *
+ * Standalone reproducer using modern VFIO cdev (/dev/vfio/devices/vfioX)
+ * and IOMMUFD (/dev/iommu) interfaces to trigger Lockdep circular locking
+ * dependency between &vdev->memory_lock and &group->mutex on ATS PCI devices.
+ *
+ * Requirements:
+ *   - Kernel booted with CONFIG_PROVE_LOCKING=y (Lockdep enabled)
+ *   - An ATS-capable PCIe device bound to vfio-pci (e.g., Intel DSA / idxd)
+ *
+ * Build:
+ *   gcc -Wall -static vfio_cdev_lockdep_reproducer.c -o vfio_cdev_lockdep_reproducer
+ *
+ * Usage:
+ *   sudo ./vfio_cdev_lockdep_reproducer <pci_bdf>
+ *   Example: sudo ./vfio_cdev_lockdep_reproducer 0000:6a:01.0
+ */
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <linux/vfio.h>
+#include <linux/iommufd.h>
+
+static int find_vfio_cdev_path(const char *bdf, char *cdev_path, size_t size)
+{
+	struct dirent *entry;
+	char dir_path[256];
+	DIR *dir;
+
+	snprintf(dir_path, sizeof(dir_path),
+		 "/sys/bus/pci/devices/%s/vfio-dev/", bdf);
+	dir = opendir(dir_path);
+	if (!dir) {
+		fprintf(stderr, "[-] Failed to open %s (is %s bound?)\n",
+			dir_path, bdf);
+		return -1;
+	}
+
+	while ((entry = readdir(dir)) != NULL) {
+		if (strncmp("vfio", entry->d_name, 4) == 0) {
+			snprintf(cdev_path, size, "/dev/vfio/devices/%s",
+				 entry->d_name);
+			closedir(dir);
+			return 0;
+		}
+	}
+
+	closedir(dir);
+	return -1;
+}
+
+static int setup_vfio_cdev(const char *bdf, int *out_iommufd,
+			   int *out_device_fd)
+{
+	struct vfio_device_attach_iommufd_pt attach_args;
+	struct vfio_device_bind_iommufd bind_args;
+	struct iommu_ioas_alloc ioas_args;
+	char cdev_path[4096];
+	int iommufd;
+	int device_fd;
+	uint32_t ioas_id;
+	int ret;
+
+	ret = find_vfio_cdev_path(bdf, cdev_path, sizeof(cdev_path));
+	if (ret < 0) {
+		fprintf(stderr, "[-] Could not find cdev path for %s\n", bdf);
+		return -1;
+	}
+
+	printf("[*] Found VFIO cdev node: %s\n", cdev_path);
+
+	printf("[*] Opening /dev/iommu (IOMMUFD)...\n");
+	iommufd = open("/dev/iommu", O_RDWR);
+	if (iommufd < 0) {
+		perror("open(/dev/iommu)");
+		return -1;
+	}
+
+	memset(&ioas_args, 0, sizeof(ioas_args));
+	ioas_args.size = sizeof(ioas_args);
+
+	if (ioctl(iommufd, IOMMU_IOAS_ALLOC, &ioas_args) < 0) {
+		perror("IOMMU_IOAS_ALLOC");
+		close(iommufd);
+		return -1;
+	}
+	ioas_id = ioas_args.out_ioas_id;
+	printf("[+] Allocated IOMMUFD IOAS ID = %u\n", ioas_id);
+
+	printf("[*] Opening VFIO cdev device %s...\n", cdev_path);
+	device_fd = open(cdev_path, O_RDWR);
+	if (device_fd < 0) {
+		perror("open(cdev_path)");
+		close(iommufd);
+		return -1;
+	}
+
+	memset(&bind_args, 0, sizeof(bind_args));
+	bind_args.argsz = sizeof(bind_args);
+	bind_args.flags = 0;
+	bind_args.iommufd = iommufd;
+
+	if (ioctl(device_fd, VFIO_DEVICE_BIND_IOMMUFD, &bind_args) < 0) {
+		perror("VFIO_DEVICE_BIND_IOMMUFD");
+		close(device_fd);
+		close(iommufd);
+		return -1;
+	}
+	printf("[+] Bound VFIO device to IOMMUFD (devid = %u)\n",
+	       bind_args.out_devid);
+
+	memset(&attach_args, 0, sizeof(attach_args));
+	attach_args.argsz = sizeof(attach_args);
+	attach_args.flags = 0;
+	attach_args.pt_id = ioas_id;
+
+	if (ioctl(device_fd, VFIO_DEVICE_ATTACH_IOMMUFD_PT, &attach_args) < 0) {
+		perror("VFIO_DEVICE_ATTACH_IOMMUFD_PT");
+		close(device_fd);
+		close(iommufd);
+		return -1;
+	}
+	printf("[+] Attached VFIO device to IOAS ID %u\n", ioas_id);
+
+	*out_iommufd = iommufd;
+	*out_device_fd = device_fd;
+	return 0;
+}
+
+static void exercise_bar_fault(int device_fd)
+{
+	struct vfio_region_info reg;
+	volatile unsigned char dummy;
+	bool bar_mmapped;
+	void *map;
+	int i;
+
+	bar_mmapped = false;
+
+	for (i = VFIO_PCI_BAR0_REGION_INDEX; i <= VFIO_PCI_BAR5_REGION_INDEX; i++) {
+		memset(&reg, 0, sizeof(reg));
+		reg.argsz = sizeof(reg);
+		reg.index = i;
+
+		if (ioctl(device_fd, VFIO_DEVICE_GET_REGION_INFO, &reg) < 0)
+			continue;
+
+		if (!(reg.flags & VFIO_REGION_INFO_FLAG_MMAP) || reg.size == 0)
+			continue;
+
+		printf("[*] Found BAR%d (0x%llx). mmap()ing...\n",
+		       i, (unsigned long long)reg.size);
+
+		map = mmap(NULL, reg.size, PROT_READ | PROT_WRITE,
+			   MAP_SHARED, device_fd, reg.offset);
+		if (map == MAP_FAILED)
+			continue;
+
+		printf("[*] Touching BAR%d to trigger fault...\n", i);
+		dummy = *((volatile unsigned char *)map);
+		(void)dummy;
+		bar_mmapped = true;
+		break;
+	}
+
+	if (!bar_mmapped) {
+		printf("[!] No mmapable BAR found on this device.\n");
+		printf("[!] For QEMU, try: -device nvme,serial=1,ats=on\n");
+	}
+}
+
+int main(int argc, char **argv)
+{
+	const char *pci_bdf;
+	int device_fd;
+	int iommufd;
+	int ret;
+
+	if (argc != 2) {
+		fprintf(stderr, "Usage: %s <pci_bdf>\n", argv[0]);
+		fprintf(stderr, "Example: %s 0000:6a:01.0\n", argv[0]);
+		return EXIT_FAILURE;
+	}
+
+	pci_bdf = argv[1];
+
+	ret = setup_vfio_cdev(pci_bdf, &iommufd, &device_fd);
+	if (ret < 0)
+		return EXIT_FAILURE;
+
+	/*
+	 * Step 1: Exercise Page Fault path (mmap_lock -> memory_lock).
+	 * Scan BAR0 to BAR5 and mmap the first region supporting mmap().
+	 * Touching 1 byte causes page fault via vfio_pci_mmap_huge_fault(),
+	 * taking down_read(&vdev->memory_lock).
+	 */
+	exercise_bar_fault(device_fd);
+
+	/*
+	 * Step 2: Trigger VFIO_DEVICE_RESET ioctl.
+	 * Takes down_write(&vdev->memory_lock) -> pci_try_reset_function() ->
+	 * pci_dev_reset_iommu_prepare(), taking guard(mutex)(&group->mutex).
+	 *
+	 * Lockdep detects the circular dependency and reports WARNING.
+	 */
+	printf("[*] Issuing VFIO_DEVICE_RESET ioctl under memory_lock...\n");
+	if (ioctl(device_fd, VFIO_DEVICE_RESET) < 0) {
+		perror("VFIO_DEVICE_RESET");
+	} else {
+		printf("[+] VFIO_DEVICE_RESET completed successfully.\n");
+	}
+
+	printf("[*] Check 'dmesg' for Lockdep circular dependency report!\n");
+
+	close(device_fd);
+	close(iommufd);
+	return EXIT_SUCCESS;
+}
+--------------------------------------
