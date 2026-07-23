@@ -1,91 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD9A48424C;
-	Thu, 23 Jul 2026 16:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC5C37189A
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 16:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784823085; cv=none; b=s7USACIumu0FrMYVHWl3vB4W+fa/v89eo0Lo4YZjJ+1Nqb9JTu082KclGUkZRcihEhNZswImiNg71XNMkNGvli6DR45usdEhiqnKsr1EE+/Pp7jUItwBvs3h1XCTyPCLWxlTiouaTrtLco6hEfRAVGsr0KWFk0RR5XGP4uRNRys=
+	t=1784824818; cv=none; b=iHrGgB5q8738RReDDPPtnlns3CVhlDDFdOVnQ6JbWhS3Kg1S9BP0VvMeODPEXwX1nluAn9ZHx1aRl4UlZsucEjiGjhkgomFlY6uVHjI1IGBXcfH8ohShvYzzfc9iYimJo+ZpwoAHBF2N9siCvvRsxfxGmDE8mxhwEv2RxAenfZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784823085; c=relaxed/simple;
-	bh=iZYBXuf6aPeYH0iQIJnSeQhAlcl3XNy4P0DxzE1M3nc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sBQROOHtsyhdKcrzcz/neEXBKrYUZb0gWR9YfCQUV66Zbq2pfTRZXSRtE3aOACKtQkU3zpRyeyG+O75D1dDz0iFVXYtN6wUTiIhMN4BL6/GRW7jVrVfS9YU1ek+yLBvLH2FIxk4SyCKV83Pe1xKOpSzxNBC9WB0T/ruqu6UTcVE=
+	s=arc-20240116; t=1784824818; c=relaxed/simple;
+	bh=/vfsRfeT3phJEGQInn81u01fiKlYvRCYThWT0KL3NiE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EuKkUp3ZbezsOdPehvKzOAES1/sIKhGAvmScJ1SCG2HD89lKMWfehYJDilxDuWbtb2CJ71t1Tzc80xMgE13I1HDdwnxr99xsFZoFq8HBalugwXq1LaMWowe8eX4gRTZzbvvbR7ngzLNU1eYEuhl+Qsh1y9d4NJ+6tKEarh5mEe8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E70F51F00A3A;
-	Thu, 23 Jul 2026 16:11:23 +0000 (UTC)
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wmw0s-0000000872c-3fEC;
-	Thu, 23 Jul 2026 16:11:10 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	D Scott Phillips <scott@os.amperecomputing.com>
-Cc: Mark Rutland <mark.rutland@arm.com>,
-	Zeng Heng <zengheng4@huawei.com>,
-	Wei Xu <xuwei5@hisilicon.com>,
-	Vladimir Murzin <vladimir.murzin@arm.com>,
-	Lucas Wei <lucaswei@google.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	Yicong Yang <yangyicong@hisilicon.com>,
-	Yeoreum Yun <yeoreum.yun@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v2] KVM: arm64: vgic: Avoid double-deactivate of IRQs in the nested context.
-Date: Thu, 23 Jul 2026 17:11:07 +0100
-Message-ID: <178482303767.3351010.4100459132454242259.b4-ty@b4>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260714231158.496808-1-scott@os.amperecomputing.com>
-References: <20260714231158.496808-1-scott@os.amperecomputing.com>
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DFEC1F00A3E
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 16:40:14 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c15ca7a7ca9so94732066b.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 09:40:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrFhPuwueTfSmOjMV2qWUqGG9xEhlHBHBgEC3QL9vqJ6vwNGHOuZzkUMAHXKo587tkP+X1BzhhJn5A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmhKopryCXS1QalhTZ9KKb/UUg6O4zcYlgm+Vkl4Ll5AiWpQu4
+	Naa74RkbDBXyqSoHQ/sej35lHwwO21Ea8EEasVCkvdFVv++LGe7wdTODv8WdRBISZZ+uJ/7aZMc
+	fNj81UM0q8lhiy/SvusjB02w7k4DujK4=
+X-Received: by 2002:a17:907:3e95:b0:c12:9b98:209e with SMTP id
+ a640c23a62f3a-c1c50779e7cmr200383466b.23.1784824788367; Thu, 23 Jul 2026
+ 09:39:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: oupton@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, scott@os.amperecomputing.com, mark.rutland@arm.com, zengheng4@huawei.com, xuwei5@hisilicon.com, vladimir.murzin@arm.com, lucaswei@google.com, kuninori.morimoto.gx@renesas.com, Sascha.Bischoff@arm.com, yangyicong@hisilicon.com, yeoreum.yun@arm.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
+ <20260717085151.22822-3-jiahao.kernel@gmail.com> <amF7_GB5Rl6OJmt4@cmpxchg.org>
+ <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com> <amIdU1lFxqxTI3Gc@cmpxchg.org>
+In-Reply-To: <amIdU1lFxqxTI3Gc@cmpxchg.org>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Thu, 23 Jul 2026 09:39:35 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
+X-Gm-Features: AUfX_mzK8yuJuGvUphs6dtuGvP6iNql6l9OJrVUX_BJAcI_Tz-dPlTb80kJnY38
+Message-ID: <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in shrink_memcg()
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 14 Jul 2026 16:11:58 -0700, D Scott Phillips wrote:
-> In the nested state, the physical interrupt has already been
-> deactivated through the HW bit in the LR. The extra deactivation
-> would be harmless but can hit an errata case on AmpereOne, so
-> avoid it here.
-> 
-> On AmpereOne, deactivating a physical interrupt through
-> ICC_DIR_EL1 or ICC_EOIR1_EL1 (depending on EOImode) which is not
-> active, but is the highest priority pending interrupt causes the
-> cpu to lose the interrupt pending state and also prevents the
-> delivery of future interrupts.
-> 
-> [...]
+On Thu, Jul 23, 2026 at 6:55=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
+> wrote:
+>
+> On Wed, Jul 22, 2026 at 09:52:18PM -0700, Yosry Ahmed wrote:
+> > On Wed, Jul 22, 2026 at 7:27=E2=80=AFPM Johannes Weiner <hannes@cmpxchg=
+.org> wrote:
+> > >
+> > > On Fri, Jul 17, 2026 at 04:51:51PM +0800, Hao Jia wrote:
+> > > > @@ -1369,7 +1402,7 @@ static void shrink_worker(struct work_struct =
+*w)
+> > > >                       goto resched;
+> > > >               }
+> > > >
+> > > > -             ret =3D shrink_memcg(memcg);
+> > > > +             ret =3D shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
+> > > >               /* drop the extra reference */
+> > > >               mem_cgroup_put(memcg);
+> > > >
+> > > > @@ -1493,7 +1526,7 @@ bool zswap_store(struct folio *folio)
+> > > >       objcg =3D get_obj_cgroup_from_folio(folio);
+> > > >       if (objcg && !obj_cgroup_may_zswap(objcg)) {
+> > > >               memcg =3D get_mem_cgroup_from_objcg(objcg);
+> > > > -             if (shrink_memcg(memcg)) {
+> > > > +             if (shrink_memcg(memcg, 1)) {
+> > >
+> > > Why 64 for the global limit but only 1 for the cgroup limit? That
+> > > seems arbitrary in multiple ways.
+> >
+> > I suggested that we keep the writeback here without batching and do
+> > that change separately, mainly out of abundance of caution as
+> > writeback is done synchronously here so the extra latency could be
+> > problematic. I think we probably want to measure the performance
+> > impact of that separately.
+> >
+> > That being said, this path is potentially too expensive anyway due to
+> > the flush, but I would rather we do some basic measurements before
+> > batching here.
+> >
+> > What do you think?
+>
+> It's not an unknown, right? We know this works for direct reclaimers,
+> cgroup limit reclaim e.g., and what the latency implications are.
+>
+> Because of how reclaim works, we also know it'll call zswap_store() in
+> batches of SWAP_CLUSTER_MAX. If we don't batch here, they're likely to
+> each call shrink_memcg() once we're at the limit - while still risking
+> rejections due to compressibility differences.
+>
+> My worry is that if we start with an inconsistency, we'll be stuck
+> with it for a long time.
+>
+> I'd rather start with the clean, consistent version. Dial it back only
+> if we have data to justfiy the complication that we can put into a
+> comment and the changelog that outlines why exactly it's different.
 
-Applied to fixes, thanks!
+I am fine with doing that and basically always using NR_ZSWAP_WB_BATCH
+as the batch size in shrink_memcg(), but I would be more comfortable
+if we did some sanity testing.
 
-[1/1] KVM: arm64: vgic: Avoid double-deactivate of IRQs in the nested context.
-      commit: 8a570b19b4b16a8a3b5ffa2b332bd5613110b2d8
-
-Cheers,
-
-	M.
--- 
-Without deviation from the norm, progress is not possible.
-
-
+Hao, would you be able to do some smoke testing with NR_ZSWAP_WB_BATCH
+used for all paths, and memory.zswap.max set in a way that induces
+writeback? You can probably set memory.zswap.max to 1% of total memory
+instead of the global pool limit and rerun the same test.
