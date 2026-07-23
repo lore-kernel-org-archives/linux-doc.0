@@ -1,111 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 405A528643A;
-	Thu, 23 Jul 2026 12:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8AB466B11
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 12:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784810847; cv=none; b=aRIwm3Frgk+0TC7HoK/PKHgEOCM2Y1QXqqAomUAtXDL37QUt0Uk7aZuSd2MOmSu76QtgPHCIl6X9uxX7H1oGAdmO5sqVAQsYhypYO1Y2AylnBm7l4BkIja0e8o2zX1WYZlYKcirSW1dTFw0XUI6XAuPwrdPpekV3d8a0Hw+vk4Q=
+	t=1784810963; cv=none; b=NJS+4hHtqVNE+F0ROSiMLZBK6/98jUKBRtOtPMK2VtrslDOGbdpT7dar+vh/NhvCyj+r2YrPayMe8e3jBLS0lWsmG0aWlCc0jp3OOOPpB1AFgUKx9WDoAaHLV8yAUGl96G9+q7YMNfjAE/6k+4TJQn8+P9emCucZiA6hb7+9l9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784810847; c=relaxed/simple;
-	bh=mrznInikKy6iTtOxpPkZv1/eMcCQH6Im1cZaGR2HfOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hofKkwJSjpV2KOxJV+9pW+Fv2ai0pvouVNchdXkgC3nen2/qjbeP/12XbBTuF2greI5+mcyc+j5YydfaNG37PdroJTclUrQlGftwNm+eR73wb31MtTMGVjeAVNky/YleCMgaRaXtnstkinN0lkjYcivTcQ/rxqnebK8SGHOU2WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=BU7FQVN1; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1784810963; c=relaxed/simple;
+	bh=3aXeI/09MbbwuicKh8AkxPk5M68U/QigbEhhmfXM3ZI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fzVzsgLSoFk9mkeJKPR4Zbynb8+hJOGAvggIVWAvBm5JKuCB8k2PDbPNtHWoh4j8QEdEaSsyv7Tx28FSTAKoxGXcBj3ttD3r9f5sEA+AWTOHXMJPxPMYWWIyBlTJVNSe4XjODa/op8vln2OjKojN4ZO9TBGQluh2KtIYuASIU0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eisIsBLd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="BU7FQVN1"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51E5B1477;
-	Thu, 23 Jul 2026 05:47:21 -0700 (PDT)
-Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4370C3F59E;
-	Thu, 23 Jul 2026 05:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784810845; bh=mrznInikKy6iTtOxpPkZv1/eMcCQH6Im1cZaGR2HfOU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BU7FQVN1QzAGQumaT96kwn9zDT9Xhs0sS3ZHg5P5MYa0tjPDw39V9AZjJRV/QKzrR
-	 LXp02yyo+DVLRpHP0A7hgRfk5aknzMhHQs1eAOwrhNWSeWW9eoWSeyaFtpygjL68Vt
-	 N9qLLIM9oEVUS78dbKNnvI96Ws7rXo8Q/A3H4pFQ=
-Date: Thu, 23 Jul 2026 13:47:19 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v12 02/29] arm64/fpsimd: Update FA64 and ZT0 enables when
- loading SME state
-Message-ID: <amINV-ZyUDXQW3Xg@J2N7QTR9R3.cambridge.arm.com>
-References: <20260709-kvm-arm64-sme-v12-0-d0301d79ef58@kernel.org>
- <20260709-kvm-arm64-sme-v12-2-d0301d79ef58@kernel.org>
- <ali39DG6qie7XTuD@J2N7QTR9R3.cambridge.arm.com>
- <15a9ae14-395d-472a-a5be-9e46524fb493@sirena.org.uk>
- <3c76650f-ddda-47ae-a676-86016d8e39a6@sirena.org.uk>
- <CA+EHjTw9rGvQyev-4i7zkO5bPPZKGYn858485dCs8iHmCi0t3w@mail.gmail.com>
- <43f21c65-c5ba-44a3-9741-548390df369b@sirena.org.uk>
- <87a4rnqsuu.wl-maz@kernel.org>
- <18229974-b26d-4eed-82f7-7af7e1c26634@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eisIsBLd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D891F00A3A
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 12:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784810961;
+	bh=zPJDTUa1embUv9VFB9g9jQklBzf+zRFlgh/5HGbY1HI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=eisIsBLdKhB2KW5huKrXBGNQibJ4OERqMXAFst+fqB51GRhXN/UvsM3b4kdsxkXa2
+	 0rys8s/Hf9vR2k+ZrQj2jUEAX08F8dRrNfixri28V6gtDKwHDhD4maEADUHni2qWL/
+	 wpeGtnmx0hiw1ity+mHehQgBChEnUres5N7sjSl8za5rf1NF+Avs3Kb5jG/fWz3TwG
+	 O9yMoG6i1ilX4jTSZmtcgm4/s4u5fK+pg3x4Vu/9S/nqQm3BqqqKuUHMjpIqQllxfx
+	 v6LrGq2PyUxRfE1IYo0NZfqzD7hcesB30dOG02FaZp8E5Wy229I8KvA9jlSB7j14T2
+	 tuYAcyrL+rR4w==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aebd52488cso610059e87.2
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 05:49:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rr3ks2DGqtLLGuRtn/QpACw/yBSTWa4vG31zGuZBxVtRpcp0SbU4E0SMDcAiONM02OyaPGnSXb8qy8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM4eVU8veHTB0A8OoiLqR+fnXf/5xw1dUgTb9PA5Rl0dP0ed+a
+	7dMawLaY+Y2Hx1h779AcFFTyAXIQ0nIW9GmQXw60h638I87KhH4vglG1q1+i6lCyk1r59AH5BcF
+	hlblgzgkeg48N6LCci024ImZx5vrAIdKtMRmRQJVj
+X-Received: by 2002:a05:6512:340a:b0:5b0:23c3:4f55 with SMTP id
+ 2adb3069b0e04-5b2b2f72e6dmr632356e87.53.1784810957216; Thu, 23 Jul 2026
+ 05:49:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <18229974-b26d-4eed-82f7-7af7e1c26634@sirena.org.uk>
+References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org> <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org>
+In-Reply-To: <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Thu, 23 Jul 2026 05:49:06 -0700
+X-Gmail-Original-Message-ID: <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
+X-Gm-Features: AUfX_mycl3zGDSAuIFoS_xjyu8TCMHpETj17AyVSnLTWihuec48LbNV5ao0Yb1Y
+Message-ID: <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
+Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>, 
+	Jann Horn <jannh@google.com>, John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 19, 2026 at 01:40:21PM +0100, Mark Brown wrote:
-> On Sun, Jul 19, 2026 at 09:35:53AM +0100, Marc Zyngier wrote:
-> > Mark Brown <broonie@kernel.org> wrote:
-> 
-> > > I've gone and implemented the first which will suppress the isb() for
-> > > current host kernel SME usage, the second two are starting to get more
-> > > fiddly than seems sensible to do right now.
-> 
-> > I really wish you didn't optimise anything at all at this stage.
-> 
-> > "Optimisation" is exactly what got us into so much trouble over the
-> > past two years, and I really don't want SME in KVM to follow the same
-> > trajectory.
-> 
-> > So leave this is a straight ISB, no optimisation. Once you come back
-> > with actual data showing that this is a terrible bottleneck affecting
-> > real workloads on real HW, we'll look at it. But until then, please
-> > keep it as stupid as possible.
-> 
-> I've already left the KVM hypervisor code like that - I only updated the
-> code here in the main kernel since that keeps the end effect for
-> existing systems and workloads the same.  I am aware that there has been
-> a great deal of attention paid to the barriers we have in the context
-> switch path so I am concerned that other people might have a different
-> view on adding one.
+On Thu, Jul 23, 2026 at 4:37=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> Once entered, failfs is a throw-away-the-key moment. The task is
+> considered chrooted so it cannot create user namespaces to regain
+> CAP_SYS_CHROOT. chroot()/fchroot() back out require CAP_SYS_CHROOT.
 
-FWIW, my view is:
+I kind of alluded to this earlier, but I don't think we should promise
+this.  In particular, I still think we should eventually allow a
+non-chrooted process with no_new_privs to chroot to any valid
+directory, and I think we should consider changing the definition of
+current_chrooted() such that failfs-as-root would cause it to return
+false.  I'm also not sure why it's useful -- if I want to throw away
+the key to accessing the normal contents of my mountns without
+changing my mountns, I need to chroot somewhere (like failfs) *and* I
+need to somehow prevent myself from getting an fd or a magic link back
+to the ordinary mountns contents.  If I somehow get such an fd,
+preventing my from fchrooting to it doesn't seem to accomplish
+anything, since I could traverse the fd with openat, etc just as
+easily, or even fchdir to it and use relative paths.
 
-(1) We shouldn't make speculative optimizations. Removing unnecessary
-    code is fine, within reason, but we shouldn't be adding conditional
-    logic.
+My understanding of the exact workings of the mount tree is possibly
+not good enough to specify the semantics I think are correct quite
+exactly, but I think a decent approximation is that a task should be
+considered to be not chrooted if its root is at the top of its mount
+tree or is not in a mount tree at all.
 
-    To that end, I'd be happier with an unconditional ISB here.
-
-(2) Optimizations should be benchmarked to some extent, such that we can
-    decide whether the trade-off is worthwhile.
-
-(3) In this path specifically, if adding an ISB is a problem, then it
-    calls the wider approach into question.
-
-Is there anyone in particular that you expect feecback from w.r.t.
-barriers in this path?
-
-Mark.
+--Andy
