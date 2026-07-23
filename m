@@ -1,78 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9A64BCAD9
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 12:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E6A649690C;
+	Thu, 23 Jul 2026 12:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784811247; cv=none; b=GyGjCsP4knvUYxYOLVtwuXzBOmLZYIxlcwpeZesByuweE4DLP8ufbjlGp/wfA7J8ctViYQ88ItqE/gR43lE7U9wDEaLa93rqy0WyVYZopX+sMfWjdMEC2jFceyWjlZlSjs+DA9qEB/AFgZhrt7Wqcc2PYJlgDKAdcojgKT4gjvY=
+	t=1784811499; cv=none; b=bQpDeANCtCJe2yKnYaaQa7Fx+8Z1daduaDGRyITKBT3n70W7ao9JpWkQtSqjHWZRrgva2ZdcD/EoOH/+3BVBMO0Nw1D6GLwupzs4lL/hrCTODOch/BQMyMdJKDqf6EytsusWdIdKg+aQVr+RSKAFsK7vBng67cw9wKWj+pij/Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784811247; c=relaxed/simple;
-	bh=hZB8/53s4mO4kIFJXxMOcWTQ6DBSxoSBcbhXg6lHpPU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qmrq1/P6P5Ff5iOCa+UTdfM3ZdGXpE8lNaenrBAEs3dYrvjJPbNG9C4zXzJxv0VakjAhuZsgf4peLuBXBSlqJktFY3YAHc8QdjitMccGP/vdjR4N3nMLfq7ssGuor+as3sZFLc/uRgzfWAuntCk42iikaFKgIVAvn0wdki5Dxdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9uORScJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784811499; c=relaxed/simple;
+	bh=tS3qt0hTqrRoA8Eare5/U/grQvdhUHhuH5FDy08Szas=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KowJ+ac5cfWZxBm6YjnIcs41SXqEO5/VtjFdIjZ5zCXwwVw2d4WO+gmVCZNHyeLnNBz0UQcSZcKrgnObONwywkPSiTUgwQKlaylMPenO2GLMmMZRgz6HbaaF4NjXjnUisPOx21jRhRzqZ/vv1ZvdCeUoPeOsaZERwML3zG6HNz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=JCu95jwu; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9uORScJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9DB1F00A3A
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 12:54:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784811244;
-	bh=8mdNKx/1/auLHo9QJ52PoQVlLrWXzZVXJMMcXNeqKNE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=A9uORScJ6C9J7fjzv+pRPBzS1ugZ1LNws7DEU9Rw4rlV8pdQfwVI2ehqmKQPESt8u
-	 q8P4pDXamQmX2ZH3yPg3rTADm7nfBQzDq6dq7Zq82G9KQGchtHRIiA4JzMSKLLZDa+
-	 BfSErvxq1NDhR7DepqPNHDwleJ7PcJNiDHuZ5dEUud0YYNnjrs7VCv+suPH04zsVeM
-	 ln0LociwmG2Q+bsWWZI6KkNMfoOyVX5NOLtB1PTKvrB4rZRrqQitnKVAw584+rc9a7
-	 BVHKY5t9JS294oBlWBrFoVKOPtHS0guXm08E+KHJTUld33br796sPAJYoikK2/QWY9
-	 7F6tjwRG1NZwQ==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b28c91fba5so505831e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 05:54:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RolEdOR3k2UmzoZFZTTjeUcp5Rj/BykUVJErsXblKk0ctybVykHGURBU0YST7C6MPvUuG2sUqWRS0Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5twQcWYC0YW77U36a8Gks55tlgNVLpWliYqbSFC+O6U8O8LWd
-	kfwSB7E0NldiRhHOMxMcRE8Nh/BtEv+SdJ2HySMMlo919NphZ846KDHCx1MX5R8XuAZ6n5ptUDR
-	Bkifs7OK/v9M3IMwpPAL4ym//kOlhdiOd2NLSJoor
-X-Received: by 2002:a05:6512:1323:b0:5ae:a4a4:b6ca with SMTP id
- 2adb3069b0e04-5b2b3332127mr450440e87.14.1784811234312; Thu, 23 Jul 2026
- 05:53:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="JCu95jwu"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C24621595;
+	Thu, 23 Jul 2026 05:58:12 -0700 (PDT)
+Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF5C93F59E;
+	Thu, 23 Jul 2026 05:58:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784811496; bh=tS3qt0hTqrRoA8Eare5/U/grQvdhUHhuH5FDy08Szas=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JCu95jwuHdwvgEvwvBRQDHTAQhAyscg4Z8nM8CbNlXkEBNN9gvC/tjSRPEY9AmFXQ
+	 YlOHo0P+NdKWLi4XGlyaQyNr57TtZJX3FgvYYRvRnaRCalGAv6LHFycsfnB6W1ne1S
+	 ROoF87dO/gNP+odtZMxPE972Iu4paqR7pLVdgbOc=
+Date: Thu, 23 Jul 2026 13:58:11 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v13 02/32] arm64/fpsimd: Ensure all of ZCR_EL1 is
+ initialised from idle
+Message-ID: <amIP42yILYNsNk0e@J2N7QTR9R3.cambridge.arm.com>
+References: <20260720-kvm-arm64-sme-v13-0-d9abd3ffa245@kernel.org>
+ <20260720-kvm-arm64-sme-v13-2-d9abd3ffa245@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
-In-Reply-To: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Thu, 23 Jul 2026 05:53:42 -0700
-X-Gmail-Original-Message-ID: <CALCETrXSDhrDzdGsknz0EpZkowm3OAPihyEU5Xf_Mb2CTr0SmQ@mail.gmail.com>
-X-Gm-Features: AUfX_mzGKgWr2cRO8ep-8-hB43raCc8FcPMOawRl5wUYGrxfGA1kDuSSAZzVQBw
-Message-ID: <CALCETrXSDhrDzdGsknz0EpZkowm3OAPihyEU5Xf_Mb2CTr0SmQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/7] fs: add failfs
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>, 
-	Jann Horn <jannh@google.com>, John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720-kvm-arm64-sme-v13-2-d9abd3ffa245@kernel.org>
 
-On Thu, Jul 23, 2026 at 4:39=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+On Mon, Jul 20, 2026 at 12:07:29AM +0100, Mark Brown wrote:
+> At present when exiting from idle we do not fully reinitialise ZCR_EL1,
+> we update ZCR_EL1.LEN with a read/modify/write cycle when loading task
+> state but never set any of the other bits to an explicit value.  Since
+> currently they are all architecturally RES0 or RAZ/WI this is not a
+> practical issue but it may become one if further fields are defined in
+> the register so we should explicitly configure the whole register.
 >
+> Rename the existing sme_suspend_exit() (which handles this for SME) to
+> fpsimd_suspend_exit() and add set ZCR_EL1 to 0 there, if needed LEN will
+> be updated when loading task state.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-[snipped excellent list of things one cannot do with failfs]
+While this happens to work today, this is a more general architecture
+problem, and I think we should cc stable such that kernels will work
+reliably on future hardware.
 
-> A plain readlink() of
-> such a link still works and shows "/".
+All stable kernels support SVE, so this needs to go as far back as
+v5.10.y.
 
-This seems awkward to me.  I feel like ls -ld /proc/PID/{cwd,exe}
-should probably show something distinctive instead of "/".  Maybe
-readlink() should show "[failfs] /" or similar?  Both admins or
-developers trying to see what's going on and CRIU might want this.
-IMO it's too bad that we don't have a nicely parseable readlink output
-for oddities like links to deleted files, but oh well.
+One minor comment below, but with that fixed up (and a CC stable):
 
---Andy
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+> +void fpsimd_suspend_exit(void)
+>  {
+>  	u64 smcr = 0;
+>  
+> -	if (!system_supports_sme())
+> -		return;
+> +	if (system_supports_sve())
+> +		write_sysreg_s(0, SYS_ZCR_EL1);
+>  
+> -	if (system_supports_fa64())
+> -		smcr |= SMCR_ELx_FA64;
+> -	if (system_supports_sme2())
+> -		smcr |= SMCR_ELx_EZT0;
+> +	if (system_supports_sme()) {
+
+We should move the 'smcr' variable into this block. That way it's scoped
+to where it matters.
+
+> +		if (system_supports_fa64())
+> +			smcr |= SMCR_ELx_FA64;
+> +		if (system_supports_sme2())
+> +			smcr |= SMCR_ELx_EZT0;
+>  
+> -	write_sysreg_s(smcr, SYS_SMCR_EL1);
+> -	write_sysreg_s(0, SYS_SMPRI_EL1);
+> +		write_sysreg_s(smcr, SYS_SMCR_EL1);
+> +		write_sysreg_s(0, SYS_SMPRI_EL1);
+> +	}
+>  }
+
+Mark.
