@@ -1,158 +1,138 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDD41C860C;
-	Thu, 23 Jul 2026 00:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B012BEFE8
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 01:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784766768; cv=none; b=XnkvpAD2ZTnLAzTF3Xo0m/j8On+KJ4hIPvwlbPjuwgFARX3LSzmhfsPv4HvUnFwoY8JEAcglEuZ5X414CPfCaHQtAQJKHC7hILCKf+vtdmcrmmep4cBpLEqeTPCSNcAPvufTR6AW7kEh+TW7yL7jL7TIFDhtJBbXJVDD29jDQ0k=
+	t=1784769704; cv=none; b=LwdAo9wWsxcEL8rPANLjKVA1gnvD1JGCRWZ/MU4YVxRdcpEIk4hMYeLJAkUOO9+acRiSdcyxGLFszq5Wa8LCxCkOdZ3HUdWfI/Nnz6LMp3YmXAitnSMjV34Pdv616DZSdN8nzmIOk+Eu2P8zNkxmzc0cDQhVkxdUft2Cn5lHrCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784766768; c=relaxed/simple;
-	bh=M9B31YLQtpF4cz1ZHqD33idr8KjQadhKu42Qbpq5Lrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T9KQ2PCgNXu/cqjMkrpIbE7AWFaHj3fvdsTUgI3DI5FYPTS5tn3XPDl0vvLc9fupB9Z9Xpglfs+/XjepLqQ2hP3040XTGJiaPg14pttCMX7XlusWsV18NHWecMJjoq2/hr4/dIwNEYsEZ5bNPH17k9ZywY5m4ubgfuX+vdhChNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id EA2631A02DD;
-	Thu, 23 Jul 2026 00:32:36 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf01.hostedemail.com (Postfix) with ESMTPA id B43DA60011;
-	Thu, 23 Jul 2026 00:32:24 +0000 (UTC)
-Date: Wed, 22 Jul 2026 19:32:23 -0500
-From: John Groves <John@groves.net>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V11 0/9] famfs: port into fuse
-Message-ID: <amFMUtTB4SmHdYZx@groves.net>
-References: <20260720034358.68714-1-john@jagalactic.com>
- <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
- <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
+	s=arc-20240116; t=1784769704; c=relaxed/simple;
+	bh=iEgRgLweARdYMWe7OfHFWTnuSW4hZWWSuYMaDP/0PKw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=P3V6amXIJQU9oDUFG86rM/N5s0JDQtUXBZTPoh+MvQ9RCusQrauKLtABCa+fRkdIAiFOFcVL2ybx1IGToPSk5Rl7QETjYmqvzdENjBi2JTrhv11AfzC8BruupVUXVgJZRUQdkx14pp0QvRJoHzxPGalUiaVNrO4l8Nxjs9+uCHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j9ac3uA+; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j9ac3uA+"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so99372a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 18:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784769703; x=1785374503; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:references:cc:to
+         :from:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=kjWq0EX3NUE2ngLrdLfPnZ0UVshpvVZocotK3ZKx2ZQ=;
+        b=j9ac3uA+38am2Sw+MBpPQ3kuLO/1BVNJnVdFo9UCuzUzYYr2OdS53N67oHv6mMvW5g
+         XOoGeaC7h+hvgBrKyHp6cTdUgQwgauo7SIZVNwVNAT9YHH2+qmC/t22jO69Wb0v++q1J
+         aMliZyULndeMMivNjvZKKQv1rE9MjHKCuXOAhd/L/zhOsVjjeCvb+Tv75YpKjL95m/DF
+         kKnuDM1reXxEpn/CTOhwmGwF0LomWlCh6hG1JIJrzX/SAmvvvjDg6ZqkfoVmBYd1Or1Z
+         k1Fyv/GKiuYSIGm7HVJbavltcTRHq6eWNIS5yP/9HuID7le3sdbi4WJ6ve+ZF3UoKAKn
+         l3KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784769703; x=1785374503;
+        h=content-transfer-encoding:content-type:in-reply-to:references:cc:to
+         :from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kjWq0EX3NUE2ngLrdLfPnZ0UVshpvVZocotK3ZKx2ZQ=;
+        b=i+mb6Ylu7c6+gEJ2o1K7QqxgpC3WGdjSrdnTPnqK3ka0fyi7KpBKK/sNXatlmXPrL3
+         AK3vvNoCGbZrqHy6Sk7WdNSzugnqDdp4SVagwdaUbK/ElfcoJTQOqBpqOz8An9W66Idq
+         ZkGRUz/pBDuTdvQEaFO3EGr17fMcGQLTzmwBZAyyq0Xf8R1qovVVKRu63kqcZTO/9RNy
+         /fGRz6IyhkflDs4t7GW96NfsvzTwei69wUAzcyo7qQj9S2A52XgsN9wDJtphUpBcmXfy
+         YCBpkZUWSalSL3WsjuZYPNY0J62PVbgcxb3sPfHHRBkeF629eZPr6KGsR6/u0/THH7uP
+         OALQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp7TSOIpiRVQDYawMiF/AkdZMTNdxEY0riutaIbxkNN8SRFY3oGhW/GT1guyxGDeljUwynBFwHaTZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1qpPDF+4HevSU6moLWeLENIRmnmFbCzLaYML/RVWVroFrgdrn
+	lsFCkw/i9QJ8L3NMuS+ioBsealhSvthKwWD4ceR4aMLMtXLKF5SKvyFJ
+X-Gm-Gg: AR+sD13Df4HOS1KAvlRW8JrZcOxrGur408+t1Or98AXrKwjZAWut7OTOGRn+LvYA0KA
+	v0Gpdum/Fb89zl+2Bl9J0Er5TeXCicBQOJw9VCv09mB1oLf69GLYe7ZBSu4kUMqNye7EbSJqbp/
+	KyYeQ+4iOOZXEeFp70bUi1lwx0fqpI6AP4FRiluJsp97moWL2WoBDnsQxM0iWYKEtlsSfJV5Rag
+	4RnyuJdqFyjla+A2cr2ZSUIHOlkv17teeHbxerr0Zj45U3wyIVtu6nckGpiJOu5N2Uomj0wCOkU
+	jUvqYDjvaJHrCYZbUvLN4oqhk9qM+3sqVdRMfC3ILgAvCiHegacsy39jnkvw2TBuZrv1zglJM4R
+	tXKt02fFCPW+jNY4vCQigCZJgMNXIh0feBuPwQGjDJAvCCIMNJe6AziQILwdMDqqcb4BQ1fuGj6
+	lUYsK1yjVg3jG9AqBuNSqvw6rxhoM=
+X-Received: by 2002:a17:90b:5241:b0:383:5a16:bd70 with SMTP id 98e67ed59e1d1-38ec651c1f4mr1027418a91.16.1784769702664;
+        Wed, 22 Jul 2026 18:21:42 -0700 (PDT)
+Received: from [10.125.192.96] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38ea41f32fasm1418972a91.0.2026.07.22.18.21.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2026 18:21:42 -0700 (PDT)
+Message-ID: <0a96b7ec-0d8d-2abd-afaa-739c562bc985@gmail.com>
+Date: Thu, 23 Jul 2026 09:21:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: B43DA60011
-X-Stat-Signature: 7yr1sarh6hzcmabc5jh4fdgk6g17o9r7
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX19PLbwf5afhZYu7h/oU37HdgP6ZNBNAzIg=
-X-HE-Tag: 1784766744-980457
-X-HE-Meta: U2FsdGVkX1+odIWLjAHw/PDf22XXSEFf+/xiKe4A+w5oYnabDwp1+vQnLGdBFVEGfX0EnfDgOj5KaiE54GiHPvksAFYhngTBrn/zjDaXw86/zYubmfz2O2zJLsVu8Uy72vcGjQrb64+z+tzDk3OeUSmVwA+l2eY5et0gVe8Z7ClhvlqrzJ8p2NIYcoGxYoT03+KXGLyponLeh+fbWSweq14mEJ2TiJXaRqtnsTXmvt8yZJg16d5M7PYpn55bDKBKeeG/65osjlxqmT0iZFj0PeobY+ASF+tPedASLJ+jPARv7o/6I6tz5pwO/dzmVIuNmJLfEGxtBEQhFADtDXCY5+RUubagCNDm
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v2 0/2] mm/zswap: Fixes and improves the zswap global
+ shrinker
+From: Hao Jia <jiahao.kernel@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Yosry Ahmed
+ <yosry@kernel.org>, nphamcs@gmail.com
+Cc: tj@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ mhocko@kernel.org, mkoutny@suse.com, chengming.zhou@linux.dev,
+ muchun.song@linux.dev, roman.gushchin@linux.dev, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
+ <20260717181839.c94d0335ccef0084707d3d85@linux-foundation.org>
+ <CAO9r8zOrXqsEaCEJUUAxbAhhN_OQb8ejogeUa6k8hX_JV8hxxw@mail.gmail.com>
+ <20260717214031.8b22e9a37ea3b0c564b466f0@linux-foundation.org>
+ <7dbde343-fbbf-6a1d-1785-ebf9f5a04f6b@gmail.com>
+In-Reply-To: <7dbde343-fbbf-6a1d-1785-ebf9f5a04f6b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 26/07/22 12:46PM, Miklos Szeredi wrote:
-> On Mon, 20 Jul 2026 at 12:07, Amir Goldstein <amir73il@gmail.com> wrote:
+
+
+On 2026/7/20 09:26, Hao Jia wrote:
 > 
-> > It's not about this ioctl, it's about infrastructure reuse.
-> > It's about the fact that there is NOTHING special about dax_devlist;
-> > and no reason not to manage it via backing_files_map.
-> >
-> > The reason you stated was that you want userspace to determine the
-> > daxdev_index/backing_id - fine, no problem - this is why I asked that
-> > you pass it the desired backing_id in the ioctl.
-> > In fact I think that all fuse backing_ids would be better assigned by user space
-> > so the extension of padding => backing_id is not unique to famfs.
 > 
-> Right, so I suggest to just reuse FUSE_DEV_IOC_BACKING_OPEN and add
-> two flags: one to enable user supplied backing ID and the other to
-> indicate that fd refers to DAX device.  The changes to do compared to
-> the current patchset are quite minimal.
+> On 2026/7/18 12:40, Andrew Morton wrote:
+>> On Fri, 17 Jul 2026 18:28:04 -0700 Yosry Ahmed <yosry@kernel.org> wrote:
+>>
+>>>>
+>>>> The [1/2] changelog lacks a description of how the flaw impacts users.
+>>>> Please describe this fully and maintain that info within the
+>>>> changelogging.  This info helps -stable maintainers and others
+>>>> understand why we're proposing a backport and helps myself and others
+>>>> with timing decisions.
+>>>
+>>> The first line in the changelog should be sufficient imo: "Zswap
+>>> writeback on hitting the pool limit is broken when memory cgroup is
+>>> disabled"
+>>
+>> "broken"?  Perhaps this means "fails to occur".
+>>
+>> But what is the userspace-visible impact?  IOW, why are we proposing a
+>> backport?
+>>
 > 
-> > And the best part is that this request requires no changes to your userspace.
-> > You already bite the bullet and maintain the new/old uapi but changing the
-> > kernel implementation does not require this burden from you, so to be honest
-> > I really don't understand why you did not follow Miklos' suggestion.
+> Perhaps the first paragraph of the commit1 message could be modified as 
+> follows? I have added a description of the issues that occur without 
+> this patch.
 > 
-> Code reuse is also important, but I understand John's position to want
-> to separate famfs from existing codebase as much as possible.  And
-> because this is an implementation detail I don't want to make this a
-> show stopper.  We can easily fix it later.
+
+Hi Andrew, Yosry, and Nhat,
+Any thoughts on this change?
+
+Thanks,
+Hao
+> Zswap writeback on hitting the pool limit fails to occur when memory 
+> cgroup is disabled, because mem_cgroup_iter() always returns NULL. 
+> Therefore, the global shrinker shrink_worker() always takes the !memcg 
+> branch. After MAX_RECLAIM_RETRIES empty walks, the worker simply gives 
+> up, so it fails to write back anything. As a result, once the pool 
+> reaches the zswap limit, every subsequent zswap shrink work run is a 
+> no-op. This leads to zswap store failures, forcing pages to bypass zswap 
+> and be written directly to the backing swap device, which can trigger 
+> issues such as LRU inversion.
 > 
-> > > - Lose the famfs interleaved extent format. I have complied with this request.
-> > >   It makes some things worse, but we'll discuss that later.
-> > >
-> >
-> > I am really not aware of a request to lose the interleaved extent format.
-> > How can this patch [2] from Miklos which reimplements this format as a generic
-> > uapi be mistaken for a request to lose this format?
-> 
-> Let's not care.  We can easily add this later if famfs (or any other
-> use case) decides to want this after all.
-> 
-> Making the initial patchset smaller is win in any case.
-> 
-> > Let me recap the former review requests as I understand them:
-> >
-> > 1. Use ioctl instead of GET_DAXDEV
-> 
-> This is done, just need to reuse the existing ioctl instead of add a
-> new one with the same semantics (okay not true because of the fixed
-> backing ID extension...)
-> 
-> > 2. Use backing files infra for daxdev table
-> 
-> Leave this later.
-> 
-> > 3. Use ioctl instead of GET_FMAP
-> 
-> Not sure we agreed to use an ioctl for extent mapping.   What we did
-> agree on was to use a generic interface that doesn't have anything
-> famfs specific in it.
-> 
-> John, can you please also look at review comments provided by Sashiko?
 > 
 > Thanks,
-> Miklos
-
-This a quick acknowledgment that I appreciate your reply Miklos. I'll respond
-to individual points as soon as I can without rushing.
-
-Re: Sashiko - of course! The series has been through /kreview in Chris'
-review-prompts repo. Weird that I didn't get any email directly from Sashiko 
-this time, but I know how to get to it online.
-
-I will make this high-level comment: After reading Amir's initial reply, I 
-concluded that the requested changes push famfs past the breaking point, 
-and therefore the only way to keep famfs suitable for its intended usage is 
-to pivot back to standalone. I do think that may be best all-around for fuse, 
-famfs and Linux. I don't see any way famfs makes fuse better - it's a very 
-specialized pattern that doesn't fit in a passthrough-filesystem or 
-block-filesystem shaped hole. And I don't think it can comply with the 
-"nothing famfs-specific in GET_FMAP" objective.
-
-If famfs is standalone, it can only ever affect customers who use it, and it
-cannot be used as a general purpose file system. When famfs is in fuse, it's 
-mashed up with code for hundreds or thousands of other use cases. That's not 
-a win from a risk management standpoint, and it doesn't make famfs better - 
-certainly not in any way that would mitigate adding a lot of state / 
-complexity / baggage to famfs.
-
-In good faith,
-John
-
+> Hao
