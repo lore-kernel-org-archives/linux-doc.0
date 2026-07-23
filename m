@@ -1,78 +1,78 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8553CF20A
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 21:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6E33DDDB1
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 21:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784842554; cv=none; b=jek+T+hRNspdarG3huhlI4aw55rZPf0waLwm3w4KkX3RWP1ExdvB/K+C3b2G0MeA6PKJ5HIcb8eIibHKEzliMQI1fvQrK8r9WsC7dDQ8vXbUeLMsslUmkI9mluC55rhLobjQuL2hiXPWR64zTqn422rAMAVqMWDa+Zbq5w3dJXY=
+	t=1784842589; cv=none; b=UBYMVXCcdkShTAQR6If0lRCeqWiwc24PCe+IE6XQCJVHL4fbEGSEL7nRh82GjFEcklkGKJ0Voh7RAjZEuxfg1Kr8z2YL6KP3HLQ3ohDX1FHIpOOYWN74uIh+BCIxhw/NcucNVwHcqbZal2xwT9FUMaXzAEN0S2Utj4UXE3ix184=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784842554; c=relaxed/simple;
-	bh=Y6l4pbrAjxGiwFAjAvD2g0C0Zqsuzaax/Q6bdHesUPs=;
+	s=arc-20240116; t=1784842589; c=relaxed/simple;
+	bh=nZywLPbLzF4rq+/qFXJiQOWrYkbZMu0rWux6FAaMmds=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e1rhde9ij9dM3FTaN8EYrsY1Cfh6wVCBun9zEThZ1y6ShHhcJdlqg07x84pjOviHU+/8RRX8p0l4jbFt/nL4ZhhaxYFsuuLLPStwfaCh07hRpVywDtZjOOTJ6Sl1KRke8j4+/pl/WtPRRzhHisI6mF9AeTxRXWDREA+jWMvL70I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nM/eM/U3; arc=none smtp.client-ip=209.85.214.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=M3YKxX+A8mi/OFDLAs0vPVeeJUgl62KB024Lb0kl+zlLztD8fbV+zNI9L0BEbYqyyqF38RQZoLvorPsa78RHAWjJs85Pc75AARFyelzGnxjV1QPh0lVb2NpAmC4LWIxZUgFHjIQblHfMgCCauErgTuCS/YLE47QDhGEFF/8up08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jEb4laox; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nM/eM/U3"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cf27856f9cso13988705ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 14:35:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jEb4laox"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8486672f03cso1184532b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 14:36:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784842552; x=1785447352; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784842587; x=1785447387; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=Hjft2xVsWjp4NjFVA+wBQKvwIiUgUOuWRwlVENc0+Gg=;
-        b=nM/eM/U3dXvg384+7xUtcgb+7IRNORtwkbHK0S3Jr4HTeWjDt8z/bbMkSz3qhEZc8P
-         2mge82+qBIrem2FaUnmHylx4lpcCxkJFu4fIrmjNR9WYDi/WTe3mpYlYoKbXn4XAohAq
-         bKeqxHZ0FcX2Fk1z5iwCk99C7wH2vPs8B3Ktc5VbDIEAaTnU1jX2N4V59mF1QabVzb+f
-         G9CoU8HSNOX8bhp1q8ZJC0DwFPOAxAGgEm9r9U58BObUpedPHXlRrJd9vjsIQNlVeK0l
-         uxMg0AdTeYFsavMprQNu7+Pc8/i+DSy5XrmvGeqOb8DvGZdFXa5G0SVGKek3WBXBISTf
-         jPCg==
+        bh=7oY6XrKwOvx5mixYV39vBKj7VlF4d0i2PtDOKuSJh8Y=;
+        b=jEb4laox2Pc/10uCnm7wOygwKDal66OFo37bCyHwZmgd4bThnrvSYbftjIisMepY6c
+         P5x2KQ2FzdrsFQrmZdovyA++fgr045xp7hpL0FA2sWwIByW09QIVuhhAk1gEJdAFiLBf
+         Ot1OvaipUUvoPiKb4RaYoc6/1d/qjIpgJLSdKIgv5yoYpLTgFj3P0vNADGwT7I/MIu2x
+         DIfgzyN1ZYhlLRsInLnt23uwMTPxR4d3ocSUR5+GKBd8jzhvIO7i/MOuP34q1xLDt/Zp
+         ym/x78YdVb4JGi2aZFooUznvX67lmKWlXhnqWqTsVGv8yiZNOTbGjtpxbKAF8fzo4Ibu
+         bJ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784842552; x=1785447352;
+        d=1e100.net; s=20251104; t=1784842587; x=1785447387;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Hjft2xVsWjp4NjFVA+wBQKvwIiUgUOuWRwlVENc0+Gg=;
-        b=qSKRsXZBQP58/23WxukaQtfHbwL8jQgBZvBAdCR2BLYifXHl7pNrqr1W3uIPZ1GNmF
-         NKflRdzvoVxoWS6U340yQMXgsGeVRqc8E+HRR/4X2H2HVOzH04+rfoQpchoYVhV7tORQ
-         cWLfKJzSUHf6MeO62p4QH80XItko3v0f7HPuOWf5OhaoP06QG9YUJtFe37ZNLVuzikF2
-         UllXBLcDyvLrCtgHhYzrVqk+3Y7ft9y+5jP4F2olRHNoby/uhgP2hZb0C32LudcwDF3d
-         X+ENMJzeOualO5BlVKgk2TxGw+x75/0rXiAwa8k7SsyxwGmY/CA+7+ma7qkUOugjuZO7
-         WCIw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr+rMjw+rnviV+PXZwGRZ68apEgh3T/ZdZ3QENhpC66lnuyWLGZh2SktRsIrz8lgl5Y2liMZSRJNbs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywOErEma0vxJGDGLTJYhk0OGutUFQjnAAnoZT+h8nLXg7Rn8m4
-	J+DOOquTMYVTzhIrH8+wroCEBIz+DSfteYcw3lsbP8drxa0/tRG8jyNG
-X-Gm-Gg: AR+sD13cUDoAu/986dTN/m8FS3LOIVxO+cqUpVSNZnoF9Zi/61GUnTi87gqf989undE
-	8hk5qr6g9YvTtT2j7CN1HPvZkQ4dq3oymdaGETwPKaTehwwjMBhDgP7ClZhdNTD0W2XxY+6q1+C
-	rSv51+IXVKeqznGHiwMF/XVlaHCUM3Js0aqWvxb0JGz1JgvzsXjEfl8AbmHP67hO6O3RktZzZLA
-	yOwb0D7tFsMxBEgjLmMQxFBjWhjyOJcvYzwXa5iDMF1Z34IOVip468j8sgqmfovoEfl2DAiwp31
-	B02OGM0FUA/q6hHkHcLs3djq8BbMg58XkUyUnHQj12gdJEDecQhzqTLbtRUCXQJ7d2+QoXizzl3
-	fjvgYTes5Ab+Cx9K2TUPiQFrtTh0NY5PXIyBSzgsEAC581AKDwZrFwdODtg1Man68jVM98mHvHi
-	k07er/XdGvPVotNye9aqArlNEItA==
-X-Received: by 2002:a17:902:da4f:b0:2c6:8d95:fd6d with SMTP id d9443c01a7336-2cfa6ba9a4dmr54855175ad.21.1784842552177;
-        Thu, 23 Jul 2026 14:35:52 -0700 (PDT)
+        bh=7oY6XrKwOvx5mixYV39vBKj7VlF4d0i2PtDOKuSJh8Y=;
+        b=d/TukgyQ2pRrllSKDvEy33Hp8O9phbFJxeI1IypOjgoeW0R2pYaVvnaDvAKLTXGjrK
+         bMe92mjSH7BYa00E8/jytZTdJjTP7aTqwa0rRm/0gAVLU9ZY3TX81F1x3VEchSWAo+Bg
+         8//04llDraw98+2xgp0juVyxpkAZA8vhdMM1RsGrDsHH1SE4dH9YiDC3XYeNW1RXjPFV
+         EToS6fvmzWORv9aCs6N0F2kPf48n08v9mx4h8zvJ/JtK98bOO2nzFTiv7j2N/THBdBA9
+         9xZ3r1KgG1Jzzj7v8m46GyPwMOQWHU48kgwZIEQH2r9QNqYejCCkL5srm/B8iUt7FliG
+         SWcA==
+X-Forwarded-Encrypted: i=1; AHgh+RpopdAB0+pdT15vLnVZjHyRxhDUDaUgaOzqtFUhA4Tjp12n59JndauwnPpK/T5b+fsq2uhb+tlAm8A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxA+TSAiLtmYFxoxBCjqlBgpyMi8IuTchFFCaNLpJWXqxPptM6y
+	7/QYWYJKqnN4Bm6SrmuY3u2zitbutXsANVDyyV8VDKaMbyHr20saaa3I
+X-Gm-Gg: AR+sD119N4H/vLuElAV7KCeSY6AXBeXnkD0Ot6tULp3H1qytPeDyW/gbxhGG+pMlXiL
+	VtteCtNY37fhtjW84wa8euEcQ56J153dqCRBfdbmBEeBrIpGwM1t19LUVqog5rGz7D2TTuuzRgX
+	+ZV8Ji6ZmO1JfihUu1Nz7YPwqogbZgp7X6DI96VWWMfY5QA/JkE+FRhUkVwdI/7ULeoL0SkP2QU
+	EGF0klp9HNsJ1IlYyX+1Lw56Ablb9HP3PeHX779ukvi7TLPmBubsAsREq3XXhKPx/eYhdBhEyf3
+	uGGOnpT9OFgHMiCl7y/qX0PRHkBP1kES5zJ3rRF1b7hBmAM8B5XCoHFaJI827kgfHdmGvkFP5X6
+	tT8c86KGkBGybIz+9u2nvNhh1IR8hB86OObGEIRvH/V9vYIYHoaoRVibtClSLUqhGha8DrfEaBk
+	mNdmtWuheOGZmdJF4=
+X-Received: by 2002:a05:6a00:4f83:b0:848:2f7a:2e52 with SMTP id d2e1a72fcca58-84e2bb71d71mr5691690b3a.65.1784842587587;
+        Thu, 23 Jul 2026 14:36:27 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8edea703sm40366485ad.0.2026.07.23.14.35.51
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbb8f1a9967sm3282917a12.25.2026.07.23.14.36.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 14:35:51 -0700 (PDT)
+        Thu, 23 Jul 2026 14:36:27 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 23 Jul 2026 14:35:50 -0700
+Date: Thu, 23 Jul 2026 14:36:26 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 Cc: Kun Yi <kunyi@google.com>,
 	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] hwmon: (pmbus/max34440): add support for newer
- version of max34451
-Message-ID: <2d8da214-6a8b-4e47-bac1-4701b9cab35c@roeck-us.net>
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Carlos Jones Jr <carlosjr.jones@analog.com>
+Subject: Re: [PATCH v2 3/3] hwmon: (pmbus/max34440): Add support for MAX34452
+Message-ID: <1dcfdbad-93dc-4a71-8308-a0936450661f@roeck-us.net>
 References: <20260722-max34451_fixes-v2-0-bbddb18ec1d6@analog.com>
- <20260722-max34451_fixes-v2-2-bbddb18ec1d6@analog.com>
+ <20260722-max34451_fixes-v2-3-bbddb18ec1d6@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,12 +81,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722-max34451_fixes-v2-2-bbddb18ec1d6@analog.com>
+In-Reply-To: <20260722-max34451_fixes-v2-3-bbddb18ec1d6@analog.com>
 
-On Wed, Jul 22, 2026 at 09:29:30AM +0800, Alexis Czezar Torreno wrote:
-> The MAX34451 released a newer version called max34451etna8+.
-> This simply changes the direct format coefficients
+On Wed, Jul 22, 2026 at 09:29:31AM +0800, Alexis Czezar Torreno wrote:
+> From: Carlos Jones Jr <carlosjr.jones@analog.com>
 > 
+> Add support for Maxim MAX34452 PMBus 16-Channel V/I Monitor and
+> 12-Channel Sequencer/Marginer. The device is similar to MAX34451
+> and shares the same configuration function.
+> 
+> The MAX34452 supports:
+> - 16 configurable voltage/current monitoring channels
+> - 5 temperature sensors (pages 16-20)
+> - Dynamic channel configuration via MFR_CHANNEL_CONFIG
+> - IOUT average monitoring
+> 
+> Signed-off-by: Carlos Jones Jr <carlosjr.jones@analog.com>
+> Co-Developed by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 > Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
 Applied.
