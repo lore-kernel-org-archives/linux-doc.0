@@ -1,115 +1,78 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E6A649690C;
-	Thu, 23 Jul 2026 12:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB154C8FE4;
+	Thu, 23 Jul 2026 13:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784811499; cv=none; b=bQpDeANCtCJe2yKnYaaQa7Fx+8Z1daduaDGRyITKBT3n70W7ao9JpWkQtSqjHWZRrgva2ZdcD/EoOH/+3BVBMO0Nw1D6GLwupzs4lL/hrCTODOch/BQMyMdJKDqf6EytsusWdIdKg+aQVr+RSKAFsK7vBng67cw9wKWj+pij/Ss=
+	t=1784811682; cv=none; b=NFlTql7Xl7ESq6eFm9Ke0vEc3Bh0UdL2/kSpPSRgeJr6hdw49qZ6OBDohUurUKwQDJZjczTaDnd7o6xjT1EwXYLlPU8EsgfpymE/ZAHR+pWx41if/3ls8ipxMXNG2/m/3Ha2DOaY1aExDowmyK+rWu8rWROZuuAUAcFs8l534A0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784811499; c=relaxed/simple;
-	bh=tS3qt0hTqrRoA8Eare5/U/grQvdhUHhuH5FDy08Szas=;
+	s=arc-20240116; t=1784811682; c=relaxed/simple;
+	bh=TzYl/feHKRvyXhoYZqF8YQdzm6DS52XUGoegXeqUVkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KowJ+ac5cfWZxBm6YjnIcs41SXqEO5/VtjFdIjZ5zCXwwVw2d4WO+gmVCZNHyeLnNBz0UQcSZcKrgnObONwywkPSiTUgwQKlaylMPenO2GLMmMZRgz6HbaaF4NjXjnUisPOx21jRhRzqZ/vv1ZvdCeUoPeOsaZERwML3zG6HNz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=JCu95jwu; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="JCu95jwu"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C24621595;
-	Thu, 23 Jul 2026 05:58:12 -0700 (PDT)
-Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF5C93F59E;
-	Thu, 23 Jul 2026 05:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784811496; bh=tS3qt0hTqrRoA8Eare5/U/grQvdhUHhuH5FDy08Szas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JCu95jwuHdwvgEvwvBRQDHTAQhAyscg4Z8nM8CbNlXkEBNN9gvC/tjSRPEY9AmFXQ
-	 YlOHo0P+NdKWLi4XGlyaQyNr57TtZJX3FgvYYRvRnaRCalGAv6LHFycsfnB6W1ne1S
-	 ROoF87dO/gNP+odtZMxPE972Iu4paqR7pLVdgbOc=
-Date: Thu, 23 Jul 2026 13:58:11 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>, Ben Horgan <ben.horgan@arm.com>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v13 02/32] arm64/fpsimd: Ensure all of ZCR_EL1 is
- initialised from idle
-Message-ID: <amIP42yILYNsNk0e@J2N7QTR9R3.cambridge.arm.com>
-References: <20260720-kvm-arm64-sme-v13-0-d9abd3ffa245@kernel.org>
- <20260720-kvm-arm64-sme-v13-2-d9abd3ffa245@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bVGKNPy/wtvznrfPBxsOdTA66WatcJNaMx0HE0HvhQ7jjz+ymoMk208/yDry7EpB10WjyliweLJfxiTdJxVboThWe2HmJN848HO7CxzLQxSRQqSPkru0Z5HITm0XhomUmmYIJidbm7RhtN4EFEL/znwWhIhUfmjORi3m8aePdD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2761E1F000E9;
+	Thu, 23 Jul 2026 13:01:16 +0000 (UTC)
+Date: Thu, 23 Jul 2026 15:01:09 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Kees Cook <kees@kernel.org>, Farid Zakaria <farid.m.zakaria@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
+Message-ID: <20260723-mahlt-abhob-semantik-21254c8d36cb@brauner>
+References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
+ <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org>
+ <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260720-kvm-arm64-sme-v13-2-d9abd3ffa245@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
 
-On Mon, Jul 20, 2026 at 12:07:29AM +0100, Mark Brown wrote:
-> At present when exiting from idle we do not fully reinitialise ZCR_EL1,
-> we update ZCR_EL1.LEN with a read/modify/write cycle when loading task
-> state but never set any of the other bits to an explicit value.  Since
-> currently they are all architecturally RES0 or RAZ/WI this is not a
-> practical issue but it may become one if further fields are defined in
-> the register so we should explicitly configure the whole register.
->
-> Rename the existing sme_suspend_exit() (which handles this for SME) to
-> fpsimd_suspend_exit() and add set ZCR_EL1 to 0 there, if needed LEN will
-> be updated when loading task state.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+On Thu, Jul 23, 2026 at 05:49:06AM -0700, Andy Lutomirski wrote:
+> On Thu, Jul 23, 2026 at 4:37 AM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > Once entered, failfs is a throw-away-the-key moment. The task is
+> > considered chrooted so it cannot create user namespaces to regain
+> > CAP_SYS_CHROOT. chroot()/fchroot() back out require CAP_SYS_CHROOT.
+> 
+> I kind of alluded to this earlier, but I don't think we should promise
+> this.  In particular, I still think we should eventually allow a
+> non-chrooted process with no_new_privs to chroot to any valid
+> directory, and I think we should consider changing the definition of
+> current_chrooted() such that failfs-as-root would cause it to return
+> false.  I'm also not sure why it's useful -- if I want to throw away
 
-While this happens to work today, this is a more general architecture
-problem, and I think we should cc stable such that kernels will work
-reliably on future hardware.
+I had considered that but introducing this change alongside this series
+felt too spicy for me.
 
-All stable kernels support SVE, so this needs to go as far back as
-v5.10.y.
+> the key to accessing the normal contents of my mountns without
+> changing my mountns, I need to chroot somewhere (like failfs) *and* I
+> need to somehow prevent myself from getting an fd or a magic link back
+> to the ordinary mountns contents.  If I somehow get such an fd,
+> preventing my from fchrooting to it doesn't seem to accomplish
+> anything, since I could traverse the fd with openat, etc just as
+> easily, or even fchdir to it and use relative paths.
 
-One minor comment below, but with that fixed up (and a CC stable):
+I think I generally agree with you. My main concern here is mostly about
+changing very long-standing behavior here and making failfs special here
+feels like it could easily misused.
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+> 
+> My understanding of the exact workings of the mount tree is possibly
+> not good enough to specify the semantics I think are correct quite
+> exactly, but I think a decent approximation is that a task should be
+> considered to be not chrooted if its root is at the top of its mount
+> tree or is not in a mount tree at all.
 
-> +void fpsimd_suspend_exit(void)
->  {
->  	u64 smcr = 0;
->  
-> -	if (!system_supports_sme())
-> -		return;
-> +	if (system_supports_sve())
-> +		write_sysreg_s(0, SYS_ZCR_EL1);
->  
-> -	if (system_supports_fa64())
-> -		smcr |= SMCR_ELx_FA64;
-> -	if (system_supports_sme2())
-> -		smcr |= SMCR_ELx_EZT0;
-> +	if (system_supports_sme()) {
-
-We should move the 'smcr' variable into this block. That way it's scoped
-to where it matters.
-
-> +		if (system_supports_fa64())
-> +			smcr |= SMCR_ELx_FA64;
-> +		if (system_supports_sme2())
-> +			smcr |= SMCR_ELx_EZT0;
->  
-> -	write_sysreg_s(smcr, SYS_SMCR_EL1);
-> -	write_sysreg_s(0, SYS_SMPRI_EL1);
-> +		write_sysreg_s(smcr, SYS_SMCR_EL1);
-> +		write_sysreg_s(0, SYS_SMPRI_EL1);
-> +	}
->  }
-
-Mark.
+If we could altering this definition from the patchset I would be in
+favor of it. I'm curious what your take is though.
