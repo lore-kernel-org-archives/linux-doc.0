@@ -1,58 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0007F1C860C;
-	Thu, 23 Jul 2026 00:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1651D555;
+	Thu, 23 Jul 2026 00:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784765185; cv=none; b=USEy9dOChvxsmkfB9RDaN3gp4HMaMT+4fruLFkLkauileFCQ8HbTImH0BZmFxvts6eqgBBjQdJ0Op59+vh1vwTE7G+FDyTwZR3L48bL5DrndCt6eR2rN1sY6elcsPpmTBxPUMCumHCc4ORHfHqDPf5JYJrgr9D3v+RaUwi9LdWc=
+	t=1784765996; cv=none; b=ieUHiaZVSddwJnQb/0FxLi+ToTXwhgVtVqqDTdGNa1+PzM+4bVS+mXH9FPmStMavj9/9119/soGFWNlBzBSfXqmzrzv3EolYMRC8HaAUV+CfGndvtH7KNnHza8ThRhyPG2fN340BlR5sGqGPM0Nf7FoNzKV8QZ5Tbhjbm8lcLz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784765185; c=relaxed/simple;
-	bh=h2BXxwJ08AoiPkXjV/OBUNAoQgivvThBUXk23yDIELE=;
+	s=arc-20240116; t=1784765996; c=relaxed/simple;
+	bh=LJrwMBFzEJfWlcNe+u3Em2s3k7Xc8/tdxZKRwTN6sgU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ph3QZoUZz4+MD0j8RmmGnqtUL9hJJxZJXXxWRlzGPi2v5iups0KYKqQWNQbE9OhgwQbvbUdBPCmAQqAH7XIGe6B1F8X5qh+RuEqGTKRjI90QSdwljN3Vm5KoWcnrzwyVoFE3wc3BC3o6h3ldHbqa7HvksYMWnfr8XvA7UI2mxLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXapcB4F; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=MDI8rZSaSoy2a1MI2eL9qWQhAyYxkiULZfZUpW2PtIUP8lsYR075zwHvFdQ5IbEqllXh2domy4T92813E0I8cq6kkBP3mA93I7GkLZBTlMjhYkKAaMAVNPEycFBNhWpO6Dxde9yZ3M8fn/wLHx0G/XwKUUegyumIY1vvjCfJjJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCF74EeS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXapcB4F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF7281F000E9;
-	Thu, 23 Jul 2026 00:06:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCF74EeS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0F61F000E9;
+	Thu, 23 Jul 2026 00:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784765183;
-	bh=hpCbtcUC2sXXWMpXDvfzAO/B8jNQgdzlMS6y9QE7+7o=;
+	s=k20260515; t=1784765994;
+	bh=etGADT3O07IS+YgXI7BAorrClTolrXpqV0QzB1dZpWA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JXapcB4Fokth2Rq05nv7x+iAXVDRQ0PR9QOyVuhfxKEFbJWQyLPi60RkSNLxRZxqO
-	 9pzBtvAEpimpGzaeWTYloeDBwBvSVv1U2c5dcFcEwvdDuVrE8vmQfAwA8yzqvnjeg1
-	 nWOuRxQ7sd/UjFGMoiC+UxcLxNGgNjqScc6zJeR5R5357xCfD9MIZSrAoIq5olKEZM
-	 K32TNU9o9w7rVDymL5iinKM9Vq5Q/uMl7GecKz8AGly0nuG7+eVW75vtfIbhbN7AK3
-	 ANK7qFhI3UF7VXhsCr/QitDrDg6asQ07BXFxdgNE27h5WoT57M6zt+DRva3g52D/Ue
-	 HvEtdImcFtmFA==
+	b=BCF74EeStolbb2W/TP1soDHuWZ51DJgYsnp0HoXIhY2LV8FES9MkZRqdbEzajNcq+
+	 FdLD6IqAG7VkemQlxBlzfSPOaZ9GNCpfftJx+0klLFu5BE2mkb7lN3baGG6RJOA/f+
+	 OTbXbg6YqfXU+lWGMVnTAd3AXQwctqtKShgO3nYG2UgswjKxrd3j5RbvY6xNG9gaXM
+	 fPUG9Bt2NyDXhqYg6+KA0IHV+/ZVkHI4krzjxQIX39zaRdwO1taH2ix1ZIoapD4CwO
+	 y+KvoVgLfc1T4Hs6ON+9+dwzzQyWXFuwLTkfAhh3M+nzbYJObaTnWnCcSzHNgOzf46
+	 0VqiGCD9JgaHg==
 From: SJ Park <sj@kernel.org>
-To: pratmal@google.com
+To: Gregory Price <gourry@gourry.net>
 Cc: SJ Park <sj@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Greg Thelen <gthelen@google.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	linux-mm@kvack.org,
+	arun.george@samsung.com,
+	balbirs@nvidia.com,
+	brendan.jackman@linux.dev,
+	yuzenghui@huawei.com,
+	apopple@nvidia.com,
+	alucerop@amd.com,
+	matthew.brost@intel.com,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	djbw@kernel.org,
+	vishal.l.verma@intel.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	osandov@osandov.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	jackmanb@google.com,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	pbonzini@redhat.com,
+	osalvador@suse.de,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	byungchul@sk.com,
+	ying.huang@linux.alibaba.com,
+	kasong@tencent.com,
+	qi.zheng@linux.dev,
+	shakeel.butt@linux.dev,
+	baohua@kernel.org,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk,
+	longman@redhat.com,
+	ridong.chen@linux.dev,
+	tj@kernel.org,
+	mkoutny@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	baolin.wang@linux.alibaba.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev,
+	muchun.song@linux.dev,
 	linux-kernel@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] mm/page_reporting: Add page_reporting_delay_ms sysctl
-Date: Wed, 22 Jul 2026 17:06:09 -0700
-Message-ID: <20260723000609.95657-1-sj@kernel.org>
+	linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	damon@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
+Date: Wed, 22 Jul 2026 17:19:42 -0700
+Message-ID: <20260723001943.95854-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260722211517.1898228-1-pratmal@google.com>
+In-Reply-To: <amCzmkdOr6AFv_kQ@gourry-fedora-PF4VCD3F>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -62,181 +117,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-get_maintainer.pl suggests adding below to the recipients list of this patch.
-Let me add them.  I show you already Cc-ed David, but with his old email
-address.
+On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
 
-- David Hildenbrand <david@kernel.org>
-- Lorenzo Stoakes <ljs@kernel.org>
-- "Liam R. Howlett" <liam@infradead.org>
-- Mike Rapoport <rppt@kernel.org>
-- Jonathan Corbet <corbet@lwn.net>
-- Shuah Khan <skhan@linuxfoundation.org>
-- linux-doc@vger.kernel.org
-
-On Wed, 22 Jul 2026 21:15:17 +0000 pratmal@google.com wrote:
-
-> From: Pratyush Mallick <pratmal@google.com>
+> On Tue, Jul 21, 2026 at 04:46:43PM -0700, SJ Park wrote:
+> > On Mon, 20 Jul 2026 15:34:08 -0400 Gregory Price <gourry@gourry.net> wrote:
+> > 
+> > > DAMON operates on physical address ranges, which can cover private
+> > > node memory. Skip private-node folios in both DAMON's migration
+> > > and reclaim paths.
+> > > 
+> > > Signed-off-by: Gregory Price <gourry@gourry.net>
+> > > ---
+> > >  mm/damon/paddr.c | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > > 
+> > > diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+> > > index e4f98d67461f5..c741a94319750 100644
+> > > --- a/mm/damon/paddr.c
+> > > +++ b/mm/damon/paddr.c
+> > > @@ -12,6 +12,7 @@
+> > >  #include <linux/swap.h>
+> > >  #include <linux/memory-tiers.h>
+> > >  #include <linux/mm_inline.h>
+> > > +#include <linux/node_private.h>
+> > >  
+> > >  #include "../internal.h"
+> > >  #include "ops-common.h"
+> > > @@ -250,6 +251,10 @@ static unsigned long damon_pa_pageout(struct damon_region *r,
+> > >  			continue;
+> > >  		}
+> > >  
+> > > +		/* private node memory is not reclaimable by default */
+> > > +		if (folio_is_private_node(folio))
+> > > +			goto put_folio;
+> > > +
+> > 
+> > "by default".  Does that mean it could be reclaimable in some situations?  If
+> > so, could we check if it is reclaimable?
+> > 
 > 
-> Currently, the free page reporting daemon uses a hardcoded delay of
-> (2 HZ) between reporting intervals. While this is a reasonable
-> default, it lacks the flexibility to adapt to varying guest workloads.
+> See the damon changes in:
 > 
-> A low delay allows aggressive memory reclamation, returning unused
-> pages to the host as quickly as possible. However, during spiky
-> allocation/free churn, this immediate reporting can lead to a severe
-> performance penalty (nested page faults) as the guest re-allocates memory
-> that the host has just unmapped. In these scenarios, there is benefit
-> from increasing the delay to batch free pages over a longer window,
-> absorbing the churn without hypercall and re-fault overhead.
+> https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
+
+Summarizing what you want to say, quoting something from the patch, or at least
+calling it "26th patch of this series" would have made reviewing much easier.
+Cc-ing damon@ for only patches that toucing DAMON source files and the cover
+letter of the series could also be helpful.  Please consider doing some of
+these for future replies.
+
+So, I understand later patches will make it optionally reclaimable and update
+this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
+default" from the above comment for reducing the confusion?
+
 > 
-> This patch refactors the delay into a dynamically tunable sysctl,
-> /proc/sys/vm/page_reporting_delay_ms, measured in milliseconds. The value
-> defaults to 2000ms to precisely match the original (2 HZ) behavior.
+> > Also, what happens if we just try paging out the private node memory?  Will it
+> > simply fail?  Or, make some problems?
+> > 
 > 
-> Signed-off-by: Pratyush Mallick <pratmal@google.com>
-> ---
-> v2:
->  - Documented page_reporting_delay_ms in Documentation/admin-guide/sysctl/vm.rst.
->  - v1: https://lore.kernel.org/linux-mm/20260722192935.1646848-1-pratmal@google.com/T/#u
-> v1: Fixed feedback from RFC.
->  - Added lower and upper cap to sysctl value.
->  - Reverted the reordering on page_reporting_delay_ms.
->  - Dropped the mod_delayed_work() change.
->  - RFC: https://lore.kernel.org/linux-mm/20260714171456.2350037-1-pratmal@google.com/T/#u
->  Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++
->  mm/page_reporting.c                     | 30 ++++++++++++++++++++++---
->  2 files changed, 40 insertions(+), 3 deletions(-)
+> user controls for MADV_ commands that affect private node folios would
+> skip those folios - exactly same as ZONE_DEVICE folios.
 > 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index b9b0c218bfb4..6efa460b4547 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -66,6 +66,7 @@ Currently, these files are in /proc/sys/vm:
->  - overcommit_ratio
->  - page-cluster
->  - page_lock_unfairness
-> +- page_reporting_delay
->  - panic_on_oom
->  - percpu_pagelist_high_fraction
->  - stat_interval
-> @@ -896,6 +897,18 @@ stolen from under a waiter. After the lock is stolen the number of times
->  specified in this file (default is 5), the "fair lock handoff" semantics
->  will apply, and the waiter will only be awakened if the lock can be taken.
->  
-> +page_reporting_delay
-> +=======================
+> Which I'm not sure damon actually handles correctly presently (zone
+> device).  I remember looking around damon and thinking to myself "what
+> if this is a zone device page?" and not being able to find a satisfying
+> answer.
+> 
+> > >  		if (damos_pa_filter_out(s, folio))
+> > >  			goto put_folio;
+> > >  		else
+> > > @@ -344,6 +349,10 @@ static unsigned long damon_pa_migrate(struct damon_region *r,
+> > >  		else
+> > >  			*sz_filter_passed += folio_size(folio) / addr_unit;
+> > >  
+> > > +		/* private nodes do not support migration by default */
+> > > +		if (folio_is_private_node(folio))
+> > > +			goto put_folio;
+> > > +
+> > 
+> > Same questions.
+> > 
+> 
+> Technically there is nothing in migration core to prevent migration
+> operations, it's done on a service basis - hotunplug, reclaim/demotion,
+> user numa (mbind, migrate/move_pages) etc.
+> 
+> Operations on private nodes/private node folioes are refused if the
+> capability bit is not set.
 
-Why don't you make the lengths of the line and the section title same?
-
-> +
-> +This value determines the delay in milliseconds between free page
-> +reporting intervals. A lower delay allows aggressive memory
-> +reclamation by returning unused pages to the host quickly, while a
-> +higher delay helps to batch free pages over a longer window, absorbing
-> +allocation/free churn without hypercall and re-fault overhead.
-> +
-> +The default value is 2000 (2 seconds). The minimum allowed value is
-> +0 (immediate reporting) and the maximum allowed value is 10000 (10 seconds).
-
-So it is milliseconds.  Why don't you add the unit to the name, like
-page_reporting_delay_ms?
-
-Also, coule you elaborate why there is 10 seconds maximum limit?  What's the
-problem of having no limit, and why 10 seconds is the reasonable one?
-
-> +
->  panic_on_oom
->  ============
->  
-> diff --git a/mm/page_reporting.c b/mm/page_reporting.c
-> index 942e84b6908a..805da4bc1101 100644
-> --- a/mm/page_reporting.c
-> +++ b/mm/page_reporting.c
-> @@ -6,6 +6,7 @@
->  #include <linux/export.h>
->  #include <linux/module.h>
->  #include <linux/delay.h>
-> +#include <linux/sysctl.h>
->  #include <linux/scatterlist.h>
-
-Too trivial nit, but, why don't you put the sysctl.h at the end of the list?
-
->  
->  #include "page_reporting.h"
-> @@ -47,7 +48,10 @@ MODULE_PARM_DESC(page_reporting_order, "Set page reporting order");
->   */
->  EXPORT_SYMBOL_GPL(page_reporting_order);
->  
-> -#define PAGE_REPORTING_DELAY	(2 * HZ)
-> +#define PAGE_REPORTING_DELAY_MS_MAX	(10 * MSEC_PER_SEC)
-> +
-> +static unsigned int page_reporting_delay_ms = 2 * MSEC_PER_SEC;
-> +static unsigned int page_reporting_delay_ms_max = PAGE_REPORTING_DELAY_MS_MAX;
->  static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
->  
->  enum {
-> @@ -56,6 +60,19 @@ enum {
->  	PAGE_REPORTING_ACTIVE
->  };
->  
-> +
-> +static struct ctl_table page_reporting_sysctls[] = {
-> +	{
-> +		.procname	= "page_reporting_delay",
-> +		.data		= &page_reporting_delay_ms,
-> +		.maxlen		= sizeof(unsigned int),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_douintvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= &page_reporting_delay_ms_max,
-> +	},
-> +};
-> +
->  /* request page reporting */
->  static void
->  __page_reporting_request(struct page_reporting_dev_info *prdev)
-> @@ -80,7 +97,7 @@ __page_reporting_request(struct page_reporting_dev_info *prdev)
->  	 * now we are limiting this to running no more than once every
->  	 * couple of seconds.
->  	 */
-> -	schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
-> +	schedule_delayed_work(&prdev->work, msecs_to_jiffies(page_reporting_delay_ms));
->  }
-
-A trivial comment again.  Why don't you wrap the above line for 80 columns
-limit?  I know that's not a hard limit anymore and I show a few lines of this
-file already exceeds 80 columns.  But seems most lines of this file is still
-keeping the 80 columns limit?
-
->  
->  /* notify prdev of free page reporting request */
-> @@ -340,7 +357,7 @@ static void page_reporting_process(struct work_struct *work)
->  	 */
->  	state = atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDLE);
->  	if (state == PAGE_REPORTING_REQUESTED)
-> -		schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
-> +		schedule_delayed_work(&prdev->work, msecs_to_jiffies(page_reporting_delay_ms));
-
-Ditto.
-
->  }
->  
->  static DEFINE_MUTEX(page_reporting_mutex);
-> @@ -416,3 +433,10 @@ void page_reporting_unregister(struct page_reporting_dev_info *prdev)
->  	mutex_unlock(&page_reporting_mutex);
->  }
->  EXPORT_SYMBOL_GPL(page_reporting_unregister);
-> +
-> +static int __init page_reporting_sysctl_init(void)
-> +{
-> +	register_sysctl_init("vm", page_reporting_sysctls);
-> +	return 0;
-> +}
-> +late_initcall(page_reporting_sysctl_init);
-> -- 
-> 2.55.0.229.g6434b31f56-goog
+I haven't had a chance to read the entire series, sorry about that.  So, do you
+mean the above blocking is not really needed, or that will conditionally be
+allowed by another later patch?
 
 
 Thanks,
 SJ
+
+[...]
