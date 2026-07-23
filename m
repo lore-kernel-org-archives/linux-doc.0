@@ -1,239 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E720438000;
-	Thu, 23 Jul 2026 10:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784802548; cv=fail; b=ogk49LHv5GLBKhRfeaxx5HcsNvXr2hmesz4TrRyHMh60XrSr9RmB2OJQb+3gqG8QYPlg5Ox8SHMhBfMnNT/9YjhrI0Cw6fO2jPqLMzqzdl5Sw5lMypTiWyv/TbzPP2ein5TcfKrR+buNofBiz9iKijZL0Ta2PpoVDUzWcF/CuyE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784802548; c=relaxed/simple;
-	bh=nzi1U0ifFRHdEkTZYHSyFr775fMJbPvaSdhx3QHaBuI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=gT7y+aECL+7cDfZQyJO3ihne8cCIUTeVn21E6A6e88l3458LmMyxlXDwWxtBfErWaRm3K5wbhwq9madbhhP6NQERnyFAnDi1JMzd5eMV+fFjGD/9XfwcozIFmL21fXljPzn0GUbDhCzgO2SiyICmUlvGp7Z5ZNxFwCzaD1F89ik=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CLNg0+++; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD36442B09
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 10:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784804046; cv=none; b=Kq6zSoeGxzSqzn8PPSDHyCqMoGcFq3bfk9rgjdo/emPIfroC8Q0o8EePxH6soo1HGKY2D26OeEkEiNZcxjezuPMECaYxdopTfC8a1+HEYYpN4qssSq8mUaX4eJbyIc+8tfmu37M5BB+42Ywk2xYxqxeu6FasauMz9AZOxW+uWyY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784804046; c=relaxed/simple;
+	bh=IEg7rXLmkOwBncNi8GCbMJlyKdiAwuUSQCnuCgsZZlQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z9j2nqS3bMrsL2FJ8UWmbt0GU/3P70FOf1xirT9DZrDsaIb6wWk202I/1zlwFnKn1ijnnuaHPPD/A8DLS/257tmvGQr8cJqTYm8d5SOFgm3vTod21T6AbU+Lfwa16czX8o2HHzFxrodoEpUjVCSvZrMaK0RgJH4a2njL5N8A9vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=BiCdWwgq; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CLNg0+++"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784802546; x=1816338546;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=nzi1U0ifFRHdEkTZYHSyFr775fMJbPvaSdhx3QHaBuI=;
-  b=CLNg0+++8WzCPx2cmF5I991OhmTV5MGje1KX5zgZdlyiOyqfq41zXr4C
-   qHo4FioeMOXY/9KPVi0fkZXVV+MiWWS21ciupsUbmVKyi15P17mNlF4nn
-   3eU2QPOCmATAZW6MMNYjEEh4F9WCZInu7YzO2fNNSuT/nkdjv+sVIJVM4
-   C4X6cHiFEqkgL9GF0z+KFA1jm2msb5hv4Q2siiX7vF/R7h2/pKiSutXwI
-   xKw1bh/lJNkjpE5lQa4zW8jstmhK4eIRooNjo2R1UiGDy2CDxxPS71ceS
-   cUqmnih+bR7Pqp25xp8mfZkEhZUXI+ub6K7YK81DmzQkM/AUxhtmdzWbj
-   A==;
-X-CSE-ConnectionGUID: FSEpThODSIO9JyPTUilNWA==
-X-CSE-MsgGUID: GUOVvM4rRbOCDaaeLDbziA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="95809209"
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="95809209"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 03:28:16 -0700
-X-CSE-ConnectionGUID: DeLgHuQVTfiY3Tm3LiDqvg==
-X-CSE-MsgGUID: +W9f9MUERiu0Y9PuON+mCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="263343539"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 03:28:16 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 23 Jul 2026 03:28:15 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Thu, 23 Jul 2026 03:28:15 -0700
-Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.32) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 23 Jul 2026 03:28:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MlLTYmnwOPsxnI9l0uXNX/tJzt2s06ui8wgW1qmjB3UnizOSVMDbJkXpW9+hO33BhNU0bi29XAhJk01qI/S1nLhImR52vEqS1GP0qmTE0wJoh+yAHYPOGiLgYFnOx0MHg4gTdmk7oGvjDXFiKY2T/5naZ7zw429CK8magIoA26WJINZQD8Ya/uZfcpWkvZhI/mLxkgIpyCjKGvkIOrxCkipxdgX7oGW/cHuS9Ew51ppfhVHnMuAQBg/5i2njZOTR4/smTjdiCWVJIEWW09IvL+MVXm/EWgCCWzKUseLSPGqAnHltcLjs/RZiBQusiiSdh7Jnbo1i7vZyqYnFaf5spg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e8KG598RyQrXXWX+kFmHpzIobL887iwnFjV5PrxSHSs=;
- b=eCd9YifP9fjV7cA2pk1UlCCOX7gia4MsUWXBcpZHlyjXVFJLmsFSSakM2ujMf/6NQin5u4O23GEXDg1OC/TeP7rhl6ku8J98aMr+fgram6iKTJMyub59Abb1tHlevMe/GEvl1kIxGBnUbUhFRXzX/lCFCXrH493PwGrdyYpI+rMGXAHPMxhyQwynQQLLD1HnmET+dUL0VWDXSd+TZBjac1DXhMLU2DL4bl5gTJQJ73HuEfEA/PMA5Diw9Uqc+Om//ppw5S5VhrtTmnJP0XHEt5ISQlM9tf9lIMgQ2Y/hq6zEIm2bsxB+Mmm6X0sU1D4Qk/IyZCWabibSDXtdlqPdFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6117.namprd11.prod.outlook.com (2603:10b6:8:b3::19) by
- DSWPR11MB9738.namprd11.prod.outlook.com (2603:10b6:8:353::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.11; Thu, 23 Jul 2026 10:28:08 +0000
-Received: from DM4PR11MB6117.namprd11.prod.outlook.com
- ([fe80::d9b3:e942:2686:3cdd]) by DM4PR11MB6117.namprd11.prod.outlook.com
- ([fe80::d9b3:e942:2686:3cdd%6]) with mapi id 15.21.0245.010; Thu, 23 Jul 2026
- 10:28:08 +0000
-Date: Thu, 23 Jul 2026 12:28:00 +0200
-From: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-To: Simon Horman <horms@kernel.org>
-CC: <anthony.l.nguyen@intel.com>, <davem@davemloft.net>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <edumazet@google.com>, <andrew+netdev@lunn.ch>,
-	<netdev@vger.kernel.org>, <larysa.zaremba@intel.com>,
-	<przemyslaw.kitszel@intel.com>, <aleksander.lobakin@intel.com>,
-	<sridhar.samudrala@intel.com>, <michal.swiatkowski@linux.intel.com>,
-	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
-	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
-	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <corbet@lwn.net>,
-	<richardcochran@gmail.com>, <skhan@linuxfoundation.org>,
-	<linux-doc@vger.kernel.org>, <Bharath.r@intel.com>
-Subject: Re: [PATCH net-next v5 14/15] ixd: add the core initialization
-Message-ID: <amHssLjVOoOz7FbB@boxer>
-References: <20260715180042.1972010-15-anthony.l.nguyen@intel.com>
- <20260722161836.544694-1-horms@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260722161836.544694-1-horms@kernel.org>
-X-ClientProxiedBy: AS4P192CA0001.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:5da::15) To DM4PR11MB6117.namprd11.prod.outlook.com
- (2603:10b6:8:b3::19)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="BiCdWwgq"
+Date: Thu, 23 Jul 2026 18:53:41 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1784804027;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BayBsF4kVFarAL2/pScZoEvxPs6PLP39HiKcuUbO5V8=;
+	b=BiCdWwgqhVYmAYCh64o87sI39KhNkPJNqloWYD5cE5QR4ZgE+PUnL8HrQ91TosLNm3Yu+P
+	JO3OiBHf6VmgciVZnM8wOK7tjtid/UJz1iemET0ddliofdTr0lbBTf4cliGQGXkHVmBfdH
+	kC5D716NZF/epxOeh3ZS5kVpUstT/f++GGcfw1N7qlK4ujZW0PTx61QN0h4ngXBiqX2Stc
+	sK12+X5r3/RlJjXe9QyyzatN1ASzUqualnQRjFMhyxKzuKK9BMBrfLpSOyragPR1nF7+it
+	d8nVWwUNzu5GDfyZDFsmpeU8We8YfWbhjeMyeUgAn3H2NMwppE83hy3nnq5E3Q==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 11/16] docs/zh_TW: process: localize terminology in
+ howto.rst
+Message-ID: <amHytUpfKnZcv1_l@wyuan.org>
+References: <20260721215542.98435-1-chenyou910331@gmail.com>
+ <20260721215542.98435-12-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6117:EE_|DSWPR11MB9738:EE_
-X-MS-Office365-Filtering-Correlation-Id: eacab681-4114-4ce7-4a18-08dee8a51684
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|3023799007|4143699003|5023799004|11063799006|22082099003|18002099003|56012099006|6133799003|10067099003;
-X-Microsoft-Antispam-Message-Info: hMTAOdlwnfRK3eQqmvoEziF6cZms3RJd88K22c54znu3C26NWo7I5jN17nan9u1m5CSKGMK7brlHYzxuswJqR46+Q4AupOLsgV7VXGi9G2+QEoIgSwPw4aaI2mUXggjgUFYPdMYoqyRkIVkhVtyHX2T1YiEJaqFDwOliTctL7rc5TYT15vQPtr/XQpJJzk/qiMoOAqJh4xToPeAPMGR/pI8ucgJwOGz5sIDjuUFkT1kErxRlXLEDvra7dLvWpAHm509tA+1q96SBo7/mpcrma7AYRwsnPGQbiymIFXjn3bo4ZthiRKGs6KUynJfjuqdCqcVX6en9NfOrIN9C23NstumzHrOoXfwMCg5HveX5pDJ1/XB/n4qcT9ZXmOWFHbQCSsyrLc60snIqIBnjMT1Bm7TyGVunc/oAdcGgsYBKLvmmOOeoAyOCy3e/qnOo5dfhKPFcZsAco9LBCPVcU6jLJGeeY9D1mxbxOgf6RC5gLu6Sv739+/MBfbSV6A548dpYHgwdBfEg+OVHA855+unhWhLHv7eiEKdkAUETS6Gys3DTP38AsqVv374QO2F8JQaOc3FkG1nJYS6b4NjTJmr5Yw6Uyj5x0Q+NOXx6N0iZZ6g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6117.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(3023799007)(4143699003)(5023799004)(11063799006)(22082099003)(18002099003)(56012099006)(6133799003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mJIKeoT5MbrTHznK9WpVBEQ8yA8uJRGRD+lVoy7IVXX+vsYu7CAQlJgjsJh/?=
- =?us-ascii?Q?iIMj1iWI6ryVNpzD5WsYVbCrFdA2hFKyFwp4YbQrpw4DvxD5v2385QvXksvD?=
- =?us-ascii?Q?31Psu0Rm2/H+k5F/TJcO8qrO4W1beqpV16U3yi3TncrVfsck35tCLdE8l7wz?=
- =?us-ascii?Q?+RAWFSkbubbNmHXv2zSb8sUruB+Tn6ClkZl52Z3PK2wgbAtrGR+C1CruenUe?=
- =?us-ascii?Q?Qo0rf5TTRTAkVwxV8WPu5UedbWl8MfjvuQR4jkXQHPphBR54XIlp+5bP1jrV?=
- =?us-ascii?Q?9gcy9i5Ilo/RDsumnioZip5RO9OSdcNcyzw/cR18fKMZQhIqG0g4Jr6NZxpl?=
- =?us-ascii?Q?qw9AwU27yNcRxJzuEsxyDZU40SniVee+gWFlGhLokew+RiooaY7RqLYe16m9?=
- =?us-ascii?Q?Ntkp9y2v4WmcINuF//31EgZ82qOy2NQdXtKRviBEPGJXDOYvfU+q5c3taLik?=
- =?us-ascii?Q?4GSDU2WavPkGpIbYHw1FzFy4bLtPadD+oP6thOEpG/Wa9Q5wOpBFzBLH8V9J?=
- =?us-ascii?Q?b71u2Xb+8r/4QSVBDKbq56yesuPQh6hOTA5P6PqETnMDm5zt9mtTcpxubsU4?=
- =?us-ascii?Q?2vtpEolvskndG+FcMT9Jw4uL/qCFB6nyhWMh3SKlt/c7cFsuvdIIhGcE+8sY?=
- =?us-ascii?Q?bhNQQCko2jG12EzSuSL/Zaeyx6sYkdlSlOh24t9XFejN1jZa3tecYHLKoOXk?=
- =?us-ascii?Q?ONBdxzCeyRiRDHvAcFdORCEBND8ni/vwPeFDzvwWQRoG2zy/U8a4l/zUd8+l?=
- =?us-ascii?Q?F7/rUpPEr+KWXo2CneojTWLZiKgc1R616PgdDA6brAUmUH+Do3368O74kdNN?=
- =?us-ascii?Q?eOTK3ui7HD9B2lYz2ljnC7VkenCkmhyTu6L+oczIr4w2i/HXhN6xQmo0wfTb?=
- =?us-ascii?Q?4sR4k0Z5gR8+a/0nBiJEpt8hcepejFfRjjhf3t9thL+ztEUhFD59dZKtRXk/?=
- =?us-ascii?Q?EWLoP4VPDJMDooxD+nFLZkLv58vYuc06CEF0Y3Ix7uanw2NlXJ9dnvAvL9+G?=
- =?us-ascii?Q?mEqvSLO6VI2NdoprTe9tYqTSIkWXA62TM5BX+fRBlr46viD3JxbtiLT0v28+?=
- =?us-ascii?Q?YbU8EYdLPjSorspKe4KTdxP4ssH5Uy26Zewr17ttb8393i2z8ywQ8+NrrheV?=
- =?us-ascii?Q?zshOpGzZ8Wnfo4RM2c0nA+L8pfZYJ5WoJHIVXKKjBWxpq/JtY/QRCWRR3/EJ?=
- =?us-ascii?Q?QuPYEYZh2C/NK58lg47Y9DEaCQOQP06xgvzDOTJiMmtK70cly+wfX/ZomkoY?=
- =?us-ascii?Q?9MNo2VQJS1T5+PiY2uIZ31ni8ETe9v2aWa98qwh5dA7xTSbE4TGyibv1mUs2?=
- =?us-ascii?Q?2MGG75qH0WOMmmJWM6kVZpjf6HMeGmjX4h55REwLzLY4+2dJmWhMUYaCCf6A?=
- =?us-ascii?Q?c0M+6iXfAQu96ezUxO8u/ggUi7ZE20Q3X9gmh0LE2+vnUKEhwA/pS5xyISXI?=
- =?us-ascii?Q?07AfI3vVspikYkc8GhNW34npWoKJ0gFVatqlYoP4B7uTMSG9/hvQhCVB67Pf?=
- =?us-ascii?Q?Ol/d7qcxtSPiZpKUA1HVBJGoK2ryZLUZX7OpeaGxlAWuQBQG4r2/sNtxRLQG?=
- =?us-ascii?Q?pRQFIYoMT442muXnbC9ROkN2gy10iwQ3kBqMg19ABGadtzc/p3AOmiz/LU0q?=
- =?us-ascii?Q?QzNH/Wo4vvcHezDhT1fkeL99rcUpwiO0Sgud+7Zf8bI/emKewNBHNI8PBoH3?=
- =?us-ascii?Q?HDQaXZp3z0cbt9r7asoKbT0Y8LwrpZBr/2nCE/Vy/rgKU5tQKMmIWYvFoW3F?=
- =?us-ascii?Q?2girnN/Jhq59hMQrHknANDwIbPJtRHs=3D?=
-X-Exchange-RoutingPolicyChecked: RVruNVJhWGFqAyZM9udSKn477cuTA9WWHp2dMj+sPGH2obzEdEdD1JqDW+BuZHO8GJ23gHevkiiKTEdSrpQVHIbs7iwwa+fPy44L2MIltd6wlCMFBuYpyKtmrnyyDxvE2yKooWmNGR7IX2mZqTxo1IlIwszaW6tuEOOLe8rqwiBnUD1c81SPCnEzplqqmFrWQHFrTRpq7YWwjwvSSXGNyC8XrJOxH9p/ny4CKaY+/IdG/XVReVCGPE79PPzJjXQ3dHo2sqOnTbpKEw6P5qMxXbQrwGWIfGKs7F+QJhyx1/d/bD6G67gkvcNUXBXkF90pquVI0aOkKhK/9xvNIf+yfA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: eacab681-4114-4ce7-4a18-08dee8a51684
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6117.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 10:28:08.0950
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cU9PiFQYexag+Ll/sV4DtwAsZRDJP+o3NuTB11ZOuJsPR7Z1WyKTuTcBfSx0zZdxNyBEDsZyafUzbBs5mwvOHcWGUyDOAPboriKK9sSVMG8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR11MB9738
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260721215542.98435-12-chenyou910331@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jul 22, 2026 at 05:18:36PM +0100, Simon Horman wrote:
+On Wed, Jul 22, 2026 at 05:55:37AM +0800, Chen-Yu Yeh wrote:
+> -Linux內核大部分是由C語言寫成的，一些體系結構相關的代碼用到了彙編語言。要
+> -參與內核開發，你必須精通C語言。除非你想爲某個架構開發底層代碼，否則你並
+> -不需要了解（任何體系結構的）彙編語言。下面列舉的書籍雖然不能替代紮實的C
+> -語言教育和多年的開發經驗，但如果需要的話，做爲參考還是不錯的：
+> +Linux核心大部分是由C語言寫成的，一些體系結構相關的程式碼用到了組譯語言。要
+> +參與核心開發，你必須精通C語言。除非你想為某個架構開發底層程式碼，否則你並
+> +不需要了解（任何體系結構的）組譯語言。下面列舉的書籍雖然不能替代紮實的C
+> +語言教育和多年的開發經驗，但如果需要的話，做為參考還是不錯的：
+>  
+>   - "The C Programming Language" by Kernighan and Ritchie [Prentice Hall]
+> -   《C程序設計語言（第2版·新版）》（徐寶文 李志 譯）[機械工業出版社]
+> +   《C程式設計語言（第2版·新版）》（徐寶文 李志 譯）[機械工業出版社]
+>   - "Practical C Programming" by Steve Oualline [O'Reilly]
+> -   《實用C語言編程（第三版）》（郭大海 譯）[中國電力出版社]
+> +   《實用C語言程式設計（第三版）》（郭大海 譯）[中國電力出版社]
+>   - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
+>     《C語言參考手冊（原書第5版）》（邱仲潘 等譯）[機械工業出版社]
 
-Simon,
+Is there really a traditional Chinese version available?
 
-Larysa already responded to Sashiko comments. Did you miss this?
-Do you have a bot configured for that AI output forwarding?
+If not, it's better to keep it as-is.
 
-> This is an AI-generated review of your patch. The human sending this
-> email has considered the AI review valid, or at least plausible.
-> https://sashiko.dev/#/patchset/20260715180042.1972010-2-anthony.l.nguyen@intel.com?part=14
-> ---
-> --- Patch [14]: [PATCH net-next v5 14/15] ixd: add the core initialization ---
-> commit 43763d63c75ee5bcdd9189c20cf8b272997bdfec
-> Author: Larysa Zaremba <larysa.zaremba@intel.com>
-> 
-> ixd: add the core initialization
-> 
-> This patch initializes the core when the mailbox is set up. The driver
-> confirms the virtchnl version, requests necessary capabilities, and sets up
-> the message handling framework.
-> 
-> > diff --git a/drivers/net/ethernet/intel/ixd/ixd_ctlq.c b/drivers/net/ethernet/intel/ixd/ixd_ctlq.c
-> > index 0000000000000..6d658be0695d4
-> > --- /dev/null
-> > +++ b/drivers/net/ethernet/intel/ixd/ixd_ctlq.c
-> 
-> [ ... ]
-> 
-> > @@ -0,0 +1,146 @@
-> 
-> [ ... ]
-> 
-> > +void ixd_ctlq_rx_task(struct work_struct *work)
-> > +{
-> > +	struct ixd_adapter *adapter;
-> > +
-> > +	adapter = container_of(work, struct ixd_adapter, mbx_task.work);
-> > +
-> > +	queue_delayed_work(system_unbound_wq, &adapter->mbx_task,
-> > +			   msecs_to_jiffies(300));
-> > +
-> > +	ixd_ctlq_recv_mb_msg(adapter);
-> > +}
-> 
-> [Severity: High]
-> Does queueing the delayed work before executing the main logic create a race
-> condition? If cancel_delayed_work_sync() is called (for example, during
-> teardown in ixd_deinit_dflt_mbx()), try_to_grab_pending() could successfully
-> delete the newly queued timer and return immediately, assuming the work is
-> fully cancelled.
-> 
-> This would bypass flush_work() and allow the teardown path to free
-> adapter->xnm and set adapter->arq to NULL while ixd_ctlq_recv_mb_msg() is
-> still running, potentially causing a use-after-free or NULL pointer
-> dereference. Should the re-arming be moved to the end of the task?
-> 
-> > diff --git a/drivers/net/ethernet/intel/ixd/ixd_lib.c b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> > index afc413d3650fb..ce870aba143d4 100644
-> > --- a/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> > +++ b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-> 
-> [ ... ]
-> 
-> > @@ -136,8 +145,27 @@ void ixd_init_task(struct work_struct *work)
-> 
-> [ ... ]
-> 
-> > +	libie_ctlq_xn_shutdown(adapter->xnm);
-> > +	ixd_trigger_reset(adapter);
-> > +	ixd_deinit_dflt_mbx(adapter);
-> 
-> [Severity: High]
-> Is it safe to trigger a hardware reset before cancelling the mailbox polling
-> task? ixd_deinit_dflt_mbx() is responsible for cancelling the mbx_task, but
-> calling ixd_trigger_reset() first means the polling task could run while the
-> hardware is resetting.
-> 
-> During reset, MMIO reads or DMA ring memory might temporarily contain invalid
-> states, and the still-running mbx_task might process corrupted descriptors.
-> Should the polling task be cancelled before asserting the hardware reset here,
-> as well as in ixd_remove() in ixd_main.c?
+But obviously it's not the actual purpose of this patch.
+
+> -Linux內核使用GNU C和GNU工具鏈開發。雖然它遵循ISO C11標準，但也用到了一些
+> -標準中沒有定義的擴展。內核是自給自足的C環境，不依賴於標準C庫的支持，所以
+> -並不支持C標準中的部分定義。比如long long類型的大數除法和浮點運算就不允許
+> -使用。有時候確實很難弄清楚內核對工具鏈的要求和它所使用的擴展，不幸的是目
+> -前還沒有明確的參考資料可以解釋它們。請查閱gcc信息頁（使用「info gcc」命令
+> -顯示）獲得一些這方面信息。
+> +Linux核心使用GNU C和GNU工具鏈開發。雖然它遵循ISO C11標準，但也用到了一些
+> +標準中沒有定義的擴展。核心是自給自足的C環境，不依賴於標準C庫的支援，所以
+> +並不支援C標準中的部分定義。比如long long類型的大數除法和浮點運算就不允許
+> +使用。有時候確實很難弄清楚核心對工具鏈的要求和它所使用的擴展，不幸的是目
+> +前還沒有明確的參考資料可以解釋它們。請查閱gcc資訊頁（使用「info gcc」命令
+> +顯示）獲得一些這方面資訊。
+>  
+> -請記住你是在學習怎麼和已經存在的開發社區打交道。它由一羣形形色色的人組成，
+> -他們對代碼、風格和過程有著很高的標準。這些標準是在長期實踐中總結出來的，
+> +請記住你是在學習怎麼和已經存在的開發社群打交道。它由一羣形形色色的人組成，
+> +他們對程式碼、風格和過程有著很高的標準。這些標準是在長期實踐中總結出來的，
+>  適應於地理上分散的大型開發團隊。它們已經被很好得整理成檔，建議你在開發
+> -之前儘可能多的學習這些標準，而不要期望別人來適應你或者你公司的行爲方式。
+> +之前儘可能多的學習這些標準，而不要期望別人來適應你或者你公司的行為方式。
+
+[...]
+
+> -如何成爲內核開發者
+> +如何成為核心開發者
+>  ------------------
+> -如果你對Linux內核開發一無所知，你應該訪問「Linux內核新手」計劃：
+> +如果你對Linux核心開發一無所知，你應該存取「Linux核心新手」計劃：
+>  
+>  	https://kernelnewbies.org
+
+Should we use "造訪" instead of "存取" here?
+
+Aside: the original translation was a little stiff. Better change to
+like: "如果你对Linux核心開發一無所知，請參閱/參照/造訪這個網站"
+
+>  
+> -它擁有一個可以問各種最基本的內核開發問題的郵件列表（在提問之前一定要記得
+> +它擁有一個可以問各種最基本的核心開發問題的郵件列表（在提問之前一定要記得
+>  查找已往的郵件，確認是否有人已經回答過相同的問題）。它還擁有一個可以獲得
+> -實時反饋的IRC聊天頻道，以及大量對於學習Linux內核開發相當有幫助的文檔。
+> +實時反饋的IRC聊天頻道，以及大量對於學習Linux核心開發相當有幫助的文件。
+>  
+> -網站簡要介紹了原始碼組織結構、子系統劃分以及目前正在進行的項目（包括內核
+> -中的和單獨維護的）。它還提供了一些基本的幫助信息，比如如何編譯內核和打補
+> +網站簡要介紹了原始碼組織結構、子系統劃分以及目前正在進行的專案（包括核心
+> +中的和單獨維護的）。它還提供了一些基本的幫助資訊，比如如何編譯核心和打補
+>  丁。
+>  
+> -如果你想加入內核開發社區並協助完成一些任務，卻找不到從哪裡開始，可以訪問
+> -「Linux內核房管員」計劃：
+> +如果你想加入核心開發社群並協助完成一些任務，卻找不到從哪裡開始，可以存取
+> +「Linux核心房管員」計劃：
+
+Ditto.
+
+>  
+>  	https://kernelnewbies.org/KernelJanitors
+>  
+> -這是極佳的起點。它提供一個相對簡單的任務列表，列出內核代碼中需要被重新
+> -整理或者改正的地方。通過和負責這個計劃的開發者們一同工作，你會學到將補丁
+> -集成進內核的基本原理。如果還沒有決定下一步要做什麼的話，你還可能會得到方
+> +這是極佳的起點。它提供一個相對簡單的任務列表，列出核心程式碼中需要被重新
+> +整理或者改正的地方。透過和負責這個計劃的開發者們一同工作，你會學到將補丁
+> +整合進核心的基本原理。如果還沒有決定下一步要做什麼的話，你還可能會得到方
+>  向性的指點。
+>  
+> -在真正動手修改內核代碼之前，理解要修改的代碼如何運作是必需的。要達到這個
+> -目的，沒什麼辦法比直接讀代碼更有效了（大多數花招都會有相應的注釋），而且
+> -一些特製的工具還可以提供幫助。例如，「Linux代碼交叉引用」項目就是一個值得
+> +在真正動手修改核心程式碼之前，理解要修改的程式碼如何運作是必需的。要達到這個
+> +目的，沒什麼辦法比直接讀程式碼更有效了（大多數花招都會有相應的註解），而且
+> +一些特製的工具還可以提供幫助。例如，「Linux程式碼交叉引用」專案就是一個值得
+>  特別推薦的幫助工具，它將原始碼顯示在有編目和索引的網頁上。其中一個更新及
+> -時的內核源碼庫，可以通過以下地址訪問：
+> +時的核心源碼庫，可以透過以下地址存取：
+
+Ditto.
+
+> -Linux-next 集成測試樹
+> +Linux-next 整合測試樹
+>  ---------------------
+>  
+> -在將子系統樹的更新合併到主線樹之前，需要對它們進行集成測試。爲此，存在一個
+> -特殊的測試存儲庫，其中幾乎每天都會提取所有子系統樹：
+> +在將子系統樹的更新合併到主線樹之前，需要對它們進行整合測試。為此，存在一個
+> +特殊的測試儲存庫，其中幾乎每天都會提取所有子系統樹：
+>  
+> -        https://git.kernel.org/？p=linux/kernel/git/next/linux-next.git
+> +        https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>  
+> -通過這種方式，Linux-next 對下一個合併階段將進入主線內核的內容給出了一個概要
+> -展望。非常歡冒險的測試者運行測試Linux-next。
+> +透過這種方式，Linux-next 對下一個合併階段將進入主線核心的內容給出了一個概要
+> +展望。非常歡冒險的測試者執行測試Linux-next。
+
+非常歡迎？
+
+>  報告bug
+>  -------
+>  
+> -bugzilla.kernel.org是Linux內核開發者們用來跟蹤內核Bug的網站。我們鼓勵用
+> -戶在這個工具中報告找到的所有bug。如何使用內核bugzilla的細節請訪問：
+> +bugzilla.kernel.org是Linux核心開發者們用來追蹤核心Bug的網站。我們鼓勵用
+> +戶在這個工具中報告找到的所有bug。如何使用核心bugzilla的細節請存取：
+
+Ditto.
+
+>  
+>  	http://test.kernel.org/bugzilla/faq.html
+>  
+> -內核源碼主目錄中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+> -文件里有一個很好的模板。它指導用戶如何報告可能的內核bug以及需要提供哪些信息
+> -來幫助內核開發者們找到問題的根源。
+> +核心源碼主目錄中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+> +文件裡有一個很好的模板。它指導使用者如何報告可能的核心bug以及需要提供哪些資訊
+> +來幫助核心開發者們找到問題的根源。
+>  
+>  
+>  利用bug報告
+>  -----------
+>  
+> -練習內核開發技能的最好辦法就是修改其他人報告的bug。你不光可以幫助內核變
+> +練習核心開發技能的最好辦法就是修改其他人報告的bug。你不光可以幫助核心變
+>  得更加穩定，還可以學會如何解決實際問題從而提高自己的技能，並且讓其他開發
+> -者感受到你的存在。修改bug是贏得其他開發者讚譽的最好辦法，因爲並不是很多
+> +者感受到你的存在。修改bug是贏得其他開發者讚譽的最好辦法，因為並不是很多
+>  人都喜歡浪費時間去修改別人報告的bug。
+>  
+> -要嘗試修改已知的bug，請訪問 http://bugzilla.kernel.org 網址。
+> +要嘗試修改已知的bug，請存取 http://bugzilla.kernel.org 網址。
+
+Ditto.
+
+>  
+>  
+>  郵件列表
+>  --------
+>  
+> -正如上面的文檔所描述，大多數的骨幹內核開發者都加入了Linux Kernel郵件列
+> +正如上面的文件所描述，大多數的骨幹核心開發者都加入了Linux Kernel郵件列
+>  表。如何訂閱和退訂列表的細節可以在這裡找到：
+>  
+> -	http://vger.kernel.org/vger-lists.html#linux-kernel
+> +	https://subspace.kernel.org/subscribing.html
+>  
+>  網上很多地方都有這個郵件列表的存檔(archive)。可以使用搜尋引擎來找到這些
+>  存檔。比如：
+>  
+> -	https://lore.kernel.org/lkml/
+> +	https://lore.kernel.org/linux-kernel/
+
+Note:
+
+I don't know what happened. This change is from commit 413e775efaec9b452
+("Documentation: fix links to mailing list services") but now if you
+visit /linux-kernel/, you will still be redirected to /lkml/ ?
+
+So what's the point of changing, or perhaps KR forgot to change it back
+when he chose to continue using the classic "lkml".
