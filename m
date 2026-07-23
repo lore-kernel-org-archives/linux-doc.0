@@ -1,165 +1,97 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C086363090
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 03:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CED921773D;
+	Thu, 23 Jul 2026 03:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784777125; cv=none; b=Ze+k0vCVX4vGv4GGuEp/LdYiX7iqW97U+C0s8Cf/q7sF4V4gJ+Lq8ju3t1zlkiRiTCUaCp/p6IKbke26Y376n9vAFVm4/ZyNJ9W2Vb95SoK16O57PVDnI8tk/TUNLThvyfCGAhyFkzUgZztOS6I2DvCP3afNXntlNzcZwUGZtg8=
+	t=1784777246; cv=none; b=rmdYml2i2fZ8sT3wJagMnhb6l8eIhIbYtkBz4P5GA0Ob0VdGf8sMP6tNnjUcY/0KWC0M9pkiAMRfS9+w9h9Gn9K2x16GNwX89uMAHSta3Wb3H4bgEpxXDFfgUXTyMBT+FG7dkkMDqrJAAGm3vBjp+wXlV6/iJ98MzgPQXyHkp/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784777125; c=relaxed/simple;
-	bh=gfT0G2h32Mgahppc0W5ji5WK8maIODJ9zFl+mqtZVuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aBLmhHtTdGqyFhWTwTF63TWSso+9RLUzo/VVkBJUE/ElVPs+16owzEmf7J+B2XH0VnCjV/+0IugtzzGsIGOBPvVWcH0jNa+Ax58quo0/hoXHR3dpRDBhZBpU3XUoBPwVQTawUfheIwJ0DHCkyWgzp4/r9llLTY8kppVujlKUe5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=S5k+/km/; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1784777246; c=relaxed/simple;
+	bh=e58OWIRpkVaT0xxXqTlJHCfzB1+wPzLkZKq7hmnltNw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e5HCeLIIqL3LxUdP8QZQI8qJstK94goVpDlV4htcZBTpP7vUbskP9XBq1tp/4ZysZQVXuetCCIfx4miB6IGwNg7bwDSzHCpgM0kE2mXGBv22gmC/RV41gdB1QzF+1bAMtG4cEh3qldD0prStu0LnM6O0Dgbaoli1aVaxSjpPWX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Dc75o0QA; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="S5k+/km/"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c0a81d286so1280981cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 20:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784777122; x=1785381922; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Kd13UizLWaDa1rNXvY/PJ0N43yZ3Vd9IZn7XTlTXtfM=;
-        b=S5k+/km/W3hDbRibPNpOoB80+fMcI4MbaVCKgEaeGawR+FQWl9kNV2iUGzMuP5o587
-         /iaVfV9Jd+R4VNTdxnjkkgdz20NTR/Eu8b80hXADBRflMrWslncYyJ3SvD3gwvv5ngtC
-         ziCEhyqOck9EWcwsKAG1K0Fzc1bP7k6aIwfto2hePcg8FFQ5b1ILjIFtAueuSZJkiFL5
-         nYdguJXw90nDowVcfKGttiFdnF1n59L9sXbcemc/huQrcwmkhJfTVLcf0o+RBBzMGJDB
-         vgBWGT12txaO7gCP8wM5mTntpmBdTwxcjXyxbZfzrXl9J3a1TwC6EBaOEEphMqOrCOjK
-         FmPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784777122; x=1785381922;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Kd13UizLWaDa1rNXvY/PJ0N43yZ3Vd9IZn7XTlTXtfM=;
-        b=iuBnqbdjIWnTycw0nHfdTl2C5ie5dh63hkcp8tSNBJ/uQ6AX2Ut2XS2TRUaSTzFwOu
-         5v77/OK/zyV8tusdq8TRSLIvIpk7UT4zqAH8QUn0DOf0crUb/1x+yizeXxw2oN79sYM9
-         Wr6oln+CaMCqmEd1CAEWAoBjgGQ+EiyXnla+3/zpmfSE4PnKNA7IfwpZlKkTFuYqzO09
-         HOr4TI7/EzmY0xlMo1rO3RPjghn/dxtBbLbZB8lvLazDMKDuoEQjCHG+PHl+znpz4qlm
-         BhN6QAkGVcsv+1nXGrYySy80cAq7GtyDtIO0eiNtqcCaES9KcofzrwY78gyz87mQwzAK
-         c1fg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqd1v2Le39lLTvXRVRuLeKkI8NAwavXY9vBQopnFiUN8jQwDYOK72ZPx7r6dAuxSPXUkpaF7Es62RQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8olqK44NrnMET58tdQA2rG+N8b+7ZMhNgSY4ES8IJEuHoRFcD
-	SZsa3SmK0cVl/Qco+Sx4SuXX47IE3TYzrUeK7WxhkMENC5K7zSk40+kFpt67Dul8Fv4=
-X-Gm-Gg: AR+sD116TM1DupLeFEtpRl5ktNgpHJhSogNjRTIhGgW2cBWHw/iv37OCVmfAJ5TbqA/
-	w+G9++YGxg58wPlp7LqQaQRFyclgElqo4jAJYsiQHefW2hGBbiPE5rpf39jMSqgK5dj1Et1NM91
-	Im3uIHZ5Sic2M02Z3u4YQPKmA04dfwP9uRK4rosoQ30oG/rlfNGx8EIYZ2zvMY+Hep4SqP8ZCku
-	c3reKhFVogT1Ukk/abvBqdTCtLqtt0kvN/YvvCjTm5SBxWBVwHfkVc1zn7HXyzzM/XQRW9DvnNf
-	nHuigpyhguuqc6ROyoh0ABhOpCFjqY67yyMEJo6Om+5FEaKIevpABSCSbbzGbw6Ap8zRXNmHTnJ
-	GEWNwDWiCrpklz/Ka3nvG5fuF+HaqDuyl5FI/TdNZ1GiCv0c5EMXg0yRDT286TuYGOgBWYJRU42
-	EX+yMaH9U03Vav/8z9QC0SC39iz5tF1Xq3SCynOexPs5RBQF7scQ2UZ+/j5SwLEDanLtXp
-X-Received: by 2002:a05:620a:808c:b0:92b:67e6:4b79 with SMTP id af79cd13be357-931048880c8mr90170685a.35.1784777122066;
-        Wed, 22 Jul 2026 20:25:22 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-931062c4ea8sm34465885a.28.2026.07.22.20.25.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 20:25:21 -0700 (PDT)
-Date: Wed, 22 Jul 2026 23:25:15 -0400
-From: Gregory Price <gourry@gourry.net>
-To: SJ Park <sj@kernel.org>
-Cc: arun.george@samsung.com, balbirs@nvidia.com, brendan.jackman@linux.dev, 
-	yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, 
-	baolin.wang@linux.alibaba.com, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	lance.yang@linux.dev, usama.arif@linux.dev, xu.xin16@zte.com.cn, 
-	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, driver-core@lists.linux.dev, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, cgroups@vger.kernel.org, 
-	damon@lists.linux.dev, linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON
- migration and pageout
-Message-ID: <amGHuputMNCFZ9CV@gourry-fedora-PF4VCD3F>
-References: <amCzmkdOr6AFv_kQ@gourry-fedora-PF4VCD3F>
- <20260723001943.95854-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Dc75o0QA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=+kwAUpwqK6rZRGh60kugQF2OVsXfnhHAR8TiCu3vEm0=; b=Dc75o0QAtjEDDA3Fdv2BTwAmYl
+	8wJIg+HpuEtyBhNtRurAeOeq07+5vGymYFpFfwP87YLEz/HQyfDCOZW/sISzxwj06J8DtVcOnjoGU
+	6+hIqnSsw+2GNItsTOR+DBiUbdRHx0q0e11oEekRicwfdL/RvkIK05yWNnaiBkLdIpwMxJVPCWdHM
+	LUcBTZKiQ94HDT7J46NeEnmeoqca7WLQkwk2dECFzrA3vI93A9vknvpgAe/6CyRm0Lnnzw+YRKRJL
+	Ue3Ler6QI62UbPsYi938aG/hryUErPIk5uq6bmIdF9+4omUSWgFuq4zYiXUwfDUJ5ybL66m4GNJ3I
+	8l6JYJBg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wmk5R-0000000DJ6s-3AFN;
+	Thu, 23 Jul 2026 03:27:05 +0000
+Message-ID: <ee9df943-3f09-4c14-b532-3212098a7ed7@infradead.org>
+Date: Wed, 22 Jul 2026 20:27:04 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260723001943.95854-1-sj@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/mce: Document the mce=print_all command line
+ parameter
+To: Shreshth Srivastava <shreshth.srivastava@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jonathan Corbet <corbet@lwn.net>, x86@kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Marco Elver <elver@google.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ Li RongQing <lirongqing@baidu.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ Sohil Mehta <sohil.mehta@intel.com>, Tony Luck <tony.luck@intel.com>
+References: <20260723013730.3033-1-shreshth.srivastava@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260723013730.3033-1-shreshth.srivastava@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
-> On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
+
+
+On 7/22/26 6:37 PM, Shreshth Srivastava wrote:
+> The mce=print_all command line option is supported but has never
+> been documented. Add it.
 > 
-> > > "by default".  Does that mean it could be reclaimable in some situations?  If
-> > > so, could we check if it is reclaimable?
-> > > 
-> > 
-> > See the damon changes in:
-> > 
-> > https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
+> Suggested-by: Sohil Mehta <sohil.mehta@intel.com>
+> Signed-off-by: Shreshth Srivastava <shreshth.srivastava@intel.com>
+> Acked-by: Tony Luck <tony.luck@intel.com>
+
+Looks good. Thanks.
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> Summarizing what you want to say, quoting something from the patch, or at least
-> calling it "26th patch of this series" would have made reviewing much easier.
-> Cc-ing damon@ for only patches that toucing DAMON source files and the cover
-> letter of the series could also be helpful.  Please consider doing some of
-> these for future replies.
-> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index eb4e0d28f74b..0ec18a5597a2 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3792,6 +3792,9 @@ Kernel parameters
+>  		nobootlog
+>  			disable boot machine check logging.
+>  
+> +		print_all
+> +			print all machine check logs to the console.
+> +
+>  		monarchtimeout (number)
+>  			sets the time in us to wait for other CPUs on machine
+>  			checks. 0 to disable.
 
-I have been very much discouraged from this kind of trimming because it
-removes the context of the series from the individual patches - making it
-even more confusing.
-
-But I understand, I will try to remember to do this for you.
-
-> So, I understand later patches will make it optionally reclaimable and update
-> this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
-> default" from the above comment for reducing the confusion?
-
-Yes, but you bring up a good point - I think this two-step process is
-actually poor form and that I need to redo it.
-
-Maybe this can be redone as node states (features?) such as:
-
-   N_MEMORY_RECLAIMABLE
-   N_MEMORY_DEMOTABLE
-   N_MEMORY_TIERABLE
-
-so these damon changes will forego this confusing intermediate step of:
-
-   if (folio_is_private_node(folio))
-
-and go straight to
-
-   if (node_is_reclaimable(folio_nid(folio)))
-
-In the first patch - without ever having to revisit damon again.
-
-> > 
-> > Technically there is nothing in migration core to prevent migration
-> > operations, it's done on a service basis - hotunplug, reclaim/demotion,
-> > user numa (mbind, migrate/move_pages) etc.
-> > 
-> > Operations on private nodes/private node folioes are refused if the
-> > capability bit is not set.
-> 
-> I haven't had a chance to read the entire series, sorry about that.  So, do you
-> mean the above blocking is not really needed, or that will conditionally be
-> allowed by another later patch?
-> 
-
-I will reduce this all to a single patch in v6, I see where things can
-be improved now based on a few pieces of feedback.
-
-Thanks SJ!
-~Gregory
+-- 
+~Randy
