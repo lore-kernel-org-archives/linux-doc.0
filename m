@@ -1,112 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509AA40B0F8;
-	Thu, 23 Jul 2026 08:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C263EE1DB
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 08:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784795680; cv=none; b=Y8TXbiqC+KBXPeyPXnc2S+4UDkizdof9E97K+spagBH+65434yh9Dk8P1mDIrdjSDdmoFzIzmLBbYUMrj77C6bq0oYF90XAUGNjIGai1Jjd9GfEtKWwMECQyFnsFY3J2vnT7NXpKbP7W5FT3A7vl0jlcZc+TvtcbHuaUv1YdvO8=
+	t=1784796257; cv=none; b=OzDT2rgbpXGKalt/K5hYPPjmlSvPSFCXDPmEI3DFG5w/Tb5N228FtSv4Xy1F8DrLAC23rx4hwD2nzNGN/mc/xds2Rh+GYAI+jRgKbpLt1oWJXlqTRjeE9/zUJWJPtAP8dAX7C/ru/vJHIxqGTec+m8ilgvJercMEGVpFo2QCpKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784795680; c=relaxed/simple;
-	bh=MqxExXUarY1v5ejap/smzcDumYmeKzgFttH5TV4bZGc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tpd6mCGkqV8KAjg6SA8UalXuFk6/4qWuWoaeg8bdpBCNyBSmhUT6eu1US035odZseB3qOkrdrGLivORziPLnRxo646J48G4rGtb20kIQ4mIr2OeD7sSuYWd2ZL6rLIL6j0T+zKSx9wcnY3z0IR1KdaGnQn/yyft3RKCfKA8LRf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cx9c/pnQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cx9c/pnQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18E03C2BCC7;
-	Thu, 23 Jul 2026 08:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784795680;
-	bh=MqxExXUarY1v5ejap/smzcDumYmeKzgFttH5TV4bZGc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Cx9c/pnQskjW481HtEjC/X6x4MFBo02ZYjXO52+JMt+0SXnTIbbT+KBOqsygGqBG3
-	 7s2aqVWPotoJzNIKhv0awcdD7EaVl+Qhaj9WRzagT6JAJX+KrRzFrcWxpe4rcRSsfi
-	 edbpcyvZ7lryEsN94J7rtMwUC0V/demY6fFyAl8Zg88RhLRITSFxt5nJmR3luEEiY3
-	 gSq2TttuH2ctsBhDm9YL5nJRHA0JaQJ7YNSVZzr8znZZqp1CckxHVRj8J06w7LLAVD
-	 EeT/vHu4UROeT+x1EddyGEGeFYW4tCdXi54I9QQHzpg7WBguYjtzTHEch1kbQL0TXF
-	 eiKKxFeXQG3ew==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06BF6C531CD;
-	Thu, 23 Jul 2026 08:34:40 +0000 (UTC)
-From: Jack Wu via B4 Relay <devnull+jackbb_wu.compal.com@kernel.org>
-Date: Thu, 23 Jul 2026 16:34:32 +0800
-Subject: [PATCH v5 7/7] net: wwan: t9xx: Add maintainers entry
+	s=arc-20240116; t=1784796257; c=relaxed/simple;
+	bh=j2EBRvjl4THMhyqlpfuX6DTQgfmPpqpfKHZum4qGV80=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nIFQ4NAr7+dNkcCTu8B1y4TvNkuT74cSjTy3aC9+EuLCsmqClVShJPWSyrPRQe8uBtwFJZ23OjYq31kRWSY1CT35UQVXJ3eG3egYPKczrGqMj1Oj1aY8aU5qrMZNBnVnJcDu3Fygzk6kEfOXBvZMSfWfMoF4okMY8QoRGEJUzek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C5641F00A3A
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 08:44:11 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c86945164so2505881fa.1
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 01:44:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrpVyI85vEGkYoecnZTb3rU76yZYe+LWF6b3Vd8wE7sFNmw8DBbBVTypEAyHJh9ns5NEepkf71pMgg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgIGNw7MdYMqo/fuzbz1kZXeinpm92VM1tjDW/lwKsol8Hjy+y
+	nvEN1HiSvoG0ReCO3wout0+0AFUqg0MR1Gg584Q22UUlRUZTc2kXSaGLPeifyvZAj3E9ABUP+Mz
+	Xc1Sw0YqGw7DvpEtu0j8VPUgdLpuKL/AU/qrN2YbTAw==
+X-Received: by 2002:a2e:b8d5:0:b0:39c:8124:93b3 with SMTP id
+ 38308e7fff4ca-39f07bcfce0mr4681721fa.9.1784796246084; Thu, 23 Jul 2026
+ 01:44:06 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 23 Jul 2026 01:44:04 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 23 Jul 2026 01:44:04 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <amDuqoRBg5qGafi2@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-t9xx_driver_v1-v5-7-b27afb99ccbb@compal.com>
-References: <20260723-t9xx_driver_v1-v5-0-b27afb99ccbb@compal.com>
-In-Reply-To: <20260723-t9xx_driver_v1-v5-0-b27afb99ccbb@compal.com>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
- Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
- Johannes Berg <johannes@sipsolutions.net>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Jack Wu <jackbb_wu@compal.com>, Wen-Zhi Huang <wen-zhi.huang@mediatek.com>, 
- Shi-Wei Yeh <shi-wei.yeh@mediatek.com>, 
- Minano Tseng <Minano.tseng@mediatek.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Robert Yu <robert_yu@compal.com>, 
- Jeff Chang <Jeff_Chang@compal.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784795677; l=899;
- i=jackbb_wu@compal.com; s=20260526; h=from:subject:message-id;
- bh=6MpjgGzXcGI3PS41xWiOq6mWrN6ZuUsiO+32dtE4ZE0=;
- b=HPw8pOFkwieUGpIkewogampNKF3EYt/SPcEABsAam5beBqmdF83brjUE/xr4SpNKq0qeIvdOQ
- Fr7pL34fTvOCDpP/QSmM35gbjXiczCe2hrKuNKIZFG7kpyR4sBV/rAr
-X-Developer-Key: i=jackbb_wu@compal.com; a=ed25519;
- pk=VH1prTWixNl8OEUPPSfII3p46MzJpQN8J3+ecE1tZXg=
-X-Endpoint-Received: by B4 Relay for jackbb_wu@compal.com/20260526 with
- auth_id=793
-X-Original-From: Jack Wu <jackbb_wu@compal.com>
-Reply-To: jackbb_wu@compal.com
+References: <20260721-qcom-qce-cmd-descr-v23-0-1be02deffda9@oss.qualcomm.com>
+ <20260721-qcom-qce-cmd-descr-v23-6-1be02deffda9@oss.qualcomm.com>
+ <20260721134853.2B2401F000E9@smtp.kernel.org> <amCGXUUd4VmuQRGD@linaro.org>
+ <CAMRc=MfBNB0pvv1kPPcswE4Y2m7PXBO49bwJg=v0+aY=JmJKWw@mail.gmail.com>
+ <amC7_M-HjVZ3sQuT@linaro.org> <CAMRc=MdnSyPmbK0skMx686=wSe52nnuWgCNJ0uSoKs_=HyAq-Q@mail.gmail.com>
+ <amDRxPkdvbA-iVer@linaro.org> <CAMRc=Me523xQbfJvML9taJ-fR128SJurJS4eX9N9E9WtHF5W5Q@mail.gmail.com>
+ <amDuqoRBg5qGafi2@linaro.org>
+Date: Thu, 23 Jul 2026 01:44:04 -0700
+X-Gmail-Original-Message-ID: <CAMRc=McJBVkCT+rFToY-Sn+nrLy-Sb8otz1NYWkQj1J-4-RK-A@mail.gmail.com>
+X-Gm-Features: AUfX_mwJQKKrlt_uOHiEXNJho9ROwjpR_PSftHZZM5GhDPu9qwbx9QpVEO72mS0
+Message-ID: <CAMRc=McJBVkCT+rFToY-Sn+nrLy-Sb8otz1NYWkQj1J-4-RK-A@mail.gmail.com>
+Subject: Re: [PATCH v23 06/14] dmaengine: qcom: bam_dma: add support for BAM locking
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	sashiko-reviews@lists.linux.dev, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jack Wu <jackbb_wu@compal.com>
+On Wed, 22 Jul 2026 18:24:10 +0200, Stephan Gerhold
+<stephan.gerhold@linaro.org> said:
+>
+> FWIW, I couldn't stop myself trying to finish my "write lock descriptors
+> directly into FIFO" idea, once I started I was curious how it would turn
+> out. I think it's actually quite elegant, the loop in bam_start_dma() is
+> wrapped with LOCK and UNLOCK, later process_channel_irqs() looks at the
+> FIFO again and just skips over these descriptors. lock_ce is allocated
+> once at channel creation time, no other allocations are needed. (Could
+> probably move lock_ce allocation to slave_config() so it's allocated
+> only when locking is configured for a channel).
+>
+> See diff below. It doesn't crash badly in a quick test, but didn't check
+> in detail if the locking is actually working correctly. :')
+>
+> I'm okay with whatever is "free of known races" and works with the use
+> cases we have, so use/adapt whatever you like best.
+>
+> If you want to use this, feel free to add
+> Co-developed-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
+>
+> Good luck! :D
+>
 
-Add MAINTAINERS entry for the MediaTek T9XX 5G WWAN modem device
-driver.
+Oh, neat! Thanks, I may use some of that. And that makes you have a stake in
+this series now. :)
 
-Signed-off-by: Jack Wu <jackbb_wu@compal.com>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 461a3eed6129..8f13ef7440ce 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16494,6 +16494,17 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/net/wwan/t7xx/
- 
-+MEDIATEK T9XX 5G WWAN MODEM DRIVER
-+M:	Jack Wu <jackbb_wu@compal.com>
-+M:	Robert Yu <robert_yu@compal.com>
-+M:	Jeff Chang <Jeff_Chang@compal.com>
-+R:	Wen-Zhi Huang <wen-zhi.huang@mediatek.com>
-+R:	Shi-Wei Yeh <shi-wei.yeh@mediatek.com>
-+R:	Minano Tseng <Minano.tseng@mediatek.com>
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	drivers/net/wwan/t9xx/
-+
- MEDIATEK USB3 DRD IP DRIVER
- M:	Chunfeng Yun <chunfeng.yun@mediatek.com>
- L:	linux-usb@vger.kernel.org
-
--- 
-2.34.1
-
-
+Bartosz
