@@ -1,237 +1,218 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012024.outbound.protection.outlook.com [52.101.48.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDC23F164C
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 08:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784794445; cv=none; b=ns7eVhz8iBzeD0pW8IQraauDkifz8PR/jbSzEHjodIuKjHxOCZ5bC0nk5b+OBqe4M6M6O7YCD7Khj4XruwBHCfFJHKt54/C1hhjCfhV3xrpV5pJDwGLSlbgbSqkNJfOYy5vR4RZ7vNT4BZMhVW3pmuhqY9xZOtT4PlDJjB9FMfE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784794445; c=relaxed/simple;
-	bh=ISLsYJiL/67AfFmjcKz7YdESqyE7QAUlfd/yb4LqNzI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S1XMHGMpVorlQDXTNh/1k4z9jW9BfYp0vJ2F4J8LXM5ZPMYBzuCX2ogZzF3qCeGvLCo9JYgvZ51bocDcPdkCOn1m1nwoM6PwxJx08gD840+nCqt3YY+5mTtIRSF2AFClUxEEMkP8bnZoul384y+CnEHVFn+NxGXm4EdydNDXK44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QAogqfv5; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52DE3F39C2;
+	Thu, 23 Jul 2026 08:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784795260; cv=fail; b=uM0tEnLE4HvuT8kiU3dZpt2fZGNwxKSNJxNpvrbMZkj41i28aFW6YHDmzPU9ptnUSN014mgWSyeFsKABQrWlwmsez1vRlk7Okj5RY7D81UQLhATTZxcwkK0pxltdz9J7/WUDEC4QKlOk3tcv4+p9k7UmbPblj3hdEoKRf/A3/uI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784795260; c=relaxed/simple;
+	bh=jx9/RW0h97vcsD/pwIFRGjet/uoOOi0Lt0GalptKAig=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hgAk842D7pGeRXlSBm0dCZV7k61/aruaJhtF1QRzF0U/xVgFEkH9D8TEU3iJms7nJp/fnXuRuTydgQ+S1Ux8WiSk1vfBoJm5JXpj+a7Zal5/GhZCO1Zm77I2MlR2mEIMfu6ZW1lsHcA/ZW6HvI01KlBBBYciWPNeL0wt3rt2xf4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=p2nLLhpy; arc=fail smtp.client-ip=52.101.48.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QAogqfv5"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47df43bfb07so66243f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 01:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784794441; x=1785399241; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pn6G1rW8AyYA5lkxWJxsOAx4+gkV20aFWEjqPOavvWg=;
-        b=QAogqfv5QCL6qnClmfF1+j7/7weBhZPgXeCxV0+XnNTKKwp6czdN5L4iyG8FEqXAob
-         lAYG6ZV/8Q0FhrkIkY/PVxTACnSrbsAZ8a5ywlEeK66UiNXikNJXxmZyWQ1zk+G2r0zz
-         XeLUAnTR6PbvK4lA/mJrvT1WbU+j0GSJfagxfrXe+b8UVHWRkpMPIVFgjnIcdKhZlCpO
-         N4+AOsr+gmbWxENQ41gWIBJYSrBh5hCugH3A2s4zJXf/z418fkPpzNVxSuI5avePQbrb
-         +GWT+uaz8U8UX/hUurc4q+EJCpHiH1HD5XrfSiqz7py8sgPMA5kfByJUGRYFjOBS6wXb
-         tPXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784794441; x=1785399241;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Pn6G1rW8AyYA5lkxWJxsOAx4+gkV20aFWEjqPOavvWg=;
-        b=F2Jlx4OuBW1ILCmGezKKmxCbf6lR8KPO6souL4WqUYPe6Zyp85p+0GAMrReeKiVFwk
-         PASkDpJwhuK+PJtCdNpgsNvmA1VoTKP1Cg4EBt2OdkKh+ypNet3lY00Yi0FsGGsY+ntt
-         xIU4K9KK2qCOz/4ZJJlMcoRuBsxXo0Gf/v0JRkqN0ACu4PSKS7NIsvU9bPJlBypXl2uP
-         RTvjFFisEm2gohCtgfl899S+iFrr077H+dZyzujD5tV47qGytLn5T5Gaga/erpPS8aEJ
-         LRncy95X3e+nhbl7VuFYc7se3u6SzQJkUc+mKM7HfYr8WMJTyU5YjzUzjP1eXYhZe/ET
-         XbwA==
-X-Forwarded-Encrypted: i=1; AHgh+RrJyb3uqygFxrdzL0Bp3+CfDJUKBVXf6gdoJLqfaO3Qq1aAafxbR8AKCRe5fsTjz2Gr4eHsnsSSzdM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0ReKF7uU1lz0huUgZvonXFMX2oW7+Oph+kbSszjYIFpuGgx/w
-	o/BqNtcQFIEyPOU791zqyT+6ldm0xumM/WbpHXdOZcuJq+Th5NmUZ0QV
-X-Gm-Gg: AR+sD11Cmi7jixYCq6mvU/QfrQrEHGuJLbN1nDSv1To6btae6BZeq7XyxeVF0LgyQZ7
-	X52AEE4a91P0fY5xnfsWgyECSa5XSJWAbH3o+gfShBOWDupqwagM94PR04Te92iaiqXsNu/XkVi
-	acEZZ5FQgl/cf9sNyWXUdH2FfYWU9FBxmarFL5GlYtOoq8zdy22nWBNAyupGBgRNF6mZlXgWKy5
-	G2X1usIH7M7sscAjRGcPlJSVtLFr+lFqrWHKYXzmn8GEp0F4CDOyQ9oIRdghORiJbpeNnYZDbEJ
-	y/mvhK+EJFr9pfFNzfnZtu+6XMb/5pYYw66S7GQ2OkaW+swSwktSPAVSxzIoP4mEP64BjM0f51A
-	06rD66HkuUs8j/egAX/h8Ghs/MCG/IGv/o3/LTJCx0laYvcSrJN5MFLbTPdRZEVtAASf3gg==
-X-Received: by 2002:a05:6000:25c3:b0:475:f0f0:9ef7 with SMTP id ffacd0b85a97d-47f8d76ee04mr2371195f8f.60.1784794440915;
-        Thu, 23 Jul 2026 01:14:00 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c63bd3sm12591725f8f.27.2026.07.23.01.13.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 01:14:00 -0700 (PDT)
-Date: Thu, 23 Jul 2026 09:15:08 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Janani Sunil <jananisunil.dev@gmail.com>, 
-	David Lechner <dlechner@baylibre.com>, Janani Sunil <janani.sunil@analog.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux@analog.com, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: Add AD7768
-Message-ID: <amHLZK46lxqSZIC8@nsa>
-References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
- <20260709-ad7768-driver-v1-1-44e1194fd96a@analog.com>
- <36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
- <9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
- <e791f4f9-63dd-40f5-aec4-5b540bcee5ff@baylibre.com>
- <d159cae0-b11e-49e9-a546-023ed61b900e@gmail.com>
- <20260722025853.6ca3961d@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="p2nLLhpy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nMBzktDt2vWp2MxW5pB4mXs+aZoDrVBEcsveQxGLDptrVeiVg9JMT32kffCA4nsOJKn8C0Y7VOLt3EjofEsqZ/3VZY76Sr3iO0g/TtPg8FhktpzWuMEQ9uTnBetbqn323UEgFC2n+v+EXasDOjyFkcC6FgT+NzyCYe3hrACCitm5t7O9xe0qRIhOCmKEuV+fVl9zl1Flail2NtZvjdtPJL/EeVHLpZt4D14gBiqBhmtsGb/YYXLjZvPlr/K82Ia5CgyNFqyeakIYKsoVt8IjhFE3+O2Voa4F7CWZTpCtLmASeH6Njkai+PgNd7NjN4UXZBubfOnx9Ti0bASDnPHe8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sbB5l4gI+FKyBitDKruP4Zjf86mr8J+u4Irbam21Fw4=;
+ b=k5Aq7MINGG87RTQcE78QhybFBRY5SkhHLTBwv8rEi2gPKGtW4sxh0eJVG+m1IOuPWglE2WJXwmxjxhillLVNbdETEoJwDr3E+B887O1lT1F45e5riOEw9+YF93gUkpijiD7h7GN27lGkgFM1d2P6I9uGBuSS8asLvkYEx6VBqAM6I7FEr1riU+4YsxHXXtmt/iZH7yDnAiAMIsOlifZZf7CWFD9kix8RzzNGT16mKKg/GW9dZSGsAJQs3m1j6s48sdS9Dn5ifkwHCpOaTa3EM04KA5Au/rFCefTL8uOBsheVtBe6Vf6nKv9ujMKOw4TDIkCzHesIvvChfDlkykZFGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lunn.ch smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sbB5l4gI+FKyBitDKruP4Zjf86mr8J+u4Irbam21Fw4=;
+ b=p2nLLhpygn6CGfiKlBwYplOoAWILzwFN9X46Gh9ZBMq2WfI08rSNTG0HzpsOLxTszBumwjpZbO+y2zNjlMNmPm6hIEk85dDYEWpGelVNxM6rKpmNWsXdGhuQQ4cGhzxIdjJqo19U+/H8d/eUx2E/Pe1bQQVBt0fjPxUZo/bVv629/m3U+wiOietzZr/rvBs23jbhS3pD5xCNP/PwkqfXrM5K9GUqmZSsUPIXCo1+lm6pjm9koURWbeaqys7EMqfLdAzROvf7FeOqtVTAPsVN5T5GZj63sghKj0Kt5mU8xRDXZwzXveIYJIcuXiV3+WItjs5PxuMeo2gHuntBwjIRuA==
+Received: from CH0PR03CA0359.namprd03.prod.outlook.com (2603:10b6:610:11a::19)
+ by SA1PR12MB7410.namprd12.prod.outlook.com (2603:10b6:806:2b4::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
+ 2026 08:27:25 +0000
+Received: from CH1PEPF0000AD83.namprd04.prod.outlook.com
+ (2603:10b6:610:11a:cafe::67) by CH0PR03CA0359.outlook.office365.com
+ (2603:10b6:610:11a::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Thu,
+ 23 Jul 2026 08:27:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CH1PEPF0000AD83.mail.protection.outlook.com (10.167.244.85) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.245.5 via Frontend Transport; Thu, 23 Jul 2026 08:27:24 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 23 Jul
+ 2026 01:27:11 -0700
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 23 Jul
+ 2026 01:27:11 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.7)
+ with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Thu, 23
+ Jul 2026 01:27:04 -0700
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Alexander Lobakin
+	<aleksander.lobakin@intel.com>, Arthur Kiyanovski <akiyano@amazon.com>,
+	Daniel Zahka <daniel.zahka@gmail.com>, David Ahern <dsahern@kernel.org>, "Gal
+ Pressman" <gal@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Jiri Pirko
+	<jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky
+	<leon@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Mark Bloch
+	<mbloch@nvidia.com>, Nikolay Aleksandrov <nikolay@nvidia.com>, "Nikolay
+ Aleksandrov" <razor@blackwall.org>, Petr Machata <petrm@nvidia.com>, "Przemek
+ Kitszel" <przemyslaw.kitszel@intel.com>, Ratheesh Kannoth
+	<rkannoth@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan
+	<skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Tariq Toukan
+	<tariqt@nvidia.com>, Vlad Dumitrescu <vdumitrescu@nvidia.com>
+Subject: [PATCH net-next V4 0/2] devlink: add generic device max_sfs parameter
+Date: Thu, 23 Jul 2026 11:26:41 +0300
+Message-ID: <20260723082643.1870844-1-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260722025853.6ca3961d@jic23-huawei>
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD83:EE_|SA1PR12MB7410:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd03a744-f8b3-4d54-564a-08dee8943988
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700016|23010399003|1800799024|11063799006|56012099006|6133799003|10067099003|3023799007|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	IVnWixw+E6fdcGWwBkAg6Ps8otkqtGQFWwPQ4l6+ecSrSoTwB4adwm97218jL23DZxXhTQbKSWcwBbWl/ZADyPyZd51ww5zUt4xcjIx0PfbIInrdKsm9ygrqx3Sga+EG7Q1MNQ77DLdjx1twxYZLwgMku9dhpkHP1ySH4XmbtVWc0/FFCGckJLHBWFvfMQtWlVM7jFa4m3CTyNX+tm54d/QxnMHx0Ann666Fcr9arAYczGEXfu+soXbBXNjlJmxIquCHkjwZvxscAnmSBK0jNwF5FNBuzIlofN7pQZxPRkA2lx3ISUyoIXwRYUFD9GlL9wr2snv1MgWg31O6IJ92UDrEz2bK3d5ZEUL5nIHCkQ8KIjiUwsh737SS56wz5hQr17FA/88lFtmnvgVddpWbC91KXsVMYuoL0EUu3UXoowQ/8V3KWgAtAOYYyw3inCEO9J2nZKO/xDaTd17rHWzai0A6qEywGVLF45VCsY1wJB79o5Cf5GMVQjghSEc/v3ao0EVKFF5PexnFnW76iiyQBG12HD9Sligl1gOnlcj3WeoTVcPazAOKQ+/+2nbV9NmkxRwtB/1fH8yQxgB04fYkoX57pQPcL6XHwCUgpfH/XgwkttbHB43AJrH6zKol1fgf7OuKc+EqpUcGcgsivetrV1+n/mcBnU/llNay00KFhsG/cGhFWgiwA5YP94+AxYBsuDOjoKcOkNzny6GVjRtWQQ==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700016)(23010399003)(1800799024)(11063799006)(56012099006)(6133799003)(10067099003)(3023799007)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	lh7GfwmWTnQGi2elgzgvBaVoSAFYHm4B3ZLYA4CJPU13py9Yaw5D2qQROLmzMxkSSIbLPHgYHs1Ygz9ANQH4tqprRLqdtZBJj/DP8RWxvwCHNAwL7U6wVBN1J1AaaODWDKFoDDiH7F37ui3YwYbdNNQQ/MPu7WMkU+LGFPmh7JfyEKGLNErjDLdN8NcFEGDUPz5YxQCkX/vWa3Sonya4eoWfyACcrWCkrij1zOoRO0Fz2na/U7A0YUcs4slagCGgTkWQKHCUeWU1yjf/Qm1v2Um2WVGTMFglkC8rLWtfne+qkyDpCVzajlWdjH8HSNp1zj8ch4GkpPw0e1B3I5FanVUCEfD4XyRapDgdAlHl0cd9Y8weHtjRpdIYzWWqVp6HOskQb2Ix82+qTYQwL/eGeMifwb0O+yuB2IecTluIeMntl70QfSM4ydZ0KT1eFYyW
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 08:27:24.9431
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd03a744-f8b3-4d54-564a-08dee8943988
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD83.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7410
 
-On Wed, Jul 22, 2026 at 02:58:53AM +0100, Jonathan Cameron wrote:
-> On Tue, 21 Jul 2026 10:03:26 +0200
-> Janani Sunil <jananisunil.dev@gmail.com> wrote:
-> 
-> > On 7/21/26 03:39, David Lechner wrote:
-> > > On 7/20/26 9:00 AM, Janani Sunil wrote:  
-> > >> On 7/9/26 17:43, David Lechner wrote:  
-> > >>> On 7/9/26 3:50 AM, Janani Sunil wrote:  
-> > >>>> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8
-> > >>>> channel) simultaneous sampling ADC
-> > >>>>
-> > >>>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > >>>> ---
-> > >>>>   
-> > >>>> +
-> > >>>> +  adi,power-mode:
-> > >>>> +    $ref: /schemas/types.yaml#/definitions/string
-> > >>>> +    enum:
-> > >>>> +      - low
-> > >>>> +      - median
-> > >>>> +      - fast
-> > >>>> +    description:
-> > >>>> +      Power mode selection.  
-> > >>> Unless there are pins that control this, it seems like it should
-> > >>> be left up to the driver to decide how to set this.
-> > >>>
-> > >>> In this case, it looks like the power mode also influences sample
-> > >>> rate which is normally something controlled at runtime.  
-> > > Looking at this again, there is also an MCLK divider that influences
-> > > sample rate, so sampling_frequency to power mode is not
-> > > straight-forward anyway.
-> > >  
-> > >> Hi David,
-> > >>
-> > >> The reason we'd like to retain power mode control is that certain
-> > >> ODRs are supported across all three power modes (low/median/fast),
-> > >> and the RMS noise and power consumption differ significantly
-> > >> between them at the same ODR.
-> > >>
-> > >> The higher the power mode, the better the noise performance, but
-> > >> power consumption nearly doubles for every ~3 dB improvement in
-> > >> dynamic range. Silently selecting one power mode in the driver
-> > >> would remove a meaningful hardware tradeoff from the user.
-> > >>
-> > >> We'd like to propose the following instead:
-> > >> - Remove adi,power-mode from the DT as suggested.
-> > >> - Expose power mode as a per-device sysfs attribute.
-> > >> - in_voltage<N>_sampling_frequency_available dynamically reflects
-> > >> only the ODRs valid for the currently selected power mode.
-> > >>
-> > >> This keeps the DT clean while still giving the user explicit
-> > >> control over the noise versus power trade off. Would this approach
-> > >> be acceptable?
-> > >>
-> > >> Thanks,
-> > >> Jan
-> > >>
-> > >>  
-> > > Jonathan usually pushes back against userspace power controls. We
-> > > do have this for accelerometers, but not ADCs currently.
-> > >
-> > > If we can't think of anything better, maybe we could use this. It
-> > > only has low_noise and low_power options though, so the driver
-> > > would still need to chose the best power mode of the 3 based on the
-> > > other requested parameters. E.g. always make all sampling_frequency
-> > > available  and just pick the highest power or lowest power mode
-> > > that can provide that rate based on the power_mode attribute.
-> > >
-> > > I wanted to suggest maybe adding some kind of noise attribute
-> > > instead, but I'm not sure how we could do that in a way using SI
-> > > units since the value would depend on so many things (at least
-> > > V_REF voltage, filter type, temperature and even the physical
-> > > input).  
-> > 
-> > We considered the low_power/balanced/low_noise approach, but the
-> > customers typically use the datasheet alongside the driver and the
-> > datasheet explicitly uses the terms "low power", "median" and "fast"
-> > for the three modes. Abstracting them with different names in the
-> > sysfs attribute would create a confusion- the users would have to
-> > mentally translate between the two naming conventions. The noise
-> > attribute would not actually configure anything on a register level-
-> > it would purely be informational. Furthermore, noise performance is
-> > not solely determined by the power mode. There are other parameters
-> > (eg. filter mode) that has a significant impact. A power_mode
-> > attribute directly configures the hardware register and has a
-> > deterministic effect on the device.
-> > 
-> > Jonathan, could we keep the power_mode as an attribute in this case?
-> 
-> My really strong resistance to 'mode' type controls is they are
-> meaningless to general purpose software.  It has no idea how to
-> set them correctly. The purpose of IIO is to provide general abstractions
-> and power modes are never that.
-> 
+Hi,
 
-Unfortunately lot's of apps engineers for these parts just like to
-control it all and don't care about generic interfaces (given typically
-these the devices are the only ones they care). So we also have some pain
-trying to explain all of the advantages :).
+This series by Nikolay introduces a new generic devlink device
+parameter, max_sfs, to control the number of light-weight NIC
+subfunctions (SFs) that can be created on a device.
 
-> Hence we put a lot of effort into mapping them to controls or measures
-> that have precise meaning.
-> 
-> I can't remember how I got talked into allowing the accelerometer
-> ones either :(  It was way back in 2013 and we have only one user.
-> I should shift that ABI doc to a driver specific one so as not tempt
-> more users.
-> 
-> To give a firmer opinion I guess I'll go read the datasheet at somepoint
-> but it's not a small one so that may take a little while.  I do see
-> that there is a recommendation for each power setting to only cover
-> one range of f_mod.  Maybe that gives us a route to a control that
-> it at least numerically meaningful (For those who know what effect
-> the modulator frequency has in a sigma delta modulator! Which
-> doesn't include me ;()
-> 
-> Any chance we can kick this into the future and get a useful base
-> driver ready for upstream?  It is a lot easier to have these discussions
-> when they are the only topic related to a thread.  One path to move
-> on would be to decide to default (only option for now) to the
-> best noise option.  Later we can add controls that result in that
-> initial default changing,
+The first patch adds the generic devlink parameter and infrastructure
+support.
+The second patch implements support for the parameter in the mlx5
+driver.
 
-Yeah, those were my internal 2 cents. Not sure if this is exactly what
-you're proposing but what also came to my mind was to have a RMS lookup
-table (same as in DS) and for the overlapping frequencies, just go with
-the one with better RMS figure. My assumptions is that most users will
-prefer that. If not else better comes, we can have a driver argument to
-override the prefered mode (same way we do for some ADIS IMU devices).
-And yes, I know module arguments are not very encouraged...
+With this addition, users can enable or disable SF creation directly via
+devlink, without relying on external vendor-specific tools.
 
-Or given this also looks like a system level decision (I don't think this
-is something one wants to change at runtime) maybe DT (acting as an override)
-would not be off the table.
+Regards,
+Tariq
 
-- Nuno Sá
+Notes about a few items from a previous Sashiko review:
+ > Should there be a validate callback analogous to
+ > mlx5_devlink_total_vfs_validate() that reads the cap and rejects values
+ > above the device-reported maximum, so the documented "device-specific
+ > max" is actually enforced?
 
-> 
-> Jonathan
-> 
-> 
-> 
-> > 
-> 
+ N: I don't know of such cap, if there was I'd have added it.
+
+ > mlx5_devlink_total_vfs_set() rejects with -EOPNOTSUPP and an extack
+ > "SRIOV is not per PF on this device" when sriov_support or
+ > per_pf_total_vf_supported is clear, but no equivalent
+ > per_pf_num_sf_supported (or any SF-related) capability bit is added to
+ > nv_global_pci_cap_bits or queried here.  On hardware that lacks the
+ > feature, the user only sees the generic firmware error "Failed to
+ > change ... global PCI configuration".
+
+ N: I don't know of such bit, if there was such bit I'd have added it.
+
+ > At this point, a successful write of per_pf_num_sf has already been
+ > committed to non-volatile firmware storage.  If the subsequent
+ > mlx5_nv_param_read_per_host_pf_conf() or the second mlx5_nv_param_write()
+ > fails (for example, transient firmware/PCIe issue), is there a path that
+ > rolls back per_pf_num_sf?
+ >
+ > Because these are permanent parameters that "require a reboot to take
+ > effect", a half-applied state (e.g., per_pf_num_sf=1 but
+ > pf_total_sf_en=0/total_sf=0) appears to persist across reboots until
+ > the user issues another successful set.
+
+ N: That is expected and in line with the rest of the code.
+
+ > The commit message says max_sfs is to "control the total light-weight
+ > NIC subfunctions"; the BAR-size side-effect is not mentioned, and any
+ > previously configured log_sf_bar_size is overwritten on every
+ > max_sfs set.  Should that behavior be documented or split out from the
+ > count knob?
+
+ N: It should be documented when it is split out, at present time - no.
+
+V4:
+- rebase due to build failure because of commit:
+  d603517771d8 ("devlink: pass param values by pointer")
+  fixed in patch 02
+- added Alexander Lobakin's reviewed-by tags (please let me know
+  if that is not ok, the change in patch 02 is minor and mechanical
+  due to the commit above)
+
+V3, all changes are in patch 02 (mlx5 implementation):
+https://lore.kernel.org/netdev/b087dc20-7398-4ad3-9787-efef883d81b1@blackwall.org
+- Cap max_sfs at U16_MAX using a validate callback (sashiko)
+- Change the warning message to match the docs (sashiko)
+- On get verify that per_pf_num_sf & pf_total_sf_en are set
+  otherwise return 0 since it means SFs are not properly enabled (sashiko)
+- Define the default log bar size and use it instead of raw value (sashiko)
+
+V2:
+https://lore.kernel.org/netdev/20260519200436.353249-1-tariqt@nvidia.com/
+- Add missing ` (Aleksandr Loktionov).
+- Add review tag to patch 1.
+
+V1:
+https: //lore.kernel.org/all/20260517112700.343575-1-tariqt@nvidia.com/
+
+
+Nikolay Aleksandrov (2):
+  devlink: add generic device max_sfs parameter
+  net/mlx5: implement max_sfs parameter
+
+ .../networking/devlink/devlink-params.rst     |   6 +
+ Documentation/networking/devlink/mlx5.rst     |   7 +-
+ .../mellanox/mlx5/core/lib/nv_param.c         | 118 +++++++++++++++++-
+ include/net/devlink.h                         |   4 +
+ net/devlink/param.c                           |   5 +
+ 5 files changed, 136 insertions(+), 4 deletions(-)
+
+
+base-commit: 1df10cef2d1e7f9f2fb7eddb67fc70d3abf101f9
+-- 
+2.44.0
+
