@@ -1,183 +1,113 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from sonic304-27.consmr.mail.ne1.yahoo.com (sonic304-27.consmr.mail.ne1.yahoo.com [66.163.191.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8919D47D460
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 17:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F14486BB1
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 17:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.191.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784828225; cv=none; b=i3Fp5j4iYNybWdg4zMa75ZBbZFEeAHmWJ/s3OLz8d/JBRi+t1l6XV1lp6dzqdwdYzDOo+haQz+7lkbL0o7+Uvk7OBJQTL6QYhriKXLt6ratIqRTBx6hcfLnV+tvfRnlpmlD6TOSkuipWXwkhH/gYIvk05Atr4kAjnbhsSqcAGAU=
+	t=1784828846; cv=none; b=t3oJOLgycN4PO/twH/N0T6u/ZKv2GAaJmVUcnjUFubjr2Y8wjELJTXXcMY0pPHdUAa14wdH6WE39zhAuaIMmVmSROtT2Cn4w38bilX//k1cI4vAOU6KwUPWMBRQ+RnVgJLgo76u/j/CpyFad01CywhNuIxSboVdekVHymNIjeaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784828225; c=relaxed/simple;
-	bh=Js9Z5fScNTLs9yZDEPq5MMQDWBFdccrrYdkvKMfBR0c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A7Tx0B427g1gXD44bF4edHOEodENZqkWltwc6+/esVDx1aXv/kWSr1AX1Qi9grjGpsX7MxLwxOHczt2xZyODABwkyGIs/NQ4vWc73QL8/3JBSa8s/iP09tQH03SJkf121Wd4+fv3KpQ/bVmqLz3zS3lpcDQBzuStnppR+Tjcsf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BKL6hJTS; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784828846; c=relaxed/simple;
+	bh=zna8ydIQ/LcNU+7dOAT27Bq4SCKAtcni+JqKHAeiR+o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RpuHVtEUH4F+jHxDjE6vEkga3DtsSYiah/I8kVcx+FeW3587ZzP4bf7IBa+o/wUPHya1irerx6pjQYkeJh2yw9bcTNG7vEiCTSYsSGEVhBQw3gNwba5ISVAjqOUMW1qnI2NY0KO9si0LaQnCO3DL4VyGv5tEq4imFrVvE3sV7B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=JGtRk6GX; arc=none smtp.client-ip=66.163.191.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BKL6hJTS"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84536ecfc5bso1148289b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 10:36:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784828216; x=1785433016; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/3EHZQlaXq9sLmhVgtuP5ODA2wxc36yvs54yemcncOc=;
-        b=BKL6hJTSZk19OoDFcA63/ZRoV0prsj8yCa4ogkU90ZAlAakTfXuIGGS/iowNK20Shm
-         48LLdV1VLcRWB+urPSsdyN0SvDg3d5TRjBBZ91VHO9dGcLM7NP5U5NMulOAal5hJ07Q4
-         J1ds7S3tCtGMQ0nJS4JKg2CXAmTMXTAXD90ceLfgLW81TiwyrV1T0V6qmP7F3+23sGKK
-         ystiPsEBmqOhU53eERSPQWhWZYpis1kHPTqaTAM2/8tKMKtDgkNi4GGJGu6EhArOMTt9
-         X2otbFigngyTor75rMG2t8eHnCm9TQHuyZEGyW2NqF+eQpSl9GlrB927etwZYxmjpij1
-         XyUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784828216; x=1785433016;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/3EHZQlaXq9sLmhVgtuP5ODA2wxc36yvs54yemcncOc=;
-        b=dixV7crQDhvGuzY/ECZdvQSxmyuA+/yyvwrI1c5kc2e3sv/uf3oqJP+UjnpOaKGXjp
-         Sterc+C8VjJzpGWP4h17XN7uCMc2g5HneKFpEmH36WO4V3/K4eaFUlZqXpW3j07Xwuw8
-         IUlp/5H6NVt04CC/RGAg6ltrRcAbR2VjI79tkqFc5vyR5BKWTa+xGlrI0vqVCKzgydAI
-         xGq+pq/YaJHNEDGW85Q8IwJMW0xH/mi/MgTqt2ocH6Kop5VD7yaBDAjuc6+X7jC3NLzn
-         LbBz+V25OryU9Wx819oOSjOPugIWKnO92n1V9t/05iMdpReLNQWiUGnZUhoZ5JpP6XwT
-         48Ow==
-X-Forwarded-Encrypted: i=1; AHgh+RqX6VRxlq45Y0zcJ3eLQ2u+QX97JdSs/OsTEMXpCkmbbLqryPqbthEd7b7i5seeEeKe0+4gzpRcq+4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJnt/XzP3tJIWjv9cLpJ2o8RNN5Y4G0Tu41qI7cylrPyRMM9AK
-	k8+1ZjVdPG3SnhD9qUS6Z6x8f/OMoxiAqtXQLuV2tTmEiOIlTLyLEmQK
-X-Gm-Gg: AR+sD10l1uCTwjXmjReIzgYK3cRAjU3OJ3fC9VvpWNvICAWEokC7XySJTbJtAJ+pg8F
-	rIFOMh9BonrhHtcJZPq95p6YmRqU3FIFdWP7r+IXik+B0A9u7HjuYep0oChFLqv3+r6+c9hsJYX
-	Ph6HGxEt+LJyfhMV4UOW4TmgNn8eY+aSxAm2ld8Wm5bj8/58Z475x7pxMAQJyU8jVxhVHsSKN8T
-	WekITGDx2C1eGg3zLMQspK8gUCEH6+x48xEqn2gqBraW/0hrnOuKyVUUP4nnzL+k1Hmd3d6paBC
-	VUiXEBd2ppeAXigZG05yPBClHvehf11AA8tauFmGg5ZalkOiradrxfszPSGkssyjr7u7D9HzyxZ
-	ASH8xUAPdMCK9826Q8wYaSO3RGYydUGw3EDCpIGMEcfbYtdQv7KoW4mJoAQgGv749obYadVNlaC
-	YMHPbdQ5s4DIhSTrR8JeFBGWzCv7XNh5mu21DTeCPeYELhycSj
-X-Received: by 2002:a05:6a00:4482:b0:848:47d3:47ec with SMTP id d2e1a72fcca58-84e2b8ab6d2mr4797080b3a.31.1784828216068;
-        Thu, 23 Jul 2026 10:36:56 -0700 (PDT)
-Received: from [192.168.0.160] (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e20622dedsm2691612b3a.11.2026.07.23.10.36.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 10:36:55 -0700 (PDT)
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Date: Thu, 23 Jul 2026 10:36:39 -0700
-Subject: [PATCH v11 7/8] accel/amdxdna: Use
- hmm_range_fault_unlocked_timeout() for range population
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="JGtRk6GX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1784828838; bh=SPgkYgVdkYCViLp6HnJK3NcoCARpo33TKX4Bj9SO0lI=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=JGtRk6GXzigOsTtY9IQGiYygwvLRMRypaHb2M4SkljU7jBsVk/Fk13LrzIx29XUdmIEXjjj1fnW1SUmyguwiKUgDpzvHTAUPJxoarQdygCHcJWBP9PEd2wbGODSA+hb63AH0YcCyY5C9/8b8sxs6BMchxKQUL56p7HyhBfB7j29QOdv135z8duFu5czWVxzs+bczD2Kzt7HFo5FnuP5Yp7E8E/ezlLPC0qsskmI71hGrnHXsYODGSnheJGxDzGGSxl0KQ3DWtP50847CWc/XdC3xKmeTkF+LjSnTufhZFptdKKh428zLBZ3o5eBSDk6DzH9ghp7+5GhydpyB+f2RrA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1784828838; bh=Gu5ouOph+4r0dtnVXFsSx6tzaCf29h3v+r3iEBEjWj4=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=sPdeGTWx9h0/j1SSY/k81Tit4HMFwAxEv/BlbfuSTiQ6H+h+2PzqRGB1nYkyPYteazf6B798AP18qTfV7Xfl4of45oGQi+YrHM99vOlc2+1z2KHPIGCd1FWaHu6/RqtaBonK2CmV7ZwYBe0rLlFNhousyo5htvGB28TFwjcTlj/uNx4Vq3TA9Gza0va9MYEi78qPYlJHWspn6K6z/ii6tKC8uU0go1MqVnZ6kDnH7Fx0lKcnJiiuUmhs2SaHCuO6KWbKjRTEGegUK406fZpV2vOY8xfjaf0ygCpAWuywU4gozfzyg5o/aPloCIMyPZGbWpNTPgb7lnTfTGgLbYQEqQ==
+X-YMail-OSG: eSpTbXwVM1nF9v8_ScZ6gJct.C5NXQ291adDlRhZavG34ei3bHxt9zEpNh_FNOS
+ .EaA20wwgIHC5CUl50SC9VnX1kHeHbrxOWn65.DbhXbqnVCsLIRuRatkKixTxFpLvlBBF2OwCR9C
+ EldSKKTgwFqr_IOoLc4pU2DOoZ5p_Ay7Pr5Qcl..GaY5Z84sODAPqQLhvMwvrn1ogl4zx1AZWVwT
+ A9wJnmzApyx4ZmhQIqoUnagEpULiC59fkKsAKae6zmDEO8MUBbeMtp3_Zk0nYfyi4FE7jWKY5TiH
+ DOpj3J0UNcNAbBy9gyumecPUVVJsUG8PW0kIxaRuc1KsBcyCNtG1w5c46Q26ScKm9jEBay6YQk6w
+ Q8_S1aAeshnxO3NyyrKWJ8WXepZzEpQUZal952Y6G3FqxHwKM7ngkBgbzxcp8W1qsGSN3_OT3jP.
+ wftGa6lzz6CDgUquLn13JEYqu6RBGsvu6hXmrYz_MV7DVq2gem5gitdD0xI.zo_waIr_NOL.oM7q
+ EM4SFT3PMnWpIoPKWlUkKcfAJgQWe4L4O_Mj3gkllM2EY3dN_3aepJqcK2OCwlryATeo3.6CpbGC
+ 7VX.5qNeVv3DxraZPK0Q.nZuf71nsgtAnx1qT44JgYFUv6w1wLEYIlB8ByVtNBooREL5VMdGWgKF
+ Fsw5JNfrEBETP1RTlWAJsJG_pDT3Tg2EYn8bDkbeuDJ7Gf_a6yqR9qX.udKVsbxHSOF6LCZY2HGi
+ rwWrc8ufIIbedtIZn7.QRZziPzycBAH7sqn28dLGjCpdqXNEGbI7uNCi3TVGGKWn7pg8gI1EaQk0
+ NBugfOcsObKR37LcUyX2iydR5tEbqQPMPHQKHjd0aHkkOAJQYy22vm3Ap9rJc2aEubULg3C.xXsu
+ jq5QVAfIow5xxuduQUAC_HoPx5IkhJW42GTsiYZr7zRYlCnYP5kAxLyHZ0W8alyqhBYWLoogLy48
+ .8VGuDK0sP4kTZoen8cPLN7rXJdPUmscZRxo2rXLtxfXf5Ntrm5_8j7V3IPoFfvKgAEfVrWRYQZi
+ faurO7dVV0Sb7380aVZcgFOZdp9mbTAQUwxSm8NfJAs7GLAULxt0NE2vIyXIR0e956iZph10I1wy
+ DZQHK5AvYW.8ME0RKe.mDtXkVAA1oxnbPrShYk2xwQdcdnHXQA7I4tvudcY8Kq5wvwUkY7QNVeZM
+ Kho4qLhPdiiDsDvZfV7ZWAEoE2AsV9GNLOIUy.usRi8nDl2tbfuzmno9lTgypSqA5gh_Gz2NUgc7
+ FA8aW2DISx_q1V5iCEefDEB3HMpnrckx_UjM1NNOpewgy.YoyFpNCN6MNmLev1i64Sm5.V.fZLEy
+ MhIguBGxMEfYezDwUgStvN37VAlxrE4RqNDILITs9ICtc3_Az.M3vRFC6ta2VJYLaWHgDHsVBBDT
+ x0dpPuFhSN6E0XoOUkvnK1aZRr9TE0o98Q_t9ygYPT4W2U2Kt2ZKbdBcGcSf7yoGHAuKCvHoNzcW
+ AygCnk0osarFvxfE3tfbehqHnecodwAENcvlGDvVhAVIXCcV_YSK8whqwTfXuSyAsskZxZ1YoN5Q
+ FzeA91aHhDBB0IqzbojXcSTYWpXD8OXXwq0JSoT2QYYDak4MAItvKoQhurFgfMM7Wi4J1ocTKNzO
+ E7v6eA1.8WclyGTPlA0Cz_f1SWP8AuzKYWIKmx4LeH2hn.U0zN8DATu5Js_Z0QVPfBLmBstrUxbY
+ Z9aZ8v5bQ6DY33yqc7DMWfvapVzKXaByyiuAUsvjJNdNNFu3_GuSzcjeyWeoGVr4IF.9GV_jCi8v
+ n2uQ7U6K.uOSQY_.Fo8lh6KbTPawzEJ00xtf__Qdu4t4skeIZ6GCyeoD5PGwRLagnNju0lNl3_GY
+ Wd1Eor2f0yir3qKIhJxRMiKuT9AxRLp14QX82sJy2vEvsUeMMPwAy1uu8uPTXFUcFdDaptNI1DFu
+ s0vx0ULPCKmBi0Q4vxaI3PlDU_zqYT2Ni5p9j.cyk0za23jmyzs64MavKliopCe_mh_2gr.VTOHh
+ e5vaJSoLFZTpf1.47Ux.6Fw2HR9UzSWOu08X.4xgOdmsMP3_mjqS4M8.8EFw3yhAOBr4sQDdXXaK
+ Cb1ZXLTHsBu3GRuroQSzXcHVwOLR91cmGYrHTWPbg3nA777bj3huIHCHKQpwmjflkUwyRzyl098I
+ nXVMCl6oVDK14LQIhFQMB77IoZ_z9sCbgt3vCcuDYOSjHhCs.PsImNO4oG0lyMTjeCdW9sNj0ifd
+ YV5EzMt9IZtKjsGSV8.1kn.7kzbursUuovXZ4fVvQfDfmladP2j3ABoFzJOeDg9lDQyV6xI5gt_.
+ I1.JNqZ.wU3_EpI3lWE1O
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: cdb8bf4a-c2c9-46ea-abd7-9dc780338c61
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ne1.yahoo.com with HTTP; Thu, 23 Jul 2026 17:47:18 +0000
+Received: by hermes--production-gq1-7749664df-m7mpl (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 02e75194c412cff72e30910dc20b8c76;
+          Thu, 23 Jul 2026 17:47:14 +0000 (UTC)
+Message-ID: <d14f03a6-2c48-4f96-8682-29453945b29d@schaufler-ca.com>
+Date: Thu, 23 Jul 2026 10:47:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] doc: LSM: update usage document for current LSM
+ stacking
+To: Lincoln Wallace <locnnil0@gmail.com>, paul@paul-moore.com, corbet@lwn.net
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ penguin-kernel@I-love.SAKURA.ne.jp, rdunlap@infradead.org,
+ Casey Schaufler <casey@schaufler-ca.com>
+References: <20260714013832.977443-1-locnnil0@gmail.com>
+Content-Language: en-US
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <20260714013832.977443-1-locnnil0@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260723-hmm-v10-v11-7-c55b003a4b61@gmail.com>
-References: <20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com>
-In-Reply-To: <20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>, 
- Oded Gabbay <ogabbay@kernel.org>, skinsburskii@gmail.com
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
- Jason Gunthorpe <jgg@ziepe.ca>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784828202; l=2650;
- i=skinsburskii@gmail.com; s=20260722; h=from:subject:message-id;
- bh=Js9Z5fScNTLs9yZDEPq5MMQDWBFdccrrYdkvKMfBR0c=;
- b=UoKX2QEi16TQG/XSPiXepu/KONklG+8l1kn86LgWhqxQQe32BnNrpIu04JJYOeap8yhmhRNnI
- Xgchah8NIfnDwgLdxf/plAUECr/N2GDtTgg00z0Czhp7vw9hyXoBoqQ
-X-Developer-Key: i=skinsburskii@gmail.com; a=ed25519;
- pk=bDpriHBYgeTdkIDweZDCemxsU93neJBOCn3YLIuJpnE=
+X-Mailer: WebService/1.1.26180 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-aie2_populate_range() takes mmap_read_lock() only around hmm_range_fault().
-It also open-codes the mmu interval sequence setup before each HMM walk and
-retries -EBUSY until HMM_RANGE_DEFAULT_TIMEOUT expires.
+On 7/13/2026 6:38 PM, Lincoln Wallace wrote:
+> The LSM usage document (Documentation/admin-guide/LSM/index.rst) has
+> not kept up with the LSM stacking infrastructure. It still describes
+> CONFIG_DEFAULT_SECURITY, which no longer exists, and its description
+> of the module ordering in /sys/kernel/security/lsm does not match
+> what the framework actually does.
 
-Use hmm_range_fault_unlocked_timeout() instead. The HMM helper now owns
-the mmap lock and refreshes mapp->range.notifier_seq for its internal
-retries, so the driver only needs to call the helper and then validate the
-sequence before marking the mapping populated.
+I've been stewing on this since it came up. We should probably
+remove the somewhat complicated logic from the Kconfig files if
+it's not adding value.
 
-Pass HMM_RANGE_DEFAULT_TIMEOUT as the helper retry budget for each HMM
-population attempt. This scopes the timeout to repeated HMM notifier
-retries while preserving the existing outer loop that moves between invalid
-mappings and restarts when the interval is invalidated before the driver
-updates its mapping state.
-
-Keep returning -ETIME when the HMM retry budget expires, matching the
-driver's existing timeout error convention.
-
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
----
- drivers/accel/amdxdna/aie2_ctx.c | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-index 54486960cbf5..b5b4ca263002 100644
---- a/drivers/accel/amdxdna/aie2_ctx.c
-+++ b/drivers/accel/amdxdna/aie2_ctx.c
-@@ -1034,7 +1034,7 @@ static int aie2_populate_range(struct amdxdna_gem_obj *abo)
- 	bool found;
- 	int ret;
- 
--	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
- again:
- 	found = false;
- 	down_write(&xdna->notifier_lock);
-@@ -1061,24 +1061,9 @@ static int aie2_populate_range(struct amdxdna_gem_obj *abo)
- 		return -EFAULT;
- 	}
- 
--	mapp->range.notifier_seq = mmu_interval_read_begin(&mapp->notifier);
--	mmap_read_lock(mm);
--	ret = hmm_range_fault(&mapp->range);
--	mmap_read_unlock(mm);
--	if (ret) {
--		if (time_after(jiffies, timeout)) {
--			ret = -ETIME;
--			goto put_mm;
--		}
--
--		if (ret == -EBUSY) {
--			amdxdna_umap_put(mapp);
--			mmput(mm);
--			goto again;
--		}
--
-+	ret = hmm_range_fault_unlocked_timeout(&mapp->range, timeout);
-+	if (ret)
- 		goto put_mm;
--	}
- 
- 	down_write(&xdna->notifier_lock);
- 	if (mmu_interval_read_retry(&mapp->notifier, mapp->range.notifier_seq)) {
-@@ -1096,7 +1081,7 @@ static int aie2_populate_range(struct amdxdna_gem_obj *abo)
- put_mm:
- 	amdxdna_umap_put(mapp);
- 	mmput(mm);
--	return ret;
-+	return ret == -EBUSY ? -ETIME : ret;
- }
- 
- int aie2_cmd_submit(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job, u64 *seq)
-
--- 
-2.43.0
-
+>
+> Patch 1 updates the selection mechanism description to CONFIG_LSM and
+> the "lsm=" parameter, keeping "security=" documented as the deprecated
+> legacy option. This revisits an earlier attempt by Randy Dunlap [1]
+> that was rejected for treating the two parameters as equivalent; the
+> new text keeps them distinct.
+>
+> Patch 2 fixes the ordering description: lockdown precedes capability
+> when CONFIG_SECURITY_LOCKDOWN_LSM_EARLY is enabled, the integrity
+> modules are always placed at the end of the list, and the remaining
+> modules follow the order given by CONFIG_LSM or "lsm=".
+>
+> [1] https://lore.kernel.org/r/20250114225156.10458-1-rdunlap@infradead.org
+>
+> Lincoln Wallace (2):
+>   doc: LSM: describe CONFIG_LSM and lsm= as the selection mechanism
+>   doc: LSM: fix module ordering description for /sys/kernel/security/lsm
+>
+>  Documentation/admin-guide/LSM/index.rst | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+>
