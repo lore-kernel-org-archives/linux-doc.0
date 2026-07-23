@@ -1,180 +1,155 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D463438AD
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 07:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784791058; cv=none; b=q73059MwlH9ltqISsyUYXsvcKW+A4kYC3mhPtyXdaMBnQ3eujn3xIUoCUrGCzIJqDgV5niN38XoRigiC1YUxceMbgbJZL/tmh6IXZ0DT+3b89s/6uSXPU40Jikw1JggqfFOfVXP8r5Ha7WyA4ZVN0psJMc50Wttcd/ZlsgmDc7E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784791058; c=relaxed/simple;
-	bh=teeyNIv/JEiwwT3fkLQ0kmcbVKriraNmcjYMJ0UUajQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S53AlnDUWgJIAt/d0391XzYlhS90Oy2owKv7Z0LC8l2H+LwF6G9SWFlCtWXpHcuNksCvRrE4NuKbvAQ3L1q/i6RUGELGn7/RxVZ5jKYEF23hWNUDV7pDq1XlmKa2j3ZqyqatPcu91AsX8AcISXSClHDQF77y77KV3vLFCguwHT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=dq3WktuS; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB0F3DCDB1
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 07:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784791624; cv=pass; b=ph+w6QHoKBLnbL4h6zzeDlxTa4mb/IoUjpc64sRKcNyiOQfzBYfID4xtw6eHeSPr6vkGimCA69fapaeMPW2NZ9nSRyLKdTUAe8+p1n3RRiRKMgarT6Q5h1tToThjhrrsNhkeBtpHWidcgsDqfqFS92Zb78DkqRUCv65m473U70w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784791624; c=relaxed/simple;
+	bh=b//sUnMrNPrgR6EPqqnROk2FSBW3tccYwHVa9XOhJ0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bY7G7Mz8h4gOE3CK548+MrEaTPsX7P64D6tUJduB/grbZabMciXXqrmxTFtUwAcqycNSPK9LasHkut6rhRxqQe9kLkJUwsPKSLpOlTRRbn+TjbNc+lplAlTHWo+n4s7V467b1Kx41fzCxh7/ICgWMG6TAWiuDQnEkbvpmihCPwk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=X3o3WsSp; arc=pass smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="dq3WktuS"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4955de8797cso1181295e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 00:17:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="X3o3WsSp"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92e5c92c389so25453285a.3
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 00:27:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784791621; cv=none;
+        d=google.com; s=arc-20260327;
+        b=C6CvB7NgFHmpgZo2CyMFt/Rr38m5pSDgcVMmNDbn9WrM0h9nohOy2Rofz7HbKrYahN
+         uE1fb02YMswDHT3kkPQ+vezG8e0Hqocqf4I/ASTGTv0IkEjqqiLn6XkNympFideIxZqb
+         z/SkeC9TUQnDZ0CnRjECtWieYvT1Lw4dBUsMs5AFlVVA+i7SJGwkb9cSo5754H2g3Kd8
+         1i5XGHeMqMY1YixSUJbWQP2OWKjQmJRyz4UQEHJVSq+kdW5zki4ytAVy2vPDQr2Vu68O
+         fvZRXKP4XioMfKG4KWYFU6D2IbSCy26HqUBgxdv8XdUmgcD087kMx+AYdzf0+m7s2A+s
+         wdtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
+        fh=wh0BbTlXmesxF6I010fOBn8pTQOzQyvVlSTopb4yiv8=;
+        b=QZ9vLU34Du9s6+4fbWaN7N2w+qtEnrQTjZTrcDCcNM7FwiAR3pviNQO45mlJls1VCd
+         z4RHrGVQrGC4JcZGY48JiqlIwJkv6ViigxZI6m60/U6gf/CtbpDyvcjUeyHe6UYcRyAQ
+         fQbHenooulGKIwzOa53kcbhmqb3+X9RBHetnEYc7+FcQ23Wyf86UKXNtw1CqdhhyVR6D
+         r3+Ly6hXd8F5tFw2cHTNiag2BgGNrusZUOBZ3N1BVrp0V8cpiB9mB2nE+PAKEYO18fja
+         ShM6dBBpsoGWyalR1ApZIxojYKuKSn4QRMlXEK/ia7V689CxncGrbyHjob2R9ktP/E+x
+         nktw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784791046; x=1785395846; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=gTMcinR+9LxGJXRCG8QBuGeJK9HPvbs8Aj0hNum62ZE=;
-        b=dq3WktuSm8Ce7e9EZxcw96yPGIa8Bn54vSfrlHVoeETU4aqyp0LEcQ92eaqZiPNkWs
-         CduCAZvlbAE6XmF0tSrM62tD6lsYPTaoQ9RYt5J1djZvHE5qUdylVhF6jcXDGDvtgfmt
-         xlje4EpfzwCEZRdliaxpz86OSBu6iMGdYarejmK0ZhT1VOwTiwvS/QpfJgW46zfbWr6g
-         hvc6Z3ruHuIP4JgyX6DR00AIdP0vSmGZJcqW89usApcZfVSNOLAlK5CQ1fOr+jUSpWKN
-         59dVRO/04CJO57LVhlT+UJjThvoI7G8uircfQdQkubAx7MQNPJFnxtgWWJPp8F5rMjVV
-         81ow==
+        d=szeredi.hu; s=google; t=1784791621; x=1785396421; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
+        b=X3o3WsSpKFcJR3jXdh+qr8BcbBAOwlYAVRlHxhCZ01sHkIfq3AJr0YAc83uNiXkjKY
+         zVgpRbm3dvkN3frVlZ4e76+0gnk7puwWRR2EfOGV3t+xTih2wu4V5cNRPxI7N4laKIcp
+         KOAVBVldaXCi+DQXNk/98EwciE7qXlj8xHEQs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784791046; x=1785395846;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1784791621; x=1785396421;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=gTMcinR+9LxGJXRCG8QBuGeJK9HPvbs8Aj0hNum62ZE=;
-        b=Z9dKrHD6OuQIzERJGJzQZ/KSxkTYTigVC0WJh/M7F8OnYW98SpCLuNkvZz/0RwiGju
-         HjnybDbJtBWLPOLphBz/hPLj+qVtxyozMchoYub/6ixkYQer9CQ27ES0aa3ZYoYR90ew
-         /l387yeigB16V/dG99+JQYYm3h/4ajgy6S41vFG8rkFnuVBax/vYmSjYTLHPg9pHsVWN
-         /nTxS9PhO9VC6h8XPKo3NxmFX0AVnAGALw9EA+595yKNwbRjqOazN294J/SCsgrP36kB
-         lOJMBG5QhimOJ4o5tDmzeKNtCLACkI0c1FE8yAP6N2zMewI4jnmXGrLcb9zM+It1eS4s
-         AAxQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoFGJBuUV2n/wIo/tQy+7w5TnloY0VCDN5SKwmHN9ilsXztNhyszZORyrCiIPzPdYROr1u56Mtdx7Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdmG8b/6XoJlcLtTPOYmW5bYSqPCcsaaCyHcgEmT0ugZdEl2vS
-	fgwr0uOuhATlDRTisl+d4gyetcag43ceEm+sYT9CAZDfY5S+pFRtbJYebWj8ZIYDY0w=
-X-Gm-Gg: AR+sD10S+u6MkgqnYLtkwqtODlbR3sjaWWD5+Piyuno8+pxIz/puY72m0alpFOjiEMT
-	0rPCzSnfSTUt6P/04NG1Ry4SpIrjebmFpANL1BRRCHL7pn20Q58G2gdzdIzebW1wHaXMuPBEE54
-	LAmBd6CPWoMjKvTDSBHJErhA9TGpRNtBuw+kf202ldiKI++9or9jujwol7o3x4IVp1MLD+AMlrt
-	LyX0du0hdrOmJJMyW47NcINzUg+ZEgdZhDZJjdnm1HDIeJV0f1sh+FmY9Px1G+QPH8N6NZr0aJG
-	dfbmBz+bMij5Ne30GEUWCpCqkI8O9tdXGUPg/ptSYIcb+PxSjdH1bGxJIbiJ4zha/6Xzy66Ao4Q
-	rHim7mK34rUNWQoHOdijLYcRSa8wM8/DgkLXAyPXOY8YHc1wK2fV4tnaOi455QVwkc0FpPzxwv8
-	LFy7rNQGRD2RrcAv8=
-X-Received: by 2002:a05:600c:6a07:b0:493:a613:56b2 with SMTP id 5b1f17b1804b1-49573c8d700mr12326795e9.8.1784791045710;
-        Thu, 23 Jul 2026 00:17:25 -0700 (PDT)
-Received: from [10.20.4.146] ([149.62.206.101])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a508aa6sm130774115e9.7.2026.07.23.00.17.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jul 2026 00:17:25 -0700 (PDT)
-Message-ID: <3114b501-158f-46f5-b999-68b5896aa3f8@suse.com>
-Date: Thu, 23 Jul 2026 10:17:22 +0300
+        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
+        b=VL5mw9D+IwsWCbZdOV6E7y6srStg6LeOiC7Dddo+pPFlfEE87nRqWk37IKf3Vvjsv2
+         SVp+47j2SmjdvvqyP6UKKibt5bkLRyUELBSTJoMToGP4xJUjC24pk2LyULGW3ThubljJ
+         aDbK7ofw3nWNgSzP0oMv/5Xjpnqa7AcvZDmrbgrKPxD3xd6MVug1M1jPj0Xch4VIahEo
+         z+TjLv8ZZ1IYIwBAXtykM454AJUhWLsnQBsn6JctybXfovsjTo8VysMFo3EXkxylHz1Z
+         2n8m1o/m3GEowimVqV8zFq3OkN035RBeV6KkNP5B0pFGHEh0aoSMo6j/e2lXevlnyKAz
+         Szpw==
+X-Forwarded-Encrypted: i=1; AHgh+RpBu2Ey1m2wggFCB0wDKqkoeeNEhxri71/e99X8PGUjwwUd+gsn1rcvWHIIzUOLZ6SYlk6sLFQV6Bg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdcdYIEfLNAp7HIjFWB7Kr0o7XaY4Lej/DOCMO0AXu+ula+IiR
+	g/7uc2/auYoQaYlJ3N4el2CYityPYN45xDYoUmTU/T8lwJTmHW0TJynNtKWMg0TsOX9XOjNZ/2f
+	GzaqLdzz3IqZ5kPg9DeP1pMG6RoOuc5Cacp4UJVRcvA==
+X-Gm-Gg: AR+sD11XU3ad+CHlKI/r3SxnK7GJmgNrDrVNQyP71NoaUPzI3nrkFo0WDgP5cv9oaE0
+	Tkf25bCjhqebH7IFhZ+HXngS8lLLp24kaG7knocCGPZ/ce+xojEJgXQAl57NfokHY58QYlx5eY7
+	/IJKegT3MN2QZQRIz8k2Md94JwCVkiumOFetfURYyW4c/IFQ4kpUYd2kLOLFFTs5k15zUPKMwku
+	v0SKqrRZ2zTm9uWFPnFnfmqSUk4nQDFLf+h5D8Hv62jJPXvV0YeIPjNX26FiCNu1eQRR5TVWEN7
+	CazlL/xef5HAq0T8iw==
+X-Received: by 2002:a05:620a:2548:b0:92e:bc28:5479 with SMTP id
+ af79cd13be357-9310384ec50mr192569785a.2.1784791621432; Thu, 23 Jul 2026
+ 00:27:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 08/11] KVM: TDX: Get/put PAMT pages when (un)mapping
- private memory
-To: Sean Christopherson <seanjc@google.com>,
- Rick P Edgecombe <rick.p.edgecombe@intel.com>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
- Kai Huang <kai.huang@intel.com>, Dave Hansen <dave.hansen@intel.com>,
- Yan Y Zhao <yan.y.zhao@intel.com>,
- "tony.lindgren@linux.intel.com" <tony.lindgren@linux.intel.com>,
- Binbin Wu <binbin.wu@intel.com>, "kas@kernel.org" <kas@kernel.org>,
- "mingo@redhat.com" <mingo@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "hpa@zytor.com" <hpa@zytor.com>, "tglx@kernel.org" <tglx@kernel.org>,
- Vishal Annapurve <vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>,
- Chao Gao <chao.gao@intel.com>, "x86@kernel.org" <x86@kernel.org>,
- "binbin.wu@linux.intel.com" <binbin.wu@linux.intel.com>
-References: <20260718014500.2231262-1-rick.p.edgecombe@intel.com>
- <20260718014500.2231262-9-rick.p.edgecombe@intel.com>
- <20900cd6-6d05-4a20-a21d-2a1d4a6ef5e5@suse.com>
- <4ad035a82ee10dc4645e26a4bd1daf40786a743a.camel@intel.com>
- <amEbS6WDEyrvW72Q@google.com>
-From: Nikolay Borisov <nik.borisov@suse.com>
-Content-Language: en-US
-Autocrypt: addr=nik.borisov@suse.com; keydata=
- xsFNBGcrpvIBEAD5cAR5+qu30GnmPrK9veWX5RVzzbgtkk9C/EESHy9Yz0+HWgCVRoNyRQsZ
- 7DW7vE1KhioDLXjDmeu8/0A8u5nFMqv6d1Gt1lb7XzSAYw7uSWXLPEjFBtz9+fBJJLgbYU7G
- OpTKy6gRr6GaItZze+r04PGWjeyVUuHZuncTO7B2huxcwIk9tFtRX21gVSOOC96HcxSVVA7X
- N/LLM2EOL7kg4/yDWEhAdLQDChswhmdpHkp5g6ytj9TM8bNlq9I41hl/3cBEeAkxtb/eS5YR
- 88LBb/2FkcGnhxkGJPNB+4Siku7K8Mk2Y6elnkOctJcDvk29DajYbQnnW4nhfelZuLNupb1O
- M0912EvzOVI0dIVgR+xtosp66bYTOpX4Xb0fylED9kYGiuEAeoQZaDQ2eICDcHPiaLzh+6cc
- pkVTB0sXkWHUsPamtPum6/PgWLE9vGI5s+FaqBaqBYDKyvtJfLK4BdZng0Uc3ijycPs3bpbQ
- bOnK9LD8TYmYaeTenoNILQ7Ut54CCEXkP446skUMKrEo/HabvkykyWqWiIE/UlAYAx9+Ckho
- TT1d2QsmsAiYYWwjU8igXBecIbC0uRtF/cTfelNGrQwbICUT6kJjcOTpQDaVyIgRSlUMrlNZ
- XPVEQ6Zq3/aENA8ObhFxE5PLJPizJH6SC89BMKF3zg6SKx0qzQARAQABzSZOaWtvbGF5IEJv
- cmlzb3YgPG5pay5ib3Jpc292QHN1c2UuY29tPsLBkQQTAQoAOxYhBDuWB8EJLBUZCPjT3SRn
- XZEnyhfsBQJnK6byAhsDBQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJECRnXZEnyhfs
- XbIQAJxuUnelGdXbSbtovBNm+HF3LtT0XnZ0+DoR0DemUGuA1bZAlaOXGr5mvVbTgaoGUQIJ
- 3Ejx3UBEG7ZSJcfJobB34w1qHEDO0pN9orGIFT9Bic3lqhawD2r85QMcWwjsZH5FhyRx7P2o
- DTuUClLMO95GuHYQngBF2rHHl8QMJPVKsR18w4IWAhALpEApxa3luyV7pAAqKllfCNt7tmed
- uKmclf/Sz6qoP75CvEtRbfAOqYgG1Uk9A62C51iAPe35neMre3WGLsdgyMj4/15jPYi+tOUX
- Tc7AAWgc95LXyPJo8069MOU73htZmgH4OYy+S7f+ArXD7h8lTLT1niff2bCPi6eiAQq6b5CJ
- Ka4/27IiZo8tm1XjLYmoBmaCovqx5y5Xt2koibIWG3ZGD2I+qRwZ0UohKRH6kKVHGcrmCv0J
- YO8yIprxgoYmA7gq21BpTqw3D4+8xujn/6LgndLKmGESM1FuY3ymXgj5983eqaxicKpT9iq8
- /a1j31tms4azR7+6Dt8H4SagfN6VbJ0luPzobrrNFxUgpjR4ZyQQ++G7oSRdwjfIh1wuCF6/
- mDUNcb6/kA0JS9otiC3omfht47yQnvod+MxFk1lTNUu3hePJUwg1vT1te3vO5oln8lkUo9BU
- knlYpQ7QA2rDEKs+YWqUstr4pDtHzwQ6mo0rqP+zzsFNBGcrpvIBEADGYTFkNVttZkt6e7yA
- LNkv3Q39zQCt8qe7qkPdlj3CqygVXfw+h7GlcT9fuc4kd7YxFys4/Wd9icj9ZatGMwffONmi
- LnUotIq2N7+xvc4Xu76wv+QJpiuGEfCDB+VdZOmOzUPlmMkcJc/EDSH4qGogIYRu72uweKEq
- VfBI43PZIGpGJ7TjS3THX5WVI2YNSmuwqxnQF/iVqDtD2N72ObkBwIf9GnrOgxEyJ/SQq2R0
- g7hd6IYk7SOKt1a8ZGCN6hXXKzmM6gHRC8fyWeTqJcK4BKSdX8PzEuYmAJjSfx4w6DoxdK5/
- 9sVrNzaVgDHS0ThH/5kNkZ65KNR7K2nk45LT5Crjbg7w5/kKDY6/XiXDx7v/BOR/a+Ryo+lM
- MffN3XSnAex8cmIhNINl5Z8CAvDLUtItLcbDOv7hdXt6DSyb65CdyY8JwOt6CWno1tdjyDEG
- 5ANwVPYY878IFkOJLRTJuUd5ltybaSWjKIwjYJfIXuoyzE7OL63856MC/Os8PcLfY7vYY2LB
- cvKH1qOcs+an86DWX17+dkcKD/YLrpzwvRMur5+kTgVfXcC0TAl39N4YtaCKM/3ugAaVS1Mw
- MrbyGnGqVMqlCpjnpYREzapSk8XxbO2kYRsZQd8J9ei98OSqgPf8xM7NCULd/xaZLJUydql1
- JdSREId2C15jut21aQARAQABwsF2BBgBCgAgFiEEO5YHwQksFRkI+NPdJGddkSfKF+wFAmcr
- pvICGwwACgkQJGddkSfKF+xuuxAA4F9iQc61wvAOAidktv4Rztn4QKy8TAyGN3M8zYf/A5Zx
- VcGgX4J4MhRUoPQNrzmVlrrtE2KILHxQZx5eQyPgixPXri42oG5ePEXZoLU5GFRYSPjjTYmP
- ypyTPN7uoWLfw4TxJqWCGRLsjnkwvyN3R4161Dty4Uhzqp1IkNhl3ifTDYEvbnmHaNvlvvna
- 7+9jjEBDEFYDMuO/CA8UtoVQXjy5gtOhZZkEsptfwQYc+E9U99yxGofDul7xH41VdXGpIhUj
- 4wjd3IbgaCiHxxj/M9eM99ybu5asvHyMo3EFPkyWxZsBlUN/riFXGspG4sT0cwOUhG2ZnExv
- XXhOGKs/y3VGhjZeCDWZ+0ZQHPCL3HUebLxW49wwLxvXU6sLNfYnTJxdqn58Aq4sBXW5Un0Q
- vfbd9VFV/bKFfvUscYk2UKPi9vgn1hY38IfmsnoS8b0uwDq75IBvup9pYFyNyPf5SutxhFfP
- JDjakbdjBoYDWVoaPbp5KAQ2VQRiR54lir/inyqGX+dwzPX/F4OHfB5RTiAFLJliCxniKFsM
- d8eHe88jWjm6/ilx4IlLl9/MdVUGjLpBi18X7ejLz3U2quYD8DBAGzCjy49wJ4Di4qQjblb2
- pTXoEyM2L6E604NbDu0VDvHg7EXh1WwmijEu28c/hEB6DwtzslLpBSsJV0s1/jE=
-In-Reply-To: <amEbS6WDEyrvW72Q@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
+ <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com> <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 23 Jul 2026 09:26:50 +0200
+X-Gm-Features: AUfX_mzfzrRwI4hZxEkdZS2OluMEiPX8JQa0b2ZxVMGEYubjhyQzQWfbCHdsQ4U
+Message-ID: <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 22 Jul 2026 at 16:43, Joanne Koong <joannelkoong@gmail.com> wrote:
 
+> I had the same impression as Amir. The FUSE_DEV_IOC_STRIPE_OPEN patch
+> [1] right now is only for the interleaved case to handle striping, but
+> imo it seems a lot cleaner to make FUSE_DEV_IOC_STRIPE_OPEN a generic
+> interface for handling any backing layout that corresponds to a
+> backing id, and having the simple extent case go through this same
+> infrastructure / path. Especially since John's future patches for
+> adding the interleaving will go through the ioctl, it seems nicer
+> server-side as well for famfs to have one consolidated path instead of
+> needing two totally different ones.
 
-On 7/22/26 22:34, Sean Christopherson wrote:
-> On Wed, Jul 22, 2026, Rick P Edgecombe wrote:
->> On Wed, 2026-07-22 at 16:46 +0300, Nikolay Borisov wrote:
->>>> +static int tdx_topup_external_pamt_cache(struct kvm_vcpu *vcpu, int
->>>> min_nr_spts)
->>>> +{
->>>> +	/*
->>>> +	 * Don't cover the root SPT, but cover a possible 4KB private
->>>> +	 * page in addition to the SPTs. So -1 to exclude the root
->>>> +	 * SPT, and +1 for the guest page cancel out.
->>>> +	 */
->>>
->>> That comment here doesn't seem to correspond to the code in anyway.
->>> There are no +-1 adjustments.
->>
->> The +1 and -1 cancel each other out. Hmm, how about:
->> 	/*
->> 	 * Don't cover the root SPT, but cover a possible 4KB private
->> 	 * page in addition to the SPTs. The -1 to exclude the root
->> 	 * SPT and +1 for the guest page cancel each other out. So
->> 	 * make no adjustments.
->> 	 */
-> 
-> Maybe put it in code?  E.g.
-> 
-> 	/*
-> 	 * Minus one page to exclude the root SPT, but plus one page for a
-> 	 * possible 4KiB private mapping.
-> 	 */
-> 	min_nr_spts += -1 + 1;
+That's a valid point, but I still feel that those things are different.
 
-Makes sense
-> 
-> 	return tdx_topup_pamt_cache(&to_tdx(vcpu)->pamt_cache, min_nr_spts);
+Striping:
+  - always static
+  - size limited by the number of devices
 
+Extent map:
+  - may be static (famfs) or dynamic (general block fs)
+  - size is unlimited
+
+Doing extent maps with an ioctl makes it clunky in the dynamic/unlimited case.
+
+> If not the ioctl, what did you have in mind for a generic interface? I
+> think anything else would have to keep GET_FMAP, but maybe I'm wrong
+> here.
+
+Good question.  A NOTIFY_EXTENT_MAP (similar to Darrick's
+FUSE_NOTIFY_IOMAP_UPSERT, but multiple extents) would work, I think.
+
+Maybe the striping setup can also be done with a notification.  The
+original reason for doing  FUSE_DEV_IOC_BACKING_OPEN() out of band was
+to prevent security issues with writing an fd with plain write()
+syscalls.  This issue does not affect io-uring, which does not use
+write and so the ioctl can be completely eliminated.  But that's
+another story..
+
+Thanks,
+Miklos
