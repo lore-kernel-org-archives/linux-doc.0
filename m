@@ -1,126 +1,242 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6BC29408;
-	Thu, 23 Jul 2026 00:05:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0007F1C860C;
+	Thu, 23 Jul 2026 00:06:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784765121; cv=none; b=PYEv9QYXvZ21AMAOZ6OLDzBDsK51w/JUk4OCC+yIXNfTLNfZwCdPY10oUW/DtnFCNzOYrckvVwG4Z9kHWEmCj13WFFzYoSqRM6gYwGQ1rvT8lbbt3boCyXJXSMXJ+uMjcXNLbqVqrsAwI+H0Tym0rxEZ1Mz7oZNkNv4Lrt14+cA=
+	t=1784765185; cv=none; b=USEy9dOChvxsmkfB9RDaN3gp4HMaMT+4fruLFkLkauileFCQ8HbTImH0BZmFxvts6eqgBBjQdJ0Op59+vh1vwTE7G+FDyTwZR3L48bL5DrndCt6eR2rN1sY6elcsPpmTBxPUMCumHCc4ORHfHqDPf5JYJrgr9D3v+RaUwi9LdWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784765121; c=relaxed/simple;
-	bh=ODmOs3ql59doMX2LLbQGHzR/0R/3iWA9I+z34aQiHZA=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=XU3M3EkWnWRg14fe33g7Qy151R2fXRcUFFuo6cgBxzl60o+9IUKlCbS4j/xlrGYd/8pgBxzncpbCcgKM7npzIOvzvOU58ePUe4mC/b5GInEVmhGxjnvARVL8KTVRx005xk7yRx4THLT0ncaT3sDcZrGQZ6UeBriiYoX8KorXk/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QttpmbDm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784765185; c=relaxed/simple;
+	bh=h2BXxwJ08AoiPkXjV/OBUNAoQgivvThBUXk23yDIELE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ph3QZoUZz4+MD0j8RmmGnqtUL9hJJxZJXXxWRlzGPi2v5iups0KYKqQWNQbE9OhgwQbvbUdBPCmAQqAH7XIGe6B1F8X5qh+RuEqGTKRjI90QSdwljN3Vm5KoWcnrzwyVoFE3wc3BC3o6h3ldHbqa7HvksYMWnfr8XvA7UI2mxLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXapcB4F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QttpmbDm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE6B1F000E9;
-	Thu, 23 Jul 2026 00:05:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXapcB4F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF7281F000E9;
+	Thu, 23 Jul 2026 00:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784765120;
-	bh=cERcVi3l194vR2K7MPvUZ59VryqFLMg43o/10bMmISM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=QttpmbDmFm3XT7advN73O+eWorj1Ah46zEsaAUHvor3l+aSKENGVnf8JVCdfRJMoC
-	 UtILpVt6UfIYIJXf/mi8iq+Geg1cQwTn7RAO82o10FnFichBdWbjjPcQu/nuEYnDw3
-	 J9nPPAZuGX9RDBc4b/IjDypVrNUKXfd/dbOugDl50C/rH+2ey51sYFijTgfyPqp1EF
-	 J5i/WT8GDkNXkeZxffEoCJiV19FVq+XBCrTfmMPuRYUSdWm2J4uStkirxgsmga1tmE
-	 sY7TbKMmaarKpQLKirwlyrmklQal0pzhh7tj4avo7ifK5m9QezOMgb/JWh+fB+G02a
-	 wOisoMdBcnkYQ==
-Date: Thu, 23 Jul 2026 09:05:11 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Jinchao Wang <wangjinchao600@gmail.com>
-Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Peter Zijlstra
- <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
- <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, David Hildenbrand
- <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Matthew Wilcox
- <willy@infradead.org>, Alan Stern <stern@rowland.harvard.edu>, Randy Dunlap
- <rdunlap@infradead.org>, Alexander Potapenko <glider@google.com>, Marco
- Elver <elver@google.com>, Mike Rapoport <rppt@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v2 00/13] mm/kwatch: dynamic hardware watchpoints
- for hunting memory corruption
-Message-Id: <20260723090511.bd1547ef01b8702a0449c887@kernel.org>
-In-Reply-To: <0565e7d4-fb0f-4b84-a20c-0c73ac964b51@gmail.com>
-References: <20260717125023.1895892-1-wangjinchao600@gmail.com>
-	<91f3486b-3b85-4b43-b099-0a5325643352@intel.com>
-	<20260717181004.GBalpv_MOaAflgFxgh@fat_crate.local>
-	<20260720232442.3e6b0e70c6939541b8362e05@kernel.org>
-	<0565e7d4-fb0f-4b84-a20c-0c73ac964b51@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=k20260515; t=1784765183;
+	bh=hpCbtcUC2sXXWMpXDvfzAO/B8jNQgdzlMS6y9QE7+7o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=JXapcB4Fokth2Rq05nv7x+iAXVDRQ0PR9QOyVuhfxKEFbJWQyLPi60RkSNLxRZxqO
+	 9pzBtvAEpimpGzaeWTYloeDBwBvSVv1U2c5dcFcEwvdDuVrE8vmQfAwA8yzqvnjeg1
+	 nWOuRxQ7sd/UjFGMoiC+UxcLxNGgNjqScc6zJeR5R5357xCfD9MIZSrAoIq5olKEZM
+	 K32TNU9o9w7rVDymL5iinKM9Vq5Q/uMl7GecKz8AGly0nuG7+eVW75vtfIbhbN7AK3
+	 ANK7qFhI3UF7VXhsCr/QitDrDg6asQ07BXFxdgNE27h5WoT57M6zt+DRva3g52D/Ue
+	 HvEtdImcFtmFA==
+From: SJ Park <sj@kernel.org>
+To: pratmal@google.com
+Cc: SJ Park <sj@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Greg Thelen <gthelen@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zi Yan <ziy@nvidia.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] mm/page_reporting: Add page_reporting_delay_ms sysctl
+Date: Wed, 22 Jul 2026 17:06:09 -0700
+Message-ID: <20260723000609.95657-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260722211517.1898228-1-pratmal@google.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 21 Jul 2026 08:36:01 -0400
-Jinchao Wang <wangjinchao600@gmail.com> wrote:
+get_maintainer.pl suggests adding below to the recipients list of this patch.
+Let me add them.  I show you already Cc-ed David, but with his old email
+address.
 
-> On 7/20/2026 10:24 AM, Masami Hiramatsu (Google) wrote:
-> > On Fri, 17 Jul 2026 11:10:04 -0700
-> > Borislav Petkov <bp@alien8.de> wrote:
+- David Hildenbrand <david@kernel.org>
+- Lorenzo Stoakes <ljs@kernel.org>
+- "Liam R. Howlett" <liam@infradead.org>
+- Mike Rapoport <rppt@kernel.org>
+- Jonathan Corbet <corbet@lwn.net>
+- Shuah Khan <skhan@linuxfoundation.org>
+- linux-doc@vger.kernel.org
+
+On Wed, 22 Jul 2026 21:15:17 +0000 pratmal@google.com wrote:
+
+> From: Pratyush Mallick <pratmal@google.com>
 > 
-> >> Looks to me like folks need to sit down and agree on strategy first.
-> > 
-> > Yeah, I need to talk with Jinchao.
-> > 
-> > Like kprobe, wprobe itself integrates watchpoint functionality into
-> > the tracing subsystem. Jinchao, I would like to ask you to redesign
-> > the kwatch tool based on fprobe and wprobe events in user space?
-> > I think that could reduce redundant efforts on the similar feature.
-> > 
-> > Using fprobe entry and exit event trigger, we can make a Function-
-> > scoped watch window. Also, since fprobe and wprobe are having BTF
-> > typecast support, you can access to the members of data structures
-> > more naturally.
-> > 
-> > If you are interested, I would be open to having you handle the
-> > development of the necessary features for wprobe.
-> > 
-> > Thank you,
-> > 
-> Thank you, Boris and Masami.
+> Currently, the free page reporting daemon uses a hardcoded delay of
+> (2 HZ) between reporting intervals. While this is a reasonable
+> default, it lacks the flexibility to adapt to varying guest workloads.
 > 
-> Boris is right that we should agree on the overall strategy before
-> moving either series forward, especially since they share the low-level
-> HWBP work. Masami is also right that fprobe and wprobe provide a more
-> appropriate foundation than introducing KWatch as another standalone
-> debugging tool.
-
-Agreed. I just sent v10 because v9 lacked base-commit and Sashiko did
-not reviewed. (so it just add a trigger-side BTF support which was
-dropped in v9).
-Think of v10 as the complete set of ideas we wanted to implement
-with this wprobe.
-
+> A low delay allows aggressive memory reclamation, returning unused
+> pages to the host as quickly as possible. However, during spiky
+> allocation/free churn, this immediate reporting can lead to a severe
+> performance penalty (nested page faults) as the guest re-allocates memory
+> that the host has just unmapped. In these scenarios, there is benefit
+> from increasing the delay to batch free pages over a longer window,
+> absorbing the churn without hypercall and re-fault overhead.
 > 
-> After reconsidering the design, I will stop the standalone KWatch
-> series. Instead, I would like to work with Masami on extending wprobe
-> to support the function-scoped dynamic-watchpoint use cases that
-> motivated KWatch.
-
-Thanks Jinchao, I appreciate to work with you on this project.
-
+> This patch refactors the delay into a dynamically tunable sysctl,
+> /proc/sys/vm/page_reporting_delay_ms, measured in milliseconds. The value
+> defaults to 2000ms to precisely match the original (2 HZ) behavior.
 > 
-> Masami, thank you for being open to having me develop the necessary
-> wprobe features. I am interested in taking that direction.
+> Signed-off-by: Pratyush Mallick <pratmal@google.com>
+> ---
+> v2:
+>  - Documented page_reporting_delay_ms in Documentation/admin-guide/sysctl/vm.rst.
+>  - v1: https://lore.kernel.org/linux-mm/20260722192935.1646848-1-pratmal@google.com/T/#u
+> v1: Fixed feedback from RFC.
+>  - Added lower and upper cap to sysctl value.
+>  - Reverted the reordering on page_reporting_delay_ms.
+>  - Dropped the mod_delayed_work() change.
+>  - RFC: https://lore.kernel.org/linux-mm/20260714171456.2350037-1-pratmal@google.com/T/#u
+>  Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++
+>  mm/page_reporting.c                     | 30 ++++++++++++++++++++++---
+>  2 files changed, 40 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> index b9b0c218bfb4..6efa460b4547 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -66,6 +66,7 @@ Currently, these files are in /proc/sys/vm:
+>  - overcommit_ratio
+>  - page-cluster
+>  - page_lock_unfairness
+> +- page_reporting_delay
+>  - panic_on_oom
+>  - percpu_pagelist_high_fraction
+>  - stat_interval
+> @@ -896,6 +897,18 @@ stolen from under a waiter. After the lock is stolen the number of times
+>  specified in this file (default is 5), the "fair lock handoff" semantics
+>  will apply, and the waiter will only be awakened if the lock can be taken.
+>  
+> +page_reporting_delay
+> +=======================
 
-OK, please share your thoughts on watchpoint usage in the kernel.
+Why don't you make the lengths of the line and the section title same?
 
-Basically, I will fix the points raised in the review, but please
-let me know if you have any other suggestions.
+> +
+> +This value determines the delay in milliseconds between free page
+> +reporting intervals. A lower delay allows aggressive memory
+> +reclamation by returning unused pages to the host quickly, while a
+> +higher delay helps to batch free pages over a longer window, absorbing
+> +allocation/free churn without hypercall and re-fault overhead.
+> +
+> +The default value is 2000 (2 seconds). The minimum allowed value is
+> +0 (immediate reporting) and the maximum allowed value is 10000 (10 seconds).
 
-Thank you,
+So it is milliseconds.  Why don't you add the unit to the name, like
+page_reporting_delay_ms?
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Also, coule you elaborate why there is 10 seconds maximum limit?  What's the
+problem of having no limit, and why 10 seconds is the reasonable one?
+
+> +
+>  panic_on_oom
+>  ============
+>  
+> diff --git a/mm/page_reporting.c b/mm/page_reporting.c
+> index 942e84b6908a..805da4bc1101 100644
+> --- a/mm/page_reporting.c
+> +++ b/mm/page_reporting.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/export.h>
+>  #include <linux/module.h>
+>  #include <linux/delay.h>
+> +#include <linux/sysctl.h>
+>  #include <linux/scatterlist.h>
+
+Too trivial nit, but, why don't you put the sysctl.h at the end of the list?
+
+>  
+>  #include "page_reporting.h"
+> @@ -47,7 +48,10 @@ MODULE_PARM_DESC(page_reporting_order, "Set page reporting order");
+>   */
+>  EXPORT_SYMBOL_GPL(page_reporting_order);
+>  
+> -#define PAGE_REPORTING_DELAY	(2 * HZ)
+> +#define PAGE_REPORTING_DELAY_MS_MAX	(10 * MSEC_PER_SEC)
+> +
+> +static unsigned int page_reporting_delay_ms = 2 * MSEC_PER_SEC;
+> +static unsigned int page_reporting_delay_ms_max = PAGE_REPORTING_DELAY_MS_MAX;
+>  static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
+>  
+>  enum {
+> @@ -56,6 +60,19 @@ enum {
+>  	PAGE_REPORTING_ACTIVE
+>  };
+>  
+> +
+> +static struct ctl_table page_reporting_sysctls[] = {
+> +	{
+> +		.procname	= "page_reporting_delay",
+> +		.data		= &page_reporting_delay_ms,
+> +		.maxlen		= sizeof(unsigned int),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_douintvec_minmax,
+> +		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= &page_reporting_delay_ms_max,
+> +	},
+> +};
+> +
+>  /* request page reporting */
+>  static void
+>  __page_reporting_request(struct page_reporting_dev_info *prdev)
+> @@ -80,7 +97,7 @@ __page_reporting_request(struct page_reporting_dev_info *prdev)
+>  	 * now we are limiting this to running no more than once every
+>  	 * couple of seconds.
+>  	 */
+> -	schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
+> +	schedule_delayed_work(&prdev->work, msecs_to_jiffies(page_reporting_delay_ms));
+>  }
+
+A trivial comment again.  Why don't you wrap the above line for 80 columns
+limit?  I know that's not a hard limit anymore and I show a few lines of this
+file already exceeds 80 columns.  But seems most lines of this file is still
+keeping the 80 columns limit?
+
+>  
+>  /* notify prdev of free page reporting request */
+> @@ -340,7 +357,7 @@ static void page_reporting_process(struct work_struct *work)
+>  	 */
+>  	state = atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDLE);
+>  	if (state == PAGE_REPORTING_REQUESTED)
+> -		schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
+> +		schedule_delayed_work(&prdev->work, msecs_to_jiffies(page_reporting_delay_ms));
+
+Ditto.
+
+>  }
+>  
+>  static DEFINE_MUTEX(page_reporting_mutex);
+> @@ -416,3 +433,10 @@ void page_reporting_unregister(struct page_reporting_dev_info *prdev)
+>  	mutex_unlock(&page_reporting_mutex);
+>  }
+>  EXPORT_SYMBOL_GPL(page_reporting_unregister);
+> +
+> +static int __init page_reporting_sysctl_init(void)
+> +{
+> +	register_sysctl_init("vm", page_reporting_sysctls);
+> +	return 0;
+> +}
+> +late_initcall(page_reporting_sysctl_init);
+> -- 
+> 2.55.0.229.g6434b31f56-goog
+
+
+Thanks,
+SJ
