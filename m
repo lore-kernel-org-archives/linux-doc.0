@@ -1,65 +1,65 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB3A3B3C17
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 05:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025783B42D1
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 05:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784785616; cv=none; b=e4/HmNYe0QtKhQ6gI5RMkSH8nWNmm6BofA7Frzl9R4HxvDGLWcGbi0Ru9bDKp/nvdm34dRJdG9ZHFxMJx5GO1D9BwsBrqYM62TrtJqtYLc8GNmQL2+z92SzbZ+3kV33Grk6YmUiHcV5GNmh6HkzYzrJ7wJL1XdR9yXZQZwCFHHg=
+	t=1784785693; cv=none; b=iG8yj2vPl9fvGBf/tWOgieVncMqdKpdo1Spbr5Y4qqjccvduPeuD7rjJy9MK+Bm9etM2GZEAbPc7Zp80wopjW+K8NYYpEcRjYwg3nL9alP8TUTaEZhi0+knR86uxkOGZZ8xv/yp2N9Y6rgx91jfuQKtkD/eub/81KBRHRtRNwDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784785616; c=relaxed/simple;
-	bh=79L6IXq0vTYjMqT4xw3+/hBfBny+QPWhqEAYp7hGdIw=;
+	s=arc-20240116; t=1784785693; c=relaxed/simple;
+	bh=zce5IFfhttwWk06VN2f2OD/gINXjjX8JKvsn94S7gdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NFeY8WigHUOuT28QPmjfdxF2FcFUGu1UH/oota3nwRJFgJzOTHhTj0rdsCLG7bw5EBAIY+kCa25mQYR3ZbfFUl/H5jMEf14eRq5lVoq2JBGxLLx5YGXJ1ujb5Z7AAImVbgi0rm14Fo3YgMRP5JVLo2kw6j8HdA3QIVGpYAk3lEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LSHAGu93; arc=none smtp.client-ip=209.85.218.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=jzEBbfQoYr7I/m/ywAD7EkYMVz3ZCAe3DteCtOIpkz6CA9Uw+u1jivkPY32ZiUymeit/E56HyRNA+CWVpkqP5ZZFvW1mEXJUFuJuuGXYPhUpQySCcSO99su3MvvTl+4UWonHwPPYwJj1001FHO+0pE90ZkgUSJD+DVnkwSnfLz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rc+qepLF; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LSHAGu93"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c15f47e6297so29593166b.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 22:46:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rc+qepLF"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso224661e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jul 2026 22:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784785612; x=1785390412; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784785686; x=1785390486; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=79L6IXq0vTYjMqT4xw3+/hBfBny+QPWhqEAYp7hGdIw=;
-        b=LSHAGu93/WVo/DXg2Em6Z6aBev79mGrKrww1yJ1wyCLMiu1Jm2iVo/3jPYz6qQipET
-         rRbtx+iCVBMePVH3dtEwXLT6JyiaofMKzUIpEuFt9Rl4aqTWGCli8uGRAUSRgSDoUSdM
-         r5HtU4iK2aXXQEdBzCwhxCpmSyFfVKd1dx0FKaeydu1/8hAHjfoROAQuxRgWUuQpuADu
-         ZBc6vV4FF+u33Ubijeu3zeRGpyct9P9jVyhKvFUYoi/dK++NpCVXcAiS1/9Z7mFcS4gY
-         1Vep1OKb3dkrtpnmaZxn7dhP6NkSiMXb9FCfl++fpxJeo9tWYQgzQSan2jmrfZjvta/S
-         gq/A==
+        bh=zce5IFfhttwWk06VN2f2OD/gINXjjX8JKvsn94S7gdQ=;
+        b=Rc+qepLFxkjmNblAHiAkUx5YIc7rXdsM0QsiFLSXUktSq7g4cU4jEZvFpEk4EQS8Nj
+         JRdsY7Dr0/WdQBDgocDnyGP5cUiYWb4DlejqFqRyeR3aDeI/+gbfRbI1LPZnTMTnif1o
+         Z+V6N66u/BFoiJlxXyrg5ll73yPsMcdUekVhqeaoU01zttG8MPfsmgUJvPlu7J3C1Inh
+         XEZ0yf3UVoYuWIUOFfyeNdHoVdrxIzNSpn+Lmi63JuhtdZ3pK6RUdfszcOPpO2gHimj+
+         9tuwfqCjyvvK5uT3AAcBEZE3PMoRvJltciad7i5AeZrEQyyxBLbSIqg0mc1xBh7+957o
+         3sPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784785612; x=1785390412;
+        d=1e100.net; s=20251104; t=1784785686; x=1785390486;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=79L6IXq0vTYjMqT4xw3+/hBfBny+QPWhqEAYp7hGdIw=;
-        b=U7n74LJ7A647+lmGHVXZSFhtqpxQ8RaQ413WJMchycD3W2xm9UTTWD2+Kfk/1F6Qxa
-         ar5cjCyh2ByAdmbN9+Tz77liG9t2d5Mmu5dbRyVk1M5s31Xt26MPZr9ry6+4b0Qh07fL
-         pQofxKcr2pJUxiam9jb+9reR2VEWMAnj+eGLN8g/f/s1236ZiE/q8ZN+wPNWOubygGnI
-         KywGXVY8riCAN7/rOodABdDITF7jnpCBIzjw6jAjxDpKix4yCQWJ6TV9SfXgzA89Qbqh
-         5ILsWG4OQuLhVSPPhR440jvfEL3rMdAHxvohB3Fin/ko6ezgntZ7JM5oLqtcZvnKT7Ox
-         rEgA==
-X-Forwarded-Encrypted: i=1; AHgh+RpKSK7TMuUDfFxNeNWhTAgFM6MYSXz2JBHstYA3GgBMfTP9qpC1KUc02cxtN+AvXiy97Aj6dlUa0ls=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiZLYBkClvT432ciMpMTEG3sehxtgwL7SyI1kVcyfpFP7vfM0s
-	cgWsypxMlwIx7DmKeZClRrhBIFTBccjwPfVjowB3BfgxqQ59dT0stbja
-X-Gm-Gg: AR+sD11G7kGK8oUxRDp8N/tOb8q1BAVIlIY5QMnV94gdsXWNA2FAUv4/Ymel9FLunym
-	9gp4xAok6cUBrwEELmyoNZFGPh5qU2dL6+6Scqob19K7P1CgS7xYjH1NGeZYwE8AVVtM+FrkwsZ
-	TEwt53aUfNiRnLwqy51KN8x5GuA6GTUk6dxQRk8Vl6QUpUIhEH/d5aMyo0RSUN+SOsLymFlhUfu
-	oAeEzIWq5DeMj8LBy2c+x7G9lU4mi7kDvHFYSRhsYz1LNGvh2dNrV0X34cgAj2M721w/pUle1rW
-	pMjh6jTmVCthXfQVT3xpoOKdw5tPsrrBRg2FvFwAuEyl7qas57MpBYPbhwUYxrW+5P4q55+4MIY
-	bzh8+hXAi/pQdMdhSVfaoHzFarVbNcsd4R/8/YMo2gPsHml9DgfYBWtTO9pX+EvyEt/j4dyoZqI
-	bniccdIduISo3t1HM3x5arEvdq6s4ssESmax+VNCxHMk6kiAtoRg==
-X-Received: by 2002:a17:907:3c95:b0:c12:6dbf:4a80 with SMTP id a640c23a62f3a-c1c50b371famr67532966b.63.1784785612184;
-        Wed, 22 Jul 2026 22:46:52 -0700 (PDT)
+        bh=zce5IFfhttwWk06VN2f2OD/gINXjjX8JKvsn94S7gdQ=;
+        b=Dn4wxLEvPSk1gX8lzx+zsDUdltfpl38nmk4VyJMDqlJgwfjdnt8zOVY2fiZShBz1BO
+         FJPN7l31sxXp8pELgQJuoPxpHIq2l1YhoiqbpXMK5vasCmoGmuHhM2XqMbg8xlNLCxnr
+         W/rIqsQsEsTPTpHZWQmOsu+Wj3TG7qpl1p+PRmr4Yg2ozAnoQO2fbO0aXQNPzxZvFIms
+         VGOZJxgsUXlfOaQWDzKgNqPSCfTEcbHZUI+dCkUWTIBpGBpEkwdJkStj17K05Q+TFnIo
+         6VfxajmX0tl19nF0ojZWlnZU6xWW48+kw6KR3/ayVOVQhRa1NoqlQGR31TjanQdudQfd
+         04+g==
+X-Forwarded-Encrypted: i=1; AHgh+RpREffCCoyHXVYIdnrKOM4PDfDTUsWjtSUren644dHmhCtuopAt9yzA3zemqtxjVaveiWogzTNpdOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx35cA6iOEF8E/Q4+HYMYYMrCZ7J1y6+dbgG6cs7+Qy+fjcHGw
+	z7PIpiv2s2BSv+oCTIntbJzcVSb4lakJ6u3tivj9gJau+/6cbvTEzLdg
+X-Gm-Gg: AR+sD106TEoOGtBv3CjB1/jdFWOp5p5ib/j21ruQLeRXWZTxK8mTfvW5kpLY0jp7M7n
+	QlY5sVxx8vbIu9xc/KGDmqQJH/dEIOjHhrmhnP1qn4Thp3nDJxWOqkI1zRkgzk7asazcK7KlrZ/
+	1h7VoByKHDFHSG00tLhEe4GA4eOnjcGsRxuI54B/7c/QfXSk2vBDlnQlx7Egt5AFpNiW0wFoljE
+	MrtGg0J1x49K1APbbecv7rER/FwaMjccj75lnQgZauCkKoB9Xy2uBXirRbc94xP7G+a/fFY5HqG
+	pc1LYjIL2gTabx9zJCKI53+A3FIeWPC5x3SugEQ8hpW2L1kAWXkPB8Fg1lsjgsMhn969ao2XXPv
+	gDWpGMVW+sjnjaMfQEKoD/iofrRAimG8sLfJPKflZmWe1CBT9ofj7F8LA1zD0KIZcOtcA8wDICq
+	sh5JmLiKx7vpqXvT2edbNJIXXydHfiVImQ9JSeUN8iO/pNAqhC+g==
+X-Received: by 2002:a05:6512:3d1e:b0:5b2:a396:1793 with SMTP id 2adb3069b0e04-5b2b2f869e8mr233093e87.37.1784785686291;
+        Wed, 22 Jul 2026 22:48:06 -0700 (PDT)
 Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32acb462sm189632866b.25.2026.07.22.22.46.49
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2a9b9b68fsm824147e87.24.2026.07.22.22.48.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 22:46:50 -0700 (PDT)
-Date: Thu, 23 Jul 2026 07:46:48 +0200
+        Wed, 22 Jul 2026 22:48:05 -0700 (PDT)
+Date: Thu, 23 Jul 2026 07:48:02 +0200
 From: Marcus Folkesson <marcus.folkesson@gmail.com>
 To: Janani Sunil <janani.sunil@analog.com>
 Cc: Lars-Peter Clausen <lars@metafoo.de>,
@@ -79,11 +79,11 @@ Cc: Lars-Peter Clausen <lars@metafoo.de>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
 	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v7 4/7] dt-bindings: iio: adc: microchip,mcp3911: Add
- spi-device-addr
-Message-ID: <amGqyP7O6Aam12ss@gmail.com>
+Subject: Re: [PATCH v7 1/7] spi: dt-bindings: Add spi-device-addr peripheral
+ property
+Message-ID: <amGrEkxHn4_0MbHS@gmail.com>
 References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
- <20260722-ad5529r-driver-v7-4-7781cd74ad75@analog.com>
+ <20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,42 +91,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UwOsK4L2pA/cHaH4"
+	protocol="application/pgp-signature"; boundary="VXZ0ra7nT7yUfaG9"
 Content-Disposition: inline
-In-Reply-To: <20260722-ad5529r-driver-v7-4-7781cd74ad75@analog.com>
+In-Reply-To: <20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
 
 
---UwOsK4L2pA/cHaH4
+--VXZ0ra7nT7yUfaG9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 22, 2026 at 09:54:16AM +0200, Janani Sunil wrote:
-> Add the generic spi-device-addr property to the binding and deprecate
-> the existing vendor specific microchip,device-addr property
+On Wed, Jul 22, 2026 at 09:54:13AM +0200, Janani Sunil wrote:
+> Some SPI devices support sharing a single chip select across multiple
+> physical chips by encoding a device address in the SPI frame itself.
+> Add the generic spi-device-addr property for describing these hardware
+> addresses. The property is placed on the SPI peripheral node and may
+> contain multiple addresses.
 >=20
 > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 
 Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 
---UwOsK4L2pA/cHaH4
+--VXZ0ra7nT7yUfaG9
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmphqsMACgkQiIBOb1ld
-UjKRYg//TJFiYnH8oi750x23ZsW9YOn+zad9AJo3S7JxvsH+f6WyYi9hRyocEFbb
-Ygq+efksJLOjfo1EkUbmhJ32IqK0geY4PFwJXUUqGXd7lNlMBUD3qt0rXpLw4ZW5
-uwtVfC4xFfg91IhKC276Py0ccIoT9XkKrL8PKmXw4uc9x84uufYomAfDk72QhYpU
-ThptLT+Ucl9D63a71AsmYy4+KuQEFc23hX+WHr36B2PTFg0ylikHOI1yyOi/uoHY
-BrvnXnw15J+2q3qkS92iLzhSCGDbwMDpI8p2Jf0ac/id8T2z5R72W7PVQ4UGqCk4
-l1scVduCIduHwb2P6CUT6zQar3NlELvjRWwdm3sVeExmSslXNeFYYaGoRZYX3Xtc
-lOzbHhcxWZMycYe/UvWkgXWqUXKnQZTx8RfAEkoJxT2q7qZWWpOGhfK3BzKDeWco
-0JGQ0ZPiFx7GWmPooul/SbBBlYCAkIudirnpw/GRJsySiHQjHJzhiFWwqipBX4o2
-lKR10iAMG/gPPXdrRHrP/M7wRqo7XgwNyeWRIYiTfFnKWQsI4/dC/1JVwdJ1M4Yj
-zKBjG6V/rhOCiUJ0FGBD+MwToKAXuUQ7m0MFaSq6+DmhS2VBo/ftqsb7TaDqA0IX
-+PPjt18DFq4fdNPoj04NLtGzRBersW2FM5c2LMCJCrOBIDEK8qM=
-=/Rc4
+iQIzBAEBCgAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmphqw0ACgkQiIBOb1ld
+UjIChhAAu2asYHZA4jhvennduFJOblAaqs3zqLqRDsO8sv+D7Ruh4jD1o5Is1vuH
+NM4NQFJ9MSe9p9+bMGIc3r/Xbtsbb96A1EXh7bIRlWgM55b+D3aBDQppIdvj8ZyJ
+0wbv3d8VZrPo64ijaGXcWP0lftjCQR5/B0I90wjTUehW54F192JVVCF/s1TzNz9b
+mIqB4VY/R3nmCSRQ4JER9/W3sOmA+ExCTV5AAVEUUxBJc+l/n9m1Cxx2Twv8tHEh
+186HPqNLh45QWL0SQi+guDZxSfgN9zHgdmr9TAtbU0mg4mfps7w+k+n9truYcyJH
+4A9RAtTllIX2fxN7gIxKPnm2LNCV7zn5xiTPAZQWcCxTFv9O15NQMGNczr7pGW7b
+SyVYMkl0du029zeL7x1xL6SdzCtEKj+qlUrqpT89vyjtOiVh14f/lHe6glQdwJbj
+LmMQC6+fmma8YsTGVpbDzTMxqYr8teQAfKyUagM74QuX+FJYJrqm5qn92aB63Ua2
+rNvDClNDuTerhBxf5NAyWJLbat+Mo0PFqSOR3fHm/9Dc2ltj0Q4F1s3pQ5PbByk3
+6ew1+trRN9Xzf0jHogsLjlC3JNexpiMQauX7K6FBHR+ABRqb71zBXSrCjJNX8Sqk
+Ug9nnylKQRN6bh7qzSHEj/VWPqJcUUXHu2g6CpbhQHao62kzrsY=
+=fFxV
 -----END PGP SIGNATURE-----
 
---UwOsK4L2pA/cHaH4--
+--VXZ0ra7nT7yUfaG9--
