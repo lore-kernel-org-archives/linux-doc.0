@@ -1,78 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB154C8FE4;
-	Thu, 23 Jul 2026 13:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B684968FE;
+	Thu, 23 Jul 2026 13:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784811682; cv=none; b=NFlTql7Xl7ESq6eFm9Ke0vEc3Bh0UdL2/kSpPSRgeJr6hdw49qZ6OBDohUurUKwQDJZjczTaDnd7o6xjT1EwXYLlPU8EsgfpymE/ZAHR+pWx41if/3ls8ipxMXNG2/m/3Ha2DOaY1aExDowmyK+rWu8rWROZuuAUAcFs8l534A0=
+	t=1784811783; cv=none; b=utCNwvS0y/8HF+c0OAvvAvzgq4DMh1SwZDil24a2fVwdeKga4959BJuqA/IdorMeCl1FcqMCDxSAru+kvzA46X6eL84wgSK4BsVALwJIRqNAO9LDGc7sNJ1naq/uG8OHGpzibh59DY7hFbpYSDqI6IjJTVpEqu1blvNKUTTqE+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784811682; c=relaxed/simple;
-	bh=TzYl/feHKRvyXhoYZqF8YQdzm6DS52XUGoegXeqUVkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bVGKNPy/wtvznrfPBxsOdTA66WatcJNaMx0HE0HvhQ7jjz+ymoMk208/yDry7EpB10WjyliweLJfxiTdJxVboThWe2HmJN848HO7CxzLQxSRQqSPkru0Z5HITm0XhomUmmYIJidbm7RhtN4EFEL/znwWhIhUfmjORi3m8aePdD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2761E1F000E9;
-	Thu, 23 Jul 2026 13:01:16 +0000 (UTC)
-Date: Thu, 23 Jul 2026 15:01:09 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Kees Cook <kees@kernel.org>, Farid Zakaria <farid.m.zakaria@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-Message-ID: <20260723-mahlt-abhob-semantik-21254c8d36cb@brauner>
-References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
- <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org>
- <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
+	s=arc-20240116; t=1784811783; c=relaxed/simple;
+	bh=kXa6plVQtcFVC3+j2pCHXzYBLB3t/8xHvSXO96PxSfA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CnM7pR6hfp1UX+MfNqk1YAU+NcXeHNr9IIV6XCnv4M9RUNurMYZvqqQB64cMQuSknth3tlR/GnL30C122Euq+XBwpCnJrEwMeMGJhQ4mzHYSygszzcQweou+dHpOD4jI1XqDIqOtaJDtHYF83f80JONpU3i0rdnhz283y/Kntp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWnjWonw; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWnjWonw"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 672C1C2BCB8;
+	Thu, 23 Jul 2026 13:03:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784811783;
+	bh=kXa6plVQtcFVC3+j2pCHXzYBLB3t/8xHvSXO96PxSfA=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=cWnjWonwy2elIagSZmGCSWV/Q1Ou7rlWyMuFq0InwpZV4JnIpTvJh+dP8fbQQMCNf
+	 2EzpdambIKwlfEQikbfVAM+wRYu98AxblxQSjKIXk63juu6qhCRUHApmc8sfmNf34L
+	 uJDnNJwVIMtsbBQGLTYMMeHUn8a7NHvg9d+iFRgx3+7JC7PtBkt+AsHkDxXoBEItZC
+	 SsC2a+lKjLPipnyDY8HNgi0iATFntRodZjKIp+X3jqofgJwnDZpMa6e9Z+SjUsOpKD
+	 AebQ4MvLQ2Z+cf1pLIJ1t16S6PfQ+sHhuF9Kqwlgwr4VmIJM7xjX6dRFH1GNyX5xWB
+	 4Ij30qdEP3zrg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB20C531CF;
+	Thu, 23 Jul 2026 13:03:03 +0000 (UTC)
+From: Vincent Jardin via B4 Relay <devnull+vjardin.free.fr@kernel.org>
+Subject: [PATCH 0/3] hwmon: pmbus: add MPS MPQ8646 support
+Date: Thu, 23 Jul 2026 15:02:41 +0200
+Message-Id: <20260723-mpq8646_v0-v1-0-14363c75916f@free.fr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPEQYmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDcyNj3dyCQgszE7P4MgNdY2ML4+QkU3OTFPNEJaCGgqLUtMwKsGHRsbW
+ 1ANIITmhcAAAA
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Vincent Jardin <vjardin@free.fr>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784811776; l=1766;
+ i=vjardin@free.fr; s=20260525; h=from:subject:message-id;
+ bh=kXa6plVQtcFVC3+j2pCHXzYBLB3t/8xHvSXO96PxSfA=;
+ b=kKQmK18ETlm33Tn76966YnxqlQbKQVxjIBKc4kHMNmNA800tJUTsQZbJ5K0u+r6W1zJzOhmcT
+ +s1gUrOyW1CCPdPRMPL6cna+N12FA/lrBlnOHk5+8XGTqbr6wpBW9oM
+X-Developer-Key: i=vjardin@free.fr; a=ed25519;
+ pk=hppgLeFpGpKOi7LNwGEZ4jOYofJCoGd4Jf1ltAabiLw=
+X-Endpoint-Received: by B4 Relay for vjardin@free.fr/20260525 with
+ auth_id=871
+X-Original-From: Vincent Jardin <vjardin@free.fr>
+Reply-To: vjardin@free.fr
 
-On Thu, Jul 23, 2026 at 05:49:06AM -0700, Andy Lutomirski wrote:
-> On Thu, Jul 23, 2026 at 4:37 AM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > Once entered, failfs is a throw-away-the-key moment. The task is
-> > considered chrooted so it cannot create user namespaces to regain
-> > CAP_SYS_CHROOT. chroot()/fchroot() back out require CAP_SYS_CHROOT.
-> 
-> I kind of alluded to this earlier, but I don't think we should promise
-> this.  In particular, I still think we should eventually allow a
-> non-chrooted process with no_new_privs to chroot to any valid
-> directory, and I think we should consider changing the definition of
-> current_chrooted() such that failfs-as-root would cause it to return
-> false.  I'm also not sure why it's useful -- if I want to throw away
+Add support for the Monolithic Power Systems MPQ8646 step-down
+converter as a PMBus device.
 
-I had considered that but introducing this change alongside this series
-felt too spicy for me.
+  1/3 pmbus core: add and export pmbus_get_hwmon_device() so a chip
+      driver can call hwmon_notify_event() from an in-driver
+      alarm-poll fallback (lm90-style) on boards where the chip's
+      SMBALERT# pin is not available for the CPU.
+  2/3 dt-bindings: the MPQ8646 binding; schema inspired from the
+      mpq8785 (same mps,vout-fb-divider-ratio-permille property).
+  3/3 the MPQ8646 driver: PMBus telemetry plus MFR_CFG_EXT
+      gate-close retry after CLEAR_LAST_FAULT, alarm acknowledge via
+      inX_reset_history, MPS-extended STATUS_WORD decode and
+      post-mortem clear, the alarm-poll fallback for boards without
+      SMBALERT, and on_off_config / vout_margin / mfr_pmbus_lock
+      sysfs.
 
-> the key to accessing the normal contents of my mountns without
-> changing my mountns, I need to chroot somewhere (like failfs) *and* I
-> need to somehow prevent myself from getting an fd or a magic link back
-> to the ordinary mountns contents.  If I somehow get such an fd,
-> preventing my from fchrooting to it doesn't seem to accomplish
-> anything, since I could traverse the fd with openat, etc just as
-> easily, or even fchdir to it and use relative paths.
+Signed-off-by: Vincent Jardin <vjardin@free.fr>
+---
+Vincent Jardin (3):
+      hwmon: pmbus: event notification with alarms
+      dt-bindings: hwmon: pmbus: add MPS MPQ8646 binding
+      hwmon: pmbus: add MPQ8646 driver
 
-I think I generally agree with you. My main concern here is mostly about
-changing very long-standing behavior here and making failfs special here
-feels like it could easily misused.
+ .../bindings/hwmon/pmbus/mps,mpq8646.yaml          |   50 +
+ Documentation/hwmon/mpq8646.rst                    |  314 +++++
+ MAINTAINERS                                        |    8 +
+ drivers/hwmon/pmbus/Kconfig                        |   11 +
+ drivers/hwmon/pmbus/Makefile                       |    1 +
+ drivers/hwmon/pmbus/mpq8646.c                      | 1214 ++++++++++++++++++++
+ drivers/hwmon/pmbus/pmbus.h                        |    1 +
+ drivers/hwmon/pmbus/pmbus_core.c                   |    8 +
+ 8 files changed, 1607 insertions(+)
+---
+base-commit: 248951ddc14de84de3910f9b13f51491a8cd91df
+change-id: 20260723-mpq8646_v0-3383cb574d7a
 
-> 
-> My understanding of the exact workings of the mount tree is possibly
-> not good enough to specify the semantics I think are correct quite
-> exactly, but I think a decent approximation is that a task should be
-> considered to be not chrooted if its root is at the top of its mount
-> tree or is not in a mount tree at all.
+Best regards,
+-- 
+Vincent Jardin <vjardin@free.fr>
 
-If we could altering this definition from the patchset I would be in
-favor of it. I'm curious what your take is though.
+
