@@ -1,159 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4AA31E84F
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 13:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259504BC02C
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 13:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784814670; cv=none; b=jUY7tx4EtZh5WEpzHLf0LPz5tuEkgHRF5/akCJBqOORs4eL4EIaxtg4An7A+oAwnn/zJriVihe7izRq22nteloTz9Jkb8gTBuF6Hg51w4jZBajzwqt5f35qv8gV+WqmzkaJnXPGtYbrp3eowPVXYJBXcayP1HRgtRcVpqnyayhA=
+	t=1784814947; cv=none; b=VQVOO1XY62Tbph8dxXelkrVCXy4UxUpukAyWvxcJukOCohcxlKgpLHVSy52uobBn4kJ8lmo2/u3YGPtZBKmR9DstOLpaKfUGw/YHzVopMpW5r/ZOyKy4x1tnnv1ZOu/JaNhe2i3VxvK+93dxKEUZjt0eNxHqaxBvmZwti8+fYQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784814670; c=relaxed/simple;
-	bh=qTCtUO20aHBaoQd/HG/5QDxAb9VXAQXH9n/VX8aHHlo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b/gBcyIHwerDlDpmPMDntEiN5X/avSI4v/A0ykuAGZUD49p5HWGHj7mRyp2EYl6dII10u70ZfASdxwo9SLxLPsuXePCAUFoe+952ldyAKW+deUqq/+aSF57HFIddDA/WLC78JrDOdUXOXvlk5K6kNHXbfE5/ZyfjUAVCIZjPRyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOfp7hrN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784814947; c=relaxed/simple;
+	bh=PcGnm1nhz6OalWAM+8OBPe0bj+kN8RMGxEyp2+pu2/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u97umEs4acCf3hNoZJnZ7Yi+1O0C2U1DifthOOme1JHLkx25dmyRpSRp1WbJ4HHW6FRs4ac+O8d4t/81TuI6nFJu9Ad+CRAqI6NatGk58hA8couELjLeYIrVW9Sa/Klp82w34JjyIqUDpsRxJmulVS64ZtBIo2PyDYZq/3beQac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=nwctVBKE; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOfp7hrN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB471F000E9
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 13:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784814669;
-	bh=n1DEl7HdaV9+H803Y0sSiDSe+MyaXZhWnsHtsDRoo7o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=iOfp7hrNc0oZaZ+alSQcXJ3Cboe2rtQqqsfoHWnMhLVl8DF3aTron8KuYgPkzJfVW
-	 7fTIZrknbl97BF5lnK89UOYIdS9oX5LcAUUovy+/BOGQvj1FL0yHT3qhhGLZfvBqn6
-	 aoh5FcygjQdl7G+fc+GmWqJo/wlrc12kJtq1En+wd6LH0a+DF8Nf50TF7X7tduIrO2
-	 7qyxQCfnJ6NQ+ITyuifI4rO3ilxdXU4xI2pcnMX4oBZeOMLJyRqBVAfJYeMKbpIHe7
-	 Hzux4o2xgP04VlydQcBPibNP5Ux04uu99Oul+IisepEgrxO4oQKg0IAN+Tqu4kedNx
-	 /MAdllnHX+B1w==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b013aa02b2so576479e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 06:51:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoiMz+28eJXuYXFtlyVTlK94Latcflk/zmSHbC/e0R1jrVaW6ODO+nFvJ5CR+rtpccT7znUsA3hNEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywt1FeMF/m3dFhjaTAztCE7b4RDML6jbxoIjeeNrEhRZHuLsrEp
-	ShpCpJuwwOgI137kssgEZ4CKlfcve61cGCmDzkQ0G1AeD/d3syioFsLb4HSXam/rmM+WccHbFSQ
-	5gTAJBtGhGt0gjJPf17KgkuQPO2GPaxFZS1eaD3CT
-X-Received: by 2002:a05:6512:250d:b0:5b2:af9c:a5cf with SMTP id
- 2adb3069b0e04-5b2b33a6299mr612275e87.27.1784814646486; Thu, 23 Jul 2026
- 06:50:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="nwctVBKE"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8f186025973so8782746d6.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 06:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1784814935; x=1785419735; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JdlTjNa72Apcdo/QV8cbG21bSLdkYHzKHF8zUNaq1xI=;
+        b=nwctVBKEkGTqB3NYBl1O1N6NbT3IS5MRJDoijb4VSpGBHqhMtzQRvoAUEYWxEfCRAJ
+         EeyzbPOlL2rogqwSdr3AXBL5WWl6RSMyAoIdpOWzINHvrcOF6JHtqEUpGRTwuADTEr5C
+         c6rYRqmIdzQsee2aYu7HTOdCyxz0ubacwoPL5fSEatVEQdCT4EoOC0zmJoPBKCnm2aCW
+         kz+/xgtp+r4Is9Ffo5EWOaC7TnZhll8Qdyu0eQYWzcWU3z+zPN3ZyPVqHsx9r2pqiGwW
+         TeiVC075M3giH+B9PCeWWIKG979nYU2wObisX0eu0ZTEEVk7p6ja26/LyA7HC4FiCfdr
+         icJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784814935; x=1785419735;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=JdlTjNa72Apcdo/QV8cbG21bSLdkYHzKHF8zUNaq1xI=;
+        b=A6EdO89hKmu3SslajLu+IYbcVPTEZBHnBTCR7f9vaPTPQPalk83p0u1Ep2Y2opL2d8
+         msBaAOLwyXdzSkmn2V7wTY/4iIwH4eLDaecBKM0lj36LLwfUrE+Nb4knw3fwxB841dAX
+         J71yA2c4GVwwDh7EnHExQkSAARRtGU3dx/JmY6eRKxnYl4Yvsmcrsq+VgFUA+2MZEj6h
+         qbuuPC3zLC917lzAKfsSLqU4OvX0x8YeGHNKTrBB+NWl6HZxTLBBO3siBBTpk3goFRTk
+         Slgu4L4cNXmDWZiG4qTAUkl3icAXKfqqF/hCLZH1bTaHbsC+4TDHuoCyCoweTcQCDCSp
+         PC8g==
+X-Forwarded-Encrypted: i=1; AHgh+RoBxhkFCduM+JfT3yl2ynyOvqeEEbUALYt7PgnpySVLbRe63KOb+tR6sgAFqqvCtDcDHNCW2q8F4Ao=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYJZ/7I6R+QlrFDt3TbwrVEoFOG73XI+vVios3R24poSUuNHPW
+	KGzR8i+36dzE5dH4Ib7+eb1m6rVLPr5gq4tCGGA2W09UW635Wgg7eHNrAx9ZD0sVa4Q=
+X-Gm-Gg: AR+sD11sajq6ggczR/N1WvhKtt7mm+cDB3vG9+5AYDA0J2K1/bLOicxNP3Zr1id/U2U
+	sj87BRN32wibn5Tt1iVnlZ0VkEUMbVRKuMhVepjPEopKfP8x0BuoS/VEBmwR8sCFqSyAXK9ja2b
+	cbh72sdjDUAd39QT1OmzgrMR7cJaLJAHb5GTXqKKWaS1VQvABFpEqajidzyBQqs/6z/8G+IgrMF
+	5H3LOT4UHEF72l811nGbmte4INHOzPNWZ3Eo1mrQzJsi1vWSVuPGx/fPYDxIHgeTIbU4xSi9LIS
+	GOB7N9XXTF38n7R6Ag2ILSnPR1KrTxWT65T9eoyalMsUf67uD8u4h/CXrLVyhQ3RpQVuCu9KzIr
+	McYrnGcpM1FYgysp0lwdqR4zWwkYzd/6VLqFwulha4e3uZ86Hq2Y36rfhZUIa8EQEvhdmg05wFw
+	yc
+X-Received: by 2002:a05:6214:40d:b0:8ef:e3c9:5336 with SMTP id 6a1803df08f44-907ca356302mr35958626d6.34.1784814935519;
+        Thu, 23 Jul 2026 06:55:35 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907baa27cfcsm45192186d6.44.2026.07.23.06.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 06:55:34 -0700 (PDT)
+Date: Thu, 23 Jul 2026 09:55:31 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, akpm@linux-foundation.org,
+	tj@kernel.org, shakeel.butt@linux.dev, mhocko@kernel.org,
+	mkoutny@suse.com, nphamcs@gmail.com, chengming.zhou@linux.dev,
+	muchun.song@linux.dev, roman.gushchin@linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in
+ shrink_memcg()
+Message-ID: <amIdU1lFxqxTI3Gc@cmpxchg.org>
+References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
+ <20260717085151.22822-3-jiahao.kernel@gmail.com>
+ <amF7_GB5Rl6OJmt4@cmpxchg.org>
+ <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723-work-failfs-v1-0-3f69b9a9e958@kernel.org>
- <20260723-work-failfs-v1-4-3f69b9a9e958@kernel.org> <CALCETrVDX-PcSJoHFwymh7d=oUKotJQQuh+AzmsA7YQySBzD3w@mail.gmail.com>
- <20260723-mahlt-abhob-semantik-21254c8d36cb@brauner>
-In-Reply-To: <20260723-mahlt-abhob-semantik-21254c8d36cb@brauner>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Thu, 23 Jul 2026 06:50:35 -0700
-X-Gmail-Original-Message-ID: <CALCETrVezim-eYOFWon1w7FngTgWb2nkuZb_duf9q=TrNqiqkQ@mail.gmail.com>
-X-Gm-Features: AUfX_mxrk4wRgWPLjixGoyqZWEAlTjavFRX3T9mw_3W96-ZNwXFV2jgzWe5MeHs
-Message-ID: <CALCETrVezim-eYOFWon1w7FngTgWb2nkuZb_duf9q=TrNqiqkQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-To: Christian Brauner <brauner@kernel.org>
-Cc: Andy Lutomirski <luto@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Jann Horn <jannh@google.com>, John Ericson <mail@johnericson.me>, linux-api@vger.kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com>
 
-On Thu, Jul 23, 2026 at 6:09=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Thu, Jul 23, 2026 at 05:49:06AM -0700, Andy Lutomirski wrote:
-> > On Thu, Jul 23, 2026 at 4:37=E2=80=AFAM Christian Brauner <brauner@kern=
-el.org> wrote:
+On Wed, Jul 22, 2026 at 09:52:18PM -0700, Yosry Ahmed wrote:
+> On Wed, Jul 22, 2026 at 7:27 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+> >
+> > On Fri, Jul 17, 2026 at 04:51:51PM +0800, Hao Jia wrote:
+> > > @@ -1369,7 +1402,7 @@ static void shrink_worker(struct work_struct *w)
+> > >                       goto resched;
+> > >               }
 > > >
-> > > Once entered, failfs is a throw-away-the-key moment. The task is
-> > > considered chrooted so it cannot create user namespaces to regain
-> > > CAP_SYS_CHROOT. chroot()/fchroot() back out require CAP_SYS_CHROOT.
+> > > -             ret = shrink_memcg(memcg);
+> > > +             ret = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
+> > >               /* drop the extra reference */
+> > >               mem_cgroup_put(memcg);
+> > >
+> > > @@ -1493,7 +1526,7 @@ bool zswap_store(struct folio *folio)
+> > >       objcg = get_obj_cgroup_from_folio(folio);
+> > >       if (objcg && !obj_cgroup_may_zswap(objcg)) {
+> > >               memcg = get_mem_cgroup_from_objcg(objcg);
+> > > -             if (shrink_memcg(memcg)) {
+> > > +             if (shrink_memcg(memcg, 1)) {
 > >
-> > I kind of alluded to this earlier, but I don't think we should promise
-> > this.  In particular, I still think we should eventually allow a
-> > non-chrooted process with no_new_privs to chroot to any valid
-> > directory, and I think we should consider changing the definition of
-> > current_chrooted() such that failfs-as-root would cause it to return
-> > false.  I'm also not sure why it's useful -- if I want to throw away
->
-> I had considered that but introducing this change alongside this series
-> felt too spicy for me.
+> > Why 64 for the global limit but only 1 for the cgroup limit? That
+> > seems arbitrary in multiple ways.
+> 
+> I suggested that we keep the writeback here without batching and do
+> that change separately, mainly out of abundance of caution as
+> writeback is done synchronously here so the extra latency could be
+> problematic. I think we probably want to measure the performance
+> impact of that separately.
+> 
+> That being said, this path is potentially too expensive anyway due to
+> the flush, but I would rather we do some basic measurements before
+> batching here.
+> 
+> What do you think?
 
-I think I agree.  My only actual objection to your series as is is
-that your wording seems to make a promise that I think shouldn't be
-made.
+It's not an unknown, right? We know this works for direct reclaimers,
+cgroup limit reclaim e.g., and what the latency implications are.
 
->
-> > the key to accessing the normal contents of my mountns without
-> > changing my mountns, I need to chroot somewhere (like failfs) *and* I
-> > need to somehow prevent myself from getting an fd or a magic link back
-> > to the ordinary mountns contents.  If I somehow get such an fd,
-> > preventing my from fchrooting to it doesn't seem to accomplish
-> > anything, since I could traverse the fd with openat, etc just as
-> > easily, or even fchdir to it and use relative paths.
->
-> I think I generally agree with you. My main concern here is mostly about
-> changing very long-standing behavior here and making failfs special here
-> feels like it could easily misused.
+Because of how reclaim works, we also know it'll call zswap_store() in
+batches of SWAP_CLUSTER_MAX. If we don't batch here, they're likely to
+each call shrink_memcg() once we're at the limit - while still risking
+rejections due to compressibility differences.
 
-I don't think either of us are really suggesting making failfs
-special.  I agree about the long-standing behavior.
+My worry is that if we start with an inconsistency, we'll be stuck
+with it for a long time.
 
->
-> >
-> > My understanding of the exact workings of the mount tree is possibly
-> > not good enough to specify the semantics I think are correct quite
-> > exactly, but I think a decent approximation is that a task should be
-> > considered to be not chrooted if its root is at the top of its mount
-> > tree or is not in a mount tree at all.
->
-> If we could altering this definition from the patchset I would be in
-> favor of it. I'm curious what your take is though.
->
-
-I can't quite parse your question.
-
-I have three sort-of-concrete proposals:
-
-(a) current_chrooted returns false if follow_dotdot starting at
-current root but with nd->root equal to the namespace root would
-succeed and return the current root.  I think this is fairly solid.
-The main caveat I can think of is that someone could create a detached
-mount tree, chroot to its root, then fork and have the child:
-
- - drop privileges
- - set no_new_privs
- - chroot somewhere else
-
-then the parent or another privileged task mounts that tree somewhere,
-and the child could now access the parent of the mountpoint.  Any
-actual exploit based on this seems farfetched.
-
-(b) separate the concepts of fs-root-for-absolute-paths and
-fs-root-for-blocking-dotdot.  IMO this actually makes sense but would
-would be a much more intrusive change.  We would have
-fs->root_of_abspaths and fs->dotdot_blocking_root, and fchroot would
-only change root_of_abspaths unless a flag is set asking to change
-both.  (And document that setting that flag is not advised and that
-one should create a detached mount tree instead for 90% of use cases.)
- And no_new_privs tasks would be allowed to freely change
-root_of_abspaths.
-
-I like (b) conceptually in the sense that I wish no one had ever
-invented chroot-for-security in the first place.  I'm not sure I like
-it as an actual practical idea because it has a much larger scope.
-Also (a) is almost equivalent as long as no one ever sets the root to
-something that isn't the root of a mount tree, and it really would
-confuse some people if "/.." was not equivalent to "./".
-
-(c) Add a bit to fs_struct called something like chroot_locked.
-chroot() sets the bit if it chroots anywhere other than "/" or its
-equivalent.  fchroot does not set it unless a flag asking for it is
-set.  Switching mount namespace clears the bit.  If you have
-no_new_privs and don't have chroot_locked then you can chroot.
-
-
---Andy
+I'd rather start with the clean, consistent version. Dial it back only
+if we have data to justfiy the complication that we can put into a
+comment and the changelog that outlines why exactly it's different.
