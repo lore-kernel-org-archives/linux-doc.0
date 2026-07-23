@@ -1,93 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D26A43B6EB
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 13:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67FF471CE4;
+	Thu, 23 Jul 2026 13:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784812068; cv=none; b=M0Db0U5lHH7xPC5Fx4p9tmcH+PzSq5vclgv8QBDQOwM9X6hKR/l5aoLu+uOp+YP7n8iOQW+BKQy6vEVFiOTfWNq/E78GdBxvUkPnASKqRWdOwZGO/FYNgXtu2dnrcO8WPASe9nR83UAua/htfQvi/CeDyARf5ZjRL289AGCx1WQ=
+	t=1784812554; cv=none; b=d3zZCkASsTESm7RD2Sc5Pc3RlWqV6rjd5hHEhOyfJq1PlGy7Mau7GmeDexu2fr0hdQ55hO8rkaVFISwOB8yCtPCOWAUTawRfK/ElY97e43qZUh40IFmfwSEBHRxmbOzzu0+ACel4Rb7XcKAjLfgB3DAys4fw+FDhAkQ5Yu1MAks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784812068; c=relaxed/simple;
-	bh=JDc3FJnYfKyGlL98bd19wr0O15lTFBX+sIj8lLxCT50=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tyR5JF4UEV/X/EQUNBKYMxv0VNk51sgvayjiv9alMkZ7U1H84Oh1P1ZCIORyhJVXydZoWerwAver1Af3zM46TbxAEIyDVbXAh0bRRJ07EXKDlqD1kwNsSIWS4cucLu8xXCjcq1Y62dHvC7qKEiVcIShQl7piJT079oAyNbRtyc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8iktZLN; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784812554; c=relaxed/simple;
+	bh=ogF1/lx6v80Y9VEHNW9XJ9YZVZb3lZFUF1zZ52uRDbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QK3GbAwtGqHZnH+dTKt3KuaCdpgqzlY5YzFg/6CASO4DjB9EaGQ+W38i+l7RwSGzY26sXwKUQzt1RPcLjfgeSjtBapEYLiSb2UA6zKno/Q9Rc5P6TU0k5vm7d/fsYlvS/+VXWiUyIlD+reM6IvNQTQ4ufPGsvXrtuQS8yDgt3Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jIZ1GuyK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8iktZLN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784812066; x=1816348066;
-  h=date:from:to:cc:subject:message-id;
-  bh=JDc3FJnYfKyGlL98bd19wr0O15lTFBX+sIj8lLxCT50=;
-  b=B8iktZLNG1fRXwfb0EuLS8DvIzLkwfJVLala9XzHmcJ1XuObEKTw9rEw
-   jf/T4RbpD8ygqieX9uTzcvDHsoBOQ7yTQy7QEvP2UN0XVs6IPNu/Xpq+w
-   tQj1Q/suFkrslftD5OpNlG3uTPtPJ0S14W2mw/oorVTJ/64qF3ea4mcls
-   mZeHmmuESjt8ILbpSVD+hGEqtUm1qbdHj3BTNwzrcjUn8pHa3rcoCwE6v
-   HczNPnNDXqjMFyY0JwQx1XEvhleM9nwSnleN2so9s5vhlw1RUqXW7/DRk
-   ykX77f27acbLHiaTSsBQhmGsmiOZSQOqsGjmoZicU/SLT2xCS2zCsR6mt
-   Q==;
-X-CSE-ConnectionGUID: FyN0/aNxQgejdzc76YXsWQ==
-X-CSE-MsgGUID: gkmdX0JpQp28QJugqGhpPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="96609898"
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="96609898"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 06:07:45 -0700
-X-CSE-ConnectionGUID: zfn5vqzWQcaG+EmCUGmGLw==
-X-CSE-MsgGUID: l3Ka62g3Tj2oNkl3LfGYkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="262185827"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jul 2026 06:07:43 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wmt9J-000000000lm-2iKY;
-	Thu, 23 Jul 2026 13:07:41 +0000
-Date: Thu, 23 Jul 2026 15:06:42 +0200
-From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neil@brown.name>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/filesystems/api-summary:20:
- ./fs/dcache.c:2005: WARNING: Block quote ends without a blank line;
- unexpected unindent. [docutils]
-Message-ID: <202607231506.JI6n9xC7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jIZ1GuyK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 965731F00A3A;
+	Thu, 23 Jul 2026 13:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784812544;
+	bh=+0Wn7Wwmg9bFq1zegHa1QOhYQQe3Q8knYFvDFs+AtsY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=jIZ1GuyKv6h8fYAMIBA82ika/8T+D4WsQx6VrgEYHP0uppD4wfo5ns5wQnoDMv/55
+	 +OQLRqXbZ8cPfwrKT/XuSDHipCy1100iOsOVENsOWc+UWG1knqEk7W8b/ZfQqVumCj
+	 XCkU1sTksTFrJLMcBQr9TOM2uwlYLpdgpFddwojZlTz9rNAFskpAQBz+ZMwOinf+p3
+	 KDseMzc9NxiKV/p6p1EEUwW9OYD7ljA/n7DWAHndIpez+Vw7Ah9iDqW0pzb1Pl8u8c
+	 qTdnNvXdZ34oh5agLGxXINUdrzh0xwmg8xeoLLJgWK/7IXrq+kLsSiLCE12Y5nBcBh
+	 oDE7Zn2gzA6Vg==
+Date: Thu, 23 Jul 2026 06:15:26 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Larysa Zaremba <larysa.zaremba@intel.com>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>, <davem@davemloft.net>,
+ <pabeni@redhat.com>, <edumazet@google.com>, <andrew+netdev@lunn.ch>,
+ <netdev@vger.kernel.org>, <przemyslaw.kitszel@intel.com>,
+ <aleksander.lobakin@intel.com>, <sridhar.samudrala@intel.com>,
+ <michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
+ <emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
+ <joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
+ <jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
+ <corbet@lwn.net>, <richardcochran@gmail.com>, <skhan@linuxfoundation.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v5 00/15][pull request] Introduce iXD driver
+Message-ID: <20260723061526.38902608@kernel.org>
+In-Reply-To: <al5Lr2Qm5pDa-yOF@soc-5CG4396X81.clients.intel.com>
+References: <20260715180042.1972010-1-anthony.l.nguyen@intel.com>
+	<al5Lr2Qm5pDa-yOF@soc-5CG4396X81.clients.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/NeilBrown/VFS-fix-various-typos-in-documentation-for-start_creating-start_removing-etc/20260723-122405
-head:   0e9a02466e2cae8ff23d410916dbe6f720b746a6
-commit: 0e9a02466e2cae8ff23d410916dbe6f720b746a6 VFS: add d_duplicate()
-date:   9 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260723/202607231506.JI6n9xC7-lkp@intel.com/reproduce)
+On Mon, 20 Jul 2026 18:24:15 +0200 Larysa Zaremba wrote:
+> I have looked though Sashiko feedback for this version. A lot medium+ comments 
+> were things that I have addressed as false-positives in v4, so those are left 
+> out, same as many of low-severity subjective issues. Unfortunately, patch 4 does 
+> need a fixup (see Re: for the patch itself), but hopefully this does not warrant 
+> another PR.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607231506.JI6n9xC7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Ring Design
-   ----------- [docutils]
-   WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
-   WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
-   Documentation/filesystems/api-summary:20: ./fs/dcache.c:2004: ERROR: Unexpected indentation. [docutils]
->> Documentation/filesystems/api-summary:20: ./fs/dcache.c:2005: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   WARNING: ./fs/inode.c:1300 Excess function parameter 'isnew' description in 'inode_insert5'
-   Documentation/firmware-guide/acpi/dsd/motorcomm-yt8xxx-phy.rst:70: ERROR: Unexpected indentation. [docutils]
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'power_module' not described in 'amdgpu_display_manager'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+There's gazillion patches in the queue. Just fix the bugs and repost.
+This "we will follow up" attitude is getting out of hand IMHO.
