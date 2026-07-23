@@ -1,140 +1,98 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C883336AB5A
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 22:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA403F5BE5;
+	Thu, 23 Jul 2026 22:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784845163; cv=none; b=OCUqRk32f28RMc4HL61leCP8sqBW5bgsKEEwKtwNgE/x0FLfSIWK3y6RotprEQZYsy7HHsqRHwgKhePjB/hygyRUf27BSYw3hEgZtBm97rF1lIUYfYpXOityKaJ3chEhLjooimWLY46yxNj39R4jIdfIdCoHCuujrpKD9fcw7yw=
+	t=1784845272; cv=none; b=NUYlalDj92vqbe4Xby5Y6/f6NrfmkLQGEzmG+HMjU//T7t7zfI9kY7dTt2psTHIW+VajQxYOXxvR65CPY/IegG1xbPsv2a4bB+c2PSE+TyziuhT7vMp+/rA1pnv1SZugEhER0psAk+8MLQiBcBavuG+BXFIaWzwlRHMuQoSqgfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784845163; c=relaxed/simple;
-	bh=vbCpfCx3Aq7wfU9CTsT5wSlReo5n7+uxb5BNMsNykao=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZnQvh4ZzDp4sl9LSFRdDbiudBs/bD6rsM9lUj6qcv3LYCftMTlDIW3A7ZxfVIsq6OccfmrgOdPMDU0BzHUL8HPgo/7re7Cjqgj/RywkICWfUTIL6OExrIt5Bcd5+32KR0jLXn+EcBfsqhi+VUxmQAUyShG2QqT3GkbHp/ihA8YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=o1hEm5gq; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784845272; c=relaxed/simple;
+	bh=JHPcdpsjEWsydofNBqVmzwni7hqFSiFH0+gRTGXdJd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=b8CZ0MbBz62zuOz49oWQYQn7MSJxetU1lnQmwUHPda4me8RU1tv/crrVVfOvVD27Pkuf04X+Qv/K0joBaDVmoFyxnR0lDMqsK2V4VhHGYEzhuyi4zc/NGmvFKcxeUxrV8lylFOVTR87vq1VBZFc45BUC3o6UfilHbNSV/uBJI84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I6oI+1Wv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="o1hEm5gq"
-Message-ID: <cebd1045-5dd7-4f35-8750-9c39790ceae9@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784845145;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G0SzsDUN/BFXoWvc6OI68QQ0aGQFC3X7Tv8gtb7Mzg8=;
-	b=o1hEm5gqbSFXjNQ4yIfcWqVF8F2VgF7agEYdG4EH8wmp+G1vDgDZuukjZsNrRRZEMTLDn8
-	e2RghIzHx5oniMfYsrV4kpaicQc52zsfUQFC/Lj9EgU93DFRi4xAAwgenWevULM+oLxJIs
-	Z9M3QnjiLFjyIalbt7oDxrbrLyVCbiY=
-Date: Thu, 23 Jul 2026 15:18:55 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I6oI+1Wv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CD81F000E9;
+	Thu, 23 Jul 2026 22:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784845267;
+	bh=jt33XZg6IakrXoUrAEnJIibUYgZUlDskKhuW4fOU1xM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=I6oI+1WvIphSqo2SuYZlr+Z760iGzSCqCOqo1O52QXp0AQt4DpnWOjisJa4Dl9+HO
+	 JERVpACfEtCncGeO3ANxpi2GaBQ94g9U/b+m2LChVg+v8C7Jj96R4FEHQemOqnV1df
+	 gF8XJ3qDVMf4/f1lRpAYBfHrtjAtaYNxjerhzzJQ9O35DZ+nmDJ7bEIxwhEUUJN7Ye
+	 Tt6/NS51u9fLd+CCzUdwtSjR+JsoOWluKNMUvl38CPvbY5NrDPcKPsKklnoXAfp0Hc
+	 LJ8hgorhXMMGA5x79fdAR7IgtS9Ri1F8IjDr++NQof3NE313yZRqh3C/6dYKWCte5P
+	 +i2kBcAGvHzwA==
+Date: Thu, 23 Jul 2026 17:21:06 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v7 01/12] PCI: liveupdate: Set up FLB handler for the PCI
+ core
+Message-ID: <20260723222106.GA867236@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 00/20] vfio/pci: Base Live Update support for VFIO
-To: Vipin Sharma <vipinsh@google.com>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, ajayachandra@nvidia.com, alex@shazbot.org,
- amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com,
- chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net,
- dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com,
- jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com,
- kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com,
- lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com,
- parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com,
- pratyush@kernel.org, rananta@google.com, rientjes@google.com,
- rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com,
- schnelle@linux.ibm.com, skhan@linuxfoundation.org, skhawaja@google.com,
- vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com
-References: <20260714151505.3466855-1-vipinsh@google.com>
- <2c03ac97-60a6-4352-a942-27dcebae8d22@linux.dev>
- <8fd94fad-e457-4839-9e41-ae257a138bee@linux.dev>
- <20260720163452.GC1191959.vipinsh@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
-In-Reply-To: <20260720163452.GC1191959.vipinsh@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710212616.1351130-2-dmatlack@google.com>
 
+On Fri, Jul 10, 2026 at 09:26:04PM +0000, David Matlack wrote:
+> Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to enable
+> it to participate in the preservation of PCI devices across Live Update.
+> Essentially, this commit enables the PCI core to allocate a struct
+> (struct pci_ser) and preserve it across a Live Update whenever at least
+> one device is preserved.
+> ...
 
-On 7/20/26 10:08 AM, Vipin Sharma wrote:
-> On Thu, Jul 16, 2026 at 06:22:07PM -0700, Yanjun.Zhu wrote:
->> On 7/16/26 4:24 PM, Yanjun.Zhu wrote:
->>>
->>> On 7/14/26 8:14 AM, Vipin Sharma wrote:
->>>> Testing
->>>> -------
->>>>
->>>> Tested using VFIO Live Update selftests in both QEMU and bare-metal
->>>> environment (Intel DSA PCIe device).
->>> I want to make tests VFIO Live Update selftests in QEMU. But how to
->>> select a PCIe device?
->>>
->>> what device do the PCI ID 0000:00:04.0 and 0000:6a:01.0 mean in the
->>> following testcase?
-> Sorry, this was my copy-paste mistake when combining things from both
-> qemu and baremetal. You only need one device not two separate ones.
->
-> For testing using QEMU, you can use QEMU PCI test device.
->
->    -device pci-testdev
->
-> In VM, use `lspci` command to find the BDF of the PCI device. It will show
-> output like:
->
->    00:04.0 Unclassified device [00ff]: Red Hat, Inc. QEMU PCI Test Device
->
-> Then prefix the domain (generally, 0000) to the BDF and use the testing
-> commands.
->
-> `0000:6a:01.0` was the BDF of the Intel DSA device on my host. I
-> incorrectly mixed two devices during my copy-paste.
->
-> Limitation of qemu pci-testdev is that it does not have the DMA
-> capability. I used physical host with Intel DSA to verify that the
-> device performing DMA during live update gets reset.
->
->> In my qemu,
->>
->> 00:04.0 System peripheral: InnoTek Systemberatung GmbH VirtualBox Guest
->> Service
->>      Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr-
->> Stepping- SERR- FastB2B- DisINTx-
->>      Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort-
->> <MAbort- >SERR- <PERR- INTx-
->>      Interrupt: pin A routed to IRQ 20
->>      Region 0: I/O ports at d040 [size=32]
->>      Region 1: Memory at f0400000 (32-bit, non-prefetchable) [size=4M]
->>      Region 2: Memory at f0800000 (32-bit, prefetchable) [size=16K]
->>      Kernel driver in use: vboxguest
->>      Kernel modules: vboxguest
->>
->> I am wondering if the above pci device can work well with this patch set or
->> not.
-> I think you should be able to test Live Update with any PCI device which
-> can be attached vfio-pci driver.
->
-> `vfio_pci_liveupdate_kexec_test` will initiate DMA if the VFIO selftest
-> framework has the driver for the passed device (Intel DSA) otherwise it
-> will just skip over the DMA flow and do the remaining things.
+> +#define pr_fmt(fmt) "PCI: " KBUILD_BASENAME ": " fmt
 
-Thanks a lot. I'll run some tests with QEMU's `pci-testdev`.
+Is KBUILD_BASENAME buying us something important here?  Just from
+code-reading perspective, it's more work because without some digging
+I don't know what it will end up looking like in a dmesg log.
 
-If I understand correctly, when using `pci-testdev`, only the DMA test 
-case is expected not to work, while all the other test cases should work 
-correctly.
+> +static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
+> +{
+> +	struct pci_flb_outgoing *outgoing = args->obj;
+> +
+> +	WARN_ON(outgoing->ser->nr_devices);
+> +	kho_block_set_destroy(&outgoing->block_set);
+> +	kho_unpreserve_free(outgoing->ser);
+> +	kfree(outgoing);
+> +	pr_debug("Unpreserved struct pci_ser\n");
 
-Yanjun.Zhu
+If this pr_debug() is useful, maybe it should include an address and
+there should be a corresponding pr_debug() on the preserve side so we
+could find things in a crashdump?
 
->
-> Let me know if you still face some issue in running Live Update, I will
-> be happy to provide more details.
->
-> Thanks
-> Vipin
+> +int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
+> +{
+> +	pr_debug("Registering file handler \"%s\"\n", fh->compatible);
+
+Is fh->compatible enough to identify a driver?
