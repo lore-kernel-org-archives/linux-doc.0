@@ -1,95 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C263EE1DB
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 08:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CCA3E00B3;
+	Thu, 23 Jul 2026 08:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784796257; cv=none; b=OzDT2rgbpXGKalt/K5hYPPjmlSvPSFCXDPmEI3DFG5w/Tb5N228FtSv4Xy1F8DrLAC23rx4hwD2nzNGN/mc/xds2Rh+GYAI+jRgKbpLt1oWJXlqTRjeE9/zUJWJPtAP8dAX7C/ru/vJHIxqGTec+m8ilgvJercMEGVpFo2QCpKg=
+	t=1784796308; cv=none; b=YuARorRXbElwUawwNoGu7EPf8+9ooJoi4bXbrfmykoTxRwesvt9Yb1M5Ms1HcnbeBAWtNdbYeRftKlPKGnCwRKwZxsnmidGjerUAujom6QavC6QX88ynhoN3GpbEInsGJRbVIj0vtZ7RnQLtT2mQ3K3/jX15DAwaCkSK4x19ipc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784796257; c=relaxed/simple;
-	bh=j2EBRvjl4THMhyqlpfuX6DTQgfmPpqpfKHZum4qGV80=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nIFQ4NAr7+dNkcCTu8B1y4TvNkuT74cSjTy3aC9+EuLCsmqClVShJPWSyrPRQe8uBtwFJZ23OjYq31kRWSY1CT35UQVXJ3eG3egYPKczrGqMj1Oj1aY8aU5qrMZNBnVnJcDu3Fygzk6kEfOXBvZMSfWfMoF4okMY8QoRGEJUzek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C5641F00A3A
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 08:44:11 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c86945164so2505881fa.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 01:44:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrpVyI85vEGkYoecnZTb3rU76yZYe+LWF6b3Vd8wE7sFNmw8DBbBVTypEAyHJh9ns5NEepkf71pMgg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgIGNw7MdYMqo/fuzbz1kZXeinpm92VM1tjDW/lwKsol8Hjy+y
-	nvEN1HiSvoG0ReCO3wout0+0AFUqg0MR1Gg584Q22UUlRUZTc2kXSaGLPeifyvZAj3E9ABUP+Mz
-	Xc1Sw0YqGw7DvpEtu0j8VPUgdLpuKL/AU/qrN2YbTAw==
-X-Received: by 2002:a2e:b8d5:0:b0:39c:8124:93b3 with SMTP id
- 38308e7fff4ca-39f07bcfce0mr4681721fa.9.1784796246084; Thu, 23 Jul 2026
- 01:44:06 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 23 Jul 2026 01:44:04 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 23 Jul 2026 01:44:04 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <amDuqoRBg5qGafi2@linaro.org>
+	s=arc-20240116; t=1784796308; c=relaxed/simple;
+	bh=8GgPzaxuYc4s2cVuSgAcGd76ajTea0DUpWFyFtd2Oy4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=dOALgCHeUlGxQTwpEoO6EoTmY0R2TrvCOH4o483ji6QdgPuxmBc47U5HoUFk09CiGF1oUqIw1gWkVAl/xpNdYKH2I1X8ZdyBoxKPx5Kit3WIrTZAFt5tM6Jrgwnc51hYmmj50Tk9+b52wA4JbC7WqPBjPkcCc7U1F4VSyX5ECfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=W5gXIxoD; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="W5gXIxoD"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260723084503epoutp04a324084313ef02b272e897115231c5b2~E3sg4KZO-3034630346epoutp04L;
+	Thu, 23 Jul 2026 08:45:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260723084503epoutp04a324084313ef02b272e897115231c5b2~E3sg4KZO-3034630346epoutp04L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1784796303;
+	bh=sQjXIg3wAcrT3mkYCsdbl0LWsoOlUsvvM9TLKCcGrBo=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=W5gXIxoDyG4Nfrz0+i0pklqM2q3/qpEunf4JU/SLOUtj2VknFkftcVuCb6c5nB9rv
+	 0PfvO1yP0f71Cs1IOmIxhbGH98MahM0XyvQigBVdJ9zrXWw6I7OJvWLRpHZNA++6Az
+	 8E6N/DHVyIA5A/LbAByxODYxcLsaYG1fyL2e0bnc=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20260723084503epcas5p43df5d820cf5e5603cbe8d66b060992f0~E3sgfyfxj0540505405epcas5p4A;
+	Thu, 23 Jul 2026 08:45:03 +0000 (GMT)
+Received: from epcpadp1new (unknown [182.195.40.141]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4h5Pnq2p8Nz6B9mQ; Thu, 23 Jul
+	2026 08:45:03 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260723083847epcas5p21a735796de0bdb6459cd2c3b7b9b18de~E3nCLElTK0474604746epcas5p2T;
+	Thu, 23 Jul 2026 08:38:47 +0000 (GMT)
+Received: from [107.122.10.65] (unknown [107.122.10.65]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260723083835epsmtip11766a99123bc01993811bc8746be0d2d~E3m3Il4WE1438914389epsmtip1e;
+	Thu, 23 Jul 2026 08:38:35 +0000 (GMT)
+Message-ID: <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
+Date: Thu, 23 Jul 2026 14:08:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260721-qcom-qce-cmd-descr-v23-0-1be02deffda9@oss.qualcomm.com>
- <20260721-qcom-qce-cmd-descr-v23-6-1be02deffda9@oss.qualcomm.com>
- <20260721134853.2B2401F000E9@smtp.kernel.org> <amCGXUUd4VmuQRGD@linaro.org>
- <CAMRc=MfBNB0pvv1kPPcswE4Y2m7PXBO49bwJg=v0+aY=JmJKWw@mail.gmail.com>
- <amC7_M-HjVZ3sQuT@linaro.org> <CAMRc=MdnSyPmbK0skMx686=wSe52nnuWgCNJ0uSoKs_=HyAq-Q@mail.gmail.com>
- <amDRxPkdvbA-iVer@linaro.org> <CAMRc=Me523xQbfJvML9taJ-fR128SJurJS4eX9N9E9WtHF5W5Q@mail.gmail.com>
- <amDuqoRBg5qGafi2@linaro.org>
-Date: Thu, 23 Jul 2026 01:44:04 -0700
-X-Gmail-Original-Message-ID: <CAMRc=McJBVkCT+rFToY-Sn+nrLy-Sb8otz1NYWkQj1J-4-RK-A@mail.gmail.com>
-X-Gm-Features: AUfX_mwJQKKrlt_uOHiEXNJho9ROwjpR_PSftHZZM5GhDPu9qwbx9QpVEO72mS0
-Message-ID: <CAMRc=McJBVkCT+rFToY-Sn+nrLy-Sb8otz1NYWkQj1J-4-RK-A@mail.gmail.com>
-Subject: Re: [PATCH v23 06/14] dmaengine: qcom: bam_dma: add support for BAM locking
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
-	Frank Li <Frank.Li@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	sashiko-reviews@lists.linux.dev, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
+Cc: Zhigang.Luo@amd.com, balbirs@nvidia.com, brendan.jackman@linux.dev,
+	yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com,
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org,
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, gregkh@linuxfoundation.org, rafael@kernel.org,
+	dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com,
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com,
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de,
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+	ying.huang@linux.alibaba.com, kasong@tencent.com, qi.zheng@linux.dev,
+	shakeel.butt@linux.dev, baohua@kernel.org, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev,
+	tj@kernel.org, mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca,
+	jhubbard@nvidia.com, peterx@redhat.com, baolin.wang@linux.alibaba.com,
+	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
+	lance.yang@linux.dev, usama.arif@linux.dev, xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, cgroups@vger.kernel.org,
+	damon@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com, cpgs@samsung.com
+Content-Language: en-US
+From: Arun George/Arun George <arun.george@samsung.com>
+In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260723083847epcas5p21a735796de0bdb6459cd2c3b7b9b18de
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f
+References: <CGME20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f@epcas5p1.samsung.com>
+	<20260720193431.3841992-1-gourry@gourry.net>
 
-On Wed, 22 Jul 2026 18:24:10 +0200, Stephan Gerhold
-<stephan.gerhold@linaro.org> said:
->
-> FWIW, I couldn't stop myself trying to finish my "write lock descriptors
-> directly into FIFO" idea, once I started I was curious how it would turn
-> out. I think it's actually quite elegant, the loop in bam_start_dma() is
-> wrapped with LOCK and UNLOCK, later process_channel_irqs() looks at the
-> FIFO again and just skips over these descriptors. lock_ce is allocated
-> once at channel creation time, no other allocations are needed. (Could
-> probably move lock_ce allocation to slave_config() so it's allocated
-> only when locking is configured for a channel).
->
-> See diff below. It doesn't crash badly in a quick test, but didn't check
-> in detail if the locking is actually working correctly. :')
->
-> I'm okay with whatever is "free of known races" and works with the use
-> cases we have, so use/adapt whatever you like best.
->
-> If you want to use this, feel free to add
-> Co-developed-by: Stephan Gerhold <stephan.gerhold@linaro.org>
-> Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
->
-> Good luck! :D
->
+On 21-07-2026 01:03 am, Gregory Price wrote:
+> Changes Since V4
+> ================
+>   - dropped compressed ram example from series
+>       - will submit separately if this moves forward
 
-Oh, neat! Thanks, I may use some of that. And that makes you have a stake in
-this series now. :)
+We intend to test this series on a compression capable CXL expander 
+hardware. Since compressed ram example (cram) is not part of this 
+series, how do you suggest to do that? Do you have a version of cram 
+module compatible with this series?
 
-Bartosz
+~Arun
+
