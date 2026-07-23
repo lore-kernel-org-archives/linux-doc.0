@@ -1,279 +1,206 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B924379EE4
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 12:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00501DFDA1
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 12:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784810523; cv=none; b=qGs/VgzOhERlPFk9RtOapPOpk8AI199zV93zExo9GHtNTPpSW3FuJoRiFUQHr2yUPyU9N1RTq43QF+I/0pI9ZA4JbbuRkPt3k6SQdFwOng6z0Zwzu2i15lVefAi8qlQy8J/6xnZbhMyia43RpgPjAtnx9Rwn1RWwpV29wpdGee4=
+	t=1784810643; cv=none; b=BN4iUhK6u8Uf8xvnEJQ0RhqUzSHmcZ/xjTSGYQWNSER9uiIjCP+Ijcx3Sdb0kDmQdXZOmgoRowLzk82HBmvQHqN8g5kF1eG2mZeWXyaH3K2xe2kSXTT4QsfU5IatHiPAPdKwW8fcCGjhNLB0CzxOH5z0oLSvzt/Cl7IvVHx3/Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784810523; c=relaxed/simple;
-	bh=yWRZZx48/1+QRaV01xDx2WyFeNnvYgY8OCFiVylVp4A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=fIiRCWR6GOhFj8Lv0ZiqfPC29qpwdCu27mw+xuQzGca6ymVa3zBgowODicEKVlrP7lnE7igDq7BSCOrB0XQ5eKKAgQgcfD5frRtdYrMjdx+U01uTvd/3bAh0pWSfyvjNZXNTjRX3qov4OMtahapB4tBnR1QtdXbyeKc+rUmhEoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OvA7qCTR; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784810643; c=relaxed/simple;
+	bh=680GkJ6nxsXb8HhcVIxGtH3xHBKXynaE1NXCZYh6Khg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zznksg+riQsZeqgJu3Xr7hqIRtHf0RBd2a7GghWzjdEP8sNWMCEPDry6Ip89ngUWWJ1QlDmqc3G3PLvjWg9eEl28lGrBLtaOYvH5fifk9lEjwcNd7jlP/nYIIcZv2yTTv+UzZgT87ZJ8JX++48lMv2X662MGBUt13Vg99D2Kcz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=JjF8WK+o; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OvA7qCTR"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cc7e86e7aeso6502315ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 05:42:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784810521; x=1785415321; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:cc
-         :references:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mUoF37NPNyYkQ70X7zrm0/tJvcnz9xdkZRDVuycG4iw=;
-        b=OvA7qCTRPklOMxhCaWKYhuHeFx4zj0PHMCTofy6fjPAANEVJ79dGCNZ34NB0G50Ug6
-         OMhUt+1zY241ZA0LHkBmK6lqUjVUW8SWG00BXQtjrB2L/mhQZ6E7sB/9TBFn92Gi+njJ
-         87oOxTM6FAHJIzMEfC6DgQDDpHeehgv8HJ0E6JrG/koQIPMXfdJ2ccBKRlHFJFqcqV9L
-         ja+gFWVhopGbkO692Kt1EDaMkM8yNtUgoIeWhlz9J5XKS4vVmWjodU2ABS0y8Hu4hGEJ
-         uzMQz/96qtcaHa1Nx+P0WFOeMmi2EmvSjOk+ui07clNp30mnVuCk+NemUYMHvIEdXsVi
-         SVUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784810521; x=1785415321;
-        h=content-transfer-encoding:content-type:in-reply-to:from:cc
-         :references:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mUoF37NPNyYkQ70X7zrm0/tJvcnz9xdkZRDVuycG4iw=;
-        b=l76rojULjk4ZdwSLAQ7iP1w3FhRshcMZMuQ9/emjfXAZ+q7Aert8XHJ3PQ8JeXb7nn
-         jiXWFK9h4cpgCgwMq4cIoy20WpGcaTKK3Wj9D4WPKl5hDKtOXA/amZ3H2Ngr72g93rLO
-         rz5/6UV2HSK8OVSl1yFUzJW0x9H7CK0VC0JwH2FTvjGJwao1oJRjMGIkW40zAiw+D74O
-         UznTQA0WONmrNIpJv3EyLq3ublmgRCqGCZtJ1Geq8lipEIpppSEenltOX7rEUMLkj9T0
-         BxmAcdU/oXR4dTLzTb+Yn0FpPyDugI7nD+gbJiX6g5E7ZYSrLCppZvwH6pS1tGsdOSTr
-         SOgg==
-X-Gm-Message-State: AOJu0YyULkGKYAQIfjJZrmNxgLkaNfF/BcXzGvmOC/acYoEIDfirXVCB
-	+5PdJi2Fkv5W+HlNjsF7rvUZTKdXnvuHrYoiwiu7W8WLMhnxOlXdADDb
-X-Gm-Gg: AR+sD11BX2IM80djK+1nqXML3SsVo2d+wlTRLu3WTvEyzw7Stypc3MYN24CbVjvR4WX
-	j3y7i1FyBojd9dB4Stnt6Twa0FgzfOQPG4NyS7TYZX88ElSGaAjdfmwYpXgGgAMEH+EwdUXPu3H
-	dUL0phCznMdy9QOQuQ+gUGB/jeRCf+T8atsTnHOytYYS9GqncnO5MaU0byPNLyupieC+7dAQUTp
-	MaLyB7lvm/0S9cRk9jRE8zZrJbACw01dn6qz6mGXv/XphaJVmiP3T1fw2V5xOb7QnZEP3Ky2MJA
-	afMl3URfcM6UNQgan9vhLWles2PAGkN8XwlPXnQebXr7mfJxs4AU5XXtH5uHRyDKKAXCMS/aXSB
-	Yjv+3FuBPc91YUJAFwxAxmKtfd/cOk7aO7/ssXQS505DmfYTkLDGCPwrIrNOIsWObunN4O905HU
-	HAf4KCKjXfoV4V0dEYyRjypu9gYRiyIVYfONXNONkmNnZVTdXIbl5aj5c=
-X-Received: by 2002:a17:903:26cf:b0:2b2:67ca:5ff9 with SMTP id d9443c01a7336-2cfa67031b5mr36389815ad.0.1784810520566;
-        Thu, 23 Jul 2026 05:42:00 -0700 (PDT)
-Received: from ?IPV6:2001:ce8:127:3775:2d97:7c40:61a3:f603? ([2001:ce8:127:3775:2d97:7c40:61a3:f603])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efde5cfsm33119345ad.31.2026.07.23.05.41.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jul 2026 05:41:59 -0700 (PDT)
-Message-ID: <4eb100d4-8bf5-40b7-ae51-0c736e90901a@gmail.com>
-Date: Thu, 23 Jul 2026 21:41:25 +0900
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="JjF8WK+o"
+Date: Thu, 23 Jul 2026 20:43:17 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1784810627;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ChaWGSksGizcYFcIe0/A3gvJeguEd5AG46jmo8I+CP0=;
+	b=JjF8WK+o0C5ZAnPQhrxdjIp+Lt1L20Eh+vfYGZ8IAWxwPojIdCSTzHkjD230UpiqxbGt3/
+	Tz6lAePBbaxFq8+JSKnTMVTc09t6G7TroQ/RsG9f1rKkDZJoPeCVtofkcqbxdihHmvDq/G
+	xHZS65yBXurVd/wV5R2tc0SUebYFOCOa58BYA8ScsmFXQ6HGq6wvcrCL+c5zHhvDcnv1XP
+	Li92goq8b/qS1puAC74D25uOCikAj2Oc5B2iDkzpij0G8fQ47eZdIK9TlaZZbwFSORhGXc
+	GwOkLKUqCkn5A2gIQCfqhp/MDM7ryvRkUYegNl0bzZE9TMmPKB2ZDiVTdCEa7w==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 12/16] docs/zh_TW: process: localize terminology in
+ embargoed-hardware-issues.rst
+Message-ID: <amIMZUExNnUOJgrV@wyuan.org>
+References: <20260721215542.98435-1-chenyou910331@gmail.com>
+ <20260721215542.98435-13-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2]docs: ja_JP: Add 1.Intro.rst Japanese Ver
-Content-Language: en-US
-To: Akira Yokosawa <akiyks@gmail.com>
-References: <CAKJLdqb=dqSJ56FSRL2eBJWdtuknjkmDo=+et_BZOmbWUHuKJA@mail.gmail.com>
- <113d2aa0-a4b3-4bda-81ba-9d23cc237d0a@gmail.com>
- <5f24dbf4-d98a-4ab9-8dcf-dcadcf9307cd@gmail.com>
- <c1006587-c2f6-4ae0-948f-217bb0ff3509@gmail.com>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net
-From: dayodayo <dayodayo1410@gmail.com>
-In-Reply-To: <c1006587-c2f6-4ae0-948f-217bb0ff3509@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260721215542.98435-13-chenyou910331@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
+On Wed, Jul 22, 2026 at 05:55:38AM +0800, Chen-Yu Yeh wrote:
+> Localize mainland terms to Taiwanese Mandarin (內核→核心, 硬件→硬體,
+> 信息→資訊, ...) and sync with the English original: silicon-vendor
+> wording, real PGP/S/MIME key URLs, updated Linux Foundation IT
+> paragraph, disclosing-party responsibilities, shared-resources rule,
+> the new "Early access" section, and the current process ambassadors
+> list. Also fix the broken zh_Contact cross reference.
+> 
+> update to commit cead34ac1ce1 ("MAINTAINERS: update ndesaulniers")
+> 
+> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+> ---
+>  .../process/embargoed-hardware-issues.rst     | 194 ++++++++++--------
+>  1 file changed, 114 insertions(+), 80 deletions(-)
+> 
+>  
+> -硬件安全官
+> +硬體安全官
+>  ^^^^^^^^^^
+>  
+> -目前的硬件安全官小組:
+> +目前的硬體安全官小組:
+>  
+>    - Linus Torvalds（Linux基金會院士）
+>    - Greg Kroah Hartman（Linux基金會院士）
 
-From d4614a0754863767726edf4ae1dba3f058c30d54 Mon Sep 17 00:00:00 2001
-From: Sakamoto Yuto <dayodayo1410@gmail.com>
-Date: Mon, 20 Jul 2026 09:29:46 +0900
-Subject: [PATCH v3] Translate Documentation\process\1.Intro.rst into Japanese
- to Documentation\translations\ja_JP\1.Intro.rst
-Signed-off-by: Sakamoto Yuto <dayodayo1410@gmail.com>
----
- .../translations/ja_JP/process/1.Intro.rst    | 176 ++++++++++++++++++
- 1 file changed, 176 insertions(+)
- create mode 100644 Documentation/translations/ja_JP/process/1.Intro.rst
-diff --git a/Documentation/translations/ja_JP/process/1.Intro.rst b/Documentation/translations/ja_JP/process/1.Intro.rst
-new file mode 100644
-index 000000000000..a3d0a12fdf75
---- /dev/null
-+++ b/Documentation/translations/ja_JP/process/1.Intro.rst
-@@ -0,0 +1,176 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. Originally contributed by Sakamoto Yuto
-+
-+はじめに
-+========
-+
-+.. note:: 【訳註】
-+   この文書は、
-+   Documentation/process/howto.rst
-+   の翻訳です。
-+   免責条項については、
-+   :ref:`免責条項の抄訳 <translations_ja_JP_disclaimer>` および、
-+   :ref:`Disclaimer (英語版) <translations_disclaimer>` を参照してください。
-+
-+概要
-+----
-+
-+この章の以下の部分では、カーネル開発プロセスの範疇と開発者やその企業が直面し得る問題に関して、説明を行います。
-+カーネルコードは公式(メインライン)カーネルにマージされるべき理由は数多く存在します。
-+ユーザーへの自動提供、多様な形態でのコミュニティ支援、かつカーネル開発の方向性に影響を与える等が、例として挙げられます。
-+Linuxカーネルに貢献するコードは、必ずGPL互換ライセンスの下、公開してください。
-+
-+:ref:`development_process` は開発プロセス、カーネルのリリース周期、マージウィンドウの仕組みの三つに関して、説明されています。
-+パッチの開発、評価、マージ周期の段階が、説明されています。
-+これまで、ツールやメーリングリストに関しての質問や議論が、いくつかありました。
-+カーネル開発をしてみたい開発者は、最初の練習としてバグの発見と修正をおすすめします。
-+
-+:ref:`development_early_stage`はできる限り早期段階での開発者のプロジェクト策定への関与について説明しています。
-+
-+:ref:`development_coding`はコーディングプロセスに関してであり、他の開発者が遭遇した落とし穴について議論されています。
-+パッチに係るいくつかの要件が説明され、そしてパッチの正確性の確認を手助けするツールについて紹介されています。
-+
-+:ref:`development_posting`はレビューの為のパッチを投稿するプロセスについて、説明しています。
-+開発コミュニティにあなたのパッチを真剣に受け取ってもらうには、パッチは適切な構成で記述され、且つ正しい場所に必ず送信されなければなりません。
-+このアドバイスに従って頂ければ、あなたの努力は最良の形で受け入れられる事でしょう。
-+
-+:ref:`development_followthrough`はパッチの投稿後、何が起こるかについて説明しています。作業は評価される迄を以て作業と言うのです。
-+レビュアーと共に作業する事は開発プロセスに於いて重要であり、この章ではこの大事な段階に於いて如何に問題を回避するかについていくつかヒントを提供します。
-+開発者はメインラインにパッチが統合された時点で作業が完了したと思わない様、注意が必要です。
-+
-+:ref:`development_advancedtopics`はいくつかの「高度な」トピックを紹介しています。Gitを用いたパッチ管理や他の開発者が投稿したパッチの評価等が、例として挙げられます。
-+
-+:ref:`development_conclusion`は、カーネル開発者に対する更なる詳細情報へのリンクを含んだ、ドキュメントの締めくくりです。
-+
-+この文書の内容
-+-------------
-+
-+八百万行を超えるコード、各リリースには千を超えるコントリビューター数を誇るLinuxカーネルは最も巨大、かつ最も活発なフリーソフトウェアプロジェクトです。
-+1991年の細やかな始まりから、このカーネルはポケットサイズの音楽プレーヤーからデスクトップPCや最大のスパコンまで、ありとあらゆるシステムで使われる最高のOSコンポーネントへ進化しました。
-+このソフトウェアは堅牢、効率、拡張性を兼ね備える、難局へのソリューションとなります。
-+
-+成長と普及に伴い、年々開発への参加を希望する開発者や会社は増えています。
-+ハードウェアベンダーは、Linuxでの自社製品のサポートを確立し、Linuxユーザーにとって自社製品を魅力的なものたらしめたいと考えています。
-+組み込みシステムベンダーは、自社の組み込みシステム製品の構成要素として、Linuxがより高性能であり、かつ目前のタスクに対して最適である事を求めています。
-+ソフトウェア開発会社やその販売代理店等は、Linuxカーネルの機能、性能、信頼性に明確に興味関心を抱いています。
-+エンドユーザーもまた、Linuxを自分のニーズに適したLinuxとする為、Linuxをより良いものとしたいと思うものと考えられます。
-+
-+Linuxの最も魅力ある特徴の一つは、開発者がアクセス可能である事にあります。
-+要求される技術さえあれば、誰でもLinuxの開発に参加してLinuxを改良し、開発の方向性に影響を与える事が出来ます。
-+企業製品等では、この様な開放性を提供する事は出来ません。これはフリーソフトウェアならではの特徴です。
-+しかし、むしろカーネルは他のほとんどのフリーソフトウェアと比べ、なおさらオープンであると言えるでしょう。
-+典型的な三か月間のカーネル開発周期では、千を超える開発者に百を超える企業(会社に属さない場合もある)が、開発に従事する可能性があるのです。
-+
-+開発コミュニティと協力する事は、特段難しい事ではありません。
-+それに関わらず、しかしながらも多くの潜在的なコントリビューターが開発の際に、困難を経験しています。
-+開発コミュニティは、毎日数千行のコードが変更される環境下であろうと円滑に機能する(かつ高品質なカーネルを生み出す)、コミュニティならではの開発方法を発展させて来ました。
-+したがって、Linuxカーネル開発の手法やプロセスが企業等の開発の手法やプロセスと異なる事は、それほど驚くべき事では無いのです。
-+
-+カーネル開発のプロセスは奇妙で難解に思えるかも知れないものの、しかしその背景には然るべき正当な理由と確かな経験があります。
-+開発コミュニティの方法を理解しない開発者(または悪い事にそれを無視したり回避しようとする開発者)は、必ずや不満の残る経験が残る事となりましょう。
-+開発コミュニティは学習を目指す人々には親切に接しますが、開発プロセスに興味を持たず人の話を聞かない様な開発者にはほとんど時間を割きません。
-+
-+この文書を読み、上記の様な不快な経験を回避される事を願います。
-+ここには膨大な資料が存在しますが、しかしそれを読み解く努力は瞬く間にに報われることでしょう。
-+我らが開発コミュニティは、常にカーネルの改善に貢献してくれる開発者を求めています。以下の文章は、あなた自身或いはあなたの部下等が開発コミュニティに参入するのに役立つ事でしょう。
-+
-+クレジット
-+----------
-+
-+この文書は、Jonathan Corbet (corbet@lwm.net)により記述されました。
-+そしてJohannes Berg, James Berry, Alex Chiang, Roland Dreier, Randy Dunlap, Jake Edge, Jiri Kosina, Matt Mackall, Arthur Marsh, Amanda McPherson, Andrew Morton, Andrew Price, Tsugikazu Shibata, Jochen Voßからのコメントにより、改善されて来ました。
-+日本語への翻訳: Sakamoto Yuto(dayodayo1410@gmail.com)
-+
-+このプロジェクトはLinux財団により支援されました。この取り組みを理解し実現にご尽力されたAmanda McPherson氏に感謝いたします。
-+
-+コードをメインラインに取り込む事の重要性
-+-------------------------------------
-+
-+いくつかの会社及び開発者は、時折なぜわざわざ開発コミュニティで作業する仕方を学び、コードをカーネルのメインライン(Linus TorvaldsによってメンテナンスされていてLinuxディストリビュータの基盤として使われる)に組み込むべきなのか、不思議に思う事があるでしょう。
-+短期的に見れば、コードをLinuxに組み込む事は面倒なコストの様に思われます。コードをLinuxに組み込まず、ただ使用者を直接サポートする方が簡単であるとも見えるでしょう。
-+しかし実の所、コードを分離しておく事は、結局は無駄な出費と成り果てる事となります。
-+ツリー外コードの弊害を明らかにする為に、カーネル開発プロセスに関連する側面をいくつか挙げましょう。これらの大半はこの文書内の後半にてより詳しく説明されます。
-+以下の事例を考えてみて下さい。
-+
-+- カーネルのメインラインにマージされたコードは、全てのLinuxユーザーが使用可能です。
-+  これは有効化されている全てのディストリビューションでも、それが自動的に提供される事となります。
-+  ドライバディスク、ダウンロード、その他複数のディストリビューションの複数のバージョンに対応させる手間から解放され、開発者にとってもユーザーにとっても、全てがスムーズに動作します。
-+  メインラインへのマージにより、多くのディストリビューションへの対応の問題が解決されます。
-+
-+- カーネル開発者達はユーザー空間への安定的なインターフェースの維持に努めていますが、カーネル内部のAPIは常に変化しています。
-+  安定した内部インターフェースが存在しないのは、設計上の意図的な決定であり、それによりいつでも改善が可能になる事で結果としてより高性能なコードに繋がります。
-+  しかし、この方針の結果、例外無くツリー外コードには新しいカーネルに対応させる為のメンテナンスが必要になります。
-+  ツリー外コードのメンテナンスには、コードの動作を確保するのみでも相当な作業量が必要となります。
-+
-+  一方、メインライン内のコードに関しては、「API変更を行った開発者は、変更により影響を及ぼしたり動作しなくなるコードも修正せねばならない」という単純な規則が存在する為、この様な作業は必要ありません。
-+  その為、メインラインにマージされたコードは、大幅にメンテナンスコストが低いです。
-+
-+- 更に、カーネル内にあるコードは他の開発者によって改善される事がよくあります。
-+  ユーザーコミュニティや顧客に製品の改善を任せる事で、驚くべき結果が得られる可能性があります。
-+
-+- カーネルコードはマージ前後の両方において、評価されます。
-+  どれだけ元の開発者の技術や能力が優れていたとて、レビューは必ず元の開発者の思いもしない改善点を見つけ出します。
-+  レビューでは、よく深刻なバグやセキュリティ上の問題が発見される事があります。
-+  特にクローズドソースソフトにこの事実はよく当てはまる為、その様なコードは外部開発者のレビューからより改善されます。
-+  ツリー外コードは低品質なコードです。
-+
-+- 開発プロセスへの参加は、カーネル開発の方向性に影響を及ぼす方法であります。
-+  傍観者として不満を論うユーザーの声もよく開発者達に届きますが、活動的に開発に貢献する開発者がより強い発言力と自分達の需要に合ったLinuxカーネルを実現する変更を実装する力を有する事実は明らかでしょう。
-+
-+- コードを個別に管理する場合、第三者が類似した機能の異なる実装を提供する可能性と、あなたはいつも隣合わせです。
-+  その様な事態が発生した場合、コードのマージは非常に困難になり、時には拒絶されるかも知れません。
-+  もしそうなってしまえば、以下の様な好ましくない事態に直面します。
-+  (1)ツリー外非標準機能を無期限にメンテナンスする事になる
-+  (2)コードを放棄し、ツリー内のバージョンにユーザーを移行させる
-+
-+- コードの貢献は、プロセス全体を機能させる根本的行動です。
-+  あなたのコードを提供する事で、新機能をカーネルに追加する事ができ、かつ外部のカーネル開発者にとって役立つ機能や例を提供できます。
-+  もしあなたがLinux向けコードを開発した事があるのなら(またはそうしようと考えたか)、あなたはこのプラットフォームの継続的な成功に関心を持っているものと思われます。
-+  コードの貢献は、その成功を確定させる為の最も良い道の一つです。
-+
-+ここで挙げられる理由の全ては、独自のバイナリのみの形式で配布されるものを含む全てのツリー外カーネルコードに言えます。
-+更バイナリのみのカーネルコード配布を考える前に、他にも考慮すべき以下の要素が存在します。
-+
-+- 独自のカーネルモジュール配布に係る法的問題は、特に複雑です。少なからず多くのカーネルの著作権を保有する者はこれらのモジュールはカーネルから派生した製品であり、それらの配布はGNU一般公衆ライセンス(詳細は後述)に違反すると考えられます。
-+  著者は弁護士では無いものですから、この文章の内容は法的助言と捉えられるべきではありません。
-+  クローズドソースモジュールの法的地位に関しては、裁判所によってのみ決定されます。
-+  しかし、いずれにせよそれらのモジュールについてまわる不確実性は存在します。
-+
-+- バイナリのみのモジュールはカーネルのデバグ問題をより難解にする為、殆どのカーネル開発者はそれを試みようとさえしないでしょう。
-+  したがってバイナリのみのモジュールを配布する事は、ユーザーにコミュニティからのサポートを享受させる事を阻害し得ます。
-+
-+- バイナリのみのモジュールの配布者にとっても、サポートはより困難となります。
-+  誰かが必ずサポートしたいカーネルバージョンや配布毎にバージョンを用意する必要があるからです。
-+  十分な網羅性を提供する為には一つのモジュールに対し数十ものビルドが必要であり、そしてユーザーはカーネルをアップグレードする度、個別にあなたのモジュールをアップグレードせねばならないでしょう。
-+
-+- コードレビューに関する上記の内容は、クローズドソースコードに特に適用できます。
-+  このコードは全て公開されていない為、それはコミュニティからのレビューを受けていないでしょうし、間違いなく重大な問題が存在するでしょう。
-+
-+特に組み込みシステムのメーカーは、固定されたカーネルバージョンでリリース後に更なる開発が不要な製品を出荷したい思いに基いて、この章で述べられた事を無視したくなるかも知れません。
-+この主張は広範なコードレビューの価値やユーザーが製品に機能を追加できる事の価値を見落としており、かつこれらの製品も寿命は限られており、その後に新しいバージョンをリリースせねばならないのです。
-+その時点では、コードをメインラインに統合し適切なメンテナンスを受けられているベンダーの方が、より早く新しい製品を準備する事が出来るでしょう。
-+
-+ライセンス
-+----------
-+
-+コードは、多数のライセンス下でLinux Kernelにコントリビュートされている。
-+しかし、全てのコードがカーネルディストリビューション等の全体を対象とするversion 2 of the GNU General Public License (GPLv2)に従っていなければならなりません。
-+実際には、それは全てのコントリビュートはGPLv2に従うか(補足事項でGPLの最新のバージョン下での配布が許可される)、またはthe three-clause BSD licenseに従う必要がある事を意味しています。
-+
-+カーネルに貢献するコードに関して、著作権譲渡は必須ではありませんし要求もされません。
-+全てのメインラインにマージされるコードは元の所有権を保持しており、その結果としてこのカーネルは今や数千人の所有者を抱えています。
-+
-+この所有構造の意味する所は、いかなるカーネルのライセンス変更の試みも必ずや失敗するという事です。
-+極めて稀な実際のシナリオとして、著作権保持者全員から許可を得る(あるいはカーネルから開発者達のコードが削除される)場合があります。
-+だからといってそれは稀なシナリオであって、特にGPLv3への移行の見通しはありません。
-+
-+全てのカーネルにコントリビュートするコードは、正真正銘の無料である事が不可欠です。
-+その為、身元不明あるいは匿名のコントリビューターはこれを受け付けません。
-+全てのコントリビューターは、そのコードに署名し、GPLライセンス下でそのコードが配布され得る事を承認する必要があります。
-+所有者によってライセンスされていないコード、著作権関係の法的問題等を引き起こす危険性のあるコード(適切な保護措置の欠如したリバースエンジニアリング等に由来する様なコード)はコントリビュート出来ません。
-+
-+著作権関係問題の悩みに関する質問は、Linuxの開発メーリングリストではよくある事です。
-+この様な質問は通常多くの返答が来ますが、回答してくれている人たちは弁護士では無く、法的助言を出来ない事にご留意ください。
-+Linuxソースコードに関する法的質問がある場合は、この分野を理解している弁護士に聞くのが一番です。
-+Linuxの開発メーリングリストの様な技術的なメーリングリストでの返答に頼り切りになる事は、リスキーです。
-\ No newline at end of file
--- 
-2.43.0
+Unrelated to this patch:
 
+I think "Linux 基金會研究員" is better here.
+
+> @@ -52,68 +55,68 @@ https://www.kernel.org/.... 獲得。
+>  郵件列表的操作
+>  ^^^^^^^^^^^^^^
+>  
+> -處理流程中使用的加密郵件列表託管在Linux Foundation的IT基礎設施上。通過提供這項
+> -服務，Linux基金會的IT基礎設施安全總監在技術上有能力訪問被限制的信息，但根據他
+> -的僱傭合同，他必須保密。Linux基金會的IT基礎設施安全總監還負責 kernel.org 基礎
+> -設施。
+> +處理流程中使用的加密郵件列表託管在Linux基金會的IT基礎設施上。透過提供這項
+> +服務，Linux基金會IT營運人員在技術上有能力存取被限制的資訊，但根據其僱傭
+> +合約必須保密。Linux基金會的IT人員還負責營運和管理kernel.org的其餘基礎設施。
+>  
+> -Linux基金會目前的IT基礎設施安全總監是 Konstantin Ryabitsev。
+> +Linux基金會目前的IT專案基礎設施總監是 Konstantin Ryabitsev。
+>  
+
+[...]
+
+> @@ -123,67 +126,97 @@ Linux內核社區有一個專門的硬件安全小組負責初始聯繫，並監
+>  披露
+>  """"
+>  
+> -披露方通過特定的加密郵件列表向初始響應小組提供詳細信息。
+> +披露方透過特定的加密郵件列表向初始響應小組提供詳細資訊。
+>  
+> -根據我們的經驗，這些問題的技術文檔通常是一個足夠的起點，最好通過電子郵件進行
+> +根據我們的經驗，這些問題的技術文件通常是一個足夠的起點，最好透過電子郵件進行
+>  進一步的技術澄清。
+>  
+>  緩解開發
+>  """"""""
+>  
+> -初始響應小組設置加密郵件列表，或在適當的情況下重新修改現有郵件列表。
+> +初始響應小組設定加密郵件列表，或在適當的情況下重新修改現有郵件列表。
+>  
+> -使用郵件列表接近於正常的Linux開發過程，並且在過去已經成功地用於爲各種硬件安全
+> +使用郵件列表接近於正常的Linux開發過程，並且在過去已經成功地用於為各種硬體安全
+>  問題開發緩解措施。
+>  
+> -郵件列表的操作方式與正常的Linux開發相同。發佈、討論和審查修補程序，如果同意，
+> -則應用於非公共git存儲庫，參與開發人員只能通過安全連接訪問該存儲庫。存儲庫包含
+> -針對主線內核的主開發分支，並根據需要爲穩定的內核版本提供向後移植分支。
+> +郵件列表的操作方式與正常的Linux開發相同。發布、討論和審查修補程式，如果同意，
+> +則應用於非公共git儲存庫，參與開發人員只能透過安全連接存取該儲存庫。儲存庫包含
+> +針對主線核心的主開發分支，並根據需要為穩定的核心版本提供向後移植分支。
+> +
+> +最初的響應小組將根據需要從Linux核心開發人員社群中確定更多的專家。任何相關
+> +方都可以建議增補專家，每位專家都須符合上述相同的要求。
+>  
+> -最初的響應小組將根據需要從Linux內核開發人員社區中確定更多的專家。引進專家可以
+> -在開發過程中的任何時候發生，需要及時處理。
+> +引進專家可以在開發過程中的任何時候發生，需要及時處理。
+>  
+>  如果專家受僱於披露方提供的披露清單上的實體或其成員，則相關實體將要求其參與。
+>  
+>  否則，披露方將被告知專家參與的情況。諒解備忘錄涵蓋了專家，要求披露方確認參與。
+>  如果披露方有令人信服的理由提出異議，則必須在五個工作日內提出異議，並立即與事件
+> -小組解決。如果披露方在五個工作日內未作出回應，則視爲默許。
+> +小組解決。如果披露方在五個工作日內未作出回應，則視為默許。
+>  
+>  在確認或解決異議後，專家由事件小組披露，並進入開發過程。
+>  
+> +列表參與者不得在私有郵件列表之外交流該問題。列表參與者在處理補丁時不得使用
+> +任何共享資源（例如僱主的建置農場、CI系統等）。
+> +
+> +早期取得
+> +""""""""
+
+"提前取得"?
+
+> +
+> +在列表上討論和開發的補丁，既不能分發給任何非響應小組成員的個人，也不能分發
+> +給任何其他組織。
+> +
+> +為了讓受影響的晶片供應商能夠與其內部團隊和產業夥伴合作進行測試、驗證和
+> +後勤工作，提供了以下例外：
+> +
+> +	受影響晶片供應商的指定代表可以在任何時候將補丁移交給該晶片供應商
+> +	的響應小組。該代表必須將移交一事通知核心響應小組。受影響的晶片
+> +	供應商必須為與其響應小組共享的任何補丁，制定並維護自己的、與本
+> +	政策一致的文件化安全流程。
+> +
+> +	晶片供應商的響應小組可以依照該晶片供應商的文件化安全流程，將這些
+> +	補丁分發給其產業夥伴及其內部團隊。來自產業夥伴的反饋會回到晶片
+> +	供應商，並由晶片供應商轉達給核心響應小組。
+> +
+> +	移交給晶片供應商的響應小組後，因晶片供應商的內部團隊或產業夥伴的
+> +	參與而發生的過早披露，核心響應小組不再承擔任何責任或義務。晶片
+> +	供應商透過同意本流程來保證這一責任免除。
+> +
+>  協調發布
+>  """"""""
+>  
+> -有關各方將協商限制結束的日期和時間。此時，準備好的緩解措施集成到相關的內核樹中
+> +有關各方將協商限制結束的日期和時間。此時，準備好的緩解措施整合到相關的核心樹中
+>  併發布。
+>  
+> -雖然我們理解硬件安全問題需要協調限制時間，但限制時間應限制在所有有關各方制定、
+> -測試和準備緩解措施所需的最短時間內。人爲地延長限制時間以滿足會議討論日期或其他
+> -非技術原因，會給相關的開發人員和響應小組帶來了更多的工作和負擔，因爲補丁需要
+> -保持最新，以便跟蹤正在進行的上游內核開發，這可能會造成衝突的更改。
+> +雖然我們理解硬體安全問題需要協調限制時間，但限制時間應限制在所有有關各方制定、
+> +測試和準備緩解措施所需的最短時間內。人為地延長限制時間以滿足會議討論日期或其他
+> +非技術原因，會給相關的開發人員和響應小組帶來了更多的工作和負擔，因為補丁需要
+> +保持最新，以便追蹤正在進行的上游核心開發，這可能會造成衝突的更改。
+>  
+>  CVE分配
+>  """""""
+>  
+> -硬件安全小組和初始響應小組都不分配CVE，開發過程也不需要CVE。如果CVE是由披露方
+> -提供的，則可用於文檔中。
+> +硬體安全小組和初始響應小組都不分配CVE，開發過程也不需要CVE。如果CVE是由披露方
+> +提供的，則可用於文件記錄目的。
+>  
+>  流程專使
+>  --------
+>  
+> -爲了協助這一進程，我們在各組織設立了專使，他們可以回答有關報告流程和進一步處理
+> +為了協助這一行程，我們在各組織設立了專使，他們可以回答有關報告流程和進一步處理
+
+"行程" -> "流程" ?
