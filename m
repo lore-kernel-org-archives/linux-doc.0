@@ -1,68 +1,68 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF02C3B95E7
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 23:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEC83F1ABB
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 23:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784850581; cv=none; b=u7b0tLhHyA8zEb0aGuLFWGNgMSKppewR4mx60OWapkiMkqEweVnlLcQy9XqvNY865FBfN6YqWjWw2HbBmgukOn83fV8yy21uEiIeXMivmnMHx8ruD4a/R+xuWc21U+haqRb1VKshm9TewA/zq3UbsAhq7bB+wHKcrI+Czlo3CKk=
+	t=1784850668; cv=none; b=JnOlwIzYVSGPPPk+H1Ftc36XUHTyIelRqnbiOs4WoR155iFgvaagdjNELcpzmH6fY0SZ8zHcxgc54HyBvGZEaC9mWEW0V0Ygg3w4b0Qdd5EWf1abMA4UvAw4oT5qUvFnQlUz3766w5P+cm+tzk6hRFc40Wltr8GT37WNZWq/eQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784850581; c=relaxed/simple;
-	bh=pH6TpREoPGKux7FUnBNeYrnmfg/ZvJKJ9kxmm6ccVHs=;
+	s=arc-20240116; t=1784850668; c=relaxed/simple;
+	bh=2NpNj1I/8k9Dbk+4itc+Kvs9cBZd3GEUm+iXe7qGG2M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V3EEJVisnw8Wl5AbdeJdzRklww1+Z8aAfnF2bBFAwI7n5x1HmIzo98pNgMb+PSay/udJgw5eCuGKaMAD7DQ6mz83PC2QWTudBf7yR8fxgra+Hd9YdwfYBNm4ER3DV4to61LMhgjA6a22q8fGWYU7OXdBS3vQjnHkHUzu/NfywQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gc6NZP/G; arc=none smtp.client-ip=209.85.216.42
+	 In-Reply-To:Content-Type; b=eoX0TL826SFfuUDr2WY/nyPPmEWgegP+gkneGTjtE0MAdiR4XBFCYRW9cxPvKyUhg7UgyUEurti2757QLseRxc8AgzcPD+7frYgiEsYrySBErQcJBbbq57BANcC/T5qxk05G5ItmHjNEgBxLOK56cCx/xF4gGx33RM5kxcRVyaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aarM0Ucm; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gc6NZP/G"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-381b831d535so1300852a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 16:49:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aarM0Ucm"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so1247845a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jul 2026 16:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784850578; x=1785455378; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784850666; x=1785455466; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UsJvVNnTWIbsdIDqmctBUH8uu1exiEUvWNhSM5LOHKc=;
-        b=Gc6NZP/GeSClLCfmrmeYorS7fCqfMusAmEM2nxrQl9AFzDXVHksB1ZEWzmGJwTeoly
-         KqTOM888s9r+ZDjsPbkhKSt0zssB+MO9DKdM1kfUs+nhx2zh3OzEnDNdp8vlcAJc9JPz
-         TJoE5F5fe3Bd8P/MQj0Bq8JZNBLJlJQQDVtoG11pyRRvzQvsVVJqwNh5TMBd4OJ6eZde
-         l25rjN3xyAVpcZxKiS7Kjw8Po8wK0cF56nZZQzUZ1N/XPiQ9QehVzSJYg7kwqQ4eqiIs
-         +vTzGhUeQOefZg5CnWB3c5F7mrYCFsoLrQdeFb0y5+fReiNoiB+HcQXdzh1xS4fwycxd
-         zxqA==
+        bh=2Y9UZb26tOhCUzfbsCf3d/6C2pLTN7nkoQjAUsAbxjI=;
+        b=aarM0Ucm8KHk9+R1GYWEDAmp4zPbfCelVlVQNcO0Sqa3PgA5eX4VAZD/SdZ0Q5L3J8
+         vkRXiShu2f6UISWqcN+JN26hyR2sO9P6YELoCPdoU3l4sOM7LKLzwHLp5IV/cJS9pVzM
+         dDBuMEtQpkVJR3HkWtfr87W/H2TFaTz0lsKeASCTgdYwKYCAlrsfT1sZThp7XUcqZ5mg
+         nwub6LTxIdvyEbNavzhHiA8xiy5JSNRQldk2+/noEkmf9kTnFNCTxY8T95DO/cinVpJ3
+         12ZmMoH4DNue4ESPzuF/NOKzwWANyaOtWBqEpuWdpA2BnUeylOZPMPLiepBw4c9p7KPu
+         IlBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784850578; x=1785455378;
+        d=1e100.net; s=20251104; t=1784850666; x=1785455466;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=UsJvVNnTWIbsdIDqmctBUH8uu1exiEUvWNhSM5LOHKc=;
-        b=ldsOhM7expCyqBXu4EXGEVzGhFeJEuvjh/k9SeQt0/w6I+B/AfUMsOVhLBGiXRzJRa
-         uYCFUI5dgAp6Hevoqz/g5sa/p+3FHncEjs/lpaRhvNZ6O2Rs+WpBkSzIVuLhjUc95/Q1
-         RIuAfhTsfKQHnMhbu4VgwO3GSUQv+zSY+O6X0ixY7OtyVEPK/xQWo1nhaIVTaSnLXLL8
-         LbQJDsEZnZ9lXm2JHKj/Fu2KodhB3m0LhN7lyEmxsFzTKJowD48FV4oj1CJiyInjhYPK
-         MdLAs3B6kzH+JrmHX0Sq2rq6F07nmoQR0QqwiI3+AYUh9/rWrfJN1Fg0XExMc6kqo0az
-         OuSQ==
-X-Forwarded-Encrypted: i=1; AHgh+Row/Q0PXKlLHgbavYc6IUvs+AEpK0t+GuGNQF9RwWu5Yalnocvl1PF+VusOaR4xgnQK48GcuBiCzmM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS1KR3ITVB7kp8ziC1wDloSA3MzGA0lLWkyJxlH12H63Zr0axb
-	Et117I1gib+zLlhgOjki+qNR2/p9BCspfmZFNRjY9Z830knzqFUPRYIG
-X-Gm-Gg: AR+sD11QIAPN+bor47y7t/XFYjmw1YsJgRGXZJh2vun2r+SScayYeMg8a0/rz8Gjl+Q
-	MpJI+KoYJkrxjxwTZFX5NZ03IuYM1UH0WrvA1X4KePLb8Xeh+PGRJUIhakppwKJMq+vQUNwXKM2
-	R1lHlI36fRmpDZq7ZYC6sE7mPd9T4x1ssCSFMzXC+NEh9lF0ysAVWuQMzqR1EqDRQIQDPNO25Xz
-	ZjjU7NSEAA12hTALiC/9E52UMNmU7FqL1h/4r4lv4WFIALKevXF8qm0uK9fX2DQabt//UhwWnCD
-	wInHRjOLGeP8CUr5vKw8UexHNOx8+wd2Ql5T9oqLMHNDin+ow5vpGjKy117nmSX7iNZCVVNLNOL
-	30Vhyrn8+3arkJoi+cXea7E7Qsb+49Ze7WxISH5RtRpXAiTd3KBpwQXkabNsvTSEkV10aO4PAa7
-	cM8UyoRuu2phG/FEvf5FwcM0m7Xnvxlw4qG6Tyotm22iu126sLA98=
-X-Received: by 2002:a05:6a20:b786:b0:3c3:724d:ae7a with SMTP id adf61e73a8af0-3c44afb4d98mr5834830637.9.1784850578031;
-        Thu, 23 Jul 2026 16:49:38 -0700 (PDT)
+        bh=2Y9UZb26tOhCUzfbsCf3d/6C2pLTN7nkoQjAUsAbxjI=;
+        b=AKrtEy1VvZzjAbQJE0DUtyEKjVwVfMk6ydrSWAxRP0544/c92YO7od7cOBk3UuZIo6
+         HWPefLpHTb7VehmrSWMgBLQdwRMlQ2yoAvabtttta9vjTdSQUSnfAeYECjGHYbhe+19I
+         P1hF9x3NNwG6nA2+lY8D116yI2KBn7xER49/t551/cqB9G8cwyQuGr8DWAgoC/sDP8vm
+         x8s+TPo4frkqm+zE/IFpVhXTIvNeZtOna/THpRy0oZDL2q0srhxyZZ3nRzxaupoIBuQh
+         qeFn9leKWgm9pyPIG+cEp5cyM3b2qyYWiS5A1dCwS0tHYuFlfKrKXvxgh99egeTv0vbV
+         6xpA==
+X-Forwarded-Encrypted: i=1; AHgh+RrZWmHx6bMhTU0eCBjkx0ZdJG7cRNJ7QIMVItS7J5tcQptCDDIMCDLU9IB0VZIojdoNXyZHk1rQ+nk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQlo6m0PEOjk87667/Yz4X72+1hv5mQ48TlIk2W7/hP2qs75Iz
+	iS+ySfY8AuSQLiHKpNLa4jnVKhI4BlfOKd+MdK71UodxtA6/IzgJfZUtXJLzcA==
+X-Gm-Gg: AR+sD10iWLzw9DHhvIgHDfkl3EbMAhyd7ni2yyqZrKDyYrfmiK7dkjGBVtBi4QJoI+3
+	+argEE7JINYAW1VTjVxg+2c4/WBwdSZV0O7p/ZX+nAeCcYfr8R2p3Adk5cx/GaYEdwPXtiGHaog
+	QqA56rnuEMc9eGi5METpfJfrcxAspCk2vpQGzlkQrMg4YStdMgXM9WdjLMdivv4CI1qYAvhS/AM
+	gW9tIVFsspGeKRxntfC+zphe7sf5BBblWoBTNLs08fCWtwumIKOm/+tiWIsypHnRuYfWLCg+2N8
+	RPEUIZ9Vc4ZR5u1SerXSI2XmzzJBhcAUsAWRFp/br9lQRDJe+M95hCR3SxjZTkyf/VmtPHidZaG
+	uOAkcGP8x1dAoaqFdW8B+rwgVFrCAmcmT8fHiT3D7wWmUPGCmGtXKqIArT++MkWxCLOFa1G0XzH
+	lCItckbe+uXB+qIewO47gO3g7IDYfJvuEh8094/EtPC46Ta8qyY4EkOSUQbqLNZg==
+X-Received: by 2002:a17:90b:314a:b0:38e:712a:bb38 with SMTP id 98e67ed59e1d1-38ec65ed982mr5206469a91.24.1784850666080;
+        Thu, 23 Jul 2026 16:51:06 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e1bc886sm24238579eec.26.2026.07.23.16.49.36
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d13002f39sm20123333c88.1.2026.07.23.16.51.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jul 2026 16:49:37 -0700 (PDT)
+        Thu, 23 Jul 2026 16:51:04 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e3b1def9-a077-4247-b306-9c02d8de7c10@roeck-us.net>
-Date: Thu, 23 Jul 2026 16:49:35 -0700
+Message-ID: <f691a121-3604-4db1-b3e5-3be27cbfbb2a@roeck-us.net>
+Date: Thu, 23 Jul 2026 16:51:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,15 +70,23 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] hwmon: pmbus: add MPQ8646 driver
-To: vjardin@free.fr, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260723-mpq8646_v0-v4-0-b6323d5fc524@free.fr>
- <20260723-mpq8646_v0-v4-3-b6323d5fc524@free.fr>
+Subject: Re: [PATCH v2 2/2] hwmon: (pmbus/vt7505) Add driver for Analog
+ Devices MAX16545/MAX16550 and Volterra VT7505
+To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>,
+ "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Sanman Pradhan <psanman@juniper.net>
+References: <20260723164249.199442-1-sanman.pradhan@hpe.com>
+ <20260723164249.199442-3-sanman.pradhan@hpe.com>
+ <20260723170031.6C04A1F000E9@smtp.kernel.org>
+ <20260723213009.220862-1-sanman.pradhan@hpe.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -124,139 +132,33 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260723-mpq8646_v0-v4-3-b6323d5fc524@free.fr>
+In-Reply-To: <20260723213009.220862-1-sanman.pradhan@hpe.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/23/26 14:38, Vincent Jardin via B4 Relay wrote:
-> From: Vincent Jardin <vjardin@free.fr>
+On 7/23/26 14:30, Pradhan, Sanman wrote:
+> From: Sanman Pradhan <psanman@juniper.net>
 > 
-> Add a new single-chip driver for the MPS MPQ8646 that is
-> a PMBus device.
+> On Thu, Jul 23, 2026 at 17:00:21 +0000, sashiko-bot@kernel.org wrote:
+>>> +static const struct i2c_device_id vt7505_id[] = {
+>>> +	{ "max16545", vt7505 },
+>>> +	{ "max16550", max16550 },
+>>> +	{ "vt7505", vt7505 },
+>>> +	{ }
+>>> +};
+>>
+>> [Severity: Low]
+>> Could these array entries be updated to use named (designated) initializers?
+>> The I2C subsystem guidelines recommend using named initializers for arrays of
+>> type struct i2c_device_id to maintain uniformity and prevent field
+>> misalignment.
 > 
-> Beyond basic PMBus telemetry, the driver adds:
->    - MFR_CFG_EXT gate-close retry after CLEAR_LAST_FAULT.
->    - alarm acknowledge via inX_reset_history.
->    - STATUS_WORD MPS-extended bit decode + post-mortem clear.
->    - In-driver alarm-poll fallback work item (thanks lm90) for
->      boards without SMBALERT
->    - on_off_config/vout_margin/mfr_pmbus_lock sysfs.
+> Thanks for the suggestion. I think the current initialization is valid
+> across existing drivers for i2c_device_id.
 > 
-> Signed-off-by: Vincent Jardin <vjardin@free.fr>
-> ---
->   Documentation/hwmon/mpq8646.rst |  314 ++++++++++
->   MAINTAINERS                     |    8 +
->   drivers/hwmon/pmbus/Kconfig     |   11 +
->   drivers/hwmon/pmbus/Makefile    |    1 +
->   drivers/hwmon/pmbus/mpq8646.c   | 1237 +++++++++++++++++++++++++++++++++++++++
->   5 files changed, 1571 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/mpq8646.rst b/Documentation/hwmon/mpq8646.rst
-...
-> +Diagnostics and introspection
-> +-----------------------------
-> +
-> +When ``CONFIG_DEBUG_FS=y`` is set, the driver exposes the following
-> +entries under ``/sys/kernel/debug/mpq8646/<bus>-<addr>/``. Most are diagnostic
-> +probes; the read/write entries (marked R/W) are direct accessors to
-> +the underlying chip command.
-> +
-> +Identity / observability (read-only):
-> +
-> +==========================  ==================  =================================
-> +File                        PMBus / MFR cmd     Description
-> +==========================  ==================  =================================
-> +``mfr_config_id``           0xC0 (word)         board / SKU NVM identifier
-> +``mfr_config_code_rev``     0xC1 (word)         NVM image revision (PART_RECOG +
-> +                                                config code rev fields)
-> +``mfr_silicon_rev``         0xC3 (byte)         die revision
-> +``mfr_retry_times``         0xF4 (word)         per-fault-class recovery-mode
-> +                                                configuration (NOT a retry
-> +                                                count). Four 4-bit fields
-> +                                                [15:12]=OTP, [11:8]=VOUT_OV,
-> +                                                [7:4]=VOUT_UV, [3:0]=OCP.
-> +                                                Each field: 0x0=latch-off,
-> +                                                0x1..0xE=retry N times then
-> +                                                latch off, 0xF=hiccup
-> +                                                (retry indefinitely). The
-> +                                                chip exposes no in-NVM
-> +                                                retry-event counter; track
-> +                                                transitions externally if
-> +                                                needed (poll
-> +                                                ``protection_last`` or watch
-> +                                                ``inX_alarm`` / ``temp1_alarm``
-> +                                                ``poll(POLLPRI)`` wakes).
-> +``mfr_vboot_cfg``           0xFC (word)         ADDR/VBOOT latched at POR
-> +==========================  ==================  =================================
-> +
-> +Timing / UVLO knobs (read-only):
-> +
-> +==========================  ==================  =================================
-> +File                        PMBus cmd           Description
-> +==========================  ==================  =================================
-> +``vin_on``                  0x35 (word)         UVLO turn-on threshold
-> +``vin_off``                 0x36 (word)         UVLO turn-off threshold
-> +``ton_delay``               0x60 (word)         soft-start delay
-> +``ton_rise``                0x61 (word)         soft-start ramp time
-> +``toff_delay``              0x64 (word)         soft-stop delay
-> +``toff_fall``               0x65 (word)         soft-stop ramp time
-> +==========================  ==================  =================================
-> +
-> +Configuration (read/write):
-> +
-> +==========================  ==================  =================================
-> +File                        PMBus / MFR cmd     Description
-> +==========================  ==================  =================================
-> +``on_off_config``           0x02 (byte)         PMBus vs CTRL-pin on/off source +
-> +                                                active polarity
-> +``vout_margin_high``        0x25 (word)         production margin-high VOUT setpoint
-> +``vout_margin_low``         0x26 (word)         production margin-low VOUT setpoint
-> +``mfr_pmbus_lock``          0xEE (word)         programmable PMBus write-lock
-> +                                                (independent of WRITE_PROTECT)
-> +``mfr_product_rev_user``    0xC2 (word)         user-programmable product revision
-> +``alarm_poll_interval_ms``  --                  alarm-poll worker cadence (driver-
-> +                                                local, not a chip register)
-> +==========================  ==================  =================================
-> +
-> +NVM commit / revert (write-only):
-> +
-> +==========================  ==================  =================================
-> +File                        PMBus cmd           Description
-> +==========================  ==================  =================================
-> +``store_all``               0x15                STORE_USER_ALL Send-Byte (commit RAM
-> +                                                config to chip NVM)
-> +``restore_all``             0x16                RESTORE_USER_ALL Send-Byte (revert
-> +                                                RAM to last-NVM image)
-> +==========================  ==================  =================================
-> +
-> +Bring-up probes (write-only triggers, results in ``last_probe``):
-> +
-> +==========================  ==================================================
-> +File                        Action
-> +==========================  ==================================================
-> +``probe_smbus_rword <reg>``  i2c_smbus_read_word_data on <reg>
-> +``probe_smbus_rbyte <reg>``  i2c_smbus_read_byte_data on <reg>
-> +``probe_raw_xfer <reg>``     raw i2c_transfer read-word on <reg>
-> +``probe_page_write <pg>``    write PMBUS_PAGE = <pg>
-> +``probe_clear_faults``       send CLEAR_FAULTS (0x03) Send-Byte
-> +``force_raw_xfer``           if 1, the read_word_data hook uses raw i2c_transfer
-> +``delay_us``                 udelay before each chip-driver hook call
-> +``stats``                    per-hook call / error counters
-> +``last_probe``               result of the most recent probe_* operation
-> +``reset_stats``              zero the stats counters
 
-Many if not all of those commands should really not be part of this driver,
-and commands such as probe_page_write would be extremely dangerous and
-mess up the driver if ever used.
-
-Are you really sure you want to expose all those to the user, instead
-of (say) force them to use i2c_dev if they really want to risk turning
-the affected board(s) into a brick ?
-
-I won't prevent you from doing all this if you insist. I used to,
-but it does seem that people insist in shooting themselves into the
-foot, so I gave up on it. I am, however, telling you that exposing all
-those commands is extremely risky.
+No, it isn't acceptable anymore. Existing drivers are all in the process
+of being converted.
 
 Guenter
 
