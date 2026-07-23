@@ -1,37 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DB9473C88;
-	Thu, 23 Jul 2026 15:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD9A48424C;
+	Thu, 23 Jul 2026 16:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784821572; cv=none; b=XYlLf0QcD4qPrsHtx6frUwa6F8XCpxRWvIiC2BWHqzRLkO++ETLzz8PpqxeNyxLKjnPUd+yuZOTgKB50RqxkY49DsooDGy14pKux1h6NKXGzLckdA0hqx6DmQPJfSmDt6Nl5RtkbMt5Zl7mOa3cDtf+1Mzen+exk6NoPz/LK8jE=
+	t=1784823085; cv=none; b=s7USACIumu0FrMYVHWl3vB4W+fa/v89eo0Lo4YZjJ+1Nqb9JTu082KclGUkZRcihEhNZswImiNg71XNMkNGvli6DR45usdEhiqnKsr1EE+/Pp7jUItwBvs3h1XCTyPCLWxlTiouaTrtLco6hEfRAVGsr0KWFk0RR5XGP4uRNRys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784821572; c=relaxed/simple;
-	bh=NCuLCoLtM6Hl+suAEaD5R2WPrK6BH+Y3Pf5I07jzxL8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=S8u4MVYYmrwlUlGXQyCG+KdbVYQb22fA7Kc4W9vjKBArK4LfSOcGMy6ikdYQeq1hZ0qoPBLZ2FAgP/CsBalRI8j4wz4WGtg2nEIi0u3qm0B/7VLXozAm+xAxynnaDLDPk6HO/CELaLQE4fUqw6/0r6muBYyQp81Mh+dZNuNamFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/JIYhNQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/JIYhNQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9E694C2BCB8;
-	Thu, 23 Jul 2026 15:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784821570;
-	bh=NCuLCoLtM6Hl+suAEaD5R2WPrK6BH+Y3Pf5I07jzxL8=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=O/JIYhNQTdVRQ4bJDIRZ7pltPqLkH5zUebOU0dh9B4cYL1x4vsZm+YS5R07M45MfU
-	 IkNWbNZf+fWbJfAfp9MTKh8HmlPX/FGKXtoc6vvsWL0CkWNl4UghWwJufD36FnfFl/
-	 37eGb6lV65QFEujrWHSHYmlN4dUXLF8KLBBZsVr6UbsfvB0AVMk+GctKN8ePjwBMvB
-	 E4X/HZXW+qwtjS8kF4HIILgOoYbLQYhE4Bo2q8/nOUO704IbadhY1nM8e8NW0PdWJC
-	 84tBMa002S0fg7cyNESegK9nrm61j8kyBXraQqfQFhTry2FBzio7bzPU27PUDdmgNJ
-	 DHHBNXn6/sVjA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89FAFC531D1;
-	Thu, 23 Jul 2026 15:46:10 +0000 (UTC)
-From: Vincent Jardin via B4 Relay <devnull+vjardin.free.fr@kernel.org>
-Subject: [PATCH v2 0/3] hwmon: pmbus: add MPS MPQ8646 support
-Date: Thu, 23 Jul 2026 17:46:04 +0200
-Message-Id: <20260723-mpq8646_v0-v2-0-3c4cb71f23c0@free.fr>
+	s=arc-20240116; t=1784823085; c=relaxed/simple;
+	bh=iZYBXuf6aPeYH0iQIJnSeQhAlcl3XNy4P0DxzE1M3nc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sBQROOHtsyhdKcrzcz/neEXBKrYUZb0gWR9YfCQUV66Zbq2pfTRZXSRtE3aOACKtQkU3zpRyeyG+O75D1dDz0iFVXYtN6wUTiIhMN4BL6/GRW7jVrVfS9YU1ek+yLBvLH2FIxk4SyCKV83Pe1xKOpSzxNBC9WB0T/ruqu6UTcVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E70F51F00A3A;
+	Thu, 23 Jul 2026 16:11:23 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wmw0s-0000000872c-3fEC;
+	Thu, 23 Jul 2026 16:11:10 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	D Scott Phillips <scott@os.amperecomputing.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	Zeng Heng <zengheng4@huawei.com>,
+	Wei Xu <xuwei5@hisilicon.com>,
+	Vladimir Murzin <vladimir.murzin@arm.com>,
+	Lucas Wei <lucaswei@google.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Sascha Bischoff <Sascha.Bischoff@arm.com>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	Yeoreum Yun <yeoreum.yun@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v2] KVM: arm64: vgic: Avoid double-deactivate of IRQs in the nested context.
+Date: Thu, 23 Jul 2026 17:11:07 +0100
+Message-ID: <178482303767.3351010.4100459132454242259.b4-ty@b4>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260714231158.496808-1-scott@os.amperecomputing.com>
+References: <20260714231158.496808-1-scott@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,80 +57,35 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADw3YmoC/23MQQ6CMBCF4auQWVvTdkqLrLyHIQZhKl0IODWNh
- vTuVtYu/5e8b4NIHChCW23AlEIMy1xCHyoYpn6+kwhjadBSW+k0isf6bKyx1yQFYoPDrXZmdD2
- Uw8rkw3vHLl3pKcTXwp/dTuq3/mWSElIogxYHV5+U9WfPREfP0OWcvywyGlyiAAAA
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- Vincent Jardin <vjardin@free.fr>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784821569; l=2342;
- i=vjardin@free.fr; s=20260525; h=from:subject:message-id;
- bh=NCuLCoLtM6Hl+suAEaD5R2WPrK6BH+Y3Pf5I07jzxL8=;
- b=oiluK605zf0rJ4i4VZg+emDI4+CV7HrBsP1C9MaIxv4rql+NBa/oko5YEnioTz7c6Lk4I/tLG
- 25CaxG1uss+DK8UWvwJYQ3oSKQjyP3HR5+jbSC+bU/F3drGCHqDqP7s
-X-Developer-Key: i=vjardin@free.fr; a=ed25519;
- pk=hppgLeFpGpKOi7LNwGEZ4jOYofJCoGd4Jf1ltAabiLw=
-X-Endpoint-Received: by B4 Relay for vjardin@free.fr/20260525 with
- auth_id=871
-X-Original-From: Vincent Jardin <vjardin@free.fr>
-Reply-To: vjardin@free.fr
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: oupton@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, scott@os.amperecomputing.com, mark.rutland@arm.com, zengheng4@huawei.com, xuwei5@hisilicon.com, vladimir.murzin@arm.com, lucaswei@google.com, kuninori.morimoto.gx@renesas.com, Sascha.Bischoff@arm.com, yangyicong@hisilicon.com, yeoreum.yun@arm.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Add support for the Monolithic Power Systems MPQ8646 step-down
-converter as a PMBus device.
+On Tue, 14 Jul 2026 16:11:58 -0700, D Scott Phillips wrote:
+> In the nested state, the physical interrupt has already been
+> deactivated through the HW bit in the LR. The extra deactivation
+> would be harmless but can hit an errata case on AmpereOne, so
+> avoid it here.
+> 
+> On AmpereOne, deactivating a physical interrupt through
+> ICC_DIR_EL1 or ICC_EOIR1_EL1 (depending on EOImode) which is not
+> active, but is the highest priority pending interrupt causes the
+> cpu to lose the interrupt pending state and also prevents the
+> delivery of future interrupts.
+> 
+> [...]
 
-  1/3 pmbus core: add and export pmbus_get_hwmon_device() so a chip
-      driver can call hwmon_notify_event() from an in-driver
-      alarm-poll fallback (lm90-style) on boards where the chip's
-      SMBALERT# pin is unavailable to the CPU.
-  2/3 dt-bindings: the MPQ8646 binding; schema inspired from the
-      mpq8785 (same mps,vout-fb-divider-ratio-permille property).
-  3/3 the MPQ8646 driver: PMBus telemetry plus MFR_CFG_EXT
-      gate-close retry after CLEAR_LAST_FAULT, alarm acknowledge via
-      inX_reset_history, MPS-extended STATUS_WORD decode and
-      post-mortem clear, the alarm-poll fallback for boards without
-      SMBALERT, and on_off_config / vout_margin / mfr_pmbus_lock
-      sysfs.
+Applied to fixes, thanks!
 
-Signed-off-by: Vincent Jardin <vjardin@free.fr>
----
-Changes in v2:
-- driver: register debugfs only after the DT-property validation, to
-  avoid an early probe error to avoid dangling debugfs entries
-- driver: do not schedule the alarm-poll worker when SMBALERT# (irq)
-  is wired, and do not re-arm it from the worker in that case
-- driver: dput() the dentry returned by debugfs_lookup()
-- driver: hold mps_lock around the nvmem snapshot reads
-- driver: fix VID coefficients comment
-- dt-bindings: fix typo of the commit message
-- Link to v1: https://lore.kernel.org/r/20260723-mpq8646_v0-v1-0-14363c75916f@free.fr
+[1/1] KVM: arm64: vgic: Avoid double-deactivate of IRQs in the nested context.
+      commit: 8a570b19b4b16a8a3b5ffa2b332bd5613110b2d8
 
----
-Vincent Jardin (3):
-      hwmon: pmbus: event notification with alarms
-      dt-bindings: hwmon: pmbus: add MPS MPQ8646 binding
-      hwmon: pmbus: add MPQ8646 driver
+Cheers,
 
- .../bindings/hwmon/pmbus/mps,mpq8646.yaml          |   50 +
- Documentation/hwmon/mpq8646.rst                    |  314 +++++
- MAINTAINERS                                        |    8 +
- drivers/hwmon/pmbus/Kconfig                        |   11 +
- drivers/hwmon/pmbus/Makefile                       |    1 +
- drivers/hwmon/pmbus/mpq8646.c                      | 1223 ++++++++++++++++++++
- drivers/hwmon/pmbus/pmbus.h                        |    1 +
- drivers/hwmon/pmbus/pmbus_core.c                   |    8 +
- 8 files changed, 1616 insertions(+)
----
-base-commit: 248951ddc14de84de3910f9b13f51491a8cd91df
-change-id: 20260723-mpq8646_v0-3383cb574d7a
-
-Best regards,
+	M.
 -- 
-Vincent Jardin <vjardin@free.fr>
+Without deviation from the norm, progress is not possible.
 
 
