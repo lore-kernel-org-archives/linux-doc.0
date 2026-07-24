@@ -1,111 +1,133 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from eidolon.nox.tf (eidolon.nox.tf [185.142.180.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526DA2D8DCA;
-	Fri, 24 Jul 2026 15:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E987834214A;
+	Fri, 24 Jul 2026 15:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784905557; cv=none; b=TEwI5wScbIrd1+B+NQmVxjN5pBvW6wWhex7nJo/bMnnPJjRwguEFdN/KO0nR6MaO9bEPR1RT1stir190DdGcUDJqu/DPJwCsrBE8FmTRYofdlFwThZ3ESidxxQN5XsDhad1jPgsXizC/mw6wdJLNMUIj1uftHBM3iBUy1/ONdrc=
+	t=1784905872; cv=none; b=WLkOQb2cfhpXW3d64DFGaokj+zFdx/4cB0NdBEuHx2+ebH7HD6QQPTTo6BC4o+i6mk0sVNxvLLPp/VK4wN8rRoeLalkx/bHXghVDWpDb51aUcsz4khzKFMByWTBPJJ+h8q+3xVRTcu5Bn8H5fUTk/7OaW4RlROr/JEmN81UpRIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784905557; c=relaxed/simple;
-	bh=E7XFCLxRIwXaLN0V8uIslzdQB7crLng2788gX5oMVKI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IODTRaG1rNI2dBLIEf+QyjNB23mkIl+iYFUrLrd2VUoHQV9sJysVDijmK2HelrbGOFtPT7NSmxUuOahBY8dC05SiPtEla1oMMR6egT7+NsJxhS9700BLGbeWvRoB804aFz9igmWp9Z3PNh3MBJJ41N+cflGnWcqmQ6Y+Y8Rdz1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cxS2GECs; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cxS2GECs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 40335408B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784905554; bh=O1NxEzIyl57DprBUUSOUtSCXB+mtbnXl5Xys+uMdSEA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cxS2GECsC1GW8TmvkDKgprdLRf4zXP0KqAMKBACxeJp8x1/CQylIcUMHmeDIHSG6W
-	 tInM7iVVgYAv7YId6VctDrqTHx6ySTLJTR5GSKzURLdjlartYvY7R2U6J3qdDdw9j8
-	 JfFkhpB3Z9M9ZyjFv8H1Vr8vtPiam8abIcSD156vW8TapLsjIdYyWfNSVXpWEIn/Bk
-	 KXH4Hbu9bfDI7CgwTQKJaDxB2kPn2oqppHiFNwHM+0/QQz8j5xhAgPIbQWBGf5K+SB
-	 UOTLVI67AIZcjQiM7OTNNgNcJ58WjYx7vV/R9DDVbIoNMKmijTBZII1Xu+9Ln5yXIw
-	 URpVEeiZ5/5hQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 40335408B5;
-	Fri, 24 Jul 2026 15:05:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Cristian Marussi <cristian.marussi@arm.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
- f.fainelli@gmail.com, vincent.guittot@linaro.org, etienne.carriere@st.com,
- peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
- jic23@kernel.org, elif.topuz@arm.com, lukasz.luba@arm.com,
- philip.radford@arm.com, brauner@kernel.org, souvik.chakravarty@arm.com,
- david@kernel.org, subrahmanya.lingappa@oss.qualcomm.com,
- leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
- usama.arif@linux.dev, kernel-team@meta.com, Cristian Marussi
- <cristian.marussi@arm.com>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v6 21/22] [RFC] Documentation: Add SCMI System Telemetry
- documentation
-In-Reply-To: <20260724144430.1440170-22-cristian.marussi@arm.com>
-References: <20260724144430.1440170-1-cristian.marussi@arm.com>
- <20260724144430.1440170-22-cristian.marussi@arm.com>
-Date: Fri, 24 Jul 2026 09:05:53 -0600
-Message-ID: <874iho8m26.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1784905872; c=relaxed/simple;
+	bh=FBocYxqrD3L3ICBl+vfnjqELTuyEivO13ec/XZUqkDA=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JdxzhgLisgn9xekl3NNf2SdHX9tg3M1MdQWv83Cha1pXLhmjv2qeIh8JKp03IK+i+b5BD3IGJTd5KYWJs3BgDFtIDtZO3cvHm+83SHckXXW9OE3Kr2WGGfz8y2G1QvdDX110ETw7dP5wxpAKemcEmzcVjQpbs5iRGWxYxMyQISo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=diac24.net; spf=pass smtp.mailfrom=diac24.net; arc=none smtp.client-ip=185.142.180.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=diac24.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=diac24.net
+Received: from equinox by eidolon.nox.tf with local (Exim 4.98.2)
+	(envelope-from <equinox@diac24.net>)
+	id 1wnHYA-000000001F2-12IU;
+	Fri, 24 Jul 2026 17:10:58 +0200
+Date: Fri, 24 Jul 2026 17:10:58 +0200
+From: David 'equinox' Lamparter <equinox@diac24.net>
+To: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/10] RFC 6724 rule 5.5 support
+Message-ID: <amOAgsxNyqLyAu0G@eidolon.nox.tf>
+References: <20260723122106.99772-1-equinox@diac24.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260723122106.99772-1-equinox@diac24.net>
 
-Cristian Marussi <cristian.marussi@arm.com> writes:
+Well, the Sashiko comment about removing ip6_route_get_saddr() feels a little bit gaslighting when the next commit is literally removing ip6_route_get_saddr() - but I'm looking at the other ones.  Also forgot to remove the MAINTAINERS line for the documentation file, which I said I'd do.
 
-> Document ARM SCMI Telemetry IOCTLs interface.
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> RFC since it still needs more extensive examples
->
-> v5 --> v6
->  - fixed typos
-> ---
->  Documentation/userspace-api/index.rst |   1 +
->  Documentation/userspace-api/stlm.rst  | 143 ++++++++++++++++++++++++++
->  2 files changed, 144 insertions(+)
->  create mode 100644 Documentation/userspace-api/stlm.rst
->
-> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-> index a68b1bea57a8..22daa7ebf78e 100644
-> --- a/Documentation/userspace-api/index.rst
-> +++ b/Documentation/userspace-api/index.rst
-> @@ -54,6 +54,7 @@ Devices and I/O
->     dcdbas
->     vduse
->     isapnp
-> +   stlm
->  
->  Everything else
->  ===============
-> diff --git a/Documentation/userspace-api/stlm.rst b/Documentation/userspace-api/stlm.rst
-> new file mode 100644
-> index 000000000000..e34226b11373
-> --- /dev/null
-> +++ b/Documentation/userspace-api/stlm.rst
-> @@ -0,0 +1,143 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. stlm:
+Will send a v3 in a bit.
 
-I'm not sure what that last line is meant to be?  It *looks* like it's
-meant to be the sort of top-of-file label that I've been trying to get
-people to stop adding for years...but it lacks the leading underscore,
-and so won't work even for that.  Remove that line?
 
-Thanks,
+-equi
 
-jon
+On Thu, Jul 23, 2026 at 02:19:26PM +0200, David 'equinox' Lamparter wrote:
+> Hi all,
+> 
+> 
+> changes relative to previous version:
+> 
+> - ipv6_saddr_rule5p5() now makes a local copy of the flowi6; I was trying
+>   to avoid that but it's just an invitation for breakage.
+> - added check + WARN_ONCE on subtree routes w/ nexthop objects.  The kernel
+>   doesn't allow adding such routes, this is just a safety guard.
+>   (this probably fixes the false positive complaint by Sashiko, it's a
+>   reasonable safety guard to have independent of that.)
+> - new commit that does adds a comment about this on the kernel reject of
+>   subtree + nexthop object routes, also reword the error texts to make sense
+> - added missing _rcu on iterating nexthops
+> - added missing +x on selftest
+> - fixed a comment & 2 checkpatch nits
+> - rephrased 2 parts of the documentation a little bit, actually include it in
+>   the doc build (from ipv6.rst)
+> - added a selftest that uses (non-nexthop-object) ECMP routes
+> 
+> remainder is the original cover letter:
+> 
+> 
+> this patchset implements RFC6724 rule 5.5.  For the unaquainted:
+> 
+>    Rule 5.5: Prefer addresses in a prefix advertised by the next-hop.
+>    If SA or SA's prefix is assigned by the selected next-hop that will
+>    be used to send to D and SB or SB's prefix is assigned by a different
+>    next-hop, then prefer SA.  Similarly, if SB or SB's prefix is
+>    assigned by the next-hop that will be used to send to D and SA or
+>    SA's prefix is assigned by a different next-hop, then prefer SB.
+> 
+> The way this is done is through IPv6 subtree routes.  If a router
+> advertises some prefix in its RA/PIOs, source specific subtree routes
+> should be created for the default route (and RIOs) installed as a result
+> of processing that RA.
+> 
+> This may initially sound like a weird way to do it, but for one RFC8028
+> requires the subtree routes anyway, and also I did try the more obvious
+> approaches (explicitly tracking it, putting it on the address, putting
+> it on the neighbor entry) and all of them break in some scenarios.
+> 
+> I've put together a selftest, there's also a rather hacky test suite
+> created for an IETF hackathon: https://github.com/eqvinox/rule5p5-tests
+> (it's not specific to this patchset.)  I've also been dogfooding these
+> patches on my personal devices for more than a year.
+> 
+> Rule 5.5 itself has extensive history at the IETF, including changing
+> from optional to mandatory in the recent 6724 update.  It is immensely
+> useful (really: required) to make multihoming, renumbering and failover
+> work.
+> 
+> @Jakub you had previously asked me to resubmit the "prep" patches since
+> it was at a poor time (cf. Fri, Jul 25, 2025 at 05:39:58PM -0700).
+> (I had tried submitting the preparation bits on its own.)
+> 
+> @Paolo you had looked at the lookup fix:
+> On Tue, Nov 11, 2025 at 11:13:30AM +0100, Paolo Abeni wrote:
+> > The patch LGTM, and I agree this should go via net-next, given that it's
+> > really a corner case and I could miss nasty side-effects.
+> >
+> > It looks like you have some testing scenario handy: it would be great to
+> > include it as a paired self-test; could you please add it?
+> 
+> Cheers,
+> 
+> 
+> equi (David)
+> 
+> 
+> 
+> diffstat:
+>  Documentation/networking/ipv6-addrsel.rst                |  73 +++++++++++++++++++
+>  Documentation/networking/ipv6.rst                        |   2 +
+>  MAINTAINERS                                              |   1 +
+>  include/net/addrconf.h                                   |   4 +
+>  include/net/ip6_route.h                                  |  26 -------
+>  net/ipv4/nexthop.c                                       |   5 +-
+>  net/ipv6/Kconfig                                         |  18 ++++-
+>  net/ipv6/addrconf.c                                      | 156 ++++++++++++++++++++++++++++++++++++---
+>  net/ipv6/ip6_fib.c                                       |   5 +-
+>  net/ipv6/ip6_output.c                                    |  26 +++++--
+>  net/ipv6/route.c                                         |  26 +++++--
+>  tools/testing/selftests/net/Makefile                     |   1 +
+>  tools/testing/selftests/net/config                       |   1 +
+>  tools/testing/selftests/net/ipv6_saddr_rfc6724rule5p5.py | 285 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  14 files changed, 574 insertions(+), 55 deletions(-)
+> 
