@@ -1,164 +1,93 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF423515C9;
-	Fri, 24 Jul 2026 07:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5068339C00F
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 07:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784876875; cv=none; b=ZE1jDny3cUHvI2wz1lNnT0lvTo7hhHNFMDNsu6M5438bqEUpuR/dWgyHCZYMB/5NtFIf8MDp3g+T2Us4bMoEAn8nzu/rf+imT3V9EpIQwa7zIfKi+kCI/SpmYQd75s2lvAKtkgV38oEo4j6BSK8LCIOfSKqNtnBp+w9wnNBSboo=
+	t=1784877523; cv=none; b=MoGfuQAKMBbOID+BSdWWx6OJ05uR1TGp+PixsymJGhIZNkfljyPFvVXnIIWyKzOkPI34SB1fXKrVgUavTi3uuzEt4+s8I3pq8HExxbqQwZVxCact32Hb8QryfWR1P8z824dDMAS+HlwmxbNC4UXo9yWRLl4HJK6cMrMSQWg6xvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784876875; c=relaxed/simple;
-	bh=SpLyHNLWG6+QJ4hIasOWRwoyJkezmghy3PvsWvRrMIA=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=UHfivMQjoCUc1pTm9fDylNnBLq7uHycB1Qq/044Gez+GMxs4AAyYMcMnOW7jvAwQuNvVhYwa3nzmmUIXiONne8K3LjpCMnJtoCJtt82G/0r9ZhMc8O5yy9FZVY3Ra7SMvQ2ELY+LiBaCqFEvyd0ce+ClP8VDIDx2c+WUp6Waw8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4h5zbD1YN0z4yjG1;
-	Fri, 24 Jul 2026 15:07:52 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl1.zte.com.cn with SMTP id 66O77k6G001727;
-	Fri, 24 Jul 2026 15:07:46 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Fri, 24 Jul 2026 15:07:48 +0800 (CST)
-X-Zmail-TransId: 2afa6a630f44685-d0c54
-X-Mailer: Zmail v1.0
-Message-ID: <20260724150748934bZZxt5fvWe2gYwh7ZEIxP@zte.com.cn>
-In-Reply-To: <2026072415043227725SuvoyQ3SGDOmHLp8tdn@zte.com.cn>
-References: 2026072415043227725SuvoyQ3SGDOmHLp8tdn@zte.com.cn
-Date: Fri, 24 Jul 2026 15:07:48 +0800 (CST)
+	s=arc-20240116; t=1784877523; c=relaxed/simple;
+	bh=knvul0d5dUbxhcnkzSOe7QxyLGBpeQVKwjE+WYlIefQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sgyfWEU/X1SPHsgKAN1L7uwIXlPQGMp/XaqxSlmRXk04LrZirx9pULQlEq/08ecj8tVAyaLSxY68XFrSD6SHulBTaG6CFMUC6RoWDDQCIH99FdGySIbnct4sJsxBpcW2phZWzIU508x0Zfg1YD0UfrI4Adb4dT3mZtuYEbdVf3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3Ydsf36; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3Ydsf36"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1184B1F00ACF
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 07:18:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784877522;
+	bh=ulBWl2+S7bBB8m9+3b1VcGjSXAUDgrY4GX40BaI80DI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=P3Ydsf360n3EDirffVd2RTImsBGgDjID57tRKN+ZuYIRLcRjBSdRNBWVU5Yjxt23O
+	 poQAO1z0Fe3LXjTrWVOisN7fPGwQdsLsVVqigEzb+kQGdtFUr8PmPn02FtTNcOy6Bo
+	 YYzsOVZkvZGt+V+Pmte+xAn6CfS++7BPse0ohQI+rZbQD+zdEH/dSbNAezc37mCusF
+	 xPDLCNiF7G0DuzgPE7Uiy/LLMBe9DPz0uMItyuGsvdhvt4J+A8BS7KKp0JOM+aiIlI
+	 JT2T/32rkOB4BnXF4J4gjTaMATw1lxjCEdlzsfdd1jdEfuLSbjXJNX4fWqKiAUPzlX
+	 4hc7azHlfut0A==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b2aa3be376so99167e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 00:18:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoG6eWkLVMoI5Z+zlNCTcXojW3zfSUon8L0Epf1hyQHdLTOHOmkNjFIEqemDFybIptuXhe64glxJCY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRZiWbQHGltW6BAc6BTMIMAXmotyRpueiawoXrzAWBFL3k9FJ5
+	NyOmHLjryIIOWOH/oAzKs8vgJTwsdF98BUzzleY6fk/o5sP58sYeMZHv2nWmxH7dQ16q4xrgLGJ
+	+/jZoVraHy8X/zQQSaGoyE/pi6wIcxyA=
+X-Received: by 2002:a05:6512:340a:b0:5b0:23c3:4f55 with SMTP id
+ 2adb3069b0e04-5b2b2f72e6dmr1312857e87.53.1784877520653; Fri, 24 Jul 2026
+ 00:18:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <wang.yaxin@zte.com.cn>
-Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHY0IDMvM10gdG9vbHMvYWNjb3VudGluZzogc2ltcGxpZnkgMzItYml0IHRpbWVfdCBvdmVyZmxvdyBjaGVjayBpbiBmb3JtYXRfdGltZXNwZWMoKQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 66O77k6G001727
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Fri, 24 Jul 2026 15:07:52 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A630F48.000/4h5zbD1YN0z4yjG1
+MIME-Version: 1.0
+References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
+ <20260709-ad7768-driver-v1-5-44e1194fd96a@analog.com> <ak-AcfH-Igsa_ksV@ashevche-desk.local>
+ <1e353a66-3543-4a6f-91b6-d5e8524d9754@gmail.com>
+In-Reply-To: <1e353a66-3543-4a6f-91b6-d5e8524d9754@gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 24 Jul 2026 09:18:28 +0200
+X-Gmail-Original-Message-ID: <CAD++jLnwV7ib82c1cvf8V6xWYjUpqJb+6w2We+NXhU05+B3RxQ@mail.gmail.com>
+X-Gm-Features: AUfX_mxx0k-0Kh2ddvU-MPx1m1Pt8f4Mw4eIBEpD-5PrpQ6uCr47fdzZ-uEusJE
+Message-ID: <CAD++jLnwV7ib82c1cvf8V6xWYjUpqJb+6w2We+NXhU05+B3RxQ@mail.gmail.com>
+Subject: Re: [PATCH 5/6] gpio: ad7768: Add AD7768 GPIO auxiliary driver
+To: Janani Sunil <jananisunil.dev@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Janani Sunil <janani.sunil@analog.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Olivier Moysan <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Tue, Jul 14, 2026 at 1:03=E2=80=AFPM Janani Sunil <jananisunil.dev@gmail=
+.com> wrote:
 
-Replace the Y2038 overflow guard in format_timespec() with a direct
-narrowing truncation check ((long long)time_sec != ts->tv_sec), which
-is both simpler and more robust across platforms. Also move the
-time_sec assignment earlier to avoid duplication.
+> gpio-regmap does not naturally model the AD7768's direction dependent rea=
+dback behavior.
+> On this device, GPIO Write data (0x0F) holds the latched output values an=
+d the GPIO
+> Read Data (0x10) reads the logic input level only when the pins are confi=
+gured as inputs.
+> Using the generic gpio-regmap would always read 0x10 including output GPI=
+Os.
+> The custom implementation preserves the device specific behavior.
 
-Add nla_len < NLA_HDRLEN sanity checks in the netlink attribute
-parsing loops in getdelays.c and delaytop.c to prevent integer
-underflow in NLA_PAYLOAD() on malformed responses.
+The memory-mapped gpio-generic has this flag:
 
-While at it, fix a minor alignment issue in delaytop.c by adding a
-leading space to the output format string.
+#define GPIO_GENERIC_READ_OUTPUT_REG_SET        BIT(4) /* reg_set
+stores output value */
 
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-Acked-by: Xu Xin <xu.xin16@zte.com.cn>
----
- tools/accounting/delaytop.c        |  6 +++++-
- tools/accounting/format_timespec.c | 12 +++++-------
- tools/accounting/getdelays.c       |  4 ++++
- 3 files changed, 14 insertions(+), 8 deletions(-)
+Just implement the same logic flag for gpio-regmap and
+the problem is solved?
 
-diff --git a/tools/accounting/delaytop.c b/tools/accounting/delaytop.c
-index 1144ca325447..d32aedbfa07d 100644
---- a/tools/accounting/delaytop.c
-+++ b/tools/accounting/delaytop.c
-@@ -728,10 +728,14 @@ static void fetch_and_fill_task_info(int pid, const char *comm)
- 	nl_len = GENLMSG_PAYLOAD(&resp.n);
- 	na = (struct nlattr *) GENLMSG_DATA(&resp);
- 	while (nl_len > 0) {
-+		if (na->nla_len < NLA_HDRLEN)
-+			break;
- 		if (na->nla_type == TASKSTATS_TYPE_AGGR_PID) {
- 			nested = (struct nlattr *) NLA_DATA(na);
- 			nested_len = NLA_PAYLOAD(na->nla_len);
- 			while (nested_len > 0) {
-+				if (nested->nla_len < NLA_HDRLEN)
-+					break;
- 				if (nested->nla_type == TASKSTATS_TYPE_STATS) {
- 					size_t payload_len = NLA_PAYLOAD(nested->nla_len);
+It's such a minor improvement to gpio-regmap that I don't
+think it's much to ask.
 
-@@ -1099,7 +1103,7 @@ static void display_results(int psi_ret)
- 			get_field_delay_values(&tasks[i], cfg.type_field, &avg_ms,
- 					&max_ms, &max_ts);
-
--			suc &= BOOL_FPRINT(out, "%12.2f %12.2f %20s\n",
-+			suc &= BOOL_FPRINT(out, " %12.2f %12.2f %20s\n",
- 				avg_ms, max_ms, format_timespec(&max_ts));
- 		} else if (cfg.display_mode == MODE_MEMVERBOSE) {
- 			suc &= BOOL_FPRINT(out, DELAY_FMT_MEMVERBOSE,
-diff --git a/tools/accounting/format_timespec.c b/tools/accounting/format_timespec.c
-index 1dba50cac895..d7bfd307c00b 100644
---- a/tools/accounting/format_timespec.c
-+++ b/tools/accounting/format_timespec.c
-@@ -14,22 +14,20 @@ const char *format_timespec(const struct __kernel_timespec *ts)
- {
- 	static char buffer[32];
- 	struct tm tm_info;
--	time_t time_sec;
-+	time_t time_sec = ts->tv_sec;
-
- 	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
- 		return "N/A";
-
- 	/*
- 	 * On 32-bit platforms time_t is 32-bit and cannot represent
--	 * dates beyond Y2038.  The kernel timestamp is always 64-bit,
--	 * so reject values that would overflow.
-+	 * timestamps outside [INT32_MIN, INT32_MAX].  A 64-bit kernel
-+	 * timestamp that does not survive the narrowing truncation is
-+	 * rejected to avoid silent data corruption.
- 	 */
--	if (sizeof(time_t) < sizeof(ts->tv_sec) &&
--	    ts->tv_sec > (__u64)((1ULL << (sizeof(time_t) * 8 - 1)) - 1))
-+	if ((long long)time_sec != ts->tv_sec)
- 		return "N/A";
-
--	time_sec = ts->tv_sec;
--
- 	if (!localtime_r(&time_sec, &tm_info))
- 		return "N/A";
-
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index d3193f670d89..f47b9d008352 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -659,6 +659,8 @@ int main(int argc, char *argv[])
- 		na = (struct nlattr *) GENLMSG_DATA(&msg);
- 		len = 0;
- 		while (len < rep_len) {
-+			if (na->nla_len < NLA_HDRLEN)
-+				break;
- 			len += NLA_ALIGN(na->nla_len);
- 			switch (na->nla_type) {
- 			case TASKSTATS_TYPE_AGGR_TGID:
-@@ -669,6 +671,8 @@ int main(int argc, char *argv[])
- 				/* For nested attributes, na follows */
- 				na = (struct nlattr *) NLA_DATA(na);
- 				while (len2 < aggr_len) {
-+					if (na->nla_len < NLA_HDRLEN)
-+						break;
- 					switch (na->nla_type) {
- 					case TASKSTATS_TYPE_PID:
- 						rtid = *(int *) NLA_DATA(na);
--- 
-2.27.0
+Yours,
+Linus Walleij
