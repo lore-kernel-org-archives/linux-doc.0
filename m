@@ -1,37 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6032BF3F4;
-	Fri, 24 Jul 2026 04:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C787265629;
+	Fri, 24 Jul 2026 04:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784868506; cv=none; b=VEn7QjOW7VU4PnOk3nn5/VmsDGkL9atFRgaFWrq2BaTYD+6nE5vvIVpff2mHwmzIFyjMj3qIf5+CE2KjjJRXweqY6f1A0uoa5b/JgYjD4a0V44S8LjYjGu4/HxLHJMLa95sdqBN8hPycwBs/UYOmUtxTx5uZwkQqK8ozBcOxhvc=
+	t=1784869102; cv=none; b=rsZ0pyUz6IUg6N2jJhXCmKHkbZpJrFFszIiiCYy1ifqQ+OOwwJtJDYbHpHWybvLFVefN3OOZUGI1oFt82CDz2RYm0gi0kA+1Q2RBCvXYva6N6sTr5141WtAj9pegioYZ1hFBcrp7gDDBwbpBi6t31WKcahT5hP8THnegcrPSCuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784868506; c=relaxed/simple;
-	bh=3ZDrDaI/ls3A1gQWBoU7o2OIY5ppFEs6RqqR9Gf0PVg=;
+	s=arc-20240116; t=1784869102; c=relaxed/simple;
+	bh=oA6/AQJWV0j6rmvNuLtiEym/+dnDSCIGbTz9tPn/+XM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qSPWuKeLSUy++L2VNPr0iFDqvryFr6CFSibQzLiaJYNRzhLCd5+tD9nUhDnlo1SL/6m4EA6NRnLSnFd7vMQCt6ZEnC1lQhfDENxCbPbVZk9P6ic6JdXLF/ZNx6loG+v8nFHTObchAoISu4EIK1w4S/QnqaxqgOEVD5cnLMknZbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blOZ30X4; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=W0gIkzp9BF6wRU+EkhNkTQMQv318Q4qYtU/gQwQRd+Jv8bpAAcVJ+3du2vdK/0kQo5IpAqnkZctroFBKp8B0WcvjbwZ2YjYeU/cMegmoDTVZySATqbkMxJxKxkgpidt3SZuAAwB/25FSD+DLiLsj11mhOl/Xu9sHNmc3mazUohU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=mbz+0f4c; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blOZ30X4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 23703C2BCFF;
-	Fri, 24 Jul 2026 04:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784868506;
-	bh=3ZDrDaI/ls3A1gQWBoU7o2OIY5ppFEs6RqqR9Gf0PVg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=blOZ30X42406ERw1pVfnTc23E0hc2ahekYw8TzU0B6nbA3rGiRiX7bd3oS4aEUunu
-	 2BwpR009Kw95t6c0JJuuZRiYWJLvUx/+QONpY4nMHGHy54dpzhyJTeU37a23b72fRI
-	 oYh91WyeBTMid+1RaYqMNbqS5jodu4q9Di8QRZOr95iuaod1pztb/ucR2ryNrH2lPH
-	 hMwtlBCxDXOLaKktBpFZFFEX7eprwvUTjO1krxLesibNWaStSBoahdcvgaNAiqHEIW
-	 InSW7mCo9iZFAQE9v6KvyGwV3EqbSnH1a/fkdH7DxO4Wy7WAFiwrbGAFK8bMbr2mgi
-	 o5Aelq8Z6UVCg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 094CBC53213;
-	Fri, 24 Jul 2026 04:48:26 +0000 (UTC)
-From: Andy Chung via B4 Relay <devnull+Andy.Chung.amd.com@kernel.org>
-Date: Fri, 24 Jul 2026 12:47:40 +0800
-Subject: [PATCH v5 4/4] hwmon: (kb9002) Add documentation
+	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="mbz+0f4c"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=Cc:To:In-Reply-To:References:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+	List-Owner:List-Archive; bh=zH+ZHg+dFhAWgwwztFJm9Xvf84EonIy8d44y46xsoEs=; b=m
+	bz+0f4c/bXcxo2oW0IDSFjmOak9xYPLcPgnogl1uQ0wLnzXGhTUzSSREuTDs2rmrnpd3Xt/9AQ3sW
+	8XN/jCCclhX8IQE3Iaf4KAFkMXNgJfNdukpyvmL5bW4HMibwhJt1Wf2c0FSwIqGuFb93AjdG6/USt
+	v2oCOWReNPqCf2b24MXIGNbzOGkiw9lsatWKiXIVC197pKwYwOi8vrm1/3pwPQxTI/rbXLEaj5gCd
+	zN4os5JKgnMTQoTZtuBpeDB6pXyUY1QQidGt21hSv/M596AR+rh1TX/PEz4F0g2NiNhYj1yGhLxI7
+	Ez5QjVkmP8FtC4efkSvZL53jiJ7uAk4iw==;
+Received: from smtp
+	by smtp.domeneshop.no with esmtpsa (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	id 1wn7sj-00ERx3-LU;
+	Fri, 24 Jul 2026 06:51:33 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+Date: Fri, 24 Jul 2026 06:48:39 +0200
+Subject: [PATCH 2/2] Documentation: Add my name to the Kernel Enforcement
+ Statement
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,124 +46,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-kb9002-upstream-v5-4-9523c3ffe83a@amd.com>
-References: <20260724-kb9002-upstream-v5-0-9523c3ffe83a@amd.com>
-In-Reply-To: <20260724-kb9002-upstream-v5-0-9523c3ffe83a@amd.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andy Chung <andy.chung@amd.com>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+Message-Id: <20260724-sign-kernel-statements-v1-2-52131fb5affb@fjasle.eu>
+References: <20260724-sign-kernel-statements-v1-0-52131fb5affb@fjasle.eu>
+In-Reply-To: <20260724-sign-kernel-statements-v1-0-52131fb5affb@fjasle.eu>
+To: Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Andy Chung <Andy.Chung@amd.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784868474; l=3103;
- i=Andy.Chung@amd.com; s=20260327; h=from:subject:message-id;
- bh=X7KlZJRpM+tmPVIiJTkz8JxxyjoQXDvY7ETNvVGG+tk=;
- b=f59i7Yg3QvT0pIiqVK0XkiLHmZdxldbiLNB/D3jXDutvMeKqty/pchkBJezjulQP34DuPq9Of
- MkE+0INR8YsBFg124L+NCmq5dqShecYEKoWyHvDATS3GrxFBJXDiMCy
-X-Developer-Key: i=Andy.Chung@amd.com; a=ed25519;
- pk=X2gaHRnhU2q5hvMjkC6xmIcC03vKNvHY9CQRdsj9ecM=
-X-Endpoint-Received: by B4 Relay for Andy.Chung@amd.com/20260327 with
- auth_id=696
-X-Original-From: Andy Chung <Andy.Chung@amd.com>
-Reply-To: Andy.Chung@amd.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Nicolas Schier <nicolas@fjasle.eu>
+X-Mailer: b4 0.16-dev-5acee
+X-Developer-Signature: v=1; a=openpgp-sha256; l=755; i=nicolas@fjasle.eu;
+ s=20250924; h=from:subject:message-id;
+ bh=D86SLZuBWYM/6O7yEB61MVZcROboEWp/wzrXJZOAJI0=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBqYu6tsLzpI0E3od6ADRFCn0qwTKvRn1tK3QeE9
+ wtcpmIO2RKJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCamLurQAKCRAHUgpwFiYS
+ aR6YD/0aanEwfxXk5iZqVRyPt+F5OPd53lgk5keVSwM3iYMmuqmTXy02B3s4TdiQzSqcFhe+Jb1
+ GRWg2HJkdRwPwcP9RalHT5uhLqYKIE/QbKr3Xm/CEdH3uTJ4o+r/W7pwINyC5FID5OgXu+PBvV7
+ Z5b3SePkFN24deUWlBfQuyqiH1njdd2Zw5g5xjItHwmZafPc282gUHr1bhqDyyTCi4DIeQLeda4
+ rqt1ZrzX1NMFDCxLF6uurH0CEztqfHWE+/9uId4vDQivSnUSsq/AmGncvu/XxfNGG7RS1lnMIXC
+ FLoL2o97v6xgNXag1O8YGRiGHR3ihqoPcKZh5L5ohXUvFM7KvHcilnXfbGA6AQWZkk3lEa6EMQC
+ xH3y7bAGMnuu/LrpBhNEDFHGbtzmtDBG8vb/owIjVhvBU9wm82XNldlrjuEsooAqK+n1FZbC9zC
+ AjDgsmkj0A9AkC/u7LoefosHKsEThDO+xK6fi2lxVd9zQAVR1NLHYU/IUHQJeaPqNFTSETB4U58
+ KRD/ACbUUcwpQjAkbT3mNQV1WWnUJVGk7TobEyjFf85X7pG4aqpXz3hSryBOXemK2uJX9mXTtYI
+ r38Blgw1Bi2+H8sv8M2+B2tMvoHFeZ0JBz2XOtTucjWh0GgarqFXuzHdyjU0GtR3hfRNwBOi8NU
+ ANiODoIIe+oHUqg==
+X-Developer-Key: i=nicolas@fjasle.eu; a=openpgp;
+ fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
 
-From: Andy Chung <Andy.Chung@amd.com>
+From: Nicolas Schier <nicolas@fjasle.eu>
 
-Document the sysfs and debugfs interfaces of the Kandou KB9002 hwmon
-driver.
+I do support the statement.  Add my name to the list.
 
-Signed-off-by: Andy Chung <Andy.Chung@amd.com>
+Signed-off-by: Nicolas Schier <nicolas@fjasle.eu>
 ---
- Documentation/hwmon/index.rst  |  1 +
- Documentation/hwmon/kb9002.rst | 64 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 65 insertions(+)
+ Documentation/process/kernel-enforcement-statement.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 226789376217..9dc796d087dc 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -112,6 +112,7 @@ Hardware Monitoring Kernel Drivers
-    jc42
-    k10temp
-    k8temp
-+   kb9002
-    kbatt
-    kfan
-    lan966x
-diff --git a/Documentation/hwmon/kb9002.rst b/Documentation/hwmon/kb9002.rst
-new file mode 100644
-index 000000000000..6f8116dde918
---- /dev/null
-+++ b/Documentation/hwmon/kb9002.rst
-@@ -0,0 +1,64 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver kb9002
-+====================
-+
-+Supported chips:
-+
-+  * Kandou KB9002
-+
-+    Prefix: 'kb9002'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: KA-015171-PD (available from Kandou under NDA)
-+
-+Author: Andy Chung <andy.chung@amd.com>
-+
-+Description
-+-----------
-+
-+The Kandou KB9002 is an 8-lane PCIe 5.0 retimer with an integrated
-+microcontroller. It exposes an SMBus 3.0 target (with mandatory PEC)
-+on its sideband interface. The internal firmware aggregates per-lane
-+die temperatures and publishes the maximum value through a 16-bit
-+addressed register window.
-+
-+This driver reports that aggregated maximum as the only hwmon
-+temperature channel. The running firmware version and the firmware
-+boot status are exposed under debugfs.
-+
-+sysfs interface
-+---------------
-+
-+==================  ===============================================
-+temp1_input         Aggregated maximum die temperature across all
-+                    active lanes (millidegrees Celsius).
-+==================  ===============================================
-+
-+debugfs interface
-+-----------------
-+
-+Files live in the per-client debugfs directory created by the I2C
-+core: ``/sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/``.
-+
-+==================  ===============================================
-+fw_ver              Running firmware version in
-+                    "major.minor.patch.suffix" format. Read-only.
-+fw_load_status      Firmware boot status: "normal" once firmware has
-+                    finished initialising, "abnormal" otherwise.
-+                    Read-only.
-+==================  ===============================================
-+
-+Notes
-+-----
-+
-+The driver requires ``I2C_FUNC_SMBUS_BLOCK_DATA``,
-+``I2C_FUNC_SMBUS_PEC`` and ``I2C_FUNC_I2C`` from the host adapter. The
-+last is needed only during probe for the host-interface mode switch;
-+runtime accesses use SMBus block transactions exclusively.
-+
-+The retimer's SMBus address is configurable on three strap pins and
-+ranges from 0x20 to 0x27. The address is selected through device tree
-+(or i2c board info) the same way as any other I2C device; the driver
-+does not auto-detect.
+diff --git a/Documentation/process/kernel-enforcement-statement.rst b/Documentation/process/kernel-enforcement-statement.rst
+index dc2d813b2e79..d12eb46d94e0 100644
+--- a/Documentation/process/kernel-enforcement-statement.rst
++++ b/Documentation/process/kernel-enforcement-statement.rst
+@@ -137,6 +137,7 @@ we might work for today, have in the past, or will in the future.
+   - Steven Rostedt (VMware)
+   - Frank Rowand
+   - Ivan Safonov
++  - Nicolas Schier
+   - Anna Schumaker
+   - Jes Sorensen
+   - K.Y. Srinivasan
 
 -- 
-2.34.1
-
+2.47.3
 
