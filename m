@@ -1,197 +1,281 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011011.outbound.protection.outlook.com [52.101.65.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67EF3CFF46;
-	Fri, 24 Jul 2026 08:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09883B27C7
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 08:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784880956; cv=fail; b=OpyjsXTBLtqSQKvmHU0rujbsQLAMxHFmJrW7Xvj9YMHyjH+6aXMu4JTQIyAVg2gEszIeD+v9kMTyfP0QuJqkhXbA11q6CHsNzuGwVZDrClksxSPYfv6QWrjvHLbzn7yalRVLM3Jj+tjCoCQhVWnGdeYf2cvs0FlxKclEVvwWTvI=
+	t=1784881309; cv=pass; b=ZFhY3CXvOikr6icV96V/zLnN1XQKATVjWkT+C9WAdhzWjCzrwboIaOrUYvISlvVpw5txwqmabWfnkfc0G8c3uvBEUr5sN/KhGkr2PAC+GNp9+8iAHEXYG10HgmbE2UgFPz6It46N/3rLmpQz4El94X8fKyk+vWOK/1K3PzzR11k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784880956; c=relaxed/simple;
-	bh=rXCz+RjRryPw6okSsLS2gT1n2zw3GWgVY8tsmT6TdRg=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=PHAhOMdrF793gZ/o6POBzfC2SszqDMonAObAqPzf3s3yRxMS8C0gn+Ptcnl9vLYeSKEizLfzKSn6YojhCZQQn3vq1y4suJ/9K/4KXMQTx7LTvvLhcz45XsV3KjtPH4hM/MZjrgdymgEtPnbpzp//g7NLwWBZuaYqrk3VoAdce40=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=sNapOuQS; arc=fail smtp.client-ip=52.101.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1784881309; c=relaxed/simple;
+	bh=Esv/RtPx0jNv//3wQKsAf+TXanLa+RuSG89Rk78rVTE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kiP60oTI3lJXzVPKavTdAb8mz55Eo6UD5pcBA9b1y03fV/31+fT2x/HRBoS9KAn+KN7NTx9W6bMU3hThOIBlW7gcRJ6Y1iz58yI7EsxFc5wl6KFs5NEr1WQg2zXgWLGy3TZJXJhTcPe+kaazE0Hgiq4yhnPF2gUOA/PAWBl/s9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Swwy5Pt1; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qHsjCvvn; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="sNapOuQS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mgi3KNDulzGJsYka+RxwvDue2cqpz4MWuffp7YfbJDlnxd+l4E45d+OA1VRr+8QNsrUU/x+3YE38dN49aG1f6GCGd6JHWP4St2z8+CbKRGMAwH9csBRVPj0jTEEsMvs9povdS8Dwmyhqep8EVXxA+ydZQfUpBEDhNLgFYlFk3Ts6hh3RcFOFdHxKuSORNzjpkie/irS6wmlcFEmgNvUMOwuzxNgYvYbXZaHAOlHVviYLD7iryXRvwb+XMDWU9xgK0QcECPghfcIPnDL0mnGrmIbO+nh/Yb6BgMcTkAElAOKAXK0LdGUQYV6SJvxmVvPrhfnA7DA8qzDZmatPPYWLrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zuCQjnIjcHcsCbC4CeSNrKK4n8UqQjP5j6wVuK5Frmw=;
- b=he4UAIQUWRC8uWJgnhNWKvFnLrBanjgz8Zge5OaEQXEFe3A2pJuAktPzlQADzzdBnI/iadBGRwU/nCbpgRLyyf0dUSMhgjxBUvgJV7WaXyfuipJQHv5JXfpet2ehYBp7DbJxq1DHr+8IdaQT2qBwGWZw2T2KCErRQmLjy1VuxLhBAbuIRVsIHF7MJoazBxnDrgOrJGG6LZEZQIgIRRnsW+fH2OUbSbQyhb7pdhdryQFl1Cylq1pTZVImfwb0xLG4eZwsbAG+ZKZ/nsL8M/ijlOIqBeKE1Q7Je9iPljosk8i2QW4rO8v4lQxrCWwSkxeWZgBJ4MPt2unXj1YmAl88sQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zuCQjnIjcHcsCbC4CeSNrKK4n8UqQjP5j6wVuK5Frmw=;
- b=sNapOuQSGPrq7V/K6V/T8Tbq+84JTaBoIBuzBCeTYIm7b+4e6R8SuC0/TcfySdWY2CGITUN7jdzi0XDjHhjh4dFCxKDOWT58Su/nhtplkIbe9xtnWIDZKrkvCBf1eSiCcec5KxT83R6PVN0o8Iye23+uzKDiClGfwJDPjXMF2xZnrdJhQSz8alvLoVSMQ+L5714AkJtvJUPxAt5i6zMdviQlNtWzRMDQHaMPpuQBpXDEbzV1HSM7N7T90KpzitbIddfzvDZO/ZbSScnlwcoZgbPQRUmRw+K4b1OtXuOTQxCv9LdK5l7kHLjbIgXX5tm1nqM17SN2FZuR14lQpGBtuA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com (2603:10a6:20b:414::15)
- by AS8PR04MB9048.eurprd04.prod.outlook.com (2603:10a6:20b:443::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
- 2026 08:15:21 +0000
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c]) by AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c%4]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
- 08:15:21 +0000
-From: pankaj.gupta@oss.nxp.com
-Date: Fri, 24 Jul 2026 14:35:15 +0530
-Subject: [PATCH v30 7/7] arm64: dts: imx8ulp-evk: add reserved memory
- property
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-imx-se-if-v30-7-ce8ba256692c@nxp.com>
-References: <20260724-imx-se-if-v30-0-ce8ba256692c@nxp.com>
-In-Reply-To: <20260724-imx-se-if-v30-0-ce8ba256692c@nxp.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784883913; l=1279;
- i=pankaj.gupta@nxp.com; s=20240523; h=from:subject:message-id;
- bh=hnPFsRK9/RoyluFDiCjFX7uqhb3SO3ctyv+6dqueb4c=;
- b=LnKW0VEkB8DvJro1FcSLEk6wwmBif1kJBn6gKFirkmeOA1u4343Tye+j9m6JjMOGqKb4hfT0n
- PMBZzsQWBgECpX6oPVKRSwfGqVfw9QvvhwrDNt1bsJJUK8BwhLZG24a
-X-Developer-Key: i=pankaj.gupta@nxp.com; a=ed25519;
- pk=OA0pBQoupy5lV0XfKzD8B0OOBVB6tpAoIf+0x1bYGRg=
-X-ClientProxiedBy: MA5P287CA0264.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1f1::15) To AM9PR04MB8469.eurprd04.prod.outlook.com
- (2603:10a6:20b:414::15)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Swwy5Pt1";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qHsjCvvn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784881306;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R6w2iaDqIpFP8RzG62DRjCZ0o1bpE8b3mkLq3700xaI=;
+	b=Swwy5Pt14CIf36VnHMwiGaVka0QGot9n+4/FbwFwf+iM6PnycCYJPknACQemhbEOUZeume
+	2KD6XiGK7OuATAlHuyh6OH0KsJnQ0qeDBAs1hWcD1AF9T//Uh2g8mjHqPGrdbUwOjFtEbl
+	iHAY7ad2cTtFDBGDQwDuCVkoYR835cg=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-65-ryM4hRhFNIWQ3QkdmOAmAg-1; Fri, 24 Jul 2026 04:21:44 -0400
+X-MC-Unique: ryM4hRhFNIWQ3QkdmOAmAg-1
+X-Mimecast-MFC-AGG-ID: ryM4hRhFNIWQ3QkdmOAmAg_1784881304
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c01ff996dso1446141cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 01:21:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784881304; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JQLz12Fz6b4f+7bTivUECDBiLt0OqdD/lpAC4BqNjO8/7oL/XBahjdeQFg8SsBWITf
+         DrWOEc2PYEsaPX4shYqmUbH6nZz3H899ZMKFMxjU1uTEY4THR7BMG4rWYCQKZHfjLTiA
+         p+JZnHJyIMLhvnjAPGwysYgEfotaApt/9X33VTJj/N1JX5uVZjPlysZ7N1eyYALJVAeK
+         lwppErrczYcBZiiIsqkUg3+IU4jFN/sjwgpJ3zH+7ASU45BRyCfixzHjU+YVEcBthbNR
+         fMRwOy0xnmiP95VymlouRRB0+s6PI7RlzH5OOdUjLnBZPv0iBHB2ZzXm3G3R6afCBau/
+         RVUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=R6w2iaDqIpFP8RzG62DRjCZ0o1bpE8b3mkLq3700xaI=;
+        fh=EwZJl2wIo8soRqVlo+zpGy28yAPKDzeHJH4uVXPw3UU=;
+        b=LuX9QDWrtSQeJMVGirtYNi1hQwvz4ahN4Mk5Y6xhplKG7CmLeVNR5Y7swoyPOmufeC
+         XVq+VwFINzAeVQyM1nD4obTcCr/VEQuG0XFy+WXKgQk1PevNcOS3kZBlRi0BGE2D4M9z
+         VoVDrkFCluuenwfcA/AEB9cqao8LRwiL3RXqzJiJP33COUe0UNZ9XhCRHjgsMn42uxMu
+         LaHwb/sjxbcnCp5s6cxxJiwzJG3QrlOufgX5AZtBH8bwhxuWgwbJAMtn8ZBjbPi/jE4h
+         VpIRr/SxADS58Bz5qAXlzK26SXTzzuYZcZQnnSzgmFNiLEH7NI0MrSKYwrpfBqpk7Bpm
+         8ndw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1784881304; x=1785486104; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=R6w2iaDqIpFP8RzG62DRjCZ0o1bpE8b3mkLq3700xaI=;
+        b=qHsjCvvn0tEdwNgqC/aet2xmKibqjsTQ0lC97H3Z/i4+EqGlJsLMSE7hoc4aiwWb9A
+         Ul0p//uUs/P37XyMpWJMfTWuvaOS8Bff+Vmuz2rhaI1KlHCeUPDvWkAvUcc2Yuow9rO7
+         AeXxywe0Yy1vEIqKx+a+WKIlCukWX8tjowA38g1r2rvAVo6I2vobAm+dhpjzEPwAe+DM
+         Lj6Qx6E+pZ7Jv4P8+B5ayvwQV/SCF0YeRNi64461N1D0oxJPRkqPpbMsMM4BkVd3V6sq
+         koTnYTu6VKkgK2AVvNqOB+wyPp7rLZYMZMTtx1H7I9KFHKzac+K41dRylju1JtvvzCV9
+         8IJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784881304; x=1785486104;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=R6w2iaDqIpFP8RzG62DRjCZ0o1bpE8b3mkLq3700xaI=;
+        b=RgFyZ9EaweGFilw5KPeukhjbeI5Lpv5cUJ704blIPFGCRd4lJQrm9NxDFwpEj8EB9f
+         zlRoi7lHxgLQwlxw4N6q6ohbqn81B9V7Bu8+PGGOoGd/Zsky5Y6fTTxUMcK3p7/xrX/k
+         hSzgB7NKdQ23Uszm590d4sWgov1WhoOK3/zKguhQX7aDPuHQT+/WjGYGNAEijS7DvYLw
+         yc/Cn5Ywl5ZHsdiD5+vNX7BE4k1XxsvG184qHt2INT/IszKpLHBfAJEgCZ3RjjxaNkhO
+         fA+VeGcpbtwnkEMGs9xp09cWkngHPFe2NPFhpc3t1xi0RKssmypkakCITarDEjaB4sEU
+         0Sjw==
+X-Forwarded-Encrypted: i=1; AHgh+RreyBL3Y85RmLL5BqjyEgLntXG04pxT0BmYhSpd7THlI4dgSq26gkDPFIi/AYgCcTnVviGPpGO/Wco=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRqnRJE7BQtrAb2UshY0SOVxQd+e5VFDEU4RNX1uKIby6MwAK6
+	1/8N89C4NxDDyk8SUmnmNOrdL9yz1cDRpq+CqQPXaQc9dhVL+TZZwPGGBsP2xueJCo1Yzu0vOuL
+	0mBYkGC+QCxQK9VQMlQn5b1htiMsxzqJ1uYImbggri62GJRdashmyz0TPy2yyA+Rf+w1ciwnK5V
+	7hN8djjY1t6usNmJNnl3KKVEOdqggIBf9brwfA
+X-Gm-Gg: AR+sD13JnKhvudivI2x7/AifQ9vvaCAiBlCIl1eykznkEv1TC9l/RQ0z95AGmDg6mjF
+	dhqlG/j44JK+JoT/kjWeNc/WkX9AMNH3bGW1ckr2shMlQ0gSEIw/NKMOKlUj/11iztU5yXOQ9Pj
+	YvV54wjLoz7bEDH5syNSn/CAwjjrdrTVKqJJat5e7AeFmD0VYJUI7kpXjf
+X-Received: by 2002:a05:622a:13d3:b0:51a:8c99:1f0d with SMTP id d75a77b69052e-5283df3e6acmr56348201cf.60.1784881303713;
+        Fri, 24 Jul 2026 01:21:43 -0700 (PDT)
+X-Received: by 2002:a05:622a:13d3:b0:51a:8c99:1f0d with SMTP id
+ d75a77b69052e-5283df3e6acmr56347861cf.60.1784881303160; Fri, 24 Jul 2026
+ 01:21:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8469:EE_|AS8PR04MB9048:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92f0f5b5-7046-479a-cb6e-08dee95bb4bb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|19092799006|366016|376014|7416014|1800799024|921020|56012099006|11063799006|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Q0FCV8IbMw5YGlKQFK8LXobjRE9YKa5UKfIdse/YGGKmMLy5UGa+R2gps1LkpwPd5i7dXKF5RJoucTEka4uv7/VkjGEMQ8Z11fQ1o5lVwFA9i+d8bj92lPYGI6lupc6+h3VnGVsgoxO3WJzpOTBrNJtrQhXYSdOYeh+nbS1FzSikML5wqyDq0OVjEpluSHmLAIV5aRO48KToIY2EnhnRc0oJ1xJszn+Jhs9QfX7+/u/VRdpl/TcjF0Y3dBCJOP+6uWJvmGTXjd8rG3TmX195VF+cbDLJ7WKHWMFT8cmIE4JqUBmXw6yZEkLk5D3262KgOlYP2sYLbvQWoy++lFyK+J1NKc2BmnttTavhdk+W9RX2oPwD84D5K7fSbboEqIr3UvE3Hqrmt/+kuWLup4w9fJKyk2ANoJ/xJYGh/nKZ95WhyJr+T2u08IwsUUuWUGs4tNNa8l0CnTwkpu4V63HMPfMqVNNZs0xjEIj8wzJ7wn5eePlfTQJf402Rwm0EIOecpb6oFvtZnmsMECIZi6sdue9pVjUXEZ22owMK17WB8h5Za15bMzrCAkNqgwPCEPFhQbVz3XLwbOSXsVr2eiqq/L7rVfh59QVUbE/m8WGlDF/i5fu7T8wBw8d2V8ZYorNau9V4QT2VNKJBszUhJCVffr+GDWCMTDMwyYwtUUoLvFvDKLB9+vNCiVlgLToGjll4gWg7DobsFPn/x0BlVeTtXw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8469.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(19092799006)(366016)(376014)(7416014)(1800799024)(921020)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c1U4Z3cwYUJCT3pJV2J4NEY0RWtmMlp5cEphdW5mdE84aGJOK2VpNURST1dK?=
- =?utf-8?B?MCtPOXVnUjc4aTFlcjJzVHdOVGxEWTY4WFlOV29Db3U2WEVUUWxWVlZkQW9x?=
- =?utf-8?B?RFlkN2RkQ1VjbTg2NlFOMi9DK1pjY3AwMGtaM1IzQ2NPRXV2SThmNzZuWUU5?=
- =?utf-8?B?eE5QRktwZXpoMGQ5TEJpcVA0VGlFYzFZd05tN1lheTNMNmU5OVFUVHEvNFNG?=
- =?utf-8?B?dTVid3NZd0JNTGlwRk9QVjBoRVU5MllwN2xhV0tFSzVFQ09YT2dLamZtVjJq?=
- =?utf-8?B?cTEvTFFFS3VvLzQvWnF3VzU4WFlSQUlBNjJRZFhlYnhLWmtLTWJ4dXpySWVN?=
- =?utf-8?B?TWpTMWtnL2Q4SkxyQU5GMkpOS0NZeVRCOUN1cUI0ZnY4UDlncW9vQ3I0UWZZ?=
- =?utf-8?B?bXVoekMyTXJ2QnhqbHNNNklLQ1JuR3FESzY1WG5lbGpIRC9IbThVbG1wa3cv?=
- =?utf-8?B?akoxNkRYdTRSWFJ4Y3llRXV1cmV3K2w1LzFrSmI4Y3Z1elBHUFd0aDJJaER0?=
- =?utf-8?B?R3ZNckRreDNOUi9ha2xFaExteHhSSUhZdS9xTW9KSzlseDcrTEJLblNxRnNC?=
- =?utf-8?B?QkdQWVphdGw1enZ1T0dGQTJiNXArM2k1MWVINHRGd3E2aWZYSFR3c3l0ckdD?=
- =?utf-8?B?UXgvMnN0bTVHTjJwSER2d0NMMzg4TFZJeXU0MzhDTnZmamNaK2VnS3ZqdXRu?=
- =?utf-8?B?MTIxNEplT3FDRTJYQ0RFZzhZTnB1ekFySzBYdlRqbGRxNk1vZXcxdEV6OEZB?=
- =?utf-8?B?cSt4eVhLUFczeXdJOUkvWEFRM2xXaGdFRkpkRnlPUkp6eEtNYVhlZEJDWnZt?=
- =?utf-8?B?K1Y3NWVJcWp0TWNzbTNKZEdmZ2FQV3p4ZmRhRWN6d2lHQlpRamozdGMrc2pG?=
- =?utf-8?B?bzcvejFSWnBPKytzUEw5SDBiQUxRaGJYR095eDQ5V2xFdGxKYXhod3U2Snhw?=
- =?utf-8?B?b0d6MktQdHUyOXNaK2FTY2czNDNkSGM4NkNFL0hNaDF3NTkwYWRRbWZ4aEVi?=
- =?utf-8?B?Q0xTRlhjUU5DdXhKb050a0wzMU5nekw5ZEw3WEZSNlRKbkVPSTRRcG1TOVFH?=
- =?utf-8?B?YlF2MkpnZVF4WllSdGhaVWpoaFE3VGRFSlpGS3RXcUxGZ3FERDI1UnRwdzR0?=
- =?utf-8?B?K1YxWEpVekw3QkVzSXpiYWx3L1dFdmRBTWJYL3RYUUZTcExGT3RjRWtJV0Vn?=
- =?utf-8?B?K04raGVJZ1BZM0ZXNzlqMFgzMmYrTk1RQUtRaHozMGZvY0ZaRXBMM3krYTNz?=
- =?utf-8?B?bG5WdzB5eW5XK2loVnltY0xGaWxrM0l2eEx6bGZlZ1lENzlCZUZ5Wk5kbUNw?=
- =?utf-8?B?aWtoQ1dkVWJ0bkhFMjBGajhsalFCaTIwMlVRU21VdS9UL1d2eFlsZmpvSG9j?=
- =?utf-8?B?Y1NFOG1CYnQwVEtlTkYxNmV5MDl1NGViTkpYendsN3cwRnBkaGRnZDBsZHBa?=
- =?utf-8?B?K2JMVXN0TmRFSEhxdzdaSFc2THh2ZUNMKytpdkQwY3VZYnhLTFpOdjN2U3JB?=
- =?utf-8?B?aGcxQWRUYVdnaGI4QkZ0TjBwOTVUaXRTeERNTC9wbjBRdUx4OXBNdElienpk?=
- =?utf-8?B?YzJBT2FPcG9SdDhzM0s2VmRudi9LNW1pOStiakVRQk1CRWFOQnFJK0tLeStP?=
- =?utf-8?B?c21LSzNOaXE2QWx0UUc2VjFyVVZHVUJmUlVJbGpSdnp1VEJJZHRhbFR5Q2JC?=
- =?utf-8?B?WmxrSGpxS1QxMmhJZk1VQzRPN0hJS3NsS01BQ21RVkNPU2loeUYrblNtMjFU?=
- =?utf-8?B?bmZrQzh2bGh1d1NadzFBVmVGZG5lOGJKSWFQdmVFQUVBUTFxVkNZdjZmUHhj?=
- =?utf-8?B?N2FXWm93ZUoybTJsVWU0elB5T2VwdHJwUzNrYWtBemNKemhDdUxlQVkxSGlH?=
- =?utf-8?B?RVkwRUZDS296a0psaU1QZkkrU2ZBdHZUZjZ0VWxSVWdTcmtYNHJpendGdDd6?=
- =?utf-8?B?bTdxci8xWDZxMjBQSFZsMXhIaTFxNGxhU3U1MDlDS0RqVGlzZ1NocFR0cGFa?=
- =?utf-8?B?MGQ2bVAzTW9zREtFd2VIdzhJSkRZVnA2TVdJM3hWZmFVTHZ0a3ZDVitQckpG?=
- =?utf-8?B?clZXc2JOWEI4N3JrTklBK0VyU2RjUzhYcHBsME5McFp0MnFaNXY4amdrbCt1?=
- =?utf-8?B?Vzg2MDdtTjNPYmluNEJ0Q1NYRkFEVTVtNkE3WWtjcTlmSkl4ZzhXOHZtTTdP?=
- =?utf-8?B?YjJMZDA2WUVRNFNZTkNkbHlaRzdCdGU4RmcvNU0rV1JUbWxGQVRwRXFIMi9h?=
- =?utf-8?B?d3dTbFU1blN2emRDVCt0TVFKbTNQemw0OGFZL09IbGZ0SVRhYmJ2Q2JOMjM0?=
- =?utf-8?B?dHhrdEVXT3hzeVBWaFdRczgyVmJva1IzeGJramhuRkl3Zk1nQXVBQUs1OXpS?=
- =?utf-8?Q?utBsFvk5XOGhLne0wQjcx1ziyhuKTWNpta3LX?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92f0f5b5-7046-479a-cb6e-08dee95bb4bb
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8469.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 08:15:21.7683
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vwZWN3OfO/QCCedkV4sTFKQSG0LsMRBKIdZfPYKJKX4CXfU2YYIBv1XMLNQG9AWIjLK8IH00lcdlNXCxF3bI5ZcdwQeFcPXh4aEqvOR5STIXKoZPbaLhVgsmdFaTjxwN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9048
+References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
+ <akybBoCAm-kJbfHL@kernel.org> <20260720091927.GA1736709@horms.kernel.org>
+ <al4X300UObXawEIJ@kernel.org> <al4yeHrkDHFoo6A0@MiWiFi-R3L-srv>
+ <al5cbYMD18UbKe-6@telecaster> <al9gnbT5S0ALDieg@MiWiFi-R3L-srv> <MRWPR09MB802232B51C8299CF750B14978FC02@MRWPR09MB8022.eurprd09.prod.outlook.com>
+In-Reply-To: <MRWPR09MB802232B51C8299CF750B14978FC02@MRWPR09MB8022.eurprd09.prod.outlook.com>
+From: Tao Liu <ltao@redhat.com>
+Date: Fri, 24 Jul 2026 20:21:06 +1200
+X-Gm-Features: AUfX_mzM2Esm_vgIK4dSyGCOmrk37RuBTaquqJpKja8Y0Uar-Vj9nUEWBeZ2VbY
+Message-ID: <CAO7dBbVoygCT245OvjZNDeg9b0qCZ5NZd_MNSAiELAZNEDf8-Q@mail.gmail.com>
+Subject: Re: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
+To: Pnina Feder <PNINA.FEDER@mobileye.com>
+Cc: Baoquan He <baoquan.he@linux.dev>, Omar Sandoval <osandov@osandov.com>, 
+	Mike Rapoport <rppt@kernel.org>, Simon Horman <horms@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Dave Young <ruirui.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>, 
+	"kexec@lists.infradead.org" <kexec@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-debuggers@vger.kernel.org" <linux-debuggers@vger.kernel.org>, 
+	Vladimir Kondratiev <Vladimir.Kondratiev@mobileye.com>, 
+	Gregory Greenman <Gregory.Greenman@mobileye.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
+On Fri, Jul 24, 2026 at 1:05=E2=80=AFAM Pnina Feder <PNINA.FEDER@mobileye.c=
+om> wrote:
+>
+> > On 07/20/26 at 10:35am, Omar Sandoval wrote:
+> > > On Mon, Jul 20, 2026 at 10:40:43PM +0800, Baoquan He wrote:
+> > > > On 07/20/26 at 03:43pm, Mike Rapoport wrote:
+> > > > > Hi Simon,
+> > > > >
+> > > > > On Mon, Jul 20, 2026 at 10:19:27AM +0100, Simon Horman wrote:
+> > > > > > On Tue, Jul 07, 2026 at 09:21:58AM +0300, Mike Rapoport wrote:
+> > > > > > > On Tue, Jun 23, 2026 at 12:14:26AM +0300, Pnina Feder wrote:
+> > > > > > > > This series extends vmcoreinfo with struct offsets and size=
+s
+> > > > > > > > needed by the vmcore-tasks userspace tool to extract
+> > > > > > > > per-task state from a vmcore dump without requiring kernel =
+debug symbols (DWARF/BTF).
+> > > > > > > >
+> > > > > > > > The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore
+> > > > > > > > file) and reconstructs, for each task:
+> > > > > > > >   - task name, pid, state, flags
+> > > > > > > >   - VMA list (start, end, flags, backing file)
+> > > > > > > >   - user register state (saved on the kernel stack at kerne=
+l entry)
+> > > > > > > >   - user-space backtrace with VMA/filename mapping
+> > > > > > > >   - kernel dmesg buffer
+> > > > > > > >
+> > > > > > > > This provides a lightweight post-mortem crash analysis
+> > > > > > > > capability for production environments where full debug inf=
+o
+> > > > > > > > (DWARF/BTF) is not available.
+> > > > > > > >
+> > > > > > > > The companion userspace tool is submitted to kexec-tools:
+> > > > > > > >   Suspicious Link - Removed
+> > > > > > >
+> > > > > > > Sorry for the delay, this fell between the cracks somehow.
+> > > > > > >
+> > > > > > > The kernel side looks fine overall, but to merge it there
+> > > > > > > should be an agreement from the userspace side maintainers
+> > > > > > > that vmcore-tasks is something they are wishing to accept.
+> > > > > >
+> > > > > > Hi Mike, all,
+> > > > > >
+> > > > > > Sorry for the extended delay.
+> > > > > >
+> > > > > > I will send some minor feedback to the user-space tool patchset
+> > > > > > but overall, yes, this is something I would be happy to accept.
+> > > > > >
+> > > > > > I don't want to create a chicken-and-egg type problem here.
+> > > > > > But it's probably worth mentioning that usually features hit th=
+e
+> > > > > > kernel before the corresponding code is accepted into
+> > > > > > kexec-tools.
+> > > > >
+> > > > > Sorry if I wasn't clear.
+> > > > >
+> > > > > I didn't mean that the feature should be merged into kexec-tools
+> > > > > before merging the kernel bits. I just wanted to make sure there'=
+s
+> > > > > no fundamental issue from kexec-tools perspective.
+> > > > >
+> > > > > > Let me know how you would like to proceed.
+> > > > >
+> > > > > I'm going to wait for Baoquan's review and once that's done I'll
+> > > > > pick up the kernel bits.
+> > > >
+> > > > Oh, sorry, I just noticed this series, but a quick look give me a
+> > > > hint of 'No, I don't like it.' We have had Crash utility, Drgn, now
+> > > > a new one comes up. I have some concerns to Pnina:
+> > > >
+> > > > 1. Exporting maple tree internals (maple_node, maple_range_64,
+> > > >    maple_arange_64, maple_metadata) as vmcoreinfo ABI is problemati=
+c.
+> > > >    These are private implementation details, not stable structures =
+like
+> > > >    task_struct. Any refactoring of the maple tree will silently bre=
+ak
+> > > >    the userspace tool.
+> > > >
+> > > > 2. Without DWARF/BTF, the debugging scope is inherently limited =E2=
+=80=94 no
+> > > >    kernel stack backtrace, no symbol resolution, no variable access=
+.
+> > > >    That's essentially "ps + /proc/PID/maps" from a vmcore. Have you
+> > > >    considered enabling CONFIG_DEBUG_INFO_BTF on your platforms inst=
+ead?
+> > > >    BTF is compact (typically < 1 MB) and would give drgn full acces=
+s
+> > > >    without needing vmlinux debug packages. That seems like a better
+> > > >    return-on-investment than maintaining ~40 new vmcoreinfo exports=
+.
+> > > >
+> > > > 3. Beyond the technical concerns, I wonder about adoption. vmcore-t=
+asks
+> > > >    targets a fairly narrow use case =E2=80=94 platforms without DWA=
+RF/BTF, where
+> > > >    you still have vmcore but can't ship vmlinux. Is Mobileye curren=
+tly
+> > > >    the only consumer? Are you guys already using it widely and full=
+y?
+> > > >    If this lands but doesn't see broader uptake, the ~40 exports ri=
+sk
+> > > >    becoming dead weight in vmcoreinfo =E2=80=94 nobody actively use=
+s them, but
+> > > >    kernel changes still need to keep them consistent, or they silen=
+tly
+> > > >    rot and give users wrong results.
+> > > >
+> > > > Regards,
+> > > > Baoquan
+> > >
+> > > (Adding linux-debuggers mailing list).
+> > >
+> > > I agree with all of Baoquan's points here, with a couple of notes:
+> > >
+> > > 1. drgn's BTF support is currently a work in progress, but it's shapi=
+ng
+> > >    up well: https://github.com/osandov/drgn/pull/625.
+> > > 2. makedumpfile is also gaining BTF extension support:
+> > >    Suspicious Link - Removed
+> > >    It's lighter-weight than drgn while still being much more general
+> > >    than this series.
+> >
+> > Thanks for adding the information, very helpful.
+>
+> Hi,
+>
+> Thanks everyone for the feedback and the suggestions.
+>
+> I'll take a look at using BTF with vmcore-tasks and evaluate whether it c=
+an replace most of the vmcoreinfo exports.
+>
+> Our use case requires analyzing the vmcore on the crash kernel itself, wi=
+th very limited storage available, so using drgn together with a full vmlin=
+ux is not practical for us.
 
-Reserve 1MB of DDR memory region due to EdgeLock Enclave's hardware
-limitation restricting access to DDR addresses from 0x80000000
-to 0xafffffff.
+I guess you can ship a makedumpfile and a few extensions to your
+system, which shouldn't be too large. You can code a makedumpfile
+extension to utilize BTF info(If your kernel already enabled it) to
+iterate tasks and dump the needed information out, please see [1],
+though it is used for ease some data from vmcore, but enough for print
+any information.
 
-Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
- arch/arm64/boot/dts/freescale/imx8ulp-evk.dts | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+[1]: https://github.com/makedumpfile/makedumpfile/blob/master/extensions/er=
+ase_sample.c
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-index 5dea66c1e7aa..16399d921e04 100644
---- a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-- * Copyright 2021 NXP
-+ * Copyright 2021, 2025 NXP
-  */
- 
- /dts-v1/;
-@@ -37,6 +37,12 @@ linux,cma {
- 			linux,cma-default;
- 		};
- 
-+		ele_reserved: memory@90000000 {
-+			compatible = "shared-dma-pool";
-+			reg = <0 0x90000000 0 0x100000>;
-+			no-map;
-+		};
-+
- 		m33_reserved: noncacheable-section@a8600000 {
- 			reg = <0 0xa8600000 0 0x1000000>;
- 			no-map;
-@@ -259,6 +265,10 @@ &usdhc0 {
- 	status = "okay";
- };
- 
-+&hsm0 {
-+	memory-region = <&ele_reserved>;
-+};
-+
- &fec {
- 	pinctrl-names = "default", "sleep";
- 	pinctrl-0 = <&pinctrl_enet>;
-
--- 
-2.43.0
+Thanks,
+Tao Liu
+>
+> Thanks,
+> Pnina
 
