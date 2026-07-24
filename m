@@ -1,201 +1,212 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1943AE707
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 20:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA5B3A963A
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 20:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784924611; cv=pass; b=D3SqH6JO5YTOwX7xOIXZ5TgJFTkv+1oQBQFN+Si7B2VQ8o3jJDpDhOW6g8oFKE6ZyGDfuPMm3LrR81xEZZu4Ktl2yRjI6MuAcjc+kwfRwCzRzEqRELFmOFak2wg3G9CanXKgLJXr0M017Sc3bs6JuJyvvyxaT+4sag4TnXHs0KY=
+	t=1784924805; cv=pass; b=fi2uqsuRIWMto3Ej1KbIFb1JNBrGBzIMbzWw9gYa/mfJqva9UwLlc1NAlZaiQV74/M4QThQASQkWWp7yGGBL4Hz12ydjylJcHRJ5Gfem8AtLHLQPSoEXXmBWJY9x38l3AZpHPUv+nsyA1dVz3w5weYOfZUAXlcirew9Vtg13e0A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784924611; c=relaxed/simple;
-	bh=CLvryJlgtOkpD04dLgTszNnfnuSEyddIT/JzxgCf0Xk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f44zIi+5m7VbJqJLsmo17rs0LuozHFyW/EFJI24OKgGywX8VS/IjDFRY+iZGY74BykrI/CieFeOJ3PPEpjEvpM8DXyJizADD0KnrtCmlzXRHjoW6gy3tT/xK1boXXa9vhMnZY3iPUhiKPSx8yrkJTik4P6XFnvBucZQx/owrfTE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fRhncDac; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784924805; c=relaxed/simple;
+	bh=3bPaFfkcLVVehjWoKc7uXp9Krk+zpZKVatRaC5BCI3o=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CJr2JSvYHSJW9wzJJ9QN7uOpnZH9MWwWERAz62TybzBXhJP9qn1QwE2BnXFD+N4CR1He7dnp3PKX6+0DNNqOJJjZtSqezDrXRsk2ajCXZ2jyNUfePLUjhdnlSGf+5j4mRf1SBIE6X9MZ3B7pjNYrm58UGAdVbnDTO4ZGWWp+qbE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X+22ytPV; arc=pass smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fRhncDac"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47de008b020so567006f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 13:23:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784924608; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X+22ytPV"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38deea72eebso979660a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 13:26:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784924802; cv=none;
         d=google.com; s=arc-20260327;
-        b=TYlKYFsfbFZaCuA0FkjP3Iktq/ihQzSGaFktHMAxOF3NybPnCnuvtC2NmaUQdPS3pa
-         WavIUoDmSg/XgvOw4Bsp0MM8roQ+YahEfrngjpqantqHiCgpXXMnf7AEdzX2tur/m3ke
-         wFYztOEvG+JDE2Q93JWvUkP28Lig3sUAIH9xyi1sZIaGKMu/twezTVm7/Lkzuf/HTL4d
-         pBPjpaqhG9wJRVOTfw4Y7CqUBGQE+9DYYfs1wkBYXnUyNcIhKE5Br5mMAx+XfiJrIHAk
-         Lp1FxrLBVA2mcChpenHo1A7/8KBXjoq4hBU9jl8iLI35gUrB7XKxO7E5g13PM3vuZ9u5
-         FZug==
+        b=PkKCD9W0xUd/TQs3rA4kkE1GtUYLW2bTihAc/HFfLrztcLM5JWRoP7UnXiDV/u04cG
+         s2A4XKz684qri7eNGf/d2UfctKdoViZmoGu92DLMHpLB3LMNqjqYzJFHVOdUwPFwtCOi
+         nRPhLNaM2tHvCCada2HRcfQPaVEISmSEMpuYly+B18pmq9W2efj0pA8qfZHldwoyVD35
+         Og+qc7atKg0yxwnjReBOu30m0qos+pPQU9vbvAiX9rneh8dD37nUkK11bsP43725wWqn
+         dWGk10hRvnldY4kCOZi509UmbFZKtVGSwvMvmNqRaxMyOcJMirHatRw5LHZZQs49nv0U
+         whTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Khp2FCMG1fPFWK/vo3BDeHUm3k3OSQAePpUYhFSlseQ=;
-        fh=BoeObtHBkH12hYmWnwB0GoiS53JUoDOcmltafjNdq6s=;
-        b=ft17HhZGvUqRz8UaDZaQmBwth7Aq7pg+QeGBgTnpAgFdPuPK6z7ioi4qAvbdAtcFHA
-         OD/fpP1W9L6ezRYQGKKN/Zo8ddjPJcK02p806NM/glv9exGY9RyPJt4VHC/QS2Xzdp+9
-         vphkhS/JthoZ2/ULU/HQRYyz6XTopr58YqyP1AdO/dVyI+RrMpIcKC0t26brnQKXBxG0
-         VaXXlvXebi72gkUI7rmJSUGXXOjv0wYMFes5Z6mNcKzEM9ua0BMxiWZuHicv67OnWP4E
-         PvJCuuDpRndVbWTKxuf5/dDQF76AjVmSxKD3lxqG1APka65FLsDcQIInGG5UNJVx1fSR
-         WW4A==;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=j6WRuRiOGlrBru4rjgXozk6E1Vpz9Ly8EIjgzHznenQ=;
+        fh=0Mkscu0Ry9cVDWhxECWyocxTB7u7AuTidkUMtyTV1cE=;
+        b=TxYEJhHb290h6aOjTd4G+6ARPsX1wBxnnCPFaRTbvUVXr33XsxgwcJn1Q5hq7AoCRd
+         R+/nNfYhFFgvdEyDs+dhvjdVG10nEi9eNTBsvpVBUmFGbLogH/w2ww3JCk+XT5p1KTYI
+         LCYavaFKkZOUPfDRxnNy4AQqRHIVo/ytOH1MrFkcogPAjt039vjPpfXyp171XnOfpCGf
+         tGwayZ34rrWwyDNlRTC4POZQrIIHBvEL7+4RnyB2+WrvNcJ8SVb2NMEkHtVbU19lzn1c
+         skwrh38On1O8HaA79iUTALIAy5joj36E6QwJ8m/0W1eklOI9qBeTZpT2Q9KxCDC6CRui
+         EI5w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784924608; x=1785529408; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Khp2FCMG1fPFWK/vo3BDeHUm3k3OSQAePpUYhFSlseQ=;
-        b=fRhncDacSTwisTKR6lzabg9pzzRvh6ViO+kH19aUUlNHz7cZj5l8yDGnIBDDoaAFs0
-         FEZMfNCZIKGqC12PJfPjubPu0jHwJBERa3HFb2bc7YYebZNue1tLcoBqgvU4VqY/KJ2i
-         mo7hqeNMMuv5W+GdpX8Dh1MYYzSc3mDF9Tlv/KabiEHVzcy+e2Yo99ajSVFLZAlfOAQ/
-         ITSSkDXF6BUGG6siWicXBNWr28RHKlYJeHC3SYZHTtc2Ajco3Z6sXFPr9z5ZcVEysDVv
-         4OVixoMWkiv3JoUD/PIj37LvORu3W7oSn5LindbqU7VVFck7N0MBsNwr2e1XU61LHoBh
-         qkiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784924608; x=1785529408;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1784924802; x=1785529602; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Khp2FCMG1fPFWK/vo3BDeHUm3k3OSQAePpUYhFSlseQ=;
-        b=Wtj3Y94PNbdLUmUNcK5mHjIMus+9W/dicWMLnmDI7uAbqfIyRF7J15sQ0VnmOxnorH
-         wlxErGYmjlXAf1SXYbE2s/VpXl/jt9qpjDdnQ5LUJYaqDPmSpEhISOuy7MgZ9Ulh/M6U
-         yfnJ8JFKoAsF/PyrTQe/J2QTidPJGnqIr3vbUm4lY1Q7YnzjMCNd0rpWjIx3xTFSYFSL
-         R5HlGkWnPzhcyX7L7IKyJSR2Ge8UJAXvCs6mT5bqZBzAqIsqDSYgwgGOd76WujLSPSOV
-         FjEjRaKHwNdKZNV5zre9iNl0QMxHMShFfdvlhJ1AUNNnH97MJE6t2r7q7tzzg8y1tPLo
-         ecSg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpdv8ac0niUQQ54A33nJaUjs1ocNSeaxj5/2DzBcdy0nNn7iaVaiOdVTkSGOSY/10hxF0LYxuwTLNI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLdF/0+noqz4RST9bP98KOLxi7TIFZir7db1ljT+dh4khf/0OB
-	4Z2vbJ+2jXW6z02L+uBYFrsChwd6q7UfX0Q9w92/Hz5LydY+DXoIH0xYPbwBhnOFldzJOfDKA8q
-	XWmOnKT8VVj6Jx0B8FrOutsTHs+cDTWs=
-X-Gm-Gg: AR+sD10XZ/Gd5njc6SRAdAPKiMXqaz7/QfTblFycCC9ktM3uacbqkXpqtHOg5EzQtRM
-	liSHiajB2NfS9JUsFRPOQ5YHWBjbBdtd9pWEZlgqi8rsDYHPab7fyOSkbq5nX/GkYrOtbC8vZuF
-	kGMUbQdzdHwbju3L/yAnIWN5QitOjty4G9dfliClAkcBzsw8w2GrKRdsxNfWFnE/ZqEaajKwWWG
-	ko0JDYFUo/NE5cCEZcGbuPwQXj3hf8Suq1OB4e4OKUBq25/8m2/KtHx81E93MiqxCXJquPZSeCo
-	IVrmzaHx0cckzzERahyVKL8H7E0MUQa8zgVw45J1so+Dt6kfZW8D
-X-Received: by 2002:a5d:5c84:0:b0:47f:8554:a341 with SMTP id
- ffacd0b85a97d-47f9cddd94amr2609691f8f.13.1784924607527; Fri, 24 Jul 2026
- 13:23:27 -0700 (PDT)
+        bh=j6WRuRiOGlrBru4rjgXozk6E1Vpz9Ly8EIjgzHznenQ=;
+        b=X+22ytPVowtvdD7H6oAjAZ6dFwEHXHU3JHtOooAKf/4Rt/T6msrmpVN9yapaJuPCXF
+         BQgztoqjDqxKNUHrk3zrFXjUxFbKWrfrz8lbDrMAWHinAAAB8ufFNA+lK8gYKjqlrNym
+         nCMleNTnPIVIUC0Cxzqk6t7U+1ZMYES61Afdnwqh6y11P2qbfCubhE1TG1yz9YN9JAnT
+         IJU9Op2jnp5XnD18dnSNzVhOIISoNbvoTWl5o29uKwaLWAbqeaOaIylQW4ptJX5WQSZD
+         FxQgxEYU2QZcoUGSWWBdvaVpiQzGU7AxpH00Zw54jehpPXR+QugrnjlzcktqsCmk/6fa
+         NAlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784924802; x=1785529602;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=j6WRuRiOGlrBru4rjgXozk6E1Vpz9Ly8EIjgzHznenQ=;
+        b=aLZmYj1r8hSKwsJkztvF2OfLnAMu6EahV8J88Y9az/uNhii3xG2CS8Mc/OaqfnHRHR
+         dyK1HCpK/cupwjwZ125OYB+MdjNpuIwVZPL+uJ9FGHyUH3wbSvPZign8QmdiQhFNexTZ
+         nHXwJHD164beyyrqh6EYwFr2n8f5+pLTlKidqqenfeGfVZ4NnrWWjSvMsYzO7DbKAIzC
+         P+cIW/IDOJrbH2Vps/q8gDJMi6THIEVTA1NzO6a+zBcJ1F/tbCgLlebRWn6ABcPegFZ0
+         +dMCcN6xSexG4V6iRlnwUJSSynBF9Ji8hvEV7Ky10OR89d9vU+4bsKnbPR1cgvw8zVZS
+         xFnA==
+X-Forwarded-Encrypted: i=1; AHgh+RpQi3moh6ZN1wswKdPzviSmcAyf98BmkqfO3apnkTygRUneY4gM99+Qzok1nTLB3PBblth4LGQiELA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTU4DQb2fYWcW+fd9bst0QARw+aHTCOoI2HaFex33U3FAlEoNa
+	jQqeZQYQQnHlHFJ7//At1UH4U46ii+/2nFqOANh0KEDb4wE073qizmsVnU6o2y7EyV/aRcJ4Lcf
+	ZnLGI4hTXu1xYpwQ5qEgZ6nRYg9dSoXAEhVNXz05B
+X-Gm-Gg: AR+sD10OBjWYYpSVUllAhuRJJUPdYY3xwA1n21m3hbQZqUsSo7VJDiAoNI3wuy7cWOT
+	xLEDMF7V1NkVCqLzdpkk1mpRuUAV9ZNQ0zuKPHgGOL5mqln1S2hH3t/rf8VF92YAIjrwZbFhFbQ
+	vGU6oNnLmo/u0eJUJUCa15Ode3n3aKen6qffINPUmOvUzhYVVPdCZ6Tvcu/CsE8jRoiaXLyfx14
+	TsovmkH4YAyPxW1YlHStsZJp2tdt/H6ibchXzYrCQHTHktoj/pQiLWuRbBc1q+nk3NLPuO/iaX2
+	XOqOgxIvOGefsyKpb2ViqOhKEIgxHE7CvbUz4Jq9uXAOy6O9
+X-Received: by 2002:a17:90b:38c8:b0:38e:b400:a860 with SMTP id
+ 98e67ed59e1d1-38ec642bd98mr9249020a91.13.1784924801177; Fri, 24 Jul 2026
+ 13:26:41 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 24 Jul 2026 13:26:39 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 24 Jul 2026 13:26:38 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <c0e2df0a-19b2-4234-b0f7-41e010452b06@intel.com>
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-17-9d2959357853@google.com>
+ <584a8f9a-1538-4f8b-b576-75ef0fa961c7@intel.com> <akU7uAKb5E_Tklx-@google.com>
+ <c0e2df0a-19b2-4234-b0f7-41e010452b06@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
- <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
- <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
- <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com> <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com>
-In-Reply-To: <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 24 Jul 2026 13:23:15 -0700
-X-Gm-Features: AUfX_mydRGom_LxmLbEq9SuIROw4SCUO4oftMjn0zu5GW5N5sw4eN8rSuSzGEXw
-Message-ID: <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
-Subject: Re: [PATCH V11 0/9] famfs: port into fuse
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
-	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+Date: Fri, 24 Jul 2026 13:26:38 -0700
+X-Gm-Features: AUfX_mza0pn9bFWoM_88BD1HVQ8VVpLGhsBYWrYX7-3MlRMmF5M63UsjEJ6b88s
+Message-ID: <CAEvNRgHmhpP=Re-RzojAp7E3E-TsdoUPhtZ6eSW4bf+5RVbzew@mail.gmail.com>
+Subject: Re: [PATCH v8 17/46] KVM: guest_memfd: Advertise KVM_SET_MEMORY_ATTRIBUTES2
+ ioctl
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Sean Christopherson <seanjc@google.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-(sorry for the delayed reply, was OOO yesterday)
+Xiaoyao Li <xiaoyao.li@intel.com> writes:
 
-On Thu, Jul 23, 2026 at 12:27=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
+> On 7/2/2026 12:09 AM, Sean Christopherson wrote:
+>> On Wed, Jul 01, 2026, Xiaoyao Li wrote:
+>>> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+>>>> @@ -4969,6 +4973,11 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+>>>>    		return 1;
+>>>>    	case KVM_CAP_GUEST_MEMFD_FLAGS:
+>>>>    		return kvm_gmem_get_supported_flags(kvm);
+>>>> +	case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
+>>>> +		if (!gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
+>>>> +			return 0;
+>>>> +
+>>>> +		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+>>>>    #endif
+>>>>    	default:
+>>>>    		break;
+>>>
+>>> this looks inconsistent with the
+>>>
+>>> 	case KVM_SET_MEMORY_ATTRIBUTES2:
+>>> 		if (!gmem_in_place_conversion)
+>>> 			return -ENOTTY;
+>>>
+>>> Well, the check of
+>>>
+>>> 	if (!kvm_arch_has_private_mem(f->kvm))
+>>> 		return -EINVAL;
+>>>
+>>> is buried in the following kvm_gmem_set_attributes(). How about moving of
+>>> kvm_arch_has_private_mem() check to put it along with
+>>> gmem_in_place_conversion check in kvm_gmem_ioctl() in Patch 13?
+>>
+>> Me confused, patch 13 already adds the kvm_arch_has_private_mem() in
+>> kvm_gmem_set_attributes().
 >
-> On Wed, 22 Jul 2026 at 16:43, Joanne Koong <joannelkoong@gmail.com> wrote=
-:
+> I wanted to make the check in KVM_SET_MEMORY_ATTRIBUTES2 in Patch 13
+> like something below:
 >
-> > I had the same impression as Amir. The FUSE_DEV_IOC_STRIPE_OPEN patch
-> > [1] right now is only for the interleaved case to handle striping, but
-> > imo it seems a lot cleaner to make FUSE_DEV_IOC_STRIPE_OPEN a generic
-> > interface for handling any backing layout that corresponds to a
-> > backing id, and having the simple extent case go through this same
-> > infrastructure / path. Especially since John's future patches for
-> > adding the interleaving will go through the ioctl, it seems nicer
-> > server-side as well for famfs to have one consolidated path instead of
-> > needing two totally different ones.
+> 	case KVM_SET_MEMORY_ATTRIBUTES2:
+> 		if (!gmem_in_place_conversion || !kvm_arch_has_private_mem(f->kvm))
+> 		return -EXXX;
 >
-> That's a valid point, but I still feel that those things are different.
+> and finally, with the introduction of kvm_supports_private_mem() in this
+> patch, it becomes:
 >
-> Striping:
->   - always static
->   - size limited by the number of devices
+> 	case KVM_SET_MEMORY_ATTRIBUTES2:
+> 		if (!gmem_in_place_conversion || !kvm_supports_private_mem(f->kvm))
+> 		return -EXXX;
 >
-> Extent map:
->   - may be static (famfs) or dynamic (general block fs)
->   - size is unlimited
+
+Is the request here to make KVM_SET_MEMORY_ATTRIBUTES2 return -ENOTTY
+instead of -EINVAL? kvm_gmem_set_attributes() also checks for
+!kvm_arch_has_private_mem() and returns -EINVAL.
+
+I'm about to post v9, which squashes the patches as Sean
+suggested. Please review v9 instead to see if this concern is already
+addressed :)
+
+> So that the guard for KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES and
+> KVM_SET_MEMORY_ATTRIBUTES2 is consistent.
 >
-> Doing extent maps with an ioctl makes it clunky in the dynamic/unlimited =
-case.
+>> That said, the ordering here is wonky and misleading.  A cursory read of the series
+>> would make one think that waiting to advertise KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES
+>> makes it safe/ok for KVM to plumb in support for KVM_SET_MEMORY_ATTRIBUTES2 over
+>> multiple patches.  But that's not actually true, because the ioctl becomes live
+>> the instant the code exists, userspace doesn't need to wait for KVM to formally
+>> advertise support.
+>>
+>> To further confuse matters, it is actually safe/ok to iteratively add support,
+>> because it's all effectively dead code until "Let userspace disable per-VM mem
+>> attributes, enable per-gmem attributes".
 >
-> > If not the ioctl, what did you have in mind for a generic interface? I
-> > think anything else would have to keep GET_FMAP, but maybe I'm wrong
-> > here.
+> yeah, before patch 24, gmem_in_place_conversion is always false. So
+> KVM_SET_MEMORY_ATTRIBUTES2 on gmem fd always return -ENOTTY.
 >
-> Good question.  A NOTIFY_EXTENT_MAP (similar to Darrick's
-> FUSE_NOTIFY_IOMAP_UPSERT, but multiple extents) would work, I think.
-
-This sounds great to me.
-
-As I understand it, the merge window for 7.3 closes at the end of
-August. Just to summarize, the only things needed to get this into 7.3
-(besides addressing the Sashiko comments) are:
-a) replace FUSE_GET_FMAP with FUSE_NOTIFY_EXTENT_MAP (will also be
-good for famfs in general, saves an extra context switch)
-b) remove FUSE_DEV_IOC_DAXDEV_OPEN and reuse existing
-FUSE_DEV_IOC_BACKING_OPEN (logic for this already supplied in Miklos's
-patch in [1])
-c) remove "config FUSE_FAMFS_DAX"
-d) remove FUSE_DAX_FMAP capability (not 100% sure about this, but
-since the only thing added to the uapi is a new notif type, seems fine
-to exclude this cap flag)
-
-Is this correct? I think with those changes, all the
-famfs/fmap-specific definitions will be cleared from the uapi.
-
-imo these changes seem doable for making the 7.3 merge window. I'm not
-sure how much bandwidth John has though. Maybe one idea that could
-work if John is completely slammed for time right now is having the
-changes requested above be a separate followup series someone else can
-do and then this current series (after the sashiko fixes) and that
-series can get landed together in the same merge window.
-
+>> So, I think we should go a step further than what I think Xiaoyao is suggesting,
+>> and fully squash patch 17 into patch 13.  That way the reader doesn't have to jump
+>> through as many mental hoops to piece together what is happening.  It'll obviously
+>> be a bigger patch, but should be easier to review/understand overall.
+>>
+>> Oh, and that combined patch should carve out error_offset straightaway, so that
+>> the full uAPI can be reviewed in a single patch.
 >
-> Maybe the striping setup can also be done with a notification.  The
-
-I had interpreted the FUSE_DEV_IOC_STRIPE_OPEN patch as implying that
-the mapping gets forwarded to the kernel through the backing id in the
-open() reply, which I think is how Amir had also interpreted it. I
-didn't like that the striping mappings got sent through an ioctl while
-the simple mappings didn't, but I think maybe the patch was not trying
-to suggest that and I had interpreted it too literally. I like the
-striping setup through an ioctl - I think it makes sense given that it
-is connection-level instead of inode-level.
-
-Thanks,
-Joanne
-
-[1] https://lore.kernel.org/linux-fsdevel/20260529134302.1989958-1-mszeredi=
-@redhat.com/
+> It sounds good.
