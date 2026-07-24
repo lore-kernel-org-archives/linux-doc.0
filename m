@@ -1,334 +1,396 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A081F3AEF49
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 20:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E913C2B8D;
+	Fri, 24 Jul 2026 20:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784925333; cv=none; b=uN4anS/ONhtnaIZyrmBps+28man2PbXoCSfxvVyFclLC831fLE4NLBBVoim84+ENJiHR839ktrXaMz+Oqko6wG/WDGpZ6fkNK67KhzxLtei6VT/GVVw53MjYpJJ2cSQbaIK7rdfbeeeuFgdIN4XK32XpZlF11T884IXyhKL3mr4=
+	t=1784926510; cv=none; b=ldQ+TmTGt3pGWQBgp54SvzgUnC3bEtpxASr0Gnx4v7QymTTGewC5m/Kb2NYgypZml3t0pHRAnwlL13CS+kSejsUVHkL7N+F8e1j26aY/vVCHnXwLXHOJY/OUu2fBjWqgXPrFliXtWQkD6pMzfYGY5PGaD3xdIzxDutyNN4Yiw30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784925333; c=relaxed/simple;
-	bh=TIdb+PrmPRPIJerRy/ogzvQiQrvIOHY0y1wo5UN9DMM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=akXkoLjZblPPiNOprKqG/NubGq4Wn7UW9I7Gb2aeCHq700x32h1p+dRkUINg+WVrwBL6Dui/rqO9VrMLnpFgoUDKgCWwFu5na8mvp6gtvw6lKb0a88XpGdrZdpZ4Xeg60Lv0Y8bKda0jCAxY892lSahg/tpSBXRAuTRhuy4yNwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MxbopMaS; arc=none smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784926510; c=relaxed/simple;
+	bh=uoq1B/BkzjWpPxDNSlaTOsjuHgN0ttXXWauNrtDyTew=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=l3qAJPAJP03b6eiAagqGUoadndIsLLBRtW4krPqJD4mOW5iZwQIsMZLL0anGqEO6Zz5XVpNdwisiLNGHCJ8JYSWquQbaoSOkBTJXlKc847aq1sKGxNvz9+N+aj7CRK4RPlAIegNjHK/9haigMicbPAFYyEC4pLl+FmqvWtA3eAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPsO4F40; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MxbopMaS"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-66899fe9077so928457d50.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 13:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784925330; x=1785530130; darn=vger.kernel.org;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=q/8kImmPB4tQ/JHFIpayA/JIm7PmQB1mt4kK24yFpjU=;
-        b=MxbopMaSEbgL+KxR9/xyT+gM5Om4AmEFUsVi+9Zcfgeh3CENNroRbgjkSiMDradbEH
-         K8rdviMh2pQu0L7YZuy4VD8RIoDfwPhZthlQiXOMOF+KQICTGUyhwaGScBn2iS5qMLfp
-         bmKb0/TCM+08yYsrmTurrllrPtABMC6S4jMdni9A3ne/KnQ9IsTBqFqVUuF1taaYKPlh
-         KbwV4RCeWhKVq0WoDXIWc2+TYS07Z/qAHbAbOsQvkpjae9ZiQWtMMcfH2U31Rpe2bMk8
-         JjN9xHKufsKQ7OwSOudVktKdi9WwtlWKBiqLdcsXH0eB++4xcUSMicZ/372h57f44Dnx
-         eceQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784925330; x=1785530130;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=q/8kImmPB4tQ/JHFIpayA/JIm7PmQB1mt4kK24yFpjU=;
-        b=cmQSFQC6khgbvJjqLVa5y+9C4tvjWL3Fto8TTLpWe6ddm8CTl9tNyPzrT3F6e075+2
-         M++A052JJYRTqxYrekeWhh6ZMdz3NvcVOXP4BVr1k29s9+QR3SWbo/3XSR1r+bysrR8+
-         081n6KcfFUenvxrrA88OcojW7KREVi3bNMNV0utF69N5s+wG4iliPkyRHGoruS4QoYDC
-         749Cwj6iY8yKTy3AGatvNtP4PIaG7jGW8WFALZkNVIaA9WawzALyBa0h9EarqEqpiT4I
-         yag4KiLJyW1Z6J06gbecV4p0lRdIfXv9i14UfWNfzLt+1cHs1vrr6o+nANN+CdYgIHjF
-         kPGg==
-X-Forwarded-Encrypted: i=1; AHgh+RowEFuESoY8Hwl8IeIpkJIuTHv5DyINwyfJtJKJkIzySmeXVcu4i7u8P9DbmHO6DiUjG46gAzP6N5Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg6XU3+CRPSZ74xO8dn84zKgFB9AlTThAA2Pilix+qKlJwqj7M
-	AyDcEQ6wLIqJnv8mp7CtU32CDIT+99ehALQr2N54hLno59nRkAsdr8IX
-X-Gm-Gg: AR+sD10UFfBhv0f7PGqDPYm4RFc+UjSdx7O+xyTuwRTiLPieKEqHMRQXSqZx9oi5V6T
-	6sp43OTZULGU5RWOdkj8/cjLoRFSyRRKJDpnARzLT0asloNZc65rUuzfiteZMsAwR8mqO2xFhor
-	KBurBcHDjJHLulwcBWRRYaXEsSyVtzJOKASZ0tBfEymVYTSQmYmbYAxeSqM3s1vAHdUwWNi60cZ
-	LILWBiiJW1ukcQ0W/dtqM0LmUjnfcjTJ80UTkZsOeCmJ3Bf5JZgch1AC0ullNT2As0phVUdtr47
-	dXIMg3LiUJ9k2lSwT8gfhDefQ3xasjMSykh4gD+2a1eXV+i7dPffmkT12XK+m266Q4DcaXvSi7O
-	sN0aIpvqsdYSSB6nwBoFc3J/dTtV3ddaKZuftpc7r9WnHcY9piXqI/Ltn9wGfrg/L/jQpqZIPjC
-	O1E85r
-X-Received: by 2002:a05:690e:43da:b0:662:ebb0:36fa with SMTP id 956f58d0204a3-668a4bb68b6mr1963039d50.20.1784925330394;
-        Fri, 24 Jul 2026 13:35:30 -0700 (PDT)
-Received: from [10.138.10.6] ([185.98.168.14])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-668c6dd57a0sm108d50.8.2026.07.24.13.35.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2026 13:35:29 -0700 (PDT)
-Message-ID: <0ccda05f-077c-4661-b852-e6bf9bf40be3@gmail.com>
-Date: Fri, 24 Jul 2026 16:35:13 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPsO4F40"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC9A1F000E9;
+	Fri, 24 Jul 2026 20:55:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784926508;
+	bh=Rats3+uLlkKdYpRmDANFsMR8vfU9QiGYu7LLlmwp1U4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=PPsO4F40UmciD6/goxygKCj0jjauWWjsloRfZU7YFZhQouG91hdWwPU8+9OOxQBpY
+	 SvBIzR+AyP/ZtBl37B+AiwoXZ0gZQlALq/H82AMgGFVfCG0uTUXZPI3kSh9pF93cWj
+	 zPiv/0TFkDQstMdB9TyA3fsXZh6EAqM2B8B8KM+oL+IkFCo+ooh8b63RM9ZdKAk8jJ
+	 TMAoylSMAqQaxnA+6tnYKJhSuu6r2vxnn8PWbLz6oOIPBZDnsP1ZivqmBJRVL8Mp2I
+	 QCUYto3jCrjYJzhruoAd/Id4AJD46zHFlYAPAkuwq7xHWWseLgZ0E4g4FwN9sPG4eI
+	 /uKQdVW2IwMGw==
+Date: Fri, 24 Jul 2026 15:55:06 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v7 06/12] PCI: liveupdate: Auto-preserve upstream bridges
+ across Live Update
+Message-ID: <20260724205506.GA1012423@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] AF_ALG: Drop support for off-CPU cryptography
-To: Dominique Martinet <asmadeus@codewreck.org>,
- Eric Biggers <ebiggers@kernel.org>
-Cc: Harald Freudenberger <freude@linux.ibm.com>, acme@kernel.org,
- adrian.hunter@intel.com, alexander.shishkin@linux.intel.com,
- ardb@kernel.org, axboe@kernel.dk, corbet@lwn.net, davem@davemloft.net,
- edumazet@google.com, herbert@gondor.apana.org.au, horms@kernel.org,
- io-uring@vger.kernel.org, irogers@google.com, james.clark@linaro.org,
- jolsa@kernel.org, kuba@kernel.org, kuniyu@google.com,
- linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- mark.rutland@arm.com, mingo@redhat.com, namhyung@kernel.org,
- netdev@vger.kernel.org, pabeni@redhat.com, peterz@infradead.org,
- skhan@linuxfoundation.org, willemb@google.com, linux-s390@vger.kernel.org
-References: <20260523-af-alg-harden-v1-2-c76755c3a5c5@gmail.com>
- <20260603133312.12848-1-freude@linux.ibm.com>
- <amOGWwdjnJqyxH5L@codewreck.org> <20260724160034.GB2032@sol>
- <amOTjPW__CNZui3_@codewreck.org>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <amOTjPW__CNZui3_@codewreck.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------8JNKQ02asdP8sqLTJjoHdKEp"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710212616.1351130-7-dmatlack@google.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------8JNKQ02asdP8sqLTJjoHdKEp
-Content-Type: multipart/mixed; boundary="------------tHcDdCFADMuM4KeFqlrbc8bo";
- protected-headers="v1"; hp="clear"
-Message-ID: <0ccda05f-077c-4661-b852-e6bf9bf40be3@gmail.com>
-Date: Fri, 24 Jul 2026 16:35:13 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] AF_ALG: Drop support for off-CPU cryptography
-To: Dominique Martinet <asmadeus@codewreck.org>,
- Eric Biggers <ebiggers@kernel.org>
-Cc: Harald Freudenberger <freude@linux.ibm.com>, acme@kernel.org,
- adrian.hunter@intel.com, alexander.shishkin@linux.intel.com,
- ardb@kernel.org, axboe@kernel.dk, corbet@lwn.net, davem@davemloft.net,
- edumazet@google.com, herbert@gondor.apana.org.au, horms@kernel.org,
- io-uring@vger.kernel.org, irogers@google.com, james.clark@linaro.org,
- jolsa@kernel.org, kuba@kernel.org, kuniyu@google.com,
- linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- mark.rutland@arm.com, mingo@redhat.com, namhyung@kernel.org,
- netdev@vger.kernel.org, pabeni@redhat.com, peterz@infradead.org,
- skhan@linuxfoundation.org, willemb@google.com, linux-s390@vger.kernel.org
-References: <20260523-af-alg-harden-v1-2-c76755c3a5c5@gmail.com>
- <20260603133312.12848-1-freude@linux.ibm.com>
- <amOGWwdjnJqyxH5L@codewreck.org> <20260724160034.GB2032@sol>
- <amOTjPW__CNZui3_@codewreck.org>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <amOTjPW__CNZui3_@codewreck.org>
+On Fri, Jul 10, 2026 at 09:26:09PM +0000, David Matlack wrote:
+> When a PCI device is preserved across a Live Update, all of its upstream
+> bridges up to the root port must also be preserved. This enables the PCI
+> core and any drivers bound to the bridges to manage bridges correctly
+> across a Live Update.
+> 
+> Notably, this will be used in subsequent commits to ensure that
+> preserved devices can continue performing memory transactions without a
+> disruption or change in routing.
+> 
+> To preserve bridges, the PCI core tracks the number of downstream
+> devices preserved under each bridge using a reference count in struct
+> pci_dev_ser. This allows a bridge to remain preserved until all its
+> downstream preserved devices are unpreserved or finish their
+> participation in the Live Update.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  drivers/pci/liveupdate.c    | 136 +++++++++++++++++++++++++++++++-----
+>  include/linux/kho/abi/pci.h |   5 +-
+>  2 files changed, 122 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index b2b950d71657..7f7710cb1da0 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -101,6 +101,18 @@
+>   * If a misconfigured or unconfigured bridge is encountered during enumeration
+>   * while there are preserved devices, its secondary and subordinate bus numbers
+>   * will be cleared and devices below it will not be enumerated.
+> + *
+> + * PCI-to-PCI Bridges
+> + * ==================
+> + *
+> + * Any PCI-to-PCI bridges upstream of a preserved device are automatically
+> + * preserved when the device is preserved. The PCI core keeps track of the
+> + * number of downstream devices that are preserved under a bridge so that the
+> + * bridge is only unpreserved once all downstream devices are unpreserved.
+> + *
+> + * This enables the PCI core and any drivers bound to the bridge to participate
+> + * in the Live Update so that preserved endpoints can continue issuing memory
+> + * transactions during the Live Update.
+>   */
+>  
+>  #define pr_fmt(fmt) "PCI: " KBUILD_BASENAME ": " fmt
+> @@ -316,28 +328,52 @@ static struct pci_dev_ser *pci_get_empty_or_append(struct pci_flb_outgoing *outg
+>  	return dev_ser;
+>  }
+>  
+> -static void pci_liveupdate_unpreserve_device(struct pci_flb_outgoing *outgoing, struct pci_dev *dev)
+> +static int pci_liveupdate_unpreserve_device(struct pci_flb_outgoing *outgoing, struct pci_dev *dev)
+>  {
+>  	struct pci_dev_ser *dev_ser = dev->liveupdate.outgoing;
+>  
+>  	if (!dev_ser) {
+>  		pci_warn(dev, "Cannot unpreserve device that is not preserved\n");
+> -		return;
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!dev_ser->refcount) {
+> +		pci_WARN(dev, 1, "Preserved device has a 0 refcount!\n");
+> +		return -EINVAL;
+>  	}
+>  
+> +	if (--dev_ser->refcount)
+> +		return 0;
+> +
+>  	pci_info(dev, "Device will no longer be preserved across next Live Update\n");
+>  	outgoing->ser->nr_devices--;
+>  	memset(dev_ser, 0, sizeof(*dev_ser));
+>  	dev->liveupdate.outgoing = NULL;
+> +	return 0;
+>  }
+>  
+> -static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing, struct pci_dev *dev)
+> +static int pci_liveupdate_preserve_device_again(struct pci_dev *dev)
 
---------------tHcDdCFADMuM4KeFqlrbc8bo
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Could pci_liveupdate_preserve_device_again() be folded into
+pci_liveupdate_preserve_device()?  That's the only caller, and having
+so many *liveupdate_preserve*() functions gets to be a bit of a maze
+of small functions:
 
-On 7/24/26 12:32, Dominique Martinet wrote:
-> Eric Biggers wrote on Fri, Jul 24, 2026 at 09:00:34AM -0700:
->> On Sat, Jul 25, 2026 at 12:35:55AM +0900, Dominique Martinet wrote:
->>> The tool source is available here:
->>> https://github.com/nxp-imx/crypto_af_alg
->>> (which now fails with:
->>> bind(3, {sa_family=3DAF_ALG, salg_type=3D"skcipher", salg_feat=3D0, s=
-alg_mask=3D0, salg_name=3D"tk(cbc(aes))"}, 88) =3D -1 ENOENT (No such fil=
-e or directory)
->>> )
->>>
->>>
->>> I don't particularily care for the API used as long as we can keep us=
-ing
->>> the hardware key, but as far as I can see there's no alternative API =
---
->>> what's the path forward?
->>
->> There's no "tk(cbc(aes))" algorithm in the upstream kernel.  So, it's
->> not possible that this ever worked with upstream.  Given that, there's=
+  __pci_liveupdate_preserve_device
+  pci_liveupdate_preserve_device_again
+  pci_liveupdate_preserve_device
+  pci_liveupdate_preserve_path
+  pci_liveupdate_preserve
 
->> no regression in upstream for this program, and it wouldn't be
->> appropriate to consider a sysctl knob in upstream at this time.
->=20
-> Bleh, you are correct, it's an NXP patch in
-> drivers/crypto/caam/caamalg.c that they've been carrying in their
-> tree(s) since 2018[1] and has apparently never been upstreamed...
-> [1] https://github.com/nxp-imx/linux-imx/commit/6868c9e49c1854028fb4602=
-2daac3b1b10ca2c70
->=20
-> Sorry for not having checked, I was hoping for better.
-> (I should be used to it by now...)
->=20
->=20
-> Regardless of the specific algorithm, most recent SoCs flaunt some
-> "secure element" or similiar hardware-backed keys (so one wouldn't be
-> able to decrypt $whatever without running on the specific board it was
-> intended for); I'm sure _some_ of them are upstream?
-> (Never used it so not sure if they are reachable from af_alg, but for
-> example drivers/crypto/ccree/cc_cipher.c talks about hardware key...)
->=20
-> There's not much I can do about the vendor's kernel I'm stuck with, but=
+Maybe even more could be squashed; pci_liveupdate_preserve() is the
+only caller of pci_liveupdate_preserve_path(), which is itself the
+only caller of pci_liveupdate_preserve_device().
 
-> that doesn't make having encryption material not accessible to userspac=
-e
-> useless as a concept;
-> forgetting about the sysctl for now, what are the alternatives API this=
+As a reader, I think there's some advantage in collecting the whole
+"preserve" flow in one place, but maybe nesting depth would be an
+issue, especially for the unpreserve cleanup in the failure path.
+Maybe a "goto" error path could mitigate part of that.
 
-> kind of implementations could be based on?
->=20
-> I guess I should start looking at how tpm backed encryption works,
-> some other day, it's getting late here...
+If there's any squashing, I guess the place to start would be in
+earlier patches, e.g., "PCI: liveupdate: Track outgoing preserved PCI
+devices" and "PCI: liveupdate: Track incoming preserved PCI devices".
 
-I actually had this thought myself, though with a different
-use-case: preventing long-term keys (like TLS and SSH keys and
-cookie signing/encryption keys) from being accidentally leaked.
+>  {
+> -	struct pci_dev_ser *dev_ser;
+> +	if (!dev->liveupdate.outgoing->refcount) {
+> +		pci_WARN(dev, 1, "Preserved device with 0 refcount!\n");
+> +		return -EINVAL;
+> +	}
+>  
+> -	if (dev->liveupdate.outgoing)
+> +	/*
+> +	 * Endpoint devices should not be preserved more than once. Bridges are
+> +	 * preserved once for every downstream device that is preserved.
+> +	 */
+> +	if (!dev->subordinate)
+>  		return -EBUSY;
+>  
+> +	dev->liveupdate.outgoing->refcount++;
+> +	return 0;
+> +}
+> +
+> +static int __pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing, struct pci_dev *dev)
+> +{
+> +	struct pci_dev_ser *dev_ser;
+> +
+>  	dev_ser = pci_get_empty_or_append(outgoing);
+>  	if (IS_ERR(dev_ser))
+>  		return PTR_ERR(dev_ser);
+> @@ -354,6 +390,52 @@ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing, str
+>  	return 0;
+>  }
+>  
+> +static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing, struct pci_dev *dev)
+> +{
+> +	if (dev->liveupdate.outgoing)
+> +		return pci_liveupdate_preserve_device_again(dev);
+> +
+> +	return __pci_liveupdate_preserve_device(outgoing, dev);
+> +}
+> +
+> +#define for_each_pci_dev_in_path(_d, _start, _end) \
+> +	for ((_d) = (_start); (_d) != (_end); (_d) = (_d)->bus->self)
 
-I came up with a much simpler API than AF_ALG:
+I think you might want pci_upstream_bridge() instead of (_d)->bus->self;
+see https://git.kernel.org/linus/c6bde215acfd ("PCI: Add
+pci_upstream_bridge()").  I think VFs are currently out of scope, but 
+no harm in making this future-proof.
 
-1. Generate a file descriptor and a wrapping key.  The wrapping key
-   is used to encrypt data that will be imported.
+Other than "_end", this looks fairly generic and might be a candidate
+for putting in include/linux/pci.h.  I think there might be other
+potential users, e.g., calc_map_type_and_dist(),
+pci_enable_atomic_ops_to_root(), pcie_bandwidth_available(),
+get_upstream_port(), pcie_find_root_port(),
+pci_is_thunderbolt_attached().
 
-2. Import an encrypted secret key.  The key contains both the secret
-   key and the algorithm it will be used with.
+The "_end" termination case could perhaps be done in the body instead
+of the macro since it depends on the use case and several of the other
+loops that iterate over the path already include terminations in the
+body.
 
-3. Optionally, attach a restriction policy that requires data to
-   be signed to start with a certain prefix.  This provides domain
-   separation in contexts where the same key is used for multiple
-   purposes.
-
-4. Pass the file descriptor to another process via SCM_RIGHTS.
-
-5. The receiving process can use ioctls to perform secret-key
-   operations, such as ML-KEM, ML-DSA, XChaCha20-Poly1305, and
-   XAES-256-GCM.
-
-6. When the file descriptor is closed, the secret key is securely
-   deleted.
-  =20
-Compared to AF_ALG, the kernel attack surface is very small.  It's not
-quite a "hello world" character device driver, but compared to many
-of the other drivers in the kernel, it is tiny.  Furthermore, the
-whole thing should be able to be written in safe Rust.
-
-To keep the attack surface minimal, this would only use library
-functions, so there would be no support for hardware-wrapped keys.
-
-I don't plan to work on this myself, but I think it's of potential
-value in the future.  For asymmetric algorithms, the overhead of a
-system call should be fairly small compared to the operation itself.
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-
---------------tHcDdCFADMuM4KeFqlrbc8bo--
-
---------------8JNKQ02asdP8sqLTJjoHdKEp
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmpjzIsACgkQszaHOrMp
-8lNPug/+IDHRwaftOISwVsC+WuuG9FgGOwTLlQjjABKkrEhHZObZ/mWU4BpfL+Ek
-ujcELLLDD1+ewxFwJoh9hynjIG9XDJEwXB7dLJuOYCiMLBWFk/Gujjh2YK2Pd+La
-VGBc9XNcz96+3O8jQtwTbu1P5kQBg5+5WUOPTmONUetB2pzwACQUuRrtMW3g2LrU
-PA9IyEB2n3i/D74GD5L0ca5RVzqf6YrUMrQ9qeMXGLCehhyZecnsMeweBWR6ikIT
-b1s8wFFMD2V0/A5mWhoCnFmmfiyFR3zZQ14ZuxJ1/rhwZVUYgtMnsC6L8zjJLsVm
-pNxg7iXUTnzVjL8467eLCS2Cl3r02dXgvSHt2/xxlpKjPiexOcb5DCzr1ecPlHuh
-TvX19LaVBuITkjtzOlyvzQ0EvBKVqUh3B6btKfyYQ3NEP57Khbjp71rSICESPqdv
-j6fv7iJMmYVPPsIb4yPYowfIHBm7baekQfml+0o+/8Wkmj62T2Cd0dUS7yEGJRIz
-WSiK+99wi6ucfbVEEJNR5vckddmPfpYOasHohP3IhTM89G3FLxmuwfO+2WBJPPXo
-2NcfEWnlp7l8+QaZzvqnTqIVrqEPrfTuMIR421Z+OoDYCzdaP/hz+SLLPyZXBjF0
-eISqWWtGWHVcK7u8UNxBEkFZFbj5385JeXjl4UhysytbZVCK9v0=
-=cZKJ
------END PGP SIGNATURE-----
-
---------------8JNKQ02asdP8sqLTJjoHdKEp--
+> +static void __pci_liveupdate_unpreserve_path(struct pci_flb_outgoing *outgoing,
+> +					     struct pci_dev *start,
+> +					     struct pci_dev *end)
+> +{
+> +	struct pci_dev *dev;
+> +
+> +	for_each_pci_dev_in_path(dev, start, end) {
+> +		if (pci_liveupdate_unpreserve_device(outgoing, dev))
+> +			return;
+> +	}
+> +}
+> +
+> +static void pci_liveupdate_unpreserve_path(struct pci_flb_outgoing *outgoing,
+> +					   struct pci_dev *start)
+> +{
+> +	__pci_liveupdate_unpreserve_path(outgoing, start, /*end=*/NULL);
+> +}
+> +
+> +static int pci_liveupdate_preserve_path(struct pci_flb_outgoing *outgoing,
+> +					struct pci_dev *start)
+> +{
+> +	struct pci_dev *dev;
+> +	int ret;
+> +
+> +	for_each_pci_dev_in_path(dev, start, NULL) {
+> +		ret = pci_liveupdate_preserve_device(outgoing, dev);
+> +		if (ret) {
+> +			__pci_liveupdate_unpreserve_path(outgoing, start, dev);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * pci_liveupdate_preserve() - Preserve a PCI device across Live Update
+>   * @dev: The PCI device to preserve.
+> @@ -363,6 +445,9 @@ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing, str
+>   * pci_liveupdate_preserve() from their struct liveupdate_file_handler
+>   * preserve() callback to ensure the outgoing struct pci_ser is already set up.
+>   *
+> + * pci_liveupdate_preserve() automatically preserves all bridges upstream of
+> + * @dev.
+> + *
+>   * Returns: 0 on success, <0 on failure.
+>   */
+>  int pci_liveupdate_preserve(struct pci_dev *dev)
+> @@ -378,7 +463,7 @@ int pci_liveupdate_preserve(struct pci_dev *dev)
+>  	if (IS_ERR(outgoing))
+>  		return PTR_ERR(outgoing);
+>  
+> -	return pci_liveupdate_preserve_device(outgoing, dev);
+> +	return pci_liveupdate_preserve_path(outgoing, dev);
+>  }
+>  EXPORT_SYMBOL_GPL(pci_liveupdate_preserve);
+>  
+> @@ -391,6 +476,9 @@ EXPORT_SYMBOL_GPL(pci_liveupdate_preserve);
+>   * pci_liveupdate_unpreserve() from their struct liveupdate_file_handler
+>   * unpreserve() callback to ensure the outgoing struct pci_ser is already set
+>   * up.
+> + *
+> + * pci_liveupdate_unpreserve() automatically unpreserves all bridges upstream of
+> + * @dev.
+>   */
+>  void pci_liveupdate_unpreserve(struct pci_dev *dev)
+>  {
+> @@ -404,7 +492,7 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
+>  		return;
+>  	}
+>  
+> -	pci_liveupdate_unpreserve_device(outgoing, dev);
+> +	pci_liveupdate_unpreserve_path(outgoing, dev);
+>  }
+>  EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
+>  
+> @@ -594,29 +682,41 @@ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
+>  	}
+>  }
+>  
+> -static void pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
+> +static int pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
+>  {
+>  	if (!dev->liveupdate.incoming) {
+>  		pci_warn(dev, "Cannot finish preserving an unpreserved device\n");
+> -		return;
+> +		return -EINVAL;
+>  	}
+>  
+> -	if (dev->liveupdate.incoming->refcount != 1) {
+> -		pci_WARN(dev, 1, "Preserved device has a corrupted refcount!\n");
+> -		return;
+> +	if (!dev->liveupdate.incoming->refcount) {
+> +		pci_WARN(dev, 1, "Preserved device has a 0 refcount!\n");
+> +		return -EINVAL;
+>  	}
+>  
+>  	/*
+> -	 * Drop the refcount so this device does not get treated as an incoming
+> -	 * device again, e.g. in case pci_liveupdate_setup_device() gets called
+> -	 * again because the device is hot-plugged.
+> +	 * Decrement the refcount so this device does not get treated as an
+> +	 * incoming device again, e.g. in case pci_liveupdate_setup_device()
+> +	 * gets called again because the device is hot-plugged.
+>  	 */
+> -	dev->liveupdate.incoming->refcount = 0;
+> +	if (--dev->liveupdate.incoming->refcount)
+> +		return 0;
+>  
+>  	pci_info(dev, "Device is finished participating in Live Update\n");
+>  	dev->liveupdate.incoming = NULL;
+>  	ser->nr_devices--;
+>  	pci_liveupdate_flb_put_incoming();
+> +	return 0;
+> +}
+> +
+> +static void pci_liveupdate_finish_path(struct pci_ser *ser, struct pci_dev *start)
+> +{
+> +	struct pci_dev *dev;
+> +
+> +	for_each_pci_dev_in_path(dev, start, NULL) {
+> +		if (pci_liveupdate_finish_device(ser, dev))
+> +			return;
+> +	}
+>  }
+>  
+>  /**
+> @@ -628,6 +728,8 @@ static void pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *de
+>   * Update. Drivers must call pci_liveupdate_finish() from their struct
+>   * liveupdate_file_handler finish() callback to ensure the incoming struct
+>   * pci_ser is allocated.
+> + *
+> + * pci_liveupdate_finish() automatically finishes all bridges upstream of @dev.
+>   */
+>  void pci_liveupdate_finish(struct pci_dev *dev)
+>  {
+> @@ -641,7 +743,7 @@ void pci_liveupdate_finish(struct pci_dev *dev)
+>  		return;
+>  	}
+>  
+> -	pci_liveupdate_finish_device(incoming->ser, dev);
+> +	pci_liveupdate_finish_path(incoming->ser, dev);
+>  	pci_liveupdate_flb_put_incoming();
+>  }
+>  EXPORT_SYMBOL_GPL(pci_liveupdate_finish);
+> diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
+> index de549016807a..acf1b38dff02 100644
+> --- a/include/linux/kho/abi/pci.h
+> +++ b/include/linux/kho/abi/pci.h
+> @@ -23,7 +23,7 @@
+>   * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE string.
+>   */
+>  
+> -#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
+> +#define PCI_LUO_FLB_COMPATIBLE "pci-v2"
+>  
+>  /**
+>   * struct pci_dev_ser - Serialized state about a single PCI device.
+> @@ -32,7 +32,8 @@
+>   * @bdf: The device's PCI bus, device, and function number.
+>   * @refcount: Reference count used by the PCI core to keep track of whether it
+>   *            is done using a device's struct pci_dev_ser. The value of the
+> - *            refcount is equal to 1 when the struct pci_dev_ser is in use, and
+> + *            refcount is equal to the number of preserved devices at or below
+> + *            it in the PCI hierarchy when the struct pci_dev_ser is in use, and
+>   *            0 otherwise.
+>   */
+>  struct pci_dev_ser {
+> -- 
+> 2.55.0.795.g602f6c329a-goog
+> 
