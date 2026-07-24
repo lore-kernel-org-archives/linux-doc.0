@@ -1,162 +1,144 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B123C3C14
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 21:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B23F3C1406
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 21:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784928383; cv=none; b=hmqsjyORgvW+HBsVZT87X6GV7BqvjwQHSokxU2AvwS4HVmHlttWPM4pclX0cJOF1F4v3ZJXpBxM9VJYS1gvFwBRN/LQHkLTnnq0qrqwkG3ZG8knc5pYORw+rmlfjwWRdQI5lvTGF+FuXuKxGa+wPUaq+gZ+mlfeaxV8H7DJp3cw=
+	t=1784928430; cv=none; b=na6+xXbulbbibxNFwJn0C0XiHbsdNjiid5ypm1s9tB5d1C0vmrAlL+hUDZHGzTb82ndY3GHQTViCaBUwsaLZ9b2woisSpivrFzqum3XQ9mt9fEf116B22zm1gVu/zidhlVg3A2wQltrfmG28qtAxsRb1QKm8bnfOkEAbZ3E1d6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784928383; c=relaxed/simple;
-	bh=Pn6EvwAnKyjOYLOgT2cdfgXdiVfsnsS+1/LG8t9hp5w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e5mD5JWrI8Z1NTI6Gv3SLbZLPlxoW2Dfe6+zhiYJ+mtAYuJt/22TDdPEw8aNu4nULmRGWVb5E5y+ZbhcS9iBktIRQ/vBDLnKIyOiZvUB/0BjgXSqYNApyMx/1J9oRJH4itJagCaQwIluk9ptoKxAYOmK8Y1d1w4nxUwvtKAApDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=btuP0Sl8; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784928430; c=relaxed/simple;
+	bh=D3PNkQtPmb6l5zMVsFVcauzUKkiREG0O5tnOgegpxzU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=RMvL/7e1ACD906SioM0zDcqHyxcesWeD5r1Sy3sv7LVJwbkvQoi9MhTKG5trkB5meMsw9js/IJb9g36suTQRT83okWBFg1NZYcS5a2H15N8SOfa/8pvtm6yGolo3oWJ01BNwXE1oGsRGsbSnW7aIMdIR/91ofWEGIUhXjEcnpYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PtnHQKHS; arc=none smtp.client-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="btuP0Sl8"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8486672f03cso884444b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 14:26:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PtnHQKHS"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cf1c86963bso19220805ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 14:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784928381; x=1785533181; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1784928429; x=1785533229; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kmyLUNu300WyBDZkVHiaWG5FLKRt0pyiRWuoSzAW/Ks=;
-        b=btuP0Sl8CmwX8C5YPSe7Rjv61jyFZgj7mEbXtT18vv9dDLjcv5/27vLM1TDUeA6tAm
-         C1KTtZonlHv9zZs85lfPVgQgxGOWfDQgPYjjEI+arcYm9BKMm38jVUpc3piodH5ncICi
-         EsXPIB0eGMQHEhm8ONCxaTQoeEGTUR/r8qohxEE2PqAgRpOS/hgitmCyiaxW3BBJAGdj
-         ryNMYerw7DdWezzx9lA+b5TNN/7a8zk91VbeR0f5k4imtKAFLBOJoGhQjT3YG+biJYTx
-         loBtrTu3zHqvHzbFsc0etYSTjcWWe91zamk1YI0Qa1rTjUslWJ3F0sgwaIex2FwOKMgS
-         QAMQ==
+        bh=d2YqZmtuvGxd8cFmldbiTst55L0tz2Lc3p3TSw+Vcco=;
+        b=PtnHQKHSud43fg4QuKADzecq1BguqyZSxZ4cMYKc8ZW98NjX1VEx6jnUpkIU1FYvTf
+         jH3BDhZWtEmIuBforQxK5QJRDsAwq3w5dScIaE5OfD6BmPj5WajVqEy72p8FcslaJOlb
+         EJiEtfupYdXhfnnhtTC5sR8M81tO53PQUhRugK6cvxIqd9P7owBXdGx8EltvtBpmLRLL
+         vhaNrHRr7NFtPN2D3rvt1uqavnt0Nbap/qvnMMO6koeRS/XJhh+0I/0hMhVT6MZC2/XM
+         jUHH+v2wdI6jb9LizsuPGyj8gxl05iWU7Yly1OiHqpzK5hVbrc1AM6QxUpGRTcAKDK2/
+         B3aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784928381; x=1785533181;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=kmyLUNu300WyBDZkVHiaWG5FLKRt0pyiRWuoSzAW/Ks=;
-        b=QMzgzxQHsKhL7Mpo8ZZuvc7LRUzlxmaOfy1nbDWgxDx4NUbALPCdT51iPIUd/qKDas
-         f8ivVM3Op0z2oXYhchRRKxmxNrM8P3po9ROyg79jdJxMkdExb9RpIjWHk/U4lhjJnR/t
-         npM33HFe4Fy8isBQJ8iT43AL8z0n95cir4uZWrjO27ZgP4M685wKjY4Gx3SatJHs67kh
-         JzFwnS+ov35bylwpUKUFOdLuQYE+syScQqrOx9y3XUrBMZPdG2FiAzHJAR4EYVgaXcrb
-         uGupf2ua9dH58hCo5/rLtrVfWbHW7p0MzwUUFd7s3UYZNck8sKs+dPHoIk0mVSYpIyB/
-         kmCg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp/k8w/XlSW1uvMNaW0msEYkcOj+uSfeOR9UbBvfdfP6ol3FrfbL+iCjI5tcIgkdSstLZZVc9vl2bk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrt8dnf800l9ok0VfHEpiiz3zl9urPxeR7ruEDkAursvnUGCqd
-	rhqk6QNMI8eG+il9u2Lyo7nk7CwZoDEEmxTFSYQf0O9uUTB51GpK4o4z
-X-Gm-Gg: AR+sD11MOFTsgxEhCaY+AcA53t55NQL7rC+vMfxMe75KG7ebS/4C6elFi6TACoPJavR
-	F/kMhT0Bgl1kAky5pQAtiABB4F9mzFq5AdV6EfZCL+d9ihee0qDA8mesbx3csfATKs8t6OC7Kqh
-	OVpV1Fd2iGHsfK1GKJlBgdYwFzTC4Oq8B6MuAfMCvGAbgetcJ6j99suNIZ1ZjIAf3MCN8Sm5IvP
-	7SjfsCS7YOB3HLBD2+NaHIZrt1qeoXW8e2U+4OiZaeJsCwFhjMqvAyZvdmOJn7OrmIAzr/EAxNd
-	1v5o6nhmysFtHpScR57Iluuo3PmeffMQE5pBsymQYUjvq9SmoKHGGl0zXhsPsOj4xHVvXDb+RfU
-	+adrav+zNEFiCiJR4mKmZCUs8aq6BK02iv1nEl4jnqUi0OG0n/22h6i23TFnQBIzpLGforexE10
-	BLwt5lE+6YJ2D5O3L1GTcvOqOlKxMonjKpdhccchcQ/I4MaFCm86k=
-X-Received: by 2002:a05:6a21:496:b0:3bf:e24e:3afe with SMTP id adf61e73a8af0-3c67e060010mr34505637.43.1784928381390;
-        Fri, 24 Jul 2026 14:26:21 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc3e878esm2608777eec.3.2026.07.24.14.26.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2026 14:26:20 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <bff175c3-f29a-42eb-a857-c06f66483897@roeck-us.net>
-Date: Fri, 24 Jul 2026 14:26:19 -0700
+        d=1e100.net; s=20251104; t=1784928429; x=1785533229;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=d2YqZmtuvGxd8cFmldbiTst55L0tz2Lc3p3TSw+Vcco=;
+        b=BY6WGA/JdC9UYLetLn18rVHRCJTjCGoj79iBOCyo+q16aLg8rV6/CCA4Z7sd+S+l68
+         XrQfJBvvERg3B1+I2xNRveGok98ZKuZze02mr7v1nTBSt1V8aXi+1ezUNGdRplu9nl33
+         p7LOHTXxV5BaTtPnWVwD+VJ580ondgNYnXYdV9svtwxSnzoEIgjCCFqXTaMXUjmuSWYp
+         Kg+a6PHoCziPsUpJ9Ji79fO5r8omDfm0qw7RAfUHFITmBQ9nyXQApTHQfEm2l8lFkej+
+         KYiLUz+lARW5EW/ne7pJpnVPq4oTCox33MrqpfsXyJhi27h8Nz/A09DDuc0x8Wt9+B0E
+         5bJA==
+X-Forwarded-Encrypted: i=1; AHgh+RrT3irQjK6InBpJrkUJorGa97fKEM426Ehv+CD1QtgQh82jEHRtvSBrkPCJHKvSVLMi+qc/YvrlSRI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywalhTUxAQjdDeevx4fI3UKkhlod5vKRXRHa2zT2kPm25eyvcu
+	KyORXjcGzefljVV5X6K8rjlQa3hGHlHZ/YvctcoKA0pJjCTe/+YJSf8d74aUkbie8lbaQBIU0uF
+	OZ2bJYA==
+X-Received: from plbv14.prod.google.com ([2002:a17:903:44ce:b0:2ca:d6eb:2a36])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:440c:b0:2cf:41ba:96c2
+ with SMTP id d9443c01a7336-2cfd795e2acmr17770105ad.12.1784928428452; Fri, 24
+ Jul 2026 14:27:08 -0700 (PDT)
+Date: Fri, 24 Jul 2026 14:27:07 -0700
+In-Reply-To: <20260703212145.343527-16-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] hwmon: (pmbus/vt7505) Add driver for Analog
- Devices MAX16545/MAX16550 and Volterra VT7505
-To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "krzk@kernel.org" <krzk@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, "corbet@lwn.net"
- <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Sanman Pradhan <psanman@juniper.net>, Debjit Ghosh <dghosh@juniper.net>,
- Jawahar Balaji Thirumalaisamy <jawaharb@juniper.net>,
- Santhanakrishnan Balraj <sbalraj@juniper.net>, Brian Mak <makb@juniper.net>
-References: <20260724164919.247162-1-sanman.pradhan@hpe.com>
- <20260724164919.247162-3-sanman.pradhan@hpe.com>
- <acd92cd2-ec1d-447e-9e80-35ec5289fd0f@roeck-us.net>
- <20260724195912.262226-1-sanman.pradhan@hpe.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260724195912.262226-1-sanman.pradhan@hpe.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260703212145.343527-1-dwmw2@infradead.org> <20260703212145.343527-16-dwmw2@infradead.org>
+Message-ID: <amPYq48J9TPbmFNl@google.com>
+Subject: Re: [PATCH v6 15/36] KVM: x86: Fix compute_guest_tsc() to handle
+ negative time deltas
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On 7/24/26 12:59, Pradhan, Sanman wrote:
-> From: Sanman Pradhan <psanman@juniper.net>
+On Fri, Jul 03, 2026, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> I think my ordering on the trailer in v4 should be changed,
-> I'll restructure the sign-off chain so that co-developers are
-> attributed before the primary author, rather than after, which
-> should better reflect the development history rather than the
-> transport path:
+> The compute_guest_tsc() function computes the guest TSC at a given
+> kernel_ns timestamp. When the master clock reference point
+> (master_kernel_ns) is earlier than vcpu->arch.this_tsc_nsec, the delta
+> is negative. Since pvclock_scale_delta() takes a u64, the negative
+> value wraps to a huge positive number, producing a wildly wrong result.
 > 
->      Co-developed-by: <co-developer>
->      Signed-off-by: <co-developer>
->      ...            (one pair per co-developer)
->      Signed-off-by: Georgi Vlaev        (primary author)
->      Signed-off-by: Sanman Pradhan      (submitter)
-> 
-> Please let me know if you'd prefer a different arrangement.
-> 
+> Handle negative deltas explicitly by negating the delta, scaling it,
+> and subtracting from this_tsc_write.
 
-Signed-off-by: is inappropriate for co-developers.
+Does this need 
 
-Thanks,
-Guenter
+  Cc: stable@vger.kernel.org
 
+or is this a "technically a bug fix, but can't happen in practice" sort of thing?
+
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>  arch/x86/kvm/x86.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 376b8dc2ade9..55fb19fb7a88 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -2588,11 +2588,21 @@ static int kvm_set_tsc_khz(struct kvm_vcpu *vcpu, u32 user_tsc_khz)
+>  
+>  static u64 compute_guest_tsc(struct kvm_vcpu *vcpu, s64 kernel_ns)
+>  {
+> -	u64 tsc = pvclock_scale_delta(kernel_ns-vcpu->arch.this_tsc_nsec,
+> -				      vcpu->arch.virtual_tsc_mult,
+> -				      vcpu->arch.virtual_tsc_shift);
+> -	tsc += vcpu->arch.this_tsc_write;
+> -	return tsc;
+> +	s64 delta_ns = kernel_ns - vcpu->arch.this_tsc_nsec;
+> +	u64 tsc;
+> +
+> +	/* Handle negative deltas gracefully (master clock ref may be earlier) */
+> +	if (delta_ns < 0) {
+> +		tsc = pvclock_scale_delta(-delta_ns,
+> +					  vcpu->arch.virtual_tsc_mult,
+> +					  vcpu->arch.virtual_tsc_shift);
+> +		return vcpu->arch.this_tsc_write - tsc;
+> +	}
+> +
+> +	tsc = pvclock_scale_delta(delta_ns,
+> +				  vcpu->arch.virtual_tsc_mult,
+> +				  vcpu->arch.virtual_tsc_shift);
+> +	return vcpu->arch.this_tsc_write + tsc;
+
+To cut down on the duplicate code, and IMO to make it easier to identify the
+differences, how about this?
+
+	s64 delta_ns = kernel_ns - vcpu->arch.this_tsc_nsec;
+	u64 tsc;
+	
+	/* Handle negative deltas gracefully (master clock ref may be earlier) */
+	tsc = pvclock_scale_delta(abs(-delta_ns),
+				  vcpu->arch.virtual_tsc_mult,
+				  vcpu->arch.virtual_tsc_shift);
+
+	return vcpu->arch.this_tsc_write + (delta_ns >= 0 ? tsc : -tsc);
