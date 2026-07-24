@@ -1,156 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC8E484232;
-	Fri, 24 Jul 2026 23:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC26C48423D
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 23:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784937443; cv=none; b=XSMi1wz/TPPVfvJAW4h/FCIzy9y1CBjIeM+VM/Z6lmCuAvvaVf/6yHPXVbGIhTTYULhl47ihf/58WgznE+fPnAvSIjLsQa8f8mifwvS4TjYMY3kvPdRRSzIcuc73NQvZ8lwawTjrAUVcJyGXjhfdrRWj2HXcHjfB7zN68jlr8w0=
+	t=1784937585; cv=none; b=u4SsfM9cwy53DxIx6ec+Jng3UxnprXK7SscTWvy71us4p51rO2iCE/X+T6tnClZr9J0i9FcmfU6HQFLOFg3L3AXF64V91+L95BzipSwxvMxL2EeYTX3iRroBpuJkdnKZPTJFldDmexu5Q3qkRYV93jcEk5iO/JzVNT1oaW7QZuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784937443; c=relaxed/simple;
-	bh=VLFRgFB8k6jSFCc2/m122MOjG32aZgdusOd+F9kCF4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ICWKk+E2aPMlhwK6oIGuy9X+3BjbW4NgHFck71l3UZ+7cWYXt65JDKNeOqMtduPEBfI7/gTdGk1sQQcs5ll9+F5JGBZ/hAoyaKmZg5kgp37a6rbvZzwi3JnlCZuAfArwN0KJrzepw9/sB9ocz09hWX3URz0FZQDrNOkmqM22h3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pq4tAO83; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784937585; c=relaxed/simple;
+	bh=DLCXclz776IJsXxqnai+kkrn7jonfdhyzxH1Pbmqd7Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hIeLcWQ0uIqdhQdNnAE/eNbY0lIe2tHm/3Ibi+9vOwvHFnDqLuGcvw74HIsIfl947evo+abkvPgZD9fNg/Ys6wR9tHNvAbrUfoaz0Gk9SmCtMId0qZfDKkwru1B92Vg257uT2wZLeJn9yOzOfXWUS2QsRftKJRzZhs7/U7yLLI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dnenEc1y; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pq4tAO83"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C39A91F000E9;
-	Fri, 24 Jul 2026 23:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784937441;
-	bh=luou0a9E4J3Yzrp5vnno3ir/fWWZK4SMn+VFxGiw2ag=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Pq4tAO83vbZo0KJu2KtgxEOQTp7lUHBWgp2DiCrb7shKZku07bDJ+U0OoLVYJSaVH
-	 7EARG4gkdsSBGgq3Z6xSRlJxwM5JKkkXCtyM6orTTGJUImFSOj+5IRUu9HVwmKfZib
-	 WW4yh7KqrP5xQ7EFxKQD2P9ZzRMc2vreKWDQ7WNPCUNhta9kn2XBgjBetavjSnkS+o
-	 peAlpKiWc12AXBRlg0cTpcRiM+v7m0muJCt/KCMEdYLXBJ2EjTURGpBeq5kWBeoM1X
-	 VgtFG2EJ5dXZ9CAAxAPG7To9C7Y7pVEH6fLIw6Awsf5DJxHLZVQujMVcq2EISeE+Kr
-	 q5R2F26JQByjg==
-Date: Sat, 25 Jul 2026 00:57:14 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, "David Lechner" <dlechner@baylibre.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
- <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, "Jonathan Corbet" <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, Marius
- Cristea <marius.cristea@microchip.com>, "Marcus Folkesson"
- <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Janani Sunil
- <jan.sun97@gmail.com>, <linux-spi@vger.kernel.org>, Kent Gustavsson
- <nedo80@gmail.com>
-Subject: Re: [PATCH v7 7/7] iio: dac: Add AD5529R DAC driver support
-Message-ID: <20260725005714.034b50bf@jic23-huawei>
-In-Reply-To: <20260722-ad5529r-driver-v7-7-7781cd74ad75@analog.com>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
-	<20260722-ad5529r-driver-v7-7-7781cd74ad75@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnenEc1y"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-848d21bbaffso1068416b3a.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 16:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784937583; x=1785542383; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2ju7oJUnrPEvcYtY3hXFeTxL6ID5qMoHX5QtHSufE58=;
+        b=dnenEc1yGn7HGfn/rzWRPDN5uFCYAd549BxGy62xVMNEw2X1bE4nYH2QlhPKmoX8nI
+         an3PseSYB5lxgSXYGNkjw3GKcJTQNBnkuAQ+w3fsuEXfJnDijg4XxsSWfu4QdsB4dW7S
+         ZsKoDis2HUSZiQbXKj1GOfrR2sZ4u4+UxKA2Qg4eY8xePLBZbKyDuXirV79v6KlZlEHi
+         D4U13g1WvMGtALl9Vt0yA0i3yp9z2rd8LQa7/AKaAID0w7HjMEx+f2Ordf2ousi6x3fA
+         cwZBxObKS5Cb0hTRfu4GJtt1kPlelAovIqJIUrY0lOhPj0/z0xqYngfFa8gpes5H3tTw
+         tV+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784937583; x=1785542383;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2ju7oJUnrPEvcYtY3hXFeTxL6ID5qMoHX5QtHSufE58=;
+        b=N+n+qkO3PY6qopDKoKJlZcQ67gJRYICWiWSOFQ+fvE+VhdOSws8fc9XNaJDOEfipLv
+         /LTPKFmyot6FvyHA5uOhJ+Fgv0tcSlxp+6Eel+icjhNqczhSM8aPKVqYIO0Ad8Mkvf5c
+         HkoZDCd5ShTTOE3whswJ+tI/Ht3/TGWCU8JHfNSajcf6ZJ3bHbhQ0475iaQKJ2TPrbC2
+         zaTbMXw3tKMxLPz7Yqi+/EzMxWS9nDh9ZmSLN4aIF0rTAo+hx7VAxNlzne3o3Cn4X5k3
+         UlNHQZuJJ1R1umyZmvMlxksM9JS5kchebgOiG4lqq20OdIlAkgnyJzo6/tRGoLBcyQS+
+         QKvw==
+X-Gm-Message-State: AOJu0YwnDAqt+2i2aYHEu3iPGBMr6f55QUXC+WW7T0zZfiY4aIErroFr
+	YiBF9wgy4roQsbV9DSMf2TNZYH2JcpPT1pfGLhDMn1XyyHlTcC7oplux
+X-Gm-Gg: AR+sD12pYxGZ8PATveTAMnVmocvg3VfDKIXgc8RuSSlyE+rEfiGfD9dlsBWiidWUoGL
+	J/amAOr5dxGxMDEt+fEylZ2a1l1sVdObFFbsE9sAjZsheVRQJoN+ueVFUms07VhrwmJQWfjUrd+
+	NhFqZkML2RZzaAkVsz9z9QiEZ7gNO0job+01z8gklF0Yhxf2Ssd8msZOOymMS9JDV3mllvn0PHf
+	XhLy74LKeIkhuTc5ohqTCA2CsJGJ0TFM8n3p2FgjizgUA2aWES7E1AZGHUvvEye1pmSkgFgGUbq
+	pxhcUdiq6euzORR4QESY4fFODW2LvPTT97gfYb+ofPZHoCeHG5Jc93ffZkIKIVYld8L7L4/swU9
+	n8pV9MbCJ3uc2is8pXtbWsNk7xRpyrWoqT/mYMxNn2dWmGhAGOlO0FyCfMgj1LtvhLAJnwb/D5S
+	NwwdPaLXiXM2PW
+X-Received: by 2002:a05:6a21:7a45:b0:3c3:a6f0:80af with SMTP id adf61e73a8af0-3c67e142239mr396763637.60.1784937582796;
+        Fri, 24 Jul 2026 16:59:42 -0700 (PDT)
+Received: from [192.168.71.21] ([116.6.102.190])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbbb660deeasm640633a12.3.2026.07.24.16.59.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2026 16:59:42 -0700 (PDT)
+Message-ID: <babde62f-9669-4f0d-b240-c79f450bbef1@gmail.com>
+Date: Sat, 25 Jul 2026 07:59:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] docs/zh_CN: add process/applying-patches Chinese
+ translation
+To: Weijie Yuan <wy@wyuan.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1784289654.git.wy@wyuan.org>
+ <b65902acdaa37438479b3739e907a9e0ff604c55.1784289654.git.wy@wyuan.org>
+ <alpbykBaX-8BkUzB@wyuan.org>
+From: Alex Shi <seakeel@gmail.com>
+Content-Language: en-US
+In-Reply-To: <alpbykBaX-8BkUzB@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Jul 2026 09:54:19 +0200
-Janani Sunil <janani.sunil@analog.com> wrote:
 
-> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
-> from Analog Devices.
+
+On 2026/7/18 00:43, Weijie Yuan wrote:
+> On Fri, Jul 17, 2026 at 08:07:42PM +0800, Weijie Yuan wrote:
+>> Translate .../process/applying-patches.rst into Chinese.
+>>
+>> Update the translation through commit fa04150b8ef7
+
+Is it the original meaning: translation updated to commit xxxx?
+
+
+>> ("Documentation: describe how to apply incremental stable patches")
+> Btw, I don't know how to write the commit message here.
 > 
-> The device communicates over SPI and supports per-channel output range
-> configuration. An optional external 4.096V reference can be used in
-> place of the internal reference.
+> I translated the entire article, but it's obvious that the latest
+> commit of the original English version only updated a part of it. So
+> the commit message written in accordance with the usual practices
+> and rules is obviously inappropriate.
 > 
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> I am more than willing to make the necessary revisions as per your
+> instructions.
+> 
+> Thanks.
 
-Sashiko had one comment that I think deserves a tiny modification.
-
-Otherwise looks good to me.
-
-I would have just tweaked that and  the [] (and still may) bit giving time for that SPI
-ack from Mark for the generic property before I pick this series up.
-
-Feel free to send a new version if you prefer.
-
-Thanks,
-
-Jonathan
-
-
-> diff --git a/drivers/iio/dac/ad5529r.c b/drivers/iio/dac/ad5529r.c
-> new file mode 100644
-> index 000000000000..2fd1dd053da5
-> --- /dev/null
-> +++ b/drivers/iio/dac/ad5529r.c
-
-> +
-> +static int ad5529r_parse_channel_ranges(struct device *dev,
-> +					struct ad5529r_state *st)
-> +{
-> +	s32 vals[2];
-> +	int ret, range_idx;
-> +	u32 ch;
-> +
-> +	device_for_each_child_node_scoped(dev, child) {
-
-As below, lets check we don't come in here once too many.
-		if (st->num_channels == ARRAY_SIZE(st->channels))
-			return dev_err_probe(dev, -EINVAL, "Too many channels\n");
-
-> +		ret = fwnode_property_read_u32(child, "reg", &ch);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Missing reg property in channel node\n");
-> +
-> +		if (ch >= 16)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Channel %u exceeds maximum 15\n",
-> +					     ch);
-> +
-> +		if (fwnode_property_present(child, "output-range-microvolt")) {
-> +			/*
-> +			 * DT stores cells as raw 32-bit values; signed endpoints are
-> +			 * encoded by dtc in two's-complement and then interpreted
-> +			 * here as s32.
-> +			 */
-> +			ret = fwnode_property_read_u32_array(child,
-> +							     "output-range-microvolt",
-> +							     (u32 *)vals, ARRAY_SIZE(vals));
-> +			if (ret < 0)
-> +				return dev_err_probe(dev, ret,
-> +						     "Failed to read range for ch %u\n",
-> +						     ch);
-> +
-> +			range_idx = ad5529r_find_output_range(vals);
-> +			if (range_idx < 0)
-> +				return dev_err_probe(dev, range_idx,
-> +						     "Invalid range [%d %d] for ch %u\n",
-> +						     vals[0], vals[1], ch);
-> +		} else {
-> +			range_idx = AD5529R_RANGE_0V_5V;
-> +		}
-> +
-> +		st->output_range_idx[ch] = range_idx;
-> +		ret = regmap_write(st->regmap_16bit,
-> +				   AD5529R_REG_OUT_RANGE(ch), range_idx);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to configure range for ch %u\n",
-> +					     ch);
-> +
-> +		st->channels[st->num_channels++] = AD5529R_DAC_CHANNEL(ch);
-
-Sashiko calls out that a malformed DT could have repeat entries and so overflow channels.
-Given it is easy to harden against that, let us do so alongside that check on
-if (ch < 16) above.
-
-> +	}
-> +
-> +	return 0;
-> +}
