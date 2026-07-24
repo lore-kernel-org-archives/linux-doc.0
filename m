@@ -1,66 +1,66 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DAD421223
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 10:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7997429009
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 10:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784888462; cv=none; b=KtKNUBOyb8mSjReBIoNqX3D5BD0KEv7c3n25uRg/Cr8AIPczvV6qoTRZ3eMvnCauyEAyyVFFNBLeGmTjolP9T3qBvVNUfclKhSmB3N7T1cgmqr4Da3E3BxYXvAhQ9ZvHxd2qsq6EXjCBYxFseYwbxa/3NUCg17NwYnmbH1QnaDQ=
+	t=1784888535; cv=none; b=llfoRCjNQUCgbc2Bj7CbxaiMnCRpG9rbDV0JO0JUVm7qI6SfPnp7j7BeR3zyeOcuPY+CeQ9Y1N/URehuSuLYRvJReXmvUAQTL7zALWONqPJCS1Bx6cnOLpXEp6Z4eQaBxUKKn6GtCvxht3k5E/SykGPnRaJhuvvD5l3waB6uQ7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784888462; c=relaxed/simple;
-	bh=A1tjyn8+UTrbbvmvprs57qwDcN/f/0G+E1vNReNaUFc=;
+	s=arc-20240116; t=1784888535; c=relaxed/simple;
+	bh=EHvWl82n0n7uzF29LI/GYIha5plZ2gekMSFm++1M26s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DIeY5jnlmn5JmS3TFMiutq9+amcChdb0daki7PFyRpLAx5uzXrj4wWo3FYwwjQXvc3t9xeVYVZ0AiA1yWbSSZKUgM8Vl0orIlLF4iLIsoFUTAgKFxD1CBatkcutF4GUDKtrrjxLqxI14+vq6Ht5fe0G8BF64YwoWAN5QEjjT8qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sXksBIxQ; arc=none smtp.client-ip=209.85.214.178
+	 In-Reply-To:Content-Type; b=tMOCvmjhD15da94pRLHENtNImXygueoMp3gTZkJODUwwinpxAJFnd3S7k1nNILtEmjFimNBLSqKAyyXGYfOliaVm7eCtz1ZsFqiXczFSowmYilJkja+cgsSQEXYcRb1yQJC4mUBXsgT0J7gPbD1T/vB3UlOb/s9+sMmD9w1T94o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tGki3KfT; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sXksBIxQ"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ccf2360620so2491055ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 03:21:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tGki3KfT"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-848479c9bd5so171527b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 03:22:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784888461; x=1785493261; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784888531; x=1785493331; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from:references
          :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=OHv4nBZUAA4QHT3/Nk9dUVsgZ03YSj5oD2kL/0soAWU=;
-        b=sXksBIxQwaosZqAtvueCaqkvIckrU8lpTWKG7tmrerNG9BDKD9YFNlvOAaq+iYMIS0
-         bcdaBY6LhU+t+cYtEncexxVGNbdE2YpT/czR7dx3gC2+rj29juQTT0doGEat+Wh4Gp6L
-         B8xEwBCanvlwi4Wt3XibwDJul6t6RGjM4HvCiTYw/QcK1wAcWkcjzlkwTUhwc+wnoSLp
-         icRqXxNLVnUty8qCCCNFW696fztYxOc3Kyu6xnUMdcP/xlvmQxdYBn3Qn3zVeoIHxbKN
-         PFAjLv0fkUeOkCJ2SWHjA0zNtXrttolIA7uyf1hEP4Krb4JqgOb9t3tXG8e2nHL8TYRE
-         ahZw==
+        bh=PjEtanJscU+kRHtICYaoHdn0dLIQ0TxUX75oiJzMbAk=;
+        b=tGki3KfTtaygut4cbC7NxLDgI0XW+yq8UVHtMe5vreWmKMAg4F08yfkN5kgw4Mng6o
+         82GDotNe+nZ5huGszSMvkmhsFu5ltUAMsfKAQ1UniUBwLYNkm9nZhU7LzgReNn/iQoHS
+         GBIZef90HgS6hvWvbxlyS1micgmlX1K3Bc/X6//tJMDNlWCH/X9krw7HTAvLVgdt31aJ
+         00NubZBZbX1UY5+LdwUc/krcSGNUPWmqIZ0Oi1NOeXSNr6TosBCrtnXXNiUWy63rtj8k
+         SvGYnUvWQHQwQuBqV5yHY3Vl4QA9tn5Sm2qgDlE6EJiJBzIiEmJtsXj3rKq3ufgOb72n
+         Fv3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784888461; x=1785493261;
+        d=1e100.net; s=20251104; t=1784888531; x=1785493331;
         h=content-transfer-encoding:content-type:in-reply-to:from:references
          :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OHv4nBZUAA4QHT3/Nk9dUVsgZ03YSj5oD2kL/0soAWU=;
-        b=V53om+ZNJY+DJiyzmw9K8EArnoB7PEs4a7IWhMnXuP6PRHzHnruUQnvDSjZ+ZqovOd
-         n3WV87OGP7CDKrhXsSYuoA0GthYfap3n921C0SrUJkQtKFwasPejbzT4kW/WnikeDbSy
-         57cDJmCKhVIiXb0OaPINwAnnArDiEERZB6uQM/527DefJTRUXuP0rgQMio7176xqWqrh
-         VBSvg7WU1Hxm4uqg/abJHI2Kxu4DcGSBR65SyDhXZxfhjqqifbHlJQKgql9cP9lGESGh
-         TAU1N6Bb8tGTKrzlnaK2rP6P8RhtruH82nfxj1VH1p7vY995ww/Ehwh3Dez0WncPmyqx
-         EjLA==
-X-Forwarded-Encrypted: i=1; AHgh+RpYO3oDIvtqpdkJsLojb1avvBotPXIrQ7t4eBEl84wHgYpBfORaOTRVAvIm/lQT3KByyPQkw21tjso=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaCN8zv/o9nozx62TsBeszYhlrdtEm2SO4xoQtOMWB0wgyELil
-	Vu41qiJlcESRambvxJj0KR1AKn/6Zw7iX5iKvKO0waYY/ah5/PzE1s1T
-X-Gm-Gg: AR+sD12OUWblqs/jZczaseS10q8SkARH3glOuvyn6E/1I1WgtZ0RGLGZx0yrpSn/4dC
-	tfxDyytLVrRLzQhO00HfPLFyrvq63hlaQzkSpL2H0cbF5BvPKSYLcaxzqi0KcIpopMuvb+hLCr6
-	0AKwsaShQXprT9MZ6nnCUc5axJUDsCQCP32Y/bvttfatQL1L/CY2jjX3+ytrD+OSiaxAJRyiAR4
-	v4QsPI48WIAenRxv/9BbdO1V6S84PP2fhtLzogs+ISDklWBaUdafJogCwYVKUNg7Pco5WGgzRQW
-	UJSSNdPrrwTf7xdgumwZ1r7d54lJkRVnELWo1OVAs9edwoVLy3kAWF3KjVO7WFubQQrFbR2amVw
-	sII89xN17Eg4DDtWOEOlAwob8AFko/WjgKdB+CIDxYPwFrqui59vbD35mikMzSO3Nk0ki/jLWo5
-	nYt5lwQ08/RKQde+YFEgpr2w==
-X-Received: by 2002:a17:903:2f88:b0:2cf:bf32:b754 with SMTP id d9443c01a7336-2cfbf32bf7amr33103845ad.8.1784888460802;
-        Fri, 24 Jul 2026 03:21:00 -0700 (PDT)
+        bh=PjEtanJscU+kRHtICYaoHdn0dLIQ0TxUX75oiJzMbAk=;
+        b=CrnqMyYM1fdw66rNco955jVSIkfl6ygJHZ8xP01FyT+qf1Mq96fGuW0tMLfnSzouZ9
+         qpKFBu2pev0HcenRbZaPSSzcrGP6vCHrclRmxA1METP8VX2qtm39O0NAwudDxz4nljSc
+         t4cgPbnBgSTznJfk534iFchax1QTyUHRArv/7X3pmqOvEhINLEcEreEEWOixN8MROi7N
+         tRfk/aHfSUnnvDUsMcx2j073VQVOUzCZXRoF8N8Z6Ea8ogp8hlfY/LSNfeu9U357o0nQ
+         bq5y0hD3qluF3u00ujGvpFzMqfX0bMUeReguaHOigbS6ZltWW7n7QwnxNZfJt1qvzM3O
+         TALA==
+X-Forwarded-Encrypted: i=1; AHgh+RrafRufPBlQ5InXUm5eP6alqNZksVXycNCi1I9dOZTiu+ZAoqI1kkQySolK69k+96h8nES84lFE7bI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUYWSTU9xpxZjgWFQPMNQ+YoW4dDR7GXHcAUR/bEn9tKAHgKws
+	mzagOpqN2Yc1jCsOG8fCr7h/8kpskuwMi+1Z8kSf1hQCzbNCVFtXkdow
+X-Gm-Gg: AR+sD13JCWJITsK7LttWFjBmEzjTF955IEk8gZ6LsmStfMf0O49iv2vDaYaMoFgkFeX
+	cpb3v8zAbH2+Eqfkabi+0ktb1OEmlJtJX57pJBwRiB7dviLIw4dj7+V7rrHKpY69I7hM8BU/XeI
+	gbYj25/zReDxHbAT4n46HlmQObiwRc/277uRgAalK5FimJViLL3/Ygbhm6UvdT+6SJeO9PGLJPM
+	v8KIqOKtAg62aXQmcozHaEPJH/cyjd1k+f/NqUp34r/SXuUoKyr8mxCrxAR184dzZ0mBMPcttyJ
+	BiIoorX31N9hzIM+NfbU21gTj0ZyRmsgOowAjrhrzaBrXg5SFZRBJpPXaTEOcMj3XpDeMnkPIdc
+	bIowtPqGYF/NPQBB+M8VqvZveA29ZpOx+aKZOE0i48sNdgj+sERPEo2xHfeMwUuhxA7mvULD8j+
+	H+59tmtRsPk4JKNga10viodw==
+X-Received: by 2002:a05:6a00:ab83:b0:848:65fa:542 with SMTP id d2e1a72fcca58-84e2bbba2b5mr7126501b3a.53.1784888531583;
+        Fri, 24 Jul 2026 03:22:11 -0700 (PDT)
 Received: from [10.125.192.96] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efa2cd0sm48812475ad.4.2026.07.24.03.20.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17573c0esm4486650b3a.38.2026.07.24.03.22.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2026 03:21:00 -0700 (PDT)
-Message-ID: <d8de419d-0077-c47c-a5f1-37c229a853ed@gmail.com>
-Date: Fri, 24 Jul 2026 18:20:50 +0800
+        Fri, 24 Jul 2026 03:22:11 -0700 (PDT)
+Message-ID: <2e61a4e1-20ed-4fe0-158c-5a9d060ce01a@gmail.com>
+Date: Fri, 24 Jul 2026 18:22:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,106 +69,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in
- shrink_memcg()
-To: Yosry Ahmed <yosry@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>
-Cc: akpm@linux-foundation.org, tj@kernel.org, shakeel.butt@linux.dev,
- mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com,
- chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+Subject: Re: [PATCH v2 0/2] mm/zswap: Fixes and improves the zswap global
+ shrinker
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, nphamcs@gmail.com,
+ tj@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+ mhocko@kernel.org, mkoutny@suse.com, chengming.zhou@linux.dev,
+ muchun.song@linux.dev, roman.gushchin@linux.dev, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  Hao Jia <jiahao1@lixiang.com>
 References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
- <20260717085151.22822-3-jiahao.kernel@gmail.com>
- <amF7_GB5Rl6OJmt4@cmpxchg.org>
- <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com>
- <amIdU1lFxqxTI3Gc@cmpxchg.org>
- <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
+ <20260717181839.c94d0335ccef0084707d3d85@linux-foundation.org>
+ <CAO9r8zOrXqsEaCEJUUAxbAhhN_OQb8ejogeUa6k8hX_JV8hxxw@mail.gmail.com>
+ <20260717214031.8b22e9a37ea3b0c564b466f0@linux-foundation.org>
+ <7dbde343-fbbf-6a1d-1785-ebf9f5a04f6b@gmail.com>
+ <0a96b7ec-0d8d-2abd-afaa-739c562bc985@gmail.com>
+ <CAO9r8zO6AsdZZWoYibAj6urMxgM3eq4bg9JDhr443UZONPF_6Q@mail.gmail.com>
 From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
+In-Reply-To: <CAO9r8zO6AsdZZWoYibAj6urMxgM3eq4bg9JDhr443UZONPF_6Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
-On 2026/7/24 00:39, Yosry Ahmed wrote:
-> On Thu, Jul 23, 2026 at 6:55 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+On 2026/7/23 12:49, Yosry Ahmed wrote:
+> On Wed, Jul 22, 2026 at 6:21 PM Hao Jia <jiahao.kernel@gmail.com> wrote:
 >>
->> On Wed, Jul 22, 2026 at 09:52:18PM -0700, Yosry Ahmed wrote:
->>> On Wed, Jul 22, 2026 at 7:27 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>>
+>>
+>> On 2026/7/20 09:26, Hao Jia wrote:
+>>>
+>>>
+>>> On 2026/7/18 12:40, Andrew Morton wrote:
+>>>> On Fri, 17 Jul 2026 18:28:04 -0700 Yosry Ahmed <yosry@kernel.org> wrote:
 >>>>
->>>> On Fri, Jul 17, 2026 at 04:51:51PM +0800, Hao Jia wrote:
->>>>> @@ -1369,7 +1402,7 @@ static void shrink_worker(struct work_struct *w)
->>>>>                        goto resched;
->>>>>                }
+>>>>>>
+>>>>>> The [1/2] changelog lacks a description of how the flaw impacts users.
+>>>>>> Please describe this fully and maintain that info within the
+>>>>>> changelogging.  This info helps -stable maintainers and others
+>>>>>> understand why we're proposing a backport and helps myself and others
+>>>>>> with timing decisions.
 >>>>>
->>>>> -             ret = shrink_memcg(memcg);
->>>>> +             ret = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
->>>>>                /* drop the extra reference */
->>>>>                mem_cgroup_put(memcg);
->>>>>
->>>>> @@ -1493,7 +1526,7 @@ bool zswap_store(struct folio *folio)
->>>>>        objcg = get_obj_cgroup_from_folio(folio);
->>>>>        if (objcg && !obj_cgroup_may_zswap(objcg)) {
->>>>>                memcg = get_mem_cgroup_from_objcg(objcg);
->>>>> -             if (shrink_memcg(memcg)) {
->>>>> +             if (shrink_memcg(memcg, 1)) {
+>>>>> The first line in the changelog should be sufficient imo: "Zswap
+>>>>> writeback on hitting the pool limit is broken when memory cgroup is
+>>>>> disabled"
 >>>>
->>>> Why 64 for the global limit but only 1 for the cgroup limit? That
->>>> seems arbitrary in multiple ways.
+>>>> "broken"?  Perhaps this means "fails to occur".
+>>>>
+>>>> But what is the userspace-visible impact?  IOW, why are we proposing a
+>>>> backport?
+>>>>
 >>>
->>> I suggested that we keep the writeback here without batching and do
->>> that change separately, mainly out of abundance of caution as
->>> writeback is done synchronously here so the extra latency could be
->>> problematic. I think we probably want to measure the performance
->>> impact of that separately.
+>>> Perhaps the first paragraph of the commit1 message could be modified as
+>>> follows? I have added a description of the issues that occur without
+>>> this patch.
 >>>
->>> That being said, this path is potentially too expensive anyway due to
->>> the flush, but I would rather we do some basic measurements before
->>> batching here.
->>>
->>> What do you think?
 >>
->> It's not an unknown, right? We know this works for direct reclaimers,
->> cgroup limit reclaim e.g., and what the latency implications are.
->>
->> Because of how reclaim works, we also know it'll call zswap_store() in
->> batches of SWAP_CLUSTER_MAX. If we don't batch here, they're likely to
->> each call shrink_memcg() once we're at the limit - while still risking
->> rejections due to compressibility differences.
->>
->> My worry is that if we start with an inconsistency, we'll be stuck
->> with it for a long time.
->>
->> I'd rather start with the clean, consistent version. Dial it back only
->> if we have data to justfiy the complication that we can put into a
->> comment and the changelog that outlines why exactly it's different.
+>> Hi Andrew, Yosry, and Nhat,
+>> Any thoughts on this change?
 > 
-> I am fine with doing that and basically always using NR_ZSWAP_WB_BATCH
-> as the batch size in shrink_memcg(), but I would be more comfortable
-> if we did some sanity testing.
+> I would front load the user impact in the first paragraph:
 > 
-> Hao, would you be able to do some smoke testing with NR_ZSWAP_WB_BATCH
-> used for all paths, and memory.zswap.max set in a way that induces
-> writeback? You can probably set memory.zswap.max to 1% of total memory
-> instead of the global pool limit and rerun the same test.
+> Zswap writeback when the global pool limit is hit fails when memory
+> cgroups are disabled. The pool remains full until it is organically
+> drained by swapins or memory freeing, leading to zswap store failures
+> and pages bypassing getting written directly to the backing swap device,
+> causing LRU inversion (hotter pages with higher fault latency).
+> 
+> ...
 
-Building on Test Case 2, I set zswap.max=320M (~1% of total system 
-memory) and updated both invocation paths of shrink_memcg() to process 
-batches of 32 or 64. The resulting benchmark data is shown below.
-(Note: Test Case 2 also sets max_pool_percent=1.)
-
-                       baseline-cgroup   batch-all-32-cgroup 
-batch-all-64-cgroup
-shrink_worker wakeups        7,238             766               367
-shrink_memcg calls      12,059,142       1,961,194           983,878
-written_back                28,277         301,157           327,997
-zswap_store calls         1,349,572       1,168,190         1,114,549
-   store succeeded            492,861         521,315           459,246
-   store rejected             856,712         646,875           655,303
-   store reject rate            ~63%           ~55%              ~58%
-pool_limit_hit              510,130          50,096            57,715
-pswpout                     884,989         948,032           983,300
-pswpin                    1,251,268       1,638,668         1,878,453
+Will done.
 
 Thanks,
 Hao
