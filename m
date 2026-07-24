@@ -1,312 +1,201 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010069.outbound.protection.outlook.com [52.101.46.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D4A28C854;
-	Fri, 24 Jul 2026 20:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1943AE707
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 20:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784923222; cv=fail; b=GQ2g3Y1s29vQLa8HwUSeDUe7pP/lk0Xr2FOZyAXnN/T5Y6ZkL2CtbsgQZsoXd0edMoStgfdFreZEEKn90S5IW9HXNcFXpIlavxXzDJuJz/qgQmwRs/4aZIqSgoecnDkOzijc2ZLHH71wbtNSIuFbiG+nKRml8j79/WqobMbZ9vs=
+	t=1784924611; cv=pass; b=D3SqH6JO5YTOwX7xOIXZ5TgJFTkv+1oQBQFN+Si7B2VQ8o3jJDpDhOW6g8oFKE6ZyGDfuPMm3LrR81xEZZu4Ktl2yRjI6MuAcjc+kwfRwCzRzEqRELFmOFak2wg3G9CanXKgLJXr0M017Sc3bs6JuJyvvyxaT+4sag4TnXHs0KY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784923222; c=relaxed/simple;
-	bh=9ZcGWKN6H18hO9DwNx13U/THQIeNRx84MAwuZ0tNO1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=a/ghy02v9XYWPWwr4w94catOCViMgIovLeU6rnLkWkU6CG2ivQ7OPO5yHboWvCmladXVUKx27DuyD+BlMfmPIXsxJ9AGKMVgWw9H1U3zuQnC8Y/MWmQIy1DKAPBfZp74QHXnbGq/V4+jx64bOk7VcjDXXoMON7CPJnQrbkZleeI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MPSi2uwo; arc=fail smtp.client-ip=52.101.46.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1784924611; c=relaxed/simple;
+	bh=CLvryJlgtOkpD04dLgTszNnfnuSEyddIT/JzxgCf0Xk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f44zIi+5m7VbJqJLsmo17rs0LuozHFyW/EFJI24OKgGywX8VS/IjDFRY+iZGY74BykrI/CieFeOJ3PPEpjEvpM8DXyJizADD0KnrtCmlzXRHjoW6gy3tT/xK1boXXa9vhMnZY3iPUhiKPSx8yrkJTik4P6XFnvBucZQx/owrfTE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fRhncDac; arc=pass smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MPSi2uwo"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bd1+BBNRGlkmxqL+U0PWMcCUGJIxwr/e9IIEuLEVWiCTS5oMKQd0Zff5mvTlKICa2QWV0mDzuQuMZM5KqGU34ermBsFRXxeoqXOcROLPcSsiZxiRYJVXNFlr9hTQD490yuQ8VL1W//3/XnpAMaXO2rPU5COY298Bih9WBRUttPZ0CuPx+5h3NqFZOgiSiIMZZRFcfTI6rg184erGx5+Mei9fI547P6CsJ1kLuVEbJjlsbp/TBEnzwU19yJNwX6n7ECzQSGC/JKrZ2IhCAfi6SczaRFAR0cVLwtenkPjB5x94ImR+1Nmr6d7pCK8s+s8yRKeCwWh5N2QjTtd7nwCSnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A9ke/mQSiFbJBpocLrx7TDcdamO1VJMrpLbxFVxRdKg=;
- b=pJnHbowWVFf8F+FlnTB1Y0OfkeEWtC89o/zSh5c685M18g9/+GVG00ayXdJav7dWNd0E+GTHoxHqHkU1EEh6oYbuqt1AZpcrs8AGcI730/TwxJ375+B0CrxMYpRVD0qxO5XxJ49S6JGVlgfz0N5PCQ4LHHbPxFZtYPUmYtanRTytQQXlGG1uHPCN4+I+RihWP+UDZTWEJ0OUvGyhiotKl7TbU06k1Z8aLzIkFfvqJmykMZQdE3/jd3sV8YEa1SA1f+m3Zdb37zK210jxuf4m35Q5kR/MLMvktHL4WW8ROe7pouugjGou8FEfpLJQAxycELGw7zKeQx7M6ciHVVePHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A9ke/mQSiFbJBpocLrx7TDcdamO1VJMrpLbxFVxRdKg=;
- b=MPSi2uwoiDsoceb0wf2QtYwCeK7H+XfLbV0VePMxkaoM5fB86LquOzvUFkPINfv1ZrzA8SV1vrLynVyLat4M6IQentm2mHqK9AxfarZtrO167QMb3+Dy7Q0nntXoVMR9+6GXPOfwTxHJlBtj7b1dr99uVUKqo+VaQtiKHa5ybZHwuoB6LKXQe/Bl3Q7IdPLOyL1ZLhu15j5vt181dUW2SeQVAPO6zJ3PdXpc7SIdbox1Sx8h2wC6L/wh1kGoAZMkvqKb8WPq1EiwLRQNYxNQaqQwa30nKIfK4LF/EMCede3fjytN4CRd+ieA1H2rA4q5AhyF1dAMal8AFW9qVosfmQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by SA1PR12MB6679.namprd12.prod.outlook.com (2603:10b6:806:252::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
- 2026 20:00:14 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
- 20:00:14 +0000
-Date: Fri, 24 Jul 2026 16:00:11 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-	corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-	pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org, jgross@suse.com,
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH v9 02/11] cpumask: Introduce cpu_preferred_mask
-Message-ID: <amPES7GsB5sVCDjY@yury>
-References: <20260724140732.2683314-1-sshegde@linux.ibm.com>
- <20260724140732.2683314-3-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260724140732.2683314-3-sshegde@linux.ibm.com>
-X-ClientProxiedBy: BYAPR21CA0017.namprd21.prod.outlook.com
- (2603:10b6:a03:114::27) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fRhncDac"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47de008b020so567006f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 13:23:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784924608; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TYlKYFsfbFZaCuA0FkjP3Iktq/ihQzSGaFktHMAxOF3NybPnCnuvtC2NmaUQdPS3pa
+         WavIUoDmSg/XgvOw4Bsp0MM8roQ+YahEfrngjpqantqHiCgpXXMnf7AEdzX2tur/m3ke
+         wFYztOEvG+JDE2Q93JWvUkP28Lig3sUAIH9xyi1sZIaGKMu/twezTVm7/Lkzuf/HTL4d
+         pBPjpaqhG9wJRVOTfw4Y7CqUBGQE+9DYYfs1wkBYXnUyNcIhKE5Br5mMAx+XfiJrIHAk
+         Lp1FxrLBVA2mcChpenHo1A7/8KBXjoq4hBU9jl8iLI35gUrB7XKxO7E5g13PM3vuZ9u5
+         FZug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Khp2FCMG1fPFWK/vo3BDeHUm3k3OSQAePpUYhFSlseQ=;
+        fh=BoeObtHBkH12hYmWnwB0GoiS53JUoDOcmltafjNdq6s=;
+        b=ft17HhZGvUqRz8UaDZaQmBwth7Aq7pg+QeGBgTnpAgFdPuPK6z7ioi4qAvbdAtcFHA
+         OD/fpP1W9L6ezRYQGKKN/Zo8ddjPJcK02p806NM/glv9exGY9RyPJt4VHC/QS2Xzdp+9
+         vphkhS/JthoZ2/ULU/HQRYyz6XTopr58YqyP1AdO/dVyI+RrMpIcKC0t26brnQKXBxG0
+         VaXXlvXebi72gkUI7rmJSUGXXOjv0wYMFes5Z6mNcKzEM9ua0BMxiWZuHicv67OnWP4E
+         PvJCuuDpRndVbWTKxuf5/dDQF76AjVmSxKD3lxqG1APka65FLsDcQIInGG5UNJVx1fSR
+         WW4A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784924608; x=1785529408; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Khp2FCMG1fPFWK/vo3BDeHUm3k3OSQAePpUYhFSlseQ=;
+        b=fRhncDacSTwisTKR6lzabg9pzzRvh6ViO+kH19aUUlNHz7cZj5l8yDGnIBDDoaAFs0
+         FEZMfNCZIKGqC12PJfPjubPu0jHwJBERa3HFb2bc7YYebZNue1tLcoBqgvU4VqY/KJ2i
+         mo7hqeNMMuv5W+GdpX8Dh1MYYzSc3mDF9Tlv/KabiEHVzcy+e2Yo99ajSVFLZAlfOAQ/
+         ITSSkDXF6BUGG6siWicXBNWr28RHKlYJeHC3SYZHTtc2Ajco3Z6sXFPr9z5ZcVEysDVv
+         4OVixoMWkiv3JoUD/PIj37LvORu3W7oSn5LindbqU7VVFck7N0MBsNwr2e1XU61LHoBh
+         qkiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784924608; x=1785529408;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Khp2FCMG1fPFWK/vo3BDeHUm3k3OSQAePpUYhFSlseQ=;
+        b=Wtj3Y94PNbdLUmUNcK5mHjIMus+9W/dicWMLnmDI7uAbqfIyRF7J15sQ0VnmOxnorH
+         wlxErGYmjlXAf1SXYbE2s/VpXl/jt9qpjDdnQ5LUJYaqDPmSpEhISOuy7MgZ9Ulh/M6U
+         yfnJ8JFKoAsF/PyrTQe/J2QTidPJGnqIr3vbUm4lY1Q7YnzjMCNd0rpWjIx3xTFSYFSL
+         R5HlGkWnPzhcyX7L7IKyJSR2Ge8UJAXvCs6mT5bqZBzAqIsqDSYgwgGOd76WujLSPSOV
+         FjEjRaKHwNdKZNV5zre9iNl0QMxHMShFfdvlhJ1AUNNnH97MJE6t2r7q7tzzg8y1tPLo
+         ecSg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpdv8ac0niUQQ54A33nJaUjs1ocNSeaxj5/2DzBcdy0nNn7iaVaiOdVTkSGOSY/10hxF0LYxuwTLNI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLdF/0+noqz4RST9bP98KOLxi7TIFZir7db1ljT+dh4khf/0OB
+	4Z2vbJ+2jXW6z02L+uBYFrsChwd6q7UfX0Q9w92/Hz5LydY+DXoIH0xYPbwBhnOFldzJOfDKA8q
+	XWmOnKT8VVj6Jx0B8FrOutsTHs+cDTWs=
+X-Gm-Gg: AR+sD10XZ/Gd5njc6SRAdAPKiMXqaz7/QfTblFycCC9ktM3uacbqkXpqtHOg5EzQtRM
+	liSHiajB2NfS9JUsFRPOQ5YHWBjbBdtd9pWEZlgqi8rsDYHPab7fyOSkbq5nX/GkYrOtbC8vZuF
+	kGMUbQdzdHwbju3L/yAnIWN5QitOjty4G9dfliClAkcBzsw8w2GrKRdsxNfWFnE/ZqEaajKwWWG
+	ko0JDYFUo/NE5cCEZcGbuPwQXj3hf8Suq1OB4e4OKUBq25/8m2/KtHx81E93MiqxCXJquPZSeCo
+	IVrmzaHx0cckzzERahyVKL8H7E0MUQa8zgVw45J1so+Dt6kfZW8D
+X-Received: by 2002:a5d:5c84:0:b0:47f:8554:a341 with SMTP id
+ ffacd0b85a97d-47f9cddd94amr2609691f8f.13.1784924607527; Fri, 24 Jul 2026
+ 13:23:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|SA1PR12MB6679:EE_
-X-MS-Office365-Filtering-Correlation-Id: 948fb813-38ae-47a8-05aa-08dee9be2d31
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|18002099003|22082099003|4143699003|56012099006|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	Ogq+gFNGeIvao6mUZ4V60llhcuhFahH63yixR4NFNbZ2ugLlmBlK9sABMCcr27tzNX5BdLEsjb8GD3CCquBmc4gjusM/4UPQ830KQ0HSpYP0WbFzGsmGoU/FfyVMyMtXPuwyyvcGDieuWU9YpzeKMkSO4wsrDxu04gHUL7TZ984PU+zv4uUI8ocrQOWS5gmRMT8KFFI53M85r4N/It+9rb79BseXwP80vjyXwAVIpMROLkob65u9gRGQLnzK4hSm3jHL88XceQY4S+KOBsxxfQv/buVnTgJoCzN3Og9WrW1qQbAR5DTLjvzeE9/zQGonpDyTHbrZoTMKHsCtQ9PEOiwUNg/OnRjy9ULZTKvg6B6PHpttqxL0QvluYU3Z4QJCzBAUDSWDrlwfC8D9xi3oZX7VT3x5Xo9S1OhfXpQJIXmDV0TTN4+M7cp0PE34awuTtktqXLdly+QR1tsiBbUhB0V8Sn/1gFuSoovhu8eDLld8MfbCW8aYHmqfi0oIfxXhU5EKVn/jgwmejjotMCgaZIQhBr2r6qgB1lVMGQ+E5sHhBtFs3pGVHwIP//taAlpr3Zx5bqvKw855Q2KwFJ9JM1aobAeJAC7v+aAvfgu8bRYfBmr89yL29FXxPydWs/C0n1xz+vnvxdmtWEPAh1J8QZN/Jrpa0pATRg4OcvNXGB4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SXdJNGZqUzlvWEpnTk1GOVdYTlZ2bjNiN3RsZHA3VDBqem1HK2hiSktKTkVk?=
- =?utf-8?B?T0RCQmMvRDFQbFIzaEpSOFUrT1hJV0NCb1pqeU5oeXlZbDhkMHFrU0p1bDht?=
- =?utf-8?B?SVhWQlhhYVRqMnoyNERHWUZacUplenRYY2MrdDAzSVpsNFVDZ0U5WmdiZS9S?=
- =?utf-8?B?ZUNpTFp0MjZBdlJENmFTcStlM29PcCt5Wm8zdE5Oa1NkRHlFZ1BMakpIZFc5?=
- =?utf-8?B?K2lmMDc5dlZ3RGN2ZXMzT25oaWZmOVZyb2dVeDFXc1JpUXljQ2tKSlNtTWN2?=
- =?utf-8?B?ek5tTWJhVTFMUHQ5OHZaWndFOHhrbTQzSXBlSkI1NVA4NDhOZUVXQVBlaElv?=
- =?utf-8?B?WVdnNzdDdE00d3ZnRXJ6a1NWM2R2RjRjWEVXRURJMFNpbFZ1V3BNZjFTVE42?=
- =?utf-8?B?ZytHTlRWREFtb1dJNlp0ZFhCdkJqdzNaN1U5Q3VMbjZTa2tFZExRS0NCQ0JG?=
- =?utf-8?B?bjBxRG1VNVlrdHJlSWcyeERyU3ZlNHN5V0NZWEZUSnh4SDhDbGFyRGxzMStX?=
- =?utf-8?B?QUlJMVN0WXNwYXpmYURYcE1rV29oSnpLaDZXQk1sTUFJejN3S2dTZCtkUHNK?=
- =?utf-8?B?WnJ6dmx3cktkOFFRK05DVVdwOWI2UWtWdHlmSjRWVkM4bDdVNENEL1YxMXoy?=
- =?utf-8?B?WDdxeWtEVEF5SHZxSVBlbDRJNUtDelRQSEVVQzBiamJsQkZwNnBNUG0zM2Zp?=
- =?utf-8?B?RW1aT2hWYW1nTlNVYVZtYW5aSXlabngxb3c0MFBvbldxeklTRW9CbWJ1aTRj?=
- =?utf-8?B?N2I5UkZaVWVrcm9jVWNIRVJXL3RxRDh2REVlSDFmcE9DQnFhSzF3WGRWdWlk?=
- =?utf-8?B?Uyt0N0oxdEc2eEdRK0FyY0ZyNzV3VzVnSUJRa1VCOEJPZldYS1QwUkNIT2FS?=
- =?utf-8?B?VWNiaGRBUWVUTXdSQk5KZFppK3Z2WDlzUDhycEpmRUxPM3l3M3RuT3Vid1V1?=
- =?utf-8?B?TDZFUEhxL1hIcy9aY0pIdnFYS1NITWZURUxOTXZtOTJ4cERPWDM1STJZcXR6?=
- =?utf-8?B?dzBCcDBqQXpQVFlRRDlLVHYxL3VsTlFQRHQ1eTZpN1p5N1FHcUxpOXZTNnZN?=
- =?utf-8?B?dGxKaGlXYXpTU01MRUxiUG4xTzdqOGhGWnRnSHQrODFFUUNyR2tyZXlCSXAy?=
- =?utf-8?B?d3NPNmlGeWpqSnhmczVVNWJRSmF3V2tCN2hoMXlQbVQ0Tml6enFSbDlyQnMw?=
- =?utf-8?B?YzdDNnlSY1dXNytGbXcwWEhwOE95c2NFY3RsbmJYK1ZBVWRQK1RSZVRTN004?=
- =?utf-8?B?S01zTVIwNlFOOFJrOSs2MEZtZ3pSejlyamE5N3Z5Yi85ZjFsMExiL2Z6YlRF?=
- =?utf-8?B?aGJrY2lPbE80bU1lMDdRQ00vNVVTVDNjV0s4RkpQY290QytXMFBwR2dHc2FG?=
- =?utf-8?B?UjNSRllDZzJVQUtWTVhHWFFZcjJuKy9jdm9TdEJDLzQ3VkxvYWdRcnJCR3F1?=
- =?utf-8?B?UzZTR0FDV1A2ckExUXBZWUdlYUQwQzRFcERTMDBDQnVTL0NxblFyVXlob01t?=
- =?utf-8?B?UFVqTDZBQko0Tmx2R2s0UFdYRjhZVUhHeUI0WW4vbDcxSmxLN0MyZkZZOGZ2?=
- =?utf-8?B?NGJ0QktlNGFaQ2tDY1hvRWl4ZTF4SkVHYm5nNFpIdXZCQVA3UXU4S2hGbWFz?=
- =?utf-8?B?NkF1UFVhelJLd2JESCtXVTJNRFAxTEVmd2liT0xYSkRnc0xZekZFRFRZVDBR?=
- =?utf-8?B?L2Uvcng0OVRkRyt4Y0JPV1lJRzE2OXA2MXBiSFdZMkVJaXpudFM3MUp3QXVu?=
- =?utf-8?B?Rk1FZFJjV3I4QlpleEovTG5lZUJYZzZDN3ZLazJ2VnZsbWRBazROc1dnUllw?=
- =?utf-8?B?cmpRUFc2RDBiTW00eWNwMTZzcVRjWXlUbklVZjk1TGZtVG1EOTUvcTJ1cXFo?=
- =?utf-8?B?N0hFZCtkN3JUTi9MSXh6M29VYUFNWDFNd3RjeUpuMjVpVkVUQU53ajhQQ1hn?=
- =?utf-8?B?WHcrSmI4eDk0akptSUsyNUI0NVhwb0VUaWRWb3lHd3NhS3RrK3ZsaGZXZU9Q?=
- =?utf-8?B?ZGh3blpXME92NlpVZnVvVW1PRUcwc0pQM2kzeVp5M1VGWENmZXE4YTRibVdJ?=
- =?utf-8?B?a0dkWFgrNzhCMVR3MFp4eUFlYVYrcEkxWUw4eTd4WFRpdmhRbjhsUGk4eXF5?=
- =?utf-8?B?UVRYMmFWNTNyTE9FQ1hTVkpOcXc5NkI1N20zYWNNUmE2S1BmY1MybWsvQlVI?=
- =?utf-8?B?aE13TGp0WEFEWnNKNzlocjdKcDBpRkdFc1FoOFRGRE4xeG5kWkV6cTJ6RXJM?=
- =?utf-8?B?cFNjTm1PSzVJVXFzdWJHZVpXK1FqQm5mdWROOHdUdnZFcVNVMk1qSnRUaW00?=
- =?utf-8?B?N21ORi9oVjY2YjRRTUwyWXZwb01CUVRzUGFMMmM5dmduVVlKa2E1Zz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 948fb813-38ae-47a8-05aa-08dee9be2d31
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 20:00:14.6501
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I+wAtsuWiKrCLgmhF7Myv/r+ClKD2yDsOJ+0IoljlAbZITt+UswtP5/g9cVi3wJjrojgJ7rM5mAVrGZ1JOC5yA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6679
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
+ <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
+ <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com> <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com>
+In-Reply-To: <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 24 Jul 2026 13:23:15 -0700
+X-Gm-Features: AUfX_mydRGom_LxmLbEq9SuIROw4SCUO4oftMjn0zu5GW5N5sw4eN8rSuSzGEXw
+Message-ID: <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 24, 2026 at 07:37:23PM +0530, Shrikanth Hegde wrote:
-> Provide cpu_preferred_mask infrastructure. Define get/set macros
-> which could be used to get/set CPU state as preferred.
-> 
-> PREFERRED_CPU config will be selected by the driver which handles
-> steal time values. It is going to set/clear preferred CPU state.
-> This driver will be called steal_governor and it is introduced in
-> subsequent patches. It periodically samples the steal time and
-> decides on preferred CPU state.
-> 
-> A CPU is set to preferred when it becomes active. Later it may be
-> marked as non-preferred depending on steal time values with
-> steal_governor being enabled.
-> 
-> Always maintain design construct of preferred is subset of active.
-> i.e. preferred ⊆ active ⊆ online ⊆ present ⊆ possible
-> 
-> With PREFERRED_CPU=n, ensure set_cpu_preferred is a nop and get
-> method returns the active state in that case.
-> 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
->  include/linux/cpumask.h | 24 ++++++++++++++++++++++++
->  kernel/Kconfig.preempt  |  4 ++++
->  kernel/cpu.c            |  6 ++++++
->  kernel/sched/core.c     |  5 +++++
->  4 files changed, 39 insertions(+)
-> 
-> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> index d3cda0544954..34d08a3d80e1 100644
-> --- a/include/linux/cpumask.h
-> +++ b/include/linux/cpumask.h
-> @@ -122,12 +122,20 @@ extern struct cpumask __cpu_enabled_mask;
->  extern struct cpumask __cpu_present_mask;
->  extern struct cpumask __cpu_active_mask;
->  extern struct cpumask __cpu_dying_mask;
-> +
-> +#ifdef CONFIG_PREFERRED_CPU
-> +extern struct cpumask __cpu_preferred_mask;
-> +#else
-> +#define __cpu_preferred_mask __cpu_active_mask
-> +#endif
-> +
->  #define cpu_possible_mask ((const struct cpumask *)&__cpu_possible_mask)
->  #define cpu_online_mask   ((const struct cpumask *)&__cpu_online_mask)
->  #define cpu_enabled_mask   ((const struct cpumask *)&__cpu_enabled_mask)
->  #define cpu_present_mask  ((const struct cpumask *)&__cpu_present_mask)
->  #define cpu_active_mask   ((const struct cpumask *)&__cpu_active_mask)
->  #define cpu_dying_mask    ((const struct cpumask *)&__cpu_dying_mask)
-> +#define cpu_preferred_mask ((const struct cpumask *)&__cpu_preferred_mask)
->  
->  extern atomic_t __num_online_cpus;
->  extern unsigned int __num_possible_cpus;
-> @@ -1164,6 +1172,12 @@ void init_cpu_possible(const struct cpumask *src);
->  #define set_cpu_active(cpu, active)	assign_cpu((cpu), &__cpu_active_mask, (active))
->  #define set_cpu_dying(cpu, dying)	assign_cpu((cpu), &__cpu_dying_mask, (dying))
->  
-> +#ifdef CONFIG_PREFERRED_CPU
-> +#define set_cpu_preferred(cpu, preferred) assign_cpu((cpu), &__cpu_preferred_mask, (preferred))
-> +#else
-> +#define set_cpu_preferred(cpu, preferred) do { } while (0)
-> +#endif
-> +
->  void set_cpu_online(unsigned int cpu, bool online);
->  void set_cpu_possible(unsigned int cpu, bool possible);
->  
-> @@ -1258,6 +1272,11 @@ static __always_inline bool cpu_dying(unsigned int cpu)
->  	return cpumask_test_cpu(cpu, cpu_dying_mask);
->  }
->  
-> +static __always_inline bool cpu_preferred(unsigned int cpu)
-> +{
-> +	return cpumask_test_cpu(cpu, cpu_preferred_mask);
-> +}
-> +
->  #else
->  
->  #define num_online_cpus()	1U
-> @@ -1296,6 +1315,11 @@ static __always_inline bool cpu_dying(unsigned int cpu)
->  	return false;
->  }
->  
-> +static __always_inline bool cpu_preferred(unsigned int cpu)
-> +{
-> +	return cpu == 0;
-> +}
-> +
->  #endif /* NR_CPUS > 1 */
->  
->  #define cpu_is_offline(cpu)	unlikely(!cpu_online(cpu))
-> diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
-> index 88c594c6d7fc..de789b274ba3 100644
-> --- a/kernel/Kconfig.preempt
-> +++ b/kernel/Kconfig.preempt
-> @@ -192,3 +192,7 @@ config SCHED_CLASS_EXT
->  	  For more information:
->  	    Documentation/scheduler/sched-ext.rst
->  	    https://github.com/sched-ext/scx
-> +
-> +config PREFERRED_CPU
-> +	bool
-> +	depends on SMP && PARAVIRT
-> diff --git a/kernel/cpu.c b/kernel/cpu.c
-> index b3c8553d7bd6..376d297a6292 100644
-> --- a/kernel/cpu.c
-> +++ b/kernel/cpu.c
-> @@ -3103,6 +3103,11 @@ EXPORT_SYMBOL(__cpu_dying_mask);
->  atomic_t __num_online_cpus __read_mostly;
->  EXPORT_SYMBOL(__num_online_cpus);
->  
-> +#ifdef CONFIG_PREFERRED_CPU
-> +struct cpumask __cpu_preferred_mask __read_mostly;
-> +EXPORT_SYMBOL_GPL(__cpu_preferred_mask);
-> +#endif
-> +
->  void init_cpu_present(const struct cpumask *src)
->  {
->  	cpumask_copy(&__cpu_present_mask, src);
-> @@ -3160,6 +3165,7 @@ void __init boot_cpu_init(void)
->  	/* Mark the boot cpu "present", "online" etc for SMP and UP case */
->  	set_cpu_online(cpu, true);
->  	set_cpu_active(cpu, true);
-> +	set_cpu_preferred(cpu, true);
->  	set_cpu_present(cpu, true);
->  	set_cpu_possible(cpu, true);
->  
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 2e7cde033a31..a45f7c308329 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -8690,6 +8690,9 @@ int sched_cpu_activate(unsigned int cpu)
->  	 */
->  	sched_set_rq_online(rq, cpu);
->  
-> +	/* preferred is subset of active and follows its state */
-> +	set_cpu_preferred(cpu, true);
-> +
->  	return 0;
->  }
->  
-> @@ -8703,6 +8706,8 @@ int sched_cpu_deactivate(unsigned int cpu)
->  	if (ret)
->  		return ret;
->  
-> +	set_cpu_preferred(cpu, false);
-> +
+(sorry for the delayed reply, was OOO yesterday)
 
-Is it possible that this CPU would be the last preferred CPU in the
-system? If so, you'll make the preferred mask empty.
+On Thu, Jul 23, 2026 at 12:27=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu>=
+ wrote:
+>
+> On Wed, 22 Jul 2026 at 16:43, Joanne Koong <joannelkoong@gmail.com> wrote=
+:
+>
+> > I had the same impression as Amir. The FUSE_DEV_IOC_STRIPE_OPEN patch
+> > [1] right now is only for the interleaved case to handle striping, but
+> > imo it seems a lot cleaner to make FUSE_DEV_IOC_STRIPE_OPEN a generic
+> > interface for handling any backing layout that corresponds to a
+> > backing id, and having the simple extent case go through this same
+> > infrastructure / path. Especially since John's future patches for
+> > adding the interleaving will go through the ioctl, it seems nicer
+> > server-side as well for famfs to have one consolidated path instead of
+> > needing two totally different ones.
+>
+> That's a valid point, but I still feel that those things are different.
+>
+> Striping:
+>   - always static
+>   - size limited by the number of devices
+>
+> Extent map:
+>   - may be static (famfs) or dynamic (general block fs)
+>   - size is unlimited
+>
+> Doing extent maps with an ioctl makes it clunky in the dynamic/unlimited =
+case.
+>
+> > If not the ioctl, what did you have in mind for a generic interface? I
+> > think anything else would have to keep GET_FMAP, but maybe I'm wrong
+> > here.
+>
+> Good question.  A NOTIFY_EXTENT_MAP (similar to Darrick's
+> FUSE_NOTIFY_IOMAP_UPSERT, but multiple extents) would work, I think.
 
-In v9 you disabled integrity check while the steal time is withing the
-threshold, so this condition may stay undetected quite a long.
+This sounds great to me.
 
-Can you add another integrity check here? If you're going to remove
-the last preferred CPU, you need to force-enable some alternative.
-Something like:
+As I understand it, the merge window for 7.3 closes at the end of
+August. Just to summarize, the only things needed to get this into 7.3
+(besides addressing the Sashiko comments) are:
+a) replace FUSE_GET_FMAP with FUSE_NOTIFY_EXTENT_MAP (will also be
+good for famfs in general, saves an extra context switch)
+b) remove FUSE_DEV_IOC_DAXDEV_OPEN and reuse existing
+FUSE_DEV_IOC_BACKING_OPEN (logic for this already supplied in Miklos's
+patch in [1])
+c) remove "config FUSE_FAMFS_DAX"
+d) remove FUSE_DAX_FMAP capability (not 100% sure about this, but
+since the only thing added to the uapi is a new notif type, seems fine
+to exclude this cap flag)
 
-        if (cpumask_nth(1, cpu_preferred_mask) >= nr_cpu_ids) {
-                new_cpu = cpumask_any_andnot_but(cpu_active_mask, cpu_preferred_mask, cpu);
-                if (!WARN_ON(new_cpu >= nr_cpu_ids))
-                        set_cpu_preferred(new_cpu);
-        }
+Is this correct? I think with those changes, all the
+famfs/fmap-specific definitions will be cleared from the uapi.
 
-        set_cpu_preferred(cpu, false);
-                
->  	/*
->  	 * Remove CPU from nohz.idle_cpus_mask to prevent participating in
->  	 * load balancing when not active
-> -- 
-> 2.47.3
+imo these changes seem doable for making the 7.3 merge window. I'm not
+sure how much bandwidth John has though. Maybe one idea that could
+work if John is completely slammed for time right now is having the
+changes requested above be a separate followup series someone else can
+do and then this current series (after the sashiko fixes) and that
+series can get landed together in the same merge window.
+
+>
+> Maybe the striping setup can also be done with a notification.  The
+
+I had interpreted the FUSE_DEV_IOC_STRIPE_OPEN patch as implying that
+the mapping gets forwarded to the kernel through the backing id in the
+open() reply, which I think is how Amir had also interpreted it. I
+didn't like that the striping mappings got sent through an ioctl while
+the simple mappings didn't, but I think maybe the patch was not trying
+to suggest that and I had interpreted it too literally. I like the
+striping setup through an ioctl - I think it makes sense given that it
+is connection-level instead of inode-level.
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-fsdevel/20260529134302.1989958-1-mszeredi=
+@redhat.com/
