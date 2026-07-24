@@ -1,161 +1,196 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EA53AF65C
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 12:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582ED2EEE92
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 13:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784897840; cv=none; b=blvrKDpvcZuORvmuF9tmAp28wHNbt0sOQDfpcSLp2cphhzdtB/l1prwDNxkIgwel0r5XsW82FaIbXZXLODH4+ylpV7wqU868N/GO0CSIxglAGMToHL6B6YwBqUHNbAIIBF2MCnjG385A6JT8O+HxBTUxp+/MJVp8iIzwGOcSNfY=
+	t=1784898940; cv=none; b=NghhNj+q0mFn62XeP4TcB34aaTpS61rEPndnbMkP/O1U6e1nz9uRamjmkGtm8sBRfGYa88avrrZHEfCcDh9K8pMbN0xjq6sfZ0WWHIo/ZXn3UcZ4wCW9oXDwvUb4Kntqchw10A5zWeHKf99/LAS8pdcv+w3GBLFkfI+3enVnOVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784897840; c=relaxed/simple;
-	bh=snYFUZohow9WgXFZId72cWZ66Zk3GR74BxRmaRM39sk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dJyo5l270i+3K2KgSn9f8zXjsu/SYGpcANU31TdOxuT8vfpxXyfNk4ImdiKo7X3ocnBAO+pJCC4cuSJRl6B850i9SZA/djspP8AL7QLiJxxOu889FiSUZHtnVrdX7zti5rLoB+n7zrVRHdgCnxyA76zmQcHhY1b5aK2pZnXgQ00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=dZTc/JJA; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1784898940; c=relaxed/simple;
+	bh=zN02l9wsONJF0xp56emJt602spK7CI9T5fHICpGtv9s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ecGeoZDyh9pMLZXod94bUGiOSG7IJMzU1THtmY7VNqyDXhNCkUv9va5y/ZyTzWUcNdPfklpaGsTAHn79cT6J1PvS4CHgGbK5en/bKlM52QUNjomp5Z3aQrVAB5F9Fjhx/NoWd79jeHeAL23XIfrlh///dPFiyfP/Blobd1hukUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mq9OapMK; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="dZTc/JJA"
-Date: Fri, 24 Jul 2026 20:56:45 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1784897826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ezeiHMunrm4djxNrw25eXLE0xPzRP+oIE62FvftAgxA=;
-	b=dZTc/JJAS3auokPSF00lDACKEq6AhRaLJESgKC+GHzNuJD4erPN4IIXqydJPgHr/fuWZ6m
-	2WQeoN4ta3fLW1LVr5RpoE0J2dv0en+M0RlqdE/+FqWkUiz3LFnP8C63Pjvji/bpdKEcBN
-	km6bnVm6PlHbOU9N53OHcpXu1ASCMCCjIIPGYEsO2CG7IRpyVd/gbIxhv6RpiFYqfFVlmD
-	bLmCcne1OJ6wBrJY+sPWY7++m12h8kXhx4ek/KRgDaqYXnB/W4Y6Rn1MSHOAXz2AQVEFvb
-	VsqZh2SPBwNlgTo+NHPdpnpytxau1w+GofGdJuetllJR5UhuBX8LZKG1caREVw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 16/16] docs/zh_TW: Add a glossary for Traditional Chinese
- translations
-Message-ID: <amNhDDzQk5toZsiF@wyuan.org>
-References: <20260721215542.98435-1-chenyou910331@gmail.com>
- <20260721215542.98435-17-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mq9OapMK"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38e42560ebcso303264a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 06:15:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784898938; x=1785503738; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Lw2GFuJUfu9OTUa+lzPk++Vy8wm0NltxAfjufIsFhwQ=;
+        b=mq9OapMKP1eSM5INulqiNC8x4uS9Eft8L0EM3TpMsI3MT0pNFp1m0hLqeF0KsORlJE
+         dsV79m0xyBkFgz8PtDLByNZw5cuCsL8Bj+WUpcg8gPQE1QIxu4eOQGn2mPIItxQpBXZ9
+         aN+MmH2rXb0rBujkJmn4dgU/+R90hguTTa9SQwKs73LX6yGg9Bj/ZS6qJfJdzVdiE+n6
+         nlhEvFLoDcekoN4j7h8iBqQRG+I4Ekdxrna/3LB+oyklW/xD48Vasvk0oLTTFTkTwWum
+         LEHtrk2y3D1d8Y/4PeFaqEERSBfiEAKKtjCNUyHLpHhW1T/waAz2JiRRebWJpmseZ+cI
+         gi7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784898938; x=1785503738;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Lw2GFuJUfu9OTUa+lzPk++Vy8wm0NltxAfjufIsFhwQ=;
+        b=H277zJVEPmseMCY779/PE1m/OZBWPvIzjt8Lfv2NLC6JEGy8FM6j2X4Y010CJQGzsw
+         I/SOU7IYgXicuGkktf7F71peNh0+KWcSEaqi9A5zl6W+slR1zgGytNQdfXuFVaJ52SbY
+         FsX+kuTctg/XPRQhcQltO9weC8C0CiCrYw265dvj8o5mRDPpNsX7G+bp0WcSG3AqK/aM
+         Rys/1szS05hBulbVcc+dipj00U7E5hnboTWa7oSbYqiFPQciM4G1E6ZZqOEx9Ln+hbOM
+         mO/EDCHY8pLkIZmECfdZ/w7nG8GZYDZemEpjWEpglAxhPHPXzqhUJJyf3anyj7OYeZqt
+         P40g==
+X-Forwarded-Encrypted: i=1; AHgh+Rrhy4DNgC1hvVRv47FNh8HcgGWgWJCzkwqkf+bSpEG+wVyeDuG5yOPQl00o7IdYYe06U5MQQojR4Zw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/Zg6BcOC4DyWgWZwT4c/XGaoedz0Ni599sql3t0MI4XHdvZ6O
+	+XMX7tOx7fG4elIDdRxhzf3rBzX/i6apmpa89tqLtIeis8YphBVTlUcp
+X-Gm-Gg: AR+sD11MtstCUL1bTpuL/AIa6CV+2p3B0UET5qY/ozAVWdg5xKx8DpQATZHPgnKUToK
+	yNtgHs2TN7vsyPegbwVi3crHYcUAKXMNC6aaOMTr/W2XgsexfTQkSNxNU3lmgxONI6B/Ue6VuZv
+	8/tgGfg0H7TXivW5cVkGeNvmuSa5A0jYe8ikwlqqNCbdl6A0lqEolkl+4Ly4k+qA29iK5XCLPZw
+	/SbOYDzCznB9qxWFXEOkknUk99n9YrVa8hUSJKESD9HT2Od6zZ9e2Z7daVwyhdRBBvpLqRoVZgw
+	rXiL2MfgnBtl+XA25E7l1pMKPWT+OZv0IYhAVmKmlHbVxawwIfVRMdNc6CdaHMnfpFB8TDJoWnN
+	18KKgRYaaGecr8xNT0zMgCyEqTkSYNQz0kw/6uZbIH9Lw2w5Pl1FAJSt+hXjF8uRdZ9IbjbjNhC
+	FKMPDgaUHs23JnUvYJEa+GuDWlyB+hquIS/z9OzzfgQTn34SMDVskV22E1Hdqbbw==
+X-Received: by 2002:a17:90b:1dc5:b0:36b:77b9:5c8c with SMTP id 98e67ed59e1d1-38ec651c6d2mr7652113a91.17.1784898937701;
+        Fri, 24 Jul 2026 06:15:37 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d130f55c6sm42746637c88.15.2026.07.24.06.15.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2026 06:15:37 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <668b28b1-875f-4fdd-b367-b09edef95367@roeck-us.net>
+Date: Fri, 24 Jul 2026 06:15:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260721215542.98435-17-chenyou910331@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] hwmon: (pmbus/vt7505) Add driver for Analog
+ Devices MAX16545/MAX16550 and Volterra VT7505
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ "Pradhan, Sanman" <sanman.pradhan@hpe.com>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Sanman Pradhan <psanman@juniper.net>, Georgi Vlaev <gvlaev@juniper.net>,
+ Dhruva Devineni <ddevineni@juniper.net>, Debjit Ghosh <dghosh@juniper.net>,
+ Jawahar Balaji Thirumalaisamy <jawaharb@juniper.net>,
+ Avadhut Naik <avadhutn@juniper.net>,
+ Santhanakrishnan Balraj <sbalraj@juniper.net>, Brian Mak <makb@juniper.net>
+References: <20260723164249.199442-1-sanman.pradhan@hpe.com>
+ <20260723164249.199442-3-sanman.pradhan@hpe.com>
+ <20260724-skink-of-unmistakable-novelty-d97d95@quoll>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260724-skink-of-unmistakable-novelty-d97d95@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 22, 2026 at 05:55:42AM +0800, Chen-Yu Yeh wrote:
-> Add Documentation/translations/zh_TW/glossary.rst documenting the
-> Taiwanese Mandarin terminology used by the zh_TW translations, with
-> the corresponding zh_CN terms for cross reference, plus the character
-> conventions (為/裡/著/才/啟/只/發布). Hook it into the zh_TW index,
-> replacing the existing TODO entry.
+On 7/24/26 02:03, Krzysztof Kozlowski wrote:
+> On Thu, Jul 23, 2026 at 04:43:59PM +0000, Pradhan, Sanman wrote:
+>> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+>> index 080d366809f3..daa4b49bc90f 100644
+>> --- a/drivers/hwmon/pmbus/Makefile
+>> +++ b/drivers/hwmon/pmbus/Makefile
+>> @@ -75,6 +75,7 @@ obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
+>>   obj-$(CONFIG_SENSORS_TPS546D24)	+= tps546d24.o
+>>   obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
+>>   obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
+>> +obj-$(CONFIG_SENSORS_VT7505)	+= vt7505.o
+>>   obj-$(CONFIG_SENSORS_XDP710)	+= xdp710.o
+>>   obj-$(CONFIG_SENSORS_XDP720)	+= xdp720.o
+>>   obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
+>> diff --git a/drivers/hwmon/pmbus/vt7505.c b/drivers/hwmon/pmbus/vt7505.c
+>> new file mode 100644
+>> index 000000000000..a96abf75b1aa
+>> --- /dev/null
+>> +++ b/drivers/hwmon/pmbus/vt7505.c
+>> @@ -0,0 +1,274 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +/*
+>> + * Hardware monitoring driver for Analog Devices MAX16545/MAX16550 and
+>> + * Volterra VT7505 PMBus controllers.
+>> + *
+>> + * SPDX-FileCopyrightText: Copyright Hewlett Packard Enterprise Development LP
 > 
-> This is the reference used by the terminology localization of the
-> zh_TW process/ documents in this series.
-
-Acked-by: Weijie Yuan <wy@wyuan.org>
-
-> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
-> ---
->  Documentation/translations/zh_TW/glossary.rst | 145 ++++++++++++++++++
->  Documentation/translations/zh_TW/index.rst    |   5 +-
->  2 files changed, 148 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/translations/zh_TW/glossary.rst
+> Tag is accepted but discouraged. Use standard copyright header.
 > 
-> diff --git a/Documentation/translations/zh_TW/glossary.rst b/Documentation/translations/zh_TW/glossary.rst
-> new file mode 100644
-> index 000000000000..32cfbfaaef3c
-> --- /dev/null
-> +++ b/Documentation/translations/zh_TW/glossary.rst
-> @@ -0,0 +1,145 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _tw_glossary:
-> +
-> +術語表
-> +======
-> +
-> +:作者: 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
-> +
-> +本術語表列出Linux核心繁體中文（zh_TW）翻譯所使用的術語。zh_TW翻譯以臺灣
-> +慣用的資訊術語為準。新增或更新翻譯時，請依照本表選擇用詞，以維持整個
-> +zh_TW文件樹的一致性；若遇到本表未收錄的術語，歡迎提交補丁補充。
-> +
-> +下表同時列出常見的簡體中文（zh_CN）譯法，方便從zh_CN翻譯轉換或對照時
-> +使用。
-> +
-> +一般術語
-> +--------
-> +
-> +========================  ==========================  ====================
-> +英文                      zh_TW                       zh_CN（對照）
-> +========================  ==========================  ====================
-> +kernel                    核心                        内核
+> ...
+> 
+> 
+>> +#define VT7505_MFR_PEAK_VIN		0xd1
+>> +#define VT7505_MFR_PEAK_IOUT		0xd2
+>> +#define VT7505_MFR_PEAK_PIN		0xd3
+>> +#define VT7505_MFR_PEAK_TEMP		0xd4
+>> +#define VT7505_MFR_CLEAR_PEAKS		0xd5
+>> +#define VT7505_MFR_PEAK_VOUT		0xfd
+>> +
+>> +#define VT7505_RLOAD_DEFAULT		4750
+>> +
+>> +enum chips { max16550, vt7505 };
+> 
+> You must adjust to upstream kernel style and such constants/defines are
 
-Non-blocking note:
+No, you must not.
 
-I started a discussion yesterday in the telegram channel of l10n-tw [1].
-Some friends support "核心", some support "內核". The ratio is
-approximately 50:50 or 60:40. I just leave some opinions here for future
-reference.
+> UPPER CASE (I know there are antipatterns in existing drivers, though).
+> 
 
-* 核心:
+Not in the hardware monitoring subsystem, where the chips enumeration is
+and always has been traditionally lower case.
 
-  Reasons (unmodified):
+Guenter
 
-  1. jserv 開的作業系統課是用「核心」啦...
-
-     https://hackmd.io/@sysprog/linux-concepts
-
-  2. 基本上 core 在核心情境下不會單獨當名詞用，而且歧義看前後文就知道了
-     所以會很多人比較習慣 kernel = 核心 (然後 core 也等於核心 (but as an
-     adjective))
-
-  3. core 亦可作為名詞，如「雙核心」，此時並不會與 kernel 混淆
-
-  4. 作業系統的 kernel 在台灣的書籍翻的還是核心比較多啦
-
-     https://www.tenlong.com.tw/products/9789574935055
-
-
-* 內核:
-
-  Reasons (unmodified):
-
-  1. Shell: 外殼
-     Kernel: 內核
-     Core: 核心
-
-  2. Jserv大建議的是
-     kernel 核心
-     core 核
-     以區分兩者
-
-     不過我個人目前其實比較喜歡「內核」，因為 kernel 和 shell
-     的稱呼大約就來自於內外關係。kernel
-     是作業系統的核心，其他一切都是由核心延伸(?)出去的，shell
-     則是「果仁」外層的「殼」，是使用者與前者互動的介面。另一方面，shell
-     譯作「殼層」在我看來是錯誤地沿用了物理學名詞，不應強調「層」，如果 shell
-     用了「外殼」那 kernel 自然要與之對齊。
-
-  3. 比較沒爭議的就 核心／殼層／核 吧 (* what does this mean..? Can it
-                                                be considered neutral?)
-     有其他意見的人基本上就是自己研究過的，他們能看懂的((
-
----
-
-Because of the context, no matter which translation is used, there is
-actually no problem in understanding this. So there's no need to worry
-too much about this.
-
-Thanks.
