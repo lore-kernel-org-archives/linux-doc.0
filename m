@@ -1,134 +1,321 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972913ACF10;
-	Fri, 24 Jul 2026 10:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79757427F8F
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 10:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784888765; cv=none; b=cr3j+91iXvtKyNfu3M2/D19vEVX0YLKBZSddFT69XVrSE0/Br0h0z8ApHVXNfBrLuKYCEfla6E3ZS5kv8mBn4KSkbxvPYDnwd4g/Xnu9pJQp8IO+0FgT7gpsqf+EzzqISrggK/wQ/l9LkVat8XOc6DwF5vRHpAUMxydAXfqgdlU=
+	t=1784890431; cv=none; b=N1I9hYnCvvuLqppcTVjQuFH8gki113TE2J59GSJMX4ieCACzbxaUVOl762x3fy0kpLoEaFfiSGw2LqyIdw2wGLxWPHPRCk91LMXf8PhVMoOflad3XufqBbshmpot2xn0qK3QVurMlU5FbjMlGKxz71K0iUSKM9yUe0mZmDT5iwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784888765; c=relaxed/simple;
-	bh=22cB3O3ZCEGFjJr7ULZaHoFh3wLz+qZeSXcl9oN/0LI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QAhcP8uwCiIMCU/7gv46CgcU4+d4fxl3t6VqETywdENPpvo6rRjwXBHbbdxJDmq+HrPwsK7GuU78x9Sm53lLrLGJAsZqWXFQUHxxiFvs1z/zeY+1ujcsZEOsR0iCwIirIPMfs33wtV8V+D3NIJo9raYZwz+gdbgi6aICR7uh4Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 0d4399d8874a11f1aa26b74ffac11d73-20260724
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_UNTRUSTED, SN_LOWREP, SN_EXISTED, SPF_NOPASS
-	DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF
-	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:a57fc3df-b1ef-484c-9a4f-339eee21f165,IP:20,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:20
-X-CID-INFO: VERSION:1.3.12,REQID:a57fc3df-b1ef-484c-9a4f-339eee21f165,IP:20,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:20
-X-CID-META: VersionHash:e7bac3a,CLOUDID:545ba8ab6979f2a9ac6337e2f8038a54,BulkI
-	D:26072418255754PFTS93,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|850
-	|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:ni
-	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
-	:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 0d4399d8874a11f1aa26b74ffac11d73-20260724
-X-User: sunshaojie@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <sunshaojie@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1987956803; Fri, 24 Jul 2026 18:25:54 +0800
-From: Shaojie Sun <sunshaojie@kylinos.cn>
-To: tj@kernel.org,
-	skhan@linuxfoundation.org,
-	mkoutny@suse.com,
-	hannes@cmpxchg.org,
-	corbet@lwn.net
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shaojie Sun <sunshaojie@kylinos.cn>
-Subject: [PATCH] Docs/admin-guide/cgroup-v2: document hierarchical cpu.max throttling behavior
-Date: Fri, 24 Jul 2026 18:25:00 +0800
-Message-Id: <20260724102500.276525-1-sunshaojie@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1784890431; c=relaxed/simple;
+	bh=2Id8Lf7l9nSqlQQ3kJj2nmTWJEwu65vgbgq0B4au8sw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=scTmvzrAhqg32juJMv14YqCWsxElPFhlY7Xyk0UAT48+zeVBQCDtsUBwRN8S76eKOdCtk+0miysuNUpamYoWkMe6r353tQdBOp7vKcihWb5qc65Y1j1U7GvH8cQXlvnchm5LIoFn/UNLylOrYSJsHipZT1F4wuho05T0MC4Sss4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q2XKA4pc; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q2XKA4pc"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47f703a9e5dso209895f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 03:53:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1784890428; x=1785495228; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9qGNYqgu45iCzPUDN1sRc/iOGDzLiyCE7X0FhGMvUzY=;
+        b=Q2XKA4pcoFE0/oewMrGycoNNC4PVtJI3YgBQm7O2y+RxaGCYV9Gvkr6ppuUF/C2jTw
+         xJqbhcW5qbSXSEe32kG/Ijo+SNvAsJro3R+zEdv7Ob8FPhDfjA+5BUv4pDglvxxoUOTm
+         A+a6kLKBGYP1PE/wgmBjBmQ3KTQinKigH4wUQjTLaCKouzV8/Ccxy0DLWkFgFCXQlPvv
+         z/roC2b/3ndSZ4qbcmIRZ9w/Vp07rho4xjJ2Bj33s5DMGD2dBQtJmF3EYU9Sctn3oMYT
+         KUehfiKlwEv3nsh9Zx3wshRRZy9HT85pmN00ySfZMlQ4WxvjJIVNSHNPiVt1c/eKsRU0
+         bWtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784890428; x=1785495228;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9qGNYqgu45iCzPUDN1sRc/iOGDzLiyCE7X0FhGMvUzY=;
+        b=poOKLWfGU/jn43rikcOmKcItiTnxFEb59x64xORn1rPuPFKt4S5NDh2yAHWla3bzH7
+         JbiF+GLMveRpBd1JNc56FaXyOPm9kQZeoyvUpmV5OXWPmoiIYHZiYruEgf0oOe0Ub5O4
+         wz8CXlzAXeHfwFH6DHrHqAge91fXKe4Pyew2scu/BL6/VSSo6OWt3Q26KhyFiFQl9edC
+         a3iFlfcDh5A+1PVKhI7+KRHYf+Z4SQIpX482r+rg7ZUEPsnhH9Ijg52CHblsBbOsif2A
+         ehnTmiou95LmMEOJ7UU+Bkc6mNjYMkWYQMwtcy6ZmfnR09iaa61TSrxMQO22oiiTP3kK
+         zAag==
+X-Forwarded-Encrypted: i=1; AHgh+Rqnd6Re2TRFHsl9/tALL9oyEpYKFtkDMax1NMz/FZkb3EXtNzNeoC+llSGlFEZ46I88cxOAh3VmAfw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtWd1NZ9JFBdkTNY4EkyuYmc2SCp6JRu4p+o7nyIsIlxrIscAd
+	cz5PsbenMbTkg4H10DZF5qagYFw3j7/dePIYkfz+rZPaFGe0pBOeGPOrKmmuJ5xrzRI=
+X-Gm-Gg: AR+sD110hnXRBQUU9HP++9/vgDuIhlMsLp4/395d1QXFRxnzDMimSeOsV9HzhQ2thMd
+	P/8unAMA2urBGZNBu4ATMkwwYby//ETrdElL4bc7a//3Cydzs4uPTeKWrWmVa055mRO1i4vdAAF
+	2m2L+5iSdVWkh5LQHaXn7Zip9ViqOhWYRCTI1AI8NKgu3MwzocHnvuj0D47jKsUd0rLlzT5R1RI
+	f6y3Jx9KFu+an3OZ+L+WoJ9HsvuHKstLhPJ3sok475GPUY7CWddYdsg7/Tk+I4mi9xeuMpmL3iz
+	rCUfJ+LVXz/wvTYi0qHsCrNR0mLctbaNUfXLTKnCBJmGoNTvrebRgYCwDu0ge5/LTL9fR9RhXOy
+	uwEoHbYPhR99z/BRrABtDBfn+9JDrEP6mqLLXQ3B+h/2jXXRUMYclTeYPKyDOSzOKjo9QFESud1
+	lI4k4w7WTgtvUKlg==
+X-Received: by 2002:a05:6000:2489:b0:460:3233:beed with SMTP id ffacd0b85a97d-47f8d75ec77mr9286973f8f.41.1784890427609;
+        Fri, 24 Jul 2026 03:53:47 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff24:7210:d8e1:da6c:62ef:6ff9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bb5127sm22309568f8f.10.2026.07.24.03.53.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2026 03:53:47 -0700 (PDT)
+Date: Fri, 24 Jul 2026 12:53:36 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>, dmaengine@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, brgl@kernel.org,
+	sashiko-reviews@lists.linux.dev
+Subject: Re: [PATCH v24 06/14] dmaengine: qcom: bam_dma: add support for BAM
+ locking
+Message-ID: <amNEMK4k54l655ku@linaro.org>
+References: <20260723-qcom-qce-cmd-descr-v24-0-4f87bb4d9938@oss.qualcomm.com>
+ <20260723-qcom-qce-cmd-descr-v24-6-4f87bb4d9938@oss.qualcomm.com>
+ <20260723172814.661591F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260723172814.661591F000E9@smtp.kernel.org>
 
-In a multi-level cgroup hierarchy, each level with cpu.max configured
-maintains independent bandwidth accounting.  Unlike other Limits-type
-controllers such as memory.max and io.max--where only the most
-restrictive limit along the hierarchy applies--cpu.max enforces limits
-at each level independently.  A process can thus be throttled
-simultaneously by multiple levels, and the resulting throttling may
-reflect the combined effect of all of them rather than any single
-level's limit alone.
+On Thu, Jul 23, 2026 at 05:28:13PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 5 potential issue(s) to consider:
+> 
+> New issues:
+> - [High] Calling `queue_work()` inside `bam_start_dma()` when there is exactly 1 slot available creates an infinite busy-loop in softirq context (softlockup).
+> - [High] The transaction completion callback fires before the hardware pipe is actually unlocked, violating the mutual exclusion requirement.
+> - [High] The driver clears the software lock state prematurely, allowing concurrent configuration changes to corrupt in-flight hardware execution.
+> - [Medium] The 'reserved' field of the lock command element is left uninitialized before being synced to the device.
+> 
+> Pre-existing issues:
+> - [Critical] Mismatch between FIFO wrapping modulo and CIRC_SPACE size leads to silent descriptor overwrites and data corruption.
+> --
+> 
+> --- Patch [6]: [PATCH v24 06/14] dmaengine: qcom: bam_dma: add support for BAM locking ---
+> commit bf87fb2cf384d859e1e0efff5d0a48f0cb3ccea2
+> Author: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> 
+> dmaengine: qcom: bam_dma: add support for BAM locking
+> 
+> Add support for BAM pipe locking. To that end: when starting DMA on a TX
+> channel (DMA_MEM_TO_DEV) - prepend the existing queue of issued
+> descriptors with an additional "dummy" command descriptor with the LOCK
+> bit set. Once the transaction is done (no more issued descriptors),
+> issue one more dummy descriptor with the UNLOCK bit.
+> 
+> > diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> > --- a/drivers/dma/qcom/bam_dma.c
+> > +++ b/drivers/dma/qcom/bam_dma.c
+> 
+> [ ... ]
+> 
+> > @@ -676,10 +697,51 @@ static void bam_free_chan(struct dma_chan *chan)
+> >  static int bam_slave_config(struct dma_chan *chan,
+> >  			    struct dma_slave_config *cfg)
+> >  {
+> > +	struct bam_config *peripheral_cfg = cfg->peripheral_config;
+> >  	struct bam_chan *bchan = to_bam_chan(chan);
+> > +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
+> > +
+> > +	if (peripheral_cfg && cfg->peripheral_size != sizeof(*peripheral_cfg))
+> > +		return -EINVAL;
+> >  
+> >  	guard(spinlock_irqsave)(&bchan->vc.lock);
+> >  
+> > +	/*
+> > +	 * This is required to setup the pipe locking and must be done even
+> > +	 * before the first call to bam_start_dma().
+> > +	 */
+> > +	if (bdata->pipe_lock_supported && peripheral_cfg) {
+> > +		if (cfg->direction != DMA_MEM_TO_DEV)
+> > +			return -EINVAL;
+> > +
+> > +		if (bchan->bam_locked)
+> > +			return -EBUSY;
+> > +
+> > +		if (!bchan->lock_ce) {
+> > +			bchan->lock_ce = kmalloc_obj(*bchan->lock_ce, GFP_ATOMIC);
+> 
+> [Severity: Medium]
+> Will this leave the reserved field of the command element uninitialized?
+> 
+> Looking at how this is initialized in include/linux/dma/qcom_bam_dma.h:
+> 
+> static inline void
+> bam_prep_ce_le32(struct bam_cmd_element *bam_ce, u32 addr,
+>                  enum bam_command_type cmd, __le32 data)
+> {
+>         bam_ce->cmd_and_addr =
+>                 cpu_to_le32((addr & 0xffffff) | ((cmd & 0xff) << 24));
+>         bam_ce->data = data;
+>         bam_ce->mask = cpu_to_le32(0xffffffff);
+> }
+> 
+> The reserved field is not set here, and kmalloc_obj() does not zero the
+> memory. Could this map and sync uninitialized kernel heap memory to the DMA
+> hardware?
+> 
 
-This behavior is already documented in the CFS bandwidth control
-documentation (sched-bwc.rst) but was not mentioned in the cgroup-v2
-interface description, which has led to confusion about unexpected
-throttling statistics when cpu.max is configured at multiple levels.
+kzalloc_obj()? This is your bug. :-)
 
-Add a note to the cpu.max interface documentation in cgroup-v2.rst to
-clarify the hierarchical enforcement semantics, and add a label to
-sched-bwc.rst so that it can be cross-referenced.
+> [ ... ]
+> 
+> > @@ -1064,22 +1145,34 @@ static void bam_start_dma(struct bam_chan *bchan)
+> >  
+> >  	lockdep_assert_held(&bchan->vc.lock);
+> >  
+> > -	if (!vd)
+> > +	vd = vchan_next_desc(&bchan->vc);
+> > +	if (IS_BUSY(bchan) || (!vd && !bchan->bam_locked))
+> >  		return;
+> >  
+> >  	ret = pm_runtime_get_sync(bdev->dev);
+> >  	if (ret < 0)
+> >  		return;
+> >  
+> > +	if (!bchan->initialized)
+> > +		bam_chan_init_hw(bchan, container_of(vd, struct bam_async_desc, vd)->dir);
+> > +
+> > +	if (bchan->locking_enabled && !bchan->bam_locked) {
+> > +		/* Defer locking until we also have space for a data descriptor */
+> > +		avail = CIRC_SPACE(bchan->tail, bchan->head, MAX_DESCRIPTORS + 1);
+> 
+> [Severity: Critical]
+> This is a pre-existing issue, but does CIRC_SPACE() calculate the correct
+> available space when bchan->tail wraps at 4095?
+> 
+> MAX_DESCRIPTORS is 4095. Down below in bam_start_dma(), the pointers wrap
+> via:
+> 
+>     bchan->tail += async_desc->xfer_len;
+>     bchan->tail %= MAX_DESCRIPTORS;
+> 
+> Since bchan->tail wraps to 0 after 4094, it never reaches 4095. However,
+> CIRC_SPACE() is called with MAX_DESCRIPTORS + 1 (4096). Because
+> CIRC_SPACE() assumes the pointers wrap at the provided power-of-2 size, when
+> the buffer is full (tail == head), won't it incorrectly evaluate the space as
+> 4095 and cause a massive buffer overrun?
+> 
 
-Signed-off-by: Shaojie Sun <sunshaojie@kylinos.cn>
----
- Documentation/admin-guide/cgroup-v2.rst | 14 ++++++++++++++
- Documentation/scheduler/sched-bwc.rst   |  2 ++
- 2 files changed, 16 insertions(+)
+Ooof, this seems correct to me but we can/should fix this separately
+probably...
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 14b8c571c0d1..3572d3e7f688 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1204,6 +1204,20 @@ will be referred to. All time durations are in microseconds.
- 
- 	This file affects only processes under the fair-class scheduler.
- 
-+	In a multi-level hierarchy, each level with cpu.max configured
-+	maintains independent bandwidth accounting with its own period
-+	timer.  The cgroup's own quota and ancestor quotas are enforced
-+	independently rather than being mutually exclusive: when
-+	multiple levels along the path have cpu.max set, a process is
-+	subject to all of them simultaneously, and the resulting
-+	throttling may reflect the combined effect of multiple levels
-+	rather than any single level's limit alone (this differs from
-+	other Limits-type controllers such as memory.max and io.max,
-+	where the most restrictive limit along the hierarchy is
-+	applied).  See :ref:`Documentation/scheduler/sched-bwc.rst
-+	<sched-bwc>` for a description of the underlying CFS bandwidth
-+	control mechanism and the hierarchical throttling behavior.
-+
-   cpu.max.burst
- 	A read-write single value file which exists on non-root
- 	cgroups.  The default is "0".
-diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-index e881a945c188..97c58739d8cf 100644
---- a/Documentation/scheduler/sched-bwc.rst
-+++ b/Documentation/scheduler/sched-bwc.rst
-@@ -2,6 +2,8 @@
- CFS Bandwidth Control
- =====================
- 
-+.. _sched-bwc:
-+
- .. note::
-    This document only discusses CPU bandwidth control for SCHED_NORMAL.
-    The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.rst
--- 
-2.25.1
+> > +		if (avail < 2) {
+> > +			queue_work(system_bh_highpri_wq, &bdev->work);
+> > +			goto out;
+> > +		}
+> 
+> [Severity: High]
+> Can this early return cause an infinite busy-loop softlockup?
+> 
+> If exactly one slot is available (avail == 1), queue_work() is called and
+> we return. The worker executes bam_dma_work():
+> 
+>     if ((!list_empty(&bchan->vc.desc_issued) || bchan->bam_locked) &&
+>         !IS_BUSY(bchan))
+>         bam_start_dma(bchan);
+> 
+> Since IS_BUSY() only tests for avail == 0, the check passes and
+> bam_start_dma() is immediately called again. It sees avail < 2 again,
+> queues the work again, and returns. Could this loop indefinitely in softirq
+> context until a hardware interrupt eventually fires?
+> 
 
+Yes, the queue_work() doesn't make sense here. We need to wait for the
+BAM to finish processing some descriptors. Once it has notified us about
+that, the IRQ handler will queue_work() it anyway, so you can just drop
+this.
+
+Technically, the avail < 2 check isn't even needed. We could start
+writing the LOCK descriptor and then wait for the BAM to make further
+room for the data descriptors. I just thought it's a bit weird to queue
+LOCK without also adding some data descriptors at the same time.
+
+> [ ... ]
+> 
+> > @@ -1135,11 +1228,24 @@ static void bam_start_dma(struct bam_chan *bchan)
+> >  		if (((avail <= async_desc->xfer_len) || !vd ||
+> >  		     dmaengine_desc_callback_valid(&cb)) &&
+> >  		    !(async_desc->flags & DESC_FLAG_EOT))
+> >  			desc[async_desc->xfer_len - 1].flags |=
+> >  				cpu_to_le16(DESC_FLAG_INT);
+> 
+> [Severity: High]
+> Does this cause the transaction completion callback to fire before the
+> hardware pipe is actually unlocked?
+> 
+> DESC_FLAG_INT is set on the data descriptor here, regardless of whether an
+> UNLOCK descriptor will immediately follow. When the data descriptor completes,
+> an interrupt is generated and process_channel_irqs() completes the cookie:
+> 
+>     if (!async_desc->num_desc)
+>         vchan_cookie_complete(&async_desc->vd);
+> 
+> Could this notify client drivers of transaction completion while the UNLOCK
+> descriptor is still pending in the hardware FIFO, allowing clients to modify
+> state or power down the device prematurely?
+> 
+
+Yes, but the client driver should be only concerned about the completion
+of its own data operations, the lock handling is transparent and
+internal to the BAM driver IMO. "Works as intended."
+
+> [ ... ]
+> 
+> > +	/*
+> > +	 * Close the bracket once there is no more client work queued. The
+> > +	 * UNLOCK is flagged for an interrupt so process_channel_irqs() is
+> > +	 * guaranteed to observe its completion and retire it from the FIFO
+> > +	 * promptly, instead of leaving bchan->head to lag until a later
+> > +	 * bracket's skip-loop catches up with it.
+> > +	 */
+> > +	if (bchan->bam_locked && !vd && !IS_BUSY(bchan)) {
+> > +		bam_fifo_write_lock(bchan, DESC_FLAG_UNLOCK | DESC_FLAG_INT);
+> > +		bchan->bam_locked = false;
+> > +	}
+> 
+> [Severity: High]
+> Is the software lock state cleared too early here?
+> 
+> We synchronously set bchan->bam_locked to false immediately after placing the
+> UNLOCK descriptor into the software FIFO, before the hardware has actually
+> completed the transaction. 
+> 
+> If a client then calls bam_slave_config(), the -EBUSY check for
+> bchan->bam_locked will pass, and the driver might overwrite bchan->lock_ce
+> or configuration registers while the hardware is still busy processing
+> in-flight descriptors. Does this violate the mutual exclusion requirement?
+
+It's true, but I think this can be ignored. That's why I didn't even
+have the -EBUSY check in my diff. bam_start_dma() already re-configures
+the channel in the middle of a transaction (if bchan->reconfigure is
+set), so that one will already make changes to in-progress descriptors
+anyway. It's a bit problematic though that we don't provide a way for
+clients to wait until the unlocking has been completed, so they don't
+have any chance to avoid affecting ongoing unlock operations from their
+side.
+
+Or you just disallow changing the lock_scratchpad_addr once it has been
+set. Whatever. I don't think anyone will ever use multiple different
+addresses there.
+
+Thanks,
+Stephan
