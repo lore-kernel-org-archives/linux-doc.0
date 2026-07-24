@@ -1,227 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11713CF05E;
-	Fri, 24 Jul 2026 09:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F070141D624
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 09:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784883796; cv=none; b=B5dI2noFT0Xn/CRtavfoZTsALkjLSAyOZ31DldW9jCBaUnJkTaR8ORbDL+UI+YgyboNikXWKK0O576q11wE22PMLE+xB5EpJZ5fHq1CnnfrJacQaTAeYFJcbVUaG06+efwQD9AF+7x73OqdsW3cBAnJZ3PX52gG9EkWfnq8pZC0=
+	t=1784886159; cv=none; b=MbeTy5CDAv76J9amYfDfPd2j/pawEVeqiZ5aIgmoMdHcvnochSAy2rd0U1Aj+efJbod0dps5Ht7ZkFoOzpZ+tb6SYUDvFvsbbcdzsdNX/zMwxcy/XdmQL/88ZdNXZBWzHPnhcjI6wBgC5M1bxAgNYt23gSjeszjrHzOtE8uOsnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784883796; c=relaxed/simple;
-	bh=4iHp5BUvxvd5rOy1kSVqeufWDBQIKDZjgGvORm0NC2g=;
+	s=arc-20240116; t=1784886159; c=relaxed/simple;
+	bh=Fem4NKmPKh0GZYq+OrNCXgmFYs9WHmgaj0fgXfzXqwQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cYnuwwh/tO9fTT4GiCBJZ+FaYc/6P+Mkt/5yhlL2ji1M506wb7LzPTJ7vjCkJqPuL1coTO7XwEjSMrIE5cVPlLCaJtFH1Nac0dAnCOeKLtSdiYBKbaCi6trCuYPJJ+ofa9NNVjLT2Id59CuFS4ONQH2qj4O1V6E2SbDx/bTzfDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZxZIaaEn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=LDjdU2ms5hfZd80QRtm3Yj0iSZ3ZutGsW2c6jpIpvEsKoI7EGX+Ag2lmlo8BQ+qE7JEhc9p+OXpQ/LpQqh8LlCyfe5Wp+vRGtNVbuLEbgkjbUduKqab8Hn9fDgdGTTyrNnSYis2nMvSfaV2GaKHKR5ljfEja0vYnEp8rKZ0kqW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bYwnFpMM; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZxZIaaEn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 408611F000E9;
-	Fri, 24 Jul 2026 09:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784883795;
-	bh=9AC1/cLcxBYn/hvPpDe/+BVdWHRTTJ8ogTqb0M5K7Tw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZxZIaaEnw6Mqo8oi092UtXl4sxpnOwucH0+lCvG+PNEMOrX5Fyl33xIKyRnIipaoe
-	 UZmtUsqOg31FCC3QSDW05CmzG5yIrRmxPGHUD4hq7+INSQH7PEyfUj69hEJdjKk/op
-	 M3SOH8NDMnYycheAFAargGOGGmS7+Tpk6IbycIe002461DRZbqUotfpNzZv9XrasGY
-	 51Zr9I6Npr8nO/RAZ/1sOmoif77uZrxGXsFdW57kYoO3kOfxv96woXgqX70IsvzJXE
-	 jTBcGpHU/VXJbuxRQQ/j6q0f4diu1PSWM42HoJ29gS7RsdKl5eRqfI29z8y/4Nm9Tk
-	 YMb4eetPPxJXA==
-Date: Fri, 24 Jul 2026 11:03:10 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
-	"linux@roeck-us.net" <linux@roeck-us.net>, "robh@kernel.org" <robh@kernel.org>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"corbet@lwn.net" <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Sanman Pradhan <psanman@juniper.net>, 
-	Georgi Vlaev <gvlaev@juniper.net>, Dhruva Devineni <ddevineni@juniper.net>, 
-	Debjit Ghosh <dghosh@juniper.net>, Jawahar Balaji Thirumalaisamy <jawaharb@juniper.net>, 
-	Avadhut Naik <avadhutn@juniper.net>, Santhanakrishnan Balraj <sbalraj@juniper.net>, 
-	Brian Mak <makb@juniper.net>
-Subject: Re: [PATCH v2 2/2] hwmon: (pmbus/vt7505) Add driver for Analog
- Devices MAX16545/MAX16550 and Volterra VT7505
-Message-ID: <20260724-skink-of-unmistakable-novelty-d97d95@quoll>
-References: <20260723164249.199442-1-sanman.pradhan@hpe.com>
- <20260723164249.199442-3-sanman.pradhan@hpe.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bYwnFpMM"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49548aebcd8so1876515e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 02:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784886156; x=1785490956; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GkHRoqsr9rnLagU9CdEmJtexYrHBEAG5U3QJpokuk3Q=;
+        b=bYwnFpMMm9pf9SUFpF63yqaePveQgjaAz2alAwuCj5P59s/x4n7FP1KBVHW0GSJKPP
+         R0kwtvs0jwVXt4HjEt1u9KNIIKbyhJuLBsJP3ytIaieyu8MYtR+gavhk5f2ZRMMtW3LT
+         +pe68Lwrqzkwy1u/tI5n2+FfE+H4RyNBBgETRpKTxDg2k4ZrUq7PMSDfIxOg+mTGR0Nm
+         vM1Nhe1O+f/8T1vpUTqdCWU5VKC9FMCK17E0v3zlMgm9jMNz7PCJaxryqif5G/7klbyX
+         hsOewpC73ojbWaopPZ9iQYad5XueWTlnSTPfcin8NdJonl8eyr55X6QHHVkRlgnvM4Dt
+         Nzaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784886156; x=1785490956;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GkHRoqsr9rnLagU9CdEmJtexYrHBEAG5U3QJpokuk3Q=;
+        b=Au6E6c8OQLyULVNTH9hIXaCt6BQMvZXQzMapUwH6HFLy/1eWKoUXRF1v06WfBrPCEc
+         ModkggMsjOS8QNWJjVAsjL5A/bVia/xeqPg1mfK9t2HKT+6wcmZsHgWxT3xRUiwloGG4
+         X7f3DHqnYDPHKIkNY81COClMvbcWbuiyEsB5/Uj1w2nu4cGwCqXB1+T7ybHQwAuSYvHd
+         5BNIX97K5hFiGfP6xr3WodEwWjQbjSz1DPjh6XkP3AnsIQJMlqWTnLNkdEolembinzqJ
+         oZH5Avfh7ZyqcKjdC+tC8JoQ4rhW7q5HvoKLFJaDrxe1tNXmtbAjU0vQME0Yjfquk4gh
+         jRzQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoxNr4KycTufjfeGDg/Bt7rcSs2BidTtYIw9fQ87bwa9VTEN2p6q3GIxPRYYTSOyHwAg3/mz0evHrA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxja1ZiNNX7CaYuQOIDgD5XEI5MHd3RXqqltXSabbCjhq1o9eFQ
+	VSBFr73p9LQiTP/S2KeOv2OfFT+X6kSBun54/2BWM2sXk/rkaZaoOWj84p+Otvnd6kA=
+X-Gm-Gg: AR+sD13uUzkbN7yN5RtjUCxXGmpmgkSbDErKrm/j+D/UO+XIrA24crBltlysNfRtwO0
+	185RNDmcz0o+kxQCE7g7phgtW2UfEiQ5NN5hJqfzQ9cfmWRws+IsoSmvd+kYI4R49G7/6zfnaWk
+	Dk8193VLhpZeCPjAwAZBS5rxue7pDcH0HgeiY80N2KutyUbUfosncrH99RaxVihLqBR59FgXEc6
+	kNyCtwIqAO9bYnXsAtCFceUyiNr5HWSqSFsk6sxLkFejQ85/m+WpPbnpzVfPk2fVak6ssmBxpjm
+	hd1YuKHvLh1BZVh+AE105wHa/YGKfsowMaf8GXmLahthFVClG5CnPPmyzOaVXekb6/1i7U23dnO
+	WiVD9y3evMqc5YxeHRwgj7+6o0cHpcSZAjZoweI5AI+kUXngbTcVeHM1v0yS8FE/PtMdZi7VhFO
+	Y3JkQmsZQPrFYkT2ZZ
+X-Received: by 2002:a05:600c:b99:b0:495:782e:8faf with SMTP id 5b1f17b1804b1-495782e8fbfmr50530555e9.30.1784886156140;
+        Fri, 24 Jul 2026 02:42:36 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957af910besm68475025e9.14.2026.07.24.02.42.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2026 02:42:35 -0700 (PDT)
+Date: Fri, 24 Jul 2026 11:42:34 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH] docs: cgroup-v2: mark memory.pressure and io.pressure as
+ read-write
+Message-ID: <amMzfahYd9Ua9tR1@localhost.localdomain>
+References: <20260724020508.500893-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="w6vmztswp5edcsiz"
 Content-Disposition: inline
-In-Reply-To: <20260723164249.199442-3-sanman.pradhan@hpe.com>
-
-On Thu, Jul 23, 2026 at 04:43:59PM +0000, Pradhan, Sanman wrote:
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index 080d366809f3..daa4b49bc90f 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -75,6 +75,7 @@ obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
->  obj-$(CONFIG_SENSORS_TPS546D24)	+= tps546d24.o
->  obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
->  obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
-> +obj-$(CONFIG_SENSORS_VT7505)	+= vt7505.o
->  obj-$(CONFIG_SENSORS_XDP710)	+= xdp710.o
->  obj-$(CONFIG_SENSORS_XDP720)	+= xdp720.o
->  obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
-> diff --git a/drivers/hwmon/pmbus/vt7505.c b/drivers/hwmon/pmbus/vt7505.c
-> new file mode 100644
-> index 000000000000..a96abf75b1aa
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/vt7505.c
-> @@ -0,0 +1,274 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Hardware monitoring driver for Analog Devices MAX16545/MAX16550 and
-> + * Volterra VT7505 PMBus controllers.
-> + *
-> + * SPDX-FileCopyrightText: Copyright Hewlett Packard Enterprise Development LP
-
-Tag is accepted but discouraged. Use standard copyright header.
-
-...
+In-Reply-To: <20260724020508.500893-1-cui.tao@linux.dev>
 
 
-> +#define VT7505_MFR_PEAK_VIN		0xd1
-> +#define VT7505_MFR_PEAK_IOUT		0xd2
-> +#define VT7505_MFR_PEAK_PIN		0xd3
-> +#define VT7505_MFR_PEAK_TEMP		0xd4
-> +#define VT7505_MFR_CLEAR_PEAKS		0xd5
-> +#define VT7505_MFR_PEAK_VOUT		0xfd
-> +
-> +#define VT7505_RLOAD_DEFAULT		4750
-> +
-> +enum chips { max16550, vt7505 };
+--w6vmztswp5edcsiz
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] docs: cgroup-v2: mark memory.pressure and io.pressure as
+ read-write
+MIME-Version: 1.0
 
-You must adjust to upstream kernel style and such constants/defines are
-UPPER CASE (I know there are antipatterns in existing drivers, though).
+On Fri, Jul 24, 2026 at 10:05:08AM +0800, Tao Cui <cui.tao@linux.dev> wrote:
+> From: Tao Cui <cuitao@kylinos.cn>
+>=20
+> The cgroup-v2 documentation describes memory.pressure and io.pressure as
+> "read-only nested-keyed file", but both files accept trigger writes
+> (cgroup_memory_pressure_write / cgroup_io_pressure_write) and are therefo=
+re
+> read-write. cpu.pressure and irq.pressure are already documented as
+> read-write, so this also resolves an internal inconsistency.
+>=20
+> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +
-> +static int vt7505_read_word_data(struct i2c_client *client, int page,
-> +				 int phase, int reg)
+Reviewed-by: Michal Koutn=FD <mkoutny@suse.com>
 
-...
+--w6vmztswp5edcsiz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +static void vt7505_set_m(int *m, u32 rload)
-> +{
-> +	u64 val = (u64)*m * rload;
-> +
-> +	/* Make sure m fits the s32 type */
-> +	*m = DIV_ROUND_CLOSEST_ULL(val, 1000);
-> +}
-> +
-> +static int vt7505_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct pmbus_driver_info *info;
-> +	enum chips chip;
-> +	u32 rload;
-> +	int ret;
-> +
-> +	chip = (enum chips)(unsigned long)i2c_get_match_data(client);
+-----BEGIN PGP SIGNATURE-----
 
-How does this exactly work for you? One of the values used in match_data
-is 0, so device_get_match_data() returns 0 and you compare it against
-NULL.
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCamMzhhsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AhKwQD+Iy3pcOQIQWlRVtv/FGt3
+cxKmOPUIXg1KfOr3pjnOC/0BAJJDDypJclDoElMGAiW1VrT0ly08e8wrpUmjLsr4
+6kwL
+=3hkW
+-----END PGP SIGNATURE-----
 
-Using 0 as raw number passed to match data was long time discouraged
-because it leads to such cases and in the future encourages bugs.
-
-> +
-> +	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
-> +	if (!info)
-> +		return -ENOMEM;
-> +
-> +	dev->platform_data = &vt7505_pdata;
-> +
-> +	/*
-> +	 * The m coefficient used in the direct-format current and power
-> +	 * calculations depends on RLOAD, the external current-report resistor
-> +	 * connected between the ILOAD pin and ground. Use the default value if
-> +	 * none is specified.
-> +	 */
-> +	if (of_property_read_u32(dev->of_node, "adi,rload-ohms", &rload))
-> +		rload = VT7505_RLOAD_DEFAULT;
-> +
-> +	if (!rload)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "adi,rload-ohms must be non-zero\n");
-> +
-> +	info->pages = 1;
-> +	info->read_word_data = vt7505_read_word_data;
-> +	info->write_word_data = vt7505_write_word_data;
-> +
-> +	info->format[PSC_VOLTAGE_IN] = direct;
-> +	info->format[PSC_VOLTAGE_OUT] = direct;
-> +	info->format[PSC_CURRENT_IN] = direct;
-> +	info->format[PSC_CURRENT_OUT] = direct;
-> +	info->format[PSC_POWER] = direct;
-> +	info->format[PSC_TEMPERATURE] = direct;
-> +
-> +	/*
-> +	 * Direct data format coefficients from the device datasheet ("PMBus
-> +	 * Equation Parameters"). The current and power m coefficients scale
-> +	 * with RLOAD; vt7505_set_m() applies the 1/1000 factor below, giving
-> +	 * m = 3.824 * RLOAD for current and 0.895 * RLOAD for power. The
-> +	 * temperature coefficients are chip specific (see the switch below).
-> +	 */
-> +	info->m[PSC_VOLTAGE_IN] = 7578;
-> +	info->R[PSC_VOLTAGE_IN] = -2;
-> +	info->m[PSC_VOLTAGE_OUT] = 7578;
-> +	info->R[PSC_VOLTAGE_OUT] = -2;
-> +	info->m[PSC_CURRENT_IN] = 3824;
-> +	info->b[PSC_CURRENT_IN] = -4300;
-> +	info->R[PSC_CURRENT_IN] = -3;
-> +	info->m[PSC_CURRENT_OUT] = 3824;
-> +	info->b[PSC_CURRENT_OUT] = -4300;
-> +	info->R[PSC_CURRENT_OUT] = -3;
-> +	info->m[PSC_POWER] = 895;
-> +	info->b[PSC_POWER] = -9100;
-> +	info->R[PSC_POWER] = -2;
-> +
-> +	vt7505_set_m(&info->m[PSC_CURRENT_IN], rload);
-> +	vt7505_set_m(&info->m[PSC_CURRENT_OUT], rload);
-> +	vt7505_set_m(&info->m[PSC_POWER], rload);
-> +
-> +	switch (chip) {
-> +	case max16550:
-> +		info->m[PSC_TEMPERATURE] = 199;
-> +		info->b[PSC_TEMPERATURE] = 7046;
-> +		info->R[PSC_TEMPERATURE] = -2;
-> +		break;
-> +	case vt7505:
-> +		info->m[PSC_TEMPERATURE] = 205;
-> +		info->b[PSC_TEMPERATURE] = 6545;
-> +		info->R[PSC_TEMPERATURE] = -2;
-> +		break;
-> +	default:
-> +		return -ENODEV;
-> +	}
-> +
-> +	info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT |
-> +			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-> +			PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-> +			PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP |
-> +			PMBUS_HAVE_IIN | PMBUS_HAVE_PIN;
-> +
-> +	/*
-> +	 * The severe OCP deglitch filter is programmable on the MAX16550 and
-> +	 * the VT7505, but fixed on the MAX16545. The MAX16545 shares match data
-> +	 * with the VT7505 (its fallback compatible), so identify it by its
-> +	 * compatible string and skip the programming there.
-> +	 */
-> +	if (chip == max16550 ||
-> +	    !of_device_is_compatible(dev->of_node, "adi,max16545")) {
-
-You do not need to compare compatibles. The driver match data must
-define the type.
-
-If it does not, solve that problem instead of placing compatibles in
-multiple places.
-
-Best regards,
-Krzysztof
-
+--w6vmztswp5edcsiz--
