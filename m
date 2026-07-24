@@ -1,157 +1,153 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC2C4412C03;
-	Fri, 24 Jul 2026 12:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3423B3898
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 12:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784894758; cv=none; b=ZqCUHk4Z3lMV9EDWR5cDwVnw4wTc5TGfYk2iZW6RJajmGK/ofaAGru7Wxdkbbe6r2EDBQ+6HbYG3deNcwXuupIQ0kKwmT71RzoSm0djdpMKrbimnyMbLGz4rxpI32K1d9VezBNWESVAfHnauXfZbxzdLvv/Bw8tfi8PJcjFu900=
+	t=1784894905; cv=none; b=ujgfJ5EHGjpeT9C+/Hk7TE8btqCexT4vqPMDy/eJbuFwSK0hrlJ0tJ7AMroQe7AQ06YY6e6bSQqo74KuuJlN534OZp6VBsZn0HNQOdqi2JhScxn8nBZYDDX4F0YR1Ez212AO22ijm0IG8QeUEbknsY3Rpy+8kP6Kn+13VPtL364=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784894758; c=relaxed/simple;
-	bh=H5Q6O3f+4VsLMRu0BEb0Tqa+RIlw9y6bFNPPqXhmkJk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d5+76Y67JO3hU0/XJGkBl/c8vu8tJBoAHfoFAocpiwT+Du2CMZWZl93SxZg3w+sVPf8oyQIvnC9PGfv5HQSGZvZJEjTUMrbD+h1+mfDNVBpVzS9ob0+UY3JPOHtGwA4kmfK7YGBEpbG3fZ5Uu09J0p+3MM1MubPdVLFExiK9gKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=PUQLs5JT; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1784894905; c=relaxed/simple;
+	bh=HYXhXNdtx8MUhunb9bHVTF+TvWV6DXbM54tQhZ91H1E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a0atMEmuERYzh6fAKscyRCoLJLNc+b7p5qdsvN0nZ3bUqZr0nCKbduOhnirZvIkHsrsrmHiRe45oaQU246I2+rYwXD6xXooVntw8XUROTNZIWaE0J2ZDW7G448RGm+n+QmOEV9DHo0SUQ6GTXBdWI8xbaKrzkbgJ3dg63XTuXLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=WQIDADHx; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="PUQLs5JT"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 383361476;
-	Fri, 24 Jul 2026 05:05:50 -0700 (PDT)
-Received: from [10.164.19.44] (unknown [10.164.19.44])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 584453F66F;
-	Fri, 24 Jul 2026 05:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784894754; bh=H5Q6O3f+4VsLMRu0BEb0Tqa+RIlw9y6bFNPPqXhmkJk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PUQLs5JTDwtG4lUIcvJ1bkbL105LXczgPsxaMjjS2Ymbk3kkkkZIjBzs/XZPt+cnI
-	 fBquC+M7+yOr2KGWvreF0z9TayqdV1x3mBRT52lDxro1OxBwvLDz8Qbnp1opXxAQV3
-	 rmdf44dOQKdDUJNK6DUl8Me/jT2gehKOiIBEqPFs=
-Message-ID: <75259d8f-1cdf-43e4-9fa4-9a2954435a96@arm.com>
-Date: Fri, 24 Jul 2026 17:35:44 +0530
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="WQIDADHx"
+Date: Fri, 24 Jul 2026 20:08:05 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1784894897;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DfxH3EKqBwi8E3BaGeGU1LdfsQ+xZg115PDqR5cNdpg=;
+	b=WQIDADHx9XcnlAmvRfOdFFtHDuf4dErsYxJHlDmKWwIGbbCGZWGBmcuAxW0gh49GMFxjn/
+	WXH+g0wwQc2MR1rq/pyAvoTAYwff4vkQ4mxmh0jsdzojxD9FeQzXfmubnDRlhK7DUc3vZJ
+	vvL2BYo+xbSUaaBdUdOvBYr2i9fYnMbY5f2wJcamcC87aPayPdVqbHjDDzBCkqVo/YV9ox
+	UbxbpdCEO9KEWWI1feVedGQ1ELLW5BiJKYTELXmn06gfEFrNKzlvutIvWrZskLkMoQGSkT
+	8YYL+uCHZmFJUf8/jzHbKwtrG4M7KgQGQi92pIUeh73qNUntpvrObZxkHdz+LA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 14/16] docs/zh_TW: process: localize terminology in
+ 8.Conclusion.rst
+Message-ID: <amNVpU-47HOO58Ir@wyuan.org>
+References: <20260721215542.98435-1-chenyou910331@gmail.com>
+ <20260721215542.98435-15-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/5] tools/mm: add a standalone GUP microbenchmark
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- Sarthak Sharma <sarthak.sharma@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Leon Romanovsky <leon@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
- Mark Brown <broonie@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260716123226.197736-1-sarthak.sharma@arm.com>
- <20260716123226.197736-5-sarthak.sharma@arm.com>
- <4665dd2d-99c8-492c-a4cf-b72028317d0b@kernel.org>
-Content-Language: en-US
-From: Dev Jain <dev.jain@arm.com>
-In-Reply-To: <4665dd2d-99c8-492c-a4cf-b72028317d0b@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260721215542.98435-15-chenyou910331@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
+On Wed, Jul 22, 2026 at 05:55:40AM +0800, Chen-Yu Yeh wrote:
+> Localize mainland terms to Taiwanese Mandarin (內核→核心, 代碼→程式碼,
+> 軟件→軟體, ...), normalize character conventions (爲→為, 裏→裡, 啓→啟,
+> 發佈→發布) to match the zh_TW glossary, fix the zh_CN cross-references
+> to zh_TW, and rephrase a few sentences for fluency.
+> 
+> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
 
+Reviewed-by: Weijie Yuan <wy@wyuan.org>
 
-On 21/07/26 7:22 pm, David Hildenbrand (Arm) wrote:
-> On 7/16/26 14:32, Sarthak Sharma wrote:
->> Add a command-line tool for benchmarking get_user_pages fast-path
->> (GUP_FAST), pin_user_pages fast-path (PIN_FAST), and pin_user_pages
->> longterm (PIN_LONGTERM) via the CONFIG_GUP_TEST debugfs interface.
->>
->> When invoked without arguments, gup_bench runs the benchmark subset
->> of configurations covered by run_gup_matrix() in run_vmtests.sh: all
+> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+> ---
 > 
-> To we really need the matrix in there? The matrix was good for selftests, but
-> not when using it as a benchmarking tool, no?
-> 
->> three GUP commands across read/write, private/shared mappings, and a
->> range of page counts, with THP on/off for regular mappings and hugetlb
->> for huge page mappings. Restore HugeTLB settings after each hugetlb
->> benchmark run. Validate numeric command-line arguments instead of
->> relying on atoi().
->>
->> This tool is a mix of reused and new logic. The mapping/setup path comes
->> from selftests/mm/gup_test.c, while the default benchmark matrix matches
->> the benchmark subset of run_gup_matrix() in run_vmtests.sh. The standalone
->> CLI and tools/mm integration are added here and the HugeTLB setup code is
->> shared via tools/lib/mm.
->>
->> Add gup_bench to BUILD_TARGETS and INSTALL_TARGETS in tools/mm/Makefile,
->> link it against the shared tools/lib/mm hugepage helpers, and ignore the
->> resulting binary in tools/mm/.gitignore. While here, also add the
->> missing thp_swap_allocator_test entry to .gitignore.
->>
->> Add tools/mm/gup_bench.c to the GUP entry in MAINTAINERS.
->>
->> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
->> Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
->> ---
->>  MAINTAINERS          |   1 +
->>  tools/mm/.gitignore  |   2 +
->>  tools/mm/Makefile    |  10 +-
->>  tools/mm/gup_bench.c | 482 +++++++++++++++++++++++++++++++++++++++++++
->>  4 files changed, 492 insertions(+), 3 deletions(-)
->>  create mode 100644 tools/mm/gup_bench.c
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 26b06d80ab45..7d121dee9f0f 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -17024,6 +17024,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
->>  F:	mm/gup.c
->>  F:	mm/gup_test.c
->>  F:	mm/gup_test.h
->> +F:	tools/mm/gup_bench.c
->>  F:	tools/testing/selftests/mm/gup_longterm.c
->>  F:	tools/testing/selftests/mm/gup_test.c
->>  
->> diff --git a/tools/mm/.gitignore b/tools/mm/.gitignore
->> index 922879f93fc8..154d740be02e 100644
->> --- a/tools/mm/.gitignore
->> +++ b/tools/mm/.gitignore
->> @@ -2,3 +2,5 @@
->>  slabinfo
->>  page-types
->>  page_owner_sort
->> +thp_swap_allocator_test
-> 
-> ^ Does that belong into this patch?
-> 
->> +gup_bench
-> 
-> I wonder if it makes sense to "git mv" the existing tool (only slightly fixing
-> header inclusion to make it compile), essentially removing the old benchmark.
-> 
-> So it would be
-> 
-> 1) Move tools, fixing up includes and removing the gup testing logic+matrix to
->    make it compile
+> Note for reviewers: this differs from the version Dongliang Mu reviewed
+> in June. Beyond the terminology localization he reviewed, I additionally
+> normalized the character conventions (爲→為, 裏→裡, 啓→啟, 發佈→發布) to
+> match the new zh_TW glossary, changed the zh_CN cross-references to
+> zh_TW, restored the blank line before the LWN index URL (the reviewed
+> version dropped it and broke the RST rendering), and added myself to the
+> proofreader list. The Reviewed-by is kept as the terminology changes it
+> covered are unchanged; happy to drop it if preferred.
 
-I like your idea, it would reduce churn. But is it okay that there will be an
-intermediate state in which gup_test is not there? Wouldn't we call this a
-"regression"?
+Nice reminder!
 
+>  .../zh_TW/process/8.Conclusion.rst            | 51 ++++++++++---------
+>  1 file changed, 26 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+> index d1634421b62c..c95e2d1c7e81 100644
+> --- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
+> +++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+> @@ -11,45 +11,46 @@
+>  
+>   吳想成 Wu XiangCheng <bobwxc@email.cn>
+>   胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+> + 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+>  
+>  .. _tw_development_conclusion:
+>  
+> -更多信息
+> +更多資訊
+>  ========
+>  
+> -關於Linux內核開發和相關主題的信息來源很多。首先是在內核源代碼分發中找到的
+> -文檔目錄。頂級
+> -:ref:`Documentation/translations/zh_CN/process/howto.rst <tw_process_howto>`
+> +關於Linux核心開發和相關主題的資訊來源很多。首先是在核心原始碼分發中找到的
+> +文件目錄。頂級
+> +:ref:`Documentation/translations/zh_TW/process/howto.rst <tw_process_howto>`
+>  文件是一個重要的起點；
+> -:ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <tw_submittingpatches>`
+> -也是所有內核開發人員都應該閱讀的內容。許多內部內核API都是使用kerneldoc機制
+> -記錄的；“make htmldocs”或“make pdfdocs”可用於以HTML或PDF格式生成這些文檔
+> -（儘管某些發行版提供的tex版本會遇到內部限制，無法正確處理文檔）。
+> +:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+> +也是所有核心開發人員都應該閱讀的內容。許多內部核心API都是使用kerneldoc機制
+> +記錄的；“make htmldocs”或“make pdfdocs”可用於以HTML或PDF格式產生這些文件
+> +（儘管某些發行版提供的tex版本會遇到內部限制，無法正確處理文件）。
+>  
+> -不同的網站在各個細節層次上討論內核開發。本文作者想謙虛地建議用 https://lwn.net/
+> -作爲來源；有關許多特定內核主題的信息可以通過以下網址的 LWN 內核索引找到：
+> +不同的網站在各個細節層次上討論核心開發。本文作者想謙虛地建議用 https://lwn.net/
+> +作為來源；有關許多特定核心主題的資訊可以透過以下網址的 LWN 核心索引找到：
+>  
+>    http://lwn.net/kernel/index/
 
-> 
-> 2) Extend tool by XYZ
-> 
-> 3) Add completely new selftest
-> 
-> Because looking at patch #5, there is not really any code reuse there, but I
-> suspect there should be some in this patch here when moving instead of copying.
-> 
-> That would make this a lot easier to review.
-> 
+Note: have changed to https://lwn.net/Kernel/Index/ (uppercased first
+letter)
 
+(I'm not familiar with how LWN works, so later I will check the
+availability of these urls manually ;-)
+
+> -除此之外，內核開發人員的一個寶貴資源是：
+> +除此之外，核心開發人員的一個寶貴資源是：
+>  
+>    https://kernelnewbies.org/
+>  
+> -當然，也不應該忘記 https://kernel.org/ ，這是內核發佈信息的最終位置。
+> +當然，也不應該忘記 https://kernel.org/ ，這是核心發布資訊的最終位置。
+>  
+> -關於內核開發有很多書：
+> +關於核心開發有很多書：
+>  
+>    《Linux設備驅動程序》第三版（Jonathan Corbet、Alessandro Rubini和Greg Kroah Hartman）
+>    線上版本在 http://lwn.net/kernel/ldd3/
+
+http://lwn.net/kernel/ldd3/ or https://lwn.net/kernel/ldd3/ returns 404
+(for me?)
+
+In English version, they have changed to https (and uppercased), which
+is:
+
+  https://lwn.net/Kernel/LDD3/
+
+Just leave a note here, because this patch doesn't mean to sync with
+English original at all.
+
+Thanks.
