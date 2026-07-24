@@ -1,75 +1,174 @@
-Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D2741D655;
-	Fri, 24 Jul 2026 10:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DAD421223
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 10:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784888306; cv=none; b=p660A8kOkjH6FE5pLoeSLnoP7JRLK9tTI5yuy3QpC0fLdBP7oL3quA80kH8y9iDCoxuDSwUO6CAFFeJkqpkl8MeE7dzh6pHFOUeh+GcHLOdrWh7KyNlPYFfRSg/0mr8Pl9taxSy2Vy8l7vrW7EtBQelcaH/uTwf31QwAXwPaqgs=
+	t=1784888462; cv=none; b=KtKNUBOyb8mSjReBIoNqX3D5BD0KEv7c3n25uRg/Cr8AIPczvV6qoTRZ3eMvnCauyEAyyVFFNBLeGmTjolP9T3qBvVNUfclKhSmB3N7T1cgmqr4Da3E3BxYXvAhQ9ZvHxd2qsq6EXjCBYxFseYwbxa/3NUCg17NwYnmbH1QnaDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784888306; c=relaxed/simple;
-	bh=lPA//hbqzJYrhAR8Hk3zbd8nOl7egPXF9z0Rp6xotCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ri4jCO5AYhSsaSOJzavuH60mbuDDX1TqydyEUjLkuTdGPzbK2m4yHXDt/P+UN5dSXd3ph5JPMzzbHorJQgkBfdL0y1CE59SydKbGi8ldKsNmWfnUjnGCC7yxNuKrJ8D/j5PAOtVMS4gK+7LnlencVgz/Hq3b8uAc0rqs4fNEMPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=E7mpIYjH; arc=none smtp.client-ip=212.27.42.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+	s=arc-20240116; t=1784888462; c=relaxed/simple;
+	bh=A1tjyn8+UTrbbvmvprs57qwDcN/f/0G+E1vNReNaUFc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DIeY5jnlmn5JmS3TFMiutq9+amcChdb0daki7PFyRpLAx5uzXrj4wWo3FYwwjQXvc3t9xeVYVZ0AiA1yWbSSZKUgM8Vl0orIlLF4iLIsoFUTAgKFxD1CBatkcutF4GUDKtrrjxLqxI14+vq6Ht5fe0G8BF64YwoWAN5QEjjT8qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sXksBIxQ; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="E7mpIYjH"
-Received: from L30177.local (unknown [213.36.7.12])
-	(Authenticated sender: vjardin@free.fr)
-	by smtp6-g21.free.fr (Postfix) with ESMTPSA id 1AE40780372;
-	Fri, 24 Jul 2026 12:18:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1784888300;
-	bh=lPA//hbqzJYrhAR8Hk3zbd8nOl7egPXF9z0Rp6xotCQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E7mpIYjH3NF1fJkmPep2XSQRs1Wh8UYlHvK1sNM0MZWKw/nvfnlHaeteyVNN91q+q
-	 fNj5+zlf87lgEpCijSMKCCtyN7n2EfRKRyND2tphONAhC75Acxpc4+Hqz0KJHTkmkm
-	 tnnBs951TzotQB5C/o/FtCo5Epp2cJhrMO9m2dGAngQ4I3/4efzcSjHHg5ZiUTO+W+
-	 GE0nF/YMK/kQYd4dE69mxv8Qln0lRO7KLZO6UIvdpyDDDHexecgxP2biJcX5i9GNH8
-	 I1MZ98K6urGrf2n+d3ZoXZOKA3ijX0n+1eblEo1prBtBOWv86RtwuJYQd0HK3xkx4B
-	 D5z7j4F2ZwVnw==
-Date: Fri, 24 Jul 2026 12:18:08 +0200
-From: Vincent Jardin <vjardin@free.fr>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] hwmon: pmbus: add MPQ8646 driver
-Message-ID: <amM74M7myX2tJXMQ@L30177.local>
-References: <20260724-mpq8646_v0-v5-0-5915b5ae9aa2@free.fr>
- <20260724-mpq8646_v0-v5-3-5915b5ae9aa2@free.fr>
- <6abbdabe-91ec-4757-a646-8b2b2d4058d3@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sXksBIxQ"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ccf2360620so2491055ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 03:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784888461; x=1785493261; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OHv4nBZUAA4QHT3/Nk9dUVsgZ03YSj5oD2kL/0soAWU=;
+        b=sXksBIxQwaosZqAtvueCaqkvIckrU8lpTWKG7tmrerNG9BDKD9YFNlvOAaq+iYMIS0
+         bcdaBY6LhU+t+cYtEncexxVGNbdE2YpT/czR7dx3gC2+rj29juQTT0doGEat+Wh4Gp6L
+         B8xEwBCanvlwi4Wt3XibwDJul6t6RGjM4HvCiTYw/QcK1wAcWkcjzlkwTUhwc+wnoSLp
+         icRqXxNLVnUty8qCCCNFW696fztYxOc3Kyu6xnUMdcP/xlvmQxdYBn3Qn3zVeoIHxbKN
+         PFAjLv0fkUeOkCJ2SWHjA0zNtXrttolIA7uyf1hEP4Krb4JqgOb9t3tXG8e2nHL8TYRE
+         ahZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784888461; x=1785493261;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OHv4nBZUAA4QHT3/Nk9dUVsgZ03YSj5oD2kL/0soAWU=;
+        b=V53om+ZNJY+DJiyzmw9K8EArnoB7PEs4a7IWhMnXuP6PRHzHnruUQnvDSjZ+ZqovOd
+         n3WV87OGP7CDKrhXsSYuoA0GthYfap3n921C0SrUJkQtKFwasPejbzT4kW/WnikeDbSy
+         57cDJmCKhVIiXb0OaPINwAnnArDiEERZB6uQM/527DefJTRUXuP0rgQMio7176xqWqrh
+         VBSvg7WU1Hxm4uqg/abJHI2Kxu4DcGSBR65SyDhXZxfhjqqifbHlJQKgql9cP9lGESGh
+         TAU1N6Bb8tGTKrzlnaK2rP6P8RhtruH82nfxj1VH1p7vY995ww/Ehwh3Dez0WncPmyqx
+         EjLA==
+X-Forwarded-Encrypted: i=1; AHgh+RpYO3oDIvtqpdkJsLojb1avvBotPXIrQ7t4eBEl84wHgYpBfORaOTRVAvIm/lQT3KByyPQkw21tjso=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaCN8zv/o9nozx62TsBeszYhlrdtEm2SO4xoQtOMWB0wgyELil
+	Vu41qiJlcESRambvxJj0KR1AKn/6Zw7iX5iKvKO0waYY/ah5/PzE1s1T
+X-Gm-Gg: AR+sD12OUWblqs/jZczaseS10q8SkARH3glOuvyn6E/1I1WgtZ0RGLGZx0yrpSn/4dC
+	tfxDyytLVrRLzQhO00HfPLFyrvq63hlaQzkSpL2H0cbF5BvPKSYLcaxzqi0KcIpopMuvb+hLCr6
+	0AKwsaShQXprT9MZ6nnCUc5axJUDsCQCP32Y/bvttfatQL1L/CY2jjX3+ytrD+OSiaxAJRyiAR4
+	v4QsPI48WIAenRxv/9BbdO1V6S84PP2fhtLzogs+ISDklWBaUdafJogCwYVKUNg7Pco5WGgzRQW
+	UJSSNdPrrwTf7xdgumwZ1r7d54lJkRVnELWo1OVAs9edwoVLy3kAWF3KjVO7WFubQQrFbR2amVw
+	sII89xN17Eg4DDtWOEOlAwob8AFko/WjgKdB+CIDxYPwFrqui59vbD35mikMzSO3Nk0ki/jLWo5
+	nYt5lwQ08/RKQde+YFEgpr2w==
+X-Received: by 2002:a17:903:2f88:b0:2cf:bf32:b754 with SMTP id d9443c01a7336-2cfbf32bf7amr33103845ad.8.1784888460802;
+        Fri, 24 Jul 2026 03:21:00 -0700 (PDT)
+Received: from [10.125.192.96] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efa2cd0sm48812475ad.4.2026.07.24.03.20.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2026 03:21:00 -0700 (PDT)
+Message-ID: <d8de419d-0077-c47c-a5f1-37c229a853ed@gmail.com>
+Date: Fri, 24 Jul 2026 18:20:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6abbdabe-91ec-4757-a646-8b2b2d4058d3@roeck-us.net>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in
+ shrink_memcg()
+To: Yosry Ahmed <yosry@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>
+Cc: akpm@linux-foundation.org, tj@kernel.org, shakeel.butt@linux.dev,
+ mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com,
+ chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
+ <20260717085151.22822-3-jiahao.kernel@gmail.com>
+ <amF7_GB5Rl6OJmt4@cmpxchg.org>
+ <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com>
+ <amIdU1lFxqxTI3Gc@cmpxchg.org>
+ <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Guenter,
 
-> > +	for (i = 0; i < ARRAY_SIZE(mpq8646_alarm_map); i++) {
-> > +		if (newly_set & mpq8646_alarm_map[i].mask)
-> > +			hwmon_notify_event(priv->hwmon_dev,
-> > +					   mpq8646_alarm_map[i].type,
-> > +					   mpq8646_alarm_map[i].attr,
-> > +					   mpq8646_alarm_map[i].channel);
+
+On 2026/7/24 00:39, Yosry Ahmed wrote:
+> On Thu, Jul 23, 2026 at 6:55 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>>
+>> On Wed, Jul 22, 2026 at 09:52:18PM -0700, Yosry Ahmed wrote:
+>>> On Wed, Jul 22, 2026 at 7:27 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>>>>
+>>>> On Fri, Jul 17, 2026 at 04:51:51PM +0800, Hao Jia wrote:
+>>>>> @@ -1369,7 +1402,7 @@ static void shrink_worker(struct work_struct *w)
+>>>>>                        goto resched;
+>>>>>                }
+>>>>>
+>>>>> -             ret = shrink_memcg(memcg);
+>>>>> +             ret = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
+>>>>>                /* drop the extra reference */
+>>>>>                mem_cgroup_put(memcg);
+>>>>>
+>>>>> @@ -1493,7 +1526,7 @@ bool zswap_store(struct folio *folio)
+>>>>>        objcg = get_obj_cgroup_from_folio(folio);
+>>>>>        if (objcg && !obj_cgroup_may_zswap(objcg)) {
+>>>>>                memcg = get_mem_cgroup_from_objcg(objcg);
+>>>>> -             if (shrink_memcg(memcg)) {
+>>>>> +             if (shrink_memcg(memcg, 1)) {
+>>>>
+>>>> Why 64 for the global limit but only 1 for the cgroup limit? That
+>>>> seems arbitrary in multiple ways.
+>>>
+>>> I suggested that we keep the writeback here without batching and do
+>>> that change separately, mainly out of abundance of caution as
+>>> writeback is done synchronously here so the extra latency could be
+>>> problematic. I think we probably want to measure the performance
+>>> impact of that separately.
+>>>
+>>> That being said, this path is potentially too expensive anyway due to
+>>> the flush, but I would rather we do some basic measurements before
+>>> batching here.
+>>>
+>>> What do you think?
+>>
+>> It's not an unknown, right? We know this works for direct reclaimers,
+>> cgroup limit reclaim e.g., and what the latency implications are.
+>>
+>> Because of how reclaim works, we also know it'll call zswap_store() in
+>> batches of SWAP_CLUSTER_MAX. If we don't batch here, they're likely to
+>> each call shrink_memcg() once we're at the limit - while still risking
+>> rejections due to compressibility differences.
+>>
+>> My worry is that if we start with an inconsistency, we'll be stuck
+>> with it for a long time.
+>>
+>> I'd rather start with the clean, consistent version. Dial it back only
+>> if we have data to justfiy the complication that we can put into a
+>> comment and the changelog that outlines why exactly it's different.
 > 
-> This is wrong. This will require a new exported notification function
-> in pmbus code.
+> I am fine with doing that and basically always using NR_ZSWAP_WB_BATCH
+> as the batch size in shrink_memcg(), but I would be more comfortable
+> if we did some sanity testing.
+> 
+> Hao, would you be able to do some smoke testing with NR_ZSWAP_WB_BATCH
+> used for all paths, and memory.zswap.max set in a way that induces
+> writeback? You can probably set memory.zswap.max to 1% of total memory
+> instead of the global pool limit and rerun the same test.
 
-OK, next, I'll try to factor the body of pmbus_fault_handler() into
-an exported helper, something like pmbus_check_and_notify_faults(client).
+Building on Test Case 2, I set zswap.max=320M (~1% of total system 
+memory) and updated both invocation paths of shrink_memcg() to process 
+batches of 32 or 64. The resulting benchmark data is shown below.
+(Note: Test Case 2 also sets max_pool_percent=1.)
 
-It should help to revisit it.
+                       baseline-cgroup   batch-all-32-cgroup 
+batch-all-64-cgroup
+shrink_worker wakeups        7,238             766               367
+shrink_memcg calls      12,059,142       1,961,194           983,878
+written_back                28,277         301,157           327,997
+zswap_store calls         1,349,572       1,168,190         1,114,549
+   store succeeded            492,861         521,315           459,246
+   store rejected             856,712         646,875           655,303
+   store reject rate            ~63%           ~55%              ~58%
+pool_limit_hit              510,130          50,096            57,715
+pswpout                     884,989         948,032           983,300
+pswpin                    1,251,268       1,638,668         1,878,453
 
-Best regards,
-  Vincent
+Thanks,
+Hao
