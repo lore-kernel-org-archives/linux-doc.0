@@ -1,125 +1,194 @@
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D783EE1DC
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 21:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208D03B47DC
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 21:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784927968; cv=none; b=AAlhan3ODWCM/7gFOW2ee9wUCpQhpJ5aDIFxcyw3cll6hn7hYRtUIUwuCge/ymXr5H/MNHHp1gHSmC32OsC83IPG9nb5mVutrJRofEivAKah9VhOQm+qHrEnrSy2go+UVWpRSOEKCxoK1VGnWmIVRpdpVTnek5ZTdiaVV0VE+rQ=
+	t=1784928335; cv=none; b=Tu1f7SrgzzjPqmLm3UsB1mHVk+03ZZPp9f0nydeEbSU6ryq7TLCCB0rJRtzDeUXgbTMHS7eMOhU2xzp+Td2tmVe6T9rD+rRUSfms3FRzA1IcSqh4YpDFnWQCgPTVlujbqmVWwi1GW2iVl0YNlTgo65hvpeNWPpir/I7X3kJTPHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784927968; c=relaxed/simple;
-	bh=WXSYejeR0VIG/9UGkj4OAcz8AzDp1h9wj77h/FvfddM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GXGnG1HIh14skg31giTx23GX+RMWmVajSPkRQPwr45oqIFifLMrqm+Y4raD+d1A0MkFW1KJ9umKdCCAdYX5ZEWaNB1dvmLsGrDgQrwB/Z7jmUbeOLMwMYhkh/NFas1on5IftY4nrY2Wgbq13TDY2pA/+Pfn01BsavkaFI5gGy9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RxFPQ1jy; arc=none smtp.client-ip=209.85.210.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1784928335; c=relaxed/simple;
+	bh=Iaoxk46tvSh8+Ny6bGv5Jc0llkY7SsZnVR3a5Mw2F+o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s1h1G2D2BHI+x2WDtzspC1lJwxRXZM6ryX05GfyXH8QppT5M6CeFjA8jrtbB5GZwTCNYKH1tJ06n5VGS5G5JyRPED+MgOqXzcacJhBK3YBJGX4ELj6Imfaws/dIieZayBus8nYTwCbyYZBNXEax6pAf1XSb4Kll6dWBkKON4tRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J9g69ZIB; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RxFPQ1jy"
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-848544a8496so873887b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 14:19:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J9g69ZIB"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c9e607d81fcso628073a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 14:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784927964; x=1785532764; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784928333; x=1785533133; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=676jeBy0EAQIqzdr2xZT677bczXPwQb8CdOlVs2oUJg=;
-        b=RxFPQ1jykx93mSdJgFhrbb8fCipbriJMA131WUmjhSEpem9Cu9M7eSqX2CNdCtXgiI
-         /mo+R6CvOWq9ema87ASHwBrgd/03bG8f2/WpqY7LiGbdHfPFYNr8A9nQOWWAZMRx7yyi
-         DKbHdRORpQgo9JrBiCY3h1y9Lb8MUWOoEmIk401yilEI1ncGfSdl7lBO8GT6kasJBvmw
-         HU2hu9I/PqbqrV6vPPXXq4uTvhRo8u+j00v6kJQxmvEHA6KhEZeKWJbrNozTc9aCbIAI
-         t1fpTqbwi8Hu2fLPCQMxVtAL+sfF2aRAn0QvFvDVrAKcpl00KIP+QG64BHEnoX5acMAB
-         n4Qw==
+        bh=bHn4RRq87Wsfa+wmQLY9ofTV9/may/6+/3F978R2CLM=;
+        b=J9g69ZIB1J5URvJlBwwOrbB/XZitLpfxJCE0LQMdg/PxCcAoCc+kwLxh54qg5Uo6ui
+         VgQZv+cHB74Ug7xgJp7boBQDlqG9A3pyEgvQejFxcfzrOVE+PEjp2xQ4+I+fmF5kess4
+         2LXEn71HHZVI2Xi7RJAQrRojFRKATSOAi28hmhd5QVgUhflcKQ5wDRVTjEw1r+1+uz0W
+         rwTocwlxlZ3gm889h9f4ZB/DFiFjlFuZ8jB1gHmeS+6sg3ym0Paqc7BSptDsLIWDHrdN
+         qh0fI2NErfQ99Npv6WcJLLXKcW+CgijReUJ6zhT/FNe4ai5Rj7I6ZtjjlEQksU7AtTwn
+         z7iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784927964; x=1785532764;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=676jeBy0EAQIqzdr2xZT677bczXPwQb8CdOlVs2oUJg=;
-        b=IKrrFm4n/B2sOhQ1Tj8DlY5lLrL1VC23W/5KaRsk5/6BwOn1dYMtwRH2WCpAcepmad
-         irbBVvPO5zUiL8VcwtUdTb7qyO/IRiFFwZ3lvGTOYkQGM99LQBLQS7fEdLxex919BJ0f
-         1J4zWu5nPYcmFj5CIoYgI/cmg8e5W+1xZaQOu3HbSfhpx/n/zBXVLoRxcWEn75uE2Thv
-         OfA1YxX476xfKJFshZxEgFmFkOowm8i3MbeTaGAvO9wtlmJ0cZVk9CyZbYUuyw6+fdAe
-         XlTte4Nkkn7QAsK4exCpSLFHrK3UwClgZYn9yLDQ1b9Eh42u04GOaG8W3Rvf2JEOrU7R
-         lYiQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqyaueay/12Rwr1+NWNwqZpxBS0sZKsPwTBILt08M3Np4ququQcrsZbpMCxYZbp9YXj/aoO7KaPwkU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/cmTEgwoLhdMyySmclItCN38z/Sppmrj/izVtPr6IvONPszvg
-	kfnZPqThq7XWp0kIEwzo58r7B2o+NNzFuTFnApoF0Na85v+LurhBM8TI1nQOgzgc1F+H1blkdkZ
-	GwIN8Aw==
-X-Received: from pgbf36.prod.google.com ([2002:a63:5124:0:b0:c99:aff5:708e])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:a8e:b0:3c0:9c19:b275
- with SMTP id adf61e73a8af0-3c67e027041mr22595637.67.1784927958810; Fri, 24
- Jul 2026 14:19:18 -0700 (PDT)
-Date: Fri, 24 Jul 2026 14:19:17 -0700
-In-Reply-To: <20260703212145.343527-9-dwmw2@infradead.org>
+        d=1e100.net; s=20251104; t=1784928333; x=1785533133;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=bHn4RRq87Wsfa+wmQLY9ofTV9/may/6+/3F978R2CLM=;
+        b=H8KiwFgJP/E7+xntovjGVNLd48LnX9H+LYoOZ0iQc00JHfLE+DITrALQ+NF+fstj25
+         Q8G+RAyYDXVZ1RB1mPsg7H4tMjBCdKxV91LN4VyALhcjvG5PexLqUTi9jC2ZRxDwCOC5
+         DDXTbjPPQpz8PkkCSnVvDTLRFVpy0lXo8UqkKHMxyc7rAaExLPrfTnnpoUlhOGjHbpJk
+         cYPq76/8APSGFdwEl7HYVQQEpYRl5jLqbcuKz7qwcwR/6W0kkJngijFdEmmQRUkOlT7k
+         EPAZ9fgXFLJM930Cz1fbXVdJiqASUJtZ9jJdmCZ1rOEgXk7WiUH97LQUGltfXtvCo33B
+         QMQQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqzIqtj0+camFb6Juy2TKC3NdD5XV2PXfXTTqqkfLsd0QmvwTGRTsCv6q4Q2UWJg4b//+1DC50MAPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yydty2iHVhvDH7/dytExHxrJtwR8WWl5ey85MDJwZtSKpdkArSq
+	Mft2b6ULWxUW+VVUS0hk1Zh2ZGlkM5J+re3fYfoDBj6vlOZWqTepJ+4E
+X-Gm-Gg: AR+sD10fTcjcfAgHzjnuqtj0Fl+mocp1a+uu3SLMOso4i9eX7kHZDbLpBYcLJ611WiG
+	A/ReVtkErZrWjo3eDL2tKboZai3kiihT14MKtKHu52lAFEmO94dsYqMxcDGjqTz2uAzPaUYg90E
+	+fB9/BzRbZxO9SN2duOuIIaRRt7o8KUf/bnsjrh1XCGJxG0hbVeZXHN0JpO8M4BAWGKgcKUIr3z
+	g9Nfj5BkXhXRDxCtWlxiPvZoGxlq4nC+mXZpMhiiSqhkaMz0vv4xcfKgu6hwYgFeQUcr8XzidXW
+	/ZofPe/rOsAd1rPhcrXJsG/S4oakc1NSRI7ryk+V18xd1yS0F50L2fQ6GZOKDhJ2ppR5x8U3mgx
+	/eZ1GEr3lcAE1QumcX7vmqiLDi3oG8TBvf5xh9iMzCAzyoaVLzRExCCpKh0IIC+e1PtMl/kCIUd
+	SFbUgmbYUnwdJzAG1WmDD0B+ulu7g1AI2rhxprSVx0G+lWB+5f7wY=
+X-Received: by 2002:a05:6a21:389:b0:3c3:7cd0:fc27 with SMTP id adf61e73a8af0-3c67d9b3dddmr67804637.3.1784928333394;
+        Fri, 24 Jul 2026 14:25:33 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc3e1255sm3933937eec.4.2026.07.24.14.25.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2026 14:25:32 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f826634e-5613-4368-b23b-fabcdf2830f9@roeck-us.net>
+Date: Fri, 24 Jul 2026 14:25:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260703212145.343527-1-dwmw2@infradead.org> <20260703212145.343527-9-dwmw2@infradead.org>
-Message-ID: <amPW1eAPpUuxLoj_@google.com>
-Subject: Re: [PATCH v6 08/36] KVM: x86: Activate master clock immediately on
- vCPU creation
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] hwmon: (pmbus/vt7505) Add driver for Analog
+ Devices MAX16545/MAX16550 and Volterra VT7505
+To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "krzk@kernel.org" <krzk@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, "corbet@lwn.net"
+ <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Sanman Pradhan <psanman@juniper.net>, Debjit Ghosh <dghosh@juniper.net>,
+ Jawahar Balaji Thirumalaisamy <jawaharb@juniper.net>,
+ Santhanakrishnan Balraj <sbalraj@juniper.net>, Brian Mak <makb@juniper.net>
+References: <20260724164919.247162-1-sanman.pradhan@hpe.com>
+ <20260724164919.247162-3-sanman.pradhan@hpe.com>
+ <acd92cd2-ec1d-447e-9e80-35ec5289fd0f@roeck-us.net>
+ <20260724194229.261194-1-sanman.pradhan@hpe.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260724194229.261194-1-sanman.pradhan@hpe.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 03, 2026, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On 7/24/26 12:42, Pradhan, Sanman wrote:
+> From: Sanman Pradhan <psanman@juniper.net>
 > 
-> Previously, the master clock was only activated when the first vCPU
-> processed KVM_REQ_MASTERCLOCK_UPDATE during KVM_RUN. This meant that
-> KVM_GET_CLOCK could not return the host_tsc field until after the
-> first KVM_RUN, making it impossible for userspace to follow the
-> documented TSC migration procedure without a dummy vCPU run.
+> On Fri, Jul 24, 2026 at 10:53:36 -0700, Guenter Roeck wrote:
+>> I get delivery errors for the following addresses.
+>>       ddevineni@juniper.net
+>>       gvlaev@juniper.net
+>>       avadhutn@juniper.net
+>>
+>> meaning they are quite obviously _not_ involved in the patch approval
+>> path. Please drop those addresses. Also, per
+>> Documentation/process/submitting-patches.rst:
+>>
+>>    Any further SoBs (Signed-off-by:'s) following the author's SoB are
+>>    from people handling and transporting the patch, but were not
+>>    involved in its development. SoB chains should reflect the **real**
+>>    route a patch took as it was propagated to the maintainers and
+>>    ultimately to Linus, with the first SoB entry signalling primary
+>>    authorship of a single author.
+>>
+>> Does the above SoB sequence really reflect the approval patch for this
+>> patch ?
 > 
-> Fix this by calling kvm_update_masterclock() directly from
-> kvm_arch_vcpu_postcreate(), after kvm_synchronize_tsc() has already
-> set all_vcpus_matched_freq. This ensures the master clock is active
-> immediately, and KVM_GET_CLOCK returns a valid {host_tsc, realtime}
-> pair as soon as a vCPU exists.
+> Thank you for the review.
 > 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->  arch/x86/kvm/x86.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Just to clarify the sign-off history, this driver consolidates work
+> from several internal commits developed by multiple contributors over a
+> number of years. Each Signed-off-by line was carried over from the
+> contributor's original commit, where they signed off on their own work
+> I did not add any sign-offs on their behalf.
 > 
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index ff45577ed90c..2039bd8518fb 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -13110,6 +13110,8 @@ void kvm_arch_vcpu_postcreate(struct kvm_vcpu *vcpu)
->  		return;
->  	vcpu_load(vcpu);
->  	kvm_synchronize_tsc(vcpu, NULL);
-> +	if (!vcpu->kvm->arch.use_master_clock)
-
-Any reason this can't be?
-
-	if (kvm_check_request(KVM_REQ_MASTERCLOCK_UPDATE, vcpu))
-		kvm_update_masterclock(vcpu->kvm);
-
-> +		kvm_update_masterclock(vcpu->kvm);
-
-I don't love doing work outside of KVM_RUN that is typically handled by KVM_RUN,
-but this seems fine?
-
->  	vcpu_put(vcpu);
->  
->  	/* poll control enabled by default */
-> -- 
-> 2.54.0
+> The contributions were roughly as follows:
 > 
+>    * Georgi Vlaev: original driver
+>    * Dhruva Devineni: MAX16550 support
+>    * Debjit Ghosh: MAX16545 support and device-specific data
+>    * Santhanakrishnan Balraj: severe-OCP filter
+>    * Avadhut Naik and JawaharBalaji Thirumalaisamy: device-tree probing
+>    * Brian Mak: fixes
+> 
+> Some of these contributors have since left the company, so their
+> juniper.net addresses now bounce. I've removed those addresses from
+> the recipient list to avoid further delivery errors.
+> 
+> My intention in retaining the Co-developed-by and Signed-off-by lines
+> was to preserve the original authorship and sign-off history. However,
+> I'm happy to adjust the attribution chain if there is a preferred way
+> to handle contributors whose email addresses are no longer active.
+> 
+
+Please only keep the Co-developed-by: lines, as per the guidance above.
+
+Thanks,
+Guenter
+
