@@ -1,137 +1,199 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB9430648C;
-	Sat, 25 Jul 2026 01:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A238F2F532C;
+	Sat, 25 Jul 2026 02:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784944432; cv=none; b=QXP0QSMuFtQpybIHBb3DupKUgnNvJC4rp9U30gp94rWMlK2Ofoa/riPRXNEhim5s7HSsWC+ti8Qh0aCVTO1x6P/AJcEVchnDXXWH4GuJ9MDSsvRBHs5iYD/xKwa7xO+hQUPslVLOR0jmcuKdVurSewyc94hgLZ6cFLixwEc0nAI=
+	t=1784945701; cv=none; b=BMXPn1X8k9R9ePsEjJlLvU3gVKYnj+V4liNYfZBNHJjzd86BaT6vDaCtPVFQHcSpO0zR6PuvdpXXENwhD6rZcILEtWVOXk1lQSLV1UPcSegiH6ldk81BiNLNziB8RnuU6HM4WbBBfy3WLXESbxRxSivDV/seF+Bq90pPEE6rhWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784944432; c=relaxed/simple;
-	bh=JFpSuIrmzdJ6+thtl/WRCF+s1b2qeE3d4VDxP6UswBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RO8hbeqs4CItnMWmhbu/OYhKZ+4ZiyJQF99N0Ni/VrlMhCscb65RzJCbZ/1fiAIdYKLeGr7rZNDpNWDWGm26a7sadydkfBPeH5tKcbKltP5x7b/DHdd7Bvdlx3gKUK1yD68Ou/JWPgE8GNAFwbmdnFcbVqCkV0Kxce1yOMe0dLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=OULb9z5Z; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="OULb9z5Z"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66P1C6IH3338741;
-	Sat, 25 Jul 2026 01:53:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=+n5J/3
-	biCslYghQLMKWqzmleHGIa3z3vpuHr9MQ/rxg=; b=OULb9z5ZoyCcV3CgwzEyre
-	+kCa23pKsjJqCrviLvzznmdKdzpNhqyoburLulGWau618ocyJX8i94kOIhyJV+4Y
-	vI8RFCQFKhjWIWeTIht2g0wHunxmsBLeBH4r3xXWUylJ7UVgUcnfpCQUgf/X5vYa
-	7OlxJ0JaZMNS80b21zf4ozsfXKneNga0VlOeM34OqxqQqs33HG0ykRPnDp7BHYTE
-	OrlHiUR3TkGs2snm1NpQSI5+S3Z57ZkOV7Ojm1LP5ue6Olnewpb3bo2V3hHXv841
-	Pp1GCzXn7iX57NPPK+5QhnjWeogVzyOFSnyQ6dBBHrfVWLLK4bp5r+3BR1OTDIGA
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmjjj8628-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 25 Jul 2026 01:53:24 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66P1nkNT025280;
-	Sat, 25 Jul 2026 01:53:24 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fgm6wkh0r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 25 Jul 2026 01:53:23 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66P1rJwp50921886
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 25 Jul 2026 01:53:20 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D5E842006F;
-	Sat, 25 Jul 2026 01:53:19 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D15702006E;
-	Sat, 25 Jul 2026 01:53:10 +0000 (GMT)
-Received: from [9.124.223.44] (unknown [9.124.223.44])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 25 Jul 2026 01:53:10 +0000 (GMT)
-Message-ID: <0e1623c7-029f-403b-a560-71931f84f03d@linux.ibm.com>
-Date: Sat, 25 Jul 2026 07:23:09 +0530
+	s=arc-20240116; t=1784945701; c=relaxed/simple;
+	bh=g4gbawJQKxnvroDirn/BHfpzRTYDpAAzp+ZvLgBlqUI=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dpCeROVpTupThhNmWM7YoR+1wVvHNf0OJolOrWdKKJtray3dnTG9zpO9zyUYCr+tTga6lW6/az1o6zHBNRbzfVs69/6Ndjzs5bmL1mra7l4toGY92kWT2QsX9uG9WgmPwaJ3fdGddy1DvqIDlMHPob+vIYUD2M6PGFjKtBJ8pSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+	 (Exim 4.99)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1wnRuT-000000002ig-31zP;
+	Sat, 25 Jul 2026 02:14:41 +0000
+Date: Sat, 25 Jul 2026 03:14:38 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v5 0/5] net: dsa: mxl862xx: support firmware update
+Message-ID: <cover.1784945329.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/11] sched, steal_governor: Introduce preferred CPUs
- and steal-driven vCPU backoff
-To: Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org, jgross@suse.com,
-        virtualization@lists.linux.dev
-References: <20260724140732.2683314-1-sshegde@linux.ibm.com>
- <amPiGgfR4cAF67Mr@yury>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <amPiGgfR4cAF67Mr@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI1MDAxMyBTYWx0ZWRfX5BtfegC9/mi9
- 7NvbvUW5D/qfTPeJ26L1J7x1/x5p8umSnA3kVXXOQ46JY80Mnx+bRW6UpMGNXzcqkk7yUxnqBh0
- 0wOOWw0vfAYadnhGsArqBVYrfLozKtw=
-X-Proofpoint-ORIG-GUID: kjUpSjjXsJehKW8SJ2sGoqvZJ2riAPnU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI1MDAxMyBTYWx0ZWRfXzeL3I96Dl+sU
- JJbeE7btdtLPmGf0Lfi4ELC+Y3bzUdrl7xCALvrZbN5a1H06eW1WQlJ3h7cwrH9iK0Vv0PHNDx/
- u9N/A9I0HCSSo9PPimK0ObCjMlnlN4pE4uZt3Q4ouQ9cq8kOgxyd5h1uLBEW645aBYytl0hSd3f
- NcMs2rZYG51+8l7ck4wBBty34T+SeHYJ3qmdS09WEs2NNE/++KLuu7pAOKEI02tWyNgKByFZ+0i
- uOWV+14qa3m/h01Uj76vZ+N+zy/Q8JkQPs8NUVpwXnFYwG2X2L04JJrGmvBNqzlBKC69NDFMzmZ
- NLPJ0a3b9HDxQt9i1vAJiLzhjGyR9MmRr7Xd68AF5q9U6hPC3OtwEGLPjHPBgTn9p46KT9NVPL+
- fq6DtLQjoDnCDQ3p0uZT3pfXA/KAZIzsnt3cHrpcdpUnkgp4G1t1qAhTTHV1ZHwpb9Ba9tWVs91
- kc2QUaELtl30Bulhd9A==
-X-Proofpoint-GUID: D-3n4mnG1o6q0h1H4wTRd1oSRPWY9Ms0
-X-Authority-Analysis: v=2.4 cv=TLp1jVla c=1 sm=1 tr=0 ts=6a641715 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=wOctuUhgRehkhcMBElYA:9
- a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-25_01,2026-07-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0 spamscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607250013
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Yury, Thanks again for reviewing the code and going through
-the patches.
+The firmware of MxL862xx managed Ethernet switches can be updated
+in-system via the same MDIO bus which is also used to manage the
+switch. Wire up the devlink flash_update operation for DSA drivers
+and implement firmware update and version reporting in the mxl862xx
+driver.
 
-On 7/25/26 3:37 AM, Yury Norov wrote:
-> On Fri, Jul 24, 2026 at 07:37:21PM +0530, Shrikanth Hegde wrote:
->> If you have already read v8 cover-letter then see only v8->v9,
->> everything else is same. :)
-> 
-> No, you submitted v9 in just a couple days after v8. Please allow your
-> reviewers more time to read and review the code.
+Changes since v4:
+ - report the numeric chip part number and version read from the
+   static CHIP ID registers as the "asic.id" and "asic.rev" fixed
+   versions instead of a model-name string, which does not belong in
+   a devlink version identifier (Jakub Kicinski)
+ - report the running firmware version as the "stored" version too,
+   since the switch boots it from its own flash, so userspace can
+   distinguish a flash-backed part from a flashless one by the
+   presence of "stored" without a future API change
+ - run the post-flash reprobe from a self-contained work item again
+   instead of the v4 kernel thread, which tripped the hung-task
+   watchdog while parked across the flash and returned -EINTR from
+   kthread_create() when the devlink command was interrupted
+ - re-read the new firmware version through the reprobe's fresh probe
+   and drop the SYS_MISC_FW_VERSION exemption from the host block
+ - raise the firmware command poll timeout so the FW_UPDATE command
+   that reboots into MCUboot is not cut short
+ - detect the switch state from the value MCUboot publishes in the SB
+   PDI STAT register (loader ready, wedged download, or running
+   firmware), confirming a live console loader with a register-read
+   challenge, instead of trusting a bare SMDIO scratch write
+ - fail probe with -ENODEV over SB PDI when the switch does not respond
+   at all (absent, unpowered, or misdescribed in the device tree)
+   instead of letting the clause-45 API flood the log with CRC errors
+ - drain a wedged interrupted download back to a clean ready state
+   from a background work item so the multi-minute recovery never
+   holds the devlink instance lock, reporting no firmware version and
+   refusing flash with -EBUSY until it completes
+ - report the rescue-mode null firmware version "0.0.0" as both the
+   running and stored version, matching the running/stored reporting
+   above
+ - add devlink documentation (patch 5/5) adding
+   Documentation/networking/devlink/mxl862xx.rst describing the info
+   versions and the flash update behaviour (Jakub Kicinski)
+ - include example "devlink dev info" outputs in the commit messages
+   of patches 3 and 4 (Jakub Kicinski)
 
-Agree. The only reason i expedited the code was that i was losing
-access to the system i was running performance of real life workload
-scenarios. It will take a few weeks to get new one, so i sent it out
-early.
+Changes since v3:
+ - only install the flash_update devlink op for switches whose
+   driver implements it, so the devlink core rejects unsupported
+   requests before fetching the firmware file from userspace
+ - run the deferred reprobe from a kernel thread which ends in
+   module_put_and_kthread_exit() instead of a work item that
+   dropped its module reference while still executing module code
+ - fail firmware API read commands with -ENODEV after the update
+   has finished instead of faking success with an unfilled buffer,
+   which could send port_fdb_dump() into an endless loop
+ - keep the host block in place across the post-update version
+   query by exempting SYS_MISC_FW_VERSION from block_host instead
+   of briefly lifting the block, and write all blocking flags under
+   the MDIO bus lock
+ - check the return value of all SB PDI control writes; a failed
+   address write during the half-bank switch could otherwise place
+   the second half of the payload at the wrong flash offset
+ - initialise the progress notification deadline from jiffies so
+   notifications are not suppressed on 32-bit systems shortly
+   after boot
+ - log a distinct diagnostic when rescue mode detection fails on an
+   SMDIO bus error instead of silently treating it as not being in
+   rescue mode
+ - flush the switchdev deferred queue after closing the ports so
+   the bridge's deferred STP DISABLED transitions reach the
+   firmware while it is still running instead of failing against
+   the host block with "failed to set STP state" errors
+ - treat -ENODEV as successful deletion in port_mdb_del() so the
+   post-update teardown no longer leaves host MDB entries behind
+   for the DSA core to report when the tree is torn down
 
-> 
-> Some comments are equally applicable to v8, but because you've already
-> sent this v9, I put them here.
-> 
+Changes since v2:
+ - validate the firmware image, including both CRCs, before taking
+   down any ports, so that a malformed file is rejected without
+   disturbing the running switch and without the needless flash and
+   reprobe cycle it previously triggered
+ - reject images whose declared payload sizes overflow when summed
+   (check_add_overflow) or sum up to zero; the latter previously
+   erased the flash without writing anything back
+ - allocate the reprobe work item and take the module and device
+   references before starting the update, so scheduling the reprobe
+   can no longer fail after the switch has been pushed into MCUboot
+ - prevent the stats poll work from being re-armed and cancel the
+   CRC error work before starting the transfer
+ - check the host-blocking flags in mxl862xx_api_wrap() under the
+   MDIO bus lock to close the race window where an API command
+   which had already passed the check could reach the bus after the
+   switch rebooted into MCUboot
+ - check the return value of SB PDI data word writes so a failed
+   MDIO transaction aborts the transfer instead of being noticed
+   only through a corrupted image
+ - report a per-model chip name (e.g. "MaxLinear MxL86252") as the
+   devlink "asic.id" fixed version instead of the devicetree
+   compatible string, whose comma is awkward for userspace
+   consumers such as fwupd (see discussion on v2 patch 3)
+ - report the canonical null version "0.0.0" instead of
+   "mcuboot-rescue" as the running firmware version in rescue mode,
+   so that version-comparing update tools like fwupd treat every
+   available release as an upgrade and offer it for recovery
 
+Changes since RFC [1]:
+ - detect a switch stuck in MCUboot rescue mode at probe, register
+   the switch without any ports and report "mcuboot-rescue" as the
+   running firmware version, so devlink flash can recover from a
+   failed or interrupted update (Andrew Lunn)
+ - clarify in the commit message of patch 2 that the per-transaction
+   MDIO bus locking is about other, non-switch devices on the same
+   MDIO bus (Andrew Lunn)
+ - mention in the commit message of patch 3 that closing the ports
+   also stops phylib from polling the switch-internal PHYs during
+   the transfer (Andrew Lunn)
+ - split up run-on sentence and explain the dynamically allocated
+   reprobe work item instead of just pointing at iwlwifi in the
+   commit message of patch 3 (Manuel Ebner)
+ - use kzalloc_obj() (Manuel Ebner)
+ - state the actual duration of a complete flash and reprobe cycle
+   (just under a minute) in comments and the commit message, and
+   clarify that the timeout values are generous upper bounds
+   (Manuel Ebner)
+
+[1] https://lore.kernel.org/all/ak0J-HgzMRea53om@makrotopia.org/
+Daniel Golle (5):
+  net: dsa: wire flash_update devlink callback to drivers
+  net: dsa: mxl862xx: add SMDIO clause-22 register access
+  net: dsa: mxl862xx: add devlink flash_update and info_get
+  net: dsa: mxl862xx: recover switch stuck in MCUboot rescue mode
+  net: dsa: mxl862xx: document devlink flash and info support
+
+ Documentation/networking/devlink/index.rst    |   1 +
+ Documentation/networking/devlink/mxl862xx.rst |  63 ++
+ MAINTAINERS                                   |   1 +
+ drivers/net/dsa/mxl862xx/Makefile             |   2 +-
+ drivers/net/dsa/mxl862xx/mxl862xx-api.h       |  10 +
+ drivers/net/dsa/mxl862xx/mxl862xx-cmd.h       |   2 +
+ drivers/net/dsa/mxl862xx/mxl862xx-fw.c        | 884 ++++++++++++++++++
+ drivers/net/dsa/mxl862xx/mxl862xx-fw.h        |  20 +
+ drivers/net/dsa/mxl862xx/mxl862xx-host.c      |  54 ++
+ drivers/net/dsa/mxl862xx/mxl862xx-host.h      |   2 +
+ drivers/net/dsa/mxl862xx/mxl862xx-phylink.c   |   2 +
+ drivers/net/dsa/mxl862xx/mxl862xx.c           | 116 ++-
+ drivers/net/dsa/mxl862xx/mxl862xx.h           |  24 +
+ include/net/dsa.h                             |   3 +
+ net/dsa/devlink.c                             |  50 +-
+ 15 files changed, 1214 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+ create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.c
+ create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.h
+
+
+base-commit: 89d8006259b81dd25c962f6cc8d7ab268d6ea426
+prerequisite-patch-id: 0000000000000000000000000000000000000000
+-- 
+2.55.0
