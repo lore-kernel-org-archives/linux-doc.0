@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916B742A9D;
-	Sat, 25 Jul 2026 12:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54D530D3E7;
+	Sat, 25 Jul 2026 17:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784983541; cv=none; b=CAwAExI4GxEwn8b5e+DqgTx7U5aA0LJHGMR5S1rE5FydmW3IWEGtd8+ZpAJk39SeXLs+o4axFoSTf5fYZaJFrHAY+gCbWTIfnclS/K7M9hgcbC4VQnHfPQiA55npC4T9ajUBnkR+KTwyTJKwFW1ZAlU346V25O6Bykr/AJPwtjk=
+	t=1784999501; cv=none; b=VCV8edwMn89068EF5/P2PWO/L1Vk1u/OhcPqNmxyM7uyBHMxy+hJEp59AgYIZkcmakXxCr5YW/V6DqSAqAcs5hyOG5mT72TJOwVEfMsm9PnMFBWaqoETU8UUXIxieUX5fi3j3Ik5+wxvf+ha709tK2qUTQg9+DQ5XDja/ksKM6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784983541; c=relaxed/simple;
-	bh=BDhgFjks1rCSdNlVHsz/7D6l2Z2HxASJMBuAspLM46g=;
+	s=arc-20240116; t=1784999501; c=relaxed/simple;
+	bh=tYXuh/0pjFEbYCWi9jI6xPIHAFic6x0kxtTjxGw+Hxc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HF0cuqjU1Ld7K0/HneHvlWsizbT5Dkf0tLgOOP0daopksHxH5D6+9WUf2n4jjaJmViIRLC/zHH8xXskgskah9Vem9+1zhLmGss8CotGHfBSTHll9sn4vDZzv9/nOnVNA2KAgufIa8LN7cFssm7zxYjKiw6O9YKXNBiX1TaTErTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kjm0Xt9f; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:MIME-Version; b=otyS9lWGMuBMS2gXNG1ztdIWkgV/j642RJPh4djt9VRRkeXX8/z+ZLCH7qSfOd0+4DdBPcwd+pRW/QujrnuZJaJgc8YgzjPQMZO3txaZUyO+2DFexsS3OJQhazeLLpPwPBvaZLZb3ZlSpom9dfeLC8g9sL1h9GYWe95cfe6AbVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=u7IePVLr; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kjm0Xt9f"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="u7IePVLr"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
 	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=RwxggY9gc4GcZC2isiDohJMCFxWLehVGr+89zjMBUrI=; b=kjm0Xt9fUmW5uRkGi3EtVs6lug
-	ZwKZMp9rAtnGaL5ahc4W8og938J1F1zxNf+DJ/caiUSPQ4aq7OhllcAE6+1wq81lPNuBigi1Ymdbc
-	jWsQjsUZMnJC2IyVmGGSi6Ze1S5M7ARR1xPmJOjRdGpESlNH1GXPiBQkEsFbsuu04ZkAuS/JVAf2I
-	5HDqKWOPGHSHYeKoZZmmshnWg046Hh20cQ3Nm+haCrMfTnRk+CLcoqBY7tA3Y4BaAjoMgKUE7slz3
-	NP8uHoUy6gfj+H2IMJeVls4i/B9Zvc3YAlPUwfTI0MUeFuDrTtEUCvVZ5oo6Q8cigapXWyiVNlQWY
-	9Zcji1JA==;
-Received: from [2001:8b0:10b:5:5b17:8d34:712e:739e] (helo=u09cd745991455d.ant.amazon.com)
+	bh=9HyxXMWgxxUa9wQMWRysgR4y9RCP8v3K6BSTtY9gX4E=; b=u7IePVLrtGQ3feCNnwOxX23N0N
+	m2lAxNyV9j0gq2jjBdAIq5fBbxR7vihQP1Bi/vxpNjiPESnmGeoibSyo/TpKPjLg2i9ahbLhrlMQ1
+	erEBmftK2q1TzOsam5tCSWADHHOe1rSzGLl9LoU/sk9IYBx+W4jHsbwrrB1HxiTBFGajj4HWhF5D8
+	HnsWNfuHVDnbTTn+7rvScItf72OXDEDsIjjoHOwEIqH4UFkB5+x31tHoXxMhR97wK8gHMWJeOnc/R
+	EcNY1QqSp9MPgNUGe/0Mb/JoLsVszv8rCLk2njJRYRsVzaGj/xp86wBI05PSb86SXyJqaV/oJ1BNX
+	bqGnOX7Q==;
+Received: from [2001:8b0:10b:5:a27d:af29:92b0:e23b] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wnbkb-00000006Ehn-48CJ;
-	Sat, 25 Jul 2026 12:45:10 +0000
-Message-ID: <fd367b54511b52d891d8a50883ac05731150885e.camel@infradead.org>
-Subject: Re: [PATCH v6 08/36] KVM: x86: Activate master clock immediately on
- vCPU creation
+	id 1wnfuD-00000006cpa-0TNT;
+	Sat, 25 Jul 2026 17:11:21 +0000
+Message-ID: <016ebfbfca269245612f246337bb33247a95fdba.camel@infradead.org>
+Subject: Re: [PATCH v6 15/36] KVM: x86: Fix compute_guest_tsc() to handle
+ negative time deltas
 From: David Woodhouse <dwmw2@infradead.org>
 To: Sean Christopherson <seanjc@google.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -47,14 +47,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  Zhang	 <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Date: Sat, 25 Jul 2026 13:45:08 +0100
-In-Reply-To: <06561667eee52c40ef4587fcc11f6bf964ce40bf.camel@infradead.org>
+Date: Sat, 25 Jul 2026 18:11:19 +0100
+In-Reply-To: <amPYq48J9TPbmFNl@google.com>
 References: <20260703212145.343527-1-dwmw2@infradead.org>
-		 <20260703212145.343527-9-dwmw2@infradead.org>
-	 <amPW1eAPpUuxLoj_@google.com>
-	 <06561667eee52c40ef4587fcc11f6bf964ce40bf.camel@infradead.org>
+	 <20260703212145.343527-16-dwmw2@infradead.org>
+	 <amPYq48J9TPbmFNl@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-9FZybFZZ3b5dnuxm+p2R"
+	boundary="=-JLIDTU2CCCUu1ZLZMEvJ"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -65,37 +64,31 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-9FZybFZZ3b5dnuxm+p2R
+--=-JLIDTU2CCCUu1ZLZMEvJ
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2026-07-25 at 08:59 +0100, David Woodhouse wrote:
+On Fri, 2026-07-24 at 14:27 -0700, Sean Christopherson wrote:
 >=20
-> > Any reason this can't be?
-> >=20
-> > =C2=A0	if (kvm_check_request(KVM_REQ_MASTERCLOCK_UPDATE, vcpu))
-> > =C2=A0		kvm_update_masterclock(vcpu->kvm);
-> >=20
-> > > +		kvm_update_masterclock(vcpu->kvm);
-> >=20
-> > I don't love doing work outside of KVM_RUN that is typically handled by=
- KVM_RUN,
-> > but this seems fine?
+> To cut down on the duplicate code, and IMO to make it easier to identify =
+the
+> differences, how about this?
 >=20
-> I think I tried that first and it didn't work because
-> KVM_REQ_MASTERCLOCK_UPDATE wasn't actually set yet. I remember going
-> round in circles a few times here. I'll take another look.
+> 	s64 delta_ns =3D kernel_ns - vcpu->arch.this_tsc_nsec;
+> 	u64 tsc;
+> =09
+> 	/* Handle negative deltas gracefully (master clock ref may be earlier) *=
+/
+> 	tsc =3D pvclock_scale_delta(abs(-delta_ns),
+> 				=C2=A0 vcpu->arch.virtual_tsc_mult,
+> 				=C2=A0 vcpu->arch.virtual_tsc_shift);
 >=20
+> 	return vcpu->arch.this_tsc_write + (delta_ns >=3D 0 ? tsc : -tsc);
 
-On the other hand... I rip it out in patch 36 anyway, in favour of the
-cleaner answer that is available once I've cleaned up the rest of the
-masterclock stuff.
+Oh, I missed that part. Done, rebased to kvm-x86/next and pushed to my
+kvmclock7 branch while I test it and await further feedback.
 
-But I wanted this to be earlier in the series as it does fix things for
-the selftests which get introduced along the way. Otherwise we have to
-run the vCPU once to set the clocks up.
-
---=-9FZybFZZ3b5dnuxm+p2R
+--=-JLIDTU2CCCUu1ZLZMEvJ
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -193,22 +186,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA3MjUxMjQ1MDhaMC8GCSqGSIb3DQEJBDEiBCCqpvOFZkYW49dn6BabtBHsrFZmUfkp
-nKJoYcn9Sl9/rDCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA3MjUxNzExMTlaMC8GCSqGSIb3DQEJBDEiBCBxmjp9rM0VbAu9GmdKMLOMUmzD39/o
+pEN2RTLK3h0cBDCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIA0R+/zDrDqho+ig7iIqL6MAugMnlB+tUA/oihAmHasI+kO18mOvrH
-jRO2LiRpadm+bnXWQlJJYtLc71BiafidbmJynx3//EV0rtfHlHythB5DAZHW4ENe+0Vtsi/v+woP
-rXQbvvR3se/1VQWt/riFKt0/kmBapCY8f/kKG8sfMe/cWURu4BQprpTKmkklCGrIl64phG+1OGKE
-Fe3VytmR+EOLHQHFjXKKtjYZmd0SchsJUFLyY/rYgtQcoKjdf1nGaxpkECsebp2sYeJ18wGgQPq9
-Z11i49LAEiHeCP/PwUJ3aS8IVRxvJotScZ+cIo4xb1nH3xKyctxCrtX6EXag8aeh8HJp2Oy6cpcZ
-Xef0kWKdwd/tuy7MgPSqH+c+4DBcJhAuWxy7r3xaPMkxOUjad6xVdbT/sHzuH8PDl1DDhY3uOmzn
-ZrOWzR7tDWpfd8h5eo9PJ9F0FsGbqYdvQiEIFBNCbg7VMs4yvHwXcOTjZw1qily5ogabS2MxGUv3
-gQnbQAaW2e9VfMguejeChZ9nPiFNCBYv+fJTTyn9942zcpCkri1EW10jPRpFNDaK4LW+Q//UVJn8
-27G4Arak2lygH1mCJ8BZTTFr1QeHVRQowocBwl7jtNOD9h9oGXzT7zbRgSi0WPLLowSGJ87BUHJ/
-btdgw38cu3x5LYEcNp9WZk8AAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAjZdMqtUSVEcP0nfxbHCr2G/UaNI8M3WlYyid2q0ZNdPkk7eWTXd5
+PVI3jJmDY6MU7m18cD0lDGQLJdXxLiehEjETHtDmskU5tj4pdADOMI06dJKRZ4J0gzArsy1m8bDO
+1ePd60F8pMMzKdsIjWyADpZWIzGIu3L0sTaLLd4oqFtgDTWI+AzpRbhDkxIQl8Jo4KEEAq62ZF8p
+tqyMF4KIK0nhLqm+8EoosnhhOqG5FihHSaZxGkitZ/or3o6lq+MBIUdVJf/ymuLmkc/gnf+XHMaK
+g8YVc1vwnw2oCMQ2M/YxCPfc38//FA8yTvE8T9UkTYblDzatHX5f0HyVkxo3+bnG79vRlt4lZsew
+GqrX/9+2grNe/tIkNYbzfevzxzIj55RbxyGDdTbo43KTLQ+Mb5qet3XpGaVhAssAJrxg0YAxKVpZ
+t8M9vSQGrWXOgQtC1OpaR/qjlfiU7gciTR1YpjMwj1hTpnNHU2kaZY2HhxR+f0SUxYKANvpVZonb
+qRGn+U5MP12gUVQv0+/zrf+9JoeOaXSUcnNYwGBJU7LcZmZR49kGj6TIScEFk7wXsZCEePyrS8Eu
+wX9FOd5qnlR1SFgwswe4MlxoDSpwNWyrEtmHw7BFjC9iND0uLsTuSAOt7zQRxCgF9Ram5gvpdf8P
+0s/V3LIVRPPSIZ+PQwuZuU8AAAAAAAA=
 
 
---=-9FZybFZZ3b5dnuxm+p2R--
+--=-JLIDTU2CCCUu1ZLZMEvJ--
