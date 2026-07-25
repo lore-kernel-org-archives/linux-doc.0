@@ -1,87 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2EB2D23BC;
-	Sat, 25 Jul 2026 23:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785020967; cv=none; b=rmtOsRHPvJVgX0BCP7mNas72b8oTchAYOsdvV5UrX9VfkJoQxeW4nFvRUEQhR06WqxRHXDmSbq5VSFSoxQx8OSe3d0I6GgjBkpKivNgonS4EjlPS73ixEzlON56p/zMEJng+AKNlRjzbgLnnyAk4U5rQJaRJplFSGUda/2iBc8M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785020967; c=relaxed/simple;
-	bh=RwQMAfhKNwgAo9MbnInWBus6Iltd0UewoV2ojaJ321o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cgupUwAIvvZSFPKCWdENnWwAtuTkhBGrUwHwzUMBM8nPCQUO6/otRsp7ByioVukLTQPRPRQY1uTxjY18zQ/p726PIOV+huGqwxbGwhp7C701AJQpd1nangxMRrfsKbNoJZUhQTD+CsDq7y4TIXk67MruHqO1s2DsPlXR0uPTnYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahz92pZj; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB08F36195B
+	for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 23:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785021142; cv=pass; b=QUI2Xj1F4JEwwIhWVH3s3ZQ4nXmmWeXUDfe12sl2xWQtGbPl/hQuAXCae4JMGX5VeeAmwiBga4+BSDO0nN3/6yIP7zlaoipZKz8yZNclOGrD3QpwbtfWIe5tHcz9PTm6hhuU1UUVfOt77DYoqS/TsHo5Clczu0pp2r27uAWkxyc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785021142; c=relaxed/simple;
+	bh=DAmD0jE2PK17f+xBvYiMfK6/+xI/1NO02XCtKo3Fu04=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OyPV5pacR4dHtpMAQU8o3YQodHhn7kj0fm+YNIOlpXAnk127/9d2lukbAGOr/b20uG9Xvr7gQLByFnN4nJr1gNuoXctcRH+8k87Hb3oG3atr3vQOm0/yqfp/IM82qm3kxA1BaU9p7sspixdyWpMgVcquF07duz4xj37WaLg95gY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fbtqa0Im; arc=pass smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahz92pZj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952E21F000E9;
-	Sat, 25 Jul 2026 23:09:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785020965;
-	bh=d0ATcTOoIS9vcu5+PZnxo8woG8OIu/ppqkM6rmR5w50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ahz92pZjHp9nDIjldrNDRNpm+gfhyeVyLKKWQvLAEuA+QeXHud4mvvhS8GqN1e6Hw
-	 avTDmp+kmKWcEyCgwVlULgONzw250svj5WbJnjv0BRQlP+Pcmnat4QJbFAhRkECl/d
-	 H/BELVRDDPjs7As205qbTvUtxAYT243hnhCEPov9hj6/q//5Hn12ePmw9bzCbO1nDP
-	 Re/BukIWRT/7H/1C1O547AoaE6HpqsFu7Mgow+1Y0U3h6zSNZe8VOunucV165bLG6p
-	 93W1Rbj0KiAw/Of+iRemWhrZ781RuaKBoMrZhuo3keLQ11s5YqURumcvByiJB6CUKZ
-	 J7DlvAHkneTxA==
-Date: Sat, 25 Jul 2026 16:09:22 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Richard Weinberger <richard.weinberger@gmail.com>
-Cc: Dominique Martinet <asmadeus@codewreck.org>, demiobenour@gmail.com,
-	Harald Freudenberger <freude@linux.ibm.com>, acme@kernel.org,
-	adrian.hunter@intel.com, alexander.shishkin@linux.intel.com,
-	ardb@kernel.org, axboe@kernel.dk, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com,
-	herbert@gondor.apana.org.au, horms@kernel.org,
-	io-uring@vger.kernel.org, irogers@google.com,
-	james.clark@linaro.org, jolsa@kernel.org, kuba@kernel.org,
-	kuniyu@google.com, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, mark.rutland@arm.com,
-	mingo@redhat.com, namhyung@kernel.org, netdev@vger.kernel.org,
-	pabeni@redhat.com, peterz@infradead.org, skhan@linuxfoundation.org,
-	willemb@google.com, linux-s390@vger.kernel.org
-Subject: Re: [PATCH 2/3] AF_ALG: Drop support for off-CPU cryptography
-Message-ID: <20260725230922.GB41199@quark>
-References: <20260523-af-alg-harden-v1-2-c76755c3a5c5@gmail.com>
- <20260603133312.12848-1-freude@linux.ibm.com>
- <amOGWwdjnJqyxH5L@codewreck.org>
- <20260724160034.GB2032@sol>
- <amOTjPW__CNZui3_@codewreck.org>
- <CAFLxGvy+ec3nQLrQtwFZgGELhT2pKBDnHdD0pMvEGh-Mf3rjgQ@mail.gmail.com>
- <20260725220443.GA41199@quark>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fbtqa0Im"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aec6360133so1420969e87.1
+        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 16:12:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785021139; cv=none;
+        d=google.com; s=arc-20260327;
+        b=A4c+k5CVjPCpnj6Twzjc9DpyZiVi/Ucv1ZAtPCP2o2rkQIsrpW8w+J+Qmtpg3Fmo7G
+         pgSlPrsjfNkp6IABoIresxJFJHuQS2IglHjNxxcYsMswZTCMxK0HE+2u/deOmlTIJZ4r
+         sWJd6hytf7Hxf+i+IT5PrkQ8Muaa68l1N44sytzEf5/LM2l9IVLYzXVs1QRH2yaUnAek
+         ylFP0t2tawCE0u0szLlbQNJM7VhBhfD3JUToqc8Qa6J0UaAqKRsAloWDG+8QPSZNzwds
+         WZNa2Z5HKcxMdChUeHxlHtexTwdEOU2s9muXVjoQIpdCSGpLfcF0lOjY4Co97Rc4kjGA
+         GsWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lk2bH0i2n8lot2p1pFmjvDciqXml1QGBbKWcb9+sKHI=;
+        fh=LE8Cb7dBBjfXYzPz9m+2MMC7uh6+M6QPgZKSpsQCF/I=;
+        b=dST6R/Kz7kN8fwiM8PgwMJR/wfeCBLV58rizRFEq30kVygVXP2AhPdxUV4qYIo09B/
+         0mCbh4UEj3MisElTEG2JiGPFowlVhmZwTGKU6EJ0WOgJvac21cuZ1tLNAyY7tGiqPys4
+         Sc+U00a+RJtZh1hruRLxGsbnxMJePmsKI74XfnlTCeOUw1iVnGhOxNUEoMWtybq73BS7
+         RzA4bH8AEId3nqoVukqE+V1vPo1pR55HRMoGuFEMmNGQInoyVFrEZKIn8D25Wyke3/cg
+         9+NHZ5qqeztDp2UQs278P/eHp8cnV5rBZSYo65RRZpXp6Rd7QfAdv4IDqM0UgVNuXBVJ
+         44wg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785021139; x=1785625939; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lk2bH0i2n8lot2p1pFmjvDciqXml1QGBbKWcb9+sKHI=;
+        b=Fbtqa0ImwZXH2c0g9nJEgrcQ7+GrYuuu+oosptTVAYew+Qd2W8ajOhpnCZ39xuyHZj
+         1U+oln2wnPJNLLUAUK9h3UEs0+90grj5nxwRxzOZyiSMcJAcWWqZWZKI71O21ZavRYa3
+         edoiwFcFRvLSmqpDN7xYzlaV+aOtBlCwX27JNxWpghrZQP4Xrjlj2FsC25OGf6oXCvxW
+         dlQZtVkUL11ekR/md78zRCHQ0d4IVK/40Nn252ryCuGSNctm37pUrU/CA+QzGGmCt3iK
+         XnTJ8SHUBB45nmsRXk2H9woA1S4p1GxuQyQT1oAiYVhHRBrRyO9WXLIYtNg5GzyFmIYc
+         pXdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785021139; x=1785625939;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lk2bH0i2n8lot2p1pFmjvDciqXml1QGBbKWcb9+sKHI=;
+        b=ZtOFBrmvakxMeQ51OCvMhRnQMiOpPU3U9aDQ2GRb+8gaMGi1KlRqW6RrgfaTp3tZ/x
+         Xy780688VUUcIhVgs/pNxkOGdFqenNnoGVt6zVJ6OTwJ6hF32G7/FUT8ls4z90fZvuoi
+         Gr3mYPHGJREBjJWlwQzW5hTUwW0YCtvWTKbX4h5TSHHw1GlKiBQoP/nngBA5pbnviEZb
+         5M1gEwNrbmUOJjREZF9lOlRq5r2ba8PpwAFye48XjLcAFg0FxLDBqF/SYFiesnFGWJBn
+         a3FwAT6uPfPuKXuI+XQHHIZXw6XgoUqVVcdUx5dABI62lx/T6e50BtlSmE1wIopC0JNa
+         trcg==
+X-Forwarded-Encrypted: i=1; AHgh+RohzzXwXKL5CYQH7adI/IHnIGe8VoY1XWbPncTYKBRYkI2R7Zn3BwUSkColkDns5Ua8I0lVnM1tSfQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhIee0V0oW1F7hFeu5Kj9+jSajpszdwGPsEAzGx5TqZza1hf4/
+	fHNNbW0yPPaWWtL6klU/qQh6JWwmHjGuQzXCi0LwoQ2U2IM7L2PXSldWcnQFDkGnjCv9QfAiee4
+	8l9CdTl77e2Q+G1+QmqnK7B+D2iSkmNCKpPjn
+X-Gm-Gg: AR+sD105nndWEybhJ0kResDR7PVpFcXz+96PynvqTixvWVOcF68NybnVDeKaSV978lh
+	vxk7LPXUrVwCpbDdby1ZH2D8clElkgik9skU+96p7Ca3OwHvu4fMIfeIvMJWENK5ZTaU3AUF4nL
+	u4MEv4Ewe7qLztLzuJt+bzopqSOeU8Murkqo0Ji7tocMZ4WMTIhsJgrnbdjwt6G1R7vSqsuE+o4
+	HHnu6XWWJEhTjhu6tmVnqGSD+mxsYPREuCFqbpOhTVOQEWqxyX7dQmKJaKRACWGRDS7YJ3FjA==
+X-Received: by 2002:a05:6512:159e:b0:5b0:1df9:2adf with SMTP id
+ 2adb3069b0e04-5b2c1b23c13mr536444e87.28.1785021138444; Sat, 25 Jul 2026
+ 16:12:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260725220443.GA41199@quark>
+References: <20260725100658.1705-1-manojkm24dev@gmail.com>
+In-Reply-To: <20260725100658.1705-1-manojkm24dev@gmail.com>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Sun, 26 Jul 2026 08:12:02 +0900
+X-Gm-Features: AUfX_mxFyNnlo3VPzMH4bN1g0GZY_Ni5XJHOJ1l_LeDcBVAW4ZagKbK1c2UAVdI
+Message-ID: <CAKFNMo=zApDzM10dv66TgcKcvJyzWmur=88zRpfK=br_BGY02w@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: fix grammar in description of nilfs2
+ recovery code
+To: Manoj K M <manojkm24dev@gmail.com>, slava@dubeyko.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-nilfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 25, 2026 at 03:04:43PM -0700, Eric Biggers wrote:
-> If needed, "cbc(paes)" and/or "cbc-paes-caam" (whichever name it is
-> being accessed as) can be allowed as a special case, as a stop-gap.
-> 
-> This would need confirmed use of that specific algorithm with upstream,
-> which we don't quite have yet.  Dominique had a confirmed use of
-> "tk(cbc(aes))", but that has never existed upstream in the first place,
-> so it's not something that could be allowlisted upstream.
-> 
-> You've only mentioned that it "can" be used in this way in upstream.
-> Can you confirm that it *is* used, and with an actual upstream algorithm
-> name, and if so which one(s)?  And if so, would you also be able to
-> share whether this is for dm-crypt or not?  We should remember that
-> dm-crypt accepts keys directly and AF_ALG is not needed to use it.
+On Sat, Jul 25, 2026 at 7:07=E2=80=AFPM Manoj K M wrote:
+>
+> Include the word 'at' to make the sentence grammatically correct
+> inside the description for nilfs2 recovery code. This improves
+> documentation without changing the original meaning.
+>
+> Signed-off-by: Manoj K M <manojkm24dev@gmail.com>
+> ---
+>  Documentation/filesystems/nilfs2.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/nilfs2.rst b/Documentation/filesys=
+tems/nilfs2.rst
+> index e3a5c8977..a0124d22a 100644
+> --- a/Documentation/filesystems/nilfs2.rst
+> +++ b/Documentation/filesystems/nilfs2.rst
+> @@ -252,7 +252,7 @@ The following figure shows a typical organization of =
+the logs::
+>  To stride over segment boundaries, this sequence of files may be split
+>  into multiple logs.  The sequence of logs that should be treated as
+>  logically one log, is delimited with flags marked in the segment
+> -summary.  The recovery code of nilfs2 looks this boundary information
+> +summary.  The recovery code of nilfs2 looks at this boundary information
+>  to ensure atomicity of updates.
+>
+>  The super root block is inserted for every checkpoints.  It includes
+> --
+> 2.53.0
+>
 
-We'd also need to know whether the user (if there is one) requires
-unprivileged use.
+Thank you for the fix!
 
-Hopefully not: these sorts of hardware crypto drivers have lots of bugs.
-Indeed, the CAAM "cbc(paes)" doesn't validate the key length correctly,
-leaks DMA mappings, concurrent requests race with each other, etc...
+Viacheslav, could you please pick this up directly into your tree?
 
-- Eric
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+
+Thanks,
+Ryusuke Konishi
