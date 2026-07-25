@@ -1,159 +1,342 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B3B21CC44;
-	Sat, 25 Jul 2026 17:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785001751; cv=none; b=ZN46YRGm91Lfy3ok6XDcXSYrj+QYgIIVALzFAIcCSVDWtIO//3+zjBk1hfJVbkDDF/1kfj/ejeLshm7oooJh3T4p1X3/adDK0hOihx6FIw4ddHw2kFecmlx2yXf8bywmAMB4q4hYq0lWXKJt9ptbI3IWTHSxvc7nNbdheD15VeI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785001751; c=relaxed/simple;
-	bh=g2zxBVtQ/1sgGgGkuKKbs+j8xl+qgJFofasBkoJyQdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HYsk2Iu/g0/VJfGkKlMva/phmU1eyeZx+lKTHE5jI6Cv4cNziV0TOcgeGDZGWxiGJrdLjnJ8IjvPvK61u/XB5uh4w6xpXwunB8a44VkSS3dBTvqIAFX1nVX8W0XKNdHWpXvVR4/jcWYJZmaQbDvZ1aklkzoCUaUNJjBEGNPXGzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8I4b6Er; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EB745039
+	for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 18:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785003493; cv=pass; b=jViUB4IX6/tFW3s9K3/L0Vzb6LAKGrZauDJwM5BUO6SX+4iAbaVx3qQw38xucV7cUl/3YQRj2pupmORwK+1iEqIeINrpzCnUdi/Wzz0gkTBzYnrI9+9drqRoX0MICVCWTOe3sBCFq+tKFNnuJHpDSVFPkJAojkPUB+5xCyJs8Gw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785003493; c=relaxed/simple;
+	bh=DoIwWmmTZMdHBD5C9WAoSL+2zRq1znThHQIJkyvGamc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kTp2sEW1ngOAC78g7km0hL86CQTfI3JQqMFTYTKAfheHVaYxYtE8+hsftUpXvQF06fmUAzO5COdeGkVpwkh8d/RW9dBYVclZHSnHuiw40TR59TftNYdHX2lZuzE3FvqA7LGWp1JPAO+xdnc63nZDjwv1SKNc5AeScBycFE4tqJ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EkBjTyeM; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8I4b6Er"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B3AB1F000E9;
-	Sat, 25 Jul 2026 17:49:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785001749;
-	bh=2Qn9qcCPN9f2sZGtQb6IdvTnxe98CDptH48FCRNf8CI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T8I4b6ErvUpV1fJcGr95aRhtKGwcAGm33JK8yv3kzyeh2eywbuQary097solhxPqj
-	 BWcpYQGvljvKnhl4Q6xilhAsdV1tSoxLZ2a+TMtvFWBIWFrn75NcKX5Mc9XS6lUemG
-	 I2XBkoQq/gugRTVC+ZM/NqgH/90a/8Y32UhFy5tuAffFGFkT6IRdH3qN0K4qIChJFi
-	 cFUw/tO0HvrF/tp9W3/RjMqQa/ioPw8BeJS2WoTN1MHXP7A1/TvYJvrJkeD6+EDzzf
-	 bIrN/gtAm9HJ7bSkZeDAqe29NrUTatOMAPdAIt0Q5Pvqtkna6t2dV6qHkEnU3Szs9O
-	 eXRFSuGFBXUQA==
-Date: Sat, 25 Jul 2026 10:49:03 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Dominique Martinet <asmadeus@codewreck.org>
-Cc: Demi Marie Obenour <demiobenour@gmail.com>,
-	Harald Freudenberger <freude@linux.ibm.com>, acme@kernel.org,
-	adrian.hunter@intel.com, alexander.shishkin@linux.intel.com,
-	ardb@kernel.org, axboe@kernel.dk, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com,
-	herbert@gondor.apana.org.au, horms@kernel.org,
-	io-uring@vger.kernel.org, irogers@google.com,
-	james.clark@linaro.org, jolsa@kernel.org, kuba@kernel.org,
-	kuniyu@google.com, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, mark.rutland@arm.com,
-	mingo@redhat.com, namhyung@kernel.org, netdev@vger.kernel.org,
-	pabeni@redhat.com, peterz@infradead.org, skhan@linuxfoundation.org,
-	willemb@google.com, linux-s390@vger.kernel.org
-Subject: Re: [PATCH 2/3] AF_ALG: Drop support for off-CPU cryptography
-Message-ID: <20260725174903.GA150173@quark>
-References: <0ccda05f-077c-4661-b852-e6bf9bf40be3@gmail.com>
- <20260724180951.GA1572592@google.com>
- <amRntEmCUK-8wXcw@codewreck.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EkBjTyeM"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c10e86e52so117511cf.1
+        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 11:18:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785003490; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lKdXnf1e3d35gL8eIjElZqjZ8ku5m/SN+QrF9DtyiQQFWS6xHz6eWRLi2O9ZsvrtTb
+         Ll30uulefIYh+hHiHWGWHPhD5Y8KQ8hkpZGWt9gkej4JXUo26PUSfbyLHNKWMK1WoLkL
+         QBDlZibLQ9fiNCWQ0VCiHmDbexDi0uDXV1v51Yr07INT0WrehMLnMVbLEZstQykSIR7B
+         qZ6wK4RaFGq9S3FpTv41ML9/791S18s0ElxTYcAjjhwGELq/mOnje6aDDU0NcCyV/dYF
+         OUDh7YwLC9HkdAjGydxKK2kSMNxQtLBMdiUslC/q217mmNoNKZrZRXqxvN2NuQFMV14J
+         KNWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ixVLAHRCO1Q0YANd6J3Qvx5KyOmIXzLJW15kkmWqcs4=;
+        fh=ywGxKmRl7gEL4vAZ5xVT5G0LuddIh52Tx6yhs8ZcOQA=;
+        b=BGFF0fOWNNF7rWFThEK1vyZhB5tlOb6z1fKVQj3rKL5Xz3lvhAvgQn4LKlMWw3Uqyd
+         BoAsvxD6iXKA7lBzVfrU6r/pgs+tUKVGRpygDCuGULXEMEI8N2BvFmSmWwaT0tOrOP7F
+         laygSFE2jwR0504iCaIPrjbBax89OSMuJ2uiNOpLNjkoTNn86FXasjErQtnVh8xekr6d
+         PIWmiZNbzth5Vrpc3ggNsEEYwJ/E2GMNNXkpZ0IOSehBkGpuLWk/EVhT27jnEQtvkyeP
+         akOnU2LoLOzt9lgLnK8tTvuZaOPxxZYIDaUwKJ+zNAopqx14TTxYpkf54LulZqh2Fgup
+         tN1A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785003490; x=1785608290; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ixVLAHRCO1Q0YANd6J3Qvx5KyOmIXzLJW15kkmWqcs4=;
+        b=EkBjTyeMZ8K6XsZgR6W2fdnUAp135do2KsMrgWdIvmtED1ASibuNLM+vJCuyTFg/BX
+         gF3IbeTqriYNK4EvHNFwSA40s6BFkbBNDXaK9wKymM6Vl4BRExcQWx9xeXuUz/dJ6aoC
+         7kcggdynpaCDCKF9GMrirjQlOz+xe3IyrZBGgZE3w/JRzNw3r4HobKbVUxV2DcVZXYyo
+         qyYugRgCdFZ9+vO2Jb/airKZkq8wtldM97suX35MDJThjl65eToQgX8sZEXg4pKfkg8y
+         qxDql4bbBZzsuHGOLC29QlWfNvtF+xi5ZfNFLX2hsmhECLmVK0sQ52ld4tyrdTG/TzZl
+         v2eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785003490; x=1785608290;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ixVLAHRCO1Q0YANd6J3Qvx5KyOmIXzLJW15kkmWqcs4=;
+        b=GQuaLZdzQ/KUyBmmsxkvfKH7nK53FLduQa83lBA+UHsq72N66tfOnBB46mUm+3ZOjU
+         lK1zNvc0GHc4VTtkbL1DP6ArXBsfuUkd7M8VwDbqqmfOtgZOdez9QNXdbdHfqa9HGaWi
+         zGVLlKFcmo+i7jYRoAsrWgIhMkOcZiKMC1agi9UOJkbl5jZYM7e+YnNIVAbznJEbTKSV
+         dQ6TFxGidwxOreE3wW35QDSJBqRaGy0ZWELhxUmmbajklfXpTSc4NOx1MMxm8FEQjDOx
+         Uwzy8CltrLjlwIwQVH9lU/lMOYwVYCL/1BViHtdgAoDTslsp0uNBmAnLyrjHKkbFmf6N
+         KwhA==
+X-Forwarded-Encrypted: i=1; AHgh+RqcAUVgSFBMcrfOivF05xzW4aDVz63Vi3fdtIYbI0tZEgdZtF3SRl1M/Am8o59e8kV6AYaYe6ipnfA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/Deg6kq0UJDBmpFvxVw/v+gccyghK4GEiJpxq5Mrl1FILQo6e
+	s4Ql3jMRc/jnWMOiQRpS09LilzyJ6WByA/Efk3SHnhB9T+VOHR140r2yUURK9vnggOpPasX0Z0D
+	CEDw2q0Zz1YcrZ1BrF9HVOMqXmr+Uzl1Sy0Ujb57F
+X-Gm-Gg: AR+sD11NtT8Q75c+eu7dluaiV+JmSRQl92x3ABrxqDB/nOSilp0tRV0RwuPu2+kQhKq
+	BsZkoCDup9BvZNCf/HnPsxPSwh4Kduz1hAtZiQxr6IXQSDHtYn9hKDsQER4adDeF92XEebnK5vN
+	6nuAgK+yek8qhw4wyTLtKz5oIwNrRJCCb7wwuWUYgr8x+lZzmumBd7jnbQ3sStMZNa0v9TSdz/a
+	WggZTcD6XDjuiVZrZMoFfpMIsrvlKiwpAkuh5IWYc4KrNFwksvwW4pihiBRU16uFMabRzjz/Ywk
+	S/RRHb/Z3Zy+5mnwjBw=
+X-Received: by 2002:a05:622a:8c03:b0:517:6010:7c71 with SMTP id
+ d75a77b69052e-529a5db7b6dmr14935361cf.4.1785003489862; Sat, 25 Jul 2026
+ 11:18:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amRntEmCUK-8wXcw@codewreck.org>
+References: <20260722211517.1898228-1-pratmal@google.com> <20260723000609.95657-1-sj@kernel.org>
+In-Reply-To: <20260723000609.95657-1-sj@kernel.org>
+From: Pratyush Mallick <pratmal@google.com>
+Date: Sat, 25 Jul 2026 11:17:58 -0700
+X-Gm-Features: AUfX_mx7laTIppjMuRwceZdhrzpXvPvGAkkLzCUREO5VEIVPMUl2xSPjO0AbX2U
+Message-ID: <CALHaPKd_Ytknjg7GFBXeQK8kXvE7DhbyX_een7k5Fti-ahxL0A@mail.gmail.com>
+Subject: Re: [PATCH v2] mm/page_reporting: Add page_reporting_delay_ms sysctl
+To: SJ Park <sj@kernel.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, David Hildenbrand <david@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Greg Thelen <gthelen@google.com>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 25, 2026 at 04:37:24PM +0900, Dominique Martinet wrote:
-> Thank you both for your time replying
-> 
-> Eric Biggers wrote on Fri, Jul 24, 2026 at 06:09:51PM +0000:
-> > On Sat, Jul 25, 2026 at 01:32:12AM +0900, Dominique Martinet wrote:
-> > > There's not much I can do about the vendor's kernel I'm stuck with, but
-> > > that doesn't make having encryption material not accessible to userspace
-> > > useless as a concept;
-> > > forgetting about the sysctl for now, what are the alternatives API this
-> > > kind of implementations could be based on?
-> > > 
-> > > I guess I should start looking at how tpm backed encryption works,
-> > > some other day, it's getting late here...
-> > 
-> > First, we should remember that implementing hardware-bound keys via a
-> > standalone crypto engine is a dated approach.  Inline crypto engines and
-> > CPUs, which work much better than and are much easier to use than legacy
-> > standalone crypto engines, can support hardware-bound keys as well.  The
-> > former is already supported, and is already being widely used, in the
-> > kernel via the hardware-wrapped inline crypto keys feature.  For the
-> > latter, see e.g. RISC-V High Assurance Cryptography.  In the CPU case no
-> > UAPI is even needed; userspace can just use it directly.
-> 
-> Thank you, this is exactly what I was asking about - my background isn't
-> crypto and ultimately whatever direction is implemented will depend on
-> $vendor and I'll just be following along, but I'll read up on this.
-> 
-> "Inline crypto engine" seems to be a qualcomm marketing term, but from
-> looking at their doc the API seems to be PKCS#11 smart card?
-> Having worked on these for some other hardware I can't say I find it
-> easier to use than af alg, but it's definitely something that can be
-> worked out.
+> Why don't you make the lengths of the line and the section title same?
+Will fix the RST underline length.
 
-I guess I should have written "inline encryption hardware", which is the
-vendor-independent term we've been using in the kernel, just in case
-anyone thinks "inline crypto engine" means the "Qualcomm Inline Crypto
-Engine" specifically (but really, IMO they are just descriptive phrases
-that mean the same thing).  There are many different hardware vendors
-that have inline encryption hardware for UFS and/or eMMC.
+> So it is milliseconds. Why don't you add the unit to the name, like
+> page_reporting_delay_ms?
+Agreed, I'll rename the sysctl to page_reporting_delay_ms.
+Also I think it would better to make this a module param to be consistent
+with page_reporting_order.
 
-Their interface is quite simple and doesn't use PKCS#11 at all.  I don't
-know where you're seeing anything about PKCS#11.
+> Also, coule you elaborate why there is 10 seconds maximum limit? What's t=
+he
+> problem of having no limit, and why 10 seconds is the reasonable one?
+I don't have a strong justification for where the maximum limit should be s=
+et.
+The value is unsigned int, so it's bounded at UINT_MAX ms (~49.7 days)
+So at worst the worker just schedules that far out and reporting
+is effectively paused for that window.
+I'll drop this in V3.
 
-See also the documentation in Documentation/block/inline-encryption.rst
+> Too trivial nit, but, why don't you put the sysctl.h at the end of the li=
+st?
+Apologies. Will fix this.
 
-> "The CPU case" (looking at the RISC-V High Assurance Cryptography) would
-> be some CPU instructions (ISA) reserved for crypto ops?
-> That's interesting, I had never seen this but I can see this would
-> likely provide the best performance.. And if the ISA gain enough
-> traction having them supported out of the box by OpenSSL or whatsnot
-> might actually be possible, that'd be a great step forward.
+> A trivial comment again. Why don't you wrap the above line for 80 columns
+> limit? [...] seems most lines of this file is still keeping the 80 column=
+s limit?
+Apologies. I will fix this as well.
 
-Yes, and similar developments are also occurring on other CPU
-architectures, like Intel's Key Locker.
+Thanks for the feedback.
 
-> Right, sorry for asking about an out-of-tree driver, I hadn't realized
-> since caam itself has been upstream for a while.
-> 
-> I was just curious about the double-take approach taken with these two patches:
->  crypto: af_alg - Drop support for off-CPU cryptography (this)
->  crypto: af_alg - Add af_alg_restrict sysctl, defaulting to 1 ([4])
-> [4] https://lore.kernel.org/linux-crypto/20260622234803.6982-1-ebiggers@kernel.org/T/#u
-> 
-> I assume part of it was just that the whitelist wasn't ready yet when
-> this patch was merged, but as far as I understand if the whitelist
-> sysctl is implemented this is basically noop?
-> (Well, I guess it'll allow code simplification over time, but these
-> hopefully won't be backported to stable kernels too aggressively.. While
-> I fully expect to see this "Drop support for off-CPU crypto" patch to
-> show up in a couple of weeks in older stable trees; and for practical
-> purposes I don't see much way around just reverting it for now)
-> 
-> Thanks for putting up with me.
+Thanks,
+Pratyush
 
-Neither of these patches is tagged with 'Cc stable', and I don't expect
-them to be backported to stable kernels soon.  That being said, it seems
-the people using LLMs to find vulnerabilities haven't focused much on
-drivers/crypto/ yet.  Once they do, well, they will of course find
-vulnerabilities everywhere (accessible from unprivileged userspace via
-AF_ALG), and when that happens there may be little choice.
-
-The addition of the af_alg_restrict sysctl (and the possibility of
-userspace explicitly choosing to disable restrictions by setting
-af_alg_restrict=0) doesn't necessarily mean that problematic
-functionality should be, or should have been, moved under
-af_alg_restrict=0 rather than removed outright.  It's just an option
-that can be used if needed for compatibility reasons, if actual user
-reports come in.  If something is not needed at all it can just be
-dropped right away.  This actually happens way more often than people
-might think, due to the immense amount of unnecessary functionality that
-AF_ALG has: *many* crypto algorithms have been removed from AF_ALG over
-the years without any complaints, since they were never used.
-
-I'll also note that hardware crypto "decelerator" driver authors are
-actually now *depending* on the drivers no longer being usable from
-AF_ALG in mainline in order to argue for more relaxed driver inclusion
-criteria.  I don't think they can have it both ways!
-
-- Eric
+On Wed, Jul 22, 2026 at 5:06=E2=80=AFPM SJ Park <sj@kernel.org> wrote:
+>
+> get_maintainer.pl suggests adding below to the recipients list of this pa=
+tch.
+> Let me add them.  I show you already Cc-ed David, but with his old email
+> address.
+>
+> - David Hildenbrand <david@kernel.org>
+> - Lorenzo Stoakes <ljs@kernel.org>
+> - "Liam R. Howlett" <liam@infradead.org>
+> - Mike Rapoport <rppt@kernel.org>
+> - Jonathan Corbet <corbet@lwn.net>
+> - Shuah Khan <skhan@linuxfoundation.org>
+> - linux-doc@vger.kernel.org
+>
+> On Wed, 22 Jul 2026 21:15:17 +0000 pratmal@google.com wrote:
+>
+> > From: Pratyush Mallick <pratmal@google.com>
+> >
+> > Currently, the free page reporting daemon uses a hardcoded delay of
+> > (2 HZ) between reporting intervals. While this is a reasonable
+> > default, it lacks the flexibility to adapt to varying guest workloads.
+> >
+> > A low delay allows aggressive memory reclamation, returning unused
+> > pages to the host as quickly as possible. However, during spiky
+> > allocation/free churn, this immediate reporting can lead to a severe
+> > performance penalty (nested page faults) as the guest re-allocates memo=
+ry
+> > that the host has just unmapped. In these scenarios, there is benefit
+> > from increasing the delay to batch free pages over a longer window,
+> > absorbing the churn without hypercall and re-fault overhead.
+> >
+> > This patch refactors the delay into a dynamically tunable sysctl,
+> > /proc/sys/vm/page_reporting_delay_ms, measured in milliseconds. The val=
+ue
+> > defaults to 2000ms to precisely match the original (2 HZ) behavior.
+> >
+> > Signed-off-by: Pratyush Mallick <pratmal@google.com>
+> > ---
+> > v2:
+> >  - Documented page_reporting_delay_ms in Documentation/admin-guide/sysc=
+tl/vm.rst.
+> >  - v1: https://lore.kernel.org/linux-mm/20260722192935.1646848-1-pratma=
+l@google.com/T/#u
+> > v1: Fixed feedback from RFC.
+> >  - Added lower and upper cap to sysctl value.
+> >  - Reverted the reordering on page_reporting_delay_ms.
+> >  - Dropped the mod_delayed_work() change.
+> >  - RFC: https://lore.kernel.org/linux-mm/20260714171456.2350037-1-pratm=
+al@google.com/T/#u
+> >  Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++
+> >  mm/page_reporting.c                     | 30 ++++++++++++++++++++++---
+> >  2 files changed, 40 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/ad=
+min-guide/sysctl/vm.rst
+> > index b9b0c218bfb4..6efa460b4547 100644
+> > --- a/Documentation/admin-guide/sysctl/vm.rst
+> > +++ b/Documentation/admin-guide/sysctl/vm.rst
+> > @@ -66,6 +66,7 @@ Currently, these files are in /proc/sys/vm:
+> >  - overcommit_ratio
+> >  - page-cluster
+> >  - page_lock_unfairness
+> > +- page_reporting_delay
+> >  - panic_on_oom
+> >  - percpu_pagelist_high_fraction
+> >  - stat_interval
+> > @@ -896,6 +897,18 @@ stolen from under a waiter. After the lock is stol=
+en the number of times
+> >  specified in this file (default is 5), the "fair lock handoff" semanti=
+cs
+> >  will apply, and the waiter will only be awakened if the lock can be ta=
+ken.
+> >
+> > +page_reporting_delay
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Why don't you make the lengths of the line and the section title same?
+>
+> > +
+> > +This value determines the delay in milliseconds between free page
+> > +reporting intervals. A lower delay allows aggressive memory
+> > +reclamation by returning unused pages to the host quickly, while a
+> > +higher delay helps to batch free pages over a longer window, absorbing
+> > +allocation/free churn without hypercall and re-fault overhead.
+> > +
+> > +The default value is 2000 (2 seconds). The minimum allowed value is
+> > +0 (immediate reporting) and the maximum allowed value is 10000 (10 sec=
+onds).
+>
+> So it is milliseconds.  Why don't you add the unit to the name, like
+> page_reporting_delay_ms?
+>
+> Also, coule you elaborate why there is 10 seconds maximum limit?  What's =
+the
+> problem of having no limit, and why 10 seconds is the reasonable one?
+>
+> > +
+> >  panic_on_oom
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > diff --git a/mm/page_reporting.c b/mm/page_reporting.c
+> > index 942e84b6908a..805da4bc1101 100644
+> > --- a/mm/page_reporting.c
+> > +++ b/mm/page_reporting.c
+> > @@ -6,6 +6,7 @@
+> >  #include <linux/export.h>
+> >  #include <linux/module.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/sysctl.h>
+> >  #include <linux/scatterlist.h>
+>
+> Too trivial nit, but, why don't you put the sysctl.h at the end of the li=
+st?
+>
+> >
+> >  #include "page_reporting.h"
+> > @@ -47,7 +48,10 @@ MODULE_PARM_DESC(page_reporting_order, "Set page rep=
+orting order");
+> >   */
+> >  EXPORT_SYMBOL_GPL(page_reporting_order);
+> >
+> > -#define PAGE_REPORTING_DELAY (2 * HZ)
+> > +#define PAGE_REPORTING_DELAY_MS_MAX  (10 * MSEC_PER_SEC)
+> > +
+> > +static unsigned int page_reporting_delay_ms =3D 2 * MSEC_PER_SEC;
+> > +static unsigned int page_reporting_delay_ms_max =3D PAGE_REPORTING_DEL=
+AY_MS_MAX;
+> >  static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly=
+;
+> >
+> >  enum {
+> > @@ -56,6 +60,19 @@ enum {
+> >       PAGE_REPORTING_ACTIVE
+> >  };
+> >
+> > +
+> > +static struct ctl_table page_reporting_sysctls[] =3D {
+> > +     {
+> > +             .procname       =3D "page_reporting_delay",
+> > +             .data           =3D &page_reporting_delay_ms,
+> > +             .maxlen         =3D sizeof(unsigned int),
+> > +             .mode           =3D 0644,
+> > +             .proc_handler   =3D proc_douintvec_minmax,
+> > +             .extra1         =3D SYSCTL_ZERO,
+> > +             .extra2         =3D &page_reporting_delay_ms_max,
+> > +     },
+> > +};
+> > +
+> >  /* request page reporting */
+> >  static void
+> >  __page_reporting_request(struct page_reporting_dev_info *prdev)
+> > @@ -80,7 +97,7 @@ __page_reporting_request(struct page_reporting_dev_in=
+fo *prdev)
+> >        * now we are limiting this to running no more than once every
+> >        * couple of seconds.
+> >        */
+> > -     schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
+> > +     schedule_delayed_work(&prdev->work, msecs_to_jiffies(page_reporti=
+ng_delay_ms));
+> >  }
+>
+> A trivial comment again.  Why don't you wrap the above line for 80 column=
+s
+> limit?  I know that's not a hard limit anymore and I show a few lines of =
+this
+> file already exceeds 80 columns.  But seems most lines of this file is st=
+ill
+> keeping the 80 columns limit?
+>
+> >
+> >  /* notify prdev of free page reporting request */
+> > @@ -340,7 +357,7 @@ static void page_reporting_process(struct work_stru=
+ct *work)
+> >        */
+> >       state =3D atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDL=
+E);
+> >       if (state =3D=3D PAGE_REPORTING_REQUESTED)
+> > -             schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY)=
+;
+> > +             schedule_delayed_work(&prdev->work, msecs_to_jiffies(page=
+_reporting_delay_ms));
+>
+> Ditto.
+>
+> >  }
+> >
+> >  static DEFINE_MUTEX(page_reporting_mutex);
+> > @@ -416,3 +433,10 @@ void page_reporting_unregister(struct page_reporti=
+ng_dev_info *prdev)
+> >       mutex_unlock(&page_reporting_mutex);
+> >  }
+> >  EXPORT_SYMBOL_GPL(page_reporting_unregister);
+> > +
+> > +static int __init page_reporting_sysctl_init(void)
+> > +{
+> > +     register_sysctl_init("vm", page_reporting_sysctls);
+> > +     return 0;
+> > +}
+> > +late_initcall(page_reporting_sysctl_init);
+> > --
+> > 2.55.0.229.g6434b31f56-goog
+>
+>
+> Thanks,
+> SJ
