@@ -1,358 +1,151 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849D0377AAC;
-	Sat, 25 Jul 2026 03:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784951732; cv=none; b=dQ+tL6vvJjPjtXeTsY0sTaAQHjJHiKZgfx2NP43zB75N63a23/FvMFlZ81vGYzjnpZAVW4j5c/QWJomOmbt0puo5N3FNUFeZ8OGZvKXwey/tcw/CWEpyPhaNqiq6E69TQu1Wv8U/P7jWqZeTWjhgD66lCCoIu2dI1BxlDrCyvvI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784951732; c=relaxed/simple;
-	bh=SNpP04hn5F5cn9vruBKqaEAbN6vd9hOpwz4CDhHGE/Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s7hkFFRejhg3Eq5/FPCWkF77J5/d3ISroDJvHaGzn//Ooc+0vhgiHe2kE8QUMNQQ9MDI1p2Fkh99dOa7RT9q34tfEqs01jD/M9nm+DMkEInDzIVJrrgI9tTOUXdt049UaOWj9QejbPUmEMWA68jibhkGAYqa0u8/kdJd7Mr3BkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=DMUKTTgC; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479032C15BB
+	for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 04:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784952106; cv=pass; b=TdUwCACCv+gTMffDACv7dObdNLD9DGlK3zH6YH0M4sI2pSY41moCCrU4TNYu4lQtaokztdeqy1QlEertX7+XVW6vJpohXY3MMFpuXd7rMRDufIQ6AeimGidhCcITC9TfpvaghHCJkGyQrQtGpXJpBndWhWmJ9QqIYQhTwsbO6fA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784952106; c=relaxed/simple;
+	bh=fNC8wElaBgCywizq8gsw7GvnGpxJrTKPY2EQunJ50fQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mUqQn+/mNlh+TObpWCPAfXD4ClXFuX0Joh34HFLae7PvH6keG4kR8nD+Qsc/FS5pTmHnubqBSSJ9XdvBVS1/SDyJQAU6caaUOnI1mMJUQrSsbCZhjSXpGk0tJMwJQaRgnXEEFj01mbIjTxLCxln0kMybJSwkCpy1TdMHO/uQyY8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=CNAZJoN0; arc=pass smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="DMUKTTgC"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66P320JF3686846;
-	Sat, 25 Jul 2026 03:55:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=jLM1wO
-	wIjsTL795061WExYD6CA77xP4pQFpIl9LnsnY=; b=DMUKTTgCzJA+fVp9Z+syOO
-	K5dyQ2hLN4YWbLsfAm26FrQZWsA5LiTYOSn1UwcrB/9MQOSltlUskBqB/onyGOM+
-	VXvlxgE2bsPPKv9YZpcs9gB3+QGzo9R0s1sL6MMUqeD28dx4UNxaMFxJ6YfTIbgc
-	OGXK7oSmbSZKHU11i+UKgYu4CeHLtTdYjurZBeNdSIVcbcPOWrjO/2+LWY8YAKdt
-	NSTjsiFEf+UydB0bBl4IMCmGb3aJADJ5dHIYpjkPlw7QD7OOzLte+CYC3+HecpAu
-	Onyd6gZJGJugNn+tlRlPLHOeDFNpnfD2OEuocGleUg7uJEqr5hzRZcRc3WLds3GA
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmmv504bp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 25 Jul 2026 03:55:05 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66P3fL0T029219;
-	Sat, 25 Jul 2026 03:55:04 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fmn12g3fa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 25 Jul 2026 03:55:04 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66P3t0QK8257974
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 25 Jul 2026 03:55:00 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AB0E520043;
-	Sat, 25 Jul 2026 03:55:00 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3E20320040;
-	Sat, 25 Jul 2026 03:54:52 +0000 (GMT)
-Received: from [9.124.223.44] (unknown [9.124.223.44])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 25 Jul 2026 03:54:51 +0000 (GMT)
-Message-ID: <493495db-01a4-43bc-9261-0456436be933@linux.ibm.com>
-Date: Sat, 25 Jul 2026 09:24:51 +0530
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="CNAZJoN0"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51c15bf5000so7547681cf.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jul 2026 21:01:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784952103; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RVoXEetEEEHlXxZN/vUp88HKZO38F65DukXT5Fypo1N4q0NHsf2iR6duBbflHdqhhW
+         RBUQqW5nnbB3S/ufjP9i82pev+685UGrwPTqq24TqpQhIebeu6lvKza9u9Fay6X6KUlg
+         mAlSXR6oVBgz4wuaBBNWRjrcr3gz8H4F7NNqYK3rcO0/Zq6mN8CJ2hHgsYKkp9mYgBHz
+         9snPhe/zfNkAdORRrKvalGUjktmF3Ucj6+ZWKdW+7KMojvt3puqyNaqeuTO/MVjDehVn
+         w6n1ctYXdKVETz8c8OtNohrT7xw+xEb6Uj57mh1Xe1vrghSeJigsw0fhvu7IlT36R/pA
+         TN/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CzPMjf6pORP572iHiiQv3possHTxsjbSzVUS0tfn1HU=;
+        fh=Ang2VsuWFk9croT/Ur/EP+14wjGPf958a2bJDkres8A=;
+        b=lFs3SpBXYHiNcBy0ylKs8GzpBJb3iJ2LFetPJhTMpKrWsYOjuFmSwB3en3rcvsmbzZ
+         VzfUxQwzRUSAuqUxFoXSnAU3yq3bikEBrYXRM4ccEADU+6L/T0NMS+T+/skxXmKlABdw
+         Ef/GR7ydTb2CScQtUyw8oHo/OysAVjvjl9DxGxZklzwZdCfPD1YxAiJWcf12B6jDS2CE
+         x+7vUTVHxYE+WweGDbNkrxj4zEl4igeN1O4bQ61sWgifh3VPxf2mdxg4gwqLffqGiJlp
+         LZLXaCouAcSFr67Hz/hmxvw0jGaKLK+x1Z6UkJpKhH8f0w8xCHnCIUGwaFBIEeUdpuIY
+         BJnQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1784952103; x=1785556903; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CzPMjf6pORP572iHiiQv3possHTxsjbSzVUS0tfn1HU=;
+        b=CNAZJoN0GTGYkkNaC+LQwZa9ZPYftYSqqF9YnFNyEv/DFmrM+msE4JBCrJb/oKRqVL
+         hih2RSoXP1ImRcm7kDGVqmiKReSP64UzzbzY7d6sGRf3Iz+pK7OkARtstKIc9iL9J3Ko
+         Jfb6ddY0nBEAbcuBHouUYHej58F60A0BJgcIg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784952103; x=1785556903;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=CzPMjf6pORP572iHiiQv3possHTxsjbSzVUS0tfn1HU=;
+        b=XgrQ9XXRFfG+KIm3XXO48c6zYGdm3/fTJRtvRRVNeUkV9uKQJ+MgSb5zVZC4m+VF4o
+         2sXDsY0SVM1F4Db8DLOJjsja5cKX138mY0C+CmU5ZU5UhUVZD+M/6UAoB5nNZySSSJ8J
+         /Gdvj8eNWqga6R03Rni26lsMeVWxGMp3mnXAcUEM4NDpyCsXTU2T4aAIc/VUj3YI71bA
+         G9v704Mt7etTzuQrHz0V+CIPadKnjYPq0W1rFu60FB1YPn7Ba9/4V99USSlhY7umXpeB
+         XcCclBxf6zJRHMuuZfUZhqrdCIosxDXBUGS/X+cCroTknAefMOg3GXRqtQTekIRs4vtB
+         dpFw==
+X-Forwarded-Encrypted: i=1; AHgh+RqcTG8GlU4pfVA8l3s9nFnBy+b++qL/JVJcYTsInBhXLWzRHp1aAZt8epWSXfdlM0570eIFpM6RqX8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrfaJmxrmaaWzdX2VoqG1tHZLkQt/hPkVP3L0I8sFEMWQFxkt3
+	0O5ikqhNfjZEp9UL6cKrQJLa5roxaO2mSKFKmheF9QoGy2bszv/+xKKNoOjOxUx8gPhlIqRDR9a
+	gAnjRq9FZRF6Ja784ZjEO1MTWZJqcLIjrMGtN0s29l0hQZi/nv3dYj/U=
+X-Gm-Gg: AR+sD13Ge0nbxnHF8iKYIN32v9IOs6KpQzvkMBJCF47hLK0HmkWSVHz2bNVA7MFnZ3a
+	AIROC9iI2EzXTK0Mgg0CI8yUyRAUbIVeEqZ3IVC7rov2GL0hxiClXoOtcAM+lCSHhM9WmLVC45z
+	jshi08xrK9JYYjBmQq4WZDX6WD2SXkxp58vsjxRAmQD9tlt52SCxuO1WC1FHO+LFLJYiniw8FQn
+	x3ayH55/LJVFhZ4G0JP1UdxCY85sIyRmqZ+G7bqdMoih07XrOyJ+Bt9nbkWmFu/QeLIqb/e5Rf3
+	n3NK6WIgIJFJGmec
+X-Received: by 2002:ac8:5c90:0:b0:51c:7b12:6001 with SMTP id
+ d75a77b69052e-529a8714e88mr10045521cf.77.1784952103086; Fri, 24 Jul 2026
+ 21:01:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 10/11] virt/steal_governor: Implement steal_governor
- policy loop
-To: Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org, jgross@suse.com,
-        virtualization@lists.linux.dev
-References: <20260724140732.2683314-1-sshegde@linux.ibm.com>
- <20260724140732.2683314-11-sshegde@linux.ibm.com> <amPTg78qsOw4WpqB@yury>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <amPTg78qsOw4WpqB@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: ybt45pc9wcTBCbbfcFkaIZXIQSlrScDZ
-X-Authority-Analysis: v=2.4 cv=E679Y6dl c=1 sm=1 tr=0 ts=6a64339a cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=C920T_kPIOPA6LgbBOQA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI1MDAzMSBTYWx0ZWRfX5eZRu4vsO4DE
- zg/YmrXiiTSvfKUufNZYyHrBl3bzioAT+HVuBp22DZox6ULB/LFLS2V9alFQqc1Z+O6JgcZRQ/U
- sqSLI5ecKNvnWJyM43u9dhZi8VBgZmI=
-X-Proofpoint-GUID: mRtOHzg_o1XdWCUJxDXyqoKVdWGlFWj8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI1MDAzMSBTYWx0ZWRfX15gC+qVIQvsu
- G38MA3F2+gLEewGthal3gOS/diEDg9s+WfpcnhwZpAKyeyhaeL3CLEkGKUc/Ps+sPxUrw6ZuBI+
- IpYFcw+crpwCRYK1zwB9UYbe8y0qbxm5lNVb8bEIDLAfDbMJldAc+uU968eADhPBXApfrmyla3c
- ecEa71ZpP4IZROpekhTQ9xZ7oreG2bpPsewZlwb6IKaG51lZ0buxjkD74KaE5TaRZ0Xa+f1l2Mc
- RlBZybxcQjusau4DLlGV29378gg0bHZDaZDDQCre+Kxor+9bXfCw95O+76JBd2ZzRvCNLOihi+W
- 1FL6iMGKPm7wtmcdQ5JRsmpVqVlprtqfaZdUjaN/c9C8ogB5fz+jUtyJxIqFdT09KJkgF9oRZM/
- +h/neMiZIh+JOkXETRHXfjgUKyKR5RtmK65fRjqeLNIaoEMYa9ZmgF5qEtZmV0ADbmNcB70n+Jj
- zGcbxhMSxPb9n5JuaQg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-25_01,2026-07-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- adultscore=0 bulkscore=0 spamscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607250031
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
+ <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
+ <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+ <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com> <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
+In-Reply-To: <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Sat, 25 Jul 2026 06:01:30 +0200
+X-Gm-Features: AUfX_mxAcvr2jX4Ns3aulDhtsSqUabRQhwz0VnV0bbRi_FBtOFn1nR0cN_FIRKA
+Message-ID: <CAJfpeguEptz4sEXq=pBWPFop--1kTDu5p2yZnCyzXcrZ28Nekw@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Yury,
+(Replying shortly as we are starting now on a two week journey.  Won't
+read email during this time).
 
-On 7/25/26 2:35 AM, Yury Norov wrote:
-> On Fri, Jul 24, 2026 at 07:37:31PM +0530, Shrikanth Hegde wrote:
+On Fri, 24 Jul 2026 at 22:23, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-[...]
-    
->> +/* Return collective steal time across system. */
->> +static u64 get_system_steal_time(void)
->> +{
->> +	int cpu;
->> +	u64 total_steal = 0;
->> +
->> +	for_each_possible_cpu(cpu)
->> +		total_steal += kcpustat_cpu(cpu).cpustat[CPUTIME_STEAL];
->> +
->> +	return total_steal;
->> +}
-> 
-> In v8 I pointed to the identical function in s390 code, and you agreed
-> to unify them, but that didn't happen. Please do that in the next
-> version.
+> imo these changes seem doable for making the 7.3 merge window. I'm not
+> sure how much bandwidth John has though. Maybe one idea that could
+> work if John is completely slammed for time right now is having the
+> changes requested above be a separate followup series someone else can
+> do and then this current series (after the sashiko fixes) and that
+> series can get landed together in the same merge window.
 
-I thought I will do this refactoring after the series gets merged upstream.
-If you insist, I will do this in next version.
-
-> 
->> +/* Return number of CPUs to consider steal ratio. */
->> +static unsigned int get_system_cpus(void)
->> +{
->> +	return num_possible_cpus();
->> +}
->> +
->> +/*
->> + *
-> 
-> Useless line
-
-My bad. Will remove.
-
-> 
->> + * Called when the steal governor detects high physical CPU contention.
->> + * It finds the last active core in the preferred mask and mark those
->> + * CPUs as non-preferred.
->> + *
->> + * Must ensure:
->> + * - at least one core is always kept as preferred
->> + * - preferred is always subset of active.
->> + */
->> +static void decrease_preferred_cpus(void)
->> +{
->> +	const struct cpumask *first_hk_core;
->> +	int target_cpu = nr_cpu_ids;
->> +	int cpu;
->> +
->> +	guard(cpus_read_lock)();
->> +	cpu = cpumask_first_and(housekeeping_cpumask(HK_TYPE_KERNEL_NOISE),
->> +				cpu_preferred_mask);
->> +	if (cpu >= nr_cpu_ids)
->> +		return;
->> +
->> +	/* Always leave first housekeeping core as preferred. */
->> +	first_hk_core = topology_sibling_cpumask(cpu);
->> +	cpu = cpumask_last(cpu_preferred_mask);
->> +	if (cpu >= nr_cpu_ids)
->> +		return;
->> +
->> +	/* Find the last CPU which doesn't belong to that first hk_core. */
->> +	if (!cpumask_test_cpu(cpu, first_hk_core)) {
->> +		target_cpu = cpu;
->> +	} else {
->> +		for_each_cpu_andnot(cpu, cpu_preferred_mask, first_hk_core)
->> +			target_cpu = cpu;
->> +	}
->> +
->> +	/* Only the first housekeeping core remains */
->> +	if (target_cpu >= nr_cpu_ids)
->> +		return;
->> +
->> +	for_each_cpu_and(cpu, topology_sibling_cpumask(target_cpu),
->> +			 cpu_preferred_mask)
->> +		set_cpu_preferred(cpu, false);
->> +}
->> +
->> +/*
->> + * Called when the steal governor detects no/low physical CPU contention.
->> + * It finds the first active core outside of preferred mask and mark
->> + * those CPUs as preferred.
->> + *
->> + * Must ensure preferred is subset of active.
->> + */
->> +static void increase_preferred_cpus(void)
->> +{
->> +	int first_cpu, cpu;
->> +
->> +	guard(cpus_read_lock)();
->> +	first_cpu = cpumask_first_andnot(cpu_active_mask, cpu_preferred_mask);
->> +
->> +	/* All CPUs are preferred. Nothing to increase further */
->> +	if (first_cpu >= nr_cpu_ids)
->> +		return;
->> +
->> +	for_each_cpu_and(cpu, topology_sibling_cpumask(first_cpu),
->> +			 cpu_active_mask)
->> +		set_cpu_preferred(cpu, true);
->> +}
->> +
->> +static bool preferred_cpus_valid(void)
->> +{
->> +	if (cpumask_empty(cpu_preferred_mask)) {
->> +		pr_err("empty preferred mask. stopping\n");
->> +		return false;
->> +	}
->> +
->> +	if (!cpumask_subset(cpu_preferred_mask, cpu_active_mask)) {
->> +		pr_err("preferred: %*pbl is not subset of active: %*pbl, stopping\n",
->> +		       cpumask_pr_args(cpu_preferred_mask),
->> +		       cpumask_pr_args(cpu_active_mask));
->> +		return false;
->> +	}
->> +
->> +	return true;
->> +}
->> +
->> +static void compute_preferred_cpus_work(struct work_struct *work)
-> 
-> Bad name. You're not only computing here, but actually adjusting the
-> preferred CPUs mask.
-> 
-
-adjust_preferred_cpus_work or steal_governor_loop ?
-
->> +{
->> +	u64 curr_steal, delta_steal, delta_ns, steal_ratio;
->> +	ktime_t now;
->> +
->> +	now = ktime_get();
->> +	delta_ns = ktime_to_ns(ktime_sub(now, sg_ctx.time));
->> +
->> +	if (unlikely(delta_ns < NSEC_PER_MSEC)) {
->> +		pr_err_ratelimited("work scheduled too soon delta_ns: %llu\n", delta_ns);
->> +		goto requeue_work;
->> +	}
->> +
->> +	curr_steal = get_system_steal_time();
->> +	delta_steal = curr_steal > sg_ctx.steal ? curr_steal - sg_ctx.steal : 0;
->> +	sg_ctx.steal = curr_steal;
->> +	sg_ctx.time = now;
->> +
->> +	/*
->> +	 * steal_ratio = (delta_steal * 100*100)/(delta_ns * num_cpus())
->> +	 * To avoid possible overflow, divide the denominator early.
->> +	 * Note minimum interval is 100ms.
->> +	 */
->> +	delta_ns = max_t(u64, div_u64(delta_ns * get_system_cpus(), 10000), 1);
->> +	steal_ratio = div64_u64(delta_steal, delta_ns);
-> 
-> So if:
-> 
-> Possible CPUs = 128
-> Active CPUs = 8
-> Steal on online CPUs = 50%
-> Steal on offline CPUS = 0%
-> 
-> Then calculated ratio would be:
-> 
->          (50% × 8 + 0% * 120) / 128 = 3.125%
-> 
-> Instead of decreasing the number of preferred CPUs, you'll do nothing
-> under default thresholds, or even increase.
-> 
-> Have you tested your driver against such a configuration?
-
-I thought about it, but given range of systems linux supports today, there
-will always be configurations where defaults are not good enough.
-
-That is why it is recommended to build it as module. load the driver
-will custom high and low threshold.
+I'm all for it.
 
 
-I had it as active CPUs only earlier. but the concern is, what happens at hotplug.
-Since online a new CPUs steal time can add big value, it can trigger high threshold
-check, similarly for offline. Plus raciness w.r.t to active CPUs.
-(same issue for online CPUs)
+>
+> >
+> > Maybe the striping setup can also be done with a notification.  The
+>
+> I had interpreted the FUSE_DEV_IOC_STRIPE_OPEN patch as implying that
+> the mapping gets forwarded to the kernel through the backing id in the
+> open() reply, which I think is how Amir had also interpreted it. I
+> didn't like that the striping mappings got sent through an ioctl while
+> the simple mappings didn't, but I think maybe the patch was not trying
+> to suggest that and I had interpreted it too literally. I like the
+> striping setup through an ioctl - I think it makes sense given that it
+> is connection-level instead of inode-level.
 
-Hence I chose it as possible CPUs.
+Yeah, the striping setup is on a different level (like we have with
+regular filesystems).  So I think it's not that bad that the setup is
+different.
 
-> 
-> Also, I'm not quite sure how you'd handle a case when you have half
-> of CPUS in your core offlined, but you manage preferred mask per-core,
-> so you offline or online less CPUs than expected. Can you mention that
-> scenario in the documentation?
-> 
-
-If it is with thresholds, it is same case as above. Other than that, i have
-tested it doesn;t set for offline CPUs etc.
-
-I am not sure if scaling the thresholds with active CPUs is a good idea or not.
-It can easily cause more math headache for users.
-
->> +
->> +	if (steal_ratio > sg_ctx.high_threshold)
->> +		decrease_preferred_cpus();
->> +	else if (steal_ratio <= sg_ctx.low_threshold)
->> +		increase_preferred_cpus();
->> +	else
->> +		goto requeue_work;
->> +
->> +	if (!preferred_cpus_valid()) {
->> +		restore_preferred_to_active();
->> +		return;
->> +	}
->> +
->> +requeue_work:
->> +	schedule_delayed_work(&sg_ctx.work, sg_ctx.delay);
->> +}
->> +
->>   static int __init steal_governor_init(void)
->>   {
->>   	if (sg_ctx.low_threshold >= sg_ctx.high_threshold) {
->> @@ -117,6 +267,10 @@ static int __init steal_governor_init(void)
->>   	}
->>   
->>   	sg_ctx.delay = msecs_to_jiffies(sg_ctx.interval_ms);
->> +	INIT_DELAYED_WORK(&sg_ctx.work, compute_preferred_cpus_work);
->> +	sg_ctx.steal = get_system_steal_time();
->> +	sg_ctx.time = ktime_get();
->> +	schedule_delayed_work(&sg_ctx.work, sg_ctx.delay);
->>   	pr_info("enabled. interval: %ums, high_threshold: %u, low_threshold: %u\n",
->>   		sg_ctx.interval_ms, sg_ctx.high_threshold, sg_ctx.low_threshold);
->>   
->> @@ -125,6 +279,7 @@ static int __init steal_governor_init(void)
->>   
->>   static void __exit steal_governor_exit(void)
->>   {
->> +	disable_delayed_work_sync(&sg_ctx.work);
->>   	restore_preferred_to_active();
->>   	pr_info("disabled\n");
->>   }
->> -- 
->> 2.47.3
-
+Thanks,
+Miklos
