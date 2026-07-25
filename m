@@ -1,106 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD223A785A;
-	Sat, 25 Jul 2026 21:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F107D18A93F
+	for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 21:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785013362; cv=none; b=d4hvfZGH+cHD9cfl/1tLUdZAxsSZ4fqPpNj3IMww19aEIQ/ckDDAshJu1j8r6Nl++bnIxeFvWwlSn5+fdvZ7ldbRtjoZ4d0TVRhe5vTzet8zn650MiqNz/e+KZXeBtv3dnTRv8Rgfzhzt766JVWLVI0KoK+Nodxmp/3NgUfrk54=
+	t=1785014170; cv=none; b=XMHqpWo+AAYJu0CMdHeZ1q3Lg9BCuUw2lCVeuVcv2VYnJRpAtUMvSqNLjnO7B+VR0tVxTNsZ9LHyQxDK6+XTGZ1DPC9IM6MjtZMu8LxPQ65q/6iaWc/JyYjbw4oMVhjTagaYf1oe08U6oYJ/k/sjXhk5UnLhUVw/5dZ5IArkHPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785013362; c=relaxed/simple;
-	bh=LfUBLzj2uLeLsXoH9maLrSltT7mLeQwTqfSCV79lxF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bL69zoM1D1Mvq9vKKQyY6C3i0l8zO6iSB4v2s/bf8vo0SXwiXY1LuzAJzVLe2xiA2m6f5jyLT+IdlMCIBgRm7s6vMcLXeWSQuqaq57AvH3dh4fuwwF+FjuMnQM/jIMdWCLh2XRF0Ih5L9Ns6NGsZF+x7m5tzLMLB3yQJOS8tpQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ToaRLvWY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785014170; c=relaxed/simple;
+	bh=ldOpqswUqkrtU/xufEDtFsL7aeqjiVAXwRFmYW6WrWk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Gj78HvBHd4QExDjS0ilHlhare7C+49y9rFRkvB9JZxej6Y81/DP7uZO8dDPNc7EohzG7/rSXtADZomgpORSER+ceh+7u9Xc8aNqKs5VjelBCZSbuOEyV60ouTQkRMxjtt64xl+4wnFBFG15wNbSXqfUPPYjYxJsgurhjx68j3Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EIP2/TNs; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ToaRLvWY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 246251F00ACF;
-	Sat, 25 Jul 2026 21:02:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785013360;
-	bh=lGAfYBcye8NcUlTLvbjwlCQLfnRNUH/n12fXnvN8FwM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ToaRLvWYsQRSPYrpcwZ1LMMJy0m62bo1iqX662YIPkyoJQyf8Ie9XvZ2OtRHDELRl
-	 uQMe8UUM5/gK52s1WeFdkP9rpkBW6Kcnd55PtmiZowD5/M3e19CZtzXA15VBRpfsQb
-	 gVuLqf/Xyb8RQfyfs2t96Bx13KpqWdYR+eBHsJqBz65OLYg6dnJ/UzxlT13HdXQqGp
-	 uWjyZPe6fLns/xzwJ+a/aLvZi9+l9iPFyxF6Hyd77mHHBAezilwp4sbD7wplbdcUWy
-	 JDFMWWVZjonJBemuWn6A6CNSFqUi/2KU0OrRu4fY/LEExoCKLwJRKsITqkLrEAY1+m
-	 XPMVFrcA3pO+A==
-From: SJ Park <sj@kernel.org>
-To: 
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH 16/17] Docs/admin-guide/mm/damon/usage: document probe preps sysfs files
-Date: Sat, 25 Jul 2026 14:02:20 -0700
-Message-ID: <20260725210225.129944-17-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260725210225.129944-1-sj@kernel.org>
-References: <20260725210225.129944-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EIP2/TNs"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2F193408B6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785014162; bh=Rfj62+l5YA14S22bMzo2AFL768rH8L9toeCxRKlG+bQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=EIP2/TNsZsBdf9qVmE0aqTVnTErf9ROKRwGWsJwebsuXxqXnAklQdkivyowilSAtU
+	 F5JNloEexQi1JlS0mJwf4+nFFDii3Au2WeGlfJ+kvAceRXJxQ0QyFXd/3DQr7MHlXx
+	 G/qlCODZNKoEfftIoQjggq4Kl4NW1mUeSP9KKK8TozO1C67038lCEKiLtZDFHgfnAU
+	 8AJh5tUPX+eGIO00VTIt95ZQrLk/3eo+Lhwq/GzjXiIw7SCQUZ3zipoebiA2yPmEzc
+	 BKlILzo6g3UO7xrHab7E0vVaUz+ThujmRZ2HIBgSIy7Jnus065ZVYubjXxjGb7tBl5
+	 F1erHLO2as4OA==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2F193408B6;
+	Sat, 25 Jul 2026 21:16:02 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: amandacorreasilvax@gmail.com
+Cc: linux-doc@vger.kernel.org, danielmaraboo@gmail.com
+Subject: Re: [PATCH v2] docs: pt_BR: translate the management-style.rst to
+ Brazilian Portuguese
+In-Reply-To: <20260725163554.018126@correacoding.localdomain>
+References: <20260704202831.112653-1-amandacorreasilvax@gmail.com>
+ <20260725163554.018126@correacoding.localdomain>
+Date: Sat, 25 Jul 2026 15:16:01 -0600
+Message-ID: <87mrve6a9a.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Update DAMON usage document for the newly added DAMON probe preps sysfs
-files.
+amandacorreasilvax@gmail.com writes:
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+> Hi Jon,
+>
+> Just a gentle ping on this patch. It has already received an Acked-by
+> from Daniel Pereira.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index da5f9afd08aef..1f5a39e1fc38d 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -74,6 +74,9 @@ comma (",").
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ │ :ref:`probes <damon_usage_sysfs_probes>`/nr_probes
-     │ │ │ │ │ │ │ 0/weight
-+    │ │ │ │ │ │ │ │ preps/nr_preps
-+    │ │ │ │ │ │ │ │ │ 0/prep_action
-+    │ │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ │ │ filters/nr_filters
-     │ │ │ │ │ │ │ │ │ 0/type,matching,allow,path
-     │ │ │ │ │ │ │ │ │ ...
-@@ -283,9 +286,18 @@ In the beginning, this directory has only one file, ``nr_probes``.  Writing a
- number (``N``) to the file creates the number of child directories named ``0``
- to ``N-1``.  Each directory represents each monitoring probe.
- 
--In each probe directory, one directory, ``filters`` exists.  The directory
--contains files for installing filters for the probe, that is used to determine
--the data attribute for the probe.
-+In each probe directory, two directories, ``preps`` and ``filters`` exists.
-+The directories contains files for installing probing preparation actions and
-+filters for the probe, that is used to determine the data attribute for the
-+probe.
-+
-+In the beginning, ``preps`` directory has only one file, ``nr_preps``.
-+Writiing a number (``N``) to the file creates the number of child directories
-+names ``0`` to ``N-1``.  Each directory represents each preparation action.
-+Each directory has one file, ``prep_action``.  The preparation action can be
-+selected by writing the name of the action to the ``prep_action`` file.  Refer
-+to the :ref:`design doc <damon_design_data_attrs_monitoring>` for the list of
-+supported actions.
- 
- Each probe directory also contains ``weight`` file.  Reading from and writing
- to the file gets and sets the :ref:`attributes-only monitoring
--- 
-2.47.3
+It *really* helps if you send patches to the maintainer.  This one, it
+seems, was not sent to me.  I didn't see it, and so have not applied it.
+I'll be able to dig it out of the archive when I next deal with docs
+patches.
+
+Thanks,
+
+jon
