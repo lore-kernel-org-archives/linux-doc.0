@@ -1,133 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B540286425;
-	Sat, 25 Jul 2026 22:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2EB2D23BC;
+	Sat, 25 Jul 2026 23:09:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785020189; cv=none; b=GKC5Um314qPg3LLk4yw4IBNEeu+fZhKlutaI9KtyCsoPdHgSlTT23zVPYBA9L1BR29C2BUmo8FSaiPo716Wr6I1wDWkUo34e6bATcquukTkR+XA7n64TGl5MGTpagT25O3I4uOYnBARg/C5o6S7utfIkOMr0k/zeu434TrzEMNc=
+	t=1785020967; cv=none; b=rmtOsRHPvJVgX0BCP7mNas72b8oTchAYOsdvV5UrX9VfkJoQxeW4nFvRUEQhR06WqxRHXDmSbq5VSFSoxQx8OSe3d0I6GgjBkpKivNgonS4EjlPS73ixEzlON56p/zMEJng+AKNlRjzbgLnnyAk4U5rQJaRJplFSGUda/2iBc8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785020189; c=relaxed/simple;
-	bh=iDWpAqRkfZ35v8WKKY0xbWLOfcTI8IuQYHGt4m8Um1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F6KNd1fzBIKgj7gp/51CmbRYDqKP77Fac+8l/ZyEBbmMUEIipfoZi3vDZ8coK4P9X2Yw4uVAlAF53BTNYwfQTaWmqBnimg96SQDoRxUZ1G4w/18hYy4wiD0j7ncI/Q9mTymoi6KLtlQCxU3MSpndWPIqJCFQCDSzTbO7d4c6tFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rq0kxMt2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785020967; c=relaxed/simple;
+	bh=RwQMAfhKNwgAo9MbnInWBus6Iltd0UewoV2ojaJ321o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cgupUwAIvvZSFPKCWdENnWwAtuTkhBGrUwHwzUMBM8nPCQUO6/otRsp7ByioVukLTQPRPRQY1uTxjY18zQ/p726PIOV+huGqwxbGwhp7C701AJQpd1nangxMRrfsKbNoJZUhQTD+CsDq7y4TIXk67MruHqO1s2DsPlXR0uPTnYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahz92pZj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rq0kxMt2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D228F1F000E9;
-	Sat, 25 Jul 2026 22:56:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahz92pZj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952E21F000E9;
+	Sat, 25 Jul 2026 23:09:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785020188;
-	bh=oe/e1NIktgaY3sdLbPwFx54yVzEFlDJX9fTvKfXYWuw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Rq0kxMt26gE2Xqbm0ouVxEIwNxdbIX8x2dHFd9/IAqvcbkTQc+r81CZZDK+RS7nwA
-	 KlWnqELmHO0+CcfdkuxjQq8woacKEzvpOiPxAF9zyIKH7gvhCjDzdspKqmf7juzPL+
-	 663kPcfuCKfevDWT+KNOb0fLWcfsS8szPsQa4lsoeuisjP45W0RK2dd6hlsUUryzpy
-	 O3OgmXOWAWcpWOtQCfN9ko8TtMc9E/OxlPFLmVe0APKEKJqbjqbkGGG424zwxTiV14
-	 ihrWD3oF51Tbx3rc7jg9KkyO3X3/kl/RyxfbEYm/Nh03WgnZnFwwELxXZES59Z2TvG
-	 MTMDeYaN3U82w==
-Date: Sat, 25 Jul 2026 23:56:21 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v9 15/17] iio: frequency: ad9910: show channel priority
- in debugfs
-Message-ID: <20260725235621.6dd73e71@jic23-huawei>
-In-Reply-To: <20260722-ad9910-iio-driver-v9-15-459d1df5ac56@analog.com>
-References: <20260722-ad9910-iio-driver-v9-0-459d1df5ac56@analog.com>
-	<20260722-ad9910-iio-driver-v9-15-459d1df5ac56@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1785020965;
+	bh=d0ATcTOoIS9vcu5+PZnxo8woG8OIu/ppqkM6rmR5w50=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ahz92pZjHp9nDIjldrNDRNpm+gfhyeVyLKKWQvLAEuA+QeXHud4mvvhS8GqN1e6Hw
+	 avTDmp+kmKWcEyCgwVlULgONzw250svj5WbJnjv0BRQlP+Pcmnat4QJbFAhRkECl/d
+	 H/BELVRDDPjs7As205qbTvUtxAYT243hnhCEPov9hj6/q//5Hn12ePmw9bzCbO1nDP
+	 Re/BukIWRT/7H/1C1O547AoaE6HpqsFu7Mgow+1Y0U3h6zSNZe8VOunucV165bLG6p
+	 93W1Rbj0KiAw/Of+iRemWhrZ781RuaKBoMrZhuo3keLQ11s5YqURumcvByiJB6CUKZ
+	 J7DlvAHkneTxA==
+Date: Sat, 25 Jul 2026 16:09:22 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Richard Weinberger <richard.weinberger@gmail.com>
+Cc: Dominique Martinet <asmadeus@codewreck.org>, demiobenour@gmail.com,
+	Harald Freudenberger <freude@linux.ibm.com>, acme@kernel.org,
+	adrian.hunter@intel.com, alexander.shishkin@linux.intel.com,
+	ardb@kernel.org, axboe@kernel.dk, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com,
+	herbert@gondor.apana.org.au, horms@kernel.org,
+	io-uring@vger.kernel.org, irogers@google.com,
+	james.clark@linaro.org, jolsa@kernel.org, kuba@kernel.org,
+	kuniyu@google.com, linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, mark.rutland@arm.com,
+	mingo@redhat.com, namhyung@kernel.org, netdev@vger.kernel.org,
+	pabeni@redhat.com, peterz@infradead.org, skhan@linuxfoundation.org,
+	willemb@google.com, linux-s390@vger.kernel.org
+Subject: Re: [PATCH 2/3] AF_ALG: Drop support for off-CPU cryptography
+Message-ID: <20260725230922.GB41199@quark>
+References: <20260523-af-alg-harden-v1-2-c76755c3a5c5@gmail.com>
+ <20260603133312.12848-1-freude@linux.ibm.com>
+ <amOGWwdjnJqyxH5L@codewreck.org>
+ <20260724160034.GB2032@sol>
+ <amOTjPW__CNZui3_@codewreck.org>
+ <CAFLxGvy+ec3nQLrQtwFZgGELhT2pKBDnHdD0pMvEGh-Mf3rjgQ@mail.gmail.com>
+ <20260725220443.GA41199@quark>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260725220443.GA41199@quark>
 
-On Wed, 22 Jul 2026 16:50:24 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On Sat, Jul 25, 2026 at 03:04:43PM -0700, Eric Biggers wrote:
+> If needed, "cbc(paes)" and/or "cbc-paes-caam" (whichever name it is
+> being accessed as) can be allowed as a special case, as a stop-gap.
 > 
-> Expose frequency_source, phase_source and amplitude_source attributes in
-> debugfs. Those indicate from which channel the specific DDS parameter is
-> being sourced by returning its label. The implementation follows the
-> priority table found in the datasheet.
+> This would need confirmed use of that specific algorithm with upstream,
+> which we don't quite have yet.  Dominique had a confirmed use of
+> "tk(cbc(aes))", but that has never existed upstream in the first place,
+> so it's not something that could be allowlisted upstream.
 > 
-For this one sashiko raised some questions and made me wonder how this
-actually works given it is using active_scan_masks and so far we don't
-have any buffered support in the driver.  My guess is you backported
-this from on top of some other code that you haven't posted yet.
+> You've only mentioned that it "can" be used in this way in upstream.
+> Can you confirm that it *is* used, and with an actual upstream algorithm
+> name, and if so which one(s)?  And if so, would you also be able to
+> share whether this is for dm-crypt or not?  We should remember that
+> dm-crypt accepts keys directly and AF_ALG is not needed to use it.
 
-Please have another check that this all works with just the series
-posted.
+We'd also need to know whether the user (if there is one) requires
+unprivileged use.
 
-Note that you will need to claim buffer mode successfully to mess
-around with that in paths that aren't inherently only used in buffered
-mode.
+Hopefully not: these sorts of hardware crypto drivers have lots of bugs.
+Indeed, the CAAM "cbc(paes)" doesn't validate the key length correctly,
+leaks DMA mappings, concurrent requests race with each other, etc...
 
-
-
-> @@ -2078,6 +2092,171 @@ static int ad9910_setup(struct device *dev, struct ad9910_state *st,
->  	return ad9910_io_update(st);
->  }
->  
-> +static inline const char *ad9910_frequency_source_get(struct iio_dev *indio_dev)
-> +{
-> +	struct ad9910_state *st = iio_priv(indio_dev);
-> +	bool ram_en, mode_en;
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	/* RAM enabled and data destination is frequency */
-> +	ram_en = AD9910_RAM_ENABLED(st);
-> +	if (ram_en && AD9910_DEST_FREQUENCY ==
-> +		      FIELD_GET(AD9910_CFR1_RAM_PLAYBACK_DEST_MSK,
-> +				st->reg[AD9910_REG_CFR1].val32))
-> +		return ad9910_channel_str[AD9910_CHAN_IDX_RAM];
-> +
-> +	/* DRG enabled and data destination is frequency */
-> +	mode_en = FIELD_GET(AD9910_CFR2_DRG_ENABLE_MSK,
-> +			    st->reg[AD9910_REG_CFR2].val32);
-> +	if (mode_en && AD9910_DEST_FREQUENCY ==
-> +		       FIELD_GET(AD9910_CFR2_DRG_DEST_MSK,
-> +				 st->reg[AD9910_REG_CFR2].val32))
-> +		return ad9910_channel_str[AD9910_CHAN_IDX_DRG_FREQ];
-> +
-> +	/* Parallel data port enabled and data destination is frequency */
-> +	mode_en = FIELD_GET(AD9910_CFR2_PARALLEL_DATA_PORT_EN_MSK,
-> +			    st->reg[AD9910_REG_CFR2].val32);
-> +	if (mode_en && indio_dev->active_scan_mask &&
-
-active_scan_mask is only set on a call to iio_enable_buffers.
-So what is this checking?  I guess today it will always fail as
-active_scan_mask is NULL.  Once that is in use, it will be racy
-however, so you'll need to claim buffered mode (or fail in which
-case the null check isn't needed).  That claim will hold it
-in a particular state - under the hood it is taking mlock
-which is what sashiko suggests - that is just meant to be opaque
-to drivers so do it with an explicit attempt to claim buffered mode.
-
-
-> +	    test_bit(AD9910_SCAN_IDX_FREQ, indio_dev->active_scan_mask))
-> +		return ad9910_channel_str[AD9910_CHAN_IDX_PARALLEL_FREQ];
-> +
-> +	/* FTW: RAM enabled and data destination is phase, amplitude, or polar */
-> +	if (ram_en)
-> +		return ad9910_channel_str[AD9910_CHAN_IDX_RAM];
-> +
-> +	/* single tone profiles */
-> +	return ad9910_channel_str[AD9910_CHAN_IDX_PROFILE_0 + st->profile];
-> +}
+- Eric
