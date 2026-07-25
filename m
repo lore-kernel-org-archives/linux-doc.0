@@ -1,135 +1,93 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED553B1B3;
-	Sat, 25 Jul 2026 00:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784940447; cv=pass; b=Dfnv8TpeHLKSF7d7AEfq62P8bfFZW67f9uXp4b3q05CVtZ4UsgcvegKuDGZ45+9eFRqRiWDhXV4ENs+xOMVFKMGtUw3oVRRHf8YIy9ZYOEV6RQmA8gMBZC77mpSZ2BUKGduFvIEj1yB8CxniuV1hjbevkIwLM9m9Er6z9YDa4a0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784940447; c=relaxed/simple;
-	bh=5sLkJRzx/MNCSYtg/L1SWbLAtSUzvWTjTCGqTGYH8YI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=VUb4jGnNODkJ7+Ay06j5FUGOiWt+W9KGDj9jUJcHtbtBc9TrhHKVXXvU/bVVSBwie+t3jpoCgz0UrufyC2Xwra9t6X/DSYxXLZZs62VCbmo8FMRzg21To10lNZAddqYaQSb+PBlxKTSRHiMy/Y3rR6sE1R2rwOFwh25g+jJk1yI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=fPCKQs5l; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DE72F39B5
+	for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 01:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784944425; cv=none; b=MvOHViB6REGexO0mejGoJXkHE71Qa781EbewaNn5jp/Gal+29Dw6C3Xp/xveI7dCu85wS9u430b8CWXKz67WYqaNHpdxJpS5TUPEHoMsMA6G7uN0BN6y3C8hllVLNRN+7Dn+d165R6//ky1/aZmC4rWttUsQ/wIYDEm+ksPiwwc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784944425; c=relaxed/simple;
+	bh=EVWJkojZO52mkVzCbZmrcB80QNeySjokJV3l7SdAtGk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=d/ieR33CJtsBIWreRgCNY+V1lLW1I3VBJZnTGAIB8x8pV5vZpx2wIaIGBbyt19YeLEJIqWR5nFiNm+EVzIdasRg9hKpu0Ue7KJHdtRJI+528TeesIcd0c7xFK8wvVHIJrAstSrJZVmdJzIhRzy3Le6bsc0kqBOJAU9bpG4OFt30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ToSnDa+L; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="fPCKQs5l"
-ARC-Seal: i=1; a=rsa-sha256; t=1784940423; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=fjRQ7pTb94Q9NU6sjGmboAazex4JJerHLAGHPuuXFNm3kTPUHMjb4oY3a9+RiEgUunrHvJPaHzyzhGVijEw/HzaClT5vA2Ul/WVuF5Y73tfzaoty8afit3gGvwVTsiXsNR+40SdYnjCJmtt+rZI4BHG4QwQyt5FaD3nVS0+Y5Lg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784940423; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=5sLkJRzx/MNCSYtg/L1SWbLAtSUzvWTjTCGqTGYH8YI=; 
-	b=UY3R9wWaa8893wEeqIdJStSySV5ICQlAmTZBAhpJAt8vHaMnfPL3rEPKC6pbfnRD2VrwJEsxk10cYeMQqMzQ56LyKoqhEU7v2IzK0NWHEE6yTDcFSlSipkpWOeOyq/wz/42Cb2TfCmeCPH/rueZJRP48FrjNndBx2a1pXFYtTYM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784940423;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:In-Reply-To:Reply-To;
-	bh=5sLkJRzx/MNCSYtg/L1SWbLAtSUzvWTjTCGqTGYH8YI=;
-	b=fPCKQs5lUdZLr0tdleiMAnzb1gvM/bgmnuZDXD2rwBBrUQu/Wgruh5bTDf4VY0NV
-	PETsDvDAQ5ADmuDvWZiTmypbMfTpokMWCqVlVdq/flIa/5txTJf/YoFwtIRF1d6ZLbL
-	koDw+5eyNPx2it8CHHY62BQRu2jiDvMlQ4T2Mo1I=
-Received: by mx.zohomail.com with SMTPS id 1784940420926600.2210516222842;
-	Fri, 24 Jul 2026 17:47:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ToSnDa+L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784944423; x=1816480423;
+  h=date:from:to:cc:subject:message-id;
+  bh=EVWJkojZO52mkVzCbZmrcB80QNeySjokJV3l7SdAtGk=;
+  b=ToSnDa+LAuYJ7CqvB1GX6LXH7oP+Y1w3cTTkMhf0ijSOWS2N8MZ62KgO
+   PJzIWQPUxjemfdzvEeFC6NKCJxvaQz9+c6D5l8aX0+S65KzxvkKbROtSz
+   3up3I4i8Z0iOdNsY+sUoG5W+KK74fhYXWiWdkxFOr3mJvEdpy1EYFBHoZ
+   rUgSkjtb66emVkQZls0G+h5yzNnupKk6mbJYG/kVzJ0F0LDiIGzGtQEYT
+   ZZ1GF52qDPH/aTpurqZr2WfRxk5rI4M9wrEIvSRw9Q1XTVNxgOnTxuzdJ
+   jjC85UEm9vlSbCaAIdLoTIpITLcNU71Dr/JED9JcZi9ThuT/yjfAXx6tv
+   w==;
+X-CSE-ConnectionGUID: HQDa54TnTYm/RxvmigkkgA==
+X-CSE-MsgGUID: beGiY4ITR5mbh152Hg3v5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11855"; a="85657407"
+X-IronPort-AV: E=Sophos;i="6.25,183,1779174000"; 
+   d="scan'208";a="85657407"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 18:53:43 -0700
+X-CSE-ConnectionGUID: MTWCEHgxTc+FVuuMIwjdMA==
+X-CSE-MsgGUID: C63snb3nTUaug66PPwp81A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,183,1779174000"; 
+   d="scan'208";a="259513964"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 24 Jul 2026 18:53:41 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wnRa7-0000000015K-0ME8;
+	Sat, 25 Jul 2026 01:53:39 +0000
+Date: Sat, 25 Jul 2026 03:53:17 +0200
+From: kernel test robot <lkp@intel.com>
+To: Zhentao Guo <zhentao.guo@amlogic.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Warning: MAINTAINERS references a file that
+ doesn't exist:
+ Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
+Message-ID: <202607250303.Vsr3uQ9k-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Jul 2026 20:46:56 -0400
-Message-Id: <DK78KJA4LEAN.2H4O5BZN6H8LK@ritovision.com>
-Subject: Re: [PATCH 0/2] docs: make tables responsive with content-aware
- column widths
-Cc: "Daniel Lundberg Pedersen" <dlp@qtec.com>, "Randy Dunlap"
- <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
- <linux-media@vger.kernel.org>
-From: "Rito Rhymes" <rito@ritovision.com>
-To: "Jonathan Corbet" <corbet@lwn.net>, "Rito Rhymes" <rito@ritovision.com>,
- "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>, "Hans Verkuil"
- <hverkuil+cisco@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260724214249.23830-1-rito@ritovision.com>
- <87ik646lfc.fsf@trenco.lwn.net>
-In-Reply-To: <87ik646lfc.fsf@trenco.lwn.net>
-X-ZohoMailClient: External
 
-> So I will look at this in more detail in the coming days.
+tree:   https://github.com/intel-lab-lkp/linux/commits/Zhentao-Guo-via-B4-Relay/firmware-meson-sm-Add-video-firmware-loading-SMC-call/20260724-151850
+head:   21bdff1f88f29045f82144a2c7c233522fff4249
+commit: 9146431a9be1f4fc394bd783b4617b9c948b0505 decoder: Add V4L2 stateless H.264 decoder driver
+date:   18 hours ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260725/202607250303.Vsr3uQ9k-lkp@intel.com/reproduce)
 
-Thank you, I look forward to the review.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607250303.Vsr3uQ9k-lkp@intel.com/
 
-> this is the injection of a bunch of complexity to solve a problem that
-> nobody has complained about.
+All warnings (new ones prefixed by >>):
 
-I don't believe that aligns with the reality, Jon.
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
 
-In the "bad wrapping in some tables" thread, after I characterized the
-responsive tables as foundationally pathological throughout the docs
-site, Hans came in, not to rebut that, but to acknowledge the problems
-he's seen:
-
-> We're well aware that the tables in the media subsystem do not work
-> well on small screens. The only workable solution would be to move
-> away from tables and format it differently. And that's not going to
-> happen as that would be a massive job.
-
-That is not an absence of a problem. It is a maintainer living with a
-known pain point because he believed nothing feasible could be done
-without a massive overhaul.
-
-I believe this series resolves that class of problem without requiring
-such an overhaul.
-
-My table characterization was also followed immediately by Mauro taking
-action to foundationally improve how tables render across different
-viewport sizes (which you then approved).
-
-> On media, I guess the more complex tables with long widths are the
-> pixfmt ones like those:
->
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-rgb=
-.html
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/pixfmt-pac=
-ked-yuv.html
->
-> It is a good place to check for issues like that.
->
-> Please see the patch I submitted:
->
-> https://lore.kernel.org/linux-doc/1950557405f1150acb1de50de1801f2413223b8=
-7.1783673996.git.mchehab+huawei@kernel.org/
->
-> It moves width support at the html output from previous millennium
-> SVGA-resolutions era to modern age.
-
-Mauro's fix actually opened the gate for my solution here to work
-properly, allowing contained horizontal scrolling without causing
-a desktop clipping regression under the previous 800px body constraint.
-
-> Your last attempt here led to regressions that took a while to turn up
-
-I own that oversight.
-
-The original fix was targeted at body-text overflow. I did review tables
-containing inline literals, but I missed the specific case where a
-column consists only of inline literals, with no other content to
-preserve a readable width, while surrounding columns compete for space
-and collapse it. That is a narrow structural edge case, but apparently
-one with a broad enough surface area here to matter.
-
-I understand this docs system better, and the problem has more eyes on
-it now.
-
-I'm here to finish the job.
-
-This series addresses that missed case as part of a systemic solution
-rather than another isolated patch.
-
-Rito
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
