@@ -1,144 +1,155 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B36E35E930
-	for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 20:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785012920; cv=pass; b=ueCNPDmouTzsmACBasmzgO8F/KfYg6H7bkoHJE6Bfu3/tEtUtIpXQ6Q8VDVgk9VF/np9GncgbOePNNHz503WOfDiMReadQiXL7h9S6yt/ZLoCFh0bAt5qh39g5rv6MFVVQ9yPB4zzU1jA4sLi3rFS6NXiqYces9H5NMdyW5wcgk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785012920; c=relaxed/simple;
-	bh=zw51gC5xIPlAb+ehmicqnY9g7AruYRjvzVknaMunE54=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uSTi01A1gSdn/ndu0YxGSzWbzU9aSJMcvOwBryadGnDJOpn8RoZODpaitotyhixBDYIeJfHEqO81hUNGzz2+TTPRAp7211axAQkKmRHLJuHkrliOr94+cIhyNZ9otAVm7gRK5eu/0w29tdU04oYuhH1IDwDDmLc4/ScQyzmhVWo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CCfA16sJ; arc=pass smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C373254B0
+	for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 20:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785013033; cv=none; b=LyAxBpNXSzwriNlxc7fJV9Jpwy/nJhQa9ByMfclQFM2X6Cs8ru+pHTpbUMDpnp5tBTua3CDdURdFY/+veLB5RMpKqR8dok6PGQsOT0HY8/vLDZa3BVnRTWOxC4LUUDS0/7hUyCZKAaZTRGxffebwUVbmEoORTWCj2BoXS11PqH0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785013033; c=relaxed/simple;
+	bh=Sywa6/Ye08B6vTkrcTaHJZX5fieJQ2q2ifsiIriTUl4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mm5/i0sjVBCDGliGWpAkoompx8VmS3NzV8+MafCenC1/VtlQzDixcVrHrc5RqF5ayVyZq822VfviHfjbg+PBzVWUeQBqAOpJ9uVatB7XqWgAhhz9bfTBnissN3N6R1ZV8vtP0sNrL1BxKCRuCt7tI09eFRSwNW7+m7ayH9hszu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=XgXGecnW; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CCfA16sJ"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-848479c9bd5so1094173b3a.3
-        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 13:55:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785012917; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rOqsIhmK4wu/4AUVSkNVuzz5CKbWTvGI+MY3r5CAS6YCM+KhypEfEC7AVW0SnUoc0H
-         eLLKNSDcTBvxim/OXU5xSjNJoMEv9Yg+Ro47DRo78X/7pOWL3r/ebYitZGcj5Z6MFk8I
-         YgEGJkhsyAhLaM5hZRk+hF489JiqQs35UwEPY3G2WJT+fArGMQjxYIU66ZKcMHsiJ3Y1
-         USAWlpad4w7DDRTEYkDD0j7phfiz5Zd7rHYSabspuzXd21jf5xG1o+tmKfIHGCmgbbCx
-         lVc/WxhKqG5MCNmYTKTRa5QDxeyNS7DcJoGDsqIaJFBjDBlOypTbcwFWLlorUlts4YJ5
-         VC6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8WOQSahUV2FdjC/IM2f0n66+R/EWHlwNnk6q/oqvWX0=;
-        fh=TGR5ZRtJ+ogVq4KoZvu0+/j/p81e+qVPxi2EWC/t6UI=;
-        b=BXvtpjYzseOEY9xvWbIh8I6IeBNlYZ050JxbCbfIGZ+chUXHLCZUYWgdAClbXw97YN
-         4SZmxzemheZLe0KW5SFOLxd4eFPNfDd1cg5mdH/oZixtTC7a0SqTBXqfy2IOFqQQPeK4
-         ganC5UPZv8g5WoLnvrZCOsLTboetrkRJsWxAmAS4Yd1GsYncyXDgK1bzbSf89kEmRS0z
-         FI/B1C5MemyQASHBev2HBK7SNh5cfklnlqCTcWBS99FrTjxuEFcY3NEviC/43FksocL5
-         /8n51udb/Uj6pKvIgb/6zNVrdqEzTbZmV5DXGm38nocDL8lQquQYZLESnlRLOKrNduLG
-         MQRA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="XgXGecnW"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7eb29ed2bbdso487466a34.2
+        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 13:57:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785012917; x=1785617717; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8WOQSahUV2FdjC/IM2f0n66+R/EWHlwNnk6q/oqvWX0=;
-        b=CCfA16sJBtgz8hldzWHYxUcyEjDqG0Y36DO6tVDS/ExmfNKDZzPZL53IiAy2HXqw2O
-         KGAlALuZKD65GL9IxDdiAKuHMignZ6WXOsZx1samvNlbskdHpyC7TijOlka7b7Ab7JlX
-         9DOirbvc9OUcRek2FGlvwCYNbjCSoGUKFnIS+mB249msG4ov5+/MS9llmMgoi6gXo4wR
-         SQnOgz2SA+68IAreR4Ru1Uk0nfis315U2LA9sR0U72Iezp+sgkabMYRYXpfdgB4JiNMS
-         jEuo3pZ0GvvmCxcqlnHbjxszgy/btfDRvWGt+aeO2Q/am25HTFd9D96Xz6Fy0N7YIeZO
-         Yw5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785012917; x=1785617717;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=baylibre.com; s=google; t=1785013029; x=1785617829; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8WOQSahUV2FdjC/IM2f0n66+R/EWHlwNnk6q/oqvWX0=;
-        b=fAUajDLDauOaWzKt41C8ycKcr6QAy7zyjjFNjMFXLs5rPnw90fzIt8vVIohRQEQoHc
-         6yGozKb1sP5eZS8dMzGVkdE0shjfE2ZAVDaC7olyyktLBp1vUYp3E336myu2R9qRlpDe
-         f40lzOmLitLN700N6a0FDjwxNj6G15txIT4GVk51LIsE/12ch2RNTTS78/oFF2P57Zhw
-         pDogjb7rCQPxszJ4iot4RW4Y+f37LNB5upVHgPPKjMVzHZFeeFy1nqeiFD9zK8M0NmgD
-         Y0r/TSWSqzi3HgKucIIohsp5lgQ097fY3/KnHoBYuSvHHKYaC0Z5+36vDl8/bPMBUMir
-         LqQw==
-X-Forwarded-Encrypted: i=1; AHgh+RoztY8jhRWnxGF39Fo3Qoqlx4F/T68TXgDXRZBlEF26ldksdI28Y6sD+vq34CKOy8JKiY/sk/SWPZc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwV34I783HT6PLyDeMX7BS5vnIATl/ZLdNKoeEI/8K/zCqwGu9
-	G4ZAIjopsGlMyaID4G1qKfkbYOJ8RJnPlKsdIP9mvuPXMg3+v1MCQ9XYvoXoxSidvF9RPSr5b/I
-	aVns/tkHhOyu2LDEsJDNW2e80hlQpeZ4=
-X-Gm-Gg: AR+sD12fe7Ern7wkfMzbWamnmBFTjA2qVLm31KYDNiCGtxEd1S5h7pEpQ6dXNx6MKXR
-	XG5pu1wv3S8f3KZW7Z7fswRoTcNDNeX/PIqUlZ9yap386L66bTRUbx8gdAeWXplk3bdKk3YtqJ7
-	spC6dttG/E+Fn2CMV3UF5eNb5k5EOzeg3gDR8ISiE0oQ3v7nLpgAjP9bsbA5DKHJ56aohXoHPYU
-	iWVCf7KVrmahSmV1m4iZt6zAo3Os8bRaGICkwF9jxJlEJHzfWtzDC4lqeLe2A==
-X-Received: by 2002:a05:6a21:4784:b0:3c3:990b:2292 with SMTP id
- adf61e73a8af0-3c67dfe6723mr2903792637.57.1785012916705; Sat, 25 Jul 2026
- 13:55:16 -0700 (PDT)
+        bh=7BJq+VUPT3xZNhGxvs3I7o0afQFSkLHmMhg0Yb2V7f4=;
+        b=XgXGecnWc2nEmXeTMJu4aE+7fYlkAajlinZaSfzJqoYWHspr36w66qq6lE9JiL1rO/
+         YGJj13SiwXIjqC/4fp5RVpVhP+onvxpmqUXUGOO6Sp9UMx0vhZqVCKcMRe3rQpmFBwKP
+         8Crb3Gk/URnYS6g5TZzGm2cg3gXqzNmSTsUfThmm+zgXR8DkG8GDZkIvNeGq6QlM/kab
+         7ho5dDQ3jzpmKLdh7Bp+FGYNTWBeLcEQ1AJ/eW+0ns9/RvHv+BCjcZEcJtrG9FOtuS0w
+         r0cnJdzeGZ979yUmbd4DmcrNg89ZdbNvpAxuQH0N0t2JeghqlXP6zblvP6+ZvRnS0OS5
+         MaKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785013029; x=1785617829;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7BJq+VUPT3xZNhGxvs3I7o0afQFSkLHmMhg0Yb2V7f4=;
+        b=MS4P36eTkdqELZHefX5KBNZthaDs6ugZIUf1P0gGNpqnhaACOdt7rDH/KQ74mu/rsO
+         zsHTuBTGHrwdxz8mE+gB7paJf2F3yqlnDxzgUtdPslAS6STqiXXrWaMX+S5g3PbHgN5D
+         46TU5h9cl5Kvqf3lqONIC6wjA+N0c9yHx5uI0BZjVuJxN5l62wBoC6YV3nuswmmIIyhW
+         s1n7fsXsQ8hzq/U75B1FdBNoO8lltXEQOdNrFKgrIFjpWp5RMDcU0YsmFzUX3TpzIO1o
+         8X4/XOZ3/gKT9tN+e905TxWQZotS36yC/gKiPSwBwu0fum8IbkCGwSEDOB0he5WvvgKF
+         7lmQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rro+jHtvAagEXXg0hxNLgJs3t+aqh954ADBO1HGKkQ64tJ+bp1jXiNE2tbvSscnjGfz/yhBR0V5CF0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxp4esvFShORVo2gP9SaMR3DdS0zx50QnxuN97ne7+BUQscuP2a
+	7zN+8G4nEB+TMXQzdIZ/lsGtrOrcvoK5s0MaN1/Ch27iHOtG+2x9uEFOwdjByQRZJIE=
+X-Gm-Gg: AR+sD11vF43ElAAbKK5lGKVE0V2ghiRNfbtI730e25UYDIeKpsSO6pOvdMj/AZadHKc
+	9hVC6Kmr3VgF0jFqDFIXfyDUdOMZZDXV24RhbcpKNxy/X0k23AVHZ/D/jwB4E8x11sKpVDZWIRQ
+	tUDSw2pjzO0beMaantJrnJhivNk8aRpEOhnpAn1qEwh/uUxxu5JPCPkFg8LCZ94LXOBYHK0TB5y
+	rkYxCAnY+xiIsCvbHV4fey+6IQTNOvYTOZzeWYebbDQcaqbo9d5vjulfK9owBhNKE/Pf4NNwqoq
+	/azGDOWQqk3RpsoOFwIHiJcbpv7AESA/JZpRqKMUGicbA0lA+6lYj7a0ASB5v2+5+LhBrJIDPv7
+	LIT85G6JLvWtgPSExXZUBmZEDEYrXWEFMZE6nY9uRj0XbVKqwO6jGOwWSQQWopNkN959y1Vhi+W
+	htTu+c3DEgjK1HC5trP3/vppjcUAHTSz+p51/MKv6CUEZ1cCZgTdS7
+X-Received: by 2002:a05:6830:2906:b0:7ed:ceed:95b9 with SMTP id 46e09a7af769-7ee78d2ae71mr2872531a34.32.1785013029154;
+        Sat, 25 Jul 2026 13:57:09 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:677a:56dd:37eb:cf53? ([2600:8803:e7e4:500:677a:56dd:37eb:cf53])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ee2a0ad02fsm9782435a34.19.2026.07.25.13.57.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Jul 2026 13:57:08 -0700 (PDT)
+Message-ID: <cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
+Date: Sat, 25 Jul 2026 15:57:07 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260523-af-alg-harden-v1-2-c76755c3a5c5@gmail.com>
- <20260603133312.12848-1-freude@linux.ibm.com> <amOGWwdjnJqyxH5L@codewreck.org>
- <20260724160034.GB2032@sol> <amOTjPW__CNZui3_@codewreck.org>
-In-Reply-To: <amOTjPW__CNZui3_@codewreck.org>
-From: Richard Weinberger <richard.weinberger@gmail.com>
-Date: Sat, 25 Jul 2026 22:55:03 +0200
-X-Gm-Features: AUfX_myV9AV5bwxaPxDCds8CpJSSwUUfrEfnR7d5D_zQ_thbtzqC3K-k805u5U8
-Message-ID: <CAFLxGvy+ec3nQLrQtwFZgGELhT2pKBDnHdD0pMvEGh-Mf3rjgQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] AF_ALG: Drop support for off-CPU cryptography
-To: Dominique Martinet <asmadeus@codewreck.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, demiobenour@gmail.com, 
-	Harald Freudenberger <freude@linux.ibm.com>, acme@kernel.org, adrian.hunter@intel.com, 
-	alexander.shishkin@linux.intel.com, ardb@kernel.org, axboe@kernel.dk, 
-	corbet@lwn.net, davem@davemloft.net, edumazet@google.com, 
-	herbert@gondor.apana.org.au, horms@kernel.org, io-uring@vger.kernel.org, 
-	irogers@google.com, james.clark@linaro.org, jolsa@kernel.org, kuba@kernel.org, 
-	kuniyu@google.com, linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	mark.rutland@arm.com, mingo@redhat.com, namhyung@kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, peterz@infradead.org, 
-	skhan@linuxfoundation.org, willemb@google.com, linux-s390@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
+ spi-device-addr
+To: Janani Sunil <janani.sunil@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mark Brown <broonie@kernel.org>,
+ Marius Cristea <marius.cristea@microchip.com>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Kent Gustavsson <kent@minoris.se>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org,
+ Kent Gustavsson <nedo80@gmail.com>
+References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
+ <20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 24, 2026 at 6:41=E2=80=AFPM Dominique Martinet
-<asmadeus@codewreck.org> wrote:
-> > There's no "tk(cbc(aes))" algorithm in the upstream kernel.  So, it's
-> > not possible that this ever worked with upstream.  Given that, there's
-> > no regression in upstream for this program, and it wouldn't be
-> > appropriate to consider a sysctl knob in upstream at this time.
->
-> Bleh, you are correct, it's an NXP patch in
-> drivers/crypto/caam/caamalg.c that they've been carrying in their
-> tree(s) since 2018[1] and has apparently never been upstreamed...
-> [1] https://github.com/nxp-imx/linux-imx/commit/6868c9e49c1854028fb46022d=
-aac3b1b10ca2c70
->
-> Sorry for not having checked, I was hoping for better.
-> (I should be used to it by now...)
+On 7/22/26 2:54 AM, Janani Sunil wrote:
+> Add the generic spi-device-addr property to the binding and deprecate
+> the existing vendor specific microchip,hw-device-address property.
+> 
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> ---
+>  .../devicetree/bindings/iio/adc/microchip,mcp3564.yaml         | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> index 675319276197..de1ea289e7f5 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> @@ -80,6 +80,7 @@ properties:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      minimum: 0
+>      maximum: 3
+> +    deprecated: true
+>      description:
+>        The address is set on a per-device basis by fuses in the factory,
+>        configured on request. If not requested, the fuses are set for 0x1.
+> @@ -91,6 +92,12 @@ properties:
+>        clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+>        which is first one on the wire).
+>  
+> +  spi-device-addr:
+> +    maxItems: 1
 
-Sorry for joining the party so late, you're killing AF_ALG faster than
-I can follow all the mails.
-Speaking of CAAM, there is a legit usecase which exists mainline. No
-vendor patches needed.
+Does it not make sense to all for more than once device connected
+to the same CS here? I would expect maxItems to be 4 to match the
+number of possible addresses.
 
-You can create a CAAM BLOB (a generated and sealed key) using the
-trusted keys subsystem and use this BLOB
-later in AF_ALG to perform AES with a key invisible to userspace.
+> +    items:
+> +      enum: [0, 1, 2, 3]
+> +    default: [1]
+> +
+>    "#io-channel-cells":
+>      const: 1
+>  
+> @@ -123,7 +130,6 @@ dependencies:
+>  required:
+>    - compatible
+>    - reg
+> -  - microchip,hw-device-address
+>    - spi-max-frequency
+>  
+>  allOf:
+> @@ -159,7 +165,7 @@ examples:
+>              spi-cpha;
+>              spi-cpol;
+>              spi-max-frequency = <10000000>;
+> -            microchip,hw-device-address = <1>;
+> +            spi-device-addr = <1>;
+>  
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+> 
 
-e.g.
-kid=3D$(keyctl add trusted mykey "new 32 pk" @s)
-keyctl print $kid | xxd -r -p > blob.bin
-Then just create a caam_pkey_info in userspace and feed it into AF_ALG
-and perform AES with it.
-
-So, pretty please,  if you kill AF_ALG and all this, offer some way to
-achieve the same in userspace.
-
--
-Thanks,
-//richard
