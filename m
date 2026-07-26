@@ -1,181 +1,290 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263E42FE060
-	for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 02:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3549430DEDC
+	for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 06:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785033560; cv=none; b=d2c6mOTTFMSRiA4PLDmV+bFNJw9gYkw3JzLK3jl5ETpkk72HkkyiyH1pdQVf1zAFtkUurAExYXyXFFjITNuL1XuGtIGVDzmsg4ho1rJzNBEW7n9+3lGnKCeL/HmUBrxi3nx0KCVcZSTDGnvq8b/+X5ozozdNZOKStds6udlvLUM=
+	t=1785047977; cv=none; b=qdxtegMtAGayRVRG1AKesfYZWOHXiRO0sCZ2ATYFZ3QaZcwTWNrMQYnyicJAYPIJ2xtFmlCcmzNVRdOWjSPgFaE2HcNNuLemqH5BU7nqCah/EL/IzD/9bi/ig4H0XibS+V4jsCpbjIWizGIdOHrqtdDuW6vqyyg0sX+QqaulTSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785033560; c=relaxed/simple;
-	bh=RcEU889zGukc8WJKW192LY8xZpf6eS+gT9uL8AjBJQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BnSPkyyGFX9418997xbpnwV7D4mBXYUMXkyd5JCjdSOcsloPfXOFkYm/VKDrkIFrjeqmpMKYRqhQ+Vsdv8z/e679TU9h5FZszBWpk3DAmEo2h7z/XroXYz7LlS1ysR7Ny0UMgwMoUH/JyPNPAEQkAyDucBy4h8/NkHVGOi3d6PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m93mesJw; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1785047977; c=relaxed/simple;
+	bh=PKeEaS5geNFrMTu6xbg29CWdsj1hX63ic4uVSpAS4lM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=djtLgUacEdx+1agcWer0NOtZTEwGcQB84bvSkHKazt0jysj8RT81iLeCIYXSnEIhk+AGKjOoBAZiUK1nlJBF2GTYiq8aHVyAGiRdqtdXZxzQ4vNQBDIqYdtOL10iTPMA2BRDkTkuj1cuYTkh5KMTZvabsDA+dKyaBbiN0s5wBv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c8qaoiGj; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m93mesJw"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ceae1ed204so16725425ad.0
-        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 19:39:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c8qaoiGj"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-495502852d1so2054035e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 23:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785033558; x=1785638358; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=tW+wiTCoYSaXX59UFoOal4WDMR2PcNiHO7r7ABZvv94=;
-        b=m93mesJwkHuYozb5B5tm6miA2tFsttfAkRg924XG9/bjO+wuzk41oHRRwKl1UVkRcx
-         pF2QgOuf5n3BqhA3kV+9s4WhxgV3cZvYq5+zNFzL2MayRWCXM0Inqb5Nb3wFMepG8hkt
-         Yqh2rwCIhynrKh4ZclckqyGTimujl2ejeqkS6B/NEbeGcUk57tjnFkE1LY50rku5lDkN
-         tSTkjLqTNkTmp97M+KRJ8DM1CUeLAgqPM10oYrTLu8qF49fiDKjT58uCd/TcLEfMItV0
-         br4LgXSrcQPzUxatEatu4eSbb2rZMme8Gg6t5VSYoSchF7WsMFycSOuqxN1fqH981dfs
-         6DAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785033558; x=1785638358;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1785047973; x=1785652773; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tW+wiTCoYSaXX59UFoOal4WDMR2PcNiHO7r7ABZvv94=;
-        b=baLs1KQMIy1/gTplBA954i8osGAVxw82y/lQuuSqjbMQwPwzyMDoX3B+HDyRQjt7Y/
-         B63vEy3tquYkIigKsLmazuii30NtIGIwyyodHAFqdENL1FzupmCfx+obHmKy69JjBmL/
-         GhXzeFA0+PfOMSjDfx1jmy7uWfnyjfFZgZBMpQD2lWyEYRlkUQa0qFO3+Q1r1Vl/jrwt
-         Z+4EPXXRwvuVIS0BC18Io25TSImXq1JbFzPd+todCwDJvuT9C0isBu84IpPC6zr5wqFv
-         aav6kuNBq2hEcLU9V4lryZ2Vgm4YnFds0dX+OcRZOxa+By0AfG2N522J2OBntqTj4auc
-         bLGA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqj4tsFLu4ntkAT+mKLGXvPDDy6XgOjCuGdOaVelbu8KwDGtBFC9xmhEBHpFxMZFg7sXS1dSl+r+1g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV9AH7NMIxekJ775DIkLj66RPeQGubSXkIrNyJ4uAq18yEvhHr
-	O/Nhd8L87saOTNyBHBuJs4esfJqEh9qo7veajCF5s9TkaA7GHZ53S0yW
-X-Gm-Gg: AR+sD11K9ujG10YjPtGnbMlrTO/wiSr7Ce4KkAV842WI3Kzj7EyHdh1Efw6Iuzv4aG0
-	/GDTFBEncIpc+fFsoCd9Wt/unK6/u1qPz7OElU35LGx+Kq2bJla/gTXumPZURSPthzw+AVhKoJD
-	xbc2GihQ+PJREsXuOcvDhNObv1pGUpoPE4bzODxVaUAcMQKjBGSbkj8zvt+wil/gsitgiBto5oC
-	RjBg/9j5wz7HWVWVTfmYuEENNqN5E+6u/9T5XhnC4Ac/3oMbX4zcmemby46dZG5bK6TgUlnPU4U
-	M7eXZYtUJBlZBRsuD+C3naoTHV93pkSwQmPN6IYxbEZrPYIAKLdsGIqoNIqvg37zpbJAcpPedU/
-	KTNRgx9KIBG/aGTn8fmUbFs+pWpsNIVK32P0Fvdj4YDD33aRqEeTXeUOpq5a63CG3mWiLcRU/so
-	N4HqR17Ty2bdt8cXPv2U2w0g==
-X-Received: by 2002:a17:903:1aa7:b0:2cb:2b84:f431 with SMTP id d9443c01a7336-2cfde8a6856mr36446495ad.47.1785033558387;
-        Sat, 25 Jul 2026 19:39:18 -0700 (PDT)
-Received: from [10.240.225.60] ([114.111.24.203])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7bc585sm15263525ad.51.2026.07.25.19.39.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jul 2026 19:39:17 -0700 (PDT)
-Message-ID: <f60fe501-7605-64dd-0572-77f7f3060f35@gmail.com>
-Date: Sun, 26 Jul 2026 10:37:50 +0800
+        bh=A3ESNIpjoiBbkcy3neoZCNWcjosBBW5QrkCTixAL/dA=;
+        b=c8qaoiGjOGbRKW+TfZFDJxrMYM3Qr22ZGSjzOmz7gsaL+g1Xjidje5TZzExTB/B44Q
+         GEeMpJgrVT56mToD7lLMzz/nSMKW8PxCHu9NSBfAR1b4u8pDeDa9BY4/IVZpmwd6yD7d
+         O54EJZ94nJGIMhyAtpcDhECdx+PBaYa5Ipyt6ZN9AFBTIpMBICF/lBIcKX1D7/7RzWgN
+         udK6wlsNnVvAujPTPhm4rawESol36UKu7jJAo2EJL1IBxgjrBPPgLU48D3DcPwlvcj14
+         PWw/uHI4fZQRg7R52ygbc7StMqO++cCftaKuwQ1/+unGP8dCOkc6T6teRplcMV2J+sVV
+         MOCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785047973; x=1785652773;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=A3ESNIpjoiBbkcy3neoZCNWcjosBBW5QrkCTixAL/dA=;
+        b=dTE5hWkFdCDS1WsJ2khv57QQFyeEErI83tUtM4NBiETiTXM5Fw/6G/x0ljy7wtX4lf
+         8uXPbjldcniMHb2RlPeZPKFfsIqZsqtXLMtZRtLtq+1H/RiWl2lxP9FVn0tE3X3wFOt3
+         O2+H+HraEOyGNWtvchSyApx747+B7b0+gwZ2LH6P6Aol+RnJkYoQxR6PWjdjeIEwn0RK
+         c8uGRUg1p/CoFs2Pxwti9QIeiiAlJ/rFkgAJ0EsmVFskxOaaImBFP2qUtFcQIOEHgCjV
+         emK1rDSh2P7nrfxCp/TnB6rUBg8B/RkBTRbuiu1ldX+F51HBeM6tqwsPiyPSzPMURT1G
+         rOcQ==
+X-Gm-Message-State: AOJu0YxwOSaX68/cIdERKT61PsJaJ0EP536PEeO5oLO2kavHpUCLTB9t
+	veayAUyzRRH/TJstiRtqGF+rLfOV2ZxsyCYa1vIUJXlqL2YbDah7sV7QzEKM+uoW
+X-Gm-Gg: AR+sD10Z8+xxhFas4HwNpdnWNwcVnjlYb0bxsMLk42AfQsSUKNg6jOs1yL5dE7+ZKnv
+	jm5rOxQ371SizhviPSu7xBWs/czxfveBnsYfbGM9TnPUNLJKk+SBz/SbjBhjwbpVlRNEDI0IukL
+	UVCn4b6b1UNgepDRRZMfQcRDQtlll4fhvrukDxGRva9m2130utFdA+siG2jQ0CBgyjCRX7f9zJU
+	Tjhp2eoFzvvLI3MTOqglp8NHUNhHFbIAYHmpT+cU9j5ufC/GgurCkBF/6mO20VE3olAl/pyHrx/
+	lx3mVZTCm28CUHfmUGftxcj9BO2xpJcIKqDiYK2/9lruSgPNnn2iUhai7uZZgKEg0PHD2G8kVVK
+	xtZWixfGuU1VDch52xL8w2p4RhweENfTyi0slj97wb1343c75iTYUwdLXmCqqXkTyUY2I64JSjO
+	FVtIHHkysHog4BuZGmtU7lOva+ex+VNXCLHMwdf31J74V95qZbi6eCG9GZx/mmFE33fKFUoaqQP
+	J3j+j8W8vZ5uS6tpphugiItlyOlhC7IHix48Md1wUEMewivS5qlpnKOFTNAAMSIWqV+F40bEQ==
+X-Received: by 2002:a05:600c:6989:b0:496:bbce:103 with SMTP id 5b1f17b1804b1-496bbce019cmr5898295e9.6.1785047973066;
+        Sat, 25 Jul 2026 23:39:33 -0700 (PDT)
+Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957bfd1a60sm153969255e9.2.2026.07.25.23.39.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2026 23:39:31 -0700 (PDT)
+From: Doehyun Baek <doehyunbaek@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Doehyun Baek <doehyunbaek@gmail.com>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v5] Docs/translations/it_IT: sync changes.rst requirements
+Date: Sun, 26 Jul 2026 06:39:27 +0000
+Message-ID: <20260726063928.1322676-1-doehyunbaek@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in
- shrink_memcg()
-To: Yosry Ahmed <yosry@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org,
- shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
- chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Hao Jia <jiahao1@lixiang.com>
-References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
- <20260717085151.22822-3-jiahao.kernel@gmail.com>
- <amF7_GB5Rl6OJmt4@cmpxchg.org>
- <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com>
- <amIdU1lFxqxTI3Gc@cmpxchg.org>
- <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
- <d8de419d-0077-c47c-a5f1-37c229a853ed@gmail.com>
- <CAO9r8zNq3bRN+mumA5tcdizStpgoqTc++FYuGjvL8spbv4Q8YQ@mail.gmail.com>
- <CAKEwX=MG0F1+my1krUiOrHCn-Lypq2gq-g8Rv07Mz7sC=YEKaw@mail.gmail.com>
- <CAO9r8zOH93mfdjHq+Ljm7X+ykZS_rjzAvp9OBCzo+uyTbM1fDQ@mail.gmail.com>
- <amO-hwo8OGV5Goz0@cmpxchg.org>
- <CAO9r8zMgVmgQET+PUGexAgNqCZavA2YoTTXKSbWWoUv=A=ytSQ@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zMgVmgQET+PUGexAgNqCZavA2YoTTXKSbWWoUv=A=ytSQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+The Italian current requirements text had fallen behind the English
+Documentation/process/changes.rst version.
 
+Sync the current requirements table and add the missing ver_linux note.
+Also update directly related text for pahole, Python and GNU AWK, add the
+Rust/bindgen source links, and remove the stale cpio source entry.
 
-On 2026/7/25 06:22, Yosry Ahmed wrote:
-> On Fri, Jul 24, 2026 at 12:35 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
->>
->> On Fri, Jul 24, 2026 at 11:39:41AM -0700, Yosry Ahmed wrote:
->>> On Fri, Jul 24, 2026 at 11:37 AM Nhat Pham <nphamcs@gmail.com> wrote:
->>>>
->>>> On Fri, Jul 24, 2026 at 10:57 AM Yosry Ahmed <yosry@kernel.org> wrote:
->>>>>
->>>>> The numbers generally look good, the store rejection rate is
->>>>> decreasing and we are naturally doing more writeback which makes
->>>>> sense. The store rejection rate actually increases when the batch size
->>>>> increases to 64, maybe aggressive writeback is more likely to fail and
->>>>> cause a store rejection, so that also makes sense.
->>>>>
->>>>> The only part I can't immediately reason about is pswpin. How are we
->>>>> reading from physical swap more than we ever wrote to it?
->>>>
->>>> The same page can be swapped out once, and swap in multiple times :)
->>>>
->>>> Unlike zswap, physical swap in is not necessarily exclusive. You load
->>>> the page in memory, but if the swapfile is not full, etc. etc. you
->>>> don't invalidate the copy of the data on the swapfile. At reclaim
->>>> time, we notice the page is not dirty, so we just skip (z)swapout.
->>>
->>> Oh right, I forgot about that, thanks.
->>>
->>> I still don't fully understand why pswpin is significantly increased
->>> with batching here. I would hope that with less LRU inversion we end
->>> up with less disk swapin. Probably the test access patterns are just
->>> too random compared to real workloads?
->>
->> Maybe more time in zswap for those tail entries left behind with the
->> smaller batch?
->>
->> That's a 32 entry window that could zswpin with the smaller batch but
->> pswpin with the larger one.
-> 
-> Oh I was talking about going from no batching to batch=32. pspwin
-> increased by 387,400 (~30%). We are writing back 272,880 more pages
-> but we also have 209,837 less store rejections. So overall ~ 63,043
-> more pages should end up on disk, which doesn't explain the increase
-> in pspwin.
-> 
+Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+---
+Thanks to Federico Vaga for the review and wording suggestions.
 
-In my previous runs, I also collected zswpin. could the following 
-explanation help account for what we are seeing?
+Tested with:
 
-Assuming stress-ng maintains a roughly similar memory access rate, 
-batching flushes significantly more pages back to disk (meaning pages in 
-the zswap pool are evicted faster, keeping zswap pool residency lower). 
-As a result, when stress-ng accesses swapped memory, it is more likely 
-to fault pages in from disk (pswpin) rather than hit zswap (zswpin).
+  make SPHINXDIRS=translations/it_IT htmldocs
 
-In fact, zswpin in batch-32 dropped by 143,425 compared to 
-baseline—which aligns with batching having a lower zswpin and a higher 
-pswpin.
+Note: this version focuses on keeping the "Current Minimal Requirements"
+section and directly related requirements text in sync with the English file.
+If a full-file sync is preferred, I can do that instead.
 
-To be frank, under the Test Case 2 workload, we cannot strictly 
-guarantee that the total volume of page reads and writes remains 
-consistent across all three runs within the same time window.
+Changes in v5:
+- Incorporate Federico's wording suggestions for pahole, Python and GNU AWK.
 
-                      baseline-cgroup   batch-all-32-cgroup 
-batch-all-64-cgroup
-shrink_worker wakeups       7,238             766                 367
-shrink_memcg calls     12,059,142       1,961,194             983,878
-written_back               28,277         301,157             327,997
-zswap_store calls        1,349,572       1,168,190          1,114,549
-    store succeeded           492,861       521,315           459,246
-    store rejected            856,712       646,875           655,303
-    store reject rate           ~63%           ~55%               ~58%
-pool_limit_hit             510,130          50,096             57,715
-pswpout                    884,989         948,032            983,300
-pswpin                   1,251,268       1,638,668          1,878,453
-zswpout                    492,861         521,314            459,245
-zswpin                     309,631         166,206            84,977 <-
+Changes in v4:
+- Fix the malformed requirements table.
+- Run the Italian documentation build.
 
-Thanks,
-Hao
-> The only explanation I can think of is that the test is just randomly
-> accessing memory, so it ends up accessing colder memory that we moved
-> to disk more than hotter memory that we kept in zswap. IOW, the access
-> patterns do not conform to a "normal" workload that benefits from the
-> LRU.
+Changes in v3:
+- Sync the full current requirements table with the English version.
+- Update directly related requirements text for pahole, Python and GNU AWK.
+- Add Rust/bindgen source links and remove the stale cpio source entry.
+
+Changes in v2:
+- Rebase on current docs-next.
+
+ .../translations/it_IT/process/changes.rst    | 118 +++++++++++-------
+ 1 file changed, 73 insertions(+), 45 deletions(-)
+
+diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
+index 7ee54c972418..0be1292a87fc 100644
+--- a/Documentation/translations/it_IT/process/changes.rst
++++ b/Documentation/translations/it_IT/process/changes.rst
+@@ -23,50 +23,53 @@ Requisiti minimi correnti
+ 
+ Prima di pensare d'avere trovato un baco, aggiornate i seguenti programmi
+ **almeno** alla versione indicata!  Se non siete certi della versione che state
+-usando, il comando indicato dovrebbe dirvelo.
++usando, il comando indicato dovrebbe dirvelo. Per avere una lista dei programmi
++sul vostro sistema, incluse le rispettive versioni, eseguite
++./scripts/ver_linux.
+ 
+ Questa lista presume che abbiate già un kernel Linux funzionante.  In aggiunta,
+ non tutti gli strumenti sono necessari ovunque; ovviamente, se non avete una
+ PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
+ 
+-====================== =================  ========================================
+-        Programma       Versione minima       Comando per verificare la versione
+-====================== =================  ========================================
+-GNU C                  8.1                gcc --version
+-Clang/LLVM (optional)  17.0.1             clang --version
+-Rust (opzionale)       1.78.0             rustc --version
+-bindgen (opzionale)    0.65.1             bindgen --version
+-GNU make               4.0                make --version
+-bash                   4.2                bash --version
+-binutils               2.30               ld -v
+-flex                   2.5.35             flex --version
+-bison                  2.0                bison --version
+-pahole                 1.16               pahole --version
+-util-linux             2.10o              mount --version
+-kmod                   13                 depmod -V
+-e2fsprogs              1.41.4             e2fsck -V
+-jfsutils               1.1.3              fsck.jfs -V
+-xfsprogs               2.6.0              xfs_db -V
+-squashfs-tools         4.0                mksquashfs -version
+-btrfs-progs            0.18               btrfsck
+-pcmciautils            004                pccardctl -V
+-quota-tools            3.09               quota -V
+-PPP                    2.4.0              pppd --version
+-nfs-utils              1.0.5              showmount --version
+-procps                 3.2.0              ps --version
+-udev                   081                udevd --version
+-grub                   0.93               grub --version || grub-install --version
+-mcelog                 0.6                mcelog --version
+-iptables               1.4.2              iptables -V
+-openssl & libcrypto    1.0.0              openssl version
+-bc                     1.06.95            bc --version
+-Sphinx\ [#f1]_         2.4.4              sphinx-build --version
+-cpio                   any                cpio --version
+-GNU tar                1.28               tar --version
+-gtags (opzionale)      6.6.5              gtags --version
+-mkimage (opzionale)    2017.01            mkimage --version
+-Python (opzionale)     3.5.x              python3 --version
+-====================== =================  ========================================
++====================== ===============  ========================================
++        Programma      Versione minima        Comando per verificare la versione
++====================== ===============  ========================================
++bash                   4.2              bash --version
++bc                     1.06.95          bc --version
++bindgen (opzionale)    0.71.1           bindgen --version
++binutils               2.30             ld -v
++bison                  2.0              bison --version
++btrfs-progs            0.18             btrfs --version
++Clang/LLVM (opzionale) 17.0.1           clang --version
++e2fsprogs              1.41.4           e2fsck -V
++flex                   2.5.35           flex --version
++gdb                    7.2              gdb --version
++GNU awk (opzionale)    5.1.0            gawk --version
++GNU C                  8.1              gcc --version
++GNU make               4.0              make --version
++GNU tar                1.28             tar --version
++GRUB                   0.93             grub --version || grub-install --version
++gtags (opzionale)      6.6.5            gtags --version
++iptables               1.4.2            iptables -V
++jfsutils               1.1.3            fsck.jfs -V
++kmod                   13               kmod -V
++mcelog                 0.6              mcelog --version
++mkimage (opzionale)    2017.01          mkimage --version
++nfs-utils              1.0.5            showmount --version
++openssl & libcrypto    1.0.0            openssl version
++pahole                 1.26             pahole --version
++pcmciautils            004              pccardctl -V
++PPP                    2.4.0            pppd --version
++procps                 3.2.0            ps --version
++Python                 3.9.x            python3 --version
++quota-tools            3.09             quota -V
++Rust (opzionale)       1.85.0           rustc --version
++Sphinx\ [#f1]_         3.4.3            sphinx-build --version
++squashfs-tools         4.0              mksquashfs -version
++udev                   081              udevadm --version
++util-linux             2.10o            mount --version
++xfsprogs               2.6.0            xfs_db -V
++====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx è necessario solo per produrre la documentazione del Kernel
+ 
+@@ -144,7 +147,13 @@ pahole
+ 
+ Dalla versione 5.2, quando viene impostato CONFIG_DEBUG_INFO_BTF, il sistema di
+ compilazione genera BTF (BPF Type Format) a partire da DWARF per vmlinux. Più
+-tardi anche per i moduli. Questo richiede pahole v1.16 o successivo.
++tardi anche per i moduli. Questo richiede pahole v1.22 o successivo.
++
++Dalla versione 7.0, le kfunc annotate con KF_IMPLICIT_ARGS richiedono pahole
++v1.26 o successivo. Senza questa versione, tali kfunc avranno prototipi BTF
++errati in vmlinux, causando il fallimento del caricamento dei programmi BPF con
++l'errore "func_proto incompatible with vmlinux". Molte kfunc in sched_ext sono
++interessate da questo problema.
+ 
+ A seconda della distribuzione, lo si può trovare nei pacchetti 'dwarves' o
+ 'pahole'. Oppure lo si può trovare qui: https://fedorapeople.org/~acme/dwarves/.
+@@ -155,6 +164,14 @@ Perl
+ Per compilare il kernel vi servirà perl 5 e i seguenti moduli ``Getopt::Long``,
+ ``Getopt::Std``, ``File::Basename``, e ``File::Find``.
+ 
++Python
++------
++
++Diverse opzioni di configurazione lo richiedono: è necessario per le
++configurazioni predefinite di arm/arm64, CONFIG_LTO_CLANG, alcune opzioni
++configurabili del DRM, lo strumento kernel-doc e la generazione della
++documentazione (Sphinx), e altro ancora.
++
+ BC
+ --
+ 
+@@ -193,6 +210,12 @@ pacchetto ``u-boot-tools`` oppure può essere compilato dal codice sorgente di
+ U-Boot. Consultate le istruzioni
+ https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
+ 
++GNU AWK
++-------
++
++GNU AWK è necessario se si vuole che la compilazione del kernel generi dati
++sugli intervalli di indirizzi per i moduli integrati
++(CONFIG_BUILTIN_MODULE_RANGES).
+ 
+ Strumenti di sistema
+ ********************
+@@ -405,6 +428,16 @@ Clang/LLVM
+ 
+ - :ref:`Getting LLVM <getting_llvm>`.
+ 
++Rust
++----
++
++- Documentation/rust/quick-start.rst.
++
++bindgen
++-------
++
++- Documentation/rust/quick-start.rst.
++
+ Make
+ ----
+ 
+@@ -507,11 +540,6 @@ mcelog
+ 
+ - <https://www.mcelog.org/>
+ 
+-cpio
+-----
+-
+-- <https://www.gnu.org/software/cpio/>
+-
+ Rete
+ ****
+ 
+-- 
+2.43.0
+
