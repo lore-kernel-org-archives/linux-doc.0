@@ -1,311 +1,134 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011046.outbound.protection.outlook.com [52.101.52.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC94280335
-	for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 16:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785083153; cv=none; b=McuD/fCcGVbvJJLwmEiwcu2fjyMpZ9j0RNdHkq0Slc7LH1mxLYsyTL2mVCwIRkm9UdGlv2q1zyeholsmcKDWeL5fxjBDVRlE0Ajlfxai5oiUGF39yI94Oz/NxBrYahDyKIhjyh+qJEy2hw9Bw0sN453WdaKYzS1HudoY6L2NzS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785083153; c=relaxed/simple;
-	bh=XbhZWawk9uP5w+/hRkyU+8LB6exUbgZNi8v8VnEQEzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tsxxYs0YIISSVbCRvxzt4rphjLRxCbUAhUjpegOyMn6Fk3h+FByTT109NL8lh9WNJn9+p8gptqeBGF1LTYoRhEkzq6FMAlfQej+z98O/T8A+sU/T0IYEdvl/vfGcHerwPeF8H65YRq5wpHTvNnCRns0aVe1wRs4Q/bdhFAzGnJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv6wFtMH; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCB6366567;
+	Sun, 26 Jul 2026 17:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785086405; cv=fail; b=UzIZIFtEyT9AaUOuMVvdTLvUQJoF1FpLYFRU2ptFAFeRW/qxzuc2HoOGk4e2HLCw9iD9nJ/Zv+x3+HqZb0FFxf9WkpmFA+bpbWbLkB3JYK7G7KjTSjc1wN3jd2/itcwc4MjKkqK60uNhGrHY5G6MaWokpcAwPEBfopvfd+6oB5c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785086405; c=relaxed/simple;
+	bh=8oOmnHGW1J8J0MXWLE5gDpxEfUyuNakdb1msjwyKCGs=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qTYPr87YEqXWFFalQoYXb2pQaRnxvl9Le5fozKxnj6QspLhBXsovQwZthgCJ9DRUnHVMkG0PRRyxYmmXlCNYw3c0irEaFNuWiLdXXAojTVwTIenobgosHQzrBA3PLIlcSAOvaPYzP4xSZYizWYd6puA+WmVUO1yaPYGX3NHQSzI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ZuWWPnRQ; arc=fail smtp.client-ip=52.101.52.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv6wFtMH"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-471eeac43bfso1662374f8f.3
-        for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 09:25:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785083150; x=1785687950; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zFLKSj9QjxByZ3M4VcrGfBPwVddmmLi8VlJ0E9sOg4I=;
-        b=Tv6wFtMHsgi8RdI7RvXTvkvNoRut+nhX93vPraQKLt6lXF/OydWq1DonZUWQx1n4/x
-         5E9pVORAUfO74ZrEjkD2Y4JMzifGner2Keo12oS57vcFTWS+pMVACSWsHdxuAeh4mB1W
-         DbLqKg1Ppq8KAvbPvYhSEuHzpkwZa8m/QFspjsFFPNHtHGbXhcmPbiZgOn7gqUp/SG6p
-         GZyEv672LN+rmjVpViVQKqWBkqadG1dLaW7VwKrRtj5X3PuDY9f/O8S06etrosJQh7Nz
-         Vrn855+/DR6dSg3evyITd+hzygE/KO+Dgj5tNriSAsMySta/GVgslK2HGQSKKmOigZjq
-         FGvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785083150; x=1785687950;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zFLKSj9QjxByZ3M4VcrGfBPwVddmmLi8VlJ0E9sOg4I=;
-        b=R4e457J2cGUWraV2jWBow43u90aQT/PxaOEqy7gV8+/5FYjFd4AOy136ZiPxG4xUO2
-         6yD0yyo9X/D3WFsgoSq+fxDt4jBQyW4pkmpRvhlFCpHkeGs5jXJ92VrQN/5Xm6SUM4Uc
-         iRS44jisg2aqDAXZs9xle8S45vZY0q94XRKEb3kFUlGyXoOd52wlaTYGMkJucMqMaLJ+
-         k+p4rQDDPWDSpLJMOhJ7Qktj9YaXI9W+S3RLIbJNvp/gjQyhlghCLwgNOAKPN3TLxWl9
-         JCB+Xh2lWopoNpwnsQYfQG3i4ryRDP8ZjCWtPahBt8nxJHMfUvleJP8iDYHErRF4mUeO
-         XthA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpxrk3oYgIFzLfP5NDxMQAkUqP/PFXMxZKhEm1x7LEU4K1NMcD/uQR2tR8K489HDCCaixaZ6jR2Wqk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR5vTl3vAWQvl9ekntWvfBALw2aHaKtXsuoWr6Go1rz4MSxwhI
-	TOCtUc7U2tP6VCxgMOonveHrqqQVUkpkBqBSkBNdhns4yBVR95ag92Pb
-X-Gm-Gg: AR+sD13imJTO8bKEeVpBvscRykqCQEbAa/FO+9nJEQeDIalC5D1Hqlrjwvm/QY1tuVO
-	eOm33q//k8WgAJJky3XN2Wt/F2U/sFC33/6ejoMd708roPI86fiyhf8UTkSAB3e0e7BfBwzEfft
-	ItxSFKfmPoXVPIt3YX3mQTeMyA+YScQiLbfX33P4IiyGBWHpJPaXwF20g99xpAWV5ZmtVh0ZGv2
-	NXeg5SZbuuahE+0oOMc32GaadmlZ3lnj5jGwj4WberNS1iC699UR4X/KnOBKY7oHvuc3tbn0jBG
-	Nuf5RkgNW8ETXArK75ltBIlpjro6IZSLsvIiHbJW/S9LGkDliS5qh40tAduB0iEv1jD7yO82Rkw
-	+/yCBMp7C54wNcSkQ6JbtMCmnmwwmjMPBMnFekVjAYkzC8iNRhGPSHlSrcnUT7peC4CjQiqB4d2
-	PgFi2WBQlibNc=
-X-Received: by 2002:a05:600c:6992:b0:495:4811:d71c with SMTP id 5b1f17b1804b1-496b56c6d6dmr72217385e9.13.1785083150064;
-        Sun, 26 Jul 2026 09:25:50 -0700 (PDT)
-Received: from foxbook (bey56.neoplus.adsl.tpnet.pl. [83.28.36.56])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f302f8sm148698145e9.12.2026.07.26.09.25.48
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 26 Jul 2026 09:25:49 -0700 (PDT)
-Date: Sun, 26 Jul 2026 18:29:46 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, stern@rowland.harvard.edu, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] usbcore: Add quirk for 255-bytes initial config
- read
-Message-ID: <20260726182946.79a4ef98.michal.pecio@gmail.com>
-In-Reply-To: <20260717195336.98500-2-nikhilsolanke5@gmail.com>
-References: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
-	<20260717195336.98500-2-nikhilsolanke5@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZuWWPnRQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RFOydrvHXW56FE1iFSLd36mWogs3sYWJvdCHb1DT2c1zuJirj/c1J4iYT7rWxLwK3GgWDPrtSyQmbAxiEZy26K4aC5MxkTf1QYhQ29fTPIcKw58P124CTI0j3kMid3ljTLriz1fqMshAu7DWhb7hbhkI31usHmz8ZYi+F4HRLnvwABT6gpxB0kX2OyGraksWYzw812ytyDLtuNhifCpaa+HxVEg2R2lyDNZV50zTywWZy+L5S1V/TfgLsrt83Ncc54tXtiyW9ljnkxYpLtCFKxU4uHD6kGorzO8MG19ZwCF+CGu9a6SGUjWkb6sg9CVib9EBDw9YJSkdakoV5aUGgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aIEX23kjadTe/5txJIx3jZERgl8Gi5UenD30cwicvVc=;
+ b=fy5QO3qbU2Qr/3eTVJuni2nCsTdThgjwTN77eULXpUEz5Wgn74AJNRp5sv2F6kQLdfGwMSghVpmxou8TlT8UyzZTA0mZLDZQDW22ROSXF7Z7p0x3B5Z8lE6XYJsdtS9CtxpiWEmRy3P9dGLPUFYfaCmyKoxaxg5i2Tz2y2HKzJxgqOEaO0f7ZRa5HR0c1bDoc30WfdxjtFjq1N1JW1szqnzvMHYxaLTtMtKGPhOxkj+V2JTP8+rlhSwJGCslrBjOoudTbXUk8fdotBfKZkkyk0Ze66lSddMMWd4zx+NoTHL9QE7O/qwp5QCeC6ILnvpQTuQ9+sgfcKA7S0C1KSnr0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aIEX23kjadTe/5txJIx3jZERgl8Gi5UenD30cwicvVc=;
+ b=ZuWWPnRQHDg378qXSRvId5F17zepYXIP7X+xF1D31Y0Y++mC2Lj/EzSUZVRrf6JDDJ6XKhgdMlO6BROvacTRlPNwQVgSZKEBuwN+RJIJlzSjhyaGqSK74KLteTy1dmC9ZwpCd2ft/rxJucPoYs7mUjxNBuli6jYC8UXkK3Bxw7dL4YTUiViYZt9N0D9zcR167bi29NeHvacfCtguwOUkwjMJqJIRnIxokjKaGgc20lEQz50UEeacRYnQpY2o0SqXCmiDpYR1sdYOEmbcFGMkg/4GJgsMqy2YAv4GdNps5HmqfWSY0RVE0j7dNHxfqeSVUlqDrrEfVJPfAijgHMayvg==
+Received: from PH8P220CA0028.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:348::6)
+ by IA1PR12MB6020.namprd12.prod.outlook.com (2603:10b6:208:3d4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Sun, 26 Jul
+ 2026 17:19:59 +0000
+Received: from CY4PEPF0000EE3B.namprd03.prod.outlook.com
+ (2603:10b6:510:348:cafe::46) by PH8P220CA0028.outlook.office365.com
+ (2603:10b6:510:348::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.13 via Frontend Transport; Sun,
+ 26 Jul 2026 17:19:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CY4PEPF0000EE3B.mail.protection.outlook.com (10.167.242.14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.270.5 via Frontend Transport; Sun, 26 Jul 2026 17:19:58 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Sun, 26 Jul
+ 2026 10:19:46 -0700
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 26 Jul
+ 2026 10:19:46 -0700
+Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Sun, 26 Jul 2026 10:19:45 -0700
+Date: Sun, 26 Jul 2026 10:19:43 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Ashish Mhetre <amhetre@nvidia.com>
+CC: <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<jgg@ziepe.ca>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<iommu@lists.linux.dev>, <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v9 3/4] iommu/arm-smmu-v3-iommufd: Report
+ CFGI/TLBI-repeat erratum
+Message-ID: <amZBr9/0sbc8Quu0@nvidia.com>
+References: <20260726081904.1408859-1-amhetre@nvidia.com>
+ <20260726081904.1408859-4-amhetre@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260726081904.1408859-4-amhetre@nvidia.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3B:EE_|IA1PR12MB6020:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f4d9d9e-ea13-4ed4-6129-08deeb3a1e79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|1800799024|36860700016|23010399003|6133799003|56012099006|11063799006|4143699003|10067099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	ViBsd1cADbd/jQ/GvfzlorbUn5QnTZzyXmBlXhzvIB1RdkMW0FuBQX0z7XohiI34BlEQf6virvjC7qbP2vEdzgEXXXuz3bbMD3zYy/zlqg34Zr+OR8j9Ai8AxCwHHozCn3U8MbFGL61wEoaZBIdeGmKWx6tQSoY0Bb7iy33znNjIf7nySTAoYD9KAOc7nfiusNprjfIzTcP+XmUVzcoU4OKnjlDIn2bj8nkCxh0NZBV/JnFDxCeoujeBTeUsFYNAEh6nfijQcA+tDVbLKCTMKl8CmWnvGA8xKFCAW6jvzggNskwPt9IB1pSs5m8WeTd6xvIBCiAu/kamuN7ti+YuVj/34lTwNAHy8fdjqE/UMF4QSH4qnPIzfa/VelIlfmJy2gwbrSamqz7Suj0Y36C67qdZjhxu5suCbECD5CrIW7J+mWYwEbZav2A7k6of5wHiEUzElFsES7p8LBwL4wz0ZH47YEzOfYZrMlV1HRiUy86wFptpKPhYq3EVrRfwjzjUiEjtVnQGB+UYQf2mOQfcB3yv7Fge/WAeUzgvM8p0hXUvmYgkpjNduMUh/yzugOxi+q08MpocMeQKQwKV8kAZb8Rnw5ozTK3b0uA23gDjrxAfsDM+KbXTS3u53NTf2wu/7weOATLCCdFtMqu9mMXbtiz+qsDyVpZthzrjSfzZt2qJnYUfCFaxKlmUc0FQD7JTPrbZ52wxuToXLq9vRetGUA==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700016)(23010399003)(6133799003)(56012099006)(11063799006)(4143699003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	0Tz0Vk/bCYDRaEEv+NDtahjYNx5kIT4a3zQH3sijnTvouFsOevprwLrVi1YpZJcJg35Zt2lDHQPdmJz6C83gMhB7mStdSd9iHRH5LNsWG1qnGvJJJ8L1Abmh/7PTq8qVT4QEzlAHlfxNni5fnJJ1cITwaSaauwPbu7Cc4d5isaJeJbBb2oYNd3JmH/fE6JW90nDA+4eGjt2kYMXQQOGEOWz2L5KgVhOUN8XiUazj2Ds6hQd3ApiSDsWeUJoqDDEvvXSHCDs4JlJOcn4uNJEZh3ugyNiOVDA8XjGom6N6QkkUvq5AWQ4/2tKQU8U6s5c8V43h2rh/ixRNC2/CNAo6LCJIRpbNshWdkjtIqrNap7i/aEnRTGdW1Yhmc1y03o5uVnr7oetJDl2/CviNPpjx16YlEwlF97CofsCeTY6LnW8iJacO1sPbXYcoaaK3/gOq
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2026 17:19:58.3663
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f4d9d9e-ea13-4ed4-6129-08deeb3a1e79
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EE3B.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6020
 
-On Sat, 18 Jul 2026 01:23:35 +0530, Nikhil Solanke wrote:
-> Certain third-party USB game controllers exposing (or spoofing) an Xbox
-> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
-> The device disconnects from the bus without responding to the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
-> config index 0 descriptor/start: -71'.
+On Sun, Jul 26, 2026 at 08:19:03AM +0000, Ashish Mhetre wrote:
+> A guest with access to VCMDQ generates its own invalidation commands
+> and must apply any invalidation errata before submitting them. If the
+> host also repeats those commands, each affected invalidation is issued
+> four times instead of twice.
 > 
-> The device then falls back to a secondary Android HID mode (with a
-> different VID:PID), losing XInput functionality including rumble support.
-> The failure reproduces across multiple machines, host controller types, and
-> kernel versions including current mainline and LTS. The device enumerates
-> correctly and remains in XInput mode under Windows. Notably, the device
-> enumerates correctly in Android mode when the same 9-byte request
-> is issued for that mode's configuration descriptor, confirming the firmware
-> bug is specific to the XInput mode.
+> Add IOMMU_HW_INFO_ARM_SMMUV3_ERRATA_REPEAT_TLBI_CFGI to report the
+> CFGI/TLBI-repeat erratum to user space. This allows the VMM to expose
+> the erratum to the guest or apply the workaround itself.
 > 
-> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
-> identical up to the point of failure, with no visible protocol-level
-> difference explaining the divergence. The root cause was identified when
-> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
-> use wLength=9 for the initial config descriptor request; it uses
-> wLength=255. Alan Stern subsequently confirmed this with a bus
-> analyzer on a different USB 2.0 device, and Michal verified the behavior
-> goes back to Windows 95 OSR2.1.
+> Use the raw __arm_smmu_cmdq_issue_cmdlist() helper for user-provided
+> invalidations so the host does not apply the workaround a second time.
+> Add arm_smmu_erratum_repeat_tlbi_cfgi() to query the static key when
+> populating the SMMUv3 hardware information.
 > 
-> So, add a new quirk flag USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE which causes
-> usb_get_configuration() to issue a 255 byte sized configuration request
-> instead of USB_DT_CONFIG_SIZE (9) for the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
-> behavior.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
-> ---
+> Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
 
-The code looks generally correct now. Some small issues noted below.
-
->  .../admin-guide/kernel-parameters.txt         | 10 +++++
->  drivers/usb/core/config.c                     | 39 +++++++++++++++----
->  drivers/usb/core/quirks.c                     |  4 ++
->  include/linux/usb/quirks.h                    |  3 ++
->  4 files changed, 49 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8f22..14121458a0c0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -8169,6 +8169,16 @@ Kernel parameters
->  				q = USB_QUIRK_FORCE_ONE_CONFIG (Device
->  					claims zero configurations,
->  					forcing to 1);
-> +				r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
-> +					fails during initialization when asked for
-> +					9-bytes configuration descriptor request.
-> +					Ask for 255-bytes request instead to mirror
-> +					Windows' behavior. This quirk is originally
-> +					meant to fix some quirky gamepads that refuse
-> +					to connect in their XInput mode. But it can
-> +					also potentially fix issues with other USB
-> +					devices that work on Windows but not on
-> +					Linux);
-
-I still think this text is needlessly long. Could be:
-
-				r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
-					doesn't respond to 9-byte configuration
-					descriptor requests, ask for 255 bytes like
-					Windows does. Required by some gamepads);
-
->  			Example: quirks=0781:5580:bk,0a5c:5834:gij
->  
->  	usbhid.mousepoll=
-> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-> index 45e20c6d76c0..442c15f92ccd 100644
-> --- a/drivers/usb/core/config.c
-> +++ b/drivers/usb/core/config.c
-> @@ -912,6 +912,17 @@ int usb_get_configuration(struct usb_device *dev)
->  	unsigned char *bigbuffer;
->  	struct usb_config_descriptor *desc;
->  	int result;
-> +	size_t usb_config_req_size;
-> +
-> +	/*
-> +	 * Devices with quirky firmware will stall or reset when the initial
-
-Has anyone actually seen a device that stalls?
-
-> +	 * config descriptor request uses wLength=9. If the quirk is set, use
-> +	 * 255 instead, mirroring the behavior of Windows.
-> +	 */
-
-If the USB_DT_CONFIG_SIZE constant is moved here then it could make
-sense to also move the related comment and merge with this one. Say,
-
-	/*
-	 * We start with grabbing the first descriptor so we know how
-	 * long the whole configuration is. Some devices don't respond,
-	 * request 255 bytes instead, mirroring the behavior of Windows.
-	 */
-
-> +	if (dev->quirks & USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE)
-> +		usb_config_req_size = 255;
-> +	else
-> +		usb_config_req_size = USB_DT_CONFIG_SIZE;
->  
->  	if (ncfg > USB_MAXCONFIG) {
->  		dev_notice(ddev, "too many configurations: %d, "
-> @@ -938,15 +949,19 @@ int usb_get_configuration(struct usb_device *dev)
->  	if (!dev->rawdescriptors)
->  		return -ENOMEM;
->  
-> -	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-> +	desc = kmalloc(usb_config_req_size, GFP_KERNEL);
->  	if (!desc)
->  		return -ENOMEM;
->  
->  	for (cfgno = 0; cfgno < ncfg; cfgno++) {
-> -		/* We grab just the first descriptor so we know how long
-> -		 * the whole configuration is */
-> +		/*
-> +		 * Normally we request only the configuration descriptor header
-> +		 * so we can determine the total configuration length. For
-> +		 * devices with USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE set, try to
-> +		 * grab the full descriptor set instead.
-> +		 */
-
-... and then this comment wouldn't really be necessary, or it could
-be shorter like
-		/* First request for an initial prefix */
-
-Also, the full descriptor set may be up to 65535 bytes long and in
-some classes like UVC it commonly exceeds 255 bytes
-
->  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-> -		    desc, USB_DT_CONFIG_SIZE);
-> +		    desc, usb_config_req_size);
->  		if (result < 0) {
->  			dev_err(ddev, "unable to read config index %d "
->  			    "descriptor/%s: %d\n", cfgno, "start", result);
-> @@ -956,9 +971,8 @@ int usb_get_configuration(struct usb_device *dev)
->  			dev->descriptor.bNumConfigurations = cfgno;
->  			break;
->  		} else if (result < 4) {
-> -			dev_err(ddev, "config index %d descriptor too short "
-> -			    "(expected %i, got %i)\n", cfgno,
-> -			    USB_DT_CONFIG_SIZE, result);
-> +			dev_err(ddev, "config index %d descriptor too short (asked for %zu, got %i, need at least %i)\n",
-> +			    cfgno, usb_config_req_size, result, 4);
-
-There is no need to use %i if you always pass a constant 4.
-
-There is probably no need to print "need at least 4" at all. Users
-don't care that we request 9 or 255 bytes but tolarate just 4.
-
-No compliant device will ever respond with less than 9, so it's not
-clear if accepting 4 is even necessary for some very bad devices, or
-was merely done out of paranoia. It's an irrelevant detail.
-
->  			result = -EINVAL;
->  			goto err;
->  		}
-> @@ -972,6 +986,16 @@ int usb_get_configuration(struct usb_device *dev)
->  			goto err;
->  		}
->  
-> +		/*
-> +		 * If the device returns the full configuration descriptor set,
-> +		 * skip the second read. Otherwise, send a second request
-> +		 * asking for the full set.
-> +		 */
-
-There is already a comment about "getting the whole thing" a few lines
-above, so half of this is redundant.
-
-> +		if (result >= length) {
-> +			memcpy(bigbuffer, desc, length);
-> +			goto store_and_parse;
-> +		}
-> +
-
-Even if no device currently uses both quirks, I think this belongs
-after the msleep() below, to minimize interaction between the quirks.
-
->  		if (dev->quirks & USB_QUIRK_DELAY_INIT)
->  			msleep(200);
->  
-> @@ -989,6 +1013,7 @@ int usb_get_configuration(struct usb_device *dev)
->  			length = result;
->  		}
->  
-> +store_and_parse:
->  		dev->rawdescriptors[cfgno] = bigbuffer;
->  
->  		result = usb_parse_configuration(dev, cfgno,
-> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> index 87ee2d938bc0..f5a60ccf21d3 100644
-> --- a/drivers/usb/core/quirks.c
-> +++ b/drivers/usb/core/quirks.c
-> @@ -142,6 +142,10 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
->  				break;
->  			case 'q':
->  				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
-> +				break;
-> +			case 'r':
-> +				flags |= USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE;
-> +				break;
->  			/* Ignore unrecognized flag characters */
->  			}
->  		}
-> diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-> index b3cc7beab4a3..a4043b33c2c2 100644
-> --- a/include/linux/usb/quirks.h
-> +++ b/include/linux/usb/quirks.h
-> @@ -81,4 +81,7 @@
->  /* Device claims zero configurations, forcing to 1 */
->  #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
->  
-> +/* Use a 255 bytes config descriptor request mirroring windows behavior */
-> +#define USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE	BIT(19)
-> +
->  #endif /* __LINUX_USB_QUIRKS_H */
-> -- 
-> 2.55.0
-> 
+Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
