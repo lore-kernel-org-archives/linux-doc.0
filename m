@@ -1,106 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846BA3D9DB0;
-	Sun, 26 Jul 2026 17:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0D52DB7AE;
+	Sun, 26 Jul 2026 19:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785087592; cv=none; b=rfzf+iBZ2h9Ywxo60x07i3myu5LxSIJ4kw49qaZ34Qs5kyb2y7Mg95qONXwtbjXRed3yv9BrfpxCSWtSjRE9yah8JHSNN4gq0Cf5JPInuKRmQjnQBvooLtI9CEBM26XZTxmf55IN7qVcwVw49/dSOQzrChwRZsfAhZFz7eQkhlo=
+	t=1785095280; cv=none; b=Rwjc2swOLHhis0Wa0y/XvldrPW1uD+hSw1Xn/P0bedjaPRp9nMCYRJbsmUupzmY4+eBb6ppIervET8OTP7xqCHkI099zfpZXph0p9kNx7BosNfiaCCV+u1jdJfiBcBpuedNGfyMoLcZaf93C3LsTRyAEoA4IxN8/uGAngpfWKjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785087592; c=relaxed/simple;
-	bh=dHDby/6BRKxiNU32vg3qgdhmWYJ9rG6myzLRMzxCpXg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JjEMZnMOUacwMqWapUexSPxvcA/Rgs+UfTXslK9F8tNRUhEoSVuyXXruh79lvcs/NcIRDca+IM/B6wL/APMFuvQ/4wBVvkQ7/K+D0x5HewTi08xWgSuBsMs3xKzQYctDRLuwI/Ccmn4YuSLs7H0dOxImxxY/w437g4/Qa02LUTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Krq/lujb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785095280; c=relaxed/simple;
+	bh=rcecFNGcJXDww8IZO/Blslo0dYnHfaFIR3xJxo5cJ88=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=piELtHZ89k6eltPUHi3tZglyM9+0pnx8YLEYiFpmJ69yScroSXMhoMyYWjU4PqH2frWFvWKEVu35Ux6t6zchTCY2nwwC9a4VcsLA/nxeLWAonAnPX2ogo+ioUxIdPbgemCDDTGwBVtYKIKXG8NDo/jzbu8VhwhuKuOGFg9Hiuv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFhjDdob; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Krq/lujb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB8E1F00ADB;
-	Sun, 26 Jul 2026 17:39:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFhjDdob"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D53001F000E9;
+	Sun, 26 Jul 2026 19:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785087590;
-	bh=htpcSL5YfmR1Mjx0E+Olyn+V4SI0oNH53BLn9HoIWZ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Krq/lujbXIUaY/Wj1pPeEQTM6zQc6VbjxDk1ws6mDXAgWmggUUoX0SMj46ZMttTv1
-	 RLqlzH9ami/F6h0cBXpgF7Keeo8O0yDKoSx4Qc/69bk2kIxJGR1BBjMaxFCxBgvTzR
-	 REDM5MXg53VzYXc8HEYMqzA9ZH2ht4Euq1V2uC7GdlHZK4ObYIZhQdoBAGIkssNJ/P
-	 WjMvXGGK+M+gWacd3nDe+3Hb1eDt7E3PEfU06Xb7FoC4pXfCVYJvWrOpF4Xitcsitb
-	 B0Tu7yPHA9s7K5JD3Fpg9sIDekTZds1wo5f2pus9Qo7JussLEKz7/oY7pBMLHmaYKd
-	 AokwUQArq+U/g==
-From: SJ Park <sj@kernel.org>
-To: 
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v2 16/17] Docs/admin-guide/mm/damon/usage: document probe preps sysfs files
-Date: Sun, 26 Jul 2026 10:39:32 -0700
-Message-ID: <20260726173935.94046-17-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260726173935.94046-1-sj@kernel.org>
-References: <20260726173935.94046-1-sj@kernel.org>
+	s=k20260515; t=1785095279;
+	bh=rcecFNGcJXDww8IZO/Blslo0dYnHfaFIR3xJxo5cJ88=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=BFhjDdobGoprb+nyrN4jbguWgFw9TVt+sftNsgfMFNIbb7BxEgjmZaV8EJCv77oTg
+	 v/1rDo3p1Hld9tWvQuDYKkm6R4/oP5TX6UzvdzjpPj8sPmi6AJo1olDHP4jOgYBCx3
+	 gA7jiq64VYKKjftbG2BVjA/Po9Btl4X8+OyPNEM7vu3IuBGjQpSk5BMrOV+s0DwLdz
+	 DjHNCKJI11kQd4QFbHGKQzS+y3+R6vSXA0WwuLJ7aLJbjU1b41uA2oFCwYrht1RiqZ
+	 y0jNTfUqYZz3l64I4GFg8aRHoXghgGkt+TkLZn/lK7Fbnd9J8FWgFv7eJeShgM8kzx
+	 YCstTY140jneg==
+Date: Sun, 26 Jul 2026 09:47:57 -1000
+Message-ID: <47297f950ca6dde636f9c821c74c5792@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: cgroups@vger.kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Koutný <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH] docs: cgroup-v2: mark memory.pressure and io.pressure
+ as read-write
+In-Reply-To: <20260724020508.500893-1-cui.tao@linux.dev>
+References: <20260724020508.500893-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Update DAMON usage document for the newly added DAMON probe preps sysfs
-files.
+On Fri, Jul 24, 2026 at 10:05:08AM +0800, Tao Cui wrote:
+> The cgroup-v2 documentation describes memory.pressure and io.pressure as
+> "read-only nested-keyed file", but both files accept trigger writes
+> (cgroup_memory_pressure_write / cgroup_io_pressure_write) and are therefore
+> read-write. cpu.pressure and irq.pressure are already documented as
+> read-write, so this also resolves an internal inconsistency.
+>
+> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+Applied to cgroup/for-7.3.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index da5f9afd08aef..e4fdec3fa5059 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -74,6 +74,9 @@ comma (",").
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ │ :ref:`probes <damon_usage_sysfs_probes>`/nr_probes
-     │ │ │ │ │ │ │ 0/weight
-+    │ │ │ │ │ │ │ │ preps/nr_preps
-+    │ │ │ │ │ │ │ │ │ 0/prep_action
-+    │ │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ │ │ filters/nr_filters
-     │ │ │ │ │ │ │ │ │ 0/type,matching,allow,path
-     │ │ │ │ │ │ │ │ │ ...
-@@ -283,9 +286,18 @@ In the beginning, this directory has only one file, ``nr_probes``.  Writing a
- number (``N``) to the file creates the number of child directories named ``0``
- to ``N-1``.  Each directory represents each monitoring probe.
- 
--In each probe directory, one directory, ``filters`` exists.  The directory
--contains files for installing filters for the probe, that is used to determine
--the data attribute for the probe.
-+In each probe directory, two directories, ``preps`` and ``filters`` exist.  The
-+directories contain files for installing probing preparation actions and
-+filters for the probe, that is used to determine the data attribute for the
-+probe.
-+
-+In the beginning, ``preps`` directory has only one file, ``nr_preps``.
-+Writing a number (``N``) to the file creates the number of child directories
-+names ``0`` to ``N-1``.  Each directory represents each preparation action.
-+Each directory has one file, ``prep_action``.  The preparation action can be
-+selected by writing the name of the action to the ``prep_action`` file.  Refer
-+to the :ref:`design doc <damon_design_data_attrs_monitoring>` for the list of
-+supported actions.
- 
- Each probe directory also contains ``weight`` file.  Reading from and writing
- to the file gets and sets the :ref:`attributes-only monitoring
--- 
-2.47.3
+Thanks.
+
+--
+tejun
