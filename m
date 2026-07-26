@@ -1,62 +1,68 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azolkn19010018.outbound.protection.outlook.com [52.103.12.18])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazolkn19010003.outbound.protection.outlook.com [52.103.13.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FD63C98B7;
-	Sun, 26 Jul 2026 16:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.12.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5F43ACA48;
+	Sun, 26 Jul 2026 16:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.13.3
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785082200; cv=fail; b=Y8TXjt+SVyJpD02/PQ/DadIBKEO2yt21cqhHNpEOKiWqWuWq12nedQy+BBbd4ZYJaR8h/xOXl/KZ66zMbp1xlxv/gClKsUS4IErE426K8GE1HZBYYgK9BSBB2a8koVodUUsL85aGd1gvEE2kvAL9jeUNeqtkS5eqc0aVB4A9cYg=
+	t=1785082406; cv=fail; b=Cm6+ZMDPcjXFI2+t9ikkNt6dgBurqo9GP/dxmE4sIR5i+3FMqz2p6V+YzYgF2Uac5+MPs7ag8FhoSvIYe4vG6Nj5/0yBppbkw+prIbFPAHvYqGsLlJS2NgaoDM5lBD2ezdSQH/+ria0hCxg+oJ37dFBBpF4InaAAULF4CYT5XyU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785082200; c=relaxed/simple;
-	bh=KHkeCx3aXd3B2kKuXyA9oppo+g7DsONssnRGZcZUMHg=;
-	h=Message-ID:In-Reply-To:References:From:To:Cc:Date:Subject:
-	 Content-Type:MIME-Version; b=thAL1SwLoD/akO4aK+l2st6RJpbbWNPmq9oGRoi6Rc2OXCc0G3ng6XTGkG/T+rSJglxH5CvAm97G8a76fPHs3JBeO+wa0saYUwhod4x/WoxRsG+6Ls1VRKlo77rYlnHloFVlpUkAUNarYqUaivgXsha9wQnMaHoQ3SKl0p5ARLA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=JPqxeV1o; arc=fail smtp.client-ip=52.103.12.18
+	s=arc-20240116; t=1785082406; c=relaxed/simple;
+	bh=L1HJt+IaBXK+X332l8qLb2F10VvlMmb+MTc7DqHMlgE=;
+	h=Message-ID:From:To:Cc:Date:Subject:Content-Type:MIME-Version; b=XqSAD0QP0SYJf6GfCQOoLSQDg/Yn9/BwamrLNihSWhtLNAnsPfiwRqW4BEDWhBsbZadQYbMeh4GQ7UeDvKkb8gmyypFPn9gRhWWP6vAMr0hfYHhzlo+l+1xyyZ+SQ8FQaYD3VNQFrWajl1Km2clmev/H4zAW8z6twhGfjZE5sQ4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=tt50AV2S; arc=fail smtp.client-ip=52.103.13.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="JPqxeV1o"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="tt50AV2S"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GMbwaaQSeq8vWXuz+X6DqGGmY9FQ5AjyK/VIQqHaIps6HYYJhaC3IN0pv+SncOQUNxbzPpHDmdymcnJv+zE4GlHvrakLDL11cxXSAqCBcz55773Ed+vWOsMqbCBDBAiGBKgaDJWKEcUDpPpHxj/+AiDbqFqQ0HS1CxrGHKv9RvrQIUuLAMG4/BOaacb9Pa8/EBQq9YQm1qCNMw/iCJJTwJN7oeK6hIklcRN+vQG5eS61y4Nx7PbdZoaKMN+ejIy/K3Y83cy7V9sOO8GW5uxooxREK3kmeljJ8PReYUCV67/FHMnOXBjuwM6Ct5tkFU7OWhPhCsyN9FyS6vy7zhllEg==
+ b=yM9RtSMFp1eFI5nSlC9VN+PlazRPehb+x6cTLx/+YWlGzK1qiUQQVgPPXJti02Rk5Ut+CX6ltD43ZxK5B/ZRKpVH/gxm1J+b+BQq8l9r6kLUkc5zHKTXw7vN76sJ4kJvk+kvnyUpRn9LCQwX880t3uB+0Hz8m07E4Fmyby+DobsCpSyGBqAtDvRK/OjHcUw7iBOPNxhSCQktHtDkm+C0PC0QIX7iT8ExL1DGk7//ptf6jSIImCzTQpLEQkddqkXBDjhKTi+vIhS8/AxXVW70mNdd+tF03TqMm2r1ToMPVECbuMCbehYgz0RP1aS4LK1Q91C8rzUgyo67Pb+vbyoqDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7S+H74U0eS6zx/1Z72Tg938Bc7cdIEP7qMgcb689OcE=;
- b=ryBdp9STiBKHdCvVYWK9T3CHde0CWRJQIcc3RBofX+zXGaNgChzTpRWeutJ+X0AVnmFsoAnc9HUo+yuvPvnV3Lalr+GbSqBMRFDj5aD0LWgPNDYHgRTrl2V/S+0v+hXTsxb9CmfOXKvTcU4rWQ02e7olmuUTjvC3+liMYJBXmfK8gXtcQPC6G4g3v0zw8W3vQ3UdHLNq2ShkLMaBup8YaEJuZZP5g635EtNLBB2/FySys08/gqbubDR7OC50ZjAZKuSyRqB+Rz1rQHy+plY2fV7nzXqZWK61JGitkNfdu+Qt6EmCQM2pg+cjwNwvQPw8ldHBltAo2748wmgcKXO6Qg==
+ bh=N6ugGjUf29GeTiAKUEleGkJ5o8IrbMj+5aiaZWoisX0=;
+ b=XfA/3KP8AUuXuA8m+slcQwAbwtGl/gbl0SgQhEo8XB8Zg/pzydmjKm58egM2xNeGCUj+/0eomrlEeQEVT6X47mZgIbjwCihtTO+t65caTRNGzQPF3P+tmkNAGus4SuVyrUtluF11GVNWRlu37tmtuLHIzvgqmCVrlJaw5TFoLo8PQOpyEwYl/I0fg9kEyspXoaj8W54NhUNaPsMWHo6rKNlzO1L3uleD6nMLIQTpF4Pe1UjWR+hKLCbS/bwe85qzJJlQoHbu27WeEoHzH0udzH5gjkIP7GXE7h4PzP8E3gCqYekF2L53N1cq/DakQsCSxhmXOVA232QYqdyLIIbiag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7S+H74U0eS6zx/1Z72Tg938Bc7cdIEP7qMgcb689OcE=;
- b=JPqxeV1ooySb44FAIUc+EBcoJiKUUmLvypB+WdXmQ0phC1WjwvR8CrWE5Bkse1u70xhhozBkGnGtyessynqTaEOPkqXIsrVcZiWpjK+t2A0tQibU3IPARmqPfzahHHNENESGD2xrJg91bKr+UMehnuAl3tpu/vByCDHG67L5D/3zszq/dPOfcTOE78afj/PRJ7iNpHLJiw24+lRMvzLsaBGUlfTEnAD7K6+7q9MgICOx+ztcMv2dytMtrEBYVdv7mJ2UDFOBj6HL9tp8E9YsyjGuGPRbzvUHYYy/b00+paZrexvj41LznDv8yOjyyrxlMCTr84FI+Wu0Yj9MUj7fyg==
+ bh=N6ugGjUf29GeTiAKUEleGkJ5o8IrbMj+5aiaZWoisX0=;
+ b=tt50AV2SyjiU4tyiZ7DkBisoU26to03ec0G1AR5jBllORKaDnue7AwV7apRczFyhN/TjBOzqMOAsuP51KVSgbn+OVlKAJyfUytmMjQtHO021Hx+/od9h65kjQn24OPgad3XrCQkkKLXOyz1vSStoekjnUkxaHhRJcv/QWAEqviENlNMKORMXPIk5LlVRRM8iPSK25DNV9O/jbArJ5m6kyhkxXHFM7crp7ocZVI5UmNMP8yL15bJa4/I6TL7o3vrNQwJLsZS0ACGc2t+lQDVRNWsAi6IKXb6f//d07cWx6Aoyq2bRMyC2temPtSExTpfzJE1KGGX9ruL5wQgprddmSQ==
 Received: from MN0PR19MB6091.namprd19.prod.outlook.com (2603:10b6:208:382::21)
- by SN7PR19MB4765.namprd19.prod.outlook.com (2603:10b6:806:100::7) with
+ by PH7PR19MB6807.namprd19.prod.outlook.com (2603:10b6:510:1b9::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.12; Sun, 26 Jul
- 2026 16:09:56 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Sun, 26 Jul
+ 2026 16:13:20 +0000
 Received: from MN0PR19MB6091.namprd19.prod.outlook.com
  ([fe80::af9a:4cc3:facf:9374]) by MN0PR19MB6091.namprd19.prod.outlook.com
  ([fe80::af9a:4cc3:facf:9374%5]) with mapi id 15.21.0245.012; Sun, 26 Jul 2026
- 16:09:56 +0000
+ 16:13:20 +0000
 Message-ID:
- <MN0PR19MB60911DF8D98BD23AB0B8DC2DACCD2@MN0PR19MB6091.namprd19.prod.outlook.com>
-In-Reply-To: <cover.1785080950.git.liucj1228@outlook.com>
-References: <cover.1785080950.git.liucj1228@outlook.com>
+ <MN0PR19MB60912FA1E75E4E55B2E27D34ACCD2@MN0PR19MB6091.namprd19.prod.outlook.com>
 From: Liu Changjie <liucj1228@outlook.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-Date: Thu, 23 Jul 2026 23:49:41 +0800
-Subject: [PATCH 9/9] ARM: stm32: document STM32H7R7 support
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney@redhat.com>, Lee Jones <lee@kernel.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
+ Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, mfd@lists.linux.dev, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Date: Sun, 26 Jul 2026 23:49:10 +0800
+Subject: [PATCH RESEND 0/9] ARM: stm32: add STM32H7R7 and ART-Pi2 support
 Content-Type: text/plain
-X-ClientProxiedBy: TPYP295CA0008.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:9::9)
- To MN0PR19MB6091.namprd19.prod.outlook.com (2603:10b6:208:382::21)
+X-ClientProxiedBy: TPYP295CA0020.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:7d0:a::10) To MN0PR19MB6091.namprd19.prod.outlook.com
+ (2603:10b6:208:382::21)
 X-Microsoft-Original-Message-ID:
- <8d4da4470ca02a9c5447c16c1a7e86b96c2aa49d.1785080950.git.liucj1228@outlook.com>
+ <178508241516.28466.2214738758143784956.artpi2-resend-0@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,125 +71,169 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR19MB6091:EE_|SN7PR19MB4765:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8c0dd40-3891-40b1-1cb5-08deeb3055ab
+X-MS-TrafficTypeDiagnostic: MN0PR19MB6091:EE_|PH7PR19MB6807:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3eb56675-8efb-4a99-7f56-08deeb30cf61
 X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|16051099003|51005399006|24021099003|15080799012|23021999003|2604032031799003|704163111799003|5072599009|25010399006|37011999003|19110799012|8060799015|3412199025|440099028|26104999009|40105399003|10035399007;
+	BCL:0;ARA:14566002|5062599005|2604032031799003|704163111799003|8060799015|19110799012|37011999003|12121999013|23021999003|15080799012|51005399006|24021099003|16051099003|25010399006|5072599009|40105399003|440099028|3412199025|26104999009;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?rDsE0MfMnTpmSBJx/36baJZuvoe5zbvo423t9gunWa8UVsH++CICyG0/PdC4?=
- =?us-ascii?Q?OThoR0yC3cQ0ItuMVWikjjucP18KD1ykBCu0yqsY/ds5BpwYDglvJerXs6kQ?=
- =?us-ascii?Q?gvrxe5myU7hrVE9oVsepZ3IvB10UhmbFG7lF7NiYChVdlTIHpU/DilYLJTwV?=
- =?us-ascii?Q?UGyH6Er1I+uENV8dQB6lnsawi3gih0/45jALKtMRxXQpe0jE1jWhUNQQyrjL?=
- =?us-ascii?Q?HZSCJ9hw8gRLDWyixJyl57GygAgiHKHA4qv8R/NUQgnPD1JeM0QynGihCCUT?=
- =?us-ascii?Q?NHukWA25Jk9qem9dZCUsQldbQ66sJQfPu04XDzUi4ijSw0BR+Sp1uFZiqiYC?=
- =?us-ascii?Q?P9bHBZ9HCjt9pgn4yQA1w3HUzRPE+ENpqRWaKZ+qDDaeqEmeZ8jp6fCw33yI?=
- =?us-ascii?Q?WF5qcrjoQEqEcHC7bvBqsS6CJkT71yqF6JwH8nMzT5GoT9/G2/xMBXSFpdnr?=
- =?us-ascii?Q?HsJBQHPwV7UT62FLEpZCESYkB42NSo0Zb+q0rsXUSh0bS+zXIShG03MUnkAg?=
- =?us-ascii?Q?HEdXa1GB/lx43+n2kKe+rkutMasnI88xNqpc5nw2zU5KEfewNzzoC3qle9K7?=
- =?us-ascii?Q?Cv1VD/tN67qrP2noat8HcS3gHwf/quZh/lFugEAFr1G/L1Ae67ZK4bn2CF5s?=
- =?us-ascii?Q?N2jh+Ih+9vN8iPJYRCIRozmsUrJABK4jM13MoBEaKGIXcIdfIMt2ynRp76Mz?=
- =?us-ascii?Q?z3HgxsJQtmwU11vqn9Ww7DcujY1yjJGoLad3L4sL2Zh6OyLh55ZpCDVyrY4E?=
- =?us-ascii?Q?EcDCk1VPOIC+G8mmfgOjqK/eDCoaXgxVqBBTuOHRqZyWM37TPCcGZ4NBRzsd?=
- =?us-ascii?Q?U/fvdvhtDlLtQ5o72CX2IvCvofveVkc3syKMhvDND555jXXwOELVo598lfdG?=
- =?us-ascii?Q?KifShpQXwgVTVCUSRvBDFb+Uo0KgyIXegfqy5ePe2EVeti3gcE7qSma1ep32?=
- =?us-ascii?Q?SIPpWx1mEyudlYjmQMShXEO/U5lyv4f4e9ItM1xpVOGnvfQ84eeLfH09V9Cn?=
- =?us-ascii?Q?uBUaQ/+oWD7ME5XfEo4a4eS16Zh9ZGjJTZLofapaj2AfGdcABaXE3RJK8EB/?=
- =?us-ascii?Q?5GC8GARlRqSFCneFUXakPTnJIb2+0YKGVPz7N+FQgd7b2y8xjqodYCRaaUyL?=
- =?us-ascii?Q?O4zda0Ib3yhZ?=
+	=?us-ascii?Q?bSgMNpzX8iutwqaQ4RrMmrnYUJsRPLoL+DHaBSg4X6Dq9i36wmQAlCD+btmF?=
+ =?us-ascii?Q?Nb7voQTVJ3eiX/VrNj+zVG/+UJqFdgOTti240dLT9BaLWuwARsZhOHcY1VVo?=
+ =?us-ascii?Q?Y0XxbqMNGuQCtK2QdCAhWiM3K8Qx73giVPh6ggonNhK8UVIp3zzP6cjmsCk7?=
+ =?us-ascii?Q?2iULmiL5wWjogy9IVdbE28MDwGrsJFSAJq9pk0m5gHOdH1hwQf00tLFFcotA?=
+ =?us-ascii?Q?ZapTd1fyGSiUiNeYYgWmpJompYu5XgrYCE1t19W5HskqMagIFbCotJmpt2nI?=
+ =?us-ascii?Q?9ftaOeaYPmY0Nwd75NkseW7yHYPRKXgCIqgC9J51jRKm5eK13NQ4BLSYaC3i?=
+ =?us-ascii?Q?g6mJK2/xnysNleHq97Vq8TjbnOZ+fB9/rlOS/kb/2w+1kOBAkLAqWqlqFn5x?=
+ =?us-ascii?Q?PTIwj+gLNKqb8D4R+gf33MgCUjCqA4o943pv+HkPyJC++Bh1a1WIb3/A7MqH?=
+ =?us-ascii?Q?zehFIPLhuYF5EO3ROfYUF3KUD2yFGnOVwIWYvIWSqci3lPZ2woGe7JcoIUCZ?=
+ =?us-ascii?Q?xCw0ZSqvTUfFeBTA8GaM4Hpa52WkGxHjHqR2fFI0hmawhDtmVapFhOdRZQtz?=
+ =?us-ascii?Q?xgzdtr29L9JZUyr9oVGBMPGn7MxfxVK00Sw1bAEv0CeDUx0KjqyEHdpzkFU5?=
+ =?us-ascii?Q?IDosrCPTsYblS46sJf4rhemmTkUoZcWTi4pqE0t97290wdJoFhByCH0Nq7LA?=
+ =?us-ascii?Q?Mxhk16cWlyxVzinIz2zkEPcughxGDWRgvoDgarPXuLRwMIqwwRSEsRTNG0wc?=
+ =?us-ascii?Q?N1yUrvXrX19ygJNyrL3vmGHbwKUyGDbBZcMqzpwpAuCorOmBUIvCx13aaaWW?=
+ =?us-ascii?Q?yfH5Fk9FfMPt5+cmKuBzENQDrOHsBdqvO6YNu4+7ePLRxDrD4xQPZCrKIzqm?=
+ =?us-ascii?Q?GDSsZBN2HxgiOyz81bZ0SMUrmsfsShEDoDx+In9zIzIT5aLQM77VjXBJJBSX?=
+ =?us-ascii?Q?pWvIoddOIZsFspArkQ7PxLfB6g4H+s/bBt37748WIFV3jNZFsXvIQQs+QZYG?=
+ =?us-ascii?Q?ritEYMpZ/TA6yHF3QdLYFBoooQAiaBd9GSPsVw9SdhS+88lafW70AioTTTC6?=
+ =?us-ascii?Q?hURcPRK04GK1eUvjnLsnkxW4lP8LJTrAZHSjTvUOKO1TINUAnw5S7h0472g0?=
+ =?us-ascii?Q?DkbuM0GnHEwakmhaS6cH7Hxslb+yiVsuuA=3D=3D?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DZsdqhAFC1YBbzZ1yT2tYzF0XniYpmtGuwY2v2iLJykN0Hh+XhWXkXKmH1h8?=
- =?us-ascii?Q?bRkgZXj3+WvIEBYHSUXvYM51NLCRdeOnyvInV4h01gjdOSFxAPMdEAz0mbZ/?=
- =?us-ascii?Q?QbZx6vsM2vWbWT+stlSXyIkUwCmXKmVLlf1b9hWZ8n8/TPomg92UIQp9/aKU?=
- =?us-ascii?Q?WAQ/PHyjVlNlevtAfBp37c+IbpHx2L4xHWOYt8keJKm9+MbnY5VGvOHHiYe+?=
- =?us-ascii?Q?TFQ3z3C/6YieFve2bRXfNSRdx2h5slIRwo8MnFL0p9FbnB99+PQP2cI2X59i?=
- =?us-ascii?Q?K8GRsGViEbZCcbJDT4GTxV25ZS8BMLzhTLfPO2APl7fq/tLexXryVAX6dXey?=
- =?us-ascii?Q?RFGxoBXjQ1RCEh7IDGUM8FwyVL13JIMJd23+JowzQkopVOm4cwEjwHlsRUJ8?=
- =?us-ascii?Q?kt8kL4nugwVgNCcW71VB2DRlXUWqU2isIFNy+KgIh+xUDst90RXDysLAabDU?=
- =?us-ascii?Q?QVcMnBvtbC27rMCgMoCM0PoRxR8mc/FT1/mshgIZuZUva0nvGVhqut02MC0n?=
- =?us-ascii?Q?yUnsn1ZHWhqKOgOkHebfunDY5LOg/hfu11AtY5c9bqhpBPfsi9uBawhmfEL6?=
- =?us-ascii?Q?YmIwf1dg3kvvF1APA/jQrL6GhMECLy1T8b6G80M/4N32NFMJpnz+RbsReN+B?=
- =?us-ascii?Q?gxZZXxDC1RSsMdmVSiQsSh7IX+wpc8WP2nUXMnJ9Hke4NGnwPoEOuHJtjeUS?=
- =?us-ascii?Q?MlYqMD30AbzuuRsoLYp2BjBJ502s0tlk2h+Bnez9OvAWaVdHV0iIbYBC/b79?=
- =?us-ascii?Q?/sDkAotKAF8JJwB/07Os3+YVQc17FFGmF7uyTh/ZKiUNp8jCeh1fqaywC+/Z?=
- =?us-ascii?Q?/HRS9vvrktDAifV1INVLI7u3h6Ar4GKNzpBFT+hGitz+vUsSTEgJelg82KvD?=
- =?us-ascii?Q?oQav5jjJE9w6GQiJVlHx+MQB2PlfR3rBhJVgIgaWw8lEuHuR/GDKGk5Xw7qe?=
- =?us-ascii?Q?+Lv/wl1YWRVrxiVGcsEsu3AtgxiF40HSeKNkMO5Ns6SYQV37AmKysSrTsL7l?=
- =?us-ascii?Q?fMEAjx6cKPBP7PYF7rDsgYGPgg0lSgFMY5XBWh8ndY2vDqpQcrxIdSUtYo5j?=
- =?us-ascii?Q?0BzoxZ739tTJuWuLnVd45V9f3CvsChn9DO3qpPpemQTy/bGmxxJ4ogK2OS+V?=
- =?us-ascii?Q?Lasj13AR/jvJ4HaRJy/ZVNR5h1OUa6sNaQ4Z0z9rtktoeFG62k2jeG/rNTHd?=
- =?us-ascii?Q?0w9UP6caib1Ckp59WzRf+crmEI+0rehTtFJp4e3OzpjkqpeN0MOOZ9pMWAhr?=
- =?us-ascii?Q?rDyphAxBW7DRuvBMN15/eqQ4dkn2EYvHY0YwhPRoJ7adj+bu1Fxwv4Xzh5s6?=
- =?us-ascii?Q?0IbfeKx/XYg2dt5KzDonVE6rm5Ot5a7TG0YCWKL9Zor8IBCcw9cfU3Bu1C/6?=
- =?us-ascii?Q?vRVkuMfU0wrhK3WkHv519gyQwQrXH4sME8JF2jGhUSjH/HXoUg=3D=3D?=
+	=?us-ascii?Q?J88llGKmFCUKE45nvwYe21hCiQekKy2ZtPbHbhpUJDu065HNN9zqNp7jj+Fi?=
+ =?us-ascii?Q?DxPg/7HmZFyH6bRaYaFJn7L9IYdXCLZLqt2HKx2Fa2PNxabIZXeaQ8aFk78+?=
+ =?us-ascii?Q?psjAji137UwIRqBgWRck/rav6pKY0EwPM5f5lQwUM9GzV99s/d1SiN+IGF/u?=
+ =?us-ascii?Q?p1KQXCSHAzIlBn4ebRfuWBhp9KIOioEVsy2+oO8x7hCDOlFu7hOeB/BBHFG9?=
+ =?us-ascii?Q?KiD44499xGpLEP2F6Isv5Sl8uJG+GLmeY+X5IczqzPjpJuUP+P1Wtiok8jcX?=
+ =?us-ascii?Q?ckmXm4D3zdcO0soTG4lnHxAUhJpoXfJzAslFJ7FZcKLiSCP+A5zpc24KFiMS?=
+ =?us-ascii?Q?yV2ZGBTHp4ZhfFIUgZObHcSHqsC+sW5zaMlHw50JWf5FXokhvgbzuFBSGsXy?=
+ =?us-ascii?Q?2GPy990wNPUUw6nrm4MDWjUdyG2OQQbNxmN3NGtXX7l+qwaMxv7PHa1+nIco?=
+ =?us-ascii?Q?g9XsvxeBZJmA/rYncCUJj09BfRckO38JT08SAOhiA+dPAOR6W0NqT2x4wFPq?=
+ =?us-ascii?Q?CiL6V9fA43HxaWIJkBrY/NP/DfYy4c9wmeVyFamYhxdCkPcd3aKrbkEqYj9I?=
+ =?us-ascii?Q?njaS/3+ubv0a0IZ4rLpHsvps8g2/MFjVEn2Rvxft0+YMSlc9tMRuOlj81luD?=
+ =?us-ascii?Q?zgZmfBCjIjZzEcYzG70btxgecwV6eND8/0fKITnZAkoMa5fgswUSwA9q899S?=
+ =?us-ascii?Q?ZGyhHqGrkhpF0Bhzc3v/mzE/gPfN1ihfK+0wrcysz3hd86jKICHpAJznzV6i?=
+ =?us-ascii?Q?Ks6b/MX9qH3uNutJ/6HoQsWn+B+FhqMv3KHdAf1kMqu13aQq63WXnYBJoVre?=
+ =?us-ascii?Q?yc6cbTbB/h1lloy7QN1gkj7+pYALK3XIv3O89h8RzXZnZh2SQA9bAQL9lkPq?=
+ =?us-ascii?Q?Gw0QgXKQuMWJOdNJcTe+TrmyuvcENBcAsULx6nwS7DFPRgTh3m8EbBTsQ+9l?=
+ =?us-ascii?Q?izHPz3gHvWy7zBhWwAAjvbAxHj3SgJhl/gn8LHk2StdWPiH/pbOToQY3r6bD?=
+ =?us-ascii?Q?BzJK3y73izmd2S32aczbKeAEzAePWWUXIKgXmjemt+h3T3JThq2Fuwz9LKOZ?=
+ =?us-ascii?Q?fPBSI0jK3gmFfyMHZihMHCFpCN5ZMrBL9WAuKhrWjASY5G7MiuygGX7W7IU0?=
+ =?us-ascii?Q?VEZmWiqkXqHdmLU7uGPD1ZKFGUwa2Fr4p9MngChTQFXgBNJ3eaTNsJ34hmIG?=
+ =?us-ascii?Q?/AqAuklFAUNNKFMZarOTGHnYKizF8cPdK0GFmolcE0p2X9y4qExfMLe/VTLx?=
+ =?us-ascii?Q?vsf+BS/2Uvs8ATaZXLa+QaWNEbYbaYyfHIAMnA1NbxwI0E/0q0Sybqp6eu6B?=
+ =?us-ascii?Q?jCEr82sHrTTJUPfMfiXPXyOCoCNETkl4G60avGoxg1jjVwyyiYEtMs5TkElV?=
+ =?us-ascii?Q?T+7B6oKQkoP4px3ruf9KRcqdEYJq00Q0xxi9/d5Lv1idHdttfg=3D=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8c0dd40-3891-40b1-1cb5-08deeb3055ab
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3eb56675-8efb-4a99-7f56-08deeb30cf61
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR19MB6091.namprd19.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2026 16:09:56.4308
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2026 16:13:20.6707
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR19MB4765
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6807
 
-Describe the STM32H7R7 features and note the ART-Pi2 as the currently
-supported development board.
+Resending to repair threading after Outlook rewrote the cover Message-ID
+during SMTP submission. Patch contents are unchanged.
+Add initial mainline support for the STM32H7R7 and the Ruiside ART-Pi2
+development board.
+
+The ART-Pi2 boots through first-stage firmware in the STM32 internal flash.
+That firmware configures the PLLs and memory interfaces before Linux
+executes in place from external XSPI NOR, with 32 MiB of HyperRAM used as
+system RAM.  Reprogramming the PLLs from Linux could therefore stop the
+instruction stream.
+
+The RCC driver in this series intentionally reconstructs the active clock
+rates from the firmware-programmed RCC registers.  It exposes the resulting
+SYSCLK, bus, timer, UART and SDMMC clocks, while Linux owns only the
+peripheral clock gates used by the initial device tree.  It also exposes
+the RCC reset registers through the existing reset-simple driver.  The
+first reset consumer is SDMMC1.
+
+The pinctrl driver covers GPIOA-H and GPIOM-P, including the AF0 trace
+functions described by the STM32H7RS pin-control data.  The board device
+tree enables UART4, TIM5, twelve GPIO banks, two LEDs, the user button and
+the four-bit SDMMC1 interface used by the microSD socket.  The socket has
+no card detect signal connected to the MCU, so the board uses broken-cd.
+
+ARM noMMU selects DMA_GLOBAL_POOL.  The board therefore reserves a 2 MiB
+shared DMA pool for the SDMMC internal DMA descriptor and bounce buffer.
+The pool is required before the mainline mmci-pl18x driver can probe.
+
+Tested on an ART-Pi2:
+
+- booted an XIP kernel from external NOR to a static-FLAT BusyBox
+  userspace;
+- detected 32 MiB of HyperRAM;
+- used UART4 as early and normal console;
+- used TIM5 as clockevent and clocksource;
+- registered all twelve GPIO banks, both LEDs and the gpio-key input
+  device;
+- registered SDMMC1 through mmci-pl18x and detected a 59.5 GiB SDXC card;
+- wrote a 1 MiB random file to an ext4 partition, synced, unmounted and
+  remounted it, and verified identical SHA-256 hashes before deleting the
+  test file and unmounting cleanly;
+- exercised the SDMMC1 reset through the RCC reset controller;
+- built the target DTB with CHECK_DTBS=y;
+- passed dt-doc-validate for all four changed binding files and
+  dt_binding_check for st,stm32-rcc.yaml;
+- passed checkpatch and the local upstream preflight for all nine patches.
+
+The test kernel kept the Cortex-M7 instruction and data caches disabled.
+DMA coherency with the data cache enabled remains to be validated
+separately.
+
+The only dtbs_check diagnostic is the existing lack of a schema matching
+"arm,cortex-m7".
 
 Signed-off-by: Liu Changjie <liucj1228@outlook.com>
----
- Documentation/arch/arm/index.rst              |  1 +
- .../arch/arm/stm32/stm32h7r7-overview.rst     | 28 +++++++++++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 Documentation/arch/arm/stm32/stm32h7r7-overview.rst
 
-diff --git a/Documentation/arch/arm/index.rst b/Documentation/arch/arm/index.rst
-index b15621093..1e33535e5 100644
---- a/Documentation/arch/arm/index.rst
-+++ b/Documentation/arch/arm/index.rst
-@@ -55,6 +55,7 @@ SoC-specific documents
-    stm32/overview
-    stm32/stm32h743-overview
-    stm32/stm32h750-overview
-+   stm32/stm32h7r7-overview
-    stm32/stm32f769-overview
-    stm32/stm32f429-overview
-    stm32/stm32mp13-overview
-diff --git a/Documentation/arch/arm/stm32/stm32h7r7-overview.rst b/Documentation/arch/arm/stm32/stm32h7r7-overview.rst
-new file mode 100644
-index 000000000..7856b4319
---- /dev/null
-+++ b/Documentation/arch/arm/stm32/stm32h7r7-overview.rst
-@@ -0,0 +1,28 @@
-+==================
-+STM32H7R7 Overview
-+==================
-+
-+Introduction
-+------------
-+
-+The STM32H7R7 is a Cortex-M7 microcontroller running at up to 600 MHz. It
-+features:
-+
-+- 64 Kbytes of user boot flash and 620 Kbytes of internal SRAM
-+- 32 Kbytes of instruction cache and 32 Kbytes of data cache
-+- Two serial xSPI interfaces and an FMC parallel memory interface
-+- SD/MMC, Ethernet, USB and FD-CAN controllers
-+- I2C, SPI, I3C and serial interfaces
-+- NeoChrom graphics accelerator, JPEG codec and LCD-TFT controller
-+
-+The RT-Thread ART-Pi2 development board is supported.
-+
-+Resources
-+---------
-+
-+Datasheet and reference manual are publicly available on the STMicroelectronics
-+website (STM32H7R7_).
-+
-+.. _STM32H7R7: https://www.st.com/en/microcontrollers-microprocessors/stm32h7r7-7s7.html
-+
-+:Authors: Liu Changjie <liucj1228@outlook.com>
+Liu Changjie (9):
+  dt-bindings: arm: stm32: add Ruiside ART-Pi2
+  dt-bindings: clock: stm32: add STM32H7RS RCC
+  clk: stm32: add STM32H7RS RCC driver
+  dt-bindings: pinctrl: stm32: add STM32H7RS
+  pinctrl: stm32: add STM32H7RS support
+  ARM: stm32: add STM32H7R7 platform support
+  ARM: dts: stm32: add STM32H7R7 SoC
+  ARM: dts: stm32: add Ruiside ART-Pi2 board
+  ARM: stm32: document STM32H7R7 support
+
+ Documentation/arch/arm/index.rst              |    1 +
+ .../arch/arm/stm32/stm32h7r7-overview.rst     |   28 +
+ .../devicetree/bindings/arm/stm32/stm32.yaml  |    3 +
+ .../bindings/clock/st,stm32-rcc.yaml          |   73 +-
+ .../bindings/pinctrl/st,stm32-pinctrl.yaml    |    7 +-
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ arch/arm/Kconfig.debug                        |   12 +
+ arch/arm/boot/dts/st/Makefile                 |    1 +
+ arch/arm/boot/dts/st/stm32h7r7.dtsi           |  255 +++
+ arch/arm/boot/dts/st/stm32h7r7l8-art-pi2.dts  |  100 +
+ arch/arm/boot/dts/st/stm32h7rs-pinctrl.dtsi   |   63 +
+ arch/arm/include/debug/stm32.S                |    2 +-
+ arch/arm/mach-stm32/Kconfig                   |    8 +
+ arch/arm/mach-stm32/board-dt.c                |    1 +
+ drivers/clk/Kconfig                           |    5 +
+ drivers/clk/Makefile                          |    1 +
+ drivers/clk/clk-stm32h7rs.c                   |  466 +++++
+ drivers/pinctrl/stm32/Kconfig                 |   11 +
+ drivers/pinctrl/stm32/Makefile                |    1 +
+ drivers/pinctrl/stm32/pinctrl-stm32h7rs.c     | 1849 +++++++++++++++++
+ include/dt-bindings/clock/stm32h7rs-clks.h    |   32 +
+ include/dt-bindings/mfd/stm32h7rs-rcc.h       |   11 +
+ 22 files changed, 2916 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/arch/arm/stm32/stm32h7r7-overview.rst
+ create mode 100644 arch/arm/boot/dts/st/stm32h7r7.dtsi
+ create mode 100644 arch/arm/boot/dts/st/stm32h7r7l8-art-pi2.dts
+ create mode 100644 arch/arm/boot/dts/st/stm32h7rs-pinctrl.dtsi
+ create mode 100644 drivers/clk/clk-stm32h7rs.c
+ create mode 100644 drivers/pinctrl/stm32/pinctrl-stm32h7rs.c
+ create mode 100644 include/dt-bindings/clock/stm32h7rs-clks.h
+ create mode 100644 include/dt-bindings/mfd/stm32h7rs-rcc.h
+
+
+base-commit: 248951ddc14de84de3910f9b13f51491a8cd91df
 -- 
 2.55.0
-
