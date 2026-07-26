@@ -1,104 +1,116 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9186836A372
-	for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 06:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC273314C4
+	for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 07:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785049127; cv=none; b=T0+Q0D7pSijY8jawv8QvbqVY/gemuNv66kSVt7iAbs6haFelfe+IpIN3Y+YAPVpT0a9pDGozGivuxq8EbNt3Hp5tn6B0DF2dcXWHs0lQULYOqeWMyNZjyxkhWtJlZQh7j/ATRWlEVa/63iD7auhTj8Tv67kYc3BYU8yus4H8Lcg=
+	t=1785049897; cv=none; b=VHKVEvmzGvUETUhopbOzgMmYv6h/iD5hLiHOX0JbjE4UMDcsqLCXWUEB1q8Me833JP+B9D4b3q6COCqRj9SUGgTXkR2pKRC6R+AKoYItDt1tIwQVOHy+LXtvIobCvOtKnHCaoL62cBrRNJ6j2/gYIXY/GFnMsY27g6awLMYs7bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785049127; c=relaxed/simple;
-	bh=iWUJEIQp15Vv+mHQ2FLlbzu13SJ3z5D3SLnInr8haoM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TJozp9QqM/3aMl3DP+ByKX/cPb8QaGWQqCALYtibaKBJeD3VTUYBvKJ6V9b6943DAt97gGQ+uOgCfgg0mgfCvPaLnY9lBwtpbbM8CnUmWQxKhUPYNl8svA7oFaPYvPrLsFe2mf61ohikjtE0IvbWj07A6M9ON0D37rj97UoNNAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeggcgyW; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785049897; c=relaxed/simple;
+	bh=oQOU1B2a0yFZG9JoJPtJGj1mHA/OgnvlqIGtWX8O+X0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s1PGveG915SJGClMu5NpnRxuyvVS7fhx9EQvz6jeR3Dxm8ZS87tFHSEh7xZhofB+ep4GO694gVTwb2+iorSTU72Rq+GMz5xM9wwkI0SCUEdebQW3MixmH+oIQj92dtm9GF/4+puQfyuzxkHWFU8GMDodb2aGsaBUWZuj/ldTuhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=vu/tFaCs; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeggcgyW"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cf52d15d88so16055335ad.2
-        for <linux-doc@vger.kernel.org>; Sat, 25 Jul 2026 23:58:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785049126; x=1785653926; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kb8i2R2pDMPs/7f5uag+f02VBSsq6VTvV2JKsBdYskg=;
-        b=PeggcgyWC7pITh0S3fZZ1eYrvAF0tRp53I0/XuppDW4O7nD+Jb0PeLBd8lTIZGW4rO
-         SbZocmuHGBEi+wDmMFC3jvjz6lXqsBfuJtdBJZeg8LGXTv1+fvih1Nv6890hf3jwH/ZZ
-         likhZkG055ExICO3bSlIvhvVHGF7eLznxNZGmVx6XUsHk36XpyyaBIPC3wXnjcFzGwIl
-         sOeOzvY1hwgy1SzYQtXQ03Wu1BjzzJFu6YnM+C+8ZX7BLSprfmp49R0DDz3ZpH8azloY
-         H0i3GLmME2dMaILgyaXPyauhUqWPw4qOASBKnElM17LYVJk3xakPa5Cns60KHB+K9QUr
-         eqJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785049126; x=1785653926;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kb8i2R2pDMPs/7f5uag+f02VBSsq6VTvV2JKsBdYskg=;
-        b=HMAtmxuyNdpu0C0JmIE8dgk7EFV7h0rAK4OdXtNZ2xgfLS9HrzQkwoHo+cecu3P1c7
-         sWyNlP3TKbv9oMiYtNx0Ghwgw36yTKD8PrSvpmASR1AnMEPMm+qxRfA5szRW26X6Q+tj
-         kWrM9MVhSCCl7jhunQfVkJ3z/QxaGUGr0CM8cEWcqAAAZ8a8Oi6xWOCBjZk1XQ9MHDsa
-         HkA0bk5TUCGhT/AL7O0KWYqbWMObRtxGb126Bbb5qvLuDL/miOzuhix7Zm9JJ4jT6LcP
-         X1kXnLtvbqfQy4RZiQOD957J+kvgD22HZzcs+9RVPJYnGNAwIE58VZfKGtZKU8zcVCXB
-         XC6A==
-X-Forwarded-Encrypted: i=1; AHgh+RqbrKikZwRhLzqo7dUhRfMBwnawAkLyel00VH6jC+zuqGD8HhfsLP6qgzIJ9cQ2I0F54cD60CP6kDk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB4aDOZTeIf5I7oMqWVgazycEQeTk2k830GoSDBBMQJo2626up
-	vsH/ChrXu4qUcDYcMPwjHcGLTlV3eejb2Snxpqf8nHvtnJ58sqYwbt8H
-X-Gm-Gg: AR+sD10igAPsAWmnWX//VUAUWgjLNVHs06SRZHH5GpYLUuOt4EMfigwB783CBjoUy8J
-	Toe5+CLPKadH9cuFZRnvbtv+dhouE8bC1HpHWATFZ9/5MKAkuGFaWrTj2KdbXtKw6J7terqL5vH
-	5Uxd9lTYegRQa+5HXpApZVo4zXisU+URx1QKRWbQb3G6xmMUzcF6dwn9e5Yrogx4eC0QxwL+O6H
-	jVzRY/54/QiNXm9ZEYaxw7px1/mQBOHwupzrzbqfioKJ+i9XAVS06wRPThAtS6kulNxfx2jybxB
-	BRMQEsuAEN1y+rMkqDFVy+t0GNX+uKv+b9mD2zx6AuRjPdZUbTd3kruvYqylnRCWugjAmxsBD8o
-	bp/uhW/Th6LzAsLSWWhwAFT7r+g5NBDdJpDXSwM5qNoiobRNSDgdHa1Dft1pcbqSO9Kev4gh31M
-	VipSKfPoFdllF7eVk3H9FTxKN0GUdEayk=
-X-Received: by 2002:a17:903:18b:b0:2ca:ed57:8586 with SMTP id d9443c01a7336-2cfde83034fmr41352235ad.23.1785049125808;
-        Sat, 25 Jul 2026 23:58:45 -0700 (PDT)
-Received: from acer-nitro-anv15-41.entro.com ([118.34.230.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde5e28easm17153545ad.24.2026.07.25.23.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 23:58:45 -0700 (PDT)
-From: "shaikh.kamal" <shaikhkamal2012@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>,
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="vu/tFaCs"
+Date: Sun, 26 Jul 2026 15:11:17 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1785049883;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vC2wwztSx7OP01WT93ZZNvUMEaAUne2nvEbzHyC5S1I=;
+	b=vu/tFaCsfAgvanl0BfUxTF6K8WPutRhcsOdnf2J6g2X7LVTDrvl4Dj///k/IuE2BK36inE
+	PUJ1g/tqcYHtYt7kv85dgHdpdjVRwU81aIHhdSmig4VLX+in3L4OGWhxUZ07R1hy3h6DFb
+	+EHbPB9MRS2S+YCj9x9Al/4qZqEGviUqzMnUgvduYyPkQ3rCh+rHQCchRnDX17NyhRTt7p
+	vLVs7llGLxvg/WXg5xTFmwh/sEDY9nEJSteuLez2/tXbSt56MKKCXZ75nX8bi46y5+7d5f
+	2qPpdd2nfUfg5qJNBUZc1Verp1hNOxhFAm8d/yF0yNH49rtDxS1/n3dO7xS6Sg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Alex Shi <seakeel@gmail.com>
+Cc: Chen-Yu Yeh <chenyou910331@gmail.com>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: hwmon: fix spelling error
-Date: Sun, 26 Jul 2026 12:28:35 +0530
-Message-ID: <20260726065835.21012-1-shaikhkamal2012@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH 1/3] docs/zh_CN: add process/applying-patches Chinese
+ translation
+Message-ID: <amWzFbquJmSgNQey@wyuan.org>
+References: <cover.1784289654.git.wy@wyuan.org>
+ <b65902acdaa37438479b3739e907a9e0ff604c55.1784289654.git.wy@wyuan.org>
+ <alpbykBaX-8BkUzB@wyuan.org>
+ <babde62f-9669-4f0d-b240-c79f450bbef1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <babde62f-9669-4f0d-b240-c79f450bbef1@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Fix spelling error reported by codespell:
++cc Chen-Yu
 
-  supprts -> supports (sg2042-mcu.rst)
+Hi Alex,
 
-No functional change.
+On Sat, Jul 25, 2026 at 07:59:37AM +0800, Alex Shi wrote:
+> On 2026/7/18 00:43, Weijie Yuan wrote:
+> > On Fri, Jul 17, 2026 at 08:07:42PM +0800, Weijie Yuan wrote:
+> > > Translate .../process/applying-patches.rst into Chinese.
+> > > 
+> > > Update the translation through commit fa04150b8ef7
+> 
+> Is it the original meaning: translation updated to commit xxxx?
 
-Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
----
- Documentation/hwmon/sg2042-mcu.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+My bad. I might misunderstand "update through" and "update to".
 
-diff --git a/Documentation/hwmon/sg2042-mcu.rst b/Documentation/hwmon/sg2042-mcu.rst
-index 077e79841d2e..431ed832d083 100644
---- a/Documentation/hwmon/sg2042-mcu.rst
-+++ b/Documentation/hwmon/sg2042-mcu.rst
-@@ -18,7 +18,7 @@ Authors:
- Description
- -----------
- 
--This driver supprts hardware monitoring for onboard MCU with
-+This driver supports hardware monitoring for onboard MCU with
- i2c interface.
- 
- Usage Notes
--- 
-2.43.0
+I originally thought that "update through" could only mean that this
+current Chinese commit only updated the specific content from that
+previous English commit.
 
+Thanks to Chen-Yu, he taught me a lot:
+
+In tools/docs/checktransupdate.py, the function
+get_origin_from_trans_smartly() uses two regular expressions to extract
+the reference point:
+
+    update to commit <12bits-hash>
+    Update the translation through commit <12bits-hash>
+
+So both of them works.
+
+But later he mentioned a few potential gotchas which perhaps would be
+worth leaving a note here.
+
+1. The regex does not enable IGNORECASE, so "update to commit" must be
+   written in lowercase. If it is written as "Update to commit" with an
+   uppercase U, the script will not recognize it and will fall back to
+   using the author date to guess the base commit.
+
+   This is particularly subtle because the script does not report an
+   error; it simply produces an incorrect result silently.
+
+2. The script only checks how many commits the translation is behind
+   relative to the hash you specified. It does not verify whether that
+   hash is actually the latest commit touching the corresponding English
+   file.
+
+   As a result, if you accidentally specify an older hash, the script
+   may instead report that the translation is "up to date." Before
+   sending his latest series, Chen-Yu manually checked every file with:
+   git log -1 -- <English file>
+
+3. valid_commit() skips merge commits, so a merge commit cannot be used
+   as the base. 
+
+Sorry I have not yet dug into the script in detail. So if any of the
+points above are already documented there, I apologize for having
+overlooked them. If they are not, we could add them to howto.rst, or
+take a look at how the script might be improved when time permits.
+
+Thanks!
