@@ -1,99 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC2B32F770;
-	Mon, 27 Jul 2026 14:28:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D685E37BE7D;
+	Mon, 27 Jul 2026 14:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785162490; cv=none; b=aKXIxVOP3++VBD/qe8LsK8BvMYb9GkrMzuU3r3OoeNtbm35vL+yKO0HyugJngaJQDp0kWU1xHusNPtLWcmgxVpwAWhVmj2s2TyEYO1bHv9ybDfaW20hsumjT/PsJV617t7DkSpvW42HI9OWDClxdcWE8nnTi2pve5GiILjBTbnU=
+	t=1785162878; cv=none; b=MLeMBFph9aTbveywjj6/IkoKQxK5nfkYwLnr5lE5PGfLU1eOZxjHMpVbpjxu+zzDrXtE4g5mSMmSJFLeaGm5eSYMmYauT5+RlMF74rpXooZQpySRGzj6Fo8uxJEMgRN9drvXZaTeFhRXYzXjNwKgIItYr0VtpaQM1NYQG6dgh6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785162490; c=relaxed/simple;
-	bh=9xzmdGThkWtwSnWIM0+es9oumG1x+anNRR8bFp2UVYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cJ2DaDuIMJFvepL3wScyeRClJIwN0Z/FMvqe53ErrukmEflh27/FPoidrd+T7ViBOaWTJYwM/SF1nWSQX3viT7ayqoOiOo1AsNjM6ppwAEkOpHlvV4/V+ubuzDvEFFHuaeu6ddEqwWrcsrBHqtVFCECWddj9QuaR+aS70mrAYHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SvKvXXRd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785162878; c=relaxed/simple;
+	bh=CxjvYJpzS+Roexhx7brzIhzirGEzQxoqzcfeHsbzb1Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mx9mzn6GWMygfHzKSVhl/MMert2sdoisHPpuRAt1WdolLxpYk7EYTKNhSnB3NPKUbnA4ugxRtO8JCZqMg+8mlvMeYJopW7vtHHMX8jHrXM9Lu2FCTCVbemcvibu6t6NixxjNEBAHAiEyCQ+V8WfngmamB8l+jgEtxS4Pu3kTjfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g35nxHXI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SvKvXXRd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 612161F000E9;
-	Mon, 27 Jul 2026 14:28:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g35nxHXI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4D71F000E9;
+	Mon, 27 Jul 2026 14:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785162489;
-	bh=ptCiNT74n2ClApn0GPmUaC404n0sknElOCX6NQwLjW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SvKvXXRd7ea3f/0AmXK7+cSSqgTyE/JREJX+W4fmWFUoXtiNbIXyAvKkAHzNuBynu
-	 y8tLAI4uPBxubfJGOxi050VNRH9jEyJhYYoz/k7AH9BMKkcXtflVxflSBuv2aqYMqO
-	 ZbA94Ind3ewx2l8/mrvmu4ceVFUaZuddAB51Vtywt2vq7smcWeya1GMurP5nxtG6Iv
-	 2PZw6n0x6dSTblPwqlA+ax7bRVyCEHyoVnBGQJ0nnl5tlPFxKGsYyJ7RlypQMZeMXp
-	 qy4YMEoLH7MBUnSD7FtC2y/vDhgnbLf+mnkGRt8gwOuBhIju6CPBr4JvlyXK5c+Ayb
-	 IMPuxdYMaBNiw==
-Date: Mon, 27 Jul 2026 15:28:03 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
-Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"d-gole@ti.com" <d-gole@ti.com>,
-	"david@kernel.org" <david@kernel.org>,
-	Elif Topuz <Elif.Topuz@arm.com>,
-	"etienne.carriere@st.com" <etienne.carriere@st.com>,
-	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"leitao@kernel.org" <leitao@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Lukasz Luba <Lukasz.Luba@arm.com>,
-	"michal.simek@amd.com" <michal.simek@amd.com>,
-	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
-	Philip Radford <Philip.Radford@arm.com>,
-	"puranjay@kernel.org" <puranjay@kernel.org>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	"subrahmanya.lingappa@oss.qualcomm.com" <subrahmanya.lingappa@oss.qualcomm.com>,
-	"usama.arif@linux.dev" <usama.arif@linux.dev>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v6 00/22] Introduce SCMI Telemetry support
-Message-ID: <20260727-bouncy-slim-badger-bad63e@sudeepholla>
-References: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+	s=k20260515; t=1785162877;
+	bh=P4JHLF6Mi/GxghJ2fQ1a+xylYvWRq6tTrCeZSqHjYps=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=g35nxHXIiFLFQgEgbWd4pLcZOp4ymxKryP53wty2vXI874BrAsD8HlPn0xA5bYRKp
+	 gTWhh9b0MK/Jwk/9RJhcgLuVhvfZM6MdcNiat7ejv8F3Zx0iDOvmQFwDVm+vUu83vz
+	 g13dzTIaKm4MxrXVehBPvPONqDq1gndNg9t541sthDeKoMF9t5BQ/tM6LaL+k/3D5T
+	 vurPNtrjzmUDgADKZr3j0vqLiQ+q1RF+6Kbh0/YFHWVqISde4TJ3Jia4LcfC14K0bZ
+	 w5oDTGoxnGZ/bKDaNY53/5dJXxh807K8xIlyXIV+15XNF2xD8f1bu6nWso4n73FiSq
+	 6SWzILuaBG9uQ==
+From: SJ Park <sj@kernel.org>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: SJ Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	Jiayuan Chen <jiayuan.chen@shopee.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] mm/damon/sysfs-schemes: report the number of tried regions
+Date: Mon, 27 Jul 2026 07:34:33 -0700
+Message-ID: <20260727143433.85732-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260727095429.143527-2-jiayuan.chen@linux.dev>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Fayssal,
+Hello Jiayuan,
 
-On Mon, Jul 27, 2026 at 01:53:45PM +0000, Fayssal Benmlih wrote:
-> Hi Cristian,
+On Mon, 27 Jul 2026 17:54:23 +0800 Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
+
+> From: Jiayuan Chen <jiayuan.chen@shopee.com>
 > 
-> Thanks for V6. It addresses a useful subset of the V5 feedback: the
-> uninitialized feature flags, signed exponent, group bounds, bool casts,
-> SHMTI enumeration loop, scoped ioctl magic, compat support, binary-only
-> interface, ABI information, reset, and oversized mmap requests are fixed.
+> The 'tried_regions' directory of each DAMON sysfs scheme exposes the memory
+> regions that the scheme's action has been tried to be applied to, as
+> per-region subdirectories.  It also has a 'total_bytes' file that reports
+> the total size of those regions without materializing the per-region
+> subdirectories, so that users can cheaply retrieve the aggregated result.
 > 
+> The number of the tried regions is another useful aggregated metric.  When
+> the scheme's access pattern is not restrictive, it approximates the number
+> of the adaptive monitoring regions of the context, which users may want to
+> watch, e.g., to see how well the monitoring is refined under a given
+> max_nr_regions, or to feed fleet wide access pattern dashboards.
+> Retrieving it currently requires materializing all the per-region
+> subdirectories (via writing 'update_schemes_tried_regions') and counting
+> them, which is unnecessarily expensive for users that only need the count.
 
-Appreciate your efforts in reviewing this series. But the below format
-of dumping all the review comments in one place is neither the normal
-mailing list practice nor much useful for other reviewer to follow as
-one need to map/follow these when reading corresponding code which is
-painful IMO.
+I agree the number can be useful.
 
-You can look at other threads on the list for reference or we even have
-an AI(sashiko) which does inline reviewing[1].
+> 
+> Add a 'nr_regions' file to the 'tried_regions' directory.  Like
+> 'total_bytes', it is updated by both 'update_schemes_tried_bytes' and
+> 'update_schemes_tried_regions', so it can be read as a lightweight counter
+> without materializing the per-region subdirectories.
 
-It will be really helpful if you can switch to that mode for future versions
-or comments.
+You could also get a similar information from DAMOS stat, specifically via
+nr_tried stat.  Have you considered using that?
 
--- 
-Regards,
-Sudeep
+I'm holding reviewing detail before this high level discussion is done.
 
-[1] https://sashiko.dev/#/patchset/20260724144430.1440170-1-cristian.marussi@arm.com
+
+Thanks,
+SJ
+
+[...]
