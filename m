@@ -1,28 +1,29 @@
 Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4288C233949;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 428FF2853E9;
 	Mon, 27 Jul 2026 07:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785137786; cv=none; b=tkognhFTY3z4jfGsuWdEuyj5LeVG4Wuzsf5hjB6gTVUQeITeWK5c732mAqNWIJqePFprHz8zyrVAEoSCjoRu7ptqwki4e4QiFSIN9Ur2xxvLaT+cUJRq2BEgGrch6f41wZiYTeLeKMe+P3yurm3kp9e4igxDD4lWsUHtLQlONAM=
+	t=1785137786; cv=none; b=eIVdM297FUpvwlTYwRMzXG9D/30uIdfYvl3EBYJx5khYiO0z9T9uU+8M92EnO8pdwZrjA6NLC+bAoLLEkiirHD7wG/vT6L6t0qKDjAzohII9jFVtSH7USIG+YCmrDOeVew08CGp2zkCH1YKEyTH5kQxnbxKNRzGkYDyAXE2QTdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785137786; c=relaxed/simple;
-	bh=MQVVOvu1ROlaB/v0DXQb75i3gq9wo90WC7AROW8Skr8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NSKreFZDxANYC98RBYBLdalR6yDJJbR/J/3TtHv1MzpXyKlMO9F4S/wxpQ6EIOZ2rR0yfzdVrEh3Axq1wCnE0Ux8UhU5sEbXv+xurvZOne1wIvD/8sQfrdPlE4AERJr2/dx6opMlbfe3EL0tERlRiR7yEsrmceOEelotX5a//e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=gmDoqRoM reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
+	bh=xkS/AwMZNnEIvqwdFOunV3t2q2jmCRKWQXEZjuIIICY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bw3CrTNkM3ZYbXu9RTMTHVfC7WY+HyNdku+cpGV2C/qAXh1DkPZlDbeVSKFxi/yBFdViPiyY/48JsssZPA9VPGzLLDm8nxja3JWvW2yXb91lZ5ad7bImPkQcUZXTMlsESdvt8Z1G+pMGHInBDFmkK8ajTjTHwUPJ4vqYzfdn3sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=nuHus4NX reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=stu.cdut.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="gmDoqRoM"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="nuHus4NX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=stu.cdut.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:MIME-Version:Content-Transfer-Encoding; bh=6pFtalzaF/
-	rUqRM7y6D2+XBEot7ISunaTddMHK5fx44=; b=gmDoqRoMGENCz8HqI8TWhulA86
-	hvoR+K5vxlZtu61QvtCSkT/7SdSHTZNfgV4V7yUorAc5aBwCFmRodyP6YjK4Qfpg
-	d9v1ZyBs5k3q6H1jKXZFVpec3Q+eetaCKfXrNyUISeX2bchBp/0eB2FZGsCl+6pK
-	agwetILrGeLUgEY+w=
+	Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
+	Content-Transfer-Encoding; bh=5fyT5sOueIWHaqazumg69cEbPEfDiJAKEa
+	4e6qAPR7I=; b=nuHus4NX4YakktJQ5lqMfeNQ+RERGQm/72C2hZ6ZBT5iu/0U+P
+	mtcGUg6SM3+/t2L6XN2Hg3pVQyeuIOi58rfYggQG7rtdlVcqopz09dePEqtVw5Yp
+	DCgIf6+X2Q+1t2xvN6yZD4l2RkoTZUEFoFubxdIY6b9MKLTE5kXjkcotg=
 Received: from anka-20eya00ycd (unknown [182.139.167.230])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkCGpw1lCmdqR_CFAQ--.59332S2;
-	Mon, 27 Jul 2026 15:36:06 +0800 (CST)
+	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkCGpw1lCmdqR_CFAQ--.59332S3;
+	Mon, 27 Jul 2026 15:36:11 +0800 (CST)
 From: Siwei Chen <anka@stu.cdut.edu.cn>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -33,73 +34,96 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Siwei Chen <businiaoanka@anka1.top>
-Subject: [PATCH v2 0/5] docs/zh_CN: Add Chinese translations for five networking documents
-Date: Mon, 27 Jul 2026 15:35:31 +0800
-Message-ID: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
+Subject: [PATCH v2 1/5] docs/zh_CN: Add networking team documentation Chinese translation
+Date: Mon, 27 Jul 2026 15:35:32 +0800
+Message-ID: <20260727073538.56951-2-anka@stu.cdut.edu.cn>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
+References: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkCGpw1lCmdqR_CFAQ--.59332S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFy8Zw47GFy5Jr4DZw1UWrg_yoW8CFyrpa
-	15KryfJa1UCF12yws7GF4UAF1rC3WxG39xGw17XwnYqrsYyFWrtrsrtr9I9a4xtrW0qFyY
-	vrsakr15WFyjyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv2b7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
-	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl
-	c2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
-	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
-	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
-	CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
-	wI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-	7IU89vtJUUUUU==
-X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAQUHCWpmJOxeBAAAsU
+X-CM-TRANSID:BrQMCkCGpw1lCmdqR_CFAQ--.59332S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw15XFy5tw1ftw4kCFyUKFg_yoW8AF4fpF
+	Z8KryxKFs7WFy7A3yxGr17Gr15GF4xCw4UGr1xX3Zaqr4Dt3WvvrnFqr9Ikr17KrW0yFW5
+	ZF4rtrW5Wryjy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPFb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+	8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF
+	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY
+	1x0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I
+	8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCF
+	s4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
+	vE14v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
+	WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcG-e
+	UUUUU
+X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAgUHCWpmJHtcgQAAsH
 
 From: Siwei Chen <businiaoanka@anka1.top>
 
-This series adds Simplified Chinese translations for five documents
-under Documentation/networking/:
+Translate .../networking/team.rst into Chinese.
 
-  - team.rst: Team devices driven from userspace via libteam
-  - sriov.rst: NIC SR-IOV APIs (switchdev model and legacy API)
-  - driver.rst: Softnet driver issues (probing, close/stop,
-    transmit path guidelines, and extack error reporting)
-  - ipv6.rst: ipv6 module parameters (disable, autoconf,
-    disable_ipv6)
-  - secid.rst: LSM/SELinux secid usage in the flowi structure
+Update the translation through commit aa8a6ee3e3fc
+("docs: networking: convert team.txt to ReST")
 
-Changes in v2:
-  - Add translated documents to corresponding index file.
-  - Link to v1: https://lore.kernel.org/linux-doc/54B9FF7CF7DE776B+6294277.lOV4Wx5bFT@anka-20eya00ycd/T/#t
-
-Siwei Chen (5):
-  docs/zh_CN: Add networking team documentation Chinese translation
-  docs/zh_CN: Add NIC SR-IOV APIs Chinese translation
-  docs/zh_CN: Add Softnet Driver Issues Chinese translation
-  docs/zh_CN: Add ipv6 Chinese translation
-  docs/zh_CN: Add LSM/SeLinux secid Chinese translation
-
- .../translations/zh_CN/networking/driver.rst  | 138 ++++++++++++++++++
- .../translations/zh_CN/networking/index.rst   |  10 +-
- .../translations/zh_CN/networking/ipv6.rst    |  76 ++++++++++
- .../translations/zh_CN/networking/secid.rst   |  24 +++
- .../translations/zh_CN/networking/sriov.rst   |  31 ++++
- .../translations/zh_CN/networking/team.rst    |  16 ++
- 6 files changed, 290 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/networking/driver.rst
- create mode 100644 Documentation/translations/zh_CN/networking/ipv6.rst
- create mode 100644 Documentation/translations/zh_CN/networking/secid.rst
- create mode 100644 Documentation/translations/zh_CN/networking/sriov.rst
+Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
+---
+ .../translations/zh_CN/networking/index.rst      |  2 +-
+ .../translations/zh_CN/networking/team.rst       | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/networking/team.rst
 
+diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+index 333e9f6cafff..fcb8dc8f2c72 100644
+--- a/Documentation/translations/zh_CN/networking/index.rst
++++ b/Documentation/translations/zh_CN/networking/index.rst
+@@ -29,6 +29,7 @@
+    alias
+    mptcp-sysctl
+    generic-hdlc
++   team
+    timestamping
+ 
+ Todolist:
+@@ -136,7 +137,6 @@ Todolist:
+ *   tc-queue-filters
+ *   tcp_ao
+ *   tcp-thin
+-*   team
+ *   tipc
+ *   tproxy
+ *   tuntap
+diff --git a/Documentation/translations/zh_CN/networking/team.rst b/Documentation/translations/zh_CN/networking/team.rst
+new file mode 100644
+index 000000000000..e6cf19a245a1
+--- /dev/null
++++ b/Documentation/translations/zh_CN/networking/team.rst
+@@ -0,0 +1,16 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/networking/team.rst
++
++:翻译:
++
++	陈思为 Siwei Chen <businiaoanka@anka1.top>
++
++====================
++Team（网络接口聚合）
++====================
++
++Team 设备由用户空间通过 libteam 库驱动，该库位于：
++	https://github.com/jpirko/libteam
 -- 
 2.53.0
 
