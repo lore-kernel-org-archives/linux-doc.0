@@ -1,278 +1,76 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.124.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F2A221275
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 00:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F030218C2C;
+	Mon, 27 Jul 2026 01:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.124.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785112881; cv=none; b=An4NT5pkrNYjA9DYIZJFlPavnclZfuiCrUFiJ9kz2RiGvMWQF07tzzDMtAlmKEwm3/acAhWRxyJxcwMRErRYFbStE00Lg2sWTcBYiebmP/hdcfa23jpNXtO/lAua+/2avxOwYn1lb+wcN9VQRS8Qpp61pAl2cnzzPh4qZzQLo3I=
+	t=1785114078; cv=none; b=KdIFNgy16MzU00+/dcI3ab0XgAAMQQcmwDvZXd4RbQJjCSpnIBBSiSpkdNvRcSv1PzNWgHtIrY9VExTs0PYOopzUwXd4JgMWGt/Qx8TDa6r8UgvgD4ph/M/tWZIXvLn2IdLUZW8IuDUmltf1MeB6QQUFyamwI2ph4RRBa8Dojkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785112881; c=relaxed/simple;
-	bh=nZ0xfUEiuMGSESk4KAhwsT74l2EZ1kSfc2Tf01or1kM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hmbj8N1S9813ygGsea90ETVGvBS7T9QGODhih66w0PFbYm5+sauNeHAd0yybgbhPR2fIYVxCiYdu9DWvcLLhqKTSyUD4HnbfugoLL3eonDlWg1+az2h1oTquzMXKhPU4X7KcY3chIOFuxJ42wd81hA13Q9md+vrikKP1Fn11iPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KRlyVlYp; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KRlyVlYp"
-Message-ID: <c3440ed3-0fc2-44e5-a05a-922344eb34d1@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785112875;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rj5ZR/j8gEE2Zz++PWd2qbirX2cZs2l8PGm6xJNCOE4=;
-	b=KRlyVlYp6pYFsYFATRhclKvDqnjexSHonIihZ6tDf/jclGw9yBI7LDiDqDB6H9CGK5Dm3B
-	seaLfFNRROnf0/I7jkQTkIWOdIsxfFIvg7/CzmzUPkMbpHzCb4UseN4LJcTYAwNLf97N3c
-	K2CXArCY6yj1KdwVOp0kqWDJzF83tw0=
-Date: Sun, 26 Jul 2026 17:40:54 -0700
+	s=arc-20240116; t=1785114078; c=relaxed/simple;
+	bh=El7CpyBKBnAv94RLMeWoZ0HhO6+bYPYFOiH1b9N7Bd4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sct4O+YSyyoK8ghOVBVkvjDiaqRlza96KKUzxvJuMqQf+RoKnbm5Pz21Je6NpaR8AuOOf01LbhYzOjuC4LJ8eYEPx0xN2OREWW5ObfYksrtgoSXhRRoXGpwxDnSkc4yIV/lF1MJGkv35H0KEuJ48mzgyGqR/BIIdtY5/2NYNIEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anka1.top; spf=pass smtp.mailfrom=anka1.top; arc=none smtp.client-ip=114.132.124.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anka1.top
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anka1.top
+X-QQ-mid: esmtpsz20t1785114014t8dcf5f46
+X-QQ-Originating-IP: sPknp0rBKMMI1vwaVXdXk6TG11xGLvX9xIwerMChUK8=
+Received: from anka-20eya00ycd.localnet ( [182.139.167.230])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 27 Jul 2026 09:00:12 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 15942914350571320713
+From: Siwei Chen <businiaoanka@anka1.top>
+To: Weijie Yuan <wy@wyuan.org>
+Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn, corbet@lwn.net,
+ skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 0/5] docs/zh_CN: Add Chinese translations for five networking
+ documents
+Date: Mon, 27 Jul 2026 09:00:12 +0800
+Message-ID: <54B9FF7CF7DE776B+6294277.lOV4Wx5bFT@anka-20eya00ycd>
+In-Reply-To: <amYgxGgd12VricV4@wyuan.org>
+References:
+ <cover.1784866896.git.businiaoanka@anka1.top> <amYgxGgd12VricV4@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 17/20] vfio: selftests: Add
- vfio_pci_liveupdate_kexec_test
-To: Vipin Sharma <vipinsh@google.com>, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Cc: ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com,
- ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com,
- chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net,
- dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com,
- jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com,
- kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com,
- lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com,
- parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com,
- pratyush@kernel.org, rananta@google.com, rientjes@google.com,
- rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com,
- schnelle@linux.ibm.com, skhan@linuxfoundation.org, skhawaja@google.com,
- vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com
-References: <20260714151505.3466855-1-vipinsh@google.com>
- <20260714151505.3466855-18-vipinsh@google.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20260714151505.3466855-18-vipinsh@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:anka1.top:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: NrdcSSbhenTUjo55adpgFRpP3Qj/owZB46nlM+jdw0278zVi2Zu15vu6
+	820I/AxM8DkTu+9alkqYmI2J5BpYcjPgJrRdPEpSsa7OMl140uWNoSGegISPkQPAbKyHUeu
+	JLgQKpqfJwr616pVgd/XpHEbbrJMoCuNxPuB5+UCTs/8GjI0vQ/KLlgB0H2SYImQRQIpYtN
+	zuHhsBb0GmnhdWShbX07ABWdF0Ex0DwSqlQLE405LxSNZKzIawOR+6k4NUFAyvZZcwmNWHN
+	p78nNrtCLqzMVmxgciGFTaZdEvx1WvS+gAtVGAqg5e61xADJ4gg72UKxZId4HbQAFhYW+50
+	fVQnuV2hTtpf+KwVutQOXZLPe94H+Fgsknz0dLAObwyxbVnPSW87WYiba2cCrQy3I5eC/z/
+	skQO8s9yKwVBavr/Ee70yMRUcXch3ivdx48onl/K9JjL8E3a9fOcwrD5bSAmI1QkVeBBpHf
+	Vk4+UwDo5KLSsssTxtBRWoC5TSeB5PxfiDVpGys88R7AGAxaLF5aiSq95mSy04BQYwD9mF2
+	ngLPuxRaBCH7pxillJeN+sQCrB0j7m1ao/WVCY3hDS5p2BeTI92vRJWUcuGGDiwhG0zrazh
+	M4jb+MDDAmB48HcVsOej6PpOWe5GQLLJcCOWI7kq3eqnBAGmPZQCFbBF6YVAulPGnBPhApp
+	nWuYiqjjlIBmaYrUOHNX+0IjMxahaO5vTuxc3IHzbQCFca7BRSKB3f0+nRoe0jrzRYmh3aF
+	7C0fr9k8eQsmgmG9JTaw+BG6PxRtj5DshJYI0N+JEe1kw+wZPee7d8RkEXfXGOSxEunPgaD
+	LBh/cRcUE8MpdVX3La7xbxUTMX5Z+LBIqxvh/FujYmSEFiEWPOSnk/Iq8+azl/BeGh03hce
+	4nSmUFZd0RWIlR5KvYzV0/sVwkJ2im0xq+CWARQuIk/Cj9cwFHEkfQCiEwcZ5E9raqn2OF/
+	aLKdjXujkPK/Bic1/AmzGEDOIOES410W8kgU/zhSubO7jUQ==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylWR1A4xI9juj8FskTeQJjw==
+X-QQ-RECHKSPAM: 0
+
+5ZyoIDIwMjblubQ35pyIMjbml6XmmJ/mnJ/ml6Ug5Lit5Zu95qCH5YeG5pe26Ze0IDIyOjU5OjE2
+77yMV2VpamllIFl1YW4g5YaZ6YGT77yaCj4gSGkgU2l3ZWksCj4gCj4gT24gRnJpLCBKdWwgMjQs
+IDIwMjYgYXQgMDE6MTM6MzZQTSArMDgwMCwgU2l3ZWkgQ2hlbiB3cm90ZToKPiAKPiBTaW5jZSB5
+b3UgaGF2ZSB1cGRhdGVkIHRob3NlIGZpbGVzLCB5b3Ugc2hvdWxkIGFsc28gdXBkYXRlIHRoZSBp
+bmRleAo+ICh0b2MpOgo+IAo+ICAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9uZXR3b3JraW5nL2lu
+ZGV4LnJzdAo+IAo+IFRoYW5rcy4KClRoYW5rIHlvdSBmb3IgdGhlIHJlbWluZGVyLiBJIHdpbGwg
+YWRkIHRoaXMgcGFydCBvZiB0aGUgcGF0Y2guCg==
 
 
-在 2026/7/14 8:15, Vipin Sharma 写道:
-> Add a selftest to exercise preserving a vfio-pci device across a Live
-> Update. For now the test is extremely simple and just verifies that the
-> device file can be preserved and retrieved. In the future this test will
-> be extended to verify more parts about device preservation as they are
-> implemented.
->
-> This test is added to TEST_GEN_PROGS_EXTENDED since it must be run
-> manually along with a kexec.
->
-> To run this test manually:
->
->   $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
->   $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1 0000:00:04.0
-# ls /dev
-autofs           disk       iommu         mem     rtc0      tty10 tty21  
-tty32  tty43  tty54  tty8    ttyS18  ttyS29   uinput  vcs6   vcsu4      
-   virtio-ports
-block            dma_heap   kmsg          mqueue  sg0       tty11 tty22  
-tty33  tty44  tty55  tty9    ttyS19  ttyS3    urandom vcsa   vcsu5      
-   vport2p1
-bsg              dri        kvm           net     shm       tty12 tty23  
-tty34  tty45  tty56  ttyS0   ttyS2   ttyS30   usbmon0 vcsa1  vcsu6      
-   vsock
-btrfs-control    fd         liveupdate    null    snapshot  tty13 tty24  
-tty35  tty46  tty57  ttyS1   ttyS20  ttyS31   usbmon1 vcsa2  vda        
-   watchdog
-bus              full       log           nvram   snd       tty14 tty25  
-tty36  tty47  tty58  ttyS10  ttyS21  ttyS4    usbmon2 vcsa3  vda1        
-  watchdog0
-cdrom            fuse       loop-control  port    sr0       tty15 tty26  
-tty37  tty48  tty59  ttyS11  ttyS22  ttyS5    userfaultfd vcsa4  vda2    
-      zero
-char             hidraw0    lp0           ppp     stderr    tty16 tty27  
-tty38  tty49  tty6   ttyS12  ttyS23  ttyS6    vcs vcsa5  vda3         zram0
-console          hpet       lp1           ptmx    stdin     tty17 tty28  
-tty39  tty5   tty60  ttyS13  ttyS24  ttyS7    vcs1  vcsa6  vfio
-core             hugepages  lp2           pts     stdout    tty18 tty29  
-tty4   tty50  tty61  ttyS14  ttyS25  ttyS8    vcs2  vcsu   vga_arbiter
-cpu              hwrng      lp3           random  tty       tty19 tty3  
-  tty40  tty51  tty62  ttyS15  ttyS26  ttyS9    vcs3  vcsu1  vhci
-cpu_dma_latency  i2c-0      mapper        rfkill  tty0      tty2  tty30  
-tty41  tty52  tty63  ttyS16  ttyS27  udmabuf  vcs4  vcsu2  vhost-net
-cuse             input      mcelog        rtc     tty1      tty20 tty31  
-tty42  tty53  tty7   ttyS17  ttyS28  uhid     vcs5  vcsu3  vhost-vsock
 
-
-# tools/testing/selftests/vfio/scripts/setup.sh 0000:00:08.0
-
-+ echo "vfio-pci" > /sys/bus/pci/devices/0000:00:08.0/driver_override
-+ echo "0000:00:08.0" > /sys/bus/pci/drivers/vfio-pci/bind
-tools/testing/selftests/vfio/scripts/lib.sh: line 9: echo: write error: 
-Invalid argument    <--- the error is here.
-
-
-# lspci -vvv -s 0000:00:08.0
-
-00:08.0 Unclassified device [00ff]: Red Hat, Inc. QEMU PCI Test Device
-         Subsystem: Red Hat, Inc. QEMU Virtual Machine
-         Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- 
-ParErr- Stepping- SERR+ FastB2B- DisINTx-
-         Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- 
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-         Region 0: Memory at fea1f000 (32-bit, non-prefetchable) [size=4K]
-         Region 1: I/O ports at c000 [size=256]
-
-Hi, Vipin
-
-I worked with QEMU PCI Test Device. But the following error occur.
-
-"tools/testing/selftests/vfio/scripts/lib.sh: line 9: echo: write error: 
-Invalid argument"
-
-Is this a known problem?
-
-Thanks
-
-Yanjun.Zhu
-
->
->   $ kexec ...   # NOTE: Exact method will be distro-dependent
->
->   $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
->   $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 2 0000:00:04.0
->
-> The second call to setup.sh is necessary because preserved devices are
-> not bound to a driver after Live Update. Such devices must be manually
-> bound by userspace after Live Update via driver_override.
->
-> This test is considered passing if all commands exit with 0.
->
-> Co-developed-by: David Matlack <dmatlack@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> ---
->   tools/testing/selftests/vfio/Makefile         |  4 +
->   .../vfio/vfio_pci_liveupdate_kexec_test.c     | 89 +++++++++++++++++++
->   2 files changed, 93 insertions(+)
->   create mode 100644 tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
->
-> diff --git a/tools/testing/selftests/vfio/Makefile b/tools/testing/selftests/vfio/Makefile
-> index 591f1a52c310..a2f0a459e1f4 100644
-> --- a/tools/testing/selftests/vfio/Makefile
-> +++ b/tools/testing/selftests/vfio/Makefile
-> @@ -15,6 +15,10 @@ TEST_GEN_PROGS += vfio_pci_driver_test
->   TEST_GEN_PROGS += vfio_pci_sriov_uapi_test
->   TEST_GEN_PROGS += vfio_pci_liveupdate_uapi_test
->   
-> +# This test must be run manually since it requires the user/automation to
-> +# perform a kexec during the test.
-> +TEST_GEN_PROGS_EXTENDED += vfio_pci_liveupdate_kexec_test
-> +
->   TEST_FILES += scripts/cleanup.sh
->   TEST_FILES += scripts/lib.sh
->   TEST_FILES += scripts/run.sh
-> diff --git a/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-> new file mode 100644
-> index 000000000000..15b3e3af91d1
-> --- /dev/null
-> +++ b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-> @@ -0,0 +1,89 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <libliveupdate.h>
-> +#include <libvfio.h>
-> +
-> +static const char *device_bdf;
-> +
-> +static char state_session[LIVEUPDATE_SESSION_NAME_LENGTH];
-> +static char device_session[LIVEUPDATE_SESSION_NAME_LENGTH];
-> +
-> +enum {
-> +	STATE_TOKEN,
-> +	DEVICE_TOKEN,
-> +};
-> +
-> +static void before_kexec(int luo_fd)
-> +{
-> +	struct vfio_pci_device *device;
-> +	struct iommu *iommu;
-> +	int session_fd;
-> +	int ret;
-> +
-> +	iommu = iommu_init("iommufd");
-> +	device = vfio_pci_device_init(device_bdf, iommu);
-> +
-> +	create_state_file(luo_fd, state_session, STATE_TOKEN, /*next_stage=*/2);
-> +
-> +	session_fd = luo_create_session(luo_fd, device_session);
-> +	VFIO_ASSERT_GE(session_fd, 0);
-> +
-> +	printf("Preserving device in session\n");
-> +	ret = luo_session_preserve_fd(session_fd, device->fd, DEVICE_TOKEN);
-> +	VFIO_ASSERT_EQ(ret, 0);
-> +
-> +	close(luo_fd);
-> +	daemonize_and_wait();
-> +}
-> +
-> +static void after_kexec(int luo_fd, int state_session_fd)
-> +{
-> +	struct vfio_pci_device *device;
-> +	struct iommu *iommu;
-> +	int session_fd;
-> +	int device_fd;
-> +	int stage;
-> +
-> +	restore_and_read_stage(state_session_fd, STATE_TOKEN, &stage);
-> +	VFIO_ASSERT_EQ(stage, 2);
-> +
-> +	session_fd = luo_retrieve_session(luo_fd, device_session);
-> +	VFIO_ASSERT_GE(session_fd, 0);
-> +
-> +	printf("Finishing the session before retrieving the device (should fail)\n");
-> +	VFIO_ASSERT_NE(luo_session_finish(session_fd), 0);
-> +
-> +	printf("Retrieving the device FD from LUO\n");
-> +	device_fd = luo_session_retrieve_fd(session_fd, DEVICE_TOKEN);
-> +	VFIO_ASSERT_GE(device_fd, 0);
-> +
-> +	printf("Finishing the session before binding to iommufd (should fail)\n");
-> +	VFIO_ASSERT_NE(luo_session_finish(session_fd), 0);
-> +
-> +	printf("Binding the device to an iommufd and setting it up\n");
-> +	iommu = iommu_init("iommufd");
-> +
-> +	/*
-> +	 * This will invoke various ioctls on device_fd such as
-> +	 * VFIO_DEVICE_GET_INFO. So this is a decent sanity test
-> +	 * that LUO actually handed us back a valid VFIO device
-> +	 * file and not something else.
-> +	 */
-> +	device = __vfio_pci_device_init(device_bdf, iommu, device_fd);
-> +
-> +	printf("Finishing the session\n");
-> +	VFIO_ASSERT_EQ(luo_session_finish(session_fd), 0);
-> +
-> +	vfio_pci_device_cleanup(device);
-> +	iommu_cleanup(iommu);
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	device_bdf = vfio_selftests_get_bdf(&argc, argv);
-> +
-> +	sprintf(device_session, "device-%s", device_bdf);
-> +	sprintf(state_session, "state-%s", device_bdf);
-> +
-> +	return luo_test(argc, argv, state_session, before_kexec, after_kexec);
-> +}
-
--- 
-Best Regards,
-Yanjun.Zhu
 
