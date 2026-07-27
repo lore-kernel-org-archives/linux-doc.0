@@ -1,71 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07517380FF2;
-	Mon, 27 Jul 2026 17:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EDC3624AB
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 17:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785171742; cv=none; b=snPZ5CguwqQBpS2/Xp/x+bPy+xWV6fwddcOUus9OLYRpEgR/BffiUGpSy7XpdBFDd6XfbSc0UbM3k4LZFIz4rwJSoEi2etNqH9GIMX6NhHcV7syjhicRKegjSPBJDPYQoe03Xub3Lustvc3fXiU4NK4JH4EM3IH+N5DlHZjO4eA=
+	t=1785172379; cv=none; b=b9xb5HwIUezkXqaNi0v9ZYesq2JRRYGJxrZQrg3hBfYKmJ3S26Sj7swy0A8lWKByB3qVuM6l25f3gmCcuTkgsvAw48BHk+i7hUrnA/nvAgQRQl0FCX94iBB9r0gZKOuofKKj55P9MaxZkAuAJ8f0VWE4Xvtap2MI23CEpwUyUkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785171742; c=relaxed/simple;
-	bh=jUxLziuMhEw5IkBBQtMJ0hH8qT+hvNBDzT2Na1bPUdQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=mt1QXLTxTgA5DiX2UXjPmuPBlp0ZFznH/lt9MBs0NSKnWpYXj1zgJtQxxAQQUTvKW9sVpT6SQ12yPY4svL4rSPh7h7DTUZ4GRqtjz6txNfCvq5/Oy5X1rY0EDBtxk5saQE/wDhvxT0UL1q/h6PMBz74/tuBvcru3IEejG5XQxY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j3LwTNPV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785172379; c=relaxed/simple;
+	bh=GUvg1OvMWeBo17iFOZYqPbjz7WOOgO7fLmvZ5xfMdY8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XtwCUsfSsvxDhDaZBwo6GoX0zpvMgTf+6iNbqdeLB4ASogxbGdcb6skbjUMf6Nk7zFNLDXKE7dVoLaY5xWTIBQhYu2VeyDsG9sYlFXmNhatA1AHqUVQmhBd+JWxp++QlPtlKcZpiZvO1h/nI+FajPiOCgNDSAuJmwCy756hcr6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=H1z9+Tqo; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j3LwTNPV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD7D1F000E9;
-	Mon, 27 Jul 2026 17:02:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785171740;
-	bh=envDW01iaG4pKKDhR3yG+/K9RbiDakyseB2cdEOZn20=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=j3LwTNPVNmHeotZURh6MafnSvm/fwir2Kcl/0k6Np039DbnnD5JdEURC6kY17E9AJ
-	 bB2A59hUDedkypLiJW/raC2yWpauqtTsAxzSOMdK65B8DPuz6YLbhjyW6Yr/XWfoyJ
-	 7hBf6dmmLvGLtXT3Jon44DAVPXxMMdVmO1FytDnpXRpONiydx4xzqJ4DfeYGr/H1JJ
-	 sPeQUMnh5wgBlDLtNj40llKFi+iMrxBWwSbrKn017ZZB5rJuoihOW/GoLQ31R97j+Z
-	 /+wtd4CeZnNefsPowZqmCgr6haQrBFz9cnn6I7SHLHac7F02oBcdT7VhA20v4fgxls
-	 osGt63BUJAs8Q==
-Message-ID: <f49363e9-2f48-410a-9e77-9ad14bece7d4@kernel.org>
-Date: Mon, 27 Jul 2026 12:02:19 -0500
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="H1z9+Tqo"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3E96F408B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785171848; bh=KuVSC8RadY+LK86Bwdw/4JgOl2/sK70FYFnSHTYlTgk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=H1z9+TqoYuss7JjoQTGjCaRVPO0aDz8CHY6bp06sEg39a1jzsgRFiNb8/04tduQeN
+	 fDW67ArT0WivAkcnHiJX1/ovInBmNT2LoDOOkJiXQ4jY+pME+GW0NSWsQ/P8We5n6e
+	 R5y7dkVo9WbPsDICbaJFDVbQsEaRSKdFrnOyI+7OMVVx4/YHFmyvfjfHUaIFjt1hR+
+	 vxCM134thZGB9jEEemPVsUyb+cxfjU8Y/Enl4PGDAUxRHmGcRNqeM6LOzUhZQLgwC3
+	 SV+eusI42GzLDGkSMWbODTZxs80qM+c0SX2yowTKb6os53cl9ldWm32kh4OyQhWsIK
+	 mWgShsoT4kYVQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3E96F408B2;
+	Mon, 27 Jul 2026 17:04:08 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Xavier Claude <contact@xavierclaude.be>, linux-doc@vger.kernel.org
+Cc: Xavier Claude <contact@xavierclaude.be>, linux-mm@kvack.org
+Subject: Re: [PATCH] docs: add example for psi info
+In-Reply-To: <20260726134037.24412-1-contact@xavierclaude.be>
+References: <20260726134037.24412-1-contact@xavierclaude.be>
+Date: Mon, 27 Jul 2026 11:04:07 -0600
+Message-ID: <87tspkicu0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] firmware: stratix10-svc: add async HWMON read
- commands and register socfpga-hwmon device
-Content-Language: en-US
-To: tze.yee.ng@altera.com, linux-kernel@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <cover.1784785709.git.tze.yee.ng@altera.com>
- <a79aee37be7067691fd02a3a9cfd134c995e5a95.1784785709.git.tze.yee.ng@altera.com>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <a79aee37be7067691fd02a3a9cfd134c995e5a95.1784785709.git.tze.yee.ng@altera.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi Guenter,
+Xavier Claude <contact@xavierclaude.be> writes:
 
-On 7/23/26 01:02, tze.yee.ng@altera.com wrote:
-> From: Tze Yee Ng <tze.yee.ng@altera.com>
-> 
-> Add asynchronous Stratix 10 service layer support for hardware monitor
-> temperature and voltage read commands in stratix10_svc_async_send() and
-> stratix10_svc_async_prepare_response().
-> 
-> Register a socfpga-hwmon platform device from the service layer driver
-> when hardware monitor support is enabled, similar to the RSU device.
-> 
-> Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-> Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
+> Provide an non zero example with explanation of the values.
+>
+> Signed-off-by: Xavier Claude <contact@xavierclaude.be>
 > ---
-I've been taking these patches through Greg KH's char-misc tree. I'll 
-wait on your feedback on patch 2 to take this patch.
+>  Documentation/accounting/psi.rst | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+
+This may be a good change, but you really want the memory-management
+developers to look at it...adding linux-mm in the hopes that might make
+it happen.
 
 Thanks,
-Dinh
+
+jon
+
+> diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
+> index d455db3e5808..dadab65f872d 100644
+> --- a/Documentation/accounting/psi.rst
+> +++ b/Documentation/accounting/psi.rst
+> @@ -64,6 +64,20 @@ as well as medium and long term trends. The total absolute stall time
+>  spikes which wouldn't necessarily make a dent in the time averages,
+>  or to average trends over custom time frames.
+>  
+> +For example, the following output::
+> +
+> +	some avg10=7.52 avg60=12.59 avg300=24.82 total=2128219913967
+> +	full avg10=5.70 avg60=10.56 avg300=22.40 total=2014527537356
+> +
+> +This means that for the last 10 seconds, 5.7% of the time (so 0.5
+> +seconds) was lost on cpu cycles because all the running processes where
+> +waiting on the resource. On the same period, some tasks where not
+> +schedulable during 7.5% of the time (so 750ms) because they were waiting
+> +on the resource. But for a longer period of 300 seconds, we see that
+> +more than 20% of the time (so 60 seconds) is wasted due to resource
+> +contention. Moreover, since the total time wasted because tasks were
+> +waiting on the resource is 2014527.5 seconds.
+> +
+>  Monitoring for pressure thresholds
+>  ==================================
+>  
+> -- 
+> 2.55.0
