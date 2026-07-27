@@ -1,137 +1,131 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAD563DDB17;
-	Mon, 27 Jul 2026 07:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624C73EAC6D
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 07:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785137808; cv=none; b=moIFrN7B9Y6sRKzWd5S4k0JMYYcZ+JxdJmd/1peC0uCmJXEIQ2mE7jRFcYIVhQGQ6UgtzlWQpRjMqVVx51uqTBaTptsaCodZxZ/300g9NFcWZgsD+7XknmHSapMTgYgWXdlWq9XhtnApYahI06HkFgStwqvty5Bcmv0FwUqQ2KE=
+	t=1785138217; cv=none; b=YrcDqWfvfQ054xXh1mHgc8pQ+0p14A2NjHeS01sRELh6iXrRu/ppeLm+G3lxelTLSWz6FjmcDWlMv10gvxSaTCX7tUFZjijCbNQYRn8MXDN51nKaso7NtGRDALAY8Z5+14ekc3bEhNk7MPVjPGdEel/2bmG4GnI7r0baUm/IdpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785137808; c=relaxed/simple;
-	bh=EDs5hZjMYG7U01mdojpqc8sUQiCmlpGPMwcMitOy5NA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KEVe0bRO10obg6MBauynkFYK0s9KTBw9++kj73UtqBxsIyAKicgNFrsvBkQmWh/ov0cp58wNDAryCmVecmB6lYCtF33og0ww9yybuwkNljKy0GOyll414EV6Wor2lwyLad5GPszBWI/qem37piqV9k/MZeonKWEgveWWo/6M2AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=hGiC7Mg3 reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=stu.cdut.edu.cn
+	s=arc-20240116; t=1785138217; c=relaxed/simple;
+	bh=qat2wW/S5sFfMSSYogUhfOa5HM/fpcWvQmY3H0cHrvw=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=SwOwqKJjEg2DrwqVYcpIHg1d1xlnFdG4iTfwlwO6iC/YSdXZSdSL+A1nBIqEpgY8xFhWYZ9cyc0SblX9KWIs7924u/NIujQuAlUyoZbciz7FKyqItbLS+UjXf9xJ21/Q3HN1IfJ005t5taNwjrKx+Knxg+Fx2bAY4qqSJapePG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=k4LrZ9CK; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="hGiC7Mg3"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="k4LrZ9CK"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-81f36179d72so27519407b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 00:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.cdut.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
-	Content-Transfer-Encoding; bh=bvNfCBX4w+tjIMiSdpHf2FngBXCQJm+vtT
-	Ztz4Xvuw4=; b=hGiC7Mg31bAC/mvdrGm+LKMWqzNRGpQnpJVY4X81XbY6+KBrv1
-	hlIpPLh4RO+umQFixRIZe5RL/NmK4Gjas0sJexoQAP1RvYtU41c59BsWOSsoSHKc
-	hRs/cNzQrhziVdcJ3708UGYBr/hBDyrIdvW1Mv058IXtjindXLiWqf200=
-Received: from anka-20eya00ycd (unknown [182.139.167.230])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkCGpw1lCmdqR_CFAQ--.59332S7;
-	Mon, 27 Jul 2026 15:36:38 +0800 (CST)
-From: Siwei Chen <anka@stu.cdut.edu.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: wy@wyuan.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Siwei Chen <businiaoanka@anka1.top>
-Subject: [PATCH v2 5/5] docs/zh_CN: Add LSM/SeLinux secid Chinese translation
-Date: Mon, 27 Jul 2026 15:35:36 +0800
-Message-ID: <20260727073538.56951-6-anka@stu.cdut.edu.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
-References: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1785138215; x=1785743015; darn=vger.kernel.org;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:content-type:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uRtQsepgOz3Ez2KnqaflKAVM3t8o2/GIA2QttRFCrNQ=;
+        b=k4LrZ9CK/RNNcTiT1HMgqlsksX6bTsKa6a7d24DQY+T2y3cGfvkrwYvmmsirSZkr6f
+         uRWYAxFxo2R3XwgfWuF5YP+39oHwTVJspshvMHtDTppSRWxuSyQ7X6eyGf0PcrOE60Bo
+         YMDEQ6X5w8/ibRK81p8SfaeF8dVq/lPI14jvEqZNIvi9Wh1bJc+ygOU6kbhB7TTwXiSQ
+         cOTUv3tdz9St78lFpBljK7G9f7jq9Iza/Xp2WbskxsQtlK5eVq+9T1c87kFysbfw44JG
+         JkM6Cu4DXdQGy509QratwAGOJ9sE3JFv2/uC97Ol2mPKXDZjELhNxVPeZ9O1g+0nMwt/
+         snfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785138215; x=1785743015;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uRtQsepgOz3Ez2KnqaflKAVM3t8o2/GIA2QttRFCrNQ=;
+        b=jvmI1+EwBEs43gSBQS/nt88ooIB9f8p08ncwuRZmPVdnX5pay0L3Tq2iJm6w+M2Hmr
+         EN+B/exoQxwFiMzZh1CO5xoNjMzINXozzxMfqR2duKbIOnH++pcWOezegIT21swlRU+K
+         UW0MpHjqk0s9GKTeBGv2xShXPZNWuPa6ETcT3DU/Icc6T2sEv+/pDySCa8OJ5jLfJCup
+         xFMOgt84sdj+u5fyunN05zekgqQsVji5cJQwGaR0lejiniDWwt6h/iRVvGWwLfOLAa2J
+         HU4XYciFkISkMKh6bwG+M8hZ3XpKv8dci28oSbI+MWtjEAhXiD+5Ra6Xdjhgt4816NbL
+         H2eA==
+X-Forwarded-Encrypted: i=1; AHgh+RomaxFpcBsK4nuaAMKVkQtfeixYRg25U0d3Cmwi9yJ5o1l31TUWGuKmyrsHyOEErcEGRUzbFT07bPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6wUabWE5YlgfgD/baH7TRVKtZZKk1tTrJRank2B0LpTzCvoLy
+	QuXy38U1lv6LWVBjBF0vicY+wLHLMkhl7llJE9f9xkuNBV8f/Gw+zXD/L5TM5BDmdg==
+X-Gm-Gg: AR+sD12fkdjAJR2ooa6x2fqVoQTtXNOCBF30lQfKvxLgMsQmzI+kBxH1KfMzLb9ki5N
+	j9HRzd3XPF4w8MK/tH35elBBXw+33cgs34tVILDk2x7pFty7a7JDqLxFlWore3uKJkAVugLRtK0
+	RGV7pH3z5XHXI9e+BMGAkNe4dsO43vbiVUhfQhuYv+lX2Niioqgr0TixdD1qpA7obNl2WfhKr2v
+	I/LGOqYIcIH6iPcb7+Luf7SueiIeuYycqgM2XoiFnkaWrMEmBuGKM0Z4HkwOje8cmFoFCFDT3lm
+	WTaYRJW24TOV/7FecOHoO6qfh/TFNaO8FW3Yx1EkOiro6u3cYFIjKysZjEDEEAwjUaqMHvqjHJE
+	4+ttHFUS4V8Y1HvkYfan50O97Lxm0f7v2DVzZc6FZt+jRZf6HKXvKkGAhBb14LaJU0xsRoklTwK
+	vZIK5xKXoJ7SEQExkZ8ZRv
+X-Received: by 2002:a05:690c:6704:b0:81d:5155:213b with SMTP id 00721157ae682-81f69cd5a48mr24289417b3.14.1785138215197;
+        Mon, 27 Jul 2026 00:43:35 -0700 (PDT)
+Received: from smtpclient.apple ([150.228.3.19])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f657bfddcsm28229997b3.18.2026.07.27.00.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 00:43:33 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Andy Lutomirski <luto@amacapital.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkCGpw1lCmdqR_CFAQ--.59332S7
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw15Zr47ZFyxGFyfCr1Utrb_yoW8tF45pF
-	1DKrWfGa1xWryxK397Gr17Gr15KF4xuw45Gr1xX3ZYqrn5JanYyrnrtFWqkFyxKrW0yFW3
-	XF4rKrW5WFW0y37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPmb7Iv0xC_Ar1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUAVCq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28C
-	jxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI
-	8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E
-	87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2
-	IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUtVW8Zw
-	CY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2Iq
-	xVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r
-	1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY
-	6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-	AFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
-	Xa7xRtUDJJUUUUU==
-X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAgUHCWpmJHtcgQAEsD
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
+Date: Mon, 27 Jul 2026 09:42:25 +0200
+Message-Id: <ABB3CF80-5F05-4279-8E0F-73A21E6B9DDA@amacapital.net>
+References: <09b4735f-c04e-40f3-a7f5-254b7918fbfd@app.fastmail.com>
+Cc: Andy Lutomirski <luto@kernel.org>,
+ Christian Brauner <brauner@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Jann Horn <jannh@google.com>, linux-api <linux-api@vger.kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>,
+ Farid Zakaria <farid.m.zakaria@gmail.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc <linux-doc@vger.kernel.org>
+In-Reply-To: <09b4735f-c04e-40f3-a7f5-254b7918fbfd@app.fastmail.com>
+To: John Ericson <mail@johnericson.me>
+X-Mailer: iPhone Mail (23F77)
 
-From: Siwei Chen <businiaoanka@anka1.top>
 
-Translate .../networking/secid.rst into Chinese.
 
-Update the translation through commit de1fd4a7b0f2
-("docs: networking: convert secid.txt to ReST")
+> On Jul 27, 2026, at 5:30=E2=80=AFAM, John Ericson <mail@johnericson.me> wr=
+ote:
+>=20
+> =EF=BB=BFVery happy to see this patch series appear; thanks Christian!
+>=20
+> Also happy with where this specific thread is going. I will just add
+> that an additional flag in fs_struct to force RESOLVE_BENEATH in *all* pat=
+h
+> lookup would also be nice. The combination of:
+>=20
+> root =3D pwd =3D failfs;
+> chroot_locked =3D false;
+> always_resolve_beneath =3D true;
+>=20
+> goes along way to getting Capsicum's "capability mode".
 
-Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
----
- .../translations/zh_CN/networking/index.rst   |  2 +-
- .../translations/zh_CN/networking/secid.rst   | 24 +++++++++++++++++++
- 2 files changed, 25 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/networking/secid.rst
+One thing I dislike about this is that it=E2=80=99s (approximately) a task m=
+ode. Why should an fd representing a capability represent one capability (a s=
+ubtree) to one task but a different capability (dotdot) in a different task?=
+  Do we need to prevent unsharing a userns if this bit is set?   Do we want t=
+o have to worry about any task that could potentially SCM_RIGHTS and fd to a=
+ task without that bit set? I prefer beneathness being an OFD property.
 
-diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-index cd768d0a2837..bf22d22b64db 100644
---- a/Documentation/translations/zh_CN/networking/index.rst
-+++ b/Documentation/translations/zh_CN/networking/index.rst
-@@ -24,6 +24,7 @@
-    driver
-    ipv6
-    napi
-+   secid
-    vxlan
-    netif-msg
-    xfrm_proc
-@@ -126,7 +127,6 @@ Todolist:
- *   representors
- *   rxrpc
- *   sctp
--*   secid
- *   seg6-sysctl
- *   smc-sysctl
- *   statistics
-diff --git a/Documentation/translations/zh_CN/networking/secid.rst b/Documentation/translations/zh_CN/networking/secid.rst
-new file mode 100644
-index 000000000000..0168feddcc3d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/networking/secid.rst
-@@ -0,0 +1,24 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/networking/secid.rst
-+
-+:翻译:
-+
-+	陈思为 Siwei Chen <businiaoanka@anka1.top>
-+
-+=================
-+LSM/SELinux secid
-+=================
-+
-+flowi 结构体：
-+
-+flow 结构体中的 secid 成员在 LSM（如 SELinux）中用于表示该流的标签。
-+该流的标签目前用于选择相匹配的带标签 xfrm。
-+
-+若为出向流，标签派生自套接字（若有），或派生自本流作为响应而生成的入站报文
-+（如 TCP 复位、timewait ACK 等）。在特殊情况下，也可酌情让标签派生自其他
-+来源，如进程上下文、设备等。
-+
-+若为入向流，标签派生自报文所使用的 IPSec 安全关联（若存在）。
--- 
-2.53.0
+Note that the obvious giant holes in capsicum-without-a-mode (root and cwd) a=
+nd their respective dotdots are fixed, quite cleanly, by this current patch s=
+et.
 
+I also think it=E2=80=99s a bit of an ancient mistake that paths like /.. wo=
+rk at all instead of generating errors. Maybe a future beneath-only fd could=
+ also disallow trying to dotdot past the root, even for symlinks that contai=
+n dotdots.  This isn=E2=80=99t just an aesthetic thing - if I have ~/foo/bar=
+ being a symlink to ../bar, I think it would be a mistake for a beneath-only=
+ OFD to ~/foo to have =E2=80=9Cbar=E2=80=9D resolve successfully to the wron=
+g place.
+
+> Then we just
+> need to figure out things like more capabilities for directory file
+> descriptors per Andy's brainstorming thread thread (which I ought to get
+> to replying to).
+>=20
+> John
+>=20
