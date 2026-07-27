@@ -1,140 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6663783AC;
-	Mon, 27 Jul 2026 14:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC2B32F770;
+	Mon, 27 Jul 2026 14:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785162374; cv=none; b=Lza4+m3aVTHLiugYednZDxmBaSs2Fdf9x1XmeaA1M8iBM1HCoMqFKZ+/VqrczBrBrQh9Z+Mw/Dw1onasltq2MQi9Pzq+al9ToqHHYPA4Fj5Zld8A3J7uBqdjE+ZWjVgfw2Qm7SPSXamdFX/6dglgVyFqJPj4zVRnx79ydAO9w4w=
+	t=1785162490; cv=none; b=aKXIxVOP3++VBD/qe8LsK8BvMYb9GkrMzuU3r3OoeNtbm35vL+yKO0HyugJngaJQDp0kWU1xHusNPtLWcmgxVpwAWhVmj2s2TyEYO1bHv9ybDfaW20hsumjT/PsJV617t7DkSpvW42HI9OWDClxdcWE8nnTi2pve5GiILjBTbnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785162374; c=relaxed/simple;
-	bh=KAZVAAcL8p4XYdZPRd8PTDREFkoJpz6DDka1flBl/ws=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KEi6ZvF9ShAhEbNL9cqSZ2vbxTpcg2lnIsx+iltntOEYP+PSU8wbQH13SxYUyPbyc25SBJycmayGjDwsIJzm4vrDCvFh5zFRRkDUkVtf4Po6Deo1uJcGAGYjKEti622GS3e5/LiE8LOpoJV6h0LHtdP1ZTIB705Oya5pt0fZ6Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PCFTFoFB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785162490; c=relaxed/simple;
+	bh=9xzmdGThkWtwSnWIM0+es9oumG1x+anNRR8bFp2UVYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cJ2DaDuIMJFvepL3wScyeRClJIwN0Z/FMvqe53ErrukmEflh27/FPoidrd+T7ViBOaWTJYwM/SF1nWSQX3viT7ayqoOiOo1AsNjM6ppwAEkOpHlvV4/V+ubuzDvEFFHuaeu6ddEqwWrcsrBHqtVFCECWddj9QuaR+aS70mrAYHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SvKvXXRd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PCFTFoFB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D9081F00A3A;
-	Mon, 27 Jul 2026 14:26:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SvKvXXRd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 612161F000E9;
+	Mon, 27 Jul 2026 14:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785162372;
-	bh=SSYcZBFPuC4PDoWkR8v2euqsjdGGE1vamaXLhHYCmrY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PCFTFoFBLMD9idxq2HbdTAda/SlM8MutA1Intqy1oP0WrRvrjXO3eR4WCDpv0VOb8
-	 7r1iYGpdhEstIu25vsbXS0FBiNRcpHAflnWXZAMWwbAPS75aD+eNMa9ycWuXF2drvm
-	 Rzw+SIsGelKwLS6NGckfBPV55mEf9R4LinYPOLGM1A4CwHtjGRvr1cpQMD5k/7CIyZ
-	 O2aEWUkEgGqL7nMMwvLZs/lL+Uhqan4iwYUokSOFe7in16GXHl4I5b2CItB9Y3GvoK
-	 s/r8bQgnX/UZrfxpxhrpNWkDodb4N82p9c8NEPiYKQavi7i8OPjlg2jfMvkdfDPEyK
-	 WILqzK9iMFT/g==
-From: SJ Park <sj@kernel.org>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: SJ Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	Jiayuan Chen <jiayuan.chen@shopee.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm/damon/core: cover discrete System RAM areas with per-range regions
-Date: Mon, 27 Jul 2026 07:26:03 -0700
-Message-ID: <20260727142604.85548-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260727095429.143527-1-jiayuan.chen@linux.dev>
-References: 
+	s=k20260515; t=1785162489;
+	bh=ptCiNT74n2ClApn0GPmUaC404n0sknElOCX6NQwLjW0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SvKvXXRd7ea3f/0AmXK7+cSSqgTyE/JREJX+W4fmWFUoXtiNbIXyAvKkAHzNuBynu
+	 y8tLAI4uPBxubfJGOxi050VNRH9jEyJhYYoz/k7AH9BMKkcXtflVxflSBuv2aqYMqO
+	 ZbA94Ind3ewx2l8/mrvmu4ceVFUaZuddAB51Vtywt2vq7smcWeya1GMurP5nxtG6Iv
+	 2PZw6n0x6dSTblPwqlA+ax7bRVyCEHyoVnBGQJ0nnl5tlPFxKGsYyJ7RlypQMZeMXp
+	 qy4YMEoLH7MBUnSD7FtC2y/vDhgnbLf+mnkGRt8gwOuBhIju6CPBr4JvlyXK5c+Ayb
+	 IMPuxdYMaBNiw==
+Date: Mon, 27 Jul 2026 15:28:03 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"d-gole@ti.com" <d-gole@ti.com>,
+	"david@kernel.org" <david@kernel.org>,
+	Elif Topuz <Elif.Topuz@arm.com>,
+	"etienne.carriere@st.com" <etienne.carriere@st.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>,
+	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
+	Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>,
+	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
+	"subrahmanya.lingappa@oss.qualcomm.com" <subrahmanya.lingappa@oss.qualcomm.com>,
+	"usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v6 00/22] Introduce SCMI Telemetry support
+Message-ID: <20260727-bouncy-slim-badger-bad63e@sudeepholla>
+References: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
 
-Hello Jiayuan,
+Hi Fayssal,
 
-On Mon, 27 Jul 2026 17:54:22 +0800 Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
-
-> From: Jiayuan Chen <jiayuan.chen@shopee.com>
+On Mon, Jul 27, 2026 at 01:53:45PM +0000, Fayssal Benmlih wrote:
+> Hi Cristian,
 > 
-> damon_set_region_system_rams_default(), introduced by commit 70d8797c15d6
-> ("mm/damon: introduce damon_set_region_system_rams_default()"), is used by
-> DAMON_RECLAIM, DAMON_LRU_SORT and DAMON_STAT to set the default monitoring
-> target address range covering all 'System RAM' when the user does not
-> specify a range.  It walks the 'System RAM' resources but keeps only the
-> start of the first resource and the end of the last one, and then sets a
-> single monitoring region spanning that whole [first_start, last_end] range.
+> Thanks for V6. It addresses a useful subset of the V5 feedback: the
+> uninitialized feature flags, signed exponent, group bounds, bool casts,
+> SHMTI enumeration loop, scoped ioctl magic, compat support, binary-only
+> interface, ABI information, reset, and oversized mmap requests are fixed.
 > 
-> On systems whose RAM is split into discrete areas that are far apart in the
-> physical address space, that single region also covers the holes between
-> them.  For example:
-> 
->   $ sudo cat /proc/iomem | grep RAM
->   00001000-0009ffff : System RAM
->   00100000-4848c017 : System RAM
->   4848c018-48550c57 : System RAM
->   48550c58-48551017 : System RAM
->   48551018-48615c57 : System RAM
->   48615c58-48616017 : System RAM
->   48616018-486dac57 : System RAM
->   486dac58-4e563017 : System RAM
->   4e563018-4e627c57 : System RAM
->   4e627c58-4ef39017 : System RAM
->   4ef39018-4ef3f057 : System RAM
->   4ef3f058-4efe6017 : System RAM
->   4efe6018-4efec057 : System RAM
->   4efec058-50247fff : System RAM
->   50317000-56720fff : System RAM
->   56722000-59c19fff : System RAM
->   6bbfe000-6bbfefff : System RAM
->   6bc00000-777fffff : System RAM
->   100000000-1007effffff : System RAM
->   67e80000000-77e7fffffff : System RAM
-> 
-> Here the last two areas (about 1TB starting at 4GiB, and about 1.1TB
-> starting at ~6.5TB) are separated by a ~5.5TB hole, and the single-region
-> setup makes DAMON treat that entire hole as if it were memory.
-> 
-> This is harmful in a few ways.  The monitoring target regions are limited
-> by max_nr_regions, so regions that fall into the hole waste that budget and
-> leave fewer regions for the real RAM, coarsening the adaptive regions and
-> degrading the monitoring accuracy.
 
-The hole would look like not accessed.  As a result, the whole region will be a
-few regions that very cold.  That wouldn't waste the budget that much.  Do you
-have some specific setups that this cannot help?
+Appreciate your efforts in reviewing this series. But the below format
+of dumping all the review comments in one place is neither the normal
+mailing list practice nor much useful for other reviewer to follow as
+one need to map/follow these when reading corresponding code which is
+painful IMO.
 
-> In addition, DAMOS actions on the paddr
-> operations set walk such a region page by page, so a region that covers the
-> hole is walked for its entire (empty) span on every application.
+You can look at other threads on the list for reference or we even have
+an AI(sashiko) which does inline reviewing[1].
 
-That makes sense.
+It will be really helpful if you can switch to that mode for future versions
+or comments.
 
-> 
-> Set a separate monitoring region for each discrete System RAM area instead,
-> coalescing only truly adjacent (no gap in between) resources into one
-> range, so holes between the areas are excluded.  The reported *start and
-> *end still carry the overall first-start and last-end, so the user-visible
-> default range reported via the module parameters is unchanged.
+-- 
+Regards,
+Sudeep
 
-I'm concerned if this could result in having too many regions.  The gap between
-user-visible parameters and internal state is also a concern.
-
-A quick workaround would be adjusting the memory layout in BIOS, using DAMON
-sysfs interface instead, or setting the monitor_region_{start,end} to cover
-only the single area.  Have you considered such workarounds?
-
-Let's complete this high level discussion first.
-
-
-Thanks,
-SJ
-
-[...]
+[1] https://sashiko.dev/#/patchset/20260724144430.1440170-1-cristian.marussi@arm.com
