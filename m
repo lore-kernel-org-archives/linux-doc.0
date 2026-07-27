@@ -1,29 +1,29 @@
 Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DBDD1F91D6;
-	Mon, 27 Jul 2026 07:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12964908DE;
+	Mon, 27 Jul 2026 07:36:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785137798; cv=none; b=NCePq1/WaLAxK9JtNIGgOeXDUACRQVquK9OAnMOxMvg2CbyFaKnKGOsX7hi37ztP5QZe6bQ8hX4GIGxPLNBgtlPoAb52R2i2oyDaNTHI+g46DAdSEirePme5egdiBjClumjFoKy713b5OOFNf2L0a/MtbDi44K3uo4ZMBtpe5tk=
+	t=1785137804; cv=none; b=MpTQ8nObCPOp2Limq4Ffs8EQ68QB8ed2CEvoEfZn5FFGjMXnbERpnfY9AVEshnul0D+PX6YD9FUQnrljLv+ZMpbGr8yjXohTmtl5tiZf4E6w8G9lpO24xiDlbFi2aY/eK0B42OzkAJJ27sdcISJVbyb471tVZ+5StuypvNte8C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785137798; c=relaxed/simple;
-	bh=+0WN17aPVNqy2vCGAKls+iAuFzgT9aH/00wQmepVC6w=;
+	s=arc-20240116; t=1785137804; c=relaxed/simple;
+	bh=lPMQ+Hz+gCHbr+LBn2U4J3LJa3VGjc5C0EntTwXo6rs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HO1OFglrWrX8cVfPbFwjq8UBVhWkmVMaIb5ULT9+KccBPu2YsmccGPtj+5QD4+Ey3WCVsRw++n5n7EkrFA9rTL+/owe27kqjrFmf2nHdhMocPmdYfz3XPwSOAG+AouLlkA0hA42nlVNJD8/dyNXJscs3t1hqp1OPjLxJXdbHj5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=IL/qQqYm reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
+	 MIME-Version:Content-Type; b=BPweSC/ezqZLDQOKhyJG+HMrrmMjr7XDwE7p22bBbEQIx+plXgKJvzWiiL4d4OBGCZ8TLdWBTYYGU1C0gVKTMK/KioAAOOlpujBGjlf/xwT0EwbqI47D/bHy/o+v5uN2w+afCS++dBrV7f2gvhWmmQitoFVHjfKX+tC151d8SbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=RHSGVqdV reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=stu.cdut.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="IL/qQqYm"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="RHSGVqdV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=stu.cdut.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
 	Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
-	Content-Transfer-Encoding; bh=DLjdXovSvMrotbGz3BkkBSBQynvkGhG2RK
-	nOWjjL4vI=; b=IL/qQqYmRbpn9W/qEKMbcuCXoT9W5QoTkBclm5Cm44DoXru8id
-	2hHJv//W2ydoiaDwdlixnIBAD/OyMydHJ8c+aXkcoLVJ556Px8mgeoDOSUHkPSDQ
-	2s0n7lwQqGXVvvTieBNTlA35MS703HDrZ6pbgt+3tCZfTBV067k3nzFYI=
+	Content-Transfer-Encoding; bh=TFIns/QARpifNjIiquBpzDDJsIDI6Y2EYW
+	HneU+Of6c=; b=RHSGVqdVHT+3C0Vbq8zNEG2CSWpS36AepeHAQ+2TGmkckvn5AZ
+	BX+5Brsy/s91gbmYHRNkRFmT5LPcbu2fssGxmBf3iz8Tgn/+VZeDfqM2yifj6nj0
+	DJXlQ5suBRSe6a6cyKJ4uwMj72FdydSpoK810XWY2521PaBPcMhq3VmnM=
 Received: from anka-20eya00ycd (unknown [182.139.167.230])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkCGpw1lCmdqR_CFAQ--.59332S5;
-	Mon, 27 Jul 2026 15:36:25 +0800 (CST)
+	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkCGpw1lCmdqR_CFAQ--.59332S6;
+	Mon, 27 Jul 2026 15:36:31 +0800 (CST)
 From: Siwei Chen <anka@stu.cdut.edu.cn>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -34,9 +34,9 @@ Cc: wy@wyuan.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Siwei Chen <businiaoanka@anka1.top>
-Subject: [PATCH v2 3/5] docs/zh_CN: Add Softnet Driver Issues Chinese translation
-Date: Mon, 27 Jul 2026 15:35:34 +0800
-Message-ID: <20260727073538.56951-4-anka@stu.cdut.edu.cn>
+Subject: [PATCH v2 4/5] docs/zh_CN: Add ipv6 Chinese translation
+Date: Mon, 27 Jul 2026 15:35:35 +0800
+Message-ID: <20260727073538.56951-5-anka@stu.cdut.edu.cn>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
 References: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
@@ -48,204 +48,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkCGpw1lCmdqR_CFAQ--.59332S5
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw1xZry3Ar4DKr1xWryrCrg_yoW7Zw1kpF
-	9xWryfGF4kGFy2vrZ7Gry7GryUGw4xCw47GFyxJ34Fqr1DAFWrKw13Kry8KryfGryvkFWY
-	yF1IqFW8Cr10yrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUP2b7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+X-CM-TRANSID:BrQMCkCGpw1lCmdqR_CFAQ--.59332S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxAw1xJrWxXrWUXr45WrW8Crg_yoW5ZFWUpa
+	9IgFyxGa17A3Z0kFsxGF1UtF15K3WxCanrGFnrZ3ZYqrs5Ja92kw12kFyq9Fy3Kr92yFW5
+	ZrWrArWrArW0kaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPqb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
 	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUWwA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF
-	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcV
-	CY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
-	02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE
-	4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4
-	AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
-	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
-	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr
-	0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Vu
-	WPUUUUU==
-X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAgUHCWpmJHtcgQACsF
+	8067AKxVWUAVCq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28C
+	jxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI
+	8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2
+	jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0V
+	AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q6r43Mx
+	kIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw
+	0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+	c7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
+	v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x
+	07jnGYLUUUUU=
+X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAgUHCWpmJHtcgQADsE
 
 From: Siwei Chen <businiaoanka@anka1.top>
 
-Translate .../networking/driver.rst into Chinese.
+Translate .../networking/ipv6.rst into Chinese.
 
-Update the translation through commit 96fbe161e402
-("docs: networking: add guidance on what to push via extack")
+Update the translation through commit 19093313cb04
+("docs: networking: convert ipv6.txt to ReST")
 
 Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
 ---
- .../translations/zh_CN/networking/driver.rst  | 138 ++++++++++++++++++
- .../translations/zh_CN/networking/index.rst   |   2 +-
- 2 files changed, 139 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/networking/driver.rst
+ .../translations/zh_CN/networking/index.rst   |  2 +-
+ .../translations/zh_CN/networking/ipv6.rst    | 76 +++++++++++++++++++
+ 2 files changed, 77 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/networking/ipv6.rst
 
-diff --git a/Documentation/translations/zh_CN/networking/driver.rst b/Documentation/translations/zh_CN/networking/driver.rst
+diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+index 4675d23a7f28..cd768d0a2837 100644
+--- a/Documentation/translations/zh_CN/networking/index.rst
++++ b/Documentation/translations/zh_CN/networking/index.rst
+@@ -22,6 +22,7 @@
+ 
+    msg_zerocopy
+    driver
++   ipv6
+    napi
+    vxlan
+    netif-msg
+@@ -89,7 +90,6 @@ Todolist:
+ *   ip_dynaddr
+ *   ipsec
+ *   ip-sysctl
+-*   ipv6
+ *   ipvlan
+ *   ipvs-sysctl
+ *   kcm
+diff --git a/Documentation/translations/zh_CN/networking/ipv6.rst b/Documentation/translations/zh_CN/networking/ipv6.rst
 new file mode 100644
-index 000000000000..acb0863c6b0d
+index 000000000000..5246d8588cf6
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/networking/driver.rst
-@@ -0,0 +1,138 @@
++++ b/Documentation/translations/zh_CN/networking/ipv6.rst
+@@ -0,0 +1,76 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/networking/driver.rst
++:Original: Documentation/networking/ipv6.rst
 +
 +:翻译:
 +
 +	陈思为 Siwei Chen <businiaoanka@anka1.top>
 +
-+================
-+Softnet 驱动问题
-+================
++====
++IPv6
++====
 +
-+探测指南
-+========
 +
-+地址校验
-+--------
++ipv6 模块的选项在加载时以参数形式提供。
 +
-+为设备获取的任何硬件层地址都应进行校验。例如，以太网地址应使用
-+linux/etherdevice.h 中的 is_valid_ether_addr() 进行检查。
++模块选项可作为 insmod 或 modprobe 命令的命令行参数给出，但通常在
++``/etc/modules.d/*.conf`` 配置文件中，或在发行版特定的配置文件中指定。
 +
-+关闭/停止指南
-+=============
++可用的 ipv6 模块参数如下所列。若未指定某参数，则使用其默认值。
 +
-+静默
-+----
++参数如下：
 +
-+ndo_stop 例程被调用后，硬件不得再收发任何数据。所有在途报文都必须中止。
-+如有必要，应轮询或等待任何复位命令完成。
++disable
 +
-+自动关闭
-+--------
++	指定是否加载 IPv6 模块，但禁用其全部功能。当另一模块依赖于 IPv6
++	模块已加载，但又不需要任何 IPv6 地址或操作时，可使用此选项。
 +
-+若设备仍处于 UP 状态，ndo_stop 例程将由 unregister_netdevice 调用。
++	可选值及其效果如下：
 +
-+发送路径指南
-+============
++	0
++		启用 IPv6。
 +
-+提前停止队列
-+------------
++		这是默认值。
 +
-+ndo_start_xmit 方法在任何正常情况下都不得返回 NETDEV_TX_BUSY。
-+除非设备确实无法预先判断其发送功能何时会繁忙，否则返回该值被视为严重错误。
++	1
++		禁用 IPv6。
 +
-+相反，驱动必须正确地维护队列。例如，对于实现分散-聚集
-+（scatter-gather）的驱动，这意味着：
++		接口不会添加 IPv6 地址，也无法打开 IPv6 套接字。
 +
-+.. code-block:: c
++		需要重启才能启用 IPv6。
 +
-+	static u32 drv_tx_avail(struct drv_ring *dr)
-+	{
-+		u32 used = READ_ONCE(dr->prod) - READ_ONCE(dr->cons);
++autoconf
 +
-+		return dr->tx_ring_size - (used & dr->tx_ring_mask);
-+	}
++	指定是否在所有接口上启用 IPv6地址自动配置。当不希望根据路由器通告
++	（Router Advertisement）中收到的前缀自动生成地址时，可使用此选项。
 +
-+	static netdev_tx_t drv_hard_start_xmit(struct sk_buff *skb,
-+					       struct net_device *dev)
-+	{
-+		struct drv *dp = netdev_priv(dev);
-+		struct netdev_queue *txq;
-+		struct drv_ring *dr;
-+		int idx;
++	可选值及其效果如下：
 +
-+		idx = skb_get_queue_mapping(skb);
-+		dr = dp->tx_rings[idx];
-+		txq = netdev_get_tx_queue(dev, idx);
++	0
++		所有接口均禁用 IPv6 地址自动配置。
 +
-+		//...
-+		/* 这应当是极为罕见的竞争——记录下来。 */
-+		if (drv_tx_avail(dr) <= skb_shinfo(skb)->nr_frags + 1) {
-+			netif_tx_stop_queue(txq);
-+			netdev_warn(dev, "Tx Ring full when queue awake!\n");
-+			return NETDEV_TX_BUSY;
-+		}
++		仅添加 IPv6 回环地址（::1）与链路本地地址。
 +
-+		//... 将报文排队到网卡 ...
++	1
++		所有接口均启用 IPv6 地址自动配置。
 +
-+		netdev_tx_sent_queue(txq, skb->len);
++		这是默认值。
 +
-+		//... 使用 WRITE_ONCE() 更新 tx 生产者索引 ...
++disable_ipv6
 +
-+		if (!netif_txq_maybe_stop(txq, drv_tx_avail(dr),
-+					  MAX_SKB_FRAGS + 1, 2 * MAX_SKB_FRAGS))
-+			dr->stats.stopped++;
++	指定是否在所有接口上禁用 IPv6。
++	当不需要任何 IPv6 地址时，可使用此选项。
 +
-+		//...
-+		return NETDEV_TX_OK;
-+	}
++	可选值及其效果如下：
 +
-+然后在 TX 回收事件处理的末尾：
++	0
++		在所有接口上启用 IPv6。
 +
-+.. code-block:: c
++		这是默认值。
 +
-+	//... 使用 WRITE_ONCE() 更新 tx 消费者索引 ...
++	1
++		在所有接口上禁用 IPv6。
 +
-+	netif_txq_completed_wake(txq, cmpl_pkts, cmpl_bytes,
-+				 drv_tx_avail(dr), 2 * MAX_SKB_FRAGS);
-+
-+无锁队列停止/唤醒辅助宏
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/net/netdev_queues.h
-+   :doc: Lockless queue stopping / waking helpers.
-+
-+netif_txq_maybe_stop()、netif_txq_try_stop() 等标准宏已经过充分测试，
-+请优先使用它们，而非本地同步方案。
-+
-+无独占所有权
-+------------
-+
-+ndo_start_xmit 方法不得修改被克隆 SKB 的共享部分。
-+
-+及时完成
-+--------
-+
-+请谨记：一旦 ndo_start_xmit 方法返回 NETDEV_TX_OK，
-+驱动就有责任在有限的时间内释放该 SKB。
-+
-+例如，这意味着不允许你的 TX 缓解方案在没有新 TX 报文发送时，
-+让 TX 报文永远“滞留”在 TX 环中而不被回收。
-+这种错误会使等待发送缓冲区空间释放的套接字发生死锁。
-+
-+若 ndo_start_xmit 方法返回 NETDEV_TX_BUSY，
-+则不得保留对该 SKB 的任何引用，也不得尝试释放它。
-+
-+错误消息报告
-+============
-+
-+许多驱动配置接口会向驱动传递一个 Netlink 扩展 ACK（``extack``）对象
-+（直接作为参数，或作为参数结构体的成员）。驱动应尽量通过 ``extack`` 对象
-+报告大多数错误。表示系统或设备行为异常、处于不良状态的系统级异常，则应继续
-+报告到系统日志。
-+
-+消息应 **要么** 通过 ``extack`` 传递， **要么** 写入系统日志。驱动不应
-+试图将同一信息同时报告到两处。
-diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-index ae374c4cb144..4675d23a7f28 100644
---- a/Documentation/translations/zh_CN/networking/index.rst
-+++ b/Documentation/translations/zh_CN/networking/index.rst
-@@ -21,6 +21,7 @@
-    :maxdepth: 1
- 
-    msg_zerocopy
-+   driver
-    napi
-    vxlan
-    netif-msg
-@@ -76,7 +77,6 @@ Todolist:
- *   dctcp
- *   devmem
- *   dns_resolver
--*   driver
- *   eql
- *   fib_trie
- *   filter
++		接口不会添加 IPv6 地址。
 -- 
 2.53.0
 
