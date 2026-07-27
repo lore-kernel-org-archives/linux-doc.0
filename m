@@ -1,89 +1,320 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0952A3E6DD0;
-	Mon, 27 Jul 2026 08:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612FC3E7BB4;
+	Mon, 27 Jul 2026 09:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785142798; cv=none; b=c32qsdG3/0KDPhmUaJuNvRoPY/CwgRy2eAIQjpgBim25aje3sLL4BtrI+J8BBR3vbFWJIBy5pyiHwac1Mjklygi+51OYKwaN3d4nVh0Z8bEHHxgigxCtIyXjXMtWLvGS5GRiBtHX/or+l/EjuIpleuwvavSaEidbzbicqnz7L3s=
+	t=1785143023; cv=none; b=f9I6pEsAQVeRcMDntxHxy3ERQmBRrNvejv9ZXyXrwb6sttJuqbdQfTL1EseRBF9C4N0d5TWhgPbyItKdl4HA0obHii5Stw/7XaooUOe4rRgy7u/KQ8FLinE+Ad1IXo9BNToxZKZbOxYAYn2Wn4d9AVQnVlmvpTon4zdfwayaSlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785142798; c=relaxed/simple;
-	bh=XmnX3xaTMospqFBFtkSGCx4suLEYFdzEmv8vhopXmbk=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=QfVU1TSqQGMkTbQG86fOprkbrZhibrAGS7W2W85wU0ODOIzUVOeVhxE+wGXBTAWgMUKDu28CAIynJkSVIIRxR7TgxM/LShWPJbtowP5CUCYNkotVf5Buolhux7IAG9S1mqeVCtvvuzYoyGfpyCDmRTe8TBE0qqWs/8n6uuZE1Sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mKC2ruj8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785143023; c=relaxed/simple;
+	bh=bHOtjsQcPF++wuNWsjg2dYurojBxoMys+9lFkPoPZL4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
+	 MIME-Version; b=uFZv6t5gzTnZw4gZr0DAoVUK8naV1R3HZwIM1af0pTyaeSPMgEiSneTDkgxOwWc37cbR16N/ce1EhbOb8eNRE1jCg1Q9xPNsv7iSmAb+EsI1qPagBZMGXfzix6jVlGACY7QJhswQgyF90Z795RzDreszlW+14R3D5rdO1w/x6A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ckkAqvFG; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mKC2ruj8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 980AC1F000E9;
-	Mon, 27 Jul 2026 08:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785142796;
-	bh=/wwZ0jYC5didrHnlyUhU5niX1eJOA3eG9/+DW+HYdYA=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=mKC2ruj82qnFoCRXzEVa1AVYIry5m3KzSavK+fQ8krsKPBWJtoPqNQBq8TcFhEfPZ
-	 b06nPvNGZGO8hVG/byQkaVVSCfXjamLdB84wCZq5xYYtZVOEeY6rq4NlsMhzcRk8P8
-	 OAvFK0Gr7IvMGgoWepqDJwI/vtF1tS9FpbxDWRi7fmziVpfvlKLim08L2vCfR1RqSn
-	 HrqdzUaL2GaOi9Wb/UEO9mpq+/Sp/RF1x10SbDkc6Mk8kEwpkqjuBgBF8zFaEWa7GC
-	 KDTYBxCJAihHM54KGFcLCCg+tIzQj1LHA3kezIfVcnBDxlmw33decJ/ZyeOACZjhho
-	 d1nCO72l5XClA==
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ckkAqvFG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
+	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:References;
+	bh=k+/4KOmOA7VtFq/TiMbhB175pzSrBzo6kcC+E7alf9o=; b=ckkAqvFGVRko/dNosnZSV0zeiQ
+	EAS1SH9QN7zuSTRiXIjgk5NxCV+5KPKYeYjhFiBnAvxDK4BoKZnj74QqpGZfIuAySTW1fIyfSmJ2m
+	hsR1FxqnIPhI+XwJVloIBkbgwRPzwIDyBARNv2lGg8rQ4D7+BmC9iXbJBuAwxHogNSys2paVx9zN8
+	L1JEXLIiHBeOOdV37ThlhvAefCvZxDrn4JTpjoziT6XK8WS7a1Rj2gOi4SKLIXxHS/OoNNOp7zige
+	Z8qJLXThk/IZhFL1Qqx9N4uW74Bq/8I6uqgMmCmc2R0JNV0DhriHh1W0MM+Odln1zPNqZZZig1mQg
+	9gFTZLRQ==;
+Received: from [2001:8b0:10b:5:45df:678b:e980:5dcd] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woHFB-0000000AKjN-36Ng;
+	Mon, 27 Jul 2026 09:03:29 +0000
+Message-ID: <1a5c0883140d470657b2cba24b964f5ce71b9a15.camel@infradead.org>
+Subject: Re: [PATCH v5 net-next 1/7] ptp: Add ioctls for PHC timestamps with
+ quality attributes
+From: David Woodhouse <dwmw2@infradead.org>
+To: Arthur Kiyanovski <akiyano@amazon.com>, David Miller
+ <davem@davemloft.net>,  Jakub Kicinski	 <kuba@kernel.org>,
+ netdev@vger.kernel.org
+Cc: Arthur Kiyanovski <akiyano@amazon.com>, Richard Cochran	
+ <richardcochran@gmail.com>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+	 <pabeni@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Miroslav
+ Lichvar	 <mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Wen Gu
+	 <guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Yonatan
+ Sarna <ysarna@amazon.com>, Zorik Machulsky <zorik@amazon.com>, Alexander
+ Matushevsky	 <matua@amazon.com>, Saeed Bshara <saeedb@amazon.com>, Matt
+ Wilson <msw@amazon.com>,  Anthony Liguori <aliguori@amazon.com>, Nafea
+ Bshara <nafea@amazon.com>, Evgeny Schmeilin <evgenys@amazon.com>,  Netanel
+ Belgazal <netanel@amazon.com>, Ali Saidi <alisaidi@amazon.com>, Benjamin
+ Herrenschmidt <benh@amazon.com>,  Noam Dagan <ndagan@amazon.com>, David
+ Arinzon <darinzon@amazon.com>, Evgeny Ostrovsky	 <evostrov@amazon.com>,
+ Ofir Tabachnik <ofirt@amazon.com>, Amit Bernstein	 <amitbern@amazon.com>,
+ linux-kselftest@vger.kernel.org, 	linux-doc@vger.kernel.org,
+ shuah@kernel.org, Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Bjorn Helgaas
+	 <bhelgaas@google.com>, vadim.fedorenko@linux.dev
+Date: Mon, 27 Jul 2026 10:03:28 +0100
+In-Reply-To: <20260717065924.2556-2-akiyano@amazon.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-4ZOm4MuXTXxbqLdjYgq3"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: John Ericson <mail@johnericson.me>, Andy Lutomirski <luto@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, 
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jann Horn <jannh@google.com>, 
- linux-api <linux-api@vger.kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, 
- Kees Cook <kees@kernel.org>, Farid Zakaria <farid.m.zakaria@gmail.com>, 
- Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- linux-doc <linux-doc@vger.kernel.org>
-In-Reply-To: <CALCETrVSKnT=wo8j+3bUBjcizEEWcg_a7WtfK_erLDGRqp3f-g@mail.gmail.com>
-References: <09b4735f-c04e-40f3-a7f5-254b7918fbfd@app.fastmail.com>
- <ABB3CF80-5F05-4279-8E0F-73A21E6B9DDA@amacapital.net>
- <CALCETrVSKnT=wo8j+3bUBjcizEEWcg_a7WtfK_erLDGRqp3f-g@mail.gmail.com>
-Date: Mon, 27 Jul 2026 10:59:51 +0200
-Message-Id: <20260727-nasen-gezweifelt-weitverbreitet-d6c0d9f5d28b@brauner>
-X-Mailer: b4 0.16-dev-09492
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1662; i=brauner@kernel.org;
- h=from:subject:message-id; bh=XmnX3xaTMospqFBFtkSGCx4suLEYFdzEmv8vhopXmbk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSly3Gmm8z4n9s8YaHgMnnWYL55Zn93/MjxmmYhEOek2
- bts5RuBjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInsmsbwP8z00bcTO9hLWN5/
- KKtf2/Vr56UlG9dyvDnc885tx+ZNHYyMDHs9J5crrvVKvCTfaXncYU/7iiPOB1e3qnH1mJeltv6
- R4gIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On 2026-07-27 00:57 -0700, Andy Lutomirski wrote:
-> > On Jul 27, 2026, at 9:43 AM, Andy Lutomirski <luto@amacapital.net> wrote:
-> >
-> > ﻿
-> >>
-> >> goes along way to getting Capsicum's "capability mode".
-> >
-> > One thing I dislike about this is that it’s (approximately) a task mode. Why should an fd representing a capability represent one capability (a subtree) to one task but a different capability (dotdot) in a different task?  Do we need to prevent unsharing a userns if this bit is set?   Do we want to have to worry about any task that could potentially SCM_RIGHTS and fd to a task without that bit set? I prefer beneathness being an OFD property.
-> 
-> Sigh, I keep thinking and typing OFD, and that won’t magically make it
-> be correct.  All these privilege restrictions applied to a file or
-> path reference need to follow every user-controllable reference around
-> correctly.  So if I fchdir or fchroot to a restricted OFD, my cwd or
-> root needs to preserve those restrictions, and reopening "/" or "." or
-> any other path (via root or cwd or openat etc) needs to respect the
-> restrictions as well.  Putting it in struct path may or may not be a
-> good idea.
 
-I think making struct path carry more meaning than it does right now
-will cause us endless amounts of subtle issues. I fear that change very
-very much. That will have such a fundamental ripple effect across _all_
-corners of the codebase that I'm very unwilling to be led down that
-road. And I think Al had traditionally similar reservations as me. One
-of the really thorny issues with the O_PATH upgrade masks was precisely
-the struct path modification.
+--=-4ZOm4MuXTXxbqLdjYgq3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, 2026-07-17 at 06:59 +0000, Arthur Kiyanovski wrote:
+> Introduce two new ioctls that extend existing PTP timestamp interfaces
+> with clock quality information:
+>
+> - PTP_SYS_OFFSET_EXTENDED_ATTRS: Extends PTP_SYS_OFFSET_EXTENDED
+> - PTP_SYS_OFFSET_PRECISE_ATTRS: Extends PTP_SYS_OFFSET_PRECISE
+>
+> These ioctls provide quality attributes alongside timestamps:
+>
+> 1. error_bound: Maximum deviation from true time (nanoseconds), based
+>    on device's internal clock state
+> 2. clock_status: Synchronization state (unknown, initializing,
+>    synchronized, free-running, unreliable)
+> 3. timescale: Time reference (TAI, UTC, etc.)
+> 4. counter_value: Raw system counter (e.g. TSC ticks) captured by the
+>    timekeeping core alongside each system timestamp
+> 5. counter_id: Identifies the counter source (e.g. TSC, ARM arch counter)
+>
+> This supports three use cases:
+>
+> 1. Managed PHC devices (e.g., ENA, vmclock) that maintain their own
+>    synchronization and can report quality metrics directly to userspace
+>    without requiring ptp4l
+>
+> 2. Applications that need complete time quality information in a single
+>    call, regardless of how the PHC is synchronized
+>
+> 3. VMMs that need raw system counter values paired
+>    with PTP timestamps for feed-forward clock calibration, avoiding the
+>    feedback loop inherent in NTP-style synchronization
+>
+> Timescale definitions use a Continuity/Discipline framework to describe
+> timeline properties and steering behavior consistently across all
+> entries.
+>
+> This implementation is based on the original RFC and the UAPI design
+> discussion linked below.
+>
+> Link: https://lore.kernel.org/netdev/20250724115657.150-1-darinzon@amazon=
+.com/
+> Link: https://lore.kernel.org/all/87se7ht25o.ffs@tglx/
+> Signed-off-by: Amit Bernstein <amitbern@amazon.com>
+> Signed-off-by: Arthur Kiyanovski <akiyano@amazon.com>
+
+...
+
+> +static long ptp_sys_offset_extended_attrs(struct ptp_clock *ptp, void __=
+user *arg)
+> +{
+> +	struct ptp_sys_offset_attrs *data __free(kfree) =3D NULL;
+> +	struct ptp_attrs_request request;
+> +	struct ptp_system_timestamp sts;
+> +	unsigned int n_samples;
+> +	int err;
+> +
+> +	if (copy_from_user(&request, arg, sizeof(request)))
+> +		return -EFAULT;
+> +
+> +	if (request.valid ||
+> +	    request.num_samples > PTP_MAX_SAMPLES ||
+> +	    request.num_samples =3D=3D 0)
+> +		return -EINVAL;
+> +
+> +	err =3D ptp_validate_sys_offset_clockid(request.clock_id);
+> +	if (err)
+> +		return err;
+> +
+> +	n_samples =3D request.num_samples;
+> +	sts.clockid =3D request.clock_id;
+> +
+> +	data =3D kzalloc(struct_size(data, timestamps, n_samples), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->request.num_samples =3D n_samples;
+> +
+> +	for (unsigned int i =3D 0; i < n_samples; i++) {
+> +		struct ptp_clock_attrs att =3D {};
+> +		struct timespec64 ts;
+> +
+> +		if (ptp->info->gettimexattrs64)
+> +			err =3D ptp->info->gettimexattrs64(ptp->info, &ts,
+> +							 &sts, &att);
+> +		else if (ptp->info->gettimex64)
+> +			err =3D ptp->info->gettimex64(ptp->info, &ts, &sts);
+> +		else
+> +			return -EOPNOTSUPP;
+> +
+> +		if (err)
+> +			return err;
+> +
+> +		/* Filter out disabled or unavailable clocks */
+> +		if (!sts.pre_sts.valid || !sts.post_sts.valid)
+> +			return -EINVAL;
+> +
+> +		data->timestamps[i].pre_systime.sys_time =3D
+> +			ktime_to_ns(sts.pre_sts.systime);
+> +		data->timestamps[i].pre_systime.sys_rawtime =3D
+> +			ktime_to_ns(sts.pre_sts.monoraw);
+> +		data->timestamps[i].pre_systime.sys_counter =3D
+> +			sts.pre_sts.cycles;
+
+I hate all this line wrapping, btw. I'll defer to the net coding style
+if they insist, but my preference would just be just to have longer
+lines. Especially when it's a block of assignments like this, the
+wrapped form is *much* harder to read.
+
+> +		data->timestamps[i].pre_systime.sys_counter_id =3D
+> +			sts.pre_sts.cs_id;
+
+You added PTP_COUNTER_* constants as we discussed=C2=B9... but didn't you
+forget to *map* to them here?
+
+=C2=B9 https://lore.kernel.org/all/877boqtg3g.ffs@tglx/
+
+
+Arguably, if the timestamps have a hw_csid then you should be returning
+that in place of the main one which will be kvmclock or hyperv
+nonsense. You can do that here for extended_attrs but precise_attrs
+will need a bit more work (as system_device_crosststamp doesn't have
+the hw_* fields). I won't randomise you further by asking you to handle
+that though. I'll do it in a follow-up.
+
+You can either map KVMCLOCK to unknown or give it a
+PTP_COUNTER_KVMCLOCK if you prefer. I suggest the former, as nobody who
+cares about time should be using kvmclock. And it means my promised
+follow-up will be providing counter data which previously wasn't
+provided, rather than *changing* what's provided.
+
+--=-4ZOm4MuXTXxbqLdjYgq3
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+NDA5NlNIQTM4NDIwMjRDQTEuY3J0MA0GCSqGSIb3DQEBCwUAA4ICAQChxpuuHVw93mze9jmueUFV
+BJNzvOzZlazrt0AiW1H7TlYQutgKVXPNSEyz8s4k+WsRSjjlQMOiZerfwPEV6lo9336I0uNd+ffc
+Rf8gbjiPTiVT+gX9GD1V5AguRgtsJn/H3A6M0dlzhI3J1jsOG9/+xPloHPzy7sPn5rNkntB/VTnv
+Bix4IfUy3ScOu2vnLX0gnwP3EknfdEUvq9+kdkEEBDz7dGqQo3EuhXZoW9CHF2GM0sOpO/cuNQh2
+JzA+to3smTES7sJXYuRrt5GomCRYvtIrRiYGMalFp+z6Jw/843lEIIpNNvpWVfx5Mbawkl+wWG8k
+0IK3rF7FtbNa0it8/s288G/AEHvfsDIQYFmRLlo2LNMxxREkZO/1Qq8GHUsX/602Fi0u88I3uh5w
+bOEIeG32NzBKTKBOjdjpiUrdCA676dyaIFt967CUtnUvFti8bqGA2pe/u7pjIANthqMBAlcnY5B6
+ff2mbdD8BBLItgb4HyUOCVawzy1hc+UR2tglySwYroWeohfoG6afjesGigsl2JmnhaZ9Z0vanF74
+vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
+9ALHQXda/c4TJvAylfHQ6wqArzAuV1pfWldwy7IOBMtKqzQBXQ4dSDGCBCAwggQcAgEBMHYwYjEL
+MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
+c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
+MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yNjA3MjcwOTAzMjhaMC8GCSqGSIb3DQEJBDEiBCBe2jU5VOSAzQeCDTetMSPXJwKku0nk
+JCAmkcsBiDspgjCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
+SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
+CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
+c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
+DQYJKoZIhvcNAQEBBQAEggIAl8xvFBVgxNrGppk35aN2xAh84KsoFq3HRQG+QYRqPcgKm6h8UCZl
+y1S/k+WTUj08GIOUKtqIIMqa++g0T9wuZZn9SAaoZzXzBiqTmULNzoGroXLQQCOEMbBUvGbAfkoq
+QhMMW0reqt0SxOxrK4zqhr56EnZ+Xk+k5vGsWP7XKX488pC80eYu9C/Y4QuydI9gdS/f8yhS+f8l
+dLhcIvntz93mxzlHeoR+jBRirUENDPCjgjmxGpdedhVqqqv7R2bk2vyO6cPuTk+fDze4QuhnLA8v
+cytVx1rhUDm2P0eUTrlEleqn92hF4Sdzg9udl/Gcxx9/48yDiZqFMjAgkhCPM1X0HaWNbh1pMNU/
+5zZLs5D2vCTi98kDPKSm6jzBKgFh7fFjUA4WqQPplvaMhCUT44IvXbZAePq9GrQ4ZRczSyv7pUhU
+uFj2K4qJZ4//P0JjtrEtBdIPoalH5iBPjmadF2KTsam59A7Dg3/pcLdFh4PjgS6Z50mxBzwM2v8n
+uHdKzLoCi046mARJQWFredlQdkVUFhV+uKIByF/3FW7IQuotfWK1mWKh2xVibpDO8g96vIsx2nL1
+cGZgtB6ZKIS8C1HBU6Z3CLeU/Q+Rhgc3veRqAasfow+f+A5OZATS6avXnbGxrUgXCE0PXYOjL0i8
+IQxuOauqcwubreVmQg0kAVoAAAAAAAA=
+
+
+--=-4ZOm4MuXTXxbqLdjYgq3--
