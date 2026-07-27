@@ -1,353 +1,196 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010005.outbound.protection.outlook.com [52.101.56.5])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131123D525B;
-	Mon, 27 Jul 2026 20:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785183440; cv=fail; b=rlYPKrP0bZJs6DUFVssidrShyWMUvzrMR6n8pEoZk/38Y1M6aePKc+C4mwWkzRHysE2AxTj6qQPmfBXwoHxkehGdA4Ha1g+GhoThH4sXmEZjv6RoUaM2KDpgIcw5c8h2pzb5nPEDUQjdeTS0uG8StszqiVhzcffah2FzWkoVGIM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785183440; c=relaxed/simple;
-	bh=iRnc2vSH/esJR6QVQAQZZ9gvn956vLv/mutshJ4uzHI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ULJVFfTEfE/zthwDuvWcN3rP8xkunoVPoJjXLC3J4CpNiVn6oDxGFjreAEDq4fu4ZJptWdfS3NifvMZRHCqLmP5NmsJbHSnG9hdSTH3s9lHIc5woqgb+pCIavehsrMZ28BBkGl9nf82JgGxekoN1mZAPB+Os0Fza8+6EaJfNm4I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tID0WI6J; arc=fail smtp.client-ip=52.101.56.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03913E47B
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 20:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785184122; cv=none; b=fJ3VXwqT6+jUbadDDY7RhdjgXiKEXebM040rve8m0k0UYKdAPp6t3A/5Gh01AI3BQlk9sgyvVB1D7WQWttDg3oX/BdZHxLXNpFJTvEvS9RSLBHCc7zjPxORWQknLhd1NjUsDqyWXDjB1VMFhEnt8wr9K5iCqBEuNOGbf55nwo2o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785184122; c=relaxed/simple;
+	bh=iXWnCvVZ87ZhxeHXve8z6eGPTqXNBUtx57uGAyUBYaE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vuq4a8pSapFix+2Svde3QUFdpYIlOOmW6UHtC63O9sYI8Dt2toM/JNYsqodzp/oo0sFjkwVPZjjQ2y0873ONjWq4VQNidSDc0wHWPKVJrQSaLGE0jKyoevkTKEYHKDsmWXSSC/47Pfs0guwvC9Rzkd+9sSKlOdWgkov0aOQa5W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lQgu4Lr0; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cKUeNf5M; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tID0WI6J"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WfD2q28l6B3ih2YhwEqLaGB2xyc/6xhXy3vs7V5o3TaA+dcgbJexAwk4leiObOYSBcx8hNPVo4SYrehxaeYOjgufVHOXUn5f6N0Bj2kLEGQZP72yfSedupE/mQsRNUUDlbU5W1gW6Axv1eJbDz3p/IHEnYMJon/al0FyVpUKUHTWe9i/43siRVo0HoZY082sjx4X46UjaICi64UdI/hqot5PgGaZj6DwNnkXfA0dHrHxoQeLGSBAOc6CCjIBm4V3gIiowumA+m3/pAEkBcIZAlUUn+NsOnYxVcGRvMpUaOiLAwB//Bl2lOp3etMMbYRmM0gYfrGcT86//3nbzGbz2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3YOLHzt/We0XnU7lOvH8DmAZcMhLRFy4Z24QKU/ZVkk=;
- b=ZL2JRs6HoQ5JiOEiUjkBR0keF3RwQ1sFMOMXoSotVgrnGH1fgVJJot5xThZGNv8qYyVLSK5ANv9jM5TRe4AC999y5l38NuOFP42wdsbsKAJZjhUZ5PAUNynrWqFMwGKgvzFTG85bvJ3v8xExcvJxVmWdqM0YTpyoHHrfpDXeVJNp5It+nrF66ZQBqhz+5hqew4Qyb8TDf8SvrjlDFOgNxO5l0uVMVKKbL4rHIDViu5ikQL4R/u3KX2zyMAkRS7jLZYYP4zw458hQODnH7cadqbMyHeaZsuqMOHV9bx8MOsfsYqJWC5zhCpszfQiMZm6V30NR0kJrVuMsuUvdgcgILQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3YOLHzt/We0XnU7lOvH8DmAZcMhLRFy4Z24QKU/ZVkk=;
- b=tID0WI6JrosHguKbVLL+jDfzd0PpnMQf/As/FtkmPZy4S48kU3Kh/O5uEUMEwj8HsnFny9CbJ8UFDFA806iOlB2Q/TpjNpBmoxakGUYGZltSdMVQwAQwfS5UJ3I7FG4DJS/wzmVKZSqaA3zF0vKMJqKwUXFRPXG3h+xVZ2ZzBzk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by SA1PR12MB6773.namprd12.prod.outlook.com (2603:10b6:806:258::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
- 2026 20:17:14 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
- 20:17:14 +0000
-Message-ID: <5a8815ce-487c-4ec3-8c38-d9b3c067302f@amd.com>
-Date: Mon, 27 Jul 2026 15:17:12 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Borislav Petkov <bp@alien8.de>
-Cc: "Moger, Babu" <bmoger@amd.com>, tony.luck@intel.com, x86@kernel.org,
- Dave.Martin@arm.com, james.morse@arm.com, corbet@lwn.net,
- skhan@linuxfoundation.org, tglx@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, eranian@google.com, peternewman@google.com
-References: <b0dc49dc-ac35-457b-90c6-842a3cfcf8e1@amd.com>
- <f3fd774d-0662-4094-90b6-f0c5a4bc5d26@intel.com>
- <78996219-a8de-4dc3-90ee-db4c19e0d66a@amd.com>
- <dbbe2eac-bb0a-4655-9d0e-6e8feb702717@intel.com>
- <e77ef79c-5241-4f7c-b0af-dde6f131600a@amd.com>
- <bd739e7e-7a86-4291-9c08-f2c72bc2dc3e@intel.com>
- <48fef38f-8e2a-45e3-bb60-f293a1d60be8@amd.com>
- <c1979f4f-eabc-4d71-a711-ab465b9d9c1e@intel.com>
- <20260724231239.GAamPxZ2IZiFYRmAfg@fat_crate.local>
- <911ccf29-e152-4bf1-9773-04680bbe9638@intel.com>
- <20260727140539.GAamdls0q_W0zUmhqw@fat_crate.local>
- <119188c4-1127-4155-9a05-dff47e25be85@intel.com>
- <7469f2ae-10ed-4b30-a8c3-9d786c99c746@amd.com>
- <d2c4e17c-2aa3-43a6-980f-ab4bac769852@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <d2c4e17c-2aa3-43a6-980f-ab4bac769852@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR03CA0006.namprd03.prod.outlook.com
- (2603:10b6:806:20::11) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lQgu4Lr0";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cKUeNf5M"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RIC6FQ245810
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 20:28:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dfnDuv+8RUeh/cKuM0y6F6+wWcdFDiaIhkznAKbe9dw=; b=lQgu4Lr0xnH06IRI
+	8zn/Xfh2RSw6Y2xrKOK/boi9q03xKJDIMEu4BiJQW9kFn0BHicPZICCusB+Gu/Ua
+	zblKX42Ds9JlYXKQxDxpmTzHmcSfDb6wdfmZgo0YWTq21mS23Lx5y5Vf7HHxqeVx
+	c9tCCKnn8OQ2cmAJTQS4OYxhJyEPZZy3g6NVWZl5cY3tjpzqya7b199Bygab10Cj
+	7/FI5S2eCF0SziDa1c1qykRbWn3PeLig5PF1+lhdws9QifCOPwJxrBIoG85tJtYU
+	L5zVjtiSmajiwhbtstdcX0M/UXqenVnUEHtOOpu4qpjjboZANFpXImTNySUeVZs/
+	FeaHHA==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fp4nbtxda-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 20:28:38 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c9fe4c5eb39so2096195a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 13:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785184118; x=1785788918; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dfnDuv+8RUeh/cKuM0y6F6+wWcdFDiaIhkznAKbe9dw=;
+        b=cKUeNf5MjYufietstw1tWulbv+10NjknhYNO3pcg7QsQobMgcm6bzh5/NEBkrcjsz6
+         71uBlB9Y15nU/m+TFtKrxh8gUN+pCU81e6bICBBXqbPmNUgQMD2ra+woqt+TnSA0dnRz
+         35KLYcRE48C79EmbS6BHd3ubzFMJj5Ubg7GwmUJrro7DCe9iv+OUfnEK1D39Z4ATm4HP
+         VbBSynyC5k7MuYG3/+9cHiNNuS92Ppuk2tvonxsumcmKSjk+rbrxww2eKehg64XgHD4t
+         CvI+/4zfquhupckodGAwLi8FQCU+qzGgm7J9AEWfqcxPpYayTFCFMHsHpLKj2F/LK6eA
+         /Lpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785184118; x=1785788918;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dfnDuv+8RUeh/cKuM0y6F6+wWcdFDiaIhkznAKbe9dw=;
+        b=RoeVp8g1HLHuJHS7Alh4wx/hIugeKg2scz/Xbr9wGkex9LQ9zV+Wvkk5KtkhKYlShP
+         8BVAtrlPFiqpdu7GVX+MUaytW6eUYPYkQUa0RHlz0K7yKV1zx9OfOofzPzDCNU5I4yOu
+         VCudMb4PnYIHYCs+aSOQ4DPfEI42ZtwIc3xE/H0meQ820gtgRFDqH5VEIid5nNwBCjnZ
+         PYMQkneDznrVYpKTDOGLMCK9jtSRjjYuOUsQh+dmChN+g90g74e5uafYyOMhloLsdULP
+         UOX3s2BBiKWOsUEiLTwu12issVGZAQkzEZaFZjlyo5f2oB68AvPRpN2IPVFADxV+jxJ5
+         HrYQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpqYfGWwlPsTvJa6b53Ap8YO+tDuwvVUJ9LHM8tyuN4MC+TLRtSDWl2ZFlv5BH/v3BbZOorHApQvxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6aJUb1heMBRHQ+I6av0NdzMXr0J8zKbzlHYuQx9A8FrVBpTNj
+	F8lCs7AZsg6DdJaXXqf9+dEjQ47F8QFC64nhaMM/sDEiQM3yTR0XuybKovg5lZT78vTyDmIzV2Z
+	Ov83MNstcKT+BdN9xFiTc7qfo8eUX2XKp4xKjTRqApAFkyxrNAo1tBmvq2eQ54XY=
+X-Gm-Gg: AR+sD135V2OmQXV5hItEofFKdI0GA45cZqlrXkA1CC+4SiVZfrwvZ1WFVai3ucJ/aTI
+	DPMHnW3ewo9PXUKkcz+lanag9d8dMDAW0E45lef0UCJc4TSNccrEWuUSINMFdW8NHaaBr881iNP
+	XYRZQxgg7+8n55EDHzAmwDg/ZZ0b73lvQKTsXiucq29MN7Z/btOkzLHTj3OXgVZjzBw4juWpRMc
+	OGofxOeA2rGcA5TZG6h9K5kynAo7Cpsp97zvvRRgULlX6LfZcqXGADn7494LF1f5X3Zfq23LSHO
+	KljmhjTjliB9ULV8Jg0OpBJjG6u+UhhPWqDqjEQ9vk5zeE0VXCkpk6lHZNfzBwEc8ldU7bZbkDj
+	Bi0E6ktER0+tDFsxWTXl9jrSKjX+yNinfvXMkDXJaVvh91QrOX7QwO/SuFQ==
+X-Received: by 2002:a05:6a20:6a21:b0:3b4:e4f6:4f15 with SMTP id adf61e73a8af0-3c6c7b3d0a0mr1108962637.5.1785184117712;
+        Mon, 27 Jul 2026 13:28:37 -0700 (PDT)
+X-Received: by 2002:a05:6a20:6a21:b0:3b4:e4f6:4f15 with SMTP id adf61e73a8af0-3c6c7b3d0a0mr1108941637.5.1785184117159;
+        Mon, 27 Jul 2026 13:28:37 -0700 (PDT)
+Received: from [192.168.1.11] (15.sub-75-218-246.myvzw.com. [75.218.246.15])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc415eafsm35949179eec.7.2026.07.27.13.28.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2026 13:28:36 -0700 (PDT)
+Message-ID: <477e6f55-d6d7-4a30-af28-dcee185cfbc2@oss.qualcomm.com>
+Date: Mon, 27 Jul 2026 13:28:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|SA1PR12MB6773:EE_
-X-MS-Office365-Filtering-Correlation-Id: fcb2063e-6b3e-4dca-4f8f-08deec1c0c25
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|13003099007|6133799003|56012099006|11063799006|5023799004|4143699003|10067099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	jdU4GnDIydIW5C4aG/nEndJfPOUY5Zt+N/AqQ9qJyox/W+YJ6XJWR9mBTqn22I3v8gW88AAXSkA78G8iOjR/85hmST1+hGvKaXsfGj/0hbQQ02VJkUGNTa401GrNhwLi1Xfo6hW6ujb+EsZZ1r4c+4WVUNd7QdkvTBz5oN2zEyedTCv12fQN98ND6UBvIllBsA2o5EREDs03fJilu6KD6pIC/KQwspwPrWXXR1Duj2V5gwrsFS7SpQn+dlHXqfs6n12mdg5th7Gv+bsqDoT7De7fJLh/uIdkELDcWE99vbjSbQVJZNiCoi6dq8u87Q6YjamWodBEwKmLVe4QwOtE73xT5jTo4D6ZuagzrTRoAw12EFt6hJ+2k0AhXbkAASR7a2e83Exk1ML7RZN5hRaQY8kAKzRKHCxGlWie5NeQoKFO1rmaQdo1xHtNZBMQrZRyIpgyWzWJ6PEt61DmqgSPPDXa0E9Jdo8/Z/eR8LFvEFAU+RQrZQdhIdHwmOOeq09Vai+GBKL14SJzeMhaliMVskoZb5/rZSU0f4r1LqDXfGb8B65xRyYXjqC8quCu8sU90SxPuJErhCOheXeHyjTy+QSasZVoym6TjLQX5ezhMx245o07o/qpeAQ2mLeXi9dsaGdEQJ2//o1GZWRE2glixG0+gVJpXH1VOX40IXXKVtk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(13003099007)(6133799003)(56012099006)(11063799006)(5023799004)(4143699003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R0dQeGlFaWVnRlZYTnNLQmkrbXFBaXJrMjNuVjJrT1ZBUWQ5U2pxQUpvR2o1?=
- =?utf-8?B?QlZQZm1ENWtBcjBkbnNacmhKeHp2NXZpamJiNjZUclFXdnUxaisxQkhkd1Rx?=
- =?utf-8?B?Ym1PRkxZQzNROC9kd0ZRc1hYdHFzQ1Z5QjFGcDhjOUp0ZTBRV1dlbFlITWYr?=
- =?utf-8?B?Q1JSeXEwajEzWDV3M1dYV3NLYzY1ajhUOFlDNE1NcHV3UlNOMUo3YTcwbkhv?=
- =?utf-8?B?M0NGSDdiaFE1VzFFc21JcndJNEc3akdMQnZiWE9JUXgxbmxFMHhIQU1hQi9j?=
- =?utf-8?B?NGwydXVpZzFCK0FIQmZUbHFBcEdWQ0R4eUR2bFdaQnh0RHhVVlZGYzB1TDhv?=
- =?utf-8?B?MHM0NXhYRU1KbEZ6UzBMbkpScDlWVHl1ODR5dG4xeXVxYlcyeFhJeGgxNlFP?=
- =?utf-8?B?di8vNnF4ZFlLSENYL29zQ3d1TnlqT0FoSDNkd1BORmRpZy8zZVA1NnN4a2dH?=
- =?utf-8?B?NXpXbFU5UmloUnRaRDZveElxTVB5aWNBSStRUGlHdGhHT2Q3bEswb1pCN2c3?=
- =?utf-8?B?UG56UWZFenZ4T243d0pDcitzbVlpRlh6d1U5clE2V2d1dGx4bEVYVlpHRnhR?=
- =?utf-8?B?WG15aGh5cnJnR3ZTbUt5ekRvbk1Rdkx2VTVEYzlSRjc3R2RMUW5JS1Y5S2NX?=
- =?utf-8?B?aGExM3VGcHArS1drQnlJSm5uRXdxdWVBaStNb2NSSmJGZHRLMHZScDY0K2dP?=
- =?utf-8?B?eFZIYUNJNy9pRjh3SjNIaE1KMDBlZmhzRkZyRlN3T0RaQnlUSHBtMCtPakhT?=
- =?utf-8?B?V29KZy9ZT0JPazdKa3RmcWZUcm9LNEZEdU82ZmVYREpDL0IxaWNzMUdLaldr?=
- =?utf-8?B?aU9aaERLcVJ1Q3lKdlhqbnhadDhZQVdIcyt6RVBUZnJvS01vdXBEQ0pCK294?=
- =?utf-8?B?eG9MMXRKb2Y2RXFuNFZKUXNwMDBnbWRZSVFHYmNCcU1kWlZFL3I5bXdkWGt0?=
- =?utf-8?B?cS9CQ2trN2JkaG53VjJEaWpabGd4dFFZNXBycCs2VnJsMElob3phYWwvRHRE?=
- =?utf-8?B?bkRkVHhFNkp3MHhDOW85VGg2cVA0OEk2N3lwbWxnQmdSNDYwZXhvN3Q2L2pO?=
- =?utf-8?B?QkNKdzRmaTRXRE9hbkYrME5RQm1oT0p2SjQyM0M4OTdJKzljSW1BK3VXeUpj?=
- =?utf-8?B?NG0yTE5vdlNpbWlNbndTYkUxSS9HSldUVGhFL2ZXYnAxaHZYb1JNL1JLQzdy?=
- =?utf-8?B?ZDVTWmM0L000d3hiVHY4SytBNTJHVGtJazJ2RVptOEZRU0E3cWwzM0VMaVJD?=
- =?utf-8?B?enp2Z3lvY0R3NlRBV1RWSDdpSGpoa0JEbHhLZHk1NXBqSGVRamlGdDhyQ2d3?=
- =?utf-8?B?YjF4NFh0QUdzazcyaGl4c0pya1J1WW1mRTNuWlJTbml2VFJlc08vekRIdG5k?=
- =?utf-8?B?VXRLbHJnalYwSnNUQldZbHlwY2JVbGtYY2J3cEYyZzVHMWRtM1NpK0xqaHFY?=
- =?utf-8?B?U3gyRGovTDNmRlNiY25YN3p4RzRuZVc2L3hyUFpWSHdDa1lIekZ0cEdxYUto?=
- =?utf-8?B?azJFcnhTbTlyUnJ4c1FwTjE3YmRNOHJZdWdudDkvRUROOVhRVTl2NVZlL3FP?=
- =?utf-8?B?N1BBNVBTd01RRXQxd3VqU0h6SmhhQms3bUc5dUpXcUlWQ1pjeDZmTTg3VHNt?=
- =?utf-8?B?Y2pTMVNyVlNsdkVhcDc5WDI4NEJXTnNkbzRkNENyNWRvcGJhVUxqWE5NaGoy?=
- =?utf-8?B?dXhqbG9ZQU5XMkZGUDVTM2VrdXBBNWY4MTRGN2ZkUGc5dDhYK3ZlaHkyL1BK?=
- =?utf-8?B?ZEJLQjZZbm5XMHJ6aG9VcmhKWEhCdDZWU29XOTJtWWNPdXhoUFJiZWpJMWVG?=
- =?utf-8?B?ZDRuLzRFck04OVR5UzlvdG9IT0U0V084bkprVVMrL2FyZWRTYXY5a2FDQ2pr?=
- =?utf-8?B?YjZIM1Rxa0F5TDZTR1d1eENweXhHZWhZZjlldVoxOFN4VlVuU0NycHZMMkli?=
- =?utf-8?B?SkthL252ZWpvNzYxUWRlQ2p5VnF4WS9qVWhMMmVnUXBQakV2ai9IVnY0OXZQ?=
- =?utf-8?B?SW9EY0JWdmU1d1Ryeklob1d1OUk3Y1dYUEU1S2FORHRoOEoxTG9FcHZKU0gw?=
- =?utf-8?B?WVZCZ3YwRFhyZWRIRjVReE5CVGxySUk2N0pYZit2SFh6Y1lyWldjdGxZRDNZ?=
- =?utf-8?B?dUhsbS8zaHlldDdHMW1kbXh3aXdsMHoycGFxUFhOT3lTTVdEam52em5yWFZX?=
- =?utf-8?B?L29hMjZJUytsS0o0eHFzemNkSjR0TDR4TTJSODh2dVR6MWJZZzI5Skw2VlYw?=
- =?utf-8?B?RGpvc0IvN0c1a3FCSFNySkk2eDJUY3N4RU5lcjlkNHZ0ZXdFOXBkdXhtQkZG?=
- =?utf-8?Q?6W3OJhSZwXZpaDCEHJ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fcb2063e-6b3e-4dca-4f8f-08deec1c0c25
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 20:17:14.1899
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wk0Wcp5YXqI4B6QwZ2eEmgZ9NHEvvVp3iodBZlyZqMPTLcEoSSGgi4PB/uu62lP1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6773
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] power: sequencing: rename pwrseq_power_on/off() to
+ pwrseq_vote_on/off()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Marcel Holtmann
+ <marcel@holtmann.org>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Alessio Belle <alessio.belle@imgtec.com>,
+        Luigi Santivetti <luigi.santivetti@imgtec.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Chen-Yu Tsai <wens@kernel.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, imagination@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-wireless@vger.kernel.org,
+        ath10k@lists.infradead.org, linux-pci@vger.kernel.org
+References: <20260727-pwrseq-vote-rename-v1-1-a2029aeeac65@oss.qualcomm.com>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20260727-pwrseq-vote-rename-v1-1-a2029aeeac65@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: K8lV0XE9Fjp6ZOWl9ypUw_BkvYRYYvj8
+X-Authority-Analysis: v=2.4 cv=cJjQdFeN c=1 sm=1 tr=0 ts=6a67bf76 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=6VQYfvmiyQ8t40WkS/mQdw==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=u4B4c_klvyXDgThYlB4A:9
+ a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDE4MyBTYWx0ZWRfXz7J0RjNlF2/v
+ e09vugHY7otVKCIsbbVeK/6Al3WrQOF3EVITCOBL3ngw0J4busZuaIrUeQ3j2vOq0bMyg7lgNHa
+ 6ky3K1Bp8Kwa8ndF0ZUdxs8QBCF9/qQ=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDE4MyBTYWx0ZWRfX/aJORAhsH3hn
+ l79de7Px5CUSRQt9qi9w4XmcGk/LdI08QbHRJhmC/rF63mFdWLq61oFCs8+h7iIe9M8kmMo1HGK
+ pqnMA6UfL5Sye9ARaqB1zv2CspwPXKnBSd4E3XMIaldRbSvf7edmY1F/y9cxWSWuQn37K8VvWqT
+ sKJNGviMYdYhUyLE7FN4LYHTazTYuOAkzg+FHpCejjk9wW+xVeGyzmLSOFnzBWpwTeUwhD2sDAy
+ tmgcgrkdSFbHUHTg5W5vyOJCwjnh2Gx6nETR5umEm8zun68L7mxeZ4crVdKsNei1E6e1sYCC6Bk
+ eionJz4j+awJ1up5X0wgvhAXgMNvoYtOPMoX2uCTswnI72fb1E0LawqGVMuloYjfiDJzMsO4GWI
+ JspVsni/cNogHX/YxypcwTbUWrBxSFCvKX1wcC0skrYRfLBJJlLvI5werlx6/4mZU7sBQ41YV9G
+ 698h/lqzKHNwf+lXKWA==
+X-Proofpoint-GUID: K8lV0XE9Fjp6ZOWl9ypUw_BkvYRYYvj8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-27_05,2026-07-27_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 spamscore=0 adultscore=0 suspectscore=0
+ clxscore=1011 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607270183
 
-Hi Reinette,
-
-On 7/27/26 13:12, Reinette Chatre wrote:
-> Hi Babu,
+On 7/27/2026 2:57 AM, Bartosz Golaszewski wrote:
+> The way power sequencing works means that a call to pwrseq_power_on()
+> does not necessarily result in the pwrseq target being powered-on at
+> that time: it may have already been powered on before. Similarly: a call
+> to pwrseq_power_off() does not have to result in an actual powering off
+> of resources: there may still be other users that requested a power-on
+> before.
 > 
-> On 7/27/26 10:24 AM, Babu Moger wrote:
->> On 7/27/26 10:25, Reinette Chatre wrote:
->>> On 7/27/26 7:05 AM, Borislav Petkov wrote:
->>>> On Fri, Jul 24, 2026 at 04:53:26PM -0700, Reinette Chatre wrote:
->>>>> One clarification here is that as I understand there has not yet been
->>>>> an actual user complaint. At least not that the pqos utility mentioned in
->>>>> this thread is aware of. Instead I struggle with the speculation about possible
->>>>> user complaints with different interpretations on how this change could be
->>>>> perceived by users.
->>>>
->>>> Sure, but don't you think that it is enough that we know about it?
->>>
->>> Only if we are sure that we have the complete picture. I do not believe we do, yet.
->>
->> We already have an issue open for this, and it is fairly
->> straightforward to reproduce. Please let me know if there is
->> anything specific you would like me to try.
+> We will also introduce the concept of "non-controllable" pwrseq targets
+> soon which further increases the disconnect between the naming
+> convention and the actual semantics.
 > 
-> Just to be clear, when you refer to issue it means that pqos is returning zero for
-> unassigned counters?
-
-Yes.
-
+> What consumers of pwrseq descriptors actually do is: they *vote* for a
+> powering on of a given target or retract that vote. These operations
+> could be called get/put in line with runtime PM but this could become
+> confusing since we already provide pwrseq_get/put() for a different
+> purpose.
 > 
-> Is this issue public? I am not seeing any related issues in
-> https://github.com/intel/intel-cmt-cat/issues
-
-Opened one:
-[1] https://github.com/intel/intel-cmt-cat/issues/311
-
-
+> Change the name of the two functions to pwrseq_vote_on/off() which
+> better reflects their purpose and semantics. No functional change
+> intended.
 > 
->>   >
->>> I connected with the friendly pqos folks on this issue. They subsequently did an audit of
->>> the tool to understand how it may behave under the different scenarios. They found that
->>> the tool currently parses text return values ("Unavailable", "Unassigned") as zero.
->>> This could cause incorrect behavior. (more below)
->>>
->>>>
->>>> I mean, the pqos tool shows 0.0 in the MBL/MBR columns now.
->>>>
->>>> And is the
->>>>
->>>>     pqos -m all:[0-191]
->>>>
->>>> invocation not something people would usually run?
->>>
->>> ABMC enabled (mode claimed to be incompatible with pqos)
->>> --------------------------------------------------------
->>> This example is from Babu's email that highlights that when ABMC is enabled this returns
->>> zero as bandwidth from pqos perspective. This matches the pqos audit that found with text return
->>> states, like the "Unassigned" happening underneath the output above, the return value is zero. When
->>> the counters are not assigned then the events will always return "Unassigned" (until reassigned)
->>> so having it return zero all the time may not cause issues. Once reassigned the event value
->>> will always return a valid value (no text return values).
->>>
->>> ABMC disabled (mode claimed to be compatible with pqos)
->>> -------------------------------------------------------
->>> Without ABMC there are scenarios when events may return "Unavailable". These scenarios vary
->>> based on how many monitor groups are created and the workloads run. I am not able to test this
->>> but when I attempt to combine what I know about AMD bandwidth monitoring with the results from
->>> the pqos audit I am concerned that there may be a problem.
->>>
->>> Consider a scenario where an event may return "Unavailable", for example:
->>>
->>> <return A>, <return "Unavailable">, <return B (larger than A)>, <return "Unavailable">, ...
->>>
->>> pqos will see:
->>> A, 0, B, 0, ...
->>>
->>> The "pqos -m" usage attempts to determine the bandwidth rate and, for example, when going from
->>> "A" to "0" it will be considered counter wraparound that would appear as a very large and
->>> wrong bandwidth number.
->>
->> Yes. Agree.  This is known issue.
+> If at any point users need to know *when* the exact power event happens,
+> we can provide that information in the form of a notifier.
 > 
-> Has this been reported? I do not recognize it in https://github.com/intel/intel-cmt-cat/issues
-> and the pqos folks I spoke with was not aware of this behavior.
-
-I was not able to recreate this issue. I just opened for the one I have 
-seen [1].
-
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+> I've floated the idea to rename the two pwrseq functions from "power
+> on/off" to "vote on/off". Here's a concrete proposal.
 > 
->>> Question to Babu
->>> ----------------
->>> Do you perhaps have a test/workloads that, under "default" counter assignment mode, can create
->>> many monitor groups (more than 64) and cause "Unavailable" to be returned frequently? Would it
->>> be possible to put pqos through its paces in this environment?
->>
->> Yes, I tried to reproduce the "Unavailable" issue with the pqos tool.
->>
->> So far, I have not been able to observe the issue. I created 64
->> monitoring groups, ran MLC, and simultaneously executed pqos.
+> I'm sending it as an RFC but if there's agreement, I can queue it as is.
 > 
-> If I understand correctly 64 monitor groups will still have enough underlying hardware counters
-> and always return event counts, never return "Unavailable". It is when the number of
-> monitor groups are 65 or more that the hardware counters will start to be re-assigned, no?
-
-Yes. I created 64 monitoring groups and then ran pqos, which creates an 
-additional 15 monitoring groups.
-
-
+> I'm doing it in a single commit that should go through the pwrseq tree
+> with Acks from subsystem maintainers.
 > 
-> Even so, I do not know if 65 would easily trigger the issue ... sounds like it is possible to create
-> many more (4096) monitor groups on these systems so there appears to be some room to make it easier to
-> create scenario where "Unavailable" is returned.
-> 
-> On a higher level: could you please run the test that can expose pqos to environment where it will
-> encounter "Unavailable" and observe how that is handled?
+> [1] https://lore.kernel.org/all/CAMRc=Mefxn81d0VUwmQgwFtffkL1=Er_1VQZCbC1Sa-Qph4t1w@mail.gmail.com/
+> ---
+>  Documentation/driver-api/pwrseq.rst      |  4 ++--
+>  drivers/bluetooth/hci_qca.c              |  4 ++--
+>  drivers/gpu/drm/imagination/pvr_power.c  |  4 ++--
+>  drivers/net/wireless/ath/ath10k/snoc.c   |  6 +++---
 
-I was able to reproduce the condition where the hardware reports 
-"Unavailable" for some of the MBM counters.
+I approve of the concept but am not tied to any specific naming.
+So whatever names you end up with...
 
-#cat /sys/fs/resctrl/mon_groups/dir*/mon_data/mon_L3_00/mbm_*
-Unavailable
-Unavailable
-Unavailable
-Unavailable
-Unavailable
-Unavailable
-
-However, the pqos tool continues to operate normally and reports valid 
-bandwidth values:
-#sudo pqos -m all:[0-191]
-
-     CORE         IPC      MISSES     LLC[KB]   MBL[MB/s]   MBR[MB/s]
-    0-191        2.55      55146k     74496.0        20.0        61.4
-
-> 
->>
->> The issue has not reproduced in any of my tests so far.
-> 
-> I'm confused. It reads like the issue that you mention earlier is a known issue cannot be
-> reproduced.
-
-I meant that the pqos tool continued to work as expected even after I 
-recreated the condition that caused the hardware to report "Unavailable".
-
-
-> 
->> This might require specific test scenario to recreate.
-> 
-> Right.
-> 
->>> Of course, "AMBC disabled" scenario also includes AMD systems before ABMC was introduced. I do
->>> not know why the issue with "Unavailable" handling (text returns in general) has not been reported
->>> until now. I assume the pqos team may do most testing on Intel systems that do not return text.
->>> ...
-> 
->>>>> The patch notes mention that this change is planned to be reverted at some
->>>>> point in the future and I have not heard of any changes to this plan.
->>>>
->>>> Where does it say that? I don't see that aspect.
->>>
->>> For convenience, copy of patch notes from original commit [1] is below:
->>>
->>>      There are plans to enable "mbm_event" by default once additional counters
->>>      are available. For now, keep the default mode to maintain compatibility
->>>      with existing tools.
->>
->>
->> I added the text below in the comments section (after ---).
->>
->> On second thought, that was probably my mistake, and I don't think I
->> should have added it. I also don't see this happening anytime soon.
-> 
-> ok.
-> 
->>
->> Considering all of this, I believe it would make sense to make the
->> "default" mode the preferred mode.
-> The original problem statement is that pqos is not able to handle "Unassigned" return values
-> that will be encountered when "assignable counter mode" is enabled.
-> 
-> The request is to disable "assignable counter mode" by default to address the problem
-> when handling "Unassigned" counters.
-> 
-> Disabling "assignable counter mode" will under certain circumstances cause "Unavailable" to
-> be returned on event read.
-> 
-> At this time there seems to be a mismatch in understanding how pqos can handle
-> "Unavailable" return values. For me to sign off on this patch I would like to fully understand
-> the risk doing so. Could you please confirm from your side that pqos can handle all scenarios of
-> the mode that you request to be the default mode?
-> 
-
-I created the maximum number of monitoring groups supported by the 
-system and was able to reproduce the condition where the hardware 
-reports "Unavailable". Even under those conditions, the pqos tool 
-appeared to function correctly and continued to report valid results.
-
-It's worth keeping in mind that ABMC mode is not available on the 
-majority of hardware currently accessible to public.
-
-Furthermore, default mode has been the longstanding behavior in deployed 
-systems. Moving back to the default mode is therefore not a new change, 
-but a return to the behavior that users are already familiar with.
-
-Thanks,
-Babu
+Acked-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com> # ath10k
 
