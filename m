@@ -1,66 +1,66 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BCE38331C
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 14:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B333740B0ED
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 14:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785163261; cv=none; b=hKtHPdwirYnTgssuOGFgSk0XWQLAacGRDaQKpJ68B1eYda/0NvbeUu27y6wegquEtz8XVGZ1XsaucbeukpF1tPflPhYAmxKshmr2OYu9W0Mqr3jljbSCEQGGl9+RKHw4MMVV5xeFX8ws9ohhznLfvck1e2wXr917QRL0Fm956Ts=
+	t=1785163309; cv=none; b=pUNI40VRNGHTi776nRMzaWId7StSfuW4gURymLDUmGqzefEiehPZ93Nj7OLCB24QVlQHhGAGCnLthYBjiCLb+pH6m7HZbT/EDNA+kNKHHd5QlKcbKnIb6GPUqosaVf8k5kA+hNERAlynabgsrAi0fQDLnNZb+mE9lFQHjwyHrTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785163261; c=relaxed/simple;
-	bh=wvl91n51wxypXJmL8HGPrJwxT9qd4auGeVKT3kaht5I=;
+	s=arc-20240116; t=1785163309; c=relaxed/simple;
+	bh=t6w1Im2DkuyzdMCE+ASzKdfVWcpCqbCUNEi+RElOGho=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T888a1nIlqVLgYqstrm1Z3HqMqKQjIgPKwcCBxMHbpI2PGJjUdB47MtgDRkjpUy2O6aVVYmRnUAufQTKevjhormGEkQAjY3wSTH6CAn/xjEcLBtBxqoJVbV06CAupdvVl0oCNRtEXQIUmBDkfncT76iV0GdyhH8YhuvO3CNGVTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R06I3Xey; arc=none smtp.client-ip=209.85.215.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=VW8q0nCx1uL2WLvWSmQOrp5VkkPeqA2oGG6pZL6rN/zw/bq8OMPzZanw2oe9/zi+RB0NxNFWvg53IG4GDb936Kv5Wl0jlufLAgA2iA95HpGVPAfPH8WEXNJJLSyAvgElREgbrxLj40LlPtX/5OIzJrY5Sk55W7pcyclpZjJSJ/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q5F2L6/A; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R06I3Xey"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-ca97d139d8dso1572657a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 07:40:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q5F2L6/A"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-caf707e3a70so2479560a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 07:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785163259; x=1785768059; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785163298; x=1785768098; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=xx+STKr/dBmKeham5t3qgpvsDfEAeS22wxKe0J4lUsM=;
-        b=R06I3XeybnRKdn5YJF5l2zDGt/su7CVUFbsTYUV1270yxxqPqC9b2ODeH5YsdCWQJU
-         N7vAAbkGzCQCAbPs4Rg0L3cCtkvsAgWzl6hh1tIf8M0XnodcOtBoAFlaR2xlnFzEA8kD
-         U7VjQF4MeTmRzARkfCdRXkR6zZQx8I/j1qxt4Ym6lw1C/kd8ARD5zPrVsR16Bq7TuP5j
-         6hnHmeOZowCBgYQ+WMcX1FfReuYyKqGwetKYNEbFq8ryYnE2ncYmhtk7P5vmofLypsqz
-         o561ckb6tZa7C0AlHnLD1kXKoMK4doy7adyX2NMbJWQoELbsMrvTucxisUi7a5e/D+8v
-         +7aA==
+        bh=Ho62qmc8k6xuRrfZ2CNtaVu4pSIvsJ17TU2OHfivqGo=;
+        b=q5F2L6/AJpLZgEfyFsdtxAZMGyzP8on10GYdDW8kFSoMtiwZuKZLeP9pHNBpdMU2Qa
+         SCqDQcmfu+CspaUIrdvFzEobHwIuDDuMxy8Y4/9KUQUWSJvw+FnB3T3S7uoe1lvCYcVE
+         Eyr508+82v8myGS33jvkxwvDDz3fiB+mtAlZ+iO2nkEIzVoBXN9ysbOtc2IhkqrcHet0
+         OfgXQyNTLdLS3W6zDBP86iMavCHwAi5fbQexHnnNdaMi37eN9QX2Bm5HRQ6Bpq/OEwdI
+         VfLkR3omfhKhXae+6f/KH/Ec8eRKLT5+7gZe9r7z/I3G7nDV6eCdC4hvkdYu6Oq7++vS
+         dJVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785163259; x=1785768059;
+        d=1e100.net; s=20251104; t=1785163298; x=1785768098;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xx+STKr/dBmKeham5t3qgpvsDfEAeS22wxKe0J4lUsM=;
-        b=q5ihS7pbpCnErpo2B6n95D2Pl2ksX13hyX8QnGZIxnDQuI9FtAHwO0W/ws9DwjWi4M
-         3CRWWYpOngBiVU6yM/cxuekxJ5gPf62rmAT75yo2+S/L2tbVO9pBarOzJQeqTOUxBsFt
-         kzekuoSAy/2fzS/0/ZFHBfbVrKlu2vL6UiaFavGzw+de6YB4Ikvs46WaxrkdI7b/7fBP
-         C+tvrBgGpBoASYv6Sl0JfyLlhLd6lagXp8fg3Au4ulGe70cCpEugTcuFN9TUj/wh6BlY
-         mwdu/1UBh6cwr3HvcepBetNSVcdcL+nFn+2PoynfigFQPBcg791KQAv8YqlpfdTyTfjl
-         mOkA==
-X-Forwarded-Encrypted: i=1; AHgh+RriPBWodD47LVOQGCC/05YPl0t1nZaenfX0LP8JQDhE1aIg/XexJX01wkDTqwPyLRnvBktbQdvosZg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy30GbsxtuOgkXoAMI26lO/azinPK2tBPxAIT/beeednu7HVN4x
-	dnFxGD65A+E6Ybn6o5lKt3wbwnfXyrExi5pw/J7NCi6WsyIppx9yOiJ3
-X-Gm-Gg: AR+sD10wcxt2hwgyUm7v92Hebi4bH1v0rECaXp+bUR3sDA46P0XM7/x8pkPtKpNN03c
-	4pDY8m8b4irnLDCv0HfYiqeLpf5qW5Eq8XrGO/S7w3sB5GR+EiCG6SlVR9JpYP5OG4teVMFs+72
-	rLWW/TR2IaDpVZipVdPhhtBbbm27GRIUssYvJIV3CRqPioINA8bfVMfH/3ylXVoD7cIsUzWhLdZ
-	FdINFeJEYRcUsU9mZZ/GNLdJCoLqmxOnLJgzzk4cmG/2YtjCxHlW3Cr0MZSnlesO4hsf8ATnKAG
-	7R3I9D9ac+wTvPyFYa0w7/RVNpGMHq6ECpQp1On/TPPrpB46vPi2xdpWC1dub3m82lkVh4u/DZy
-	u2Pn8h5FIqvRsqZw2K+Zao/3iiY4jflINC7GZdpUQf/FfTnZr2ulDesUkbDDB+rygzNmVIvx697
-	CE3/SlZI9e955UlxU=
-X-Received: by 2002:a05:6a21:d8a:b0:3c4:5f94:f22c with SMTP id adf61e73a8af0-3c67df2078fmr8871424637.43.1785163259133;
-        Mon, 27 Jul 2026 07:40:59 -0700 (PDT)
+        bh=Ho62qmc8k6xuRrfZ2CNtaVu4pSIvsJ17TU2OHfivqGo=;
+        b=PMuEMlPLWZp7MtXPMAoVAC0dwaVfgab3Sa+KkgiIxYQnVUMGCBKKoSBvewyOBkTLOw
+         9alIFQJQfT69IuE5vHYCYJ90D7s9Yw71m82zC0nfcn1rMEkvxtdyljBksMTbGeS8ybxY
+         4p2yRODDhf2I5+IQG74UMbIwoQlZJHtW0OmV/ugbmvioThUKXMymKsoic45UepYD9mGS
+         IxGcayzZ8ZWwpGiKVR7iIuHY7MFdGAgspdgKrMHQFViiP7kWXCnJXCAIKGm1B4rNzxXi
+         OUI+dPUVVbyYZNOvjle64oyTuI/GEymb1Tid4DeSV0T8ah9RMZcWT+J/+bverSTRbv8t
+         q8jQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrNjC7wDQWlWccG6Q1tB/TFqOWSgLlmIO/dK/X8ejjWU1R235CQujrxOLmxx3POLx3hhfSzsxc1dz8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGgZHlt4RNpAaEAvQe8SHy9OU/x9CXY2320AUxC1RRwPf42RvO
+	majnYfp/RpeRvgBW69kjnEG+kv+0e6zIeSLbJzjX38hKFwpreSevoQEQ
+X-Gm-Gg: AR+sD1378cmn5dkWztgrrPLWm+X/99oscU38tIWvM8q67EDSGCdmI8GuBsEw739J9V+
+	wzmhKx8BwqJiWyYIyrWZRZ6rRCzzuBRQLM/GmIbKR3ywfhzEyPkjebGtD1z16weI1vNBEBazZym
+	cKDh8vB9cpAPM5/nM5dE5SzNEdXGeVvQtJ6rZSbXFJvVbnvyrTrajNaVs7soBaexLlhhQ/3ZGa/
+	qthMZZfY5QM9Pq3f32ZG3TkAU9tid25A7p//T49b5/KEa5G1RHLjU7DBWfOIHNoUY+CiA4NaJQe
+	WT3VfH+WexDvHxZZGAuzdd5dthUsLssQJHDD3uXzkS/vW+hcdJZE3t+AlTddwAxFl95FKzWwP70
+	TzP7lC85gaPcTVzbEkgP8fu9Xcstru79nRtlm3nmY6eNFjpyL4QASMsFKrdGKX/zZbE9ggPIIr4
+	VgEW4xP458PulcBdg=
+X-Received: by 2002:a05:6a21:4e01:b0:3b4:6af4:bdd5 with SMTP id adf61e73a8af0-3c67240d4c1mr10310593637.15.1785163298516;
+        Mon, 27 Jul 2026 07:41:38 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc3e127asm53995972eec.2.2026.07.27.07.40.57
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc288a79sm32928271eec.0.2026.07.27.07.41.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 07:40:58 -0700 (PDT)
+        Mon, 27 Jul 2026 07:41:37 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 27 Jul 2026 07:40:57 -0700
+Date: Mon, 27 Jul 2026 07:41:37 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Andy Chung <Andy.Chung@amd.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -69,10 +69,11 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] dt-bindings: trivial-devices: Add Kandou KB9002
-Message-ID: <62e18422-771c-45aa-b464-3fa34ec1ee22@roeck-us.net>
+Subject: Re: [PATCH v5 3/4] hwmon: (kb9002) Add driver for Kandou KB9002
+ retimer
+Message-ID: <9151a4d1-a23e-4247-8583-03a1e8976a1c@roeck-us.net>
 References: <20260724-kb9002-upstream-v5-0-9523c3ffe83a@amd.com>
- <20260724-kb9002-upstream-v5-2-9523c3ffe83a@amd.com>
+ <20260724-kb9002-upstream-v5-3-9523c3ffe83a@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,17 +82,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260724-kb9002-upstream-v5-2-9523c3ffe83a@amd.com>
+In-Reply-To: <20260724-kb9002-upstream-v5-3-9523c3ffe83a@amd.com>
 
-On Fri, Jul 24, 2026 at 12:47:38PM +0800, Andy Chung wrote:
+On Fri, Jul 24, 2026 at 12:47:39PM +0800, Andy Chung wrote:
 > From: Andy Chung <Andy.Chung@amd.com>
 > 
-> The Kandou KB9002 is an 8-lane PCIe 5.0 retimer exposing an SMBus target
-> that reports an aggregated die temperature. It needs no device-specific
-> device tree properties beyond its address, so add it to trivial-devices.
+> The Kandou KB9002 is an 8-lane PCIe 5.0 retimer that exposes an SMBus
+> target with mandatory PEC. Add a hwmon driver reporting the firmware
+> aggregated maximum die temperature as temp1_input, with the firmware
+> version and boot status under debugfs.
 > 
 > Signed-off-by: Andy Chung <Andy.Chung@amd.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Applied.
 
