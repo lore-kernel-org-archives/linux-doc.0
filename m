@@ -1,114 +1,140 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A132EF67A;
-	Mon, 27 Jul 2026 14:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6663783AC;
+	Mon, 27 Jul 2026 14:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785161182; cv=none; b=g8mdlYEL/1kYNkxSFtJ4WakxFabJ1uBv/wqBNAFAkiOeWDCd/UO75P2ujjCkO1Pgzehpm3o7+Qg6Ks88ASPKNQPrG6mCr/72uWdnoKvGTdWGtZra1Rzcu9W0WoWaRsE2sS8UBdWJRtXDbLSICgmZTiWdiqafHmAupxcAa9rN6+E=
+	t=1785162374; cv=none; b=Lza4+m3aVTHLiugYednZDxmBaSs2Fdf9x1XmeaA1M8iBM1HCoMqFKZ+/VqrczBrBrQh9Z+Mw/Dw1onasltq2MQi9Pzq+al9ToqHHYPA4Fj5Zld8A3J7uBqdjE+ZWjVgfw2Qm7SPSXamdFX/6dglgVyFqJPj4zVRnx79ydAO9w4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785161182; c=relaxed/simple;
-	bh=CRXeQohyU7dRaoUsy7LILdKw30/Du1LIXmEpvSNoKqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BmkD5JtloU0iFsg3cW7ObGJ91V6NO0S5eT6MbQ/J9EQMAomODMAX9b57jQCCAUtZo0LgRMScu6iPVYfzd4ue/nqj75SIWtXbjgs6gpmhhYDrde6bswLJJRmpRJC+1JUFaYYZgNuarcZwbZtPZwdpIEuF40VEWA2iLFHsoBvfEJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=eBzHFdJx; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1785162374; c=relaxed/simple;
+	bh=KAZVAAcL8p4XYdZPRd8PTDREFkoJpz6DDka1flBl/ws=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KEi6ZvF9ShAhEbNL9cqSZ2vbxTpcg2lnIsx+iltntOEYP+PSU8wbQH13SxYUyPbyc25SBJycmayGjDwsIJzm4vrDCvFh5zFRRkDUkVtf4Po6Deo1uJcGAGYjKEti622GS3e5/LiE8LOpoJV6h0LHtdP1ZTIB705Oya5pt0fZ6Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PCFTFoFB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="eBzHFdJx"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5F09640E01CE;
-	Mon, 27 Jul 2026 14:06:10 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id jkDSBNXsJ8eO; Mon, 27 Jul 2026 14:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785161160; bh=sxycnYVl2D6HmHpVlRvxJEle0oxndrlE61rQEeoCsBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eBzHFdJxlykavcM/rOIJYKpZXK6aNJQHvL/Di0r0TTc4/JuL1mOxzZX2UlO9HgvEM
-	 h5bb0b63tLopxWeVJifCdv7u2rJXWzK+QNR8cbUYGhj9mpybXBYzQ/GPKKac5i3oxT
-	 c5XXNqUADy5cnhQ1bwhgKRcYiuHSY4oKz+roGGUZuEmBYIoRB7/+aoiglDbBqQKizg
-	 JfXKhoVc6wBVPERoJYzoobKNyNsrrYjURBC5nt8EeRqTubEXrlYGDMvEE1tt5xe8Lq
-	 lSTLhuZpP6fAvx8IqTZ+LGPPwGBhxK8OpQHT4jTeBfNkM04kBEOxoFFrDuTJTHifpI
-	 z6hrnV6vc0zV/YQtyiIwCe9IAFiCWfrWH4l3KWJE5nuaZ3OUgMfREYJfCizFzMzzTR
-	 0MIfHjYFlBe3tMwvsSTXCHJcfQaW+g53jle8Ioz9KHCVwVKSkUXYAAKEWhRddq3TgP
-	 pjtAvnxKOF+r3THJZXL7hytDQ8lVGqYp3xr+7rySPs8aN0An2OWIRWv5paZvFhUo/O
-	 QU1514KzcvF8k7EhNiu+v/r3nX9MzCqcKyePAMksEqH1RBGCMQeqh/HP96XO5ln3js
-	 /v6EoC9jkrqJfd9wqffMKRyFKxqIw9kGzOwLp0jO7rMqJ0mYvgXTTv/WVMAJe5Nf/0
-	 nxirudKe1jjac2WlJnnEHKCk=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 595C640E00B8;
-	Mon, 27 Jul 2026 14:05:42 +0000 (UTC)
-Date: Mon, 27 Jul 2026 07:05:39 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
-	tony.luck@intel.com, x86@kernel.org, Dave.Martin@arm.com,
-	james.morse@arm.com, corbet@lwn.net, skhan@linuxfoundation.org,
-	tglx@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com,
-	hpa@zytor.com, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, eranian@google.com,
-	peternewman@google.com
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-Message-ID: <20260727140539.GAamdls0q_W0zUmhqw@fat_crate.local>
-References: <b0dc49dc-ac35-457b-90c6-842a3cfcf8e1@amd.com>
- <f3fd774d-0662-4094-90b6-f0c5a4bc5d26@intel.com>
- <78996219-a8de-4dc3-90ee-db4c19e0d66a@amd.com>
- <dbbe2eac-bb0a-4655-9d0e-6e8feb702717@intel.com>
- <e77ef79c-5241-4f7c-b0af-dde6f131600a@amd.com>
- <bd739e7e-7a86-4291-9c08-f2c72bc2dc3e@intel.com>
- <48fef38f-8e2a-45e3-bb60-f293a1d60be8@amd.com>
- <c1979f4f-eabc-4d71-a711-ab465b9d9c1e@intel.com>
- <20260724231239.GAamPxZ2IZiFYRmAfg@fat_crate.local>
- <911ccf29-e152-4bf1-9773-04680bbe9638@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PCFTFoFB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D9081F00A3A;
+	Mon, 27 Jul 2026 14:26:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785162372;
+	bh=SSYcZBFPuC4PDoWkR8v2euqsjdGGE1vamaXLhHYCmrY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=PCFTFoFBLMD9idxq2HbdTAda/SlM8MutA1Intqy1oP0WrRvrjXO3eR4WCDpv0VOb8
+	 7r1iYGpdhEstIu25vsbXS0FBiNRcpHAflnWXZAMWwbAPS75aD+eNMa9ycWuXF2drvm
+	 Rzw+SIsGelKwLS6NGckfBPV55mEf9R4LinYPOLGM1A4CwHtjGRvr1cpQMD5k/7CIyZ
+	 O2aEWUkEgGqL7nMMwvLZs/lL+Uhqan4iwYUokSOFe7in16GXHl4I5b2CItB9Y3GvoK
+	 s/r8bQgnX/UZrfxpxhrpNWkDodb4N82p9c8NEPiYKQavi7i8OPjlg2jfMvkdfDPEyK
+	 WILqzK9iMFT/g==
+From: SJ Park <sj@kernel.org>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: SJ Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	Jiayuan Chen <jiayuan.chen@shopee.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm/damon/core: cover discrete System RAM areas with per-range regions
+Date: Mon, 27 Jul 2026 07:26:03 -0700
+Message-ID: <20260727142604.85548-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260727095429.143527-1-jiayuan.chen@linux.dev>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <911ccf29-e152-4bf1-9773-04680bbe9638@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 24, 2026 at 04:53:26PM -0700, Reinette Chatre wrote:
-> One clarification here is that as I understand there has not yet been
-> an actual user complaint. At least not that the pqos utility mentioned in
-> this thread is aware of. Instead I struggle with the speculation about possible
-> user complaints with different interpretations on how this change could be
-> perceived by users. 
+Hello Jiayuan,
 
-Sure, but don't you think that it is enough that we know about it?
+On Mon, 27 Jul 2026 17:54:22 +0800 Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
 
-I mean, the pqos tool shows 0.0 in the MBL/MBR columns now.
+> From: Jiayuan Chen <jiayuan.chen@shopee.com>
+> 
+> damon_set_region_system_rams_default(), introduced by commit 70d8797c15d6
+> ("mm/damon: introduce damon_set_region_system_rams_default()"), is used by
+> DAMON_RECLAIM, DAMON_LRU_SORT and DAMON_STAT to set the default monitoring
+> target address range covering all 'System RAM' when the user does not
+> specify a range.  It walks the 'System RAM' resources but keeps only the
+> start of the first resource and the end of the last one, and then sets a
+> single monitoring region spanning that whole [first_start, last_end] range.
+> 
+> On systems whose RAM is split into discrete areas that are far apart in the
+> physical address space, that single region also covers the holes between
+> them.  For example:
+> 
+>   $ sudo cat /proc/iomem | grep RAM
+>   00001000-0009ffff : System RAM
+>   00100000-4848c017 : System RAM
+>   4848c018-48550c57 : System RAM
+>   48550c58-48551017 : System RAM
+>   48551018-48615c57 : System RAM
+>   48615c58-48616017 : System RAM
+>   48616018-486dac57 : System RAM
+>   486dac58-4e563017 : System RAM
+>   4e563018-4e627c57 : System RAM
+>   4e627c58-4ef39017 : System RAM
+>   4ef39018-4ef3f057 : System RAM
+>   4ef3f058-4efe6017 : System RAM
+>   4efe6018-4efec057 : System RAM
+>   4efec058-50247fff : System RAM
+>   50317000-56720fff : System RAM
+>   56722000-59c19fff : System RAM
+>   6bbfe000-6bbfefff : System RAM
+>   6bc00000-777fffff : System RAM
+>   100000000-1007effffff : System RAM
+>   67e80000000-77e7fffffff : System RAM
+> 
+> Here the last two areas (about 1TB starting at 4GiB, and about 1.1TB
+> starting at ~6.5TB) are separated by a ~5.5TB hole, and the single-region
+> setup makes DAMON treat that entire hole as if it were memory.
+> 
+> This is harmful in a few ways.  The monitoring target regions are limited
+> by max_nr_regions, so regions that fall into the hole waste that budget and
+> leave fewer regions for the real RAM, coarsening the adaptive regions and
+> degrading the monitoring accuracy.
 
-And is the 
+The hole would look like not accessed.  As a result, the whole region will be a
+few regions that very cold.  That wouldn't waste the budget that much.  Do you
+have some specific setups that this cannot help?
 
-  pqos -m all:[0-191]
+> In addition, DAMOS actions on the paddr
+> operations set walk such a region page by page, so a region that covers the
+> hole is walked for its entire (empty) span on every application.
 
-invocation not something people would usually run?
+That makes sense.
 
-> When considering a change like this, should it be a stable candidate to
-> help reduce the number of kernels with different behaviors?
+> 
+> Set a separate monitoring region for each discrete System RAM area instead,
+> coalescing only truly adjacent (no gap in between) resources into one
+> range, so holes between the areas are excluded.  The reported *start and
+> *end still carry the overall first-start and last-end, so the user-visible
+> default range reported via the module parameters is unchanged.
 
-Yeah. It needs to be minimal too for easier backporting.
+I'm concerned if this could result in having too many regions.  The gap between
+user-visible parameters and internal state is also a concern.
 
-> The patch notes mention that this change is planned to be reverted at some
-> point in the future and I have not heard of any changes to this plan.
+A quick workaround would be adjusting the memory layout in BIOS, using DAMON
+sysfs interface instead, or setting the monitor_region_{start,end} to cover
+only the single area.  Have you considered such workarounds?
 
-Where does it say that? I don't see that aspect.
+Let's complete this high level discussion first.
 
-Thx.
 
--- 
-Regards/Gruss,
-    Boris.
+Thanks,
+SJ
 
-https://people.kernel.org/tglx/notes-about-netiquette
+[...]
