@@ -1,169 +1,96 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15FAAD24
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 00:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6EA78F59;
+	Mon, 27 Jul 2026 00:10:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785110717; cv=none; b=ZUWdfB4bHmaXOnzoLYVm++YI8goHrIfm0Id+pPlxorF6VqaMicEbm51MEY2KwXCPxk9afUaUt9tMOudiArrOH592Eu+Gk6D176JdMz+D8gG/gdIz9fWOc7Nc/HZN/HakLAS6wca4PyqoF/d/MtLJkRRm10O4LMqQ9+Zz6OzAbu8=
+	t=1785111015; cv=none; b=jz9dSbekx0DgNWsOLEsBMRM1zdQDtX/3gpyRy7Ys2wo7LtUDAcgvGMLjtjOHDy0jZCSXD7+hYM9ZT7Fog94MF64M8jvd9dTkZC6V8SomboXqRTs0za9ChcyA+21cUZS2DzFdq0sSwXagG4wxADh/DuCvQQHK2vkny9vJkfiNYLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785110717; c=relaxed/simple;
-	bh=ibOGO0YC9Drl0F1c4VerGxJnxwcVTzLLRq43JsaVRlA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LgiU90DkBRnkgfzWv/bLLvRHWwyKw2AmmFbloOuXs9swbd+Nn1V5yUG0M9j2DmxRnTPNb4iUClnFnr+chkRwHbLMvvEEcSBkb8tAc/Y2UOCPHjw81+CwssWT4XnHBsISnXphz4PAmYpoiPxpKxwkGAmjtM3vOlMpkYPBETay+hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pWBUJS3X; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785111015; c=relaxed/simple;
+	bh=Y2a1ie7w0StcLNUjjcc7sEPKC9Y08m7mO2ympBQ1Sao=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ar+qYQ68mw4MP0Z5sXJb3PST18AgPPFpXLQL0tAfMCYhGEdezHQTuvTI8X5OQ9JlDbFZofNHLQ/MRH7slDxM8MiRY2+mcLXl1fOLQKJi+nWnWdEuwJUcFbThO9tcMa04KS1nn0d81XQJsj9TddWy8Md7x9bfbfzgj9klLp55XrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jSlr181v; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pWBUJS3X"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-80e24970f1dso12609377b3.0
-        for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 17:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785110715; x=1785715515; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dT2HmLYVVRxnJsr9KLtAYK2fJ+EbY16ahO+oXHBCcC4=;
-        b=pWBUJS3XeUbwEOV1M+rwCTcOVrlC4xODFgTHKfHEvPC8IE3VYbr1H074MplWroCOTv
-         VeIEgwvUJ45Jwq3NZpSWGpmysnITbNG6C0K0PseXiB9UaXAYGDECtEjdokeEqLyI6rCl
-         VHkW3WxMoVMZcatuIDMG0rNE5Yp+es82+qTMfq0E+StMCfWKdM2kVi+TEHRlemPfy//4
-         awBMfEE71ckq3Kr2cgVVYAWZiiibuPf3vTXoPEm6DCJzuXxEyDB1IZahqWtWmzAgKpMe
-         NpkxC6Dy1GYJX1AletbBfFz0WXZZyG5byAa+7MZPHgnLG/yvfFgEEyB8aT9UvhZwsBks
-         p7Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785110715; x=1785715515;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dT2HmLYVVRxnJsr9KLtAYK2fJ+EbY16ahO+oXHBCcC4=;
-        b=KerAFCt1m1I7zKd4h50N9RIIyuIbL+BVo5Av3LDwx+5OtGolr4vXQft1crXm7mcdyN
-         /wcVLyKdThtvcdA1WspE8FcBSd1P1uJFu7HFELA561ziPL+OdQWgSrEuF/akZjvzrl7/
-         bh8bBXQkbX/ml1Rb35tVR6hXAFvNObZidcHNsyBo0mQgBPbWLcZErMpiy5JCcwl3B7f4
-         g688RZYDQBlliZuCUAUFyhAOlIQDfNcYHhlJkPUVx0FHrGLdpVqANJqAI3vHfjC3L75E
-         k0lcB3izOqdM/q5UmveFbx+87GOnpnib4FgwBWxU0o+cVgejhBc8X04f91wlcmv8dGIE
-         kzDQ==
-X-Gm-Message-State: AOJu0Yx6Zh30T4QeikL45JR6SAQAkGcg+rd3LZcNOiV3w+jmGJWRpKBp
-	8hVmJxQwleo5iQqI+itxU7hEFQgG0d8GJe0sxIkb6zU3zO+L5WHCHK8A
-X-Gm-Gg: AR+sD110BvZCLUxG8PXVhUzUH3PKuejIZ1EMXMdWk690W9zvAZMbROAKM750hzMJzmh
-	BZ9BSOcGDBUu6zYPgy6yZOYO1nJI6erYq9Vwr2df/ReyQ6a8d2uGKgqVWxjabsNeDhUn9keNzAo
-	TtCe/bGWH4aRJmDDL66+1RJFzhgXc9c9XcxvPx2/G3iufN8E/ZJvkOsD47fmxn4ylR3Y5+yPBzC
-	sRBMoJ1VJ5atQLxk3+2CB5wUQVyjdYCmUyYrDsbgIxfJTx0zSgkAo+MSjDA3CUZ18W0JtZ1PeZR
-	e42eaVRT5hu7Nryx/iTTv4A/NUBpJdnN0lkIfncOMgtIsxc53EFmcBcKHPJmaN7OKA9VhGnqyqM
-	9d4YOoLYdKnKuJgKDc9BIhOf6WoUxABNF6u/REWcaZQIW5EHMdYNtACzHkRDT7Rzd/udz
-X-Received: by 2002:a05:690c:6ac6:b0:814:5840:2f92 with SMTP id 00721157ae682-81f69e5ddcamr24632287b3.48.1785110714815;
-        Sun, 26 Jul 2026 17:05:14 -0700 (PDT)
-Received: from ASUS.. ([187.65.135.28])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f657b03easm24817507b3.17.2026.07.26.17.05.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 17:05:13 -0700 (PDT)
-From: Abel Philippe <le590616@gmail.com>
-To: danielmaraboo@gmail.com
-Cc: linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	Abel Philippe <le590616@gmail.com>
-Subject: [PATCH v3] docs: pt_BR: process: Translate programming-language
-Date: Sun, 26 Jul 2026 21:04:56 -0300
-Message-ID: <20260727000500.20413-1-le590616@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jSlr181v"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=L23i/+dize5vXpnrKQcbbBaJGTAdk8toUK7NA4PU95M=; b=jSlr181vd2uGkftBMKdChWsRWf
+	SQG++ALDqnEB5x2vE2W120pZI5FkjlBrO7RU8kcVBR4DTwHkOkJKJjXy9F8X3JIOwIaum8I1hp6P2
+	uQWKR+EQrGWJMFW9m+NO1U/F9NGKW2ARVmMpfjcEVtxWe+Of+36sm+JgMP7/ntg9kDS5xRggh9ttq
+	aEbRDJliI7rY7VaFkNkQbzX/JrmUUZ1RMtoS7Y6llhyCBasK7KM2gY+PaOZct0frsvpwuWLRMvI4w
+	/Z+w5qOMOjtU6FC22v+k50Sat3cv8nXKGamxd4NfcfqJeIWU+MVvKxwsP4OO/evF0pQEAVnT5VVLl
+	YhHF64Wg==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wo8v2-00000001jDj-34gG;
+	Mon, 27 Jul 2026 00:10:08 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: [PATCH] arm64: fix cpu-feature-registers Malformed table
+Date: Sun, 26 Jul 2026 17:10:02 -0700
+Message-ID: <20260727001002.3016279-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate the programming language documentation into Brazilian Portuguese.
+The "visible" column was dropped so that last line's extra pieces
+should also be dropped to prevent a docs build error:
 
-Changes in v2:
-- addition of SPDX-License-Identifier: GPL-2.0
-- addition of the missing half of the file
+Documentation/arch/arm64/cpu-feature-registers.rst:170: ERROR: Malformed table.
+Right border not aligned or missing.
 
-Changes in v3:
-- change "linguagem de progamação" to "linguagem de programação"
-- removing duplicate "``rustc`` [rustc]_" from programming_language.rst
++------------------------------+---------+
+| Name                         |  bits   |
++------------------------------+---------+
+| RNDR                         | [63-60] |
++------------------------------+---------+
+| TS                           | [55-52] |
++------------------------------+---------+
+...
++------------------------------+---------+
+| AES                          | [7-4]   |
++------------------------------+---------+---------+ [docutils]
 
-Signed-off-by: Abel Philippe <le590616@gmail.com>
+Fixes: bc7f7ddc64df ("arm64: Remove hidden bitfields from cpu-feature-registers.rst")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
- pt_BR/index.rst                        |  2 +-
- pt_BR/process/programming-language.rst | 58 ++++++++++++++++++++++++++
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 pt_BR/process/programming-language.rst
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>
 
-diff --git a/pt_BR/index.rst b/pt_BR/index.rst
-index 5b8b60cf930f..de99839db0b4 100644
---- a/pt_BR/index.rst
-+++ b/pt_BR/index.rst
-@@ -83,4 +83,4 @@ kernel e sobre como ver seu trabalho integrado.
-    Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
-    Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
-    Adicionando uma Nova Chamada de Sistema <process/adding-syscalls>
--
-+   Linguagem de programação <process/programming-language>
-diff --git a/pt_BR/process/programming-language.rst b/pt_BR/process/programming-language.rst
-new file mode 100644
-index 000000000000..aa31b5fab705
---- /dev/null
-+++ b/pt_BR/process/programming-language.rst
-@@ -0,0 +1,58 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Linguagem de programação
-+========================
-+
-+O kernel Linux é escrito na linguagem de programação C [c-language]_.
-+Mais precisamente, ele é normalmente compilado com ``gcc`` [gcc]_
-+sob ``-std=gnu11`` [gcc-c-dialect-options]_, o dialeto GNU da ISO C11.
-+O compilador ``clang`` [clang]_ também é suportado; consulte a documentação em
-+:ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
-+
-+Esse dialeto contém diversas extensões da linguagem [gnu-extensions]_,
-+e muitas delas são utilizadas rotineiramente no kernel.
-+
-+Atributos
-+---------
-+
-+Uma das extensões mais comuns utilizadas em todo o kernel são os atributos
-+[gcc-attribute-syntax]_. Os atributos permitem introduzir
-+semânticas definidas pela implementação em entidades da linguagem (como variáveis,
-+funções ou tipos) sem a necessidade de realizar mudanças sintáticas
-+significativas na linguagem (por exemplo, adicionando uma nova palavra-chave) [n2049]_.
-+
-+Em alguns casos, os atributos são opcionais (isto é, um compilador que não os
-+suporte ainda deve produzir código correto, mesmo que ele seja mais lento ou
-+não execute tantas verificações e diagnósticos durante a compilação).
-+
-+O kernel define pseudopalavras-chave (por exemplo, ``__pure``) em vez de usar
-+diretamente a sintaxe de atributos do GNU (por exemplo, ``__attribute__((__pure__))``)
-+para detectar quais deles podem ser utilizados e/ou para encurtar o código.
-+
-+Por favor, consulte ``include/linux/compiler_attributes.h`` para mais informações.
-+
-+Rust
-+----
-+
-+O kernel tem suporte para a linguagem de programação Rust.
-+[rust-language]_ sob ``CONFIG_RUST``. É compilado com o ``rustc`` [rustc]_
-+sob ``--edition=2021`` [rust-editions]_. As edições são uma maneira de introduzir
-+pequenas alterações na linguagem que não são retrocompatíveis.
-+
-+Além disso, alguns recursos instáveis ​​[rust-unstable-features]_ são utilizados no
-+kernel. Recursos instáveis ​​podem sofrer alterações no futuro; portanto, é um
-+objetivo importante chegar a um ponto em que apenas recursos estáveis ​​sejam utilizados.
-+
-+Consulte ``Documentation/rust/index.rst`` para obter mais informações.
-+
-+.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+.. [gcc] https://gcc.gnu.org
-+.. [clang] https://clang.llvm.org
-+.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
-+.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
-+.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
-+.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+.. [rust-language] https://www.rust-lang.org
-+.. [rustc] https://doc.rust-lang.org/rustc/
-+.. [rust-editions] https://doc.rust-lang.org/edition-guide/editions/
-+.. [rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
--- 
-2.43.0
+ Documentation/arch/arm64/cpu-feature-registers.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+--- linux-next-20260726.orig/Documentation/arch/arm64/cpu-feature-registers.rst
++++ linux-next-20260726/Documentation/arch/arm64/cpu-feature-registers.rst
+@@ -167,7 +167,7 @@ infrastructure:
+      | SHA1                         | [11-8]  |
+      +------------------------------+---------+
+      | AES                          | [7-4]   |
+-     +------------------------------+---------+---------+
++     +------------------------------+---------+
+ 
+ 
+   ID_AA64ISAR1_EL1 - Instruction set attribute register 1
