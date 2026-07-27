@@ -1,277 +1,445 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9F33F1AD5;
-	Mon, 27 Jul 2026 09:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B343F7898
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 09:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785146113; cv=none; b=rEemdu0qYIvDt8dnatalnVj+zdE5O29v0bLN1J8UKThWZTDwoVi5VerJQyiuZ+vuIUgba2bpwqnQD/+c/IR68vUcqa6wT95cZVjDOCuwb4Da2oxZbarWf1QjmoU7pNVbr6F7bgXHcmc1/7GCXPzretgD3VqUaAKk7IqHTX7QpwU=
+	t=1785146278; cv=none; b=kBpYNysersqW4T5IJ6RI1uNKz/U6MUlXmPs48g1lwEYXI0A9wPwZ+JG3UfluLCKnhTU6FEJflDyW5cRiY8387hmxwpnrt3tedqDUS79mtxz5idAJFyCjzwg4E45XHShhdnoZDCzIqqogfczvxWOP0yBsvprc8sNdOU8K0qzoQxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785146113; c=relaxed/simple;
-	bh=qDYP3S4OxJ8bbbMu8gz1C4d6dy+Jr7lILaJZY+QNc28=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=obQD0TY/tnlTFiK0xeK8f7qZEedhQ5v2dmgsF7ZK2R3u/HRXC6oBqpRhwzWQtCzkEn9WHrgSY4IbPVLGCOV7TF+xMpMD4DO/Z/i8obP9RhsjX7r/AA9FupTuDj0RW1uBnRL+xT5l3kqTGrmAKXxMcRBXfxWrUvNYtT+j8+rWhUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pu+k9Hkn; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785146278; c=relaxed/simple;
+	bh=G7OuZnFzXRxi+fDAYiRyDUKp+x0C6VA6eN1JvMlufl4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Z/GV7Izmi/mVx+/cddoJ4RZyURCyVEyRP+tOssMmhbrZYZcZenCxwiA0y0BbC/2fkGkBlddH9a2A4+D/c0FN0OdB/TYvctq0W23//UGHD6OcfDXINRVq2ynM8iObMnlx0ZlRj7ZTiDbcjVaDwCU6dPXvTRJYY8OSzObGS4hM1mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I5+4aNDG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SLQPlQ+3; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pu+k9Hkn"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785146095;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=FgYVRL1tlXQScTSC3dysRI0YQkKByHkMOxweBGBsepM=;
-	b=Pu+k9HknezyVEwEXvqKoksxaMAHsADHucnYz8DJ26j7yYxOB1esAumkh/Ph9j3igBv82FQ
-	OolxG26WW9AzUc2RLVk40iWO1Oh5J2bN+cWwEyWiEMIN+qvt5LrbMa0tbKOJzOZIRW/DhW
-	I6ZjLElXBXFDMZXcpKDGm2jqAydhG4Q=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: damon@lists.linux.dev
-Cc: jiayuan.chen@linux.dev,
-	Jiayuan Chen <jiayuan.chen@shopee.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 1/2] mm/damon/core: cover discrete System RAM areas with per-range regions
-Date: Mon, 27 Jul 2026 17:54:22 +0800
-Message-ID: <20260727095429.143527-1-jiayuan.chen@linux.dev>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I5+4aNDG";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SLQPlQ+3"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66R9Xer73460884
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 09:57:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=cTfkRuh1qMz6daNEBghoLo
+	xTzu0WE8KxCU7LeuEabmM=; b=I5+4aNDG3QRbCXqL80MbnJjywj9Jrnz1zXpdSc
+	hyfxnrWHR1+9c2Rxgw5uEjAd9NRO05v9bEC9r7Z17VXOZVMtMYF/UTH4ojUomfV5
+	bJ4qnItwyxJRV4esxyRIcgT8FCB9cMVQ9jLmDES0h5esalX8Bn78TiQpWfcTaUV9
+	4qFU80/l3uB9t13YBGGhjD/O58PEHe5JC0rCL1TXfkaVMijFd23eC5ZIl9QvrWsj
+	pML/9uZya91IPI/TP9WVZNe+jakXNHXpJq02aV0iuGzUv4/84qVW5BvT/K0xY/Mw
+	q8Wt2mqJxKrryqWC73ZeaKckmIIqi8GgjdeUs1pCnTkIy4NA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fp30g0n9n-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 09:57:54 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-52827090cc5so32826041cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 02:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785146274; x=1785751074; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=cTfkRuh1qMz6daNEBghoLoxTzu0WE8KxCU7LeuEabmM=;
+        b=SLQPlQ+3zwpQS5a6eIrLxfC2pJ7AFOd7yiYJRjKzz9GLvIBaqjLdrKej136AyD39Ag
+         cRn+drgHpl0J60pBKGYIZMvaD/VcDKcg35GymRl3aNmiA1lKF+OfJ3iO391vd5sqZUV8
+         mrY5YUCXww1okohwukGpS1z74wcXtVAnbdRZMJjE8jm/Ulo5+JIueU1DO9gH4MbDiP3F
+         wWWQiUbWQh+o/oh59iexLGY615+SPWPMDaUdSm3RwzOZv/ByfkXQJZqYYAR9rN0mh4IQ
+         EyEL2Ow9QpvuKDhimXaLx5Tjk3t9JcaR+WPaa3y7mDtoTXO8FoxSMSiwMfcniUlo4Xwo
+         G+pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785146274; x=1785751074;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=cTfkRuh1qMz6daNEBghoLoxTzu0WE8KxCU7LeuEabmM=;
+        b=LRAmSfZcXJfPxG3vlV5m6qXsAW/HE4uvOH6cyFbdUkpt3kYHuuEqbbNgCZ6pMdTiLk
+         6yWzeOf/5o66W1YO6Kt61DsAWdVE8Xjm7aYE7Vx/PLESR+W/G3+J05mZEybW6GtKAeGa
+         UgYEdxRDMEQ8r2CZPJ5DV2sByBAQkPHSpPhY7ksci0Um46wD9H6eLgDSc/N/za7NoYQd
+         jS/QPGXMj/eOHg5bqSf4HafBlbBBMZzDI6SZruHGK1J1SSNZNyFcSm+3QgxatBK30UrB
+         CNZyKcx1GEGhBz8LG2oZQ9bUavCQG7/YvGqJVQ9TXSBxqehT0614mcG4OiNXNw7zZtww
+         xKKQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpoNBcBXXVkhcA+sTN65ECqNZNCtMkVEFycojhybdB44ivjHlXgzgaytfi4/VK0p4h676/zbLfAhc4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZJT8gnIyObw094G8iN7EyCGvTXbfG15xrV+DziZ8a/yeTD5+j
+	TFLyPQFIhqeRRFFpRL/lffEzNTapMPPn+VApxRle/1os0GGTrboFKggqt4AdwU9jip/RoOOHKeI
+	2N5HbwQEGy99ZptXcGJlyAkZNfewD+05LrnZqu0osvM3AoTsr3W6PC4v3kqHB6rc=
+X-Gm-Gg: AR+sD12lMd0lI20fJkcDIxv5X/Cb5ItpqL8vjpxWCz9F4slhfos41igpziPDqttQMfY
+	kkHRGBj1S3jQGoZ/9xiZjrWcNMxaIHBOf9s0WDM9naYQDXoDHw5RJsJy63kjLSiwPUZ18sgb2sh
+	WyhAUPILErS5ZlN/o/2GUeKou8deXlQZNbJtcCCgIXywNJ3ZDFrCvohgXWgxlk/z9KfLbR501rx
+	J8ihXtPRCGAzN3JyjXPVC7Q1IgmWYpRsTyaDfL+kqb5o5kWoF/IOp8X4mCjLRRJARQaw+cwIqXh
+	B308G/Q54wIigxuipd35aiSqm7Cks4ic3R8wMKS1JopOZXAi2bEYI7f96X/YB1vR+FWaHbQM1Q5
+	9pu4qv5YeDgejZ9eBdTlwc2BBdeIh
+X-Received: by 2002:ac8:6f11:0:b0:528:ce0:e9f8 with SMTP id d75a77b69052e-5295d270a04mr106677631cf.3.1785146273862;
+        Mon, 27 Jul 2026 02:57:53 -0700 (PDT)
+X-Received: by 2002:ac8:6f11:0:b0:528:ce0:e9f8 with SMTP id d75a77b69052e-5295d270a04mr106677341cf.3.1785146273405;
+        Mon, 27 Jul 2026 02:57:53 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:1449:2d40:6dd2:20d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32f19c4csm611477266b.63.2026.07.27.02.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 02:57:52 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Date: Mon, 27 Jul 2026 11:57:38 +0200
+Subject: [PATCH RFC] power: sequencing: rename pwrseq_power_on/off() to
+ pwrseq_vote_on/off()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260727-pwrseq-vote-rename-v1-1-a2029aeeac65@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAJErZ2oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDcyNz3YLyouLUQt2y/JJU3aLUvMTcVN0k8+QUI0MDYyMzMwsloMaCotS
+ 0zAqwodFKQW7OSrG1tQCp4jesaQAAAA==
+X-Change-ID: 20260727-pwrseq-vote-rename-b7cd21032668
+To: Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Alessio Belle <alessio.belle@imgtec.com>,
+        Luigi Santivetti <luigi.santivetti@imgtec.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Chen-Yu Tsai <wens@kernel.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, imagination@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-wireless@vger.kernel.org,
+        ath10k@lists.infradead.org, linux-pci@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11233;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=G7OuZnFzXRxi+fDAYiRyDUKp+x0C6VA6eN1JvMlufl4=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqZyua6+kj7mv/zzmBMIis+gdWuocontWnq+eD+
+ vv740HUnhyJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCamcrmgAKCRAFnS7L/zaE
+ w9XLD/9fSN/wxCKeUPmwVIqjM6yzfNVAPIBYsenBC17Ef51V+D542ya4dKvWfOck0ahoGK8h1ES
+ fCsIdb6yUiLOXdXE1N7WtKH/bmHWrKnmXrgpH3j8J9YwApddS/jwfnAr7KSwTchMurvib/KFXyi
+ P970euD779qbQdjTUm//egbj70HYVr12XoKea/M6suEWXE2hbdsed+qgibBXGSuCYkSMRKBcGHp
+ xri0RBKzDEDXkyIU2Yax1X+KsDClbCCOP+uvsrUsFDmvL+iG5VDV81txFmfJyU9Ywb7yXJMabgn
+ 9InJCDQjwFOf8N9p3g/gMRm+9KQxRAE4rgDYNjQck4b3ktI0dDbumeOi+y57YdDp/F+0KgErSoi
+ /SEq/slk2oqnBZmzIZcFUAFRHG1tb1SU2aMFLnGl21eN+DQSDhnVGR/wh/i29p24hgZ7Ph+d3El
+ Ty31M0gixh7rEQEZd7g15mOvTdvKan0cojXEvOjGCORFuVzEgu8Y0dJ/okF0nUifFkROr+oPoi7
+ kGMN7iRtpUrzssjjW8+cD31Nj2fGuaa4o4Mu4t3h6qMp964o+6MOtZd5QKRmEUj6ymhsaD9v57E
+ 9VHzB97Yy25qtF/aV4dnpAJM9GU4gy/ZARWp189Jad+AaYMrA746ewg1ONLdSFrLwQFyL6r49+h
+ s2Mplu1/U1vA/Lg==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Authority-Analysis: v=2.4 cv=Wac8rUhX c=1 sm=1 tr=0 ts=6a672ba2 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=VwQbUJbxAAAA:8
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=BH6fHGR_65QtqvMn8p4A:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDA5NyBTYWx0ZWRfX1s1WwsbaUfYA
+ nKecxZHaOVhAdH9egohC77gI8KYm+IAWLm2TiYfvP/zoUBHyctzJpTF/LKUwoy0us4r45buCm45
+ Elk/ZJ+aP+6HVt5qU/j4esu+MQXg3wk=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDA5NyBTYWx0ZWRfXzlWrbWl3MMsA
+ B5wJiJINMi3GzLGt39z852gz2XZYMn6jIll2kM9/jURpz345oloCZb413xjAoMCXRCPEa07UY/N
+ w6AwNEBSCcuq1wwgm9AhGPiMlOHGLUNnxKey0gWpa/ky1K0yKPt3r+dGPVl3KKekNIbvfvqJDdI
+ 6btXfIulHQf/FcCQDLfmTiGRjZqNdh8swBzb2tbkC7PAM2w2x4mxc/+Gc0C3En4Z0df2J86WpT2
+ j12NjsMryGbaxIuaABXQJLHiM1LQu5P4xaOvRq7JCfsDLwe2QxI1QYKCVbPWg1UCOEg5PJRn2R0
+ iQhs3jm4kOt66TWCk646jr+jQsMceslHPCZRuZ5Zg46T+o060QTWhLHspO/LSa11C0XyJiwSOJE
+ yAlod3xa2nvCYAqlyqByAPxDEoTt2PpinV+H3gXRsispy2epJRXsN2WklMQYHu8R85I0I21Go7K
+ Y4rTr1+Kbh3m/+97u3A==
+X-Proofpoint-GUID: Nap6wej7zZtfLP00_Cn0oV9ux469IfQX
+X-Proofpoint-ORIG-GUID: Nap6wej7zZtfLP00_Cn0oV9ux469IfQX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-27_02,2026-07-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270097
 
-From: Jiayuan Chen <jiayuan.chen@shopee.com>
+The way power sequencing works means that a call to pwrseq_power_on()
+does not necessarily result in the pwrseq target being powered-on at
+that time: it may have already been powered on before. Similarly: a call
+to pwrseq_power_off() does not have to result in an actual powering off
+of resources: there may still be other users that requested a power-on
+before.
 
-damon_set_region_system_rams_default(), introduced by commit 70d8797c15d6
-("mm/damon: introduce damon_set_region_system_rams_default()"), is used by
-DAMON_RECLAIM, DAMON_LRU_SORT and DAMON_STAT to set the default monitoring
-target address range covering all 'System RAM' when the user does not
-specify a range.  It walks the 'System RAM' resources but keeps only the
-start of the first resource and the end of the last one, and then sets a
-single monitoring region spanning that whole [first_start, last_end] range.
+We will also introduce the concept of "non-controllable" pwrseq targets
+soon which further increases the disconnect between the naming
+convention and the actual semantics.
 
-On systems whose RAM is split into discrete areas that are far apart in the
-physical address space, that single region also covers the holes between
-them.  For example:
+What consumers of pwrseq descriptors actually do is: they *vote* for a
+powering on of a given target or retract that vote. These operations
+could be called get/put in line with runtime PM but this could become
+confusing since we already provide pwrseq_get/put() for a different
+purpose.
 
-  $ sudo cat /proc/iomem | grep RAM
-  00001000-0009ffff : System RAM
-  00100000-4848c017 : System RAM
-  4848c018-48550c57 : System RAM
-  48550c58-48551017 : System RAM
-  48551018-48615c57 : System RAM
-  48615c58-48616017 : System RAM
-  48616018-486dac57 : System RAM
-  486dac58-4e563017 : System RAM
-  4e563018-4e627c57 : System RAM
-  4e627c58-4ef39017 : System RAM
-  4ef39018-4ef3f057 : System RAM
-  4ef3f058-4efe6017 : System RAM
-  4efe6018-4efec057 : System RAM
-  4efec058-50247fff : System RAM
-  50317000-56720fff : System RAM
-  56722000-59c19fff : System RAM
-  6bbfe000-6bbfefff : System RAM
-  6bc00000-777fffff : System RAM
-  100000000-1007effffff : System RAM
-  67e80000000-77e7fffffff : System RAM
+Change the name of the two functions to pwrseq_vote_on/off() which
+better reflects their purpose and semantics. No functional change
+intended.
 
-Here the last two areas (about 1TB starting at 4GiB, and about 1.1TB
-starting at ~6.5TB) are separated by a ~5.5TB hole, and the single-region
-setup makes DAMON treat that entire hole as if it were memory.
+If at any point users need to know *when* the exact power event happens,
+we can provide that information in the form of a notifier.
 
-This is harmful in a few ways.  The monitoring target regions are limited
-by max_nr_regions, so regions that fall into the hole waste that budget and
-leave fewer regions for the real RAM, coarsening the adaptive regions and
-degrading the monitoring accuracy.  In addition, DAMOS actions on the paddr
-operations set walk such a region page by page, so a region that covers the
-hole is walked for its entire (empty) span on every application.
-
-Set a separate monitoring region for each discrete System RAM area instead,
-coalescing only truly adjacent (no gap in between) resources into one
-range, so holes between the areas are excluded.  The reported *start and
-*end still carry the overall first-start and last-end, so the user-visible
-default range reported via the module parameters is unchanged.
-
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>
-Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- mm/damon/core.c | 116 ++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 82 insertions(+), 34 deletions(-)
+I've floated the idea to rename the two pwrseq functions from "power
+on/off" to "vote on/off". Here's a concrete proposal.
 
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 760559d495b3..8dd4a0d22064 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -4394,22 +4394,14 @@ static int kdamond_fn(void *data)
+I'm sending it as an RFC but if there's agreement, I can queue it as is.
+
+I'm doing it in a single commit that should go through the pwrseq tree
+with Acks from subsystem maintainers.
+
+[1] https://lore.kernel.org/all/CAMRc=Mefxn81d0VUwmQgwFtffkL1=Er_1VQZCbC1Sa-Qph4t1w@mail.gmail.com/
+---
+ Documentation/driver-api/pwrseq.rst      |  4 ++--
+ drivers/bluetooth/hci_qca.c              |  4 ++--
+ drivers/gpu/drm/imagination/pvr_power.c  |  4 ++--
+ drivers/net/wireless/ath/ath10k/snoc.c   |  6 +++---
+ drivers/pci/pwrctrl/generic.c            |  4 ++--
+ drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c |  4 ++--
+ drivers/power/sequencing/core.c          | 16 ++++++++--------
+ include/linux/pwrseq/consumer.h          |  8 ++++----
+ 8 files changed, 25 insertions(+), 25 deletions(-)
+
+diff --git a/Documentation/driver-api/pwrseq.rst b/Documentation/driver-api/pwrseq.rst
+index ad18b2326b689a41471216f3889480b11768ca82..faba5a8e3337e878c6dac0cc91d23b3577cab6fd 100644
+--- a/Documentation/driver-api/pwrseq.rst
++++ b/Documentation/driver-api/pwrseq.rst
+@@ -50,9 +50,9 @@ Consumer interface
+ The consumer API is aimed to be as simple as possible. The driver interested in
+ getting a descriptor from the power sequencer should call pwrseq_get() and
+ specify the name of the target it wants to reach in the sequence after calling
+-pwrseq_power_up(). The descriptor can be released by calling pwrseq_put() and
++pwrseq_vote_on(). The descriptor can be released by calling pwrseq_put() and
+ the consumer can request the powering down of its target with
+-pwrseq_power_off(). Note that there is no guarantee that pwrseq_power_off()
++pwrseq_vote_off(). Note that there is no guarantee that pwrseq_vote_off()
+ will have any effect as there may be multiple users of the underlying resources
+ who may keep them active.
+ 
+diff --git a/drivers/bluetooth/hci_qca.c b/drivers/bluetooth/hci_qca.c
+index e6d107f67759f54eee2647d92bb8bfd4e68c9358..5aaabc9fb1b66eb6b24da25f77158690a2f03c84 100644
+--- a/drivers/bluetooth/hci_qca.c
++++ b/drivers/bluetooth/hci_qca.c
+@@ -2259,7 +2259,7 @@ static void qca_power_off(struct hci_uart *hu)
+ 	}
+ 
+ 	if (power && power->pwrseq) {
+-		pwrseq_power_off(power->pwrseq);
++		pwrseq_vote_off(power->pwrseq);
+ 		set_bit(QCA_BT_OFF, &qca->flags);
+ 		return;
+         }
+@@ -2319,7 +2319,7 @@ static int qca_regulator_enable(struct qca_serdev *qcadev)
+ 	int ret;
+ 
+ 	if (power->pwrseq)
+-		return pwrseq_power_on(power->pwrseq);
++		return pwrseq_vote_on(power->pwrseq);
+ 
+ 	/* Already enabled */
+ 	if (power->vregs_on)
+diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
+index a71d5b35601e7b996428312028a4c0542a5b1350..c6dfa2685ee64086c53281d06563e6169109c00f 100644
+--- a/drivers/gpu/drm/imagination/pvr_power.c
++++ b/drivers/gpu/drm/imagination/pvr_power.c
+@@ -352,12 +352,12 @@ static int pvr_power_init_pwrseq(struct pvr_device *pvr_dev)
+ 
+ static int pvr_power_on_sequence_pwrseq(struct pvr_device *pvr_dev)
+ {
+-	return pwrseq_power_on(pvr_dev->pwrseq);
++	return pwrseq_vote_on(pvr_dev->pwrseq);
  }
  
- struct damon_system_ram_range_walk_arg {
--	bool walked;
--	struct resource res;
-+	unsigned long addr_unit;
-+	/* NULL in the counting-only pass */
-+	struct damon_addr_range *ranges;
-+	unsigned int nr_ranges;
-+	unsigned long prev_end;
-+	bool has_prev;
- };
- 
--static int damon_system_ram_walk_fn(struct resource *res, void *arg)
--{
--	struct damon_system_ram_range_walk_arg *a = arg;
--
--	if (!a->walked) {
--		a->walked = true;
--		a->res.start = res->start;
--	}
--	a->res.end = res->end;
--	return 0;
--}
--
- static unsigned long damon_res_to_core_addr(resource_size_t ra,
- 		unsigned long addr_unit)
+ static int pvr_power_off_sequence_pwrseq(struct pvr_device *pvr_dev)
  {
-@@ -4423,23 +4415,66 @@ static unsigned long damon_res_to_core_addr(resource_size_t ra,
- 	return ra / addr_unit;
+-	return pwrseq_power_off(pvr_dev->pwrseq);
++	return pwrseq_vote_off(pvr_dev->pwrseq);
  }
  
--static bool damon_find_system_rams_range(unsigned long *start,
--		unsigned long *end, unsigned long addr_unit)
-+static int damon_system_ram_walk_fn(struct resource *res, void *arg)
-+{
-+	struct damon_system_ram_range_walk_arg *a = arg;
-+	unsigned long start = damon_res_to_core_addr(res->start, a->addr_unit);
-+	unsigned long end = damon_res_to_core_addr(res->end + 1, a->addr_unit);
-+
-+	if (end <= start)
-+		return 0;
-+	/*
-+	 * 'System RAM' resources are visited in the ascending address order.
-+	 * Coalesce only truly adjacent (no gap in between) resources into one
-+	 * range, so that any hole between discrete System RAM areas is kept out
-+	 * of the resulting ranges.
-+	 */
-+	if (a->has_prev && a->prev_end == start) {
-+		a->prev_end = end;
-+		if (a->ranges)
-+			a->ranges[a->nr_ranges - 1].end = end;
-+		return 0;
-+	}
-+	if (a->ranges) {
-+		a->ranges[a->nr_ranges].start = start;
-+		a->ranges[a->nr_ranges].end = end;
-+	}
-+	a->nr_ranges++;
-+	a->prev_end = end;
-+	a->has_prev = true;
-+	return 0;
-+}
-+
-+/*
-+ * Find all 'System RAM' areas and return them as an array of coalesced
-+ * damon_addr_range.  On success, *ranges points to a kvmalloc'ed array that the
-+ * caller should kvfree(), and the number of ranges is returned.  Returns 0 if
-+ * no System RAM is found, or a negative error code on failure.
-+ */
-+static int damon_find_system_rams(struct damon_addr_range **ranges_out,
-+				  unsigned long addr_unit)
- {
--	struct damon_system_ram_range_walk_arg arg = {};
-+	struct damon_system_ram_range_walk_arg arg = { .addr_unit = addr_unit };
-+	struct damon_addr_range *ranges;
+ const struct pvr_power_sequence_ops pvr_power_sequence_ops_pwrseq = {
+diff --git a/drivers/net/wireless/ath/ath10k/snoc.c b/drivers/net/wireless/ath/ath10k/snoc.c
+index 3106502275781d32d17a45a661362206144df6b3..f87e56576e29124902dccd1a21600fd3407b2922 100644
+--- a/drivers/net/wireless/ath/ath10k/snoc.c
++++ b/drivers/net/wireless/ath/ath10k/snoc.c
+@@ -1025,7 +1025,7 @@ static int ath10k_hw_power_on(struct ath10k *ar)
  
-+	/* First pass: count the coalesced ranges. */
- 	walk_system_ram_res(0, -1, &arg, damon_system_ram_walk_fn);
--	if (!arg.walked)
--		return false;
--	*start = damon_res_to_core_addr(arg.res.start, addr_unit);
--	*end = damon_res_to_core_addr(arg.res.end + 1, addr_unit);
--	if (*end <= *start)
--		return false;
--	return true;
-+	if (!arg.nr_ranges)
-+		return 0;
-+	ranges = kvmalloc_objs(*ranges, arg.nr_ranges, GFP_KERNEL);
-+	if (!ranges)
-+		return -ENOMEM;
-+	/* Second pass: fill in the coalesced ranges. */
-+	arg.ranges = ranges;
-+	arg.nr_ranges = 0;
-+	arg.has_prev = false;
-+	walk_system_ram_res(0, -1, &arg, damon_system_ram_walk_fn);
-+	*ranges_out = ranges;
-+	return arg.nr_ranges;
+ 	ath10k_dbg(ar, ATH10K_DBG_SNOC, "soc power on\n");
+ 
+-	ret = pwrseq_power_on(ar_snoc->pwrseq);
++	ret = pwrseq_vote_on(ar_snoc->pwrseq);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1042,7 +1042,7 @@ static int ath10k_hw_power_on(struct ath10k *ar)
+ vreg_off:
+ 	regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->vregs);
+ pwrseq_off:
+-	pwrseq_power_off(ar_snoc->pwrseq);
++	pwrseq_vote_off(ar_snoc->pwrseq);
+ 
+ 	return ret;
+ }
+@@ -1060,7 +1060,7 @@ static int ath10k_hw_power_off(struct ath10k *ar)
+ 	ret_vreg = regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->vregs);
+ 
+ 	if (ar_snoc->pwrseq)
+-		ret_seq = pwrseq_power_off(ar_snoc->pwrseq);
++		ret_seq = pwrseq_vote_off(ar_snoc->pwrseq);
+ 
+ 	return ret_vreg ? : ret_seq;
+ }
+diff --git a/drivers/pci/pwrctrl/generic.c b/drivers/pci/pwrctrl/generic.c
+index a7e599d841e6289db161b19a93ba5a61d9e0ab1c..8872f6501352d7273a9b4f20589c2f74d6accc65 100644
+--- a/drivers/pci/pwrctrl/generic.c
++++ b/drivers/pci/pwrctrl/generic.c
+@@ -29,7 +29,7 @@ static int slot_pwrctrl_power_on(struct pci_pwrctrl *pwrctrl)
+ 	int ret;
+ 
+ 	if (slot->pwrseq) {
+-		pwrseq_power_on(slot->pwrseq);
++		pwrseq_vote_on(slot->pwrseq);
+ 		return 0;
+ 	}
+ 
+@@ -48,7 +48,7 @@ static int slot_pwrctrl_power_off(struct pci_pwrctrl *pwrctrl)
+ 						struct slot_pwrctrl, pwrctrl);
+ 
+ 	if (slot->pwrseq) {
+-		pwrseq_power_off(slot->pwrseq);
++		pwrseq_vote_off(slot->pwrseq);
+ 		return 0;
+ 	}
+ 
+diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c b/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c
+index a308bf4b5fc01d23b75db4cd396201c3ba3fe695..86822f0f645eb757455f575000f81122bce82e60 100644
+--- a/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c
++++ b/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c
+@@ -56,7 +56,7 @@ static int pwrseq_pwrctrl_power_on(struct pci_pwrctrl *pwrctrl)
+ 	struct pwrseq_pwrctrl *pwrseq = container_of(pwrctrl,
+ 					   struct pwrseq_pwrctrl, pwrctrl);
+ 
+-	return pwrseq_power_on(pwrseq->pwrseq);
++	return pwrseq_vote_on(pwrseq->pwrseq);
+ }
+ 
+ static int pwrseq_pwrctrl_power_off(struct pci_pwrctrl *pwrctrl)
+@@ -64,7 +64,7 @@ static int pwrseq_pwrctrl_power_off(struct pci_pwrctrl *pwrctrl)
+ 	struct pwrseq_pwrctrl *pwrseq = container_of(pwrctrl,
+ 					   struct pwrseq_pwrctrl, pwrctrl);
+ 
+-	return pwrseq_power_off(pwrseq->pwrseq);
++	return pwrseq_vote_off(pwrseq->pwrseq);
+ }
+ 
+ static int pwrseq_pwrctrl_probe(struct platform_device *pdev)
+diff --git a/drivers/power/sequencing/core.c b/drivers/power/sequencing/core.c
+index 02f42da915985339d3de507fc36dd158b0035a99..c630b14f6f2c478f05e4b2893b386aab0cddaaf5 100644
+--- a/drivers/power/sequencing/core.c
++++ b/drivers/power/sequencing/core.c
+@@ -708,7 +708,7 @@ void pwrseq_put(struct pwrseq_desc *desc)
+ 	pwrseq = desc->pwrseq;
+ 
+ 	if (desc->powered_on)
+-		pwrseq_power_off(desc);
++		pwrseq_vote_off(desc);
+ 
+ 	kfree(desc);
+ 	module_put(pwrseq->owner);
+@@ -874,7 +874,7 @@ static int pwrseq_unit_disable(struct pwrseq_device *pwrseq,
  }
  
  /**
-- * damon_set_region_system_rams_default() - Set the region of the given
-+ * damon_set_region_system_rams_default() - Set the regions of the given
-  * monitoring target as requested, or to cover all 'System RAM' resources.
-  * @t:		The monitoring target to set the region.
-  * @start:	The pointer to the start address of the region.
-@@ -4449,9 +4484,11 @@ static bool damon_find_system_rams_range(unsigned long *start,
+- * pwrseq_power_on() - Issue a power-on request on behalf of the consumer
++ * pwrseq_vote_on() - Issue a power-on request on behalf of the consumer
+  *                     device.
+  * @desc: Descriptor referencing the power sequencer.
   *
-  * This function sets the region of @t as requested by @start and @end.  If the
-  * values of @start and @end are zero, however, this function finds 'System
-- * RAM' resources and sets the region to cover all the resource.  In the latter
-- * case, this function saves the start and the end addresseses of the first and
-- * the last resources in @start and @end, respectively.
-+ * RAM' resources and sets the monitoring target regions to cover them.  Each
-+ * discrete System RAM area becomes a separate region, so holes between them
-+ * (e.g., on multi-socket or CXL systems) are excluded from the monitoring.  In
-+ * the latter case, this function saves the start and the end addresses of the
-+ * first and the last resources in @start and @end, respectively.
-  *
-  * Return: 0 on success, negative error code otherwise.
+@@ -887,7 +887,7 @@ static int pwrseq_unit_disable(struct pwrseq_device *pwrseq,
+  * Returns:
+  * 0 on success, negative error number on failure.
   */
-@@ -4460,14 +4497,25 @@ int damon_set_region_system_rams_default(struct damon_target *t,
- 			unsigned long addr_unit, unsigned long min_region_sz)
+-int pwrseq_power_on(struct pwrseq_desc *desc)
++int pwrseq_vote_on(struct pwrseq_desc *desc)
  {
- 	struct damon_addr_range addr_range;
-+	struct damon_addr_range *ranges;
-+	int nr_ranges, err;
+ 	struct pwrseq_device *pwrseq;
+ 	struct pwrseq_target *target;
+@@ -925,14 +925,14 @@ int pwrseq_power_on(struct pwrseq_desc *desc)
  
--	if (!*start && !*end &&
--		!damon_find_system_rams_range(start, end, addr_unit))
--		return -EINVAL;
-+	if (*start || *end) {
-+		addr_range.start = *start;
-+		addr_range.end = *end;
-+		return damon_set_regions(t, &addr_range, 1, min_region_sz);
-+	}
- 
--	addr_range.start = *start;
--	addr_range.end = *end;
--	return damon_set_regions(t, &addr_range, 1, min_region_sz);
-+	nr_ranges = damon_find_system_rams(&ranges, addr_unit);
-+	if (nr_ranges < 0)
-+		return nr_ranges;
-+	if (!nr_ranges)
-+		return -EINVAL;
-+	*start = ranges[0].start;
-+	*end = ranges[nr_ranges - 1].end;
-+	err = damon_set_regions(t, ranges, nr_ranges, min_region_sz);
-+	kvfree(ranges);
-+	return err;
+ 	return ret;
  }
+-EXPORT_SYMBOL_GPL(pwrseq_power_on);
++EXPORT_SYMBOL_GPL(pwrseq_vote_on);
  
  /**
+- * pwrseq_power_off() - Issue a power-off request on behalf of the consumer
++ * pwrseq_vote_off() - Issue a power-off request on behalf of the consumer
+  *                      device.
+  * @desc: Descriptor referencing the power sequencer.
+  *
+- * This undoes the effects of pwrseq_power_on(). It issues a power-off request
++ * This undoes the effects of pwrseq_vote_on(). It issues a power-off request
+  * on behalf of the consumer and when the last remaining user does so, the
+  * power-down sequence will be started. If one is in progress, the function
+  * will block until it's complete and then return.
+@@ -940,7 +940,7 @@ EXPORT_SYMBOL_GPL(pwrseq_power_on);
+  * Returns:
+  * 0 on success, negative error number on failure.
+  */
+-int pwrseq_power_off(struct pwrseq_desc *desc)
++int pwrseq_vote_off(struct pwrseq_desc *desc)
+ {
+ 	struct pwrseq_device *pwrseq;
+ 	struct pwrseq_unit *unit;
+@@ -966,7 +966,7 @@ int pwrseq_power_off(struct pwrseq_desc *desc)
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(pwrseq_power_off);
++EXPORT_SYMBOL_GPL(pwrseq_vote_off);
+ 
+ /**
+  * pwrseq_to_device() - Get the pwrseq device pointer from a descriptor.
+diff --git a/include/linux/pwrseq/consumer.h b/include/linux/pwrseq/consumer.h
+index 3c907c9e1885dc2958043a9a733fbe20bdf95f6e..e4d2cb321354f0cb7e1d1d72e6b5a96b94129da3 100644
+--- a/include/linux/pwrseq/consumer.h
++++ b/include/linux/pwrseq/consumer.h
+@@ -20,8 +20,8 @@ void pwrseq_put(struct pwrseq_desc *desc);
+ struct pwrseq_desc * __must_check
+ devm_pwrseq_get(struct device *dev, const char *target);
+ 
+-int pwrseq_power_on(struct pwrseq_desc *desc);
+-int pwrseq_power_off(struct pwrseq_desc *desc);
++int pwrseq_vote_on(struct pwrseq_desc *desc);
++int pwrseq_vote_off(struct pwrseq_desc *desc);
+ 
+ struct device *pwrseq_to_device(struct pwrseq_desc *desc);
+ 
+@@ -43,12 +43,12 @@ devm_pwrseq_get(struct device *dev, const char *target)
+ 	return ERR_PTR(-ENOSYS);
+ }
+ 
+-static inline int pwrseq_power_on(struct pwrseq_desc *desc)
++static inline int pwrseq_vote_on(struct pwrseq_desc *desc)
+ {
+ 	return -ENOSYS;
+ }
+ 
+-static inline int pwrseq_power_off(struct pwrseq_desc *desc)
++static inline int pwrseq_vote_off(struct pwrseq_desc *desc)
+ {
+ 	return -ENOSYS;
+ }
+
+---
+base-commit: c5e32e86ca02b003f86e095d379b38148999293d
+change-id: 20260727-pwrseq-vote-rename-b7cd21032668
+
+Best regards,
 -- 
-2.43.0
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
