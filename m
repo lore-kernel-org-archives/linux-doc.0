@@ -1,159 +1,136 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62A23DDDAC
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 07:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785139073; cv=pass; b=OeGwKGDftGYg4y8GIdq1tU7onLkHBBhlvKhphFFXcKy4XhFU5F7JehBl8vyxA+b2l4A3oRoJvl3wRywgPZd21/GKOUEk72rsRTsp3ylUtVRIB/hlNFGvmuJtnFxhgy4tuZheZTb/Sr2qJh+dyA2f9hVx8nPTbbP2vFRIUUJjvA4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785139073; c=relaxed/simple;
-	bh=Mtj7E3sp4PM/1qDolAPNcQQ7cQN1ADKk1/zSl9D3Kg4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T6gDuA3Z3gXDtau481l4Jed/VsbigbzRtDR0OOuJtqXpOl/0P6aL4oL30QIkCjx25xbFrtv9dbWvdtBAjc/AZeK6rQuOyrvv5zKDJQjr7ZgMx9B+hFW+V2EQi8y6Adj8aqsB5AnusRri9XcoKiQKngFcLhgHsbHiaggDox5T2zU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=QGT/Hzkt; arc=pass smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="QGT/Hzkt"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39f1ac13687so19049761fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 00:57:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785139070; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nJQfgHZ3zUtOq6HpYMhd6pBvaxZl19oVwy9sl9HXQ8IwGpKO18gB3kIMscOXWfWwLv
-         /3uyTOdT8Xl2uMwpiqihHKfDHaGWdQ3uMgN17aO7gZXYXzVR+wGIwntAiHvpwDfrs4WX
-         VPCj2i4zEsuAkgH6un3rNq03is34pmjZKNSI3GMl/sJcjHIGCMj8PLOl57XFCkElkPV+
-         fjDIqYUYVTyzvjpD99pMx/bx7wUKEBb9e+gl6B1VYku36+YICv1rhoBiu5YJGZxlPhLa
-         YWM6vQbk/38Kr9snx0v0VBhb40AVUV76eiqPkR+Vh0VxAU5tqMO1+jslx8wDSXLyzspd
-         C9jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iUOhhztmgpvLEc5gPCO2PXYJYdr4yBUECC9y0Kg5xWU=;
-        fh=g7kugTXTpthXUO6gBo7uothzNtpGR0XA/QLR7M6GBZA=;
-        b=biY7qutW7TN0M5t6IomE+OnHILihDlMb1sygc42aGdZQxp7476HWuUoWL/rTjwKStt
-         6sTvFDjU3DRT/qwzUHzmAppecSEOLb45bX8qIGTMpmH3rWKkQU8a17gSEN736ti4weV1
-         za46UhF6s1z2MyWFITrViFySyxgz11kgjd+P2HM+2Luv1aJoN4YfcTgW4tLhWU/ke6t1
-         sj34RTQV81u+hq3aUjW/lTt7wHkpXexjHEc0s/xSeYznotFRHqs1iNe1iNnb8+ENmrC5
-         +Sr+tzanwx0ZVOVp/OTlnnUWMVJZzrIGD9rleoy+wOTmB5jMsd6QINgSKJrLHKSJyL4W
-         LCxA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1785139070; x=1785743870; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iUOhhztmgpvLEc5gPCO2PXYJYdr4yBUECC9y0Kg5xWU=;
-        b=QGT/HzktyAZSYyS09YqGyszjwpR9WaHAQZSpwmQiSDK+92Vx8KG5uDnrBOxkOPVkz0
-         ENQ2BzBGxtoNHzoYZwYbWxjhT8699JNMpvdlo4kbtUACKLyXuK9XJ3mh1+upZvmPVCeT
-         tfGgrZ7N4t/nAGGGJfDljcKJm/6S6WL407Ho4dGVAbsDBTbOOMm427JfZqqqhnwWRC5F
-         pOY/thFRmCro/TWt6YrJlxNC35zgqHbAR1eF1QEJpP2XUVMNNiLOIEHVFEEnzYc6XNUu
-         Mwlyhrqi10zSfvEgDQFPnd8Jc/o07XnTnNU6UkOyBYV2EWrEPd9skuMCL9mgsDKpTXFS
-         2zrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785139070; x=1785743870;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iUOhhztmgpvLEc5gPCO2PXYJYdr4yBUECC9y0Kg5xWU=;
-        b=i/Q7C+dLphWPlIb8QDUqX8huT9fzXrhXsnWzUKZXbmzbe89ntWCd/z+6QlC0PJ024c
-         ZFOYjKG7G1EEpZZtOlDdSgvfmHsHAJclWiYb/CH9kS5tD+EEixOTC/3SxuxqdQO9+0BR
-         tAJYrJS1UgXmfYem7r91gBIwQEhFRLQLE8vzeOzN3R9g1iOYOAQH4Ow4dDY02Q6aUrK+
-         kh3GeuvjcFQGYGlUq8C6wTxyyzbmlu7130SDot98kY0FkheK52H/HlX8Q+zxfJbUeaj0
-         UygmoSQ+WfgrHQzo5xiJEBzTcYJW+UPPE16UiFbnFPG3kUjkMSfy/zrL0vjQYoYOI+Bs
-         lE2w==
-X-Forwarded-Encrypted: i=1; AHgh+RoE12PN8X/oN7Jjdr2OmJiiItoomTw98gmZAuZoLwrndwpbPTDsisa2387e87KySn0LC5axLnnD1pg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8vAJmkTYDsc5CoyNTNibPssnE49F9Hy7kDaSezRaBhtj/vEJd
-	0toocOlLTtLkxAs/yxxoh2VUi99q1mqCvZSWypytPLuM5PQR6soHrNaORcDDTz5rqouSYK6JH/0
-	2wgXTyl1Qefc6mFwEVSEyoLE3ukoO7oMQ4JBaKYBu
-X-Gm-Gg: AR+sD10V2txMk2O/FMr+3WX5ISPhtwpn3SIPQUSrVZUnjc0KRTLGlA5W2tmrAkndAhi
-	9Tz+shmtbg65HD+47JaF4sNbGUCCS97nlI3+JE72szCWL//JYpvyLibdendZPx9bIhXQeTbTQqy
-	B4jHVcaNlDsChLDc+sgYr3XhT6CbDYXo+nevPyl/OcNUC4nCboFxQQ6CTOlUx2wSbnxD8Hie+zD
-	p4z7FU44l56UFoDq1dAY7ThscxfdeyyeFfVrHVCdXA6fmwk5JOzQfHtchz/CQPdhtppJu2/uGQs
-	/0znML8HglYLDZNjZ0zrum1DdsyFLZjOVekXXWvizYo=
-X-Received: by 2002:a2e:b895:0:b0:396:9630:5ed with SMTP id
- 38308e7fff4ca-39f28798792mr12845401fa.15.1785139069116; Mon, 27 Jul 2026
- 00:57:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D35D36606A;
+	Mon, 27 Jul 2026 08:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785139366; cv=none; b=nBcSNg2HSTKthKfAe9Me/VFOjGth0Z/Xv/v/weSQ8fe3Flnr3ADKvcieqWkLXiYVsEwe8zdbSdu/F6aoE33SXcrCLh0LraR2MBLSwK+nOrUM8Xx5CiCZlP8rezajiV9Lp0VQ/tq0mJBqLCkvc5szHus+vDSymPuvPZRBabyItkA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785139366; c=relaxed/simple;
+	bh=aCqveZO/uwV475G3YTUcfnz1omPwXA4O42AmfQZEfnY=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JFzeI3KFGRLOxlSLXrh8nGXh5p9j533eKRW8hcG2cEQ/Vg8aUkW2pTrXd9RWjg1tjVZAECtL4Qv/V7m+OFrvZGmRefCI4q/wnhFuK+t38h2E0l8vbTevJQD6ODQEwdz4/u6lgO/VziXuedWtMjJJNDyyoEsnizkswyL6iQFHR6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 88EAF202055;
+	Mon, 27 Jul 2026 10:02:42 +0200 (CEST)
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1woGIM-001VP2-1U;
+	Mon, 27 Jul 2026 10:02:42 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1woGIM-000000007n2-1U0y;
+	Mon, 27 Jul 2026 10:02:42 +0200
+Message-ID: <d19b673bba6cfb5c9634510ba742021a7135f6c0.camel@pengutronix.de>
+Subject: Re: [PATCH net-next v9 11/12] net: pcs: airoha: add PCS driver for
+ Airoha AN7581 SoC
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn	
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet	 <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni	 <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
+ Horman	 <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan	
+ <skhan@linuxfoundation.org>, Lorenzo Bianconi <lorenzo@kernel.org>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Saravana Kannan	 <saravanak@kernel.org>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,  Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Date: Mon, 27 Jul 2026 10:02:42 +0200
+In-Reply-To: <20260717065448.1498335-12-ansuelsmth@gmail.com>
+References: <20260717065448.1498335-1-ansuelsmth@gmail.com>
+	 <20260717065448.1498335-12-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <09b4735f-c04e-40f3-a7f5-254b7918fbfd@app.fastmail.com> <ABB3CF80-5F05-4279-8E0F-73A21E6B9DDA@amacapital.net>
-In-Reply-To: <ABB3CF80-5F05-4279-8E0F-73A21E6B9DDA@amacapital.net>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Mon, 27 Jul 2026 00:57:35 -0700
-X-Gm-Features: AUfX_mwQJvIGRaZR31lPycIR7yR099WfdPkmt1H0sjuC7GUKOwBvxFooo8kQZeQ
-Message-ID: <CALCETrVSKnT=wo8j+3bUBjcizEEWcg_a7WtfK_erLDGRqp3f-g@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-To: John Ericson <mail@johnericson.me>
-Cc: Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jann Horn <jannh@google.com>, 
-	linux-api <linux-api@vger.kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
-	Farid Zakaria <farid.m.zakaria@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, LKML <linux-kernel@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-> On Jul 27, 2026, at 9:43=E2=80=AFAM, Andy Lutomirski <luto@amacapital.net=
-> wrote:
->
-> =EF=BB=BF
->>
->> goes along way to getting Capsicum's "capability mode".
->
-> One thing I dislike about this is that it=E2=80=99s (approximately) a tas=
-k mode. Why should an fd representing a capability represent one capability=
- (a subtree) to one task but a different capability (dotdot) in a different=
- task?  Do we need to prevent unsharing a userns if this bit is set?   Do w=
-e want to have to worry about any task that could potentially SCM_RIGHTS an=
-d fd to a task without that bit set? I prefer beneathness being an OFD prop=
-erty.
+On Fr, 2026-07-17 at 08:54 +0200, Christian Marangi wrote:
+> Add PCS driver for Airoha AN7581 SoC for Ethernet/PON/PCIe/USB SERDES
+> and permit usage of external PHY or connected SFP cage. Supported modes
+> are USXGMII, 10G-BASER, 2500BASE-X, 1000BASE-X and SGMII.
+>=20
+> The driver probe and register the various needed registers and register a=
+s
+> a PCS provider for fwnode usage.
+>=20
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  drivers/net/pcs/Kconfig                    |    2 +
+>  drivers/net/pcs/Makefile                   |    2 +
+>  drivers/net/pcs/airoha/Kconfig             |   12 +
+>  drivers/net/pcs/airoha/Makefile            |    7 +
+>  drivers/net/pcs/airoha/pcs-airoha-common.c | 1324 +++++++++++++
+>  drivers/net/pcs/airoha/pcs-airoha.h        | 1311 ++++++++++++
+>  drivers/net/pcs/airoha/pcs-an7581.c        | 2093 ++++++++++++++++++++
+>  7 files changed, 4751 insertions(+)
+>  create mode 100644 drivers/net/pcs/airoha/Kconfig
+>  create mode 100644 drivers/net/pcs/airoha/Makefile
+>  create mode 100644 drivers/net/pcs/airoha/pcs-airoha-common.c
+>  create mode 100644 drivers/net/pcs/airoha/pcs-airoha.h
+>  create mode 100644 drivers/net/pcs/airoha/pcs-an7581.c
+>=20
+[...]
+> diff --git a/drivers/net/pcs/airoha/pcs-airoha-common.c b/drivers/net/pcs=
+/airoha/pcs-airoha-common.c
+> new file mode 100644
+> index 000000000000..781f89adf3ab
+> --- /dev/null
+> +++ b/drivers/net/pcs/airoha/pcs-airoha-common.c
+> @@ -0,0 +1,1324 @@
+[...]
+> +static int airoha_pcs_setup_scu(struct airoha_pcs_priv *priv,
+> +				int index, phy_interface_t interface)
+> +{
+> +	const struct airoha_pcs_match_data *data =3D priv->data;
+> +	int ret;
+> +
+> +	switch (data->port_type) {
+> +	case AIROHA_PCS_ETH:
+> +		airoha_pcs_setup_scu_eth(priv, interface);
+> +		break;
+> +	case AIROHA_PCS_PON:
+> +		airoha_pcs_setup_scu_pon(priv, interface);
+> +		break;
+> +	case AIROHA_PCS_PCIE:
+> +		airoha_pcs_setup_scu_pcie(priv, index, interface);
+> +		break;
+> +	case AIROHA_PCS_USB:
+> +		break;
+> +	}
+> +
+> +	/* TODO better handle reset from MAC */
 
-Sigh, I keep thinking and typing OFD, and that won=E2=80=99t magically make=
- it
-be correct.  All these privilege restrictions applied to a file or
-path reference need to follow every user-controllable reference around
-correctly.  So if I fchdir or fchroot to a restricted OFD, my cwd or
-root needs to preserve those restrictions, and reopening "/" or "." or
-any other path (via root or cwd or openat etc) needs to respect the
-restrictions as well.  Putting it in struct path may or may not be a
-good idea.
+What does this mean? There's a "mac" and a "phy" control in rsts.
+Should the "mac" reset be handled differently? Or is there a separate
+reset line that is controlled by the MAC itself?
 
-And, if we allow cloning a restricted reference to a subtree to mount
-it, we need to make that work correctly too.
+> +	ret =3D reset_control_bulk_assert(ARRAY_SIZE(priv->rsts),
+> +					priv->rsts);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret =3D reset_control_bulk_deassert(ARRAY_SIZE(priv->rsts),
+> +					  priv->rsts);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
 
-Off the top of my head, for a minimum viable product, we could
-disallow cloning/mounting from a restricted reference.  And if we want
-to try delegation (as in my other braindump email), we could try
-*only* allowing delegation via clones/mounts and not in an OFD or cwd
-or root, since there are potentially mildly thorny or at least
-unintuitive interactions between symlinks and privilege delegation,
-especially if mounts can delegate.  (And I think that delegation via
-OFD/cwd/root but not via mount is so weak that there's almost no point
--- I want to delegate to a container, and that requires mounts.)
-
->
-> Note that the obvious giant holes in capsicum-without-a-mode (root and cw=
-d) and their respective dotdots are fixed, quite cleanly, by this current p=
-atch set.
->
-> I also think it=E2=80=99s a bit of an ancient mistake that paths like /..=
- work at all instead of generating errors. Maybe a future beneath-only fd c=
-ould also disallow trying to dotdot past the root, even for symlinks that c=
-ontain dotdots.  This isn=E2=80=99t just an aesthetic thing - if I have ~/f=
-oo/bar being a symlink to ../bar, I think it would be a mistake for a benea=
-th-only OFD to ~/foo to have =E2=80=9Cbar=E2=80=9D resolve successfully to =
-the wrong place.
->
->> Then we just
->> need to figure out things like more capabilities for directory file
->> descriptors per Andy's brainstorming thread thread (which I ought to get
->> to replying to).
->>
->> John
->>
+regards
+Philipp
