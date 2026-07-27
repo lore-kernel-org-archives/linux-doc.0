@@ -1,76 +1,135 @@
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.124.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F030218C2C;
-	Mon, 27 Jul 2026 01:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.124.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE7938A72A
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 01:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785114078; cv=none; b=KdIFNgy16MzU00+/dcI3ab0XgAAMQQcmwDvZXd4RbQJjCSpnIBBSiSpkdNvRcSv1PzNWgHtIrY9VExTs0PYOopzUwXd4JgMWGt/Qx8TDa6r8UgvgD4ph/M/tWZIXvLn2IdLUZW8IuDUmltf1MeB6QQUFyamwI2ph4RRBa8Dojkk=
+	t=1785116505; cv=none; b=Yp5jnL33FC/MAkcMBvR/bBPi4TBldOqhRhxs+6vZMVZYd9Kz2gTbaaSd21dfZzCLjV0L8SJdCmRjNqDWLsTwqDD8qUZ/EOd2WaNn9aB+Gn9FNlw6C6OIkzBQ+0w5LR4YEnrEs4d4zHz2C7TlyKXsF8RoKerlZf9UDmmLulO420Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785114078; c=relaxed/simple;
-	bh=El7CpyBKBnAv94RLMeWoZ0HhO6+bYPYFOiH1b9N7Bd4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sct4O+YSyyoK8ghOVBVkvjDiaqRlza96KKUzxvJuMqQf+RoKnbm5Pz21Je6NpaR8AuOOf01LbhYzOjuC4LJ8eYEPx0xN2OREWW5ObfYksrtgoSXhRRoXGpwxDnSkc4yIV/lF1MJGkv35H0KEuJ48mzgyGqR/BIIdtY5/2NYNIEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anka1.top; spf=pass smtp.mailfrom=anka1.top; arc=none smtp.client-ip=114.132.124.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anka1.top
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anka1.top
-X-QQ-mid: esmtpsz20t1785114014t8dcf5f46
-X-QQ-Originating-IP: sPknp0rBKMMI1vwaVXdXk6TG11xGLvX9xIwerMChUK8=
-Received: from anka-20eya00ycd.localnet ( [182.139.167.230])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 27 Jul 2026 09:00:12 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 15942914350571320713
-From: Siwei Chen <businiaoanka@anka1.top>
-To: Weijie Yuan <wy@wyuan.org>
-Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 0/5] docs/zh_CN: Add Chinese translations for five networking
- documents
-Date: Mon, 27 Jul 2026 09:00:12 +0800
-Message-ID: <54B9FF7CF7DE776B+6294277.lOV4Wx5bFT@anka-20eya00ycd>
-In-Reply-To: <amYgxGgd12VricV4@wyuan.org>
-References:
- <cover.1784866896.git.businiaoanka@anka1.top> <amYgxGgd12VricV4@wyuan.org>
+	s=arc-20240116; t=1785116505; c=relaxed/simple;
+	bh=P+IeIdV3xEFBB4H/lA/+B+OOLo8fcz/TNMqrT2maHzI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oj74fPl4imEx48jGQ3DgY8jkvjk6YgGQIjUp6534jKCWsnWVuDQd7vJtUciLnkQuoUQ+X7MonsivuDLIXvQkzLs6MNWAqlOQSXCjB0o3L/8F5eky1XmZoczMQJNCxA/HPJxTstLAlpYF/uxhVxJRuVl5hngAM9OOwg8L1XMfuAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XwlkO8IM; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XwlkO8IM"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-81ed073fed0so26472257b3.0
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 18:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785116503; x=1785721303; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v+AzfghQ44TeGSX/5Cn91O6zQUgy9oiVe8cggLcOOnA=;
+        b=XwlkO8IM90uGxg/QmyF4CowRaw2JSW7FdpVt+Px5e4dRFsQhsPae2mJ5WAoFzOG2Jc
+         pNooiSItaYF0q7c60gPZGfy+Bh4LPfmCWd80QNMQy3quxGfLGlO6HCAHPUmbIsD7Em/E
+         C8bWN3sV63e1YOr32aEdCTgx9oQ1xgEUAI3JKmocJ6ii9zuIqiVtSTWirDegZKWg9Or5
+         S9MnzoFRPOjaGbPvWZJpFcq4gi9YY7APxD5yhRaIDobm7g67QFFAQ6gUYtR9JtdQNsuB
+         xvsQu4Ky80UgUngsKZxOG94pilnFQZba5BkqotN4vQDQaKwhw5d/Z6aYtUTLv9fL4ZpC
+         fhZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785116503; x=1785721303;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=v+AzfghQ44TeGSX/5Cn91O6zQUgy9oiVe8cggLcOOnA=;
+        b=p08nwUP3QjaA5ZRE9vtaL24pv7N+jgBAi4+W/ux+tk/JFyHIiXf74fkioqkCUfMDF6
+         cV3Ce9bIQ7ucletnWhRaoYTlgl2mX3rRFas9Pg+LGfZ/hDV2rB8pTP/X98ZJolr7fhYp
+         CiJ5+CNVDaCfKy71alVxnr08Y4xxO14MyRMLkKHXRE63VKnX7JHhdu5rK3/ZDWvDBI+q
+         RZP0CIqcWdaCptdYCuTbdQcub3YxB3004d5Jv3tGWquDWWNFf6uTUP66oDJWasWSzyMD
+         mHMCmivcgcBv/hsWHWMPLth6m/OQ16JyY8033ZiRRcqBKSjC96BCEsxi+EPyDCqkJ+Ut
+         sL6g==
+X-Forwarded-Encrypted: i=1; AHgh+RqVPVKUp8cacL0HF6W3qhlEVeHOQLfLLiNmr9TuxbtVN4tHvD4mcypIuGmwecT07ZSAMMhNRoEMz90=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3pku6fhPh9ASzdl5SikGOPPPL2xHHxNAafNIkm9dInJAxN3FD
+	myeOTjWt12Mwr0TBYjLHOg+G3/og+7a1+0mEzLnDWSAqy27JZ7iplNvk
+X-Gm-Gg: AR+sD10Ln84mNw8xAoDHh5I7CrBMqVw42QtvdoP06XbNY0OUDe9jU9nQIimWXyDdQmc
+	bEJuiyZ79NHlfSTvU+8DG1vBF/XGvZaYOqXTh9sfEHGRN87b7KheewseDj2es+zAgeR+CjBVQB+
+	odTsYXoDbR8d7Y+l9xHsVkvvcO5t2kAmyUEzu2pzUToxhfDg5uC6dZWYtYy61YPOhNQsyb8vWXq
+	yfOdQyfzTAK9crNU6Apgl1MdnaoPhP4Bp7ngMIT33oxKduqbnb5xGPIe9ZWWJH9qps1W0m/u1W7
+	JVpPXQFB2Fnpb86L/IXW4SSUdytRd4ZVjzWJ0hXluFDzdxSXgoBO9zyvwX4MTasqKvn8cWK3mPo
+	xbnJmgGKkEs3Jig0NDH6TIWJOZwRtjnfT1s8vioI6Yj66dtkK6GhX6aOln9RWVOLksq6MdXY/3P
+	aPHvXo1CNK8GnlOtIfLauoQt8PhMY3aTY=
+X-Received: by 2002:a05:690c:317:b0:81e:29d8:fae3 with SMTP id 00721157ae682-81f69e5051bmr20875487b3.46.1785116502789;
+        Sun, 26 Jul 2026 18:41:42 -0700 (PDT)
+Received: from hoboy.vegasvil.org ([2600:1700:2430:6f6e:e2d5:5eff:fea5:802f])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f6592ec1asm25204717b3.45.2026.07.26.18.41.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jul 2026 18:41:41 -0700 (PDT)
+Date: Sun, 26 Jul 2026 18:41:37 -0700
+From: Richard Cochran <richardcochran@gmail.com>
+To: Arthur Kiyanovski <akiyano@amazon.com>
+Cc: David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	netdev@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Miroslav Lichvar <mlichvar@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Wen Gu <guwen@linux.alibaba.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	David Woodhouse <dwmw@amazon.com>,
+	Yonatan Sarna <ysarna@amazon.com>,
+	Zorik Machulsky <zorik@amazon.com>,
+	Alexander Matushevsky <matua@amazon.com>,
+	Saeed Bshara <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>,
+	Anthony Liguori <aliguori@amazon.com>,
+	Nafea Bshara <nafea@amazon.com>,
+	Evgeny Schmeilin <evgenys@amazon.com>,
+	Netanel Belgazal <netanel@amazon.com>,
+	Ali Saidi <alisaidi@amazon.com>,
+	Benjamin Herrenschmidt <benh@amazon.com>,
+	Noam Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>,
+	Evgeny Ostrovsky <evostrov@amazon.com>,
+	Ofir Tabachnik <ofirt@amazon.com>,
+	Amit Bernstein <amitbern@amazon.com>,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	shuah@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>, vadim.fedorenko@linux.dev
+Subject: Re: [PATCH v4 net-next 0/7] ptp: Add PHC timestamp quality attributes
+Message-ID: <ama3UYqwwoJ3j8bq@hoboy.vegasvil.org>
+References: <20260714020340.25014-1-akiyano@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:anka1.top:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: NrdcSSbhenTUjo55adpgFRpP3Qj/owZB46nlM+jdw0278zVi2Zu15vu6
-	820I/AxM8DkTu+9alkqYmI2J5BpYcjPgJrRdPEpSsa7OMl140uWNoSGegISPkQPAbKyHUeu
-	JLgQKpqfJwr616pVgd/XpHEbbrJMoCuNxPuB5+UCTs/8GjI0vQ/KLlgB0H2SYImQRQIpYtN
-	zuHhsBb0GmnhdWShbX07ABWdF0Ex0DwSqlQLE405LxSNZKzIawOR+6k4NUFAyvZZcwmNWHN
-	p78nNrtCLqzMVmxgciGFTaZdEvx1WvS+gAtVGAqg5e61xADJ4gg72UKxZId4HbQAFhYW+50
-	fVQnuV2hTtpf+KwVutQOXZLPe94H+Fgsknz0dLAObwyxbVnPSW87WYiba2cCrQy3I5eC/z/
-	skQO8s9yKwVBavr/Ee70yMRUcXch3ivdx48onl/K9JjL8E3a9fOcwrD5bSAmI1QkVeBBpHf
-	Vk4+UwDo5KLSsssTxtBRWoC5TSeB5PxfiDVpGys88R7AGAxaLF5aiSq95mSy04BQYwD9mF2
-	ngLPuxRaBCH7pxillJeN+sQCrB0j7m1ao/WVCY3hDS5p2BeTI92vRJWUcuGGDiwhG0zrazh
-	M4jb+MDDAmB48HcVsOej6PpOWe5GQLLJcCOWI7kq3eqnBAGmPZQCFbBF6YVAulPGnBPhApp
-	nWuYiqjjlIBmaYrUOHNX+0IjMxahaO5vTuxc3IHzbQCFca7BRSKB3f0+nRoe0jrzRYmh3aF
-	7C0fr9k8eQsmgmG9JTaw+BG6PxRtj5DshJYI0N+JEe1kw+wZPee7d8RkEXfXGOSxEunPgaD
-	LBh/cRcUE8MpdVX3La7xbxUTMX5Z+LBIqxvh/FujYmSEFiEWPOSnk/Iq8+azl/BeGh03hce
-	4nSmUFZd0RWIlR5KvYzV0/sVwkJ2im0xq+CWARQuIk/Cj9cwFHEkfQCiEwcZ5E9raqn2OF/
-	aLKdjXujkPK/Bic1/AmzGEDOIOES410W8kgU/zhSubO7jUQ==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylWR1A4xI9juj8FskTeQJjw==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260714020340.25014-1-akiyano@amazon.com>
 
-5ZyoIDIwMjblubQ35pyIMjbml6XmmJ/mnJ/ml6Ug5Lit5Zu95qCH5YeG5pe26Ze0IDIyOjU5OjE2
-77yMV2VpamllIFl1YW4g5YaZ6YGT77yaCj4gSGkgU2l3ZWksCj4gCj4gT24gRnJpLCBKdWwgMjQs
-IDIwMjYgYXQgMDE6MTM6MzZQTSArMDgwMCwgU2l3ZWkgQ2hlbiB3cm90ZToKPiAKPiBTaW5jZSB5
-b3UgaGF2ZSB1cGRhdGVkIHRob3NlIGZpbGVzLCB5b3Ugc2hvdWxkIGFsc28gdXBkYXRlIHRoZSBp
-bmRleAo+ICh0b2MpOgo+IAo+ICAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9uZXR3b3JraW5nL2lu
-ZGV4LnJzdAo+IAo+IFRoYW5rcy4KClRoYW5rIHlvdSBmb3IgdGhlIHJlbWluZGVyLiBJIHdpbGwg
-YWRkIHRoaXMgcGFydCBvZiB0aGUgcGF0Y2guCg==
+On Tue, Jul 14, 2026 at 02:03:01AM +0000, Arthur Kiyanovski wrote:
+> This series adds quality attributes to PTP Hardware Clock (PHC)
+> timestamps, allowing userspace to obtain error bound, clock status,
+> timescale, and system counter values alongside timestamps in a single
+> call.
+> 
+> Motivation
+> ----------
+> The existing PTP APIs return timestamps without any indication of
+> their quality. Applications that need clock accuracy and
+> synchronization status commonly rely on external tools such as
+> ptp4l, which implement synchronization logic and can export their
+> measurement of clock accuracy.
 
+Yes, and what is wrong with that?  Nothing, AFAICT
 
+? For managed PHC devices — such as
+> the ENA network adapter, whose clock is synchronized by the device
+> without userspace involvement — these tools are not available, and
+> the existing APIs lack a way to report quality metrics to consumers
+> of time.
 
+So make some user space tool that advertises your device's qualities.
+
+Don't push this stuff into the kernel, where it doesn't belong.
+
+Thanks,
+Richard
 
