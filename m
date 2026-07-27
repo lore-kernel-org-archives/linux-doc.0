@@ -1,182 +1,231 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870D23988FA;
-	Mon, 27 Jul 2026 08:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B58288B1;
+	Mon, 27 Jul 2026 08:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785142509; cv=none; b=N7+fV3pbZJlTqYXPukd4t5i9+9wvNSCKnU7E/riAwUvc3JAo3nE7v+kEZV2WgiX7Hed9pJC7RbU++vyNdadLXdmLao0YWYMyfs1CtzX0Qe2yXN6e0OFjlfClwlo3L3vUM+lAX2uoqts5F4wrqm/e6JNtrOkHOM/YdGTl9XiMhW8=
+	t=1785142575; cv=none; b=pXxPCxL1Usa7bQ/VM6cECwcMsho1VnnNajISoX9+YB6JbhxAw55wKsPZIFqPtUMAhQcj1zBdSMCzzF9i7fpHlppgjnPDuTAXna0z4yY1o0uazocIulgEvl0tND68CcDIFquX7dLQJtkr3j0IFSqigTvb+D1oAD6UQgoVlVImKMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785142509; c=relaxed/simple;
-	bh=VIUIcef0y8xYwHIZfq8XT5DSP1PTByonZZgZX4jYJjc=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=QHDDmxKV6kk/osm0Fnhz2cmdZZFDsfMwfSJRj1Ts+92kGmVxOWcJ0rYcVjl3HNFo24f62gu+XSWNXJ/J8YEysSNTchdBrJB6VavcfkSValYSmpuwRDgPoQ4vmr61EqSAfRbDPPJ6PC6m3bTCAOkDahoXmW5KTRN/NSW8WlC9tmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nsgd1Pbv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785142575; c=relaxed/simple;
+	bh=EwdRi4tElG+0qe0BnhMKaMjXX3+o9ZAFoaBHoLX+/oI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tSQEpMc2BadFAh5L0Lh1SyyGUGRoqRNwzv42Av9HXbVBajYb0oBjiSQYbNB0MwFebPIvbeksjQw88Oy064nJPzDyFob+t9pXM5665ziK6gaUOiTtVBiYEAUiHSH/s7zbKij6I/nS0ok4SiCb2mtCbrUqqNJRv9nYTUi9C5CzA8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=aXXNMFWI; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nsgd1Pbv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20C3C1F000E9;
-	Mon, 27 Jul 2026 08:55:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785142508;
-	bh=wmpAzoIh2ygP1QxiJ0z6lzAFz+KkFkXT++K3Z7V9lFI=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=nsgd1Pbvsa+4SSMZehnETFGVhpGyLEzoKmBhd2uDuIV1WlMnjyi4qkFqsSGs66BLO
-	 dIM9Nuvp9lUuuDS6BmeMMLAnjqfnvPu6fHYRKpHz7gdYfBEaA+wB5fPGCRnm16aV9Y
-	 FlRfQt3zgWlxlX3sLYQRYXEOBCZwouSI4M8AmdXSg7OWGFShYInus70UUVgor6ndg/
-	 M+b2EG/dBoiFO2NWZVgDPQKat3AcGYTrXgGJ5AYMgHs2siflaNyQc9oh95rVkbGJlU
-	 liigB0DprAss5cAExm4Y8E4Fp6KvT+NtK463P3GnS6SehKUJiZOnYiVveigtNynuHv
-	 bSbJI+vT1SCWQ==
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="aXXNMFWI"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66R7lgs43931632;
+	Mon, 27 Jul 2026 08:55:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=XgvhRK
+	XymUWn+Gm165KKZq2jgPIfLqjBSMLXta5XzNQ=; b=aXXNMFWIf/uytlBtAQz5az
+	9ZrSldBrLhOi0qpVxEclUcHr2C/pq/sVevomBxWh/zAJzgc1c8sWjmZ8pW3AdFd4
+	Vi6E6+bjs7MGtjFvK8QFghBrSorkERn4lElT1Kd41PbI/BmdFCpLF80msoMesptN
+	ZrIkeQs6g6aZjYn22527IeA5O/qji4Eabqfzjg3gTQo62jrTbi5aMtzzsXyCHvCp
+	tMgwBV8JbZHYDcs6lpWSTVa35BlBz4GRfJU6E4uhyQa6T7taR2LIPS4ndMvfhcLl
+	OhDlduGOGJV/0L2xQXypGKlT26MYXyGR8cM0NU+2kdtrJmBLbJZTFxAOXZ6uXr+w
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmuyc73rx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Jul 2026 08:55:51 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66R8fGAT018737;
+	Mon, 27 Jul 2026 08:55:49 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fn7uvvr5p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Jul 2026 08:55:49 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66R8tj9c33423760
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 Jul 2026 08:55:45 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 963032007A;
+	Mon, 27 Jul 2026 08:55:45 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 13B4820075;
+	Mon, 27 Jul 2026 08:55:36 +0000 (GMT)
+Received: from [9.39.23.10] (unknown [9.39.23.10])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 27 Jul 2026 08:55:35 +0000 (GMT)
+Message-ID: <93f57732-f110-4289-a9d3-b760da566bff@linux.ibm.com>
+Date: Mon, 27 Jul 2026 14:25:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [RFC PATCH 0/2] init: boot image-based systems without an
- initramfs (rootimage=)
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Curtin <ericcurtin17@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y . Ts'o" <tytso@mit.edu>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org, 
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260718191551.1703670-1-ericcurtin17@gmail.com>
-References: <20260718191551.1703670-1-ericcurtin17@gmail.com>
-Date: Mon, 27 Jul 2026 10:55:02 +0200
-Message-Id: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
-X-Mailer: b4 0.16-dev-09492
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6395; i=brauner@kernel.org;
- h=from:subject:message-id; bh=VIUIcef0y8xYwHIZfq8XT5DSP1PTByonZZgZX4jYJjc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSly7zw7ZB7Kf+6ecWdBS1c69VMY7dZr7gS7rOJ5bN7W
- 9TlXzYCHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABO5E8TIMDtn5qttv9rf8K2f
- tPnglW+CZzptLWcUPj1/6dbTQwJ7vGQZ/qmw1DswbnJ9uPXr1/kZ7ifDTOy/lPbdiNp9unKXvN9
- JezYA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 06/11] sched/core: Push current task from non preferred
+ CPU
+To: Yury Norov <ynorov@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
+        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
+        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
+        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
+        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
+        linux-doc@vger.kernel.org, jgross@suse.com,
+        virtualization@lists.linux.dev
+References: <20260724140732.2683314-1-sshegde@linux.ibm.com>
+ <20260724140732.2683314-7-sshegde@linux.ibm.com> <amPhfyyVK-5g1PV5@yury>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <amPhfyyVK-5g1PV5@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: EWLXC-aeMlQ2WNURWcx9pbvyfgqVEuZH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDA4NiBTYWx0ZWRfX8busp0i0RAij
+ ysue37k04cjlIISuH8nSqOrmdezAJblJUPQETxz/PCF2aWVe8y1hvlk3bAQlS6QnnYZwWZYMs9b
+ LIc8jbJzQL8G+gTQ9E53VKsu2Sutazyrg+NN8kHhs25NHtLkbA37i+3nYAVeoiBWwB1pbzKrQGP
+ rWifLPRhMABn9YrZkLmc6tfB/DE1LkoZhTvQh1WHIZO9L18EQU1gfFlrGJRUXNp0+eBShVdOTBq
+ WkFfyZ3TZji/2NGdI/R68kmAbsKOpS/eEVcy4yhEL0ekj8nvsmYiTRgdRKtuKLycXDQQPSg6PDd
+ lr7GkXn2ni8KIGrAYvOmUuan48CflmUFCsZ7z9HlGjp8WJrz4ZpnfC4NOLwcu73mQ+7FM7e40kM
+ tc61wmnbfOri8gcwSdCXkMsdwNTHpXSCMIrvfLVIjOtQ2egeSf/ERD3mS7dqchHEVpGlErfZITh
+ rDx2IfFVVGSCTFdOT3Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDA4NiBTYWx0ZWRfX7gNrW14KdPcE
+ EMaLp/lv2OFb98Ynmd+znDp0adEN8ZxEoHdrtUDZQDQojf8YnxJ/dLrS/QrMOA3il/6hPgHdMyE
+ OdO/dy/134YshUKAdHsRpXGjpEcFirc=
+X-Authority-Analysis: v=2.4 cv=AZeB2XXG c=1 sm=1 tr=0 ts=6a671d17 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
+ a=iZAcCB8-FdyIZWZutlUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: UIhXhdUf10bfwPHIA7vSQY3EhEl32iZI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-27_02,2026-07-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0
+ clxscore=1015 malwarescore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270086
 
-On 2026-07-18 20:15 +0100, Eric Curtin wrote:
-> Image-based Linux systems (bootc-style OS updaters, ChromeOS/Android-like
-> A/B schemes, embedded appliances) keep one or more immutable root
-> filesystem images as sealed files on a writable filesystem and pick one
-> at boot.  Booting such a system today always requires an initramfs, even
-> when that initramfs has nothing else to do; its only jobs are to parse
-> the kernel command line, mount the state filesystem, verify the image,
-> loop-mount it and switch_root into it.
+Hi Yury,
+
+On 7/25/26 3:34 AM, Yury Norov wrote:
+> On Fri, Jul 24, 2026 at 07:37:27PM +0530, Shrikanth Hegde wrote:
+>> Actively push out task running on a non-preferred CPU. Since the task is
+>> running on the CPU, need to stop the cpu and push the task out.
+>> However, if the task is pinned only to non-preferred CPUs, it will continue
+>> running there. This will help in maintaining the userspace affinities
+>> unlike CPU hotplug or isolated cpusets.
+>>
+>> Though code is similar to  __balance_push_cpu_stop and quite close to
+>> push_cpu_stop, it is being kept separate as it provides a cleaner
+>> implementation with CONFIG_PREFERRED_CPU.
+>>
+>> Add push_task_work_done flag to protect work buffer.
+>> Works only with FAIR class.
+>>
+>> For now, only current running task is pushed out. This keeps the code
+>> simpler. In future optimization maybe done to move all the queued
+>> task on the rq.
+>>
+>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+>> ---
+>>   kernel/sched/core.c  | 78 ++++++++++++++++++++++++++++++++++++++++++++
+>>   kernel/sched/sched.h |  8 +++++
+>>   2 files changed, 86 insertions(+)
+>>
+>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+>> index 9e8eec4451b6..704043531b24 100644
+>> --- a/kernel/sched/core.c
+>> +++ b/kernel/sched/core.c
+>> @@ -5774,6 +5774,9 @@ void sched_tick(void)
+>>   	unsigned long hw_pressure;
+>>   	u64 resched_latency;
+>>   
+>> +	if (!cpu_preferred(cpu))
+>> +		sched_push_current_non_preferred_cpu(rq);
+>> +
+>>   	if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
+>>   		arch_scale_freq_tick();
+>>   
+>> @@ -11292,3 +11295,78 @@ void sched_change_end(struct sched_change_ctx *ctx)
+>>   		p->sched_class->prio_changed(rq, p, ctx->prio);
+>>   	}
+>>   }
+>> +
+>> +#ifdef CONFIG_PREFERRED_CPU
+>> +static DEFINE_PER_CPU(struct cpu_stop_work, npc_push_task_work);
+>> +
+>> +static int sched_non_preferred_cpu_push_stop(void *arg)
+>> +{
+>> +	struct task_struct *p = arg;
+>> +	struct rq *rq = this_rq();
+>> +	struct rq_flags rf;
+>> +	int cpu;
+>> +
+>> +	if (cpu_preferred(rq->cpu)) {
+>> +		scoped_guard(rq_lock, rq)
+>> +			rq->push_task_work_done = false;
+>> +		put_task_struct(p);
+>> +		return 0;
+>> +	}
+>> +
+>> +	raw_spin_lock_irq(&p->pi_lock);
+>> +
+>> +	/* This could take rq lock. So call it before rq lock is taken */
+>> +	cpu = select_fallback_rq(rq->cpu, p);
+>> +	rq_lock(rq, &rf);
+>> +	rq->push_task_work_done = false;
+>> +	update_rq_clock(rq);
+>> +
+>> +	context_unsafe_alias(rq);
+>> +
+>> +	if (task_rq(p) == rq && task_on_rq_queued(p) &&
+>> +	    !is_migration_disabled(p))
+>> +		rq = __migrate_task(rq, &rf, p, cpu);
+>> +
+>> +	rq_unlock(rq, &rf);
+>> +	raw_spin_unlock_irq(&p->pi_lock);
+>> +	put_task_struct(p);
+>> +
+>> +	return 0;
 > 
-> This series teaches the kernel to do all of that directly:
+> You always return 0, and don't test the return value. Just make it
+> void, or return (and handle) some error, please.
 > 
->   root=PARTUUID=... rootimage=/deploy/a/root.erofs rootimagefstype=erofs \
->       rootimageverity=sha256:a9548f4c... rootimagesrcdir=/var/state
-> 
-> Patch 1 adds rootimage= (plus rootimagefstype=/rootimageflags=/
-> rootimagesrcdir=): root= then merely names the "carrier" filesystem.
-> The image file on it is mounted read-only through the filesystem's
-> file-backed mount support (available in erofs since v6.12), so no loop
-> device is involved, and it becomes the root that prepare_namespace()
-> pivots into.  The carrier mount is detached by default, or moved to
-> rootimagesrcdir= inside the new root, which image-based systems
-> practically always want since the carrier holds their writable state.
-> 
-> Patch 2 adds rootimageverity=, which requires the image to carry a
-> specific fsverity file digest, reusing the fsverity_get_digest()
-> interface that IMA and overlayfs already use for digest pinning.  With
-> a signed or measured command line (e.g. a unified kernel image), the
-> chain of trust extends to every byte of the root filesystem with no
-> userspace boot stage: the pinned digest authenticates the image's
-> Merkle tree root, and fsverity keeps verifying reads against it at
-> runtime, so later tampering with the carrier is caught as well.
-> 
-> This is the file-backed analogue of dm-mod.create= (CONFIG_DM_INIT),
-> which moved the equivalent block-device setup out of the initramfs for
-> verity-partition layouts back in v5.1.  For file-based deployment
-> layouts nothing similar exists, so distributions ship a dracut stack
-> whose only purpose is the five steps above, and which remains the
-> largest and most failure-prone moving part of an otherwise fully
-> image-defined boot.
 
-So I have several structual and design issues with this.
+Currently all the function callbacks of stop_one_cpu_nowait return 0.
+This can't be changed to void today since signature mandates int.
 
-In the first pach the filp_open() and subsequent fput() are unused.
-And that claim "the image cannot change between this open and the mount
-below" is resting on very weak assumptions.
+typedef int (*cpu_stop_fn_t)(void *arg);
 
-The second patch then checks the digest on the struct file from its own
-filp_open(). But the mount goes through init_mount() with the path... so
-erofs does a third lookup via filp_open(fc->source)...
+Also even if return value is of some error, it doesn't make any difference.
+This is because in cpu_stopper_thread, return value is propagated only if it
+wait for work to complete semantic. stop_one_cpu_nowait sets done=NULL.
 
-Nothing guarantees that there's a relationship between the verified
-inode and the path the superblock is created from. The only guarantee is
-that no userspace yet exists but which can't really be enforced.
+bool stop_one_cpu_nowait(unsigned int cpu, cpu_stop_fn_t fn, void *arg,
+                         struct cpu_stop_work *work_buf)
+{
+         *work_buf = (struct cpu_stop_work){ .fn = fn, .arg = arg, .caller = _RET_IP_, };
+         return cpu_stop_queue_work(cpu, work_buf);
+}
 
-To support this properly we need new infrastructure such that you can
-actually hand an already opened file as the source. I know that erofs is
-intended to merge support for this at least but this should be generic
-infra available to any fs.
+cpu_stopper_thread:
+                 ret = fn(arg);
+                 if (done) {
+                         if (ret)
+                                 done->ret = ret;
+                         cpu_stop_signal_done(done);
+                 }
 
-Note also that the default detach mode creates a zombie superblock and
-the image superblocks source string (/root/deploy/...) dangles after the
-pivot. /proc/self/mounts names a path that doesn't exist in the final
-namespace. And unlike loop there's no /sys/block/loopX/loop/backing_file
-to recover which file backs the root.
-
-The other claim is that the digest sufficiently guarantees the integrity
-of the root filesystem. That's not correct per se...
-
-An erofs multi-device filesystem blows this apart and
-rootimageflags=device= would also add more. So that digest only cover
-the primary image.
-
-The bigger flaw is that the untrusted "carrier" (LLMs do pick the worst
-terms for things...) is fully parsed before anything is verified.
-
-In other words, mounting the carrier means running the ext4 (or
-whatever) parsers and infra over attacker-writable data, and the
-fsverity descriptor are themselves read from that untrusted fs. So
-basically you're hosed before you ever got to the fsverity part.
-
-This is also now the third fsverity-digest-pinning mechanism (IMA
-appraisal, the IPE LSM and now rootimageverity=). With the least
-expressive policy language of the three. No signature or keyring option
-either and so the boot entry must be regenerated per image update.
-
-You're embedding a whole deployment topology into the core code here as
-well... There are _five_ interacting __setup parameters. Every real
-deployment immediately wants a sixth knob: A/B fallback inside the
-mechanism. Because in your current model every failure is a panic().
-
-But that also means image selection must live in the bootloader anyway:
-composefs/overlay stacking, LUKS-encrypted state partitions as command
-lines can't do crypto secrets, fsck of the carrier, directory-based
-deployments yadayadayada.
-
-This is just turning do_mounts.c into policy it shouldn't be involved
-in. We just refused pushing the bootloader spec into the initramfs for
-the same reasons - and that one I'm much more sympathetic to since I was
-involved in creating it. I'd love to see parts of that in the kernel but
-I refuse it because I believe fundamentally the kernel is in the
-business of keeping complexity in userspace not the other way around.
-
-Also the users the cover letter touches on such as distro kernels ship
-erofs and its decompressors, the block drivers, and the fs stack as
-modules. Afaict, rootimage= needs all of it builtin:
-
-- bootc/ostree: composefs — multi-mount + overlay + external objects.
-  inexpressible here and partially unverifiable
-- ChromeOS/Android-style A/B: dm-verity partitions already served by
-  dm-mod.create= and a fallback story.
-- embedded squashfs appliances: no file-backed mount support in squashfs
-
-What remains are single-erofs-filesystems with fully-builtin kernels.
-That's kinda what CONFIG_INITRAMFS_SOURCE embeds a five-line static
-/init into the same signed/measured kernel image with identical trust
-properties and full policy freedom.
-
-UKI users likewise already sign and measure their initrd as part of the
-PE. The series only really makes sense if you get rid of that.
+If we really need to return void then we need a new function signature for nowait
+variant. Adding separate function signature just for nowait isn't probably worth.
+What do you think?
 
