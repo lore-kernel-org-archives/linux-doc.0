@@ -1,70 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CD531E820;
-	Mon, 27 Jul 2026 09:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C7D12CDBE;
+	Mon, 27 Jul 2026 09:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785143232; cv=none; b=eJ1plY2sgz4ZmT7k3aI/RiFTcCyONlQkRvTdcTNa8S3FYq/YgMAP3J2FkWfxeteMW5NSOkV9SCmcFFihGaNqcAuQt5+sPkSNwI5w+rdj1Wn6BTRYwPRNlukMwYIwFEuTnU83ii0cYzLc7/NMxjWDg2XuneGdViwlG6llu5LrHUM=
+	t=1785143689; cv=none; b=rLBhZUUhbRZHLQaz6AC9DFuIgZvrmJ/KnkUl8AoqqTUpAD/4L6Dm3xqNlPen6lfHK+Le1UgyVUTLgqmctIoPG6DkgPsHc0OvBKPtmdEAcR465mU6IKlUNvbF55+l51uFbciWQajZ4SG3iWoEpXAhlatEf9F1KXa7sNuphg9vOnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785143232; c=relaxed/simple;
-	bh=oOzv9STeYiNA+al6m1DSB2JFlQOMavURRDoBppDc5Ro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dXQY1/WANF3P0PswjDYGomsjZ9Em6RXaU97wIr05240/bcfzYwkfIPt9afN2kbWgR8W9Um37br/CHgnIB+P0iXiVEk2EoUbEYgUFAYb+xecNRMH63IXavrWzxRR3AOHE20CCeozt3XUxPW3z+Tu1WnMVdT3vaZgY2obaEZvCl04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IAfqTkrZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785143689; c=relaxed/simple;
+	bh=NfYpoUMN9/X7f2jfaC+vNLPjME/exDFZPXKUrYX6930=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
+	 MIME-Version; b=nj6wy0E6QHkc0jnYKrAS060EEu66H7OKR78q5W619McpoiMKdOcODg8ePvB99TxFcsjdhF9xPL/BrW80Ar3cyZMPBZjyNPXRKwxkxyh8j3233Kcom6E+rWca4upnkUVKPvWosIneptnJaBO+6qVt1edTo33DgpligLcD2DCpxtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jpPJoLJo; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IAfqTkrZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633F01F000E9;
-	Mon, 27 Jul 2026 09:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785143231;
-	bh=47OcSGHqYNsZ+zLEFQ0Nx9/aS1Vdcnvn7RHzq7+qcM8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IAfqTkrZKstX75hF+WJdqBDJYaj3tO4iiynYcY+36mAXWDw6eAO5kDsFQES/Zba30
-	 HybI5Nu5EgfVAS5OxyCp90M4142EfAxN1iP/V6xIb/c4tcYo/Duq1LBloFAyEnuo5C
-	 CqsWyEXjeqmpJ1XKSG1jUsjoDdPg1R0pCSdHu+pe15mvvLuSYS9Zuz/+xGmnIBFoxF
-	 sKMaqfsyf3mDdL/eOJsY6Nsj0L8Nu80hJIYdJnneJycj25nowvnimOc6PbDU9Vrv4z
-	 rpGi/xLNkwqA5Fs3SBxjPHv0rUfbf4VjGzIdGksOoo2Uw+0a7U74xCFqrI7wwbKjVx
-	 2khAmHll/c65g==
-Date: Mon, 27 Jul 2026 11:07:07 +0200
-From: "krzk@kernel.org" <krzk@kernel.org>
-To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
-	"linux@roeck-us.net" <linux@roeck-us.net>, "robh@kernel.org" <robh@kernel.org>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"corbet@lwn.net" <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Sanman Pradhan <psanman@juniper.net>, 
-	Debjit Ghosh <dghosh@juniper.net>, Jawahar Balaji Thirumalaisamy <jawaharb@juniper.net>, 
-	Santhanakrishnan Balraj <sbalraj@juniper.net>, Brian Mak <makb@juniper.net>
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: pmbus: Add Analog Devices
- MAX16545/MAX16550 and Volterra VT7505
-Message-ID: <20260727-stoic-marble-gazelle-732aa6@quoll>
-References: <20260725211945.288415-1-sanman.pradhan@hpe.com>
- <20260725211945.288415-2-sanman.pradhan@hpe.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jpPJoLJo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
+	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:References;
+	bh=ufie+w+pqbVZPOgzRhGcxQlAlOiFTZ4zP1NbGEtE4KQ=; b=jpPJoLJo+OtxsZ0TbF7rkVtdDT
+	Bh93/FPvDFACT4XlLgtRidKTfWUPyU2NKIDNW883sKjaIA8CyoaxWbO3CMGTUomfr8sVCDH0AFxH2
+	fcaWmhOghv3vY3jtU41Hb0QeXlD2taRyadBseDrc3VAnfeqmT4MsXkhXUqjfkmS1D9a742hexW9FV
+	zdGUHSXgiGXoM7Ed1gBcAozbOU1OJn6lsEgXr7V2x0K+XNTb6cRvpHSrVwrOkilKpMDl9jZ031SEP
+	l5Wnk18wBKY9w8BuDapgXv7IurkjARSoQG5RpLeMuYzang/OzBQCZoEQqb/WAIRFnm91/uA1RsPVU
+	3F7jozeA==;
+Received: from [2001:8b0:10b:5:45df:678b:e980:5dcd] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woHQ4-0000000ALhc-0og9;
+	Mon, 27 Jul 2026 09:14:44 +0000
+Message-ID: <c00799cbb59a621b699c5109ed646bc872145f00.camel@infradead.org>
+Subject: Re: [PATCH v5 net-next 4/7] ptp: ptp_vmclock: Implement attributes
+ ioctls
+From: David Woodhouse <dwmw2@infradead.org>
+To: Arthur Kiyanovski <akiyano@amazon.com>, David Miller
+ <davem@davemloft.net>,  Jakub Kicinski	 <kuba@kernel.org>,
+ netdev@vger.kernel.org
+Cc: Arthur Kiyanovski <akiyano@amazon.com>, Richard Cochran	
+ <richardcochran@gmail.com>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+	 <pabeni@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Miroslav
+ Lichvar	 <mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Wen Gu
+	 <guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Yonatan
+ Sarna <ysarna@amazon.com>, Zorik Machulsky <zorik@amazon.com>, Alexander
+ Matushevsky	 <matua@amazon.com>, Saeed Bshara <saeedb@amazon.com>, Matt
+ Wilson <msw@amazon.com>,  Anthony Liguori <aliguori@amazon.com>, Nafea
+ Bshara <nafea@amazon.com>, Evgeny Schmeilin <evgenys@amazon.com>,  Netanel
+ Belgazal <netanel@amazon.com>, Ali Saidi <alisaidi@amazon.com>, Benjamin
+ Herrenschmidt <benh@amazon.com>,  Noam Dagan <ndagan@amazon.com>, David
+ Arinzon <darinzon@amazon.com>, Evgeny Ostrovsky	 <evostrov@amazon.com>,
+ Ofir Tabachnik <ofirt@amazon.com>, Amit Bernstein	 <amitbern@amazon.com>,
+ linux-kselftest@vger.kernel.org, 	linux-doc@vger.kernel.org,
+ shuah@kernel.org, Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Bjorn Helgaas
+	 <bhelgaas@google.com>, vadim.fedorenko@linux.dev
+Date: Mon, 27 Jul 2026 10:14:43 +0100
+In-Reply-To: <20260717065924.2556-5-akiyano@amazon.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-14UlefXFAh62uNa2FgAn"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260725211945.288415-2-sanman.pradhan@hpe.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On Sat, Jul 25, 2026 at 09:20:06PM +0000, Pradhan, Sanman wrote:
-> From: Sanman Pradhan <psanman@juniper.net>
-> 
-> Add device tree binding documentation for the Analog Devices MAX16545 and
-> MAX16550, and the Volterra VT7505 PMBus controllers.
-> 
-> Signed-off-by: Sanman Pradhan <psanman@juniper.net>
-> ---
-> Changes in v4:
-> - Add an upper bound (maximum) to adi,rload-ohms.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+--=-14UlefXFAh62uNa2FgAn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Fri, 2026-07-17 at 06:59 +0000, Arthur Kiyanovski wrote:
+> Implement the gettimexattrs64 and getcrosststampattrs callbacks in the
+> ptp_vmclock driver to provide clock quality attributes through the new
+> PTP_SYS_OFFSET_EXTENDED_ATTRS and PTP_SYS_OFFSET_PRECISE_ATTRS ioctls.
+>
+> The ptp_vmclock device exposes:
+> - error_bound: Derived from time_maxerror_nanosec, accumulated with
+>   counter frequency error (counter_period_maxerror_rate_frac_sec) over
+>   elapsed counter ticks
+> - clock_status: Mapped from the device's clock_status field
+> - timescale: Always reports TAI (UTC sources are converted by tai_adjust(=
+)
+>   before the attributes are populated)
+>
+> The legacy ioctls return -EINVAL when clock_status is UNRELIABLE since
+> they have no way to communicate clock state to userspace. The attrs
+> ioctls have a status field for this purpose, so they treat UNRELIABLE
+> as success and let userspace check the status field.
+>
+> To avoid a race where the hypervisor could update clock_status between
+> the timestamp call and the UNRELIABLE check, the clock state is captured
+> inside the seq_count loop for a consistent snapshot with the timestamp.
+>
+> Signed-off-by: Arthur Kiyanovski <akiyano@amazon.com>
 
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+
+--=-14UlefXFAh62uNa2FgAn
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+Eyv16Tj4htiOde1HTh2ESYsAAAAAAAA=
+
+
+--=-14UlefXFAh62uNa2FgAn--
