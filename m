@@ -1,321 +1,402 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9C53F39D7
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 10:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452183F8251
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 11:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785149338; cv=none; b=EPYqK4DsNcthq3AcZDkiVZxobpiyWyKupPm6JF531Cz06oMMAtxmaJIkeeaq7/sUB5LK3uHE5wlN0K2mVlJC5uru0U5Y1vvOTY7zhKr56roq+peLgVFJsnOMbrTS9+aT7/k9LN60Zzx7wI1kkCFWGviBM9tkEXe1HWhihMYqoA4=
+	t=1785150263; cv=none; b=iZyhb+BHWbjgjVGlwSrmDvGVzvdNowcMJqjsHxNKY3SymDu6vVc3NX6yCYNGJmNdPEbuRhzayHmUtWP4Eu336irrS8FYX3oyTOHNLCK2Rn89PJvPSGaUwSGS0E45Ddy1DV6b3WKqlXag3pJzmrXGEc6efKsul5ehl5+WIGi0G/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785149338; c=relaxed/simple;
-	bh=hg0VxiqwTG4GDY1/68YGOpUKyd6ueq3zktC9mXA0kkI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HjxAuLDrp33AwQ5Vp/bJXUV9bjJhTc7XzKfqPp+xQurmBYXevN+tRJzjFwSjXkBozPtXj/SxuJBEon0SQfxkHBPFmWSyQxy7o2Dbc1rWKnZ3E/raYff6oM88kEpaermPkWRgubgmRvdpazSyiRB81lQqb15vhRisG5pMDv7Lnsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EEG79+Y4; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785150263; c=relaxed/simple;
+	bh=zatUq8xJHUqH++J1UZPNwFpyaWEJMdbBJNxH4Uzd7BQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lV/7CcHc+KJLbemI/7bWB5xlW+UqcFJPPOULJ/6QevXaxU1kT/oGCdxuBWruCwSeqBIqkcOMC0q8vDb/2l3Q7E3YSbeU6WAWT2uCpe49cZ2RXKvB7kvv0Gs3Qy3OQGQgf0btuBQBu0HafgL+nOYEGBtCldZBmW6lI5+IG5BViDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ObudIpib; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EEG79+Y4"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47f904e80eeso2077431f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:48:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ObudIpib"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49555a0e68bso12735305e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 04:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785149335; x=1785754135; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gIBDnTFBEfRAPDF98N/BG5njMjm4UBvysiUnpdybqUo=;
-        b=EEG79+Y4Kse89xbLnsVuiEUS12b4VQILf6iOr9AkS+kIpHI6yOxJLRr2CP+4vzP+Dd
-         5rxcmvUdLmgKlXlJzHmKL8OgX/hvsRpuznNXRKMZa8xj7SYW5IXmK1PT//ur4ha/hXbE
-         Pp03MlJcwKaB8Y9wC1+OC1DPYajZAUIcTrjTF18CxY4J+yeZj3HV98LxSiJmeRGhdRg7
-         2CuCQaARXoIKZm6lvZipA87hT3ssbbyE8UB0P78rf3SAIv6g81kD2zIh936Bjsh1nVfY
-         UFLEwo5BZPoIscf84qBrxI4/CluevAR65jEf7hTskd+B/9YIoVkL0BRlbta15jjj4LKC
-         /F0g==
+        d=linaro.org; s=google; t=1785150259; x=1785755059; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7nC3HrqDGZF7AOgHUOZz0pFaqYcIiLme0buP14VJS2k=;
+        b=ObudIpibwWwYXv6KqHwUBeF9Hij2W+1dp3zYQz2b5eMiblwuCYNy1hAfWf9TGResvb
+         jR+z+jHqPeWb/tWXNRuX9D+CZX9nYcT6zmMM/zAQjSOpfLLBQAxaYItxj6fc9+GC1hl0
+         Lz6+wL4qAg8RvFvF5sq2M2AQC7GspJogSL5YtMgdi/vLdrwJArqKcwNofHsogXoT2VWr
+         ejzXmB/xyhbx1QyP14uy2XeG7qX5gIzQVqgdxZUwzG55gxs9OBQsF8KWTEO+e10ddWMc
+         5ib7U+9r3kebehOznpasqj4qc1BU66LTGZZngoZJUT8cdizrJhn1XLGrk7q5XltFRkpd
+         /IqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785149335; x=1785754135;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gIBDnTFBEfRAPDF98N/BG5njMjm4UBvysiUnpdybqUo=;
-        b=Tu2jlprXZIMOteJznieOCWrovuMsCwClqibXLDTC2K5zn/DiFmq8E2d0T+zLS6ip8U
-         E2FZUJoG5RL1iD6pVBG3LhasuiRRa0HscGO4L3lx+M4sU5xZLnePnNBIBSRXepO0N/Bh
-         /xiV0BttS6kQdDaU4MhqFc0kCkgE6R/rQTMvcCGnzgFV1j6nn23g/l2580uRQkyTaAZG
-         n7+H06iprsMsPYODkXKWgP9CG/Lyk0361IwTixVyxwpf3jHy9uM7Wk3tJEKrEV9h0hdV
-         8e5LvvzGZsMggOVvVf1zHqN9Z7PQa8eeTphzGfV2tnqtFRLPkCg8Cq37rVacOV2tRq/Z
-         FogQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpaOrQL+NuulVHgqOITou1FEJ0LSRPVEJWimoTLnnsXHsb7FN+WwQ7IOMgJ7UAvZMNisCn+C/4gLME=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLyBPOSQYuNpesj2bazVb8OHuNvdOerSUetL7Z2YGtBi6e64Y/
-	EPkxgtItHY0tYyAifyJD9cqIthPNfhjIkCU6+YjoGwm7yG26MdhdHzej
-X-Gm-Gg: AR+sD10iF5lFkRAiCNQq5bOjJYo1+2G4gFuYZkjFgsgd8qmvBEEWculAx8qN1mUkkZX
-	mfyK4xkQKHDoze4wtZBqmk3OeuW84NddgcPyLy0SRBbHFJAGAtGERSBMtGuUXeewo+ZpfbQKTR8
-	pUrLHSq22a4p8So6w5WVe73d16eWcM5BclkEBUTDpkHoFwCfw+h2WQnE2RgdQ8LNagDmF5sgCjT
-	wp+Jkq5xCjgZhAwgS6uSoIbzJ8glQMZ0h7duQTuOU4iM+kEYH+QpvMaH8Wnom6W3yFD8M+hYrTb
-	WvWO5VaK6P5YGeH+Vga0LRG2mBHd6sb0/3saKOCTVj+n2tyg8hsUIAUXRLO8cWY0x76weLt4m8f
-	YJveB2X3ae6D8AH+G8eE7SlUqdObiMO6tbwelcZse5GvbFYq8G79Lj7qmyItUxDyX230Dqj4T1F
-	ANpxEuag==
-X-Received: by 2002:a05:6000:178e:b0:47f:9d0e:f94 with SMTP id ffacd0b85a97d-47f9fea4247mr10061977f8f.36.1785149334424;
-        Mon, 27 Jul 2026 03:48:54 -0700 (PDT)
-Received: from spark.Home ([2001:8a0:7280:4000:53fe:effd:424:fa7e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a659sm49056188f8f.6.2026.07.27.03.48.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 03:48:53 -0700 (PDT)
-From: Eric Curtin <ericcurtin17@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y . Ts'o" <tytso@mit.edu>,
-	Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	fsverity@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eric Curtin <ericcurtin17@gmail.com>
-Subject: [RFC PATCH v2 4/4] init: support pinning the root image's fsverity digest
-Date: Mon, 27 Jul 2026 11:48:45 +0100
-Message-ID: <20260727104845.2607444-5-ericcurtin17@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
-References: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
+        d=1e100.net; s=20251104; t=1785150259; x=1785755059;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7nC3HrqDGZF7AOgHUOZz0pFaqYcIiLme0buP14VJS2k=;
+        b=meqCmFgLHpwtwVDndOIfzZuqrHRxzVr93/0cT1AGJ0colGaS+SHhK+Z5M1+DEo9Ofu
+         04c35vYdGmRmdeaN4+WXSZCmrZOCjvVRbpSAMnSlE5ibJ7n3caiPvKVQO5ZV21r3Onwp
+         gYo2tTWqb6NuNvXQR5CeU7qp5O5GU+U1OtJ6YsstCLSomXVTLjjgq3pmASqbTljRw6nf
+         eZHiEHedg2ysAtGXHV7kUX1diB0jMIFXJe+N/uDtjbEemowBWw2fR2MOImkhml63/Xl1
+         uhgosSiyMgn3UWMTeO+BXjM11xYJLv9eRdje4XgUktK3VKWJxHacejSsrTdM2KZAiNQs
+         pabg==
+X-Forwarded-Encrypted: i=1; AHgh+RokPB0JSykPq3+ehVQTAtOOOujgCO1maqizhRur24R/Ci9KuAJvgoacuW1i/r0hkOiOxerPFg0mEC8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNGVZmVu1MMiHnOn0ItoBrYaQwc4y8uK7F5hbVlyarIRXVduOK
+	feLUc1Ji/5UjyctI7e8UUqkQsGF2KlawxOIBwsMvdefZ2UsylMcKSed9QridbJJdiIw=
+X-Gm-Gg: AR+sD11PCO6q6z6eJV9835MAob71S4eAV5UW+m0mPyss5w3bLvVZNGdvipIt0q4AO7y
+	mX6rp0ci03Jb2PeVr+7mM7FCmQxUvi4Nt/qFanFEUHq7JIvb90nVY6gC3fGCUKTYmVpPCKzPb5U
+	JGvfmjSCfb4zl2Sr7SiBivf6wFLkMp3hSwjwdjD3bG3Fga/Q0ithpb5c4lezhbMUQgvqZWMOnHy
+	hDfB+ljiZMT79iCYPUpbPKWxmH8NKf78cXuVtNzXp0wMUL3dsp4PA4/asHeNCkvUI04faGsV1Md
+	V4npu6ufbZqjwdnLstBMWBkpM18qEuij96vK6MBVi3LM2Xsg8d6gZkUIzXX1Zq8sZLJo+q0c9pN
+	+r/7bJL+yYK+fkYeprbP6Sxrh0P4w5iqKlc6tOp1QF1/uOen70PcjsOETVC9CCtmUxzDEeHA/vC
+	jtvwQNJ4wsZirb8ojZkQ==
+X-Received: by 2002:a05:600c:3113:b0:493:c8f7:3631 with SMTP id 5b1f17b1804b1-496b570dacdmr94916415e9.22.1785150259287;
+        Mon, 27 Jul 2026 04:04:19 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f5f9f8sm212127145e9.9.2026.07.27.04.04.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2026 04:04:18 -0700 (PDT)
+Message-ID: <2941da1a-b0b4-47a6-b57c-b28703dc0454@linaro.org>
+Date: Mon, 27 Jul 2026 12:04:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 00/21] ARM64 PMU Partitioning
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com,
+ corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com,
+ will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
+ mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <gsnt33x95sra.fsf@coltonlewis-kvm.c.googlers.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <gsnt33x95sra.fsf@coltonlewis-kvm.c.googlers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-When the root filesystem is mounted from an image file with rootimage=,
-the carrier filesystem holding the image is typically writable and
-therefore untrusted. Systems that seal their root images with fsverity
-currently need an initramfs for the sole purpose of checking that the
-image carries the expected fsverity digest before mounting it.
 
-Add rootimageverity=<hash algorithm>:<hex digest>, which requires the
-rootimage= file to have fsverity enabled with exactly this file digest
-and fails the boot otherwise, using the same fsverity_get_digest()
-interface that IMA and overlayfs already use for digest pinning.
-Verification runs on the exact struct file that mount_root_image() then
-hands to do_mount_root_file(): the fd-based mount from the preceding
-patches means there is no separate path lookup afterwards that could
-resolve to something else, and nothing between the check and the mount
-that a userspace-less boot could race.
 
-Combined with a trusted kernel command line (e.g. a signed unified
-kernel image, or a TPM-measured bootloader configuration), this extends
-the chain of trust to every byte of the root filesystem without any
-userspace boot stage: the digest pins the image's Merkle tree, and
-fsverity keeps verifying all data read from the image against it at
-runtime, so post-boot tampering with the carrier filesystem is detected
-as well. It is the file-backed counterpart of setting up a dm-verity
-target for a partition-backed root via dm-mod.create=.
+On 23/07/2026 9:57 pm, Colton Lewis wrote:
+> James Clark <james.clark@linaro.org> writes:
+> 
+>> On 22/07/2026 12:03 am, Colton Lewis wrote:
+>>> Hi James, thanks for the review.
+> 
+>>> James Clark <james.clark@linaro.org> writes:
+>>>> Hi Colton,
+> 
+>>>> The existence of the parameter makes sense, but can't the default be
+>>>> arm_pmuv3.reserved_host_counters=0 instead of -1 (partition disabled)?
+> 
+>>> How would you interpret reserved_host_counters=0? Because that would
+>>> express that the host should have zero counters and the guest gets them
+>>> all. I remember in early versions of this series last year I did use 0
+>>> as the default but reviewers asked for a way to express the scenario of
+>>> of zero counters for the host.
+> 
+> 
+>> I think I would interpret it as it is now. Can't the host still use them
+>> until the guest does and then they only get squeezed if there is a
+>> collision? That doesn't sound too bad to me. And if a host wants
+>> reserved counters they can set a positive number.
+> 
+> Yeah that makes sense. I was thinking in an old headspace when it was
+> just a static reservation instead of changing when a guest is loaded.
+> 
+>> Is reserved_host_counters==max_counters equivalent to -1? And there's no
+>> overview in the cover letter or documentation about how it interacts
+>> with the dynamic guest counter reservations. A bit more detail or a few
+>> paragraphs in one place would help users, maybe with examples so they
+>> don't have to piece together all the commit messages to work it out.
+> 
+> It's not equivalent since we need a case where the guest only has access
+> to the fixed-purpose counters like the dedicated cycle
+> counter. reserved_host_counters specifies the number of general purpose
+> counters.
+> 
+> I'll document the operation more clearly. In the future please feel free
+> to email me to ask if you are confused about something.
+> 
+>>>> It's still a bit fiddly having to do two things to make it work, and
+>>>> there's no documentation about what the defaults or other prerequisites
+>>>> are. IMO it's not even trivial to work out that you need to prefix it
+>>>> with "arm_pmuv3.", which documentation would improve.
+> 
+>>> It is fiddly, which is why the more I think about it the more I'd rather
+>>> ditch the kernel cmdline entirely and leave it up to KVM. That's the
+>>> most flexible approach. There isn't a good way to change the cmdline
+>>> after boot. Trying to make it writeable via sysfs runs into the problem
+>>> of when is it safe to apply the change.
+> 
+>>> I thought it was commonly understood module parameters need to be
+>>> prefixed by the module name, but I can add better documentation to that
+>>> effect.
+> 
+> 
+> 
+>> People just want it written out fully somewhere so they can copy paste
+>> it. Kernel developers might be able to piece it together, but not
+>> everyone will.
+> 
+> This is the KVM mailing list. Kernel developers are the primary
+> audience, but I will make reasonable efforts to include others in the
+> future.
+> 
 
-Two things this does not and cannot do:
+I'm more thinking of the users of this after it gets merged, rather than 
+just for the review.
 
- - Establish trust in the carrier filesystem itself. Reaching the image
-   file at all means parsing carrier filesystem metadata (superblock,
-   directory entries, extents) before any of this runs, the same way a
-   dm-verity root still needs a trusted block layer underneath it -
-   this is meant to sit on top of an already-appropriately-trusted
-   carrier (e.g. one that is itself dm-verity/LUKS-backed, or a
-   well-audited always-read-only filesystem), not conjure trust in an
-   arbitrary writable one.
+>>>> Testing the whole set I ran into a few issues:
+> 
+>>>> This warn is hit when there is some kind of interaction with 
+>>>> sleeping. I
+>>>> tried to bisect it but it only appears on the last commit when the
+>>>> option to enable partitioning is added.
+> 
+>>>>     /*
+>>>>      * ARM pmu always has to reprogram the period, so ignore
+>>>>      * PERF_EF_RELOAD, see the comment below.
+>>>>      */
+>>>>     if (flags & PERF_EF_RELOAD)
+>>>>         WARN_ON_ONCE(!(hwc->state & PERF_HES_UPTODATE));
+> 
+>>>> Steps to reproduce:
+> 
+>>>> Host (arm_pmuv3.reserved_host_counters=0):
+>>>>    $ sudo perf stat -C 2 -e \
+>>>>      'branches,branches,branches,branches,branches,branches'
+>>>>    $ sudo taskset --cpu-list 2 ./lkvm run --kernel \
+>>>>      /boot/vmlinux-7.1.0-rc7+ -m 1024 -c 1 --pmu
+> 
+>>>> Guest:
+>>>>    $ sleep 1
+> 
+>>>>     WARNING: drivers/perf/arm_pmu.c:302 at 
+>>>> cpu_pm_pmu_notify+0x278/0x2c0,
+>>>> CPU#2: swapper/2/0
+>>>>      Call trace:
+>>>>     cpu_pm_pmu_notify+0x278/0x2c0 (P)
+>>>>     notifier_call_chain+0x84/0x1d0
+>>>>     raw_notifier_call_chain+0x24/0x38
+>>>>     cpu_pm_exit+0x34/0x68
+>>>>     acpi_processor_ffh_lpi_enter+0x40/0x78
+>>>>     acpi_idle_lpi_enter+0x54/0x78
+>>>>     cpuidle_enter_state+0xb4/0x248
+>>>>     cpuidle_enter+0x44/0x68
+>>>>     do_idle+0x21c/0x300
+>>>>     cpu_startup_entry+0x40/0x50
+>>>>     secondary_start_kernel+0x120/0x150
+>>>>     __secondary_switched+0xc0/0xc8
+> 
+> 
+>>> I'll attempt to reproduce that. I've never seen it myself but I've
+>>> mainly been using QEMU for my testing.
+> 
+> 
+>> The newest Arm FVP should have cpuidle enabled if you boot it with ACPI,
+>> but I hit this on a Radxa Orion O6 board.
+> 
+> Noted. Thanks.
+> 
+> 
+>>>> When running the guest on a single CPU I get different counts for the
+>>>> same event for a single process, although this never happens on a host.
+>>>> I think there might even be some Perf tests which expect them to be the
+>>>> same, and this doesn't depend on whether any events are running on the
+>>>> host or not. Not sure if you ran all the Perf selftests in a guest or
+>>>> not?
+> 
+>>> I'll investigate but I'm not sure perf is intended to guarantee
+>>> that. perf stat just runs the event counters but may not write or read
+>>> them at exactly the same time.
+> 
+> 
+>> Is that true? The perf core calls perf_pmu_disable() when a process is
+>> scheduled out before reading the count of each event of that process in
+>> an inner loop. The perf_pmu_disable() clears PMCR_EL0.E which freezes
+>> all of the counters so they can be read out in a consistent state.
+> 
+>> It's important that they're all stopped at the same time because
+>> counters might be used in metrics as ratios of each other. So I think
+>> it's deliberately designed that way and appears to not be working in a
+>> guest now.
+> 
+> By default I think perf assumes events can be measured independently, If
+> you want to guarantee events are scheduled together to avoid measurement
+> skew you need to make sure the events are grouped.
+> 
+> The common way to do that is with {} around the event list:
+> 
+> perf stat -e {branches,branches}
+> 
+> Please see if that resolves the issue.
+> 
 
- - Cover erofs images that pull in extra devices via
-   rootimageflags=device=device=..., since the pinned digest only ever
-   applies to the primary image file. Refuse to boot in that
-   combination rather than give a false sense of integrity.
+Groups only change how the events are scheduled, not how the driver 
+starts or stops multiple events running on the same PMU (grouped or 
+ungrouped). In my repro I had less events than counters in HW, so they 
+will always be scheduled at the same time regardless of grouping.
 
-Assisted-by: opencode:claude-fable-5
-Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
----
- .../admin-guide/kernel-parameters.txt         | 22 +++++
- init/do_mounts.c                              | 91 ++++++++++++++++++-
- 2 files changed, 108 insertions(+), 5 deletions(-)
+I did notice something extra though, you have to first open some amount 
+of counters, and then open more than that. Then the second time the ones 
+with different counts will be however many were opened first time, as if 
+some state has stuck.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a1cd5973e497..dcb5a78fba55 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6766,6 +6766,28 @@ Kernel parameters
- 			(though still pinned alive by the image mount) after
- 			boot.
- 
-+	rootimageverity= [KNL] Require the root image specified by
-+			rootimage= to have fsverity enabled with this file
-+			digest, given as <hash algorithm>:<hex digest>,
-+			e.g. sha256:dd1b3fa9...  The boot is aborted if the
-+			image carries no or a different fsverity digest, or
-+			if rootimageflags= adds extra devices via device=
-+			(their contents would not be covered by the digest).
-+			Because fsverity keeps verifying data read from the
-+			image against its Merkle tree at runtime, a trusted
-+			(e.g. signed or TPM-measured) kernel command line
-+			extends the chain of trust to the complete root
-+			filesystem contents without an initramfs, provided
-+			the carrier filesystem holding the image is itself
-+			from a trusted source (rootimage= verifies the image
-+			file; it does not and cannot retroactively establish
-+			trust in the carrier filesystem code and metadata
-+			that had to be parsed to reach that file in the first
-+			place - the same way a dm-verity root still needs a
-+			trusted block layer under it).  Requires
-+			CONFIG_FS_VERITY and a carrier filesystem with
-+			fsverity support.
-+
- 	rootwait	[KNL] Wait (indefinitely) for root device to show up.
- 			Useful for devices that are detected asynchronously
- 			(e.g. USB and MMC devices).
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index 316421d8b65b..d4362fd758d8 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -24,6 +24,9 @@
- #include <linux/nfs_fs_sb.h>
- #include <linux/nfs_mount.h>
- #include <linux/raid/detect.h>
-+#include <linux/fsverity.h>
-+#include <linux/hex.h>
-+#include <crypto/hash_info.h>
- #include <uapi/linux/mount.h>
- 
- #include "do_mounts.h"
-@@ -156,10 +159,18 @@ static int __init root_image_srcdir_setup(char *str)
- 	return 1;
- }
- 
-+static char * __initdata root_image_verity;
-+static int __init root_image_verity_setup(char *str)
-+{
-+	root_image_verity = str;
-+	return 1;
-+}
-+
- __setup("rootimage=", root_image_setup);
- __setup("rootimagefstype=", root_image_fs_names_setup);
- __setup("rootimageflags=", root_image_data_setup);
- __setup("rootimagesrcdir=", root_image_srcdir_setup);
-+__setup("rootimageverity=", root_image_verity_setup);
- 
- /* This can return zero length strings. Caller should check */
- static int __init split_fs_names(char *page, size_t size, const char *names)
-@@ -323,16 +334,73 @@ static int __init do_mount_root_file(struct file *file, const char *dir,
- 	return ret;
- }
- 
-+#ifdef CONFIG_FS_VERITY
-+/*
-+ * Require the root image to carry the fsverity file digest given by
-+ * rootimageverity=<hash algorithm>:<hex digest>.  @file must have been
-+ * opened so that its fsverity information is loaded, and must be the
-+ * exact file that do_mount_root_file() then mounts (see
-+ * mount_root_image()): unlike checking a file and then separately
-+ * mounting a path that is assumed, but not guaranteed, to name the same
-+ * thing, there is no lookup left for anything to race or disagree with
-+ * between this check and the mount.
-+ *
-+ * Any deviation fails the boot: with a trusted command line this pins
-+ * the complete image contents, which fsverity keeps verifying against
-+ * the image's Merkle tree as they are read.
-+ */
-+static void __init verify_root_image(struct file *file)
-+{
-+	u8 want[FS_VERITY_MAX_DIGEST_SIZE], got[FS_VERITY_MAX_DIGEST_SIZE];
-+	enum hash_algo want_algo, got_algo;
-+	int want_size, got_size, i;
-+	char *hex;
-+
-+	hex = strchr(root_image_verity, ':');
-+	if (!hex)
-+		panic("VFS: rootimageverity= expects <algorithm>:<hex digest>");
-+	*hex++ = '\0';
-+	i = match_string(hash_algo_name, HASH_ALGO__LAST, root_image_verity);
-+	if (i < 0)
-+		panic("VFS: rootimageverity=: unknown hash algorithm \"%s\"",
-+		      root_image_verity);
-+	want_algo = i;
-+	want_size = hash_digest_size[want_algo];
-+	if (strlen(hex) != 2 * want_size || hex2bin(want, hex, want_size))
-+		panic("VFS: rootimageverity=: expected %d-byte hex digest",
-+		      want_size);
-+
-+	got_size = fsverity_get_digest(file_inode(file), got, NULL, &got_algo);
-+	if (!got_size)
-+		panic("VFS: root image does not have fsverity enabled");
-+	if (got_algo != want_algo || got_size != want_size ||
-+	    memcmp(want, got, want_size))
-+		panic("VFS: root image fsverity digest mismatch: expected %s:%*phN, got %s:%*phN",
-+		      hash_algo_name[want_algo], want_size, want,
-+		      hash_algo_name[got_algo], got_size, got);
-+
-+	pr_info("VFS: verified root image fsverity digest %s:%*phN\n",
-+		hash_algo_name[want_algo], want_size, want);
-+}
-+#else /* !CONFIG_FS_VERITY */
-+static void __init verify_root_image(struct file *file)
-+{
-+	panic("VFS: rootimageverity= requires CONFIG_FS_VERITY");
-+}
-+#endif /* !CONFIG_FS_VERITY */
-+
- /*
-  * Mount the actual root filesystem from the image file rootimage= on the
-  * filesystem that was just mounted from root= (the "carrier"), so that
-  * image-based systems can boot without an initramfs.
-  *
-  * Called with the carrier mounted at /root and the cwd there.  The image
-- * file is opened exactly once, and that same struct file is what actually
-- * gets mounted via do_mount_root_file(), rather than a path that the
-- * filesystem driver would then have to resolve again on its own with no
-- * guarantee of landing on the same thing.
-+ * file is opened exactly once; that same struct file is optionally
-+ * fsverity-checked and is what actually gets mounted via
-+ * do_mount_root_file(), so there is no window in which the checked file
-+ * could be swapped for another before it is mounted, and no independent,
-+ * second path lookup for a filesystem driver to disagree with about what
-+ * "the image" refers to.
-  *
-  * On success the cwd is the image's root, ready for the pivot in
-  * prepare_namespace().  rootimagesrcdir= is mandatory: the carrier is
-@@ -355,6 +423,16 @@ static void __init mount_root_image(void)
- 		panic("VFS: rootimage= requires rootimagesrcdir= (use rootimagesrcdir=none to detach the carrier instead, making it unreachable after boot)");
- 	if (strcmp(root_image_srcdir, "none") && root_image_srcdir[0] != '/')
- 		panic("VFS: rootimagesrcdir= must be an absolute path or \"none\"");
-+	/*
-+	 * A digest pinned via rootimageverity= only ever covers the
-+	 * primary image file; an erofs image that pulls in extra devices
-+	 * via rootimageflags=device=... would silently leave those
-+	 * unverified, so refuse rather than give a false sense of
-+	 * integrity.
-+	 */
-+	if (root_image_verity && root_image_mount_data &&
-+	    strstr(root_image_mount_data, "device="))
-+		panic("VFS: rootimageverity= does not cover extra devices added via rootimageflags=device=; refusing to boot");
- 
- 	path = kmalloc(PATH_MAX, GFP_KERNEL);
- 	fs_names = kmalloc(PAGE_SIZE, GFP_KERNEL);
-@@ -369,6 +447,9 @@ static void __init mount_root_image(void)
- 		panic("VFS: unable to open root image %s: error %ld",
- 		      root_image, PTR_ERR(file));
- 
-+	if (root_image_verity)
-+		verify_root_image(file);
-+
- 	err = init_mkdir("/image", 0700);
- 	if (err < 0 && err != -EEXIST)
- 		panic("VFS: unable to create /image: error %d", err);
-@@ -401,7 +482,7 @@ static void __init mount_root_image(void)
- 	/*
- 	 * do_mount_root_file() took its own reference to the file (see
- 	 * vfs_parse_fs_param_file()); this reference was only needed to
--	 * open it in the first place.
-+	 * open it and, if requested, check its fsverity digest.
- 	 */
- 	fput(file);
- 
--- 
-2.43.0
+For example if I open two counters then 6, the first two always have 
+different counts the second time:
+
+   $ perf stat -e branches,branches true
+
+   Performance counter stats for 'true':
+
+             106129      branches 
+
+             106129      branches 
+
+
+
+   $ perf stat -e 
+'{branches,branches,branches,branches,branches,branches}' true
+
+   Performance counter stats for 'true':
+
+             117013      branches 
+
+             117013      branches 
+
+             110364      branches 
+
+             110364      branches 
+
+             110364      branches 
+
+             110364      branches
+
+
+After opening 6 again a third time they'll all have the same counts.
+
+>>>> I'm not sure if the exception level filtering isn't working or there is
+>>>> something wrong with freezing. Doesn't the host PMU driver need to
+>>>> freeze with HPME? I see it's still doing it with PMCR_EL0.E which
+>>>> freezes the guest's counters now doesn't it?
+> 
+>>> HPME only has any effect while HPMN is programmed to a value different
+>>> than the number of counters on the system. That is only true in a guest
+>>> context. As I understand it, that means HPME has no effect anywhere the
+>>> host driver needs to freeze counters since that happens in host context.
+> 
+> 
+>> Oh yeah that makes sense, I didn't think about that. I'm not sure if my
+>> other idea about exception level filtering being responsible makes sense
+>> either.
+> 
+> I'll check that too.
+> 
+>>> Maybe HPMN stays programmed during interrupt handling though. I'll
+>>> confirm.
+> 
+> 
+>>>> Host (arm_pmuv3.reserved_host_counters=0):
+>>>>    $ sudo taskset --cpu-list 2 ./lkvm run --kernel \
+>>>>      /boot/vmlinux-7.1.0-rc7+ -m 1024 -c 1 --pmu
+> 
+>>>> Guest:
+>>>>    $ perf stat -e branches,branches true
+> 
+>>>>     Performance counter stats for 'true':
+> 
+>>>>               167963      branches
+> 
+>>>>               160925      branches
+> 
+> 
+>>>>    $ perf stat -e branches,branches,branches,branches,branches true
+> 
+>>>>     Performance counter stats for 'true':
+> 
+>>>>               164425      branches
+> 
+>>>>               164425      branches
+> 
+>>>>               164425      branches
+> 
+>>>>               157743      branches
+> 
+>>>>               157743      branches
+> 
+> 
+>>>> When running the guest on two CPUs I just get zeros. Do the kvm
+>>>> selftests not catch this? Or is it something to do with my setup:
+> 
+>>> KVM selftests definitely don't catch it. I'll see if I can reproduce.
+> 
+>>> Since the problem happens with 2 CPUs I wonder if something is
+>>> triggering the lazy context swap behavior so the counter values aren't
+>>> being moved to the 2nd CPU correctly.
+> 
+> 
+>> If that was the case I would have expected it to be intermittent, or you
+>> would get a partial count if the second CPU started from 0, but not
+>> zeros every where every time. Let me know if I can run any more tests.
+> 
+> I'll let you know if I think of something.
+> 
+>>>> Host (arm_pmuv3.reserved_host_counters=0):
+>>>>    $ sudo taskset --cpu-list 2-3 ./lkvm run --kernel \
+>>>>      /boot/vmlinux-7.1.0-rc7+ -m 1024 -c 1 --pmu
+> 
+>>>> Guest:
+>>>>    $ perf stat -e branches,branches true
+> 
+>>>>    Performance counter stats for 'true':
+> 
+>>>>                    0      branches
+> 
+>>>>                    0      branches
+> 
+>>>> I also noticed I get the "squeezed" warning printed after launching the
+>>>> guest but not using Perf. This comment implies that not using counters
+>>>> makes it a nop:
+> 
+>>>>        /*
+>>>>      * If we aren't guest-owned then we know the guest isn't using
+>>>>      * the PMU anyway, so no need to bother with the swap.
+>>>>      */
+>>>>     if (vcpu->arch.pmu.access != VCPU_PMU_ACCESS_GUEST_OWNED)
+>>>>         return;
+> 
+>>>> But maybe linux is touching them in a way that makes them guest owned,
+>>>> even on probe? Or is the guest/host ownership tracking not working, I
+>>>> didn't look too hard.
+> 
+>>> Maybe. I'll check. The guest is also running its own PMU driver that
+>>> might trigger guest ownership on initialization since ownership is
+>>> determined by which registers the guest touches.
+> 
+> 
+>> It doesn't enable any counters though does it, even if it touches some
+>> of the registers to probe? Should that result in squeezing out host
+>> counters? Maybe it's more complicated to implement, but right now it
+>> seems like there is some complexity without much benefit as 90% of hosts
+>> are going to probe the counters just to see what's there but not use 
+>> them.
+> 
+> As far as I'm aware the driver probe shouldn't shouldn't enable any
+> counters or trigger squeezing. I'll narrow the conditions that trigger
+> guest ownership.
+> 
+> My first suspect is the guest driver probe is triggering guest ownership
+> by reading PMCR_EL0, which I agree should be changed to avoid that.
 
