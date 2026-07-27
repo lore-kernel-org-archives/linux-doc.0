@@ -1,150 +1,434 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93274248AD
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 16:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7B1421227
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 16:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785169301; cv=none; b=dPvT0qT+XQhkSrD5LyubAC3JhX+xmkhcPN3VHBJsvPBAB1LcZYIDSqJ1u13DEsua4/pTdfqxyojPyR2BIPYlvkgfOEZpoDMo795jKR8Ngsy/nyk8VgWanlfAMNz7gsAi0mNaWJVUT5WECkj+/Aw5vytoliPJUbVddBcspcJbSGY=
+	t=1785169603; cv=none; b=GDsAVOfpzOpsqwSCL0KDCxYPiEFRyb1nsZmwcr/dKhBTJdr1SzIPj5yOhDKe6fjJ1Gv6h+CovpIuL21c1hmf0jHII+kGmMH5uBWBicqq/ITHk73KwJwdwQGfYjlD6QX5X7Gq7N8bQF0YaOlDbeJlNseJP3RUk1V7AoEsRDCIIBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785169301; c=relaxed/simple;
-	bh=9m8xXJO8c9lyuGAU8MN4aVzhhq7E5Quy+h3Sqf/Jxvg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=hQ6SLshHWvBPY98Je5n7Q9RkiCfI1zmivluDlV0jctW3d6xKrShPOuxYPhR3tdmYv1/SSYkbBqszNzjCYbSf758h90x7iQBXrePxrv6zzdo5vokq1qJ6VVcoywfFqXazQK4zQdd+t1ii+wJ5tF3X/4E+UUiOiScXzXn/bYakPrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p2vgtNcD; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785169603; c=relaxed/simple;
+	bh=zf21x5gpzYUNt50ZnbsRNa1XRvmCe21OL4uOsJ+Z1D0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E0ZuweHL7tqwsPWa7MfrSOh7NRPODISZ2cg5bXWA5+z0x97MySfCjTGXP/yllN4sDDgBEdJwdWovQh13RsMXH3hEcW1y3lPp/l8h98TKnWz8Aq/v90Y1soGo+jnEhrkrsAoVLov8XJYlVw0RQ7floa530uiMdBA1T1Yp1H0b40s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f3KloC24; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p2vgtNcD"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cad8076b01so35517105ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 09:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785169299; x=1785774099; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=a2VHX9L0sTzVvO3MJg20Nh0+sy0DEaF3M1cbrGrcCUo=;
-        b=p2vgtNcDFYhLwkYrPmn6eoIpCFzeXw/4eZCcK2XkFQZmURik75FB0G263YVnhlgdwR
-         c73roEzUGlOq0XWjoJhyZhsjVhTk+2xiPrC7SjPx2cElx/DR0sp5PWZYMsTQEgiIkiVu
-         LvyxRaianWSMQLpRhNeAcTafgP3Xnycgnx2b03ehnWwgsxCCPB3XsBWcBNb/e4qWeyWO
-         sJn9Thx6mFLICw5rR//OaCTc0Cv0iNf8otdtRv11Znl0ZQbIh+Fg5o4jCfAhmvzphOh6
-         lMPUlV2Fp4XPqtp1J/8mBB8Kzrd9PaR/x77/AWnjeX2mEZnUMaafYIjCmiI4DzSNzdrX
-         zPdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785169299; x=1785774099;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=a2VHX9L0sTzVvO3MJg20Nh0+sy0DEaF3M1cbrGrcCUo=;
-        b=HT9Zopu2pfLWQh4uKMiilAPe2ca9tejIdbsS6D1fsj2OkDc/SN07++6NAh4NxZB6JL
-         9kxIovQl66BGzPJeEIVndH3TeS5QWXbXH6tJ/tyGyqmXdKHLVf/rertl/u974jqRLmVM
-         O+ePRitKFW3oMMn84vV9u8mFoD6rVT0Ln3GKef4FllDz7tROICgHJBGvg7fDlrEqFye3
-         JaPDsc6jnqniKgnOBPPPWyGKc5nfq7iUkQvhkAtkZMYn2fPjP5sqFEp/ojhnygbvLqL7
-         IbSGVWeIjk/VCbezJPIFccbFmwsFdiSWeIeD/hRBxsCp0RCJ/MoDZ1a90KFyh+tYDtQN
-         7nHw==
-X-Forwarded-Encrypted: i=1; AHgh+RoaBt2qrKImIjqVBs4MeCFBstrIUbrPLbZ6kGP1ka/mwuSiGO4FLFRi9+5vnW2q0q3cyPDAtWRpLjI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOPcHeoaKDoTQ19oDezTwhYGgvioHE9vuzXaOfiHew0YKtM7wD
-	kvj8d8v7dgVoir1+Q21enQXfayF/n+IzhWUTdaFDas9q9dkyo1PLOI5VhT099A==
-X-Gm-Gg: AR+sD108Zlg8fdm0v62c8okdQaqrT1sHjXR8DuOtRrmAJ+eLZdZh7G2Ga6DsHKSRbis
-	Y9RjCmTD1H27u7lyLra0LKbgsTne8mGh6knpfYSDO04drVPTL2SfQfcTJOjSF/oILm9UOD6UKvf
-	0yElIb6YDXi5vl6JNU6Fz/hrH3COv1+wpEPNCA1DBTzkU2ee0NPcQTLc7G4FwEUqsomOiF2W0Ga
-	YBXEe4S1IrNWVclEolGDK6vT9u8/9Lm2HQilWU4r73n3BOUEA0QECAfvjpE57s1CxoUfGDhSaQK
-	MGCf73fSg7ErlgzsT2kQGHTXd5XnDPpZuENKl8Hlaa4zSGDnDOrDe84MV7k2AdWyJQJMGZ2FqHS
-	MJIkJNFnXMYn69IOQqqtCQqeBB85IeDwBwXmLkDjO6+ufhwiOagQU8z8P8oiLULx/ANMu5fP23a
-	uxwqVYB0nycECGSvtqGRj2H3/SGX+qgQalutbAQRWUu1RCXcAa4XIwmPH5qxjPng==
-X-Received: by 2002:a17:903:2b0f:b0:2cc:5fae:cc56 with SMTP id d9443c01a7336-2d008b20c1dmr13621465ad.27.1785169299011;
-        Mon, 27 Jul 2026 09:21:39 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7d7b87sm38486295ad.57.2026.07.27.09.21.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 09:21:38 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <2540913f-9849-4ac8-ad08-b19c24e8ed41@roeck-us.net>
-Date: Mon, 27 Jul 2026 09:21:37 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f3KloC24"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4A91F00AC4
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 16:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785169600;
+	bh=WwYnBh+DQWz7yd3XTRZ3hAvsHctHjST+5NaaG5iiKMo=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=f3KloC24VUEqHua/xkOwqdw8g0clx5g38L5iT9wixmtdlhiU6GD/tvhhHyHIn909B
+	 /XOeKzZiem7L5duXuoJES4JzR51F9cKVy77Ic/zhO4cxOVjPVmgpI1ZqmznDLdYPCd
+	 vHH/MecKRmI+LxG1KAMLuAn8dF/Py0qVnca62vjuztSdBFzgLt6mNeE39ApXJANush
+	 Arml76NtCspFi+g0jM3SUGFCEk4OU2QeeZG5kftD7oeP+Wci9OWSQIGO+5no15bk+B
+	 mDf2tMGOfSEbiAHpqMaMgBlEMGH1iQGk/o5RYw7qZ4MT0TudnWkJeSs7JFBf0ZqSaQ
+	 ikXh3SwkQArUQ==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b01146b205so1715280e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 09:26:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrKYDid68homtOE0JQYb672S4Jp+t27RG7oSx1iy9SeqZdo61vdqJZHrULKXeTV/xQtFfkcjPaXPN4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysUL6YqIS9jb9NA4WMjRCCDhJ2MT9HpaOZRRrV8EZFCEJ4VTwi
+	OEvMzDwyeTMIp10SpSlwYEDuaSYQp2SrP4zNwnRfckmQmS2CZNXLS60VWtYUU/sqAQ9zcCus3JI
+	Mqhbh0ieqJSuC+RY7gcQWX+O9rrSYECE=
+X-Received: by 2002:a05:6512:1390:b0:5b1:5ee0:6662 with SMTP id
+ 2adb3069b0e04-5b2c1b6973fmr1721285e87.51.1785169599045; Mon, 27 Jul 2026
+ 09:26:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] firmware: stratix10-svc: add async HWMON read
- commands and register socfpga-hwmon device
-To: "NG, TZE YEE" <tze.yee.ng@altera.com>, Dinh Nguyen <dinguyen@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <cover.1784785709.git.tze.yee.ng@altera.com>
- <a79aee37be7067691fd02a3a9cfd134c995e5a95.1784785709.git.tze.yee.ng@altera.com>
- <20260723061418.423A81F000E9@smtp.kernel.org>
- <3350cd23-6a0c-4f8e-8de8-d6e26aa82d7d@altera.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <3350cd23-6a0c-4f8e-8de8-d6e26aa82d7d@altera.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260727-pwrseq-vote-rename-v1-1-a2029aeeac65@oss.qualcomm.com> <20260727161435.GA1219282@bhelgaas>
+In-Reply-To: <20260727161435.GA1219282@bhelgaas>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 28 Jul 2026 00:26:25 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64bNJzZZHLSZ=V7JMS1Upc_auZvta25eUT1OtOeqm89=w@mail.gmail.com>
+X-Gm-Features: AUfX_my2FjvcDS2i0AF7Douri0W9L3qZfrCbAWmWFsGmJE0fiT2hixE90BRy7QQ
+Message-ID: <CAGb2v64bNJzZZHLSZ=V7JMS1Upc_auZvta25eUT1OtOeqm89=w@mail.gmail.com>
+Subject: Re: [PATCH RFC] power: sequencing: rename pwrseq_power_on/off() to pwrseq_vote_on/off()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Alessio Belle <alessio.belle@imgtec.com>, Luigi Santivetti <luigi.santivetti@imgtec.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jeff Johnson <jjohnson@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, imagination@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-wireless@vger.kernel.org, 
+	ath10k@lists.infradead.org, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/26/26 23:42, NG, TZE YEE wrote:
-> On 23/7/2026 2:14 pm, sashiko-bot@kernel.org wrote:
->> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
->>
->> New issues:
->> - [Medium] Hardware monitoring functionality is improperly registered as a platform device instead of an auxiliary device.
->>
-> 
-> I'll keep the platform device registration for this series. I’m
-> happy to look at converting socfpga-hwmon to an auxiliary device in a
-> follow-up if preferred.
-> 
+On Tue, Jul 28, 2026 at 12:14=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.org>=
+ wrote:
+>
+> On Mon, Jul 27, 2026 at 11:57:38AM +0200, Bartosz Golaszewski wrote:
+> > The way power sequencing works means that a call to pwrseq_power_on()
+> > does not necessarily result in the pwrseq target being powered-on at
+> > that time: it may have already been powered on before. Similarly: a cal=
+l
+> > to pwrseq_power_off() does not have to result in an actual powering off
+> > of resources: there may still be other users that requested a power-on
+> > before.
+> >
+> > We will also introduce the concept of "non-controllable" pwrseq targets
+> > soon which further increases the disconnect between the naming
+> > convention and the actual semantics.
+> >
+> > What consumers of pwrseq descriptors actually do is: they *vote* for a
+> > powering on of a given target or retract that vote. These operations
+> > could be called get/put in line with runtime PM but this could become
+> > confusing since we already provide pwrseq_get/put() for a different
+> > purpose.
+>
+> I see the possible confusion with get/put interfaces, but "vote"
+> doesn't seem exactly right because it really is refcounting, not a
+> majority vote thing.
+>
+> Maybe enable/disable is a possibility, since regulator_enable() and
+> regulator_disable() have the same kind of refcount behavior?
 
-Agreed. Just ignore this report for this series.
+I agree with this. clk_prepare_enable() / clk_disable_unprepare() have
+the same naming scheme. There's no absolute control unless the consumer
+has exclusive access, and even then there are limitations.
 
-Thanks,
-Guenter
+I think having the same naming convention across the multiple kinds of
+hardware resources would help developers align their expectations. That
+is to say, they are refcounting within the kernel, subject to hardware
+limitations (always-on regulators, clks controlled by hardware that
+could still run despite the kernel turning it off, etc.).
 
+
+ChenYu
+
+
+
+> Whatever you end up with:
+>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>   # drivers/pci
+>
+> > Change the name of the two functions to pwrseq_vote_on/off() which
+> > better reflects their purpose and semantics. No functional change
+> > intended.
+> >
+> > If at any point users need to know *when* the exact power event happens=
+,
+> > we can provide that information in the form of a notifier.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
+> > ---
+> > I've floated the idea to rename the two pwrseq functions from "power
+> > on/off" to "vote on/off". Here's a concrete proposal.
+> >
+> > I'm sending it as an RFC but if there's agreement, I can queue it as is=
+.
+> >
+> > I'm doing it in a single commit that should go through the pwrseq tree
+> > with Acks from subsystem maintainers.
+> >
+> > [1] https://lore.kernel.org/all/CAMRc=3DMefxn81d0VUwmQgwFtffkL1=3DEr_1V=
+QZCbC1Sa-Qph4t1w@mail.gmail.com/
+> > ---
+> >  Documentation/driver-api/pwrseq.rst      |  4 ++--
+> >  drivers/bluetooth/hci_qca.c              |  4 ++--
+> >  drivers/gpu/drm/imagination/pvr_power.c  |  4 ++--
+> >  drivers/net/wireless/ath/ath10k/snoc.c   |  6 +++---
+> >  drivers/pci/pwrctrl/generic.c            |  4 ++--
+> >  drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c |  4 ++--
+> >  drivers/power/sequencing/core.c          | 16 ++++++++--------
+> >  include/linux/pwrseq/consumer.h          |  8 ++++----
+> >  8 files changed, 25 insertions(+), 25 deletions(-)
+> >
+> > diff --git a/Documentation/driver-api/pwrseq.rst b/Documentation/driver=
+-api/pwrseq.rst
+> > index ad18b2326b689a41471216f3889480b11768ca82..faba5a8e3337e878c6dac0c=
+c91d23b3577cab6fd 100644
+> > --- a/Documentation/driver-api/pwrseq.rst
+> > +++ b/Documentation/driver-api/pwrseq.rst
+> > @@ -50,9 +50,9 @@ Consumer interface
+> >  The consumer API is aimed to be as simple as possible. The driver inte=
+rested in
+> >  getting a descriptor from the power sequencer should call pwrseq_get()=
+ and
+> >  specify the name of the target it wants to reach in the sequence after=
+ calling
+> > -pwrseq_power_up(). The descriptor can be released by calling pwrseq_pu=
+t() and
+> > +pwrseq_vote_on(). The descriptor can be released by calling pwrseq_put=
+() and
+> >  the consumer can request the powering down of its target with
+> > -pwrseq_power_off(). Note that there is no guarantee that pwrseq_power_=
+off()
+> > +pwrseq_vote_off(). Note that there is no guarantee that pwrseq_vote_of=
+f()
+> >  will have any effect as there may be multiple users of the underlying =
+resources
+> >  who may keep them active.
+> >
+> > diff --git a/drivers/bluetooth/hci_qca.c b/drivers/bluetooth/hci_qca.c
+> > index e6d107f67759f54eee2647d92bb8bfd4e68c9358..5aaabc9fb1b66eb6b24da25=
+f77158690a2f03c84 100644
+> > --- a/drivers/bluetooth/hci_qca.c
+> > +++ b/drivers/bluetooth/hci_qca.c
+> > @@ -2259,7 +2259,7 @@ static void qca_power_off(struct hci_uart *hu)
+> >       }
+> >
+> >       if (power && power->pwrseq) {
+> > -             pwrseq_power_off(power->pwrseq);
+> > +             pwrseq_vote_off(power->pwrseq);
+> >               set_bit(QCA_BT_OFF, &qca->flags);
+> >               return;
+> >          }
+> > @@ -2319,7 +2319,7 @@ static int qca_regulator_enable(struct qca_serdev=
+ *qcadev)
+> >       int ret;
+> >
+> >       if (power->pwrseq)
+> > -             return pwrseq_power_on(power->pwrseq);
+> > +             return pwrseq_vote_on(power->pwrseq);
+> >
+> >       /* Already enabled */
+> >       if (power->vregs_on)
+> > diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/=
+imagination/pvr_power.c
+> > index a71d5b35601e7b996428312028a4c0542a5b1350..c6dfa2685ee64086c53281d=
+06563e6169109c00f 100644
+> > --- a/drivers/gpu/drm/imagination/pvr_power.c
+> > +++ b/drivers/gpu/drm/imagination/pvr_power.c
+> > @@ -352,12 +352,12 @@ static int pvr_power_init_pwrseq(struct pvr_devic=
+e *pvr_dev)
+> >
+> >  static int pvr_power_on_sequence_pwrseq(struct pvr_device *pvr_dev)
+> >  {
+> > -     return pwrseq_power_on(pvr_dev->pwrseq);
+> > +     return pwrseq_vote_on(pvr_dev->pwrseq);
+> >  }
+> >
+> >  static int pvr_power_off_sequence_pwrseq(struct pvr_device *pvr_dev)
+> >  {
+> > -     return pwrseq_power_off(pvr_dev->pwrseq);
+> > +     return pwrseq_vote_off(pvr_dev->pwrseq);
+> >  }
+> >
+> >  const struct pvr_power_sequence_ops pvr_power_sequence_ops_pwrseq =3D =
+{
+> > diff --git a/drivers/net/wireless/ath/ath10k/snoc.c b/drivers/net/wirel=
+ess/ath/ath10k/snoc.c
+> > index 3106502275781d32d17a45a661362206144df6b3..f87e56576e29124902dccd1=
+a21600fd3407b2922 100644
+> > --- a/drivers/net/wireless/ath/ath10k/snoc.c
+> > +++ b/drivers/net/wireless/ath/ath10k/snoc.c
+> > @@ -1025,7 +1025,7 @@ static int ath10k_hw_power_on(struct ath10k *ar)
+> >
+> >       ath10k_dbg(ar, ATH10K_DBG_SNOC, "soc power on\n");
+> >
+> > -     ret =3D pwrseq_power_on(ar_snoc->pwrseq);
+> > +     ret =3D pwrseq_vote_on(ar_snoc->pwrseq);
+> >       if (ret)
+> >               return ret;
+> >
+> > @@ -1042,7 +1042,7 @@ static int ath10k_hw_power_on(struct ath10k *ar)
+> >  vreg_off:
+> >       regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->vregs);
+> >  pwrseq_off:
+> > -     pwrseq_power_off(ar_snoc->pwrseq);
+> > +     pwrseq_vote_off(ar_snoc->pwrseq);
+> >
+> >       return ret;
+> >  }
+> > @@ -1060,7 +1060,7 @@ static int ath10k_hw_power_off(struct ath10k *ar)
+> >       ret_vreg =3D regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->=
+vregs);
+> >
+> >       if (ar_snoc->pwrseq)
+> > -             ret_seq =3D pwrseq_power_off(ar_snoc->pwrseq);
+> > +             ret_seq =3D pwrseq_vote_off(ar_snoc->pwrseq);
+> >
+> >       return ret_vreg ? : ret_seq;
+> >  }
+> > diff --git a/drivers/pci/pwrctrl/generic.c b/drivers/pci/pwrctrl/generi=
+c.c
+> > index a7e599d841e6289db161b19a93ba5a61d9e0ab1c..8872f6501352d7273a9b4f2=
+0589c2f74d6accc65 100644
+> > --- a/drivers/pci/pwrctrl/generic.c
+> > +++ b/drivers/pci/pwrctrl/generic.c
+> > @@ -29,7 +29,7 @@ static int slot_pwrctrl_power_on(struct pci_pwrctrl *=
+pwrctrl)
+> >       int ret;
+> >
+> >       if (slot->pwrseq) {
+> > -             pwrseq_power_on(slot->pwrseq);
+> > +             pwrseq_vote_on(slot->pwrseq);
+> >               return 0;
+> >       }
+> >
+> > @@ -48,7 +48,7 @@ static int slot_pwrctrl_power_off(struct pci_pwrctrl =
+*pwrctrl)
+> >                                               struct slot_pwrctrl, pwrc=
+trl);
+> >
+> >       if (slot->pwrseq) {
+> > -             pwrseq_power_off(slot->pwrseq);
+> > +             pwrseq_vote_off(slot->pwrseq);
+> >               return 0;
+> >       }
+> >
+> > diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c b/drivers/pci/pwr=
+ctrl/pci-pwrctrl-pwrseq.c
+> > index a308bf4b5fc01d23b75db4cd396201c3ba3fe695..86822f0f645eb757455f575=
+000f81122bce82e60 100644
+> > --- a/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c
+> > +++ b/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c
+> > @@ -56,7 +56,7 @@ static int pwrseq_pwrctrl_power_on(struct pci_pwrctrl=
+ *pwrctrl)
+> >       struct pwrseq_pwrctrl *pwrseq =3D container_of(pwrctrl,
+> >                                          struct pwrseq_pwrctrl, pwrctrl=
+);
+> >
+> > -     return pwrseq_power_on(pwrseq->pwrseq);
+> > +     return pwrseq_vote_on(pwrseq->pwrseq);
+> >  }
+> >
+> >  static int pwrseq_pwrctrl_power_off(struct pci_pwrctrl *pwrctrl)
+> > @@ -64,7 +64,7 @@ static int pwrseq_pwrctrl_power_off(struct pci_pwrctr=
+l *pwrctrl)
+> >       struct pwrseq_pwrctrl *pwrseq =3D container_of(pwrctrl,
+> >                                          struct pwrseq_pwrctrl, pwrctrl=
+);
+> >
+> > -     return pwrseq_power_off(pwrseq->pwrseq);
+> > +     return pwrseq_vote_off(pwrseq->pwrseq);
+> >  }
+> >
+> >  static int pwrseq_pwrctrl_probe(struct platform_device *pdev)
+> > diff --git a/drivers/power/sequencing/core.c b/drivers/power/sequencing=
+/core.c
+> > index 02f42da915985339d3de507fc36dd158b0035a99..c630b14f6f2c478f05e4b28=
+93b386aab0cddaaf5 100644
+> > --- a/drivers/power/sequencing/core.c
+> > +++ b/drivers/power/sequencing/core.c
+> > @@ -708,7 +708,7 @@ void pwrseq_put(struct pwrseq_desc *desc)
+> >       pwrseq =3D desc->pwrseq;
+> >
+> >       if (desc->powered_on)
+> > -             pwrseq_power_off(desc);
+> > +             pwrseq_vote_off(desc);
+> >
+> >       kfree(desc);
+> >       module_put(pwrseq->owner);
+> > @@ -874,7 +874,7 @@ static int pwrseq_unit_disable(struct pwrseq_device=
+ *pwrseq,
+> >  }
+> >
+> >  /**
+> > - * pwrseq_power_on() - Issue a power-on request on behalf of the consu=
+mer
+> > + * pwrseq_vote_on() - Issue a power-on request on behalf of the consum=
+er
+> >   *                     device.
+> >   * @desc: Descriptor referencing the power sequencer.
+> >   *
+> > @@ -887,7 +887,7 @@ static int pwrseq_unit_disable(struct pwrseq_device=
+ *pwrseq,
+> >   * Returns:
+> >   * 0 on success, negative error number on failure.
+> >   */
+> > -int pwrseq_power_on(struct pwrseq_desc *desc)
+> > +int pwrseq_vote_on(struct pwrseq_desc *desc)
+> >  {
+> >       struct pwrseq_device *pwrseq;
+> >       struct pwrseq_target *target;
+> > @@ -925,14 +925,14 @@ int pwrseq_power_on(struct pwrseq_desc *desc)
+> >
+> >       return ret;
+> >  }
+> > -EXPORT_SYMBOL_GPL(pwrseq_power_on);
+> > +EXPORT_SYMBOL_GPL(pwrseq_vote_on);
+> >
+> >  /**
+> > - * pwrseq_power_off() - Issue a power-off request on behalf of the con=
+sumer
+> > + * pwrseq_vote_off() - Issue a power-off request on behalf of the cons=
+umer
+> >   *                      device.
+> >   * @desc: Descriptor referencing the power sequencer.
+> >   *
+> > - * This undoes the effects of pwrseq_power_on(). It issues a power-off=
+ request
+> > + * This undoes the effects of pwrseq_vote_on(). It issues a power-off =
+request
+> >   * on behalf of the consumer and when the last remaining user does so,=
+ the
+> >   * power-down sequence will be started. If one is in progress, the fun=
+ction
+> >   * will block until it's complete and then return.
+> > @@ -940,7 +940,7 @@ EXPORT_SYMBOL_GPL(pwrseq_power_on);
+> >   * Returns:
+> >   * 0 on success, negative error number on failure.
+> >   */
+> > -int pwrseq_power_off(struct pwrseq_desc *desc)
+> > +int pwrseq_vote_off(struct pwrseq_desc *desc)
+> >  {
+> >       struct pwrseq_device *pwrseq;
+> >       struct pwrseq_unit *unit;
+> > @@ -966,7 +966,7 @@ int pwrseq_power_off(struct pwrseq_desc *desc)
+> >
+> >       return ret;
+> >  }
+> > -EXPORT_SYMBOL_GPL(pwrseq_power_off);
+> > +EXPORT_SYMBOL_GPL(pwrseq_vote_off);
+> >
+> >  /**
+> >   * pwrseq_to_device() - Get the pwrseq device pointer from a descripto=
+r.
+> > diff --git a/include/linux/pwrseq/consumer.h b/include/linux/pwrseq/con=
+sumer.h
+> > index 3c907c9e1885dc2958043a9a733fbe20bdf95f6e..e4d2cb321354f0cb7e1d1d7=
+2e6b5a96b94129da3 100644
+> > --- a/include/linux/pwrseq/consumer.h
+> > +++ b/include/linux/pwrseq/consumer.h
+> > @@ -20,8 +20,8 @@ void pwrseq_put(struct pwrseq_desc *desc);
+> >  struct pwrseq_desc * __must_check
+> >  devm_pwrseq_get(struct device *dev, const char *target);
+> >
+> > -int pwrseq_power_on(struct pwrseq_desc *desc);
+> > -int pwrseq_power_off(struct pwrseq_desc *desc);
+> > +int pwrseq_vote_on(struct pwrseq_desc *desc);
+> > +int pwrseq_vote_off(struct pwrseq_desc *desc);
+> >
+> >  struct device *pwrseq_to_device(struct pwrseq_desc *desc);
+> >
+> > @@ -43,12 +43,12 @@ devm_pwrseq_get(struct device *dev, const char *tar=
+get)
+> >       return ERR_PTR(-ENOSYS);
+> >  }
+> >
+> > -static inline int pwrseq_power_on(struct pwrseq_desc *desc)
+> > +static inline int pwrseq_vote_on(struct pwrseq_desc *desc)
+> >  {
+> >       return -ENOSYS;
+> >  }
+> >
+> > -static inline int pwrseq_power_off(struct pwrseq_desc *desc)
+> > +static inline int pwrseq_vote_off(struct pwrseq_desc *desc)
+> >  {
+> >       return -ENOSYS;
+> >  }
+> >
+> > ---
+> > base-commit: c5e32e86ca02b003f86e095d379b38148999293d
+> > change-id: 20260727-pwrseq-vote-rename-b7cd21032668
+> >
+> > Best regards,
+> > --
+> > Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> >
