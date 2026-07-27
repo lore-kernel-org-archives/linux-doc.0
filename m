@@ -1,161 +1,170 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661E83D9527
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 19:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785182133; cv=none; b=kFy7ogMB17fOr5hzhGw0WPEh+tq7oteqGzHRtAFZqF0Y8yhKpBbcpDmMXy2cOxLooNtLG6EnJ2CsA1nGzO9YGwj3MUq3L0M5uVzEFmmU2RiiKGRmqX62xqdO4D9uY+Ib3/7p1UPZ77EaYmRyla4m9vu3pqUgsaz7lI46J3UAa0M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785182133; c=relaxed/simple;
-	bh=AfVtfPVQw7E6qtXV1Ata9mBOVITuY92MDLgL+hWYNZY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HbOrJBCcGTJke60cP9e8Rwwse/PAqGdzuDHIW8prrZ74GV2HZ8cqCHxe/qoo41En018ujhlpbMQn1n0NOq+n35GaYDhx/CFB3B3Figy9MV/kQ0fRooiEHy8NGo3AEflWgiQUMnI8/i4e3N3LOxrKOyibUca515KZa31+PzX+ShQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pKNbcBJz; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2624F31F983
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 20:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785182795; cv=pass; b=ArlKkon1+VIlhLUQ7y7apg6XF215gZ62DocJyfIRlWkduwXI8b0RVMJX+VmjMty1GuolAqsmovuffDkvjpX0Nq6/qX7lJK/OhNkeltSTPx/0X99PVa/eAWK6O8WApC+N2Boq98sNyZ7+hbJCVPfxAQZ46OWzBlMgSIuybOiyc/E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785182795; c=relaxed/simple;
+	bh=6apOgnwFS+LCUfaanOnBGAzYOkwuFRkixEqeP45hgM4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=txXMqhfwQrC5JtJLizxkOyavnK6vIT9CXEyP9EDxkZJ5U8vMDitzg/IQ8qJ2MiBIHqZaNj6JJZY4qxPrWfvzeKeGZCBv06Jxrh+yhMlnrwVvgMX1WeavlNH4UM9hVoCgDbwEmZFqDl6cm29ZOsVwN3tX3iXYVnmMc2sCTgWkhuQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=agAk9l42; arc=pass smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pKNbcBJz"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c999f162c9aso2268094a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 12:55:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="agAk9l42"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so3060853a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 13:06:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785182793; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IvkvpxddphfNgqz/dxX5/ZXrLpRMVHCr9kdFDIt4fZ5WdqX6VNQgrj+1c5xdv4OFpo
+         5b6PKAUvfqXUZFitnIc6h18lR7WLkzIaDspNu7S6AeZ7bezvcV5IY4aXSKfHqcGLmNuz
+         iij65bVggl5JyHXME8ShkQ3JgWe0bmwGNKbMqvxohCcuLUS9UiGgzUaFGYWSeUKb3q3w
+         G0C6neCniKgXBuvZlRc3Eqs8J0ZBzG1rhG1dpVjbdkDb9YQuOzI/GFzJBuSAVzgZsZmh
+         OpxEtC6di5elq4LFBwg2bjI5eqeeG+2evTsjRBBO0uN0Ga40886cZsSC7ZqZz0EIqd87
+         U5FQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WT3D5aoPs392vdVyfO0XAxS3rqs8yFAgGjz3WyPghwM=;
+        fh=nHvdh5ANGp2r3adm6p+MNoGtK2Fno/0jG0j4K34Pz64=;
+        b=hq3/ItzcxVwe0BKi9evEZ1QoUql0zqfeBIuKWRcP9h0+6nW0pQCSkqUh+iq3wojpEe
+         mqOd9S2tgmSzvQaNCdiR7bdlsimGu8or0SpC516ZS55axmsZZnKddB8mWYnYjcJNec1D
+         V/sxWavlaaEnCOK8sik0FgBO5tVSIY4CiOrz/43ifYv2+M+c2grNIIJwbsAMuot2Q9iB
+         sfa5XMtImRxkOCO/Je3IzCMaWRj8/Cvof7jR7n/2mo1F9Muvy6oHCIioC/tbAQpwBlJw
+         NKj5y6QvJDP5gXxySDHgwyZB02TFKVum+qn8H9vzmIpZ4jMRPYy4fBurFHn360/d1uo3
+         85+A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785182127; x=1785786927; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tFl/DVQhUlBRx9yESRcf7Z0LveRZ9ahPl9d1n+zCKZ8=;
-        b=pKNbcBJzKZj20Yz2fbOoSB9neQpJiJaQpVc/kxA5R/nQeoHD8hlhxsQSwQC9u3QwXX
-         UXp+aMDhQFY9C2J56uegR0+a67gvyy7Xq1Nj/8QsQOwRr9BSnXGN9X8mcWklkpa4Cxmh
-         RPxawkJld9OrMmkOCnWxBuaM/RJMf9b9fHvud6+jdDVEB0jiL4Wq51nF7J51/bBb0H+z
-         jtmiVD4Qc9N5gdKwkzr5Qg+xUWVQXK5xZWpDLPF49DJjP2BJRlBZK8c3kCldOB98YhFE
-         oAuPfdxSz4K//7U+JWXvnFVOIU2Pj6xekeIT9wH/An88UO2oK7d7sJx5ZtBJjc4LzSs0
-         Hubw==
+        d=google.com; s=20251104; t=1785182793; x=1785787593; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WT3D5aoPs392vdVyfO0XAxS3rqs8yFAgGjz3WyPghwM=;
+        b=agAk9l42+Xun1Kr1OkJdXs7lFnXZTj2ve7r5VzEm7uwQwstZv8DEyE0bkxKU99yapM
+         dTLq3Q2uAb+SE0sJtlRLab/d13ovpKJaiih8QzBZ16Qln8jpgkB3cvY81R8cBMWtDTG/
+         P4lVQJggBIdUxZUWnXBNIKWaXghmsHbMKV3aZ48sVjpd7XY/iEoxXGOdvvP6lPYYiv8Q
+         Pdlv+6Osqe3ChiCUwNQTy5ZxgP01uKV0zMwxlgILiWoXL4CSqDgAbYgiPms+k8M08r1F
+         3YrGWgpzJa/UPuM+om3skihiOpCDPbzqV3/JgvLEct67sgVfLNNVsZvAaGmyZ4l5T+jQ
+         4ndg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785182127; x=1785786927;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tFl/DVQhUlBRx9yESRcf7Z0LveRZ9ahPl9d1n+zCKZ8=;
-        b=CDYeSIJmVuRVqOhAQXwgO3KZqxrpLTfUG7qyGBOHJUIk6T1fMX3Cc88SBz4it7xkQV
-         sPardcEBdOwkv1oRchCcq5TlcEOMleeCLPdVns7ojVD89rTsbidMA3d08nzF0tyHKNtr
-         2D5u7EsZa0/vVmjQWSXJgudkm4xYEG7ZIS6vFlwst5dXGM01H+Jd17zzh4CQFKJowECV
-         zlBFEH2zoLin2cOQOpbi1Q2iDgMSgv13aU4E8Xtb6VdMl56l/9vfPMZsNN0L4vg6Ot7g
-         Nv7Fkl9/nhDqTB+9VmMZQ7CsCxYTZWRmNlvbjk9AQa8pNjgh02zG7NYj8VyLxZW//soG
-         XrDA==
-X-Forwarded-Encrypted: i=1; AHgh+RqkgJRODiISSioulgtz/oPePXcGPOYdBJff6gw+AABDArQqgpijqq4rnpB4f2KhnvdtPW5IlkibGnc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7ng1iIWerRGbtTTibYVb0M395DbgHmfAPT98UNHmiYt+szwyi
-	jQ2/NtlEn+lGzUe0sk8dTHB2K5xwqDRjUeJgSmli5SBoeKQc/3rB0voE
-X-Gm-Gg: AR+sD11bxcyctkpCDGqMz0xRcjNMcuC2Ba81B4kGBY8RAAS1WV/fmzcL4tscjPa1zHU
-	DnhB1N1PhsGsl3577cqyhivkU9nMm6hQmA/9ppWRpYB6kZ9coJ79VSFPyPpYafWlDiIrxfugiX2
-	k7n6S8XUwHfV/mNMNjtjAj3p+bIJw/DDdjxxfox5qAogH2qikXLjd7UjaF1RhayOsFl8AmGIW1q
-	Hq39VecUMN41xjJMYYTLxTghfSUPSqWT3yddNmU8Z7cfu3ZFRxWKgZgmRcjZkNg8mH2IPYMW7BY
-	pmTWPpyayObePTRW8DAApQ8Uand1nT6Mqz7rPsMfavgDO1EgdR+Wo681uSIu2+KTRydgpjkNEkl
-	uZJa1fEuLFd2nVqwRYJFuoceTfvdSTchd1nxP6Ap6+JskTIQgcBpvzHw6Dobnqq/dP5n/Ov+g/t
-	2sxE9If1RxLC6sZ0Q2ktCekyyGGM9SPFw0rfhwOyxusjsn5PIoP3XJ8SFadIHk2MBFOg==
-X-Received: by 2002:a05:6a20:1590:b0:3bf:96c6:78a9 with SMTP id adf61e73a8af0-3c6c7b71895mr1111190637.2.1785182127125;
-        Mon, 27 Jul 2026 12:55:27 -0700 (PDT)
-Received: from localhost ([103.170.252.6])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e6461ef84sm18743257c88.14.2026.07.27.12.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 12:55:26 -0700 (PDT)
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	stern@rowland.harvard.edu,
-	michal.pecio@gmail.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	stable@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Nikhil Solanke <nikhilsolanke5@gmail.com>
-Subject: [PATCH v4 2/2] usb: hub: Split announce_device() to log device identity before enumeration
-Date: Tue, 28 Jul 2026 01:24:34 +0530
-Message-ID: <20260727195434.14626-3-nikhilsolanke5@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260727195434.14626-1-nikhilsolanke5@gmail.com>
-References: <20260727195434.14626-1-nikhilsolanke5@gmail.com>
+        d=1e100.net; s=20251104; t=1785182793; x=1785787593;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WT3D5aoPs392vdVyfO0XAxS3rqs8yFAgGjz3WyPghwM=;
+        b=pcjbpjO0h39gwBTjo/vcgnAE7kf/tNf6mlUm3do8Kpcor+k88A3gt/PLlLzye2EuOA
+         I0ou7T5IoaDDx2e784XtEZgSmZMiQUyWVHZiLqA4i9WaVLrdft8lFqenI2IbaGxCWQ49
+         MxnkMOA1SMTZ66tajJnP/ViBh7fC8uAx75fdXD1p5xs4jUIc+vK/aBJHqxnzaScauFK9
+         ME7iNnROzhyWdfk/SAUEXjwhg+5q9qYvr1KkQelDWCIheKYhBtKZ5PT6lOiVRcMRZEN+
+         vy6vorRUXtmiQTuXDaA8SPqHkTCq959Kls7md5NQgTyhGnpD8vffbz/npSi+OGMMh5NH
+         JgjA==
+X-Forwarded-Encrypted: i=1; AHgh+RoCBCUveckQfsb8jfXvh9wwgKkMLw1uSsn9IYKkrAB+26E6/nqdNySauI1S4rsn+m2WeQ7b1nXWeOs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw87Wa/uT9WEpZtvEC4/S1KYguNTCU6CPSMmqaXM4NIiligJE/t
+	jcBAHBTZiWSr3RhnqrES2hbFspsUXsuSgwhxIFSwlKa9plC9EZUetN4CTpfgh5w2jsUTfxzwfO3
+	fun6N95aPp6hwoDs+EHew5pTcy9cuNoShuu3txAgEYbb3GtiMe5iIvjpw6rw=
+X-Gm-Gg: AR+sD13XbTrvv5Ulir+K8NIPIJlSl7C1u53E0inS3rb/+E9rUsepz3wkQk6GSWw27CK
+	U+kYbcD/Z4lIWOuETZYm4ePMGx3WU5zR7YmaF7sOQMJfmoZ1VGs1fbYUENnwxWtaMBc0W7Q5xYk
+	juR8TGorqqSKCEeMCtgxs/x3+PGyJk6phxMbmi2QSTn8kF89J/fPGKMZWDt0VnKpkXe30vuDlLG
+	Y1Bs+paojgWOfNPY1WcRcdPB/GeUFb41G9hZbmlvVO1CfCNp+rlvFPtbgZXNQ==
+X-Received: by 2002:a05:6300:670d:b0:3b4:5c70:ca3e with SMTP id
+ adf61e73a8af0-3c6c7cc8bd0mr999176637.25.1785182792364; Mon, 27 Jul 2026
+ 13:06:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CALzav=cRhFW+zNX6xCnhjJXXDHgyhOxuoX26FG2Ve8+wMccypg@mail.gmail.com>
+ <20260727192701.GA1250952@bhelgaas>
+In-Reply-To: <20260727192701.GA1250952@bhelgaas>
+From: David Matlack <dmatlack@google.com>
+Date: Mon, 27 Jul 2026 13:06:04 -0700
+X-Gm-Features: AUfX_mxd_Oq9PiU6WIdCESXtBp_uYjHaNiC_kTE5jOYjh-Uu0garCTxaVZ4f-sk
+Message-ID: <CALzav=d1u5fuOgodeGKiFKPhMOx5xrdvgOeNqWfj-C7ZRG-EdQ@mail.gmail.com>
+Subject: Re: [PATCH v7 01/12] PCI: liveupdate: Set up FLB handler for the PCI core
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
+	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-announce_device() currently logs the device VID:PID and string
-descriptors only after successful enumeration. This means that if
-enumeration fails, no identifying information about the device appears
-in the kernel log, making it difficult to diagnose failures.
+On Mon, Jul 27, 2026 at 12:27=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org>=
+ wrote:
+>
+> On Mon, Jul 27, 2026 at 10:40:52AM -0700, David Matlack wrote:
+> > On Thu, Jul 23, 2026 at 3:21=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.o=
+rg> wrote:
+> > > On Fri, Jul 10, 2026 at 09:26:04PM +0000, David Matlack wrote:
+> > > > Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to ena=
+ble
+> > > > it to participate in the preservation of PCI devices across Live Up=
+date.
+> > > > Essentially, this commit enables the PCI core to allocate a struct
+> > > > (struct pci_ser) and preserve it across a Live Update whenever at l=
+east
+> > > > one device is preserved.
+> > > > ...
+> > >
+> > > > +#define pr_fmt(fmt) "PCI: " KBUILD_BASENAME ": " fmt
+> > >
+> > > Is KBUILD_BASENAME buying us something important here?  Just from
+> > > code-reading perspective, it's more work because without some digging
+> > > I don't know what it will end up looking like in a dmesg log.
+> > >
+> > > > +static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args=
+)
+> > > > +{
+> > > > +     struct pci_flb_outgoing *outgoing =3D args->obj;
+> > > > +
+> > > > +     WARN_ON(outgoing->ser->nr_devices);
+> > > > +     kho_block_set_destroy(&outgoing->block_set);
+> > > > +     kho_unpreserve_free(outgoing->ser);
+> > > > +     kfree(outgoing);
+> > > > +     pr_debug("Unpreserved struct pci_ser\n");
+> > >
+> > > If this pr_debug() is useful, maybe it should include an address and
+> > > there should be a corresponding pr_debug() on the preserve side so we
+> > > could find things in a crashdump?
+> > >
+> > > > +int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh=
+)
+> > > > +{
+> > > > +     pr_debug("Registering file handler \"%s\"\n", fh->compatible)=
+;
+> > >
+> > > Is fh->compatible enough to identify a driver?
+> >
+> > Not necessarily. VFIO could theoretically have one file handler that
+> > handles all the vfio-pci variant drivers. But I suspect we'll end up
+> > with 1 fh per driver in practice.
+> >
+> > Are you thinking about how we can ensure devices are bound to
+> > compatible drivers after Live Update?
+>
+> No, I don't understand enough to worry about things like that.  I'm
+> just wondering if there's enough info in the message to be useful,
+> since fh->compatible is the only text that's variable.  Same reason I
+> asked about the "Unpreserved struct pci_ser" message above.  E.g., if
+> a user reports these messages, will we need more information to debug
+> it, or is the message itself enough?
 
-Split announce_device() into announce_device_ids(), which logs the
-VID:PID and bcdDevice immediately after the device descriptor is read,
-and announce_device_strings(), which logs the product, manufacturer,
-and serial number strings after successful enumeration. This ensures
-that a device's identity is always visible in the log regardless of
-whether enumeration succeeds or fails.
-
-Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
----
- drivers/usb/core/hub.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 5262e11c12cd..d92bf887739d 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2401,7 +2401,7 @@ static void show_string(struct usb_device *udev, char *id, char *string)
- 	dev_info(&udev->dev, "%s: %s\n", id, string);
- }
- 
--static void announce_device(struct usb_device *udev)
-+static void announce_device_ids(struct usb_device *udev)
- {
- 	u16 bcdDevice = le16_to_cpu(udev->descriptor.bcdDevice);
- 
-@@ -2410,6 +2410,10 @@ static void announce_device(struct usb_device *udev)
- 		le16_to_cpu(udev->descriptor.idVendor),
- 		le16_to_cpu(udev->descriptor.idProduct),
- 		bcdDevice >> 8, bcdDevice & 0xff);
-+}
-+
-+static void announce_device_strings(struct usb_device *udev)
-+{
- 	dev_info(&udev->dev,
- 		"New USB device strings: Mfr=%d, Product=%d, SerialNumber=%d\n",
- 		udev->descriptor.iManufacturer,
-@@ -2420,7 +2424,8 @@ static void announce_device(struct usb_device *udev)
- 	show_string(udev, "SerialNumber", udev->serial);
- }
- #else
--static inline void announce_device(struct usb_device *udev) { }
-+static inline void announce_device_ids(struct usb_device *udev) { }
-+static inline void announce_device_strings(struct usb_device *udev) { }
- #endif
- 
- 
-@@ -2651,6 +2656,9 @@ int usb_new_device(struct usb_device *udev)
- 		device_init_wakeup(&udev->dev, 0);
- 	}
- 
-+	/* Announce the device identity */
-+	announce_device_ids(udev);
-+
- 	/* Tell the runtime-PM framework the device is active */
- 	pm_runtime_set_active(&udev->dev);
- 	pm_runtime_get_noresume(&udev->dev);
-@@ -2672,8 +2680,8 @@ int usb_new_device(struct usb_device *udev)
- 	udev->dev.devt = MKDEV(USB_DEVICE_MAJOR,
- 			(((udev->bus->busnum-1) * 128) + (udev->devnum-1)));
- 
--	/* Tell the world! */
--	announce_device(udev);
-+	/* Announce the device's product, manufacturer and serial number */
-+	announce_device_strings(udev);
- 
- 	if (udev->serial)
- 		add_device_randomness(udev->serial, strlen(udev->serial));
--- 
-2.54.0
-
+Ah ok. From that perspective, I think this be sufficient to confirm
+that VFIO has registered it's file handler for devices bound to
+vfio-pci, which is all this log needs to do IMO.
