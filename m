@@ -1,451 +1,395 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011046.outbound.protection.outlook.com [52.101.70.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FF136C588
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 15:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785165673; cv=pass; b=XT+XiF8xont4hGwGr/6sbitxqiEBWWMB5XrApUBZDF14lWScKLfavcBWv+Zl25qptVF6DsVEncVf+n+9Z87cbquwrVYw3iVHKNSuI/jNsBaAr/j0xKm6kCupAe2V+linoLNRaxRi2c3Y/nUvAfh+2K6qVG4TsEho5kLlswIM+d4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785165673; c=relaxed/simple;
-	bh=/MyeQZTPn9rqkxo6YksbS3ehh9oYYrIsrAXL5FVnJIY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GwMs0NfR1k01gqLcSaLvgnBndyUbQQ7zWF0w3YG0C3tRWc4OxCtxRg0qva0eRwU4mbKcnYYdAWScBFLkjCTSadPtwEX/ZNXrQ2zilR4zhAFiLgx/VfYmQJHevEgDT8KpBNQeKI9h7RhhhYVI8UGdzh2GKYvb7Qr7MOqSw7nKw8A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tpaZKS9F; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA11370AE6;
+	Mon, 27 Jul 2026 15:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.46
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785165713; cv=fail; b=Kco1TVlOfPxXGvPl8J5NsfJatASZ9zMJfP/klku1fXk1EVjAm05ErnStHMNFWjVWr8kZAETLTNBDcyefYjA5GKrjFZFXDRMfbY3ME2QvFcQX4WaliP7BktwkvbazjXIOYCvTvgBfe31qgJXQur8IevXi1W2w71lGlmnQkl7i75g=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785165713; c=relaxed/simple;
+	bh=yH2V4VIizrdlhs3WIf+ZI92/jAFquiII0w9SKJV4kM4=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oqx9qfC267BardSSaQP+8pYiG2zcaNNhPHttpqs1Y7diMGq85g1WR60yIEGsovKqlP4QLSZtrmOh77tOmtxVeXMUH2ehP8kHXAEaDAax2H/VG5pTke8CVVeJ1Y30cO79SD9aRWRJ/SUJldJVpuiHTGPOCnw0J1QvCj7Jpv7r+hM=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ewMH+3mB; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ewMH+3mB; arc=fail smtp.client-ip=52.101.70.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tpaZKS9F"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-69c108fee7fso3911872a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 08:21:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785165670; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VVXDAml1Pfhhrnw9hlldk7LhBX6Rkw1VE374wxEcUWzn8RoIKxWITmuiW3W4Ijkv7L
-         mb1jxb7rteQ48U7nN/3iM+2VZJgw3gvvRXeR2dzbThh5Od/xhpCIu115uxhL7gmgncJC
-         EXeE/zH8LAfolGCMUCQwgttyyt4CGYuOVRZdOZu9e/TIgzbGXOK5blzaE3VdQ47bRWyK
-         k4D0cimYDT2TIWTGgp4glmkAoB6oDJ94PzTw2xDYI7fppgD6ldjcBSIn26m5SR3BAIVP
-         k7+CUidEJo83xKGFxxWMp4NYZUcV4qJr5UnvPB8yFCv+Af/we4BK4yYQ0BPzGMmyKKUt
-         zeOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Xw17qJ8XaEeGNUn2onPVjFXBaQvAU90nz3gqoKlKAuQ=;
-        fh=pwW+DzjkvC38XwklXRXSzUXBOS7bGFOzldAiyCsRP5o=;
-        b=A16melo5RbmfgihJg6hdD+5T40xJ7dqIDref9B1tYRXKvsyu5CAloB8urN0fFKyTnj
-         PwS4DksLJq+SQUJfyRGoNSkFrNFfIUDNYLFPPuLuULALEXD8DrSAeES9+XzQlT8hfEW+
-         QVxP0CDDeRzPD4d+20arahNromf59wF0l6yrL0/s8Qcz+OZxyZefJBnCJsN53v4liPrN
-         kPxTbEdOPD759oMyaqZl2tsmu6OHNZnLXWTlRIMhupWqYhreitSaRi/7liBcFi2Tc7v+
-         aRRHuUNhzAzA8gQN7AsCCeGje5eyj+K3QIC3aKQoDFmt1FBJXzFu5Qs22u38Yip5wQ+n
-         zstQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1785165670; x=1785770470; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Xw17qJ8XaEeGNUn2onPVjFXBaQvAU90nz3gqoKlKAuQ=;
-        b=tpaZKS9FJbVuB4MFBlXg8c/mOBRFCNqV7EIO7qs/TiQDmnZ2hedU9SIbWlktXLP0ZB
-         mciKUdOGe1Rs7IpL+UWKXQV100Gir36uwHqhlFm1Oq2/cOVYowRCMiOrOqK+f4e9KXB7
-         E00oDPZSQYJ0pnu45dafh/K0Gko/a/RF37D0F0ltlmAubXO+SX5/H2tLy3bUncj4i5Cz
-         XKepSbN4gLPDYtc2TThdRZu90EtEFeGh+J0foGjCHyzZTzPDPtvEHf1gRBkjeMfdj+SN
-         swyWD4S1iY69Fz7gXih590VM3iEF95+rifAtciPLSuzUomfvhMoJpB/XLUZENi/NcWC5
-         fdeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785165670; x=1785770470;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Xw17qJ8XaEeGNUn2onPVjFXBaQvAU90nz3gqoKlKAuQ=;
-        b=i78VIejR6BvMSq4rAt5jhhcfn6K2LzSw+1w7GPXBikHEy0rsn69Wy3C0jutJpiV8RH
-         4tZyaqlSLyKE2TJAi6A4ewO8S5Tb1660aBHe6CN02qBGxybsJ7i9dx08kuJDMzb4QJKQ
-         ymvfKVctX1TYp2kUaUZtut3laIKpdSs+Sk9qctQo/JxVZSWe5qfKu4BMgbYw4leIQzTF
-         +xg1olW++r8YwW2GdK8vO4LKFFRih0HhQHRfloqwwfYMSTu/WpIOsJ6LBvh6SPznBUrJ
-         liTABnq/bKxHOBO6yheogqsXtyHIQJhMTosxb/rlc43GYpwJBGJvUgWB9sLlmsV2tnDQ
-         97jg==
-X-Forwarded-Encrypted: i=1; AHgh+RrO+xwhIHjwFH77NXSPg6wsZ9wn4LZd8Q90ahFiHer6LcKaR5ymD9bsz8CNynC8FlHNF5B+V5pICEU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1j0e5ZCwi9e89wowfjhWZAfTV8h+XsTuLx6zoNQUMsswEqCYY
-	8RghX6i0/4S3t5QWiBHHIbd6XV65UpUNmFpO+RyW2/Y0kzulrjO+Fk6anve1gfTQdKLIImStlji
-	cmhEe2oQU5G2yJVBFNtehxEWRAbUuStEBiFMN7/elIA==
-X-Gm-Gg: AR+sD13dkIK0byetZog4gNvRjbLfM6K3ADztONIlbrjKecHx9cEjBCfoKOjP576D4gm
-	tHlmcA+EhxhZ+uCIJcxOlRZ19Z68/rsQJkqHGiiFECVSv1J2TWx5s+g99anBHAsT8RVxYcEqJVi
-	b+21wQYwkie+541Sdr/zo+s457v9fa1qxZRztG1QcvTV7lCgBuH0ODe+paqXBjGOA0GARn9zRqZ
-	TPs2kMZHpdReaPrDCCIkwZrJTv6DjAZzq6T1EbS2/2oDJYCfX1jmaGJNH22Qwef2uumr2CADBUS
-	ES/icKvHqreVDwjeb4FjZvQIbHzSCPOLOow0m0QxyA==
-X-Received: by 2002:a05:6402:1952:b0:69a:928:9405 with SMTP id
- 4fb4d7f45d1cf-69fc1005547mr3034620a12.1.1785165669574; Mon, 27 Jul 2026
- 08:21:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ewMH+3mB";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ewMH+3mB"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=hB8bEKnH+gnN0NYOpdEJHTMgph3/Z6LifADZvQlIlNiaDDcGbulLE9D+xAKhP9K31/sXm+TrYOhm/yQ/uMZDSdQZ36j2IHFhlD5qp8ev8CBREcWuoaYMMGu+LfN/SsCIkOV49nDPNsj/civhanNOk5/q9m2FP/3HGw/IkyBNZOlnj3hrWCf59nEi0SjwC3eqr8OqBV/xd3mLmfec1RRPkyiVF7zLiCqOaGwZioDc9N8HmIc+aHNabpQmEVctRI/3dJg06Wdd7uxVSjznDlWkWHJ7WRuk/J+cnYnK6ReUOdZjkLwJ7zKBcCxBAnrfgeO641Y98cM9otxcoK3scPLPIg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NC0wUwMR0+EiJEYIYVwg1/RvZiztQ3cjIB2//NjQ/t0=;
+ b=Vu6bjOmIuP1CHHYUAWPshZ0+hbnSNY8X0TrYtTocOb3bTtzxC8/kMK5OdumirxKvmGvRY8H7xbQh7XrwBxzFAlEKIt69LQyX64+NzVOzo1ercrV677Udxh8zQbnTBKGqYcyheoJKQb3gCKcc2tb1Un1KN2lMzvHxST8fYS5z2GgoWyHfS6Ml6BL+lw1xlJ5Ov1fH1dsghWR5t1S8jBVP9TJA6Rm+RCD33X5cD7bpS+urYLeiyZFKthXxQoJFUIuiNgX5aovMSXfyTB/9Mnvei7lAhKp9i15+LCyvZhcs1qd78M9c8ekA5hJ+5oQ0LVl6iM1jK2xZjToS5Fcef35QSQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NC0wUwMR0+EiJEYIYVwg1/RvZiztQ3cjIB2//NjQ/t0=;
+ b=ewMH+3mBVpQzRfNcrGn+fFqeR9fmmo66WsMDlO1jIBSL5C3XGJuryvS7vb9+51Imxr2GdPo3i6gbguSb8bW2776z8MRUh+tp0mTphwmkNTbZyk4Of8Gt+TcHDcMqUC9sSIYgBBu+nPWz9CA+3MT/kLEr4QIWmkyZTLHXocRhrNI=
+Received: from AS4P190CA0048.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:656::21)
+ by PA4PR08MB6048.eurprd08.prod.outlook.com (2603:10a6:102:e6::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.12; Mon, 27 Jul
+ 2026 15:21:41 +0000
+Received: from AM3PEPF00009B9D.eurprd04.prod.outlook.com
+ (2603:10a6:20b:656:cafe::57) by AS4P190CA0048.outlook.office365.com
+ (2603:10a6:20b:656::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.13 via Frontend Transport; Mon,
+ 27 Jul 2026 15:21:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM3PEPF00009B9D.mail.protection.outlook.com (10.167.16.22) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.5
+ via Frontend Transport; Mon, 27 Jul 2026 15:21:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Hq5hY3wX03M4x6MD/QTD+a94UXEvFztSDUbPjdRUam9EY2suuQqw8EjPIh3DP+VGHxutctM3UMI12TKjzn8Jy4lX4XTJDOtNThk5cBacTC0xf1XyMvJRE0rFzBk/rodrvN2Jh+YFKxaS5nA2pzxlKxecCfBr9P6ONdAJt4b+QPkJZPNLG6RglT025iyE4ELN0XaqnkZZ3LtqbssyNT/xEU+27MOe8+W/Uo/ps/deG3fvcRPGR6NRV2HBkLHYjRHCOmq8agXq+Bq6vokljfZeA1MIrwcMkz9b1qzhNTwGdqSBdX0B+HnVekt+4I2R9LHYX/18W0cv0GjIcsKpA+tA+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NC0wUwMR0+EiJEYIYVwg1/RvZiztQ3cjIB2//NjQ/t0=;
+ b=Jp3r4hYSAaYbsBE1UEFHiFGq/KW+OMqm7tLT310hhC3W0pH+G5FFzo7Va4DX7sQOHwc2UaANiFy54G5jVQP6kRqDXVtgpuu7D7V6INLDwa+XtVh3YRxdMVH2WE13SogvLQkcQnSz+7kaC8TAgs62WcBpryRELfS1S7L5KEei7YlvPuRhL+LXqAdo75f8jqtud/63qT75TnksP/Xfo4Bxioz/Fe5kAAK9SdtoC68ARPe2lVaBuu/wDQxJo43e5UBCq3z7yxBJKihjwb3B+ZF+6hV9shkcoILqMLecuc6LqIYQfajFzGDVFOl7g/111bgswovO5LOWhWRBizGXAhfhwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NC0wUwMR0+EiJEYIYVwg1/RvZiztQ3cjIB2//NjQ/t0=;
+ b=ewMH+3mBVpQzRfNcrGn+fFqeR9fmmo66WsMDlO1jIBSL5C3XGJuryvS7vb9+51Imxr2GdPo3i6gbguSb8bW2776z8MRUh+tp0mTphwmkNTbZyk4Of8Gt+TcHDcMqUC9sSIYgBBu+nPWz9CA+3MT/kLEr4QIWmkyZTLHXocRhrNI=
+Received: from DB9PR08MB8651.eurprd08.prod.outlook.com (2603:10a6:10:3d1::9)
+ by VI0PR08MB10798.eurprd08.prod.outlook.com (2603:10a6:800:211::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
+ 2026 15:20:38 +0000
+Received: from DB9PR08MB8651.eurprd08.prod.outlook.com
+ ([fe80::8fb8:7cf9:49c4:6f90]) by DB9PR08MB8651.eurprd08.prod.outlook.com
+ ([fe80::8fb8:7cf9:49c4:6f90%4]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
+ 15:20:38 +0000
+From: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+To: Cristian Marussi <Cristian.Marussi@arm.com>
+CC: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>, "d-gole@ti.com" <d-gole@ti.com>,
+	"david@kernel.org" <david@kernel.org>, Elif Topuz <Elif.Topuz@arm.com>,
+	"etienne.carriere@st.com" <etienne.carriere@st.com>, "f.fainelli@gmail.com"
+	<f.fainelli@gmail.com>, "james.quinlan@broadcom.com"
+	<james.quinlan@broadcom.com>, "jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>, "kernel-team@meta.com"
+	<kernel-team@meta.com>, "leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>, "peng.fan@oss.nxp.com"
+	<peng.fan@oss.nxp.com>, Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>, Souvik Chakravarty
+	<Souvik.Chakravarty@arm.com>, "subrahmanya.lingappa@oss.qualcomm.com"
+	<subrahmanya.lingappa@oss.qualcomm.com>, "sudeep.holla@kernel.org"
+	<sudeep.holla@kernel.org>, "usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v6 19/22] firmware: arm_scmi: Add System Telemetry driver
+Thread-Topic: [PATCH v6 19/22] firmware: arm_scmi: Add System Telemetry driver
+Thread-Index: AQHdHdtKDLD6uQlPR0ugW5SF0JlyLQ==
+Date: Mon, 27 Jul 2026 15:20:38 +0000
+Message-ID:
+ <DB9PR08MB8651FED60EE1AD37D4FE3154FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic:
+	DB9PR08MB8651:EE_|VI0PR08MB10798:EE_|AM3PEPF00009B9D:EE_|PA4PR08MB6048:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee03f9ba-6f82-4ed0-6f4b-08deebf2c2fd
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|38070700021|6133799003|56012099006|11063799006|10067099003|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info-Original:
+ 7jyJ1si9AnxzMc5PkwQzlMMzzpdSQTR00Eiz18TthVp/ZE8oTsx2s2ERFTvJywTcoEqg3kKa4BfwHdr3phlNRswG/uttJ2Knw/5/K6zchv5i79h6YicVYIsmjngmiOgQWrbhkK+NoETxAWcseeNm+sZXaVkxAc03axLAOknHriI9/iM9Rf6PjgFRyUwZ6/sfk7X/b/qaC/NbHu1JXZd9O2wBOXIPbGbuG5W+menoeaRSKMsWqKkMrwnS01umfaSDZKaogkl/IHiaiYJem7gMcA8iCf6BSQH+aXZaUMoLcJFHaum8OoTwpTT/vRj6agjwOJKEYDC2oKHR5rkK+/Bmj0n9xaZ9RaP1evXoIthKiInUute7ysIAgTcnQO2QKGw8tEcmXpLD5ppCTu/nYZrehGVVh97l8IbgHYH4ylbhrSFBATXFGJIvfPrvyXnqh4yQzf2xdUb0L4qf4xDfkZN+LFaHCENW1rbDV8Q97uDFjgf64wgkacxuKAXhoDUOjHS6ue+B+Q+eS80jXIgNON5bpJ5NRns5vBlzXM1PtbSqJFcHxlol6hfpNokE2TrfhoXJ0M7wUEor6zUM2p72DoiZkXWoVng9vr9bvBMlC+w5IlrVtFuTSm3n5skXAW8MZTBzEoEgCfltwqtoUIEB6K9mo6zNm1YdZ1129+RQDYbUYBAMB1wuFOWVkQ0lBrb7/0wETKzWYaAVrH/KljQ/0x55g9VIlqLEqGCNWd8Gj1VHFi8=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB8651.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(38070700021)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260710192831.3440427-1-tanmay.shah@amd.com> <20260710192831.3440427-4-tanmay.shah@amd.com>
- <ale0KIu6hXNvN0q9@p14s> <66e4a85c-be14-4bd8-8328-bf17d2437994@amd.com>
- <CANLsYkyL8_YSb39QqbC0Z+udahMtCV1e+OeoKGvmGSxQ6h3_qA@mail.gmail.com>
- <c8f62152-fb7b-4771-87d7-9420c7e3f452@amd.com> <al-VRUCcl6NWzQkY@p14s>
- <a37bb772-2b27-44fa-9bf1-30707c419141@amd.com> <amDYiyTFFLkkTv5K@p14s>
- <c1d24c44-8daf-48bc-9785-7ab394353356@foss.st.com> <CANLsYkzCKpNG-2W24EA1FEjEEr1J+w6VvM=sPwr8wMRDNqm9jg@mail.gmail.com>
- <c6826750-03b3-4ad6-9f88-394b0234ec27@foss.st.com>
-In-Reply-To: <c6826750-03b3-4ad6-9f88-394b0234ec27@foss.st.com>
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-Date: Mon, 27 Jul 2026 09:20:57 -0600
-X-Gm-Features: AUfX_mx_B10CZKJVNoJ6q2Tww_rqrD0rR5l2TP4HV73BfkhlTfpU2Fxq4zX04vc
-Message-ID: <CANLsYkzaEWRSNndLg8yj9kPiYE8Ys0Ps7EhO=q+ESrF49+MB4A@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] rpmsg: virtio_rpmsg_bus: get buffer size from
- config space
-To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Cc: tanmay.shah@amd.com, andersson@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-remoteproc@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked:
+ sHwVZ6mCnYrXagABN/itzeL0u4x2XpVRSPDHKKiAX0dTRnxf81nO+UeCmoKM+LDZELiUbUBUUarI3C/dpXkTJf7ZxTtMRmnPf9CY9dh0Bj1tTGV6lWQP1TVckP1QA2FxU8S5TepHik3y7qFiGGaNtTaeZrQx+mwyBgp3ZR45WMEBg4pKrWvDc/0lW4Q6XrKmHw1u3sFs5rq90q954A0J8bTg45qJI3HWxGrei+jm60oiCo4B/twmWRYiYFiDpmkl95GJOmTqqqnvUfEiL+qH85aqR870ZzVFWLwV4v73JShdNwu+sKRDTIURiIEV3N1mmCWzBkOFhYCmI4VOhHGRew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10798
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AM3PEPF00009B9D.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	ab34e522-41ed-43a4-8f5d-08deebf29d2e
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|82310400026|7416014|36860700016|14060799003|35042699022|6133799003|11063799006|56012099006|10067099003|3023799007|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	0C2RYuMf//SFlNqfuXa6zXS1NLTZhcfEfxJ568W+u2nsgqvAYdhR1E2LhaeUNS2/oYX9Rc7O+Byek89wGXudV8ft3y9ouMnam/hsNwf/XMm/8gCoTsSBJ9qM7qHXOKU5traM+SbatLnzLGXvqZ5/ZWQAuRoL8+S0zkUStDHkVp8AAA3wYF3qlHiwSkiufpiR7h8wDtRLe1gaJRG2Zb8oLQVXQ9GoxahRk64ZP4HneZCbXilaKIm3LDoo3GVrqfp28UvClgknIVWDCQL+b/0uL3fYLD2ANwqTVOffvo8i0a5bSXKwvNsTrDQ5K+255itFvvFpbLGnWyX4kHexOVWqWYTOt3dRXyp22sixlPKPL07prJr22Lpp+RARJl7a5KZm5ob29ABcNnehkdBI9P6wJ7B6/Bw6ktKjBTMN0fAOPr0ztto+BmZmmaAHKw7X3OkIoau5DUwf0ZbOPzXA7H6/jZ+S+5TR+ALD6cEf146iGcyaAvFtl2ufYd3kBbKuIf8yuPIx3GVGWgVQfzHtuH3Ie8XDh2uabjsd0+XDhdruVJ7HvaxjXwCXzBjNOmcv/4wy9RMjEoqHdxKuHT/QDs2TJy8dnmZ4+GANPZpjvcbovcJ4l+oxR7Xza/+UbUgDy7viG26URLyDClz72zK3m+yxyuAKKbt65z0VF3BhgePb0Lk927OR7vFdsyPy8eauIvyJBgofZM6uVDkLYYe5zy0yng==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(82310400026)(7416014)(36860700016)(14060799003)(35042699022)(6133799003)(11063799006)(56012099006)(10067099003)(3023799007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	JOEQwwaZlza5OqOo4u9R3DTcJjGMCCJ81S4Oub5tNp2zhegA8kufC9jjINk7Pjjumlj/vogTSGYBGAnlm9noOVBirPw3jDKG3jJ5e0zUsB9HstWlSC55BfJodPqarFN+6ygWCo7Os9hFX4hz/UUZXIa5rBrGJUTeL8o2LW9m0K0/R8eaNd1EpVZnd8K/+DCqY/tJpRSh7oUv4gWEUx/yE5PhZ/tAiNK6k3PeZV9AToXIEHKM1brHFiq6GvDaqOoOSvXJytGLW6CywZFiKixib1G6V8DBRqWocv5KZx1OJuehcU3HgXBGI1m7Sk1gfULXwXlwcG8J0N8dDY+piVIQj8WUeqZVa7IAtbevgsm6+UdFeL0FFEy/iryC/mVHmCy8avGxx8yvG9dTQOP2kou0PhlwPTc+9Po0zF5hf6civawuBjBcMAIy1GbVXaIWTLo1
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 15:21:41.8220
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee03f9ba-6f82-4ed0-6f4b-08deebf2c2fd
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM3PEPF00009B9D.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6048
 
-On Thu, 23 Jul 2026 at 11:27, Arnaud POULIQUEN
-<arnaud.pouliquen@foss.st.com> wrote:
->
->
->
-> On 7/23/26 16:13, Mathieu Poirier wrote:
-> > On Thu, 23 Jul 2026 at 03:11, Arnaud POULIQUEN
-> > <arnaud.pouliquen@foss.st.com> wrote:
-> >>
-> >> Hello Mathieu,
-> >>
-> >> On 7/22/26 16:49, Mathieu Poirier wrote:
-> >>> On Tue, Jul 21, 2026 at 11:02:13AM -0500, Shah, Tanmay wrote:
-> >>>>
-> >>>>
-> >>>> On 7/21/2026 10:50 AM, Mathieu Poirier wrote:
-> >>>>> On Thu, Jul 16, 2026 at 11:12:55AM -0500, Shah, Tanmay wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>> On 7/16/2026 10:48 AM, Mathieu Poirier wrote:
-> >>>>>>> On Wed, 15 Jul 2026 at 11:28, Shah, Tanmay <tanmays@amd.com> wrot=
-e:
-> >>>>>>>>
-> >>>>>>>> Hi,
-> >>>>>>>>
-> >>>>>>>> Please find my response below:
-> >>>>>>>>
-> >>>>>>>> On 7/15/2026 11:24 AM, Mathieu Poirier wrote:
-> >>>>>>>>> On Fri, Jul 10, 2026 at 12:28:29PM -0700, Tanmay Shah wrote:
-> >>>>>>>>>> 512 bytes isn't always suitable for all case, let firmware
-> >>>>>>>>>> maker decide the best value from resource table.
-> >>>>>>>>>> enable by VIRTIO_RPMSG_F_BUFSZ feature bit.
-> >>>>>>>>>>
-> >>>>>>>>>> Signed-off-by: Tanmay Shah <tanmay.shah@amd.com>
-> >>>>>>>>>> ---
-> >>>>>>>>>> Changes in v5:
-> >>>>>>>>>>
-> >>>>>>>>>>     - fix documentation about alignment of the buffer size
-> >>>>>>>>>>     - change version field from u16 to u8
-> >>>>>>>>>>     - remove buffer alignment check
-> >>>>>>>>>>     - Separate buffer alignment vs MTU of a single buffer
-> >>>>>>>>>>     - Use buffer alignment only to get next buffer address at =
-alignment
-> >>>>>>>>>>       boundary
-> >>>>>>>>>>
-> >>>>>>>>
-> >>>>>>>> [...]
-> >>>>>>>>
-> >>>>>>>>>> +#ifndef _LINUX_VIRTIO_RPMSG_H
-> >>>>>>>>>> +#define _LINUX_VIRTIO_RPMSG_H
-> >>>>>>>>>> +
-> >>>>>>>>>> +#include <linux/types.h>
-> >>>>>>>>>> +#include <linux/virtio_types.h>
-> >>>>>>>>>> +
-> >>>>>>>>>> +/* The feature bitmap for virtio rpmsg */
-> >>>>>>>>>> +#define VIRTIO_RPMSG_F_NS   0 /* RP supports name service not=
-ifications */
-> >>>>>>>>>> +#define VIRTIO_RPMSG_F_BUFSZ        1 /* RP get buffer size f=
-rom config space */
-> >>>>>>>>>> +
-> >>>>>>>>>> +/* Version of struct virtio_rpmsg_config understood by this d=
-river */
-> >>>>>>>>>> +#define RPMSG_VDEV_CONFIG_V1        1
-> >>>>>>>>>> +
-> >>>>>>>>>> +/**
-> >>>>>>>>>> + * struct virtio_rpmsg_config - config space for rpmsg virtio=
- device
-> >>>>>>>>>> + *
-> >>>>>>>>>> + * @version:        version of this structure, currently %RPM=
-SG_VDEV_CONFIG_V1.
-> >>>>>>>>>> + * @size:   size of this structure in bytes.
-> >>>>>>>>>> + * @rpmsg_buf_align: alignment in bytes for each buffer. Must=
- be a power of
-> >>>>>>>>>> + *               two. If 0 then no alignment will be done. Th=
-is alignment
-> >>>>>>>>>> + *               will not decide actual size of the buffer bu=
-t will be
-> >>>>>>>>>> + *               used to decided the start address of the buf=
-fer. The
-> >>>>>>>>>> + *               actual size of the buffer can be different t=
-han the
-> >>>>>>>>>> + *               aligned size of the buffer.
-> >>>>>>>>>
-> >>>>>>>>> Is there really a need to have a buffer size different from its=
- alignment?  It's
-> >>>>>>>>> not like the (small) delta between the buffer size and its alig=
-nment will be
-> >>>>>>>>> used for something else.  I'm fine with a buffer alignment requ=
-irement but in
-> >>>>>>>>> those cases, the firmware should set the size of the buffer in =
-accordance with
-> >>>>>>>>> its alignment requirement.  Otherwise, the complexity needed to=
- manage the
-> >>>>>>>>> discrpancy between the two yields a driver that is hard to main=
-tain and prone to
-> >>>>>>>>> bugs.
-> >>>>>>>>>
-> >>>>>>>>
-> >>>>>>>> I had the same concern before. However, following example change=
-d my mind:
-> >>>>>>>>
-> >>>>>>>> So, a single buffer size is the MTU size of a packet for the pro=
-tocol
-> >>>>>>>> supported by the firmware. Now that can be different than the al=
-igned
-> >>>>>>>> size of the buffer.
-> >>>>>>>>
-> >>>>>>>> For example, the higher level protocol (not rpmsg) has 430 bytes=
- as the
-> >>>>>>>> max size of a payload. However, cache line alignment is 64-bytes=
-. Then
-> >>>>>>>> in that case, the aligned buffer size is 448 bytes. But, that do=
-esn't
-> >>>>>>>> mean we can say protocol's MTU size is 448 bytes. If user end up
-> >>>>>>>> treating MTU size 448 bytes and use space beyond 430 bytes, then=
- the
-> >>>>>>>> higher level apps might discard that data and communication may =
-fail.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> How is that scenario different from today's 512 byte buffer size?
-> >>>>>>> Most users don't use all 512 bytes and we don't run in the proble=
-m
-> >>>>>>> described above?
-> >>>>>>>
-> >>>>>>
-> >>>>>> 512 buffer size is hardcoded, so it is enforced on the protocol by=
- the
-> >>>>>> framework. But by allowing the configuration of the buffer size we=
- are
-> >>>>>> allowing the protocol to decide what the buffer size should be. So=
-, when
-> >>>>>> user request the buffer via rpmsg_get_mtu() API, then that should =
-be the
-> >>>>>> original buffer size which is expected by the protocol, which may =
-not be
-> >>>>>> same as the aligned buffer size.
-> >>>>>
-> >>>>> Regardless of the buffer size, whether it is set to 512 byte or som=
-e arbitrary
-> >>>>> value by the remote processsor's firmware, there is a possibility o=
-f a
-> >>>>> discrepancy with what is expected by the protocol.  Right now rpmsg=
-_get_mtu()
-> >>>>> returns 512 regardless of what a protocol uses.  The only thing tha=
-t should be
-> >>>>> important to the protocol is not to exceed that limit.
-> >>>>>
-> >>>>
-> >>>> I think I am missing something. Are you saying that buffer size can =
-not
-> >>>> be configured greater than 512 bytes?
-> >>>
-> >>> I am not.
-> >>>
-> >>> What I am saying is that if alignment is important to a remote proces=
-sor, it
-> >>> should choose the buffer size accordingly.  rpmsg_get_mtu() should re=
-turn the
-> >>> value of the buffer size, exactly the way it is today.
-> >>
-> >> Did you get a chance to look to my previous reply [1]?
-> >>
-> >
-> > Unfortunately I haven't had the opportunity to reach that point in my I=
-nbox.
-> >
-> >>   From my understanding, due to the Virtio specification, we cannot
-> >> guarantee that
-> >> the buffer size will not be updated by the main processor. Having an
-> >> alignment
-> >> field ensures that the main processor takes the remote processor=E2=80=
-=99s
-> >> constraints
-> >> into account if it updates the RPMsg buffer size.
-> >>
-> >
-> > Where does the main processor change the buffer size?
->
-> Linux does not, but any main processor may do so, consistent with the
-> Virtio specification. If requested in OpenAMP with a valid usecase, no
-> reason to reject if it is not specified that it is not possible.
-
-"Linux does not" - that is the important part.  This patchset is for
-Linux and RPMSG is part of the Linux code base.
-
->
-> What we define here will probably become the reference for all RPMsg
-> implementations...
->
-> >
-> >> That said, if we decide to remove the alignment field, we must clearly
-> >> document the constraints for the RPMsg Virtio config space:
-> >>
-> >> - virtio_rpmsg_config cannot be changed by the Virtio driver.
-> >> - the sizes must respect the device and driver alignment constraint.
-> >>
-> >
-> > If the size chosen by the device isn't compatible with what the driver
-> > can accommodate, then initialization simply fails.
-> >
-> >> This is not my preferred solution,because that means that the remote
-> >> processor has
-> >> to know the alignment constraints of the main processor.
-> >>
-> >
-> > It would have to anyway wouldn't it?
->
-> I think I was wrong about this last argument. Since the main processor
-> allocates the buffers, it can apply its own alignment constraints,so the
-> remote processor does not need to know them.
->
-> That makes the option without an alignment field acceptable to me,
-> if restrictions are documented.
->
-> Here are the constraints that I would like to see documented (not
-> necessary using the exact terms) in Linux and OpenAMP to make the usage
-> clear for the RPMsg virtio config space:
-> - The virtio driver must not update the config space.
-
-Currently, there is no chance of that happening in Linux.
-
-> - The virtio driver can allocate a memory area equal to or greater than
->    the RX/TX message size specified by the device. The effective RX/TX si=
-ze
->    remains the one requested by the device.
-
-Although hidden by the memory allocation API, this is often the case in Lin=
-ux.
-
-> - The virtio device should specify sizes that respect its own alignment
->    constraints.
->
-
-Yes, that has been my position.
-
-> Does this would be acceptable to you?
-> Regards,
-> Arnaud
->
-> >
-> >   And as I said from the beginning, this is not something that has come
-> > up in the 20 years this subsystem existed.  There is no point in
-> > adding all this complexity for a something that _may_ happen.
-> >
-> >> [1]https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg264339=
-8.html
-> >>
-> >> Regards,
-> >>
-> >> Arnaud
-> >>>
-> >>>>
-> >>>> If the higher level protocol (not RPMsg) wants to use 4030 bytes for
-> >>>> single packet payload then that is what the MTU size should be. And =
-so
-> >>>> the firmware will configure 4030 bytes as single buffer size in the =
-vdev
-> >>>> config space. That is why alignment should be treated separately.
-> >>>> Because it is not equal to payload size needed by higher level proto=
-col.
-> >>>
-> >>> In that case and assuming alignment is required, the buffer size shou=
-ld be 4096
-> >>> and rpmsg_get_mtu() should also return 4096.  How a higher protocol u=
-ses the
-> >>> buffer space is none of our concern.
-> >>>
-> >>> Currently, the buffer size is set to 512 and users don't always fill =
-the entire
-> >>> buffer.  I don't see why things should be different with a configurab=
-le buffer
-> >>> size.
-> >>>
-> >>>>
-> >>>>>>
-> >>>>>> If for internal management we want to treat buffer size =3D aligne=
-d buffer
-> >>>>>> size, I am okay. But rpmsg_get_mtu() must give unaligned buffer si=
-ze
-> >>>>>> which is expected by the protocol.
-> >>>>>
-> >>>>> I agree with the first sentence but not the second.  The only thing=
- protocols
-> >>>>> should care about is the start address of a buffer and that its siz=
-e is
-> >>>>> sufficient for what it needs.
-> >>>>>
-> >>>>>>
-> >>>>>> Thanks,
-> >>>>>> Tanmay
-> >>>>>>
-> >>>>>>>> The alignment field is used only to decide where the next buffer=
- start
-> >>>>>>>> address is to ease cache operations.
-> >>>>>>>>
-> >>>>>>>> Sure, we need to maintain this complexity, but I think it's wort=
-h it.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> The same as in my previous email to Arnaud applies here - is this=
- an
-> >>>>>>> immediate requirement of something we think may be happening in t=
-he
-> >>>>>>> future?
-> >>>>>>>
-> >>>>>>
-> >>>>>> IMHO, vendors will use it if the feature is available, otherwise t=
-he
-> >>>>>> need to optimize alignment is not easily encountered.
-> >>>>>>
-> >>>>>>>
-> >>>>>>>> Thanks,
-> >>>>>>>> Tanmay
-> >>>>>>>>
-> >>>>>>>>>> + * @txbuf_size:     Tx buf size from remote's view. For Linux=
- this is rx buf size.
-> >>>>>>>>>> + * @rxbuf_size:     Rx buf size from remote's view. For Linux=
- this is tx buf size.
-> >>>>>>>>>> + *
-> >>>>>>>>>> + * This is the configuration structure shared by the device a=
-nd the driver,
-> >>>>>>>>>> + * read when %VIRTIO_RPMSG_F_BUFSZ is negotiated. The fields =
-are laid out so
-> >>>>>>>>>> + * the structure is naturally 32-bit aligned.
-> >>>>>>>>>> + */
-> >>>>>>>>>> +struct virtio_rpmsg_config {
-> >>>>>>>>>> +    u8 version;
-> >>>>>>>>>> +    __virtio16 size;
-> >>>>>>>>>> +    __virtio16 rpmsg_buf_align;
-> >>>>>>>>>> +    /* The tx/rx individual buffer size (if VIRTIO_RPMSG_F_BU=
-FSZ) */
-> >>>>>>>>>> +    __virtio32 txbuf_size;
-> >>>>>>>>>> +    __virtio32 rxbuf_size;
-> >>>>>>>>>> +} __packed;
-> >>>>>>>>>> +
-> >>>>>>>>>> +#endif /* _LINUX_VIRTIO_RPMSG_H */
-> >>>>>>>>>> --
-> >>>>>>>>>> 2.34.1
-> >>>>>>>>>>
-> >>>>>>>>
-> >>>>>>
-> >>>>
-> >>>
-> >>
->
+Hi Cristian,=0A=
+=0A=
+Thanks for addressing the concrete V5 issues. I found a few remaining=0A=
+implementation problems inline.=0A=
+=0A=
+> +	u8 *impl_version =3D (u8 *)in->base.de_impl_version;=0A=
+> [...]=0A=
+> +	/* Each word composing the UUID was stored in big-endian */=0A=
+> +	for (int i =3D 0; i < SCMI_TLM_DE_IMPL_UUID_MAX; i++)=0A=
+> +		out->de_impl_version[i] =3D impl_version[i];=0A=
+=0A=
+The internal UUID is stored as CPU-endian u32 values after le32_to_cpu().=
+=0A=
+Reinterpreting that storage as bytes therefore produces different output=0A=
+on little- and big-endian systems.=0A=
+=0A=
+Please serialize each word explicitly in the byte order required by the=0A=
+SCMI specification and document the byte-array representation in the=0A=
+UAPI.=0A=
+=0A=
+> +	if (get_user(usize, (u32 __user *)arg))=0A=
+> +		return -EFAULT;=0A=
+> +=0A=
+> +	if (usize < offsetofend(struct scmi_tlm_abi_info, reserved))=0A=
+> +		return -EINVAL;=0A=
+> +=0A=
+> +	if (copy_struct_from_user(&base, sizeof(base), uptr, usize))=0A=
+> +		return -EFAULT;=0A=
+=0A=
+usize should have an upper bound, conventionally PAGE_SIZE. Otherwise a=0A=
+large value can cause copy_struct_from_user() to inspect, and=0A=
+copy_struct_to_user() to clear, a very large userspace range.=0A=
+=0A=
+The error from copy_struct_from_user() should also be propagated. It can=0A=
+return -E2BIG for nonzero unknown trailing fields, which is currently=0A=
+converted to -EFAULT.=0A=
+=0A=
+> +		ret =3D tsp->ops->state_set(tsp->ph, true, cfg.grp_id,=0A=
+> +					  &ena, &t_ena);=0A=
+> +		if (ret)=0A=
+> +			return ret;=0A=
+> +	}=0A=
+> +=0A=
+> +	active =3D SCMI_TLM_BUILD_UPDATE_INTERVAL(cfg.active.secs,=0A=
+> +						cfg.active.exp);=0A=
+> +=0A=
+> +	return tsp->ops->collection_configure(...);=0A=
+=0A=
+There are two issues here:=0A=
+=0A=
+1. secs and exp are packed without checking that they fit the SCMI=0A=
+   encoding. Out-of-range values are silently truncated into a different=0A=
+   interval. Please validate both fields, and preferably confirm that the=
+=0A=
+   result is one of the advertised intervals.=0A=
+=0A=
+2. For a group, state_set() can succeed and collection_configure() can=0A=
+   subsequently fail, leaving partial state. The operation either needs=0A=
+   rollback or documented partial-failure semantics.=0A=
+=0A=
+> +		tlm_ivs =3D rinfo->grps[ivs.grp_id].intervals;=0A=
+> +	}=0A=
+> +=0A=
+> +	if (ivs.num_intervals < tlm_ivs->num_intervals)=0A=
+> +		return -ENOSPC;=0A=
+=0A=
+The group interval pointer can be NULL when per-group configuration is=0A=
+unsupported. It may also be NULL following partial group enumeration.=0A=
+This then dereferences NULL. Please return -EOPNOTSUPP or the relevant=0A=
+enumeration error before accessing it.=0A=
+=0A=
+Also, scmi_tlm_to_uapi_intervals() does not set=0A=
+SCMI_TLM_INTERV_DISCRETE from tlm_ivs->discrete. The returned flag is=0A=
+currently inherited from userspace input rather than describing the=0A=
+firmware data.=0A=
+=0A=
+> +	ivs_intrv_sz =3D ivs.num_intervals *=0A=
+> +			sizeof(struct scmi_tlm_update_interval);=0A=
+> +	struct scmi_tlm_update_interval *ivs_intrv __free(kfree) =3D=0A=
+> +		kzalloc(ivs_intrv_sz, GFP_KERNEL);=0A=
+=0A=
+This multiplication is still unchecked. On a 32-bit kernel, a large=0A=
+userspace count can wrap to a small allocation. The subsequent conversion=
+=0A=
+loops over the real firmware count and can then write beyond that=0A=
+allocation.=0A=
+=0A=
+The same pattern occurs in:=0A=
+=0A=
+- scmi_tlm_des_list_get_ioctl()=0A=
+- scmi_tlm_grp_desc_get_ioctl()=0A=
+- scmi_tlm_grps_list_get_ioctl()=0A=
+- scmi_tlm_shmtis_list_get_ioctl()=0A=
+=0A=
+Please allocate with kcalloc()/size_mul() using the required firmware=0A=
+count, rather than the possibly oversized userspace capacity. Only the=0A=
+actual returned count needs to be copied.=0A=
+=0A=
+> +	rinfo =3D scmi_telemetry_res_info_get(tsp);=0A=
+> +	for (int i =3D 0; i < rinfo->num_des; i++) {=0A=
+> +		ret =3D tsp->ops->state_set(tsp->ph, false,=0A=
+> +					  rinfo->des[i]->info->id,=0A=
+> +					  &ena, &t_ena);=0A=
+> +		if (ret)=0A=
+> +			return ret;=0A=
+> +	}=0A=
+=0A=
+SET_ALL_CFG still leaves partial configuration if one DE fails. A=0A=
+subsequent GET_ALL_CFG only reports a cumulative boolean and does not tell=
+=0A=
+userspace which DE failed or which earlier changes succeeded.=0A=
+=0A=
+This needs rollback, or a batch configuration ABI with per-DE status.=0A=
+At minimum, the partial-failure behavior and multi-client interaction need=
+=0A=
+to be documented.=0A=
+=0A=
+> +	for (int i =3D 0; i < batch.num_samples; i++) {=0A=
+> +		int ret;=0A=
+> +=0A=
+> +		ret =3D tsp->ops->de_data_read(tsp->ph, &samples[i]);=0A=
+> +		if (ret)=0A=
+> +			return ret;=0A=
+> +	}=0A=
+=0A=
+On failure, successfully read preceding entries are not copied back, and=0A=
+there is no indication of which entry failed. This is why I think a=0A=
+per-entry status is needed for the batch ABI.=0A=
+=0A=
+An explicit upper bound for num_samples is also needed to prevent=0A=
+unbounded allocation and iteration from an ioctl argument.=0A=
+=0A=
+> +	if (req < ctx->shmti->len)=0A=
+> +		return -EINVAL;=0A=
+> +=0A=
+> +	base =3D ctx->shmti->phys & PAGE_MASK;=0A=
+> +	needed =3D ctx->shmti->len + ctx->shmti->offset;=0A=
+> +	expect =3D DIV_ROUND_UP(needed, PAGE_SIZE);=0A=
+> +	npages =3D req >> PAGE_SHIFT;=0A=
+> +	if (npages > expect)=0A=
+> +		return -EINVAL;=0A=
+=0A=
+The lower-bound check does not include offset. A mapping can therefore be=
+=0A=
+accepted even when it does not cover offset + len.=0A=
+=0A=
+Please calculate needed with checked addition and require the VMA to cover=
+=0A=
+PAGE_ALIGN(needed). The handling of vm_pgoff should also be explicit;=0A=
+unless partial mappings are part of the ABI, nonzero vm_pgoff should be=0A=
+rejected.=0A=
+=0A=
+It would also be prudent to reject executable mappings and document=0A=
+whether MAP_SHARED is required.=0A=
+=0A=
+More fundamentally, mapping an unaligned physical area exposes the bytes=0A=
+before and after the SHMTI in the same physical pages. The driver cannot=0A=
+enforce access only to offset..offset+len at page granularity. The ABI=0A=
+therefore needs a platform requirement that these pages contain no other=0A=
+sensitive data, or SHMTI mmap should be limited to page-aligned,=0A=
+page-exclusive areas.=0A=
+=0A=
+> +		fd =3D anon_inode_getfd(SCMI_TLM_DRIVER,=0A=
+> +				      &scmi_tlm_shmti_fops, ctx,=0A=
+> +				      O_RDONLY | O_CLOEXEC);=0A=
+> [...]=0A=
+> +	scmi_tlm_allocate_anon_fds(ti, &ssl, shinfo);=0A=
+> +	if (copy_to_user(u64_to_user_ptr(ssl.shmtis), shinfo, shinfo_sz))=0A=
+> +		return -EFAULT;=0A=
+> +=0A=
+> +	if (copy_to_user(uptr, &ssl, sizeof(ssl)))=0A=
+> +		return -EFAULT;=0A=
+=0A=
+The file descriptors have already been installed when either copyout can=0A=
+fail. Returning -EFAULT then leaves installed descriptors that userspace=0A=
+does not know about.=0A=
+=0A=
+Please reserve/build the files first, perform the copyout, and only install=
+=0A=
+them after all user copies succeed, with rollback for every failure path.=
+=0A=
+=0A=
+The SHMTI context kref only protects the context itself. It does not=0A=
+visibly hold a reference to the protocol-owned shmti descriptor or the=0A=
+SCMI device. Please clarify how these remain valid across driver unbind=0A=
+while the anonymous fd or VMA is still open.=0A=
+=0A=
+> +static const struct file_operations stlm_fops =3D {=0A=
+> +	.owner =3D THIS_MODULE,=0A=
+> +	.open =3D nonseekable_open,=0A=
+> +	.unlocked_ioctl =3D scmi_tlm_unlocked_ioctl,=0A=
+> +	.compat_ioctl =3D compat_ptr_ioctl,=0A=
+> +};=0A=
+=0A=
+An O_RDONLY open can still issue SET_CFG, SET_DE_CFG, SET_ALL_CFG, and=0A=
+RESET. Because these mutate global firmware state, should mutating ioctls=
+=0A=
+at least require FMODE_WRITE?=0A=
+=0A=
+There is also no per-instance lock around configuration/reset sequences.=0A=
+SCMI transactions may be serialized individually, but SET_ALL_CFG and the=
+=0A=
+two-step group configuration can still interleave with another client.=0A=
+That does not guarantee a well-defined "last writer wins" result.=0A=
+=0A=
+> +	device_destroy(&stlm_class, ti->devt);=0A=
+> +	cdev_del(&ti->cdev);=0A=
+=0A=
+cdev_del() prevents new opens but existing file descriptions can continue=
+=0A=
+calling the file operations. ti is devm-owned by the SCMI device, so it=0A=
+appears that an existing fd can use freed instance/protocol data after=0A=
+unbind.=0A=
+=0A=
+Could the open path take an explicit instance/device reference and release=
+=0A=
+it from .release?=0A=
+=0A=
+> +	ret =3D class_register(&stlm_class);=0A=
+> +	if (ret)=0A=
+> +		return ret;=0A=
+> +=0A=
+> +	return scmi_register(&scmi_telemetry_driver);=0A=
+=0A=
+The chrdev region is leaked if class_register() fails. Both the class and=
+=0A=
+chrdev region are leaked if scmi_register() fails. Please add the=0A=
+corresponding unwind paths.=0A=
+=0A=
+Thanks,=0A=
+Fay=E7al=
