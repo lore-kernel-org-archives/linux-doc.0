@@ -1,253 +1,126 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DD71E1DE5
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 14:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27411E1DE5;
+	Mon, 27 Jul 2026 14:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785160824; cv=none; b=geL2QdZ6GYpd8K/TczskTMB0o/WN7TJRJNrt08UN+gidaAc45tXjiYguu1rGwUYO2hgj+j4DRIkm4B141V0rQTiAxzgKx/AP55TFpltAvR57ulkigns91/AnUU7CSbtNVReynsPoAsdKBMwvbfdGLo9xzPAX58VKSwSf+tdByD4=
+	t=1785160855; cv=none; b=jMW9v7K+nlyYoTBMGuZciC9PyEkLbH4F/c1g97ZBKFlXfr/089gLYdZjCocSGPGPUVzFjbTFzQY86ECs1ykPPtBTpMnMP4bxl7xyxXH+akEQsP7IFbG3ibVHOFpRkbHNhoEPxrzyWt1cW3ZLKzDljkz8JoejvllLD7Pfa0u+uKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785160824; c=relaxed/simple;
-	bh=35i0h8c7Jiad5xGsHBJyqb2gG5DbCy2CFgaGwgMnvho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkF/Iko7EfqW0ZWkqR7K+LgG6xm5CkbOcVOBA0rzehlEt12ulmNqS1TzEkPlhBpyLCFnHGtw6MowGP4U7RPoCg9UCmQtmSzWp5qVqrPqW7jgGdfd/bPYQmeCZJt2KvUdenNa3pu5ieSaQW3RV6BVhNraZiffY8jDIRsorBXmPV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/KtbnFe; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785160855; c=relaxed/simple;
+	bh=ZZOG32ywJUJrvlZ+koBO5l5KP0HUBRRL4yjcew6pQJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rdmBkWvDhmgArODlyt8XcrUJ/RBFEC8DQ9l83BGVxdiPsynm897xgBHg/kwES+ebrV9NyzJfbtAj7AZXigGBf131vwmJOMGDY8CJoHVKpXGAUFdOA4xk8k3vVGkBDJ3c7O7h6jg5J4eK01MWo3ANRKMnHcW5Dav32h140DHWihk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dXlwlqO8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/KtbnFe"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47df43bfb07so511040f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 07:00:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785160820; x=1785765620; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fWwbMjSZz9WnJ1CjrPuhixo0ML/od46qhmZPvL+D6Jw=;
-        b=J/KtbnFeS+m8RbOlLxxI3NHNHE+MXVJzMf9hPhPkL6NfliJHizJd8H25cVRwongFmg
-         4f79KcrJmvEcvsmMr95Hdkl6HnFhedunUgvOejzguVJs2Ot4RIl+tDOOOr1NVSfYbSrI
-         FxmM0CmzNBDOc2u2u4805iQQO/Bw9CBTBux7OtRmz3lj/zKgPt8OQ62jaV/KT6+IAeGG
-         8MURW8ElwNGffhv7s9J8W1DrWQH2sP3Tk+7I/D2xShalImWrYNtnM8IKFNMhik2gkXmd
-         wTBnXUSht3sNjcGOsaW1MD39nZPWjtAFNiaJ5fRXwm8A21ssk2Uy/R5Axb78ciowRiAb
-         Ka4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785160820; x=1785765620;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=fWwbMjSZz9WnJ1CjrPuhixo0ML/od46qhmZPvL+D6Jw=;
-        b=hwcCgKvmVb3IwORmQau5sCFFKqxXddGARyO1tS0V0QLEj8io1ydZc8Dt1D6TWNEQeJ
-         de0k4xJhuQ9AglU6vTyrvgaokoTSE309AU58HtDyTo6MkkKDC+XTgqgqyoAh193nE7l4
-         SSJzD8Iiwu6LOGvLOn6bofZRG/sZ/9tHbW+vaJPE94VGKwRGh41A+RUzDzGZMeMdp+12
-         Yo5UcWvQSZH0R+nxrxSRJyGO5ZOy7uxIBszT9uexijpMecQrY3IrjjkgucQaYfNTOJnP
-         q7dAJv77m9ROLdwnT6l9121FX6aJNeE5WaRYkT3cQq+0stW3zfKn92vuLgCCrqKirvNL
-         dKYw==
-X-Forwarded-Encrypted: i=1; AHgh+RrrEq70cH0MWIvBF8zqLTDsWw/Y6hTaVjrF0kEuUXKK8ev77dI3kelQTLUgnmh1W9DBAiIT96uOb8E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx83YQ0DxE3aF8GY/C0thyD6AnM8lWwppgOYx4HBP4N4cppCWJp
-	r1g+Vo9y+GX2zALgvH0qJmgrZNI8ISuBrmzuIpU526JBth227byDIZNY
-X-Gm-Gg: AR+sD12TxY9yi8G5gEHtFBf/pSnqIV8P389cwF3I/2HgC3jbctRHRkmd6G5JPmBvT1r
-	GLr4+Bx96n6QaKveJW0IAnyDG4R6u08/Y4QuSFNYTwEPpo1kIxQ6DIdPftyV1Fge12ha8Ctn67L
-	CjrAr3y1nCRZkPQF/gJpq4CAadQvYNNZqmgtz8ALSP9njhAAS5X+Uh3pdRfR0ygBpHQ5TNeWOrD
-	JSt9JBGoloJOixPyOMM4VGWFXQanQ5a9jvEU3pbtYyHNPeUMbURiPHhqQ705GDeWp4HGGQupr/C
-	NrTdCuKeimIBq+wX6Y/j+WGcxYJfBUsQEjA/CHhNo9eYfqWIYIs/QDVIzVZMvEckSwBOpv9K4uN
-	73DdkNWLtZHSUpvZsoVTfGsup7X30CKwPvTYplZx1ihfakCAAq3NHo4UkigWB4QOOcxDR9aeoE5
-	WDFZHq
-X-Received: by 2002:a05:6000:2905:b0:47f:93fc:2d20 with SMTP id ffacd0b85a97d-47fae7a741amr1079389f8f.40.1785160819907;
-        Mon, 27 Jul 2026 07:00:19 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a5c4sm49375208f8f.8.2026.07.27.07.00.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 07:00:19 -0700 (PDT)
-Date: Mon, 27 Jul 2026 15:01:28 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Janani Sunil <jananisunil.dev@gmail.com>, 
-	David Lechner <dlechner@baylibre.com>, Janani Sunil <janani.sunil@analog.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux@analog.com, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: Add AD7768
-Message-ID: <amdko3OV-7FXftRJ@nsa>
-References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
- <20260709-ad7768-driver-v1-1-44e1194fd96a@analog.com>
- <36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
- <9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
- <e791f4f9-63dd-40f5-aec4-5b540bcee5ff@baylibre.com>
- <d159cae0-b11e-49e9-a546-023ed61b900e@gmail.com>
- <20260722025853.6ca3961d@jic23-huawei>
- <amHLZK46lxqSZIC8@nsa>
- <20260723234855.10f6cc9e@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dXlwlqO8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BF91F000E9;
+	Mon, 27 Jul 2026 14:00:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785160854;
+	bh=lmb5Zs5dduJDrtlxe57uuXVtZpXFpGWAvCyTon6MMec=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dXlwlqO8maZ4DioC4+2PtYtSY1//2rnBFPeH7B/UR5Omz3QnHHkOlYN5aB6FQNinU
+	 poqcCIRX/psKYaBzbWExTodniHSH+3QqNhjFWGhpuxLJLayjhYgILje62evMe/yHGW
+	 G/jruQmSo/3bDB0BSlAXew05gYebHtRPBEsZV29wuvDc2swHPs0OPDTfnZ4O37ZXjZ
+	 +K1Y8uYPFOL9YPmDS+DSrbWlUlwpqseWKArePCk79173YWaE44lZ8UgPFWKwjDXwXa
+	 zohtoufz9ELBuPvzZn7iSYadpnUFu9LbtWI86s+fbwBnIEXdTc6fgcxkZeOI4sR4q3
+	 pFhD19pvnhc+w==
+Message-ID: <3da27fde-25dc-4cb8-8e05-74cd26fc2f7c@kernel.org>
+Date: Mon, 27 Jul 2026 16:00:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260723234855.10f6cc9e@jic23-huawei>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mm/page_reporting: Add page_reporting_delay_ms sysctl
+To: Pratyush Mallick <pratmal@google.com>, SJ Park <sj@kernel.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Greg Thelen <gthelen@google.com>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+References: <20260722211517.1898228-1-pratmal@google.com>
+ <20260723000609.95657-1-sj@kernel.org>
+ <CALHaPKd_Ytknjg7GFBXeQK8kXvE7DhbyX_een7k5Fti-ahxL0A@mail.gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <CALHaPKd_Ytknjg7GFBXeQK8kXvE7DhbyX_een7k5Fti-ahxL0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 23, 2026 at 11:48:55PM +0100, Jonathan Cameron wrote:
-> On Thu, 23 Jul 2026 09:15:08 +0100
-> Nuno Sá <noname.nuno@gmail.com> wrote:
+On 7/25/26 20:17, Pratyush Mallick wrote:
+>> Why don't you make the lengths of the line and the section title same?
+> Will fix the RST underline length.
 > 
-> > On Wed, Jul 22, 2026 at 02:58:53AM +0100, Jonathan Cameron wrote:
-> > > On Tue, 21 Jul 2026 10:03:26 +0200
-> > > Janani Sunil <jananisunil.dev@gmail.com> wrote:
-> > >   
-> > > > On 7/21/26 03:39, David Lechner wrote:  
-> > > > > On 7/20/26 9:00 AM, Janani Sunil wrote:    
-> > > > >> On 7/9/26 17:43, David Lechner wrote:    
-> > > > >>> On 7/9/26 3:50 AM, Janani Sunil wrote:    
-> > > > >>>> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8
-> > > > >>>> channel) simultaneous sampling ADC
-> > > > >>>>
-> > > > >>>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > > > >>>> ---
-> > > > >>>>   
-> > > > >>>> +
-> > > > >>>> +  adi,power-mode:
-> > > > >>>> +    $ref: /schemas/types.yaml#/definitions/string
-> > > > >>>> +    enum:
-> > > > >>>> +      - low
-> > > > >>>> +      - median
-> > > > >>>> +      - fast
-> > > > >>>> +    description:
-> > > > >>>> +      Power mode selection.    
-> > > > >>> Unless there are pins that control this, it seems like it should
-> > > > >>> be left up to the driver to decide how to set this.
-> > > > >>>
-> > > > >>> In this case, it looks like the power mode also influences sample
-> > > > >>> rate which is normally something controlled at runtime.    
-> > > > > Looking at this again, there is also an MCLK divider that influences
-> > > > > sample rate, so sampling_frequency to power mode is not
-> > > > > straight-forward anyway.
-> > > > >    
-> > > > >> Hi David,
-> > > > >>
-> > > > >> The reason we'd like to retain power mode control is that certain
-> > > > >> ODRs are supported across all three power modes (low/median/fast),
-> > > > >> and the RMS noise and power consumption differ significantly
-> > > > >> between them at the same ODR.
-> > > > >>
-> > > > >> The higher the power mode, the better the noise performance, but
-> > > > >> power consumption nearly doubles for every ~3 dB improvement in
-> > > > >> dynamic range. Silently selecting one power mode in the driver
-> > > > >> would remove a meaningful hardware tradeoff from the user.
-> > > > >>
-> > > > >> We'd like to propose the following instead:
-> > > > >> - Remove adi,power-mode from the DT as suggested.
-> > > > >> - Expose power mode as a per-device sysfs attribute.
-> > > > >> - in_voltage<N>_sampling_frequency_available dynamically reflects
-> > > > >> only the ODRs valid for the currently selected power mode.
-> > > > >>
-> > > > >> This keeps the DT clean while still giving the user explicit
-> > > > >> control over the noise versus power trade off. Would this approach
-> > > > >> be acceptable?
-> > > > >>
-> > > > >> Thanks,
-> > > > >> Jan
-> > > > >>
-> > > > >>    
-> > > > > Jonathan usually pushes back against userspace power controls. We
-> > > > > do have this for accelerometers, but not ADCs currently.
-> > > > >
-> > > > > If we can't think of anything better, maybe we could use this. It
-> > > > > only has low_noise and low_power options though, so the driver
-> > > > > would still need to chose the best power mode of the 3 based on the
-> > > > > other requested parameters. E.g. always make all sampling_frequency
-> > > > > available  and just pick the highest power or lowest power mode
-> > > > > that can provide that rate based on the power_mode attribute.
-> > > > >
-> > > > > I wanted to suggest maybe adding some kind of noise attribute
-> > > > > instead, but I'm not sure how we could do that in a way using SI
-> > > > > units since the value would depend on so many things (at least
-> > > > > V_REF voltage, filter type, temperature and even the physical
-> > > > > input).    
-> > > > 
-> > > > We considered the low_power/balanced/low_noise approach, but the
-> > > > customers typically use the datasheet alongside the driver and the
-> > > > datasheet explicitly uses the terms "low power", "median" and "fast"
-> > > > for the three modes. Abstracting them with different names in the
-> > > > sysfs attribute would create a confusion- the users would have to
-> > > > mentally translate between the two naming conventions. The noise
-> > > > attribute would not actually configure anything on a register level-
-> > > > it would purely be informational. Furthermore, noise performance is
-> > > > not solely determined by the power mode. There are other parameters
-> > > > (eg. filter mode) that has a significant impact. A power_mode
-> > > > attribute directly configures the hardware register and has a
-> > > > deterministic effect on the device.
-> > > > 
-> > > > Jonathan, could we keep the power_mode as an attribute in this case?  
-> > > 
-> > > My really strong resistance to 'mode' type controls is they are
-> > > meaningless to general purpose software.  It has no idea how to
-> > > set them correctly. The purpose of IIO is to provide general abstractions
-> > > and power modes are never that.
-> > >   
-> > 
-> > Unfortunately lot's of apps engineers for these parts just like to
-> > control it all and don't care about generic interfaces (given typically
-> > these the devices are the only ones they care). So we also have some pain
-> > trying to explain all of the advantages :).
+>> So it is milliseconds. Why don't you add the unit to the name, like
+>> page_reporting_delay_ms?
+> Agreed, I'll rename the sysctl to page_reporting_delay_ms.
+> Also I think it would better to make this a module param to be consistent
+> with page_reporting_order.
 > 
-> Good thing they have to play by our rules if they want to have it
-> upstream and not ship the driver to very possible customer ;)
-> 
-> > 
-> > > Hence we put a lot of effort into mapping them to controls or measures
-> > > that have precise meaning.
-> > > 
-> > > I can't remember how I got talked into allowing the accelerometer
-> > > ones either :(  It was way back in 2013 and we have only one user.
-> > > I should shift that ABI doc to a driver specific one so as not tempt
-> > > more users.
-> > > 
-> > > To give a firmer opinion I guess I'll go read the datasheet at somepoint
-> > > but it's not a small one so that may take a little while.  I do see
-> > > that there is a recommendation for each power setting to only cover
-> > > one range of f_mod.  Maybe that gives us a route to a control that
-> > > it at least numerically meaningful (For those who know what effect
-> > > the modulator frequency has in a sigma delta modulator! Which
-> > > doesn't include me ;()
-> > > 
-> > > Any chance we can kick this into the future and get a useful base
-> > > driver ready for upstream?  
-> 
-> However we go with this I'd like to keep it separate from initial driver
-> merge.  Then we can have a focused discussion around a follow up patch.
-> 
-> >It is a lot easier to have these discussions
-> > > when they are the only topic related to a thread.  One path to move
-> > > on would be to decide to default (only option for now) to the
-> > > best noise option.  Later we can add controls that result in that
-> > > initial default changing,  
-> > 
-> > Yeah, those were my internal 2 cents. Not sure if this is exactly what
-> > you're proposing but what also came to my mind was to have a RMS lookup
-> > table (same as in DS) and for the overlapping frequencies, just go with
-> > the one with better RMS figure. My assumptions is that most users will
-> > prefer that. If not else better comes, we can have a driver argument to
-> > override the prefered mode (same way we do for some ADIS IMU devices).
-> > And yes, I know module arguments are not very encouraged...
-> 
-> Yeah, for other cases a bit like this we've always assumed they want
-> minimum noise for a given set of parameters but that isn't quite always
-> the case when power consumption matters on the platform. 
-> 
-> The IMU low rate allow thing (I guess that is what you mean) is perhaps
-> a little similar as you suggest.  It is an intentional override of
-> datasheet recommendations.  I'm not against doing that here, but definitely
-> as a follow up patch where the reasons are laid out clearly.
+>> Also, coule you elaborate why there is 10 seconds maximum limit? What's the
+>> problem of having no limit, and why 10 seconds is the reasonable one?
+> I don't have a strong justification for where the maximum limit should be set.
+> The value is unsigned int, so it's bounded at UINT_MAX ms (~49.7 days)
+> So at worst the worker just schedules that far out and reporting
+> is effectively paused for that window.
+> I'll drop this in V3.
 
-Agreed!
+As long as we don't trigger a report as part of the delay change in this patch
+set, I'm fine without a MAX.
 
-- Nuno Sá
+-- 
+Cheers,
 
+David
