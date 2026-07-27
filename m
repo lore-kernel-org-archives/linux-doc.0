@@ -1,63 +1,63 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548293F9A0D
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 10:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AEA3F4831
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 10:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785149331; cv=none; b=IJKrDkaUfoUp5E8GY2rAXdEOFaBvTtHL5GjslIwxLBfeL9Jk5xJoxCKyRwvJhaEDcFzMj0AHH8zWbS1LPo2uwNBWco/EzNqhrh20UM+hZTpOf728ZnFvN4LbRcRA4r1xc5bZ+MalnOZTZtijP6S1LbRHjQpH0CKkw+ZCZYpt4wo=
+	t=1785149334; cv=none; b=ZN4GUvBfeOJ2iyzspKqqLI7AJyM+vv9Yqfn/yF18Itjox01hAVrtNbOn4ffHMPlHAAI5ySLRPoxh31BlVy0qDREDossXkAcLBcAW0Yq80QpK8YrfyAjJtW0v+igwc7fPgRmHZSLGwam727PNo2bUgARDeAq8VVjRAEFVSGO826k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785149331; c=relaxed/simple;
-	bh=ICH7e4hpKWGxpVtAyKFg0R9ccxTtE7zcbDRA57oYQHE=;
+	s=arc-20240116; t=1785149334; c=relaxed/simple;
+	bh=eCRRircvREoM/iKBqnGOOGYYVHjFVnNml43mqCwm7tk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sOytZWVC1ZXz2AgV8s5ZAEZ7mD+5VWLp7Ccabm6Dx0Jc9vU2NQoVrAaInPYzUu4N0mtKlyizJ9v1RK4NrkiiHC4SWOO0P+JmFNeP+thLULAA0kMpb1EFwbCogduVn/0HiBhGn1vclH4+9Umc36748WDX0qEu9Qr+n63tNHeztZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHz7XJdP; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=XSQioji6SWB4kI4Qen5Lwvj3B6SQOofDy0CPnTg0zZhtcXmbuGXdTcjT1Tk+mr0qsjrhHI1bn/+6bWoTG8KGoSOHlCXxxuVyDQoiNxVlcDWoihsDLLs7HX3rdHeUcBV3DJ2W2gtTt0FFj1LJGRmdj4DWVfPlFjLKhLWxqrIHEe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EUXDxWwa; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHz7XJdP"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4954a32cf1eso12838045e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:48:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EUXDxWwa"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47f93b2fe4cso1881057f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785149327; x=1785754127; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785149331; x=1785754131; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wl6olrm9zBlfcqm4vDgZbW7ZBUMwFpjsg4jq9Xu7B8Q=;
-        b=iHz7XJdPn+5JUzV3jwze0SeNr2RIVgW5ThdK/IDJSXBpLZ2kl3K3yrsdDap7qZlQIc
-         93523F5nYVq0BEG3GpzHs86w6gN4mQSWAfecr3Iang7LCQiUO/F9yjMAneJFHz/DlToq
-         UErXfMnja1xrYAG4w8RNJG+qqRBZ/HLCbChgbbL6EHwsyZGLOERTq1ELbzx1mkyK8nXQ
-         BT6Y3nzE/Ac30w/pwIKIQ+JWnWqJHcFngT25PgpuXZewz9qbWdnbM4RbUSXS7d6XuUcT
-         fnSnEylA7KsF6Rl3De0h6imk2KIs2/1/dc4QekyqHCd6Wia/qCAyVo4NzGCE72hDJes3
-         Grdg==
+        bh=neqsEsWHuKT6LwcChvXBKjF2Wl4AED5GjZjnD9EI9lc=;
+        b=EUXDxWwazk3tKbvGSvIdU9cWxFMs+nCf5sAAshNj4rtn8uuQ3KjX/e8yHjs7+6a1nv
+         5p6N+oom3WpzziIXpUt+NRZfD6XvbdnyKsBS27dhLTkJJMbaJMD9Ut2exU/QiqaoX+lf
+         cQ7/69yAK3Gu0QjMInD/VQ9YecbxRzJ2svxvUS0RINi9Yxxr1+ypBaBXkeQQ86pyUl+X
+         UDk8b1c1hwvZh6ly2a0aZIkcK1qCaS9nMTT3GSwdBBT9iK6/mdVgjcYLxRGx6nlSG2gr
+         6nuXltQg9SlIB8azAKM2bcfW4BstigHyZA2sE2OzK+ZIsnWrVYmltRA21bGzrhkg+eSN
+         L3Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785149327; x=1785754127;
+        d=1e100.net; s=20251104; t=1785149331; x=1785754131;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wl6olrm9zBlfcqm4vDgZbW7ZBUMwFpjsg4jq9Xu7B8Q=;
-        b=lKutIH4lCimEIuuO1gZaRB7WgSPmAzvUiyQmaTKCMxSRekEcluUMWQltWoZzQ4xu4n
-         q/zz46z0zp5qiXBS41Rv1hbLQn5jKcm1cCX5dbCe2zicCgyL02Dd0cbYBEL4c0aLMKzu
-         HrvoKoh62BCTyFBcxlO5MYH2NmPDFDqlGDw7MLiBGzyxlwKvhtwKkEWItQSaOREp2ZKI
-         spdI8ENRAmM502UpFhbyR5pI1E39+G4Z+jBZnkzFAPoKLmDEkqRePumZfgkNvrkCBvg0
-         UdjadDxoR65paBAAE5ooZaCBtm4/+cNAjUIGL8IyADkYUKi+DsokSsViN6zujGP1aY7Y
-         23Zg==
-X-Forwarded-Encrypted: i=1; AHgh+RqJLzRwhuZX3Tneu6HuaxSfMt2WK4ys9b2viKckvU2ZhkAJSe79NXwBhZBaQI8RE658HSMRK3BRSHU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaGjn00JD2JsXkqu1qqvltdOGuJPfV07XpCVLLP6CaWLi7Fyqt
-	+D8M6INJgjYRznHMD8Q/SYFC+QH+ZfNh/6W2eclMZZhiIE7yNkTdwnT4
-X-Gm-Gg: AR+sD13ifVdz6YKjPYlEHeXagc+WTS/HS0QDgqWd+qL6jOKMMeQQKAOVdMKe6sxus6Y
-	klki+SX6B6EpTx6c4gAEbf46jZvKukQlu4V5zx+FhqiyedJJ3hRqgkiYyE6VIjbFNkwQ2zQ+IFu
-	/2GDvlmpWR24e4AdUnbvEXZhAHwLS2pU2VQarn36HhqFCZtjlcrzl5hHq9lW2cBHNEjSvJlpCHu
-	KIWkZ0/WwuQ8CBTmJuwHA6/i1mXC8KdbkMD6uCFyRADbSVAvouKBCaDE7LLVmz3h7JCK5nRCxaZ
-	U9yA2o0UaY6fDvF8sSE1WBExMkM7wcz/dj49yBXNxkbf/O869e+nccQqRQF0CjxzjenHLoBTxi+
-	7zMCmKV+oXz67lfsZ+abVKznbIwRt13GNtJxsj3vAoYWYN6alZQpmrJikWsirKLFrLjdWIHszW2
-	AWBicTkw==
-X-Received: by 2002:a05:600c:19c8:b0:495:5205:86c with SMTP id 5b1f17b1804b1-496b5747d8dmr108835785e9.22.1785149327271;
-        Mon, 27 Jul 2026 03:48:47 -0700 (PDT)
+        bh=neqsEsWHuKT6LwcChvXBKjF2Wl4AED5GjZjnD9EI9lc=;
+        b=G7RGkwlaP2+FadZzhuePQifxv6+1ZfgKxZC90RuMCKrLOd2XItVbph972wRb2f7vpg
+         Aqd+4mb6rnvZvIvGNB8yalY0R6JQJuMpqLylhBk1ulFtryT78yBz30EBdiUbkAwpJhBO
+         1CMlpQnyWzghTl1uClGQECG3hiDxqnLzPFdpmFc+GJoNtZ61e2giGt+sv2mURZME3IDS
+         yynvw8eKlbd/UA+HDuH06iEdEOGH4MSpbEdKaERF1C+1heW0RQCpsQea0XaMMgD7qUak
+         NOy9zCMk6Vlvgah2cIBB+0KGy7Vgw0ExJyCDhKXmbZ8j1mdZa8GhHjVokST+DKAe9ZFV
+         m76w==
+X-Forwarded-Encrypted: i=1; AHgh+RpRGhASlsXikyfTRoZQgHL/cijeC0ldXXr+nqdVC+yvLB5IeFl+pb6LtvT9YZyENBLIQrb4j3gKWZo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwARWBFx2a35eQLNQAsUuPFnDhyBljj7XMaYUxmR3fKeEFpuyP8
+	gV1osCqDbKXboKvpSR7x0fgRKa9EoDSV3caAr0lbSyk37UB17AJVsvf7
+X-Gm-Gg: AR+sD11BsxSDaDExe3PMl+xUirjg3EvvvHWWkbqVuEYaDRpyzS7flCTLgqlTlSz1/4i
+	82O+qy57oxPTjG6FmAx7Ddwf2EPAlQ7qEUrLturdQsOjpi9XXQbuyl07OyJi0FqjFZ2EtdD0IfQ
+	YwiKp6/G062HYRKMkQLAcgoajSv0cMXBqYPj8xDyO8qWSsSm6rNk+31gQV4gdoRsycT58rsQIit
+	ytMYtEQE1elWuV4iJxavhS0tZMXW1vb9lLKJymYk8Vqr64UjOz35yGccSueMHGGoLuZVhGwyIoD
+	BPcvYcC5/5Wrb/J6aEWfnMyz/63EkEl0Ad1stFejLUGYsrFu3UaJVPKsGRRc3YsdLBlGeMR/PTJ
+	9iTKwhbtiXrr5jAsfXCArQArzlvx6b0kP5p71GHMvtGtrUrUpTwOG77r9mGFhopJYZl2w0hxXFB
+	xOyRzjqw==
+X-Received: by 2002:a5d:5d09:0:b0:472:7dce:d8c7 with SMTP id ffacd0b85a97d-47f9fe9e8bbmr10201283f8f.36.1785149330834;
+        Mon, 27 Jul 2026 03:48:50 -0700 (PDT)
 Received: from spark.Home ([2001:8a0:7280:4000:53fe:effd:424:fa7e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a659sm49056188f8f.6.2026.07.27.03.48.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a659sm49056188f8f.6.2026.07.27.03.48.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 03:48:46 -0700 (PDT)
+        Mon, 27 Jul 2026 03:48:49 -0700 (PDT)
 From: Eric Curtin <ericcurtin17@gmail.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -74,9 +74,9 @@ Cc: Jan Kara <jack@suse.cz>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Eric Curtin <ericcurtin17@gmail.com>
-Subject: [RFC PATCH v2 0/4] init: boot image-based systems without an initramfs (rootimage=)
-Date: Mon, 27 Jul 2026 11:48:41 +0100
-Message-ID: <20260727104845.2607444-1-ericcurtin17@gmail.com>
+Subject: [RFC PATCH v2 2/4] erofs: use fs_context source_file for file-backed mounts when given
+Date: Mon, 27 Jul 2026 11:48:43 +0100
+Message-ID: <20260727104845.2607444-3-ericcurtin17@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
 References: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
@@ -88,91 +88,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Changes since v1 (https://lore.kernel.org/all/20260718191551.1703670-1-ericcurtin17@gmail.com/),
-following Christian Brauner's review
-(https://lore.kernel.org/all/20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner/):
+erofs_fc_get_tree() falls back to filp_open(fc->source, ...) itself
+when get_tree_bdev_flags() reports the source isn't a block device.
+That is the only way to reach erofs's file-backed mount support today,
+which means an in-kernel caller that already opened and validated (e.g.
+fsverity-checked) that exact file has no way to make erofs mount it: it
+can only hand over the path again and trust erofs's independent lookup
+to land on the same file, which it has no way to guarantee.
 
-The goal is unchanged: A/B image updates from a single partition,
-without paying for a second userspace spin-up at boot. What changed is
-how rootimage=/rootimageverity= get from "here is a path" to "here is
-the verified, mounted root", which is what most of the v1 review was
-about.
+Check fc->source_file first and use it directly when set, taking a
+reference and skipping the independent filp_open(fc->source) entirely
+(fc->source is unset in this case). This has no effect on the existing
+path-based fsconfig()/mount(2) flow, since userspace has no way to set
+fc->source_file (see the previous patch); it only enables in-kernel
+callers such as the following init/do_mounts.c change.
 
- - Patches 1-2 are new: they add generic, reusable VFS infrastructure
-   (struct fs_context::source_file, path_mount_file()/
-   init_mount_file(), vfs_parse_fs_param_file()) that lets an in-kernel
-   caller hand a filesystem an already-open struct file as its mount
-   source instead of a path, and convert erofs's existing file-backed
-   mount support to use it when given. This is the "new infrastructure
-   available to any fs" asked for, so that init/do_mounts.c never has
-   to independently re-resolve a path that something else already
-   opened and validated.
+Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
+---
+ fs/erofs/super.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
- - Patch 3 (rootimage=) now opens the image file exactly once and
-   mounts that same struct file via the above, instead of opening it,
-   doing nothing with the open, and separately handing erofs a path
-   that it re-resolved on its own with no guaranteed relationship to
-   what was checked - which is what v1 did, and which is where most of
-   the "second lookup" / "weak assumptions" findings came from. There
-   is no fd-vs-path race left because there is no second lookup left.
-
-   rootimagesrcdir= is now mandatory (rootimagesrcdir=none opts out
-   explicitly) instead of silently detaching the carrier by default,
-   so there's no more zombie superblock/dangling mountpoint by
-   default; you have to ask for that outcome by name.
-
- - Patch 4 (rootimageverity=) is mostly unchanged in what it checks,
-   but now runs on the exact file patch 3 mounts, so the digest check
-   and the mount are guaranteed to agree on what "the image" is. It
-   also now refuses rootimageverity= together with rootimageflags=
-   containing device= (multi-device erofs images), since the digest
-   only ever covers the primary image file and silently ignoring the
-   rest would be a false sense of integrity.
-
-Not changed / not attempting to fix in this version, per the v1
-discussion:
-
- - The carrier filesystem itself is still fully parsed (superblock,
-   directory entries, extents) before rootimageverity= gets to check
-   anything, since reaching the image file at all requires that. This
-   is structural to a file-backed image sitting on a general-purpose
-   writable filesystem, the same way a dm-verity root still needs a
-   trusted block layer under it; rootimage=/rootimageverity= are meant
-   to sit on top of an already-appropriately-trusted carrier (e.g.
-   itself dm-verity/LUKS-backed, or a well-audited always-read-only
-   fs), not conjure trust in an arbitrary writable one out of thin air.
-
- - A/B slot selection and fallback/rollback bookkeeping are still the
-   bootloader's job, exactly as with dm-mod.create= today; this series
-   only does the "resolve the one path the bootloader already chose,
-   verify it, make it root" mechanical step for the file-backed case,
-   not image-based deployment policy in general.
-
- - There is still no sysfs equivalent of
-   /sys/block/loopX/loop/backing_file to discover which file backs the
-   root after boot (the mandatory rootimagesrcdir= at least means the
-   carrier itself stays reachable). This would need its own generic
-   piece of infrastructure and is left for a follow-up.
-
-Eric Curtin (4):
-  fs: allow in-kernel mounters to hand filesystems an already-open
-    source file
-  erofs: use fs_context source_file for file-backed mounts when given
-  init: support mounting the root filesystem from an image file
-  init: support pinning the root image's fsverity digest
-
- .../admin-guide/kernel-parameters.txt         |  56 ++++
- Documentation/filesystems/mount_api.rst       |  18 ++
- fs/erofs/super.c                              |  19 ++
- fs/fs_context.c                               |  39 ++-
- fs/init.c                                     |  18 ++
- fs/internal.h                                 |   2 +
- fs/namespace.c                                |  96 ++++++-
- include/linux/fs_context.h                    |   4 +
- include/linux/init_syscalls.h                 |   2 +
- init/do_mounts.c                              | 269 +++++++++++++++++-
- 10 files changed, 514 insertions(+), 9 deletions(-)
-
+diff --git a/fs/erofs/super.c b/fs/erofs/super.c
+index 802add6652fd..b6cd4fde3ca2 100644
+--- a/fs/erofs/super.c
++++ b/fs/erofs/super.c
+@@ -799,6 +799,25 @@ static int erofs_fc_get_tree(struct fs_context *fc)
+ 	if (IS_ENABLED(CONFIG_EROFS_FS_ONDEMAND) && sbi->fsid)
+ 		return get_tree_nodev(fc, erofs_fc_fill_super);
+ 
++	/*
++	 * An in-kernel caller (see path_mount_file()) has handed us the
++	 * exact, already-open file to mount, rather than a path for us to
++	 * resolve ourselves: use it directly instead of independently
++	 * re-opening fc->source (which isn't set in this case), so that
++	 * whatever the caller validated about this file - e.g. an fsverity
++	 * digest - is guaranteed to still apply to what actually gets
++	 * mounted.
++	 */
++	if (fc->source_file) {
++		if (!IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE))
++			return invalf(fc, "File-backed mounts not supported");
++		if (!S_ISREG(file_inode(fc->source_file)->i_mode) ||
++		    !fc->source_file->f_mapping->a_ops->read_folio)
++			return invalf(fc, "Source file is not a plain, read-foliable file");
++		sbi->dif0.file = get_file(fc->source_file);
++		return get_tree_nodev(fc, erofs_fc_fill_super);
++	}
++
+ 	ret = get_tree_bdev_flags(fc, erofs_fc_fill_super,
+ 		IS_ENABLED(CONFIG_EROFS_FS_BACKED_BY_FILE) ?
+ 			GET_TREE_BDEV_QUIET_LOOKUP : 0);
 -- 
 2.43.0
 
