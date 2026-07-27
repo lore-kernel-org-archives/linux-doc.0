@@ -1,168 +1,80 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5C93ED5B9
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 10:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBC63F5BD0;
+	Mon, 27 Jul 2026 10:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785148275; cv=none; b=m4ZKlP3yne50gMg6rr3IbWaKe05kdxZnVWmfk4pOWedgWw9Jyg0iWcoC7pDEI721+A/thoPRZ/S2tWwcZ5VXPHSQe3CwFNmx4II86eI4qGz1bX2BiZMaVAb1Mee3t5M8UhggOuvrQodYsMzMJy8xpdijCi4QKnWp3/UpvP9Gflo=
+	t=1785148902; cv=none; b=rBViF7+sfNuU//7FGDCFpY2EXIk6jTQwN7gBxVBybNlQWVtGIioncWH4eM0m7rfF/3D7D1bOgtsfJwCoC/cqUjST49P4EqhOswVBfQW8UQ7SNSpcvvixw/RSiPQm2qwjKJkatK1OFtsvB4fsKJC5rZTuWhBo8Jd85HQe6CAIiCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785148275; c=relaxed/simple;
-	bh=woXyy5jNb+ujgRi8bF+OOGN9qHExhfEYu5OpEGq2f1E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bl+Gz3mnGbZRNpIiYsekwxUAvKhpdg+/UE5p2nYcVEUH/1Xb6F4uijOubwISed/f6jsXfYEveW4gLYnf9XR3hZ7KtmN5GMVjiYSiW6NdmqIOd+70YqfGrkLoo9iJzaAGn4kMZ8TKcLmOgIhpF/hkzmBatF6ZAmpoEdJo2xvcWKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QNC8PQCN; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785148902; c=relaxed/simple;
+	bh=dGvOW5cv5x0S4k5wtui/8UZhenbPTTjSD8LKmELkFDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DhjlPCaeW2goWtvMEw6qhEAxs0Xvveb5LLsejHYeysHQOwiwvuG8/tHbxRRxr2kOk9lszmOK1/I01Ow9b20iXZSbBBQjK0a8YfAY3/VyQlUsm/EwnWCM+0iwvPWzuD9OaBrNxOaJYYtZPztoIOIYJWFOEd39jLBwHDzLWw2ccUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1I691Ho; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QNC8PQCN"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49557167508so25096855e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785148267; x=1785753067; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4+ZEgHulxWHuwHPHorxyrYnvV0LUKlyF4fm6PY9N2wQ=;
-        b=QNC8PQCNPj4d5dcD4tehbEOUw8u9HagfiUW5od9J9euuOZR83gBqeZbWcd20vgoNT4
-         Yfzzt7tmNAXqBvxNhZigtmJjqQldsDpz6WXTbbPqGriL6o8Fzajtz5mbWzkoP7GTPLMZ
-         +eXvP9/FWHNhMbR78N5/DVZSRsEPpnaw7b3RuZaBIBWyhwmnrtOwIKwR1mrGLseqDjKR
-         OLXLKt0yC48OchxhD7zpr6lvf4UePrxyIQssJdUvtIajIPH/gcBnnc2IqTPQmuRaQ/oP
-         rEAaeI6oUbcvSW1qKEGD/hnjbqH3U+zQ5Y4prWjUxkQn0ZRl7pXpIHOGCa5nfpa0Bwse
-         ZPhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785148267; x=1785753067;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4+ZEgHulxWHuwHPHorxyrYnvV0LUKlyF4fm6PY9N2wQ=;
-        b=caAmITGRxCk23OSCZfeOZUwS2Wj3fvStROYu3Byz1RMHhpmew/kKKu/j+slKl4MDw5
-         q2iEC23BaaBXhjid2M2YfYTRNfNTLdr2JwK4oPVGCdVU7L3WrkZTfdIID7w1a4ViPWdg
-         mfcvc/Dlfc7x4nkOr31HGAtGOcjdUrIN3dwcFSj5SY7eSetZir6GDbnqA9yaq3Js9EoM
-         tXzvSZHPURYT3c2kPNZBWbeBfPJ/6ZzaJTnlgEj15j8EM8QP5+s6tBtyg4H7RBXbvdJs
-         zY0Y7K4P8WLYmfPLXz8TZfgwykF9/xbXzv4eIE3KpM6D9Pf7K+LDYXPqWcwdqzgYSVDs
-         Pq6g==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9l2m+oKdwZ7/iyQaKNuJ2GPYOecBWlBMlZ/bOZfbwQUhWy3xuXgbECmvCc3aucUMyO+SSqFYlOPU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZfh3QsItun4NSbdz3qP/TSX0UYGv1abDmx97t6yd/F+D2Kuum
-	ep9wyvQtihjxGi9cN22tYe8cuZxjMPUOuBCPYtygvrYPbQWTAKyf1A3P
-X-Gm-Gg: AR+sD13HBiA3X4q2WDOT/6Kx0+eCeSZr5R/NuArKWYKkPy8yjEbySGi40KjBoSVrRoj
-	JOPhc2BgJwE+xZa2+ajMwH43KVRubq49mg5q/6an/noUzDlPDuQhX/8Bp5DimbIAZ1YNb0dWdSr
-	rnqBpg2Gjf85JoaMZHYYdggUDL9k1RBCJq55L1tDRZ8Yh9wsAbd7sDhx/unkwSIPb5KQ/Qu05WX
-	8Ey9P6PYXUKtwfcyiuCSLnzJ72/aM3UlrAAXs3wvKc0XEaXcBmWQc1hiB0/tURiXSfvcZbFBS4m
-	6W87NVh0HBRDnGemHpnErg/9HIHlvNygyooEHIN1ASCiBTJWMwsrCT2gDsJVW/4Ck+GW/pq30VQ
-	4JqzuCP6lrWnRWYtMMsPR7d8w0W4h4uaG9/MLrNHSpjs7J1+K1WsIgnOdcoA2ImtPWsKwGCjvuF
-	2q6RyjGg==
-X-Received: by 2002:a05:600c:19c9:b0:492:4a50:41fe with SMTP id 5b1f17b1804b1-496b56ff171mr106409805e9.22.1785148267024;
-        Mon, 27 Jul 2026 03:31:07 -0700 (PDT)
-Received: from spark.Home ([2001:8a0:7280:4000:53fe:effd:424:fa7e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b49a6e17sm204884765e9.13.2026.07.27.03.31.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 03:31:06 -0700 (PDT)
-From: Eric Curtin <ericcurtin17@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Eric Curtin <ericcurtin17@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1I691Ho"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785148900; x=1816684900;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dGvOW5cv5x0S4k5wtui/8UZhenbPTTjSD8LKmELkFDQ=;
+  b=B1I691Ho2NvS9853/Ww54SI81CdDVEeSMlvZs2xepI12a330ivh129o/
+   PlGZkpIHmSN8o0M9A2HYKWxgmxnovg9qJU7xWSPb2BvXhQHWuv0Sk9qKu
+   lpPZnKlPNLfFyMEvtCDE0uVUjtp/ZL/4vkZsgKz2iAOWBkV1PJCEsVePW
+   ADoLClMe7jp2DnkQ7gNBvi8LTPnpOtaEVD2FizTbW+XAAUTAc9mKRsLmn
+   WuUudWyHW/Jo2ZMqhXQfISkuXOoRYtZjv1RJv1FkyA5g4SB+f22keEhu1
+   r+y5IKCN8V/TRlJYIY1FSes2ovfFGdKmZDFovp7qhNljhDhOLVac/kp3k
+   g==;
+X-CSE-ConnectionGUID: KQ32AdoVQL2w6/iFEcf44g==
+X-CSE-MsgGUID: ldo/e7o+QemZwOoaEdk0TQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="73253162"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="73253162"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 03:41:39 -0700
+X-CSE-ConnectionGUID: 25401TPTRzuzDRg5CM+4yg==
+X-CSE-MsgGUID: cKhANywmRBmDDB9pZhTLxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="264376077"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Jul 2026 03:41:36 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 5700B99; Mon, 27 Jul 2026 12:41:35 +0200 (CEST)
+Date: Mon, 27 Jul 2026 12:41:35 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y . Ts'o" <tytso@mit.edu>,
-	Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	fsverity@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/2] init: boot image-based systems without an initramfs (rootimage=)
-Date: Mon, 27 Jul 2026 11:31:04 +0100
-Message-ID: <20260727103104.2531937-1-ericcurtin17@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
-References: <20260718191551.1703670-1-ericcurtin17@gmail.com> <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
+	Rajmohan Mani <rajmohan.mani@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: admin-guide: thunderbolt: fix sentence structure
+Message-ID: <20260727104135.GF2365036@black.igk.intel.com>
+References: <20260708054923.293003-3-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260708054923.293003-3-manuelebner@mailbox.org>
 
-On 2026-07-27 10:55 +0200, Christian Brauner wrote:
-> So I have several structual and design issues with this.
-[...]
-> You're embedding a whole deployment topology into the core code here as
-> well... There are _five_ interacting __setup parameters. Every real
-> deployment immediately wants a sixth knob: A/B fallback inside the
-> mechanism. Because in your current model every failure is a panic().
->
-> But that also means image selection must live in the bootloader anyway:
-> composefs/overlay stacking, LUKS-encrypted state partitions as command
-> lines can't do crypto secrets, fsck of the carrier, directory-based
-> deployments yadayadayada.
->
-> This is just turning do_mounts.c into policy it shouldn't be involved
-> in.
+On Wed, Jul 08, 2026 at 07:49:24AM +0200, Manuel Ebner wrote:
+> Replace ')' with ',' and add 'in' to sentence.
+> 
+> Fixes: 3fb10ea4ce86 ("thunderbolt: Add support for retimer NVM upgrade when there is no link")
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks for the detailed review. Let me state the goal plainly, since I
-think it explains the choices even though several of your specific
-findings below are real bugs I should just fix rather than defend.
-
-The goal is A/B image updates from a *single* partition, without
-paying for a second userspace spin-up at boot.
-
-Today there are basically two ways to do A/B on Linux:
-
- 1. N partitions/dm-verity volumes, each a full root image, selected
-    by the bootloader (dm-mod.create= + a GPT attribute flip). This
-    is the ChromeOS/Android model. It costs Nx the storage/partition
-    budget up front and the slot count is fixed at provisioning time.
-
- 2. A single filesystem holding N image files (what bootc/ostree/
-    composefs already do), where something picks which file becomes
-    root. Far more space- and slot-count-flexible, but "pick a file
-    and expose it as root" is currently dracut/initramfs's job, so
-    you pay for a whole extra userspace stage whose only work is the
-    five steps in the cover letter.
-
-rootimage= targets (2): keep single-partition flexibility, drop the
-"spin up a second userspace just to switch_root" cost. On fast-boot
-targets that first userspace (loading dracut/busybox, forking,
-possibly loading modules) isn't free and is pure overhead for five
-mechanical steps.
-
-To be clear, I'm not trying to relitigate "no bootloader spec in the
-kernel" - I agree with that call, and A/B slot selection/fallback
-bookkeeping is meant to stay in the bootloader, exactly as it does
-with dm-mod.create= today. rootimage= is only meant to do the same
-mechanical "resolve the one path the bootloader already chose, verify
-it, make it root" step dm-mod.create() does for partitions - just for
-the file-backed case, where there's no dm table to describe it. So
-the "sixth knob" is intentionally out of scope; where you're right is
-that I haven't specified what happens when this step fails (currently
-panic()), and that needs a real answer, not "bootloader's problem".
-
-On the rest, these read like real bugs, not disagreements, and I'd
-rather fix them than defend the current code:
-
- - filp_open()/fput() unused, and no guaranteed relationship between
-   the fsverity-checked file and the path/inode init_mount() and
-   erofs's own filp_open(fc->source) resolve independently - agreed,
-   this needs a real "mount from an already-open fd" path.
- - multi-device erofs / rootimageflags=device= meaning the digest
-   only covers the primary image - agreed, real gap.
- - the carrier fs being fully parsed, including reading the fsverity
-   descriptor itself, before anything is verified - agreed, that
-   ordering defeats the point.
- - zombie superblock / dangling source path / no loop-style
-   backing-file equivalent after detach - agreed, needs fixing.
-
-I'll rework this into a v2 that only tries to solve the "take an
-already-resolved, already-open file and make it root, verified"
-problem, drop the multi-knob framing, and either fix the fd-vs-path
-lookup properly or wait for the generic "mount from fd" infra you
-mentioned.
-
-Thanks for going through this in such detail.
-
-Eric
+Applied to thunderbolt.git/next, thanks!
