@@ -1,131 +1,159 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624C73EAC6D
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 07:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785138217; cv=none; b=YrcDqWfvfQ054xXh1mHgc8pQ+0p14A2NjHeS01sRELh6iXrRu/ppeLm+G3lxelTLSWz6FjmcDWlMv10gvxSaTCX7tUFZjijCbNQYRn8MXDN51nKaso7NtGRDALAY8Z5+14ekc3bEhNk7MPVjPGdEel/2bmG4GnI7r0baUm/IdpE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785138217; c=relaxed/simple;
-	bh=qat2wW/S5sFfMSSYogUhfOa5HM/fpcWvQmY3H0cHrvw=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=SwOwqKJjEg2DrwqVYcpIHg1d1xlnFdG4iTfwlwO6iC/YSdXZSdSL+A1nBIqEpgY8xFhWYZ9cyc0SblX9KWIs7924u/NIujQuAlUyoZbciz7FKyqItbLS+UjXf9xJ21/Q3HN1IfJ005t5taNwjrKx+Knxg+Fx2bAY4qqSJapePG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=k4LrZ9CK; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62A23DDDAC
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 07:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785139073; cv=pass; b=OeGwKGDftGYg4y8GIdq1tU7onLkHBBhlvKhphFFXcKy4XhFU5F7JehBl8vyxA+b2l4A3oRoJvl3wRywgPZd21/GKOUEk72rsRTsp3ylUtVRIB/hlNFGvmuJtnFxhgy4tuZheZTb/Sr2qJh+dyA2f9hVx8nPTbbP2vFRIUUJjvA4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785139073; c=relaxed/simple;
+	bh=Mtj7E3sp4PM/1qDolAPNcQQ7cQN1ADKk1/zSl9D3Kg4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T6gDuA3Z3gXDtau481l4Jed/VsbigbzRtDR0OOuJtqXpOl/0P6aL4oL30QIkCjx25xbFrtv9dbWvdtBAjc/AZeK6rQuOyrvv5zKDJQjr7ZgMx9B+hFW+V2EQi8y6Adj8aqsB5AnusRri9XcoKiQKngFcLhgHsbHiaggDox5T2zU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=QGT/Hzkt; arc=pass smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="k4LrZ9CK"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-81f36179d72so27519407b3.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 00:43:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="QGT/Hzkt"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39f1ac13687so19049761fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 00:57:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785139070; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nJQfgHZ3zUtOq6HpYMhd6pBvaxZl19oVwy9sl9HXQ8IwGpKO18gB3kIMscOXWfWwLv
+         /3uyTOdT8Xl2uMwpiqihHKfDHaGWdQ3uMgN17aO7gZXYXzVR+wGIwntAiHvpwDfrs4WX
+         VPCj2i4zEsuAkgH6un3rNq03is34pmjZKNSI3GMl/sJcjHIGCMj8PLOl57XFCkElkPV+
+         fjDIqYUYVTyzvjpD99pMx/bx7wUKEBb9e+gl6B1VYku36+YICv1rhoBiu5YJGZxlPhLa
+         YWM6vQbk/38Kr9snx0v0VBhb40AVUV76eiqPkR+Vh0VxAU5tqMO1+jslx8wDSXLyzspd
+         C9jA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=iUOhhztmgpvLEc5gPCO2PXYJYdr4yBUECC9y0Kg5xWU=;
+        fh=g7kugTXTpthXUO6gBo7uothzNtpGR0XA/QLR7M6GBZA=;
+        b=biY7qutW7TN0M5t6IomE+OnHILihDlMb1sygc42aGdZQxp7476HWuUoWL/rTjwKStt
+         6sTvFDjU3DRT/qwzUHzmAppecSEOLb45bX8qIGTMpmH3rWKkQU8a17gSEN736ti4weV1
+         za46UhF6s1z2MyWFITrViFySyxgz11kgjd+P2HM+2Luv1aJoN4YfcTgW4tLhWU/ke6t1
+         sj34RTQV81u+hq3aUjW/lTt7wHkpXexjHEc0s/xSeYznotFRHqs1iNe1iNnb8+ENmrC5
+         +Sr+tzanwx0ZVOVp/OTlnnUWMVJZzrIGD9rleoy+wOTmB5jMsd6QINgSKJrLHKSJyL4W
+         LCxA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1785138215; x=1785743015; darn=vger.kernel.org;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:content-type:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uRtQsepgOz3Ez2KnqaflKAVM3t8o2/GIA2QttRFCrNQ=;
-        b=k4LrZ9CK/RNNcTiT1HMgqlsksX6bTsKa6a7d24DQY+T2y3cGfvkrwYvmmsirSZkr6f
-         uRWYAxFxo2R3XwgfWuF5YP+39oHwTVJspshvMHtDTppSRWxuSyQ7X6eyGf0PcrOE60Bo
-         YMDEQ6X5w8/ibRK81p8SfaeF8dVq/lPI14jvEqZNIvi9Wh1bJc+ygOU6kbhB7TTwXiSQ
-         cOTUv3tdz9St78lFpBljK7G9f7jq9Iza/Xp2WbskxsQtlK5eVq+9T1c87kFysbfw44JG
-         JkM6Cu4DXdQGy509QratwAGOJ9sE3JFv2/uC97Ol2mPKXDZjELhNxVPeZ9O1g+0nMwt/
-         snfw==
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1785139070; x=1785743870; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=iUOhhztmgpvLEc5gPCO2PXYJYdr4yBUECC9y0Kg5xWU=;
+        b=QGT/HzktyAZSYyS09YqGyszjwpR9WaHAQZSpwmQiSDK+92Vx8KG5uDnrBOxkOPVkz0
+         ENQ2BzBGxtoNHzoYZwYbWxjhT8699JNMpvdlo4kbtUACKLyXuK9XJ3mh1+upZvmPVCeT
+         tfGgrZ7N4t/nAGGGJfDljcKJm/6S6WL407Ho4dGVAbsDBTbOOMm427JfZqqqhnwWRC5F
+         pOY/thFRmCro/TWt6YrJlxNC35zgqHbAR1eF1QEJpP2XUVMNNiLOIEHVFEEnzYc6XNUu
+         Mwlyhrqi10zSfvEgDQFPnd8Jc/o07XnTnNU6UkOyBYV2EWrEPd9skuMCL9mgsDKpTXFS
+         2zrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785138215; x=1785743015;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:content-type:x-gm-gg
+        d=1e100.net; s=20251104; t=1785139070; x=1785743870;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uRtQsepgOz3Ez2KnqaflKAVM3t8o2/GIA2QttRFCrNQ=;
-        b=jvmI1+EwBEs43gSBQS/nt88ooIB9f8p08ncwuRZmPVdnX5pay0L3Tq2iJm6w+M2Hmr
-         EN+B/exoQxwFiMzZh1CO5xoNjMzINXozzxMfqR2duKbIOnH++pcWOezegIT21swlRU+K
-         UW0MpHjqk0s9GKTeBGv2xShXPZNWuPa6ETcT3DU/Icc6T2sEv+/pDySCa8OJ5jLfJCup
-         xFMOgt84sdj+u5fyunN05zekgqQsVji5cJQwGaR0lejiniDWwt6h/iRVvGWwLfOLAa2J
-         HU4XYciFkISkMKh6bwG+M8hZ3XpKv8dci28oSbI+MWtjEAhXiD+5Ra6Xdjhgt4816NbL
-         H2eA==
-X-Forwarded-Encrypted: i=1; AHgh+RomaxFpcBsK4nuaAMKVkQtfeixYRg25U0d3Cmwi9yJ5o1l31TUWGuKmyrsHyOEErcEGRUzbFT07bPY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6wUabWE5YlgfgD/baH7TRVKtZZKk1tTrJRank2B0LpTzCvoLy
-	QuXy38U1lv6LWVBjBF0vicY+wLHLMkhl7llJE9f9xkuNBV8f/Gw+zXD/L5TM5BDmdg==
-X-Gm-Gg: AR+sD12fkdjAJR2ooa6x2fqVoQTtXNOCBF30lQfKvxLgMsQmzI+kBxH1KfMzLb9ki5N
-	j9HRzd3XPF4w8MK/tH35elBBXw+33cgs34tVILDk2x7pFty7a7JDqLxFlWore3uKJkAVugLRtK0
-	RGV7pH3z5XHXI9e+BMGAkNe4dsO43vbiVUhfQhuYv+lX2Niioqgr0TixdD1qpA7obNl2WfhKr2v
-	I/LGOqYIcIH6iPcb7+Luf7SueiIeuYycqgM2XoiFnkaWrMEmBuGKM0Z4HkwOje8cmFoFCFDT3lm
-	WTaYRJW24TOV/7FecOHoO6qfh/TFNaO8FW3Yx1EkOiro6u3cYFIjKysZjEDEEAwjUaqMHvqjHJE
-	4+ttHFUS4V8Y1HvkYfan50O97Lxm0f7v2DVzZc6FZt+jRZf6HKXvKkGAhBb14LaJU0xsRoklTwK
-	vZIK5xKXoJ7SEQExkZ8ZRv
-X-Received: by 2002:a05:690c:6704:b0:81d:5155:213b with SMTP id 00721157ae682-81f69cd5a48mr24289417b3.14.1785138215197;
-        Mon, 27 Jul 2026 00:43:35 -0700 (PDT)
-Received: from smtpclient.apple ([150.228.3.19])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f657bfddcsm28229997b3.18.2026.07.27.00.43.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 00:43:33 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Andy Lutomirski <luto@amacapital.net>
+        bh=iUOhhztmgpvLEc5gPCO2PXYJYdr4yBUECC9y0Kg5xWU=;
+        b=i/Q7C+dLphWPlIb8QDUqX8huT9fzXrhXsnWzUKZXbmzbe89ntWCd/z+6QlC0PJ024c
+         ZFOYjKG7G1EEpZZtOlDdSgvfmHsHAJclWiYb/CH9kS5tD+EEixOTC/3SxuxqdQO9+0BR
+         tAJYrJS1UgXmfYem7r91gBIwQEhFRLQLE8vzeOzN3R9g1iOYOAQH4Ow4dDY02Q6aUrK+
+         kh3GeuvjcFQGYGlUq8C6wTxyyzbmlu7130SDot98kY0FkheK52H/HlX8Q+zxfJbUeaj0
+         UygmoSQ+WfgrHQzo5xiJEBzTcYJW+UPPE16UiFbnFPG3kUjkMSfy/zrL0vjQYoYOI+Bs
+         lE2w==
+X-Forwarded-Encrypted: i=1; AHgh+RoE12PN8X/oN7Jjdr2OmJiiItoomTw98gmZAuZoLwrndwpbPTDsisa2387e87KySn0LC5axLnnD1pg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8vAJmkTYDsc5CoyNTNibPssnE49F9Hy7kDaSezRaBhtj/vEJd
+	0toocOlLTtLkxAs/yxxoh2VUi99q1mqCvZSWypytPLuM5PQR6soHrNaORcDDTz5rqouSYK6JH/0
+	2wgXTyl1Qefc6mFwEVSEyoLE3ukoO7oMQ4JBaKYBu
+X-Gm-Gg: AR+sD10V2txMk2O/FMr+3WX5ISPhtwpn3SIPQUSrVZUnjc0KRTLGlA5W2tmrAkndAhi
+	9Tz+shmtbg65HD+47JaF4sNbGUCCS97nlI3+JE72szCWL//JYpvyLibdendZPx9bIhXQeTbTQqy
+	B4jHVcaNlDsChLDc+sgYr3XhT6CbDYXo+nevPyl/OcNUC4nCboFxQQ6CTOlUx2wSbnxD8Hie+zD
+	p4z7FU44l56UFoDq1dAY7ThscxfdeyyeFfVrHVCdXA6fmwk5JOzQfHtchz/CQPdhtppJu2/uGQs
+	/0znML8HglYLDZNjZ0zrum1DdsyFLZjOVekXXWvizYo=
+X-Received: by 2002:a2e:b895:0:b0:396:9630:5ed with SMTP id
+ 38308e7fff4ca-39f28798792mr12845401fa.15.1785139069116; Mon, 27 Jul 2026
+ 00:57:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
+MIME-Version: 1.0
+References: <09b4735f-c04e-40f3-a7f5-254b7918fbfd@app.fastmail.com> <ABB3CF80-5F05-4279-8E0F-73A21E6B9DDA@amacapital.net>
+In-Reply-To: <ABB3CF80-5F05-4279-8E0F-73A21E6B9DDA@amacapital.net>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Mon, 27 Jul 2026 00:57:35 -0700
+X-Gm-Features: AUfX_mwQJvIGRaZR31lPycIR7yR099WfdPkmt1H0sjuC7GUKOwBvxFooo8kQZeQ
+Message-ID: <CALCETrVSKnT=wo8j+3bUBjcizEEWcg_a7WtfK_erLDGRqp3f-g@mail.gmail.com>
 Subject: Re: [PATCH RFC 4/7] fs: support FD_FAILFS_ROOT in fchroot()
-Date: Mon, 27 Jul 2026 09:42:25 +0200
-Message-Id: <ABB3CF80-5F05-4279-8E0F-73A21E6B9DDA@amacapital.net>
-References: <09b4735f-c04e-40f3-a7f5-254b7918fbfd@app.fastmail.com>
-Cc: Andy Lutomirski <luto@kernel.org>,
- Christian Brauner <brauner@kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Jann Horn <jannh@google.com>, linux-api <linux-api@vger.kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>,
- Farid Zakaria <farid.m.zakaria@gmail.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc <linux-doc@vger.kernel.org>
-In-Reply-To: <09b4735f-c04e-40f3-a7f5-254b7918fbfd@app.fastmail.com>
 To: John Ericson <mail@johnericson.me>
-X-Mailer: iPhone Mail (23F77)
+Cc: Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jann Horn <jannh@google.com>, 
+	linux-api <linux-api@vger.kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <kees@kernel.org>, 
+	Farid Zakaria <farid.m.zakaria@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, LKML <linux-kernel@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+> On Jul 27, 2026, at 9:43=E2=80=AFAM, Andy Lutomirski <luto@amacapital.net=
+> wrote:
+>
+> =EF=BB=BF
+>>
+>> goes along way to getting Capsicum's "capability mode".
+>
+> One thing I dislike about this is that it=E2=80=99s (approximately) a tas=
+k mode. Why should an fd representing a capability represent one capability=
+ (a subtree) to one task but a different capability (dotdot) in a different=
+ task?  Do we need to prevent unsharing a userns if this bit is set?   Do w=
+e want to have to worry about any task that could potentially SCM_RIGHTS an=
+d fd to a task without that bit set? I prefer beneathness being an OFD prop=
+erty.
 
+Sigh, I keep thinking and typing OFD, and that won=E2=80=99t magically make=
+ it
+be correct.  All these privilege restrictions applied to a file or
+path reference need to follow every user-controllable reference around
+correctly.  So if I fchdir or fchroot to a restricted OFD, my cwd or
+root needs to preserve those restrictions, and reopening "/" or "." or
+any other path (via root or cwd or openat etc) needs to respect the
+restrictions as well.  Putting it in struct path may or may not be a
+good idea.
 
-> On Jul 27, 2026, at 5:30=E2=80=AFAM, John Ericson <mail@johnericson.me> wr=
-ote:
->=20
-> =EF=BB=BFVery happy to see this patch series appear; thanks Christian!
->=20
-> Also happy with where this specific thread is going. I will just add
-> that an additional flag in fs_struct to force RESOLVE_BENEATH in *all* pat=
-h
-> lookup would also be nice. The combination of:
->=20
-> root =3D pwd =3D failfs;
-> chroot_locked =3D false;
-> always_resolve_beneath =3D true;
->=20
-> goes along way to getting Capsicum's "capability mode".
+And, if we allow cloning a restricted reference to a subtree to mount
+it, we need to make that work correctly too.
 
-One thing I dislike about this is that it=E2=80=99s (approximately) a task m=
-ode. Why should an fd representing a capability represent one capability (a s=
-ubtree) to one task but a different capability (dotdot) in a different task?=
-  Do we need to prevent unsharing a userns if this bit is set?   Do we want t=
-o have to worry about any task that could potentially SCM_RIGHTS and fd to a=
- task without that bit set? I prefer beneathness being an OFD property.
+Off the top of my head, for a minimum viable product, we could
+disallow cloning/mounting from a restricted reference.  And if we want
+to try delegation (as in my other braindump email), we could try
+*only* allowing delegation via clones/mounts and not in an OFD or cwd
+or root, since there are potentially mildly thorny or at least
+unintuitive interactions between symlinks and privilege delegation,
+especially if mounts can delegate.  (And I think that delegation via
+OFD/cwd/root but not via mount is so weak that there's almost no point
+-- I want to delegate to a container, and that requires mounts.)
 
-Note that the obvious giant holes in capsicum-without-a-mode (root and cwd) a=
-nd their respective dotdots are fixed, quite cleanly, by this current patch s=
-et.
-
-I also think it=E2=80=99s a bit of an ancient mistake that paths like /.. wo=
-rk at all instead of generating errors. Maybe a future beneath-only fd could=
- also disallow trying to dotdot past the root, even for symlinks that contai=
-n dotdots.  This isn=E2=80=99t just an aesthetic thing - if I have ~/foo/bar=
- being a symlink to ../bar, I think it would be a mistake for a beneath-only=
- OFD to ~/foo to have =E2=80=9Cbar=E2=80=9D resolve successfully to the wron=
-g place.
-
-> Then we just
-> need to figure out things like more capabilities for directory file
-> descriptors per Andy's brainstorming thread thread (which I ought to get
-> to replying to).
->=20
-> John
->=20
+>
+> Note that the obvious giant holes in capsicum-without-a-mode (root and cw=
+d) and their respective dotdots are fixed, quite cleanly, by this current p=
+atch set.
+>
+> I also think it=E2=80=99s a bit of an ancient mistake that paths like /..=
+ work at all instead of generating errors. Maybe a future beneath-only fd c=
+ould also disallow trying to dotdot past the root, even for symlinks that c=
+ontain dotdots.  This isn=E2=80=99t just an aesthetic thing - if I have ~/f=
+oo/bar being a symlink to ../bar, I think it would be a mistake for a benea=
+th-only OFD to ~/foo to have =E2=80=9Cbar=E2=80=9D resolve successfully to =
+the wrong place.
+>
+>> Then we just
+>> need to figure out things like more capabilities for directory file
+>> descriptors per Andy's brainstorming thread thread (which I ought to get
+>> to replying to).
+>>
+>> John
+>>
