@@ -1,63 +1,63 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123DC3F8EDB
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 10:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9A43F99F5
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 10:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785149336; cv=none; b=ayVBwj+dXdmYWu4ONfJaTk+LsHyuA4OhIWGF3JozBqSPot0tKhQmIWbMgZqOxirdlZoq1I/oZNpr6LZn2mkII6Bn6hXqWw6/Q7FnMNrLUKrb9PQhYcOJnkO/Qj7Aga+TWMehsepoFTQ2ARVug7SLLfBqR6L4Vazy3WBnW2zQfS4=
+	t=1785149337; cv=none; b=tLL+Xg/55ZdsqQWqaOvY6fgc74uv1AjjbC3439uvwLUGk2zEFSJgcNAJhf2+8t+2Mr7gpbKnIel+cW7jNLFLf7KPDwH/35gGgwqgDnxOrEIEOKHDlcHiHfzjVl06ZJwGb5G6FACNlZBzLIN3D9slmfCQBW69ycA64ftNK1dq8vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785149336; c=relaxed/simple;
-	bh=655bTJ1sc9/kDIB9ONrFluoEdQiiCweFjmu556zwULE=;
+	s=arc-20240116; t=1785149337; c=relaxed/simple;
+	bh=VR8jcR7vb91b/Q6yTqwnPU6kUYss16B+Me5piaCsMVE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hym0f9hLRHHHtq1USHRFxGXwIRu4bbaYGA60fQaJLT94QSm8/gKsZBgUDbIhczB3m0I8yh5RqyPpatYRCnmM5I/+uxfE6sXFmAA8v8PU44N+X0MLfd6kWXtsHtbanJnjn61mrsmrUhDC9h08QXLy/VlyOWGaj8j9FrjCMCANg2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JexGsh5D; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=fpVMinCI3wmRdMmOXXC41D6r+aXRKbTe1xxVJSA8Z+pWkTOOlpnK9dbRwD+9ABOFCsKeETSkEaGCALtPslNkq9OWswSNxbdXitnyjjk8brROPWBCS/wn1ZdQcPRnFQ1cdXyFSeSsMZiWgUoioyzrD2x0XlRz0/Q70crJ9rP0cSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/AOCF6I; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JexGsh5D"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47f3b39f2a1so2116918f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:48:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/AOCF6I"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4798bea72f9so1600656f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785149329; x=1785754129; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785149333; x=1785754133; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b0xlGLz0lZUV4g4ovfTp8rb9hxeTp6x+hKCx+BsbNZA=;
-        b=JexGsh5DEn7Zr7DYH9WvIAv0a2UQiKY/IMdMkbpufyOTrHOCMakVv39ZfiFwzSh8td
-         AV2gWR29wOzr+DWC15qwiow+t6y6qgxWFPej9MtzGLBRifvj0PyGE/sEEJ/3AZ6MDICL
-         zD+6XgM19PH3rbY0C3TQ4xIJ8O/WmiKpHZZSf4DLAteCrgr5M1kWsLcCHH8p6WGsJQmu
-         4v7a0OrUNQMavmuWAl/nPhj3i5TjX5C+S7xUBAFzcMvJ7hYD1BhyxUgCOrYbkm+6+IWH
-         qDERZRrtOcUHRJq2hpWzA1Qj5qIFX+YM6zI7v2rGQiYqtD8y544YWtp4sw13chVBdxXv
-         Tk3w==
+        bh=yeeZRNtXE4ctiTwj6rmjColhudnDiZUYGmbWolsb7d0=;
+        b=M/AOCF6Im5biJSYaiNAHZ6EyE/lNUCnrSTLh6jSYImg6MPMGL0eqPnuyf+2BK6HMwh
+         iJ693MCrTteSPu6Siu3ey7lLvMjxN1uypLtffocug0yeSUIURqCLmqq9nglokhpU6KEv
+         okKy5yuopconc+pZnnIZUkiD6gE0tgD9ec1gZ8K+qcYArwkA+dHeHl//KFmXPpxzdbnK
+         UbcNJAZmBzDcVlkzRqWjiuZxG6Lc2s/Gji//XvkT6wUPOa95RuoFXBWpidsISsRA5dir
+         Qn+dx4CFPCm8S9qp28S59x4WbpG10h/l314hiOoNfgJuT3YcdzKz14+eQAgnRhQpkVP6
+         4zGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785149329; x=1785754129;
+        d=1e100.net; s=20251104; t=1785149333; x=1785754133;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b0xlGLz0lZUV4g4ovfTp8rb9hxeTp6x+hKCx+BsbNZA=;
-        b=d025th8/XZ5BLGdSj5QydnkYi4OXtHxObsJfiMjmlmfLX4uOSQfQmo9Hl7pEUcPBsR
-         IEk6sz/UscbP08mjf/kONL9YvUEH6gzb/13PXz4gVbozgbLwnVMzCtMOrSjwgY0CBPUk
-         /shpCDE8HrqdynTR/tDRZchoigfZq7gw4PQV1x5hEAN6wgh2MufwMQvzLTNJI1RiaE/j
-         b8Uuk04jMkcIbl6wzypRMG/NGTzJC9JQQ2kqAYe+jkoXJM0NAGmlAHaEh8eRVxxadJUm
-         AfEB7ELrVVVgZYLL5SZ3eoglMlxX7Mu8sqWoCsmXlTJQXS/sRq3p0cWQQde63YCeQtZb
-         ZJdQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoJ/JV3qiaZcttJmu9Bpxcu08La3d8q4wYo8pTbMJ0ygzc8IN55CMc5uLQ0P9nJBPsZJk4hA0bbcP8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySx+Is6/p+1INiGhmE0ugKAyD901bpPx6h1IATiwj/PrnU5JcK
-	WMevZxDk1jN+MsHfwYf0j8e+ubyxNf8+5zaBB+c4iLghcAkrvilMsvXb
-X-Gm-Gg: AR+sD10AkepZJKZHPH247QHicS91PFymFCYS5siQW7SYDnFNBaarJLw0lGI8l45Sfzl
-	Zev9uvjXE58egby3xnK+C4wKXdOSzHybV4FLp0rUtWRshmAVgz1dIK3e9TFPjfgXv8+hHI/vem6
-	243g3dfYjC2nCsEBur04HAYpByD02qZTnJZ3hgqtXdw4PLe0C7GihkuZi0YQpfunKZmv9N8QU0t
-	i67b1l5QEZfTUEPAbFkEqFpJy1QwIbARwGBxxq01+70en9a+J7YF8yX7kgVG/QEOnE7G8+jKjFG
-	QJ3x9P1UnwK6kpoWqdgeDfz8Q+ghZKBh2qa7zGFyAiaqKhpAoUhBna/Bzkl/mfZJ2USfvCKgAc0
-	RVenACcFU/9D7KnL0nhwI+aYwLFxt4AHbQeusZQzrZrZ4KwYtbj9Ub9+7/eRFnrDFr5SAxEX5YT
-	08ltu0KQ==
-X-Received: by 2002:a05:6000:4029:b0:47f:84b2:2671 with SMTP id ffacd0b85a97d-47f9fc8d144mr10155626f8f.7.1785149329056;
-        Mon, 27 Jul 2026 03:48:49 -0700 (PDT)
+        bh=yeeZRNtXE4ctiTwj6rmjColhudnDiZUYGmbWolsb7d0=;
+        b=E2HQ0LTz7LI/o2kZOTwc7qQFVP1mvvR0wqUiZmGxdeBSmDC4j/raX/JPRhyPySVXtN
+         cXy2zByvJO0Dj6v9+3ewOfIIo3eumxgtEZD/v9yVfwpOyaOcP0ZtVLFmQWqLAM+a//P+
+         5dITsZzj2oa0QGJGpEzRB6Q1PaG6v6EcHM210eUBJrcizozTWOy/NTuwVgHMIkI+IOsu
+         s989FwpbEUbyULOdmFk4Axb3NcMhR/Co67JjxYYeYMJmiejS7O2badoVkgzj4yAfMeHJ
+         NLqTVbOWTAIHCPd5bOEHtdxgT7mtULtLszfx4xd8EfD+k4NF0GF/FP3HDzVoQm2spDbS
+         OXYA==
+X-Forwarded-Encrypted: i=1; AHgh+RrR5PSnufmMhErJqZD06X2KjAcMG2B/wEwfoHnBp8uOhJwAfQ/fgzQcAdd6Hhw4nLvSsYcWQhmyZQU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOpU+MYHqT9K13T+qUy6N+WemgSwtSwV2xbYAyk9Tg6IHJicAQ
+	Ze616uNwh4x6wGwbuja11fBGBTPd22emk3NOjMO+zsr7zxVGpXjAqxqH
+X-Gm-Gg: AR+sD12FuNFLhPStOYX1FqbaeWheMeK9giWW5VBbiFcqMRw8P47aObc1uJLbzn0Jfow
+	woU04w2LlSv4x66s8hcJt1zi+b+Ry+2JlzZS5TMn8w0CejtZgPTDy1N5tYi8L3ZsHZ5FgkvdZdu
+	g4GJ6dcTYYVzubJCx2CbWyHq/iU0iLpt5l6tq5ZcvLfExN4R6oc/tJFqbFCwTPiaDhZD7dkyzc2
+	TykJ5tjR1oAHNcJrUpOWSUdD+sLFdCa+gw0xzTbfyn+ntYSba7Iibs58fA+DaWPkh5wbVILrMwY
+	uUHi6dEkRbbfvbRGWhtE1M7bhCJlH5JwSRP5mNVLCCrdh8lNUF5XL16xSyzRHZtLOTQJWrDePfi
+	SpWNoS4f5vqhtgB/HGkfH6/it87ni+yJS+I4ix2RaDKfks58P4gNqP4Ga6HK60HOKUWdbSfK3WF
+	qQ/5vpcQ==
+X-Received: by 2002:a05:6000:2012:b0:47f:77a8:7e20 with SMTP id ffacd0b85a97d-47f9fea5857mr10557039f8f.35.1785149332831;
+        Mon, 27 Jul 2026 03:48:52 -0700 (PDT)
 Received: from spark.Home ([2001:8a0:7280:4000:53fe:effd:424:fa7e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a659sm49056188f8f.6.2026.07.27.03.48.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a659sm49056188f8f.6.2026.07.27.03.48.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 03:48:48 -0700 (PDT)
+        Mon, 27 Jul 2026 03:48:51 -0700 (PDT)
 From: Eric Curtin <ericcurtin17@gmail.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -74,9 +74,9 @@ Cc: Jan Kara <jack@suse.cz>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Eric Curtin <ericcurtin17@gmail.com>
-Subject: [RFC PATCH v2 1/4] fs: allow in-kernel mounters to hand filesystems an already-open source file
-Date: Mon, 27 Jul 2026 11:48:42 +0100
-Message-ID: <20260727104845.2607444-2-ericcurtin17@gmail.com>
+Subject: [RFC PATCH v2 3/4] init: support mounting the root filesystem from an image file
+Date: Mon, 27 Jul 2026 11:48:44 +0100
+Message-ID: <20260727104845.2607444-4-ericcurtin17@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
 References: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
@@ -88,362 +88,329 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-do_new_mount() and its path_mount() wrapper only ever let a filesystem's
-->get_tree() resolve its own source, either from a path string that the
-kernel translates to fc->source via vfs_parse_fs_param_source(), or from
-whatever the filesystem's own ->parse_param() does with it. There is no
-way for a caller that already has an open, already-validated struct file
-in hand to mount from *that exact file*: the best it can do is hand the
-filesystem a path and hope nothing about the target changed by the time
-the filesystem re-resolves it, which is not a guarantee the VFS can make.
+Image-based Linux systems (bootc-style OS updaters, ChromeOS/Android-like
+A/B schemes, embedded appliances) commonly keep one or more immutable
+root filesystem images as plain files on a writable "carrier"
+filesystem and pick one at boot. Today that always requires an
+initramfs, even when the initramfs has nothing else to do: the kernel
+can only mount a block device (or NFS/CIFS/ubi/mtd) as root, so
+userspace must mount the carrier, loop-mount the image and switch_root
+into it.
 
-Add struct fs_context::source_file alongside the existing ::source, set
-via a new vfs_parse_fs_param_file() instead of the string parameter
-path, and a new path_mount_file() / init_mount_file() pair mirroring
-path_mount() / init_mount() that use it. This is deliberately not wired
-up to the fsconfig(FSCONFIG_SET_FD) uAPI: it is for in-kernel callers
-only, so no existing filesystem's ->parse_param() needs to change to
-avoid misinterpreting it, and none is affected by this patch.
+Add a rootimage= parameter naming an image file on the filesystem
+specified by root=. When set, root= only designates the carrier: after
+mounting it as usual, mount the image file read-only on /image and make
+that the root that prepare_namespace() pivots into. The image is
+mounted through the filesystem's file-backed mount support (available
+in erofs since v6.12) using path_mount_file()/init_mount_file() from
+the preceding patches: the image is opened exactly once, and that same
+struct file is what actually gets mounted, rather than a path for the
+filesystem driver to resolve a second time on its own.
+rootimagefstype= and rootimageflags= mirror rootfstype=/rootflags= for
+the image mount, while "ro"/"rw"/rootflags= keep applying to the
+carrier.
 
-Filesystems that support being mounted from a plain file and want to
-accept exactly the file a caller hands them, instead of independently
-re-resolving fc->source (unset in this case), check fc->source_file
-from their ->get_tree(). erofs is converted to do so in the next patch;
-the immediate motivation is letting init/do_mounts.c mount an fsverity-
-checked root image from the same struct file it just checked, instead
-of a path that erofs would then look up again on its own.
+rootimagesrcdir= names a directory inside the image where the carrier
+mount is moved once the image is up, since systems following this model
+virtually always need continued access to the carrier for their
+writable state. Unlike an earlier version of this patch, this is
+mandatory rather than defaulting to silently detaching the carrier:
+that default made it too easy to end up with a carrier mount that's
+still alive (the image mount pins its superblock either way) but
+unreachable from the new namespace, with no equivalent of
+/sys/block/loopX/loop/backing_file to even tell what it was. Systems
+that positively don't need the carrier again can still get the old
+behaviour with rootimagesrcdir=none, but have to say so.
 
+This is the file-backed analogue of what dm-mod.create= (CONFIG_DM_INIT)
+already does for device-mapper targets: moving a fixed, declarative bit
+of early-boot setup from initramfs userspace into the kernel so that
+small and verified systems can boot with no initramfs at all.
+
+Assisted-by: opencode:claude-fable-5
 Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
 ---
- Documentation/filesystems/mount_api.rst | 18 +++++
- fs/fs_context.c                         | 39 +++++++++-
- fs/init.c                               | 18 +++++
- fs/internal.h                           |  2 +
- fs/namespace.c                          | 96 ++++++++++++++++++++++++-
- include/linux/fs_context.h              |  4 ++
- include/linux/init_syscalls.h           |  2 +
- 7 files changed, 175 insertions(+), 4 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  34 ++++
+ init/do_mounts.c                              | 188 +++++++++++++++++-
+ 2 files changed, 217 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
-index e8b94357b4df..7b799f61c39d 100644
---- a/Documentation/filesystems/mount_api.rst
-+++ b/Documentation/filesystems/mount_api.rst
-@@ -138,6 +138,24 @@ The fs_context fields are as follows:
-      This specifies the source.  It may be a block device (e.g. /dev/sda1) or
-      something more exotic, such as the "host:/path" that NFS desires.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 4d0f545fb3ec..a1cd5973e497 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6732,6 +6732,40 @@ Kernel parameters
  
-+   * ::
+ 	rootfstype=	[KNL] Set root filesystem type
+ 
++	rootimage=	[KNL] Mount the actual root filesystem from this
++			filesystem image file (absolute path) located on the
++			filesystem specified by root=, instead of using that
++			filesystem as the root directly.  This allows
++			image-based systems that keep their (typically
++			read-only, e.g. erofs) root filesystem images as
++			plain files on a carrier filesystem to boot without
++			an initramfs.  The image is mounted read-only via
++			the filesystem's file-backed mount support (no loop
++			device is set up); "ro", "rw" and rootflags= keep
++			applying to the carrier filesystem.  Requires
++			rootimagesrcdir=.
 +
-+       struct file *source_file
++	rootimageflags=	[KNL] Set root image filesystem mount option string,
++			used together with rootimage=.
 +
-+     An alternative to ``source`` for in-kernel mounters only (there is no
-+     userspace-visible way to set this): an already-open file to use as the
-+     source, set by vfs_parse_fs_param_file() instead of parsing a path
-+     string.  At most one of ``source`` and ``source_file`` is ever set.
++	rootimagefstype= [KNL] Set root image filesystem type, used together
++			with rootimage=.  Default is to try all filesystems
++			known to the kernel that can mount a block device or
++			an image file.
 +
-+     Filesystems that support being mounted from a plain file (as opposed to
-+     a block device) and want to let such an in-kernel caller hand them an
-+     exact, already-validated file - rather than a path they would then have
-+     to re-resolve themselves, with no way to guarantee the two refer to the
-+     same thing - should check this field in their ``get_tree`` and use it
-+     directly instead of falling back to opening ``source``.  See
-+     fs/erofs/super.c:erofs_fc_get_tree() for reference, and
-+     init/do_mounts.c:mount_root_image() for the in-kernel caller.
++	rootimagesrcdir= [KNL] Directory (absolute path) inside the root
++			image where the mount of the carrier filesystem
++			holding the image (i.e. the filesystem specified by
++			root=) is moved to.  Mandatory when rootimage= is
++			used, since image-based systems almost always need
++			continued access to the carrier for their writable
++			state, and there would otherwise be no way to reach
++			it again once switch_root has happened.  Pass
++			rootimagesrcdir=none instead to explicitly detach the
++			carrier mount, accepting that it becomes unreachable
++			(though still pinned alive by the image mount) after
++			boot.
 +
-    * ::
- 
-        char *subtype
-diff --git a/fs/fs_context.c b/fs/fs_context.c
-index 23ad66cd94e1..ab853147b87b 100644
---- a/fs/fs_context.c
-+++ b/fs/fs_context.c
-@@ -85,7 +85,7 @@ int vfs_parse_fs_param_source(struct fs_context *fc, struct fs_parameter *param)
- 	if (param->type != fs_value_is_string)
- 		return invalf(fc, "Non-string source");
- 
--	if (fc->source)
-+	if (fc->source || fc->source_file)
- 		return invalf(fc, "Multiple sources");
- 
- 	fc->source = param->string;
-@@ -94,6 +94,36 @@ int vfs_parse_fs_param_source(struct fs_context *fc, struct fs_parameter *param)
- }
- EXPORT_SYMBOL(vfs_parse_fs_param_source);
- 
-+/**
-+ * vfs_parse_fs_param_file - Set an already-open file as the mount source
-+ * @fc: The filesystem context to modify
-+ * @key: Parameter name; only "source" is currently supported
-+ * @file: The file to use as the mount source
-+ *
-+ * In-kernel callers (see path_mount_file()) can use this to hand a
-+ * filesystem an already-opened struct file as its source, instead of a
-+ * path string for the filesystem to resolve on its own.  A reference is
-+ * taken; it is released when @fc is freed.
-+ *
-+ * This deliberately has no fsconfig(FSCONFIG_SET_FD) counterpart: it is
-+ * not reachable from userspace, so no filesystem needs to opt in to
-+ * receive it and existing ->parse_param() implementations are unaffected.
-+ * Filesystems that want to use the file directly (rather than silently
-+ * ignoring it and falling back to re-resolving fc->source, which is not
-+ * set in this case) check fc->source_file from their ->get_tree().
-+ */
-+int vfs_parse_fs_param_file(struct fs_context *fc, const char *key,
-+			    struct file *file)
-+{
-+	if (strcmp(key, "source"))
-+		return -EINVAL;
-+	if (fc->source || fc->source_file)
-+		return invalf(fc, "Multiple sources");
-+	fc->source_file = get_file(file);
-+	return 0;
-+}
-+EXPORT_SYMBOL(vfs_parse_fs_param_file);
-+
- /**
-  * vfs_parse_fs_param - Add a single parameter to a superblock config
-  * @fc: The filesystem context to modify
-@@ -376,6 +406,7 @@ struct fs_context *vfs_dup_fs_context(struct fs_context *src_fc)
- 	fc->fs_private	= NULL;
- 	fc->s_fs_info	= NULL;
- 	fc->source	= NULL;
-+	fc->source_file	= NULL;
- 	fc->security	= NULL;
- 	get_filesystem(fc->fs_type);
- 	get_net(fc->net_ns);
-@@ -504,6 +535,8 @@ void put_fs_context(struct fs_context *fc)
- 	put_fc_log(fc);
- 	put_filesystem(fc->fs_type);
- 	kfree(fc->source);
-+	if (fc->source_file)
-+		fput(fc->source_file);
- 	kfree(fc);
- }
- EXPORT_SYMBOL(put_fs_context);
-@@ -543,6 +576,10 @@ void vfs_clean_context(struct fs_context *fc)
- 	security_free_mnt_opts(&fc->security);
- 	kfree(fc->source);
- 	fc->source = NULL;
-+	if (fc->source_file) {
-+		fput(fc->source_file);
-+		fc->source_file = NULL;
-+	}
- 	fc->exclusive = false;
- 
- 	fc->purpose = FS_CONTEXT_FOR_RECONFIGURE;
-diff --git a/fs/init.c b/fs/init.c
-index 33e312d74f58..d896d937e3e2 100644
---- a/fs/init.c
-+++ b/fs/init.c
-@@ -44,6 +44,24 @@ int __init init_mount(const char *dev_name, const char *dir_name,
- 	return ret;
- }
+ 	rootwait	[KNL] Wait (indefinitely) for root device to show up.
+ 			Useful for devices that are detected asynchronously
+ 			(e.g. USB and MMC devices).
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 55ed3ac0b70f..316421d8b65b 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -122,13 +122,52 @@ __setup("rootflags=", root_data_setup);
+ __setup("rootfstype=", fs_names_setup);
+ __setup("rootdelay=", root_delay_setup);
  
 +/*
-+ * Like init_mount(), but the source is an already-open file rather than a
-+ * path for the filesystem to resolve on its own; see path_mount_file().
++ * rootimage= mounts the actual root filesystem from an image file located
++ * on the filesystem specified by root= (the "carrier") instead of using
++ * that filesystem as the root directly, so that image-based systems can
++ * boot without an initramfs.  See mount_root_image().
 + */
-+int __init init_mount_file(struct file *file, const char *dir_name,
-+		const char *type_page, unsigned long flags, void *data_page)
++static char * __initdata root_image;
++static int __init root_image_setup(char *str)
 +{
-+	struct path path;
++	root_image = str;
++	return 1;
++}
++
++static char * __initdata root_image_fs_names;
++static int __init root_image_fs_names_setup(char *str)
++{
++	root_image_fs_names = str;
++	return 1;
++}
++
++static char * __initdata root_image_mount_data;
++static int __init root_image_data_setup(char *str)
++{
++	root_image_mount_data = str;
++	return 1;
++}
++
++static char * __initdata root_image_srcdir;
++static int __init root_image_srcdir_setup(char *str)
++{
++	root_image_srcdir = str;
++	return 1;
++}
++
++__setup("rootimage=", root_image_setup);
++__setup("rootimagefstype=", root_image_fs_names_setup);
++__setup("rootimageflags=", root_image_data_setup);
++__setup("rootimagesrcdir=", root_image_srcdir_setup);
++
+ /* This can return zero length strings. Caller should check */
+-static int __init split_fs_names(char *page, size_t size)
++static int __init split_fs_names(char *page, size_t size, const char *names)
+ {
+ 	int count = 1;
+ 	char *p = page;
+ 
+-	strscpy(p, root_fs_names, size);
++	strscpy(p, names, size);
+ 	while (*p++) {
+ 		if (p[-1] == ',') {
+ 			p[-1] = '\0';
+@@ -186,7 +225,7 @@ void __init mount_root_generic(char *name, char *pretty_name, int flags)
+ 	scnprintf(b, BDEVNAME_SIZE, "unknown-block(%u,%u)",
+ 		  MAJOR(ROOT_DEV), MINOR(ROOT_DEV));
+ 	if (root_fs_names)
+-		num_fs = split_fs_names(fs_names, PAGE_SIZE);
++		num_fs = split_fs_names(fs_names, PAGE_SIZE, root_fs_names);
+ 	else
+ 		num_fs = list_bdev_fs_names(fs_names, PAGE_SIZE);
+ retry:
+@@ -244,7 +283,144 @@ void __init mount_root_generic(char *name, char *pretty_name, int flags)
+ out:
+ 	put_page(page);
+ }
+- 
++
++/*
++ * Like do_mount_root(), but the source is the already-open @file rather
++ * than a device/path name for the filesystem to resolve on its own; see
++ * mount_root_image().  Unlike do_mount_root(), ROOT_DEV is left alone:
++ * it identifies the carrier (the boot device), which remains meaningful,
++ * while a file-backed root image typically has no device of its own.
++ */
++static int __init do_mount_root_file(struct file *file, const char *dir,
++				     const char *fs, const int flags,
++				     const void *data)
++{
++	struct super_block *s;
++	struct page *p = NULL;
++	char *data_page = NULL;
 +	int ret;
 +
-+	ret = kern_path(dir_name, LOOKUP_FOLLOW, &path);
++	if (data) {
++		p = alloc_page(GFP_KERNEL);
++		if (!p)
++			return -ENOMEM;
++		data_page = page_address(p);
++		strscpy_pad(data_page, data, PAGE_SIZE);
++	}
++
++	ret = init_mount_file(file, dir, fs, flags, data_page);
 +	if (ret)
-+		return ret;
-+	ret = path_mount_file(file, &path, type_page, flags, data_page);
-+	path_put(&path);
++		goto out;
++
++	init_chdir(dir);
++	s = current->fs->pwd.dentry->d_sb;
++	printk(KERN_INFO "VFS: Mounted root image (%s filesystem)%s.\n",
++	       s->s_type->name, sb_rdonly(s) ? " readonly" : "");
++
++out:
++	if (p)
++		put_page(p);
 +	return ret;
 +}
 +
- int __init init_umount(const char *name, int flags)
- {
- 	int lookup_flags = LOOKUP_MOUNTPOINT;
-diff --git a/fs/internal.h b/fs/internal.h
-index d77578d66d42..04fb75383024 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -91,6 +91,8 @@ extern bool may_mount(void);
- 
- int path_mount(const char *dev_name, const struct path *path,
- 		const char *type_page, unsigned long flags, void *data_page);
-+int path_mount_file(struct file *file, const struct path *path,
-+		const char *type_page, unsigned long flags, void *data_page);
- int path_umount(const struct path *path, int flags);
- int path_pivot_root(struct path *new, struct path *old);
- 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index fe919abd2f01..31bf263d1efc 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -3783,10 +3783,14 @@ static int do_new_mount_fc(struct fs_context *fc, const struct path *mountpoint,
- /*
-  * create a new mount for userspace and request it to be added into the
-  * namespace's tree
++/*
++ * Mount the actual root filesystem from the image file rootimage= on the
++ * filesystem that was just mounted from root= (the "carrier"), so that
++ * image-based systems can boot without an initramfs.
 + *
-+ * @name is the source given as a path string, as usual; @file is an
-+ * alternative, already-open source (see path_mount_file()).  At most one
-+ * of the two is ever set by callers.
-  */
--static int do_new_mount(const struct path *path, const char *fstype,
--			int sb_flags, int mnt_flags,
--			const char *name, void *data)
-+static int do_new_mount_2(const struct path *path, const char *fstype,
-+			  int sb_flags, int mnt_flags,
-+			  const char *name, struct file *file, void *data)
- {
- 	struct file_system_type *type;
- 	struct fs_context *fc;
-@@ -3826,6 +3830,8 @@ static int do_new_mount(const struct path *path, const char *fstype,
- 		err = vfs_parse_fs_string(fc, "subtype", subtype);
- 	if (!err && name)
- 		err = vfs_parse_fs_string(fc, "source", name);
-+	if (!err && file)
-+		err = vfs_parse_fs_param_file(fc, "source", file);
- 	if (!err)
- 		err = parse_monolithic_mount_data(fc, data);
- 	if (!err && !mount_capable(fc))
-@@ -3837,6 +3843,14 @@ static int do_new_mount(const struct path *path, const char *fstype,
- 	return err;
- }
- 
-+static int do_new_mount(const struct path *path, const char *fstype,
-+			int sb_flags, int mnt_flags,
-+			const char *name, void *data)
-+{
-+	return do_new_mount_2(path, fstype, sb_flags, mnt_flags, name, NULL,
-+			      data);
-+}
-+
- static void lock_mount_exact(const struct path *path,
- 			     struct pinned_mountpoint *mp, bool copy_mount,
- 			     unsigned int copy_flags)
-@@ -4155,6 +4169,82 @@ int path_mount(const char *dev_name, const struct path *path,
- 			    data_page);
- }
- 
-+/**
-+ * path_mount_file - Mount a new filesystem sourced from an already-open file
-+ * @file: The already-open source file
-+ * @path: The mountpoint
-+ * @type_page: Filesystem type
-+ * @flags: MS_* flags
-+ * @data_page: Filesystem-specific mount data
++ * Called with the carrier mounted at /root and the cwd there.  The image
++ * file is opened exactly once, and that same struct file is what actually
++ * gets mounted via do_mount_root_file(), rather than a path that the
++ * filesystem driver would then have to resolve again on its own with no
++ * guarantee of landing on the same thing.
 + *
-+ * Like path_mount(), except the source is an already-open struct file
-+ * rather than a path for the filesystem to look up on its own.  This is
-+ * only usable for a plain new mount: bind/move/remount/propagation-change
-+ * requests, which path_mount() distinguishes by inspecting @dev_name, make
-+ * no sense for an anonymous open file and are rejected.
-+ *
-+ * @file is not consumed; the fs_context takes its own reference (see
-+ * vfs_parse_fs_param_file()).
-+ *
-+ * This has no io_uring/syscall-visible counterpart: it exists so that
-+ * in-kernel mounters (see init_mount_file()) can hand a filesystem the
-+ * exact file they resolved and validated, instead of a path that the
-+ * filesystem then re-resolves independently, which is the only way to
-+ * guarantee the two refer to the same thing.
++ * On success the cwd is the image's root, ready for the pivot in
++ * prepare_namespace().  rootimagesrcdir= is mandatory: the carrier is
++ * moved there inside the image, since image-based systems almost always
++ * need continued access to it for their writable state, and silently
++ * leaving it detached-but-pinned by default made it too easy to end up
++ * with a carrier mount that's alive but unreachable from the new
++ * namespace.  rootimagesrcdir=none opts into that explicitly instead.
 + */
-+int path_mount_file(struct file *file, const struct path *path,
-+		    const char *type_page, unsigned long flags,
-+		    void *data_page)
++static void __init mount_root_image(void)
 +{
-+	unsigned int mnt_flags = 0, sb_flags;
++	unsigned long flags = MS_RDONLY | MS_SILENT;
++	char *path, *fs_names, *p;
++	struct file *file;
++	int num_fs, i, err;
 +
-+	if ((flags & MS_MGC_MSK) == MS_MGC_VAL)
-+		flags &= ~MS_MGC_MSK;
++	if (root_image[0] != '/')
++		panic("VFS: rootimage= must be an absolute path");
++	if (!root_image_srcdir)
++		panic("VFS: rootimage= requires rootimagesrcdir= (use rootimagesrcdir=none to detach the carrier instead, making it unreachable after boot)");
++	if (strcmp(root_image_srcdir, "none") && root_image_srcdir[0] != '/')
++		panic("VFS: rootimagesrcdir= must be an absolute path or \"none\"");
 +
-+	if (data_page)
-+		((char *)data_page)[PAGE_SIZE - 1] = 0;
++	path = kmalloc(PATH_MAX, GFP_KERNEL);
++	fs_names = kmalloc(PAGE_SIZE, GFP_KERNEL);
++	if (!path || !fs_names)
++		panic("VFS: unable to mount root image: not enough memory");
 +
-+	if (flags & (MS_NOUSER | MS_REMOUNT | MS_BIND | MS_MOVE |
-+		     MS_SHARED | MS_PRIVATE | MS_SLAVE | MS_UNBINDABLE))
-+		return -EINVAL;
++	if (snprintf(path, PATH_MAX, "/root%s", root_image) >= PATH_MAX)
++		panic("VFS: rootimage= path too long");
 +
-+	if (!may_mount())
-+		return -EPERM;
-+	if (flags & SB_MANDLOCK)
-+		warn_mandlock();
++	file = filp_open(path, O_RDONLY | O_LARGEFILE, 0);
++	if (IS_ERR(file))
++		panic("VFS: unable to open root image %s: error %ld",
++		      root_image, PTR_ERR(file));
 +
-+	if (!(flags & MS_NOATIME))
-+		mnt_flags |= MNT_RELATIME;
-+	if (flags & MS_NOSUID)
-+		mnt_flags |= MNT_NOSUID;
-+	if (flags & MS_NODEV)
-+		mnt_flags |= MNT_NODEV;
-+	if (flags & MS_NOEXEC)
-+		mnt_flags |= MNT_NOEXEC;
-+	if (flags & MS_NOATIME)
-+		mnt_flags |= MNT_NOATIME;
-+	if (flags & MS_NODIRATIME)
-+		mnt_flags |= MNT_NODIRATIME;
-+	if (flags & MS_STRICTATIME)
-+		mnt_flags &= ~(MNT_RELATIME | MNT_NOATIME);
-+	if (flags & MS_RDONLY)
-+		mnt_flags |= MNT_READONLY;
-+	if (flags & MS_NOSYMFOLLOW)
-+		mnt_flags |= MNT_NOSYMFOLLOW;
++	err = init_mkdir("/image", 0700);
++	if (err < 0 && err != -EEXIST)
++		panic("VFS: unable to create /image: error %d", err);
 +
-+	sb_flags = flags & (SB_RDONLY |
-+			    SB_SYNCHRONOUS |
-+			    SB_MANDLOCK |
-+			    SB_DIRSYNC |
-+			    SB_SILENT |
-+			    SB_POSIXACL |
-+			    SB_LAZYTIME |
-+			    SB_I_VERSION);
++	if (root_image_fs_names)
++		num_fs = split_fs_names(fs_names, PAGE_SIZE,
++					root_image_fs_names);
++	else
++		num_fs = list_bdev_fs_names(fs_names, PAGE_SIZE);
 +
-+	return do_new_mount_2(path, type_page, sb_flags, mnt_flags, NULL,
-+			     file, data_page);
++	for (i = 0, p = fs_names; i < num_fs; i++, p += strlen(p) + 1) {
++		if (!*p)
++			continue;
++		err = do_mount_root_file(file, "/image", p, flags,
++					root_image_mount_data);
++		switch (err) {
++		case 0:
++			goto mounted;
++		case -EACCES:
++		case -EINVAL:
++		case -ENOTBLK:
++			continue;
++		}
++		panic("VFS: unable to mount root image %s: error %d",
++		      root_image, err);
++	}
++	panic("VFS: no filesystem could mount root image %s", root_image);
++
++mounted:
++	/*
++	 * do_mount_root_file() took its own reference to the file (see
++	 * vfs_parse_fs_param_file()); this reference was only needed to
++	 * open it in the first place.
++	 */
++	fput(file);
++
++	if (!strcmp(root_image_srcdir, "none")) {
++		init_umount("/root", MNT_DETACH);
++	} else {
++		if (snprintf(path, PATH_MAX, "/image%s", root_image_srcdir) >=
++		    PATH_MAX)
++			panic("VFS: rootimagesrcdir= path too long");
++		err = init_mount("/root", path, NULL, MS_MOVE, NULL);
++		if (err)
++			panic("VFS: failed to move the root image's carrier filesystem to %s: error %d",
++			      root_image_srcdir, err);
++	}
++
++	kfree(path);
++	kfree(fs_names);
 +}
 +
- int do_mount(const char *dev_name, const char __user *dir_name,
- 		const char *type_page, unsigned long flags, void *data_page)
- {
-diff --git a/include/linux/fs_context.h b/include/linux/fs_context.h
-index 0d6c8a6d7be2..b35d7583f0bd 100644
---- a/include/linux/fs_context.h
-+++ b/include/linux/fs_context.h
-@@ -16,6 +16,7 @@
+ #ifdef CONFIG_ROOT_NFS
  
- struct cred;
- struct dentry;
-+struct file;
- struct file_operations;
- struct file_system_type;
- struct mnt_namespace;
-@@ -99,6 +100,7 @@ struct fs_context {
- 	const struct cred	*cred;		/* The mounter's credentials */
- 	struct p_log		log;		/* Logging buffer */
- 	const char		*source;	/* The source name (eg. dev path) */
-+	struct file		*source_file;	/* Already-open source file, in-kernel only */
- 	void			*security;	/* LSM options */
- 	void			*s_fs_info;	/* Proposed s_fs_info */
- 	unsigned int		sb_flags;	/* Proposed superblock flags (SB_*) */
-@@ -148,6 +150,8 @@ extern int vfs_get_tree(struct fs_context *fc);
- extern void put_fs_context(struct fs_context *fc);
- extern int vfs_parse_fs_param_source(struct fs_context *fc,
- 				     struct fs_parameter *param);
-+int vfs_parse_fs_param_file(struct fs_context *fc, const char *key,
-+			    struct file *file);
- extern void fc_drop_locked(struct fs_context *fc);
+ #define NFSROOT_TIMEOUT_MIN	5
+@@ -346,7 +522,7 @@ static int __init mount_nodev_root(char *root_device_name)
+ 	fs_names = (void *)__get_free_page(GFP_KERNEL);
+ 	if (!fs_names)
+ 		return -EINVAL;
+-	num_fs = split_fs_names(fs_names, PAGE_SIZE);
++	num_fs = split_fs_names(fs_names, PAGE_SIZE, root_fs_names);
  
- extern int get_tree_nodev(struct fs_context *fc,
-diff --git a/include/linux/init_syscalls.h b/include/linux/init_syscalls.h
-index 28776ee28d8e..ac937cdb9d46 100644
---- a/include/linux/init_syscalls.h
-+++ b/include/linux/init_syscalls.h
-@@ -2,6 +2,8 @@
+ 	for (i = 0, fstype = fs_names; i < num_fs;
+ 	     i++, fstype += strlen(fstype) + 1) {
+@@ -482,6 +658,8 @@ void __init prepare_namespace(void)
+ 	if (root_wait)
+ 		wait_for_root(saved_root_name);
+ 	mount_root(saved_root_name);
++	if (root_image)
++		mount_root_image();
+ 	devtmpfs_mount();
  
- int __init init_mount(const char *dev_name, const char *dir_name,
- 		const char *type_page, unsigned long flags, void *data_page);
-+int __init init_mount_file(struct file *file, const char *dir_name,
-+		const char *type_page, unsigned long flags, void *data_page);
- int __init init_umount(const char *name, int flags);
- int __init init_chdir(const char *filename);
- int __init init_chroot(const char *filename);
+ 	if (init_pivot_root(".", ".")) {
 -- 
 2.43.0
 
