@@ -1,155 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDE13BED59
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785124492; cv=none; b=VOR0Cus717oEWJchGTs9+EPJgRo7srtYkQrU7qo08/9xWMSi/dyKbc+AnD0+O9JaJYbBdfXoVBiyKJCpjDSSJv8B6270YmCyZT9Fyplec4WGnhGGGhchMF166lYrkGDTTmi3b/Blyqw9dSxqOFB0vXiX6NogMYcddSS9uXVIlbQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785124492; c=relaxed/simple;
-	bh=lMyOlwFH9ojHCoaUqhlCOyDhZe4zgJ37rWVmIxNhIAw=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7773BE163
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 06:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785132542; cv=pass; b=NYlErLu5b71klTYiSREHtu9n8VTIldYG7XQ9kJPsQ6LS+fjUXoWvchUOL6lmZlESBRevycoDVSkJfFflyHhJ/NE6rHOEFQLxJrjdgDT4WahqIMnG8y0IXfcPIodiBzifUY1uELjHNjoAArTQop5haCCqOSApLnxhGaHq8Bqu4Os=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785132542; c=relaxed/simple;
+	bh=pSaFdYPslW9TXDI/GglMlpgcyBINY3r3x7qU2DHxqQ8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eyFUmqIK4kNfK3MCLXpy7IG4Pe/SlQz5HR2J1yctyK405CI2E6NcGZ3GbbsjcUzRKX4AMRJ1b+Asx9VSlRroo0YSQPySkT3ZC8QHyKCK+poR/8dJ3XhvgBpHeKqYlBy609NhFMQzKjP+EKkdfK5AncWyQ7Eb1i4LTQQMybPl0/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKN9vZLq; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=gtHvJ9QD82WxVIJ8O2WFwl1HKB+KA+XOCmLs5Y4mMxU+Tl/nL+12z1/FlsDzsBal/9X4vb8+HH8ZppYVs7IISvC4GAlhR65O9uMRaIMKkdDg2W2w2IbKu7dDmu34mRSn+fNOArLV7sYw0VdSugmeMIgQkQT/UdHUkjwIH9HeKio=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uuL42oOA; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKN9vZLq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A2B21F000E9
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 03:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785124491;
-	bh=TDt6XRhHBziQBa/u0iomOboiTDHrthJqxaelhr7ao5s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=YKN9vZLqnJJ7q87b9lUHfv/i4EC5YT4QIWKDJZTDDJz8evKyrlumbgRx7KDCP+u8q
-	 BkCsNa6ssFLofdZ0GWRxItd2Z1HiRo1NY9p6+yND2psKpnQHKtmf9dwZBbKlztxHst
-	 GA6m+/I3budEwzeov88L4yob4bpcyqnT1/Yo/qCAQqZE2zXC6qksOtpppeZ43JShRw
-	 /uBu0XI/OadQ9QhBPsT4L3YRehwzspndzDgNOq3G0cy1zcof6IDM4v6hhoIEto7J8s
-	 5oeznMGda5AtsCwvY1QMVEh0gSszSCN4ht7qlZC5xJ14/N9A0d+9tyscDCckVq5VIi
-	 uBlgTKobUdheQ==
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-930f4e5eed1so147087685a.2
-        for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 20:54:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoZ6cu7dL3F77Ust1sckcfB4h2jbuYK6bwlBYe+oeh0hEtjSH9etl6t/FsvEKbHpGCL8KK3Yii1yFw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVFizYVHQJYfwXuPLS8niz4BHwxjtX3aUouUrayrw0tw82NbHr
-	i7j/0+Vp5KJEKsJDeehaRlnJIjuIgHcabVFFHYbSYUd7ntoO2SQuDDwkpWD64k814vNoqrEFE5Y
-	ZIe04pd/zg4OtJKfW52tKZL8FQau9Rko=
-X-Received: by 2002:a05:620a:2546:b0:931:403:2442 with SMTP id
- af79cd13be357-932df6576a9mr732957685a.18.1785124490445; Sun, 26 Jul 2026
- 20:54:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uuL42oOA"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51c10ed63c0so256081cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jul 2026 23:09:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785132540; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QohrGZsGc6Ps3GXiW0CwAd9138Q6JBF82Q++J3/X7mDc9rjDom/2R+XzFn86NnwcYw
+         GMgcFxvp82cT8zlq53uQ2CgKzXB1caF+LtjwwRHHIRbBs1i8+7mqvvMWPtq0VeBZ3eB6
+         w9qZSPrsJtgfsGESazl3ESNZOJNt4h4gWJBTvrp/nf9MK+Pii4hF/t1XPQ9msT7IvYHy
+         hoNTZ2jo/ETnZHSzEKgCG6MdV5wBdqDMh6jtHg4Up6i7xsC+TiwJldEb2NSsHKirbyte
+         JzaDEgw6Pxj380ombmU3nuZBakEEvC2qQlQbzO4OWv6KFgDmyJrY7ezRU0l/dcEf6di6
+         YuWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yxVSCipOskyRe1PObcvYAS0NZq/LZ8N7sOc0WiapXEY=;
+        fh=flwMXjiFQzoSJAC2903J4hWa5eCES7HPgl87GPWDttA=;
+        b=SozC4uwU/QONdDjNIzy5Q7nMgmhbqDS8ATINTtH5lMG3DQzhngYqL7/28ZXHCgD93W
+         87UZl8A9iB7hGIJ9yB6UQB+OzQ0PMoQoDpjiSkTL0ab9GIJ0FHkZM3SMHgHcAkfwx4ey
+         MItwClF0C6+nRIBIdfkZIfqG7r+IPeepa1AB3Rn8NO1e8hrlxAA6nQalHj960mS1/fiP
+         AZPZ2dpyoYpTPj5ae1cBsTJas7V4Y/Sv0OsDvzEqpQIQb1iEcvIZYL5xwi5gdIPopX9G
+         aJgjaM/vhiEHdWySFzxZLwP5TQCDR7AlHxhnLTMrspyxxRWL3qYvWxcooTGX8cYpYN5w
+         gySw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785132540; x=1785737340; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yxVSCipOskyRe1PObcvYAS0NZq/LZ8N7sOc0WiapXEY=;
+        b=uuL42oOAOcUZ8XSqvlVV1pjY8gNpJDbgjNcne569xl8suFK8D7WaKLV6pfXeyXms/R
+         04oG9v0mWFp1LvHm8x+MqBlu2qnDlNEYmTegnOvWXA2JgDp8p4QFrL/KjQC3tiHDsXDn
+         LJe/TMX/LBf+v26/T2V/NC7ECdNXWY3mgZd1tQik1OoI5zXhr2lcKVHjlgUj3Usr5itY
+         dOWb+IraNQnxffGoXLqtVtpqpHnbW5ToY82yf8flTpzcXdGuVIgcrKsw4NQ37yUuC1o1
+         plnLA9/fAcX+2MmC0YqDZ9upW6DNYppeMnl/WkhXI9RMzjWupLXsRzAAdY9HIBZxnb76
+         QFow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785132540; x=1785737340;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yxVSCipOskyRe1PObcvYAS0NZq/LZ8N7sOc0WiapXEY=;
+        b=StjG+Brf6uEngccK6QTZuO/0dX+qfC6EbQdL/O9XwlQuOoc+mrRcOScxekgKCN2acK
+         I7nFBbhZaRVHxhOrmrig1CvPQOILmQI4EqADkVzob7tmVnxmVInnivM/m5AAxuYdtgAB
+         +/+zNwicL6VwISg2z8gOV/VlbCBGmndkmPm8P8/niwXdWDyNRFx5oa88q4RsW4aZTKcX
+         iXqe0SU51GV7C9hzPEWTZ4srv80AdUMt0YI5wrAnGr+trB2VXlkhwQVWTyjMumliLA/g
+         R1BgSYplmaeZvFxJ8UsDyoRwlHG/OMBDHfspLPLgyyCGPBWofAuKUuVHeZB6J3c46COm
+         7Iuw==
+X-Forwarded-Encrypted: i=1; AHgh+RpkEsdya7epQF1YI8ZDCSWtJbjRYYnyRVZqpsSgO+iy3+lSx19eQZ0Vpmpv11x9FAbjxqjCYfamO6Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLR6vOmq+/UDePNBVCpYjtFYQyYYFmDa9CRLqGWJS1RCD6W6vI
+	8QVgCk+0tA9rj6p4k5U2AjPQviYOJdKiEotnpjDICmIJdnKFn1PNk5RPJxagTuLGRFfHo/qCA5k
+	U2VXzgv7DR/3LTW5UD5VKAO8LOktHd+GJAWwS8Omt
+X-Gm-Gg: AR+sD10WwEMBzwupwzvJJeGX22e+v/gOykSxGjh6DQle3lHvvUsJC7j5jtnQPi31I9t
+	GZw63xSvSryVemPl1BdFmcJiYiW4VqsdRKz70rKm6Gw4SXmg+d/eRWkVvU60rPmnRbjT80anHjC
+	1cDrJcsG3Kc0a5YRs0ve83ph9WmC8lrvKr/QhzcaDhVNw9/wJl+np0V1FD30TXRJtqO/tp6w0+2
+	nRDLEbIBqiv07mvOONQTieWQ0UCfI2dNL0zm+DQNnuxvnxaLDGvuR4bnwB7
+X-Received: by 2002:a05:622a:a9cf:20b0:517:5ac7:332e with SMTP id
+ d75a77b69052e-529a5e705b1mr27233471cf.6.1785132539200; Sun, 26 Jul 2026
+ 23:08:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260714121529.2237261-1-wangzicheng@honor.com>
-In-Reply-To: <20260714121529.2237261-1-wangzicheng@honor.com>
-From: Barry Song <baohua@kernel.org>
-Date: Mon, 27 Jul 2026 11:54:38 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4xt6FhvRgmPyoSKdfHd12V+miOZe6SSkg7GGW6TzJFbdg@mail.gmail.com>
-X-Gm-Features: AUfX_mxeJtLVdMRlseYd3JXsOkBoHM_0YgC_24_IrWAn_07tj9FPGYqXiGkmRio
-Message-ID: <CAGsJ_4xt6FhvRgmPyoSKdfHd12V+miOZe6SSkg7GGW6TzJFbdg@mail.gmail.com>
-Subject: Re: [RFC v2 0/3] mm/mglru: proactive aging via memory.aging
-To: Zicheng Wang <wangzicheng@honor.com>
-Cc: akpm@linux-foundation.org, yuanchu@google.com, tj@kernel.org, 
-	hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net, kasong@tencent.com, 
-	qi.zheng@linux.dev, shakeel.butt@linux.dev, axelrasmussen@google.com, 
-	weixugc@google.com, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	roman.gushchin@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	willy@infradead.org, denghaojie@honor.com, baoquan.he@linux.dev, 
-	kaleshsingh@google.com, tjmercier@google.com, tao.wangtao@honor.com, 
-	zhangji1@honor.com, wangzhen5@honor.com
+References: <20260723125025.457841-1-cui.tao@linux.dev>
+In-Reply-To: <20260723125025.457841-1-cui.tao@linux.dev>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 26 Jul 2026 23:08:48 -0700
+X-Gm-Features: AUfX_mywGH3Soeu4QbD274VLCGhnwicLJWcTZwPt6Xymt1t9mYSko4sZyO5tjkM
+Message-ID: <CAJuCfpGhijcg1N2AxbRbTHf7FvtaTG_xYL1fPVUA=k7snPYtzA@mail.gmail.com>
+Subject: Re: [PATCH] docs: accounting/psi: drop stale 500ms window minimum
+ from trigger docs
+To: Tao Cui <cui.tao@linux.dev>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, linux-doc@vger.kernel.org, 
+	Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Tao Cui <cuitao@kylinos.cn>, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14, 2026 at 8:15=E2=80=AFPM Zicheng Wang <wangzicheng@honor.com=
-> wrote:
+On Thu, Jul 23, 2026 at 5:51=E2=80=AFAM Tao Cui <cui.tao@linux.dev> wrote:
 >
-> MGLRU inverts the reclaim order when anonymous memory is faulted in
-> bulk: anonymous pages sit in the young generations while file pages
-> sit in the oldest two, so reclaim evicts hot file pages before cold
-> anonymous pages.  swappiness cannot correct it.  This series adds a
-> per-cgroup proactive-aging operation, memory.aging, with the
-> observability to drive it as a closed loop, so userspace can rebalance
-> a cgroup's generations before reclaim runs.
+> From: Tao Cui <cuitao@kylinos.cn>
 >
-> The problem
-> -----------
+> psi.rst says trigger windows range "from 500ms to 10s" with a 50ms min
+> polling interval. That minimum was removed in commit 519fabc7aaba ("psi:
+> remove 500ms min window size limitation for triggers"): the polling-rate
+> protection moved to gating trigger creation behind CAP_SYS_RESOURCE,
+> which also stopped capping psi event latency.
 >
-> MGLRU places pages by access path, not hotness.  On the current tree
-> the entry rules in lru_gen_folio_seq() give:
+> Update the wording accordingly: windows up to 10s with no enforced
+> minimum; trigger creation requires CAP_SYS_RESOURCE on cgroup pressure
+> files, while unprivileged users on /proc/pressure/ are limited to 2s
+> multiples.
 >
->   - faulted-in pages (anonymous pages; the fault path sets the active
->     mark) land at the 2nd youngest generation (max_seq - 1);
->   - file pages from read()/fadvise() land in the oldest two
->     generations: non-workingset at min_seq, workingset at min_seq + 1.
+> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+> ---
+>  Documentation/accounting/psi.rst | 17 ++++++++---------
+>  1 file changed, 8 insertions(+), 9 deletions(-)
 >
-> Pictorially, for a full four-generation window::
+> diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/=
+psi.rst
+> index d455db3e5808..aae57fb5f15c 100644
+> --- a/Documentation/accounting/psi.rst
+> +++ b/Documentation/accounting/psi.rst
+> @@ -99,15 +99,14 @@ psi metric and deactivates upon exit from the stall s=
+tate. While system is
+>  in the stall state psi signal growth is monitored at a rate of 10 times =
+per
+>  tracking window.
 >
->        youngest                          oldest
->        max_seq   max_seq-1   min_seq+1   min_seq
->        -------------------------------------------
->  anon    .          X           .           .     (faulted in)
->  file    .          .           X           X     (read/fadvise)
->                                             ^
->                               reclaim scans from here -> evicts file firs=
-t
->
-> Reclaim scans from min_seq, so file pages are evicted before the
-> anonymous pages two generations younger, a hot/cold inversion.
->
-> swappiness does not fix it: it only selects which type to scan, not
-> the ordering within a type, so reclaim can still evict hot pages.
-> swappiness=3D201 (SWAPPINESS_ANON_ONLY) just flips the inversion to the
-> other side: no value recovers a correct hot/cold order, because the
-> order comes from the access path, not access recency [1].  This is not
-> Android-specific; the same file over-reclaim is shown on servers and
-> worked around there by forcing an age iteration before reclaim.
->
-> Why userspace-driven
-> --------------------
->
-> The benefit is workload-dependent: file-cache-bound servers gain from
-> aging, anon-bound servers do not, so no kernel default is correct for
-> all.  The kernel also cannot know when to age: on Android the right
-> moment is the foreground-to-background transition, when the app's pages
-> are cold but their PTE accessed bits are still accurate from foreground
-> execution, a framework concept.  The kernel therefore provides the
-> mechanism; userspace runs the loop.
->
+> -The kernel accepts window sizes ranging from 500ms to 10s, therefore min
+> -monitoring update interval is 50ms and max is 1s. Min limit is set to
+> -prevent overly frequent polling. Max limit is chosen as a high enough nu=
+mber
+> -after which monitors are most likely not needed and psi averages can be =
+used
+> -instead.
+> -
+> -Unprivileged users can also create monitors, with the only limitation th=
+at the
+> -window size must be a multiple of 2s, in order to prevent excessive reso=
+urce
+> -usage.
+> +The kernel accepts window sizes up to 10s. The 10s maximum is chosen as =
+a
+> +high enough number after which monitors are most likely not needed and p=
+si
+> +averages can be used instead.
+> +
+> +To prevent excessive resource usage, trigger creation is restricted to
+> +privileged users (CAP_SYS_RESOURCE) on cgroup pressure files; on the
+> +system-wide /proc/pressure/ files unprivileged users can create monitors
+> +as well, limited to window sizes that are a multiple of 2s.
 
-Hi Zicheng,
+Hmm. From this wording it sounds like we have different trigger
+creation rules for system-wide vs cgroup pressure files, which I think
+is not true. AFAICT, for both types, we restrict unprivileged users to
+creating triggers with 2s window size multiples.
 
-The problem is that when an app transitions from the foreground to
-the background, it becomes inactive. As a result, you clear the PTE
-young bits accumulated while it was in the foreground.
-
-We basically need at least two rounds of scanning to determine
-whether a folio is hot or cold. With only one round, many folios
-that are actually cold will still appear hot because their PTE
-young bits remain set. Nobody clears them while the app is
-running in the foreground.
-
-So I'm really curious whether aging should be performed while the
-app is running in the foreground, rather than after it has switched
-to the background. If this significantly improves the distinction
-between hot and cold folios, allowing reclamation after the app
-moves to the background to reclaim genuinely cold folios, then it
-would provide a much stronger argument for an aging interface that
-only sorts folios in the LRU without reclaiming them.
-I have a feeling we may really need an aging interface that sorts
-folios without reclaiming them. We can then use the sorted LRU to
-reclaim cold folios whenever reclamation is needed.
-But your use cases don't convince me :-)
-
-If the goal is to work around MGLRU's swappiness behavior, we should
-fix the swappiness implementation itself rather than introduce an
-aging interface as a workaround. If the concern is swappiness=3D201,
-I believe swappiness=3D200 will be a good choice once my swappiness
-fixes are ready:
-
-https://lore.kernel.org/linux-mm/20260726122123.7614-1-baohua@kernel.org/
-
-Best Regards
-Barry
+>
+>  When activated, psi monitor stays active for at least the duration of on=
+e
+>  tracking window to avoid repeated activations/deactivations when system =
+is
+> --
+> 2.43.0
+>
