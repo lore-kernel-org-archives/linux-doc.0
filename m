@@ -1,157 +1,148 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DD71ACEDE
-	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 18:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E8A3CBE6D
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 19:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785177927; cv=none; b=OwuEu3sVSyctBugvwyGb84pHwffNBnXIy2TxdMnDIUxQGN1BkJ4O5fsvU9pcwnoT4PsklOHh+b9D7S16HEk7lGG43+eTwBtic+BZ01oGsOEUnuP4HbTbjLaFBGEvmapQbr7/gQo1cUGWuJlLjSnQ4723A0Q5DAEx6ryY+pcDfaI=
+	t=1785179520; cv=none; b=R2i8QNSzLPsuQIE86H23+ra5dmzCwDg3w1Qi9xCRVWMIHM6docxyfpvcv2RTH+r6Pri2ArOQ+Jxt6nOP7gbiIrfE5ezKmWCbH0ErCGpSZdodMuqdzWsE5ZqK4jWb3/KjvzOTXb95nAPLJZi0cJkO5N29pdv9P1eHNu+ItJyh514=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785177927; c=relaxed/simple;
-	bh=4z1NsjoDz+8NMmdfNXd2JSQjhn+mO1m866wKKXiZrcw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=bJxuea7XSSoZohz6iulxmfbkT//WAqGhbY9iworgOBbX0UEaZ3TTQiZCWftY0knr79ndNjnQDGEGCQmPIwhvClxWI7ecVquntsqp0ExQhChIxncjPGPOkCzJetJUXu3NtWZfA0Kq8i7y4gywWBYhG8Z9SG2A4bgH/xsKo0eVKRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ReewmUm6; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785179520; c=relaxed/simple;
+	bh=w6Zw+XAq7csIa/unli2ye+IWWMGO5uUs3dYLEr9E5n8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eJtDXBUrzfYpSlJdQG1YsqZ4ojdZeU8w8JZ5yMPX5ziZ9WtraQDFrMQCfJbptpFHo1Rh/+DTSvx8rNB//+mddNTqUHxyyrroUFcJIyET5sBVx++KuJxqoDrZSFqoqBUh0SkRT2Jd7Mj3hpb90KeXVce0Ylv6Rgrn1ogF0o9qsjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VeWzs2u9; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fIP7mm4m; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ReewmUm6"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-ca97d139d8dso1755039a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 11:45:26 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VeWzs2u9";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fIP7mm4m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785179506;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WCGz+BwFtWySUH9n8dnYvmC5KiNUSY/TFMZPl7CdAE8=;
+	b=VeWzs2u9zNUdZNWgVq0H8ri+ufwajnn1Pqe+7xdH+KaCA2JS+orZkCWsYR7Vhbhj5vRkRw
+	qwgrb2SNVkRRwkyqkJ7I800CoG45ntLd0LkbWdf5OYl9N+R5/Id3VZOpiT8hmnfo1mAn8k
+	RqX+VbsbyO7Ta5g7OMit+5bEeGCbVng=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-417-Ezp4RBidPhOeNTM1WjqcTg-1; Mon, 27 Jul 2026 15:11:41 -0400
+X-MC-Unique: Ezp4RBidPhOeNTM1WjqcTg-1
+X-Mimecast-MFC-AGG-ID: Ezp4RBidPhOeNTM1WjqcTg_1785179500
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-47f5a972b0eso2467071f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 12:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785177926; x=1785782726; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dsUXNZMSlKgDJS09Q+caWcCdRKSnktvHf8EG9Cg0fl8=;
-        b=ReewmUm6jOyE60tn1Kq3dlNmdS3A6sbFJAksoGHUyQl5PzgKS9g83gmkB0XSzo2TOL
-         XFABtrVlb0Bh4dpsxpo3FvOkJsOUEexu+tIkoBcyfInf0syYzGwn+aG1japUKFeiWSpn
-         FRvK/kiGyPLVIuyHf9BPMQuusHV9bQegszEDvlx0A4H0gzDNvJHZJQPEo/ju35rByXXu
-         b2daFNRSS8Gba/bByR4jkd/0em7CwOFt3CqJ6bQZoJrEVdDdjYtNYC7h2Se2BfD98BHE
-         i9URjL7dxz4pFrWRncAJg5tR4MOnEA9cLBmlY6Rq7orgCNzswUP0YHdEEj8X/Yw7wIED
-         1CPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785177926; x=1785782726;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=redhat.com; s=google; t=1785179500; x=1785784300; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dsUXNZMSlKgDJS09Q+caWcCdRKSnktvHf8EG9Cg0fl8=;
-        b=Z2R8uQUpT+ANUGhCoL91B5TLDHeXXV4/NWm+ZAv8YOR9gZNYiNRUjvXGSXFhnzfqTr
-         9v5KPxC/z2q4lDEftway9PxIflg91VahPiQme7UZt+0hBtWxneNvT4VWXJ989WuVwYO0
-         vC4mzWYDs7Fyfec6FaT94c/Li5rdFCI5GHP1vhIqIRcAfSt2ZdIurP+b6t8uhHgW+wMm
-         WDzG4NVw99ZvmnVns9LlkK8liTW9CjyBHEpQnqY0wElqQuWi02oVBX4dQKSas13iEGwB
-         e/WLBBiYq2qDEWVO0PhC2Ri5gaErREQ5ABOH9tytTdFAlg4tVDpxRwR2aEIaiSeWEQMZ
-         sBqA==
-X-Forwarded-Encrypted: i=1; AHgh+RpmxjpvOQb7ikvYK76Zax8ZfCETTZvR21BToDIfs6QF23+GFmr5FRFmd3G+dsco5UUMFpiksrCwsPU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsoSkW4tXAKOOGMrrz6/DKdWrLuBpwxDknxbEAX4tZt3Ted/2N
-	TPbiF63a1SaMDpjj5USIFpXbFsmNdLdC5YPUrAiRuW/+S4Ky35fYie8j
-X-Gm-Gg: AR+sD10mutKYpbTe9i7gqWcdroB4NAhvQlxDFRyxJp27agiv5rtrG9w4pC/OqiAvRfC
-	XcYOGvQeKvNJAyG9H/KfZ59eEYT+zAi2bxhuYcMPKLJ0KZHqBY06gORPYwF6Mpm6Q2I5jHnQcFW
-	wnkqtaKNWio3fbtqWX/DoxLVdKlXhJf6CPOlkSU4CLigpbRBh4PKD9pjSou25T5XiMxdztQiV1n
-	5i4ijgeJAukX4DOWRjbLT4p1eT/c5OsyvIdHF1dGzS1oPMx5uNFYPPw6jhxnRUckoXAdRHYrukn
-	RgbzBp5aCYQCJcXmoHoDUnmR/3anOacidYtnYkBYbTO/RDN73aezxcRhHwdvK9I479fs9hR44W6
-	W1Ryu/MlRZr/4ha9GlwLm6kLwvtsYdIJP6K5ZSJQ3TZLtYsg/4Yk0T3hSyxTNazWW88ziKGb+BA
-	HCQJpo5KAzw0CYmVLL5yT2T7Pxe4aF6Jf9V65RQ3ADuj9ZRwvVGII=
-X-Received: by 2002:a05:6a20:d52b:b0:3bf:7994:ddc6 with SMTP id adf61e73a8af0-3c67da72a04mr9839760637.25.1785177925865;
-        Mon, 27 Jul 2026 11:45:25 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc549cacsm35100888eec.16.2026.07.27.11.45.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 11:45:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1210cdb6-29a7-42b6-858f-c64cd959dd28@roeck-us.net>
-Date: Mon, 27 Jul 2026 11:45:23 -0700
+        bh=WCGz+BwFtWySUH9n8dnYvmC5KiNUSY/TFMZPl7CdAE8=;
+        b=fIP7mm4m1dKzL/vLU4TpG4Zpl/xIPYlYy04FGAoic0MyqZmd32+9x+wqur53iiSmaN
+         0e1isBrwkc74MiKIK+DpRfXLN/Vu3jyP4PUDez3vLoTWTP0La37KeDIZDsaRhkiBO6mg
+         3D22GD5gjjFoN9Kxbc/9vKnYjtVVrt+jQhk9eyhp7BGcmq20XKhK8dcbek+uSWWk8rd6
+         0TmrlZY+R058LPhN9zpEy7qIY76eJ4d5Uj0JfVRgcSJMZ9BdDHivVMYPAT04guJ36E3W
+         JuOvEuR8gr1nJiwAdbU2I58WBlUCOPdg5TzYb95XePR+AoQM+PPD8Pyt7MIRc+rVwxnb
+         wQhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785179500; x=1785784300;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WCGz+BwFtWySUH9n8dnYvmC5KiNUSY/TFMZPl7CdAE8=;
+        b=BuHD600kQLBxhIsfZ6F1jVBaGXGUYkm2CJptLukGm6bjacNZ3L3vwb3rDFYi60DfsP
+         Xf8dW56hNzCCAKKGzA8q7zvjAADOs0CxRjb+UNYMQ/dBWwyM5rfdpzIj396kDQVb0BhA
+         BBh28o7sx2zxMxvGfe7iCGLWHQGhGvcj51RzsttB3m+kRlYsUBBub7rJnHqYVNRzyem1
+         XBQ1CWb99R/j/8W2n+0R3/94ObDnvAZY+1qt50A9XO4L8GtLYhIER7QiSKY0fQ6UWVyi
+         RWxtMy/i6/w4+yeEukQGqTz2fw8JdHVvnoHXI02IibFrZhzfP5/s/X3JEGf0OdfkG0LA
+         t1Pg==
+X-Forwarded-Encrypted: i=1; AHgh+RpCvR1uZd1ydDdAfOl48R7rZ68hMdg6adAp26TbS/PiG3mPytzCC0igrocVQLTmTksbmCRpi2+G4LU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu2BJKqrd2HeMmEvM4gO60Pv01JwlzqNvW6tCW+pJiD4Quh5mM
+	tVn3zhO28GHgtIZbox7J6115U4jYlVrC1WmNGE6hqFt8rYhlwDdASk72wtpMtvxA0j3yaihfuuc
+	qbJGuJdAUBD4ue1qClcs1d114KR1zU3zhsnQPVa2Bo+6OIj9GJW49GZuxty2vnA==
+X-Gm-Gg: AR+sD13WFnnO4zapWULzhRdyfk0tloaPq0xyGZu/0nKaR3T/Zqwi1X05OijW9Co9P41
+	YKqwqDOv0+cLBRLGmMaAe67oSlMwruqS3brghiBXFouHeRrznJIRULpX3B+EeNfTMheOKeJmI91
+	NZltPNR2pZ0Xwct9hLLruEMCtYZ3uZ6wYmgBIsEmpUF0H/UW8yCCEMY3APjeKPE/j6nWzRspdAc
+	AIucFhTSghdel29ETJMzSTdBAj+PtVRodglpm4n+lofgcodCxDDqqYCrM9tgKx6KrkTX1PRvjUT
+	nnfxb/BFfsfKV7XkjZPQ3tECmA/2KT5Ndl/B7zbgK6kSeUUnR7fCZQr1ukaSOH3fbPLmkQCE1M2
+	71zEioTdLjM1fpYGr0I5FNA==
+X-Received: by 2002:a05:6000:61e:b0:47e:4379:a4fd with SMTP id ffacd0b85a97d-47fafa50cb5mr459977f8f.19.1785179500293;
+        Mon, 27 Jul 2026 12:11:40 -0700 (PDT)
+X-Received: by 2002:a05:6000:61e:b0:47e:4379:a4fd with SMTP id ffacd0b85a97d-47fafa50cb5mr459953f8f.19.1785179499787;
+        Mon, 27 Jul 2026 12:11:39 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-28-14.inter.net.il. [80.230.28.14])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c531afsm56615929f8f.24.2026.07.27.12.11.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 12:11:39 -0700 (PDT)
+Date: Mon, 27 Jul 2026 15:11:36 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Simon Schippers <simon.schippers@tu-dortmund.de>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Tim Gebauer <tim.gebauer@tu-dortmund.de>,
+	Brett Sheffield <brett@librecast.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH net v3] tun/tap & vhost-net: make qdisc backpressure
+ opt-in via IFF_BACKPRESSURE
+Message-ID: <20260727150842-mutt-send-email-mst@kernel.org>
+References: <20260714092506-mutt-send-email-mst@kernel.org>
+ <5016ae84-7049-4a5f-91c9-ba0047b06ee3@tu-dortmund.de>
+ <5089fc5e-2fb8-41fb-9aab-42b22cc2c201@tu-dortmund.de>
+ <20260721105853-mutt-send-email-mst@kernel.org>
+ <20260721100715.5b43412d@kernel.org>
+ <20260722020611-mutt-send-email-mst@kernel.org>
+ <8814700c-7549-4d12-b657-c990dfeec14f@tu-dortmund.de>
+ <20260722040722-mutt-send-email-mst@kernel.org>
+ <20260722072631.21b57e1e@kernel.org>
+ <a8dadd41-e2c5-4a6b-bb93-77c3d5eb6342@tu-dortmund.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] firmware: stratix10-svc: add async HWMON read
- commands and register socfpga-hwmon device
-To: Dinh Nguyen <dinguyen@kernel.org>, tze.yee.ng@altera.com,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <cover.1784785709.git.tze.yee.ng@altera.com>
- <a79aee37be7067691fd02a3a9cfd134c995e5a95.1784785709.git.tze.yee.ng@altera.com>
- <f49363e9-2f48-410a-9e77-9ad14bece7d4@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <f49363e9-2f48-410a-9e77-9ad14bece7d4@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a8dadd41-e2c5-4a6b-bb93-77c3d5eb6342@tu-dortmund.de>
 
-On 7/27/26 10:02, Dinh Nguyen wrote:
-> Hi Guenter,
+On Mon, Jul 27, 2026 at 03:57:51PM +0200, Simon Schippers wrote:
+> On 7/22/26 16:26, Jakub Kicinski wrote:
+> > On Wed, 22 Jul 2026 04:09:25 -0400 Michael S. Tsirkin wrote:
+> >>> Would be great if you could do the revert.
+> >>> I don't want to mess it up. :P
+> >>>
+> >>> For the re-apply:
+> >>> I can post a v13 to net-next soon with the flag included
+> >>> into the existing commits.
+> >>> Or would you rather take v12 plus this opt-in commit as-is?
+> >>>
+> >>> Thanks!  
+> >>
+> >> jacub if the revert goes into next what is the process to
+> >> target a patch on top of it for net-next? Thanks!
+> > 
+> > misheal, revert will be merged to net and reach net-next on Thu after
+> > the downstream PR, at which point you can post the net-next patch.
 > 
-> On 7/23/26 01:02, tze.yee.ng@altera.com wrote:
->> From: Tze Yee Ng <tze.yee.ng@altera.com>
->>
->> Add asynchronous Stratix 10 service layer support for hardware monitor
->> temperature and voltage read commands in stratix10_svc_async_send() and
->> stratix10_svc_async_prepare_response().
->>
->> Register a socfpga-hwmon platform device from the service layer driver
->> when hardware monitor support is enabled, similar to the RSU device.
->>
->> Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
->> Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
->> ---
-> I've been taking these patches through Greg KH's char-misc tree. I'll wait on your feedback on patch 2 to take this patch.
+> Hi Michael, do you have this on your radar?
 > 
-If with "your" you refer to me - I can not determine if Sashiko's feedback
-on the second patch is correct or not. To me it sounds like real problems,
-but then I don't know the code well enough to be sure, and I don't have the
-time to analyze it myself. So you won't get any feedback from me unless
-someone declares that Sashiko's feedback can be ignored.
+> Thanks!
 
-Thanks,
-Guenter
+Yes but I have some urgent fires in other projects to put out first.
+
+I don't have anything at all smarter than git revert + some testing in
+mind. If you want this to make progress faster, you can easily
+do it and post and I will ack.
+
+-- 
+MST
 
