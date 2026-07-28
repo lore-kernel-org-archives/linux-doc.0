@@ -1,155 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B4D45DF60
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785254021; cv=none; b=ORFkjw0pXxHxu06I6nb83bT1xbdBiSLrP4BuSikkQYdTR9ltJ6PR56o1W20Zpp42xOD/lwc4UAcCucFMafCExqKF2KHyfFknQE43U9ttGPSQSBGsaxf35fkf6bw3XgBp0N3Yp/5okyjcrODrXJnEdt8QshI+Tv4Oj/Sis/7dkc4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785254021; c=relaxed/simple;
-	bh=cLVrmLVnhZVdAC6iHFmP+p4jaHzD1JR/i3JlrdW7hwA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1DA334C3D
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785254044; cv=pass; b=QSTmS2tpp7OLgqUeUMPWd3gcf8wZjvgQKq96Tnp/ZEQ5WiKYGb/gEKb94OlSc+KlgB58aQJ6OJOWTVpnXEwBTvOb0n8WNM3WTSockKkYVi5D2x/Bg4AsECKPLSkZmndutfdOBMW2QVrN9XrbDYJHLO7oW5CPwZdaDHU4oaRzsEs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785254044; c=relaxed/simple;
+	bh=VdgY403WdBNdk1xN9Bz16ZYD/M2uVC9qOnTtjXU5SSI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q9wvrkp/wnClUPxQiazeqGpYU7LqggOX6VykYFHdiCgjiC2OD1EqQhwoiwTpVlikD0CDlzZ9hkAs8GYGge1HhGj3bJPxaIG90owbn+LgvFXC5jnXzCf+F90G4GnKi2gpV2+UX24hpf0mKywNk4wCLLVH5o4QOFm76W71b7v2pfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fy/5mDHO; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=Vo2E4sUwZKD160m/JAAzxZnmZswyzaAb/BTDpTZ1N5xNDYH1yWKDm60WYXFAMS5m0Du5yxn5173nVGur2upemJpybNy+OfxAV0eh0/mPNjdWDZzLR6MH5q0OBtYN+eXw4BAkkn7pvTppXcEOfagMD8L29hd1kv6Wh8/6s3odGNE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b=xwSVATqO; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fy/5mDHO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D52C1F00ACF
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:53:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785254020;
-	bh=iVWKWXWp2o5oguf9HQN9RBLTt3LptAl4yCTE8p8gHSI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Fy/5mDHO4xjwvtptQQIrg3rcpbEvXl0bMZtldcBXePysyTwuqvePmK3S9auaC0OhG
-	 LWEDDurQH1PZIoZYlyGP6B3MVkJC9+vXu1eHr8gpLMQ5Em2vVSY/hA7zzujuUtVvbD
-	 V+KJZ5mYw5ihuODbz9Pq6rZvnT34KZSSv6ZGd5kL6Xu3l6AsK9BGM/EzB9EeRdFvBB
-	 WcoJQ9AjPtoI8HFo3/43uTPvBij5Fm1pFJVaxAkgCSu8bNl8sES8o1drRAqGfGpqQR
-	 1rNEqwnZaJrk8yfH2d1qIp9fjvoYWkoPxKqX4+0tFWbJfVDTua8t2iOY9RDJJ1n4kG
-	 pj6Xz5M6IIy8A==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-69ffbd2a277so3663897a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 08:53:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RplvkKkpbxxA62AtLvkkoWPYKCOMzFgBusUwW88iFKc1JcI9PJioOl3PzGWpERCtI/c98FHTvy0jps=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWFs1g3yVa3QFTOdnPBNUeUsDf1EovpJq9kGjkjOy4RRthBnbO
-	fWQeO8UDsiM++PnEhn55wu3yeWR6+1zitovJPODGJc/DuSdvnT8bG4yWtAbQ8Zw5l/3aBBCrqzK
-	Djp0WshGCZ1PjQ5bDtfCcCWtd3b0GIGA=
-X-Received: by 2002:a17:906:6a1e:b0:c16:4df6:176b with SMTP id
- a640c23a62f3a-c1f71daeeb9mr146358666b.20.1785254019295; Tue, 28 Jul 2026
- 08:53:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b="xwSVATqO"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47de008b020so817931f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 08:54:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785254041; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IuMAlHLEaRNxEDhhtFQbuUpLCqxU+0RO0dpVVI9wXcXPd/3xO7YFJyVJQXwXziW1Ht
+         4PPKLdiuMdakn8gx7RSQdhgxtyEvPTnkvzzsYFc6qJlC73Pdy0Xe6tlslRNvuScC+898
+         dXnzw75zQanpsxtl0MTdmCe7Z60Y9YGc65BVmTMUmHXqenwOVjWn4OYO9qJvjdmDLcb4
+         B+VxNo9ofvUG25F+yzSB+jxT1ggNwgVrN9lodB1/krjZb64JgehXM45aYwY8hRlCW1N/
+         /+giMhyIJIoNdvPx+Ae+seQEvpX3/7lnJwgOo121AcdmgOxsyuX+eE5nsM5sCzg3qeet
+         EVlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+U7EUowm/WpYWZVDDqRkyNBdiXnZeoZAf0Tk6pkUOwY=;
+        fh=LpneHEXvQ7thiMUBSX5u+xZ8fwDBs84K6mBEuIY8CTo=;
+        b=ltNjrUBXU8TfNwdb/D8PMfNXLXjk7kIeapWvv19jJJOr6ghktVYGCx5wyfL2Ey5Idl
+         v8iTpp/AJx7KMXTFjqo/VONAlMfDlmNSgekhCu9zbLvD6Jnfts0BNDWzoPe1TUtWSKHg
+         vsphWhVXIu1CvTX/rYbBRHfudWdG2OneJI0PyECmgfI9vbEVCDAjXf14I8YxkWS9sL6/
+         fX5/ay5cvKA3r/EblWOgnpaXz7P5vIxCnXt7nYi3+q12p1PWOWhjFsy6vaKtqkcN6VOe
+         uIci1ntPgk8CZxLzaY29WjXDtvg099V7ayLevhPiqCi+E5rKM1Z8Uc5onSCa2G/uamMY
+         lyVQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20251104.gappssmtp.com; s=20251104; t=1785254041; x=1785858841; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+U7EUowm/WpYWZVDDqRkyNBdiXnZeoZAf0Tk6pkUOwY=;
+        b=xwSVATqOIyzE+mwqBQHyrQ8C9WjxdeM53CK6wXHLMoUEjLfwdVeLsN4XB4zc7Mq8ny
+         AaqMginj9jsqlmEyfu2b+II2F4z1YOaL9PHMG0M77KuUF1tIi/hilzXtvecOLtsSFBeN
+         pTH/hRs+yeOc3uBx79ac4Nq+/zdvwdcwSoAqMrqK9NhkzJyOAiGCkwCcRSr6ZEAvbqlo
+         oJPj47XipXNcR4jNCh+ZFV6YTwIC5dLjs25zYLvD7Hv7ql/zdOSR1jgLIF596t2RUj74
+         znkTB6Lc9rorG3bi4SRl9BesHPrbF4FC0wtOqJJgydhj9UW7IoVzuesc4lZ3DsWoPW1e
+         YrTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785254041; x=1785858841;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+U7EUowm/WpYWZVDDqRkyNBdiXnZeoZAf0Tk6pkUOwY=;
+        b=bRPzKhEH9LTkoNC2zet838wTvmQ55vVo4PAR0t1UYzDzpyTHbRJPlcLb8UZkwpl96d
+         UvPeUqApM989sOLdIdzacdjoFTZKfePfwWDEb1L4b/VxKvuvkkJ4AeD+n+ZjoIgwlE/s
+         vwsfpOL65OnoOfbtmE9I9doth4OR9+ZrmXB20vH+m6MAnrtZV02DZRHPq2GtQbLBmUfI
+         P11czjZjBb9U/A6O5cRd0WMGBq4D7CRjLcvG+DCTbqJcIi0W3TCnDMvlSO+KAxLhmQ8k
+         wIoTx46CiqL/vyr008oVcx/BL9v2NUpnUGeTvttsidwJWzOTiVQVHvqycpxt9yk6LCwT
+         L+Lg==
+X-Forwarded-Encrypted: i=1; AHgh+RqaEqEMmUk2pXqtglIgZ5SAoqRmnFXAtFcqVNW7EHQeutJa5FMbEKN/WlhhpUHEt9y3Z0ETdIC8mts=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfKvYAY+ZRL2jqpIh686GArDbnWZoxSup3cU+Kpr4mqckXnRkZ
+	ea2H6SGpqB9fBGTzdwSlTiSA4r2hxpSgRdyEpKnD/r7B9k+OWQW74qj1pzPtX55ZcPn3WKyVLl1
+	ehHZ7O/yMh/INaTJEgNxxuImFmLlOvngAElZD6IKaZw==
+X-Gm-Gg: AR+sD11p2W/HhoCGYPuRJeRasgA7/sMnElZfAta29DdEuOT/JhQfL+BS+RMyfqul9Vi
+	3NxEdLiLGI+IL8fxxHg2nRQhcJ/8kc0bpVGjbhGQa944k2IfLQls0UkEAnhQTMyIVJ2PYEczenJ
+	MVukK9YfPZODIR05NMJuRZtHYomq6VNA+ytYm4yCmlg2mx8+xQxTDoA8eRPhekt1fdenmbUik6P
+	yXLkp/l8u4CY51yfXImLO0FjJF/rf6pUTQu6hpyFetzWzZ8ghYGzoISCusXh+6/d+8yNMMSo1kU
+	Evwgxfk/I9MvAtu8BodMlhyPxlgbScZ78e8s3gleRCfi7lA5ZAbKAg2OsxRxUwP4YM0CdHhe7YQ
+	joxu5SoswnYiQoWw=
+X-Received: by 2002:a5d:5f51:0:b0:45e:dd32:92fa with SMTP id
+ ffacd0b85a97d-47fb1e9992amr3932927f8f.12.1785254040632; Tue, 28 Jul 2026
+ 08:54:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
- <20260717085151.22822-3-jiahao.kernel@gmail.com> <amF7_GB5Rl6OJmt4@cmpxchg.org>
- <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com>
- <amIdU1lFxqxTI3Gc@cmpxchg.org> <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
- <d8de419d-0077-c47c-a5f1-37c229a853ed@gmail.com> <CAO9r8zNq3bRN+mumA5tcdizStpgoqTc++FYuGjvL8spbv4Q8YQ@mail.gmail.com>
- <CAKEwX=MG0F1+my1krUiOrHCn-Lypq2gq-g8Rv07Mz7sC=YEKaw@mail.gmail.com>
- <CAO9r8zOH93mfdjHq+Ljm7X+ykZS_rjzAvp9OBCzo+uyTbM1fDQ@mail.gmail.com>
- <amO-hwo8OGV5Goz0@cmpxchg.org> <CAO9r8zMgVmgQET+PUGexAgNqCZavA2YoTTXKSbWWoUv=A=ytSQ@mail.gmail.com>
- <f60fe501-7605-64dd-0572-77f7f3060f35@gmail.com> <CAO9r8zMBWA7nxM24VXQT00CVEZwFpMFNe73FFdPSZw2y=J-0HA@mail.gmail.com>
- <7bf9384b-2999-f14e-f23c-0df93168c20b@gmail.com> <CAKEwX=MObv_nCfRUTwa1HDxZEdoYLWgkp2K1s7+P+REB+v41RQ@mail.gmail.com>
-In-Reply-To: <CAKEwX=MObv_nCfRUTwa1HDxZEdoYLWgkp2K1s7+P+REB+v41RQ@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Tue, 28 Jul 2026 08:53:26 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zPHpm5JUfqPTCUmfCrOEXQ0_pdRtnjyeprHTQs1v42JPg@mail.gmail.com>
-X-Gm-Features: AUfX_mzrHy756kSPKSZdq7uRWifdFcXmJv-8lTaL4BDwb7PDfFzhTlAXBZozxjw
-Message-ID: <CAO9r8zPHpm5JUfqPTCUmfCrOEXQ0_pdRtnjyeprHTQs1v42JPg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in shrink_memcg()
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	akpm@linux-foundation.org, tj@kernel.org, shakeel.butt@linux.dev, 
-	mhocko@kernel.org, mkoutny@suse.com, chengming.zhou@linux.dev, 
-	muchun.song@linux.dev, roman.gushchin@linux.dev, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
+References: <20260709115610.287420-1-yhchen312@gmail.com>
+In-Reply-To: <20260709115610.287420-1-yhchen312@gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Tue, 28 Jul 2026 21:23:49 +0530
+X-Gm-Features: AUfX_mwzsyiunp_bPATfO_O8RiK5DjkNzGjCdX_kznFgbSWBNjYBF0Izm64N9aI
+Message-ID: <CAAhSdy2r8Ei9ESdSJB8McC1T=Atp0yNa2MxEbOWNVRTUM_8YFA@mail.gmail.com>
+Subject: Re: [PATCH] RISC-V: KVM: Add kvm-riscv.wfi_trap_policy to control
+ VS-mode WFI trapping
+To: "Yuhang.chen" <yhchen312@gmail.com>
+Cc: Atish Patra <atish.patra@linux.dev>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Quan Zhou <zhouquan@iscas.ac.cn>, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 28, 2026 at 8:52=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
+On Thu, Jul 9, 2026 at 5:26=E2=80=AFPM Yuhang.chen <yhchen312@gmail.com> wr=
+ote:
 >
-> On Tue, Jul 28, 2026 at 4:22=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com>=
- wrote:
-> >
-> >
-> > On 2026/7/28 00:18, Yosry Ahmed wrote:
-> > Apologies=E2=80=94there was a flaw in my previous test setup. I had con=
-figured
-> > zswap.max=3D320M alongside max_pool_percent=3D1. Since the global zswap=
- pool
-> > capacity was roughly 314M (< 320M), the global pool limit was actually
-> > being hit before the cgroup zswap.max limit. Both limits were likely
-> > interleaving throughout the run, making the results difficult to analyz=
-e.
-
-Thanks for running the numbers again, these do look better!
-
-> >
-> > Re-running with **zswap.max=3D280M** yields results that align with
-> > expectations:
-> >
-> > Test Case: zmax280 stress-4 pool1%
-> >                              baseline        batch-all32      batch-all=
-64
-> >    shrink_worker wakeups            0                0                0
-> >    shrink_memcg calls         698,990           57,187           29,649
-> >    written_back               655,570          865,131          883,508
-> >    store succeeded          1,054,928        1,124,990        1,190,608
-> >    store rejected             229,722           22,642           11,659
-> >    store reject rate             ~17%              ~1%              ~0%
-> >    reject_reclaim_fail            110           15,454           12,985
-> >    pswpout                    885,437          888,027          895,478
-> >    pswpin                   2,035,415        1,305,341        1,384,751
-> >    zswpout                  1,054,928        1,124,990        1,190,608
-> >    zswpin                     280,675          162,684          158,556
-> >
-> > To isolate the cgroup zswap limit, I also tested with
-> > max_pool_percent=3D50 (which should behave similarly to the zswap.max=
-=3D280M
-> > case above, bounded strictly by cgroup zswap.max):
-> >
-> > Test Case: zmax320 stress-4 pool50%
-> >                             baseline        batch-all32      batch-all6=
-4
-> >    shrink_worker wakeups            0                0                0
-> >    shrink_memcg calls         687,608           54,002           28,116
-> >    written_back               639,176          846,663          862,347
-> >    store succeeded            992,816        1,208,123        1,213,286
-> >    store rejected             231,431           20,425           10,915
-> >    store reject rate             ~18%              ~1%              ~0%
-> >    pswpout                    870,745          867,360          873,553
-> >    pswpin                   1,707,823        1,216,814        1,378,381
-> >    zswpout                    992,816        1,208,123        1,213,286
-> >    zswpin                     250,220          210,791          185,716
-> >
-> >
-> > Finally, here is the dataset for zswap.max=3D320M and max_pool_percent=
-=3D1
-> > with a single stress-ng worker (stress-1), which also looks consistent
-> > with your expectations:
-> >
-> > Test Case: zmax320 stress-1 pool1%
-> >                            baseline        batch-all32      batch-all64
-> >    shrink_worker wakeups        9,279              980              557
-> >    shrink_memcg calls      14,247,647        2,638,751        1,465,915
-> >    written_back                 7,702          439,809          482,809
-> >    store succeeded            329,603          531,224          566,150
-> >    store rejected             883,945          517,578          482,644
-> >    store reject rate             ~73%             ~49%             ~46%
-> >    pswpout                    891,647          957,388          965,453
-> >    pswpin                     692,255          628,246          582,781
-> >    zswpout                    329,603          531,224          566,150
-> >    zswpin                     248,871                3            7,872
+> Add a kernel command-line option, kvm-riscv.wfi_trap_policy=3Dtrap|notrap=
+,
+> that controls whether a WFI executed by a VS-mode guest traps into KVM
+> (HS-mode) or executes natively.
 >
-> Shall we just go with SWAP_CLUSTER_MAX per Johannes' suggestion then?
-> 32 works the best here FWIW, but seems like it's all relatively good
-> (as long as it's not 1).
-
-Yeah I think so, the less magic macros the better.
-
+> Measured results (wfi_exit_stat delta / guest wake count over 3 s):
 >
-> (I wonder if this works well with your proactive reclaimer too but we
-> shall see).
+>   policy        WFI_EXITS   WAKE_CNT
+>   ----------    ---------   --------
+>   default       295         294      (=3D=3D trap, no regression)
+>   trap          295         294
+>   notrap          0         298
+>
+> Assisted-by: YuanSheng:deepseek-v4-pro
+> Co-developed-by: Quan Zhou <zhouquan@iscas.ac.cn>
+> Signed-off-by: Quan Zhou <zhouquan@iscas.ac.cn>
+> Signed-off-by: Yuhang.chen <yhchen312@gmail.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 14 ++++++
+>  arch/riscv/kvm/vcpu.c                         | 44 ++++++++++++++++++-
+>  2 files changed, 57 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index b5493a7f8f22..ee6603b30033 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3254,6 +3254,20 @@ Kernel parameters
+>
+>                         notrap: clear WFI instruction trap
+>
+> +       kvm-riscv.wfi_trap_policy=3D
+> +                       [KVM,RISCV] Control when to set the WFI instructi=
+on
+> +                       trap for KVM VMs. When set, a VS-mode WFI traps i=
+nto
+> +                       KVM and is emulated; when clear, the guest execut=
+es
+> +                       WFI natively and blocks until a VS-mode interrupt
+> +                       (e.g. the sstc timer) is pending.
+> +
+> +                       trap: set WFI instruction trap (HSTATUS.VTW=3D1)
+> +
+> +                       notrap: clear WFI instruction trap (HSTATUS.VTW=
+=3D0)
+> +
+> +                       Defaults to trap, preserving the previous
+> +                       unconditional behavior.
+> +
+
+This would mean that for the "notrap" policy the VCPU would never
+sleep and increase host CPU utilization even when VCPU is idle.
+Is this expected behaviour ?
+
+Regards,
+Anup
