@@ -1,149 +1,201 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D27E2DECBA
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 01:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBA7200110
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 02:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785203965; cv=none; b=FPgoQlLYNFT5NWQKvydhNsehWQWXvToRGqqluwloN0mF8yDAJt54Jq2WYQg1E4nSpKjPLTZ8Y1WDJ+58+cZwM1/j1U+LCI1XK95tVCVPdzjq7xFG8SP4S/A46ddlUnnvh5d/AAJPr/BZe1KeAg+MaKwJuIbnjf8m8qG3bNZsCes=
+	t=1785204762; cv=none; b=qQfqJ3yobTm8NUJn6rbvToU+gzARGcm3VimNiumbijMTp7mFYknFa7ObSmpbUth+f+ipM7eUCgHc1soAc3iSmzhBJKnWQfrJGwtPzr5aPKhUXvOaosNZlzP0u/tsq2tb2snkPlIxeGy2yI4/jaC3r9/FdrLq/McGpfnZf23SBaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785203965; c=relaxed/simple;
-	bh=CawxVQkJNWG9UC33bH4B6QtHE3fIWQSW2rF6KQwMMb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RLqMznN83o6hbR52ymFNHDZixDn4Je6dTjASt8M9selmI18fIN3n2qXBU7MhmO0kx7YvX3dOipU9gPCY5fpK6mGNCEPpVLxfbzK5XwyGC+alFopSwvujQYXWrp5aUkS4uOxUSszLYSiVSoncBGNxDhf//VyNMmwe9A81O1Prono=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=nj62HUlQ; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1785204762; c=relaxed/simple;
+	bh=5/8Ul0YuH8oP4JURt9WRr1MVGnlI2QvzLgg+waLMaFo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pCjkmXaYXuv00axGmicvp3NXmGOILjgA14h+Bu2TEqAkwAzPOdcQT8oM1WPP5UQkqmrXmiGr1MzGX+G1h+RL0+ZSZsfkeZKFkGUeRbb1JqY6ruBWj5UPv3AX+50kPyoFTWeDlp1FurjpuKV8ZKEBfvm0pQabVo+D0xM5FJPoAGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jGFxahuF; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="nj62HUlQ"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-517dc520840so25354031cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 18:59:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jGFxahuF"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-848d21bbaffso3464435b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 19:12:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1785203963; x=1785808763; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xsIjQv5H0VfbYXJqKAEeCyOCnADFtFqc7MMDYt9Qh0Q=;
-        b=nj62HUlQgh8z7YtRj9LjYQ2IGqVAX+3wuTr5HVhWuDT3J8RQ03uR18aHDmiSHZFrdH
-         t6uyVfkYMh/Czg5fx0WGJertLzsbNPLaT2/bZsQKeSVyT2MFulWqnLEl/VGl44X3dqlA
-         wSTgXoe+1hd+cvsdyUcQLHMarIJnX35XMi8MRn0UKyvehUJfkM+EnXifyqNTA7pAkbIL
-         T1rL4whG/PkOKQCQQ0UssCifs56RwaSc0p8Vhg45bvFc9RZopFQ+lYHIMlOzjFcTjKav
-         srWVa2yBqzjSJlpJ7JkI0BgdsqpxdDsQNJti23XtEr6OveOn0DvbMyAWM2txYlpfrmqU
-         y1rg==
+        d=chromium.org; s=google; t=1785204760; x=1785809560; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kJvcEZLikIBmA+aCoCI1tLU4wPuWEmg1S4eA2BlwINw=;
+        b=jGFxahuFXv6MTPNDfm93uWXFJ/6Ag1zbaJ5iXEa344eLD2tKQab4aU/6IFMNXOkh6o
+         dJAPUfxyib5n9tJQHAQaXVavaQhUwGly2bE0QUnHDiJMfT2AkMzHJGW3ulWlu7UestfB
+         ASXJ+t3H5K5RguXBAOyX8x9eLOMv3Ol9paUkM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785203963; x=1785808763;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xsIjQv5H0VfbYXJqKAEeCyOCnADFtFqc7MMDYt9Qh0Q=;
-        b=GxHMC2De5p9eCoxOVApn+br/dMh7qe+iQhejqPisoPDz/UtB5iM/ZcL2ZUWzD9HXXq
-         De/LshmI9WmO1ZC9m2w9mfOaEh8oCHGlv/lAK0cNAETJ6B8HRCF6IOMjHOsL6diRdTWC
-         QP/+b0Crh4ZIQKSudf6Q1vd1Kn2/Iez1QTlort/wz+rNjMUKzKeiUlz7NH5qVVqgmYFf
-         b9Z37DjJRCKsI48WKkuNZ+E4GU+OxT/vfRBnlYE1BZGiFE226YVQGL3VGhjAFTXRjYVC
-         +Xcay/PoIwQab8POynOx9LQYx1gmAARzge25w59B8zbIr7DWHAFoNYd3703XA4ADcr2C
-         Iyqw==
-X-Forwarded-Encrypted: i=1; AHgh+RoOA3DCiFNxehsMLy4AWGri52YFPBDi5YagSAdD5evKSCGupMyS7w+efnqrjWxHWa2zcjVwHP2eV4Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5K9ck3B8MXPiaTO951Hzp6vX9v1/B1ikTjfFoHJeBnGOT7Z5c
-	42UqV230ktE0m8pao+6UClKDzDSPREg3ILJroC90B6c6PKK39r4lc7lPqi5y/f0ubg==
-X-Gm-Gg: AR+sD11b9ZsNQgxxyJju7nMWxgqIVBFbgLVBRoSdyp6dVU0HkiMVSAhp5Y40Wi6ByKc
-	cCO/Nu97eiMREo/e9js9HGaLVr293N1AHQJx9b4LHzqyV1bv6NcFBsTHQXbT3g9fOuQQTd2EZcm
-	Rs1qIhwS3QxtxiEMjLxuygtDkt4778KM9Tr72xL792yCoYw585kilE0TpwRkr+rjQug5V23Lq0K
-	vvnEUGZ3r5tt6gncFhELbHYbC8PKJdD+8xp6xTfQnM2J+QvQNIQlrZfCax6m4l3lDPr1zkpdFHo
-	qtxRVCL8CuMw3D8SwqNHtyfkm60Wq71CB+Vzh7VmLaYdhlGNW+axQNr1IY/VvWjhyBiqESO8fRi
-	VH53+auewYYq4bPq9809Hnh/oIHjWQSQ7T11WREdih2zHgVLtRS299xBWmwh+P1/hoSYNSdICKw
-	Hh11Q=
-X-Received: by 2002:ac8:7fcd:0:b0:51a:8835:58cb with SMTP id d75a77b69052e-529d71d8c6emr3037201cf.54.1785203962951;
-        Mon, 27 Jul 2026 18:59:22 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907e85215d7sm78094896d6.9.2026.07.27.18.59.21
+        d=1e100.net; s=20251104; t=1785204760; x=1785809560;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kJvcEZLikIBmA+aCoCI1tLU4wPuWEmg1S4eA2BlwINw=;
+        b=n5OPAXtVfo2dMrpRdxaUazUR4bQowEb6DgSx7GjlizKEk2g12/VGq2xgCrcGBmuldT
+         ivLI2pUtH/HAEi5k4A7cOuHjBw6cPJpQwecaEFFxuATsqme7zMH3grCQZVBCX/Tes9yd
+         lfOPDt9ZAUv0tIrfWDeJGY1PBPKSsqmBQEA3XALC/I1Rk/3BQfJhB1YuQMWzht/RJCnt
+         d5qIG6BJsERazjdYiq1rZnaomijLIeDC/73cweAswC2Eygums39VHPq8cqu55OlDyLjM
+         sCdO0PGoUFmf3k8cVXpCJ0rqzJbBpG06wOg5JMb1oC9AANLvv7MRHMG2XYH1qhNOOhFD
+         ZHEw==
+X-Forwarded-Encrypted: i=1; AHgh+RrlqRlYmuvRKdwjWn/fSSjs7XSjbbu+yNgn7eSgUA7JNl/KWRE8qWoU/vScE4rmw8kiECxdsXEN1Lg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwI1sVLQA810fLxkzPawMTi83m8Gu9yBSpXS2KQQrMx4hAbfNFz
+	q5PyhDVscQjgis4jaqhrQL/Len11mUw5+6Fu/FJuqO1RFX+lUZlDzhme5HRfCvc3Xg==
+X-Gm-Gg: AR+sD13FI/+fSle3/Ezq5pK9Ur6EC75aFGvR3JgAfJUiJcwzjSA0ZTErDfeueqYu65J
+	8moLUzqLCOoZMx73mEOM/VvcgjEZUa/gIYp9tV+NxJtOfyjEA/getEUwF2VCeemAA4cDHHKkdsy
+	8P65n/w52h5ncHyg3nprPchiCYdyHFOIcLbzP5JMsCHPm808EVr882mxr4mF6KLluDWrPbVaq9J
+	HmuXpKWXdMFGwhjDLmhYb2gb4hZUugkgMdFhDhCsDOLLW2YbrFP9OE5iNjwnN62xXKdUJ0tH4f4
+	2TXgaQzlTSlNYKEvHe14I8U9XqjvSh+NguVl0mwDirNhXdjCuSIsN8OAAjhAms+MEIv0tLit8JY
+	nBvygIMQZbViTUgdUV5pmwQZJi30lkRVPbSNSpGCzNt+R5ROyDSasPJFkTkbDZNKssqWJ8FW2gv
+	GV99X8Nz/AuF8ZSCwmiaf0mJEkK8pSfylCeDB1IWx36gxDkmKXbT7Bi5nnBglnORy75JYyhZsag
+	ih9vWncbfS92QZkEbENkOrYEHiMxV96oXzojMTf+66jaRwtqhc=
+X-Received: by 2002:a05:6a00:9515:b0:84a:29a7:f3b3 with SMTP id d2e1a72fcca58-84e932e758emr383739b3a.68.1785204759933;
+        Mon, 27 Jul 2026 19:12:39 -0700 (PDT)
+Received: from tigerii.tok.corp.google.com ([2a00:79e0:2031:6:f891:e0e8:e2c3:fb20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e5341e69esm3679461b3a.43.2026.07.27.19.12.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 18:59:22 -0700 (PDT)
-Date: Mon, 27 Jul 2026 21:59:19 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, michal.pecio@gmail.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, stable@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] usb: core: Add quirk for 255-bytes initial config
- read
-Message-ID: <ba2af6f4-0134-4feb-addc-24694fabeb10@rowland.harvard.edu>
-References: <20260727195434.14626-1-nikhilsolanke5@gmail.com>
- <20260727195434.14626-2-nikhilsolanke5@gmail.com>
+        Mon, 27 Jul 2026 19:12:39 -0700 (PDT)
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Minchan Kim <minchan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH] Documentation: zram: remove sections numbering
+Date: Tue, 28 Jul 2026 11:12:11 +0900
+Message-ID: <20260728021229.181627-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727195434.14626-2-nikhilsolanke5@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 28, 2026 at 01:24:33AM +0530, Nikhil Solanke wrote:
-> Certain third-party USB game controllers exposing (or spoofing) an Xbox
-> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
-> The device disconnects from the bus without responding to the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
-> config index 0 descriptor/start: -71'.
-> 
-> The device then falls back to a secondary Android HID mode (with a
-> different VID:PID), losing XInput functionality including rumble support.
-> The failure reproduces across multiple machines, host controller types, and
-> kernel versions including current mainline and LTS. The device enumerates
-> correctly and remains in XInput mode under Windows. Notably, the device
-> enumerates correctly in Android mode when the same 9-byte request
-> is issued for that mode's configuration descriptor, confirming the firmware
-> bug is specific to the XInput mode.
-> 
-> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
-> identical up to the point of failure, with no visible protocol-level
-> difference explaining the divergence. The root cause was identified when
-> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
-> use wLength=9 for the initial config descriptor request; it uses
-> wLength=255. Alan Stern subsequently confirmed this with a bus
-> analyzer on a different USB 2.0 device, and Michal verified the behavior
-> goes back to Windows 95 OSR2.1.
-> 
-> So, add a new quirk flag USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE which causes
-> usb_get_configuration() to issue a 255 byte sized configuration request
-> instead of USB_DT_CONFIG_SIZE (9) for the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
-> behavior.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
-> ---
+Those numbers are difficult to maintain and in fact
+we can refer to sections by their names (in html).
 
-Your patches basically looks fine to me.  Just a couple of things to 
-note...
+Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ Documentation/admin-guide/blockdev/zram.rst | 40 ++++++++++-----------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-Personally, I prefer to see comments that don't extend beyond the 
-80-column limit.  But there's no hard rule about this, it's just my own 
-preference -- you don't have to change anything if you don't want to.
+diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+index 60b07a7e30cd..2f6bbfd991fe 100644
+--- a/Documentation/admin-guide/blockdev/zram.rst
++++ b/Documentation/admin-guide/blockdev/zram.rst
+@@ -61,8 +61,8 @@ and, in general case, something like::
+ 
+ should suffice.
+ 
+-1) Load Module
+-==============
++Load Module
++===========
+ 
+ ::
+ 
+@@ -73,8 +73,8 @@ This creates 4 devices: /dev/zram{0,1,2,3}
+ num_devices parameter is optional and tells zram how many devices should be
+ pre-created. Default: 1.
+ 
+-2) Select compression algorithm
+-===============================
++Select compression algorithm
++============================
+ 
+ Using comp_algorithm device attribute one can see available and
+ currently selected (shown in square brackets) compression algorithms,
+@@ -93,8 +93,8 @@ Examples::
+ For the time being, the `comp_algorithm` content shows only compression
+ algorithms that are supported by zram.
+ 
+-3) Set compression algorithm parameters: Optional
+-=================================================
++Set compression algorithm parameters: Optional
++==============================================
+ 
+ Compression algorithms may support specific parameters which can be
+ tweaked for particular dataset. ZRAM has an `algorithm_params` device
+@@ -124,8 +124,8 @@ better the compression ratio, it even can take negatives values for some
+ algorithms), for other algorithms `level` is acceleration level (the higher
+ the value the lower the compression ratio).
+ 
+-4) Set Disksize
+-===============
++Set Disksize
++============
+ 
+ Set disk size by writing the value to sysfs node 'disksize'.
+ The value can be either in bytes or you can use mem suffixes.
+@@ -144,8 +144,8 @@ There is little point creating a zram of greater than twice the size of memory
+ since we expect a 2:1 compression ratio. Note that zram uses about 0.1% of the
+ size of the disk when not in use so a huge zram is wasteful.
+ 
+-5) Set memory limit: Optional
+-=============================
++Set memory limit: Optional
++==========================
+ 
+ Set memory limit by writing the value to sysfs node 'mem_limit'.
+ The value can be either in bytes or you can use mem suffixes.
+@@ -163,8 +163,8 @@ Examples::
+ 	# To disable memory limit
+ 	echo 0 > /sys/block/zram0/mem_limit
+ 
+-6) Activate
+-===========
++Activate
++========
+ 
+ ::
+ 
+@@ -174,8 +174,8 @@ Examples::
+ 	mkfs.ext4 /dev/zram1
+ 	mount /dev/zram1 /tmp
+ 
+-7) Add/remove zram devices
+-==========================
++Add/remove zram devices
++=======================
+ 
+ zram provides a control interface, which enables dynamic (on-demand) device
+ addition and removal.
+@@ -194,8 +194,8 @@ execute::
+ 
+ 	echo X > /sys/class/zram-control/hot_remove
+ 
+-8) Stats
+-========
++Stats
++=====
+ 
+ Per-device statistics are exported as various nodes under /sys/block/zram<id>/
+ 
+@@ -296,16 +296,16 @@ a single line of text and contains the following stats separated by whitespace:
+ 		Unit: 4K bytes
+  ============== =============================================================
+ 
+-9) Deactivate
+-==============
++Deactivate
++==========
+ 
+ ::
+ 
+ 	swapoff /dev/zram0
+ 	umount /dev/zram1
+ 
+-10) Reset
+-=========
++Reset
++=====
+ 
+ 	Write any positive value to 'reset' sysfs node::
+ 
+-- 
+2.55.0.229.g6434b31f56-goog
 
-Also, it's odd that you add the quirk flag to the kernel without adding 
-a new quirk entry for the Xbox 360-compatible devices.  That doesn't 
-have to be done in this patch, though; it can be done in a follow-up.
-(But note that without a followup this patch doesn't actually fix 
-anything, since a true fix would require user intervention.)
-
-Finally, a really minor nit: The two patches in this series are 
-completely independent; either one can be applied without the other.  
-That means they don't really belong in a series, that is, they should be 
-submitted as two separate patches.  Obviously that doesn't matter at all 
-in practice; it's just a matter of principle.
-
-Anyway, for both patches 1 and 2:
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-
-If you want to rewrite and resubmit them along the lines mentioned 
-above, you can add my Acked-by to the new submissions.
-
-Alan Stern
