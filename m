@@ -1,162 +1,94 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1DA334C3D
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785254044; cv=pass; b=QSTmS2tpp7OLgqUeUMPWd3gcf8wZjvgQKq96Tnp/ZEQ5WiKYGb/gEKb94OlSc+KlgB58aQJ6OJOWTVpnXEwBTvOb0n8WNM3WTSockKkYVi5D2x/Bg4AsECKPLSkZmndutfdOBMW2QVrN9XrbDYJHLO7oW5CPwZdaDHU4oaRzsEs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785254044; c=relaxed/simple;
-	bh=VdgY403WdBNdk1xN9Bz16ZYD/M2uVC9qOnTtjXU5SSI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vo2E4sUwZKD160m/JAAzxZnmZswyzaAb/BTDpTZ1N5xNDYH1yWKDm60WYXFAMS5m0Du5yxn5173nVGur2upemJpybNy+OfxAV0eh0/mPNjdWDZzLR6MH5q0OBtYN+eXw4BAkkn7pvTppXcEOfagMD8L29hd1kv6Wh8/6s3odGNE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b=xwSVATqO; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138531A045
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785254396; cv=none; b=KXBX+FRm3xFLZmHEhGcfotTOyARPHk/sSOzh3cNHuhE9fWzgwcw1NXjtOxAlhma0TKqv2YT0Mnkh4qi1JFm6LazlRzcApijSrqrWq2dghsLQRaDu5WUxwxJcvurm0QA7dAamCU9ajfDcSsK+yAUBF1LBMyUnR+WBOQoDQoajpuo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785254396; c=relaxed/simple;
+	bh=w8taRjkt4XGiOQDynhLX/WWqlpwViiZIIlH21qeYuX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X0RwE/fSrt3Vcc7PFkjL36kdqV+QKvR/w/XJswzi6BtvQ4VvUsQtQgKrKC6iLLvoXgKSRLeHdJJnXAjGMiv4keFadlaqCLJQnMudQPfAMg8qsf3sXeKvxv1I5BXkhJn5jMfX0XK7LyFQYTMbd04/xAy8SijK0b/Im3WLMSmEZJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=m2ZBc3ir; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b="xwSVATqO"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47de008b020so817931f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 08:54:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785254041; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IuMAlHLEaRNxEDhhtFQbuUpLCqxU+0RO0dpVVI9wXcXPd/3xO7YFJyVJQXwXziW1Ht
-         4PPKLdiuMdakn8gx7RSQdhgxtyEvPTnkvzzsYFc6qJlC73Pdy0Xe6tlslRNvuScC+898
-         dXnzw75zQanpsxtl0MTdmCe7Z60Y9YGc65BVmTMUmHXqenwOVjWn4OYO9qJvjdmDLcb4
-         B+VxNo9ofvUG25F+yzSB+jxT1ggNwgVrN9lodB1/krjZb64JgehXM45aYwY8hRlCW1N/
-         /+giMhyIJIoNdvPx+Ae+seQEvpX3/7lnJwgOo121AcdmgOxsyuX+eE5nsM5sCzg3qeet
-         EVlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+U7EUowm/WpYWZVDDqRkyNBdiXnZeoZAf0Tk6pkUOwY=;
-        fh=LpneHEXvQ7thiMUBSX5u+xZ8fwDBs84K6mBEuIY8CTo=;
-        b=ltNjrUBXU8TfNwdb/D8PMfNXLXjk7kIeapWvv19jJJOr6ghktVYGCx5wyfL2Ey5Idl
-         v8iTpp/AJx7KMXTFjqo/VONAlMfDlmNSgekhCu9zbLvD6Jnfts0BNDWzoPe1TUtWSKHg
-         vsphWhVXIu1CvTX/rYbBRHfudWdG2OneJI0PyECmgfI9vbEVCDAjXf14I8YxkWS9sL6/
-         fX5/ay5cvKA3r/EblWOgnpaXz7P5vIxCnXt7nYi3+q12p1PWOWhjFsy6vaKtqkcN6VOe
-         uIci1ntPgk8CZxLzaY29WjXDtvg099V7ayLevhPiqCi+E5rKM1Z8Uc5onSCa2G/uamMY
-         lyVQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20251104.gappssmtp.com; s=20251104; t=1785254041; x=1785858841; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+U7EUowm/WpYWZVDDqRkyNBdiXnZeoZAf0Tk6pkUOwY=;
-        b=xwSVATqOIyzE+mwqBQHyrQ8C9WjxdeM53CK6wXHLMoUEjLfwdVeLsN4XB4zc7Mq8ny
-         AaqMginj9jsqlmEyfu2b+II2F4z1YOaL9PHMG0M77KuUF1tIi/hilzXtvecOLtsSFBeN
-         pTH/hRs+yeOc3uBx79ac4Nq+/zdvwdcwSoAqMrqK9NhkzJyOAiGCkwCcRSr6ZEAvbqlo
-         oJPj47XipXNcR4jNCh+ZFV6YTwIC5dLjs25zYLvD7Hv7ql/zdOSR1jgLIF596t2RUj74
-         znkTB6Lc9rorG3bi4SRl9BesHPrbF4FC0wtOqJJgydhj9UW7IoVzuesc4lZ3DsWoPW1e
-         YrTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785254041; x=1785858841;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+U7EUowm/WpYWZVDDqRkyNBdiXnZeoZAf0Tk6pkUOwY=;
-        b=bRPzKhEH9LTkoNC2zet838wTvmQ55vVo4PAR0t1UYzDzpyTHbRJPlcLb8UZkwpl96d
-         UvPeUqApM989sOLdIdzacdjoFTZKfePfwWDEb1L4b/VxKvuvkkJ4AeD+n+ZjoIgwlE/s
-         vwsfpOL65OnoOfbtmE9I9doth4OR9+ZrmXB20vH+m6MAnrtZV02DZRHPq2GtQbLBmUfI
-         P11czjZjBb9U/A6O5cRd0WMGBq4D7CRjLcvG+DCTbqJcIi0W3TCnDMvlSO+KAxLhmQ8k
-         wIoTx46CiqL/vyr008oVcx/BL9v2NUpnUGeTvttsidwJWzOTiVQVHvqycpxt9yk6LCwT
-         L+Lg==
-X-Forwarded-Encrypted: i=1; AHgh+RqaEqEMmUk2pXqtglIgZ5SAoqRmnFXAtFcqVNW7EHQeutJa5FMbEKN/WlhhpUHEt9y3Z0ETdIC8mts=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfKvYAY+ZRL2jqpIh686GArDbnWZoxSup3cU+Kpr4mqckXnRkZ
-	ea2H6SGpqB9fBGTzdwSlTiSA4r2hxpSgRdyEpKnD/r7B9k+OWQW74qj1pzPtX55ZcPn3WKyVLl1
-	ehHZ7O/yMh/INaTJEgNxxuImFmLlOvngAElZD6IKaZw==
-X-Gm-Gg: AR+sD11p2W/HhoCGYPuRJeRasgA7/sMnElZfAta29DdEuOT/JhQfL+BS+RMyfqul9Vi
-	3NxEdLiLGI+IL8fxxHg2nRQhcJ/8kc0bpVGjbhGQa944k2IfLQls0UkEAnhQTMyIVJ2PYEczenJ
-	MVukK9YfPZODIR05NMJuRZtHYomq6VNA+ytYm4yCmlg2mx8+xQxTDoA8eRPhekt1fdenmbUik6P
-	yXLkp/l8u4CY51yfXImLO0FjJF/rf6pUTQu6hpyFetzWzZ8ghYGzoISCusXh+6/d+8yNMMSo1kU
-	Evwgxfk/I9MvAtu8BodMlhyPxlgbScZ78e8s3gleRCfi7lA5ZAbKAg2OsxRxUwP4YM0CdHhe7YQ
-	joxu5SoswnYiQoWw=
-X-Received: by 2002:a5d:5f51:0:b0:45e:dd32:92fa with SMTP id
- ffacd0b85a97d-47fb1e9992amr3932927f8f.12.1785254040632; Tue, 28 Jul 2026
- 08:54:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="m2ZBc3ir"
+Date: Tue, 28 Jul 2026 23:59:31 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1785254379;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JT/zsOPWVp30ryJSOOqi2seBguSclew0b0YVRvEmi58=;
+	b=m2ZBc3irZGpG/oZRSQoN2KLkSMBx2jP4a9vYY0e485iuo/rGKfzzI3wstHYJRbottTIFkG
+	DqAUUAWE61PA/U40LPgwsez/lzjae0svR+KEWFWvP19x1b5+FQ7AG38meihwnhr/3ugw8+
+	GKN9Wxq3XqMZRHdeRG2D2u5HVXS3SqEdb78mQh0A6gour1ragr9xBesMHFIEP61xVyztYh
+	McDLyzWnxzHQtXxyrBF5jQgBhWZRvkESZCEYPlUzLDrQnlktaAMSVMOiaFVUFuhhYj1A3Z
+	XAsokvbVxPUs5eZgAdqfwh108kGGP5rMr2GXH0375x1N3QukIZ6eWER+mS6rbQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC] Plans for zh_TW: prioritize maintainability over coverage
+Message-ID: <amjR4_X_C1mEPtfY@wyuan.org>
+References: <amcZ5SI3-Hzw4HkJ@wyuan.org>
+ <87wlugk1ty.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260709115610.287420-1-yhchen312@gmail.com>
-In-Reply-To: <20260709115610.287420-1-yhchen312@gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 28 Jul 2026 21:23:49 +0530
-X-Gm-Features: AUfX_mwzsyiunp_bPATfO_O8RiK5DjkNzGjCdX_kznFgbSWBNjYBF0Izm64N9aI
-Message-ID: <CAAhSdy2r8Ei9ESdSJB8McC1T=Atp0yNa2MxEbOWNVRTUM_8YFA@mail.gmail.com>
-Subject: Re: [PATCH] RISC-V: KVM: Add kvm-riscv.wfi_trap_policy to control
- VS-mode WFI trapping
-To: "Yuhang.chen" <yhchen312@gmail.com>
-Cc: Atish Patra <atish.patra@linux.dev>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Quan Zhou <zhouquan@iscas.ac.cn>, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87wlugk1ty.fsf@trenco.lwn.net>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 9, 2026 at 5:26=E2=80=AFPM Yuhang.chen <yhchen312@gmail.com> wr=
-ote:
->
-> Add a kernel command-line option, kvm-riscv.wfi_trap_policy=3Dtrap|notrap=
-,
-> that controls whether a WFI executed by a VS-mode guest traps into KVM
-> (HS-mode) or executes natively.
->
-> Measured results (wfi_exit_stat delta / guest wake count over 3 s):
->
->   policy        WFI_EXITS   WAKE_CNT
->   ----------    ---------   --------
->   default       295         294      (=3D=3D trap, no regression)
->   trap          295         294
->   notrap          0         298
->
-> Assisted-by: YuanSheng:deepseek-v4-pro
-> Co-developed-by: Quan Zhou <zhouquan@iscas.ac.cn>
-> Signed-off-by: Quan Zhou <zhouquan@iscas.ac.cn>
-> Signed-off-by: Yuhang.chen <yhchen312@gmail.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         | 14 ++++++
->  arch/riscv/kvm/vcpu.c                         | 44 ++++++++++++++++++-
->  2 files changed, 57 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index b5493a7f8f22..ee6603b30033 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3254,6 +3254,20 @@ Kernel parameters
->
->                         notrap: clear WFI instruction trap
->
-> +       kvm-riscv.wfi_trap_policy=3D
-> +                       [KVM,RISCV] Control when to set the WFI instructi=
-on
-> +                       trap for KVM VMs. When set, a VS-mode WFI traps i=
-nto
-> +                       KVM and is emulated; when clear, the guest execut=
-es
-> +                       WFI natively and blocks until a VS-mode interrupt
-> +                       (e.g. the sstc timer) is pending.
-> +
-> +                       trap: set WFI instruction trap (HSTATUS.VTW=3D1)
-> +
-> +                       notrap: clear WFI instruction trap (HSTATUS.VTW=
-=3D0)
-> +
-> +                       Defaults to trap, preserving the previous
-> +                       unconditional behavior.
-> +
+On Mon, Jul 27, 2026 at 07:18:49AM -0600, Jonathan Corbet wrote:
+> Weijie Yuan <wy@wyuan.org> writes:
+> 
+> > That is to say, we will deliberately select relatively important
+> > articles for translation and hope to maintain this consistently
+> > first. By avoiding the large expansion of the translation coverage
+> > we can't handle, it is possible to truly ensure the quality of each
+> > article that has a translation.
+> 
+> This seems like a good approach in general.
 
-This would mean that for the "notrap" policy the VCPU would never
-sleep and increase host CPU utilization even when VCPU is idle.
-Is this expected behaviour ?
+Thanks for your support.
 
-Regards,
-Anup
+> Of course, somebody is sure to point out that the *English*
+> documentation is often not maintained to such a standard.  We have a lot
+> of stuff that somebody dropped into the tree years ago and nobody has
+> updated since.
+
+That's very modest of you to say so. The English documentation is much
+larger in scale, involves more complex workflows, and passes through
+many more hands, so maintaining it is by no means an easy task.
+
+The kernel community encompasses so many subsystems and people, and
+reaching consensus is not always easy, so I completely understand the
+constraints you are working under. (Yeah, The assisted-by trailer
+discussion may be an example) By comparison, we have it much easier on
+our side.
+
+> I shall continue to try to get the community to live up to your level
+> of diligence!
+
+You're giving us too much credit. But it may be a little early to praise
+us - we're only just getting started. ;-)
+
+Since I´m new here, I´ve had to dig through the history of this part to
+get up to speed quickly, and just watched Kernel Recipes 2016 - Kernel
+documentation again, how time flies!
+
+Thank you, Jon, for a decade of tireless dedication.
