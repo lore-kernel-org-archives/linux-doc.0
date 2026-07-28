@@ -1,37 +1,69 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38A53A6F0F;
-	Tue, 28 Jul 2026 04:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755D03A784F
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 04:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785213106; cv=none; b=nD+MeQOzhiRb/DX3owOuhepW+BVtPQRWKAbjfDPesppqafZnHZITFO+leiv+Ri8YYTDhu3PjFGrELDsXItj4ouB+M8rhuhA/P6J9ZWOpsXdBSJ4s7es1MDF7SYIPhnurlUE00Jdbrft+AxhXIg7sBrVgN6pNnj+Z6cPCmtodph8=
+	t=1785213111; cv=none; b=p4E0LNdlf4FERx4YRqZBJ6Z9XcmPS1LFRAvN8xkdNuYk9ds0oOwldPdQzbtlqU1pwVZONoGrKMXoT5EaTAziVa9xves5cyfmuVYYk1ySMpXq6AGzg5IUC01Z82TCjS8RyCZH9a5mM9ooscEomfdGZt2J7omws+jAKg3pqtoPY6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785213106; c=relaxed/simple;
-	bh=hkgK3Sst3ZYouqI+2IO2iuiwmVGKV5zq4DF0IPxXutA=;
+	s=arc-20240116; t=1785213111; c=relaxed/simple;
+	bh=xW+jeVJ7gBoIcbZHJ2Y9ZJZhRwhdct15ixQFUsZWyJw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WsiAzqUGI3CMMxP4f3RNYHLjaPySpRmBvqnGQTgniEm44dq8N1ySBw/s50fXkFi5Q5H4+JFS60cijnNZplWLU8BFrzePWmYZL+y8H5y1eySOtNMYLKiSBIY3DQ5yjOJQyes42onePyiCuNcPoN/lQft7HjExb2WmwFrUyJJPtoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CHPjQQqb; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=vGYPn88aEYTnDIG/NnurqIr8QbocZ4Xvxg+mBfzqqvQJMo0m/oqDdmhVdfGU0XfgQtncRXQBf50hCnPupJLCKBSmHFF8FKUz2NlC1PDXjHbSFbVvKiTmY2HJ1Ach2wQZOOHLRkAZEsVK0HFSXZzqTjbd8cV3yUXjBI30kUP1Hmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZojooIiP; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CHPjQQqb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=mQvstQd8Ta6ff8kZBOw0uOSIhhvnO3IJRb7R5oF+bsM=; b=CHPjQQqbx3YOAsNB8SfZxq1i7x
-	2NzIG4euEGJeJwUyAlnjokOuw13yXWxAFjPFY/N525rHs0lFUVFfv3x4mWsGXWQhAuE2pH91JwE6u
-	7/NBBbm1dyH1qVVq2IoxyqciS2dyUPMxUBG+VBwZzjvbqGaq3ceBqkvtNJmkwA5r63f8CZhdHQPtj
-	sphWshuxEjVidVfTeT9OeRrtyJ8MnWMrQyIYfe8szECs0NzG4QWbhNOzs9v73sal96xx3gMSWjoWy
-	1TjshUTjNx2C+CLr/aaIAjaqGBZiUUsTzpV43UiPy7qTAu7K3EfboCp4yDsVeyAx39rFET92Dgl3Z
-	OsEIH77Q==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1woZTc-00000004Odh-43qU;
-	Tue, 28 Jul 2026 04:31:37 +0000
-Message-ID: <f7a7b4d8-d044-491f-827c-ec929ee429ce@infradead.org>
-Date: Mon, 27 Jul 2026 21:31:35 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZojooIiP"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cb5a6aa8760so1982033a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 21:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785213107; x=1785817907; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1vBFBzSt7pNhRD/NLr/9cCWACL2lf1sDzhfdvaRdsOs=;
+        b=ZojooIiPN2HOcNkyAW0+/H3S+5JrawWrG0B6oT+Bap3hmYkv/iyMkujKSbXV2tsa0H
+         ntfpaRO+EHWbBNUgFOYMFyagMA9LEJXOgrH2zLvVPiFCZmd+DPXTGRoi3qAdBDWnTmmf
+         1D1godSSCeuh/fFa4JIsILAUnbDywGapUQbUzAEfNGCaBb7fIQLaiUlt9mUkm7gvTFqq
+         VFQ11OH92WX3dcxv/0/hvB4zHf4vaNkslDKlG5Gj/dZgRhsVlIvQD8mgz1MuhwZuU/yE
+         Yu+yn4VsCo0hfolZ+2NypGKVX0STHGAoSWblblyfgjOlGfmtdkFspgV5Kr/S0ylW0Gd5
+         yExA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785213107; x=1785817907;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1vBFBzSt7pNhRD/NLr/9cCWACL2lf1sDzhfdvaRdsOs=;
+        b=QvB1LFl6NcYf71OnpW0dbgQX6dT/yF1nSShv/1WWRFyUWteYt95nOhmw0WIseeWaTo
+         0gFies4izu/CBBpbruFwqUa8oCeF1y0akVD3Xww8gWJ/GowN7W+11ipw/UqOe2uLC8Oc
+         loL5FB4n6E2aRtyRmpKBRj7Puz6WitRre5AjZ/nvHEVY31FNeomIoNTDl9hjqgJSjEAK
+         2jepVEBA99wbfpRMJX2bONxsswPo3LaxUIOnsNRWhQV+n7xD7VZ0r8wWaMKQqdydkK9L
+         VLoRP87X6Uf16lTpr57/M2CQQTwqPLZEIClFk1YBokPQ6LbwYQzeB1reQlb2rU72AfGu
+         6ODw==
+X-Forwarded-Encrypted: i=1; AHgh+RoHKb3WRV6vhr7fhNbguaV2D+vHbpGfljE+InM1sa+j8Vdnci09eqPYYc5etjkiykIlIV0dRjy2crk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2siQTETJR9WB+eoSx5u0SjDYBcVUeQpfYnK7RxnodkvuDT/Lr
+	RKJ80bT6J2GXZAyrVCQJQlz741mImlg9Rdz185+BYUxlZYDJG1Vgq09d
+X-Gm-Gg: AR+sD12Tf4AYRjoNcIrt8xwENSerNzEJ53XAsUmr3BEX+shsGb0MtQ5f8t4Ma+5CLBo
+	45/ZUvrzvc4ZCutL1Jgur0OTpOI7OJ5MzfCcCaBZXyVX45C90wpwMIb3RfA0yVKns8Rbg9OCWz5
+	lhIWWYLoXyL3X6TFgpWyZwkp9c+GiWDD4VdiLCKl0CiiWnm+jOsj1Lynx2D+oGynlwXZL1v5+24
+	D6CqpxZRUyS2LqhNHoj2BZNyKgupJQOgSFOltMJUZOFXDaLYqrT0XIAxxC05IAOJgQaNkO+JjJ7
+	I4//PzKogkP/4ieEuG0vbAVlSG3v5GrsTfa0Zu7Pq53jQKRd82L93KTgDc0FA9DTLbnXp11oO1p
+	mK1uHRYW8NlpPlbK/yTGtswm2/TbLuWUsMY1p1JbM6GrbgXkU6yRw6eMmqwWsSooYRSH35QO/7/
+	5ZfRFMza45FDHLjbxGnwFDjgL4WRpy6uQiZ0FFY4mZNARZ3TAXL1CCJ2lw8VzJ87q8e/gGThc6b
+	GW1X8qUwNZp2YF9QJDvYj2kL4m6t8VEyIiXDQ==
+X-Received: by 2002:a05:6a21:3a42:b0:3bf:7994:ddca with SMTP id adf61e73a8af0-3c8ba462562mr1069953637.29.1785213107414;
+        Mon, 27 Jul 2026 21:31:47 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbbb66dc15asm3912996a12.30.2026.07.27.21.31.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2026 21:31:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <336bd264-52ec-473a-b74f-5661f06286ed@roeck-us.net>
+Date: Mon, 27 Jul 2026 21:31:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,71 +71,194 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] Documentation: fix "should be use" grammar in ABI
- README
-To: Weijie Yuan <wy@wyuan.org>, =?UTF-8?B?5bKz56eJ5Z2k?=
- <yuebingkun@kylinos.cn>
-Cc: mchehab@kernel.org, tony.luck@intel.com, corbet@lwn.net,
- shiju.jose@huawei.com, jacopo.mondi@ideasonboard.com,
- laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org,
- sakari.ailus@linux.intel.com, linux-doc@vger.kernel.org,
- linux-edac@vger.kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260728041213.52820-1-yuebingkun@kylinos.cn>
- <20260728041213.52820-2-yuebingkun@kylinos.cn> <amgu5cFN_imQgMf-@wyuan.org>
+Subject: Re: [PATCH v4 4/4] hwmon: (pmbus/max20830): add support for max20830c
+ and max20840c
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260728-dev-max20830c-v4-0-cec034298535@analog.com>
+ <20260728-dev-max20830c-v4-4-cec034298535@analog.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <amgu5cFN_imQgMf-@wyuan.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260728-dev-max20830c-v4-4-cec034298535@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-On 7/27/26 9:24 PM, Weijie Yuan wrote:
-> Hi 秉坤,
+On 7/27/26 20:32, Alexis Czezar Torreno wrote:
+> Add support for MAX20830C and MAX20840 step-down DC-DC switching
+> regulator with PMBus interface. MAX20830C is a different packaging
+> for MAX20830, and MAX20840C supports 40A regulation compared to
+> MAX20830 that is only 30A.
 > 
-> On Tue, Jul 28, 2026 at 12:12:11PM +0800, 岳秉坤 wrote:
->> Fix "should be use" -> "should use" in Documentation/ABI/README.
+
+Are those chips still not published ? I find MAX20840T, but no "C" variants.
+And MAX20840T presumably has an I2C device ID of "MAX20840", not "MAX20840C".
+
+I also noticed that MAX20810 and MAX20815 seem to be register compatible.
+
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> ---
+>   Documentation/hwmon/max20830.rst | 27 ++++++++++++++++++++++-----
+>   drivers/hwmon/pmbus/max20830.c   | 27 ++++++++++++++-------------
+>   2 files changed, 36 insertions(+), 18 deletions(-)
 > 
-> The diff below already documents that the changes is in
-> "Documentation/ABI/README". I'm not sure if it is proper to write like
-> this. But I also do not know what's the best practice to write commit
-> messages for typos. Hope some friends could provide a better answer ;-)
-> Of course, if the maintainer thinks it's okay, I'll be definitely fine
-> with it.
+> diff --git a/Documentation/hwmon/max20830.rst b/Documentation/hwmon/max20830.rst
+> index 936e409dcc5c0898dde27d782308d4a7e1357e73..b850f3b6e40d1f1d0cec944be40af02265aced59 100644
+> --- a/Documentation/hwmon/max20830.rst
+> +++ b/Documentation/hwmon/max20830.rst
+> @@ -13,6 +13,22 @@ Supported chips:
+>   
+>       Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max20830.pdf
+>   
+> +  * Analog Devices MAX20830C
+> +
+> +    Prefix: 'max20830c'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet:
+> +
+> +  * Analog Devices MAX20840C
+> +
+> +    Prefix: 'max20840c'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet:
+> +
+>   Author:
+>   
+>     - Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> @@ -21,12 +37,13 @@ Author:
+>   Description
+>   -----------
+>   
+> -This driver supports hardware monitoring for Analog Devices MAX20830
+> -Step-Down Switching Regulator with PMBus Interface.
+> +This driver supports hardware monitoring for Analog Devices MAX20830, MAX20830C
+> +and MAX20840C. These are Step-Down Switching Regulator with PMBus Interface.
+>   
+> -The MAX20830 is a 2.7V to 16V, 30A fully integrated step-down DC-DC switching
+> -regulator. Through the PMBus interface, the device can monitor input/output
+> -voltages, output current and temperature.
+> +MAX20830, and MAX20830C are 2.7V to 16V, 30A fully integrated step-down DC-DC
+> +switching regulators. MAX20840C is similar but can reach 40A. Through the PMBus
+> +interface, these devices can monitor input/output voltages, output current and
+> +temperature.
+>   
+>   The driver is a client driver to the core PMBus driver. Please see
+>   Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+> diff --git a/drivers/hwmon/pmbus/max20830.c b/drivers/hwmon/pmbus/max20830.c
+> index 7c1e94c43ac4e5d1b4f69dc77b02e424a674e908..029733a377123ae6a861841db4a40dd540f1149e 100644
+> --- a/drivers/hwmon/pmbus/max20830.c
+> +++ b/drivers/hwmon/pmbus/max20830.c
+> @@ -99,13 +99,12 @@ static int max20830_probe(struct i2c_client *client)
+>   	 * which do not support SMBus block reads.
+>   	 */
+>   	if (i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_READ_BLOCK_DATA)) {
+> -		/* Reads 9 Data bytes from MAX20830 */
+>   		ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
+>   		if (ret < 0)
+>   			return dev_err_probe(&client->dev, ret,
+>   					     "Failed to read IC_DEVICE_ID\n");
+>   	} else {
+> -		/* Reads 1 length byte + 9 Data bytes from MAX20830 */
+> +		/* Reads 1 length byte + data bytes */
+>   		ret = i2c_smbus_read_i2c_block_data(client, PMBUS_IC_DEVICE_ID,
+>   						    MAX20830_IC_DEVICE_ID_LENGTH + 1,
+>   						    buf);
+> @@ -121,26 +120,28 @@ static int max20830_probe(struct i2c_client *client)
+>   		ret = ret - 1;
+>   	}
+>   
+> -	/*
+> -	 * MAX20830 IC_DEVICE_ID sends string data "MAX20830\0".
+> -	 * Return value should at least be 9 bytes of data.
+> -	 */
+> +	/* Verify we read the expected number of bytes */
+>   	if (ret < MAX20830_IC_DEVICE_ID_LENGTH)
+>   		return dev_err_probe(&client->dev, -ENODEV,
+> -				     "IC_DEVICE_ID too short: expected at least 9 bytes, got %d\n",
+> -				     ret);
+> +				     "IC_DEVICE_ID too short: expected %d bytes, got %d\n",
+> +				     MAX20830_IC_DEVICE_ID_LENGTH, ret);
+> +
+> +	/* Null-terminate the string */
+> +	buf[ret] = '\0';
+>   
+> -	/* 9 bytes of data, buf[0]-buf[7] = "MAX20830", buf[8] = '\0' */
+> -	buf[MAX20830_IC_DEVICE_ID_LENGTH - 1] = '\0';
+> -	if (strncmp(buf, "MAX20830", MAX20830_IC_DEVICE_ID_LENGTH - 1))
+> +	/* Verify the device ID matches what we expect */
+> +	if ((strcmp(buf, "MAX20830") && strcmp(buf, "MAX20830C") &&
+> +	    strcmp(buf, "MAX20840C")))
+>   		return dev_err_probe(&client->dev, -ENODEV,
+> -				     "Unsupported device: '%s'\n", buf);
+> +				     "Unsupported device: '%*pE'\n", ret, buf);
+>   
+>   	return pmbus_do_probe(client, &data->info);
+>   }
+>   
+>   static const struct i2c_device_id max20830_id[] = {
+> -	{"max20830"},
+> +	{ "max20830" },
+> +	{ "max20830c" },
+> +	{ "max20840c" },
+
+I don't think that is needed or warranted, given that there is no matching
+devicetree node.
+
+Thanks,
+Guenter
+
+>   	{ }
+>   };
+>   MODULE_DEVICE_TABLE(i2c, max20830_id);
 > 
->> Signed-off-by: 岳秉坤 <yuebingkun@kylinos.cn>
->> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Usually, your "Signed-off-by" should be the last trailer.
-
-Hm, I disagree. The -by: lines are somewhat in chronological order, so this
-looks fine to me.
-
-Documentation/process/submitting-patches.rst says:
-"""
-Standard sign-off
-procedure applies, i.e. the ordering of Signed-off-by: tags should reflect the
-chronological history of the patch insofar as possible, regardless of whether
-the author is attributed via From: or Co-developed-by:.  Notably, the last
-Signed-off-by: must always be that of the developer submitting the patch.
-"""
-
-Yes, this doesn't address Acked-by: or Reviewed-by: lines, but in my experience,
-chronological order applies to all of them.
-
-
->> ---
->>  Documentation/ABI/README | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Documentation/ABI/README b/Documentation/ABI/README
->> index 315fffe1f831f..27c962e6a872c 100644
->> --- a/Documentation/ABI/README
->> +++ b/Documentation/ABI/README
-> 
-> Thanks.
-
--- 
-~Randy
 
