@@ -1,319 +1,149 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCE52E8DEC
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 01:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D27E2DECBA
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 01:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785203954; cv=none; b=QqFq/CfVYAHcExr8YwS74A2iOJFLkv9hFwvIjq4NOEFvpYWoiUp5O+IcB632EgKxGzIlwlYXSz3U87+10gCaqj2yGOPoyTMVr5p147ZACP52GD5yePd1lab0yTCgioNUIrIQax/XGJ8pIyA2jKEOO4FF8mhRtBc6A4fYMJaoSXQ=
+	t=1785203965; cv=none; b=FPgoQlLYNFT5NWQKvydhNsehWQWXvToRGqqluwloN0mF8yDAJt54Jq2WYQg1E4nSpKjPLTZ8Y1WDJ+58+cZwM1/j1U+LCI1XK95tVCVPdzjq7xFG8SP4S/A46ddlUnnvh5d/AAJPr/BZe1KeAg+MaKwJuIbnjf8m8qG3bNZsCes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785203954; c=relaxed/simple;
-	bh=FEC0rKzwmLUQ/orvcXtfoZYdSjj9hpDU7A6Seo0HC48=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dDQ/M1KLy0vAzMQ+6PrFH8RAP8g42boQb2Ry1EZYGF830+s/cBEckaqWzhFpcg2t1UBjsnp8j7eJEUm057+BlkAR1A+312GSeefmVuAyb4INjLQ5ByAsg8VPhItGzZtDPUKv+lEnxlzV733CjOQmGDVyBIZMf76qJT1mvCMv0M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=QARdIHAz; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1785203965; c=relaxed/simple;
+	bh=CawxVQkJNWG9UC33bH4B6QtHE3fIWQSW2rF6KQwMMb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RLqMznN83o6hbR52ymFNHDZixDn4Je6dTjASt8M9selmI18fIN3n2qXBU7MhmO0kx7YvX3dOipU9gPCY5fpK6mGNCEPpVLxfbzK5XwyGC+alFopSwvujQYXWrp5aUkS4uOxUSszLYSiVSoncBGNxDhf//VyNMmwe9A81O1Prono=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=nj62HUlQ; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="QARdIHAz"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f7854678bso1125515f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 18:59:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="nj62HUlQ"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-517dc520840so25354031cf.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 18:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1785203948; x=1785808748; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6rV6KeBm1ayj5wr3qIujHsDgsty2nYjcbwF0ZIeud6k=;
-        b=QARdIHAzjEM4+0D5n3M/HgoWCgYoiT73MJ1FxxbI/RrFeIdVi+l/BkaZXXzO01m0Yo
-         NjlEP/KD6ckyLTY7FlmuTvgiC1gG0/dd95nLxO+rdcPQaQfL6xMXv5p7YixBZjOzCk/L
-         MrYreksCSLxOz6WwBkCKEiiNdkNyfxDUXjeuILHBVDt48X+iuHnc3x2yy3pqvlRElf2+
-         wAsb66PhYiwFBnhJBm9sZ2zE6MSDUm5US/lsI6/WyCTsGklmxXWiVCtw2sRnZQNDuIRk
-         cRqxQ+qDYwJNBr6ZaUOozD8/fRRthzsM0ojLMf2q/Wuah13kW4ncZDmjJHqcUsl7PtLh
-         uDXw==
+        d=rowland.harvard.edu; s=google; t=1785203963; x=1785808763; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xsIjQv5H0VfbYXJqKAEeCyOCnADFtFqc7MMDYt9Qh0Q=;
+        b=nj62HUlQgh8z7YtRj9LjYQ2IGqVAX+3wuTr5HVhWuDT3J8RQ03uR18aHDmiSHZFrdH
+         t6uyVfkYMh/Czg5fx0WGJertLzsbNPLaT2/bZsQKeSVyT2MFulWqnLEl/VGl44X3dqlA
+         wSTgXoe+1hd+cvsdyUcQLHMarIJnX35XMi8MRn0UKyvehUJfkM+EnXifyqNTA7pAkbIL
+         T1rL4whG/PkOKQCQQ0UssCifs56RwaSc0p8Vhg45bvFc9RZopFQ+lYHIMlOzjFcTjKav
+         srWVa2yBqzjSJlpJ7JkI0BgdsqpxdDsQNJti23XtEr6OveOn0DvbMyAWM2txYlpfrmqU
+         y1rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785203948; x=1785808748;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6rV6KeBm1ayj5wr3qIujHsDgsty2nYjcbwF0ZIeud6k=;
-        b=Q1E+8jEXDy2dveZhMkR8Z7uJbYgJgZ0YfL60LwvqqTM2pzxfhYy+bPalysBhCwBUBf
-         dNUPx9tAJChkM/kqy2klc66fTmSGSg5ghP/89gvDMM3Ob4W0adyH0t8+1/eyl9A/HmGO
-         4hgZYewC/f+5uRx9ySSksrte+BjUfEWEO8MWkVljBxCF1OIP/sEXZZMsoqIrNdqQbgOt
-         BWdvKOqhvRTXZINKQKpa7d2nCGBxk2KhqrFLAWSH/HuD4Gw1ri/09BTq6lUmU/kUU9xk
-         TXbHIBNmIpOQI21ZrjrvbjPBJ4b0IkSs2cMTqztza6HZj9SUakcKi7hvvFXBuFj++7Fz
-         jXMQ==
-X-Forwarded-Encrypted: i=1; AHgh+Roig/ke+0HAnDu8C7euZX11Mt5tKPDrFJNDjlGvGKvlMS2MSjS/DtUA5bNyrTCSGWWDFHi6jafkG+8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2kfiOMHaLg9giATSTc0JyrJD6x3KNNQugb4jmeLJpVowTgGHY
-	u1kTXmBTl6HTuWqq6PjZDJX0vK+/neNsHk0w5c1UE5z63yJMYQ1NiSYWDrd9KCKfAqM=
-X-Gm-Gg: AR+sD12R6WBm4quuvNE9WlY2MM40LqAU++z84SoKdsuZy+nw25MWU/8DD1urcbHmher
-	22TFvkxGEYj69UR+B5T+Isvh1HB+fJ2yeMtqkEETlIG9jmjVjlvwi1To6mHoEeum+M/fa5rAeqd
-	oS/afZuwohKC7nNOtG3e9rLBKdTToR4X7Ip8k8ZxbUN+SM1H3h8gNrMO/W8RRhfbwwtbjs/HnXs
-	h7PV4bEAqko/kTGYDr6yh1Mb/20AStIyD/rOhRH2rMW72vEdmrbEeolxjfDo1iOQj9AFOaltxW3
-	3EMzMIzeAFeI0wS+8X9Rkwm+ZRGG0V3DSUNfrIcTFVzIaJ7H7NFxBvClE92FPvprnnAAHmhvUHW
-	AWx+3ENbu0AnVxlBZzBe6FrYH/cFKJqprFrJXU1IO8+tMQWypT4eTusUKcd5ilhOd7oWSzaQt7T
-	IkcK1wm/b7AgYb4reMkTC59k23b2aTekZO2n82F6aSy4lwol7C14vhNfglCTgzWevXg4/23w+U+
-	qei9y6xsAyDeMuoQ7HqnBj4mteDHYcMV6rNApNO+Y/dcH0=
-X-Received: by 2002:a05:6000:2c02:b0:47f:943a:a7f4 with SMTP id ffacd0b85a97d-47fb1f394f0mr277406f8f.61.1785203948210;
-        Mon, 27 Jul 2026 18:59:08 -0700 (PDT)
-Received: from silence.. ([46.10.240.40])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bdac28sm52380930f8f.16.2026.07.27.18.59.07
+        d=1e100.net; s=20251104; t=1785203963; x=1785808763;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xsIjQv5H0VfbYXJqKAEeCyOCnADFtFqc7MMDYt9Qh0Q=;
+        b=GxHMC2De5p9eCoxOVApn+br/dMh7qe+iQhejqPisoPDz/UtB5iM/ZcL2ZUWzD9HXXq
+         De/LshmI9WmO1ZC9m2w9mfOaEh8oCHGlv/lAK0cNAETJ6B8HRCF6IOMjHOsL6diRdTWC
+         QP/+b0Crh4ZIQKSudf6Q1vd1Kn2/Iez1QTlort/wz+rNjMUKzKeiUlz7NH5qVVqgmYFf
+         b9Z37DjJRCKsI48WKkuNZ+E4GU+OxT/vfRBnlYE1BZGiFE226YVQGL3VGhjAFTXRjYVC
+         +Xcay/PoIwQab8POynOx9LQYx1gmAARzge25w59B8zbIr7DWHAFoNYd3703XA4ADcr2C
+         Iyqw==
+X-Forwarded-Encrypted: i=1; AHgh+RoOA3DCiFNxehsMLy4AWGri52YFPBDi5YagSAdD5evKSCGupMyS7w+efnqrjWxHWa2zcjVwHP2eV4Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5K9ck3B8MXPiaTO951Hzp6vX9v1/B1ikTjfFoHJeBnGOT7Z5c
+	42UqV230ktE0m8pao+6UClKDzDSPREg3ILJroC90B6c6PKK39r4lc7lPqi5y/f0ubg==
+X-Gm-Gg: AR+sD11b9ZsNQgxxyJju7nMWxgqIVBFbgLVBRoSdyp6dVU0HkiMVSAhp5Y40Wi6ByKc
+	cCO/Nu97eiMREo/e9js9HGaLVr293N1AHQJx9b4LHzqyV1bv6NcFBsTHQXbT3g9fOuQQTd2EZcm
+	Rs1qIhwS3QxtxiEMjLxuygtDkt4778KM9Tr72xL792yCoYw585kilE0TpwRkr+rjQug5V23Lq0K
+	vvnEUGZ3r5tt6gncFhELbHYbC8PKJdD+8xp6xTfQnM2J+QvQNIQlrZfCax6m4l3lDPr1zkpdFHo
+	qtxRVCL8CuMw3D8SwqNHtyfkm60Wq71CB+Vzh7VmLaYdhlGNW+axQNr1IY/VvWjhyBiqESO8fRi
+	VH53+auewYYq4bPq9809Hnh/oIHjWQSQ7T11WREdih2zHgVLtRS299xBWmwh+P1/hoSYNSdICKw
+	Hh11Q=
+X-Received: by 2002:ac8:7fcd:0:b0:51a:8835:58cb with SMTP id d75a77b69052e-529d71d8c6emr3037201cf.54.1785203962951;
+        Mon, 27 Jul 2026 18:59:22 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907e85215d7sm78094896d6.9.2026.07.27.18.59.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 18:59:07 -0700 (PDT)
-From: Stoyan Bogdanov <sbogdanov@baylibre.com>
-To: jbrunet@baylibre.com,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stoyan Bogdanov <sbogdanov@baylibre.com>
-Subject: [PATCH v5 3/3] hwmon: (pmbus/tps25990): Add TPS1689 support
-Date: Tue, 28 Jul 2026 04:58:48 +0300
-Message-ID: <20260728015857.193890-4-sbogdanov@baylibre.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260728015857.193890-1-sbogdanov@baylibre.com>
-References: <20260728015857.193890-1-sbogdanov@baylibre.com>
+        Mon, 27 Jul 2026 18:59:22 -0700 (PDT)
+Date: Mon, 27 Jul 2026 21:59:19 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, michal.pecio@gmail.com,
+	corbet@lwn.net, skhan@linuxfoundation.org, stable@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] usb: core: Add quirk for 255-bytes initial config
+ read
+Message-ID: <ba2af6f4-0134-4feb-addc-24694fabeb10@rowland.harvard.edu>
+References: <20260727195434.14626-1-nikhilsolanke5@gmail.com>
+ <20260727195434.14626-2-nikhilsolanke5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727195434.14626-2-nikhilsolanke5@gmail.com>
 
-Extend the existing TPS25990 driver to support the TPS1689 eFuse,
-as both devices share the same command interface and functionality.
+On Tue, Jul 28, 2026 at 01:24:33AM +0530, Nikhil Solanke wrote:
+> Certain third-party USB game controllers exposing (or spoofing) an Xbox
+> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
+> The device disconnects from the bus without responding to the initial
+> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
+> config index 0 descriptor/start: -71'.
+> 
+> The device then falls back to a secondary Android HID mode (with a
+> different VID:PID), losing XInput functionality including rumble support.
+> The failure reproduces across multiple machines, host controller types, and
+> kernel versions including current mainline and LTS. The device enumerates
+> correctly and remains in XInput mode under Windows. Notably, the device
+> enumerates correctly in Android mode when the same 9-byte request
+> is issued for that mode's configuration descriptor, confirming the firmware
+> bug is specific to the XInput mode.
+> 
+> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
+> identical up to the point of failure, with no visible protocol-level
+> difference explaining the divergence. The root cause was identified when
+> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
+> use wLength=9 for the initial config descriptor request; it uses
+> wLength=255. Alan Stern subsequently confirmed this with a bus
+> analyzer on a different USB 2.0 device, and Michal verified the behavior
+> goes back to Windows 95 OSR2.1.
+> 
+> So, add a new quirk flag USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE which causes
+> usb_get_configuration() to issue a 255 byte sized configuration request
+> instead of USB_DT_CONFIG_SIZE (9) for the initial
+> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
+> behavior.
+> 
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
+> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
+> ---
 
-Update the documentation to include TPS1689 support.
+Your patches basically looks fine to me.  Just a couple of things to 
+note...
 
-Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
----
- Documentation/hwmon/tps25990.rst | 15 +++--
- drivers/hwmon/pmbus/tps25990.c   | 98 ++++++++++++++++++++++++++------
- 2 files changed, 92 insertions(+), 21 deletions(-)
+Personally, I prefer to see comments that don't extend beyond the 
+80-column limit.  But there's no hard rule about this, it's just my own 
+preference -- you don't have to change anything if you don't want to.
 
-diff --git a/Documentation/hwmon/tps25990.rst b/Documentation/hwmon/tps25990.rst
-index 04faec780d26..e8bc9a550bda 100644
---- a/Documentation/hwmon/tps25990.rst
-+++ b/Documentation/hwmon/tps25990.rst
-@@ -9,26 +9,31 @@ Supported chips:
- 
-     Prefix: 'tps25990'
- 
--  * Datasheet
-+    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
- 
--    Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
-+  * TI TPS1689
-+
-+    Prefix: 'tps1689'
-+
-+    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps1689
- 
- Author:
- 
- 	Jerome Brunet <jbrunet@baylibre.com>
-+	Stoyan Bogdanov <sbogdanov@baylibre.com>
- 
- Description
- -----------
- 
--This driver implements support for TI TPS25990 eFuse.
-+This driver implements support for TI TPS25990 and TI TPS1689 eFuse chips.
- This is an integrated, high-current circuit protection and power
- management device with PMBUS interface
- 
--Device compliant with:
-+Devices are compliant with:
- 
- - PMBus rev 1.3 interface.
- 
--Device supports direct format for reading input voltages,
-+Devices supports direct format for reading input voltages,
- output voltage, input current, input power and temperature.
- 
- Due to the specificities of the chip, all history reset attributes
-diff --git a/drivers/hwmon/pmbus/tps25990.c b/drivers/hwmon/pmbus/tps25990.c
-index 490dcd2a5fa5..7e2991a85da1 100644
---- a/drivers/hwmon/pmbus/tps25990.c
-+++ b/drivers/hwmon/pmbus/tps25990.c
-@@ -48,6 +48,7 @@
- 					 PK_MIN_AVG_RST_MIN)
- 
- enum chips {
-+	tps1689,
- 	tps25990,
- };
- 
-@@ -105,6 +106,8 @@ static int tps25990_mfr_write_protect_get(struct i2c_client *client)
- static int tps25990_read_word_data(struct i2c_client *client,
- 				   int page, int phase, int reg)
- {
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct tps25990_data *data = container_of(info, struct tps25990_data, info);
- 	int ret;
- 
- 	switch (reg) {
-@@ -193,9 +196,11 @@ static int tps25990_read_word_data(struct i2c_client *client,
- 		ret = pmbus_read_word_data(client, page, phase, reg);
- 		if (ret < 0)
- 			break;
--		ret = DIV_ROUND_CLOSEST(ret * TPS25990_VIN_OVF_NUM,
--					TPS25990_VIN_OVF_DIV);
--		ret += TPS25990_VIN_OVF_OFF;
-+		if (data->chip_id == tps25990) {
-+			ret = DIV_ROUND_CLOSEST(ret * TPS25990_VIN_OVF_NUM,
-+						TPS25990_VIN_OVF_DIV);
-+			ret += TPS25990_VIN_OVF_OFF;
-+		}
- 		break;
- 
- 	case PMBUS_IIN_OC_FAULT_LIMIT:
-@@ -207,9 +212,11 @@ static int tps25990_read_word_data(struct i2c_client *client,
- 		ret = pmbus_read_byte_data(client, page, TPS25990_VIREF);
- 		if (ret < 0)
- 			break;
--		ret = DIV_ROUND_CLOSEST(ret * TPS25990_IIN_OCF_NUM,
--					TPS25990_IIN_OCF_DIV);
--		ret += TPS25990_IIN_OCF_OFF;
-+		if (data->chip_id == tps25990) {
-+			ret = DIV_ROUND_CLOSEST(ret * TPS25990_IIN_OCF_NUM,
-+						TPS25990_IIN_OCF_DIV);
-+			ret += TPS25990_IIN_OCF_OFF;
-+		}
- 		break;
- 
- 	case PMBUS_VIRT_SAMPLES:
-@@ -238,6 +245,8 @@ static int tps25990_read_word_data(struct i2c_client *client,
- static int tps25990_write_word_data(struct i2c_client *client,
- 				    int page, int reg, u16 value)
- {
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct tps25990_data *data = container_of(info, struct tps25990_data, info);
- 	int ret;
- 
- 	switch (reg) {
-@@ -253,20 +262,23 @@ static int tps25990_write_word_data(struct i2c_client *client,
- 		value = clamp_val(value, 0, 0xff);
- 		ret = pmbus_write_word_data(client, page, reg, value);
- 		break;
--
- 	case PMBUS_VIN_OV_FAULT_LIMIT:
--		value -= TPS25990_VIN_OVF_OFF;
--		value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_VIN_OVF_DIV,
--					  TPS25990_VIN_OVF_NUM);
--		value = clamp_val(value, 0, 0xf);
-+		if (data->chip_id == tps25990) {
-+			value -= TPS25990_VIN_OVF_OFF;
-+			value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_VIN_OVF_DIV,
-+						  TPS25990_VIN_OVF_NUM);
-+			value = clamp_val(value, 0, 0xf);
-+		}
- 		ret = pmbus_write_word_data(client, page, reg, value);
- 		break;
- 
- 	case PMBUS_IIN_OC_FAULT_LIMIT:
--		value -= TPS25990_IIN_OCF_OFF;
--		value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_IIN_OCF_DIV,
--					  TPS25990_IIN_OCF_NUM);
--		value = clamp_val(value, 0, 0x3f);
-+		if (data->chip_id == tps25990) {
-+			value -= TPS25990_IIN_OCF_OFF;
-+			value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_IIN_OCF_DIV,
-+						  TPS25990_IIN_OCF_NUM);
-+			value = clamp_val(value, 0, 0x3f);
-+		}
- 		ret = pmbus_write_byte_data(client, page, TPS25990_VIREF, value);
- 		break;
- 
-@@ -347,6 +359,59 @@ static const struct regulator_desc tps25990_reg_desc[] = {
- #endif
- 
- static struct pmbus_driver_info tps25990_base_info[] = {
-+	[tps1689] = {
-+		.pages = 1,
-+		.format[PSC_VOLTAGE_IN] = direct,
-+		.m[PSC_VOLTAGE_IN] = 1166,
-+		.b[PSC_VOLTAGE_IN] = 0,
-+		.R[PSC_VOLTAGE_IN] = -2,
-+		.format[PSC_VOLTAGE_OUT] = direct,
-+		.m[PSC_VOLTAGE_OUT] = 1166,
-+		.b[PSC_VOLTAGE_OUT] = 0,
-+		.R[PSC_VOLTAGE_OUT] = -2,
-+		.format[PSC_TEMPERATURE] = direct,
-+		.m[PSC_TEMPERATURE] = 140,
-+		.b[PSC_TEMPERATURE] = 32103,
-+		.R[PSC_TEMPERATURE] = -2,
-+		/*
-+		 * Current and Power measurement depends on the ohm value
-+		 * of Rimon. m is multiplied by 1000 below to have an integer
-+		 * and -3 is added to R to compensate.
-+		 */
-+		.format[PSC_CURRENT_IN] = direct,
-+		.m[PSC_CURRENT_IN] = 9548,
-+		.b[PSC_CURRENT_IN] = 0,
-+		.R[PSC_CURRENT_IN] = -6,
-+		.format[PSC_CURRENT_OUT] = direct,
-+		.m[PSC_CURRENT_OUT] = 24347,
-+		.b[PSC_CURRENT_OUT] = 0,
-+		.R[PSC_CURRENT_OUT] = -3,
-+		.format[PSC_POWER] = direct,
-+		.m[PSC_POWER] = 2775,
-+		.b[PSC_POWER] = 0,
-+		.R[PSC_POWER] = -4,
-+		.func[0] = (PMBUS_HAVE_VIN |
-+			    PMBUS_HAVE_VOUT |
-+			    PMBUS_HAVE_VMON |
-+			    PMBUS_HAVE_IIN |
-+			    PMBUS_HAVE_PIN |
-+			    PMBUS_HAVE_TEMP |
-+			    PMBUS_HAVE_STATUS_VOUT |
-+			    PMBUS_HAVE_STATUS_IOUT |
-+			    PMBUS_HAVE_STATUS_INPUT |
-+			    PMBUS_HAVE_STATUS_TEMP |
-+			    PMBUS_HAVE_SAMPLES),
-+
-+		.read_word_data = tps25990_read_word_data,
-+		.write_word_data = tps25990_write_word_data,
-+		.read_byte_data = tps25990_read_byte_data,
-+		.write_byte_data = tps25990_write_byte_data,
-+
-+#if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
-+		.reg_desc = tps25990_reg_desc,
-+		.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
-+#endif
-+		},
- 	[tps25990] = {
- 		.pages = 1,
- 		.format[PSC_VOLTAGE_IN] = direct,
-@@ -389,7 +454,6 @@ static struct pmbus_driver_info tps25990_base_info[] = {
- 		.write_word_data = tps25990_write_word_data,
- 		.read_byte_data = tps25990_read_byte_data,
- 		.write_byte_data = tps25990_write_byte_data,
--
- #if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
- 		.reg_desc = tps25990_reg_desc,
- 		.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
-@@ -398,12 +462,14 @@ static struct pmbus_driver_info tps25990_base_info[] = {
- };
- 
- static const struct i2c_device_id tps25990_i2c_id[] = {
-+	{ "tps1689", tps1689 },
- 	{ "tps25990", tps25990 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, tps25990_i2c_id);
- 
- static const struct of_device_id tps25990_of_match[] = {
-+	{ .compatible = "ti,tps1689", .data = (void *)tps1689 },
- 	{ .compatible = "ti,tps25990", .data = (void *)tps25990 },
- 	{}
- };
--- 
-2.43.0
+Also, it's odd that you add the quirk flag to the kernel without adding 
+a new quirk entry for the Xbox 360-compatible devices.  That doesn't 
+have to be done in this patch, though; it can be done in a follow-up.
+(But note that without a followup this patch doesn't actually fix 
+anything, since a true fix would require user intervention.)
 
+Finally, a really minor nit: The two patches in this series are 
+completely independent; either one can be applied without the other.  
+That means they don't really belong in a series, that is, they should be 
+submitted as two separate patches.  Obviously that doesn't matter at all 
+in practice; it's just a matter of principle.
+
+Anyway, for both patches 1 and 2:
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
+If you want to rewrite and resubmit them along the lines mentioned 
+above, you can add my Acked-by to the new submissions.
+
+Alan Stern
