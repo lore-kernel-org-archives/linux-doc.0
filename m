@@ -1,164 +1,92 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F397372ECA
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 16:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A41A3793CE;
+	Tue, 28 Jul 2026 16:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785255796; cv=none; b=h+VPWt03bR10ulcQG34E1cLkEoy889CAzRTIthsAX2yVSeMPxESwI3/HV8X297z3r6/S6ViK8d3yTLDTJpH3YCJaY+3Fwt9GqmbJgRyD3e0geVD4tEruh7PnmaX5oXUXzUU7VpJxyb7Iq7duQJ3O34M4Sg7lsbPEsokXA1jZGIc=
+	t=1785256336; cv=none; b=g0WMfn6OVTVI02cYbkPtf3u5rrp7GD92lG5bH/BdvIgSDOHcM6P87a8VQaHR3kjC8nIvZJjAwWfXOW/62gW64OPYwsScIN8R+nD66FNMKw1SUnMzdQ7yjcxTCGMPd5f5gJThrgDztSUJFpQvNhOnCNy0q3gWNodAK/Ui2JTE0Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785255796; c=relaxed/simple;
-	bh=MuoYv/trvB+apkFilFU7ge8EmIYL0Cz7Mp4H5bYBY04=;
+	s=arc-20240116; t=1785256336; c=relaxed/simple;
+	bh=TOdnNwmjtl+GzqYWXxsUKT9OFUWDwi2yCZ20vMq2gwU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y59h4QQDmMK03btSlQDaIKIBLXKXBsJDs1jLA/udqSPRYl/tk/gc7WpA5VnYoyF/HyJ0/A2OOirtSS02WArR6jwZExnqoL6D3mskasRS1Che9rd92sf/9qRB9mMjzixeAJsTmJoJcdua1IrTTd9Khc3dfec5xAkbbXWrt093tSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=hCgeHs4p; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLk/OgJEOTQ3mzfzbsWoDjrRvimzbVdy5y4SsFTn8HjCMQ3lJ4a/yP1YQsM31fa4T4tB6fCwNm80bxLTb9X7NbnUr/wdArLG4X3HzUOvxn05WGWVn9WGtGP9VJYOVScBjO4u7WglrWTfQNF44bSfHfBykOMk6IegbN+L5MrM58k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TecgJ7En; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="hCgeHs4p"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C96A169E
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 09:23:09 -0700 (PDT)
-Received: from [10.2.11.34] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5F4D03F763
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 09:23:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785255793; bh=MuoYv/trvB+apkFilFU7ge8EmIYL0Cz7Mp4H5bYBY04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hCgeHs4plznb1stFBuLuDmXhYpDxaF2iXHY744tE6yDTWcN5frhOdg7pbe9ZGFzHI
-	 gE4mKqKUZvmDD3rTu4z7Hjs8F/BHllcTWocgGnaZRLkgmqrFqFWwXr7f/5BSMD1kdy
-	 CUfZ14eymzcuEHCo6IFdxCyG3cCnCVdvx6IkDG6g=
-Date: Tue, 28 Jul 2026 17:21:58 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Diogo Silva <diogompaissilva@gmail.com>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	David Airlie <airlied@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
-	Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Xinliang Liu <xinliang.liu@linaro.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Yongqin Liu <yongqin.liu@linaro.org>,
-	John Stultz <jstultz@google.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TecgJ7En"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C5DC1F000E9;
+	Tue, 28 Jul 2026 16:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785256334;
+	bh=TOdnNwmjtl+GzqYWXxsUKT9OFUWDwi2yCZ20vMq2gwU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TecgJ7EnIO3kymOmt5AVERErerNqcAc/MKKWq9S+eq9mArfBIu89w2Y3ajbemUSKl
+	 ybWBpVEKi1SmvPJq4VgqfdTzfwT+oe/RPfFympBBUzvhTevEJ06kvuU7V4B+U12+V9
+	 CUDsoFbpXvOSXX3FIw+VrhAgVrp6JrpARprHBXwcwsdHXh/AqrsEm5CNrzOgxc1koh
+	 X3hiBHBaC1GBtnZEX/061dIDnCzdEGQLF4c/KGeGYtM7rhfAJ1JUguWCfT+YqzliCr
+	 CBfrLxMpO74AEzRnWxrbKBG4Uot9IvE+EF4WtDDAPjT+uJr8B18CvJ6xfqY7V6hlEV
+	 Go7tF2H83HzSg==
+Date: Tue, 28 Jul 2026 17:32:09 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
-	imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 12/15] drm/arm/komeda: remove dependency on DRM simple
- helpers
-Message-ID: <amjXJrbgka00CQX2@e142607>
-References: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
- <20260719-drm_simple_encoder_init-v1-12-a78c509e3062@gmail.com>
+	Andy Whitcroft <apw@canonical.com>
+Subject: Re: [PATCH] checkpatch: Validate committer sign-off
+Message-ID: <760fc27c-5270-4fa1-8f93-0d05dc94d09c@sirena.org.uk>
+References: <20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
+ <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oyNKOjGA8zXjy7AM"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260719-drm_simple_encoder_init-v1-12-a78c509e3062@gmail.com>
+In-Reply-To: <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
+X-Cookie: Your code should be more efficient!
 
-On Sun, Jul 19, 2026 at 01:35:43AM +0200, Diogo Silva wrote:
-> The simple KMS helpers are deprecated because they only add an
-> intermediate layer between drivers and atomic modesetting.
-> 
-> Open-code drm_simple_encoder_init() by calling drm_encoder_init()
-> directly and providing driver-local drm_encoder_funcs.
-> 
-> Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+--oyNKOjGA8zXjy7AM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Liviu
+On Tue, Jul 28, 2026 at 07:28:37AM -0700, Bartosz Golaszewski wrote:
+> On Fri, 24 Jul 2026 20:56:00 +0200, Bjorn Andersson
 
-> ---
->  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> index e8cb782a6f8e..719568d9f7c2 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> @@ -11,9 +11,9 @@
->  
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_encoder.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
-> -#include <drm/drm_simple_kms_helper.h>
->  #include <drm/drm_bridge.h>
->  
->  #include "komeda_dev.h"
-> @@ -635,6 +635,10 @@ static int komeda_attach_bridge(struct device *dev,
->  	return err;
->  }
->  
-> +static const struct drm_encoder_funcs komeda_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->  static int komeda_crtc_add(struct komeda_kms_dev *kms,
->  			   struct komeda_crtc *kcrtc)
->  {
-> @@ -658,7 +662,8 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
->  	 * bridge
->  	 */
->  	kcrtc->encoder.possible_crtcs = drm_crtc_mask(crtc);
-> -	err = drm_simple_encoder_init(base, encoder, DRM_MODE_ENCODER_TMDS);
-> +	err = drm_encoder_init(base, encoder, &komeda_encoder_funcs,
-> +			       DRM_MODE_ENCODER_TMDS, NULL);
->  	if (err)
->  		return err;
->  
-> 
-> -- 
-> 2.54.0
-> 
+> > checkpatch validates the Signed-off-by trailers against the patch's
+> > author, but misses the opportunity to also validate the committer when
+> > run with --git. Maintainers therefor need third-party scripts for the
+> > final Signed-off-by check.
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+> I too would like to see this applied. The alternative is to get emails from
+> linux-next maintainers after a bad commit is already published, which requires
+> rebasing of maintainers' trees.
+
+FWIW the substantial majority of signoff problems I see are due to
+rebases in multi-maintainer trees, that's partly due to a few frequent
+fliers.
+
+--oyNKOjGA8zXjy7AM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpo2YkACgkQJNaLcl1U
+h9DVawf6A21kGS86nd+hlR/8AujPl+Xv1IlMZPwi8zecROyZ5X0vks/ezTBoqiav
+UxrnB/FaGYgK2KKdSRpNp7ENLJT1aVZT9O0nRukoamBzdluENa+fLGvbhLxxii5A
+MdhpyKiPg9B2rg8JWa/lf/k4g+R5vpxjN73gHRImu16Ymhz/4pPzkbP01VpeLSvG
+1ewQfWv6fs1WGd2OPXHAVY/1tVCM6D+buDGIg3C1AJW5lNkVpyuUjRKyggIrVvMr
+MwoSZn4C70B7rk9vQ/ioYm25Kv0cBGuOsuIRVLqc5CqYiDXlRok5LNw53cg1xee7
+8pt9TVg1cRKDF8PGBpxncu2d/0bgJg==
+=USVB
+-----END PGP SIGNATURE-----
+
+--oyNKOjGA8zXjy7AM--
