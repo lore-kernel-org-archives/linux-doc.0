@@ -1,193 +1,315 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D42431F996
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 05:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917A63A7D63
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 05:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785216903; cv=none; b=Cgo08XJtDC128vZPgh/yNPoYaaRIsGOkNX8HuxHBZlV4pAc8LVm6DRHZR50vkla626pdqCDDz6CsyShNi46gkRI/+b7CZSJo4Uxa89ni6vXiEOWapmWHhSRDG/2DL7b1m9r7CKtudeiebcrc8Nz/SnItIKThmyAczDCcNMtAGjM=
+	t=1785217373; cv=none; b=MwmRvRXlrGyGBSsTEcz9jZ5knJnkW8Cep1hsSXhUxCAHvQ9PC6uP55qSOE49h6WMIvVmXw7OK6Gj9M+Jad4yNJiMi6ES4ysSPWiq7PufULnhjvvMEs0/QVlI32bRkxMAFWSC+yvYb1vNPCuVzBs5g8A0w7LE3kk+B2qYmv/NXes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785216903; c=relaxed/simple;
-	bh=cKul/h3IPZbb9VFh4rdMOhK1Ffwwx65anMjRAzvkQPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S2QE+SzRaf0DNPtpp+UQdj/qDfNfC15hOt8FgEKoHCd2FyB4Pyf0S2lp0l6ArwSMMYug4823nqRDvR95zX7eSVro/96sNV5h5ZtB8oqhiNLsJ1Qi10z3+5EM2VuaBnO5IX9uAJFoYGlrg9v1guUokNwjcIddgeKGkHzlMrAJKnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hUsSB54v; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1785217373; c=relaxed/simple;
+	bh=wCT8q/0nlgscrLNTp0KwDXUgOzsFprRxVJaZo37zu0Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bgKyE40vwpl3dyffDRnKK7O6xmA3T0MgL3wgI0agiQzjKSe5rJtar/I8Kn5Xzs1tOHoXWZQ0pX8XXQpOXDd+COIsdVP5mTKKnASIeA2fbf5RZGg8AC9zTxT+viAJ36j9zfITehBU6ZWFaJZiTLL4xaf19Is86Fp/5J0f0mJk5GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XL/Tdnhd; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hUsSB54v"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cacef7d299so49565ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 22:35:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XL/Tdnhd"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cc891373e0so36023785ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 22:42:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785216902; x=1785821702; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NSd0Snni0h0/tE0vaFb4D1at9rHpTmqJbpcAV8DTvqQ=;
-        b=hUsSB54vDmVzqOA0mnOa/npPR5ww6YDRYBtrOXFO0TPvHnrcTW8h0/JKanQujsNwGZ
-         h5tyqxaMawyQLgUiGBtv7Rs7yGU+jG3hZFPVu8TBxkuwaHRnwupVKn3y42eQFSuE9jP0
-         9cEbSMWUj0WqmEgNZv+qzsIeshz8R1X1vVGBQUIBxqBCVn8zKt9nu/vHFq8snnbg/IKK
-         OGlAkekcm3B9d2ogyyG2bGXU1MbDjqX56h4K33zB0MO7GtlApL3VghgUXO7PMjw1Jmkf
-         TAMq+ssNbo1Wx0ScMrEGH2xpIEfSbDQChkpjHMlVyj1GK/cgulVCIqmZVHf3gtggCrHa
-         5aCw==
+        d=gmail.com; s=20251104; t=1785217371; x=1785822171; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yq1p0CDP6hyxUWCWe/TuoZ+uG5M6P/R77gWBoKBA72A=;
+        b=XL/TdnhdLDw8VVGzOCLkbRUbfwhX3YhKLVLTn/5k7iFUvWOnWvrKHFdawbz5b9X2u+
+         zbSZvnQriTqTPRQr2oOVAiSuoKmZ63+K/jBjELsNEy01u6ayuPUOnqHkXIIpx2wWI3fL
+         i3HN7rcin6+xLc8I+4zvtfCUtRFmNcc6MNcs/a4gr0F8/kcKyGSgrEzR4NDuVFLFRefP
+         6V+ehKHo+6O+n/5vjbQkO5I7oUgO8YryOzfwwwBK5QNSoIE0yz8C25cXoB4ZsH878+p1
+         FwEGYzEzmF3xplDDVpwDJQ6yCvDh1ZrUMxyQmp0DDU9IkQWAG+Y2tI/tlokoXkkMRJ3Q
+         nqnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785216902; x=1785821702;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NSd0Snni0h0/tE0vaFb4D1at9rHpTmqJbpcAV8DTvqQ=;
-        b=I7l5k9aU7cnjZ0Errq/LB4KcrQurmPWxf64tIpbavtlHqVEgrnNs9tZBR84C0P8+VO
-         s56Kta3a8oW23sGYN/vIbeBqrtObplbpbNDHmcpacVdPl8MKQVmS+conAye1T1I2Kp3C
-         k4AhQbLLUKBEaFi7ZPD0KL1HmBuYFn8Ug2/1L+zqZgd+9Q9vnZFwW91bNrrG8pY51H7h
-         gJDNN7dmc1bgoXeG8L5Gy7dS1vPYUDOrYnJtySWd/6+z7QycCNuqchbHtPgSddt+K7OM
-         q1wmtdaqB0WryUN2GVfv0QFT10Y5yjtD/PBh4bwFRg8GqNSxGEPONvmzlKUXwj1ZO8Jq
-         lbsg==
-X-Forwarded-Encrypted: i=1; AHgh+RowlfkZ9iDwlrZ5UmfIb3p1VBXSUWZdiJ3jfUWGcAnUuMFNvBR8Uv/NzEO8cgyjSLl6LS9vTqxKxsY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhpH6ifHEVdujajBCFU4fppPLx53zMEwWDr1dS9+lIe/iqEaDG
-	tCnZFuaSXCYgL+Ipq+g9b2Nuh8TPLsx4EWlIam/T6i6IeP/PpuVOHYfd6v2weiKLEA==
-X-Gm-Gg: AR+sD125TJwXRHEeo4HlpBJU1HfO7SuVb7vnqXjKLxAlLcC/cjmIOz+WZv8BZt5s7QE
-	Kw/pTVXkPmwyfBdLQfntVEynfT93CEy+2g1sqYH2tZV4mcoU9uPbzxQe3tfYWKAq5FDp3ihCq4Y
-	ANKtrFEZXrTw4omXYT1KLf8ACsVXpkSQhaYNDtFPS/a9f8xRNo+DkbCgSrzpUiMQ14eiIR7XqtK
-	js2SBgNV2Xl9d1+4PnhZ6Mm9XNvLYgl5f5yIu/gnYtPERf0TbpdB796IZ8GzilgX8fNqMbF9KWe
-	rUSqNVSed0QlzTC8hjayW9UmLDu9SBALJ/ajgKBXtpyXy+WWundZdTcRbGijmmtw6qNBbYoIIde
-	TfShRVGGHa0mrg4KunSe2WuYJzR1ku22vkS3tFMZZSgA5YUi3y/1WcKOR0Tq9cL3eYk+ZTZnjX9
-	5sNguC8zUzK6AwiUW85kRH0EodyhkPZ16uKZpleBda+FycWVjaaw==
-X-Received: by 2002:a17:902:f1d3:b0:2c7:9e6a:1a8d with SMTP id d9443c01a7336-2cfdb75acb4mr15516765ad.12.1785216900834;
-        Mon, 27 Jul 2026 22:35:00 -0700 (PDT)
-Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f08ae3079sm3822540a91.3.2026.07.27.22.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 22:34:59 -0700 (PDT)
-Date: Mon, 27 Jul 2026 22:34:54 -0700
-From: Vipin Sharma <vipinsh@google.com>
-To: Zhu Yanjun <yanjun.zhu@linux.dev>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com, 
-	ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com, chrisl@kernel.org, 
-	christian.koenig@amd.com, corbet@lwn.net, dmatlack@google.com, graf@amazon.com, 
-	jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, 
-	julianr@linux.ibm.com, kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, 
-	leonro@nvidia.com, lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com, 
-	parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, 
-	rananta@google.com, rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, 
-	saeedm@nvidia.com, schnelle@linux.ibm.com, skhan@linuxfoundation.org, 
-	skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com
-Subject: Re: [PATCH v5 17/20] vfio: selftests: Add
- vfio_pci_liveupdate_kexec_test
-Message-ID: <20260728052011.GA736369.vipinsh@google.com>
-References: <20260714151505.3466855-1-vipinsh@google.com>
- <20260714151505.3466855-18-vipinsh@google.com>
- <c3440ed3-0fc2-44e5-a05a-922344eb34d1@linux.dev>
+        d=1e100.net; s=20251104; t=1785217371; x=1785822171;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=yq1p0CDP6hyxUWCWe/TuoZ+uG5M6P/R77gWBoKBA72A=;
+        b=Iv4Xl3hp5GR7/YY5wYh9E2D+KIbu+MEozJQfKZFL/TVejYVG+Y/qrvVMOHYFV+uWeD
+         RQAPLHzTPzVjNAkDNtpFppdFYXY32zhL/XOByDDAVWfUKIs+798XGmh4CfrJuejOR29/
+         mgvQx/srfhsWXkOJBsxkGTEA6XuDra5H+FH0I3imoRuS8KrLnB7Ownent8HpRQY3swCv
+         Um0anooI6ZORj9DHy8OIl6OSer7hZFCQCpiaJBrg4dhKgMQfuLSBhuClaRf2Zrcw/6bQ
+         KxOaraOHWmZ9pcXnTa8uiNDVqfk8WmKEf/6ZoctbtJ7zvgGpQK8ADuq9aUoBNUNKYeiD
+         aq+w==
+X-Forwarded-Encrypted: i=1; AHgh+RogNXUEMN8xKNqqkL3dsHprkBdG4sweBK6VIcTRN/DHuoHwnQfizHx9l6/0QbX/iE6nN+FTCHtSWQs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxrMU7hcJUcn60p+HgCp1x8lyYWinnFXO8jlT4+1mQc+7Ib9uI
+	ScTUA4/duj1JNh9y/8U56B4rDtucYxF8MPRBvXXny3ngXDkHdaFKSwo+
+X-Gm-Gg: AR+sD10od7wkZTbdZUfHEeqjPhtTAflSo0TjuKRh2XQsYkOfyH47Xt+jsM3wEw/GXdN
+	aMfD1MpIyL351981ewu6A8KcPyRyk0sQuAyWY2iNuVqeYvRXGgYLoTyI3KWOJzn8L7oLk7vlH2k
+	GxTC0exNwQbow5ai69DkBnnxcWmsUO+Hp7J67vUjG/vzLUecXI7t/hLXosHlGGfIooqef8FvAl/
+	Fp1mrprhXIJABAFxZbx0vbL/oLpCz2fFX4gwV6KwAc6zOFIsA+rzpBMRrcKDW19Uk6iJHEUFbyh
+	uB1YRaNndkQ3lYDOdWTGrqLO/9nU/qcOdee9N+HdP/2exaVLbw33k2q1rEdgd7yl/S4R2tsH27n
+	DUjwGcP44NGN2RIpm6PjL7KG67rKr4n8psmIb0Td/SVbgnqwH/VR+cPfQe5YzAxU1AIPZUwKNbi
+	OOh4Y4u1ncsDL2tPXwJ8Gpp11ykWCLCe2u3aq+lugXw3cfBzna8pvFJrWm8xd/Sg==
+X-Received: by 2002:a17:902:d4cf:b0:2c9:97a7:b1eb with SMTP id d9443c01a7336-2d015db933amr11620165ad.42.1785217370832;
+        Mon, 27 Jul 2026 22:42:50 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7bbe01sm46119615ad.48.2026.07.27.22.42.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2026 22:42:50 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <9559d319-4b44-45c2-ae13-f92099de4c89@roeck-us.net>
+Date: Mon, 27 Jul 2026 22:42:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c3440ed3-0fc2-44e5-a05a-922344eb34d1@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] hwmon: (pmbus/max20830): add support for max20830c
+ and max20840c
+To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260728-dev-max20830c-v4-0-cec034298535@analog.com>
+ <20260728-dev-max20830c-v4-4-cec034298535@analog.com>
+ <336bd264-52ec-473a-b74f-5661f06286ed@roeck-us.net>
+ <PH0PR03MB6351D7369AB790714DF416BDF1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <PH0PR03MB6351D7369AB790714DF416BDF1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 26, 2026 at 05:40:54PM -0700, Zhu Yanjun wrote:
+On 7/27/26 22:05, Torreno, Alexis Czezar wrote:
+>>
+>> [External]
+>>
+>> On 7/27/26 20:32, Alexis Czezar Torreno wrote:
+>>> Add support for MAX20830C and MAX20840 step-down DC-DC switching
+>>> regulator with PMBus interface. MAX20830C is a different packaging for
+>>> MAX20830, and MAX20840C supports 40A regulation compared to
+>>> MAX20830 that is only 30A.
+>>>
+>>
+>> Are those chips still not published ? I find MAX20840T, but no "C" variants.
+>> And MAX20840T presumably has an I2C device ID of "MAX20840", not
+>> "MAX20840C".
+>>
+>> I also noticed that MAX20810 and MAX20815 seem to be register compatible.
+>>
 > 
-> 在 2026/7/14 8:15, Vipin Sharma 写道:
-> > Add a selftest to exercise preserving a vfio-pci device across a Live
-> > Update. For now the test is extremely simple and just verifies that the
-> > device file can be preserved and retrieved. In the future this test will
-> > be extended to verify more parts about device preservation as they are
-> > implemented.
-> > 
-> > This test is added to TEST_GEN_PROGS_EXTENDED since it must be run
-> > manually along with a kexec.
-> > 
-> > To run this test manually:
-> > 
-> >   $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
-> >   $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1 0000:00:04.0
-> # ls /dev
-> autofs           disk       iommu         mem     rtc0      tty10 tty21 
-> tty32  tty43  tty54  tty8    ttyS18  ttyS29   uinput  vcs6   vcsu4       
-> virtio-ports
-> block            dma_heap   kmsg          mqueue  sg0       tty11 tty22 
-> tty33  tty44  tty55  tty9    ttyS19  ttyS3    urandom vcsa   vcsu5       
-> vport2p1
-> bsg              dri        kvm           net     shm       tty12 tty23 
-> tty34  tty45  tty56  ttyS0   ttyS2   ttyS30   usbmon0 vcsa1  vcsu6       
-> vsock
-> btrfs-control    fd         liveupdate    null    snapshot  tty13 tty24 
-> tty35  tty46  tty57  ttyS1   ttyS20  ttyS31   usbmon1 vcsa2  vda         
-> watchdog
-> bus              full       log           nvram   snd       tty14 tty25 
-> tty36  tty47  tty58  ttyS10  ttyS21  ttyS4    usbmon2 vcsa3  vda1       
->  watchdog0
-> cdrom            fuse       loop-control  port    sr0       tty15 tty26 
-> tty37  tty48  tty59  ttyS11  ttyS22  ttyS5    userfaultfd vcsa4  vda2       
->  zero
-> char             hidraw0    lp0           ppp     stderr    tty16 tty27 
-> tty38  tty49  tty6   ttyS12  ttyS23  ttyS6    vcs vcsa5  vda3         zram0
-> console          hpet       lp1           ptmx    stdin     tty17 tty28 
-> tty39  tty5   tty60  ttyS13  ttyS24  ttyS7    vcs1  vcsa6  vfio
-> core             hugepages  lp2           pts     stdout    tty18 tty29 
-> tty4   tty50  tty61  ttyS14  ttyS25  ttyS8    vcs2  vcsu   vga_arbiter
-> cpu              hwrng      lp3           random  tty       tty19 tty3 
->  tty40  tty51  tty62  ttyS15  ttyS26  ttyS9    vcs3  vcsu1  vhci
-> cpu_dma_latency  i2c-0      mapper        rfkill  tty0      tty2  tty30 
-> tty41  tty52  tty63  ttyS16  ttyS27  udmabuf  vcs4  vcsu2  vhost-net
-> cuse             input      mcelog        rtc     tty1      tty20 tty31 
-> tty42  tty53  tty7   ttyS17  ttyS28  uhid     vcs5  vcsu3  vhost-vsock
-> 
-> 
-> # tools/testing/selftests/vfio/scripts/setup.sh 0000:00:08.0
-> 
-> + echo "vfio-pci" > /sys/bus/pci/devices/0000:00:08.0/driver_override
-> + echo "0000:00:08.0" > /sys/bus/pci/drivers/vfio-pci/bind
-> tools/testing/selftests/vfio/scripts/lib.sh: line 9: echo: write error:
-> Invalid argument    <--- the error is here.
-> 
-> 
-> # lspci -vvv -s 0000:00:08.0
-> 
-> 00:08.0 Unclassified device [00ff]: Red Hat, Inc. QEMU PCI Test Device
->         Subsystem: Red Hat, Inc. QEMU Virtual Machine
->         Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr-
-> Stepping- SERR+ FastB2B- DisINTx-
->         Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort-
-> <TAbort- <MAbort- >SERR- <PERR- INTx-
->         Region 0: Memory at fea1f000 (32-bit, non-prefetchable) [size=4K]
->         Region 1: I/O ports at c000 [size=256]
-> 
-> Hi, Vipin
-> 
-> I worked with QEMU PCI Test Device. But the following error occur.
-> 
-> "tools/testing/selftests/vfio/scripts/lib.sh: line 9: echo: write error:
-> Invalid argument"
-> 
-> Is this a known problem?
+> I believe so yes, they aren't yet.
 > 
 
-Can you please check if you have passed iommu device in your QEMU
-command? This is what I pass to my QEMU command
+I just hope they are really compatible, and that the device ID strings really
+include the "C". The "T" variants seem to have no T in the device ID string,
+making it a bit odd that it was (or will be) added for the C variants.
 
- -device intel-iommu,intremap=on,caching-mode=on,device-iotlb=on
+> Actually MAX20810/815 and a few more are next in line after this. A different
+> person is handling it, but they're waiting on how this patches go.
+> 
 
-Also, add the following to your guest kernel commandline
+You are making yourself more work than necessary. Knowing that there are more
+chips coming, the sequence of strcmp() is not really that desirable anymore.
+It might make sense to create an array with all chips supported by the driver
+instead of adding up strcmp sequences. That would make it much easier to add
+support for new variants.
 
- intel_iommu=on
+There also seems to be a MAX20830T. Does it actually make sense to list the
+variants (C/T) in the first place ?
 
-This should fix the issue you are seeing.
+>>> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+>>> ---
+>>>    Documentation/hwmon/max20830.rst | 27 ++++++++++++++++++++++-----
+>>>    drivers/hwmon/pmbus/max20830.c   | 27 ++++++++++++++-------------
+>>>    2 files changed, 36 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/Documentation/hwmon/max20830.rst
+>>> b/Documentation/hwmon/max20830.rst
+>>> index
+>>>
+>> 936e409dcc5c0898dde27d782308d4a7e1357e73..b850f3b6e40d1f1d0cec944be
+>> 40a
+>>> f02265aced59 100644
+>>> --- a/Documentation/hwmon/max20830.rst
+>>> +++ b/Documentation/hwmon/max20830.rst
+>>> @@ -13,6 +13,22 @@ Supported chips:
+>>>
+>>>        Datasheet:
+>>> https://www.analog.com/media/en/technical-documentation/data-sheets/ma
+>>> x20830.pdf
+>>>
+>>> +  * Analog Devices MAX20830C
+>>> +
+>>> +    Prefix: 'max20830c'
+>>> +
+>>> +    Addresses scanned: -
+>>> +
+>>> +    Datasheet:
+>>> +
+>>> +  * Analog Devices MAX20840C
+>>> +
+>>> +    Prefix: 'max20840c'
+>>> +
+>>> +    Addresses scanned: -
+>>> +
+>>> +    Datasheet:
+>>> +
+>>>    Author:
+>>>
+>>>      - Alexis Czezar Torreno <alexisczezar.torreno@analog.com> @@
+>>> -21,12 +37,13 @@ Author:
+>>>    Description
+>>>    -----------
+>>>
+>>> -This driver supports hardware monitoring for Analog Devices MAX20830
+>>> -Step-Down Switching Regulator with PMBus Interface.
+>>> +This driver supports hardware monitoring for Analog Devices MAX20830,
+>>> +MAX20830C and MAX20840C. These are Step-Down Switching Regulator
+>> with PMBus Interface.
+>>>
+>>> -The MAX20830 is a 2.7V to 16V, 30A fully integrated step-down DC-DC
+>>> switching -regulator. Through the PMBus interface, the device can
+>>> monitor input/output -voltages, output current and temperature.
+>>> +MAX20830, and MAX20830C are 2.7V to 16V, 30A fully integrated
+>>> +step-down DC-DC switching regulators. MAX20840C is similar but can
+>>> +reach 40A. Through the PMBus interface, these devices can monitor
+>>> +input/output voltages, output current and temperature.
+>>>
+>>>    The driver is a client driver to the core PMBus driver. Please see
+>>>    Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+>>> diff --git a/drivers/hwmon/pmbus/max20830.c
+>>> b/drivers/hwmon/pmbus/max20830.c index
+>>>
+>> 7c1e94c43ac4e5d1b4f69dc77b02e424a674e908..029733a377123ae6a861841d
+>> b4a4
+>>> 0dd540f1149e 100644
+>>> --- a/drivers/hwmon/pmbus/max20830.c
+>>> +++ b/drivers/hwmon/pmbus/max20830.c
+>>> @@ -99,13 +99,12 @@ static int max20830_probe(struct i2c_client *client)
+>>>    	 * which do not support SMBus block reads.
+>>>    	 */
+>>>    	if (i2c_check_functionality(client->adapter,
+>> I2C_FUNC_SMBUS_READ_BLOCK_DATA)) {
+>>> -		/* Reads 9 Data bytes from MAX20830 */
+>>>    		ret = i2c_smbus_read_block_data(client,
+>> PMBUS_IC_DEVICE_ID, buf);
+>>>    		if (ret < 0)
+>>>    			return dev_err_probe(&client->dev, ret,
+>>>    					     "Failed to read IC_DEVICE_ID\n");
+>>>    	} else {
+>>> -		/* Reads 1 length byte + 9 Data bytes from MAX20830 */
+>>> +		/* Reads 1 length byte + data bytes */
+>>>    		ret = i2c_smbus_read_i2c_block_data(client,
+>> PMBUS_IC_DEVICE_ID,
+>>>
+>> MAX20830_IC_DEVICE_ID_LENGTH + 1,
+>>>    						    buf);
+>>> @@ -121,26 +120,28 @@ static int max20830_probe(struct i2c_client
+>> *client)
+>>>    		ret = ret - 1;
+>>>    	}
+>>>
+>>> -	/*
+>>> -	 * MAX20830 IC_DEVICE_ID sends string data "MAX20830\0".
+>>> -	 * Return value should at least be 9 bytes of data.
+>>> -	 */
+>>> +	/* Verify we read the expected number of bytes */
+>>>    	if (ret < MAX20830_IC_DEVICE_ID_LENGTH)
+>>>    		return dev_err_probe(&client->dev, -ENODEV,
+>>> -				     "IC_DEVICE_ID too short: expected at least
+>> 9 bytes, got %d\n",
+>>> -				     ret);
+>>> +				     "IC_DEVICE_ID too short: expected %d
+>> bytes, got %d\n",
+>>> +				     MAX20830_IC_DEVICE_ID_LENGTH, ret);
+>>> +
+>>> +	/* Null-terminate the string */
+>>> +	buf[ret] = '\0';
+>>>
+>>> -	/* 9 bytes of data, buf[0]-buf[7] = "MAX20830", buf[8] = '\0' */
+>>> -	buf[MAX20830_IC_DEVICE_ID_LENGTH - 1] = '\0';
+>>> -	if (strncmp(buf, "MAX20830", MAX20830_IC_DEVICE_ID_LENGTH - 1))
+>>> +	/* Verify the device ID matches what we expect */
+>>> +	if ((strcmp(buf, "MAX20830") && strcmp(buf, "MAX20830C") &&
+>>> +	    strcmp(buf, "MAX20840C")))
+>>>    		return dev_err_probe(&client->dev, -ENODEV,
+>>> -				     "Unsupported device: '%s'\n", buf);
+>>> +				     "Unsupported device: '%*pE'\n", ret, buf);
+>>>
+>>>    	return pmbus_do_probe(client, &data->info);
+>>>    }
+>>>
+>>>    static const struct i2c_device_id max20830_id[] = {
+>>> -	{"max20830"},
+>>> +	{ "max20830" },
+>>> +	{ "max20830c" },
+>>> +	{ "max20840c" },
+>>
+>> I don't think that is needed or warranted, given that there is no matching
+>> devicetree node.
+>>
+> 
+> I see, will remove.
 
-Alternatively, you can also enable noiommu mode in VFIO by executing:
+Same for the prefix string in the documentation. You might want to mention the
+supported chips, though, in both the configuration and Kconfig. In Kconfig,
+that could be a generic such as "MAX20830 and compatible chips", or list the
+base variants, such as "MAX20830, MAX20840 and variants".
 
-  echo Y > /sys/module/vfio/parameters/enable_unsafe_noiommu_mode 
+Thanks,
+Guenter
 
-This should allow device to be bound to VFIO.
-
-If none of the above approach works can you please share your QEMU
-command and your guest VM /proc/cmdline.
-
-Thanks
-Vipin
