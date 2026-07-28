@@ -1,373 +1,343 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010063.outbound.protection.outlook.com [52.101.56.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F523BE636;
-	Tue, 28 Jul 2026 06:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D80C3D4130;
+	Tue, 28 Jul 2026 07:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785221946; cv=fail; b=eSfVGG7VVYJal3LD1rK0jaAcGsGu8i1tGUjGV34FeSWB6UCLL1X/fQlQ8i5clSUjZynsOh2SP8Ael3hHPfEmJAenNtbY8Q7YjIZTgCL6aHK2ZEz3UCEwgmQhxG7EnbsBPmgwAiNcyOppJ1dweNKlJJv4XFcz61yK2Od47F249IE=
+	t=1785225190; cv=fail; b=diFAxzdAPg6F5UZBvmTygPsY4md7PKNHy+n6yszX3YrCMzf5FxoNztFOAUtt4eR0A2MdCGGHG0rfZx32RYEfHpZ+WfVzxQoiVjwxhLz+8cx1KTnOdW4wmw97oFe6aLVjAYGvW9CoxB0fXkTgkCwaZnfjI5aB38Q2NJDCdcdqt8w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785221946; c=relaxed/simple;
-	bh=BJACJXBrtEsKp+6/FCq5amSt50QksHVKkIhx5AcpjX0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=oxYtS+SIhNXZFyPDIroZmb/UDDTvpKLpAVyTBMiVMvNOm3ocztJhv877a5pXiSKmTsKfnjWUOsgPnLBgCtEFZkSrHEWQLqiV3pFFfvvhFtQ/+Q/vBl6I0XFS0BxcL9U28GtanvXip4jgTWAeE4gEZXCeEtSKrIiVrMSGeMCT7h8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=oW6c/02P; arc=fail smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1785225190; c=relaxed/simple;
+	bh=NK9jKPEiD9VQgvElsrwWbV8w4eQwZHlaibY+eGm/QPk=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=oYwidrejsme70KoLpW0UBvjV/J5bEpi7qubkS321S4Vl0u+Cpjo3LaqTlF0H6cHvkPMh+H4DBtOXf5vYI7BMHiGPQdRfzOVHnHxKoGNwOZZiPlmE3fO2GNdQWs0IRL4ea6T3JUQNWn1FtXzudsEKe/xaa21O3S5m9bBQU6gdl5E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YDIGxlcb; arc=fail smtp.client-ip=52.101.56.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="oW6c/02P"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66S3acWb2421692;
-	Tue, 28 Jul 2026 02:58:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=gzn4E
-	TWF3DTCm+QrTMpowNkag3vtbfxsdfSr1vC5dqA=; b=oW6c/02PXQ+dRzSI4Opyu
-	8JXQZKBHbnlMxtqbNPMeiYhtoyLGBjQJ3xtCvOgq6BWsreULzcy897BzVqFJD3Ux
-	cWOhqiaOVZD8AiP/R8M/DcJsnAe3exX+776ac1Sua4nCQde2yj99YNcKiPd1AkxJ
-	j0P9eB5sgqguxhRRgkCBjRwmTTw3BPultfYMslLNkW7f6bPXFn1ngrJJw1C/Jt9Q
-	MAkpSxKXkfi4+Gr5FtvNEFQGgTbGfYeJamgsoV+0mN6vgrmOQgYSrgI6Fu3rDO1y
-	jwSbWfj+5ZpNutCW1kQyUKmzDzOjcB439zn+76ew9cmtG4MjTgCyyld8eTaPecJt
-	w==
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011010.outbound.protection.outlook.com [40.93.194.10])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4fmq03mccc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 28 Jul 2026 02:58:48 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YDIGxlcb"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YxI6PyDvFRasx6SiHFo/JJlKg80shCU5Eg0RJUGzwmQ3098pS96jgHpIF8EQ5v1gN0bsmEQ5utWh9zNfI8edPjEvGW8zUJIrGra/emZut9Sl9JQg/bB2iOrWvZIu0lnJlB83P5BeLoC9yiaIqj7azEAZnBDyo/REuR8iK5JRcqsFreG/n5c400PZY2am6g8fcDe+zIbJDJB6Pxu/YrTelFum1AZ5q6qcuwIHoVtNkSNW9GQt6rfMhEFAaFI47apnrZQXrj7c86plU7JJgXPoxjRJk9333AYsuM/XFK0Yd/3huKaMyGzktN3bRRHVTsERw9gIz8cT8odKKYnKIItMYA==
+ b=RPEz8QYlsX9N/3ebSBeWVtvFQqKyaMKSm8XCuS9lbOfMVRo+PMftg4yxzkn3fLQW0n8Lv+oEDPnamSP14sJQ8QQDI1DyBlxpJj/KXhl0Xb5DfiR53MUfPImiJ2rGAYN1l9oBLr9oRjwNs9bEpyEu7DkvdSkW5sIyawKHqODe/cftDANYYoKTPD4eBBOn3EypUtK4LIN1Y83460nrNPPm4AfSCS2hqFZgLeyp9nMHFoWCOFQ+2gA3NRP5/IQXunS9HaWB6tmvirSCn02Xr/TQdMdPqy/MY5cgFdyOZQK+2c53loQarbc3qxztEEgNcAOy1CWkFI3px2k5s9AWcJxgrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gzn4ETWF3DTCm+QrTMpowNkag3vtbfxsdfSr1vC5dqA=;
- b=g8K+hySyCXOATHVF/g2sjd4gnNfzPcDgRI7/rb6zMaBjKQ1sAczeDDE45wceQEzsU5oc7rniHwJHVhY+ZXWHHmil39Qb7IBTvShIjC8dTqVWykpIhBQSddVUkL33yddIX1E0eiR7kC4Yp+Uhq+a574TfNJM3MPC4Vw1b0Va0EZuPG7h3i1RIfDJPw5V8wJTayePpPr9AEGxmAaHU7AwwVALXAUht/m4lQATEevkOGlZtG1VHaIZhyy4Nj7gZO2FTTjRoOshXyRLE/SrIvf//9i0pCNKWfY614x+0P+xSZW0VcVoUrejxTqUrJ6gcEt/ddRvq7YmhwxtimerZEHIszA==
+ bh=gsAfaCBA8ESyhxZqDn5gu49BFQoj0tqCz006kO2tzeY=;
+ b=Ebt0NFqTN8/30E2znW6l67jhvwGUU2uM/sEnOFzMIbjSreRyrNX56Yh+t0fWKYfopUd2bAhrQyoFwLvu+IzyyMdHmpP5XP7aQ8LFp8ad9EdbBAZ2VpRilHB8CeNVy4ZFsiXQn87k8TI4RX/3HLnpEC8FjBgPMT4HvuRmz5P29L5mguSmIHEyH1cRJLRwtHO+0+3ab64qoMZVD2pVz+SGiIx4jz6XM6YxLM2/afeJ1wygrOYK58nJW+nhq1PHaRldk/zV32fT1kjB5FOXDdHUOGQumsrK1CiPq6+fetVz+db7bVHX80kH7SDTuNU5NhSDavhHAX/H1d1HFT4mbfOhSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
- by DS4PR03MB8471.namprd03.prod.outlook.com (2603:10b6:8:323::5) with
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gsAfaCBA8ESyhxZqDn5gu49BFQoj0tqCz006kO2tzeY=;
+ b=YDIGxlcbka5sKupXb4Bc9GIFyqADe35e93mCMhFIXTgp0RCSCQtdaHqdwN2L8cTkP6e5c6zDnVIY2Tjw3cq2rxvAap69/eo9ahHx27zk6iY/L8OrzqctEGT8f4wxiFb+plrfoM+mPDKcp8Hh1DayDZonSTkMhYlrpr/GVHTAgI1cDxHPN9/tOzvbYTDilCtFJjFB3Y8lrwwE+VUNshupiF/89JutVo37yJbVnm2oU0U57a9WdqWwzmlv/HDOq5Tqirlw9IHhGu6YAxtSoynYRwremTzfJtBeE8UodQ8dK6NoF8AEQPsAaiq9P+d4/X6AJdpo1TGdHoJrWWP2V9Cl9g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9734.namprd12.prod.outlook.com (2603:10b6:8:225::23)
+ by MW3PR12MB4348.namprd12.prod.outlook.com (2603:10b6:303:5f::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Tue, 28 Jul
- 2026 06:58:46 +0000
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442%4]) with mapi id 15.21.0245.012; Tue, 28 Jul 2026
- 06:58:46 +0000
-From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v4 4/4] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
-Thread-Topic: [PATCH v4 4/4] hwmon: (pmbus/max20830): add support for
- max20830c and max20840c
-Thread-Index: AQHdHkHk/3XB76thsE6nF0Lg9EJuILaCV3qAgAAFY1CAAA53AIAABuQw
-Date: Tue, 28 Jul 2026 06:58:45 +0000
-Message-ID:
- <PH0PR03MB63510057D496CBE8EBFAE246F1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
-References: <20260728-dev-max20830c-v4-0-cec034298535@analog.com>
- <20260728-dev-max20830c-v4-4-cec034298535@analog.com>
- <336bd264-52ec-473a-b74f-5661f06286ed@roeck-us.net>
- <PH0PR03MB6351D7369AB790714DF416BDF1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
- <9559d319-4b44-45c2-ae13-f92099de4c89@roeck-us.net>
-In-Reply-To: <9559d319-4b44-45c2-ae13-f92099de4c89@roeck-us.net>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 28 Jul
+ 2026 07:53:02 +0000
+Received: from DM4PR12MB9734.namprd12.prod.outlook.com
+ ([fe80::ba44:51c5:b641:2917]) by DM4PR12MB9734.namprd12.prod.outlook.com
+ ([fe80::ba44:51c5:b641:2917%6]) with mapi id 15.21.0245.012; Tue, 28 Jul 2026
+ 07:53:01 +0000
+Message-ID: <58700765-8c3c-45a2-ae12-1f8ff46f4725@nvidia.com>
+Date: Tue, 28 Jul 2026 10:52:52 +0300
+User-Agent: Mozilla Thunderbird Beta
+From: Carolina Jubran <cjubran@nvidia.com>
+Subject: Re: [PATCH v4 net-next 1/7] ptp: Add ioctls for PHC timestamps with
+ quality attributes
+To: Arthur Kiyanovski <akiyano@amazon.com>, netdev@vger.kernel.org
+Cc: Richard Cochran <richardcochran@gmail.com>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Miroslav Lichvar <mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Wen Gu <guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ David Woodhouse <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>,
+ Zorik Machulsky <zorik@amazon.com>, Alexander Matushevsky
+ <matua@amazon.com>, Saeed Bshara <saeedb@amazon.com>,
+ Matt Wilson <msw@amazon.com>, Anthony Liguori <aliguori@amazon.com>,
+ Nafea Bshara <nafea@amazon.com>, Evgeny Schmeilin <evgenys@amazon.com>,
+ Netanel Belgazal <netanel@amazon.com>, Ali Saidi <alisaidi@amazon.com>,
+ Benjamin Herrenschmidt <benh@amazon.com>, Noam Dagan <ndagan@amazon.com>,
+ David Arinzon <darinzon@amazon.com>, Evgeny Ostrovsky <evostrov@amazon.com>,
+ Ofir Tabachnik <ofirt@amazon.com>, Amit Bernstein <amitbern@amazon.com>,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ shuah@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
+ vadim.fedorenko@linux.dev, Jakub Kicinski <kuba@kernel.org>,
+ David Miller <davem@davemloft.net>
+References: <20260714020340.25014-1-akiyano@amazon.com>
+ <20260714020340.25014-2-akiyano@amazon.com>
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|DS4PR03MB8471:EE_
-x-ms-office365-filtering-correlation-id: a4095280-814a-491c-32d9-08deec75ab2b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|38070700021|6133799003|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003|3023799007;
-x-microsoft-antispam-message-info:
- ahIkXhEpX598Bq/63dGNf8h7aTccb4JTMbPpcX8w2DeCA6NFvmDH92Wt4+rd22n3kAIMrPFs3CF5OAHFRwogsJSFzWGjHFJbMf8KWVno/Wfp7vP2n9uSVGN8yi+/jKQN1gycaZ3bxkrlSsYeRQHnMMoDbaxIyHMKwW0dPLAuvsGM9Ncc9L3Q40jhWOtXt8tA1KGQPUQuPll9WZ6Q6LL5GKbs0ehaKBI+CoaPEet34AmJZhNTG51Wzl7jwb9tbZmU7Op5lgPzKaHjSuku3JQk5CfVOEvuzbx304gwhkUR/R0BuyViFcrPeYPhRX4mkhCY3YQ1sIkcrh/Lv4KkqBc9Pbvy8CDL6gLQjb12e02NmUm9MdPVWBZBDMVfeXP2EahphnMx7FxBu4DvRs5dCBTGxN1So9VEniO76dEkV25WTG5dcR1c1o0d781xsU21xN5yWhpzXISGc0hNrriAUrp0QUGu1H4FT857OCGUqW1cMIZxBi85jiWD0Tnz+MaL178AHSo312iWK2YUUEbtMowTr5ATqJi+qSO/BBgZXa1aFGTC/OO2kkKVM9r4ZQfniA+YFhf/opg2UKDXV3Fcegy4sysUatwLbwm2JqzGG8jTQLEE9zI1e93/V24nfoJOCGZUPMe+sIV3IcCop7cAYqf2raSKd4j12klOnqOsysITlp07NzKJ3t2X5/drKbljSLtRv2bDn0cTcBXHFQ/Pj79jCDbzpBEMuKqSwgZ7QHmQlok=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(38070700021)(6133799003)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?p6gZbfXDPINnPqBqobkf18CjUcFbc4wEyWRQi2gOutmYBTCE4xoaTJEqzqUt?=
- =?us-ascii?Q?+tn+N/hrFMjC3BdrXpUTOdN2m9D+37LN0VYpZCKr3A6mu5JdFCW4ovYCoBNa?=
- =?us-ascii?Q?mVqOyYC2bA8ZuQzfM1i4wobkMQFJYVcBlHGYEwVoOX9AOFTUJmGyuiRiA2ta?=
- =?us-ascii?Q?u0BUHye8hqAD3qJ0PrKtaad32/N3yy517Jj/6hNaQxYpcOmtQGXifZn1F+I8?=
- =?us-ascii?Q?uz13DrBBI8E02GIoZ+aItrjFRWVlHEDw9G8E8XZySAEFxgxJ4kROCCsY/Jj/?=
- =?us-ascii?Q?eog7mSlNmd+pVeabLXxGSIwpdPo45d2yPHyJPG1RD0CWaDfPO4kH69NLALOw?=
- =?us-ascii?Q?dmT/N4zCITbN7QDp4/qwADsJEh2Q47JBI7HPn9uV1jX6ffoyj5FR1hxhGsgE?=
- =?us-ascii?Q?ACzNMBkpbFosmrqqTzUGCP1C7hxUES/59fcGAmDyLTaQhqJZwYD3JkYFnqWd?=
- =?us-ascii?Q?DFNJT072SAOyXOeatO5fmEi2q6dsRgqQ8YwvWU7AGyBefCdfESkGtddHQ0lx?=
- =?us-ascii?Q?gvXjJ342PwrH3AZXHu4b7KCFzEG/qnpOfuzK0BXHMV8GxRfm0C8WmnhFf8Xz?=
- =?us-ascii?Q?aO6F7L7A7XL0HWonTE5r67Z+3P3YkubM/HTunopunvBy0TwcBqpjMbhD0lOr?=
- =?us-ascii?Q?ei8Ko9Hu2ViuXqT0U4AVyc9P507k6sFcETf3T2JEfI36CKaZPir1Otv8eh1c?=
- =?us-ascii?Q?/F0HGL1LCTXIRUauFUJp//TMD7tLwgQ8H9X1nvAK6EVY9gASae+/3zEwg0D+?=
- =?us-ascii?Q?3CTNBrxXiungoe27lflDTHxfH9DCvw+t0M4Q/TDWPbFkdBzxLKMrmDDKLl+v?=
- =?us-ascii?Q?nEKUk45zXOpV/9X5+lIh3vjs48O0/GtA7Pw88ZzULnphtXsA3qHAe3hSy6oz?=
- =?us-ascii?Q?TeW7cQTYUKFBSq4TLlbxeTsBR6fvbcE5VmUPrKZkeb1fBVWRF5tuX2RUSgd8?=
- =?us-ascii?Q?wWdknAHUjbQ9wpF/7gpAnPaDQxpKaDz2iuqZI6cS2ax09KTC0Lwe9SRQv85o?=
- =?us-ascii?Q?5Lk4KgVyLobdztMCavoEqBeBc4JpiNfaATjtuntNWJi5ICBKk0fcTwOCU9Yf?=
- =?us-ascii?Q?n7WMO20i+WEj38eXLKtvZzw5/JGuGPq+gt0uIRyFQwKz3EY0Fjk6mw7ziJ8F?=
- =?us-ascii?Q?XqPotfGquMdXp6mftYsIAxQNRmXr5b3Klm8/D1u9g87Vpi/9oUpgwyRhwOFh?=
- =?us-ascii?Q?mZhmuRk2vsFjLlCnjDzd5gF2Fl4zNqI6YN3sPlpeJCrKmLjEtJbzE3Or2kfx?=
- =?us-ascii?Q?yIN31Gvre3LFWl+nAGnPeMn/poUpvkDKV7NbUYCBrEpK25hkIudh2KsQL0dC?=
- =?us-ascii?Q?NOrWg8MQ5w/9cdrqdVAA/shUPPm3fjJzIWOBeBYVy1Z9rNEMrlFKvxvpfNQm?=
- =?us-ascii?Q?kkFU0wtrsBwLObI7i76hg1Ic1PH+t8aCr9pIw7N2pgcJyA+SLNBiouAxLedZ?=
- =?us-ascii?Q?evU3RsH0MHRxm2unpu9rfIalaqgeSaWzMt2zOgrCPJbE9LGgGShlh+iflTq3?=
- =?us-ascii?Q?8i9Pxd1N6T09bFKF2tsdan7BWZ18jeLA6u5yzHwAuLi2CPPA3/YHgU5D7+xW?=
- =?us-ascii?Q?Nr+PlUg6AwteCMuNxqxe/sDk1WK5wWi5jFIfczJlhpmRkX4js5TnkfNKoAiZ?=
- =?us-ascii?Q?72jZvm865/ab85lZBdR8iD/IARfw4q/k9w10N6uGW31ZcBFUMxPmoPAxrGP5?=
- =?us-ascii?Q?pb07Ez5Tr/gOQIDmEf/Q16YshEydZF8vM1G7vmIOTIPz7sbczwtvxdxWdSdp?=
- =?us-ascii?Q?rB62CbB8o+Nj7wi3IbfZu5qWrbHozEU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260714020340.25014-2-akiyano@amazon.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TL0P290CA0009.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:5::6)
+ To DM4PR12MB9734.namprd12.prod.outlook.com (2603:10b6:8:225::23)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	mNWMCb3dDQX+zIood+oqjtBU82U8+UDHDkkOf0IX7euo/5PjlsY6SW9S7xdBY8nDntu4JZBbISFW2amLjLAbXSKjQ0bI6Tydwl5uMaT33hrEbGBWcPrYOpr4q1aE1L83I9GXGSKc3C9XO3egCMiXdG6YhFXXklrjY4Vnz9PJAcnrNLoJs5QaQPYDYK1n/OwtTTiTUkDHoEvzKoaqdRv/ojfeiaXfRYaaEoXo7QnsJWsXqa3oNoOvPQnjzGTlAY/GFBl5vOPqmalqnEtYpsZNXInSRlVfzgItb8sd+6HA9dKjuc89Opl56LqdmBOVSXZ+aMEtJNNKe9H5dCA1C72u4A==
-X-OriginatorOrg: analog.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9734:EE_|MW3PR12MB4348:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5bfb20ad-c5ed-482c-a032-08deec7d3f7d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|4143699003|11063799006|10067099003|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	vanbVCtIz/fkvMnXiyHRxfASPIRi4gKPrtEKhn9NwZCqEih4EVcTx+l0E5CHIHXepic8upb5EFX0ZIfo9oBbY4XCW7j5AdyT8Gghj5b0iWTZXgXm2DYgntFmBTcBEuRnTWBqxZxesmQu5Lp5/WpJ+ubEvrMTi9EQqy9KWq6bmwbbYUC+YgxdWVXsDFFXrpdaPjVzWBEEwg/EhIAFGpI1Ej2ZqTAeMKmhsfNF0i5YQGXXDgHaL2hrK6B4qQ9t7o7at1C6fr/d5tw53uwOc667YVXjir1kYS1N81K6M5NCaREWQ8HuaCT49wOlvd6SSgsSmv720+bdrJQ6GKxOj/+M2ctzfDGhYeDrAgApL+fQznSKHXHcheablfgD2fyM5ttdAI5td7Y4SlvNGDp7NrYSvhBheekfxwUh+TpBjqranMYL6Z+1NAD3iGOYJiHionX9Pm7XyyisL8Kccjs/VQxQrcnBz2YlvlpzJnUpocqUW87lC5ejY3gXaWgIn0g5/Y8piE1r6+7EidvPq+/G6VcouZCgM67aW6w5WzoLWRsbbQdra5SmxtltIXw4KThz7SqDsCX8eNKasLR4pO51a6i9WTf0Uaa85apveiydJjbSCLCg4c1wX7w5wKg61mTRpDsVrcuDSQcaPl6tQwkjVB7NmDiCC/qEsqCmAhJScrOsrWU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB9734.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(4143699003)(11063799006)(10067099003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WmRVZGZqUmR0V1h3anVSVG5SQnlnOTE0NmdyRmZKSlQrTVhVVHJTM0lHUm4x?=
+ =?utf-8?B?MXZ2ZkFyZk9DUTBhZFE0SmtIWlloOGxCZ2xrYlJvYnJjeFZZdkg5dFgyMGtF?=
+ =?utf-8?B?cjF3UnVoZ2xRM0NkcHVoZG9DN2FJOSswamlIUU8zTHNzTklTSXRZMzU1ZUtB?=
+ =?utf-8?B?K2NpckhOb2J6V21lU1FHSVZmL2RwNXIzdzhkMmpOVk5ta3JnTElGV3lQQUtt?=
+ =?utf-8?B?b0JpNWVXY1VEWXZHeksrdDlmQkwzelI4NlFTZFNYaHRweW5IYnkwTVF2eTZU?=
+ =?utf-8?B?dDFORy9kdGFFU3k4NzhvbVBVQ3M2dTJSNGxuYnp5aUNIT1hXWFp1N2FDeFFR?=
+ =?utf-8?B?Ynk0ZVp5YTI5Rng0WjNQN2FvNExGWnQzWXRrNHl2d1g4ZHN2cmhZMXoySEVm?=
+ =?utf-8?B?SjVYNXJoU0cxMWRTZU82ZVJyRldwNG1rbXdHVU9ONjFzWE45aDR3ZjQ5OWE3?=
+ =?utf-8?B?b3J1SXFLS2pQSkpBWTZMZ01oNVNsTzBQZDhvRDJwZk1sZ2xHODR6WHdSQ0JE?=
+ =?utf-8?B?bk1UTnBIb0hmcVZMQW5EZGJPcElQMU9LcFRGSEV4RWpwZHdPK1BCSVFmb1Ay?=
+ =?utf-8?B?SHNPd2ZtbHpmRmprelhnZTNRU1grNTd3bDA2d3NxRXlIWFdaWFdLUEZybjZ4?=
+ =?utf-8?B?a2Z1MmxPOCtRc3JWNmpkRXo4Y1JDWUpHUVh0N0JlNGpsaXQ5SjlqVndmY0hZ?=
+ =?utf-8?B?N3ArbDVCYUlMYUt2QisrYjJFSkZ6eTByWVgwamt0M0lWQklpOTFva0l2KzNB?=
+ =?utf-8?B?QS9ReENvczR2cjMrZmMxSTdwYjVqNUlqVC92TVpQNUlvSi80RXhXcFo5Q0Vl?=
+ =?utf-8?B?eFFaeW9KamRIczg2aEdsdWVEREpLTVhCRzlQVkYyMVpTWWczY3FCM2p2dU16?=
+ =?utf-8?B?OHJOSUVhZjRZVVRwLzY4TE5HMy9qUWhrOUN6U2RJUE5qU0hLaW13Z0xvZ29I?=
+ =?utf-8?B?enlIc1d2ejJxZVBqSDF2dGM5bUN3OGMyRmVmV1RuSS9WRnFVZndaS1JMYXpF?=
+ =?utf-8?B?MFdJWS9WbWFYdzhEbXh1MEc5OFh5UENKL1VMS3FOa2NrVmExSmpvMUQwb2RK?=
+ =?utf-8?B?Rk1MQnpEOTVRUkF4aUFVc3R1L3dsWEpHc1doTUxnYS9MTithUkU0R0VDeTll?=
+ =?utf-8?B?Rk1ndFpHaXNDUFVoVmlGelU1VXpMR2lySGZLTVc5RnRNMGV5QUxWNmhmUDAw?=
+ =?utf-8?B?UE50bTNzdm1iTXY3RGRYdFZrNGhxd1pUZHJnK1YySmpUaE42SlJFWVE2dHp0?=
+ =?utf-8?B?ME9xandnMzVWNEE2K3RpK1RzQXdnUEEzcGRlQW9QVnVHdDUyUnlVTEF6Um1B?=
+ =?utf-8?B?SnNia0xmdVpLOEFsNitQdDMwemc1ciszeFhFRmFsOHJsZ004ek91TzJ0Uk9i?=
+ =?utf-8?B?OHljWXdlL2FuMjROY0pIU2VRZEdzWXNocG5WSXRkMCtBd2tSWTg2MjZUT3F4?=
+ =?utf-8?B?K25RM1BLUGFySktPdDR1QmhtdnE1K2h3SFJ0ejVWVS9BT0taaSt2MmdnRmxE?=
+ =?utf-8?B?Q3dRbDVWSXZDWkdXVVMvejJQTkh6OFF3dmZMQUsxblUwRzdzYVhJTTlEUHYw?=
+ =?utf-8?B?ZURjTFhMcHcrY0MySU1hYjk5eTg2eklLTGJTaHFvZVVtc0h2b3JjNlpJeGxY?=
+ =?utf-8?B?MGU3a09WRlF5NSs5VGRUTkpRWWovTUZVTlFVSWtJUHZIRjBXdnBKRG1VS0RJ?=
+ =?utf-8?B?akNBWlhjZjIzNlNlRE9YZnpIT1gwUDNFNnFqcXBqOWpZc0xNMlBkU05OdFJa?=
+ =?utf-8?B?dnpoNXc3MlZDSWZPMkF4MlQzaytwTkRWZ0prdWY1elBQUjhuTzdUK1kvcVFt?=
+ =?utf-8?B?Qm5NbE4rQkZldHEyY2d0MFBWek1UMHZvWkFuMXRubmdNcWlxUGdYWTkwQVM4?=
+ =?utf-8?B?UkIvL2ZwL29XUHV4TzB5aEQ1eGlRTVJQK013NU5DMjJuZFlVYk9UVktKVWxG?=
+ =?utf-8?B?NDdtYjhoYlR3UElXZjhWZ2d0MHl4U0J1WnpNSVg1VGx4Z3F4YUc2WUIvTDlv?=
+ =?utf-8?B?bk9tVE9ubzE1VmlNQWYwSjdtNE51SnJzd00zMUdOVmVQcXFIVG5rWFdxQ1BJ?=
+ =?utf-8?B?Y2tHa2ZTNUJxaWhzbUNsSk9Eek9UdzNDV0ozdjR2S1VMLzZOSDlIU2RPZGo5?=
+ =?utf-8?B?NXpkK1AyUHJCLzJtVmp3T05scysrYjR0K0xqUEgzTGpPaDFiL2w4Z2RyNWNK?=
+ =?utf-8?B?SCtaQWNSbXlzd3gzVHIydC8xY1hGNG4wSEdVNHlJeWFicE91VlNSMWFmOEk3?=
+ =?utf-8?B?SDQvMUwwaUNBTFZpYVh6ZjdPV3YwTXlXK1Q5azFUWk9nSFRzRG9XVU16cENE?=
+ =?utf-8?B?K3d6QkdMSUdnY2RESDFnOFBFcmZkdzBZc205WW40d1RWckFSN3hxQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bfb20ad-c5ed-482c-a032-08deec7d3f7d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9734.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4095280-814a-491c-32d9-08deec75ab2b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2026 06:58:46.0009
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 07:53:01.4443
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /U4GeqNRteTq9rH3cJGoN0gK5mqTjZDVnEsDzIhQfY0lRFHHZ5XGcfDxbBeDjgKxbhNQKkqRRrZspqsYnmHvJqwHqfc1z1+cgEC6fmWDuBo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR03MB8471
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI4MDA2MCBTYWx0ZWRfX5bIYL929Ht0G
- Z2jM8+zKM20rmfZMyffzr7+0p8wdj83GRfskIDWNpWNyD95YYGB3YpvlrjIlD+ZNOotYHlytu5p
- v7ZNgNthYlvjLmISnhw1R4IH8g9vMVhy9ShjUgbyWrqC8OupsYEw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI4MDA2MCBTYWx0ZWRfX5A6k0h0ZZ4Uc
- w4H5hEcW09ZlJrNfAfVstPS7ZJkixKgIAiqeT5932goZmoedg9yzcNF0Di2cQweUZl8il5biFW/
- D/1X2ZYBczKv6UTLuUQOq6/GvpHQjkjLQK/SkaINDKzOfUqDF+nZZTkHv0IuWTaRdjY65U3k0Du
- L7YDNmfFsIE+UUsOVPDSoUVv/fOCGYrA7T6103CSp+JhdBk9RIIaLk3TYMuQJn0LpaOcPheqj95
- BCBBxexFNVUyB3c0y17aEVulguy5QhU77jZlyGcX///Sr19GnsnUA2bVm6qQb1SOZL0LedTmgq6
- DmUGCGik2Wnj/F5aCLLkpeQXr27n/zpFJSo6NWrhVDbloxMzCRgPdU43cqCzvdUT91KMGjohy7F
- dFO7PR3gnpm/6gFAsIWEAHYxAG69Ah9BNDiiT07Yds+Y1NYsH6OCvbhYBVUVFsRRvHKtrlH7s7f
- sSfYqg6xAAAXgUA/rDA==
-X-Proofpoint-ORIG-GUID: z-NZTgdqaKX-CvwKmgIVuqd3TNKU0W9-
-X-Authority-Analysis: v=2.4 cv=T8y8ifKQ c=1 sm=1 tr=0 ts=6a685328 cx=c_pps
- a=PJn3dW4q50A9PoMJtOr6Ng==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=uXIjobp8t2wMuQ0fPvqm:22 a=gAnH3GRIAAAA:8 a=yRhnxOh0HhkFvnTlQv4A:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: z-NZTgdqaKX-CvwKmgIVuqd3TNKU0W9-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-28_01,2026-07-27_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 impostorscore=0 spamscore=0 bulkscore=0
- phishscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607280060
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IfGJlhUnM2rqlpHkJGRD2yIK+Soreu1H6DDcazpCH43oD1O9fE3IuBF1H+BBlHEqn7vkmH3XW115AihDUPppMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4348
 
->=20
-> >>
-> >> Are those chips still not published ? I find MAX20840T, but no "C" var=
-iants.
-> >> And MAX20840T presumably has an I2C device ID of "MAX20840", not
-> >> "MAX20840C".
-> >>
-> >> I also noticed that MAX20810 and MAX20815 seem to be register
-> compatible.
-> >>
-> >
-> > I believe so yes, they aren't yet.
-> >
->=20
-> I just hope they are really compatible, and that the device ID strings re=
-ally
-> include the "C". The "T" variants seem to have no T in the device ID stri=
-ng,
-> making it a bit odd that it was (or will be) added for the C variants.
->=20
 
-Yeah the T is weird, but I did test the C variants and they do reply the 'c=
-' char.
+On 14/07/2026 5:03, Arthur Kiyanovski wrote:
+>   
+> +/*
+> + * Clock status values for struct ptp_clock_attrs.status
+> + */
+> +enum ptp_clock_status {
+> +	/* Clock synchronization status cannot be reliably determined */
+> +	PTP_CLOCK_STATUS_UNKNOWN      = 0,
+> +
+> +	/* Clock is acquiring synchronization */
+> +	PTP_CLOCK_STATUS_INITIALIZING = 1,
+> +
+> +	/* Clock is synchronized and maintained accurately by the device */
+> +	PTP_CLOCK_STATUS_SYNCED       = 2,
+> +
+> +	/* Clock is drifting but remains within acceptable error bounds */
+> +	PTP_CLOCK_STATUS_HOLDOVER     = 3,
+> +
+> +	/* Clock is drifting without adjustments or synchronization */
+> +	PTP_CLOCK_STATUS_FREE_RUNNING = 4,
+> +
+> +	/* Clock is unreliable, the error_bound value cannot be trusted */
+> +	PTP_CLOCK_STATUS_UNRELIABLE   = 5
+> +};
 
-> > Actually MAX20810/815 and a few more are next in line after this. A
-> > different person is handling it, but they're waiting on how this patche=
-s go.
-> >
->=20
-> You are making yourself more work than necessary. Knowing that there are
-> more chips coming, the sequence of strcmp() is not really that desirable
-> anymore.
-> It might make sense to create an array with all chips supported by the dr=
-iver
-> instead of adding up strcmp sequences. That would make it much easier to =
-add
-> support for new variants.
->=20
-> There also seems to be a MAX20830T. Does it actually make sense to list t=
-he
-> variants (C/T) in the first place ?
->=20
+Could you clarify the intended distinction between FREE_RUNNING and
+UNRELIABLE? What does UNRELIABLE represent beyond FREE_RUNNING?
 
-Will think about how to make to scale the code when adding newer variants.
 
-I may not know enough how important variants are when supporting them, the
-C variant seems to be a package difference and the ID string.
+Also, how is userspace expected to relate clock_status to error_bound?
+Are there defined thresholds for transitions between the states or are
+these entirely device-specific?
 
-> >>> Signed-off-by: Alexis Czezar Torreno
-> >>> <alexisczezar.torreno@analog.com>
-> >>> ---
-> >>>    Documentation/hwmon/max20830.rst | 27 ++++++++++++++++++++++----
-> -
-> >>>    drivers/hwmon/pmbus/max20830.c   | 27 ++++++++++++++-------------
-> >>>    2 files changed, 36 insertions(+), 18 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/hwmon/max20830.rst
-> >>> b/Documentation/hwmon/max20830.rst
-> >>> index
-> >>>
-> >>
-> 936e409dcc5c0898dde27d782308d4a7e1357e73..b850f3b6e40d1f1d0cec944be
-> >> 40a
-> >>> f02265aced59 100644
-> >>> --- a/Documentation/hwmon/max20830.rst
-> >>> +++ b/Documentation/hwmon/max20830.rst
-> >>> @@ -13,6 +13,22 @@ Supported chips:
-> >>>
-> >>>        Datasheet:
-> >>> https://www.analog.com/media/en/technical-documentation/data-sheets/
-> >>> ma
-> >>> x20830.pdf
-> >>>
-> >>> +  * Analog Devices MAX20830C
-> >>> +
-> >>> +    Prefix: 'max20830c'
-> >>> +
-> >>> +    Addresses scanned: -
-> >>> +
-> >>> +    Datasheet:
-> >>> +
-> >>> +  * Analog Devices MAX20840C
-> >>> +
-> >>> +    Prefix: 'max20840c'
-> >>> +
-> >>> +    Addresses scanned: -
-> >>> +
-> >>> +    Datasheet:
-> >>> +
-> >>>    Author:
-> >>>
-> >>>      - Alexis Czezar Torreno <alexisczezar.torreno@analog.com> @@
-> >>> -21,12 +37,13 @@ Author:
-> >>>    Description
-> >>>    -----------
-> >>>
-> >>> -This driver supports hardware monitoring for Analog Devices
-> >>> MAX20830 -Step-Down Switching Regulator with PMBus Interface.
-> >>> +This driver supports hardware monitoring for Analog Devices
-> >>> +MAX20830, MAX20830C and MAX20840C. These are Step-Down Switching
-> >>> +Regulator
-> >> with PMBus Interface.
-> >>>
-> >>> -The MAX20830 is a 2.7V to 16V, 30A fully integrated step-down DC-DC
-> >>> switching -regulator. Through the PMBus interface, the device can
-> >>> monitor input/output -voltages, output current and temperature.
-> >>> +MAX20830, and MAX20830C are 2.7V to 16V, 30A fully integrated
-> >>> +step-down DC-DC switching regulators. MAX20840C is similar but can
-> >>> +reach 40A. Through the PMBus interface, these devices can monitor
-> >>> +input/output voltages, output current and temperature.
-> >>>
-> >>>    The driver is a client driver to the core PMBus driver. Please see
-> >>>    Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-> >>> diff --git a/drivers/hwmon/pmbus/max20830.c
-> >>> b/drivers/hwmon/pmbus/max20830.c index
-> >>>
-> >>
-> 7c1e94c43ac4e5d1b4f69dc77b02e424a674e908..029733a377123ae6a861841d
-> >> b4a4
-> >>> 0dd540f1149e 100644
-> >>> --- a/drivers/hwmon/pmbus/max20830.c
-> >>> +++ b/drivers/hwmon/pmbus/max20830.c
-> >>> @@ -99,13 +99,12 @@ static int max20830_probe(struct i2c_client
-> *client)
-> >>>    	 * which do not support SMBus block reads.
-> >>>    	 */
-> >>>    	if (i2c_check_functionality(client->adapter,
-> >> I2C_FUNC_SMBUS_READ_BLOCK_DATA)) {
-> >>> -		/* Reads 9 Data bytes from MAX20830 */
-> >>>    		ret =3D i2c_smbus_read_block_data(client,
-> >> PMBUS_IC_DEVICE_ID, buf);
-> >>>    		if (ret < 0)
-> >>>    			return dev_err_probe(&client->dev, ret,
-> >>>    					     "Failed to read IC_DEVICE_ID\n");
-> >>>    	} else {
-> >>> -		/* Reads 1 length byte + 9 Data bytes from MAX20830 */
-> >>> +		/* Reads 1 length byte + data bytes */
-> >>>    		ret =3D i2c_smbus_read_i2c_block_data(client,
-> >> PMBUS_IC_DEVICE_ID,
-> >>>
-> >> MAX20830_IC_DEVICE_ID_LENGTH + 1,
-> >>>    						    buf);
-> >>> @@ -121,26 +120,28 @@ static int max20830_probe(struct i2c_client
-> >> *client)
-> >>>    		ret =3D ret - 1;
-> >>>    	}
-> >>>
-> >>> -	/*
-> >>> -	 * MAX20830 IC_DEVICE_ID sends string data "MAX20830\0".
-> >>> -	 * Return value should at least be 9 bytes of data.
-> >>> -	 */
-> >>> +	/* Verify we read the expected number of bytes */
-> >>>    	if (ret < MAX20830_IC_DEVICE_ID_LENGTH)
-> >>>    		return dev_err_probe(&client->dev, -ENODEV,
-> >>> -				     "IC_DEVICE_ID too short: expected at least
-> >> 9 bytes, got %d\n",
-> >>> -				     ret);
-> >>> +				     "IC_DEVICE_ID too short: expected %d
-> >> bytes, got %d\n",
-> >>> +				     MAX20830_IC_DEVICE_ID_LENGTH, ret);
-> >>> +
-> >>> +	/* Null-terminate the string */
-> >>> +	buf[ret] =3D '\0';
-> >>>
-> >>> -	/* 9 bytes of data, buf[0]-buf[7] =3D "MAX20830", buf[8] =3D '\0' *=
-/
-> >>> -	buf[MAX20830_IC_DEVICE_ID_LENGTH - 1] =3D '\0';
-> >>> -	if (strncmp(buf, "MAX20830", MAX20830_IC_DEVICE_ID_LENGTH - 1))
-> >>> +	/* Verify the device ID matches what we expect */
-> >>> +	if ((strcmp(buf, "MAX20830") && strcmp(buf, "MAX20830C") &&
-> >>> +	    strcmp(buf, "MAX20840C")))
-> >>>    		return dev_err_probe(&client->dev, -ENODEV,
-> >>> -				     "Unsupported device: '%s'\n", buf);
-> >>> +				     "Unsupported device: '%*pE'\n", ret, buf);
-> >>>
-> >>>    	return pmbus_do_probe(client, &data->info);
-> >>>    }
-> >>>
-> >>>    static const struct i2c_device_id max20830_id[] =3D {
-> >>> -	{"max20830"},
-> >>> +	{ "max20830" },
-> >>> +	{ "max20830c" },
-> >>> +	{ "max20840c" },
-> >>
-> >> I don't think that is needed or warranted, given that there is no
-> >> matching devicetree node.
-> >>
-> >
-> > I see, will remove.
->=20
-> Same for the prefix string in the documentation. You might want to mentio=
-n the
-> supported chips, though, in both the configuration and Kconfig. In Kconfi=
-g, that
-> could be a generic such as "MAX20830 and compatible chips", or list the b=
-ase
-> variants, such as "MAX20830, MAX20840 and variants".
->=20
+> +
+> +/*
+> + * Clock timescale values for struct ptp_clock_attrs.timescale.
+> + *
+> + * These definitions describe the mathematical properties and reference
+> + * epochs of the timescale provided by the PHC.
+> + *
+> + * Discipline: Describes the frequency/phase steering behavior.
+> + * Continuity: Describes whether the timeline is uninterrupted.
+> + */
+> +enum ptp_clock_timescale {
+> +	/* Unknown or unspecified timescale */
+> +	PTP_TIMESCALE_UNKNOWN = 0,
+> +
+> +	/********************* Absolute Atomic Timescales *********************
+> +	 * These timescales are continuous, monotonic standards based on atomic
+> +	 * physics. They do not experience phase jumps.
+> +	 **********************************************************************/
+> +
+> +	/**
+> +	 * International Atomic Time (TAI)
+> +	 * Epoch: 1958-01-01 00:00:00.
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Primary atomic reference; no phase jumps.
+> +	 */
+> +	PTP_TIMESCALE_TAI = 1,
+> +
+> +	/**
+> +	 * Terrestrial Time (TT)
+> +	 * Epoch: 1958-01-01 00:00:00.
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Defined as TAI + 32.184s constant offset.
+> +	 */
+> +	PTP_TIMESCALE_TT = 2,
+> +
+> +	/**
+> +	 * Global Positioning System (GPS) Time
+> +	 * Epoch: 1980-01-06 00:00:00.
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Defined by the GPS constellation; fixed offset from TAI.
+> +	 */
+> +	PTP_TIMESCALE_GPS = 3,
+> +
+> +	/****************** UTC-Based Timescales (Civil Time) *****************
+> +	 * These timescales are derived from TAI but adjusted to align with
+> +	 * the Earth's rotation, primarily through leap seconds.
+> +	 **********************************************************************/
+> +
+> +	/**
+> +	 * Coordinated Universal Time (UTC) - Wall-clock (CLOCK_REALTIME)
+> +	 * Epoch: 1970-01-01 00:00:00 (Unix epoch).
+> +	 * Continuity: Discontinuous; subject to 1-second leap second
+> +	 *             phase jumps.
+> +	 * Discipline: Frequency steered; incorporates leap second corrections.
+> +	 *
+> +	 * Note: Leap-smeared UTC MUST NOT be advertised as PTP_TIMESCALE_UTC.
+> +	 * Smear algorithms are not standardized and the resulting timescale
+> +	 * is ambiguous. Implementations using smeared UTC MUST advertise
+> +	 * PTP_TIMESCALE_UNKNOWN or PTP_TIMESCALE_PROPRIETARY instead.
+> +	 */
+> +	PTP_TIMESCALE_UTC = 4,
+> +
+> +	/**
+> +	 * POSIX Time (Unix Time)
+> +	 * Epoch: 1970-01-01 00:00:00.
+> +	 * Continuity: Discontinuous; leap seconds handled by
+> +	 *             repeating/skipping values.
+> +	 * Discipline: Follows UTC frequency steering and phase jumps.
+> +	 */
+> +	PTP_TIMESCALE_POSIX = 5,
+> +
+> +	/****************** System-Relative Monotonic Clocks ******************
+> +	 * These timescales are relative to a system event (like boot)
+> +	 * and are not synchronized to an external atomic standard.
+> +	 **********************************************************************/
+> +
+> +	/**
+> +	 * Monotonic System Clock (CLOCK_MONOTONIC)
+> +	 * Epoch: Arbitrary (System boot time).
+> +	 * Continuity: Strictly monotonic; no leap seconds.
+> +	 * Discipline: Frequency steered to match system reference;
+> +	 *             does not advance during suspend.
+> +	 */
+> +	PTP_TIMESCALE_MONOTONIC = 6,
+> +
+> +	/**
+> +	 * Raw Monotonic System Clock (CLOCK_MONOTONIC_RAW)
+> +	 * Epoch: Arbitrary (System boot time).
+> +	 * Continuity: Strictly monotonic; no leap seconds.
+> +	 * Discipline: Raw hardware oscillator; no frequency steering
+> +	 *             or discipline.
+> +	 */
+> +	PTP_TIMESCALE_MONOTONIC_RAW = 7,
+> +
+> +	/**
+> +	 * Boot Time System Clock (CLOCK_BOOTTIME)
+> +	 * Epoch: Arbitrary (System boot time).
+> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
+> +	 * Discipline: Frequency steered to match system reference;
+> +	 *             advances during suspend.
+> +	 */
+> +	PTP_TIMESCALE_BOOTTIME = 8,
+> +
+> +	/********************** Vendor-Specific Timescale *********************/
+> +
+> +	/* A proprietary or vendor-specific timescale with custom rules. */
+> +	PTP_TIMESCALE_PROPRIETARY = 9,
+> +};
+> +
+>   /*
+>    * struct ptp_clock_time - represents a time value
+>    *
+> @@ -94,6 +225,119 @@ struct ptp_clock_time {
+>   	__u32 reserved;
+>   };
+>   
+> +/*
+> + * Hardware counter identifiers for struct ptp_sys_time.sys_counter_id
+> + */
+> +enum ptp_counter_id {
+> +	/* Counter value not available or type not specified */
+> +	PTP_COUNTER_UNKNOWN = 0,
+> +
+> +	/* x86 Time Stamp Counter (TSC) */
+> +	PTP_COUNTER_X86_TSC = 1,
+> +
+> +	/* ARM Generic Timer virtual counter */
+> +	PTP_COUNTER_ARM_ARCH = 2,
+> +};
+> +
+> +/* Valid flags for struct ptp_clock_attrs.valid */
+> +#define PTP_ATTRS_VALID_ERROR_BOUND	(1 << 0)
+> +#define PTP_ATTRS_VALID_TIMESCALE	(1 << 1)
+> +#define PTP_ATTRS_VALID_STATUS		(1 << 2)
+> +
+> +/**
+> + * struct ptp_clock_attrs - quality attributes for a PHC timestamp
+> + *
+> + * @valid:       Bitmask of PTP_ATTRS_VALID_* indicating which fields
+> + *               are populated. Zero means no attributes available.
+> + * @error_bound: Maximum error in nanoseconds. Valid only when
+> + *               PTP_ATTRS_VALID_ERROR_BOUND is set.
+> + * @timescale:   Clock timescale (enum ptp_clock_timescale). Valid only
+> + *               when PTP_ATTRS_VALID_TIMESCALE is set.
+> + * @status:      Synchronization status (enum ptp_clock_status). Valid
+> + *               only when PTP_ATTRS_VALID_STATUS is set.
+> + * @rsv:         Reserved for future use, must be zero.
+> + */
+> +struct ptp_clock_attrs {
+> +	__u32 valid;
+> +	__u32 error_bound;
 
-Ok will double check this.
+Error relative to what? The advertised timescale's true time, or the
+device's sync source? And is this a hard bound or an estimate?
+
+> +	__u32 timescale;
+> +	__u32 status;
+> +	__u32 rsv[4];
+> +};
+> +
+>
