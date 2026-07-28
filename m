@@ -1,77 +1,101 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7D838424F;
-	Tue, 28 Jul 2026 08:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAED3E0C67;
+	Tue, 28 Jul 2026 08:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785226624; cv=none; b=W7ZOuxipTLBOQ7NWRFn/dOhRn8Ieip99s7cnr7VFrNe9Nnk5kHkmKNb5iOIYCy18Q1hBmn5X6GLUwX1HE4KbNxox9K5uASAino7yZbYBdgu9tdEA+/LLf3PJ8OKjQL8DuCTqB2mejHGYjfsc+QV2lBuRsURgYmlJHTNfK11UyKs=
+	t=1785229046; cv=none; b=lM6GdikBtQ4/pf+TmOJYRlgvj3uf0UXk78r2GGzzGR/XSKGQ4WgHMp/mmNPUONY6jA1nbFm+Fllcb6d27d7fl6qBC7Dw899WBhes1WOz8VS1tLf0Cn6SEURA9Ig5vrARLT8l4NpfRr2rxKUexJcaFZZN7K5kWYj1SmP3WnlpIuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785226624; c=relaxed/simple;
-	bh=pHBsYNB8LFIRezZ1mJUqtqV3XDk17fZLjIPznkP0y7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ph+W/qJwVsOYLRYnXFOPUTeR0WBCQq9uHwcnIcQ42Ors84BcOppf0feJLjp77jmxfNV6WfohP4CPcJEjtFIcN36HdbPUcwYUsY4h18rE1OmNAhlUDSs0p2Nzwwgln+73pBIRoVJ5KjEdZD4QDJdHGi1Z+BNH9eEwAzzIK75Q3uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b11acf628a5c11f1aa26b74ffac11d73-20260728
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:5f005551-4425-45be-81e2-f7b98823b1d1,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:362ad27872e78062474beee364f3b22e,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|136|865|898,TC:nil,Content:
-	0|15|51,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL
-	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b11acf628a5c11f1aa26b74ffac11d73-20260728
-X-User: yuebingkun@kylinos.cn
-Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <yuebingkun@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 2019822044; Tue, 28 Jul 2026 16:16:53 +0800
-From: =?utf-8?b?5bKz56eJ5Z2k?= <yuebingkun@kylinos.cn>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: mchehab@kernel.org, jacopo.mondi@ideasonboard.com,
- laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org,
- rdunlap@infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-doc@vger.kernel.org, yuebingkun@kylinos.cn
-Subject: Re: [PATCH] Documentation: fix a few typo and wording issues
-Date: Tue, 28 Jul 2026 16:16:51 +0800
-Message-ID: <1785226611234.97420@kylinos.cn>
-In-Reply-To: <amhgfZ3lLS6NCv2t@kekkonen.localdomain>
-References: <20260728030748.45399-1-yuebingkun@kylinos.cn>
- <amhgfZ3lLS6NCv2t@kekkonen.localdomain>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1785229046; c=relaxed/simple;
+	bh=uK9Rg8fepHenBJNqcbxS3Ny7BRXXm2BtgSEzKmEfR4o=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=R8Qe27tdS+kILzkVDutImtGqoohit+08a+nMtpYTC8uEwMtHn3tDZw4YbMTcs5Otas7+9AvD/4lHQ+2PvHO/Qal2YzYAx8Xz3LnSAqhBdIR2B3ruTHneuXCbJ6KvoGEY1UCXFTwS08tdCn5skXFtE8nYT9QqyF03/gjsY3mcFJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=6h9ohDYR; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="6h9ohDYR"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=2E0wmH0tw98SLcgF2VrOb2d3npZ2qjaYNZ4aVITL8K0=;
+	b=6h9ohDYRMrUc1iZIqmFylHx8eQ2pzOoLgSdu5w0Q+mz9toUgzOXOB8R3e81a/J2oHXHzRmgIA
+	uEO1JwEBJzergX7yD0qLx6sqjHn+HcQfWC+gOTna8W1nsQBWpL5rzwq5mvJjAc61S1Wl4Lq2uGp
+	ZCVYWBGG5e03jA2iqyIapM8=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4h8Tcf43tzz1T4Fq;
+	Tue, 28 Jul 2026 16:47:46 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9E189202E6;
+	Tue, 28 Jul 2026 16:57:15 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 28 Jul 2026 16:57:15 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 28 Jul 2026 16:57:14 +0800
+Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
+To: Andrew Morton <akpm@linux-foundation.org>, Breno Leitao
+	<leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, "David
+ Hildenbrand" <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Vlastimil
+ Babka" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan
+	<shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Liam R.
+ Howlett" <liam@infradead.org>, <lance.yang@linux.dev>, Steven Rostedt
+	<rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, "Mathieu
+ Desnoyers" <mathieu.desnoyers@efficios.com>
+References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
+ <20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
+ <ee4982bf-ff45-8f0b-3b76-7ca19228f12b@huawei.com>
+ <20260727212402.09baa9381ca426273fad4719@linux-foundation.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <de29c5cc-3637-cd18-354d-55ceb3d60afd@huawei.com>
+Date: Tue, 28 Jul 2026 16:57:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20260727212402.09baa9381ca426273fad4719@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-Hi Sakari,
+On 2026/7/28 12:24, Andrew Morton wrote:
+> On Thu, 9 Jul 2026 11:34:05 +0800 Miaohe Lin <linmiaohe@huawei.com> wrote:
+> 
+>>> The script is intentionally NOT wired into run_vmtests.sh: every
+>>> successful run panics the kernel, which is incompatible with the
+>>> sequential "run each category in the same VM" model that
+>>> run_vmtests.sh assumes.  It is also not registered as a TEST_PROGS /
+>>> ksft_* wrapper so a default kselftest run does not opt itself into
+>>> a panic.  The script is meant to be executed manually inside a
+>>> disposable VM (e.g. virtme-ng), one variant per VM boot, and
+>>> requires RUN_DESTRUCTIVE=1 in the environment as a safety net.
+>>>
+>>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>>
+>> With Mike's comment addressed:
+>>
+>> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+> 
+> As I understand it, Breno would prefer not to rewrite the selftest in C
+> at this time.  IOW, we stick with the bash version for now and add
+> "convert this to C" to the todo list, OK?
 
-Thanks for the feedback. I've already sent a v2 that splits the patch
-(per your and Randy's feedback) -- the change merged via the media tree
-is now its own patch:
+Sure. Should I make this change or should we wait until Breno has time to do it?
 
-  [PATCH v2 3/3] Documentation: fix "thare are" typo in V4L subdev routing doc
-  https://lore.kernel.org/all/20260728041213.52820-4-yuebingkun@kylinos.cn/
-
-The two Documentation/ABI/ files are split into separate patches in v2:
-
-  [PATCH v2 1/3] Documentation: fix "should be use" grammar in ABI README
-  [PATCH v2 2/3] Documentation: fix "readng" typo in EDAC memory-repair ABI d=
-oc
-
-Full v2 series:
-  https://lore.kernel.org/all/20260728041213.52820-1-yuebingkun@kylinos.cn/
-
-Thanks,
-=E5=B2=B3=E7=A7=89=E5=9D=A4
-
+Thanks.
+.
