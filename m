@@ -1,117 +1,182 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF24318B9C
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785253791; cv=none; b=ZlZcWXMOB9xl0WdgVyse5qp9VdZJZG3ryB5uBzDnq9QggYxdX9r3F9Qui0mhLB0Fly9HdXVcwmpXJYgbS6JmmCx+jBgFpN6WErX9ZjREXnQSN/0ngEFa5EHvw38DDBo/t2Lrg/85rolf/60u3AunF3jKKrTrGVpcp14ffRBRp9g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785253791; c=relaxed/simple;
-	bh=q7Rfr7pvU9flOt5BGgdXDRJFODGjd4bb2GYbv7igOyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pz1u/H+Sqn+aFzOelyrlHJ35Xv6vfdsM2ME2zggmfAH2mDZHwfa/E5QscEhAHh0jrSr8AX9SiHU3p4t42qJDiwU4VSx/BsTZJ+rfdezTIOn0sWND6wRryV68o09EJ1zRvgPAfjGRn0avvt5Kli50952T8WpcA1rwqlLD2rlf38E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kAYMDNQ1; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F9533DEF9
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785253958; cv=pass; b=i3RpSqCISFj/iUes6EIrzP9JJnNjp19LKgaNeZaLn5+W7ilqzx8VMcPjGgrnndSNegerPdEzpqXB7G2XGMW57WK0tYq3XUp3S4A1fzSNCuqMg6+lNGGmax5kVbB1IkXenv36qzCCpzqDjTMFKyNmSdYqv5fDZK4tq73ppPx/cww=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785253958; c=relaxed/simple;
+	bh=7hxx+A6lRlyMu6Y8H0SLQ+W0kIJgamfgrsSGTYGRDYk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H1+RvH0udA44nTJwr1pxPbJM2h5dgFf0X6LoiGUgyQqQT5+Yv1GhycxlJ5f2rjsV8t7VEmoGVujs2ROhJIAx4Osa8pyNwkN2rq4SDYtNCeOD5GB/azkW6tAQji4LBMskAj55FeBIznWclGSXMhd4vKwIT9WTgNdjA5/qWLopspU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=reFRYlKr; arc=pass smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAYMDNQ1"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-848595b338cso4490025b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 08:49:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="reFRYlKr"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954aff6088so36041615e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 08:52:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785253953; cv=none;
+        d=google.com; s=arc-20260327;
+        b=M6RRYRU4RYl18l86nJnnCwE9Zhinzyu5pYuEYWpk4vhsm8MKL9bLSD2+bUVZmarr4B
+         TCj2o8yuWy2f4ZjjpzKoyeRRUsHH9seds4jqEMCPdvcN/5OQ6z6jGPiIkeMHNgg9xJFk
+         xu1OSHaeW7i8VeA47S7RhsA1rdOXcq3FyT6EN54PVYH+TSahQNsGnv6fMWwV4JxZ+ocd
+         9P7kATbHlGf8HLWLFgoRBr60tunyBBbjiQ+55to/q8kG4P8a3NiKwoBawktoRwTGlaUF
+         DWLXtz2CXKhZ4lXTKQNGpU06hbRfNj5x+eAIaxUEa2RVrYZDn94pIMaqtWJiBF5xfr5X
+         kZsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wN2G7lz6Mpypum8G17oa0ZLQ38+GsCLTOJI2elJXgNM=;
+        fh=Hs2hElRGMvymivADW8BpQG1kQhecIk0LQa0gdoviKbE=;
+        b=NL0i8FcAis4gRpfqyjR0xEkYZis+u6ccLxqfGs/tLcNO06n70qbcdDnvn5/UFB4ozy
+         IcCkkagz1AtT5eTKFuZ1xgv7V4ffL0OQr4Zo8/gX5deo8WrKch1QhzWzF+yE4q0Cvdt+
+         XYLokiKHAeVpzYOHrNkob4GUqfPB6/7/BZoODBtF7iadTHM1hiPUWkgbnEr/cgTijtLo
+         gyrZik4Xd7lVjO/XrZEB6e8YB9T9/u2rOfYfNJGzCnMA5nrn1nNkZzK3DKRSTyoEypoZ
+         VrUwues+FcJES6wu8u98k1QNcemEm6mTZ//Je35KcUpfKyX6tQ3yEOdcTH0NAyqLW6av
+         j/WQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785253789; x=1785858589; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1785253953; x=1785858753; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=id+yadgVtBxUrNMRa6lh7wn0tZuVNwAko2sybBFUr4E=;
-        b=kAYMDNQ1PLt7iJQ82vBQr68MsQQgeOkOxAYf5QYrc6imE2h+Pxw5yBbLqM1Bp1EGuS
-         adB2ROIUlRIgIawR7SxVh038SrJdL7I7HFQcpQnAiZdydcdOmj2B+Wkol45r7x+HFHxP
-         WgYo3hLMUYch9uXOu6eXAKc5vFrWCjoBPkWhbAAJXOJPNe5LgD6sKG4Jr0OM9jHtAc4E
-         es305Lm8crAMD5zcmwSuSPsI8qUIsMgFCHhvnvdlNxDjG86BLo5wMVIKbXFjyMn/iwfH
-         9W757fllDLUTDpq/fwrQOL6s09GfxNHCILcqpAKQd61iayswu0iRQxrdpCEqD34DvZDu
-         D72A==
+        bh=wN2G7lz6Mpypum8G17oa0ZLQ38+GsCLTOJI2elJXgNM=;
+        b=reFRYlKrBge+a/3zn4P/caKnzSiw4CIvh+A7v7hRTAcDzmbwy4cT4T80KIGfMOJRnH
+         0xZREjaxzjTPiI3wmjARrslUzYsM+Pw4I989WapS1AMRxRJCnhQjsycfTxgtASYTB71b
+         XS826ELLpncA1Xi6X59n+R/CkeVpcE1tSVaBFJFtN+Q8P2n11tsWpEX71RDrgOspsHd0
+         GA1wvvHp1OsvbXBaz2RCsepk1lYSKuoyASVkxGPb/8pCTLinfDbQUHRktczy72kwD1DA
+         siSa5axQHpPmQfMKfs2KNGT37k+uc8HlcsZdOKB+NYIjoQu1g+wcfRPLS2q/Cb0rF5rV
+         oSjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785253789; x=1785858589;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1785253953; x=1785858753;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=id+yadgVtBxUrNMRa6lh7wn0tZuVNwAko2sybBFUr4E=;
-        b=VzaVws6RwbAdYcJx9b5sySd4/xetq10jelgjSZ+rDz4YGiLurm9x9D1RjwC5UHjfvM
-         VUhPc8OrvpLYH5xiyM/HZY90inMDPwKT42J0W9oeDwP8XwqDuUPlIkjDHPQI+ZGr73bC
-         IZNfnN2w1VhjW9IgkNVieRgXQg5NB0LzzaI9C3hM6BMYLFtd5ymCv3Y8vUyvS++qwTUm
-         5C8t0YijO/SdjAFyP/6r4G6XO1MRRa/cgn2vVaonO6o5APBoZZ664fv89p9NSKf7BqpG
-         zRK9YRMv4R8O+2vbyUXEzv8OY2vwvlbkRtht3/d0nun1phda+MVblR47RJJvxs0CU3Vs
-         Ujpg==
-X-Forwarded-Encrypted: i=1; AHgh+RoN7OCAMg+rzupRYObxz4Wl6JRL61lNYA/P5iP+SCEOwzpQ94MzWZNS6QsylWnSeiOnNiUEo8lHTGQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSjbdBq3B5HKFPS3Aed7MKrFVQ6ne8dYorOtktzRq123U7uVpv
-	Hpg1bAx3Mz6mAuucIRgDmRX4MARougtjPLsEX/ZRnjcGSOLZv6CPmgLP
-X-Gm-Gg: AR+sD12JRPiVkym3b1WQvl5ZC+0OpE2cK5oYEXBjd2hdz24/j7ZuX3ylcA/AFjSx6fz
-	Op3PIkbQ94BZoXYoq5CzJ3fTKwjhxyIZ3IAKhxtGp/9TTVuK6/GSY7GlkhQu6kxQox/GdTScgyZ
-	xdsoVKLMyf4STk2BtNikjAfdUymznOVWNQN7+MCfDOZfG2bKIj6eDpVMAMGJJE66QJrEzzIgCx1
-	fEW4hvY9d9HHpBrPRihyZ0hTBItMiCOUrVsTQVSGgitJGjBM0/6yCqowGzvZU8V8lrp73ng8X8U
-	SaHw/TSKx+7uKW3BMOpNveRJ2NYBoO4u+V+t54marJCapR4z5J5b43O86CnF6GhbHTU5+P62NEE
-	+pAkFInVVZ9LERjAluuPP8poGU5/YXljWEiEaLFEFTMT9OPxKai/rBb/w4AUCBpFckNkslIO81N
-	C5H/jG
-X-Received: by 2002:a05:6a00:3e1d:b0:84e:538:476c with SMTP id d2e1a72fcca58-84e933915f6mr3207643b3a.67.1785253789231;
-        Tue, 28 Jul 2026 08:49:49 -0700 (PDT)
-Received: from localhost ([118.34.230.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e9fe20e35sm142647b3a.1.2026.07.28.08.49.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 08:49:48 -0700 (PDT)
-Date: Tue, 28 Jul 2026 21:19:47 +0530
-From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: hwmon: fix spelling error
-Message-ID: <amjPm6kTV0KcWNXv@acer-nitro-anv15-41>
-References: <20260726065835.21012-1-shaikhkamal2012@gmail.com>
- <b263e111-4664-4b37-8e75-3da025fe6c6b@roeck-us.net>
+        bh=wN2G7lz6Mpypum8G17oa0ZLQ38+GsCLTOJI2elJXgNM=;
+        b=UlnIEf1X0UrKT13PGf6DB7S6aGEELsc4opp16G1CbZ0aM0xJZ1+d4CbSH1pMXv1im3
+         szER59APc/PKmuvXg02RD8xZhM2tMSbwH3tbK2fQNH67SvFgXRFWgw5/p9YFQsxmpDwp
+         1YSz7vTBu3qs5+Ic+76Fr4Y1f+J+h9w1LMfRjchJIk6ku509bJRvvVN0GUr0GJIeIYeC
+         sFknGk+NfUImBYwLIhPWTKqrbXkMTYBGsip/npUB7Tntz3RbNd/QZVpPU/1+CLh8uyMc
+         72lZFynhywBv5bbtCv1xyz8ShyN6Cl+dSCdNVbxWXvRejgKj6EEB2SDQUG1BNdyGxRfL
+         mMBg==
+X-Forwarded-Encrypted: i=1; AHgh+RqOkxv7CG8xgXPNzrEJuBpOwJzWsd0vW8G7WCn0RG9LgVqP0uk66iW/6HPB2Tzmg5PrDSTkuSjUAm8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz32zIAIcjzWkkOEL624XKH0zOXtPDS4YM2ReyQ1Gtre/tG4ujc
+	R1CiFcHQo2H+odwjLptAdlqt/uRangmqsykOr4sJLzw2dArFyspx06b1Qj5YQ9w3xZgL5bV5Mrk
+	GoHHeLkuAu1qpeMbCw5kJBL87z9RPrfE=
+X-Gm-Gg: AR+sD11hL1b3By2frSmeZauFw6AcxPbyzx37XWtgwI6haBoDjgORJ0Jqss13KB1LfkX
+	v/vCtM7N9zGXc+DMxeaa8GW91et3YZXzH07XDryuHp9wnbC5EosAwctk6u5hcrgA+/Nz1VVe0iw
+	rhs1TKhvyS+0XZaNb5rvj7morynPmRsYFfmev+hBw6qUYYhAQQaV1DSHqNCK7mcnAtRdvkIc6vX
+	OBmG9qSRbFeXJPbZvhByh6ql7oJGNyVcDlVulpYLnhgm3InAy/DREN+ifgDy5lqr8DENLlkFPLz
+	mLg5jUi2dYatlqS5hw==
+X-Received: by 2002:a05:600c:5397:b0:495:7505:cf1c with SMTP id
+ 5b1f17b1804b1-496c6582ac5mr33435375e9.28.1785253953161; Tue, 28 Jul 2026
+ 08:52:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b263e111-4664-4b37-8e75-3da025fe6c6b@roeck-us.net>
+References: <20260717085151.22822-1-jiahao.kernel@gmail.com>
+ <20260717085151.22822-3-jiahao.kernel@gmail.com> <amF7_GB5Rl6OJmt4@cmpxchg.org>
+ <CAO9r8zPaUPddYoLz8o+g+xkb-zdkfyB+LqaDOrkzqFSePEV-xA@mail.gmail.com>
+ <amIdU1lFxqxTI3Gc@cmpxchg.org> <CAO9r8zPepaekOgaDaVBWyB_F05Ezvz+AJZ8M5+NGQ4BmiJNBkQ@mail.gmail.com>
+ <d8de419d-0077-c47c-a5f1-37c229a853ed@gmail.com> <CAO9r8zNq3bRN+mumA5tcdizStpgoqTc++FYuGjvL8spbv4Q8YQ@mail.gmail.com>
+ <CAKEwX=MG0F1+my1krUiOrHCn-Lypq2gq-g8Rv07Mz7sC=YEKaw@mail.gmail.com>
+ <CAO9r8zOH93mfdjHq+Ljm7X+ykZS_rjzAvp9OBCzo+uyTbM1fDQ@mail.gmail.com>
+ <amO-hwo8OGV5Goz0@cmpxchg.org> <CAO9r8zMgVmgQET+PUGexAgNqCZavA2YoTTXKSbWWoUv=A=ytSQ@mail.gmail.com>
+ <f60fe501-7605-64dd-0572-77f7f3060f35@gmail.com> <CAO9r8zMBWA7nxM24VXQT00CVEZwFpMFNe73FFdPSZw2y=J-0HA@mail.gmail.com>
+ <7bf9384b-2999-f14e-f23c-0df93168c20b@gmail.com>
+In-Reply-To: <7bf9384b-2999-f14e-f23c-0df93168c20b@gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 28 Jul 2026 08:52:21 -0700
+X-Gm-Features: AUfX_mylr_CmpdKtioYg-BSNQdMzZqObAnINeR7fFIGQIDfPAIPOo9aOIcIXh18
+Message-ID: <CAKEwX=MObv_nCfRUTwa1HDxZEdoYLWgkp2K1s7+P+REB+v41RQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] mm/zswap: Support batch writeback in shrink_memcg()
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: Yosry Ahmed <yosry@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, akpm@linux-foundation.org, 
+	tj@kernel.org, shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 27, 2026 at 07:37:30AM -0700, Guenter Roeck wrote:
-> On Sun, Jul 26, 2026 at 12:28:35PM +0530, shaikh.kamal wrote:
-> > Fix spelling error reported by codespell:
-> > 
-> >   supprts -> supports (sg2042-mcu.rst)
-> > 
-> > No functional change.
-> > 
-> > Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
-> 
-> In future patches, please mention the affected driver in the subject line.
-I will take care this in future patches, 
-Thanks !
-> 
-> Applied.
-> 
-> Thanks,
-> Guenter
-> 
-> > ---
-> >  Documentation/hwmon/sg2042-mcu.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/hwmon/sg2042-mcu.rst b/Documentation/hwmon/sg2042-mcu.rst
-> > index 077e79841d2e..431ed832d083 100644
-> > --- a/Documentation/hwmon/sg2042-mcu.rst
-> > +++ b/Documentation/hwmon/sg2042-mcu.rst
-> > @@ -18,7 +18,7 @@ Authors:
-> >  Description
-> >  -----------
-> >  
-> > -This driver supprts hardware monitoring for onboard MCU with
-> > +This driver supports hardware monitoring for onboard MCU with
-> >  i2c interface.
-> >  
-> >  Usage Notes
+On Tue, Jul 28, 2026 at 4:22=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
+rote:
+>
+>
+> On 2026/7/28 00:18, Yosry Ahmed wrote:
+> Apologies=E2=80=94there was a flaw in my previous test setup. I had confi=
+gured
+> zswap.max=3D320M alongside max_pool_percent=3D1. Since the global zswap p=
+ool
+> capacity was roughly 314M (< 320M), the global pool limit was actually
+> being hit before the cgroup zswap.max limit. Both limits were likely
+> interleaving throughout the run, making the results difficult to analyze.
+>
+> Re-running with **zswap.max=3D280M** yields results that align with
+> expectations:
+>
+> Test Case: zmax280 stress-4 pool1%
+>                              baseline        batch-all32      batch-all64
+>    shrink_worker wakeups            0                0                0
+>    shrink_memcg calls         698,990           57,187           29,649
+>    written_back               655,570          865,131          883,508
+>    store succeeded          1,054,928        1,124,990        1,190,608
+>    store rejected             229,722           22,642           11,659
+>    store reject rate             ~17%              ~1%              ~0%
+>    reject_reclaim_fail            110           15,454           12,985
+>    pswpout                    885,437          888,027          895,478
+>    pswpin                   2,035,415        1,305,341        1,384,751
+>    zswpout                  1,054,928        1,124,990        1,190,608
+>    zswpin                     280,675          162,684          158,556
+>
+> To isolate the cgroup zswap limit, I also tested with
+> max_pool_percent=3D50 (which should behave similarly to the zswap.max=3D2=
+80M
+> case above, bounded strictly by cgroup zswap.max):
+>
+> Test Case: zmax320 stress-4 pool50%
+>                             baseline        batch-all32      batch-all64
+>    shrink_worker wakeups            0                0                0
+>    shrink_memcg calls         687,608           54,002           28,116
+>    written_back               639,176          846,663          862,347
+>    store succeeded            992,816        1,208,123        1,213,286
+>    store rejected             231,431           20,425           10,915
+>    store reject rate             ~18%              ~1%              ~0%
+>    pswpout                    870,745          867,360          873,553
+>    pswpin                   1,707,823        1,216,814        1,378,381
+>    zswpout                    992,816        1,208,123        1,213,286
+>    zswpin                     250,220          210,791          185,716
+>
+>
+> Finally, here is the dataset for zswap.max=3D320M and max_pool_percent=3D=
+1
+> with a single stress-ng worker (stress-1), which also looks consistent
+> with your expectations:
+>
+> Test Case: zmax320 stress-1 pool1%
+>                            baseline        batch-all32      batch-all64
+>    shrink_worker wakeups        9,279              980              557
+>    shrink_memcg calls      14,247,647        2,638,751        1,465,915
+>    written_back                 7,702          439,809          482,809
+>    store succeeded            329,603          531,224          566,150
+>    store rejected             883,945          517,578          482,644
+>    store reject rate             ~73%             ~49%             ~46%
+>    pswpout                    891,647          957,388          965,453
+>    pswpin                     692,255          628,246          582,781
+>    zswpout                    329,603          531,224          566,150
+>    zswpin                     248,871                3            7,872
+
+Shall we just go with SWAP_CLUSTER_MAX per Johannes' suggestion then?
+32 works the best here FWIW, but seems like it's all relatively good
+(as long as it's not 1).
+
+(I wonder if this works well with your proactive reclaimer too but we
+shall see).
