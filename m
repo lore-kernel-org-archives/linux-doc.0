@@ -1,172 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BEA3B585F;
-	Tue, 28 Jul 2026 16:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F397372ECA
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 16:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785255064; cv=none; b=JbkEQgt/GVKYJVsEusf1zBWCoy2CGD/Q5yTxWlNFBK1OAXs4iUsPqaXSc98+3EyVqLANoPGXmMtaIMCgJbqoALdxi8FYgR4dasnR40/1gKjBYyMCx127sd2MGhTH54kXkFSOjim5ggaaGHITPO2fUZZvVV3/EmL3hGm4We7r1N0=
+	t=1785255796; cv=none; b=h+VPWt03bR10ulcQG34E1cLkEoy889CAzRTIthsAX2yVSeMPxESwI3/HV8X297z3r6/S6ViK8d3yTLDTJpH3YCJaY+3Fwt9GqmbJgRyD3e0geVD4tEruh7PnmaX5oXUXzUU7VpJxyb7Iq7duQJ3O34M4Sg7lsbPEsokXA1jZGIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785255064; c=relaxed/simple;
-	bh=zqyea4KlW9sx7WyP8RD66yutgT12sdYjOh4dqAjdo6o=;
+	s=arc-20240116; t=1785255796; c=relaxed/simple;
+	bh=MuoYv/trvB+apkFilFU7ge8EmIYL0Cz7Mp4H5bYBY04=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZPhc9heyROM0nQ7c3JDtxbaCKWf1qoE017j8CklGOJ0ovN4N1KofYRSRgHSbyi/f0g2JDa7s/E039Bvh1Y+bboCHhls/gmwpzBcWNVSNvo1YLxihzxiFpQFPU88/I5Nk4X8vH0/uL66jjbO7yc2cQ0m9q7l9Cpj/tN0L9uA1IhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IFVpm3Zr; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y59h4QQDmMK03btSlQDaIKIBLXKXBsJDs1jLA/udqSPRYl/tk/gc7WpA5VnYoyF/HyJ0/A2OOirtSS02WArR6jwZExnqoL6D3mskasRS1Che9rd92sf/9qRB9mMjzixeAJsTmJoJcdua1IrTTd9Khc3dfec5xAkbbXWrt093tSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=hCgeHs4p; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IFVpm3Zr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4BA1F000E9;
-	Tue, 28 Jul 2026 16:10:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785255063;
-	bh=LK45KgmTPBDfsOlZRJLoIZIxy0qO+UzbMPT7ybgozpU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IFVpm3ZrjoXsKOuw74h/r1oiQBCFEgQvVGOpY3ZZvxrZgp3XuDN4XuSSgrZ6hm1JS
-	 d3XDkcCsZ9D2wT8oIs0SxcJbTUrEXKmFZeriLYm+OJuuHsEl1kkZ+EYvCQMJJ775/z
-	 43RJeBwWOT2CG11HM+wJKio4pqkZQpq5tK13QDQ2o8tHEFzaL79uAwmBO6XrQ9OABw
-	 zkN4hpZJ9JsBP5IQaxxi15BBdxYgwBFOT7eUtfFe6aEID0EXnaHGRwvu6dfwBL+AVx
-	 ommqUvtZTTEU+EBbIiDZn/nQVaMTFqZI7mz7qajAjkONMtBJ7/sPBF8QS828KIB6qP
-	 i2o3yoyA5xysw==
-Date: Tue, 28 Jul 2026 17:10:55 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Janani Sunil <janani.sunil@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="hCgeHs4p"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C96A169E
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 09:23:09 -0700 (PDT)
+Received: from [10.2.11.34] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5F4D03F763
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 09:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785255793; bh=MuoYv/trvB+apkFilFU7ge8EmIYL0Cz7Mp4H5bYBY04=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hCgeHs4plznb1stFBuLuDmXhYpDxaF2iXHY744tE6yDTWcN5frhOdg7pbe9ZGFzHI
+	 gE4mKqKUZvmDD3rTu4z7Hjs8F/BHllcTWocgGnaZRLkgmqrFqFWwXr7f/5BSMD1kdy
+	 CUfZ14eymzcuEHCo6IFdxCyG3cCnCVdvx6IkDG6g=
+Date: Tue, 28 Jul 2026 17:21:58 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Diogo Silva <diogompaissilva@gmail.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	David Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+	Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Xinliang Liu <xinliang.liu@linaro.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Yongqin Liu <yongqin.liu@linaro.org>,
+	John Stultz <jstultz@google.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
-	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v7 1/7] spi: dt-bindings: Add spi-device-addr peripheral
- property
-Message-ID: <20260728-barrette-rickety-788b47da503c@spud>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
- <20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
- <e2118cfc-feef-4843-917f-844834ef4e60@baylibre.com>
- <20260725230445.60a445a0@jic23-huawei>
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
+	imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 12/15] drm/arm/komeda: remove dependency on DRM simple
+ helpers
+Message-ID: <amjXJrbgka00CQX2@e142607>
+References: <20260719-drm_simple_encoder_init-v1-0-a78c509e3062@gmail.com>
+ <20260719-drm_simple_encoder_init-v1-12-a78c509e3062@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HZvrUuI80rBimIHj"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260725230445.60a445a0@jic23-huawei>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260719-drm_simple_encoder_init-v1-12-a78c509e3062@gmail.com>
 
---HZvrUuI80rBimIHj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, Jul 19, 2026 at 01:35:43AM +0200, Diogo Silva wrote:
+> The simple KMS helpers are deprecated because they only add an
+> intermediate layer between drivers and atomic modesetting.
+> 
+> Open-code drm_simple_encoder_init() by calling drm_encoder_init()
+> directly and providing driver-local drm_encoder_funcs.
+> 
+> Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
 
-On Sat, Jul 25, 2026 at 11:04:45PM +0100, Jonathan Cameron wrote:
-> On Sat, 25 Jul 2026 15:55:01 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
->=20
-> > On 7/22/26 2:54 AM, Janani Sunil wrote:
-> > > Some SPI devices support sharing a single chip select across multiple
-> > > physical chips by encoding a device address in the SPI frame itself.
-> > > Add the generic spi-device-addr property for describing these hardware
-> > > addresses. The property is placed on the SPI peripheral node and may
-> > > contain multiple addresses.
-> > >=20
-> > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > > ---
-> > >  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 7 =
-+++++++
-> > >  1 file changed, 7 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-pro=
-ps.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> > > index 880a9f624566..b59d047cf117 100644
-> > > --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> > > +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> > > @@ -142,6 +142,13 @@ properties:
-> > >      minItems: 2
-> > >      maxItems: 4
-> > > =20
-> > > +  spi-device-addr:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    description:
-> > > +      Device addresses used when multiple peripherals share a single=
- chip
-> > > +      select. The array allows one logical peripheral to comprise mu=
-ltiple
-> > > +      physical devices, with one address per device. =20
-> >=20
-> > "per physical device" for clarity.
-> >=20
->=20
-> We may end up relaxing that again if multichip packages start doing this.
-> Fine to add that clarification for now. We can revisit when / if it ever
-> needs that relaxing.
->=20
-> > > +
-> > >    st,spi-midi-ns:
-> > >      deprecated: true
-> > >      description: |
-> > >  =20
-> >=20
-> > If there is nothing useful the SPI core code can do with this informati=
-on,
-> > I'm not entirely convinced that this needs to be a common property.
->=20
-> I think being common does make some sense from a standarization point of
-> view and it isn't obvious where to put it other than under spi.
->=20
-> >=20
-> > And this only allows for one logical device. If we wanted to treat each
-> > address as a logical device (all with same CS), we would need #address-=
-cells =3D <2>;
-> > instead where the DT "address" is two values, the CS and the device add=
-ress.
->=20
-> Ah.  Good point for the adc@address or similar needing to match a combina=
-tion
-> of CS and spi-device-addr.  Conor any thoughts on how this would be done?
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-I'm sorry, I don't quite understand. Why do you want to support both of
-these representations? Hardware wise both of these things would be
-describing the same setup, so allowing this alternate "multiple logical
-device" typically is not permitted. What even is the use case of it?
-Does it matter at all if you have one or more logical devices from a
-consumer perspective?
+Best regards,
+Liviu
 
-I do have an idea of how to solve the adc@address problem (you can do
-adc@address,spi-device-address like some other devices) but as I said I
-don't get why it would be needed.
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index e8cb782a6f8e..719568d9f7c2 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -11,9 +11,9 @@
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_encoder.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_vblank.h>
+> -#include <drm/drm_simple_kms_helper.h>
+>  #include <drm/drm_bridge.h>
+>  
+>  #include "komeda_dev.h"
+> @@ -635,6 +635,10 @@ static int komeda_attach_bridge(struct device *dev,
+>  	return err;
+>  }
+>  
+> +static const struct drm_encoder_funcs komeda_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+>  static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  			   struct komeda_crtc *kcrtc)
+>  {
+> @@ -658,7 +662,8 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  	 * bridge
+>  	 */
+>  	kcrtc->encoder.possible_crtcs = drm_crtc_mask(crtc);
+> -	err = drm_simple_encoder_init(base, encoder, DRM_MODE_ENCODER_TMDS);
+> +	err = drm_encoder_init(base, encoder, &komeda_encoder_funcs,
+> +			       DRM_MODE_ENCODER_TMDS, NULL);
+>  	if (err)
+>  		return err;
+>  
+> 
+> -- 
+> 2.54.0
+> 
 
->=20
->=20
-> Also feels like this series should update the one use of the microchip bi=
-nding
-> in tree.
->=20
-> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dts
-
-I never asked for this cos I maintain the platform and was gonna fix it
-up myself, but sure!
-
---HZvrUuI80rBimIHj
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCamjUjwAKCRB4tDGHoIJi
-0mFNAP9Jwjj7O7DOBVj8zE3EFT87Ba1ni0zhggv16veVcF9ajQEAg6puaVmWx6DC
-kZ8+kniDQr2Dmg/yIXhaPolKuUKbcQY=
-=ncSq
------END PGP SIGNATURE-----
-
---HZvrUuI80rBimIHj--
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
