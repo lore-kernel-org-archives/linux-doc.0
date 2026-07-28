@@ -1,184 +1,94 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8055539B481
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 17:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC272F90E0
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 17:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785258328; cv=none; b=UdSUlJZh4yryI/XC12ioLufnu9ebjj8aULZ4IBG2WNos1oAhj2JTCncw/dJ8q49ENJEEqFQf3BQSPboCDenrXl9gUTjegERx2EPLyVtQCqd0Iam2KaXdcD3z6OlysuA2+ftFHzVwLNQe1SZa+iSBXWG/ynlAbo1EUKVC3PZIDrA=
+	t=1785258979; cv=none; b=lasN5fPMR+GR8qdhOwiSYr+/MOneLnJBhCSfwnGd3EzqhsMd3MScsAFfx+Y6hf5NMv7DPMUn+t9I8lQwI0Gk+PNCbNjqixd5QZjpoFr9dUlNurbZKu8f9YVhsTGju0TetM73/Fs4tV82w0VzjNnbLpfip0YnytzwmAMjxnFrTdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785258328; c=relaxed/simple;
-	bh=n7CgoaZqr25unr4no0HsGwzLBnJCj3mA2MkjSjcOB6s=;
+	s=arc-20240116; t=1785258979; c=relaxed/simple;
+	bh=OUbNJR0+UJfL9gasc1f9tZ7T+VPKTwBCMcunPXi/+ko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZqoA99f2ObNkJUk97zif8N+Q/spOBV3gSfhFEy7Vc0BNRngRqHL1DpzV+X+oT/t5v7/b90Q8hHGawRt1GowcZBwENonMDqI328l9WuTcOvuTLblpctjRgGkF3ZiMfjU7xzwVIiMZgjnxr9nnX/pifH1kSv4W+dFNIDgmp2jSnyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XiM17znt; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wc2WyPMw3CTNMMW+B+1Urjv1hOpj4awhmYOWGeQjYDXuiRyBnNSV2D9ieb1w4XIpJ8Hgs5gWd3qwQECTbde6Wo0iw5UjttjD4MUGrWnGxtCebtXRmElRNJpi/eIajefGZQGmd0+XuXzjMlln3f7ApOdmF7lBOkbT8/IE8a5AkUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=NJ1BJh0J; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XiM17znt"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47f633e6058so118485f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 10:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785258325; x=1785863125; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tYZP5/3CgfmqEEWV1DMpqycEKSi9QwQIjdLpIqKHQGs=;
-        b=XiM17zntFyKPA4+ixNMomTahiTpPL5Q9c47fVBj02gphkiT2ce/IhPXe6MAjENLgFc
-         gzH9Zk11LdfcmyYMIgeiy9+oUZybXhnSX2Q4r5Owl30GchTuhY7Vu0uw/rhhT+CwTyLV
-         25duh5XVSoUefEMRyO/tzfnhHdtzxkwPib5nX+URMxJ0XYNY9JXMMwPkkln6F0/H1k5+
-         1U0Sr47V8sdWFocuMxa8RxgcOfI83zzuEHkVH9D4ZZKRYfe2MT1/9DJCNYuNfPd3J9fl
-         UzKNiRTKlWHeig2uze5ylGrtfnXahbVXuEOLwuCZ8uwnfjFK1ax4slJT40mhrnqtb+Xn
-         nwTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785258325; x=1785863125;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=tYZP5/3CgfmqEEWV1DMpqycEKSi9QwQIjdLpIqKHQGs=;
-        b=PtIMZ9/9a/zmigKAU0VOGrxFxQUyWov1ES5nklq8sIrAoVlXC8yRRvYso8zGSEAr5u
-         Ypnn8DvRJ0U0xj8It4fyuYbMZbGHIQINbVDqp7sYKy18sWajdYb3BNmzAS719T3CG+RH
-         Kd5vPdTXUiaQ4XNJx8rFDZJi/5XkTo+BamnhmxsCUmobjtaYS/a+gax+2AJkO73Xh/l0
-         TpK86c2uEDJT9gZ9rFQCwDzaH7ae4bSA1yZ6cWlfYGEaIoj31mkQchLOcVVKbzRqLkTc
-         AjMJWv2VR66OCZcNbTuqnKsHQKHzQ10h/wCO8oCX7K2vCYy2lSrhwif6PhEAibnuBDB0
-         fhVw==
-X-Forwarded-Encrypted: i=1; AHgh+RqPWMLVOeE+I/34HlHjR4S3Vo6/VpQpq70eeEFMiBeraeeSoDhdOEpAMWVpElAiCjxEcPveU5GgKEo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzMBRs+kmTNQW1WT+vYLfqREqRnd94ua4un5EKtKyQ5775bojd
-	5iSJ5aDztlnTvPdNVeA/YtLkwS1OxY+5I7sS2uJsFzvoBL6FfiYFtwus
-X-Gm-Gg: AR+sD123Sdd5u9KisLpFMOkb3KCFnUTVUKqLu4py//SijQ/t8epAT1J1LN+zmlXbqY8
-	uL4Q+64E8l39VQxPfkjAR9Rc+6S9zN/CHBBDPK/L4wfNurCS6kNA48adOZKpWMhRdHVRdNTmDC1
-	pooztgtSbxWPe2xpidO9qPr3Rgp2Z6NqvgAurw+9zMjP2P9HBHnfltk96rAeOGKdctHwvKcUP/4
-	6ZUIcUHYL+f2lTmtd4CsrnZIMBjqlylEl//RNE0g9GfwNKhU8QuePgtreksjo0Wnck5OTjWv/2l
-	u5FPsvDQi+cXoQWxey9pG51x1IC0VxlEx0FHm3omxkuWz721gIyge+kH2sFYSsf86LOlh9RUXGv
-	fSxOvVmTamXJ2NK6qbK2O6AaCA8VXwwdbDA7PCoudguVgCFuYk9nVruUcVyrefcN9inF0Jw==
-X-Received: by 2002:a5d:64c3:0:b0:47f:9446:95a8 with SMTP id ffacd0b85a97d-47fb1f359a2mr4033641f8f.59.1785258324657;
-        Tue, 28 Jul 2026 10:05:24 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6b0f039sm538560f8f.18.2026.07.28.10.05.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 10:05:24 -0700 (PDT)
-Date: Tue, 28 Jul 2026 18:06:32 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Janani Sunil <janani.sunil@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
-	Marius Cristea <marius.cristea@microchip.com>, Marcus Folkesson <marcus.folkesson@gmail.com>, 
-	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>, 
-	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v7 1/7] spi: dt-bindings: Add spi-device-addr peripheral
- property
-Message-ID: <amjgbH3VpssOlFzs@nsa>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
- <20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
- <e2118cfc-feef-4843-917f-844834ef4e60@baylibre.com>
- <20260725230445.60a445a0@jic23-huawei>
- <20260728-barrette-rickety-788b47da503c@spud>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="NJ1BJh0J"
+Date: Wed, 29 Jul 2026 01:15:45 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1785258962;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FyKBy9FQwVsc+qRA2GC+u9lRYdlYs8hPWPOQeWCaGfM=;
+	b=NJ1BJh0JwFC8gPlQpNS47irr7vF7wPsXFrVZYH4UDzGH5Sd2HycIScqSjVjyc1cDx0wI13
+	NxIcsL7a3FphqmYID5m85DGCfun8qWDUq3Z3LvuIEnft3+sFdal0JndFKMUqvxSQB46KNp
+	+d8C0v/sckflPs1bUYPCAjCXs9u0DnJ6BlRZBTWky3FeCoqX8DVDlvbkEkSWDblJL0/pzN
+	HefcwqyE1OidFsYqilCTJbNIykR305uBkdRL5i9BkiwQGJH6xqwN+VM9+zBYjSC1yqQ6Cw
+	L0wrg7E8ozTLz/06IMmtJ0c+wXBVtVheYgrRNVS1c8vk/MJQnXMZ+MZlHBTuhw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: =?utf-8?B?5bKz56eJ5Z2k?= <yuebingkun@kylinos.cn>, mchehab@kernel.org,
+	tony.luck@intel.com, corbet@lwn.net, shiju.jose@huawei.com,
+	jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+	hverkuil+cisco@kernel.org, sakari.ailus@linux.intel.com,
+	linux-doc@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] Documentation: fix "should be use" grammar in ABI
+ README
+Message-ID: <amjjwfSimXeZOWbA@wyuan.org>
+References: <20260728041213.52820-1-yuebingkun@kylinos.cn>
+ <20260728041213.52820-2-yuebingkun@kylinos.cn>
+ <amgu5cFN_imQgMf-@wyuan.org>
+ <f7a7b4d8-d044-491f-827c-ec929ee429ce@infradead.org>
+ <amhCmSxLtu4m6fXX@wyuan.org>
+ <b7773638-12dd-44a4-b075-2e6994dd9971@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260728-barrette-rickety-788b47da503c@spud>
+In-Reply-To: <b7773638-12dd-44a4-b075-2e6994dd9971@infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 28, 2026 at 05:10:55PM +0100, Conor Dooley wrote:
-> On Sat, Jul 25, 2026 at 11:04:45PM +0100, Jonathan Cameron wrote:
-> > On Sat, 25 Jul 2026 15:55:01 -0500
-> > David Lechner <dlechner@baylibre.com> wrote:
+On Tue, Jul 28, 2026 at 09:55:42AM -0700, Randy Dunlap wrote:
+> > That is to say, when dealing with multiple authors, we suggest using
+> > trailers to represent the sequence of authors in chronological order.
 > > 
-> > > On 7/22/26 2:54 AM, Janani Sunil wrote:
-> > > > Some SPI devices support sharing a single chip select across multiple
-> > > > physical chips by encoding a device address in the SPI frame itself.
-> > > > Add the generic spi-device-addr property for describing these hardware
-> > > > addresses. The property is placed on the SPI peripheral node and may
-> > > > contain multiple addresses.
-> > > > 
-> > > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> > > > index 880a9f624566..b59d047cf117 100644
-> > > > --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> > > > +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> > > > @@ -142,6 +142,13 @@ properties:
-> > > >      minItems: 2
-> > > >      maxItems: 4
-> > > >  
-> > > > +  spi-device-addr:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > > +    description:
-> > > > +      Device addresses used when multiple peripherals share a single chip
-> > > > +      select. The array allows one logical peripheral to comprise multiple
-> > > > +      physical devices, with one address per device.  
-> > > 
-> > > "per physical device" for clarity.
-> > > 
+> > Then, this will facilitate subsequent readers to understand the
+> > development history of the patch through the order of the trailers.(?)
 > > 
-> > We may end up relaxing that again if multichip packages start doing this.
-> > Fine to add that clarification for now. We can revisit when / if it ever
-> > needs that relaxing.
-> > 
-> > > > +
-> > > >    st,spi-midi-ns:
-> > > >      deprecated: true
-> > > >      description: |
-> > > >   
-> > > 
-> > > If there is nothing useful the SPI core code can do with this information,
-> > > I'm not entirely convinced that this needs to be a common property.
-> > 
-> > I think being common does make some sense from a standarization point of
-> > view and it isn't obvious where to put it other than under spi.
-> > 
-> > > 
-> > > And this only allows for one logical device. If we wanted to treat each
-> > > address as a logical device (all with same CS), we would need #address-cells = <2>;
-> > > instead where the DT "address" is two values, the CS and the device address.
-> > 
-> > Ah.  Good point for the adc@address or similar needing to match a combination
-> > of CS and spi-device-addr.  Conor any thoughts on how this would be done?
+> > And, aren't these subsequent examples merely confining the discussion to
+> > these two trailers?
 > 
-> I'm sorry, I don't quite understand. Why do you want to support both of
-> these representations? Hardware wise both of these things would be
-> describing the same setup, so allowing this alternate "multiple logical
-> device" typically is not permitted. What even is the use case of it?
-> Does it matter at all if you have one or more logical devices from a
-> consumer perspective?
-> 
-> I do have an idea of how to solve the adc@address problem (you can do
-> adc@address,spi-device-address like some other devices) but as I said I
-> don't get why it would be needed.
+> They seem to be but that's just a documentation deficiency IMO.
 
-IIUC, I think for the current ADI device it could actually be useful to have
-the above representation given that, in theory, any of the logical
-devices can have their own supplies, pins, etc (so it would help to have
-each of them as adc@address,spi-device-address)... But we choose not to go
-down that path (in previous versions) for simplicity. So yeah, not sure
-:).
+OK, let me take some time to look through the history of this file and
+see if I can uncover any clues.
 
-- Nuno Sá
+If this is indeed a flaw, it might be worth clarifying. That said, I am
+not sure how many people actually find it ambiguous. In any case, it may
+be better for someone with more experience to improve it, as I am
+clearly not qualified to do so.
 
-> 
+> > Besides the submitting-patches file, It seems to me that the probability
+> > of "Signed-off-by" appearing on the last line is much higher than in
+> > other cases. Is this a usual practice? It seems that everyone tacitly
+> > agreed to write "Acked-by" and "Reviewed-by" at the top, even though
+> > they occurred after "Sob".
 > > 
-> > 
-> > Also feels like this series should update the one use of the microchip binding
-> > in tree.
-> > 
-> > arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dts
 > 
-> I never asked for this cos I maintain the platform and was gonna fix it
-> up myself, but sure!
+> I chose 2 files and looked at their "git log" history: MAINTAINERS and
+> kernel/panic.c. In those files I see corroboration of my "claim," so I'm
+> satisfied with it.
 
+Makes sense. Perhaps different subsystems simply have different
+preferences, then. My observation may not have been representative.
 
+Thanks.
