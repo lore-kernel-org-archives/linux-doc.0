@@ -1,131 +1,177 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CFE3B6370;
-	Tue, 28 Jul 2026 19:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD837472760;
+	Tue, 28 Jul 2026 19:22:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785266510; cv=none; b=gq6pyIWyVXtyvNL9jb+Xv8t+3fkJRXbo2SvP7Nly3Tv4LFgzbQtK9Tyf3+OgBsHj/UZqjWY004REX++i3OAZD1d/C//izFHQK8N21aoIMVa/GW222tTJW1Vv3KOClfNh7Zn6k8OQmvoVS4BwASmWiUfaIObDN5HQRYL64WRu/OQ=
+	t=1785266562; cv=none; b=JZPZHUt4KvKdXYNqtW/jUEBvNeepwwUDY4MZeINXNFRcx0a0vfvWqb+A5il/1tULKJo4UWGYrin9kqzMj/2VcYSSIfMjtgFwbmNRJ7dKDJqOaTKx5x7mW9FI8BCIdHHmAI4oVSY6/P67f9dLu7bK2hyLuihevPzwGT14zcGTyl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785266510; c=relaxed/simple;
-	bh=P+d+2oIB2KjRZL36VeXUQCsEH2PVPW5HL1R6wj7cWko=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oTVZya3XYA8f8M9WXR37ulQTiZIXtznBwT19g2RFQ8F87LayuLrUDeSLY10sb/xVnnbMUSH6GrIBrSuDY4cnrxC2Er6Qnm4WTcEzE/deXTfEtLe/RJdQ1zOzpDLCb9UEt+uqOQPJPWV4ZpVOqpRzNk2G9YN0yAo+osYbb2ZOUsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vh8cfK/W; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785266562; c=relaxed/simple;
+	bh=RAybM5FwJCEXR6lQQGedKuEkTpFAt+pqpKOXqQeptXg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EA3z/sGt6yGkqMUK/m5dMKbekHMHriLDBrZjMWz1VEuwCnLc+6J9c2biQ+xqTgfY6LtUvv7Oo8oGueuPV4E9KDPI2+WqgCrFCVH8dQxjwD9LQIYPQDClUWlayE0cE5kl1Feg3pVDwrsTKuIeO2yFlRiCNV/KnRqyXC8aCSv1vCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SJDjusYW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vh8cfK/W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA0C21F000E9;
-	Tue, 28 Jul 2026 19:21:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SJDjusYW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC3EC1F000E9;
+	Tue, 28 Jul 2026 19:22:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785266508;
-	bh=VGWijSDtWk+fhGO38JmsrrEiRaeSqUZbV8BWwZgDlUQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Vh8cfK/WbsuEuEqm5kKXePuRsF7HldqGGeMwCc6tysdn6iqjPxeGymZA3GA++fqkX
-	 VxoyTgbqgUxRJfYY5wQqB+npy7agacFIRHmwo0XO36VlGn36Bc+3CA5jQNbpVdMjLg
-	 3L/zLdRRMs4m9vef1gt5SiqqHl8JaFk6TC+7S9q6IOJ/VqSVMV4hrl2OUdo+AtNe2W
-	 2P9vdFRucWBF0JnvvzqGRXXx43Y+FKSLq3J3wbD8whX4AGHcdtBMfUoPiRAHYi4/rz
-	 niF4sE4GFgIpLBbcmj+AWCTJ0+Yq9ZwMy+fOUa4vj050x206qdNz5lAM9rUwNwex30
-	 8/rM9T7g3NKVg==
-Message-ID: <44f81bea-d64a-4f73-8665-46652a928c83@kernel.org>
-Date: Tue, 28 Jul 2026 21:21:40 +0200
+	s=k20260515; t=1785266559;
+	bh=Sg7X61+HXElaIBwpC5DPgqG06SdxhEtH8T/5QF3gGBk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=SJDjusYWkQMn2jsrf3H5zsXY+niEzuNpEN0xhA2ntLi3CPQmzP0lDfPSONKYYJQZM
+	 j06TuAZgDKWQfIlTBmPtOwwGgZf6OAjeILlkP4GDfVszyRqZRbqUKFU/GMRvJsRSFt
+	 38G5xk1FgQ2hd985eoJPV50itBz3wh3pkOCZQwMivrcyS4I6/3CII3eV9vnb4IZphj
+	 3vrTcKqbhKmUcIZDnbGqQ2oxLquRD/y+dawcg44PGzdbzFdlFtIybwrp0gktbq4QGD
+	 kzp7HFf07zAB2sZzm0YTiVpDoL00dCZeOqPgOjyzWcJ9U6BcHaYj4G02SohIGnzevn
+	 OkCREhvB00Nug==
+From: Sasha Levin <sashal@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 1/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Tue, 28 Jul 2026 15:22:33 -0400
+Message-ID: <20260728192234.443651-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <e063df8e-3396-4ce9-9e66-27681af17fbc@suse.com>
+References: <20260709163833.3851179-1-sashal@kernel.org> <20260709163833.3851179-2-sashal@kernel.org> <e063df8e-3396-4ce9-9e66-27681af17fbc@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
-To: Andrew Morton <akpm@linux-foundation.org>,
- Breno Leitao <leitao@debian.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- kernel-team@meta.com, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
- <20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
- <ee4982bf-ff45-8f0b-3b76-7ca19228f12b@huawei.com>
- <20260727212402.09baa9381ca426273fad4719@linux-foundation.org>
- <de29c5cc-3637-cd18-354d-55ceb3d60afd@huawei.com>
- <amh1nZVVaaZSGD3M@gmail.com>
- <20260728122016.30752d36c3b3c3af231efa9d@linux-foundation.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260728122016.30752d36c3b3c3af231efa9d@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
 
-On 7/28/26 21:20, Andrew Morton wrote:
-> On Tue, 28 Jul 2026 02:29:39 -0700 Breno Leitao <leitao@debian.org> wrote:
-> 
->> On Tue, Jul 28, 2026 at 04:57:13PM +0800, Miaohe Lin wrote:
->>>
->>> Sure. Should I make this change or should we wait until Breno has time to do it?
->>
->> Apologies for the delay. This is on my TODO list, and I'll prioritize it.
->>
->> Just to confirm: the feature is already in mm-next without the selftest, so I
->> only need to submit the C version of the test, correct?
-> 
-> The bash script is still there, no known issues.
-> 
-> We have the thing and tests are useful.  I'd say retain it until the
-> rewrite-in-C happens?
+On Mon, Jul 27, 2026 at 01:53:36PM +0200, Petr Pavlu wrote:
+>I'm unable to reproduce these numbers. Could it be that the "stripped"
+>vmlinux here still includes debug information?
 
-Nacked-by: David Hildenbrand <david@kernel.org>
+Yup! the figure was taken from an unstripped vmlinux, so it was really
+reporting DWARF size. Will fix, and state the recipe inline so it's
+reproducible. Your numbers reproduce here exactly:
+
+  no lineinfo:          51.1 MiB
+  lineinfo, before 3/4: 69.1 MiB  (+18.0 MiB / +35.3%)
+  lineinfo, after 3/4:  59.1 MiB  ( +8.0 MiB / +15.7%)
+
+>Nit: It might be worth explicitly mentioning libelf as a dependency [...]
+>libelf and libdw are available on Arch in libelf, not elfutils.
+>[...]
+>Nit: Without more context, elfutils could be understood to mean the eu-*
+>utilities [...]
+>Nit: Again, I suggest mentioning both libelf and libdw for clarity.
+
+Will fix.
+
+>Nit: raw_offset can be declared as `unsigned long` [...] Similarly here,
+>raw_min can be declared as `unsigned long`.
+
+Will fix.
+
+>The fallback output printed by echo includes -lz. Is this library really
+>required by gen_lineinfo?
+
+No. Will drop it.
+
+>Does gen_lineinfo need to define own hash map [...] Could it be replaced by
+>the shared functionality in scripts/include/hashtable.h and hash.h?
+
+Will fix.
+
+>Programs under the scripts/ directory normally use xmalloc() [...]
+>The return value of strdup() should be checked for NULL.
+
+Will fix.
+
+>Nit: This can be simplified [...]
+>Nit: scripts/include/array_size.h provides ARRAY_SIZE().
+>These two lines are unnecessary as the same code is repeated below.
+
+Will fix.
+
+>I think using well-known top-level directories in the kernel tree [...] is
+>rather fragile. [...] An alternative approach would be to pass $srctree and
+>$objtree to gen_lineinfo
+
+Agreed, will do it that way. Reading them with getenv() rather than -D:
+kbuild already exports objtree, srctree and srcroot, and kconfig reads them
+the same way, so no Makefile change is needed. Each gets registered both as
+spelled and as realpath() so a symlinked tree matches either form, longest
+match wins.
+
+On your two caveats: realpath() is applied only to the roots, never to a
+DWARF path, since generated sources need not exist when gen_lineinfo runs --
+DWARF paths get purely lexical normalization. And srcroot is what covers M=
+external modules, whose sources are under neither srctree nor objtree.
+
+I'll keep kernel_dirs[] as a last-resort fallback rather than deleting it,
+so an object built outside all three roots degrades as it does today instead
+of dropping to a bare basename.
+
+Worth noting the rework is not just cosmetic: 1136 of 4450 filenames here
+carried a "./" prefix from DWARF directory entries (addr2line shows it too),
+which normalization removes, folding the file count to 4354.
+
+>I think using ELF_C_READ_MMAP is normally preferred. Even better, this
+>could use ELF_C_READ_MMAP_PRIVATE to avoid opening modules as read-write
+
+Will fix.
+
+>The program has inconsistent error handling.
+
+Will fix.
+
+>This output clutters the build log [...] It should probably be hidden
+>behind a --verbose option and printed only when KBUILD_VERBOSE=1.
+
+Will fix.
+
+Separately, working through your review turned up two bugs, both of which
+v8 will fix with regression coverage:
+
+- Module lineinfo blobs are malformed. emit_section_table() emits the .Lhdr
+  label before its .balign 4, so table_offset (.Lhdr - .Lroot) points into
+  the padding and the kernel reads the header 1-3 bytes early.
+
+- The symbol-boundary check added in v7 over-corrected. Functions whose only
+  line row deduplicate() had collapsed, or that never had a row at their own
+  first byte, stopped resolving: 5017 here, including 1542 .cold fragments,
+  all __probestub_*, and the __ia32_sys_* compat wrappers. v6 printed these
+  correctly.
+
+Thanks for the thorough review.
 
 -- 
-Cheers,
-
-David
+Thanks,
+Sasha
