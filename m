@@ -1,65 +1,66 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8A241BA98
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 09:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37F541B8D4
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 09:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785229869; cv=none; b=RAG9NtQRFx1/u3E0RtEIrOBKNCV43xmxln2SFPM6QBKP0OXJZowKPzb6UhJzTmQaZljJ8S16Z0grZsfn+e6os1ULBDHlU1O9gnKj0TZfMVfmX2Dbtr9c+qMEQbARM+uI+ePPouERlKeC96o9JEZgZbJAlr9cBEFxhE4BCHEXYlE=
+	t=1785229872; cv=none; b=B9VnZnrz1Vxzaxn4hDONEqAg+sLa9SCEedxJx7baZNd7SgZCeWG/ZXVsX7+FXx0ExDMtCvvErgfOJSEOYq/70JEtPe2T7jntEe6k/LlF15ZTNMSY0KzR0yxoFH/fmuUUE7eFqdDWPTKHKWYmrxX4tSlQV/TiaqSWu3txaiXuXA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785229869; c=relaxed/simple;
-	bh=chYojF1fY1+ZWMNSDCiAB1sCMvCC+1Wt3GIDOpF0ZV4=;
+	s=arc-20240116; t=1785229872; c=relaxed/simple;
+	bh=4NbcA8YAbfFN73ysTgQa8bItfGwtbdmzwvswzWdAuaE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FvfjwUQzYi0nlV05DVGfCP2tXoEGYp7GOYhMv0oSvwINlQhJOUCoRyloPXDFZSDPT2WTetBYpP/J7CyitrpySoXI7ji8WXJ9zkgcuczhj1Dlia8dbPHqI6JhtfZeUdUZWMfMkfaf7cyly6TbQXL2E4N0aZbEXc4/asr3IxDdkhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lh2W92fZ; arc=none smtp.client-ip=209.85.215.173
+	 MIME-Version:Content-Type; b=byK7Tg8rD/rBKb7t5uWfIb4qcE/F+2vK9vyQufze3byQ8CSAM9j8S6/qR034rY+ia3PkrHU+nePUrwqFTM6yzDsIDi5t4mZuCeROKIRoOabMxwzz1Eq/820DNMkEQIQtTVs8bpJ16rr4iBSPG0nAsULBXunferk7Fic89iFI7No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iyvjr/mZ; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lh2W92fZ"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cb2513ec378so436670a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 02:11:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iyvjr/mZ"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84a6f026675so39914b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 02:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785229866; x=1785834666; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785229870; x=1785834670; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Pa5eGQLyzrbVgKpkC+EmZphUkfean/99e6vB2DOPCHk=;
-        b=Lh2W92fZ5LKHmuymvfY62GMET68SSMgvHWPFAZmqBih4DBNWfc8ZcpCa+ygrn+pmEA
-         FYnJiF5mKvL9Mcb/tcsTqJp1imVu60D0W0E9YctOMI3fGdujWeg4MKQMMrpvFTTBoUxJ
-         WlmSpjR4nZRN3CMqozTpRnvvr2mzGebSGSeiavdsc167peQ+bYbLh771fj+QAtfqrYCW
-         edMjlho7tTIDkNEzuREMoUincEY7pZW10a7xGsrguj3B/jaKsFZ5tm62QMlhBWmGYVpT
-         MgjD6fQiMK+I5FZZd99FffK5zZVJBMCkaO1tYBym/lMQeCTlhBViVdJhM0t64W+XYcx1
-         HTYQ==
+        bh=r5ZuOMNr/2s4+C74JsGU65xjydZWHnXX/vvM9pSWktk=;
+        b=Iyvjr/mZF/FSYNOlFBHk/+/+OgWTD0Z8klM6ZlrDTrG0UDtfEO9PljDox6xXlDji9O
+         WlUPmjlPy3H3zWyiVatIDHTuhAWImsmoW8CnI9nUco0PMOgDChXHzjFand0E0QchsytQ
+         W3slnk5IuwISdPTGYYRbV5BoDom+hrBNZyXDKcU3DXolrn/UWrR1TrMs3qcNOvIljQkl
+         OFbUBjQN+vlXMu34HeiwbIFTbJ3Z5a+TIVuDLsoPurSxyGwocfJRoONEbRzhMdEKGNJH
+         W/gI/3SjZsM8hRZphqY/hOj0FZ2c38YDgOh9+VM/3dgy2BO7xKW6/0X5k42OicWx0Ga9
+         SLvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785229866; x=1785834666;
+        d=1e100.net; s=20251104; t=1785229870; x=1785834670;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Pa5eGQLyzrbVgKpkC+EmZphUkfean/99e6vB2DOPCHk=;
-        b=Lk6QglhOCdrDjU1gKTxBIAXeoFpM6FM1yAE+DcsQuB6IA10HlheEuEn4V2cICrCH/i
-         e126pSUboO+svZM79y7oNXhX2CLNp34NRf+ZRdZksYXxSKvfUrtTQFzL6yn/HvUizzQr
-         d4K/uZMLtgQe54oeBfvd2NTcmokRZi35B0YR6C9xsJQy209eDht4GwMlNUAT9OP2xQBn
-         e76mKoA7WMSIZrws/2PZpweVQRw1L6+ykDxoCduFNloMmVOYKUxeldr96Q1jR5xc9A16
-         XV54NpNWYXIrB3+UXxiImJe7ZIBYQsRKMHlHvYjhVnCmaW1Sm0J8NZ7xNvUa4nyuvcQz
-         ohvw==
-X-Forwarded-Encrypted: i=1; AHgh+RqWiseG3GglDI+bUxLa3oVr2yD6Xai3x6H7uYquCG4rFn4ft5dmg6GiB8nZV802bfVJxC+bXNKcynw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUQsUPBJ8rAeRDaeNZ6PrRBFcdfCr2lBrMC8JNExgOFTG75HsQ
-	UolFhjlH1diB3b+rPqtIK48QGSnwAK1EuoYiVFy9UMx4vKDSxEU4lNXe
-X-Gm-Gg: AR+sD13kH5P3/C2Y+q63BwsSmKFxwu8ex/CtDGqVoIOq6fb18/aEKokoaL+MEBTDyTe
-	4eSBVAd//7awfK0kuNyVbJO4RYZ0W7m1Nc303u1f2saz8f8XfwZJByeqKX+/sum3oYKTMMnoVIA
-	Tua40zSX7Zr1dzf6zVQe3o+Ol4cKVUlOI5uRD41/vHRAKBa6e8s+tU9tSd9dfZBuz937c6vjeSF
-	cfdy6sU1B3VdBJBIHcKZJtYoJGOzk+4l8OUv4Y+oikgAgVg2eukUf0oATnQeLK93JwU6C4bgT0E
-	XwC3PskiUCXi5PFyNiU4cz2l2DRFWgDUaKnBWLFpcsDf3EC+IFe7jti4zUfgKqYmrfYMTqa7lsH
-	7yO+Scx7jnYL3W5zHhmHNlYuti0HnquWYeebBTQA7SqgFLwOH88JbOWmu/R4/EcppYW1sZiBP8m
-	SSxlQyh6So+jKwgjRi+VMegBWGEzFPX0i+lzOSQkx1t6dUsvfvrgVxJk0XE92ZLctzB8P2euDcJ
-	ihD50LJbcu80a5chAfShWBL/8OYmlb2P3QtRcoAYxO6Ep7OSrU=
-X-Received: by 2002:a05:6a00:92a3:b0:843:468d:780d with SMTP id d2e1a72fcca58-84e93323593mr1282152b3a.3.1785229865706;
-        Tue, 28 Jul 2026 02:11:05 -0700 (PDT)
+        bh=r5ZuOMNr/2s4+C74JsGU65xjydZWHnXX/vvM9pSWktk=;
+        b=ilQt4Xz28Ri5rzhOPxCiPvsFtl2Tp57fjktkGiHcHZT7qTCJws/orlJiHh2IMdnXEU
+         BRHcKfTLUx8q75RlGH0NXUCCgJcA+zB6RfWgq14kYrKvpnqCcHJIT0JKm7x1usFfZu0B
+         ny7vnp3bVDLaeM3syBloBjn+tnX4qDUfBom8Z4mW2uxdjhCaewYDNEAA5vAwJ3NzBRP8
+         D2tMfldhUF7SxIQ+No5AUcBTiJfatI98ERnexLnT983siqTSTXxMjSwcE99YCpGSLOzF
+         QZHQjQFtuKj01aaenC6MCq2yZyQQ9Lx0SGE8ePBmC1WsF5QhHaqwUartEn1vEt+hSSrb
+         bdDQ==
+X-Forwarded-Encrypted: i=1; AHgh+RreGlM6wWd2IjzrIne0AyiGF9QDIx+eLHfn3zF90zCu/dc6OMwtxgCGFhNJ65BeNMKe+2TNVztyTCg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyh177ydPSq6s+lTE3SUJTx0ao0yz6aIcMA8qJEu1418rz5GXbP
+	wlf4+nFh47qZGSgW+zp71D5pYO4gaYRYAYJwpOsbxCrJK+Vg2ZsacaG3
+X-Gm-Gg: AR+sD13CafPJrcU9K3EFsY5yG2oXLGaAvLvFQSb0KpeI4r+Nv1+QooRmSkoNWmfi16X
+	v0lEEQ1cOq0+BGZj5hEdNl9HLcvp9QbxBxCEz/CZK1EJyNhhkaMQEW3QmqTLRyqAxcfk5449Fjt
+	tyvU1bHdoK9UNnrdvC0U/F6mOqutGL6iBHoXs128ceA3iolz6lEqFbG/ugwNHKJyma6k3QnqXNi
+	HeNSkcGMS/K+uFEZiBVHDRjOby33jrXD+qOzAXwbIcUrrXpMD+MPwnG2NqtuomBIHykZN7iC+gd
+	HFJjf4DNhGcCL8REPOWY0Oul6rE9FG2K5FenYN64Oz2uV6XjOusxI0zBUlsF8IOOdeuLtkW3loQ
+	tXPK6k3i5/V6np9H8tlNSF0fi9+35H5deYKXKqrP0Jfc/LAN9E99yVLADpt/8KJFBBJy2w0RBUS
+	VglZUzhPsMSlMczUBdauMXgyk5MhYDQFdCPMk3xnGEV1/oy/eFmcKr02THbzOanfoIbrioTkej0
+	24lUPN/top16GDvlyYG43cBHgy8RNwNs81Wxggtn/Ri8fo5JtxMLHxstlcP2zdfSO7UKaJ6QEiV
+	A7DR7rBbCwF4/QXQ3tC09Gk=
+X-Received: by 2002:a05:6a00:4f83:b0:848:7e85:f210 with SMTP id d2e1a72fcca58-84e9339afcamr1978762b3a.4.1785229869526;
+        Tue, 28 Jul 2026 02:11:09 -0700 (PDT)
 Received: from chenyou.R15NEW (112-104-169-66.adsl.dynamic.seed.net.tw. [112.104.169.66])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e5328180dsm4099303b3a.23.2026.07.28.02.11.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e5328180dsm4099303b3a.23.2026.07.28.02.11.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 02:11:04 -0700 (PDT)
+        Tue, 28 Jul 2026 02:11:08 -0700 (PDT)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Alex Shi <alexs@kernel.org>
@@ -70,9 +71,9 @@ Cc: Dongliang Mu <dzm91@hust.edu.cn>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 04/16] docs/zh_TW: process: localize terminology in license-rules.rst
-Date: Tue, 28 Jul 2026 17:10:26 +0800
-Message-ID: <20260728091038.171033-5-chenyou910331@gmail.com>
+Subject: [PATCH v2 05/16] docs/zh_TW: process: localize terminology in email-clients.rst
+Date: Tue, 28 Jul 2026 17:10:27 +0800
+Message-ID: <20260728091038.171033-6-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260728091038.171033-1-chenyou910331@gmail.com>
 References: <20260728091038.171033-1-chenyou910331@gmail.com>
@@ -85,419 +86,385 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Localize mainland terms to Taiwanese Mandarin (內核→核心, 文件→檔案,
-標識符→識別碼, 加載→載入, ...) and sync with the English original:
-mention SPDX-FileCopyrightText lines and the clarified "Proprietary"
-MODULE_LICENSE wording from commit d8c949c577b5 ("docs/licensing:
-Clarify wording about "GPL" and "Proprietary"").
+Localize mainland terms to Taiwanese Mandarin (文本→文字, 菜單→選單,
+設置→設定, 鼠標→滑鼠, ...) and sync with the English original: mention
+the Thunderbird "Toggle Line Wrap" extension as an alternative to
+editing mailnews.wraplength.
 
-update to commit ebf1bafd0907 ("LICENSES: Explicitly allow
-SPDX-FileCopyrightText")
+update to commit 4971ca2007e3 ("docs: process: email-client: add
+Thunderbird "Toggle Line Wrap" extension")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/license-rules.rst           | 203 +++++++++---------
- 1 file changed, 105 insertions(+), 98 deletions(-)
+ .../zh_TW/process/email-clients.rst           | 185 +++++++++---------
+ 1 file changed, 97 insertions(+), 88 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/license-rules.rst b/Documentation/translations/zh_TW/process/license-rules.rst
-index 594255856b68..d9054cff505c 100644
---- a/Documentation/translations/zh_TW/process/license-rules.rst
-+++ b/Documentation/translations/zh_TW/process/license-rules.rst
-@@ -5,21 +5,22 @@
- :Original: :ref:`Documentation/process/license-rules.rst <kernel_licensing>`
- :Translator: Alex Shi <alex.shi@linux.alibaba.com>
-              Hu Haowen <2023002089@link.tyut.edu.cn>
-+             Chen-Yu Yeh <chenyou910331@gmail.com>
+diff --git a/Documentation/translations/zh_TW/process/email-clients.rst b/Documentation/translations/zh_TW/process/email-clients.rst
+index 4543c447d797..4fae2fdbb3bf 100644
+--- a/Documentation/translations/zh_TW/process/email-clients.rst
++++ b/Documentation/translations/zh_TW/process/email-clients.rst
+@@ -16,87 +16,89 @@
+  - Xiaochen Wang <wangxiaochen0@gmail.com>
+  - yaxinsn <yaxinsn@163.com>
+  - Hu Haowen <2023002089@link.tyut.edu.cn>
++ - Chen-Yu Yeh <chenyou910331@gmail.com>
  
- .. _tw_kernel_licensing:
+-Linux郵件客戶端配置信息
++Linux郵件客戶端設定資訊
+ =======================
  
--Linux內核許可規則
-+Linux核心許可規則
- =================
+ Git
+ ---
  
--Linux內核根據LICENSES/preferred/GPL-2.0中提供的GNU通用公共許可證版本2
-+Linux核心根據LICENSES/preferred/GPL-2.0中提供的GNU通用公共許可證版本2
- （GPL-2.0）的條款提供，並在LICENSES/exceptions/Linux-syscall-note中顯式
--描述了例外的系統調用，如COPYING文件中所述。
-+描述了例外的系統呼叫，如COPYING檔案中所述。
+ 現在大多數開發人員使用 ``git send-email`` 而不是常規的電子郵件客戶端。這方面
+-的手冊非常好。在接收端，維護人員使用 ``git am`` 加載補丁。
++的手冊非常好。在接收端，維護人員使用 ``git am`` 載入補丁。
  
--此文檔文件提供瞭如何對每個源文件進行註釋以使其許可證清晰明確的說明。
--它不會取代內核的許可證。
-+本文件提供了如何對每個原始檔進行註解以使其許可證清晰明確的說明。
-+它不會取代核心的許可證。
+-如果你是 ``git`` 新手，那麼把你的第一個補丁發送給你自己。將其保存爲包含所有
+-標題的原始文本。運行 ``git am raw_email.txt`` ，然後使用 ``git log`` 查看更
++如果你是 ``git`` 新手，那麼把你的第一個補丁發送給你自己。將其保存為包含所有
++標題的原始文字。執行 ``git am raw_email.txt`` ，然後使用 ``git log`` 查看更
+ 改日誌。如果工作正常，再將補丁發送到相應的郵件列表。
  
--內核源代碼作爲一個整體適用於COPYING文件中描述的許可證，但是單個源文件可以
--具有不同的與GPL-20兼容的許可證::
-+核心原始程式碼作為一個整體適用於COPYING檔案中描述的許可證，但是單個原始檔可以
-+具有不同的與GPL-2.0相容的許可證::
  
-     GPL-1.0+ : GNU通用公共許可證v1.0或更高版本
-     GPL-2.0+ : GNU通用公共許可證v2.0或更高版本
-@@ -28,43 +29,47 @@ Linux內核根據LICENSES/preferred/GPL-2.0中提供的GNU通用公共許可證
-     LGPL-2.1 : 僅限GNU寬通用公共許可證v2.1
-     LGPL-2.1+: GNU寬通用公共許可證v2.1或更高版本
+-通用配置
++通用設定
+ --------
  
--除此之外，個人文件可以在雙重許可下提供，例如一個兼容的GPL變體，或者BSD，
-+除此之外，個人檔案可以在雙重許可下提供，例如一個相容的GPL變體，或者BSD，
- MIT等許可。
+-Linux內核補丁是通過郵件被提交的，最好把補丁作爲郵件體的內嵌文本。有些維護者
++Linux核心補丁是透過郵件被提交的，最好把補丁作為郵件體的內嵌文字。有些維護者
+ 接收附件，但是附件的內容格式應該是"text/plain"。然而，附件一般是不贊成的，
+-因爲這會使補丁的引用部分在評論過程中變的很困難。
++因為這會使補丁的引用部分在評論過程中變得很困難。
  
--用戶空間API（UAPI）頭文件描述了用戶空間程序與內核的接口，這是一種特殊情況。
--根據內核COPYING文件中的註釋，syscall接口是一個明確的邊界，它不會將GPL要求
--擴展到任何使用它與內核通信的軟件。由於UAPI頭文件必須包含在創建在Linux內核
--上運行的可執行文件的任何源文件中，因此此例外必須記錄在特別的許可證表述中。
-+使用者空間API（UAPI）標頭檔描述了使用者空間程式與核心的介面，這是一種特殊
-+情況。根據核心COPYING檔案中的註解，syscall介面是一個明確的邊界，它不會將
-+GPL要求擴展到任何使用它與核心通信的軟體。由於UAPI標頭檔必須包含在建立在
-+Linux核心上執行的可執行檔案的任何原始檔中，因此此例外必須記錄在特別的許可
-+證表述中。
+-同時也強烈建議在補丁或其他郵件的正文中使用純文本格式。https://useplaintext.email
+-有助於瞭解如何配置你喜歡的郵件客戶端，並在您還沒有首選的情況下列出一些推薦的
++同時也強烈建議在補丁或其他郵件的正文中使用純文字格式。https://useplaintext.email
++有助於瞭解如何設定你喜歡的郵件客戶端，並在您還沒有首選的情況下列出一些推薦的
+ 客戶端。
  
--表達源文件許可證的常用方法是將匹配的樣板文本添加到文件的頂部註釋中。由於
--格式，拼寫錯誤等，這些“樣板”很難通過那些在上下文中使用的驗證許可證合規性
-+表達原始檔許可證的常用方法是將匹配的樣板文本添加到檔案的頂部註解中。由於
-+格式，拼寫錯誤等，這些“樣板”很難透過那些在上下文中使用的驗證許可證合規性
- 的工具。
+-用來發送Linux內核補丁的郵件客戶端在發送補丁時應該處於文本的原始狀態。例如，
++用來發送Linux核心補丁的郵件客戶端在發送補丁時應該處於文字的原始狀態。例如，
+ 他們不能改變或者刪除製表符或者空格，甚至是在每一行的開頭或者結尾。
  
--樣板文本的替代方法是在每個源文件中使用軟件包數據交換（SPDX）許可證標識符。
--SPDX許可證標識符是機器可解析的，並且是用於提供文件內容的許可證的精確縮寫。
--SPDX許可證標識符由Linux 基金會的SPDX 工作組管理，並得到了整個行業，工具
--供應商和法律團隊的合作伙伴的一致同意。有關詳細信息，請參閱
-+樣板文本的替代方法是在每個原始檔中使用軟體套件資料交換（SPDX）許可證識別碼。
-+SPDX許可證識別碼是機器可解析的，並且是用於提供檔案內容的許可證的精確縮寫。
-+SPDX許可證識別碼由Linux 基金會的SPDX 工作組管理，並得到了整個行業，工具
-+供應商和法律團隊的合作夥伴的一致同意。有關詳細資訊，請參閱
- https://spdx.org/
+-不要通過"format=flowed"模式發送補丁。這樣會引起不可預期以及有害的斷行。
++不要透過"format=flowed"模式發送補丁。這樣會引起不可預期以及有害的斷行。
  
--Linux內核需要所有源文件中的精確SPDX標識符。內核中使用的有效標識符在
--`許可標識符`_ 一節中進行了解釋，並且已可以在
-+Linux核心需要所有原始檔中的精確SPDX識別碼。核心中使用的有效識別碼在
-+`許可識別碼`_ 一節中進行了解釋，並且已可以在
- https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶許可證
- 文本。
+ 不要讓你的郵件客戶端進行自動換行。這樣也會破壞你的補丁。
  
--許可標識符語法
-+許可識別碼語法
- --------------
+-郵件客戶端不能改變文本的字符集編碼方式。要發送的補丁只能是ASCII或者UTF-8編碼
+-方式，如果你使用UTF-8編碼方式發送郵件，那麼你將會避免一些可能發生的字符集問題。
++郵件客戶端不能改變文字的字元集編碼方式。要發送的補丁只能是ASCII或者UTF-8編
++碼方式，如果你使用UTF-8編碼方式發送郵件，那麼你將會避免一些可能發生的字元
++集問題。
  
- 1.安置:
+-郵件客戶端應該生成並且保持“References:”或者“In-Reply-To:”郵件頭，這樣郵件會話
++郵件客戶端應該產生並且保持“References:”或者“In-Reply-To:”郵件頭，這樣郵件會話
+ 就不會中斷。
  
--   內核文件中的SPDX許可證標識符應添加到可包含註釋的文件中的第一行。對於大多
--   數文件，這是第一行，除了那些在第一行中需要'#!PATH_TO_INTERPRETER'的腳本。
--   對於這些腳本，SPDX標識符進入第二行。
-+   核心檔案中的SPDX許可證識別碼應添加到可包含註解的檔案中的第一行。對於大多
-+   數檔案，這是第一行，除了那些在第一行中需要'#!PATH_TO_INTERPRETER'的腳本。
-+   對於這些腳本，SPDX許可證識別碼進入第二行。
+-複製粘帖(或者剪貼粘帖)通常不能用於補丁，因爲製表符會轉換爲空格。使用xclipboard,
+-xclip或者xcutsel也許可以，但是最好測試一下或者避免使用複製粘帖。
++複製貼上(或者剪貼貼上)通常不能用於補丁，因為製表符會轉換為空格。使用
++xclipboard,xclip或者xcutsel也許可以，但是最好測試一下或者避免使用複製貼上。
+ 
+ 不要在使用PGP/GPG簽名的郵件中包含補丁。這樣會使得很多腳本不能讀取和適用於你的
+ 補丁。（這個問題應該是可以修復的）
+ 
+-在給內核郵件列表發送補丁之前，給自己發送一個補丁是個不錯的主意，保存接收到的
+-郵件，將補丁用'patch'命令打上，如果成功了，再給內核郵件列表發送。
++在給核心郵件列表發送補丁之前，給自己發送一個補丁是個不錯的主意，保存接收到的
++郵件，將補丁用'patch'命令打上，如果成功了，再給核心郵件列表發送。
+ 
+ 
+ 一些郵件客戶端提示
+ ------------------
+ 
+-這裏給出一些詳細的MUA配置提示，可以用於給Linux內核發送補丁。這些並不意味是
+-所有的軟件包配置總結。
++這裡給出一些詳細的MUA設定提示，可以用於給Linux核心發送補丁。這些並不意味是
++所有的軟體套件設定總結。
+ 
+ 說明：
+ 
+-- TUI = 以文本爲基礎的用戶接口
+-- GUI = 圖形界面用戶接口
++- TUI = 以文字為基礎的使用者介面
++- GUI = 圖形介面使用者介面
+ 
+ Alpine (TUI)
+ ************
+ 
+-配置選項：
++設定選項：
+ 
+-在 :menuselection:`Sending Preferences` 菜單：
++在 :menuselection:`Sending Preferences` 選單：
+ 
+-- :menuselection:`Do Not Send Flowed Text` 必須開啓
++- :menuselection:`Do Not Send Flowed Text` 必須開啟
+ - :menuselection:`Strip Whitespace Before Sending` 必須關閉
+ 
+-當寫郵件時，光標應該放在補丁會出現的地方，然後按下 `CTRL-R` 組合鍵，使指
+-定的補丁文件嵌入到郵件中。
++當寫郵件時，游標應該放在補丁會出現的地方，然後按下 `CTRL-R` 組合鍵，使指
++定的補丁檔案嵌入到郵件中。
+ 
+ Claws Mail (GUI)
+ ****************
+ 
+ 可以用，有人用它成功地發過補丁。
+ 
+-用 :menuselection:`Message-->Insert File` (`CTRL-I`) 或外置編輯器插入補丁。
++用 :menuselection:`Message-->Insert File` (`CTRL-I`) 或外部編輯器插入補丁。
+ 
+-若要在Claws編輯窗口重修改插入的補丁，需關閉
++若要在Claws編輯視窗重修改插入的補丁，需關閉
+ :menuselection:`Configuration-->Preferences-->Compose-->Wrapping`
+ 的 `Auto wrapping` 。
+ 
+@@ -107,49 +109,49 @@ Evolution (GUI)
+ 
+ 撰寫郵件時：
+ 從 :menuselection:`格式-->段落樣式-->預格式化` (`CTRL-7`)
+-或工具欄選擇 :menuselection:`預格式化` ；
++或工具列選擇 :menuselection:`預格式化` ；
+ 
+ 然後使用：
+-:menuselection:`插入-->文本文件...` (`ALT-N x`) 插入補丁文件。
++:menuselection:`插入-->文字檔...` (`ALT-N x`) 插入補丁檔案。
+ 
+ 你還可以 ``diff -Nru old.c new.c | xclip`` ，選擇 :menuselection:`預格式化` ，
+-然後使用鼠標中鍵進行粘帖。
++然後使用滑鼠中鍵進行貼上。
+ 
+ Kmail (GUI)
+ ***********
+ 
+ 一些開發者成功的使用它發送補丁。
+ 
+-默認撰寫設置禁用HTML格式是合適的；不要啓用它。
++預設撰寫設定禁用HTML格式是合適的；不要啟用它。
+ 
+ 當書寫一封郵件的時候，在選項下面不要選擇自動換行。唯一的缺點就是你在郵件中輸
+-入的任何文本都不會被自動換行，因此你必須在發送補丁之前手動換行。最簡單的方法
+-就是啓用自動換行來書寫郵件，然後把它保存爲草稿。一旦你在草稿中再次打開它，它
++入的任何文字都不會被自動換行，因此你必須在發送補丁之前手動換行。最簡單的方法
++就是啟用自動換行來書寫郵件，然後把它保存為草稿。一旦你在草稿中再次開啟它，它
+ 已經全部自動換行了，那麼你的郵件雖然沒有選擇自動換行，但是還不會失去已有的自
+ 動換行。
+ 
+-在郵件的底部，插入補丁之前，放上常用的補丁定界符：三個連字符(``---``)。
++在郵件的底部，插入補丁之前，放上常用的補丁定界符：三個連字元(``---``)。
+ 
+-然後在 :menuselection:`信件` 菜單，選擇 :menuselection:`插入文本文件` ，接
+-着選取你的補丁文件。還有一個額外的選項，你可以通過它配置你的創建新郵件工具欄，
+-加上 :menuselection:`插入文本文件` 圖標。
++然後在 :menuselection:`信件` 選單，選擇 :menuselection:`插入文字檔` ，接
++著選取你的補丁檔案。還有一個額外的選項，你可以透過它設定你的建立新郵件工具列，
++加上 :menuselection:`插入文字檔` 圖示。
+ 
+-將編輯器窗口拉到足夠寬避免折行。對於KMail 1.13.5 (KDE 4.5.4)，它會在發送郵件
+-時對編輯器窗口中顯示折行的地方自動換行。在選項菜單中取消自動換行仍不能解決。
+-因此，如果你的補丁中有非常長的行，必須在發送之前把編輯器窗口拉得非常寬。
++將編輯器視窗拉到足夠寬避免折行。對於KMail 1.13.5 (KDE 4.5.4)，它會在發送郵件
++時對編輯器視窗中顯示折行的地方自動換行。在選項選單中取消自動換行仍不能解決。
++因此，如果你的補丁中有非常長的行，必須在發送之前把編輯器視窗拉得非常寬。
+ 參見：https://bugs.kde.org/show_bug.cgi?id=174034
+ 
+-你可以安全地用GPG簽名附件，但是內嵌補丁最好不要使用GPG簽名它們。作爲內嵌文本
++你可以安全地用GPG簽名附件，但是內嵌補丁最好不要使用GPG簽名它們。作為內嵌文字
+ 插入的簽名補丁將使其難以從7-bit編碼中提取。
+ 
+ 如果你非要以附件的形式發送補丁，那麼就右鍵點擊附件，然後選擇
+-:menuselection:`屬性` ，打開 :menuselection:`建議自動顯示` ，使附件內聯更容
++:menuselection:`屬性` ，開啟 :menuselection:`建議自動顯示` ，使附件內聯更容
+ 易讓讀者看到。
+ 
+-當你要保存將要發送的內嵌文本補丁，你可以從消息列表窗格選擇包含補丁的郵件，然
+-後右鍵選擇 :menuselection:`另存爲` 。如果整個電子郵件的組成正確，您可直接將
+-其作爲補丁使用。電子郵件以當前用戶可讀寫權限保存，因此您必須 ``chmod`` ，以
+-使其在複製到別處時用戶組和其他人可讀。
++當你要保存將要發送的內嵌文字補丁，你可以從訊息列表窗格選擇包含補丁的郵件，然
++後右鍵選擇 :menuselection:`另存新檔` 。如果整個電子郵件的組成正確，您可直接將
++其作為補丁使用。電子郵件以當前使用者可讀寫權限保存，因此您必須 ``chmod`` ，以
++使其在複製到別處時使用者組和其他人可讀。
+ 
+ Lotus Notes (GUI)
+ *****************
+@@ -167,9 +169,9 @@ Mutt (TUI)
+ 很多Linux開發人員使用mutt客戶端，這證明它肯定工作得非常漂亮。
+ 
+ Mutt不自帶編輯器，所以不管你使用什麼編輯器，不自動斷行就行。大多數編輯器都有
+-:menuselection:`插入文件` 選項，它可以在不改變文件內容的情況下插入文件。
++:menuselection:`插入檔案` 選項，它可以在不改變檔案內容的情況下插入檔案。
+ 
+-用 ``vim`` 作爲mutt的編輯器::
++用 ``vim`` 作為mutt的編輯器::
+ 
+   set editor="vi"
+ 
+@@ -181,21 +183,21 @@ Mutt不自帶編輯器，所以不管你使用什麼編輯器，不自動斷行
+ 
+   :r filename
+ 
+-把補丁插入爲內嵌文本。
+-在未設置  ``set paste`` 時(a)ttach工作的很好。
++把補丁插入為內嵌文字。
++在未設定  ``set paste`` 時(a)ttach工作的很好。
+ 
+-你可以通過 ``git format-patch`` 生成補丁，然後用 Mutt發送它們::
++你可以透過 ``git format-patch`` 產生補丁，然後用 Mutt發送它們::
+ 
+     $ mutt -H 0001-some-bug-fix.patch
+ 
+-配置選項：
++設定選項：
+ 
+-它應該以默認設置的形式工作。
+-然而，把 ``send_charset`` 設置一下也是一個不錯的主意::
++它應該以預設設定的形式工作。
++然而，把 ``send_charset`` 設定一下也是一個不錯的主意::
+ 
+   set send_charset="us-ascii:utf-8"
+ 
+-Mutt 是高度可配置的。 這裏是個使用mutt通過 Gmail 發送的補丁的最小配置::
++Mutt 是高度可設定的。 這裡是個使用mutt透過 Gmail 發送的補丁的最小設定::
+ 
+   # .muttrc
+   # ================  IMAP ====================
+@@ -222,7 +224,7 @@ Mutt 是高度可配置的。 這裏是個使用mutt通過 Gmail 發送的補丁
+   set from = "username@gmail.com"
+   set use_from = yes
+ 
+-Mutt文檔含有更多信息：
++Mutt文件含有更多資訊：
+ 
+     https://gitlab.com/muttmua/mutt/-/wikis/UseCases/Gmail
+ 
+@@ -235,7 +237,7 @@ Pine過去有一些空格刪減問題，但是這些現在應該都被修復了
+ 
+ 如果可以，請使用alpine（pine的繼承者）。
+ 
+-配置選項：
++設定選項：
+ 
+ - 最近的版本需要 ``quell-flowed-text``
+ - ``no-strip-whitespace-before-send`` 選項也是需要的。
+@@ -244,23 +246,23 @@ Pine過去有一些空格刪減問題，但是這些現在應該都被修復了
+ Sylpheed (GUI)
+ **************
+ 
+-- 內嵌文本可以很好的工作（或者使用附件）。
++- 內嵌文字可以很好的工作（或者使用附件）。
+ - 允許使用外部的編輯器。
+ - 收件箱較多時非常慢。
+-- 如果通過non-SSL連接，無法使用TLS SMTP授權。
+-- 撰寫窗口的標尺很有用。
++- 如果透過non-SSL連接，無法使用TLS SMTP授權。
++- 撰寫視窗的標尺很有用。
+ - 將地址添加到通訊簿時無法正確理解顯示的名稱。
+ 
+ Thunderbird (GUI)
+ *****************
+ 
+-Thunderbird是Outlook的克隆版本，它很容易損壞文本，但也有一些方法強制修正。
++Thunderbird是Outlook的翻版，它很容易損壞文字，但也有一些方法強制修正。
+ 
+-在完成修改後（包括安裝擴展），您需要重新啓動Thunderbird。
++在完成修改後（包括安裝擴展），您需要重新啟動Thunderbird。
+ 
+ - 允許使用外部編輯器：
+ 
+-  使用Thunderbird發補丁最簡單的方法是使用擴展來打開您最喜歡的外部編輯器。
++  使用Thunderbird發補丁最簡單的方法是使用擴展來開啟您最喜歡的外部編輯器。
+ 
+   下面是一些能夠做到這一點的擴展樣例。
+ 
+@@ -270,43 +272,50 @@ Thunderbird是Outlook的克隆版本，它很容易損壞文本，但也有一
+ 
+     https://addons.thunderbird.net/en-GB/thunderbird/addon/external-editor-revived/
+ 
+-    它需要安裝“本地消息主機（native messaging host）”。
+-    參見以下文檔:
++    它需要安裝“本地訊息主機（native messaging host）”。
++    參見以下文件:
+     https://github.com/Frederick888/external-editor-revived/wiki
+ 
+   - “External Editor”
+ 
+     https://github.com/exteditor/exteditor
+ 
+-    下載並安裝此擴展，然後打開 :menuselection:`新建消息` 窗口, 用
+-    :menuselection:`查看-->工具欄-->自定義...` 給它增加一個按鈕，直接點擊此
+-    按鈕即可使用外置編輯器。
++    下載並安裝此擴展，然後開啟 :menuselection:`新增訊息` 視窗, 用
++    :menuselection:`查看-->工具列-->自訂...` 給它增加一個按鈕，直接點擊此
++    按鈕即可使用外部編輯器。
+ 
+     請注意，“External Editor”要求你的編輯器不能fork，換句話說，編輯器必須在
+-    關閉前不返回。你可能需要傳遞額外的參數或修改編輯器設置。最值得注意的是，
+-    如果您使用的是gvim，那麼您必須將 :menuselection:`external editor` 設置的
+-    編輯器字段設置爲 ``/usr/bin/gvim --nofork"`` （假設可執行文件在
++    關閉前不返回。你可能需要傳遞額外的參數或修改編輯器設定。最值得注意的是，
++    如果您使用的是gvim，那麼您必須將 :menuselection:`external editor` 設定的
++    編輯器欄位設定為 ``/usr/bin/gvim --nofork"`` （假設可執行檔在
+     ``/usr/bin`` ），以傳遞 ``-f`` 參數。如果您正在使用其他編輯器，請閱讀其
+     手冊瞭解如何處理。
+ 
+ 若要修正內部編輯器，請執行以下操作：
+ 
+-- 修改你的Thunderbird設置，不要使用 ``format=flowed`` ！
+-  回到主窗口，按照
+-  :menuselection:`主菜單-->首選項-->常規-->配置編輯器...`
+-  打開Thunderbird的配置編輯器。
++- 修改你的Thunderbird設定，不要使用 ``format=flowed`` ！
++  回到主視窗，按照
++  :menuselection:`主選單-->偏好設定-->常規-->設定編輯器...`
++  開啟Thunderbird的設定編輯器。
+ 
+-  - 將 ``mailnews.send_plaintext_flowed`` 設爲 ``false``
++  - 將 ``mailnews.send_plaintext_flowed`` 設為 ``false``
+ 
+-  - 將 ``mailnews.wraplength`` 從 ``72`` 改爲 ``0``
++  - 將 ``mailnews.wraplength`` 從 ``72`` 改為 ``0`` ，**或者** 安裝
++    “Toggle Line Wrap”擴展
 +
-+   如有需要，許可證識別碼行之後可以接上一行或多行SPDX-FileCopyrightText
-+   行。
- 
- |
- 
- 2. 風格:
- 
--   SPDX許可證標識符以註釋的形式添加。註釋樣式取決於文件類型::
-+   SPDX許可證識別碼以註解的形式添加。註解樣式取決於檔案類型::
- 
-       C source:	// SPDX-License-Identifier: <SPDX License Expression>
-       C header:	/* SPDX-License-Identifier: <SPDX License Expression> */
-@@ -73,44 +78,44 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
-       .rst:	.. SPDX-License-Identifier: <SPDX License Expression>
-       .dts{i}:	// SPDX-License-Identifier: <SPDX License Expression>
- 
--   如果特定工具無法處理標準註釋樣式，則應使用工具接受的相應註釋機制。這是在
--   C 頭文件中使用“/\*\*/”樣式註釋的原因。過去在使用生成的.lds文件中觀察到
--   構建被破壞，其中'ld'無法解析C++註釋。現在已經解決了這個問題，但仍然有較
--   舊的彙編程序工具無法處理C++樣式的註釋。
-+   如果特定工具無法處理標準註解樣式，則應使用工具接受的相應註解機制。這是在
-+   C 標頭檔中使用“/\*\*/”樣式註解的原因。過去在使用產生的.lds檔案中觀察到
-+   建置被破壞，其中'ld'無法解析C++註解。現在已經解決了這個問題，但仍然有較
-+   舊的組譯器工具無法處理C++樣式的註解。
- 
- |
- 
- 3. 句法:
- 
--   <SPDX許可證表達式>是SPDX許可證列表中的SPDX短格式許可證標識符，或者在許可
--   證例外適用時由“WITH”分隔的兩個SPDX短格式許可證標識符的組合。當應用多個許
-+   <SPDX許可證表達式>是SPDX許可證列表中的SPDX短格式許可證識別碼，或者在許可
-+   證例外適用時由“WITH”分隔的兩個SPDX短格式許可證識別碼的組合。當應用多個許
-    可證時，表達式由分隔子表達式的關鍵字“AND”，“OR”組成，並由“（”，“）”包圍。
- 
--   帶有“或更高”選項的[L]GPL等許可證的許可證標識符通過使用“+”來表示“或更高”
--   選項來構建。::
-+   帶有“或更高”選項的[L]GPL等許可證的許可證識別碼透過使用“+”來表示“或更高”
-+   選項來建置。::
- 
-       // SPDX-License-Identifier: GPL-2.0+
-       // SPDX-License-Identifier: LGPL-2.1+
- 
--   當需要修正的許可證時，應使用WITH。 例如，linux內核UAPI文件使用表達式::
-+   當需要修正的許可證時，應使用WITH。 例如，linux核心UAPI檔案使用表達式::
- 
-       // SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
-       // SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note
- 
--   其它在內核中使用WITH例外的事例如下::
-+   其它在核心中使用WITH例外的事例如下::
- 
-       // SPDX-License-Identifier: GPL-2.0 WITH mif-exception
-       // SPDX-License-Identifier: GPL-2.0+ WITH GCC-exception-2.0
- 
--   例外只能與特定的許可證標識符一起使用。有效的許可證標識符列在異常文本文件
--   的標記中。有關詳細信息，請參閱 `許可標識符`_ 一章中的 `例外`_ 。
-+   例外只能與特定的許可證識別碼一起使用。有效的許可證識別碼列在異常文本檔案
-+   的標記中。有關詳細資訊，請參閱 `許可識別碼`_ 一章中的 `例外`_ 。
- 
--   如果文件是雙重許可且只選擇一個許可證，則應使用OR。例如，一些dtsi文件在雙
-+   如果檔案是雙重許可且只選擇一個許可證，則應使用OR。例如，一些dtsi檔案在雙
-    許可下可用::
- 
-       // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
- 
--   內核中雙許可文件中許可表達式的示例::
-+   核心中雙許可檔案中許可表達式的範例::
- 
-       // SPDX-License-Identifier: GPL-2.0 OR MIT
-       // SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-@@ -119,8 +124,8 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
-       // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR MIT
-       // SPDX-License-Identifier: GPL-1.0+ OR BSD-3-Clause OR OpenSSL
- 
--   如果文件具有多個許可證，其條款全部適用於使用該文件，則應使用AND。例如，
--   如果代碼是從另一個項目繼承的，並且已經授予了將其放入內核的權限，但原始
-+   如果檔案具有多個許可證，其條款全部適用於使用該檔案，則應使用AND。例如，
-+   如果程式碼是從另一個專案繼承的，並且已經授予了將其放入核心的權限，但原始
-    許可條款需要保持有效::
- 
-       // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) AND MIT
-@@ -129,20 +134,20 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
-       // SPDX-License-Identifier: GPL-1.0+ AND LGPL-2.1+
- 
--許可標識符
-+許可識別碼
- ----------
- 
--當前使用的許可證以及添加到內核的代碼許可證可以分解爲：
-+當前使用的許可證以及添加到核心的程式碼許可證可以分解為：
- 
- 1. _`優先許可`:
- 
--   應儘可能使用這些許可證，因爲它們已知完全兼容並廣泛使用。這些許可證在內核
-+   應儘可能使用這些許可證，因為它們已知完全相容並廣泛使用。這些許可證在核心
-    目錄::
- 
-       LICENSES/preferred/
- 
--   此目錄中的文件包含完整的許可證文本和 `元標記`_ 。文件名與SPDX許可證標識
--   符相同，後者應用於源文件中的許可證。
-+   此目錄中的檔案包含完整的許可證文本和 `元標記`_ 。檔名與SPDX許可證識別碼
-+   相同，後者應用於原始檔中的許可證。
- 
-    例如::
- 
-@@ -156,28 +161,28 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
-    _`元標記`:
- 
--   許可證文件中必須包含以下元標記：
-+   許可證檔案中必須包含以下元標記：
- 
-    - Valid-License-Identifier:
- 
--     一行或多行, 聲明那些許可標識符在項目內有效, 以引用此特定許可的文本。通
--     常這是一個有效的標識符，但是例如對於帶有'或更高'選項的許可證，兩個標識
-+     一行或多行, 聲明那些許可識別碼在專案內有效, 以引用此特定許可的文本。通
-+     常這是一個有效的識別碼，但是例如對於帶有'或更高'選項的許可證，兩個識別碼
-      符都有效。
- 
-    - SPDX-URL:
- 
--     SPDX頁面的URL，其中包含與許可證相關的其他信息.
-+     SPDX頁面的URL，其中包含與許可證相關的其他資訊.
- 
-    - Usage-Guidance:
- 
--     使用建議的自由格式文本。該文本必須包含SPDX許可證標識符的正確示例，因爲
--     它們應根據 `許可標識符語法`_ 指南放入源文件中。
-+     使用建議的自由格式文本。該文本必須包含SPDX許可證識別碼的正確範例，因為
-+     它們應根據 `許可識別碼語法`_ 指南放入原始檔中。
- 
-    - License-Text:
- 
--     此標記之後的所有文本都被視爲原始許可文本
-+     此標記之後的所有文本都被視為原始許可文本
- 
--   文件格式示例::
-+   檔案格式範例::
- 
-       Valid-License-Identifier: GPL-2.0
-       Valid-License-Identifier: GPL-2.0+
-@@ -209,12 +214,12 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
- 2. 不推薦的許可證:
- 
--   這些許可證只應用於現有代碼或從其他項目導入代碼。這些許可證在內核目錄::
-+   這些許可證只應用於現有程式碼或從其他專案導入程式碼。這些許可證在核心目錄::
- 
-       LICENSES/other/
- 
--   此目錄中的文件包含完整的許可證文本和 `元標記`_ 。文件名與SPDX許可證標識
--   符相同，後者應用於源文件中的許可證。
-+   此目錄中的檔案包含完整的許可證文本和 `元標記`_ 。檔名與SPDX許可證識別碼
-+   相同，後者應用於原始檔中的許可證。
- 
-    例如::
- 
-@@ -230,7 +235,7 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 
-    “其他”許可證的元標籤要求與 `優先許可`_ 的要求相同。
- 
--   文件格式示例::
-+   檔案格式範例::
- 
-       Valid-License-Identifier: ISC
-       SPDX-URL: https://spdx.org/licenses/ISC.html
-@@ -250,50 +255,50 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
- 3. _`例外`:
- 
-    某些許可證可以修改，並允許原始許可證不具有的某些例外權利。這些例外在
--   內核目錄::
-+   核心目錄::
- 
-       LICENSES/exceptions/
- 
--   此目錄中的文件包含完整的例外文本和所需的 `例外元標記`_ 。
-+   此目錄中的檔案包含完整的例外文本和所需的 `例外元標記`_ 。
- 
-    例如::
- 
-       LICENSES/exceptions/Linux-syscall-note
- 
--   包含Linux內核的COPYING文件中記錄的Linux系統調用例外，該文件用於UAPI
--   頭文件。例如::
-+   包含Linux核心的COPYING檔案中記錄的Linux系統呼叫例外，該檔案用於UAPI
-+   標頭檔。例如::
- 
-       LICENSES/exceptions/GCC-exception-2.0
- 
--   包含GCC'鏈接例外'，它允許獨立於其許可證的任何二進制文件與標記有此例外的
--   文件的編譯版本鏈接。這是從GPL不兼容源代碼創建可運行的可執行文件所必需的。
-+   包含GCC'連結例外'，它允許獨立於其許可證的任何二進位檔案與標記有此例外的
-+   檔案的編譯版本連結。這是從GPL不相容原始程式碼建立可執行的可執行檔案所必需的。
- 
-    _`例外元標記`:
- 
--   以下元標記必須在例外文件中可用：
-+   以下元標記必須在例外檔案中可用：
- 
-    - SPDX-Exception-Identifier:
- 
--     一個可與SPDX許可證標識符一起使用的例外標識符。
-+     一個可與SPDX許可證識別碼一起使用的例外識別碼。
- 
-    - SPDX-URL:
- 
--     SPDX頁面的URL，其中包含與例外相關的其他信息。
-+     SPDX頁面的URL，其中包含與例外相關的其他資訊。
- 
-    - SPDX-Licenses:
- 
--     以逗號分隔的例外可用的SPDX許可證標識符列表。
-+     以逗號分隔的例外可用的SPDX許可證識別碼列表。
- 
-    - Usage-Guidance:
- 
--     使用建議的自由格式文本。必須在文本後面加上SPDX許可證標識符的正確示例，
--     因爲它們應根據 `許可標識符語法`_ 指南放入源文件中。
-+     使用建議的自由格式文本。必須在文本後面加上SPDX許可證識別碼的正確範例，
-+     因為它們應根據 `許可識別碼語法`_ 指南放入原始檔中。
- 
-    - Exception-Text:
- 
--     此標記之後的所有文本都被視爲原始異常文本
-+     此標記之後的所有文本都被視為原始異常文本
- 
--   文件格式示例::
-+   檔案格式範例::
- 
-       SPDX-Exception-Identifier: Linux-syscall-note
-       SPDX-URL: https://spdx.org/licenses/Linux-syscall-note.html
-@@ -324,49 +329,51 @@ https://spdx.org/licenses/ 上的官方SPDX許可證列表中檢索，並附帶
-         Full exception text
- 
- 
--所有SPDX許可證標識符和例外都必須在LICENSES子目錄中具有相應的文件。這是允許
-+所有SPDX許可證識別碼和例外都必須在LICENSES子目錄中具有相應的檔案。這是允許
- 工具驗證（例如checkpatch.pl）以及準備好從源讀取和提取許可證所必需的, 這是
- 各種FOSS組織推薦的，例如 `FSFE REUSE initiative <https://reuse.software/>`_.
- 
--_`模塊許可`
-+_`模組許可`
- -----------------
- 
--   可加載內核模塊還需要MODULE_LICENSE（）標記。此標記既不替代正確的源代碼
--   許可證信息（SPDX-License-Identifier），也不以任何方式表示或確定提供模塊
--   源代碼的確切許可證。
-+   可載入核心模組還需要MODULE_LICENSE（）標記。此標記既不替代正確的原始程式碼
-+   許可證資訊（SPDX-License-Identifier），也不以任何方式表示或確定提供模組
-+   原始程式碼的確切許可證。
- 
--   此標記的唯一目的是提供足夠的信息，該模塊是否是自由軟件或者是內核模塊加
--   載器和用戶空間工具的專有模塊。
-+   此標記的唯一目的是提供足夠的資訊，該模組是否是自由軟體或者是核心模組加
-+   載器和使用者空間工具的專有模組。
- 
--   MODULE_LICENSE（）的有效許可證字符串是:
-+   MODULE_LICENSE（）的有效許可證字串是:
- 
-     ============================= =============================================
--    "GPL"			  模塊是根據GPL版本2許可的。這並不表示僅限於
-+    "GPL"			  模組是根據GPL版本2許可的。這並不表示僅限於
-                                   GPL-2.0或GPL-2.0或更高版本之間的任何區別。
--                                  最正確許可證信息只能通過相應源文件中的許可證
--                                  信息來確定
-+                                  最正確許可證資訊只能透過相應原始檔中的許可證
-+                                  資訊來確定
- 
--    "GPL v2"			  和"GPL"相同，它的存在是因爲歷史原因。
-+    "GPL v2"			  和"GPL"相同，它的存在是因為歷史原因。
- 
--    "GPL and additional rights"   表示模塊源在GPL v2變體和MIT許可下雙重許可的
--                                  歷史變體。請不要在新代碼中使用。
-+    "GPL and additional rights"   表示模組源在GPL v2變體和MIT許可下雙重許可的
-+                                  歷史變體。請不要在新程式碼中使用。
- 
--    "Dual MIT/GPL"		  表達該模塊在GPL v2變體或MIT許可證選擇下雙重
-+    "Dual MIT/GPL"		  表達該模組在GPL v2變體或MIT許可證選擇下雙重
-                                   許可的正確方式。
- 
--    "Dual BSD/GPL"		  該模塊根據GPL v2變體或BSD許可證選擇進行雙重
--                                  許可。 BSD許可證的確切變體只能通過相應源文件
--                                  中的許可證信息來確定。
-+    "Dual BSD/GPL"		  該模組根據GPL v2變體或BSD許可證選擇進行雙重
-+                                  許可。 BSD許可證的確切變體只能透過相應原始檔
-+                                  中的許可證資訊來確定。
- 
--    "Dual MPL/GPL"		  該模塊根據GPL v2變體或Mozilla Public License
-+    "Dual MPL/GPL"		  該模組根據GPL v2變體或Mozilla Public License
-                                   （MPL）選項進行雙重許可。 MPL許可證的確切變體
--                                  只能通過相應的源文件中的許可證信息來確定。
--
--    "Proprietary"		  該模塊屬於專有許可。此字符串僅用於專有的第三
--                                  方模塊，不能用於在內核樹中具有源代碼的模塊。
--                                  以這種方式標記的模塊在加載時會使用'P'標記污
--                                  染內核，並且內核模塊加載器拒絕將這些模塊鏈接
--                                  到使用EXPORT_SYMBOL_GPL（）導出的符號。
-+                                  只能透過相應的原始檔中的許可證資訊來確定。
++    https://github.com/jan-kiszka/togglelinewrap
 +
-+    "Proprietary"		  該模組屬於非GPL2相容的許可。“Proprietary
-+                                  （專有）”應僅理解為“該許可證與GPLv2不相容”。
-+                                  此字串僅用於非GPL2相容的第三方模組，不能用
-+                                  於在核心樹中具有原始程式碼的模組。以這種方式
-+                                  標記的模組在載入時會使用'P'標記污染核心，並
-+                                  且核心模組載入器拒絕將這些模組連結到使用
-+                                  EXPORT_SYMBOL_GPL（）匯出的符號。
-     ============================= =============================================
++    https://addons.thunderbird.net/thunderbird/addon/toggle-line-wrap
++
++    以便即時控制此設定項。
+ 
+ - 不要寫HTML郵件！
+-  回到主窗口，打開
+-  :menuselection:`主菜單-->賬戶設置-->你的@郵件.地址-->通訊錄/編寫&地址簿` ，
+-  關掉 ``以HTML格式編寫消息`` 。
++  回到主視窗，開啟
++  :menuselection:`主選單-->帳戶設定-->你的@郵件.地址-->通訊錄/編寫&地址簿` ，
++  關掉 ``以HTML格式編寫訊息`` 。
+ 
+-- 只用純文本格式查看郵件！
+-  回到主窗口， :menuselection:`主菜單-->查看-->消息體爲-->純文本` ！
++- 只用純文字格式查看郵件！
++  回到主視窗， :menuselection:`主選單-->查看-->訊息體為-->純文字` ！
+ 
+ TkRat (GUI)
+ ***********
+@@ -318,12 +327,12 @@ Gmail (Web GUI)
+ 
+ 不要使用它發送補丁。
+ 
+-Gmail網頁客戶端自動地把製表符轉換爲空格。
++Gmail網頁客戶端自動地把製表符轉換為空格。
+ 
+-雖然製表符轉換爲空格問題可以被外部編輯器解決，但它同時還會使用回車換行把每行
+-拆分爲78個字符。
++雖然製表符轉換為空格問題可以被外部編輯器解決，但它同時還會使用回車換行把每行
++拆分為78個字元。
+ 
+-另一個問題是Gmail還會把任何含有非ASCII的字符的消息改用base64編碼，如歐洲人的
++另一個問題是Gmail還會把任何含有非ASCII的字元的訊息改用base64編碼，如歐洲人的
+ 名字。
  
  
 -- 
