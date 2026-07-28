@@ -1,123 +1,91 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9B53AB291
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 13:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392DE25A2DD;
+	Tue, 28 Jul 2026 13:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785245955; cv=none; b=nt2do3C7mN95XSfgFjXK1fOPnwphr4OmS+F/1LUB1ufYrak4ECTgwgz9CzKEOmx+rA1xNyWS/ZWnpgVS2BLjnBPMIxcxMyERtPAn3ilY3RTQJLcFzH9VPsZm7lkKD/AuDoyJyGSxi7/WaYwYLdcATCC7y90cYBhyh1pJr7hDHN4=
+	t=1785246965; cv=none; b=Y4p/39s0QG26rWgYtSNSktZvuX0ismyLmy78/jhGcOsbLbG7VzBYE9EtKWllHIwG9ZNztWMB8cPCnGKUTBs+AW9OScmAwgQsWUiwi0ieyiwkwV94dIv/xgKknSOPS1fX41VPu8CDgFXQE8qlYqpw091qqgyt6USAlFhi65v6dtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785245955; c=relaxed/simple;
-	bh=m1hRgnx9KR+o6rJ46yZExEf2MnNgmZrIfD+GztQKaJE=;
+	s=arc-20240116; t=1785246965; c=relaxed/simple;
+	bh=5jqEUx08eAE2J34aNEz/+vzJmjFtiMTEUqSFxvnq/qo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fslCU92yoWr7VQb6dNS/dCJE9VNqkYrz9Xj6a5+ylNrEdpDft7ALSKZg0klzl4brnGP8r7agKqth4bZHixIDMT2qvN/x7NddhEWse0aDRjr/1sAZ1mXcYHYiPQRB90W75SJtw+bApcUnk2mR0qYAV0kkNuyieczfsYc8E1rl0Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QCTRXEs9; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YD1lway/SE8OFzcnmuruIHeKpfWe/P6zIQF6BlMnNOGwz05GLQJ1AFjJusMMbteYX+QX0ENSKMS6hBKmh03aAB0CJmf9CZHuZJ8zL6Sp+6q402Z9oPEt+18mENMSfmroMtke9mS6UJQtNHUNn7kje+KJTqCjOaOfAFdX4935HYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WympEKji; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QCTRXEs9"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ce87c7e3bbso44165535ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 06:39:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785245953; x=1785850753; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gWLSoQUrxbW8ffU1hMIvqVbw2cAnieAmgRFRZP9/rN8=;
-        b=QCTRXEs9IyUwJyWWXi8NydHdeEb+oC2X3K+o2u5JupICyfeKwCI4w4WhiAYrlf9keB
-         emaW0z9Gvk0p4VyLxlwLf5k0My1IoTp3BDPGT1QnDpHuNwThssRsUQ9UHVQsR3kobV0o
-         SCmnS5w+snhLkztBTty4dqMn4l/89FTYDBK94L4NMtlv3VujWwcqtm6FxwmvWUTuLf6w
-         xz062Gg38AtZ8z2XnoRxa8hljj37sn8Hf8VAFTiYvEsly5/B2LS0v5SB/dq7Wwam8mWG
-         rk7DdnsNwYHFNBHlG76yXRNYd1NUgUbTJguQcr+GIXAcOn9oWsJ8bqMu1o1Lcl8hfuCR
-         h6bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785245953; x=1785850753;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gWLSoQUrxbW8ffU1hMIvqVbw2cAnieAmgRFRZP9/rN8=;
-        b=Ml0fwyKZq21hs0sKEMJX8wAl8Fd+ZhcCDIlwfrcpbe+AVgDmwK+lYkG/BUeQUHlL1g
-         QVY5MX4Mw1vpiGuALWzgnbXlanaJQKPRLW5EBCATbSo5i4/J7HIwO+6lIkCfi0oFYzvT
-         WlJD/OG+pOfgPk+EwuSLZq7vY/YkgJV3JjISCwgOPpyUpg3xuAAWN1QqYuSL5hT3vghH
-         LwqLMOEnrBlG0ZKfy4fOVfBjnhkThdrxM0zDH1lTtWVhm0LF/81WzMOeB7k/E4x+WHFt
-         Fvhu/pbYKZ8K7knFoybKcL0mABNTj0CuuIsUfcH8NzPucsf4+pY2XamUZHaSv/k5g8Ew
-         in4Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rrus8N+bE01ZaS+ckCr5FEAKZxC3OXBcuxnVJ/mJdqa7ITrDaTiVnbUXAgJ6L7GUB3zaBaDXn3PMkw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8Gvfj6USazkhrLosZsE6O8oYvdBWb7wlrQL9i1/V0iW7gItKX
-	jgVs5OzwU1A9jD8Ffz/zrgY0HTnFdpqT+nF1w0BpsvokuE4fsi7c6vK1
-X-Gm-Gg: AR+sD12/k1mFoFdn5Y3o2KipLOQBSlpzXpLXo4FQIicCMoB3fR93WyMUzHQI4ytByIh
-	K4X51mh2sfZ+osSDhFS9CP0/0ywAAEAT2ZjSy6gfiZbruy8O3ZL7w54DPkGWDTkYev5ldbgnhKf
-	9G9ZNWZ/wuH5yGeISfRN1oPZrhhXGmmatko+rBwIyrKHaxk7C92ePy54ep3UxeKhll8yEGV9604
-	oSvNuRieQsglLZdA+ZcE0hsY3xUh4cmdIy4Pj0axIoDG5xdPrsdMHcfL051uHm1pFWWVxA80cuj
-	3abQYSkYwMsAIx3n0Z0D0Q8grVcdj2ojkI+HzoENTnGfiE+E31nWCxxkpKgFahQH3GBNW+vEl+4
-	EPtz5C2bN4ugqX5HG+uqEthO3LEOCN5Xd+iKKIEy4w4bh+tSd+57MjaLVNdQflJexlpeJVyYRul
-	oJ7oFSk1eDHT5duFQHzB+RyRk7y7TV5wl2MauR9tRxIRBkKVfwK7EssdDbHqF1uqI=
-X-Received: by 2002:a17:903:2308:b0:2cc:5fae:cc56 with SMTP id d9443c01a7336-2d015d22fd0mr28987505ad.27.1785245953525;
-        Tue, 28 Jul 2026 06:39:13 -0700 (PDT)
-Received: from localhost ([118.34.230.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde80ee56sm52793285ad.76.2026.07.28.06.39.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 06:39:13 -0700 (PDT)
-Date: Tue, 28 Jul 2026 19:09:11 +0530
-From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WympEKji"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A87501F00A3A;
+	Tue, 28 Jul 2026 13:56:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785246963;
+	bh=8AIcAbR0xjsaYfJnIWcSClSS5upVh0OYFPPy2rQ/0vE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WympEKjis5WhwlRHSKY1ULD7cjbDdEigV7OJN3bFHVZKe2eKTL72HSCwTBowULdUt
+	 ska7DC6i+JQ/yNgg4Fdk/H+VSHaKNZRZJ2JUqIB3wRkCf/PMOQ8tq0Io9L7IyM0S7l
+	 YdIGx/iH7M1oO0jAlJ8ilVX4Row0VR5PR/OAygH4BeT45iIhaQWtm9y+npqrdRuX0e
+	 me//+EW3RSq2oiYdATa9Y+8lVUrOUCuUc9kdyJX03Yfsl8lKlozie7lSkRGYxo8ENz
+	 Kk2pYaJsyfI5cnBONqVhOPgF27pqIJ74PlzZzYlrgnKAmmZWPZy6R3GUbJkAx0f8xM
+	 ubqZcXbOVHZqg==
+Date: Tue, 28 Jul 2026 08:56:03 -0500
+From: Rob Herring <robh@kernel.org>
+To: Suraj Gupta <suraj.gupta2@amd.com>
+Cc: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: trace: fprobe: fix 'thos' spelling
-Message-ID: <amiw_5EeKOErKhD9@acer-nitro-anv15-41>
-References: <20260726065633.20897-1-shaikhkamal2012@gmail.com>
- <20260728214645.1e0584e6e654bea696294662@kernel.org>
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, harini.katakam@amd.com
+Subject: Re: [PATCH net-next 3/7] dt-bindings: net: xlnx,axi-ethernet: Add
+ 10G/25G (XXV) ethernet
+Message-ID: <20260728135603.GA1807237-robh@kernel.org>
+References: <20260723123838.125145-1-suraj.gupta2@amd.com>
+ <20260723123838.125145-4-suraj.gupta2@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260728214645.1e0584e6e654bea696294662@kernel.org>
+In-Reply-To: <20260723123838.125145-4-suraj.gupta2@amd.com>
 
-On Tue, Jul 28, 2026 at 09:46:45PM +0900, Masami Hiramatsu wrote:
-> On Sun, 26 Jul 2026 12:26:33 +0530
-> "shaikh.kamal" <shaikhkamal2012@gmail.com> wrote:
+On Thu, Jul 23, 2026 at 06:08:34PM +0530, Suraj Gupta wrote:
+> The XXV Ethernet IP integrates a 10G/25G Ethernet MAC with an in-core
+> PCS/PMA driving a high-speed serial transceiver. Extend the existing
+> xlnx,axi-ethernet binding to describe it.
 > 
-> > Fix spelling error reported by codespell: thos -> those.
-> > No functional change.
-> > 
+> Add the "xlnx,xxv-ethernet-1.0" compatible and make the resource
+> requirements conditional based on the XXV compatible string:
 > 
-> OK, let me pick it up.
+>   - "dmas", "dma-names", and "phy-mode" are required.
+>   - Interrupt properties are not required as it does not have a dedicated
+>     Ethernet core interrupt.
+>   - "phy-handle" is not required as it has internal PCS and PMA.
+>   - Add the 10gbase-r and 25gbase-r phy-mode values used by XXV.
+> Annotate the existing compatibles, generalise the title to cover both
+> variants, and add an example node for XXV.
 > 
-> Thanks!
->
-Thank you Masami
+> Define properties at top level per binding style and use if/then to
+> constrain requirements and phy-mode per compatible. Forbid 1G-only and
+> unused ethernet-controller properties on XXV nodes.
 
-> > Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
-> > ---
-> >  Documentation/trace/fprobe.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
-> > index 95998b189ae3..46dd46a97c1f 100644
-> > --- a/Documentation/trace/fprobe.rst
-> > +++ b/Documentation/trace/fprobe.rst
-> > @@ -118,7 +118,7 @@ will be cancelled.
-> >  @fregs
-> >          This is the `ftrace_regs` data structure at the entry and exit. This
-> >          includes the function parameters, or the return values. So user can
-> > -        access thos values via appropriate `ftrace_regs_*` APIs.
-> > +        access those values via appropriate `ftrace_regs_*` APIs.
-> >  
-> >  @entry_data
-> >          This is a local storage to share the data between entry and exit handlers.
-> > -- 
-> > 2.43.0
-> > 
-> 
-> 
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+This looks to me like it should be its own schema file. The only shared 
+part is dmas/dma-names.
+
+Rob
