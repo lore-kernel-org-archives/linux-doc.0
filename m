@@ -1,199 +1,93 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CCC448CE0
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 14:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB4D448CF4
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 14:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785248726; cv=none; b=Tzn0+6p5tDA3Dl5WBsUc/mETCUD263f+Trv+EWYlMyhQJ5xanZ+pEWXmBpNJF+5FMEyKrQPHFs5Xe3haSDkyZZsUNOzoL9RQA8gj5F/8CiqIw5rcDaPwcYPDaxDg98zZGFTH3dU94F6ZvGIFiDEDRUKNUTQM9m5UHgzHvEqk3Lg=
+	t=1785248923; cv=none; b=UzJlMrM3rA0sS+Q4oNeQHocQ/VCgfeJ5eOPahIL/AN/GHN0Sv5IrCOVlc3ei/lAO3CWAgP37rTXXsIPjqoefoq2Z6rRcpvYebUN3O7kVLW9OPRd+tEKw5ZvaJl9BgwP0ey5CTnmA8K5KxUnmsHZmKXgMlNNfXCH1jd4wdHSFAHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785248726; c=relaxed/simple;
-	bh=5pXi4dgAo1m0sp77oTw62O1Q9wJLmYmFtoegNg07rZA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R8fe/+SmUJj7xKoW3fno7V+FutmL74eWlDixBNrEPEorkYaWTPILQqQrbf2tGkbX1yg8opU2LoIgYltIs0nH0/wZDd1dQ5Uj75JkNQQ2h1y+1cYgX6B5j2v6vX+kLvZL7GbfWhmSrGFscZ1jKOCbyNwm3G+t+JQLnZ2b4v35xDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+Hd9qTV; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785248923; c=relaxed/simple;
+	bh=2OPHohF7Jx1CUiT2WZtrD3EMChRIaLKF018CoLW/EZ4=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AHUfeyomfNqrdBjwYJ+akRHcgXt2Doy75x3pkAOHTIJjXWPBCWZSrDbaYo6lMQb4Ts4S7azOSAvVzqN7G8uQvRNm9Pol7mwElXw25pHmrohIHsCTPVAcyyz/s/czLkwT7sfPuIwC71SEh7zd0vDFz1OFvdGFdYqKzcA1xZnZJ0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kf+Y5Exf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+Hd9qTV"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc73e322dbso37049005ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 07:25:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785248725; x=1785853525; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mAjDSAgZ2SM25Sq8ILGGacbnA1ulD3BXrj3aZojkvoQ=;
-        b=I+Hd9qTVKczeqvIxEuLGaXEtA/u2MWaOJ0GrySOwjQXamqKda2QynOikZCPmqlVltM
-         wzmdZYDxvMOEIzZq1HrxlfUFcrVOt5WSTk7sSlN5mf4c1MHUJq/ryXuOvSH63+DkvmNj
-         3fAFLki31ORrBpefJgGlYytOZCvIcmfuu5NO370sZq0P2s4MABleGsXFT/l+GS8Y1I/S
-         omY/zkxLq2DTBAX9uTef2/wA/jJ6grsymCoDCgurEA1/Y9GFPSVHHRr1xGxpT/WV8Q7P
-         7IdOj5gu7+lXpgmKXgwLlB6VdhD8ZoAjBgP/6LKzukP27i5JZnTs4SOx+7r6eM+ZBJ5l
-         0FCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785248725; x=1785853525;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=mAjDSAgZ2SM25Sq8ILGGacbnA1ulD3BXrj3aZojkvoQ=;
-        b=GWYNj5jTXb6ae6whdytJfkk/mFFc9zGhARoa19z8K5/r0R4o1w2BJ2C1PrEskBtuDW
-         D8SbPQCszgl1hds2ycwOLx61zcj3yJXqwbcYMkzy9MePeQ7C9vvMrDNZxawbIJkexWKL
-         HsAJH4x/bsbOU0DSHnN2U0Li1y2ONaW+ivnoGD/UZEosgOPERXt96aD2Nt3dMFUvDtPi
-         vO1shnpIQs28pLhSZlBHS/QKwms2tbin+liyK48+62nJ/MUS3e8Fuewef+Vn8L19JwDN
-         JdsntsUzCzTPkWm0t3r2XtqpWGcUALV8pkpqYwlOuBCoLYuBVC6am6c1xwdQrF8/eJOM
-         dh6w==
-X-Forwarded-Encrypted: i=1; AHgh+Rp5qbofwFHoOK+n9kqvWJ4CoA6dIg68qyV7h7h3pLLv0YR5OQ0P/Bmf08f1PS9eUmHO8y7KBLFAGb0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPrFp3scwcIk9wynFmNEMTohvYE5lJSU5qsNZOlGt2Ry0xc/mG
-	v1btCHb6TsM2HPO3GfL6avVBqC3o80DcEx8vatwqZZiw3I9Oj5IC1yYN
-X-Gm-Gg: AR+sD104JRt4dkBj3Dd6Jw9j8+tqcnMDyWSpvvIml7WbPGPr5gExn7R3ezcvsBh9OY+
-	gEK26DD9vd05fIWxLRuUzjTbh0nJIwjnQR0WJKsGNqIIuln2AchUccv3ipD1jdrpFRjmoDXXiRB
-	4Vv9GAspEDMSlPtB6wQsToGdTF54F2IhMQ/LGhI/E/gIcwMUGpQLAePx93y4xp8Tva/gxvRQZub
-	PF58KhlNmVmDkLeE5R2nL2xN/gS9m8Gn5rmLfThgdKXZ/7tiVeP7ttVpReiU2j96CaAHAdiawul
-	hFcLZ8Kd+UQ8B68KbqC+zXhpH8IWY/vcttPz+j2vQgeUT6TQhtIO8C9bgM8hZR1oO9GVuCWQZtR
-	IpaiDSbHhn09FAiyKPYsvF+2nOdyGMcb+khOtz1G19/kcVO4IFJuO2LrEdAhjOFtyecjJc/F2Qo
-	BqwHPhzklQ0Lk0B/CdCXXrm1l7KNMosUT3artDtho5H9HxmsrRTLY=
-X-Received: by 2002:a17:903:46cd:b0:2cc:f7c6:8353 with SMTP id d9443c01a7336-2d015da2cdcmr30952985ad.41.1785248724721;
-        Tue, 28 Jul 2026 07:25:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc548efesm45553281eec.14.2026.07.28.07.25.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jul 2026 07:25:24 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9812bc9e-75c7-49b8-82c3-1e9162d53ccd@roeck-us.net>
-Date: Tue, 28 Jul 2026 07:25:22 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kf+Y5Exf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C7101F00ADE
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 14:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785248920;
+	bh=2OPHohF7Jx1CUiT2WZtrD3EMChRIaLKF018CoLW/EZ4=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Kf+Y5ExfZ0o5T6d2UOWTHhr6rWZgcvLO9EvvU5lhH8Kb0bc8ioT+fr8sE1ejrM5XQ
+	 P0fVRQR0izP5EXwuT5A3OXHYg6ui9UuFL4kXkIuG8zQrwpDlEjRY0uf5k9SJfs7u9K
+	 iM+NtBjv0Velu8S8t7I+ulBLGQBzWYrvHTxdgFdPsuGp1fe8JkezIr3HhV06S+vc4X
+	 3dWbRdX0v5eO1y1L0lU4lf1qnPleP9y88gRYaWffL0qMUUa6m+S2zrbtTzG2Zlay+0
+	 z0XvzBhqfajOFTqipn12bgkZyTC1SV7pFSjddNMyGG/jMXrYV1yEpuDOJ/AtZEF0Ri
+	 EmoiNH93VPpSQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aeba09900bso2605798e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 07:28:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqM229WEwkiC/Uymc8MTSPI5BoZE5y6KrfFZn4efAm+r9YgYctozOkkAcUXqYrThedmVuQwufxpYJ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxdzd8309f8znOygRo2dfOM/lQbYcuy77kw2RA/UKCnSg4jdTIe
+	98Mtzgr/Y8Fi919Mm+Si2WS1XiZk5IrBHsNSnSYiBafj1eTZpemsZosJSdOUaUnm8KabK9EIH3h
+	pGJ2r2sX+SkBKygTXf6NXF0qu5IDAXrXEN8w4Nz4FFg==
+X-Received: by 2002:a05:6512:1381:b0:5b1:5e9f:db79 with SMTP id
+ 2adb3069b0e04-5b2d023b53fmr547302e87.49.1785248919071; Tue, 28 Jul 2026
+ 07:28:39 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Jul 2026 07:28:37 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Jul 2026 07:28:37 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
-To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260728-dev-max20830c-v4-0-cec034298535@analog.com>
- <20260728-dev-max20830c-v4-4-cec034298535@analog.com>
- <336bd264-52ec-473a-b74f-5661f06286ed@roeck-us.net>
- <PH0PR03MB6351D7369AB790714DF416BDF1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
- <9559d319-4b44-45c2-ae13-f92099de4c89@roeck-us.net>
- <PH0PR03MB63510057D496CBE8EBFAE246F1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <PH0PR03MB63510057D496CBE8EBFAE246F1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260724-checkpatch-committer-sob-v1-1-68550513106b@oss.qualcomm.com>
+Date: Tue, 28 Jul 2026 07:28:37 -0700
+X-Gmail-Original-Message-ID: <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
+X-Gm-Features: AUfX_mziiQo7xcBaU68v4yfqE9p8ftW2Y7Fbdaowu4-NkPE5CNlke2OiK0Gaz6E
+Message-ID: <CAMRc=McFJaotv-Y=_hzHR5-1UL6d3Ggka0Nm3dSOkvn1UUijaw@mail.gmail.com>
+Subject: Re: [PATCH] checkpatch: Validate committer sign-off
+To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Andy Whitcroft <apw@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/27/26 23:58, Torreno, Alexis Czezar wrote:
->>
->>>>
->>>> Are those chips still not published ? I find MAX20840T, but no "C" variants.
->>>> And MAX20840T presumably has an I2C device ID of "MAX20840", not
->>>> "MAX20840C".
->>>>
->>>> I also noticed that MAX20810 and MAX20815 seem to be register
->> compatible.
->>>>
->>>
->>> I believe so yes, they aren't yet.
->>>
->>
->> I just hope they are really compatible, and that the device ID strings really
->> include the "C". The "T" variants seem to have no T in the device ID string,
->> making it a bit odd that it was (or will be) added for the C variants.
->>
-> 
-> Yeah the T is weird, but I did test the C variants and they do reply the 'c' char.
-> 
->>> Actually MAX20810/815 and a few more are next in line after this. A
->>> different person is handling it, but they're waiting on how this patches go.
->>>
->>
->> You are making yourself more work than necessary. Knowing that there are
->> more chips coming, the sequence of strcmp() is not really that desirable
->> anymore.
->> It might make sense to create an array with all chips supported by the driver
->> instead of adding up strcmp sequences. That would make it much easier to add
->> support for new variants.
->>
->> There also seems to be a MAX20830T. Does it actually make sense to list the
->> variants (C/T) in the first place ?
->>
-> 
-> Will think about how to make to scale the code when adding newer variants.
-> 
+On Fri, 24 Jul 2026 20:56:00 +0200, Bjorn Andersson
+<bjorn.andersson@oss.qualcomm.com> said:
+> checkpatch validates the Signed-off-by trailers against the patch's
+> author, but misses the opportunity to also validate the committer when
+> run with --git. Maintainers therefor need third-party scripts for the
+> final Signed-off-by check.
+>
+> git format-patch provides the author and patch content, but not the
+> committer. Extend the existing git log extraction to record the
+> committer identity.
+>
+> Extract the author sign-off comparison logic into a shared helper, and
+> use it to apply the same heuristics to the final Signed-off-by trailer
+> and committer.
+>
+> Emit COMMITTER_SIGN_OFF_MISMATCH when the final trailer does not match
+> the committer.
+>
+> Assisted-by: OpenCode:GPT-5.5
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+> ---
 
-Something like the following should do.
+I too would like to see this applied. The alternative is to get emails from
+linux-next maintainers after a bad commit is already published, which requires
+rebasing of maintainers' trees.
 
-const char *supported_chips[] = {
-	"MAX20830",
-	"MAX20830C",
-	"MAX20840",
-	"MAX20840C"
-};
-
-...
-	for (i = 0, supported = false; i < ARRAY_SIZE(supported_chips) && !supported; i++)
-		supported = !strcmp(buf, supported_chips[i]);
-
-	if (!supported)
-		return dev_err_probe(&client->dev, -ENODEV,
-				     "Unsupported device: '%*pE'\n", ret, buf);
-
-Then all you'd need to do to add more chips would be to add the strings to
-the supported_chips[] array.
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
 Thanks,
-Guenter
-
+Bartosz
