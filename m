@@ -1,167 +1,128 @@
-Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D9F157A5A;
-	Tue, 28 Jul 2026 03:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A9D313E31;
+	Tue, 28 Jul 2026 03:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785208299; cv=none; b=eNkJ/uUz7EVZ5XpsnP3nrD36R80B7+u0ImQ/rm6R+FUovK9j7+8djmXkWVs+lo3dnwX5GJRYhxK16A0ZxZ21DjF2iws4zgNF/Du58b2xKOVmbznKd9OKYFnp5Z8yb+8tI60PeWJP7xHUIx+VxN8fMjLs0MKMw7dJ/bqvU350DSQ=
+	t=1785208992; cv=none; b=MUUo0sIy0idkUIcrX/0W1LNZFtiv9S7KMmtQ4ndfVe+ShAMxPDHWL5X8NQ0/yXWD+OmnjhjxZDh3O/RcoWtwWVOaFQ8Tq8q5xavq4RMVOZuLJgPxCyQE+WcDBeERPH7Yi357kdT4Dnkn+KoDRk2/kkt2aZ2ttxDwqVKanMxCEB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785208299; c=relaxed/simple;
-	bh=PdoihRm1e7vxvvPOOFVCVQKhrcvkQ8ZgWThDglDacgk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U0Eb0MU3ZQ/vR/iS1IVFJdVozDl6NG9vnUUB5SortbK8+fLWCggEkegtGijbZtoC3AbDRqAdf4q/1gJjIxy3mKnMbM/GFz8GRSjftYYEYJmIvfkxJlqiKiUQ9cU6dm/hp+F6WFtMa21xwMqQ9+NvtqiipB4Yr0E7QgHDF57YLrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=seanlyon.dev; spf=pass smtp.mailfrom=seanlyon.dev; dkim=pass (2048-bit key) header.d=seanlyon.dev header.i=@seanlyon.dev header.b=pZ6/Owxu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gCaSapKR; arc=none smtp.client-ip=103.168.172.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=seanlyon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seanlyon.dev
+	s=arc-20240116; t=1785208992; c=relaxed/simple;
+	bh=cMnls2mQOzd6/FgU2e20t8wg4Cq4h/5U0x65lEN4mXE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UzDVttLpZ4o6ZlBZAwgYyyNuHz04NHjHtn8W2o017CEV9eASQoZTB1e2NB4mWoqPaqrK1abQzY6DD9F5RmxE4aQgLpr9Uc8OuaWkAIFfeQmuhjLRt5B5MXbGMnUmp5y78NQDLDF+w9ENBonJoBqvuwNxu138nBO6h3lqYvP3Xnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=m7P8IdWU; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=seanlyon.dev header.i=@seanlyon.dev header.b="pZ6/Owxu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gCaSapKR"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.phl.internal (Postfix) with ESMTP id 5C2111380110;
-	Mon, 27 Jul 2026 23:11:36 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 27 Jul 2026 23:11:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seanlyon.dev; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm1; t=1785208296; x=1785211896; bh=SqQ2CsDCggvfgd4Lrhhai
-	B509sLjt1YqIswq0JsSXG4=; b=pZ6/OwxuMe5/4MNgzGXGa6BiXwXkSO2azFbuU
-	YvlTKohwSwGrpdRvxpUHvS/+GVEYYBnH25ZiOeKBTgUZGAm+gxK0XIysb3BE3yFs
-	7/Ycmc0+CTMeZ/nuBkiD6Mcb8ZZww3HK2tGo1wq3lluZWOiSWw8abMXfG/MG1JVV
-	AX7v/tjJRX6UFlfoV2a74+XJyDjluC2VF6TlUHT13ZcI0qmXPYYzWolPFNBHn/VP
-	K33xBKxBbc1ipOl3KhZOPj9QQc69vmYArzW/YNKJPexD0KQxRIYwzudmHtO4rk4C
-	uDC/i7pH0iOZrX18R7/xZ3iv/DCL/Dye2vS8mkqYjX3F+JzCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1785208296; x=1785211896; bh=SqQ2CsDCggvfgd4LrhhaiB509sLjt1YqIsw
-	q0JsSXG4=; b=gCaSapKRq+VAwVq9R6kKGrg9AGS2SJmqG9f2Z3lTuBg34f3yZNq
-	wuz76/J/oURg61cxsRJfn8se70qP+/UnSyjU+0EcfyaSMKhRqN5HkRgClJX8IpLE
-	4SkYVCp0RADCBRLRG5b7pYXOdMPUAwEJ1MEIqGicN5TEeJQmJlSY2ThKMMFPnTFT
-	iFBtECNIwjUAJ7/UON6nBJBiISLbDHJMG9SZGSzUfQPhaXz29eGwQ/31Koa/tblB
-	26rigcYQ/f1opYna9y6ImcuisMcRo9sPrvdlVgi9THVmWED80IjsiW2EaxQ+FiHA
-	jUT0koiII9o+IAOk0uO+EGJmiBLkduRi+bw==
-X-ME-Sender: <xms:5x1oagOSEuzEMG1Dn1gAFOtZawE9EU39kVRM-FmmRgnVokPkTtJRwA>
-    <xme:5x1oanaTfHkIWQmI4jkI48K5j2V4ZiOuAGfsA4v80waMe-2TvsEJdlc7CXKYUwRBz
-    pfE7weFaRBkbUwAGuE3R9n6Z9dt5eliEsbhBkbN6FuthgK5ZIELBAg>
-X-ME-Received: <xmr:5x1oan_JVbTn1nAwHChDwWhAnwgksHhEK7aV8SC7CWmIE0BBBvX5gtPFYAsj7vQtIP9tGgC0QGRAqDVpXSlENqIRJ_3sKsByPUtiJigs54XPLnzxkNpfaw0ha3Vx>
-X-ME-Proxy-Cause: dmFkZTG2RvY6Y8e3m4BKqz8YmHvWgwre9lz/IhRRTwVPEeTHZ5P6tPkwcduRS/R+7WB3pR
-    FZyhCchHq7t9hgO+/eR8lFd6I7rvG1HpRrIpPZLQ6ismvFvxDrx9ZA5XdThHg2Xdgi0S1G
-    JkvOe6dHS3/w7RzlsPGCvQQ/1MqBmItNENFDO4Fr+BL+kaIHARdnZINEldPKIQEH93nYPJ
-    G2NHycNnOXPH/WnVZ2j3W4GKSNEv0igUz+o6t1wM0K8y+MwMLIQahIIYi1jcfGW4IMaX6w
-    nimyZOr2NjQBYkbiz6McF6ahp2lF5WjogAYAYZZcKsXOgxAUpeRlWYtabx72NZ7gD09bQx
-    eENHQ3JZcb4jyOEQrY43I8PBwd7ZT4THQyWs/fqMf9OxDLvtZM+c025pJrfnKOT0RH+X5d
-    KCItN+OdOhn53fSgVt73Nj70Zk/LGoM4TMr2K3YAjoNY1/ZvwnaVAKA3XyaZd5O/BbiRmq
-    rOfXY5wuGNe5SrpT/VA8iTCRso3N9ivqn2QAitlEJ71t184w9BxIpHaE2YlqmUsCA/16Dw
-    ulVQTWHI5sUT5DltHbbAsQdgIK6q4pRGgAoQQXs6H3iRTEm4LRR17awYfnsRZst5qwRlVo
-    pJVNFw4FuWqcvTkNdL9OJhB7d4R2sRp1q91T3xCVgblNjKIEUwwcF4yfUKZA
-X-ME-Proxy: <xmx:5x1oagTMbjYR6gwpJ_6iG0CPKeE5AjYFdJG7D20oxFdRRVdbX50F5Q>
-    <xmx:5x1oapeuzreUHeRh9b88dzHD1FXU1lPLoSng3tpStzD24qPADjxRQg>
-    <xmx:5x1oaqQBhQmFkb7q8B4MTdVJI6KfMJVLMUhr7GxpO1bRDSJ-J1u_fg>
-    <xmx:5x1oatLiaKTUpu-PkwaG9h8wv91dCJy0NLypokD83IzzYQRORI_gYg>
-    <xmx:6B1oarIIW7-lQdNUPiWEx-XGyh3xKCQ_Uu72fnvH1PzOCa55mdhX7csp>
-Feedback-ID: i07c64b5b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jul 2026 23:11:35 -0400 (EDT)
-From: Sean Lyon <sean@seanlyon.dev>
-To: Jonas Malaco <jonas@protocubo.io>,
-	Aleksa Savic <savicaleksa83@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	Sean Lyon <sean@seanlyon.dev>
-Subject: [PATCH] hwmon: (nzxt-kraken3) Add support for NZXT Kraken 2024 Elite
-Date: Mon, 27 Jul 2026 23:11:24 -0400
-Message-ID: <20260728031127.26553-1-sean@seanlyon.dev>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m7P8IdWU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=cJq5/saQiKHujaU2K/5PaaRxVtX17WJ1TBY7U3Eo0xg=; b=m7P8IdWUJNeInVd0uXQVrCQFX5
+	Y6rGZiajoTOUt8bJ7zTlZh1n+or4Y45zsRFQrW0h88HOW/ZWB4HUumLErD5fjqfbiwNGX4eHNygQD
+	uyALjDwkCXJQsXFqlscNozR2pmNXhZ6BZmQY2lWlKihdLPYH3hzwXMsZ7mziO/h0xvdLAInE0Wq7X
+	LRyBLMs2zMslA7DjzeOpYFyiYkREMqIVMa+mDxGc9RFYBo2ZqcV+D274I6ajIgXiLnj0IuWwn0zLW
+	i8nq/oYgD36g1wtdVbh1dfHSu+MXP1WIuAUh1K4kdAVZ/ynb4dhxFKj0SiEZEUdhNfbb1hs2g0xsn
+	y/DETNvg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woYPK-00000004KAh-3zsp;
+	Tue, 28 Jul 2026 03:23:06 +0000
+Message-ID: <c571b85e-e202-46fc-b3be-792b3a105fb9@infradead.org>
+Date: Mon, 27 Jul 2026 20:23:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: fix a few typo and wording issues
+To: =?UTF-8?B?5bKz56eJ5Z2k?= <yuebingkun@kylinos.cn>, mchehab@kernel.org
+Cc: jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+ hverkuil+cisco@kernel.org, sakari.ailus@linux.intel.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260728030748.45399-1-yuebingkun@kylinos.cn>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260728030748.45399-1-yuebingkun@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Kraken 2024 Elite (USB ID 1e71:3012) is protocol-compatible with the
-existing Kraken 2023 devices and works with the current Z53 code paths.
-Add its USB product ID and map it to the KRAKEN2023 kind.
+Hi,
 
-Tested on hardware: liquid temperature and pump/fan speeds read
-correctly (cross-checked against liquidctl), and PWM control of both the
-pump and fan channels works as expected.
+On 7/27/26 8:07 PM, 岳秉坤 wrote:
+> Hi,
+> 
+> This patch fixes a few small documentation issues in Documentation/ files.
 
-Signed-off-by: Sean Lyon <sean@seanlyon.dev>
----
-Note: the Kconfig prompt and help text currently list only the
-X/Z-series and do not mention the already-supported Kraken 2023
-(standard and Elite) models. I've left Kconfig unchanged here to keep
-this patch to a single device addition. If preferred, I'm happy to
-send a separate patch updating the Kconfig text for the 2023 and 2024
-models together.
+These changes look good to me. Thanks.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
- Documentation/hwmon/nzxt-kraken3.rst | 1 +
- drivers/hwmon/nzxt-kraken3.c         | 9 ++++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+> I am a newcomer to the Linux community, and I am eager to contribute
+> and learn through small, helpful fixes like this one.
+> 
+However, there are probably some process issues here.
 
-diff --git a/Documentation/hwmon/nzxt-kraken3.rst b/Documentation/hwmon/nzxt-kraken3.rst
-index 57fe99d23301..ee2d5d535fe7 100644
---- a/Documentation/hwmon/nzxt-kraken3.rst
-+++ b/Documentation/hwmon/nzxt-kraken3.rst
-@@ -13,6 +13,7 @@ Supported devices:
- * NZXT Kraken Z73
- * NZXT Kraken 2023
- * NZXT Kraken 2023 Elite
-+* NZXT Kraken 2024 Elite
- 
- Author: Jonas Malaco, Aleksa Savic
- 
-diff --git a/drivers/hwmon/nzxt-kraken3.c b/drivers/hwmon/nzxt-kraken3.c
-index 05525406c5fb..a185e8b27532 100644
---- a/drivers/hwmon/nzxt-kraken3.c
-+++ b/drivers/hwmon/nzxt-kraken3.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * hwmon driver for NZXT Kraken X53/X63/X73, Z53/Z63/Z73 and 2023/2023 Elite all in one coolers.
-+ * hwmon driver for NZXT Kraken X53/X63/X73, Z53/Z63/Z73, 2023/2023 Elite, and
-+ * 2024 Elite all in one coolers.
-  * X53 and Z53 in code refer to all models in their respective series (shortened for brevity).
-  * 2023 models use the Z53 code paths.
-  *
-@@ -25,6 +26,7 @@
- #define USB_PRODUCT_ID_Z53		0x3008
- #define USB_PRODUCT_ID_KRAKEN2023	0x300E
- #define USB_PRODUCT_ID_KRAKEN2023_ELITE	0x300C
-+#define USB_PRODUCT_ID_KRAKEN2024_ELITE	0x3012
- 
- enum kinds { X53, Z53, KRAKEN2023 } __packed;
- enum pwm_enable { off, manual, curve } __packed;
-@@ -927,6 +929,10 @@ static int kraken3_probe(struct hid_device *hdev, const struct hid_device_id *id
- 		priv->kind = KRAKEN2023;
- 		device_name = "kraken2023elite";
- 		break;
-+	case USB_PRODUCT_ID_KRAKEN2024_ELITE:
-+		priv->kind = KRAKEN2023;
-+		device_name = "kraken2024elite";
-+		break;
- 	default:
- 		ret = -ENODEV;
- 		goto fail_and_close;
-@@ -994,6 +1000,7 @@ static const struct hid_device_id kraken3_table[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_NZXT, USB_PRODUCT_ID_Z53) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_NZXT, USB_PRODUCT_ID_KRAKEN2023) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_NZXT, USB_PRODUCT_ID_KRAKEN2023_ELITE) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_NZXT, USB_PRODUCT_ID_KRAKEN2024_ELITE) },
- 	{ }
- };
- 
+E.g., the 2 lines above should not be part of the commit message. You can
+include them after the "---" line just after your Signed-off-by: line.
 
-base-commit: 858071a1ca5f9a3330b4559dab41565086ab4862
+> These changes are limited to spelling and wording corrections and do not
+> change behavior.
+> 
+> Signed-off-by: 岳秉坤 <yuebingkun@kylinos.cn>
+> ---
+>  Documentation/ABI/README                                        | 2 +-
+>  Documentation/ABI/testing/sysfs-edac-memory-repair              | 2 +-
+>  .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst         | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+
+and it's up to various maintainers as to whether the patch will have to be
+split up into multiple patches to be applied.
+
+> diff --git a/Documentation/ABI/README b/Documentation/ABI/README
+> index 315fffe1f831f..27c962e6a872c 100644
+> --- a/Documentation/ABI/README
+> +++ b/Documentation/ABI/README
+> @@ -62,7 +62,7 @@ Users:		All users of this interface who wish to be notified when
+>  
+>  
+>  Note:
+> -   The fields should be use a simple notation, compatible with ReST markup.
+> +   The fields should use a simple notation, compatible with ReST markup.
+>     Also, the file **should not** have a top-level index, like::
+>  
+>  	===
+> diff --git a/Documentation/ABI/testing/sysfs-edac-memory-repair b/Documentation/ABI/testing/sysfs-edac-memory-repair
+> index 0434a3b23ff3e..ab199132ffd8a 100644
+> --- a/Documentation/ABI/testing/sysfs-edac-memory-repair
+> +++ b/Documentation/ABI/testing/sysfs-edac-memory-repair
+> @@ -160,7 +160,7 @@ Description:
+>  		in trace events, such as CXL DRAM and CXL general media
+>  		error records of CXL memory devices.
+>  
+> -		When readng back these attributes, it returns the current
+> +		When reading back these attributes, it returns the current
+>  		value of memory requested to be repaired.
+>  
+>  		bank_group - The bank group of the memory to repair.
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> index 6f66ca38589e8..164cf0ad35931 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> @@ -67,7 +67,7 @@ subdevice routing table. This may be smaller or larger than the value of
+>  drivers may adjust the requested routing table.
+>  
+>  The kernel can return a ``num_routes`` value larger than ``len_routes`` from
+> -both ioctls. This indicates thare are more routes in the routing table than fits
+> +both ioctls. This indicates there are more routes in the routing table than fits
+>  the ``routes`` array. In this case, the ``routes`` array is filled by the kernel
+>  with the first ``len_routes`` entries of the subdevice routing table. This is
+>  not considered to be an error, and the ioctl call succeeds. If the applications
+
 -- 
-2.55.0
-
+~Randy
