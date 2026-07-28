@@ -1,127 +1,134 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E32439150B
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 16:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A8D39099B;
+	Tue, 28 Jul 2026 16:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785257687; cv=none; b=JiCVIboTUFN4KPVEJNtiDLHH6qqKf/Ar6G2P/7U4HinL6+FrYCibVl6N0vA1pzbTxxf/MBeAOqWQ6h5OnByDJei+XU5Iqs+4ufD0JQ+OeCV9xQDgSHW6iSgUzBGIoX5MqfJxDywTZO31z4g2Ok6+PoADgIfs7rfegDLMac0DHPo=
+	t=1785257755; cv=none; b=EGC0GbgzbZtte7552gQLzoJ74UkYP+L35cOE6X7YUmbqABirfyprz/21rwV/+Gl1/YWLvoldl98bLj7EfcHTYG30KUzx3yxuJPWvHXgJRVCANqJ3rmY64VtD7A5AEMuveSB4NRq9S0Vl7/RY4p8B2UanXF0qBQfRWzVUWxF6JC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785257687; c=relaxed/simple;
-	bh=jhSuL7gt9VIpF/6X00TJsqok9yskPwKTngvmyB336xs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hRp55ODMhwgVkqrhmIx0GgaiHZtBiMPb6zhd3RGSwzUf1xxDposEMFa7yCgrjdJfCrErMOkn+6GYWb3M5cMp5O9X1v2Ug/LyC3aJtodvR5vC4Xf1ARXbN7dpf6AS1YPhZev87iHQO2e495FKQGjaYvFSgji4J9ltCZ1AHG6+3RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L9BEWwb9; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785257755; c=relaxed/simple;
+	bh=NgbHZpVQ8/kf1iluMJBBDSuzlnizdyCmmijqCjCcOQE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kFu8pj3Tyn2WZIBuhJqyOwG+V9zfwSLYwpEem286ZrG38gfMvw6JDtPlDlc0dTBUr3CQQDXEyrj+gOYmkid4TE71dDss6jF76WJofYx5hXJAMcSvBAldwYf0rSVMXmCwWYOhB6l2e/gdZHsnFW3fdGht0LLM7QFYs0ASJm7ydWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BfPdBi9A; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L9BEWwb9"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47de0093c42so75908f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 09:54:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785257682; x=1785862482; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lW1gGRbXyp32cWc8RnOmCHBS0mWa+Js0uD7RvlhagQk=;
-        b=L9BEWwb9mNi3QHRZxtd7JNr4cvX7ydc+N+epqEtJSvddyzuWq8fcOlUSDFU7GeSXqP
-         nPqFi8lDfrqWyOVnsG7M2cibJmeYqDpXfWW13ftLfEUmb+r/VKKf1WXwQrw6qg2SRBNo
-         Zp34ZR5WXKIMESAoNhMw+f+jTJs39Pr6pT7WlcIrqiU/kAxJoIKp+B/lunlEYtnkbp8n
-         qCVYQyTmNyNoo8MA6PG3wdt2UU+4lG0dd7GpAOaiA/83l9IKDSC7FJw53a8OLDpji2Ah
-         WjAKZDeeDA88HpkLh5Pc+hMtnU4xAxOpUMBen0l9E0fHn4Yf4RIyWrylX0T230sMZYmi
-         A34A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785257682; x=1785862482;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=lW1gGRbXyp32cWc8RnOmCHBS0mWa+Js0uD7RvlhagQk=;
-        b=hKx2nIQbb5oORQrG5gUJlB1Ba6QapDxgl4dgz9jRhpKAG4eGeQwwsv84Z7HsyQdhH3
-         Azd8UHifeY53EY+1ZER58DiJ9ROk3a9S4fTF5YStd+HpbV3D7w2S/2KGDmZiAJlDNhOR
-         JkNr4cQM2Do8n3ZnIdSkRpZTPBS6UnfYeAnHgW48JU7j20P6YOg7Fc9jc/OQ5mOeJP68
-         wBdRxyGrmpsc7pGRBCay2JLKCuvDTF1fHL+uu+6vM8KLKT8n6Une3Ncy9crt934uy+4g
-         lpSj2HSh5SZ+Oep9ZvkH2ZXkSGA8PNeC964ope16zg5lZbxrIGSr9Q/eoAjCwt08ykF2
-         MwIg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro8Z+BPXaADiqpoVMN0+syhQiaIkjoEn2yBwgMNSPg5ZZHEXmbaD2VxVXX9eIlEYC5yzQiupXiqYBw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+jMuoz+8lu1svwd1MFLcOKY1Q6KFZHQAPJ4mJhEzi7Wog8EMk
-	Vbhw2DnBNQZSGsqKDdbXY2OkhpQMa6YDQ8gQ9x2K6UZ+XWhkuENb6I5V
-X-Gm-Gg: AR+sD11RsbirvKQyE3XNwU330QYF/Dbm2DjBnZusLLfrBdU+udiXgrno8MOGqDAR8KL
-	X/XN2eeV0KjCJ59O2eAYR0RfWFpbkA1+im/UYdjhYAZs6fiWjqcq9TDzR3HiSb9zScMJQE5q+bU
-	ICDAjuuVQ2Wun5iMNIvGFEDaD0GMYu5Z7JjC5USfJLfB7FRfz2aUiBspyBWJdV1PvnsUj8BihyL
-	zHYpD3Whau3EiVK86ApFULmp/9vMc7N8VNGQxuBnXJI0xnnlzs6azXuHiNMjBU6ZNlv0rLsRDnw
-	qzCLlrdR05eFoBCz2trVVbpLhZK/+CTfRGdGFSriD1glxeyNY9QQGb3ogv9//m1TzddBo1GK/mK
-	OTcHsDTCAaAxkpEs8H+WHV47260gRGE8J/g5HC8Obim+CJAByrhCGpVuhf9Euko+Rnqvecw==
-X-Received: by 2002:a05:6000:471b:b0:47f:90a4:ff41 with SMTP id ffacd0b85a97d-47fb1ebbdf8mr3941679f8f.58.1785257682051;
-        Tue, 28 Jul 2026 09:54:42 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6aa3a88sm495883f8f.6.2026.07.28.09.54.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 09:54:41 -0700 (PDT)
-Date: Tue, 28 Jul 2026 17:55:50 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, 
-	Marius Cristea <marius.cristea@microchip.com>, Marcus Folkesson <marcus.folkesson@gmail.com>, 
-	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>, 
-	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v7 1/7] spi: dt-bindings: Add spi-device-addr peripheral
- property
-Message-ID: <amjfAV5HvcIxOdv_@nsa>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
- <20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BfPdBi9A"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Zs6ggugRdYyXg9jsw/mL1a6CvW1NYKUX7RaqAdEwvak=; b=BfPdBi9AabkfDvxL3mkFSNs+sy
+	vAoHdvmVW6hCJ+0FrBXCu+HCKgRXIFPax1w7b4IfuOR+3cAxECSfsprwqRKvPMfwxnwl8iQl3ZKO+
+	Isfjb22HsfgfEfUkIlYQwabP2qbDlv9Oa8Nx55CxKiZSxSs/bGCO43HKefia8xtD+tGUC+yQUQqFw
+	dPdjcK0ssgEaP+8TiSJGHqqskd7RdvJpvWAj3OyWsCm6oHcqFIPa6KVax9Zn5J6EpAFPxj8o0zkf7
+	LXN6zJ7CWC0MKNW8/1j/uYSsGA1fGPEbMS0sDS8Z+AHh57522Y+AHtAsGL6x4bZH9Hp1EfZIKVIpw
+	7cZH5iEQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wol5l-00000005tBo-28uo;
+	Tue, 28 Jul 2026 16:55:45 +0000
+Message-ID: <b7773638-12dd-44a4-b075-2e6994dd9971@infradead.org>
+Date: Tue, 28 Jul 2026 09:55:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] Documentation: fix "should be use" grammar in ABI
+ README
+To: Weijie Yuan <wy@wyuan.org>
+Cc: =?UTF-8?B?5bKz56eJ5Z2k?= <yuebingkun@kylinos.cn>, mchehab@kernel.org,
+ tony.luck@intel.com, corbet@lwn.net, shiju.jose@huawei.com,
+ jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+ hverkuil+cisco@kernel.org, sakari.ailus@linux.intel.com,
+ linux-doc@vger.kernel.org, linux-edac@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260728041213.52820-1-yuebingkun@kylinos.cn>
+ <20260728041213.52820-2-yuebingkun@kylinos.cn> <amgu5cFN_imQgMf-@wyuan.org>
+ <f7a7b4d8-d044-491f-827c-ec929ee429ce@infradead.org>
+ <amhCmSxLtu4m6fXX@wyuan.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <amhCmSxLtu4m6fXX@wyuan.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
 
-On Wed, Jul 22, 2026 at 09:54:13AM +0200, Janani Sunil wrote:
-> Some SPI devices support sharing a single chip select across multiple
-> physical chips by encoding a device address in the SPI frame itself.
-> Add the generic spi-device-addr property for describing these hardware
-> addresses. The property is placed on the SPI peripheral node and may
-> contain multiple addresses.
+
+
+On 7/27/26 10:48 PM, Weijie Yuan wrote:
+> On Mon, Jul 27, 2026 at 09:31:35PM -0700, Randy Dunlap wrote:
+>>>> Signed-off-by: 岳秉坤 <yuebingkun@kylinos.cn>
+>>>> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+>>>
+>>> Usually, your "Signed-off-by" should be the last trailer.
+>>
+>> Hm, I disagree. The -by: lines are somewhat in chronological order, so this
+>> looks fine to me.
+>>
+>> Documentation/process/submitting-patches.rst says:
+>> """
+>> Standard sign-off
+>> procedure applies, i.e. the ordering of Signed-off-by: tags should reflect the
+>> chronological history of the patch insofar as possible, regardless of whether
+>> the author is attributed via From: or Co-developed-by:.  Notably, the last
+>> Signed-off-by: must always be that of the developer submitting the patch.
+>> """
+>>
+>> Yes, this doesn't address Acked-by: or Reviewed-by: lines, but in my experience,
+>> chronological order applies to all of them.
 > 
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> Ah, I remember this part. But I tend to believe that this description is
+> only relevant to the issue of the order of Co-authored-by and
+> Signed-off-by, if I were the newcomer reading this for the first time.
+> (In fact, I actually am a newcomer compared with you ;-))
+
+Yes, that's understandable.
+
+> That is to say, when dealing with multiple authors, we suggest using
+> trailers to represent the sequence of authors in chronological order.
+> 
+> Then, this will facilitate subsequent readers to understand the
+> development history of the patch through the order of the trailers.(?)
+> 
+> And, aren't these subsequent examples merely confining the discussion to
+> these two trailers?
+
+They seem to be but that's just a documentation deficiency IMO.
+
 > ---
+> <changelog>
+> 
+> Co-developed-by: First Co-Author <first@coauthor.example.org>
+> Signed-off-by: First Co-Author <first@coauthor.example.org>
+> Co-developed-by: Second Co-Author <second@coauthor.example.org>
+> Signed-off-by: Second Co-Author <second@coauthor.example.org>
+> Signed-off-by: From Author <from@author.example.org>
+> ---
+> 
+> Besides the submitting-patches file, It seems to me that the probability
+> of "Signed-off-by" appearing on the last line is much higher than in
+> other cases. Is this a usual practice? It seems that everyone tacitly
+> agreed to write "Acked-by" and "Reviewed-by" at the top, even though
+> they occurred after "Sob".
+> 
 
-Acked-by: Nuno Sá <nuno.sa@analog.com>
+I chose 2 files and looked at their "git log" history: MAINTAINERS and
+kernel/panic.c. In those files I see corroboration of my "claim," so I'm
+satisfied with it.
 
->  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
+> But of course, you have much more experience in this area, so my limited
+> observations may not be very representative.
 > 
-> diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> index 880a9f624566..b59d047cf117 100644
-> --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-> @@ -142,6 +142,13 @@ properties:
->      minItems: 2
->      maxItems: 4
->  
-> +  spi-device-addr:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description:
-> +      Device addresses used when multiple peripherals share a single chip
-> +      select. The array allows one logical peripheral to comprise multiple
-> +      physical devices, with one address per device.
-> +
->    st,spi-midi-ns:
->      deprecated: true
->      description: |
+> Thanks!
 > 
-> -- 
-> 2.43.0
-> 
+> ps. The Git project explicitly stipulates "Place this `Signed-off-by:`
+> trailer at the end". So at first, I wasn't quite sure about it.
+
+-- 
+~Randy
+
