@@ -1,122 +1,176 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C1623E33D
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 00:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5629C23E334
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 00:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785199921; cv=none; b=NIvlJzCvcHgwgXiqID6Ig/KdthTpled6gmeyz7CxOI85VB8ZNu0eNNlUgDHGxY+jB2+C6mSSJzhFU/+qVZdKASZ0QU515Dv3uQYvBUyFBnyRH9IKwbIKZHuYYPhJIXngyDZlzyeEtWqDHLdsEequ5tmYXgmSGXUg7uTWI42xKWU=
+	t=1785200064; cv=none; b=b+7P0dm5r0x0U4HN3Y9Ed7GcRVeFeGYrsU2BcoM0RfyCx4yXxo8wkNl8+PPe/60/cZwmHQyTwns0VbNOoyzRgInhdsfB0LAk3aqeJK9m1gtkjxOxs9sfiNyfRZClZkTeVIQDIKmNj0IZcy+GsKXfiOGwbkh8vzK0b7SsVx8vJIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785199921; c=relaxed/simple;
-	bh=f4H3IH81xz+uOCdrbsf7SRi0ExkOj3mz9Ecxb6nQTsQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=RMJ+qTGd6LcRwlcLhiwNpRfCGJgTzKxaM23CGNhkm2S+DMKFrdSdA/rQ27z2pTe2W8fOFDkW0nywFupP7dABvjxrn0hw7DeLeKFxNCDCL2aRFhEnoy/KoFCyTIDbs6zSWNEhg23tulhqTxPe0hU8KZF8wMZO91RVNogT8KRZkK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=svmCO/hg; arc=none smtp.client-ip=209.85.214.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1785200064; c=relaxed/simple;
+	bh=/dx0mWAxIaVHUUWGsJAglMEC5vbZJ2jL6OThFOp3oaw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AW2DBcDKKznrqiHId7jQBHF9TW2FO/YE7w+r7M++3eQpjavJRp1wbE2+MrtguADY2ViDK3WR53MX1OCgEHoOY6Adf8WsNq41D9Hrl1Jyv+1UIwh/cLgJrGEdzBIobn3tfv0PRCloyjhUjENgrp6EiJfSlhtvOpopgJgHvbSCLqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=lwjSPHtk; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="svmCO/hg"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2cfa4e4684bso89606715ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 17:52:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="lwjSPHtk"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-81eff3ddba4so42437367b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jul 2026 17:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785199920; x=1785804720; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GQi7x436nDykBGBr3THdmSxZ/qUpCFOrJDr01TocQQI=;
-        b=svmCO/hgcWGDPCkMI7bBY0J79vrJjcH51C393MSQImOG93bYozgXpz3EJuRdc+MFSb
-         IoD99nn3UTdrJ0jEEx64f82yToPdT35TMbW31Lj3O7RnzCIlwy0CgjACYYtgO7HKzs8f
-         qJrg/RcYP7T1eGxtAOPXe9Ay00ask67aUZXxwompFK/ofZh3UKF1UZ5nnvsIUum3ynW+
-         9qrBWzi4lhAtBEGflUbGFGiDwkz1jx9yUpceylV/GtDA5BjwLYr8LzVrxhw3HzPufCqv
-         Tver2Rzm07sNPQi1hW+DbpOVdGqLaA4tkd5nuVh8Tkldc7I5bVF/FDwOeb/2ziYsEe8J
-         e4Ow==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1785200062; x=1785804862; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/dx0mWAxIaVHUUWGsJAglMEC5vbZJ2jL6OThFOp3oaw=;
+        b=lwjSPHtk0iFx/qAfXdw+tTt3c+SeI3ahGEpzoLeLxVUDgvfQ+V+yNUo6wrUJae8yLt
+         lW8+Hxs7cVrsHCkG8/fmXbgnhHPIOM77FIPCzikg4kIwJtebwGpMqhIltDeitWKx7Kvq
+         QzAnKaYUpSxK+Ge22Km25j9UGnuy9raqJDAYhs02EUpSKRvfCXLFkXO7299z+wnJRRZK
+         WtsggCkH4w6wtGhWcecHIAou93Tcn+G/GoytYfqzVNE4ZK7iegLMoEFiVMNjnx4U6vbO
+         TM4X5C8MWU9JuEVGvL7h4PgSjO24DU3DYTnPluxWqwvnBtFMzynZBDy8ZzGGw0f106UL
+         eBLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785199920; x=1785804720;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GQi7x436nDykBGBr3THdmSxZ/qUpCFOrJDr01TocQQI=;
-        b=SFJ+CEGGnr/5/moeOFvekLHzJgS/XxyHH+QwZmYxhMndqFlJz4cfPf/4tAczEMcQ0I
-         bTKY3R3+E69wBIEgMIWxs3rslFAi/ivCdHM5FJLJX3mLyItLWPdF16nKtg8khpkNxT05
-         RI1IauWd1gj5Qy9kej+NU3wOr/ErtpGaMrvMlhuO2+int+tok8FfE9Zs1cy5ndidyesO
-         E3zIUobj5OdnxHRqiyaNH4jXuJ1Jb2w72BZ1uFj674mKO1pQQzDtZ1KfznQc+B7DZ/Vp
-         pxArY2T+Ht1r54dABVwG/EkwMiCDew1hdBVo3LvuABKzbGN5hZ6vNctvgxR0hPkMkOkK
-         xM8Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoLocPaGyVeidVO3ubBP64E/bmV4+qxD6rBpYpvTzd7b8FSOtcuQr724fkcSZP5AcimgNTqnhCQKP4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0N86ck/ZmCQBeXDGTGlvunKDZwhsFFtglaRONcVa8TyUz3+Ow
-	qh9n+g1lPYKS7vp6rABTkL4FqQAJE2312PohfkbrrpS0Jb5+HYp2WmjVy5VNLK0LkvArTlHqqnJ
-	Rg85s/g==
-X-Received: from plig13.prod.google.com ([2002:a17:903:458d:b0:2cc:ed0e:f302])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ce11:b0:2c9:e5ff:995d
- with SMTP id d9443c01a7336-2d015f01e44mr1928135ad.31.1785199919741; Mon, 27
- Jul 2026 17:51:59 -0700 (PDT)
-Date: Mon, 27 Jul 2026 17:51:59 -0700
-In-Reply-To: <b38f67187d3312c4bf2c9eddf89e14e8b10573d6.camel@infradead.org>
+        d=1e100.net; s=20251104; t=1785200062; x=1785804862;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/dx0mWAxIaVHUUWGsJAglMEC5vbZJ2jL6OThFOp3oaw=;
+        b=FgK5VLkV/6YAJykfmkHe+N3eD0p1pfowp9X+3saHPKl/AwJOfE6jh929YJ1j44PQPl
+         XQhdb/a05l53vkYnt+211rWhd7pZGfFssrnoQdCNW+NyIARXNEa0Mpw5WmtP4VZ6oPQN
+         e1v3kp28kY4MxeCCkTQd3rb4XS1pivR9glA5Wt6TcySxv0s++j4BaJAweB13jsO6mRCI
+         Hs363SOZ8TdJbSPHpBPbtuULPf0H9yxlk8GSzZOuuOwbCyvhRUeUwSKYapgrBLLIU2k0
+         OM8tpRtiXZWu/nHbZhhgQgEZC4WMxW13LEdRMD5WeOyjTpfW3kOjVzyFnEftAdZhVkwq
+         1Nmw==
+X-Forwarded-Encrypted: i=1; AHgh+RrssW2niQZVmOgrzaJZzQ6Qr3/sJPBy4gRpauDNXSkovdlYWA7fZn09Nd2hFAyHKq3twssACQYvRnc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz29WlxwZYg1UT/MqoMhJ+I31420sE3HNUMNVOUTpWsxWZttA+B
+	AjO1Ctsqvb/F5admkHJhf6xWXx99GDYIo4qSW/ijQJ+hALp+rBc2zSCFtuZGBVx9H3c=
+X-Gm-Gg: AR+sD10jjGdhFRUF5wNT46xTYHeNontAn59A6Vy1/NQKbNqv6sZ7WjraTQyaarX4Hs5
+	LK8UM89xcpoUbk3KBq6CgzSFi8Thzyhbc4OAZJ4nm3VII1InsT3B5agImNpb1wEa1wH9um9137T
+	yh9WdMADOWK9s8jIRb5hY632QB09BWteNF4Xa4imnnNppZSvqXyEVXpV6cmhf7ZqW58C9Yq5E/v
+	0KqPaWlVXiH4rYqTql1gGI6GFLyhuT61m3k7xajlLtlXgx4KUjt5cGlAfu54B36ZQtDwXmWWeFP
+	3Jj4nz4lViA22CO5HxAst4iVLVPn9AENNISATkE6kUHxtk2NfogK4QmIhq6FI1RuwvBaOCdgkCS
+	ADVCT70Mola894sXlAwcgXJ3F6l5U/hMCqzNo/4tqRGfJ7ehFuk1Hmt39sFJANrNSUZxlc9P9xS
+	xMbPr8D94zzON78D+n2OGusx2PNwqKAp/9cdIRB2tE7DKM4pUWf3Vjd59OqQCE/+G5uGBNJWk7o
+	DSzf5BnGFPXSToLCXe589ybMSPf79IE2uvrLNoQyPpJNVMfVdZ25VNjW1PBE4zHdgyj
+X-Received: by 2002:a05:690c:f06:b0:806:b6ab:a410 with SMTP id 00721157ae682-81f98f0fe37mr914147b3.0.1785200062238;
+        Mon, 27 Jul 2026 17:54:22 -0700 (PDT)
+Received: from ?IPv6:2600:1700:6476:1430:273a:c0af:6af:54a7? ([2600:1700:6476:1430:273a:c0af:6af:54a7])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81f6592eb29sm39767947b3.43.2026.07.27.17.54.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 17:54:21 -0700 (PDT)
+Message-ID: <357b5cca187ddd4651b6079434b728c403748bec.camel@dubeyko.com>
+Subject: Re: [PATCH] Documentation: fix grammar in description of nilfs2
+ recovery code
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Ryusuke Konishi <konishi.ryusuke@gmail.com>, Manoj K M
+	 <manojkm24dev@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-nilfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 27 Jul 2026 17:54:20 -0700
+In-Reply-To: <CAKFNMo=zApDzM10dv66TgcKcvJyzWmur=88zRpfK=br_BGY02w@mail.gmail.com>
+References: <20260725100658.1705-1-manojkm24dev@gmail.com>
+	 <CAKFNMo=zApDzM10dv66TgcKcvJyzWmur=88zRpfK=br_BGY02w@mail.gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260703212145.343527-1-dwmw2@infradead.org> <20260703212145.343527-16-dwmw2@infradead.org>
- <amPYq48J9TPbmFNl@google.com> <b38f67187d3312c4bf2c9eddf89e14e8b10573d6.camel@infradead.org>
-Message-ID: <amf9L65ZlPOqJm7A@google.com>
-Subject: Re: [PATCH v6 15/36] KVM: x86: Fix compute_guest_tsc() to handle
- negative time deltas
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 
-On Sat, Jul 25, 2026, David Woodhouse wrote:
-> On Fri, 2026-07-24 at 14:27 -0700, Sean Christopherson wrote:
-> > On Fri, Jul 03, 2026, David Woodhouse wrote:
-> > > From: David Woodhouse <dwmw@amazon.co.uk>
-> > >=20
-> > > The compute_guest_tsc() function computes the guest TSC at a given
-> > > kernel_ns timestamp. When the master clock reference point
-> > > (master_kernel_ns) is earlier than vcpu->arch.this_tsc_nsec, the delt=
-a
-> > > is negative. Since pvclock_scale_delta() takes a u64, the negative
-> > > value wraps to a huge positive number, producing a wildly wrong resul=
-t.
-> > >=20
-> > > Handle negative deltas explicitly by negating the delta, scaling it,
-> > > and subtracting from this_tsc_write.
+On Sun, 2026-07-26 at 08:12 +0900, Ryusuke Konishi wrote:
+> On Sat, Jul 25, 2026 at 7:07=E2=80=AFPM Manoj K M wrote:
 > >=20
-> > Does this need=20
+> > Include the word 'at' to make the sentence grammatically correct
+> > inside the description for nilfs2 recovery code. This improves
+> > documentation without changing the original meaning.
 > >=20
-> > =C2=A0 Cc: stable@vger.kernel.org
+> > Signed-off-by: Manoj K M <manojkm24dev@gmail.com>
+> > ---
+> > =C2=A0Documentation/filesystems/nilfs2.rst | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
 > >=20
-> > or is this a "technically a bug fix, but can't happen in practice" sort=
- of thing?
+> > diff --git a/Documentation/filesystems/nilfs2.rst
+> > b/Documentation/filesystems/nilfs2.rst
+> > index e3a5c8977..a0124d22a 100644
+> > --- a/Documentation/filesystems/nilfs2.rst
+> > +++ b/Documentation/filesystems/nilfs2.rst
+> > @@ -252,7 +252,7 @@ The following figure shows a typical
+> > organization of the logs::
+> > =C2=A0To stride over segment boundaries, this sequence of files may be
+> > split
+> > =C2=A0into multiple logs.=C2=A0 The sequence of logs that should be tre=
+ated
+> > as
+> > =C2=A0logically one log, is delimited with flags marked in the segment
+> > -summary.=C2=A0 The recovery code of nilfs2 looks this boundary
+> > information
+> > +summary.=C2=A0 The recovery code of nilfs2 looks at this boundary
+> > information
+> > =C2=A0to ensure atomicity of updates.
+> >=20
+> > =C2=A0The super root block is inserted for every checkpoints.=C2=A0 It
+> > includes
+> > --
+> > 2.53.0
+> >=20
 >=20
-> Honestly, there's so much hosed in kvmclock that we could debate a
-> cc:stable for half of this series. I'm not doing *any* of this to
-> actually add new features. For this one I'm not sure it's reachable in
-> practice; I think I did it mostly to shut Sashiko up.
+> Thank you for the fix!
+>=20
+> Viacheslav, could you please pick this up directly into your tree?
+>=20
+> Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+>=20
 
-Heh, in that case, throw a blurb in the changelog stating as much.  Knowing=
- that
-a bug is likely unreachable in practice is helpful, e.g. in the super unlik=
-ely
-case that this change breaks someone.
+Applied.
 
-> I think even in the KVM_SET_CLOCK_GUEST it can't trigger, although I
-> have fantasies about changing the way KVM_SET_CLOCK_GUEST works to fix
-> that final =C2=B11ns imprecision (which requires separate work on the
-> timekeeping core), that *might* trigger the negative delta here...
-
-
+Thanks,
+Slava.
