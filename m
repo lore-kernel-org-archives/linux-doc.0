@@ -1,177 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010059.outbound.protection.outlook.com [40.93.198.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD837472760;
-	Tue, 28 Jul 2026 19:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785266562; cv=none; b=JZPZHUt4KvKdXYNqtW/jUEBvNeepwwUDY4MZeINXNFRcx0a0vfvWqb+A5il/1tULKJo4UWGYrin9kqzMj/2VcYSSIfMjtgFwbmNRJ7dKDJqOaTKx5x7mW9FI8BCIdHHmAI4oVSY6/P67f9dLu7bK2hyLuihevPzwGT14zcGTyl0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785266562; c=relaxed/simple;
-	bh=RAybM5FwJCEXR6lQQGedKuEkTpFAt+pqpKOXqQeptXg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EA3z/sGt6yGkqMUK/m5dMKbekHMHriLDBrZjMWz1VEuwCnLc+6J9c2biQ+xqTgfY6LtUvv7Oo8oGueuPV4E9KDPI2+WqgCrFCVH8dQxjwD9LQIYPQDClUWlayE0cE5kl1Feg3pVDwrsTKuIeO2yFlRiCNV/KnRqyXC8aCSv1vCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SJDjusYW; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2BF1F3B85;
+	Tue, 28 Jul 2026 19:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785268004; cv=fail; b=rWhCFkm0t8TSXTAsHEbVry0ht61S2YMOvUIbkS0u3QBhXphZuv9Dje4jCkYh7gcEFsJ5atGAGbHyhe9jWKE6fAng0HkOPmnv6YqUj1ubbQaanWEl0U8Y+r0IhYWpmyd+YgxigwBfKGQpO27cWmbCnE7tTElkRVCGkacMwXQjzi8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785268004; c=relaxed/simple;
+	bh=9rZwNGgaXzLHLkvBYNFaymGxpUsldW2dyZ/pycyyeYY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GtRWj7P1WMTIgSJHtr7r6KMwXNPyXVaV6piiotbiHUIye9ogcMDmcXqaqAAcMBdj1YGGsHjvbO2G8dOC2/kgMe/Y6tZa15/XPXtYWBnOryZmM7ehARy7GahZVIguwLinGCiaKhcHXFdd/4v/gwiMeVC13vb0Byf+s8PJ5MjG5HY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GjFNhMyE; arc=fail smtp.client-ip=40.93.198.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SJDjusYW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC3EC1F000E9;
-	Tue, 28 Jul 2026 19:22:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785266559;
-	bh=Sg7X61+HXElaIBwpC5DPgqG06SdxhEtH8T/5QF3gGBk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SJDjusYWkQMn2jsrf3H5zsXY+niEzuNpEN0xhA2ntLi3CPQmzP0lDfPSONKYYJQZM
-	 j06TuAZgDKWQfIlTBmPtOwwGgZf6OAjeILlkP4GDfVszyRqZRbqUKFU/GMRvJsRSFt
-	 38G5xk1FgQ2hd985eoJPV50itBz3wh3pkOCZQwMivrcyS4I6/3CII3eV9vnb4IZphj
-	 3vrTcKqbhKmUcIZDnbGqQ2oxLquRD/y+dawcg44PGzdbzFdlFtIybwrp0gktbq4QGD
-	 kzp7HFf07zAB2sZzm0YTiVpDoL00dCZeOqPgOjyzWcJ9U6BcHaYj4G02SohIGnzevn
-	 OkCREhvB00Nug==
-From: Sasha Levin <sashal@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Sasha Levin <sashal@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vivian Wang <wangruikang@iscas.ac.cn>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 1/4] kallsyms: embed source file:line info in kernel stack traces
-Date: Tue, 28 Jul 2026 15:22:33 -0400
-Message-ID: <20260728192234.443651-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <e063df8e-3396-4ce9-9e66-27681af17fbc@suse.com>
-References: <20260709163833.3851179-1-sashal@kernel.org> <20260709163833.3851179-2-sashal@kernel.org> <e063df8e-3396-4ce9-9e66-27681af17fbc@suse.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GjFNhMyE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nAIEwIN3LyYA7/p7SQzbD7vqk/l/32Qo+UfF/vAEN1SLR5nrw6k/tQDOsyd9qNLKFp8PUnLWtvLXh3QYWE642l9oC1yif2eV4UM5wGrdbMwrKcZRqWnrB973IYLgBrXx4/IdCHAvwWGVysT7dC3RdLzKpOx0RVa9TcE0U85DOG+UCnuboX1ZlFQyiL0NjCsdKEwkkny5Xk3Wlm3cGr5Lw7nNXuKbvdL715+4/73n3gglN198SuCfKrWj+chyIDWIiEITM9h+yQnshmKdor8QQtGDEyeIS6xBrqUx/YvdLdwpH4MEzmfHZzpWQxmwBLip57V+oUJpRkPBh9tIbU3SSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5AvB/74zE92MM5bhNQoes4ZWP2IemkmpGrFwyE9cEfk=;
+ b=LmwyeY1SQMBypKecp99o7fAJARKFeyiT/9tQ0Mffi+73grwzCvn+R5Y1b7b1fHF0YKbGcPMzbv8PSsvNd0+zAaF3Ka1auPASzZW//jJ8b1XyhbrCgO7CpZTDMWKrK85YJPRaDb8hA7dMxrSckPw3UoCUPxFM6lrOU//Cc9Igv2y4+0ZpSUD4hVRPJ7fr3BKVHUrhnXA6qvI3H8aKCRUBAbooAvK3mzNiL4dpilCfNZd5ZhbulvjMZ5BOT1jPaefLAJATh4imVV09Y96Ij/+orWDF1tNGY9qRh0LC0KmQGTdSptmvRz9chUojNxGzMb5NDCdB/PH1EYbMIv9uSWdTmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5AvB/74zE92MM5bhNQoes4ZWP2IemkmpGrFwyE9cEfk=;
+ b=GjFNhMyEpcfDf5d+h4efUchZW5E07M1C3iJM3cQ86zGjIG5u5fx91VzpUZPViFtv65+Sqj1grS/NvycAAf8tWIh2HqJdVWhhSrqKyG5rIjNwcITQdcbPcjHdGkZ53ko66WCevxAK8VWJmvYC2oW0h08/Vsbjuoj4zhmxF4spB2w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by DS2PR12MB9688.namprd12.prod.outlook.com (2603:10b6:8:27d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
+ 2026 19:46:38 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0270.009; Tue, 28 Jul 2026
+ 19:46:37 +0000
+Message-ID: <2c098892-5d4b-402b-bdfb-59e3bf164c8d@amd.com>
+Date: Tue, 28 Jul 2026 14:46:34 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
+ "default" on boot
+To: Borislav Petkov <bp@alien8.de>
+Cc: tony.luck@intel.com, reinette.chatre@intel.com, x86@kernel.org,
+ Dave.Martin@arm.com, james.morse@arm.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, tglx@kernel.org, mingo@redhat.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, eranian@google.com, peternewman@google.com
+References: <8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger@amd.com>
+ <20260728191818.GBamkAeh7BD1d6Gd8X@fat_crate.local>
+Content-Language: en-US
+From: Babu Moger <babu.moger@amd.com>
+In-Reply-To: <20260728191818.GBamkAeh7BD1d6Gd8X@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR08CA0017.namprd08.prod.outlook.com
+ (2603:10b6:610:33::22) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|DS2PR12MB9688:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5b66a05-de52-4ef0-9601-08deece0ef8d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|10067099003|56012099006|4143699003|6133799003|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	mk0cZwtrQbfjHB+W1BWOAe4PZU6Alf5zWgahYQr5nPJ6sLKOlpRd+KS5FIbWOIpi/8+B511mxchUy54n2B4dtW4X/U3GNzzDr9LEt2CHkgXaBE9BJ/ITXIVnRQO5ueCnK//BX7qg2cUP67V4ixqS16iSYqiAVy3bzdY2TCW7SswyPqQB0stxbn40vfl4C6VsZGA5sN+zd/f7DQm0jGZZ35LIw9/i8aa1lG6Mq/WCMJwov/DnQlOEKleuRN3G4YzJztj3/Ox01i4p9iYCw3ERk2XSOhJlH24NlQec0s16mbdlVPInYb5a34STMdi30b3PSBBdRxH7i9yQkW1ziJea3pv3BfS84gwKJIfwqvevg9wbhRhlnn0C6rjFflz/R6Ggf7W/hEM5mmZVvlj18K6GGwHiQk4i9fZjbewnbcb+j5dYkC9Wy7N/2Wf7iQqO3Am+ao98of43Y3U7JrhFWbOfoELOV9luPTfToFdCQ81145IVWkyr/LwZBxWkYUU1zz7kQCcCggdswGsHgCkiq87Fq0en5oAymTzk9aUiBlW9qCS81oKWN20TBqK32Q7vH5Q7Ep2nK5oq54y60ojYkv2M79b5KRQa3r4VJnq8KiewVEtrThHx7D5Lj6Ads1B5m41pGEJ+9GEbAwgeMQ5Fu7/eeI2lL1J1Fbn2cYpTeWOnfw4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(10067099003)(56012099006)(4143699003)(6133799003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Z1BLNzNBcjF6T3dhV2hRQ1hBcklzRTVqdnk0Z29QTkZCVnJqa3psRXVWcnBk?=
+ =?utf-8?B?UlZmUVVQMWcvY0ZzOWowWUY3TFRXUHlDMitoaktZaVQvOHBZdWY4NzNMLzcv?=
+ =?utf-8?B?Smo0TkZWaDBCY1VjZXE2V2VLM243MFVkWFhDVFZGaXlRdHRrZlQ5QTlxdkp3?=
+ =?utf-8?B?cTVLaklULzZOV1BPQitEWjdZKzlQZkRkSU9CT3lnTmRCTEZqc3c5RnowNjYy?=
+ =?utf-8?B?cXkrR1o2Y1J4cnoxbGRKc2VyS0lac2tLRGs0aFFBd3ExQjhDVllyU1hsL1lU?=
+ =?utf-8?B?cDRDTmcyYldKcFZSNzBvS1VwdzRjcW0raGVRVWhUNFVxV3lNZDZMWmVwS3Jm?=
+ =?utf-8?B?dVJLZGN3MnlFU1NwanRvRXRCc0k1S2dnWSttVG1EZmZpK1hNMGs3NWxTTzY5?=
+ =?utf-8?B?SmNpVUIrZ1kyNmlIb29DbFI1QVIrdUJsNHV2ZzJjMW82aXE5dDZiRG5OK0k5?=
+ =?utf-8?B?My8xNUxoT3JEaUJqRXozSi9DMXlXYjZzQUorY2dMNHcySFpXakp2Z1NaanE4?=
+ =?utf-8?B?VjllL0JNSCtuS1pmeitzVWlNaEM1TFp1bjJrRzhJbXpWZk92bGpKbVVTejkv?=
+ =?utf-8?B?SHJ6VEFubCtYbU4vVVVhNmwyNkpNQW5ta0h4TWhJSW5OdE9FRFptaWtFYVR6?=
+ =?utf-8?B?d2F5bWxuNGljUnpEbFM0Tkg0Y2QzbzhOdmlZV0U0eWthVlR2M08vTGRaMUxO?=
+ =?utf-8?B?VjUvL04xS2hmU2JRaU1kK1p1a2d4bGg5UGRmbFhrclRhNHIrQUpacVZCb2cx?=
+ =?utf-8?B?OHl6NXZ5RUxLVDRHWmxTczFrZ2FFSXRtSFNRMUYrbURsdStJZXczK3BFLzNT?=
+ =?utf-8?B?Mk05SmhEb3NVSHdhd1NybGpsZ1Mrd3hGNTdmb0pqanh3akovc0Y1SjVuLzJt?=
+ =?utf-8?B?VXB4S1o4WGR0SWhFbWg0LzZOOWVhcUZva0tDR1cxOHQvMnpkTkxjRndVZFNO?=
+ =?utf-8?B?Y0J6eEprT0R2Q0psMFpHOUpJcnZwWDgrY1oraWp3Y0J0T3lTYTRTNzlQSVBs?=
+ =?utf-8?B?bUFTT2FlTmZlLzZPT1drYmhwZzhxT1l3S2N4SSt5VFFmRFF5WUZnV0REVVNy?=
+ =?utf-8?B?MEluOUJLMG9oamZYcUhaUktWVnpUVWR3Z0VHK29yeDUxeWdWSjNYSXhUNy95?=
+ =?utf-8?B?Ti90WS9ERXFxem5NN002bWc1YloxUTZueSsxTTJLT1AyMlc5Ym9YdjY4dTdB?=
+ =?utf-8?B?S1krUDVFSWNYd2pvVDlrNmlmSVZmenVHR0tyRTgyUElNS01WTlk5VU9EelBo?=
+ =?utf-8?B?VDVaejRIQmJPbFE5WDkvMzRRUitZZFZjOGlWMk00RHFoMG5MZmdXMWNHWnFB?=
+ =?utf-8?B?aTNyYkRjUVU3RElreEE0V2loYmdkdUw5YjlmRCs4WG04L2J0cWJFNlBuSmVV?=
+ =?utf-8?B?MmFtZzRmS3JZejlaUEQ5cmdUSCtrV0dmN29vb0RHN3FuWkVTTDdLSzFRUmxy?=
+ =?utf-8?B?SXVLdXk2clBlWll3OW9Ma2ZLeWhnYlZSMXlCNVh1dEhkelV2bTltYTF1ZzRp?=
+ =?utf-8?B?S000a09tRWNpb0lrWEswUDUrdmd5UkwxQ3N6RjNqWndCbHFFeFZaZ2VkTmRI?=
+ =?utf-8?B?YzJpSUpkWjBOSVpPb0dQWnhtZTBTZHRtNkcxZ0liYXRHRjBLbHpWVWpBaFFV?=
+ =?utf-8?B?R1dac3haOHFBNDlFWkV2aEZpdHBxMFg0SXh4aHo0MWdQajIwcGZEUGt6R0dV?=
+ =?utf-8?B?QzYxbEVWUW5QbHNkc3crWjVyU25hZXVuK2RQMFV5NjhiTHZpa2p4eEowU1lz?=
+ =?utf-8?B?R0t1VWZCRDRpYkVNb2I2Sm95am0rT1BoZ2I2TUp3RXdabmdGZUpuVEFyZlk1?=
+ =?utf-8?B?RGIwb1lNS2t6aUZRT1QwdWU3eUtDUFlwY2hZeHg5ZGFjTkNLTnAxT3JMSTZh?=
+ =?utf-8?B?MUYzcnpyT3F5NFl6dS9uSngyS0laZlBrb2F4Mi9ubEZwd1BKd2JOajJUVVZw?=
+ =?utf-8?B?MWRRTkZFTytTekQydWE4YzFleFJLTnJ3Z0RBdHNnZUJjQVpvZlpOYk9tWWp4?=
+ =?utf-8?B?Um1EWDVWcStaaVFnVUhBMHJuaml0QTVmbndtVXZiOW81Zi9LUVNwbFZnUjFR?=
+ =?utf-8?B?NXdPbWVTNC9VU04yQ01xc3V0WDJCWlhJOGk4dzhiOHNndjAxK1pmRjd1ZEo3?=
+ =?utf-8?B?MVVhQmk0K2d2WUpWS1o1eEdrNnBuYWp0VzhXYlRhdmM0Yk5WSUJiRllkVnZp?=
+ =?utf-8?B?VXRXMnk2NFNHbzJyNE1jaG5tdG5MdDVXZG1VNVl6SlJPZ1ZQQXMxck5BN3da?=
+ =?utf-8?B?TlY3UlpHUVdlM3EwTk5mQTUvblQvUTZxdVlDSG9KVkM0eTVVYUNHSTUvWEFy?=
+ =?utf-8?Q?Squg7nQ4eMa1LD21vm?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5b66a05-de52-4ef0-9601-08deece0ef8d
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 19:46:37.0007
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5dX+T5GFOggk089IUTDJt0fV0Figm5qJWy9iKSxQCBxEXO6INEjj+KW0e7m0Q9zd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9688
 
-On Mon, Jul 27, 2026 at 01:53:36PM +0200, Petr Pavlu wrote:
->I'm unable to reproduce these numbers. Could it be that the "stripped"
->vmlinux here still includes debug information?
+Hi Boris,
 
-Yup! the figure was taken from an unstripped vmlinux, so it was really
-reporting DWARF size. Will fix, and state the recipe inline so it's
-reproducible. Your numbers reproduce here exactly:
+On 7/28/26 14:18, Borislav Petkov wrote:
+> On Fri, Jul 17, 2026 at 04:13:55PM -0500, Babu Moger wrote:
+>> The kernel currently enables the ABMC-based "mbm_event" mode by default on
+>> hardware that supports it. However, this can cause bandwidth monitoring
+>> failures with existing userspace tools such as pqos.
+>>
+>> The pqos tool mounts the resctrl filesystem and creates 16 or more resctrl
+>> groups by default. On systems with 32 or fewer ABMC counters, this default
+>> configuration can consume all available counters, since each group requires
+>> one counter for local MBM and another for total MBM. If additional
+>> monitoring groups are created, counter resources are exhausted and pqos
+>> tool reports memory bandwidth counters as zero for those groups.
+>>
+>> Avoid this compatibility issue by leaving mbm_assign_mode in the "default"
+>> mode during initialization.
+> 
+> Question: why doesn't the default mode suffer from this counter exhaustion? Or
+> if it does, why is the whole issue better in the default mode?
+> 
+ABMC mode (also referred to as mbm_event mode) relies on ABMC counters, 
+and this system provides only 32 such counters.
 
-  no lineinfo:          51.1 MiB
-  lineinfo, before 3/4: 69.1 MiB  (+18.0 MiB / +35.3%)
-  lineinfo, after 3/4:  59.1 MiB  ( +8.0 MiB / +15.7%)
+By comparison, the default mode uses RMIDs, with up to 4096 RMIDs 
+available. However, even though the RMID space is much larger, the 
+hardware can track only 64 RMIDs concurrently. As a result, if pqos 
+attempts to monitor more than 64 groups, the reported bandwidth 
+measurements may become inaccurate.
 
->Nit: It might be worth explicitly mentioning libelf as a dependency [...]
->libelf and libdw are available on Arch in libelf, not elfutils.
->[...]
->Nit: Without more context, elfutils could be understood to mean the eu-*
->utilities [...]
->Nit: Again, I suggest mentioning both libelf and libdw for clarity.
+That said, I have not been able to reproduce any bandwidth inaccuracies 
+on the systems I tested. My point is that this may not be a significant 
+issue for the vast majority of users.
 
-Will fix.
+The possibility of reduced accuracy when monitoring a large number of 
+groups is the primary concern that Reinette has raised.
 
->Nit: raw_offset can be declared as `unsigned long` [...] Similarly here,
->raw_min can be declared as `unsigned long`.
-
-Will fix.
-
->The fallback output printed by echo includes -lz. Is this library really
->required by gen_lineinfo?
-
-No. Will drop it.
-
->Does gen_lineinfo need to define own hash map [...] Could it be replaced by
->the shared functionality in scripts/include/hashtable.h and hash.h?
-
-Will fix.
-
->Programs under the scripts/ directory normally use xmalloc() [...]
->The return value of strdup() should be checked for NULL.
-
-Will fix.
-
->Nit: This can be simplified [...]
->Nit: scripts/include/array_size.h provides ARRAY_SIZE().
->These two lines are unnecessary as the same code is repeated below.
-
-Will fix.
-
->I think using well-known top-level directories in the kernel tree [...] is
->rather fragile. [...] An alternative approach would be to pass $srctree and
->$objtree to gen_lineinfo
-
-Agreed, will do it that way. Reading them with getenv() rather than -D:
-kbuild already exports objtree, srctree and srcroot, and kconfig reads them
-the same way, so no Makefile change is needed. Each gets registered both as
-spelled and as realpath() so a symlinked tree matches either form, longest
-match wins.
-
-On your two caveats: realpath() is applied only to the roots, never to a
-DWARF path, since generated sources need not exist when gen_lineinfo runs --
-DWARF paths get purely lexical normalization. And srcroot is what covers M=
-external modules, whose sources are under neither srctree nor objtree.
-
-I'll keep kernel_dirs[] as a last-resort fallback rather than deleting it,
-so an object built outside all three roots degrades as it does today instead
-of dropping to a bare basename.
-
-Worth noting the rework is not just cosmetic: 1136 of 4450 filenames here
-carried a "./" prefix from DWARF directory entries (addr2line shows it too),
-which normalization removes, folding the file count to 4354.
-
->I think using ELF_C_READ_MMAP is normally preferred. Even better, this
->could use ELF_C_READ_MMAP_PRIVATE to avoid opening modules as read-write
-
-Will fix.
-
->The program has inconsistent error handling.
-
-Will fix.
-
->This output clutters the build log [...] It should probably be hidden
->behind a --verbose option and printed only when KBUILD_VERBOSE=1.
-
-Will fix.
-
-Separately, working through your review turned up two bugs, both of which
-v8 will fix with regression coverage:
-
-- Module lineinfo blobs are malformed. emit_section_table() emits the .Lhdr
-  label before its .balign 4, so table_offset (.Lhdr - .Lroot) points into
-  the padding and the kernel reads the header 1-3 bytes early.
-
-- The symbol-boundary check added in v7 over-corrected. Functions whose only
-  line row deduplicate() had collapsed, or that never had a row at their own
-  first byte, stopped resolving: 5017 here, including 1542 .cold fragments,
-  all __probestub_*, and the __ia32_sys_* compat wrappers. v6 printed these
-  correctly.
-
-Thanks for the thorough review.
-
--- 
-Thanks,
-Sasha
+Thanks
+Babu
