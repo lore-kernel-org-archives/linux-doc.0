@@ -1,78 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495FC3876A7;
-	Tue, 28 Jul 2026 04:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7669F31DD97
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 04:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785212646; cv=none; b=T5MT1C4zkUzwvXYnBhXXzCN42STW/AhOx3K6GwOw4wK/ZJC37RNOPiyTaLz2GTekF6O+uUVIAdXiPnuwh9v208TfB0VzJmkQNmT7ZSgmKUhCnLbAwjJkEbKvZGXssYXiZir6WPbol2fu9tzbmWQfCGSJrLBj/mpoUZ+VTt1/Q0k=
+	t=1785212669; cv=none; b=rsx+MjGIHN4oJPNAYCyPzhDhXHklW6G+2VPwbj0kyC0PW/yOrrsPWfFdc3Y0srUXNUwLdH3ibNjA5VNPvrUSFeKujXIwuJ+gSRZZUs16QwPYdPwaVo9QN6AoENSkWpO/bZ9bbYDTZ2UHM8oY8mVI0u2oQztrIUqN4iEdi8zmk7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785212646; c=relaxed/simple;
-	bh=TV0vn7xOGi/mH1KF8ZmxRN+1ZS3uwizd+ITrgJfAvzQ=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Hfa3dGgTu5rtkkrkZL988wolI+t81r+nu8c4BMtrT6aAdIUNhq6TX8PQPnNNi471nxZeOKXlEqk1PwGX/vhXToNdQA9lvOonbCu0PHps4HzjmchS+sj48of3/7H0axY1ddNqYHO3lu5AK58VarCoLQ/0yyNAsdBj+u44v+QKIXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Zk6eLt81; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785212669; c=relaxed/simple;
+	bh=MpvIIQNIJ0ROJhSJfeTcJDeX+LHTxPBJ1ncaeSzQw/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XS/TfG4TshgygxZiEoI6GQ9jEhBSLejBJNcDR24ao/ivDgpW66K/ymOep1w33k1ARuFRoHtGdLIRpH0dO8TmEldiq2FEpNmivxr7phs7qq9U4VYBxIkx0++BdjU7XL89/NFauwntdQ+KWR8nf/gJEv9SL2bnH9pRPMTx27OgGl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=GeOrLwwq; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Zk6eLt81"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD47B1F000E9;
-	Tue, 28 Jul 2026 04:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1785212643;
-	bh=PQyIhBnDSp1LeV5j63D6Dt0ddnF6P/tt+RnNOupEkLI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Zk6eLt81z8NT0gqcdR0ASwDusUAygxVuTdX3+9SkcYZjzBv6w/o0AK0w754iNu4Sc
-	 HybK6J4Th2iMENNUY3oEniHIGPeaxNSWE3hFyyIyRFaXokBHx0td3W28F7xOm6Svwm
-	 5bdIAtZ0o95LWV/SBC5RR8k0twaZwbGmQNQNgSHk=
-Date: Mon, 27 Jul 2026 21:24:02 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: Breno Leitao <leitao@debian.org>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
- <kernel-team@meta.com>, David Hildenbrand <david@kernel.org>,
- "Lorenzo Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya
- Horiguchi <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, "Liam R. Howlett"
- <liam@infradead.org>, <lance.yang@linux.dev>, Steven Rostedt
- <rostedt@goodmis.org>, "Masami Hiramatsu" <mhiramat@kernel.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive
- test
-Message-Id: <20260727212402.09baa9381ca426273fad4719@linux-foundation.org>
-In-Reply-To: <ee4982bf-ff45-8f0b-3b76-7ca19228f12b@huawei.com>
-References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
-	<20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
-	<ee4982bf-ff45-8f0b-3b76-7ca19228f12b@huawei.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="GeOrLwwq"
+Date: Tue, 28 Jul 2026 12:24:05 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1785212653;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vXUARuOmaJ86ymvTYoSBJEoyJRXwNThMLC1rJ7BHfnI=;
+	b=GeOrLwwq4u6V5HdK01Ev5Lvlr+PYMOJezyX5N4A19DEYKi8D4q7m5eugZizKFO2d5qGlA7
+	0tbA1HZwraRosq/ojhLsPX8EFRXowgB+afdi4JnU7Cm8ad0fqiGb6+xv13Z8UosJElx9sD
+	dGQKjT+z3ZZ+4mDfvTk5jCT+CRGCeHZCHAbdueoMrpwd1Qm38vu8bukCj/hd6MXbTKYmJn
+	bUcXYfuo2OvjLQYQXb/sFdG5nN4b7FTzbd2FIMhtGHqJkCjGipGZCUVRuiqOu+nf9YcTLn
+	YTvnC/8Sp8ujUoPq+zxez7KtwWAkMsAPCH9UQHH/w2KbQQFZK3nVkpP/YiS3pQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: =?utf-8?B?5bKz56eJ5Z2k?= <yuebingkun@kylinos.cn>
+Cc: mchehab@kernel.org, tony.luck@intel.com, corbet@lwn.net,
+	rdunlap@infradead.org, shiju.jose@huawei.com,
+	jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+	hverkuil+cisco@kernel.org, sakari.ailus@linux.intel.com,
+	linux-doc@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] Documentation: fix "should be use" grammar in ABI
+ README
+Message-ID: <amgu5cFN_imQgMf-@wyuan.org>
+References: <20260728041213.52820-1-yuebingkun@kylinos.cn>
+ <20260728041213.52820-2-yuebingkun@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260728041213.52820-2-yuebingkun@kylinos.cn>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 9 Jul 2026 11:34:05 +0800 Miaohe Lin <linmiaohe@huawei.com> wrote:
+Hi 秉坤,
 
-> > The script is intentionally NOT wired into run_vmtests.sh: every
-> > successful run panics the kernel, which is incompatible with the
-> > sequential "run each category in the same VM" model that
-> > run_vmtests.sh assumes.  It is also not registered as a TEST_PROGS /
-> > ksft_* wrapper so a default kselftest run does not opt itself into
-> > a panic.  The script is meant to be executed manually inside a
-> > disposable VM (e.g. virtme-ng), one variant per VM boot, and
-> > requires RUN_DESTRUCTIVE=1 in the environment as a safety net.
-> > 
-> > Signed-off-by: Breno Leitao <leitao@debian.org>
+On Tue, Jul 28, 2026 at 12:12:11PM +0800, 岳秉坤 wrote:
+> Fix "should be use" -> "should use" in Documentation/ABI/README.
+
+The diff below already documents that the changes is in
+"Documentation/ABI/README". I'm not sure if it is proper to write like
+this. But I also do not know what's the best practice to write commit
+messages for typos. Hope some friends could provide a better answer ;-)
+Of course, if the maintainer thinks it's okay, I'll be definitely fine
+with it.
+
+> Signed-off-by: 岳秉坤 <yuebingkun@kylinos.cn>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Usually, your "Signed-off-by" should be the last trailer.
+
+> ---
+>  Documentation/ABI/README | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> With Mike's comment addressed:
-> 
-> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+> diff --git a/Documentation/ABI/README b/Documentation/ABI/README
+> index 315fffe1f831f..27c962e6a872c 100644
+> --- a/Documentation/ABI/README
+> +++ b/Documentation/ABI/README
 
-As I understand it, Breno would prefer not to rewrite the selftest in C
-at this time.  IOW, we stick with the bash version for now and add
-"convert this to C" to the todo list, OK?
-
+Thanks.
