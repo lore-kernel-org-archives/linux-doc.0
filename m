@@ -1,106 +1,123 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7F83AA187
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 13:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9B53AB291
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 13:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785245796; cv=none; b=I0t4yJOHc3o3nFadGc4DL9dTbZuOQgZKAsnOSQN02txG4S190/VB/4OmV0mATz7OnxqMPPs3I23mnnNWb5h0G1+Vnan4wV2gPhaVwJDdpzHpw6XvnL+84C+cp2o01lh35LYkybXfF+wtOtZKMkrllpUm0xdYlw8+vvAyNiH+W08=
+	t=1785245955; cv=none; b=nt2do3C7mN95XSfgFjXK1fOPnwphr4OmS+F/1LUB1ufYrak4ECTgwgz9CzKEOmx+rA1xNyWS/ZWnpgVS2BLjnBPMIxcxMyERtPAn3ilY3RTQJLcFzH9VPsZm7lkKD/AuDoyJyGSxi7/WaYwYLdcATCC7y90cYBhyh1pJr7hDHN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785245796; c=relaxed/simple;
-	bh=vbgAs+zytInZMmC03u/fg4DFgbYYnZnec2JWVmP74ec=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k4EB9+eU/QThy4D7paalVDDuabwL+SgEKjNsvSrYsO9kWUAjYjDJRf9Z64i2wn1VJYp0/HAUcxnL+qw+0iMKxzAkwPGi7N/j/RF+Mpxf1xYni5a+LDCgU8WJJjd4Bp2KzOTP4EAafRsysPCV7vOjRb5l7NebzxB6R7vWVvB4UN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=URr+6M1t; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1785245955; c=relaxed/simple;
+	bh=m1hRgnx9KR+o6rJ46yZExEf2MnNgmZrIfD+GztQKaJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fslCU92yoWr7VQb6dNS/dCJE9VNqkYrz9Xj6a5+ylNrEdpDft7ALSKZg0klzl4brnGP8r7agKqth4bZHixIDMT2qvN/x7NddhEWse0aDRjr/1sAZ1mXcYHYiPQRB90W75SJtw+bApcUnk2mR0qYAV0kkNuyieczfsYc8E1rl0Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QCTRXEs9; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URr+6M1t"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38dd55ad76cso910034a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 06:36:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QCTRXEs9"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ce87c7e3bbso44165535ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 06:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785245792; x=1785850592; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VC94oBbot7aS8qu8J5xnlBGFIrty0y9sPy12nPBVO0Y=;
-        b=URr+6M1tdAcpm8tiOBWN8tEEZS92CA/4IA0k6wVaPjBkxUHWS0kfDzNLSDmBgAfzV9
-         Q7M5oOiRidlpZVvQAjM4wAMtup+8anMhhekdd1wBVDIDc4XSjYzFLDA+GeRxw0cMj61w
-         8i9Pm7IJKL/YJk30xr0i9N+7IcFyj2g+CgTMTKdCXu9qPpnLb1pg+hCrqzrdsDSok61V
-         k0bSoxH3l3WGvmE6XrrQ3ffAMKNH7En16TqfufIAu/HAhRvwwm5L1okCpWIM6ztzl2bG
-         BPcG6tUbWr/dNKKGKmzIFFwU/JDTi32MR8VZTYBlR+0OoMk2tFhy5BRvw/2eg4+FIXYS
-         ePBg==
+        d=gmail.com; s=20251104; t=1785245953; x=1785850753; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gWLSoQUrxbW8ffU1hMIvqVbw2cAnieAmgRFRZP9/rN8=;
+        b=QCTRXEs9IyUwJyWWXi8NydHdeEb+oC2X3K+o2u5JupICyfeKwCI4w4WhiAYrlf9keB
+         emaW0z9Gvk0p4VyLxlwLf5k0My1IoTp3BDPGT1QnDpHuNwThssRsUQ9UHVQsR3kobV0o
+         SCmnS5w+snhLkztBTty4dqMn4l/89FTYDBK94L4NMtlv3VujWwcqtm6FxwmvWUTuLf6w
+         xz062Gg38AtZ8z2XnoRxa8hljj37sn8Hf8VAFTiYvEsly5/B2LS0v5SB/dq7Wwam8mWG
+         rk7DdnsNwYHFNBHlG76yXRNYd1NUgUbTJguQcr+GIXAcOn9oWsJ8bqMu1o1Lcl8hfuCR
+         h6bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785245792; x=1785850592;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VC94oBbot7aS8qu8J5xnlBGFIrty0y9sPy12nPBVO0Y=;
-        b=GR2vrJL4gWRfRtl5pCuzzxEf4oNjdC8yqfcS/GFwtvq3XPeANnatm6ine6zcisdU/b
-         xQ7yDH5lyAAAz7nsdJQ7MPadK++yD5QP9seV558DEznFb2NAR7k17Bzcz4v0EJKbLCVL
-         6oPzdUfxhHB+sqGsl1tjXJClWbaEDHfdeqQlZquSSUh2sRoedPrPSt3AJ7ObV3jt+8af
-         xPr03pj9NjB5t6bhYnPgMNxoeDGOdc7ROg9yBuY75qThWfd85BB0Jws70UxSS3Yzf/Qm
-         3SJUMBZQPdQLFUuOeymzqYw6OMrxEoS8k3m0EclBcIBvrZ40XacvZ8RW6Fmp0kZsvI45
-         TVqw==
-X-Forwarded-Encrypted: i=1; AHgh+RoZHknBpvEQ28LOqoNBjoLzEU3Mj+b+Wvrf7qLAPyCZ6B1InY7HC6j+nV/Z6k711KbLZENuM8UDkYU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMbRbiaFRCRYWpa+3pWAUgPsKyJnOk0VxAY7Kk2IQLz7GWL5Gh
-	Tso7xvvFi6rDkP9C0klJMoZWmd0ylPPFJGDUeGDklSKLJKzVJ3GnGWQG
-X-Gm-Gg: AR+sD10GTjGECpe0yOkXZyJL9hmo36WAH3r4ewMUJ74jnxiDdU8MvYwn7vZS9AYm8Yh
-	loC+jjjGnflr3KEFbV8VV2D5lZo8DMhHR9irlOrW7yy+G57cI559FUrDRBnguIWjmz6mrqoyQw9
-	E39YtZrGuKxQICOvgAvwVSmV7VzdRGSC3JfBTzgJGuo/vlBvcwpPOpjT+74g82VaMBkOAI7V1/6
-	Zat0QARLhg3tA0h4U4Hiuqj/9CTvNlGQVTPTmz52StDS6jA8na6mbUtsHnNd5seK5DQ6ey6bhnX
-	3xSEMpFXhCdYKaOp8pUuO/Ls2hYvdTSmzDvg3UIhPJgaUn/67xZDMkOzoXSoycWqSTLfkVlNNJF
-	p1Rjb5MwEUdIlyC5lcPmBP0g+wP6hC9F0+da67Oq01+kbhjSKbIW+oU7K5Cxu2VgOPwF+Qky5uI
-	YMVaIat9ZY4G0SkyjjfFnWy2e78JrXbZ7y8VOOsgV7l3NW
-X-Received: by 2002:a17:90b:3ccf:b0:38e:7f22:f674 with SMTP id 98e67ed59e1d1-38f6a30cf0bmr2482576a91.11.1785245791765;
-        Tue, 28 Jul 2026 06:36:31 -0700 (PDT)
-Received: from ?IPV6:240e:38b:e68:3a01:5e90:ee3a:3c0f:c2dc? ([240e:38b:e68:3a01:5e90:ee3a:3c0f:c2dc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f642e342esm1352882a91.15.2026.07.28.06.36.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jul 2026 06:36:31 -0700 (PDT)
-Message-ID: <e137128c-0289-42e5-87ea-4de791cd1808@gmail.com>
-Date: Tue, 28 Jul 2026 21:36:24 +0800
+        d=1e100.net; s=20251104; t=1785245953; x=1785850753;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gWLSoQUrxbW8ffU1hMIvqVbw2cAnieAmgRFRZP9/rN8=;
+        b=Ml0fwyKZq21hs0sKEMJX8wAl8Fd+ZhcCDIlwfrcpbe+AVgDmwK+lYkG/BUeQUHlL1g
+         QVY5MX4Mw1vpiGuALWzgnbXlanaJQKPRLW5EBCATbSo5i4/J7HIwO+6lIkCfi0oFYzvT
+         WlJD/OG+pOfgPk+EwuSLZq7vY/YkgJV3JjISCwgOPpyUpg3xuAAWN1QqYuSL5hT3vghH
+         LwqLMOEnrBlG0ZKfy4fOVfBjnhkThdrxM0zDH1lTtWVhm0LF/81WzMOeB7k/E4x+WHFt
+         Fvhu/pbYKZ8K7knFoybKcL0mABNTj0CuuIsUfcH8NzPucsf4+pY2XamUZHaSv/k5g8Ew
+         in4Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rrus8N+bE01ZaS+ckCr5FEAKZxC3OXBcuxnVJ/mJdqa7ITrDaTiVnbUXAgJ6L7GUB3zaBaDXn3PMkw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8Gvfj6USazkhrLosZsE6O8oYvdBWb7wlrQL9i1/V0iW7gItKX
+	jgVs5OzwU1A9jD8Ffz/zrgY0HTnFdpqT+nF1w0BpsvokuE4fsi7c6vK1
+X-Gm-Gg: AR+sD12/k1mFoFdn5Y3o2KipLOQBSlpzXpLXo4FQIicCMoB3fR93WyMUzHQI4ytByIh
+	K4X51mh2sfZ+osSDhFS9CP0/0ywAAEAT2ZjSy6gfiZbruy8O3ZL7w54DPkGWDTkYev5ldbgnhKf
+	9G9ZNWZ/wuH5yGeISfRN1oPZrhhXGmmatko+rBwIyrKHaxk7C92ePy54ep3UxeKhll8yEGV9604
+	oSvNuRieQsglLZdA+ZcE0hsY3xUh4cmdIy4Pj0axIoDG5xdPrsdMHcfL051uHm1pFWWVxA80cuj
+	3abQYSkYwMsAIx3n0Z0D0Q8grVcdj2ojkI+HzoENTnGfiE+E31nWCxxkpKgFahQH3GBNW+vEl+4
+	EPtz5C2bN4ugqX5HG+uqEthO3LEOCN5Xd+iKKIEy4w4bh+tSd+57MjaLVNdQflJexlpeJVyYRul
+	oJ7oFSk1eDHT5duFQHzB+RyRk7y7TV5wl2MauR9tRxIRBkKVfwK7EssdDbHqF1uqI=
+X-Received: by 2002:a17:903:2308:b0:2cc:5fae:cc56 with SMTP id d9443c01a7336-2d015d22fd0mr28987505ad.27.1785245953525;
+        Tue, 28 Jul 2026 06:39:13 -0700 (PDT)
+Received: from localhost ([118.34.230.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde80ee56sm52793285ad.76.2026.07.28.06.39.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 06:39:13 -0700 (PDT)
+Date: Tue, 28 Jul 2026 19:09:11 +0530
+From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: trace: fprobe: fix 'thos' spelling
+Message-ID: <amiw_5EeKOErKhD9@acer-nitro-anv15-41>
+References: <20260726065633.20897-1-shaikhkamal2012@gmail.com>
+ <20260728214645.1e0584e6e654bea696294662@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/16] docs/zh_TW: Add a glossary for Traditional
- Chinese translations
-To: Chen-Yu Yeh <chenyou910331@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Alex Shi <alexs@kernel.org>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
- Weijie Yuan <wy@wyuan.org>, Hu Haowen <2023002089@link.tyut.edu.cn>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260728091038.171033-1-chenyou910331@gmail.com>
- <20260728091038.171033-17-chenyou910331@gmail.com>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <20260728091038.171033-17-chenyou910331@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260728214645.1e0584e6e654bea696294662@kernel.org>
 
+On Tue, Jul 28, 2026 at 09:46:45PM +0900, Masami Hiramatsu wrote:
+> On Sun, 26 Jul 2026 12:26:33 +0530
+> "shaikh.kamal" <shaikhkamal2012@gmail.com> wrote:
+> 
+> > Fix spelling error reported by codespell: thos -> those.
+> > No functional change.
+> > 
+> 
+> OK, let me pick it up.
+> 
+> Thanks!
+>
+Thank you Masami
 
-> +術語表
-> +======
-> +
-> +:作者: 葉宸佑 Chen-Yu Yeh<chenyou910331@gmail.com>
-> +
-> +本術語表列出Linux核心繁體中文（zh_TW）翻譯所使用的術語。zh_TW翻譯以臺灣
-> +慣用的資訊術語為準。新增或更新翻譯時，請依照本表選擇用詞，以維持整個
-> +zh_TW文件樹的一致性；若遇到本表未收錄的術語，歡迎提交補丁補充。
-> +
-> +下表同時列出常見的簡體中文（zh_CN）譯法，方便從zh_CN翻譯轉換或對照時
-> +使用。
-> +
-> +一般術語
-> +--------
-
-This is related with copyright. At last, you need to ask the original 
-author's permission, and give a reference here. I guess...
-> +
-
+> > Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
+> > ---
+> >  Documentation/trace/fprobe.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
+> > index 95998b189ae3..46dd46a97c1f 100644
+> > --- a/Documentation/trace/fprobe.rst
+> > +++ b/Documentation/trace/fprobe.rst
+> > @@ -118,7 +118,7 @@ will be cancelled.
+> >  @fregs
+> >          This is the `ftrace_regs` data structure at the entry and exit. This
+> >          includes the function parameters, or the return values. So user can
+> > -        access thos values via appropriate `ftrace_regs_*` APIs.
+> > +        access those values via appropriate `ftrace_regs_*` APIs.
+> >  
+> >  @entry_data
+> >          This is a local storage to share the data between entry and exit handlers.
+> > -- 
+> > 2.43.0
+> > 
+> 
+> 
+> -- 
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
