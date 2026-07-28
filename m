@@ -1,68 +1,68 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733F4430CE2
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 14:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CCC448CE0
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 14:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785248237; cv=none; b=hEHE6FL1w9kdGgmPNdocpIle7yQBg2pcVBpYgvkDfHtPdahkCD3cW71BGaU5oHQIHqyE5nCS2jsPGAoEI5OjKInmkFhqrHbzqYLAOwFttNsAPWNeOVobnMWz+quq/l2NqexyvOfINpCSbBSEQehyReKRH7xIXHzIySDYa7DDIJE=
+	t=1785248726; cv=none; b=Tzn0+6p5tDA3Dl5WBsUc/mETCUD263f+Trv+EWYlMyhQJ5xanZ+pEWXmBpNJF+5FMEyKrQPHFs5Xe3haSDkyZZsUNOzoL9RQA8gj5F/8CiqIw5rcDaPwcYPDaxDg98zZGFTH3dU94F6ZvGIFiDEDRUKNUTQM9m5UHgzHvEqk3Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785248237; c=relaxed/simple;
-	bh=as/tB2J1qJ/XmVAAS+U3LSRuI+LNUzFS2duMgwDmutA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=JpxxCkl0cBGARZIjlQG94o9Fk/5q4m4zoZiOsK7fbyXzij5Ngi6lhROiUscn68pXXkLNYC3u3TL73gEBOBlFHlQGEIs89IJ3GnealwjnclCQpADH+S7Wx8z8YCWMZbiYb348tNwxLAZ/jIC3UQbIrGbN3G8yBBmsbHMZMKIo8Xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bS+sqNBT; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1785248726; c=relaxed/simple;
+	bh=5pXi4dgAo1m0sp77oTw62O1Q9wJLmYmFtoegNg07rZA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R8fe/+SmUJj7xKoW3fno7V+FutmL74eWlDixBNrEPEorkYaWTPILQqQrbf2tGkbX1yg8opU2LoIgYltIs0nH0/wZDd1dQ5Uj75JkNQQ2h1y+1cYgX6B5j2v6vX+kLvZL7GbfWhmSrGFscZ1jKOCbyNwm3G+t+JQLnZ2b4v35xDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+Hd9qTV; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bS+sqNBT"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38e3efab7e0so898846a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 07:17:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+Hd9qTV"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc73e322dbso37049005ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 07:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785248235; x=1785853035; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785248725; x=1785853525; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AemIBNPvyLNz8qFstYKlP7drLF6IsiF6+LqbZEPn79A=;
-        b=bS+sqNBTYLRaQXGBHJOndScqXiK2o5KGqzLYGBIxRGOSoL17JinihpYIR4O1LcqwSi
-         k8bYbosA8KNVwYXUBM2zlRYvlABgl2gBS5nN8DwCd2k1f0vmUZLnR/uG8wUJxWrJ9qYg
-         LwUMp1P4jcLBH5cH+ipoBX1BXwiRaGP4Jh53+QecY42pQnsUuDwPQGMZ2LRTmRLEv6QQ
-         60XWsGbOdmup22PWxXuzaS5uniyUh9xu5STR6hNgR0LFbed7Z5u6xqGELzlbx5JSdmlj
-         /Z+SmGFm342h/CEGjuywk+WE/R00R7Q9yjyM1B9iw3W/rYod7hZ+BTge6aBdIx+nbbNJ
-         hGeg==
+        bh=mAjDSAgZ2SM25Sq8ILGGacbnA1ulD3BXrj3aZojkvoQ=;
+        b=I+Hd9qTVKczeqvIxEuLGaXEtA/u2MWaOJ0GrySOwjQXamqKda2QynOikZCPmqlVltM
+         wzmdZYDxvMOEIzZq1HrxlfUFcrVOt5WSTk7sSlN5mf4c1MHUJq/ryXuOvSH63+DkvmNj
+         3fAFLki31ORrBpefJgGlYytOZCvIcmfuu5NO370sZq0P2s4MABleGsXFT/l+GS8Y1I/S
+         omY/zkxLq2DTBAX9uTef2/wA/jJ6grsymCoDCgurEA1/Y9GFPSVHHRr1xGxpT/WV8Q7P
+         7IdOj5gu7+lXpgmKXgwLlB6VdhD8ZoAjBgP/6LKzukP27i5JZnTs4SOx+7r6eM+ZBJ5l
+         0FCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785248235; x=1785853035;
+        d=1e100.net; s=20251104; t=1785248725; x=1785853525;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AemIBNPvyLNz8qFstYKlP7drLF6IsiF6+LqbZEPn79A=;
-        b=dIWpUlutrryp0x0OIxhirPXqaXEfeUlPlowKham7GqKnLvUpp1HLInZiBTakuw8fu5
-         tWbhbLhnrwv83K82ekgaLtEJm1EsWtXXiGZpBK1A4wW8P698sOwHFFDQcUPpsTscuxDW
-         X49QgqWQLhtedL1Rdk9feP2wrujaqDSf67ni0oV+R0cNtpN507aMZQdTuVahqW5e7wsn
-         PmFP5PDkrHv/575g3cOuNFL7i/6AVKrjNctLNUc7eZY+zpRF/7jqlobGKiDZlHp9XyHY
-         aueWh8UoG/mtA5lZGh4bCCeK+tax/NQR7JBwGUCm9xmCM0ENedGFhBtWHSDyEyoJpJs/
-         V1OA==
-X-Forwarded-Encrypted: i=1; AHgh+RorkhIqHzRwZB54lV0hSO1J82zIxv2cqxxtQqXsMNB+EhqwgJahSlhZvMPzfIP8HT9csYXrhviSMHM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKup5eQWRVqmmsx3yvbZ1kqBVQJtxwOLWUzpVuJTsAFNFF9J5U
-	9Yz7eIZWU3stYWvJVL4EDhN2JFlshJZM2mfedMjzx7MuXVN0uKshbEw5
-X-Gm-Gg: AR+sD10WLvc05aBzcYyTkWbixYGTbXRP97slpSd19qgs2tDXvbXqR1HKXzbBRXBb7ZQ
-	mNcbTO2zbFfAkM51lQm2ah6pvCQNQyilj4GIRGrLzkQuKLJTXmDJ8YWVub8e2ZI4wXwdDWoEUCj
-	LYpUPVKrS88TV9ZZee5K6r3lnBUduOtqgCFjvGaZBaCzOJ3yJ6RMvNH9y+0XIkwW2EvFsZisMuF
-	vP7ZyKrfpMo+tQMRubM61nzRsLDnplIOh9ZAnI2gnNf6ogB912JMgPbOBO9anGQ59J9AcArOH/4
-	KuqqkcV6yUxICL4XJhFD3fY+Y2Eij4LPGBTPOFnXAhNCmaCVOGDjdRXJKYW2RFwiBWipS6RHh34
-	TveMy9gjXkXYmUx0EjzLdafHlhONK6fsK9uz0tboWcCpNHTCtMoLzoqbWTIrrqdaOitSyO6w/gI
-	P4sYdwkRGx2AzATkBdmAIC8ZKnTDzFaJXUn2xAeyApeu15T1i3BFA=
-X-Received: by 2002:a17:90b:1a8d:b0:38e:6d55:b1a6 with SMTP id 98e67ed59e1d1-38f6a20d0e4mr2580594a91.3.1785248234687;
-        Tue, 28 Jul 2026 07:17:14 -0700 (PDT)
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=mAjDSAgZ2SM25Sq8ILGGacbnA1ulD3BXrj3aZojkvoQ=;
+        b=GWYNj5jTXb6ae6whdytJfkk/mFFc9zGhARoa19z8K5/r0R4o1w2BJ2C1PrEskBtuDW
+         D8SbPQCszgl1hds2ycwOLx61zcj3yJXqwbcYMkzy9MePeQ7C9vvMrDNZxawbIJkexWKL
+         HsAJH4x/bsbOU0DSHnN2U0Li1y2ONaW+ivnoGD/UZEosgOPERXt96aD2Nt3dMFUvDtPi
+         vO1shnpIQs28pLhSZlBHS/QKwms2tbin+liyK48+62nJ/MUS3e8Fuewef+Vn8L19JwDN
+         JdsntsUzCzTPkWm0t3r2XtqpWGcUALV8pkpqYwlOuBCoLYuBVC6am6c1xwdQrF8/eJOM
+         dh6w==
+X-Forwarded-Encrypted: i=1; AHgh+Rp5qbofwFHoOK+n9kqvWJ4CoA6dIg68qyV7h7h3pLLv0YR5OQ0P/Bmf08f1PS9eUmHO8y7KBLFAGb0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPrFp3scwcIk9wynFmNEMTohvYE5lJSU5qsNZOlGt2Ry0xc/mG
+	v1btCHb6TsM2HPO3GfL6avVBqC3o80DcEx8vatwqZZiw3I9Oj5IC1yYN
+X-Gm-Gg: AR+sD104JRt4dkBj3Dd6Jw9j8+tqcnMDyWSpvvIml7WbPGPr5gExn7R3ezcvsBh9OY+
+	gEK26DD9vd05fIWxLRuUzjTbh0nJIwjnQR0WJKsGNqIIuln2AchUccv3ipD1jdrpFRjmoDXXiRB
+	4Vv9GAspEDMSlPtB6wQsToGdTF54F2IhMQ/LGhI/E/gIcwMUGpQLAePx93y4xp8Tva/gxvRQZub
+	PF58KhlNmVmDkLeE5R2nL2xN/gS9m8Gn5rmLfThgdKXZ/7tiVeP7ttVpReiU2j96CaAHAdiawul
+	hFcLZ8Kd+UQ8B68KbqC+zXhpH8IWY/vcttPz+j2vQgeUT6TQhtIO8C9bgM8hZR1oO9GVuCWQZtR
+	IpaiDSbHhn09FAiyKPYsvF+2nOdyGMcb+khOtz1G19/kcVO4IFJuO2LrEdAhjOFtyecjJc/F2Qo
+	BqwHPhzklQ0Lk0B/CdCXXrm1l7KNMosUT3artDtho5H9HxmsrRTLY=
+X-Received: by 2002:a17:903:46cd:b0:2cc:f7c6:8353 with SMTP id d9443c01a7336-2d015da2cdcmr30952985ad.41.1785248724721;
+        Tue, 28 Jul 2026 07:25:24 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e6461ef84sm31636283c88.14.2026.07.28.07.17.13
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc548efesm45553281eec.14.2026.07.28.07.25.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jul 2026 07:17:14 -0700 (PDT)
+        Tue, 28 Jul 2026 07:25:24 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1aeec2cc-490b-44b8-9c93-64caf7f961f4@roeck-us.net>
-Date: Tue, 28 Jul 2026 07:17:12 -0700
+Message-ID: <9812bc9e-75c7-49b8-82c3-1e9162d53ccd@roeck-us.net>
+Date: Tue, 28 Jul 2026 07:25:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,14 +70,22 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/2] hwmon: add Altera SoC FPGA hardware monitoring
- driver
-To: tze.yee.ng@altera.com, Dinh Nguyen <dinguyen@kernel.org>,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <cover.1784785709.git.tze.yee.ng@altera.com>
- <d29d05f8bc25a89a0dbf59c8a0bb705f676a58a0.1784785709.git.tze.yee.ng@altera.com>
+Subject: Re: [PATCH v4 4/4] hwmon: (pmbus/max20830): add support for max20830c
+ and max20840c
+To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260728-dev-max20830c-v4-0-cec034298535@analog.com>
+ <20260728-dev-max20830c-v4-4-cec034298535@analog.com>
+ <336bd264-52ec-473a-b74f-5661f06286ed@roeck-us.net>
+ <PH0PR03MB6351D7369AB790714DF416BDF1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
+ <9559d319-4b44-45c2-ae13-f92099de4c89@roeck-us.net>
+ <PH0PR03MB63510057D496CBE8EBFAE246F1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -123,23 +131,69 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <d29d05f8bc25a89a0dbf59c8a0bb705f676a58a0.1784785709.git.tze.yee.ng@altera.com>
+In-Reply-To: <PH0PR03MB63510057D496CBE8EBFAE246F1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/22/26 23:02, tze.yee.ng@altera.com wrote:
-> From: Tze Yee Ng <tze.yee.ng@altera.com>
+On 7/27/26 23:58, Torreno, Alexis Czezar wrote:
+>>
+>>>>
+>>>> Are those chips still not published ? I find MAX20840T, but no "C" variants.
+>>>> And MAX20840T presumably has an I2C device ID of "MAX20840", not
+>>>> "MAX20840C".
+>>>>
+>>>> I also noticed that MAX20810 and MAX20815 seem to be register
+>> compatible.
+>>>>
+>>>
+>>> I believe so yes, they aren't yet.
+>>>
+>>
+>> I just hope they are really compatible, and that the device ID strings really
+>> include the "C". The "T" variants seem to have no T in the device ID string,
+>> making it a bit odd that it was (or will be) added for the C variants.
+>>
 > 
-> Add a hardware monitor driver for Altera SoC FPGA devices using the
-> Stratix 10 service layer. Sensor channels are selected based on the
-> service layer compatible string.
+> Yeah the T is weird, but I did test the C variants and they do reply the 'c' char.
 > 
-> Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-> Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
+>>> Actually MAX20810/815 and a few more are next in line after this. A
+>>> different person is handling it, but they're waiting on how this patches go.
+>>>
+>>
+>> You are making yourself more work than necessary. Knowing that there are
+>> more chips coming, the sequence of strcmp() is not really that desirable
+>> anymore.
+>> It might make sense to create an array with all chips supported by the driver
+>> instead of adding up strcmp sequences. That would make it much easier to add
+>> support for new variants.
+>>
+>> There also seems to be a MAX20830T. Does it actually make sense to list the
+>> variants (C/T) in the first place ?
+>>
+> 
+> Will think about how to make to scale the code when adding newer variants.
+> 
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Something like the following should do.
 
-I assume that the series will be applied through some other maintainer tree.
+const char *supported_chips[] = {
+	"MAX20830",
+	"MAX20830C",
+	"MAX20840",
+	"MAX20840C"
+};
 
+...
+	for (i = 0, supported = false; i < ARRAY_SIZE(supported_chips) && !supported; i++)
+		supported = !strcmp(buf, supported_chips[i]);
+
+	if (!supported)
+		return dev_err_probe(&client->dev, -ENODEV,
+				     "Unsupported device: '%*pE'\n", ret, buf);
+
+Then all you'd need to do to add more chips would be to add the strings to
+the supported_chips[] array.
+
+Thanks,
 Guenter
 
