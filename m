@@ -1,99 +1,158 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A1A40A93B
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 21:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707DF409635;
+	Tue, 28 Jul 2026 21:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785273434; cv=none; b=olXd2pcDm82ssPprEnnUg09hmJDXOHZiORMPWwZNTO4WgHgbj8fBLD9Yub/gNc1mxMm33vyBIr1HsdLf8tI2XYjkbyz2u9zCl0/u/O9WJuXHaP+H2fK+GUDHrmyNIx9qhAhnT9l7RcCitYO6PL+oR2M+E/1hn0o6iajKpAQriM4=
+	t=1785273446; cv=none; b=ga5bfaycRuWokyza0mn/iPK68k/E6V9/UsjbH1YNbLvMn4SCbpKJh8iGWOOgRz5EjaqW3iNY/0zie06P1TA5t47ewZL5fhB3lr3dKa9viEqqVs6p1qmWrD2V+etZy5TNstTA6Ba/xb7JQNwGtKgQjecu2hJNhGrQJ4O8pHyxBG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785273434; c=relaxed/simple;
-	bh=KsrSd1GDRpCKx2soRF7QGqJUiFXPijS9GA3YqzvMgXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7aaVYUjqLTcvdGT0rfEAikiI+iAt6+xT8iPb7r0/4kEpYZcImG4hyGNoqI+tIf4ejCexe7Cfqz306zvyUCnwvk+XGEY1J2mUbKB1kZT8h/pyhS6HPAxTCzW3zlEogI8M/LWGwS8Rz5d9/tNEyJuG8mGOFrCf0b7pIcrEJ7JEJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iii6A/Bt; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785273446; c=relaxed/simple;
+	bh=72f8biyVUgH335xMxu6GsNjwxPf4qtOV1/vFiyhG41w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HD+T1b56C9bxe82AlRIDyanHeXNyz6UCyizvqsynI4/8WM/PZ5aBbCl2uSGBK0Z6ZNN+1OKOdcknNycGbL0oOw7ynqp0JCSSdTx/XQodnPATFxKBGGJNpCn+zcVYx7d8baDudSwwDJ3AvZ2L3ZtfP0LZBHCkRxMG5dNTqff8xj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ga2S1uTO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iii6A/Bt"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-381b831d535so353913a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 14:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785273433; x=1785878233; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ftm5XLIxNthIvK126OWJRqMXekUTgdSJ4NeDzXA2YbE=;
-        b=iii6A/BtBC5zq92y6z6THc2cqjQMahS5lnnjkRlh825LwEGJHS0A1je3/vp/p46vTG
-         NqEKfNxRHYNludpeK44G+e7AmCtP9Ga6J9oEaPzVgN1FqffX+mwYDxKEGrGaYTAsnk5b
-         QnVhv5YU4K1jREFT01DcFIndCOnen0L3RT5zg2k3qjaRnTKKGqRViUcrgcTUhHB7rWf9
-         a385sQwV5QD0XpVTRqLXM90GaAxmp77RWmZ3hVShUxouWOhvDqARsyuTWKXgqG1IpauH
-         ia8ZiAQM2qwmfC8mVTJ3+dAc0tw5Q7mBBY1dZpBnEzjPx5UFJBvNIfW19EzHRXcTrS96
-         uPlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785273433; x=1785878233;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ftm5XLIxNthIvK126OWJRqMXekUTgdSJ4NeDzXA2YbE=;
-        b=NQMZLHincCA24Fgd7SEhxexOpry0gi6xo3D8WSw6YeWfee4NqcrMNM+BPcrYd0Fyqu
-         1cQI4dHxJhHuwMAOu0R/+fQt3IegZqwp2K500NI1uypwCuZj4NBtoHHRjm+TzcOAlsp2
-         1fC7hFjTy9zC9bZ0AhVVvyWwX+8v6lesF48IzoDDwYa/EqaYaB5K/Mn4gMvHYtyHd6Na
-         xudj0uquvJOKZ7LGHiOw7Sy44dhycUOqYzM4YDPTd9RcrNf8BDetfOTUs/XoYecam5Gz
-         0V5gGJ82tyU6T5lG5ThUDn8j0k7vEyojzWzOqBM66Kl0nMFpETeaWq736DpuH3Rh7fu8
-         rcgQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrh+uaMQi/zMdHxhB5roHgZkd2dSq7LxejZP3lcuSP0HiE/Urr6tgzGhO4FRQmNcgCouIxtuAyL0Ww=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz36ivMlF/64JUg7DjrmBk4X3zRPD5pN9sXbbgUO+4C4nDaq8Pf
-	2C1o3iQFvLAr3Zv0waK0xaD8c6wii6GcUBpVz/KldEiSsE90aYZUSFcp
-X-Gm-Gg: AR+sD12vsyyOGc/+YkQL9QC6BU7fig9zglvrrNit2p3Q0fsOnCwQV3T8sys6sjjAOMk
-	TIFaX0ikRiZU0P8r7oisv7AYWQDvVIEeH3Ui063KxdYxDNXpaMyfF+X8cuoGMNqzLAS/yCxLx7i
-	ljp3X+WXRN5btGCHtk36856DDEMnvR4hAJrp+WPOYxO2Klw6GlNatccTKJ6ZVjfCWO488DBRch2
-	cixpHkYRjxhdvKwtBiVgiHZTtlqAkOQoAW0aJ0JA1Nst2b7yBQEOXqloMN3QHIaPcfOeYFU1xo7
-	sYbU+FwsBqLMRbcnHGkUMWcyKhuP9dx2rjf9M93Nub4egs/l8IXYJussr/kS8egl2e9cvwe80ZL
-	2UF282Cyb1GnU4jjr0d5VRTUr96uJRkSzQLnQqOBmjcUr1mALPLA5kEAthNprchFc0Z7zsIj4Ke
-	xSQrABM6hW9H1eMI0wHD4Wr1uB79JPjXQKjP/dd3hHbrgrWUCDdNRBtoWJJwiWSidAsRCC4viq7
-	Q==
-X-Received: by 2002:a17:90b:390b:b0:38e:2f21:3bb5 with SMTP id 98e67ed59e1d1-38f6a4e3667mr4424289a91.21.1785273432741;
-        Tue, 28 Jul 2026 14:17:12 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f7f1353fdsm443956a91.8.2026.07.28.14.17.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 14:17:11 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 28 Jul 2026 14:17:10 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Sean Lyon <sean@seanlyon.dev>
-Cc: Jonas Malaco <jonas@protocubo.io>,
-	Aleksa Savic <savicaleksa83@gmail.com>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (nzxt-kraken3) Add support for NZXT Kraken 2024
- Elite
-Message-ID: <2588baac-e7d7-495c-8a6c-277746e9959b@roeck-us.net>
-References: <20260728031127.26553-1-sean@seanlyon.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ga2S1uTO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 844401F000E9;
+	Tue, 28 Jul 2026 21:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785273445;
+	bh=RPYyzEACWXmL3B1yuWD9+3WsAbReeEdqc/tsPpB+Cz8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ga2S1uTOGLy3klZKkkmwDKmf82X4HWiqyRgsDOjF7WDZFcYZhh4ME6B+Ts/Yhb9J/
+	 GObH1TwC9F/3c6RLD/nCeGyaH6m0Xh4J+T5A1TomNDkk+ZHBiP8+ReNXGkNblMKXpi
+	 yMNYfuIorUmEXBt/9b9ImwbwrIeqX0ybORU2LMs1fqXU6I4j1TJILZPtAhUZffBFET
+	 C5vcZrunFh4NvOk3ROBZ91KqVRzGdmAloUdKR0LIQ4tpnIyAM6PgrTbJm64CvpEVrd
+	 sGpbzpGAzmuGMircFkRwv7JZ+mKcjNskIjfEM5UBwGSQSLPQX1kPe+Rjvr3/18OV9C
+	 /GOZKbJhaCwIg==
+Date: Tue, 28 Jul 2026 22:17:19 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, Janani Sunil
+ <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
+ <broonie@kernel.org>, Marius Cristea <marius.cristea@microchip.com>, Marcus
+ Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
+ <jan.sun97@gmail.com>, linux-spi@vger.kernel.org, Kent Gustavsson
+ <nedo80@gmail.com>
+Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
+ spi-device-addr
+Message-ID: <20260728221719.7f668a73@jic23-huawei>
+In-Reply-To: <20260728-patronize-thwarting-56fab2e11077@spud>
+References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
+	<20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
+	<cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
+	<20260725230739.63ff7000@jic23-huawei>
+	<20260728-patronize-thwarting-56fab2e11077@spud>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728031127.26553-1-sean@seanlyon.dev>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 27, 2026 at 11:11:24PM -0400, Sean Lyon wrote:
-> The Kraken 2024 Elite (USB ID 1e71:3012) is protocol-compatible with the
-> existing Kraken 2023 devices and works with the current Z53 code paths.
-> Add its USB product ID and map it to the KRAKEN2023 kind.
+On Tue, 28 Jul 2026 17:00:55 +0100
+Conor Dooley <conor@kernel.org> wrote:
+
+> On Sat, Jul 25, 2026 at 11:07:39PM +0100, Jonathan Cameron wrote:
+> > On Sat, 25 Jul 2026 15:57:07 -0500
+> > David Lechner <dlechner@baylibre.com> wrote:
+> >   
+> > > On 7/22/26 2:54 AM, Janani Sunil wrote:  
+> > > > Add the generic spi-device-addr property to the binding and deprecate
+> > > > the existing vendor specific microchip,hw-device-address property.
+> > > > 
+> > > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> > > > ---
+> > > >  .../devicetree/bindings/iio/adc/microchip,mcp3564.yaml         | 10 ++++++++--
+> > > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> > > > index 675319276197..de1ea289e7f5 100644
+> > > > --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> > > > +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+> > > > @@ -80,6 +80,7 @@ properties:
+> > > >      $ref: /schemas/types.yaml#/definitions/uint32
+> > > >      minimum: 0
+> > > >      maximum: 3
+> > > > +    deprecated: true
+> > > >      description:
+> > > >        The address is set on a per-device basis by fuses in the factory,
+> > > >        configured on request. If not requested, the fuses are set for 0x1.
+> > > > @@ -91,6 +92,12 @@ properties:
+> > > >        clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+> > > >        which is first one on the wire).
+> > > >  
+> > > > +  spi-device-addr:
+> > > > +    maxItems: 1    
+> > > 
+> > > Does it not make sense to all for more than once device connected
+> > > to the same CS here? I would expect maxItems to be 4 to match the
+> > > number of possible addresses.
+> > >   
+> > 
+> > I think for this part their isn't a reason to aggregate.
+> > No magic accesses that touch them all at once.  So this hits
+> > exactly the point you raised about how we set the address for
+> > more than one of them.  
 > 
-> Tested on hardware: liquid temperature and pump/fan speeds read
-> correctly (cross-checked against liquidctl), and PWM control of both the
-> pump and fan channels works as expected.
+> No David is actually right here, and maxitems should be 4.
+> Setting the address for multiple was already discussed I thought, with
+> the property being an array and each compatible being used to determine
+> the "stride" between entries based on the number of supported channels?
+
+I don't think that applies for this device or at least to do so
+is a major driver rewrite, not a simple binding change.  Probably we'd
+just add a bus and hang the 4 instances off it. They are running on own
+timing etc so we can't grab data across all of them in any sort of
+synchronous way - the clocks will probably drift over time etc.
+
+They are independent devices (think of them using spi-device-address
+like an i2c address) -  so why have one DT node for up to 4 of
+them?  Note this is different from the AD5529R where the design
+is intended for them to operate as one single larger device.
+
+Jonathan
+
 > 
-> Signed-off-by: Sean Lyon <sean@seanlyon.dev>
+> > 
+> > Jonathan
+> >   
+> > > > +    items:
+> > > > +      enum: [0, 1, 2, 3]
+> > > > +    default: [1]
+> > > > +
+> > > >    "#io-channel-cells":
+> > > >      const: 1
+> > > >  
+> > > > @@ -123,7 +130,6 @@ dependencies:
+> > > >  required:
+> > > >    - compatible
+> > > >    - reg
+> > > > -  - microchip,hw-device-address
+> > > >    - spi-max-frequency
+> > > >  
+> > > >  allOf:
+> > > > @@ -159,7 +165,7 @@ examples:
+> > > >              spi-cpha;
+> > > >              spi-cpol;
+> > > >              spi-max-frequency = <10000000>;
+> > > > -            microchip,hw-device-address = <1>;
+> > > > +            spi-device-addr = <1>;
+> > > >  
+> > > >              #address-cells = <1>;
+> > > >              #size-cells = <0>;
+> > > >     
+> > >   
+> >   
 
-Applied.
-
-Thanks,
-Guenter
