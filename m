@@ -1,99 +1,225 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E212223909F;
-	Tue, 28 Jul 2026 15:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CD73C3F59
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 15:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785251272; cv=none; b=hppj8fm1LaTTfFhsvDDc+xq6JP7A/CivSsEJr9vUEXW+rY2034LkXwqB8FmHLE3qfnWUhsQMjdHNF6qMHUFImxMBMJJVA9O2b72yYCPlBr4Z+5QVSlSCwUdloAMOEZyuvHaqWJxeYAyVxi+fi8O+csrQ4WvtGey/G+KNySnx1Ro=
+	t=1785251860; cv=none; b=H7MhrbBVjit/SeRYo+CNC6O2zskYafp5Y8iaJn3XeI8aORQERijn/j0n6UvSEOANEzfGblgIDC1/DDuyJx0ElY9udyI1p5/UYoXCKIGu+f9cH60v6z+vNJqML1nmrsLpkR2552Zj7JyJZRWX+rMOXN1IKOu9+XxslxIx9MB2ZIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785251272; c=relaxed/simple;
-	bh=BD1LV6gEweEYUjcl9ARIkRkGvDhvtnv+9e/uvIhdghI=;
+	s=arc-20240116; t=1785251860; c=relaxed/simple;
+	bh=ch77C1UUUTt8g78UF9dXwXhfEinOB/Iybh9mHKW1Xs4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fmZOKzbvpeKXq23rN30V9fPkL0XpthsKEMUqOF7lnV9m/+S++TVUBr/IE2x0vBBqlEhE5mfVNKBKGrOBEZJ/NDkA2pmpOUkAdmHtQehOoEab8jhQtKWx7l6/xEOoobC7h5W4W6r3LqGU/AtkZWwrlE1l0KFi6t901/dqQklc5AA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=p/2GpzZ5; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 In-Reply-To:Content-Type; b=NxxS3lPxSxjKAq9ryhiQfGIkqN6tEng7EQxjU7/1aT7LIVBkMw7O2V/uLg/hhmXfM+xzOc0OdqednDhdPxciWeBbzxQhR5+8yieblqA724Fp+bqi4jDkiLoWKz0gA2uF88DRcjSD4gWq7kEg0iD8rBRjhVQG5lz2nLl+MVmLMT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qdxJJmMd; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="p/2GpzZ5"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2BF3B169E;
-	Tue, 28 Jul 2026 08:07:46 -0700 (PDT)
-Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0824B3F66F;
-	Tue, 28 Jul 2026 08:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785251270; bh=BD1LV6gEweEYUjcl9ARIkRkGvDhvtnv+9e/uvIhdghI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=p/2GpzZ5F0kbQ5EoZfBqT6yq53KWffSqkwhsIwKSHFzBhk0XWz3iHGtbOpnwKHDaR
-	 +mZWUXOg8abFit3hXggkmWfs+gpD13GREcrsMwRHMljNbkHBS+FeDf/VC9w1pW9RMp
-	 idzWRxlG6MXIBei4T3i++d8CNJbO219W9tqEu8Ng=
-Message-ID: <b8b1fbe4-fb73-418a-b43d-086894d31ce8@arm.com>
-Date: Tue, 28 Jul 2026 16:07:44 +0100
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qdxJJmMd"
+Message-ID: <1c815b59-915a-414c-9029-eaac11dcf804@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785251847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JJOfNjImE/vhHrHHh6wGaW6sGg3JuvKUdiSVtRAfDKs=;
+	b=qdxJJmMdA2yv0M5hrtFZeB6eH1ubg2oqLU/AaY0cpynGN7ks7FUkH2orUeGww/ktQ97oJF
+	PSNEd1Bkin+HPizo6fvj4Fa1TocVW1gu2dqF46otndcbC3Q4jSppWgMaopKp0F0ZlYv3sC
+	cYMpYoAqObCI9iY1kuGpIKmxEX27FUg=
+Date: Tue, 28 Jul 2026 23:17:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/21] perf: arm_pmuv3: Check cntr_mask before using
- pmccntr
-To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
-Cc: Alexandru Elisei <alexandru.elisei@arm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
- Shuah Khan <shuah@kernel.org>,
- Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
- James Clark <james.clark@linaro.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20260612192909.1153907-1-coltonlewis@google.com>
- <20260612192909.1153907-6-coltonlewis@google.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260612192909.1153907-6-coltonlewis@google.com>
+Subject: Re: [PATCH 1/2] mm/damon/core: cover discrete System RAM areas with
+ per-range regions
+To: SJ Park <sj@kernel.org>
+Cc: damon@lists.linux.dev, Jiayuan Chen <jiayuan.chen@shopee.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260728143046.95229-1-sj@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+In-Reply-To: <20260728143046.95229-1-sj@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 12/06/2026 8:28 pm, Colton Lewis wrote:
-> Check cntr_mask before using pmccntr to ensure it's available. With a
-> partitioned PMU, there may be instances where pmccntr is being used by
-> the guest and will be absent from cntr_mask.
-> 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->   drivers/perf/arm_pmuv3.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-> index 1cceb1f614515..17bb1cfdc271c 100644
-> --- a/drivers/perf/arm_pmuv3.c
-> +++ b/drivers/perf/arm_pmuv3.c
-> @@ -1028,7 +1028,8 @@ static int armv8pmu_get_event_idx(struct pmu_hw_events *cpuc,
->   
->   	/* Always prefer to place a cycle counter into the cycle counter. */
->   	if (armv8pmu_can_use_pmccntr(cpuc, event)) {
 
-Something smells wrong here - we can use PMCCNTR but we can't?
+On 7/28/26 10:30 PM, SJ Park wrote:
+> On Tue, 28 Jul 2026 18:06:48 +0800 Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
+>
+>> On 7/27/26 10:26 PM, SJ Park wrote:
+>>> Hello Jiayuan,
+>>>
+>>> On Mon, 27 Jul 2026 17:54:22 +0800 Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
+>>>
+>>>> From: Jiayuan Chen <jiayuan.chen@shopee.com>
+>>>>
+>>>> damon_set_region_system_rams_default(), introduced by commit 70d8797c15d6
+>>>> ("mm/damon: introduce damon_set_region_system_rams_default()"), is used by
+>>>> DAMON_RECLAIM, DAMON_LRU_SORT and DAMON_STAT to set the default monitoring
+>>>> target address range covering all 'System RAM' when the user does not
+>>>> specify a range.  It walks the 'System RAM' resources but keeps only the
+>>>> start of the first resource and the end of the last one, and then sets a
+>>>> single monitoring region spanning that whole [first_start, last_end] range.
+>>>>
+>>>> On systems whose RAM is split into discrete areas that are far apart in the
+>>>> physical address space, that single region also covers the holes between
+>>>> them.  For example:
+>>>>
+>>>>     $ sudo cat /proc/iomem | grep RAM
+>>>>     00001000-0009ffff : System RAM
+>>>>     00100000-4848c017 : System RAM
+>>>>     4848c018-48550c57 : System RAM
+>>>>     48550c58-48551017 : System RAM
+>>>>     48551018-48615c57 : System RAM
+>>>>     48615c58-48616017 : System RAM
+>>>>     48616018-486dac57 : System RAM
+>>>>     486dac58-4e563017 : System RAM
+>>>>     4e563018-4e627c57 : System RAM
+>>>>     4e627c58-4ef39017 : System RAM
+>>>>     4ef39018-4ef3f057 : System RAM
+>>>>     4ef3f058-4efe6017 : System RAM
+>>>>     4efe6018-4efec057 : System RAM
+>>>>     4efec058-50247fff : System RAM
+>>>>     50317000-56720fff : System RAM
+>>>>     56722000-59c19fff : System RAM
+>>>>     6bbfe000-6bbfefff : System RAM
+>>>>     6bc00000-777fffff : System RAM
+>>>>     100000000-1007effffff : System RAM
+>>>>     67e80000000-77e7fffffff : System RAM
+>>>>
+>>>> Here the last two areas (about 1TB starting at 4GiB, and about 1.1TB
+>>>> starting at ~6.5TB) are separated by a ~5.5TB hole, and the single-region
+>>>> setup makes DAMON treat that entire hole as if it were memory.
+>>>>
+>>>> This is harmful in a few ways.  The monitoring target regions are limited
+>>>> by max_nr_regions, so regions that fall into the hole waste that budget and
+>>>> leave fewer regions for the real RAM, coarsening the adaptive regions and
+>>>> degrading the monitoring accuracy.
+>>> The hole would look like not accessed.  As a result, the whole region will be a
+>>> few regions that very cold.  That wouldn't waste the budget that much.  Do you
+>>> have some specific setups that this cannot help?
+>> It's my mistake.
+>>
+>> I first saw the kdamond CPU go up, and I assumed it was the number of
+>> regions. I was wrong.
+>>
+>> I re-tested and profiled it with perf. It's not the region count — it's
+>> the page-by-page walk of the hole.
+>>
+>> On a VM with a 116GiB hole and a single [first,last] span, I enabled
+>> DAMON_LRU_SORT and ran perf on its kdamond:
+>>     30.15%  damon_get_folio
+>>     17.09%  pfn_to_online_page
+>>      2.24%  __nr_to_section
+>>      ...
+>>      0.07%  damon_split_region_at
+>>      0.06%  damon_merge_two_regions
+>>
+>> Almost all of it is the per-page folio lookup. Merge and split are ~0.1%.
+>> The cold scheme targets cold, old regions. The hole is never accessed, so
+>> it's always cold and old, and it matches. Then the action walks its whole
+>> empty span page by page, every apply. RECLAIM and LRU_SORT do this by
+>> default. It scales with the hole size, so on the real 5.5TiB machine the
+>> kdamond can't keep up.
+> Makes sense, thank you for investigating and sharing this!
+>
+>>
+>>>> In addition, DAMOS actions on the paddr
+>>>> operations set walk such a region page by page, so a region that covers the
+>>>> hole is walked for its entire (empty) span on every application.
+>>> That makes sense.
+>>>
+>>>> Set a separate monitoring region for each discrete System RAM area instead,
+>>>> coalescing only truly adjacent (no gap in between) resources into one
+>>>> range, so holes between the areas are excluded.  The reported *start and
+>>>> *end still carry the overall first-start and last-end, so the user-visible
+>>>> default range reported via the module parameters is unchanged.
+>>> I'm concerned if this could result in having too many regions.  The gap between
+>> On the region count: can't we just coalesce any hole smaller than
+>> min_region_sz?
+> I'm not fully understanding your point.  min_region_sz is only 4 KiB by
+> default, and anyway DAMON cannot create regions of size smaller than
+> min_region_sz.  I cannot get how this helps.
+>
+>> After that, the number of ranges is just the number of
+>> discrete
+>> System RAM areas
+> I'm still not convinced with this.  What if the number of discrete system ram
+> areas is larger than max_nr_regions?
+>
+> Actually I was also thinking about this problem for in the past.  One of my
+> idea at that time was, handle only a few largest holes that practically being
+> problems.  That is, while reading the system ram layout, find the holes, sort
+> those by size, and do make holes in DAMON regions layout for the biggest N
+> (say, 2) holes.  This may handle most cases including your 5 TiB hole.
+> Actually vaddr is doing this, so we may be able to reuse some of the code.
+>
+> If it makes sense to you, I will try to implement this.
 
-> -		if (!test_and_set_bit(ARMV8_PMU_CYCLE_IDX, cpuc->used_mask))
-> +		if (test_bit(ARMV8_PMU_CYCLE_IDX, cpu_pmu->cntr_mask) &&
+One worry with a fixed N is that it's a magic number. If a machine has more
+than N big holes (more sockets / NUMA nodes, or several CXL devices), the
+extra ones are silently not excluded and get walked again.
 
-...i.e. this test would seem to belong in the helper function.
+And making N configurable just moves the per-machine tuning back to the
+user, which is exactly what I'm trying to avoid.
 
-> +		    !test_and_set_bit(ARMV8_PMU_CYCLE_IDX, cpuc->used_mask))
->   			return ARMV8_PMU_CYCLE_IDX;
->   		else if (armv8pmu_event_is_64bit(event) &&
->   			   armv8pmu_event_want_user_access(event) &&
+vaddr over-includes the gaps into its regions too, but it can skip them
+cheaply: it walks the VMA tree (find_vma / maple tree), it's cheap.
+paddr has no such structure, so an included hole is walked in full.
 
-Plus it also doesn't make much sense to fall through to the "we _could_ 
-accommodate this event if only PMCCNTR was free" case here if we know 
-PMCCNTR can never be free because it's not even available.
+That's why a fixed N is safe for vaddr but risky for paddr.
 
-Thanks,
-Robin.
+
+>>> user-visible parameters and internal state is also a concern.
+>>
+>> I think monitor_region_start/end is meant to expose the overall range, and
+>> skipping the holes inside it is an implementation detail. Even if we didn't
+>> skip them, the adaptive region count is never 1 anyway — DAMON already
+>> splits [first,last] into many regions. The holes just add a few more, so
+>> the param never matched the internal state exactly to begin with.
+> It is arguable, but I believe this also makes sense in my opinion.
+>
+>>
+>>> A quick workaround would be adjusting the memory layout in BIOS, using DAMON
+>>> sysfs interface instead, or setting the monitor_region_{start,end} to cover
+>>> only the single area.  Have you considered such workarounds?
+>>>
+>>> Let's complete this high level discussion first.
+>>
+>> Right, this is doable today — the DAMON sysfs interface can set multiple
+>>
+>> regions manually. This patch is only about convenience.
+> Are you actually running DAMON_LRU_SORT or DAMON_RECLAIM in a production system
+> having 5 TiB hole?  Or, planning to do?  If the above idea makes sense to you,
+> I could prioritize implementation of it depending on this.
+
+
+I'm not actually running DAMON_LRU_SORT or DAMON_RECLAIM on such a machine.
+I ran into this while working on per-cgroup hot/cold page tracking, where I
+was comparing performance and accuracy across setups — that's where these
+numbers came from.
+
+
+>
+> Thanks,
+> SJ
+>
+> [...]
+
+
+
+And to be clear, I'm not trying to land a patch here — I just noticed this
+as a possible optimization. If you have a better idea, I'm happy to go with
+it :).
+
