@@ -1,251 +1,251 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684C53F328F
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 21:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E780B3D45E5;
+	Tue, 28 Jul 2026 21:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785275191; cv=none; b=kYhE1tP+QjbotdgSmoxPnWenVwvrISRz54HI/x+5kHQBCUhvUSRBbMSQayhXbM1RXnI3SL+7Wjlk9+XMLOHMf9+c0Ho5gH5r3BRH9yF3CLQZq8Laf5UiJvd5SGPEuDQvxb83gz8pMDaWfBPlyWWo9BtVU6HxxQuEbZPuifOg4s4=
+	t=1785275207; cv=none; b=tgV1lQ3YG22xnbmmIGkCK5LqCl2aHQDb4D/k2PBS/rHkVEN0Va/CcHzGAZRUuYqzx5lWxos55PCA63ssvxIU8KGf6WYwV7nlOtu0GuNN14h5Ytgnfny2S76lB5FZIRwPOlKbObvLbpojs2BXCxpFo7xayhJRa/B1qsV70tB+oEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785275191; c=relaxed/simple;
-	bh=S5Qgx7ajQ7+7dbJdjbe42nnJSzD4uTYyiMFeewfn+Vo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hOQ+iWJ68bDVOQ/o9B1ObNtA6HEp/FJjF4vvkjHD74sDxgiKaeMpTXhp9H5hU3oU0zi9Ncqa5AAIr7QBotNnpvU+JR2ta5tlN8BZVdZcVPGbENHfxu7FS2+vBdoDG6Hak1F+2OMAU8Fr5uTevdQvDRaAjCTZ/fGzALlch5zVT08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=V9rKKe4X; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="V9rKKe4X"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7eb68bdf53aso172162a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 14:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1785275188; x=1785879988; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7xcjeAiaFIEvJ/x7s9bhIM1GS0uJ3u5Dz39U32Qrg/Q=;
-        b=V9rKKe4X9jvs/kqM4DWfeHu1wC9ssDSgJR933RMp9amYrBs9F/Jut0NLzH3H7JiOk8
-         QuZ/9UuscBDvUWNleKM8gqRS/z9+OsmZwkZATNpsNsCvQJzUYmftMzefPpfraoTv+vxh
-         yvF6ahZP8H3EXWoPL0BfARAEVaQabQNm6IBPUqZAEFyGGEl2/22dmp+U+6pPdD3470lU
-         4gEtNKsovndYrePt7OUMiddtwCWCQ4WaKrqiMVnFW0/1hUDPpGjUi42U1SrVcmGA8yam
-         cnmdqUmEdlcLHUgmCddBFKoNPkYFbFssEVKkFaqFwKduJGiwzYQTOucYH6JbwxLQY8G0
-         8ylQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785275188; x=1785879988;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7xcjeAiaFIEvJ/x7s9bhIM1GS0uJ3u5Dz39U32Qrg/Q=;
-        b=qoxJszAN1vx5uffECQMmgXK51SjM/lZ2wiaDKdfcY/ONg+Go81b0jsBpMxluYxazbx
-         j/b1ZsUoOo2yOZeDF1MapYuVEcQOp+Ly1hBs7+9+GYgM7glp6neIGlCyESTfZezUtJS6
-         E/wBV1+DhXyh/V6WxPvJ0R5WHl70glP5LnJEvud15FIULg7lquFyr3+2nwHaKKvgYK2O
-         atWciPdkc0ZLPT+mc//DWvwkOUXvSpArmw1QDUPOwZsoMi2LfphsmdbmBeIf6CrNgODF
-         i8dSZ6pFAdAYFt4nFMp1KeViNIHNoeoLuvdCfxji4o1o2nlllTgEC8KqDnmQd4MkiSj9
-         cXNQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqmUTBoRzcOp7b17Og0tzF5Im99I6YZa3gbig7i2vmmAoLmfjn9Di8IbWDC2pugS6sjPDW76zDZvqE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMWCX92LVYfAU0dscY4078dgTVNQZCB0sxqrJQmmFbO7p6Z6vz
-	dh3Y+fE1RT10cnjlkzaO4sVMyc7uKmvWHBLAXrPonmlpQGnqEDfi/QTA4Z0pifKpf1s=
-X-Gm-Gg: AR+sD13d6JQ5P8xEQQa+kNYkAMiIeosqt2bmiDEKpKj51r6YGrmVeB7bN4mQtHwpHSL
-	KIYYnrv5onNSjONFKyIV5cJGWkYj2FfYGnG39gJl6aG034o58bidPqqarC0Cbv/QF6gbRf9jvNT
-	ccHf9u7fZmMWyxloZbjYyp5FgAvkNHZK6Ev3dtAAf84PjZGsCahU1/nooZU6ja4UeiYaiqS7KFk
-	lExoTzuBAnof64aQUIOII3LFPl9bUowOTtOLgwAFXpStX0Z1AiRNCf0PT1v1vjputksdn7jO8lu
-	K1yYWxTZ8/ZhvQxRn7d6YZXh8E1U60mHN8t0duMR9OTJxQWjXWgzpNFFJIStFCrGjWCMh2WQNmh
-	UvnTfwkTpPZ5xQqivcyf7SC/2Azz1H3yCDL5K1EXevFhExr8HDjA6QfuGC8WOom6zmDCF+vr8Da
-	4OanGbRBFAxWMbAT5YkqIApe4BKUGyDSF50Upt9EzQlOP5EYsWQnpjzTD+DTvp9/5OHVo3VEZNk
-	Xeae23mZFbZx0Pulon660WR8SwdPyTAGeIHOVI=
-X-Received: by 2002:a05:6830:6ab1:b0:7e9:d250:a731 with SMTP id 46e09a7af769-7efff247ec7mr2173612a34.20.1785275188304;
-        Tue, 28 Jul 2026 14:46:28 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:3096:ee5f:6f57:afe1? ([2600:8803:e7e4:500:3096:ee5f:6f57:afe1])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f00d595384sm747860a34.4.2026.07.28.14.46.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jul 2026 14:46:27 -0700 (PDT)
-Message-ID: <163c9872-17ef-4b01-9392-96e896c284b8@baylibre.com>
-Date: Tue, 28 Jul 2026 16:46:26 -0500
+	s=arc-20240116; t=1785275207; c=relaxed/simple;
+	bh=hDlyVdD5ABzrQQ1v942XAtfAbrL0uyH8HhZ11lIZx+I=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TK1h32YqtrI5sWRCB3JH1crWE4SeMRJ+f1vUx0B0PhcLQrHbFk0vgnWktxkVo0mqzjLBWB1foL89UWJftv6VlA/RTKfxWtfKQZTH8rpJhTlkGyXnhj1qD8GsVtL0SKFcUHHra7TdR7Zlb8ndZimR4G8OL2r6SvEKc1/W2QPA5EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+	 (Exim 4.99)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1wopdB-0000000022f-2IeB;
+	Tue, 28 Jul 2026 21:46:33 +0000
+Date: Tue, 28 Jul 2026 22:46:30 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v7 0/5] net: dsa: mxl862xx: support firmware update
+Message-ID: <cover.1785274610.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/7] spi: dt-bindings: Add spi-device-addr peripheral
- property
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Conor Dooley <conor@kernel.org>, Janani Sunil <janani.sunil@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Mark Brown <broonie@kernel.org>,
- Marius Cristea <marius.cristea@microchip.com>,
- Marcus Folkesson <marcus.folkesson@gmail.com>,
- Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
- linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
- <20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
- <e2118cfc-feef-4843-917f-844834ef4e60@baylibre.com>
- <20260725230445.60a445a0@jic23-huawei>
- <20260728-barrette-rickety-788b47da503c@spud>
- <e1f977a8-ab38-4dc6-a82b-b955545550a0@baylibre.com>
- <20260728220544.5c65bc50@jic23-huawei>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260728220544.5c65bc50@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/28/26 4:05 PM, Jonathan Cameron wrote:
-> On Tue, 28 Jul 2026 13:39:20 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
-> 
->> On 7/28/26 11:10 AM, Conor Dooley wrote:
->>> On Sat, Jul 25, 2026 at 11:04:45PM +0100, Jonathan Cameron wrote:  
->>>> On Sat, 25 Jul 2026 15:55:01 -0500
->>>> David Lechner <dlechner@baylibre.com> wrote:
->>>>  
->>>>> On 7/22/26 2:54 AM, Janani Sunil wrote:  
->>>>>> Some SPI devices support sharing a single chip select across multiple
->>>>>> physical chips by encoding a device address in the SPI frame itself.
->>>>>> Add the generic spi-device-addr property for describing these hardware
->>>>>> addresses. The property is placed on the SPI peripheral node and may
->>>>>> contain multiple addresses.
->>>>>>
->>>>>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->>>>>> ---
->>>>>>  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 7 +++++++
->>>>>>  1 file changed, 7 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
->>>>>> index 880a9f624566..b59d047cf117 100644
->>>>>> --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
->>>>>> @@ -142,6 +142,13 @@ properties:
->>>>>>      minItems: 2
->>>>>>      maxItems: 4
->>>>>>  
->>>>>> +  spi-device-addr:
->>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->>>>>> +    description:
->>>>>> +      Device addresses used when multiple peripherals share a single chip
->>>>>> +      select. The array allows one logical peripheral to comprise multiple
->>>>>> +      physical devices, with one address per device.    
->>>>>
->>>>> "per physical device" for clarity.
->>>>>  
->>>>
->>>> We may end up relaxing that again if multichip packages start doing this.
->>>> Fine to add that clarification for now. We can revisit when / if it ever
->>>> needs that relaxing.
->>>>  
->>>>>> +
->>>>>>    st,spi-midi-ns:
->>>>>>      deprecated: true
->>>>>>      description: |
->>>>>>     
->>>>>
->>>>> If there is nothing useful the SPI core code can do with this information,
->>>>> I'm not entirely convinced that this needs to be a common property.  
->>>>
->>>> I think being common does make some sense from a standarization point of
->>>> view and it isn't obvious where to put it other than under spi.
->>>>  
->>>>>
->>>>> And this only allows for one logical device. If we wanted to treat each
->>>>> address as a logical device (all with same CS), we would need #address-cells = <2>;
->>>>> instead where the DT "address" is two values, the CS and the device address.  
->>>>
->>>> Ah.  Good point for the adc@address or similar needing to match a combination
->>>> of CS and spi-device-addr.  Conor any thoughts on how this would be done?  
->>>
->>> I'm sorry, I don't quite understand. Why do you want to support both of
->>> these representations? Hardware wise both of these things would be
->>> describing the same setup, so allowing this alternate "multiple logical
->>> device" typically is not permitted. What even is the use case of it?
-> 
-> The microchip parts.  They are entirely independent. The device address is
-> just a way to save pins.  That is contrasting those with the one in this
-> series where the design assumes you want to treat them as a large logical
-> device in a similar way to spi device chaining.
-> 
-> 
->>> Does it matter at all if you have one or more logical devices from a
->>> consumer perspective?
->>>
->>> I do have an idea of how to solve the adc@address problem (you can do
->>> adc@address,spi-device-address like some other devices) but as I said I
->>> don't get why it would be needed.  
-> 
-> I think we should often do this because there are some confusing cases
-> otherwise. See below.
-> 
->>
->> I would expect that if such a device was intended to be used as individual
->> logical devices that they would just be wired up each with their own chip
->> select rather than sharing one.
->>
->> The only reason I can think of actually needing adc@address,spi-device-address
->> would be on a system that was really short on pins on the MCU.
->>
->> So not saying that we need it right now. Just wanted to make sure we were
->> intentional about saying we don't need it if we don't.
-> 
-> To enumerate the cases:
-> 
-> 1. One CS has multiple spi-device-address and needs to be a combined device.
-> 	Given this ADC does some fun stuff to include messages with no
->         spi-device-address that are meant to be received by all such
-> 	devices we pretty much have to map any that share a CS to one
-> 	logical device - we have to bind one driver.  This is kind of
-> 	similar to SPI device chaining.
-> 	address == cs.  spi-device-address property not used for that.
-> 	- This one can be normal SPI style.
-> 
-> 2. One CS has multiple spi-device-address but logically separate otherwise.
-> 	This is the microchip devices I think.  For those the device-address
-> 	is just a pin saving exercise.
-> 	address == spi-device-address. CS not needed as there is only one.
+The firmware of MxL862xx managed Ethernet switches can be updated
+in-system via the same MDIO bus which is also used to manage the
+switch. Wire up the devlink flash_update operation for DSA drivers
+and implement firmware update and version reporting in the mxl862xx
+driver.
 
-We would still need CS to tell the SPI controller which one is wired. So
-we should never have adc@spi-device-address, only adc@cs,spi-device-address.
+Changes since v6 [6]:
+ - reprobe from a single delayed work item instead of a kthread spawned
+   by a workqueue kickoff; the kthread existed only to drop the module
+   reference from core code, but its creation-failure path did the racy
+   module_put() from module text anyway and could strand the driver
+   bound with skip_teardown set. The collapsed form matches
+   iwl_trans_reprobe_wk(), and a failed reprobe now leaves the device
+   unbound like a failed probe
+ - only signal END on a successful transfer; a failure leaves the loader
+   mid-payload, where END is read as a byte count and can underflow the
+   receive counter, so return the error and let the reprobe recover
+ - add cond_resched() to the payload loop so a long transfer over a
+   bit-banged MDIO bus under CONFIG_PREEMPT_NONE does not trip the
+   soft-lockup detector
+ - drop the cached firmware version and chip id on a failed flash so
+   devlink dev info stops reporting the pre-flash version until the
+   reprobe
+ - report the firmware version under DEVLINK_INFO_VERSION_GENERIC_FW
+   instead of a bare "fw" string
+ - correct the SB PDI header comment's SMDIO register map and expand the
+   note on why closing the shared conduit is safe
 
-(There currently isn't any binding for SPI_NO_CS, so the controller would
-still need a CS line even if it isn't wired/muxed and CS on the peripheral
-is hardwired.)
+Changes since v5 [5]:
+ - run the post-flash reprobe from a kthread that drops the module
+   reference with module_put_and_kthread_exit() from core code, fixing
+   a use-after-free where a work item's trailing module_put() could
+   return into module text a racing rmmod had freed; a workqueue kickoff
+   spawns the kthread off the devlink caller where kthread_create() can
+   return -EINTR
+ - send END on every flash failure from the ready handshake onward so an
+   aborted transfer lets MCUboot reboot instead of leaving it waiting
+ - after the background drain finalises an interrupted download, reprobe
+   and let the probe-time detection re-classify the switch, so a valid
+   image a last-moment interruption left bootable comes up as running
+   firmware; rescue_drain() no longer inspects or reports the outcome
+ - re-read the SB PDI status register once more after a poll timeout
+   expires, so a preempted poll cannot report a spurious -ETIMEDOUT
+ - bail out of the periodic stats poll when the flash teardown has set
+   WORK_STOPPED, closing a get_stats64() re-arm race
+ - allocate the reprobe kickoff before disturbing the switch, so an
+   -ENOMEM cannot leave it flashed but never reprobed
+ - omit asic.id/asic.rev when the CHIP ID read returned 0, instead of
+   publishing a bogus "0000" for fwupd to match firmware against
+ - treat the flashless-download loop (STAT 0xc33c) as an unsupported
+   configuration and fail probe with -ENODEV instead of advertising it
+   as flashable
 
-> 
-> 2b.  Same as 2, but there is another normal ADC with a chip select.
-> 	How do we know adc@spi-device-address vs adc@cs given they could
-> 	easily take same address value by coincidence?
+Changes since v4 [4]:
+ - report the numeric chip part number and version read from the
+   static CHIP ID registers as the "asic.id" and "asic.rev" fixed
+   versions instead of a model-name string, which does not belong in
+   a devlink version identifier (Jakub Kicinski)
+ - report the running firmware version as the "stored" version too,
+   since the switch boots it from its own flash, so userspace can
+   distinguish a flash-backed part from a flashless one by the
+   presence of "stored" without a future API change
+ - run the post-flash reprobe from a self-contained work item again
+   instead of the v4 kernel thread, which tripped the hung-task
+   watchdog while parked across the flash and returned -EINTR from
+   kthread_create() when the devlink command was interrupted
+ - re-read the new firmware version through the reprobe's fresh probe
+   and drop the SYS_MISC_FW_VERSION exemption from the host block
+ - raise the firmware command poll timeout so the FW_UPDATE command
+   that reboots into MCUboot is not cut short
+ - detect the switch state from the value MCUboot publishes in the SB
+   PDI STAT register (loader ready, wedged download, or running
+   firmware), confirming a live console loader with a register-read
+   challenge, instead of trusting a bare SMDIO scratch write
+ - fail probe with -ENODEV over SB PDI when the switch does not respond
+   at all (absent, unpowered, or misdescribed in the device tree)
+   instead of letting the clause-45 API flood the log with CRC errors
+ - drain a wedged interrupted download back to a clean ready state
+   from a background work item so the multi-minute recovery never
+   holds the devlink instance lock, reporting no firmware version and
+   refusing flash with -EBUSY until it completes
+ - report the rescue-mode null firmware version "0.0.0" as both the
+   running and stored version, matching the running/stored reporting
+   above
+ - split the devlink documentation into its own patch and add
+   Documentation/networking/devlink/mxl862xx.rst describing the info
+   versions and the flash update behaviour (Jakub Kicinski)
+ - include example "devlink dev info" outputs in the commit messages
+   of patches 3 and 4 (Jakub Kicinski)
 
-As above.
+Changes since v3 [3]:
+ - only install the flash_update devlink op for switches whose
+   driver implements it, so the devlink core rejects unsupported
+   requests before fetching the firmware file from userspace
+ - run the deferred reprobe from a kernel thread which ends in
+   module_put_and_kthread_exit() instead of a work item that
+   dropped its module reference while still executing module code
+ - fail firmware API read commands with -ENODEV after the update
+   has finished instead of faking success with an unfilled buffer,
+   which could send port_fdb_dump() into an endless loop
+ - keep the host block in place across the post-update version
+   query by exempting SYS_MISC_FW_VERSION from block_host instead
+   of briefly lifting the block, and write all blocking flags under
+   the MDIO bus lock
+ - check the return value of all SB PDI control writes; a failed
+   address write during the half-bank switch could otherwise place
+   the second half of the payload at the wrong flash offset
+ - initialise the progress notification deadline from jiffies so
+   notifications are not suppressed on 32-bit systems shortly
+   after boot
+ - log a distinct diagnostic when rescue mode detection fails on an
+   SMDIO bus error instead of silently treating it as not being in
+   rescue mode
+ - flush the switchdev deferred queue after closing the ports so
+   the bridge's deferred STP DISABLED transitions reach the
+   firmware while it is still running instead of failing against
+   the host block with "failed to set STP state" errors
+ - treat -ENODEV as successful deletion in port_mdb_del() so the
+   post-update teardown no longer leaves host MDB entries behind
+   for the DSA core to report when the tree is torn down
 
-> 
-> 2c. Basically Case as 2 but * N CS all on same SPI bus.
-> 	As David calls out this is the pin count minimization case.
-> 	E.g. I want 8 devices each of which has 2 pin straps to set the
-> 	device address.  So I have to use at least 2 CS.
-> 	For this I need both cs and device-address and Conor's suggestion works.
-> 
-> There is a case of 1 + 2 with different device types but result is same
-> as 2c.
-> 
-> Now, to me the question is whether we say that if spi-device-address is
-> present you always do adc@cs,spi-device-address or do we allow for not
-> doing so for the composite devices where nothing else is sharing the CS
-> (like this driver).
-> 
-> My inclination is standardize on always doing it for these devices.
-> 
-> Jonathan
-> 
->>
->>
-> 
+Changes since v2 [2]:
+ - validate the firmware image, including both CRCs, before taking
+   down any ports, so that a malformed file is rejected without
+   disturbing the running switch and without the needless flash and
+   reprobe cycle it previously triggered
+ - reject images whose declared payload sizes overflow when summed
+   (check_add_overflow) or sum up to zero; the latter previously
+   erased the flash without writing anything back
+ - allocate the reprobe work item and take the module and device
+   references before starting the update, so scheduling the reprobe
+   can no longer fail after the switch has been pushed into MCUboot
+ - prevent the stats poll work from being re-armed and cancel the
+   CRC error work before starting the transfer
+ - check the host-blocking flags in mxl862xx_api_wrap() under the
+   MDIO bus lock to close the race window where an API command
+   which had already passed the check could reach the bus after the
+   switch rebooted into MCUboot
+ - check the return value of SB PDI data word writes so a failed
+   MDIO transaction aborts the transfer instead of being noticed
+   only through a corrupted image
+ - report a per-model chip name (e.g. "MaxLinear MxL86252") as the
+   devlink "asic.id" fixed version instead of the devicetree
+   compatible string, whose comma is awkward for userspace
+   consumers such as fwupd (see discussion on v2 patch 3)
+ - report the canonical null version "0.0.0" instead of
+   "mcuboot-rescue" as the running firmware version in rescue mode,
+   so that version-comparing update tools like fwupd treat every
+   available release as an upgrade and offer it for recovery
 
+Changes since RFC [1]:
+ - detect a switch stuck in MCUboot rescue mode at probe, register
+   the switch without any ports and report "mcuboot-rescue" as the
+   running firmware version, so devlink flash can recover from a
+   failed or interrupted update (Andrew Lunn)
+ - clarify in the commit message of patch 2 that the per-transaction
+   MDIO bus locking is about other, non-switch devices on the same
+   MDIO bus (Andrew Lunn)
+ - mention in the commit message of patch 3 that closing the ports
+   also stops phylib from polling the switch-internal PHYs during
+   the transfer (Andrew Lunn)
+ - split up run-on sentence and explain the dynamically allocated
+   reprobe work item instead of just pointing at iwlwifi in the
+   commit message of patch 3 (Manuel Ebner)
+ - use kzalloc_obj() (Manuel Ebner)
+ - state the actual duration of a complete flash and reprobe cycle
+   (just under a minute) in comments and the commit message, and
+   clarify that the timeout values are generous upper bounds
+   (Manuel Ebner)
+
+[1] https://lore.kernel.org/all/ak0J-HgzMRea53om@makrotopia.org/
+[2] https://lore.kernel.org/all/cover.1783988826.git.daniel@makrotopia.org/
+[3] https://lore.kernel.org/all/cover.1784513694.git.daniel@makrotopia.org/
+[4] https://lore.kernel.org/all/cover.1784665017.git.daniel@makrotopia.org/
+[5] https://lore.kernel.org/all/cover.1784945329.git.daniel@makrotopia.org/
+[6] https://lore.kernel.org/all/cover.1785119999.git.daniel@makrotopia.org/
+
+Daniel Golle (5):
+  net: dsa: wire flash_update devlink callback to drivers
+  net: dsa: mxl862xx: add SMDIO clause-22 register access
+  net: dsa: mxl862xx: add devlink flash_update and info_get
+  net: dsa: mxl862xx: recover switch stuck in MCUboot rescue mode
+  net: dsa: mxl862xx: document devlink flash and info support
+
+ Documentation/networking/devlink/index.rst    |   1 +
+ Documentation/networking/devlink/mxl862xx.rst |  63 ++
+ MAINTAINERS                                   |   1 +
+ drivers/net/dsa/mxl862xx/Makefile             |   2 +-
+ drivers/net/dsa/mxl862xx/mxl862xx-api.h       |  10 +
+ drivers/net/dsa/mxl862xx/mxl862xx-cmd.h       |   2 +
+ drivers/net/dsa/mxl862xx/mxl862xx-fw.c        | 955 ++++++++++++++++++
+ drivers/net/dsa/mxl862xx/mxl862xx-fw.h        |  20 +
+ drivers/net/dsa/mxl862xx/mxl862xx-host.c      |  54 +
+ drivers/net/dsa/mxl862xx/mxl862xx-host.h      |   2 +
+ drivers/net/dsa/mxl862xx/mxl862xx-phylink.c   |   2 +
+ drivers/net/dsa/mxl862xx/mxl862xx.c           | 134 ++-
+ drivers/net/dsa/mxl862xx/mxl862xx.h           |  26 +
+ include/net/dsa.h                             |   3 +
+ net/dsa/devlink.c                             |  50 +-
+ 15 files changed, 1304 insertions(+), 21 deletions(-)
+ create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+ create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.c
+ create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.h
+
+
+base-commit: b515dc54795ef370be3cb396e7c12ad91686b6d1
+-- 
+2.55.0
