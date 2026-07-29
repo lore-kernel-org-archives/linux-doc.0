@@ -1,243 +1,362 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB7E25D215
-	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 01:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107BB29DB9A;
+	Wed, 29 Jul 2026 02:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785288936; cv=none; b=K6Z/G2M2+5FXL/WSrdHeDhoM2mLp6sH2N4Qb35lBhxE7bf5xvxELCIpm53rYbJ4T/EEKr12ooAz+Y2Y4zD+oLienYg16LuDVOuCqWgch1CwsGchJc+zrB9mozXJyMryeu8s27mqPmYzADh7VCtyG3HviNe4sCj3m1jjdjsbTL/w=
+	t=1785291204; cv=none; b=M0K4Zcpxey9q1iPVIe4804no8cz+EFGHgx7gHXzHM1xqQCRnbEmAGy/E3dI5yRH26eHFXNM/QuCTuOz92RDv8j/ag2t5UbSPXdGY2ln0LvEL4sz3MXaOMu1wMuNxpHwQZnHgHdj8BxUvOejy/oAxKJUBgsjAPJ0uo81Ufht10uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785288936; c=relaxed/simple;
-	bh=sV2SvcZOHypxN+2wpELw+PZPGTBHySBWn6AG9jFe1fo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s8yVxUiLPn/tTuX7Ch8vyzWG9oe5pmq01Px3G3CYGM6ekwAbBTD65kyB5MyKyIgS0AFB9iUR1y2rYu8ZeGrN+hkmN/THRbQrT3aO88zH+mMcwkse26tomdMcu7eHDTzyWTgrLE2YHpjDc1jgN3WVClqgOIOQynsCyEh3pYCrVG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rE2Yb5dn; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785291204; c=relaxed/simple;
+	bh=EWiEXXAX14Raqaq+5nAmDeq2kPOdaMH3fCPEU/xAcJk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TVIoQ4AVfATop8h0Vk4m7xDyI98z6lyec2FmsPRLs8jxZFT8hM/NMKJkdTP4D1YD/HrxjY0+64DCea/RB/oDxSQ4KOtlIQPEddIP4ScPD31MghjdZ8cqIAKddbkq88mvsyDHX7pkws0TcrOGW7vqRZOS/nP9OS9RhJlXSpRhg5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=NuNf1sze; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rE2Yb5dn"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c96b08cdd1cso253526a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 18:35:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785288934; x=1785893734; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tUfiCLkCKlRJRlT81ihqbtaGYX9nwrTTHIIwvNg7zHg=;
-        b=rE2Yb5dn67lsI+LvrhJxj0jm8/uaFp1jTANWpLBHfyw0fi4a+Lp6cmA2PLKHBeLT3m
-         c9d9+4nZnmCokyFZkLlDdTspXgKHl5yewkmUEAo/EM6Iw+5A1Sq5H2DN1QyTowyDeA2Q
-         TQaGqIj+N5prEcy1jWrbkSGbcKzKD2eIe2G/HHCnNY7MbadAfqPJq4fdHHBPBiu0AMoj
-         we6t0tbDgaovCqGNUpDyDvTc1DQTug/1Y5Sm2dOMf7ovO+AWmd0f2nYwZCn5Bmr6rg7/
-         R2dCXZTHa+KNEFb8cspu5b6MmaQ9g4ciLTzl/eH6SbVFWam8838jyhUb9BNVUInjnYUk
-         FZ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785288934; x=1785893734;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=tUfiCLkCKlRJRlT81ihqbtaGYX9nwrTTHIIwvNg7zHg=;
-        b=DdL0SPJrFmczjOQ2Nd7kuI6+AN9d4nz5aKJhJbv8vFjojxHHnqRd947m1UNz9oycMu
-         uueLiqb/vKO2IOsKXPt/Y6l8PXCxElE5wwqQnr3XoDOHupLZKyZn1VCYm4AgX0yoeatd
-         y2Ao8hF7lis6PbyVukNWEOFo5i5kbqnvqM6p7MO0i3nKtG5qRRCkfGlw+SW6x752OWM5
-         UEtwpO90YFi7EMSQoBt2PFqlVJINitMAQsVccpaAXOOm2IqqyL1h1Dru5SIWDfQn46cO
-         5ftJ3ZGBJD649LpEfAaUEa0iSAs2KuTMY2jjPt1DHgVcz8ZlfxYnWPOItfDEYCQ6vaB1
-         1mKQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpM1TdKiOa+FmZwCHSA/krYdnx07WjunAYZtokn5iCrYTwsEhNPbEEz5MwsnLKGwSh+p6v/lDicslw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEjRQgaCspcd7PpLIN6ONdK9XkepLvOoxi/ART+lsOvPn4OIqY
-	HzpgBlzCH0g48s2t0/4uIdQhZ1nDTWAXKpuS5yiIkGSH4SsrsmLYuUkAy2g0gg==
-X-Gm-Gg: AR+sD10ZraMj0XRypddnRgvrb1IHi8kyI7iaozG9exet4+vn+mwnkL6YgEMfxxtpnhN
-	MiQ9XEsr5IAV9VoX+FN5XOoL64i6c6c0x67Me8lcQ/4Q/HaEPznwDLDAsTky5N7/p6SB5P1wqjq
-	1dkuPX+AXp6fXoLZ+ZrjK4tgm0cyoOPTvTjVstKjAgKSyYYEB33dGr2vh/SuBO8CJPJu/0+aWVd
-	KL5wveVX1s3M5p7MuxS6W/1jgAjpZ6pYO/2ZvXrx0qpWQA6Itmtx+Pwwa8WJolWkucjD8kqFuHD
-	vmKcD+USYQPGGJR+pl7UUA94OhLmY47UuBxAzFopn/4U6rH3x9FT9is+er235HvtF/LyJcw1kev
-	Zxcz2sVWAvsQa6lDNun0CZhsdEYGD1LtldGCAuEnTtjG5h5sVsxteg1q2AMObp378p/8mtie+82
-	c2Enkx3wTkKEy7ZYBosxXhsWyaj1HwrMyjLVGMPUOjcnctCcDQMuBOOLSkUcp3vMpiRaXOf8pb8
-	r87QkOE0HbggEwrLUsZYTiZYEZu8G96ljTWDvbrtvLD9Ll6
-X-Received: by 2002:a05:6a21:648a:b0:3bf:983d:e9b4 with SMTP id adf61e73a8af0-3c8ba472cfcmr6275680637.33.1785288933992;
-        Tue, 28 Jul 2026 18:35:33 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504b12cdasm4024680eec.1.2026.07.28.18.35.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jul 2026 18:35:33 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <354c3535-71a8-4058-90fc-a991657d1e80@roeck-us.net>
-Date: Tue, 28 Jul 2026 18:35:32 -0700
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="NuNf1sze"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66T1Ivp8930502;
+	Wed, 29 Jul 2026 02:11:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=topRHz
+	3QZ195McklxC1D1RWFNZJLSlFgQ9OISCVceGU=; b=NuNf1szeheSaQtPeUeMqqz
+	aXhL02JPcIJ8vN5u+ODEPrViXCFOEU7dt2tvOi3/0lPv55/qNS+D10YiHVNCNi/H
+	MY/qofCW06E7HS9yjpPNqM9ZFB6oIYMTHRuvF7Xzmse0bJXBrte9XAgsomgl+eZz
+	X3YZzgQ5oVxCsLF310BooJq7fAJQfcow/FoAX90GH/90Ki4WNheEibh1upNNIxOF
+	Fi0L3MCuaQQelD4eUbEGBtF3DWBaw1PNA/hA/Xzq7fC1xuffwV27dTzcI6oVo0zf
+	MorvPNxmLHqkizcZhfmJxXwvZ8Ix/nF1kLWD8CMeNPIZ25vfalFIHu5v2jI2lBqQ
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmuycgdcx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jul 2026 02:11:39 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66T2BMa7014054;
+	Wed, 29 Jul 2026 02:11:38 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fn8yhcqrv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jul 2026 02:11:38 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66T2BaI231195412
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Jul 2026 02:11:36 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4363A20043;
+	Wed, 29 Jul 2026 02:11:36 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4E17220040;
+	Wed, 29 Jul 2026 02:11:31 +0000 (GMT)
+Received: from aboo.ibm.com (unknown [9.124.209.202])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 29 Jul 2026 02:11:30 +0000 (GMT)
+Message-ID: <1260a5746d88eff27565d506f69cf74bd766abc1.camel@linux.ibm.com>
+Subject: Re: [RFC PATCH 0/2] mm/memory_hotplug: bound offline retry loops
+ with a configurable limit
+From: Aboorva Devarajan <aboorvad@linux.ibm.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador	
+ <osalvador@suse.de>, Michal Hocko <mhocko@suse.com>,
+        Lorenzo Stoakes	
+ <ljs@kernel.org>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Vlastimil Babka	
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan	
+ <surenb@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan	
+ <skhan@linuxfoundation.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        "Ritesh Harjani (IBM)"
+ <ritesh.list@gmail.com>
+Date: Wed, 29 Jul 2026 07:41:29 +0530
+In-Reply-To: <fdf72bbd-dd00-4a65-a196-75371f2585bc@kernel.org>
+References: <20260722074811.378283-1-aboorvad@linux.ibm.com>
+	 <3d18e400-5e7f-468a-b96e-d603d9535ac9@kernel.org>
+	 <fdf72bbd-dd00-4a65-a196-75371f2585bc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] hwmon: (pmbus/max20830): add support for max20830c
- and max20840c
-To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260728-dev-max20830c-v4-0-cec034298535@analog.com>
- <20260728-dev-max20830c-v4-4-cec034298535@analog.com>
- <336bd264-52ec-473a-b74f-5661f06286ed@roeck-us.net>
- <PH0PR03MB6351D7369AB790714DF416BDF1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
- <9559d319-4b44-45c2-ae13-f92099de4c89@roeck-us.net>
- <PH0PR03MB63510057D496CBE8EBFAE246F1CB2@PH0PR03MB6351.namprd03.prod.outlook.com>
- <9812bc9e-75c7-49b8-82c3-1e9162d53ccd@roeck-us.net>
- <PH0PR03MB635177B2B6831AFFAA2C30D6F1CA2@PH0PR03MB6351.namprd03.prod.outlook.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <PH0PR03MB635177B2B6831AFFAA2C30D6F1CA2@PH0PR03MB6351.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: JKiWrPs8eFp2rjQiTSZWjmLoORo4WUjn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDAxMiBTYWx0ZWRfX995TzNs9cw2/
+ UFrUA+XPxUatH74qgSpIEiz4oU5gm3UOXLLuEzAhe/bC8WwFJzTs8KBMARm6trsCJBRpqJezZC9
+ nagkAgcXuhGcpjJ3mwoIYs04QwfgNdX2nXl4GV6zaJftH246uo6b+4GbppU7vdRgBYAez36uKtM
+ uDe7YnLuVCgEMeY5ycHh9agNFWP8uAelkVkWxSGW732dFujT+9ftcnP3f9IvvbcoewHXThPVX7d
+ dJgOK1B3iEi1FcHhsvV5TAbAFmDmvMoW511NMaUT4CMXn9ndxCvB15VfWRzKuSElgiUkV3W5FiD
+ BatJeZP9VgePqEqvo590GXDI0py9DmKzFjfdkFiCxPhWbRDAVWUX4QG1/v9cf69+s5isLwWTg8j
+ cDViJpTcIsCaP9+lLPQm84fElZqU2R2LzE2OHTt4D4yTOE8sJnOKxsIF9kUAUJgxm5wBKY8z6nk
+ 40ZNynE6LtNAfXGHHEQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDAxMiBTYWx0ZWRfX8QiDaOvBx5tL
+ UaAJvJpHll6V/hqFKX4+nRzQ1YeE90UWOzuK5uFXiOA4HL9N+2i6XWYY3m058EsqjrFo3HA85q/
+ smWQhGlRbNQ22UsAVHSEVEo2k1Qk+RI=
+X-Authority-Analysis: v=2.4 cv=AZeB2XXG c=1 sm=1 tr=0 ts=6a69615c cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=20KFwNOVAAAA:8 a=iIfCR6ct8Zx7rH5hFn8A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: ZF-AU9MhXPE7dPcusNNeL9WWFx3CJ3qY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-29_01,2026-07-28_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0
+ clxscore=1015 malwarescore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607290012
 
-On 7/28/26 17:25, Torreno, Alexis Czezar wrote:
->> On 7/27/26 23:58, Torreno, Alexis Czezar wrote:
->>>>
->>>>>>
->>>>>> Are those chips still not published ? I find MAX20840T, but no "C" variants.
->>>>>> And MAX20840T presumably has an I2C device ID of "MAX20840", not
->>>>>> "MAX20840C".
->>>>>>
->>>>>> I also noticed that MAX20810 and MAX20815 seem to be register
->>>> compatible.
->>>>>>
->>>>>
->>>>> I believe so yes, they aren't yet.
->>>>>
->>>>
->>>> I just hope they are really compatible, and that the device ID
->>>> strings really include the "C". The "T" variants seem to have no T in
->>>> the device ID string, making it a bit odd that it was (or will be) added for the
->> C variants.
->>>>
->>>
->>> Yeah the T is weird, but I did test the C variants and they do reply the 'c' char.
->>>
->>>>> Actually MAX20810/815 and a few more are next in line after this. A
->>>>> different person is handling it, but they're waiting on how this patches go.
->>>>>
->>>>
->>>> You are making yourself more work than necessary. Knowing that there
->>>> are more chips coming, the sequence of strcmp() is not really that
->>>> desirable anymore.
->>>> It might make sense to create an array with all chips supported by
->>>> the driver instead of adding up strcmp sequences. That would make it
->>>> much easier to add support for new variants.
->>>>
->>>> There also seems to be a MAX20830T. Does it actually make sense to
->>>> list the variants (C/T) in the first place ?
->>>>
->>>
->>> Will think about how to make to scale the code when adding newer variants.
->>>
->>
->> Something like the following should do.
->>
->> const char *supported_chips[] = {
->> 	"MAX20830",
->> 	"MAX20830C",
->> 	"MAX20840",
->> 	"MAX20840C"
->> };
->>
->> ...
->> 	for (i = 0, supported = false; i < ARRAY_SIZE(supported_chips) &&
->> !supported; i++)
->> 		supported = !strcmp(buf, supported_chips[i]);
->>
->> 	if (!supported)
->> 		return dev_err_probe(&client->dev, -ENODEV,
->> 				     "Unsupported device: '%*pE'\n", ret, buf);
->>
->> Then all you'd need to do to add more chips would be to add the strings to the
->> supported_chips[] array.
->>
-> 
-> For some reason they didn't ask me to add MAX20840, and I did double check with them.
-> 
+On Wed, 2026-07-22 at 14:29 +0200, David Hildenbrand (Arm) wrote:
+> On 7/22/26 14:08, David Hildenbrand (Arm) wrote:
+> > On 7/22/26 09:48, Aboorva Devarajan wrote:
+> > > Memory offlining can loop forever when a memory block holds a page th=
+at
+> > > can never be migrated or freed.=C2=A0 This series adds an opt-in retr=
+y limit
+> > > that lets offline_pages() bail out with -EBUSY instead of retrying
+> > > forever.=C2=A0 The default (0) preserves today's behaviour exactly.
+> > >=20
+> > > Patch 1 is the fix; patch 2 is an in-tree selftest that reproduces th=
+e
+> > > hang from an unsignalable kworker and verifies the limit recovers it.
+> > >=20
+> > > 1. The problem
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >=20
+> > > offline_pages() repeats two nested steps until the whole range is
+> > > isolated:
+> > >=20
+> > > =C2=A0 1. Inner loop: find and migrate movable pages out of the range
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 (scan_movable_pages() + do_migrate_range()).
+> > > =C2=A0 2. Outer loop: re-check isolation (test_pages_isolated()); if =
+not
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 fully isolated, go back to step 1.
+> > >=20
+> > > Neither loop has a termination condition.=C2=A0 When a page can never=
+ be
+> > > migrated, scan_movable_pages() keeps returning the same pfn,
+> > > do_migrate_range() keeps failing on it, and control never even reache=
+s
+> > > the outer isolation re-check - the inner loop spins forever.=C2=A0 Th=
+e admin
+> > > guide acknowledges this:
+> > >=20
+> > > =C2=A0 "Further, memory offlining might retry for a long time (or eve=
+n
+> > > =C2=A0=C2=A0 forever), until aborted by the user."
+> > >=20
+> > > The single escape in the loop is signal_pending(current):
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0 offline_pages(pfn, end_pfn):
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 do {=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* outer: isolation */
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 do=
+ {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* inner: migration=C2=A0 */
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 if (signal_pending(current))=C2=A0=C2=A0=C2=A0 /* <--=
+ ONLY escape=C2=A0=C2=A0 */
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto =
+failed_removal;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 pfn =3D scan_movable_pages(pfn, end_pfn);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 do_migrate_range(pfn, end_pfn); /* may never succeed =
+*/
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } =
+while (pfn < end_pfn);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } while (test_pages_isolat=
+ed(...));
+> > >=20
+> > >=20
+> > > 2. Why the kernel itself should be able to bail
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >=20
+> > > We keep hitting this during memory hot-remove operations: a single
+> > > stuck page can block the whole operation.=C2=A0 This was also reporte=
+d in
+> > > [4] earlier; one example, where offlining kept failing to migrate a
+> > > busy block-device page-cache page (aops:def_blk_aops) in a normal zon=
+e:
+> > >=20
+> > > =C2=A0 [10880.889199] page dumped because: migration failure
+> > > =C2=A0 [10880.889232] migrating pfn 2a87b failed ret:1
+> > > =C2=A0 [10880.889235] page: refcount:3 mapcount:0 mapping:00000000718=
+ec5a6 index:0x857 pfn:0x2a87b
+> > > =C2=A0 [10880.889241] aops:def_blk_aops ino:800003 dentry name(?):""
+> > > =C2=A0 [10880.889245] flags: 0x33ffffe00004104(referenced|active|priv=
+ate|node=3D3|zone=3D0|lastcpupid=3D0x1fffff)
+> > > =C2=A0 ...
+> > > =C2=A0 [10880.889291] migrating pfn 2a87b failed ret:1
+> >=20
+> > Hi,
+> >=20
 
-Odd. Well, guess we can add it later if/when someone asks for it.
+Hi David,
 
-> Code wise, I ended up with this. (I guess am trying to avoid mailing a v6)
-> 
-> ...
-> static const char * const supported_chip_ids[] = {
-> 	"MAX20830",
-> 	"MAX20830C",
-> 	"MAX20840C",
-> };
-> ...
-> 	for (i = 0; i < ARRAY_SIZE(supported_chip_ids); i++) {
-> 		if (!strcmp(buf, supported_chip_ids[i]))
-> 			goto id_ok;
-> 	}
-> 
-> 	return dev_err_probe(&client->dev, -ENODEV,
-> 			     "Unsupported device: '%*pE'\n", ret, buf);
-> 
-> id_ok:
-> ... (probe after)
-> 
+Thanks a lot for the review.
 
-If you don't like the extra variable, you could avoid the goto with
+> > the text reads AI generated. If you did use AI, please disclose it prop=
+erly.
 
-  	for (i = 0; i < ARRAY_SIZE(supported_chip_ids); i++) {
-  		if (!strcmp(buf, supported_chip_ids[i]))
-  			break;
-  	}
+yes, I did use LLM to help re-phrase this. I'll make sure to disclose the u=
+sage going forward.
 
-	if (i == ARRAY_SIZE(supported_chip_ids)
-	 	return dev_err_probe(&client->dev, -ENODEV,
-  				     "Unsupported device: '%*pE'\n", ret, buf);
+> >=20
+> > Quick feedback:
+> >=20
+> > 1) Using passes is not really what we want in many cases (e.g., ZONE_MO=
+VABLE
+> > where we might need a couple of seconds/minutes to complete offlining w=
+ith a lot
+> > of concurrent activity). An actual timeout is also problematic (see bel=
+ow).
+> >=20
+> > 2) Having a toggle for all offline_pages() users is questionable. In pa=
+rticular,
+> > user-triggered offlining or offlinig triggered on ZONE_MOVABLE etc shou=
+ld not
+> > obey such timeouts.
+> >=20
+> > I proposed a more restricted approach only for offline_and_remove_memor=
+y()
+> > previously [1]
+> >=20
+> > [1] https://lore.kernel.org/all/20230627112220.229240-1-david@redhat.co=
+m/
+> >=20
+> > Michal back then commented "I really hate having timeouts back. They ju=
+st proven
+> > to be hard to get right and it is essentially a policy implemented in t=
+he
+> > kernel. They simply do not belong to the kernel space IMHO."
+> >=20
+> > And I agree.
+
+Thanks for pointing to [1]. On our end, on powerpc (pseries),
+drmgr (the userspace tool that triggers memory hotplug) already wraps memor=
+y hotplug
+operations with a timeout for exactly this reason. However, since we've now=
+ seen this
+issue occur a couple of times under system load in ZONE_NORMAL, and also as=
+ per my understanding=20
+offline_pages() can be triggered from other kworker path where it cannot be=
+ interrupted
+and could end up retrying indefinitely, So I wanted to get a consensus on h=
+ow this should
+be handled.
+
+> >=20
+> > I assume you run into such issues with DIMMs in VMs? virtio-mem handles=
+ that
+> > much nicer nowadays, by essentially doing the hard part that should fai=
+l easily
+> > through alloc_contig_range().
+> >=20
+> > offline_pages() is just designed to retry forever.
+> >=20
+>=20
+
+Yes, I do not hit this issue with virtio-mem path, looks like=C2=A0the unsa=
+fe unplug mode that
+relied on offline_pages() for migration was removed in f504e15b94eb ("virti=
+o-mem:
+remove unsafe unplug in Big Block Mode (BBM)"), so now it rather goes throu=
+gh the
+alloc_contig_range() path, which gives up with -EBUSY after a few migration=
+ attempts
+on the same page, so offline_pages() never sees the stuck page.
+
+We originally hit this on a pseries LPAR, during memory hot-remove. offline=
+_pages()
+gets stuck on a single page that won't move, with two specific cases as bel=
+ow,
+both in ZONE_NORMAL:
+
+  Case 1. a slab page that ends up in the isolated range:
+
+	[83310.373767] page_type: f5(slab)
+	[83310.373770] raw: 023ffffe00000000 c0000028e001fa00=20
+	[83310.373774] raw: 0000000000000000 0000000001e101e1
+	[83310.373778] page dumped because: isolation failed
+	[83310.373788] failed to isolate pfn 4dc68
+
+  Case 2. a busy block-device page-cache page that keeps failing to migrate=
+:
+
+	[10880.889058] page: refcount:3 mapcount:0 mapping:00000000718ec5a6 index:=
+0x857 pfn:0x2a87b
+	[10880.889062] memcg:c00000006a67e000
+	[10880.889064] aops:def_blk_aops ino:800003 dentry name(?):""
+	[10880.889069] flags: 0x33ffffe00004104(referenced|active|private|node=3D3=
+|zone=3D0|lastcpupid=3D0x1fffff)
+	[10880.889073] raw: 033ffffe00004104 c0000000b8667960 c0000000b8667960 c00=
+00000130f8dd8
+	[10880.889077] raw: 0000000000000857 c000000172abe1e0 00000003ffffffff c00=
+000006a67e000
+	[10880.889081] page dumped because: migration failure
+	[10880.889114] migrating pfn 2a87b failed ret:1
+
+I can also trigger it in a VM by hot-adding a DIMM, pinning a page and remo=
+ving the DIMM.
+This is the part I wanted to highlight, the ACPI DIMM remove runs offline_p=
+ages() from the ACPI kworker,
+and as far as I understand, nothing can abort it, there is no signal to del=
+iver, so there is no way
+to cancel the work, so it spins until reboot in this case as well?=20
+
+> One thing we can definitely do is to just fail faster if we find an unmov=
+able
+> page in !ZONE_MOVABLE.
+>=20
+> Usually that happens when we race offlining (has_unmovable_pages()) with =
+page
+> allocation, and failing on unmovable pages is actually perfectly fine.
+>=20
+> But for ZONE_MOVABLE we should keep retrying, because some pages might on=
+ly look
+> temporarily unmovable.
+>=20
+> So that would be the low hanging fruit: on !ZONE_MOVABLE, fail faster.
+
+This handles scenarios like Case 1. A page can still be allocated from the =
+range after
+isolation and become slab. When test_pages_isolated() fails, we can re-chec=
+k that
+page with page_is_unmovable() and return -EBUSY if it's unmovable. I'm curr=
+ently testing this approach
+will send a patch for review.
+
+Case 2 is different. The page is on the LRU, so it is considered movable an=
+d the fast-fail condition abovewon't be triggered. Instead page migration k=
+eeps failing, causing
+offline_pages() to retry indefinitely
+and can hang forever. This could be handled with a timeout or a user
+policy in the application that
+initiated the hotplug operation (signals). However, for the kworker
+paths that trigger memory
+offlining (ACPI remove, etc.), should this instead be handled by the
+driver rather than relying on
+offline_pages(), similar to virtio-mem?
+
+Please let me know your comments.
 
 Thanks,
-Guenter
-
+Aboorva
