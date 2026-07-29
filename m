@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A818544C649;
-	Wed, 29 Jul 2026 09:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6DD40B38D;
+	Wed, 29 Jul 2026 09:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785318426; cv=none; b=sFZbwM0WGREEOI0m+sP0Bg+ouprtWw7MuSpFNTrAFbzGQghQitXZV3vhrmW4Kj0RJo/7yIi+hZmjQ8Rw9k32cbwHkQXJ9f90h6zSXIcGRWOZQexj1e3Kw7ByD8t96kFv2hqrRGH5QY4b5qxoHqzzfUlEJuiv239J/bLUYzUy8sw=
+	t=1785318500; cv=none; b=e0wpcHsv4A6iTUkwGh7dae/iyW4TOXWelIyXS5S1KcuONMxvnMEiFjg48hm/CU+VzqQyaevpc0QPo3W3GBgUz7q4g5ZXmnKIQvGqCeF9Tvq3IOmbtM70ZxqUch9DAZbYkp/B5note5DENSGci3vWbFu8sOBSNfuhxJYtxyvElhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785318426; c=relaxed/simple;
-	bh=+AiW4Z8plSSX+m60jbLmv0TA+A3EVJnZffnTSf1FE7A=;
+	s=arc-20240116; t=1785318500; c=relaxed/simple;
+	bh=PYEnfcRwXrBEt3g9Up9gMEr8X8FWlYsxOkWdmbTJbq4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YSq5OgDCW4qB9n75vfoquVj97Q3UIkv6QBxl+CO6XfXQcxSqBHiHW9wxur4rlhXROSjSdjFk70URnCpIo/uI4cS74Qd1FqalO0Rvba3t8EbxH1+TOBzuAHgmJhCd89RH92jHM5TYwBKwGlxu7nR5UuApnBxcch/ZUyCgzGWKqnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kkmwOjSZ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Cp/1EITH90W4+WMaZrJdfJOjqBhCHqPyegrLvAc0LC/hwgim9k5uqiMrwVUPBb5TtbSzSiRnjT+BzZNoB8GrevY7eFZxZDNGN9GM9hPiqEPJ8iPd0zNyTpSLW6zOQRNP/GJQiyIu0hsMttr4rBpNz+BtVieFBCzQyWesLQTfwPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1WS81zR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kkmwOjSZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A346D1F00A3E;
-	Wed, 29 Jul 2026 09:47:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1WS81zR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A211D1F000E9;
+	Wed, 29 Jul 2026 09:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785318425;
-	bh=Rua1RKrJjiJNOIidWLTZk95Yzmjh2kX7wHbfY4bO+oo=;
+	s=k20260515; t=1785318499;
+	bh=n3kavLQPrcg1Sh5FW3j2MvQSeDETGM5qCzr0BKWnYHk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kkmwOjSZv+QNGaxoleaGShT4fXXQ27JMIKH+oFVuBrL+OWLtWoWiqpyvM/uGsZRnJ
-	 ckow47+/MsLwKh3tOGv92MSGOxD4TYx1NCvlu9r3+C14cI48LfqAzOjlZgQ+lks4od
-	 MLWuFX8F2+Z4f4oUWiruUCOsMw7932uA9KQ76EL2VXsUDKQQcjYBmyuV1p4Pdy6tdv
-	 BvFWLS9s+fL9OrtIWIstduANmC34ffFS2XM7cGEK+p/FGopTY+c2V8FZWUUBE40U5j
-	 D8B4Kf3GJE+6fKTo622F/5Rd11gd6FnWTm+xl3RqwYYdNeIDeDf6CPste0na7UxyOJ
-	 JkDKFH3vvdy6g==
-Message-ID: <ffb091ee-affe-41b2-939c-6437dd9cc13e@kernel.org>
-Date: Wed, 29 Jul 2026 11:47:00 +0200
+	b=g1WS81zRqxp6ntmkfWCJ/QHGDs2iluZKCkthWT8JGVuxkkNx0zByC9eXcBjtLyO4C
+	 JXAzbFFV3d0ScZ86JfUrVV4iJxm/EIYL0VZKdzfDmogr39q7yuuVACqQiacg6b7tze
+	 rdWULqvMxCS7yq0ShGwjscSE+WLzmrfdvM+KuPPVPIdpOomJOiPjyB7DlTToHfeHiH
+	 UQ8Z6r3CADQDRqRW1UjIpyrTHNXvd5O4uhR+XaxnuKNH8vnTR3J++5aPFlVNKbQ+Pq
+	 ETxdaOl9e4eqFE0aMeStkr6BRtNL5bn0l4hg9E6svg89SsACLwEQJDeG0p0US9qi/b
+	 GFEXeh5KsjfSw==
+Message-ID: <dbe85481-6260-4b17-8930-1f5d54bf6d16@kernel.org>
+Date: Wed, 29 Jul 2026 11:48:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,21 +35,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] mm/khugepaged: extract young page check into
- collapse_is_referenced() helper
+Subject: Re: [PATCH v2 6/7] mm/khugepaged: unmap pte before releasing vma
+ write lock
 To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc: Usama Arif <usama.arif@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
  "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
  Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
 References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-3-npache@redhat.com>
+ <20260715025941.1571316-7-npache@redhat.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,26 +96,20 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260715025941.1571316-3-npache@redhat.com>
+In-Reply-To: <20260715025941.1571316-7-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/15/26 04:59, Nico Pache wrote:
-> This change deduplicates the "is this PTE/folio referenced enough to be
-> considered for a collapse" condition that was repeated in both
-> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
-> a single inline helper function.
+> We are currently dropping the anon_vma write lock before unmapping the
+> PTE. Although this is safe, due to us still holding the mmap_write_lock,
+> its safer and less confusing to switch the order of these two operations.
 > 
-> Also move the comment and use it as the function header. While we are at
-> it, updated the comment to clarify that a young pte is a recently accessed
-> one.
-> 
-> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Suggested-by: David Hildenbrand <david@kernel.org>
 > Signed-off-by: Nico Pache <npache@redhat.com>
 > ---
 
-Also, do we really need this (badly named :) ) helper given that there will only
-be a single invocation after #5?
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
