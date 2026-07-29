@@ -1,90 +1,99 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC2F411A0F
-	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 16:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F2A3AFD1C
+	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 16:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785341348; cv=none; b=n+pO9owCHsi6FrdJ6H5YR6wm3qx7nyk5xpVDSqpJWGnBl7Fk4nx8nAsXTTHzSHduV32SCjTcHCgp8VMUAQUQCtNXOhCflQOt3zRkqUw1G4ivJNGe6EDp5OToHsiJlKs9BKaAnNDbF4yGg7IA/qvIBQUBMNVrryq7NokRSeFCrfU=
+	t=1785342261; cv=none; b=M8ou7NYQ+GAt4c5UL5IjbxZSkPVYrWOJC8CJcskQQd0VZgG9QSZJeDcc663rvCwMiB9nsA9FgUP2DNUuS2OMo3latUg/WKgd5SLcQWP3+euJ1d7I0LLLLDXslFLnNG88BXfsQEcfCQ9vWpp7F9IgZ6K6SW/qDVybtBLooMUZ2Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785341348; c=relaxed/simple;
-	bh=OJNpt+XFKz2F/s/xnxUXEHTelo8cISHJOL9dL4VTY2k=;
+	s=arc-20240116; t=1785342261; c=relaxed/simple;
+	bh=5YRWzESNup/uJaXwpxZXtL2cnI88MqsveWuEJC0Yp0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V2nol7ebBVHq8OGD7NQJQP8iZqoB6CurcMc2r2IjP7gtk/8vg/7ifzIalWSGvb4QTPVjghDmy69256vMFtc1m8t3S+muTwmDiBLiD0V4bR4BS6LE+/X97f9bn/t8hWky1Z1NK72+OsOfD713PCApRogho5bGqqEf337WBAtsZbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=izHltBI8; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=jR1a6q2wWEf0qh0S8ATzmG9yep2NKTHTF7uwrgRgHrq1q76VUIk519c2GiWO/ipy0UjBs8ou02ZvSlmidoelHD4IanEwqZfMZVOptUIeh908EWhETD4ku4tzGHxMYDJBPhCeFLx+nhdaKQuQexHKJa6yktUcRNUYNDAo5Mm7QlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=uo1Am/Eo; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="izHltBI8"
-Date: Thu, 30 Jul 2026 00:08:35 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1785341339;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gHJ/CYE5s4aW0Crg/l1eVr6mAI0ZFCoWVcYGZfSY1so=;
-	b=izHltBI8K6ouHf2CzQI2GwdzhqHZHMf1LapwNgAfMOFAfGMwZexRZF+P+FF3zG5WU+qC7M
-	YKdRcBVThDsbyYH0SomvVi7GVmmfknwySF/NR9hMEAr0CnWK/rpAGO8If3n6y8Zbij2SI0
-	IoTsXeGfBeV4awYikFh8ruXXZDOj5sDzU0obEjUpo7VyD0G/yGWXKP3dMbreVLoOvP67gF
-	A+bysSDI4IkZTMD0vktJH08EebWZuTaT3Mac4/B/bg1sPElgBrpuBfjnmq5zGeo2eYhhIz
-	I+EDgOXw7x/T8J1sx8MVrw4mWSGCLSUT3dHBzccY5PE7fa6ZoZFHCT3uliL43w==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/16] docs/zh_TW: process: localize terminology in
- 7.AdvancedTopics.rst
-Message-ID: <amolg7NpObNT8Gnb@wyuan.org>
-References: <20260728091038.171033-1-chenyou910331@gmail.com>
- <20260728091038.171033-2-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="uo1Am/Eo"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso671359a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 09:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1785342259; x=1785947059; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AhhJU7MnTb9qUtSrGFKUek+jSKmzQXJZbHXf+DBOgvs=;
+        b=uo1Am/Eo52B9YEe+jwBKnL1orOZiXzekZdEwMuErRGBKVDJgQ5voDtCRakP4kfXqfw
+         br7YCyQhFMIZc9I9bc/lIV/tBedFAo5Lyt+66Q52BEgFhKbw7KAARQqERG5JFhanUYHV
+         ZK0MH0lxQSY9SiiGO459vlB5pwVB6NQpOHEqGKNjKsxLFb8ndWozm1aaJgHWOMj2YBoO
+         8VHsHzywZZyXEvpjwlTqITrFni/5zM9eEPpjeK26HM5LjAcM9bDShQjU+P5Gcz4MNh5V
+         Acx5UaVlJzJsfJUGYPXiyoIgcV6tFnNWlgRsSZ6YLK2DeuVKG6nurm56MrojGdyRjZYT
+         SIkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785342259; x=1785947059;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AhhJU7MnTb9qUtSrGFKUek+jSKmzQXJZbHXf+DBOgvs=;
+        b=euVBjOaZ/zDxlFFjm7n9eF43MqJtu5uMtYoIpQPvwnh8qUEoIAch0TXLKpu8kYKoXl
+         VEi13CocgokCRl0fhJASxgTKhgVxYBNyFtEex9EuGfqhPty0JMCVuh8SZK/GAI1uz2Rx
+         Tf7Zxr31IoATq4DajFBXFZL5ViEfZCi7jsdYvixTYi3jlBksxm37hjtPMXHF7G3C5XQH
+         fexKdA5wLmQWEqhDi7p3GeyFk9e/yybM9RFKoVbgJjm+nABuXg7PLbiRn3arpLDYAeAx
+         DPGGyo4kt52kH2FoOunZlH6Pm8z3y//m+mp/zS9W2QWxEOAa7ofAusylYlMfI5usqACP
+         F1+g==
+X-Forwarded-Encrypted: i=1; AHgh+RoPjOpcSwLAI/iH3XGaovPeECVX4NanYCOcVxfpcnEEOOyPGWGb/hifS32SiaB5dIlCVI316c/UXKs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWPOF4zRsrq2QRUHpAQWAlYZBJkpAjPYelCiuwZAWVHB81Kfvz
+	PYweqo+BGf/NRwGMe1jg7rJUZtelpDhz+qN3vw8KKicUdmZCoU1rdBOuj35vACkb1fs=
+X-Gm-Gg: AR+sD10ucGJj3JZVrx1cwaQRByF2b3ycrK+3m6WOLyDX2mxC8Zj8OX9hGdKI7d/FQ+L
+	n+HoQXLQr2VMVnBkO8THiIUrR/EW0VlDy7B/2v5WtY1dK/QsB5lNefEdIi0FZ5l67HrsZL0sefb
+	caHJDHYsjGAyQlwJOwMCfLKY74oVzsaJFncBkrqVQOH1keM5Q6gSItFg0DuCyKe2hYT119SJA21
+	LXU2cAAe4C44xWCANadL6YmLmqDpud/GMixwx0qPQAm1M6I+Ftq68Gxy8DTkp/pZs6gdy395zTe
+	6wTxjdgsAfaVb3sFz+F/BDtoN5JRioV5VUMyVGLp0Si6Q3E8+JQrmvImAMH/53KTdLnOk5GOFj9
+	zWo9YAa0UrzDfYZsSEnqXIcAbnDfjf8FoqK9xz9xZtSY5LczLuUC7C6T513l/zzt9JJgvRygeo3
+	0APETG5Y6C5DMXleUhZSB0R1qspi0frxChI6qVD7RzOLDFtAW+ukDN
+X-Received: by 2002:a05:6a20:7f81:b0:3c3:b57b:6291 with SMTP id adf61e73a8af0-3c8aafd66bbmr9065958637.18.1785342258755;
+        Wed, 29 Jul 2026 09:24:18 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:51::])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbdba92937csm1097115a12.31.2026.07.29.09.24.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 09:24:17 -0700 (PDT)
+Date: Wed, 29 Jul 2026 09:24:16 -0700
+From: Joe Damato <joe@dama.to>
+To: Ayananta Paul <ayanantapaul@gmail.com>
+Cc: kuba@kernel.org, donald.hunter@gmail.com, davem@davemloft.net,
+	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: netlink: fix spelling in tcp_metrics.yaml
+Message-ID: <amopMJMlD4uFuM1L@devvm20253.cco0.facebook.com>
+Mail-Followup-To: Joe Damato <joe@dama.to>,
+	Ayananta Paul <ayanantapaul@gmail.com>, kuba@kernel.org,
+	donald.hunter@gmail.com, davem@davemloft.net, edumazet@google.com,
+	pabeni@redhat.com, horms@kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260729034147.6970-1-ayanantapaul@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260728091038.171033-2-chenyou910331@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260729034147.6970-1-ayanantapaul@gmail.com>
 
-On Tue, Jul 28, 2026 at 05:10:23PM +0800, Chen-Yu Yeh wrote:
-> Localize mainland terms to Taiwanese Mandarin (內核→核心, 軟件→軟體,
-> 高級→進階, 項目→專案, 用戶→使用者, ...) and sync with the English
-> original (Github → GitHub).
+On Wed, Jul 29, 2026 at 09:11:47AM +0530, Ayananta Paul wrote:
+> Correct the spelling of "reordering" which was incorrectly
+> written as "reodering" on lines 113 and 115.
 > 
-> update to commit 5ce70894f6ca ("Doc: correct spelling and wording
-> mistakes")
-
-Reviewed-by: Weijie Yuan <wy@wyuan.org>
-
-> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+> Issues identified using `codespell -D - -S "*.bin,*.o,*.a,*.so,*.ko,*.gz,*.png,*.jpg" Documentation/`
+> 
+> Signed-off-by: Ayananta Paul <ayanantapaul@gmail.com>
 > ---
->  .../zh_TW/process/7.AdvancedTopics.rst        | 110 +++++++++---------
->  1 file changed, 56 insertions(+), 54 deletions(-)
+>  Documentation/netlink/specs/tcp_metrics.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
 
-A small gripe: what is the best practice for reviewing a new revision of
-a patch series after it has been rerolled?
-
-For this series, I found the output of b4 diff rather difficult to read,
-so I had to split out the individual patches and inspect them using git
-mailinfo and interdiff. That, however, means losing the built-in
-highlighting provided by b4 diff.
-
-In this case, I would say a range-diff/interdiff for each patch seems to
-be a good solution in general, while obviously that's not that
-convenient for the patch sender.
-
-Perhaps there is no best solution to this problem; Git may simply not be
-expected to handle Chinese text particularly well.
-
-I would appreciate it if some one more experienced could give me some
-tips. But this series is however quite special. Usually we won't meet a
-large series which contains many diffs in it like this.
-
-Then I suppose we'll just have to ride out these growing pains. ;-)
+Reviewed-by: Joe Damato <joe@dama.to>
