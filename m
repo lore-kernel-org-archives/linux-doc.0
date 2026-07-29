@@ -1,457 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121A641B8F1;
-	Wed, 29 Jul 2026 20:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EABD3D9DD7;
+	Wed, 29 Jul 2026 20:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785357955; cv=none; b=qaQYMkQVwCCzhRIcOHm6R4oEOWhRlNCtqUKEb4OFFBd+Koo0u9ue/v8xGVnmK5fiRA9TlR7Bdwu4XxV9MtZHv3cw8uHLH0clqUJ0Go7k6bOmWnTBuaE9a9TiwfFxk0k85N0YECG2hwNs0uLiM+SObjOKg93kINsmXxED6GaCNV0=
+	t=1785358080; cv=none; b=VJRm+Sq14d4WYfKT+QxKOv7aWAv3elX8/V9iufhnruRp/2aExDuLNueyzFzFtUWjiGll55odvAckDrmVq+/o04m5cKRHIl51sGUqT/hK3k6T+Ztz0TZgJfQH7sTtYz6A2k9Gl39Lvp8l5aaQIvjJS4OqIGi4KY4iniUltpv7TYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785357955; c=relaxed/simple;
-	bh=yWxfZRD/yZIaSxGelAA8Boxsr8ChzC+blbviTyRk+ss=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GtZ9u/w4ukNsiLWwK0bW6I7rZBmKPX54R5Pg7y9oeUMuJ6v3/LVuunr9fmbX5RWCMFE+qTa0/sx+0RyNETObABWqG6W5TM8U2KY3W3/Q+KFKoO9NWHjVckqBIM1ijPTnSfGRqMxJ6EHc5Dldl1268E4e1RnM9d47zrm3wBUuSdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ky227bVA; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785358080; c=relaxed/simple;
+	bh=kmrVgsXdfqOCx8i6BHt0bOfCHxunCU/x25fxz7sPQPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cAuKrh2p3z80E5rsHupubKYsrZu3CCCWTkmOYrDDmlCj9terZyFaUyyPry0RFUvjSTgv8PC3Z/bBQpsBKe+iiH6QVkUrLdAjBkwstPKbGSzc7+madCGdOpk2b+rom7YQXtWA6KN2+GyjEDW96EETCZ/QMlenF8suWfcE+AGwzz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUxUsJhp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ky227bVA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785357950; x=1816893950;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yWxfZRD/yZIaSxGelAA8Boxsr8ChzC+blbviTyRk+ss=;
-  b=Ky227bVA0zpOiDkIRqJNSU1ImANYpH+n8Xb06Rcq2Ueu/6jOAZm8sCXm
-   PxcdeLZrxGNPECKdkRHbK4xLhnrS1sKERqSON0I8tlK68vOJYzjtTpYp4
-   ZbSNsw0Tj1B7CGMKfEVFblEuyAdp3+/ywAWilhylZOSjZDprh6kk9XG5G
-   bk71e2DwsswO3fjV0XgPIt6tCysar9UOfwKpn5e8advubH9lxGF/tfUT2
-   C2fwBu2W9zcYcmeaz9wEynoGf75X4Jem5W3Zf5MWfub/OR4/7+O/rua/o
-   znqi1qeipWoVp44v575vVAjBWEb9xuJ9SgyIqbtI+iigqS1NwGN0lkSze
-   w==;
-X-CSE-ConnectionGUID: jyVZepDLSt2u/s3suZqwow==
-X-CSE-MsgGUID: jHW670DwRd2BwrILqfwB0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="84952505"
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="84952505"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 13:45:13 -0700
-X-CSE-ConnectionGUID: eWs4wzqZQD6N1frRIYKi0Q==
-X-CSE-MsgGUID: I2e+6QCUSey8s/NRAKKh5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="264381387"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orviesa005.jf.intel.com with ESMTP; 29 Jul 2026 13:45:13 -0700
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org
-Cc: Amritha Nambiar <anthony.l.nguyen@intel.com>,
-	larysa.zaremba@intel.com,
-	przemyslaw.kitszel@intel.com,
-	aleksander.lobakin@intel.com,
-	sridhar.samudrala@intel.com,
-	michal.swiatkowski@linux.intel.com,
-	maciej.fijalkowski@intel.com,
-	emil.s.tantilov@intel.com,
-	madhu.chittim@intel.com,
-	joshua.a.hay@intel.com,
-	jacob.e.keller@intel.com,
-	jayaprakash.shanmugam@intel.com,
-	jiri@resnulli.us,
-	horms@kernel.org,
-	corbet@lwn.net,
-	richardcochran@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	Bharath R <Bharath.r@intel.com>
-Subject: [PATCH net-next v6 15/15] ixd: add devlink support
-Date: Wed, 29 Jul 2026 13:45:02 -0700
-Message-ID: <20260729204505.3373950-16-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20260729204505.3373950-1-anthony.l.nguyen@intel.com>
-References: <20260729204505.3373950-1-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUxUsJhp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F08E1F000E9;
+	Wed, 29 Jul 2026 20:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785358072;
+	bh=YkV6rISoCu+fAaQT3dWDfFizbFzVweE3SNioXxA5sCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TUxUsJhp6JGmt6uXPS8WT/IN2BYerMuGdmcpsOsVJb6cp4hvYnaT4PcaOHYlZfmnW
+	 atCZRsNMJQiDZoBY6425iXjdpt1cVnUzgpD3YCC/OrYWsJyhQ3b/PigJgIvcwnP9wr
+	 RhQxEGeslvXbLhAK4g24oW78yfRSZ9lmeYQZGR6zHKCDZZ1AvU88SntwXYuYFOKO+U
+	 4/xypX65fSLIfK+aDSYavLeMKbMxiA6XhW4Wq2NnZw5F4GqAWjLkfLFWt4EyjkwKji
+	 pU6uMo+P7QZsUmTmbgVfx5hXYAjNRCNeLVI+RGdOKXizkwKlI6RJJijAgBM/kiFB0A
+	 2wVXu0za1Lk/Q==
+Date: Wed, 29 Jul 2026 21:47:45 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Janani Sunil <janani.sunil@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
+	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
+Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
+ spi-device-addr
+Message-ID: <20260729-hundredth-suffice-f28afa67bc06@spud>
+References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
+ <20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
+ <cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
+ <20260725230739.63ff7000@jic23-huawei>
+ <20260728-patronize-thwarting-56fab2e11077@spud>
+ <20260728221719.7f668a73@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xw+N1UAUFYpS9Flr"
+Content-Disposition: inline
+In-Reply-To: <20260728221719.7f668a73@jic23-huawei>
 
-From: Amritha Nambiar <amritha.nambiar@intel.com>
+--xw+N1UAUFYpS9Flr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Enable initial support for the devlink interface with the ixd driver. The
-ixd hardware is a single function PCIe device. So, the PCIe adapter gets
-its own devlink instance to manage device-wide resources or configuration.
+On Tue, Jul 28, 2026 at 10:17:19PM +0100, Jonathan Cameron wrote:
+> On Tue, 28 Jul 2026 17:00:55 +0100
+> Conor Dooley <conor@kernel.org> wrote:
+>=20
+> > On Sat, Jul 25, 2026 at 11:07:39PM +0100, Jonathan Cameron wrote:
+> > > On Sat, 25 Jul 2026 15:57:07 -0500
+> > > David Lechner <dlechner@baylibre.com> wrote:
+> > >  =20
+> > > > On 7/22/26 2:54 AM, Janani Sunil wrote: =20
+> > > > > Add the generic spi-device-addr property to the binding and depre=
+cate
+> > > > > the existing vendor specific microchip,hw-device-address property.
+> > > > >=20
+> > > > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> > > > > ---
+> > > > >  .../devicetree/bindings/iio/adc/microchip,mcp3564.yaml         |=
+ 10 ++++++++--
+> > > > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > > > >=20
+> > > > > diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,=
+mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.=
+yaml
+> > > > > index 675319276197..de1ea289e7f5 100644
+> > > > > --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564=
+=2Eyaml
+> > > > > +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564=
+=2Eyaml
+> > > > > @@ -80,6 +80,7 @@ properties:
+> > > > >      $ref: /schemas/types.yaml#/definitions/uint32
+> > > > >      minimum: 0
+> > > > >      maximum: 3
+> > > > > +    deprecated: true
+> > > > >      description:
+> > > > >        The address is set on a per-device basis by fuses in the f=
+actory,
+> > > > >        configured on request. If not requested, the fuses are set=
+ for 0x1.
+> > > > > @@ -91,6 +92,12 @@ properties:
+> > > > >        clocking of the device address (BITS[7:6] - top two bits o=
+f COMMAND BYTE
+> > > > >        which is first one on the wire).
+> > > > > =20
+> > > > > +  spi-device-addr:
+> > > > > +    maxItems: 1   =20
+> > > >=20
+> > > > Does it not make sense to all for more than once device connected
+> > > > to the same CS here? I would expect maxItems to be 4 to match the
+> > > > number of possible addresses.
+> > > >  =20
+> > >=20
+> > > I think for this part their isn't a reason to aggregate.
+> > > No magic accesses that touch them all at once.  So this hits
+> > > exactly the point you raised about how we set the address for
+> > > more than one of them. =20
+> >=20
+> > No David is actually right here, and maxitems should be 4.
+> > Setting the address for multiple was already discussed I thought, with
+> > the property being an array and each compatible being used to determine
+> > the "stride" between entries based on the number of supported channels?
+>=20
+> I don't think that applies for this device or at least to do so
+> is a major driver rewrite, not a simple binding change.  Probably we'd
 
-$ devlink dev show
-pci/0000:83:00.6
+Whether or not it is a big driver change, the binding should represent
+what the hardware is capable of.
 
-$ devlink dev info pci/0000:83:00.6
-pci/0000:83:00.6:
-  driver ixd
-  serial_number 00-a0-c9-ff-ff-23-45-67
-  versions:
-      fixed:
-        device.type MEV
-      running:
-        virtchnl 2.0
+> just add a bus and hang the 4 instances off it. They are running on own
+> timing etc so we can't grab data across all of them in any sort of
+> synchronous way - the clocks will probably drift over time etc.
 
-Signed-off-by: Amritha Nambiar <amritha.nambiar@intel.com>
-Reviewed-by: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Tested-by: Bharath R <Bharath.r@intel.com>
-Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- Documentation/networking/devlink/index.rst   |  1 +
- Documentation/networking/devlink/ixd.rst     | 30 ++++++
- drivers/net/ethernet/intel/ixd/Kconfig       |  1 +
- drivers/net/ethernet/intel/ixd/Makefile      |  1 +
- drivers/net/ethernet/intel/ixd/ixd.h         |  1 +
- drivers/net/ethernet/intel/ixd/ixd_devlink.c | 97 ++++++++++++++++++++
- drivers/net/ethernet/intel/ixd/ixd_devlink.h | 50 ++++++++++
- drivers/net/ethernet/intel/ixd/ixd_lib.c     |  3 +
- drivers/net/ethernet/intel/ixd/ixd_main.c    | 14 ++-
- 9 files changed, 195 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/networking/devlink/ixd.rst
- create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
- create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+Did I miss something about the ADI devices in this thread where they
+have some multicast ability to read all devices at once? I thought that
+that was a different series where each device had dedicated mosi and
+miso lines, rather than the shared ones here. I didn't think the ad5529r
+did anything special from my reading of the datasheet but I'm not the
+expert in this area!
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 4745148fecf4..e371be30b99e 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -88,6 +88,7 @@ parameters, info versions, and other features it supports.
-    ionic
-    iosm
-    ixgbe
-+   ixd
-    kvaser_pciefd
-    kvaser_usb
-    mlx4
-diff --git a/Documentation/networking/devlink/ixd.rst b/Documentation/networking/devlink/ixd.rst
-new file mode 100644
-index 000000000000..17b63c8425aa
---- /dev/null
-+++ b/Documentation/networking/devlink/ixd.rst
-@@ -0,0 +1,30 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================
-+ixd devlink support
-+===================
-+
-+This document describes the devlink features implemented by the ``ixd``
-+device driver.
-+
-+Info versions
-+=============
-+
-+The ``ixd`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+    :widths: 5 5 5 90
-+
-+    * - Name
-+      - Type
-+      - Example
-+      - Description
-+    * - ``device.type``
-+      - fixed
-+      - MEV
-+      - The hardware type for this device
-+    * - ``virtchnl``
-+      - running
-+      - 2.0
-+      - 2-digit version number (major.minor) of the communication channel
-+        (virtchnl) used by the device.
-diff --git a/drivers/net/ethernet/intel/ixd/Kconfig b/drivers/net/ethernet/intel/ixd/Kconfig
-index 24510c50070e..34181c59dcdc 100644
---- a/drivers/net/ethernet/intel/ixd/Kconfig
-+++ b/drivers/net/ethernet/intel/ixd/Kconfig
-@@ -7,6 +7,7 @@ config IXD
- 	select LIBETH
- 	select LIBIE_CP
- 	select LIBIE_PCI
-+	select NET_DEVLINK
- 	help
- 	  This driver supports Intel(R) Control Plane PCI Function
- 	  of Intel E2100 and later IPUs and FNICs.
-diff --git a/drivers/net/ethernet/intel/ixd/Makefile b/drivers/net/ethernet/intel/ixd/Makefile
-index 90abf231fb16..03760a2580b9 100644
---- a/drivers/net/ethernet/intel/ixd/Makefile
-+++ b/drivers/net/ethernet/intel/ixd/Makefile
-@@ -8,5 +8,6 @@ obj-$(CONFIG_IXD) += ixd.o
- ixd-y := ixd_main.o
- ixd-y += ixd_ctlq.o
- ixd-y += ixd_dev.o
-+ixd-y += ixd_devlink.o
- ixd-y += ixd_lib.o
- ixd-y += ixd_virtchnl.o
-diff --git a/drivers/net/ethernet/intel/ixd/ixd.h b/drivers/net/ethernet/intel/ixd/ixd.h
-index 8e3cd5bc5a84..343c5053045f 100644
---- a/drivers/net/ethernet/intel/ixd/ixd.h
-+++ b/drivers/net/ethernet/intel/ixd/ixd.h
-@@ -23,6 +23,7 @@ struct ixd_adapter {
- 		struct delayed_work init_work;
- 		u8 reset_retries;
- 		u8 vc_retries;
-+		bool success;
- 	} init_task;
- 	struct delayed_work mbx_task;
- 	struct libie_ctlq_xn_manager *xnm;
-diff --git a/drivers/net/ethernet/intel/ixd/ixd_devlink.c b/drivers/net/ethernet/intel/ixd/ixd_devlink.c
-new file mode 100644
-index 000000000000..23ab11226978
---- /dev/null
-+++ b/drivers/net/ethernet/intel/ixd/ixd_devlink.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2025, Intel Corporation. */
-+
-+#include "ixd.h"
-+#include "ixd_devlink.h"
-+
-+#define IXD_DEVLINK_INFO_LEN	128
-+
-+/**
-+ * ixd_fill_dsn - Get the serial number for the ixd device
-+ * @adapter: adapter to query
-+ * @buf: storage buffer for the info request
-+ */
-+static void ixd_fill_dsn(struct ixd_adapter *adapter, char *buf)
-+{
-+	u8 dsn[8];
-+
-+	/* Copy the DSN into an array in Big Endian format */
-+	put_unaligned_be64(pci_get_dsn(adapter->cp_ctx.mmio_info.pdev), dsn);
-+
-+	snprintf(buf, IXD_DEVLINK_INFO_LEN, "%8phD", dsn);
-+}
-+
-+/**
-+ * ixd_fill_device_name - Get the name of the underlying hardware
-+ * @adapter: adapter to query
-+ * @buf: storage buffer for the info request
-+ * @buf_size: size of the storage buffer
-+ */
-+static void ixd_fill_device_name(struct ixd_adapter *adapter, char *buf,
-+				 size_t buf_size)
-+{
-+	if (adapter->caps.device_type == cpu_to_le32(VIRTCHNL2_MEV_DEVICE))
-+		snprintf(buf, buf_size, "%s", "MEV");
-+	else
-+		snprintf(buf, buf_size, "%s", "UNKNOWN");
-+}
-+
-+/**
-+ * ixd_devlink_info_get - .info_get devlink handler
-+ * @devlink: devlink instance structure
-+ * @req: the devlink info request
-+ * @extack: extended netdev ack structure
-+ *
-+ * Callback for the devlink .info_get operation. Reports information about the
-+ * device.
-+ *
-+ * Return: zero on success or an error code on failure.
-+ */
-+static int ixd_devlink_info_get(struct devlink *devlink,
-+				struct devlink_info_req *req,
-+				struct netlink_ext_ack *extack)
-+{
-+	struct ixd_adapter *adapter = devlink_priv(devlink);
-+	char buf[IXD_DEVLINK_INFO_LEN];
-+	int err;
-+
-+	ixd_fill_dsn(adapter, buf);
-+	err = devlink_info_serial_number_put(req, buf);
-+	if (err)
-+		return err;
-+
-+	ixd_fill_device_name(adapter, buf, IXD_DEVLINK_INFO_LEN);
-+	err = devlink_info_version_fixed_put(req, "device.type", buf);
-+	if (err)
-+		return err;
-+
-+	snprintf(buf, sizeof(buf), "%u.%u",
-+		 adapter->vc_ver.major, adapter->vc_ver.minor);
-+
-+	return devlink_info_version_running_put(req, "virtchnl", buf);
-+}
-+
-+static const struct devlink_ops ixd_devlink_ops = {
-+	.info_get = ixd_devlink_info_get,
-+};
-+
-+/**
-+ * ixd_adapter_alloc - Allocate devlink and return adapter pointer
-+ * @dev: the device to allocate for
-+ *
-+ * Allocate a devlink instance for this device and return the private area as
-+ * the adapter structure.
-+ *
-+ * Return: adapter structure on success, NULL on failure
-+ */
-+struct ixd_adapter *ixd_adapter_alloc(struct device *dev)
-+{
-+	struct devlink *devlink;
-+
-+	devlink = devlink_alloc(&ixd_devlink_ops, sizeof(struct ixd_adapter),
-+				dev);
-+	if (!devlink)
-+		return NULL;
-+
-+	return devlink_priv(devlink);
-+}
-diff --git a/drivers/net/ethernet/intel/ixd/ixd_devlink.h b/drivers/net/ethernet/intel/ixd/ixd_devlink.h
-new file mode 100644
-index 000000000000..b23a1b37aebc
---- /dev/null
-+++ b/drivers/net/ethernet/intel/ixd/ixd_devlink.h
-@@ -0,0 +1,50 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (c) 2025, Intel Corporation. */
-+
-+#ifndef _IXD_DEVLINK_H_
-+#define _IXD_DEVLINK_H_
-+
-+#include <net/devlink.h>
-+
-+#include "ixd.h"
-+
-+struct ixd_adapter *ixd_adapter_alloc(struct device *dev);
-+
-+/**
-+ * ixd_devlink_free - teardown the devlink
-+ * @adapter: the adapter structure to free
-+ *
-+ */
-+static inline void ixd_devlink_free(struct ixd_adapter *adapter)
-+{
-+	struct devlink *devlink = priv_to_devlink(adapter);
-+
-+	devlink_free(devlink);
-+}
-+
-+/**
-+ * ixd_devlink_unregister - Unregister devlink for this adapter.
-+ * @adapter: the adapter structure to cleanup
-+ *
-+ * Init task must be completed or cancelled beforehand.
-+ */
-+static inline void ixd_devlink_unregister(struct ixd_adapter *adapter)
-+{
-+	if (!adapter->init_task.success)
-+		return;
-+
-+	devlink_unregister(priv_to_devlink(adapter));
-+}
-+
-+/**
-+ * ixd_devlink_register - Register devlink interface for this adapter
-+ * @adapter: pointer to ixd adapter structure to be associated with devlink
-+ *
-+ * Register the devlink instance associated with this adapter
-+ */
-+static inline void ixd_devlink_register(struct ixd_adapter *adapter)
-+{
-+	devlink_register(priv_to_devlink(adapter));
-+}
-+
-+#endif /* _IXD_DEVLINK_H_ */
-diff --git a/drivers/net/ethernet/intel/ixd/ixd_lib.c b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-index e5e8626e8f98..48f4f9fe0e47 100644
---- a/drivers/net/ethernet/intel/ixd/ixd_lib.c
-+++ b/drivers/net/ethernet/intel/ixd/ixd_lib.c
-@@ -3,6 +3,7 @@
- 
- #include "ixd.h"
- #include "ixd_ctlq.h"
-+#include "ixd_devlink.h"
- #include "ixd_virtchnl.h"
- 
- #define IXD_DFLT_MBX_Q_LEN 64
-@@ -157,6 +158,8 @@ void ixd_init_task(struct work_struct *work)
- 
- 	if (!ixd_vc_dev_init(adapter)) {
- 		adapter->init_task.vc_retries = 0;
-+		adapter->init_task.success = true;
-+		ixd_devlink_register(adapter);
- 		return;
- 	}
- 
-diff --git a/drivers/net/ethernet/intel/ixd/ixd_main.c b/drivers/net/ethernet/intel/ixd/ixd_main.c
-index eb8e410300c2..973bc480e25a 100644
---- a/drivers/net/ethernet/intel/ixd/ixd_main.c
-+++ b/drivers/net/ethernet/intel/ixd/ixd_main.c
-@@ -4,6 +4,7 @@
- #include "ixd.h"
- #include "ixd_ctlq.h"
- #include "ixd_lan_regs.h"
-+#include "ixd_devlink.h"
- 
- MODULE_DESCRIPTION("Intel(R) Control Plane Function Device Driver");
- MODULE_IMPORT_NS("LIBIE_CP");
-@@ -21,6 +22,8 @@ static void ixd_remove(struct pci_dev *pdev)
- 	/* Do not mix removal with (re)initialization */
- 	cancel_delayed_work_sync(&adapter->init_task.init_work);
- 
-+	ixd_devlink_unregister(adapter);
-+
- 	/* Leave the device clean on exit */
- 	if (adapter->xnm)
- 		libie_ctlq_xn_shutdown(adapter->xnm);
-@@ -28,6 +31,7 @@ static void ixd_remove(struct pci_dev *pdev)
- 	ixd_deinit_dflt_mbx(adapter);
- 
- 	libie_pci_unmap_all_mmio_regions(&adapter->cp_ctx.mmio_info);
-+	ixd_devlink_free(adapter);
- }
- 
- /**
-@@ -95,7 +99,7 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (WARN_ON(ent->device != IXD_DEV_ID_CPF))
- 		return -EINVAL;
- 
--	adapter = devm_kzalloc(&pdev->dev, sizeof(*adapter), GFP_KERNEL);
-+	adapter = ixd_adapter_alloc(&pdev->dev);
- 	if (!adapter)
- 		return -ENOMEM;
- 
-@@ -104,13 +108,13 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	err = libie_pci_init_dev(pdev);
- 	if (err)
--		return err;
-+		goto free_adapter;
- 
- 	pci_set_drvdata(pdev, adapter);
- 
- 	err = ixd_iomap_regions(adapter);
- 	if (err)
--		return err;
-+		goto free_adapter;
- 
- 	INIT_DELAYED_WORK(&adapter->init_task.init_work,
- 			  ixd_init_task);
-@@ -121,6 +125,10 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 			   msecs_to_jiffies(500));
- 
- 	return 0;
-+
-+free_adapter:
-+	ixd_devlink_free(adapter);
-+	return err;
- }
- 
- static const struct pci_device_id ixd_pci_tbl[] = {
--- 
-2.47.1
+> They are independent devices (think of them using spi-device-address
+> like an i2c address) -  so why have one DT node for up to 4 of
+> them?  Note this is different from the AD5529R where the design
+> is intended for them to operate as one single larger device.
 
+I don't buy this argument, I just don't see what differs between the
+devices. The microchip datasheet I read talked about using 3 devices to
+measure 3 phase power setups (I think that's what it was) which is, in
+my book, evidence that they're not just intended to be used
+independently.
+
+That said, the more this discussion goes on, the more I think that
+merging the devices into a single node is a mistake. Logically there may
+be one device, but really there are one to four devices. Doing the
+logical device thing is nice maybe for software but I no longer think
+that it represents the hardware correctly. I know this will cause
+problems with registration of devices in the SPI core, but we need to
+pick one representation for these devices that fits in all usecases
+and with the things brought up in the other mail I am having a lot of
+doubts.
+
+Only going to reply to this for now, I'll reply to the other thread of
+this conversation later so as not to end up duplicating discussion, but
+I am thinking of things like what if someone puts a mcp3654r and an
+ad5529r on the same chip select? I think that's actually perfectly
+functional on a hardware level, provided the fuses/pins are set up
+correctly (and if it is not, mixing the microchip devices is possible
+and probably mixing future ADI ones will be too).
+
+Cheers,
+Conor.
+
+--xw+N1UAUFYpS9Flr
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCampm8AAKCRB4tDGHoIJi
+0mivAP9rCEbG5qLXmNs7la92hDJM/u5bXPae1zq/5WP52YDCYgD/WemkvJ6s/E9A
+XEBSWh5RufyJUAiBfSDsxfxyGUTrNAU=
+=OwuA
+-----END PGP SIGNATURE-----
+
+--xw+N1UAUFYpS9Flr--
