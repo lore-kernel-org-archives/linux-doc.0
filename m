@@ -1,90 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8A3397942;
-	Wed, 29 Jul 2026 15:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9133AFCFF
+	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 15:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785337819; cv=none; b=FuG1OViRI55WiEGxYs87cdbUB02DOf5V381dI8MjPRc50oyxiNZNWtOllzTNvFVFH/blPWYPhx6aZr1q2Y+mbJyQyPC8wAd5vcju1HtW4sWtGohqySjsw6qa3kOtyyCZy4M9+cFjmC4G45Kxp5r2XtI9+iyte3We+UfBJnZGSOs=
+	t=1785337951; cv=none; b=VS0WAcUE+nWG4w7cReRcI7ChLEm0j/Joo9v2l2b6W4HgL+tJ/iA0EmO8+YO9zhbBu41Hfl1hjlCLszAr5neFL0aOjU/5Cn0DLnEFIpzGNHnoyTy7nvJm81Hi9xzJmb2/DZB/JuGne+2k2BBWS6ZBXlZTLbTpmsxd5HiUpJ0w4HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785337819; c=relaxed/simple;
-	bh=oCfTxDq+a656t5RgFUHIkq6G6GXDBOjbPfM9vHiXq6Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nBDGtlM5o5E8jbvuVCG5UaGkwZcShW1Ld5gvUOlPMlePf6EY6LzQGlpy0hsoGDo+5fPo2h/NNR1m47cq4+e0iylpA75gtBv6bX2cHYLEx5r39TL5EE99cLCh9YfxnzAu0RPcSNRM3J0xGOhEdt9d+xmNI1kVOGkKG3xZfXAAD2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWRnwc69; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785337951; c=relaxed/simple;
+	bh=OcqSaTeLFBw/37oYMtNHG50Md6M29m6rUY9fQn9TwYo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MUXLY3merfha3o5T4v4U1JjIM7DeB/lHjfdL8mfJU96lQ+XtrWZcX9maK3trFjzob38byezWli3QViji/tfAkf62UY5OsZIivuDdxz6G536Ux9y9vNfrJW8IH99m/rVkFK1Dew//gs/ErhceO7xcggb4IodRRz82LzcUM6CLS3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kWvZKjz3; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWRnwc69"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785337817; x=1816873817;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=oCfTxDq+a656t5RgFUHIkq6G6GXDBOjbPfM9vHiXq6Y=;
-  b=CWRnwc697Kr+7kZrtLp6J2bvCJGuPKW7WqUMQkZdmymhBfn3H7zU2A2Y
-   xOIseZz8DVZEC8j8HTNGXVyflU5mMWviDvQXTQeq+tbPchBM41QH9lgZX
-   FCx+x03jENqC9xmLQyu6Hv3ndgT18waThSUKwXQJXgKz87tRvDR3jf/TW
-   89+bxfrEd8hu32ACzrSfUqEDUowRNU3avXUB62UceSjT4bpvqu8Is5sae
-   0yuCB+2GMYbV9WfUQQiyM9gQpqDQr6xEcWRZUp7D7QCYbTNkZ3PRHr4yi
-   giFyCRNWLuMTrEivjCq6csz+8GScxNytB0Fn0eBSD0ABjCIdfRQAkxomK
-   Q==;
-X-CSE-ConnectionGUID: dAdsRdo2QP+pz3XrtjuGiQ==
-X-CSE-MsgGUID: iSUNsWclRSycIyoWYqu1FA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85961579"
-X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="85961579"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 08:10:16 -0700
-X-CSE-ConnectionGUID: rWIgYwpZRMCK10Lj65brMg==
-X-CSE-MsgGUID: +0SDdbEDRySkUHmWip9Crw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="265065823"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.212])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 08:10:06 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Julian Braha <julianbraha@gmail.com>, Kees Cook <kees@kernel.org>
-Cc: nathan@kernel.org, nsc@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, arnd@arndb.de, stefan.hengelein@fau.de,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, nico@fluxnic.net,
- officialnaumansabir@gmail.com, rdunlap@infradead.org,
- vegard.nossum@oracle.com, tj@kernel.org
-Subject: Re: [PATCH] Documentation: warn users not to use select on choice
- options in Kconfig
-In-Reply-To: <a4d8cb79-a696-4016-8c8a-a56b14992309@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260715220149.48700-1-julianbraha@gmail.com>
- <202607152119.BF8E377B@keescook>
- <a4d8cb79-a696-4016-8c8a-a56b14992309@gmail.com>
-Date: Wed, 29 Jul 2026 18:10:04 +0300
-Message-ID: <f362ddf2e0f3ecf41ed81f03f77577473c3e21bc@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kWvZKjz3"
+X-Forwarded-Encrypted: i=1; AHgh+Rpm8FzeLyfyKWoYmouD/H10khgj7Df+Qf1l3+mIfHR/yynnVzBRlV7/X9Er2rXvF1+6lEMMWRrwnZc=@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785337948;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GZkD05VF0k87b16ZMBfeT0j3aww6dW2ILKTzqN3+UtU=;
+	b=kWvZKjz3SVmYQDnALzN2BAZzmjg/GmZoVi+ZU/9SfW9HM8okcEPZcoIFbkRwyFwQua8ei6
+	U7XyyhXWTrxImH39f5VbG69Nm2nKP9gkd+DXVfKhO2GaXaW3qGbW7y6zu7pzozEhqYae6F
+	KLDTw+gzdJsxDGVGzEx5pjoum1QG1Mc=
+X-Gm-Message-State: AOJu0YxIjcGgmv2sGsSB2VjHtyOmdlPc3WJneaBspf9SF6qY3nsuaePT
+	B6wZwTJh49tuV78yD2wAKmWf+OS9csadlZmBOhpfAlIEaOcI1K/kv2qHyqi0zAcYvvQkeLK/EAl
+	CdNu4t3YRRL90t2spG6VICMKHnl28n6qrzMGJ2iJq
+X-Received: by 2002:ac8:7e8e:0:b0:51b:ff0a:2048 with SMTP id
+ d75a77b69052e-52b350e5e9dmr111891cf.3.1785337931850; Wed, 29 Jul 2026
+ 08:12:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp> <20260720-hybrid-v9-1-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <20260720-hybrid-v9-1-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Wed, 29 Jul 2026 16:11:34 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTxy6f2EPhtOkHju39hGi91ZM5heu5ZA0upmmDxBq2GstQ@mail.gmail.com>
+X-Gm-Features: AUfX_myxJfjxAZR1tFLm51zrI58rRpwUPxuAUzGX7sj7-3UdzYo6Sjg9A4wrAHA
+Message-ID: <CA+EHjTxy6f2EPhtOkHju39hGi91ZM5heu5ZA0upmmDxBq2GstQ@mail.gmail.com>
+Subject: Re: [PATCH v9 01/16] KVM: arm64: Serialize repeated vCPU initialization
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Steffen Eiden <seiden@linux.ibm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 16 Jul 2026, Julian Braha <julianbraha@gmail.com> wrote:
-> Hi Kees,
+On Mon, 20 Jul 2026 at 06:39, Akihiko Odaki
+<odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
 >
-> On 7/16/26 05:19, Kees Cook wrote:
->> Yeah, it'd be good to add a checkpatch or even build-time check too.
+> The initial KVM_ARM_VCPU_INIT path holds config_lock while resetting the
+> vCPU, but repeated initialization of an existing vCPU does not. As a
+> result, reset_mdcr() can race with VM-wide PMU configuration and
+> overwrite MDCR_EL2 with a stale counter count.
 >
-> I'll look into adding a check for this into the kconfig interpreter.
+> Take config_lock around the repeated-init checks and reset. The vCPU
+> ioctl already holds vcpu->mutex, matching the established lock ordering.
+>
+> Fixes: c8823e51b534 ("KVM: arm64: Fix MDCR_EL2.HPMN reset value")
+> Closes: https://sashiko.dev/#/patchset/20260710-hybrid-v8-0-621409f3a592@rsg.ci.i.u-tokyo.ac.jp?part=1
+> Assisted-by: Codex:gpt-5.6-sol
+> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
 
-This. I wish there was a kconfig lint option that would whine about all
-the things that kconfig-language.rst explicitly tells you *not* to use
-select for. (So I could perhaps eventually stop replying to people with
-that stuff.)
+Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
 
-BR,
-Jani.
+Cheers,
+/fuad
 
-
--- 
-Jani Nikula, Intel
+> ---
+>  arch/arm64/kvm/arm.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+>
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index 50adfff75be8..a06ea39f57b1 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -1652,29 +1652,26 @@ static int __kvm_vcpu_set_target(struct kvm_vcpu *vcpu,
+>  {
+>         unsigned long features = init->features[0];
+>         struct kvm *kvm = vcpu->kvm;
+> -       int ret = -EINVAL;
+> +       int ret;
+>
+> -       mutex_lock(&kvm->arch.config_lock);
+> +       lockdep_assert_held(&kvm->arch.config_lock);
+>
+>         if (test_bit(KVM_ARCH_FLAG_VCPU_FEATURES_CONFIGURED, &kvm->arch.flags) &&
+>             kvm_vcpu_init_changed(vcpu, init))
+> -               goto out_unlock;
+> +               return -EINVAL;
+>
+>         bitmap_copy(kvm->arch.vcpu_features, &features, KVM_VCPU_MAX_FEATURES);
+>
+>         ret = kvm_setup_vcpu(vcpu);
+>         if (ret)
+> -               goto out_unlock;
+> +               return ret;
+>
+>         /* Now we know what it is, we can reset it. */
+>         kvm_reset_vcpu(vcpu);
+>
+>         set_bit(KVM_ARCH_FLAG_VCPU_FEATURES_CONFIGURED, &kvm->arch.flags);
+>         vcpu_set_flag(vcpu, VCPU_INITIALIZED);
+> -       ret = 0;
+> -out_unlock:
+> -       mutex_unlock(&kvm->arch.config_lock);
+> -       return ret;
+> +       return 0;
+>  }
+>
+>  static int kvm_vcpu_set_target(struct kvm_vcpu *vcpu,
+> @@ -1690,6 +1687,8 @@ static int kvm_vcpu_set_target(struct kvm_vcpu *vcpu,
+>         if (ret)
+>                 return ret;
+>
+> +       guard(mutex)(&vcpu->kvm->arch.config_lock);
+> +
+>         if (!kvm_vcpu_initialized(vcpu))
+>                 return __kvm_vcpu_set_target(vcpu, init);
+>
+>
+> --
+> 2.55.0
+>
+>
