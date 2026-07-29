@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6DD40B38D;
-	Wed, 29 Jul 2026 09:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298C244604E;
+	Wed, 29 Jul 2026 09:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785318500; cv=none; b=e0wpcHsv4A6iTUkwGh7dae/iyW4TOXWelIyXS5S1KcuONMxvnMEiFjg48hm/CU+VzqQyaevpc0QPo3W3GBgUz7q4g5ZXmnKIQvGqCeF9Tvq3IOmbtM70ZxqUch9DAZbYkp/B5note5DENSGci3vWbFu8sOBSNfuhxJYtxyvElhc=
+	t=1785318533; cv=none; b=PRp9z7eLzVeEdHbgsMfGu2un5PUqXyDD8ZhLeMIqnUSGcDUS8iEEDxJCBB/5LUTWfEtj5YCGwY7Io+hY/Oybpzx56BfoS/Bkmr0+08lyxwcZX/gYGFOWWfkgTG3njMU6eFSCS+SJpaVHul7o7mJYMcfB5ioFCpPY/HRmRvyIoxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785318500; c=relaxed/simple;
-	bh=PYEnfcRwXrBEt3g9Up9gMEr8X8FWlYsxOkWdmbTJbq4=;
+	s=arc-20240116; t=1785318533; c=relaxed/simple;
+	bh=vUgbMuuuehPwLw+3nOks1f2roMcazH5FoTBu24CstXA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cp/1EITH90W4+WMaZrJdfJOjqBhCHqPyegrLvAc0LC/hwgim9k5uqiMrwVUPBb5TtbSzSiRnjT+BzZNoB8GrevY7eFZxZDNGN9GM9hPiqEPJ8iPd0zNyTpSLW6zOQRNP/GJQiyIu0hsMttr4rBpNz+BtVieFBCzQyWesLQTfwPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1WS81zR; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=KX2ae9UPfWTKdpk//AJEX2008X9eLVf9eQ7Qlj6+ej0ntg1DiQ6PFTVDt8kA5KRrQ7wi0YYNxsIOJWYlXg4s+xOXsbpo+ly2mzqXnX69/eaQ77V2e+oiTwLDRAGf21qAaIvcv+FkZP3/3GqXBhcIrRI4wQgp2XLv5GV6H24l7VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b1BzF6jm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1WS81zR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A211D1F000E9;
-	Wed, 29 Jul 2026 09:48:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1BzF6jm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB3881F000E9;
+	Wed, 29 Jul 2026 09:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785318499;
-	bh=n3kavLQPrcg1Sh5FW3j2MvQSeDETGM5qCzr0BKWnYHk=;
+	s=k20260515; t=1785318531;
+	bh=dbhZWFKE79CcMIz2NYlHFMvfqfQ19xORU3yp3UaJjCA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=g1WS81zRqxp6ntmkfWCJ/QHGDs2iluZKCkthWT8JGVuxkkNx0zByC9eXcBjtLyO4C
-	 JXAzbFFV3d0ScZ86JfUrVV4iJxm/EIYL0VZKdzfDmogr39q7yuuVACqQiacg6b7tze
-	 rdWULqvMxCS7yq0ShGwjscSE+WLzmrfdvM+KuPPVPIdpOomJOiPjyB7DlTToHfeHiH
-	 UQ8Z6r3CADQDRqRW1UjIpyrTHNXvd5O4uhR+XaxnuKNH8vnTR3J++5aPFlVNKbQ+Pq
-	 ETxdaOl9e4eqFE0aMeStkr6BRtNL5bn0l4hg9E6svg89SsACLwEQJDeG0p0US9qi/b
-	 GFEXeh5KsjfSw==
-Message-ID: <dbe85481-6260-4b17-8930-1f5d54bf6d16@kernel.org>
-Date: Wed, 29 Jul 2026 11:48:14 +0200
+	b=b1BzF6jmxhThRD5qnHbsijWJFg5k8GNrB8nfS1X7McxikgFSQdsyjjf7pWKrRXcAX
+	 zyqDifsvq3VmRiEgFvJxe/bpEMAkPTx59IGH9U2SgKxNZWfihq51b3AndymQctPzgw
+	 /ggKYyCaBSBu8SmkxRIY3ZhnRZXQXqPmeqgrobOR8rCSu59tIrSagQ3F2ENc1APLfJ
+	 AP1wTmQhCg6nqXD5Uo7ggS+IPkjcASOh0x6Bhcul23cvJSK1tpkQg/9H/LjL6Tm/Xu
+	 WJv0FapHTz79t2zVH3QxYXqa7jbYtuOFm5v548sLAXbbQmIcOhx9bYLJpDPcWKTrVJ
+	 JdE7TfP+tO9PA==
+Message-ID: <24704855-9f9c-4432-98ac-d22150d2d634@kernel.org>
+Date: Wed, 29 Jul 2026 11:48:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,21 +35,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] mm/khugepaged: unmap pte before releasing vma
- write lock
+Subject: Re: [PATCH v2 7/7] mm: Documentation: clarify where the mTHP stats
+ live
 To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
 References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-7-npache@redhat.com>
+ <20260715025941.1571316-8-npache@redhat.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,16 +96,20 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260715025941.1571316-7-npache@redhat.com>
+In-Reply-To: <20260715025941.1571316-8-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/15/26 04:59, Nico Pache wrote:
-> We are currently dropping the anon_vma write lock before unmapping the
-> PTE. Although this is safe, due to us still holding the mmap_write_lock,
-> its safer and less confusing to switch the order of these two operations.
+> The note about khugepaged counters references /proc/vmstat for the PMD
+> case, but never mentions where the mTHPs stats can be found
+> (i.e.: /sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/stats/)
+> Add a small addition to this section for clarity.
 > 
-> Suggested-by: David Hildenbrand <david@kernel.org>
+> Also fix a missing period while we are at it.
+> 
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Suggested-by: Lorenzo Stoakes <ljs@kernel.org>
 > Signed-off-by: Nico Pache <npache@redhat.com>
 > ---
 
