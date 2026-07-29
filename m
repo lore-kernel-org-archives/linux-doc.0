@@ -1,154 +1,337 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9DD45D5CD;
-	Wed, 29 Jul 2026 09:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D863603C9
+	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 10:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785318668; cv=none; b=lzr+zJhB6zr48w/bVbXOhaq4GDfj7sWO6VlSUAUQPBOaQbZIXYZcPkBrfLor/AQv5PNxCc0DKkB380SpROtFX5V1QQatHnb++fLlRyMXO/g9t1YeAnM4xZaZeMAyIhBWqu8MGjqzlPmMnOMmDPCpUVYArIzefZ02LyeTpLmcN/A=
+	t=1785320170; cv=none; b=PtjXzvQFwMfvvo3tNGAxn2f/SSJRr6sgWX/ykq8PhfjRfGCpVpdNVmaFNnAPaIVw6gpXjW7S1k4t/barfmUVjDwDbeWUtGoD4teZPKl46CGcsCrRAumxvsXwA7JeHEvc1aMQhBD4C8UJ0l4aax0BQVoySRWOO1j+JqmYEhFkn1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785318668; c=relaxed/simple;
-	bh=xhCfsCTnrpZ7cm3Cc7vEYpyzc7P6px6L3efdTJ2scgU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GwBQ3t9Wn+uT6Ua51d6nffec3hYnnPmWnw1Nmd5XyCGsSYqRgusANi5AMO7lHmMRdRu/0IToOOlj9F7BM4G0jtKJtPbnMzPhRlhxznGBE2lRn17IxoNj7NNcJuTOJT2Uh7eJ+0u1tKocMLfvIEbVzSPt+uow1kVnI++Q8t6xmMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=b/J7xyvs; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785320170; c=relaxed/simple;
+	bh=Wbf26hIs9JYHQT/h8rr2OSqvGy7s0yG6N3roBjRqXEo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b/W+5QrjpUZnCnJDBlbS6lQpcU4EOaxK1jjKMRt2PXAo6A8e8FkAh6nDpYis9uWGse44ywDkevEUlul/rYWWKZC8JoTlaZgsxdY0R+MQx/sz3jlI4uuLgLHjLRxKsdqcgzz0zBJz3fFdNZv2AHCHdYZCaXL0FZjezYDmuS+/IMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g/BTCE5P; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="b/J7xyvs"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E253815A1;
-	Wed, 29 Jul 2026 02:51:00 -0700 (PDT)
-Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2567E3F86F;
-	Wed, 29 Jul 2026 02:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785318664; bh=xhCfsCTnrpZ7cm3Cc7vEYpyzc7P6px6L3efdTJ2scgU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b/J7xyvseFDBmIilD46xPWheXnDynfrK63MR/YfHtOt3zDGspKWX0efH0QDwqvPmA
-	 YRM4gFfCUKWDx8PwzV8O5tPkkT/EnkxIK0PQTgEwaenvg6Vz269tx4kEPya6cmDoK1
-	 45QHI+twKMpFLdI50B7ODUU9bgIHMOULXRrDHZIc=
-Date: Wed, 29 Jul 2026 10:50:56 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	"Ivan T. Ivanov" <iivanov@suse.de>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Frank Li <frank.li@nxp.com>, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] arm64: errata: Add NXP iMX8QM workaround for A53 cache
- coherency issue
-Message-ID: <amnNAJC4yHVsZaN8@J2N7QTR9R3.cambridge.arm.com>
-References: <20260729-imx8qm-cache-coherency-v1-1-c9864e280437@nxp.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g/BTCE5P"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-69ea0595598so729423a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 03:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1785320166; x=1785924966; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XRzDa/r/YmBt+wlpaMQ61Gn8ZKl0NmHc9HVdDTLA0QU=;
+        b=g/BTCE5PCJ2ZyBvrRxM/lyBjjPlI5JJSlC3IMqt23sbzInK/U4Q4uYYPMMmruE01Eo
+         kgqODiHqqQZPuh+goY7Tr+dk03RxwouNtg5fDUnu2NLaofh16eIzVQO2YnIUe2qTTQve
+         GwkRR+phmRcXv1vxcq2I7C1X/XpOwKorRzJBPsiud0pRTzEWgcDAZT7T1dJzFgCQSi74
+         imEBhiXjkfu6EEfq6ZutTMCr6dESir05THlhcyMGWyk7E0Jiz3GTwDRcrrZWbB0a8pWG
+         TKGJEJtkByqc65akeOtLQgkNogI/BwHidaq4vrVI8nDRyqcH0QsnNrQ5KwaaRDixzn/3
+         lEaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785320166; x=1785924966;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XRzDa/r/YmBt+wlpaMQ61Gn8ZKl0NmHc9HVdDTLA0QU=;
+        b=FrBUdKz7ZcPSksDL4IZ1LyuhHH+mJi4Vp2WZsRVc1YJmU5OWZco8LF9lyeLqXv7Xov
+         1cNcfCPxWlgAG1fEOK5gK8+8jBb3thihuM2KAg0cDX+c7UBF1xczwMeSq4hMjDqWpZsB
+         8EQzY/2i9UCRDw6+6TMTacLNsr5p7q50tT34UK0LWn5TrbKYZUe3dc44S88+woPaTaGH
+         EAJyqHWdauyGV5Ym0iXK4lhnnkFlaz+vemDFLBlztxV/O/KcnREQJtMwklSbRrlYqW9I
+         KfPkr64MtKAO0nWl+1Uh231C0v3cmMK1u3zWieHpkPserXwBWmZr4YVYqiXplAsWPhOt
+         Z6kw==
+X-Forwarded-Encrypted: i=1; AHgh+RoUgdTOx74qwnoLHjuFczpSCvG+J6naBtH9zXKVab75RCKr+1KfKhS/NOXUf9AhKDBkXmtL/UAWsqY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFYftOFm5Amts3zSzN/9aQfLRYYexVg1gnZBVHW4+eXlWfoP7K
+	y5WUjMYXnPMhNg4AFjNBKJ7/6ahStzGaBa4uBDw+aSUI5gc4Ms4WseQarvEIaIDNVSE=
+X-Gm-Gg: AR+sD119omT0n3xUiyvdJUMvYa/TUhNgVeL6t9wuHXxt08c+adsa98m6eiPTeXwnw2V
+	8/FlNUeLC9LLK3Kk9ak9dSQDx3tw/LchaLgVltgGEqMYRb5QVyzpdSBH6TKDw9W7me8mnrnQW5+
+	Lsxw51Dvn9SHR+pDkpPFK5vQbIXKYd1KitZE/LZbcAU2v4jN8Wtaxj9MhCkszM1IPzt9ioNoud7
+	T7bPI8GGFPkCoJEocDCwkvTGXYQFaKyhpk5Xtmwxl4t2koGWMp+YmMgvIOHQOvxuypC2nJp9+l9
+	IiJ8J+YN9Q9bvheuZ2aWkzamBdhDQ9aQnADKd21t+eD92XwmabvHCh617KRxbCG7vaAz9nx1hBP
+	GnPuOjnsYJLelfWzaB851mB/0BKnQ0hir3H1skRti/AMSnuf8svRHgAIWaZ4iwtFRiK7fGYL7rV
+	9mwECc9VtMeWGKAwDNJWGJe57bdLrWysjM+zjwUvIgkcy4GsBs6v0WRDOj5U31FvUAsw==
+X-Received: by 2002:a05:6402:1e8e:b0:69f:d41c:fef with SMTP id 4fb4d7f45d1cf-6a034a0861dmr2962192a12.6.1785320165584;
+        Wed, 29 Jul 2026 03:16:05 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a050be3a33sm650268a12.10.2026.07.29.03.16.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 03:16:03 -0700 (PDT)
+Message-ID: <d748b44b-d81c-4ea7-ac7d-03a3c72e9e14@linaro.org>
+Date: Wed, 29 Jul 2026 11:16:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260729-imx8qm-cache-coherency-v1-1-c9864e280437@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] perf hisi-ptt: Fix PTT trace TLP header parsing
+To: Sizhe Liu <liusizhe5@huawei.com>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linuxarm@huawei.com, prime.zeng@hisilicon.com,
+ wuyifan50@huawei.com, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ bhelgaas@google.com, yangyccccc@gmail.com, jic23@kernel.org,
+ john.g.garry@oracle.com, will@kernel.org, mike.leach@arm.com,
+ leo.yan@linux.dev, peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+ namhyung@kernel.org, mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
+ adrian.hunter@intel.com, wangyushan12@huawei.com
+References: <20260729060220.624250-1-liusizhe5@huawei.com>
+ <20260729060220.624250-3-liusizhe5@huawei.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260729060220.624250-3-liusizhe5@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 29, 2026 at 11:28:52AM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
+
+
+On 29/07/2026 7:02 am, Sizhe Liu wrote:
+> TLP Headers traced by HiSilicon PCIe tune and trace device (PTT) in
+> 4DW format are shown in the document as below:
+> bits [31:30] [ 29:25 ][24][23][22][21][    20:11   ][    10:0    ]
+>       |-----|---------|---|---|---|---|-------------|-------------|
+> DW0  [ Fmt ][  Type  ][T9][T8][TH][SO][   Length   ][    Time    ]
+> DW1  [                     Header DW1                            ]
+> DW2  [                     Header DW2                            ]
+> DW3  [                     Header DW3                            ]
 > 
-> According to NXP errata document IMX8_1N94W[1], the i.MX8QuadMax SoC
-> suffers from a serious cache coherency issue (ERR050104). The upper
-> bits, above bit 35, of the ARADDR and ACADDR buses within the Arm A53
-> subsystem have been incorrectly connected. This causes some TLBI and IC
-> maintenance operations exchanged between the A53 and A72 core clusters
-> to be corrupted.
+> Problem:
+> The DW0 bit field layout of the hisi_ptt_4dw union does not match the
+> actual bit ordering in little-endian memory, causing incorrect field
+> decoding.
 > 
-> The workaround requires:
+> Test on Kunpeng 930 SOC, generating data flow with `iperf` commands:
+> - server side:
+>      iperf -s
+> - client side:
+>      iperf -c $ip_addr -t 30
 > 
->   - Downgrading targeted TLBI operations to broadcast-all variants.
->     Instead of patching the low-level __TLBI_1 macro (which interferes
->     with the REPEAT_TLBI workaround and causes excessive over-
->     invalidation), redirect high-level TLB flush functions
->     (flush_tlb_mm, __do_flush_tlb_range, flush_tlb_kernel_range,
->     __flush_tlb_kernel_pgtable) to use VMALLE1IS via static key checks.
+> Trace the TLP headers with hisi_ptt on server side at the same time:
+>    perf record -e hisi_ptt12_0/type=4,filter=0x05101,direction=2,format=0/ \
+>    --max-size 50M -o perf.data &
+> The trace aims to capture completion TLPs, learn more in the document:
+>    https://docs.kernel.org/trace/hisi-ptt.html
 > 
->   - Upgrading IC IVAU to IC IALLUIS for both kernel (via ALTERNATIVE in
->     invalidate_icache_by_line) and EL0 userspace (via trap-and-upgrade
->     in user_cache_maint_handler with SCTLR_EL1.UCI=0).
+> Decode perf.data with hisi_ptt decoder:
+>    perf report -D
 > 
->   - Disabling KVM since correct TLB maintenance cannot be guaranteed
->     for guests without the proper devicetree.
+> The hisi_ptt decoder produces the following result:
+> [...perf headers and other information]
+> . ... HISI PTT data: size 8388608 bytes
+> .  00000000: 68 87 20 94                                 Format 3 Type 1a T9 0 T8 1 TH 1 SO 1 Length 10 Time 4a1
+> .  00000004: 40 00 00 00                                 Header DW1
+> .  00000008: 40 00 01 51                                 Header DW2
+> .  0000000c: 00 00 00 00                                 Header DW3
+> [...other hisi_ptt TLP headers]
 > 
->   - No need to touch SMMU Broadcast TLB Maintenance (BTM) since i.MX8QM
->     does not support broadcast TLB.
+> According to PCIe r5.0 2.2.1, the Fmt & Type of Cpl/CplD is supposed to be
+> 8b'00001010' / 8b'01001010'
+> However, the Format & Type decoder analyzing result is 8b'01111010'.
+> It does not match field encodings of any TLP messages.
 > 
-> SoC detection uses devicetree compatible string "fsl,imx8qm" since the
-> boot CPU MIDR_EL1 (0x410fd034) and AIDR_EL1 (0) are not unique to this
-> SoC.
+> Correct decoder result should be:
+> [...perf headers and other information]
+> . ... HISI PTT data: size 8388608 bytes
+> .  00000000: 94 20 87 68                                 Format 2 Type a T9 0 T8 0 TH 0 SO 1 Length 10 Time 768
+> .  00000004: 00 00 00 40                                 Header DW1
+> .  00000008: 51 01 00 40                                 Header DW2
+> .  0000000c: 00 00 00 00                                 Header DW3
+> [...other hisi_ptt TLP headers]
 > 
-> [1] https://www.nxp.com/docs/en/errata/IMX8_1N94W.pdf
+> To solve the problem:
+> 1. Drop the union and C bitfield struct, store the raw DW value in
+> a plain uint32_t, and extract the fields with FIELD_GET() against
+> GENMASK/BIT masks declared in the header so they can be reused by
+> other translation units. The masks are portable across endianness and
+> compilers.
+> 
+> 2. Print all DW hex values in big-endian byte order for readability,
+> matching the bit field layout shown in the 4DW format diagram.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 5e91e57e6809 ("perf auxtrace arm64: Add support for parsing HiSilicon PCIe Trace packet")
+> Signed-off-by: Sizhe Liu <liusizhe5@huawei.com>
+> ---
+>   Documentation/trace/hisi-ptt.rst              | 28 +++++------
+>   .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   | 46 +++++++++----------
+>   .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   | 12 +++++
+>   3 files changed, 49 insertions(+), 37 deletions(-)
+> 
+> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
+> index 6eef28ebb0c7..f6a2655f99e5 100644
+> --- a/Documentation/trace/hisi-ptt.rst
+> +++ b/Documentation/trace/hisi-ptt.rst
+> @@ -285,20 +285,20 @@ according to the format described previously (take 8DW as an example):
+>       [...perf headers and other information]
+>       . ... HISI PTT data: size 4194304 bytes
+>       .  00000000: 00 00 00 00                                 Prefix
+> -    .  00000004: 01 00 00 60                                 Header DW0
+> -    .  00000008: 0f 1e 00 01                                 Header DW1
+> -    .  0000000c: 04 00 00 00                                 Header DW2
+> -    .  00000010: 40 00 81 02                                 Header DW3
+> -    .  00000014: 33 c0 04 00                                 Time
+> +    .  00000004: 60 00 00 01                                 Header DW0
+> +    .  00000008: 01 00 1e 0f                                 Header DW1
+> +    .  0000000c: 00 00 00 04                                 Header DW2
+> +    .  00000010: 02 81 00 40                                 Header DW3
+> +    .  00000014: 00 04 c0 33                                 Time
+>       .  00000020: 00 00 00 00                                 Prefix
+> -    .  00000024: 01 00 00 60                                 Header DW0
+> -    .  00000028: 0f 1e 00 01                                 Header DW1
+> -    .  0000002c: 04 00 00 00                                 Header DW2
+> -    .  00000030: 40 00 81 02                                 Header DW3
+> -    .  00000034: 02 00 00 00                                 Time
+> +    .  00000024: 60 00 00 01                                 Header DW0
+> +    .  00000028: 01 00 1e 0f                                 Header DW1
+> +    .  0000002c: 00 00 00 04                                 Header DW2
+> +    .  00000030: 02 81 00 40                                 Header DW3
+> +    .  00000034: 00 00 00 02                                 Time
+>       .  00000040: 00 00 00 00                                 Prefix
+> -    .  00000044: 01 00 00 60                                 Header DW0
+> -    .  00000048: 0f 1e 00 01                                 Header DW1
+> -    .  0000004c: 04 00 00 00                                 Header DW2
+> -    .  00000050: 40 00 81 02                                 Header DW3
+> +    .  00000044: 60 00 00 01                                 Header DW0
+> +    .  00000048: 01 00 1e 0f                                 Header DW1
+> +    .  0000004c: 00 00 00 04                                 Header DW2
+> +    .  00000050: 02 81 00 40                                 Header DW3
+>       [...]
+> diff --git a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
+> index c48b2ce7c4a3..c1e169561087 100644
+> --- a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
+> +++ b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
+> @@ -10,6 +10,7 @@
+>   #include <endian.h>
+>   #include <byteswap.h>
+>   #include <linux/bitops.h>
+> +#include <linux/kernel.h>
+>   #include <stdarg.h>
+>   
+>   #include "../color.h"
+> @@ -73,29 +74,20 @@ static const char * const hisi_ptt_4dw_pkt_field_name[] = {
+>   	[HISI_PTT_4DW_HEAD3]	= "Header DW3",
+>   };
+>   
+> -union hisi_ptt_4dw {
+> -	struct {
+> -		uint32_t format : 2;
+> -		uint32_t type : 5;
+> -		uint32_t t9 : 1;
+> -		uint32_t t8 : 1;
+> -		uint32_t th : 1;
+> -		uint32_t so : 1;
+> -		uint32_t len : 10;
+> -		uint32_t time : 11;
+> -	};
+> -	uint32_t value;
+> -};
+> -
+>   static void hisi_ptt_print_pkt(const unsigned char *buf, int pos, const char *desc)
+>   {
+>   	const char *color = PERF_COLOR_BLUE;
+> +	uint32_t value;
+> +	uint8_t byte;
+>   	int i;
+>   
+> +	value = le32_to_cpu(*(__le32 *)(buf + pos));
+>   	printf(".");
+>   	color_fprintf(stdout, color, "  %08x: ", pos);
+> -	for (i = 0; i < HISI_PTT_FIELD_LENGTH; i++)
+> -		color_fprintf(stdout, color, "%02x ", buf[pos + i]);
+> +	for (i = 0; i < HISI_PTT_FIELD_LENGTH; i++) {
+> +		byte = (value >> (24 - i * 8)) & 0xFF;
+> +		color_fprintf(stdout, color, "%02x ", byte);
+> +	}
+>   	for (i = 0; i < HISI_PTT_MAX_SPACE_LEN; i++)
+>   		color_fprintf(stdout, color, "   ");
+>   	color_fprintf(stdout, color, "  %s\n", desc);
+> @@ -122,22 +114,30 @@ static int hisi_ptt_8dw_pkt_desc(const unsigned char *buf, int pos)
+>   static void hisi_ptt_4dw_print_dw0(const unsigned char *buf, int pos)
+>   {
+>   	const char *color = PERF_COLOR_BLUE;
+> -	union hisi_ptt_4dw dw0;
+> +	uint8_t byte;
+> +	uint32_t dw;
+>   	int i;
+>   
+> -	dw0.value = *(uint32_t *)(buf + pos);
+> +	dw = le32_to_cpu(*(__le32 *)(buf + pos));
 
-[...]
+Sashiko and the comment in generic.h say to use get_unaligned_le32() for 
+unaligned data. It looks like this always is aligned but it's not 
+enforced by the function, so to avoid anyone wondering if it's correct I 
+would just use get_unaligned_le32().
 
-> +	if (alternative_has_cap_unlikely(ARM64_WORKAROUND_NXP_ERR050104)) {
-> +		__tlbi(vmalle1is);
-> +	} else {
-> +		switch (flags & (TLBF_NOWALKCACHE | TLBF_NOBROADCAST)) {
-> +		case TLBF_NONE:
-> +			__flush_s1_tlb_range_op(vae1is, start, pages, stride,
-> +						asid, tlb_level);
-> +			break;
-> +		case TLBF_NOWALKCACHE:
-> +			__flush_s1_tlb_range_op(vale1is, start, pages, stride,
-> +						asid, tlb_level);
-> +			break;
-> +		case TLBF_NOBROADCAST:
-> +			/* Combination unused */
-> +			BUG();
-> +			break;
-> +		case TLBF_NOWALKCACHE | TLBF_NOBROADCAST:
-> +			__flush_s1_tlb_range_op(vale1, start, pages, stride,
-> +						asid, tlb_level);
-> +			break;
-> +		}
->  	}
+With that:
 
-Are you sure the workaround needs to be applied for the TLBF_NOBROADCAST
-cases? The NXP document lists non-broadcast TLBI instructions, but I
-strongly suspect that's in error, as those shouldn't result in
-transactions over the core's external interfaces.
+Reviewed-by: James Clark <james.clark@linaro.org>
 
-[...]
+Sashiko also says there is another endianess issue in 
+hisi_ptt_check_packet_type(). Up to you whether you want to fix it or 
+not: 
+https://sashiko.dev/#/patchset/20260729060220.624250-1-liusizhe5%40huawei.com
 
-> @@ -585,6 +585,12 @@ static void user_cache_maint_handler(unsigned long esr, struct pt_regs *regs)
->  		__user_cache_maint("dc civac", address, ret);
->  		break;
->  	case ESR_ELx_SYS64_ISS_CRM_IC_IVAU:	/* IC IVAU */
-> +		if (cpus_have_final_cap(ARM64_WORKAROUND_NXP_ERR050104)) {
-> +			/* ERR050104: upgrade IC IVAU to IC IALLUIS */
-> +			asm volatile("ic ialluis");
-> +			ret = 0;
-> +			break;
-> +		}
->  		__user_cache_maint("ic ivau", address, ret);
->  		break;
+>   	printf(".");
+>   	color_fprintf(stdout, color, "  %08x: ", pos);
+> -	for (i = 0; i < HISI_PTT_FIELD_LENGTH; i++)
+> -		color_fprintf(stdout, color, "%02x ", buf[pos + i]);
+> +	for (i = 0; i < HISI_PTT_FIELD_LENGTH; i++) {
+> +		byte = (dw >> (24 - i * 8)) & 0xFF;
+> +		color_fprintf(stdout, color, "%02x ", byte);
+> +	}
+>   	for (i = 0; i < HISI_PTT_MAX_SPACE_LEN; i++)
+>   		color_fprintf(stdout, color, "   ");
+>   
+>   	color_fprintf(stdout, color,
+>   		      "  %s %x %s %x %s %x %s %x %s %x %s %x %s %x %s %x\n",
+> -		      "Format", dw0.format, "Type", dw0.type, "T9", dw0.t9,
+> -		      "T8", dw0.t8, "TH", dw0.th, "SO", dw0.so, "Length",
+> -		      dw0.len, "Time", dw0.time);
+> +		      "Format", FIELD_GET(HISI_PTT_HEAD0_4DW_FORMAT, dw),
+> +		      "Type", FIELD_GET(HISI_PTT_HEAD0_4DW_TYPE, dw),
+> +		      "T9", FIELD_GET(HISI_PTT_HEAD0_4DW_T9, dw),
+> +		      "T8", FIELD_GET(HISI_PTT_HEAD0_4DW_T8, dw),
+> +		      "TH", FIELD_GET(HISI_PTT_HEAD0_4DW_TH, dw),
+> +		      "SO", FIELD_GET(HISI_PTT_HEAD0_4DW_SO, dw),
+> +		      "Length", FIELD_GET(HISI_PTT_HEAD0_4DW_LEN, dw),
+> +		      "Time", FIELD_GET(HISI_PTT_HEAD0_4DW_TIME, dw));
+>   }
+>   
+>   static int hisi_ptt_4dw_pkt_desc(const unsigned char *buf, int pos)
+> diff --git a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
+> index 6772b16b817b..3b349fcc24ae 100644
+> --- a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
+> +++ b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
+> @@ -9,12 +9,24 @@
+>   
+>   #include <stddef.h>
+>   #include <stdint.h>
+> +#include <linux/bits.h>
+> +#include <linux/bitfield.h>
+>   
+>   #define HISI_PTT_8DW_CHECK_MASK		GENMASK(31, 11)
+>   #define HISI_PTT_IS_8DW_PKT		GENMASK(31, 11)
+>   #define HISI_PTT_MAX_SPACE_LEN		10
+>   #define HISI_PTT_FIELD_LENGTH		4
+>   
+> +/* Header DW0 fields for 4DW format */
+> +#define HISI_PTT_HEAD0_4DW_TIME		GENMASK_U32(10, 0)
+> +#define HISI_PTT_HEAD0_4DW_LEN		GENMASK_U32(20, 11)
+> +#define HISI_PTT_HEAD0_4DW_SO		BIT_U32(21)
+> +#define HISI_PTT_HEAD0_4DW_TH		BIT_U32(22)
+> +#define HISI_PTT_HEAD0_4DW_T8		BIT_U32(23)
+> +#define HISI_PTT_HEAD0_4DW_T9		BIT_U32(24)
+> +#define HISI_PTT_HEAD0_4DW_TYPE		GENMASK_U32(29, 25)
+> +#define HISI_PTT_HEAD0_4DW_FORMAT	GENMASK_U32(31, 30)
+> +
+>   enum hisi_ptt_pkt_type {
+>   	HISI_PTT_4DW_PKT,
+>   	HISI_PTT_8DW_PKT,
 
-This doesn't address my feedback on v1:
-
-  https://lore.kernel.org/all/ZIHisLL9FXlbuMLJ@FVFF77S0Q05N/
-
-... which I see Sashiko has also spotted.
-
-Please make this:
-
-	 case ESR_ELx_SYS64_ISS_CRM_IC_IVAU:     /* IC IVAU */
-	 	__user_cache_maint("ic ivau", address, ret)
-		if (cpus_have_final_cap(ARM64_WORKAROUND_NXP_ERR050104) && !ret)
-			asm volatile("ic ialluis");
-		break;
-
-If there's a reason that doesn't work, please explain that reason.
-
-Mark.
