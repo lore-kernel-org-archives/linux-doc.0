@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0902D0C63;
-	Wed, 29 Jul 2026 09:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38CA374E4C;
+	Wed, 29 Jul 2026 09:41:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785317993; cv=none; b=i3VV17aC706BYbpg86+cWw9jrzr63t8bLaS1yLTPuHwngYSu2djVsTrFDGqqpAK+DQlO7qSPHeh7vCExujZGsQEVM9MTXJT7/V92roX02+XsfP6+/tKlxHFUPDzSgzLD/MvHoqXCg4f1jfZgqhTEg+9sPvKrc8+kHD6MfSRk704=
+	t=1785318083; cv=none; b=KSFRvVqFCCCyVCn/zT/Uu0IolYwgcqHpxyWYiIZntyx91m2rIaFBpPc3AwWKYwFcF/c5LTEVmj0sepHLhyTqbH0U2fj54fs5M4TjWcYMKQHRgVKR1bFmAseY/97y50w6C4vlSBOEfCWNtkOfQ1WZp0wwjZS4cmqdxKQTBZ1FK9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785317993; c=relaxed/simple;
-	bh=F7zp0Oy/BUshw5LCgBNCjzDsa9tKFnQD2H9UEzepl+s=;
+	s=arc-20240116; t=1785318083; c=relaxed/simple;
+	bh=cEXhIbmmlcyu/F4Hs6/gbzR97PDgNkdo5E5qTubi348=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gg+6HluMa26ThlW4oYm+2aRY4mLy46SKB88rZQOX7gTcQO9U4O3VojL7y+UmgCN9WtkiCjPE1WJoc2o1ZmmITxbuTVSFWCy9RMbO5C/JVV34CqrKrL1t8wPFWd0N+6aVXm2O6Hh5DkeJfGODVTNYnQiS5FCZSnh6hC+eY4v6zxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HhLKHVjc; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=HkCdHteP33K4Wvc2HPbMi6Lsl/T9rgKYN6olzkQzO8jb7eNC4DghsND/aqaAVmiPpKDN8HogevJWM/KhCCXGWAEMkiabh6elaM6TeItmqJan0tco5K6nXLYnIVrvOzbryBzlGTPVgTOjuAjTpSheO/b7oQls23rIPedCsNGkY4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUN7Mfn7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HhLKHVjc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 007131F000E9;
-	Wed, 29 Jul 2026 09:39:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUN7Mfn7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6633E1F000E9;
+	Wed, 29 Jul 2026 09:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785317992;
-	bh=+nrky1cgT5+f4Uy1JJ1xdnc45IJ0vARIkg+zWCn2kLA=;
+	s=k20260515; t=1785318081;
+	bh=mxaGiczx5gkbHpM5PSY0gBREJtXKGPCXFXX45B/ohyA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HhLKHVjc8Pd3eKZXXS03U3h6DVkfrQq8WfAsUwVtWuBAsgBY0KTMj/yC6X0PP6jj+
-	 ahvp86l+/bTssHn7wNB88Csbmquc2seFfLqdRXfpgKpZy3aT5NWYt5jqjwf0dzA46j
-	 XzE7MpLan9HumFl25doxNQxPeDeQAXGr0shWfuYLZjfOH0EbkPXs0frvsXkclcgfnF
-	 9/ZGtGAZPGaNhMZ+9Eshs1yAQePNBNkggrP7oCA2B7Q4Xsyf1v+dssJUffK2ikljh9
-	 TVFAFrgDXcBFm56Bsf/VmugS5Bet2EqGzLCH0JAb1uRE/hWaoDA4wJgwDbeqU56HQ+
-	 9qb2oTU86weIQ==
-Message-ID: <f688974c-261f-4f18-8867-da65f616d0e6@kernel.org>
-Date: Wed, 29 Jul 2026 11:39:47 +0200
+	b=VUN7Mfn75wQck+/cmR1Q00O9D/X4UgC+Mvt3c7bT56wD4x+Ev52a3GsoCVdYyE246
+	 6ArAnS+UJAjjuGD2l1iYVS5erhWkNiAY1NCA/IuMarA0ygfzgYS1T9x2LYiVmPb1wa
+	 LzekVb/rRgH6NB1SlpAw6raWTCJhivD04R1JiRJ1O7bx+Vk+HXi46CwmHLmFmOKWtP
+	 bh7IqPhvYq8irn/dzJCndTHzvEj6/c/tkRoukL/HU4m6bzpZmW1kY16Tk3jptV6S3G
+	 nYEn7mMUnzuWzo6e0ffc4Sz8CtVThjL08wo0AJ0FxcRgw0M+pBUjUfvW4/G8IO84eh
+	 emlrAy5eeDBdw==
+Message-ID: <0ccdda5c-6aba-4375-8a74-f29659d3f89b@kernel.org>
+Date: Wed, 29 Jul 2026 11:41:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,21 +35,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] mm/khugepaged: refactor per-scan state clearing
- into collapse_control_init_scan()
+Subject: Re: [PATCH v2 2/7] mm/khugepaged: extract young page check into
+ collapse_is_referenced() helper
 To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
- Usama Arif <usama.arif@linux.dev>, Andrew Morton
- <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
 References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-2-npache@redhat.com>
+ <20260715025941.1571316-3-npache@redhat.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,22 +96,49 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260715025941.1571316-2-npache@redhat.com>
+In-Reply-To: <20260715025941.1571316-3-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/15/26 04:59, Nico Pache wrote:
-> Extract the repeated clearing of node_load, alloc_nmask, and
-> mthp_present_ptes into a helper to reduce duplication in
-> collapse_scan_pmd() and collapse_scan_file(). Althought file scans do not
-> current use the bitmap, they will in the future, and clearing it now is
-> harmless.
+> This change deduplicates the "is this PTE/folio referenced enough to be
+> considered for a collapse" condition that was repeated in both
+> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
+> a single inline helper function.
 > 
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Also move the comment and use it as the function header. While we are at
+> it, updated the comment to clarify that a young pte is a recently accessed
+> one.
+> 
 > Acked-by: Usama Arif <usama.arif@linux.dev>
 > Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  mm/khugepaged.c | 35 +++++++++++++++++++----------------
+>  1 file changed, 19 insertions(+), 16 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 6ec0812210b6..e92e2b928f17 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -672,6 +672,23 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
+>  	}
+>  }
+>  
+> +/*
+> + * collapse_is_referenced() - Check for enough referenced PTEs to justify collapsing
+> + *
+> + * If collapse was initiated by khugepaged, check that the page has been
+> + * recently accessed (young pte) to justify collapsing the page.
+> + *
+> + * Return: true if the page has been recently accessed.
+> + */
+> +static inline bool collapse_is_referenced(struct collapse_control *cc, pte_t pteval,
+> +	struct folio *folio, struct vm_area_struct *vma, unsigned long addr)
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+The name is absolutely confusing. The "collapse" is referenced? Hugh? :)
+
+I appreciate factoring this out into a helper, but there must be a better name.
 
 -- 
 Cheers,
