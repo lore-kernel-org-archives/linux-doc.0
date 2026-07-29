@@ -1,226 +1,263 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.83.148.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA660381EA3;
-	Wed, 29 Jul 2026 23:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8886E3BF66D;
+	Wed, 29 Jul 2026 23:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.83.148.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785366577; cv=none; b=KxqymJaSWyZ05c+2KwOO757EdxbyrB/uzOWHitaZ71TsB2LAj039LEdBdSUCM02DvGMcvIdwSWoGQrNFFUrNaQuHqnoBxR/2sihajgZffZHfmN8/AzfScJlw+iMgWgWUHz8y6DnQCrwqtkYb5dFDVYbEIDwnOCDaDbWb6S38Ibs=
+	t=1785368278; cv=none; b=p+9pilomuXLTL0gmgWXQpcPxD0IScLc5o/TFrtGMPZHEM0AQv9KGHFzJN0D4+RJtgYW5/N158zzA1L/FG4VaJbSN6lXEdD1nZ412enn6Wfi9BHQZGtpbJkzv+opkneLzBXIHZMXLY50RI6La2mZCyWcocIRW1AsQ/9oYSojwa/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785366577; c=relaxed/simple;
-	bh=VaLLg4E77zypU7MzWB173soKqIC+WlqYXnBlXkX8m/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sFeN/h8wk1xTZePLCvIrdFCBxzPjBlY+bh8JqTaF0oEfXAfO0cMzKh06jnhi5plv2FObpQqqFH4hcNfSOLwi8vab71c4lqFwsw/ify0qm0CNCIhNGh1ZYDuzr01gaiaQ1V012wSYwTFjaWS2YIKn7hMo/bHLJzofnPE+s22Rj2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VfYz/K6H; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785368278; c=relaxed/simple;
+	bh=fObPG9D+e4sUz+uuOshC7dVO4ayj7MJfakTg7dW7W4Y=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WvOaGoxwO8OCkQjei83n2XneOyR4C7ANv8RlCTv/JVw2wiIbNGwhb+eAO1kH2TGyeSVstIr5Fx8+ElGg/dtPYT8U9x9n7NYjY0YUj3mY5mhwaaJFVqxg92aQu3E5p2ozjfjTRCW1UTUOzWsXDlS0Xp896lGJafF1Crk13gZ6jIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=llGK7AmE; arc=none smtp.client-ip=35.83.148.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VfYz/K6H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 455DC1F000E9;
-	Wed, 29 Jul 2026 23:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785366575;
-	bh=qwCwB4l1jJif4G/OahJteb6HrtiO/YmN0M2WQ7WqvxM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=VfYz/K6H6vBzOEUoOcR7YxF7g0i3/wyZEw8vyRNkxRiIv4xT3VXaAghc5b30F2Vf8
-	 P2DDahVCfbawqk1wiH4uerYZJhmH+a1Y99UCIurFB9sMr1a5WsxF4Es+4rwrhWPr+A
-	 rhfZq4GaGVkV0ly3z1xc7Bq8Gj+Y5P/WfcyUokBztRW0m3TqiOESC6es2eGlUdeDXJ
-	 SNRfKOvyPfcCrJqj7T7rJKrCO1Qb3jzL+1xLqNFfE+E26gsEecw9lenrnDr0cmA9uA
-	 3WjZ+IA6EcJQurl7SkNfFeaRZtn7p/OE5MokutHvp+uy/tYhGjCmvbhSUQ/xbhO78r
-	 F+4++YPB4XC+Q==
-Date: Thu, 30 Jul 2026 00:09:29 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, Janani Sunil
- <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
- <broonie@kernel.org>, Marius Cristea <marius.cristea@microchip.com>, Marcus
- Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
- <jan.sun97@gmail.com>, linux-spi@vger.kernel.org, Kent Gustavsson
- <nedo80@gmail.com>
-Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
- spi-device-addr
-Message-ID: <20260730000929.2ec20cf8@jic23-huawei>
-In-Reply-To: <20260729-hundredth-suffice-f28afa67bc06@spud>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
-	<20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
-	<cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
-	<20260725230739.63ff7000@jic23-huawei>
-	<20260728-patronize-thwarting-56fab2e11077@spud>
-	<20260728221719.7f668a73@jic23-huawei>
-	<20260729-hundredth-suffice-f28afa67bc06@spud>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="llGK7AmE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1785368277; x=1816904277;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WL1QywWtj3HFHsLjoKmZr2x3oJi2hqcGK71kc7S5mzM=;
+  b=llGK7AmE2IbIa1/wicJ3celzbQyItaP05H+5ZbQkfit94adaOgadgtkV
+   euhWb0IttCucPgUtpgcs/FOhp1mOYynxinSQYa/wq4PgRP+sAbdrjC/gR
+   UPHt7lOQtoM9HEf+QrBoOXab7FTRhR/WFFQ3qnN6pz5dvv5mWBnzqjV87
+   gz0GHIPqsAspxlbEvembENUQV/rIHLJ84vR0n5tM9cYk6PLlgR8SWZFST
+   Sv/DWGr3Iu2EK6VOuzZY5MgNAPNsOgsxqEGSeVccMG5EzQUp1OsJ0S06T
+   ecDNeiOUzPkpteGPDlreJ9n9TKQr4hwZPdFmQybIsxYblfDVJwPnXK+Wz
+   A==;
+X-CSE-ConnectionGUID: ZYzMMQgbSBOujcPY0arJOA==
+X-CSE-MsgGUID: 3OZJs+QsQrGdwgE8tV9Daw==
+X-IronPort-AV: E=Sophos;i="6.25,193,1779148800"; 
+   d="scan'208";a="24411255"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 23:37:54 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:8347]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.4.11:2525] with esmtp (Farcaster)
+ id 27991a9a-4c76-494b-975e-1d44b5bd6f84; Wed, 29 Jul 2026 23:37:54 +0000 (UTC)
+X-Farcaster-Flow-ID: 27991a9a-4c76-494b-975e-1d44b5bd6f84
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 29 Jul 2026 23:37:54 +0000
+Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 29 Jul 2026 23:37:48 +0000
+From: Arthur Kiyanovski <akiyano@amazon.com>
+To: David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>, <netdev@vger.kernel.org>
+CC: Arthur Kiyanovski <akiyano@amazon.com>, Eric Dumazet
+	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, David Woodhouse
+	<dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Miroslav Lichvar
+	<mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Andrew Lunn
+	<andrew@lunn.ch>, Carolina Jubran <cjubran@nvidia.com>, Wen Gu
+	<guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "David
+ Woodhouse" <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>, "Zorik
+ Machulsky" <zorik@amazon.com>, Alexander Matushevsky <matua@amazon.com>,
+	"Saeed Bshara" <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>, Anthony
+ Liguori <aliguori@amazon.com>, Nafea Bshara <nafea@amazon.com>, Evgeny
+ Schmeilin <evgenys@amazon.com>, Netanel Belgazal <netanel@amazon.com>, Ali
+ Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt <benh@amazon.com>, Noam
+ Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>, Evgeny
+ Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik <ofirt@amazon.com>, Amit
+ Bernstein <amitbern@amazon.com>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <shuah@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
+	<horms@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	<vadim.fedorenko@linux.dev>
+Subject: [PATCH v6 net-next 0/7] ptp: Add PHC timestamp quality attributes
+Date: Wed, 29 Jul 2026 23:37:29 +0000
+Message-ID: <20260729233740.16516-1-akiyano@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D041UWB002.ant.amazon.com (10.13.139.179) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Wed, 29 Jul 2026 21:47:45 +0100
-Conor Dooley <conor@kernel.org> wrote:
+This series adds quality attributes to PTP Hardware Clock (PHC)
+timestamps, allowing userspace to obtain error bound, clock status,
+timescale, and system counter values alongside timestamps in a single
+call.
 
-> On Tue, Jul 28, 2026 at 10:17:19PM +0100, Jonathan Cameron wrote:
-> > On Tue, 28 Jul 2026 17:00:55 +0100
-> > Conor Dooley <conor@kernel.org> wrote:
-> >   
-> > > On Sat, Jul 25, 2026 at 11:07:39PM +0100, Jonathan Cameron wrote:  
-> > > > On Sat, 25 Jul 2026 15:57:07 -0500
-> > > > David Lechner <dlechner@baylibre.com> wrote:
-> > > >     
-> > > > > On 7/22/26 2:54 AM, Janani Sunil wrote:    
-> > > > > > Add the generic spi-device-addr property to the binding and deprecate
-> > > > > > the existing vendor specific microchip,hw-device-address property.
-> > > > > > 
-> > > > > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > > > > > ---
-> > > > > >  .../devicetree/bindings/iio/adc/microchip,mcp3564.yaml         | 10 ++++++++--
-> > > > > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
-> > > > > > index 675319276197..de1ea289e7f5 100644
-> > > > > > --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
-> > > > > > +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
-> > > > > > @@ -80,6 +80,7 @@ properties:
-> > > > > >      $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > >      minimum: 0
-> > > > > >      maximum: 3
-> > > > > > +    deprecated: true
-> > > > > >      description:
-> > > > > >        The address is set on a per-device basis by fuses in the factory,
-> > > > > >        configured on request. If not requested, the fuses are set for 0x1.
-> > > > > > @@ -91,6 +92,12 @@ properties:
-> > > > > >        clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
-> > > > > >        which is first one on the wire).
-> > > > > >  
-> > > > > > +  spi-device-addr:
-> > > > > > +    maxItems: 1      
-> > > > > 
-> > > > > Does it not make sense to all for more than once device connected
-> > > > > to the same CS here? I would expect maxItems to be 4 to match the
-> > > > > number of possible addresses.
-> > > > >     
-> > > > 
-> > > > I think for this part their isn't a reason to aggregate.
-> > > > No magic accesses that touch them all at once.  So this hits
-> > > > exactly the point you raised about how we set the address for
-> > > > more than one of them.    
-> > > 
-> > > No David is actually right here, and maxitems should be 4.
-> > > Setting the address for multiple was already discussed I thought, with
-> > > the property being an array and each compatible being used to determine
-> > > the "stride" between entries based on the number of supported channels?  
-> > 
-> > I don't think that applies for this device or at least to do so
-> > is a major driver rewrite, not a simple binding change.  Probably we'd  
-> 
-> Whether or not it is a big driver change, the binding should represent
-> what the hardware is capable of.
-> 
-> > just add a bus and hang the 4 instances off it. They are running on own
-> > timing etc so we can't grab data across all of them in any sort of
-> > synchronous way - the clocks will probably drift over time etc.  
-> 
-> Did I miss something about the ADI devices in this thread where they
-> have some multicast ability to read all devices at once? I thought that
-> that was a different series where each device had dedicated mosi and
-> miso lines, rather than the shared ones here. I didn't think the ad5529r
-> did anything special from my reading of the datasheet but I'm not the
-> expert in this area!
+Motivation
+----------
+The existing PTP APIs return timestamps without any indication of
+their quality. Applications that need clock accuracy and
+synchronization status commonly rely on external tools such as
+ptp4l, which implement synchronization logic and can export their
+measurement of clock accuracy. For managed PHC devices - such as
+the ENA network adapter, whose clock is synchronized by the device
+without userspace involvement - these tools are not available, and
+the existing APIs lack a way to report quality metrics to consumers
+of time.
 
-It's a DAC so other way around but yes they have exactly that in the section:
-https://www.analog.com/media/en/technical-documentation/data-sheets/ad5529r.pdf
+This was previously proposed as an RFC [1] with a single ioctl.
+Based on community feedback, the design was reworked to cover both
+the extended (multi-sample) and precise (cross-timestamp) paths.
 
-	Register Details: Hotpath DAC registermap.
+Design
+------
+The UAPI was redesigned based on Thomas Gleixner's proposal [2]:
 
-The is a brief description earlier of the whole feature that might
-serve for this discussion:
+- A unified data structure (struct ptp_sys_offset_attrs) is used
+  for both extended and precise ioctls.
 
-"DAC HOTPATH
-The DAC hotpath is a dedicated register region that optimizes
-DAC updates in multidevice configurations where several AD5529R
-devices share a common SPI bus. It reduces the number of SPI
-frames required to write DAC data and supports synchronized
-output updates across devices. In single device systems, the hotpath
-offers no advantage over the standard register map and can be
-disregarded."
+- A u32 valid bitmask in struct ptp_clock_attrs indicates which
+  attributes are populated, replacing sentinel values. Drivers
+  set only the bits for attributes they provide.
 
-As an example
-MULTI DEVICE SW LDAC MODE 0 REGISTER
-"This register sends a software LDAC update to the selected devices
-that share the SPI lines but have different addresses, using the ID0
-and ID1 pins. The selection is done on a per-device basis corresponding
-to the configured bit field."
+- System counter values (cycles + counter_id) are carried in
+  struct ptp_sys_time alongside each system timestamp. These are
+  populated by the timekeeping core cross-timestamp infrastructure,
+  which is now merged in net-next [3] - drivers do not fill them.
+  This series therefore applies directly to net-next with no
+  out-of-tree dependency.
 
-This one triggers all selected DACs (there is bit corresponding to
-each address) to update in sync. (Lets put aside normal systems
-where an LDAC gpio is wired to multiple devices as that is a whole
-different problem).
+- Graceful degradation: the attrs ioctls work even on devices
+  without attrs callbacks, falling back to gettimex64 /
+  getcrosststamp and returning attrs.valid = 0. The capability
+  bits reflect this fallback so cap-respecting userspace does not
+  skip the ioctl on base-only drivers.
 
+A capability flag is added to ptp_clock_caps so userspace can
+discover attributes support.
 
-It is this part that is driving the suggestion of having
-a combined device representation for multiple physical devices.
-In practice it is very similar to chained devices where we do that
-already in that a longer access sequence is used to talk to multiple
-devices at once.
+Patches 2-3 add testptp support for the new ioctls.
 
-Those SPI messages do not carry the address (or they are ignored - I didn't
-dig into the mechanism).
+Patch 4 implements the attributes for ptp_vmclock, reporting
+error bound, clock status, and timescale.
 
+Patches 5-7 implement the attributes for the ENA driver,
+reporting error bound from the device's PHC layer.
 
-> 
-> > They are independent devices (think of them using spi-device-address
-> > like an i2c address) -  so why have one DT node for up to 4 of
-> > them?  Note this is different from the AD5529R where the design
-> > is intended for them to operate as one single larger device.  
-> 
-> I don't buy this argument, I just don't see what differs between the
-> devices. The microchip datasheet I read talked about using 3 devices to
-> measure 3 phase power setups (I think that's what it was) which is, in
-> my book, evidence that they're not just intended to be used
-> independently.
+v6:
+- ptp: reject a non-zero reserved field (request.rsv[]) in the
+  attrs ioctls, matching ptp_sys_offset_extended(). (Jakub Kicinski)
+- ptp: zero-initialize the per-sample system-timestamp snapshot in
+  ptp_sys_offset_extended_attrs() so no uninitialized or stale stack
+  data can reach userspace. (Jakub Kicinski)
+- ptp: translate the kernel enum clocksource_ids to the UAPI enum
+  ptp_counter_id before returning sys_counter_id; sources that are
+  not a raw hardware counter (e.g. kvmclock) are reported as
+  PTP_COUNTER_UNKNOWN with sys_counter = 0. (Jakub Kicinski,
+  David Woodhouse)
+- ptp: initialize the precise cross-timestamp struct and set its
+  clock_id from the validated request; validate clock_id against a
+  precise-path allowlist (CLOCK_REALTIME + CLOCK_AUX) so unsupported
+  clocks return -EINVAL instead of triggering a WARN in
+  get_device_system_crosststamp(). (Jakub Kicinski, David Woodhouse)
+- ptp: make the extended_attrs/precise_attrs capability bits reflect
+  the base-callback fallback (gettimexattrs64 || gettimex64,
+  getcrosststampattrs || getcrosststamp) and document the fallback
+  and the att.valid semantics. (Jakub Kicinski)
+- ptp: echo the full request header back from the attrs ioctls so
+  valid/clock_id/num_samples/rsv round-trip. (Jakub Kicinski)
+- ptp: clarify the FREE_RUNNING vs UNRELIABLE and HOLDOVER status
+  comments and the @error_bound kernel-doc (a maximum bound, not a
+  statistical estimate; not to be trusted when status is UNKNOWN or
+  UNRELIABLE). (Carolina Jubran)
+- ptp: document that both @sts and @att may be NULL in the
+  gettimexattrs64 kernel-doc. (Jakub Kicinski)
+- selftests/ptp: print the returned system counter value and id
+  (sys_counter, sys_counter_id) in the attrs output.
+- Exposing the underlying hw_csid/hw_cycles for derived clocksources
+  (kvmclock, ART, ...) is left to a follow-up; the UAPI leaves room
+  to add them without an ABI change. (David Woodhouse)
 
-Sure but that could just as easily be done with normal SPI and 3 chip
-selects. For these devices there is no broadcast write magic (I think
-anyway!)
+v5:
+- ptp: simplify ptp_sys_offset_{extended,precise}_attrs() to copy
+  the request header onto the stack and allocate the result buffer
+  once, instead of memdup_user() + kfree() + kzalloc(). (Saeed
+  Bshara)
+- ptp: deduplicate the kernel-doc for gettimexattrs64 /
+  getcrosststampattrs by referencing the base gettimex64 /
+  getcrosststamp callbacks. (Saeed Bshara)
+- ptp: add missing kernel-doc member descriptions for struct
+  ptp_timestamp and struct ptp_sys_offset_attrs.
+- selftests/ptp: map the clockid to a name and print once instead
+  of three duplicated printfs. (Saeed Bshara)
+- selftests/ptp: make -a a modifier on -x/-X instead of an
+  exclusive option; drop -A (use -X -a); trim the unknown-clock
+  output; print "not reported" for attributes the device does not
+  report. (Saeed Bshara)
+- ptp_vmclock: scope the local 'st' inside the SUPPORT_KVMCLOCK
+  block to fix an unused-variable warning on !CONFIG_KVM_GUEST.
+  (kernel test robot)
+- No UAPI changes; the ioctl structures are unchanged from v4.
 
-> 
-> That said, the more this discussion goes on, the more I think that
-> merging the devices into a single node is a mistake. Logically there may
-> be one device, but really there are one to four devices. Doing the
-> logical device thing is nice maybe for software but I no longer think
-> that it represents the hardware correctly. I know this will cause
-> problems with registration of devices in the SPI core, but we need to
-> pick one representation for these devices that fits in all usecases
-> and with the things brought up in the other mail I am having a lot of
-> doubts.
+v4:
+- Complete UAPI redesign per Thomas Gleixner's proposal [2]:
+  unified data structure with u32 valid bitmask, system counter
+  in ptp_sys_time (populated by core, not drivers), graceful
+  degradation for devices without attrs callbacks. (Thomas Gleixner,
+  David Woodhouse)
+- Counter values moved from driver attrs callback to timekeeping
+  core infrastructure - drivers no longer set counter_id or
+  counter_value.
+- Flexible array member for timestamps[] (kernel bounds the copy,
+  userspace allocates for num_samples requested).
+- Drop separate ptp_clock_attributes kernel struct - driver
+  callbacks fill the UAPI ptp_clock_attrs directly.
 
-This wasn't about use cases as such but the broadcast like facilities the
-ADI parts have which to me smell like the main reason you'd put them on
-a single bus and use this feature in the first place - you are making
-one big DAC from multiple chips.
+v3:
+- Remove patch 5/8 from v2 (return-code bugfix) - sent separately
+  as [PATCH net] to the net tree.
+- Zero-initialize struct ptp_clock_attributes in PTP core ioctl
+  handlers to prevent stack leak of unset fields. (Simon Horman,
+  sashiko)
+- ptp_vmclock: validate counter_period_shift < 128 to prevent
+  undefined behavior on untrusted hypervisor input. (sashiko)
+- ptp_vmclock: add overflow check on err_hi * NSEC_PER_SEC to
+  prevent silent wraparound producing erroneously small error
+  bound. (sashiko)
+- ptp_vmclock: report PTP_TIMESCALE_TAI after tai_adjust() to
+  avoid timescale mismatch. (sashiko)
+- ENA: set counter_id = 0, counter_value = 0 in gettimexattrs64
+  for defense-in-depth. (sashiko)
 
-> 
-> Only going to reply to this for now, I'll reply to the other thread of
-> this conversation later so as not to end up duplicating discussion, but
-> I am thinking of things like what if someone puts a mcp3654r and an
-> ad5529r on the same chip select? I think that's actually perfectly
-> functional on a hardware level, provided the fuses/pins are set up
-> correctly (and if it is not, mixing the microchip devices is possible
-> and probably mixing future ADI ones will be too).
+v2:
+- Fix build bisectability: move ena_com.c consumer updates into
+  patch 6/8 and ena_phc.c caller update into patch 7/8 so each
+  patch compiles independently.
+- Add missing Cc for Amit Bernstein (co-author of ENA patches).
 
-The broadcast stuff is what breaks this.  Otherwise I fully agree they
-should be independent and we should have SPI allow that.
+[1] https://lore.kernel.org/netdev/20250724115657.150-1-darinzon@amazon.com/
+[2] https://lore.kernel.org/all/87se7ht25o.ffs@tglx/
+[3] https://lore.kernel.org/all/20260526165826.392227559@kernel.org/
 
-Jonathan
+Arthur Kiyanovski (7):
+  ptp: Add ioctls for PHC timestamps with quality attributes
+  selftests/ptp: Extract print_system_timestamp helper in testptp
+  selftests/ptp: Add testptp support for attributes ioctls
+  ptp: ptp_vmclock: Implement attributes ioctls
+  net: ena: Update PHC admin interface for error bound support
+  net: ena: Add error bound to PHC communication layer
+  net: ena: Implement gettimexattrs64 callback for PTP attributes
 
-> 
-> Cheers,
-> Conor.
+ .../device_drivers/ethernet/amazon/ena.rst    |   2 +
+ .../net/ethernet/amazon/ena/ena_admin_defs.h  |  17 +-
+ drivers/net/ethernet/amazon/ena/ena_com.c     |  51 ++--
+ drivers/net/ethernet/amazon/ena/ena_com.h     |   5 +-
+ drivers/net/ethernet/amazon/ena/ena_debugfs.c |   3 +
+ drivers/net/ethernet/amazon/ena/ena_phc.c     |  61 +++-
+ drivers/ptp/ptp_chardev.c                     | 208 ++++++++++++-
+ drivers/ptp/ptp_clock.c                       |   4 +-
+ drivers/ptp/ptp_vmclock.c                     | 197 +++++++++++-
+ include/linux/ptp_clock_kernel.h              |  20 ++
+ include/uapi/linux/ptp_clock.h                | 283 +++++++++++++++++-
+ tools/testing/selftests/ptp/testptp.c         | 198 +++++++++---
+ 12 files changed, 939 insertions(+), 110 deletions(-)
+
+base-commit: 2bb54b49e9d522f54dc9c0fe10ba40fbc56041c8
+-- 
+2.47.3
 
