@@ -1,373 +1,332 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FCB346A0C
-	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 19:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D5540D588;
+	Wed, 29 Jul 2026 20:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785354391; cv=none; b=QcL28zNNEfsB3DqHB/2YQ5xvZ58ov7yucsXTbZrSO+esOoX7QIL4iVUEQf/7gsOPAvkc0/3GiaIaSLpi9gmDVYJEbJpwkhVRlb14wM1DLnkk5LDz1djRaqxu91lq71SnpIUpodV8DIBMWxPtyX1Zuz21fbKtpq0M++Uum2DZhiU=
+	t=1785357918; cv=none; b=M52C7CMmM+ximUCwO/zIKYM9lAOBdJTPef4yv94Prn+JuSpPZcK2HygSxl03uMaHW/brepMvhcwg13zsDBNf13p1ZbRKSKz7lY9aLndQnRi7iFmfDkYDDqQ6S8npyOp18XuC6cnjes+sUncqve6rFVJ+N/S6V1+xIWbXMB2l6oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785354391; c=relaxed/simple;
-	bh=MTsW4DPZPh15sIO/nZBnNM4EnhVhCyLOHMDWXXit5kI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OBcozbSOkMfGlnQBXS9s3rrPufX68TG9tqR1+f62KurXB60DwdEMBF5KHcIxjnE2wqu/Ry1cZG/9HECp47OvWmca1XCBaoytwQER4OYGd/6U7o2S3/BSPnzN9zkoMl38pZvZ7UvV9WKrs5WUGhxfpaL1GUqUHee7HhUJtJGl8d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=K7jYSFW1; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785357918; c=relaxed/simple;
+	bh=bVlHHEUPXpsyA/dmc+CqN2KFur/xel1DV2f1KMwh3Rw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B+ZmrSIumVUAj/6+Wxmt6CpkRKl27gYv3DuLmmcVY83Yj0zwBaSlR60AgIF/lEoqGbC3fkXeYUffdpIY8XPRG8IZrbbVcVlxuNfwi4grZfZhmxUgg4sUNIBczhdRsJdiIXHaG3Emy+E6eNacBlpxpqdM1i1qBux12793Cw5+X8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dkb/hrb1; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="K7jYSFW1"
-X-Forwarded-Encrypted: i=1; AHgh+RoJJ9BTjk3/SWG+1X5ODObOYHdRukjSyaIsVtT/s2jniw4nYPzS1UyLWb9gZhPnra+Lo1GjVQqae5w=@vger.kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785354384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m7NYxbVQukXWkUZPHzw13nh5/XBlWOt6m2oUVluhMlA=;
-	b=K7jYSFW1JTj24N+Zo9npjwzow8CtTUUj7dNLaWS4u2LCbIuC9SZEiTaD3fOp5gVlv+22j9
-	xfH8eMYuqz7i2+iWBC5PalOQ5Qp/tkrjdF1Ryf9n9TEDVOeDlYFly98ICTv5KlXOTPwsZD
-	NA/SQvulCqe2lHWsRxNk/NS++BtkaOo=
-X-Gm-Message-State: AOJu0YzIIOEWyJ7Huha4Skvbx66Cl7JkYUmP7KKMapqI8XwcBejX1LpQ
-	8D5irf9BkvPdQ5K8XiZGqaS6VFNwkQ0yeNWh9L76kE6dC/U0Y1ItJGV+hUmPbtR02rH/Ad7GDuX
-	meuShJpDRBKdcR/HxMPCNSMEQzBBwbB4N++wvpNHT
-X-Received: by 2002:a05:622a:5145:b0:4ff:c0e7:be9c with SMTP id
- d75a77b69052e-52b3741055amr1691401cf.0.1785354377611; Wed, 29 Jul 2026
- 12:46:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dkb/hrb1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785357913; x=1816893913;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bVlHHEUPXpsyA/dmc+CqN2KFur/xel1DV2f1KMwh3Rw=;
+  b=Dkb/hrb1pvk4+kP/con5R83foJ2nA2iF9oQrbI/D3+Zbg7+KSx92YSsV
+   V9T5H48LdzqnV1ubf1HFnK39rW4/oBdqtcZvet+yHtKenIKc/eVNv1ge2
+   QvIP8DiXQbVQyUeq0N2NWf3lkCBbWyUq4jli48rMhoTuHHOnX2I6Zl2CR
+   sb9t4ViDcOqXfiVilYwmFJUYNw5+YCXBn8oWqGGosAtwl47Qiqw0nP2gO
+   uEMRzlf3Xn89/u6+Twifhw4i9iz4GHV0owQOYFnb0xcrRB3ALCQsD1B4O
+   NcS29GLhQFpyVhpCuZxML99RhsDmg7ZNR/5ibM+vfS8lP0mGfC93HqRIr
+   A==;
+X-CSE-ConnectionGUID: brEu6qFHTfyW1TYJFKdQgQ==
+X-CSE-MsgGUID: 710FyQ5fSAKL+Qo4quqHfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="84952348"
+X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
+   d="scan'208";a="84952348"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 13:45:08 -0700
+X-CSE-ConnectionGUID: 54xBxjBSQPWBArfqoPbtrA==
+X-CSE-MsgGUID: Rq/YfcAkTOSqIAs2Zh21jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
+   d="scan'208";a="264381323"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orviesa005.jf.intel.com with ESMTP; 29 Jul 2026 13:45:08 -0700
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	larysa.zaremba@intel.com,
+	przemyslaw.kitszel@intel.com,
+	aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	michal.swiatkowski@linux.intel.com,
+	maciej.fijalkowski@intel.com,
+	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
+	joshua.a.hay@intel.com,
+	jacob.e.keller@intel.com,
+	jayaprakash.shanmugam@intel.com,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	corbet@lwn.net,
+	richardcochran@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v6 00/15][pull request] Introduce iXD driver
+Date: Wed, 29 Jul 2026 13:44:47 -0700
+Message-ID: <20260729204505.3373950-1-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp> <20260720-hybrid-v9-16-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260720-hybrid-v9-16-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Wed, 29 Jul 2026 20:45:00 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTyTOCyZRRsGj3hbzk6H=ZPZTfTCYQpv+o0MpcoLAXS95A@mail.gmail.com>
-X-Gm-Features: AUfX_mz5uV-Ty8nXNE0Bq2AH3IvUn36RDUN3WfgUMxDQ01Xo6HoyBjFL8QvNB8Y
-Message-ID: <CA+EHjTyTOCyZRRsGj3hbzk6H=ZPZTfTCYQpv+o0MpcoLAXS95A@mail.gmail.com>
-Subject: Re: [PATCH v9 16/16] KVM: arm64: selftests: Test PMU_V3_FIXED_COUNTERS_ONLY
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Yury Norov <yury.norov@gmail.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Steffen Eiden <seiden@linux.ibm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Mon, 20 Jul 2026 at 06:39, Akihiko Odaki
-<odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
->
-> Assert the following:
-> - FIXED_COUNTERS_ONLY is unset at initialization.
-> - FIXED_COUNTERS_ONLY can be set.
-> - Setting an event filter when FIXED_COUNTERS_ONLY has already been set
->   results in EBUSY.
-> - Setting FIXED_COUNTERS_ONLY when an event filter has already been set
->   results in EBUSY.
-> - Setting FIXED_COUNTERS_ONLY when a VCPU has already run results in
->   EBUSY.
->
-> Run the existing PMU and MDCR_EL2 tests in fixed-only mode. Verify that
-> enabling the mode preserves the userspace MDCR_EL2 value until a
-> subsequent KVM_ARM_VCPU_INIT resets HPMN to zero.
->
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Larysa Zaremba says:
 
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
+This patch series adds the iXD driver, which supports the Intel(R)
+Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+exposed by the same card. The reason for the separation is to be able
+to offload the control plane to the host different from where the data
+plane is running.
 
-Cheers,
-/fuad
+This is the first phase in the release of this driver where we implement the
+initialization of the core PCI driver. Subsequent phases will implement
+advanced features like usage of idpf ethernet aux device, link management,
+NVM update via devlink, switchdev port representors, data and exception path,
+flow rule programming, etc.
 
+The first phase entails the following aspects:
 
-> ---
->  .../selftests/kvm/arm64/vpmu_counter_access.c      | 166 +++++++++++++++++----
->  1 file changed, 137 insertions(+), 29 deletions(-)
->
-> diff --git a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-> index 73f04e4c6ca3..b5f8ce8d3451 100644
-> --- a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-> +++ b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-> @@ -411,12 +411,7 @@ static void create_vpmu_vm(void *guest_code)
->  {
->         struct kvm_vcpu_init init;
->         u8 pmuver, ec;
-> -       u64 dfr0, irq = 23;
-> -       struct kvm_device_attr irq_attr = {
-> -               .group = KVM_ARM_VCPU_PMU_V3_CTRL,
-> -               .attr = KVM_ARM_VCPU_PMU_V3_IRQ,
-> -               .addr = (u64)&irq,
-> -       };
-> +       u64 dfr0;
->
->         /* The test creates the vpmu_vm multiple times. Ensure a clean state */
->         memset(&vpmu_vm, 0, sizeof(vpmu_vm));
-> @@ -442,8 +437,6 @@ static void create_vpmu_vm(void *guest_code)
->         TEST_ASSERT(pmuver != ID_AA64DFR0_EL1_PMUVer_IMP_DEF &&
->                     pmuver >= ID_AA64DFR0_EL1_PMUVer_IMP,
->                     "Unexpected PMUVER (0x%x) on the vCPU with PMUv3", pmuver);
-> -
-> -       vcpu_ioctl(vpmu_vm.vcpu, KVM_SET_DEVICE_ATTR, &irq_attr);
->  }
->
->  static void destroy_vpmu_vm(void)
-> @@ -494,13 +487,22 @@ static void set_nr_counters(struct kvm_vcpu *vcpu,
->  }
->
->  static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters,
-> +                                                bool fixed_counters_only,
->                                                  bool expect_fail)
->  {
->         struct kvm_vcpu *vcpu;
-> +       u64 irq = 23;
->
->         create_vpmu_vm(guest_code);
->         vcpu = vpmu_vm.vcpu;
->
-> +       if (fixed_counters_only)
-> +               vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                                    KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-> +
-> +       vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                            KVM_ARM_VCPU_PMU_V3_IRQ, &irq);
-> +
->         set_nr_counters(vcpu, nr_counters, expect_fail);
->
->         vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL, KVM_ARM_VCPU_PMU_V3_INIT, NULL);
-> @@ -510,15 +512,15 @@ static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters,
->   * Create a guest with one vCPU, set the PMCR_EL0.N for the vCPU to @pmcr_n,
->   * and run the test.
->   */
-> -static void run_access_test(u64 pmcr_n)
-> +static void run_access_test(u64 pmcr_n, bool fixed_counters_only)
->  {
->         u64 sp;
->         struct kvm_vcpu *vcpu;
->         struct kvm_vcpu_init init;
->
-> -       pr_debug("Test with pmcr_n %lu\n", pmcr_n);
-> +       pr_debug("Test with pmcr_n %lu, fixed_counters_only %d\n", pmcr_n, fixed_counters_only);
->
-> -       test_create_vpmu_vm_with_nr_counters(pmcr_n, false);
-> +       test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, false);
->         vcpu = vpmu_vm.vcpu;
->
->         /* Save the initial sp to restore them later to run the guest again */
-> @@ -552,14 +554,14 @@ static struct pmreg_sets validity_check_reg_sets[] = {
->   * Create a VM, and check if KVM handles the userspace accesses of
->   * the PMU register sets in @validity_check_reg_sets[] correctly.
->   */
-> -static void run_pmregs_validity_test(u64 pmcr_n)
-> +static void run_pmregs_validity_test(u64 pmcr_n, bool fixed_counters_only)
->  {
->         int i;
->         struct kvm_vcpu *vcpu;
->         u64 set_reg_id, clr_reg_id, reg_val;
->         u64 valid_counters_mask, max_counters_mask;
->
-> -       test_create_vpmu_vm_with_nr_counters(pmcr_n, false);
-> +       test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, false);
->         vcpu = vpmu_vm.vcpu;
->
->         valid_counters_mask = get_counters_mask(pmcr_n);
-> @@ -604,13 +606,15 @@ static void run_pmregs_validity_test(u64 pmcr_n)
->         destroy_vpmu_vm();
->  }
->
-> -static void run_mdcr_el2_validity_test(u64 pmcr_n)
-> +static void run_mdcr_el2_validity_test(u64 pmcr_n, bool fixed_counters_only)
->  {
->         struct kvm_vcpu_init init;
->         struct kvm_vcpu *vcpu;
->         u64 expected_mdcr, mdcr;
-> +       u64 irq = 23;
->
-> -       pr_debug("MDCR_EL2 test with pmcr_n %lu\n", pmcr_n);
-> +       pr_debug("MDCR_EL2 test with pmcr_n %lu, fixed_counters_only %d\n",
-> +                pmcr_n, fixed_counters_only);
->
->         create_vpmu_vm(guest_code);
->         if (!vm_supports_el2(vpmu_vm.vm)) {
-> @@ -631,6 +635,16 @@ static void run_mdcr_el2_validity_test(u64 pmcr_n)
->                     "MDCR_EL2 was not properly updated after HPMN write (expected 0x%lx, got 0x%lx)",
->                     expected_mdcr, mdcr);
->
-> +       if (fixed_counters_only) {
-> +               vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                                    KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-> +
-> +               mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-> +               TEST_ASSERT(mdcr == expected_mdcr,
-> +                           "MDCR_EL2 changed after PMU_V3_FIXED_COUNTERS_ONLY (expected 0x%lx, got 0x%lx)",
-> +                           expected_mdcr, mdcr);
-> +       }
-> +
->         set_nr_counters(vcpu, pmcr_n, false);
->
->         mdcr = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_MDCR_EL2));
-> @@ -638,6 +652,9 @@ static void run_mdcr_el2_validity_test(u64 pmcr_n)
->                     "MDCR_EL2 changed after PMU_V3_SET_NR_COUNTERS (expected 0x%lx, got 0x%lx)",
->                     expected_mdcr, mdcr);
->
-> +       vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                            KVM_ARM_VCPU_PMU_V3_IRQ, &irq);
-> +
->         vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
->                              KVM_ARM_VCPU_PMU_V3_INIT, NULL);
->
-> @@ -672,11 +689,11 @@ static void run_mdcr_el2_validity_test(u64 pmcr_n)
->   * the vCPU to @pmcr_n, which is larger than the host value.
->   * The attempt should fail as @pmcr_n is too big to set for the vCPU.
->   */
-> -static void run_error_test(u64 pmcr_n)
-> +static void run_error_test(u64 pmcr_n, bool fixed_counters_only)
->  {
->         pr_debug("Error test with pmcr_n %lu (larger than the host)\n", pmcr_n);
->
-> -       test_create_vpmu_vm_with_nr_counters(pmcr_n, true);
-> +       test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, true);
->         destroy_vpmu_vm();
->  }
->
-> @@ -737,25 +754,116 @@ static void test_set_nr_counters_after_vcpu_run(void)
->         kvm_vm_free(vm);
->  }
->
-> -int main(void)
-> +static void test_config(u64 pmcr_n, bool fixed_counters_only)
-> +{
-> +       u64 i;
-> +
-> +       for (i = 0; i <= pmcr_n; i++) {
-> +               run_access_test(i, fixed_counters_only);
-> +               run_pmregs_validity_test(i, fixed_counters_only);
-> +               run_mdcr_el2_validity_test(i, fixed_counters_only);
-> +       }
-> +
-> +       for (i = pmcr_n + 1; i < ARMV8_PMU_MAX_COUNTERS; i++)
-> +               run_error_test(i, fixed_counters_only);
-> +}
-> +
-> +static void test_fixed_counters_only(void)
->  {
-> -       u64 i, pmcr_n;
-> +       struct kvm_pmu_event_filter filter = { .nevents = 0 };
-> +       struct kvm_vm *vm;
-> +       struct kvm_vcpu *running_vcpu;
-> +       struct kvm_vcpu *stopped_vcpu;
-> +       struct kvm_vcpu_init init;
-> +       int ret;
-> +       u64 irq = 23;
-> +
-> +       create_vpmu_vm(guest_code);
-> +       ret = __vcpu_has_device_attr(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                                    KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY);
-> +       if (ret) {
-> +               TEST_ASSERT(ret == -1 && errno == ENXIO,
-> +                           KVM_IOCTL_ERROR(KVM_HAS_DEVICE_ATTR, ret));
-> +               destroy_vpmu_vm();
-> +               return;
-> +       }
-> +
-> +       /* Assert that FIXED_COUNTERS_ONLY is unset at initialization. */
-> +       ret = __vcpu_device_attr_get(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                                    KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-> +       TEST_ASSERT(ret == -1 && errno == ENXIO,
-> +                   KVM_IOCTL_ERROR(KVM_GET_DEVICE_ATTR, ret));
-> +
-> +       /* Assert that setting FIXED_COUNTERS_ONLY succeeds. */
-> +       vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                            KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-> +
-> +       /* Assert that FIXED_COUNTERS_ONLY is set. */
-> +       vcpu_device_attr_get(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                            KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-> +
-> +       /*
-> +        * Setting an event filter when FIXED_COUNTERS_ONLY has already been set
-> +        * results in EBUSY.
-> +        */
-> +       ret = __vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                                    KVM_ARM_VCPU_PMU_V3_FILTER, &filter);
-> +       TEST_ASSERT(ret == -1 && errno == EBUSY,
-> +                   KVM_IOCTL_ERROR(KVM_SET_DEVICE_ATTR, ret));
-> +
-> +       destroy_vpmu_vm();
-> +
-> +       create_vpmu_vm(guest_code);
-> +
-> +       /*
-> +        * Assert that setting FIXED_COUNTERS_ONLY when an event filter has
-> +        * already been set results in EBUSY.
-> +        */
-> +       vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                            KVM_ARM_VCPU_PMU_V3_FILTER, &filter);
-> +
-> +       ret = __vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                                    KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-> +       TEST_ASSERT(ret == -1 && errno == EBUSY,
-> +                   KVM_IOCTL_ERROR(KVM_SET_DEVICE_ATTR, ret));
-> +
-> +       destroy_vpmu_vm();
-> +
-> +       /*
-> +        * Assert that setting FIXED_COUNTERS_ONLY when a VCPU has already run
-> +        * results in EBUSY.
-> +        */
-> +       vm = vm_create(2);
-> +       vm_ioctl(vm, KVM_ARM_PREFERRED_TARGET, &init);
-> +       init.features[0] |= (1 << KVM_ARM_VCPU_PMU_V3);
-> +       running_vcpu = aarch64_vcpu_add(vm, 0, &init, guest_code_done);
-> +       stopped_vcpu = aarch64_vcpu_add(vm, 1, &init, guest_code_done);
-> +       kvm_arch_vm_finalize_vcpus(vm);
-> +       vcpu_device_attr_set(running_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                            KVM_ARM_VCPU_PMU_V3_IRQ, &irq);
-> +       vcpu_device_attr_set(running_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                            KVM_ARM_VCPU_PMU_V3_INIT, NULL);
-> +       vcpu_run(running_vcpu);
-> +
-> +       ret = __vcpu_device_attr_set(stopped_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-> +                                    KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-> +       TEST_ASSERT(ret == -1 && errno == EBUSY,
-> +                   KVM_IOCTL_ERROR(KVM_SET_DEVICE_ATTR, ret));
-> +
-> +       kvm_vm_free(vm);
-> +
-> +       test_config(0, true);
-> +}
->
-> +int main(void)
-> +{
->         TEST_REQUIRE(kvm_has_cap(KVM_CAP_ARM_PMU_V3));
->         TEST_REQUIRE(kvm_supports_vgic_v3());
->         TEST_REQUIRE(kvm_supports_nr_counters_attr());
->
->         test_set_nr_counters_after_vcpu_run();
-> -
-> -       pmcr_n = get_pmcr_n_limit();
-> -       for (i = 0; i <= pmcr_n; i++) {
-> -               run_access_test(i);
-> -               run_pmregs_validity_test(i);
-> -               run_mdcr_el2_validity_test(i);
-> -       }
-> -
-> -       for (i = pmcr_n + 1; i < ARMV8_PMU_MAX_COUNTERS; i++)
-> -               run_error_test(i);
-> +       test_config(get_pmcr_n_limit(), false);
-> +       test_fixed_counters_only();
->
->         return 0;
->  }
->
-> --
-> 2.55.0
->
->
+1. Additional libie functionalities:
+Patches 1-5 introduce additional common library API for drivers to
+communicate with the control plane through mailbox communication.
+A control queue is a hardware interface which is used by the driver
+to interact with other subsystems (like firmware). The library APIs
+allow the driver to setup and configure the control queues to send and
+receive virtchnl messages. The library has an internal bookkeeping
+(XN API) mechanism to keep track of the send messages. It supports both
+synchronous as well as asynchronous way of handling the messages. The
+library also handles the timeout internally for synchronous messages
+using events. This reduces the driver's overhead in handling the timeout
+error cases.
+
+The current patch series supports only APIs that are needed for device
+initialization. These include APIs in the libie_pci module:
+* Allocating/freeing the DMA memory and mapping the MMIO regions for
+  BAR0, read/write APIs for drivers to access the MMIO memory
+
+and libie_cp module:
+* Control queue initialization and configuration
+* Transport initialization for bookkeeping
+* Blocking and asynchronous mailbox transactions
+
+Once the mailbox is initialized, the drivers can send and receive virtchnl
+messages to/from the control plane.
+
+The modules above are not supposed to be linked with the main libie library,
+but do share the folder with it.
+
+2. idpf:
+Patches 6-11 refactor the idpf driver to use the libie APIs for control
+queue configuration, virtchnl transaction, device initialization
+and reset and adjust related code accordingly.
+
+3. ixd:
+Patches 12-15 add the ixd driver and implement multiple pieces of the
+initialization flow as follows:
+* Add the ability to load
+* A reset is issued to ensure a clean device state, followed by
+  initialization of the mailbox
+* Device capabilities:
+  As part of initialization, the driver has to determine what the device is
+  capable of (ex. max queues, vports, etc). This information is obtained from
+  the firmware and stored by the driver.
+* Enable initial support for the devlink interface
+---
+v6:
+* use idpf_mmio_region_non_static() in idpf_idc_init_aux_core_dev() to avoid
+  code duplication
+* change LIBIE_CTLQ_TYPE_TX/RX from macros to enum libie_ctlq_type
+* pull libie_ctlq_xn_shutdown() out of libie_ctlq_xn_deinit() for consistency
+  and to avoid unlikely races with send queue force-cleaning
+* remove unused send_ctx field from struct libie_ctlq_xn_clean_params
+* add missing dma_wmb() before tail register update in libie_ctlq_post_rx_buffs()
+* initialize mem->direction in libie_cp_alloc_dma_mem (purely cosmetic)
+* remove unnecessary dma_mb() for coherent DMA in libie_ctlq_xn_send_clean()
+* removed redundant list-init check
+* fixed whitespaces not flagged by checkpatch
+* improved documentation
+
+v5: https://lore.kernel.org/netdev/20260715180042.1972010-1-anthony.l.nguyen@intel.com/
+* Add length validation to libie_ctlq_add()
+* Add memory barrier before writing tail in libie_ctlq_send()
+* Reduce larger then needed size allocation in libie_ctlq_xn_init_dma()
+* Clarify error message on dev init failure in idpf_probe()
+* Nullify adapter->asq and adapter->arq on failure in idpf_init_dflt_mbx()
+* Correct virtchnl version compatibility checks in ixd_handle_vc_ver()
+* Misc documentation fixes
+
+v4: https://lore.kernel.org/netdev/0a3ceda1-a29b-4784-975b-d8c89f145d10@intel.com/
+* use check_add_overflow() for MMIO offset+size bounds check in libie_pci
+* replace iounmap() with pci_iounmap() for MMIO regions in libie_pci
+* fix missing rx_buf->offset when constructing ctlq Rx message address
+* always zero Rx descriptor before reallocation
+* do not call complete() inside spinlock, theoretical use-after-free
+* reset async xn state to IDLE before freeing in libie_ctlq_xn_shutdown()
+* zero control queue Tx descriptor before freeing memory
+* remove unused ctx field from struct libie_ctlq_xn_clean_params
+* roll back merging of idpf_deinit_dflt_mbx() and xnm shutdown,
+  those calls are separate again (so idpf refactoring becomes more trivial)
+* introduce idpf_send_vf_reset_msg() for one-way VF reset message bypassing
+  XN manager, which is shut down by now
+* guard libie_ctlq_xn_shutdown() against NULL xnm in idpf_vc_event_task(),
+  this is needed if reset fails and reschedules
+* validate response sizes in idpf more
+* fix MAINTAINERS glob pattern for include/linux/net/intel/
+* roll back linux/{net/intel -> intel}/* change (1st patch)
+* use pci_iomap_range() to map regions in libie_pci
+* improve libie_pci commit message
+* remove broken dead code for getting RSS from idpf (new patch!)
+* use maximum alignment for control queue stack buffer in ixd
+* fix ixd_ctlq_clean_sq() usage
+* do not register ixd devlink prematurely
+* improve receive buffer size validation in idpf
+
+v3: https://lore.kernel.org/netdev/20260515224443.2772147-1-anthony.l.nguyen@intel.com/
+- lock libie ctlq transaction earlier on Rx path
+- improve ctlq Rx buffer size validation both in idpf and libie
+- fix RSS LUT buf size (will also go to stable separately)
+- improve xnm shutdown handling
+- skip zero-sized BAR regions instread of returning error in idpf
+- unify treatment of initialized and uninitialized ctlq messages
+
+v2: https://lore.kernel.org/netdev/20260403194938.3577011-1-anthony.l.nguyen@intel.com/
+- improved failure handling and input validation
+- removed cp version from devlink in ixd
+
+v1: https://lore.kernel.org/netdev/20260317230905.847744-1-anthony.l.nguyen@intel.com/
+
+The following are changes since commit 2bb54b49e9d522f54dc9c0fe10ba40fbc56041c8:
+  ppp: convert chan_sem to a mutex
+and are available in the git repository at:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue 200GbE
+
+Amritha Nambiar (1):
+  ixd: add devlink support
+
+Larysa Zaremba (6):
+  idpf: remove unused code for getting RSS info from device
+  idpf: make mbx_task queueing and cancelling more consistent
+  idpf: print a debug message and bail in case of non-event ctlq message
+  ixd: add basic driver framework for Intel(R) Control Plane Function
+  ixd: add reset checks and initialize the mailbox
+  ixd: add the core initialization
+
+Pavan Kumar Linga (4):
+  libeth: allow to create fill queues without NAPI
+  idpf: remove 'vport_params_reqd' field
+  idpf: refactor idpf to use libie_pci APIs
+  idpf: refactor idpf to use libie control queues
+
+Phani R Burra (3):
+  libie: add PCI device initialization helpers to libie
+  libie: add control queue support
+  libie: add bookkeeping support for control queue messages
+
+Victor Raj (1):
+  virtchnl: move virtchnl and virtchnl2 headers to
+    'include/linux/net/intel'
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../device_drivers/ethernet/intel/ixd.rst     |   39 +
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/ixd.rst      |   30 +
+ MAINTAINERS                                   |    3 +-
+ drivers/net/ethernet/intel/Kconfig            |    2 +
+ drivers/net/ethernet/intel/Makefile           |    1 +
+ drivers/net/ethernet/intel/i40e/i40e.h        |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |    2 +-
+ .../net/ethernet/intel/i40e/i40e_prototype.h  |    2 +-
+ .../ethernet/intel/i40e/i40e_virtchnl_pf.h    |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |    2 +-
+ .../net/ethernet/intel/iavf/iavf_prototype.h  |    3 +-
+ drivers/net/ethernet/intel/iavf/iavf_types.h  |    4 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    2 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_vf_lib.h   |    2 +-
+ .../net/ethernet/intel/ice/virt/virtchnl.h    |    2 +-
+ drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+ drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+ drivers/net/ethernet/intel/idpf/idpf.h        |   99 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.c   |  621 ------
+ .../net/ethernet/intel/idpf/idpf_controlq.h   |  144 --
+ .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+ .../ethernet/intel/idpf/idpf_controlq_setup.c |  169 --
+ drivers/net/ethernet/intel/idpf/idpf_dev.c    |  101 +-
+ .../net/ethernet/intel/idpf/idpf_ethtool.c    |   28 +-
+ drivers/net/ethernet/intel/idpf/idpf_idc.c    |   32 +-
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |   69 +-
+ drivers/net/ethernet/intel/idpf/idpf_main.c   |  115 +-
+ drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   96 +-
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1884 +++++++----------
+ .../net/ethernet/intel/idpf/idpf_virtchnl.h   |  109 +-
+ .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  312 +--
+ drivers/net/ethernet/intel/ixd/Kconfig        |   15 +
+ drivers/net/ethernet/intel/ixd/Makefile       |   13 +
+ drivers/net/ethernet/intel/ixd/ixd.h          |   59 +
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.c     |  146 ++
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.h     |   34 +
+ drivers/net/ethernet/intel/ixd/ixd_dev.c      |   89 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.c  |   97 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.h  |   50 +
+ drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |   68 +
+ drivers/net/ethernet/intel/ixd/ixd_lib.c      |  177 ++
+ drivers/net/ethernet/intel/ixd/ixd_main.c     |  147 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.c |  190 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.h |   12 +
+ drivers/net/ethernet/intel/libeth/rx.c        |   12 +-
+ drivers/net/ethernet/intel/libie/Kconfig      |   14 +
+ drivers/net/ethernet/intel/libie/Makefile     |    8 +
+ drivers/net/ethernet/intel/libie/controlq.c   | 1228 +++++++++++
+ drivers/net/ethernet/intel/libie/pci.c        |  209 ++
+ include/linux/net/intel/libie/controlq.h      |  428 ++++
+ include/linux/net/intel/libie/pci.h           |   56 +
+ include/linux/{avf => net/intel}/virtchnl.h   |    0
+ .../linux/net/intel}/virtchnl2.h              |    0
+ .../linux/net/intel}/virtchnl2_lan_desc.h     |    0
+ include/net/libeth/rx.h                       |    4 +-
+ 62 files changed, 4250 insertions(+), 2897 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/intel/ixd.rst
+ create mode 100644 Documentation/networking/devlink/ixd.rst
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/Kconfig
+ create mode 100644 drivers/net/ethernet/intel/ixd/Makefile
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_main.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.h
+ create mode 100644 drivers/net/ethernet/intel/libie/controlq.c
+ create mode 100644 drivers/net/ethernet/intel/libie/pci.c
+ create mode 100644 include/linux/net/intel/libie/controlq.h
+ create mode 100644 include/linux/net/intel/libie/pci.h
+ rename include/linux/{avf => net/intel}/virtchnl.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/net/intel}/virtchnl2.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/net/intel}/virtchnl2_lan_desc.h (100%)
+
+-- 
+2.47.1
+
