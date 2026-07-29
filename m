@@ -1,136 +1,233 @@
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D92414DDE
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 23:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFC11FB1;
+	Wed, 29 Jul 2026 00:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785280692; cv=none; b=akwGp7aDt/itjPepMsFEGek3PRkfACkdSXoQlxo9zQ2ho+ZgWwfS0E2rs1EdFMNBkP+ZvWEE+Q7vQ04KBiDiLbC4KgTrlH5WizIUyUCncFqEywOjIZRsFY5J62F03LxY3bEh/rQpGTA3fyNmTkg9PL/E5kW/+vVA/3V91IGiHSo=
+	t=1785283298; cv=none; b=BV2HKG8cyE97fXEQjb1K/DdVt0ot+aAPe0NR+zKmWNGQZSupZq6XgDHHCYuT3KIJo6e5dZ0f9RbUFPZEHmMHl/DaIfgSDqTYYQIRl4Cu7SYbsIUh83hACYBqA7tiZMx0BN0eOPKxI87N/dEjOdX14uhAjRSdQSW7xNz7GfuzG9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785280692; c=relaxed/simple;
-	bh=+IJupd9m+CLvEhmJ4GqDmfvWjZ3qTqTi6mGL864Pic0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=jvmrGrGBxGJZABSzWrpdkNWqXEXOf+drTUoIObjJAuuU8Hi1VidndsQencN8utHTBh+WxJE4Dg+y3uGxQqiPCja0finJzDjZWgkWt4T3j2hUiT+P+Z4/a/PuDzUX0A6r3mcTId97J8O0tWBilzBji/Ckh2YlTtrECa0Jk65e0L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LDgUXepn; arc=none smtp.client-ip=209.85.210.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1785283298; c=relaxed/simple;
+	bh=6gZl+aJtgo3fznW9oEs8v3hm4OXO0PP+lcez74vDwDI=;
+	h=MIME-Version:Content-Type:Subject:From:To:CC:In-Reply-To:
+	 References:Date:Message-ID; b=fMnmSyQO2IEQv/2ER5EXFC8P/zqHYFjJ0LWEh5h4Li9T7jUNq8kjwVmgtq0u/PC34u4t+kPr2eK6FaQqj4vRvv8g/81RRAyNwZprYqnRxoVa/zRMTapt0XI5nsYZ5J9XlCkFgtPzDTvKw1oaSfN5zuUIPSlThzLMLsSt/t097HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=B+gcHAa5; arc=none smtp.client-ip=52.35.192.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LDgUXepn"
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-84e048a801dso498539b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 16:18:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="B+gcHAa5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785280690; x=1785885490; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ex04CCTVdjetODvdAROex2NhCtrMzXHsD4UUHe0nQXo=;
-        b=LDgUXepn+EoAg1oImPY8jLejYxWfJbdtXQ6sYISu4oarEjcpGfDeAp4nTzKICHrLMh
-         6HOUqGFHZ8uZWf0rThuwUD5qlkWWIe0cB2fPISHwJLAuPW6tJRpt6yAfnrg34o+vvWrN
-         oR37Cnbh8O9iuTFEo+4RDq2SK6VsbEDxFwEBkpHEPOz9p49UJlkWZMqDq0U7ufcwGpKV
-         Iv5y3bungwk3KYR2X7FlIMAaILmb/Kb45tB2XKHCkA+OF9uer4U5St4WP6Yf/0btcm/a
-         nLBzCCT90qSWylM2FRO0sFYOCTeMFCMR25ADrX4MNxE1YSkd83byTlBNVQhEg2ibexZs
-         v3Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785280690; x=1785885490;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ex04CCTVdjetODvdAROex2NhCtrMzXHsD4UUHe0nQXo=;
-        b=reKZXsTIjukkMjpuoGII2TTPJkZOw5PCt72MBg+Kp0BuWx5IFIu2hWdcrZNZZlXFXm
-         Eo9WSrcHhSP2vRKSLfv1Vjv5uYETQIn0jCqZaIK6VdmrZV1MucMeiEOQ3FcIlCx13E+s
-         J5Y52HfQKQQP6oT/ezMajs+/daRjiML6obfswu6njzhmkF5LNRUysGKw0PZ7UZ5JN0nd
-         cgHVfTlcB30KAWawnJarnSFlDqgpaz8qd7B0S89nyvFZOaaepBAwL8VTKHgzUgpnj0Mn
-         1LKzNDwD3VauYRVyIsjms5WM/KLb2R7z4vvtAgWFJEHGG8/q4OWxsngtkPhUVrwQHLiu
-         pmug==
-X-Forwarded-Encrypted: i=1; AHgh+RqVNaDQoRRfc9q96nhpMmiJ56tIyi2mdOswWubMcLn9sR3ShNNYhrum8Ghdj75SQba4+qnLsFU2EdE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMjQPn8FxawGLUMnApvuXvaGmy0X+k9ns9toJtgUrMcnTC0wed
-	1uQkXqdo64BVAwGyMx5iHQ7xyFVrFjmwd/fw5pdnnWfIRfGNULNN0f0k5SaoHPXGyynEaeYFExC
-	T2imTDQ==
-X-Received: from pfbig4.prod.google.com ([2002:a05:6a00:8b84:b0:84b:4480:8b65])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:288e:b0:847:8250:2b2a
- with SMTP id d2e1a72fcca58-84e933f382dmr4685664b3a.60.1785280690057; Tue, 28
- Jul 2026 16:18:10 -0700 (PDT)
-Date: Tue, 28 Jul 2026 16:18:09 -0700
-In-Reply-To: <20260728144954.355376-1-dwmw2@infradead.org>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1785283295; x=1816819295;
+  h=mime-version:content-transfer-encoding:subject:from:to:
+   cc:in-reply-to:references:date:message-id;
+  bh=XEEg9UVEQoeQdOwTCuJ9uNpL6c6CABlKqyGAgTPHdBQ=;
+  b=B+gcHAa5mKqB+5w/7TIlf1AyzAdHnWMHscShdbd2Z8AXzhUymsP3aZhF
+   OAvtbZPSVwOrkrX6fQ9kgS37hwxxIESXs+7T/91+6ycvC342QS38tLz2M
+   8EUaskRRDOgMb/iSc3+Srj9AaiBvP28cGTDtkipiWxOlqP8T0VJ2+VLY7
+   QRsPCfbE0YFSb7wANaT1mbMOZL1QP1apyMYdJSNpXCTTV0CDF1RB1p7ud
+   HjrC5Y5FhfgJj1rnZ1ZIeTUcKVM+NwHWGnYhHVn5oG8H43RckGRoA8rhr
+   kIJWX+ORhXTfXvRnd8vUnv/xJt2yny62m4im7TL6OaKfNqZ1Y+BHfAMsp
+   g==;
+X-CSE-ConnectionGUID: oP8aNxH+SbqUspNtAxFGxg==
+X-CSE-MsgGUID: GWizdMxbS5Wnp7ogdsGO6g==
+X-IronPort-AV: E=Sophos;i="6.25,191,1779148800"; 
+   d="scan'208";a="24303488"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 00:01:32 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:17120]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.10.59:2525] with esmtp (Farcaster)
+ id c2972197-6d4a-4c36-b166-2d06e849c088; Wed, 29 Jul 2026 00:01:31 +0000 (UTC)
+X-Farcaster-Flow-ID: c2972197-6d4a-4c36-b166-2d06e849c088
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 29 Jul 2026 00:01:31 +0000
+Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 29 Jul 2026 00:01:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728144954.355376-1-dwmw2@infradead.org>
-Message-ID: <amk4sX57FwapIp9B@google.com>
-Subject: Re: [PATCH v7 00/36] Cleaning up the KVM clock mess
-From: Sean Christopherson <seanjc@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 net-next 1/7] ptp: Add ioctls for PHC timestamps
+ with quality attributes
+From: Arthur Kiyanovski <akiyano@amazon.com>
 To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+CC: Arthur Kiyanovski <akiyano@amazon.com>, David Miller
+	<davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	<netdev@vger.kernel.org>, Richard Cochran <richardcochran@gmail.com>, "Eric
+ Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, "Thomas
+ Gleixner" <tglx@linutronix.de>, Miroslav Lichvar <mlichvar@redhat.com>,
+	"Andrew Lunn" <andrew+netdev@lunn.ch>, Wen Gu <guwen@linux.alibaba.com>, Xuan
+ Zhuo <xuanzhuo@linux.alibaba.com>, Yonatan Sarna <ysarna@amazon.com>, "Zorik
+ Machulsky" <zorik@amazon.com>, Alexander Matushevsky <matua@amazon.com>,
+	"Saeed Bshara" <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>, Anthony
+ Liguori <aliguori@amazon.com>, Nafea Bshara <nafea@amazon.com>, Evgeny
+ Schmeilin <evgenys@amazon.com>, Netanel Belgazal <netanel@amazon.com>, Ali
+ Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt <benh@amazon.com>, Noam
+ Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>, Evgeny
+ Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik <ofirt@amazon.com>, Amit
+ Bernstein <amitbern@amazon.com>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <shuah@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
+	<horms@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	<vadim.fedorenko@linux.dev>
+In-Reply-To: <1a5c0883140d470657b2cba24b964f5ce71b9a15.camel@infradead.org>
+References: <1a5c0883140d470657b2cba24b964f5ce71b9a15.camel@infradead.org>
+Date: Wed, 29 Jul 2026 00:01:18 +0000
+Message-ID: <178528327891.4304.16568887850580542012.b4-reply@b4>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: EX19D033UWA002.ant.amazon.com (10.13.139.10) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Tue, Jul 28, 2026, David Woodhouse wrote:
-> This is v7 of the series to clean up the KVM clock, rebased onto
-> kvm-x86/next (patch 1 of v6 is already merged there as commit
-> 710b3a30f407).
-
-FYI, I'm going to rebase that commit again, to put all of this in a dedicated
-topic branch.  But I'll also take care of updating references in commit messages.
-More below.
-
-> David Woodhouse (33):
->       KVM: x86: Improve accuracy of KVM clock when TSC scaling is in force
->       KVM: x86: Explicitly disable TSC scaling without CONSTANT_TSC
->       KVM: x86: Activate master clock immediately on vCPU creation
->       KVM: x86: Avoid NTP frequency skew for KVM clock on 32-bit host
->       KVM: x86: Fold __get_kvmclock() into get_kvmclock()
->       KVM: x86: Drop CPU pinning in get_kvmclock()
->       KVM: x86: Restructure get_kvmclock()
->       KVM: x86: Fix KVM clock precision in get_kvmclock() with TSC scaling
->       KVM: x86: Use get_kvmclock() in kvm_get_wall_clock_epoch()
->       KVM: x86: Fix compute_guest_tsc() to handle negative time deltas
->       KVM: x86: Restructure kvm_guest_time_update() for TSC upscaling
->       KVM: x86: Simplify and comment kvm_get_time_scale()
-
-I'll post a new version up through here, get it applied soon-ish, and then get
-back to chipping away at the rest of the series.  It'd obviously be nice to get
-all the cleanups (and the tests) into 7.3, but I suspect the rest will take a
-bit of back and worth (with Sashiko, if not me :-D).
-
-I may punt on "Restructure kvm_guest_time_update() for TSC upscaling" if I have
-trouble sorting through Sashiko's feedback, but I'll give it a shot.  I need to
-page that all back in anyways.
-
->       KVM: x86: Remove implicit rdtsc() from kvm_compute_l1_tsc_offset()
->       KVM: x86: Improve synchronization in kvm_synchronize_tsc()
->       KVM: x86: Kill last_tsc_{nsec,write,offset} fields
->       KVM: x86: Replace nr_vcpus_matched_tsc count with all_vcpus_matched_tsc bool
->       KVM: x86: Allow KVM master clock mode when TSCs are offset from each other
->       KVM: x86: Factor out kvm_use_master_clock()
->       KVM: x86: Avoid gratuitous global clock updates
->       KVM: x86/xen: Prevent runstate times from becoming negative
->       KVM: x86: Avoid redundant masterclock updates from multiple vCPUs
->       KVM: x86: Remove runtime Xen TSC frequency CPUID update
->       KVM: x86: Re-synchronize TSC after KVM_SET_TSC_KHZ
->       KVM: x86: Use ktime_get_snapshot_id() for master clock
->       KVM: x86: Compute kvmclock base without pvclock_gtod_data
->       KVM: x86: Cache host vclock_mode for masterclock eligibility checks
->       KVM: x86: Remove pvclock_gtod_data and private timekeeping code
->       KVM: x86: Activate master clock from kvm_arch_init_vm()
->       KVM: selftests: Use UAPI pvclock-abi.h in xen_shinfo_test
->       KVM: x86: Add KVM_VCPU_TSC_SCALE and fix the documentation on TSC migration
->       KVM: selftests: Add master clock offset test
->       KVM: selftests: Add Xen/generic CPUID timing leaf test
->       KVM: selftests: Add Xen runstate migration test
+On 2026-07-27 10:03:28+01:00, David Woodhouse wrote:
+> On Fri, 2026-07-17 at 06:59 +0000, Arthur Kiyanovski wrote:
 > 
-> Jack Allister (3):
->       UAPI: x86: Move pvclock-abi to UAPI for x86 platforms
->       KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate KVM clock migration
->       KVM: selftests: Add KVM/PV clock selftest to prove timer correction
+> > Introduce two new ioctls that extend existing PTP timestamp interfaces
+> > with clock quality information:
+> >
+> > - PTP_SYS_OFFSET_EXTENDED_ATTRS: Extends PTP_SYS_OFFSET_EXTENDED
+> > - PTP_SYS_OFFSET_PRECISE_ATTRS: Extends PTP_SYS_OFFSET_PRECISE
+> >
+> > These ioctls provide quality attributes alongside timestamps:
+> >
+> > 1. error_bound: Maximum deviation from true time (nanoseconds), based
+> >    on device's internal clock state
+> > 2. clock_status: Synchronization state (unknown, initializing,
+> >    synchronized, free-running, unreliable)
+> > 3. timescale: Time reference (TAI, UTC, etc.)
+> > 4. counter_value: Raw system counter (e.g. TSC ticks) captured by the
+> >    timekeeping core alongside each system timestamp
+> > 5. counter_id: Identifies the counter source (e.g. TSC, ARM arch counter)
+> >
+> > This supports three use cases:
+> >
+> > 1. Managed PHC devices (e.g., ENA, vmclock) that maintain their own
+> >    synchronization and can report quality metrics directly to userspace
+> >    without requiring ptp4l
+> >
+> > 2. Applications that need complete time quality information in a single
+> >    call, regardless of how the PHC is synchronized
+> >
+> > 3. VMMs that need raw system counter values paired
+> >    with PTP timestamps for feed-forward clock calibration, avoiding the
+> >    feedback loop inherent in NTP-style synchronization
+> >
+> > Timescale definitions use a Continuity/Discipline framework to describe
+> > timeline properties and steering behavior consistently across all
+> > entries.
+> >
+> > This implementation is based on the original RFC and the UAPI design
+> > discussion linked below.
+> >
+> > Link: https://lore.kernel.org/netdev/20250724115657.150-1-darinzon@amazon.com/
+> > Link: https://lore.kernel.org/all/87se7ht25o.ffs@tglx/
+> > Signed-off-by: Amit Bernstein <amitbern@amazon.com>
+> > Signed-off-by: Arthur Kiyanovski <akiyano@amazon.com>
+> 
+> ...
+> 
+> > +static long ptp_sys_offset_extended_attrs(struct ptp_clock *ptp, void __user *arg)
+> > +{
+> > +	struct ptp_sys_offset_attrs *data __free(kfree) = NULL;
+> > +	struct ptp_attrs_request request;
+> > +	struct ptp_system_timestamp sts;
+> > +	unsigned int n_samples;
+> > +	int err;
+> > +
+> > +	if (copy_from_user(&request, arg, sizeof(request)))
+> > +		return -EFAULT;
+> > +
+> > +	if (request.valid ||
+> > +	    request.num_samples > PTP_MAX_SAMPLES ||
+> > +	    request.num_samples == 0)
+> > +		return -EINVAL;
+> > +
+> > +	err = ptp_validate_sys_offset_clockid(request.clock_id);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	n_samples = request.num_samples;
+> > +	sts.clockid = request.clock_id;
+> > +
+> > +	data = kzalloc(struct_size(data, timestamps, n_samples), GFP_KERNEL);
+> > +	if (!data)
+> > +		return -ENOMEM;
+> > +
+> > +	data->request.num_samples = n_samples;
+> > +
+> > +	for (unsigned int i = 0; i < n_samples; i++) {
+> > +		struct ptp_clock_attrs att = {};
+> > +		struct timespec64 ts;
+> > +
+> > +		if (ptp->info->gettimexattrs64)
+> > +			err = ptp->info->gettimexattrs64(ptp->info, &ts,
+> > +							 &sts, &att);
+> > +		else if (ptp->info->gettimex64)
+> > +			err = ptp->info->gettimex64(ptp->info, &ts, &sts);
+> > +		else
+> > +			return -EOPNOTSUPP;
+> > +
+> > +		if (err)
+> > +			return err;
+> > +
+> > +		/* Filter out disabled or unavailable clocks */
+> > +		if (!sts.pre_sts.valid || !sts.post_sts.valid)
+> > +			return -EINVAL;
+> > +
+> > +		data->timestamps[i].pre_systime.sys_time =
+> > +			ktime_to_ns(sts.pre_sts.systime);
+> > +		data->timestamps[i].pre_systime.sys_rawtime =
+> > +			ktime_to_ns(sts.pre_sts.monoraw);
+> > +		data->timestamps[i].pre_systime.sys_counter =
+> > +			sts.pre_sts.cycles;
+> 
+> I hate all this line wrapping, btw. I'll defer to the net coding style
+> if they insist, but my preference would just be just to have longer
+> lines. Especially when it's a block of assignments like this, the
+> wrapped form is *much* harder to read.
+>
+
+Agreed — I'll reduce the wrapping in v6 (a local temp var + a small helper
+make that block read much better). Thanks.
+ 
+> > +		data->timestamps[i].pre_systime.sys_counter_id =
+> > +			sts.pre_sts.cs_id;
+> 
+> You added PTP_COUNTER_* constants as we discussed¹... but didn't you
+> forget to *map* to them here?
+> 
+> ¹ https://lore.kernel.org/all/877boqtg3g.ffs@tglx/
+>
+
+Good catch — you're right, that's a bug. I'll add the csid→PTP_COUNTER_*
+mapping in v6. 
+
+> 
+> Arguably, if the timestamps have a hw_csid then you should be returning
+> that in place of the main one which will be kvmclock or hyperv
+> nonsense. You can do that here for extended_attrs but precise_attrs
+> will need a bit more work (as system_device_crosststamp doesn't have
+> the hw_* fields). I won't randomise you further by asking you to handle
+> that though. I'll do it in a follow-up.
+> 
+
+Thanks — I'll leave the hw_csid part for your follow-up as you offered. This
+series exposes the base cs_id and leaves room to add it without an ABI
+change.
+
+> You can either map KVMCLOCK to unknown or give it a
+> PTP_COUNTER_KVMCLOCK if you prefer. I suggest the former, as nobody who
+> cares about time should be using kvmclock. And it means my promised
+> follow-up will be providing counter data which previously wasn't
+> provided, rather than *changing* what's provided.
+
+Will do the former in v6 — map KVMCLOCK to UNKNOWN — so your follow-up adds
+new counter data rather than changing existing values. Thanks.
+
