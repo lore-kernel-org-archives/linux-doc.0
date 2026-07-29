@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38CA374E4C;
-	Wed, 29 Jul 2026 09:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00EC3B71A7;
+	Wed, 29 Jul 2026 09:41:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785318083; cv=none; b=KSFRvVqFCCCyVCn/zT/Uu0IolYwgcqHpxyWYiIZntyx91m2rIaFBpPc3AwWKYwFcF/c5LTEVmj0sepHLhyTqbH0U2fj54fs5M4TjWcYMKQHRgVKR1bFmAseY/97y50w6C4vlSBOEfCWNtkOfQ1WZp0wwjZS4cmqdxKQTBZ1FK9U=
+	t=1785318108; cv=none; b=raUk6H4f69iPbjF306ojcy2hXsJMmLKO1KVvTJSUH8DpvaPxZdCr7UNwp1M4Dp/1ZQ3HyvJ+HzPOQ0ZoGE5eQq+Kv1sPnFpE6vcEsN/13INhcOeHXXL6Rd802qz0GhxtA60JgyiG8osHaGYCx1CaWargg3B35M69dDJTI1AN+g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785318083; c=relaxed/simple;
-	bh=cEXhIbmmlcyu/F4Hs6/gbzR97PDgNkdo5E5qTubi348=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HkCdHteP33K4Wvc2HPbMi6Lsl/T9rgKYN6olzkQzO8jb7eNC4DghsND/aqaAVmiPpKDN8HogevJWM/KhCCXGWAEMkiabh6elaM6TeItmqJan0tco5K6nXLYnIVrvOzbryBzlGTPVgTOjuAjTpSheO/b7oQls23rIPedCsNGkY4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUN7Mfn7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785318108; c=relaxed/simple;
+	bh=c5LCtUxEDNeUJFKa5ohSk/TIDy41KYIyWXttE7Kpiu0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jhiwguBkAaSzh4CUbaLVVFY/PdugqPv3IRd4MGuIcomb3tUwUCuemohajvblklOe8/zgnTfkiQ4Qkzkz7SEkewBsOF0m1JtUB4hPF2SoS4ox+/hwsI19pZDNKwr9F6fMF1hiD/90CVWKx65jfoPyHrtECzjCnPc/hDNiBUxEOQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lWJ2D8Cf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUN7Mfn7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6633E1F000E9;
-	Wed, 29 Jul 2026 09:41:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lWJ2D8Cf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3121F000E9;
+	Wed, 29 Jul 2026 09:41:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785318081;
-	bh=mxaGiczx5gkbHpM5PSY0gBREJtXKGPCXFXX45B/ohyA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VUN7Mfn75wQck+/cmR1Q00O9D/X4UgC+Mvt3c7bT56wD4x+Ev52a3GsoCVdYyE246
-	 6ArAnS+UJAjjuGD2l1iYVS5erhWkNiAY1NCA/IuMarA0ygfzgYS1T9x2LYiVmPb1wa
-	 LzekVb/rRgH6NB1SlpAw6raWTCJhivD04R1JiRJ1O7bx+Vk+HXi46CwmHLmFmOKWtP
-	 bh7IqPhvYq8irn/dzJCndTHzvEj6/c/tkRoukL/HU4m6bzpZmW1kY16Tk3jptV6S3G
-	 nYEn7mMUnzuWzo6e0ffc4Sz8CtVThjL08wo0AJ0FxcRgw0M+pBUjUfvW4/G8IO84eh
-	 emlrAy5eeDBdw==
-Message-ID: <0ccdda5c-6aba-4375-8a74-f29659d3f89b@kernel.org>
-Date: Wed, 29 Jul 2026 11:41:16 +0200
+	s=k20260515; t=1785318107;
+	bh=SLhqX3CMqj0k3L0d0gbO/eFkJo7LThmK5w2MZqyBUqU=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=lWJ2D8Cfls4UuiuiGCkxrnWeLDfRLGp8Cm8VDINKl88kB7M0ZbTgkU33aWtiFKC1o
+	 4p1VfAK+BW+9OaM3i5BGb6rZujHf4jLvDwN6eGZa+JWfLC0fNPxPUdI3yFh28cxasj
+	 D6jJ4fNkP/QwoPHSHITDKO8v1+8yBFAr8VdcS31th/EFT0pjnDx3Cgsk0AQABHZX5k
+	 ijR2IeO4jiUF1DOy2PkUAsjpyb7eQmBMdEoKSL5g8Gaildk6F47RM7No3moBdhT1aI
+	 tYtQaUPmxulyjUwTnsHDXbw3SvnGXI3rRqMDoM+IAiTWjlxxyy7fSN/lXRtKR9U9yg
+	 7Jx4d/X/oYjNQ==
+Message-ID: <aae24d39-9440-46dc-988c-4dff2c8c1069@kernel.org>
+Date: Wed, 29 Jul 2026 11:41:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,6 +37,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/7] mm/khugepaged: extract young page check into
  collapse_is_referenced() helper
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Cc: Usama Arif <usama.arif@linux.dev>,
@@ -50,7 +51,7 @@ Cc: Usama Arif <usama.arif@linux.dev>,
  Shuah Khan <skhan@linuxfoundation.org>
 References: <20260715025941.1571316-1-npache@redhat.com>
  <20260715025941.1571316-3-npache@redhat.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+ <0ccdda5c-6aba-4375-8a74-f29659d3f89b@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -96,49 +97,50 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260715025941.1571316-3-npache@redhat.com>
+In-Reply-To: <0ccdda5c-6aba-4375-8a74-f29659d3f89b@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/15/26 04:59, Nico Pache wrote:
-> This change deduplicates the "is this PTE/folio referenced enough to be
-> considered for a collapse" condition that was repeated in both
-> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
-> a single inline helper function.
+On 7/29/26 11:41, David Hildenbrand (Arm) wrote:
+> On 7/15/26 04:59, Nico Pache wrote:
+>> This change deduplicates the "is this PTE/folio referenced enough to be
+>> considered for a collapse" condition that was repeated in both
+>> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
+>> a single inline helper function.
+>>
+>> Also move the comment and use it as the function header. While we are at
+>> it, updated the comment to clarify that a young pte is a recently accessed
+>> one.
+>>
+>> Acked-by: Usama Arif <usama.arif@linux.dev>
+>> Signed-off-by: Nico Pache <npache@redhat.com>
+>> ---
+>>  mm/khugepaged.c | 35 +++++++++++++++++++----------------
+>>  1 file changed, 19 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index 6ec0812210b6..e92e2b928f17 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -672,6 +672,23 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
+>>  	}
+>>  }
+>>  
+>> +/*
+>> + * collapse_is_referenced() - Check for enough referenced PTEs to justify collapsing
+>> + *
+>> + * If collapse was initiated by khugepaged, check that the page has been
+>> + * recently accessed (young pte) to justify collapsing the page.
+>> + *
+>> + * Return: true if the page has been recently accessed.
+>> + */
+>> +static inline bool collapse_is_referenced(struct collapse_control *cc, pte_t pteval,
+>> +	struct folio *folio, struct vm_area_struct *vma, unsigned long addr)
 > 
-> Also move the comment and use it as the function header. While we are at
-> it, updated the comment to clarify that a young pte is a recently accessed
-> one.
 > 
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 35 +++++++++++++++++++----------------
->  1 file changed, 19 insertions(+), 16 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 6ec0812210b6..e92e2b928f17 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -672,6 +672,23 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
->  	}
->  }
->  
-> +/*
-> + * collapse_is_referenced() - Check for enough referenced PTEs to justify collapsing
-> + *
-> + * If collapse was initiated by khugepaged, check that the page has been
-> + * recently accessed (young pte) to justify collapsing the page.
-> + *
-> + * Return: true if the page has been recently accessed.
-> + */
-> +static inline bool collapse_is_referenced(struct collapse_control *cc, pte_t pteval,
-> +	struct folio *folio, struct vm_area_struct *vma, unsigned long addr)
+> The name is absolutely confusing. The "collapse" is referenced? Hugh? :)
 
-
-The name is absolutely confusing. The "collapse" is referenced? Hugh? :)
-
-I appreciate factoring this out into a helper, but there must be a better name.
+"Huh" :D
 
 -- 
 Cheers,
