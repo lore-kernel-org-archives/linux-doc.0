@@ -1,90 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB624052CC;
-	Wed, 29 Jul 2026 22:58:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CD33AEF21;
+	Wed, 29 Jul 2026 23:06:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785365940; cv=none; b=VGSiIXFOacojZlGpZ4nUABRecdsxYhznZeY5xwocYBXwCHix/L49415F6X9koI709Pit/nuTpC5zUU+WenjgxlwvFXqzc4qqWIJ99GtQeQfuf7s4VCVjlxszpGZRLlnlsRTiZGArIxJUDj+rPVhm9Ze6LbDlhSawfx+FkQ934fM=
+	t=1785366371; cv=none; b=CgojwSUJIyMNxoMYySgRKY/2tw+nC5/Al4YZZf3d2FxklZPU53b39b3RK2cGBHsBvHqgdxmIi0qmACKMSSswXhP9uw+sYkRPWiShm12iu7cfVNx6HhZ4kmAh+c0xn+HVcxYMpmWF55W22ZAnzFvlSvaF+ObxrhXvn+GEP5rzAas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785365940; c=relaxed/simple;
-	bh=aShF1B1U+US/N/X+HJ/efgRLJE3SqAatFLl2Z3y2RJo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=SDwXW0KON3de71QIHMIOZ0ElDznmeGueEnR0Dmuw2DyWD4nUGQCiHFvtuIoWtxXb2aWOREr65wtw3Sesw8FZXx5EBAUs05rgd5ggp+dwAlqbEYkUiWGr38ZfOAmIUn/F/IpFk3sqxtNr0Es8Cd+gn4PG1D9UToik/J0T5VixxrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=KQH5/lG6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785366371; c=relaxed/simple;
+	bh=q2rDVXugQ85YEJfZ4RfMYucmMHzfFdJBuns8BG10unQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=idywL3FEi6+mZKNb6V3s7vSMXusZJrjehqvCN82S+Dk4/PAgm5orJlgxsCOGBjqK8tGusxzbO8S737e8/6G5ImYiMYdI+sUTvYt7Shr0RXsXLvVarR4H1AUUkv9T99EIqWF0JPuSUUNRbVFnZtnUqZzSu8ZuTqK11i56X2j3AcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iS18peI1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="KQH5/lG6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9661F000E9;
-	Wed, 29 Jul 2026 22:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1785365939;
-	bh=xHp8vjg8AUcQ9RYWhSmkMpxvojYRQuqhX6Yx6R+1bvk=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iS18peI1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB971F000E9;
+	Wed, 29 Jul 2026 23:06:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785366370;
+	bh=Lhsi+afaaIB87p+bKoLmsL0ptY21q4TkorQ5Ox+KDoE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=KQH5/lG6Mpu71bBDfjFDZgTI0KIL1OjfRfZugop8MUjzLILb6CG4pzwBJeQzMG+9B
-	 QwhWncbq4rhhjQXDM2f7C7OuKxI0I/2B9c9xraILMqkyOQ+a3Wctt95vGZsXrYslhW
-	 HAZtvKUgdgyR+Ln7MGPCMvkzOYN7dzCKYvltY34E=
-Date: Wed, 29 Jul 2026 15:58:58 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: tj@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- mhocko@kernel.org, yosry@kernel.org, mkoutny@suse.com, nphamcs@gmail.com,
- chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>,
- stable@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] mm/zswap: Fix global shrinker when memory cgroup
- is disabled
-Message-Id: <20260729155858.c7aabff48166a9bca4d68ac3@linux-foundation.org>
-In-Reply-To: <20260729084206.77793-2-jiahao.kernel@gmail.com>
-References: <20260729084206.77793-1-jiahao.kernel@gmail.com>
-	<20260729084206.77793-2-jiahao.kernel@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=iS18peI1cFRmKE2uTiZFcR02rn4viAdu3B6h6M9lsBYieZwi+U67WO9e7FI07jrVd
+	 JNHleBhGNBZ7mxEeLAaCw5WTnQISmOYj/JLG5qyFhmKQzb8FTifrM3TL3gn8qjtW0T
+	 QKeBuEi6sVnn7ILuNCiI+NrE4qTzfQ+Tnjl5ea69jC0m+0F7qmvlys2/Pei5j9EEF3
+	 L1NgvOZb/joAiiluECmIsytMIExf2QWh/mY+pPpdrBG/TuSZY9iQ2Vn2mwLr+KoYj3
+	 GpNRn8S7QfDHRezBRmftnpt6fW6brL3zIMkDXJPGcYxJaJiJ4paWsI2r6qaeytImU9
+	 OJovwcFDrVGTQ==
+Date: Wed, 29 Jul 2026 16:06:08 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Mark Bloch <mbloch@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Saeed
+ Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq
+ Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jiri Pirko <jiri@nvidia.com>
+Subject: Re: [PATCH net-next V7 4/4] devlink: Apply eswitch mode boot
+ defaults
+Message-ID: <20260729160608.3c491568@kernel.org>
+In-Reply-To: <amnDfSmMVzpiH2gE@FV6GYCPJ69>
+References: <20260716084852.549909-1-mbloch@nvidia.com>
+	<20260716084852.549909-5-mbloch@nvidia.com>
+	<20260724161111.2ac47089@kernel.org>
+	<c6c0d67c-d832-49a1-b62a-57fa6ee56a47@nvidia.com>
+	<20260727131033.237f70b6@kernel.org>
+	<amnDfSmMVzpiH2gE@FV6GYCPJ69>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 29 Jul 2026 16:42:05 +0800 Hao Jia <jiahao.kernel@gmail.com> wrote:
-
-> Zswap writeback when the global pool limit is hit fails when memory
-> cgroup is disabled. The pool remains full until it is organically
-> drained by swapins or memory freeing, leading to zswap store failures
-> and pages bypassing getting written directly to the backing swap device,
-> causing LRU inversion (hotter pages with higher fault latency).
+On Wed, 29 Jul 2026 11:11:53 +0200 Jiri Pirko wrote:
+> >Maybe a middle ground would be to add a dedicated devl_init_unlock()*
+> >were we can stick such init? Slap a WARN_ON(!registered) in the normal
+> >unlock? I don't want the normal unlock to grow in complexity like
+> >rtnl_unlock ended up growing.  
 > 
-> This happens because mem_cgroup_iter() always returns NULL when
-> memory cgroups are disabled. As a result, the global shrinker
-> shrink_worker() repeatedly takes empty walks. After MAX_RECLAIM_RETRIES
-> failed attempts, the worker gives up without writing back any pages.
+> Yep, that was +- my idea when I suggested this, to have this in a
+> separate helper.
 > 
-> Therefore, when memory cgroup is disabled, fall through with the !memcg
-> branch and shrink the root memcg directly.
-> 
-> With memcg disabled, shrink_memcg() only returns -ENOENT when the root
-> LRU is empty, which means the total pages are already below thr. In the
-> absence of heavy concurrent zswap stores, the loop then safely bails out
-> via the zswap_total_pages() <= thr check; otherwise, it will resume
-> shrinking the memcg after processing the reschedule check. For any other
-> return value from shrink_memcg(), the loop is guaranteed to terminate,
-> either after MAX_RECLAIM_RETRIES failures or once the threshold is met.
-> 
-> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> Cc: stable@vger.kernel.org
+> devl_unlock_in_init()
+> ?
 
-How does this affect users?  What behavior do they observe when it
-occurs?
-
-> Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com
-
-hm, that isn't really a bug report and doesn't answer the above
-question.
-
-
-AI review asked a couple of questions:
-	https://sashiko.dev/#/patchset/20260729084206.77793-1-jiahao.kernel@gmail.com
-
-Thanks.
+Maybe "after_init()" ? "in" sounds like we can release it multiple
+times but I think the idea is that it's the final, single "release 
+into the wild" unlock.
