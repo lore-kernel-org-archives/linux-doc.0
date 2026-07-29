@@ -1,271 +1,117 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D493A7195
-	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 08:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0953CF208;
+	Wed, 29 Jul 2026 08:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785314564; cv=none; b=J56ZqU5WNvpJNbdOyuJrqtBUJjOXeVFE7pyZydQiqp+MmHQYx5uovNJz9zaeJZhPBFqR8sSmx/GUYifCbebvMVymrQZZKT9UNIZjVVzXrCTsdFC73DURA2+XmSZ5hLraITREN+RKNtB5klfLTnv/xkbewQbrCJYmmYnD0+iJRII=
+	t=1785315206; cv=none; b=CtSI1qsWDV+sg/lO8xd/FU1xkRtMDac9F62cKUBIifNq8gVZ/KL5fgvs2xFF4TW42UQr7oZiikWCTinSERD/y82vcQwjPc01t3BjibRFqT0AgMVlnYBJW9XeO9zN/I3btxNcDY7e7P2+aXT3JZrdQXeOXfaPfenmivizVquhgHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785314564; c=relaxed/simple;
-	bh=c6e8sdGl/Y564hCDqTlfzDVmcnUCQGDggtG9cOxIBeI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FYF8zUp0bUbFq/S8cwbj8W1o1Bj0fnnfP871dztgWGzRlK8SEdhhI98SgdpZEJml9za/Tb/YLtlSvkarWOs/2cm+pAlexgcI3kWLUUwtDpwI2NeVfV7SohOZsRyiqYvKY/oAl1iKVrOzt4ERzvsS6aP6S5ZaoPxl1QbQ7Z67iJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EUh48zpH; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785315206; c=relaxed/simple;
+	bh=Ss/DaoJYNqjgpN1lAskphAlKNITya8LLU2vIUgnSPIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O4P1aGQ/GTqpddK/tdc6yS1MKnybCNPONsuMWl0DOmh3/fN+VfHqtgzll2zYDLiEaz5Xd8gkXq3SgfXBB477ZvE3+PtdotcBkUvZliLpfSX7HgBWFkfOuSj38Yjom6jJZDctOs7hj3LEwodLHkw5K/9fnLcO4rtMgxMaA4mnSgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=kKo2A1BQ; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EUh48zpH"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38e07ebd263so454802a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 01:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785314562; x=1785919362; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lW7K1TshKRQwVpxSydSGxpku6XFVIjRdVdgKlx/RWlw=;
-        b=EUh48zpHexXQvfPDbM/PKJ7R9zjTQJN/XxTLB0WUWn+gpcR+i9XnTDVQLsn/3k2xT2
-         b3Ls+sD4qAsyrJEd3c9nuh1y8Tiu+gCq1cIviZ0j4NQUrvWmbizSg2qjeMAKFaJgS2AI
-         zqIa+dECIHCfqBunlF84Nbn6om527R+mI0mY/zME4EfFOf20WEpCDdOQYqv5IPzVjAAX
-         YgBSbzsEqii69cM2Ibbt3x6pYzMUUuCyZBjdu5s/FhC6iHp/BztNORjsaENvTBCN2BWJ
-         ASMEX9GJ8NIrFAEUbrHqgP1/w0Neb++o1/dY1Vng/w2dBxHWmxrrC4AOE7gGt1PqluGU
-         NMnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785314562; x=1785919362;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lW7K1TshKRQwVpxSydSGxpku6XFVIjRdVdgKlx/RWlw=;
-        b=jF9sNA9E16We/BVkOOlhJVcJiM8edAkd/Bd+3EMEsrKZHHzW/zcmaBV75BqjMi3Gyh
-         dHFELcSubKUKVTVfOsf5C/sNeLtjFIPpVUd8cEOFIrJiWfzMhVWbb6MgH6MfJq0uuq4I
-         Eiz6EFTmHX2fnMUluJKtLWsqjVDOKngUWVjtXstgA0Slwq3O7NvM4lNlxpyPIbvhBAoy
-         8dHG0EfJAFjexTkc6566lXR9hXOQvReLNIy5SGIBwNPL77VTYW/6zxioQQ+dcVUtU0Jf
-         23lEc//Ei8wFvAAgg1k1KAX/aUhTdUeZEBmOh2UIp5XBgpsL4/9tcNVzwOIbAkLHR4yO
-         gBJg==
-X-Forwarded-Encrypted: i=1; AHgh+RoYbWTaDe6mtJ2BnqyhSG1kBIqvYAxIGUhpfdxAKiU0KuA/FWVJOEwHk+tbntmmqVMS1F8U+PH0z/Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlgGnnJhgclM9xcJiaOGrAorXG24mqnJ9ZeMhm7EsgdLSP7DB6
-	cwhVduorOTCQpeC20xdRv8CBbVCGWKurbdLlPflbqSzz8mLqgcsHbC5k
-X-Gm-Gg: AR+sD118kiKYnK9XQ1/YsvoqcJsToMcQJgoZ+iiPAyndFYmN3a0dGNMWqSX4vk7d9bn
-	G2PfNntR8Fu2/2FTFt5mk76dSn0gBm1UoxzHMwQbHvN94pssK8ddTy5xBBnb1Ud21I53wGQEpIC
-	oBsEwGtCCTMIEY9MVfocQB5G1j+VrPGxL0M0wB9tNtIKI527qMzi6qHOFYTultSsSlyVik9wnMf
-	BEi6hToYN5BCV5Xynwk5Ns0xpB8YMBquAW4mDo4KDiLrmj2bvWCm7Cb6XgLmkj5MEcfc6s535Xa
-	CGR2BGxLmiBxUnYGYbIQacwaD9kBQDFjLFgwsmchCetseqQZnBNBVS67He4/J1ARq8NhKmt9yA6
-	jBM1gAVNi2AlSEcfGjgPFD6IXS2CBEZNMigeBlhxTXyb+x1bHSPDRlVolIxvw1vtBuxeS8NH4Rs
-	3pzwx5u5mtkC/XlkD/Ff3sFA5r5kHQz1pW/LGda8GsvKqdKiDhPk5y55faOG/gbHwDv2FoWO/6N
-	doKmPkBYyNclTyPdZyK9gzYGAbT
-X-Received: by 2002:a17:90b:2e46:b0:38e:679f:3b3b with SMTP id 98e67ed59e1d1-38f6a57d6e5mr6107033a91.29.1785314562465;
-        Wed, 29 Jul 2026 01:42:42 -0700 (PDT)
-Received: from localhost.localdomain ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f642fbf74sm2447744a91.17.2026.07.29.01.42.35
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 29 Jul 2026 01:42:42 -0700 (PDT)
-From: Hao Jia <jiahao.kernel@gmail.com>
-To: akpm@linux-foundation.org,
-	tj@kernel.org,
-	hannes@cmpxchg.org,
-	shakeel.butt@linux.dev,
-	mhocko@kernel.org,
-	yosry@kernel.org,
-	mkoutny@suse.com,
-	nphamcs@gmail.com,
-	chengming.zhou@linux.dev,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Hao Jia <jiahao1@lixiang.com>
-Subject: [PATCH v3 2/2] mm/zswap: Support batch writeback in shrink_memcg()
-Date: Wed, 29 Jul 2026 16:42:06 +0800
-Message-Id: <20260729084206.77793-3-jiahao.kernel@gmail.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
-In-Reply-To: <20260729084206.77793-1-jiahao.kernel@gmail.com>
-References: <20260729084206.77793-1-jiahao.kernel@gmail.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="kKo2A1BQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ss/DaoJYNqjgpN1lAskphAlKNITya8LLU2vIUgnSPIA=; b=kKo2A1BQR3Y09foW8g7qBwUPmX
+	NYROK6U4J0bpmZKOyfm1oFEXpv3CNR7vfCuRy+FO0mbwp84eXe/JU9LFMYD1ge1BkKqbwxKSdae2K
+	4KqnPzg5sQt3KaFOUT+/Qrql0v/KSWTs/CgLao7wTcgECQR7c1SU6cLiV/gtktS9ZhLLmN4GgWr2O
+	4ki88TRZvcEBBLW+SutP4Up07yWZHIh4rfIlySxODkjQaFtKxlBp0dlXMiRmcx1UyuRLTtaUU1YqS
+	/p7TeB9eHR2ldVifgdc8dOspz1w740YC97n3B9wlxbYGxnj8yYlC1HwuqWePIDeQM51EBozdKJoZv
+	akJNbqqw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wp02F-008KmC-2v;
+	Wed, 29 Jul 2026 08:53:08 +0000
+Date: Wed, 29 Jul 2026 01:53:01 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
+Message-ID: <amm72Bu9qmWLI-9b@gmail.com>
+References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
+ <20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
+ <ee4982bf-ff45-8f0b-3b76-7ca19228f12b@huawei.com>
+ <20260727212402.09baa9381ca426273fad4719@linux-foundation.org>
+ <de29c5cc-3637-cd18-354d-55ceb3d60afd@huawei.com>
+ <amh1nZVVaaZSGD3M@gmail.com>
+ <20260728122016.30752d36c3b3c3af231efa9d@linux-foundation.org>
+ <44f81bea-d64a-4f73-8665-46652a928c83@kernel.org>
+ <amkn21ftNme48Vbl@gmail.com>
+ <f83d5b26-b369-489b-a305-1eb5ec6fccfb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f83d5b26-b369-489b-a305-1eb5ec6fccfb@kernel.org>
+X-Debian-User: leitao
 
-From: Hao Jia <jiahao1@lixiang.com>
+On Wed, Jul 29, 2026 at 09:25:16AM +0200, David Hildenbrand (Arm) wrote:
+> On 7/29/26 00:07, Breno Leitao wrote:
+> > I have a draft of the selftest in C already and I will give it more bake
+> > time, and I will submit it until EOW.
+>
+> IMHO there is no need to rush this test here, we could merge it after the main work.
+>
+> We neglected our selftests quite a bit in the past, and that is biting us now.
+>
+> That's why I push back hard now (sorry) against stuff that is different than the
+> rest and not easy to maintain.
+>
+> I know, hwpoison-panic is a destructive test, but I really don't think we should
+> just merge mostly unreviewed bash tests that will just bitrot.
+>
+> Which makes me wonder now: should this actually be a selftest? It's nothing one
+> would just want to run in a CI. It will crash your machine.
+>
+> Maybe this should just be a tool in tools/mm? I really think so. So having a
+> nice C-level hwpoison-panic.c in tools/mm might be the way to go.
 
-Currently, shrink_memcg() writes back at most one entry per-node during
-its traversal. This makes shrink_worker() inefficient, as it must
-repeatedly re-enter shrink_memcg() to make any substantial progress.
-Under high memory pressure, this can cause the writeback speed to be
-too slow to keep up with refaults, leading to zswap store failures and
-forcing pages to skip zswap and go directly to disk, which results in
-an LRU inversion.
+Agreed. In v6 [0] I actually removed the selftest entirely, since the value
+wasn't clear and it seemed like an ugly duckling.
 
-To address this, extend shrink_memcg() and rewrite its LRU iteration logic
-to support batch writeback. Introduce the nr_to_scan parameter to bound how
-many pages are scanned per call. This enables setting the writeback batch
-size to SWAP_CLUSTER_MAX for both the shrink_worker() and zswap_store() paths.
+It seems tools/mm would be a good fit, and make a better home for this
+type of "test".
 
-Test Setup:
-- Total memory: 32 GB.
-- zswap settings: accept_threshold_percent=50, shrinker_enabled=N.
+Given more changes coming in memory failure (at least from my side
+[1][2]), I think it would be a good idea to create a subdirectory
+(tools/mm/memory-failure) and keep these semi-destructive tools in there. Is
+this the right direction?
 
-Test Case 1:
-Set max_pool_percent=1, allocate 512MB of anonymous pages, and fill them
-with random data (to avoid compression). Then, use cgroup memory.reclaim
-to force a large amount of anonymous pages into zswap. At an interval of
-2ms, allocate a 4K anonymous page where the first 4 bytes are random numbers
-and the rest are zeros, and then trigger reclamation of this 4K page through
-cgroup memory.reclaim. When the pool threshold is reached, shrink_memcg()
-will be triggered.
-The test data after running for 120s is as follows:
-                                Baseline      Patched
-shrink_worker wakeups              5,363          169
-shrink_memcg calls            11,373,201      350,703
-written_back pages                40,212       40,241
-zswap_store calls                161,190      163,753
-   store succeeded (ret=1)       102,743      117,183
-   store rejected (ret=0)         58,447       46,570
-   store reject rate                ~36%        ~28%
-pool_limit_hit delta              55,826       33,760
-pswpout                           98,659       86,811
-pswpin                                 2            0
+> So let's rather make this test well maintainable and have it properly reviewed
+> than rushing something suboptimal.
 
-Test Case 2:
-We evaluated the following two sub-configurations using stress-ng inside
-a cgroup capped at memory.max=1G for 120 seconds:
-  Test Case 2a (max_pool_percent=1): Continuously triggers the global
-  zswap pool limit, thereby waking up shrink_worker() to perform asynchronous
-  shrinking.
-  Test Case 2b (zswap.max=320M, max_pool_percent=50): Continuously triggers
-  the cgroup's zswap.max limit, thereby invoking synchronous shrinking.
-Command executed for both setups:
-   bash -c 'echo $$ > /sys/fs/cgroup/zswaptest/cgroup.procs ; \
-   exec stress-ng --vm 4 --vm-bytes 4G --vm-keep --vm-method rand-set -t \
-120s -q'
+Sounds good. I'll move this to tools/mm and resubmit. Given Andrew has
+removed the selftest from mm-unstable while keeping the rest of the
+series (which is fully reviewed and frictionless), so I'll focus on the
+test tool now and send it separately.
 
-Test Case 2a (max_pool_percent=1):
-                                Baseline       Patched
-shrink_worker wakeups              5,640         1,308
-shrink_memcg calls             8,481,500     3,140,972
-written_back pages                   260       468,216
-zswap_store calls              2,742,756     2,011,269
-   store succeeded (ret=1)       934,640       947,988
-   store rejected (ret=0)      1,808,116     1,063,281
-   store reject rate                ~66%          ~52%
-pool_limit_hit delta           1,181,310       196,882
-pswpout                        1,808,376     1,531,497
-pswpin                         4,288,497     3,635,365
-Test Case 2b (zswap.max=320M, max_pool_percent=50):
-                                Baseline       Patched
-shrink_worker wakeups                 0              0
-shrink_memcg calls              687,608         54,002
-written_back pages              639,176        846,663
-zswap_store calls             1,224,222      1,228,548
-   store succeeded (ret=1)      992,816      1,208,123
-   store rejected (ret=0)       231,431         20,425
-   store reject rate               ~19%            ~2%
-pool_limit_hit delta                  0              0
-pswpout                         870,745        867,360
-pswpin                        1,707,823      1,216,814
+Thanks for the discussion,
+--breno
 
-Under identical workloads and runtimes, batched zswap shrinking
-exhibits a significant reduction in both shrink_worker() wakeups
-and shrink_memcg() calls. Furthermore, the sharp drop in both pswpin
-and zswap_store() rejections demonstrates that batching zswap shrink
-operations effectively mitigates zswap_store() failures caused by
-hitting the pool limit. This significantly prevents pages from bypassing
-zswap and falling back directly to disk, thereby reducing LRU inversion.
-
-Suggested-by: Yosry Ahmed <yosry@kernel.org>
-Acked-by: Yosry Ahmed <yosry@kernel.org>
-Acked-by: Nhat Pham <nphamcs@gmail.com>
-Signed-off-by: Hao Jia <jiahao1@lixiang.com>
----
- mm/zswap.c | 45 ++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 38 insertions(+), 7 deletions(-)
-
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 48fc7b575e24..82dddfe74ef7 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -1275,9 +1275,25 @@ static struct shrinker *zswap_alloc_shrinker(void)
- 	return shrinker;
- }
- 
--static int shrink_memcg(struct mem_cgroup *memcg)
-+/*
-+ * Scan up to @nr_to_scan pages across the per-node zswap LRUs of @memcg
-+ * and write back the reclaimable ones.
-+ *
-+ * Since the second-chance algorithm rotates referenced entries to the
-+ * LRU tail, the per-node scan is capped at the current LRU length so
-+ * each entry is scanned at most once per call. It is up to the caller
-+ * to handle retries, deciding whether to scan another memcg to complete
-+ * the full iteration, or to rescan the current memcg to drain its zswap
-+ * entries.
-+ *
-+ * Return: 0 if at least one entry was written back, -EAGAIN if entries
-+ * were scanned but none could be written back, or -ENOENT if @memcg has
-+ * writeback disabled, is a zombie cgroup, or has empty zswap LRUs.
-+ */
-+static int shrink_memcg(struct mem_cgroup *memcg, unsigned long nr_to_scan)
- {
--	int nid, shrunk = 0, scanned = 0;
-+	unsigned long nr_remaining = nr_to_scan;
-+	int nid, shrunk = 0;
- 
- 	if (!mem_cgroup_zswap_writeback_enabled(memcg))
- 		return -ENOENT;
-@@ -1290,14 +1306,29 @@ static int shrink_memcg(struct mem_cgroup *memcg)
- 		return -ENOENT;
- 
- 	for_each_node_state(nid, N_NORMAL_MEMORY) {
--		unsigned long nr_to_walk = 1;
-+		unsigned long nr_to_walk;
-+
-+		/*
-+		 * Cap the scan at per-node LRU length so each entry is scanned
-+		 * at most once per call.
-+		 */
-+		nr_to_walk = min(nr_remaining,
-+				 list_lru_count_one(&zswap_list_lru, nid, memcg));
-+		if (!nr_to_walk)
-+			continue;
- 
-+		nr_remaining -= nr_to_walk;
- 		shrunk += list_lru_walk_one(&zswap_list_lru, nid, memcg,
- 					    &shrink_memcg_cb, NULL, &nr_to_walk);
--		scanned += 1 - nr_to_walk;
-+		/* Return the unused share of the budget to the pool. */
-+		nr_remaining += nr_to_walk;
-+
-+		if (!nr_remaining)
-+			break;
- 	}
- 
--	if (!scanned)
-+	/* Nothing was scanned: every LRU under @memcg was empty. */
-+	if (nr_remaining == nr_to_scan)
- 		return -ENOENT;
- 
- 	return shrunk ? 0 : -EAGAIN;
-@@ -1369,7 +1400,7 @@ static void shrink_worker(struct work_struct *w)
- 			goto resched;
- 		}
- 
--		ret = shrink_memcg(memcg);
-+		ret = shrink_memcg(memcg, SWAP_CLUSTER_MAX);
- 		/* drop the extra reference */
- 		mem_cgroup_put(memcg);
- 
-@@ -1493,7 +1524,7 @@ bool zswap_store(struct folio *folio)
- 	objcg = get_obj_cgroup_from_folio(folio);
- 	if (objcg && !obj_cgroup_may_zswap(objcg)) {
- 		memcg = get_mem_cgroup_from_objcg(objcg);
--		if (shrink_memcg(memcg)) {
-+		if (shrink_memcg(memcg, SWAP_CLUSTER_MAX)) {
- 			mem_cgroup_put(memcg);
- 			goto put_objcg;
- 		}
--- 
-2.34.1
+Link: https://lore.kernel.org/all/20260511-ecc_panic-v6-0-183012ba7d4b@debian.org/ [0]
+Link: https://lore.kernel.org/all/20260728-kexec_posioned-v1-1-160c81d180fe@debian.org/ [1]
+Link: https://lore.kernel.org/all/20260717-hwpoison-kho-v1-0-9c5eda551998@debian.org/ [2]
 
