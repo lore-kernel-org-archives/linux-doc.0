@@ -1,54 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930AA3921EC;
-	Wed, 29 Jul 2026 03:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2F830C143
+	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 03:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785296286; cv=none; b=SfuldgjDtMYowkLoBMMF1W50DEO63aGhWQDkHyFwzJzwJv2tCSYTq8UhOzL2zSbHCnP9p5z5KuYU7n2a/Q6Yf5HrQfMjgh3JvfNrSPAALhSs5YF9ud2tq6JxKusBUyPg1nKLY154mve+ms3h6wzeH+BfClc2cDq6WGHJS+oUr1s=
+	t=1785296515; cv=none; b=mQDuMDCwiCISUTpXtQdC6IR5Gf8/tvpzWFNB5kJS8QCjoeOWOaczKtsGcSUiyWXddeRdL/0x+qWE9GJsMQnp709FTNIxkCpqgKDf7mTS3zNsjjcVLz2wRcr+0Att3jSG4/8T5brFgOAJF8+CKl2Ltk+j5h2ULVygj4xwFd2PEPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785296286; c=relaxed/simple;
-	bh=94L9Y6jblqW5ICiSyH0suMgSyVNNc6/w7ucmr3p0soQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HYQwmBpG4KX58lS0zZgn4Arxthw2EjLBj8X9LK7kYW3lJugwuHEKovA8VtuqgHgNHicZHcyeyU4HcPioAKTw6lYoQwM3memhn2hbfKseT4KbHkc18fH4nX62jsOmKjpdGm9xZL9Te7xpClaUbFRBG1zMUPgDdTuhRswCCARL0lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eXKQ8/gd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785296515; c=relaxed/simple;
+	bh=UFgwWFaUDHNfS7pe9YQMo1osWM7ZIU7JHCt0yYbjg5s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xo4SLUf3WVX1fS0VbuchCLykfGxOJG1Z2wDqRC0bHI8iI9Q0d57YfW6rCF7fNjRkL8isKQZ1vbMcRzKxMO9a7EMHjgUj83r2AtJf4p1Y+05n08yVxfOBovP+oUJ8QKneASGJokQ3NECwt1G74L3TqokhrpSbUjIWY1z4/R1yThw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sOB6dlpY; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eXKQ8/gd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78CBB1F000E9;
-	Wed, 29 Jul 2026 03:38:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785296284;
-	bh=+7L5cUB5gmn/G0XCH5EnzRVEYnRmQ6289QitHVcV3Es=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eXKQ8/gdJ5jeWOSOGK/oDNdW3r/sNFDPgeZNAx+2MAASe3LcWCL45R+98Fvn0WEwV
-	 xIR5zTwa5P2zP/aKtVCZ2DpPOyZvGkU+UKISFamU+c0W2TsZrxDLwMkyImPKiLEtNT
-	 h+VeOpIHHe3wGkuf02Dr5RRXZC3OMgrWAbWkwv9IqwS0sd6GgTAK030cWZccugHL7/
-	 1VwRz4mKVpI2yuIqZkTgEU/ULXggXGgqLGOyLfX617BXEGISATiEPmMOd6/O2WH63b
-	 i5a3QyUnG+MWI9SAvnF3fonkf/44L2o6Qanfq7vR8biK0gy5IvI2hG7RaKggSZ3V4L
-	 8sFQyHHgsfI0g==
-From: SJ Park <sj@kernel.org>
-To: 
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sOB6dlpY"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84a2c90e383so1343336b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jul 2026 20:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785296513; x=1785901313; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3ystWRSu0XGzWLVNCp/qZNWLqhKRo+gG6ngoi7HTHAw=;
+        b=sOB6dlpYxepWznoCYsY0Fw5FVENKSKH06NfBwvPC2TSZ70IVVk4t3v2seG4eMfIsoa
+         G0jkOyLe0fpMxnVOOuQOzEIIS39nvfUDJC3pYx/JlZIM5HKslKkOe3iuyoq8WW5tyWaw
+         vio0ItD/BPXFJ8tLmFUcJ8BXVYDxJrPmBqXgpqOnPRwiH/GDFHmdK8WpXueKXahXCHxX
+         byXovm6jyarcGaU/ELs3r0hHZEskjGMWMozmnkKOHyduoT8z5NZZns1rk+BvO2cvIvNH
+         WbA5eTo4UQCX6J2mJeJSvpUN+VxoKSFOqp3WyPKXFCrV5ge/9Szgy/vbbYYVLyPbqXpl
+         IrYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785296513; x=1785901313;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3ystWRSu0XGzWLVNCp/qZNWLqhKRo+gG6ngoi7HTHAw=;
+        b=Eg1WdKDXMvn/7Ez+J6hGl8cYZQmXf+KAeY1cCq1bU1kZgRUNOTU9OTJaGVQ6vXx9SG
+         itBrCpmI3vT/QsdAt9iWyh6ILDwGYve9HP5wQj+O4kL+S762nPOS+Wz6muYwVj5Jwduq
+         fsvdS5YzIYwiWyMYAJCMaCyzsw8HHaCWM07FBdbL2qxQTLPvIrsA0kwsFwSjCaulXqNO
+         iy00iv1wQRDoLdUl8axUuGtBKIU70xarhiNBpBN6KvETdaEzuinv6x77+hKlzCMKeYpr
+         HOC+g6wBjcuRkbGuldruEQLqJZg0x9bIZm3X5eycxpYww0hX26FqSYVrOyy5+gzDsGTS
+         DwSA==
+X-Forwarded-Encrypted: i=1; AHgh+Rov2F2Gu8N9UPZTGzGiDvsS3tYUgNK+FMNwOl9G/yWi9Rr/LHikPTBJQhhTI1dkcggM8Gw1sedY4c0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuatNtV4jQ1QOMqBB2HoyrXE+KIxFKNNXDvCdFS/r3Y47PeCms
+	vjeC21PLz5fNMDkmoRUODAysSBmL0AxhDwSCM08b3LPM2U47eyb9DYFDXWV0v0BY0A==
+X-Gm-Gg: AR+sD13mobaNv6ZXFT2Va3rs5MqSeaDqslks+vm1gMlwszxmyGJ1Wxl5RdNU0HL/BZb
+	QoQwXBkTBT7Y6qzfj4MMb+lp0SMSjtBQB8z/tKjecr18JKnDQZmTPiAm1RCmTUd0r73G6yo6TL3
+	+TytIY/NOVPd6ZpgOKR8eEj0YMTsiaKGvoGapp8rkGQ6DVLNEh6j4B0wBuKBoMYHqdjMBXIrF7q
+	bFDblrMiuEoIoiMb8R83t97aX0A/sy+er3cQy1tUoNJMwHpuofoWTWCueFBry43EEw71dbSqrZ0
+	gOT3nTyZGv7Yb4+X6Me//Qah0OF6hwfF+p9om3e4rwpN5o/jdU7NtgNlXSGrye0HbtUv5z1ZHoz
+	2WplNEjazilqb/aiMDtfehw2UCthMSwhkys1jjAF03aMWAjGxLoAkiQBLHpPsbvZ0cST8ie3l6C
+	y4mi0xWTwLaA5K71QMo0CcUsxO2pHLtZKu00nhs7bl44yj92UmrKwvPYEpV26FC2k=
+X-Received: by 2002:a05:6a20:6a2a:b0:3b3:ccd0:cf62 with SMTP id adf61e73a8af0-3c8e492ab44mr714378637.36.1785296513350;
+        Tue, 28 Jul 2026 20:41:53 -0700 (PDT)
+Received: from localhost ([2405:201:8018:1843:35b9:9f48:c0dc:e32b])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504cc9dffsm4502149eec.14.2026.07.28.20.41.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 20:41:52 -0700 (PDT)
+From: Ayananta Paul <ayanantapaul@gmail.com>
+To: kuba@kernel.org,
+	donald.hunter@gmail.com
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v1.1 09/10] Docs/mm/damon/maintainer-profile: update AI review for Sashiko replies
-Date: Tue, 28 Jul 2026 20:37:49 -0700
-Message-ID: <20260729033751.131213-10-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260729033751.131213-1-sj@kernel.org>
-References: <20260729033751.131213-1-sj@kernel.org>
+	linux-doc@vger.kernel.org,
+	Ayananta Paul <ayanantapaul@gmail.com>
+Subject: [PATCH] Documentation: netlink: fix spelling in tcp_metrics.yaml
+Date: Wed, 29 Jul 2026 09:11:47 +0530
+Message-ID: <20260729034147.6970-1-ayanantapaul@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,53 +79,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the past, sharing Sashiko review results was tedious.  Also it was
-suggested to minimize the recipients on the sharing mails.  Hence the AI
-review section of DAMON maintainer profile document was updated to give
-guidance about available tools for making the sharing easier, and how
-the recipients list should be managed.
+Correct the spelling of "reordering" which was incorrectly
+written as "reodering" on lines 113 and 115.
 
-Now DAMON is onboarded [1] to Sashiko's automatic review replies
-feature.  Sashiko directly sends its reviews as replies to the patch
-mail thread. It also reduces the recipients list to deliver the
-reporting to only the author and the mailing list.
+Issues identified using `codespell -D - -S "*.bin,*.o,*.a,*.so,*.ko,*.gz,*.png,*.jpg" Documentation/`
 
-Remove the old guidance that is no more necessary but only confusing.
-
-[1] https://github.com/sashiko-dev/sashiko/commit/b554c7b6e733
-
-Signed-off-by: SJ Park <sj@kernel.org>
+Signed-off-by: Ayananta Paul <ayanantapaul@gmail.com>
 ---
- Documentation/mm/damon/maintainer-profile.rst | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+ Documentation/netlink/specs/tcp_metrics.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
-index fb2fa00cc9aa1..a7c1352339378 100644
---- a/Documentation/mm/damon/maintainer-profile.rst
-+++ b/Documentation/mm/damon/maintainer-profile.rst
-@@ -106,18 +106,9 @@ AI Review
- 
- For patches that are publicly posted to DAMON mailing list
- (damon@lists.linux.dev), AI reviews of the patches will be available at
--sashiko.dev.  The reviews could also be sent as mails to the author of the
--patch.
--
--Patch authors are encouraged to check the AI reviews and share their opinions.
--The sharing could be done as a reply to the mail thread.  Consider reducing the
--recipients list for such sharing, since some people are not really interested
--in AI reviews.  As a rule of thumb, drop stable@vger.kernel.org and individuals
--except DAMON maintainer.
--
--`hkml` also provides a `feature
--<https://github.com/sjp38/hackermail/blob/master/USAGE.md#forwarding-sashikodev-statuscomments-to-mailing-list>`_
--for such sharing.  Please feel free to use the feature.
-+sashiko.dev.  The reviews will also be sent as replies to the author of the
-+patch and the mailing list.
- 
--It is only an optional recommendation.  DAMON maintainer could also ask any
--question about the AI reviews, though.
-+Patch authors are encouraged to check the AI reviews and share their opinions
-+by replying on the mail thread.  It is only an optional recommendation.  DAMON
-+maintainer could also ask any question about the AI reviews, though.
+diff --git a/Documentation/netlink/specs/tcp_metrics.yaml b/Documentation/netlink/specs/tcp_metrics.yaml
+index 13144aeed31a..dddf92bedc4d 100644
+--- a/Documentation/netlink/specs/tcp_metrics.yaml
++++ b/Documentation/netlink/specs/tcp_metrics.yaml
+@@ -110,9 +110,9 @@ attribute-sets:
+         type: u32
+         doc: Congestion Window.
+       -
+-        name: reodering
++        name: reordering
+         type: u32
+-        doc: Reodering metric.
++        doc: Reordering metric.
+       -
+         name: rtt-us
+         type: u32
 -- 
-2.47.3
+2.53.0
+
