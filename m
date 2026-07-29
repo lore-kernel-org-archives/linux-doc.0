@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C231436BDD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59F643C067;
 	Wed, 29 Jul 2026 08:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785313631; cv=none; b=Gp2lcZYPFTG7LUf+oAOs+ltWmrBf2B/Xeog+x2rHhsTR0vZnq0heMPXEp2rzmcEOTQKT68LRABS6zY8UrpV2qz82fv/IHJ2Jr3PVfHOoczXHYzubKHI0jRaUEJvWod7XSFssdnPuTN4afR78mrYFZoHp2ev5qKBt+dd5c1gCyCM=
+	t=1785313631; cv=none; b=J+b1RJavA25+upWtXd7rwsysPNjA8n0hPYw8gFBfhkNdXVcO4EdeQWE8XngFw9O+1qa5pmupaPtUhAlhA+FkWwr8KWJkZuurfB+PpQdeTP+fVwrduvm24vs3vqkPWH2eYDElhaoOzbTcgKKe2FG5kw6YbtqKVHbBw/f20yMKUNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785313631; c=relaxed/simple;
-	bh=JLG4Ku1h39Cvdf5aZCNBLiU+xTqQusq/FowMPa0ZLbs=;
+	bh=zG3Hcr+dZCAXqoc2L0YBgtKn6lp/p6ZycDfn+34fYYQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YDHvpa1c0zcjRn26qL8Ry7oaaD3z7ZsD74zR+puYAwelsFtPzRrRUKEGuPwhIpZZm1pG3Wz3eVHMRnwAj3iK1/c8DU8ZHTvomV3kotKkCvzK3Om4ZNTB7t5emDMmwlFhCzeldK79Ct1HW1YIAuvY8sIGPc4HmthCawpX9qloxrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+t8NTzr; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=IKzeJHbEB63ERmiXnCkr/mXuAmiu1S/rHW9X6KQtNPpUPXmBBIFbpaLg7Dh2KZ9xWdWN60E8CelePCUUaTmLJNW4xj2a/UPY1c0TTnZUzluopRhJ+SOJS5cGFix87ir5+zGXn+BwrUj1kgY87q3TfJ92tcpJcDDrTr1YtM8c73I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cc+he6oQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+t8NTzr"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 38B99C4DDE2;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cc+he6oQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BD32FC2BCFB;
 	Wed, 29 Jul 2026 08:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1785313629;
-	bh=JLG4Ku1h39Cvdf5aZCNBLiU+xTqQusq/FowMPa0ZLbs=;
+	bh=zG3Hcr+dZCAXqoc2L0YBgtKn6lp/p6ZycDfn+34fYYQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=g+t8NTzryw4znv2RjSGjhFb7kVqb5fVj+2FDNmadMt5fkhYsgE/u9JiEOeFULzgFa
-	 HKNvKoML0Mh5xE+pEuLzy+EF2wSQtgPXj2n6DkEJ8LE2Bc+MzZuLcCfLT1rxPmKYyA
-	 w5WHdwRjq53BbveES2wDDfY4PTljx6D3pIk7ecXWKLgYK1hW/PidXeKN4Eu8rmcgGp
-	 a+J8KYxSjg1RaM2by0yVO8FnH5Ya/yX4V0/xCG5tMUa+qK7Z7j+SiSRPNhtwgbqdGr
-	 CybxCU85eE9oABVL3ixHPBaLXCrzawRTJECdSbvoZOb6a/dceCk7suhUTegGbNXBDc
-	 6uXiJ8F99JpAg==
+	b=cc+he6oQHlkfSaSP7LVDh4ZkTI1NkpphQzi5/tytftIPv+JrFk+z0pHL2FUiYPwl7
+	 NarcHvoTBJi/E9NC8/v0ojyayZTXAowpTeRVZLz4lWTJyar+xSvS5Hw64gd8oqGF6K
+	 vsVhFIhEEl5lAd9heLyPzc+ygyorq8tX7WTyfOZ6800dOnnKa7jxFN706z9SwnP1CJ
+	 uLUS3qNnU51RzWjxkOrdOxZR5O/tKNKEx/Y7NmviHBAGcomFX1ls8cz9c20CfNSA5G
+	 zA2JOAW/k4J92Ad4DrA+Fq1F52Thkmx8pTgfq1g/Dla7wO8942oabr0sQWcnKnbrjd
+	 a015vexEyKnyQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24EF7C54FCD;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC937C53200;
 	Wed, 29 Jul 2026 08:27:09 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Wed, 29 Jul 2026 09:25:36 +0100
-Subject: [PATCH v10 09/17] dt-bindings: iio: frequency: add ad9910
+Date: Wed, 29 Jul 2026 09:25:44 +0100
+Subject: [PATCH v10 17/17] docs: iio: add documentation for ad9910 driver
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,8 +39,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260729-ad9910-iio-driver-v10-9-aa1f6167729e@analog.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260729-ad9910-iio-driver-v10-17-aa1f6167729e@analog.com>
 References: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
 In-Reply-To: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
 To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
@@ -54,14 +54,13 @@ Cc: Lars-Peter Clausen <lars@metafoo.de>,
  Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
  Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>, 
- Conor Dooley <conor.dooley@microchip.com>
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785313627; l=7035;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785313627; l=26543;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=+LDivY4JV3+M3Ao0MTotVHXbBlEWqLbL+pu0WGm5Rmg=;
- b=5DdW+61frgGeL9pwh2vPlbJ0pk27j2DcuW8ZQ5sCnY1quh5D/LYxWiOwCeQ5S7xXphu1uX+R3
- azGy2Pt1dLSD7FXkombgIisDQ2G8goUCvYwXP2vScCgx/JieaIKji7L
+ bh=D2LjCw1KmJ0To3sfebYdvpgVfZ3l23at37JrySnH4aU=;
+ b=/UA7bm2z0NSd0Ce+8cUfSSN5fw6pa6CLqteUkDVIliVFAhdHO6V7qkHKGEfovgmA5laeb8Pph
+ qKvLUsxYi+VCTGJuioApeVqaFBJ9DCSD4z7m96C+5R7D4jEVjkrwerC
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -71,249 +70,838 @@ Reply-To: rodrigo.alencar@analog.com
 
 From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
-configurations for clocks, PLL configs, reset and basic GPIO control.
+Add documentation for the AD9910 DDS IIO driver, which describes channels,
+DDS modes, attributes and ABI usage examples.
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- .../bindings/iio/frequency/adi,ad9910.yaml         | 209 +++++++++++++++++++++
- MAINTAINERS                                        |   7 +
- 2 files changed, 216 insertions(+)
+ Documentation/iio/ad9910.rst | 792 +++++++++++++++++++++++++++++++++++++++++++
+ Documentation/iio/index.rst  |   1 +
+ MAINTAINERS                  |   1 +
+ 3 files changed, 794 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
+diff --git a/Documentation/iio/ad9910.rst b/Documentation/iio/ad9910.rst
 new file mode 100644
-index 000000000000..4eebbd388b27
+index 000000000000..aab569f561db
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
-@@ -0,0 +1,209 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/frequency/adi,ad9910.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/Documentation/iio/ad9910.rst
+@@ -0,0 +1,792 @@
++.. SPDX-License-Identifier: GPL-2.0-only
 +
-+title: Analog Devices AD9910 Direct Digital Synthesizer
++=============
++AD9910 driver
++=============
 +
-+maintainers:
-+  - Rodrigo Alencar <rodrigo.alencar@analog.com>
++Direct Digital Synthesizer (DDS) driver for the Analog Devices Inc. AD9910.
++The module name is ``ad9910``.
 +
-+description: >
-+  The AD9910 is a 1 GSPS direct digital synthesizer (DDS) with an integrated
-+  14-bit DAC. It features single tone mode with 8 configurable profiles,
-+  a digital ramp generator, RAM control, OSK, and a parallel data port for
-+  high-speed streaming.
++* `AD9910 <https://www.analog.com/en/products/ad9910.html>`_
 +
-+  https://www.analog.com/en/products/ad9910.html
++The AD9910 is a 1 GSPS DDS with a 14-bit DAC, controlled over SPI. The driver
++exposes the device through a hierarchy of typed IIO output channels. The root
++``phy`` channel controls the system clock and full-scale output current.
++Sub-channels provide independent control over single tone profiles, parallel
++port modulation, digital ramp generation (DRG), RAM playback and output shift
++keying (OSK).
 +
-+properties:
-+  compatible:
-+    const: adi,ad9910
 +
-+  reg:
-+    maxItems: 1
++Channel hierarchy
++=================
 +
-+  spi-max-frequency:
-+    maximum: 70000000
++The driver exposes the following IIO output channels, each identified by a
++unique channel number and a human-readable label. The ``phy`` channel is the
++root of the hierarchy. Changing its ``sampling_frequency`` reconfigures the
++system clock (SYSCLK) which affects all other channels.
 +
-+  clocks:
-+    minItems: 1
-+    items:
-+      - description: Reference clock (REF_CLK).
-+      - description: Optional synchronization clock (SYNC_IN).
++.. flat-table::
++   :header-rows: 1
 +
-+  clock-names:
-+    minItems: 1
-+    items:
-+      - const: ref_clk
-+      - const: sync_in
++   * - Channel
++     - Label
++     - Parent
++     - Description
 +
-+  '#clock-cells':
-+    const: 1
++   * - ``out_altcurrent100``
++     - ``phy``
++     -
++     - Physical output: system clock and full-scale output current (:math:`I_{FS}`).
++       See `Physical channel`_.
 +
-+  clock-output-names:
-+    items:
-+      - const: sync_clk
-+      - const: pdclk
-+      - const: sync_out
++   * - ``out_altcurrent110`` ... ``out_altcurrent117``
++     - ``profile0`` ... ``profile7``
++     - ``phy``
++     - Single tone control: frequency, phase, amplitude, enable.
++       See `Single Tone mode`_.
 +
-+  interrupts:
-+    minItems: 1
-+    maxItems: 2
-+    description:
-+      Requires interrupt-names property with the same number of items. The
-+      supported interrupts are 'drover' (digital ramp generator limit) and
-+      'ram_swp_ovr' (end of RAM sweep).
++   * - ``out_altcurrent120``
++     - ``parallel_amplitude``
++     - ``phy``
++     - Parallel port amplitude channel.
++       See `Parallel Port mode`_.
 +
-+  interrupt-names:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      enum: [ drover, ram_swp_ovr ]
++   * - ``out_phase120``
++     - ``parallel_phase``
++     - ``phy``
++     - Parallel port phase channel.
 +
-+  dvdd-io33-supply:
-+    description: 3.3V Digital I/O supply.
++   * - ``out_frequency120``
++     - ``parallel_frequency``
++     - ``phy``
++     - Parallel port frequency channel: ``scale`` sets the FM gain
++       (power-of-2 multiplier), ``offset`` sets the base FTW.
 +
-+  avdd33-supply:
-+    description: 3.3V Analog DAC supply.
++   * - ``out_altcurrent121``
++     - ``parallel_polar_amplitude``
++     - ``phy``
++     - Parallel polar amplitude channel: ``scale`` is the amplitude
++       resolution, ``offset`` is the amplitude bias (lower 6 bits of ASF).
 +
-+  dvdd18-supply:
-+    description: 1.8V Digital Core supply.
++   * - ``out_phase121``
++     - ``parallel_polar_phase``
++     - ``phy``
++     - Parallel polar phase channel: ``scale`` is the phase resolution,
++       ``offset`` is the phase bias (lower 8 bits of POW).
 +
-+  avdd18-supply:
-+    description: 1.8V Analog Core supply.
++   * - ``out_frequency130``
++     - ``drg_frequency``
++     - ``phy``
++     - DRG frequency channel: ``en`` selects and enables the DRG with
++       frequency as the ramp target.
++       See `Digital ramp generator (DRG)`_.
 +
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      GPIOs controlling the Main Device reset.
++   * - ``out_frequency131``
++     - ``drg_rising_frequency``
++     - ``drg_frequency``
++     - DRG frequency rising-ramp parameters: limit code, dwell enable,
++       ramp clock, rate of change.
 +
-+  io-reset-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO controlling the I/O_RESET pin.
++   * - ``out_frequency132``
++     - ``drg_falling_frequency``
++     - ``drg_frequency``
++     - DRG frequency falling-ramp parameters: limit code, dwell enable,
++       ramp clock, rate of change.
 +
-+  powerdown-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO controlling the EXT_PWR_DWN pin.
++   * - ``out_phase130``
++     - ``drg_phase``
++     - ``phy``
++     - DRG phase channel: ``en`` selects and enables the DRG with phase
++       as the ramp target.
++       See `Digital ramp generator (DRG)`_.
 +
-+  update-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO controlling the I/O_UPDATE pin.
++   * - ``out_phase131``
++     - ``drg_rising_phase``
++     - ``drg_phase``
++     - DRG phase rising-ramp parameters: limit code, dwell enable, ramp clock,
++       rate of change.
 +
-+  profile-gpios:
-+    minItems: 3
-+    maxItems: 3
-+    description:
-+      GPIOs controlling the PROFILE[2:0] pins for profile selection.
++   * - ``out_phase132``
++     - ``drg_falling_phase``
++     - ``drg_phase``
++     - DRG phase falling-ramp parameters: limit code, dwell enable, ramp clock,
++       rate of change.
 +
-+  sync-err-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO used to read SYNC_SMP_ERR pin status.
++   * - ``out_altcurrent130``
++     - ``drg_amplitude``
++     - ``phy``
++     - DRG amplitude channel: ``en`` selects and enables the DRG with
++       amplitude as the ramp target.
++       See `Digital ramp generator (DRG)`_.
 +
-+  lock-detect-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO used to read PLL_LOCK pin status.
++   * - ``out_altcurrent131``
++     - ``drg_rising_amplitude``
++     - ``drg_amplitude``
++     - DRG amplitude rising-ramp parameters: limit code, dwell enable,
++       ramp clock, rate of change.
 +
-+  pwms:
-+    maxItems: 1
-+    description:
-+      PWM used to drive the DRCTL pin, which controls the digital ramp
-+      generator slope direction.
++   * - ``out_altcurrent132``
++     - ``drg_falling_amplitude``
++     - ``drg_amplitude``
++     - DRG amplitude falling-ramp parameters: limit code, dwell enable,
++       ramp clock, rate of change.
 +
-+  pwm-names:
-+    items:
-+      - const: drctl
++   * - ``out_altcurrent140``
++     - ``ram``
++     - ``phy``
++     - RAM playback: enable, frequency, phase and sampling frequency for
++       the active profile. See `RAM mode`_.
 +
-+  adi,pll-enable:
-+    type: boolean
-+    description:
-+      Enables the internal PLL. Applicable when external loop filter components
-+      are connected to the PLL_LOOP_FILTER pin and low reference clock
-+      frequencies are used, often provided by a crystal or by a single-ended
-+      on-board oscillator.
++   * - ``out_altcurrent150``
++     - ``osk``
++     - ``phy``
++     - Output shift keying (OSK): enable, amplitude code, ramp rate,
++       rate of change. See `Output Shift Keying (OSK)`_.
 +
-+  adi,charge-pump-current-microamp:
-+    minimum: 212
-+    maximum: 387
-+    default: 212
-+    description:
-+      PLL charge pump current in microamps. Only applicable when the internal
-+      PLL is enabled. The value is rounded to the nearest supported step. This
-+      value depends mostly on the loop filter design.
++DDS modes
++=========
 +
-+  adi,refclk-out-drive-strength:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum: [ disabled, low, medium, high ]
-+    default: disabled
-+    description:
-+      Reference clock output (DRV0) drive strength. Only applicable when
-+      the internal PLL is enabled.
++The AD9910 supports multiple modes of operation that can be configured
++independently or in combination. Each DDS core parameter (frequency, phase
++and amplitude) can come from different sources, but only one is active at a
++time. This activation depends on a priority list, which is based on the enable
++and destination configurations for such modes. The following tables are
++extracted from the AD9910 datasheet and summarize the control parameters for
++each mode and their priority when multiple sources are enabled simultaneously:
 +
-+dependencies:
-+  adi,charge-pump-current-microamp: [ 'adi,pll-enable' ]
-+  adi,refclk-out-drive-strength: [ 'adi,pll-enable' ]
-+  lock-detect-gpios: [ 'adi,pll-enable' ]
-+  interrupts: [ interrupt-names ]
-+  pwms: [ pwm-names ]
++.. flat-table:: DDS Frequency Control
++   :header-rows: 1
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - '#clock-cells'
-+  - dvdd-io33-supply
-+  - avdd33-supply
-+  - dvdd18-supply
-+  - avdd18-supply
++   * - Priority
++     - Data Source
++     - Conditions
 +
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++   * - Highest Priority
++     - RAM
++     - RAM enabled and data destination is frequency
 +
-+unevaluatedProperties: false
++   * -
++     - DRG
++     - DRG enabled and data destination is frequency
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        dds@0 {
-+            compatible = "adi,ad9910";
-+            reg = <0>;
-+            spi-max-frequency = <1000000>;
++   * -
++     - Parallel data and Frequency Tuning Word, FTW (frequency_offset)
++     - Parallel data port enabled and data destination is frequency
 +
-+            #clock-cells = <1>;
-+            clock-output-names = "sync_clk", "pdclk", "sync_out";
++   * -
++     - FTW register (frequency)
++     - RAM enabled and data destination is not frequency
 +
-+            clocks = <&ad9910_refclk>;
-+            clock-names = "ref_clk";
++   * - Lowest Priority
++     - FTW (frequency) in single tone channel for the active profile
++     - All other cases
 +
-+            dvdd-io33-supply = <&vdd_io33>;
-+            avdd33-supply = <&vdd_a33>;
-+            dvdd18-supply = <&vdd_d18>;
-+            avdd18-supply = <&vdd_a18>;
++.. flat-table:: DDS Phase Control
++   :header-rows: 1
 +
-+            reset-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
-+            io-reset-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
-+            powerdown-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
-+            update-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
-+            profile-gpios = <&gpio 4 GPIO_ACTIVE_HIGH>,
-+                            <&gpio 5 GPIO_ACTIVE_HIGH>,
-+                            <&gpio 6 GPIO_ACTIVE_HIGH>;
++   * - Priority
++     - Data Source
++     - Conditions
 +
-+            pwms = <&pwm 0 1000000 0>;
-+            pwm-names = "drctl";
++   * - Highest Priority
++     - RAM
++     - RAM enabled and data destination is phase or polar
 +
-+            adi,pll-enable;
-+            adi,charge-pump-current-microamp = <387>;
-+            adi,refclk-out-drive-strength = "disabled";
-+        };
-+    };
-+...
++   * -
++     - DRG
++     - DRG enabled and data destination is phase
++
++   * -
++     - Parallel data port
++     - Parallel data port enabled and data destination is phase
++
++   * -
++     - Parallel data port and Phase Offset Word, POW register LSBs (phase_offset)
++     - Parallel data port enabled and data destination is polar
++
++   * -
++     - POW register (phase)
++     - RAM enabled and destination is not phase nor polar
++
++   * - Lowest Priority
++     - POW (phase) in single tone channel for the active profile
++     - All other cases
++
++.. flat-table:: DDS Amplitude Control
++   :header-rows: 1
++
++   * - Priority
++     - Data Source
++     - Conditions
++
++   * - Highest Priority
++     - Amplitude Scale Factor, ASF register and OSK generator
++     - OSK enabled
++
++   * -
++     - RAM
++     - RAM enabled and data destination is amplitude or polar
++
++   * -
++     - DRG
++     - DRG enabled and data destination is amplitude
++
++   * -
++     - Parallel data port
++     - Parallel data port enabled and data destination is amplitude
++
++   * -
++     - Parallel data port and ASF register LSBs (scale_offset)
++     - Parallel data port enabled and data destination is polar
++
++   * - Lowest Priority
++     - ASF (scale) in single tone channel for the active profile
++     - (Amplitude scale is already enabled by default)
++
++While debugging or testing, the debug attributes ``frequency_source``,
++``phase_source`` and ``amplitude_source`` can be used to read the label of
++the channel that is actively controlling the correspondent DDS parameter,
++which reflects the priority list described above.
++
++Single Tone mode
++----------------
++
++Single tone is the baseline operating mode. The ``profileY`` channels
++provide enable, frequency, phase and amplitude control:
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Attribute
++     - Unit
++     - Description
++
++   * - ``en``
++     - boolean (0 or 1)
++     - Enable/disable profile Y. Only one profile can be active at a
++       time. When enabling a profile it disables the current active profile.
++       Disabling an active profile brings the device to a powered down state.
++
++   * - ``frequency``
++     - Hz
++     - Output frequency. Range :math:`[0, f_{SYSCLK} / 2)`. Stored in the
++       profile's frequency tuning word (FTW).
++
++   * - ``phase``
++     - rad
++     - Phase offset. Range :math:`[0, 2\pi)`. Stored in the profile's phase
++       offset word (POW).
++
++   * - ``raw``
++     - integer
++     - Amplitude scale factor code. Range :math:`[0, 16383]`. Stored in the
++       profile's amplitude scale factor (ASF) register. The physical output
++       amplitude is ``raw * scale`` where ``scale`` is read from the ``phy``
++       channel.
++
++Profile switching is allowed while RAM mode is enabled. In that case single
++tone parameters are stored in a shadow register and are not written to
++hardware until RAM mode is disabled.
++
++Usage examples
++^^^^^^^^^^^^^^
++
++Configure a 100 MHz tone in profile 2 and set it as the active profile:
++
++.. code-block:: bash
++
++  echo 100000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent112_frequency
++  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent112_phase
++  echo 16383 > /sys/bus/iio/devices/iio\:device0/out_altcurrent112_raw
++
++  # Activate profile 2
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_altcurrent112_en
++
++Read back the current single tone frequency:
++
++.. code-block:: bash
++
++  cat /sys/bus/iio/devices/iio\:device0/out_altcurrent112_frequency
++
++Parallel Port mode
++------------------
++
++The parallel port allows real-time modulation of DDS parameters through a
++16-bit external data bus. The driver exposes separate typed channels for each
++modulation target.
++
++Non-polar modulation
++^^^^^^^^^^^^^^^^^^^^
++
++In non-polar mode each DDS parameter is controlled by an independent 16-bit bus
++input. The parallel port channels expose the resolution and base offset of their
++respective bus inputs:
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Channel
++     - Attribute
++     - Unit
++     - Description
++
++   * - ``out_phase120``
++     - ``scale``
++     - rad
++     - Phase resolution per parallel bus LSB. Fixed at :math:`\pi / 2^{15}`
++       rad/LSB (full 16-bit POW resolution).
++
++   * - ``out_frequency120``
++     - ``scale``
++     - Hz
++     - Outputs the frequency scale evaluated as
++       :math:`f_{SYSCLK} \cdot FM / 2^{32}`. Assuming that :math:`f_{SYSCLK}` is
++       fixed, it is used to configure the modulation gain :math:`FM`, which is a
++       power-of-2 multiplier in range :math:`[1, 32768]`. Writing to this
++       attribute rounds up to the nearest :math:`FM` power of 2.
++
++   * - ``out_frequency120``
++     - ``offset``
++     - Hz
++     - Outputs the frequency offset in raw units evaluated as :math:`FTW / FM`.
++       Assuming that :math:`FM` is fixed, it is used to configure the FTW
++       register, which is a 32-bit unsigned integer.
++
++Polar modulation
++^^^^^^^^^^^^^^^^
++
++In polar mode a single 16-bit bus word carries both amplitude (high byte)
++and phase (low byte). The ``parallel_polar_amplitude`` and
++``parallel_polar_phase`` channels configure the bias applied to the low-order
++bits of the ASF and POW registers respectively:
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Channel
++     - Attribute
++     - Unit
++     - Description
++
++   * - ``out_altcurrent121``
++     - ``scale``
++     - mA/LSB
++     - Full-scale amplitude resolution (read-only, fixed at :math:`I_{FS} / 2^{8}`).
++
++   * - ``out_altcurrent121``
++     - ``offset``
++     - fractional (raw units)
++     - Amplitude bias. Lower 6 bits of ASF register. Range :math:`[0, 1)`.
++
++   * - ``out_phase121``
++     - ``scale``
++     - rad/LSB
++     - Phase resolution (read-only, fixed at :math:`\pi / 2^{7}`).
++
++   * - ``out_phase121``
++     - ``offset``
++     - fractional (raw units)
++     - Phase bias. Lower 8 bits of POW register. Range :math:`[0, 1)`.
++
++Usage examples
++^^^^^^^^^^^^^^
++
++Set parallel port frequency modulation with a modulation gain of 16 and a 50 MHz
++offset:
++
++.. code-block:: bash
++
++  # f_SYSCLK = 1 GHz, FM = 16
++  # frequency scale = f_SYSCLK * FM / 2^32 = 3.725290298
++  echo 3.725290298 > /sys/bus/iio/devices/iio\:device0/out_frequency120_scale
++  # frequency offset = 50 MHz / scale = 50e6 / 13421772.8
++  echo 13421772.8 > /sys/bus/iio/devices/iio\:device0/out_frequency120_offset
++
++One should choose a frequency scale that allows all the desired frequencies
++to be represented in the 16-bit bus range, i.e.,
++:math:`scale = (f_{max} - f_{min}) / 2^{16}`.
++
++
++Digital ramp generator (DRG)
++----------------------------
++
++The DRG produces linear frequency, phase or amplitude sweeps using dedicated
++hardware. The active ramp target (destination) is selected by enabling the
++corresponding typed channel at channel number 130:
++
++- ``out_frequency130`` (label ``drg_frequency``) — ramp targets frequency
++- ``out_phase130`` (label ``drg_phase``) — ramp targets phase
++- ``out_altcurrent130`` (label ``drg_amplitude``) — ramp targets amplitude
++
++Writing ``en=1`` to one of these channels enables the DRG and switches its
++destination. Writing ``en=0`` disables the DRG if the channel is the current
++active destination; writing to an already-inactive destination is a no-op.
++
++Each destination channel also exposes a read-only ``scale`` attribute
++reporting the physical quantity per ramp register LSB, which allows converting
++raw limit codes to physical values.
++
++The six ramp channels:
++
++- ``out_frequency131`` (label ``drg_rising_frequency``)
++- ``out_frequency132`` (label ``drg_falling_frequency``)
++- ``out_phase131`` (label ``drg_rising_phase``)
++- ``out_phase132`` (label ``drg_falling_phase``)
++- ``out_altcurrent131`` (label ``drg_rising_amplitude``)
++- ``out_altcurrent132`` (label ``drg_falling_amplitude``)
++
++configure ascending and descending ramp parameters.
++
++Destination channel attributes
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Attribute
++     - Unit
++     - Description
++
++   * - ``en``
++     - boolean
++     - Enable the DRG with this channel as the active destination. Only one
++       destination can be active at a time.
++
++   * - ``scale``
++     - Hz/LSB, rad/LSB or mA/LSB
++     - Read-only. Physical quantity per raw units. Multiply a ramp
++       rising/falling channel ``raw`` value by this scale to get the physical
++       ramp target.
++
++Ramp channel attributes
++^^^^^^^^^^^^^^^^^^^^^^^
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Attribute
++     - Unit
++     - Description
++
++   * - ``dwell_en``
++     - boolean
++     - Enable dwell at the ramp limit. When disabled, the ramp
++       auto-transitions at this limit without waiting for the DRCTL pin.
++       Disabling both creates a bidirectional continuous ramp (triangular
++       pattern). Other combinations create single-shot ramps at the DRCTL
++       pin transition.
++
++   * - ``raw``
++     - integer (64-bit)
++     - Ramp limit expressed as a raw DRG register code in
++       :math:`[0, 2^{32}-1]`. The physical value is ``raw * scale`` where
++       ``scale`` is read from the active destination channel.
++
++   * - ``sampling_frequency``
++     - Hz
++     - Ramp clock rate. Controlled by an integer divider; the written value
++       is adjusted to the nearest supported rate.
++
++   * - ``raw_roc``
++     - /s
++     - Rate of change. Number of register codes advanced per second, computed
++       from the hardware step size and the current ramp clock. Writing
++       requires ``sampling_frequency`` to be configured first.
++
++Usage examples
++^^^^^^^^^^^^^^
++
++Configure a frequency sweep from 40 MHz to 60 MHz with a rate of change of
++25 GHz/s:
++
++.. code-block:: bash
++
++  # Disable dwell on both limits for a bidirectional continuous ramp
++  echo 0 > /sys/bus/iio/devices/iio\:device0/out_frequency131_dwell_en
++  echo 0 > /sys/bus/iio/devices/iio\:device0/out_frequency132_dwell_en
++
++  # Set ramp rate at 250 MHz
++  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_frequency131_sampling_frequency
++  echo 250000000 > /sys/bus/iio/devices/iio\:device0/out_frequency132_sampling_frequency
++
++  # read the frequency scale to convert physical values to raw units
++  cat /sys/bus/iio/devices/iio\:device0/out_frequency130_scale
++  0.232830643650
++
++  # 40 MHz / 0.232830643650 = 171798692
++  echo 171798692 > /sys/bus/iio/devices/iio\:device0/out_frequency131_raw
++  # 60 MHz / 0.232830643650 = 257698038
++  echo 257698038 > /sys/bus/iio/devices/iio\:device0/out_frequency132_raw
++
++  # 25 GHz/s / 0.232830643650 = 107374182402
++  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_frequency131_raw_roc
++  echo 107374182402 > /sys/bus/iio/devices/iio\:device0/out_frequency132_raw_roc
++
++  # Enable the DRG with frequency as the destination
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency130_en
++
++RAM mode
++--------
++
++The AD9910 contains a 1024 x 32-bit RAM that can be loaded with waveform data
++and played back to modulate frequency, phase, amplitude, or polar (phase +
++amplitude) parameters.
++
++RAM control channel attributes
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Attribute
++     - Unit
++     - Description
++
++   * - ``en``
++     - boolean
++     - Enable/disable RAM playback. Toggling swaps profile registers between
++       single tone and RAM configurations across all 8 profiles.
++
++   * - ``frequency``
++     - Hz
++     - Frequency tuning word used as the single tone frequency when
++       RAM destination is not ``frequency``. Range: :math:`[0, f_{SYSCLK} / 2)`.
++
++   * - ``phase``
++     - rad
++     - Phase offset word used as the single tone phase when RAM destination
++       is not ``phase``. Range: :math:`[0, 2\pi)`.
++
++   * - ``sampling_frequency``
++     - Hz
++     - RAM playback step rate of the active profile, which controls how fast
++       the address counter advances. Controlled by an integer divider; the
++       written value is adjusted to the nearest supported rate.
++
++Loading RAM data
++^^^^^^^^^^^^^^^^
++
++RAM data is loaded through the firmware upload framework. The driver registers
++a firmware upload sysfs entry named ``iio_deviceX:ram``. The firmware data
++follows a binary format (version 1) with an 80-byte header followed by data
++words. All fields are big-endian.
++
++.. flat-table:: RAM firmware header (80 bytes)
++   :header-rows: 1
++
++   * - Offset
++     - Size
++     - Field
++     - Description
++
++   * - 0
++     - 4
++     - ``magic``
++     - Magic number: ``0x00AD9910``
++
++   * - 4
++     - 2
++     - ``version``
++     - Format version: ``0x0001``
++
++   * - 6
++     - 2
++     - ``wcount``
++     - Number of 32-bit RAM data words (0--1024)
++
++   * - 8
++     - 4
++     - ``crc``
++     - CRC32 checksum over ``cfr1``, ``profiles`` and ``words``
++
++   * - 12
++     - 4
++     - ``cfr1``
++     - CFR1 register value. Only RAM-relevant bits are used:
++       bits [30:29] set data destination (00: frequency, 01: phase,
++       10: amplitude, 11: polar); bits [20:17] set internal profile
++       control (see datasheet Table 14)
++
++   * - 16
++     - 64
++     - ``profiles[0..7]``
++     - 8 sets of 8-byte RAM profile configurations (see below)
++
++   * - 80
++     - 4 x wcount
++     - ``words[]``
++     - RAM data words in reverse order
++
++Each 8-byte profile entry contains:
++
++.. flat-table:: RAM profile entry (8 bytes)
++   :header-rows: 1
++
++   * - Bits
++     - Field
++     - Description
++
++   * - [55:40]
++     - Address step rate
++     - Controls playback speed for this profile
++
++   * - [39:30]
++     - End address
++     - Last RAM address for this profile
++
++   * - [23:14]
++     - Start address
++     - First RAM address for this profile
++
++   * - [5]
++     - No-dwell high
++     - No-dwell at high limit (ramp-up mode)
++
++   * - [3]
++     - Zero-crossing
++     - Zero-crossing enable (direct-switch mode)
++
++   * - [2:0]
++     - Operating mode
++     - 000: direct switch, 001: ramp-up, 010: bidirectional,
++       011: bidirectional continuous, 100: ramp-up continuous
++
++Usage examples
++^^^^^^^^^^^^^^
++
++Configure RAM mode with firmware data and enable it:
++
++.. code-block:: bash
++
++  # Load RAM data via firmware upload
++  echo 1 > /sys/class/firmware/iio\:device0\:ram/loading
++  cat ad9910-ram.bin > /sys/class/firmware/iio\:device0\:ram/data
++  echo 0 > /sys/class/firmware/iio\:device0\:ram/loading
++
++  # Enable RAM mode
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_altcurrent140_en
++
++Output Shift Keying (OSK)
++-------------------------
++
++OSK controls the output amplitude envelope, allowing the output to be ramped
++on/off rather than switched abruptly.
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Attribute
++     - Unit
++     - Description
++
++   * - ``en``
++     - boolean (0 or 1)
++     - Enable/disable OSK.
++
++   * - ``raw``
++     - integer
++     - Target amplitude code. 14-bit ASF field. Range: :math:`[0, 16383]`.
++       The physical output amplitude is ``raw * scale`` where ``scale`` is read
++       from the ``phy`` channel.
++
++   * - ``raw_roc``
++     - /s
++     - Amplitude ramp rate. Writing a non-zero value enables automatic OSK
++       and selects the closest hardware step size. Writing ``0`` disables
++       automatic ramping (manual control via ``raw``). Writing the maximum
++       available value enables pin-controlled immediate transition.
++
++   * - ``raw_roc_available``
++     - /s
++     - Lists the available ``raw_roc`` values based on the current
++       ``sampling_frequency``. The first value is always ``0`` (disabled) and
++       the last value corresponds to pin-controlled immediate mode.
++
++   * - ``sampling_frequency``
++     - Hz
++     - OSK ramp clock. Controlled by an integer divider; the written value
++       is adjusted to the nearest supported rate.
++
++Usage examples
++^^^^^^^^^^^^^^
++
++Enable OSK with automatic ramping:
++
++.. code-block:: bash
++
++  # Set ramp rate 1MHz
++  echo 1000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent150_sampling_frequency
++
++  # Check available rate of change values
++  cat /sys/bus/iio/devices/iio\:device0/out_altcurrent150_raw_roc_available
++  0 1000000 2000000 4000000 8000000 16383000000
++
++  # Enable automatic OSK with a rate of change of 8000000 raw units/s
++  echo 8000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent150_raw_roc
++
++  # Enable OSK
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_altcurrent150_en
++
++Enable pin-controlled immediate OSK:
++
++.. code-block:: bash
++
++  # Enable OSK in manual mode (no ramp)
++  echo 0 > /sys/bus/iio/devices/iio\:device0/out_altcurrent150_raw_roc
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_altcurrent150_en
++
++  # Set target amplitude to full scale
++  echo 16383 > /sys/bus/iio/devices/iio\:device0/out_altcurrent150_raw
++
++Physical channel
++================
++
++The ``phy`` channel provides device-level control:
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Attribute
++     - Unit
++     - Description
++
++   * - ``sampling_frequency``
++     - Hz
++     - System clock (SYSCLK) frequency. When the internal PLL is enabled
++       (via the ``adi,pll-enable`` devicetree property), configures the PLL
++       multiplier (Range: :math:`[420, 1000]` MHz). Without PLL, the reference
++       clock can only be divided by 2.
++
++   * - ``scale``
++     - mA/LSB
++     - Full-scale DAC output current per amplitude code LSB, which is evaluated
++       as :math:`I_{FS} / 2^{14}`. Shared across all ``altcurrent`` channels.
++       Setting this attribute reconfigures the auxiliary DAC full-scale code and
++       updates the effective amplitude resolution for single tone profiles,
++       DRG amplitude ramps and OSK.
++
++   * - ``powerdown``
++     - boolean (0 or 1)
++     - Software power-down. Writing 1 powers down the digital core, DAC,
++       reference clock input and auxiliary DAC simultaneously.
++
++Usage examples
++--------------
++
++Set the system clock to 1 GHz:
++
++.. code-block:: bash
++
++  echo 1000000000 > /sys/bus/iio/devices/iio\:device0/out_altcurrent100_sampling_frequency
++
++Read current system clock frequency:
++
++.. code-block:: bash
++
++  cat /sys/bus/iio/devices/iio\:device0/out_altcurrent100_sampling_frequency
++
++Power down the device:
++
++.. code-block:: bash
++
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_altcurrent100_powerdown
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index b02b879b053a..4c30ef033685 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -30,6 +30,7 @@ Industrial I/O Kernel Drivers
+    ad7606
+    ad7625
+    ad7944
++   ad9910
+    ade9000
+    adf41513
+    adis16475
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 101303d28a17..103f95307af1 100644
+index d671c1ff71d5..5b930d767143 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1678,6 +1678,13 @@ W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/dac/adi,ad9739a.yaml
- F:	drivers/iio/dac/ad9739a.c
+@@ -1686,6 +1686,7 @@ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/ABI/testing/debugfs-iio-ad9910
+ F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9910
+ F:	Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
++F:	Documentation/iio/ad9910.rst
+ F:	drivers/iio/frequency/ad9910.c
  
-+ANALOG DEVICES INC AD9910 DRIVER
-+M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Supported
-+W:	https://ez.analog.com/linux-software-drivers
-+F:	Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
-+
  ANALOG DEVICES INC MAX22007 DRIVER
- M:	Janani Sunil <janani.sunil@analog.com>
- L:	linux-iio@vger.kernel.org
 
 -- 
 2.43.0
