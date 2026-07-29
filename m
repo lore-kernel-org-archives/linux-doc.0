@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB1431714A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CEC34D3B2;
 	Wed, 29 Jul 2026 00:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785285310; cv=none; b=mrcHYpLw/CCWU423xJP4+DNW3fQCcUo12AMlc1eWjjKoKFTMuLEMcB3GUu5r4UzzZdXWEDvy9rrsK/yxpC7lCvzJkk2ccQJsw1tSrDVKP39LC8neSaeHMm4FkZpoeTirMFqIfvNFKuruZ9CAfb+Of8fhWuVPBL6+KsTNMMicCyU=
+	t=1785285310; cv=none; b=e/gvQ6l/X1HOtPWWwcn+CRYEN3qHDu4mBqfmUn9mG5yyocnNnz4Yl+hFeZMfYdLnqlndTBCaH/X7INTey2UOEI4akB4fuTWBLsnkw93GbWNQs18mSre0bo/QrtjsqBRpDobmU804wabwTDNClto0U3rw5IF/PMXgdNusNb3GkfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785285310; c=relaxed/simple;
-	bh=hMvA+0a3KcvWoUzzj7q8wiq30aZ48ZPR5uLoFDaJKBY=;
+	bh=ee+k0gLRIeOZJUzHjO+ZbWO7XbmvclzhozNvKeyrbGA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uYnSfepYi0VzKppm6yo/cLMtRXnr6YPdnV3TYfRiivoJ4cPEAevueYk7cpBg8EzryY0Ku9hw00CGOA3qS9lAk9T1VCWhuvvdpBfnCmgbjH14gvpeOEYHM1nJXEqJN9kaKWQqdq8iFWPnHlq/jja8whliiXWZ3ZYEvxYGoTQ2IyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ADGfnAnf; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=mMR0OAlPc9/lJ/M6nvBg0RUZKz9rWQcIXQ2AjdE5vD1ITm6wrPl2kD7aPQmqTHOcqaZrwttL7lSQG+OZi0Cawp/dFoBo0snBQ9tR85Kgqx3W4E1JLLC71V6dD2dfieLJOZS0N4Am4yMKdeM5oAk9ikemqjbNQe2tKoqjXNISQig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OR7QxTZe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ADGfnAnf"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DCDC6C4FDFF;
-	Wed, 29 Jul 2026 00:35:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OR7QxTZe"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B1E85C2BCF6;
+	Wed, 29 Jul 2026 00:35:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785285309;
-	bh=hMvA+0a3KcvWoUzzj7q8wiq30aZ48ZPR5uLoFDaJKBY=;
+	s=k20201202; t=1785285310;
+	bh=ee+k0gLRIeOZJUzHjO+ZbWO7XbmvclzhozNvKeyrbGA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ADGfnAnfv7RLliFNfFLXUZ0EUTmNVdMVr6zeRHGWdEAfLpGsdqh1A0rlGHqq/vt55
-	 z+ly5ui1v8/+/luR2/rQMn6NbLowrnV+p0IqVaTkDPjXZyLe2kJ1sPZBkXg+LwqwDV
-	 Ew4J4t7GmmufNrFSd42LrPxSZ3yfswjiSy8mmsA4ZPkkIIm5H3rEwHMmF3D+HLUkom
-	 mRFiGvMfq3LejXjTU5m/UNNETFelCiN3KM10YJ/cc6rgzhHMgk5WbcGaMYuA3yexVz
-	 Ue1Fy1I6I4FzQ5VBKB7j6SyeewY3enHrns09kg612PsiAFhdewN6ETrYRP7q59JvY8
-	 cA0Y+inB9pEFQ==
+	b=OR7QxTZeB8cLZAL8piDxH5E3w3Py9EtcLMUC4/KODO6/KDSA+wUidbU5Yk/nPck1Y
+	 qFUCfQL2+qh9Ub4gruqAJyB8FifZCZ1zXaInhnFfymvxpFdXMTyUws0dYVN0ZI5ZV0
+	 JILKrluTFgUhkuDMOHYaj9k+4MxEnT7aPLfR5JTb/IFfwKNhYKvqfeW1ET7cRGkloE
+	 BodlBBGdV5EwVf/FWpQmygM0I2yNISlyzOPJJzo6QjzmJadBFq+64BlR4wUgn2c4aP
+	 zjJ67Gdw8qjh3IlHzgT3Utv/AOvaceW72M+mgAuahl4U9bojhzOeH71ihdInSqmhFQ
+	 ZzX3/1CK/U2MQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B743AC54F5C;
-	Wed, 29 Jul 2026 00:35:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A088C54F52;
+	Wed, 29 Jul 2026 00:35:10 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Tue, 28 Jul 2026 17:35:24 -0700
-Subject: [PATCH v9 25/41] KVM: selftests: Add selftests global for guest
- memory attributes capability
+Date: Tue, 28 Jul 2026 17:35:33 -0700
+Subject: [PATCH v9 34/41] KVM: selftests: Add helpers to pin pages with
+ CONFIG_GUP_TEST
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260728-gmem-inplace-conversion-v9-25-35f9aec2aed2@google.com>
+Message-Id: <20260728-gmem-inplace-conversion-v9-34-35f9aec2aed2@google.com>
 References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
 In-Reply-To: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
 To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
@@ -76,11 +76,11 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  linux-coco@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785285305; l=2380;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785285305; l=2727;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=6z64Yh3XQft5nJ/QOz1ShFn15iZbmRUTFgmDtTKZig0=;
- b=1xAWrAo6YI26Sy6HBtLO8YdfC4fzQ+9moT+u/9w+NwY3jljyTVsHumWL7NEbU2qyFnZDgr8RZ
- VrzFCOFTjppBfBtXPKxmdG0vvWyQC/0jF0dlbQ23Vg/DTrb4WLP08wW
+ bh=fMGRLXRDe9ewbqPURje2qeKCNAQagU823U8K9a0Ohls=;
+ b=M0kLKLw+slgjihad6M2qkRHDlEJzV5uijRgDG/1KOFYV34CKq+mVkd2roLDanEtYk9Q1949d6
+ YIoh1s1Ou5oDCLYuiAW1u5k5SqByblCRE089lYADsuuVCxWin4B8Tro
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -88,69 +88,83 @@ X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
 X-Original-From: Ackerley Tng <ackerleytng@google.com>
 Reply-To: ackerleytng@google.com
 
-From: Sean Christopherson <seanjc@google.com>
+From: Ackerley Tng <ackerleytng@google.com>
 
-Add a global variable, kvm_has_gmem_attributes, to make the result of
-checking for KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES available to all tests.
+Add helper functions to allow KVM selftests to pin memory using
+CONFIG_GUP_TEST. This is useful for testing scenarios where some page has
+an increased refcount. such as in guest_memfd in-place conversion tests.
 
-kvm_has_gmem_attributes is true if guest_memfd tracks memory attributes, as
-opposed to VM-level tracking.
+The helpers open /sys/kernel/debug/gup_test and invoke the
+PIN_LONGTERM_TEST_START and PIN_LONGTERM_TEST_STOP ioctls. Since this
+functionality depends on the kernel being built with CONFIG_GUP_TEST,
+provide stub implementations that trigger a test failure if the
+configuration is missing.
 
-This global variable is synced to the guest for testing convenience, to
-avoid introducing subtle bugs when host/guest state is desynced.
-
-Signed-off-by: Sean Christopherson <seanjc@google.com>
 Reviewed-by: Fuad Tabba <tabba@google.com>
 Tested-by: Shivank Garg <shivankg@amd.com>
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- tools/testing/selftests/kvm/include/test_util.h | 2 ++
- tools/testing/selftests/kvm/lib/kvm_util.c      | 5 +++++
- 2 files changed, 7 insertions(+)
+ tools/testing/selftests/kvm/include/kvm_util.h |  3 +++
+ tools/testing/selftests/kvm/lib/kvm_util.c     | 25 +++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/include/test_util.h b/tools/testing/selftests/kvm/include/test_util.h
-index d64c8a228207a..c6492a29ee901 100644
---- a/tools/testing/selftests/kvm/include/test_util.h
-+++ b/tools/testing/selftests/kvm/include/test_util.h
-@@ -115,6 +115,8 @@ struct kvm_random_state {
- extern u32 kvm_random_seed;
- extern struct kvm_random_state kvm_rng;
+diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testing/selftests/kvm/include/kvm_util.h
+index 626c960b4bb82..b726e49a3cfcf 100644
+--- a/tools/testing/selftests/kvm/include/kvm_util.h
++++ b/tools/testing/selftests/kvm/include/kvm_util.h
+@@ -1197,6 +1197,9 @@ static inline int pin_self_to_any_cpu(void)
+ 	return pin_task_to_any_cpu(pthread_self());
+ }
  
-+extern bool kvm_has_gmem_attributes;
++void pin_pages(void *vaddr, uint64_t size);
++void unpin_pages(void);
 +
- struct kvm_random_state new_kvm_random_state(u32 seed);
- u32 kvm_random_u32(struct kvm_random_state *state);
- 
+ void kvm_print_vcpu_pinning_help(void);
+ void kvm_parse_vcpu_pinning(const char *pcpus_string, u32 vcpu_to_pcpu[],
+ 			    int nr_vcpus);
 diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
-index 2017dd34001f8..e706669596947 100644
+index e706669596947..ae0d7ff13f9f5 100644
 --- a/tools/testing/selftests/kvm/lib/kvm_util.c
 +++ b/tools/testing/selftests/kvm/lib/kvm_util.c
-@@ -32,6 +32,8 @@ static void kvm_seed_rng(u32 seed)
- 	kvm_rng = new_kvm_random_state(kvm_random_seed);
+@@ -19,6 +19,8 @@
+ #include <unistd.h>
+ #include <linux/kernel.h>
+ 
++#include "../../../../../mm/gup_test.h"
++
+ #define KVM_UTIL_MIN_PFN	2
+ 
+ u32 kvm_random_seed;
+@@ -645,6 +647,29 @@ int __pin_task_to_cpu(pthread_t task, int cpu)
+ 	return pthread_setaffinity_np(task, sizeof(cpuset), &cpuset);
  }
  
-+bool kvm_has_gmem_attributes;
++static int gup_test_fd = -1;
 +
- static size_t vcpu_mmap_sz(void);
- 
- int __open_path_or_exit(const char *path, int flags, const char *enoent_help)
-@@ -527,6 +529,7 @@ struct kvm_vm *__vm_create(struct vm_shape shape, u32 nr_runnable_vcpus,
- 		kvm_seed_rng(kvm_random_seed);
- 
- 	sync_global_to_guest(vm, kvm_rng);
-+	sync_global_to_guest(vm, kvm_has_gmem_attributes);
- 
- 	kvm_arch_vm_post_create(vm, nr_runnable_vcpus);
- 
-@@ -2313,6 +2316,8 @@ void __attribute((constructor)) kvm_selftest_init(void)
- 	srandom(time(0));
- 	kvm_seed_rng(random());
- 
-+	kvm_has_gmem_attributes = kvm_has_cap(KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES);
++void pin_pages(void *vaddr, uint64_t size)
++{
++	const struct pin_longterm_test args = {
++		.addr = (uint64_t)vaddr,
++		.size = size,
++		.flags = PIN_LONGTERM_TEST_FLAG_USE_WRITE,
++	};
 +
- 	kvm_selftest_arch_init();
- }
- 
++	gup_test_fd = __open_path_or_exit("/sys/kernel/debug/gup_test", O_RDWR,
++					  "Is CONFIG_GUP_TEST enabled?");
++
++	TEST_ASSERT_EQ(ioctl(gup_test_fd, PIN_LONGTERM_TEST_START, &args), 0);
++}
++
++void unpin_pages(void)
++{
++	TEST_ASSERT_EQ(ioctl(gup_test_fd, PIN_LONGTERM_TEST_STOP), 0);
++
++	kvm_free_fd(gup_test_fd);
++}
++
+ static u32 parse_pcpu(const char *cpu_str, const cpu_set_t *allowed_mask)
+ {
+ 	u32 pcpu = atoi_non_negative("CPU number", cpu_str);
 
 -- 
 2.55.0.508.g3f0d502094-goog
