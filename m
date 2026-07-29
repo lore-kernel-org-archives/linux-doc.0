@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9056043CEF3;
-	Wed, 29 Jul 2026 08:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9231C43E07D;
+	Wed, 29 Jul 2026 08:27:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785313631; cv=none; b=Idl39URfQP79jvOJ45dN0SIrELGorp631XVRDIDmmwysAPzu6U8iyZxTGJFDjwsxv2iY3mNBLVBhlcROUsdn/qLQRJb2NDsbh+Y1hfLK6RC7cAqDtAzOlBbn9xzGW6mF8hbfqqC/e382W4JEC3CnOXX0HkFq/CT8mQ/qMgJPKv4=
+	t=1785313632; cv=none; b=uy+7fYWos+WNBb3QkIGhVSSJHTDVgLHbEED3X4Lf4f7UiHqEXVc4t+qXNlA5v8uwUmNn/ZnpgJtkdO7YcvrzTwefHhwPRhBDFdbSz5GibPrPHYx2fMpfVz3JC+5mhs2oB1/4EzzC7Ba7pyla3yd7wn1cUyvZdIuM0sXH66Zo3kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785313631; c=relaxed/simple;
-	bh=EBQdqatAeYwThD1Kg75N1fl4xdSgZxFed5ax1mVnjSI=;
+	s=arc-20240116; t=1785313632; c=relaxed/simple;
+	bh=2e9Fq3vnYtN5nxI+1TZm5IPTilXrSlP6NXrSkfDXosw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NQK4GWy6/pTmAKrqjvUrMFvovapSKj90+rOVYm6u6cyhD0VrsYAtHURznHPa1a1OTAC5HOnI3LgB8oPDE4qaaK8HDSwKlLz9cNgEPaN6eCtBF9iIvQyKZYT2o+chY0fET57JrfZqYqpluQE/PnNKFCWGL1TaFeUM+S/eBCR3EA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CBG33MyY; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=E0YAgP+zT/3jMIqtlh6WOLZeQuHWDlADQ+dgHN9I7V6jLnWqTE+ZMQiUaThCAUVilXOOQtLOmYbzvq8fXX9Z29Qq4UkCpL13WYxzYENBqegvfOVdfck4AmFn19UIvT8YdENWOz+cUvVzQ+XB3nXcwAORH+ZnHIAg4N+6KeOu6UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TPNPp97X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CBG33MyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 664E5C2BD00;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TPNPp97X"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A427C4AF10;
 	Wed, 29 Jul 2026 08:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1785313629;
-	bh=EBQdqatAeYwThD1Kg75N1fl4xdSgZxFed5ax1mVnjSI=;
+	bh=2e9Fq3vnYtN5nxI+1TZm5IPTilXrSlP6NXrSkfDXosw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=CBG33MyYiO7rsuv5TH0Yr6wOaLPuwyRFdxrH0KUd/25R7TWroSE0Jmk60h+e9RXlv
-	 5gdgRBOHp8YMeecq/7OKhL0iGYL/gULP1JTjxvjYLgtWFAUQEB8cQcvV8cEFfRVUFN
-	 g3pP0hLj39KNTMwmB4HnnqKmRpBz4P3sQdsQPCQGN+xY/V0CwhkeMSmByzrWRUi+FE
-	 UoKByrGbnokuUt51PVW6wfP4XiQW38YO+OL/KZycAXwLtWPCtoIRMy5h/YRYouiIss
-	 cwWbM/copzNQp6Za6VS1bZh6ZuUREkkv1TJaUIQyaYFQWqquHWswbOrItzYwj+MlNS
-	 cMIsNOQqmXlOg==
+	b=TPNPp97XNekr9tXnd/J7FsF9DrG/llS1pDX83/P74LASDPB3U6hhNpK+HQXVPJ56Y
+	 jRmcaWkMzNhflZzJz4satqLFOLsZce2I30wGDz8tqMB0YJdfKcuSR+1inXjKwjMcV0
+	 36/zxscOlFMS0+EwL8yIaNPnHW/GXg0j11BCQYEaAM3YLV0e7QueZSnvEp/h/JHiDY
+	 hGUx4w2lWkIdEIzS54EZLbCBzJtnWsRGi3+E6dfY1/DzRY8ewuGSVyZZiBU9tD750F
+	 YE0nV+Q9m4kzzImsXIXHZyrsS+pyMyrN8345+gcZqRWzJ90SzC1J7M5ghy1lA63U9B
+	 J6XtvLyEZUXpQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54EB0C54F5C;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1746CC53200;
 	Wed, 29 Jul 2026 08:27:09 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Wed, 29 Jul 2026 09:25:39 +0100
-Subject: [PATCH v10 12/17] iio: frequency: ad9910: add digital ramp
- generator support
+Date: Wed, 29 Jul 2026 09:25:35 +0100
+Subject: [PATCH v10 08/17] iio: core: add hierarchical channel
+ relationships
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260729-ad9910-iio-driver-v10-12-aa1f6167729e@analog.com>
+Message-Id: <20260729-ad9910-iio-driver-v10-8-aa1f6167729e@analog.com>
 References: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
 In-Reply-To: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
 To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
@@ -57,11 +57,11 @@ Cc: Lars-Peter Clausen <lars@metafoo.de>,
  Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
  Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785313627; l=18823;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785313627; l=3411;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=0DkNlFjtphp2n9PU/luo6bJ9oh2P2mCD1ZGZxRc7MoI=;
- b=O31LcmLOMpvTEOU73aTuZWlW8olS7SL5R4DXqI65bDt8+6oYSNiIGjtvv6KEgntbEhx4cnqY5
- MqZOyWkTFdZDSKXrvmaYbfYjNRxI/MBLLlg18WbCCvgZSr0efKMSjOv
+ bh=5ZzIW7BwmQd5Kfh+FyVpgmpwgXoh15JQvTTrszWario=;
+ b=BZ5IJNGDrubFhlxqwBlD6V/EpHKk18c0xlrlEPSLcE3kHqkrUX7kyw5KaK5W9JMu+KzQKy+2R
+ HhiOhXZElnwD4Q0tSTmhdyK8IOy6V8x0GCWPaJcaaHlfMwdU/0jZYmz
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -71,576 +71,102 @@ Reply-To: rodrigo.alencar@analog.com
 
 From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Add Digital Ramp Generator channels with destination selection (frequency,
-phase, or amplitude) based on attribute writes, dwell mode control,
-configurable upper/lower limits, step size controlled with rate of change
-config, and step rate controlled as sampling frequency.
+Add parent-child relationship between iio channels by creating a parent
+pointer field in iio_chan_spec struct and exposing a sysfs attribute that
+returns the parent channel prefix.
 
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- drivers/iio/frequency/ad9910.c | 401 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 399 insertions(+), 2 deletions(-)
+ drivers/iio/industrialio-core.c | 38 ++++++++++++++++++++++++++++++++++++++
+ include/linux/iio/iio.h         |  5 +++++
+ 2 files changed, 43 insertions(+)
 
-diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
-index aaeff2e7640e..6c794e1b4b1c 100644
---- a/drivers/iio/frequency/ad9910.c
-+++ b/drivers/iio/frequency/ad9910.c
-@@ -140,6 +140,18 @@
- #define AD9910_MC_SYNC_OUTPUT_DELAY_MSK		GENMASK(15, 11)
- #define AD9910_MC_SYNC_INPUT_DELAY_MSK		GENMASK(7, 3)
- 
-+/* Digital Ramp Limit Register */
-+#define AD9910_DRG_LIMIT_UPPER_MSK		GENMASK_ULL(63, 32)
-+#define AD9910_DRG_LIMIT_LOWER_MSK		GENMASK_ULL(31, 0)
-+
-+/* Digital Ramp Step Register */
-+#define AD9910_DRG_STEP_DEC_MSK			GENMASK_ULL(63, 32)
-+#define AD9910_DRG_STEP_INC_MSK			GENMASK_ULL(31, 0)
-+
-+/* Digital Ramp Rate Register */
-+#define AD9910_DRG_RATE_DEC_MSK			GENMASK(31, 16)
-+#define AD9910_DRG_RATE_INC_MSK			GENMASK(15, 0)
-+
- /* Profile Register Format (Single Tone Mode) */
- #define AD9910_PROFILE_ST_ASF_MSK		GENMASK_ULL(61, 48)
- #define AD9910_PROFILE_ST_POW_MSK		GENMASK_ULL(47, 32)
-@@ -147,6 +159,7 @@
- 
- /* Device constants */
- #define AD9910_PI_NANORAD		3141592653UL
-+#define AD9910_PI_PICORAD		3141592653590ULL
- 
- #define AD9910_MAX_SYSCLK_HZ		(1000 * HZ_PER_MHZ)
- #define AD9910_MAX_PHASE_MICRORAD	(AD9910_PI_NANORAD / 500)
-@@ -155,6 +168,7 @@
- #define AD9910_ASF_PP_LSB_MAX		FIELD_MAX(AD9910_ASF_SCALE_FACTOR_PP_LSB_MSK)
- #define AD9910_POW_MAX			FIELD_MAX(AD9910_PROFILE_ST_POW_MSK)
- #define AD9910_POW_PP_LSB_MAX		FIELD_MAX(AD9910_POW_PP_LSB_MSK)
-+#define AD9910_STEP_RATE_MAX		FIELD_MAX(AD9910_DRG_RATE_DEC_MSK)
- #define AD9910_NUM_PROFILES		8
- 
- /* PLL constants */
-@@ -184,6 +198,7 @@
- 
- /* altcurrent ABI is in mA */
- #define AD9910_NANO_MILLIAMP_PER_MICROAMP	1000000UL
-+#define AD9910_PICO_MILLIAMP_PER_MICROAMP	1000000000UL
- 
- #define AD9910_REFDIV2_MIN_FREQ_HZ	(25 * HZ_PER_MHZ)
- #define AD9910_REFDIV2_MAX_FREQ_HZ	(1900 * HZ_PER_MHZ)
-@@ -211,6 +226,9 @@
-  * @AD9910_CHANNEL_PROFILE_7: Profile 7 output channel
-  * @AD9910_CHANNEL_PARALLEL: Parallel Data output channel
-  * @AD9910_CHANNEL_PARALLEL_POLAR: Parallel Polar Data output channel
-+ * @AD9910_CHANNEL_DRG: Digital Ramp Generator output channel
-+ * @AD9910_CHANNEL_DRG_RAMP_UP: DRG ramp up channel
-+ * @AD9910_CHANNEL_DRG_RAMP_DOWN: DRG ramp down channel
-  */
- enum ad9910_channel {
- 	AD9910_CHANNEL_PHY = 100,
-@@ -224,6 +242,9 @@ enum ad9910_channel {
- 	AD9910_CHANNEL_PROFILE_7 = 117,
- 	AD9910_CHANNEL_PARALLEL = 120,
- 	AD9910_CHANNEL_PARALLEL_POLAR = 121,
-+	AD9910_CHANNEL_DRG = 130,
-+	AD9910_CHANNEL_DRG_RAMP_UP = 131,
-+	AD9910_CHANNEL_DRG_RAMP_DOWN = 132,
- };
- 
- enum {
-@@ -241,10 +262,21 @@ enum {
- 	AD9910_CHAN_IDX_PARALLEL_FREQ,
- 	AD9910_CHAN_IDX_PARALLEL_POLAR_AMP,
- 	AD9910_CHAN_IDX_PARALLEL_POLAR_PHASE,
-+	AD9910_CHAN_IDX_DRG_FREQ,
-+	AD9910_CHAN_IDX_DRG_PHASE,
-+	AD9910_CHAN_IDX_DRG_AMP,
-+	AD9910_CHAN_IDX_DRG_FREQ_RAMP_UP,
-+	AD9910_CHAN_IDX_DRG_FREQ_RAMP_DOWN,
-+	AD9910_CHAN_IDX_DRG_PHASE_RAMP_UP,
-+	AD9910_CHAN_IDX_DRG_PHASE_RAMP_DOWN,
-+	AD9910_CHAN_IDX_DRG_AMP_RAMP_UP,
-+	AD9910_CHAN_IDX_DRG_AMP_RAMP_DOWN,
- };
- 
- enum {
- 	AD9910_POWERDOWN,
-+	AD9910_DWELL_EN,
-+	AD9910_ROC,
- };
- 
- struct ad9910_data {
-@@ -547,6 +579,14 @@ static ssize_t ad9910_ext_info_read(struct iio_dev *indio_dev,
- 	case AD9910_POWERDOWN:
- 		val = ad9910_sw_powerdown_get(st);
- 		break;
-+	case AD9910_DWELL_EN:
-+		if (chan->channel == AD9910_CHANNEL_DRG_RAMP_UP)
-+			val = FIELD_GET(AD9910_CFR2_DRG_NO_DWELL_HIGH_MSK,
-+					st->reg[AD9910_REG_CFR2].val32) ? 0 : 1;
-+		else
-+			val = FIELD_GET(AD9910_CFR2_DRG_NO_DWELL_LOW_MSK,
-+					st->reg[AD9910_REG_CFR2].val32) ? 0 : 1;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -575,6 +615,113 @@ static ssize_t ad9910_ext_info_write(struct iio_dev *indio_dev,
- 		if (ret)
- 			return ret;
- 		break;
-+	case AD9910_DWELL_EN:
-+		if (chan->channel == AD9910_CHANNEL_DRG_RAMP_UP) {
-+			val32 = val32 ? 0 : AD9910_CFR2_DRG_NO_DWELL_HIGH_MSK;
-+			ret = ad9910_reg32_update(st, AD9910_REG_CFR2,
-+						  AD9910_CFR2_DRG_NO_DWELL_HIGH_MSK,
-+						  val32, true);
-+			if (ret)
-+				return ret;
-+		} else {
-+			val32 = val32 ? 0 : AD9910_CFR2_DRG_NO_DWELL_LOW_MSK;
-+			ret = ad9910_reg32_update(st, AD9910_REG_CFR2,
-+						  AD9910_CFR2_DRG_NO_DWELL_LOW_MSK,
-+						  val32, true);
-+			if (ret)
-+				return ret;
-+		}
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return len;
-+}
-+
-+static ssize_t ad9910_drg_roc_read(struct iio_dev *indio_dev, uintptr_t private,
-+				   const struct iio_chan_spec *chan,
-+				   char *buf)
-+{
-+	struct ad9910_state *st = iio_priv(indio_dev);
-+	u64 roc64;
-+	u32 rate;
-+
-+	guard(mutex)(&st->lock);
-+
-+	switch (chan->channel) {
-+	case AD9910_CHANNEL_DRG_RAMP_UP:
-+		roc64 = FIELD_GET(AD9910_DRG_STEP_INC_MSK,
-+				  st->reg[AD9910_REG_DRG_STEP].val64);
-+		rate = FIELD_GET(AD9910_DRG_RATE_INC_MSK,
-+				 st->reg[AD9910_REG_DRG_RATE].val32);
-+		break;
-+	case AD9910_CHANNEL_DRG_RAMP_DOWN:
-+		roc64 = FIELD_GET(AD9910_DRG_STEP_DEC_MSK,
-+				  st->reg[AD9910_REG_DRG_STEP].val64);
-+		rate = FIELD_GET(AD9910_DRG_RATE_DEC_MSK,
-+				 st->reg[AD9910_REG_DRG_RATE].val32);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (!rate)
-+		return -ERANGE;
-+
-+	roc64 *= st->data.sysclk_freq_hz;
-+	return sysfs_emit(buf, "%llu\n", div_u64(roc64, 4 * rate));
-+}
-+
-+static ssize_t ad9910_drg_roc_write(struct iio_dev *indio_dev,
-+				    uintptr_t private,
-+				    const struct iio_chan_spec *chan,
-+				    const char *buf, size_t len)
-+{
-+	struct ad9910_state *st = iio_priv(indio_dev);
-+	u64 tmp64;
-+	u32 rate;
-+	int ret;
-+
-+	ret = kstrtou64(buf, 10, &tmp64);
-+	if (ret)
-+		return ret;
-+
-+	guard(mutex)(&st->lock);
-+
-+	switch (chan->channel) {
-+	case AD9910_CHANNEL_DRG_RAMP_UP:
-+		rate = FIELD_GET(AD9910_DRG_RATE_INC_MSK,
-+				 st->reg[AD9910_REG_DRG_RATE].val32);
-+		if (!rate)
-+			return -ERANGE;
-+
-+		tmp64 = ad9910_rational_scale(tmp64, 4 * rate, st->data.sysclk_freq_hz);
-+		tmp64 = min_t(u64, tmp64, U32_MAX);
-+
-+		ret = ad9910_reg64_update(st, AD9910_REG_DRG_STEP,
-+					  AD9910_DRG_STEP_INC_MSK,
-+					  FIELD_PREP(AD9910_DRG_STEP_INC_MSK, tmp64),
-+					  true);
-+		if (ret)
-+			return ret;
-+		break;
-+	case AD9910_CHANNEL_DRG_RAMP_DOWN:
-+		rate = FIELD_GET(AD9910_DRG_RATE_DEC_MSK,
-+				 st->reg[AD9910_REG_DRG_RATE].val32);
-+		if (!rate)
-+			return -ERANGE;
-+
-+		tmp64 = ad9910_rational_scale(tmp64, 4 * rate, st->data.sysclk_freq_hz);
-+		tmp64 = min_t(u64, tmp64, U32_MAX);
-+
-+		ret = ad9910_reg64_update(st, AD9910_REG_DRG_STEP,
-+					  AD9910_DRG_STEP_DEC_MSK,
-+					  FIELD_PREP(AD9910_DRG_STEP_DEC_MSK, tmp64),
-+					  true);
-+		if (ret)
-+			return ret;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -593,6 +740,24 @@ static const struct iio_chan_spec_ext_info ad9910_phy_ext_info[] = {
- 	{ }
- };
- 
-+static const struct iio_chan_spec_ext_info ad9910_drg_ramp_ext_info[] = {
-+	{
-+		.name = "dwell_en",
-+		.read = ad9910_ext_info_read,
-+		.write = ad9910_ext_info_write,
-+		.private = AD9910_DWELL_EN,
-+		.shared = IIO_SEPARATE,
-+	},
-+	{
-+		.name = "raw_roc",
-+		.read = ad9910_drg_roc_read,
-+		.write = ad9910_drg_roc_write,
-+		.private = AD9910_ROC,
-+		.shared = IIO_SEPARATE,
-+	},
-+	{ }
-+};
-+
- #define AD9910_PROFILE_CHAN(idx) {				\
- 	.type = IIO_ALTCURRENT,					\
- 	.indexed = 1,						\
-@@ -672,6 +837,102 @@ static const struct iio_chan_spec ad9910_channels[] = {
- 				      BIT(IIO_CHAN_INFO_SCALE),
- 		.parent = &ad9910_channels[AD9910_CHAN_IDX_PHY],
- 	},
-+	[AD9910_CHAN_IDX_DRG_FREQ] = {
-+		.type = IIO_FREQUENCY,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG,
-+		.address = AD9910_CHAN_IDX_DRG_FREQ,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_ENABLE) |
-+				      BIT(IIO_CHAN_INFO_SCALE),
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_PHY],
-+	},
-+	[AD9910_CHAN_IDX_DRG_PHASE] = {
-+		.type = IIO_PHASE,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG,
-+		.address = AD9910_CHAN_IDX_DRG_PHASE,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_ENABLE) |
-+				      BIT(IIO_CHAN_INFO_SCALE),
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_PHY],
-+	},
-+	[AD9910_CHAN_IDX_DRG_AMP] = {
-+		.type = IIO_ALTCURRENT,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG,
-+		.address = AD9910_CHAN_IDX_DRG_AMP,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_ENABLE) |
-+				      BIT(IIO_CHAN_INFO_SCALE),
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_PHY],
-+	},
-+	[AD9910_CHAN_IDX_DRG_FREQ_RAMP_UP] = {
-+		.type = IIO_FREQUENCY,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG_RAMP_UP,
-+		.address = AD9910_CHAN_IDX_DRG_FREQ_RAMP_UP,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+				      BIT(IIO_CHAN_INFO_SAMP_FREQ),
-+		.ext_info = ad9910_drg_ramp_ext_info,
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_DRG_FREQ],
-+	},
-+	[AD9910_CHAN_IDX_DRG_FREQ_RAMP_DOWN] = {
-+		.type = IIO_FREQUENCY,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG_RAMP_DOWN,
-+		.address = AD9910_CHAN_IDX_DRG_FREQ_RAMP_DOWN,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+				      BIT(IIO_CHAN_INFO_SAMP_FREQ),
-+		.ext_info = ad9910_drg_ramp_ext_info,
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_DRG_FREQ],
-+	},
-+	[AD9910_CHAN_IDX_DRG_PHASE_RAMP_UP] = {
-+		.type = IIO_PHASE,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG_RAMP_UP,
-+		.address = AD9910_CHAN_IDX_DRG_PHASE_RAMP_UP,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+				      BIT(IIO_CHAN_INFO_SAMP_FREQ),
-+		.ext_info = ad9910_drg_ramp_ext_info,
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_DRG_PHASE],
-+	},
-+	[AD9910_CHAN_IDX_DRG_PHASE_RAMP_DOWN] = {
-+		.type = IIO_PHASE,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG_RAMP_DOWN,
-+		.address = AD9910_CHAN_IDX_DRG_PHASE_RAMP_DOWN,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+				      BIT(IIO_CHAN_INFO_SAMP_FREQ),
-+		.ext_info = ad9910_drg_ramp_ext_info,
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_DRG_PHASE],
-+	},
-+	[AD9910_CHAN_IDX_DRG_AMP_RAMP_UP] = {
-+		.type = IIO_ALTCURRENT,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG_RAMP_UP,
-+		.address = AD9910_CHAN_IDX_DRG_AMP_RAMP_UP,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+				      BIT(IIO_CHAN_INFO_SAMP_FREQ),
-+		.ext_info = ad9910_drg_ramp_ext_info,
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_DRG_AMP],
-+	},
-+	[AD9910_CHAN_IDX_DRG_AMP_RAMP_DOWN] = {
-+		.type = IIO_ALTCURRENT,
-+		.indexed = 1,
-+		.output = 1,
-+		.channel = AD9910_CHANNEL_DRG_RAMP_DOWN,
-+		.address = AD9910_CHAN_IDX_DRG_AMP_RAMP_DOWN,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+				      BIT(IIO_CHAN_INFO_SAMP_FREQ),
-+		.ext_info = ad9910_drg_ramp_ext_info,
-+		.parent = &ad9910_channels[AD9910_CHAN_IDX_DRG_AMP],
-+	},
- };
- 
- static int ad9910_read_raw(struct iio_dev *indio_dev,
-@@ -695,6 +956,15 @@ static int ad9910_read_raw(struct iio_dev *indio_dev,
- 				*val = (tmp32 == st->profile);
- 			}
- 			break;
-+		case AD9910_CHANNEL_DRG:
-+			tmp32 = FIELD_GET(AD9910_CFR2_DRG_DEST_MSK,
-+					  st->reg[AD9910_REG_CFR2].val32);
-+			if (tmp32 == (chan->address - AD9910_CHAN_IDX_DRG_FREQ))
-+				*val = FIELD_GET(AD9910_CFR2_DRG_ENABLE_MSK,
-+						 st->reg[AD9910_REG_CFR2].val32);
-+			else
-+				*val = 0;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-@@ -734,6 +1004,16 @@ static int ad9910_read_raw(struct iio_dev *indio_dev,
- 			*val = FIELD_GET(AD9910_PROFILE_ST_ASF_MSK,
- 					 st->reg[AD9910_REG_PROFILE(tmp32)].val64);
- 			return IIO_VAL_INT;
-+		case AD9910_CHANNEL_DRG_RAMP_UP:
-+			tmp64 = FIELD_GET(AD9910_DRG_LIMIT_UPPER_MSK,
-+					  st->reg[AD9910_REG_DRG_LIMIT].val64);
-+			iio_val_s64_decompose(tmp64, val, val2);
-+			return IIO_VAL_INT_64;
-+		case AD9910_CHANNEL_DRG_RAMP_DOWN:
-+			tmp64 = FIELD_GET(AD9910_DRG_LIMIT_LOWER_MSK,
-+					  st->reg[AD9910_REG_DRG_LIMIT].val64);
-+			iio_val_s64_decompose(tmp64, val, val2);
-+			return IIO_VAL_INT_64;
- 		default:
- 			return -EINVAL;
- 		}
-@@ -742,9 +1022,23 @@ static int ad9910_read_raw(struct iio_dev *indio_dev,
- 		case AD9910_CHANNEL_PHY:
- 			*val = st->data.sysclk_freq_hz;
- 			return IIO_VAL_INT;
-+		case AD9910_CHANNEL_DRG_RAMP_UP:
-+			tmp32 = FIELD_GET(AD9910_DRG_RATE_INC_MSK,
-+					  st->reg[AD9910_REG_DRG_RATE].val32);
-+			break;
-+		case AD9910_CHANNEL_DRG_RAMP_DOWN:
-+			tmp32 = FIELD_GET(AD9910_DRG_RATE_DEC_MSK,
-+					  st->reg[AD9910_REG_DRG_RATE].val32);
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-+		if (!tmp32)
-+			return -ERANGE;
-+		tmp32 *= 4;
-+		*val = st->data.sysclk_freq_hz / tmp32;
-+		*val2 = div_u64((u64)(st->data.sysclk_freq_hz % tmp32) * MICRO, tmp32);
-+		return IIO_VAL_INT_PLUS_MICRO;
- 	case IIO_CHAN_INFO_SCALE:
- 		switch (chan->address) {
- 		case AD9910_CHAN_IDX_PHY:
-@@ -774,6 +1068,21 @@ static int ad9910_read_raw(struct iio_dev *indio_dev,
- 			*val = 0;
- 			*val2 = AD9910_PI_NANORAD >> 7;
- 			return IIO_VAL_INT_PLUS_NANO;
-+		case AD9910_CHAN_IDX_DRG_FREQ:
-+			tmp64 = ad9910_rational_scale(st->data.sysclk_freq_hz,
-+						      PICO, BIT_ULL(32));
-+			iio_val_s64_decompose(tmp64, val, val2);
-+			return IIO_VAL_DECIMAL64_PICO;
-+		case AD9910_CHAN_IDX_DRG_PHASE:
-+			tmp64 = DIV_U64_ROUND_CLOSEST(AD9910_PI_PICORAD, BIT(31));
-+			iio_val_s64_decompose(tmp64, val, val2);
-+			return IIO_VAL_DECIMAL64_PICO;
-+		case AD9910_CHAN_IDX_DRG_AMP:
-+			tmp64 = (u64)st->data.output_current_uA *
-+				AD9910_PICO_MILLIAMP_PER_MICROAMP;
-+			tmp64 = DIV_U64_ROUND_CLOSEST(tmp64 >> 1, BIT(31));
-+			iio_val_s64_decompose(tmp64, val, val2);
-+			return IIO_VAL_DECIMAL64_PICO;
- 		default:
- 			return -EINVAL;
- 		}
-@@ -831,6 +1140,22 @@ static int ad9910_write_raw(struct iio_dev *indio_dev,
- 				return ret;
- 
- 			return ad9910_profile_set(st, tmp32);
-+		case AD9910_CHANNEL_DRG:
-+			tmp32 = chan->address - AD9910_CHAN_IDX_DRG_FREQ;
-+			if (val) {
-+				tmp32 = AD9910_CFR2_DRG_ENABLE_MSK |
-+					FIELD_PREP(AD9910_CFR2_DRG_DEST_MSK, tmp32);
-+			} else {
-+				if (tmp32 != FIELD_GET(AD9910_CFR2_DRG_DEST_MSK,
-+						       st->reg[AD9910_REG_CFR2].val32))
-+					return 0; /* nothing to do */
-+				tmp32 = 0;
-+			}
-+
-+			return ad9910_reg32_update(st, AD9910_REG_CFR2,
-+						   AD9910_CFR2_DRG_DEST_MSK |
-+						   AD9910_CFR2_DRG_ENABLE_MSK,
-+						   tmp32, true);
- 		default:
- 			return -EINVAL;
- 		}
-@@ -884,11 +1209,61 @@ static int ad9910_write_raw(struct iio_dev *indio_dev,
- 			return ad9910_reg64_update(st, AD9910_REG_PROFILE(tmp32),
- 						   AD9910_PROFILE_ST_ASF_MSK,
- 						   tmp64, true);
-+		case AD9910_CHANNEL_DRG_RAMP_UP: {
-+			s64 val64 = iio_val_s64_compose(val, val2);
-+
-+			if (val64 < 0)
-+				return -EINVAL;
-+
-+			tmp64 = min_t(u64, val64, U32_MAX);
-+			tmp64 = FIELD_PREP(AD9910_DRG_LIMIT_UPPER_MSK, tmp64);
-+			return ad9910_reg64_update(st, AD9910_REG_DRG_LIMIT,
-+						   AD9910_DRG_LIMIT_UPPER_MSK,
-+						   tmp64, true);
-+		}
-+		case AD9910_CHANNEL_DRG_RAMP_DOWN: {
-+			s64 val64 = iio_val_s64_compose(val, val2);
-+
-+			if (val64 < 0)
-+				return -EINVAL;
-+
-+			tmp64 = min_t(u64, val64, U32_MAX);
-+			tmp64 = FIELD_PREP(AD9910_DRG_LIMIT_LOWER_MSK, tmp64);
-+			return ad9910_reg64_update(st, AD9910_REG_DRG_LIMIT,
-+						   AD9910_DRG_LIMIT_LOWER_MSK,
-+						   tmp64, true);
-+		}
- 		default:
- 			return -EINVAL;
- 		}
- 	case IIO_CHAN_INFO_SAMP_FREQ:
--		return ad9910_set_sysclk_freq(st, val, true);
-+		if (chan->channel == AD9910_CHANNEL_PHY)
-+			return ad9910_set_sysclk_freq(st, val, true);
-+
-+		if (val < 0 || val2 < 0 || val > st->data.sysclk_freq_hz / 4)
-+			return -EINVAL;
-+
-+		tmp64 = ((u64)val * MICRO + val2) * 4;
-+		if (!tmp64)
-+			return -EINVAL;
-+
-+		tmp64 = DIV64_U64_ROUND_CLOSEST((u64)st->data.sysclk_freq_hz * MICRO, tmp64);
-+		tmp32 = clamp(tmp64, 1U, AD9910_STEP_RATE_MAX);
-+
-+		switch (chan->channel) {
-+		case AD9910_CHANNEL_DRG_RAMP_UP:
-+			tmp32 = FIELD_PREP(AD9910_DRG_RATE_INC_MSK, tmp32);
-+			return ad9910_reg32_update(st, AD9910_REG_DRG_RATE,
-+						   AD9910_DRG_RATE_INC_MSK,
-+						   tmp32, true);
-+		case AD9910_CHANNEL_DRG_RAMP_DOWN:
-+			tmp32 = FIELD_PREP(AD9910_DRG_RATE_DEC_MSK, tmp32);
-+			return ad9910_reg32_update(st, AD9910_REG_DRG_RATE,
-+						   AD9910_DRG_RATE_DEC_MSK,
-+						   tmp32, true);
-+		default:
-+			return -EINVAL;
-+		}
- 	case IIO_CHAN_INFO_SCALE:
- 		switch (chan->address) {
- 		case AD9910_CHAN_IDX_PHY:
-@@ -963,11 +1338,16 @@ static int ad9910_write_raw_get_fmt(struct iio_dev *indio_dev,
- 		switch (chan->channel) {
- 		case AD9910_CHANNEL_PROFILE_0 ... AD9910_CHANNEL_PROFILE_7:
- 			return IIO_VAL_INT;
-+		case AD9910_CHANNEL_DRG_RAMP_UP:
-+		case AD9910_CHANNEL_DRG_RAMP_DOWN:
-+			return IIO_VAL_INT_64;
- 		default:
- 			return -EINVAL;
- 		}
- 	case IIO_CHAN_INFO_SAMP_FREQ:
--		return IIO_VAL_INT;
-+		if (chan->channel == AD9910_CHANNEL_PHY)
-+			return IIO_VAL_INT;
-+		return IIO_VAL_INT_PLUS_MICRO;
- 	case IIO_CHAN_INFO_SCALE:
- 		return IIO_VAL_INT_PLUS_NANO;
- 	case IIO_CHAN_INFO_OFFSET:
-@@ -1038,6 +1418,15 @@ static const char * const ad9910_channel_str[] = {
- 	[AD9910_CHAN_IDX_PARALLEL_FREQ] = "parallel_frequency",
- 	[AD9910_CHAN_IDX_PARALLEL_POLAR_AMP] = "parallel_polar_amplitude",
- 	[AD9910_CHAN_IDX_PARALLEL_POLAR_PHASE] = "parallel_polar_phase",
-+	[AD9910_CHAN_IDX_DRG_FREQ] = "drg_frequency",
-+	[AD9910_CHAN_IDX_DRG_PHASE] = "drg_phase",
-+	[AD9910_CHAN_IDX_DRG_AMP] = "drg_amplitude",
-+	[AD9910_CHAN_IDX_DRG_FREQ_RAMP_UP] = "drg_rising_frequency",
-+	[AD9910_CHAN_IDX_DRG_FREQ_RAMP_DOWN] = "drg_falling_frequency",
-+	[AD9910_CHAN_IDX_DRG_PHASE_RAMP_UP] = "drg_rising_phase",
-+	[AD9910_CHAN_IDX_DRG_PHASE_RAMP_DOWN] = "drg_falling_phase",
-+	[AD9910_CHAN_IDX_DRG_AMP_RAMP_UP] = "drg_rising_amplitude",
-+	[AD9910_CHAN_IDX_DRG_AMP_RAMP_DOWN] = "drg_falling_amplitude",
- };
- 
- static int ad9910_read_label(struct iio_dev *indio_dev,
-@@ -1173,6 +1562,14 @@ static int ad9910_setup(struct device *dev, struct ad9910_state *st,
- 	if (ret)
- 		return ret;
- 
-+	/* configure step rate with default values */
-+	ret = ad9910_reg32_write(st, AD9910_REG_DRG_RATE,
-+				 FIELD_PREP(AD9910_DRG_RATE_DEC_MSK, 1) |
-+				 FIELD_PREP(AD9910_DRG_RATE_INC_MSK, 1),
-+				 false);
-+	if (ret)
-+		return ret;
-+
- 	return ad9910_io_update(st);
+diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+index aa9d6474edd9..36f072ccba27 100644
+--- a/drivers/iio/industrialio-core.c
++++ b/drivers/iio/industrialio-core.c
+@@ -856,6 +856,20 @@ static ssize_t iio_read_channel_label(struct device *dev,
+ 					 to_iio_dev_attr(attr)->c, buf);
  }
  
++static ssize_t iio_read_channel_parent(struct device *dev,
++				       struct device_attribute *attr,
++				       char *buf)
++{
++	const struct iio_chan_spec *chan = to_iio_dev_attr(attr)->c->parent;
++	ssize_t len;
++
++	len = __iio_chan_prefix_emit(dev, chan, IIO_SEPARATE, buf, PAGE_SIZE - 1);
++	if (len < 0)
++		return len;
++
++	return len + sysfs_emit_at(buf, len, "\n");
++}
++
+ static ssize_t iio_read_channel_info(struct device *dev,
+ 				     struct device_attribute *attr,
+ 				     char *buf)
+@@ -1269,6 +1283,25 @@ static int iio_device_add_channel_label(struct iio_dev *indio_dev,
+ 	return 1;
+ }
+ 
++static int iio_device_add_channel_parent_attr(struct iio_dev *indio_dev,
++					      struct iio_chan_spec const *chan)
++{
++	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
++	int ret;
++
++	if (!chan->parent)
++		return 0;
++
++	ret = __iio_add_chan_devattr("parent", chan,
++				     &iio_read_channel_parent, NULL,
++				     0, IIO_SEPARATE, &indio_dev->dev, NULL,
++				     &iio_dev_opaque->channel_attr_list);
++	if (ret < 0)
++		return ret;
++
++	return 1;
++}
++
+ static int iio_device_add_info_mask_type(struct iio_dev *indio_dev,
+ 					 struct iio_chan_spec const *chan,
+ 					 enum iio_shared_by shared_by,
+@@ -1407,6 +1440,11 @@ static int iio_device_add_channel_sysfs(struct iio_dev *indio_dev,
+ 		return ret;
+ 	attrcount += ret;
+ 
++	ret = iio_device_add_channel_parent_attr(indio_dev, chan);
++	if (ret < 0)
++		return ret;
++	attrcount += ret;
++
+ 	if (chan->ext_info) {
+ 		unsigned int i = 0;
+ 
+diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+index cd17703274a6..0f006b8ad555 100644
+--- a/include/linux/iio/iio.h
++++ b/include/linux/iio/iio.h
+@@ -264,6 +264,10 @@ struct iio_scan_type {
+  * @ext_info:		Array of extended info attributes for this channel.
+  *			The array is NULL terminated, the last element should
+  *			have its name field set to NULL.
++ * @parent:		Optional pointer to the parent channel spec for
++ *			hierarchical channel relationships. When set, a read-only
++ *			"parent" sysfs attribute is created containing the
++ *			parent channel's sysfs name prefix (e.g. "in_voltage0").
+  * @extend_name:	Allows labeling of channel attributes with an
+  *			informative name. Note this has no effect codes etc,
+  *			unlike modifiers.
+@@ -309,6 +313,7 @@ struct iio_chan_spec {
+ 	const struct iio_event_spec *event_spec;
+ 	unsigned int		num_event_specs;
+ 	const struct iio_chan_spec_ext_info *ext_info;
++	const struct iio_chan_spec *parent;
+ 	const char		*extend_name;
+ 	const char		*datasheet_name;
+ 	unsigned int		modified:1;
 
 -- 
 2.43.0
