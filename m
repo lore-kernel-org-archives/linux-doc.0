@@ -1,264 +1,223 @@
-Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75FE3BC668;
-	Wed, 29 Jul 2026 22:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1830A37E5CE;
+	Wed, 29 Jul 2026 22:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785365027; cv=none; b=ln9I72d/jtGEp0a8LpsP73vkk6YBIpdi6LVmoNHylSqMWhwUArG+0WZyYSgny3KoxdsfE0DI1TRs1D7ptefmRmfUx06/GLSR2clRHJ6KYJ9HXHzzg3/raIkGHQ1x3DPoEA/XHTZ9zShdWbDB3fJOfgRDnmqNJvyuy9qmDLakOng=
+	t=1785365260; cv=none; b=AdZXlk7CYcNJO/MJ3nwfpAj20YMfGBuFDLSAxS8KIAVOa6LQ+kY6YYYU5xpGMBskotxVXSFANfmo7O2XG8un1Tjs1f1ZJVcNeAV13LpSLWLhM+sqRw9FgW7IONfi3L1A2g8IVYHLfX138imGhoBJVmrgrUGT74Ra7P31CcCeIuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785365027; c=relaxed/simple;
-	bh=NqV2gyvwf53YD0fgRW+DGPQBXmeCXDR8/qp5ZwNz77o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fdNy4IYaef0XdFqNxsZUMdG5soJw9iRQxU24Vu49+ib5qkY5FowL9JAx7o5XayLGVVW5swW5GShGN/4pCAefggSBOBn4XYHhxxo+jLZ9lNLzlixvB5ot1RxC0lT5oxTX3tX3l9uZAyNP9JYqePzw2pTF8HjOpaxD/rBrK8l3XjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=s1F6DSqo; arc=none smtp.client-ip=35.162.73.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1785365260; c=relaxed/simple;
+	bh=W4Ui70n5xFnTa802mEnZLkbAQG4UwWdi84S/0eTZq+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ncDv6VxBwyslBaIg+qs+zPnJVTFXcl2W4UXYoYfVZE32c6ECq93X6O32d9mp6xE8F+2q/zEBdxSjGcd6w3zO2cYcaaABONFaodJVvhd1NAKMsNVQAGMuh6Lt8Hrpe+OGLXb8Nlgxa3HiiAZsSkNO6ws8pg06pAyB2u5ME1oxpIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AxSKw8HL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="s1F6DSqo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1785365025; x=1816901025;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0cX/Esl8gY+kO7NvHpvUsQS5CTl2FTbhi4a44jfBkNE=;
-  b=s1F6DSqo30cAKWg3bsccEFX4mSRqwz1MyuwvRkPWhnLSntkQTS/qLd4V
-   W7G2SB0qeIz01hS58jETo2Mg5ap7UI/us9FYpPO3Tv59PSP4Ph3dYaT6n
-   2Li1mTp/6en6ofm2grxjMEHKOu4RltWNsPu6aaR5dk8aQwwVF+tZlS+Mv
-   +Z0gXZiE9gLnS2336P1H3DcJXoo7tcF/wFhD77FJBf2ubGGXPtrSJctdA
-   zX/ID0uMAMXXj+7g7PN2clCbg+JkZLUazRf6qVOGB25difFIEdEe37wsB
-   7DmRxQS3y3Lc41L2FZTqYAuLiIdnSihhl1210VQfvGj0XYbqZVX0Cack0
-   g==;
-X-CSE-ConnectionGUID: +d1g9/U0QvqXxX9KBS5qrQ==
-X-CSE-MsgGUID: zkxEMZQ7T0GVgf3wSW7srg==
-X-IronPort-AV: E=Sophos;i="6.25,193,1779148800"; 
-   d="scan'208";a="24412671"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 22:43:43 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:21014]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.47.97:2525] with esmtp (Farcaster)
- id c47381f9-be81-467c-b111-5c82cc533eb5; Wed, 29 Jul 2026 22:43:42 +0000 (UTC)
-X-Farcaster-Flow-ID: c47381f9-be81-467c-b111-5c82cc533eb5
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Wed, 29 Jul 2026 22:43:42 +0000
-Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Wed, 29 Jul 2026 22:43:36 +0000
-From: Arthur Kiyanovski <akiyano@amazon.com>
-To: David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>, <netdev@vger.kernel.org>
-CC: Arthur Kiyanovski <akiyano@amazon.com>, Eric Dumazet
-	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, David Woodhouse
-	<dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Miroslav Lichvar
-	<mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Andrew Lunn
-	<andrew@lunn.ch>, Carolina Jubran <cjubran@nvidia.com>, Wen Gu
-	<guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "David
- Woodhouse" <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>, "Zorik
- Machulsky" <zorik@amazon.com>, Alexander Matushevsky <matua@amazon.com>,
-	"Saeed Bshara" <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>, Anthony
- Liguori <aliguori@amazon.com>, Nafea Bshara <nafea@amazon.com>, Evgeny
- Schmeilin <evgenys@amazon.com>, Netanel Belgazal <netanel@amazon.com>, Ali
- Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt <benh@amazon.com>, Noam
- Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>, Evgeny
- Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik <ofirt@amazon.com>, Amit
- Bernstein <amitbern@amazon.com>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <shuah@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
-	<horms@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	<vadim.fedorenko@linux.dev>
-Subject: [PATCH v6 net-next 0/7] ptp: Add PHC timestamp quality attributes
-Date: Wed, 29 Jul 2026 22:43:18 +0000
-Message-ID: <20260729224328.16440-1-akiyano@amazon.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AxSKw8HL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16F7D1F000E9;
+	Wed, 29 Jul 2026 22:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785365258;
+	bh=vMXRsnL3EafGsZdVSmTWqi92Pdp6B251xlDnGExp0iw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=AxSKw8HLkRHHqjcc1/u1RT1Q2jwU5+NEYqAinUt5CcD4xvrymZnPeH6RuWUhntiny
+	 VtdgFAK77/dfdwxf03MXlsZaq+9aT/g1lnVklNhdw5NGg2cKjlCfOLX6plVnZ1sbtA
+	 CIfFv1P8N8hZHTa6Qc4vdthyoIs85mpp5NJFgou0vXIQyY3ZRha3yzi7pPWzJTcZPY
+	 yAWBT4XAvW0hGyjsFgbACFOG1YSJP7K6ZI5AjVeVUonj110HpUERBBgCk1wRJTDTa3
+	 prdJYAkSPlHB05FaBIUoQE0xYBj3tS/L11W7eZX6lNOiRgxQdBp+g2gqbuqLzc3udj
+	 l83AhvsGTpHDA==
+Date: Wed, 29 Jul 2026 23:47:33 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Conor Dooley <conor@kernel.org>, Janani Sunil <janani.sunil@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, Marius
+ Cristea <marius.cristea@microchip.com>, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
+ <jan.sun97@gmail.com>, linux-spi@vger.kernel.org, Kent Gustavsson
+ <nedo80@gmail.com>
+Subject: Re: [PATCH v7 1/7] spi: dt-bindings: Add spi-device-addr peripheral
+ property
+Message-ID: <20260729234733.6b092a00@jic23-huawei>
+In-Reply-To: <163c9872-17ef-4b01-9392-96e896c284b8@baylibre.com>
+References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
+	<20260722-ad5529r-driver-v7-1-7781cd74ad75@analog.com>
+	<e2118cfc-feef-4843-917f-844834ef4e60@baylibre.com>
+	<20260725230445.60a445a0@jic23-huawei>
+	<20260728-barrette-rickety-788b47da503c@spud>
+	<e1f977a8-ab38-4dc6-a82b-b955545550a0@baylibre.com>
+	<20260728220544.5c65bc50@jic23-huawei>
+	<163c9872-17ef-4b01-9392-96e896c284b8@baylibre.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D044UWA002.ant.amazon.com (10.13.139.11) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This series adds quality attributes to PTP Hardware Clock (PHC)
-timestamps, allowing userspace to obtain error bound, clock status,
-timescale, and system counter values alongside timestamps in a single
-call.
+On Tue, 28 Jul 2026 16:46:26 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-Motivation
-----------
-The existing PTP APIs return timestamps without any indication of
-their quality. Applications that need clock accuracy and
-synchronization status commonly rely on external tools such as
-ptp4l, which implement synchronization logic and can export their
-measurement of clock accuracy. For managed PHC devices - such as
-the ENA network adapter, whose clock is synchronized by the device
-without userspace involvement - these tools are not available, and
-the existing APIs lack a way to report quality metrics to consumers
-of time.
+> On 7/28/26 4:05 PM, Jonathan Cameron wrote:
+> > On Tue, 28 Jul 2026 13:39:20 -0500
+> > David Lechner <dlechner@baylibre.com> wrote:
+> >   
+> >> On 7/28/26 11:10 AM, Conor Dooley wrote:  
+> >>> On Sat, Jul 25, 2026 at 11:04:45PM +0100, Jonathan Cameron wrote:    
+> >>>> On Sat, 25 Jul 2026 15:55:01 -0500
+> >>>> David Lechner <dlechner@baylibre.com> wrote:
+> >>>>    
+> >>>>> On 7/22/26 2:54 AM, Janani Sunil wrote:    
+> >>>>>> Some SPI devices support sharing a single chip select across multiple
+> >>>>>> physical chips by encoding a device address in the SPI frame itself.
+> >>>>>> Add the generic spi-device-addr property for describing these hardware
+> >>>>>> addresses. The property is placed on the SPI peripheral node and may
+> >>>>>> contain multiple addresses.
+> >>>>>>
+> >>>>>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> >>>>>> ---
+> >>>>>>  Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 7 +++++++
+> >>>>>>  1 file changed, 7 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+> >>>>>> index 880a9f624566..b59d047cf117 100644
+> >>>>>> --- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+> >>>>>> +++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
+> >>>>>> @@ -142,6 +142,13 @@ properties:
+> >>>>>>      minItems: 2
+> >>>>>>      maxItems: 4
+> >>>>>>  
+> >>>>>> +  spi-device-addr:
+> >>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> >>>>>> +    description:
+> >>>>>> +      Device addresses used when multiple peripherals share a single chip
+> >>>>>> +      select. The array allows one logical peripheral to comprise multiple
+> >>>>>> +      physical devices, with one address per device.      
+> >>>>>
+> >>>>> "per physical device" for clarity.
+> >>>>>    
+> >>>>
+> >>>> We may end up relaxing that again if multichip packages start doing this.
+> >>>> Fine to add that clarification for now. We can revisit when / if it ever
+> >>>> needs that relaxing.
+> >>>>    
+> >>>>>> +
+> >>>>>>    st,spi-midi-ns:
+> >>>>>>      deprecated: true
+> >>>>>>      description: |
+> >>>>>>       
+> >>>>>
+> >>>>> If there is nothing useful the SPI core code can do with this information,
+> >>>>> I'm not entirely convinced that this needs to be a common property.    
+> >>>>
+> >>>> I think being common does make some sense from a standarization point of
+> >>>> view and it isn't obvious where to put it other than under spi.
+> >>>>    
+> >>>>>
+> >>>>> And this only allows for one logical device. If we wanted to treat each
+> >>>>> address as a logical device (all with same CS), we would need #address-cells = <2>;
+> >>>>> instead where the DT "address" is two values, the CS and the device address.    
+> >>>>
+> >>>> Ah.  Good point for the adc@address or similar needing to match a combination
+> >>>> of CS and spi-device-addr.  Conor any thoughts on how this would be done?    
+> >>>
+> >>> I'm sorry, I don't quite understand. Why do you want to support both of
+> >>> these representations? Hardware wise both of these things would be
+> >>> describing the same setup, so allowing this alternate "multiple logical
+> >>> device" typically is not permitted. What even is the use case of it?  
+> > 
+> > The microchip parts.  They are entirely independent. The device address is
+> > just a way to save pins.  That is contrasting those with the one in this
+> > series where the design assumes you want to treat them as a large logical
+> > device in a similar way to spi device chaining.
+> > 
+> >   
+> >>> Does it matter at all if you have one or more logical devices from a
+> >>> consumer perspective?
+> >>>
+> >>> I do have an idea of how to solve the adc@address problem (you can do
+> >>> adc@address,spi-device-address like some other devices) but as I said I
+> >>> don't get why it would be needed.    
+> > 
+> > I think we should often do this because there are some confusing cases
+> > otherwise. See below.
+> >   
+> >>
+> >> I would expect that if such a device was intended to be used as individual
+> >> logical devices that they would just be wired up each with their own chip
+> >> select rather than sharing one.
+> >>
+> >> The only reason I can think of actually needing adc@address,spi-device-address
+> >> would be on a system that was really short on pins on the MCU.
+> >>
+> >> So not saying that we need it right now. Just wanted to make sure we were
+> >> intentional about saying we don't need it if we don't.  
+> > 
+> > To enumerate the cases:
+> > 
+> > 1. One CS has multiple spi-device-address and needs to be a combined device.
+> > 	Given this ADC does some fun stuff to include messages with no
+> >         spi-device-address that are meant to be received by all such
+> > 	devices we pretty much have to map any that share a CS to one
+> > 	logical device - we have to bind one driver.  This is kind of
+> > 	similar to SPI device chaining.
+> > 	address == cs.  spi-device-address property not used for that.
+> > 	- This one can be normal SPI style.
+> > 
+> > 2. One CS has multiple spi-device-address but logically separate otherwise.
+> > 	This is the microchip devices I think.  For those the device-address
+> > 	is just a pin saving exercise.
+> > 	address == spi-device-address. CS not needed as there is only one.  
+> 
+> We would still need CS to tell the SPI controller which one is wired. So
+> we should never have adc@spi-device-address, only adc@cs,spi-device-address.
+> 
+> (There currently isn't any binding for SPI_NO_CS, so the controller would
+> still need a CS line even if it isn't wired/muxed and CS on the peripheral
+> is hardwired.)
 
-This was previously proposed as an RFC [1] with a single ioctl.
-Based on community feedback, the design was reworked to cover both
-the extended (multi-sample) and precise (cross-timestamp) paths.
+Sure - it needs to provided today because the reg entry must match the adc@reg
+bit.  That 'could' be relaxed.  I don't think it's a good idea but
+I thought this was what Conor was proposing.
 
-Design
-------
-The UAPI was redesigned based on Thomas Gleixner's proposal [2]:
-
-- A unified data structure (struct ptp_sys_offset_attrs) is used
-  for both extended and precise ioctls.
-
-- A u32 valid bitmask in struct ptp_clock_attrs indicates which
-  attributes are populated, replacing sentinel values. Drivers
-  set only the bits for attributes they provide.
-
-- System counter values (cycles + counter_id) are carried in
-  struct ptp_sys_time alongside each system timestamp. These are
-  populated by the timekeeping core cross-timestamp infrastructure,
-  which is now merged in net-next [3] - drivers do not fill them.
-  This series therefore applies directly to net-next with no
-  out-of-tree dependency.
-
-- Graceful degradation: the attrs ioctls work even on devices
-  without attrs callbacks, falling back to gettimex64 /
-  getcrosststamp and returning attrs.valid = 0. The capability
-  bits reflect this fallback so cap-respecting userspace does not
-  skip the ioctl on base-only drivers.
-
-A capability flag is added to ptp_clock_caps so userspace can
-discover attributes support.
-
-Patches 2-3 add testptp support for the new ioctls.
-
-Patch 4 implements the attributes for ptp_vmclock, reporting
-error bound, clock status, and timescale.
-
-Patches 5-7 implement the attributes for the ENA driver,
-reporting error bound from the device's PHC layer.
-
-v6:
-- ptp: reject a non-zero reserved field (request.rsv[]) in the
-  attrs ioctls, matching ptp_sys_offset_extended(). (Jakub Kicinski)
-- ptp: zero-initialize the per-sample system-timestamp snapshot in
-  ptp_sys_offset_extended_attrs() so no uninitialized or stale stack
-  data can reach userspace. (Jakub Kicinski)
-- ptp: translate the kernel enum clocksource_ids to the UAPI enum
-  ptp_counter_id before returning sys_counter_id; sources that are
-  not a raw hardware counter (e.g. kvmclock) are reported as
-  PTP_COUNTER_UNKNOWN with sys_counter = 0. (Jakub Kicinski,
-  David Woodhouse)
-- ptp: initialize the precise cross-timestamp struct and set its
-  clock_id from the validated request; validate clock_id against a
-  precise-path allowlist (CLOCK_REALTIME + CLOCK_AUX) so unsupported
-  clocks return -EINVAL instead of triggering a WARN in
-  get_device_system_crosststamp(). (Jakub Kicinski, David Woodhouse)
-- ptp: make the extended_attrs/precise_attrs capability bits reflect
-  the base-callback fallback (gettimexattrs64 || gettimex64,
-  getcrosststampattrs || getcrosststamp) and document the fallback
-  and the att.valid semantics. (Jakub Kicinski)
-- ptp: echo the full request header back from the attrs ioctls so
-  valid/clock_id/num_samples/rsv round-trip. (Jakub Kicinski)
-- ptp: clarify the FREE_RUNNING vs UNRELIABLE and HOLDOVER status
-  comments and the @error_bound kernel-doc (a maximum bound, not a
-  statistical estimate; not to be trusted when status is UNKNOWN or
-  UNRELIABLE). (Carolina Jubran)
-- ptp: document that both @sts and @att may be NULL in the
-  gettimexattrs64 kernel-doc. (Jakub Kicinski)
-- selftests/ptp: print the returned system counter value and id
-  (sys_counter, sys_counter_id) in the attrs output.
-- Exposing the underlying hw_csid/hw_cycles for derived clocksources
-  (kvmclock, ART, ...) is left to a follow-up; the UAPI leaves room
-  to add them without an ABI change. (David Woodhouse)
-
-v5:
-- ptp: simplify ptp_sys_offset_{extended,precise}_attrs() to copy
-  the request header onto the stack and allocate the result buffer
-  once, instead of memdup_user() + kfree() + kzalloc(). (Saeed
-  Bshara)
-- ptp: deduplicate the kernel-doc for gettimexattrs64 /
-  getcrosststampattrs by referencing the base gettimex64 /
-  getcrosststamp callbacks. (Saeed Bshara)
-- ptp: add missing kernel-doc member descriptions for struct
-  ptp_timestamp and struct ptp_sys_offset_attrs.
-- selftests/ptp: map the clockid to a name and print once instead
-  of three duplicated printfs. (Saeed Bshara)
-- selftests/ptp: make -a a modifier on -x/-X instead of an
-  exclusive option; drop -A (use -X -a); trim the unknown-clock
-  output; print "not reported" for attributes the device does not
-  report. (Saeed Bshara)
-- ptp_vmclock: scope the local 'st' inside the SUPPORT_KVMCLOCK
-  block to fix an unused-variable warning on !CONFIG_KVM_GUEST.
-  (kernel test robot)
-- No UAPI changes; the ioctl structures are unchanged from v4.
-
-v4:
-- Complete UAPI redesign per Thomas Gleixner's proposal [2]:
-  unified data structure with u32 valid bitmask, system counter
-  in ptp_sys_time (populated by core, not drivers), graceful
-  degradation for devices without attrs callbacks. (Thomas Gleixner,
-  David Woodhouse)
-- Counter values moved from driver attrs callback to timekeeping
-  core infrastructure - drivers no longer set counter_id or
-  counter_value.
-- Flexible array member for timestamps[] (kernel bounds the copy,
-  userspace allocates for num_samples requested).
-- Drop separate ptp_clock_attributes kernel struct - driver
-  callbacks fill the UAPI ptp_clock_attrs directly.
-
-v3:
-- Remove patch 5/8 from v2 (return-code bugfix) - sent separately
-  as [PATCH net] to the net tree.
-- Zero-initialize struct ptp_clock_attributes in PTP core ioctl
-  handlers to prevent stack leak of unset fields. (Simon Horman,
-  sashiko)
-- ptp_vmclock: validate counter_period_shift < 128 to prevent
-  undefined behavior on untrusted hypervisor input. (sashiko)
-- ptp_vmclock: add overflow check on err_hi * NSEC_PER_SEC to
-  prevent silent wraparound producing erroneously small error
-  bound. (sashiko)
-- ptp_vmclock: report PTP_TIMESCALE_TAI after tai_adjust() to
-  avoid timescale mismatch. (sashiko)
-- ENA: set counter_id = 0, counter_value = 0 in gettimexattrs64
-  for defense-in-depth. (sashiko)
-
-v2:
-- Fix build bisectability: move ena_com.c consumer updates into
-  patch 6/8 and ena_phc.c caller update into patch 7/8 so each
-  patch compiles independently.
-- Add missing Cc for Amit Bernstein (co-author of ENA patches).
-
-[1] https://lore.kernel.org/netdev/20250724115657.150-1-darinzon@amazon.com/
-[2] https://lore.kernel.org/all/87se7ht25o.ffs@tglx/
-[3] https://lore.kernel.org/all/20260526165826.392227559@kernel.org/
-
-Arthur Kiyanovski (7):
-  ptp: Add ioctls for PHC timestamps with quality attributes
-  selftests/ptp: Extract print_system_timestamp helper in testptp
-  selftests/ptp: Add testptp support for attributes ioctls
-  ptp: ptp_vmclock: Implement attributes ioctls
-  net: ena: Update PHC admin interface for error bound support
-  net: ena: Add error bound to PHC communication layer
-  net: ena: Implement gettimexattrs64 callback for PTP attributes
-
- .../device_drivers/ethernet/amazon/ena.rst    |   2 +
- .../net/ethernet/amazon/ena/ena_admin_defs.h  |  17 +-
- drivers/net/ethernet/amazon/ena/ena_com.c     |  51 ++--
- drivers/net/ethernet/amazon/ena/ena_com.h     |   5 +-
- drivers/net/ethernet/amazon/ena/ena_debugfs.c |   3 +
- drivers/net/ethernet/amazon/ena/ena_phc.c     |  61 +++-
- drivers/ptp/ptp_chardev.c                     | 208 ++++++++++++-
- drivers/ptp/ptp_clock.c                       |   4 +-
- drivers/ptp/ptp_vmclock.c                     | 197 +++++++++++-
- include/linux/ptp_clock_kernel.h              |  20 ++
- include/uapi/linux/ptp_clock.h                | 283 +++++++++++++++++-
- tools/testing/selftests/ptp/testptp.c         | 198 +++++++++---
- 12 files changed, 939 insertions(+), 110 deletions(-)
-
-
-base-commit: b515dc54795ef370be3cb396e7c12ad91686b6d1
--- 
-2.47.3
+> 
+> > 
+> > 2b.  Same as 2, but there is another normal ADC with a chip select.
+> > 	How do we know adc@spi-device-address vs adc@cs given they could
+> > 	easily take same address value by coincidence?  
+> 
+> As above.
+> 
+> > 
+> > 2c. Basically Case as 2 but * N CS all on same SPI bus.
+> > 	As David calls out this is the pin count minimization case.
+> > 	E.g. I want 8 devices each of which has 2 pin straps to set the
+> > 	device address.  So I have to use at least 2 CS.
+> > 	For this I need both cs and device-address and Conor's suggestion works.
+> > 
+> > There is a case of 1 + 2 with different device types but result is same
+> > as 2c.
+> > 
+> > Now, to me the question is whether we say that if spi-device-address is
+> > present you always do adc@cs,spi-device-address or do we allow for not
+> > doing so for the composite devices where nothing else is sharing the CS
+> > (like this driver).
+> > 
+> > My inclination is standardize on always doing it for these devices.
+> > 
+> > Jonathan
+> >   
+> >>
+> >>  
+> >   
+> 
 
