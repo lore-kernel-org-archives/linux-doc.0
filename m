@@ -1,131 +1,160 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E8043A7EF;
-	Wed, 29 Jul 2026 08:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8013D43C7AE;
+	Wed, 29 Jul 2026 08:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785312812; cv=none; b=Jj0f5+POVFNputI6IcZHYrRz1ZtRkAXJU7CJMzBrrSApBgUj+KtPTiXLElxbRUr0vjxnKHM7ZNuoflad2dJhMERhFwOq+EICTndKcCLAOsBPUsL+yl61T+vXVOzX0OQrrUPcHWThqAxyy4VciGe/vd022CbojWiA5EUEGklFTmM=
+	t=1785313629; cv=none; b=K1jZIOcV3i60bbnclnFFhUgutIUea6ukHQaPqeulm4fkhBEIzEPbpdfDyKa7zSaJepd/VG6Fin1HeqSaCxhRn3Ln7whqZ509vJiHob5O2tfA6rHu5nOJd8wIfZ03JAQIf4zmc8emip6f5k3JJDwrX2kftEq+XgnuaxTXaX0kRp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785312812; c=relaxed/simple;
-	bh=rhLEvcU2rNwQKBp+jzc+27i1xt2fV4Dmz34FnJF4SDw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hUvzW2CPkjvcjbqKo1n5KX4X2N95oc6eajQASxV7HF948lYUOtvTHvi90hVcKJhIzGwSMp9MKgn+UcCB9Qd/g/oCh8/mLqUVsR780reVAWwa7F4rPNLs5pLL2/RpCC6jqoNWRcaQpb6qQUQD89VVX85vwo4q359dMm8iuhOtC5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=b/7PYiGE; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1785313629; c=relaxed/simple;
+	bh=y5y1Pex3r0tEmIZ3ma1DZMuFnuVLNzcCNOrpynmqk7Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bylBaN2RDxxFDX3HIF7aGn+oBS1L5P1uOKf+slAOnmOZtUS7CNMEhTXLOBzL7OlhNfaLIns1JSkRoC8GHQ+yMyXHEcanlwaxCCEtAo9pe7yTTexdd7jq4MMC39J7bWVWSsFy68paCMlXmJYeu+XiTqWtCSp7oyWbAHrMbqOhD+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oIaEBsoU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="b/7PYiGE"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=JU4nTNnLiZUM9Y4cL70aHfB9uMSR3Cje60IIvYTXm7M=;
-	b=b/7PYiGEnOFZRp4z6UdillzQIPhnDeCWtQ08l6XjL96ksceD+0d3USfxauif4Xt9E1NnvMFR8
-	n/KJc7CUzuLHpEu7gM3RqsV7U0e6fONurcxOmWANHGG1lGlbdT+LZ/D+6sFLVcU/zYeKgQ3/fwA
-	tcytb8LJcfWz36pXskS0VUQ=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4h94bg1DznzpSvb;
-	Wed, 29 Jul 2026 16:03:59 +0800 (CST)
-Received: from whupemo200004.china.huawei.com (unknown [7.152.184.18])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6100740561;
-	Wed, 29 Jul 2026 16:13:16 +0800 (CST)
-Received: from [10.67.120.233] (10.67.120.233) by
- whupemo200004.china.huawei.com (7.152.184.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 29 Jul 2026 16:13:13 +0800
-Message-ID: <d216745f-a23f-4f36-a462-22f4814baf48@huawei.com>
-Date: Wed, 29 Jul 2026 16:13:11 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oIaEBsoU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C770AC2BCF7;
+	Wed, 29 Jul 2026 08:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785313628;
+	bh=y5y1Pex3r0tEmIZ3ma1DZMuFnuVLNzcCNOrpynmqk7Y=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=oIaEBsoUVF0dj3ehhFcjjxFg7Qxz9qxobJ3A4Oh0LjbsuQ1AdrfxrFej9XOxj+GFV
+	 jiCTvmGyzpFWX1Wa+qJa1c7/IK7qXHhwZJUdAWaMSmA96z5H5mMfxvWzGaG971R08e
+	 dtbGYVLbaCzO0GfNExze33Y/izq3TnvCZ9rKNbdeXX3BjPPIv+zfbFsXpghfDBgVYO
+	 ucclwqsS8V3jYMM7eWXwJJAeY3buGmuuSqa9z3T5//ea1mQhyhTzmPlfIdgzDHRfxQ
+	 kZXndqxBfvY/h6jDoWN2r4smm6VG9XSZ1Y+h8Ikb0rwr0hMx3C3wRhbSL/3kt6HmKF
+	 GaXGEddOFpyWQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A80B7C54F5C;
+	Wed, 29 Jul 2026 08:27:08 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Date: Wed, 29 Jul 2026 09:25:29 +0100
+Subject: [PATCH v10 02/17] iio: ABI: raw, scale and offset for
+ frequency/phase channels
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/10] perf hisi-ptt: Add decoder version compatibility
-To: Bjorn Helgaas <helgaas@kernel.org>
-CC: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <bhelgaas@google.com>, <yangyccccc@gmail.com>,
-	<jic23@kernel.org>, <john.g.garry@oracle.com>, <will@kernel.org>,
-	<james.clark@linaro.org>, <mike.leach@arm.com>, <leo.yan@linux.dev>,
-	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-	<namhyung@kernel.org>, <mark.rutland@arm.com>,
-	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
-	<irogers@google.com>, <adrian.hunter@intel.com>, <wangyushan12@huawei.com>,
-	<shenyang39@huawei.com>, <gaozhihao6@h-partners.com>,
-	<yuzhichengcheng@h-partners.com>, <liyihang9@h-partners.com>,
-	<linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-	<prime.zeng@hisilicon.com>, <fanghao11@huawei.com>, <wuyifan50@huawei.com>
-References: <20260713174951.GA1245033@bhelgaas>
-From: Sizhe Liu <liusizhe5@huawei.com>
-In-Reply-To: <20260713174951.GA1245033@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- whupemo200004.china.huawei.com (7.152.184.18)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260729-ad9910-iio-driver-v10-2-aa1f6167729e@analog.com>
+References: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
+In-Reply-To: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
+To: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785313627; l=4117;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=b0wjZEHLLiPjjpYzkara2Qcj+Q0dyqXjAs1Abo131jY=;
+ b=IbPxfpd4pdPmGX1M/WffY5Auc4uTjhUku8+sEWdhkkxuljCS2nXikHgaxv62zhz8bmJlztiyz
+ Tby5ajt6W5eCyDbWi2T9xNelypSClviEtbezuxOqorxDCHIdrLrRfk5
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
+
+From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+
+Consider scale and offset attributes for frequency and phase channels.
+Frequency channels are going to be introduced later alongside a DDS device
+driver which is going to leverage those new attributes.
+
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+ Documentation/ABI/testing/sysfs-bus-iio | 41 +++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+index 3e75ce1c97c6..24712b5bd110 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio
++++ b/Documentation/ABI/testing/sysfs-bus-iio
+@@ -441,6 +441,14 @@ What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_i_offset
+ What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_q_offset
+ What:		/sys/bus/iio/devices/iio:deviceX/in_currentY_offset
+ What:		/sys/bus/iio/devices/iio:deviceX/in_current_offset
++What:		/sys/bus/iio/devices/iio:deviceX/in_phaseY_offset
++What:		/sys/bus/iio/devices/iio:deviceX/in_phase_offset
++What:		/sys/bus/iio/devices/iio:deviceX/out_phaseY_offset
++What:		/sys/bus/iio/devices/iio:deviceX/out_phase_offset
++What:		/sys/bus/iio/devices/iio:deviceX/in_frequencyY_offset
++What:		/sys/bus/iio/devices/iio:deviceX/in_frequency_offset
++What:		/sys/bus/iio/devices/iio:deviceX/out_frequencyY_offset
++What:		/sys/bus/iio/devices/iio:deviceX/out_frequency_offset
+ What:		/sys/bus/iio/devices/iio:deviceX/in_tempY_offset
+ What:		/sys/bus/iio/devices/iio:deviceX/in_temp_offset
+ What:		/sys/bus/iio/devices/iio:deviceX/in_pressureY_offset
+@@ -474,6 +482,14 @@ What:		/sys/bus/iio/devices/iio:deviceX/in_voltage_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_voltage-voltage_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/out_voltageY_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_scale
++What:		/sys/bus/iio/devices/iio:deviceX/in_phaseY_scale
++What:		/sys/bus/iio/devices/iio:deviceX/in_phase_scale
++What:		/sys/bus/iio/devices/iio:deviceX/out_phaseY_scale
++What:		/sys/bus/iio/devices/iio:deviceX/out_phase_scale
++What:		/sys/bus/iio/devices/iio:deviceX/in_frequencyY_scale
++What:		/sys/bus/iio/devices/iio:deviceX/in_frequency_scale
++What:		/sys/bus/iio/devices/iio:deviceX/out_frequencyY_scale
++What:		/sys/bus/iio/devices/iio:deviceX/out_frequency_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_currentY_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_currentY_supply_scale
+ What:		/sys/bus/iio/devices/iio:deviceX/in_current_scale
+@@ -2149,6 +2165,22 @@ Description:
+ 		specific attributes. This is useful for userspace to be able to
+ 		better identify an individual channel.
+ 
++What:		/sys/bus/iio/devices/iio:deviceX/in_frequencyY_raw
++KernelVersion:	7.3
++Contact:	linux-iio@vger.kernel.org
++Description:
++		Raw (unscaled) frequency reading from channel Y.
++		Units after application of scale and offset are Hz.
++
++What:		/sys/bus/iio/devices/iio:deviceX/out_frequencyY_raw
++KernelVersion:	7.3
++Contact:	linux-iio@vger.kernel.org
++Description:
++		Raw (unscaled, no bias etc.) output frequency for channel Y.
++		The number must always be specified and unique if the output
++		corresponds to a single channel. Units after application of
++		scale and offset are Hz.
++
+ What:		/sys/bus/iio/devices/iio:deviceX/in_phaseY_raw
+ KernelVersion:	4.18
+ Contact:	linux-iio@vger.kernel.org
+@@ -2156,6 +2188,15 @@ Description:
+ 		Raw (unscaled) phase difference reading from channel Y.
+ 		Units after application of scale and offset are radians.
+ 
++What:		/sys/bus/iio/devices/iio:deviceX/out_phaseY_raw
++KernelVersion:	7.3
++Contact:	linux-iio@vger.kernel.org
++Description:
++		Raw (unscaled, no bias etc.) output phase for channel Y.
++		The number must always be specified and unique if the output
++		corresponds to a single channel. Units after application of
++		scale and offset are radians.
++
+ What:		/sys/bus/iio/devices/iio:deviceX/in_massconcentration_pm1_input
+ What:		/sys/bus/iio/devices/iio:deviceX/in_massconcentrationY_pm1_input
+ What:		/sys/bus/iio/devices/iio:deviceX/in_massconcentration_pm2p5_input
+
+-- 
+2.43.0
 
 
-On 2026/7/14 1:49, Bjorn Helgaas wrote:
-> On Thu, Jun 04, 2026 at 03:50:05PM +0800, Sizhe Liu wrote:
->> The hisi_ptt packet decoder now performs detailed field-level parsing
->> of TLP header DW2 and DW3 based on the message type classified from
->> DW0 (added in the previous patches). However, trace data recorded
->> with older versions of the tool does not contain the information
->> needed for this detailed parsing, and should continue to use the
->> generic field-name-only output.
-> Add blank line between paragraphs.  Also applies to 05/10.
->
->> Introduce a version field (V1/V2) in the auxtrace info record to
->> distinguish between the two data formats:
-> IMO a blank line here would also improve readability.  And consider
-> indenting bullet points a couple spaces.  Also applies to other commit
-> logs in this series, including sample formats.
->
->> - V1 (legacy): auxtrace priv contains only PMU type. DW2 and DW3
->>    are printed with generic field names only, no message-type-based
->>    field decoding.
->> - V2 (current): auxtrace priv contains PMU type and version. DW2
->>    and DW3 are decoded according to the TLP message type (MWr, Msg,
->>    Atomic, IO, CPL, Cfg) with detailed field names.
-> Could use imperative mood, e.g.,
->
->    - V1 (legacy): auxtrace priv contains only PMU type. Print DW2 and
->      DW3 generic field names only, no message-type-based field
->      decoding.
->
->    - V2 (current): auxtrace priv contains PMU type and version. Decode
->      DW2 and DW3 according to the TLP message type (MWr, Msg, Atomic,
->      IO, CPL, Cfg) with detailed field names.
-Thanks, all the preceding suggestions will be modified in v2.
->> At recording time, set the version to HISI_PTT_DECODER_V2 in the
->> auxtrace info. At decoding time, determine the version from the
->> priv data size and the version field:
->> - If priv_size >= V2, read the version from priv[1].
->> - If priv_size < V2, assume V1 for backward compatibility.
->> - If version is unknown (future), warn and decode auxtrace as v2.
->>
->> Also add the version to the dump output alongside the PMU type.
->> Adjust hisi_ptt_pkt_size position to adapt to compilation.
-> AFAICS this series adds new functionality and probably doesn't qualify
-> for "stable" tags, given the documented rules.  But I think the
-> maintainers are pretty aggressive about backporting things anyway.
-Hi Bjorn,
-Thanks for your response and for clarifying the policy regarding the 
-stable tag.
-You're right, patches 03-10 in this series are new functionality and 
-shouldwait
-for the next merge window.
-
-For patch 01 and patch 02, they do fix the issue of inaccurate packet 
-parsing,
-I think it is better to separate them from the patch series.
-I am sending them individually after fixing the C bitfields issues if 
-that makes things clearer.
-
-If you have any suggestions on this split, please feel free to let me know.
-
-Regards,
-Sizhe
