@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADF640B38D;
-	Wed, 29 Jul 2026 09:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2719A3AB294;
+	Wed, 29 Jul 2026 09:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785318233; cv=none; b=nNBmse7exzT4y0XNBF6j+kWExcuGO2B35Ko1EtdKVpXRPFX9fhzH7Op3scBS9Cj959roAaBoBBwGL+5wy/K9Q37cZZLRlKouKAqxJ8Gkn3/d+HQgD1g8xtWlOLAldvg4jG7VR5BzA0b8GV1m9oonwCMwd8+9aRPnlZYGi/RIRAc=
+	t=1785318299; cv=none; b=U2WWVndvt/L4e3Ab9CDgVE2BysYlLQmoY/T03GMZySn5P3G/pxJvvWvhkYCoCU78JhwBPc0YqfvHD99SfVApFrVbPfb98reMZVsSiJgsiWt/o6vMwQ+a92L6+8enya+a+6+ZSBzhaM1nTLs5tpTHhGfE8KnJ3U/DFN31ZiPRd74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785318233; c=relaxed/simple;
-	bh=CEc0j+AyO9JXBusLn/ta9143hKpQAfoUFw6qrs6w7AI=;
+	s=arc-20240116; t=1785318299; c=relaxed/simple;
+	bh=aheTwLDaxG/KN3M7VZHL5sNxFSlE3bySXxN5CrZ5yew=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bhHVdYOrqGxiOA+kvC/TWjygQjD+Nzz4wbFrkfLIONun1VEj91IkJJVUNRvO5B6a05IPzKg7JmRmOecdfvBHgXJILgXihy+9QwGuG6jVv1iivg93MoNB3jrQuvbDMVvaHRRZxVE/OFkGgbDAFGNo+DK+3opGr9oU2CRRYDvYgVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWhzC5Id; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=s8bthGjhGtKyUnA8m4frJsCEEQ3/rcrEeHfgEZnV9CDIn4foO1+XVIKqTA+VSHmnbwDboYY2WdCFXH9deSIQvYpl9B7h+zDiFCmmxQSa45frTCCCDOfeSKlVYrA8HFFDCQIeqkt7gNhnZGa9WI5oOiG8WzOlFaX0s8y52zUSydA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KecLasxf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWhzC5Id"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E61F1F000E9;
-	Wed, 29 Jul 2026 09:43:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KecLasxf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D7D1F000E9;
+	Wed, 29 Jul 2026 09:44:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785318232;
-	bh=MAEi3Z1dwCJXNJ/KIIOh+i3wdcLco65Gi/CuVy28haM=;
+	s=k20260515; t=1785318297;
+	bh=o2Jbn0t4bTPOCnmw0BAUoprtr6tk/QSrIN1zfNVRZUg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mWhzC5IdDiT58NlD2Vh4bt5BFi4dGdB4i+wsOq0ftOchFTEETbGx7ZYyfcmeRWoVS
-	 fti/GCNrbf2Na1PUvyiHFV98p0rY0g74/iFL3oebvAFfjQAgzDg7ZrUn4x7MAZ+MQA
-	 anyQsAi+l4hw4nBXIBetWSkFoAXp13r/Bp6B5+W/Rokm8wqccDbEqtTDEdj4/vhHu2
-	 fOjScexvDSmdskZ6DjKLHDShwPmgzJajmoVuB/oVQ5pvpc1acH2mE4Abto7VQg9DQZ
-	 IS6nLgemTUyixum1CwqPnH58GaV/pntaJecnLIp9Sr8r3fkrWE0AcMeZo0HFPOgFTl
-	 ZGb9Wbicp2ioQ==
-Message-ID: <1886019f-62f7-4662-a2b8-07f035fb0a73@kernel.org>
-Date: Wed, 29 Jul 2026 11:43:47 +0200
+	b=KecLasxf4+A9rNhq2lWbIxcCV4zw+pYetw7ylrWYXWwR0afC/RJ1Ls+gwFq6ZddgU
+	 T2DYYWpwdN3Upj396izMTeiO0u82iHiSOxo9t5v/mz8bm0sjI5TMfQlO34u9GXD8UA
+	 tmTIIVsh1iBY8r3gLIWnABrTehlGhtBupHS3a9mgEWHYkFe+J+Z92eCHh22tmL+56T
+	 H3jj6R5TPRKn6Yg57aX2KOQFw5EXqiR1v+0RPH2IZgl3AbR2KmjOxf1g19kej+aGwZ
+	 dEhgOO/Ps6NgS0J/dpUImWY5gYVwCUy5r0V39MSWtbw0Y5yfaniCRxL3VhVnrxaKF3
+	 9eysW8D6FEEKA==
+Message-ID: <1e2e464b-07db-4fa2-8e38-2d73a9eaea07@kernel.org>
+Date: Wed, 29 Jul 2026 11:44:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,21 +35,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/7] mm/khugepaged: introduce a count_collapse_event()
- helper
+Subject: Re: [PATCH v2 4/7] mm/khugepaged: fix outdated comments
 To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>,
- Usama Arif <usama.arif@linux.dev>, Andrew Morton
- <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
 References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-4-npache@redhat.com>
+ <20260715025941.1571316-5-npache@redhat.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,59 +95,22 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260715025941.1571316-4-npache@redhat.com>
+In-Reply-To: <20260715025941.1571316-5-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/15/26 04:59, Nico Pache wrote:
-> Provide a simple helper function to help reduce a often used, and
-> duplicate pattern across the khugepaged code.
-> 
-> When collapsing to a PMD we need to record a vm_event and the mTHP_stat
-> event. When doing mTHP collapse we only update the mTHP stat.
-> 
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 36 ++++++++++++++++++------------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index e92e2b928f17..f65bbe2051b3 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -689,6 +689,14 @@ static inline bool collapse_is_referenced(struct collapse_control *cc, pte_t pte
->  		mmu_notifier_test_young(vma->vm_mm, addr));
->  }
+
+>  	 * UFFDIO_MOVE is prevented to race as well thanks to the
+>  	 * mmap_lock.
+> @@ -1643,7 +1643,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
 >  
-> +static void count_collapse_event(unsigned int order, enum vm_event_item vm_event,
-> +		enum mthp_stat_item mthp_event)
-> +{
-> +	if (is_pmd_order(order))
-> +		count_vm_event(vm_event);
-> +	count_mthp_stat(order, mthp_event);
-> +}
-> +
->  static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
->  		unsigned int order, struct list_head *compound_pagelist)
-> @@ -709,9 +717,8 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  		if (pte_none_or_zero(pteval)) {
->  			if (++none_or_zero > max_ptes_none) {
->  				result = SCAN_EXCEED_NONE_PTE;
-> -				if (is_pmd_order(order))
-> -					count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
-> -				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> +				count_collapse_event(order, THP_SCAN_EXCEED_NONE_PTE,
-> +						MTHP_STAT_COLLAPSE_EXCEED_NONE);
+>  	/*
+>  	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
+> -	 * scan all pages to populate the bitmap for mTHP collapse.
+> +	 * scan all pages to populate the bitmap for mTHP collapse. The bitmap
+> +	 * is then checked again in mthp_collapse() for each attempted order.
 
-That's not how we indent parameters here. Unless my mail client displays it in a
-weird way (doubt).
-
-Same applies to all other cases.
-
-Apart from that LGTM.
+Why use () here but not in the other cases above? (e.g., collapse_scan_pmd)
 
 -- 
 Cheers,
