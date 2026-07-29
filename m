@@ -1,153 +1,105 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9919C3AAF4D
-	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 16:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D0B43C1D75;
+	Wed, 29 Jul 2026 16:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785342868; cv=none; b=MUZuZ/sv+ULjxkB8fR25RxbD3wHQnF3xH7AwP9teWeYKP2vpLqEy2SCCUJjZsFrRU8PK9QNLfGGr8kX4xCFuUo7h2c8/n0L7GSKVfUWl9mWFsfhKFWK5oKVz6uLuTFjkkZ6nEIC4Sce+ALa73y1/Yz7yn3dSMkBVXKYZGODe1ZE=
+	t=1785342998; cv=none; b=Px9Ps1PuiRjL8uT8KKaq8w4nUxClogC7wHsvdpe9vJEpkpJgtqRdTvDOs4O/dGPQGrmh49xGW4g1l5QS2mD/8rwrzF8od/VAB2b2cs7td8qMh5kp0M+tI0JEw9H6E6zVBQTShdLiTknKoJCeo1WJbh0fMilt7WMxglDL2Plvw9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785342868; c=relaxed/simple;
-	bh=xVCMaAYRMoA+7JRlPIAe/kKzeo1xh9J+66pWGwEUyFU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QvHL9dMdJVOJzxE1zSioENtObXS+hfH6OuMiY1nIInUN/PSebzJtuZ+PaE90e4V9D3jSzd1+PKsoPmvR+NLYWCbxHzoM7bGkn1PnudvcwCRh5C5tpv9CL3x3czqQ+Xxzv5rB+4pLqdjMDYHHitWrRElQ5TJE+2tCp4mB44sqG7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xsazEFvx; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785342998; c=relaxed/simple;
+	bh=tvcXzXQti28HxlHlWQJNIDfbNAoPnOK8M4bOGjwwAw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bolehy8E97IPsA+nX2K8ypSVAyiyhOglc+NTOBjv6WVcbWUsJWh9bZoAqO0m36L8RAUAeeRgKFLPOCxUuS17LDIy0D/999anQ9yjlmwu06OSOIvzxF4EvvctdgFrzN4sZsQTqkN/uQcehMp7ixltcS0czATkhOe5o8zrLc5EXj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=hyI+bd6v; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xsazEFvx"
-X-Forwarded-Encrypted: i=1; AHgh+RqMtZvYIq+As0k2KEfLODDodJvKcpWDMZEORqafs0nkiclCBiAjk13yOG3fGrgBCIu0S+qC+uQrJC0=@vger.kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785342862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CDwMDWK74FGPCQksjJUhT5TIKVqDAVbip9kxaBkjJBk=;
-	b=xsazEFvxMNyXq5mwrU/tsmnJDstSDgb2cnERU5mSBq9rd1xQoGOV9C9TSLcY6zWYSTbEKV
-	5H+cVo3NiShS9yhGuWHWx4IhBrmOZUBBwBUV6VsdI6rx8WPSnBAI1gn4ZEe25JWsiZBeZs
-	YT7Qo2yyDZXn96ERqJKRWDC8/+4WICM=
-X-Gm-Message-State: AOJu0Yzj/Lg+D3POkvcszStLIzz/BGB3O5n0YS46eCUk7xEmMa0oZv2i
-	hloegSCUa1qXEU664blU67EU1hRLnoDDPr1nc4AQ9PtMSwYxxJ/lFo9UQZFQ3M59d6wKRyowviL
-	sXk/A+7XxEGoqXS1+EZZp82rKEkZkTvg+9Ww3I4Q1
-X-Received: by 2002:a05:622a:2b49:b0:51c:ca9:3d15 with SMTP id
- d75a77b69052e-52b3500260fmr2216081cf.12.1785342860083; Wed, 29 Jul 2026
- 09:34:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="hyI+bd6v"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3F021684;
+	Wed, 29 Jul 2026 09:36:31 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB8783F66F;
+	Wed, 29 Jul 2026 09:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785342996; bh=tvcXzXQti28HxlHlWQJNIDfbNAoPnOK8M4bOGjwwAw0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hyI+bd6vl2+Z07rzTz0iR5xyuVsL2EdKpJqN72ssnwQmzDLnSwbLWRI1hRI2iorTw
+	 tfjk+FhGzAV6skpFiLOAMXa87pbO0DTF4odlyG0sH53sP/YQAq51TxBHJGD4cAuqkt
+	 i5H1kPTA/88DqMb9Pe+8aHpoxzDh1H9fFsbluZmc=
+Date: Wed, 29 Jul 2026 17:36:20 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
+	jic23@kernel.org, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, brauner@kernel.org,
+	souvik.chakravarty@arm.com, subrahmanya.lingappa@oss.qualcomm.com,
+	leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+	usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v6 00/22] Introduce SCMI Telemetry support
+Message-ID: <amosBNqF8umNmlWm@pluto>
+References: <20260724144430.1440170-1-cristian.marussi@arm.com>
+ <634717bf-d188-4de1-8465-31e31ea3642e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp> <20260720-hybrid-v9-10-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260720-hybrid-v9-10-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Wed, 29 Jul 2026 17:33:00 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTzuaMDJm8BPf1sA9DiSDvtyn=C1Z2LrOLYc228XKJzF2w@mail.gmail.com>
-X-Gm-Features: AUfX_mzDDgEy7qPOSuwHqBOjPkT5QQo0kZIP1lcw0jJbpzlF7P6EqmFVAn2Xz68
-Message-ID: <CA+EHjTzuaMDJm8BPf1sA9DiSDvtyn=C1Z2LrOLYc228XKJzF2w@mail.gmail.com>
-Subject: Re: [PATCH v9 10/16] KVM: arm64: Don't clear vcpu->cpu in kvm_arch_vcpu_put()
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Yury Norov <yury.norov@gmail.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Steffen Eiden <seiden@linux.ibm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <634717bf-d188-4de1-8465-31e31ea3642e@kernel.org>
 
-On Mon, 20 Jul 2026 at 06:39, Akihiko Odaki
-<odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
->
-> From: Oliver Upton <oupton@kernel.org>
->
-> commit e9b152cb957c ("arm/arm64: kvm: Set vcpu->cpu to -1 on vcpu_put")
-> reset vcpu->cpu in order for the VGIC to determine if there was any vCPU
-> running at the time of access. The VGIC has gone through an entire
-> rewrite since then, and with commit 7d450e282171 ("KVM: arm/arm64:
-> vgic-new: Add userland access to VGIC dist registers") the user
-> accessors just grab all vCPU mutexes instead.
->
-> Drop this remaining vestige such that kvm_arch_vcpu_load() can properly
-> detect a CPU migration. While at it, rework kvm_reset_vcpu() to do a
-> much more pedantic check that the provided vCPU is actually what's
-> running on the present CPU.
->
-> Signed-off-by: Oliver Upton <oupton@kernel.org>
-> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+On Wed, Jul 29, 2026 at 11:12:20AM +0200, David Hildenbrand (Arm) wrote:
+> 
+> > NOTE THAT from v3 onwards the firmware interface level NOW supports ONLY
+> > the latest SCMI v4.0 specification [0].
+> > 
+> > TODO
+> > ----
+> >  - [ABI]: add genric events supports -> generation counter/updates
+> >  - [ABI]: add Secondary UUID support
+> >  - [ABI]: add BATCHED DE_CONFIG and add per-de status to BATCH READS
+> >  - [ABI]: more DOCS
+> >  - [ABI]: some more dediceate space to grow all around the structures
+> >  - (maybe) TLM chardev open-exclusive mode to ease userspace co-ordination
+> >  - a few residual sparse to fix... 
+> 
+> Is this a TODO list as in "must be tackled before this can be merged" or rather
+> a "future works" list?
+> 
+> Especially the "[ABI]: some more dediceate space to grow all around the
+> structures" sounds like something we would want before considering merging it?
 
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
+Hi,
 
-Cheers,
-/fuad
+indeed the first two (UUIDs/generation) and the reserved space to grow
+were meant to be the bare minimum to have, but indeed the other ABI
+stuff is not a big deal to add and so it would be better to have it all
+given that they have been asked explictly by the tools team...
 
-> ---
->  arch/arm64/kvm/arm.c   |  1 -
->  arch/arm64/kvm/reset.c | 16 +++++++++++-----
->  2 files changed, 11 insertions(+), 6 deletions(-)
->
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index a06ea39f57b1..72ce79ce4d5e 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -749,7 +749,6 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->         kvm_arm_vmid_clear_active();
->
->         vcpu_clear_on_unsupported_cpu(vcpu);
-> -       vcpu->cpu = -1;
->  }
->
->  static void __kvm_arm_vcpu_power_off(struct kvm_vcpu *vcpu)
-> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-> index b963fd975aac..6bfb21f00444 100644
-> --- a/arch/arm64/kvm/reset.c
-> +++ b/arch/arm64/kvm/reset.c
-> @@ -190,7 +190,8 @@ static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
->  void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
->  {
->         struct vcpu_reset_state reset_state;
-> -       bool loaded;
-> +       struct kvm_vcpu *running;
-> +       bool loaded = false;
->         u32 pstate;
->
->         spin_lock(&vcpu->arch.mp_state_lock);
-> @@ -198,10 +199,16 @@ void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
->         vcpu->arch.reset_state.reset = false;
->         spin_unlock(&vcpu->arch.mp_state_lock);
->
-> -       preempt_disable();
-> -       loaded = (vcpu->cpu != -1);
-> -       if (loaded)
-> +       guard(preempt)();
-> +
-> +       running = kvm_get_running_vcpu();
-> +       if (running) {
-> +               if (KVM_BUG_ON(running != vcpu, vcpu->kvm))
-> +                       return;
-> +
-> +               loaded = true;
->                 kvm_arch_vcpu_put(vcpu);
-> +       }
->
->         if (!kvm_arm_vcpu_sve_finalized(vcpu)) {
->                 if (vcpu_has_feature(vcpu, KVM_ARM_VCPU_SVE))
-> @@ -269,7 +276,6 @@ void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
->
->         if (loaded)
->                 kvm_arch_vcpu_load(vcpu, smp_processor_id());
-> -       preempt_enable();
->  }
->
->  u32 kvm_get_pa_bits(struct kvm *kvm)
->
-> --
-> 2.55.0
->
->
+...anyway till now I was trying to incrementally add new feats (like the
+above) and carry-on SOME cleanup bugfixing following Sashiko reviews mainly...
+
+...so as to simultaneously progress toward a more complete and correct code...
+
+..but, given that the stuff in my TODOs keep getting flagged as "...ehi
+this is still missing..." despite being in the cover TODOs (O_o), I will move
+away from my incremental approach and I will instead aim at being at first
+'feature complete' by the end of this week and then resume cleanup activities
+next....
+
+So, IF I'll have a decent feature-complete series by this weekend I will
+post such a v7 (to gather more feedback), and postpone final in-deeep cleanups
+in next week v8....IF NOT I will go straight for a v7 next week with
+full feats AND cleanups...
+
+(... not that I am expecting Sashiko not to find more stuff even in v8... )
+
+Thanks,
+Cristian
