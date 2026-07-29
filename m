@@ -1,146 +1,90 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B424052BE
-	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 16:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC2F411A0F
+	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 16:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785341113; cv=none; b=pRYD09jsA8awZo50vSi1Tm6P3BmgpyhHc4HMt1PjyN76TZIKaT6pIGGLtZw2syjvm1LCZeUN5cv39TmNYpkXjP+CDgxSs+BOp1fXc5UGBm86aEnvmlzVoxnbfK0eX/Tlt7036+FLr/WVxEArXmIHdG3NjjW9CTN7C63ez94uHTw=
+	t=1785341348; cv=none; b=n+pO9owCHsi6FrdJ6H5YR6wm3qx7nyk5xpVDSqpJWGnBl7Fk4nx8nAsXTTHzSHduV32SCjTcHCgp8VMUAQUQCtNXOhCflQOt3zRkqUw1G4ivJNGe6EDp5OToHsiJlKs9BKaAnNDbF4yGg7IA/qvIBQUBMNVrryq7NokRSeFCrfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785341113; c=relaxed/simple;
-	bh=6dhf2ThkaWXO1d6SgMWi/wi1OAGH6HEYT6nrIsYJvDw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eKlT0UbK3RbYqBKXjWEPNuh4zfyWCOOZiT0yHF4nyvYRVh3YN3ANgBNJ8gGtSJYEJOl5RJSxmJlTcI1P//CsBJutCIChDY5av5LoporDW/lFMcU06bZtg71Oq1MVfHTDowBK7yLl3EeFdNVGt90DJbGfH/8KSG1pCH09SwrJztA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H1cuOrI2; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785341348; c=relaxed/simple;
+	bh=OJNpt+XFKz2F/s/xnxUXEHTelo8cISHJOL9dL4VTY2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V2nol7ebBVHq8OGD7NQJQP8iZqoB6CurcMc2r2IjP7gtk/8vg/7ifzIalWSGvb4QTPVjghDmy69256vMFtc1m8t3S+muTwmDiBLiD0V4bR4BS6LE+/X97f9bn/t8hWky1Z1NK72+OsOfD713PCApRogho5bGqqEf337WBAtsZbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=izHltBI8; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H1cuOrI2"
-X-Forwarded-Encrypted: i=1; AHgh+RpKiz7CGAMWhSkhsBW98lolVDbSsZZxvrwBdhY/NvVU1DU0F8kbAvZk6z09EVkWbU45M/SV5lO633w=@vger.kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785341109;
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="izHltBI8"
+Date: Thu, 30 Jul 2026 00:08:35 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1785341339;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FWo0ftyBa7lC2aPQ/hBNWMcCRmwtU50P0VZaxqKFsjs=;
-	b=H1cuOrI221grg8RC/B0H5Wb/Sir72nL6Y6qm7hZKwbIaPaoAfaTuLt+kp+5iJw27hvSyLd
-	G+6wtKCN0cK5oQY3Sj6po7wz3odZXgMPDIiTy9HYYY8FTO69VTT4B44cdQf8OUuw1FqSsH
-	BapotfveKZ4duAx2cEIDQhG9pExdsC8=
-X-Gm-Message-State: AOJu0Yznf8gX/eqgO+kcWkN0LE9gNaCvLb/xmbHtp+fHmkOln1EXeVFI
-	FFvvsy/vljz7+NPDQoewxK8OixdUrzTiwxZTRKCDxu1FRnybv1IadFRRYBUMoyuFXtXfPVYnblI
-	8jAPTiiDsutqLiFcl+E4X/5W47azFJiWTzulpg+N8
-X-Received: by 2002:a05:622a:a15:b0:517:64f6:3365 with SMTP id
- d75a77b69052e-52b34e85fb1mr1702101cf.4.1785341097295; Wed, 29 Jul 2026
- 09:04:57 -0700 (PDT)
+	bh=gHJ/CYE5s4aW0Crg/l1eVr6mAI0ZFCoWVcYGZfSY1so=;
+	b=izHltBI8K6ouHf2CzQI2GwdzhqHZHMf1LapwNgAfMOFAfGMwZexRZF+P+FF3zG5WU+qC7M
+	YKdRcBVThDsbyYH0SomvVi7GVmmfknwySF/NR9hMEAr0CnWK/rpAGO8If3n6y8Zbij2SI0
+	IoTsXeGfBeV4awYikFh8ruXXZDOj5sDzU0obEjUpo7VyD0G/yGWXKP3dMbreVLoOvP67gF
+	A+bysSDI4IkZTMD0vktJH08EebWZuTaT3Mac4/B/bg1sPElgBrpuBfjnmq5zGeo2eYhhIz
+	I+EDgOXw7x/T8J1sx8MVrw4mWSGCLSUT3dHBzccY5PE7fa6ZoZFHCT3uliL43w==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/16] docs/zh_TW: process: localize terminology in
+ 7.AdvancedTopics.rst
+Message-ID: <amolg7NpObNT8Gnb@wyuan.org>
+References: <20260728091038.171033-1-chenyou910331@gmail.com>
+ <20260728091038.171033-2-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp> <20260720-hybrid-v9-7-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260720-hybrid-v9-7-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Wed, 29 Jul 2026 17:03:00 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTyTcUBzAcGhG88w7qxUgm5BF709Za9XWYWEHE=JMCL2hA@mail.gmail.com>
-X-Gm-Features: AUfX_myu-7UL3bRAtMkrPeNTWcxaXv9440Zld_Zcb7LGPBk6xfJMpVLySDjt26o
-Message-ID: <CA+EHjTyTcUBzAcGhG88w7qxUgm5BF709Za9XWYWEHE=JMCL2hA@mail.gmail.com>
-Subject: Re: [PATCH v9 07/16] tools headers: Use u* types for bitfield helpers
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Yury Norov <yury.norov@gmail.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Steffen Eiden <seiden@linux.ibm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260728091038.171033-2-chenyou910331@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 
-On Mon, 20 Jul 2026 at 06:39, Akihiko Odaki
-<odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
->
-> Commit 9486aa387716 ("perf tools: Fix 64 bit integer format strings")
-> defined the tools-local u64 as uint64_t so that PRI*64 format macros
-> match its underlying C type. On architectures where uint64_t and __u64
-> are distinct types, however, ____MAKE_OP() still gives the u64_*
-> helpers an __u64 interface.
->
-> Teach ____MAKE_OP() to accept the helper name and storage type
-> separately. Keep endian helpers on __le* and __be*, and generate the
-> native helpers using the tools-local u* types.
->
-> Assisted-by: Codex:gpt-5.6-sol
-> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+On Tue, Jul 28, 2026 at 05:10:23PM +0800, Chen-Yu Yeh wrote:
+> Localize mainland terms to Taiwanese Mandarin (內核→核心, 軟件→軟體,
+> 高級→進階, 項目→專案, 用戶→使用者, ...) and sync with the English
+> original (Github → GitHub).
+> 
+> update to commit 5ce70894f6ca ("Doc: correct spelling and wording
+> mistakes")
 
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
+Reviewed-by: Weijie Yuan <wy@wyuan.org>
 
-Cheers,
-/fuad
-
-
-
+> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 > ---
->  tools/include/linux/bitfield.h | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
->
-> diff --git a/tools/include/linux/bitfield.h b/tools/include/linux/bitfield.h
-> index ddf81f24956b..1c633343d576 100644
-> --- a/tools/include/linux/bitfield.h
-> +++ b/tools/include/linux/bitfield.h
-> @@ -142,32 +142,32 @@ static __always_inline u64 field_mask(u64 field)
->         return field / field_multiplier(field);
->  }
->  #define field_max(field)       ((typeof(field))field_mask(field))
-> -#define ____MAKE_OP(type,base,to,from)                                 \
-> -static __always_inline __##type type##_encode_bits(base v, base field) \
-> +#define ____MAKE_OP(name,type,base,to,from)                            \
-> +static __always_inline type name##_encode_bits(base v, base field)     \
->  {                                                                      \
->         if (__builtin_constant_p(v) && (v & ~field_mask(field)))        \
->                 __field_overflow();                                     \
->         return to((v & field_mask(field)) * field_multiplier(field));   \
->  }                                                                      \
-> -static __always_inline __##type type##_replace_bits(__##type old,      \
-> -                                       base val, base field)           \
-> +static __always_inline type name##_replace_bits(type old,              \
-> +                                               base val, base field)   \
->  {                                                                      \
-> -       return (old & ~to(field)) | type##_encode_bits(val, field);     \
-> +       return (old & ~to(field)) | name##_encode_bits(val, field);     \
->  }                                                                      \
-> -static __always_inline void type##p_replace_bits(__##type *p,          \
-> +static __always_inline void name##p_replace_bits(type *p,              \
->                                         base val, base field)           \
->  {                                                                      \
-> -       *p = (*p & ~to(field)) | type##_encode_bits(val, field);        \
-> +       *p = (*p & ~to(field)) | name##_encode_bits(val, field);        \
->  }                                                                      \
-> -static __always_inline base type##_get_bits(__##type v, base field)    \
-> +static __always_inline base name##_get_bits(type v, base field)        \
->  {                                                                      \
->         return (from(v) & field)/field_multiplier(field);               \
->  }
-> -#define __MAKE_OP(size)                                                        \
-> -       ____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu) \
-> -       ____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu) \
-> -       ____MAKE_OP(u##size,u##size,,)
-> -____MAKE_OP(u8,u8,,)
-> +#define __MAKE_OP(size)                                                                        \
-> +       ____MAKE_OP(le##size,__le##size,u##size,cpu_to_le##size,le##size##_to_cpu)      \
-> +       ____MAKE_OP(be##size,__be##size,u##size,cpu_to_be##size,be##size##_to_cpu)      \
-> +       ____MAKE_OP(u##size,u##size,u##size,,)
-> +____MAKE_OP(u8,u8,u8,,)
->  __MAKE_OP(16)
->  __MAKE_OP(32)
->  __MAKE_OP(64)
->
-> --
-> 2.55.0
->
->
+>  .../zh_TW/process/7.AdvancedTopics.rst        | 110 +++++++++---------
+>  1 file changed, 56 insertions(+), 54 deletions(-)
+
+A small gripe: what is the best practice for reviewing a new revision of
+a patch series after it has been rerolled?
+
+For this series, I found the output of b4 diff rather difficult to read,
+so I had to split out the individual patches and inspect them using git
+mailinfo and interdiff. That, however, means losing the built-in
+highlighting provided by b4 diff.
+
+In this case, I would say a range-diff/interdiff for each patch seems to
+be a good solution in general, while obviously that's not that
+convenient for the patch sender.
+
+Perhaps there is no best solution to this problem; Git may simply not be
+expected to handle Chinese text particularly well.
+
+I would appreciate it if some one more experienced could give me some
+tips. But this series is however quite special. Usually we won't meet a
+large series which contains many diffs in it like this.
+
+Then I suppose we'll just have to ride out these growing pains. ;-)
