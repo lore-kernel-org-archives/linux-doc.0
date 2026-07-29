@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F673BC673;
-	Wed, 29 Jul 2026 20:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7DC41A57D;
+	Wed, 29 Jul 2026 20:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785357923; cv=none; b=WNBxHPdkhIPzoVzJmth/FsPxv3hV0V8uRBEtvjk08ezm+tmvgSI0hPZMEit0oiLx3cxgevpYFmDZHHkWyhTTV++UEQ0Jy1AQMR85SOUp89/CopM1rpsR0zHsQOrmVOU+2T2CrV3WuQKWXTJ0SiH3ih6eIYwYPPvo6zuTkj+TOyI=
+	t=1785357926; cv=none; b=EY7g69J3zCm/OLkjFdivrcyaIUL/ZOSxNbNePccKqM6dDEpO/7qzkCT/61ydVHUDTXp5mi3sH4KarGG/WA1SmEKeUrD1EpKVU2Fg7mYzXbkvZ8SII0sr98epao47Ik8XF92r7NO4CCQUPJG06t7C/ihUrbi4sZAz5BEE49naEmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785357923; c=relaxed/simple;
-	bh=zeFNlg+Jqu/extEAPQx7wr3dHGwsr/NGMEnESda69fY=;
+	s=arc-20240116; t=1785357926; c=relaxed/simple;
+	bh=uCuRpj+CVSneyd9yUPCY5I1RQ4aDMV8Yaw1ivGsWRq0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TodsbDFZqjeWY9iwiGN2afDrSIxwqclnirOhWUp4oLiCSgvVUWFILioq9F8ufv5s3kX6wTgIX4Jbqrb1J9V+Ozz2DGEX6AhFEXRNu5W1EW3+UnTHpF2EBpBadkMSsOzsqMprlU0qvcAobTMqBShodDUNGle07BZSVwYvxZJ2OnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EK0fuCin; arc=none smtp.client-ip=192.198.163.19
+	 MIME-Version; b=cDqPCOIvofE1mu/reF05Eg+jpsT/x3sTz6Dh/7oZn1EmHtLQArSZoHdNzuHCCL75fSkiP5Dj0SJv/zMVp8LEAAfyb+a+U10WQupKSyYhbKb3Vr54uca7/nnjtGDfAhmbJL905nctm9YI6RVjZPX0S5JQivrQ6yDrbhDhDk+UHQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNh+krgD; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EK0fuCin"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNh+krgD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785357919; x=1816893919;
+  t=1785357922; x=1816893922;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zeFNlg+Jqu/extEAPQx7wr3dHGwsr/NGMEnESda69fY=;
-  b=EK0fuCinj37zXCH0LffIw90u5G9SQZxsN0bB1nqzjS2dFLPmpci6ZMPV
-   j+hSQMXGJ71cJBJGBrgd9xi1DaKmuJH9TE4ELAPO49BwC4dt03Yj++H5F
-   WEeMyB4itbk7EOH9MFeTLMGCdWLcNMUYbJIy8bHSRMVb+WIpWqQ0tRdbo
-   dvgY6UinEdNcyRzwDsDt7I5XN9Eab1DnPzfVDhGKLNHCRBpndtju1Nhn9
-   QpOvc6F8SL7I1npnmx8A3Tp9KGiCw44lAZVMkEYOekeus12COWrQWfnP0
-   yWhsndG9oehyLg+XphoE6QkZv5jeo/p6VNp8bNy3/lNcR4tD3JXbjVbzz
-   A==;
-X-CSE-ConnectionGUID: +OEN393wRCSnTJ+rOMRJww==
-X-CSE-MsgGUID: 9fuudN8ST+a//ar4JE+mXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="84952379"
+  bh=uCuRpj+CVSneyd9yUPCY5I1RQ4aDMV8Yaw1ivGsWRq0=;
+  b=mNh+krgDUyr5e/MMKVaZDWTTSEy71VDyVLzM3R3UWX5FDHhbV5Tk8fGT
+   xNw2impsHTJSMP9i4DEzvcfq8zxVBlLyIFSz4EE4Fq0ArclmGG8BzOW+4
+   lANeZCFRZ2Emnzmh0VA7DO0Kvo75FspnD4/CgNh3lbppXxoSiUJbdrecb
+   AHnHxbMkN7p7oev2A0zzG+hO+wWUC2oVsYfaRSH7nMRSuY4aiUDY8B8ZU
+   D5MDsqaT5KBCj2I7tHlBYWW7D+RE0dWE2Xw2khDvfy/VEMUsTbOW298Lp
+   chQlfQLw5wg3A06aD+KE2k+aglfJGf7778RDgcKb2DcS8JSuHeT5ead9M
+   Q==;
+X-CSE-ConnectionGUID: PwDDWYBuTvicoKyn+TJO7Q==
+X-CSE-MsgGUID: JLWtQuaNQOenEqGfKltVhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="84952399"
 X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="84952379"
+   d="scan'208";a="84952399"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 13:45:09 -0700
-X-CSE-ConnectionGUID: FhzweqL1QeuVCp3neZdCMQ==
-X-CSE-MsgGUID: mbd9d3iSSg6E4wcMY82dtQ==
+X-CSE-ConnectionGUID: 5uerDSpDQo+wEj+bT5IEcQ==
+X-CSE-MsgGUID: k55Vh93cThSJaElo3hvzhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="264381333"
+   d="scan'208";a="264381343"
 Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
   by orviesa005.jf.intel.com with ESMTP; 29 Jul 2026 13:45:09 -0700
 From: Tony Nguyen <anthony.l.nguyen@intel.com>
@@ -50,7 +50,7 @@ To: davem@davemloft.net,
 	edumazet@google.com,
 	andrew+netdev@lunn.ch,
 	netdev@vger.kernel.org
-Cc: Pavan Kumar Linga <madhu.chittim@intel.com>,
+Cc: Phani R Burra <phani.r.burra@intel.com>,
 	anthony.l.nguyen@intel.com,
 	larysa.zaremba@intel.com,
 	przemyslaw.kitszel@intel.com,
@@ -59,6 +59,7 @@ Cc: Pavan Kumar Linga <madhu.chittim@intel.com>,
 	michal.swiatkowski@linux.intel.com,
 	maciej.fijalkowski@intel.com,
 	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
 	joshua.a.hay@intel.com,
 	jacob.e.keller@intel.com,
 	jayaprakash.shanmugam@intel.com,
@@ -70,9 +71,9 @@ Cc: Pavan Kumar Linga <madhu.chittim@intel.com>,
 	linux-doc@vger.kernel.org,
 	Bharath R <bharath.r@intel.com>,
 	Samuel Salin <Samuel.salin@intel.com>
-Subject: [PATCH net-next v6 03/15] libeth: allow to create fill queues without NAPI
-Date: Wed, 29 Jul 2026 13:44:50 -0700
-Message-ID: <20260729204505.3373950-4-anthony.l.nguyen@intel.com>
+Subject: [PATCH net-next v6 05/15] libie: add bookkeeping support for control queue messages
+Date: Wed, 29 Jul 2026 13:44:52 -0700
+Message-ID: <20260729204505.3373950-6-anthony.l.nguyen@intel.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20260729204505.3373950-1-anthony.l.nguyen@intel.com>
 References: <20260729204505.3373950-1-anthony.l.nguyen@intel.com>
@@ -84,91 +85,859 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+From: Phani R Burra <phani.r.burra@intel.com>
 
-Control queues can utilize libeth_rx fill queues, despite working outside
-of NAPI context. The only problem is standard fill queues requiring NAPI
-that provides them with the device pointer.
+Small send control queue message buffers are managed and reused by
+libie itself, bigger send buffers are consumed. All are tracked with
+the unique transaction (Xn) ids until they receive response or time out.
 
-Introduce a way to provide the device directly without using NAPI.
+Responses can be received out of order, therefore transactions are stored
+in an array and tracked though a bitmap. Rx buffers utilize page_pool.
 
-Suggested-by: Alexander Lobakin <aleksander.lobakin@intel.com>
+Pre-allocated DMA memory is used where possible. It reduces the driver
+overhead in handling memory allocation/free and message timeouts.
+
 Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Signed-off-by: Phani R Burra <phani.r.burra@intel.com>
+Co-developed-by: Victor Raj <victor.raj@intel.com>
+Signed-off-by: Victor Raj <victor.raj@intel.com>
+Co-developed-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
 Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
 Tested-by: Bharath R <bharath.r@intel.com>
 Tested-by: Samuel Salin <Samuel.salin@intel.com>
+Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
 Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
 Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
 ---
- drivers/net/ethernet/intel/libeth/rx.c | 12 ++++++++----
- include/net/libeth/rx.h                |  4 +++-
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ drivers/net/ethernet/intel/libie/controlq.c | 615 ++++++++++++++++++++
+ include/linux/net/intel/libie/controlq.h    | 171 ++++++
+ 2 files changed, 786 insertions(+)
 
-diff --git a/drivers/net/ethernet/intel/libeth/rx.c b/drivers/net/ethernet/intel/libeth/rx.c
-index 62521a1f4ec9..0c1a565a1b3a 100644
---- a/drivers/net/ethernet/intel/libeth/rx.c
-+++ b/drivers/net/ethernet/intel/libeth/rx.c
-@@ -145,25 +145,29 @@ static bool libeth_rx_page_pool_params_zc(struct libeth_fq *fq,
- /**
-  * libeth_rx_fq_create - create a PP with the default libeth settings
-  * @fq: buffer queue struct to fill
-- * @napi: &napi_struct covering this PP (no usage outside its poll loops)
-+ * @napi_dev: &napi_struct for NAPI (data) queues, &device for others
-  *
-  * Return: %0 on success, -%errno on failure.
-  */
--int libeth_rx_fq_create(struct libeth_fq *fq, struct napi_struct *napi)
-+int libeth_rx_fq_create(struct libeth_fq *fq, void *napi_dev)
- {
-+	struct napi_struct *napi = fq->no_napi ? NULL : napi_dev;
- 	struct page_pool_params pp = {
- 		.flags		= PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
- 		.order		= LIBETH_RX_PAGE_ORDER,
- 		.pool_size	= fq->count,
- 		.nid		= fq->nid,
--		.dev		= napi->dev->dev.parent,
--		.netdev		= napi->dev,
-+		.dev		= napi ? napi->dev->dev.parent : napi_dev,
-+		.netdev		= napi ? napi->dev : NULL,
- 		.napi		= napi,
- 	};
- 	struct libeth_fqe *fqes;
- 	struct page_pool *pool;
- 	int ret;
+diff --git a/drivers/net/ethernet/intel/libie/controlq.c b/drivers/net/ethernet/intel/libie/controlq.c
+index fee4f72afcaf..bb690c756dad 100644
+--- a/drivers/net/ethernet/intel/libie/controlq.c
++++ b/drivers/net/ethernet/intel/libie/controlq.c
+@@ -608,6 +608,621 @@ u32 libie_ctlq_recv(struct libie_ctlq_info *ctlq, struct libie_ctlq_msg *msg,
+ }
+ EXPORT_SYMBOL_NS_GPL(libie_ctlq_recv, "LIBIE_CP");
  
-+	if (!pp.netdev && fq->type == LIBETH_FQE_MTU)
-+		return -EINVAL;
++/**
++ * libie_ctlq_xn_pop_free - get a free Xn entry from the free list
++ * @xnm: Xn transaction manager
++ *
++ * Retrieve a free Xn entry from the free list.
++ *
++ * Return: valid Xn entry pointer or NULL if there are no free Xn entries.
++ */
++static struct libie_ctlq_xn *
++libie_ctlq_xn_pop_free(struct libie_ctlq_xn_manager *xnm)
++{
++	struct libie_ctlq_xn *xn;
++	u32 free_idx;
 +
- 	pp.dma_dir = fq->xdp ? DMA_BIDIRECTIONAL : DMA_FROM_DEVICE;
++	guard(spinlock)(&xnm->free_xns_bm_lock);
++
++	if (unlikely(xnm->shutdown))
++		return NULL;
++
++	free_idx = find_next_bit(xnm->free_xns_bm, LIBIE_CTLQ_MAX_XN_ENTRIES,
++				 0);
++	if (free_idx == LIBIE_CTLQ_MAX_XN_ENTRIES)
++		return NULL;
++
++	__clear_bit(free_idx, xnm->free_xns_bm);
++	xn = &xnm->ring[free_idx];
++	xn->cookie = xnm->cookie++;
++
++	return xn;
++}
++
++/**
++ * __libie_ctlq_xn_push_free - unsafely push a Xn entry into the free list
++ * @xnm: Xn transaction manager
++ * @xn: xn entry to be added into the free list
++ *
++ * Return: whether xnm destruction can be triggered by the caller
++ */
++static bool __libie_ctlq_xn_push_free(struct libie_ctlq_xn_manager *xnm,
++				      struct libie_ctlq_xn *xn)
++{
++	__set_bit(xn->index, xnm->free_xns_bm);
++
++	if (unlikely(xnm->shutdown) &&
++	    bitmap_full(xnm->free_xns_bm, LIBIE_CTLQ_MAX_XN_ENTRIES))
++		return true;
++
++	return false;
++}
++
++/**
++ * libie_ctlq_xn_push_free - push a Xn entry into the free list
++ * @xnm: Xn transaction manager
++ * @xn: xn entry to be added into the free list, not locked
++ *
++ * Safely add a used Xn entry back to the free list.
++ */
++static void libie_ctlq_xn_push_free(struct libie_ctlq_xn_manager *xnm,
++				    struct libie_ctlq_xn *xn)
++{
++	bool can_destroy;
++
++	scoped_guard(spinlock, &xnm->free_xns_bm_lock)
++		can_destroy = __libie_ctlq_xn_push_free(xnm, xn);
++
++	if (can_destroy)
++		complete(&xnm->can_destroy);
++}
++
++/**
++ * libie_ctlq_xn_deinit_dma - free the DMA memory allocated for send messages
++ * @dev: device pointer
++ * @xnm: pointer to the transaction manager
++ * @num_entries: number of Xn entries to free the DMA for
++ */
++static void libie_ctlq_xn_deinit_dma(struct device *dev,
++				     struct libie_ctlq_xn_manager *xnm,
++				     u32 num_entries)
++{
++	for (u32 i = 0; i < num_entries; i++) {
++		struct libie_ctlq_xn *xn = &xnm->ring[i];
++
++		libie_cp_free_dma_mem(dev, xn->dma_mem);
++		kfree(xn->dma_mem);
++	}
++}
++
++/**
++ * libie_ctlq_xn_init_dma - pre-allocate DMA memory for send messages that use
++ * stack variables
++ * @dev: device pointer
++ * @xnm: pointer to transaction manager
++ *
++ * Return: %0 on success or error if memory allocation fails
++ */
++static int libie_ctlq_xn_init_dma(struct device *dev,
++				  struct libie_ctlq_xn_manager *xnm)
++{
++	u32 i;
++
++	for (i = 0; i < LIBIE_CTLQ_MAX_XN_ENTRIES; i++) {
++		struct libie_ctlq_xn *xn = &xnm->ring[i];
++		struct libie_cp_dma_mem *dma_mem;
++
++		dma_mem = kzalloc_obj(*dma_mem);
++		if (!dma_mem)
++			goto dealloc_dma;
++
++		dma_mem->va = libie_cp_alloc_dma_mem(dev, dma_mem,
++						     LIBIE_CP_TX_COPYBREAK);
++		if (!dma_mem->va) {
++			kfree(dma_mem);
++			goto dealloc_dma;
++		}
++
++		xn->dma_mem = dma_mem;
++	}
++
++	return 0;
++
++dealloc_dma:
++	libie_ctlq_xn_deinit_dma(dev, xnm, i);
++
++	return -ENOMEM;
++}
++
++/**
++ * libie_ctlq_xn_process_recv - process Xn data in receive message
++ * @params: Xn receive param information to handle a receive message
++ * @ctlq_msg: received control queue message
++ *
++ * Process a control queue receive message and send a complete event
++ * notification.
++ *
++ * Return: true if a message has been processed, false otherwise.
++ */
++static bool
++libie_ctlq_xn_process_recv(struct libie_ctlq_xn_recv_params *params,
++			   struct libie_ctlq_msg *ctlq_msg)
++{
++	struct libie_ctlq_xn_manager *xnm = params->xnm;
++	struct libie_ctlq_xn *xn;
++	u16 msg_cookie, xn_index;
++	struct kvec *response;
++	int status;
++	u16 data;
++
++	data = ctlq_msg->sw_cookie;
++	xn_index = FIELD_GET(LIBIE_CTLQ_XN_INDEX_M, data);
++	msg_cookie = FIELD_GET(LIBIE_CTLQ_XN_COOKIE_M, data);
++	status = ctlq_msg->chnl_retval ? -EFAULT : 0;
++
++	xn = &xnm->ring[xn_index];
++	spin_lock(&xn->xn_lock);
++	if (ctlq_msg->chnl_opcode != xn->virtchnl_opcode ||
++	    msg_cookie != xn->cookie) {
++		spin_unlock(&xn->xn_lock);
++		return false;
++	}
++
++	if (xn->state != LIBIE_CTLQ_XN_ASYNC &&
++	    xn->state != LIBIE_CTLQ_XN_WAITING) {
++		spin_unlock(&xn->xn_lock);
++		return false;
++	}
++
++	response = &ctlq_msg->recv_mem;
++	if (xn->state == LIBIE_CTLQ_XN_ASYNC) {
++		xn->resp_cb(xn->send_ctx, response, status);
++		libie_ctlq_release_rx_buf(response);
++		xn->state = LIBIE_CTLQ_XN_IDLE;
++		spin_unlock(&xn->xn_lock);
++		libie_ctlq_xn_push_free(xnm, xn);
++
++		return true;
++	}
++
++	xn->recv_mem = *response;
++	xn->state = status ? LIBIE_CTLQ_XN_COMPLETED_FAILED :
++			     LIBIE_CTLQ_XN_COMPLETED_SUCCESS;
++
++	complete(&xn->cmd_completion_event);
++	spin_unlock(&xn->xn_lock);
++
++	return true;
++}
++
++/**
++ * libie_xn_check_async_timeout - Check for asynchronous message timeouts
++ * @xnm: Xn transaction manager
++ *
++ * Call the corresponding callback to notify the caller about the timeout.
++ * Iterates free_xns_bm locklessly, potential races are caught under
++ * xn->xn_lock.
++ */
++static void libie_xn_check_async_timeout(struct libie_ctlq_xn_manager *xnm)
++{
++	u32 idx;
++
++	for_each_clear_bit(idx, xnm->free_xns_bm, LIBIE_CTLQ_MAX_XN_ENTRIES) {
++		struct libie_ctlq_xn *xn = &xnm->ring[idx];
++		u64 timeout_ms;
++
++		spin_lock(&xn->xn_lock);
++
++		timeout_ms = ktime_ms_delta(ktime_get(), xn->timestamp);
++		if (xn->state != LIBIE_CTLQ_XN_ASYNC ||
++		    timeout_ms < xn->timeout_ms) {
++			spin_unlock(&xn->xn_lock);
++			continue;
++		}
++
++		xn->resp_cb(xn->send_ctx, NULL, -ETIMEDOUT);
++		xn->state = LIBIE_CTLQ_XN_IDLE;
++		spin_unlock(&xn->xn_lock);
++		libie_ctlq_xn_push_free(xnm, xn);
++	}
++}
++
++/**
++ * libie_ctlq_xn_recv - process control queue receive message
++ * @params: Xn receive param information to handle a receive message
++ *
++ * Process a receive message and update the receive queue buffer.
++ * Also terminates async transactions for which it failed to receive a response
++ * within a given timeframe.
++ * Function is intended to be called periodically from a single task.
++ *
++ * Return: remaining budget.
++ */
++u32 libie_ctlq_xn_recv(struct libie_ctlq_xn_recv_params *params)
++{
++	struct libie_ctlq_msg ctlq_msg;
++	u32 budget = params->budget;
++
++	while (budget && libie_ctlq_recv(params->ctlq, &ctlq_msg, 1)) {
++		budget--;
++		if (!libie_ctlq_xn_process_recv(params, &ctlq_msg))
++			params->ctlq_msg_handler(params->xnm->ctx, &ctlq_msg);
++	}
++
++	libie_ctlq_post_rx_buffs(params->ctlq);
++	libie_xn_check_async_timeout(params->xnm);
++
++	return budget;
++}
++EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_recv, "LIBIE_CP");
++
++/**
++ * libie_cp_map_dma_mem - map a given virtual address for DMA
++ * @dev: device information
++ * @va: virtual address to be mapped
++ * @size: size of the memory
++ * @direction: DMA direction either from/to device
++ * @dma_mem: memory for DMA information to be stored
++ *
++ * Return: true on success, false on DMA map failure.
++ */
++static bool libie_cp_map_dma_mem(struct device *dev, void *va, size_t size,
++				 int direction,
++				 struct libie_cp_dma_mem *dma_mem)
++{
++	dma_mem->pa = dma_map_single(dev, va, size, direction);
++
++	return dma_mapping_error(dev, dma_mem->pa) ? false : true;
++}
++
++/**
++ * libie_cp_unmap_dma_mem - unmap previously mapped DMA address
++ * @dev: device information
++ * @dma_mem: DMA memory information
++ */
++static void libie_cp_unmap_dma_mem(struct device *dev,
++				   const struct libie_cp_dma_mem *dma_mem)
++{
++	dma_unmap_single(dev, dma_mem->pa, dma_mem->size,
++			 dma_mem->direction);
++}
++
++/**
++ * libie_ctlq_xn_process_send - process and send a control queue message
++ * @params: Xn send param information for sending a control queue message
++ * @xn: Assigned Xn entry for tracking the control queue message
++ *
++ * Return: %0 on success, -%errno on failure.
++ */
++static
++int libie_ctlq_xn_process_send(struct libie_ctlq_xn_send_params *params,
++			       struct libie_ctlq_xn *xn)
++{
++	size_t buf_len = params->send_buf.iov_len;
++	struct device *dev = params->ctlq->dev;
++	void *buf = params->send_buf.iov_base;
++	struct libie_cp_dma_mem *dma_mem;
++	u16 cookie;
++
++	if (!buf || !buf_len)
++		return -EOPNOTSUPP;
++
++	if (libie_cp_can_send_onstack(buf_len)) {
++		dma_mem = xn->dma_mem;
++		memcpy(dma_mem->va, buf, buf_len);
++	} else {
++		dma_mem = &xn->send_dma_mem;
++		dma_mem->va = buf;
++		dma_mem->size = buf_len;
++		dma_mem->direction = DMA_TO_DEVICE;
++
++		if (!libie_cp_map_dma_mem(dev, buf, buf_len, DMA_TO_DEVICE,
++					  dma_mem))
++			return -ENOMEM;
++	}
++
++	cookie = FIELD_PREP(LIBIE_CTLQ_XN_COOKIE_M, xn->cookie) |
++		 FIELD_PREP(LIBIE_CTLQ_XN_INDEX_M, xn->index);
++
++	scoped_guard(spinlock, &params->ctlq->lock) {
++		struct libie_ctlq_info *ctlq = params->ctlq;
++		struct libie_ctlq_msg *ctlq_msg;
++
++		if (!libie_ctlq_send_desc_avail(ctlq)) {
++			if (!libie_cp_can_send_onstack(buf_len))
++				libie_cp_unmap_dma_mem(dev, dma_mem);
++
++			return -EBUSY;
++		}
++
++		ctlq_msg = ctlq->tx_msg[ctlq->next_to_use];
++		if (params->ctlq_msg)
++			*ctlq_msg = *params->ctlq_msg;
++		else
++			/* Unused ctlq messages are already zeroed */
++			ctlq_msg->opcode = LIBIE_CTLQ_SEND_MSG_TO_CP;
++
++		ctlq_msg->sw_cookie = cookie;
++		ctlq_msg->send_mem = *dma_mem;
++		ctlq_msg->data_len = buf_len;
++		ctlq_msg->chnl_opcode = params->chnl_opcode;
++		libie_ctlq_send(params->ctlq, 1);
++	}
++
++	return 0;
++}
++
++/**
++ * libie_ctlq_xn_send - send a control queue message, initiating a transaction
++ * @params: Xn send param information for sending a control queue message
++ *
++ * Send a control queue (mailbox or config) message.
++ * Based on the params value, the call can be completed synchronously or
++ * asynchronously.
++ *
++ * Return: %0 on success, -%errno on failure.
++ */
++int libie_ctlq_xn_send(struct libie_ctlq_xn_send_params *params)
++{
++	bool free_send = !libie_cp_can_send_onstack(params->send_buf.iov_len);
++	struct libie_ctlq_xn *xn;
++	int ret;
++
++	if (params->send_buf.iov_len > LIBIE_CTLQ_MAX_BUF_LEN) {
++		ret = -EINVAL;
++		goto free_buf;
++	}
++
++	xn = libie_ctlq_xn_pop_free(params->xnm);
++	/* no free transactions available */
++	if (unlikely(!xn)) {
++		ret = -EAGAIN;
++		goto free_buf;
++	}
++
++	spin_lock(&xn->xn_lock);
++	if (xn->state == LIBIE_CTLQ_XN_SHUTDOWN) {
++		ret = -ENXIO;
++		goto unlock_xn;
++	}
++
++	xn->state = params->resp_cb ? LIBIE_CTLQ_XN_ASYNC :
++				      LIBIE_CTLQ_XN_WAITING;
++	xn->ctlq = params->ctlq;
++	xn->virtchnl_opcode = params->chnl_opcode;
++
++	if (params->resp_cb) {
++		xn->send_ctx = params->send_ctx;
++		xn->resp_cb = params->resp_cb;
++		xn->timeout_ms = params->timeout_ms;
++		xn->timestamp = ktime_get();
++	}
++
++	ret = libie_ctlq_xn_process_send(params, xn);
++	if (ret)
++		goto release_xn;
++	else
++		free_send = false;
++
++	spin_unlock(&xn->xn_lock);
++
++	if (params->resp_cb)
++		return 0;
++
++	wait_for_completion_timeout(&xn->cmd_completion_event,
++				    msecs_to_jiffies(params->timeout_ms));
++
++	spin_lock(&xn->xn_lock);
++	switch (xn->state) {
++	case LIBIE_CTLQ_XN_WAITING:
++		ret = -ETIMEDOUT;
++		break;
++	case LIBIE_CTLQ_XN_COMPLETED_SUCCESS:
++		params->recv_mem = xn->recv_mem;
++		break;
++	default:
++		ret = -EBADMSG;
++		break;
++	}
++
++	/* Free the receive buffer in case of failure. On timeout, receive
++	 * buffer is not allocated.
++	 */
++	if (ret && ret != -ETIMEDOUT)
++		libie_ctlq_release_rx_buf(&xn->recv_mem);
++
++release_xn:
++	xn->state = LIBIE_CTLQ_XN_IDLE;
++	reinit_completion(&xn->cmd_completion_event);
++unlock_xn:
++	spin_unlock(&xn->xn_lock);
++	libie_ctlq_xn_push_free(params->xnm, xn);
++free_buf:
++	if (free_send)
++		params->rel_tx_buf(params->send_buf.iov_base);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_send, "LIBIE_CP");
++
++/**
++ * libie_ctlq_xn_send_clean - cleanup the send control queue message buffers
++ * @params: Xn clean param information for send complete handling
++ *
++ * Cleanup the send buffers for the given control queue, if force is set, then
++ * clear all the outstanding send messages irrespective of their send status,
++ * until a zero-length message is encountered, which is either a message that
++ * is already cleared, or a VF reset message, which is always last.
++ * Force should be used during deinit or reset.
++ *
++ * Return: number of send buffers cleaned.
++ */
++u32 libie_ctlq_xn_send_clean(const struct libie_ctlq_xn_clean_params *params)
++{
++	struct libie_ctlq_info *ctlq = params->ctlq;
++	struct device *dev = ctlq->dev;
++	u32 ntc, i;
++
++	spin_lock(&ctlq->lock);
++	ntc = ctlq->next_to_clean;
++
++	for (i = 0; i < params->num_msgs; i++) {
++		struct libie_ctlq_msg *msg = ctlq->tx_msg[ntc];
++		struct libie_ctlq_desc *desc;
++		u64 qword;
++
++		desc = &ctlq->descs[ntc];
++		qword = le64_to_cpu(desc->qword0);
++
++		if (!FIELD_GET(LIBIE_CTLQ_DESC_FLAG_DD, qword) &&
++		    !(unlikely(params->force) && msg->data_len))
++			break;
++
++		/* This cannot be reordered and lock is taken, so no barriers */
++		desc->qword0 = 0;
++
++		if (!libie_cp_can_send_onstack(msg->data_len)) {
++			libie_cp_unmap_dma_mem(dev, &msg->send_mem);
++			params->rel_tx_buf(msg->send_mem.va);
++		}
++
++		memset(msg, 0, sizeof(*msg));
++
++		if (unlikely(++ntc == ctlq->ring_len))
++			ntc = 0;
++	}
++
++	ctlq->next_to_clean = ntc;
++	spin_unlock(&ctlq->lock);
++
++	return i;
++}
++EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_send_clean, "LIBIE_CP");
++
++/**
++ * libie_ctlq_xn_shutdown - terminate control queue transactions
++ * @xnm: pointer to the transaction manager
++ *
++ * Synchronously terminate existing transactions and stop accepting new ones.
++ * Async transactions are discarded without invoking resp_cb.
++ */
++void libie_ctlq_xn_shutdown(struct libie_ctlq_xn_manager *xnm)
++{
++	bool must_wait = false;
++	u32 i;
++
++	/* Should be no new clear bits after this */
++	spin_lock(&xnm->free_xns_bm_lock);
++	xnm->shutdown = true;
++
++	for_each_clear_bit(i, xnm->free_xns_bm, LIBIE_CTLQ_MAX_XN_ENTRIES) {
++		struct libie_ctlq_xn *xn = &xnm->ring[i];
++
++		spin_lock(&xn->xn_lock);
++
++		switch (xn->state) {
++		/* if an idle xn is not free, it is about to be either
++		 * freed or initialized, prevent the latter and wait
++		 */
++		case LIBIE_CTLQ_XN_IDLE:
++			xn->state = LIBIE_CTLQ_XN_SHUTDOWN;
++			fallthrough;
++		/* waiting thread possibly needs a push to return the xn,
++		 * transaction will be reported as timed out
++		 */
++		case LIBIE_CTLQ_XN_WAITING:
++			complete(&xn->cmd_completion_event);
++			fallthrough;
++		/* these states will return the xn soon */
++		case LIBIE_CTLQ_XN_COMPLETED_SUCCESS:
++		case LIBIE_CTLQ_XN_COMPLETED_FAILED:
++		case LIBIE_CTLQ_XN_SHUTDOWN:
++			must_wait = true;
++			break;
++		/* no thread should reference async xns at this point */
++		case LIBIE_CTLQ_XN_ASYNC:
++			xn->state = LIBIE_CTLQ_XN_IDLE;
++			__libie_ctlq_xn_push_free(xnm, xn);
++			break;
++		}
++
++		spin_unlock(&xn->xn_lock);
++	}
++
++	spin_unlock(&xnm->free_xns_bm_lock);
++
++	if (must_wait)
++		wait_for_completion(&xnm->can_destroy);
++}
++EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_shutdown, "LIBIE_CP");
++
++/**
++ * libie_ctlq_xn_deinit - deallocate and free the transaction manager resources
++ * @xnm: pointer to the transaction manager
++ * @ctx: libie CP context information
++ *
++ * Rx processing must be stopped beforehand via cancelling tasks.
++ * Tx processing must be stopped beforehand via libie_ctlq_xn_shutdown(),
++ * all buffers must be force-cleaned from the send queue.
++ */
++void libie_ctlq_xn_deinit(struct libie_ctlq_xn_manager *xnm,
++			  struct libie_ctlq_ctx *ctx)
++{
++	libie_ctlq_xn_deinit_dma(&ctx->mmio_info.pdev->dev, xnm,
++				 LIBIE_CTLQ_MAX_XN_ENTRIES);
++	kfree(xnm);
++	libie_ctlq_deinit(ctx);
++}
++EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_deinit, "LIBIE_CP");
++
++/**
++ * libie_ctlq_xn_init - initialize the Xn transaction manager
++ * @params: Xn init param information for allocating Xn manager resources
++ *
++ * Return: %0 on success, -%errno on failure.
++ */
++int libie_ctlq_xn_init(struct libie_ctlq_xn_init_params *params)
++{
++	struct libie_ctlq_xn_manager *xnm;
++	int ret;
++
++	ret = libie_ctlq_init(params->ctx, params->cctlq_info, params->num_qs);
++	if (ret)
++		return ret;
++
++	xnm = kzalloc_obj(*xnm);
++	if (!xnm)
++		goto ctlq_deinit;
++
++	ret = libie_ctlq_xn_init_dma(&params->ctx->mmio_info.pdev->dev, xnm);
++	if (ret)
++		goto free_xnm;
++
++	spin_lock_init(&xnm->free_xns_bm_lock);
++	init_completion(&xnm->can_destroy);
++	bitmap_fill(xnm->free_xns_bm, LIBIE_CTLQ_MAX_XN_ENTRIES);
++
++	for (u32 i = 0; i < LIBIE_CTLQ_MAX_XN_ENTRIES; i++) {
++		struct libie_ctlq_xn *xn = &xnm->ring[i];
++
++		xn->index = i;
++		init_completion(&xn->cmd_completion_event);
++		spin_lock_init(&xn->xn_lock);
++	}
++	xnm->ctx = params->ctx;
++	params->xnm = xnm;
++
++	return 0;
++
++free_xnm:
++	kfree(xnm);
++ctlq_deinit:
++	libie_ctlq_deinit(params->ctx);
++
++	return -ENOMEM;
++}
++EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_init, "LIBIE_CP");
++
+ MODULE_DESCRIPTION("Control Plane communication API");
+ MODULE_IMPORT_NS("LIBETH");
+ MODULE_LICENSE("GPL");
+diff --git a/include/linux/net/intel/libie/controlq.h b/include/linux/net/intel/libie/controlq.h
+index 7529da485295..da9402785e26 100644
+--- a/include/linux/net/intel/libie/controlq.h
++++ b/include/linux/net/intel/libie/controlq.h
+@@ -27,6 +27,8 @@ enum libie_ctlq_type {
+ #define LIBIE_CTLQ_SEND_MSG_TO_CP		0x801
+ #define LIBIE_CTLQ_SEND_MSG_TO_PEER		0x804
  
- 	if (!fq->hsplit)
-diff --git a/include/net/libeth/rx.h b/include/net/libeth/rx.h
-index 5d991404845e..0e736846c5e8 100644
---- a/include/net/libeth/rx.h
-+++ b/include/net/libeth/rx.h
-@@ -69,6 +69,7 @@ enum libeth_fqe_type {
-  * @type: type of the buffers this queue has
-  * @hsplit: flag whether header split is enabled
-  * @xdp: flag indicating whether XDP is enabled
-+ * @no_napi: the queue is not a data queue and does not have NAPI
-  * @buf_len: HW-writeable length per each buffer
-  * @nid: ID of the closest NUMA node with memory
++#define LIBIE_CP_TX_COPYBREAK		128
++
+ /**
+  * struct libie_ctlq_ctx - contains controlq info and MMIO region info
+  * @mmio_info: MMIO region info structure
+@@ -67,11 +69,13 @@ struct libie_ctlq_reg {
+  * @va: virtual address
+  * @pa: physical address
+  * @size: memory size
++ * @direction: memory to device or device to memory
   */
-@@ -85,12 +86,13 @@ struct libeth_fq {
- 	enum libeth_fqe_type	type:2;
- 	bool			hsplit:1;
- 	bool			xdp:1;
-+	bool			no_napi:1;
- 
- 	u32			buf_len;
- 	int			nid;
+ struct libie_cp_dma_mem {
+ 	void		*va;
+ 	dma_addr_t	pa;
+ 	size_t		size;
++	int		direction;
  };
  
--int libeth_rx_fq_create(struct libeth_fq *fq, struct napi_struct *napi);
-+int libeth_rx_fq_create(struct libeth_fq *fq, void *napi_dev);
- void libeth_rx_fq_destroy(struct libeth_fq *fq);
- 
  /**
+@@ -254,4 +258,171 @@ u32 libie_ctlq_recv(struct libie_ctlq_info *ctlq, struct libie_ctlq_msg *msg,
+ 
+ int libie_ctlq_post_rx_buffs(struct libie_ctlq_info *ctlq);
+ 
++/* Only 8 bits are available in descriptor for Xn index */
++#define LIBIE_CTLQ_MAX_XN_ENTRIES		256
++#define LIBIE_CTLQ_XN_COOKIE_M			GENMASK(15, 8)
++#define LIBIE_CTLQ_XN_INDEX_M			GENMASK(7, 0)
++
++/**
++ * enum libie_ctlq_xn_state - Transaction state of a virtchnl message
++ * @LIBIE_CTLQ_XN_IDLE: transaction is available to use
++ * @LIBIE_CTLQ_XN_WAITING: waiting for transaction to complete
++ * @LIBIE_CTLQ_XN_COMPLETED_SUCCESS: transaction completed with success
++ * @LIBIE_CTLQ_XN_COMPLETED_FAILED: transaction completed with failure
++ * @LIBIE_CTLQ_XN_ASYNC: asynchronous virtchnl message transaction type
++ * @LIBIE_CTLQ_XN_SHUTDOWN: transaction cannot be used anymore
++ */
++enum libie_ctlq_xn_state {
++	LIBIE_CTLQ_XN_IDLE = 0,
++	LIBIE_CTLQ_XN_WAITING,
++	LIBIE_CTLQ_XN_COMPLETED_SUCCESS,
++	LIBIE_CTLQ_XN_COMPLETED_FAILED,
++	LIBIE_CTLQ_XN_ASYNC,
++	LIBIE_CTLQ_XN_SHUTDOWN,
++};
++
++/**
++ * struct libie_ctlq_xn - structure representing a virtchnl transaction entry
++ * @resp_cb: callback to handle the response of an asynchronous virtchnl message
++ * @xn_lock: lock to protect the transaction entry state
++ * @ctlq: send control queue information
++ * @cmd_completion_event: wait until reply is received or xn is terminated
++ * @dma_mem: DMA memory for copying small send buffers from stack
++ * @send_dma_mem: DMA memory of send buffer
++ * @recv_mem: receive buffer
++ * @send_ctx: context for callback function
++ * @timeout_ms: Xn transaction timeout in msecs
++ * @timestamp: timestamp to record the Xn send
++ * @virtchnl_opcode: virtchnl command opcode used for Xn transaction
++ * @state: transaction state of a virtchnl message
++ * @cookie: unique message identifier
++ * @index: index of the transaction entry
++ */
++struct libie_ctlq_xn {
++	void (*resp_cb)(void *ctx, struct kvec *mem, int status);
++	spinlock_t			xn_lock;	/* protects state */
++	struct libie_ctlq_info		*ctlq;
++	struct completion		cmd_completion_event;
++	struct libie_cp_dma_mem	*dma_mem;
++	struct libie_cp_dma_mem	send_dma_mem;
++	struct kvec			recv_mem;
++	void				*send_ctx;
++	u64				timeout_ms;
++	ktime_t				timestamp;
++	u32				virtchnl_opcode;
++	enum libie_ctlq_xn_state	state;
++	u8				cookie;
++	u8				index;
++};
++
++/**
++ * struct libie_ctlq_xn_manager - structure representing the array of virtchnl
++ *				   transaction entries
++ * @ctx: pointer to controlq context structure
++ * @free_xns_bm_lock: lock to protect the free Xn entries bit map
++ * @free_xns_bm: bitmap that represents the free Xn entries
++ * @ring: array of Xn entries
++ * @can_destroy: completion, triggered by the last released transaction
++ * @shutdown: shutdown process has been started, no new transactions allowed
++ * @cookie: unique message identifier
++ */
++struct libie_ctlq_xn_manager {
++	struct libie_ctlq_ctx	*ctx;
++	spinlock_t		free_xns_bm_lock;	/* get/check entries */
++	DECLARE_BITMAP(free_xns_bm, LIBIE_CTLQ_MAX_XN_ENTRIES);
++	struct libie_ctlq_xn	ring[LIBIE_CTLQ_MAX_XN_ENTRIES];
++	struct completion	can_destroy;
++	bool			shutdown;
++	u8			cookie;
++};
++
++/**
++ * struct libie_ctlq_xn_send_params - structure representing send Xn entry
++ * @resp_cb: callback to handle the response of an asynchronous virtchnl message
++ * @rel_tx_buf: non-sleeping callback for freeing the send buffer after send
++ * @xnm: Xn manager to process Xn entries
++ * @ctlq: send control queue information
++ * @ctlq_msg: control queue message information
++ * @send_buf: represents the buffer that carries outgoing information
++ * @recv_mem: receive buffer
++ * @send_ctx: context for callback function
++ * @timeout_ms: virtchnl transaction timeout in msecs
++ * @chnl_opcode: virtchnl message opcode
++ */
++struct libie_ctlq_xn_send_params {
++	void (*resp_cb)(void *ctx, struct kvec *mem, int status);
++	void (*rel_tx_buf)(const void *buf_va);
++	struct libie_ctlq_xn_manager		*xnm;
++	struct libie_ctlq_info			*ctlq;
++	struct libie_ctlq_msg			*ctlq_msg;
++	struct kvec				send_buf;
++	struct kvec				recv_mem;
++	void					*send_ctx;
++	u64					timeout_ms;
++	u32					chnl_opcode;
++};
++
++/**
++ * libie_cp_can_send_onstack - can a message be sent using a stack variable
++ * @size: ctlq data buffer size
++ *
++ * Return: %true if the message size is small enough for caller to pass
++ *	   an on-stack buffer, %false if kmalloc is needed
++ */
++static inline bool libie_cp_can_send_onstack(u32 size)
++{
++	return size <= LIBIE_CP_TX_COPYBREAK;
++}
++
++/**
++ * struct libie_ctlq_xn_recv_params - structure representing receive Xn entry
++ * @ctlq_msg_handler: callback to handle a message originated from the peer
++ * @xnm: Xn manager to process Xn entries
++ * @ctlq: control queue information
++ * @budget: maximum number of messages to process
++ */
++struct libie_ctlq_xn_recv_params {
++	void (*ctlq_msg_handler)(struct libie_ctlq_ctx *ctx,
++				 struct libie_ctlq_msg *msg);
++	struct libie_ctlq_xn_manager		*xnm;
++	struct libie_ctlq_info			*ctlq;
++	u32					budget;
++};
++
++/**
++ * struct libie_ctlq_xn_clean_params - cleaning parameters for Xn Tx messages
++ * @rel_tx_buf: non-sleeping callback for freeing the send buffer after send
++ * @ctlq: control queue information
++ * @num_msgs: number of messages to be cleaned
++ * @force: clean even if DD is not yet set
++ */
++struct libie_ctlq_xn_clean_params {
++	void (*rel_tx_buf)(const void *buf_va);
++	struct libie_ctlq_info			*ctlq;
++	u16					num_msgs;
++	bool					force;
++};
++
++/**
++ * struct libie_ctlq_xn_init_params - xn transaction manager parameters
++ * @cctlq_info: control queue information
++ * @ctx: pointer to controlq context structure
++ * @xnm: Xn manager to process Xn entries
++ * @num_qs: number of control queues to be initialized
++ */
++struct libie_ctlq_xn_init_params {
++	struct libie_ctlq_create_info		*cctlq_info;
++	struct libie_ctlq_ctx			*ctx;
++	struct libie_ctlq_xn_manager		*xnm;
++	u32					num_qs;
++};
++
++int libie_ctlq_xn_init(struct libie_ctlq_xn_init_params *params);
++void libie_ctlq_xn_deinit(struct libie_ctlq_xn_manager *xnm,
++			  struct libie_ctlq_ctx *ctx);
++void libie_ctlq_xn_shutdown(struct libie_ctlq_xn_manager *xnm);
++int libie_ctlq_xn_send(struct libie_ctlq_xn_send_params *params);
++u32 libie_ctlq_xn_recv(struct libie_ctlq_xn_recv_params *params);
++u32 libie_ctlq_xn_send_clean(const struct libie_ctlq_xn_clean_params *params);
++
+ #endif /* __LIBIE_CONTROLQ_H */
 -- 
 2.47.1
 
