@@ -1,202 +1,78 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28008399CEE
-	for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 10:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A842FDC28;
+	Wed, 29 Jul 2026 10:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785320241; cv=none; b=qnKJExDs6Ib0PZYlM/3l/Veq+RucMl4tNDtNdpBkYR/B0hEvbBBNxe0BgdziJgLoOIcmKhvFIhj+VIMqs+4/VHrKcYsleLVE8d9aeWR0gs3gF7FH09+Eyu7PNJ0Pt3UqI5r5nZcVtKhOZAKuA0kCPlCUkwzVbxMwRSW55YTTOmQ=
+	t=1785320509; cv=none; b=FZd29pJrCsf24fUK67ekmtCE4L5fZp7T4Go5Px/qHw3RQgO9u+EgRiAudh0CezFFx323jjMI3sMJBjjMIiWrZVr5q+wagAl3zajfnxlIq0Q7Od0jNlWXfT8OhrvfREqmIvay9XqYUOVhWrWo+VUhxsxs7WtrccB6EQuWq6Hw6D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785320241; c=relaxed/simple;
-	bh=kfUL6NEZJBrSZ+w8QMSHo6pGrE8PIPoOT9kbYbv7m3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B53KVkFYAmUdjX4vxT/ZHlmrzQQbOMIEuANuolR5bJ9+rVEU5Aa7K44Rt0OuTFTkNwis9KvHamzh96W77R8HsYJz0q+OaVRg1A2hw2hYBKrfbtfL44pzXVLjBpaBueKvDpluToYNHzFub5uspK/0goeCgQJ+eBUwOfdarVjlUyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p8+RWTzL; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1785320509; c=relaxed/simple;
+	bh=Zbp+zBfZJfVeaygQWtWMqiY+gl3qT1JrScU/lq6U7Ec=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OfcBZ5iqyvuAKmB7dhx2dlEqDJBoqwPFE4G2k6Povnv7my8vPgdpgRW9XJyvMI+ERtC//QhHJxLoRMAdFo5jDcwxN3MVgIkRNJzjeHzqcDX1tIa5bGtP30vSHE5fp2nvZ+LXS5Mq/I5c916p5irFZzyVWKCIEykxHKHguwl5bXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=B7DQNWFR; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p8+RWTzL"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6984169c126so1261115a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 03:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1785320238; x=1785925038; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HW3LEfjTPLKPIEhN48PB0+fej5z0A3OPZy5r028XBjo=;
-        b=p8+RWTzLRJe7m/gcTXVEpZNk7bZLFc0CQOrNZwB07q3TVxBCGc4LtA1jYr7cCu7Rj9
-         uUUJkPpVmyylWOdXM+7t7NQRj9ZyrSzZbFjkIMA55Ee3sjsHZTQoIknpyLEqXOGWIHbY
-         pQLqJs90WiWIMqiGuYWaDmFkomPdXuxE6eQts2jEm3Hg5UrCfvkBEWw5M24qL73kIbyx
-         D4+3bvF45ncv2eEzBvh5UIvBcCsoMokOVHMR18KvQQDLZGKY70a51XkatjWBpI3JoKP8
-         5gJAfCb/ogs70uZFtvZtfOIgCS+sb8OosRwH8T8lqVhnIVGd9qn8mvIHdiAb/OTrVISS
-         h6Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785320238; x=1785925038;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HW3LEfjTPLKPIEhN48PB0+fej5z0A3OPZy5r028XBjo=;
-        b=NLTKuqlDQeCkYWo046HpXshPP+Bbf5Y2B71/vJJjV+L5HkiO9n0XWqy2WUIFwpwsMj
-         /XyK+5Y5ijw1QZAoMJ/UOlTmiEdcewr0D1SmaW78ppA61hhqkRDxAiF3OQkPSKzu+uKu
-         EH0aBixGNh/66grDqW97hyckmlEYfhTPp3k3ozhsdn79EzbBp79dP57Rx/0yQJ1+8xUG
-         CpekvXp6ic6xD93gWiLT6FQFbJYAXc1sPy5X4liX/CshpH0htHoXJh9QL4FoSAuJpElq
-         +bcwes+oQzVeyWXXRrq6vOv4F9zP9P9EYuI63mYAem2u1p4s6XSMcINexPpwrQ6Cqmco
-         U3BA==
-X-Forwarded-Encrypted: i=1; AHgh+RqdErXzTKp/zXbfRXFSNdaQ06QbvK7DfEYSpudXLvSSoKqINblctH/JFYEZPhWJK+ZycUXopDvunb4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXKI0HTd0Zum6BGxu6sqtcYHfS5qtZTBIhro5EVvCnQCo3DVLm
-	1AH7O5v9tCk9RR0Ziku6H2tI8aIVPo5UmDBHvTMsjg+hTTzRXgd0Bs0JqyO98WCJLao=
-X-Gm-Gg: AR+sD12gUa4M7oqDM1ZsAj0mX4dYQwSFC8sE/jaNLpxmKvEmCFBDLvs5CbfZvRJghAn
-	NWCVHCtu8vqE/uJs3P9MN9onP1dfymFFE2An5DV2hmd+fX/QYzi+pMlqjcMJgXZPJwgZrvQqaWf
-	N4817yN+crft3iAptK98l5a/4+JNU+ZFpAGneQW0PDBoFQxiUI5KVXBywaDR0Q35mbTje6i68SN
-	zlZFdQkcz8fivab2OvwZ3DutS8c9D9MhUuWdowuegJRXNzp4rf2sr/AqlfNGUKZ4HjKcKdrkpdh
-	YeQ4yZqJ1mawdZ735vowtyy3vrPLqzR5QbH6J+i0UPwMRkS+gMMeOQedBeJ1Hh0S4VpJe7RrQN6
-	FGDwj+uD0FxbFD9DMVVtbTMLa+3s4Demi7c7Ypw/S8rPtpgdyLWq7oyHc7n1JM0tztkO7IdjdAL
-	rnaHxfK2a9z4b1HPA7tYCe3QlrKkl4HZXmZ9QNzqjHDlSB6IPnChxU4ZCItbOOOMQ1d4jnhDyD1
-	nBv
-X-Received: by 2002:a05:6402:42c4:b0:698:aa88:56d1 with SMTP id 4fb4d7f45d1cf-6a034a88210mr3501753a12.25.1785320238373;
-        Wed, 29 Jul 2026 03:17:18 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a050c5cf0bsm632696a12.23.2026.07.29.03.17.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 03:17:16 -0700 (PDT)
-Message-ID: <29c574cf-eeda-4d29-a840-000d62ace604@linaro.org>
-Date: Wed, 29 Jul 2026 11:17:14 +0100
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="B7DQNWFR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Zbp+zBfZJfVeaygQWtWMqiY+gl3qT1JrScU/lq6U7Ec=; b=B7DQNWFRDfQH61qNpphDevX+dT
+	o4HjnbsQrmKANyXCz+QQ+3PyKe4TLtnjWu+nask+36bpLrG5JPYEBUWRZ1TJHdkVR5A5aCYbSUsGp
+	XKUDLhluRjyO39VVwY3PpMD54VAWuVonhQWbLoTczgvsxpigibwzsbaTJTMwVNv2n2AHR+5F9bn5c
+	XyYRwWYbs8KkuNlmqeOZalOfLeHErp+vDwktRPm4TbN81Gl6aUC/ueoRln4gZ/Dohdy0IXzIGe/lM
+	BiNcVGU3jAUTgBLqp02QOGz5RJpgd3krb2VXrMlMpzVpP6cS30gU4q5KwJY+IDN/AViAH8R3bmaAE
+	G7cgiXvw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wp1Pu-008NmQ-00;
+	Wed, 29 Jul 2026 10:21:38 +0000
+Date: Wed, 29 Jul 2026 03:21:31 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
+Message-ID: <amnTfwagJQpEY_21@gmail.com>
+References: <ee4982bf-ff45-8f0b-3b76-7ca19228f12b@huawei.com>
+ <20260727212402.09baa9381ca426273fad4719@linux-foundation.org>
+ <de29c5cc-3637-cd18-354d-55ceb3d60afd@huawei.com>
+ <amh1nZVVaaZSGD3M@gmail.com>
+ <20260728122016.30752d36c3b3c3af231efa9d@linux-foundation.org>
+ <44f81bea-d64a-4f73-8665-46652a928c83@kernel.org>
+ <amkn21ftNme48Vbl@gmail.com>
+ <f83d5b26-b369-489b-a305-1eb5ec6fccfb@kernel.org>
+ <amm72Bu9qmWLI-9b@gmail.com>
+ <d0d62d7d-8701-4692-89b9-84dff71a7cf0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] perf hisi-ptt: Fix spelling and abbreviation errors
-To: Sizhe Liu <liusizhe5@huawei.com>
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linuxarm@huawei.com, prime.zeng@hisilicon.com,
- wuyifan50@huawei.com, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org,
- bhelgaas@google.com, yangyccccc@gmail.com, jic23@kernel.org,
- john.g.garry@oracle.com, will@kernel.org, mike.leach@arm.com,
- leo.yan@linux.dev, peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
- namhyung@kernel.org, mark.rutland@arm.com,
- alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
- adrian.hunter@intel.com, wangyushan12@huawei.com
-References: <20260729060220.624250-1-liusizhe5@huawei.com>
- <20260729060220.624250-2-liusizhe5@huawei.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260729060220.624250-2-liusizhe5@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d0d62d7d-8701-4692-89b9-84dff71a7cf0@kernel.org>
+X-Debian-User: leitao
 
+On Wed, Jul 29, 2026 at 11:09:11AM +0200, David Hildenbrand (Arm) wrote:
+> Avoid bash scripts, please :)
 
+Sorry, I will try to control my fingers next time.
 
-On 29/07/2026 7:02 am, Sizhe Liu wrote:
-> Fix spelling and abbreviation errors in the PTT packet decoder:
-> - HISI_PTT_FIELD_LENTH -> HISI_PTT_FIELD_LENGTH
-> - hisi_ptt_8dw_kpt_desc -> hisi_ptt_8dw_pkt_desc
-> - hisi_ptt_4dw_kpt_desc -> hisi_ptt_4dw_pkt_desc
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 5e91e57e6809 ("perf auxtrace arm64: Add support for parsing HiSilicon PCIe Trace packet")
-
-Probably doesn't need a fixes tag, but:
-
-Reviewed-by: James Clark <james.clark@linaro.org>
-
-> Signed-off-by: Sizhe Liu <liusizhe5@huawei.com>
-> ---
->   .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   | 20 +++++++++----------
->   .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   |  2 +-
->   2 files changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
-> index a17c423a526d..c48b2ce7c4a3 100644
-> --- a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
-> +++ b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.c
-> @@ -94,26 +94,26 @@ static void hisi_ptt_print_pkt(const unsigned char *buf, int pos, const char *de
->   
->   	printf(".");
->   	color_fprintf(stdout, color, "  %08x: ", pos);
-> -	for (i = 0; i < HISI_PTT_FIELD_LENTH; i++)
-> +	for (i = 0; i < HISI_PTT_FIELD_LENGTH; i++)
->   		color_fprintf(stdout, color, "%02x ", buf[pos + i]);
->   	for (i = 0; i < HISI_PTT_MAX_SPACE_LEN; i++)
->   		color_fprintf(stdout, color, "   ");
->   	color_fprintf(stdout, color, "  %s\n", desc);
->   }
->   
-> -static int hisi_ptt_8dw_kpt_desc(const unsigned char *buf, int pos)
-> +static int hisi_ptt_8dw_pkt_desc(const unsigned char *buf, int pos)
->   {
->   	int i;
->   
->   	for (i = 0; i < HISI_PTT_8DW_TYPE_MAX; i++) {
->   		/* Do not show 8DW check field and reserved fields */
->   		if (i == HISI_PTT_8DW_CHK_AND_RSV0 || i == HISI_PTT_8DW_RSV1) {
-> -			pos += HISI_PTT_FIELD_LENTH;
-> +			pos += HISI_PTT_FIELD_LENGTH;
->   			continue;
->   		}
->   
->   		hisi_ptt_print_pkt(buf, pos, hisi_ptt_8dw_pkt_field_name[i]);
-> -		pos += HISI_PTT_FIELD_LENTH;
-> +		pos += HISI_PTT_FIELD_LENGTH;
->   	}
->   
->   	return hisi_ptt_pkt_size[HISI_PTT_8DW_PKT];
-> @@ -128,7 +128,7 @@ static void hisi_ptt_4dw_print_dw0(const unsigned char *buf, int pos)
->   	dw0.value = *(uint32_t *)(buf + pos);
->   	printf(".");
->   	color_fprintf(stdout, color, "  %08x: ", pos);
-> -	for (i = 0; i < HISI_PTT_FIELD_LENTH; i++)
-> +	for (i = 0; i < HISI_PTT_FIELD_LENGTH; i++)
->   		color_fprintf(stdout, color, "%02x ", buf[pos + i]);
->   	for (i = 0; i < HISI_PTT_MAX_SPACE_LEN; i++)
->   		color_fprintf(stdout, color, "   ");
-> @@ -140,16 +140,16 @@ static void hisi_ptt_4dw_print_dw0(const unsigned char *buf, int pos)
->   		      dw0.len, "Time", dw0.time);
->   }
->   
-> -static int hisi_ptt_4dw_kpt_desc(const unsigned char *buf, int pos)
-> +static int hisi_ptt_4dw_pkt_desc(const unsigned char *buf, int pos)
->   {
->   	int i;
->   
->   	hisi_ptt_4dw_print_dw0(buf, pos);
-> -	pos += HISI_PTT_FIELD_LENTH;
-> +	pos += HISI_PTT_FIELD_LENGTH;
->   
->   	for (i = 0; i < HISI_PTT_4DW_TYPE_MAX; i++) {
->   		hisi_ptt_print_pkt(buf, pos, hisi_ptt_4dw_pkt_field_name[i]);
-> -		pos += HISI_PTT_FIELD_LENTH;
-> +		pos += HISI_PTT_FIELD_LENGTH;
->   	}
->   
->   	return hisi_ptt_pkt_size[HISI_PTT_4DW_PKT];
-> @@ -158,7 +158,7 @@ static int hisi_ptt_4dw_kpt_desc(const unsigned char *buf, int pos)
->   int hisi_ptt_pkt_desc(const unsigned char *buf, int pos, enum hisi_ptt_pkt_type type)
->   {
->   	if (type == HISI_PTT_8DW_PKT)
-> -		return hisi_ptt_8dw_kpt_desc(buf, pos);
-> +		return hisi_ptt_8dw_pkt_desc(buf, pos);
->   
-> -	return hisi_ptt_4dw_kpt_desc(buf, pos);
-> +	return hisi_ptt_4dw_pkt_desc(buf, pos);
->   }
-> diff --git a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
-> index e78f1b5bc836..6772b16b817b 100644
-> --- a/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
-> +++ b/tools/perf/util/hisi-ptt-decoder/hisi-ptt-pkt-decoder.h
-> @@ -13,7 +13,7 @@
->   #define HISI_PTT_8DW_CHECK_MASK		GENMASK(31, 11)
->   #define HISI_PTT_IS_8DW_PKT		GENMASK(31, 11)
->   #define HISI_PTT_MAX_SPACE_LEN		10
-> -#define HISI_PTT_FIELD_LENTH		4
-> +#define HISI_PTT_FIELD_LENGTH		4
->   
->   enum hisi_ptt_pkt_type {
->   	HISI_PTT_4DW_PKT,
-
+Jokes aside, all the selftests I maintain
+(tools/testing/selftests/drivers/net/netconsole) were done in bash, so,
+I got totally biased.
