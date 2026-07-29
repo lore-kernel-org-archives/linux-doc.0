@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2719A3AB294;
-	Wed, 29 Jul 2026 09:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A818544C649;
+	Wed, 29 Jul 2026 09:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785318299; cv=none; b=U2WWVndvt/L4e3Ab9CDgVE2BysYlLQmoY/T03GMZySn5P3G/pxJvvWvhkYCoCU78JhwBPc0YqfvHD99SfVApFrVbPfb98reMZVsSiJgsiWt/o6vMwQ+a92L6+8enya+a+6+ZSBzhaM1nTLs5tpTHhGfE8KnJ3U/DFN31ZiPRd74=
+	t=1785318426; cv=none; b=sFZbwM0WGREEOI0m+sP0Bg+ouprtWw7MuSpFNTrAFbzGQghQitXZV3vhrmW4Kj0RJo/7yIi+hZmjQ8Rw9k32cbwHkQXJ9f90h6zSXIcGRWOZQexj1e3Kw7ByD8t96kFv2hqrRGH5QY4b5qxoHqzzfUlEJuiv239J/bLUYzUy8sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785318299; c=relaxed/simple;
-	bh=aheTwLDaxG/KN3M7VZHL5sNxFSlE3bySXxN5CrZ5yew=;
+	s=arc-20240116; t=1785318426; c=relaxed/simple;
+	bh=+AiW4Z8plSSX+m60jbLmv0TA+A3EVJnZffnTSf1FE7A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s8bthGjhGtKyUnA8m4frJsCEEQ3/rcrEeHfgEZnV9CDIn4foO1+XVIKqTA+VSHmnbwDboYY2WdCFXH9deSIQvYpl9B7h+zDiFCmmxQSa45frTCCCDOfeSKlVYrA8HFFDCQIeqkt7gNhnZGa9WI5oOiG8WzOlFaX0s8y52zUSydA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KecLasxf; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=YSq5OgDCW4qB9n75vfoquVj97Q3UIkv6QBxl+CO6XfXQcxSqBHiHW9wxur4rlhXROSjSdjFk70URnCpIo/uI4cS74Qd1FqalO0Rvba3t8EbxH1+TOBzuAHgmJhCd89RH92jHM5TYwBKwGlxu7nR5UuApnBxcch/ZUyCgzGWKqnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kkmwOjSZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KecLasxf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D7D1F000E9;
-	Wed, 29 Jul 2026 09:44:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kkmwOjSZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A346D1F00A3E;
+	Wed, 29 Jul 2026 09:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785318297;
-	bh=o2Jbn0t4bTPOCnmw0BAUoprtr6tk/QSrIN1zfNVRZUg=;
+	s=k20260515; t=1785318425;
+	bh=Rua1RKrJjiJNOIidWLTZk95Yzmjh2kX7wHbfY4bO+oo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KecLasxf4+A9rNhq2lWbIxcCV4zw+pYetw7ylrWYXWwR0afC/RJ1Ls+gwFq6ZddgU
-	 T2DYYWpwdN3Upj396izMTeiO0u82iHiSOxo9t5v/mz8bm0sjI5TMfQlO34u9GXD8UA
-	 tmTIIVsh1iBY8r3gLIWnABrTehlGhtBupHS3a9mgEWHYkFe+J+Z92eCHh22tmL+56T
-	 H3jj6R5TPRKn6Yg57aX2KOQFw5EXqiR1v+0RPH2IZgl3AbR2KmjOxf1g19kej+aGwZ
-	 dEhgOO/Ps6NgS0J/dpUImWY5gYVwCUy5r0V39MSWtbw0Y5yfaniCRxL3VhVnrxaKF3
-	 9eysW8D6FEEKA==
-Message-ID: <1e2e464b-07db-4fa2-8e38-2d73a9eaea07@kernel.org>
-Date: Wed, 29 Jul 2026 11:44:52 +0200
+	b=kkmwOjSZv+QNGaxoleaGShT4fXXQ27JMIKH+oFVuBrL+OWLtWoWiqpyvM/uGsZRnJ
+	 ckow47+/MsLwKh3tOGv92MSGOxD4TYx1NCvlu9r3+C14cI48LfqAzOjlZgQ+lks4od
+	 MLWuFX8F2+Z4f4oUWiruUCOsMw7932uA9KQ76EL2VXsUDKQQcjYBmyuV1p4Pdy6tdv
+	 BvFWLS9s+fL9OrtIWIstduANmC34ffFS2XM7cGEK+p/FGopTY+c2V8FZWUUBE40U5j
+	 D8B4Kf3GJE+6fKTo622F/5Rd11gd6FnWTm+xl3RqwYYdNeIDeDf6CPste0na7UxyOJ
+	 JkDKFH3vvdy6g==
+Message-ID: <ffb091ee-affe-41b2-939c-6437dd9cc13e@kernel.org>
+Date: Wed, 29 Jul 2026 11:47:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] mm/khugepaged: fix outdated comments
+Subject: Re: [PATCH v2 2/7] mm/khugepaged: extract young page check into
+ collapse_is_referenced() helper
 To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Cc: Usama Arif <usama.arif@linux.dev>,
@@ -48,7 +49,7 @@ Cc: Usama Arif <usama.arif@linux.dev>,
  Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
  Shuah Khan <skhan@linuxfoundation.org>
 References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-5-npache@redhat.com>
+ <20260715025941.1571316-3-npache@redhat.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -95,22 +96,26 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260715025941.1571316-5-npache@redhat.com>
+In-Reply-To: <20260715025941.1571316-3-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 7/15/26 04:59, Nico Pache wrote:
+> This change deduplicates the "is this PTE/folio referenced enough to be
+> considered for a collapse" condition that was repeated in both
+> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
+> a single inline helper function.
+> 
+> Also move the comment and use it as the function header. While we are at
+> it, updated the comment to clarify that a young pte is a recently accessed
+> one.
+> 
+> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
 
->  	 * UFFDIO_MOVE is prevented to race as well thanks to the
->  	 * mmap_lock.
-> @@ -1643,7 +1643,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  
->  	/*
->  	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
-> -	 * scan all pages to populate the bitmap for mTHP collapse.
-> +	 * scan all pages to populate the bitmap for mTHP collapse. The bitmap
-> +	 * is then checked again in mthp_collapse() for each attempted order.
-
-Why use () here but not in the other cases above? (e.g., collapse_scan_pmd)
+Also, do we really need this (badly named :) ) helper given that there will only
+be a single invocation after #5?
 
 -- 
 Cheers,
