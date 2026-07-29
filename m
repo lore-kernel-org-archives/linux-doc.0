@@ -1,109 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C712D4C6F17;
-	Wed, 29 Jul 2026 14:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8A3397942;
+	Wed, 29 Jul 2026 15:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785333789; cv=none; b=sUxMyHgcyYAjsJzE8XhN/VkILHGFGPNPSHXRCQxIW9bpTMRFZXcYYFTSf0djVvVjOahewQqkez8o6vBaIr4mH1wigsljxoqGZ5la15tjgp6n2yw5FrnOBI43/hbTEnLo1kLxbSrkN4Fq5z2ZJiqpu6T+CM0qo7F0Q3IlnMtz7Ck=
+	t=1785337819; cv=none; b=FuG1OViRI55WiEGxYs87cdbUB02DOf5V381dI8MjPRc50oyxiNZNWtOllzTNvFVFH/blPWYPhx6aZr1q2Y+mbJyQyPC8wAd5vcju1HtW4sWtGohqySjsw6qa3kOtyyCZy4M9+cFjmC4G45Kxp5r2XtI9+iyte3We+UfBJnZGSOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785333789; c=relaxed/simple;
-	bh=94L9Y6jblqW5ICiSyH0suMgSyVNNc6/w7ucmr3p0soQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gMty1VpsI0UiQIBbuFTBpXfO6vDyIw5WFiTR3i8NeEfvmAo4cxVmWeDwZG/teDdQl++NVABRkIFFrcMdNeZYOBNnaEtAAWOVjc5Qn7Vi8zm1H/HyULUKdP1oHFFOT0h4igy4AbFVe9ZRLqgLMHduIpRUkLYhsKN4iWl663338w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z+RiQEj1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785337819; c=relaxed/simple;
+	bh=oCfTxDq+a656t5RgFUHIkq6G6GXDBOjbPfM9vHiXq6Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nBDGtlM5o5E8jbvuVCG5UaGkwZcShW1Ld5gvUOlPMlePf6EY6LzQGlpy0hsoGDo+5fPo2h/NNR1m47cq4+e0iylpA75gtBv6bX2cHYLEx5r39TL5EE99cLCh9YfxnzAu0RPcSNRM3J0xGOhEdt9d+xmNI1kVOGkKG3xZfXAAD2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWRnwc69; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+RiQEj1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34D981F00AC4;
-	Wed, 29 Jul 2026 14:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785333787;
-	bh=+7L5cUB5gmn/G0XCH5EnzRVEYnRmQ6289QitHVcV3Es=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Z+RiQEj1BII59zxArhj3mnt9JNjHlppSgQFrZumsStiGxqJod+wqnzEz969A1Fe5L
-	 qH24I170RLkeEifJvonk0wRwGd0+Qhyu1+9ZpKDIks5ey5OBHid2KgZjaK38OJ5LlD
-	 QhgCmSgzcNk7iM1zu/gpBxUbDHly7oTZsKE9QDWHCwXlRGoxCc1Ms0UwctAo5EQqv+
-	 b6O1QVrYLHtbNZgMyGG2tXCb8ihNVltJ9n+pLWgE2j2Lun26JIpmVi+d2U2c/0nWGS
-	 4yWuRV0JC+3WM9DsgTAuLvngx+Ja10zUCb+01ri7LvDXxmSD2rWXz9kiBIvhH06ye/
-	 ZhMuEvLUzzJog==
-From: SJ Park <sj@kernel.org>
-To: 
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v1.2 11/12] Docs/mm/damon/maintainer-profile: update AI review for Sashiko replies
-Date: Wed, 29 Jul 2026 07:02:51 -0700
-Message-ID: <20260729140253.87753-12-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260729140253.87753-1-sj@kernel.org>
-References: <20260729140253.87753-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWRnwc69"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785337817; x=1816873817;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=oCfTxDq+a656t5RgFUHIkq6G6GXDBOjbPfM9vHiXq6Y=;
+  b=CWRnwc697Kr+7kZrtLp6J2bvCJGuPKW7WqUMQkZdmymhBfn3H7zU2A2Y
+   xOIseZz8DVZEC8j8HTNGXVyflU5mMWviDvQXTQeq+tbPchBM41QH9lgZX
+   FCx+x03jENqC9xmLQyu6Hv3ndgT18waThSUKwXQJXgKz87tRvDR3jf/TW
+   89+bxfrEd8hu32ACzrSfUqEDUowRNU3avXUB62UceSjT4bpvqu8Is5sae
+   0yuCB+2GMYbV9WfUQQiyM9gQpqDQr6xEcWRZUp7D7QCYbTNkZ3PRHr4yi
+   giFyCRNWLuMTrEivjCq6csz+8GScxNytB0Fn0eBSD0ABjCIdfRQAkxomK
+   Q==;
+X-CSE-ConnectionGUID: dAdsRdo2QP+pz3XrtjuGiQ==
+X-CSE-MsgGUID: iSUNsWclRSycIyoWYqu1FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85961579"
+X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
+   d="scan'208";a="85961579"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 08:10:16 -0700
+X-CSE-ConnectionGUID: rWIgYwpZRMCK10Lj65brMg==
+X-CSE-MsgGUID: +0SDdbEDRySkUHmWip9Crw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
+   d="scan'208";a="265065823"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.212])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 08:10:06 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Julian Braha <julianbraha@gmail.com>, Kees Cook <kees@kernel.org>
+Cc: nathan@kernel.org, nsc@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, arnd@arndb.de, stefan.hengelein@fau.de,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, nico@fluxnic.net,
+ officialnaumansabir@gmail.com, rdunlap@infradead.org,
+ vegard.nossum@oracle.com, tj@kernel.org
+Subject: Re: [PATCH] Documentation: warn users not to use select on choice
+ options in Kconfig
+In-Reply-To: <a4d8cb79-a696-4016-8c8a-a56b14992309@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260715220149.48700-1-julianbraha@gmail.com>
+ <202607152119.BF8E377B@keescook>
+ <a4d8cb79-a696-4016-8c8a-a56b14992309@gmail.com>
+Date: Wed, 29 Jul 2026 18:10:04 +0300
+Message-ID: <f362ddf2e0f3ecf41ed81f03f77577473c3e21bc@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-In the past, sharing Sashiko review results was tedious.  Also it was
-suggested to minimize the recipients on the sharing mails.  Hence the AI
-review section of DAMON maintainer profile document was updated to give
-guidance about available tools for making the sharing easier, and how
-the recipients list should be managed.
+On Thu, 16 Jul 2026, Julian Braha <julianbraha@gmail.com> wrote:
+> Hi Kees,
+>
+> On 7/16/26 05:19, Kees Cook wrote:
+>> Yeah, it'd be good to add a checkpatch or even build-time check too.
+>
+> I'll look into adding a check for this into the kconfig interpreter.
 
-Now DAMON is onboarded [1] to Sashiko's automatic review replies
-feature.  Sashiko directly sends its reviews as replies to the patch
-mail thread. It also reduces the recipients list to deliver the
-reporting to only the author and the mailing list.
+This. I wish there was a kconfig lint option that would whine about all
+the things that kconfig-language.rst explicitly tells you *not* to use
+select for. (So I could perhaps eventually stop replying to people with
+that stuff.)
 
-Remove the old guidance that is no more necessary but only confusing.
+BR,
+Jani.
 
-[1] https://github.com/sashiko-dev/sashiko/commit/b554c7b6e733
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/mm/damon/maintainer-profile.rst | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
-index fb2fa00cc9aa1..a7c1352339378 100644
---- a/Documentation/mm/damon/maintainer-profile.rst
-+++ b/Documentation/mm/damon/maintainer-profile.rst
-@@ -106,18 +106,9 @@ AI Review
- 
- For patches that are publicly posted to DAMON mailing list
- (damon@lists.linux.dev), AI reviews of the patches will be available at
--sashiko.dev.  The reviews could also be sent as mails to the author of the
--patch.
--
--Patch authors are encouraged to check the AI reviews and share their opinions.
--The sharing could be done as a reply to the mail thread.  Consider reducing the
--recipients list for such sharing, since some people are not really interested
--in AI reviews.  As a rule of thumb, drop stable@vger.kernel.org and individuals
--except DAMON maintainer.
--
--`hkml` also provides a `feature
--<https://github.com/sjp38/hackermail/blob/master/USAGE.md#forwarding-sashikodev-statuscomments-to-mailing-list>`_
--for such sharing.  Please feel free to use the feature.
-+sashiko.dev.  The reviews will also be sent as replies to the author of the
-+patch and the mailing list.
- 
--It is only an optional recommendation.  DAMON maintainer could also ask any
--question about the AI reviews, though.
-+Patch authors are encouraged to check the AI reviews and share their opinions
-+by replying on the mail thread.  It is only an optional recommendation.  DAMON
-+maintainer could also ask any question about the AI reviews, though.
 -- 
-2.47.3
+Jani Nikula, Intel
