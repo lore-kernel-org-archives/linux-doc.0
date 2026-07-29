@@ -1,1114 +1,264 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CFD42B32C;
-	Wed, 29 Jul 2026 21:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75FE3BC668;
+	Wed, 29 Jul 2026 22:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785361917; cv=none; b=BhKZ0bpQiVwqxe9dd6Q7tRYhsyjxg2bT9JZLyCqfTbjkFYmdY5GGYvJW0j1bRftkBwgn6oj+lNK0zB4lawfaxwlJ0XiAZqPJhWRN1lc63owuYEiN1WPmCGUPGhDOOFtnw8AiDEBOx9gUuTORoA7+SaEsmCcNeGtBCIciHhRnWMQ=
+	t=1785365027; cv=none; b=ln9I72d/jtGEp0a8LpsP73vkk6YBIpdi6LVmoNHylSqMWhwUArG+0WZyYSgny3KoxdsfE0DI1TRs1D7ptefmRmfUx06/GLSR2clRHJ6KYJ9HXHzzg3/raIkGHQ1x3DPoEA/XHTZ9zShdWbDB3fJOfgRDnmqNJvyuy9qmDLakOng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785361917; c=relaxed/simple;
-	bh=AnCHmL5sz8DCHaXNLGu27Q/ApATqGY2Af6Hj2wzjFFs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lqiiJCB4gg2eYj66U7LIuxaeK6TfUTbMZyPX3nxUWgEkdGr9IwAMQfpbwwzSOmQmM1T8BjrKqIbVJpWxBtcPHOyxtELPTWW8KxS4bVU3sOeA8CYsE360kSgbCRzQxV9sOnv64l1V3/x4zZ7RY5rSRtGz1wRrfLiZ2jh5izoyx3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8hO6GNh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785365027; c=relaxed/simple;
+	bh=NqV2gyvwf53YD0fgRW+DGPQBXmeCXDR8/qp5ZwNz77o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fdNy4IYaef0XdFqNxsZUMdG5soJw9iRQxU24Vu49+ib5qkY5FowL9JAx7o5XayLGVVW5swW5GShGN/4pCAefggSBOBn4XYHhxxo+jLZ9lNLzlixvB5ot1RxC0lT5oxTX3tX3l9uZAyNP9JYqePzw2pTF8HjOpaxD/rBrK8l3XjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=s1F6DSqo; arc=none smtp.client-ip=35.162.73.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8hO6GNh"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B807BC2BCFC;
-	Wed, 29 Jul 2026 21:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785361915;
-	bh=AnCHmL5sz8DCHaXNLGu27Q/ApATqGY2Af6Hj2wzjFFs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=P8hO6GNh6uqaXhdIveLmIxIiggjiLS64agWVXAVk2+KqLDeDc/H10/wjPNnYKk+oh
-	 L8YZJrZJW/5S4+lITxegtyL8MWT6MClMOMQ8A0HJreQ1bZtuWWDdTuQ10LXRHmNbeJ
-	 S/fH1i94d9BPQqBiWE5T2Ei+NYcstzW01vyTwXKd2ZnNH6yw5js+rNfZKymDjsawM8
-	 WZzin1WurK4IGLZ4BgJS3GJz7MgKHe8mVJ8PXFrMSZK0ItfK1NauayzE/fhxjuGYJy
-	 jH1I0VlcSOhR80r1DDmgigCC8JmjC+vgXseRyccMojB3aEcM1XFfMsI46j3Rs2FWT6
-	 zvv3Eu8qZNLyw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0873C55162;
-	Wed, 29 Jul 2026 21:51:55 +0000 (UTC)
-From: Vincent Jardin via B4 Relay <devnull+vjardin.free.fr@kernel.org>
-Date: Wed, 29 Jul 2026 23:51:45 +0200
-Subject: [PATCH v6 3/4] hwmon: pmbus: add MPQ8646 driver
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="s1F6DSqo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1785365025; x=1816901025;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0cX/Esl8gY+kO7NvHpvUsQS5CTl2FTbhi4a44jfBkNE=;
+  b=s1F6DSqo30cAKWg3bsccEFX4mSRqwz1MyuwvRkPWhnLSntkQTS/qLd4V
+   W7G2SB0qeIz01hS58jETo2Mg5ap7UI/us9FYpPO3Tv59PSP4Ph3dYaT6n
+   2Li1mTp/6en6ofm2grxjMEHKOu4RltWNsPu6aaR5dk8aQwwVF+tZlS+Mv
+   +Z0gXZiE9gLnS2336P1H3DcJXoo7tcF/wFhD77FJBf2ubGGXPtrSJctdA
+   zX/ID0uMAMXXj+7g7PN2clCbg+JkZLUazRf6qVOGB25difFIEdEe37wsB
+   7DmRxQS3y3Lc41L2FZTqYAuLiIdnSihhl1210VQfvGj0XYbqZVX0Cack0
+   g==;
+X-CSE-ConnectionGUID: +d1g9/U0QvqXxX9KBS5qrQ==
+X-CSE-MsgGUID: zkxEMZQ7T0GVgf3wSW7srg==
+X-IronPort-AV: E=Sophos;i="6.25,193,1779148800"; 
+   d="scan'208";a="24412671"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 22:43:43 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:21014]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.47.97:2525] with esmtp (Farcaster)
+ id c47381f9-be81-467c-b111-5c82cc533eb5; Wed, 29 Jul 2026 22:43:42 +0000 (UTC)
+X-Farcaster-Flow-ID: c47381f9-be81-467c-b111-5c82cc533eb5
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 29 Jul 2026 22:43:42 +0000
+Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Wed, 29 Jul 2026 22:43:36 +0000
+From: Arthur Kiyanovski <akiyano@amazon.com>
+To: David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>, <netdev@vger.kernel.org>
+CC: Arthur Kiyanovski <akiyano@amazon.com>, Eric Dumazet
+	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, David Woodhouse
+	<dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Miroslav Lichvar
+	<mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Andrew Lunn
+	<andrew@lunn.ch>, Carolina Jubran <cjubran@nvidia.com>, Wen Gu
+	<guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "David
+ Woodhouse" <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>, "Zorik
+ Machulsky" <zorik@amazon.com>, Alexander Matushevsky <matua@amazon.com>,
+	"Saeed Bshara" <saeedb@amazon.com>, Matt Wilson <msw@amazon.com>, Anthony
+ Liguori <aliguori@amazon.com>, Nafea Bshara <nafea@amazon.com>, Evgeny
+ Schmeilin <evgenys@amazon.com>, Netanel Belgazal <netanel@amazon.com>, Ali
+ Saidi <alisaidi@amazon.com>, Benjamin Herrenschmidt <benh@amazon.com>, Noam
+ Dagan <ndagan@amazon.com>, David Arinzon <darinzon@amazon.com>, Evgeny
+ Ostrovsky <evostrov@amazon.com>, Ofir Tabachnik <ofirt@amazon.com>, Amit
+ Bernstein <amitbern@amazon.com>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <shuah@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Simon Horman
+	<horms@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	<vadim.fedorenko@linux.dev>
+Subject: [PATCH v6 net-next 0/7] ptp: Add PHC timestamp quality attributes
+Date: Wed, 29 Jul 2026 22:43:18 +0000
+Message-ID: <20260729224328.16440-1-akiyano@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260729-mpq8646_v0-v6-3-98848151cdb4@free.fr>
-References: <20260729-mpq8646_v0-v6-0-98848151cdb4@free.fr>
-In-Reply-To: <20260729-mpq8646_v0-v6-0-98848151cdb4@free.fr>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Charles Hsu <ythsu0511@gmail.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>, linux-hwmon@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, Vincent Jardin <vjardin@free.fr>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785361913; l=33704;
- i=vjardin@free.fr; s=20260525; h=from:subject:message-id;
- bh=CAsSZhWtOgJxPOInplpKRbOgT/Fi9WXngsYGE5Vvhjw=;
- b=URvAmqU1+4nQE1VnV00SlHf4xCUdT3Z9sLBsZxCBG2zQv5fI+CmZEuAvV7cf2lGlbYibANGts
- VYl15Hg/49cAq1Ap+MBgVJZWymJAYv/7GzoqJ99Cb/Qd+V7DauABksp
-X-Developer-Key: i=vjardin@free.fr; a=ed25519;
- pk=hppgLeFpGpKOi7LNwGEZ4jOYofJCoGd4Jf1ltAabiLw=
-X-Endpoint-Received: by B4 Relay for vjardin@free.fr/20260525 with
- auth_id=871
-X-Original-From: Vincent Jardin <vjardin@free.fr>
-Reply-To: vjardin@free.fr
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D044UWA002.ant.amazon.com (10.13.139.11) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-From: Vincent Jardin <vjardin@free.fr>
+This series adds quality attributes to PTP Hardware Clock (PHC)
+timestamps, allowing userspace to obtain error bound, clock status,
+timescale, and system counter values alongside timestamps in a single
+call.
 
-Add a new driver for the MPS MPQ8646 that is a PMBus device.
+Motivation
+----------
+The existing PTP APIs return timestamps without any indication of
+their quality. Applications that need clock accuracy and
+synchronization status commonly rely on external tools such as
+ptp4l, which implement synchronization logic and can export their
+measurement of clock accuracy. For managed PHC devices - such as
+the ENA network adapter, whose clock is synchronized by the device
+without userspace involvement - these tools are not available, and
+the existing APIs lack a way to report quality metrics to consumers
+of time.
 
-Beyond basic PMBus telemetry, the driver adds:
-  - alarm acknowledge via inX_reset_history.
-  - STATUS_WORD MPS-extended bit decode and the NVM-backed
-    PROTECTION_LAST post-mortem, exposed as a read-only debugfs
-    decoder.
-  - In-driver alarm-poll fallback work item (thanks lm90) for
-    boards without SMBALERT
+This was previously proposed as an RFC [1] with a single ioctl.
+Based on community feedback, the design was reworked to cover both
+the extended (multi-sample) and precise (cross-timestamp) paths.
 
-Signed-off-by: Vincent Jardin <vjardin@free.fr>
----
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/mpq8646.rst | 261 +++++++++++++++
- MAINTAINERS                     |   7 +
- drivers/hwmon/pmbus/Kconfig     |  11 +
- drivers/hwmon/pmbus/Makefile    |   1 +
- drivers/hwmon/pmbus/mpq8646.c   | 685 ++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 966 insertions(+)
+Design
+------
+The UAPI was redesigned based on Thomas Gleixner's proposal [2]:
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 29130df44d12..be52f9f4dc70 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -201,6 +201,7 @@ Hardware Monitoring Kernel Drivers
-    mp5990
-    mp9941
-    mp9945
-+   mpq8646
-    mpq8785
-    nct6683
-    nct6775
-diff --git a/Documentation/hwmon/mpq8646.rst b/Documentation/hwmon/mpq8646.rst
-new file mode 100644
-index 000000000000..d3ede656ea15
---- /dev/null
-+++ b/Documentation/hwmon/mpq8646.rst
-@@ -0,0 +1,261 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (c) 2026 Free Mobile - Vincent Jardin <vjardin@free.fr>
-+
-+Kernel driver mpq8646
-+=====================
-+
-+Supported chips:
-+
-+  * MPS MPQ8646
-+
-+    Prefix: 'mpq8646'
-+
-+Author:
-+  - Vincent Jardin <vjardin@free.fr>
-+
-+Chip-identity
-+-------------
-+
-+Support the boards that are designed with the MPS MPQ8646 probed thanks
-+to``MFR_MODEL`` register.
-+
-+This driver targets the MPQ8646 silicon specifically.
-+
-+Description
-+-----------
-+
-+The MPQ8646 is a fully integrated, PMBus-compatible, high-frequency,
-+synchronous buck converter. It offers a compact solution that
-+achieves up high Amps output current per phase, with excellent load
-+and line regulation over a wide input supply range. The chip
-+operates at high efficiency over a wide output current load range.
-+
-+The PMBus interface provides converter configurations and key
-+parameters monitoring.
-+
-+The device adopts MPS's proprietary multi-phase digital
-+constant-on-time (MCOT) control, which provides fast transient
-+response and eases loop stabilization. The MCOT scheme also allows
-+multiple devices or channels to be connected in parallel with
-+excellent current sharing and phase interleaving for high-current
-+applications.
-+
-+Fully integrated protection features include over-current
-+protection (OCP), over-voltage protection (OVP), under-voltage
-+protection (UVP), and over-temperature protection (OTP).
-+
-+This device is compliant with:
-+
-+- PMBus rev 1.3 interface.
-+
-+The driver exports the following attributes via the 'sysfs' files
-+for input voltage:
-+
-+- in1_input
-+- in1_label
-+- in1_max
-+- in1_max_alarm
-+- in1_min
-+- in1_min_alarm
-+- in1_crit
-+- in1_crit_alarm
-+
-+The driver provides the following attributes for output voltage:
-+
-+- in2_input
-+- in2_label
-+- in2_alarm
-+- in2_max
-+- in2_max_alarm
-+- in2_min
-+- in2_min_alarm
-+- in2_crit
-+- in2_crit_alarm
-+- in2_lcrit
-+- in2_lcrit_alarm
-+
-+The driver provides the following attributes for output current:
-+
-+- curr1_input
-+- curr1_label
-+- curr1_max
-+- curr1_max_alarm
-+- curr1_crit
-+- curr1_crit_alarm
-+
-+The driver provides the following attributes for temperature:
-+
-+- temp1_input
-+- temp1_max
-+- temp1_max_alarm
-+- temp1_crit
-+- temp1_crit_alarm
-+
-+Alarm acknowledgment
-+---------------------
-+
-+The hwmon-class ``inX_alarm``/``currX_alarm``/``tempX_alarm`` files are
-+read-only in pmbus_core. The driver exposes the standard
-+``PMBUS_VIRT_RESET_*_HISTORY`` virtual-register channel for fault
-+acknowledgment: writing ``1`` to ``inX_reset_history`` /
-+``currX_reset_history`` / ``tempX_reset_history`` sends the chip a
-+``CLEAR_FAULTS`` (0x03) Send-Byte, which clears the latched
-+``STATUS_WORD`` / ``STATUS_VOUT`` / ``STATUS_IOUT`` /
-+``STATUS_INPUT`` / ``STATUS_TEMPERATURE`` bits the chip is currently
-+exposing.
-+
-+The MPS-specific NVM post-mortem register
-+``PROTECTION_LAST`` (0xFB) is not cleared by this path; it can be read
-+(decoded) via the ``protection_last`` debugfs entry described below.
-+
-+Regulator framework integration
-+-------------------------------
-+
-+When ``CONFIG_REGULATOR=y`` is set, the chip is
-+exposed under ``/sys/class/regulator/`` and accepts the standard
-+regulator framework operations:
-+
-+- ``regulator_enable()`` / ``regulator_disable()`` -> ``OPERATION`` (0x01)
-+- ``regulator_set_voltage()`` -> ``VOUT_COMMAND`` (0x21)
-+- ``regulator_get_voltage()`` -> ``READ_VOUT`` (0x8B)
-+- ``regulator_is_enabled()`` -> ``OPERATION`` bit-decode
-+
-+The single regulator descriptor is named ``"vout"`` (page 0). For a
-+multi-page configuration the descriptor table can be extended in
-+the driver.
-+
-+In-driver alarm-poll fallback
-+-----------------------------
-+
-+On boards where the chip's ``SMBALERT#`` pin is unavailable to the
-+SoC, ``pmbus_core::pmbus_irq_setup`` cannot deliver SMBALERT-driven
-+``poll(POLLPRI)`` wakes or ``udev change@...`` events on the
-+``inX_alarm`` files. The driver provides a ``delayed_work``-based
-+polling fallback that
-+periodically invokes the pmbus core fault check,
-+``pmbus_check_and_notify_faults()``, which sends the notifications and
-+then clears the latched faults, exactly like the ``SMBALERT#``
-+interrupt path. The frequency of polling is tunable:
-+
-+::
-+
-+  /sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/alarm_poll_interval_ms
-+
-+The default is 1000 ms.
-+
-+Set it to 0 to disable. The worker self-suppresses
-+when ``client->irq != 0`` (i.e. when DT supplies an
-+``interrupts = <...>``  property on the regulator node), so adding
-+``SMBALERT#`` wiring is a zero-driver-change uplift on a future
-+board rev.
-+
-+MPS post-mortem (PROTECTION_LAST)
-+---------------------------------
-+
-+The MPQ8646 silicon keeps a single 16-bit NVM-backed record of the
-+last protection event in ``PROTECTION_LAST`` (0xFB). It survives
-+chip power/reset. The following debugfs entries expose it:
-+
-+::
-+
-+  /sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/protection_last     (RO)
-+  /sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/status_decoded      (RO)
-+
-+``protection_last`` decodes the 16-bit value based on the datasheet
-+fault names (``INIT_FAULT``, ``NVM_CRC_ERROR``, ``NVM_FAULT``,
-+``OC_PHASE_FAULT``, ``OTP_SELF_FAULT``, ``SWITCH_PRD_FAULT``,
-+``VIN_OV_FAULT``, ``VOUT_OV_FAULT``, ``VOUT_UV_FAULT``,
-+``OC_TOT_FAULT``, ``VIN_UVLO_FAULT``, ``DRMOS_OTP``).
-+
-+``status_decoded`` reads ``STATUS_WORD`` (0x79) and renders the
-+16 bits with MPS-extension labels (bit12 = ``NVM_SUMMARY``,
-+bit8 = ``WATCH_DOG``, bit0 = ``DRMOS_FAULT``) instead of the
-+PMBus 1.3 spec generic names.
-+
-+NVMEM snapshot
-+--------------
-+
-+When ``CONFIG_NVMEM=y`` is set, the chip's NVM-backed
-+observability registers are exposed as a single 16-byte read-only
-+``nvmem_device`` at ``/sys/bus/nvmem/devices/<i2c-name>/nvmem``.
-+Layout (little-endian for 16-bit fields, zero-fill on per-entry read
-+failure and for the reserved tail):
-+
-+::
-+
-+  offset 0..1   PROTECTION_LAST  (0xFB)  word
-+  offset 2..3   MFR_RETRY_TIMES  (0xF4)  word
-+  offset 4..5   MFR_CONFIG_ID    (0xC0)  word
-+  offset 6..7   MFR_VBOOT_CFG    (0xFC)  word
-+  offset 8      MFR_SILICON_REV  (0xC3)  byte
-+  offset 9..15  reserved (zero)
-+
-+Suitable for single-``cat`` post-mortem capture by a fleet daemon.
-+
-+Diagnostics and introspection
-+-----------------------------
-+
-+When ``CONFIG_DEBUG_FS=y`` is set, the driver adds a read-only
-+decode surface to the client's pmbus debugfs directory,
-+``/sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/``.
-+The driver intentionally exposes no raw register poke/peek debugfs;
-+use i2c-dev (``i2cget``/``i2cset``/``i2ctransfer``) for that.
-+
-+Identity / observability (read-only):
-+
-+==========================  ==================  =================================
-+File                        PMBus / MFR cmd     Description
-+==========================  ==================  =================================
-+``mfr_config_id``           0xC0 (word)         board / SKU NVM identifier
-+``mfr_config_code_rev``     0xC1 (word)         NVM image revision (PART_RECOG +
-+                                                config code rev fields)
-+``mfr_silicon_rev``         0xC3 (byte)         die revision
-+``mfr_retry_times``         0xF4 (word)         per-fault-class recovery-mode
-+                                                configuration (NOT a retry
-+                                                count). Four 4-bit fields
-+                                                [15:12]=OTP, [11:8]=VOUT_OV,
-+                                                [7:4]=VOUT_UV, [3:0]=OCP.
-+                                                Each field: 0x0=latch-off,
-+                                                0x1..0xE=retry N times then
-+                                                latch off, 0xF=hiccup
-+                                                (retry indefinitely). The
-+                                                chip exposes no in-NVM
-+                                                retry-event counter; track
-+                                                transitions externally if
-+                                                needed (poll
-+                                                ``protection_last`` or watch
-+                                                ``inX_alarm`` / ``temp1_alarm``
-+                                                ``poll(POLLPRI)`` wakes).
-+``mfr_vboot_cfg``           0xFC (word)         ADDR/VBOOT latched at POR
-+==========================  ==================  =================================
-+
-+Timing / UVLO knobs (read-only):
-+
-+==========================  ==================  =================================
-+File                        PMBus cmd           Description
-+==========================  ==================  =================================
-+``vin_on``                  0x35 (word)         UVLO turn-on threshold
-+``vin_off``                 0x36 (word)         UVLO turn-off threshold
-+``ton_delay``               0x60 (word)         soft-start delay
-+``ton_rise``                0x61 (word)         soft-start ramp time
-+``toff_delay``              0x64 (word)         soft-stop delay
-+``toff_fall``               0x65 (word)         soft-stop ramp time
-+==========================  ==================  =================================
-+
-+The only writable entry is ``alarm_poll_interval_ms`` (the alarm-poll
-+worker cadence, see above), it is driver-local and never touches the
-+chip.
-+
-+Devicetree
-+----------
-+
-+The driver uses ``compatible = "mps,mpq8646"``. There are some few optional
-+properties:
-+
-+- ``mps,vout-fb-divider-ratio-permille`` : it writes ``VOUT_SCALE_LOOP``
-+  (0x29) at probe to compensate for an external resistor divider in
-+  the VOUT feedback path. The valid range is 11-bit.
-+- ``interrupts = <...>`` : if the board routes the chip's
-+  ``SMBALERT#`` pin to a SoC GPIO, declaring it here lights up
-+  ``pmbus_core::pmbus_irq_setup`` and disables the in-driver
-+  alarm-poll fallback
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1ab8736850ea..88dc83d98896 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18328,6 +18328,13 @@ S:	Maintained
- F:	Documentation/hwmon/mp9945.rst
- F:	drivers/hwmon/pmbus/mp9945.c
- 
-+MPS MPQ8646 PMBUS DRIVER
-+M:	Vincent Jardin <vjardin@free.fr>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/mpq8646.rst
-+F:	drivers/hwmon/pmbus/mpq8646.c
-+
- MR800 AVERMEDIA USB FM RADIO DRIVER
- M:	Alexey Klimov <alexey.klimov@linaro.org>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index c8cda160b5f8..9f44e76b0b64 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -616,6 +616,17 @@ config SENSORS_MPQ8785
- 	  This driver can also be built as a module. If so, the module will
- 	  be called mpq8785.
- 
-+config SENSORS_MPQ8646
-+	tristate "MPS MPQ8646"
-+	depends on REGULATOR || !REGULATOR
-+	depends on NVMEM || !NVMEM
-+	help
-+	  If you say yes here you get hardware monitoring support for the
-+	  Monolithic Power Systems MPQ8646.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called mpq8646.
-+
- config SENSORS_PIM4328
- 	tristate "Flex PIM4328 and compatibles"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index ffc05f493213..6f8fda966600 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -60,6 +60,7 @@ obj-$(CONFIG_SENSORS_MP9941)	+= mp9941.o
- obj-$(CONFIG_SENSORS_MP9945)	+= mp9945.o
- obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
- obj-$(CONFIG_SENSORS_MPQ8785)	+= mpq8785.o
-+obj-$(CONFIG_SENSORS_MPQ8646)	+= mpq8646.o
- obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
- obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
- obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
-diff --git a/drivers/hwmon/pmbus/mpq8646.c b/drivers/hwmon/pmbus/mpq8646.c
-new file mode 100644
-index 000000000000..1fd41d89e5be
---- /dev/null
-+++ b/drivers/hwmon/pmbus/mpq8646.c
-@@ -0,0 +1,685 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Driver for MPS MPQ8646 step-down converter.
-+ *
-+ * Copyright (c) 2026 Free Mobile - Vincent Jardin <vjardin@free.fr>
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/debugfs.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/nvmem-provider.h>
-+#include <linux/of_device.h>
-+#include <linux/pmbus.h>
-+#include <linux/property.h>
-+#include <linux/regulator/driver.h>
-+#include <linux/seq_file.h>
-+#include <linux/workqueue.h>
-+#include "pmbus.h"
-+
-+/* Default cadence for the in-driver alarm-poll fallback (ms) */
-+#define MPQ8646_ALARM_POLL_MS_DEFAULT	1000
-+
-+/* MPS vendor-extended command codes (NOT in PMBus 1.3 Part II) */
-+#define MPS_PROTECTION_LAST		0xFB
-+
-+/* PMBus 1.3 timing / UVLO command codes */
-+#define PMBUS_VIN_ON			0x35
-+#define PMBUS_VIN_OFF			0x36
-+#define PMBUS_TON_DELAY			0x60
-+#define PMBUS_TON_RISE			0x61
-+#define PMBUS_TOFF_DELAY		0x64
-+#define PMBUS_TOFF_FALL			0x65
-+
-+/* MPS vendor-extended observability / identity registers */
-+#define MPS_MFR_CONFIG_ID		0xC0
-+#define MPS_MFR_CONFIG_CODE_REV		0xC1
-+#define MPS_MFR_SILICON_REV		0xC3
-+#define MPS_MFR_RETRY_TIMES		0xF4
-+#define MPS_MFR_VBOOT_CFG		0xFC
-+
-+#define MPQ8646_DEBUG(client, fmt, ...) \
-+	dev_dbg(&(client)->dev, fmt, ##__VA_ARGS__)
-+
-+/*
-+ * Maximum legal value for VOUT_SCALE_LOOP (0x29) on the MPQ8646 silicon
-+ * The chip uses an 11-bit VOUT feedback-divider scale register.
-+ */
-+#define MPQ8646_VOUT_SCALE_LOOP_MAX	GENMASK(10, 0)
-+
-+/* Forward declaration */
-+struct mpq8646_dbg_reg_ctx;
-+
-+/* Per-instance state */
-+struct mpq8646_priv {
-+	struct pmbus_driver_info info;	/* must be first, container_of target */
-+	struct i2c_client	*client;
-+
-+	/* Serialises CLEAR_LAST_FAULT sequences and PROTECTION_LAST reads */
-+	struct mutex		mps_lock;
-+
-+	/* Set alarm_poll_interval_ms = 0 to disable. */
-+	struct delayed_work	alarm_poll_work;
-+	u32			alarm_poll_interval_ms;
-+
-+#ifdef CONFIG_DEBUG_FS
-+	/* the only debugfs file that can re-arm the poll worker */
-+	struct dentry		*dbg_poll;
-+	struct mpq8646_dbg_reg_ctx	*dbg_reg_ctx;
-+#endif
-+};
-+
-+static inline struct mpq8646_priv *mpq8646_priv_from_client(struct i2c_client *client)
-+{
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+
-+	return container_of(info, struct mpq8646_priv, info);
-+}
-+
-+/*
-+ * VID-mode m/b/R coefficients, same values as the mpq8785 driver for
-+ * the MPS VID encoding. Per the PMBus Direct formula used by
-+ * pmbus_core, X = (Y * 10^-R - b) / m, so m=64 / b=0 / R=1 yields
-+ * 1.5625 mV per LSB.
-+ */
-+#define MPQ8646_VID_M			64
-+#define MPQ8646_VID_B			0
-+#define MPQ8646_VID_R			1
-+
-+static int mpq8646_identify(struct i2c_client *client,
-+			    struct pmbus_driver_info *info)
-+{
-+	int vout_mode;
-+
-+	vout_mode = pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
-+	if (vout_mode < 0)
-+		return vout_mode;
-+
-+	switch (vout_mode & PB_VOUT_MODE_MODE_MASK) {
-+	case PB_VOUT_MODE_LINEAR:
-+		info->format[PSC_VOLTAGE_OUT] = linear;
-+		break;
-+	case PB_VOUT_MODE_VID:
-+	case PB_VOUT_MODE_DIRECT:
-+		info->format[PSC_VOLTAGE_OUT] = direct;
-+		info->m[PSC_VOLTAGE_OUT] = MPQ8646_VID_M;
-+		info->b[PSC_VOLTAGE_OUT] = MPQ8646_VID_B;
-+		info->R[PSC_VOLTAGE_OUT] = MPQ8646_VID_R;
-+		break;
-+	default:
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+};
-+
-+static int mpq8646_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	int ret;
-+
-+	MPQ8646_DEBUG(client, "read_byte_data page=%d reg=0x%02x\n", page, reg);
-+
-+	switch (reg) {
-+	case PMBUS_VOUT_MODE:
-+		ret = pmbus_read_byte_data(client, page, reg);
-+		MPQ8646_DEBUG(client, "  VOUT_MODE raw=0x%02x ret=%d\n", ret, ret);
-+		if (ret < 0)
-+			return ret;
-+
-+		if ((ret & PB_VOUT_MODE_MODE_MASK) == PB_VOUT_MODE_VID)
-+			return PB_VOUT_MODE_DIRECT;
-+
-+		return ret;
-+	case PMBUS_STATUS_BYTE:
-+	case PMBUS_STATUS_CML:
-+	case PMBUS_STATUS_OTHER:
-+	case PMBUS_STATUS_MFR_SPECIFIC:
-+	case PMBUS_STATUS_FAN_12:
-+	case PMBUS_STATUS_FAN_34:
-+		return -ENXIO;
-+	case PMBUS_MFR_LOCATION:
-+	case PMBUS_MFR_DATE:
-+	case PMBUS_MFR_SERIAL:
-+	case PMBUS_IC_DEVICE_ID:
-+	case PMBUS_IC_DEVICE_REV:
-+		MPQ8646_DEBUG(client, "  unsupported mfr-info reg 0x%02x -> ENXIO\n", reg);
-+		return -ENXIO;
-+	default:
-+		return -ENODATA;
-+	}
-+}
-+
-+/*
-+ * Reference: ltc2978.c::ltc2978_write_word_data which uses the
-+ * same virtual-register channel for its real chip-side peak reset.
-+ */
-+static int mpq8646_write_word_data(struct i2c_client *client, int page,
-+				   int reg, u16 word)
-+{
-+	struct mpq8646_priv *priv = mpq8646_priv_from_client(client);
-+	int rc;
-+
-+	switch (reg) {
-+	case PMBUS_VIRT_RESET_VIN_HISTORY:
-+	case PMBUS_VIRT_RESET_VOUT_HISTORY:
-+	case PMBUS_VIRT_RESET_IOUT_HISTORY:
-+	case PMBUS_VIRT_RESET_TEMP_HISTORY:
-+		MPQ8646_DEBUG(client, "reset_history virt reg=0x%04x -> CLEAR_FAULTS\n",
-+			      reg);
-+		rc = i2c_smbus_write_byte(priv->client, PMBUS_CLEAR_FAULTS);
-+		if (rc < 0)
-+			MPQ8646_DEBUG(client, "  CLEAR_FAULTS rc=%d\n", rc);
-+		return rc < 0 ? rc : 0;
-+	default:
-+		return -ENODATA;	/* let pmbus_core do the direct write */
-+	}
-+}
-+
-+static int mpq8646_read_word_data(struct i2c_client *client, int page,
-+				  int phase, int reg)
-+{
-+	int rc;
-+
-+	MPQ8646_DEBUG(client, "read_word_data page=%d phase=%d reg=0x%02x\n",
-+		      page, phase, reg);
-+
-+	switch (reg) {
-+	case PMBUS_READ_VIN:
-+	case PMBUS_READ_VOUT:
-+	case PMBUS_READ_IOUT:
-+	case PMBUS_READ_TEMPERATURE_1:
-+	case PMBUS_STATUS_WORD:
-+	case PMBUS_VOUT_OV_FAULT_LIMIT:
-+	case PMBUS_VOUT_OV_WARN_LIMIT:
-+	case PMBUS_VOUT_UV_WARN_LIMIT:
-+	case PMBUS_VOUT_UV_FAULT_LIMIT:
-+	case PMBUS_IOUT_OC_FAULT_LIMIT:
-+	case PMBUS_IOUT_OC_WARN_LIMIT:
-+	case PMBUS_OT_FAULT_LIMIT:
-+	case PMBUS_OT_WARN_LIMIT:
-+	case PMBUS_VIN_OV_FAULT_LIMIT:
-+	case PMBUS_VIN_OV_WARN_LIMIT:
-+	case PMBUS_VIN_UV_WARN_LIMIT:
-+	case PMBUS_VIN_UV_FAULT_LIMIT:
-+	case PMBUS_MFR_VIN_MAX:
-+	case PMBUS_MFR_VOUT_MAX:
-+	case PMBUS_MFR_IOUT_MAX:
-+	case PMBUS_MFR_MAX_TEMP_1:
-+		break;
-+	case PMBUS_VIRT_RESET_VIN_HISTORY:
-+	case PMBUS_VIRT_RESET_VOUT_HISTORY:
-+	case PMBUS_VIRT_RESET_IOUT_HISTORY:
-+	case PMBUS_VIRT_RESET_TEMP_HISTORY:
-+		return 0;
-+	default:
-+		return -ENODATA;
-+	}
-+
-+	rc = i2c_smbus_read_word_data(client, reg);
-+
-+	MPQ8646_DEBUG(client, "  reg=0x%02x rc=%d\n", reg, rc);
-+	return rc;
-+}
-+
-+static struct pmbus_driver_info mpq8646_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = direct,
-+	.format[PSC_CURRENT_OUT] = direct,
-+	.format[PSC_TEMPERATURE] = direct,
-+	.m[PSC_VOLTAGE_IN] = 4,
-+	.b[PSC_VOLTAGE_IN] = 0,
-+	.R[PSC_VOLTAGE_IN] = 1,
-+	.m[PSC_CURRENT_OUT] = 16,
-+	.b[PSC_CURRENT_OUT] = 0,
-+	.R[PSC_CURRENT_OUT] = 0,
-+	.m[PSC_TEMPERATURE] = 1,
-+	.b[PSC_TEMPERATURE] = 0,
-+	.R[PSC_TEMPERATURE] = 0,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT |
-+		   PMBUS_HAVE_IOUT | PMBUS_HAVE_TEMP |
-+		   PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_VOUT |
-+		   PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+#if IS_ENABLED(CONFIG_REGULATOR)
-+static const struct regulator_desc mpq8646_reg_desc[] = {
-+	PMBUS_REGULATOR("vout", 0),
-+};
-+#endif /* CONFIG_REGULATOR */
-+
-+#if IS_ENABLED(CONFIG_NVMEM)
-+/*
-+ * Expose using
-+ *   /sys/bus/nvmem/devices/<i2c-name>/nvmem
-+ *
-+ * Layout (16 bytes):
-+ *   offset 0..1   PROTECTION_LAST (0xFB)    word, LE     -- NVM
-+ *   offset 2..3   MFR_RETRY_TIMES (0xF4)    word, LE     -- NVM
-+ *   offset 4..5   MFR_CONFIG_ID   (0xC0)    word, LE     -- NVM
-+ *   offset 6..7   MFR_VBOOT_CFG   (0xFC)    word, LE     -- NVM
-+ *   offset 8      MFR_SILICON_REV (0xC3)    byte         -- NVM
-+ *   offset 9..15  reserved (zero-fill, leaves room for additions)
-+ */
-+#define MPQ8646_NVMEM_SIZE	16
-+
-+struct mpq8646_nvmem_entry {
-+	unsigned int	off;
-+	u8		reg;
-+	bool		is_word;
-+};
-+
-+static const struct mpq8646_nvmem_entry mpq8646_nvmem_map[] = {
-+	{ 0, MPS_PROTECTION_LAST, true  },
-+	{ 2, MPS_MFR_RETRY_TIMES, true  },
-+	{ 4, MPS_MFR_CONFIG_ID,   true  },
-+	{ 6, MPS_MFR_VBOOT_CFG,   true  },
-+	{ 8, MPS_MFR_SILICON_REV, false },
-+};
-+
-+static int mpq8646_nvmem_read(void *data, unsigned int offset, void *val,
-+			      size_t bytes)
-+{
-+	struct mpq8646_priv *priv = data;
-+	u8 *out = val;
-+	size_t i;
-+
-+	if (offset >= MPQ8646_NVMEM_SIZE)
-+		return -EINVAL;
-+	if (offset + bytes > MPQ8646_NVMEM_SIZE)
-+		bytes = MPQ8646_NVMEM_SIZE - offset;
-+
-+	memset(out, 0, bytes);
-+
-+	guard(mutex)(&priv->mps_lock);
-+	for (i = 0; i < ARRAY_SIZE(mpq8646_nvmem_map); i++) {
-+		const struct mpq8646_nvmem_entry *e = &mpq8646_nvmem_map[i];
-+		unsigned int e_start = e->off;
-+		unsigned int e_end = e_start + (e->is_word ? 2 : 1);
-+		u8 raw[2];
-+		int rc;
-+		unsigned int j;
-+
-+		if (e_end <= offset || e_start >= offset + bytes)
-+			continue;	/* outside requested slice */
-+
-+		if (e->is_word)
-+			rc = i2c_smbus_read_word_data(priv->client, e->reg);
-+		else
-+			rc = i2c_smbus_read_byte_data(priv->client, e->reg);
-+		if (rc < 0)
-+			continue;	/* leave the zero-fill in place */
-+
-+		raw[0] = rc & 0xff;
-+		raw[1] = (rc >> 8) & 0xff;
-+
-+		for (j = 0; j < e_end - e_start; j++) {
-+			unsigned int abs = e_start + j;
-+
-+			if (abs >= offset && abs < offset + bytes)
-+				out[abs - offset] = raw[j];
-+		}
-+	}
-+	return 0;
-+}
-+#endif /* CONFIG_NVMEM */
-+
-+static const struct i2c_device_id mpq8646_id[] = {
-+	{ "mpq8646", 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(i2c, mpq8646_id);
-+
-+static const struct of_device_id __maybe_unused mpq8646_of_match[] = {
-+	{ .compatible = "mps,mpq8646" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mpq8646_of_match);
-+
-+static struct pmbus_platform_data mpq8646_no_pec_pdata = {
-+	.flags = PMBUS_NO_CAPABILITY,
-+};
-+
-+#ifdef CONFIG_DEBUG_FS
-+/*
-+ * Read-only decode cases in the client's pmbus debugfs directory:
-+ * the MPS-specific STATUS_WORD and PROTECTION_LAST bit decode plus the
-+ * identity/timing registers.
-+ */
-+
-+struct mpq_status_bit {
-+	u16		mask;
-+	const char	*name;
-+};
-+
-+static const struct mpq_status_bit mpq8646_status_word_bits[] = {
-+	{ PB_STATUS_VOUT,         "VOUT" },
-+	{ PB_STATUS_IOUT_POUT,    "IOUT_POUT" },
-+	{ PB_STATUS_INPUT,        "INPUT" },
-+	{ PB_STATUS_WORD_MFR,     "NVM_SUMMARY" },
-+	{ PB_STATUS_POWER_GOOD_N, "POWER_GOOD#" },
-+	{ PB_STATUS_FANS,         "FANS" },
-+	{ PB_STATUS_OTHER,        "OTHER" },
-+	{ PB_STATUS_UNKNOWN,      "WATCH_DOG" },
-+	{ PB_STATUS_BUSY,         "BUSY" },
-+	{ PB_STATUS_OFF,          "OFF" },
-+	{ PB_STATUS_VOUT_OV,      "VOUT_OV_FAULT" },
-+	{ PB_STATUS_IOUT_OC,      "IOUT_OC_FAULT" },
-+	{ PB_STATUS_VIN_UV,       "VIN_UV_FAULT" },
-+	{ PB_STATUS_TEMPERATURE,  "TEMP" },
-+	{ PB_STATUS_CML,          "CML" },
-+	{ PB_STATUS_NONE_ABOVE,   "DRMOS_FAULT" },
-+	{ /* sentinel */ }
-+};
-+
-+/* PROTECTION_LAST (0xFB) bit names, it survives chip POR */
-+static const struct mpq_status_bit mpq8646_protection_last_bits[] = {
-+	{ BIT(15), "INIT_FAULT" },
-+	{ BIT(14), "NVM_CRC_ERROR" },
-+	{ BIT(13), "NVM_FAULT" },
-+	{ BIT(12), "OC_PHASE_FAULT" },
-+	{ BIT(11), "OTP_SELF_FAULT" },
-+	{ BIT(9),  "SWITCH_PRD_FAULT" },
-+	{ BIT(8),  "VIN_OV_FAULT" },
-+	{ BIT(7),  "VOUT_OV_FAULT" },
-+	{ BIT(6),  "VOUT_UV_FAULT" },
-+	{ BIT(5),  "OC_TOT_FAULT" },
-+	{ BIT(4),  "VIN_UVLO_FAULT" },
-+	{ BIT(3),  "DRMOS_OTP" },
-+	{ /* sentinel */ }
-+};
-+
-+static void mpq8646_print_bits(struct seq_file *s, u16 v,
-+			       const struct mpq_status_bit *tab)
-+{
-+	const struct mpq_status_bit *t;
-+	bool first = true;
-+
-+	seq_printf(s, "0x%04x", v);
-+	if (!v) {
-+		seq_puts(s, " [clean]\n");
-+		return;
-+	}
-+	seq_puts(s, " [");
-+	for (t = tab; t->mask; t++) {
-+		if (v & t->mask) {
-+			if (!first)
-+				seq_putc(s, ' ');
-+			seq_puts(s, t->name);
-+			first = false;
-+		}
-+	}
-+	seq_puts(s, "]\n");
-+}
-+
-+static int mpq8646_dbg_status_decoded_show(struct seq_file *s, void *unused)
-+{
-+	struct mpq8646_priv *priv = s->private;
-+	int rc;
-+
-+	rc = i2c_smbus_read_word_data(priv->client, PMBUS_STATUS_WORD);
-+	if (rc < 0) {
-+		seq_printf(s, "ERROR: STATUS_WORD read failed (%d)\n", rc);
-+		return 0;
-+	}
-+	seq_puts(s, "STATUS_WORD: ");
-+	mpq8646_print_bits(s, (u16)rc, mpq8646_status_word_bits);
-+	seq_puts(s, "(MPS extensions: bit12=NVM_SUMMARY, bit8=WATCH_DOG, bit0=DRMOS_FAULT)\n");
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(mpq8646_dbg_status_decoded);
-+
-+static int mpq8646_dbg_protection_last_show(struct seq_file *s, void *unused)
-+{
-+	struct mpq8646_priv *priv = s->private;
-+	int rc;
-+
-+	scoped_guard(mutex, &priv->mps_lock)
-+		rc = i2c_smbus_read_word_data(priv->client, MPS_PROTECTION_LAST);
-+
-+	if (rc < 0) {
-+		seq_printf(s, "ERROR: PROTECTION_LAST read failed (%d)\n", rc);
-+		return 0;
-+	}
-+	seq_puts(s, "PROTECTION_LAST: ");
-+	mpq8646_print_bits(s, (u16)rc, mpq8646_protection_last_bits);
-+	seq_puts(s, "(NVM-backed, survives chip POR)\n");
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(mpq8646_dbg_protection_last);
-+
-+struct mpq8646_dbg_reg {
-+	u8		reg;
-+	bool		is_word;
-+	const char	*name;
-+};
-+
-+static const struct mpq8646_dbg_reg mpq8646_dbg_regs[] = {
-+	/* MPS vendor extensions (read-only identity / observability) */
-+	{ MPS_MFR_CONFIG_ID,        true,  "mfr_config_id" },
-+	{ MPS_MFR_CONFIG_CODE_REV,  true,  "mfr_config_code_rev" },
-+	{ MPS_MFR_SILICON_REV,      false, "mfr_silicon_rev" },
-+	{ MPS_MFR_RETRY_TIMES,      true,  "mfr_retry_times" },
-+	{ MPS_MFR_VBOOT_CFG,        true,  "mfr_vboot_cfg" },
-+	/* PMBus 1.3 standard timing / UVLO (read-only introspection) */
-+	{ PMBUS_VIN_ON,             true,  "vin_on" },
-+	{ PMBUS_VIN_OFF,            true,  "vin_off" },
-+	{ PMBUS_TON_DELAY,          true,  "ton_delay" },
-+	{ PMBUS_TON_RISE,           true,  "ton_rise" },
-+	{ PMBUS_TOFF_DELAY,         true,  "toff_delay" },
-+	{ PMBUS_TOFF_FALL,          true,  "toff_fall" },
-+};
-+
-+struct mpq8646_dbg_reg_ctx {
-+	struct mpq8646_priv		*priv;
-+	const struct mpq8646_dbg_reg	*desc;
-+};
-+
-+static int mpq8646_dbg_reg_show(struct seq_file *s, void *unused)
-+{
-+	struct mpq8646_dbg_reg_ctx *ctx = s->private;
-+	int rc;
-+
-+	if (ctx->desc->is_word)
-+		rc = i2c_smbus_read_word_data(ctx->priv->client,
-+					      ctx->desc->reg);
-+	else
-+		rc = i2c_smbus_read_byte_data(ctx->priv->client,
-+					      ctx->desc->reg);
-+
-+	if (rc < 0) {
-+		seq_printf(s, "ERROR: reg 0x%02x (%s) read failed (%d)\n",
-+			   ctx->desc->reg, ctx->desc->name, rc);
-+		return 0;
-+	}
-+	seq_printf(s, "0x%0*x\n", ctx->desc->is_word ? 4 : 2, rc);
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(mpq8646_dbg_reg);
-+
-+static int mpq8646_dbg_poll_interval_get(void *data, u64 *val)
-+{
-+	struct mpq8646_priv *priv = data;
-+
-+	*val = priv->alarm_poll_interval_ms;
-+	return 0;
-+}
-+
-+static int mpq8646_dbg_poll_interval_set(void *data, u64 val)
-+{
-+	struct mpq8646_priv *priv = data;
-+	bool was_off = !priv->alarm_poll_interval_ms;
-+
-+	priv->alarm_poll_interval_ms = (u32)val;
-+
-+	if (val && was_off && !priv->client->irq)
-+		schedule_delayed_work(&priv->alarm_poll_work,
-+				      msecs_to_jiffies((u32)val));
-+	return 0;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(mpq8646_dbg_poll_interval_fops,
-+			 mpq8646_dbg_poll_interval_get,
-+			 mpq8646_dbg_poll_interval_set, "%llu\n");
-+
-+static void mpq8646_debugfs_register(struct mpq8646_priv *priv)
-+{
-+	struct dentry *root;
-+	size_t i;
-+
-+	root = pmbus_get_debugfs_dir(priv->client);
-+	if (!root)
-+		return;
-+
-+	/* MPS extensions: status decode + NVM-backed PROTECTION_LAST */
-+	debugfs_create_file("status_decoded", 0400, root, priv,
-+			    &mpq8646_dbg_status_decoded_fops);
-+	debugfs_create_file("protection_last", 0400, root, priv,
-+			    &mpq8646_dbg_protection_last_fops);
-+	priv->dbg_poll =
-+		debugfs_create_file_unsafe("alarm_poll_interval_ms", 0600,
-+					   root, priv,
-+					   &mpq8646_dbg_poll_interval_fops);
-+
-+	priv->dbg_reg_ctx = devm_kcalloc(&priv->client->dev,
-+					 ARRAY_SIZE(mpq8646_dbg_regs),
-+					 sizeof(*priv->dbg_reg_ctx),
-+					 GFP_KERNEL);
-+	if (!priv->dbg_reg_ctx)
-+		return;
-+	for (i = 0; i < ARRAY_SIZE(mpq8646_dbg_regs); i++) {
-+		priv->dbg_reg_ctx[i].priv = priv;
-+		priv->dbg_reg_ctx[i].desc = &mpq8646_dbg_regs[i];
-+		debugfs_create_file(mpq8646_dbg_regs[i].name, 0400,
-+				    root, &priv->dbg_reg_ctx[i],
-+				    &mpq8646_dbg_reg_fops);
-+	}
-+}
-+
-+static void mpq8646_debugfs_unregister(struct mpq8646_priv *priv)
-+{
-+	debugfs_remove(priv->dbg_poll);
-+}
-+#else
-+static inline void mpq8646_debugfs_register(struct mpq8646_priv *priv) {}
-+static inline void mpq8646_debugfs_unregister(struct mpq8646_priv *priv) {}
-+#endif /* CONFIG_DEBUG_FS */
-+
-+static void mpq8646_alarm_poll_work(struct work_struct *work)
-+{
-+	struct mpq8646_priv *priv = container_of(to_delayed_work(work),
-+						 struct mpq8646_priv,
-+						 alarm_poll_work);
-+
-+	if (priv->client->irq)
-+		return;	/* SMBALERT# wired; polling not needed */
-+
-+	if (!priv->alarm_poll_interval_ms)
-+		return;	/* polling disabled; don't re-arm */
-+
-+	pmbus_check_and_notify_faults(priv->client);
-+
-+	schedule_delayed_work(&priv->alarm_poll_work,
-+			      msecs_to_jiffies(priv->alarm_poll_interval_ms));
-+}
-+
-+static int mpq8646_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct pmbus_driver_info *info;
-+	struct mpq8646_priv *priv;
-+	u32 voltage_scale;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+	priv->client = client;
-+	mutex_init(&priv->mps_lock);
-+	memcpy(&priv->info, &mpq8646_info, sizeof(priv->info));
-+	info = &priv->info;
-+
-+	info->identify = mpq8646_identify;
-+	info->read_byte_data = mpq8646_read_byte_data;
-+	info->read_word_data = mpq8646_read_word_data;
-+	info->write_word_data = mpq8646_write_word_data;
-+	dev->platform_data = &mpq8646_no_pec_pdata;
-+
-+#if IS_ENABLED(CONFIG_REGULATOR)
-+	info->reg_desc = mpq8646_reg_desc;
-+	info->num_regulators = ARRAY_SIZE(mpq8646_reg_desc);
-+#endif
-+
-+	INIT_DELAYED_WORK(&priv->alarm_poll_work, mpq8646_alarm_poll_work);
-+	priv->alarm_poll_interval_ms = MPQ8646_ALARM_POLL_MS_DEFAULT;
-+
-+	if (!device_property_read_u32(dev, "mps,vout-fb-divider-ratio-permille",
-+				      &voltage_scale)) {
-+		if (voltage_scale > MPQ8646_VOUT_SCALE_LOOP_MAX)
-+			return -EINVAL;
-+
-+		ret = i2c_smbus_write_word_data(client, PMBUS_VOUT_SCALE_LOOP,
-+						voltage_scale);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = pmbus_do_probe(client, info);
-+	if (ret)
-+		return ret;
-+
-+	mpq8646_debugfs_register(priv);
-+
-+	if (!client->irq)
-+		schedule_delayed_work(&priv->alarm_poll_work,
-+				      msecs_to_jiffies(priv->alarm_poll_interval_ms));
-+
-+#if IS_ENABLED(CONFIG_NVMEM)
-+	{
-+		struct nvmem_config cfg = {
-+			.dev		= &client->dev,
-+			.name		= dev_name(&client->dev),
-+			.owner		= THIS_MODULE,
-+			.read_only	= true,
-+			.root_only	= true,
-+			.word_size	= 1,
-+			.stride		= 1,
-+			.size		= MPQ8646_NVMEM_SIZE,
-+			.reg_read	= mpq8646_nvmem_read,
-+			.priv		= priv,
-+		};
-+		struct nvmem_device *nv = devm_nvmem_register(&client->dev, &cfg);
-+
-+		if (IS_ERR(nv))
-+			dev_warn(&client->dev,
-+				 "nvmem snapshot register failed (%pe)\n",
-+				 nv);
-+	}
-+#endif
-+	return 0;
-+};
-+
-+static void mpq8646_remove(struct i2c_client *client)
-+{
-+	struct mpq8646_priv *priv = mpq8646_priv_from_client(client);
-+
-+	mpq8646_debugfs_unregister(priv);
-+	cancel_delayed_work_sync(&priv->alarm_poll_work);
-+}
-+
-+static struct i2c_driver mpq8646_driver = {
-+	.driver = {
-+		   .name = "mpq8646",
-+		   .of_match_table = of_match_ptr(mpq8646_of_match),
-+	},
-+	.probe = mpq8646_probe,
-+	.remove = mpq8646_remove,
-+	.id_table = mpq8646_id,
-+};
-+
-+module_i2c_driver(mpq8646_driver);
-+
-+MODULE_AUTHOR("Vincent Jardin <vjardin@free.fr>");
-+MODULE_DESCRIPTION("PMBus driver for MPS MPQ8646 (extended observability)");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("PMBUS");
+- A unified data structure (struct ptp_sys_offset_attrs) is used
+  for both extended and precise ioctls.
 
+- A u32 valid bitmask in struct ptp_clock_attrs indicates which
+  attributes are populated, replacing sentinel values. Drivers
+  set only the bits for attributes they provide.
+
+- System counter values (cycles + counter_id) are carried in
+  struct ptp_sys_time alongside each system timestamp. These are
+  populated by the timekeeping core cross-timestamp infrastructure,
+  which is now merged in net-next [3] - drivers do not fill them.
+  This series therefore applies directly to net-next with no
+  out-of-tree dependency.
+
+- Graceful degradation: the attrs ioctls work even on devices
+  without attrs callbacks, falling back to gettimex64 /
+  getcrosststamp and returning attrs.valid = 0. The capability
+  bits reflect this fallback so cap-respecting userspace does not
+  skip the ioctl on base-only drivers.
+
+A capability flag is added to ptp_clock_caps so userspace can
+discover attributes support.
+
+Patches 2-3 add testptp support for the new ioctls.
+
+Patch 4 implements the attributes for ptp_vmclock, reporting
+error bound, clock status, and timescale.
+
+Patches 5-7 implement the attributes for the ENA driver,
+reporting error bound from the device's PHC layer.
+
+v6:
+- ptp: reject a non-zero reserved field (request.rsv[]) in the
+  attrs ioctls, matching ptp_sys_offset_extended(). (Jakub Kicinski)
+- ptp: zero-initialize the per-sample system-timestamp snapshot in
+  ptp_sys_offset_extended_attrs() so no uninitialized or stale stack
+  data can reach userspace. (Jakub Kicinski)
+- ptp: translate the kernel enum clocksource_ids to the UAPI enum
+  ptp_counter_id before returning sys_counter_id; sources that are
+  not a raw hardware counter (e.g. kvmclock) are reported as
+  PTP_COUNTER_UNKNOWN with sys_counter = 0. (Jakub Kicinski,
+  David Woodhouse)
+- ptp: initialize the precise cross-timestamp struct and set its
+  clock_id from the validated request; validate clock_id against a
+  precise-path allowlist (CLOCK_REALTIME + CLOCK_AUX) so unsupported
+  clocks return -EINVAL instead of triggering a WARN in
+  get_device_system_crosststamp(). (Jakub Kicinski, David Woodhouse)
+- ptp: make the extended_attrs/precise_attrs capability bits reflect
+  the base-callback fallback (gettimexattrs64 || gettimex64,
+  getcrosststampattrs || getcrosststamp) and document the fallback
+  and the att.valid semantics. (Jakub Kicinski)
+- ptp: echo the full request header back from the attrs ioctls so
+  valid/clock_id/num_samples/rsv round-trip. (Jakub Kicinski)
+- ptp: clarify the FREE_RUNNING vs UNRELIABLE and HOLDOVER status
+  comments and the @error_bound kernel-doc (a maximum bound, not a
+  statistical estimate; not to be trusted when status is UNKNOWN or
+  UNRELIABLE). (Carolina Jubran)
+- ptp: document that both @sts and @att may be NULL in the
+  gettimexattrs64 kernel-doc. (Jakub Kicinski)
+- selftests/ptp: print the returned system counter value and id
+  (sys_counter, sys_counter_id) in the attrs output.
+- Exposing the underlying hw_csid/hw_cycles for derived clocksources
+  (kvmclock, ART, ...) is left to a follow-up; the UAPI leaves room
+  to add them without an ABI change. (David Woodhouse)
+
+v5:
+- ptp: simplify ptp_sys_offset_{extended,precise}_attrs() to copy
+  the request header onto the stack and allocate the result buffer
+  once, instead of memdup_user() + kfree() + kzalloc(). (Saeed
+  Bshara)
+- ptp: deduplicate the kernel-doc for gettimexattrs64 /
+  getcrosststampattrs by referencing the base gettimex64 /
+  getcrosststamp callbacks. (Saeed Bshara)
+- ptp: add missing kernel-doc member descriptions for struct
+  ptp_timestamp and struct ptp_sys_offset_attrs.
+- selftests/ptp: map the clockid to a name and print once instead
+  of three duplicated printfs. (Saeed Bshara)
+- selftests/ptp: make -a a modifier on -x/-X instead of an
+  exclusive option; drop -A (use -X -a); trim the unknown-clock
+  output; print "not reported" for attributes the device does not
+  report. (Saeed Bshara)
+- ptp_vmclock: scope the local 'st' inside the SUPPORT_KVMCLOCK
+  block to fix an unused-variable warning on !CONFIG_KVM_GUEST.
+  (kernel test robot)
+- No UAPI changes; the ioctl structures are unchanged from v4.
+
+v4:
+- Complete UAPI redesign per Thomas Gleixner's proposal [2]:
+  unified data structure with u32 valid bitmask, system counter
+  in ptp_sys_time (populated by core, not drivers), graceful
+  degradation for devices without attrs callbacks. (Thomas Gleixner,
+  David Woodhouse)
+- Counter values moved from driver attrs callback to timekeeping
+  core infrastructure - drivers no longer set counter_id or
+  counter_value.
+- Flexible array member for timestamps[] (kernel bounds the copy,
+  userspace allocates for num_samples requested).
+- Drop separate ptp_clock_attributes kernel struct - driver
+  callbacks fill the UAPI ptp_clock_attrs directly.
+
+v3:
+- Remove patch 5/8 from v2 (return-code bugfix) - sent separately
+  as [PATCH net] to the net tree.
+- Zero-initialize struct ptp_clock_attributes in PTP core ioctl
+  handlers to prevent stack leak of unset fields. (Simon Horman,
+  sashiko)
+- ptp_vmclock: validate counter_period_shift < 128 to prevent
+  undefined behavior on untrusted hypervisor input. (sashiko)
+- ptp_vmclock: add overflow check on err_hi * NSEC_PER_SEC to
+  prevent silent wraparound producing erroneously small error
+  bound. (sashiko)
+- ptp_vmclock: report PTP_TIMESCALE_TAI after tai_adjust() to
+  avoid timescale mismatch. (sashiko)
+- ENA: set counter_id = 0, counter_value = 0 in gettimexattrs64
+  for defense-in-depth. (sashiko)
+
+v2:
+- Fix build bisectability: move ena_com.c consumer updates into
+  patch 6/8 and ena_phc.c caller update into patch 7/8 so each
+  patch compiles independently.
+- Add missing Cc for Amit Bernstein (co-author of ENA patches).
+
+[1] https://lore.kernel.org/netdev/20250724115657.150-1-darinzon@amazon.com/
+[2] https://lore.kernel.org/all/87se7ht25o.ffs@tglx/
+[3] https://lore.kernel.org/all/20260526165826.392227559@kernel.org/
+
+Arthur Kiyanovski (7):
+  ptp: Add ioctls for PHC timestamps with quality attributes
+  selftests/ptp: Extract print_system_timestamp helper in testptp
+  selftests/ptp: Add testptp support for attributes ioctls
+  ptp: ptp_vmclock: Implement attributes ioctls
+  net: ena: Update PHC admin interface for error bound support
+  net: ena: Add error bound to PHC communication layer
+  net: ena: Implement gettimexattrs64 callback for PTP attributes
+
+ .../device_drivers/ethernet/amazon/ena.rst    |   2 +
+ .../net/ethernet/amazon/ena/ena_admin_defs.h  |  17 +-
+ drivers/net/ethernet/amazon/ena/ena_com.c     |  51 ++--
+ drivers/net/ethernet/amazon/ena/ena_com.h     |   5 +-
+ drivers/net/ethernet/amazon/ena/ena_debugfs.c |   3 +
+ drivers/net/ethernet/amazon/ena/ena_phc.c     |  61 +++-
+ drivers/ptp/ptp_chardev.c                     | 208 ++++++++++++-
+ drivers/ptp/ptp_clock.c                       |   4 +-
+ drivers/ptp/ptp_vmclock.c                     | 197 +++++++++++-
+ include/linux/ptp_clock_kernel.h              |  20 ++
+ include/uapi/linux/ptp_clock.h                | 283 +++++++++++++++++-
+ tools/testing/selftests/ptp/testptp.c         | 198 +++++++++---
+ 12 files changed, 939 insertions(+), 110 deletions(-)
+
+
+base-commit: b515dc54795ef370be3cb396e7c12ad91686b6d1
 -- 
-2.43.0
-
+2.47.3
 
