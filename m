@@ -1,389 +1,148 @@
-Received: from smtp1.iinet.com (smtp1.iinet.com [52.129.46.35])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8209F37BE96;
-	Wed, 29 Jul 2026 06:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.129.46.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1856C413231;
+	Wed, 29 Jul 2026 07:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785305612; cv=none; b=cTE5mvmB/K5ZmK2y4W55ZOd0qRiQX9EdEQNmnGcn47si8EiIpMtYH/8r8FAode90/K2ywWjvb17vpfEzBIyWa6P67Xdydn9uMTQCoSbyZsSfqfKsgVXiNoTCYJ1GdII2Fer8CbNZE+V9DC8ggVQEXzR0dYtItEv2TEKTP7oS/G4=
+	t=1785309934; cv=none; b=RS8h6YlvJUTwCfoPLYxRLDO06uQwF6CKfhtOBEL0MNXlijALeuC6byJ/H6DkWAr71idXjE6PItQ9CkJfh+Ry3NGGJJKpVdfja+tbr7HXI313XGNCJJfJAOERKXbh3ByqGF72++yvV+aEUv8qI1dHssfgm5hxfGZfv/ipk5C/O4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785305612; c=relaxed/simple;
-	bh=bvOHqMf7x2UOK5BaaTmy94zbIUhDSu9wJwuapVwB0rM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BX2gATpiFqrvZNHGmsCKRXQO9lrpZwLMHxpa62qRIk76bEYxKt4/GtG25dUoISzYRUd7q6OknSd9BPHbCAF1XVke3GiiqwXazHfb5QAa/fpohVRRJDnNAfnraAx45FeQ31JbRAn1Af83+784qgcmzqZStp+Lcx21fkgh+IK9SMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com; spf=pass smtp.mailfrom=nwlink.com; dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b=TNPRoxfc; arc=none smtp.client-ip=52.129.46.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nwlink.com
+	s=arc-20240116; t=1785309934; c=relaxed/simple;
+	bh=jfcKZLRcWasoL4ma/4cmYpmGtsQPOfE/fsG73ePMqik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rdPmyb2/65ndRsPgZ7FNJ64VUi14kF41jlgUXl0HkQ8NUbLpX4IAT0ehX5KyCiqUzzNnkhJFWlKq/EXET8e6Ir0zx0aWH2wkeqaa7qusZFRr6o/pHR2kDyAPK/e2Lt8H/il/GCHX1iPRBptkMB5hlxUbVz9NFXbZm+jDMxujx/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DrHTwLjJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b="TNPRoxfc"
-Received: from porter.hsd1.wa.comcast.net (c-98-203-133-45.hsd1.wa.comcast.net [98.203.133.45])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kaf@nwlink.com)
-	by smtp1.iinet.com (Postfix) with ESMTPSA id 7BB63C00970;
-	Tue, 28 Jul 2026 22:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nwlink.com; s=mail;
-	t=1785303696; bh=o+L3UP5L7TcW9ZXvcgAUCZhpALoOvJ3fsCnKgjS/jwM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TNPRoxfcBJkETz61vtZqOw4ZIqsVBBeVyVvYbOnIr+jm42dZOzAdteGS4WLlJ3ows
-	 od1phOUhzBGnCa8qkX/Xp/PBnWbhoWPrXDIb5faYGagVDMvvos80+NK5+9h3Afip5M
-	 LEXSMBv58odo8QTeeqSt5aFqJL+0CCSGsuk8MduTK1C4DcsBe6T+CkRI5XjAug8k1Q
-	 ADW2ohD4YjeUoZH2ibpQqmocw4tAQn/Hce+zp9QKwIU0q03FAlHIl+N/9mwwUgK33g
-	 1fT3lHL5ahhAkPgBy6gF4lYB44xFaaXpeErkIT/XVk5v3qNGBxtWBuxKvJ3LjIO9pL
-	 yJtjNrW3ZOrRA==
-From: Kyle Farrell <kaf@nwlink.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Kyle Farrell <kaf@nwlink.com>
-Subject: [PATCH 2/2] usb: gadget: f_uac2: allow explicit channel counts
-Date: Tue, 28 Jul 2026 22:41:15 -0700
-Message-Id: <20260729054115.889174-3-kaf@nwlink.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260729054115.889174-1-kaf@nwlink.com>
-References: <20260729054115.889174-1-kaf@nwlink.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DrHTwLjJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F0E91F00A3E;
+	Wed, 29 Jul 2026 07:25:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785309922;
+	bh=QDYGOjKuL1DA4Q6uwlbbmneA/BmguYqcNOaxqEegx2M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=DrHTwLjJpITm/cjqhWV7x/iP3bTeLhLircGa6mbjz/8f+qPhDzz2UQhg2nFWs/3OF
+	 EA4nZImw4WZh84vPgyd8V45CC2WNDxOXls8bTlNskB+sMWGOnyEU3uaonE1y1ZiX3E
+	 5uaDC6ZdazBr7xk3jw8nmOS6LWoKytzQMyrizvrTlS76Ja+sEjq1NeK73SqS5a66bH
+	 Hpx1EGNFGSDU3TnfHQBMD8vJNBV37zyP1E5YiOKOkbsg93KN9mTCG8ZPedd1IDpIt6
+	 V8rPNR920GqiSWpwBRzf7BfmDfLmWQ+47PtH1rtpAtSuRK+VMrriITQtZjQ9GWhd47
+	 JInm8Ie73VRyw==
+Message-ID: <f83d5b26-b369-489b-a305-1eb5ec6fccfb@kernel.org>
+Date: Wed, 29 Jul 2026 09:25:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ kernel-team@meta.com, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+References: <20260630-ecc_panic-v10-0-c6ed5b62eea2@debian.org>
+ <20260630-ecc_panic-v10-6-c6ed5b62eea2@debian.org>
+ <ee4982bf-ff45-8f0b-3b76-7ca19228f12b@huawei.com>
+ <20260727212402.09baa9381ca426273fad4719@linux-foundation.org>
+ <de29c5cc-3637-cd18-354d-55ceb3d60afd@huawei.com>
+ <amh1nZVVaaZSGD3M@gmail.com>
+ <20260728122016.30752d36c3b3c3af231efa9d@linux-foundation.org>
+ <44f81bea-d64a-4f73-8665-46652a928c83@kernel.org>
+ <amkn21ftNme48Vbl@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <amkn21ftNme48Vbl@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-USB Audio 2.0 permits bNrChannels to be specified independently of
-bmChannelConfig. In particular, a zero channel-location bitmap indicates
-that all channels have non-predefined spatial positions. f_uac2 currently
-derives bNrChannels from the number of bits set in bmChannelConfig. Since
-the channel-location bitmap provides only 27 predefined speaker positions,
-this limits a stream to 27 channels.
+On 7/29/26 00:07, Breno Leitao wrote:
+> On Tue, Jul 28, 2026 at 09:21:40PM +0200, David Hildenbrand (Arm) wrote:
+>> On 7/28/26 21:20, Andrew Morton wrote:
+>>>
+>>>
+>>> The bash script is still there, no known issues.
+>>>
+>>> We have the thing and tests are useful.  I'd say retain it until the
+>>> rewrite-in-C happens?
+>>
+>> Nacked-by: David Hildenbrand <david@kernel.org>
+> 
+> I have a draft of the selftest in C already and I will give it more bake
+> time, and I will submit it until EOW.
 
-Preserve the existing *_chmask interface and semantics by introducing
-separate ConfigFS attributes for explicit channel counts. Add p_channels
-and c_channels configfs attributes to configure the playback and capture
-channel counts explicitly. A value of zero, which is the default, continues
-to derive the channel count from the corresponding channel mask. The
-explicit count is represented by the 8-bit bNrChannels field, allowing
-channel counts beyond the 27 predefined locations and up to the UAC2 limit
-of 255.
+IMHO there is no need to rush this test here, we could merge it after the main work.
 
-Use the effective channel count throughout descriptor generation and stream
-configuration while continuing to populate bmChannelConfig directly from
-the configured channel mask.
+We neglected our selftests quite a bit in the past, and that is biting us now.
 
-To keep the ConfigFS interface simple, require a nonzero channel mask to
-describe every channel when an explicit channel count is also specified.
-Partial channel-location assignments permitted by the UAC2 specification
-are therefore not supported. Also reject Feature Unit configurations whose
-descriptor length would exceed the one-byte bLength field.
+That's why I push back hard now (sorry) against stuff that is different than the
+rest and not easy to maintain.
 
-Signed-off-by: Kyle Farrell <kaf@nwlink.com>
----
- .../ABI/testing/configfs-usb-gadget-uac2      | 18 ++++-
- Documentation/usb/gadget-testing.rst          | 18 ++++-
- drivers/usb/gadget/function/f_uac2.c          | 71 +++++++++++++------
- drivers/usb/gadget/function/u_uac2.h          |  4 ++
- 4 files changed, 87 insertions(+), 24 deletions(-)
+I know, hwpoison-panic is a destructive test, but I really don't think we should
+just merge mostly unreviewed bash tests that will just bitrot.
 
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac2 b/Documentation/ABI/testing/configfs-usb-gadget-uac2
-index 133e995c3e92..8e264843e492 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uac2
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uac2
-@@ -5,7 +5,14 @@ Description:
- 		The attributes:
- 
- 		=====================	=======================================
--		c_chmask		capture channel mask
-+		c_chmask		capture channel-location mask. The number of
-+					capture channels is derived from the number of
-+					set bits unless c_channels is specified.
-+		c_channels		explicit capture channel count. A value of 0
-+					derives the channel count from c_chmask. When
-+					nonzero, c_chmask specifies channel locations
-+					and may be 0. If both c_channels and c_chmask
-+					are nonzero, the values must agree.
- 		c_srate			list of capture sampling rates (comma-separated)
- 		c_ssize			capture sample size (bytes)
- 		c_hs_bint		capture bInterval for HS/SS (1-4: fixed, 0: auto)
-@@ -20,7 +27,14 @@ Description:
- 		c_volume_res		capture volume control resolution
- 					(in 1/256 dB)
- 		fb_max			maximum extra bandwidth in async mode
--		p_chmask		playback channel mask
-+		p_chmask		playback channel-location mask. The number of
-+					playback channels is derived from the number of
-+					set bits unless p_channels is specified.
-+		p_channels		explicit playback channel count. A value of 0
-+					derives the channel count from p_chmask. When
-+					nonzero, p_chmask specifies channel locations
-+					and may be 0. If both p_channels and p_chmask
-+					are nonzero, the values must agree.
- 		p_srate			list of playback sampling rates (comma-separated)
- 		p_ssize			playback sample size (bytes)
- 		p_hs_bint		playback bInterval for HS/SS (1-4: fixed, 0: auto)
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index a6e8292f320a..8fa778a2ed15 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -744,7 +744,14 @@ The function name to use when creating the function directory is "uac2".
- The uac2 function provides these attributes in its function directory:
- 
- 	================ ====================================================
--	c_chmask         capture channel mask
-+	c_chmask         capture channel-location mask. The number of
-+			 capture channels is derived from the number of
-+			 set bits unless c_channels is specified.
-+	c_channels	 explicit capture channel count. A value of 0
-+			 derives the channel count from c_chmask. When
-+			 nonzero, c_chmask specifies channel locations
-+			 and may be 0. If both c_channels and c_chmask
-+			 are nonzero, the values must agree.
- 	c_srate          list of capture sampling rates (comma-separated)
- 	c_ssize          capture sample size (bytes)
- 	c_sync           capture synchronization type (async/adaptive)
-@@ -755,7 +762,14 @@ The uac2 function provides these attributes in its function directory:
- 	c_volume_res     capture volume control resolution (in 1/256 dB)
- 	c_hs_bint        capture bInterval for HS/SS (1-4: fixed, 0: auto)
- 	fb_max           maximum extra bandwidth in async mode
--	p_chmask         playback channel mask
-+	p_chmask         playback channel-location mask. The number of
-+			 playback channels is derived from the number of
-+			 set bits unless p_channels is specified.
-+	p_channels	 explicit playback channel count. A value of 0
-+			 derives the channel count from p_chmask. When
-+			 nonzero, p_chmask specifies channel locations
-+			 and may be 0. If both p_channels and p_chmask
-+			 are nonzero, the values must agree.
- 	p_srate          list of playback sampling rates (comma-separated)
- 	p_ssize          playback sample size (bytes)
- 	p_mute_present   playback mute control enable
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index b8735b9065c3..fab4c5bcb11b 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -50,8 +50,17 @@
- #define UNFLW_CTRL	8
- #define OVFLW_CTRL	10
- 
--#define EPIN_EN(_opts) ((_opts)->p_chmask != 0)
--#define EPOUT_EN(_opts) ((_opts)->c_chmask != 0)
-+static unsigned int uac2_num_channels(bool is_playback,
-+				      const struct f_uac2_opts *opts)
-+{
-+	u8 channels = is_playback ? opts->p_channels : opts->c_channels;
-+	u32 chmask = is_playback ? opts->p_chmask : opts->c_chmask;
-+
-+	return channels ? channels : num_channels(chmask);
-+}
-+
-+#define EPIN_EN(_opts) (uac2_num_channels(true, (_opts)) != 0)
-+#define EPOUT_EN(_opts) (uac2_num_channels(false, (_opts)) != 0)
- #define FUIN_EN(_opts) (EPIN_EN(_opts) \
- 				&& ((_opts)->p_mute_present \
- 				|| (_opts)->p_volume_present))
-@@ -671,15 +680,16 @@ static int get_max_srate(const int *srates)
- static int get_max_bw_for_bint(const struct f_uac2_opts *uac2_opts,
- 	u8 bint, unsigned int factor, bool is_playback)
- {
--	int chmask, srate, ssize;
-+	unsigned int channels;
-+	int srate, ssize;
- 	u16 max_size_bw;
- 
- 	if (is_playback) {
--		chmask = uac2_opts->p_chmask;
-+		channels = uac2_num_channels(true, uac2_opts);
- 		srate = get_max_srate(uac2_opts->p_srates);
- 		ssize = uac2_opts->p_ssize;
- 	} else {
--		chmask = uac2_opts->c_chmask;
-+		channels = uac2_num_channels(false, uac2_opts);
- 		srate = get_max_srate(uac2_opts->c_srates);
- 		ssize = uac2_opts->c_ssize;
- 	}
-@@ -689,11 +699,11 @@ static int get_max_bw_for_bint(const struct f_uac2_opts *uac2_opts,
- 		// Win10 requires max packet size + 1 frame
- 		srate = srate * (1000 + uac2_opts->fb_max) / 1000;
- 		// updated srate is always bigger, therefore DIV_ROUND_UP always yields +1
--		max_size_bw = num_channels(chmask) * ssize *
-+		max_size_bw = channels * ssize *
- 			(DIV_ROUND_UP(srate, factor / (1 << (bint - 1))));
- 	} else {
- 		// adding 1 frame provision for Win10
--		max_size_bw = num_channels(chmask) * ssize *
-+		max_size_bw = channels * ssize *
- 			(DIV_ROUND_UP(srate, factor / (1 << (bint - 1))) + 1);
- 	}
- 	return max_size_bw;
-@@ -764,10 +774,11 @@ static int set_ep_max_packet_size_bint(struct device *dev, const struct f_uac2_o
- 	return 0;
- }
- 
--static struct uac2_feature_unit_descriptor *build_fu_desc(int chmask)
-+static struct uac2_feature_unit_descriptor *build_fu_desc(bool is_playback,
-+							  const struct f_uac2_opts *opts)
- {
- 	struct uac2_feature_unit_descriptor *fu_desc;
--	int channels = num_channels(chmask);
-+	unsigned int channels = uac2_num_channels(is_playback, opts);
- 	int fu_desc_size = UAC2_DT_FEATURE_UNIT_SIZE(channels);
- 
- 	fu_desc = kzalloc(fu_desc_size, GFP_KERNEL);
-@@ -976,13 +987,27 @@ static int afunc_validate_opts(struct g_audio *agdev, struct device *dev)
- {
- 	struct f_uac2_opts *opts = g_audio_to_uac2_opts(agdev);
- 	const char *msg = NULL;
-+	unsigned int p_channels = uac2_num_channels(true, opts);
-+	unsigned int c_channels = uac2_num_channels(false, opts);
- 
--	if (!opts->p_chmask && !opts->c_chmask)
--		msg = "no playback and capture channels";
--	else if (opts->p_chmask & ~UAC2_CHANNEL_MASK)
-+	if (opts->p_chmask & ~UAC2_CHANNEL_MASK)
- 		msg = "unsupported playback channels mask";
- 	else if (opts->c_chmask & ~UAC2_CHANNEL_MASK)
- 		msg = "unsupported capture channels mask";
-+	else if (!p_channels && !c_channels)
-+		msg = "no playback and capture channels";
-+	else if (opts->p_channels && opts->p_chmask &&
-+		 opts->p_channels != num_channels(opts->p_chmask))
-+		msg = "playback channel count does not match channel mask";
-+	else if (opts->c_channels && opts->c_chmask &&
-+		 opts->c_channels != num_channels(opts->c_chmask))
-+		msg = "capture channel count does not match channel mask";
-+	else if (FUIN_EN(opts) &&
-+		 UAC2_DT_FEATURE_UNIT_SIZE(p_channels) > U8_MAX)
-+		msg = "too many playback channels for feature unit descriptor";
-+	else if (FUOUT_EN(opts) &&
-+		 UAC2_DT_FEATURE_UNIT_SIZE(c_channels) > U8_MAX)
-+		msg = "too many capture channels for feature unit descriptor";
- 	else if ((opts->p_ssize < 1) || (opts->p_ssize > 4))
- 		msg = "incorrect playback sample size";
- 	else if ((opts->c_ssize < 1) || (opts->c_ssize > 4))
-@@ -1059,12 +1084,12 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 		return PTR_ERR(us);
- 
- 	if (FUOUT_EN(uac2_opts)) {
--		out_feature_unit_desc = build_fu_desc(uac2_opts->c_chmask);
-+		out_feature_unit_desc = build_fu_desc(false, uac2_opts);
- 		if (!out_feature_unit_desc)
- 			return -ENOMEM;
- 	}
- 	if (FUIN_EN(uac2_opts)) {
--		in_feature_unit_desc = build_fu_desc(uac2_opts->p_chmask);
-+		in_feature_unit_desc = build_fu_desc(true, uac2_opts);
- 		if (!in_feature_unit_desc) {
- 			ret = -ENOMEM;
- 			goto err_free_fu;
-@@ -1099,13 +1124,13 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 
- 
- 	/* Initialize the configurable parameters */
--	usb_out_it_desc.bNrChannels = num_channels(uac2_opts->c_chmask);
-+	usb_out_it_desc.bNrChannels = uac2_num_channels(false, uac2_opts);
- 	usb_out_it_desc.bmChannelConfig = cpu_to_le32(uac2_opts->c_chmask);
--	io_in_it_desc.bNrChannels = num_channels(uac2_opts->p_chmask);
-+	io_in_it_desc.bNrChannels = uac2_num_channels(true, uac2_opts);
- 	io_in_it_desc.bmChannelConfig = cpu_to_le32(uac2_opts->p_chmask);
--	as_out_hdr_desc.bNrChannels = num_channels(uac2_opts->c_chmask);
-+	as_out_hdr_desc.bNrChannels = uac2_num_channels(false, uac2_opts);
- 	as_out_hdr_desc.bmChannelConfig = cpu_to_le32(uac2_opts->c_chmask);
--	as_in_hdr_desc.bNrChannels = num_channels(uac2_opts->p_chmask);
-+	as_in_hdr_desc.bNrChannels = uac2_num_channels(true, uac2_opts);
- 	as_in_hdr_desc.bmChannelConfig = cpu_to_le32(uac2_opts->p_chmask);
- 	as_out_fmt1_desc.bSubslotSize = uac2_opts->c_ssize;
- 	as_out_fmt1_desc.bBitResolution = uac2_opts->c_ssize * 8;
-@@ -1308,7 +1333,7 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 	agdev->gadget = gadget;
- 
- 	agdev->params.p_chmask = uac2_opts->p_chmask;
--	agdev->params.p_channels = num_channels(uac2_opts->p_chmask);
-+	agdev->params.p_channels = uac2_num_channels(true, uac2_opts);
- 	memcpy(agdev->params.p_srates, uac2_opts->p_srates,
- 			sizeof(agdev->params.p_srates));
- 	agdev->params.p_ssize = uac2_opts->p_ssize;
-@@ -1321,7 +1346,7 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 		agdev->params.p_fu.volume_res = uac2_opts->p_volume_res;
- 	}
- 	agdev->params.c_chmask = uac2_opts->c_chmask;
--	agdev->params.c_channels = num_channels(uac2_opts->c_chmask);
-+	agdev->params.c_channels = uac2_num_channels(false, uac2_opts);
- 	memcpy(agdev->params.c_srates, uac2_opts->c_srates,
- 			sizeof(agdev->params.c_srates));
- 	agdev->params.c_ssize = uac2_opts->c_ssize;
-@@ -2086,10 +2111,12 @@ end:									\
- CONFIGFS_ATTR(f_uac2_opts_, name)
- 
- UAC2_ATTRIBUTE(u32, p_chmask);
-+UAC2_ATTRIBUTE(u8, p_channels);
- UAC2_RATE_ATTRIBUTE(p_srate);
- UAC2_ATTRIBUTE(u32, p_ssize);
- UAC2_ATTRIBUTE(u8, p_hs_bint);
- UAC2_ATTRIBUTE(u32, c_chmask);
-+UAC2_ATTRIBUTE(u8, c_channels);
- UAC2_RATE_ATTRIBUTE(c_srate);
- UAC2_ATTRIBUTE_SYNC(c_sync);
- UAC2_ATTRIBUTE(u32, c_ssize);
-@@ -2129,10 +2156,12 @@ UAC2_ATTRIBUTE(s16, c_terminal_type);
- 
- static struct configfs_attribute *f_uac2_attrs[] = {
- 	&f_uac2_opts_attr_p_chmask,
-+	&f_uac2_opts_attr_p_channels,
- 	&f_uac2_opts_attr_p_srate,
- 	&f_uac2_opts_attr_p_ssize,
- 	&f_uac2_opts_attr_p_hs_bint,
- 	&f_uac2_opts_attr_c_chmask,
-+	&f_uac2_opts_attr_c_channels,
- 	&f_uac2_opts_attr_c_srate,
- 	&f_uac2_opts_attr_c_ssize,
- 	&f_uac2_opts_attr_c_hs_bint,
-@@ -2202,10 +2231,12 @@ static struct usb_function_instance *afunc_alloc_inst(void)
- 				    &f_uac2_func_type);
- 
- 	opts->p_chmask = UAC2_DEF_PCHMASK;
-+	opts->p_channels = UAC2_DEF_PCHANNELS;
- 	opts->p_srates[0] = UAC2_DEF_PSRATE;
- 	opts->p_ssize = UAC2_DEF_PSSIZE;
- 	opts->p_hs_bint = UAC2_DEF_PHSBINT;
- 	opts->c_chmask = UAC2_DEF_CCHMASK;
-+	opts->c_channels = UAC2_DEF_CCHANNELS;
- 	opts->c_srates[0] = UAC2_DEF_CSRATE;
- 	opts->c_ssize = UAC2_DEF_CSSIZE;
- 	opts->c_hs_bint = UAC2_DEF_CHSBINT;
-diff --git a/drivers/usb/gadget/function/u_uac2.h b/drivers/usb/gadget/function/u_uac2.h
-index 0df808289ded..bacd841c9df6 100644
---- a/drivers/usb/gadget/function/u_uac2.h
-+++ b/drivers/usb/gadget/function/u_uac2.h
-@@ -17,10 +17,12 @@
- #include "uac_common.h"
- 
- #define UAC2_DEF_PCHMASK 0x3
-+#define UAC2_DEF_PCHANNELS 0  /* 0 = derive from p_chmask */
- #define UAC2_DEF_PSRATE 48000
- #define UAC2_DEF_PSSIZE 2
- #define UAC2_DEF_PHSBINT 0
- #define UAC2_DEF_CCHMASK 0x3
-+#define UAC2_DEF_CCHANNELS 0  /* 0 = derive from c_chmask */
- #define UAC2_DEF_CSRATE 64000
- #define UAC2_DEF_CSSIZE 2
- #define UAC2_DEF_CHSBINT 0
-@@ -46,11 +48,13 @@ struct f_uac2_opts {
- 	int				p_srates[UAC_MAX_RATES];
- 	int				p_ssize;
- 	u8				p_hs_bint;
-+	u8				p_channels;
- 	int				c_chmask;
- 	int				c_srates[UAC_MAX_RATES];
- 	int				c_ssize;
- 	int				c_sync;
- 	u8				c_hs_bint;
-+	u8				c_channels;
- 
- 	bool			p_mute_present;
- 	bool			p_volume_present;
+Which makes me wonder now: should this actually be a selftest? It's nothing one
+would just want to run in a CI. It will crash your machine.
+
+Maybe this should just be a tool in tools/mm? I really think so. So having a
+nice C-level hwpoison-panic.c in tools/mm might be the way to go.
+
+So let's rather make this test well maintainable and have it properly reviewed
+than rushing something suboptimal.
+
 -- 
-2.34.1
+Cheers,
 
+David
