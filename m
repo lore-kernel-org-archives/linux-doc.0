@@ -1,78 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF13C363C75;
-	Thu, 30 Jul 2026 06:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5108E3AF64B;
+	Thu, 30 Jul 2026 06:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785391306; cv=none; b=mH61ELyrztLxIz6+yTfa+nTFwO+8cJkuuhZG8kIzfatyPp0W/5itZL1jgfcZOTDv8qqLE1QEG0XwKHOb8ajzb4bjCYvKnd2O5H0QOQnh7H4jOpZxgvf2qi8Lj8OkPOwAQuqqYxmUf1UyH8juYGH+Up1ifA/JHZRiUT4HbeJFKjQ=
+	t=1785392848; cv=none; b=m4UCqe73enhh361YTo4ntG+qkkdAj9YSmYeUqfXbEP7hZ3PZaMvqkysELcUFkCzFS1MvuqMAuRJeBfumeD9g+VaJr+YzH5NPF8fez1oCmjuKEbyUZD2ERKpuMMPgPweBC67b6BavhbZjSluO3+07+K+w7Wta8J70ENpbgQcFV6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785391306; c=relaxed/simple;
-	bh=eoi15omz+OGIPbC5NnBafJqEOHAXSwDA46F4zFLC0TE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vs9btXzi96D3Mc7PrTQSjys+k4GX3gmtmgWZLxopNcAavVy7dvqjROrCeczAgGnDViG6OZNzNcgZrsq3fI+6tsoJnQ1kRajO4348tGAHOJbExi4XJhiRnOWuYn7S0TSOWThUzwTZott2a3PA4lROm1MExC9a5+fjTA4otHeq4us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=T32GjTBo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785392848; c=relaxed/simple;
+	bh=k8/WnG3ePQdVblZPDObuf9UqlKYYUvPONQb60zzrpqE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J2zGxps0iWYd5/QCDqHBUUUeDYvGeO7R0Kg+K7ENMGEqrr1Pm7ptDbT/qOi8vNyOcuzJ0CZtIkZ6K69/TSYcrDQNh+5wvfwPY2f/U3URMivTYvh7cTlBhT5mWaJJZEgx1d2o1yPILk9QD+5sEQmbZuQbw+3VQfZlBwMuSA2+kGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Rt+xRyeG; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="T32GjTBo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A4B1F000E9;
-	Thu, 30 Jul 2026 06:01:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785391302;
-	bh=JnBP3MozLqB78h8Vck0oTx7eKSL7wBDDqu2AWcK27iA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T32GjTBodZ9btouiLBlZdPBy/C4hYgkSgYPQxjc97tzXgEjrIaKsNW8kjg9sd08w+
-	 hM0rJL6pxpOwpHo8tl4DzCKAIRtLnp+WqivpY26rARytw3DyC90kFzF4e7EcnXEhue
-	 9m+/vYUB92uhPFepVsDTxM5trc5+FDz1uwarKa6U=
-Date: Thu, 30 Jul 2026 08:01:28 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Gompa <neal@gompa.dev>
-Cc: Danilo Krummrich <dakr@kernel.org>, Russ Weight <russ.weight@linux.dev>,
-	Luis Chamberlain <mcgrof@kernel.org>, asahi@lists.linux.dev,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] firmware_loader: Add /lib/firmware/vendor paths for
- Apple ARM platforms
-Message-ID: <2026073019-emoticon-decidable-200e@gregkh>
-References: <20260730004759.3089449-1-neal@gompa.dev>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Rt+xRyeG"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Qqd8wGXWEw9LjEjKWEX/5ui0R27Uajy4hyfMozJIyIY=;
+	b=Rt+xRyeG+TiNo/EjpbUkr58F4sKUjxE5+cx3G9V2AMZ+e0oyStS2I+T3Ha50VqaYd6DzVaiuv
+	ijRpeWxCTOBesuGB2s60YJm+DZhsQX9mjCib58AFLtuHTPBJv6KDhIZ3msJPRTS//vSgvtwHHRJ
+	fsOCQ5HX0ZoRRRoE0VtVdto=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4h9fBf1bvQz1cyTD;
+	Thu, 30 Jul 2026 14:17:46 +0800 (CST)
+Received: from whupemo200004.china.huawei.com (unknown [7.152.184.18])
+	by mail.maildlp.com (Postfix) with ESMTPS id 52B9540572;
+	Thu, 30 Jul 2026 14:27:12 +0800 (CST)
+Received: from huawei.com (10.50.163.32) by whupemo200004.china.huawei.com
+ (7.152.184.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 30 Jul
+ 2026 14:27:09 +0800
+From: Sizhe Liu <liusizhe5@huawei.com>
+To: <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <bhelgaas@google.com>, <yangyccccc@gmail.com>,
+	<jic23@kernel.org>, <john.g.garry@oracle.com>, <will@kernel.org>,
+	<james.clark@linaro.org>, <mike.leach@arm.com>, <leo.yan@linux.dev>,
+	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
+	<namhyung@kernel.org>, <mark.rutland@arm.com>,
+	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
+	<irogers@google.com>, <adrian.hunter@intel.com>, <wangyushan12@huawei.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+	<prime.zeng@hisilicon.com>, <wuyifan50@huawei.com>, <liusizhe5@huawei.com>
+Subject: [PATCH v2 0/3] perf hisi-ptt: Fix TLP header parsing and naming
+Date: Thu, 30 Jul 2026 14:27:06 +0800
+Message-ID: <20260730062709.534139-1-liusizhe5@huawei.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260730004759.3089449-1-neal@gompa.dev>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ whupemo200004.china.huawei.com (7.152.184.18)
 
-On Wed, Jul 29, 2026 at 08:42:58PM -0400, Neal Gompa wrote:
-> On Apple ARM machines (branded Apple Silicon Macs), there is
-> non-redistributable firmware provided in macOS that is required
-> for Linux to leverage the hardware to run properly.
-> 
-> The firmware covers Wi-Fi+BT support, USB, hardware ISP, the touchbar
-> touchscreen, and the trackpad.
-> 
-> In order to ensure this firmware can be installed without messing
-> with firmware provided by linux-firmware and other packages that
-> put things in the tree, the empty "vendor" subdirectory was created
-> to serve this purpose. This directory is used by the asahi dracut
-> module as part of the Asahi Linux installation process to transfer
-> firmware from macOS to the newly installed Linux system.
+This series fixes bugs and issues in the hisi_ptt packet decoder that were
+introduced by commit 5e91e57e6809 ("perf auxtrace arm64: Add support
+for parsing HiSilicon PCIe Trace packet").
 
-Why is this needed when there is the ability for userspace to add their
-own firmware search path to the list today?
+Patch 1: Bugfix:
+The DW0 bit-field layout of the hisi_ptt_4dw union does not match
+the actual little-endian memory ordering, so the extracted
+Format/Type/T9/T8/TH/SO/Length/Time fields are wrong.
 
-We aren't going to keep adding random paths here, please use the option
-that is designed specifically for this:
+Meanwhile, make all DW hex values printed in big-endian byte order
+for readability.
 
->  * fw_path_para - module parameter - default is empty so this is ignored
+Patch 2: Fix endianness / Heap out-of-bounds read / Integer truncation
+issues.
 
-Right there.
+Patch 3: Fix spelling / abbreviation errors in symbol names and macros.
 
-thanks,
+---
+Changes in v2:
+- Move spelling error fixes to the end of the patch series.
+- Add fixes tag only for bugfix.
+- Use get_unaligned_le32() to make memory read more robust.
+- Fix pre-existing issues reported by Sashiko in patch 2.
+- Link to v1: https://lore.kernel.org/linux-pci/20260729060220.624250-1-liusizhe5@huawei.com/
 
-greg k-h
+---
+Sizhe Liu (3):
+  perf hisi-ptt: Fix PTT trace TLP header parsing
+  perf hisi-ptt: Strengthen auxtrace event handling and packet type
+    detection
+  perf hisi-ptt: Fix spelling and abbreviation errors
+
+ Documentation/trace/hisi-ptt.rst              | 28 ++++-----
+ .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.c   | 63 ++++++++++---------
+ .../hisi-ptt-decoder/hisi-ptt-pkt-decoder.h   | 14 ++++-
+ tools/perf/util/hisi-ptt.c                    | 24 +++++--
+ 4 files changed, 77 insertions(+), 52 deletions(-)
+
+-- 
+2.33.0
+
