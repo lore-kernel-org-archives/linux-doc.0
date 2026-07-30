@@ -1,56 +1,35 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B1335C688;
-	Thu, 30 Jul 2026 01:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE603451DA;
+	Thu, 30 Jul 2026 01:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785373474; cv=none; b=U8qQ/8yYexKVdL4+osIw6ONMe296b52FJZgo98B9PCVWdcIHKlJuuUGM74RUhW4c1YSYcjm6tHES3HQapVNgatrRsTkyURGx2kSXHyU08Mzkqs7h/jqHXD6E3nbd6SWjQSWwV9yWL0Uq0DI/L7IFhqR68KfQDuZtsmk9HkSyvak=
+	t=1785373907; cv=none; b=cefPsBObKwGSJJ2tkvwzxNknBllVa6j07Z5B/oI6WWJ222IFjrVwXk8ZP8/XOnzEmdM2ERThqZerfWO2E1OQJLvUr8YnmKrLhpIPTp1ZSH91aa1szz+VL9PS8GI/sivTQY/yBQQvMzCuCZg6lBYPGZiaOp/wz8kWOh4WqqmI4uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785373474; c=relaxed/simple;
-	bh=WT3RvIjqQI1w+z5luPmAqO587QkCztzHavDjhEJCPGs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Bn+xvfrUBXuPoG4+pSolekThSftub2er7f95Uxg2aZGB5jMro+V+Of+3el0u1Q5ELfRckOlNYzyt4X/2Yxs08dU+83TniRZMJZpGAq9E/ETrdrVJUEYdNtx8b92dEf+DLJ2VgxLyGwTzCmDBEmgOidW6tsldvvOnStZ1gYNEUh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=QtMCY5xQ; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1785373907; c=relaxed/simple;
+	bh=gp7PRR3VjowyKvCDFAB5uIK+edq110z+R/UaYbaJEJc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Cx5jGvrBC/tDlZkwN57xrCnmkyJlJ8HlNJ38bzbnzBsxvkTJN9hULJIWBzKvO9xD+18ut+SFCgmfEc+Ij0I/Oj1DzA/2xj1zKJMoIaA746mvmIxkR8KFcoJsfq+aKwlwwO2oscZGM5OgxIVgUBHV41TlmMcTOrcZhoDDLW2kfKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FC4Ie8Kb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="QtMCY5xQ"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66U0m1GD3115256;
-	Wed, 29 Jul 2026 21:04:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=XkU6i
-	QO91jFgjBiaqYCe7FFVg0WJadiMH7ogOVOBNh8=; b=QtMCY5xQHbzUqs7FYuuhQ
-	41Gvw5aNXetZCSNxE1gOvwlE4lWxElIkhGE/QIASHnzC5opKKYNNwh3U2VfbEE33
-	oARojwatn0EYnR43CMepNi1pQqXwz84LGcKphSvWK3T4oJkBMzmcfdCvvJDAnPSH
-	MHB+golommXqmWT8Y2ySkvMVbW57C/C6P72tbrE370NIEkLiFWHE+uPrOfLfdiRs
-	rkcN+uy/xqHNaXt+Uf7/BeT7kENa+Gjen2YXSEIyNIu9BD98yDMG17kyIF0MvQxW
-	bg3jPXGpuTpitCr3GmkB0+MNdpmhabzl8OjEELQvjfs/GwB6qBJhCi1xSpkn2os4
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4fq18dxm06-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Jul 2026 21:04:06 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 66U145pw036850
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 29 Jul 2026 21:04:05 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Wed, 29 Jul
- 2026 21:04:04 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Wed, 29 Jul 2026 21:04:04 -0400
-Received: from ATORRENO-L02.ad.analog.com ([10.66.6.193])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 66U13i44020304;
-	Wed, 29 Jul 2026 21:03:58 -0400
-From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Date: Thu, 30 Jul 2026 09:03:33 +0800
-Subject: [PATCH v5 1/4] dt-bindings: hwmon: (pmbus/max20830): add VOUT
- feedback resistor properties and complete examples
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FC4Ie8Kb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A1A31F000E9;
+	Thu, 30 Jul 2026 01:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785373905;
+	bh=VROiPsuTzf4BvyQB9jaAmIQ6Lo91r4mY5CfaFUSTyxo=;
+	h=From:Subject:Date:To:Cc;
+	b=FC4Ie8KbPnPz0IKOUyEWWIXBQb1nUU5HFnIiwKZCblFjLjwIPPBowGuX/2wYQZ6JL
+	 RN/lHPSdgn9V10ZXJdCoqcSjo6Nwux8s6UqJM6cZdZelkKg35T+ksSpHTAIZy9UrbE
+	 K4TGqt93lRcOQrNdRaY+pFI81J+mn3j/x0Fx4ddI9tgToXaFiWyjchQ6a22SKkXPMs
+	 kfmmZNZtQ+XFyMIcHCunWcVAOBDTtSMf5wcs2kgneSqFxNpOLCYFxqtDwTF2I+iSs0
+	 UV5hCqCjARupI57il372CwQIgPI4ORYd2vRffGhCSf1d9jVoVXgsrx1Wgd/1r2JUIj
+	 5mwrmKEz6dfJg==
+From: Drew Fustini <fustini@kernel.org>
+Subject: [PATCH v6 0/8] riscv: Add Ssqosid and initial CBQRI resctrl
+ support
+Date: Wed, 29 Jul 2026 18:11:27 -0700
+Message-Id: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,123 +37,280 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-ID: <20260730-dev-max20830c-v5-1-a7553f84ee74@analog.com>
-References: <20260730-dev-max20830c-v5-0-a7553f84ee74@analog.com>
-In-Reply-To: <20260730-dev-max20830c-v5-0-a7553f84ee74@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Alexis Czezar
- Torreno <alexisczezar.torreno@analog.com>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785373424; l=2456;
- i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
- bh=WT3RvIjqQI1w+z5luPmAqO587QkCztzHavDjhEJCPGs=;
- b=PTZXFF0lDEdE6RurirrOZyaRGJbroKjYgMtiU3UNfpQGabL2e+rPQ8QAIk8Q9Y/7hU9zWx4Co
- 07sqxaNjHUCC+cWU/Lb1qu3zFPYTFLDQtSU9qG2pk3Al1LOQowrmnsq
-X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
- pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: f1CAHUZlG3Xa7NOCa1HA2-fDND6BNvVz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMwMDAwNCBTYWx0ZWRfX3CAJSjb/q+YZ
- ThNP2T/zFLyE7yBd8Uz261umGgS25q0puCubcusg+AWv+uM/crm/JiMeHrv7hYKh2po6ym4tLiy
- Pa9UFq+BZ/Dt4Lm2LsY78ivoov2ZTJMtGUClmewn91Z16+dfYL01ZHx4B/iIuW5CxSuV43M2mw6
- n0ElbVydKfWFFsfGhlttmSof+zV0Ul1TRghvHEm1eobYJxms5lPywukDpT/XicAjLATVpx2hpk7
- /F/0ESWJ2kdaQ39sg4R2T2G/LkHeIuaoFOqjveLijqrUT+Gr/Ps6opyDgkcWa5sK/xOWUZG8V+e
- XgTBK8YG02Ct3n/1FtQC8PslWni/3PEZyo4vqYnyP9PmHB+mPWSrhZDAQR8vs6DqtwC2TXI0WfS
- q+pARI4IZnoiMS08cMMSo0qUk5E7eZhYKVPKfAa3UPBctYu0+tY5w56j6W7C93Eqv9f/aFU1N6C
- 2pLSoW0pCtnru26ZT5A==
-X-Proofpoint-GUID: f1CAHUZlG3Xa7NOCa1HA2-fDND6BNvVz
-X-Authority-Analysis: v=2.4 cv=OtN/DS/t c=1 sm=1 tr=0 ts=6a6aa306 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=EUspDBNiAAAA:8
- a=gAnH3GRIAAAA:8 a=rWBwxEM6VC-iK73SjNoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMwMDAwNCBTYWx0ZWRfX2oNlGMPEcX45
- JcALe1GsUkRuQ+rSFfRnNBe9nzwJ0t0TICC/Fmwmgl4CbI37hNuIzYLpiqNupJcP6n3U3Qy/u56
- DEhgvBr19fRkR4btqSCzRtHM21XJ3nR4TReIQm2Tulv+vg0HizHV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-29_09,2026-07-29_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 phishscore=0 adultscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607300004
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL+kamoC/33PQU7DMBAF0KtUXmM0HjtxzIp7VF049rg1VAnYa
+ QSqcnecIERQRJZf+vO+5s4ypUiZPR3uLNEYc+y7EuqHA3MX252JR18yQ8AaagHch1seYhe5Ha4
+ 8O+7a9xS5H7gS4BpCLYT3rJy/JQrxY6GPp++cb+0LuWH25sYl5qFPn8v2KObez4z5f2YUHDhpY
+ 7VGGWwLz6+UOro+9unM5p0RVxKqHQmLhKEBZYI3gO1Gkmup2ZFkkZxxQioMJF3YSOpX0lDvSGr
+ 5rnKlCsLXaiNVK0nsfVcVqQVLmowzEumPNE3TF0fkwVj7AQAA
+X-Change-ID: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
+To: Adrien Ricciardi <aricciardi@baylibre.com>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
+ Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
+ Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
+ Chen Pei <cp0613@linux.alibaba.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
+ Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
+ guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
+ =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+ Peter Newman <peternewman@google.com>, 
+ =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
+ Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
+ Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
+ yunhui cui <cuiyunhui@bytedance.com>, 
+ Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
+ Drew Fustini <fustini@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10132; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=gp7PRR3VjowyKvCDFAB5uIK+edq110z+R/UaYbaJEJc=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWRlLTnjILwrLM3cNz5me2bepw8i09Ua+DJCE0K3ykhot
+ SUkCIp0lLIwiHExyIopsmz6kHdhiVfo1wXzX2yDmcPKBDKEgYtTACby7DQjwxqjDAWjQudcIemt
+ nuasm6/Gc6cdExFtklj/PbrYgkWpluGfxqJk2ScH2vbvYrXh5zn08u6stYd/Vd4uPqux3+d6Odt
+ aTgA=
+X-Developer-Key: i=fustini@kernel.org; a=openpgp;
+ fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Add adi,vout-rfb1-ohms and adi,vout-rfb2-ohms properties to support
-external voltage divider configuration for VOUT sensing. When the
-desired output voltage is higher than VREF, a resistor divider (RFB1
-and RFB2) is required to reach the intended value.
+[NOTE: only patches 4 and 8 are different in v6]
 
-The properties use a dependency constraint to ensure both resistors
-are specified together, or neither. This prevents misconfiguration
-where only one resistor value is provided.
+This series adds initial RISC-V QoS support: the Ssqosid extension [1]
+(srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
+[3], and a DT-based platform driver for cache controllers. It has been
+tested on both the Tenstorrent Ascalon Shared Cache controller and a QEMU
+implementation [4].
 
-This patch also adds missing entries in the examples.
+  qemu-system-riscv64 -M virt,aia=aplic-imsic -nographic -m 1G -smp 8 \
+      -kernel arch/riscv/boot/Image \
+      -append "root=/dev/vda ro console=ttyS0 rootwait" \
+      -drive if=none,file=rootfs.ext2,format=raw,id=hd0 \
+      -device virtio-blk-device,drive=hd0 \
+      -device riscv.cbqri.capacity,max_mcids=256,max_rcids=64,ncblks=16,mmio_base=0x04820000
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cache allocation can be exercised on the booted system. Mount resctrl
+and read the default schemata. The L2 controller has 16 capacity
+blocks, so the default capacity bitmask (CBM) is 0xffff:
+
+  # mount -t resctrl resctrl /sys/fs/resctrl
+  # cat /sys/fs/resctrl/schemata
+  L2:0=ffff
+
+Write a narrower CBM to a new control group and read it back to confirm
+the L2 controller applied it:
+
+  # mkdir /sys/fs/resctrl/group0
+  # echo "L2:0=ff" > /sys/fs/resctrl/group0/schemata
+  # cat /sys/fs/resctrl/group0/schemata
+  L2:0=ff
+
+Note that this series only implements support for resctrl L2 and L3
+cache resources using CBQRI capacity allocation control. cc_block_mask
+maps onto resctrl's existing cbm schema. However, cc_cunits is not
+supported as there is no existing equivalent for capacity units in the
+resctrl schemata.
+
+I had previously been iterating on an RFC series [5] that did a full
+implementation of CBQRI including capacity monitoring, bandwidth
+allocation and monitoring. The bandwidth controls for CBQRI do not fit
+well into resctrl's existing throttle-based MB schemata. I believe that
+the path forward is Reinette's generic schema description proof of
+concept [6]. My plan is to rebase the full support of CBQRI onto the
+generic schema once it is ready.
+
+This series is based on the linux-next tag next-20260713.
+
+[1] https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
+[2] https://github.com/riscv-non-isa/riscv-cbqri/releases/tag/v1.0
+[3] https://docs.kernel.org/filesystems/resctrl.html
+[4] https://github.com/tt-fustini/qemu/tree/riscv-cbqri-cache
+[5] https://lore.kernel.org/linux-riscv/20260601-ssqosid-cbqri-rqsc-v7-0-v6-16-baf00f50028a@kernel.org/
+[6] https://lore.kernel.org/all/aab804b9-e8b5-40ad-a85b-af7033391243@intel.com/
+
+Changes in v6:
+--------------
+- Introduce the RISCV_CBQRI Kconfig if/endif block in the patch that
+  adds the RISCV_CBQRI_CAPACITY option it guards, rather than as an
+  empty block in an earlier patch.
+
+- Note in cbqri_probe_cc() that the 32 capacity block limit comes from
+  resctrl representing the CBM as a u32.
+
+- Sashiko review of v5:
+  https://sashiko.dev/#/message/20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org
+
+- Link to v5:
+  https://patch.msgid.link/20260714-dfustini-atl-sc-cbqri-dt-v5-0-b0ae7e9c932e@kernel.org
+
+Changes in v5:
+--------------
+- Resolve control domain membership from each CPU's cache id in
+  cacheinfo at hotplug, instead of a CPU mask captured at probe.
+
+- Add and remove control domains on the ctrl_domains RCU list
+  following the documented traversal rules.
+
+- Restructure cbqri_resctrl_pick_caches() to select one controller per
+  cache level, which removes the separate dropped[] array and the
+  overloaded NULL controller pointer.
+
+- Initialize the control domain's resource id.
+
+- Drop the inaccurate comment above the stubbed resctrl_arch_*()
+  operations.
+
+- Sashiko review of v4:
+  https://sashiko.dev/#/patchset/20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org
+
+- Link to v4:
+  https://patch.msgid.link/20260706-dfustini-atl-sc-cbqri-dt-v4-0-e75c20201d64@kernel.org
+
+Changes in v4:
+--------------
+- Register the srmcfg PM notifier even if cpuhp_setup_state() fails in
+  riscv_srmcfg_init(). The early return on failure had skipped it,
+  dropping the srmcfg restore across suspend and resume.
+
+- Make RISCV_CBQRI a user-selectable option that depends on
+  RISCV_ISA_SSQOSID, instead of being selected unconditionally.
+
+- Bound the per-domain control value init by the domain's own
+  controller's RCID count rather than the resource wide count.
+
+- Drop only the affected cache level when capacity controllers at the
+  same level report mismatched capabilities, rather than aborting the
+  whole resctrl setup.
+
+- Use guard(mutex) instead of lock/unlock for cbqri_controllers_lock.
+
+- Read the CBQRI control registers into low and high halves so the
+  access order is explicit and comment on torn reads.
+
+- Clarify in cbqri_resctrl_pick_caches() that the first matching leaf is
+  correct for a unified shared cache.
+
+- Link to v3:
+  https://patch.msgid.link/20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org
+
+- Sashiko review of v3:
+  https://sashiko.dev/#/patchset/20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org
+
+Changes in v3:
+--------------
+- riscv,cbqri.yaml:
+  - Require a device-specific compatible so a bare generic compatible
+    is no longer valid on its own.
+  - Rename node name from cache-controller@ to qos-controller@
+  - Rename compatible from tenstorrent,ascalon-sc-cbqri to
+    tenstorrent,ascalon-shared-cache-controller
+
+- Take cbqri_controllers_lock in cbqri_attach_cpu_to_all_ctrls() so a
+  controller probed after boot can't corrupt the cbqri_controllers list.
+
+- Revise comment above riscv_srmcfg_reset_cache() to clarify that the
+  teardown callback is not relied on. The cpuhp startup callback re-arms
+  the per-cpu sentinel, which forces the csr write on a re-onlined CPU.
+
+- Drop the memory fences around the srmcfg CSR write on context switch.
+  Ssqosid does not require the ordering. The brief tagging inaccuracy at
+  the switch boundary is acceptable for QoS.
+
+- Access the CBQRI controller registers with 32-bit reads and writes.
+  The spec only guarantees single-copy atomicity for 4-byte accesses.
+  This also removes the dependency on native 64-bit MMIO.
+
+- Program cc_cunits to 0 before a config limit operation on controllers
+  that support capacity units, so a stale unit limit does not constrain
+  block-mask allocation.
+
+- Link to v2:
+  https://patch.msgid.link/20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org
+
+- Sashiko review of v2:
+  https://sashiko.dev/#/patchset/20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org
+
+Changes in v2:
+--------------
+The changes in this revision address the Sashiko review of v1.
+
+- Restore the srmcfg CSR for the current task on CPU_PM_EXIT and
+  CPU_PM_ENTER_FAILED, so it is not left configured incorrectly until
+  the next context switch.
+
+- Serialize the cbqri_controllers list insert and the boot time walk
+  with a mutex, so an asynchronous driver probe cannot corrupt the list.
+
+- Skip a controller at an unsupported cache level instead of aborting
+  resctrl setup, so valid L2 and L3 controllers still register.
+
+- RISCV_ISA_SSQOSID selects ARCH_HAS_CPU_RESCTRL and RISCV_CBQRI
+  together, so no intermediate commit enables RESCTRL_FS without the
+  CBQRI resctrl glue.
+
+- Rename the RISCV_CBQRI_DRIVER to RISCV_CBQRI, since it builds the
+  CBQRI core ops and resctrl integration rather than a driver.
+
+- Drop the RISCV_CBQRI_DRIVER_DEBUG Kconfig option and rely on dynamic
+  debug to control the pr_debug() output.
+
+- Note: Sashiko flagged the lack of suspend/resume state restore. I will
+  not fix that as register state is only lost when the power domain is
+  gated, which offlines the harts sharing the cache. resctrl reprograms
+  the default capacity mask through the normal control domain online
+  path on resume.
+
+- Link to v1:
+  https://lore.kernel.org/all/20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org/
+
+- Sashiko review of v1:
+  https://sashiko.dev/#/patchset/20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org
+
 ---
- .../bindings/hwmon/pmbus/adi,max20830.yaml         | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Drew Fustini (8):
+      dt-bindings: riscv: Add Ssqosid extension description
+      riscv: Detect the Ssqosid extension
+      riscv: Add support for srmcfg CSR from Ssqosid extension
+      riscv_cbqri: Add capacity controller probe and allocation device ops
+      riscv_cbqri: resctrl: Add cache allocation via capacity block mask
+      riscv: Enable resctrl filesystem for Ssqosid
+      dt-bindings: riscv: Add binding for CBQRI controllers
+      riscv_cbqri: Add CBQRI capacity allocation platform driver
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-index 1625dd59417f1b3ca689a9c86ca266da913d1217..01b7275f5b3419cf1b791ed8f9b7ae56cd2961b5 100644
---- a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-@@ -44,15 +44,32 @@ properties:
-       GPIO connected to the power-good status output pin.
-     maxItems: 1
- 
-+  adi,vout-rfb1-ohms:
-+    description:
-+      Top feedback resistor (RFB1) value in ohms for VOUT sensing divider.
-+      When the desired output voltage is higher than VREF, a resistor divider
-+      is required. VOUT = VREF × (1 + RFB1/RFB2)
-+
-+  adi,vout-rfb2-ohms:
-+    description:
-+      Bottom feedback resistor (RFB2) value in ohms for VOUT sensing divider.
-+      Datasheet recommends that RFB2 does not exceed 2.5kΩ.
-+
- required:
-   - compatible
-   - reg
-   - vddh-supply
- 
-+dependencies:
-+  adi,vout-rfb1-ohms: ['adi,vout-rfb2-ohms']
-+  adi,vout-rfb2-ohms: ['adi,vout-rfb1-ohms']
-+
- unevaluatedProperties: false
- 
- examples:
-   - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-     i2c {
-         #address-cells = <1>;
-         #size-cells = <0>;
-@@ -61,6 +78,11 @@ examples:
-             compatible = "adi,max20830";
-             reg = <0x30>;
-             vddh-supply = <&vddh>;
-+            avdd-supply = <&avdd>;
-+            ldoin-supply = <&ldoin>;
-+            pwr-good-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
-+            adi,vout-rfb1-ohms = <10000>;
-+            adi,vout-rfb2-ohms = <2000>;
-         };
-     };
- ...
+ .../devicetree/bindings/riscv/extensions.yaml      |   6 +
+ .../devicetree/bindings/riscv/riscv,cbqri.yaml     |  97 +++
+ MAINTAINERS                                        |  15 +
+ arch/riscv/Kconfig                                 |  18 +
+ arch/riscv/include/asm/csr.h                       |   5 +
+ arch/riscv/include/asm/hwcap.h                     |   1 +
+ arch/riscv/include/asm/processor.h                 |   3 +
+ arch/riscv/include/asm/qos.h                       |  74 ++
+ arch/riscv/include/asm/resctrl.h                   | 147 ++++
+ arch/riscv/include/asm/switch_to.h                 |   3 +
+ arch/riscv/kernel/Makefile                         |   2 +
+ arch/riscv/kernel/cpufeature.c                     |   1 +
+ arch/riscv/kernel/qos.c                            | 101 +++
+ drivers/resctrl/Kconfig                            |  30 +
+ drivers/resctrl/Makefile                           |   5 +
+ drivers/resctrl/cbqri_capacity.c                   | 127 ++++
+ drivers/resctrl/cbqri_devices.c                    | 568 +++++++++++++++
+ drivers/resctrl/cbqri_internal.h                   | 122 ++++
+ drivers/resctrl/cbqri_resctrl.c                    | 785 +++++++++++++++++++++
+ include/linux/riscv_cbqri.h                        |  45 ++
+ 20 files changed, 2155 insertions(+)
+---
+base-commit: 49362394dad7df66c274c867a271394c10ca2bb8
+change-id: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
 
--- 
-2.34.1
+Best regards,
+--  
+Drew Fustini <fustini@kernel.org>
 
