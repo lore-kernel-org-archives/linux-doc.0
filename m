@@ -1,228 +1,211 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FEC3B27D8
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 06:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467B549620
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 06:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785393102; cv=none; b=ckLLR+7wgq10e+eg6Im+UjcrEc3clZawHFcsGq/0AhCnN2y6UlP3IMqT/72mNj9nDGKPe/wx5HRF/o56vYCSoJDQG/P5z35eiBb5RYyc0UIntH5h4Z8UGk68zBOPkVn1LKXVyi4Srd2B9rHHPmxQextgnoSQEiqgqnGZp0B/t6U=
+	t=1785393122; cv=none; b=dZ9m3aKzb1lgiSVEQqi2Gc7q8EkX+bQ3+7xyi7z2t0TpS8nCVeuXOpgp7ZUaVIEp28jOr2DV3v7pjfPFiB2B+auzZhpfpJKLM9E/DAPgkPU5f6+cN+sZiklOZiLkSiMcrCaVf2humeQHeHvfRamgkUxHO7zx44bzQsraQCAa7y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785393102; c=relaxed/simple;
-	bh=5t+GoX/aPLaTLKFvhZLJ22G0+ryWXHjxjIuHVP6Qtfo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S0Zd+++sGWg3I/p8rWljGJg0LCBC86WCoLGbRSansvilgnjmmqdWnF4MHWrszCD/NVuEpnmm/C2OFta4k+oF2NgU3B8eqRsYnsLdbYTPDyU4G+JHvKzNRu21h9rCNmoxS7eDl/f88cYAZUbqA5SjAUBl+ZSw5T4ld6FMp35DGZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r1NAAIfu; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785393122; c=relaxed/simple;
+	bh=sbMYUCSymqtK47EOKzAJOAFr7vCx44JGs0xy+7yRMKs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W3VHKiRWtxTK4ZDH7B7eh0vEcJPbgUe9evoKYSG5y8Ip6j0keaV3eBDxuVocvfx1wYwwNuqOFPjdK8nT4O6qczy1ZrXj5/e5rvB3wy0JX0MJNsF2jReymDpd2ZU9+3/vtGfHrxsYFKisL3xROb+fgawAOULfwy4iSYpD6aQa6is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZdebbYEY; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r1NAAIfu"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84e04df8c46so2032004b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 23:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785393099; x=1785997899; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=hOvMF22l5yq9rb3H7AnJyb7Yc8S/1iRInoiHq1DCJyQ=;
-        b=r1NAAIfuu6kF5KLbYliv4PFcQcFXqe0sMQEIDXnFjTG2X4Za09sGn+nnxyk6nadmKy
-         MMdBjNpCgNUXgD/iyzizOHtaswcTG3vO/uZ+42kQas6VAyWvlG+5nQglvX1+3oEdtnpy
-         R2TW5f51P1W9jHw5OOGincLhSWQ43jxDDOJRG58ag0Q+PrKI7FPQxPcuWMMYhWKnfAsx
-         EmSdFrhE8pzSPgnttzmL1TZAkoyAt0QJX9oSicfI4sFQwSVH1cjWZ/mLrfvLHkYJLzK3
-         BCzB+c9BGNpOYdBsOm3LlpW4iMxR8sPqUnnQol4JNVTuxHKCTxCGQbWJ1a/UJA6QPZOG
-         bf/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785393099; x=1785997899;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hOvMF22l5yq9rb3H7AnJyb7Yc8S/1iRInoiHq1DCJyQ=;
-        b=cYVvWO0GwHpte2O0o3FsatDQ/ud/wF+Y4HwsKgfpAoFJHGWgSSR7BNq6lDYpXn1Tkg
-         QToA0RrIiRvL40qHEySbPC7lRDu7IYaJ88pE89U6QbPl8wJWWwa+Rr/lMiK5IHrSsDpo
-         VEnwnQp8Mqh+6UOndKU4MGzBWCMYh6P3AUHKT2zlJab6g0BjWnvsaXNRNJOvocrim63o
-         ZcXjAMz8qorHtDAL4+yXbrqcGMLsqp9qhtp6A+kG0ljhHoqb3II2VgXkF4xObe+6gxem
-         VoHUPEy7O8SacunAOz0jiRl5SHB5AFvD5DGMuMRMyp7nuCNGmX6ghtDGmMXTRwEdxpd8
-         yD4g==
-X-Forwarded-Encrypted: i=1; AHgh+RrRTSR72qBEAb7S4yGu6I86eWE9LSa6hPJFMvLyJoLy9231irbgETv0eKlvzQWj9BubzdHFQkpJwEQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFnhsmqgsfa8DIOm5BLBm4tYOdEhqJ+pFnHP6XkVIW9npKxVr0
-	vdkqEbCErQOskxLfPy1p9rbmvh9ckdUmWDf4166Pe5xwkxHo3gkd1S2l
-X-Gm-Gg: AR+sD11+wrS4E4fgQCUTh6OoM+KyTgjS7fjVA/mFZMUoH8IQkWJhoL5H2T3iR+Itcho
-	lTBd958ZvC0/s78LJAlbTEz4gko7OLkzIVzX1gzvU4HCqOeTcTN7CofRBbLkPMIHBXEBgXfcjBW
-	v5H6wEeXscHWguQhNvTSIIefiCRdTtq/4gX0+EbTEBrdlyYB6VCmBduOge7DuDb+SlviLYIR6QA
-	m0MIO/QNu6sYVNM01qmed4V88XOZPIBvePzAB/jtmMQPOdOczWC9ozoSsaGon7Gi7kI2hw8PYyd
-	Raru6+N2/uTH81fxNSpm1wrqNQ17bLiq41HGC09bXp/jT0dIzu4sxsq73NpKOhdMgAsSkYCQeKX
-	e1n7xq7kYl0Es92gBU05MrLuY4HKt4Ui6t9AyyYjvtTUYEV1IWXglTd6WMJF9D22DrWuRfS1Dx8
-	Pk8bpHvnXwAJG/2KIGt3paeXlN0o+WMH7QMMkP+AwOgPPk2V369P1yCZmJJD8A6o/ITGFacngHq
-	FAbLVzltCz7i/lwnCO4
-X-Received: by 2002:a05:6a00:2e95:b0:845:d284:9e14 with SMTP id d2e1a72fcca58-84ebc468c9cmr1404273b3a.59.1785393099312;
-        Wed, 29 Jul 2026 23:31:39 -0700 (PDT)
-Received: from [10.125.192.117] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea0052e04sm2418453b3a.22.2026.07.29.23.31.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 23:31:38 -0700 (PDT)
-Message-ID: <c4c95102-72e2-a44f-f16e-4134ba6bb060@gmail.com>
-Date: Thu, 30 Jul 2026 14:31:26 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZdebbYEY"
+X-Forwarded-Encrypted: i=1; AHgh+Rp4i//EjTQY34lGUwB8hqJcpeE6aSx/Cuqc+kkOGEFebO1TKPInMzQz1raozwQf3nmG1Wxmj6JafuY=@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785393113;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vlYljchxQ5reT/eVU8Xnl/sWmMhVEbgvnN8Wduj0Ep0=;
+	b=ZdebbYEY9tGVQ8sWBd3FrtiIbMcC9v9JDuzF74K6b88dHhXh+gbzuxcJJ4urXSP3MngWpF
+	GzC4DMi6bfibZE4TONclup843VN1c3/TbD34ZC4I/n5C/h8SblkPrjsS4byR1I7pRLriYO
+	vc1EgnSEiBb7hhDp7xzB7CwTIRxDyFw=
+X-Gm-Message-State: AOJu0Yyx7v4XZ5loiycVhXD8Lu3GSs1+rxRVnGj2aAIRlIjxgj52vLbp
+	wHXLLq3wcBS60fweYSDXe1yk0l8Hlzv0E6723gxDJEsFm2xr/HTNv9azCdi7l1tW9NV8TnQK/8b
+	Pf1GPyNR4p221oiJqH1aMJS86iY0q6QWqr4ojj1cm
+X-Received: by 2002:a05:622a:684e:20b0:517:5ac7:332e with SMTP id
+ d75a77b69052e-52b3933f844mr5275111cf.6.1785393052137; Wed, 29 Jul 2026
+ 23:30:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v3 1/2] mm/zswap: Fix global shrinker when memory cgroup
- is disabled
-To: Yosry Ahmed <yosry@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: tj@kernel.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com,
- chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
-References: <20260729084206.77793-1-jiahao.kernel@gmail.com>
- <20260729084206.77793-2-jiahao.kernel@gmail.com>
- <20260729155858.c7aabff48166a9bca4d68ac3@linux-foundation.org>
- <CAO9r8zNhBCghP8T_98z2p==Cfs_=kamcRN_3ROxaj3R8PN2Qvw@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zNhBCghP8T_98z2p==Cfs_=kamcRN_3ROxaj3R8PN2Qvw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Thu, 30 Jul 2026 07:29:00 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTyAtAg=u61nwqGYPstRkq1qiBJ=Up_9e=J_3FUOONZ9YA@mail.gmail.com>
+X-Gm-Features: AUfX_mwGOo05YLjkVSJlO76kvHbah6i3Ay-YiXXIqVAHXXpYgYhu4HvJ-rdWTks
+Message-ID: <CA+EHjTyAtAg=u61nwqGYPstRkq1qiBJ=Up_9e=J_3FUOONZ9YA@mail.gmail.com>
+Subject: Re: [PATCH v9 00/16] KVM: arm64: PMU: Use multiple host PMUs
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Steffen Eiden <seiden@linux.ibm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Migadu-Flow: FLOW_OUT
 
+On Mon, 20 Jul 2026 at 06:39, Akihiko Odaki
+<odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
+...
+> A QEMU patch that demonstrates the usage of the new attribute is
+> available at:
+> https://lore.kernel.org/qemu-devel/20260706-kvm-v4-1-089cac8c25c3@rsg.ci.i.u-tokyo.ac.jp/
+> ("[PATCH RFC v4] target/arm/kvm: Choose PMU backend")
+>
+> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
 
+I didn't test with the QEMU patch, but I tested on QEMU: booting the
+host and a KVM guest, plus the vpmu_counter_access and get-reg-list
+KVM selftests under nvhe, vhe, andvhe with kvm-arm.mode=nested.
 
-On 2026/7/30 08:30, Yosry Ahmed wrote:
-> On Wed, Jul 29, 2026 at 3:58 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->>
->> On Wed, 29 Jul 2026 16:42:05 +0800 Hao Jia <jiahao.kernel@gmail.com> wrote:
->>
->>> Zswap writeback when the global pool limit is hit fails when memory
->>> cgroup is disabled. The pool remains full until it is organically
->>> drained by swapins or memory freeing, leading to zswap store failures
->>> and pages bypassing getting written directly to the backing swap device,
->>> causing LRU inversion (hotter pages with higher fault latency).
->>>
->>> This happens because mem_cgroup_iter() always returns NULL when
->>> memory cgroups are disabled. As a result, the global shrinker
->>> shrink_worker() repeatedly takes empty walks. After MAX_RECLAIM_RETRIES
->>> failed attempts, the worker gives up without writing back any pages.
->>>
->>> Therefore, when memory cgroup is disabled, fall through with the !memcg
->>> branch and shrink the root memcg directly.
->>>
->>> With memcg disabled, shrink_memcg() only returns -ENOENT when the root
->>> LRU is empty, which means the total pages are already below thr. In the
->>> absence of heavy concurrent zswap stores, the loop then safely bails out
->>> via the zswap_total_pages() <= thr check; otherwise, it will resume
->>> shrinking the memcg after processing the reschedule check. For any other
->>> return value from shrink_memcg(), the loop is guaranteed to terminate,
->>> either after MAX_RECLAIM_RETRIES failures or once the threshold is met.
->>>
->>> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
->>> Cc: stable@vger.kernel.org
->>
->> How does this affect users?  What behavior do they observe when it
->> occurs?
-> 
-> I think the first paragraph sums it up pretty well, especially the
-> last sentence "hotter pages with higher fault latency".
-> 
->>
->>> Closes: https://lore.kernel.org/all/CAO9r8zPVzMKFbCixxD-qgtRrkFxWVrHiZZeLc=eyTPKPVQgX4g@mail.gmail.com
->>
->> hm, that isn't really a bug report and doesn't answer the above
->> question.
-> 
-> Yeah, it isn't. Probably we should drop "Closes". I assume Hao added
-> it because checkpatch annoyingly complains if you add "Reported-by"
-> without "Closes", so Hao just linked to the thread where I pointed out
-> the bug.
+For the series:
+Tested-by: Fuad Tabba < fuad.tabba@linux.dev>
 
-Yeah, checkpatch will complain if it's missing.
+Cheers,
+/fuad
 
-> 
->>
->> AI review asked a couple of questions:
->>          https://sashiko.dev/#/patchset/20260729084206.77793-1-jiahao.kernel@gmail.com
-> 
-> The review on patch #1 is something theoretical, we discussed it at
-> length in previous versions.
-> 
-> For patch #2:
-> 
->> Does this batching logic break NUMA fairness?
->>
->> Because for_each_node_state() always starts from the lowest node
->> ID and breaks when the scan budget is exhausted, subsequent
->> calls to shrink_memcg() will restart at the lowest node ID again.
->>
->> If the lowest node (typically Node 0) consistently has enough
->> items to exhaust the scan budget, wouldn't we exclusively evict
->> pages from it while ignoring older pages on other nodes? Could
->> this cause LRU inversion across nodes, keeping older pages in
->> memory on Node 1 while hot pages on Node 0 are evicted?
-> 
-> Yes, unfairness is possible.
-> 
-> For global shrinking, it's probably not an issue. We reclaim until we
-> hit the acceptance threshold and it's very unlikely this will happen
-> before iterating all nodes (given that the batch size is 32 pages).
-> However, with the shrink_memcg() path, we only reclaim one batch, so
-> there's a chance we'll always reclaim it from node 0.
-> 
-> Maybe we should just drop the early bailout and accept potentially
-> doing more writeback than needed. Hao, WDYT?
-> 
-If we scan and attempt to write back SWAP_CLUSTER_MAX zswap entries per 
-node, it might lead to excessive writeback on machines with many NUMA 
-nodes. Furthermore, I'm concerned about introducing higher latency in 
-synchronous shrink paths like zswap_store()—especially on systems with a 
-large number of NUMA nodes, where it could end up writing back hundreds 
-of pages in a single call.
-
-Maybe we could do something like this instead? That way, in the 
-worst-case scenario, it falls back to the baseline behavior without 
-introducing any extra latency risks.
-
-  static int shrink_memcg(struct mem_cgroup *memcg)
-  {
--       int nid, shrunk = 0, scanned = 0;
-+       unsigned long node_batch, scanned = 0;
-+       int nid, shrunk = 0;
-
-         if (!mem_cgroup_zswap_writeback_enabled(memcg))
-                 return -ENOENT;
-@@ -1289,14 +1313,26 @@ static int shrink_memcg(struct mem_cgroup *memcg)
-         if (memcg && !mem_cgroup_online(memcg))
-                 return -ENOENT;
-
-+       node_batch = max(1UL, SWAP_CLUSTER_MAX / 
-num_node_state(N_NORMAL_MEMORY));
-         for_each_node_state(nid, N_NORMAL_MEMORY) {
--               unsigned long nr_to_walk = 1;
-+               unsigned long nr_to_walk, budget;
-+
-+               /*
-+                * Cap the scan at the per-node LRU length so each entry is
-+                * scanned at most once per call.
-+                */
-+               budget = min(node_batch,
-+                            list_lru_count_one(&zswap_list_lru, nid, 
-memcg));
-+               if (!budget)
-+                       continue;
-
-+               nr_to_walk = budget;
-                 shrunk += list_lru_walk_one(&zswap_list_lru, nid, memcg,
-                                             &shrink_memcg_cb, NULL, 
-&nr_to_walk);
--               scanned += 1 - nr_to_walk;
-+               scanned += budget - nr_to_walk;
-         }
-
-+       /* Nothing was scanned: every LRU under @memcg was empty. */
-         if (!scanned)
-                 return -ENOENT;
-
-Thanks,
-Hao
-> If you respin, please also drop the batch size argument to
-> shrink_memcg() as it's now always SWAP_CLUSTER_MAX.
+> ---
+> Changes in v9:
+> - Dropped patch
+>   "KVM: arm64: Disallow vPMU when pPMUs do not cover all CPUs".
+> - Added patch
+>   "KVM: arm64: PMU: Stop updating MDCR_EL2.HPMN".
+> - Added patch
+>   "KVM: arm64: selftests: Cover PMU state in MDCR_EL2".
+> - Added patch
+>   "arm64: errata: Require Apple IMPDEF PMUv3 traps on all CPUs".
+> - Added patch
+>   "KVM: arm64: Don't clear vcpu->cpu in kvm_arch_vcpu_put()".
+> - Noted that fixed-counters-only mode avoids relying on the default PMU.
+> - Clarified why fixed-counters-only mode hides PMCEID.
+> - Added patch "KVM: arm64: Serialize repeated vCPU initialization".
+> - Added patch "KVM: arm64: PMU: Freeze counter count after first run".
+> - Added patch
+>   "KVM: arm64: selftests: Test SET_NR_COUNTERS after first run".
+> - Added patch "KVM: arm64: PMU: Recreate events after MDCR_EL2 changes".
+> - Clarified why extra IMPDEF PMUv3 trap support on a late CPU is safe.
+> - Changed fixed-counters-only emulation to taint the kernel when it
+>   encounters a CPU without a registered pPMU; see the commit message.
+> - Added patch
+>   "KVM: arm64: PMU: Keep implemented counter mask EL-independent".
+> - Added a targeted bitfield helper type change to tools headers.
+> - Link to v8: https://patch.msgid.link/20260710-hybrid-v8-0-621409f3a592@rsg.ci.i.u-tokyo.ac.jp
+>
+> Changes in v8:
+> - Added patch
+>   "KVM: arm64: Disallow vPMU when pPMUs do not cover all CPUs".
+> - Split patch "KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY".
+> - Documented the FEAT_PMUv3_ICNTR support plan.
+> - Ensured KVM_ARM_VCPU_PMU_V3_FILTER and
+>   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY are mutually exclusive.
+> - Ensured KVM_ARM_VCPU_PMU_V3_SET_PMU and
+>   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY are mutually exclusive.
+> - Dropped the code to support KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS for
+>   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY.
+> - Added a function to de-duplicate
+>   "test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, ...)".
+> - Link to v7: https://lore.kernel.org/r/20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp
+>
+> Changes in v7:
+> - Fixed the vCPU run hang in test_fixed_counters_only().
+> - Link to v6: https://lore.kernel.org/r/20260413-hybrid-v6-0-e79d760f7f1b@rsg.ci.i.u-tokyo.ac.jp
+>
+> Changes in v6:
+> - Removed WARN_ON_ONCE() in kvm_pmu_create_perf_event(). It can be
+>   triggered in kvm_arch_vcpu_load() before it checks supported_cpus.
+> - Removed an extra lockdep assertion in kvm_arm_pmu_v3_get_attr().
+> - Fixed error messages in test_fixed_counters_only().
+> - Fixed the vCPU run in test_fixed_counters_only().
+> - Link to v5: https://lore.kernel.org/r/20260411-hybrid-v5-0-b043b4d9f49e@rsg.ci.i.u-tokyo.ac.jp
+>
+> Changes in v5:
+> - Rebased.
+> - Fixed the order to clear KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY in
+>   kvm_arm_pmu_v3_set_pmu().
+> - Fixed the setting of KVM_ARM_VCPU_PMU_V3_IRQ in
+>   test_fixed_counters_only().
+> - Changed to WARN_ON_ONCE() when kvm_pmu_probe_armpmu() returns NULL in
+>   kvm_pmu_create_perf_event(), which is no longer supposed to happen.
+> - Link to v4: https://lore.kernel.org/r/20260317-hybrid-v4-0-bd62bcd48644@rsg.ci.i.u-tokyo.ac.jp
+>
+> Changes in v4:
+> - Extracted kvm_pmu_enabled_counter_mask() into a separate patch.
+> - Added patch "KVM: arm64: PMU: Protect the list of PMUs with RCU".
+> - Merged KVM_REQ_CREATE_PMU into KVM_REQ_RELOAD_PMU.
+> - Added a check to avoid unnecessary KVM_REQ_RELOAD_PMU requests.
+> - Dropped the change to avoid setting kvm_arm_set_default_pmu() when
+>   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY is not set.
+> - Link to v3: https://lore.kernel.org/r/20260225-hybrid-v3-0-46e8fe220880@rsg.ci.i.u-tokyo.ac.jp
+>
+> Changes in v3:
+> - Renamed the attribute to KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY.
+> - Changed to request the creation of perf counters when loading vCPU.
+> - Link to v2: https://lore.kernel.org/r/20250806-hybrid-v2-0-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp
+>
+> Changes in v2:
+> - Added the KVM_ARM_VCPU_PMU_V3_COMPOSITION attribute to opt in the
+>   feature.
+> - Added code to handle overflow.
+> - Link to v1: https://lore.kernel.org/r/20250319-hybrid-v1-1-4d1ada10e705@daynix.com
+>
+> ---
+> Akihiko Odaki (15):
+>       KVM: arm64: Serialize repeated vCPU initialization
+>       KVM: arm64: PMU: Stop updating MDCR_EL2.HPMN
+>       KVM: arm64: PMU: Freeze counter count after first run
+>       KVM: arm64: selftests: Test SET_NR_COUNTERS after first run
+>       KVM: arm64: PMU: Keep implemented counter mask EL-independent
+>       KVM: arm64: PMU: Recreate events after MDCR_EL2 changes
+>       tools headers: Use u* types for bitfield helpers
+>       KVM: arm64: selftests: Cover PMU state in MDCR_EL2
+>       arm64: errata: Require Apple IMPDEF PMUv3 traps on all CPUs
+>       KVM: arm64: PMU: Protect the list of PMUs with RCU
+>       KVM: arm64: PMU: Pass the pPMU to kvm_map_pmu_event()
+>       KVM: arm64: PMU: Pass the target CPU to kvm_pmu_probe_armpmu()
+>       KVM: arm64: PMU: Implement fixed-counters-only emulation
+>       KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
+>       KVM: arm64: selftests: Test PMU_V3_FIXED_COUNTERS_ONLY
+>
+> Oliver Upton (1):
+>       KVM: arm64: Don't clear vcpu->cpu in kvm_arch_vcpu_put()
+>
+>  Documentation/virt/kvm/devices/vcpu.rst            |  30 ++-
+>  arch/arm64/include/asm/kvm_host.h                  |   4 +
+>  arch/arm64/include/uapi/asm/kvm.h                  |   1 +
+>  arch/arm64/kernel/cpu_errata.c                     |   2 +-
+>  arch/arm64/kvm/arm.c                               |  18 +-
+>  arch/arm64/kvm/pmu-emul.c                          | 241 +++++++++++------
+>  arch/arm64/kvm/reset.c                             |  16 +-
+>  arch/arm64/kvm/sys_regs.c                          |  31 ++-
+>  include/kvm/arm_pmu.h                              |   5 +
+>  tools/arch/arm64/include/uapi/asm/kvm.h            |   1 +
+>  tools/include/linux/bitfield.h                     |  26 +-
+>  .../selftests/kvm/arm64/vpmu_counter_access.c      | 284 ++++++++++++++++++---
+>  12 files changed, 510 insertions(+), 149 deletions(-)
+> ---
+> base-commit: cb9360ae6549120975f20887840fb33d47c13898
+> change-id: 20250224-hybrid-01d5ff47edd2
+>
+> Best regards,
+> --
+> Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+>
+>
