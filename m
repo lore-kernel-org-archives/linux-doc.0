@@ -1,52 +1,52 @@
 Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4851733F583;
-	Thu, 30 Jul 2026 12:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E908F3F0749;
+	Thu, 30 Jul 2026 12:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785416107; cv=none; b=TWtIJHIvJHtVH5tKNCNTo1005mJsrNceD/GfwC7+YrrZ+t2YCFJzHCuPqKqXBYd5YtkpXNcOHjyM4LoFVF7nWf6ZALIbyM424jNmWYpaAMkxiwdLJMmA1gMtrSp4M0a4Z+nnMJ2g+PAOQKmrLJxqkS7XU1zXxmhpWy4G3JfNRmA=
+	t=1785416110; cv=none; b=uUmDqhzpEMxcmO2j1Gz7BECGerECF6zT/1wE1aSXziBD2xLWDl3h6k2APBxXm/q2YiodPKafld6J5u/gaX47jLG4HI/ksjpx7VAvdTFETjylbXB7At/x97JXXYNbjK178mPn87RlQSFM8kvES2EFWxKRjP/7XfylU4cfS2Bs/rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785416107; c=relaxed/simple;
-	bh=HofaUkqDt9T0Te/NoeS97Or1wzewoKSelGv874WZInc=;
+	s=arc-20240116; t=1785416110; c=relaxed/simple;
+	bh=X5n5YfTl1yffU+8nqWzVEmVblZbXfBM1c0DNoWjf0ys=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=abu4nJe2t/Nv0JYUElVo6SkmpuYauFQx9q1OqRujBPRzZOS74Cc6ycApqCZIXPEkqhkR7lb7S/W7K/io5J7O5mTh3pki7VG4nddWv9Egbjazj9x3VPUlx2yu7U70hkjIJptDBvc0Bjrujr4op2fWyn04NAKMUBihuQaM+xlbXys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=dEzGHi7J; arc=none smtp.client-ip=52.35.192.45
+	 MIME-Version:Content-Type; b=Mqy8WgEHqXcCoN9kun2m953chKyV8IjoyKYfEGrnI8m+zImu/XbY9NA27XSKlC0VfISQDTW/9n9kREd/YTOzMYDLotIr4bDlsF4X2wiw7je/Y/fZPmth2jdBKxmaWZu5Pd1rJlUEPzD1oB2DJVZUM7jVH5L9adx6d/KJnTt/TrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=owbVMsF2; arc=none smtp.client-ip=52.35.192.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="dEzGHi7J"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="owbVMsF2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1785416106; x=1816952106;
+  t=1785416107; x=1816952107;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=fbyoXVRY1cthYTE1q4uLgZT9F32LTfKhxyhD++OKKBU=;
-  b=dEzGHi7JeGFQE2eyzzRDp3qIGR0YCNBOuZY0biXZYHew2i7TJqjek9Js
-   i2/UC5VBLKqHxU0BJhKflICWG4FjDgTo+z3Ps4QXvkyZVGu2/auRUYPmC
-   MlG70jjoZ9XmahJUlvpgYk/kbqi5KeNwf+Hv1xKBe7b3IBkiANWQeq5iv
-   HzPe/9s2hgU7ufJOeTSXYQqeYSUdNzmbmOFag+vWwQJ1T2cNnhNafcTbo
-   B9YIjW3plGYkajIahXhnQcxbh4KNPX/s7pQ0cyrdWCXCR8VOGY9jAp22b
-   drf7FRhwdZlBPjFnmtUIKyPj8d3PmdFSCKDn1YV0yfEiEmEhwOQW1vxw/
-   w==;
-X-CSE-ConnectionGUID: WMI+Qz9ZReC83DqUvvPjvg==
-X-CSE-MsgGUID: /TWuDDBFTGe8lP3CklHbnA==
+  bh=PzXQCR0HNnIFyL6rR8ghS2+1v1RUkivR8qUOIx2qwEo=;
+  b=owbVMsF2z+SJDSWn0gYx4nu0YFpmZTyEvJW4w4ffBt7orp3Xjq2nWJg4
+   wio6C8/CC2niYsSqIOpbANsqE6AoAl7qMuE67JYO/Ld0L802rAnyLds9l
+   8xVRnBKgC/qW+L9ytCHXUut8oqO4tQC33v/jTD/3A8t5KEBGZQCMTMh/l
+   wdIk1+SB0MPPpwWodpBWzBqtunpizzaGJIT95SvBnVy+uuC/8dd48QBLP
+   3RlkwTvduck6hSDWcN09u3lNuPVzUwZwmoygr0chyqIctez3Q5ovRBhP4
+   huclv/hYe4YYBUizrAMcfVlvIibVMlEYBNvSOY5xQ8rVU5TeWXEvZH+8/
+   Q==;
+X-CSE-ConnectionGUID: xWT776G/Rq+zsbRvrz/D6A==
+X-CSE-MsgGUID: CnF0Kg2dRL6/gtWCzlVBow==
 X-IronPort-AV: E=Sophos;i="6.25,194,1779148800"; 
-   d="scan'208";a="24437667"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 12:55:02 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.182:29876]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.4.11:2525] with esmtp (Farcaster)
- id a2489e14-30b4-4ab9-99bf-fdda46f06e19; Thu, 30 Jul 2026 12:55:02 +0000 (UTC)
-X-Farcaster-Flow-ID: a2489e14-30b4-4ab9-99bf-fdda46f06e19
+   d="scan'208";a="24437671"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 12:55:04 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:29378]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.31:2525] with esmtp (Farcaster)
+ id 44591dac-551b-4fe3-aeff-06b70e8d1e0e; Thu, 30 Jul 2026 12:55:04 +0000 (UTC)
+X-Farcaster-Flow-ID: 44591dac-551b-4fe3-aeff-06b70e8d1e0e
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Thu, 30 Jul 2026 12:55:01 +0000
+ Thu, 30 Jul 2026 12:55:03 +0000
 Received: from ip-10-253-83-51.amazon.com (172.19.99.218) by
  EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Thu, 30 Jul 2026 12:55:00 +0000
+ Thu, 30 Jul 2026 12:55:01 +0000
 From: Alexander Graf <graf@amazon.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
 	<corbet@lwn.net>
@@ -54,9 +54,9 @@ CC: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, "Arnd
  Bergmann" <arnd@arndb.de>, Shuah Khan <skhan@linuxfoundation.org>,
 	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
 	<mancio@amazon.com>, <diapop@amazon.com>, <mknaust@amazon.com>
-Subject: [PATCH 6/8] nitro_enclaves: Expose CPU pool state under sysfs
-Date: Thu, 30 Jul 2026 12:53:10 +0000
-Message-ID: <20260730125312.71415-7-graf@amazon.com>
+Subject: [PATCH 7/8] Documentation: ABI: Describe nitro_enclaves cpu_pool sysfs
+Date: Thu, 30 Jul 2026 12:53:11 +0000
+Message-ID: <20260730125312.71415-8-graf@amazon.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20260730125312.71415-1-graf@amazon.com>
 References: <20260730125312.71415-1-graf@amazon.com>
@@ -71,248 +71,81 @@ Content-Type: text/plain
 X-ClientProxiedBy: EX19D042UWB002.ant.amazon.com (10.13.139.175) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-An orchestrator deciding where to place an enclave needs to know how
-many cores of the pool are still free, and on which NUMA node. The total
-is not the missing piece: /sys/module/nitro_enclaves/parameters/ne_cpus
-is mode 0644 and reads back the CPU list that was accepted. Occupancy
-is. NE_CREATE_VM returns NE_ERR_NO_CPUS_AVAIL_IN_POOL (272) before it
-allocates a slot when no core anywhere in the pool is free, but that
-check does not look at nodes, so the only per-node answer the kernel
-offers arrives from NE_ADD_VCPU, as errno 272, once the slot exists and
-has to be freed again.
-
-So report the pool on the misc device, as a cpu_pool attribute group
-under /sys/devices/virtual/misc/nitro_enclaves/: mode is none or static,
-total is the pool as parsed from ne_cpus, used is what enclaves hold,
-and avail is the rest. The group hangs off miscdevice.groups, so the
-subtree comes and goes with the device and there is no kobject to manage
-by hand.
-
-The threads enclaves hold get a mask of their own in the pool rather
-than being added up from the enclave list on every read. Walking that
-list needs the enclave list mutex and each enclave's mutex, and
-NE_ADD_VCPU, release and the event work handler each hold one of those
-across a request to the device, so a read of used would sit behind an
-enclave that is failing to stop. The four files take the pool mutex and
-nothing else, and that mutex is not held across any of this driver's
-seven calls into the device.
+An operator or an orchestrator placing an enclave needs more than the
+contents of these files: how far the partition between used and avail
+goes, and which node the enclave allocates from when it does not name
+one. Write both down.
 
 Assisted-by: Kiro:claude-opus-5
 Signed-off-by: Alexander Graf <graf@amazon.com>
 ---
- drivers/virt/nitro_enclaves/ne_misc_dev.c | 134 ++++++++++++++++++++--
- 1 file changed, 122 insertions(+), 12 deletions(-)
+ .../sysfs-devices-virtual-misc-nitro_enclaves | 44 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves
 
-diff --git a/drivers/virt/nitro_enclaves/ne_misc_dev.c b/drivers/virt/nitro_enclaves/ne_misc_dev.c
-index eb0091de1182..9b28d1f828b6 100644
---- a/drivers/virt/nitro_enclaves/ne_misc_dev.c
-+++ b/drivers/virt/nitro_enclaves/ne_misc_dev.c
-@@ -28,6 +28,7 @@
- #include <linux/poll.h>
- #include <linux/range.h>
- #include <linux/slab.h>
-+#include <linux/sysfs.h>
- #include <linux/types.h>
- #include <uapi/linux/vm_sockets.h>
- 
-@@ -72,17 +73,6 @@ static const struct file_operations ne_fops = {
- 	.compat_ioctl	= compat_ptr_ioctl,
- };
- 
--static struct miscdevice ne_misc_dev = {
--	.minor	= MISC_DYNAMIC_MINOR,
--	.name	= "nitro_enclaves",
--	.fops	= &ne_fops,
--	.mode	= 0660,
--};
--
--struct ne_devs ne_devs = {
--	.ne_misc_dev	= &ne_misc_dev,
--};
--
- /*
-  * TODO: Update logic to create new sysfs entries instead of using
-  * a kernel parameter e.g. if multiple sysfs files needed.
-@@ -131,6 +121,17 @@ MODULE_PARM_DESC(ne_cpus, "<cpu-list> - CPU pool used for Nitro Enclaves");
-  *				because from then on they are offline and
-  *				cpu_to_node() is not documented to keep
-  *				answering for them.
-+ * @pool_cpus:			Every CPU thread in the pool, as parsed from
-+ *				ne_cpus. Empty if no pool is set up.
-+ * @claimed_cpus:		The subset of @pool_cpus that enclaves hold.
-+ *				A whole core enters when an enclave takes it
-+ *				and leaves when the enclave is released, in
-+ *				the same two places that move the core out of
-+ *				and back into @avail_threads_per_core.
-+ * @avail_cpus:			Scratch mask for the avail sysfs file:
-+ *				@pool_cpus without @claimed_cpus, computed
-+ *				and emitted under @mutex. It lives here so
-+ *				that the read has nothing to allocate.
-  */
- struct ne_cpu_pool {
- 	cpumask_var_t	*avail_threads_per_core;
-@@ -140,6 +141,9 @@ struct ne_cpu_pool {
- 	int		numa_node;
- 	int		first_nid;
- 	int		*core_nid;
-+	struct cpumask	pool_cpus;
-+	struct cpumask	claimed_cpus;
-+	struct cpumask	avail_cpus;
- };
- 
- static struct ne_cpu_pool ne_cpu_pool = {
-@@ -147,6 +151,101 @@ static struct ne_cpu_pool ne_cpu_pool = {
- 	.first_nid = NUMA_NO_NODE,
- };
- 
-+/*
-+ * cpu_pool/ sysfs group on the Nitro Enclaves misc device: report the CPU
-+ * pool mode and occupancy.
-+ *
-+ *   /sys/devices/virtual/misc/nitro_enclaves/cpu_pool/mode
-+ *   /sys/devices/virtual/misc/nitro_enclaves/cpu_pool/{total,used,avail}
-+ *
-+ * total, used and avail are CPU-list strings taken from the pool masks under
-+ * the pool mutex. used is claimed_cpus and avail is what is left of the pool
-+ * once claimed_cpus is taken out of it, so the two partition total whichever
-+ * order they are read in. The three CPU-list files emit from a mask the pool
-+ * already owns and mode emits a string constant, so none of the four show
-+ * handlers can fail.
-+ */
+diff --git a/Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves b/Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves
+new file mode 100644
+index 000000000000..20b978c62244
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves
+@@ -0,0 +1,44 @@
++What:		/sys/devices/virtual/misc/nitro_enclaves/cpu_pool/mode
++Date:		July 2026
++KernelVersion:	7.3
++Contact:	aws-nitro-enclaves-devel@amazon.com
++Description:
++		Read-only. Mode of the Nitro Enclaves CPU pool, one of:
 +
-+static ssize_t mode_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
-+{
-+	const char *mode;
++		  none     the pool is empty (ne_cpus is unset)
++		  static   ne_cpus is a CPU list; the listed CPUs are
++		           offlined and dedicated to the pool
 +
-+	mutex_lock(&ne_cpu_pool.mutex);
-+	mode = cpumask_empty(&ne_cpu_pool.pool_cpus) ? "none" : "static";
-+	mutex_unlock(&ne_cpu_pool.mutex);
++What:		/sys/devices/virtual/misc/nitro_enclaves/cpu_pool/total
++What:		/sys/devices/virtual/misc/nitro_enclaves/cpu_pool/used
++What:		/sys/devices/virtual/misc/nitro_enclaves/cpu_pool/avail
++Date:		July 2026
++KernelVersion:	7.3
++Contact:	aws-nitro-enclaves-devel@amazon.com
++Description:
++		Read-only. CPU-list strings describing the Nitro Enclaves CPU
++		pool: total is every CPU thread dedicated to the pool, used is
++		the threads held on behalf of enclaves, and avail is the
++		threads free for allocation. A thread leaves used when the
++		enclave holding it is released; if that release fails part way
++		through, the thread stays in used until the driver is unloaded
++		or the machine reboots. used and avail partition total at any
++		instant, and each read is a consistent snapshot, so a thread
++		that changes hands between two reads can be absent from both.
++		total changes only when the pool is reconfigured, which
++		requires that no enclave exists.
 +
-+	return sysfs_emit(buf, "%s\n", mode);
-+}
-+static DEVICE_ATTR_RO(mode);
++		These files report no error of their own. A read does take the
++		pool lock, so it can wait for a write to ne_cpus to finish.
 +
-+static ssize_t total_show(struct device *dev, struct device_attribute *attr,
-+			  char *buf)
-+{
-+	ssize_t ret;
++		By default, allocation for a new enclave targets the NUMA
++		node that owns the first core in total and does not spill to
++		another node. NE_SET_ALLOC_NUMA_NODE changes the target, and
++		its node-agnostic value lets one enclave take cores from
++		more than one node.
 +
-+	mutex_lock(&ne_cpu_pool.mutex);
-+	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&ne_cpu_pool.pool_cpus));
-+	mutex_unlock(&ne_cpu_pool.mutex);
-+
-+	return ret;
-+}
-+static DEVICE_ATTR_RO(total);
-+
-+static ssize_t used_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
-+{
-+	ssize_t ret;
-+
-+	mutex_lock(&ne_cpu_pool.mutex);
-+	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&ne_cpu_pool.claimed_cpus));
-+	mutex_unlock(&ne_cpu_pool.mutex);
-+
-+	return ret;
-+}
-+static DEVICE_ATTR_RO(used);
-+
-+static ssize_t avail_show(struct device *dev, struct device_attribute *attr,
-+			  char *buf)
-+{
-+	ssize_t ret;
-+
-+	mutex_lock(&ne_cpu_pool.mutex);
-+	cpumask_andnot(&ne_cpu_pool.avail_cpus, &ne_cpu_pool.pool_cpus,
-+		       &ne_cpu_pool.claimed_cpus);
-+	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&ne_cpu_pool.avail_cpus));
-+	mutex_unlock(&ne_cpu_pool.mutex);
-+
-+	return ret;
-+}
-+static DEVICE_ATTR_RO(avail);
-+
-+static struct attribute *ne_cpu_pool_attrs[] = {
-+	&dev_attr_mode.attr,
-+	&dev_attr_total.attr,
-+	&dev_attr_used.attr,
-+	&dev_attr_avail.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group ne_cpu_pool_group = {
-+	.name	= "cpu_pool",
-+	.attrs	= ne_cpu_pool_attrs,
-+};
-+__ATTRIBUTE_GROUPS(ne_cpu_pool);
-+
-+static struct miscdevice ne_misc_dev = {
-+	.minor	= MISC_DYNAMIC_MINOR,
-+	.name	= "nitro_enclaves",
-+	.fops	= &ne_fops,
-+	.mode	= 0660,
-+	.groups	= ne_cpu_pool_groups,
-+};
-+
-+struct ne_devs ne_devs = {
-+	.ne_misc_dev	= &ne_misc_dev,
-+};
-+
- /**
-  * struct ne_phys_contig_mem_regions - Contiguous physical memory regions.
-  * @num:	The number of regions that currently has.
-@@ -445,6 +544,8 @@ static int ne_setup_cpu_pool(const char *ne_cpu_list)
- 		}
- 	}
- 
-+	cpumask_copy(&ne_cpu_pool.pool_cpus, cpu_pool);
-+	cpumask_clear(&ne_cpu_pool.claimed_cpus);
- 	free_cpumask_var(cpu_pool);
- 
- 	ne_cpu_pool.numa_node = numa_node;
-@@ -462,6 +563,8 @@ static int ne_setup_cpu_pool(const char *ne_cpu_list)
- 	cpus_read_unlock();
- reset_pool:
- 	free_cpumask_var(cpu_pool);
-+	cpumask_clear(&ne_cpu_pool.pool_cpus);
-+	cpumask_clear(&ne_cpu_pool.claimed_cpus);
- 	ne_cpu_pool.nr_parent_vm_cores = 0;
- 	ne_cpu_pool.nr_threads_per_core = 0;
- 	ne_cpu_pool.numa_node = NUMA_NO_NODE;
-@@ -501,6 +604,8 @@ static void ne_teardown_cpu_pool(void)
- 		}
- 
- 	ne_free_core_slots();
-+	cpumask_clear(&ne_cpu_pool.pool_cpus);
-+	cpumask_clear(&ne_cpu_pool.claimed_cpus);
- 	ne_cpu_pool.nr_parent_vm_cores = 0;
- 	ne_cpu_pool.nr_threads_per_core = 0;
- 	ne_cpu_pool.numa_node = NUMA_NO_NODE;
-@@ -650,6 +755,9 @@ static int ne_set_enclave_threads_per_core(struct ne_enclave *ne_enclave,
- 	for_each_cpu(cpu, ne_cpu_pool.avail_threads_per_core[core_id])
- 		cpumask_set_cpu(cpu, ne_enclave->threads_per_core[core_id]);
- 
-+	cpumask_or(&ne_cpu_pool.claimed_cpus, &ne_cpu_pool.claimed_cpus,
-+		   ne_cpu_pool.avail_threads_per_core[core_id]);
-+
- 	cpumask_clear(ne_cpu_pool.avail_threads_per_core[core_id]);
- 
- 	return 0;
-@@ -1564,9 +1672,11 @@ static void ne_enclave_remove_all_vcpu_id_entries(struct ne_enclave *ne_enclave)
- 	mutex_lock(&ne_cpu_pool.mutex);
- 
- 	for (i = 0; i < ne_enclave->nr_parent_vm_cores; i++) {
--		for_each_cpu(cpu, ne_enclave->threads_per_core[i])
-+		for_each_cpu(cpu, ne_enclave->threads_per_core[i]) {
- 			/* Update the available NE CPU pool. */
- 			cpumask_set_cpu(cpu, ne_cpu_pool.avail_threads_per_core[i]);
-+			cpumask_clear_cpu(cpu, &ne_cpu_pool.claimed_cpus);
-+		}
- 
- 		free_cpumask_var(ne_enclave->threads_per_core[i]);
- 	}
++		Pool threads are offline, so the threads free on a given
++		node come from intersecting avail with the nodeN/cpuM
++		symlinks under /sys/devices/system/node, which outlive a CPU
++		going offline. nodeN/cpulist is filtered against
++		cpu_online_mask and lists none of them.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 716acfc3d7c1..e573764d9cc2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19184,6 +19184,7 @@ R:	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>
+ L:	linux-kernel@vger.kernel.org
+ S:	Supported
+ W:	https://aws.amazon.com/ec2/nitro/nitro-enclaves/
++F:	Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves
+ F:	Documentation/virt/ne_overview.rst
+ F:	drivers/virt/nitro_enclaves/
+ F:	include/linux/nitro_enclaves.h
 -- 
 2.47.1
 
