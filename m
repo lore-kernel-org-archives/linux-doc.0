@@ -1,69 +1,69 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7FC36A340
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 04:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636D228688C
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 04:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785384657; cv=none; b=ERFSeOsgrrdMqCRySEcT9p/wJhtiSFOBvNVXomaZjLSKWq8faMOLQXWlRkQQdIW7Zpp++X0tGqwtpbzfioyyfGVMORPGdUIq0BtQm7pSbMa0XfJqZt33x9GGktq5nMFD7tK3qDrcTlRWQZ/o6ukkUMo6+ZnFo+RtACSmxTJnjl8=
+	t=1785385606; cv=none; b=cJiFzYDnyXlZdV+F3WZ6LvnarTblwOtZxUKFT2Xxk6zeu7aRRmFsbjWulVHarE7qP8T41T2liPQlFolwzhNfIZM57tiPaZUQsUuwQ+vlcVUEApHw3ehh1UISDBGkWsa6L4kHrfHRC5+PGgN/WHpcu2EzUTK+RXTHAuN2JcS/0eA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785384657; c=relaxed/simple;
-	bh=o9LJiNvtIGBMr1fnVKFdWsEPNoJTtbW9SBfZdsvYUA0=;
+	s=arc-20240116; t=1785385606; c=relaxed/simple;
+	bh=TqdyjM/5GLN2EIbS4ZTkI2p/xSup96wYJXGxoia6qi8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tGzU1kHFxuo3WhhXk1/ITuIT69Om68ULrtlANBrceu3hDPS/bN5EelVmkCFwRT/wcbV8VFVyVkzOP2hFxH+ODN2kdl6lGLm9E4rN695N2711ULcd+FkfFaGEFM6B/lY8MXsvHbxi+9iOvN4zlJyHAGkH+m8g8+o3ASSo4U5lK9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aa+XaCWn; arc=none smtp.client-ip=209.85.210.174
+	 In-Reply-To:Content-Type; b=qRMVxoEbW1cGZkCUUcUFv3pPXvtzVW1sP+cpB1RDbX4kyxusBUD4i5Ylropn7RLO9MCYp5EuhZpAb4AJTEGsLPAmoZBo+fQ97IjdgIyXsNHdtZIW+6E8HU1Eo2ti56zj6cjanfVnO01ioqeefvPjqynLA9WCvtkH44S41t0FMVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tNi6Yi3W; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aa+XaCWn"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84e0688b859so1068163b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 21:10:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tNi6Yi3W"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84864086bfeso1736033b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 21:26:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785384655; x=1785989455; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785385604; x=1785990404; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZIvCK7aTACMGHSTTgsCMHaoyEBoVoGt7XWGYwDfL/nQ=;
-        b=aa+XaCWnvZgvJmAR4L8ZN0rfvjvYT1NkRuXi4Q9vmjIhqooe6sc+IwySbaTdXMBDvL
-         R/PHTLIfFSJivD+EmTBIlqj53Kv1zi304xbMHuctpWooLtvoZKMqJcyLjX2B+pO5UGUH
-         pAX2bb88JyoxMF4NGVc3XUxN9zt0wyAqarWosp1h8B+ETcaUUt5VbcydBTqhXnvMAjMm
-         wzg4Rb82xpbIZsI856dIEHJ2ZEv9+vVJrP9R9BhM7kSz96ODcdf045MGKm5Fq6G6qF83
-         HolGeFz2IusLTv6UelJfAPkCRezWFP41Ul9Fyxmot/Ootd+hX11CzyCbgSJfGSypJTmc
-         rikQ==
+        bh=SiQ1daJGHngzKWEQKXllXfEw1lyX6ubdIL7ID1shbk4=;
+        b=tNi6Yi3W1ghYQExSF+l78mW5gG69KD8QYLizk2z/xz26EUU2PRQpBixH+XeIDUPN2X
+         6lZE5dBx6nEu7DXdy/xdLpKrf96Vwqn41yBRULYZ0IrYXqnCRWIHVSW1V62IqAkA6cbo
+         qZAs/03j+gVCcZevKajtc8K6JwzFlKJacVS5Qjka57q5mGPoyYv2Sk4rR2CjpHBIZJMB
+         4AGimVvHvHDZ+61cGCTM7TIA/DNmAyiom7+Etzut8yY5jxioPzso0shX0GO1DVNnrYLj
+         Iwbx0rBuiQcvA8Eg6G2scPe3itNL6y0tR/WXTlvzf/V/xT6U65kHMrdg3fZ9tRZ1lP2I
+         A+/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785384655; x=1785989455;
+        d=1e100.net; s=20251104; t=1785385604; x=1785990404;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=ZIvCK7aTACMGHSTTgsCMHaoyEBoVoGt7XWGYwDfL/nQ=;
-        b=mYjYsN682kDnIRgegXYuEu+2KgVEOKYBWx8q0Mhu1aZNm6YddCN1Mmwt1nXCcJwq81
-         4i8+1Sz8dmLS3919KwsijfkkOfTOm64qntGJzUmBWLrBe8X/ygr5sjRB/S2faLcT/aCn
-         ayJFTUw/VxZZj4Qt/KkHxLyMPFr4tHjEfp5qeyWLlsPnKKU/xlZNyywqGwRElSIYdYmt
-         4s5B2f006NDHv5+yAJCu64rNESJhSrPofpKzWn0kyRXFZdJd8q7k62T4NZKkOgRfsFLz
-         7zvvsF9ZzhyUkL9RJwsHz5yA86+s3PTT1WmAJXxuziMGGlIjXuoErJQENhmThDczGp1o
-         ujdQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoG+NqQfHCPXScyz1I3HSg9xYQUDmrFqlLsnCAExVvdHlkReA63XLJwTYiO4DlOqDorr1Vf06Wr7KE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxjf3xNpvhAH56lNljReRtL5CfZKTFphnde+L8UNc7GQ5Mw6LJw
-	uyzdV4RLXP87gPbMxAjDUP+XyznPtV3BnSOeHPC3VOMyMtbybEFqWZHt
-X-Gm-Gg: AR+sD12Fllj0DLClMDJlOYX4Bot3JTIs7oG38b/Nsb1aGVbDDVxFogJWnbu3W+AfGY/
-	g6HWJn6IlDmm/pXHUXVjYRsMC9kYCzqs2M6nAVMGpgKcYHkux4nhtGuDzjQSCqoYexpNRL4jaKn
-	H6T9pkiMhTgie6kyW+t6lc3UnXaenmVOW8IJlbJ5zzZY1UbTM19h/X/PXqCavO91eL70OcFngAD
-	gjXZcrCgVns5qnsotKAb+Avt1/QXyIZLU0o+rnUtf2SP9BI6nT12roLVrVhsO1WcEAn3d/7LYkt
-	9njcEQVxo75W8jJ3zbNax3LhugkqTZIED4gcXKZ7seDW6+ByxIUvei7nNUjsi4QXDWfmfbto/ub
-	dtHesz17kwIboRo1xO48uciHpPl2fJDSWsutcIA7wFnuTv4X6qI8FJvTh8BjJE2j/JWIFj1nynl
-	2kNizb0LGzvlC8+RbVd2Xd5PlrCLaNFMNR6TfHpaPH1chEBbMbFoLGVA8AtzgQQwsmFE3O9pqCr
-	NAxjWb8SIX4wMDJVSXEIyUpIh/GsSQWviQ5QRY=
-X-Received: by 2002:a05:6a00:1791:b0:848:827b:70f8 with SMTP id d2e1a72fcca58-84ebc408bc0mr1070919b3a.67.1785384654972;
-        Wed, 29 Jul 2026 21:10:54 -0700 (PDT)
+        bh=SiQ1daJGHngzKWEQKXllXfEw1lyX6ubdIL7ID1shbk4=;
+        b=etAy3g8Y6UoLekh36h/diyCzc5PbBfjOHjIcwhPc/cNP7z0TUccYWV3LkC6btmE8WU
+         cPF2uxvYncB5xGb+7WokM0jobX3zkgWzRpFf2a0QLEMeYnSAVQv3Pij7mqtDduWj9Rk0
+         b8ebSvBc2WOPTrynpgysSFOmeQQGctUyFyP71hqGh75ArE9nk4c84xWy5hYq6G09I/lx
+         IlBcDYFPQk8ClA67uWnC5gwcmS4VSFQZMIXxFQ6M8rAnzczGWRQbapJRyICjt3olWaSX
+         iRosWhK2o3W90JRxfVtrUy445avte7w8RDaLk0uhpQQpU1JhOtaMC0CHD1InZFiIBG4/
+         eEcg==
+X-Forwarded-Encrypted: i=1; AHgh+RqRHX79LXB18M/Re7vaDym0Do0fbsN5Z122TyMET07cUhl7fieWSncI/4CmqUNVNgJrRWEW+0b3BJ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLbhKCTNSr9cLezFRDcsp2PBIqN8Mw663ny9b8aMJ2NCC8Gy/h
+	uW6EBlad7A3TNxLIUwewtZpbcWxGBpslQiWlAeBMCUUghzKk6Aj2dADr
+X-Gm-Gg: AR+sD11tIN/tublh0XaAfa7LI3srOHcAng2UM0PJuLkDKdxMesNBW/yOYBhfPH4H+Vm
+	3IZyOUKPLDQkLLyc4IXgeenlU7gorZI/GRR9RQziRTkrqIfCjh0IswM4owHLYni+hqJTqjY1v65
+	EOtUC5NOWj3Hzr0WQmXeiYPobHQn6Sg8BKAYzfMmPXEddFM7Wr+/Zvs9UxuASVFt7cnRhXWNMZq
+	1zFc7Cv9GD4JAmdRAjTwpJZpHmO1i67zcJz1CFOfMCcfUhFV8qfs2qpiGSZatk9CqUUnqDtGL5Z
+	k3inotx955JSvTORCqrmvESt7KpN5rnjGTJg86u/nReEIP5j4lssOfyud53oQMX1Bi0YGWgv8c/
+	soOrK3RnbqYZgECrQtaRe0ksMtBJUPXMGtPEHI0vTaaUqBjq0C87XxDMpYeyLX5iduyep2KJ9Ud
+	R8zmLINkvpYA9SAJjjURDek35rqBLalOrE444vw9m7RSIpT8+I/j17tBeLLpswtSytjbi0x+MLD
+	GC6NVFg98K1WPpZ+4VjWeEF66Y0sfQt9fffUQ==
+X-Received: by 2002:a05:6a00:21c8:b0:848:2c6c:dfe3 with SMTP id d2e1a72fcca58-84ebc22ff1amr1152781b3a.17.1785385603717;
+        Wed, 29 Jul 2026 21:26:43 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbdba3520ccsm1673604a12.19.2026.07.29.21.10.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea02fa4d4sm2244187b3a.38.2026.07.29.21.26.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 21:10:54 -0700 (PDT)
+        Wed, 29 Jul 2026 21:26:43 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <44db442e-95c8-47f0-92b6-81279710ff33@roeck-us.net>
-Date: Wed, 29 Jul 2026 21:10:52 -0700
+Message-ID: <6c663220-c4f2-47bc-8dd7-83cfaaf079da@roeck-us.net>
+Date: Wed, 29 Jul 2026 21:26:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/4] dt-bindings: hwmon: pmbus: add MPS MPQ8646
+Subject: Re: [PATCH v6 4/4] hwmon: pmbus: mpq8646: gate the writes
 To: vjardin@free.fr, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -80,7 +80,7 @@ Cc: Markus Elfring <Markus.Elfring@web.de>, linux-hwmon@vger.kernel.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-doc@vger.kernel.org
 References: <20260729-mpq8646_v0-v6-0-98848151cdb4@free.fr>
- <20260729-mpq8646_v0-v6-2-98848151cdb4@free.fr>
+ <20260729-mpq8646_v0-v6-4-98848151cdb4@free.fr>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -126,52 +126,215 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260729-mpq8646_v0-v6-2-98848151cdb4@free.fr>
+In-Reply-To: <20260729-mpq8646_v0-v6-4-98848151cdb4@free.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 7/29/26 14:51, Vincent Jardin via B4 Relay wrote:
 > From: Vincent Jardin <vjardin@free.fr>
 > 
-> The MPS MPQ8646 PMBus step-down converter uses the same
-> mps,vout-fb-divider-ratio-permille property with the same constraints
-> (maximum 2047, default 706) as the mps,mpq8785, so add its compatible
-> to the existing schema.
+> The write cases of debugfs entries are provisioning and bench
+> helpers. By designs the MPQ8646 powers the CPU cores rail,
+> so a wrong write can brown out the board or persist a bad
+> setpoint into finite-cycle NVM.
 > 
-
-The driver is a separate driver, making this a bit unusual.
-I'll leave it up to the devicetree maintainers to decide if
-this should be a new bindings file or not.
-
-Guenter
-
 > Signed-off-by: Vincent Jardin <vjardin@free.fr>
 > ---
->   Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+>   Documentation/hwmon/mpq8646.rst |  37 ++++++
+>   drivers/hwmon/pmbus/Kconfig     |  17 +++
+>   drivers/hwmon/pmbus/mpq8646.c   | 269 ++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 323 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
-> index 90970a0433e9..d7a32fb3b7af 100644
-> --- a/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
-> @@ -18,6 +18,7 @@ properties:
->         - mps,mpm3695
->         - mps,mpm3695-25
->         - mps,mpm82504
-> +      - mps,mpq8646
->         - mps,mpq8785
+> diff --git a/Documentation/hwmon/mpq8646.rst b/Documentation/hwmon/mpq8646.rst
+> index d3ede656ea15..6207cfd89f7f 100644
+> --- a/Documentation/hwmon/mpq8646.rst
+> +++ b/Documentation/hwmon/mpq8646.rst
+> @@ -246,6 +246,43 @@ The only writable entry is ``alarm_poll_interval_ms`` (the alarm-poll
+>   worker cadence, see above), it is driver-local and never touches the
+>   chip.
 >   
->     reg:
-> @@ -52,7 +53,9 @@ allOf:
->     - if:
->         properties:
->           compatible:
-> -          const: mps,mpq8785
-> +          enum:
-> +            - mps,mpq8646
-> +            - mps,mpq8785
->       then:
->         properties:
->           mps,vout-fb-divider-ratio-permille:
-> 
+> +Unsafe provisioning
+> +-------------------
+> +
+> +Available only when ``CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE=y``
+> +(``default n``, it is for boards bring up only). They WRITE to the regulator.
+> +On many designs the MPQ8646 powers the main CPU core rail, so a wrong write can
+> +brown out the board or persist a bad setpoint into finite-cycle NVM. The first
+> +gated write logs a one-shot warning.
+> +
+
+This and the explanation in Kconfig need to be much stronger,
+along the line of
+
+"WARNING: Wrong register writes can and likely will physically damage
+or destroy the chip and/or the board".
+
+> +===============================  ===============  =========================================================
+> +File                             PMBus / MFR cmd  Description
+> +===============================  ===============  =========================================================
+> +``store_all``                    0x15             STORE_USER_ALL Send-Byte (commit RAM config to NVM)
+> +``restore_all``                  0x16             RESTORE_USER_ALL Send-Byte (revert RAM to last-NVM image)
+> +``clear_protection_last``        0x08             CLEAR_LAST_FAULT Send-Byte
+> +``clear_protection_last_force``  --               gated CLEAR_LAST_FAULT, see below
+> +``on_off_config``                0x02 (byte)      PMBus vs CTRL-pin on/off source + active polarity
+> +``vout_margin_high``             0x25 (word)      margin-high VOUT setpoint
+> +``vout_margin_low``              0x26 (word)      margin-low VOUT setpoint
+> +``mfr_pmbus_lock``               0xEE (word)      programmable PMBus write-lock
+> +``mfr_product_rev_user``         0xC2 (word)      user-programmable product revision
+> +===============================  ===============  =========================================================
+> +
+> +``clear_protection_last`` writes ``CLEAR_LAST_FAULT`` (0x08) Send-Byte.
+> +The chip silently no-ops unless ``MFR_CFG_EXT`` (0xF5) bit[6] is set.
+> +
+> +``clear_protection_last_force`` performs the unlock with the following
+> +six-step dancing:
+> +
+> +1. read ``WRITE_PROTECT`` (0x10) and ``MFR_CFG_EXT`` (0xF5) for restore
+> +2. clear ``WRITE_PROTECT`` if set
+> +3. set ``MFR_CFG_EXT`` bit[6] = 1, preserving other bits
+> +4. send ``CLEAR_LAST_FAULT`` (0x08)
+> +5. restore ``MFR_CFG_EXT`` (with retry to handle the chip's
+> +   undocumented post-NVM-write busy window)
+> +6. restore ``WRITE_PROTECT``
+> +
+>   Devicetree
+>   ----------
+>   
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 9f44e76b0b64..9c6d3de61a75 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -627,6 +627,23 @@ config SENSORS_MPQ8646
+>   	  This driver can also be built as a module. If so, the module
+>   	  will be called mpq8646.
+>   
+> +config SENSORS_MPQ8646_DEBUG_UNSAFE
+> +	bool "MPQ8646 unsafe write/provisioning debugfs (DANGEROUS)"
+> +	depends on SENSORS_MPQ8646 && DEBUG_FS
+> +	default n
+> +	help
+> +	  Expose additional WRITE-able debugfs files in the client's
+> +	  pmbus debugfs directory,
+> +	  /sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/
+> +
+> +	  These are provisioning and bring-up aids. On many designs the
+> +	  MPQ8646 powers the SoC core rail, so a wrong write can brown out
+> +	  or permanently mis-provision the board.
+> +
+> +	  It shall never be set in a production, shipping, or default configuration.
+> +
+> +	  If unsure, say N.
+> +
+>   config SENSORS_PIM4328
+>   	tristate "Flex PIM4328 and compatibles"
+>   	help
+> diff --git a/drivers/hwmon/pmbus/mpq8646.c b/drivers/hwmon/pmbus/mpq8646.c
+> index 1fd41d89e5be..0034cf591934 100644
+> --- a/drivers/hwmon/pmbus/mpq8646.c
+> +++ b/drivers/hwmon/pmbus/mpq8646.c
+> @@ -7,6 +7,7 @@
+>   
+>   #include <linux/bitops.h>
+>   #include <linux/debugfs.h>
+> +#include <linux/delay.h>
+>   #include <linux/i2c.h>
+>   #include <linux/module.h>
+>   #include <linux/mutex.h>
+> @@ -23,8 +24,18 @@
+>   #define MPQ8646_ALARM_POLL_MS_DEFAULT	1000
+>   
+>   /* MPS vendor-extended command codes (NOT in PMBus 1.3 Part II) */
+> +#define MPS_CLEAR_LAST_FAULT		0x08
+> +#define MPS_MFR_CFG_EXT			0xF5
+> +#define MPS_MFR_CFG_EXT_CLR_LAST_EN	BIT(6)
+>   #define MPS_PROTECTION_LAST		0xFB
+>   
+> +/*
+> + * PMBus 1.3 NVM commit / revert commands. MPS equivalent of
+> + * STORE_ALL (15h) and RESTORE_ALL (16h).
+> + */
+> +#define PMBUS_STORE_USER_ALL		0x15
+> +#define PMBUS_RESTORE_USER_ALL		0x16
+> +
+>   /* PMBus 1.3 timing / UVLO command codes */
+>   #define PMBUS_VIN_ON			0x35
+>   #define PMBUS_VIN_OFF			0x36
+> @@ -36,10 +47,32 @@
+>   /* MPS vendor-extended observability / identity registers */
+>   #define MPS_MFR_CONFIG_ID		0xC0
+>   #define MPS_MFR_CONFIG_CODE_REV		0xC1
+> +#define MPS_MFR_PRODUCT_REV_USER	0xC2
+>   #define MPS_MFR_SILICON_REV		0xC3
+>   #define MPS_MFR_RETRY_TIMES		0xF4
+>   #define MPS_MFR_VBOOT_CFG		0xFC
+>   
+> +/*
+> + * MPS_MFR_PMBUS_LOCK (EEh): 16-bit WORD whose low two bits gate
+> + * subsequent PMBus writes
+> + *   bits[1:0] = 00  -- unlocked (POR default)
+> + *               01  -- lock all writes EXCEPT VOUT_COMMAND (0x21)
+> + *                      so the operator can still DVFS the rail
+> + *               11  -- lock all writes
+> + * A negative-going PG edge resets these bits to 00, the lock
+> + * is operationally reversible without a full chip POR.
+> + */
+> +#define MPS_MFR_PMBUS_LOCK		0xEE
+> +
+> +/*
+> + * Retry parameters for the MFR_CFG_EXT gate-close write after
+> + * CLEAR_LAST_FAULT. Bench-observed NVM-busy NACK window on this
+> + * silicon is about 1 ms; the datasheet does not have information.
+> + */
+> +#define MPQ8646_NVM_RETRY_MAX		5
+> +#define MPQ8646_NVM_RETRY_DELAY_US_MIN	2000
+> +#define MPQ8646_NVM_RETRY_DELAY_US_MAX	4000
+> +
+>   #define MPQ8646_DEBUG(client, fmt, ...) \
+>   	dev_dbg(&(client)->dev, fmt, ##__VA_ARGS__)
+>   
+> @@ -498,6 +531,240 @@ static int mpq8646_dbg_reg_show(struct seq_file *s, void *unused)
+>   }
+>   DEFINE_SHOW_ATTRIBUTE(mpq8646_dbg_reg);
+>   
+> +#ifdef CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE
+> +/*
+> + * Write/provisioning data, disabled by default: NVM commit and
+> + * revert, the CLEAR_LAST_FAULT sequences and a small set of named
+> + * writable registers.
+> + */
+> +
+> +static void mpq8646_unsafe_warn_once(struct mpq8646_priv *priv)
+> +{
+> +	dev_warn_once(&priv->client->dev,
+> +		      "UNSAFE debugfs write to core-rail regulator; board integrity not guaranteed (CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE)\n");
+
+This is also not strong enough. You insist adding this functionality to the driver.
+Please inform the user that they are about to shoot themselves into the foot.
+This is much worse than "board integrity not guaranteed".
+
+CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE in the message is pretty pointless.
+
+Also, the message should be shown when the driver is loaded, as multi-line
+message, similar to the unhashed kernel memory address warning.
+
+**********************************************************
+**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
+**                                                      **
+** This system shows unhashed kernel memory addresses   **
+** via the console, logs, and other interfaces. This    **
+** might reduce the security of your system.            **
+**                                                      **
+** If you see this message and you are not debugging    **
+** the kernel, report this immediately to your system   **
+** administrator!                                       **
+**                                                      **
+**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
+**********************************************************
+
+only as WARNING not as NOTICE.
+
+I'll leave it up to you to find an appropriate and strong enough message.
+
+Thanks,
+Guenter
 
