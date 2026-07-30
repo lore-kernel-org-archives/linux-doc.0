@@ -1,218 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A433E765A;
-	Thu, 30 Jul 2026 09:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from ultrarisc.com (unknown [218.76.62.146])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1BB73EF0BE;
+	Thu, 30 Jul 2026 09:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.76.62.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785404471; cv=none; b=ruINn8ZhDP66WjUB5PHn975WDlwvY9ZDHABE17drliULEQcutBwHReOei9gVhnK53p30sYavsHqIDKg7XzXiaql9Nk7YUkzx+T9G2OJTVX0xTIfd54su+kEnVv/5TWEcBwyqOT8mVVhX/YnkSRepPRq9I5sQQeS/ccuOafCYZfw=
+	t=1785404676; cv=none; b=QhjWdOf7RgBReBwQJRRafC7uiE7XzLujqf0tJn4Cyuc0kEuWpfsf2gKHgxniV6rHapa7na2cOJfXeMymmqwhz73nrrI8MYsR4ZX3uDItUpKSY7UN9eCRuOgJFQH+bdChVvwGGVBHX8Lv/R5baFR4aDJJj9OfSAtIohDnY03iKDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785404471; c=relaxed/simple;
-	bh=EfHBcbb1OIgrrK1ouHGHYWE/faqmsEd8X5yc66vuH1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVnonZ+sh93XCY8eWJTphxqxTihH2+IMfOHuJIJ5gS/ulNMxAKaG2d3GzFSB+RdgcovkM57N2MbBLnDRE5t/JUZerfFEeDroIU3S+KuKOx+RF+DyDiXUljHqchhijaTiUjneFw4tb48SmgshDyWqn6Kf7VlXXRl5PIU3T1sjjq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=owEBCDFF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785404676; c=relaxed/simple;
+	bh=C7yofXO2J/rULu7OtPzRafVgHyd8xIBKcu0P6asnFNY=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=OIXe0DIY0hBuGM8CFbQM2ndGjUuRkLMnxz5HTPyZI/Nu5VP1QEaMxmvDBlIaVryR7Fw5qRY3X2k5eHBga5mLwQ9x2EJdJRB/BmnShXaZ4IN3ODLsQpbEBC6/G41TDVCrlAPE6rDS0V73zmnFlYimomDEk8YvPN/iPmvbMccEzhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com; spf=none smtp.mailfrom=ultrarisc.com; dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b=LIqC3AOX; arc=none smtp.client-ip=218.76.62.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ultrarisc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="owEBCDFF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7A81F000E9;
-	Thu, 30 Jul 2026 09:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785404469;
-	bh=bXRSOEW7KmTLEA5e4w9VE7SIvHIV48lOKraAwCykp7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=owEBCDFFYm/5ZGKYj3PLpfK+W4y/oqab8Ho92pybkve7clPInVhDZYpnfoTE2ZI9w
-	 ZJcdk9WK/XuZ4xo1fAia9i8pCuoK5NIMjj7Vt4X7ThgaEv5SrTuO6SrBPoo/mZO3xw
-	 sy9fYDPX7qedxRttlYHJ9q0EDjpfGK0xUZ19gOGeiVIeu2TwwfErbWKZ87/2sU1/lE
-	 8RhFDnjjaTmufFd6794B6PbR6kfVxcM09RXHKo/NfZeAM0Ln535IdVwrtGHY9beqLj
-	 rPhVwl45M11nidWsdiefFhPWPdjhNcYtx8CQ6IEgv2yzE3EXffemnjENxT1rx2DHHr
-	 ebSEugnxHDQuQ==
-Date: Thu, 30 Jul 2026 10:40:50 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Pratyush Mallick <pratmal@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	akpm@linux-foundation.org, vbabka@kernel.org, sj@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, anshuman.khandual@arm.com, gthelen@google.com, surenb@google.com, 
-	mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
-	liam@infradead.org, rppt@kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] mm/page_reporting: Add page_reporting_delay_ms module
- parameter
-Message-ID: <amsYVFfJmOs-Hy90@lucifer>
-References: <20260727230545.262579-1-pratmal@google.com>
- <amiN82J8p5z9l_Rm@lucifer>
- <91b61f02-c533-41b9-b680-7de52a5c6918@kernel.org>
- <CALHaPKeOs25YNRg60+NxfS3E5RYLt5hJqFNX02ZCEBrjcDua0Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b="LIqC3AOX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ultrarisc.com; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id; bh=LyD5PuOBdvlgYVGtkm/lxT3DCNBq3bGWNmErnmZXph8=; b=L
+	IqC3AOXzQE7LPNg1l4iAjD9HngJZZsHGsBRneFerYmoqcL6c2JRT0waUyMUltgJP
+	8zJFERFCC+CRmXwY2hOtR1W4RLlFwaQSp2cym8HJ3Sv6PhoxvJz/BtYx/t+6d5h8
+	GdQIddIQ+YbTJzxoTdqjWujZOnbmqGqAFa/eSMdr8M=
+Received: from localhost.localdomain (unknown [192.168.100.1])
+	by localhost.localdomain (Coremail) with SMTP id AQAAfwDXEEIDHWtqVMwVAA--.18021S2;
+	Thu, 30 Jul 2026 17:44:42 +0800 (CST)
+From: Xie Bo <xb@ultrarisc.com>
+To: Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	linux-riscv@lists.infradead.org
+Cc: Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xie Bo <xb@ultrarisc.com>
+Subject: [PATCH] riscv: Add native this_cpu_cmpxchg() support
+Date: Thu, 30 Jul 2026 17:44:07 +0800
+Message-Id: <20260730094407.16588-1-xb@ultrarisc.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:AQAAfwDXEEIDHWtqVMwVAA--.18021S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF1DCw13uFWkuryUXry5urg_yoW5KFy8pa
+	909rn5trZxZFn7t3y3tFykXr15X3ykWr4xCr18uFy8JFsrJFyDXrnIyF1kZFykua92va40
+	gF9Y9ryjkw1UAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9G14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
+	WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMx
+	C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
+	wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
+	vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v2
+	0xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxV
+	W8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU13ku3UUUUU==
+X-CM-SenderInfo: l0e63zxwud2x1vfou0bp/1tbiAQATB2pkMtIAAQAisY
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALHaPKeOs25YNRg60+NxfS3E5RYLt5hJqFNX02ZCEBrjcDua0Q@mail.gmail.com>
 
-On Tue, Jul 28, 2026 at 01:31:10PM -0700, Pratyush Mallick wrote:
-> On Tue, Jul 28, 2026 at 11:55 AM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
-> >
-> > On 7/28/26 13:13, Lorenzo Stoakes (ARM) wrote:
-> > > On Mon, Jul 27, 2026 at 11:05:45PM +0000, pratmal@google.com wrote:
-> > >> From: Pratyush Mallick <pratmal@google.com>
-> > >>
-> > >> Currently, the free page reporting uses a hardcoded delay of
-> > >> (2 HZ) between reporting intervals. While this is a reasonable
-> > >> default, it lacks the flexibility to adapt to varying guest workloads.
-> > >>
-> > >> A low delay allows aggressive memory reclamation, returning unused
-> > >> pages to the host as quickly as possible. However, during spiky
-> > >> allocation/free churn, this immediate reporting can lead to a severe
-> > >> performance penalty (nested page faults) as the guest re-allocates memory
-> > >> that the host has just unmapped. In these scenarios, there is benefit
-> > >> from increasing the delay to batch free pages over a longer window,
-> > >> absorbing the churn without hypercall and re-fault overhead.
-> > >
-> > > Since you're talking about increasing it, maybe set the floor at the current
-> > > value of 2s?
->
-> We benefit equally by setting the value to zero as well. This would immediately
-> report the pages being freed back to the host without any delay. This helps when
-> the host is under pressure, as any immediate memory release would help it.
+RISC-V falls back to the generic this_cpu_cmpxchg() implementation,
+which serializes the operation by disabling local interrupts.
+Consequently, HAVE_CMPXCHG_LOCAL is unset and users such as
+percpu_counter cannot use their cmpxchg-based fast paths.
 
-OK page_reporting_order makes this better.
+Implement the 4-byte this_cpu_cmpxchg() operation with cmpxchg_local(),
+and provide the 8-byte operation on RV64. Pin execution while resolving
+the current CPU pointer so the LR/SC loop operates on one per-CPU
+instance, while allowing interrupt-context updates to race through the
+atomic operation.
 
->
-> > >>
-> > >> This patch exposes the delay as a module parameter:
-> > >> /sys/module/page_reporting/parameters/page_reporting_delay_ms, measured
-> > >> in milliseconds and defaults to 2000ms.
-> > >
-> > > I'm not sure this is great as it means we now have a parameter we have to
-> > > support forever and autotuning becomes harder to implement, also if later the
-> > > implementation is changed, this might prevent a reimplementation.
-> >
-> > While I'd prefer to keep the implementation as simple as possible unless really
-> > required, I guess auto-tune could be enabled by setting the parameter to e.g.,
-> > -1 in the future.
+Copy the old and new values to private temporaries before invoking
+cmpxchg_local(). This avoids collisions between local variable names in
+nested statement-expression macros.
 
-We'd have to retain the customisable delay forever either way.
+The 1- and 2-byte operations continue to use the generic fallback.
 
-But I guess maybe in this case it's not such a big deal.
+Select HAVE_CMPXCHG_LOCAL and update the architecture feature matrix.
 
->
-> The case we're trying to solve involves tuning free page reporting based on host
-> memory pressure. I think the host is the primary beneficiary of free page
-> reporting, so if we wanted to dynamically autotune this delay, we would need
-> some mechanism from the host to enlighten the guest about its current memory
-> pressure and the autotuner would build its heuristics around it.
-> As far as I understand, no such mechanism currently exists. While
-> we do have ballooning, it requires the guest to actively allocate memory under
-> pressure, which makes it a comparatively slower mechanism and wouldn't help
-> much for simply adjusting the reporting rate of already free pages.
+A percpu_counter_add() benchmark using the default batch value reduced
+the median time per operation by 77.3% (10 runs of 5,000,000
+operations).
 
-You're explicitly needing to do this under certain circumstances.
+In three 60-second stress-ng fork runs, median throughput increased by
+4.6%. A 120-second combined fork and VM stress test completed without
+rss-counter errors or validation failures.
 
->
-> > >>      /*
-> > >> -     * Delay the start of work to allow a sizable queue to build. For
-> > >> -     * now we are limiting this to running no more than once every
-> > >> -     * couple of seconds.
-> > >> +     * Delay the start of work to allow a sizable queue to build.
-> > >> +     * We limit this based on page_reporting_delay_ms.
-> > >>       */
-> > >> -    schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
-> > >> +    schedule_delayed_work(&prdev->work,
-> > >> +                          msecs_to_jiffies(page_reporting_delay_ms));
-> > >
-> > > Err, do we not want to limit this to something sensible? What if the user
-> > > specifies 0 does it just hammer the system at that stage?
-> >
-> > IIUC, 0 just means "as soon there is a suitable free page block to report, start
-> > reporting immediately".
+Signed-off-by: Xie Bo <xb@ultrarisc.com>
+---
+ .../locking/cmpxchg-local/arch-support.txt    |  2 +-
+ arch/riscv/Kconfig                            |  1 +
+ arch/riscv/include/asm/percpu.h               | 31 +++++++++++++++++++
+ 3 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 arch/riscv/include/asm/percpu.h
 
-There's comments like "We will defer by page_reporting_delay_ms to allow more
-pages to accumulate." etc.
+diff --git a/Documentation/features/locking/cmpxchg-local/arch-support.txt b/Documentation/features/locking/cmpxchg-local/arch-support.txt
+index 2c3a4b9..28d5fa8 100644
+--- a/Documentation/features/locking/cmpxchg-local/arch-support.txt
++++ b/Documentation/features/locking/cmpxchg-local/arch-support.txt
+@@ -20,7 +20,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index f7028ca..62e5794 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -153,6 +153,7 @@ config RISCV
+ 	select HAVE_ARCH_VMAP_STACK if MMU && 64BIT
+ 	select HAVE_ASM_MODVERSIONS
+ 	select HAVE_BUILDTIME_MCOUNT_SORT
++	select HAVE_CMPXCHG_LOCAL
+ 	select HAVE_CONTEXT_TRACKING_USER
+ 	select HAVE_DEBUG_KMEMLEAK
+ 	select HAVE_DMA_CONTIGUOUS if MMU
+diff --git a/arch/riscv/include/asm/percpu.h b/arch/riscv/include/asm/percpu.h
+new file mode 100644
+index 0000000..d389bb1
+--- /dev/null
++++ b/arch/riscv/include/asm/percpu.h
+@@ -0,0 +1,31 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _ASM_RISCV_PERCPU_H
++#define _ASM_RISCV_PERCPU_H
++
++#include <linux/preempt.h>
++
++#include <asm/cmpxchg.h>
++
++#define _protect_cmpxchg_local(pcp, o, n)				\
++({									\
++	typeof(pcp) *__ptr;						\
++	typeof(pcp) __pcpu_old = (o);					\
++	typeof(pcp) __pcpu_new = (n);					\
++	typeof(*raw_cpu_ptr(&(pcp))) __ret;				\
++	preempt_disable_notrace();					\
++	__ptr = raw_cpu_ptr(&(pcp));					\
++	__ret = cmpxchg_local(__ptr, __pcpu_old, __pcpu_new);		\
++	preempt_enable_notrace();					\
++	__ret;								\
++})
++
++#define this_cpu_cmpxchg_4(pcp, o, n)	_protect_cmpxchg_local(pcp, o, n)
++
++#ifdef CONFIG_64BIT
++#define this_cpu_cmpxchg_8(pcp, o, n)	_protect_cmpxchg_local(pcp, o, n)
++#define this_cpu_cmpxchg64(pcp, o, n)	this_cpu_cmpxchg_8(pcp, o, n)
++#endif
++
++#include <asm-generic/percpu.h>
++
++#endif /* _ASM_RISCV_PERCPU_H */
+-- 
+2.17.1
 
-Maybe worth tweaking that?
-
-But with page_reporting_order == 9 (or 5 see below) then fine I guess.
-
-If somebody asks for something stupid by setting it higher they'd already
-accumulate latencies, just now with a 0 timer it could be really crazy :) but I
-suppose they are asking for it.
-
-> >
-> > With 2s, we wait 2s before we start reporting immediately by kicking the
-> > workqueue immediately.
-> >
-> > So "0" does not mean "report all the time", rather "start reporting immediately
-> > as we are notified about a pageblock to report".
-
-No, it's whenever pageblock_order is specified, defaulting to a pageblock.
-
-But I guess in practice fine.
-
-There's fun like this in virtio_balloon.c btw:
-
-		/*
-		 * The default page reporting order is @pageblock_order, which
-		 * corresponds to 512MB in size on ARM64 when 64KB base page
-		 * size is used. The page reporting won't be triggered if the
-		 * freeing page can't come up with a free area like that huge.
-		 * So we specify the page reporting order to 5, corresponding
-		 * to 2MB. It helps to avoid THP splitting if 4KB base page
-		 * size is used by host.
-		 *
-		 * Ideally, the page reporting order is selected based on the
-		 * host's base page size. However, it needs more work to report
-		 * that value. The hard-coded order would be fine currently.
-		 */
-#if defined(CONFIG_ARM64) && defined(CONFIG_ARM64_64K_PAGES)
-		vb->pr_dev_info.order = 5;
-#endif
-
->
-> Right. Setting the delay to 0 does not hammer the system. The execution
-> is constrained by two checks:
-> 1. The worker is only scheduled when high-order pages (default is >= 2MB) are
-> freed. This makes scheduling relatively infrequent compared to normal 4K
-> page allocations.
-
-It's that only by default and could be overridden (and is for arm64 64 KiB page
-tables but probably also fine there)
-
-But probably fine.
-
-> 2. Even when the worker wakes up, the actual expensive operations, such
-> as page isolation, acquiring locks, and hypercalls to report pages, are
-> guarded by the watermark check in page_reporting_process_zone(). We only
-> proceed with reporting if the zone has enough free pages to fill the
-> capacity batches (32 slots by default). If the watermark is not met,
-> the worker simply
-> exits and returns to the IDLE state without issuing any hypercalls.
-
-OK that makes it better.
-
-Can you make these points in the commit msg on respin then?
-
->
-> > >>       state = atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDLE);
-> > >>       if (state == PAGE_REPORTING_REQUESTED)
-> > >> -             schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
-> > >> +             schedule_delayed_work(&prdev->work,
-> > >> +                                   msecs_to_jiffies(page_reporting_delay_ms));
-> > >
-> > > This code is duplicated, while you've making this change maybe pull this into
-> > > its own function?
-> > >
->
-> Thanks. I can create a new function for this and send a V4.
-
-Thanks
-
->
-> Regards,
-> Pratyush
-
-Cheers, Lorenzo
