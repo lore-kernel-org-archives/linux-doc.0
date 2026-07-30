@@ -1,237 +1,107 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013036.outbound.protection.outlook.com [40.107.159.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7D7379C38;
-	Thu, 30 Jul 2026 02:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785377827; cv=fail; b=AasmX8VCgzp9d8QIMYSBQbfK9rSCLqZyKYQt8fg+Yxaq7i5jOVgWYthgamC+YV77w2K9BoGCWD1rjpBbbiSkIQIinmXLnUoKZr5AahiPXTka2vwXF60LH4D/1rL6Zv5nd7XgAs+wJCU1fN/njUdGccfmSNSgIdY5Xo0N7fm2qVc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785377827; c=relaxed/simple;
-	bh=cs6G/r3GqxY9qrYWchnYMZywUFavVGu1phVAkqXxZw0=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=u7Bv4sv1s57fy3IrPjQewRA7ajCT6PDhdy6ra257Dk6RR11c5tvoQTlkdHhjBHuDrl0gzEXajF1Z1Pq1t//7VMfIVgADFGp84GwrG4ZslqkUmVpoPS/ESLIf3MeEkGX+6Eemk2Mf2rqTsmItdGJ52L1bXyan9b4OBUOi/z/p35A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=IBcjCthE; arc=fail smtp.client-ip=40.107.159.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CDD368D45
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 02:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785378975; cv=none; b=CzrCE1f9Mdw8jSF09ClcauYjztSStfYG7MkDRJV9Kpx1dBnZu71poRSMovunfjAXufSE+ZySWoqNnFyE6R59mpkLDXVVHc/iAw+3rKioqhOSBOMCN5yxyWj3osLNHSzt3fDdVf1QEjv+j7JAaF6gUNcRf9hTDAj5R30CswIxMco=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785378975; c=relaxed/simple;
+	bh=v+NXQOectydoDdkAldsRg+teWH/6aE0/X7otk5/649U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kLOBoX3pWOBCmmqxsKeojMJsi0CNWmAJBSB/GvWM8+uPIqUoRXwEipnUx3jI01dBOv9Fpbb9DuaxcmnDBDj0E9yS15/V3ItJYxyubrSG12DBSmn1VPwvIdYm7nW6xzcuYg8L/dAYNAimSL1aIDddLVhTE1O4XLFJ8Tn+QveBv8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nioNz8RX; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="IBcjCthE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OLSv2/Ms+z72Pzr3qgujcrkgMZdh2DcjiGqxo4X4W/Xqt2mOeYCSdmCvPasHfRj1fLz5fV2RGymPcdsL8yal5gzkBow+4X2jcZMiFf5bLQnrGP0p5/x9/7iY0aYqYAXzsQgDw1o1I1kHnIb/D8Fvkjrtgh/CmhEkbY166Xaf1jG5aeR9BSpdgT69F2Dr3Zd80wVHnTrbJe1kFDZ4yfYzpJNxB7ripuHXRKMRYTmOGwvXrjfku01m3sfe+qQxb2NX+R3ShJw8ezSo0GZOvSRwoPl+3RIFYftQq2xNWKX2lBLhQSYHm1mAQZGzQvi5xKLx7GRFsVP2/qk+MdGMun9Pxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6eqqF4XldwoAF8eYm64tBrjQANv8tIVhjIWqcRvU4qU=;
- b=IrzPMmJ509n1oPJudK6lIYMhiPggmH/RyJgeY8vJk2D+SFbUgIDCV+Szxu1g/cQkH6gX83VbLlWPnFpG1MOSQ2l3GItydcz5HQ/zHVyT9k0y8lHMUsJ4Lf5ccGeb7l8H2LyHjhfOH3lD+CS5ItInCNeQaK7OooXM/qIvBaSLxOYfIfjNIxids4vw2On9wy67wqlK6B1plegs0OGNUJ3K6I6Eb1pGwBk73BxK1AO/dkp4LwlweLezYbPgSOCNNqbMfCbohCymHjmJWqQrKVJa6CiVcdItbCx0zDGE9sm5zEt0X5g7CoLUiggU/aABDd5J2WhbORwSbKqoxjLUTVr57Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6eqqF4XldwoAF8eYm64tBrjQANv8tIVhjIWqcRvU4qU=;
- b=IBcjCthE1r6LfOmfrvfQwyvC3Ox6SmnOUKvo6hmM9uphy2T454Sy5LXBxolqcCgB9niQ+EunoGB8dxPO3XUAVM5c1ADK4Ez1RG7UTfyaG+1IjJcNKwS1drypXuSn1IbgCWWCpvYOZOtLfJe+mxCe001yyziOMzSKesFyw2Nuke8J3y5ZlFZhm7cayeird3e8Axzlvqc0bQGMYmsYSqu/1YUHqhIVEwiUfQ9TdvIQ6dMUirZupjxK+oBQnv2IZQwMveiErundSmVJ9paW+nPhOIZk72hHj8+6s0xxTY6czEB2dznWV7t6We8vNl1H3XIjZjanQkAEQdo5A2ywgpoCwA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com (2603:10a6:20b:414::15)
- by VI0PR04MB10174.eurprd04.prod.outlook.com (2603:10a6:800:243::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Thu, 30 Jul
- 2026 02:16:33 +0000
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c]) by AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c%4]) with mapi id 15.21.0270.012; Thu, 30 Jul 2026
- 02:16:33 +0000
-From: pankaj.gupta@oss.nxp.com
-Date: Thu, 30 Jul 2026 08:36:35 +0530
-Subject: [PATCH v32 7/7] arm64: dts: imx8ulp: add reserved memory for
- EdgeLock Enclave
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260730-imx-se-if-v32-7-95f56dff4ba9@nxp.com>
-References: <20260730-imx-se-if-v32-0-95f56dff4ba9@nxp.com>
-In-Reply-To: <20260730-imx-se-if-v32-0-95f56dff4ba9@nxp.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, 
- Frieder Schrempf <frieder.schrempf@kontron.de>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785380794; l=3083;
- i=pankaj.gupta@nxp.com; s=20240523; h=from:subject:message-id;
- bh=j8hxwCQlGC3Mg6eSazbiCEMoZMf35PVhPK4kl3SDKqY=;
- b=x5XwqcIirHfzIh4YEqBW5pKxouu8uEa4IbjwXSZewFFVhzNcS0E9TpesxgnBc/lwA9wDk5x9+
- d+Vu1h1fg0QDc1xh69Dy0WYKjmiH5eLucb+O3Iydfg6TCjQHpn1Y+G3
-X-Developer-Key: i=pankaj.gupta@nxp.com; a=ed25519;
- pk=OA0pBQoupy5lV0XfKzD8B0OOBVB6tpAoIf+0x1bYGRg=
-X-ClientProxiedBy: MA5PR01CA0014.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:177::11) To AM9PR04MB8469.eurprd04.prod.outlook.com
- (2603:10a6:20b:414::15)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nioNz8RX"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cf50c6f235so18030635ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 19:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785378971; x=1785983771; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qFcbGrazQ4hsDbTo3q32DnWl0U0D+49o/G2t63zLjQk=;
+        b=nioNz8RXZF+YTSXXndVcNFfUOSg1A98u6Z+5PU7wobBOXGVtDpP3W9kK8wF9E0Hk0S
+         1cZBTXSuTw5HR9cjoS6IoVS2nCDx0+x23hoj5JrbqLnuhID0/+IVZI1RXeN4Ul79NYj0
+         rhhJYwOI4m869MeYG7RZo7HmPAp5ZaN1HQQ2cm9TLeBcwIQ8fihU4sXJl941SZW8Ziw8
+         aylhFgenjgZFA0zNJ9Kb1vQccs3kPGZQjVDXsh18MM/m5Oiu04XH5wvHJjPzvGM519cF
+         sJ4MpcLL78dm2cmiBYHguggUSaQgZL2komisFeZU1+gzLNXtItrDQcLe7le+EWKVyrU9
+         nV4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785378971; x=1785983771;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qFcbGrazQ4hsDbTo3q32DnWl0U0D+49o/G2t63zLjQk=;
+        b=OxUUG61zbN1C7QB8LGcENgk4JkTQT6EIZUkBpcpHPm1BQIm/Z6hQSURUdCaLbdl1mk
+         FCLAZzjbdLL9w4ADM8ilSTERUoOH30Z88mp6aMOBvppUtMne0fvBBxbBnciXd2H2m/N2
+         oPQXnIyChWo1AmbYOAoB2BG02b1kIj6aBNP9SX/HVnq4pkWzJ+ySfjQvJVivzu09l5R4
+         PR92z4CEpnnwodN4DTe7xi1yPqcDZjimls3tSvgyQiFk2iXW9JocDTTveUWbCd7lSl7P
+         fVGSEDGFOzC2ciMRbwN+ZcuVBsshUZonVt874i77HUHI48FZAdDgSSojxLgZ4xzuk2sU
+         w32A==
+X-Forwarded-Encrypted: i=1; AHgh+Ro3qpdXx2F/Rm7tsSvgsD+iFZyoGgzUl/Q1cwpaT2gxs/SHuMDU0D7rmuZNLnDGhQxU+NI/Dcn6Kq8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAbmI9jj+4A8/wCupDiZhpOsgj5Vbn9YzFlmUboicCoF3cQ+eA
+	lgTH7yHui/3vYmWxruVfAfHUPwXJafyCKGURRX5MsIY+KoOFWh1VDDxW
+X-Gm-Gg: AR+sD12ttoivWGjwWHDQy75FZAoJTzGGwmmehagYrWA7gkU/fKfvUo3mvHf9zzRZjy6
+	TNzWRyHu89UB5qriW1l0ZgfcVk2/CDy0+zB4ohTPPKwjUWrOh8QYm4104tBBFMTWLkjBzEEe1AZ
+	7RL1mCx7jywxi/mh3fxS8zVgMILhgY1ITPMgrU/1PK3ihKxq0z3yJgzsRTYtec762twScxDtQ3x
+	5NQoAds0oogw/i7eQpmR0F2wKMw6Fo7ei1r+adehWClByuyuH9jmFr8SpXS6Mj3Rv2ol+/wWF5k
+	9YiUsS7ixEHGubljbUhvz+YLGnUY4jhY9uYPqV10ndYqGZB5nQWlgi2Sgo7Z/6QYfXR+TV/TBmn
+	OVusn9ZTj9pBB/mzxCHEPATBEWyj5DAb6w5YUFCoe59DA+rBOdNDc6796jOt3fXcRUfyaE5in5H
+	9YVaJyYmWuwMmLgEIr3UgKQQK4uMOAhBrYuUEXEhiaIctFD6qUZt8WcWI4T/C+IOFgVbu6dN5A/
+	g==
+X-Received: by 2002:a05:6300:14c:b0:3c4:397a:69aa with SMTP id adf61e73a8af0-3c9005749b4mr687469637.31.1785378971135;
+        Wed, 29 Jul 2026 19:36:11 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504d373c3sm15058591eec.23.2026.07.29.19.36.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 19:36:10 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 29 Jul 2026 19:36:09 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v5 1/4] dt-bindings: hwmon: (pmbus/max20830): add VOUT
+ feedback resistor properties and complete examples
+Message-ID: <dbfd8393-9a69-44ce-b49c-f08d57e2fa66@roeck-us.net>
+References: <20260730-dev-max20830c-v5-0-a7553f84ee74@analog.com>
+ <20260730-dev-max20830c-v5-1-a7553f84ee74@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8469:EE_|VI0PR04MB10174:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4d7465c-c47f-4214-238c-08deede09376
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|1800799024|366016|23010399003|376014|7416014|10067099003|56012099006|11063799006|22082099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	tQH1Fe+CzHZ2/NJRuxYVFhpG4Hwh+SPzOS7xLZz8G9WK3XCpKrIeDKcVZ1Oqo0E0ysNUZqxGu4HimB3GnYLo1OOzvqNP/ld8GWioGyPlhtII3p4Puko9EH3zYo0+QtdQ8fBGUz3NGQ9/3Lj93fqpy4Em8bvhR5EI9dBS2Xieem3NMTDvHL2Ml1YG89VKOEiuq22g5ffp8xU5BtLomHfOUQ/FNmlKqB5+x9pFtoVkblRud1FXZd3n1Q6z7p6c5CzEPOS5OkwV4NSwpc2MURGcSDz82daD3WJGMwD9l7VR6mcc/vwmodFLJ9MfO8Wr0Id4GExwcRSf68oNaHjUIFVZpM1VYyc3rgw3VfvwGxi7GbypSHttZiEMzvBOlJXGC/VYf8kw4kBDQ6gUcUBXa4EVSO+OMOS9GIKbN6ORf+gKJAJYp31zoNotKF0fXquRHPP1pmabNrssx9I9TFkz+FRwVfrjy1ZHOxmSPNxdYFrsY1x+0pEPwziveMlrDFB+5YZcp7U+cs6G93yxHXBpGZkW9uX9A0/yF/IGAcYmvFWs4gWR132++D0ZuH0HpjMweXMYWnhwRMouJXDPoVvPgOSLgpCU8FFh4aGKahH5T4zQXUteb95tV8lC1LyeXT4Zl6E40siNn4XGIgpT9zfS0nLu8w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8469.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(23010399003)(376014)(7416014)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eVRxaGVPM3grS1U3MEN2b21JaXN0SDl0cmNFVXhsU0lyWEREWnVZN095SzBx?=
- =?utf-8?B?L0lOc3NNcjhEdFpqVFJWWmg3M1FWTk9YR0g1Mmdzam5HY2NlTmtwRDkrdU10?=
- =?utf-8?B?L1NsbHdpZW1tSXk4c2Z4TlM2aFJzOC9TbC9rak14K3NmWlNxelpNREdMVTFY?=
- =?utf-8?B?MjNIRTRZa3NuWDdZWG0wZGdzMHdPZUVxSU92MC9EZWc2Rithd2lrRU1GejVB?=
- =?utf-8?B?K2tWdnM5RWxmRmF3YnErVXpkRzBHSm9pNTgycVRJbkdDS1N0aVQrQzJoV09r?=
- =?utf-8?B?b3dzSi8yWHpCM3Bvcm5KMDNxVDIzTThCTnhNZ2R6NGJpYVB6QTdJMWdEa09v?=
- =?utf-8?B?WlQ3YTB4Y2pKaWpYTkEyYzYrRFA2dzlrZzdIb2lPZ0FLMVhJSURiMnlYUWY3?=
- =?utf-8?B?em4vVDBRNzhWdy9CS0ErcEJDZkVxaUZ2UmVLaE4zdmVuRUJNRVI0TVpRL0RP?=
- =?utf-8?B?c2pSMXc3ZGtpK0llN1VTN3AyV2FqVTl2U3owSTZLdTl1T29vNnl2WXN5ZGlw?=
- =?utf-8?B?ckdiYkM2ZTR4ZzNKcjk5QnNPWGtBNklKaUNvRldBRDhHZEpGeXlhOUg3MHk0?=
- =?utf-8?B?aDN2NnhheERCU1oyNEgrM2dvb2NqL2NJUy82TmJMWUprd3NCbENEczZrRWs5?=
- =?utf-8?B?MThlVmc5dGwxeHdQc01kSWQyNjBGbFloL3hnYTM1VjcxdUppMHprRm1HWTQz?=
- =?utf-8?B?Q2xQS1ZiaXNMR1FyVlJiaDZyc0tDMmlVWVRydTN4bEJKM3pRSU9yN0ZaOFdH?=
- =?utf-8?B?NEtYUW42WUdqMU9KRGVpZWhUbmVGREowUXVmdmUrbVM2a0ZYc0RZMkZPQXpH?=
- =?utf-8?B?ZnFnRDR0NlZJckdpWkEvYnJPTkRWUTBNTWZwcXF0bW9VTlVNWXVXUlh3SGZX?=
- =?utf-8?B?Y3pvVnhFeVJxaHgwdEp3cXlDclBCK21sakp1SUZnOEZmNHpPUHYwNk55czMw?=
- =?utf-8?B?WU15MkZQRVkzZGlSUjVIRGdPWjRMSHVzQkJ0ZjV3UzkreElsakR4N2pXdjNK?=
- =?utf-8?B?S2F3U1BhWEZ1dm53MFN2aG9EL0JycVcvU1J3eXJGLzByTmlVaHN4cGxWblBT?=
- =?utf-8?B?RTdRQWhaZk13L2xxdkxSOVVjT3VUbEQ4TmtuMmN0RnVrVW1xb1kwVWV0L3h3?=
- =?utf-8?B?eFd1SEo1eE55TGY2VmhscG9XamNXTTBKeXN6UFIwdk5YbTltUmJld0ErbllY?=
- =?utf-8?B?YjZ2SktpcHo4L1B2ci9FV09XZEFjSVBXU1JPN3EwenB1d2hkU3ZoaERRNk5n?=
- =?utf-8?B?dEdWbU5mUWdpVmF2R3BpODJKZmlkWUtNdm9aNjV1YUhmVzBJVFV3WEo5c1Zo?=
- =?utf-8?B?SG85bU1jZ0dtdTkrR2JnaDFBVHRJTHE1T2cyTkpxb3IwaC94NVZhZlJnampi?=
- =?utf-8?B?OU91a0JWRXU4QlB1QjN6a29wdVYzK3hmdnZIaGJPdEVvSk1JMmFXVkJaelJh?=
- =?utf-8?B?TGk5b3V6ZHZhTXllbzF6VndDa1ZSL0UvVGhWdngxR2xGV3JOenRoM3BDOHMw?=
- =?utf-8?B?NlY4a1NuUzUyWCtjZEFld0hmVW0zK05jQkd6K0U1L1E4Ulc2cnVUQUhVR3BV?=
- =?utf-8?B?dWlLMGgxN0tBWmZZSWFXZGZaQ3FOR3hPR28zcDEwa3hNNmRSWXE4L2I5T1pm?=
- =?utf-8?B?a1NHOVRyRThtNjJ2UXlnSDVOallUVHN0TE1rdGFETzZlVlpmaC91c2wxS0VL?=
- =?utf-8?B?M2ZJdUlueU9MNnA4SDFSL0ZJWDRwbit0V09GZGk3Q0hac2F4RXRTZkZtUTVw?=
- =?utf-8?B?bzh5Vjk3OU91cDFXZTdpQnhzQjdWVmJqWlptY3NGc2M5NTl2TytoeGNYdjBy?=
- =?utf-8?B?NFFvVG8vc2d2eWxmNnJYSXp3dlFHTFhyUUlsa0NoVzJPVVZlaEszbTZOcmhy?=
- =?utf-8?B?TEdyKzBxWURmQStMZjNoeDZiSHAzQTVTckVpeFdVd1RDT0dVUlJ4d25vWFhY?=
- =?utf-8?B?TGFDODJ4Z0ZaUnRxMlRPV3VwM3BzZi9zTkFBOG9zTnArM0w0N2F2YktvNU1G?=
- =?utf-8?B?SW5xUU41UXdkM3JzUkoxQmZIQTFjSUw2aFhOd1ZzN2U4akw0SzJRQlBlcG14?=
- =?utf-8?B?OHpPYTFtRHhBVWlLVi9QdEpEUzhyQm14VHZIM0l0Slp0QXJtSjZ3Rmx0eHds?=
- =?utf-8?B?T0NYN0ZWTmcwNUpGazVoQnVSQ0MvSy8vdXgvVUQ0ZDVrb2NmRXZwRzZZNy9v?=
- =?utf-8?B?NGc3S29sMTdsZXczeHZUTmdXRWlscFBDeVNjY0M5VHRSSm1KT2xuUjB5UHN0?=
- =?utf-8?B?QlFXLzMybUtXTkV5VWszQnNIZFI3b0s4M0FWSXk1UnQ1WHd4NWoyVWFUc2NW?=
- =?utf-8?B?cTN1ZlVzaTZMczJuVWMrL1dDb3ZaQllFMmYvNDhyRlp0Qm9Ic2VlTndSM0dq?=
- =?utf-8?Q?OVHgcYM9h3HwC/lLUh+8p2aSjiQgAqkKrMu/A?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4d7465c-c47f-4214-238c-08deede09376
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8469.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2026 02:16:33.7017
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JFN9exCSIaG4uiUgFl9QfVf5Od3fNmlDVsJ9QZfdcBwF+U03RyQ4FNBPjjBsdDv5enIFXF9K+TS9sZ6qf44lj+4eBXM4yx3To+clb6M+jJDB8v5+YEBcdkSTC5pll0QY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10174
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260730-dev-max20830c-v5-1-a7553f84ee74@analog.com>
 
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
+On Thu, Jul 30, 2026 at 09:03:33AM +0800, Alexis Czezar Torreno wrote:
+> Add adi,vout-rfb1-ohms and adi,vout-rfb2-ohms properties to support
+> external voltage divider configuration for VOUT sensing. When the
+> desired output voltage is higher than VREF, a resistor divider (RFB1
+> and RFB2) is required to reach the intended value.
+> 
+> The properties use a dependency constraint to ensure both resistors
+> are specified together, or neither. This prevents misconfiguration
+> where only one resistor value is provided.
+> 
+> This patch also adds missing entries in the examples.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
-Reserve 1MB of DDR for the EdgeLock Enclave. The enclave hardware can only
-access DDR in the 0x80000000 - 0xafffffff window, so constrain the pool to
-that range with alloc-ranges and let the kernel choose the placement rather
-than hardcoding an address.
+Applied.
 
-Provide this as a shared imx8ulp-firmware.dtsi that also enables the hsm0
-node and wires up its memory-region, so every i.MX8ULP board can bring up
-the enclave with a single include instead of duplicating the reserved
-memory node. Include it from imx8ulp-evk.
-
-Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
-Changes from v30 to v31:
-- Kernel is free to choose the exact placement of the 1 MiB block, as long
-  as it lands inside the ELE-accessible window. This avoids hardcoding a
-  fixed address.
-
-- Adds a new shared imx8ulp-firmware.dtsi that also enables the hsm0
-  node and wires up its memory-region, so every i.MX8ULP board can bring up
-  the enclave with a single include instead of duplicating the reserved
-  memory node. Include it from imx8ulp-evk.
-
-Reported-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Closes: https://sashiko.dev/#/patchset/20260724-imx-se-if-v30-0-ce8ba256692c@nxp.com?part=7
----
- arch/arm64/boot/dts/freescale/imx8ulp-evk.dts      |  3 ++-
- .../arm64/boot/dts/freescale/imx8ulp-firmware.dtsi | 31 ++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-index 5dea66c1e7aa..885242fd07ce 100644
---- a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-@@ -1,11 +1,12 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-- * Copyright 2021 NXP
-+ * Copyright 2021, 2025 NXP
-  */
- 
- /dts-v1/;
- 
- #include "imx8ulp.dtsi"
-+#include "imx8ulp-firmware.dtsi"
- 
- / {
- 	model = "NXP i.MX8ULP EVK";
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi b/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi
-new file mode 100644
-index 000000000000..e4bc352f68af
---- /dev/null
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi
-@@ -0,0 +1,31 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2025 NXP
-+ *
-+ * Default reserved memory and EdgeLock Enclave (ELE) enablement shared by
-+ * i.MX8ULP boards. Include this from a board dts to bring up the secure
-+ * enclave without having to duplicate the reserved-memory node. The ELE
-+ * hardware can only access DDR in the 0x80000000 - 0xafffffff window, so the
-+ * pool is constrained to that range with alloc-ranges and the kernel is left
-+ * to place the 1 MiB region.
-+ */
-+
-+/ {
-+	reserved-memory {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		ele_reserved: ele-reserved {
-+			compatible = "shared-dma-pool";
-+			alloc-ranges = <0 0x80000000 0 0x30000000>;
-+			size = <0 0x100000>;
-+			no-map;
-+		};
-+	};
-+};
-+
-+&hsm0 {
-+	memory-region = <&ele_reserved>;
-+	status = "okay";
-+};
-
--- 
-2.43.0
-
+Thanks,
+Guenter
