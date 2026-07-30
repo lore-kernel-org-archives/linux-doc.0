@@ -1,123 +1,123 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9A732B116
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 14:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCA730567C
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 15:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785423341; cv=none; b=LfBKgGAEL6mul+TXbE6uuMa6VmfMl1XT1x+Qu8kVhqBAxLLC2rA55wwSTnr64NgSrDjPxKBcsgg/Vyl5foguiO0m4dI2UXUncEanSHaPxYla5qWqPtggPgj+MSA2qCknWeetJSMqUhEebUEQ3Y+9J4Cm9ycywlsFbMLn7J2yBe8=
+	t=1785424695; cv=none; b=BRP2K2Sj4PMofhxgZzkQkkY0EOiGqTCIYyE0HD3rzSQTSciVu+CGxtZuWpOJKNf01vwGezTKkiXwMDCXJq/FnizHpyLV/C6aG2SGlTLLXNrWVHrvOUqXFfIzG0gijjR7/ODLkdBPg9H5kf2gYl+RQBIIhN+o7RMufo7OC95rOjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785423341; c=relaxed/simple;
-	bh=ynnqOp+fL3o9kKSR5OhAp0hTRoEdDY/H2zHWYl6VcPk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IN1WGm08mlBlbNlm9Dl+CrmkCiO8qoiOGUwBX8gThknQ6PhsFnQGdU4Uha///VidYq7aVBpYJzZJa5ISDUFx8+c+OjfM5ZRym5tOTQVjQ83PHyIAUzgCePCkCyC73dICTSP7saaCw2/vF6Vopt76xle48wxNE6XJL0Xkv8T2uEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+	s=arc-20240116; t=1785424695; c=relaxed/simple;
+	bh=72hnN/0rE7uzUdVvzXQ6rS4xBcofWgn8Ndd9UkHCOGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L+J4y9gpzmtepKjFoY4mMh3K/xPrEKifUF7IaH4ik+WepENmBwRvoezi2mfeB5nJ7O3iNsfmuPgzXdpocc2hJPU//iPqU/TQgY7uubl4EHvyaOSKDGtb0VXo+SVhjYGCcW5yKZ05MNTpY0u2WjzPSGc7rLKJISAX03lFMlNnC94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bdd5qv1G; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6ab06473488so877957eaf.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 07:55:39 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bdd5qv1G"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49555a0e68bso11829545e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 08:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785424692; x=1786029492; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Edhb2n6rlJZQPuQdw5wF8BrPLoATNFthrzHW9vrli1A=;
+        b=Bdd5qv1GJ9myn0Cs+T/Z+RBsxyRlTIuCltXZRxKsA4cbF4iTVxYCyqCD+cModZ+sxe
+         8M1rvthmX+U8oUGBbMq/P8ver+v7JUYpp3Px9IVf7++EGVUPPZPaKtyBSwTNNAwxl6Zp
+         InuKgmbu3aL8qwMyuYkJhn1sX70wfCaL2O6v/q6vuqU73vsRxQe+2mvxzNpOZAeLIxBY
+         +WFuYwIG4KmRJlnxHqSXduisRYH9Q4iNbm71TBbqIOxOL1IfMhXsOCSKyFP2Yg9/zc3o
+         AzWodz44TctvVFsSMgK1ZEJNBLng4ZM5IeuFi5Sn06ApZVZflIpZmrwa6oQUF33rWlY5
+         e7cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785423339; x=1786028139;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NdSKHD8tzJ9JeGjNeD/cemvIL5cN9rQR/KTJiq4Qf/g=;
-        b=fdi6We4+mc/WzTNR8jPLcI6PfR7HWyBZuEVd7hKQ0d9HJ4wgbEjzrq0PnyO8nbmUh+
-         wUlf4dpLNtmy8VEkMrpcXkQ5dGB7iFCUa+IDvTFWmYke1UXP4TjmdleT9b+1aCM9cz/C
-         sO+ifYCck2DBdaG+GPRoWDsw3vIdzs+D6TQQmFTOJ52qx7aMy6ggGGg8GQt+foxTLuIW
-         GyuJi8Tb5kX8vjvsR4qACUVouvZv/V2VCRHoEj/zZs99sbL1zmPjsmQzzU9sYl9oDpNp
-         zazn6H7FbIy8RA+WpOZumDWz9dc34+MoWiuGnpoTMHUp7iyWuL16TyIrLq1SiBLwxrYW
-         Eo7g==
-X-Forwarded-Encrypted: i=1; AHgh+Rpm2MmJ0uWLeVcZ1f1PN5mMR0owq1AjlrKcaK8dqJeOvVtmIllVOapB/eGV762Fp3YxX1dbUMmzj8Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw74f/XaReiWRwTobW+nLwTyGW9Yqq0fQVK7VCgKGbvcKkOitcS
-	cgHrnCTckO46hyHh5GGlOlGiPJaiqkZY6kiEzV4EMLSxNNCsquKCxbUG3echYMQ5
-X-Gm-Gg: AR+sD13Bdeve8preLaa3ZJ8CooH89EhX2bYVMrbg7aPuxmQAA7OmP1ama/jiY/ycHjT
-	l4WHDhk22egEUTnHzBM00WFtjXKdrrV3v/CXL49+Z9Fpha3Yf4C0SyDobsAz1p4GGO41V094pBB
-	zM2k0TsLBLb0iI3DIzIOZdljKgDyVr6kYr6RkgM9jgVpVcmDKYqnNxfmfB7CTo5qmtXe7+1ZD/1
-	SXZhStv5jNeqlKqb41uAmZqMWwx3qZObKz3fXlzqDJnDy4z3hYOyThf+Ibkc3VdzcUZcHLzdz9K
-	aHxO2iRhDxp5p61F1ZbZoKcZBYAIFbNlj8Q8XTmSl7l4KvnB31pHJRMxtFqgA7E0xPFxwcxLm80
-	35KKjI3dPMnFhD5AUHtRPzt+W2N+e2uSmk9R+CVRTIYRr9tnUrDFI01FusA3uToEOIKMyqzLbIH
-	8o1Bj1W1g3jcuB7lq/g3GKsr+1zYYuRO+qh2HusNrq3bCkmuy7z9zg55XWGLNICYksYstjpapSV
-	61iGheED5EaxwiY5lostWWps3qWiMaZwCY+dDM8V+++hi6qKcf2q1FVDZQ/BLekoMqQZzjZgUiE
-	z6sTyvDR/nTtsGesrqAqQ3xbPuXWSSvGr0o=
-X-Received: by 2002:a05:6820:2226:b0:6ac:b930:f300 with SMTP id 006d021491bc7-6acbc13f5f6mr1671933eaf.40.1785423338580;
-        Thu, 30 Jul 2026 07:55:38 -0700 (PDT)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com. [209.85.210.50])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-458c2a64dd2sm2199651fac.18.2026.07.30.07.55.37
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 07:55:37 -0700 (PDT)
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7f0167e59a3so874466a34.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 07:55:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoqwX88AHaFnorHnN3IG67p/hH7rdOm18sPykH4Qv7MnWRU5z7j5hHcl++3kiRz9hMzE9vlCS1mWxA=@vger.kernel.org
-X-Received: by 2002:a05:6830:4181:b0:7e9:ea18:d1ef with SMTP id
- 46e09a7af769-7f02c1c499dmr1923471a34.26.1785423336851; Thu, 30 Jul 2026
- 07:55:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785424692; x=1786029492;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Edhb2n6rlJZQPuQdw5wF8BrPLoATNFthrzHW9vrli1A=;
+        b=ngNVANKDZsmbJDCU5tdgTXC7NNkksiM04Zo12SXUwujdEw6g9HCTp+HWAJffTRXtfb
+         ZeR/fCjyfgWln7vB6kbL2ONqZvsJkdF4J7QfbY5rTSLIcwRUCgby9NIcRl6l59vdnqS2
+         CaQ04M6cbOPqhAhMvYzV1y5uWmwtWrXdJkNDDdvBSF3Df+QuiQGb0g5gFJqTEPDd9SGO
+         vkBuJ7E7c0PWqr30H/MgYF+avQWoEX1/b8jPxrDBHxJfdP1Xt2na4ZPtMPjGm3nN9uws
+         C7iIsxsANF07HuERgxzcqMhyTzqA9RuMAXgXJmtQBxZTHVxabMgwbrzZLBU6CTIkVWsr
+         0Ntw==
+X-Forwarded-Encrypted: i=1; AHgh+RrJDWKHgVSTU0TeyypZXDIPUqrRrES4F2lDtyYjRb34+R3adlGx3JMmaAg0cFCHcDD+NdBS08nhujg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4w9KVc3K9+usu/l/Vmndr9snkAJpXzMUFNzaVRq/XVYfhM87W
+	akoafN+JpyKaAOyT9ywZxjktOab/73Jj6TdsOQvdQHfB2YeSPtsc/ERh
+X-Gm-Gg: AR+sD12mfGw2cfiawmY4vcZNalCqmAHqEI+UJqEpEUt5ktRQckLdlpmN/Q76pCQoRef
+	Va/vHahEGuXiLh7x2+Daf8Vcxr27VQnhx7aY+UuNgeN4ZFRVN31CaA3rP7ZG/huiidQheBlY1Np
+	jLJ/GqYIXXCIIwXtZataPLE75XEcCM8gjqS87+4dr1SbWeU7R/FnUV/J6uegW0QCzc+7rwuj4WE
+	+ERtpOQZAnv2I8I8OhmT6mLmKcX0y4OVa6olmrLM4DV5SJrLs2YaId+2mOrRrqCRd5gdZ32MRQG
+	OrH5jJkbUbpBhqcQIT3R7v6gckCKyEuFH1Wdg/WEClvJIdOmGxwU+0jp19wQObZBSD+GtJgCA65
+	IvKin2orcpQagpiv2gTYqsus6RAUTaMo8ZGwIJncCiPH7Zvyr5FeiKMHlLr+oEqyBPOuftXxg7B
+	qZ0aJ4qiK5VPdUk9RGPsutDFP37/AAs84jyZ7JZhzdiTBMjTFtenkBQg7voc8rrtE=
+X-Received: by 2002:a05:600c:4e46:b0:493:e451:a9e1 with SMTP id 5b1f17b1804b1-49800e6d495mr45990775e9.2.1785424691553;
+        Thu, 30 Jul 2026 08:18:11 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49800e1f084sm7641595e9.0.2026.07.30.08.18.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 08:18:11 -0700 (PDT)
+Date: Thu, 30 Jul 2026 16:19:20 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+	Alan Tull <atull@opensource.altera.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
+ pmbus_read_block_data()
+Message-ID: <amtqPQSM6zsiCh4B@nsa>
+References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
+ <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
+ <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net>
+ <amtewh9lOgWz0-Nh@nsa>
+ <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260730004759.3089449-1-neal@gompa.dev> <2026073019-emoticon-decidable-200e@gregkh>
-In-Reply-To: <2026073019-emoticon-decidable-200e@gregkh>
-From: Neal Gompa <neal@gompa.dev>
-Date: Thu, 30 Jul 2026 10:55:00 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
-X-Gm-Features: AUfX_mwjt69Y4UONttNjpaGx_OmQhWJKzuOHScfgxTx8mxHBAZO42ivbKWNG3y0
-Message-ID: <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
-Subject: Re: [PATCH] firmware_loader: Add /lib/firmware/vendor paths for Apple
- ARM platforms
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
-	Luis Chamberlain <mcgrof@kernel.org>, asahi@lists.linux.dev, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net>
 
-On Thu, Jul 30, 2026 at 2:01=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Jul 29, 2026 at 08:42:58PM -0400, Neal Gompa wrote:
-> > On Apple ARM machines (branded Apple Silicon Macs), there is
-> > non-redistributable firmware provided in macOS that is required
-> > for Linux to leverage the hardware to run properly.
-> >
-> > The firmware covers Wi-Fi+BT support, USB, hardware ISP, the touchbar
-> > touchscreen, and the trackpad.
-> >
-> > In order to ensure this firmware can be installed without messing
-> > with firmware provided by linux-firmware and other packages that
-> > put things in the tree, the empty "vendor" subdirectory was created
-> > to serve this purpose. This directory is used by the asahi dracut
-> > module as part of the Asahi Linux installation process to transfer
-> > firmware from macOS to the newly installed Linux system.
->
-> Why is this needed when there is the ability for userspace to add their
-> own firmware search path to the list today?
->
-> We aren't going to keep adding random paths here, please use the option
-> that is designed specifically for this:
->
-> >  * fw_path_para - module parameter - default is empty so this is ignore=
-d
->
-> Right there.
+On Thu, Jul 30, 2026 at 07:47:37AM -0700, Guenter Roeck wrote:
+> On 7/30/26 07:27, Nuno Sá wrote:
+> > On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
+> > > On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
+> > > > From: Nuno Sá <nuno.sa@analog.com>
+> > > > 
+> > > > This is in preparation for adding support to a device which needs to
+> > > > use it's own read_block implementation.
+> > > > 
+> > > 
+> > > The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
+> > > I'll need to know if this is a chip limit or a controller limit.
+> > > If it is a controller limit, a chip specific override would be
+> > > inappropriate.
+> > 
+> > I'll reply from top of my head (did not looked at the driver again).
+> > IIRC, the biggest reason we need the chip-specific implementation is because of
+> > the RAIL selection logic (mainly when not in page mode).
+> > 
+> 
+> Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
+> instead of i2c_smbus_read_block_data(). The rail selection logic would not
+> require that.
 
-I was not familiar with this feature, and I had inherited the patch as
-part of our cleanup effort to upstream the Asahi work. Sorry about
-that!
+IIRC the reason was because the i2c controller on the raspberry pie does not
+support i2c_smbus_read_block_data(). So I guess this:
 
-Based on the documentation, this is the patch I've created for our
-dracut module: https://github.com/AsahiLinux/asahi-scripts/pull/72
+https://elixir.bootlin.com/linux/v7.1.4/source/drivers/i2c/i2c-core-smbus.c#L220
 
-Is this how it is supposed to be used?
+- Nuno Sá
 
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+> 
+> Thanks,
+> Guenter
+> 
