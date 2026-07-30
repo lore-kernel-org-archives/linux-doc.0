@@ -1,167 +1,235 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012008.outbound.protection.outlook.com [52.101.43.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241D646D08D;
-	Thu, 30 Jul 2026 19:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6C037FF42
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 20:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785440967; cv=fail; b=DP6GLIytZ/uotqbuKYrNOWhBXGl3qgTaPZE4aQApDowqaTLek1+5Vp6uOCNWxwdtfltCA74v96gL+7ppKJQjg/+fIoSI0zoSjObi55+ZOhnKx/QeFyXfAHRUb5fnBIXfhgydY9cpjwj49MzfVpJif3uoOpZFLjR2/NOf2EjWcwY=
+	t=1785443707; cv=pass; b=IBEv4oaAav6sCU9YV82WSqHTlb8k/kPrnXBczRwl2KS4ShQUfl607Mw39eb84mC9ONm1weir0X3+KEM+B2E9ROSkNNtA+d/nlHBwN+x46ZFl7i5ciXeuhPcRhu0Qc6cP1LY6iQh7NyJ7wE9uTKXXWysBO4+rceA/i7RLgTPFAYU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785440967; c=relaxed/simple;
-	bh=yIUnFAbPkVa8aE0p+jNLX9Ck2ruTjJtnN9LoOV1qiJw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RIpIN/anr3Jwavzq3DuEBN29b3yU+XFdS6yPnXyMmkVdt6XFsTbJ/mEhqDptlCI9+TYXbwiIAYWlxHYli05ISyKjt8OkALM6uAGU/UsfLPJe486c0xgwNnDjORZdbLkq+Mt0l7of4/vzliVUiraNXf3yRg3IvSQtC0dXAV6LJCE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2QEhVumX; arc=fail smtp.client-ip=52.101.43.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1785443707; c=relaxed/simple;
+	bh=30g6+52vpLwa+w0jwIJQYFnjqb/F+49RsIdPCA/cCGI=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B4SVKQebPG+2gp+S5TfimU5ixWC3+ID9fHkzLFp6rA6pZU3ZSl7lkEckdQTtHdnKqFfWnVZmZEcG9fIPQyV4ar4ahia4tthPKlijMGj64ipACGT4NfcOV66oUFAKzGz6un2wHOY2g3fTyeQSXabuuJgmsF1gK64mNHYCetZOx6A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FgE6wtnm; arc=pass smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2QEhVumX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bpd4PVJgpMKqf6oAff+zfiLIaUyy11wWLxvrrmNgFzlKPAGENn7LNIgumijBKASrTredc9RtLx7Un61Sd2J0fyXFFCfRUHh3UWOIhh6a0kCNds3YXRDGGaPEGPXYPaTue0B+ekTAwTngVwnrmUlZ+mn31mkL1qpHUaVbvcQ1AYaS3mwnBbhoFjPsV32CSIdv8mzuHv4dDLCagyD+mMC6KxcNtjV7VTzE58e8LidrmPINRgzVs5z/ORlUua8p8/24PFIIJXrZtR0I3jC56rxXQHvzqD+bcMtbyJ9Qh0wpkFAA9G4XPhU1tPzWV/XOWZNImDziOWGJ17sjcXjHXgLEdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RNfcy9C5SLQSogjMfn5Ys9CQTqenNyYinuEc8UQzysw=;
- b=QOcnk1oJ9tggmpiCmOt5Sl5aueoOFGhDHL9+CXUquJVbDGHdDHc8jmn+dwapQQJoTu/leieyjUKoXWK/+c3+/DVSzZA1WZnSIIS2W8G8q/jdfaopSneOHfDsIktGSo6wJ59HcvfAQqFH1eB16VvT6gjkjFPqeFejxcis/QVbo5KvDpFso+yJt05iTiyKg/z6C4t4IXOTuAYg0X/yFb/oMWUBh7GxStWZmhihzHQA/t7yCeSLG41gY3AJnoKb+txq7oD+Z8urYWoPrvV0AN9hiceZ/8eeG1s1Nh2uqfCa1IMedWzDR6cXu0StAB+29HOOyRop/dKpSfvd1W4FQ5pKbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RNfcy9C5SLQSogjMfn5Ys9CQTqenNyYinuEc8UQzysw=;
- b=2QEhVumXsDE8hUzbmYa4YitAhCGKVeboT/DfNL/QxsXmqxaIC5AqHuAS3JX/FSjeo5eO6wTSrwYlUyfBFNqzQetx5XwFt4NBv060bthwEU/BeBdpktEj5DwBvYWDKCZcqkj1el7XXN0lso5a6IfmVVSRAKtPxeH649T2vkYT1Vk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by PH8PR12MB8431.namprd12.prod.outlook.com (2603:10b6:510:25a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Thu, 30 Jul
- 2026 19:49:08 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0270.012; Thu, 30 Jul 2026
- 19:49:07 +0000
-Message-ID: <d364100d-45e4-458e-97d5-05416fbe5bef@amd.com>
-Date: Thu, 30 Jul 2026 14:49:05 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Moger, Babu" <bmoger@amd.com>,
- Reinette Chatre <reinette.chatre@intel.com>, "Luck, Tony"
- <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>,
- "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>, "corbet@lwn.net"
- <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "hpa@zytor.com" <hpa@zytor.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "Eranian, Stephane" <eranian@google.com>,
- "peternewman@google.com" <peternewman@google.com>
-References: <20260728191818.GBamkAeh7BD1d6Gd8X@fat_crate.local>
- <2c098892-5d4b-402b-bdfb-59e3bf164c8d@amd.com>
- <SJ1PR11MB6083636E406ABF9F64CE3F25FCCB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <73737438-01ed-437e-846a-5aa8bd687462@amd.com>
- <SJ1PR11MB60835A80CBA4ADA35A617EF8FCCB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <7495c998-4f3f-4ea5-a383-350584afb42c@amd.com>
- <6d006c4c-907a-435f-ac94-32974562ce2d@intel.com>
- <e37866f2-974d-475a-b68a-8b74d6051dc4@amd.com>
- <20260730184626.GIamucAtZxMUUGagGm@fat_crate.local>
- <7d3dd384-9101-49cb-ada4-b8320198233e@amd.com>
- <20260730194328.GEamupYLsURg6VvxBU@fat_crate.local>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <20260730194328.GEamupYLsURg6VvxBU@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0246.namprd03.prod.outlook.com
- (2603:10b6:610:e5::11) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FgE6wtnm"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38e3617ba36so326443a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 13:35:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785443699; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NwZnbjEnlnvwEp5/F3wxyRFpBKBcreqB3p8Qn4kylAb0aZ0/l/ZXJW2AJmu8l8mn8y
+         u2SbnFw6uZgWzQvPbADe9tsf4kz9vgilTyGirYhDRAA2ECE/imtx+OKF4/1vOwhr9MBb
+         +DUgcRkd345qCFkizJy3L0nFulswdIrcDl6X3WznLcZwq4MCMZfvhBO+X2ob/qUvG35Q
+         ao3QVZ9x14Bty2RVSXIn4tUiXV6FVfqJ3kP2U9B90zFl6lk+S5nOcCAmWUaek2l9n4Jb
+         wm2abExLNgwKLATTAmFiDmHP9RDksxtGyZ9g06d/Duq02VNkD6V1/Ydb7fIRFpxDlSf0
+         5D9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=ZeYSeUDQaPUMgdnk0OR676C/F3UEN+xBjEeugnIWfJ0=;
+        fh=jPPUXpWeWIjFQ9CihIOJIyhFP0l8998IpIl3nh5rfaQ=;
+        b=gs+dJEcCCzSZwkEQCEa4i9wfoTfe7Ax2qpBssmlhG0A9SP/Vv835mX0K7JVI6TslDh
+         6Kn2G7pb1ZvENgTW7cFB44iM4ST+cwXpp9j5XJeQ6/MaAJ7Deg3e4+HTmunS5iZU7IYd
+         rRbhfWLRq75+XtNS/VRO/Ke0N/3DCTE0lCMoKq205zcPCn//Nuq3TQJGl4gIl9YjDkxT
+         L9OMdnbRLrpgwGt1gk7/xl2REQgoGqAU6DWzwkseZOH9oSA1peSxhJuTK1x32Ek9BmmW
+         dQVJNrgiKZ4laK+TkFeV+9tS6M9xFB/KViMStwf0fs4mKoF7uIhHTuDnD9j9j4wNUvKT
+         oCUw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785443699; x=1786048499; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZeYSeUDQaPUMgdnk0OR676C/F3UEN+xBjEeugnIWfJ0=;
+        b=FgE6wtnmAFYvzjw5wFWRd6huJNE8KA8k4l1SKooUBzxMVVwd+7U7VXuCU5YcS8WEaD
+         Vrwj8/c1KYuw8fdTLncr9hVfiFepcy6j5dRZ9fvrnW83jJ19GTz2sSIBW5+2Q4pS8K9E
+         UMd5Cbdf8rR/SH0v4tJFusrjrjdeJC2sNbMGc7S8mBDr4DcOPl1y6QQ/mQ7maFIYlOxc
+         s6IGf8HwDp9a14sShNX41524Nmf94qkwdPAAyMei1hm6JRQTUL/5daQAaLelttfr7ZtD
+         0BL/uLBgdiJNBdhVo0kkOdd7FcaoTCcJqUMGRL11vNgFqkNQTxkeQhFa6HrH7JjPNZNn
+         hfqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785443699; x=1786048499;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZeYSeUDQaPUMgdnk0OR676C/F3UEN+xBjEeugnIWfJ0=;
+        b=BBrrwV30ItQE3CN8wdkrfTal4BY4/OYDRVxjw6uLXYCzUbDMdIR0S21YJIonP056A5
+         RJAfL3CJTFTPyXt5RHBSq+KoSsB6jv9bYOM+FPweTKQxZYJETam+vghl+j02LyGCp7wW
+         gx7j5ZN9ZqsRmvQSPVoKODZRAnWSe89v5mZw+ZcWGL2n9z1OgZdZfO2bKzdTFQRFIQQf
+         g7K1jGqxlxOHYKtbq673Kc8NW9BLuAVDMmsuxFE/oN/Hw26h08AT0odatZSUn9ZccDsF
+         MuHWcStSrBKk/et6MCpjtm35hPxBO3XF2Kl3iWUcqrhB2oVKtto1+bJusA/CYWCKHTJj
+         HTZg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqi/GfalnSutP/bvBJLvyazUy0SChPLFNSUQnHCoi7D5wXJQursO4T48IKfJihidtthtn3V9/2/H9Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxp86wl/EOj9LML4QtYJG3V5P+/vZLE2V4CnRVSsxt1ZRMM2FiR
+	nUecxekEbFSAaMyYSjj2w/K7UmORPWtjahtVAsU6SF3kONyRdYGybHd2Y/DKYQ8b/PSUSNI8Lx9
+	hnEv1WgfbOW/gXQENIdfvFgAtvvnXZzs1hq4mr6gW
+X-Gm-Gg: AR+sD131dolmiV4EzD7QvnNIU3wHqddUreBjUQvhCgm8xOBCsZPRTRY7F1bCVRok0Hv
+	z4J9vRc1JtahJXr+wpIzV08rTOk2JA1RKsfrqP5sO1jmmkENeTVdxyj1cn5sV416vAig1k2u9i4
+	x/SoVO2c3Wvpm795grBPV+IuZkWNqZkFt9Zi1OZcv8F4mJ7RA0llbSsPx9QgQTuZlhVEfILk6dY
+	zoxHdiCHZMNrsuo2h1NE8i77xQWvpPIrbliKBo900NcReIhdv5lkqjNOLBxqOjry5FQ5kMQ28dY
+	J+vyXId1RSA7BBAfkRfqh9slHsv1VQOHUFlPhOT3KV/8GTjY1CQMWj7M0AJceGy4ilJgvO+7D/h
+	iLEZnq1w0a1WYIl5ImGtNGJCTDYSA0sSIcAs=
+X-Received: by 2002:a17:90b:2c88:b0:38e:2c8f:a01a with SMTP id
+ 98e67ed59e1d1-38f9bda173amr3473378a91.11.1785443697893; Thu, 30 Jul 2026
+ 13:34:57 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 30 Jul 2026 13:34:57 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 30 Jul 2026 13:34:56 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <7dafaa90-f3d4-4be4-a5cc-472163f18040@intel.com>
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
+ <20260728-gmem-inplace-conversion-v9-3-35f9aec2aed2@google.com> <7dafaa90-f3d4-4be4-a5cc-472163f18040@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|PH8PR12MB8431:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c00f19c-8408-42b4-796b-08deee739e37
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|7416014|376014|366016|56012099006|4143699003|10067099003|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	oR8qBEDivy8iLZtGhixUebHeL6OEmYwr0V3ViXGqkOt/9zhjp/L7s8dlPzlFmDEclulz7KWMC2p+2nP3ygjAQoAewRyKSYvDRm+Ej6jagmKnAhro5xcvfocna4zkHKoMyOzxXAN5/Rvs701L6O++tZeMvg2sNp5X4JPgo/wly0ftJCOGFkkgpvTW7IN+WYdy3UsNUyI24ewGwwPxYh2pxnyBQRabEMQlgPQS9SAtOCt9YIOSR1otTOWT1RGk3GUUMTs7IVPpPLnNxnuJ0Tc4fPfrKcwc4gKQ4v3REFAvnt6lvWbuVS/3ONfOs2Eh3yUsZCcP0jGMOsd2lYT/8EF15XHB/ls+djlbG7xBiuNwU8CDj+x4AlgUCdyuXw+HKdXvJO2cqi5PyOPMEcQc1NwT3UDZYhMDWEVnY5rerCN/14HjJ3CWJJ3G+MQP1bJSKNFM/lY/J9F4yHZzS/jsOk383mZStl1TGDCG3qVGshEA4gxxbTWvzDOGGo9Q2cqqOzXEpXc8Iy7yAsbjOcsMA0RiuOCq25N6/jSF9GtHs5fskkINZwFjhXw44rFCG/laOgzL37OEMIqinqn0eQI312Ua89M4eTv9d2zQE/i+RMAoeHot4SRhntbOjwMcaOWFLsPo1MSxznSmSUs4Rq2QLQhJIVqkHy0nRmIbu6izJiB8mHw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(376014)(366016)(56012099006)(4143699003)(10067099003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aTdtVHRlc2VBM1BOYktrV1h2TFg2NUxBOEorZ2MydDYzeWNPVU5vTFdmWTNC?=
- =?utf-8?B?WnVDeHlCQVdreEVsa0RIdm5GTURkM3ZXU2RRWGl4Z0FxNVZiSHdDWHQxbVRa?=
- =?utf-8?B?OXhZWWVicGw0TmYzSW1YbGJON05CRFJSMUtQUDlvcWRqL3lLZ1RsOTU3L0Vs?=
- =?utf-8?B?OWl0MDF4VDV4K2FqV05TUy92WGlYRU9QK0V3OEZ1Zm5qUTFDNkZpdXozd29i?=
- =?utf-8?B?SW5nSG1QS3dRaUFBc1BQQ3k0REI0RTZtUWhVZGpOWTNZRWJEVzVMc1A0NEhU?=
- =?utf-8?B?d0ovWmZDY1V1aUpuMmlhaTJPU0ZXSVZqOUJQbzZJT2xpNkhkUW0rdFNWbVlE?=
- =?utf-8?B?YXZ0WVJVTXBOQk13N0ZUNUg5SzlYazVWeWhJYmRseTF4RERrL3liVkNCbEJY?=
- =?utf-8?B?UU1Kck1MbkhVTXRCS001czdodUduYXVHcXlOMkd4bG42SzJxbTJWMG1vTm1o?=
- =?utf-8?B?QjdobnBrQkZxTXNnelV4K1VtaHVOZ0k4TVowaHBHdDVXNE1obkx6cFRlWHc4?=
- =?utf-8?B?bXdxalBOaklSdk5XcWdoSGpuYTk0SGlpWEYrc0dEcE5idUlCZzMwa1BUSll5?=
- =?utf-8?B?amxDTXUvd3dsV0Q4QjlEc0JmaDcwZzdQRW1kVjZGODFUWTI0Q2YrdUFoUWtW?=
- =?utf-8?B?TE9hN2ZzZDB2UWZRT3RSK2RXRUJBU1lxWGgzRm1LdFNIc3BscWljNlp5VzRU?=
- =?utf-8?B?MjBVUG4rL0RXNEdaNGNJOWs5SWc3c3RJWllBYlA5anFNcFVQejhrZ2hUQWtm?=
- =?utf-8?B?ZnlrZVUrMlZXcW84cm1vd2Q3eStUMXVuSFhsWVlpMEQ2dGp1V3YySksvZ2R3?=
- =?utf-8?B?WG1wc1I5dU0yUk5LNEY5SEYyUno4Qk1JaktZeW5lRlkyK2E3OFhyL013N2ZP?=
- =?utf-8?B?YW8wZzZwSkRua0N0TTA0d1FLdE5zZFo2cEUyaTB1Q0NGaFdYZVRpM3FoZVB3?=
- =?utf-8?B?dkFRNFVMSEN0TVJWcXVUWGQ4Rzl6dFEyYUprMFkzNHp2ZS9NMzZwRzBsc1ZP?=
- =?utf-8?B?V0VSR1NGcG12cFFjQjkzMTEyYXAzenY4Mk5SeHFkZit4SEcvanNtK0FRelZm?=
- =?utf-8?B?L0tvR0JFOSttSFJodStXcjYxVy9pR2poSk1Yd0dHWkNpZDhrTmtPRVhia0Z1?=
- =?utf-8?B?VlJCd2R4blRTNmhpbkFuYkxtQkF2SmpxdmJjSWh3Si9Qc1dCb0lWeGRRUzhF?=
- =?utf-8?B?QlliZjBVM2JzWmlUOUgxbVhPTlI1WFNETmNTeG1rOHEwTWtHUWIvNFRXRWll?=
- =?utf-8?B?RVFVRXkzaUltRFhUaC9hVlRrSTVZL0Z2QWw0Y0VlTGRrV0Z1UFlBNjBoSCtx?=
- =?utf-8?B?VCtHanVYOEJ5dDBseFhIc0t4QmlsWlI5QVBFZHF5OTcybEZSZzZES2hISE5o?=
- =?utf-8?B?NmtCVGhKVHdHWktpTnVjNWVsSTZ6OWIvd1c5ejRqY0lQU0krOFowMDhMcnUv?=
- =?utf-8?B?c3MrUm1FS3grKzJEWVJ6OGtSNUpseDBSeU9LVlhDbHc1TW9hZ2NTc3Q2cDJi?=
- =?utf-8?B?dVRrendWWTJEV3dwSXRib0J1VHZnUXRSTThPWmhNeDNKKzFFOCtrQzVUZVBo?=
- =?utf-8?B?Q2JsME1uVUtCRVdMOGl2M1BiQTlvTHczVllHTHhqRDQ5RmNJdVd2SVRkbGpq?=
- =?utf-8?B?a1BCRUJYbzZjemtRREhLRVZFWGNhYWcwWHBlTWMvK0R2WjJWdlRNeklkOXVl?=
- =?utf-8?B?Ty9kcEpRVkRpbGJLVnB4SnJ2TDdlRVFSelZwaWtPak9IcU5McHlDSmYwUkhX?=
- =?utf-8?B?S1VxUDExYUZiYzlKV1l6NWo0S2ZKVDM1NG1lNnhxK1ZKRmlNQ1d2YnFENlNS?=
- =?utf-8?B?VGYxMDBQd1d5OThoOFE3OWpYM3lVOVhtM1hvQWRCVHg0emVJZC9sRENsTVlJ?=
- =?utf-8?B?ZmVLRERiR2JBcEFRaEVDNEk3a1QxUTdOcEJuVlY1YWFCZ3FOSXo0VVloTEJz?=
- =?utf-8?B?ZG9vSFgyOTYvSXcwa2kzdTdSQWF5MlVESEJYR2dZT2pvdUVoVkRhSGNZaE9C?=
- =?utf-8?B?YzFESEJTZHdjQkEwNWtGdWc5NFVMKzI4MjBUVEtIL2x3VTdXK1FlNUFUNFBw?=
- =?utf-8?B?SjJqSFI2WGdheXQ2T2FEdlhsREZqbjdlVnRXWkM2OXkzRGtCZ3lnWE9hRzVm?=
- =?utf-8?B?aDVxb2NlRGpqUzExbm9yL2FKbHlvemlSTjBrZlR1V3JkNGpTNjRYbHpSUWdK?=
- =?utf-8?B?USt0ZU5UK1Y2NkRXVWRLNXBRbUdQZVNMVXdvN3EwQVBMS1VvL3d4ZjZDYm1K?=
- =?utf-8?B?YU5iTkprU0VneFBXWkJqYkVhODA1ZFBYNjlpQ2VubVVGQVRFRDhJaFRxUGNy?=
- =?utf-8?Q?iiBrsB2dSsotAaEGCs?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c00f19c-8408-42b4-796b-08deee739e37
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2026 19:49:07.8533
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fLWRWwdIrp7S3GRZK7c2WHO+cpTHzRZrZrXKP7syWL27pQl2C9+bXS4yOs9TCGtL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB8431
+Date: Thu, 30 Jul 2026 13:34:56 -0700
+X-Gm-Features: AUfX_mzoiUtQGNkPMfuHgGb11yV4gcaKdQOzK-P2tpO8oMq-FVBJLM1nZe0Ady4
+Message-ID: <CAEvNRgG3qXrG2ix2MEcyVo0GXaen-Pte4gFAwEN+9AY=VtGU5w@mail.gmail.com>
+Subject: Re: [PATCH v9 03/41] KVM: Enumerate support for PRIVATE memory iff
+ kvm_arch_has_private_mem is defined
+To: Xiaoyao Li <xiaoyao.li@intel.com>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+Xiaoyao Li <xiaoyao.li@intel.com> writes:
 
+> On 7/29/2026 8:35 AM, Ackerley Tng via B4 Relay wrote:
+>> From: Sean Christopherson <seanjc@google.com>
+>
+> Though the patch order and diff of this patch is adjusted to what looks
+> in v7, per Sean's request [1], the changelog still looks somewhat
+> confusing and part incorrect to me.
+>
+> [1] https://lore.kernel.org/all/akVGZOeR1ytfkamK@google.com/
+>
+>> Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE based
+>> on kvm_arch_has_private_mem being #defined in anticipation of decoupling
+>> kvm_supported_mem_attributes() from CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+>
+> As I commented in v8, the "in anticipation of" thing is not correct.
+>
 
-On 7/30/26 14:43, Borislav Petkov wrote:
-> On Thu, Jul 30, 2026 at 02:39:40PM -0500, Babu Moger wrote:
->> Therefore, creating more than 64 monitoring groups in the default
->> measurement mode can lead to inaccurate measurement results.
-> 
-> I have this there now:
-> 
-> In either case, creating more monitoring groups than available counters can
-> lead to innacuracies during measurement.
-> 
+What I think was intended here is that in patch 20 of this series, "KVM:
+Let userspace disable per-VM mem attributes, enable per-gmem
+attributes", this part
 
-That is correct.
-Thanks
-Babu
+  -#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+  +#if defined(CONFIG_KVM_SW_PROTECTED_VM) ||	\
+  +    defined(CONFIG_KVM_INTEL_TDX) ||		\
+  +    defined(CONFIG_KVM_AMD_SEV)
+   #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.has_private_mem)
+
+decouples CONFIG_KVM_VM_MEMORY_ATTRIBUTES from
+kvm_arch_has_private_mem().
+
+I get it now, so CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not actually being
+decoupled from kvm_supported_mem_attributes().
+
+>> guest_memfd support for memory attributes will be unconditional to avoid
+>> yet more macros (all architectures that support guest_memfd are expected to
+>> use per-gmem attributes at some point), at which point enumerating support
+>> KVM_MEMORY_ATTRIBUTE_PRIVATE based solely on memory attributes being
+>> supported _somewhere_ would result in KVM over-reporting support on arm64.
+>
+> 1. I'm not sure what "memory attributes being supported somewhere" means.
+>
+> 2. the kvm_supported_mem_attributes() will be renamed to
+> kvm_supported_vm_mem_attributes() and it's still under the guard of
+> CONFIG_KVM_VM_MEMORY_ATTRIBUTES, what's relationship with "guest_memfd
+> support for memory attributes"?
+>
+
+I think another way to phrase this is that if we don't make this change,
+say, on the foo architecture where there's no CoCo and no private mem
+support, kvm_supported_mem_attributes() would return true for the !kvm
+case, which is over-reporting.
+
+How about this, replacing the entire changelog paragraph above:
+
+  Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE
+  based on kvm_arch_has_private_mem being #defined. This improves
+  reporting accuracy by not reporting support for
+  KVM_MEMORY_ATTRIBUTE_PRIVATE when kvm_supported_mem_attributes() is
+  called with kvm == NULL.
+
+  Give architectures full control over overriding the default definition
+  of kvm_arch_has_private_mem() by removing the coupling with
+  CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+
+  In a later patch, kvm_arch_has_private_mem() will be defined based on
+  whether architectural features are compiled in, and made orthogonal to
+  CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+
+>> Signed-off-by: Sean Christopherson <seanjc@google.com>
+>> Reviewed-by: Fuad Tabba <tabba@google.com>
+>> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+>> Tested-by: Shivank Garg <shivankg@amd.com>
+>> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+>> ---
+>>   include/linux/kvm_host.h | 2 +-
+>>   virt/kvm/kvm_main.c      | 2 ++
+>>   2 files changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+>> index 9f78a466c6f3e..c125d2e8155a7 100644
+>> --- a/include/linux/kvm_host.h
+>> +++ b/include/linux/kvm_host.h
+>> @@ -722,7 +722,7 @@ static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
+>>   }
+>>   #endif
+>>
+>> -#ifndef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>> +#ifndef kvm_arch_has_private_mem
+>>   static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
+>>   {
+>>   	return false;
+>> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+>> index 902aa166c9c0c..9501dd8d015d1 100644
+>> --- a/virt/kvm/kvm_main.c
+>> +++ b/virt/kvm/kvm_main.c
+>> @@ -2421,8 +2421,10 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+>>   #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>>   static u64 kvm_supported_mem_attributes(struct kvm *kvm)
+>>   {
+>> +#ifdef kvm_arch_has_private_mem
+>>   	if (!kvm || kvm_arch_has_private_mem(kvm))
+>>   		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+>> +#endif
+>>
+>>   	return 0;
+>>   }
+>>
