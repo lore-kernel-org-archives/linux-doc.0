@@ -1,69 +1,69 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2624399FF
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 15:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B324414A05
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 16:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785426869; cv=none; b=Rd9OvmmPXAxsJBR8fCeJNA79heNG8SnhDSipWd6xU10b9K+SmTlab0GqOgpK7yGA0x5Qmp1J96ip8ZqoRphrtiRZAbPbGt3vpkOKvxT0mwy9hPyiQ4UqK97ICZBJCODRgmN+jnX0cxuHm3EDkVqtrV/jofdSuHT9Em6A6zlDypo=
+	t=1785427641; cv=none; b=roz9Bsg1scKlx5rV1Jc4669La2nBFgqX5v2U3K6VH1r0a7goQTjVIgb/HN8KlIQeVksYcZUsecdClNrmBA9WW19dsO7bIV4c8BXGlT3AFCcvyM3u4JM52XjcM89BjFKepx7OMBQ00Ko/9zk/WGcMrQurjzmUCUOSWdD1kstmcMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785426869; c=relaxed/simple;
-	bh=lBNtrU7nqo2LGdziFUJ+g+Dshswg7sI8Cx8mBe+2I0g=;
+	s=arc-20240116; t=1785427641; c=relaxed/simple;
+	bh=2kTQUIkse279EpSD0a8zG6snrKEqIBMVL1xU9N6thIE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fNM7dhId/L2b43U8kHgAc6v9SCeUmj2VmbwVsTXxko/Axh7v+qdRLLUUxaavj983y1Lq6IWU3ZrvGzKIsriscv9gnEE6U3WOYxhF+RMUCbsc9fPTfLuWPooKqdjVoIkgh05fvVMbfHWnpTeMTqLeScWtKUDOu+kcpRRDWNl2ZN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CU2CuQod; arc=none smtp.client-ip=209.85.216.42
+	 In-Reply-To:Content-Type; b=Vb4fzJ8sm0bVAQZJ3T0twpwjbwokCC5j0Mv5Hcw9XYx6BFZoTAcTD2GrJm9K1RYVKZhRPmm/qwp61rjS/IqTxoeavI6ydkbJnITylVNev1Sg+PFwYDUhzkpj810SYilPqLIxC+I2eCNQNA7KTZcSSRjBzFWW/jwmQtsps9hmjCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UGTaq6rc; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CU2CuQod"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-383cb94f742so14986a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 08:54:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UGTaq6rc"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8485ef63b68so57570b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 09:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785426867; x=1786031667; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785427640; x=1786032440; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3mbcUXH2UkXsg3GtsdQpN1QpKfGFyO9S1J1v/052T+U=;
-        b=CU2CuQodpLAa9HH0gNxxoLUj9gmYk6OKojA0Z1dJdlsePoZtfTz4RWlWy9d8pxTSzx
-         r+YCtafE0CI1PKw4jJp48LgguLelRaAji3uxr3Fenrvi1Vh+MKTpfdEjC6Zgif9vxmm5
-         w4WY+MH2o+OK69K3aU77SSWftlHnzwiYdQA9qEMFyFAJbe19taQJAWqma+e7462Ia/eD
-         nSly4+HVQaAwxCNCwtTFVqQzlNnwU0hIE6dWpVETcJ4hYruYFqFN1aizTGbSfJBtIboM
-         85JAc5n1bf79C8LDI/vE/fqasvFo+R3P3JMss1DeMscDmWmk4Ods9cW7Goz4pcdEVVIj
-         HVog==
+        bh=1uVpoohlHWAaAnbXRBzGkUNvmXJnbW2cGQzPkvuJFpo=;
+        b=UGTaq6rcMQJBoaIxh+sDGVHHDfelAlQpRvf5lfj7M7fCedh/HpXHXs5EBCwt2y5EVl
+         CSpS8I/StQsKgkgrk64RmDDoVAY7AbzFxf8Zmwl08B2TuBVVV6IWNCLOgVLWidCrVlL9
+         l6hLXxNARB2EBvzEXlLMtxG76t0MOp8DO+6vSOwmNOdvcX8KG9068LAJE/KtVtdIDtfH
+         1fl2SsmA8YK+EaOrqlBg8iKLGeoHgqh1YGZTjKG2Nu0iuN4buqIfl/cBt9wnrt4NARlt
+         h9hmVur175Se6Bf8G2qP89DvOyo6Z83tMsSDzB+CO41XLnqlvx4Nt1EAjpsN6NeNYf2V
+         dosw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785426867; x=1786031667;
+        d=1e100.net; s=20251104; t=1785427640; x=1786032440;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=3mbcUXH2UkXsg3GtsdQpN1QpKfGFyO9S1J1v/052T+U=;
-        b=To99zycSxRLBm18lnG3I4RONd6RhOBpRpj46Koy9BAuMxxIC6RM60ZL4Z44NCYIbAY
-         tgaVkiwwGAO2+Sl+gxj2e5SC6nz3uDinA2bzV3QZeVPsSOHUg0UXzPIXqYc+vGs2JUe0
-         RQQh4/LdiHjxKB/xF/A0Xi5bvM4CaiUGJiAmJScTWIAzDKj9CJsjMrb8NSUFycwpHdd5
-         lWCDdCKs1n6SUAcL2ve4qpxAon3POb4C3Nu/bNNX6XTFqCrVTCss23fv+Lvlq74x6UzO
-         WTuSmIlHzT+O39Qdd6yVeYmR3ESrr1mdnUNnCOx6yHvLFW4LlhJ+x6JqzE3eTe5Jea4Z
-         cMpQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrMbvjtidJlvLZyQqw82htaZa3e9NQh5XBWWVlS9OaZkyH9bVYkC2J1dFyHanZr8FENjdKS9BDIZ+o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzrNh4cxoXxk9l0CcHGcxlhi4pyq2ZawaWrK1sAqNuS0HCcWtv
-	AZl50CQ9hlL9EjSy+SHTnt0H9e+b9zFfGyKNvIC0GQaKr+eQIg8OIUDn
-X-Gm-Gg: AR+sD11IRjQRCzEi6jI0izTGiiAC1XLmVFQ+NCsVPCxqb/3Bk0gkR13giPCJHoA8X5c
-	KRiQBBO/tCpZBJsTn9/56C9VD+1b9hhttxrNBWbNdwhYygyvSgoKp7QkjjCVJoLTeYP4bThmq7M
-	XhU909Mg8fvzuGif7PVCO4huEj5lrq5pxwDC7kMw+W8ZdZlQA5APSSYsZo+bBdbqVzLDafm38yd
-	lLO3BvRYineudBctIk9x3sAQG5lqH/No2RDHpE1dDbkSevyo2vkIl4GgnZVGvNpX20Ivu59udPI
-	VuMm78Qmv99Ydmry6t6w04dmsvp1zRcJu0KoS+ttuqcVLBgNPLNEuiPK0j33NrLLskjTBuJ7ZmE
-	rnD9Ir2h3rJonfpNcspUSzHRB0L7OEr9AvOTR4chWdt6k4AAT23aZSzhenwezC69Gq/CpXGV6B0
-	eXhsgZJ/yFPQtCEobo6aMbDFtdB92vpl+Z+lUJCfCPHFWBOEfEPR3CXJRTZNQkzwVjAduAu71MU
-	7Dnm9wtOFXb2jjFeclmVRe+BxyooadN28pWkw==
-X-Received: by 2002:a17:90a:e7d0:b0:381:cef1:11ac with SMTP id 98e67ed59e1d1-38f9be67c0amr2707979a91.10.1785426866937;
-        Thu, 30 Jul 2026 08:54:26 -0700 (PDT)
+        bh=1uVpoohlHWAaAnbXRBzGkUNvmXJnbW2cGQzPkvuJFpo=;
+        b=R8Y3VcUPF66YbuqNeoBdHEm0sFcsBS55nR7AFdW6kvuiUIdhEsrERDD43vTx1pAcwE
+         Q/tV4NEisaxeYvkhdloqrZY/nUog1FbyRtERxfoJzU/uDWwUYcexx7qjrUtnUn4+cf8v
+         Wkt4/ib9cTE7klsPyWl4sBG/uknXExvH9OaRuA2rymO7cXN2hVwUNlyMZ/bno+8YeyAA
+         vIXnpKZHm7Q4N/FlyXXNNt+9Ah5LIxLQiO+5Ma4wnQCKqHLJI3eJFiewJa9ZG7lcdEGh
+         O2FOJby+b+EEYJrBGnYP1VFy/BYVLrN5hNHCDfuFfS/qjLYmbm5jjzUiE9hCQVgQ5/Xz
+         6qNg==
+X-Forwarded-Encrypted: i=1; AHgh+RqzBLAIMR46ahCBChbC9xx29Js+a8lA56bS/ukbi+2UBlpIez67c8+Nyw5D0psbbT31M+SoNVvrLkI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysTNYYqTd2HVuvTdA9AfhfAF32RkOWgHqQaWNC8lkGGnLtpbdF
+	uZKzcUSHrXg6nlN6G+esI70NahBv6wbn3YPG9HNjxR9GMNEWN9CYkdFy
+X-Gm-Gg: AR+sD12J8mozzguERm/r0k6ea00txOBbKV8kRBBxhMApL4+Lri/c8gOChe9yrvpTkbK
+	8VJNRqbcq2KpG94VTVwHczMqiT9a/G3jH4aofhhunxszaMXIK10WWleHU+st+bD1uPPn2s34VyO
+	s2aJed0AGreX4ta851zbM4JIm6QbxX2/ouADq4UYCvHROVpgX/3KrMxY6bkM0/9nJ0yyvtid8Aq
+	cBvzgrNDcXby8H8YYHeArTXvyTHIRc6D5FO1MQAOmUowCiqiEDs8SJRBGhbcRYl7tcm7BUP3qXa
+	uP5jbfIfBVm0D6PZ6I08lxtjKSitWgqGB9TK6nPFLldBrU61+ytGUHmotoc/M62gu/S1LE7VUAE
+	F1ggAAL2oVLmCYJQCnNPNspObdaqOmCPOKZHkhcbzX1GVMZYNlP/7Q7z7Co1Yj0ReiRff8uO6IW
+	+u7gLp79Vr52LZNA+hvpicGNl2HWlOmhi3Lpv/waVFaqWlGu9QFKjaWjJKR7097ghvhDfUTpX8y
+	tVMpqd2Qzh8yxPzV16tQyY17kRoh575oc7KF1ywlxIPGAbUwA==
+X-Received: by 2002:a05:6a00:2283:b0:84a:2a88:fbd3 with SMTP id d2e1a72fcca58-84ebc215ac4mr3069179b3a.20.1785427639698;
+        Thu, 30 Jul 2026 09:07:19 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f9b72c596sm1313465a91.9.2026.07.30.08.54.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e9fe20e35sm3342701b3a.1.2026.07.30.09.07.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2026 08:54:26 -0700 (PDT)
+        Thu, 30 Jul 2026 09:07:19 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <6287e749-04f5-4a03-a91c-fcc705df269c@roeck-us.net>
-Date: Thu, 30 Jul 2026 08:54:25 -0700
+Message-ID: <de535ebe-bc46-4a1e-82e0-f347ef3f16a8@roeck-us.net>
+Date: Thu, 30 Jul 2026 09:07:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,19 +71,18 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
- pmbus_read_block_data()
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
-Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Alan Tull <atull@opensource.altera.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Subject: Re: [PATCH v6 2/4] dt-bindings: hwmon: pmbus: add MPS MPQ8646
+To: Vincent Jardin <vjardin@free.fr>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
- <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
- <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net> <amtewh9lOgWz0-Nh@nsa>
- <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net> <amtqPQSM6zsiCh4B@nsa>
+ Shuah Khan <skhan@linuxfoundation.org>, Charles Hsu <ythsu0511@gmail.com>,
+ Markus Elfring <Markus.Elfring@web.de>, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260729-mpq8646_v0-v6-0-98848151cdb4@free.fr>
+ <20260729-mpq8646_v0-v6-2-98848151cdb4@free.fr>
+ <44db442e-95c8-47f0-92b6-81279710ff33@roeck-us.net>
+ <amr1ar1eLeZ69oGY@L30177.local>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -129,47 +128,55 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <amtqPQSM6zsiCh4B@nsa>
+In-Reply-To: <amr1ar1eLeZ69oGY@L30177.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 7/30/26 08:19, Nuno Sá wrote:
-> On Thu, Jul 30, 2026 at 07:47:37AM -0700, Guenter Roeck wrote:
->> On 7/30/26 07:27, Nuno Sá wrote:
->>> On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
->>>> On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
->>>>> From: Nuno Sá <nuno.sa@analog.com>
->>>>>
->>>>> This is in preparation for adding support to a device which needs to
->>>>> use it's own read_block implementation.
->>>>>
->>>>
->>>> The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
->>>> I'll need to know if this is a chip limit or a controller limit.
->>>> If it is a controller limit, a chip specific override would be
->>>> inappropriate.
+On 7/29/26 23:55, Vincent Jardin wrote:
+> Hi Guenter,
+> 
+> Le 29/07/26 21:10, Guenter Roeck a écrit :
+>> On 7/29/26 14:51, Vincent Jardin via B4 Relay wrote:
+>>> From: Vincent Jardin <vjardin@free.fr>
 >>>
->>> I'll reply from top of my head (did not looked at the driver again).
->>> IIRC, the biggest reason we need the chip-specific implementation is because of
->>> the RAIL selection logic (mainly when not in page mode).
+>>> The MPS MPQ8646 PMBus step-down converter uses the same
+>>> mps,vout-fb-divider-ratio-permille property with the same constraints
+>>> (maximum 2047, default 706) as the mps,mpq8785, so add its compatible
+>>> to the existing schema.
 >>>
 >>
->> Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
->> instead of i2c_smbus_read_block_data(). The rail selection logic would not
->> require that.
+>> The driver is a separate driver, making this a bit unusual.
+>> I'll leave it up to the devicetree maintainers to decide if
+>> this should be a new bindings file or not.
 > 
-> IIRC the reason was because the i2c controller on the raspberry pie does not
-> support i2c_smbus_read_block_data(). So I guess this:
+> Because of Krzysztof's review of v5: he asked exactly for it
+> since mps,mpq8785.yaml already carries the same property, the same
+> constraints and the same defaults:
 > 
-> https://elixir.bootlin.com/linux/v7.1.4/source/drivers/i2c/i2c-core-smbus.c#L220
+>    see  https://lore.kernel.org/all/20260727-sceptical-finicky-waxbill-d7ecbf@quoll/
+>    "...Everything is the same as mps,mpq8785.yam, so why it cannot be added
+>    there? Just grow the list of if:then: to cover your specific
+>    constraints."
+> 
+> v5 had it as a separate mps,mpq8646.yaml file. I'll follow whatever
+> the DT maintainers prefer, but so should we consider that it complies
+> with Krzysztof's argument ?
 > 
 
-Hmm, I think we really need a common solution for that problem. Not all
-controllers support i2c_smbus_read_i2c_block_data(), so you are just moving
-the problem from one controller to another.
+Yes, and I guess that answers my question.
 
-One key example is the PIIX4 driver. Your new driver does not support the
-majority of PC style systems with AMD CPUs.
+I'd like to see that documented somewhere for future reference, but either
+I don't find it or the documentation is vague.
 
+Again, the question is: if bindings for two devices use the same properties,
+but the chips are different enough to warrant separate drivers, should the
+bindings be combined into a single bindings file or should the bindings files
+be separate ?
+
+As an interesting twist, the actual binding (mps,vout-fb-divider-ratio-permille)
+really applies to many PMBus chips, specifically those supporting the
+PMBUS_VOUT_SCALE_LOOP command.
+
+Thanks,
 Guenter
 
