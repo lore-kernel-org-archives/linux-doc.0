@@ -1,134 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC62C331A76;
-	Thu, 30 Jul 2026 10:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FAA4052AA
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 11:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785409096; cv=none; b=FsZPt9gtpavGerEE1XYNwFdVO5b74RUwOv5VlgEY85KCxSCyBjuousFSSIxD/YhrH4cmhj6IQEIljha9WQGnA/OjWZZzennQfTe2kYR632rX1/br/afpq+QJIj/KbkpenCoC1UQY5SacY5LMSWNDDxdbv+M+YLQDQDAVG5VRmrM=
+	t=1785409261; cv=none; b=JRZru6ruZs7HuyyQSasjT9Emh/tM1SeszL9/w47MMrkhKFZ4AnZkGOUxTfCXcMjm20m/V+sjmby1zGvf6A6SMP5jFol2UX9aDy9rPxEeT+wBP/Veha5DuPfJDkdTWxDvtQMsMaeF80JZWEsvADtAUrPkVLsHyc5DOLaYk6Fmh+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785409096; c=relaxed/simple;
-	bh=o74o4MYrqkyTE9AOgcCDdL0OG8TudXVCYp0aA/sK8EE=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=BWJrfEZCQYAD4sJiFCqKRMVdm7OmNYbzN12G5VXDkJmLGPqL4PBYcpyRQ1NdYjipWovhY+F/qCu+QMEsDbkdjdSP1sSB949X6h424AyfrPjzJEEtVltVN2MLegFT++lx3EeXdzEf3FeveTFLvsD7UOL3sgZX86ecS0TAmDXGdck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UAX9ljGG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785409261; c=relaxed/simple;
+	bh=IkecOhyE31DlB6ewxaKp3faFALMJMMHrlZR/v5uvapI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0fHkWAIsr/h7D3S3OxGdnyA1qLgc+TWU3B0Rr5wQST5hg/Xo/hnPhKyYF/Ut2u4tjvfLHPsMVh31ox6kutCGcobNXlz5kF3vEZp/8VksXYG0fr4fR01Kaf0sTHGIEmxsCDxniWqcgFlnwBRwbHPcN8plpRUyQOs5r9ZknWvqPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=v5IFtawI; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UAX9ljGG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 621801F000E9;
-	Thu, 30 Jul 2026 10:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785409095;
-	bh=ho4YgyjQWyBPUtevx1zJhBR2CkmhZreF0QpyeyphzFE=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=UAX9ljGGbRUS4xetzqrE0PMjPXbJNbJenYDiXH5cGCN/VkCypcrXMCijxjd794cE9
-	 fslK+ToUhFiTYo+XgYYKyBh2jytb9MxmQYlrLivJW3iHab5A0j3l81greEEv6bAYFq
-	 42xNk8lDButxsz0GTDUTshOJ5lgc7fy+kb/3uhbosCULe6SDNNNIXsBKU9Zx97m+RQ
-	 El7k4S7cqLSw4Oh/MP5+kcBo3bZysZee8fXz7LxMYiv1KdYqTQiTMiZdrej+TK7M9J
-	 3U6mg/VUT3EPyf2a3nCSvih3L/OIPuqk/wGS5RFiOzn8tqz4jX6L/f5l04BgmQPrFw
-	 7ZvQq+Pj1+t5w==
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="v5IFtawI"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4728c12ba97so1273994f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 04:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1785409256; x=1786014056; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZohQaCf3r9LKYnA3FBqlh9CHwHw3y+cuU8Dt+LV0QCQ=;
+        b=v5IFtawIwOPctGXvOtm2VQB/EKa658FwM43NWzM0f9p2j2If9F6GpR8KlAWmgU4vLR
+         4Ht4DBRegp0Q3Fm0n2rOSccyuyl14ri2KhbW4ESlD5z8r/8YBYpW+VpVL41aQ4hgbHg0
+         eCPK2sq1f41ztD8b2qFjPvKHQExkmfr5fC9R7aR5Q+JvzKshDD1VNnggkgF28AvEmivl
+         lOMjE0F+PGOvivianG32TNSnUchPXeKV+xDR9IZzot+44NvIbVGCc+HttA9pUxRl9pXH
+         SyD2Q0VlYWoVguixSQOoTudUKyDJl0u3lBo/BHuVU1Xt44oGghYRawgNbit6AR1pgVGr
+         FRDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785409256; x=1786014056;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZohQaCf3r9LKYnA3FBqlh9CHwHw3y+cuU8Dt+LV0QCQ=;
+        b=FJyIzt8q5qAvaxBx7txn/uI/7ksKEcU2rwUFbW8kpyZ03mPKwhJQr/dbc54aD9BNYO
+         Qfx7jZDtWTO/cmCWSM503PGegd2lSiPg2R6BPRKvhq8mwfOblJg5za0aERAqi55I4bj4
+         zdmBywwZxnPq/OWknK/ofErawTEWxg7IICessMrCNOhkXFiZd2BhcJfydFwZUJqweKQ8
+         Fh7glWfFuLNzd/GHF6A2CX9nZHnNTiBoX+vXFEXjlyHgm714MrhCE2RkuK7Jfuu9ShEk
+         KS06D2JaIRF4jYdPVLizIIAt6f2D1Fbo12ayjpysA6MECYoGmlNHZj8r+1aIqIoaXQFE
+         t4Dw==
+X-Forwarded-Encrypted: i=1; AHgh+RpjU5Uu6f+kvY8L8KkRBD1dOH76GPlB7e8J3URMJMR50+Uw+TyseMonGdmRuDNSiYqf2i6vNxIt1p0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJrkwJtf/8FZWGV/zElSe4/ipKkluJpQ3evwiJa5D3rYUu8E0k
+	V17E4VkdpoQgItuRtMejJI044sSbwcmh+QavoSdgborWs+IvQ2Rc9K0S6FtJAGWmKY8=
+X-Gm-Gg: AR+sD12ify1VXGDUKD+xzSYp3UTdy08utNGZGdMKuocAuhzeQolhCPhBaLElmertCg8
+	1/hysVRh8fTsr3UKQkITt0qjEDs46YWlqvpQ1GlDrJTWP/r4gOOT2+6graYtu0z0cH73VShNxuB
+	XM+6Pte44+3va0a4WJKihOx2X8E/NHQYLWPRvVWE95gXAvYk83wSP8RZ3yoYOt8t5my9lPXX7Rq
+	IhnMbOBU9x4bp0Y1JJCVYoALiwkt2usSLyVnB94ThnXy7U8i0O8uC4YMhhf0PShfeoueZVCdQQG
+	yyCdCqLoRIr8JO9EePehTZM8M4XkZAeQI62vgiZ7wX5sWjLjtldVn96XQHUNJibY9vG6Ay/PrWi
+	y9yqKbk2cIKIrQa4W2M3nrj2dXbOGrSgyT/V/79UM097o44nbu2HGG+9EDOPayOsqzDtKlkZiuz
+	5bIHWw5iVgVqOfrr3c2tN+UPSM/iLaCnVtdIY92jLrr6osrxyi6xvYuvhOqW1QQctcOnmg/w==
+X-Received: by 2002:a05:600c:6289:b0:495:3fe8:880f with SMTP id 5b1f17b1804b1-49800e6ae41mr26675685e9.4.1785409256325;
+        Thu, 30 Jul 2026 04:00:56 -0700 (PDT)
+Received: from localhost ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49800f19bb3sm49193765e9.4.2026.07.30.04.00.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 04:00:55 -0700 (PDT)
+Date: Thu, 30 Jul 2026 13:00:52 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Mark Bloch <mbloch@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Tariq Toukan <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org, Jiri Pirko <jiri@nvidia.com>
+Subject: Re: [PATCH net-next V7 4/4] devlink: Apply eswitch mode boot defaults
+Message-ID: <amsu3mbWht_pc4KJ@FV6GYCPJ69>
+References: <20260716084852.549909-1-mbloch@nvidia.com>
+ <20260716084852.549909-5-mbloch@nvidia.com>
+ <20260724161111.2ac47089@kernel.org>
+ <c6c0d67c-d832-49a1-b62a-57fa6ee56a47@nvidia.com>
+ <20260727131033.237f70b6@kernel.org>
+ <amnDfSmMVzpiH2gE@FV6GYCPJ69>
+ <20260729160608.3c491568@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH v2 0/4] init: boot image-based systems without an
- initramfs (rootimage=)
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Curtin <ericcurtin17@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y . Ts'o" <tytso@mit.edu>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org, 
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260727104845.2607444-1-ericcurtin17@gmail.com>
-References: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
- <20260727104845.2607444-1-ericcurtin17@gmail.com>
-Date: Thu, 30 Jul 2026 12:58:09 +0200
-Message-Id: <20260730-bachbett-erwarben-harmonie-e6b8ebf05969@brauner>
-X-Mailer: b4 0.16-dev-3e0c3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3650; i=brauner@kernel.org;
- h=from:subject:message-id; bh=o74o4MYrqkyTE9AOgcCDdL0OG8TudXVCYp0aA/sK8EE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRl67nst8uYLryqneFWZGz/Wb9dT6pv7Wj9Jpk2b3MJ0
- 8a5m/XOdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk3Jzhfw3rr4RAec7519WD
- jRoYTSTetzge/LKyZslBNVbmKwHGsQx/hRx1Vri7hUb7t7VdP+34ccKpvGmx2zKcVp5W+m7eWx/
- PAAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260729160608.3c491568@kernel.org>
 
-On 2026-07-27 11:48 +0100, Eric Curtin wrote:
-> Changes since v1 (https://lore.kernel.org/all/20260718191551.1703670-1-ericcurtin17@gmail.com/),
-> following Christian Brauner's review
-> (https://lore.kernel.org/all/20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner/):
-> 
-> The goal is unchanged: A/B image updates from a single partition,
-> without paying for a second userspace spin-up at boot. What changed is
-> how rootimage=/rootimageverity= get from "here is a path" to "here is
-> the verified, mounted root", which is what most of the v1 review was
-> about.
-> 
->  - Patches 1-2 are new: they add generic, reusable VFS infrastructure
->    (struct fs_context::source_file, path_mount_file()/
->    init_mount_file(), vfs_parse_fs_param_file()) that lets an in-kernel
->    caller hand a filesystem an already-open struct file as its mount
->    source instead of a path, and convert erofs's existing file-backed
->    mount support to use it when given. This is the "new infrastructure
->    available to any fs" asked for, so that init/do_mounts.c never has
->    to independently re-resolve a path that something else already
->    opened and validated.
-> 
->  - Patch 3 (rootimage=) now opens the image file exactly once and
->    mounts that same struct file via the above, instead of opening it,
->    doing nothing with the open, and separately handing erofs a path
->    that it re-resolved on its own with no guaranteed relationship to
->    what was checked - which is what v1 did, and which is where most of
->    the "second lookup" / "weak assumptions" findings came from. There
->    is no fd-vs-path race left because there is no second lookup left.
-> 
->    rootimagesrcdir= is now mandatory (rootimagesrcdir=none opts out
->    explicitly) instead of silently detaching the carrier by default,
->    so there's no more zombie superblock/dangling mountpoint by
->    default; you have to ask for that outcome by name.
-> 
->  - Patch 4 (rootimageverity=) is mostly unchanged in what it checks,
->    but now runs on the exact file patch 3 mounts, so the digest check
->    and the mount are guaranteed to agree on what "the image" is. It
->    also now refuses rootimageverity= together with rootimageflags=
->    containing device= (multi-device erofs images), since the digest
->    only ever covers the primary image file and silently ignoring the
->    rest would be a false sense of integrity.
-> 
-> Not changed / not attempting to fix in this version, per the v1
-> discussion:
-> 
->  - The carrier filesystem itself is still fully parsed (superblock,
->    directory entries, extents) before rootimageverity= gets to check
->    anything, since reaching the image file at all requires that. This
->    is structural to a file-backed image sitting on a general-purpose
->    writable filesystem, the same way a dm-verity root still needs a
->    trusted block layer under it; rootimage=/rootimageverity= are meant
+Thu, Jul 30, 2026 at 01:06:08AM +0200, kuba@kernel.org wrote:
+>On Wed, 29 Jul 2026 11:11:53 +0200 Jiri Pirko wrote:
+>> >Maybe a middle ground would be to add a dedicated devl_init_unlock()*
+>> >were we can stick such init? Slap a WARN_ON(!registered) in the normal
+>> >unlock? I don't want the normal unlock to grow in complexity like
+>> >rtnl_unlock ended up growing.  
+>> 
+>> Yep, that was +- my idea when I suggested this, to have this in a
+>> separate helper.
+>> 
+>> devl_unlock_in_init()
+>> ?
+>
+>Maybe "after_init()" ? "in" sounds like we can release it multiple
+>times but I think the idea is that it's the final, single "release 
+>into the wild" unlock.
 
-dm-verity reads opaque sectors whereas this runs
-superblock/extent/directory parsers running on attacker-writable data.
-
-The mitigation mentioned below kinda defeats the feature... The
-filesystem that contains the image files is writable and the whole
-rootimagesrcdir= exists to keep it reachable. If you could dm-verity is
-as stated below, you would just dm-verity the root and used
-dm-mod.create=
-
-All of the other issues:
-
-* init suddenly becomes deployment policy
-* things shipped as modules
-* composefs can't use this
-* the alternative to achieve the same thing via CONFIG_INITRAMFS_SOURCE
-  / UKI signed initrd completely ignored
-
-/me walks away from this LLM hell.
-
+ack
