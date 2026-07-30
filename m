@@ -1,298 +1,146 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB799400992
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 10:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785407764; cv=pass; b=nJP3FJryrgnpstiMGX2U+Qd//V8quKBLvcmgfDqADsCCIomhNr2vaV2983yd9DP51Awc8l5rQ3gPctcyvL8ruBHcuQJr21va9bdKBhn4WSb0mSVsyqj+eT97AodEApbhpWJQZu9uJm3du3eAczUgdKWF2+GrLUI/pGPYo3GfXB4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785407764; c=relaxed/simple;
-	bh=lN5P2U6zU77+d38S81rcqTKY2nPem/l6z4v0pII5/Bs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u1YbxqDsUvr4l5XkF0WLhNxDCvZyBFZbo1939yvXild95qNxye/Xvpy5TLSshdbX2HBqg/7cULb13LQ+0T3thZgTyMwuHDOwF/9azJKUM4bHXIcqdPWDaaN/oYRM+2ZBjL6/1LXeq9wuP9qY8CQDfTd5SeLdTQR5pGfoPXHuRtA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Mh6qJgBF; arc=pass smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74A23C09E4;
+	Thu, 30 Jul 2026 10:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785408750; cv=none; b=izfbiki/D9ui099wz9WsdXL4dzgRUYyufFLGM+KsZpZSrm4wsqURv6YWIG5RZ0uLxnShlb6fOwSS8A2LXT1Vioeu0efSjJbahq6/JTeQO4JU7lUJS7lsrZSbrPf0BDAHca3KRsPipvVhGzilRDSup2v/qEw0SeIVW7WHYBIudZY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785408750; c=relaxed/simple;
+	bh=UvKCq7l6psv+9VQB3BKj5A3SAuB5ZkDp48bUDA8pE4k=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=FSuo4/mSCej8epnvUyXoVUiIRXiWDamGAN8TA8o6x5Bk3fskqqYsD5vJ4/R9791ZPsA5p2QW1CUEBN0yxhYMc8Sqj+O8BAC9e1VZAvSv5NiI3dJbpg00/mNpUVVOhJHkLpi0zZJxTSWDWJWU3aeJcmbYuNrZg6bF3jNWVvjKQyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TaNLiHQ5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Mh6qJgBF"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51c10ed63c0so176231cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 03:36:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785407762; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jSHX5wHy39TE4tLnO1Ckw1rZyC9d+1U72DkOLVyrJwlzSSFS9TUWqyySf2UZuSdcFa
-         5LcY0OHVB/nOT5vXKFaCUKvinwFGmWd0zjP3mPRpSPTInZlObD+nWntP2OCquVctLYa0
-         eJsNSHSAFFzOXxBpsq9rB1Fh4gcQ3kyX95EdzLOgg0rQdtH3aH0ES/YKV+o4idEpVe3f
-         4r252OWCMhGXYlFQUxSm46EdN1xnsXVRDoXsGaSqQEyRQHaYx6CaAnyO5hfvxgDZMTr3
-         hM2YgehIZXIrSA/CRDOvEPpjAC1Tqyd1Avgh8TTllwoLZEfRsp33UIeIkZkgpHL4XpYm
-         7i3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SOOBkZJwQCWVQFO2bew9xlSgUrM3XWnbKBiotDY5lMU=;
-        fh=n8ayfqZe4H66Iy37+ewmV9z3DYffj/Wzkm9xvgMHVPU=;
-        b=Va+CLtXN2D99XawSh3dvH/aBYX1g08YP4h7Oj1R+jx29Bdu9lkjcpu7PvKDH4OW7Uv
-         FHEe5YSdLXUoiOjnwCo4lC111kp8xQMb5XEVcTP2iZgP921anoQ2NMSiGzd9BkfFBcOg
-         qP7Cq9b9Ke/+BEHlwwEVE4+UHNoA1DJm0prvwqXfrJbFPNGmdCPu/lmTqxdosEDwuinm
-         HoHscHFImj9IuNCoOZ6mUFoYlzAZLO15t5HyzyBluE29+2TNz7i3U0s00oswwCg5Em+v
-         Bqvf9zYAS9ngADucmHyNt6v+7ZTh/fF2WArKWh1SkQxuRImK6xqSR6sjo3NAm8f0ORO6
-         TAZw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785407762; x=1786012562; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SOOBkZJwQCWVQFO2bew9xlSgUrM3XWnbKBiotDY5lMU=;
-        b=Mh6qJgBFeBOFsXsKFXNseifSY8D7RAx6JcBXYlf4gxmlohiUpWoUMv4FufunVkBZZK
-         f0obCYMna9fnLTYKsostURv8JrW0U/qKlPEAVaIR9PEVTQ6w50V8E6asI4lWQuDcNael
-         36rwMGveqohdUk1U+QIrp7VahhN1kuXGCkhvf6zaMEtAqXOGlib4peJp43FjNxZTqGtq
-         y7nz5jahCsDmrG1wtIOvBMPosvmrsYSaAuUzCHDx5tMun8orPiWI50R5dOzvV1uoZ9UM
-         OgX2v7VtUOZGwCRtK8HevwiPR0/wwVfLC2+7ooIPe6Idb/rNwc313GskGAD2gjHPXHpD
-         EzCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785407762; x=1786012562;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SOOBkZJwQCWVQFO2bew9xlSgUrM3XWnbKBiotDY5lMU=;
-        b=oxNZ94Fxj3qACPfSFcnqn7G/KZLzioqLYXT8GoVVbIivPvz6CV0VFyQ0AjHfEVLsQs
-         04DkWNi9rktarvR+ck8trFfgn/euUNsXmajUZgcgHmL3QGaivKU/ehd6qgpcLGHCuYgp
-         GsJYAUBbNTyKDlb3Gt2p4E+N6D2vOjoknVxT7VPMNlUk+DNxKx9R+2YSkL9Z9l18rG6W
-         soUrjIxD2yug2X4bgWJldMnSgegspm/Eiq5IBlB0X6VVDYj1Jkmx99G2ag3dWDM/Dlen
-         2xLz3T4HbkYXlaqOHrJvTIVCHS6DPiIEb+uZBzNE2kVo3UZ5CJqVapbN4DbiwCLi5qPY
-         WJTA==
-X-Forwarded-Encrypted: i=1; AHgh+Ronr3MqhF4k9c0B7ghA/zQn+4gHoltME9GTkltbul0Gmq8mblaMOK6FJwVCc5+BGemEjdl3u1UjAqA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqVgVWoHDQGUd+vPmQnRo0RiK1Qq19DOeSUGP3se/MYjhh2FK6
-	hgoPVN/wQ8ubXkzd+ZuoUuRYWian2peDjyvdYG5Oemg7LMBGr9mJ7SPu+r0ciRp5e/pX8TyXIfQ
-	i3niUzrpjQAQKeW9RYZ7W2vzajsdoCu8lzMVRU4SQ
-X-Gm-Gg: AR+sD13m3kBJfR6laKTdngW3Q7vzNjGZ9GEXYXLcoBI5IG8X16s1rya4bKhsXBIfySM
-	dNsujr2yR3aUl7bInVMKlu1fqM10n945vDxotRotpS1dcV6sJAyAEipykrPU23nSngyoKaZeixW
-	anNhjyfxuXpJTeDFytrn3Q7KVmWjCQjMeNtF2UfFG5b3YAfHbuYpg7Fgljd+7wBHk4PmgvQJiVi
-	LhYO6EnrvrRePK/iB0986hvPExshCajSmScAZIr1fmefReiL2p/SQGZbp7xKW052D2t1kblEjtw
-	rswatZAUpiEbt+uL6030gQmXIh1GgNNiCd5ZCFLSC+3n
-X-Received: by 2002:a05:622a:e198:20b0:517:64f6:3365 with SMTP id
- d75a77b69052e-52b391602aamr11675091cf.4.1785407760987; Thu, 30 Jul 2026
- 03:36:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TaNLiHQ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607E31F000E9;
+	Thu, 30 Jul 2026 10:52:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785408748;
+	bh=6nnfs8nNtVlnONzrxIfe8gTsLCSK014Od3NMgnHpEGA=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=TaNLiHQ5r12KveIkqUueqgJ6znUisBjF6CuJz+NMS6O197mlNPse6/Ni1Ei/ySsQm
+	 Yz4ZsvWiEGISLo/wxSBykWjwf9jZoalchbdbGC2X7rcDOI5HYlYB3r7ylfSezU/+bf
+	 A2i+DbRpHPg8V5CqM/QqWCRCuMO9r4R2q+bfs5u1Yokofjic+3rTfSQHq5ZyN0/X7M
+	 hX32l1x5bSDcstnwqCcPBTEqmZr1gVjirnqoW8Q/WoPoidK9UBfszrTRhnG6DgFpfR
+	 BKCfuDNzZ1qNliYLQKGUNHSRX5HN1F4PnjiIuJOJydW69E7gWhrhYzc/JkKI4LjdHB
+	 20a6NCZn3WLjA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com> <20260728-gmem-inplace-conversion-v9-12-35f9aec2aed2@google.com>
-In-Reply-To: <20260728-gmem-inplace-conversion-v9-12-35f9aec2aed2@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Thu, 30 Jul 2026 11:35:23 +0100
-X-Gm-Features: AUfX_myxKBJR6h01nzpu_vZoQunkdC1wrGyOxOE_3W2zA3Dduo4yuXfuFwjgfug
-Message-ID: <CA+EHjTzypkaq3qUpLeFM3k96QtFSMZMPW4Y+AA_A0WUo1u97Vg@mail.gmail.com>
-Subject: Re: [PATCH v9 12/41] KVM: guest_memfd: Call arch make_shared callback
- for to-shared conversion
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH 0/2] init: boot image-based systems without an
+ initramfs (rootimage=)
+From: Christian Brauner <brauner@kernel.org>
+To: Eric Curtin <ericcurtin17@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Eric Biggers <ebiggers@kernel.org>, "Theodore Y . Ts'o" <tytso@mit.edu>, 
+ Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+ fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org, 
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260727103104.2531937-1-ericcurtin17@gmail.com>
+References: <20260718191551.1703670-1-ericcurtin17@gmail.com>
+ <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
+ <20260727103104.2531937-1-ericcurtin17@gmail.com>
+Date: Thu, 30 Jul 2026 12:52:23 +0200
+Message-Id: <20260730-bemalen-beigaben-distribuieren-89fb44589e20@brauner>
+X-Mailer: b4 0.16-dev-3e0c3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4029; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=UvKCq7l6psv+9VQB3BKj5A3SAuB5ZkDp48bUDA8pE4k=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRl67x8NtvI4Eps49UF62r3xu6yUzb49jtmRvW6xB3rX
+ OwY1k+511HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRqSaMDHsmVs9dJV24Ntdp
+ 28I5Pk/Wzv6/dtNdPtsDk89abT6xpPs1I8O3qH8nXcxjPwfd3RYf13o2pSBF+mOlHv/JntBHmY3
+ f1nMBAA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hi Ackerley,
+On 2026-07-27 11:31 +0100, Eric Curtin wrote:
+> On 2026-07-27 10:55 +0200, Christian Brauner wrote:
+> > So I have several structual and design issues with this.
+> [...]
+> > You're embedding a whole deployment topology into the core code here as
+> > well... There are _five_ interacting __setup parameters. Every real
+> > deployment immediately wants a sixth knob: A/B fallback inside the
+> > mechanism. Because in your current model every failure is a panic().
+> >
+> > But that also means image selection must live in the bootloader anyway:
+> > composefs/overlay stacking, LUKS-encrypted state partitions as command
+> > lines can't do crypto secrets, fsck of the carrier, directory-based
+> > deployments yadayadayada.
+> >
+> > This is just turning do_mounts.c into policy it shouldn't be involved
+> > in.
+> 
+> Thanks for the detailed review. Let me state the goal plainly, since I
 
-On Wed, 29 Jul 2026 at 01:35, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> When memory in guest_memfd is converted from private to shared, the
-> platform-specific state associated with the guest-private pages must be
-> invalidated or cleaned up.
->
-> Iterate over the folios in the affected range and call the
-> kvm_arch_gmem_invalidate() hook for each PFN range. This allows
+This kinda reads like a complete 1:1 dump of an LLM session...
 
-I think this line is left over from v8. The patch calls
-kvm_arch_gmem_make_shared() now, and kvm_arch_gmem_invalidate() no
-longer exists after the reclaim/convert rework, so the changelog
-describes a hook the code doesn't call.
+> think it explains the choices even though several of your specific
+> findings below are real bugs I should just fix rather than defend.
+> 
+> The goal is A/B image updates from a *single* partition, without
+> paying for a second userspace spin-up at boot.
+> 
+> Today there are basically two ways to do A/B on Linux:
+> 
+>  1. N partitions/dm-verity volumes, each a full root image, selected
+>     by the bootloader (dm-mod.create= + a GPT attribute flip). This
+>     is the ChromeOS/Android model. It costs Nx the storage/partition
+>     budget up front and the slot count is fixed at provisioning time.
+> 
+>  2. A single filesystem holding N image files (what bootc/ostree/
+>     composefs already do), where something picks which file becomes
+>     root. Far more space- and slot-count-flexible, but "pick a file
+>     and expose it as root" is currently dracut/initramfs's job, so
+>     you pay for a whole extra userspace stage whose only work is the
+>     five steps in the cover letter.
+> 
+> rootimage= targets (2): keep single-partition flexibility, drop the
+> "spin up a second userspace just to switch_root" cost. On fast-boot
+> targets that first userspace (loading dracut/busybox, forking,
+> possibly loading modules) isn't free and is pure overhead for five
+> mechanical steps.
+> 
+> To be clear, I'm not trying to relitigate "no bootloader spec in the
+> kernel" - I agree with that call, and A/B slot selection/fallback
+> bookkeeping is meant to stay in the bootloader, exactly as it does
+> with dm-mod.create= today. rootimage= is only meant to do the same
+> mechanical "resolve the one path the bootloader already chose, verify
+> it, make it root" step dm-mod.create() does for partitions - just for
+> the file-backed case, where there's no dm table to describe it. So
+> the "sixth knob" is intentionally out of scope; where you're right is
+> that I haven't specified what happens when this step fails (currently
+> panic()), and that needs a real answer, not "bootloader's problem".
+> 
+> On the rest, these read like real bugs, not disagreements, and I'd
+> rather fix them than defend the current code:
+> 
+>  - filp_open()/fput() unused, and no guaranteed relationship between
+>    the fsverity-checked file and the path/inode init_mount() and
+>    erofs's own filp_open(fc->source) resolve independently - agreed,
+>    this needs a real "mount from an already-open fd" path.
+>  - multi-device erofs / rootimageflags=device= meaning the digest
+>    only covers the primary image - agreed, real gap.
 
-With that fixed:
 
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
+>  - the carrier fs being fully parsed, including reading the fsverity
+>    descriptor itself, before anything is verified - agreed, that
+>    ordering defeats the point.
 
-Cheers,
-/fuad
+Yeah, and it's unaddressed as are all the other structurual issues.
 
-> architectures to perform necessary teardown, such as updating hardware
-> metadata or encryption states, before the pages are transitioned to the
-> shared state.
->
-> Invoke this helper after indicating to KVM's mmu code that an invalidation
-> is in progress to stop in-flight page faults from succeeding.
->
-> Omit support for calling the arch hook to make private, since SNP, the only
-> implementer of the arch make-private hook today, would actually prefer
-> making private only just before faulting memory into the NPTs.
->
-> Calling the make-private arch hook would require iterating both bindings
-> and the filemap to find the intersection of bindings and allocated
-> folios. On top of that, SNP would need to figure out whether to actually
-> make private based on whether the memory is about the be faulted, or
-> whether it is a conversion.
->
-> This does leak SNP-specific details into guest_memfd (as in, why only
-> make-shared during conversions but not make-private?), but the additional
-> complexity is not worth taking on until guest_memfd has a user actually
-> requiring an arch make-private call.
->
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
->  arch/x86/include/asm/kvm-x86-ops.h |  2 +-
->  arch/x86/include/asm/kvm_host.h    |  2 +-
->  arch/x86/kvm/x86.c                 |  5 +++++
->  include/linux/kvm_host.h           |  1 +
->  virt/kvm/guest_memfd.c             | 42 ++++++++++++++++++++++++++++++++++++++
->  5 files changed, 50 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/x86/include/asm/kvm-x86-ops.h b/arch/x86/include/asm/kvm-x86-ops.h
-> index 5cb132eca3c35..8e0d6970c43b5 100644
-> --- a/arch/x86/include/asm/kvm-x86-ops.h
-> +++ b/arch/x86/include/asm/kvm-x86-ops.h
-> @@ -149,7 +149,7 @@ KVM_X86_OP_OPTIONAL(alloc_apic_backing_page)
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
->  KVM_X86_OP_OPTIONAL_RET0(gmem_make_private)
->  #endif
-> -#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_RECLAIM
-> +#if defined(CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT) || defined(CONFIG_HAVE_KVM_ARCH_GMEM_RECLAIM)
->  KVM_X86_OP_OPTIONAL(gmem_make_shared)
->  #endif
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 9fdf13b071097..ceb2abf43b76f 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -1730,7 +1730,7 @@ struct kvm_x86_ops {
->         int (*gmem_make_private)(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
->                                  kvm_pfn_t nr_pages);
->  #endif
-> -#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_RECLAIM
-> +#if defined(CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT) || defined(CONFIG_HAVE_KVM_ARCH_GMEM_RECLAIM)
->         void (*gmem_make_shared)(kvm_pfn_t pfn, kvm_pfn_t nr_pages);
->  #endif
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 3308d58342955..52de3ec7c7f73 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -10639,6 +10639,11 @@ int kvm_arch_gmem_make_private(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
->  {
->         return kvm_x86_call(gmem_make_private)(kvm, gfn, pfn, nr_pages);
->  }
-> +
-> +void kvm_arch_gmem_make_shared(kvm_pfn_t pfn, kvm_pfn_t nr_pages)
-> +{
-> +       kvm_x86_call(gmem_make_shared)(pfn, nr_pages);
-> +}
->  #endif
->
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_RECLAIM
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index f408746d315f7..47f633cddffe0 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -2612,6 +2612,7 @@ static inline int kvm_gmem_get_pfn(struct kvm *kvm,
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
->  int kvm_arch_gmem_make_private(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
->                                kvm_pfn_t nr_pages);
-> +void kvm_arch_gmem_make_shared(kvm_pfn_t pfn, kvm_pfn_t nr_pages);
->  #endif
->
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index d3c813dcbf96d..612fcde4ae8ea 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -563,6 +563,43 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
->         return safe;
->  }
->
-> +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
-> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
-> +{
-> +       struct folio_batch fbatch;
-> +       pgoff_t next = start;
-> +       int i;
-> +
-> +       folio_batch_init(&fbatch);
-> +       while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
-> +               for (i = 0; i < folio_batch_count(&fbatch); ++i) {
-> +                       struct folio *folio = fbatch.folios[i];
-> +                       pgoff_t start_index, end_index;
-> +                       kvm_pfn_t start_pfn;
-> +                       kvm_pfn_t nr_pages;
-> +
-> +                       start_index = max(start, folio->index);
-> +                       end_index = min(end, folio_next_index(folio));
-> +                       /*
-> +                        * end_index is either in folio or points to
-> +                        * the first page of the next folio. Hence,
-> +                        * all pages in range [start_index, end_index)
-> +                        * are contiguous.
-> +                        */
-> +                       start_pfn = folio_file_pfn(folio, start_index);
-> +                       nr_pages = end_index - start_index;
-> +
-> +                       kvm_arch_gmem_make_shared(start_pfn, nr_pages);
-> +               }
-> +
-> +               folio_batch_release(&fbatch);
-> +               cond_resched();
-> +       }
-> +}
-> +#else
-> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end) {}
-> +#endif
-> +
->  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
->                                      size_t nr_pages, uint64_t attrs,
->                                      pgoff_t *err_index)
-> @@ -605,7 +642,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
->
->         filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
->         kvm_gmem_invalidate_start(inode, start, end, filter);
-> +
-> +       if (!to_private)
-> +               kvm_gmem_make_shared(inode, start, end);
-> +
->         mas_store_prealloc(&mas, xa_mk_value(attrs));
-> +
->         kvm_gmem_invalidate_end(inode, start, end);
->  out:
->         filemap_invalidate_unlock(mapping);
->
-> --
-> 2.55.0.508.g3f0d502094-goog
->
->
+>  - zombie superblock / dangling source path / no loop-style
+>    backing-file equivalent after detach - agreed, needs fixing.
+> 
+> I'll rework this into a v2 that only tries to solve the "take an
+
+Why? The structural issues are all still there.
+
