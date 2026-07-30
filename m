@@ -1,62 +1,62 @@
 Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BC530EF63;
-	Thu, 30 Jul 2026 13:00:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CEC4302EC;
+	Thu, 30 Jul 2026 13:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785416445; cv=pass; b=T/87tcL75oLzMffu1G9rhaS3u+vxPmazp6W7eWE8Kho76wE4zU/bKRpdUkL3JKlqrBE8m6WIcenH77Uj4TzaykbiKstTM/WhNV4Xf3LJgvtDuF0hLqLE/EREF/M8AbK1PwSZ/jJLEjX1Y/VojWvfw/QFxNG0890i9suEGLBx8cE=
+	t=1785416774; cv=pass; b=YPod3WYS+EerFt6fmoE/IS4YHkvJzNPjIPgwX3yNnmnCnJm4D8eCH5pKF9b17NlKKiGQUGtmhM5VAw4aLo5bHXd7H2rbstgKJzRn4WE6UlG8eTpW1jMXgG/TEW4ZWW7LHCop20vA6huusRHIeJmihNcWeRWEViVpXXuGE5CHhn0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785416445; c=relaxed/simple;
+	s=arc-20240116; t=1785416774; c=relaxed/simple;
 	bh=zv1N3KRACxqQYLSBoxzsQAyaI3qy862PhjOvQdK3sjk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P4MoP1x5ocwYBVhWsjv4pC3KvLQHUgw7pVgVRLjqH26SUX3V+f0dh22aRzQWZ8PSEkKrlUIr5XQH6VsMY7GYdVUkZabwKUAaYfb+d+f0eekNXeK57ZqDrWPgfJ0FHszKNsOHJjFGD+hAfAdiHRE4+jIkFl4xv9Bmcp69YEGkRgc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=BC7JK8J0; arc=pass smtp.client-ip=222.228.43.154
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qUBV0jmPoUZ6afHfoTPbw6La34FTCnPH1K9Du7M1yjk4QH4aYFbeO/9zFy57CbDa8IoM/rh3fl2SeAgZY/Yfew2fW0S5ljIyXVLEZL4gx00qlaVJKhD2Cz7kZdgMZLtJMrSwWZQQTtQol8XfPeO9ixJW1ojclqoG2vapRHcd1fQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=EGCr16od; arc=pass smtp.client-ip=222.228.43.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="BC7JK8J0"
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="EGCr16od"
 Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 292FA109D3E71;
-	Thu, 30 Jul 2026 22:00:38 +0900 (JST)
+	by www.redadmin.org (Postfix) with ESMTP id 5D3FE109D3E6C;
+	Thu, 30 Jul 2026 21:58:13 +0900 (JST)
 X-Virus-Scanned: amavis at redadmin.org
 Received: from www.redadmin.org ([127.0.0.1])
  by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ZLo7falv34gP; Thu, 30 Jul 2026 22:00:34 +0900 (JST)
+ id lBtrlYVPgqvL; Thu, 30 Jul 2026 21:58:08 +0900 (JST)
 Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
 ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1785416434;
-	b=KPbF4WfP1aSUI+SgBZADUt59hoOvbsMMUpAO6SYyJXCG9Q0H6Iyap2AfTZi91jAgbCBw
-	 T/9MXi1p0vkkPPLSFbZq0hefeWP3KCricqe5f4e38DY80XLW8m/rPmcgEo2T5hDk+b0mc
-	 zZVMeBtVbrbA8ZjT5tPprCJyN7yTFhl9c0=
+	t=1785416288;
+	b=lJRv04QmGOFry5DLJmxIhIdTGSslLuskBGg0ZiC9uckHet5g2DR/5RRRT9Cntl056lLH
+	 h67HdXcJLb/7DekVAJdG2x4VBKWIM5gzzfw8J0AdcnFn/5GoW/YB+CteAYsjC8fl8YDT9
+	 S6l39ELiTZHlC6JfrY+e5hR1b6jZvGhLS0=
 ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1785416434;
+	c=relaxed/relaxed; t=1785416288;
 	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
 	bh=Jnn7pmJH7PCW/S/7Xx+0EQ5UHqk9vQJERrX0qL5PZp0=;
-	b=dvApQUih58LPHF4UBOoA197BkndLLV9jbRmkAAqOH+R8A81v+ZmGhB3AMqyfWoxDIwmc
-	 AO2lLqk+AtSVim02nXIobEwObwastL/3qUS8g7GHSSZ7ypvVdO/yNnvPxVgvgz3NwWBjx
-	 SI0StEZ8fL7b3ihxaVWEnoeOaD+9cT42jo=
+	b=pdNq8i5XHJuCISinJNDoF40PK08AIqIXhCFUyM1YFfm6niQrKNvTCgmlbCFRuPf6CAJc
+	 2d2LIqzCdhXgNh1gQJ5ftNmcTKzHuuG5aGjJoKp1mI2ASp7lAurLXNgI73Bvpzl13cmVe
+	 vA+bD6VoS7jJ5H3U6qgV1eptDpmgsQszEU=
 ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
 Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 0F86E109D3E69; Thu, 30 Jul 2026 22:00:34 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 0F86E109D3E69
+	id 90468109D3E69; Thu, 30 Jul 2026 21:58:08 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 90468109D3E69
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1785416434;
+	s=20231208space; t=1785416288;
 	bh=Jnn7pmJH7PCW/S/7Xx+0EQ5UHqk9vQJERrX0qL5PZp0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=BC7JK8J0PZpeTmp6JIDwyYRMq7Af+7aAzWyURV4YxQ9N6DnhqoVqGgSlvdIKa8nVj
-	 hcALEdL9wCuDNlABhEhMd/wJpl4aDYL9U0ikVTYV6cSuEqxZXqiWxsX4uWofl7o+dN
-	 UGYeiykRfgjjZ0Q3kcdzCBVqaY6egmSEjgDK8+fA=
+	b=EGCr16odTsbca2XgHIUBP7pFYMnQBVSmGNJT5dahjHBTkBPsL2IEeJAdNh/KRMRkg
+	 nVW4vRLrlsz8e3E8T4hjmO8AZJk30FdieucSiE1Ds7z22gM7IVFWhbv539IZg1eOyq
+	 gfApz2JLCtpv3TaOlQ1I0Ff9IA5oZ4fzwlKvaIn4=
 From: Akiyoshi Kurita <weibu@redadmin.org>
-To: Akira Yokosawa <akiyks@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Akiyoshi Kurita <weibu@redadmin.org>
+To: Akira@www.redadmin.org, Yokosawa@www.redadmin.org,
+	akiyks@gmail.com, Jonathan@www.redadmin.org, Corbet@www.redadmin.org,
+	corbet@lwn.net
+Cc: Shuah@www.redadmin.org, Khan@www.redadmin.org,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
 Subject: [PATCH] docs/ja_JP: translate submitting-patches.rst (tag usage)
-Date: Thu, 30 Jul 2026 22:00:30 +0900
-Message-ID: <20260730130030.1078990-1-weibu@redadmin.org>
+Date: Thu, 30 Jul 2026 21:58:04 +0900
+Message-ID: <20260730125804.1078645-1-weibu@redadmin.org>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
