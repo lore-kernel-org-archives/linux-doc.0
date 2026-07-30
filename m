@@ -1,77 +1,218 @@
-Received: from out198-7.us.a.mail.aliyun.com (out198-7.us.a.mail.aliyun.com [47.90.198.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D713F9A15;
-	Thu, 30 Jul 2026 09:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A433E765A;
+	Thu, 30 Jul 2026 09:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785403158; cv=none; b=YHkB7rI1GhXPT61IdwkmWXtT3vV+BL1e1+33gOFf0IqWeBfPZZEHE4vSe1nUnXSrAQupbbIW0wiizm0IZBa0+KAD9zo7oJJjNRHcLuPG9RLsNANqrghzOcHg2bBe9VA0X6IpI+cVTTyTeNQMovy426vLTjTploQnu/BhGP04YIY=
+	t=1785404471; cv=none; b=ruINn8ZhDP66WjUB5PHn975WDlwvY9ZDHABE17drliULEQcutBwHReOei9gVhnK53p30sYavsHqIDKg7XzXiaql9Nk7YUkzx+T9G2OJTVX0xTIfd54su+kEnVv/5TWEcBwyqOT8mVVhX/YnkSRepPRq9I5sQQeS/ccuOafCYZfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785403158; c=relaxed/simple;
-	bh=5T8GKf1pKPYzSmL+lREqbbGaw+D+o3ymbDWgAVOQBKI=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=D6JkwCnrojOY53ELRlN4+psBVfYPjtEhLht3f8I/g0TucgmJT4aTmj1M4x2mTb1Zbyu0L2Jjz/Jy/sgD/yQn0LjT7BmOy+omq5Xi1nSp7rnenM0JKbhho0vosVK1PwoK0liPGsCSJ2+WBU/YOQAdyWnYBVULMkWUyQsLa9kNu7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.2336563|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0367904-0.000889557-0.96232;FP=11994032418279405200|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037006180;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=18;RT=18;SR=0;TI=W4_0.2.3_0B531016_1785402868265_o7001c138e;
-Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_0B531016_1785402868265_o7001c138e] cluster:ay29) at Thu, 30 Jul 2026 17:18:45 +0800
-Date: Thu, 30 Jul 2026 17:18:45 +0800
-From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-To: "Illusion Wang" <illusion.wang@nebula-matrix.com>,
-  "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "Sam" <sam.chen@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>
-Cc: "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "kuba" <kuba@kernel.org>,
-  "horms" <horms@kernel.org>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "pabeni" <pabeni@redhat.com>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "edumazet" <edumazet@google.com>,
-  "enelsonmoore" <enelsonmoore@gmail.com>,
-  "skhan" <skhan@linuxfoundation.org>,
-  "hkallweit1" <hkallweit1@gmail.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-Message-ID: <f42bb9df-2f69-49c9-a43e-c609f430c692.Illusion.Wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHYyMiBuZXQtbmV4dCAwMi8xMl0gbmV0L25lYnVsYS1tYXRyaXg6?=
-  =?UTF-8?B?IGFkZCBjb3JlIGRyaXZlciBhcmNoaXRlY3R1cmUgYW5kIEhXIGxheWVyIGluaXRpYWxpemF0?=
-  =?UTF-8?B?aW9u?=
-X-Mailer: [Alimail-Mailagent revision 107][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1785404471; c=relaxed/simple;
+	bh=EfHBcbb1OIgrrK1ouHGHYWE/faqmsEd8X5yc66vuH1w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hVnonZ+sh93XCY8eWJTphxqxTihH2+IMfOHuJIJ5gS/ulNMxAKaG2d3GzFSB+RdgcovkM57N2MbBLnDRE5t/JUZerfFEeDroIU3S+KuKOx+RF+DyDiXUljHqchhijaTiUjneFw4tb48SmgshDyWqn6Kf7VlXXRl5PIU3T1sjjq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=owEBCDFF; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="owEBCDFF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7A81F000E9;
+	Thu, 30 Jul 2026 09:41:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785404469;
+	bh=bXRSOEW7KmTLEA5e4w9VE7SIvHIV48lOKraAwCykp7M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=owEBCDFFYm/5ZGKYj3PLpfK+W4y/oqab8Ho92pybkve7clPInVhDZYpnfoTE2ZI9w
+	 ZJcdk9WK/XuZ4xo1fAia9i8pCuoK5NIMjj7Vt4X7ThgaEv5SrTuO6SrBPoo/mZO3xw
+	 sy9fYDPX7qedxRttlYHJ9q0EDjpfGK0xUZ19gOGeiVIeu2TwwfErbWKZ87/2sU1/lE
+	 8RhFDnjjaTmufFd6794B6PbR6kfVxcM09RXHKo/NfZeAM0Ln535IdVwrtGHY9beqLj
+	 rPhVwl45M11nidWsdiefFhPWPdjhNcYtx8CQ6IEgv2yzE3EXffemnjENxT1rx2DHHr
+	 ebSEugnxHDQuQ==
+Date: Thu, 30 Jul 2026 10:40:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Pratyush Mallick <pratmal@google.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	akpm@linux-foundation.org, vbabka@kernel.org, sj@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, anshuman.khandual@arm.com, gthelen@google.com, surenb@google.com, 
+	mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
+	liam@infradead.org, rppt@kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] mm/page_reporting: Add page_reporting_delay_ms module
+ parameter
+Message-ID: <amsYVFfJmOs-Hy90@lucifer>
+References: <20260727230545.262579-1-pratmal@google.com>
+ <amiN82J8p5z9l_Rm@lucifer>
+ <91b61f02-c533-41b9-b680-7de52a5c6918@kernel.org>
+ <CALHaPKeOs25YNRg60+NxfS3E5RYLt5hJqFNX02ZCEBrjcDua0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260723040110.91410-1-illusion.wang@nebula-matrix.com>,<20260723040110.91410-3-illusion.wang@nebula-matrix.com>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4zLjIwLVJlbGVhc2UuMjYwNTE0MDAyKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
-In-Reply-To: <20260723040110.91410-3-illusion.wang@nebula-matrix.com>
-x-aliyun-mailtrack: {"foreign-track":"0"}
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALHaPKeOs25YNRg60+NxfS3E5RYLt5hJqFNX02ZCEBrjcDua0Q@mail.gmail.com>
 
-CihodHRwczovL25ldGRldi1haS5ib3RzLmxpbnV4LmRldi9zYXNoaWtvLyMvcGF0Y2hzZXQvMjAy
-NjA3MjMwNDAxMTAuOTE0MTAtMS1pbGx1c2lvbi53YW5nJTQwbmVidWxhLW1hdHJpeC5jb20pCk9u
-ZSBjb21tZW50IGFza3M6IAo+PiArdm9pZCBuYmxfaHdfcmVtb3ZlX2xlb25pcyhzdHJ1Y3QgbmJs
-X2FkYXB0ZXIgKmFkYXB0ZXIpCj4+ICt7Cj4+ICsJLyogQWxsIEJBUiBtYXBwaW5ncyAmIFBDSSBy
-ZWdpb25zIGFyZSBtYW5hZ2VkIGJ5IHBjaW0vZGV2cmVzLAo+PiArCSAqIG5vIG1hbnVhbCBpb3Vu
-bWFwIC8gcmVsZWFzZSByZXF1aXJlZAo+PiArCSAqLwo+PiArfQoKPnNpbmNlIG5ibF9od19yZW1v
-dmVfbGVvbmlzIGlzIGFuIGVtcHR5IHN0dWIgZnVuY3Rpb24gd2l0aCBubwo+aW1wbGVtZW50YXRp
-b24sIGlzIHRoZXJlIGEgdmFsaWQgcmVhc29uIHRvIHJldGFpbiBpdCAoYWxvbmcgd2l0aCBpdHMg
-cHJvdG90eXBlCj5pbiBuYmxfZGVmX2guaCksIG9yIHNob3VsZCB3ZSBkZWxldGUgYm90aCB1bnRp
-bCBhIHN1YnNlcXVlbnQgcGF0Y2ggYWRkcyBhY3R1YWwKPmNsZWFudXAgbG9naWMgdG8gaXQ/Cgoo
-aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbmV0ZGV2LzIwMjYwNDEyMTI1NzI4LjY2Mjg2Ny0xLWhv
-cm1zQGtlcm5lbC5vcmcvKQpUaGUgb3RoZXIgY29tbWVudCBxdWVzdGlvbnMgd2hldGhlciBvdXIg
-aW5pdGlhbGl6YXRpb24gYW5kIHRlYXJkb3duIHBhdGhzIHNob3VsZAptYWludGFpbiBzdHJpY3Qg
-c3ltbWV0cnnigJRldmVyeSBzdWNjZXNzZnVsbHkgaW5pdGlhbGl6ZWQgbGF5ZXIgbXVzdCBoYXZl
-IGEgbWF0Y2hpbmcKcmVtb3ZlIGNhbGxiYWNrIGludm9rZWQgYm90aCBpbiBydW50aW1lIGRldmlj
-ZSByZW1vdmFsIChuYmxfY29yZV9yZW1vdmUpIGFuZCBhbGwKZWFybHkgZXJyb3IgdW53aW5kIGJy
-YW5jaGVzIG9mIHRoZSBpbml0IGZsb3cuCgoKSSdtIGEgYml0IGNvbmZ1c2VkIGFib3V0IHRoZSB0
-d28gU2FzaGlrbyByZXZpZXcgY29tbWVudHMgb24gUGF0Y2ggMiBvZiB0aGlzIHBhdGNoc2V0OgpX
-aGljaCBwaWVjZSBvZiBmZWVkYmFjayBzaG91bGQgSSBmb2xsb3c/
+On Tue, Jul 28, 2026 at 01:31:10PM -0700, Pratyush Mallick wrote:
+> On Tue, Jul 28, 2026 at 11:55 AM David Hildenbrand (Arm)
+> <david@kernel.org> wrote:
+> >
+> > On 7/28/26 13:13, Lorenzo Stoakes (ARM) wrote:
+> > > On Mon, Jul 27, 2026 at 11:05:45PM +0000, pratmal@google.com wrote:
+> > >> From: Pratyush Mallick <pratmal@google.com>
+> > >>
+> > >> Currently, the free page reporting uses a hardcoded delay of
+> > >> (2 HZ) between reporting intervals. While this is a reasonable
+> > >> default, it lacks the flexibility to adapt to varying guest workloads.
+> > >>
+> > >> A low delay allows aggressive memory reclamation, returning unused
+> > >> pages to the host as quickly as possible. However, during spiky
+> > >> allocation/free churn, this immediate reporting can lead to a severe
+> > >> performance penalty (nested page faults) as the guest re-allocates memory
+> > >> that the host has just unmapped. In these scenarios, there is benefit
+> > >> from increasing the delay to batch free pages over a longer window,
+> > >> absorbing the churn without hypercall and re-fault overhead.
+> > >
+> > > Since you're talking about increasing it, maybe set the floor at the current
+> > > value of 2s?
+>
+> We benefit equally by setting the value to zero as well. This would immediately
+> report the pages being freed back to the host without any delay. This helps when
+> the host is under pressure, as any immediate memory release would help it.
+
+OK page_reporting_order makes this better.
+
+>
+> > >>
+> > >> This patch exposes the delay as a module parameter:
+> > >> /sys/module/page_reporting/parameters/page_reporting_delay_ms, measured
+> > >> in milliseconds and defaults to 2000ms.
+> > >
+> > > I'm not sure this is great as it means we now have a parameter we have to
+> > > support forever and autotuning becomes harder to implement, also if later the
+> > > implementation is changed, this might prevent a reimplementation.
+> >
+> > While I'd prefer to keep the implementation as simple as possible unless really
+> > required, I guess auto-tune could be enabled by setting the parameter to e.g.,
+> > -1 in the future.
+
+We'd have to retain the customisable delay forever either way.
+
+But I guess maybe in this case it's not such a big deal.
+
+>
+> The case we're trying to solve involves tuning free page reporting based on host
+> memory pressure. I think the host is the primary beneficiary of free page
+> reporting, so if we wanted to dynamically autotune this delay, we would need
+> some mechanism from the host to enlighten the guest about its current memory
+> pressure and the autotuner would build its heuristics around it.
+> As far as I understand, no such mechanism currently exists. While
+> we do have ballooning, it requires the guest to actively allocate memory under
+> pressure, which makes it a comparatively slower mechanism and wouldn't help
+> much for simply adjusting the reporting rate of already free pages.
+
+You're explicitly needing to do this under certain circumstances.
+
+>
+> > >>      /*
+> > >> -     * Delay the start of work to allow a sizable queue to build. For
+> > >> -     * now we are limiting this to running no more than once every
+> > >> -     * couple of seconds.
+> > >> +     * Delay the start of work to allow a sizable queue to build.
+> > >> +     * We limit this based on page_reporting_delay_ms.
+> > >>       */
+> > >> -    schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
+> > >> +    schedule_delayed_work(&prdev->work,
+> > >> +                          msecs_to_jiffies(page_reporting_delay_ms));
+> > >
+> > > Err, do we not want to limit this to something sensible? What if the user
+> > > specifies 0 does it just hammer the system at that stage?
+> >
+> > IIUC, 0 just means "as soon there is a suitable free page block to report, start
+> > reporting immediately".
+
+There's comments like "We will defer by page_reporting_delay_ms to allow more
+pages to accumulate." etc.
+
+Maybe worth tweaking that?
+
+But with page_reporting_order == 9 (or 5 see below) then fine I guess.
+
+If somebody asks for something stupid by setting it higher they'd already
+accumulate latencies, just now with a 0 timer it could be really crazy :) but I
+suppose they are asking for it.
+
+> >
+> > With 2s, we wait 2s before we start reporting immediately by kicking the
+> > workqueue immediately.
+> >
+> > So "0" does not mean "report all the time", rather "start reporting immediately
+> > as we are notified about a pageblock to report".
+
+No, it's whenever pageblock_order is specified, defaulting to a pageblock.
+
+But I guess in practice fine.
+
+There's fun like this in virtio_balloon.c btw:
+
+		/*
+		 * The default page reporting order is @pageblock_order, which
+		 * corresponds to 512MB in size on ARM64 when 64KB base page
+		 * size is used. The page reporting won't be triggered if the
+		 * freeing page can't come up with a free area like that huge.
+		 * So we specify the page reporting order to 5, corresponding
+		 * to 2MB. It helps to avoid THP splitting if 4KB base page
+		 * size is used by host.
+		 *
+		 * Ideally, the page reporting order is selected based on the
+		 * host's base page size. However, it needs more work to report
+		 * that value. The hard-coded order would be fine currently.
+		 */
+#if defined(CONFIG_ARM64) && defined(CONFIG_ARM64_64K_PAGES)
+		vb->pr_dev_info.order = 5;
+#endif
+
+>
+> Right. Setting the delay to 0 does not hammer the system. The execution
+> is constrained by two checks:
+> 1. The worker is only scheduled when high-order pages (default is >= 2MB) are
+> freed. This makes scheduling relatively infrequent compared to normal 4K
+> page allocations.
+
+It's that only by default and could be overridden (and is for arm64 64 KiB page
+tables but probably also fine there)
+
+But probably fine.
+
+> 2. Even when the worker wakes up, the actual expensive operations, such
+> as page isolation, acquiring locks, and hypercalls to report pages, are
+> guarded by the watermark check in page_reporting_process_zone(). We only
+> proceed with reporting if the zone has enough free pages to fill the
+> capacity batches (32 slots by default). If the watermark is not met,
+> the worker simply
+> exits and returns to the IDLE state without issuing any hypercalls.
+
+OK that makes it better.
+
+Can you make these points in the commit msg on respin then?
+
+>
+> > >>       state = atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDLE);
+> > >>       if (state == PAGE_REPORTING_REQUESTED)
+> > >> -             schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
+> > >> +             schedule_delayed_work(&prdev->work,
+> > >> +                                   msecs_to_jiffies(page_reporting_delay_ms));
+> > >
+> > > This code is duplicated, while you've making this change maybe pull this into
+> > > its own function?
+> > >
+>
+> Thanks. I can create a new function for this and send a V4.
+
+Thanks
+
+>
+> Regards,
+> Pratyush
+
+Cheers, Lorenzo
