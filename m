@@ -1,117 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from out198-7.us.a.mail.aliyun.com (out198-7.us.a.mail.aliyun.com [47.90.198.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736593AA504;
-	Thu, 30 Jul 2026 08:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D713F9A15;
+	Thu, 30 Jul 2026 09:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785399590; cv=none; b=oBogsAilI/P80feSow/1mwzh0+4VGDElZq/Cdjt0xUlByrPkHXoNtMOJAmfG2EDLljB46zhDLlmsLyuNeYFcfZEP0gU64FrNwVpmtFlF3Ug7Qy0/Lnpv/q/5AmUG84abOz3c1X2tlUyD53FtsR8eaDYRDu0sYq7eyAt+5CiG04Y=
+	t=1785403158; cv=none; b=YHkB7rI1GhXPT61IdwkmWXtT3vV+BL1e1+33gOFf0IqWeBfPZZEHE4vSe1nUnXSrAQupbbIW0wiizm0IZBa0+KAD9zo7oJJjNRHcLuPG9RLsNANqrghzOcHg2bBe9VA0X6IpI+cVTTyTeNQMovy426vLTjTploQnu/BhGP04YIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785399590; c=relaxed/simple;
-	bh=wpfIrMcHN8QikkXCKITCLw0AA407+GAAoFiif3VfJc0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e1RILAYFplIkkbfRa009Xugi9dW+FFNA7OjN45E6BLxVtXIeJC5DptMKy9PdC8WpwrfMe1LrLRs7OWYU0IM83XzM0HQviCeb+v4vhFYXYs0mIz/AAiQQUA83z/AZ64DFpzCho9ILsGNsIDUg1U4di6xUHA7DXul5ZsFFyRcS+kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3QOOEV7; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3QOOEV7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785399588; x=1816935588;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=wpfIrMcHN8QikkXCKITCLw0AA407+GAAoFiif3VfJc0=;
-  b=I3QOOEV73HGlKGqseDzRPfT+U48RxhP3u55EfFdnWEbRukk4HefA1bR8
-   393wDOdrfKAgeJ8AP36M058z1p11k7c9Z5uifGckATHmmcG5Xiq7kbLCL
-   Vy49AgiNj/uHKaNFt2f328Paopfr3EZnZBLeE9y12xEWLI0olqFJrY6Ew
-   qFrsU1jS1A4S/ik6SoHuoC6V+r44BQj6mNJFZDqu08l1MEN1+XF62SxTC
-   gnuBq+L77D9WEnyEuhlvxV6zaveszOtChlwmvMajRWWkdOpWcn4xnnZ/A
-   0FuaZwfUOexmpLddbk34iAWz1e03sNBAuSWHi5IbTnsc3H0NK9Ha4oa4V
-   g==;
-X-CSE-ConnectionGUID: mqBI/tinTl6nf1kg+8s5Vg==
-X-CSE-MsgGUID: Z6Vbqc7vT1+QLc+N48VI9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86091135"
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="86091135"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 01:19:45 -0700
-X-CSE-ConnectionGUID: 0mKvQIstRByDOckKXDh64w==
-X-CSE-MsgGUID: iicRvDLaTO+wZke7z8GHMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="259664017"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.238.208.132]) ([10.238.208.132])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 01:19:34 -0700
-Message-ID: <df06e0ec-9462-4072-a0c7-054f1978bf89@intel.com>
-Date: Thu, 30 Jul 2026 16:19:30 +0800
+	s=arc-20240116; t=1785403158; c=relaxed/simple;
+	bh=5T8GKf1pKPYzSmL+lREqbbGaw+D+o3ymbDWgAVOQBKI=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
+	 In-Reply-To:Content-Type; b=D6JkwCnrojOY53ELRlN4+psBVfYPjtEhLht3f8I/g0TucgmJT4aTmj1M4x2mTb1Zbyu0L2Jjz/Jy/sgD/yQn0LjT7BmOy+omq5Xi1nSp7rnenM0JKbhho0vosVK1PwoK0liPGsCSJ2+WBU/YOQAdyWnYBVULMkWUyQsLa9kNu7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.2336563|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0367904-0.000889557-0.96232;FP=11994032418279405200|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037006180;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=18;RT=18;SR=0;TI=W4_0.2.3_0B531016_1785402868265_o7001c138e;
+Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_0B531016_1785402868265_o7001c138e] cluster:ay29) at Thu, 30 Jul 2026 17:18:45 +0800
+Date: Thu, 30 Jul 2026 17:18:45 +0800
+From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+To: "Illusion Wang" <illusion.wang@nebula-matrix.com>,
+  "Dimon" <dimon.zhao@nebula-matrix.com>,
+  "Alvin" <alvin.wang@nebula-matrix.com>,
+  "Sam" <sam.chen@nebula-matrix.com>,
+  "netdev" <netdev@vger.kernel.org>
+Cc: "andrew+netdev" <andrew+netdev@lunn.ch>,
+  "corbet" <corbet@lwn.net>,
+  "kuba" <kuba@kernel.org>,
+  "horms" <horms@kernel.org>,
+  "linux-doc" <linux-doc@vger.kernel.org>,
+  "pabeni" <pabeni@redhat.com>,
+  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+  "edumazet" <edumazet@google.com>,
+  "enelsonmoore" <enelsonmoore@gmail.com>,
+  "skhan" <skhan@linuxfoundation.org>,
+  "hkallweit1" <hkallweit1@gmail.com>,
+  "open list" <linux-kernel@vger.kernel.org>
+Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+Message-ID: <f42bb9df-2f69-49c9-a43e-c609f430c692.Illusion.Wang@nebula-matrix.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHYyMiBuZXQtbmV4dCAwMi8xMl0gbmV0L25lYnVsYS1tYXRyaXg6?=
+  =?UTF-8?B?IGFkZCBjb3JlIGRyaXZlciBhcmNoaXRlY3R1cmUgYW5kIEhXIGxheWVyIGluaXRpYWxpemF0?=
+  =?UTF-8?B?aW9u?=
+X-Mailer: [Alimail-Mailagent revision 107][W4_0.2.3][null][Chrome]
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 04/41] KVM: Rename memory attribute APIs to prepare for
- in-place gmem conversion
-To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- david@kernel.org, jmattson@google.com, jthoughton@google.com,
- michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
- qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
- shivankg@amd.com, steven.price@arm.com, tabba@google.com,
- willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
- forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
- aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
- <20260728-gmem-inplace-conversion-v9-4-35f9aec2aed2@google.com>
-Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20260728-gmem-inplace-conversion-v9-4-35f9aec2aed2@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+x-aliyun-im-through: {"version":"v1.0"}
+References: <20260723040110.91410-1-illusion.wang@nebula-matrix.com>,<20260723040110.91410-3-illusion.wang@nebula-matrix.com>
+x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4zLjIwLVJlbGVhc2UuMjYwNTE0MDAyKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
+In-Reply-To: <20260723040110.91410-3-illusion.wang@nebula-matrix.com>
+x-aliyun-mailtrack: {"foreign-track":"0"}
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-On 7/29/2026 8:35 AM, Ackerley Tng via B4 Relay wrote:
-> From: Sean Christopherson<seanjc@google.com>
-> 
-> Rename memory attribute APIs to add a "vm_" in the name in anticipation of
-> moving PRIVATE tracking into guest_memfd, to allow in-place conversion
-> between SHARED and PRIVATE.  At that point, there will effectively be two
-> (potential) sources of memory attributes: the VM and guest_memfd.
-> 
-> kvm_vm_set_mem_attributes() already has "vm" in the name to indicate that
-> it is a VM ioctl. Rename it to kvm_set_vm_mem_attributes() to show that it
-> is setting the VM's memory attributes. (Drop the VM-ioctl scoping since it
-> is a helper local to the file.) Update the accompanying trace function to
-> match.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Sean Christopherson<seanjc@google.com>
-> Reviewed-by: Fuad Tabba<tabba@google.com>
-> Tested-by: Shivank Garg<shivankg@amd.com>
-> Signed-off-by: Ackerley Tng<ackerleytng@google.com>
-
-Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+CihodHRwczovL25ldGRldi1haS5ib3RzLmxpbnV4LmRldi9zYXNoaWtvLyMvcGF0Y2hzZXQvMjAy
+NjA3MjMwNDAxMTAuOTE0MTAtMS1pbGx1c2lvbi53YW5nJTQwbmVidWxhLW1hdHJpeC5jb20pCk9u
+ZSBjb21tZW50IGFza3M6IAo+PiArdm9pZCBuYmxfaHdfcmVtb3ZlX2xlb25pcyhzdHJ1Y3QgbmJs
+X2FkYXB0ZXIgKmFkYXB0ZXIpCj4+ICt7Cj4+ICsJLyogQWxsIEJBUiBtYXBwaW5ncyAmIFBDSSBy
+ZWdpb25zIGFyZSBtYW5hZ2VkIGJ5IHBjaW0vZGV2cmVzLAo+PiArCSAqIG5vIG1hbnVhbCBpb3Vu
+bWFwIC8gcmVsZWFzZSByZXF1aXJlZAo+PiArCSAqLwo+PiArfQoKPnNpbmNlIG5ibF9od19yZW1v
+dmVfbGVvbmlzIGlzIGFuIGVtcHR5IHN0dWIgZnVuY3Rpb24gd2l0aCBubwo+aW1wbGVtZW50YXRp
+b24sIGlzIHRoZXJlIGEgdmFsaWQgcmVhc29uIHRvIHJldGFpbiBpdCAoYWxvbmcgd2l0aCBpdHMg
+cHJvdG90eXBlCj5pbiBuYmxfZGVmX2guaCksIG9yIHNob3VsZCB3ZSBkZWxldGUgYm90aCB1bnRp
+bCBhIHN1YnNlcXVlbnQgcGF0Y2ggYWRkcyBhY3R1YWwKPmNsZWFudXAgbG9naWMgdG8gaXQ/Cgoo
+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbmV0ZGV2LzIwMjYwNDEyMTI1NzI4LjY2Mjg2Ny0xLWhv
+cm1zQGtlcm5lbC5vcmcvKQpUaGUgb3RoZXIgY29tbWVudCBxdWVzdGlvbnMgd2hldGhlciBvdXIg
+aW5pdGlhbGl6YXRpb24gYW5kIHRlYXJkb3duIHBhdGhzIHNob3VsZAptYWludGFpbiBzdHJpY3Qg
+c3ltbWV0cnnigJRldmVyeSBzdWNjZXNzZnVsbHkgaW5pdGlhbGl6ZWQgbGF5ZXIgbXVzdCBoYXZl
+IGEgbWF0Y2hpbmcKcmVtb3ZlIGNhbGxiYWNrIGludm9rZWQgYm90aCBpbiBydW50aW1lIGRldmlj
+ZSByZW1vdmFsIChuYmxfY29yZV9yZW1vdmUpIGFuZCBhbGwKZWFybHkgZXJyb3IgdW53aW5kIGJy
+YW5jaGVzIG9mIHRoZSBpbml0IGZsb3cuCgoKSSdtIGEgYml0IGNvbmZ1c2VkIGFib3V0IHRoZSB0
+d28gU2FzaGlrbyByZXZpZXcgY29tbWVudHMgb24gUGF0Y2ggMiBvZiB0aGlzIHBhdGNoc2V0OgpX
+aGljaCBwaWVjZSBvZiBmZWVkYmFjayBzaG91bGQgSSBmb2xsb3c/
