@@ -1,80 +1,83 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E843A6B9D;
-	Thu, 30 Jul 2026 18:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A473822B4
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 19:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785437232; cv=none; b=fW5JL8Z5WAFRQre6l6brlwVzKEkWkCzP3ritjiQZxLsyAjCiNP3ZDSdI3wbaSiKINSh6fxbMnGXMV4jqkFGG03nxL8S+MZtFlB5YKRByHH06S5zR9STzvcZOaPL29UazK4CoYEc8ZerLMSCEbe4rcwAAlPFYVRLjDMCetzQdsp0=
+	t=1785438101; cv=none; b=iI4eyYo0QTVaL1Ei13Og1/MfZDyyDjdnRRQOB4ul+VsZTAduFRVBrh/WpD+CIblsZAPk0DjCTpi1713p6b28wAQWCU+9p4pdAf+Y5mgiNEt4BgKbdmTRxPw9h2uRofJ71N2hKYK+2xwY5ga2AIN9yO66vDcROnUnkblbizq90Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785437232; c=relaxed/simple;
-	bh=bWdKari0Pcw2DqHMvZzESS4U6J/a755yrmnqx7Zjapo=;
+	s=arc-20240116; t=1785438101; c=relaxed/simple;
+	bh=013H1I9/4OHiS5zhZMxrwaHnsOF1mfy4INGhmCqtxrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PZbd+vLFpNwI0Bi0HtXUxlkkbVMNI/eXTaWeq9LwzvJJRCHW1OTDttNkX2UJ/wJRbCwdpeg5YWj8IGCwAn1KP++POqG84DP+5Ji+1GJMwSofI8GdLHXbk+rw0Qa56KpWzX6kvoCDNJ5SXvntr4r38lEXTtHm72QbboecdRuA2MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=T9STg5AJ reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=RiW/xeJgu4zIdktVnRsj5S8bhYBUToViTHwUD2kq4UzVciE/PsxOwfRlbq++B+Byp12ut0a101D3cQYafKAVsquvLmxVLKXSrKiBwdaGIta9hA0pl03JqlH5DcvvgQdaXAeNcyi3NQcE2xpF6emcQ304a+FTemdo1sRHRhcLwRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=QFcqjoKc; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="T9STg5AJ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3B12740E02B7;
-	Thu, 30 Jul 2026 18:46:56 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id kqluVPcVCVQu; Thu, 30 Jul 2026 18:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785437205; bh=WEr9iSfoEiohJm8szSQQdXCzTcrKMvjLdCjdjhOMDTU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T9STg5AJi3tYE9i8KhxeaBj38LbvgitmcK4D5xw9qhIEDM3dLD+PgmsvQY3JOYo5k
-	 95ZRPi4dwz57vgEVICAp7uIa62/xnylRtRD5yxUSJGGvXeFD+XjY0eRKuOW2PK4UXf
-	 7X+VzLjWJFtk/yGi/+/GBoNja40h4197FLLtrHJyukYP7N9poJBTOHsP5QlaL/7MbJ
-	 ruu9N+jtJ9ziGBaOA7VE+y93/TmFq+qJ1LBnogY1OblgpfFC6/MXIHrkZFUazNPG/B
-	 HqZUXZV+kMw2RIhJTtGz4lIsba554qt2AS1jWSBVtad9cjsGM3bIXDV2WprLPAo94f
-	 Jxqf46GeYzc/BQYmX9CURSjKx2J/bCY4W0H6hvsMZrSwyKj+t3JUchJYxqgp7XcxIK
-	 8jJHTh/PdWM+qa1iV1wGObpLaBuPIXQIQLTjP5Jx5ElmfwhOgDIvEgKUhzjGHxFQAw
-	 w78LfflHAPsTPZ60OiAva5ub4j/B7Wi41Aqe46yC5Uk2uzGQ+2kuZCfA8z6y5EIr8R
-	 C2HkHh6B3RuFcKvxjt23TpSfRpJxoobU5bmmmUlAFQbp0ux+mnukc30DLxG2kq1AKJ
-	 u+7k5/Yg+lWXnAjNPjPFkJ0kLRD3LG1tOFrF9Iwgyf4IAexNXKdhwllo8qMIy+Rru1
-	 sDLYfa397yDlHEphOOjjkPa8=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 189A540E014C;
-	Thu, 30 Jul 2026 18:46:28 +0000 (UTC)
-Date: Thu, 30 Jul 2026 11:46:26 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Moger, Babu" <bmoger@amd.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	"Luck, Tony" <tony.luck@intel.com>
-Cc: "x86@kernel.org" <x86@kernel.org>,
-	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"tglx@kernel.org" <tglx@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"Eranian, Stephane" <eranian@google.com>,
-	"peternewman@google.com" <peternewman@google.com>
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-Message-ID: <20260730184626.GIamucAtZxMUUGagGm@fat_crate.local>
-References: <8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger@amd.com>
- <20260728191818.GBamkAeh7BD1d6Gd8X@fat_crate.local>
- <2c098892-5d4b-402b-bdfb-59e3bf164c8d@amd.com>
- <SJ1PR11MB6083636E406ABF9F64CE3F25FCCB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <73737438-01ed-437e-846a-5aa8bd687462@amd.com>
- <SJ1PR11MB60835A80CBA4ADA35A617EF8FCCB2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <7495c998-4f3f-4ea5-a383-350584afb42c@amd.com>
- <6d006c4c-907a-435f-ac94-32974562ce2d@intel.com>
- <e37866f2-974d-475a-b68a-8b74d6051dc4@amd.com>
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="QFcqjoKc"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92ed3993c1eso11602485a.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 12:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1785438097; x=1786042897; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=n1yOof5RfumCoH1r75oUvzt/UONr8poJqHsdkRardoM=;
+        b=QFcqjoKcW6iPffgLqoIHhWQ4utMB9jyxNH/1Afj8gLmoqtLzEBlEFmNrzJ6IMacaGF
+         Xz45eCgYvpIuNa4upxj/UUuK/BE132u/DPz+BN0h4eP1yEz+aHem2640tSxa2xHYSdwx
+         aIwxUFE1oi7ZGxwiMHWMpRG4pgtEkM2F77emlqFNenvBPwq8iRUJEnWr/oQIv6Mm4Sgy
+         LcKgUNWke8p08NZprUbrzOeu+V0IJYLB71PYV1F1Qy1k9JkA7GLj0hqBB/zo+8C+KmKs
+         0rQt8y+qzN4Uyjx+WppkDfF5Xjdbgxyhtw9px53beDY6A/p5HCdiyV+Q5YYusHJfGcsC
+         doLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785438097; x=1786042897;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=n1yOof5RfumCoH1r75oUvzt/UONr8poJqHsdkRardoM=;
+        b=pa3FVJbbqQsOaUKqhHmIhHMeLXYM65iMFAL4OjiQH/U9pMIK+vlheWQc4p4L3I5UIB
+         CtPFk76IxoIu1djeP4CDha33h+cS3hf6Ahx7SXkDCDlzI3mI7CibcTyA7LrE1zsoC4MG
+         eh30uobqp64QWPEeCbmBx0oqI6RteT8AB0+XStENe8CywJ3XVkUVMO3IZWemJySCO+wc
+         vUDDrt9hhpg9OwxfukZqqVFlsxpqfMATih6wNUQxiR+q9CM5CYp7Dx+so0my1LDkdsEq
+         hZ4HwVe6Jd8cJmzDdHiIZVB3nGl1iuXR+7E+fUALcE8pCVv9Pts4eDfZa31fEAZFosYD
+         KdsQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rotwk4mgqdZke5Q1WaOoGIK6GaCzByxmS6hUFoLph3th5Zfi5pKIczAEgilZL6F3P07iyP3rLw4eqw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyO4wiBOhx0GEAmc56YJ1AxKxMgItuCTXBMTNkC5TdFxlmk/0wX
+	7PN+GJgXKF/+/EaFQ5PpYXrTYuXS/7J3xAOTzzF3aNA0B4NYeS5zQMWIR46Mf4kvVk0=
+X-Gm-Gg: AR+sD10sY6oLdHieaNHy7QVAwX9JgyDWgQfYy1v+I9DwqkbcSZLskFnp9zAQmP0P1QR
+	B7kqcmaWpnd4bU2IyQ4rb9B+RRFCk2LQFSfl5Vk6Nz0FPRVB+uOWkGyY7Ex2b2XFuR9ZUQfwZIl
+	nk0Gym+Koqd9C4Zx1SdQNpsk1CffMfCqGb2S0z9RnhLu5CaSv9Yw1hqbhT416PhQ8hPOZ4zB6LH
+	NLAySt+ExxPPckDzDlIjnmO7Ks3rTmFPY/+dJna3sYoE92EnT32cWWfr6CKW3R0PSbJYQaJJigW
+	T3LEuEsHyetJAot1gnmhApksDdilSZVC8mgbn8582vR6czD+V7HuTP7mbUsv46o59sydg6zdplK
+	FpT6rOHhLJ6CYiAYfK/UUPv2iFszi0DO+g+Hoq0LrgzbFjb+BZlzbvzERf0/7VIJ9xa09WZH46x
+	a62Ba7ln4w2nAiUtxvE5lFzYXR/cmME5BI0MblHU/3vb/xh27Q065qtXcn35I=
+X-Received: by 2002:a05:620a:460a:b0:932:dd83:c54 with SMTP id af79cd13be357-93485ff2ecemr442630085a.42.1785438095030;
+        Thu, 30 Jul 2026 12:01:35 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-933e712fc05sm475477685a.29.2026.07.30.12.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 12:01:33 -0700 (PDT)
+Date: Thu, 30 Jul 2026 15:01:30 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, Nhat Pham <nphamcs@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org,
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
+	chengming.zhou@linux.dev, muchun.song@linux.dev,
+	roman.gushchin@linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] mm/zswap: Fix global shrinker when memory cgroup
+ is disabled
+Message-ID: <amufiuAaZbuDdKkQ@cmpxchg.org>
+References: <20260729084206.77793-1-jiahao.kernel@gmail.com>
+ <20260729084206.77793-2-jiahao.kernel@gmail.com>
+ <20260729155858.c7aabff48166a9bca4d68ac3@linux-foundation.org>
+ <CAO9r8zNhBCghP8T_98z2p==Cfs_=kamcRN_3ROxaj3R8PN2Qvw@mail.gmail.com>
+ <c4c95102-72e2-a44f-f16e-4134ba6bb060@gmail.com>
+ <CAO9r8zOSTYC3D_2CxapgvXGaZRUdnGetPGz2XgdUO8OygfuEiw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,116 +86,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e37866f2-974d-475a-b68a-8b74d6051dc4@amd.com>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO9r8zOSTYC3D_2CxapgvXGaZRUdnGetPGz2XgdUO8OygfuEiw@mail.gmail.com>
 
-On Tue, Jul 28, 2026 at 05:20:54PM -0500, Moger, Babu wrote:
-> Hi Reinette,
->=20
-> On 7/28/2026 4:58 PM, Reinette Chatre wrote:
-> > Hi Babu,
-> >=20
-> > On 7/28/26 1:43 PM, Babu Moger wrote:
-> > > Hi Tony,
-> > >=20
-> > > On 7/28/26 15:24, Luck, Tony wrote:
-> > > > > > 1) Does it start over from zero?
-> > > > > >  =C2=A0=C2=A0=C2=A0=C2=A0 Seems a sane option.
-> > > > > > 2) Or does the monitor group see whatever the counter was at
-> > > > > > when being used by some other group?
-> > > > > >  =C2=A0=C2=A0=C2=A0=C2=A0 Seems less sane.
-> > > > >=20
-> > > > > As per this code, it should start over from 0.
-> > > > >=20
-> > > > >  =C2=A0=C2=A0 } else if (ret =3D=3D -EINVAL) {
-> > > > >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 am =3D get_arch_mbm_state(hw_dom,=
- rmid, eventid);
-> > > > >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (am)
-> > > > >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 am->prev_msr =3D 0;
-> > > > >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > >=20
-> > > > Nope. If you want the value reported to the user to start over fr=
-om zero,
-> > > > then prev_msr should be set to the current value of the counter. =
-That
-> > > > would make the next read start from zero.
-> > > >=20
-> > > When an RMID is reallocated, the hardware detects the state
-> > > transition and the first read returns "Unavailable". At that point,
-> > > the counter is reset and begins counting again from 0. This is the
-> > > expected behavior on AMD systems. Therefore, setting prev_msr to 0
-> > > is the correct behavior.
-> >=20
-> > I believe Tony was curious how this looks from the user's perspective=
-.
-> >=20
-> > > From what I understand it is neither of the presented options but i=
-nstead:
-> >=20
-> > 3) Internal cache of hardware counter (prev_msr) is reset when resctr=
-l discovers
-> >     that the underlying counter has been re-assigned.
-> >     There is a separate software maintained cumulative count to which=
- the
-> >     hardware counter value is added as the event is tracked. This cum=
-ulative
-> >     count is the value returned to the user.
-> >     The user thus always sees that the event count increase and it is
-> >     guaranteed to only increase based on a portion of memory bandwidt=
-h
-> >     consumed by the RMID/event being tracked.
-> >     The returned (cumulative) count will not be accurate if the under=
-lying
-> >     counter was re-assigned. The user does not have insight into how =
-long the
-> >     underlying counter(s) was assigned to the event being counted.
->=20
-> Agreed. When this happens, the counters will not be accurate.
+On Thu, Jul 30, 2026 at 10:48:38AM -0700, Yosry Ahmed wrote:
+> > > Yeah, it isn't. Probably we should drop "Closes". I assume Hao added
+> > > it because checkpatch annoyingly complains if you add "Reported-by"
+> > > without "Closes", so Hao just linked to the thread where I pointed out
+> > > the bug.
+> >
+> > Yeah, checkpatch will complain if it's missing.
+> 
+> We often ignore checkpatch if it's unreasonable.
+> 
+> > >> AI review asked a couple of questions:
+> > >>          https://sashiko.dev/#/patchset/20260729084206.77793-1-jiahao.kernel@gmail.com
+> > >
+> > > The review on patch #1 is something theoretical, we discussed it at
+> > > length in previous versions.
+> > >
+> > > For patch #2:
+> > >
+> > >> Does this batching logic break NUMA fairness?
+> > >>
+> > >> Because for_each_node_state() always starts from the lowest node
+> > >> ID and breaks when the scan budget is exhausted, subsequent
+> > >> calls to shrink_memcg() will restart at the lowest node ID again.
+> > >>
+> > >> If the lowest node (typically Node 0) consistently has enough
+> > >> items to exhaust the scan budget, wouldn't we exclusively evict
+> > >> pages from it while ignoring older pages on other nodes? Could
+> > >> this cause LRU inversion across nodes, keeping older pages in
+> > >> memory on Node 1 while hot pages on Node 0 are evicted?
+> > >
+> > > Yes, unfairness is possible.
+> > >
+> > > For global shrinking, it's probably not an issue. We reclaim until we
+> > > hit the acceptance threshold and it's very unlikely this will happen
+> > > before iterating all nodes (given that the batch size is 32 pages).
+> > > However, with the shrink_memcg() path, we only reclaim one batch, so
+> > > there's a chance we'll always reclaim it from node 0.
+> > >
+> > > Maybe we should just drop the early bailout and accept potentially
+> > > doing more writeback than needed. Hao, WDYT?
+> > >
+> > If we scan and attempt to write back SWAP_CLUSTER_MAX zswap entries per
+> > node, it might lead to excessive writeback on machines with many NUMA
+> > nodes. Furthermore, I'm concerned about introducing higher latency in
+> > synchronous shrink paths like zswap_store()—especially on systems with a
+> > large number of NUMA nodes, where it could end up writing back hundreds
+> > of pages in a single call.
+> >
+> > Maybe we could do something like this instead? That way, in the
+> > worst-case scenario, it falls back to the baseline behavior without
+> > introducing any extra latency risks.
+> 
+> This basically errs on the side of honouring the batch size
+> (under-reclaim) instead of doing more writeback, right?
+> 
+> I think I prefer erring on the side of doing more writeback, as it
+> would ultimately result in less LRU inversion, and we are already
+> doing writeback proactively during reclaim through the shrinker.
 
-So, to summarize the situation so far (and all y'all, I'd like you to ple=
-ase
-only reply to the questions I'm asking. Babu, please do not try to summar=
-ize
-it for me - that's what I'm trying to do now.)
+Yes, LRU inversions are worse than reclaiming a few extra pages from
+the cold tail of the LRU. It's not cumulative after all, it just means
+we take a bigger bite and can take more stores before the next shrink.
 
-So:
+> The other option we can explore is keeping the existing logic with the
+> bailout, but start iterating the nodes at the folio's node in the
+> zswap_store() path. Basically pass an nid to shrink_memcg() and always
+> start there. This will avoid always reclaiming from node 0, and the
+> node of the folio being stored is more likely to be under pressure and
+> need the writeback. I am not sure how complex this would be and
+> whether it's worth doing.
+>
+> Johannes, Nhats, any thoughts on this?
 
-Background
-----------
+What happens if simply we do a hard SWAP_CLUSTER_MAX on each node?
 
-On AMD, ABMC (Assignable Bandwidth Monitoring Counters) mode is enabled b=
-y
-default on machines that support it. Some systems can have 32 or less
-counters.
+With cgroups, we put the zswap entry on the list_lru head of the node
+and memcg where the incoming page was.
 
-The old default measurement mode uses RMIDs (4096 available in total) and=
- the
-hardware can track 64 RMIDs concurrently.
+So if you're going after one specific cgroup, it's not like you
+*actually* reclaim 32 entries on each node of the system. You just
+write back from nodes where that cgroup has entries.
 
-Problem
--------
+The global shrinker also does one cgroup at a time (zswap_next_shrink)
+before checking the limit again, so that's fairly fine-grained too.
 
-In some cases, all ABMC counters can be consumed, leading to counter
-exhaustion and tools like pqos reporting zero bandwidth for the groups
-suffering exhaustion. It is important to note that in ABMC mode, two coun=
-ters
-per monitor group are used: one for local MBM and one for total MBM.
+Without cgroups, you could have zswap entries on all nodes. But if you
+have so many nodes that this would constitute hundreds of pages,
+presumably that's still a drop in the bucket compared to overall
+memory capacity. SWAP_CLUSTER_MAX isn't that big a number.
 
-In contrast to the old default option, the ABMC option which is the defau=
-lt
-now, is only half the counters so the exhaustion can happen faster/easier=
- now.
-
-Is that an accurate initial summary so far?
-
-Thx.
-
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+So I don't think we need to get fancy. Just do SWAP_CLUSTER_MAX on
+each node. Delete that nr_to_walk carry-over between them.
