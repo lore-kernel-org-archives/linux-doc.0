@@ -1,98 +1,99 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFED5382365
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 22:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906693D1702
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 22:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785450396; cv=pass; b=MxMYlUQbiO3RfCk9chmkWzM3TtsnrG0CTEP2q8VU/MxcIggLpD7az0HoIpeMXSIdjtrLE1CXR4swOPoY9iO1CjRdMFMFwmVPAHSkWuMZP6Y/XRPFR7hzwO1slLGqU8PhhLNEsu+zwJVyRxqBrKc8YflQZK/7fzFGpstbRhksTg8=
+	t=1785450670; cv=pass; b=bHI4n6RaJF/xmKFZ98/hNKEilkarbqn8W85OQO7d4bW42ZJDg2VKqvyI2n7kO2TqT7OIUHt/+Vj9yAH85aTi5juzFUsT6q7I10LXRTaite3OhQse3KDLsOUqw22m8Kpdhe5jLg5I0fwdaujbJ1dO/YvAN2i5dav6sGQK0xu7VxM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785450396; c=relaxed/simple;
-	bh=pGAe7A065N0DCyNKa4jnFCoxW2vRFq0rZ9EKmD0iYuI=;
+	s=arc-20240116; t=1785450670; c=relaxed/simple;
+	bh=RFb9jxFt+SB050uUN4iOEqSU+hhGaZfWAlwTqxcdY2s=;
 	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LfW1zGGxtc2N62nblGudHw3QIv6j44Vf62oyhH4a4+PdCIIlx1PvKa8/UaNsfMo+OuKX/QbYLOATf0wVd6imjTQSfshm6n0n2M/S1FvjYBRp4hzEPnTbLTy5otD0YdKhdbMg38TfW49+LnBYD5TKq6Ddjzng7y/XrkbwloHeqxY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gygENs6j; arc=pass smtp.client-ip=209.85.216.43
+	 To:Cc:Content-Type; b=iA4X8R8N9gjRFE9C+PqsTKra1A2M6+u+cRqzy9yhvB3fcmS9eT2UrOyBXkS0EMFPzxXo9PsRBGS2p2/rW1f6gram5uVHjIvOOGrNUxJSM8rwhPPjIYkdC21oMEnriOoNyhul/f3jIZq+jSsdA/vFQe6VntB8pf90b9upnSU91Is=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iyX8ta1o; arc=pass smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gygENs6j"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso473605a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 15:26:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785450394; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iyX8ta1o"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38e347638adso527051a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 15:31:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785450669; cv=none;
         d=google.com; s=arc-20260327;
-        b=JCnPW6SP+cLAz8Ov36UhvjN09OuFGu9lqs7JVP4rxNTX9ZoKNJMfJqUWyZlK1ktt61
-         dfAVUEXMVkthMkRRjd47U/JINqjtgP5BQ7BFFkXiGVTSl3pkNbvZsaVrdGCSemun5P4F
-         SZM4nQ9BoPKriVpOUR+y9pF71k8Z1Sc/y68mfcT+hU33hWH1gYGFcdg8d0NndxfHwmwf
-         eCJIzc7/fKISIEtm7UKm5nWJHo0mjLRJmgCzVibZdRq+JKi1Ytk6c5nmp2GvQm8KfHzJ
-         Dz8H5M7tumNyvfdyHkXRYuxOdmtylDRXcKzwlTKFoG2aFJYphH+KU1vhHBGX8QefGzMV
-         gcXg==
+        b=h8EmxMUbEYr+F5gD03Oeu5eGmIoaMT3JHlVIt9o+QNymZsfI+XfaTFLX/rKZKBpKG8
+         /D3WUd/ZdBCNfB6PkGOm6nUYjB1ZXgnmOrzbcWXBSiJb+elXr8c5RjBdMMgW1Eu1u6/a
+         1xF+enY53Hmkx0KN6Vxr6ym5cua37PP0dgszONaC6dzusLCtOEuSbKU62kObCMO0AHis
+         jFlWw4tk/wm4cr6NO44zzIwtdj/kuh77c+j7zbfpd5pabbuKjItl5lY2t76oF3KCDKNL
+         3ot1H72XlNis6oPNsLdENK4gqMWijXi43ZB/1LiEdTYJl0QBksRhVWz4vWnLYYGswcDw
+         0Oqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
          :from:dkim-signature;
-        bh=ArtSog1FoVnhFcfpT6OFcOCesxyMDJkDrg6P703rT7g=;
-        fh=O+b/bzWzZkKB477HC1lIUoQP49JmS5xpS++ZIq0xvAw=;
-        b=HFehb5wD0O0cIe7ke0sCXQpEe27nAYA73EDu+bJRm3U5ysqeRrAZfM7n8auwIi3cm3
-         IXlEEwvhlGH3StuT0hg5M6TX02KJaAUOgJPrzteMqmIcSlJ6CxCIn/xjf/pksZjI9+kM
-         YgwLX1/I3tHV8zNp1bnS67B746ZNQL8dOJTWYgj5IkzoB6ui11I1vzRDroyZfHAVCGuj
-         NrG3jx7NCoUkCdqzGEP5LrHPYZJHeSp+sa0H6WIWz4fOQ1czoitbYeIRKNDpGH6wXAmM
-         oxylstQoPFEXIu2kr37/fPmrQPJSKlUA9rryjZRY6QrZygRZnu/iuGHoWWkJvI6W8X1h
-         CDng==;
+        bh=NT7QpFfx9ePxD+EfhDliJc1nWKGrZODd+FSZ20/4RHU=;
+        fh=9J1c/stX0NIk8bHp6Libe81S5thiNqlnQN8JE9QJYE0=;
+        b=MJ4d0E9eTG8h7mqnvXUp2K1QVpP1KWJgVkXFYsF+YgLFErWjNAR8gDhN6pmlRHTZb9
+         KKx22lyuJ4D2LaHfKhdY9oC2L8xJxXNkOAjDxjBhwULkvaoGWyiz4hLdhG1aKCqPtR4G
+         DfT7MlfkmjvCVFh/CM9YCyT4/w2aDg5CpaxBmGYRH32Y3HuzCoe9s50IAj4xs2/yA0KB
+         6SFrbm/D0PlYr9F+zOx+ZeMyClTIWNLD23hZvMpaivv2IBM9IKe1f8BNAXww9dvvxjN6
+         jCqzP59bPkwVJQi3UZY1P3BF1eDHsDzdrLZOeD94p4Ume5olN3SIPuZHHfHbayVu1qVD
+         BuGg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785450394; x=1786055194; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1785450669; x=1786055469; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:mime-version:references
          :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ArtSog1FoVnhFcfpT6OFcOCesxyMDJkDrg6P703rT7g=;
-        b=gygENs6jW8fvr57Qa7vKd8a1GxV0xl2dDJYAAXekl72u9ALfdbLxrr7JcH+bCTaEN6
-         PWokQpsUZ9OpRVh2aMDZcqEuWLnbvxiG5hiT91GG80+pGZng+PfGfaxYkZsFaCMMi7bt
-         TEsdyMhblzd+1OIQZJgVACLsG6OQJEkk41uWqcf8VJ/+XyHleUlXq8q5r1X+xOzSr3L8
-         Q+d/1BDmdhwsYE9WfAQ/hHY6BIwJQ+DX+k8jiqfG9MQyVsgfb5FXXCj777OQ3uH0IykE
-         1X9m60Wc3MHAFIUnrabeGLaCzKnPtvkAlknFYSz1N2LBUJciLc1pSkzwCh2ddq/qEQeA
-         aRcQ==
+        bh=NT7QpFfx9ePxD+EfhDliJc1nWKGrZODd+FSZ20/4RHU=;
+        b=iyX8ta1oIXwTHeAbpQ9turwrD41nAuMnhWMV4eirv2p0xKFz/MQSM4n3C5TQm/1mow
+         rImFsx2dMqgyRj8q9VpXQUyMoSiEDCDojWmqvMlzzO/na9zMRvemi8prn/dxivQ1QVMk
+         LVZuPVBpUTYtxvVP7piuI1cQBARqDGrZHQgYQ0cLjjZKR6mnZ61yWzYHTD81C8u/GSUw
+         rJOWb20U4q4G9HbgX+Y0kCM2ziLBG7EyssUbKsY2xyqR7wKLA7yxhVtLZc5VIeg/lPT1
+         31OSNEjnMoCwIPxCeGs5DfrvnTqagmDPi02jt7IlsXbcgyyDp75AYtDjbE9k+L4M94c4
+         f7qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785450394; x=1786055194;
+        d=1e100.net; s=20251104; t=1785450669; x=1786055469;
         h=content-type:cc:to:subject:message-id:date:mime-version:references
          :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ArtSog1FoVnhFcfpT6OFcOCesxyMDJkDrg6P703rT7g=;
-        b=U+2JHLruWlsu6/EFJ7zYpXuA3ieHQNOY9/EozL7AhY/D1fq2I+XWaL05TzNAs+DRHW
-         viCs27T2/9Ns/An38q2P9i63zHAY7v6Qn8+oq0O8m8WwclPoMAB9c3sMCNzpSADgvEQd
-         LVDiAj8t/fqmPhX5IpEQI6jKA3THC0eI/+UE1t7JjD73ws36mSJnx7iaxMmzFTGCSnLG
-         LtS2mLy0mBgxekJv6vSyz4eIQZIrJ/chBKRDpLVI/hobBVa2dzywkDWCWa4AZhJNqkIq
-         sF4nPbYN9hOBhi1pHaIAOY+5d7Pus5v9xfcyFcI0b2++eEcNGSA2dsL6BySxUrZGpt45
-         YUSA==
-X-Forwarded-Encrypted: i=1; AHgh+RpjrKj6r3m2luuHoumv7vmO0ZxS7O+TH+q+jt6b9J9ug1nGgaJ4YXoHJgG26UV6/+km5IBOVzd9xCA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyxgun++dy4eeKDdw2inyapHZNagg8xnso/FeYs2GEkI0RTDBtF
-	PnS/D6W8U8ZuXQnxSo7pMqdJKFQCWg+a3Xu9ljcF5ebNpcNXW2nLD3VfYBDPVW8+rmYMyr3uzkV
-	zOeNPgGpBF4xIyN4JJikmtsKelxCjpa/B7BaPn++j
-X-Gm-Gg: AR+sD11wgegXxaeZze10jkRLUxxxKmu5f/IN/ULblt3/kpRd+tZf90rMYRU3wtBtqi7
-	etu+ocAQpx6MfbX1DACPNusiOZ7+3WpLQDbBP+b7b7KoCtTENpIYrp1kSsYg9ltUChr/b+9O/7C
-	iyWNnbGBKp61kESMYZhF3iSPRgX3kM/dy25J03rdYf/YS+blRqO5Kl1Ca0nkbcoamIJDP+X5P0W
-	mEBRxmFDyJ/K/7Iij1U68uu9b6f/jY5XJ/aVUs6wYRSNscJ1oC6OH9BHn5HejxTlUrBF1LmG2rz
-	7fjbwdYx2Rm4Q/JWXTPL2mW9+N0pBdJECHORMIPQBoiMlgalNy52VDFY/BB8kx5iGhbF4z6I6if
-	6qsTnOhTcKekrP5xmKk3J4I6L94uIvod4awOYNazxnR+xeQ==
-X-Received: by 2002:a05:6a21:3390:b0:3c3:7bb9:c93 with SMTP id
- adf61e73a8af0-3c9006b6c93mr3958275637.53.1785450393499; Thu, 30 Jul 2026
- 15:26:33 -0700 (PDT)
+        bh=NT7QpFfx9ePxD+EfhDliJc1nWKGrZODd+FSZ20/4RHU=;
+        b=XCD95qtsvzYdHa4s5Hlh4nxETyyMWNQP8t+ul1pRO/skLWl03glk/gY3xhovfg6Jkw
+         uoeDEjAgrYqrbPlTX3dzO+UYSZqePOz3+KIFp+lXq75JmH1FU9rZZJMPyYzwI1/X6+QZ
+         VoWklVBXBInclvbOe1pcKBjQX7PTc8LT76FLK5Okhwfq1sdDqeNpl0ORogrJ3CXZBaf2
+         0JxmXFKHlTRxijcpfvQU+FlP8zFGKHJF4SduvIKwm1eL0JIWNUSUoF7i4DAQiVdsoauW
+         voLL5iWbXpSNjeiWZAq1/33OSL70VcQCy+CSzLbOuK2yX6SwFgM3S8AIVq+A06c1VL1v
+         HpKQ==
+X-Forwarded-Encrypted: i=1; AHgh+RopeG8UNWdQO+3OK8cPsB79c5MzH/HWG4tNHZzbORzbV6qRcLl6c3cO0XwMuHdORXytyDEANd9bMRE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwShX5ALRH+DFIGvJi/WkmIhaLlDuyObxHNWzG1WDimHtmqPg9s
+	J/BHxYSj8159boZBri857hgiY+OI5+4MvYvdkwwnGhuzrpE/UAc0EVXx4a9y6XZGOXgqfhXpbDo
+	/Pfavcur/LW4RnjmFWhF+inj6fh7e+t9HXQ5TfYDd
+X-Gm-Gg: AR+sD10VSIpuOSs52hOjoratyyVpVBM7NRPfjupeL0EQj3Q3L+abaTxuyA6NAkELTBb
+	hoPxrlu6D4RHc7nOwvw7ogCieVywnMFnqmX4BPKNMWYUsL7CVcjLnLddsPe7mlVhvb/t3VxSvha
+	whA+4qytt8tjIH2HF1sCwZPikQIdSErM83cKahFdofuTIBVNxJn+2MDN/kv9jl17dekc6a/UTAx
+	L8LRNcxqVLXvySEgAV1Gq1qY8FL3bF7wnCtiefPa3xXmUCAEEHRbIExVjGEmxoYHltq804531WE
+	BRv9KeTwj49IoMjm/H9sxi3+BhEjDVgTmEl2U+OoMsm1+a390NWM1yJe7y/e3kL1tfYotlbXTTF
+	YntMCwEj8NXDZ2naUKqM+tK4Ybwk6MeCB5B+/fQO0cgay6FY=
+X-Received: by 2002:a17:90b:3c88:b0:38e:3fdc:62e5 with SMTP id
+ 98e67ed59e1d1-38f9bdb3885mr3385917a91.19.1785450668084; Thu, 30 Jul 2026
+ 15:31:08 -0700 (PDT)
 Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 30 Jul 2026 15:26:32 -0700
+ HTTPREST; Thu, 30 Jul 2026 15:31:07 -0700
 Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 30 Jul 2026 15:26:32 -0700
+ HTTPREST; Thu, 30 Jul 2026 15:31:06 -0700
 From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260728-gmem-inplace-conversion-v9-10-35f9aec2aed2@google.com>
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com> <20260728-gmem-inplace-conversion-v9-10-35f9aec2aed2@google.com>
+In-Reply-To: <20260728-gmem-inplace-conversion-v9-13-35f9aec2aed2@google.com>
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com> <20260728-gmem-inplace-conversion-v9-13-35f9aec2aed2@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 30 Jul 2026 15:26:32 -0700
-X-Gm-Features: AUfX_mzO4np18y-var3XtfpQ4yIIWVbEpBnhPk-BB6NlVysHL79jcDWiNU37Sj8
-Message-ID: <CAEvNRgF3HQfivC2CRp_61Fa-YsSGPpdHa1A77t88japfW015XA@mail.gmail.com>
-Subject: Re: [PATCH v9 10/41] KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
+Date: Thu, 30 Jul 2026 15:31:06 -0700
+X-Gm-Features: AUfX_mwSrnPTxdnd5yQR4dz6uVJVHdsuk5_VpYazXm1_NpOUC6lIlEZN5j_ISHs
+Message-ID: <CAEvNRgEscmPoW2f4UWHnPub_ycDg_QHRR-cCU5yL9HXu=G-OFQ@mail.gmail.com>
+Subject: Re: [PATCH v9 13/41] KVM: guest_memfd: Return early if range already
+ has requested attributes
 To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, aik@amd.com, 
 	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
 	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, 
@@ -129,76 +130,23 @@ writes:
 
 > From: Ackerley Tng <ackerleytng@google.com>
 >
-> Add a new ioctl (and matching struct), KVM_SET_MEMORY_ATTRIBUTES2, using
-> the same base ioctl number (0xd2), but with R/W semantics for the kernel
-> instead of just read semantics.  "Officially" documenting that KVM writes
-> to the payload will allow KVM to support partial/incremental conversions,
-> instead of all-or-nothing updates (which requires complex unwinding), by
-> recording the failing offset if an error occurs.
+> Extract a helper out of kvm_gmem_range_is_private() that checks that a
+> range has given attributes.
 >
-> Opportunistically add a new struct as well, even though KVM could squeeze
-> the error offset into "struct kvm_memory_attributes", as there's no cost to
-> doing so in practice.  Pad the struct with a pile of extra space to try and
-> avoid ending up with "struct kvm_memory_attributes3" in the future.  Use
-> the same layout for the fields that common to version 1 of the struct,
-> e.g. to ease upgrading userspace, and to provide flexibility if KVM ever
-> adds support for KVM_SET_MEMORY_ATTRIBUTES2 at VM scope.
+
+This should have been
+
+  Extract out a helper that checks that a range has given attributes.
+
+kvm_gmem_range_is_private() was renamed to kvm_range_is_private() in
+some earlier patch. Thanks Fuad!
+
+> Optimize setting memory attributes by returning early if all pages in the
+> requested range already has the requested attributes.
 >
-> Introduce KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES to advertise the
-> availability of the KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
->
-> Update the KVM API documentation to define the new ioctl and its behavior,
-> and add the necessary UAPI definitions and capability checks.
->
-> The process of setting memory attributes has a clear point of no return
-> because, for CoCo VMs, zapping stage 2 page tables is a destructive
-> operation. Unlike regular VMs, where re-faulting pages into the stage 2
-> page tables merely incurs a performance penalty, CoCo guests must
-> (re-):accept pages after every fault. To preserve CoCo security guarantees,
-> guests will not accept pages they did not explicitly request faults
-> for. Consequently, during memory conversions, any operation that could
-> cause the process to abort must be completed before the stage 2 page tables
-> are zapped.
->
-> Zap only the ranges that are not already in the requested state to avoid
-> inadvertently destroying (CoCo) data. ARM CCA guests will try to mark the
-> entire DRAM as private at boot. If there are no shared pages at all, the
-> to-private conversion can be skipped, but the existence of a single shared
-> page would require the conversion process to proceed, and if it proceeds,
-> zapping both shared and private pages would destroy data and break the
-> guest.
->
-> Co-developed-by: Vishal Annapurve <vannapurve@google.com>
-> Signed-off-by: Vishal Annapurve <vannapurve@google.com>
-> Co-developed-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
 > Reviewed-by: Fuad Tabba <tabba@google.com>
-> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-> Suggested-by: Michael Roth <michael.roth@amd.com>
 > Tested-by: Shivank Garg <shivankg@amd.com>
 > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
->
->
-> [...snip...]
->
-> +	filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
-
-I left out a
-
-Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-
-for the suggestion. Sorry! Will add it.
-
-And thank you Fuad for letting me know!
-
-> +	kvm_gmem_invalidate_start(inode, start, end, filter);
-> +	mas_store_prealloc(&mas, xa_mk_value(attrs));
-> +	kvm_gmem_invalidate_end(inode, start, end);
-> +out:
-> +	filemap_invalidate_unlock(mapping);
-> +	return r;
-> +}
-> +
 >
 > [...snip...]
 >
