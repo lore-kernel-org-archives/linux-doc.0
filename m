@@ -1,106 +1,91 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42B394461
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 06:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+Received: from smtpfb1-g21.free.fr (smtpfb1-g21.free.fr [212.27.42.9])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E1CC3B52E1;
+	Thu, 30 Jul 2026 06:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785394369; cv=none; b=ZVd1m0QO6F2BHsl/BrAGVSgcPKNkAi7AQK0ZaOXk3grdNjmEIj5EV2ZJVjWXLdn0kPfY6tqOA8UP5WfVcwOArc3L+wEZHa187auMblSPHiI5aSdjo0a1I0zU7DK5jCpbn10qNp9UQvdVhDaVY80AmAXy4XIncPoAbZ1+w9wJwcg=
+	t=1785394578; cv=none; b=FH1nHHhAVniY3FSnYLMQIiUMhzXeUKmjqNRlOt0wDXX+2iV+CyyEyw2+pb+8OiYuJFNmNhIK6u+VZ8DP/leQLlkPwsqfmH4PdNt05nSx1ky4G8XhKRUnochYABLs4uT9m0tiBm6eUVk1M8kOQpjVi+x+0qZlUsfFviT9bz01Jak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785394369; c=relaxed/simple;
-	bh=Pbj0P+gU8va8jJCrhk4MN1M1pVJoePTsLFgY9CKEP0E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VpBEKon2wHT/dX3azkPTuTN+i1M/ydcL3lJ21q/i1JKXtzGgqLxX1nFdWf+fN/gtOncjRXWXMatvkMZsFQhKpV5vcmOv3bD63YhOJoH7HKSWv5ECDcKZNXCLz8qdLbfyeRPpsA4jhUKgVp14tKrIwP4St6/M8hTlrNWohRyA4X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tmMQTaBg; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785394578; c=relaxed/simple;
+	bh=N0Q20xcsT6sAisGEunQvQbOSX5UY4V8QKRtuYENnRh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VgHvoqaQqqSF8Qt2LK0G8Fy11IIFoDITiO10QZmJFitUX6Wq/Fms8zYSAo5CtpDieucM4nmvhfuXV5MWVbMYVhjdSFiUmVDGVKBH/IRs6Ke4prdjnTGUwND4zelvaBc+WHVrr2v/o9QQAwUPckBSZgds9vBA0wwRPvLrBnYUUlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=C3hTgQx/; arc=none smtp.client-ip=212.27.42.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tmMQTaBg"
-X-Forwarded-Encrypted: i=1; AHgh+RrVdOgx7iy9Rb9H2wZ2jKVCBSFtVUXcjFDcXYJ7S0hjXXQtZDU2f/3Jfns/sqKu4Mgscme4eX58D7o=@vger.kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785394363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pbj0P+gU8va8jJCrhk4MN1M1pVJoePTsLFgY9CKEP0E=;
-	b=tmMQTaBgxUYKj/64iZQZQ+jyZrJW33BTuuukdzBlifi48aXiC+xMzUaVOXGIkAKsRTEZM3
-	LuPfYvj4zsQ5RUA0GkHs+vZKPz88amb/EjsMEwaayFHZp5GjEmqFlDkCBL7h2rzBMvoCKZ
-	TapGPEKnBPV43Tqj2psujjNfeAgSfwU=
-X-Gm-Message-State: AOJu0YyC0oBLGNki9+SOTy+3z24AhoVG8rNebeWWwInFuCOg06/MyCDw
-	6zjsZtJMjMEiIjdPWHBzhjkvgWpCyyImXU7d6ZLQM9WP/5JwzzsOHdzQzQCO6WEEN3XHAMQk/Y6
-	9eG5iS3A6CVPbq9qTQ4eayuctlSmsV00OAHJf6gjq
-X-Received: by 2002:a05:622a:1f18:b0:528:38d6:71b4 with SMTP id
- d75a77b69052e-52b39484e98mr9124391cf.11.1785394358893; Wed, 29 Jul 2026
- 23:52:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="C3hTgQx/"
+Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
+	by smtpfb1-g21.free.fr (Postfix) with ESMTP id EC25FDF86B5;
+	Thu, 30 Jul 2026 08:56:00 +0200 (CEST)
+Received: from L30177.local (unknown [81.201.198.134])
+	(Authenticated sender: vjardin@free.fr)
+	by smtp1-g21.free.fr (Postfix) with ESMTPSA id 5BEBEB00563;
+	Thu, 30 Jul 2026 08:55:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1785394553;
+	bh=N0Q20xcsT6sAisGEunQvQbOSX5UY4V8QKRtuYENnRh0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C3hTgQx/yI/p+TtjkZiM8hDtcdAQRjk31eI5S6lC5VXl96QDOK8j6n+W/R8vYQRm0
+	 c4VM/ZUB94vdxGODGQc13I8NuKIQs0nD/6gpKOLwA2d7YG7pIp+1XusqP14CfpGat+
+	 ae08vZgljs68U+pKCWwLeFQmPdChKHVyF3SdlSFTnf1Q6DhP4iglKfCWU7Dgo/xLuG
+	 OCmNmariJmlftP2Y7E4m9S4g2UYDtjvt3GjeK2FVEANSbkG7XqmaxV8SnYVU1pRR+G
+	 mbO0RADWfkMVuiPFx8a61EmnYygoKH2nhhahZIHuX9hXINYR5UvqEnXcKDX8NchxBN
+	 iVrE/rtou0d1w==
+Date: Thu, 30 Jul 2026 08:55:38 +0200
+From: Vincent Jardin <vjardin@free.fr>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Charles Hsu <ythsu0511@gmail.com>,
+	Markus Elfring <Markus.Elfring@web.de>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] dt-bindings: hwmon: pmbus: add MPS MPQ8646
+Message-ID: <amr1ar1eLeZ69oGY@L30177.local>
+References: <20260729-mpq8646_v0-v6-0-98848151cdb4@free.fr>
+ <20260729-mpq8646_v0-v6-2-98848151cdb4@free.fr>
+ <44db442e-95c8-47f0-92b6-81279710ff33@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
- <20260720-hybrid-v9-14-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp>
- <CA+EHjTx0zNQ_yPCz38vGYpBssshE4b3KWaoUxjzuerGgzB=JSQ@mail.gmail.com> <e023d791-38c3-47b4-9b09-3420fe78d9ea@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <e023d791-38c3-47b4-9b09-3420fe78d9ea@rsg.ci.i.u-tokyo.ac.jp>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Thu, 30 Jul 2026 07:52:01 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTxAH-eW4soxjbSJi8DwbH-yRXE-jJ9s02nEZ7kVXxxWMQ@mail.gmail.com>
-X-Gm-Features: AUfX_my8ZWlfDB9plrXG5PWElkl5pTmNLk-LtsIhDb0mp2MLaqYsxid4gcfDy1k
-Message-ID: <CA+EHjTxAH-eW4soxjbSJi8DwbH-yRXE-jJ9s02nEZ7kVXxxWMQ@mail.gmail.com>
-Subject: Re: [PATCH v9 14/16] KVM: arm64: PMU: Implement fixed-counters-only emulation
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Yury Norov <yury.norov@gmail.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Steffen Eiden <seiden@linux.ibm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <44db442e-95c8-47f0-92b6-81279710ff33@roeck-us.net>
 
-Hi Akihiko,
+Hi Guenter,
 
-On Thu, 30 Jul 2026 at 07:36, Akihiko Odaki
-<odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
-...
-> > Sashiko flagged that this can leave the perf event out of sync with
-> > the sysreg, which looks plausible: on a pCPU with no registered pPMU
-> > this returns without recreating the event, so a guest event-type
-> > change there updates the sysreg but not the event, and after migrating
-> > back to a pCPU the original pPMU covers, kvm_pmc_enable_perf_event()
-> > re-enables the stale event instead of recreating it.
-> >
-> > I know you treat the no-pPMU case as out of spec, but the dropped
-> > update lands once the vCPU is back on a normal pCPU. Is this intended?
->
-> "[PATCH v9 06/16] KVM: arm64: PMU: Recreate events after MDCR_EL2
-> changes" calls kvm_pmu_stop_counter() in kvm_vcpu_reload_pmu(), so it
-> does not matter whether this function calls kvm_pmu_stop_counter().
->
-> The other changes that require recreating the event are currently not
-> handled at all as Sashiko complains [1]. I'll fix that as done in
-> MDCR_EL2 setters in the next version.
->
-> That said, I do not intend to add any extra complexity to provide any
-> guarantee for a system with unsupported PMU variation except that the
-> user can notice and react to that (i.e., the taint is reported and no
-> oops happens due to NULL dereference). The patch message is somewhat
-> misleading in this aspect so I'm going to fix that in the next version.
+Le 29/07/26 21:10, Guenter Roeck a écrit :
+> On 7/29/26 14:51, Vincent Jardin via B4 Relay wrote:
+> > From: Vincent Jardin <vjardin@free.fr>
+> > 
+> > The MPS MPQ8646 PMBus step-down converter uses the same
+> > mps,vout-fb-divider-ratio-permille property with the same constraints
+> > (maximum 2047, default 706) as the mps,mpq8785, so add its compatible
+> > to the existing schema.
+> > 
+> 
+> The driver is a separate driver, making this a bit unusual.
+> I'll leave it up to the devicetree maintainers to decide if
+> this should be a new bindings file or not.
 
-I see, yes, fixing the changelog would help.
+Because of Krzysztof's review of v5: he asked exactly for it
+since mps,mpq8785.yaml already carries the same property, the same
+constraints and the same defaults:
 
-Thanks,
-/fuad
+  see  https://lore.kernel.org/all/20260727-sceptical-finicky-waxbill-d7ecbf@quoll/
+  "...Everything is the same as mps,mpq8785.yam, so why it cannot be added
+  there? Just grow the list of if:then: to cover your specific
+  constraints."
 
->
-> [1]
-> https://sashiko.dev/#/patchset/20260720-hybrid-v9-0-2b713ca1b5dc@rsg.ci.i.u-tokyo.ac.jp?part=6
->
-> Regards,
-> Akihiko Odaki
+v5 had it as a separate mps,mpq8646.yaml file. I'll follow whatever
+the DT maintainers prefer, but so should we consider that it complies
+with Krzysztof's argument ?
+
+Best regards,
+  Vincent
