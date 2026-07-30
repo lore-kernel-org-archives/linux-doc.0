@@ -1,200 +1,146 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179E339659A
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 20:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1EE3C09E9
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 20:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785444159; cv=pass; b=mHgLJTOgHhshDwbSUjLog7XEAmE20/Dd5Ey2hFcpWvzZUD8k9SOt7/9uMVWvAh8f4EwX37CuAPpAUn7d51sDzV9oZYu3a7SoCkfW2V6TPgvo3RdrgxHG8d/A4E72ro44rTd6m/8dlUA3vSi/oo1DEMbyRdlAVSk7SsFs6ufuIBo=
+	t=1785445170; cv=pass; b=C0I+2dMuNBoPW0Ej9S4kVx6i/5az35qvyrZLKJ7fIEqpWoR9hteC4BiJUi65ukJcXQuKHR7zSDUUKFCosxJ1Mjvc9iUs3JFDDK/LcWrzB6T38bhpT3eNVS8hCzm9fho0O7sO5rCjlPW5QlAp/rEKEqLatYfyaQptCrpooiHKWtc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785444159; c=relaxed/simple;
-	bh=1jiZYsqBtrcmi7eIwfzyaU0PYhHwikLTB018QmEsrns=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bg5dU7zEwEME/OAJ1OhPEeZ/4QsVs/Uo3A6mcDBT8ShLimVsn9vB4Ayej3ltpm7XVC7KXeHzYWpVmt6uAj8FU54fCtPEYMwpN/gTYmNhDBv1t1ZEd4oA+AT6sWN0MG9AeH9velOLi2s8jAqCDPTCNE0WGPpW9Orh8hzrtxZs2os=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bAglTDAX; arc=pass smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1785445170; c=relaxed/simple;
+	bh=TjfWFjcumtGogPzfLKW4RhkCh9Rhh17DgLYBpsrtvDg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T5gRv1Ei2PfPrJ12qambXyCpPAPetr0oTfRkH2+M38Q2WSA2LornTEkSopxfCYNpTxJP05pMDMQJq/hWyZN76/6yIXsJDF8kWokJUarh5inzeAo8uERkGLaAeRIxV8Hna6/zhCFsZyZ2wK2nOxe0jApsUp4X4XiaC55aw1Kf/1M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6ME+3Hp; arc=pass smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bAglTDAX"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-ca12086c06eso195496a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 13:42:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785444154; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6ME+3Hp"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49550ec592cso7807635e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 13:59:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785445166; cv=none;
         d=google.com; s=arc-20260327;
-        b=mJPQ3lpedqqdms5DGlFKWe4+69JIPLfwBAWevPhrDJSXJzDue+FA7yXokB3/KqmogO
-         pO8CrVODqIV+c/+llAQRVGJ4bcwyJQuVSy7GB62Q5aVL1vKm2O5NtKRv97c2J3rcBzOV
-         rSTBvc7//QYahQsiUQabMcbQSo20p0nTpGRgs8HrPcx4Ib56gp5uhwapS8z4Tufhc/vz
-         KtsFW4RoAo0O7PoHkQe6XjAm1YA9x2gxoQBa4gApTbJRKAPf4dPekihdK/Kn0NuGLpfm
-         Lzqgp66iV91c49FXWRUdJSDZ7+oSZ4hncbmcqxzlsTiEJrudJ31KXgMrXI4ER6RfjT4j
-         /raw==
+        b=Y7ghAc1w0ewqKEEpvOvaYkGPQldWOgClHiT6AW7sKgzQ6KRueOV8UZaXZJIKBfJE7V
+         la5R7eKtxTYVkcjvU/TeOWxeiK39SPPjuebNMgUZBLlodK07VdB29VSPBV0UCi755vK7
+         RWQL+IJkppAgUGMar+V6pqEn8nvaHJTEBZhIm4+nw0Qq8rAK5ZUpJeIU6vApTJ+jaGUf
+         d6LdINY7rvbK5Pl4rXEOnI9JwmGPj+4PGq0QO9ap7jKS6rWs57r/OjHMAcbl2tuvp3Gi
+         ORUfQbcNtUhmNppQHlFEW68XByZEiT0iFZJn1u/lHwMJMEpTCsQ/WsivKJ3+AWcj/svR
+         cvHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=tzyXsfKQYVbe7kXvY8Z4tL4HbFmN3e4/nufnZYtx15c=;
-        fh=ImzvIMXX5yyyTIlwXtocCTE1XD6BZDuWtL/YL/xJBno=;
-        b=N1mAy5rFZgHYR+6NLfBx2YNrJ0+KmUDgOR6BM6jFn3qfec0QV/9gFpn+DfF0tbMc9j
-         bpgJyGNj+qH3raMSPMvVVxB9e5w3a0GAxKdC+NcU1t4qi+OZzHcM8iP9Dpi5HQYU5PnO
-         pgKjOMRPbXRgxV0ISMigDmh0Lj2CjwxbIEFGN+BxPxA6cvKoAOuLun1GCakQU3qP3Nwi
-         IJH1lirtBOk5Fkvvvov3IJwTwTo7kMw+rUeReoGPR3sX1hCCI6o9bx+esXB+qEAg7y14
-         XQB8ZR7iClrIgxxHbAAYVIQAGnUhp+85bnIMMXX5F7VFgADFZJLrvCskcDVvNoAVFcGi
-         ArjA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TjfWFjcumtGogPzfLKW4RhkCh9Rhh17DgLYBpsrtvDg=;
+        fh=hLqBlHik4m02L64HbUXc3fOmH3ZjSOjGO7/s6OPaYUg=;
+        b=Eh4WPEkafNxFZ/tJ4Y+NMl13g3MebnhzJWyKbOwNfH8tF1HWUIm7+9/sWMbaHxNHm5
+         Ra4ta36V/1KwzbFJPx/DKANj6rXmAKAg6sMZfL11bVp+mMlQbexdrbYHP7yLd+KYJ0uE
+         IOnVw0HLgTWywVlUt3s7rjaeMgU/6SRyT0Q7yrGjbXl8NnP945o30ekqO5VQrh4V0kb9
+         QAcbWE9ukzUwRn48doHVRaQJffaJT97qk+r36Si8cwETy9yk864jRpGP+n6XhOL6qLfj
+         SPaPnsS3hJCMfZpbieHoK0bteNKTL0g3X0C8fNCya3vErSlk3Y/E+lZTy2bPLP0jeh3H
+         3h8A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785444154; x=1786048954; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tzyXsfKQYVbe7kXvY8Z4tL4HbFmN3e4/nufnZYtx15c=;
-        b=bAglTDAXQTyF1QI2urJYdnQYs8AM7oEMOFaamKRGTXVUqR2kvlhSYLANE+d08MWXvY
-         nH3U/5zIqj7sk8JavK1qY4WQyUE4KjKMu75Q7fLdq7yY6w1OJCYfzweSk1qmbMPhKVVZ
-         LHeCrmGUtloTLYgTBcXHT8nloWIEDNKayMdM1tsGLGcwG1GPZwqk2ummotj3qcBFilKS
-         wN+KGKMX7AoE061dpWKP6L6+2clcbI4cusCuSM8+MtTLGcV/v8ZBH73kROmEwzuuSCOC
-         6IA85V8LUtz3zJIhOnqDgluEM/dUgrVv4aKwoABQplbtx6bIy4V3/MK3H8e2FCF9FERc
-         YXog==
+        d=gmail.com; s=20251104; t=1785445166; x=1786049966; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TjfWFjcumtGogPzfLKW4RhkCh9Rhh17DgLYBpsrtvDg=;
+        b=R6ME+3HpvtKodB5vMz0HHdPy/tumwxk9eembr/QeHJJMiqq+apXcoGz7XZc43ETGd7
+         O8NIVDm2Uxanw1UE2eD+0O6cByz3cIg34hczcsHbkvyM4zMxOkRF+fp7e6HFxiNdCyqF
+         mlDU0nwiZkucLp2N0Mksf4zxO7W904kuFt8Dk8kGpRmilj+cy3+4PHQh1OhUMuGiFXjH
+         LVPVUCNwrKaIJpSsIFW7XOikTaCgZK6wmtyrpJOGyMzx7KefmrsTEXonBIYS7Z+D6ogI
+         lFvfmp6EKz8kYmHwGulCC68bCuCe8OV5dmzEtsXeIYAn2CF5fWeClCLjySPRlu4hEX9r
+         mr1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785444154; x=1786048954;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tzyXsfKQYVbe7kXvY8Z4tL4HbFmN3e4/nufnZYtx15c=;
-        b=tYoKYDw2huohB6D9IRjaspVhjG48yMgRgmkYuHFRCUG/RwPaB4yiO/08inkDCF0XCK
-         MZw2hNDQ+L2zjKKKhr9Esil7wOwA9XLh4zDN+C+wg8N6DWa7RzanvL+bq+ZhUCPNfYbx
-         N40Y+bppIT4rgdADoQf8Uz8RG/7G5fMwTd9mY34JvRhDpKwVGCdrwHFOVckj2MO/9cOL
-         uHM6tUWtdMCwyPo1cjsgrXEOrOZyQeSLCEivj4lIm1dpHGChtcyzDRi9BYAciDJeoxrQ
-         KLBym9Dv68531j1Hx8//+GKFTgDwyzo2fhFDxdiYnRyMflNMesfVMYtWzpCYgEUl09SA
-         AoWA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq3aZIz5mDT1+Kim5i9NaR1kx3jkm76FY21ko138Y0SAnGdOdyCWhnzMREJr1z7SdyHZ1PxRxzYLCU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRaIkX31ZSJDRTOGr2NkrGJLTm5/FWfNnn8oDmXv87Xab2p5pS
-	q/0Y9rvo2KOQHOFb8jolAbKcHEmjzFPPhEjtFNL4T886vrBsRCrKijqZ2hPJWxMZuySqijFNFlz
-	jRkhhSOp54lcG8LV/YnAbSZTTyxHhTIB4VSPIBJfZ
-X-Gm-Gg: AR+sD13hzTCaDtqFBajDSzBR4hHQjGKz1tVBRXIJVqv5NwZRrmdwN8p1unlb0u7uVgx
-	0dW98zzHA2PI/23mZx3Iu78YRr4q//ZZ/SNQfaSu8zfZyMDB6fmnLtfDJ4ZqgB0VdLrFuApPW+2
-	W18e4pHgK3dackLPESySxN7ya0+ID6hs2Sl7Az4u3CK9KR1OAoHqAw7h0hH+ta1AO6WY2FGB7kh
-	VLPXGV3ayCCTzejWL+c8Mad6cUvCXxgzX/XTL+I3IzwwZ1aDuDSWC4WM/ytAiLNaHXAoqbhGKZt
-	ovAzDnWAyyZKsHXNnz5A2zScI4ZoZnUXyjJflv7eaQkX+h4Ki3zf9aAlzCfTfMeFxseRkN4B4D3
-	0hor7lXh9hVhdHnfdoFwYeVQrwKYgJncXK14=
-X-Received: by 2002:a17:90a:d88d:b0:36b:bec8:94c5 with SMTP id
- 98e67ed59e1d1-38f9bd790e8mr3699903a91.10.1785444153113; Thu, 30 Jul 2026
- 13:42:33 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 30 Jul 2026 13:42:32 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 30 Jul 2026 13:42:32 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <60d19013-d6d7-4eec-827a-2622e22cec98@intel.com>
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
- <20260728-gmem-inplace-conversion-v9-7-35f9aec2aed2@google.com> <60d19013-d6d7-4eec-827a-2622e22cec98@intel.com>
+        d=1e100.net; s=20251104; t=1785445166; x=1786049966;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TjfWFjcumtGogPzfLKW4RhkCh9Rhh17DgLYBpsrtvDg=;
+        b=No4wvhoac90nC7xbwoS8hOQSQF+mRzFgC4In/vezTOhvyxEl1XFbs2IcdAk9hQilcz
+         XszXOCHznpWshULq1B7YSAj06LE3yC/sfvxaQQz4DnL1onAXnbyyxgiIhD0jU/TawrZ2
+         /Q3Bj/wWHHng+DUwn4QXCFamFmj0poJjqB7Kno2L4fZPBk/+Xdz9d9r40MAj9XTb7ZMu
+         bZkObhewhsUm+dqVpIXYsabil6bSRKnDLDkLK+CMeKoJmBBw3kYkS3dxdMK3VlPYFULf
+         Xmk81B5uBovudjq8YwUg+ra0IH8OG3JquJ6OsVPOR4RS/Uoej3aIL1dzHDXQd5O4V1+w
+         7G8g==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8LVvo+soEAEJSZa93kcoE3WxDDcorGYqvX3tSkJoUW7LmC+2pCOQ7mUs+Nkjv7WFlna+rJpltMQw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxC8GcuVs59fuv8vAqQZSh3mbluzkDh71FPtBjLzxuPHuQXKifo
+	uLRDITk886LGR1+k15vamjMzQhDHYl1gLLAJyugglF43B0q2fyKmsSf7u0HRPT+ARaHuOz358X/
+	acjNR+QbvbR7QVL2zf1bB2SQPb2VMgeI=
+X-Gm-Gg: AR+sD1376UymaUTDXkX/mQdqWdw4KJ8IEXr+0Aj3xRyNe6bGimCSC6XhYAqNu0UAUEN
+	4g9ekGaf5Vu2zpRs5m6FZa7BlXCfMgnQQ8/hgFDtNzb4o7ePCcVFMhvdfeGg0T/6Ahzk9VEnJdH
+	mFYJN/Y6OTQn4N78vvxPCtwz8CORkIhin7fyj7d3eHRi4GR2GThtUFT9OcM/6utdYbedjnWzFAw
+	Rf/zWRyjehG6dtr4Uxc+2qHL/0A872+hftfV4u61UpAPs3SzNJzrxQ8yKM0nSA8NZzT/Qv1B4gk
+	nqj5uMnuQMAE538NbWUgVkUk5NDhzgKvL0mMGj4C20875D4mXrmHDIWatgvuXm3WUNuLvt89C0w
+	CFtpnCqTF5EdkXhKAh0BRjT0c
+X-Received: by 2002:a05:600c:5641:b0:495:50b6:5a6d with SMTP id
+ 5b1f17b1804b1-49804c4cc7bmr22571485e9.12.1785445166339; Thu, 30 Jul 2026
+ 13:59:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 30 Jul 2026 13:42:32 -0700
-X-Gm-Features: AUfX_mz2wy3LvLLQqF5XvT23FybAB1M_PJOCVj4Bbwu3P1vsWolBi1Qny-gSolY
-Message-ID: <CAEvNRgF0SxmoMtqq69tUih54A9K7j_wcMFRrq=r9w6TnAGAUQQ@mail.gmail.com>
-Subject: Re: [PATCH v9 07/41] KVM: guest_memfd: Wire up core private/shared
- attribute interfaces
-To: Xiaoyao Li <xiaoyao.li@intel.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+ <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
+ <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
+ <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com>
+ <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
+ <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com> <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
+In-Reply-To: <CAJnrk1a9mR-6hFie3hfFRgWTkrhJMVx4j9e7WGnjTRFuX2iJOg@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 30 Jul 2026 13:59:14 -0700
+X-Gm-Features: AUfX_myiGnqGNN965xypoyGuHF_KvdnF6l6Z1HdJgtyCUEVPa6_UpbiR6bYul1c
+Message-ID: <CAJnrk1aj4B-T14SMTZhst2XsjOkKWStUj_0cjwHswgYWWuaB4w@mail.gmail.com>
+Subject: Re: [PATCH V11 0/9] famfs: port into fuse
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Xiaoyao Li <xiaoyao.li@intel.com> writes:
-
-> On 7/29/2026 8:35 AM, Ackerley Tng via B4 Relay wrote:
->> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
->> index 33c9830190e2e..89cf922232920 100644
->> --- a/virt/kvm/guest_memfd.c
->> +++ b/virt/kvm/guest_memfd.c
->> @@ -893,6 +893,27 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
->>   EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
->>
->>   #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
->> +static bool kvm_range_is_private(struct file *file, pgoff_t index,
->> +				 size_t nr_pages, struct kvm *kvm, gfn_t gfn)
->> +{
->> +	struct inode *inode = file_inode(file);
->> +	pgoff_t last = index + nr_pages - 1;
->> +	struct maple_tree *mt;
->> +	void *entry;
->> +
->> +	if (!gmem_in_place_conversion)
->> +		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
->> +							  KVM_MEMORY_ATTRIBUTE_PRIVATE,
->> +							  KVM_MEMORY_ATTRIBUTE_PRIVATE);
->> +
->> +	mt = &GMEM_I(inode)->attributes;
->> +	mt_for_each(mt, entry, index, last) {
->> +		if (kvm_gmem_interpret_entry(inode, entry) !=
->> +		    KVM_MEMORY_ATTRIBUTE_PRIVATE)
->> +			return false;
->> +	}
->> +	return true;
->> +}
->>
->>   static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
->>   				struct file *file, gfn_t gfn, struct page *src_page,
->> @@ -913,9 +934,7 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
->>
->>   	folio_unlock(folio);
->>
->> -	if (!kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + 1,
->> -						KVM_MEMORY_ATTRIBUTE_PRIVATE,
->> -						KVM_MEMORY_ATTRIBUTE_PRIVATE)) {
->> +	if (!kvm_range_is_private(file, index, 1, kvm, gfn)) {
+On Fri, Jul 24, 2026 at 1:23=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
 >
-> It's checking if a single gfn is private.
+> As I understand it, the merge window for 7.3 closes at the end of
+> August. Just to summarize, the only things needed to get this into 7.3
+> (besides addressing the Sashiko comments) are:
+> a) replace FUSE_GET_FMAP with FUSE_NOTIFY_EXTENT_MAP (will also be
+> good for famfs in general, saves an extra context switch)
+> b) remove FUSE_DEV_IOC_DAXDEV_OPEN and reuse existing
+> FUSE_DEV_IOC_BACKING_OPEN (logic for this already supplied in Miklos's
+> patch in [1])
+> c) remove "config FUSE_FAMFS_DAX"
+> d) remove FUSE_DAX_FMAP capability (not 100% sure about this, but
+> since the only thing added to the uapi is a new notif type, seems fine
+> to exclude this cap flag)
 >
 
-But with huge page support we'd need to check a range of gfns... I guess
-there's the argument of not keeping complexity for the future, but in
-this case it's undoing functionality for this series and probably adding
-it back later.
+John, is your intention still to get this into 7.3 through fuse? If so
+and if you're pressed for time, I'm happy to take on the items as
+follow-up patches to your series, if that would be helpful.
 
-> We can just use kvm_mem_is_private()? And it seems can be a separate patch.
->
-
-Do you mean that this refactoring could be a separate patch? I could
-refactor out kvm_range_is_private() in a separate patch, then put in the
-mt_for_each() check in this patch together as part of all the rest of
-the "wiring".
-
-I considered that but it seemed like the refactoring was too small to
-separate out into another patch when the mt_for_each() part is going to
-be in this patch anyway.
-
-Or, I could add an earlier patch to first replace the call to
-kvm_range_has_vm_memory_attributes() with a call to check just 1 gfn,
-then this wiring patch would be simpler.
-
-Let me know what y'all think is best. Thanks!
-
->>   		ret = -EINVAL;
->>   		goto out_put_folio;
->>   	}
+Thanks,
+Joanne
