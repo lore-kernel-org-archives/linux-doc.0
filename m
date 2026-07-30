@@ -1,108 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F7743E487;
-	Thu, 30 Jul 2026 14:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C1F375AC3;
+	Thu, 30 Jul 2026 14:45:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785421954; cv=none; b=UqGncMjpRI6C01T32jUZKWtGzdkQ0UGd+Z2KOZoG3OCxKpqeH+p4ZOEMHcGyGQFwEonce0Bo87V2zu8/diNYi2RyrdpZ3URmxI52lkI0gjdMtcS0DryPyCIQcJb0MQicsugbrRiI6+UxWtI0foJvQ89Q40wUnQPRpLUTA8fVj9g=
+	t=1785422712; cv=none; b=NYTP7xn0RHIAnIpbtknwmosgrIXbtRO9GrPbnopX1Q7U8S1HllVLz5ZzRYa8c2GojxCi0dxM3UJ2iV9SQgu3UA8AJmkakDDZPCY2gq9WJj+LvOx/E7zGK6/7AE4XIiY2hikQwH7OWvCoiBTkmRlBh7ACdBsrlnoe/HwdpXqvsEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785421954; c=relaxed/simple;
-	bh=H0j+ak7P6FxYM9YHOv0hMbYlD0vT/TA0Lb1Hxf9kcEc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nh1Kfl0j7GnPDiD3zi+O5wgN/WekZ8zXALtOUwXN15zbj14JfnbEdiyhl97c2q5GvzL2GF8Qv2wVh0lYu6+dkW2O2KT9kpU87V6UebvL/lK2djzDgZ4jIb6KG52mL0N/x0o2CQlS9T5RKRd7FCTSs5mRI6u226wrDsgNVllk+WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLd2ar1Y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785422712; c=relaxed/simple;
+	bh=ZCt/v3zTQTZ248pqMi5eqtsAzR01qITTY91aShvZwP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lCIV1oHUaqjpmFPkHmgcR8Y+vyyawr5FnYAyxIpsV4I6SEzk/XK/5rcNHkOZW12qHmJEPY9tNOoVdwcYGSnFZzkmNFC4NE9ZuFcQRgKoJXinFeoVxLZ91+L6RS/9WYh4HYQgm7qL6NZ375GFO3Pn8UIVHQiyFNTEOP6budmDKa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AFgpgcap; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLd2ar1Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 371001F000E9;
-	Thu, 30 Jul 2026 14:32:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AFgpgcap"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E2F1F00A3E;
+	Thu, 30 Jul 2026 14:45:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785421953;
-	bh=t+KqEaNzWqHCuOVTuY3+paIJQew4PZqcIQjocemxxEY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=oLd2ar1YcANx/v39ZEOsHMAKeGJB37F1/02y/fKFmJ6XQYsWJdJh9tl/mGC9hGmBG
-	 SWrgSy5TXEs4Kgok3N+WgWUcN1eI6dSkX1bWjltlH2r66ZZD/e6aBUr6uNRyQqY/oQ
-	 Np0BqiQci2IABAX0leuggEDVcqujNtD1S52Dl3YpcMF2rORw8V34saJNQMBHbg8eDI
-	 5S7wLwE+uoiuXmFFhLltufzbWe7imIaCSITX88M9JEeaVCKjOei+3DOop4FBgvKMsv
-	 /PwOMP5isyDWvXb0etseoPc9Pqd7GHCvDbj/4uWJwwvwNkyPM4+GFckF4IujuAkYJO
-	 +glDaZ48d75DQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wpRoE-0000000AZFl-2oEA;
-	Thu, 30 Jul 2026 14:32:30 +0000
-Date: Thu, 30 Jul 2026 15:32:30 +0100
-Message-ID: <86ecgkczup.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	"Ivan T. Ivanov" <iivanov@suse.de>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Frank Li <frank.li@nxp.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2] arm64: errata: Add NXP iMX8QM workaround for A53 cache coherency issue
-In-Reply-To: <20260730-imx8qm-cache-coherency-v2-1-5651aeb1af16@nxp.com>
-References: <20260730-imx8qm-cache-coherency-v2-1-5651aeb1af16@nxp.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20260515; t=1785422711;
+	bh=i0PRcloglS2eplyMT6C9pAo053hn3uqwraPzhkmyKgw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AFgpgcapG7OU/hcXjDFHKIFCFmcCMN72NvzEDyn9FOt4KAKFujQN+u156ODNvlN3I
+	 Wuc+FqHYixDczgEfW1b5x8yBPuXZ6mFh4A2CfomEXNaQWfBp5ioVb+vhI8GmhrPZF5
+	 WAh7ipsUZtbMJ3YbF0jqFD8Taa9GPhGIgd7C6fN2XxroAIlVnp6TriEoQ2oQn/jdaL
+	 S+eKQ5iUAffXqeU4+4jpn5ikCh+Ip78uSznja1SdXSbxBFX+mHpz5RZXmakJIM15G+
+	 TJZoquq+Zq3WP+m6Qlh8zY7MD/d97N48IxkHBmFuQ7MnR8RUUtXWq5+qhD/0pmjsQt
+	 bM0XzPmA2O3CQ==
+Date: Thu, 30 Jul 2026 15:44:51 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Usama Arif <usama.arif@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2 1/7] mm/khugepaged: refactor per-scan state clearing
+ into collapse_control_init_scan()
+Message-ID: <amtjMRG7sXlGsj_t@lucifer>
+References: <20260715025941.1571316-1-npache@redhat.com>
+ <20260715025941.1571316-2-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: peng.fan@oss.nxp.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oupton@kernel.org, fuad.tabba@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, iivanov@suse.de, francesco@dolcini.it, frank.li@nxp.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, imx@lists.linux.dev, peng.fan@nxp.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715025941.1571316-2-npache@redhat.com>
 
-On Thu, 30 Jul 2026 14:53:02 +0100,
-"Peng Fan (OSS)" <peng.fan@oss.nxp.com> wrote:
-> 
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 9a6c72a18672..734ccd7ec056 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -3032,6 +3032,11 @@ static __init int kvm_arm_init(void)
->  
->  	in_hyp_mode = is_kernel_in_hyp_mode();
->  
-> +	if (cpus_have_final_cap(ARM64_WORKAROUND_NXP_ERR050104)) {
-> +		kvm_info("KVM not supported on NXP iMX8QM (ERR050104)\n");
-> +		return -ENODEV;
-> +	}
+On Tue, Jul 14, 2026 at 08:59:30PM -0600, Nico Pache wrote:
+> Extract the repeated clearing of node_load, alloc_nmask, and
+> mthp_present_ptes into a helper to reduce duplication in
+> collapse_scan_pmd() and collapse_scan_file(). Althought file scans do not
+> current use the bitmap, they will in the future, and clearing it now is
+> harmless.
+>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+
+LGTM so:
+
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+> ---
+>  mm/khugepaged.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 55157567dc4c..6ec0812210b6 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -629,6 +629,13 @@ void __khugepaged_exit(struct mm_struct *mm)
+>  	}
+>  }
+>
+> +static void collapse_control_init_scan(struct collapse_control *cc)
+> +{
+> +	memset(cc->node_load, 0, sizeof(cc->node_load));
+> +	nodes_clear(cc->alloc_nmask);
+> +	bitmap_zero(cc->mthp_present_ptes, MAX_PTRS_PER_PTE);
+> +}
 > +
->  	if (cpus_have_final_cap(ARM64_WORKAROUND_DEVICE_LOAD_ACQUIRE) ||
->  	    cpus_have_final_cap(ARM64_WORKAROUND_1508412))
->  		kvm_info("Guests without required CPU erratum workarounds can deadlock system!\n" \
+>  static void release_pte_folio(struct folio *folio)
+>  {
+>  	node_stat_mod_folio(folio,
+> @@ -1617,9 +1624,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  		goto out;
+>  	}
+>
+> -	bitmap_zero(cc->mthp_present_ptes, MAX_PTRS_PER_PTE);
+> -	memset(cc->node_load, 0, sizeof(cc->node_load));
+> -	nodes_clear(cc->alloc_nmask);
+> +	collapse_control_init_scan(cc);
+>
+>  	enabled_orders = collapse_possible_orders(vma, vma->vm_flags, tva_flags);
+>
+> @@ -2691,8 +2696,7 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm,
+>
+>  	present = 0;
+>  	swap = 0;
+> -	memset(cc->node_load, 0, sizeof(cc->node_load));
+> -	nodes_clear(cc->alloc_nmask);
+> +	collapse_control_init_scan(cc);
+>  	rcu_read_lock();
+>  	xas_for_each(&xas, folio, start + HPAGE_PMD_NR - 1) {
+>  		if (xas_retry(&xas, folio))
+> --
+> 2.54.0
+>
 
-I really dislike this sort of hacks in the KVM code.
-
-Instead, please find a way to set 'kvm_mode' to KVM_MODE_NONE from
-your erratum handler, and KVM will gracefully disable itself, as if
-that was passed on the command line.
-
-It shouldn't be too hard to do.
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Cheers, Lorenzo
