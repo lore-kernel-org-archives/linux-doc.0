@@ -1,126 +1,302 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2645397AF2
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 16:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6583AFD08;
+	Thu, 30 Jul 2026 17:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785430373; cv=none; b=XNSImoH1X3qQcsh3UwKPk8QPXQ7wioneiSj8aFTJD5QO5udbdXa1QnT/YO4u+WCcZrD6NTO/Wgx8VP3t2lsi5bfcBwsMTzF/m4JnSAyY7JQvs33M2WO744FQGmj4t2FQrEgGvmTpU9pN3tnpSj9wa+Lay8jW7a52K9vnnkZW4hQ=
+	t=1785432872; cv=none; b=Y7phijTIYkmYgz3wvdPdLqt+DjQMcI2JrzvWSGKfPcIqCHVTE4Q8P9XC9HAI2uYc9DcZFGWJi3kNiH2CoS8XCW3dOSQZAboV2ofj5qjjtzmRolcUtcMxU27boVULlAXMn80kDvB2lND9wCLvXcYgt8jpD6WUVhlgjEgqHCd45fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785430373; c=relaxed/simple;
-	bh=wKovt6ieQ/kZlIdf3vhaUzCJzrw5nLCXMEKKVCNQr3M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L30WA01i1l1W/eJVBMscAFcSWHK6RQjc+h4IPTZgOEfGmpsUDaE3mUXQGlS0BlkkNp/hRqdNLdOfm74QqRYs+Kmes64rRHs67f3kSv6Z7lzR4QVZ5krdoXyvqo2f1pvPy4ZN5PHawIjJ2aJTBGga1aT6FlIc0a4z3A4A7qo8yLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LSCYA78S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785432872; c=relaxed/simple;
+	bh=wVCHEiB4jfgGm4pZxUP0mkHcMrjil6cNQBNLsE11hUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FTqQ08MguVwexcAD/7Fo/S7B5TJNfwKLYvkKzQ3+bwyXPq78TtaI2mEl4LRuoamS9azYC6VIVkllNvAPt+yAfHf1jZ8cTb5z0DO0V3riei7cA/MLzNvr2WHLM8u1pNLX8hvZAZE/2NaAdaK6/MILM0Q733CY0ZXqCqw9Bh2FlII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZRmYqDNJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LSCYA78S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 969CC1F00ADE
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 16:52:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRmYqDNJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEAFD1F000E9;
+	Thu, 30 Jul 2026 17:34:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785430371;
-	bh=hIPWuoCXtPq/jgTe42IUcZ06BVyrHgB+kF/1iTPh0+E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=LSCYA78SYvAyoOTZjZDkiXV+tGoKEfjO3NVXLGdO45PpHtOjomixkOskw2L4BGb4Z
-	 Nf+P83U9ZWy9Jdx/hSPWvkvgBIiRp4AeeshYePlea8N31W6UXxIcHBO5D1kA8ystl7
-	 MpvY3t4uTzuqGbp2LfjH7y1xWoQLBaXl1oVZB+n50F8kUnu8qejNTbGMa4q3dAZeV9
-	 uS6o74al/w0Ng1884BwL/WaYuK7r9QmdC/49rmBVCUohHY3Y0x0YvIHjuUGMcnOFkI
-	 WmbFt2qdpfyairWXpFnfiVJgKkBPmxucp7zYvLyuWmbz/zN3BCn2yonfjZ9a0wOQoM
-	 pPtMbHujc67iA==
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c1677c91969so277706966b.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 09:52:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rp2sU4BKmMmB3Qbtc1KfCa/HnVaLYVarUCUxY4WBUqYANi30KxAHeYsyZAYOm4XCETp8FZu4259MLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yws9XmiBWkgsjb3vVM2JMKpqil00QcFCCq7KDgmA4qNlWHVQYaU
-	rt49cjH41Ory5yNLHtKplM3N7KxPI9MD+G2nvH4A3jZTtMweJuurlXNhvxA+QDAkID3Pwumd46e
-	7rdHkSCLdxYGmWltSlx/JnRGROu7XJSY=
-X-Received: by 2002:a17:907:7241:b0:c12:528a:94f4 with SMTP id
- a640c23a62f3a-c1fa56a2780mr173355266b.60.1785430370347; Thu, 30 Jul 2026
- 09:52:50 -0700 (PDT)
+	s=k20260515; t=1785432870;
+	bh=wFd/U3+bJJzWJa3YP6HFnPKazM7hBVF6VDlozGeiPbQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ZRmYqDNJews0kLUI8EyKKf+rvLW4Zg8UqwachQ+sdUKw4y4pPK3wDQeDtTTjfvU6R
+	 qK080T53q70LBdhHe7hJA5Ymqcpl+HLTlo1c3v+RUd7LR3GyOwWxPnRE4eohRF4P3E
+	 VhbAhG2/zp4KxvnXyl5J4ts0/0sLLXqY8dhRMM+RNfWtH3ROEcusxBrvufY3NP9JGx
+	 loZfoKSJAZYyYjbR/NR22avpYwMxkkZMfz/qRF+U9Va2fze9ErZMeNjfqWaZKcb7od
+	 0uobfcZHYUQo3w1rf4a8lQQVQDsq+DjdGaVt4XDaZGeIDQfpDZotY9hbbkFRHFa0Jo
+	 DMxqzTBEHdlkw==
+Date: Thu, 30 Jul 2026 18:34:25 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: Conor Dooley <conor@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mark Brown <broonie@kernel.org>, Marius Cristea
+ <marius.cristea@microchip.com>, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
+ <jan.sun97@gmail.com>, linux-spi@vger.kernel.org, Kent Gustavsson
+ <nedo80@gmail.com>
+Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
+ spi-device-addr
+Message-ID: <20260730183425.22f2ba8c@jic23-huawei>
+In-Reply-To: <amslUWahHYtwXuCG@nsa>
+References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
+	<20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
+	<cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
+	<20260725230739.63ff7000@jic23-huawei>
+	<20260728-patronize-thwarting-56fab2e11077@spud>
+	<20260728221719.7f668a73@jic23-huawei>
+	<20260729-hundredth-suffice-f28afa67bc06@spud>
+	<20260730000929.2ec20cf8@jic23-huawei>
+	<amslUWahHYtwXuCG@nsa>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260729084206.77793-1-jiahao.kernel@gmail.com>
- <20260729084206.77793-2-jiahao.kernel@gmail.com> <20260729155858.c7aabff48166a9bca4d68ac3@linux-foundation.org>
- <CAO9r8zNhBCghP8T_98z2p==Cfs_=kamcRN_3ROxaj3R8PN2Qvw@mail.gmail.com> <20260729181756.a37e0cc7ea3f6013959d1d25@linux-foundation.org>
-In-Reply-To: <20260729181756.a37e0cc7ea3f6013959d1d25@linux-foundation.org>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Thu, 30 Jul 2026 09:52:38 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zMPxdn=MOFD9mbrzed+C9HhOB5DpHG4QS0OJzqV_gLvsQ@mail.gmail.com>
-X-Gm-Features: AUfX_mx1JShU4xIT5ANEqpzQMh3RRrHaBazoTKh-oN9MrjhE15twPkvX8ce_pog
-Message-ID: <CAO9r8zMPxdn=MOFD9mbrzed+C9HhOB5DpHG4QS0OJzqV_gLvsQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] mm/zswap: Fix global shrinker when memory cgroup
- is disabled
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, tj@kernel.org, hannes@cmpxchg.org, 
-	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
-	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 29, 2026 at 6:17=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Wed, 29 Jul 2026 17:30:56 -0700 Yosry Ahmed <yosry@kernel.org> wrote:
->
-> > On Wed, Jul 29, 2026 at 3:58=E2=80=AFPM Andrew Morton <akpm@linux-found=
-ation.org> wrote:
-> > >
-> > > On Wed, 29 Jul 2026 16:42:05 +0800 Hao Jia <jiahao.kernel@gmail.com> =
-wrote:
-> > >
-> > > > Zswap writeback when the global pool limit is hit fails when memory
-> > > > cgroup is disabled. The pool remains full until it is organically
-> > > > drained by swapins or memory freeing, leading to zswap store failur=
-es
-> > > > and pages bypassing getting written directly to the backing swap de=
-vice,
-> > > > causing LRU inversion (hotter pages with higher fault latency).
-> > > >
-> > > > This happens because mem_cgroup_iter() always returns NULL when
-> > > > memory cgroups are disabled. As a result, the global shrinker
-> > > > shrink_worker() repeatedly takes empty walks. After MAX_RECLAIM_RET=
-RIES
-> > > > failed attempts, the worker gives up without writing back any pages=
-.
-> > > >
-> > > > Therefore, when memory cgroup is disabled, fall through with the !m=
-emcg
-> > > > branch and shrink the root memcg directly.
-> > > >
-> > > > With memcg disabled, shrink_memcg() only returns -ENOENT when the r=
-oot
-> > > > LRU is empty, which means the total pages are already below thr. In=
- the
-> > > > absence of heavy concurrent zswap stores, the loop then safely bail=
-s out
-> > > > via the zswap_total_pages() <=3D thr check; otherwise, it will resu=
-me
-> > > > shrinking the memcg after processing the reschedule check. For any =
-other
-> > > > return value from shrink_memcg(), the loop is guaranteed to termina=
-te,
-> > > > either after MAX_RECLAIM_RETRIES failures or once the threshold is =
-met.
-> > > >
-> > > > Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> > > > Cc: stable@vger.kernel.org
-> > >
-> > > How does this affect users?  What behavior do they observe when it
-> > > occurs?
-> >
-> > I think the first paragraph sums it up pretty well, especially the
-> > last sentence "hotter pages with higher fault latency".
->
-> How do users observe that?
->
-> See, what I'm looking for here is an explanation for why we're
-> proposing a backport.  How are our users harmed by the current code and
-> how does this change benefit them?
+On Thu, 30 Jul 2026 11:25:34 +0100
+Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
 
-It's a potential performance regression when using zswap with memcg
-disabled. Sorry I just realized you were looking for a high level
-description not detailed symptoms :)
+> On Thu, Jul 30, 2026 at 12:09:29AM +0100, Jonathan Cameron wrote:
+> > On Wed, 29 Jul 2026 21:47:45 +0100
+> > Conor Dooley <conor@kernel.org> wrote:
+> >  =20
+> > > On Tue, Jul 28, 2026 at 10:17:19PM +0100, Jonathan Cameron wrote: =20
+> > > > On Tue, 28 Jul 2026 17:00:55 +0100
+> > > > Conor Dooley <conor@kernel.org> wrote:
+> > > >    =20
+> > > > > On Sat, Jul 25, 2026 at 11:07:39PM +0100, Jonathan Cameron wrote:=
+   =20
+> > > > > > On Sat, 25 Jul 2026 15:57:07 -0500
+> > > > > > David Lechner <dlechner@baylibre.com> wrote:
+> > > > > >      =20
+> > > > > > > On 7/22/26 2:54 AM, Janani Sunil wrote:     =20
+> > > > > > > > Add the generic spi-device-addr property to the binding and=
+ deprecate
+> > > > > > > > the existing vendor specific microchip,hw-device-address pr=
+operty.
+> > > > > > > >=20
+> > > > > > > > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> > > > > > > > ---
+> > > > > > > >  .../devicetree/bindings/iio/adc/microchip,mcp3564.yaml    =
+     | 10 ++++++++--
+> > > > > > > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > > > > > > >=20
+> > > > > > > > diff --git a/Documentation/devicetree/bindings/iio/adc/micr=
+ochip,mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mc=
+p3564.yaml
+> > > > > > > > index 675319276197..de1ea289e7f5 100644
+> > > > > > > > --- a/Documentation/devicetree/bindings/iio/adc/microchip,m=
+cp3564.yaml
+> > > > > > > > +++ b/Documentation/devicetree/bindings/iio/adc/microchip,m=
+cp3564.yaml
+> > > > > > > > @@ -80,6 +80,7 @@ properties:
+> > > > > > > >      $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > > > >      minimum: 0
+> > > > > > > >      maximum: 3
+> > > > > > > > +    deprecated: true
+> > > > > > > >      description:
+> > > > > > > >        The address is set on a per-device basis by fuses in=
+ the factory,
+> > > > > > > >        configured on request. If not requested, the fuses a=
+re set for 0x1.
+> > > > > > > > @@ -91,6 +92,12 @@ properties:
+> > > > > > > >        clocking of the device address (BITS[7:6] - top two =
+bits of COMMAND BYTE
+> > > > > > > >        which is first one on the wire).
+> > > > > > > > =20
+> > > > > > > > +  spi-device-addr:
+> > > > > > > > +    maxItems: 1       =20
+> > > > > > >=20
+> > > > > > > Does it not make sense to all for more than once device conne=
+cted
+> > > > > > > to the same CS here? I would expect maxItems to be 4 to match=
+ the
+> > > > > > > number of possible addresses.
+> > > > > > >      =20
+> > > > > >=20
+> > > > > > I think for this part their isn't a reason to aggregate.
+> > > > > > No magic accesses that touch them all at once.  So this hits
+> > > > > > exactly the point you raised about how we set the address for
+> > > > > > more than one of them.     =20
+> > > > >=20
+> > > > > No David is actually right here, and maxitems should be 4.
+> > > > > Setting the address for multiple was already discussed I thought,=
+ with
+> > > > > the property being an array and each compatible being used to det=
+ermine
+> > > > > the "stride" between entries based on the number of supported cha=
+nnels?   =20
+> > > >=20
+> > > > I don't think that applies for this device or at least to do so
+> > > > is a major driver rewrite, not a simple binding change.  Probably w=
+e'd   =20
+> > >=20
+> > > Whether or not it is a big driver change, the binding should represent
+> > > what the hardware is capable of.
+> > >  =20
+> > > > just add a bus and hang the 4 instances off it. They are running on=
+ own
+> > > > timing etc so we can't grab data across all of them in any sort of
+> > > > synchronous way - the clocks will probably drift over time etc.   =
+=20
+> > >=20
+> > > Did I miss something about the ADI devices in this thread where they
+> > > have some multicast ability to read all devices at once? I thought th=
+at
+> > > that was a different series where each device had dedicated mosi and
+> > > miso lines, rather than the shared ones here. I didn't think the ad55=
+29r
+> > > did anything special from my reading of the datasheet but I'm not the
+> > > expert in this area! =20
+> >=20
+> > It's a DAC so other way around but yes they have exactly that in the se=
+ction:
+> > https://www.analog.com/media/en/technical-documentation/data-sheets/ad5=
+529r.pdf
+> >=20
+> > 	Register Details: Hotpath DAC registermap.
+> >=20
+> > The is a brief description earlier of the whole feature that might
+> > serve for this discussion:
+> >=20
+> > "DAC HOTPATH
+> > The DAC hotpath is a dedicated register region that optimizes
+> > DAC updates in multidevice configurations where several AD5529R
+> > devices share a common SPI bus. It reduces the number of SPI
+> > frames required to write DAC data and supports synchronized
+> > output updates across devices. In single device systems, the hotpath
+> > offers no advantage over the standard register map and can be
+> > disregarded."
+> >=20
+> > As an example
+> > MULTI DEVICE SW LDAC MODE 0 REGISTER
+> > "This register sends a software LDAC update to the selected devices
+> > that share the SPI lines but have different addresses, using the ID0
+> > and ID1 pins. The selection is done on a per-device basis corresponding
+> > to the configured bit field."
+> >=20
+> > This one triggers all selected DACs (there is bit corresponding to
+> > each address) to update in sync. (Lets put aside normal systems
+> > where an LDAC gpio is wired to multiple devices as that is a whole
+> > different problem).
+> >=20
+> >=20
+> > It is this part that is driving the suggestion of having
+> > a combined device representation for multiple physical devices.
+> > In practice it is very similar to chained devices where we do that
+> > already in that a longer access sequence is used to talk to multiple
+> > devices at once.
+> >=20
+> > Those SPI messages do not carry the address (or they are ignored - I di=
+dn't
+> > dig into the mechanism).
+> >=20
+> >  =20
+> > >  =20
+> > > > They are independent devices (think of them using spi-device-address
+> > > > like an i2c address) -  so why have one DT node for up to 4 of
+> > > > them?  Note this is different from the AD5529R where the design
+> > > > is intended for them to operate as one single larger device.   =20
+> > >=20
+> > > I don't buy this argument, I just don't see what differs between the
+> > > devices. The microchip datasheet I read talked about using 3 devices =
+to
+> > > measure 3 phase power setups (I think that's what it was) which is, in
+> > > my book, evidence that they're not just intended to be used
+> > > independently. =20
+> >=20
+> > Sure but that could just as easily be done with normal SPI and 3 chip
+> > selects. For these devices there is no broadcast write magic (I think
+> > anyway!)
+> >  =20
+> > >=20
+> > > That said, the more this discussion goes on, the more I think that
+> > > merging the devices into a single node is a mistake. Logically there =
+may
+> > > be one device, but really there are one to four devices. Doing the
+> > > logical device thing is nice maybe for software but I no longer think
+> > > that it represents the hardware correctly. I know this will cause
+> > > problems with registration of devices in the SPI core, but we need to
+> > > pick one representation for these devices that fits in all usecases
+> > > and with the things brought up in the other mail I am having a lot of
+> > > doubts. =20
+> >=20
+> > This wasn't about use cases as such but the broadcast like facilities t=
+he
+> > ADI parts have which to me smell like the main reason you'd put them on
+> > a single bus and use this feature in the first place - you are making
+> > one big DAC from multiple chips.
+> >  =20
+> > >=20
+> > > Only going to reply to this for now, I'll reply to the other thread of
+> > > this conversation later so as not to end up duplicating discussion, b=
+ut
+> > > I am thinking of things like what if someone puts a mcp3654r and an
+> > > ad5529r on the same chip select? I think that's actually perfectly
+> > > functional on a hardware level, provided the fuses/pins are set up
+> > > correctly (and if it is not, mixing the microchip devices is possible
+> > > and probably mixing future ADI ones will be too). =20
+> >=20
+> > The broadcast stuff is what breaks this.  Otherwise I fully agree they
+> > should be independent and we should have SPI allow that.
+> >  =20
+>=20
+> Exactly! The idea of having the devices as separate nodes always felts
+> really appealing to me given that's what we have (strictly sepaking) in
+> HW. But as you stated, the big reason to pack multiple devices (for the
+> ADI case) is to basically increase the number of channels and so
+> aggregate the devices together.
+
+Key detail is not just aggregate devices but have them act as one device
+from an interface point of view (just like SPI chaining).  One message
+affects multiple devices.
+
+> But taking on David's suggestion,
+> couldn't we somehow reuse that for AD5529R such that the additional
+> DAC's would be child nodes?
+
+
+If they were child nodes that just means we have a device specific binding
+and in practice ends up the same as a binding that just makes it one device.
+
+adc@cs {
+
+	adc@spi-device-addr0 {
+		spi-device-addr =3D spi-device-addr0;
+	};
+	adc@spidevice-addr1 {
+		spi-device-addr =3D spi-device-addr1;
+	};
+}
+
+Fun question of where we do the xlate for references to channels so
+does a consumer point at the outer node or the inner one?
+
+I'm not seeing a gain over having an array of spi-device-addr in the
+top level node.
+
+>=20
+> I agree that we should just pick one representation and it feels
+> to me that device@cs,spi-addr (or something like it) is the more
+> flexible approach.
+
+Agreed though if there is an array it will be first spi-addr.  That
+should be fine.
+
+>=20
+> - Nuno S=C3=A1
+>=20
+
