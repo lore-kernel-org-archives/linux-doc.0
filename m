@@ -1,123 +1,127 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCA730567C
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 15:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F2844998F;
+	Thu, 30 Jul 2026 15:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785424695; cv=none; b=BRP2K2Sj4PMofhxgZzkQkkY0EOiGqTCIYyE0HD3rzSQTSciVu+CGxtZuWpOJKNf01vwGezTKkiXwMDCXJq/FnizHpyLV/C6aG2SGlTLLXNrWVHrvOUqXFfIzG0gijjR7/ODLkdBPg9H5kf2gYl+RQBIIhN+o7RMufo7OC95rOjE=
+	t=1785425344; cv=none; b=DuVIwd3C/4uLoXmNhwMpsmiiZVopleO1n8S800qTy41HydIf1eZXM+51V9xzDFN4MuuCk1/rONDdsvv1TNjURknYH0i0z85D5VEY9B1WwZPpagtE4UHlxydWZWRyzjGOtcDmnGfK5b+N7saRAkiIGrglyhEugE/sG9qYPxs0+tM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785424695; c=relaxed/simple;
-	bh=72hnN/0rE7uzUdVvzXQ6rS4xBcofWgn8Ndd9UkHCOGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L+J4y9gpzmtepKjFoY4mMh3K/xPrEKifUF7IaH4ik+WepENmBwRvoezi2mfeB5nJ7O3iNsfmuPgzXdpocc2hJPU//iPqU/TQgY7uubl4EHvyaOSKDGtb0VXo+SVhjYGCcW5yKZ05MNTpY0u2WjzPSGc7rLKJISAX03lFMlNnC94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bdd5qv1G; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785425344; c=relaxed/simple;
+	bh=g+Qbyretcdv4u81W05iNSQo7cEvkoq1dtauYOHl1la4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=WdjSjyNLJCTDvOgU6em1AcMirNDr4TpfKAFXpgzgx7FF6rkG+D9BBocTsHqQKPJmiq1x/fd08PJUzTJDV9h+vLVSVpHchWblQ9Fy7oyYWF5ORyLVRSgPFXfjykF/ZKzWfLgxAx7tFYBOmioY18jN577EYIif2EROF/gaa7zIcnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Gn+pM9j+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q737rCzV; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bdd5qv1G"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49555a0e68bso11829545e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 08:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785424692; x=1786029492; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Edhb2n6rlJZQPuQdw5wF8BrPLoATNFthrzHW9vrli1A=;
-        b=Bdd5qv1GJ9myn0Cs+T/Z+RBsxyRlTIuCltXZRxKsA4cbF4iTVxYCyqCD+cModZ+sxe
-         8M1rvthmX+U8oUGBbMq/P8ver+v7JUYpp3Px9IVf7++EGVUPPZPaKtyBSwTNNAwxl6Zp
-         InuKgmbu3aL8qwMyuYkJhn1sX70wfCaL2O6v/q6vuqU73vsRxQe+2mvxzNpOZAeLIxBY
-         +WFuYwIG4KmRJlnxHqSXduisRYH9Q4iNbm71TBbqIOxOL1IfMhXsOCSKyFP2Yg9/zc3o
-         AzWodz44TctvVFsSMgK1ZEJNBLng4ZM5IeuFi5Sn06ApZVZflIpZmrwa6oQUF33rWlY5
-         e7cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785424692; x=1786029492;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Edhb2n6rlJZQPuQdw5wF8BrPLoATNFthrzHW9vrli1A=;
-        b=ngNVANKDZsmbJDCU5tdgTXC7NNkksiM04Zo12SXUwujdEw6g9HCTp+HWAJffTRXtfb
-         ZeR/fCjyfgWln7vB6kbL2ONqZvsJkdF4J7QfbY5rTSLIcwRUCgby9NIcRl6l59vdnqS2
-         CaQ04M6cbOPqhAhMvYzV1y5uWmwtWrXdJkNDDdvBSF3Df+QuiQGb0g5gFJqTEPDd9SGO
-         vkBuJ7E7c0PWqr30H/MgYF+avQWoEX1/b8jPxrDBHxJfdP1Xt2na4ZPtMPjGm3nN9uws
-         C7iIsxsANF07HuERgxzcqMhyTzqA9RuMAXgXJmtQBxZTHVxabMgwbrzZLBU6CTIkVWsr
-         0Ntw==
-X-Forwarded-Encrypted: i=1; AHgh+RrJDWKHgVSTU0TeyypZXDIPUqrRrES4F2lDtyYjRb34+R3adlGx3JMmaAg0cFCHcDD+NdBS08nhujg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4w9KVc3K9+usu/l/Vmndr9snkAJpXzMUFNzaVRq/XVYfhM87W
-	akoafN+JpyKaAOyT9ywZxjktOab/73Jj6TdsOQvdQHfB2YeSPtsc/ERh
-X-Gm-Gg: AR+sD12mfGw2cfiawmY4vcZNalCqmAHqEI+UJqEpEUt5ktRQckLdlpmN/Q76pCQoRef
-	Va/vHahEGuXiLh7x2+Daf8Vcxr27VQnhx7aY+UuNgeN4ZFRVN31CaA3rP7ZG/huiidQheBlY1Np
-	jLJ/GqYIXXCIIwXtZataPLE75XEcCM8gjqS87+4dr1SbWeU7R/FnUV/J6uegW0QCzc+7rwuj4WE
-	+ERtpOQZAnv2I8I8OhmT6mLmKcX0y4OVa6olmrLM4DV5SJrLs2YaId+2mOrRrqCRd5gdZ32MRQG
-	OrH5jJkbUbpBhqcQIT3R7v6gckCKyEuFH1Wdg/WEClvJIdOmGxwU+0jp19wQObZBSD+GtJgCA65
-	IvKin2orcpQagpiv2gTYqsus6RAUTaMo8ZGwIJncCiPH7Zvyr5FeiKMHlLr+oEqyBPOuftXxg7B
-	qZ0aJ4qiK5VPdUk9RGPsutDFP37/AAs84jyZ7JZhzdiTBMjTFtenkBQg7voc8rrtE=
-X-Received: by 2002:a05:600c:4e46:b0:493:e451:a9e1 with SMTP id 5b1f17b1804b1-49800e6d495mr45990775e9.2.1785424691553;
-        Thu, 30 Jul 2026 08:18:11 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49800e1f084sm7641595e9.0.2026.07.30.08.18.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 08:18:11 -0700 (PDT)
-Date: Thu, 30 Jul 2026 16:19:20 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	Alan Tull <atull@opensource.altera.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
- pmbus_read_block_data()
-Message-ID: <amtqPQSM6zsiCh4B@nsa>
-References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
- <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
- <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net>
- <amtewh9lOgWz0-Nh@nsa>
- <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Gn+pM9j+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q737rCzV"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 92D2F1400109;
+	Thu, 30 Jul 2026 11:29:01 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Jul 2026 11:29:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1785425341;
+	 x=1785511741; bh=FHNiBFyc3GaY3I5t6LPevJGLANMU479WkFO7tTTVT2c=; b=
+	Gn+pM9j+JgZrlJjFpZ9RFwh0xf2u3zbHt56PjJTz6b8N4SUltjIXEcPoTUV/UjoL
+	pNvpMD2U/ccmiHrKwiolu6S19ptWbINeoZw6NZGzGrWaHwye/ztUB++l6gXrI0pc
+	tJ513uG69LJYgpOMVe+kub7mL8Aoy1ZVSLgfRvV9FfI3ECsYf9hHlAbsvZaqJ3UY
+	QihyGhsauO70VOgMyxkH3TwwJh1ANGz9inh/vOTdJJyM0eRk4HYthZFumEfJkHJ6
+	li5ScXhkayA9K17bmgPpC7cYFYn4DGKWT+PPckRfQLD3d38+vSe5K/Yl5W90x/8s
+	VddBXlLx86oXf/i92LJVug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1785425341; x=
+	1785511741; bh=FHNiBFyc3GaY3I5t6LPevJGLANMU479WkFO7tTTVT2c=; b=Q
+	737rCzV5ncEkfq3mjt8yiRnJPlzKO3oB84NdFnE3sOWtwIvMThedpyKgiBKaw6mq
+	LmpErQHhUkd/mCsbKlfwXTARdffrtOmx+/rBnV2KNCqjEVEldHuliwNYWml/+b0h
+	Nf4kow/Oj/NiMiO1Up692ObC4z0viEImMBrcomnPGYBvHp9eQ23lsiORJgSt1Avk
+	xrusE4sIzgGcbjy1HJqzE35elJe2qqHfgIWAWh704WhX2exbtnAMNkswa2YH3WkN
+	sXabNsUCKDyrpgoVzmMOLAngW4eoV7lbRcYy7qPMasAnDQkFLlXtsPU0joC5e/Eu
+	kHsU0FkJSR/AW3Nd8goyw==
+X-ME-Sender: <xms:vW1ralMpfC7fq4u-F0q-6A2l6UGoOhrn1pYjzyDyrujp2cXJWTcPog>
+    <xme:vW1raiz-EEbLKdQ7J1j6fXyApCcABR-p2XBY17SaNsuKkyUORXNxBPPAFE5pqrPC_
+    G3LtN9KFmmo4TUvJKcFl6pU9fOICfYJH-n8aVlMfHgYyyvLTJrWF8w>
+X-ME-Proxy-Cause: dmFkZTEuarT0OCepT4NtW6+L0PNPFGE47+MBORemYy1Dp2MlMhsAT62Cz5D/GAvTHJU0ch
+    woKkpcMwLQotjBDzWtwKFLJU39OHJB8sRPY8EhT8+/Q5ylXhcx6zIlvHEAvJ8fkeQN10i8
+    Ae85+EfPT813+KV/2clboG3o9VbS34HBUZ/FwuTQ1q9tZ+AeW3qg0iAIizgIUCz942c5en
+    +BGmujsVfN+1clt+uQobu7ORneb2co4sFslf3MYFxD5+PfQNH5/+Ce2Bv2q7PhecRN/2qC
+    nOFpThwKIpu80HViSLDxFsWzaJNeIrYgnz55ZwXQFTxSOFk65uiDepwpzQUzrTuLFF0uCT
+    HCjob1I0iuk8qCrUtGn6l+an+K43LqWFk1+JmSWWiEyv/Tve3REk006RfncvLzmshMSCBg
+    emllPmU6nrq5ThcBwDp3XAO72upOnlJxWcTrexfGBzmoWfixM8KeZX+8XWcwpIKRs9xEJ2
+    Pu9aKXv2nkZ/w6jGiCzBvSisFaw6Kmoj/Raon0IHfViXGONHVvZhVT490pIcTQtScXILXZ
+    uHfBW3vGBmwCnIxD8BjV9kXtsp32KYNHxjsJxxehWXqQYWQa8w4PW8KJYWbwM8q079dWxe
+    dVQlGGCQdQsiaMsArvJ75IbtnBj+Ma/YY/TMdswxG2wPNM3qfO9isYu7yVdg
+X-ME-Proxy: <xmx:vW1rambrrF1eaKxUZZ7_tmqWkVxWI6iiwneMHWSKeARnTmoJgMB00Q>
+    <xmx:vW1ravZVKI2pT7qEeUiMyQyPHPlWs76g3QZDIV_tS_AmTZSMajiD6A>
+    <xmx:vW1rarwG8H0XPODiP9NXirBsccGWjb4fKb0_YThu-nmcxeanVZyQLw>
+    <xmx:vW1rarfWAUUjIqLNx-2bJsPzvtlR15X3TMsbIiFViTMHSh8QKBcMNA>
+    <xmx:vW1rahjB8j-BwKnJxyAXmBK3tZOZIWb7n7kuuG82_veZTp-iQ-ZUxURP>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3CEC11820082; Thu, 30 Jul 2026 11:29:01 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net>
+X-ThreadId: AzthGADIziMg
+Date: Thu, 30 Jul 2026 17:28:08 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Alexander Graf" <graf@amazon.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jonathan Corbet" <corbet@lwn.net>
+Cc: "The AWS Nitro Enclaves Team" <aws-nitro-enclaves-devel@amazon.com>,
+ "Shuah Khan" <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, mancio@amazon.com, diapop@amazon.com,
+ mknaust@amazon.com
+Message-Id: <a45fa55f-5637-4d63-95b8-948cea922c14@app.fastmail.com>
+In-Reply-To: <20260730125312.71415-7-graf@amazon.com>
+References: <20260730125312.71415-1-graf@amazon.com>
+ <20260730125312.71415-7-graf@amazon.com>
+Subject: Re: [PATCH 6/8] nitro_enclaves: Expose CPU pool state under sysfs
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 30, 2026 at 07:47:37AM -0700, Guenter Roeck wrote:
-> On 7/30/26 07:27, Nuno Sá wrote:
-> > On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
-> > > On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
-> > > > From: Nuno Sá <nuno.sa@analog.com>
-> > > > 
-> > > > This is in preparation for adding support to a device which needs to
-> > > > use it's own read_block implementation.
-> > > > 
-> > > 
-> > > The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
-> > > I'll need to know if this is a chip limit or a controller limit.
-> > > If it is a controller limit, a chip specific override would be
-> > > inappropriate.
-> > 
-> > I'll reply from top of my head (did not looked at the driver again).
-> > IIRC, the biggest reason we need the chip-specific implementation is because of
-> > the RAIL selection logic (mainly when not in page mode).
-> > 
-> 
-> Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
-> instead of i2c_smbus_read_block_data(). The rail selection logic would not
-> require that.
+On Thu, Jul 30, 2026, at 14:53, Alexander Graf wrote:
 
-IIRC the reason was because the i2c controller on the raspberry pie does not
-support i2c_smbus_read_block_data(). So I guess this:
+> +static ssize_t total_show(struct device *dev, struct device_attribute *attr,
+> +			  char *buf)
+> +{
+> +	ssize_t ret;
+> +
+> +	mutex_lock(&ne_cpu_pool.mutex);
+> +	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&ne_cpu_pool.pool_cpus));
+> +	mutex_unlock(&ne_cpu_pool.mutex);
+> +
+> +	return ret;
+> +}
+> +static DEVICE_ATTR_RO(total);
+> +
+> +static ssize_t used_show(struct device *dev, struct device_attribute *attr,
+> +			 char *buf)
+> +{
+> +	ssize_t ret;
+> +
+> +	mutex_lock(&ne_cpu_pool.mutex);
+> +	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&ne_cpu_pool.claimed_cpus));
+> +	mutex_unlock(&ne_cpu_pool.mutex);
+> +
+> +	return ret;
+> +}
+> +static DEVICE_ATTR_RO(used);
 
-https://elixir.bootlin.com/linux/v7.1.4/source/drivers/i2c/i2c-core-smbus.c#L220
+The names are a bit inconsistent: you have pool/claimed for the internal
+structure but total/used for the ABI. It might help to pick one set of
+names here.
 
-- Nuno Sá
-
-> 
-> Thanks,
-> Guenter
-> 
+      Arnd
