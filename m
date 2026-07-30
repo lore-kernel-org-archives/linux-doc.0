@@ -1,91 +1,123 @@
-Received: from smtpfb1-g21.free.fr (smtpfb1-g21.free.fr [212.27.42.9])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E1CC3B52E1;
-	Thu, 30 Jul 2026 06:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.9
+Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91C93B71CB;
+	Thu, 30 Jul 2026 07:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785394578; cv=none; b=FH1nHHhAVniY3FSnYLMQIiUMhzXeUKmjqNRlOt0wDXX+2iV+CyyEyw2+pb+8OiYuJFNmNhIK6u+VZ8DP/leQLlkPwsqfmH4PdNt05nSx1ky4G8XhKRUnochYABLs4uT9m0tiBm6eUVk1M8kOQpjVi+x+0qZlUsfFviT9bz01Jak=
+	t=1785395116; cv=none; b=Mrkaq8GC2Hor1whw279LU6vlPDKB4aZJ2brA44Lsj2+vB0zZtetszjyWlQyZ3b+90qtzdkkGDNxS4olJjy05e96iWD3fnQgmU9spRlCmCxS2IJUQItg/DtcQ8XuMGQ0xJZEHWzhe9qvOTK3HVox2eR4bGvMn26P3LvH7/6BL4/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785394578; c=relaxed/simple;
-	bh=N0Q20xcsT6sAisGEunQvQbOSX5UY4V8QKRtuYENnRh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VgHvoqaQqqSF8Qt2LK0G8Fy11IIFoDITiO10QZmJFitUX6Wq/Fms8zYSAo5CtpDieucM4nmvhfuXV5MWVbMYVhjdSFiUmVDGVKBH/IRs6Ke4prdjnTGUwND4zelvaBc+WHVrr2v/o9QQAwUPckBSZgds9vBA0wwRPvLrBnYUUlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b=C3hTgQx/; arc=none smtp.client-ip=212.27.42.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="C3hTgQx/"
-Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
-	by smtpfb1-g21.free.fr (Postfix) with ESMTP id EC25FDF86B5;
-	Thu, 30 Jul 2026 08:56:00 +0200 (CEST)
-Received: from L30177.local (unknown [81.201.198.134])
-	(Authenticated sender: vjardin@free.fr)
-	by smtp1-g21.free.fr (Postfix) with ESMTPSA id 5BEBEB00563;
-	Thu, 30 Jul 2026 08:55:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1785394553;
-	bh=N0Q20xcsT6sAisGEunQvQbOSX5UY4V8QKRtuYENnRh0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C3hTgQx/yI/p+TtjkZiM8hDtcdAQRjk31eI5S6lC5VXl96QDOK8j6n+W/R8vYQRm0
-	 c4VM/ZUB94vdxGODGQc13I8NuKIQs0nD/6gpKOLwA2d7YG7pIp+1XusqP14CfpGat+
-	 ae08vZgljs68U+pKCWwLeFQmPdChKHVyF3SdlSFTnf1Q6DhP4iglKfCWU7Dgo/xLuG
-	 OCmNmariJmlftP2Y7E4m9S4g2UYDtjvt3GjeK2FVEANSbkG7XqmaxV8SnYVU1pRR+G
-	 mbO0RADWfkMVuiPFx8a61EmnYygoKH2nhhahZIHuX9hXINYR5UvqEnXcKDX8NchxBN
-	 iVrE/rtou0d1w==
-Date: Thu, 30 Jul 2026 08:55:38 +0200
-From: Vincent Jardin <vjardin@free.fr>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Charles Hsu <ythsu0511@gmail.com>,
-	Markus Elfring <Markus.Elfring@web.de>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] dt-bindings: hwmon: pmbus: add MPS MPQ8646
-Message-ID: <amr1ar1eLeZ69oGY@L30177.local>
-References: <20260729-mpq8646_v0-v6-0-98848151cdb4@free.fr>
- <20260729-mpq8646_v0-v6-2-98848151cdb4@free.fr>
- <44db442e-95c8-47f0-92b6-81279710ff33@roeck-us.net>
+	s=arc-20240116; t=1785395116; c=relaxed/simple;
+	bh=muYZ2Z/i8Wd4P0DhRTDk2O8YiDkrBYWL87HRk9Al4eg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=fTxCkCryRVxmmn8Oae8Bda+hz4PRLWP4eNTdcsju5FoyUWwaNSkvH/gVGfwMze+L2tDfFaTuSZMWT/hvaUu0l3IsW7im2f1R5u50tMiCCw1hsWYi23lOxM+75u4sEq/lbIHex5NMwx3+xT8+u5XdIaLTIw7lP9yexnu4O4bc04k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: ddd895528be211f1a87c2323a98e90a4-20260730
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.17,REQID:3d63fa70-3e61-435b-ab9a-c36073a75a55,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:d497b38,CLOUDID:b616f1e1-71f1-405e-92eb-6802d6af74fd,B
+	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
+	Content:-10|0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,B
+	EC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: ddd895528be211f1a87c2323a98e90a4-20260730
+Received: from sdmg12.sdbg.compal.com [(10.113.168.10)] by tpecef22.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1622396531; Thu, 30 Jul 2026 14:49:52 +0800
+X-UUID: db2744de8be211f1a9f9c99e036204b4-20260730
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:0f7f9550-cd24-49fd-935b-f98ff3e4defd,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:9dae4de7-61a4-4820-ab46-0ec6c5e6fc1a,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:-10|0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:ni
+	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
+	:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: db2744de8be211f1a9f9c99e036204b4-20260730
+Received: from sdbmbx13.tpe.compalcomm.com [(10.113.2.137)] by sdmg12.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 231696872; Thu, 30 Jul 2026 14:49:48 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX13.tpe.compalcomm.com (10.113.2.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
+ Thu, 30 Jul 2026 14:49:45 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86%11]) with mapi id
+ 15.02.2562.043; Thu, 30 Jul 2026 14:49:45 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: Jakub Kicinski <kuba@kernel.org>, Jack Wu via B4 Relay
+	<devnull+jackbb_wu.compal.com@kernel.org>
+CC: Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov
+	<ryazanov.s.a@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Wen-Zhi
+ Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh <shi-wei.yeh@mediatek.com>,
+	"Minano Tseng" <Minano.tseng@mediatek.com>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, "Simon Horman" <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	"Yu. Robert (GSM)" <robert_yu@compal.com>, "Chang. Jeff (GSM)"
+	<Jeff_Chang@compal.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [External Mail] Re: [PATCH v5 3/7] net: wwan: t9xx: Add control
+ DMA interface
+Thread-Topic: [External Mail] Re: [PATCH v5 3/7] net: wwan: t9xx: Add control
+ DMA interface
+Thread-Index: AQHdHi3kzir4g820RkqQJOnw7ns9qbaFooJ+
+Date: Thu, 30 Jul 2026 06:49:45 +0000
+Message-ID: <722e299291e1433e89f5a75674797dd2@compal.com>
+References: <20260723-t9xx_driver_v1-v5-0-b27afb99ccbb@compal.com>
+	<20260723-t9xx_driver_v1-v5-3-b27afb99ccbb@compal.com>,<20260727181012.69e06bf6@kernel.org>
+In-Reply-To: <20260727181012.69e06bf6@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30102.005
+x-tm-as-result: No-10--5.766900-8.000000
+x-tmase-matchedrid: CEwNJ/T/RZQuv++HU7VXryRFbfQbCufdN0X64jGy2dbVc/AFNTvLS4zv
+	m4Pxxv8PfK2mxZdDSo0OW9wxtd9rfKGjTWUsfZTwm2eUW/oDuiGHF5DTCmfB2pASM5lkTKECEbr
+	AUOQkjxDQ+sS71+DOCDt5SMZ9h0apLRtwOjyP9FeiWLhmiI4dPyDilljGyWFts2R4RgZsli5q/W
+	wTchxsnmCMAACdFXeB0hBdGn2fh2eusmWOeoC/5bk5vrGhmfHN
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--5.766900-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30102.005
+x-tm-snts-smtp: 6C47867A59C0461A93575AEB75272C270C262313A21D8C2F0B5E6B9331198B162000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <44db442e-95c8-47f0-92b6-81279710ff33@roeck-us.net>
 
-Hi Guenter,
-
-Le 29/07/26 21:10, Guenter Roeck a écrit :
-> On 7/29/26 14:51, Vincent Jardin via B4 Relay wrote:
-> > From: Vincent Jardin <vjardin@free.fr>
-> > 
-> > The MPS MPQ8646 PMBus step-down converter uses the same
-> > mps,vout-fb-divider-ratio-permille property with the same constraints
-> > (maximum 2047, default 706) as the mps,mpq8785, so add its compatible
-> > to the existing schema.
-> > 
-> 
-> The driver is a separate driver, making this a bit unusual.
-> I'll leave it up to the devicetree maintainers to decide if
-> this should be a new bindings file or not.
-
-Because of Krzysztof's review of v5: he asked exactly for it
-since mps,mpq8785.yaml already carries the same property, the same
-constraints and the same defaults:
-
-  see  https://lore.kernel.org/all/20260727-sceptical-finicky-waxbill-d7ecbf@quoll/
-  "...Everything is the same as mps,mpq8785.yam, so why it cannot be added
-  there? Just grow the list of if:then: to cover your specific
-  constraints."
-
-v5 had it as a separate mps,mpq8646.yaml file. I'll follow whatever
-the DT maintainers prefer, but so should we consider that it complies
-with Krzysztof's argument ?
-
-Best regards,
-  Vincent
+SGkgSmFrdWIsDQoNCj4gZWFjaCBjb21taXQgaGFzIHRvIGJ1aWxkIGNsZWFubHkgd2l0aCBXPTEg
+Qz0xLCBwbGVhc2U6DQo+DQo+IGRyaXZlcnMvbmV0L3d3YW4vdDl4eC9wY2llL210a19jbGRtYV9k
+cnZfbTl4eC5jOjM0OjIyOiB3YXJuaW5nOiBzeW1ib2wgJ210a19jbGRtYV9yZWdzX205eHgnIHdh
+cyBub3QgZGVjbGFyZWQuIFNob3VsZCBpdCBiZSBzdGF0aWM/DQo+IGRyaXZlcnMvbmV0L3d3YW4v
+dDl4eC9wY2llL210a19jbGRtYV9kcnZfbTl4eC5jOjE2NzoyMjogd2FybmluZzogc3ltYm9sICdj
+bGRtYV9kcnZfb3BzX205eHgnIHdhcyBub3QgZGVjbGFyZWQuIFNob3VsZCBpdCBiZSBzdGF0aWM/
+DQoNCldpbGwgZml4IGluIHY2LiBUaGUgZXh0ZXJuIGRlY2xhcmF0aW9ucyBmb3IgdGhlc2UgdHdv
+IHN5bWJvbHMNCndlcmUgcGxhY2VkIGluIFBhdGNoIDUncyBtdGtfY2xkbWEuaCChWCB3aWxsIG1v
+dmUgdGhlbSB0byBQYXRjaCAzDQp3aGVyZSB0aGUgc3ltYm9scyBhcmUgZmlyc3QgZGVmaW5lZC4N
+Cg0KVGhhbmtzLg0KICAgIA==
