@@ -1,143 +1,331 @@
-Received: from pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.42.203.116])
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C99640860E;
-	Thu, 30 Jul 2026 12:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.42.203.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785416139; cv=none; b=baRt3ngJUH0iNCYdYsxwwB+QoKnAzUvbglqr7Tyk7m6H7ryE/0BSdBEG7K+i6cOCkrK+SzNSzRTEAnLdK1q9mPfsGD5lmTZj0FgmTLH0eMsyG9IrGlszuNt4q75Rgs0lk6M2xO3BwnlPdOKjtfTc5EehVp27Idm+1ShJjInmCxA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785416139; c=relaxed/simple;
-	bh=gOfxoW1bomE6RgcNVyI5PQCmnIe6F16GdSCfHAPPlAc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tqty5sB7Mkhd6C1Uw8pC0Sz+zUVi1c+DXkccV2x/YjMQYPVTjOjt1/qja0O1mdNmsUrdhk1ZpfhnB8L5Is18W5W/kM8w+Kt3aqUTruAMhIpqe3Pjb7BwqymQIciiepGOHVVeascTsbRT4skFAACzYgTzmEuhbVrA29Gu3vqqOQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=mOCKrnav; arc=none smtp.client-ip=52.42.203.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BC530EF63;
+	Thu, 30 Jul 2026 13:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785416445; cv=pass; b=T/87tcL75oLzMffu1G9rhaS3u+vxPmazp6W7eWE8Kho76wE4zU/bKRpdUkL3JKlqrBE8m6WIcenH77Uj4TzaykbiKstTM/WhNV4Xf3LJgvtDuF0hLqLE/EREF/M8AbK1PwSZ/jJLEjX1Y/VojWvfw/QFxNG0890i9suEGLBx8cE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785416445; c=relaxed/simple;
+	bh=zv1N3KRACxqQYLSBoxzsQAyaI3qy862PhjOvQdK3sjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P4MoP1x5ocwYBVhWsjv4pC3KvLQHUgw7pVgVRLjqH26SUX3V+f0dh22aRzQWZ8PSEkKrlUIr5XQH6VsMY7GYdVUkZabwKUAaYfb+d+f0eekNXeK57ZqDrWPgfJ0FHszKNsOHJjFGD+hAfAdiHRE4+jIkFl4xv9Bmcp69YEGkRgc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=BC7JK8J0; arc=pass smtp.client-ip=222.228.43.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="mOCKrnav"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1785416138; x=1816952138;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WXFmvCh8DgfRdZzV6o0qyZa1X0YTs5ZqnbjqZWxXUO0=;
-  b=mOCKrnavJfK3qxOGJDOAIDglSl14jjJWBHiUpTrIFnDO+3VbNhiTqUJ/
-   WWhGuHk9ONLJWpuKvFsEqZ2RBnLFIPrdR0QsIR4mzw7v6BgG73EqJEoUq
-   MIiNU+AgkurL9fzuYdtZoq7J7LUVDiXyh9J+/TqfrPPqLncoxoN/Lyq9I
-   nLJrwi6Z/dWD12Dm1B7/nMTrMrair49TgcqAB0HYTiXa3W2DcfT5md3bc
-   GG7qB11A9yLlG/rXQipvXYOYX9I9aYlJbwkxB+INQFZoZoMotGiH7wafb
-   TOTjGga4rZ0/C/7hu7ghf8Z7ADfQrfAtrOcnwETQu4Hs9RdDPs5uUPAah
-   A==;
-X-CSE-ConnectionGUID: 29n43BPXT62U7sP1Ya2hUQ==
-X-CSE-MsgGUID: lTqtfySfTRGajnGHMRxaDw==
-X-IronPort-AV: E=Sophos;i="6.25,194,1779148800"; 
-   d="scan'208";a="24687693"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 12:55:37 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.48:10824]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.4.11:2525] with esmtp (Farcaster)
- id 22f9b494-a818-41ec-af57-3c7c94b3263b; Thu, 30 Jul 2026 12:55:37 +0000 (UTC)
-X-Farcaster-Flow-ID: 22f9b494-a818-41ec-af57-3c7c94b3263b
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Thu, 30 Jul 2026 12:55:37 +0000
-Received: from ip-10-253-83-51.amazon.com (172.19.99.218) by
- EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Thu, 30 Jul 2026 12:55:35 +0000
-From: Alexander Graf <graf@amazon.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
-	<corbet@lwn.net>
-CC: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, "Arnd
- Bergmann" <arnd@arndb.de>, Shuah Khan <skhan@linuxfoundation.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<mancio@amazon.com>, <diapop@amazon.com>, <mknaust@amazon.com>
-Subject: [PATCH 8/8] Documentation: virt: Describe multi-NUMA Nitro Enclaves CPU pools
-Date: Thu, 30 Jul 2026 12:53:12 +0000
-Message-ID: <20260730125312.71415-9-graf@amazon.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20260730125312.71415-1-graf@amazon.com>
-References: <20260730125312.71415-1-graf@amazon.com>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="BC7JK8J0"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 292FA109D3E71;
+	Thu, 30 Jul 2026 22:00:38 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ZLo7falv34gP; Thu, 30 Jul 2026 22:00:34 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
+	t=1785416434;
+	b=KPbF4WfP1aSUI+SgBZADUt59hoOvbsMMUpAO6SYyJXCG9Q0H6Iyap2AfTZi91jAgbCBw
+	 T/9MXi1p0vkkPPLSFbZq0hefeWP3KCricqe5f4e38DY80XLW8m/rPmcgEo2T5hDk+b0mc
+	 zZVMeBtVbrbA8ZjT5tPprCJyN7yTFhl9c0=
+ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
+	c=relaxed/relaxed; t=1785416434;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=Jnn7pmJH7PCW/S/7Xx+0EQ5UHqk9vQJERrX0qL5PZp0=;
+	b=dvApQUih58LPHF4UBOoA197BkndLLV9jbRmkAAqOH+R8A81v+ZmGhB3AMqyfWoxDIwmc
+	 AO2lLqk+AtSVim02nXIobEwObwastL/3qUS8g7GHSSZ7ypvVdO/yNnvPxVgvgz3NwWBjx
+	 SI0StEZ8fL7b3ihxaVWEnoeOaD+9cT42jo=
+ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 0F86E109D3E69; Thu, 30 Jul 2026 22:00:34 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 0F86E109D3E69
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1785416434;
+	bh=Jnn7pmJH7PCW/S/7Xx+0EQ5UHqk9vQJERrX0qL5PZp0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BC7JK8J0PZpeTmp6JIDwyYRMq7Af+7aAzWyURV4YxQ9N6DnhqoVqGgSlvdIKa8nVj
+	 hcALEdL9wCuDNlABhEhMd/wJpl4aDYL9U0ikVTYV6cSuEqxZXqiWxsX4uWofl7o+dN
+	 UGYeiykRfgjjZ0Q3kcdzCBVqaY6egmSEjgDK8+fA=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: Akira Yokosawa <akiyks@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] docs/ja_JP: translate submitting-patches.rst (tag usage)
+Date: Thu, 30 Jul 2026 22:00:30 +0900
+Message-ID: <20260730130030.1078990-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D032UWA002.ant.amazon.com (10.13.139.81) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The Nitro Enclaves overview tells an admin flatly that enclave memory
-and CPUs come from the same NUMA node, and that is the page's only
-mention of NUMA. The rule stops applying once the CPU pool spans
-nodes. What replaces it lives in the NE_ADD_VCPU,
-NE_SET_USER_MEMORY_REGION and NE_SET_ALLOC_NUMA_NODE kerneldoc and in
-the cpu_pool sysfs ABI file, and the overview references none of them.
-Qualify the sentence, and give the page a section covering which node
-an allocation targets by default, how to move that target, and how to
-read per-node occupancy out of the sysfs group.
+Translate the Acked-by:, Cc:, and Co-developed-by: section into Japanese.
 
-A cross-reference to the header and the ABI file instead would have
-left one copy of the behaviour to keep current, at the cost of sending
-an admin who wanted only to know whether the rule still applied into a
-uapi header. The section goes after the rest of the overview rather
-than into the middle of it, so the paragraphs on vsock, the image
-format and attestation stay part of the overview instead of ending up
-underneath a CPU pool heading.
-
-Assisted-by: Kiro:claude-opus-5
-Signed-off-by: Alexander Graf <graf@amazon.com>
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 ---
- Documentation/virt/ne_overview.rst | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ .../ja_JP/process/submitting-patches.rst      | 94 +++++++++++++++++++
+ 1 file changed, 94 insertions(+)
 
-diff --git a/Documentation/virt/ne_overview.rst b/Documentation/virt/ne_overview.rst
-index 74c2f5919c88..157b632d7437 100644
---- a/Documentation/virt/ne_overview.rst
-+++ b/Documentation/virt/ne_overview.rst
-@@ -47,7 +47,8 @@ The memory regions carved out of the primary VM and given to an enclave need to
- be aligned 2 MiB / 1 GiB physically contiguous memory regions (or multiple of
- this size e.g. 8 MiB). The memory can be allocated e.g. by using hugetlbfs from
- user space [2][3][7]. The memory size for an enclave needs to be at least
--64 MiB. The enclave memory and CPUs need to be from the same NUMA node.
-+64 MiB. The enclave memory and CPUs need to be from the same NUMA node,
-+unless the CPU pool spans several of them; see `Multi-NUMA CPU pools`_.
- 
- An enclave runs on dedicated cores. CPU 0 and its CPU siblings need to remain
- available for the primary VM. A CPU pool has to be set for NE purposes by an
-@@ -90,6 +91,28 @@ the NE driver. This event is sent further to the user space enclave process
- running in the primary VM via a poll notification mechanism. Then the user space
- enclave process can exit.
- 
-+Multi-NUMA CPU pools
-+--------------------
+diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
+t b/Documentation/translations/ja_JP/process/submitting-patches.rst
+index 22d54b663051..797b70b97fa7 100644
+--- a/Documentation/translations/ja_JP/process/submitting-patches.rst
++++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+@@ -479,3 +479,97 @@ revert =E3=81=AB=E3=82=82 ``Signed-off-by:`` =E3=82=92=
+=E5=90=AB=E3=82=81=E3=82=8B=E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=
+=81=BE=E3=81=99=E3=80=82
+ =E9=96=A2=E4=B8=8E=E3=81=9B=E3=81=9A=E3=80=81=E3=81=9D=E3=81=AE=E5=8F=96=
+=E3=82=8A=E6=89=B1=E3=81=84=E3=82=84=E8=BB=A2=E9=80=81=E3=82=92=E8=A1=8C=E3=
+=81=A3=E3=81=9F=E4=BA=BA=E3=81=AB=E3=82=88=E3=82=8B=E3=82=82=E3=81=AE=E3=81=
+=A7=E3=81=99=E3=80=82SoB =E3=81=AE=E9=80=A3=E9=8E=96=E3=81=AF=E3=80=81
+ =E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=
+=E3=83=BC=E3=82=92=E7=B5=8C=E3=81=A6=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AB Li=
+nus =E3=81=B8=E5=B1=8A=E3=81=84=E3=81=9F=E5=AE=9F=E9=9A=9B=E3=81=AE=E7=B5=
+=8C=E8=B7=AF=E3=82=92=E5=8F=8D=E6=98=A0=E3=81=99=E3=82=8B
+ =E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=
+=E6=9C=80=E5=88=9D=E3=81=AE SoB =E3=81=AF=E3=80=81=E5=8D=98=E7=8B=AC=E3=81=
+=AE=E4=B8=BB=E8=A6=81=E4=BD=9C=E8=80=85=E3=81=A7=E3=81=82=E3=82=8B=E3=81=93=
+=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
 +
-+The CPU pool may span multiple NUMA nodes. When it does, kernel-side
-+allocations for a new enclave target the node that owns the first core in
-+the pool: NE_ADD_VCPU with vcpu_id == 0 draws a core from that node, and
-+does not spill to another node once that node has none left. User space
-+moves the target with NE_SET_ALLOC_NUMA_NODE, and can move it between
-+allocations to build an enclave that spans nodes. Passing
-+NE_ALLOC_NUMA_NODE_ANY as the node lets an allocation come from any node
-+in the pool.
 +
-+The target says where cores come from and nothing else. An enclave built
-+out of a pool that spans nodes has no node of its own, so the rule that
-+its memory be on that node does not apply to it and its memory can come
-+from anywhere.
++Acked-by:=E3=80=81Cc:=E3=80=81Co-developed-by: =E3=82=92=E4=BD=BF=E7=94=A8=
+=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88
++------------------------------------------------
 +
-+The pool mode and occupancy are readable under
-+/sys/devices/virtual/misc/nitro_enclaves/cpu_pool/. Intersect ``avail``
-+with /sys/devices/system/node/nodeN/cpulist for the threads still free on
-+one node.
++``Signed-off-by:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E7=BD=B2=E5=90=8D=
+=E8=80=85=E3=81=8C=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E9=96=8B=E7=99=BA=E3=
+=81=AB=E9=96=A2=E4=B8=8E=E3=81=97=E3=81=9F=E3=81=8B=E3=80=81
++=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E9=80=81=E4=BB=98=
+=E7=B5=8C=E8=B7=AF=E3=81=AB=E9=96=A2=E4=B8=8E=E3=81=97=E3=81=9F=E3=81=93=E3=
+=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
 +
- [1] https://aws.amazon.com/ec2/nitro/nitro-enclaves/
- [2] https://www.kernel.org/doc/html/latest/admin-guide/mm/hugetlbpage.html
- [3] https://lwn.net/Articles/807108/
--- 
-2.47.1
++=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E6=BA=96=E5=82=99=E3=82=84=E5=8F=96=
+=E3=82=8A=E6=89=B1=E3=81=84=E3=81=AB=E7=9B=B4=E6=8E=A5=E9=96=A2=E4=B8=8E=E3=
+=81=97=E3=81=A6=E3=81=84=E3=81=AA=E3=81=84=E4=BA=BA=E3=81=8C=E3=80=81=E3=81=
+=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=B8=E3=81=AE
++=E6=89=BF=E8=AA=8D=E3=82=92=E8=A1=A8=E6=98=8E=E3=81=97=E3=80=81=E8=A8=98=
+=E9=8C=B2=E3=81=AB=E6=AE=8B=E3=81=97=E3=81=9F=E3=81=84=E5=A0=B4=E5=90=88=E3=
+=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=A4=89=E6=9B=B4=E5=B1=
+=A5=E6=AD=B4=E3=81=AB
++``Acked-by:`` =E8=A1=8C=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=99=E3=82=8B=E3=82=
+=88=E3=81=86=E4=BE=9D=E9=A0=BC=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
++
++``Acked-by:`` =E3=81=AF=E3=80=81=E4=BD=95=E3=82=89=E3=81=8B=E3=81=AE=E5=BD=
+=A2=E3=81=A7=E5=BD=B1=E9=9F=BF=E3=82=92=E5=8F=97=E3=81=91=E3=82=8B=E3=82=B3=
+=E3=83=BC=E3=83=89=E3=81=AB=E8=B2=AC=E4=BB=BB=E3=82=92=E6=8C=81=E3=81=A4=E4=
+=BA=BA=E3=80=81
++=E3=81=BE=E3=81=9F=E3=81=AF=E3=81=9D=E3=81=AE=E3=82=B3=E3=83=BC=E3=83=89=
+=E3=81=AB=E9=96=A2=E4=B8=8E=E3=81=99=E3=82=8B=E4=BA=BA=E3=81=8C=E4=BD=BF=E7=
+=94=A8=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E6=84=8F=E5=9B=B3=E3=81=
+=97=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=82
++=E6=9C=80=E3=82=82=E4=B8=80=E8=88=AC=E7=9A=84=E3=81=AA=E3=81=AE=E3=81=AF=
+=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E4=BD=9C=E6=88=90=E3=81=AB=E3=
+=82=82=E8=BB=A2=E9=80=81=E3=81=AB=E3=82=82=E9=96=A2=E4=B8=8E=E3=81=97=E3=81=
+=A6=E3=81=84=E3=81=AA=E3=81=84
++=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=83=BC=E3=81=8C=E4=BD=BF=E7=94=A8=
+=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=A7=E3=81=99=E3=80=82
++
++``Acked-by:`` =E3=81=AF=E3=80=81=E5=A4=89=E6=9B=B4=E3=81=95=E3=82=8C=E3=82=
+=8B=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E5=85=83=E3=81=AE=E4=BD=9C=E8=80=85=
+=E3=81=AA=E3=81=A9=E3=80=81=E3=81=9D=E3=81=AE=E5=88=86=E9=87=8E=E3=81=AE
++=E7=9F=A5=E8=AD=98=E3=82=92=E6=8C=81=E3=81=A4=E4=BA=BA=E3=80=81=E3=82=AB=
+=E3=83=BC=E3=83=8D=E3=83=AB uAPI =E3=83=91=E3=83=83=E3=83=81=E3=82=92=E3=83=
+=A6=E3=83=BC=E3=82=B6=E3=83=BC=E7=A9=BA=E9=96=93=E5=81=B4=E3=81=8B=E3=82=89=
+=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=99=E3=82=8B=E4=BA=BA=E3=80=81
++=E3=81=BE=E3=81=9F=E3=81=AF=E6=A9=9F=E8=83=BD=E3=81=AE=E4=B8=BB=E8=A6=81=
+=E3=81=AA=E5=88=A9=E7=94=A8=E8=80=85=E3=81=AA=E3=81=A9=E3=80=81=E3=81=9D=E3=
+=81=AE=E4=BB=96=E3=81=AE=E5=88=A9=E5=AE=B3=E9=96=A2=E4=BF=82=E8=80=85=E3=82=
+=82=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
++=E3=81=93=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E5=A0=B4=E5=90=88=E3=81=AF=
+=E3=80=81=E5=BF=85=E8=A6=81=E3=81=AB=E5=BF=9C=E3=81=98=E3=81=A6=E6=84=8F=E5=
+=91=B3=E3=82=92=E6=98=8E=E7=A2=BA=E3=81=AB=E3=81=99=E3=82=8B=E3=81=9F=E3=82=
+=81=E3=81=AB
++``# Suffix`` =E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=99=E3=82=8B=E3=81=A8=E4=BE=
+=BF=E5=88=A9=E3=81=A7=E3=81=99::
++
++    Acked-by: The Stakeholder <stakeholder@example.org> # As primary user
++
++``Acked-by:`` =E3=81=AF ``Signed-off-by:`` =E3=81=BB=E3=81=A9=E6=AD=A3=E5=
+=BC=8F=E3=81=AA=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF=E3=81=82=E3=82=8A=E3=81=
+=BE=E3=81=9B=E3=82=93=E3=80=82
++=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81=E6=89=BF=E8=AA=8D=E3=81=97=E3=81=9F=
+=E4=BA=BA=E3=81=8C=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=E3=82=82=E3=83=91=E3=
+=83=83=E3=83=81=E3=82=92=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=97=E3=80=
+=81=E5=8F=97=E3=81=91=E5=85=A5=E3=82=8C=E3=82=8B=E6=84=8F=E6=80=9D=E3=82=92
++=E7=A4=BA=E3=81=97=E3=81=9F=E3=81=93=E3=81=A8=E3=81=AE=E8=A8=98=E9=8C=B2=
+=E3=81=A7=E3=81=99=E3=80=82=E3=81=9D=E3=81=AE=E3=81=9F=E3=82=81=E3=80=81=E3=
+=83=91=E3=83=83=E3=83=81=E3=82=92=E3=83=9E=E3=83=BC=E3=82=B8=E3=81=99=E3=82=
+=8B=E4=BA=BA=E3=81=8C=E3=80=81
++=E3=80=8C=E3=81=AF=E3=81=84=E3=80=81=E5=95=8F=E9=A1=8C=E3=81=AA=E3=81=95=
+=E3=81=9D=E3=81=86=E3=81=A7=E3=81=99=E3=80=8D=E3=81=A8=E3=81=84=E3=81=86=E8=
+=BF=94=E7=AD=94=E3=82=92=E6=89=8B=E5=8B=95=E3=81=A7 ``Acked-by:`` =E3=81=AB
++=E5=A4=89=E6=8F=9B=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=
+=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E3=81=9F=E3=81=A0=E3=81=97=E3=80=81=E9=
+=80=9A=E5=B8=B8=E3=81=AF=E6=98=8E=E7=A4=BA=E7=9A=84=E3=81=AA=E6=89=BF=E8=AA=
+=8D=E3=82=92=E6=B1=82=E3=82=81=E3=82=8B=E6=96=B9=E3=81=8C
++=E9=81=A9=E5=88=87=E3=81=A7=E3=81=99=E3=80=82
++
++``Acked-by:`` =E3=81=AF ``Reviewed-by:`` =E3=82=88=E3=82=8A=E3=82=82=E6=AD=
+=A3=E5=BC=8F=E3=81=AA=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF=E3=81=82=E3=82=8A=
+=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
++=E3=81=9F=E3=81=A8=E3=81=88=E3=81=B0=E3=80=81=E3=83=A1=E3=83=B3=E3=83=86=
+=E3=83=8A=E3=83=BC=E3=81=AF=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E5=8F=96=E3=
+=82=8A=E8=BE=BC=E3=81=BE=E3=82=8C=E3=82=8B=E3=81=93=E3=81=A8=E3=81=AB=E5=90=
+=8C=E6=84=8F=E3=81=97=E3=81=A6=E3=81=84=E3=81=A6=E3=82=82=E3=80=81
++``Reviewed-by:`` =E3=82=92=E4=BB=98=E3=81=91=E3=82=8B=E5=A0=B4=E5=90=88=E3=
+=81=BB=E3=81=A9=E5=8D=81=E5=88=86=E3=81=AB=E3=81=AF=E3=83=AC=E3=83=93=E3=83=
+=A5=E3=83=BC=E3=81=97=E3=81=A6=E3=81=84=E3=81=AA=E3=81=84=E3=81=93=E3=81=A8=
+=E3=82=92
++=E7=A4=BA=E3=81=99=E3=81=9F=E3=82=81=E3=81=AB=E4=BD=BF=E7=94=A8=E3=81=A7=
+=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82=E5=90=8C=E6=A7=98=E3=81=AB=E3=80=81=E4=
+=B8=BB=E8=A6=81=E3=81=AA=E5=88=A9=E7=94=A8=E8=80=85=E3=81=AF=E3=83=91=E3=83=
+=83=E3=83=81=E3=81=AE=E6=8A=80=E8=A1=93=E7=9A=84=E3=81=AA
++=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92=E8=A1=8C=E3=81=A3=E3=81=A6=
+=E3=81=84=E3=81=AA=E3=81=8F=E3=81=A6=E3=82=82=E3=80=81=E5=85=A8=E4=BD=93=E7=
+=9A=84=E3=81=AA=E6=96=B9=E9=87=9D=E3=80=81=E6=A9=9F=E8=83=BD=E3=80=81=E3=81=
+=BE=E3=81=9F=E3=81=AF
++=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E5=90=91=E3=81=91=E3=82=A4=E3=83=B3=
+=E3=82=BF=E3=83=BC=E3=83=95=E3=82=A7=E3=83=BC=E3=82=B9=E3=81=AB=E6=BA=80=E8=
+=B6=B3=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=8C=E3=81=
+=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
++
++``Acked-by:`` =E3=81=AF=E3=80=81=E5=BF=85=E3=81=9A=E3=81=97=E3=82=82=E3=83=
+=91=E3=83=83=E3=83=81=E5=85=A8=E4=BD=93=E3=81=B8=E3=81=AE=E5=90=8C=E6=84=8F=
+=E3=82=92=E7=A4=BA=E3=81=99=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF
++=E3=81=82=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82=E3=81=9F=E3=81=A8=
+=E3=81=88=E3=81=B0=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E8=A4=87=E6=
+=95=B0=E3=81=AE=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E3=81=
+=AB=E5=BD=B1=E9=9F=BF=E3=81=97=E3=80=81
++=E3=81=9D=E3=81=AE=E3=81=86=E3=81=A1=E4=B8=80=E3=81=A4=E3=81=AE=E3=82=B5=
+=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E3=81=AE=E3=83=A1=E3=83=B3=E3=
+=83=86=E3=83=8A=E3=83=BC=E3=81=8B=E3=82=89 ``Acked-by:`` =E3=81=8C
++=E4=BB=98=E3=81=91=E3=82=89=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B=E5=A0=B4=
+=E5=90=88=E3=80=81=E9=80=9A=E5=B8=B8=E3=81=AF=E3=80=81=E3=81=9D=E3=81=AE=E3=
+=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=83=BC=E3=81=8C=E6=8B=85=E5=BD=93=E3=81=
+=99=E3=82=8B=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AB
++=E5=BD=B1=E9=9F=BF=E3=81=99=E3=82=8B=E9=83=A8=E5=88=86=E3=81=A0=E3=81=91=
+=E3=81=B8=E3=81=AE=E5=90=8C=E6=84=8F=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=
+=81=99=E3=80=82=E3=81=93=E3=81=93=E3=81=A7=E3=81=AF=E7=8A=B6=E6=B3=81=E3=81=
+=AB=E5=BF=9C=E3=81=98=E3=81=9F=E5=88=A4=E6=96=AD=E3=81=8C
++=E5=BF=85=E8=A6=81=E3=81=A7=E3=81=99=E3=80=82=E7=96=91=E5=95=8F=E3=81=8C=
+=E3=81=82=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E3=83=A1=E3=83=BC=E3=
+=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E3=82=A2=E3=83=BC=E3=82=
+=AB=E3=82=A4=E3=83=96=E3=81=AB=E3=81=82=E3=82=8B
++=E5=85=83=E3=81=AE=E8=AD=B0=E8=AB=96=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=
+=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=93=E3=81=AE=E5=
+=A0=B4=E5=90=88=E3=82=82=E3=80=81=E6=84=8F=E5=91=B3=E3=82=92=E6=98=8E=E7=A2=
+=BA=E3=81=AB=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AB
++``# Suffix`` =E3=82=92=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=
+=99=E3=80=82
++
++=E3=81=82=E3=82=8B=E4=BA=BA=E3=81=8C=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=
+=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=99=E3=82=8B=E6=A9=9F=E4=BC=9A=E3=
+=82=92=E5=BE=97=E3=81=9F=E3=82=82=E3=81=AE=E3=81=AE=E3=80=81=E3=82=B3=E3=83=
+=A1=E3=83=B3=E3=83=88=E3=81=97=E3=81=AA=E3=81=8B=E3=81=A3=E3=81=9F
++=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E5=BF=85=E8=A6=81=E3=81=AB=E5=BF=9C=
+=E3=81=98=E3=81=A6=E3=83=91=E3=83=83=E3=83=81=E3=81=AB ``Cc:`` =E3=82=BF=E3=
+=82=B0=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=
+=82=E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81
++=E9=96=A2=E5=BF=83=E3=82=92=E6=8C=81=E3=81=A4=E5=8F=AF=E8=83=BD=E6=80=A7=
+=E3=81=AE=E3=81=82=E3=82=8B=E4=BA=BA=E3=81=8C=E8=AD=B0=E8=AB=96=E3=81=AB=E5=
+=90=AB=E3=81=BE=E3=82=8C=E3=81=A6=E3=81=84=E3=81=9F=E3=81=93=E3=81=A8=E3=82=
+=92=E8=A8=98=E9=8C=B2=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
++=E3=81=AA=E3=81=8A=E3=80=81=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81=E5=90=8D=
+=E5=89=8D=E3=82=92=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=82=8B=E6=9C=AC=E4=
+=BA=BA=E3=81=AE=E6=98=8E=E7=A4=BA=E7=9A=84=E3=81=AA=E8=A8=B1=E5=8F=AF=E3=81=
+=AA=E3=81=97=E3=81=AB=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=82=8B
++=E5=8F=AF=E8=83=BD=E6=80=A7=E3=81=AE=E3=81=82=E3=82=8B=E4=B8=89=E3=81=A4=
+=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AE=E3=81=86=E3=81=A1=E3=81=AE=E4=B8=80=E3=
+=81=A4=E3=81=A7=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AB=E3=81=A4=E3=81=
+=84=E3=81=A6=E3=81=AF=E3=80=81=E5=BE=8C=E8=BF=B0=E3=81=AE
++=E3=80=8C=E4=BA=BA=E3=82=92=E3=82=BF=E3=82=B0=E4=BB=98=E3=81=91=E3=81=99=
+=E3=82=8B=E3=81=AB=E3=81=AF=E8=A8=B1=E5=8F=AF=E3=81=8C=E5=BF=85=E8=A6=81=E3=
+=80=8D=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=
+=95=E3=81=84=E3=80=82
++
++``Co-developed-by:`` =E3=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=
+=8C=E8=A4=87=E6=95=B0=E3=81=AE=E9=96=8B=E7=99=BA=E8=80=85=E3=81=AB=E3=82=88=
+=E3=81=A3=E3=81=A6=E5=85=B1=E5=90=8C=E3=81=A7=E4=BD=9C=E6=88=90=E3=81=95=E3=
+=82=8C=E3=81=9F
++=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82=
+=E8=A4=87=E6=95=B0=E3=81=AE=E4=BA=BA=E3=81=8C=E4=B8=80=E3=81=A4=E3=81=AE=E3=
+=83=91=E3=83=83=E3=83=81=E3=82=92=E5=85=B1=E5=90=8C=E3=81=A7=E4=BD=9C=E6=88=
+=90=E3=81=97=E3=81=9F=E5=A0=B4=E5=90=88=E3=81=AB=E3=80=81
++``From:`` =E3=82=BF=E3=82=B0=E3=81=A7=E7=A4=BA=E3=81=95=E3=82=8C=E3=82=8B=
+=E4=BD=9C=E8=80=85=E3=81=AB=E5=8A=A0=E3=81=88=E3=81=A6=E3=80=81=E5=85=B1=E5=
+=90=8C=E4=BD=9C=E8=80=85=E3=81=AE=E8=B2=A2=E7=8C=AE=E3=82=92=E6=98=8E=E8=A8=
+=98=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AB
++=E4=BD=BF=E7=94=A8=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
++
++``Co-developed-by:`` =E3=81=AF=E4=BD=9C=E8=80=85=E3=81=A7=E3=81=82=E3=82=
+=8B=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=99=E3=81=9F=E3=82=81=E3=80=81=
+=E5=90=84
++``Co-developed-by:`` =E3=81=AE=E7=9B=B4=E5=BE=8C=E3=81=AB=E3=81=AF=E3=80=
+=81=E5=AF=BE=E5=BF=9C=E3=81=99=E3=82=8B=E5=85=B1=E5=90=8C=E4=BD=9C=E8=80=85=
+=E3=81=AE
++``Signed-off-by:`` =E3=82=92=E5=BF=85=E3=81=9A=E8=A8=98=E8=BC=89=E3=81=97=
+=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=
+=82=93=E3=80=82=E9=80=9A=E5=B8=B8=E3=81=AE sign-off
++=E6=89=8B=E7=B6=9A=E3=81=8D=E3=81=8C=E9=81=A9=E7=94=A8=E3=81=95=E3=82=8C=
+=E3=81=BE=E3=81=99=E3=80=82=E3=81=A4=E3=81=BE=E3=82=8A=E3=80=81=E4=BD=9C=E8=
+=80=85=E3=81=8C ``From:`` =E3=81=A8
++``Co-developed-by:`` =E3=81=AE=E3=81=A9=E3=81=A1=E3=82=89=E3=81=A7=E7=A4=
+=BA=E3=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B=E3=81=8B=E3=81=AB=E3=81=8B=
+=E3=81=8B=E3=82=8F=E3=82=89=E3=81=9A=E3=80=81
++``Signed-off-by:`` =E3=82=BF=E3=82=B0=E3=81=AE=E9=A0=86=E5=BA=8F=E3=81=AF=
+=E3=80=81=E5=8F=AF=E8=83=BD=E3=81=AA=E9=99=90=E3=82=8A=E3=83=91=E3=83=83=E3=
+=83=81=E3=81=AE=E6=99=82=E7=B3=BB=E5=88=97=E4=B8=8A=E3=81=AE
++=E7=B5=8C=E7=B7=AF=E3=82=92=E5=8F=8D=E6=98=A0=E3=81=99=E3=82=8B=E5=BF=85=
+=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E7=89=B9=E3=
+=81=AB=E3=80=81=E6=9C=80=E5=BE=8C=E3=81=AE ``Signed-off-by:`` =E3=81=AF=E3=
+=80=81
++=E5=BF=85=E3=81=9A=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E6=8F=90=E5=87=BA=
+=E3=81=99=E3=82=8B=E9=96=8B=E7=99=BA=E8=80=85=E3=81=AE=E3=82=82=E3=81=AE=E3=
+=81=A7=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=
+=9B=E3=82=93=E3=80=82
++
++=E3=81=AA=E3=81=8A=E3=80=81``From:`` =E3=82=BF=E3=82=B0=E3=81=A7=E7=A4=BA=
+=E3=81=95=E3=82=8C=E3=82=8B=E4=BD=9C=E8=80=85=E3=81=8C=E3=80=81=E3=83=A1=E3=
+=83=BC=E3=83=AB=E3=83=98=E3=83=83=E3=83=80=E3=83=BC=E3=81=AE From =E8=A1=8C=
+=E3=81=AB
++=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=81=9F=E4=BA=BA=E7=89=A9=E3=81=8A=
+=E3=82=88=E3=81=B3=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=A2=E3=83=89=E3=83=AC=E3=
+=82=B9=E3=81=A8=E5=90=8C=E3=81=98=E5=A0=B4=E5=90=88=E3=80=81``From:`` =E3=
+=82=BF=E3=82=B0=E3=81=AF
++=E7=9C=81=E7=95=A5=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
++
++``From:`` =E3=81=AE=E4=BD=9C=E8=80=85=E8=87=AA=E8=BA=AB=E3=81=8C=E6=8F=90=
+=E5=87=BA=E3=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E4=BE=8B::
++
++    <changelog>
++
++    Co-developed-by: First Co-Author <first@coauthor.example.org>
++    Signed-off-by: First Co-Author <first@coauthor.example.org>
++    Co-developed-by: Second Co-Author <second@coauthor.example.org>
++    Signed-off-by: Second Co-Author <second@coauthor.example.org>
++    Signed-off-by: From Author <from@author.example.org>
++
++``Co-developed-by:`` =E3=81=AB=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=81=
+=9F=E4=BD=9C=E8=80=85=E3=81=8C=E6=8F=90=E5=87=BA=E3=81=99=E3=82=8B=E3=83=91=
+=E3=83=83=E3=83=81=E3=81=AE=E4=BE=8B::
++
++    From: From Author <from@author.example.org>
++
++    <changelog>
++
++    Co-developed-by: Random Co-Author <random@coauthor.example.org>
++    Signed-off-by: Random Co-Author <random@coauthor.example.org>
++    Signed-off-by: From Author <from@author.example.org>
++    Co-developed-by: Submitting Co-Author <sub@coauthor.example.org>
++    Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
+--=20
+2.52.0
 
