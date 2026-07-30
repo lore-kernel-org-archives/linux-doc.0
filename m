@@ -1,138 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C45E38AC80;
-	Thu, 30 Jul 2026 17:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785433327; cv=none; b=PY7Gce2GcOUP3P0qYVfBcJxBDWKFKZt4lpxFOx4iXP4ej7b4GuIQ6+Ew4w7FUqbV8JVDCRVErIT81WHa7Kt2t0qRlwFGWRTxVKzmc34FUXmRwTPgyKWzoA10Rc/mCGMaW7QSrCx6rtA7QcAchu7/4+muR/TAcgT5S9+3gcfYVDE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785433327; c=relaxed/simple;
-	bh=8S79kJNokLqhB89neq5V/sHBzysCH6bsnXF2YAxLIdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FtXZ6f896OxHVctoOjjxpfpzv9WZFGp262j0Ndrp0cMYa+KXpWnhWhLABXPRJsuXUtM0Ct6ldUn6LCKZmrJR4n9R8WMRdVszy/14PvljRJbJ85xf+s91nqOnoGpCH4/73hRtcGdy8Zn3D6r5EuBH6GouI++g6cp8ne5P1desy14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kmC15d2h; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D0438A70B
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 17:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785433589; cv=pass; b=EEeI5TbksDpcocSYAntW8MYHYmIBExAtoF0TRibXi/zIWbyW7K0KycgB8bM8X2xsNhNktQo+1pXWFES46Q21/DFTezgNaSMg61sw2pdYVxx714TpApVmKVDS3jUO6uUmz2MXC+rZKFURcHNsIJQGiT9NEP8ITVuiBNOnf20rjHM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785433589; c=relaxed/simple;
+	bh=UOih8CBVKjn02CmrfoiIHS5zm6Wg61jRZNK4KLcmhAA=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LrBwnHVI32G+Wjnh0LWfd3rUpyJ/CjkyWOkdTHHTLl//S8+4PzxVIK5KieICjrvYtKOi5vFKsQw7gcXh6cQuVmkzBfWFpZJU4ih3IuNVrdtRtjx+Cp4TteH+JJ/IIq1k6wLEcoKmeVSITk9RGqRkOD+l+yJTo8mXTQVw45wQiYk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J1/mqrOK; arc=pass smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kmC15d2h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3721F000E9;
-	Thu, 30 Jul 2026 17:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785433325;
-	bh=QUN8FMkUh+sl+3ycuBTdwAxcElw1ncfsAtlWboIQqS8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kmC15d2hdZUY9EhLmKh5593HMAe2+Kzz5xw7YNNeRaCXGSjekCyK+bChnbLXWKP8S
-	 UkugzmfoQu5y3pHfmPhSMTiZj0+7h72w8lBmu6ObVv/NZh50y13d8jM5ers4mV5csG
-	 e3u/fqmP6ZwaCE25dZ6An6jawQ1BHFBNrpMUJ9wfi9xqrwbJ4vBW9Klgd1Zak47Kdb
-	 647niNuhANlJn3RBpkilGPasAhThcAcN6l4Kq3VW/vNOLUEEpCT3inX7pQMWzhU2Bn
-	 /o0rptKKLGt5TqIH/EEdgW89y0ttzMSZYtz3JLxciwh9TO7nWOG21Q7JhEAW0XHGsy
-	 a0h8OtxHdIVXQ==
-Date: Thu, 30 Jul 2026 18:41:59 +0100
-From: Conor Dooley <conor@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Janani Sunil <janani.sunil@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Janani Sunil <jan.sun97@gmail.com>,
-	linux-spi@vger.kernel.org, Kent Gustavsson <nedo80@gmail.com>
-Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
- spi-device-addr
-Message-ID: <20260730-partner-yield-e2a3f91997c4@spud>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
- <20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
- <cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
- <20260725230739.63ff7000@jic23-huawei>
- <20260728-patronize-thwarting-56fab2e11077@spud>
- <20260728221719.7f668a73@jic23-huawei>
- <20260729-hundredth-suffice-f28afa67bc06@spud>
- <ea9c043f-27c9-4095-9488-e81e0bbb5273@baylibre.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J1/mqrOK"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-ca97d139d8dso37437a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 10:46:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785433586; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Xc/Eg5hioWz7t8FO3WO4Qn9kMyQGWhWtYvjCS5UzWbRr+mpsLLEi6EwrTwyEMAXj6H
+         g/IAT/Z9R1lfm0LPtxDW8GMJAftpCnJi9mqdHFWcA/0eaTJY1hPt8cpdEu81p8JGhL4O
+         jRmKnq58b6cDyWbiZ5R7JyH9EF2/q2P1ntXl86sZk/u3lZ7Biyd9bVLlif+es7z8Ex9e
+         Rrl6Ld73UUXJmNhrPozo3QpRjyhAkqsRD1WO0LOZG8YzvhSazw/EFOSnvEFcQVJEBp9m
+         kEWK7ClSm4HNVCZyppZ6nIsk7GecH+UFlL4RmhKZrpp4dSeboMHI1s9H29MT35ep1uGz
+         540A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=UOih8CBVKjn02CmrfoiIHS5zm6Wg61jRZNK4KLcmhAA=;
+        fh=SrWJ3dhx3uAcG10EsoUsZIq9ShyJrTcnIMj5fRIGB3I=;
+        b=mPNQVU05d6Wcsnld1I1O1y5n+uwdJaECCcEBZxb78jv1BuJ0zakFygR8vvmAdav9z8
+         PK3Xr6BFlWsQKEmZIUrHFRLhJfs6Dcz1fqMcLaa///sTEUW3mVwPi6ktfX0tvqP1QnJT
+         uUTl/WXdSU/OOu08RWxWsVlvAhumfcrg/8fK5cIrU3QkCoJxXK2lqkkCu8gwJmuReq5q
+         8rO/xSTQwXLQ3rk5B2BJ6ZUVAyVlCCUw9OHsLhj9QVh2W39jqHYmM/Q8QKp4gkNfdMcO
+         3Mr7U+QYl009O8xnkv8bolsWMQ5bGhDlCO2e30r7iFlKxufKCR2ZT9dY9GLZcB2OYnQ0
+         bEBQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785433586; x=1786038386; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UOih8CBVKjn02CmrfoiIHS5zm6Wg61jRZNK4KLcmhAA=;
+        b=J1/mqrOKozDueyOpPmCiJpfk6B8e+u5yoozZJa6XaOQjjljLb7DHPL0Bmy099pdfi4
+         Z/7yelzto4GyAHhRTDywVXDxrz4AZEviushDDgcvs6rgH/JowQ7BUFYYAkIqR7WnTJPE
+         Uib25zhKYq+kAtEh2XHHlqNOpXNT4fkDR1bJPyDbyB/DqYAOPazoQjfRRKr3Jpb+x4xr
+         iQFPY56TbHxWUHcuyHvvjaqg1GawzvFw1zSajdUJElsK8nSsvJA+z3niIBhYr6GFNXwo
+         hO1d3kIpRxiTW48kCG3R+uxUaPfNmksgLGejqeM3RxRwhAtmMuTWxvBnebPfy40LfCzz
+         4PtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785433586; x=1786038386;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UOih8CBVKjn02CmrfoiIHS5zm6Wg61jRZNK4KLcmhAA=;
+        b=UWOZXzE1s3SCsTmF+JRWhoiQZEFSzvdg3sRU/EaKbm4+qqchVkPXGp+AJvnscJ0RU9
+         pok7ER4KdSn5b5OdiEXnPrAR0NAXhjkHfalFvBMqdM2Y2mDFaWLIjfoZ+7BoAbPlibl6
+         gsv3Gqm2yiQXnPdZOSNTZuCHvu8vJXsbPpQq7O4YgQGCYlSgZpDawkBE3DyTQuQP/9Uj
+         c26KaX/xVG+yU6h4XYXDj+KacP7MN3Bo5sq+nyBFmUeLL98JSp+tOnq2xUIYu8CHdtG4
+         lWpvCNo4CjYxFaLYDarGn+PaU/2RsUNnphWXSg/hMR9ayIP/Ka+/uxzFjBoqkdH4RvZD
+         vtuw==
+X-Forwarded-Encrypted: i=1; AHgh+RpGTCxvH/IZZwXtOzcjaXaFzd6e8N4pdqN37U5pqaXolmrpbFqgw5Y0z2GRHP0qe+NAUvJFxE1sotY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz715kh1BZ7egW1pbJeBh4r+m4+JITHfumyeUA7IsX3PQY9XUET
+	Ipt7aHg7NmknY9B1zt0jVksLcrcTd34RtEQGExhm8Y08VVbjlaSoXQ62wt1WWUgPrJB1zdBVMmp
+	/vLcob34Wq+ZFquJL2RhLLD2kEttf0bSL4S7DCClx
+X-Gm-Gg: AR+sD13vP0RXsVwOCDTqiZ2YG4aY81OQ9gFVgF2fnjqMl/0Zt7YDyjyvgHLmc9nUvYB
+	NkogXEtvTYAKkL3y/pnwUKpWz1f77Y5FdYA5cxO8Gt+n4P+d+VwdDRt2a0xYob0fywPrb4Xg58b
+	at3RTqtsfze/rjCfFRawaAu4n6driyb7BfgorPbRmgpfqw87yLMdQdDreMblhdFDpk3o1aAdVDC
+	rd/fbD5irafb1BOaG5rB4iNYkfLmorMOzGpn88h/m/87Vr3YevmNhA5WCIjW6nXmM0HOGxdCZy1
+	RWT1Aluci6RL6qKffTqssLGdl8RI71bWAGZ/va/+XDSyoIsFBmOFksznjNkhowM297fBZQcuaiP
+	qoDHFwDOvGzsQZ83b4p5GBl57D5/ygvrvdw==
+X-Received: by 2002:a05:6a21:e8b:b0:3bf:6ac8:8d29 with SMTP id
+ adf61e73a8af0-3c9006bb981mr3748982637.21.1785433585760; Thu, 30 Jul 2026
+ 10:46:25 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 30 Jul 2026 10:46:24 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 30 Jul 2026 10:46:24 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20260728121138.1103610-8-tarunsahu@google.com>
+References: <20260728121138.1103610-1-tarunsahu@google.com> <20260728121138.1103610-8-tarunsahu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PSCz3J9WmgpRxkdN"
-Content-Disposition: inline
-In-Reply-To: <ea9c043f-27c9-4095-9488-e81e0bbb5273@baylibre.com>
+Date: Thu, 30 Jul 2026 10:46:24 -0700
+X-Gm-Features: AUfX_mxSA02wZmCDGZHkTAv1sqG45AQrWdNvcUlNspdo9IevcZmmfeKZDjs0tR8
+Message-ID: <CAEvNRgHvBTKaG4G5J=sMFGYepEnOFaeCBtjkzN6xmGtZ+o6XxA@mail.gmail.com>
+Subject: Re: [PATCH v4 07/11] KVM: guest_memfd: Add support for freezing mappings
+To: Tarun Sahu <tarunsahu@google.com>, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, seanjc@google.com, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>
+Cc: linux-kselftest@vger.kernel.org, andre.przywara@arm.com, 
+	michael.roth@amd.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	will@kernel.org, vannapurve@google.com, maz@kernel.org, fvdl@google.com, 
+	kvm@vger.kernel.org, oliver.upton@linux.dev, kvmarm@lists.linux.dev, 
+	alexandru.elisei@arm.com, skhawaja@google.com, aneesh.kumar@kernel.org, 
+	linux-doc@vger.kernel.org, David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, 
+	kexec@lists.infradead.org, suzuki.poulose@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
---PSCz3J9WmgpRxkdN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tarun Sahu <tarunsahu@google.com> writes:
 
-On Wed, Jul 29, 2026 at 04:40:00PM -0500, David Lechner wrote:
-> On 7/29/26 3:47 PM, Conor Dooley wrote:
->=20
-> ...
->=20
-> > Only going to reply to this for now, I'll reply to the other thread of
-> > this conversation later so as not to end up duplicating discussion, but
-> > I am thinking of things like what if someone puts a mcp3654r and an
-> > ad5529r on the same chip select? I think that's actually perfectly
-> > functional on a hardware level, provided the fuses/pins are set up
-> I'm not sure this works in general since SPI devices aren't going to
-> have a standard way to specify the address.
->=20
-> For example, ad5529r has the address at bits [14:12] in a 16-bit
-> "instruction phase" while mcp3654r has the address at [7:6] in the
-> "command byte".
->=20
-> An ad5529r instruction could inadvertently be interpreted as a
-> command by mcp3654r. So I don't think they could exist on the
-> same CS.
+> Introduce kvm_gmem_freeze() to freeze a guest_memfd inode's mapping,
+> which prevents fallocate() operations and new page fault allocations
+> during preservation.
+>
+> Use a global SRCU (`kvm_gmem_freeze_srcu`) to synchronize freeze state
+> checkers without incurring per-fault locking overhead or risking per-CPU
+> memory exhaustion (as per-CPU structure not counted in cgroup) from
+> per-inode SRCU structures by faulty/compromised VMM.
+>
 
-Yeah, actually you're right. I didn't notice that the ID bits weren't
-the first two on the bus for the ADI device.
+I wonder if everything to do with freezing should be gated behind
+CONFIG_LIVEUPDATE_GUEST_MEMFD. What do people think?
 
->=20
-> > correctly (and if it is not, mixing the microchip devices is possible
-> > and probably mixing future ADI ones will be too).
-> >=20
->=20
-> Yes, I suppose this could be possible, but I don't think they would
-> be considered a single logical device in that case. So would be
-> covered by the device@cs,spi-addr binding that we already discussed.
-
-Right, that is what I was thinking - I just don't really want to
-entertain supporting both this and the "single logical device"
-configuration for the same device.
-
->=20
-> Example:
->=20
-> adc@0,0 {
->     compatible =3D "adi,adc1";
->     ...
-> };
->=20
-> adc@0,1 {
->     compatible =3D "adi,adc2";
->     ...
-> };
-
---PSCz3J9WmgpRxkdN
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCamuM5wAKCRB4tDGHoIJi
-0lRFAP0TmWqGyKsaTNLr7lLrkk4EWA6tkJv5j6gWOK+wjmysDAEA/nHORp+ng+A/
-tpdB67oXMDw5wpLnCw2IQWZ/NYVe4gU=
-=Trw1
------END PGP SIGNATURE-----
-
---PSCz3J9WmgpRxkdN--
+> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+>
+> [...snip...]
+>
