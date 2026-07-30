@@ -1,36 +1,35 @@
 Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010023.outbound.protection.outlook.com [52.101.56.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3872D35B636;
-	Thu, 30 Jul 2026 16:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8B636829D;
+	Thu, 30 Jul 2026 16:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.23
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785429607; cv=fail; b=Jc88ftFyEq5Irz5rHfvUZ1M4oZv9I+NmCF7er6tpwUchFw94V83jHsLCeXrDT4xCIl9G1oxF6CeAlbJnkiM68eZ9MqvhV5NInoJ3vyhK33z5dQpdVaOpyhwi8LLDrBF+SzxP8hfT9XyWO5a57RQ2SpKiTiyPOgW/Cg2we0h6qNk=
+	t=1785429609; cv=fail; b=Kij4+xdm/AHSKOJDKaxETp7pQVUUqLnN4XKz6avW/wA43lbo9DPWzgJDiHTX4cprtTyHpga7YfwbahQyUSYhX6+n0GhVfjXOU3+6ApSH5goAKoM6nqZpkSkt25jfdtWvhe2ghWPmue8ElEgeFbp5JiJXjF7QTs7jbi7db9G2e20=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785429607; c=relaxed/simple;
-	bh=JQKeth8UfVq44Y/zzWDIqDK6Z+4hTdLlZS5Cc5z10iE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=t8MBDkR3SLTAvwR6BWVEKMTGip8T9JJsO5kRRwGh/xM+tI2pyK3yNQ1ZDRb4k5RhEGert9bQzMvcgCbS4yapORyCrYWT6W6+n5nzyDTgpP/VjPRaw6Vl+CDl99WI12xbzZS9psD/ewBOCSHYTZ9/q1aKoC/oMH+1taJCUW+ZwfA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=sD3/MrUY; arc=fail smtp.client-ip=52.101.56.23
+	s=arc-20240116; t=1785429609; c=relaxed/simple;
+	bh=Qac7tKkXdB2oShN5XIcn56ksIGNIDecv0BBLNAtie1c=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=cE+1QyCO4mC8aWrb5q8q6cYj/xWYppNuvd+Cg/7IRm9H7s44na6th/ayPBJ7W0r0wTdiOapgBhmAdj45Tar9iR8Ls3goGvCcTECMPYUP0lfTueEw96WdOWcJPbNbhtdoStczU/mgsMHCIliLdIhbFgngQM5MKJjR4hRQ5Lfo1Ps=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=UkKlo7Hy; arc=fail smtp.client-ip=52.101.56.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="sD3/MrUY"
+	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="UkKlo7Hy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fCqsX5Hg8EN6/Vr2Upa/eATpRawocyFM8YNzGPHBvQUmRiBj07pUCYSIaZNSHncyrT9TOMeYxUkY5GUmQ/tH5MO7tB4IeoZI75zoxcbbc5wx+gkyTTMNvEuiV5jjmpFrRRcUwJixjw37upMq0LHilPlXZHJ8nEcbfNafZFA4Q7vWerFHE8HHZcWnUceNEmGHd3QtnRZ7DA+YsLMBEmOk1voqiBsVjdouf69G0Dg3pVSpjVWRfBGBKmhSKvbLq/ayIKLgKCOdhkMOcVP1EwoU/5eGKivrZChQS6UyzYubcGh/Eu21Azh7K+evYWvM7+L+wpBMgFwi4S1TOdfPgQQhUg==
+ b=KWbjvcbin3L/ehTgVFtHv8ynsHDXkQRznzd0oaAvN3dRvJxqb0NoHosN7QCfqH8WUVfPy1W83GUfY4VhoqdB8L9opjNXLFzZz4DASRcZbNDtj7okwzKJIuqfi+CgiWzyUg1P41MPlO0v8IhRIIXZMGKe8vDieVAh2SG//MNpXIotbOOHvV8Gwunvavbtv558f2qw+czeFyyrQi4vSdb5zMWRdnJyKTv8ROy4kxNCCiEZoBtUFShLHSbrRvHIY4qYhpSeDZXnnGYbjWDJ9531vBYEg0+QNdc4/xX1jotaR6tNdMoCpgSbSfA6a1zRhS/kU6Y//6zjAkEnk4raGB3oWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D6bIrYe027PKp4s26Q+h3xw+04noXr3O2Vd1HgznqX0=;
- b=CSDoNNwvpBkx5h6OfCGCeH3LiMJJLM7PWbACz8uzjCcZoe6pE2acNlKDKsUHKXjS5+gmLj5m7YoNx8A17mICqvBGUbLSjqvJ4jllDs0mo92BPskwRr5FQHkqyDN6EQR3F1dbT3CsuPO/5+dt3zsRR59fZcNqt0MootB/i1O4Zvx2ldhPaUTDhjLuxEzqA8cU24RhG6bR94C6Z7DLTOIf/git+5iEo39A1X2cWA79wQpqbV/wAk5xIJNl2rUH0ypDDN3tnHeIIA23fKh+bVqL9/jUwVR6PGa2P+BH1w5rAOjQVkWGnjaYVudyTEGYfb3SUM8lVEyTh8e4acTkH9YdlA==
+ bh=QmuBw/8OQbnVuPtOktI1tUiYAggyeWnvz0iBROm1XKY=;
+ b=XV9PKln0ynohyqQIFpnFMc1H9ugUVyQ4NgbprmKmw31Wc5hT2K3k/2ysHx32QgjxwPlcB9RM6fgs8KCH4ijtKbfx1MfrqsEz9D5x50TeeRf+6gHc8ylo1o+h2fK8N4DCfiOKZK1pKSuceoMqPRmZ4vnQIdYyItAqp/wFFgTLTsdxAPpkRW56eSCS3wyHCP5lPI8xU3mab8q90zrHYeeAnh4Cl7NMrk3UQUcMj8Z/4Tx24mKocaBBd700LcWeOJ+v1/z/vBJpJs1r7Q2sd5Elw1z/aCxlgWLFDWzsRqLWbtlGfvtJLeVRAlees/FjWvWuWGhHOgDIdqgnPfhkSA0/bA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
  dkim=pass header.d=altera.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D6bIrYe027PKp4s26Q+h3xw+04noXr3O2Vd1HgznqX0=;
- b=sD3/MrUYNiBFZM7UTB1aAFDRr+r+LNvUmfu53ZRO1CTFTDryMGaQJ0J9fqlLkDLOLOycyMWI5gVFxAKboFg5J8dLSA2ibTwpFMsXYzPJgcVSAAb7uG0HLMbc6kOKVyuhL/4OztyICHGzvq4wjltjIvCRcze+lEcXzoOC5Mtx1Dsg1bdN2HavXjQU9Jtea05qrFTeKs8eefzzfIRgHoBJTQqiMNqlZW0a6cD9erD5SoaLzypFaHUY0ZdWP99d+1IfbBSjLLqwJ7Xw0OTvhKF+rA+K8AS+IkDCHToSKOFarwx55+NAyjLmru4VhcmPmhfkQx5uXyBCWVPgobyonSZYZw==
+ bh=QmuBw/8OQbnVuPtOktI1tUiYAggyeWnvz0iBROm1XKY=;
+ b=UkKlo7HyO1+lg0WBcALHzstp48DmqnWeQP8kl3ivoIwd8RqKUhJrbTQpOC5/8NTjnGzxbwMYA0Jr7AUbC7pTv2QyrrOPt2+9xgtN4B59rIpWzqQr6s1BjPKhnzLastTDxJFonD7TcnVku03Qs8UZVoGjWOabTOft09kDV4SjHb4yqz6XZfZTWbjOvA+l1TwY4qZmOw3+JHq63NxaJPHbCxpBvhsyTRR+Kl1PxByewh+gCwzW+PGbKytcUMcQZhjV+NoNpastyzYJrDxyGoXRzUA9Ry4mqqsJ32+Wqq+nhG+Zj9d0Xm1mCqi3BqNsnSN9rKr/MNoFP3PEtngLEZqFLQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=altera.com;
 Received: from PH0PR03MB6560.namprd03.prod.outlook.com (2603:10b6:510:b2::12)
@@ -41,7 +40,7 @@ Received: from PH0PR03MB6560.namprd03.prod.outlook.com (2603:10b6:510:b2::12)
 Received: from PH0PR03MB6560.namprd03.prod.outlook.com
  ([fe80::5364:bd7:85a:f07b]) by PH0PR03MB6560.namprd03.prod.outlook.com
  ([fe80::5364:bd7:85a:f07b%5]) with mapi id 15.21.0270.012; Thu, 30 Jul 2026
- 16:40:02 +0000
+ 16:40:01 +0000
 From: hang.suan.wang@altera.com
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dinh Nguyen <dinguyen@kernel.org>,
@@ -65,12 +64,10 @@ Cc: muhammad.nazim.amirul.nazle.asmade@altera.com,
 	chee.nouk.phoon@altera.com,
 	genevieve.chan@altera.com,
 	adrian.ho.yin.ng@altera.com
-Subject: [PATCH v3 1/3] firmware: stratix10-svc: increase args array
-Date: Thu, 30 Jul 2026 09:39:57 -0700
-Message-ID: <afea81d9bdd6421ef9e943c8e6077fba980ee64e.1785413906.git.hang.suan.wang@altera.com>
+Subject: [PATCH v3 0/3] Add Altera SoCFPGA Crypto Service (FCS) driver
+Date: Thu, 30 Jul 2026 09:39:56 -0700
+Message-ID: <cover.1785413906.git.hang.suan.wang@altera.com>
 X-Mailer: git-send-email 2.43.7
-In-Reply-To: <cover.1785413906.git.hang.suan.wang@altera.com>
-References: <cover.1785413906.git.hang.suan.wang@altera.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SJ0PR13CA0216.namprd13.prod.outlook.com
@@ -84,109 +81,206 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH0PR03MB6560:EE_|PH7PR03MB7267:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7678a10d-be3a-412e-8c85-08deee593412
+X-MS-Office365-Filtering-Correlation-Id: a0ec802e-b5f4-4614-15db-08deee593389
 X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|7416014|56012099006|11063799006|10067099003|55112099003|18002099003|22082099003|3023799007|921020;
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|7416014|56012099006|11063799006|10067099003|6133799003|55112099003|18002099003|3023799007|921020;
 X-Microsoft-Antispam-Message-Info:
-	6tq4iIW0668ZTkfdbwWoviOOEklxRErPIZR/zOU/leanie5bwPwIFIrnef3RHiGGUleKYZ0ZjwlwM1UU5Sxb8bkf+29Gd3UPdBSxLvSpZgft+7kwR/2/lBaWbku3Ue8WqN13L0gcfkonoW2IgB8CljXv/PI1OTrD3NVsHaG+MAI5dK2GtNTy/n7RKmUaoikfimxDQ8Otomo31rCyc7ighLp7aLiKruW+8pkgCFgTa0hOCcBdvf9GeGEX3sFHsYlltGg5llFw/Tiz5u4pGN3BM6d/tlvXbh0XEv4PItNljuZWGdtl3Fp3OckYMbzIjGYJ5RyrQDxPb7tBlG0ofNSwENy46TYSw1eJCf+UB6p/DmEUB4WnYP0vqHn7VOjFs4RYjHz1eprmV7PlZrS8JPEwtOiNs05iI1kH6buECpBGSVWZdgHfOTxImWVfeoyuXCZY3qAlK4murygKVpXSWm1+ydGk4u48bDptBcUtWgTBUHCpQS8tX1vrpAPA3PRQGFUZ4oamFmh4x8CZPcKVL2Fbx+7NzP4IV/kmUeII/QxYBNIbno85RZQAegNGEwkm/0NPOKnZwEbNgif66rmkj+ymHr674lnW5eWQWH3NNI2Le/hXceol+KI4vwJaZNAL0YzodugGRP+PcNLKq7dZyQHBYKWnjOsQH24K0ykSX8IF+rOUtaypKveQtvGVoOM3jBotY+JJYCel5+BaZz8ze7fXhQ==
+	i8ZsSrA6a1pr8/I0pU3jzgmHIgi68RbhYKdleBas37kzpcJkcI1rknHoWDsIBjb9DGruqIHvsJbIFKzjPtN5VpIg+BMLsTVaQ5n1tzSmVLqXbTw8VuX1AjNPit8ISVm90cMI3kRad01VabMNAGJftnmQr5zKM2Kh7Tt9qjQ/ihbBznxViHICqOn4OF3LCKzYpdI/9HP2zDpr0jjxWmgx6d+Lp3BOy8DZJF7e6KdmXKVjqI17lI9wsKcWhqMBswTFB5JxHwYIDT7w74u8PDj8tbSa5+/tbDEBUSL8D4/HZvMhPP4VBaWNcqvtImlYpo4oVFwFDSrshXnWIpe5/949ePwHCcqxfdjD3OV51nj35zq/HAoTMSe/T9lXNryCygcqrAjsi1jNaxUl7//eN7+ZDs8G43mSVmn0dhF6o7FTcEfSm3itvr/or904q722hPAXMb/JW+Mi89qL5BklYNx+nD3cs3Pncv5IrjfAptvKjO8FtjUjAxBx9QC4DC8OJXYkR3lkeXO4W39MwFdD78iquz6RL7zZwc40hrFUcut6rsy5Y1LOSDBZaeb+McEI9sN+Snnd1rT47juNYCZ2fxeECF8RjzMWiFcDQse4qocem4hl1PrM+Y/DkJfQHMZzZnwhpZChykI/2ilA607m8QoFFJhEDrggLYphihfZADxePmHFvpxhwonQedp5TCcCITAEcc5/k8IpWY3j4407enaLJA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6560.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(7416014)(56012099006)(11063799006)(10067099003)(55112099003)(18002099003)(22082099003)(3023799007)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6560.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(7416014)(56012099006)(11063799006)(10067099003)(6133799003)(55112099003)(18002099003)(3023799007)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?K2YWiRU1dPpofvxnS9UUjZC9C8xtjHPVhqcMaPtEV7PQQjGsdYQEeujtbQVn?=
- =?us-ascii?Q?WHw+XnJVfYnhDzjxgzuO+ik0nXvbxrFN6NXDJgt3tauXpjIk8OVucg/Jt5GG?=
- =?us-ascii?Q?fxt/qEC1OgATwkhIVm6WCkma5Zx/HWukuFluDYgf/ZpOJAgA42MpfL//FRC1?=
- =?us-ascii?Q?eybo33cLTxSA3LZDeZv6XigIRPPov2ztkUzxyYFLx4y6XF1yLyr51LhNYF6C?=
- =?us-ascii?Q?Yw8T1DoWyR3f9hSsE2Zp1KaVDBtIiNoa5bnS7kySfmRM3N/Dos6icKLx/Hvx?=
- =?us-ascii?Q?1vBAl3Q5SAoDI6z+MKdX7TCTZ4rKJHNKrBvJZ4S8xfMnNX6oiatNhPXjDSqG?=
- =?us-ascii?Q?Jo5VKhOTf4hzmcZGqOKbr2HNcGjzUqZ/pXvYc2leq2IXtnfnZpkZG0KTh9IW?=
- =?us-ascii?Q?JN885/OcXp6MQAt8f9Loqob+j2IrOp6KRj94wkjgJoo47jrLjvFB0O7FX8wk?=
- =?us-ascii?Q?5Z4PyANWW7AmKBAIXZhqPt/PcYoKPs+yBof/IS6d/hkBo8HISFAqGb2cJmU2?=
- =?us-ascii?Q?QT+LT17nz3zXv4r7PSawqQCa9XMg9LIiSl3hviGQNrFQBLrXczdjAzKZoeyZ?=
- =?us-ascii?Q?iqb2fySnM+Vqnf4wG/IGCsRiZw3vm6yEVOS63jToXxxSYHifJJTAJzx1iJPp?=
- =?us-ascii?Q?x3r0EsREda1KxM8dKy2NbdhFn4IMgo91J3Fz/qCKvMlM2Nro2Mg6UMWxM3VU?=
- =?us-ascii?Q?/di6ydgAU+WULSDHdi0OmyIwH3HrVcJBVQYRm/e4QFZrH/Cb156F6YCU1aST?=
- =?us-ascii?Q?IVfdb0ieZw/fIvYndsCyTamSZRevGN9XMUZhrm3fx38y3oC2P6x427BIUCjH?=
- =?us-ascii?Q?F1Xtyjoidu+GN8khGLAwsSqyudkzKZo2xMCJLr65qWLgD3GN7nnD3nMXYEJZ?=
- =?us-ascii?Q?5n1zn1YVy5uIJv8B3ccql0StLgxd1og591OUNbKc9+UqATRsqOVf6DXrRxd+?=
- =?us-ascii?Q?9JbembF7PHM0oa7M4ljqzXwPNCyye/INNJdZeZcc8kUhmo+CyjtWjT/ugKRl?=
- =?us-ascii?Q?OwF54I17ZHdRwQeh5HMp22koDpcRNo9FioDxKJ3kMX50sKVEov/5dAc0qMK8?=
- =?us-ascii?Q?ZfvZvpd9y6Z2WWZUFX6NgA6vvOK7It4jwJmzsy2xbK+EmRnqQYjMSdiQ1JQf?=
- =?us-ascii?Q?owYYeB1ygm4zpt3HBweKm5Qq3qoGWXy4u2D+y7C6FjcqMu+9pOiE7fyooTFQ?=
- =?us-ascii?Q?d6w2ttd3ei164Na3a4bbwS3Xr+BJ3sFT7oiM4SV7B2V8hsTaUPLPGs+YLGdz?=
- =?us-ascii?Q?3mwAOvFddD6SH2z5tejczQ+zI4bg742ovif0DvMkXmFMkXSbP9epb9MIJuB/?=
- =?us-ascii?Q?bdHhJSrL6uGUdnUSoBUdacvPMayZ5G677viwhleamaTXYAMFiT45SlDAb3b+?=
- =?us-ascii?Q?Imvyn1mGkMNXNZVOtbWnI99TS4bvL6xCP80auTeDR68WPsFVdUDqSQVy4q7j?=
- =?us-ascii?Q?5+KrIoix4OLZHVOO9RJeCN9LZ2nFgvVOvjJai5U+OhNqBmfR3w/gYj/4NcE2?=
- =?us-ascii?Q?OqOeCIMTNuqGd3NkLviLaQHm3P9d3BMl6CGNKkQ1aDHCj2XR7bN0jPWqCSEJ?=
- =?us-ascii?Q?N7ct7Dn/DF2u2YEogfRS2ZthAKBkMEFuXFnRlHMCWpDiYJu/4shfXcAlv7Jq?=
- =?us-ascii?Q?Zkql3Duv2HaRfoWAYGGvNqyH3yEgRhsPEdrq+uAs6SEms2cw2DS8zzuNvK+d?=
- =?us-ascii?Q?K6Qfn0We5mbi+rFroetqxktz24Lrsdlaf6seeOyUlRRV1DOUPpKPmGs9jKo5?=
- =?us-ascii?Q?UxTLhQCcbQ2EqMiyohBR0RO++k77lXA=3D?=
+	=?us-ascii?Q?BsWR5kYiwhUmw5kMnkIl44XtjihPlr2/05p+R4gDlmKSMHlCc6qqFy+GmTBI?=
+ =?us-ascii?Q?fPggIdyiYej/tLAZB8XA5/cWxZg4FxO+70zWy5Bo63AHGtp62pMzx/EV4WAa?=
+ =?us-ascii?Q?v6PKP4cZJ2sjK5vk6BY/mTAc9UUVia4ZRcCzmVR52AQ7Zgcdq9CyElxX4Y0n?=
+ =?us-ascii?Q?hSfLQ8UtHvupVBOsKuJLwdLgpJV7e/2/6hCnf3HeKZfAeyHej1myqcfkWqnX?=
+ =?us-ascii?Q?bnFVF9DRGGNT0ZA3l/ca8R8SqWaHENoAXtDgN5EaUDY71DcdhDTEf/gdxe+w?=
+ =?us-ascii?Q?TCJxUrZOZXlvjxDlLFNS706u7dNwzpKMl57XD1QBsCkgWS0OxYsZA57bcl9B?=
+ =?us-ascii?Q?/HXb5IUgNL/6/TtsoihsVhttHziBJvYy2Y9qmGuhYsmOtmdKK551KcMDZovv?=
+ =?us-ascii?Q?IZNLBUahlmke03DqTQz3q0YMROyGykOne7x6a2dit805MD66vAwQ7ufxLuc5?=
+ =?us-ascii?Q?avhvo/jwE8UoDwuABNKBr7BZLGfz9tLaPN9qC4xnLgrNVr5E8bbXegwIvwq/?=
+ =?us-ascii?Q?4toz7yXhIuHfnsDqqMm2FmWB4Jr381GSx/ZQUR0gIWXo4pzwV/lk2ZzzKPRq?=
+ =?us-ascii?Q?6LneCO0HZQfxdE7l9nxjz7AbFBAvIsg0Vi6bLkirFYj4KD2noHoKgJRDqmUc?=
+ =?us-ascii?Q?zpGij7LHyNUjdiHQAAyrdOmJyjRI80LG7U5yv4LqeSjXNN37VX0rb4+SyZU4?=
+ =?us-ascii?Q?26ySFjXKraF6Z3lD8QM2Tah6aNZaFgiqF3NvNWbeQYij69cA6VbKCFK0wd8w?=
+ =?us-ascii?Q?9jmwxQSkS9DHzG3Z/jXFFJWViUIz9RupooboUzbD4zpwbArDeDbZVtNfIrHo?=
+ =?us-ascii?Q?hRKoiE+qzh+Iq8HZf8GoRneQ0dxl094lKYV5Gla6zFhXi+8NVYed1MneWqTf?=
+ =?us-ascii?Q?EDRKmRSqinqQ7Zu3Z1hWKHWak94X/kKtElNu/AFyTpv1M9BqMMxH/J8nI1tf?=
+ =?us-ascii?Q?HEYMwsTY/bBHspJe1ipOy9qtuAclQKMqqa7uObYsuvVfBZrQBUJ45nQAjrTW?=
+ =?us-ascii?Q?u5TOfKA7lPst81jf8Qxs5leHPF1rDT91Kyx/x6lDME4VX6Zn2rB63wkpZ7qh?=
+ =?us-ascii?Q?JGHlBFrR6MVC5z31oeII/3inHPrPMCjPO1Rz6A8ESICKFyaZvzoyyS3Zpccj?=
+ =?us-ascii?Q?6QCM0O5uRY44O7ujTqG2ieKXg3GMFVU6aydSUdExHtd91ZSaVP6tkhFn8Zyv?=
+ =?us-ascii?Q?cGqCd1sKtWlEYmU/p9YAjPQhqt6NF1D9a9uSJBOhE0WZvRos2Ps1juDQTgs3?=
+ =?us-ascii?Q?yvGSvX1j6SAU27kOGqb+ppUxgc1vs2entnbddZjjDgZwCBGAq+bWRyzq7msy?=
+ =?us-ascii?Q?/xveVntT/U5ckBeacYzv1Or9ygTyLzDEcQWxhlRZvvJVIXfwq48slEv04rkv?=
+ =?us-ascii?Q?hChdolXLqLNtxZb9lTFKt71f6PyzMRYGkeRGXtfbTRKVarLMI95YKKTc7/VO?=
+ =?us-ascii?Q?4yuYVG5Q1fniizYea0CB+zXS/1WtanedzMoNbcy/Ddg+8g8R5MaAh7bcWqdL?=
+ =?us-ascii?Q?7SxE3YGMjxKSsXovTp23iQGkxhQlQ0WDXtvOr1SVzqbIBbOuu2AEkk+l5TLU?=
+ =?us-ascii?Q?vrmddnh31BJXnXn9An4NfVC9kND6AwF0w47g13cho+p8iQIU+eqtIdmPYtbu?=
+ =?us-ascii?Q?ZKdYo8lRTqBl1qYaCxSeV/8fvtnyPeMOsw5PP9dW1AX5VabBsRliyfzXUMvA?=
+ =?us-ascii?Q?+JkatlGLJNNTFUjC7Q7ZIwCmfBKPIZ5VT7njUhm3hnDY1jQ/N49giRxBPUlK?=
+ =?us-ascii?Q?KXDjkYPkxm9DqthgmdJkMCzdqHFif8c=3D?=
 X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7678a10d-be3a-412e-8c85-08deee593412
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0ec802e-b5f4-4614-15db-08deee593389
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6560.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2026 16:40:02.7449
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2026 16:40:01.8318
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xbvxXK1MJl9DAobsmCxmUDBL0LbzsTGaTl667+mSFQsWEEsBmdal9Cw6Jbcb2pw1KBH7i7Xkak4NSVOAByVmMmwnAFuiqe68pl+t9nhWZeU=
+X-MS-Exchange-CrossTenant-UserPrincipalName: EzQB2pJ9UlzlsIsit0Ssa2L1tSukPZqkXnrQcew+S1PBnBLT5Wj+q9Itd89SEoeTSIZpDHNOOPI1wOoIAE+r/257sPBTArC1YDdDkYEqw+Y=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR03MB7267
 
 From: Hang Suan Wang <hang.suan.wang@altera.com>
 
-Increase args array from 3 to 6, for the SDOS encryption to call smc
-call which is used for args to be passed via registers and not
-physically mapped buffer.
+This series adds support for the Altera SoCFPGA Crypto Service (FCS), the
+runtime cryptographic interface provided by the Secure Device Manager
+(SDM). The SDM is the hardware security controller in Altera SoCFPGA
+devices. It acts as the root-of-trust device and controls access to
+built-in cryptographic hardware such as AES, SHA, a true random number
+generator, and Intel PUF. The SDM is responsible for security-critical
+functions including secure boot, FPGA bitstream authentication and optional
+decryption, remote system update, and runtime crypto services. On the HPS
+side, software reaches the SDM through a mailbox interface exposed in Linux
+via the stratix10-svc layer, which uses Arm Trusted Firmware SIP SMC calls
+underneath.
 
-Signed-off-by: Hang Suan Wang <hang.suan.wang@altera.com>
+The FPGA Crypto Service (FCS) is the runtime crypto interface provided by
+the SDM. It covers services such as random number generation, AES
+operations, HMAC/SHA, key management, attestation, and related security
+functions.
+
+This series implements one FCS feature: the Secure Data Object Service
+(SDOS), which protects sensitive data at rest. With SDOS the SDM encrypts
+and decrypts data using a key derived from a device-unique root key that
+never leaves the secure boundary, plus an SDM-generated IV. The host never
+handles raw key material or IVs: it supplies plaintext and receives an
+authenticated ciphertext object (and vice versa for decryption). A primary
+use case is black key provisioning, where operational keys are installed in
+protected form without ever being exposed in cleartext.
+
+The driver reaches the SDM through the existing stratix10-svc mailbox using
+the Arm Trusted Firmware SIP SMC transport. Data buffers are allocated from
+the service-layer memory pool, which provides physically-contiguous memory
+whose physical address is handed to the SDM.
+
+The series is organized as follows:
+ - Patch 1 (prerequisite) enlarges the stratix10-svc SMC argument array so
+   the asynchronous FCS SDOS command can pass its full set of parameters.
+
+ - Patch 2 extends the stratix10-svc service layer with the FCS command
+   codes and matching SIP SMC function IDs, adds the Agilex 5
+   (intel,agilex5-svc) match, and registers a "stratix10-fcs" platform
+   device that an FCS client driver binds to.
+
+ - Patch 3 adds the FCS firmware driver implementing SDOS encrypt/decrypt,
+   exposed via an ioctl character device (/dev/socfpga_fcs); the crypto
+   session is opened and closed internally and is not part of the user ABI.
+   Thus, patches 1 and 2 must be applied first.
+
+Testing:
+ - Built for arm64 (defconfig + CONFIG_ALTERA_SOCFPGA_FCS=m).
+ - Tested on an Agilex 5 SoC FPGA board (SDOS root key provisioned).
+   SDOS encrypt/decrypt round-trip; the decrypted output matches the
+   original 32-byte plaintext:
+
+   root@agilex5e:~# hexdump -v -e '/1 "%02x "' secret.bin
+   da 21 01 c5 d1 72 85 4b e7 1f 72 8f 60 68 f0 c9
+   33 08 9e c1 9d 69 4a 54 61 0a f6 90 58 44 c8 17
+
+   root@agilex5e:~# ./fcs_client -E -i secret.bin -o enc.bin -d 0x1234 -r
+                    0xabcd -n 0
+   root@agilex5e:~# ./fcs_client -D -i enc.bin -o sdos_decrypt.bin -n 0
+
+   root@agilex5e:~# hexdump -v -e '/1 "%02x "' sdos_decrypt.bin
+   da 21 01 c5 d1 72 85 4b e7 1f 72 8f 60 68 f0 c9
+   33 08 9e c1 9d 69 4a 54 61 0a f6 90 58 44 c8 17
 ---
- drivers/firmware/stratix10-svc.c                    | 6 ++++--
- include/linux/firmware/intel/stratix10-svc-client.h | 2 +-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+Changes since v2:
+socfpga-fcs (front-end):
+ - Replace the sysfs store interface with an ioctl character device
+   (/dev/socfpga_fcs) using a fixed-width UAPI struct and
+   compat_ptr_ioctl(), fixing the KASAN out-of-bounds read and the
+   32-bit incompatibility of casting the sysfs buffer as a pointer.
+ - Add include/uapi/misc/socfpga-fcs-crypto.h and register the ioctl
+   magic in Documentation/userspace-api/ioctl/ioctl-number.rst.
+ - Add a .release handler so a session is torn down if the owning fd
+   is closed (including on crash).
+socfpga-fcs (core):
+ - Manage the crypto session internally: SDOS opens and closes its own
+   session; reject a concurrent open with -EBUSY. Removes the
+   user-visible open/close-session interface and session UUID, fixing
+   the session-exhaustion/DoS concern.
+ - Harden the async poll loop: keep polling until the deadline and
+   always call stratix10_svc_async_done(), fixing the teardown
+   use-after-free from the previous -EINPROGRESS early-return and the
+   needless full-timeout block.
+ - Clear receive_cb only on the synchronous send-error path so a late
+   firmware response cannot deref a NULL callback.
+ - Set priv = NULL on all fcs_init() error paths so a later probe is
+   not permanently rejected with -EBUSY.
+ - Read the SDOS owner ID with get_unaligned_le64() for correct
+   little-endian handling on big-endian hosts.
+stratix10-svc:
+ - Enlarge the SMC arguments array so the async SDOS command can
+   pass its full parameter set (through a11).
+ - In remove(), unregister the child devices before
+   stratix10_svc_async_exit() so async_poll() cannot race a freed
+   handle.
 
-diff --git a/drivers/firmware/stratix10-svc.c b/drivers/firmware/stratix10-svc.c
-index 5e20057ee344..d389be1c6690 100644
---- a/drivers/firmware/stratix10-svc.c
-+++ b/drivers/firmware/stratix10-svc.c
-@@ -169,7 +169,7 @@ struct stratix10_svc_data {
- 	size_t size_output;
- 	u32 command;
- 	u32 flag;
--	u64 arg[3];
-+	u64 arg[6];
- };
- 
- /**
-@@ -1797,7 +1797,9 @@ int stratix10_svc_send(struct stratix10_svc_chan *chan, void *msg)
- 	p_data->arg[0] = p_msg->arg[0];
- 	p_data->arg[1] = p_msg->arg[1];
- 	p_data->arg[2] = p_msg->arg[2];
--	p_data->size = p_msg->payload_length;
-+	p_data->arg[3] = p_msg->arg[3];
-+	p_data->arg[4] = p_msg->arg[4];
-+	p_data->arg[5] = p_msg->arg[5];
- 	p_data->chan = chan;
- 	pr_debug("%s: %s: put to FIFO pa=0x%016x, cmd=%x, size=%u\n",
- 		 __func__,
-diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
-index 3edd93502bf8..190d89d602e9 100644
---- a/include/linux/firmware/intel/stratix10-svc-client.h
-+++ b/include/linux/firmware/intel/stratix10-svc-client.h
-@@ -210,7 +210,7 @@ struct stratix10_svc_client_msg {
- 	void *payload_output;
- 	size_t payload_length_output;
- 	enum stratix10_svc_command_code command;
--	u64 arg[3];
-+	u64 arg[6];
- };
- 
- /**
+---
+Changes since v1:
+stratix10-svc:
+ - Forward result registers (kaddr1) for OPEN_SESSION and SDOS_DATA_EXT
+   so session ID / output length reach the client.
+socfpga-fcs (front-end):
+ - Publish sysfs via driver.dev_groups on the platform device instead of
+   a raw kobject under /sys/kernel; callbacks now get a struct device.
+socfpga-fcs (core):
+ - Convert completion timeouts with msecs_to_jiffies(); drop TIMEOUT.
+ - On SDM-busy timeout (-EAGAIN), abort without async_done() (no id
+   reuse) and return -EINPROGRESS.
+ - SDOS: on in-flight abort, leak s_buf/d_buf instead of freeing to
+   avoid corruption from late firmware DMA.
+ - Validate the caller UUID early in fcs_sdos_crypt().
+ - Enforce single instance: -EBUSY in fcs_init() and priv NULL-guard in
+   fcs_acquire_cmd_ctx().
+ - Drop the always-zero platform attribute and fcs_get_platform().
+ - Set/clear receive_cb only around the synchronous send.
+ - Use device-lifetime priv->completion for the async path (was on-stack).
+ - Use the local ctx snapshot consistently in fcs_sdos_crypt() and
+   fcs_session_close().
+ - Point sdos.dst_size at priv->sdos_output_size, not a stack variable.
+socfpga-fcs.h:
+ - Drop platform/AGILEX5_PLAT; add sdos_output_size.
+---
+
+Hang Suan Wang (3):
+  firmware: stratix10-svc: increase args array
+  firmware: stratix10-svc: add FCS crypto-service commands for Agilex 5
+  firmware: socfpga-fcs: add Altera SoCFPGA FCS driver with SDOS
+
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ MAINTAINERS                                   |   9 +
+ drivers/firmware/Kconfig                      |  17 +
+ drivers/firmware/Makefile                     |   2 +
+ drivers/firmware/socfpga-fcs-core.c           | 660 ++++++++++++++++++
+ drivers/firmware/socfpga-fcs.c                | 227 ++++++
+ drivers/firmware/stratix10-svc.c              |  64 +-
+ include/linux/firmware/intel/socfpga-fcs.h    | 126 ++++
+ include/linux/firmware/intel/stratix10-smc.h  |  64 ++
+ .../firmware/intel/stratix10-svc-client.h     |  18 +-
+ include/uapi/misc/socfpga-fcs-crypto.h        |  29 +
+ 11 files changed, 1210 insertions(+), 7 deletions(-)
+ create mode 100644 drivers/firmware/socfpga-fcs-core.c
+ create mode 100644 drivers/firmware/socfpga-fcs.c
+ create mode 100644 include/linux/firmware/intel/socfpga-fcs.h
+ create mode 100644 include/uapi/misc/socfpga-fcs-crypto.h
+
 -- 
 2.43.7
 
