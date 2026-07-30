@@ -1,163 +1,177 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518182E7F3A
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 03:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7FC36A340
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 04:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785381528; cv=none; b=Vu0SWqlhvVtOubaVdotMpcSkFwuqplbG/Q4FrECJsoAniqayx90clHKo2ZI80pKs6Tw2vH00artk0L+9FTlLG018RjsTpc/DCKjh4CWEIkt618PbOCdfz0lUk6rUbSUAVsbvD7KFaCWK/353qkup+g1yuC+0sE4LZmif4TK70cE=
+	t=1785384657; cv=none; b=ERFSeOsgrrdMqCRySEcT9p/wJhtiSFOBvNVXomaZjLSKWq8faMOLQXWlRkQQdIW7Zpp++X0tGqwtpbzfioyyfGVMORPGdUIq0BtQm7pSbMa0XfJqZt33x9GGktq5nMFD7tK3qDrcTlRWQZ/o6ukkUMo6+ZnFo+RtACSmxTJnjl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785381528; c=relaxed/simple;
-	bh=QGsL5XcLRkG0ICs0z52lc3ouSUItS9tQwOiL5nUOCTg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MaTlNunmmyeWE3Rc3U5rSvRcqsbCIiT6ByH0Lw99esC+jDqv4oD7J/Oqi8fGJUlVmYCnB8r3WrXKiQ/NIFR6dAx2hgN34JQhSaUyR1SBMV98zJvbDyx5pBIIPGTFwBpIFkHBdPLYODQSpT3tEz45fffzSUcj8IpKKULBXe/X5Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fVDKBlfE; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1785384657; c=relaxed/simple;
+	bh=o9LJiNvtIGBMr1fnVKFdWsEPNoJTtbW9SBfZdsvYUA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tGzU1kHFxuo3WhhXk1/ITuIT69Om68ULrtlANBrceu3hDPS/bN5EelVmkCFwRT/wcbV8VFVyVkzOP2hFxH+ODN2kdl6lGLm9E4rN695N2711ULcd+FkfFaGEFM6B/lY8MXsvHbxi+9iOvN4zlJyHAGkH+m8g8+o3ASSo4U5lK9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aa+XaCWn; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fVDKBlfE"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-472326ca506so1144346f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 20:18:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aa+XaCWn"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84e0688b859so1068163b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 21:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785381525; x=1785986325; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oeCxALKtqq227AX1dir59yqRYEb9BEUGkKZNdrRjOhE=;
-        b=fVDKBlfEBq7AMrypBkAdVmfFuV3cAV0um8PPR+1m9XrvDiiq7T8wkHdRVvYXLzE/sD
-         GSeuxJlVQcL9LmRuJqMLnOmeeefEB3LltK3ao0MJPdx0ETLG/oSCVvKBgPxtWO10YRbh
-         ZJuzdcoACMwk4+vjCzK13GR1ZoXTGv2py6KcXsfUKohlbETL2Pd7cVh4ZdY3eRLkt99I
-         r12+uMojU5/IsnMYCKBVwDELnq5wL7Bq1bTr+wiJ57N6CghWK/LE0k0VOK1BXZRAGf4w
-         ZemyNODfHLAkU8RDr5WpVyibJq22OAi6PGYcnahb/nRys1bvV47y9wbz5L0pdIgzwrRA
-         jblw==
+        d=gmail.com; s=20251104; t=1785384655; x=1785989455; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZIvCK7aTACMGHSTTgsCMHaoyEBoVoGt7XWGYwDfL/nQ=;
+        b=aa+XaCWnvZgvJmAR4L8ZN0rfvjvYT1NkRuXi4Q9vmjIhqooe6sc+IwySbaTdXMBDvL
+         R/PHTLIfFSJivD+EmTBIlqj53Kv1zi304xbMHuctpWooLtvoZKMqJcyLjX2B+pO5UGUH
+         pAX2bb88JyoxMF4NGVc3XUxN9zt0wyAqarWosp1h8B+ETcaUUt5VbcydBTqhXnvMAjMm
+         wzg4Rb82xpbIZsI856dIEHJ2ZEv9+vVJrP9R9BhM7kSz96ODcdf045MGKm5Fq6G6qF83
+         HolGeFz2IusLTv6UelJfAPkCRezWFP41Ul9Fyxmot/Ootd+hX11CzyCbgSJfGSypJTmc
+         rikQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785381525; x=1785986325;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oeCxALKtqq227AX1dir59yqRYEb9BEUGkKZNdrRjOhE=;
-        b=MAlbJMl33VKCzDgzyyB80+UgDSz56RnvXZwuZ6YXlLwXX/Z93bdYHDNOu9/JTn0xOF
-         eimmqmW+7dSS5LgZ17xCNg9iw6MNxB7pAtH1Jv1fF226hlE2gLWXctSltFWmTcdWnTKk
-         5LGaGvy0kvOuCLJRPf+eKNsaYtDWAPj0S6M1OCAIVZCKwzBzSf7NoHs8ev13Yq/y1bHR
-         BjQ60EZezE55gvTegwXZa8nTy7a4nYLL+PC/1XiP76LS0rIKuPgB08gzkVUyrLgANlxI
-         fUWiEiK0DyZDBef6i0qnkp2WQM95BLf2j2FHSVU4lj3AGl4KmnsN6REienCTNjTfrRRN
-         c7IQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpkGQCvQ6r1jgo9yb9L3SzBEUfIDsXE+7Ka0UCnhQh9Y7buD8hN5Ijmry15KR8yhV6aZ8GvfWtJhFY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzt3fxN8xVxQN3XUjgalcP/LcQOojl5a4fm++VbQhb3xYbHLh54
-	CuLX4Owc6NB5JPB6lyZjV/DYA3KEnQHGqC9vl/lIlosULA8a6AoncYFM
-X-Gm-Gg: AR+sD12ZSqc2duxY6Of8pk0/FXgQCvj6lllX9z4ieUnYrsXc3P/ZQUHKF3V/x+oQ9Iu
-	WW6ZtGSn8+mFbguMLEHfpBoC758DlUSyG07kWkzdF15lcUOuocH6kNKe3/o8nvxmZuL+wMxVw/v
-	ltle3OM7i/ajNmVFRTONzi43mkXY2Tr6d0HMRfnoR6iXZ6wtSJVIhPJQEEzDlziui+IfpJQx/Ou
-	/30dkzINuMF0c29rXMlJ33m8K8deUeNvLOmNhTNATQKlTeFXAFl2nEo+HzqHOEF8RpFVmANO8G3
-	M74pSEiQDxybbgCi6aODKI0np0W/lJmF+BzQLIVsdy3idQDyzAlIA8DnKNHI3XVJ/UTSExL1mWR
-	h7vsNoHTvOdD7W8mq1soh2VAfXwQNK6WFN+kyiV7t5t9YSFQ5SWZSzaXzMZbN23dZiSgTlmtdpM
-	BYoLQd2P6afTVn6QpOWufldfpg4FtuKXzqPpo9QQi15Xdt7tTCCbU1SfXvQEdIujrFuuC55KkXx
-	JJu
-X-Received: by 2002:a05:600c:1553:b0:497:ff4c:246 with SMTP id 5b1f17b1804b1-49800e8666dmr8659875e9.16.1785381525528;
-        Wed, 29 Jul 2026 20:18:45 -0700 (PDT)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fc893fe58sm3015590f8f.31.2026.07.29.20.18.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 20:18:44 -0700 (PDT)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: [PATCH] docs/scheduler: fix EEVDF-related inaccuracies in the scheduler docs
-Date: Thu, 30 Jul 2026 11:18:33 +0800
-Message-ID: <20260730031833.2228115-1-zhanxusheng1024@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1785384655; x=1785989455;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ZIvCK7aTACMGHSTTgsCMHaoyEBoVoGt7XWGYwDfL/nQ=;
+        b=mYjYsN682kDnIRgegXYuEu+2KgVEOKYBWx8q0Mhu1aZNm6YddCN1Mmwt1nXCcJwq81
+         4i8+1Sz8dmLS3919KwsijfkkOfTOm64qntGJzUmBWLrBe8X/ygr5sjRB/S2faLcT/aCn
+         ayJFTUw/VxZZj4Qt/KkHxLyMPFr4tHjEfp5qeyWLlsPnKKU/xlZNyywqGwRElSIYdYmt
+         4s5B2f006NDHv5+yAJCu64rNESJhSrPofpKzWn0kyRXFZdJd8q7k62T4NZKkOgRfsFLz
+         7zvvsF9ZzhyUkL9RJwsHz5yA86+s3PTT1WmAJXxuziMGGlIjXuoErJQENhmThDczGp1o
+         ujdQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoG+NqQfHCPXScyz1I3HSg9xYQUDmrFqlLsnCAExVvdHlkReA63XLJwTYiO4DlOqDorr1Vf06Wr7KE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxjf3xNpvhAH56lNljReRtL5CfZKTFphnde+L8UNc7GQ5Mw6LJw
+	uyzdV4RLXP87gPbMxAjDUP+XyznPtV3BnSOeHPC3VOMyMtbybEFqWZHt
+X-Gm-Gg: AR+sD12Fllj0DLClMDJlOYX4Bot3JTIs7oG38b/Nsb1aGVbDDVxFogJWnbu3W+AfGY/
+	g6HWJn6IlDmm/pXHUXVjYRsMC9kYCzqs2M6nAVMGpgKcYHkux4nhtGuDzjQSCqoYexpNRL4jaKn
+	H6T9pkiMhTgie6kyW+t6lc3UnXaenmVOW8IJlbJ5zzZY1UbTM19h/X/PXqCavO91eL70OcFngAD
+	gjXZcrCgVns5qnsotKAb+Avt1/QXyIZLU0o+rnUtf2SP9BI6nT12roLVrVhsO1WcEAn3d/7LYkt
+	9njcEQVxo75W8jJ3zbNax3LhugkqTZIED4gcXKZ7seDW6+ByxIUvei7nNUjsi4QXDWfmfbto/ub
+	dtHesz17kwIboRo1xO48uciHpPl2fJDSWsutcIA7wFnuTv4X6qI8FJvTh8BjJE2j/JWIFj1nynl
+	2kNizb0LGzvlC8+RbVd2Xd5PlrCLaNFMNR6TfHpaPH1chEBbMbFoLGVA8AtzgQQwsmFE3O9pqCr
+	NAxjWb8SIX4wMDJVSXEIyUpIh/GsSQWviQ5QRY=
+X-Received: by 2002:a05:6a00:1791:b0:848:827b:70f8 with SMTP id d2e1a72fcca58-84ebc408bc0mr1070919b3a.67.1785384654972;
+        Wed, 29 Jul 2026 21:10:54 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbdba3520ccsm1673604a12.19.2026.07.29.21.10.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 21:10:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <44db442e-95c8-47f0-92b6-81279710ff33@roeck-us.net>
+Date: Wed, 29 Jul 2026 21:10:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/4] dt-bindings: hwmon: pmbus: add MPS MPQ8646
+To: vjardin@free.fr, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Charles Hsu <ythsu0511@gmail.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260729-mpq8646_v0-v6-0-98848151cdb4@free.fr>
+ <20260729-mpq8646_v0-v6-2-98848151cdb4@free.fr>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260729-mpq8646_v0-v6-2-98848151cdb4@free.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+On 7/29/26 14:51, Vincent Jardin via B4 Relay wrote:
+> From: Vincent Jardin <vjardin@free.fr>
+> 
+> The MPS MPQ8646 PMBus step-down converter uses the same
+> mps,vout-fb-divider-ratio-permille property with the same constraints
+> (maximum 2047, default 706) as the mps,mpq8785, so add its compatible
+> to the existing schema.
+> 
 
-While checking the scheduler documentation against the current code I
-found a few inaccuracies:
+The driver is a separate driver, making this a bit unusual.
+I'll leave it up to the devicetree maintainers to decide if
+this should be a new bindings file or not.
 
- - sched-design-CFS.rst still describes the fair class as always running
-   the smallest-vruntime ("leftmost") task and references the
-   rq->cfs.min_vruntime field.  Since commit 147f3efaa241 ("sched/fair:
-   Implement an EEVDF-like scheduling policy") in Linux 6.6 the fair class
-   implements EEVDF -- pick_eevdf() selects the eligible task (lag >= 0)
-   with the earliest virtual deadline -- and the runqueue's zero-lag
-   reference is now cfs_rq->zero_vruntime (the min_vruntime field is gone).
-   Add a note that sections 2 and 3 describe the original CFS design and
-   no longer match the code, rather than rewriting the historical text.
+Guenter
 
- - sched-eevdf.rst said Linux 6.6 was released in 2024 (it was 2023) and
-   described the per-task slice request as "the new sched_setattr() system
-   call".  sched_setattr() has existed since Linux 3.14; the slice is
-   carried in the sched_attr::sched_runtime field.  Fix both.
-
-No code changes.
-
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
----
- Documentation/scheduler/sched-design-CFS.rst | 10 ++++++++++
- Documentation/scheduler/sched-eevdf.rst      |  7 ++++---
- 2 files changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
-index 03998f6c8f9c..55163506407b 100644
---- a/Documentation/scheduler/sched-design-CFS.rst
-+++ b/Documentation/scheduler/sched-design-CFS.rst
-@@ -15,6 +15,16 @@ scheduler's SCHED_OTHER interactivity code. Nowadays, CFS is making room
- for EEVDF, for which documentation can be found in
- Documentation/scheduler/sched-eevdf.rst.
- 
-+.. note::
-+
-+   Since Linux 6.6 the fair scheduling class implements EEVDF rather than
-+   the original CFS algorithm.  The task selection and placement described
-+   in sections 2 and 3 below (running the smallest-vruntime / "leftmost"
-+   task, and the ``rq->cfs.min_vruntime`` field) describe the original CFS
-+   design and no longer match the code: EEVDF picks the *eligible* task
-+   with the earliest virtual deadline, and the runqueue's zero-lag
-+   reference is now tracked in ``cfs_rq->zero_vruntime``.
-+
- 80% of CFS's design can be summed up in a single sentence: CFS basically models
- an "ideal, precise multi-tasking CPU" on real hardware.
- 
-diff --git a/Documentation/scheduler/sched-eevdf.rst b/Documentation/scheduler/sched-eevdf.rst
-index 83efe7c0a30d..e3d62de004c6 100644
---- a/Documentation/scheduler/sched-eevdf.rst
-+++ b/Documentation/scheduler/sched-eevdf.rst
-@@ -4,7 +4,7 @@ EEVDF Scheduler
- 
- The "Earliest Eligible Virtual Deadline First" (EEVDF) was first introduced
- in a scientific publication in 1995 [1]. The Linux kernel began
--transitioning to EEVDF in version 6.6 (as a new option in 2024), moving
-+transitioning to EEVDF in version 6.6 (released in 2023), moving
- away from the earlier Completely Fair Scheduler (CFS) in favor of a version
- of EEVDF proposed by Peter Zijlstra in 2023 [2-4]. More information
- regarding CFS can be found in
-@@ -28,8 +28,9 @@ by sleeping briefly to reset their negative lag: when a task sleeps, it
- remains on the run queue but marked for "deferred dequeue," allowing its
- lag to decay over VRT. Hence, long-sleeping tasks eventually have their lag
- reset. Finally, tasks can preempt others if their VD is earlier, and tasks
--can request specific time slices using the new sched_setattr() system call,
--which further facilitates the job of latency-sensitive applications.
-+can request specific time slices via the ``sched_runtime`` field of the
-+sched_setattr() system call, which further facilitates the job of
-+latency-sensitive applications.
- 
- REFERENCES
- ==========
--- 
-2.43.0
+> Signed-off-by: Vincent Jardin <vjardin@free.fr>
+> ---
+>   Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
+> index 90970a0433e9..d7a32fb3b7af 100644
+> --- a/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
+> @@ -18,6 +18,7 @@ properties:
+>         - mps,mpm3695
+>         - mps,mpm3695-25
+>         - mps,mpm82504
+> +      - mps,mpq8646
+>         - mps,mpq8785
+>   
+>     reg:
+> @@ -52,7 +53,9 @@ allOf:
+>     - if:
+>         properties:
+>           compatible:
+> -          const: mps,mpq8785
+> +          enum:
+> +            - mps,mpq8646
+> +            - mps,mpq8785
+>       then:
+>         properties:
+>           mps,vout-fb-divider-ratio-permille:
+> 
 
