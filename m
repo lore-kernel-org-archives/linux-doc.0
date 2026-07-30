@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AB739446B;
-	Thu, 30 Jul 2026 21:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ACC3264F1;
+	Thu, 30 Jul 2026 21:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785445888; cv=none; b=fpAmMyrDsf8lZnHu+N2R85gjtFptOLii9LhAoHKvgm1ed79QLPRhT4iLvx7N0EBXcofEDsbSrAXGJii1XH8oMDpbS/9/SzGOAapb5BRC78pTmaNEvjVMxf8qKMMUUiE7wj+A/v9I4H3svJjcYW3dWjWNKXrt7LnxV6ePlide+L4=
+	t=1785447001; cv=none; b=rgSZjvgpMKOVXAulBXfE19A5yL9TpM54k6sOIDGabsN3H3HWGTR+hmBB36hFPTOWWQAVY6m05XVmeQu4d+/MPPC93LNjPyZXpPTCiZkuwha6OC7cn1pWlDThw3g6tFn5X9ZHw1q5omZjOlKuJo1y1gnJbKoQ+8l+humQL4D7Ezo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785445888; c=relaxed/simple;
-	bh=vguYnrv968SIFndWBxf3ttUcQ2HQUqM9AQgTLfM5au0=;
+	s=arc-20240116; t=1785447001; c=relaxed/simple;
+	bh=GkLFfAiUjew/JKSAjfg7zvVezyZXAnky/0wqk4cx/8Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q2RDoYq9jF85cczsOQKGEpmSiG3T9Ds8jJgNY15TC7WtOHT8dfKYPNqyX85xlSbSdPgrkrYidqJIliHknjE2AgSx6kT0j4IIoRaKIg/mqc5A3Mu1/ZxeaxUVoJ/fNCLwDfFvebHZTCkEDesQUvSOz8bpaPEa5ivGSQ3kUvnugxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4YiJRBOW; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=B9GDL0nbLGfQ7StVXfyJAiGOe548vLpO8Sq0HTAzt+OypAgiJT0FYeXnBAxXIVUFsfzx5HWHmWpsIqCmoWiR9uMd1Yg74ZZzDDInXCrHHTk0RIq+81Qmc7kYuUtDmG/P6wf2hCM+JAmOEWTK+LRSpRXwkpF2Q2Z6Bgmp0Cp173U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=URxRTSUW; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4YiJRBOW"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="URxRTSUW"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=09fcXTAgsKEUEyRixaZS58XnfkzLWLnI31Z4WuGsMbg=; b=4YiJRBOWtkIu9AD+Oc4ZCVzisI
-	ukmi0rpfrd/RjxDifadSDc9pdryFAwbqMpMJx2As0mleUhsCKNmnf43fHxJJebP+h7kypYIYv84hr
-	udbL+lF2KMcv5+jyn9khD9zLKVEolmx0TDeIHt8rWI4Z0sCkSSdpQm33XqsqGBzPuqWE=;
+	bh=B5axHUZyTZ+dZ8oS+he0haGxtMrwBrygnxKTL9ukhLg=; b=URxRTSUWJpGoXTekd7TUVnwwlX
+	BznA9QYR4/SGbXfkXjQc3HdrSJW4wxtZ3SgTIEA7PhELxlXAObsL9A1zGkmY8z36nF3xeJx9mjx95
+	mO8w5unCj7r0SXFee0iuj5uKAQZgP+C3uxYzJbxbPmmMOu84X3f2rVAKnh8lQK1kRs0A=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wpY26-00F40m-GW; Thu, 30 Jul 2026 23:11:14 +0200
-Date: Thu, 30 Jul 2026 23:11:14 +0200
+	id 1wpYK3-00F466-3F; Thu, 30 Jul 2026 23:29:47 +0200
+Date: Thu, 30 Jul 2026 23:29:47 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Daniel Golle <daniel@makrotopia.org>
 Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
@@ -37,11 +37,11 @@ Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/5] net: dsa: mxl862xx: add SMDIO clause-22
- register access
-Message-ID: <c7a20740-c34d-4812-8d36-09af7998cc35@lunn.ch>
+Subject: Re: [PATCH net-next v5 3/5] net: dsa: mxl862xx: add devlink
+ flash_update and info_get
+Message-ID: <14be7694-8ec7-40b9-8845-d93896ed822c@lunn.ch>
 References: <cover.1784945329.git.daniel@makrotopia.org>
- <4703e62868c862be4cef4933c7a7466310acee7a.1784945329.git.daniel@makrotopia.org>
+ <73a63f1d11658a041514f79ae177bfb93153d33a.1784945329.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,27 +50,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4703e62868c862be4cef4933c7a7466310acee7a.1784945329.git.daniel@makrotopia.org>
+In-Reply-To: <73a63f1d11658a041514f79ae177bfb93153d33a.1784945329.git.daniel@makrotopia.org>
 
-On Sat, Jul 25, 2026 at 03:16:03AM +0100, Daniel Golle wrote:
-> Add mxl862xx_smdio_read() and mxl862xx_smdio_write() for clause-22
-> SMDIO register access. The switch's MCUboot bootloader exposes only
-> clause-22 registers; the clause-45 MMD interface needs the running
-> firmware and is unavailable while the switch is in MCUboot. The MDIO
-> bus lock is held per-transaction (not across polls) so that SB PDI
-> polling during flash erase does not starve other non-switch users of
-> the same MDIO bus, such as separate PHYs providing WAN or management
-> interfaces.
-> 
-> Unlike mxl862xx_api_wrap(), which takes the bus lock with
-> MDIO_MUTEX_NESTED because it can be entered from the accessors of
-> the switch-internal MDIO bus while that bus's lock of the same lock
-> class is already held, the SMDIO helpers take it with a plain
-> mutex_lock(). They are only called from probe and devlink flash
-> contexts where no other MDIO bus lock can be held.
-> 
-> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> The switch leaves MCUboot on its own by booting the new image, but the
+> driver has no in-place path back, so it reinitialises with a full
+> device_reprobe() scheduled regardless of the transfer outcome -- after a
+> failure the switch is still in MCUboot and probe re-detects it. During
+> the teardown its API reads return -ENODEV and writes fake success, so it
+> neither stalls on the absent firmware nor consumes buffers it never
+> filled. The reprobe holds module and device references taken before the
+> switch was disturbed and runs from a heap work item, not a kernel
+> thread: remove() frees the devm-managed priv, and kthread_create() in
+> the devlink caller would return -EINTR on interrupt or trip the
+> hung-task watchdog while parked across the minute-long flash.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Just for my understanding....
 
-    Andrew
+The reprobe causes all the user point netdevs to be destroyed, and are
+then recreated?
+
+That seems like a good solution to the issue of all state information
+has been lost in the switch.
+
+> +static int mxl862xx_sb_pdi_poll_stat(struct mxl862xx_priv *priv, u16 expected,
+> +				     unsigned long timeout_ms)
+> +{
+> +	unsigned long timeout = jiffies + msecs_to_jiffies(timeout_ms);
+> +	int ret;
+> +
+> +	do {
+> +		ret = mxl862xx_smdio_read(priv, MXL862XX_SB_PDI_STAT);
+> +		if (ret < 0)
+> +			return ret;
+> +		if ((u16)ret == expected)
+> +			return 0;
+> +		usleep_range(10000, 11000);
+> +	} while (time_before(jiffies, timeout));
+> +
+> +	return -ETIMEDOUT;
+
+I suggest using iopoll.h. This code has the usual bug when rolling
+your own.
+
+> +/* Post-flash reprobe. Runs from a self-contained heap work (not a kthread and
+> + * not the devlink caller's context): kthread_create() in the caller context
+> + * fails -EINTR if the devlink command was Ctrl-C'd, and schedule_work() cannot.
+
+A English sentence should not finish with the word "cannot".
+
+> +	/* Failures from here on must go through end_magic so MCUboot
+> +	 * reboots instead of waiting forever.
+> +	 */
+> +	ret = mxl862xx_sb_pdi_poll_stat(priv, MXL862XX_SB_PDI_READY,
+> +					MXL862XX_FW_READY_TIMEOUT_MS);
+> +	if (ret) {
+> +		dev_err(&priv->mdiodev->dev,
+> +			"flash: bootloader not ready: %pe\n", ERR_PTR(ret));
+> +		return ret;
+
+What about the comment above? end_magic?
+
+     	   Andrew
