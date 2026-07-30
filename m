@@ -1,118 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C1F375AC3;
-	Thu, 30 Jul 2026 14:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903B544213B
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 14:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785422712; cv=none; b=NYTP7xn0RHIAnIpbtknwmosgrIXbtRO9GrPbnopX1Q7U8S1HllVLz5ZzRYa8c2GojxCi0dxM3UJ2iV9SQgu3UA8AJmkakDDZPCY2gq9WJj+LvOx/E7zGK6/7AE4XIiY2hikQwH7OWvCoiBTkmRlBh7ACdBsrlnoe/HwdpXqvsEw=
+	t=1785422862; cv=none; b=SnS4GERu6fRciJ06Gooip84fsr9isAXKJl86brJDV0vyoX5U0qmoCMon/eq91Aa+PPPRfCVz/6na/p8DE9yP8RPHQg+D0skLf/nztfSFtJ5YXkR+oGzJrV4h7qeqRcQuumAb4atsuCriZ9TvXcalq4PBvVM4A61oP5NSTgjxJ10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785422712; c=relaxed/simple;
-	bh=ZCt/v3zTQTZ248pqMi5eqtsAzR01qITTY91aShvZwP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lCIV1oHUaqjpmFPkHmgcR8Y+vyyawr5FnYAyxIpsV4I6SEzk/XK/5rcNHkOZW12qHmJEPY9tNOoVdwcYGSnFZzkmNFC4NE9ZuFcQRgKoJXinFeoVxLZ91+L6RS/9WYh4HYQgm7qL6NZ375GFO3Pn8UIVHQiyFNTEOP6budmDKa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AFgpgcap; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785422862; c=relaxed/simple;
+	bh=CHo4TkZ2Bd0FHGa4s2+Qmzp6HvTJtts3VaNH04a18wM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bZGJoEIRuSvTsajc9lH38P787R5kYBKIJIwKPsb0JCpEqYnC4jV5DxkCI1FBJCPkpbRKSeYpSYl2FNMWEqGv3QGQ+Mr+ZV5EfWSWl7F16i40po+if+Jh9mJe5zjTJJZOru4KwLEpAlf1G9/OYHS67v5q84ovbzcSi9+wODYD3vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z5yKZXPA; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AFgpgcap"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E2F1F00A3E;
-	Thu, 30 Jul 2026 14:45:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785422711;
-	bh=i0PRcloglS2eplyMT6C9pAo053hn3uqwraPzhkmyKgw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AFgpgcapG7OU/hcXjDFHKIFCFmcCMN72NvzEDyn9FOt4KAKFujQN+u156ODNvlN3I
-	 Wuc+FqHYixDczgEfW1b5x8yBPuXZ6mFh4A2CfomEXNaQWfBp5ioVb+vhI8GmhrPZF5
-	 WAh7ipsUZtbMJ3YbF0jqFD8Taa9GPhGIgd7C6fN2XxroAIlVnp6TriEoQ2oQn/jdaL
-	 S+eKQ5iUAffXqeU4+4jpn5ikCh+Ip78uSznja1SdXSbxBFX+mHpz5RZXmakJIM15G+
-	 TJZoquq+Zq3WP+m6Qlh8zY7MD/d97N48IxkHBmFuQ7MnR8RUUtXWq5+qhD/0pmjsQt
-	 bM0XzPmA2O3CQ==
-Date: Thu, 30 Jul 2026 15:44:51 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Usama Arif <usama.arif@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/7] mm/khugepaged: refactor per-scan state clearing
- into collapse_control_init_scan()
-Message-ID: <amtjMRG7sXlGsj_t@lucifer>
-References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-2-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z5yKZXPA"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c9ef3e1337fso1531573a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 07:47:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785422860; x=1786027660; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WgJDW0G4Wf9hrZ+tf3vu9dcGivf87Rv9XeyNRhNIlM8=;
+        b=Z5yKZXPA2FsCekA/b1tSQfhrq6jVZ64fyiL7vpNI+m0fl5EjmG+zgg38j24nm684TZ
+         p+H3GW4qTLzrIexrPad1cNUOZBUB7zjY7jXKvxhxjnAaqWVCD37bc9lVG4bd4LcBkK9u
+         YqDaWNS4wwSST/ZuKkNjc22ESpQBFfYyd/q3KMFMpfYJ9VHtlkNZvl4QNk6M7EXWZiNk
+         ckZ0zYcXGyQKcw6Zb61ufigOog/GGlgEL+Z2fRq47h51sFzQGDcNX5yYjo9h/R0s6rRz
+         knKy4powu+8vWK5mPHBVfdjHVQj5Wx8FjrXHQuGEUJfNH/NSODNhn08JAGICFMaLihWj
+         s5hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785422860; x=1786027660;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=WgJDW0G4Wf9hrZ+tf3vu9dcGivf87Rv9XeyNRhNIlM8=;
+        b=IP6poWBdcDsowAeGHhZqgHtrsY0/xp7YyxRJDdA51Gd4emlhiTeRETnxqa7CNuLNH5
+         ylTS8An26n0aezIcckzvzoIFeGr0JXWyWFvtLiZ9715jnuIJ5nmwZd+xopBlWT44zwRz
+         CzpKMHPLrbQIjcEoc4NBOaZdVuOimhqEz6uuKad8dDLrFHByCkrthqY5kUueKgfTbXMT
+         YkGPPZlaNKuu5o1wT8DNnuC5fAN0ou1TBmVVQ4yhowcRCrr+IVE2zDMuRgQdJXaYhkXa
+         uwtzQl40CGZTmdsmTXJCq3/Dc8/B7Cytg+EpR6WWJ6NEUAzFmajsd5JSiYSqpqYtJhSN
+         WKWA==
+X-Forwarded-Encrypted: i=1; AHgh+RqHayqCC0CWqGmfHFRVJ9Mmi1Pq1lAvPiRfQfFZgoMiB5cJzqtJEpF5tLn0q1TOSS1qJzcWDdHDNcs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7+kgbgswkPOvnPrF6+I6jPW7S4hNujbSEGUHfieHq5udHSJZ4
+	yYp+sSfyOLhQruI5ua+wei4JO1ZJ8NL8p9vdqexYQy7/qyD4raY+XyPPT9A96Q==
+X-Gm-Gg: AR+sD103Goc83Y/UQDfR8LCVT/uViRztMa7xUs4c34mUhOqb0MFd7qTn9tMUXPDyAoU
+	PhDPMC4UiyjEH7bKjS447OuWGMyG3qLTCvMq/29ThyukmmvvLUxK/HGwv6tBZowBiEkF8NaBHtq
+	KjSA/EkHeP+fuoSHu8B8PaOTYO2qyS4wPhAbT+B0piSS2kbQT+XvmK38gsnRvqSIw15CV1T44RR
+	FLOFLX1sZiTDm9k52Xrvuo9znPDZTgF5GLbZcCOWUrBafe9+hw1P/HeTNqGG+wGqCgtu5YHHQEt
+	mW/fn7bfdPhmz6MMiLv25ZqF4cM5VMwyjSnVo/6md+wFOHoCrRG29iPILQ8CTG4JVOnxr/0QQmH
+	dl03fRJXdMLvmVEQ2I8Ne8EHN/6Z7+7VDPiYeSMOp4RcvowDTmlq6y28nO94ny+fSPyn+DdfuEv
+	Snem47xRTNtUefVeTVkKeykiNGWkPsyv+9WFJOZE6it8e0t3nO12kBLo789iZ+OWHP++qThgt2Q
+	pTr169K3dATw7KT/pk0fndi7ux0Q7gWeS1+7Q==
+X-Received: by 2002:a05:6a21:6118:b0:3bf:e761:6285 with SMTP id adf61e73a8af0-3c90d44c4fcmr610337637.29.1785422859869;
+        Thu, 30 Jul 2026 07:47:39 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504b6d14bsm20653283eec.10.2026.07.30.07.47.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 07:47:39 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net>
+Date: Thu, 30 Jul 2026 07:47:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260715025941.1571316-2-npache@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
+ pmbus_read_block_data()
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Alan Tull <atull@opensource.altera.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
+ <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
+ <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net> <amtewh9lOgWz0-Nh@nsa>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <amtewh9lOgWz0-Nh@nsa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 14, 2026 at 08:59:30PM -0600, Nico Pache wrote:
-> Extract the repeated clearing of node_load, alloc_nmask, and
-> mthp_present_ptes into a helper to reduce duplication in
-> collapse_scan_pmd() and collapse_scan_file(). Althought file scans do not
-> current use the bitmap, they will in the future, and clearing it now is
-> harmless.
->
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Signed-off-by: Nico Pache <npache@redhat.com>
+On 7/30/26 07:27, Nuno Sá wrote:
+> On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
+>> On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
+>>> From: Nuno Sá <nuno.sa@analog.com>
+>>>
+>>> This is in preparation for adding support to a device which needs to
+>>> use it's own read_block implementation.
+>>>
+>>
+>> The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
+>> I'll need to know if this is a chip limit or a controller limit.
+>> If it is a controller limit, a chip specific override would be
+>> inappropriate.
+> 
+> I'll reply from top of my head (did not looked at the driver again).
+> IIRC, the biggest reason we need the chip-specific implementation is because of
+> the RAIL selection logic (mainly when not in page mode).
+> 
 
-LGTM so:
+Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
+instead of i2c_smbus_read_block_data(). The rail selection logic would not
+require that.
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Thanks,
+Guenter
 
-> ---
->  mm/khugepaged.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 55157567dc4c..6ec0812210b6 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -629,6 +629,13 @@ void __khugepaged_exit(struct mm_struct *mm)
->  	}
->  }
->
-> +static void collapse_control_init_scan(struct collapse_control *cc)
-> +{
-> +	memset(cc->node_load, 0, sizeof(cc->node_load));
-> +	nodes_clear(cc->alloc_nmask);
-> +	bitmap_zero(cc->mthp_present_ptes, MAX_PTRS_PER_PTE);
-> +}
-> +
->  static void release_pte_folio(struct folio *folio)
->  {
->  	node_stat_mod_folio(folio,
-> @@ -1617,9 +1624,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		goto out;
->  	}
->
-> -	bitmap_zero(cc->mthp_present_ptes, MAX_PTRS_PER_PTE);
-> -	memset(cc->node_load, 0, sizeof(cc->node_load));
-> -	nodes_clear(cc->alloc_nmask);
-> +	collapse_control_init_scan(cc);
->
->  	enabled_orders = collapse_possible_orders(vma, vma->vm_flags, tva_flags);
->
-> @@ -2691,8 +2696,7 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm,
->
->  	present = 0;
->  	swap = 0;
-> -	memset(cc->node_load, 0, sizeof(cc->node_load));
-> -	nodes_clear(cc->alloc_nmask);
-> +	collapse_control_init_scan(cc);
->  	rcu_read_lock();
->  	xas_for_each(&xas, folio, start + HPAGE_PMD_NR - 1) {
->  		if (xas_retry(&xas, folio))
-> --
-> 2.54.0
->
-
-Cheers, Lorenzo
