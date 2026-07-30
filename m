@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159903FBB5A;
-	Thu, 30 Jul 2026 12:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4608F3C73F7;
+	Thu, 30 Jul 2026 12:39:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785413710; cv=none; b=hSIGmhhFFYsI56WNFafdU+O/dZvQ/t569FqAvXiBtfi5pgEkysPjQVUCy/zdtOrQO/VlSbQidC95vQA2SSp5wJCjG5X669xvaosLwESSYGQoIK8R/3H+UGX7Mzr0CHDQUj2TiqKbrCCp51EgglqPiTS5+NK4rO1mxNMPpdy+lzg=
+	t=1785415199; cv=none; b=VK4tSoWw7Egc4RiMRRFxMd4zvdi34P6Ldkyt0De7ZM7goy6yw5+ggOeOhM5zEHDonhqP7Mtlw1d6A1aDl4VYX0RnXBRe1SRhZLs/TawycaZqLDTixygEWTLtui/mJC0o1DjuYFVJiJ+L1SOu07VanvzesFVC4zjYL4KoOHBD22A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785413710; c=relaxed/simple;
-	bh=dvlekvn+F/xiS9vGLla5/dqEmBb1/DUPvImij9GRvQc=;
+	s=arc-20240116; t=1785415199; c=relaxed/simple;
+	bh=+DOGoQo9Jue42lb1rwBSLX9vhDY9ntgxYJroTDsXlHs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O+MUSDagmm5PRD6WEpmEN+jjRT573uw8BV7wpp8EvYWCihhWCAf+AoJ/IPK3V/8+lEu+gubxSyQlWn8fcAJxArdKTj1UOqjPGRykdwGLbczjpQFt/3l5ctAADdG7Z0KTvfYTjkoVgnhulB9S3Vb5GCOhrrGZzulATcZNq93NuT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7dYlENP; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=AEEgqb3m3LegVhdTu4risv5leX0ZzKC6qyO1F7+x82HyvwGN+u+u5nR+qNO6wS81P8bTJ4NUvOWYaRRjASC2Qc2IzyfdM5LAkcS8FVJTVLLGIIP4Lxdda7i9Ul/W24ftI/C4LKaWute/UFIe8nJyXjUP2TG7b6fHg+dUYOYMeWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JjGo0+ef; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7dYlENP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E16591F000E9;
-	Thu, 30 Jul 2026 12:15:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JjGo0+ef"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBADA1F00A3D;
+	Thu, 30 Jul 2026 12:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785413709;
-	bh=GO3MAPLZ58UAJfUkayqBJgVx+OCH4aJ9j6/WFudsDTE=;
+	s=k20260515; t=1785415198;
+	bh=EWd1k8EXIqwmRQHt1JMH5oDb5WZp1Mtdat7Fpqf7Ea8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=W7dYlENPHsm+RpYYudbiJxzcKUekCHVHGwTGC8JNy9xGQPT094yGwrUGkWC+YVqMh
-	 KlFQWGzGENRlZ6Y6z9/+cwe/xipnPWpPkt6k8jM7FX2bqroTNR19fZPVlkCdXgmkyc
-	 Y50XRFJWPIt6+9RXcS7L1/ehoFUe2Phv4fZCG5li1OTQKEZeIB6E0dbEAe7KVUi83G
-	 4+ivy0qkH6a0qheNK9FioZRDAA6ouuJP/w+IdBP96Mxjx8KFjht7+osLdaXsWjkHyQ
-	 V5mKGCc0QefX791p6rsCek2VEpP+IYD2i3CPEoKUni7qAOhyrwCuWwtQHtoogGFVcQ
-	 R+jD7Jo4S0PiQ==
-Message-ID: <06b93266-d395-422a-9267-850c59b9f207@kernel.org>
-Date: Thu, 30 Jul 2026 14:15:01 +0200
+	b=JjGo0+ef6V7aGBLPT5F6flIjmLAIVBu7nXTqOXTO5IewpJ5zjLsOqQ/jeDmpRppDP
+	 Ck1UcyOGvG5OFSJ0FyGlNR/jiDcssR0+7uWYI1i+j0CU4dtCu0z/ZOwtsLuhShuBPz
+	 yHCpJdgyzBbx0nsAc9QgZW87nAn1jEDg4d/Wo42hDqUWr8+yvtCMPhULD3+BZG2Oie
+	 ElkNXvxNs1I0BZm67/yZwDr7Rv6ti/MAblPee+0lf8KbmIWxBhEflKuFxSrqB37l82
+	 CGA/kgO5cW6hAsk5dTLTrXHeqwIRcuk8btez7hGCF8WntkdR0BjjvUF/QjOtdBdPSd
+	 AXWHuBGrqqRfw==
+Message-ID: <1acb7ba0-6aff-4d30-9554-283ac8fbc93f@kernel.org>
+Date: Thu, 30 Jul 2026 14:39:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,24 +35,19 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] mm/khugepaged: extract young page check into
- collapse_is_referenced() helper
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Usama Arif <usama.arif@linux.dev>, Andrew Morton
- <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-3-npache@redhat.com>
- <ffb091ee-affe-41b2-939c-6437dd9cc13e@kernel.org>
- <20260730075217.qulyrc5s7olumqzp@master>
+Subject: Re: [PATCH v3] mm/page_reporting: Add page_reporting_delay_ms module
+ parameter
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Pratyush Mallick <pratmal@google.com>
+Cc: akpm@linux-foundation.org, vbabka@kernel.org, sj@kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, anshuman.khandual@arm.com,
+ gthelen@google.com, surenb@google.com, mhocko@suse.com, jackmanb@google.com,
+ hannes@cmpxchg.org, ziy@nvidia.com, liam@infradead.org, rppt@kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260727230545.262579-1-pratmal@google.com>
+ <amiN82J8p5z9l_Rm@lucifer> <91b61f02-c533-41b9-b680-7de52a5c6918@kernel.org>
+ <CALHaPKeOs25YNRg60+NxfS3E5RYLt5hJqFNX02ZCEBrjcDua0Q@mail.gmail.com>
+ <amsYVFfJmOs-Hy90@lucifer>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -99,38 +94,42 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260730075217.qulyrc5s7olumqzp@master>
+In-Reply-To: <amsYVFfJmOs-Hy90@lucifer>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/30/26 09:52, Wei Yang wrote:
-> On Wed, Jul 29, 2026 at 11:47:00AM +0200, David Hildenbrand (Arm) wrote:
->> On 7/15/26 04:59, Nico Pache wrote:
->>> This change deduplicates the "is this PTE/folio referenced enough to be
->>> considered for a collapse" condition that was repeated in both
->>> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
->>> a single inline helper function.
+>>> With 2s, we wait 2s before we start reporting immediately by kicking the
+>>> workqueue immediately.
 >>>
->>> Also move the comment and use it as the function header. While we are at
->>> it, updated the comment to clarify that a young pte is a recently accessed
->>> one.
->>>
->>> Acked-by: Usama Arif <usama.arif@linux.dev>
->>> Signed-off-by: Nico Pache <npache@redhat.com>
->>> ---
->>
->> Also, do we really need this (badly named :) ) helper given that there will only
->> be a single invocation after #5?
->>
+>>> So "0" does not mean "report all the time", rather "start reporting immediately
+>>> as we are notified about a pageblock to report".
 > 
-> Hi, David
+> No, it's whenever pageblock_order is specified, defaulting to a pageblock.
 > 
-> I see collapse_is_referenced() is invoked by collapse_scan_pmd() and
-> __collapse_huge_page_isolate() after applying the whole series.
+> But I guess in practice fine.
 > 
-> I didn't see #5 refactor this out. Or I missed something?
+> There's fun like this in virtio_balloon.c btw:
+> 
+> 		/*
+> 		 * The default page reporting order is @pageblock_order, which
+> 		 * corresponds to 512MB in size on ARM64 when 64KB base page
+> 		 * size is used. The page reporting won't be triggered if the
+> 		 * freeing page can't come up with a free area like that huge.
+> 		 * So we specify the page reporting order to 5, corresponding
+> 		 * to 2MB. It helps to avoid THP splitting if 4KB base page
+> 		 * size is used by host.
+> 		 *
+> 		 * Ideally, the page reporting order is selected based on the
+> 		 * host's base page size. However, it needs more work to report
+> 		 * that value. The hard-coded order would be fine currently.
+> 		 */
+> #if defined(CONFIG_ARM64) && defined(CONFIG_ARM64_64K_PAGES)
+> 		vb->pr_dev_info.order = 5;
+> #endif
 
-Looks like I was daydreaming when skimming #5 :D
+Yes, it's really about "a large chunk of memory was freed". On 64k " a large
+chunk" is unfortunately order 5 == 2MiB (so the same as on 4k where a pageblock
+is 2M).
 
 -- 
 Cheers,
