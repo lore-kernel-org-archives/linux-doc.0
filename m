@@ -1,120 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24893793A9;
-	Thu, 30 Jul 2026 14:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9A732B116
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 14:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785423136; cv=none; b=NTVs+VGp0337OfCFi48YGFdTqCLR7nEVlkMzzF5NyTyK3rBVXBPSQLBgOTMPdRxKv1lfdvkXsXHId4e1esMZ9TU9pmcprwzdadeNgO/U7td5etXVaMB7ZeIk1CeHXx2remPyx/w1qDBk6MDm8/kCaRPUH0NyzkncMQL5vOXsH30=
+	t=1785423341; cv=none; b=LfBKgGAEL6mul+TXbE6uuMa6VmfMl1XT1x+Qu8kVhqBAxLLC2rA55wwSTnr64NgSrDjPxKBcsgg/Vyl5foguiO0m4dI2UXUncEanSHaPxYla5qWqPtggPgj+MSA2qCknWeetJSMqUhEebUEQ3Y+9J4Cm9ycywlsFbMLn7J2yBe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785423136; c=relaxed/simple;
-	bh=09H7qVAjqco1yWKS7tSSyS36x/TyJRNJoar0RmF7piY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AY1ryjWJO4VJlce+UMvZsKLV0hdQHAnmmlK0w7j2mLadu6cE1jfsSBQSmNEiBgSBRv5kKIB1KW5I+EdzSUlLcEy5JAKmvNPjq9ZfIaLWrzKStzKMExvSj4pmgkPG3xTKno4cArLm6kl7SSVKo7lA34H7/+pGR9r2R/4+/UaAo4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=egBQrzGZ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="egBQrzGZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 738751F00A3D;
-	Thu, 30 Jul 2026 14:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785423134;
-	bh=09H7qVAjqco1yWKS7tSSyS36x/TyJRNJoar0RmF7piY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=egBQrzGZhOQC5iC9LBMT9WELk1TGJHYRLpTcZ1T2MN2NWYnc1roBUxW6skGyIU3wk
-	 faEbB14W8UhPKdKjcNJfo6vQ5LaKV7o+jXcyF7COedgGPcSB30LokI8q0xgtx6RHNC
-	 hQUOxVOf+1IGqsdw9w8WUGl/biy3UjJhDEtAK2JXQez/kSNnbiIlh1ZmB6R+cij782
-	 hspIEurkWPdZBlTMbzr67LZlCze1DfoNz0xc/RlYyjbd4lvNvEnTY3CkdKW410Ehfo
-	 Zb8bPZ6PdKXwV9J4ssPmhnJG2jzGtypUOUrDuBd+NMn39YGmek7OYoG6YvOrYEeN+5
-	 HEmfQGFE0++Fg==
-Date: Thu, 30 Jul 2026 07:52:13 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Cihan Karadag <cihan.cihan@gmail.com>
-Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
- <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] checkpatch: warn about possible missing gitignore
- coverage in selftests
-Message-ID: <20260730075213.09bb0f87@kernel.org>
-In-Reply-To: <CA+JfJhbda3VbLcAO9KEPgJVH-3WwVvJjdgh0MQUH=Fhnsp28iw@mail.gmail.com>
-References: <20260728052442.626076-1-cihan.cihan@gmail.com>
-	<20260728073143.0e665e36@kernel.org>
-	<CA+JfJhbda3VbLcAO9KEPgJVH-3WwVvJjdgh0MQUH=Fhnsp28iw@mail.gmail.com>
+	s=arc-20240116; t=1785423341; c=relaxed/simple;
+	bh=ynnqOp+fL3o9kKSR5OhAp0hTRoEdDY/H2zHWYl6VcPk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IN1WGm08mlBlbNlm9Dl+CrmkCiO8qoiOGUwBX8gThknQ6PhsFnQGdU4Uha///VidYq7aVBpYJzZJa5ISDUFx8+c+OjfM5ZRym5tOTQVjQ83PHyIAUzgCePCkCyC73dICTSP7saaCw2/vF6Vopt76xle48wxNE6XJL0Xkv8T2uEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6ab06473488so877957eaf.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 07:55:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785423339; x=1786028139;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NdSKHD8tzJ9JeGjNeD/cemvIL5cN9rQR/KTJiq4Qf/g=;
+        b=fdi6We4+mc/WzTNR8jPLcI6PfR7HWyBZuEVd7hKQ0d9HJ4wgbEjzrq0PnyO8nbmUh+
+         wUlf4dpLNtmy8VEkMrpcXkQ5dGB7iFCUa+IDvTFWmYke1UXP4TjmdleT9b+1aCM9cz/C
+         sO+ifYCck2DBdaG+GPRoWDsw3vIdzs+D6TQQmFTOJ52qx7aMy6ggGGg8GQt+foxTLuIW
+         GyuJi8Tb5kX8vjvsR4qACUVouvZv/V2VCRHoEj/zZs99sbL1zmPjsmQzzU9sYl9oDpNp
+         zazn6H7FbIy8RA+WpOZumDWz9dc34+MoWiuGnpoTMHUp7iyWuL16TyIrLq1SiBLwxrYW
+         Eo7g==
+X-Forwarded-Encrypted: i=1; AHgh+Rpm2MmJ0uWLeVcZ1f1PN5mMR0owq1AjlrKcaK8dqJeOvVtmIllVOapB/eGV762Fp3YxX1dbUMmzj8Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw74f/XaReiWRwTobW+nLwTyGW9Yqq0fQVK7VCgKGbvcKkOitcS
+	cgHrnCTckO46hyHh5GGlOlGiPJaiqkZY6kiEzV4EMLSxNNCsquKCxbUG3echYMQ5
+X-Gm-Gg: AR+sD13Bdeve8preLaa3ZJ8CooH89EhX2bYVMrbg7aPuxmQAA7OmP1ama/jiY/ycHjT
+	l4WHDhk22egEUTnHzBM00WFtjXKdrrV3v/CXL49+Z9Fpha3Yf4C0SyDobsAz1p4GGO41V094pBB
+	zM2k0TsLBLb0iI3DIzIOZdljKgDyVr6kYr6RkgM9jgVpVcmDKYqnNxfmfB7CTo5qmtXe7+1ZD/1
+	SXZhStv5jNeqlKqb41uAmZqMWwx3qZObKz3fXlzqDJnDy4z3hYOyThf+Ibkc3VdzcUZcHLzdz9K
+	aHxO2iRhDxp5p61F1ZbZoKcZBYAIFbNlj8Q8XTmSl7l4KvnB31pHJRMxtFqgA7E0xPFxwcxLm80
+	35KKjI3dPMnFhD5AUHtRPzt+W2N+e2uSmk9R+CVRTIYRr9tnUrDFI01FusA3uToEOIKMyqzLbIH
+	8o1Bj1W1g3jcuB7lq/g3GKsr+1zYYuRO+qh2HusNrq3bCkmuy7z9zg55XWGLNICYksYstjpapSV
+	61iGheED5EaxwiY5lostWWps3qWiMaZwCY+dDM8V+++hi6qKcf2q1FVDZQ/BLekoMqQZzjZgUiE
+	z6sTyvDR/nTtsGesrqAqQ3xbPuXWSSvGr0o=
+X-Received: by 2002:a05:6820:2226:b0:6ac:b930:f300 with SMTP id 006d021491bc7-6acbc13f5f6mr1671933eaf.40.1785423338580;
+        Thu, 30 Jul 2026 07:55:38 -0700 (PDT)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com. [209.85.210.50])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-458c2a64dd2sm2199651fac.18.2026.07.30.07.55.37
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 07:55:37 -0700 (PDT)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7f0167e59a3so874466a34.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 07:55:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoqwX88AHaFnorHnN3IG67p/hH7rdOm18sPykH4Qv7MnWRU5z7j5hHcl++3kiRz9hMzE9vlCS1mWxA=@vger.kernel.org
+X-Received: by 2002:a05:6830:4181:b0:7e9:ea18:d1ef with SMTP id
+ 46e09a7af769-7f02c1c499dmr1923471a34.26.1785423336851; Thu, 30 Jul 2026
+ 07:55:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260730004759.3089449-1-neal@gompa.dev> <2026073019-emoticon-decidable-200e@gregkh>
+In-Reply-To: <2026073019-emoticon-decidable-200e@gregkh>
+From: Neal Gompa <neal@gompa.dev>
+Date: Thu, 30 Jul 2026 10:55:00 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
+X-Gm-Features: AUfX_mwjt69Y4UONttNjpaGx_OmQhWJKzuOHScfgxTx8mxHBAZO42ivbKWNG3y0
+Message-ID: <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
+Subject: Re: [PATCH] firmware_loader: Add /lib/firmware/vendor paths for Apple
+ ARM platforms
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+	Luis Chamberlain <mcgrof@kernel.org>, asahi@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Jul 2026 02:01:48 -0600 Cihan Karadag wrote:
-> On Tue, Jul 28, 2026 at 8:31=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> =
-wrote:
-> > On Mon, 27 Jul 2026 23:24:41 -0600 Cihan Karadag wrote: =20
-> > > Per selftests documentation [1], every generated test binary must be
-> > > added to gitignore to prevent leaving untracked files in the kernel
-> > > tree.
-> > >
-> > > This is an easy mistake to make when adding a new test. In fact, a
-> > > search of selftests history turns up dozens of standalone follow-up
-> > > patches with titles like "add missing gitignore for <binary>", each
-> > > needed only because the original patch adding a new test
-> > > didn't also update gitignore.
-> > >
-> > > Add a SELFTESTS_GITIGNORE check that warns about gitignore coverage
-> > > whenever a patch adds a new file under tools/testing/selftests/, the
-> > > same way FILE_PATH_CHANGES warns about MAINTAINERS on any added,
-> > > moved, or deleted file. =20
+On Thu, Jul 30, 2026 at 2:01=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jul 29, 2026 at 08:42:58PM -0400, Neal Gompa wrote:
+> > On Apple ARM machines (branded Apple Silicon Macs), there is
+> > non-redistributable firmware provided in macOS that is required
+> > for Linux to leverage the hardware to run properly.
 > >
-> > What percentage of changes to selftests from last 2 releases will
-> > false-positive trigger this? Would be good to know, checkpatch has
-> > a tendency of generating false positives which is quite counter
-> > productive. =20
->=20
-> It will trigger whenever a new file is added to selftests, which has
-> a chance of introducing a test artifact into the tree. I checked the
-> last 20 commits touching selftests and only 6 of them were new file
-> additions, so this warning would have fired 6 times. Actually, one of
-> those 6 had a missing gitignore entry that this check is supposed to
-> warn about (fuse_acl_cache_test, 9acb102522b9).
->=20
-> Comparing to other WARNINGs that checkpatch generates, such as
-> FILE_PATH_CHANGES which has existed since 2014, this seems like a
-> reasonable and already accepted way for checkpatch to operate.
->=20
-> For comparison, I checked the last 20 commits that triggered
-> FILE_PATH_CHANGES in the tree, and none of them actually needed a
-> MAINTAINERS update.
+> > The firmware covers Wi-Fi+BT support, USB, hardware ISP, the touchbar
+> > touchscreen, and the trackpad.
+> >
+> > In order to ensure this firmware can be installed without messing
+> > with firmware provided by linux-firmware and other packages that
+> > put things in the tree, the empty "vendor" subdirectory was created
+> > to serve this purpose. This directory is used by the asahi dracut
+> > module as part of the Asahi Linux installation process to transfer
+> > firmware from macOS to the newly installed Linux system.
+>
+> Why is this needed when there is the ability for userspace to add their
+> own firmware search path to the list today?
+>
+> We aren't going to keep adding random paths here, please use the option
+> that is designed specifically for this:
+>
+> >  * fw_path_para - module parameter - default is empty so this is ignore=
+d
+>
+> Right there.
 
-Exactly, we have some experience with these useless checks.
-Let's not add more low effort stuff.
+I was not familiar with this feature, and I had inherited the patch as
+part of our cleanup effort to upstream the Asahi work. Sorry about
+that!
 
-> > In netdev CI at least we build the selftests and check
-> > if there are any untracked files after. =20
->=20
-> That is a good practice. But as evidenced by commits already in the
-> tree, this type of coverage does not exist in all places.
+Based on the documentation, this is the patch I've created for our
+dracut module: https://github.com/AsahiLinux/asahi-scripts/pull/72
 
-Could you explain your involvement in kernel development?
-It would help us understand where you're coming from.
+Is this how it is supposed to be used?
 
-> Since this is a mistake that is frequently made, I think it deserves
-> a warning on its own. In the end I think it is acceptable that this
-> warning fires more than necessary, the same way FILE_PATH_CHANGES
-> does, because the cost of an extra check is low and the mistakes it
-> warns about are easy to miss.
 
-You assume people who don't bother testing the code they merge=20
-(or write) will bother to run checkpatch. Not sure that's true.
-
-The problems I see are that - (1) adding false positives makes
-people accustomed to ignoring checkpatch warnings in general.
-
-(2) We'd make life harder for people who do automated code
-validation (by adding false positives they have to track /=20
-add exceptions for). We should be moving more towards automation
-as a community. Time for questionable pattern matching with
-Perl has passed.
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
