@@ -1,107 +1,241 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.hc514-86.ap.iphmx.com (esa.hc514-86.ap.iphmx.com [139.138.45.249])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CDD368D45
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 02:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785378975; cv=none; b=CzrCE1f9Mdw8jSF09ClcauYjztSStfYG7MkDRJV9Kpx1dBnZu71poRSMovunfjAXufSE+ZySWoqNnFyE6R59mpkLDXVVHc/iAw+3rKioqhOSBOMCN5yxyWj3osLNHSzt3fDdVf1QEjv+j7JAaF6gUNcRf9hTDAj5R30CswIxMco=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785378975; c=relaxed/simple;
-	bh=v+NXQOectydoDdkAldsRg+teWH/6aE0/X7otk5/649U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kLOBoX3pWOBCmmqxsKeojMJsi0CNWmAJBSB/GvWM8+uPIqUoRXwEipnUx3jI01dBOv9Fpbb9DuaxcmnDBDj0E9yS15/V3ItJYxyubrSG12DBSmn1VPwvIdYm7nW6xzcuYg8L/dAYNAimSL1aIDddLVhTE1O4XLFJ8Tn+QveBv8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nioNz8RX; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D81129A9C3;
+	Thu, 30 Jul 2026 02:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.138.45.249
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785379196; cv=fail; b=iz6qRIuyrcTLOgZFlZSBPyj0xK5KKxjX0DztfZa7FLygF2Bj2e9RjEVElcgavIGxYR6cgQ0oAttC4AtOA8VEblrak4KtjWhMuAM8mDk6vrR/OhAknKGC85ORTWuxD1Gy7oQw7vw8h+XF/XJvYxmFLPnRc4VqFc9GEXx1qKCfgDw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785379196; c=relaxed/simple;
+	bh=byokkB8cs3SjKI9g0sRw+98hvr6jaVj9zqUain5zAns=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=FsLxc0lw+wxaUURdN4YXmgor4G8E6H0hQZTTLcoS5VU+MROYd5Yg9/V4BH6fzeyEMnUXWXiI1i7pWCuxHk7HhVayU/EbobLWNUoHN5Gmne9tKkirEk+0dGSqh3YIQ/JF6FteegflepzpeyWzZSRxWTECpM6Tnik57vmfamzETC4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hitachi.com; spf=pass smtp.mailfrom=hitachi.com; dkim=pass (1024-bit key) header.d=hitachi.com header.i=@hitachi.com header.b=jVG2PWh0; arc=fail smtp.client-ip=139.138.45.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hitachi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hitachi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nioNz8RX"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cf50c6f235so18030635ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jul 2026 19:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785378971; x=1785983771; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qFcbGrazQ4hsDbTo3q32DnWl0U0D+49o/G2t63zLjQk=;
-        b=nioNz8RXZF+YTSXXndVcNFfUOSg1A98u6Z+5PU7wobBOXGVtDpP3W9kK8wF9E0Hk0S
-         1cZBTXSuTw5HR9cjoS6IoVS2nCDx0+x23hoj5JrbqLnuhID0/+IVZI1RXeN4Ul79NYj0
-         rhhJYwOI4m869MeYG7RZo7HmPAp5ZaN1HQQ2cm9TLeBcwIQ8fihU4sXJl941SZW8Ziw8
-         aylhFgenjgZFA0zNJ9Kb1vQccs3kPGZQjVDXsh18MM/m5Oiu04XH5wvHJjPzvGM519cF
-         sJ4MpcLL78dm2cmiBYHguggUSaQgZL2komisFeZU1+gzLNXtItrDQcLe7le+EWKVyrU9
-         nV4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785378971; x=1785983771;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qFcbGrazQ4hsDbTo3q32DnWl0U0D+49o/G2t63zLjQk=;
-        b=OxUUG61zbN1C7QB8LGcENgk4JkTQT6EIZUkBpcpHPm1BQIm/Z6hQSURUdCaLbdl1mk
-         FCLAZzjbdLL9w4ADM8ilSTERUoOH30Z88mp6aMOBvppUtMne0fvBBxbBnciXd2H2m/N2
-         oPQXnIyChWo1AmbYOAoB2BG02b1kIj6aBNP9SX/HVnq4pkWzJ+ySfjQvJVivzu09l5R4
-         PR92z4CEpnnwodN4DTe7xi1yPqcDZjimls3tSvgyQiFk2iXW9JocDTTveUWbCd7lSl7P
-         fVGSEDGFOzC2ciMRbwN+ZcuVBsshUZonVt874i77HUHI48FZAdDgSSojxLgZ4xzuk2sU
-         w32A==
-X-Forwarded-Encrypted: i=1; AHgh+Ro3qpdXx2F/Rm7tsSvgsD+iFZyoGgzUl/Q1cwpaT2gxs/SHuMDU0D7rmuZNLnDGhQxU+NI/Dcn6Kq8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAbmI9jj+4A8/wCupDiZhpOsgj5Vbn9YzFlmUboicCoF3cQ+eA
-	lgTH7yHui/3vYmWxruVfAfHUPwXJafyCKGURRX5MsIY+KoOFWh1VDDxW
-X-Gm-Gg: AR+sD12ttoivWGjwWHDQy75FZAoJTzGGwmmehagYrWA7gkU/fKfvUo3mvHf9zzRZjy6
-	TNzWRyHu89UB5qriW1l0ZgfcVk2/CDy0+zB4ohTPPKwjUWrOh8QYm4104tBBFMTWLkjBzEEe1AZ
-	7RL1mCx7jywxi/mh3fxS8zVgMILhgY1ITPMgrU/1PK3ihKxq0z3yJgzsRTYtec762twScxDtQ3x
-	5NQoAds0oogw/i7eQpmR0F2wKMw6Fo7ei1r+adehWClByuyuH9jmFr8SpXS6Mj3Rv2ol+/wWF5k
-	9YiUsS7ixEHGubljbUhvz+YLGnUY4jhY9uYPqV10ndYqGZB5nQWlgi2Sgo7Z/6QYfXR+TV/TBmn
-	OVusn9ZTj9pBB/mzxCHEPATBEWyj5DAb6w5YUFCoe59DA+rBOdNDc6796jOt3fXcRUfyaE5in5H
-	9YVaJyYmWuwMmLgEIr3UgKQQK4uMOAhBrYuUEXEhiaIctFD6qUZt8WcWI4T/C+IOFgVbu6dN5A/
-	g==
-X-Received: by 2002:a05:6300:14c:b0:3c4:397a:69aa with SMTP id adf61e73a8af0-3c9005749b4mr687469637.31.1785378971135;
-        Wed, 29 Jul 2026 19:36:11 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504d373c3sm15058591eec.23.2026.07.29.19.36.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 19:36:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 29 Jul 2026 19:36:09 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v5 1/4] dt-bindings: hwmon: (pmbus/max20830): add VOUT
- feedback resistor properties and complete examples
-Message-ID: <dbfd8393-9a69-44ce-b49c-f08d57e2fa66@roeck-us.net>
-References: <20260730-dev-max20830c-v5-0-a7553f84ee74@analog.com>
- <20260730-dev-max20830c-v5-1-a7553f84ee74@analog.com>
+	dkim=pass (1024-bit key) header.d=hitachi.com header.i=@hitachi.com header.b="jVG2PWh0"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=hitachi.com; i=@hitachi.com; q=dns/txt;
+  s=hitachi-com-20240118; t=1785379194;
+  h=from:to:cc:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=byokkB8cs3SjKI9g0sRw+98hvr6jaVj9zqUain5zAns=;
+  b=jVG2PWh0IK7sb3L/Szs0FfoqNleqDJdjihbGZtLLv1pzrabFvIkP+fVR
+   NLXfW1qGDE7Wn8mfJL0/v2IPkp633nTsEe4/wwmmeqTbP1F9b+FZVcLfK
+   hZpoAZ4IaLKbqtkGkt7tIhp3TSM3781fUUYN2VXY8MhMx9XajifU2lRBE
+   8=;
+X-CSE-ConnectionGUID: nFyvmP0LTL6HyW8EyhwNjA==
+X-CSE-MsgGUID: mCNtM39nR+q4uekC6jIHgw==
+X-IronPort-AV: E=Sophos;i="6.25,193,1779148800"; 
+   d="scan'208";a="510895461"
+Received: from unknown (HELO mlsv2.hitachi.co.jp) ([20.18.96.99])
+  by ob1.hc514-86.ap.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 02:38:42 +0000
+Received: from mfgw13.hitachi.co.jp (unknown [10.178.97.250])
+	by mlsv2.hitachi.co.jp (Postfix) with ESMTP id D6AA44056D5;
+	Thu, 30 Jul 2026 11:38:41 +0900 (JST)
+Received: from mrelays02.hybrid.go365.ext.hitachi.co.jp ([133.144.234.40])
+	by mfgw13.hitachi.co.jp with ESMTP
+	id pGfRwTgj9CSkFpGfRw6w3a; Thu, 30 Jul 2026 11:38:41 +0900
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010029.outbound.protection.outlook.com [52.101.229.29])
+	by mrelays02.hybrid.go365.ext.hitachi.co.jp (Postfix) with ESMTPS id CA923113EFB7;
+	Thu, 30 Jul 2026 11:38:41 +0900 (JST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CoTZcg3gzjYfi0r2IyrgC/JTElru6Gqbu6SOhUmvfcAFEPGML4GmqJIEgqHjSNcgRGMNxF+k4fmNBCfLpmE5OYemn4MMJKMIRCY4nI93VsTrFkPukYh40ZaqbUne8Yhhmu4fF8Ahu5ehbjnM4bUq6eGxan+m8wIejvWgsQXS75rIuxZ5s6Aoy6DPgnnneIBhlGdSXoU6Wug4XIVA5JtBBmmFwwRqKImtL7JjH7rpu85Jxq+V8+zO/CImBHsrX7l8cr5lTbVf7PmMosB2WxPVWRHH5enG0VbXF4E5W2A/1otOos+tG6fMfyG/3ApDdeGuiXcjen50nJwAZLuW9SS+4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JptirdMqlbdDJ7rgFiYoYIZy+neMG45zkKTv34eVFW0=;
+ b=pIneunH68FWRsDVEtTBWwt/Wpzyppu6cbbVvI3u5wtxXL6gkxOuraYGkfc0xC0fQ0xANJKR7l8ZMquk20vsvVd1PfMNAx1vOeBwouMwg6/ImNEfefc7VFbQlVflg2snfgvmC/LeGYCIEEsCiVsYr4Cs7jCesmYPYteBXjuOiblUl6wAFQa6j+4qugKwG0Rr+ZgmgbyqYtfHpEURGWaysu06qrtipIuSu9xty7NMcf01+Xe9+0p1Uh9YUIHRzbC+korNBzMjMWrK1dV3HoabvFxVC6e48D3sRKspQmC0g2l/W3g4ppsm+H5mmrzCAFVA9NxgSJevGxnkn87bDxTWeuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hitachi.com; dmarc=pass action=none header.from=hitachi.com;
+ dkim=pass header.d=hitachi.com; arc=none
+Received: from TYTPR01MB11045.jpnprd01.prod.outlook.com
+ (2603:1096:400:39e::11) by TYCPR01MB7137.jpnprd01.prod.outlook.com
+ (2603:1096:400:c0::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.14; Thu, 30 Jul
+ 2026 02:38:40 +0000
+Received: from TYTPR01MB11045.jpnprd01.prod.outlook.com
+ ([fe80::b94b:9fae:6de6:d9d2]) by TYTPR01MB11045.jpnprd01.prod.outlook.com
+ ([fe80::b94b:9fae:6de6:d9d2%4]) with mapi id 15.21.0270.012; Thu, 30 Jul 2026
+ 02:38:40 +0000
+From: =?iso-2022-jp?B?GyRCQWoxOj40GyhCIC8gQUlVUkEbJEIhJBsoQkFLSVJB?=
+	<akira.aiura.bj@hitachi.com>
+To: "corbet@lwn.net" <corbet@lwn.net>, "Julia.Lawall@inria.fr"
+	<Julia.Lawall@inria.fr>, "nicolas.palix@imag.fr" <nicolas.palix@imag.fr>,
+	"maennich@google.com" <maennich@google.com>
+CC: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"workflows@vger.kernel.org" <workflows@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"cocci@inria.fr" <cocci@inria.fr>,
+	=?iso-2022-jp?B?GyRCRXswZk0mMnAbKEIgLyBUU1VUU1VJGyRCISQbKEJZVVNVS0U=?=
+	<yusuke.tsutsui.gt@hitachi.com>,
+	=?iso-2022-jp?B?GyRCMCQ4fUA/O0obKEIgLyBBR1VDSEkbJEIhJBsoQlNFSUpJ?=
+	<seiji.aguchi.tr@hitachi.com>,
+	=?iso-2022-jp?B?GyRCTFpCPD4tNHUbKEIgLyBLSU1VUkEbJEIhJBsoQk1BU0FLSQ==?=
+	<masaki.kimura.kz@hitachi.com>,
+	=?iso-2022-jp?B?GyRCQEZGIzJtT0IbKEIgLyBTQUlUT1UbJEIhJBsoQk1BU0FLQVpV?=
+	<masakazu.saito.jn@hitachi.com>,
+	=?iso-2022-jp?B?GyRCOzNGYkJnT0IbKEIgLyBZQU1BVUNISRskQiEkGyhCSElST0tBWlU=?=
+	<hirokazu.yamauchi.hk@hitachi.com>
+Subject: [PATCH] coccinelle: update Coccinelle website URL
+Thread-Topic: [PATCH] coccinelle: update Coccinelle website URL
+Thread-Index: Ad0fy7BG9rkZXOC8T/as5IN/IogPpg==
+Date: Thu, 30 Jul 2026 02:38:40 +0000
+Message-ID:
+ <TYTPR01MB1104567F06F7DA6B366C264A9D5C92@TYTPR01MB11045.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=hitachi.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYTPR01MB11045:EE_|TYCPR01MB7137:EE_
+x-ms-office365-filtering-correlation-id: 8af882eb-3dab-4dc2-086f-08deede3aa39
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|10067099003|11063799006|6133799003|56012099006|18002099003|38070700021|13003099007;
+x-microsoft-antispam-message-info:
+ 1VkoaSTHKnrTrPcFPBnI8+fwNz5afkaUsACuIoKUVDeAH07nA1saV4zGUVpbpTo2MWE2MJn1NhG3YilQDUsE73edBtkmeiL5iEHbWFdsTBfk1MxFzoM5bz33OdWTR80mOEN5z8an6Bx+VgnGB9Bf+fufpU4rUnUe5xAcJtHHjUxgfvGg+Ml5Epir9MoicCnn2ACZWuh8NB+13aPKvmkl5eFo22PKawd6NioGA34cVwFX3m1T89eDgfyx1Cu1FTT5VhmC9F+2BYBeSzNJRYr2H2cc3NZkzgjNhkhcMEXi+ApiXLMOYh/SRytct0Jf0bjVVREE5QIO5zSht3xWzOXBC919xRH4B1w9Gs+k/1odvJ5lf7sfSdJUnkGCTqMkb3c+ixUqt8q5Zsx/q1TZhqgk1hm46Mi+Ja+W2EJNgH2ainFcMJrRYKj2wFThwJpXcpp4VCEnAW+kpy8cW4kzgjwG+YS2WWY0/ijud29Ry08WZvsA/bgDnGoXuTfmoCZ8DlMN9dgjLINOU1kFnNTRHLwcTPZHwyh6WD85bGAmxgYuGsUDnHRjwTmI9x7u9xY6+biHQZ2bp37R6TegTDs/tZ+AtM2yl8lfV0Mni4QcHxML/cOuLhcMJO4JlrZYWMHWkFoIRu+agoNReY7mpnc1TNqLFsmF66Ay8VxqTIJNe3eZpAc=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYTPR01MB11045.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(10067099003)(11063799006)(6133799003)(56012099006)(18002099003)(38070700021)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-2022-jp?B?aXdYZ2tGVWhxL0JHYm1lYWsvaHlwU2ptSG8vTUtlM1pReExWNjBXSmww?=
+ =?iso-2022-jp?B?L21YdnFVZ05TSEJvWUZQRWJPMzFJV3hJRWJ4N2hPekZjckQzWVZidnpN?=
+ =?iso-2022-jp?B?OHlLWmxoNTNpU09iS2N5cjRYQTNhNmVEVXh2NzdqRkFEMWd6a1VVOW5o?=
+ =?iso-2022-jp?B?UTV0MU9PQVlvV3kyclFIeFU3WXZJRDBIdTBVS1BpSCs1WHc5bTRPYWRB?=
+ =?iso-2022-jp?B?Rm9WeWkyZ1FOZzUzWlVuTFh3OElBSmRtMzgwNnZLWHh2NVJFaWNURFp5?=
+ =?iso-2022-jp?B?aXk5NXJDSkFlNzREbkFkZk8vT2Nzd2RiZ3V5RVFEVjJCdzMvWE16UTAv?=
+ =?iso-2022-jp?B?NS9BNGhkT0MrRFRrcDF1cWM0LzhLSDk4bzV3UGFlS3lCRnVUUm5Qaito?=
+ =?iso-2022-jp?B?VDVJcXFucTBUYTU0eU9TUFp5RVdjZU1kY2FkSWh3QkVkT2cvcHE3bnIz?=
+ =?iso-2022-jp?B?V0hEblBxTjhZRkU2SHQrNGNnMUJMekNTNXRrdzNFQ2FSRytEN0l2R3BK?=
+ =?iso-2022-jp?B?Sk5wRTFyUVlhOGtoQjJ4TnRLd21xcUJ2UHpNOUloL3ZITlpQNVJRNTk4?=
+ =?iso-2022-jp?B?bkJGbXRjNVdLYmpLSXRYYkRONExwU3ZTMTZnODJ2ZmhNVWtPYU5aR0gv?=
+ =?iso-2022-jp?B?dHk0bGZOWDFTZ1lVMnBOL3RBN28wd1N2K3pKZS8rUi95TWlZYjZvcDMv?=
+ =?iso-2022-jp?B?TnlPKzM4N1RhbVZsbUErWVQ2SEpNd1piNldSdlNPZmR5UWt1Zi9ESjg1?=
+ =?iso-2022-jp?B?c2orZHZaWVdCajdiZjR5QXEyZFQxejE3NnVPUDBUd1Y1ODZ1ZjNheTVy?=
+ =?iso-2022-jp?B?cEFwWklmZ0d1V0w2M1NlM2l3V083VWdTaVVQNXVnTWoxQ09BaytBU0pR?=
+ =?iso-2022-jp?B?ZHZmK3MrN0dmTTR1K29mNzdKUXBrVUdUTG01R0NSRFp6VEJGbUNyWTdL?=
+ =?iso-2022-jp?B?VDlOMVNCZHpBbVRTekRycy9HTmRQeEVOVFpYY3BSdFBDcXpidXQ1N3lj?=
+ =?iso-2022-jp?B?K1pDOW1JbUhnMUNtTHhXS3ZPU2NNTW9ZYklpKzJhNlJtQVBqbGRGM0Mz?=
+ =?iso-2022-jp?B?WmdFbFFTRVJrdU9HTGZRSGptYVhWVGxmWDFOTDRhVExiaVY4cEVDVkcy?=
+ =?iso-2022-jp?B?bEJEaDA3MFQzaGpXc3NCdFJUbnlsLzU2c0Q4bURHcUVxcDBkdXp6aXJJ?=
+ =?iso-2022-jp?B?SmNjb1hRS3BMUzhSL3JRbnkrNW1kTm50SWRmd09ydTZTemxobVQyS2Ri?=
+ =?iso-2022-jp?B?QzMwamgyOVozY1FHNXRndGl3OU9pK1BremJxRk5LWWdEZC9mNFR0Q3Ny?=
+ =?iso-2022-jp?B?VktBek03N3FEaW9RcjhzelJjYnFPeTAyNGpjS0hkbm5ieUdYWVdqTkF5?=
+ =?iso-2022-jp?B?V285QVJQdGNNSW4zL0JpaC85cCtseUJSajhXU21kK2xTRUUwZmxXZTJX?=
+ =?iso-2022-jp?B?OVFLcmlEZmdaRytsQUR0Vm5Ud083Uk1NR3dKSktpdnpYK2I4cFhlRjFu?=
+ =?iso-2022-jp?B?TlMyeVlGZzVGclFqT1R1UXJzWjQzTGhsalNMbG1lbGF2dnNJTG8wS0Jl?=
+ =?iso-2022-jp?B?a0p1MFNxWE1RMmJmZ2Vlb0tlSnlHdENRTWI2OEloUloyeUEvbWtLT1Q4?=
+ =?iso-2022-jp?B?SWtXVGZKbklrMEZMV1BFVStnU25KTVpFV0JsdGhzZ0FYL0FpRW8zRGY5?=
+ =?iso-2022-jp?B?Z29BU3doSCs0ZEZyUEloeGVHSmlwS0JxdmE3TC8yd3NHVmc2M1BxWCtj?=
+ =?iso-2022-jp?B?ZlA1ZkhVMmpOeURJbW5RQWZXMWpseDlKMktIVlQ3bGN3SmtuOTRjNTkv?=
+ =?iso-2022-jp?B?ay92WXE1cHR2QWlHeWU2VU41TWM3QXhGWWhLdU5WWTBmUHpQOVhvZkFo?=
+ =?iso-2022-jp?B?cGhuYmF0WmJCU1I5WXkxRWNFSU4rSENmLy83aDMxM0tsZ1VkV20vaWtO?=
+ =?iso-2022-jp?B?TEYrcyswaHFzWW0vSFVId0xkc3o2NzJJOHJraXBLa3U0OTZZN09xVnVV?=
+ =?iso-2022-jp?B?WUVIb2NYMks0dHBvd2IzczFqZzFuMnNyQkFEZ1lCVURWaEFTUk9PUTZD?=
+ =?iso-2022-jp?B?SkZ6YzI3SFhvNGFxWXh4d2paaW1pTitqSUk3aTU3c2tkK05IVm1qdzdo?=
+ =?iso-2022-jp?B?U1VmeTRWeUVVWEZKTzh4YXM1RWx0UkR1Z1VHQ2hvbjcrOHlnNzBIanNG?=
+ =?iso-2022-jp?B?V1IwbXIyeTA4Q0tIOUpaZUhPUnA5dEliOEkycENHbjZrWldNaG1jNWpS?=
+ =?iso-2022-jp?B?TnZEczZMcTNuWm53TUxJL29zQUlCcVBQc0hhcjJ3Y1VQZFV2YkN0M0ZW?=
+ =?iso-2022-jp?B?TXFLMlpNOFl4S3RGM2dEbERMMGxMUlBtVUExazQ5cUgvU1llZVp0SE54?=
+ =?iso-2022-jp?B?V2hiUExNS09HS21CVit2cTNObDlnZFRtU0pPbUFwam56NXpVOWJUZm0r?=
+ =?iso-2022-jp?B?TDRyMFpUbmZDcUFCV3dLdlJ0ZE1xeEl0ZnFQb3dDZE9IRWxIbEdJMmpq?=
+ =?iso-2022-jp?B?dkF0MUdGMlJNUWhtbTRsSXRSQVAyYVYxWlVQUT09?=
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260730-dev-max20830c-v5-1-a7553f84ee74@analog.com>
+X-Exchange-RoutingPolicyChecked:
+	Qx0KCkIqYPpNZihf+7xiM0mRqOMkZ77v+PML1/wHU1xZj43g/i6uLIB3+yeNfG5f7nRqq3IMq7hfDlk+x1/WVXZYUUu14gcZrFOcIrlT7ua9jPjNNcajUZg/Jp/gJbhM5mO6qv7EeBg/d2NDGeXhtiEmeNSiG81//hGcpwPqXD0nIAAnRNdHgPO4xxwFXQzpHiY6WRtLalYYTY4E8rgHv17a9rCx6Ye1phgoH0jdkgZ8H4qTaKMnMruNL2+3FmnPUPzOgGGlLfogDEqmL9eTdZHo7OP4u1+m2dKiz4LCyHsDU6t6iTMI4QALM9iCb8UJLqfydCjawHekNOSTko/jwA==
+X-OriginatorOrg: hitachi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYTPR01MB11045.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8af882eb-3dab-4dc2-086f-08deede3aa39
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2026 02:38:40.1908
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f54277c9-dafe-44aa-85a4-73d5c7c52450
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gWqO/SoNDA3m7YUwfisWw+uzilbQN1F0TlGvLWyGxbtCuwESwRQkIEcn8o1P4rLQgEn86qODGJhOTECkS7gWhT8QAiIsR74e4yzvRY93/Fw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7137
 
-On Thu, Jul 30, 2026 at 09:03:33AM +0800, Alexis Czezar Torreno wrote:
-> Add adi,vout-rfb1-ohms and adi,vout-rfb2-ohms properties to support
-> external voltage divider configuration for VOUT sensing. When the
-> desired output voltage is higher than VREF, a resistor divider (RFB1
-> and RFB2) is required to reach the intended value.
-> 
-> The properties use a dependency constraint to ensure both resistors
-> are specified together, or neither. This prevents misconfiguration
-> where only one resistor value is provided.
-> 
-> This patch also adds missing entries in the examples.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
-Applied.
+The old Coccinelle project URL is no longer available. Replace it with
+the current Coccinelle homepage already referenced by
+Documentation/dev-tools/coccinelle.rst.
 
-Thanks,
-Guenter
+Signed-off-by: Akira Aiura <akira.aiura.bj@hitachi.com>
+---
+ Documentation/process/4.Coding.rst | 3 ++-
+ scripts/coccicheck                 | 4 ++--
+ scripts/nsdeps                     | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.C=
+oding.rst
+index c0f57d0c4f73..c23b9e48ce49 100644
+--- a/Documentation/process/4.Coding.rst
++++ b/Documentation/process/4.Coding.rst
+@@ -312,7 +312,8 @@ be found at https://sparse.wiki.kernel.org/index.php/Ma=
+in_Page if your
+ distributor does not package it); it can then be run on the code by adding
+ "C=3D1" to your make command.
+=20
+-The "Coccinelle" tool (http://coccinelle.lip6.fr/) is able to find a wide
++The "Coccinelle" tool
++(https://coccinelle.gitlabpages.inria.fr/website) is able to find a wide
+ variety of potential coding problems; it can also propose fixes for those
+ problems.  Quite a few "semantic patches" for the kernel have been package=
+d
+ under the scripts/coccinelle directory; running "make coccicheck" will run
+diff --git a/scripts/coccicheck b/scripts/coccicheck
+index 8dd766009de1..a0a0e0f72bc7 100755
+--- a/scripts/coccicheck
++++ b/scripts/coccicheck
+@@ -11,7 +11,7 @@ DIR=3D"$(dirname $(readlink -f $0))/.."
+ SPATCH=3D"`which ${SPATCH:=3Dspatch}`"
+=20
+ if [ ! -x "$SPATCH" ]; then
+-    echo 'spatch is part of the Coccinelle project and is available at htt=
+p://coccinelle.lip6.fr/'
++    echo 'spatch is part of the Coccinelle project and is available at htt=
+ps://coccinelle.gitlabpages.inria.fr/website'
+     exit 1
+ fi
+=20
+@@ -229,7 +229,7 @@ coccinelle () {
+ 	echo " in $FILE."
+ 	echo ''
+ 	echo ' More information about semantic patching is available at'
+-	echo ' http://coccinelle.lip6.fr/'
++	echo ' https://coccinelle.gitlabpages.inria.fr/website'
+ 	echo ''
+=20
+ 	if [ "`sed -ne 's|^//#||p' $COCCI`" ] ; then
+diff --git a/scripts/nsdeps b/scripts/nsdeps
+index a3372166ac01..d4b5ebcc2016 100644
+--- a/scripts/nsdeps
++++ b/scripts/nsdeps
+@@ -8,7 +8,7 @@ SPATCH_REQ_VERSION=3D"1.0.4"
+ DIR=3D"$(dirname $(readlink -f $0))/.."
+ SPATCH=3D"`which ${SPATCH:=3Dspatch}`"
+ if [ ! -x "$SPATCH" ]; then
+-	echo 'spatch is part of the Coccinelle project and is available at http:/=
+/coccinelle.lip6.fr/'
++	echo 'spatch is part of the Coccinelle project and is available at https:=
+//coccinelle.gitlabpages.inria.fr/website'
+ 	exit 1
+ fi
+=20
+--=20
+2.53.0
+
