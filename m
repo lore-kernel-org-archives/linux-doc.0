@@ -1,130 +1,117 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9293876BD
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 07:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736593AA504;
+	Thu, 30 Jul 2026 08:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785397941; cv=none; b=In5nFuOAeArcl+RkxFny7eXpxZyCZzRJddHweur1KXsOHZTAtf9SzWA//U1fyMslSPPBdsyGiqy83XRWyccS9Uegy3DBN+hATfQfWHR5dlmCiHIiOtphRhoUnKqnj8KIeyxXwyG1u1gzgC8yD15CHgwZyKV11WFrEWehuFZx/7I=
+	t=1785399590; cv=none; b=oBogsAilI/P80feSow/1mwzh0+4VGDElZq/Cdjt0xUlByrPkHXoNtMOJAmfG2EDLljB46zhDLlmsLyuNeYFcfZEP0gU64FrNwVpmtFlF3Ug7Qy0/Lnpv/q/5AmUG84abOz3c1X2tlUyD53FtsR8eaDYRDu0sYq7eyAt+5CiG04Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785397941; c=relaxed/simple;
-	bh=YEt3+RumlJcobW38FE/5XJUtuaZwrQppaUouSV2Cq2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iyvWYWnjhzz5x2uif2XcvN98jUd+0LgC13zSIox+HFu6zEqbO/v4zvrOgNY0MFr8lEpTzyQgsX86lMdm9ikueLmHOXTpfbCy176MCN+NkSwCg21F9OZhoZa5cu4BpMMlZxbv6wTudnXSrl4uorgR9RGvGaZm1le0YfwnyqqjcAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hTUsRzZU; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785399590; c=relaxed/simple;
+	bh=wpfIrMcHN8QikkXCKITCLw0AA407+GAAoFiif3VfJc0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e1RILAYFplIkkbfRa009Xugi9dW+FFNA7OjN45E6BLxVtXIeJC5DptMKy9PdC8WpwrfMe1LrLRs7OWYU0IM83XzM0HQviCeb+v4vhFYXYs0mIz/AAiQQUA83z/AZ64DFpzCho9ILsGNsIDUg1U4di6xUHA7DXul5ZsFFyRcS+kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3QOOEV7; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hTUsRzZU"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4954d29264cso8185125e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 00:52:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785397938; x=1786002738; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7BVZHSM3RopaR6W0/bDqMe3XMROxNpJV6YavlmGViAY=;
-        b=hTUsRzZUUCvHg47bON1ch1DKxK8XppRcPWcKvNAM5kA2u9jdJJubmR5PDLwY+NsrA9
-         dIgs2ZvWieS7qKvfxf92QSOrQ0l4IeTRuUdLgTDIerRV2PZwMZCVi3yGlrYEvYAdt21W
-         tjUIxzvH/tRfavwyKzbnlebHI/ytBebd3859xt8IhCIjncYyCphyvS2ReqCX+PfwBnau
-         cjqPfrDsdadplICa+d7M5ObfNUbqSz7gwpXr0Wz2B3ap7uBhGgmJvSgrtVaZ0/oDIIGF
-         wh8UPxcyg6Ek8paymYEz4Pp7eC09ExPmBUuRWVq1KXS1B3U64/GZxU71ml7ZWZ/5F+hu
-         xa4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785397938; x=1786002738;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=7BVZHSM3RopaR6W0/bDqMe3XMROxNpJV6YavlmGViAY=;
-        b=Z492fLqzecTcZzXRnOb2HqzzA+pSvAriv6v9vvS7lcKDoxRUcaqgqKHNQ8WV8MGbHX
-         6FESV99N+ybRgGrdi2nsXbFvH9Qe8Iz+ni+TB9Fn9iV8SsBlb3380o2ZLv+/lj8d4+Fk
-         5RGIO0iwQBwdFpjVQfpn0a+d4hjK4lwSDoKQmgJfUeOoo8+K6ms9Xa4UvK/jETJeL52Z
-         J7qWf6Gs6Qwge27IEb8T3uhSoV1Qntau7gwXmo/oXGfql3y2HDk/xOkZjA723EdFhoX5
-         1xou3z/5Dtzu/zxPGLqVqgZ1FVxwx7DqwjCMhpcN/8HYXNrADqCOdp+5hEm03U5CrHIi
-         /+Pw==
-X-Forwarded-Encrypted: i=1; AHgh+RpEGQYGDglBKOyY4b8J/fY9/M9zSsJWBNGiFOGJWovH2aNVoycHPgQWB1MVL5J11HFKWPYxWjvb+U0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEZfz93RsXCKqFMQpVSiM/oBLSwEzlmL0IqAA/Gi6wk9PTuWMm
-	WyB6o9MvTg/cOhzrNRQ6XHpEIqhFmRw/yzwNUdZa6RxbQQbPm9TWCU9o
-X-Gm-Gg: AR+sD13bTZT/a283Geu+X5R8o4FozTShK98pnWD7fyTlfrJSwbJ0Q+AU2Qx5KLU9lZi
-	mzebBbEXPQqxOaFgZy8i34yzPl/bUwJZPK9Jsyaqht3foTLfz75g//xbogPZvpmkC6BhsIrL3XP
-	+AI/oCT8WQhQoBw7oK6Gt0Z3KLna6k7MC2PeC36o+Gu/lBpd6oizTIDvwFAzQdIBbh9wFbL5Bdb
-	ugFstRh9f7YPy/LcDr3Dr2ZEM9IzGf1iduTRT3XPbylUxDvzSSL+9FPeUySPcWFkhomaDMkUry8
-	YUalmH6sZmeg2vD9EBTJfgMz7Wyv6HW3Cr/LylVzUXuZIYaGHwVGTlZHl+Zo6xbn4l6QO9sPc4B
-	oggnFnOUD+48l+WguXfo7/OpQm6Pk8NGUwkFbjgiCTQgKu4K+9jHFKSqc3GDV/Syubws3uQAlBt
-	DT+xIOHFtpeWj8yAB/3Vh1I1tKXctkPDspZDLkDrpXGg4dAbOORA4ya32dxb0=
-X-Received: by 2002:a05:600c:a182:b0:495:6478:2dbc with SMTP id 5b1f17b1804b1-49800e70248mr12017065e9.6.1785397938314;
-        Thu, 30 Jul 2026 00:52:18 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49800f19bb3sm37302585e9.4.2026.07.30.00.52.17
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 30 Jul 2026 00:52:17 -0700 (PDT)
-Date: Thu, 30 Jul 2026 07:52:17 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	Usama Arif <usama.arif@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/7] mm/khugepaged: extract young page check into
- collapse_is_referenced() helper
-Message-ID: <20260730075217.qulyrc5s7olumqzp@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20260715025941.1571316-1-npache@redhat.com>
- <20260715025941.1571316-3-npache@redhat.com>
- <ffb091ee-affe-41b2-939c-6437dd9cc13e@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3QOOEV7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785399588; x=1816935588;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=wpfIrMcHN8QikkXCKITCLw0AA407+GAAoFiif3VfJc0=;
+  b=I3QOOEV73HGlKGqseDzRPfT+U48RxhP3u55EfFdnWEbRukk4HefA1bR8
+   393wDOdrfKAgeJ8AP36M058z1p11k7c9Z5uifGckATHmmcG5Xiq7kbLCL
+   Vy49AgiNj/uHKaNFt2f328Paopfr3EZnZBLeE9y12xEWLI0olqFJrY6Ew
+   qFrsU1jS1A4S/ik6SoHuoC6V+r44BQj6mNJFZDqu08l1MEN1+XF62SxTC
+   gnuBq+L77D9WEnyEuhlvxV6zaveszOtChlwmvMajRWWkdOpWcn4xnnZ/A
+   0FuaZwfUOexmpLddbk34iAWz1e03sNBAuSWHi5IbTnsc3H0NK9Ha4oa4V
+   g==;
+X-CSE-ConnectionGUID: mqBI/tinTl6nf1kg+8s5Vg==
+X-CSE-MsgGUID: Z6Vbqc7vT1+QLc+N48VI9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86091135"
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="86091135"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 01:19:45 -0700
+X-CSE-ConnectionGUID: 0mKvQIstRByDOckKXDh64w==
+X-CSE-MsgGUID: iicRvDLaTO+wZke7z8GHMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="259664017"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.238.208.132]) ([10.238.208.132])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 01:19:34 -0700
+Message-ID: <df06e0ec-9462-4072-a0c7-054f1978bf89@intel.com>
+Date: Thu, 30 Jul 2026 16:19:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ffb091ee-affe-41b2-939c-6437dd9cc13e@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 04/41] KVM: Rename memory attribute APIs to prepare for
+ in-place gmem conversion
+To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ david@kernel.org, jmattson@google.com, jthoughton@google.com,
+ michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
+ qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
+ shivankg@amd.com, steven.price@arm.com, tabba@google.com,
+ willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
+ forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
+ aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
+ <20260728-gmem-inplace-conversion-v9-4-35f9aec2aed2@google.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20260728-gmem-inplace-conversion-v9-4-35f9aec2aed2@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 29, 2026 at 11:47:00AM +0200, David Hildenbrand (Arm) wrote:
->On 7/15/26 04:59, Nico Pache wrote:
->> This change deduplicates the "is this PTE/folio referenced enough to be
->> considered for a collapse" condition that was repeated in both
->> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
->> a single inline helper function.
->> 
->> Also move the comment and use it as the function header. While we are at
->> it, updated the comment to clarify that a young pte is a recently accessed
->> one.
->> 
->> Acked-by: Usama Arif <usama.arif@linux.dev>
->> Signed-off-by: Nico Pache <npache@redhat.com>
->> ---
->
->Also, do we really need this (badly named :) ) helper given that there will only
->be a single invocation after #5?
->
+On 7/29/2026 8:35 AM, Ackerley Tng via B4 Relay wrote:
+> From: Sean Christopherson<seanjc@google.com>
+> 
+> Rename memory attribute APIs to add a "vm_" in the name in anticipation of
+> moving PRIVATE tracking into guest_memfd, to allow in-place conversion
+> between SHARED and PRIVATE.  At that point, there will effectively be two
+> (potential) sources of memory attributes: the VM and guest_memfd.
+> 
+> kvm_vm_set_mem_attributes() already has "vm" in the name to indicate that
+> it is a VM ioctl. Rename it to kvm_set_vm_mem_attributes() to show that it
+> is setting the VM's memory attributes. (Drop the VM-ioctl scoping since it
+> is a helper local to the file.) Update the accompanying trace function to
+> match.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Sean Christopherson<seanjc@google.com>
+> Reviewed-by: Fuad Tabba<tabba@google.com>
+> Tested-by: Shivank Garg<shivankg@amd.com>
+> Signed-off-by: Ackerley Tng<ackerleytng@google.com>
 
-Hi, David
-
-I see collapse_is_referenced() is invoked by collapse_scan_pmd() and
-__collapse_huge_page_isolate() after applying the whole series.
-
-I didn't see #5 refactor this out. Or I missed something?
-
->-- 
->Cheers,
->
->David
-
--- 
-Wei Yang
-Help you, Help me
+Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
