@@ -1,504 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21BA3E0091;
-	Thu, 30 Jul 2026 15:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2624399FF
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 15:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785426246; cv=none; b=Hd/nXSL5XUpnm8jxBbHspeHPq62f6eNebBaiwXzi6+1s2Jcs4Pr8h7eQ5nld84Ffip1BUKMcNHh2vUgJOBgvY/BNPvrwqZpO5mIDEirV/c2PNXLd4A1dTHdtlMfb9VU5U9bW0X0J6NZ3aUndUBF/X31GTSSbzUxuASjlWV5VQIs=
+	t=1785426869; cv=none; b=Rd9OvmmPXAxsJBR8fCeJNA79heNG8SnhDSipWd6xU10b9K+SmTlab0GqOgpK7yGA0x5Qmp1J96ip8ZqoRphrtiRZAbPbGt3vpkOKvxT0mwy9hPyiQ4UqK97ICZBJCODRgmN+jnX0cxuHm3EDkVqtrV/jofdSuHT9Em6A6zlDypo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785426246; c=relaxed/simple;
-	bh=mD/3VmD6VpaZxXJ70sW89u777nkFAp1DW6jMzjUiB+4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MkBM8xCyYurWJti7JDtpMC6WQqfewkn9r0HTZlc7hAcZPGNhtJAO7wSXBjKT6iUx5RCWq76zeO4twU/zNcEi3UQ7t3UXcyYOlREnq5JIiuvykRxqdt7JqqKHTnVbHiDiM3Ll0yImhxugT6fo5hBUukvDpg2xI+Am3eK3reVsW1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qKD24W3X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785426869; c=relaxed/simple;
+	bh=lBNtrU7nqo2LGdziFUJ+g+Dshswg7sI8Cx8mBe+2I0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fNM7dhId/L2b43U8kHgAc6v9SCeUmj2VmbwVsTXxko/Axh7v+qdRLLUUxaavj983y1Lq6IWU3ZrvGzKIsriscv9gnEE6U3WOYxhF+RMUCbsc9fPTfLuWPooKqdjVoIkgh05fvVMbfHWnpTeMTqLeScWtKUDOu+kcpRRDWNl2ZN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CU2CuQod; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qKD24W3X"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 76A95C2BCFF;
-	Thu, 30 Jul 2026 15:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785426246;
-	bh=mD/3VmD6VpaZxXJ70sW89u777nkFAp1DW6jMzjUiB+4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=qKD24W3XUKG0OIWBMWEfVoywwDjwoF3rpXlD20ZI7rwtE2UJX+hnpM7yGTHivuXUf
-	 l0NPm+xc4JRq1u7RFtdqDDZ6A6ocMi9WzX7/el+XTrNtuF3M4nnMuflzaxsSl9mqCk
-	 Ua3Fvojcv6mhiDIgrg0havJ5m5EfkPfksdgIRnciOk+pd+nXRY2M2W5bDXYEaXJhJa
-	 0xfMttSv+L5TAkncc66meym3YmAJ/fXdIU0QW3qk45iLWOwNK9fErVhOKhvxGLmHlZ
-	 fIHaQ071+Bq/6tJuRGgX8sSB0veJ/OR/10dhWXItYERf5SCgjlN72FaC3R575XjpwY
-	 kzohB+Z5pA25g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EF8AC55165;
-	Thu, 30 Jul 2026 15:44:06 +0000 (UTC)
-From: Vincent Jardin via B4 Relay <devnull+vjardin.free.fr@kernel.org>
-Date: Thu, 30 Jul 2026 17:44:02 +0200
-Subject: [PATCH v7 4/4] hwmon: pmbus: mpq8646: gate the writes
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CU2CuQod"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-383cb94f742so14986a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 08:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785426867; x=1786031667; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3mbcUXH2UkXsg3GtsdQpN1QpKfGFyO9S1J1v/052T+U=;
+        b=CU2CuQodpLAa9HH0gNxxoLUj9gmYk6OKojA0Z1dJdlsePoZtfTz4RWlWy9d8pxTSzx
+         r+YCtafE0CI1PKw4jJp48LgguLelRaAji3uxr3Fenrvi1Vh+MKTpfdEjC6Zgif9vxmm5
+         w4WY+MH2o+OK69K3aU77SSWftlHnzwiYdQA9qEMFyFAJbe19taQJAWqma+e7462Ia/eD
+         nSly4+HVQaAwxCNCwtTFVqQzlNnwU0hIE6dWpVETcJ4hYruYFqFN1aizTGbSfJBtIboM
+         85JAc5n1bf79C8LDI/vE/fqasvFo+R3P3JMss1DeMscDmWmk4Ods9cW7Goz4pcdEVVIj
+         HVog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785426867; x=1786031667;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3mbcUXH2UkXsg3GtsdQpN1QpKfGFyO9S1J1v/052T+U=;
+        b=To99zycSxRLBm18lnG3I4RONd6RhOBpRpj46Koy9BAuMxxIC6RM60ZL4Z44NCYIbAY
+         tgaVkiwwGAO2+Sl+gxj2e5SC6nz3uDinA2bzV3QZeVPsSOHUg0UXzPIXqYc+vGs2JUe0
+         RQQh4/LdiHjxKB/xF/A0Xi5bvM4CaiUGJiAmJScTWIAzDKj9CJsjMrb8NSUFycwpHdd5
+         lWCDdCKs1n6SUAcL2ve4qpxAon3POb4C3Nu/bNNX6XTFqCrVTCss23fv+Lvlq74x6UzO
+         WTuSmIlHzT+O39Qdd6yVeYmR3ESrr1mdnUNnCOx6yHvLFW4LlhJ+x6JqzE3eTe5Jea4Z
+         cMpQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrMbvjtidJlvLZyQqw82htaZa3e9NQh5XBWWVlS9OaZkyH9bVYkC2J1dFyHanZr8FENjdKS9BDIZ+o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzrNh4cxoXxk9l0CcHGcxlhi4pyq2ZawaWrK1sAqNuS0HCcWtv
+	AZl50CQ9hlL9EjSy+SHTnt0H9e+b9zFfGyKNvIC0GQaKr+eQIg8OIUDn
+X-Gm-Gg: AR+sD11IRjQRCzEi6jI0izTGiiAC1XLmVFQ+NCsVPCxqb/3Bk0gkR13giPCJHoA8X5c
+	KRiQBBO/tCpZBJsTn9/56C9VD+1b9hhttxrNBWbNdwhYygyvSgoKp7QkjjCVJoLTeYP4bThmq7M
+	XhU909Mg8fvzuGif7PVCO4huEj5lrq5pxwDC7kMw+W8ZdZlQA5APSSYsZo+bBdbqVzLDafm38yd
+	lLO3BvRYineudBctIk9x3sAQG5lqH/No2RDHpE1dDbkSevyo2vkIl4GgnZVGvNpX20Ivu59udPI
+	VuMm78Qmv99Ydmry6t6w04dmsvp1zRcJu0KoS+ttuqcVLBgNPLNEuiPK0j33NrLLskjTBuJ7ZmE
+	rnD9Ir2h3rJonfpNcspUSzHRB0L7OEr9AvOTR4chWdt6k4AAT23aZSzhenwezC69Gq/CpXGV6B0
+	eXhsgZJ/yFPQtCEobo6aMbDFtdB92vpl+Z+lUJCfCPHFWBOEfEPR3CXJRTZNQkzwVjAduAu71MU
+	7Dnm9wtOFXb2jjFeclmVRe+BxyooadN28pWkw==
+X-Received: by 2002:a17:90a:e7d0:b0:381:cef1:11ac with SMTP id 98e67ed59e1d1-38f9be67c0amr2707979a91.10.1785426866937;
+        Thu, 30 Jul 2026 08:54:26 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f9b72c596sm1313465a91.9.2026.07.30.08.54.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 08:54:26 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6287e749-04f5-4a03-a91c-fcc705df269c@roeck-us.net>
+Date: Thu, 30 Jul 2026 08:54:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260730-mpq8646_v0-v7-4-e7c7ad768d5d@free.fr>
-References: <20260730-mpq8646_v0-v7-0-e7c7ad768d5d@free.fr>
-In-Reply-To: <20260730-mpq8646_v0-v7-0-e7c7ad768d5d@free.fr>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Charles Hsu <ythsu0511@gmail.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>, linux-hwmon@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, Vincent Jardin <vjardin@free.fr>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785426244; l=15495;
- i=vjardin@free.fr; s=20260525; h=from:subject:message-id;
- bh=a7ffzCuwakJcXZXjA9CWg37JRemq3HexoclvPD/QSog=;
- b=ufFK6Mdvk3Y/5IxVSymDop00sNSdXts4tv4/rCEmb0L5VDzHQqIBH9e6gGZ0ZlIY9kIMagnP3
- ZwWuwM2ZA2rCtHeQ3UfgvBU974BnpG3SuMXtjzkExjuFmW/F0pqeEr5
-X-Developer-Key: i=vjardin@free.fr; a=ed25519;
- pk=hppgLeFpGpKOi7LNwGEZ4jOYofJCoGd4Jf1ltAabiLw=
-X-Endpoint-Received: by B4 Relay for vjardin@free.fr/20260525 with
- auth_id=871
-X-Original-From: Vincent Jardin <vjardin@free.fr>
-Reply-To: vjardin@free.fr
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
+ pmbus_read_block_data()
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Alan Tull <atull@opensource.altera.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
+ <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
+ <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net> <amtewh9lOgWz0-Nh@nsa>
+ <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net> <amtqPQSM6zsiCh4B@nsa>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <amtqPQSM6zsiCh4B@nsa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Vincent Jardin <vjardin@free.fr>
+On 7/30/26 08:19, Nuno Sá wrote:
+> On Thu, Jul 30, 2026 at 07:47:37AM -0700, Guenter Roeck wrote:
+>> On 7/30/26 07:27, Nuno Sá wrote:
+>>> On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
+>>>> On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
+>>>>> From: Nuno Sá <nuno.sa@analog.com>
+>>>>>
+>>>>> This is in preparation for adding support to a device which needs to
+>>>>> use it's own read_block implementation.
+>>>>>
+>>>>
+>>>> The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
+>>>> I'll need to know if this is a chip limit or a controller limit.
+>>>> If it is a controller limit, a chip specific override would be
+>>>> inappropriate.
+>>>
+>>> I'll reply from top of my head (did not looked at the driver again).
+>>> IIRC, the biggest reason we need the chip-specific implementation is because of
+>>> the RAIL selection logic (mainly when not in page mode).
+>>>
+>>
+>> Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
+>> instead of i2c_smbus_read_block_data(). The rail selection logic would not
+>> require that.
+> 
+> IIRC the reason was because the i2c controller on the raspberry pie does not
+> support i2c_smbus_read_block_data(). So I guess this:
+> 
+> https://elixir.bootlin.com/linux/v7.1.4/source/drivers/i2c/i2c-core-smbus.c#L220
+> 
 
-The write cases of debugfs entries are provisioning and bench
-helpers. By designs the MPQ8646 powers the CPU core rail,
-so a wrong write can brown out the board or persist a bad
-setpoint into finite-cycle NVM.
-Said differently: some wrong register writes can and likely
-will physically damage or destroy the chip and/or the board.
+Hmm, I think we really need a common solution for that problem. Not all
+controllers support i2c_smbus_read_i2c_block_data(), so you are just moving
+the problem from one controller to another.
 
-To be safe, it is disabled by default behind a
-CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE and we print an explicit warning
-banner at probe time when they are built in.
+One key example is the PIIX4 driver. Your new driver does not support the
+majority of PC style systems with AMD CPUs.
 
-Signed-off-by: Vincent Jardin <vjardin@free.fr>
----
- Documentation/hwmon/mpq8646.rst |  39 ++++++
- drivers/hwmon/pmbus/Kconfig     |  20 +++
- drivers/hwmon/pmbus/mpq8646.c   | 288 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 347 insertions(+)
-
-diff --git a/Documentation/hwmon/mpq8646.rst b/Documentation/hwmon/mpq8646.rst
-index d3ede656ea15..d606d957581b 100644
---- a/Documentation/hwmon/mpq8646.rst
-+++ b/Documentation/hwmon/mpq8646.rst
-@@ -246,6 +246,45 @@ The only writable entry is ``alarm_poll_interval_ms`` (the alarm-poll
- worker cadence, see above), it is driver-local and never touches the
- chip.
- 
-+Unsafe provisioning
-+-------------------
-+
-+Available only when ``CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE=y``
-+(``default n``, it is for boards bring up only). They WRITE to the regulator.
-+On many designs the MPQ8646 powers the main CPU core rail, so a wrong write can
-+brown out the board or persist a bad setpoint into finite-cycle NVM.
-+WARNING: Some wrong register writes can and likely will physically damage or
-+destroy the chip and/or the board. An explicit warning banner is printed at probe
-+time when this option is enabled.
-+
-+===============================  ===============  =========================================================
-+File                             PMBus / MFR cmd  Description
-+===============================  ===============  =========================================================
-+``store_all``                    0x15             STORE_USER_ALL Send-Byte (commit RAM config to NVM)
-+``restore_all``                  0x16             RESTORE_USER_ALL Send-Byte (revert RAM to last-NVM image)
-+``clear_protection_last``        0x08             CLEAR_LAST_FAULT Send-Byte
-+``clear_protection_last_force``  --               gated CLEAR_LAST_FAULT, see below
-+``on_off_config``                0x02 (byte)      PMBus vs CTRL-pin on/off source + active polarity
-+``vout_margin_high``             0x25 (word)      margin-high VOUT setpoint
-+``vout_margin_low``              0x26 (word)      margin-low VOUT setpoint
-+``mfr_pmbus_lock``               0xEE (word)      programmable PMBus write-lock
-+``mfr_product_rev_user``         0xC2 (word)      user-programmable product revision
-+===============================  ===============  =========================================================
-+
-+``clear_protection_last`` writes ``CLEAR_LAST_FAULT`` (0x08) Send-Byte.
-+The chip silently no-ops unless ``MFR_CFG_EXT`` (0xF5) bit[6] is set.
-+
-+``clear_protection_last_force`` performs the unlock with the following
-+six-step dancing:
-+
-+1. read ``WRITE_PROTECT`` (0x10) and ``MFR_CFG_EXT`` (0xF5) for restore
-+2. clear ``WRITE_PROTECT`` if set
-+3. set ``MFR_CFG_EXT`` bit[6] = 1, preserving other bits
-+4. send ``CLEAR_LAST_FAULT`` (0x08)
-+5. restore ``MFR_CFG_EXT`` (with retry to handle the chip's
-+   undocumented post-NVM-write busy window)
-+6. restore ``WRITE_PROTECT``
-+
- Devicetree
- ----------
- 
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 9f44e76b0b64..e50a54fc884d 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -627,6 +627,26 @@ config SENSORS_MPQ8646
- 	  This driver can also be built as a module. If so, the module
- 	  will be called mpq8646.
- 
-+config SENSORS_MPQ8646_DEBUG_UNSAFE
-+	bool "MPQ8646 unsafe write/provisioning debugfs (DANGEROUS)"
-+	depends on SENSORS_MPQ8646 && DEBUG_FS
-+	default n
-+	help
-+	  Expose additional WRITE-able debugfs files in the client's
-+	  pmbus debugfs directory,
-+	  /sys/kernel/debug/i2c/i2c-<bus>/<bus>-<addr>/
-+
-+	  These are provisioning and bring-up aids. On many designs the
-+	  MPQ8646 powers the SoC core rail, so a wrong write can brown out
-+	  or permanently mis-provision the board.
-+
-+	  WARNING: Wrong register writes can and likely will physically
-+	  damage or destroy the chip and/or the board.
-+
-+	  It shall never be set in a production, shipping, or default configuration.
-+
-+	  If unsure, say N.
-+
- config SENSORS_PIM4328
- 	tristate "Flex PIM4328 and compatibles"
- 	help
-diff --git a/drivers/hwmon/pmbus/mpq8646.c b/drivers/hwmon/pmbus/mpq8646.c
-index 5133a2471873..6ac82beb0981 100644
---- a/drivers/hwmon/pmbus/mpq8646.c
-+++ b/drivers/hwmon/pmbus/mpq8646.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/bitops.h>
- #include <linux/debugfs.h>
-+#include <linux/delay.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-@@ -23,8 +24,18 @@
- #define MPQ8646_ALARM_POLL_MS_DEFAULT	1000
- 
- /* MPS vendor-extended command codes (NOT in PMBus 1.3 Part II) */
-+#define MPS_CLEAR_LAST_FAULT		0x08
-+#define MPS_MFR_CFG_EXT			0xF5
-+#define MPS_MFR_CFG_EXT_CLR_LAST_EN	BIT(6)
- #define MPS_PROTECTION_LAST		0xFB
- 
-+/*
-+ * PMBus 1.3 NVM commit / revert commands. MPS equivalent of
-+ * STORE_ALL (15h) and RESTORE_ALL (16h).
-+ */
-+#define PMBUS_STORE_USER_ALL		0x15
-+#define PMBUS_RESTORE_USER_ALL		0x16
-+
- /* PMBus 1.3 timing / UVLO command codes */
- #define PMBUS_VIN_ON			0x35
- #define PMBUS_VIN_OFF			0x36
-@@ -36,10 +47,32 @@
- /* MPS vendor-extended observability / identity registers */
- #define MPS_MFR_CONFIG_ID		0xC0
- #define MPS_MFR_CONFIG_CODE_REV		0xC1
-+#define MPS_MFR_PRODUCT_REV_USER	0xC2
- #define MPS_MFR_SILICON_REV		0xC3
- #define MPS_MFR_RETRY_TIMES		0xF4
- #define MPS_MFR_VBOOT_CFG		0xFC
- 
-+/*
-+ * MPS_MFR_PMBUS_LOCK (EEh): 16-bit WORD whose low two bits gate
-+ * subsequent PMBus writes
-+ *   bits[1:0] = 00  -- unlocked (POR default)
-+ *               01  -- lock all writes EXCEPT VOUT_COMMAND (0x21)
-+ *                      so the operator can still DVFS the rail
-+ *               11  -- lock all writes
-+ * A negative-going PG edge resets these bits to 00, the lock
-+ * is operationally reversible without a full chip POR.
-+ */
-+#define MPS_MFR_PMBUS_LOCK		0xEE
-+
-+/*
-+ * Retry parameters for the MFR_CFG_EXT gate-close write after
-+ * CLEAR_LAST_FAULT. Bench-observed NVM-busy NACK window on this
-+ * silicon is about 1 ms; the datasheet does not have information.
-+ */
-+#define MPQ8646_NVM_RETRY_MAX		5
-+#define MPQ8646_NVM_RETRY_DELAY_US_MIN	2000
-+#define MPQ8646_NVM_RETRY_DELAY_US_MAX	4000
-+
- #define MPQ8646_DEBUG(client, fmt, ...) \
- 	dev_dbg(&(client)->dev, fmt, ##__VA_ARGS__)
- 
-@@ -501,6 +534,259 @@ static int mpq8646_dbg_reg_show(struct seq_file *s, void *unused)
- }
- DEFINE_SHOW_ATTRIBUTE(mpq8646_dbg_reg);
- 
-+#ifdef CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE
-+/*
-+ * Write/provisioning data, disabled by default: NVM commit and
-+ * revert, the CLEAR_LAST_FAULT sequences and a small set of named
-+ * writable registers.
-+ */
-+
-+static void mpq8646_unsafe_banner(struct mpq8646_priv *priv)
-+{
-+	dev_warn(&priv->client->dev,
-+		 "**********************************************************\n"
-+		 "**   WARNING WARNING WARNING WARNING WARNING WARNING    **\n"
-+		 "**                                                      **\n"
-+		 "** The MPQ8646 provisioning debugfs writes are enabled. **\n"
-+		 "** Wrong register writes can and likely will physically **\n"
-+		 "** damage or destroy the chip and/or the board.         **\n"
-+		 "**                                                      **\n"
-+		 "** If you see this message and you are not debugging    **\n"
-+		 "** the kernel, report this immediately to your system   **\n"
-+		 "** administrator!                                       **\n"
-+		 "**                                                      **\n"
-+		 "**   WARNING WARNING WARNING WARNING WARNING WARNING    **\n"
-+		 "**********************************************************\n");
-+}
-+
-+static int mpq8646_dbg_clear_protection_last(void *data, u64 val)
-+{
-+	struct mpq8646_priv *priv = data;
-+	int rc;
-+
-+	if (!val)
-+		return 0;
-+
-+	guard(pmbus_lock)(priv->client);
-+	scoped_guard(mutex, &priv->mps_lock)
-+		rc = i2c_smbus_write_byte(priv->client, MPS_CLEAR_LAST_FAULT);
-+	if (rc < 0)
-+		dev_warn(&priv->client->dev,
-+			 "clear_protection_last: CLEAR_LAST_FAULT write failed (%d)\n",
-+			 rc);
-+	return rc;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(mpq8646_dbg_clear_protection_last_fops,
-+			 NULL, mpq8646_dbg_clear_protection_last, "%llu\n");
-+
-+static int mpq8646_dbg_clear_protection_last_force(void *data, u64 val)
-+{
-+	struct mpq8646_priv *priv = data;
-+	int rc, ret;
-+	int wp_orig, cfg_orig;
-+
-+	if (!val)
-+		return 0;
-+
-+	guard(pmbus_lock)(priv->client);
-+	guard(mutex)(&priv->mps_lock);
-+
-+	wp_orig = i2c_smbus_read_byte_data(priv->client, PMBUS_WRITE_PROTECT);
-+	if (wp_orig < 0) {
-+		dev_warn(&priv->client->dev,
-+			 "clear_protection_last_force: WRITE_PROTECT read failed (%d), aborting\n",
-+			 wp_orig);
-+		return wp_orig;
-+	}
-+	cfg_orig = i2c_smbus_read_word_data(priv->client, MPS_MFR_CFG_EXT);
-+	if (cfg_orig < 0) {
-+		dev_warn(&priv->client->dev,
-+			 "clear_protection_last_force: MFR_CFG_EXT read failed (%d), aborting\n",
-+			 cfg_orig);
-+		return cfg_orig;
-+	}
-+
-+	if (wp_orig != 0) {
-+		rc = i2c_smbus_write_byte_data(priv->client,
-+					       PMBUS_WRITE_PROTECT, 0);
-+		if (rc < 0) {
-+			dev_warn(&priv->client->dev,
-+				 "clear_protection_last_force: WP clear failed (%d), aborting\n",
-+				 rc);
-+			return rc;
-+		}
-+	}
-+
-+	ret = i2c_smbus_write_word_data(priv->client, MPS_MFR_CFG_EXT,
-+					(u16)cfg_orig | MPS_MFR_CFG_EXT_CLR_LAST_EN);
-+	if (ret < 0) {
-+		dev_warn(&priv->client->dev,
-+			 "clear_protection_last_force: gate open failed (%d)\n",
-+			 ret);
-+	} else {
-+		ret = i2c_smbus_write_byte(priv->client, MPS_CLEAR_LAST_FAULT);
-+		if (ret < 0)
-+			dev_warn(&priv->client->dev,
-+				 "clear_protection_last_force: CLEAR_LAST_FAULT failed (%d) even with gate open\n",
-+				 ret);
-+
-+		for (int attempt = 0; attempt < MPQ8646_NVM_RETRY_MAX; attempt++) {
-+			rc = i2c_smbus_write_word_data(priv->client,
-+						       MPS_MFR_CFG_EXT,
-+						       (u16)cfg_orig);
-+			if (rc >= 0)
-+				break;
-+			usleep_range(MPQ8646_NVM_RETRY_DELAY_US_MIN,
-+				     MPQ8646_NVM_RETRY_DELAY_US_MAX);
-+		}
-+		if (rc < 0) {
-+			dev_warn(&priv->client->dev,
-+				 "clear_protection_last_force: MFR_CFG_EXT restore failed after retries (%d): gate may stay open until POR\n",
-+				 rc);
-+			if (ret == 0)
-+				ret = rc;
-+		}
-+	}
-+
-+	if (wp_orig != 0) {
-+		rc = i2c_smbus_write_byte_data(priv->client,
-+					       PMBUS_WRITE_PROTECT,
-+					       (u8)wp_orig);
-+		if (rc < 0) {
-+			dev_warn(&priv->client->dev,
-+				 "clear_protection_last_force: WP restore failed (%d)\n",
-+				 rc);
-+			if (ret == 0)
-+				ret = rc;
-+		}
-+	}
-+	return ret;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(mpq8646_dbg_clear_protection_last_force_fops,
-+			 NULL, mpq8646_dbg_clear_protection_last_force, "%llu\n");
-+
-+static int mpq8646_dbg_store_all(void *data, u64 val)
-+{
-+	struct mpq8646_priv *priv = data;
-+	int rc;
-+
-+	if (!val)
-+		return 0;
-+
-+	guard(pmbus_lock)(priv->client);
-+	scoped_guard(mutex, &priv->mps_lock)
-+		rc = i2c_smbus_write_byte(priv->client, PMBUS_STORE_USER_ALL);
-+	if (rc < 0)
-+		dev_warn(&priv->client->dev,
-+			 "store_all: STORE_USER_ALL (0x15) write failed (%d)\n",
-+			 rc);
-+	return rc;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(mpq8646_dbg_store_all_fops,
-+			 NULL, mpq8646_dbg_store_all, "%llu\n");
-+
-+static int mpq8646_dbg_restore_all(void *data, u64 val)
-+{
-+	struct mpq8646_priv *priv = data;
-+	int rc;
-+
-+	if (!val)
-+		return 0;
-+
-+	guard(pmbus_lock)(priv->client);
-+	scoped_guard(mutex, &priv->mps_lock)
-+		rc = i2c_smbus_write_byte(priv->client, PMBUS_RESTORE_USER_ALL);
-+	if (rc < 0)
-+		dev_warn(&priv->client->dev,
-+			 "restore_all: RESTORE_USER_ALL (0x16) write failed (%d)\n",
-+			 rc);
-+	return rc;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(mpq8646_dbg_restore_all_fops,
-+			 NULL, mpq8646_dbg_restore_all, "%llu\n");
-+
-+static const struct mpq8646_dbg_reg mpq8646_dbg_regs_unsafe[] = {
-+	/* PMBus 1.3 control / margin */
-+	{ PMBUS_ON_OFF_CONFIG,      false, "on_off_config" },
-+	{ PMBUS_VOUT_MARGIN_HIGH,   true,  "vout_margin_high" },
-+	{ PMBUS_VOUT_MARGIN_LOW,    true,  "vout_margin_low" },
-+	/* MPS PMBus-level write-protect */
-+	{ MPS_MFR_PMBUS_LOCK,       true,  "mfr_pmbus_lock" },
-+	/* MPS user-writable product revision */
-+	{ MPS_MFR_PRODUCT_REV_USER, true,  "mfr_product_rev_user" },
-+};
-+
-+static int mpq8646_dbg_reg_get(void *data, u64 *val)
-+{
-+	struct mpq8646_dbg_reg_ctx *ctx = data;
-+	int rc;
-+
-+	guard(pmbus_lock)(ctx->priv->client);
-+	if (ctx->desc->is_word)
-+		rc = i2c_smbus_read_word_data(ctx->priv->client,
-+					      ctx->desc->reg);
-+	else
-+		rc = i2c_smbus_read_byte_data(ctx->priv->client,
-+					      ctx->desc->reg);
-+	if (rc < 0)
-+		return rc;
-+	*val = rc;
-+	return 0;
-+}
-+
-+static int mpq8646_dbg_reg_set(void *data, u64 val)
-+{
-+	struct mpq8646_dbg_reg_ctx *ctx = data;
-+	int rc;
-+
-+	guard(pmbus_lock)(ctx->priv->client);
-+	if (ctx->desc->is_word)
-+		rc = i2c_smbus_write_word_data(ctx->priv->client,
-+					       ctx->desc->reg, (u16)val);
-+	else
-+		rc = i2c_smbus_write_byte_data(ctx->priv->client,
-+					       ctx->desc->reg, (u8)val);
-+	return rc < 0 ? rc : 0;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(mpq8646_dbg_reg_rw_fops,
-+			 mpq8646_dbg_reg_get, mpq8646_dbg_reg_set, "0x%llx\n");
-+
-+static void mpq8646_debugfs_register_unsafe(struct mpq8646_priv *priv,
-+					    struct dentry *root)
-+{
-+	struct mpq8646_dbg_reg_ctx *ctx;
-+	size_t i;
-+
-+	mpq8646_unsafe_banner(priv);
-+
-+	debugfs_create_file_unsafe("clear_protection_last", 0200, root, priv,
-+				   &mpq8646_dbg_clear_protection_last_fops);
-+	debugfs_create_file_unsafe("clear_protection_last_force", 0200, root,
-+				   priv,
-+				   &mpq8646_dbg_clear_protection_last_force_fops);
-+	debugfs_create_file_unsafe("store_all", 0200, root, priv,
-+				   &mpq8646_dbg_store_all_fops);
-+	debugfs_create_file_unsafe("restore_all", 0200, root, priv,
-+				   &mpq8646_dbg_restore_all_fops);
-+
-+	ctx = devm_kcalloc(&priv->client->dev,
-+			   ARRAY_SIZE(mpq8646_dbg_regs_unsafe),
-+			   sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return;
-+	for (i = 0; i < ARRAY_SIZE(mpq8646_dbg_regs_unsafe); i++) {
-+		ctx[i].priv = priv;
-+		ctx[i].desc = &mpq8646_dbg_regs_unsafe[i];
-+		debugfs_create_file_unsafe(mpq8646_dbg_regs_unsafe[i].name,
-+					   0600, root, &ctx[i],
-+					   &mpq8646_dbg_reg_rw_fops);
-+	}
-+}
-+#else
-+static inline void mpq8646_debugfs_register_unsafe(struct mpq8646_priv *priv,
-+						   struct dentry *root) {}
-+#endif /* CONFIG_SENSORS_MPQ8646_DEBUG_UNSAFE */
-+
- static int mpq8646_dbg_poll_interval_get(void *data, u64 *val)
- {
- 	struct mpq8646_priv *priv = data;
-@@ -557,6 +843,8 @@ static void mpq8646_debugfs_register(struct mpq8646_priv *priv)
- 				    root, &priv->dbg_reg_ctx[i],
- 				    &mpq8646_dbg_reg_fops);
- 	}
-+
-+	mpq8646_debugfs_register_unsafe(priv, root);
- }
- 
- static void mpq8646_debugfs_unregister(struct mpq8646_priv *priv)
-
--- 
-2.43.0
-
+Guenter
 
