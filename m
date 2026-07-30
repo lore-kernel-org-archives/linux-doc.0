@@ -1,331 +1,489 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013037.outbound.protection.outlook.com [40.107.159.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CEC4302EC;
-	Thu, 30 Jul 2026 13:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58AB421EF8;
+	Thu, 30 Jul 2026 13:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785416774; cv=pass; b=YPod3WYS+EerFt6fmoE/IS4YHkvJzNPjIPgwX3yNnmnCnJm4D8eCH5pKF9b17NlKKiGQUGtmhM5VAw4aLo5bHXd7H2rbstgKJzRn4WE6UlG8eTpW1jMXgG/TEW4ZWW7LHCop20vA6huusRHIeJmihNcWeRWEViVpXXuGE5CHhn0=
+	t=1785419697; cv=fail; b=lHZc2AfE81rmvzYp6bIJxVkilu+ugdz6r2gFme7mDhzWBbl3TQn5Y3zRt/czIHttsvvWDU1fbE+Mc4fSZqkc+JH49q81R1eaLS7nti4ihNn8a2Uchi6UYv3sOqD110+/qyUTntr6y9pFpTy93rLa1FSswYmB4tlXqWuRIhgdPK4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785416774; c=relaxed/simple;
-	bh=zv1N3KRACxqQYLSBoxzsQAyaI3qy862PhjOvQdK3sjk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qUBV0jmPoUZ6afHfoTPbw6La34FTCnPH1K9Du7M1yjk4QH4aYFbeO/9zFy57CbDa8IoM/rh3fl2SeAgZY/Yfew2fW0S5ljIyXVLEZL4gx00qlaVJKhD2Cz7kZdgMZLtJMrSwWZQQTtQol8XfPeO9ixJW1ojclqoG2vapRHcd1fQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=EGCr16od; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	s=arc-20240116; t=1785419697; c=relaxed/simple;
+	bh=gdCyjPl31U9X53MvJ0OSbVSiP+8aBxtR9NmEoCzqkZg=;
+	h=From:Date:Subject:Content-Type:Message-Id:To:Cc:MIME-Version; b=o4Z/c3UqluuRIGyoJ8LykQt1PjzVSMaP38+pUj+t5a/rxNdu+ILN6Nn+JnjYVTFxYt+MCbcNaA5iRczHFMZBg71YhANYEst98NXn0dWt6fuDEMfImsRQT1PbJiQLt1mCaMLErOc1ASrS0RKy+6sfUnrw1YLwPIr9sKhyqwPqNTk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=ieB7bEYv; arc=fail smtp.client-ip=40.107.159.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="EGCr16od"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 5D3FE109D3E6C;
-	Thu, 30 Jul 2026 21:58:13 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lBtrlYVPgqvL; Thu, 30 Jul 2026 21:58:08 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1785416288;
-	b=lJRv04QmGOFry5DLJmxIhIdTGSslLuskBGg0ZiC9uckHet5g2DR/5RRRT9Cntl056lLH
-	 h67HdXcJLb/7DekVAJdG2x4VBKWIM5gzzfw8J0AdcnFn/5GoW/YB+CteAYsjC8fl8YDT9
-	 S6l39ELiTZHlC6JfrY+e5hR1b6jZvGhLS0=
-ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1785416288;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=Jnn7pmJH7PCW/S/7Xx+0EQ5UHqk9vQJERrX0qL5PZp0=;
-	b=pdNq8i5XHJuCISinJNDoF40PK08AIqIXhCFUyM1YFfm6niQrKNvTCgmlbCFRuPf6CAJc
-	 2d2LIqzCdhXgNh1gQJ5ftNmcTKzHuuG5aGjJoKp1mI2ASp7lAurLXNgI73Bvpzl13cmVe
-	 vA+bD6VoS7jJ5H3U6qgV1eptDpmgsQszEU=
-ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 90468109D3E69; Thu, 30 Jul 2026 21:58:08 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 90468109D3E69
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1785416288;
-	bh=Jnn7pmJH7PCW/S/7Xx+0EQ5UHqk9vQJERrX0qL5PZp0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EGCr16odTsbca2XgHIUBP7pFYMnQBVSmGNJT5dahjHBTkBPsL2IEeJAdNh/KRMRkg
-	 nVW4vRLrlsz8e3E8T4hjmO8AZJk30FdieucSiE1Ds7z22gM7IVFWhbv539IZg1eOyq
-	 gfApz2JLCtpv3TaOlQ1I0Ff9IA5oZ4fzwlKvaIn4=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: Akira@www.redadmin.org, Yokosawa@www.redadmin.org,
-	akiyks@gmail.com, Jonathan@www.redadmin.org, Corbet@www.redadmin.org,
-	corbet@lwn.net
-Cc: Shuah@www.redadmin.org, Khan@www.redadmin.org,
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] docs/ja_JP: translate submitting-patches.rst (tag usage)
-Date: Thu, 30 Jul 2026 21:58:04 +0900
-Message-ID: <20260730125804.1078645-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="ieB7bEYv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IdANODgfm8KleDPgvYm0wDhIuaFESkQmwa7qlHWZx548g9Z6PvPfw31JDq3m5qKbBbznEw3D3lMyFza3XNlkX550pvFcV3WFtXxGtSq9myEpQHEVSdO0Xpx8HRHE9mb0i39AI3/QhxxUdvbE0fhs4mCTVfkpwztQaGIUw+aHbWo5WmfaLTLzy2uMJHQwXnXIoXBMWi0/VoVOf0TizhDNyUi2xQYz6oTfj9GkSPk71P4vT30wWaDtGw+9CczJuwgkq1/Ob5XG+wS7yheuf2qjrlNBJgqiCZc8B24pQ294xttAvWKjw6yO2LUqBDgstNZRhvMccPR9XQ9lWr9HIMmCjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8wfHXzLtT3KSH1AkfwGGMSHm3cZublZBD+EK4E8Pg24=;
+ b=gRxCuzijb0DXmRA8hsz/TOTSMeCXCoEVisxdjDX3CBQibd92S8xsDyB0SU5zouSXRsfCILmIRgMezTDRV8Saeo0jsvaC2X+d+tFODyF43uoK7vGalCNBiskA+llxnb/CNRQnjy2cFYXCI9eL2wWQo4Bwgj3wvnmXYvqGW7elJT10rZHbUYHNcwmc42l9ms6Lp4H8JS1xBT0IvZ125q06B4zMRalDmWfxVWmjFn52wo+OPmeXcuAnoFiyZMoTedgRyvGLqQzjyKU5CjqW7OrVnDe8pLp9nU0iaxkYwngqXzjOt42od7y03J6Zlq53/rsf4pkVlGEV0bD0vBpeOPbonA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8wfHXzLtT3KSH1AkfwGGMSHm3cZublZBD+EK4E8Pg24=;
+ b=ieB7bEYvoetrAu/4h4V+iHXGUknxvaUQlnH78qhcNXwvLziEk2T/5AxAZkwy6Dgq+Am60u98nHP2fs9KP7DHQLPwwNmyu6T6pp7X7Csy/09t8Qk0j6uWxM/9HqqmXNzZz8MLdnffbzPueC9NJ21OyzjqHSk62eDS3ueI2PxJ4Cm5sIZRhC2w++XyjdTrd2w0uYHg5gUANbuig2q0CJ3wS+4Zn2JDKxT6V0SoRgGALTElUhruLZGbnhFl9KG3fSexBZeIkme6xm8y/fJu8bHthbjYFbqA3xM8yUodO7PAJr44Tuwd+RvrSnJ+29gKa+uxHLxvgX4ZY8GP4TMZr14i7g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
+ by AS8PR04MB8850.eurprd04.prod.outlook.com (2603:10a6:20b:42d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Thu, 30 Jul
+ 2026 13:54:52 +0000
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9%6]) with mapi id 15.21.0245.010; Thu, 30 Jul 2026
+ 13:54:51 +0000
+From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Date: Thu, 30 Jul 2026 21:53:02 +0800
+Subject: [PATCH v2] arm64: errata: Add NXP iMX8QM workaround for A53 cache
+ coherency issue
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260730-imx8qm-cache-coherency-v2-1-5651aeb1af16@nxp.com>
+X-B4-Tracking: v=1; b=H4sIAD1Xa2oC/4WNTQ6CMBBGr2Jm7RhakB9X3sOwwOlox4QWWyQQw
+ t0FPIDLl7zvfTNEDsIRLocZAg8SxbsV9PEAZBv3ZBSzMuhE50mhK5R2LN8tUkOWkbzlwI4mTJW
+ uzNk0qWEF67gL/JBxD9/qH8fP/cXUb7XNsBJ7H6b9eVCb9/dkUKiQqjLPWJdJlhZXN3Yn8i3Uy
+ 7J8AYLwRZzMAAAA
+X-Change-ID: 20260729-imx8qm-cache-coherency-3129d5da3de1
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+ Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, "Ivan T. Ivanov" <iivanov@suse.de>, 
+ Francesco Dolcini <francesco@dolcini.it>, Frank Li <frank.li@nxp.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, imx@lists.linux.dev, 
+ Peng Fan <peng.fan@nxp.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: SI1PR02CA0026.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::11) To AM8PR04MB7874.eurprd04.prod.outlook.com
+ (2603:10a6:20b:24d::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|AS8PR04MB8850:EE_
+X-MS-Office365-Filtering-Correlation-Id: 343dcdeb-46fe-4a7a-7e68-08deee4220a0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|19092799006|13003099007|6133799003|56012099006|11063799006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	Pg1vj46sloEisdSSqmxBB8cJInSovW4W+2rvqlbG9+0AmTXXdCkZA6SV7zlwvte05WVXTcTDWEo/5RNf/b3SndqSqowuRVbLr4pkQ6cfZ6DY2sNMV41op4nYXVDBaLS9QhFrTAviUFhPkXvEKnkqszxUMUxh8BBx30oVWLpHapaCRVMQPv3NLHkCe8bCCnd+ZfoK1aOxFPtSJ/GMUuLkae5WHnkacAjDpwUKbIRKJY+2QpX5PULswQtJ0YF6MZU1xf44Qdz2TJVvhTD10mtjRCRmptC7UfgV04ehZuIiTkU/wyaaxtX28rzASAiiaN4zM2Nbob84SuKBdbmuZpCn9FRa7rtNHKdKxuKH9OgBGKoEsWmoI8Y1TrmnkqX03cYwQ+K+qvMJUolreYiLMbk1YbyyQwk6zjWk2RMhRaDrXczM8Ee8I8EW4DfP2O3f3qMFTSqjbkMM2ywG9G9853xReHZSQbHVkRhwUBai+sAc7FrGKW4RUctA0kCG0YcmVpTqbZR8Gl9GsQ49kmBNhqdnAecxmKPRU6OsL4vQSoWqtzSZU/k7tcEQ9XgaiwkRxv7bUYWYg+c4MUdjbOudsJTktwaj5TvLTA/KjN4TyHMo8/NwWDsyVcUcaqq8gclrCsLM
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(19092799006)(13003099007)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MXhNZkN4QzgrTkZqc0tvOHRHSmpIRlQ0OUlzWGxUSjBqbDFsSmQ4LzdJZ0xx?=
+ =?utf-8?B?bURzSXY5aGVlK0Nyc0VNVHJiekZ0YklqNHlVYjcyYXdadEV6bEVpOFNxaWRi?=
+ =?utf-8?B?ZTI1UU0ybUwvRHVvM3RqZ1NJU0tMWTFRbitNWUFydGdLTnY0blhpSisrRmNu?=
+ =?utf-8?B?WU1za2FiM2lCSXFRU21mbG5kQUZ2cCtGWHI1aWEyTTJ4ekllcmY2OWR1bTJK?=
+ =?utf-8?B?ZFdhaDJkZDJlNndZNkRXM2Y1SjhMeERkeXJKZ1crOFZ1QkRmNzhOK1BpYzVC?=
+ =?utf-8?B?VEhwTGFUVGMwWm5Ca0xXcWNZb3VGMjJnOExrT2liaTBBU2hHY21oTFN4cEVE?=
+ =?utf-8?B?V0VVQlVpRDZ2aGxDd0dIMElIMGVxUWlReHhIQWkzMmVkRWYyZVJjVHdLWGRm?=
+ =?utf-8?B?SFpHd0FkYmpTS0JwOUlwV1craEdzQ09vV00yS0QrRVVpTFl6SDJxM01hU3I1?=
+ =?utf-8?B?MTFLMkZOdk1sNUFnU3FaMmFnYmphTWlTekRXeExiQTdqNWdqemZ2ZmhxQWx3?=
+ =?utf-8?B?QVViNGU0MEdtaWZhRkw5RFZnOERmblVuR2p2Q3hJNHJGemdJTVJQbk9qcWRM?=
+ =?utf-8?B?UHlZSytsTDNvcWlTVGJBemczNk0za1JLbWI1V0tBbWlvSllGU3hYUm1Oc2NR?=
+ =?utf-8?B?cWlEUW5KYXJYYXBQVTZNcXByK09UdVpsTnVHUSsvRUZ6NjlCV0lvQXNXVUZr?=
+ =?utf-8?B?OStoR0lwdk52RUFJK2VrL3FTeXlzbFVJTmlhTVUyV01FNFh3T2pZS2IrSm1l?=
+ =?utf-8?B?bWl3WjNERWZ1cWoxTHlxQlJiU1VWME9kMUE1VXZUc0p3L1ppVlRoN1UvNlNr?=
+ =?utf-8?B?MzQ1VUxMQzF0ZXowVjNNRFkwc3Q3UVJCdTduQlFvYmZ3aWg5L21KaWpIRlBa?=
+ =?utf-8?B?Y1BuaGJiZTkrcVpZK2hLS0gvbFl6NmpZbytnS29NM25xaDJsRTRlYzZYQU9k?=
+ =?utf-8?B?TmRmS1R5dXN5WmVaNUVobE1qaTJWVnlCZGswUWNua0w4OHViZmxzVVEydlpY?=
+ =?utf-8?B?aFBZY3NzYUsrQW42TnhmcUpXdEJPRUkrSnNVOFJwOS9KWmY1cjl3VCt6MHht?=
+ =?utf-8?B?Rkg4ZGZXeEhmZml1ZzBmajhjSkZ2OThDSThTMU9NSlI1dHUrcWlPQlpSekJJ?=
+ =?utf-8?B?TTJYZUlDRjlJMmxSNzRCNisrVjJ5azZyeFhFU1kwbFFCK1lYTkE2RHhvT1FF?=
+ =?utf-8?B?aVNrVzE4Yk4yREY0Qy90NkVjcEZmenhsZXpPVmYybG1zemxuMkF5NVJ5Q01a?=
+ =?utf-8?B?a1ppN0RiVlJqUWh5QXRMN2M3SGhCazBQbDk2UnN0dzZnOXhrUCt1T1pQakh3?=
+ =?utf-8?B?RGRZODZuTE5US1pBQ0lHbFdsRS9uV0N1d0kvVDVEMEpzcjFXQXVTVW5pODF4?=
+ =?utf-8?B?bHB2WjV5MGF6V3dlWmc1TWZBcGV4YjJUS3VzQXZQMm5pTmgyNkxpQjJrY2Rh?=
+ =?utf-8?B?MXlLYXM1a0IxVzNVM29TWE1Jc3RjT1BhWjY2LysyZzZBS29EMG5KbU1PR0NT?=
+ =?utf-8?B?Q2Z0a0lCWWtxL1hkb3ZuUEphalF6RjNVYkxMTU5BQkV5ZS9rc1NPTjRZSkdQ?=
+ =?utf-8?B?SW1ObnI0QWtuY3NHOE8ySVAwT0FENFE0WW5VRUZlanM5Ulhjb20xTGlBT3dP?=
+ =?utf-8?B?aGZrL0JSNVZnb2Y1enBvdlc2aVJoeEFQS056a2xTa215SjFRb0pnZDJqbVVJ?=
+ =?utf-8?B?Y1d1YTd6a0UrTDhoZEt2b2lUbUpmL09kZHdDSE8wNmFNQjVyVU1KVUxOZTI0?=
+ =?utf-8?B?ZTlFKzA4cFVHL2Jla1VNUjlpc1RGUSswWDY3ZExVZnZqOUdqV0tIL0xsRXBy?=
+ =?utf-8?B?NTdpZ0lhZjVFbCtBTGFxSmdRcVJHbzNFOXlYVXZJK3FhbVBxS1k2KzVwUjdP?=
+ =?utf-8?B?KzJENG9jMHh4UEhXc1BXaWNsc0VvSUtWcFFDTWVqZjllcFRucFJtRzlJZEdT?=
+ =?utf-8?B?cWpLTjJVaDRHcjdsT3ZiM3FGTENQTlNUcnBZMFVpMzQ2Wit0UnpzeCszY0I4?=
+ =?utf-8?B?Y0lRc0V1cmtKNzBKRGZHWWIxRTZoN0hodmxSV2oxdTZWamxZVERIYXBxcGYw?=
+ =?utf-8?B?T2NsZ3JtU1VQejVEMUpVenN6QlRQbGRaOGpwZ2llZW9iQ2x0OXdzYnE2eDBW?=
+ =?utf-8?B?ZjZ3czBvaHVOQ1VRbkE2YVZQRXpXOVVlZ0s1UnBVVys4em9tNVgzVVJkTmo4?=
+ =?utf-8?B?bzlMSEFneVVPV3JjaWRhUW9uMzVDSm0vaFEraVgrd3N3NU4rN3l3UDlVdEtP?=
+ =?utf-8?B?SCszb1hQRTVncUVCZyswaVhwVXdmeThvTWtWSXFIT214NFNWdTEyVE9MN2tD?=
+ =?utf-8?B?S2hteVlQeSszRzVYTlhXdEZYSHQ2WDZEdUk1THN0U1UweE1JcGpPYUZIdVpa?=
+ =?utf-8?Q?MUoqw9CserPMSJWrrwF+2mCDaZo1zutRp7wvO?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 343dcdeb-46fe-4a7a-7e68-08deee4220a0
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2026 13:54:51.9119
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ahKmt5uL1VrCgRds8toNsWrMrJ+cLYtts5jnaYUwoPiUEprw9ZkWujbQkDCO2nZdWJINhsMQ2fHub0DM6H8suAiQ9G1tckCdpHIbyTq2l+RSxFpRic0NfXIuQ7bRwHyG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8850
 
-Translate the Acked-by:, Cc:, and Co-developed-by: section into Japanese.
+From: Peng Fan <peng.fan@nxp.com>
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+According to NXP errata document IMX8_1N94W[1], the i.MX8QuadMax SoC
+suffers from a serious cache coherency issue (ERR050104). The upper
+bits, above bit 35, of the ARADDR and ACADDR buses within the Arm A53
+subsystem have been incorrectly connected. This causes some TLBI and IC
+maintenance operations exchanged between the A53 and A72 core clusters
+to be corrupted.
+
+The workaround requires:
+
+  - Downgrading targeted TLBI operations to broadcast-all variants.
+    Instead of patching the low-level __TLBI_1 macro (which interferes
+    with the REPEAT_TLBI workaround and causes excessive over-
+    invalidation), redirect high-level TLB flush functions
+    (flush_tlb_mm, __do_flush_tlb_range, flush_tlb_kernel_range,
+    __flush_tlb_kernel_pgtable) to use VMALLE1IS via static key checks.
+
+  - Upgrading IC IVAU to IC IALLUIS for both kernel (via ALTERNATIVE in
+    invalidate_icache_by_line) and EL0 userspace (via trap-and-upgrade
+    in user_cache_maint_handler with SCTLR_EL1.UCI=0).
+
+  - Disabling KVM since correct TLB maintenance cannot be guaranteed
+    for guests without the proper devicetree.
+
+  - No need to touch SMMU Broadcast TLB Maintenance (BTM) since i.MX8QM
+    does not support broadcast TLB.
+
+SoC detection uses devicetree compatible string "fsl,imx8qm" since the
+boot CPU MIDR_EL1 (0x410fd034) and AIDR_EL1 (0) are not unique to this
+SoC.
+
+[1] https://www.nxp.com/docs/en/errata/IMX8_1N94W.pdf
+
+[ Reworked per review feedback from Will Deacon and Mark Rutland:
+  - Move TLBI workaround from __TLBI_1 macro to high-level flush
+    functions to avoid REPEAT_TLBI interaction issues
+  - Add kernel IC IVAU upgrade via ALTERNATIVE in assembler.h
+  - Add cpucap_is_possible() entry for compile-time elimination]
+
+Co-developed-by: Ivan T. Ivanov <iivanov@suse.de>
+Signed-off-by: Ivan T. Ivanov <iivanov@suse.de>
+Link: https://lore.kernel.org/all/20230420112952.28340-1-iivanov@suse.de/
+Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- .../ja_JP/process/submitting-patches.rst      | 94 +++++++++++++++++++
- 1 file changed, 94 insertions(+)
+This picks up the work originally done by Ivan T. Ivanov in 2023 [1],
+reworked to address review feedback from Will Deacon and Mark Rutland,
+and rebased onto linux-next (next-20260723).
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index 22d54b663051..797b70b97fa7 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -479,3 +479,97 @@ revert =E3=81=AB=E3=82=82 ``Signed-off-by:`` =E3=82=92=
-=E5=90=AB=E3=82=81=E3=82=8B=E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=
-=81=BE=E3=81=99=E3=80=82
- =E9=96=A2=E4=B8=8E=E3=81=9B=E3=81=9A=E3=80=81=E3=81=9D=E3=81=AE=E5=8F=96=
-=E3=82=8A=E6=89=B1=E3=81=84=E3=82=84=E8=BB=A2=E9=80=81=E3=82=92=E8=A1=8C=E3=
-=81=A3=E3=81=9F=E4=BA=BA=E3=81=AB=E3=82=88=E3=82=8B=E3=82=82=E3=81=AE=E3=81=
-=A7=E3=81=99=E3=80=82SoB =E3=81=AE=E9=80=A3=E9=8E=96=E3=81=AF=E3=80=81
- =E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=
-=E3=83=BC=E3=82=92=E7=B5=8C=E3=81=A6=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AB Li=
-nus =E3=81=B8=E5=B1=8A=E3=81=84=E3=81=9F=E5=AE=9F=E9=9A=9B=E3=81=AE=E7=B5=
-=8C=E8=B7=AF=E3=82=92=E5=8F=8D=E6=98=A0=E3=81=99=E3=82=8B
- =E5=BF=85=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=
-=E6=9C=80=E5=88=9D=E3=81=AE SoB =E3=81=AF=E3=80=81=E5=8D=98=E7=8B=AC=E3=81=
-=AE=E4=B8=BB=E8=A6=81=E4=BD=9C=E8=80=85=E3=81=A7=E3=81=82=E3=82=8B=E3=81=93=
-=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
+Changes from v2 [1]:
+  - Moved TLBI workaround from __TLBI_1 macro to high-level flush
+    functions (flush_tlb_mm, __do_flush_tlb_range, flush_tlb_kernel_range,
+    __flush_tlb_kernel_pgtable) to avoid REPEAT_TLBI interaction issues,
+    per Will Deacon suggestion to use static keys at the higher level.
+  - Added kernel IC IVAU -> IC IALLUIS upgrade via ALTERNATIVE in
+    assembler.h, per Mark Rutland review noting that only EL0 traps
+    were handled in v2.
+  - Added cpucap_is_possible() entry for compile-time elimination when
+    CONFIG_NXP_IMX8QM_ERRATUM_ERR050104 is not set.
+  - Dropped SMMU BTM changes since iMX8QM does not support broadcast TLB.
+
+[1] https://lore.kernel.org/all/20230420112952.28340-1-iivanov@suse.de/
+[2] https://www.nxp.com/docs/en/errata/IMX8_1N94W.pdf
+---
+Changes in v2:
+- Skip the workaround for local (TLBF_NOBROADCAST) TLB flushes; they
+  don't cross the core's external interface (Mark Rutland).
+- Preserve IC IVAU fault reporting: run "ic ivau" for the local fault
+  check, then "ic ialluis" only on success (Mark Rutland).
+- Link to v1: https://patch.msgid.link/20260729-imx8qm-cache-coherency-v1-1-c9864e280437@nxp.com
+---
+ Documentation/arch/arm64/silicon-errata.rst |  2 +
+ arch/arm64/Kconfig                          | 16 ++++++++
+ arch/arm64/include/asm/assembler.h          |  5 +++
+ arch/arm64/include/asm/cpucaps.h            |  2 +
+ arch/arm64/include/asm/tlbflush.h           | 62 ++++++++++++++++++-----------
+ arch/arm64/kernel/cpu_errata.c              | 20 ++++++++++
+ arch/arm64/kernel/traps.c                   |  2 +
+ arch/arm64/kvm/arm.c                        |  5 +++
+ arch/arm64/tools/cpucaps                    |  1 +
+ 9 files changed, 91 insertions(+), 24 deletions(-)
+
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index 868bd9eed9a6..a90fd2ec532b 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -321,6 +321,8 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
+ +----------------+-----------------+-----------------+-----------------------------+
++| Freescale/NXP  | i.MX 8QuadMax   | ERR050104       | NXP_IMX8QM_ERRATUM_ERR050104|
+++----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Hisilicon      | Hip0{5,6,7}     | #161010101      | HISILICON_ERRATUM_161010101 |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index faccdf847a67..eea6774baf0d 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1454,6 +1454,22 @@ config ROCKCHIP_ERRATUM_3588001
+ 
+ 	  If unsure, say Y.
+ 
++config NXP_IMX8QM_ERRATUM_ERR050104
++	bool "NXP iMX8QM ERR050104: broken cache/TLB invalidation broadcast"
++	default y
++	help
++	  On iMX8QM, address bits above bit 35 in the A53 subsystem ARADDR and
++	  ACADDR buses are incorrectly connected. This corrupts targeted TLBI
++	  and IC broadcasts exchanged between the A53 and A72 core clusters.
 +
++	  Work around this by redirecting targeted TLBI operations to
++	  broadcast-all variants (VMALLE1IS) in the high-level TLB flush
++	  functions, upgrading IC IVAU to IC IALLUIS for both kernel and
++	  user-space, and disabling KVM since correct TLB maintenance
++	  cannot be guaranteed for guests.
 +
-+Acked-by:=E3=80=81Cc:=E3=80=81Co-developed-by: =E3=82=92=E4=BD=BF=E7=94=A8=
-=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88
-+------------------------------------------------
++	  If unsure, say Y.
 +
-+``Signed-off-by:`` =E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81=E7=BD=B2=E5=90=8D=
-=E8=80=85=E3=81=8C=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E9=96=8B=E7=99=BA=E3=
-=81=AB=E9=96=A2=E4=B8=8E=E3=81=97=E3=81=9F=E3=81=8B=E3=80=81
-+=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E9=80=81=E4=BB=98=
-=E7=B5=8C=E8=B7=AF=E3=81=AB=E9=96=A2=E4=B8=8E=E3=81=97=E3=81=9F=E3=81=93=E3=
-=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
+ config SOCIONEXT_SYNQUACER_PREITS
+ 	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
+ 	default y
+diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
+index effae53e9739..b35c9308e32b 100644
+--- a/arch/arm64/include/asm/assembler.h
++++ b/arch/arm64/include/asm/assembler.h
+@@ -455,6 +455,10 @@ alternative_else_nop_endif
+  * 	Corrupts:	tmp1, tmp2
+  */
+ 	.macro invalidate_icache_by_line start, end, tmp1, tmp2, fixup
++alternative_if ARM64_WORKAROUND_NXP_ERR050104
++	ic	ialluis
++	b	.Licache_done\@
++alternative_else_nop_endif
+ 	icache_line_size \tmp1, \tmp2
+ 	sub	\tmp2, \tmp1, #1
+ 	bic	\tmp2, \start, \tmp2
+@@ -463,6 +467,7 @@ alternative_else_nop_endif
+ 	add	\tmp2, \tmp2, \tmp1
+ 	cmp	\tmp2, \end
+ 	b.lo	.Licache_op\@
++.Licache_done\@:
+ 	dsb	ish
+ 	isb
+ 
+diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+index 76350b38f0d7..0c3bfbe99aad 100644
+--- a/arch/arm64/include/asm/cpucaps.h
++++ b/arch/arm64/include/asm/cpucaps.h
+@@ -66,6 +66,8 @@ cpucap_is_possible(const unsigned int cap)
+ 		return IS_ENABLED(CONFIG_ARM64_ERRATUM_3194386);
+ 	case ARM64_WORKAROUND_4193714:
+ 		return IS_ENABLED(CONFIG_ARM64_ERRATUM_4193714);
++	case ARM64_WORKAROUND_NXP_ERR050104:
++		return IS_ENABLED(CONFIG_NXP_IMX8QM_ERRATUM_ERR050104);
+ 	case ARM64_MPAM:
+ 		/*
+ 		 * KVM MPAM support doesn't rely on the host kernel supporting MPAM.
+diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
+index 14a78ac0f800..a05520d3a013 100644
+--- a/arch/arm64/include/asm/tlbflush.h
++++ b/arch/arm64/include/asm/tlbflush.h
+@@ -378,9 +378,13 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
+ 	unsigned long asid;
+ 
+ 	dsb(ishst);
+-	asid = __TLBI_VADDR(0, ASID(mm));
+-	__tlbi(aside1is, asid);
+-	__tlbi_user(aside1is, asid);
++	if (alternative_has_cap_unlikely(ARM64_WORKAROUND_NXP_ERR050104)) {
++		__tlbi(vmalle1is);
++	} else {
++		asid = __TLBI_VADDR(0, ASID(mm));
++		__tlbi(aside1is, asid);
++		__tlbi_user(aside1is, asid);
++	}
+ 	__tlbi_sync_s1ish(mm);
+ 	mmu_notifier_arch_invalidate_secondary_tlbs(mm, 0, -1UL);
+ }
+@@ -580,23 +584,28 @@ static __always_inline void __do_flush_tlb_range(struct vm_area_struct *vma,
+ 
+ 	asid = ASID(mm);
+ 
+-	switch (flags & (TLBF_NOWALKCACHE | TLBF_NOBROADCAST)) {
+-	case TLBF_NONE:
+-		__flush_s1_tlb_range_op(vae1is, start, pages, stride,
+-					asid, tlb_level);
+-		break;
+-	case TLBF_NOWALKCACHE:
+-		__flush_s1_tlb_range_op(vale1is, start, pages, stride,
+-					asid, tlb_level);
+-		break;
+-	case TLBF_NOBROADCAST:
+-		/* Combination unused */
+-		BUG();
+-		break;
+-	case TLBF_NOWALKCACHE | TLBF_NOBROADCAST:
+-		__flush_s1_tlb_range_op(vale1, start, pages, stride,
+-					asid, tlb_level);
+-		break;
++	if (alternative_has_cap_unlikely(ARM64_WORKAROUND_NXP_ERR050104) &&
++	    !(flags & TLBF_NOBROADCAST)) {
++		__tlbi(vmalle1is);
++	} else {
++		switch (flags & (TLBF_NOWALKCACHE | TLBF_NOBROADCAST)) {
++		case TLBF_NONE:
++			__flush_s1_tlb_range_op(vae1is, start, pages, stride,
++						asid, tlb_level);
++			break;
++		case TLBF_NOWALKCACHE:
++			__flush_s1_tlb_range_op(vale1is, start, pages, stride,
++						asid, tlb_level);
++			break;
++		case TLBF_NOBROADCAST:
++			/* Combination unused */
++			BUG();
++			break;
++		case TLBF_NOWALKCACHE | TLBF_NOBROADCAST:
++			__flush_s1_tlb_range_op(vale1, start, pages, stride,
++						asid, tlb_level);
++			break;
++		}
+ 	}
+ 
+ 	if (!(flags & TLBF_NONOTIFY))
+@@ -657,7 +666,8 @@ static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end
+ 	end = round_up(end, stride);
+ 	pages = (end - start) >> PAGE_SHIFT;
+ 
+-	if (__flush_tlb_range_limit_excess(pages, stride)) {
++	if (alternative_has_cap_unlikely(ARM64_WORKAROUND_NXP_ERR050104) ||
++	    __flush_tlb_range_limit_excess(pages, stride)) {
+ 		flush_tlb_all();
+ 		return;
+ 	}
+@@ -675,10 +685,14 @@ static inline void flush_tlb_kernel_range(unsigned long start, unsigned long end
+  */
+ static inline void __flush_tlb_kernel_pgtable(unsigned long kaddr)
+ {
+-	unsigned long addr = __TLBI_VADDR(kaddr, 0);
+-
+ 	dsb(ishst);
+-	__tlbi(vaae1is, addr);
++	if (alternative_has_cap_unlikely(ARM64_WORKAROUND_NXP_ERR050104)) {
++		__tlbi(vmalle1is);
++	} else {
++		unsigned long addr = __TLBI_VADDR(kaddr, 0);
 +
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E6=BA=96=E5=82=99=E3=82=84=E5=8F=96=
-=E3=82=8A=E6=89=B1=E3=81=84=E3=81=AB=E7=9B=B4=E6=8E=A5=E9=96=A2=E4=B8=8E=E3=
-=81=97=E3=81=A6=E3=81=84=E3=81=AA=E3=81=84=E4=BA=BA=E3=81=8C=E3=80=81=E3=81=
-=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=B8=E3=81=AE
-+=E6=89=BF=E8=AA=8D=E3=82=92=E8=A1=A8=E6=98=8E=E3=81=97=E3=80=81=E8=A8=98=
-=E9=8C=B2=E3=81=AB=E6=AE=8B=E3=81=97=E3=81=9F=E3=81=84=E5=A0=B4=E5=90=88=E3=
-=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=A4=89=E6=9B=B4=E5=B1=
-=A5=E6=AD=B4=E3=81=AB
-+``Acked-by:`` =E8=A1=8C=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=99=E3=82=8B=E3=82=
-=88=E3=81=86=E4=BE=9D=E9=A0=BC=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
++		__tlbi(vaae1is, addr);
++	}
+ 	__tlbi_sync_s1ish_kernel();
+ 	isb();
+ }
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 5db8f0619e4b..1866eeec27ca 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/arm-smccc.h>
++#include <linux/of.h>
+ #include <linux/types.h>
+ #include <linux/cpu.h>
+ #include <asm/cpu.h>
+@@ -200,6 +201,16 @@ cpu_enable_cache_maint_trap(const struct arm64_cpu_capabilities *__unused)
+ 	sysreg_clear_set(sctlr_el1, SCTLR_EL1_UCI, 0);
+ }
+ 
++#ifdef CONFIG_NXP_IMX8QM_ERRATUM_ERR050104
++static bool
++is_imx8qm_soc(const struct arm64_cpu_capabilities *entry, int scope)
++{
++	WARN_ON(preemptible());
 +
-+``Acked-by:`` =E3=81=AF=E3=80=81=E4=BD=95=E3=82=89=E3=81=8B=E3=81=AE=E5=BD=
-=A2=E3=81=A7=E5=BD=B1=E9=9F=BF=E3=82=92=E5=8F=97=E3=81=91=E3=82=8B=E3=82=B3=
-=E3=83=BC=E3=83=89=E3=81=AB=E8=B2=AC=E4=BB=BB=E3=82=92=E6=8C=81=E3=81=A4=E4=
-=BA=BA=E3=80=81
-+=E3=81=BE=E3=81=9F=E3=81=AF=E3=81=9D=E3=81=AE=E3=82=B3=E3=83=BC=E3=83=89=
-=E3=81=AB=E9=96=A2=E4=B8=8E=E3=81=99=E3=82=8B=E4=BA=BA=E3=81=8C=E4=BD=BF=E7=
-=94=A8=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E6=84=8F=E5=9B=B3=E3=81=
-=97=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=82
-+=E6=9C=80=E3=82=82=E4=B8=80=E8=88=AC=E7=9A=84=E3=81=AA=E3=81=AE=E3=81=AF=
-=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E4=BD=9C=E6=88=90=E3=81=AB=E3=
-=82=82=E8=BB=A2=E9=80=81=E3=81=AB=E3=82=82=E9=96=A2=E4=B8=8E=E3=81=97=E3=81=
-=A6=E3=81=84=E3=81=AA=E3=81=84
-+=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=83=BC=E3=81=8C=E4=BD=BF=E7=94=A8=
-=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=A7=E3=81=99=E3=80=82
++	return of_machine_is_compatible("fsl,imx8qm");
++}
++#endif
 +
-+``Acked-by:`` =E3=81=AF=E3=80=81=E5=A4=89=E6=9B=B4=E3=81=95=E3=82=8C=E3=82=
-=8B=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E5=85=83=E3=81=AE=E4=BD=9C=E8=80=85=
-=E3=81=AA=E3=81=A9=E3=80=81=E3=81=9D=E3=81=AE=E5=88=86=E9=87=8E=E3=81=AE
-+=E7=9F=A5=E8=AD=98=E3=82=92=E6=8C=81=E3=81=A4=E4=BA=BA=E3=80=81=E3=82=AB=
-=E3=83=BC=E3=83=8D=E3=83=AB uAPI =E3=83=91=E3=83=83=E3=83=81=E3=82=92=E3=83=
-=A6=E3=83=BC=E3=82=B6=E3=83=BC=E7=A9=BA=E9=96=93=E5=81=B4=E3=81=8B=E3=82=89=
-=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=99=E3=82=8B=E4=BA=BA=E3=80=81
-+=E3=81=BE=E3=81=9F=E3=81=AF=E6=A9=9F=E8=83=BD=E3=81=AE=E4=B8=BB=E8=A6=81=
-=E3=81=AA=E5=88=A9=E7=94=A8=E8=80=85=E3=81=AA=E3=81=A9=E3=80=81=E3=81=9D=E3=
-=81=AE=E4=BB=96=E3=81=AE=E5=88=A9=E5=AE=B3=E9=96=A2=E4=BF=82=E8=80=85=E3=82=
-=82=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=93=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E5=A0=B4=E5=90=88=E3=81=AF=
-=E3=80=81=E5=BF=85=E8=A6=81=E3=81=AB=E5=BF=9C=E3=81=98=E3=81=A6=E6=84=8F=E5=
-=91=B3=E3=82=92=E6=98=8E=E7=A2=BA=E3=81=AB=E3=81=99=E3=82=8B=E3=81=9F=E3=82=
-=81=E3=81=AB
-+``# Suffix`` =E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=99=E3=82=8B=E3=81=A8=E4=BE=
-=BF=E5=88=A9=E3=81=A7=E3=81=99::
+ #define CAP_MIDR_RANGE(model, v_min, r_min, v_max, r_max)	\
+ 	.matches = is_affected_midr_range,			\
+ 	.midr_range = MIDR_RANGE(model, v_min, r_min, v_max, r_max)
+@@ -1030,6 +1041,15 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+ 		.matches = has_broken_gic_v3_seis,
+ 	},
++#ifdef CONFIG_NXP_IMX8QM_ERRATUM_ERR050104
++	{
++		.desc = "NXP erratum ERR050104",
++		.capability = ARM64_WORKAROUND_NXP_ERR050104,
++		.type = ARM64_CPUCAP_STRICT_BOOT_CPU_FEATURE,
++		.matches = is_imx8qm_soc,
++		.cpu_enable = cpu_enable_cache_maint_trap,
++	},
++#endif
+ 	{
+ 	}
+ };
+diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
+index 914282016069..d6391ab20db3 100644
+--- a/arch/arm64/kernel/traps.c
++++ b/arch/arm64/kernel/traps.c
+@@ -586,6 +586,8 @@ static void user_cache_maint_handler(unsigned long esr, struct pt_regs *regs)
+ 		break;
+ 	case ESR_ELx_SYS64_ISS_CRM_IC_IVAU:	/* IC IVAU */
+ 		__user_cache_maint("ic ivau", address, ret);
++		if (cpus_have_final_cap(ARM64_WORKAROUND_NXP_ERR050104) && !ret)
++			asm volatile("ic ialluis");
+ 		break;
+ 	default:
+ 		force_signal_inject(SIGILL, ILL_ILLOPC, regs->pc, 0);
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index 9a6c72a18672..734ccd7ec056 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -3032,6 +3032,11 @@ static __init int kvm_arm_init(void)
+ 
+ 	in_hyp_mode = is_kernel_in_hyp_mode();
+ 
++	if (cpus_have_final_cap(ARM64_WORKAROUND_NXP_ERR050104)) {
++		kvm_info("KVM not supported on NXP iMX8QM (ERR050104)\n");
++		return -ENODEV;
++	}
 +
-+    Acked-by: The Stakeholder <stakeholder@example.org> # As primary user
-+
-+``Acked-by:`` =E3=81=AF ``Signed-off-by:`` =E3=81=BB=E3=81=A9=E6=AD=A3=E5=
-=BC=8F=E3=81=AA=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF=E3=81=82=E3=82=8A=E3=81=
-=BE=E3=81=9B=E3=82=93=E3=80=82
-+=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81=E6=89=BF=E8=AA=8D=E3=81=97=E3=81=9F=
-=E4=BA=BA=E3=81=8C=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=E3=82=82=E3=83=91=E3=
-=83=83=E3=83=81=E3=82=92=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=97=E3=80=
-=81=E5=8F=97=E3=81=91=E5=85=A5=E3=82=8C=E3=82=8B=E6=84=8F=E6=80=9D=E3=82=92
-+=E7=A4=BA=E3=81=97=E3=81=9F=E3=81=93=E3=81=A8=E3=81=AE=E8=A8=98=E9=8C=B2=
-=E3=81=A7=E3=81=99=E3=80=82=E3=81=9D=E3=81=AE=E3=81=9F=E3=82=81=E3=80=81=E3=
-=83=91=E3=83=83=E3=83=81=E3=82=92=E3=83=9E=E3=83=BC=E3=82=B8=E3=81=99=E3=82=
-=8B=E4=BA=BA=E3=81=8C=E3=80=81
-+=E3=80=8C=E3=81=AF=E3=81=84=E3=80=81=E5=95=8F=E9=A1=8C=E3=81=AA=E3=81=95=
-=E3=81=9D=E3=81=86=E3=81=A7=E3=81=99=E3=80=8D=E3=81=A8=E3=81=84=E3=81=86=E8=
-=BF=94=E7=AD=94=E3=82=92=E6=89=8B=E5=8B=95=E3=81=A7 ``Acked-by:`` =E3=81=AB
-+=E5=A4=89=E6=8F=9B=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=
-=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E3=81=9F=E3=81=A0=E3=81=97=E3=80=81=E9=
-=80=9A=E5=B8=B8=E3=81=AF=E6=98=8E=E7=A4=BA=E7=9A=84=E3=81=AA=E6=89=BF=E8=AA=
-=8D=E3=82=92=E6=B1=82=E3=82=81=E3=82=8B=E6=96=B9=E3=81=8C
-+=E9=81=A9=E5=88=87=E3=81=A7=E3=81=99=E3=80=82
-+
-+``Acked-by:`` =E3=81=AF ``Reviewed-by:`` =E3=82=88=E3=82=8A=E3=82=82=E6=AD=
-=A3=E5=BC=8F=E3=81=AA=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF=E3=81=82=E3=82=8A=
-=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+=E3=81=9F=E3=81=A8=E3=81=88=E3=81=B0=E3=80=81=E3=83=A1=E3=83=B3=E3=83=86=
-=E3=83=8A=E3=83=BC=E3=81=AF=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E5=8F=96=E3=
-=82=8A=E8=BE=BC=E3=81=BE=E3=82=8C=E3=82=8B=E3=81=93=E3=81=A8=E3=81=AB=E5=90=
-=8C=E6=84=8F=E3=81=97=E3=81=A6=E3=81=84=E3=81=A6=E3=82=82=E3=80=81
-+``Reviewed-by:`` =E3=82=92=E4=BB=98=E3=81=91=E3=82=8B=E5=A0=B4=E5=90=88=E3=
-=81=BB=E3=81=A9=E5=8D=81=E5=88=86=E3=81=AB=E3=81=AF=E3=83=AC=E3=83=93=E3=83=
-=A5=E3=83=BC=E3=81=97=E3=81=A6=E3=81=84=E3=81=AA=E3=81=84=E3=81=93=E3=81=A8=
-=E3=82=92
-+=E7=A4=BA=E3=81=99=E3=81=9F=E3=82=81=E3=81=AB=E4=BD=BF=E7=94=A8=E3=81=A7=
-=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82=E5=90=8C=E6=A7=98=E3=81=AB=E3=80=81=E4=
-=B8=BB=E8=A6=81=E3=81=AA=E5=88=A9=E7=94=A8=E8=80=85=E3=81=AF=E3=83=91=E3=83=
-=83=E3=83=81=E3=81=AE=E6=8A=80=E8=A1=93=E7=9A=84=E3=81=AA
-+=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92=E8=A1=8C=E3=81=A3=E3=81=A6=
-=E3=81=84=E3=81=AA=E3=81=8F=E3=81=A6=E3=82=82=E3=80=81=E5=85=A8=E4=BD=93=E7=
-=9A=84=E3=81=AA=E6=96=B9=E9=87=9D=E3=80=81=E6=A9=9F=E8=83=BD=E3=80=81=E3=81=
-=BE=E3=81=9F=E3=81=AF
-+=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E5=90=91=E3=81=91=E3=82=A4=E3=83=B3=
-=E3=82=BF=E3=83=BC=E3=83=95=E3=82=A7=E3=83=BC=E3=82=B9=E3=81=AB=E6=BA=80=E8=
-=B6=B3=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=8C=E3=81=
-=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+
-+``Acked-by:`` =E3=81=AF=E3=80=81=E5=BF=85=E3=81=9A=E3=81=97=E3=82=82=E3=83=
-=91=E3=83=83=E3=83=81=E5=85=A8=E4=BD=93=E3=81=B8=E3=81=AE=E5=90=8C=E6=84=8F=
-=E3=82=92=E7=A4=BA=E3=81=99=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF
-+=E3=81=82=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82=E3=81=9F=E3=81=A8=
-=E3=81=88=E3=81=B0=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E8=A4=87=E6=
-=95=B0=E3=81=AE=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E3=81=
-=AB=E5=BD=B1=E9=9F=BF=E3=81=97=E3=80=81
-+=E3=81=9D=E3=81=AE=E3=81=86=E3=81=A1=E4=B8=80=E3=81=A4=E3=81=AE=E3=82=B5=
-=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E3=81=AE=E3=83=A1=E3=83=B3=E3=
-=83=86=E3=83=8A=E3=83=BC=E3=81=8B=E3=82=89 ``Acked-by:`` =E3=81=8C
-+=E4=BB=98=E3=81=91=E3=82=89=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B=E5=A0=B4=
-=E5=90=88=E3=80=81=E9=80=9A=E5=B8=B8=E3=81=AF=E3=80=81=E3=81=9D=E3=81=AE=E3=
-=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=83=BC=E3=81=8C=E6=8B=85=E5=BD=93=E3=81=
-=99=E3=82=8B=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AB
-+=E5=BD=B1=E9=9F=BF=E3=81=99=E3=82=8B=E9=83=A8=E5=88=86=E3=81=A0=E3=81=91=
-=E3=81=B8=E3=81=AE=E5=90=8C=E6=84=8F=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=
-=81=99=E3=80=82=E3=81=93=E3=81=93=E3=81=A7=E3=81=AF=E7=8A=B6=E6=B3=81=E3=81=
-=AB=E5=BF=9C=E3=81=98=E3=81=9F=E5=88=A4=E6=96=AD=E3=81=8C
-+=E5=BF=85=E8=A6=81=E3=81=A7=E3=81=99=E3=80=82=E7=96=91=E5=95=8F=E3=81=8C=
-=E3=81=82=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E3=83=A1=E3=83=BC=E3=
-=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E3=82=A2=E3=83=BC=E3=82=
-=AB=E3=82=A4=E3=83=96=E3=81=AB=E3=81=82=E3=82=8B
-+=E5=85=83=E3=81=AE=E8=AD=B0=E8=AB=96=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=
-=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=93=E3=81=AE=E5=
-=A0=B4=E5=90=88=E3=82=82=E3=80=81=E6=84=8F=E5=91=B3=E3=82=92=E6=98=8E=E7=A2=
-=BA=E3=81=AB=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AB
-+``# Suffix`` =E3=82=92=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=
-=99=E3=80=82
-+
-+=E3=81=82=E3=82=8B=E4=BA=BA=E3=81=8C=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=
-=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=81=99=E3=82=8B=E6=A9=9F=E4=BC=9A=E3=
-=82=92=E5=BE=97=E3=81=9F=E3=82=82=E3=81=AE=E3=81=AE=E3=80=81=E3=82=B3=E3=83=
-=A1=E3=83=B3=E3=83=88=E3=81=97=E3=81=AA=E3=81=8B=E3=81=A3=E3=81=9F
-+=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E5=BF=85=E8=A6=81=E3=81=AB=E5=BF=9C=
-=E3=81=98=E3=81=A6=E3=83=91=E3=83=83=E3=83=81=E3=81=AB ``Cc:`` =E3=82=BF=E3=
-=82=B0=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=
-=82=E3=81=93=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AF=E3=80=81
-+=E9=96=A2=E5=BF=83=E3=82=92=E6=8C=81=E3=81=A4=E5=8F=AF=E8=83=BD=E6=80=A7=
-=E3=81=AE=E3=81=82=E3=82=8B=E4=BA=BA=E3=81=8C=E8=AD=B0=E8=AB=96=E3=81=AB=E5=
-=90=AB=E3=81=BE=E3=82=8C=E3=81=A6=E3=81=84=E3=81=9F=E3=81=93=E3=81=A8=E3=82=
-=92=E8=A8=98=E9=8C=B2=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=AA=E3=81=8A=E3=80=81=E3=81=93=E3=82=8C=E3=81=AF=E3=80=81=E5=90=8D=
-=E5=89=8D=E3=82=92=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=82=8B=E6=9C=AC=E4=
-=BA=BA=E3=81=AE=E6=98=8E=E7=A4=BA=E7=9A=84=E3=81=AA=E8=A8=B1=E5=8F=AF=E3=81=
-=AA=E3=81=97=E3=81=AB=E4=BD=BF=E7=94=A8=E3=81=A7=E3=81=8D=E3=82=8B
-+=E5=8F=AF=E8=83=BD=E6=80=A7=E3=81=AE=E3=81=82=E3=82=8B=E4=B8=89=E3=81=A4=
-=E3=81=AE=E3=82=BF=E3=82=B0=E3=81=AE=E3=81=86=E3=81=A1=E3=81=AE=E4=B8=80=E3=
-=81=A4=E3=81=A7=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AB=E3=81=A4=E3=81=
-=84=E3=81=A6=E3=81=AF=E3=80=81=E5=BE=8C=E8=BF=B0=E3=81=AE
-+=E3=80=8C=E4=BA=BA=E3=82=92=E3=82=BF=E3=82=B0=E4=BB=98=E3=81=91=E3=81=99=
-=E3=82=8B=E3=81=AB=E3=81=AF=E8=A8=B1=E5=8F=AF=E3=81=8C=E5=BF=85=E8=A6=81=E3=
-=80=8D=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=
-=95=E3=81=84=E3=80=82
-+
-+``Co-developed-by:`` =E3=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=
-=8C=E8=A4=87=E6=95=B0=E3=81=AE=E9=96=8B=E7=99=BA=E8=80=85=E3=81=AB=E3=82=88=
-=E3=81=A3=E3=81=A6=E5=85=B1=E5=90=8C=E3=81=A7=E4=BD=9C=E6=88=90=E3=81=95=E3=
-=82=8C=E3=81=9F
-+=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=97=E3=81=BE=E3=81=99=E3=80=82=
-=E8=A4=87=E6=95=B0=E3=81=AE=E4=BA=BA=E3=81=8C=E4=B8=80=E3=81=A4=E3=81=AE=E3=
-=83=91=E3=83=83=E3=83=81=E3=82=92=E5=85=B1=E5=90=8C=E3=81=A7=E4=BD=9C=E6=88=
-=90=E3=81=97=E3=81=9F=E5=A0=B4=E5=90=88=E3=81=AB=E3=80=81
-+``From:`` =E3=82=BF=E3=82=B0=E3=81=A7=E7=A4=BA=E3=81=95=E3=82=8C=E3=82=8B=
-=E4=BD=9C=E8=80=85=E3=81=AB=E5=8A=A0=E3=81=88=E3=81=A6=E3=80=81=E5=85=B1=E5=
-=90=8C=E4=BD=9C=E8=80=85=E3=81=AE=E8=B2=A2=E7=8C=AE=E3=82=92=E6=98=8E=E8=A8=
-=98=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AB
-+=E4=BD=BF=E7=94=A8=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
-+
-+``Co-developed-by:`` =E3=81=AF=E4=BD=9C=E8=80=85=E3=81=A7=E3=81=82=E3=82=
-=8B=E3=81=93=E3=81=A8=E3=82=92=E7=A4=BA=E3=81=99=E3=81=9F=E3=82=81=E3=80=81=
-=E5=90=84
-+``Co-developed-by:`` =E3=81=AE=E7=9B=B4=E5=BE=8C=E3=81=AB=E3=81=AF=E3=80=
-=81=E5=AF=BE=E5=BF=9C=E3=81=99=E3=82=8B=E5=85=B1=E5=90=8C=E4=BD=9C=E8=80=85=
-=E3=81=AE
-+``Signed-off-by:`` =E3=82=92=E5=BF=85=E3=81=9A=E8=A8=98=E8=BC=89=E3=81=97=
-=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=
-=82=93=E3=80=82=E9=80=9A=E5=B8=B8=E3=81=AE sign-off
-+=E6=89=8B=E7=B6=9A=E3=81=8D=E3=81=8C=E9=81=A9=E7=94=A8=E3=81=95=E3=82=8C=
-=E3=81=BE=E3=81=99=E3=80=82=E3=81=A4=E3=81=BE=E3=82=8A=E3=80=81=E4=BD=9C=E8=
-=80=85=E3=81=8C ``From:`` =E3=81=A8
-+``Co-developed-by:`` =E3=81=AE=E3=81=A9=E3=81=A1=E3=82=89=E3=81=A7=E7=A4=
-=BA=E3=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B=E3=81=8B=E3=81=AB=E3=81=8B=
-=E3=81=8B=E3=82=8F=E3=82=89=E3=81=9A=E3=80=81
-+``Signed-off-by:`` =E3=82=BF=E3=82=B0=E3=81=AE=E9=A0=86=E5=BA=8F=E3=81=AF=
-=E3=80=81=E5=8F=AF=E8=83=BD=E3=81=AA=E9=99=90=E3=82=8A=E3=83=91=E3=83=83=E3=
-=83=81=E3=81=AE=E6=99=82=E7=B3=BB=E5=88=97=E4=B8=8A=E3=81=AE
-+=E7=B5=8C=E7=B7=AF=E3=82=92=E5=8F=8D=E6=98=A0=E3=81=99=E3=82=8B=E5=BF=85=
-=E8=A6=81=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E7=89=B9=E3=
-=81=AB=E3=80=81=E6=9C=80=E5=BE=8C=E3=81=AE ``Signed-off-by:`` =E3=81=AF=E3=
-=80=81
-+=E5=BF=85=E3=81=9A=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E6=8F=90=E5=87=BA=
-=E3=81=99=E3=82=8B=E9=96=8B=E7=99=BA=E8=80=85=E3=81=AE=E3=82=82=E3=81=AE=E3=
-=81=A7=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=
-=9B=E3=82=93=E3=80=82
-+
-+=E3=81=AA=E3=81=8A=E3=80=81``From:`` =E3=82=BF=E3=82=B0=E3=81=A7=E7=A4=BA=
-=E3=81=95=E3=82=8C=E3=82=8B=E4=BD=9C=E8=80=85=E3=81=8C=E3=80=81=E3=83=A1=E3=
-=83=BC=E3=83=AB=E3=83=98=E3=83=83=E3=83=80=E3=83=BC=E3=81=AE From =E8=A1=8C=
-=E3=81=AB
-+=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=81=9F=E4=BA=BA=E7=89=A9=E3=81=8A=
-=E3=82=88=E3=81=B3=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=A2=E3=83=89=E3=83=AC=E3=
-=82=B9=E3=81=A8=E5=90=8C=E3=81=98=E5=A0=B4=E5=90=88=E3=80=81``From:`` =E3=
-=82=BF=E3=82=B0=E3=81=AF
-+=E7=9C=81=E7=95=A5=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
-+
-+``From:`` =E3=81=AE=E4=BD=9C=E8=80=85=E8=87=AA=E8=BA=AB=E3=81=8C=E6=8F=90=
-=E5=87=BA=E3=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E4=BE=8B::
-+
-+    <changelog>
-+
-+    Co-developed-by: First Co-Author <first@coauthor.example.org>
-+    Signed-off-by: First Co-Author <first@coauthor.example.org>
-+    Co-developed-by: Second Co-Author <second@coauthor.example.org>
-+    Signed-off-by: Second Co-Author <second@coauthor.example.org>
-+    Signed-off-by: From Author <from@author.example.org>
-+
-+``Co-developed-by:`` =E3=81=AB=E8=A8=98=E8=BC=89=E3=81=95=E3=82=8C=E3=81=
-=9F=E4=BD=9C=E8=80=85=E3=81=8C=E6=8F=90=E5=87=BA=E3=81=99=E3=82=8B=E3=83=91=
-=E3=83=83=E3=83=81=E3=81=AE=E4=BE=8B::
-+
-+    From: From Author <from@author.example.org>
-+
-+    <changelog>
-+
-+    Co-developed-by: Random Co-Author <random@coauthor.example.org>
-+    Signed-off-by: Random Co-Author <random@coauthor.example.org>
-+    Signed-off-by: From Author <from@author.example.org>
-+    Co-developed-by: Submitting Co-Author <sub@coauthor.example.org>
-+    Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
---=20
-2.52.0
+ 	if (cpus_have_final_cap(ARM64_WORKAROUND_DEVICE_LOAD_ACQUIRE) ||
+ 	    cpus_have_final_cap(ARM64_WORKAROUND_1508412))
+ 		kvm_info("Guests without required CPU erratum workarounds can deadlock system!\n" \
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index fbf27e887e71..fb3fe9736cc6 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -123,6 +123,7 @@ WORKAROUND_DEVICE_LOAD_ACQUIRE
+ WORKAROUND_DISABLE_CNP
+ WORKAROUND_GICv3_BROKEN_SEIS
+ WORKAROUND_NVIDIA_OLYMPUS_1027
++WORKAROUND_NXP_ERR050104
+ WORKAROUND_PMUV3_IMPDEF_TRAPS
+ WORKAROUND_QCOM_FALKOR_E1003
+ WORKAROUND_QCOM_ORYON_CNTVOFF
+
+---
+base-commit: 9eebf259d5352b87080d67758f483583d9e763d7
+change-id: 20260729-imx8qm-cache-coherency-3129d5da3de1
+
+Best regards,
+--  
+Peng Fan <peng.fan@nxp.com>
 
