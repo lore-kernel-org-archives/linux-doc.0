@@ -1,89 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3582347987E;
-	Fri, 31 Jul 2026 18:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0918A334C05;
+	Fri, 31 Jul 2026 19:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785523914; cv=none; b=mN2WG/QCekCGE9wlsyupGHBUVzYByes2tCeIUA1Ag3QXhc9WHgzoq5ILeXMY8XwR5Ewl1+flHxD2zzmdD9RJ0G4aab5wGibLJywCyelQSD4vPkzB7DTTuFb6r72+z80XibhovY0wUk2cr9z+UQJt3AoN49Xig8ASbwmw2nbFJhU=
+	t=1785526340; cv=none; b=KGonfbzdvCERy587i65EXxq1iQcHOcbXcoUQxDFrokRwOPxPd63yK1DqjYflMWwvZoPcUVd2P5WFfdUNZa0eLQJvRyVdjjENYTpOHGmXqcdNzzbUWmBe0wAgqYVS/cbG+ywabGqccMTNHECyqUUMHcoLLf0/jm3BcWvtg/N9k0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785523914; c=relaxed/simple;
-	bh=Xk98sFUvrCpMxkX85+qDFdjYRwm+QTgOL6cUrk3dQgE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HWGpidng3LEkt2+pZkejMXA3EP3Js+X5Srkay/lZXzKF0GvAyFG3CdKzyZ4zbtNfroyFU90uMdtWdt6fVnAsN2dNISlLqaxbpm0OiZIY1NWWAEnicBQYNXH+q+UntvtEw8e6lnYHErJVqlJEmgBX8IVwnJ2gFOoEkrzobklNEMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWj+jl6+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785526340; c=relaxed/simple;
+	bh=/x3DAX8mMJBaUM4CPpO3v+QMfwDWiNe/r4tGssdMriA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WlXZCACXK0ym6VYYQxIc4bPojvZYN1ZvOrp6CdN7xtCMhZoZj2/Pprz7/E3+NLW00EMucLPcL1/Q+Uj3HZziklGS/A3Fa+KbAK6iLMREw03xnG+X/VjNwm237A7SrAZV39yRNKcmhRkuQdVEiS7YaPnJgYndiMudN3qb96Sr+MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=4JL39Brv; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWj+jl6+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B221F00AC4;
-	Fri, 31 Jul 2026 18:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785523913;
-	bh=WZot6GFuhy9a+s0IugMlJ70eCJTGgM/zB3nf4mCWRaw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=cWj+jl6+CIO586r12U21up84e9GPZCTcTt1faCSxLcxizMMQQYcGKJGz/RvwNUsY/
-	 aNz08ZnrEy2GS4PI9u7HWHsjdy2cEuPiuw4/2ICAhpkLXV+jfknNspSWeB8GuyJdiZ
-	 v4l033aztqBDf7SJKezD1t/ki1Ul0fh+H749i48g6EUXUccI/Kk1nM9juxWpPQahEK
-	 hS5gBep5O6YqbxDTAEq0IbrHvL+dXmHxuPf6At3kVig8G23cbWX8/SnAMmXWMwo/vw
-	 xdCfQCzCunPoMu9xqGAK4A18oKbFIOUJQhxkIJYMXhgFS/Ms+YHadkGCkOuth+dJTa
-	 j/oVHggj+p9Hg==
-From: Oliver Upton <oupton@kernel.org>
-To: kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Congkai Tan <congkai@amazon.com>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Haris Okanovic <harisokn@amazon.com>,
-	Geoff Blake <blakgeof@amazon.com>,
-	Stanislav Spassov <stanspas@amazon.de>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] KVM: arm64: Expose PMMIR_EL1.SLOTS to guests
-Date: Fri, 31 Jul 2026 11:51:44 -0700
-Message-ID: <178552142318.30097.12495596662819704320.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260722202702.4165917-1-congkai@amazon.com>
-References: <20260722202702.4165917-1-congkai@amazon.com>
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="4JL39Brv"
+Message-ID: <90d1e043-22bd-4396-9661-7d6bc09c577b@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1785526329;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O4jqEg0X0hwJwDC02WsOCU0Xy7yncoYUpeBkZdxksZM=;
+	b=4JL39BrvYPYHsvFJM4CNpZONrevzOx+RknRAnMGzuncHoduVpTabTilU9U7fGI7yy6djzt
+	RZMtGqu5HL4gAtCNxIJt//HzjelpMA/vQCJIEe8h9P/29CjtPSIOs01+9KLkzuwpZaGjfe
+	rUEqfjXt/Kt4ZCEVTWPLRvckwT7+krI=
+Date: Fri, 31 Jul 2026 21:32:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] arch: arm64: add early_param idle=<wfi|yield|nop>
+To: Will Deacon <will@kernel.org>, Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20260711-arm64-idle-param-v2-1-0ab67652a435@cyberchaos.dev>
+ <amE5bX0jey6WS0U1@willie-the-truck>
+ <a6602971-87f8-4365-9ec2-dfe3a1ccfeb6@cyberchaos.dev>
+ <amzKZgqrqqM7E_9Q@google.com>
+Content-Language: en-US
+From: Yureka Lilian <yureka@cyberchaos.dev>
+In-Reply-To: <amzKZgqrqqM7E_9Q@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Jul 2026 20:26:58 +0000, Congkai Tan wrote:
-> Today when the perf tool runs in a guest on cores with PMUv3p4, it fails
-> to parse the default metrics with "Failure to read '#slots'", since perf
-> can only read 0 from sysfs caps/slots, which is backed by PMMIR_EL1.SLOTS
-> that KVM traps as RAZ/WI.
-> 
-> Taking into account backward compatibility and heterogeneous systems, the
-> exposure of PMMIR_EL1.SLOTS is gated behind a new vCPU feature flag:
-> 
-> [...]
+On 7/31/26 18:16, Will Deacon wrote:
+> Hi Yureka,
+>
+> On Mon, Jul 27, 2026 at 10:49:57AM +0200, Yureka Lilian wrote:
+>> On 7/22/26 23:43, Will Deacon wrote:
+>>> On Sat, Jul 11, 2026 at 09:35:25AM +0200, Yureka Lilian wrote:
+>>>> diff --git a/arch/arm64/lib/delay.c b/arch/arm64/lib/delay.c
+>>>> index e278e060e78a..2452990ed37a 100644
+>>>> --- a/arch/arm64/lib/delay.c
+>>>> +++ b/arch/arm64/lib/delay.c
+>>>> @@ -15,6 +15,8 @@
+>>>>    #include <clocksource/arm_arch_timer.h>
+>>>> +#include "../kernel/idle.h"
+>>>> +
+>>>>    #define USECS_TO_CYCLES(time_usecs)			\
+>>>>    	xloops_to_cycles((time_usecs) * 0x10C7UL)
+>>>> @@ -49,7 +51,8 @@ void __delay(unsigned long cycles)
+>>>>    		 * Start with WFIT. If an interrupt makes us resume
+>>>>    		 * early, use a WFET loop to complete the delay.
+>>>>    		 */
+>>>> -		wfit(end);
+>>>> +		if (likely(idle == ARM64_IDLE_WFI))
+>>>> +			wfit(end);
+>>> Rather than scatter the idle implementation check across all users of
+>>> WFI*, why not move this into the macro itself? That way, the callers can
+>>> all stay like they are but the macro behaves as specified.
+>> In practise, I could only find the following uses of WFI / WFIT / wfi() /
+>> wfit() in arm64 code: 1) the default idle loop and delay() function;
+>> arguably the only "real" users 2) parking cores after different kinds of
+>> unexpected situations / crashes.
+>>
+>> Just to confirm, you are suggesting to add the conditionals to
+>> arch/arm64/include/asm/barrier.h, and have wfi() and wfit() macros not
+>> actually do WFI / WFIT depending on the value of the idle param?
+>>
+>> I'm torn about this: We should maybe first discuss what effect idle= should
+>> have: Should it prevent WFI running anywhere in the kernel when idle=nop, OR
+>> is its intended use case to change the default arm64 implementations for
+>> idle and delay, while still allowing other parts of the kernel to use WFI
+>> (for example, for custom cpuidle implementation)? I think the existing nohlt
+>> parameter, which disables all idle states, is more fitting for the first
+>> goal, even though it currently does not prevent the wfit in the delay
+>> function.
+> I think nohlt will break the PSCI cpuidle proposal here:
+>
+> https://lore.kernel.org/all/20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org/
+>
+>> For preventing WFI anywhere, I think alternatives patching based on the
+>> earlyparam would be the most reliable way to achieve that, and second most
+>> reliable way is putting the conditional in the wfi() / wfit() macros.
+>>
+>> But my assumption is that what we want to achieve is actually closer to
+>> changing only the default idle implementation, while allowing an idle state
+>> registered at later point to still do its thing (including using WFI for
+>> this purpose). And for this (and to be more flexible with other idle modes
+>> e.g. yield), what I proposed in this patch makes more sense, and I'm
+>> relatively confident it will fulfill the Apple Silicon use case without
+>> adding many more scattered checks other than these two.
+>> Does this make sense?
+> I keep changing my mind about this patch :/
+Ultimately I'm happy we found a solution which covers the Apple Silicon 
+use case while also not making too much of a mess elsewhere, and I 
+appreciate your feedback a lot!
+>
+> What do you think about a funny sort of hybrid approach where:
+>
+>    * We have idle=, but it really only affects the idle loop
+>    * We have a cpu_errata entry to detect (based on the MIDR) this CPU
+>      and then avoid patching in the WFIT instructions (i.e. don't detect
+>      the ARM64_HAS_WFXT capability).
+>
+> I think that would solve the case for you, as well as giving others finer
+> grained control over the idle implementation and adding the infrastructure
+> we need to handle a CPU with broken wfit.
 
-Applied to next, thanks!
+The idle param portion, if implemented like you say only affecting the 
+idle loop, should be rather uncontroversial.
 
-[1/4] KVM: arm64: Expose PMMIR_EL1.SLOTS under strict PMUv3 UAPI
-      https://git.kernel.org/kvmarm/kvmarm/c/453f6ff04b8d
-[2/4] KVM: arm64: Advertise STALL_SLOT* in PMCEID1 under strict PMUv3 UAPI
-      https://git.kernel.org/kvmarm/kvmarm/c/203b22f76dc3
-[3/4] KVM: arm64: Ignore writes to PMCR_EL0.N when using strict UAPI
-      https://git.kernel.org/kvmarm/kvmarm/c/bbef6317f97b
-[4/4] KVM: arm64: Add KVM_ARM_VCPU_PMU_V3_STRICT vCPU feature
-      https://git.kernel.org/kvmarm/kvmarm/c/ad220e275c39
+Getting the other part of it (the WFIT in the delay function) right is 
+much more difficult, but it also has less of an performance / efficiency 
+impact if it's a bit on the conservative side and we can find a good 
+solution independently of the idle param.
 
---
-Best,
-Oliver
+>
+> Will
+
+Thanks,
+
+- Yureka
+
