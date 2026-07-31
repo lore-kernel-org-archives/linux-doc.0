@@ -1,205 +1,92 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D952288505
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 05:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785476776; cv=pass; b=Zz6N4dndwACLMuhEjMCPhoaGDwlEz1OAA1RlgoOMhamAd6ORURGW8c0FpkWAkicqXqzqPsn2PRh1DWvqneq8igxoDmSUkCSesOCNVsXooa5x7Cryca7EhbCfZeVO84z9H5L3DOo1X4ehmQCyTRZRA6vq5iI+/Iq0IDHbuGAvXSI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785476776; c=relaxed/simple;
-	bh=dOX2oJiDvFctrTMaZgDSRBdjWS60VPlFbcph9MdYbxo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kiPGpikeKG/U6auLhhN19n4aRkqNfBjVKInVJikVXHW4IMDb1CU+wzF95G9Ui3AQzfGIcTqFDGMvf8tPnuM8BZhBvKxaoVwyiWWuqlvDIy66/76VaWrVyb1jbsESAgayc3fkTw2k5zhpZ9zN0+XlohxdBvismekpWfmmQOkFlmo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b=EB2NkgeJ; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF294361971
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 06:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785478681; cv=none; b=BiL7/iOpnkDsfyH3qxPl5iGpWNWOl1vlKKTXqTAuU5X026kpWfLpY64Dm6RWpcCqHy58kEJAwCraA4V8lv+Hvo2owpXdtHTi+wjq896UMOWG7a0pVuRETiep/hfRqSRBYzBpno7hdmUfqRdZJIs5ORJ23+fxEx/VAyvVvwKtTVA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785478681; c=relaxed/simple;
+	bh=l3ovaiTHFKXSKDfHjYM3EkbYDIejAQtujx+3k6WNlRU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UCVQaitouGVBmtPBgF4jaD8fQtXyDbFNHnrz4De/naLNupi9Pk81RTyKFgrMUuEwRUM2UN5AGH7MKj0pVpivTm0VzpdWhgW54EKs96xi5hxRUhtk/aonlOQunqPpCKmS2R+FUBZNyrEDSDTgXNNCFv8KsYSx2vbnoA5eZLx3iF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3kZBAky; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b="EB2NkgeJ"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47f7872abb6so331726f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 22:46:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785476773; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gatFQNVSef/2JBsEzNz7y2jfpffx11CDbJhk06IH8sk42eth9vJxgeBMyXQQfYa4HW
-         oJalL5kvqK+UN0w8FzwnuBppRUbt8KUZAw28XvOIWKofyAwffNKBqBCQaOW4xgSbj5zT
-         Akmz6F1slptq/iAo3jJbcjxcsJfvxrfrQ3sRZ0Iz/tbHhpMQcYiQ6X9Nd+0Su0uMZE+j
-         bdW4AM6AA8MknaFeXKXoGO3sFEgVm2/HQvhoqSBAlZnGMOnOG/9fbDQmuK6wkSdUy7s0
-         ak/OhM/Q3DYddTRShcV2l2yA1BukFI5pepoXYf4RMlHN8uvUYd9aGc2li6swmdwqWenJ
-         bJFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/Lf8luiLEN3RbexnbiyQwUf8ICLEKYk0IAFsMs36M5k=;
-        fh=1yVDpaR0e6ck5BTnHhTiGcukJ0hpNwseaXVZbt1alqM=;
-        b=RLlmtaG2L5Tu/1oAGsETNZUC5/G4kNYmGfM2EC9wYIGBE0x9jIwnN4QS+zSgGhq2rD
-         diR0rz+YDehGBh1q3pxl5ILTp/AMcdj+H/frSSYUC4WpiX286Ly2AU0uG/QEyneICIG3
-         1CHxePP8YlHb3gMiIqf7k7ZHH0xlMFzKWwQdT7n6HZzlPJMDcsY3PMz9gdCsO4r6R9NL
-         8gIhYPkrQnWTYPSSKiNMZtav4AnQKFofCzZyCQ5I6Hn0tJwNnPIQysrDVtwDkIOV8zmV
-         vLO2Uoa0XMW/sWo6jizugLsi5ET7/flB0xKUPULa6LBCZYYku3IG+SSJWJmACu4oVf7Q
-         A0HQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20251104.gappssmtp.com; s=20251104; t=1785476773; x=1786081573; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/Lf8luiLEN3RbexnbiyQwUf8ICLEKYk0IAFsMs36M5k=;
-        b=EB2NkgeJFTwfP0dgHnURv47JTvMdR73rqc7wuoVlfHyeCgZ/jjqmPruaAT79+jaaRJ
-         Q9NE0rnDLt7fZvNCN+u6kXcqtAJtuv+oBfU4PClYyXjJjm1gykfQrcAH0SVV22EXjOvG
-         eEVE9WXuatJ8PPAwgpD2BTh1mVSZSgDd9yGwTZRqYu5pXkz3Hw7n39XenVpwQzwpkORW
-         1eebvE93Ie0u9y9bT5jpkbOtRuV5OPEKTk2plAsKXNeFv3wSVskLWdGW1NugSkMgIYFn
-         A+i+r4mT2oj8+nbPxQh9sfIzLfMgS0IUiW5wy76VsP4g+iYCWsETYpiAGItlaOYzNmC9
-         Wugg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785476773; x=1786081573;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/Lf8luiLEN3RbexnbiyQwUf8ICLEKYk0IAFsMs36M5k=;
-        b=FREemun0hrNdWepptkzvjJo8+fBNn+YTxKu9wWHzo3vcrKaC/Wi8PVe5l7nrp+/Pgd
-         1aNVfSDyNh0Q0Eh4y+R48ZjrgYIN0PL9/6Z0yTqNFDV31tjWV2U17aFTSeLpXlrj2R1S
-         +HAUwX4b3yO14z3irIfCa0PGmsofNqteg2iBIjkCs+6WW2KBJWoTyS1bg9xeAgvNnil9
-         9urwI14mDupuhqe/7j4HlMK5kvq8uph6SUEabhM3thS6XeV9KWHHQ6lgT+P5XT5kKXPj
-         uMZZ6Am8B5HFidCRA1PPkbz+ZsTxO1STaRhkFdvwAD9zZzekPet43hsNstXs/lnpwein
-         0tVg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro/wjY9Nw5x0Zoc/YOb3I7RVrLbWq3Il+8IwBSSAsQ/Wn/yG/GGeczUOpNHOcMG+ydjOOFGKYVDAZ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaeYPEaA0hXoSV2k4GkoQrhyMFVJYU0j0v5ue397j3Z9QVWsdT
-	n1iT9DrMi58P+flu/plc7WCGa4JEb1b+BgHwqpsJWjeR/lVuyXUYNN8RkWHSL7/pKEgpZyNiaoe
-	cJiGLiNbpLHYJqz674qXGuwAbB2q/nb6z2/INbcGfgA==
-X-Gm-Gg: AR+sD11ORvr9mNlavJ3aPE+2rDbihVJdUJhnV+9mS8Or8TCU0FUFZDYM+GCS2eIwyn0
-	cV2266s5UC3+fvuhNOr0wJk+i+Ep3KmbMsxchpvRZKNbRvRQEcyI6QkFV6WB67RP6h+b1b3ZCf9
-	M41JI0ZvOAc3eMErtyq88kza95IoC/SA1ddNinvrbX/IRW2QXUeQsLYLP9FXSmWm0brbfTQT6Yz
-	4woxh2dWDmZ32T1oFV1NtprtqIbAuOvBoPKQchX6cs+D9FlSEyn7o6rBaVcmuKJcubXpDS1MWrq
-	+wCOVzqDMJjyNnXKcXf91YtcurrIqj89OywtKYgA4ML/vqkAMvQ0CI2DdxF2+awoDasUkSMOBZJ
-	M2Y3nF1iIpgDfHhMZiHrBG7CU1uuo4WwbCC2qurx/xH72en0PP40fEe24uC2SUn0=
-X-Received: by 2002:a05:6000:230c:b0:47f:673c:42cc with SMTP id
- ffacd0b85a97d-47fd2addda8mr1644637f8f.27.1785476773316; Thu, 30 Jul 2026
- 22:46:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3kZBAky"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785478678; x=1817014678;
+  h=date:from:to:cc:subject:message-id;
+  bh=l3ovaiTHFKXSKDfHjYM3EkbYDIejAQtujx+3k6WNlRU=;
+  b=X3kZBAkyN4TcrkZTH+MZ23St0I8ExSsCRfvqaab3TaQAV/qy2Z1PC5H6
+   6uEtBEP6VwqMUTJwlfHiFNvO+5B3iSOpgBpKL6j6QOfXgsM7uKT2PLgrH
+   zt2kK9+KO9vUavX60qIVv2rYi/h8qBzW1YyqJiwSPpydzMbIEplgCZ7FU
+   cq+j4hawpN/4G/3mKpSYg8drARxrTkezxipQ0jXY0LksKpcydVIaGbd4L
+   4obDCeQR++NUQ3RYOvWlpzzVuu3tL7JbJuYQ2grnrl64FMwQn8r9QDON2
+   SWBVrNMpZ1tEEgkExXQOExmF3M8O0a65jjrV5ybKuWUyqOsftLGdEgJva
+   g==;
+X-CSE-ConnectionGUID: 7ZKS8eFHSH6XP85DE0wxFQ==
+X-CSE-MsgGUID: KhStY2oQQ0K4CvDIltztxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="86181771"
+X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
+   d="scan'208";a="86181771"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 23:17:58 -0700
+X-CSE-ConnectionGUID: agG+O5cpTSuwxF8QhgaMiA==
+X-CSE-MsgGUID: /A2DlxvySNSHnC3/bXcYZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
+   d="scan'208";a="285098129"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jul 2026 23:17:57 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wpgZ8-000000002XA-1yay;
+	Fri, 31 Jul 2026 06:17:54 +0000
+Date: Fri, 31 Jul 2026 08:17:28 +0200
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [gourryinverse:djhacks 5/38] htmldocs:
+ Documentation/core-api/mm-api:102: ./mm/mempolicy.c:1101: WARNING: Inline
+ strong start-string without end-string. [docutils]
+Message-ID: <202607310849.uRWi9E2G-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260701120954.129873-1-wang.yechao255@zte.com.cn> <20260701120954.129873-6-wang.yechao255@zte.com.cn>
-In-Reply-To: <20260701120954.129873-6-wang.yechao255@zte.com.cn>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 31 Jul 2026 11:16:01 +0530
-X-Gm-Features: AUfX_mzN4xvGB1FC37c2_ByG_NIy5dlvHsx9qUPd9Sl6iIb9ehxwGJKWVKuQSis
-Message-ID: <CAAhSdy0Juk1xdKo88U_gNMMJxT6niRHCFVfdznqWHcvpRZDaUA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] RISC-V: KVM: Add the eager_page_split module parameter
-To: Wang Yechao <wang.yechao255@zte.com.cn>
-Cc: kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Atish Patra <atish.patra@linux.dev>, Alexandre Ghiti <alex@ghiti.fr>, 
-	linux-doc <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 1, 2026 at 5:41=E2=80=AFPM Wang Yechao <wang.yechao255@zte.com.=
-cn> wrote:
->
-> Add an eager_page_split module parameter for RISC-V KVM, following
-> the same approach as on x86. This parameter controls whether eager
-> page splitting is enabled. The default value is on.
->
-> When eager page splitting is enabled, KVM proactively splits large
-> pages (huge pages) into smaller pages when needed for dirty logging
-> or other operations. Disabling it can be beneficial for VM workloads
-> that rarely perform writes, or that only write to a small region of
-> memory, as it allows huge pages to remain intact for read accesses.
->
-> Signed-off-by: Wang Yechao <wang.yechao255@zte.com.cn>
+tree:   https://github.com/gourryinverse/linux djhacks
+head:   09de2580129cf36e7ed3de65282a91fe3cc29e24
+commit: 0d092fc9475c8714f7b235ef04a0f86c04406f7f [5/38] mm/mempolicy: add mempolicy_create() and build do_set_mempolicy() on it
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260731/202607310849.uRWi9E2G-lkp@intel.com/reproduce)
 
-LGTM.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607310849.uRWi9E2G-lkp@intel.com/
 
-Reviewed-by: Anup Patel <anup@brainfault.org>
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Anup
+   1             automatic adjustment of input current limit
+   0             no adjustment of input current limit. This
+   helps for more unusual power sources like
+   solar modules. [docutils]
+   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
+>> Documentation/core-api/mm-api:102: ./mm/mempolicy.c:1101: WARNING: Inline strong start-string without end-string. [docutils]
+>> Documentation/core-api/mm-api:102: ./mm/mempolicy.c:1101: WARNING: Inline strong start-string without end-string. [docutils]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
+   WARNING: ./include/linux/device.h:117 struct member 'show_const' not described in 'device_attribute'
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  7 +++++--
->  arch/riscv/kvm/mmu.c                            | 13 ++++++++++---
->  2 files changed, 15 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index a68003c3599cc..b4c68a896fa79 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3047,7 +3047,7 @@ Kernel parameters
->                         Default is 0 (don't ignore, but inject #GP)
->
->         kvm.eager_page_split=3D
-> -                       [KVM,X86] Controls whether or not KVM will try to
-> +                       [KVM,X86,RISCV] Controls whether or not KVM will =
-try to
->                         proactively split all huge pages during dirty log=
-ging.
->                         Eager page splitting reduces interruptions to vCP=
-U
->                         execution by eliminating the write-protection fau=
-lts
-> @@ -3067,7 +3067,10 @@ Kernel parameters
->                         the KVM_CLEAR_DIRTY ioctl, and only for the pages=
- being
->                         cleared.
->
-> -                       Eager page splitting is only supported when kvm.t=
-dp_mmu=3DY.
-> +                       On x86, eager page splitting is only supported wh=
-en
-> +                       kvm.tdp_mmu=3DY.
-> +
-> +                       On RISCV, eager page splitting is supported by de=
-fault.
->
->                         Default is Y (on).
->
-> diff --git a/arch/riscv/kvm/mmu.c b/arch/riscv/kvm/mmu.c
-> index 29a7ac023d4db..a534f596c8ca0 100644
-> --- a/arch/riscv/kvm/mmu.c
-> +++ b/arch/riscv/kvm/mmu.c
-> @@ -16,6 +16,9 @@
->  #include <asm/kvm_mmu.h>
->  #include <asm/kvm_nacl.h>
->
-> +static bool __read_mostly eager_page_split =3D true;
-> +module_param(eager_page_split, bool, 0644);
-> +
->  static void mmu_wp_memory_region(struct kvm *kvm, int slot)
->  {
->         struct kvm_memslots *slots =3D kvm_memslots(kvm);
-> @@ -167,8 +170,10 @@ void kvm_arch_mmu_enable_log_dirty_pt_masked(struct =
-kvm *kvm,
->
->         kvm_riscv_gstage_wp_range(&gstage, start, end);
->
-> -       if (kvm_dirty_log_manual_protect_and_init_set(kvm))
-> -               mmu_split_huge_pages(&gstage, start, end);
-> +       if (kvm_dirty_log_manual_protect_and_init_set(kvm)) {
-> +               if (READ_ONCE(eager_page_split))
-> +                       mmu_split_huge_pages(&gstage, start, end);
-> +       }
->  }
->
->  void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *me=
-mslot)
-> @@ -238,7 +243,9 @@ void kvm_arch_commit_memory_region(struct kvm *kvm,
->                 if (kvm_dirty_log_manual_protect_and_init_set(kvm))
->                         return;
->                 mmu_wp_memory_region(kvm, new->id);
-> -               mmu_split_memory_region(kvm, new->id);
-> +
-> +               if (READ_ONCE(eager_page_split))
-> +                       mmu_split_memory_region(kvm, new->id);
->         }
->  }
->
-> --
-> 2.43.5
->
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
