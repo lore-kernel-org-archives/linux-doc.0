@@ -1,152 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDA4331EB1
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576363672A5
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785488709; cv=none; b=YYIoVA1uEb9a+wnyanNKCYDySpj2gQryNZNYwfu1Dd/ULHVw9dwqhR9hfyHhUsps7o7QhKaOQ9eRZPqTbpbWF3YloOGVLJeUmoQrK4gK3gXRtAad6l6n7VqXRKB3MxSMygPF9cY2x0SZv+1tgup2TUcTgBXLf/reRmaGsfOWze8=
+	t=1785489073; cv=none; b=aJ1Br79t/G/PhhAF6TbvNVW5fx2QZLCzjrNYq8CgxgacsZqBsbqF4BgfdG5dE5A4T6UDHoakhJI2LOL1JPLPDR4UV2UNjEvs0sXqKVLVxCrdAXgzmQK29LFC+JiTTnaGHjA4XhdCopmpMHC0ZLYH+mB5BT4fpliZ38mjroX/Eho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785488709; c=relaxed/simple;
-	bh=Rgvp+VDe50RFmnt3GDcvFMv2kutgcrdQ+nvZuRjgL4s=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=hojDBIMSTnI/QKFk9f2Lg66zGcQBWJfJQW7oTWVDmPuDWLL4QEV4KwPsa3pGid/0b5gFpLMeP6XYfvuyRdp1EIXnCu4K0Ru4uWHHmyAs7AgvnPpZw9EbqcCDrXZSiZVYD5ETeRvBo2PGOsqYd3Adw60XwGe2vwmzuHse0dyEgNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TUXBFs5V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+OoQnUju; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hQ+MEyAl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ygQvoYlP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1785489073; c=relaxed/simple;
+	bh=5XUZi8GsiVLf/Vb+67K9iznleyV2RXl5LlPnl7gw/kc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sj2HjDZSGOb6lFswEPSvYibm479+hGkdRvlVGqP4j3+oLTfluIHLXw9Y//PTBdi4DV8ps6mZge5Gj09V/UPwvWaTqyc+J5MeMQuX+F0Zj0N28/avRIrld0qluRwkU7IpYcauxvEqq+fSHzbG/+90hZLnQchK2GGT5rHhnTI3jDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRZ3Awqb; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TUXBFs5V";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+OoQnUju";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hQ+MEyAl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ygQvoYlP"
-Received: from pobox.suse.cz (unknown [10.128.32.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BE037DE66;
-	Fri, 31 Jul 2026 09:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785488700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
-	b=TUXBFs5VU4QTjJ+ld+ZEO+/kbccW6Xfo9yJzPfmjqQXN7kS2TBcqB9mcEn4RkkrVyXylZG
-	DhYhywXSLPn4MqMQ43Sn2jiVzWX1N8eCGoKCm2kI3KU+B+9BigZ2BD0mt7tMf+SYrMExom
-	zNEByG513PJJFgJ8jEvkYjzhmQSDAZ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785488700;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
-	b=+OoQnUju4OO0pobXcUva5FKg1kkdWogjmFncP+88WfSsFhsBMQMAzKThEv9VIH2LdoxlcS
-	Rvq6SSbvr/0W2qBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1785488696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
-	b=hQ+MEyAldBM3OnOxkZvz0PXovu0b5pRHrWcxgPegN3SUgZaZQPQ7f2CKWCLs5Pnq+G+H53
-	JuZcmDScHAPtmeF+E6G2Uuw4G1ku0Fvk/vYStYnu35YG3COZmHrUp25VFB/eUMRo0zNhRx
-	WzAWY0AUtpAxxSllkPNiwLcKL8akwQI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1785488696;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
-	b=ygQvoYlPBIn2DiLAe2c2Epc/QF3L6r5f6dFatvmbq+efUxC8NvNidn8c6thYfMJLIy/d9f
-	erPub4HH5gDlCnCg==
-Date: Fri, 31 Jul 2026 11:04:56 +0200 (CEST)
-From: Miroslav Benes <mbenes@suse.cz>
-To: Steven Rostedt <rostedt@goodmis.org>
-cc: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>, bpf@vger.kernel.org, 
-    linux-trace-kernel@vger.kernel.org, live-patching@vger.kernel.org, 
-    linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, 
-    jpoimboe@kernel.org, shuah@kernel.org, jolsa@kernel.org, 
-    mhiramat@kernel.org, stable@vger.kernel.org, 
-    linux-open-source@crowdstrike.com
-Subject: Re: [RFC PATCH bpf-next 2/2] selftests/livepatch: update test-ftrace.sh
- for deprecated ftrace_enabled
-In-Reply-To: <20260730200913.59a541db@gandalf.local.home>
-Message-ID: <alpine.LSU.2.21.2607311104390.25165@pobox.suse.cz>
-References: <20260730163544.2042327-1-andrey.grodzovsky@crowdstrike.com> <20260730163544.2042327-3-andrey.grodzovsky@crowdstrike.com> <20260730200913.59a541db@gandalf.local.home>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRZ3Awqb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785489071; x=1817025071;
+  h=date:from:to:cc:subject:message-id;
+  bh=5XUZi8GsiVLf/Vb+67K9iznleyV2RXl5LlPnl7gw/kc=;
+  b=iRZ3AwqbljPZHm+IFcCctzrWemGyoq4sPSYkZ2XzHQ9AKPldwaNmBsgX
+   PJPhvoAweDVb5B85gliE1dgPqqniCsaSXcDKvv1ebeSOkwhx7EVwyJ503
+   ELPwD7i89DM8t5CqqArwp8IpjrHQVRFLlP1HYnXw389KGaka5Oixe+iW5
+   Hz7Cz3fTBKL9SFYqwPm2hZfJfgp3RCcC4j9IDGxroNFFXh2B2JYEo5vtF
+   hjhL3S5jmQcwYEhGRChEgmih8ZMdDLIbOoXAdHIXlLEz5X27smLU5t0up
+   vPsHVYSGGwrQ8hinXEI8gTrdbMUUXDdxC57qdQVevbf7f7zsBhSGViv0n
+   w==;
+X-CSE-ConnectionGUID: iybQq714QTi+bwa4uivjeA==
+X-CSE-MsgGUID: YhuwSh7fQve9ML3wtjQcDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="85880725"
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="85880725"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 02:11:10 -0700
+X-CSE-ConnectionGUID: NT0N3CMWSPqR8ntn+Zic/A==
+X-CSE-MsgGUID: XtZUKY9NSfSisx9/dmSmWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="285139664"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 02:11:09 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wpjGl-000000002fm-1r0G;
+	Fri, 31 Jul 2026 09:11:07 +0000
+Date: Fri, 31 Jul 2026 11:10:09 +0200
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [gourryinverse:djhacks 36/38] htmldocs:
+ Documentation/ABI/testing/sysfs-bus-dax:183: WARNING: Definition list ends
+ without a blank line; unexpected unindent. [docutils]
+Message-ID: <202607311126.xEbrg8UU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.976];
-	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pobox.suse.cz:helo,pobox.suse.cz:mid,crowdstrike.com:email]
 
-On Thu, 30 Jul 2026, Steven Rostedt wrote:
+tree:   https://github.com/gourryinverse/linux djhacks
+head:   09de2580129cf36e7ed3de65282a91fe3cc29e24
+commit: 64636b7d457b68054d7a759c4a688476a22044cb [36/38] Documentation: describe private memory nodes
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260731/202607311126.xEbrg8UU-lkp@intel.com/reproduce)
 
-> On Thu, 30 Jul 2026 12:35:44 -0400
-> Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com> wrote:
-> 
-> > kernel.ftrace_enabled=0 is now always refused, so the old scenario
-> > (disable, fail to load a livepatch, re-enable, load) no longer applies.
-> > Replace it with a single check that the write is refused with the new
-> > error, and drop the now-stale disable/reload flow.
-> > 
-> > Assisted-by: Claude:claude-sonnet-5
-> > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
-> > ---
-> >  .../selftests/livepatch/test-ftrace.sh        | 49 ++-----------------
-> >  1 file changed, 3 insertions(+), 46 deletions(-)
-> > 
-> > diff --git a/tools/testing/selftests/livepatch/test-ftrace.sh b/tools/testing/selftests/livepatch/test-ftrace.sh
-> > index d2c3dea63104..c88f4d13a134 100755
-> > --- a/tools/testing/selftests/livepatch/test-ftrace.sh
-> > +++ b/tools/testing/selftests/livepatch/test-ftrace.sh
-> > @@ -9,56 +9,13 @@ MOD_LIVEPATCH=test_klp_livepatch
-> >  setup_config
-> >  
-> >  
-> > -# - turn ftrace_enabled OFF and verify livepatches can't load
-> > -# - turn ftrace_enabled ON and verify livepatch can load
-> > -# - verify that ftrace_enabled can't be turned OFF while a livepatch is loaded
-> > +# - verify that kernel.ftrace_enabled=0 is refused (deprecated knob)
-> >  
-> > -start_test "livepatch interaction with ftrace_enabled sysctl"
-> > +start_test "ftrace_enabled sysctl write is refused (deprecated)"
-> >  
-> > -set_ftrace_enabled 0
-> > -load_failing_mod $MOD_LIVEPATCH
-> > -
-> > -set_ftrace_enabled 1
-> > -load_lp $MOD_LIVEPATCH
-> > -if [[ "$(cat /proc/cmdline)" != "$MOD_LIVEPATCH: this has been live patched" ]] ; then
-> > -	echo -e "FAIL\n\n"
-> > -	die "livepatch kselftest(s) failed"
-> > -fi
-> > -
-> 
-> This test should work for both old and new kernels. I would have it still
-> do everything here but if setting ftrace_enabled returns -EOPNOTSUPP then
-> do the simple path.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607311126.xEbrg8UU-lkp@intel.com/
 
-Yes, please. It would be ideal.
+All warnings (new ones prefixed by >>):
 
-Miroslav
+   Using alabaster theme
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+>> Documentation/ABI/testing/sysfs-bus-dax:183: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/ABI/testing/sysfs-class-power-bd71828:1: ERROR: Malformed table.
+   No bottom table border found.
+
+
+vim +183 Documentation/ABI/testing/sysfs-bus-dax
+
+ > 183	What:		/sys/bus/dax/devices/daxX.Y/mm_capabilities
+   184	Date:		June, 2026
+   185	KernelVersion:	v6.21
+   186	Contact:	nvdimm@lists.linux.dev
+   187	Description:
+   188			(RW) dax_kmem only.  A NODE_MEMORY_CAP_* bitmask selecting how the
+   189			device onlines its memory.  NODE_MEMORY_CAP_ALL (~0, the default)
+   190			onlines it as ordinary system RAM; any other value onlines it as a
+   191			private node (an N_MEMORY node not in N_MEMORY_FALLBACK) whose set bits are the only mm
+   192			services that may act on the node's memory -- everything else is
+   193			isolated.  Accepts decimal or 0x hex.  Writable only while the
+   194			device is "unplugged" (-EBUSY otherwise).
+   195	
+   196			The capability bits (see include/linux/nodemask.h) are:
+   197	
+   198			  NODE_MEMORY_CAP_RECLAIM	reclaim of the node's folios,
+   199							by the mm and by userspace madvise
+   200			  NODE_MEMORY_CAP_USER_NUMA	userspace placement and migration
+   201							via mempolicy and move/migrate_pages
+   202			  NODE_MEMORY_CAP_DEMOTION	reclaim demotion/tiering onto the
+   203							node (requires RECLAIM)
+   204			  NODE_MEMORY_CAP_NUMA_BALANCING NUMA balancing scan/migrate of
+   205							the node's folios
+   206			  NODE_MEMORY_CAP_LTPIN		FOLL_LONGTERM GUP pins
+   207			  NODE_MEMORY_CAP_COLLAPSE	THP collapse (khugepaged/madvise)
+   208			  NODE_MEMORY_CAP_HUGETLB	hugetlb pool allocation
+   209	
+   210			Dependencies (DEMOTION requires RECLAIM) are validated at hotplug,
+   211			not at write time: an inconsistent mask is accepted by the write
+   212			but the subsequent online fails.
+   213	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
