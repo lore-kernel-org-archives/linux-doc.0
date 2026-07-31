@@ -1,113 +1,152 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530CD304BB3
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDA4331EB1
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785488479; cv=none; b=jW62W8fGGN8Pw0iJb9imsg9gnSZqmAIB7mxTLJmoX3fZi1bklYFIlY+XnzudPai9RGCi+AXZq6GxdUWkf4NE8GhzWYMg1FiXcRk6jJRXfrxtRpLAiEmNJ3tmDKodOygqSxUO72XVDhSkfOas6gHHcAq/1sI+MGiIaTYVzDyQQmk=
+	t=1785488709; cv=none; b=YYIoVA1uEb9a+wnyanNKCYDySpj2gQryNZNYwfu1Dd/ULHVw9dwqhR9hfyHhUsps7o7QhKaOQ9eRZPqTbpbWF3YloOGVLJeUmoQrK4gK3gXRtAad6l6n7VqXRKB3MxSMygPF9cY2x0SZv+1tgup2TUcTgBXLf/reRmaGsfOWze8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785488479; c=relaxed/simple;
-	bh=7JkLvZ2MaFIMVfuNxBNAqx7HJFiX9F3DJo0Xss+UGlM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D1F9VE+FlNUq1RBatPKzdB/ZjQuzEjJzLWn7gAQk0cng4gKDGCVtm2/ZrwBJyJoWdaEzlwyUIrh3XIRIAKv9QgJNeUS4CFogPsyRnkIDXujxeGxGHnzo1cUKLhCoXeVwGZa/Lf7mFj+jxgD0bWf8EBaooALASWA4xvmqkET20Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ar2P7v/V; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1785488709; c=relaxed/simple;
+	bh=Rgvp+VDe50RFmnt3GDcvFMv2kutgcrdQ+nvZuRjgL4s=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hojDBIMSTnI/QKFk9f2Lg66zGcQBWJfJQW7oTWVDmPuDWLL4QEV4KwPsa3pGid/0b5gFpLMeP6XYfvuyRdp1EIXnCu4K0Ru4uWHHmyAs7AgvnPpZw9EbqcCDrXZSiZVYD5ETeRvBo2PGOsqYd3Adw60XwGe2vwmzuHse0dyEgNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TUXBFs5V; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+OoQnUju; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hQ+MEyAl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ygQvoYlP; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ar2P7v/V"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=QWHNu5nnHvi1saS37X/nC9nHmu6f5Mr/HJ2eHj6UvJo=;
-	b=ar2P7v/Va4ljkTEdmQImY53t3Col+VJahJqZJM50prKhJT/2RYzHbTTr020jiPWtw/9IU751e
-	0paf7PyxophY5LW3YKEwP8I42KfjTuFqH43++9Lw3eBZ8y0FBmiWi47k+lRhwezu73LbLhASNcZ
-	Nx4FVD5IdsCTNw69SHTpVHw=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4hBKYl6rdwzRhWS;
-	Fri, 31 Jul 2026 16:51:39 +0800 (CST)
-Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id E9D3A202E6;
-	Fri, 31 Jul 2026 17:01:06 +0800 (CST)
-Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
- (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 31 Jul
- 2026 17:01:06 +0800
-From: Jinjiang Tu <tujinjiang@huawei.com>
-To: <akpm@linux-foundation.org>, <david@kernel.org>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <ljs@kernel.org>, <liam@infradead.org>,
-	<vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
-	<mhocko@suse.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<shr@devkernel.io>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
-	<tujinjiang@huawei.com>
-Subject: [PATCH 2/2] mm/ksm: fix advisor_min_pages_to_scan description
-Date: Fri, 31 Jul 2026 16:35:26 +0800
-Message-ID: <20260731083526.3953421-3-tujinjiang@huawei.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260731083526.3953421-1-tujinjiang@huawei.com>
-References: <20260731083526.3953421-1-tujinjiang@huawei.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TUXBFs5V";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+OoQnUju";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hQ+MEyAl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ygQvoYlP"
+Received: from pobox.suse.cz (unknown [10.128.32.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BE037DE66;
+	Fri, 31 Jul 2026 09:04:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785488700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
+	b=TUXBFs5VU4QTjJ+ld+ZEO+/kbccW6Xfo9yJzPfmjqQXN7kS2TBcqB9mcEn4RkkrVyXylZG
+	DhYhywXSLPn4MqMQ43Sn2jiVzWX1N8eCGoKCm2kI3KU+B+9BigZ2BD0mt7tMf+SYrMExom
+	zNEByG513PJJFgJ8jEvkYjzhmQSDAZ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785488700;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
+	b=+OoQnUju4OO0pobXcUva5FKg1kkdWogjmFncP+88WfSsFhsBMQMAzKThEv9VIH2LdoxlcS
+	Rvq6SSbvr/0W2qBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785488696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
+	b=hQ+MEyAldBM3OnOxkZvz0PXovu0b5pRHrWcxgPegN3SUgZaZQPQ7f2CKWCLs5Pnq+G+H53
+	JuZcmDScHAPtmeF+E6G2Uuw4G1ku0Fvk/vYStYnu35YG3COZmHrUp25VFB/eUMRo0zNhRx
+	WzAWY0AUtpAxxSllkPNiwLcKL8akwQI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785488696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EJQ4tixhl8ptjgMIavI7XAafyovWW2/pjPwbVKZ9qCs=;
+	b=ygQvoYlPBIn2DiLAe2c2Epc/QF3L6r5f6dFatvmbq+efUxC8NvNidn8c6thYfMJLIy/d9f
+	erPub4HH5gDlCnCg==
+Date: Fri, 31 Jul 2026 11:04:56 +0200 (CEST)
+From: Miroslav Benes <mbenes@suse.cz>
+To: Steven Rostedt <rostedt@goodmis.org>
+cc: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>, bpf@vger.kernel.org, 
+    linux-trace-kernel@vger.kernel.org, live-patching@vger.kernel.org, 
+    linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, 
+    jpoimboe@kernel.org, shuah@kernel.org, jolsa@kernel.org, 
+    mhiramat@kernel.org, stable@vger.kernel.org, 
+    linux-open-source@crowdstrike.com
+Subject: Re: [RFC PATCH bpf-next 2/2] selftests/livepatch: update test-ftrace.sh
+ for deprecated ftrace_enabled
+In-Reply-To: <20260730200913.59a541db@gandalf.local.home>
+Message-ID: <alpine.LSU.2.21.2607311104390.25165@pobox.suse.cz>
+References: <20260730163544.2042327-1-andrey.grodzovsky@crowdstrike.com> <20260730163544.2042327-3-andrey.grodzovsky@crowdstrike.com> <20260730200913.59a541db@gandalf.local.home>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemr500001.china.huawei.com (7.202.194.229)
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.976];
+	MIME_GOOD(-0.10)[text/plain];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_ZERO(0.00)[0];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pobox.suse.cz:helo,pobox.suse.cz:mid,crowdstrike.com:email]
 
-Both Documentation/admin-guide/mm/ksm.rst and the comment next to the
-variable definition in mm/ksm.c describe advisor_min_pages_to_scan as a
-lower limit of the pages_to_scan parameter, but that is not how the
-scan-time advisor actually uses it. commit 4e5fa4f5eff6 ("mm/ksm: add ksm
-advisor") only uses it to initialize ksm_thread_pages_to_scan when the
-scan-time advisor is enabled. This will mislead the users.
+On Thu, 30 Jul 2026, Steven Rostedt wrote:
 
-The semantics of advisor_min_pages_to_scan was updated in the v2 patchset
-[1], but the documention wasn't updated.
+> On Thu, 30 Jul 2026 12:35:44 -0400
+> Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com> wrote:
+> 
+> > kernel.ftrace_enabled=0 is now always refused, so the old scenario
+> > (disable, fail to load a livepatch, re-enable, load) no longer applies.
+> > Replace it with a single check that the write is refused with the new
+> > error, and drop the now-stale disable/reload flow.
+> > 
+> > Assisted-by: Claude:claude-sonnet-5
+> > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
+> > ---
+> >  .../selftests/livepatch/test-ftrace.sh        | 49 ++-----------------
+> >  1 file changed, 3 insertions(+), 46 deletions(-)
+> > 
+> > diff --git a/tools/testing/selftests/livepatch/test-ftrace.sh b/tools/testing/selftests/livepatch/test-ftrace.sh
+> > index d2c3dea63104..c88f4d13a134 100755
+> > --- a/tools/testing/selftests/livepatch/test-ftrace.sh
+> > +++ b/tools/testing/selftests/livepatch/test-ftrace.sh
+> > @@ -9,56 +9,13 @@ MOD_LIVEPATCH=test_klp_livepatch
+> >  setup_config
+> >  
+> >  
+> > -# - turn ftrace_enabled OFF and verify livepatches can't load
+> > -# - turn ftrace_enabled ON and verify livepatch can load
+> > -# - verify that ftrace_enabled can't be turned OFF while a livepatch is loaded
+> > +# - verify that kernel.ftrace_enabled=0 is refused (deprecated knob)
+> >  
+> > -start_test "livepatch interaction with ftrace_enabled sysctl"
+> > +start_test "ftrace_enabled sysctl write is refused (deprecated)"
+> >  
+> > -set_ftrace_enabled 0
+> > -load_failing_mod $MOD_LIVEPATCH
+> > -
+> > -set_ftrace_enabled 1
+> > -load_lp $MOD_LIVEPATCH
+> > -if [[ "$(cat /proc/cmdline)" != "$MOD_LIVEPATCH: this has been live patched" ]] ; then
+> > -	echo -e "FAIL\n\n"
+> > -	die "livepatch kselftest(s) failed"
+> > -fi
+> > -
+> 
+> This test should work for both old and new kernels. I would have it still
+> do everything here but if setting ftrace_enabled returns -EOPNOTSUPP then
+> do the simple path.
 
-Update the documentation and comment to match the semantics of
-advisor_min_pages_to_scan.
+Yes, please. It would be ideal.
 
-Link: https://lore.kernel.org/linux-mm/20231028000945.2428830-2-shr@devkernel.io/ [1]
-Fixes: 0710f38ad26a ("mm/ksm: document ksm advisor and its sysfs knobs")
-Fixes: 66790e9a735b ("mm/ksm: add sysfs knobs for advisor")
-Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
----
- Documentation/admin-guide/mm/ksm.rst | 4 ++--
- mm/ksm.c                             | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index c9f533b10f6f..c329ca747b8c 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -183,8 +183,8 @@ advisor_target_scan_time
-         pages. The default value is 200 seconds.
- 
- advisor_min_pages_to_scan
--        specifies the lower limit of the ``pages_to_scan`` parameter of the
--        scan time advisor. The default is 500.
-+        specifies the initial value of the ``pages_to_scan`` parameter of
-+        the scan time advisor. The default is 500.
- 
- advisor_max_pages_to_scan
-         specifies the upper limit of the ``pages_to_scan`` parameter of the
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 7d5b76478f0b..1e3a9c657a64 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -342,7 +342,7 @@ static enum ksm_advisor_type ksm_advisor;
-  * Only called through the sysfs control interface:
-  */
- 
--/* At least scan this many pages per batch. */
-+/* Initial number of pages to scan per batch when the scan-time advisor is enabled. */
- static unsigned long ksm_advisor_min_pages_to_scan = 500;
- 
- static void set_advisor_defaults(void)
--- 
-2.54.0
-
+Miroslav
