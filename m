@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAA827FD76;
-	Fri, 31 Jul 2026 01:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2299305679;
+	Fri, 31 Jul 2026 01:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785461437; cv=none; b=ib1ji60CAp77wQW1bSpZ+jUGC0wDyj3T+qX17YBuRfKHyM1SItE8DWOYNGYRdlHQjz9JGddJU5HATt934xHZgza8TiC1nkGkagXGYJgHurI9jnCtTamW7m3rwlW9O3CyFxzKl6KZ3qwJimDGZbm/6uzLwl/fCtrz4Qkbdl2jZuQ=
+	t=1785461438; cv=none; b=CKi+vQEKyR+nsncvWz3CN1ofJ4dSe3CvxXjAAKvPeIkxDYIXOqS3EMsBpifuiUWfEfm262nm9t+PLYc0lQkgxwxX4JpaR2cYvLacXitL+GGNU++wvpsRpDaDs3KL0wf2ZaUm7e0H/1uyVbxfSkefrU7oxU2RfaHNgMAXuiE+ik0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785461437; c=relaxed/simple;
-	bh=Sa0BJCzf3ubd5TRLcUcTuHkdqep5uI3oK474E7bTYtE=;
+	s=arc-20240116; t=1785461438; c=relaxed/simple;
+	bh=sGSvvSj1edFc8KNo83G1+m35hpQsaTtdWLUflg6MecU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ew+O7Co5o0coVmUH8qvsFmsDOmx86KZewdog9/ZaADfONwD3nylEEtSQC0dU+58BbVR0HEqpSm46jdv/j+wmLFKv6kqOZJdsdfQ1BppYA2iEkpxuccphBsSov/Fgexf5L6OBfmGFCPD8usSb5dBdut6ZJfBJGtFKuxiZ+A3kDSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HbhHSAYL; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=GKzh4qYEKbpBrlAM9zF2NoQcDomyAWBjGoJqcal8r3rtCLuK5mMWQMV77cWVt0uwQLvi7txtxKYrPgD5JzAdiY+8ttfNvWEh0rhaM6IgFGCyhzzrLBXIIU4QyX5yTlUbqySOqM0FZUfP4jfPD7B4n8uuKgPGswTowtAmHVQE5Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQrXYGs7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HbhHSAYL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 932761F00A3D;
-	Fri, 31 Jul 2026 01:30:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQrXYGs7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDDCF1F00A3E;
+	Fri, 31 Jul 2026 01:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785461435;
-	bh=qdjPkg/SoqQZO9+3CeYQJ72QbSWE0/dC0WwCzLbrFNw=;
+	s=k20260515; t=1785461436;
+	bh=o3vgH8nxPMXThhusGaMt88XABY8jEPdTMHFLqOQyTUg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HbhHSAYLC41vlRsNz/3VvLPI000yPYIt1PVWnhtF+pgIH9dABERXx7RyAsFE1/wlJ
-	 ja8ihTuxvhYRGJE/DLzMwmq9Adp4k/bwnDscC012XUKaVfN1B/x8BZKq0Kr6P3b3pj
-	 s5PhOxH1uroTZOSgNSaaRLFnAfQaTACuS68wCrVf+MqPrplpNOlemR5QOj1vJFEQYN
-	 BqqFGU+Ibw+v5cy0spJ5S1ydyXlhL+BOUx5/raRc54vPcL5cTETm7hJvPErKUJLX/0
-	 kgd0I7ozvWHaxaf4JiKwDclCmW6PRi78rfgpJ9qIgFw19ks9i8GxjdydZPJboLLHXT
-	 QaLB+rGJnBsuA==
+	b=OQrXYGs7tCwoRacNHv2bPlqqUDZcvZQImEI1oSH3sKvPv3WRdUL5T3j9e4vzI7Ec7
+	 8M8yUPBcsWgtoy0AS4ZRhL8sZ+mNBVe1HjBoXyY86yvr6wvGCTU5CkCjffWQZIT06s
+	 0oK3KfojqgFAHjz96sM3r2b9moqbwghxaQ778q/T0g2CJD6J2FKasbWVklSDhcSg0Y
+	 yB7zDrF9ZmENEGHqm/xOeL41ohXu5+IEpqHSscAseBU0zP9Dnh9F5MPzpqqM3zx9P7
+	 BQlrZaxUJCwj6XNMYVKSxcfVR06Yfsx5KhdaPCrQTcwqTJbD6hx1hdiGqD5XRUZ9b+
+	 tXsspVqYspQCg==
 From: Jakub Kicinski <kuba@kernel.org>
 To: illusion.wang@nebula-matrix.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -45,12 +45,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	skhan@linuxfoundation.org,
 	hkallweit1@gmail.com,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v22 net-next 09/12] net/nebula-matrix: dispatch: add cross-version channel message framework
-Date: Thu, 30 Jul 2026 18:30:33 -0700
-Message-ID: <20260731013033.745204-1-kuba@kernel.org>
+Subject: Re: [PATCH v22 net-next 10/12] net/nebula-matrix: dispatch: add mutual exclusion lock for shared hardware resource ops
+Date: Thu, 30 Jul 2026 18:30:35 -0700
+Message-ID: <20260731013035.745239-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260723040110.91410-10-illusion.wang@nebula-matrix.com>
-References: <20260723040110.91410-10-illusion.wang@nebula-matrix.com>
+In-Reply-To: <20260723040110.91410-11-illusion.wang@nebula-matrix.com>
+References: <20260723040110.91410-11-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,105 +62,83 @@ Content-Transfer-Encoding: 8bit
 This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 ---
---- Patch [9]: [PATCH v22 net-next 09/12] net/nebula-matrix: dispatch: add cross-version channel message framework ---
-commit d32035d9a9bd3114eb253cf0283172847c233d7d
+--- Patch [10]: [PATCH v22 net-next 10/12] net/nebula-matrix: dispatch: add mutual exclusion lock for shared hardware resource ops ---
+commit 629ed395b64ead7623f563c4a19ea0794f996cf1
 Author: illusion wang <illusion.wang@nebula-matrix.com>
 
-net/nebula-matrix: dispatch: add cross-version channel message framework
+net/nebula-matrix: dispatch: add mutual exclusion lock for shared hardware resource ops
     
-Implement bidirectional channel request/response RPC handlers for 5 dispatch
-resource operations: get_vsi_id, get_eth_id, configure_msix_map,
-destroy_msix_map, set_mailbox_irq.
+Add ops_mutex_lock to serialize concurrent hardware-modifying dispatch
+resource operations, preventing race conditions between PF local calls
+and remote mailbox message handlers that manipulate MSI-X mapping and
+mailbox IRQ state.
+
+> 4. Fix cleanup ordering: unregister all channel message handlers before
+>    hardware resource teardown to avoid lockdep splats and invalid mutex
+>    access after destruction.
+
+Does this cleanup ordering actually prevent the invalid mutex access?
+
+Looking at the driver teardown path in nbl_core_remove() and
+nbl_chan_remove_common(), it appears the channel workqueue is never cancelled
+via teardown_queue(). 
+
+If a remote PF sends mailbox messages while the local PF driver is being
+unloaded, won't the uncancelled work item still process it?
 
 > diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
-> index 8116643859c79..c82c336f50e5e 100644
+> index c82c336f50e5e..175250f952506 100644
 > --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
 > +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+
 [ ... ]
-> +static int nbl_disp_configure_msix_map(struct nbl_dispatch_mgt *disp_mgt,
-> +				       u16 num_net_msix, u16 num_others_msix,
-> +				       bool net_msix_mask_en)
-> +{
-> +	struct nbl_resource_ops *res_ops = disp_mgt->res_ops_tbl->ops;
-> +	struct nbl_resource_mgt *p = disp_mgt->res_ops_tbl->priv;
-> +	struct nbl_common_info *common = disp_mgt->common;
-> +
-> +	return NBL_OPS_CALL_RET(res_ops->configure_msix_map, (p,
-> +				common->mgt_pf, num_net_msix,
-> +				num_others_msix, net_msix_mask_en));
-> +}
+
+> @@ -227,14 +228,15 @@ static void nbl_disp_chan_configure_msix_map_resp(void *priv, u16 src_id,
+>  	if (!res_ops->configure_msix_map) {
+>  		err = NBL_CHAN_RESP_UNIMPLEMENTED;
+>  	} else {
+> -		ret = NBL_OPS_CALL_RET(res_ops->configure_msix_map,
+> -				       (p, src_id,
+> -					le16_to_cpu(param.num_net_msix),
+> -					le16_to_cpu(param.num_others_msix),
+> -					le16_to_cpu(param.msix_mask_en)));
+> +		ret = NBL_OPS_CALL_LOCK_RET(disp_mgt,
+> +					    res_ops->configure_msix_map, p,
+> +					    src_id,
+> +					    le16_to_cpu(param.num_net_msix),
+> +					    le16_to_cpu(param.num_others_msix),
+> +					    le16_to_cpu(param.msix_mask_en));
 
 [Severity: High]
-Does nbl_disp_configure_msix_map() need to take a mutex lock before invoking
-res_ops->configure_msix_map()?
+If the inflight work item runs after handler unregistration, will it attempt
+to acquire the newly added ops_mutex_lock here via NBL_OPS_CALL_LOCK_RET?
 
-Calling this resource operation without synchronization might lead to data races
-and hardware state corruption if multiple requests arrive simultaneously.
+Since this mutex is initialized via devm_mutex_init and destroyed
+automatically on device detach, could this result in a use-after-free crash
+on the destroyed lock?
 
 [ ... ]
-> +static void nbl_disp_chan_configure_msix_map_resp(void *priv, u16 src_id,
-> +						  u16 msg_id, void *data,
-> +						  u32 data_len)
-> +{
-[ ... ]
-> +	if (!res_ops->configure_msix_map) {
-> +		err = NBL_CHAN_RESP_UNIMPLEMENTED;
-> +	} else {
-> +		ret = NBL_OPS_CALL_RET(res_ops->configure_msix_map,
-> +				       (p, src_id,
-> +					le16_to_cpu(param.num_net_msix),
-> +					le16_to_cpu(param.num_others_msix),
-> +					le16_to_cpu(param.msix_mask_en)));
-> +		if (ret)
-> +			err = NBL_CHAN_RESP_ERR;
-> +		}
+
+This is a pre-existing issue, but while looking at the MSI-X resource
+operations I noticed a potential problem in nbl_res_intr_configure_msix_map()
+in drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c:
+
+release_net_bits:
+        while (i--) {
+                intr_index = tmp_interrupts[i];
+                ...
+        }
+        i = num_net_msix;
+release_all_bits:
+        while (i--) {
 
 [Severity: High]
-Should nbl_disp_chan_configure_msix_map_resp() also use locking when invoking
-res_ops->configure_msix_map()?
+Does this error path intentionally fall through to release_all_bits?
 
-Since this response handler can run from a workqueue context concurrently with
-other operations, this might also lead to hardware state corruption.
+When devm_kcalloc or find_first_zero_bit fails during net interrupt
+allocation, the code jumps to release_net_bits. Without a goto free_prealloc
+before the i = num_net_msix assignment, it falls through into release_all_bits.
 
-[ ... ]
-> +static void nbl_disp_chan_set_mailbox_irq_resp(void *priv, u16 src_id,
-> +					       u16 msg_id, void *data,
-> +					       u32 data_len)
-> +{
-[ ... ]
-> +	if (!res_ops->set_mailbox_irq) {
-> +		err = NBL_CHAN_RESP_UNIMPLEMENTED;
-> +	} else {
-> +		ret = NBL_OPS_CALL_RET(res_ops->set_mailbox_irq,
-> +				       (p, src_id, vector_id, enable_msix));
-> +		if (ret)
-
-[Severity: High]
-Similarly, should nbl_disp_chan_set_mailbox_irq_resp() be protected by a lock
-when modifying the mailbox IRQ hardware state?
-
-[ ... ]
-> @@ -126,6 +562,10 @@ int nbl_disp_init(struct nbl_adapter *adapter)
->  	adapter->core.disp_mgt = disp_mgt;
->  	adapter->intf.dispatch_ops_tbl = disp_ops_tbl;
->  
-> +	ret = nbl_disp_setup_msg(disp_mgt);
-> +	if (ret)
-> +		return ret;
-> +
->  	if (common->has_ctrl)
->  		nbl_disp_setup_ctrl_lvl(disp_mgt, NBL_DISP_CTRL_LVL_MGT);
->  
-
-[Severity: High]
-Does the dispatch operations table remain uninitialized for non-control PFs
-here?
-
-Since nbl_disp_setup_ctrl_lvl() is responsible for populating the disp_ops
-table (including setting up the remote message request handlers as fallbacks
-when testing control levels), skipping this step when common->has_ctrl is false
-might leave the function pointers as NULL.
-
-Could this lead to a NULL pointer dereference when a regular non-control PF
-subsequently attempts to invoke a dispatch operation like get_vsi_id or
-get_eth_id?
+Because tmp_interrupts is unpopulated and contains zeros, will this loop
+unconditionally clear bit 0 in interrupt_others_bitmap, corrupting the
+MSI-X allocator state?
