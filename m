@@ -1,204 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A16310784;
-	Fri, 31 Jul 2026 01:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DE033EB1B
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 03:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785461440; cv=none; b=HkqUWuAIWP6pxVH0JmslCuk3sSTRSKxJ3g68WA/w4a8932wq1gjRGr6ncWmbBBdjIl4huZvZ10Sx1InK7eHnDOK3YKaQ4mp63xX2MhaEmmsVoH4S/s2LTt3qC/Bu3+1mVkzTHJ75OQGTPRoTDszLA7KzJXep8mwTISPFDkrogts=
+	t=1785467991; cv=none; b=mklZ92MKpY4LtAXzTkJ/TE5vkJ95I9Iui9OIh4VGnTQ07rzW32lQHWZL7bzb21Uk84pBe5UTOMjyijkwTGJp+W1YZanD27gBIVdVP9rgyWx8obxhvGtH6Jw/7GALshomYLiNxmPCvbwCuTzDQ7g1nfhsnqw8pU/3slsnlne+LU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785461440; c=relaxed/simple;
-	bh=xPDrJaqgw7+MdDETG7rXo/iSyyI6oJoqyq5irHWafUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KELDGz5dXb8XQGmsMirXGpyoy+9420cyrtlWcQZNvaUnhI6DyIt0YHVvThbNOt+SvyT1iWEEab6Jz/vKzYQcc/Xbn+Gnhnx/c61IFAnrBX9x0Qc7O2wdSkLvi3G1ee1LWsYqww50kbCtHPsGGbf3oT6CJTQ7mPPu9Ir+FB9aiA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkYhe+ZX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785467991; c=relaxed/simple;
+	bh=FV8MFBYEphVrTjBPAGjCbWhQns/u4z4oUa+LiSet24Y=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=UZAkUVKvrlTh/bmdYO0LIGd7UBrctI69f7xctwZY8TlSAp2AgwP3d1S/IbLSAb3Ptm01LAuSiupg7LLu/QkR94WckmIWy45VXfWgG90e7519o7Vno/9EzEuI9jf3tdE9ZJW2Orl1QOZ46C8+EaXoI6m7b2hoHipmdiO8IXtyVzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hGu0EnyE; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkYhe+ZX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 606A21F000E9;
-	Fri, 31 Jul 2026 01:30:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785461438;
-	bh=rCZ/vR92USILll2U9ywKs1c2qZqbzrvcbQrXrq9o/Qo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=EkYhe+ZXCUbYm6wolRaVPbfFG/i/M28VpJDsdTBfS+cHUQok98kY9WckarHRzNqf7
-	 25nKgJIjwFEAx/Dz4tw9ZX0WX0F5IQ1eHIWuecvug401slseiaYJzRJWEiJ+i0lZch
-	 JDJwrzV0VRiJ0TIQHhe2h6gUmTJVm+DH4Mzxobjl4n6TiBmd7/iSBamNu8jYAYAv2W
-	 y4Phn97WYQJncaIwoCG6116dw2lMo0nq9pCOfGpSL8eoTa/9fBgh+7TytwMlTqXpr9
-	 WEsTz49RMvc7FT4vMnXiyVX4rMnn8Gk65iQDaOQfzo+j9t3lG7uAVIUCzkOkZPfdks
-	 ISsARoRmLPfAA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: illusion.wang@nebula-matrix.com
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	dimon.zhao@nebula-matrix.com,
-	alvin.wang@nebula-matrix.com,
-	sam.chen@nebula-matrix.com,
-	netdev@vger.kernel.org,
-	andrew+netdev@lunn.ch,
-	corbet@lwn.net,
-	horms@kernel.org,
-	linux-doc@vger.kernel.org,
-	pabeni@redhat.com,
-	vadim.fedorenko@linux.dev,
-	lukas.bulwahn@redhat.com,
-	edumazet@google.com,
-	enelsonmoore@gmail.com,
-	skhan@linuxfoundation.org,
-	hkallweit1@gmail.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v22 net-next 12/12] net/nebula-matrix: add common dev start/stop operation
-Date: Thu, 30 Jul 2026 18:30:37 -0700
-Message-ID: <20260731013037.745372-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260723040110.91410-13-illusion.wang@nebula-matrix.com>
-References: <20260723040110.91410-13-illusion.wang@nebula-matrix.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hGu0EnyE"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso569053a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jul 2026 20:19:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785467989; x=1786072789; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NzX+hRkU5KWllIWfAvWaKY5U9ZRh7FwCTJ1V1rzbgvU=;
+        b=hGu0EnyERQ1ujltQljtEH94uYSg2f7mIpJeqOWuU/kkSYjb6MadCHXFmR6a/XdexWa
+         439BqD5C/CP7qHw55i2tpsR5kX/3RqSHA8onNsgwlG1hu8r5+3+CuqpWH1tZMTtPhmO1
+         P0vtQuC04U3RnTltGVaVrJ3Nr+Xijx4bBn8lXnMnCPlamguoNhkv6FhWKOduZTcBn9B8
+         h/FOulrYa9jWQ1bW4elBK+/tqL527CnwwYmujDRIQ3WLrJBYEzSgg04bkD1GbA2MbPgo
+         T/Othp1tjXIcqqaS+WwQKtVgoM3kuvqcA92A82Uvl5vh26wEzGUiAfQZRIa9L3d/34JQ
+         NRtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785467989; x=1786072789;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:subject:references:cc:to:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NzX+hRkU5KWllIWfAvWaKY5U9ZRh7FwCTJ1V1rzbgvU=;
+        b=TfT4ipE/lLmL29bg0fm3clPuFbG1XydLKONVwqej5hP7T4A/7GaSHsbrGdWJghxCS+
+         dy//5ZTO5WBlSoWKPh+jWNfBbOJ6fFBIU329yq4VJ9yU/3GQY6o0Hyzj+Gx74NhfSxhf
+         BIvfhgmXuSt/mTZmVaKmzMUgfsc7uzJp2VTRclGG/disCJdjYR+y2/3lThSs2BlBS/6q
+         09f+38oC+VpR9R/uGHWqUr7CRBRE3qU3TujmceOhNgR4p3GtZkf1+6yAfCaQa8VbIsiK
+         wIAV9SaRICmETFP1Eg9HWzp7km1vHYIh6sJMG9dStudFO6NpmpPgMW7WM7f4d921uqqi
+         ZjBA==
+X-Forwarded-Encrypted: i=1; AHgh+RpZs0jzw2FMfM4sUS4qjyv7YndwNnCB395sUfp2bm23NEGugDwJlra1h23rxqUQLRmb50EjDDS7O2g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx10gO9zSoLNViThxxNsZP8OGNOy9lv7Zz1+Ozl+sO8UplVYJj
+	hwhdAPSM4Utn37bwjvYcODbtT73TOp9xE40b3kfdwUyPa8XRB2aFpUoP
+X-Gm-Gg: AR+sD119YYYVm5HoEMfTiFosmfTY29EfWBCgMjz+JUmS46OOVpRJqagJlm65kaOwAfh
+	stu+QMJxH3QiEw9tBR8vtQsc5P/vBqiO0UTlZA6oYzwsl2nksWlFYx6fDHGGAKhDevV3kWGBXrD
+	e1aANjZ/deDMR0UTPK2/0LmVgk1cl97ziOQN5euIjF5s7lqcKZVnx4/fpi9FRMdugY3CCuz+0Uy
+	EBy2ZHtD0ef9ynMEIJ1uPxtHvr2kyr7QC0ZDXvwL6wg6k/ebHb/glHYNU6bY80/6v7Nzb1qYKj5
+	AsrNLI1tAr3SR44lmUZ/zeRf5WCmlS5Ts0hY+Nnaf0fAQ6OEyWke5r7Gl9aXMMDrI7ZOG/0T+Uf
+	o4ZIoLET7UgAThAufllUNbv+/KaA54feXnw4oxSm+Czto7fudhJ+cRPSt0wefpGluJXQp0KDnsH
+	E5WSEff6RH/OmBuzFd0JB4OH+7H+SMYH54IiQMQP4ssgD6wTsMEadK0aYV1pz2IaclHBkBapfoZ
+	2bWe7TPrOjQJ+F5Dr6YhdQgf7nUmCJs0g==
+X-Received: by 2002:a17:90b:3804:b0:38d:f096:a1dc with SMTP id 98e67ed59e1d1-38fb112ea70mr350173a91.11.1785467989242;
+        Thu, 30 Jul 2026 20:19:49 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38fb2e10549sm42623a91.2.2026.07.30.20.19.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 20:19:48 -0700 (PDT)
+Message-ID: <22a9276d-c103-4306-a617-7f34abcd5c29@gmail.com>
+Date: Fri, 31 Jul 2026 12:19:41 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: ryszard.knop@intel.com
+Cc: intel-xe@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, shuicheng.lin@intel.com, corbet@lwn.net
+References: <20260717125753.634550-1-ryszard.knop@intel.com>
+Subject: Re: [PATCH v3] scripts/kernel-doc: Suggest possible names for excess
+ descriptions
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20260717125753.634550-1-ryszard.knop@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
----
---- Patch [12]: [PATCH v22 net-next 12/12] net/nebula-matrix: add common dev start/stop operation ---
-commit 87deb0868f9edbdb2f584ecc55b9f7839da1fb23
-Author: illusion wang <illusion.wang@nebula-matrix.com>
+Hi,
 
-net/nebula-matrix: add common dev start/stop operation
+Daily linux-next documentation build at https://www.kernel.org/doc/html/next/
+has stopped working since July 23.
 
-This patch adds device start/stop helper functions for MSI-X mapping and 
-mailbox interrupts. It creates an unbound global workqueue for mailbox tasks. 
-It also extends channel TX logic with polling fallback.
+In my bisection using a debian bookworm container (python 3.11.2 +
+sphinx 5.3.0), this patch, which is now commit d7758384ccb4
+("scripts/kernel-doc: Suggest possible names for excess descriptions"),
+is blamed as the first bad commit.  Reverting it resolves the build
+error.
 
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
-[ ... ]
-> +int nbl_common_create_wq(struct nbl_common_info *common)
-> +{
-> +	char wq_name[32];
-> +
-> +	snprintf(wq_name, sizeof(wq_name), "nbl_wq_%s", pci_name(common->pdev));
-> +	common->wq = alloc_workqueue(wq_name, WQ_UNBOUND, 0);
+Error message from "make htmldocs" looks like this:
 
-[Severity: Medium]
-Is wq_name safely used as the format string here?
+--------------------------------------------------------
+Exception occurred:
+  File "/linux/tools/lib/python/kdoc/kdoc_files.py", line 16, in <module>
+    from kdoc.kdoc_parser import KernelDoc
+  File "/linux/tools/lib/python/kdoc/kdoc_parser.py", line 604
+    return f"(did you mean one of: '{"', '".join(suggestions)}')"
+                                                                 ^
+SyntaxError: f-string: expecting '}'
+--------------------------------------------------------
 
-Since alloc_workqueue() takes a printf-style format string, passing the
-variable directly can cause a format string vulnerability if the PCI name
-contains format specifiers. Should this be updated to:
-alloc_workqueue("%s", WQ_UNBOUND, 0, wq_name)?
+I think this needs python3 3.12 or better.
 
-[Severity: Medium]
-This patch creates a dedicated workqueue for mailbox tasks, but does the
-cleanup task occasionally reschedule itself to the default system workqueue?
+Can you make this script compatible with python3 3.9, which is the
+minimal version listed in Documentation/process/changes.rst?
 
-In nbl_chan_clean_queue():
-
-    if (more_work && READ_ONCE(chan_info->clean_task))
-        schedule_work(chan_info->clean_task);
-
-Should this use queue_work(common->wq, ...) instead to ensure the task
-stays on the dedicated workqueue?
-
-> +	if (!common->wq) {
-> +		pr_err("Failed to create workqueue nbl_wq\n");
-> +		goto alloc_wq_failed;
-> +	}
-> +
-> +	return 0;
-> +alloc_wq_failed:
-> +	return -ENOMEM;
-> +}
-[ ... ]
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> @@ -725,6 +725,7 @@ static int nbl_chan_send_msg(struct nbl_channel_mgt *chan_mgt,
->  	struct nbl_common_info *common = chan_mgt->common;
->  	struct nbl_chan_waitqueue_head *wait_head;
->  	struct nbl_chan_tx_param tx_param = { 0 };
-> +	int i = NBL_CHAN_TX_WAIT_ACK_TIMES;
->  	struct nbl_chan_info *chan_info =
->  		chan_mgt->chan_info[NBL_CHAN_TYPE_MAILBOX];
->  	struct device *dev = common->dev;
-
-[Severity: High]
-Does checking the shutdown flag before incrementing the inflight counter
-create a race condition?
-
-Earlier in nbl_chan_send_msg():
-
-    if (READ_ONCE(chan_info->shutdown))
-        return -ESHUTDOWN;
-    /* Ensure shutdown load is ordered before inflight counter increment */
-    smp_rmb();
-    atomic_inc(&chan_info->inflight_tx_cnt);
-
-If a thread is preempted after checking the shutdown flag but before
-incrementing the counter, could another thread set the shutdown flag, observe
-a zero counter, and free the queues? When the first thread resumes, it would
-operate on the freed queues. Should the counter be incremented before checking
-the flag?
-
-[Severity: High]
-When waiting for an interrupt ack in nbl_chan_send_msg(), does a timeout
-correctly return an error?
-
-    if (ret == 0) {
-        if (READ_ONCE(wait_head->status) ==
-            NBL_MBX_STATUS_WAITING) {
-            wait_head->status =
-                NBL_MBX_STATUS_TIMEOUT;
-            wait_head->acked = 0;
-            wait_head->ack_data = NULL;
-            wait_head->ack_data_len = 0;
-        }
-        spin_unlock_irq(&wait_head->status_lock);
-        dev_err(dev,
-            "Channel waiting ack failed, message type: %d, msg id: %u\n",
-            chan_send->msg_type, msgid);
-        goto inflight_dec_out;
-    }
-
-Because ret is 0 from wait_event_timeout() and isn't reassigned to an error
-code like -ETIMEDOUT, will the function return 0 and cause the caller to
-consume uninitialized or stale response data?
-
-> @@ -852,6 +853,49 @@ static int nbl_chan_send_msg(struct nbl_channel_mgt *chan_mgt,
->  		goto inflight_dec_out;
->  	}
->  
-> +	/* Polling: only init/deinit, add shutdown detect to avoid deadlock */
-> +	while (i--) {
-> +		if (READ_ONCE(chan_info->shutdown)) {
-> +			ret = -ESHUTDOWN;
-> +			goto inflight_dec_out;
-> +		}
-> +		/* Order shutdown read before accessing clean_task/workqueue */
-> +		smp_rmb();
-> +		if (READ_ONCE(chan_info->clean_task) && common->wq)
-> +			queue_work(common->wq, chan_info->clean_task);
-
-[Severity: High]
-Can this sequence race with device teardown?
-
-In nbl_dev_remove_common_dev(), the teardown sequence appears to set the
-task to NULL and cancels the work before the shutdown flag is set:
-
-nbl_dev_remove_common_dev()
-    nbl_dev_register_chan_task(dev_mgt, NBL_CHAN_TYPE_MAILBOX, NULL);
-    cancel_work_sync(&common_dev->clean_mbx_task);
-    nbl_dev_remove_chan_queue(dev_mgt, NBL_CHAN_TYPE_MAILBOX);
-
-If a sender bypasses the shutdown check and enters the polling loop,
-can the double read of chan_info->clean_task allow queue_work()
-to be called with a NULL pointer, or to queue the work after it was already
-cancelled, leading to a use-after-free when the work accesses the freed queues?
-
-> +
-> +		spin_lock_irq(&wait_head->status_lock);
-> +		if (READ_ONCE(wait_head->acked)) {
-[ ... ]
+Thanks, Akira
