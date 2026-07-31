@@ -1,87 +1,87 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155FB2DEA89;
-	Fri, 31 Jul 2026 13:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C0141CB5F
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 13:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785503977; cv=none; b=t36eLf6GTl8VCZ8iaLEZB/xjAhtDMneZN15Gs36a3Kkj4ZB0NIulN3f2PuIhbwVHDx5Jr7I44m625e1PB8iu0eWpecYkLeaXPn0yFivrErKrO5lQz2uMJsiZAl/tvdfTGbSPlW0ejJLsKoTv0BI7znK98fKxfyOzeCGDY+vfoaQ=
+	t=1785504483; cv=none; b=btzxfaj2YN29QJZJRrU8dmlLpqg2YswG6Noph+h+ZwxONns9Cxc1frjSFCnbm8WvDxQbCH0gu40xbO1Q0n6A1VwFFSQVQPsvGCl+IZa4ZKtoHxi3dbjI3nMKWYqruiCnKS6JgGXSAhP8WW9D1EDaPRt3d90mhq5R+Eu2JgTfdgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785503977; c=relaxed/simple;
-	bh=E1tRmvIhWaFUORpomd+rU6taOpaiH06zAUlXOtTHnGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=toVdHNs7LdKZaQ9EkN+su/L3n9Os7fEtt7Duv6IOe9daaWiSgLmhh6MXA8kF1mpNzr8cg7jH5F6/KaLDXUHF+VSWuM5V9RLG+D8QelvRCAIdqQSlXdMVECcQi4x5WgOd13WwigiU8ajCbED+SJXR6LZ7S9RbR5ttLA6rzc5GeI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=aQDSykJ9; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1785504483; c=relaxed/simple;
+	bh=BdWRFs4osWaaJzMBzKIKTHPcsMgJqciu7jcoPmTxYec=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IlgQxSmMyt+FvOldMfqE77y2uyUC+Zf04tERcx8pF7VtnBb51rOyfzUoFiJtrgYSvAe/rUelOor2YFU6pnv9fX9pusvptvIxWqOJYdR4HMXEVjqHK42qfK2k1fWs9ybgPzIg9C+HasiGeWuvPoqLpbdYOMGlXIsiUCPuaixoZDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fgm9xkTh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="aQDSykJ9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ozj+azE2WMAic6md6kpz5inr7tjqcL2PUGO5bai+aX0=; b=aQDSykJ9iT8w8kZVB0r7hPlEYY
-	+QYMtbW/SO3mjA7PLH1BAUTc/Madc6281vzWxlV83jB1fYi431eKbSK4gIc/u6KFRIy9V6vYb6rtm
-	tcAkdQfeTvkG33j0UuYOUJK+3Mzs8LgAnqxvG+44MxN2TVs1uxuNwmpmhYv9icMy9qYMzMpdTDkhd
-	VbC3OQLf9CVtr8KYez6WnSvD3XsmtBtu9dc3CVyms/jpr1pmIi9pG2ud538T/lnZX0UD3vUGruw9l
-	Pr4Je6WjpoZl0FkbQRn37HV9/JQMKNrghDRJXHsaZRS2bitl1E4YC59SvbEOCMXnp4mYxVunq+YBi
-	X52rfNMA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wpn94-00A2YM-0r;
-	Fri, 31 Jul 2026 13:19:26 +0000
-Date: Fri, 31 Jul 2026 06:19:20 -0700
-From: Breno Leitao <leitao@debian.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Miaohe Lin <linmiaohe@huawei.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
-Message-ID: <amygM1INCTEoYY2Y@gmail.com>
-References: <de29c5cc-3637-cd18-354d-55ceb3d60afd@huawei.com>
- <amh1nZVVaaZSGD3M@gmail.com>
- <20260728122016.30752d36c3b3c3af231efa9d@linux-foundation.org>
- <44f81bea-d64a-4f73-8665-46652a928c83@kernel.org>
- <amkn21ftNme48Vbl@gmail.com>
- <f83d5b26-b369-489b-a305-1eb5ec6fccfb@kernel.org>
- <amm72Bu9qmWLI-9b@gmail.com>
- <d0d62d7d-8701-4692-89b9-84dff71a7cf0@kernel.org>
- <amnTfwagJQpEY_21@gmail.com>
- <2e1ca7be-ce73-4146-95fe-d8cff4da9494@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fgm9xkTh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0AEE1F01562
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 13:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785504480;
+	bh=BdWRFs4osWaaJzMBzKIKTHPcsMgJqciu7jcoPmTxYec=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=fgm9xkThoqF1bQfPKO65FXat8RPLvTXA1XKtS4lux6x04EWgf5FH13BC8cyLHazPr
+	 dxzEQEnZ2Df/Tppmr2j3vLpLLS9qa9ha2qu+qXjQ6azhAt7sq6IF2eqHqW93C5RyoK
+	 TzXsDCJ6Ybn/MAaTz0O9nq2rCBocCM3nN5zK6lrw6dP/aHfYjN95ceIZnBoqnWhx1k
+	 WW3n99WPKLtRFqFe7BJZA5sk06HwbHzVF9HYWaljlWJJy+T9hsK7wQj88oCou57s59
+	 0KAgsXS/e9JqHF1A8NTB/9+4ixHnqSaTU7hPdlftVqNQKKsGa186j1PFolfZL1F7g4
+	 cxNxbc1EdJa0g==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b011edaf7dso880863e87.2
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 06:28:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rov+Wu6Zaah5+7107+K2MN5PAQkq5u44p3wymkuNNI7wIJFFevZxuh8jF6Gm5AhXsMcGk36I5mXluk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBUP9yJ8XeDRKUq2HFfleHUUQ3wQEBziyAY9iI30aKzDTceYoA
+	PRbDFm6/oPnj1/OIO6LU/CXU9r0SMrGUxYuTa7Nh6Q4j5ov/zDmOV3ezJJNm3sLXW+9E7qMkAQY
+	OBFOmHaUfDiSz0ISXh/c9NTYK84NiemZZf8ZqL7WxjA==
+X-Received: by 2002:a05:6512:3d9f:b0:5b2:a1f2:466e with SMTP id
+ 2adb3069b0e04-5b2e1fc8295mr456344e87.10.1785504479286; Fri, 31 Jul 2026
+ 06:27:59 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 31 Jul 2026 06:27:58 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 31 Jul 2026 06:27:58 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <CAMRc=McA3BqoazxvGDu1_WoT9x0ujXT_80jKPp+5Jb0Rda9zOA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2e1ca7be-ce73-4146-95fe-d8cff4da9494@kernel.org>
-X-Debian-User: leitao
+References: <20260731-pwrseq-vote-rename-v2-1-480357946e00@oss.qualcomm.com>
+ <CAFEp6-3X+PCXZdEy1p47XUDs7cT16JDjt0=928Jjkeik_haaQw@mail.gmail.com> <CAMRc=McA3BqoazxvGDu1_WoT9x0ujXT_80jKPp+5Jb0Rda9zOA@mail.gmail.com>
+Date: Fri, 31 Jul 2026 06:27:58 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MdA6dTDvp=kQ+k2Jf=kyZBK7VTJCX=0Qvq2MOvQVOQDsQ@mail.gmail.com>
+X-Gm-Features: AUfX_my4-vcUkFt6J5bi893LfoyHoVCDYEQ_iJ8oHk7wCMSuijA_BdfQPo-2B_Q
+Message-ID: <CAMRc=MdA6dTDvp=kQ+k2Jf=kyZBK7VTJCX=0Qvq2MOvQVOQDsQ@mail.gmail.com>
+Subject: Re: [PATCH v2] power: sequencing: rename pwrseq_power_on/off() to pwrseq_enable/disable()
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Alessio Belle <alessio.belle@imgtec.com>, Luigi Santivetti <luigi.santivetti@imgtec.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jeff Johnson <jjohnson@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Chen-Yu Tsai <wens@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	imagination@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	linux-pci@vger.kernel.org, Jeff Johnson <jeff.johnson@oss.qualcomm.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Loic Poulain <loic.poulain@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 29, 2026 at 01:11:36PM +0200, David Hildenbrand (Arm) wrote:
-> On 7/29/26 12:21, Breno Leitao wrote:
-> > On Wed, Jul 29, 2026 at 11:09:11AM +0200, David Hildenbrand (Arm) wrote:
-> >> Avoid bash scripts, please :)
-> > 
-> > Sorry, I will try to control my fingers next time.
-> > 
-> > Jokes aside, all the selftests I maintain
-> > (tools/testing/selftests/drivers/net/netconsole) were done in bash, so,
-> > I got totally biased.
-> 
-> Ah, I see. The MM folks are not known to be bash experts, which is why we limit
-> our bash scripts to a bare minimum (and focus on C tests).
+On Fri, 31 Jul 2026 15:04:30 +0200, Bartosz Golaszewski <brgl@kernel.org> said:
+>>
+>> Nit: s/pwrseq_disble/pwrseq_disable ?
+>>
+>
+> Ah dang it, how did I miss it, I test-built it. :/
+>
+> Thanks for catching it.
+>
 
-Thanks for the guidance. I've rewritten the test in C and posted it:
+Ah right, makes sense, it builds fine, it's just my sed script was wrong and
+renamed it like this everywhere.
 
-https://lore.kernel.org/all/20260731-memory_failure_rewrite_test-v1-1-6aa8c6435693@debian.org/
+Bart
