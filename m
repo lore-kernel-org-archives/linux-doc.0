@@ -1,123 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576363672A5
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6F2386453
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785489073; cv=none; b=aJ1Br79t/G/PhhAF6TbvNVW5fx2QZLCzjrNYq8CgxgacsZqBsbqF4BgfdG5dE5A4T6UDHoakhJI2LOL1JPLPDR4UV2UNjEvs0sXqKVLVxCrdAXgzmQK29LFC+JiTTnaGHjA4XhdCopmpMHC0ZLYH+mB5BT4fpliZ38mjroX/Eho=
+	t=1785489081; cv=none; b=WmDh3PnoNdfENhm/yaBfGdsoZB0Aox85/sFfbc011/VMSybC/7IO5qYvfW4NpRX1jFbBDUwAdpoTR9pzfEDMwAQOmXBgs204h/lKreXqg9QAg9Bt8PFaMZ6+CdB6qmbB9n2b/Ld/xkcg0hj/8SsqDPnJieZFyAaOR91D5VAoo70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785489073; c=relaxed/simple;
-	bh=5XUZi8GsiVLf/Vb+67K9iznleyV2RXl5LlPnl7gw/kc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sj2HjDZSGOb6lFswEPSvYibm479+hGkdRvlVGqP4j3+oLTfluIHLXw9Y//PTBdi4DV8ps6mZge5Gj09V/UPwvWaTqyc+J5MeMQuX+F0Zj0N28/avRIrld0qluRwkU7IpYcauxvEqq+fSHzbG/+90hZLnQchK2GGT5rHhnTI3jDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRZ3Awqb; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785489081; c=relaxed/simple;
+	bh=P46FiyBIf5FqdJCE8BFKSsgN69C/BJ5W7RtNSMA/1/w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KEM8/63Dz3GVebk3tzXRQP5gTIBGGv1rE82pZD81cuGNYJGR+GbNgP0Twyv1hkQDSvgQmJpWRMUWVVIOQbrjtxQ4xXAM+D1Uv2hmvd5LSucnXgA8r7ywR6pMAZT0ZkjJ6BpuRVLGDPvACBKjCIsTatJexfNUEOA8HEL2PaWuHaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xzmx/pVS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRZ3Awqb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785489071; x=1817025071;
-  h=date:from:to:cc:subject:message-id;
-  bh=5XUZi8GsiVLf/Vb+67K9iznleyV2RXl5LlPnl7gw/kc=;
-  b=iRZ3AwqbljPZHm+IFcCctzrWemGyoq4sPSYkZ2XzHQ9AKPldwaNmBsgX
-   PJPhvoAweDVb5B85gliE1dgPqqniCsaSXcDKvv1ebeSOkwhx7EVwyJ503
-   ELPwD7i89DM8t5CqqArwp8IpjrHQVRFLlP1HYnXw389KGaka5Oixe+iW5
-   Hz7Cz3fTBKL9SFYqwPm2hZfJfgp3RCcC4j9IDGxroNFFXh2B2JYEo5vtF
-   hjhL3S5jmQcwYEhGRChEgmih8ZMdDLIbOoXAdHIXlLEz5X27smLU5t0up
-   vPsHVYSGGwrQ8hinXEI8gTrdbMUUXDdxC57qdQVevbf7f7zsBhSGViv0n
-   w==;
-X-CSE-ConnectionGUID: iybQq714QTi+bwa4uivjeA==
-X-CSE-MsgGUID: YhuwSh7fQve9ML3wtjQcDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="85880725"
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="85880725"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 02:11:10 -0700
-X-CSE-ConnectionGUID: NT0N3CMWSPqR8ntn+Zic/A==
-X-CSE-MsgGUID: XtZUKY9NSfSisx9/dmSmWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="285139664"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 02:11:09 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wpjGl-000000002fm-1r0G;
-	Fri, 31 Jul 2026 09:11:07 +0000
-Date: Fri, 31 Jul 2026 11:10:09 +0200
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [gourryinverse:djhacks 36/38] htmldocs:
- Documentation/ABI/testing/sysfs-bus-dax:183: WARNING: Definition list ends
- without a blank line; unexpected unindent. [docutils]
-Message-ID: <202607311126.xEbrg8UU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xzmx/pVS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DE91F000E9;
+	Fri, 31 Jul 2026 09:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785489079;
+	bh=C+7sQcw4Lp6aF6ffuo506jNjtHX7lPWs3KjiPfetUEY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Xzmx/pVSE/7R1+T0sqKirdyPQ61hNwa04+ghaJg7lWorkJKg97FfeiftiOgnJEXhO
+	 zAV3XxG6MG971N42MC/Vrb5uWJ5FTicQ0JPVjTol9Akw0H9kNMRpt27n3FmYm6Ku05
+	 AAEvEaZjCKALRNF8og5uXdwyaNd5TXn9y/HjBYt0rIpRYrDzS1PmLPrDt2HgPkbqJ5
+	 2NskUXcSxthaCA62XVzTb+DqWrmVOoQBVY7WuhH+rpMVxO+uwD5fKcSlVLHV4xeHC1
+	 ek+Yx3yPYDBZw8SRwZz2mZwtHD6kh2bKPex9C5MayTKPvS2iRK2qYy1oIM7xJevNgB
+	 geeSpCpjLJ9rA==
+Message-ID: <d9236dc0-3332-4fab-aa26-e74d10ad0cda@kernel.org>
+Date: Fri, 31 Jul 2026 11:11:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: ksm: fix typos in sysfs knob names
+To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
+ xu.xin16@zte.com.cn, chengming.zhou@linux.dev, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ shr@devkernel.io, linux-mm@kvack.org, linux-doc@vger.kernel.org
+Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
+References: <20260731083526.3953421-1-tujinjiang@huawei.com>
+ <20260731083526.3953421-2-tujinjiang@huawei.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260731083526.3953421-2-tujinjiang@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/gourryinverse/linux djhacks
-head:   09de2580129cf36e7ed3de65282a91fe3cc29e24
-commit: 64636b7d457b68054d7a759c4a688476a22044cb [36/38] Documentation: describe private memory nodes
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260731/202607311126.xEbrg8UU-lkp@intel.com/reproduce)
+On 7/31/26 10:35, Jinjiang Tu wrote:
+> The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
+> "advisor_max_pages_to_scan", but the ksm.rst documentation spelled
+> both as "adivsor_*", fix the two typos.
+> 
+> Fixes: 0710f38ad26a ("mm/ksm: document ksm advisor and its sysfs knobs")
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607311126.xEbrg8UU-lkp@intel.com/
+I'm not sure on fixes tags for documentation stuff.
 
-All warnings (new ones prefixed by >>):
+Change itself LGTM
 
-   Using alabaster theme
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
->> Documentation/ABI/testing/sysfs-bus-dax:183: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-class-power-bd71828:1: ERROR: Malformed table.
-   No bottom table border found.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
+-- 
+Cheers,
 
-vim +183 Documentation/ABI/testing/sysfs-bus-dax
-
- > 183	What:		/sys/bus/dax/devices/daxX.Y/mm_capabilities
-   184	Date:		June, 2026
-   185	KernelVersion:	v6.21
-   186	Contact:	nvdimm@lists.linux.dev
-   187	Description:
-   188			(RW) dax_kmem only.  A NODE_MEMORY_CAP_* bitmask selecting how the
-   189			device onlines its memory.  NODE_MEMORY_CAP_ALL (~0, the default)
-   190			onlines it as ordinary system RAM; any other value onlines it as a
-   191			private node (an N_MEMORY node not in N_MEMORY_FALLBACK) whose set bits are the only mm
-   192			services that may act on the node's memory -- everything else is
-   193			isolated.  Accepts decimal or 0x hex.  Writable only while the
-   194			device is "unplugged" (-EBUSY otherwise).
-   195	
-   196			The capability bits (see include/linux/nodemask.h) are:
-   197	
-   198			  NODE_MEMORY_CAP_RECLAIM	reclaim of the node's folios,
-   199							by the mm and by userspace madvise
-   200			  NODE_MEMORY_CAP_USER_NUMA	userspace placement and migration
-   201							via mempolicy and move/migrate_pages
-   202			  NODE_MEMORY_CAP_DEMOTION	reclaim demotion/tiering onto the
-   203							node (requires RECLAIM)
-   204			  NODE_MEMORY_CAP_NUMA_BALANCING NUMA balancing scan/migrate of
-   205							the node's folios
-   206			  NODE_MEMORY_CAP_LTPIN		FOLL_LONGTERM GUP pins
-   207			  NODE_MEMORY_CAP_COLLAPSE	THP collapse (khugepaged/madvise)
-   208			  NODE_MEMORY_CAP_HUGETLB	hugetlb pool allocation
-   209	
-   210			Dependencies (DEMOTION requires RECLAIM) are validated at hotplug,
-   211			not at write time: an inconsistent mask is accepted by the write
-   212			but the subsequent online fails.
-   213	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+David
