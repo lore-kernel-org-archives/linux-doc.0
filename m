@@ -1,100 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639FC35C6A4;
-	Fri, 31 Jul 2026 22:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449593D75AD
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 23:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785538308; cv=none; b=BK8bvrZ90Ir/qxUgYYGNl8ENq8CSqWIn5/3LaZn/kvrerdmlQ3vnGwkCMplxPNkoRfc6riii5egCF9SXMGXytM49vsB5LrUXBaCVTWC/DONgBG9GK9zcf1iYLAJvyjZrBNp3PchObvuxpV8hYwG36ctGOsrUvbPk1pPbgxVGlHw=
+	t=1785539774; cv=none; b=eK7wsxTuT6+X7Gv0y7U66lDdVj7vFSE5Eeq1gfy6LYGkPkjWy53cSDhNw5Xwufd4KIa6bveP4eXzR1gjrks/YcceCTRp2mpYRZy2+nCh/0KlH0VNNpuodJ/hrFeWYy3+421AXplGnoGjiCXdTtVbIIrL36z+l/YUBq4bmoBYqKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785538308; c=relaxed/simple;
-	bh=4lnxS/ZRLgrhqueWnn7x/aSqKk3pEnt2jKZP/4C10rM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ng4/9djYrxYB+j71myNvMU0NqxHda4o52xFIwiigpQ4AM/OfGCt/ipAdZTGzZZ1t+VZ8Ful68HPWaHLSXqVnqweQ6yEtdbHfSfZLONo/J5jhKfvCwH7WGGlbA0xuzpoNLd+MuLDnFwyiilqUSVzFFa8N2r5/WeYXnK09kC67594=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e/E/Aed7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785539774; c=relaxed/simple;
+	bh=A2ZszD5oB/5IQjIY93Gpv4YTCK5z3C0SzJKpHpheYqk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=q4B5P9awo/Hbnw+fyoTr+BnkHw+ELECbH1ryslavBGvdjKZoHFM1OSfKmU0Io/SI8x0fd3aUs/Ir5AVmyhHseHffGRfPXPfofioBN2WrsGJj3C19iX9CUUoQOB2C/KCuKicml2Bx7xPwqw5D1ahaGXfuB8/g53RSXzj130z+qbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A8OuXPAN; arc=none smtp.client-ip=209.85.216.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e/E/Aed7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D18FA1F00AC4;
-	Fri, 31 Jul 2026 22:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785538307;
-	bh=FN9o6ge/8QiKsnO0JTsQSdweDjv4TeuUQif+W0oi/Ew=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=e/E/Aed7lN3wBN2soujFSiy3BLXQwncDLhl8lsVEBFCkTFORRsVDFjrJiyog2u5YB
-	 KlTMTuiVbXMl2UXRsWmiXi48laCTZvy2iovAo5izUmHHuepK7zFKWElZCEUBTDxRWD
-	 Zq+WHmwX0UeqaM42JLnJwuyNnBMDIdKS/euZXO7n+KbQIYfpyevNWjdm9/O9GqrNFL
-	 y8+m2S5Oy5uFfnIGf1ZoDPOOdppiSeLO6pEPNJQk0jd67tOR1/KwZNddZp/XWQOc0L
-	 Sog3F7i5++zXBSx8r4OPEjbtKBNPCUCaQJ6fUdgssg/7YbvnSzlUC2yCXiV7/KhNsn
-	 gdW6slR5e6wjg==
-Date: Fri, 31 Jul 2026 15:51:46 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Saeed Mahameed
- <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq Toukan
- <tariqt@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, Jiri Pirko <jiri@nvidia.com>
-Subject: Re: [PATCH net-next V7 4/4] devlink: Apply eswitch mode boot
- defaults
-Message-ID: <20260731155146.21c05157@kernel.org>
-In-Reply-To: <716eaf68-6168-41fb-b705-e14e84910ea2@nvidia.com>
-References: <20260716084852.549909-1-mbloch@nvidia.com>
-	<20260716084852.549909-5-mbloch@nvidia.com>
-	<20260724161111.2ac47089@kernel.org>
-	<c6c0d67c-d832-49a1-b62a-57fa6ee56a47@nvidia.com>
-	<20260727131033.237f70b6@kernel.org>
-	<amnDfSmMVzpiH2gE@FV6GYCPJ69>
-	<20260729160608.3c491568@kernel.org>
-	<amsu3mbWht_pc4KJ@FV6GYCPJ69>
-	<716eaf68-6168-41fb-b705-e14e84910ea2@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A8OuXPAN"
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38ecc48b3c2so2330985a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 16:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785539773; x=1786144573; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=A2ZszD5oB/5IQjIY93Gpv4YTCK5z3C0SzJKpHpheYqk=;
+        b=A8OuXPANnLkDjarhzKPe24I6SF43B15rvif1t1SQ0QC67vSCeuD6AXVGy/D3nWeQNH
+         Pav0kVzw0SgEy1O6C6cpRR7MXAUl4tz2Quzdj8/Un9nv4U27NsyY2Ly5RZbgBJM25zWT
+         uOd0UGXyFkUXkVj+Fs24OSsNHhGtSIr8B0EFeo8CBFPW2M4EsQLoLlPsntwau+rxy0rv
+         hWAEEF3RVWKmW+41MAQlwEGylETmDUiRym/EHVy/kwogCZFjncvpZ8pdClWKVMGbpFDF
+         p3b+cddI/bBOLzuiReaGe+Q+I5EWk/HZT6uUxA4aEICIRh0aHVE18tHma2p7n0bHZDAu
+         vV4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785539773; x=1786144573;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=A2ZszD5oB/5IQjIY93Gpv4YTCK5z3C0SzJKpHpheYqk=;
+        b=NVnf3iJdRjPnxnn7kJhmJclHDtbl4qlfWRhQtCS2fenG0Aqx1HMxqoiKhOUAtIrh9f
+         pdoalHgwjk9VTClxwHldFs3BsOoQO1iupYgPneHfY5D7wLUP7qyCUmYGzB1XsNowax25
+         vXjJ+llBgSK9uWG80xBru0cfzDdeFn3O35KVSm2vhtw4L7gG+AZWf8argtnrs9fO0OuF
+         iPMrOuPlYlGLcy6uGikKBAS7tK8iLJlzR7kqqK5L1q1FrC1FfTQcWpR5lcFOI2wryII2
+         MUoQ48R0EiG1dv323umMKy8uSNPhWaW7ZvP6kviRkh9guVr4T5weEBXX6jltlo1cOyKM
+         1b7A==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7OcwD2pBUWTkVw1pADEjNPCaCQnr1mcXieN/VOyzwI719MWGlS0YZtqxt/cb8T2i6bFDFUNvYCDM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4b2/+SRrBNQmOvL2FuE0AoXE1FLqBGgG5KUTWzxTrXV1UrHpm
+	zhttquxeDrYp8avV4pM+j57Owd1CEnoJttXges5MES/xRKEKFk1FTYDmeX6PqXlJjGO3cExv1H1
+	lsmxxTg==
+X-Received: from pjbqx12.prod.google.com ([2002:a17:90b:3e4c:b0:38e:a577:5cbd])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:584e:b0:38e:76f8:fcbe
+ with SMTP id 98e67ed59e1d1-38fbc561b48mr1327142a91.29.1785539772383; Fri, 31
+ Jul 2026 16:16:12 -0700 (PDT)
+Date: Fri, 31 Jul 2026 16:16:11 -0700
+In-Reply-To: <e8e7554debef481d13265f0870e847e2fa37f7c2.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260703212145.343527-1-dwmw2@infradead.org> <20260703212145.343527-6-dwmw2@infradead.org>
+ <amPWX8lKXw2KS_kZ@google.com> <e8e7554debef481d13265f0870e847e2fa37f7c2.camel@infradead.org>
+Message-ID: <am0su482WLEa3ojQ@google.com>
+Subject: Re: [PATCH v6 05/36] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for
+ accurate KVM clock migration
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 31 Jul 2026 16:52:25 +0300 Mark Bloch wrote:
-> >> Maybe "after_init()" ? "in" sounds like we can release it multiple
-> >> times but I think the idea is that it's the final, single "release 
-> >> into the wild" unlock.  
-> > 
-> > ack  
-> 
-> Just to make sure I understand the proposal.
-> 
-> AFAIU devl_unlock_after_init() can be used in one of two ways:
-> 
-> Convert all devlink drivers to use it for the final unlock, including
-> drivers which don't support eswitch mode setting.
-> 
-> That's a lot of churn for the few drivers which need this.
-> We'd also need to make sure existing drivers are converted and new
-> drivers use the right helper.
+On Sat, Jul 25, 2026, David Woodhouse wrote:
+> On Fri, 2026-07-24 at 14:17 -0700, Sean Christopherson wrote:
+> > On Fri, Jul 03, 2026, David Woodhouse wrote:
+> > > +4.145 KVM_GET_CLOCK_GUEST
+> > > +----------------------------
+> > > +
+> > > +:Capability: none
+> >=20
+> > Why not add a CAP?=C2=A0 The check in the subsequent selftest is quite =
+gross.
+>=20
+> Because nobody would ever use it in practice anyway.=20
 
-We can add a WARN_ON(!registered) to the normal unlock and it will
-be impossible to miss the use of the wrong one?
+Yes, the selftest will.
 
-> Convert only drivers which support eswitch mode setting.
-> 
-> Then applying the default becomes driver opt-in, which AFAIU we were
-> trying to avoid. For this feature it also looks very similar to the
-> explicit apply API Jiri objected to.
+> Even if the ioctl is present, you *still* have to try it and fall back to=
+ the
+> old method because there are ways that a *guest* can force master clock m=
+ode
+> off.
 
-Well, it would be a change to the init flow into which more things
-can be hooked. We could also make it a separate "driver ready" call,
-I guess, instead of packing it with the unlock. The point is that it's
-not a eswitch-mode dedicated callback that's easy to miss in a driver.
-
-> Which one do you have in mind?
-> 
-> I don't think either option is great. Wouldn't it be simpler to queue
-> work from devl_register(), as before? That keeps the logic out of
-> devl_unlock() and doesn't require driver opt-in.
-
-Having to edit the drivers is not a concern to me. That said, I do agree
-that the API is somewhat awkward. It's a compromise. IDK.
+That's totally fine, but userspace, especially for selftests, needs a way t=
+o
+know the ioctl exists and _should_ work.
