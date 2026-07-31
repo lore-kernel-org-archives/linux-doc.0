@@ -1,183 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E60479872;
-	Thu, 30 Jul 2026 23:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA21288AD;
+	Fri, 31 Jul 2026 00:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785455362; cv=none; b=FtGNtwwrM+XGT/T8pkKZ4HNO6hBifeNf/vhdives8ZSYGdpcJjoa7lg24iEgOGvh1JTG4nnq3UXbX9zpb6t7ceJhK+e3Fh2ztflLynRtyBESrVEzZ9l1R04sjLt9pO/pWz5XzSu7CrDph4n1bLu2iDHKfaX2q9I2QfaBRnO1TJo=
+	t=1785456523; cv=none; b=MD3MD4XSqP+JQUTFmNPO8bt/QEeu0x8+ufMD7fF8tFc+PKYYen8X/8DpZMtcMC9Pt5C/j1vrOIHCNifXkylSmAdkBMDbvvnfAR8QGuogcdh/OD1A7zKKG5dF2rpysTgfw3wDs+KTH0BX5tzSmHIjXOoro2slcOfRq479CylU7yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785455362; c=relaxed/simple;
-	bh=EBqRt2FUcludAcZTS+/lEH3JghanKhXyWdirr2aKXZk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FU1omGwusrMH6XktfeL8S3cuFABvwNIW+f7sTMmAoFjXKFK/9f1E5LIokAvMWOzsIhWgjuU45eU3u1JazUBM70YqaOVStbdUGFVbnWnlwvXuyRkiwS0u8aPZghkYTi23hgwmOfoerY7DqBeS8qPLYcSNe6DQj+0RvgwHAWbH/Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auUUHpuF; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auUUHpuF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785455359; x=1816991359;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=EBqRt2FUcludAcZTS+/lEH3JghanKhXyWdirr2aKXZk=;
-  b=auUUHpuFzGeVZ72PwoolN8CdqpZPj99EaEsw+S1+P3OVDrVlFGaw58FC
-   qZnzBvE30kFzlDms4X1X/YKjHTmc55l7aDMNagvp3TCvCE4B3gQkJVo1a
-   XoT4f5BswG+9T8TbF8Cb3XBlfSD7MDYZXUU+vKzmy/DtgoXoTVI7WmC2K
-   ggctskMDemlPjr12IVNctzbKjjXX6f3rIQvMyO1oKBU6vPfU/eFtx/doo
-   iPvPE19T3b09NC2bjXsZ0kJrlof32EJQU5HBPtl67DV52vD+6i2NMGx57
-   89X5Xw9A0oNSV8iQ3kEdoymBDnO5xAySwvGEwfe8xZyu2FVCpmNzA5Q5d
-   A==;
-X-CSE-ConnectionGUID: pHjIpe0nRyGUdgZw/+Rt5g==
-X-CSE-MsgGUID: 2k0BMBAIRaehF6zOXqAVRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="96670035"
-X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="96670035"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 16:49:18 -0700
-X-CSE-ConnectionGUID: 3hvv/sojQLGAat42r0fN/g==
-X-CSE-MsgGUID: 6mgkoACnRjCJhd9evfHvNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
-   d="scan'208";a="298631756"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.240.248]) ([10.124.240.248])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 16:49:03 -0700
-Message-ID: <dd4201f2-3660-46ad-958f-c70feb1ab1c3@intel.com>
-Date: Fri, 31 Jul 2026 07:49:00 +0800
+	s=arc-20240116; t=1785456523; c=relaxed/simple;
+	bh=lV4Y4nf5AeHDdQZbAkGFS1iUqCawwFfne4/QCeMicwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=krPu7f+Top8XxtRoZk8jm5vouBriX20zuGJTCaXecRn2tEIE47RpGEnOfkvRkf619r2lngy1d+Y6R7hedgOkKOukvOtrd9WasKa9Yqc8t0aDlgJSEJ0srwaNrRTbdNQ1x3SbF6wRHZsCO3K6XKOexhugEola+HjiNKxZS7L83sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id CC3A71A0329;
+	Fri, 31 Jul 2026 00:08:37 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 0CC7D60010;
+	Fri, 31 Jul 2026 00:08:34 +0000 (UTC)
+Date: Thu, 30 Jul 2026 20:09:13 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
+Cc: <bpf@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+ <live-patching@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <corbet@lwn.net>, <jpoimboe@kernel.org>,
+ <shuah@kernel.org>, <jolsa@kernel.org>, <mbenes@suse.cz>,
+ <mhiramat@kernel.org>, <stable@vger.kernel.org>,
+ <linux-open-source@crowdstrike.com>
+Subject: Re: [RFC PATCH bpf-next 2/2] selftests/livepatch: update
+ test-ftrace.sh for deprecated ftrace_enabled
+Message-ID: <20260730200913.59a541db@gandalf.local.home>
+In-Reply-To: <20260730163544.2042327-3-andrey.grodzovsky@crowdstrike.com>
+References: <20260730163544.2042327-1-andrey.grodzovsky@crowdstrike.com>
+	<20260730163544.2042327-3-andrey.grodzovsky@crowdstrike.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 07/41] KVM: guest_memfd: Wire up core private/shared
- attribute interfaces
-To: Ackerley Tng <ackerleytng@google.com>, aik@amd.com,
- andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org,
- chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
- jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
- pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
- rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
- tabba@google.com, willy@infradead.org, wyihan@google.com,
- yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
- suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
- <20260728-gmem-inplace-conversion-v9-7-35f9aec2aed2@google.com>
- <60d19013-d6d7-4eec-827a-2622e22cec98@intel.com>
- <CAEvNRgF0SxmoMtqq69tUih54A9K7j_wcMFRrq=r9w6TnAGAUQQ@mail.gmail.com>
-Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <CAEvNRgF0SxmoMtqq69tUih54A9K7j_wcMFRrq=r9w6TnAGAUQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 0CC7D60010
+X-Stat-Signature: dary9efr8fa175tbga7ng7rcqoyinkxm
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18OUhYxQpcApacRfZUnO8zlNndNAgZBitI=
+X-HE-Tag: 1785456514-63941
+X-HE-Meta: U2FsdGVkX18kfK7tNELfjIWCMK1BpCKR7uHnwmI96UwuVZdrw77nEqub+9YRLdQ+gGofUnBkclMbECoYWg6XA9j17jHgeIklcgRslgDlRNvM3SZOLnysNysD0hqx5V6n0no5cc91Zl5vLwI6PdZ+TCfg1nDWOZNOTvl0jx+A2gvNMBZDQKdDzvs6LriK8C2ku0sGSJpZKb0jpdM7eJVsD0Fzz3ubMLDBWRby0e5KUwWRTjjIPrkF+GBMj/5CnlZxr4s5suf5J8+6T3gYa3WsYu7FQvedpBYQa13ao74T9dqpXLtRYtKp33Toy9A9rT7bWetuIYcLWwhm5tk/5u2eUlSVFka/AiXt
 
-On 7/31/2026 4:42 AM, Ackerley Tng wrote:
-> Xiaoyao Li <xiaoyao.li@intel.com> writes:
-> 
->> On 7/29/2026 8:35 AM, Ackerley Tng via B4 Relay wrote:
->>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
->>> index 33c9830190e2e..89cf922232920 100644
->>> --- a/virt/kvm/guest_memfd.c
->>> +++ b/virt/kvm/guest_memfd.c
->>> @@ -893,6 +893,27 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
->>>    EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
->>>
->>>    #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
->>> +static bool kvm_range_is_private(struct file *file, pgoff_t index,
->>> +				 size_t nr_pages, struct kvm *kvm, gfn_t gfn)
->>> +{
->>> +	struct inode *inode = file_inode(file);
->>> +	pgoff_t last = index + nr_pages - 1;
->>> +	struct maple_tree *mt;
->>> +	void *entry;
->>> +
->>> +	if (!gmem_in_place_conversion)
->>> +		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
->>> +							  KVM_MEMORY_ATTRIBUTE_PRIVATE,
->>> +							  KVM_MEMORY_ATTRIBUTE_PRIVATE);
->>> +
->>> +	mt = &GMEM_I(inode)->attributes;
->>> +	mt_for_each(mt, entry, index, last) {
->>> +		if (kvm_gmem_interpret_entry(inode, entry) !=
->>> +		    KVM_MEMORY_ATTRIBUTE_PRIVATE)
->>> +			return false;
->>> +	}
->>> +	return true;
->>> +}
->>>
->>>    static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
->>>    				struct file *file, gfn_t gfn, struct page *src_page,
->>> @@ -913,9 +934,7 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
->>>
->>>    	folio_unlock(folio);
->>>
->>> -	if (!kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + 1,
->>> -						KVM_MEMORY_ATTRIBUTE_PRIVATE,
->>> -						KVM_MEMORY_ATTRIBUTE_PRIVATE)) {
->>> +	if (!kvm_range_is_private(file, index, 1, kvm, gfn)) {
->>
->> It's checking if a single gfn is private.
->>
-> 
-> But with huge page support we'd need to check a range of gfns... I guess
-> there's the argument of not keeping complexity for the future, but in
-> this case it's undoing functionality for this series and probably adding
-> it back later.
+On Thu, 30 Jul 2026 12:35:44 -0400
+Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com> wrote:
 
-let's leave the work for huge page support in the future.
-
->> We can just use kvm_mem_is_private()? And it seems can be a separate patch.
->>
+> kernel.ftrace_enabled=0 is now always refused, so the old scenario
+> (disable, fail to load a livepatch, re-enable, load) no longer applies.
+> Replace it with a single check that the write is refused with the new
+> error, and drop the now-stale disable/reload flow.
 > 
-> Do you mean that this refactoring could be a separate patch? I could
-> refactor out kvm_range_is_private() in a separate patch, then put in the
-> mt_for_each() check in this patch together as part of all the rest of
-> the "wiring".
+> Assisted-by: Claude:claude-sonnet-5
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
+> ---
+>  .../selftests/livepatch/test-ftrace.sh        | 49 ++-----------------
+>  1 file changed, 3 insertions(+), 46 deletions(-)
 > 
-> I considered that but it seemed like the refactoring was too small to
-> separate out into another patch when the mt_for_each() part is going to
-> be in this patch anyway.
-> 
-> Or, I could add an earlier patch to first replace the call to
-> kvm_range_has_vm_memory_attributes() with a call to check just 1 gfn,
-> then this wiring patch would be simpler.
->
+> diff --git a/tools/testing/selftests/livepatch/test-ftrace.sh b/tools/testing/selftests/livepatch/test-ftrace.sh
+> index d2c3dea63104..c88f4d13a134 100755
+> --- a/tools/testing/selftests/livepatch/test-ftrace.sh
+> +++ b/tools/testing/selftests/livepatch/test-ftrace.sh
+> @@ -9,56 +9,13 @@ MOD_LIVEPATCH=test_klp_livepatch
+>  setup_config
+>  
+>  
+> -# - turn ftrace_enabled OFF and verify livepatches can't load
+> -# - turn ftrace_enabled ON and verify livepatch can load
+> -# - verify that ftrace_enabled can't be turned OFF while a livepatch is loaded
+> +# - verify that kernel.ftrace_enabled=0 is refused (deprecated knob)
+>  
+> -start_test "livepatch interaction with ftrace_enabled sysctl"
+> +start_test "ftrace_enabled sysctl write is refused (deprecated)"
+>  
+> -set_ftrace_enabled 0
+> -load_failing_mod $MOD_LIVEPATCH
+> -
+> -set_ftrace_enabled 1
+> -load_lp $MOD_LIVEPATCH
+> -if [[ "$(cat /proc/cmdline)" != "$MOD_LIVEPATCH: this has been live patched" ]] ; then
+> -	echo -e "FAIL\n\n"
+> -	die "livepatch kselftest(s) failed"
+> -fi
+> -
 
-This is what I meant. An earlier patch to just replace 
-kvm_range_has_vm_memory_attributes() with kvm_mem_is_private(). Then we 
-can drop this 'big' diff in this patch.
+This test should work for both old and new kernels. I would have it still
+do everything here but if setting ftrace_enabled returns -EOPNOTSUPP then
+do the simple path.
 
-If kvm_range_is_private() is useful/required by huge page support, then 
-let the huge page series to introduce it. It has nothing to do with the 
-in-place conversion series.
+-- Steve
 
-> Let me know what y'all think is best. Thanks!
-> 
->>>    		ret = -EINVAL;
->>>    		goto out_put_folio;
->>>    	}
+
+> -# Check that ftrace could not get disabled when a livepatch is enabled
+>  set_ftrace_enabled --fail 0
+> -if [[ "$(cat /proc/cmdline)" != "$MOD_LIVEPATCH: this has been live patched" ]] ; then
+> -	echo -e "FAIL\n\n"
+> -	die "livepatch kselftest(s) failed"
+> -fi
+> -disable_lp $MOD_LIVEPATCH
+> -unload_lp $MOD_LIVEPATCH
+>  
+> -check_result "livepatch: kernel.ftrace_enabled = 0
+> -% insmod test_modules/$MOD_LIVEPATCH.ko
+> -livepatch: enabling patch '$MOD_LIVEPATCH'
+> -livepatch: '$MOD_LIVEPATCH': initializing patching transition
+> -livepatch: failed to register ftrace handler for function 'cmdline_proc_show' (-16)
+> -livepatch: failed to patch object 'vmlinux'
+> -livepatch: failed to enable patch '$MOD_LIVEPATCH'
+> -livepatch: '$MOD_LIVEPATCH': canceling patching transition, going to unpatch
+> -livepatch: '$MOD_LIVEPATCH': completing unpatching transition
+> -livepatch: '$MOD_LIVEPATCH': unpatching complete
+> -insmod: ERROR: could not insert module test_modules/$MOD_LIVEPATCH.ko: Device or resource busy
+> -livepatch: kernel.ftrace_enabled = 1
+> -% insmod test_modules/$MOD_LIVEPATCH.ko
+> -livepatch: enabling patch '$MOD_LIVEPATCH'
+> -livepatch: '$MOD_LIVEPATCH': initializing patching transition
+> -livepatch: '$MOD_LIVEPATCH': starting patching transition
+> -livepatch: '$MOD_LIVEPATCH': completing patching transition
+> -livepatch: '$MOD_LIVEPATCH': patching complete
+> -livepatch: sysctl: setting key \"kernel.ftrace_enabled\": Device or resource busy
+> -% echo 0 > $SYSFS_KLP_DIR/$MOD_LIVEPATCH/enabled
+> -livepatch: '$MOD_LIVEPATCH': initializing unpatching transition
+> -livepatch: '$MOD_LIVEPATCH': starting unpatching transition
+> -livepatch: '$MOD_LIVEPATCH': completing unpatching transition
+> -livepatch: '$MOD_LIVEPATCH': unpatching complete
+> -% rmmod $MOD_LIVEPATCH"
+> +check_result "livepatch: sysctl: setting key \"kernel.ftrace_enabled\": Operation not supported"
+>  
+>  
+>  # - verify livepatch can load
 
