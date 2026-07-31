@@ -1,169 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8067535C19B;
-	Fri, 31 Jul 2026 06:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E0E24676D
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 06:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785479198; cv=none; b=U+9tlsxgmlstKccMC4HuVOA3U47EFzugX/lEkYXZJCbnxBbCpqEeVRmFsQzDpKZWo966bj1z+EGJoo8VEhY8azMy5m1Lg7gDt2GF4r5hrD5UnuQnOiBu3CIOLAO0uuKtKIC8n2O5+tY1BZwCPXEIhG1hryWzQ73vALPZoX1s72Q=
+	t=1785481007; cv=none; b=ATs9B2eyPOqveUfchEYYzbGeQYF39Ke2mENrJysJHdwSmKlsREPoljdqX/A/7nTH88UuhMQLDDOihV4JYv371ydgw+bs4wzZXNep9UyBmTzzga/DaKSOPnJuOsXo7hE5n3DXB17UmR+kUNSB/GyRwoUJ0ZQDEC+vscfvVgnYwYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785479198; c=relaxed/simple;
-	bh=iEaorrPIWjnnAL/wUOG/Gzx8iV7EJSuMXH1DOX6bBIA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F9Mhf2GyYEh37TPtUBvhAb2WACuwFkOn0wEOxBu6ApTZnWsMKbMsCiWIRk+QF6Rllku3a7P9TrBGld0kkgwEQHXBAVvxrxBfIBWzV2d5BCfv0mMFrHw+mwdoFtn5ZZ+BTjdYGK4dVLvlw8pyR8sv8JRwlddmyFBEkLOQ7W33Rg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VmmirnhZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785481007; c=relaxed/simple;
+	bh=Q5W8cfwgLuELT0BI/Utkiy8DF+lukLPZuNdwDkOtaY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SU4ww5se3IHYnbb+XI20k97OUerJY3W4RhQEP5ESBAmdujh/3+r3009feTtG1BEHdCQDHNE4MV4y2tYlNBD3nz+RUKQskm30FGgRyTShNDhKBbPQGrncaJWcc0zUyP6OxlnE04xn7xg3CXrcrKmBXf8MfdMt5LX6wzsXo5Ylx34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=MKCUn7l+; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VmmirnhZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7011F000E9;
-	Fri, 31 Jul 2026 06:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785479197;
-	bh=PQIhXfTbx0yzAGf8bUGcZY8/WsMBrulXwzV+ldhMAU0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VmmirnhZSnDBExURvDVGPyKmUnXn0VWYd8qU/r4rgyXcSFqU945faBDku6DfSj8g2
-	 d2LRaw3+WjT4Tnu70UG8PaOU6x5d7rHQ5qZD0sITKE92PiIk0U/h6bmEYPbLKGMj6i
-	 Sm/q9q3gZkU4MusPYi1uSXA8o8xCG2gLfqDw2hCJsv1Kt6mO3CmPW1Eh4sQCOrM1Fv
-	 LREhzmaMgjChKmXf3jFPuHfkl6dZdJhSi8YUNHtDYPkCs9EB2oV/HoasgyCbwA/YGb
-	 KGRgMbNnSihKL0KZ4h9fya218Vd6bXqStXmD6sVdwmqv8YwIU1hcFwamYBQIJzW0z6
-	 quNtYrgaMl0fw==
-Message-ID: <6e7009f3-ed2f-4a84-868b-661b5ac7ab8f@kernel.org>
-Date: Fri, 31 Jul 2026 08:26:29 +0200
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="MKCUn7l+"
+Date: Fri, 31 Jul 2026 14:56:33 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1785481003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5+QrFa0E+09H/Ff2hadp6ZJsBnRAs7OpwZWmGD8jm9k=;
+	b=MKCUn7l+3bh1pywmjznaU1j1v9n/O6LvXPgjczFbrNSGY3JHELmz+RZ/4eQIKNTdpfqyEi
+	vBMc+q/TNDvJt0xH8HgZF9zm015SHAUQgDxgxEp2nsJ91mzIARkQHIxAA7GikDwPjqJubf
+	oKKku6/glRkJ6MUbHYwLf/ElcQcnpTf/WoYW89WxDST/ru5wSVr9r+oH6NZpKfGvTxvZ23
+	g3Boso8OIDb/yjALbvNnV1Emj8SiULnJ16eXur4s21d9QrMXZo6VAVMn8/8k9fmnX4LqcM
+	hNGeKdHPzPAOlNnW8440K8vRdE74NUOPmB+SfsYPdXBy1eseW4D72zjoSDg3Bw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: update Traditional Chinese documentation
+ maintainers
+Message-ID: <amxHIcHC0vjcp5bG@wyuan.org>
+References: <20260731032101.7244-1-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] checkpatch: warn about possible missing gitignore
- coverage in selftests
-To: Cihan Karadag <cihan.cihan@gmail.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260728052442.626076-1-cihan.cihan@gmail.com>
- <20260728073143.0e665e36@kernel.org>
- <CA+JfJhbda3VbLcAO9KEPgJVH-3WwVvJjdgh0MQUH=Fhnsp28iw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <CA+JfJhbda3VbLcAO9KEPgJVH-3WwVvJjdgh0MQUH=Fhnsp28iw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260731032101.7244-1-chenyou910331@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 29/07/2026 10:01, Cihan Karadag wrote:
-> On Tue, Jul 28, 2026 at 8:31 AM Jakub Kicinski <kuba@kernel.org> wrote:
->>
->> On Mon, 27 Jul 2026 23:24:41 -0600 Cihan Karadag wrote:
->>> Per selftests documentation [1], every generated test binary must be
->>> added to gitignore to prevent leaving untracked files in the kernel
->>> tree.
->>>
->>> This is an easy mistake to make when adding a new test. In fact, a
->>> search of selftests history turns up dozens of standalone follow-up
->>> patches with titles like "add missing gitignore for <binary>", each
->>> needed only because the original patch adding a new test
->>> didn't also update gitignore.
->>>
->>> Add a SELFTESTS_GITIGNORE check that warns about gitignore coverage
->>> whenever a patch adds a new file under tools/testing/selftests/, the
->>> same way FILE_PATH_CHANGES warns about MAINTAINERS on any added,
->>> moved, or deleted file.
->>
->> What percentage of changes to selftests from last 2 releases will
->> false-positive trigger this? Would be good to know, checkpatch has
->> a tendency of generating false positives which is quite counter
->> productive.
+On Fri, Jul 31, 2026 at 11:21:01AM +0800, Chen-Yu Yeh wrote:
+> The zh_TW translation has been unmaintained for about two years: the
+> listed maintainer has been unreachable, and because no active
+> maintainer was listed, get_maintainer.pl did not point contributors at
+> anyone who could actually pick up a patch. My own zh_TW patch sat on
+> the list for five weeks for exactly that reason.
 > 
-> It will trigger whenever a new file is added to selftests, which has
-> a chance of introducing a test artifact into the tree. I checked the
-> last 20 commits touching selftests and only 6 of them were new file
-> additions, so this warning would have fired 6 times. Actually, one of
-> those 6 had a missing gitignore entry that this check is supposed to
-> warn about (fuse_acl_cache_test, 9acb102522b9).
+> Following the discussion in [1] and the plan in [2], add the people
+> who have stepped up to carry zh_TW forward, with a shift in focus
+> towards Taiwanese Mandarin terminology rather than a plain
+> simplified-to-traditional conversion:
 > 
-> Comparing to other WARNINGs that checkpatch generates, such as
-> FILE_PATH_CHANGES which has existed since 2014, this seems like a
-> reasonable and already accepted way for checkpatch to operate.
+>   Chen-Yu Yeh   - translation and zh_TW terminology decisions
+>   Weijie Yuan   - process, list monitoring and status reports
+
+Monitoring the list is the plan I made before touching MAINTAINERS file,
+(in case there are patches land on the list but not in our mailbox). So
+if this patch applied, I guess it would be no long needed for me to
+monitor the list? (Although I always go through the archives)
+
+I do some review, and wish to handle all miscellaneous matters, leaving
+enough energy for the other two to do the work they are good at.
+
+I thought for a while to find a better wording here..
+Weijie - Miscellaneous matters? Or I leave the question to you ;-)
+
+Or we could leave the division of responsibilities out of commit message
+and instead write it after '---', To prevent any future changes from
+going unnoticed and not being explicitly mentioned in the commit message
+again. (perhaps years later)
+
+However, those who are interested can still find our original division
+of responsibilities under '---' in the archive.
+
+But this is just a minor issue, not a big deal. It can be handled in any
+way.
+
+>   Dongliang Mu  - review
 > 
-> For comparison, I checked the last 20 commits that triggered
-> FILE_PATH_CHANGES in the tree, and none of them actually needed a
-> MAINTAINERS update.
+> Hu Haowen is kept in the list; his earlier work is the basis of the
+> current translation and he is welcome back at any time. His personal
+> repository links are dropped, as they are no longer reachable.
+> 
+> zh_TW stays a separate entry and is maintained separately from zh_CN;
+> the two may share a tree for pull requests, but the review and
+> terminology work is independent.
 
-FILE_PATH_CHANGES causes many false-positives, honestly for my work of
-getting 100-200 commits per release it was screaming like 20% of time
-and never had it right. All of its reports are false positives to me.
+Yup, and I would also love to maintain our own tree on git.kernel.org
+(and mirrors?) so that we don't need to bother Alex every time.
 
-And I saw many times people do weird commits and weird MAINTAINERS
-updates, just because checkpatch asked them.
+In general I guess it would be more efficient, what do you think?
 
-So your argument of "reasonable and already accepted way for checkpatch
-to operate" is simply wrong. Don't add more poor tests jut because we
-have one which is IMO terrible.
+> [1] https://lore.kernel.org/linux-doc/20260603082531.263115-1-chenyou910331@gmail.com/
+> [2] https://lore.kernel.org/linux-doc/amcZ5SI3-Hzw4HkJ@wyuan.org/
+> 
+> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+> ---
+> This comes earlier than the trial period I mentioned when I first
+> offered to help with zh_TW [1]. Weijie raised the MAINTAINERS question
+> off-list because the lack of a reachable maintainer has been the main
+> bottleneck so far, and both he and Dongliang have confirmed they are
+> willing to be listed. Happy to hold this until after the v2 series
+> lands if you would prefer to see that first.
+> Weijie, Dongliang: we settled this off-list, but could you ack here so
+> the agreement is on the record?
+
+Absolutely ;-)
+
+Acked-by: Weijie Yuan <wy@wyuan.org>
 
 > 
->> In netdev CI at least we build the selftests and check
->> if there are any untracked files after.
+>  MAINTAINERS | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> That is a good practice. But as evidenced by commits already in the
-> tree, this type of coverage does not exist in all places.
-> 
-> Since this is a mistake that is frequently made, I think it deserves
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2f9472c1a090..60f77e7fd3f5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -27460,10 +27460,11 @@ F:	kernel/trace/trace_osnoise.c
+>  F:	kernel/trace/trace_sched_wakeup.c
+>  
+>  TRADITIONAL CHINESE DOCUMENTATION
+> +M:	Chen-Yu Yeh <chenyou910331@gmail.com>
+> +M:	Weijie Yuan <wy@wyuan.org>
+>  M:	Hu Haowen <2023002089@link.tyut.edu.cn>
 
-You did not prove that.
+Agreed: Haowen is always welcomed :-)
 
-> a warning on its own. In the end I think it is acceptable that this
-> warning fires more than necessary, the same way FILE_PATH_CHANGES
+I remembered Haowen sent a patch here [1] aiming to change his name and
+address to:
 
-No, it is not acceptable.
+Haowen Hu <srcres258@furdevs.cn>
 
-> does, because the cost of an extra check is low and the mistakes it
-> warns about are easy to miss.
+Can we pick it up here?, while it may also needs Haowen's double check..
 
+[1] https://lore.kernel.org/linux-doc/20260220160201.41149-1-srcres258@furdevs.cn/
 
-Best regards,
-Krzysztof
+> +M:	Dongliang Mu <dzm91@hust.edu.cn>
+>  S:	Maintained
+> -W:	https://github.com/srcres258/linux-doc
+> -T:	git https://github.com/srcres258/linux-doc.git doc-zh-tw
+>  F:	Documentation/translations/zh_TW/
