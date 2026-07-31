@@ -1,501 +1,235 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114643D969E
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 08:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785487422; cv=pass; b=jrYeY2YGhsWbqvccD8pMzUDDdXnqCQY6Bb1SGWdw66QjeZD5CVhr02s5asFwfoWkjepBO+sb0EeiHOCLu+goB4z85J8c6WIJZnJfrWP/KIejq5ILhXe4wwPShhZPhji/8DFXkwo6h8yfjCXXvh81ABwnOxgbjxDLnu6XczNhJQE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785487422; c=relaxed/simple;
-	bh=7d1cX0sJ5aGvmi/1aLIuxAQBrGgBRvV38RLqGwGH4BM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mItuKhtA1j9OVlzID2FWfZZrlhiclfA03pOqKv7cIBfoIoLKOryQMSDiDZoAFLw7u/cSfa20rDFMSzdS1nNpEYRdvfYYcvFnd/3t7NDWIIzcDH4542SS3FqQUa8VqbVKhRUOqKWeuRIfo+1f2i6e8Ho6UrvyU/xdU0egMaHfouM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Vqgltm67; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hK/Pczgg; arc=pass smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0193C3D75D3;
+	Fri, 31 Jul 2026 08:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785487737; cv=none; b=QRyL2xcCMZDiP7xjEGmW4RFKrk3JBXv3asXDTxpToSmwf2Z2VDYlW8G5R6B7X7/fHNvw0T5iDeh20WZ8i8WmOE+zWfiiOPkptN5gtzA0l8/hwYvF61m60nLhfTmEKANb0jRUqeYRC1DF4d7i/9A4VWk5BzxysWcrruRLQytg2O8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785487737; c=relaxed/simple;
+	bh=HUslESBRwUMZ0nIYtDZHqU/vSK5vrxqzYKo2GaPJ8E4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TNdPdqRx+t2MLb7bxtIFUn6nf11OU/MX1B+KyPZdXKzbqvY8/VFWPvFnq80ZdjVeBGupJ6oOV6XONDGaSY9Rbw7DcbTUVZ89RxcfBXx2Ekaz8HdAP+LN0M78p2V9ExXycHSPFqunZk2h7r1IgzhTsy+UV2pEZ5Ab02Zt+oWsffE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fG3ztazc; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Vqgltm67";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hK/Pczgg"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66V8UW3J2956661
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 08:43:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	E3GhF007z7C34wPcyFeCCGV2WXEPpkpmeiHbGxUATr4=; b=Vqgltm67AGe6H03K
-	3UZdm7UENlGOTEEsNjQsuaFyjYDY3WhDv5gT93rwT2kHNoDitSCf4OctnQxOOImm
-	AgixAlEps0gNL+ig3eFTmk7lOQiF/2B+9qO1dU1iMCZaTWXmCy4pEbrNY6X95LFw
-	RxdgApAtNWtcLsS/wsWJ3cJlEQkYpwCLwT1/kOBJLX+uwf1NinEjYHLaNWEB/URq
-	jmMo3icTNZeijQ9Mg5FtHtb2/dx3PWIANHxwB2VD9f1lBHKq/C2IMLfMyaDtyK4l
-	Us8UHmG/0RNCD98LNRirVpyPLOvNVlPFyeT8TMFrxF/uGlaJ8rqN5N21hsnvS8Z7
-	hatSuA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4frr8jg1dq-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 08:43:39 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-92e8004d60eso162774685a.1
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 01:43:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785487412; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ceWi4souhvZqtVh+GkRiqomUt7M0A+w+ILa/Ul/J0AJH99izogtRAbMFoyQHDDBbDb
-         +j+biqJdmnaC37o7rDxuKDvIMlR6vQMKLq9kHO4DvF/g6Xh454Rfx9ZGOe55QoFsCXTN
-         DE1PEKkim46krpW1nWn5IVPPMOkaE5ryQzlypL441eLWZXyk9+HLW5NeqXXpCzRSNUsq
-         NVBDDLVnWHtQPdLWCJXebiq3wL+KjQbRAi+VrykyYqSQAIPsJjYOS+LiuKqQm1rzFr5w
-         jAfzN0tsjaxAJj51B7hYUhDEmZDOpPWiihTs+hfXTmBfrJvPJWjC4S/+p7ELAhr3FK7o
-         Y7Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=E3GhF007z7C34wPcyFeCCGV2WXEPpkpmeiHbGxUATr4=;
-        fh=XywB9Yt1s7mkYiigBn4F1QQZnj5CYShizcZ0Y4t5TT4=;
-        b=Q2VtMZ2W7BLJ8UEpYKJOwwmyUFF2s0qIYAL0SlmtUpNlavp/9MgtjsovYgl8gkIZw0
-         VzQPmSAwovYfDdApgwImjGuPtgejXKllzloiKFdfbttQIDZZQnrUbLbcHhXX2hLiT/+j
-         lrOycXTs6aEl80tp+sXu3pxcfTeAXtI63dsOf1xCjqXkiXmsAlfeOOW1VZZnd7cR9H3k
-         b3lxuNqkry5bvBPSd01QsjVLFP+6BBMtew0xTH90Ho+lfx3m2HRMiuAAEyhK95auilKl
-         gXAx8yX9u1jLFqVpCMbyCx/MqmBNHyE5dzrNzuBuXyMFdKztfE41rxCkMQcCoHUGE23I
-         BdxQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1785487412; x=1786092212; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=E3GhF007z7C34wPcyFeCCGV2WXEPpkpmeiHbGxUATr4=;
-        b=hK/PczggUq83e5C+4TAnCDA19tSsDvHOLZbQVErJCkrmqOUqgYaX2s5JntRYU6eJ6u
-         ecObKZV+NqpQcdPr9kNp1s6wQeC2Nmr3IEo21tgN/CqeS0ivLjU2U1+PJ7Mh2wJKWcg6
-         tBmmawywfZvzlH8H7a7llJBZLe3ouDMsdcx8hAQqTYE7QMCnULEH3A/opqocJ8smHxd6
-         AGGqdLsTnb+LIHyTZGMoi5nGY5yjKWIJJaA+9FxHxvoxcwkXAc4ieEIvvIPcLZim9qUR
-         UAWxHcz8j914OJgXXnKI7KJvYKWGUAOIWpT2v6lEFma1Un17PoBZMMMO+HGHE78YRJnL
-         6K0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785487412; x=1786092212;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E3GhF007z7C34wPcyFeCCGV2WXEPpkpmeiHbGxUATr4=;
-        b=DKy1YmPJYdOk31AKPwsdyPzXFKDQZtx6OCjLxqfLa+y6HCcbm24ZXA6Nxta6yN7wUs
-         vCySaNpxpOHdSX5CeIvi2isK/KNq+Fmxd3pZEZyMyEfGv+M5ELg6n6oO4J1CObibtxP5
-         h+pwj1WYAxDBkT140ujScogW5iYYmSSbXmlzsmrViYuL5WaumXT1+VmgBE+pSgtrSM11
-         EtV2ZMyOT4FbJMJ0NxgxkjytCTftMVv1lLyU5CItKRcfrjOZ8xVRs98duoM8xa4Z8SCS
-         Kjl6pO15BVUAvpzbMzpGAxsTuzvWHz0iGQ49okODNsOKmdXpcjIyy+Xo5l1xvsnPH1q8
-         KeIw==
-X-Forwarded-Encrypted: i=1; AHgh+RqPTOimtiV88RKTyeGYYq6LVaj2sxjFQs3duOlt4NbHhFWiKrYWC5PWTRRFQyVy6O+MlMNU63NaWow=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytioQt1Yw0ibSLjntom45AXZIwtyZsBvICHvYyFhYxWC2FauX4
-	EwzHWP+cl5xKgSaI2hRtvqZpLEC7pTBBaFNy1LLBRrcgDpEhUwW/2IYva4U178UX61L0fGxKlDD
-	IUzGb1h3044yXFyUlFSgYB1iYUY/AeKxxvKBtX4pT2e93mtvxKVnE/8J07SvWFt/zVResgOCxeR
-	joKhdfK5iljWZ2zDB+HZ51O9ca5nkc6ern9xWD7g==
-X-Gm-Gg: AR+sD11cRwtVY8ApJAJEfxfRxN0D7IdR2Xmgv/YaCuujb3Ddxd1pr4NBJvAbmkXLz0U
-	vj+CRA705w13ARvdiSC475NGNuMyRIzZf9N69NyP8Fg+a58MTQMvNt1BMbp8NhG2D8y6vGsFSJD
-	4p63Mr5uvajiYFKsnbctdVIjHTATEMes0IRDBhen5pvuxAKpuGnEARs6P6wDVxe+6/7/x/SNzT1
-	dBH27xt/1aPmUj358Om3rt0cFI9BtbW8VC1Sz9vlhL458eCAS1F2PbHc8oCwIgURgCjN7UB9+o=
-X-Received: by 2002:a05:620a:6f93:20b0:92e:9ceb:24af with SMTP id af79cd13be357-9349687363bmr109635985a.41.1785487411823;
-        Fri, 31 Jul 2026 01:43:31 -0700 (PDT)
-X-Received: by 2002:a05:620a:6f93:20b0:92e:9ceb:24af with SMTP id
- af79cd13be357-9349687363bmr109632785a.41.1785487411292; Fri, 31 Jul 2026
- 01:43:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fG3ztazc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785487734; x=1817023734;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=HUslESBRwUMZ0nIYtDZHqU/vSK5vrxqzYKo2GaPJ8E4=;
+  b=fG3ztazcN5tw9OIkae9RsZIahi9YChRM/X6b4vHmCCSo7LaFT7D95lfL
+   YqPy44uQKwcEIJQz8CkAqlC/ciwc2NXKv83Xzd/WEXxfQdMr/I7d3STte
+   uM5MurQgHTkOA6OLW8hd0pf1qwTDnkEqs8Zfsds6Fmv6kI5jiPl1D4WyA
+   4ebd4jlcUU9hA52zQIFgDwe+M29O4k4ZKo9TNGa1CuX+8i7Z00+lUM+9/
+   TMugwNBwd+qxvB9deYvCo+MjN/wnySED8v4ovFnkEgz1XRmtCkxP8skMd
+   utxfViX8QT6FHEH7Jimqz+QXOqmNPRhlbYPl3Ie6lhWPGTlxkkuBeLoxY
+   Q==;
+X-CSE-ConnectionGUID: DZt75D95SmmslyFgxfhFfQ==
+X-CSE-MsgGUID: GcyvQWFMQA2S4IVki/I8EA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="86062840"
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="86062840"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 01:48:51 -0700
+X-CSE-ConnectionGUID: u7DGKLPZS/eJ51NjhAIFwA==
+X-CSE-MsgGUID: ExP7CWv0QIW+0DfJQgeuiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="262491487"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.240.248]) ([10.124.240.248])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 01:48:35 -0700
+Message-ID: <7f23d149-b7f0-465a-a9c0-5c7484e289d2@intel.com>
+Date: Fri, 31 Jul 2026 16:48:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260731-pwrseq-vote-rename-v2-1-480357946e00@oss.qualcomm.com>
-In-Reply-To: <20260731-pwrseq-vote-rename-v2-1-480357946e00@oss.qualcomm.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Fri, 31 Jul 2026 10:43:19 +0200
-X-Gm-Features: AUfX_mxGc8TowxqJoyMLr9lPewvGGZuHpNOlIMfPw74Jd7bPqJDpwbDzy4wrrSI
-Message-ID: <CAFEp6-3X+PCXZdEy1p47XUDs7cT16JDjt0=928Jjkeik_haaQw@mail.gmail.com>
-Subject: Re: [PATCH v2] power: sequencing: rename pwrseq_power_on/off() to pwrseq_enable/disable()
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        Alessio Belle <alessio.belle@imgtec.com>,
-        Luigi Santivetti <luigi.santivetti@imgtec.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Jeff Johnson <jjohnson@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, Chen-Yu Tsai <wens@kernel.org>,
-        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, imagination@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-wireless@vger.kernel.org,
-        ath10k@lists.infradead.org, linux-pci@vger.kernel.org,
-        Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=Bd7oFLt2 c=1 sm=1 tr=0 ts=6a6c603c cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=DJpcGTmdVt4CTyJn9g5Z:22 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=bC-a23v3AAAA:8
- a=EUspDBNiAAAA:8 a=1XWaLZrsAAAA:8 a=W1t4AYViT67xggANpSQA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=FO4_E8m0qiDe52t0p3_H:22
-X-Proofpoint-GUID: yIXGucKTpuSzmtYWNbtf-108lOnLzHyd
-X-Proofpoint-ORIG-GUID: yIXGucKTpuSzmtYWNbtf-108lOnLzHyd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA2MyBTYWx0ZWRfX/yyivfA46iqR
- uqgoVtPwtUjXfTdFQi4pFC2Gf1HHIIzI2mMq2wT8qOmGSrSwparxXf3SB8UpkGS4g6wFFhabGwg
- vFNyP4rFvKnWk+4PXb6qonBVAEatjVRDy/yUKAUv8cQ0a9uxHbUaquB+KCZe5KrLk+5IhJI3YDF
- x4XnG1tROz6jcy7yyirXaSKYnMimMuo3+m1fmF/X5jbnJEdwe2PF1TpH8bovjbkRqZi5giBqsGH
- wZ+/CNW8TnJEThOcxMJDLPR6h4tSp7zZYiGl6lmqfwtO8GKNgD075gPDLTFjzAVmvD3gJVn9C24
- BfDTwu/B2i5ZBqLbsAQO5B6Lr/lxTgdI23wAKGhbZ8zC1CE0BIF1oBfseGt7u7lielOke+Oj6vG
- 95vixr5Iv1FVbjtdRU2VeNwl82SF+ex0tnEfiu0iPIvdqBjk9fI9gQfSzW1NtTAeVWh/JFZomFy
- KZXKBxUWBeB/TmS2ucw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA2MyBTYWx0ZWRfX2tOsvBkdZWzP
- 8F7GMZILTZJd2EpqYLfJa/XeYOIRh2mIihkqceDAyZ/GPqSdg5vBGzwZqXTaPt73C8D/pm0TZyB
- rLKYtsapVuTpjDhfn9M15gR6Yc5RRnc=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_03,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 spamscore=0
- malwarescore=0 clxscore=1011 suspectscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310063
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 20/41] KVM: Let userspace disable per-VM mem
+ attributes, enable per-gmem attributes
+To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ david@kernel.org, jmattson@google.com, jthoughton@google.com,
+ michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
+ qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
+ shivankg@amd.com, steven.price@arm.com, tabba@google.com,
+ willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
+ forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
+ aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
+ <20260728-gmem-inplace-conversion-v9-20-35f9aec2aed2@google.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20260728-gmem-inplace-conversion-v9-20-35f9aec2aed2@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 31, 2026 at 10:29=E2=80=AFAM Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
->
-> The way power sequencing works means that a call to pwrseq_power_on()
-> does not necessarily result in the pwrseq target being powered-on at
-> that time: it may have already been powered on before. Similarly: a call
-> to pwrseq_power_off() does not have to result in an actual powering off
-> of resources: there may still be other users that requested a power-on
-> before.
->
-> We will also introduce the concept of "non-controllable" pwrseq targets
-> soon which further increases the disconnect between the naming
-> convention and the actual semantics.
->
-> What consumers of pwrseq descriptors actually do is: they *vote* for a
-> powering on of a given target or retract that vote. These operations
-> could be called get/put in line with runtime PM but this could become
-> confusing since we already provide pwrseq_get/put() for a different
-> purpose. pwrseq_vote_on/off() also have been rejected as unusual in
-> the tree.
->
-> Change the name of the two functions to pwrseq_enable/disable() which
-> better reflects their purpose and semantics and also mirrors other
-> enable-counted resources like regulators and clocks. No functional change
-> intended.
->
-> If at any point users need to know *when* the exact power event happens,
-> we can provide that information in the form of a notifier.
->
-> Acked-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+On 7/29/2026 8:35 AM, Ackerley Tng via B4 Relay wrote:
+> From: Ackerley Tng <ackerleytng@google.com>
+> 
+> Make gmem_in_place_conversion a module parameter so that userspace can
+> configure enable or disable the use of VM-level memory attributes. The
+> module parameter is only available if CONFIG_KVM_VM_MEMORY_ATTRIBUTES is
+> enabled.
+> 
+> To avoid inconsistencies in the way memory attributes are tracked in KVM
+> and guest_memfd, the vm_memory_attributes module_param is made
+> read-only (0444).
+> 
+> Since selecting CONFIG_KVM_VM_MEMORY_ATTRIBUTES disables in-place
+> conversion, actually make CONFIG_KVM_VM_MEMORY_ATTRIBUTES selectable. Make
+> the config only selectable for (CoCo) VM types that might use
+> vm_memory_attributes.
+> 
+> Since memory attributes are trackable in guest_memfd, the concept of having
+> private memory is no longer dependent on
+> CONFIG_KVM_VM_MEMORY_ATTRIBUTES. Define kvm_arch_has_private_mem() based on
+> platform config, so that having private memory is dependent on (CoCo) VM
+> type.
+> 
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Reviewed-by: Fuad Tabba <tabba@google.com>
+> Tested-by: Shivank Garg <shivankg@amd.com>
+> [Define module_param only if CONFIG_KVM_VM_MEMORY_ATTRIBUTES is enabled]
+> Suggested-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 > ---
-> I've floated the idea to rename the two pwrseq functions from "power
-> on/off" to "vote on/off". I've sent a patch but the overwhelming
-> consensus seem to be that enable/disable naming is preferred.
->
-> I'm doing it in a single commit that should go through the pwrseq tree
-> with Acks from subsystem maintainers.
->
-> [1] https://lore.kernel.org/all/CAMRc=3DMefxn81d0VUwmQgwFtffkL1=3DEr_1VQZ=
-CbC1Sa-Qph4t1w@mail.gmail.com/
-> ---
-> Changes in v2:
-> - Change the naming convention to enable/disable
-> - Link to v1: https://patch.msgid.link/20260727-pwrseq-vote-rename-v1-1-a=
-2029aeeac65@oss.qualcomm.com
-> ---
->  Documentation/driver-api/pwrseq.rst      |  4 ++--
->  drivers/bluetooth/hci_qca.c              |  4 ++--
->  drivers/gpu/drm/imagination/pvr_power.c  |  4 ++--
->  drivers/net/wireless/ath/ath10k/snoc.c   |  6 +++---
->  drivers/pci/pwrctrl/generic.c            |  4 ++--
->  drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c |  4 ++--
->  drivers/power/sequencing/core.c          | 16 ++++++++--------
->  include/linux/pwrseq/consumer.h          |  8 ++++----
->  8 files changed, 25 insertions(+), 25 deletions(-)
->
-> diff --git a/Documentation/driver-api/pwrseq.rst b/Documentation/driver-a=
-pi/pwrseq.rst
-> index ad18b2326b689a41471216f3889480b11768ca82..0c315ab1138b02540fae60b39=
-928c580027c0f7c 100644
-> --- a/Documentation/driver-api/pwrseq.rst
-> +++ b/Documentation/driver-api/pwrseq.rst
-> @@ -50,9 +50,9 @@ Consumer interface
->  The consumer API is aimed to be as simple as possible. The driver intere=
-sted in
->  getting a descriptor from the power sequencer should call pwrseq_get() a=
-nd
->  specify the name of the target it wants to reach in the sequence after c=
-alling
-> -pwrseq_power_up(). The descriptor can be released by calling pwrseq_put(=
-) and
-> +pwrseq_enable(). The descriptor can be released by calling pwrseq_put() =
-and
->  the consumer can request the powering down of its target with
-> -pwrseq_power_off(). Note that there is no guarantee that pwrseq_power_of=
-f()
-> +pwrseq_disble(). Note that there is no guarantee that pwrseq_disble()
->  will have any effect as there may be multiple users of the underlying re=
-sources
->  who may keep them active.
->
-> diff --git a/drivers/bluetooth/hci_qca.c b/drivers/bluetooth/hci_qca.c
-> index 345f602e9ce233a0934a73a85d1e7c17c4f3210d..e713fc06b73402ae3d57794ed=
-0870df8394a796a 100644
-> --- a/drivers/bluetooth/hci_qca.c
-> +++ b/drivers/bluetooth/hci_qca.c
-> @@ -2259,7 +2259,7 @@ static void qca_power_off(struct hci_uart *hu)
->         }
->
->         if (power && power->pwrseq) {
-> -               pwrseq_power_off(power->pwrseq);
-> +               pwrseq_disble(power->pwrseq);
+>   arch/x86/include/asm/kvm_host.h |  4 +++-
+>   arch/x86/kvm/Kconfig            | 14 ++++++++++----
+>   virt/kvm/guest_memfd.c          |  2 ++
+>   virt/kvm/kvm_main.c             |  5 ++++-
+>   4 files changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index ceb2abf43b76f..766eb094eaae6 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -1849,7 +1849,9 @@ enum kvm_intr_type {
+>   	((vcpu) && (vcpu)->arch.handling_intr_from_guest && \
+>   	 (!!in_nmi() == ((vcpu)->arch.handling_intr_from_guest == KVM_HANDLING_NMI)))
+>   
+> -#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+> +#if defined(CONFIG_KVM_SW_PROTECTED_VM) ||	\
+> +    defined(CONFIG_KVM_INTEL_TDX) ||		\
+> +    defined(CONFIG_KVM_AMD_SEV)
+>   #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.has_private_mem)
+>   #endif
+>   
+> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> index abb108886733a..2c3c22aeafa54 100644
+> --- a/arch/x86/kvm/Kconfig
+> +++ b/arch/x86/kvm/Kconfig
+> @@ -81,13 +81,21 @@ config KVM_WERROR
+>   	  If in doubt, say "N".
+>   
+>   config KVM_VM_MEMORY_ATTRIBUTES
+> -	bool
+> +	bool "Enable per-VM PRIVATE vs. SHARED attributes (for CoCo VMs)"
+> +	depends on KVM_SW_PROTECTED_VM || KVM_INTEL_TDX || KVM_AMD_SEV
+> +	help
+> +	  Enable support for tracking PRIVATE vs. SHARED memory using per-VM
+> +	  memory attributes.  Using per-VM attributes is deprecated in favor of
+> +	  tracking PRIVATE state in guest_memfd.  Select this if you need to run
+> +	  CoCo VMs using a VMM that doesn't support guest_memfd memory
+> +	  attributes.
+> +
+> +	  If unsure, say N.
+>   
+>   config KVM_SW_PROTECTED_VM
+>   	bool "Enable support for KVM software-protected VMs"
+>   	depends on EXPERT
+>   	depends on KVM_X86 && X86_64
+> -	select KVM_VM_MEMORY_ATTRIBUTES
+>   	help
+>   	  Enable support for KVM software-protected VMs.  Currently, software-
+>   	  protected VMs are purely a development and testing vehicle for
+> @@ -138,7 +146,6 @@ config KVM_INTEL_TDX
+>   	bool "Intel Trust Domain Extensions (TDX) support"
+>   	default y
+>   	depends on INTEL_TDX_HOST
+> -	select KVM_VM_MEMORY_ATTRIBUTES
+>   	select HAVE_KVM_ARCH_GMEM_POPULATE
+>   	help
+>   	  Provides support for launching Intel Trust Domain Extensions (TDX)
+> @@ -162,7 +169,6 @@ config KVM_AMD_SEV
+>   	depends on KVM_AMD && X86_64
+>   	depends on CRYPTO_DEV_SP_PSP && !(KVM_AMD=y && CRYPTO_DEV_CCP_DD=m)
+>   	select ARCH_HAS_CC_PLATFORM
+> -	select KVM_VM_MEMORY_ATTRIBUTES
+>   	select HAVE_KVM_ARCH_GMEM_CONVERT
+>   	select HAVE_KVM_ARCH_GMEM_RECLAIM
+>   	select HAVE_KVM_ARCH_GMEM_INVALIDATE
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index ea2752989f8bd..df67a6188aa99 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -1137,10 +1137,12 @@ static bool kvm_range_is_private(struct file *file, pgoff_t index,
+>   {
+>   	struct inode *inode = file_inode(file);
+>   
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>   	if (!gmem_in_place_conversion)
+>   		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
+>   							  KVM_MEMORY_ATTRIBUTE_PRIVATE,
+>   							  KVM_MEMORY_ATTRIBUTE_PRIVATE);
+> +#endif
+>   
+>   	return kvm_gmem_range_has_attributes(inode, index, nr_pages,
+>   					     KVM_MEMORY_ATTRIBUTE_PRIVATE);
 
-Nit: s/pwrseq_disble/pwrseq_disable ?
+With my suggestion[1] on patch 7, this diff block can be dropped.
 
->                 set_bit(QCA_BT_OFF, &qca->flags);
->                 return;
->          }
-> @@ -2319,7 +2319,7 @@ static int qca_regulator_enable(struct qca_serdev *=
-qcadev)
->         int ret;
->
->         if (power->pwrseq)
-> -               return pwrseq_power_on(power->pwrseq);
-> +               return pwrseq_enable(power->pwrseq);
->
->         /* Already enabled */
->         if (power->vregs_on)
-> diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/im=
-agination/pvr_power.c
-> index a71d5b35601e7b996428312028a4c0542a5b1350..031fad8adf4f4843e852000d3=
-d6ba45d0e4b0aeb 100644
-> --- a/drivers/gpu/drm/imagination/pvr_power.c
-> +++ b/drivers/gpu/drm/imagination/pvr_power.c
-> @@ -352,12 +352,12 @@ static int pvr_power_init_pwrseq(struct pvr_device =
-*pvr_dev)
->
->  static int pvr_power_on_sequence_pwrseq(struct pvr_device *pvr_dev)
->  {
-> -       return pwrseq_power_on(pvr_dev->pwrseq);
-> +       return pwrseq_enable(pvr_dev->pwrseq);
->  }
->
->  static int pvr_power_off_sequence_pwrseq(struct pvr_device *pvr_dev)
->  {
-> -       return pwrseq_power_off(pvr_dev->pwrseq);
-> +       return pwrseq_disble(pvr_dev->pwrseq);
->  }
->
->  const struct pvr_power_sequence_ops pvr_power_sequence_ops_pwrseq =3D {
-> diff --git a/drivers/net/wireless/ath/ath10k/snoc.c b/drivers/net/wireles=
-s/ath/ath10k/snoc.c
-> index 3106502275781d32d17a45a661362206144df6b3..d7e23971fe1da99f6b5f7559d=
-62d04e2044d8950 100644
-> --- a/drivers/net/wireless/ath/ath10k/snoc.c
-> +++ b/drivers/net/wireless/ath/ath10k/snoc.c
-> @@ -1025,7 +1025,7 @@ static int ath10k_hw_power_on(struct ath10k *ar)
->
->         ath10k_dbg(ar, ATH10K_DBG_SNOC, "soc power on\n");
->
-> -       ret =3D pwrseq_power_on(ar_snoc->pwrseq);
-> +       ret =3D pwrseq_enable(ar_snoc->pwrseq);
->         if (ret)
->                 return ret;
->
-> @@ -1042,7 +1042,7 @@ static int ath10k_hw_power_on(struct ath10k *ar)
->  vreg_off:
->         regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->vregs);
->  pwrseq_off:
-> -       pwrseq_power_off(ar_snoc->pwrseq);
-> +       pwrseq_disble(ar_snoc->pwrseq);
->
->         return ret;
->  }
-> @@ -1060,7 +1060,7 @@ static int ath10k_hw_power_off(struct ath10k *ar)
->         ret_vreg =3D regulator_bulk_disable(ar_snoc->num_vregs, ar_snoc->=
-vregs);
->
->         if (ar_snoc->pwrseq)
-> -               ret_seq =3D pwrseq_power_off(ar_snoc->pwrseq);
-> +               ret_seq =3D pwrseq_disble(ar_snoc->pwrseq);
->
->         return ret_vreg ? : ret_seq;
->  }
-> diff --git a/drivers/pci/pwrctrl/generic.c b/drivers/pci/pwrctrl/generic.=
-c
-> index a7e599d841e6289db161b19a93ba5a61d9e0ab1c..d366883355173eac1a2631b73=
-e5e041666ac23ad 100644
-> --- a/drivers/pci/pwrctrl/generic.c
-> +++ b/drivers/pci/pwrctrl/generic.c
-> @@ -29,7 +29,7 @@ static int slot_pwrctrl_power_on(struct pci_pwrctrl *pw=
-rctrl)
->         int ret;
->
->         if (slot->pwrseq) {
-> -               pwrseq_power_on(slot->pwrseq);
-> +               pwrseq_enable(slot->pwrseq);
->                 return 0;
->         }
->
-> @@ -48,7 +48,7 @@ static int slot_pwrctrl_power_off(struct pci_pwrctrl *p=
-wrctrl)
->                                                 struct slot_pwrctrl, pwrc=
-trl);
->
->         if (slot->pwrseq) {
-> -               pwrseq_power_off(slot->pwrseq);
-> +               pwrseq_disble(slot->pwrseq);
->                 return 0;
->         }
->
-> diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c b/drivers/pci/pwrct=
-rl/pci-pwrctrl-pwrseq.c
-> index a308bf4b5fc01d23b75db4cd396201c3ba3fe695..2a6f46f6e2012dd985b657c97=
-c85879ba13b5133 100644
-> --- a/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c
-> +++ b/drivers/pci/pwrctrl/pci-pwrctrl-pwrseq.c
-> @@ -56,7 +56,7 @@ static int pwrseq_pwrctrl_power_on(struct pci_pwrctrl *=
-pwrctrl)
->         struct pwrseq_pwrctrl *pwrseq =3D container_of(pwrctrl,
->                                            struct pwrseq_pwrctrl, pwrctrl=
-);
->
-> -       return pwrseq_power_on(pwrseq->pwrseq);
-> +       return pwrseq_enable(pwrseq->pwrseq);
->  }
->
->  static int pwrseq_pwrctrl_power_off(struct pci_pwrctrl *pwrctrl)
-> @@ -64,7 +64,7 @@ static int pwrseq_pwrctrl_power_off(struct pci_pwrctrl =
-*pwrctrl)
->         struct pwrseq_pwrctrl *pwrseq =3D container_of(pwrctrl,
->                                            struct pwrseq_pwrctrl, pwrctrl=
-);
->
-> -       return pwrseq_power_off(pwrseq->pwrseq);
-> +       return pwrseq_disble(pwrseq->pwrseq);
->  }
->
->  static int pwrseq_pwrctrl_probe(struct platform_device *pdev)
-> diff --git a/drivers/power/sequencing/core.c b/drivers/power/sequencing/c=
-ore.c
-> index 02f42da915985339d3de507fc36dd158b0035a99..34d5c0af6f37bdbfa9d656d95=
-795d38cc7e38762 100644
-> --- a/drivers/power/sequencing/core.c
-> +++ b/drivers/power/sequencing/core.c
-> @@ -708,7 +708,7 @@ void pwrseq_put(struct pwrseq_desc *desc)
->         pwrseq =3D desc->pwrseq;
->
->         if (desc->powered_on)
-> -               pwrseq_power_off(desc);
-> +               pwrseq_disble(desc);
->
->         kfree(desc);
->         module_put(pwrseq->owner);
-> @@ -874,7 +874,7 @@ static int pwrseq_unit_disable(struct pwrseq_device *=
-pwrseq,
->  }
->
->  /**
-> - * pwrseq_power_on() - Issue a power-on request on behalf of the consume=
-r
-> + * pwrseq_enable() - Issue a power-on request on behalf of the consumer
->   *                     device.
->   * @desc: Descriptor referencing the power sequencer.
->   *
-> @@ -887,7 +887,7 @@ static int pwrseq_unit_disable(struct pwrseq_device *=
-pwrseq,
->   * Returns:
->   * 0 on success, negative error number on failure.
->   */
-> -int pwrseq_power_on(struct pwrseq_desc *desc)
-> +int pwrseq_enable(struct pwrseq_desc *desc)
->  {
->         struct pwrseq_device *pwrseq;
->         struct pwrseq_target *target;
-> @@ -925,14 +925,14 @@ int pwrseq_power_on(struct pwrseq_desc *desc)
->
->         return ret;
->  }
-> -EXPORT_SYMBOL_GPL(pwrseq_power_on);
-> +EXPORT_SYMBOL_GPL(pwrseq_enable);
->
->  /**
-> - * pwrseq_power_off() - Issue a power-off request on behalf of the consu=
-mer
-> + * pwrseq_disble() - Issue a power-off request on behalf of the consumer
->   *                      device.
->   * @desc: Descriptor referencing the power sequencer.
->   *
-> - * This undoes the effects of pwrseq_power_on(). It issues a power-off r=
-equest
-> + * This undoes the effects of pwrseq_enable(). It issues a power-off req=
-uest
->   * on behalf of the consumer and when the last remaining user does so, t=
-he
->   * power-down sequence will be started. If one is in progress, the funct=
-ion
->   * will block until it's complete and then return.
-> @@ -940,7 +940,7 @@ EXPORT_SYMBOL_GPL(pwrseq_power_on);
->   * Returns:
->   * 0 on success, negative error number on failure.
->   */
-> -int pwrseq_power_off(struct pwrseq_desc *desc)
-> +int pwrseq_disble(struct pwrseq_desc *desc)
->  {
->         struct pwrseq_device *pwrseq;
->         struct pwrseq_unit *unit;
-> @@ -966,7 +966,7 @@ int pwrseq_power_off(struct pwrseq_desc *desc)
->
->         return ret;
->  }
-> -EXPORT_SYMBOL_GPL(pwrseq_power_off);
-> +EXPORT_SYMBOL_GPL(pwrseq_disble);
->
->  /**
->   * pwrseq_to_device() - Get the pwrseq device pointer from a descriptor.
-> diff --git a/include/linux/pwrseq/consumer.h b/include/linux/pwrseq/consu=
-mer.h
-> index 3c907c9e1885dc2958043a9a733fbe20bdf95f6e..5e94b0b9c38b036fc40e3e2c8=
-c6e1020d0d0bb6e 100644
-> --- a/include/linux/pwrseq/consumer.h
-> +++ b/include/linux/pwrseq/consumer.h
-> @@ -20,8 +20,8 @@ void pwrseq_put(struct pwrseq_desc *desc);
->  struct pwrseq_desc * __must_check
->  devm_pwrseq_get(struct device *dev, const char *target);
->
-> -int pwrseq_power_on(struct pwrseq_desc *desc);
-> -int pwrseq_power_off(struct pwrseq_desc *desc);
-> +int pwrseq_enable(struct pwrseq_desc *desc);
-> +int pwrseq_disble(struct pwrseq_desc *desc);
->
->  struct device *pwrseq_to_device(struct pwrseq_desc *desc);
->
-> @@ -43,12 +43,12 @@ devm_pwrseq_get(struct device *dev, const char *targe=
-t)
->         return ERR_PTR(-ENOSYS);
->  }
->
-> -static inline int pwrseq_power_on(struct pwrseq_desc *desc)
-> +static inline int pwrseq_enable(struct pwrseq_desc *desc)
->  {
->         return -ENOSYS;
->  }
->
-> -static inline int pwrseq_power_off(struct pwrseq_desc *desc)
-> +static inline int pwrseq_disble(struct pwrseq_desc *desc)
->  {
->         return -ENOSYS;
->  }
->
-> ---
-> base-commit: 95d6a9ccef99117115e41e9adb271243bd5e985b
-> change-id: 20260727-pwrseq-vote-rename-b7cd21032668
->
-> Best regards,
-> --
-> Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
->
+[1] 
+https://lore.kernel.org/all/dd4201f2-3660-46ad-958f-c70feb1ab1c3@intel.com/
+
+The code looks good to me,
+
+Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index e961cc297ba2a..eb9f433278d2f 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -102,7 +102,10 @@ static bool __ro_after_init allow_unsafe_mappings;
+>   module_param(allow_unsafe_mappings, bool, 0444);
+>   
+>   #ifdef kvm_arch_has_private_mem
+> -bool __ro_after_init gmem_in_place_conversion = false;
+> +bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
+> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+> +module_param(gmem_in_place_conversion, bool, 0444);
+> +#endif
+>   EXPORT_SYMBOL_FOR_KVM_INTERNAL(gmem_in_place_conversion);
+>   #endif
+>   
+> 
+
