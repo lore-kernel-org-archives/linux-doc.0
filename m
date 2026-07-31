@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92A830BF4F;
-	Fri, 31 Jul 2026 01:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA2F78F26;
+	Fri, 31 Jul 2026 01:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785461437; cv=none; b=lxW2oG1uWMGF9AWIxEp0yzItCWfPs+7pDzH7GDmwbFRSOkjGQ8YLsbBS/7LZSx7mqP/W8W2jFRi9jugki1ht5zYELaRaX4GU6i2TXtNZ1xeO7ZNUGOGvwZqGGun4S498DCKyah0vFh+JICyJAQVgKecIGit46iQuEUrWpO7jAPc=
+	t=1785461437; cv=none; b=aXYDx+y+1495LdqPgHCRrK/KJ5tmEMMWtm0lhXil5O4FOgyKJNhygv4XjkWfbImdJKx8KarMRNi83EIDWI8LjCnCkslzkCsZrCigMNLCVkhgUWJifas+kg9TDpnbmbQ4ay6TUqFV9Pp4YFQZ6qo1IcnGCfObv9E9SXr24w8683g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785461437; c=relaxed/simple;
-	bh=Ktb4oRHoadvlw0MtMmhKBzvJnCBz8qzsGOTpqaIBD9A=;
+	bh=ZFqP/KfCXmtjDMwiRdgvlE7+AX2g+C7ZwlE+lyTxyIA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fcrwTav7B2YVt2s0zv6EVz2Vxt1AkKmPwWK1ta9RmPaaGokbbxoCBAUaAKtEzCsGIUuZSbrPsSS12rcBfe/YpKbJLuFpV3idjgqhDVQ2yVsvEscdkMVbSQ93GVHTP6lexrK+K5y04ldpPBoRxZ7rl4Et5uBBZreh4T4bouTe/50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inkpnURu; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=In22HxBif6bwTvPObNYTcxHM0KBlmd3ngiL1CtPnvQsh7T9lRyCs11P2gkRjkKY9V4JpyQ4ojodv03UFTiZBnLA6NaGpnpV2R3nRbOH7gD/ouXESoSha3sCnz4O4NTVRA1MKWag6sGeRj32WbJiewBaJA5SMUBdvYyYzGb1oFWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2jy/4lm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inkpnURu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D908D1F00A3A;
-	Fri, 31 Jul 2026 01:30:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2jy/4lm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3745C1F000E9;
+	Fri, 31 Jul 2026 01:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785461432;
-	bh=gX1GrkVE/YBQr2ejTCdaAFrGHy2c8uL9TQgk1LrpBAA=;
+	s=k20260515; t=1785461433;
+	bh=5UHDMfLJSsEF+ILuCqHZMAytaReLNBZgFZZwHcYKGH8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=inkpnURuWabzlgH/W2SPhJM11DTGxvGKn9J4F2yB29iHxrEYtXdam8ZCCNBJaxzGs
-	 axiftBqJXt1d6mfZ8UQakyNVn+CQSiUcLV2JLKGyXbmVprjiswuVK72TUUgSSfZYia
-	 /rz8k3OFT+w0ZXUWkv1UyqSEMNIfywbyuuMn+EzgVz7EjBz13t9RebthA/VCw2nX/e
-	 +eLU8iJzdROLwmx8AgSwf7udQAzXhiV5RvVp7M8DuqtyrlJjzokuwp97KzodBfzTVa
-	 I/W+HFUm1EthKM1iDNKrhi/p4SAmpVseaJ0wLggK5A76glrOuQ0srBrXURzZyhL7SC
-	 PZyr/PhbhOCyg==
+	b=a2jy/4lmTBm5isfWHryZlsV2mlUm4I1IQs/fSe1EJ+gmU+UqKJftdn8fCjIYuVBCy
+	 aUMJcTFM+mL7ry29hNs8TnoxtIEA/DJcFUIaqmGacc5lNM1eFxLoYGlaxOue/jODec
+	 v/TX3wVzhxiwi7xGBUD5gGgLoW5u7UsxBSRHw3c/TLMcnDYxZAK9UPmP67MOOyqngf
+	 ANxjkN72lpi7zcm3rYYU0zcsgKBJXlodjh57FX/LocYVv65QNYtPrgF98o87RCjYI1
+	 H4WLqwNRpRFdXKi46EKlfr5mwPP7SRg+jmeEvIY+SKrX4jW3NFAFZZrNFVV1jXQCZu
+	 aYLDwtymJ4N8A==
 From: Jakub Kicinski <kuba@kernel.org>
 To: illusion.wang@nebula-matrix.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -45,12 +45,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	skhan@linuxfoundation.org,
 	hkallweit1@gmail.com,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v22 net-next 06/12] net/nebula-matrix: add intr resource implementation
-Date: Thu, 30 Jul 2026 18:30:31 -0700
-Message-ID: <20260731013031.745107-1-kuba@kernel.org>
+Subject: Re: [PATCH v22 net-next 07/12] net/nebula-matrix: add chip-wide hardware init/deinit implementation
+Date: Thu, 30 Jul 2026 18:30:32 -0700
+Message-ID: <20260731013032.745167-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260723040110.91410-7-illusion.wang@nebula-matrix.com>
-References: <20260723040110.91410-7-illusion.wang@nebula-matrix.com>
+In-Reply-To: <20260723040110.91410-8-illusion.wang@nebula-matrix.com>
+References: <20260723040110.91410-8-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,65 +62,73 @@ Content-Transfer-Encoding: 8bit
 This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 ---
---- Patch [6]: [PATCH v22 net-next 06/12] net/nebula-matrix: add intr resource implementation ---
-commit 32d01aebd4d29040305943012638ac9e59c45fb8
+--- Patch [7]: [PATCH v22 net-next 07/12] net/nebula-matrix: add chip-wide hardware init/deinit implementation ---
+commit c620485c32e37b926b2895bd18463f304a29e084
 Author: illusion wang <illusion.wang@nebula-matrix.com>
 
-net/nebula-matrix: add intr resource implementation
-    
-This commit adds the nbl_interrupt module to manage driver global MSI-X
-vector indices. It extends hw_ops with callbacks to program vendor-specific
-internal MSI-X mapping registers, configure MSI-X metadata, and bind
-interrupts to PF mailbox channels.
+net/nebula-matrix: add chip-wide hardware init/deinit implementation
 
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
-> new file mode 100644
-> index 0000000000000..cb6874d13a88f
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
+This commit adds Leonis chip-wide hardware initialization and
+deinitialization logic to setup the full datapath pipeline.
+
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+> index 1c136b9e30b2a..22690cb9cc32b 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
 
 [ ... ]
 
-> @@ -0,0 +1,335 @@
+> +static int nbl_shaping_eth_init(struct nbl_hw_mgt *hw_mgt, u8 eth_id, u8 speed)
+> +{
+> +	union nbl_shaping_dvn_dport_u dvn_dport = { 0 };
+> +	union nbl_shaping_dport_u dport = { 0 };
 
 [ ... ]
 
-> +release_net_bits:
-> +	while (i--) {
-> +		intr_index = tmp_interrupts[i];
-> +		if (intr_index >= NBL_NET_INTR_BASE)
-> +			clear_bit(intr_index - NBL_NET_INTR_BASE,
-> +				  intr_mgt->interrupt_net_bitmap);
-> +		else
-> +			clear_bit(intr_index,
-> +				  intr_mgt->interrupt_others_bitmap);
-> +	}
-> +	i = num_net_msix;
-> +release_all_bits:
-> +	while (i--) {
+> +	/* 2. write config words (valid=0, safe) */
+> +	dport.info.low = FIELD_PREP(DPORT_CIR_MASK, rate) |
+> +			 FIELD_PREP(DPORT_PIR_MASK, rate) |
+> +			 FIELD_PREP(DPORT_DEPTH_MASK, depth) |
+> +			 FIELD_PREP(DPORT_CBS_MASK_LOW, depth & 0x3F);
+> +	dport.info.high = FIELD_PREP(DPORT_CBS_MASK_HIGH, depth >> 6) |
+> +			  FIELD_PREP(DPORT_PBS_MASK, depth);
+
+[ ... ]
+
+> +	nbl_hw_wr_regs(hw_mgt, NBL_SHAPING_DPORT_REG(eth_id), dport.data,
+> +		       sizeof(dport));
+
+[ ... ]
+
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+> index 1d6d614be7d69..8e59b9d2ab3b0 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+
+[ ... ]
+
+> +union nbl_shaping_dport_u {
+> +	struct nbl_shaping_dport {
+> +		u64 low;
+> +		u64 high;
+> +	} info;
+> +	u32 data[NBL_SHAPING_DPORT_DWLEN];
+> +};
 
 [Severity: High]
-Does this fall-through inadvertently corrupt the global interrupt bitmaps?
+Will this union alias cause corrupted hardware writes on big-endian
+architectures?
 
-If resource allocation fails in the first loop for net interrupts, the code
-jumps to release_net_bits, loops i down to 0, sets i = num_net_msix, and then
-falls through into release_all_bits.
+When fields are populated using native u64 in nbl_shaping_eth_init(), for
+example:
 
-Because tmp_interrupts was allocated with devm_kcalloc, any uninitialized
-entries are 0. When the second loop evaluates these uninitialized zero
-values, 0 < NBL_NET_INTR_BASE, meaning the code will clear bit 0 in
-interrupt_others_bitmap and also doubly clear the already-released net bits.
+        dport.info.low = FIELD_PREP(DPORT_CIR_MASK, rate) | ...
 
-Should there be a jump to free_prealloc right before release_all_bits to
-avoid evaluating the array twice?
+And then written via the u32 array alias:
 
-> +		intr_index = tmp_interrupts[i];
-> +		if (intr_index >= NBL_NET_INTR_BASE)
-> +			clear_bit(intr_index - NBL_NET_INTR_BASE,
-> +				  intr_mgt->interrupt_net_bitmap);
-> +		else
-> +			clear_bit(intr_index,
-> +				  intr_mgt->interrupt_others_bitmap);
-> +	}
-> +	goto free_prealloc;
-> +}
+        nbl_hw_wr_regs(hw_mgt, NBL_SHAPING_DPORT_REG(eth_id), dport.data,
+                       sizeof(dport));
+
+On big-endian systems, the upper 32 bits of the 64-bit integer will map to
+data[0] instead of the lower 32 bits. Does this result in malformed hardware
+configuration for traffic shaping?
