@@ -1,189 +1,811 @@
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A9045C71E
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 16:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F043672AA;
+	Fri, 31 Jul 2026 16:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785515194; cv=none; b=lFfkxRkuQP9U6wt9C/Dc9Ci/QUI9yP3jSAe+I1s7N1t+R6kljnay3p1qKJi378efTnnv3twa1ANko6IuqsC6UnS6hS8DVfbH4xMWoc4utDAY+r8LuPeTgmNeYfXEsrGtnqUKYHy/eAbv1uPqbCRhVamyps/tMDAZOTBRM47Fo3E=
+	t=1785515315; cv=none; b=hVKKQnlWvJSkGk7V61YSvu9Z7hFY3OV8ua1gfYTq25cjW5KJKF/CX3FS9Lpv8ltWRs3pWDHM4TG17uv8JZMWULvAH7LOHdIUsRxbXq5+J7hEjOI0HAcA2WIhkpj+FWS2HupL4n8pwUVndxM5ttDIf2YTboRXjBreG7DGpk8BvDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785515194; c=relaxed/simple;
-	bh=tmfdgsRNGmMoH53JWSNejad3XkKOScNgIyXixI/ReSE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SC8miLNmg+tw6R41jHNMBZ58Zeu02cuD8t6OtGSPgovg2b6e0UX+3p8OUq2oymidvmZGKsVGQbXTUABk0LDwzfJlo7ZYXIrIITGINVJRjsFFZriZqLoiAg+lQJZxl/SSTMRWNld/HEkBAx69IRrTz7Lm/EYamA+13ri5fmJa9Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cQq0Hcdr; arc=none smtp.client-ip=209.85.216.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1785515315; c=relaxed/simple;
+	bh=FsWKDPcwgkEY6qiSh0zldn1EGKdyqe7yYlKwzMmaf+M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WK29GXmcTBpBd7mFP5TmKvdYyVx1Dhyn/ygfvgG/DAp4ubtzKQEVzEa9eK83NL69iHIXen697bkHfKNVeaB2kBKKA5L3cO/VBCVETQ0Z9MqeX43Hmm8qGWUR3T1dOqF2IbcD/b9V1fd3qaw4+3jh4IipdVv85qkeZuQEK2ijYVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jSZsg79K; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cQq0Hcdr"
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38ce7fabf76so1973750a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:26:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785515191; x=1786119991; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ICGNWuPesT/hzVX75ShCk7Kt8oQvWLyQi/M5mp0efms=;
-        b=cQq0Hcdr0r3PJQFHe2++OWFB2+NTTTKzwLXHp9sbf5CcOqxPuvOYOPEo4Wk79d0Euu
-         En+Nz+SPNupRZZN+Bjxfw1HzaZPWxH6hSR+eNa1auWZq7vYaa2V0jua9Rmp8sq+c3Fjl
-         ylycm5nS1nEyd/xdhWdVk5LWtelb/hjCVHT9Rr304ltdSLPRIJey1PW7OphyVGN9GZr9
-         nNMpL0NeJtgBz2p3vi123hL5sjSSBeNkpbRI5yqm2IHfQPwo9KpfC9vTllKXY3RJpPBS
-         nsZNJW+qtQBGpMrEG+QlUFREEbDvaRQGAJ9nfJRiU32eTXL2wC6u8kD2FuOToSEMR+2H
-         Gs/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785515191; x=1786119991;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ICGNWuPesT/hzVX75ShCk7Kt8oQvWLyQi/M5mp0efms=;
-        b=aTB+bBDgXqID3vGv8XJA3Ruuzko2JOdOH3gxbOKx9S2jG3s3KJmhvx9kM2opdP2Qc9
-         bGzfUjkBhCsEB+MFUUPgnv+7OLepawAnY1PXdo6K35XsUQ2dDfbjDxw+gW/gN/NaBTHT
-         i6/W7LFvMHgDIe3I4dyqdHlrczyJlq219suYHnHguie6EAX+peLNgyXtxv60CBKBjZAn
-         mZV8YV9Ss+e79xbktGsEQRe86wQq554N454Jj43jbPdF2kc4n6tcBBgbs37VknLXPujq
-         68KeQOepW5fzV5E9kGlY5folY1IggTh+iX/NrHqhBvUbMAOVRrgePGD6mipM2oGQbkQu
-         R5BQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpQtzKLi4XRg8AXqiQWQ0Gij9c7v3XfhpwQ+5lkXORQDkGjGso8MDZJg2uaLXIzZ+KvcoFS0HdfSHI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvqBdj4oa1+Yh2wBH3NFUEt7ewgWusJwTrGNXMgAB91Ln025AO
-	rsyDkzamtpPZEpLlS7k0E3I8ofjo4T0ZmSYZYafxAQt3Vhw825gmpKmjHrM2o7oZJfqlrD5QSEw
-	tW7Rm6A==
-X-Received: from plhi11.prod.google.com ([2002:a17:903:2ecb:b0:2cc:5fd1:2d93])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3b8e:b0:2ce:b096:e517
- with SMTP id d9443c01a7336-2d0521cda4dmr6567475ad.5.1785515190881; Fri, 31
- Jul 2026 09:26:30 -0700 (PDT)
-Date: Fri, 31 Jul 2026 09:26:30 -0700
-In-Reply-To: <dd4201f2-3660-46ad-958f-c70feb1ab1c3@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jSZsg79K"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id C02AC4E41056;
+	Fri, 31 Jul 2026 16:28:27 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8B9996039A;
+	Fri, 31 Jul 2026 16:28:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6EBA911C16AC1;
+	Fri, 31 Jul 2026 18:28:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1785515302; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=GIQkkwemAyKcCnha9BXJWykc6TdCkbEIQo/aYQEa3Sg=;
+	b=jSZsg79KeDzPqMOYjS0Q4jJZP8+I2LqO1rVjRCVGBcconhOnRPqKDXH6NP+zwBoHe9V7Iu
+	RqExnxHcUpqHABjhXWbqKVqfoWdFgxAt6cUqhwF04k4Bhl4HF3DTfQ4hVVgiZjouTMUNc+
+	GyuhYvK1iMSzG52U4MiYgpyPXVa8cKT5CqB8gyKTEiofif00jzJRtSi4DD1UqLdzP66j1y
+	80f4XG+OIudFCqjVIhYR3aK65ujXtvS4pKKlkjTrCy02xK8HHTF+N97WTIEsMrZtwUWx9a
+	ZgaM1J5uZE+XxQtX5E0CzqB+97sVzDyXshiuhRO+M+GY6Tjru9rAah49KZBNRg==
+From: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	thomas.petazzoni@bootlin.com,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [RFC PATCH net-next] selftests/net: Introduce a selftest for ethtool flow control
+Date: Fri, 31 Jul 2026 18:28:11 +0200
+Message-ID: <20260731162812.4118413-1-maxime.chevallier@bootlin.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
- <20260728-gmem-inplace-conversion-v9-7-35f9aec2aed2@google.com>
- <60d19013-d6d7-4eec-827a-2622e22cec98@intel.com> <CAEvNRgF0SxmoMtqq69tUih54A9K7j_wcMFRrq=r9w6TnAGAUQQ@mail.gmail.com>
- <dd4201f2-3660-46ad-958f-c70feb1ab1c3@intel.com>
-Message-ID: <amzMtg4K6qEEsudx@google.com>
-Subject: Re: [PATCH v9 07/41] KVM: guest_memfd: Wire up core private/shared
- attribute interfaces
-From: Sean Christopherson <seanjc@google.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Jul 31, 2026, Xiaoyao Li wrote:
-> On 7/31/2026 4:42 AM, Ackerley Tng wrote:
-> > Xiaoyao Li <xiaoyao.li@intel.com> writes:
-> > 
-> > > On 7/29/2026 8:35 AM, Ackerley Tng via B4 Relay wrote:
-> > > > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> > > > index 33c9830190e2e..89cf922232920 100644
-> > > > --- a/virt/kvm/guest_memfd.c
-> > > > +++ b/virt/kvm/guest_memfd.c
-> > > > @@ -893,6 +893,27 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
-> > > >    EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
-> > > > 
-> > > >    #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
-> > > > +static bool kvm_range_is_private(struct file *file, pgoff_t index,
-> > > > +				 size_t nr_pages, struct kvm *kvm, gfn_t gfn)
-> > > > +{
-> > > > +	struct inode *inode = file_inode(file);
-> > > > +	pgoff_t last = index + nr_pages - 1;
-> > > > +	struct maple_tree *mt;
-> > > > +	void *entry;
-> > > > +
-> > > > +	if (!gmem_in_place_conversion)
-> > > > +		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
-> > > > +							  KVM_MEMORY_ATTRIBUTE_PRIVATE,
-> > > > +							  KVM_MEMORY_ATTRIBUTE_PRIVATE);
-> > > > +
-> > > > +	mt = &GMEM_I(inode)->attributes;
-> > > > +	mt_for_each(mt, entry, index, last) {
-> > > > +		if (kvm_gmem_interpret_entry(inode, entry) !=
-> > > > +		    KVM_MEMORY_ATTRIBUTE_PRIVATE)
-> > > > +			return false;
-> > > > +	}
-> > > > +	return true;
-> > > > +}
-> > > > 
-> > > >    static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
-> > > >    				struct file *file, gfn_t gfn, struct page *src_page,
-> > > > @@ -913,9 +934,7 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
-> > > > 
-> > > >    	folio_unlock(folio);
-> > > > 
-> > > > -	if (!kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + 1,
-> > > > -						KVM_MEMORY_ATTRIBUTE_PRIVATE,
-> > > > -						KVM_MEMORY_ATTRIBUTE_PRIVATE)) {
-> > > > +	if (!kvm_range_is_private(file, index, 1, kvm, gfn)) {
-> > > 
-> > > It's checking if a single gfn is private.
-> > > 
-> > 
-> > But with huge page support we'd need to check a range of gfns... I guess
-> > there's the argument of not keeping complexity for the future, but in
-> > this case it's undoing functionality for this series and probably adding
-> > it back later.
-> 
-> let's leave the work for huge page support in the future.
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
 
-It's not just for hugepage support, the core functionality is used in this series
-by __kvm_gmem_set_attributes() in:
+As part of work started by the Netdev Foundation, introduce a skeleton
+of a selftest to stress the ethtool pause APIs. The goal is to catch
+common mistakes done in drivers by allowing these tests to be run on
+real hardware, and derive potential implementation issues from the
+behaviour observed at the userspace level.
 
-  KVM: guest_memfd: Return early if range already has requested attributes
+This is just the skeleton of the tests, most implementation details are
+stubbed, the goal is to validate the test definitions, flow and results
+here.
 
-> > > We can just use kvm_mem_is_private()? And it seems can be a separate patch.
-> > > 
-> > 
-> > Do you mean that this refactoring could be a separate patch? I could
-> > refactor out kvm_range_is_private() in a separate patch, then put in the
-> > mt_for_each() check in this patch together as part of all the rest of
-> > the "wiring".
-> > 
-> > I considered that but it seemed like the refactoring was too small to
-> > separate out into another patch when the mt_for_each() part is going to
-> > be in this patch anyway.
-> > 
-> > Or, I could add an earlier patch to first replace the call to
-> > kvm_range_has_vm_memory_attributes() with a call to check just 1 gfn,
-> > then this wiring patch would be simpler.
-> > 
-> 
-> This is what I meant. An earlier patch to just replace
-> kvm_range_has_vm_memory_attributes() with kvm_mem_is_private(). Then we can
-> drop this 'big' diff in this patch.
-> 
-> If kvm_range_is_private() is useful/required by huge page support, then let
-> the huge page series to introduce it. It has nothing to do with the in-place
-> conversion series.
+A separate documentation such as the one written by Oleksij will be sent
+as a complement for the next iterations.
 
-If it weren't for the fact that the range-based search is used later in this
-series, I would 100% agree with Xiaoyao.  But since the core logic is used and
-needed elsewhere, and because kvm_range_has_vm_memory_attributes() takes a range,
-my vote is to provide the plumbing now, even though a small portion of it isn't
-strictly necessary.
+Signed-off-by: Maxime Chevallier (Netdev Foundation) <maxime.chevallier@bootlin.com>
+---
+ .../testing/selftests/drivers/net/hw/pause.py | 716 ++++++++++++++++++
+ 1 file changed, 716 insertions(+)
+ create mode 100644 tools/testing/selftests/drivers/net/hw/pause.py
+
+diff --git a/tools/testing/selftests/drivers/net/hw/pause.py b/tools/testing/selftests/drivers/net/hw/pause.py
+new file mode 100644
+index 000000000000..c5cf81f48011
+--- /dev/null
++++ b/tools/testing/selftests/drivers/net/hw/pause.py
+@@ -0,0 +1,716 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"""
++Driver-related behavior tests for Pause-based Flow Control.
++
++Requires a controllable link-partner, with configurable autoneg parameters
++as well as support for Pause and Asym_Pause.
++"""
++
++from lib.py import ksft_run, ksft_exit, ksft_eq, ksft_ge, ksft_in, ksft_not_in, ksft_true
++from lib.py import ksft_variants, KsftNamedVariant, KsftSkipEx, ksft_raises
++from lib.py import defer, ethtool, CmdExitFailure
++from lib.py import EthtoolFamily, NlError
++from lib.py import NetDrvEpEnv
++from lib.py import ip
++import errno
++
++# Linkmodes to Pause params :
++# Pause bit is set if rx == 1
++# Asym_Pause bit is set if rx != tx
++pauseparams_to_linkmodes = [
++    {"rx": 0, "tx": 0, "linkmodes": []},
++    {"rx": 0, "tx": 1, "linkmodes": ["Asym_Pause"]},
++    {"rx": 1, "tx": 0, "linkmodes": ["Pause", "Asym_Pause"]},
++    {"rx": 1, "tx": 1, "linkmodes": ["Pause"]},
++]
++
++def pause_to_linkmodes(rx, tx) -> list[str]:
++    """ Convert rx/tx pauseparams to the corresponding linkmodes
++    """
++    if rx:
++        if tx:
++            return pauseparams_to_linkmodes[3]["linkmodes"]
++        else:
++            return pauseparams_to_linkmodes[2]["linkmodes"]
++    elif tx:
++        return pauseparams_to_linkmodes[1]["linkmodes"]
++    else:
++        return pauseparams_to_linkmodes[0]["linkmodes"]
++
++def set_local_pauseparams(cfg, rx, tx, aneg) -> int:
++    """ set pauseparams : ethtool -A
++
++    Raise an error if the return is not 0 or EOPNOTSUPP
++
++    :param cfg: test config
++    :param rx: rx pause enabled or disabled
++    :param tx: tx pause enabled or disabled
++    :param aneg: pause autoneg enabled or disabled
++    :returns: return code of the ethtool command
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_local_pauseparams(cfg) -> tuple[int, bool, bool, bool]:
++    """ get pauseparams : ethtool -a
++
++    Raise an error if the return is not 0 or EOPNOTSUPP
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command,
++              - rx status,
++              - tx status,
++              - aneg status
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def set_peer_pauseparams(cfg, rx, tx, aneg) -> int:
++    """ set pauseparams on the linkpartner
++
++    Raise an error if the return is not 0 or EOPNOTSUPP
++    returns ENODEV if there's no LP
++
++    :param cfg: test config
++    :param rx: rx pause enabled or disabled
++    :param tx: tx pause enabled or disabled
++    :param aneg: pause autoneg enabled or disabled
++    :returns: return code of the ethtool command
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_peer_pauseparams(cfg) -> tuple[int, bool, bool, bool]:
++    """ get pauseparams on the link partner
++
++    Raise an error if the return is not 0 or EOPNOTSUPP
++    returns ENODEV if there's no LP
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command,
++              - rx status,
++              - tx status,
++              - aneg status
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_local_supported(cfg) -> tuple[int, list[str]]:
++    """ get the supported linkmodes on the local device
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command
++              - list of linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_local_advertising(cfg) -> tuple[int, list[str]]:
++    """ get the advertised linkmodes on the local device
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command
++              - list of linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_local_lp_advertising(cfg) -> tuple[int, list[str]]:
++    """ get the lp_advertised linkmodes on the local device
++
++    Raise an error if the return is not 0 or EOPNOTSUPP
++    Prints a warning if the local device doesn't report lp_advertising
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command
++              - list of linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_peer_supported(cfg) -> tuple[int, list[str]]:
++    """ get the supported linkmodes on the link partner
++
++    returns ENODEV if there's no LP
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command
++              - list of linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_peer_advertising(cfg) -> tuple[int, list[str]]:
++    """ get the advertised linkmodes on the link partner
++
++    returns ENODEV if there's no LP
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command
++              - list of linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def get_peer_lp_advertising(cfg) -> tuple[int, list[str]]:
++    """ get the lp_advertised linkmodes on the link partner
++
++    Raise an error if the return is not 0 or EOPNOTSUPP
++    returns ENODEV if there's no LP
++    Prints a warning if LP is present but doesn't report lp_advertising
++
++    :param cfg: test config
++    :returns: tuple containing :
++              - return code of the ethtool command
++              - list of linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def wait_for_link(cfg) -> bool:
++    """ Wait for both ends of the link to be up.
++
++    :param cfg: test config
++    :returns: True if link is UP, False if timeout
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def require_controllable_lp(cfg) -> None:
++    """ Checks that the link-partner is a real device we can control
++
++    Raise a skip if the linkpartner is a netdevsim or veth. We need a real
++    link-partner for some tests.
++
++    :param cfg: test config
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def require_pause_supported(cfg) -> None:
++    """ Checks if the local device supports pause at all, by looking at the
++        supported bitfield. Raises a skip it's not supported.
++
++        :param cfg: test config
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def require_supported(cfg, linkmodes) -> None:
++    """ Checks if the local device supports the passed linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++def require_peer_supported(cfg, linkmodes) -> None:
++    """ Checks if the remote device supports the passed linkmodes
++    """
++    #TODO
++    raise KsftSkipEx("Not implemented")
++
++
++# Pause support : Supported linkmodes vs ability to set/get pauseparams
++@ksft_variants([
++    KsftNamedVariant("RX off TX off", pauseparams_to_linkmodes[0]),
++    KsftNamedVariant("RX off TX on", pauseparams_to_linkmodes[1]),
++    KsftNamedVariant("RX on TX off", pauseparams_to_linkmodes[2]),
++    KsftNamedVariant("RX on TX on", pauseparams_to_linkmodes[3]),
++])
++def pause_test_support(cfg, pauseparams) -> None:
++    """ Verify that the supported linkmodes Pause and Asym_Pause match the
++        ability to configure the rx and tx pauseparams.
++
++    Drivers are expected to reject pauseparams they don't support, and
++    accept the ones they support. The supported modes are exposed by
++    the MAC to the PHY layer through phylink mac_capabilities MAC_SYM_PAUSE
++    and MAC_ASYM_PAUSE, or through phylib directly with the
++    phy_support_sym_pause() and phy_support_asym_pause() helpers.
++
++    The expectation is for drivers to refuse setting pauseparams that don't
++    match the Pause and Asym_Pause bits in the supported linkmodes with a
++    -EOPNOTSUPP return value. Unsupported pause params must be rejected.
++
++    Failing this test likely means the MAC driver doesn't implement the
++    set/get_pauseparam, but still sets flow control as supported through
++    phylink mac_capabilities or phylib's pause API. Conversely, the MAC driver
++    may have omitted to indicate its supported Pause modes. Finally, the PHY
++    driver may incorrectly override the Pause and Asym_Pause bits in its supported
++    fields.
++    """
++
++    rx = "on" if pauseparams["rx"] else "off"
++    tx = "on" if pauseparams["tx"] else "off"
++    linkmodes = pauseparams["linkmodes"]
++
++    # Run ethtool {cfg.ifname} and extract the "Supported pause frame use"
++    # Run ethtool -A {cfg.ifname} rx {rx} tx {tx} autoneg off, store the return code
++    # Don't wait for the link to come back, this is only to validate local
++    # settings
++    #
++    # If "supported" is empty, the return code must be EOPNOTSUPP
++    # If "linkmodes" is a subset of "supported" then fail if the return code is
++    # not zero.
++    # If "linkmodes" is not a subset of "supported", then fail if the return code
++    # is zero, the operation should have been rejected.
++
++    # Run the same sequence again, but with pause autoneg on. The pass/fail
++    # conditions remain the same.
++
++    raise KsftSkipEx("Not implemented")
++
++@ksft_variants([
++    KsftNamedVariant("RX off TX off", pauseparams_to_linkmodes[0]),
++    KsftNamedVariant("RX off TX on", pauseparams_to_linkmodes[1]),
++    KsftNamedVariant("RX on TX off", pauseparams_to_linkmodes[2]),
++    KsftNamedVariant("RX on TX on", pauseparams_to_linkmodes[3]),
++])
++def pause_advertising_test(cfg, pauseparams) -> None:
++    """Pause advertisement
++
++    Validate that changing pause params through the ETHTOOL_MSG_PAUSE command
++    translates to a change in the advertised pause params, and that these
++    parameters are correct w.r.t the supported pause params and requested pause
++    params.
++
++    This exercises the .set_pauseparam() ethtool ops for MAC configuration,
++    as well as the reconfiguration of the PHY's advertising and negotiation.
++
++    On non-phylink MACs, the MAC should call phy_set_sym_pause() to update the
++    PHY's advertising, and restart a negotiation with phy_start_aneg() if
++    need be. Failure to do so will result in the wrong advertising parameters.
++
++    On phylink-enabled MACs, phylink deals with the PHY reconfiguration provided
++    the MAC driver calls phylink_ethtool_set_pauseparam().
++
++    Failing this test likely means that the PHY driver is not correctly advertising
++    pause settings, either due to the MAC not triggering a PHY reconfiguration,
++    a misconfiguration of the advertising registers by the PHY, or by
++    mis-handling the phydev->advertising bitmap in the PHY driver directly.
++
++    The validation is made by looking at the advertised modes locally, as well as
++    what the peer's 'lp_advertising' values report.
++
++    initial state :
++     - Link with LP established and UP
++     - local device : link autoneg on
++     - remote device : link autoneg on pause autoneg on
++    """
++
++    require_pause_supported(cfg)
++
++    tx = pauseparams["tx"]
++    rx = pauseparams["rx"]
++    adv = pauseparams["linkmodes"]
++    not_adv = {"Pause", "Asym_Pause"} - set(adv)
++
++    # It's OK to skip here, we're already validating the EOPNOTSUPP behaviour
++    # the pause_test_support test.
++    ret = set_local_pauseparams(cfg, rx, tx, True)
++    if ret == errno.EOPNOTSUPP:
++        raise KsftSkipEx(f"RX {rx} TX {tx} not supported")
++
++    # Wait for link parameters to re-negotiate and link to come back up. It must
++    # come back up, otherwise that means changing pauseparams can bring the
++    # link down.
++    ret = wait_for_link(cfg)
++    ksft_true(ret, "Link din't come back up after setting pauseparams")
++
++    _, linkmodes = get_local_advertising(cfg)
++    for mode in adv:
++        ksft_in(mode, linkmodes, f"rx {rx} tx {tx} must advertise {adv}")
++
++    for mode in not_adv:
++        ksft_not_in(mode, linkmodes, f"rx {rx} tx {tx} must not advertise {not_adv}")
++
++    # It's better to double-check on the LP that we are indeed correctly
++    # advertising these modes, but if we don't have a controllable LP let's
++    # just rely on what we say we're advertising
++    returncode, remote_linkmodes = get_peer_lp_advertising(cfg)
++    if returncode == errno.ENODEV:
++        return
++
++    for mode in adv:
++        ksft_in(mode, remote_linkmodes, f"PHY does not advertise {adv}")
++
++    for mode in not_adv:
++        ksft_not_in(mode, remote_linkmodes, f"PHY incorrectly advertises {not_adv}")
++
++
++# Pause autonegotiation resolution : Resolved pause settings vs configured
++# pauseparams on local device and link partner
++@ksft_variants([
++    # We advertise nothing, all off
++    KsftNamedVariant("local rx off tx off, remote rx off tx off",
++        {"rx": 0, "tx": 0, "lp_rx": 0, "lp_tx": 0, "neg_rx": 0, "neg_tx": 0}),
++
++    # We advertise nothing, all off
++    KsftNamedVariant("local rx off tx off, remote rx off tx on",
++        {"rx": 0, "tx": 0, "lp_rx": 0, "lp_tx": 1, "neg_rx": 0, "neg_tx": 0}),
++
++    # We advertise nothing, all off
++    KsftNamedVariant("local rx off tx off, remote rx on tx off",
++        {"rx": 0, "tx": 0, "lp_rx": 1, "lp_tx": 0, "neg_rx": 0, "neg_tx": 0}),
++
++    # We advertise nothing, all off
++    KsftNamedVariant("local rx off tx off, remote rx on tx on",
++        {"rx": 0, "tx": 0, "lp_rx": 1, "lp_tx": 1, "neg_rx": 0, "neg_tx": 0}),
++
++    # LP advertises nothing, all off
++    KsftNamedVariant("local rx off tx on, remote rx off tx off",
++        {"rx": 0, "tx": 1, "lp_rx": 0, "lp_tx": 0, "neg_rx": 0, "neg_tx": 0}),
++
++    # We advertise Asym, LP advertises Asym, all off
++    KsftNamedVariant("local rx off tx on, remote rx off tx on",
++        {"rx": 0, "tx": 1, "lp_rx": 0, "lp_tx": 1, "neg_rx": 0, "neg_tx": 0}),
++
++    # We advertise Asym, LP advertises Pause + Asym, tx on
++    KsftNamedVariant("local rx off tx on, remote rx on tx off",
++        {"rx": 0, "tx": 1, "lp_rx": 1, "lp_tx": 0, "neg_rx": 0, "neg_tx": 1}),
++
++    # Tricky case :
++    # We advertise Asym, LP advertises Pause, resolves to all off
++    KsftNamedVariant("local rx off tx on, remote rx on tx on",
++        {"rx": 0, "tx": 1, "lp_rx": 1, "lp_tx": 1, "neg_rx": 0, "neg_tx": 0}),
++
++    # LP advertises nothing, all off
++    KsftNamedVariant("local rx on tx off, remote rx off tx off",
++        {"rx": 1, "tx": 0, "lp_rx": 0, "lp_tx": 0, "neg_rx": 0, "neg_tx": 0}),
++
++    # We advertise Pause + Asym , LP advertises Asym, rx on
++    KsftNamedVariant("local rx on tx off, remote rx off tx on",
++        {"rx": 1, "tx": 0, "lp_rx": 0, "lp_tx": 1, "neg_rx": 1, "neg_tx": 0}),
++
++    # Also tricky: Only rx enabled on both ends, but we negotiate rx/tx
++    # We advertise Pause + Asym, LP advertises Pause + Asym, all on
++    KsftNamedVariant("local rx on tx off, remote rx on tx off",
++        {"rx": 1, "tx": 0, "lp_rx": 1, "lp_tx": 0, "neg_rx": 1, "neg_tx": 1}),
++
++    # We advertise Pause + Asym, LP advertises Pause, all on
++    KsftNamedVariant("local rx on tx off, remote rx on tx on",
++        {"rx": 1, "tx": 0, "lp_rx": 1, "lp_tx": 1, "neg_rx": 1, "neg_tx": 1}),
++
++    # LP advertises nothing, all off
++    KsftNamedVariant("local rx on tx on, remote rx off tx off",
++        {"rx": 1, "tx": 1, "lp_rx": 0, "lp_tx": 0, "neg_rx": 0, "neg_tx": 0}),
++
++    # Tricky case :
++    # We advertise Pause, LP advertises Asym, resolves to all off
++    KsftNamedVariant("local rx on tx on, remote rx off tx on",
++        {"rx": 1, "tx": 1, "lp_rx": 0, "lp_tx": 1, "neg_rx": 0, "neg_tx": 0}),
++
++    # We advertise Pause, LP advertises Pause + Asym, all on
++    KsftNamedVariant("local rx on tx on, remote rx on tx off",
++        {"rx": 1, "tx": 1, "lp_rx": 1, "lp_tx": 0, "neg_rx": 1, "neg_tx": 1}),
++
++    # We advertise Pause, LP advertises Pause, all on
++    KsftNamedVariant("local rx on tx on, remote rx on tx on",
++        {"rx": 1, "tx": 1, "lp_rx": 1, "lp_tx": 1, "neg_rx": 1, "neg_tx": 1}),
++])
++def pause_aneg_resolution(cfg, settings) -> None:
++    """ Verify that rx and tx pause parameters are negotiated according to 802.3
++
++    802.3 dictates the rules for pause negotiation, all 16 cases are tested, one
++    for each combination of Pause and Asym_Pause advertising on the local device
++    and the link-partner.
++
++    This test also verifies that the peer resolved the parameters correctly,
++    to ensure the negotiation is triggered correctly.
++
++    Failing this test can happen if :
++     - The MAC accepts the pause parameters but doesn't trigger a link renegotiation
++     - that the PHY driver manually overwrites the Pause negotiation result
++     - that the MAC driver ignores the Pause resolution and sets its own
++       pause parameters regardless
++
++    Starting conditions :
++      - link is established
++      - peer device has link autoneg on, pause autoneg on
++      - local device has link autoneg on, pause autoneg on
++    """
++    expected_local_rx = settings["neg_rx"]
++    expected_local_tx = settings["neg_tx"]
++
++    require_pause_supported(cfg)
++    require_controllable_lp(cfg)
++
++    required_local_linkmodes = pause_to_linkmodes(settings["rx"],
++                                                  settings["tx"])
++    required_remote_linkmodes = pause_to_linkmodes(settings["lp_rx"],
++                                                   settings["lp_tx"])
++
++    require_supported(cfg, required_local_linkmodes)
++    require_peer_supported(cfg, required_remote_linkmodes)
++
++
++    # There's symmetry between local device and LP on pause negotiation:
++    # - if local resolves all off or all on, LP must resolve the same
++    # - if local resolves RX only, remote must resolve to TX only
++    # - if local resolves TX only, remote must resolve to RX only
++    if expected_local_rx == expected_local_tx:
++        expected_lp_rx = expected_local_rx
++        expected_lp_tx = expected_local_tx
++    else:
++        expected_lp_rx = expected_local_tx
++        expected_lp_tx = expected_local_rx
++
++    # Set pauseparams
++    # Wait for link to re-negotiate
++    # Fail if it doesn't
++    # check adv
++    # check lp_adv it available
++    # check lp_adv on remote
++
++    raise KsftSkipEx("Not implemented")
++
++# Pause autoneg enable/disable vs advertised linkmodes
++def pause_autoneg_state_adv(cfg) -> None:
++    """Validate that toggling pause advertising changes the advertised linkmodes
++
++    When disabling pause autoneg, we enforce the pause params based on what user
++    asks, instead of relying on the negociation process (which may not be what
++    the user asked for). In forced pause settings, we don't advertise pause and
++    asym_pause bits.
++
++    Failing this test means that .set_pauseparam in the MAC driver doesn't
++    forward to the PHY (in charge of advertising these bits) that we are in
++    fixed pause mode.
++
++    - Local link is up, link autoneg enabled
++    - Peer link is up, link autoneg enabled, pause autoneg enabled, rx on tx on.
++
++    - Enable pause autoneg and pause tx and rx (or just rx or tx if Asym only):
++      'ethtool -A ethX rx on tx on autoneg on'
++    - Skip if returncode is EOPNOTSUPP
++    - Fail if returncode is not 0
++    - wait for link to re-establish, warn and skip if it doesn't
++
++    - run 'ethtool ethX'
++    - Fail if "Advertised pause frame use" is "No",
++
++    - run 'ethtool -A ethX autoneg off'
++    - Fail if the return isn't 0
++
++    - run 'ethtool ethX'
++    - Fail if "Advertised pause frame use" is not "No", 
++
++    - On Link Partner, run :
++    - ethtool ethY
++
++    - Fail if "Link partner advertised pause frame use" is not "No".
++
++    - Succeed otherwise
++    """
++
++    require_pause_supported(cfg)
++    require_controllable_lp(cfg)
++
++    raise KsftSkipEx("Not implemented")
++
++# Pause autoneg : Negotiated pause params vs fixed pause params
++def pause_autoneg_state_params(cfg) -> None:
++    """Validate the pause params when transitioning between fixed pause
++       params and negotiated ones. The goal is to make sure that user
++       intent on the RX and TX pause params are stored when user decides
++       to use negotiated parameters instead. The main gotcha lies on the
++       fact that when pause autoneg is used, the autoneg result may differ
++       from the user intent.
++
++    Failing this test means the MAC driver is overwriting the user intent
++    when switching to forced pause.
++
++    - Initial conditions : Link is up and established, link autoneg is on,
++    pause autoneg is on.
++    - Peer link is up, link autoneg enabled, pause autoneg enabled, rx on tx on.
++
++    - On local device, Set pause parameters to rx on tx off with autoneg :
++    - ethtool -A ethX rx on tx off autoneg on
++    - Skip if return is EOPNOTSUPP
++    - Fail if return isn't 0
++    - wait for link to re-establish, warn and skip if it doesn't
++
++    - On Link Partner, Set pause parameters to rx on tx on with autoneg :
++    - ethtool -A ethY rx on tx on autoneg on
++    - Skip if return is EOPNOTSUPP
++    - Fail if return isn't 0
++    - wait for link to re-establish, warn and skip if it doesn't
++
++    - On local device, show the current pause params:
++    - ethtool -a ethX
++    - Fail if results differ from :
++
++      Pause parameters for <iface>:
++      Autonegotiate: on
++      RX:            on
++      TX:            off
++
++    - Read the current advertised and lp_advertised values
++    - Fail if 'Advertised pause frame use' is not 'Pause + Asym_Pause'.
++    - Fail if 'Link partner advertised pause frame use' is not 'Pause'.
++
++    - Switch to fixed pause autoneg on local device:
++    - run 'ethtool -A ethX autoneg off'
++
++    - on local device, show the current pause params:
++    - ethtool -a ethX
++    - Fail if results differ from:
++
++      Pause parameters for <iface>:
++      Autonegotiate: off
++      RX:            on
++      TX:            off
++
++    - Re-enable pause autonag on the local device:
++    - run 'ethtool -A ethX autoneg on'
++    - wait for link to re-establish, fail if it doesn't
++
++    - on local device, show the current pause params:
++    - ethtool -a ethX
++
++    - Fail if results differ from :
++
++      Pause parameters for <iface>:
++      Autonegotiate: on
++      RX:            on
++      TX:            off
++
++    - Read the current advertised and lp_advertised values
++    - Fail if 'Advertised pause frame use' is not 'Pause + Asym_Pause'.
++    - Fail if 'Link partner advertised pause frame use' is not 'Pause'.
++
++    - Succeed otherwise
++    """
++
++    require_pause_supported(cfg)
++    require_controllable_lp(cfg)
++
++    raise KsftSkipEx("Not implemented")
++
++# Pause autoneg vs Link autoneg
++
++def pause_autoneg_off_while_link_autoneg_on(cfg) -> None:
++    """ Validate that when link autoneg is on but pause autoneg is off, we do
++        not use negotiated pause parameters.
++
++        - Skip if pause not supported.
++
++        - Requirements :
++        - Link partner: link up, link autoneg on, pause autoneg on,
++                        pause tx and rx on
++        - Local device starting conditions : link on, link autoneg on,
++                        pause autoneg on, pause tx <on if supported> rx <on if supported>
++
++        Failing this test means the MAC driver incorrectly accounts for the
++        negotiated pause parameters even with pause aneg off, likely due to
++        confusion between link autoneg and pause autoneg.
++    """
++    # Disable pause autoneg, keep pause rx on tx on :
++    # ethtool -A {cfg.ifname} rx <on if supp> tx <on if supp> autoneg off
++    #
++    # Disable pause on peer with pause aneg still on, we expect that not to
++    # change the local device's forced pause values.
++    # ethtool -A {cfg.remote_ifname} rx off tx off autoneg on
++    # Flap the peer link
++    # ip link set {cfg.remote_ifname} down
++    # ip link set {cfg.remote_ifname} up
++    #
++    # wait for link to come back up, fail if it doesn't.
++    #
++    # Check the local pause parameters are unchanged :
++    # ethtool -a {cfg.ifname}
++    # fail if they are different than the ones set in the first step.
++
++    require_pause_supported(cfg)
++    require_controllable_lp(cfg)
++
++    raise KsftSkipEx("Not implemented")
++
++def pause_autoneg_link_autoneg(cfg) -> None:
++    """Validate pause autoneg and link autoneg interactions. The link autoneg's
++       admin status (i.e. do we autoneg link parameters or force them) must not
++       impact the pause autoneg status. While link autoneg is disabled, we don't
++       negotiate the pause params, however we must keep pause autoneg on as this
++       is the user intent. When link autoneg is re-enabled, pause params must be
++       derived from the negotiation.
++
++    Failing this test means the MAC driver or the PHY driver incorrectly overwrites
++    the pause autoneg admin status when link autoneg is changed.
++
++    - Starting condition : Link up, link autoneg on
++    - Peer link is up, link autoneg enabled, pause autoneg enabled, rx on tx on.
++
++    - Set pauseparams to <All modes supported> and autoneg enabled :
++    - run 'ethtool -A ethX rx <on if supported> tx <on if supported> autoneg on'
++    - Skip if return is EOPNOTSUPP
++    - wait for link to re-establish, warn and skip if it doesn't
++
++    - Verify the pauseparams match the configured ones :
++    - run 'ethtool -a ethX'
++    - Fail if result isn't :
++      Pause parameters for ethX:
++      Autonegotiate:  on
++      RX:             on
++      TX:             on
++
++    - Read the current advertised and lp_advertised values
++    - Fail if 'Advertised pause frame use' is not 'Pause'.
++    - Warn if no lp_adv is reported
++    - Fail if 'Link partner advertised pause frame use' is not 'Pause'.
++
++    - Disable link autoneg:
++    - run 'ethtool -s ethX autoneg off'
++    - Wait for the link to come back up, fail if it doesn't.
++
++    - Verify the pauseparams :
++    - run 'ethtool -a ethX'
++    - Fail if result isn't :
++      Pause parameters for ethX:
++      Autonegotiate:  on
++      RX:             on
++      TX:             on
++
++    - Re-enable link autoneg
++    - run 'ethtool -s ethX autoneg on'
++    - wait for link to re-establish, fail if it doesn't
++    - Check the local pauseparams :
++    - run 'ethtool -a ethX'
++
++    - Fail if the result is not :
++      Pause parameters for ethX:
++      Autonegotiate:  on
++      RX:             on
++      TX:             on
++    - Read the current advertised and lp_advertised values
++    - Fail if 'Advertised pause frame use' is not 'Pause'.
++    - Fail if 'Link partner advertised pause frame use' is not 'Pause'.
++    """
++
++    require_pause_supported(cfg)
++    require_controllable_lp(cfg)
++
++    raise KsftSkipEx("Not implemented")
++
++def main() -> None:
++    with NetDrvEpEnv(__file__) as cfg:
++        cfg.ethnl = EthtoolFamily()
++        ksft_run([pause_test_support,
++                  pause_advertising_test,
++                  pause_aneg_resolution,
++                  pause_autoneg_state_adv,
++                  pause_autoneg_state_params,
++                  pause_autoneg_off_while_link_autoneg_on,
++                  pause_autoneg_link_autoneg,
++                  ],
++                 args=(cfg, ))
++    ksft_exit()
++
++if __name__ == "__main__":
++    main()
+-- 
+2.55.0
+
