@@ -1,82 +1,223 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32461360EED;
-	Fri, 31 Jul 2026 16:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1678E44C651
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 16:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785516323; cv=none; b=YkcMbMxwPhwbfUeeWvkc2ioDPdGSiGGTK0vP5R76bTGkBUKWywAljxv2jA8HPsTcR30Wtm+XWUNzGqEev97IS+hRxOLW5nm+Xq8sV+63VZVYrepdLkDt5fkpnVJ4nDOjcs7vjjUVmUisdp6wWYdTIoIFkm4o3GghaIjZpNjbMrY=
+	t=1785516394; cv=none; b=uM2G+CptC2RayVwHeLEUJylLBpNgsx6MjvqHat3VnepU9IODaxr5H2LXzCCaMOgca1C/MvyElDVJ4Oomf3y+z2Qb6qV+UNd7yZVH6ocpknvfmhiLP6RZ49xdOrzirwhMrcX1aqweU+dTshHPDNDbusw+AOdKNNjWKtD7xsBye5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785516323; c=relaxed/simple;
-	bh=ITlvX+ziyBIBNaYx+nKiBKtmhBuq3OpNFbnQ3dYdWog=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nKDsyiw+oYFUUE+PT1mtlbJd9aHGbBfgeZWW1CVwbWJ2YJw1gjIwEcjXGCVgfxOb9kGJbdYWdANFnxTWMc6dJwuuHHMt+2VHIy4e6XTVGPyVnjyqLKBy+Cuk7q/I+NECVi1yEB66t3NERxSyvjodh2uVgpfOZCqBwdkWlDUkjL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rpmROwGW; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1785516394; c=relaxed/simple;
+	bh=buDpFU+GRsJj1Ss2NH8S/x5Gkmd8OPD78dUkFqERDL8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bu8U2oAmURg78+bveHvEVNN7LzH/MnnPzjfZ1R0qr8QeNPvSWgpHwezMnohW7mKCPOuujXEx+nWVwwNoUusqJrQEkOlbAWJhiK3V/aLTYcMWzTrDJeTM0FMLS/1bVwqrE3Uay7/3gMrndaS7xDM7m1VbrEW1L2py1OqWqj7uXcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aRKAxDLw; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rpmROwGW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1029B408BB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1785516321; bh=MgQjTxKQch4gpOEu0R2yNHL+E8DkWmfYh/+coEXZuSo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=rpmROwGWat/xUa0dhLMWBONfi4GIDApZVB4/9LLjseaIbzyeb0Mx0udNASPCGPmPi
-	 oy9jH6sYQgrg8VWslHfLtbXf9Zodmgh9AH5ODWvPTkHvEpKC5mnuMIuyfqQVvrdUCo
-	 US/FCnvMYIo6aqY+67njz0LgL40mi1lPEzYO2d6r9hd8QT9776Qm7FB18nUKz44qN2
-	 wejXvM6GQW57JFBgLMKH9ZtywveQMRNcnamJuiESJ5Hf6p5IcoFzIQv3CJN4W4Zntb
-	 8PfLg4lSQTKtlph6syIaqmtRtIGBSXGPUYso415FXDUlcWmSZl9vM/hH891UZ0KZ1q
-	 AQkijH8TPtlFA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1029B408BB;
-	Fri, 31 Jul 2026 16:45:21 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Ryszard Knop <ryszard.knop@intel.com>, Akira Yokosawa
- <akiyks@gmail.com>, linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Shuicheng Lin
- <shuicheng.lin@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH] scripts/kernel-doc: Fix kdoc for Python 3.9-3.11
-In-Reply-To: <20260731144508.912049-1-ryszard.knop@intel.com>
-References: <20260731144508.912049-1-ryszard.knop@intel.com>
-Date: Fri, 31 Jul 2026 10:45:20 -0600
-Message-ID: <87qzkj3y73.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aRKAxDLw"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6ac83a09781so673306eaf.1
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785516392; x=1786121192; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CKl76hhPWbrBZzJWAtDQCvA60aTLZqaBfqh0JSfu/Gs=;
+        b=aRKAxDLwKaXLTHTr+xMfBBeoV+91VFN5uyFoqCVOzJF89Ezy90b685e5jfEPH5HnyC
+         B27wTT1aJyeZbarbiu19TsvtzxcUxdQDMHPUbZD9UWNbAw+A+6NCyVubu3k+tLPyQby8
+         o3OsnTX3cIRto4dq1et4FyfexsTNJ0e/SSIdwWZreYPawDja9YT9XMFXRP0vZTxbHkDo
+         T69GiYiZZiGE9SB5reKSTLGrMtLTaXb457b/j+nU+Wb1w+Hhe6NixW90q67IyQqWszMu
+         IgsQaswiqAtZgLaCKNsKSwm1qA0J+0dg1u/2qlPnEqKkKcaCVQZIm8ix7tQh+nlcejEl
+         DUsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785516392; x=1786121192;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=CKl76hhPWbrBZzJWAtDQCvA60aTLZqaBfqh0JSfu/Gs=;
+        b=kfR8ajcl6evid8tWbFCuA9wpObgdwRFfMGd3w2xwPt2vGn7ypkNld0RPzumqYh/Myj
+         CeB/ZTzQXI0aglNxssDLeB2pEqAXLiTong5JJIz64T0l8k0RP+11IjBJV840QpRUh9pI
+         DO8ro/qz8HGgcUFOGkuRmHeublXXMeGQjWQS8CFOPzlRmcRZfSyn/u5nRcryFDcVNACK
+         8CATx2IpQkw2hUujTGyW0nEQDJvDVL1fWEXdbAXpUmduOn2EEFxo92Te3jTTllb9wynI
+         XJ3ROEfLDtNRbw3IqJ48mQUJlD20X2PoFspKjIB1UrTU1zt6Wg5tiW556PCtMPeFEcRW
+         pFWw==
+X-Forwarded-Encrypted: i=1; AHgh+RpPj274tR6+UwwybQV6lvmf40fsUub5dxCXPZPFx2XA+jFHU5j0FzC9eDj3saKMfo3qs0ipt0SvvhM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YygBhR4OyveQYGW6dG8JNv+wDHFCkdlObEkX/XwpVK+w2e+dIc6
+	gt2bCaaHTgAMlmusCihIIJVRvjq/pzIRY/hdB/zFyqG1gkjX9spsbsEd
+X-Gm-Gg: AR+sD10Ac45UGOHgmhNoHlg9jOrVxc7x92Vh0cpq8QAdK2VDp515bTxuSs28DBpdiq0
+	P251uG43x1r/5f46Cs1urWtj2DUFh2dZ93RiPIssNMWF2I1RkndNfY8xrhFaRjVsoSnsaJQbLQu
+	bTMwtbTBPnBMPNeJkA0rOQHMr71SivKZ0Ow9Cgn41OGOadz16+VXol1wkxvoe7NbCVG/LarGy8D
+	9HVhAmd+lZw38oWtl2DuIw7wGBQKyTEDmrzyH5eiBByEcE+ezehj4kxwq0kQ3XYGeK31swvpEXJ
+	1cH1lTUQE34Y8pbTCjLgSEHUz7wORA24ZjvB9HOzxNkH7qVvS1NrAgv7oGCpRbPW3RhxmbiguWw
+	QlHV4tqIPZQe+OINPaJOtJta2w2CS79955zgILycWrgIDckbg0BYjn7ywzefNEWCL7k5qnzCMH5
+	quo8zXek6VSi1H9iKs/migf9Qkix9FYg1z8U5vyxfQA71XCnNJm4JtOppLj79d3EeZ6RYkFLkn3
+	tawQzNFR/dhi1qHFi85bhSy+NVwmo57b2k6CyZqkzqjeZl6
+X-Received: by 2002:a05:6820:818e:b0:6aa:e3dc:25cd with SMTP id 006d021491bc7-6ae4493c058mr907765eaf.0.1785516391848;
+        Fri, 31 Jul 2026 09:46:31 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6ae39db1c5bsm1256542eaf.5.2026.07.31.09.46.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2026 09:46:31 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b48636b8-33d1-425f-93a7-d0b9c4dd86ca@roeck-us.net>
+Date: Fri, 31 Jul 2026 09:46:29 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
+ pmbus_read_block_data()
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Alan Tull <atull@opensource.altera.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
+ <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
+ <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net> <amtewh9lOgWz0-Nh@nsa>
+ <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net> <amtqPQSM6zsiCh4B@nsa>
+ <6287e749-04f5-4a03-a91c-fcc705df269c@roeck-us.net> <amzB2aw_4y6ji9zs@nsa>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <amzB2aw_4y6ji9zs@nsa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Ryszard Knop <ryszard.knop@intel.com> writes:
+On 7/31/26 08:42, Nuno Sá wrote:
+> On Thu, Jul 30, 2026 at 08:54:25AM -0700, Guenter Roeck wrote:
+>> On 7/30/26 08:19, Nuno Sá wrote:
+>>> On Thu, Jul 30, 2026 at 07:47:37AM -0700, Guenter Roeck wrote:
+>>>> On 7/30/26 07:27, Nuno Sá wrote:
+>>>>> On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
+>>>>>> On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
+>>>>>>> From: Nuno Sá <nuno.sa@analog.com>
+>>>>>>>
+>>>>>>> This is in preparation for adding support to a device which needs to
+>>>>>>> use it's own read_block implementation.
+>>>>>>>
+>>>>>>
+>>>>>> The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
+>>>>>> I'll need to know if this is a chip limit or a controller limit.
+>>>>>> If it is a controller limit, a chip specific override would be
+>>>>>> inappropriate.
+>>>>>
+>>>>> I'll reply from top of my head (did not looked at the driver again).
+>>>>> IIRC, the biggest reason we need the chip-specific implementation is because of
+>>>>> the RAIL selection logic (mainly when not in page mode).
+>>>>>
+>>>>
+>>>> Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
+>>>> instead of i2c_smbus_read_block_data(). The rail selection logic would not
+>>>> require that.
+>>>
+>>> IIRC the reason was because the i2c controller on the raspberry pie does not
+>>> support i2c_smbus_read_block_data(). So I guess this:
+>>>
+>>> https://elixir.bootlin.com/linux/v7.1.4/source/drivers/i2c/i2c-core-smbus.c#L220
+>>>
+>>
+>> Hmm, I think we really need a common solution for that problem. Not all
+>> controllers support i2c_smbus_read_i2c_block_data(), so you are just moving
+>> the problem from one controller to another.
+> 
+> Yikes. I actually though i2c_smbus_read_i2c_block_data(9 was more widely
+> supported (if not always). Not sure if you have something in mind but
+> one straight way would be to choose different implementations (for
+> read_block) depending on i2c_check_functionality()
+> 
 
-> The syntax used by the excess description suggestion change works on
-> Python 3.12+, while we need to support 3.9+.
->
-> Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
-> ---
->  tools/lib/python/kdoc/kdoc_parser.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-> index 884f42584667..9cba20f827c4 100644
-> --- a/tools/lib/python/kdoc/kdoc_parser.py
-> +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -601,7 +601,8 @@ class KernelDoc:
->          if not suggestions:
->              return ""
->  
-> -        return f"(did you mean one of: '{"', '".join(suggestions)}')"
-> +        joined_suggestions = "', '".join(suggestions)
-> +        return f"(did you mean one of: '{joined_suggestions}')"
->  
+Handling it in pmbus_read_block_data() would be straightforward. Actually, I
+wonder why it isn't handled as fallback in i2c_smbus_read_block_data(),
+but I assume there must be a reason.
 
-Thanks, I'll get this applied shortly.
+Either case, I don't understand how the existing calls to i2c_smbus_read_i2c_block_data()
+work. For example, in drivers/hwmon/pmbus/max20830.c, the assumption is that the
+first returned data byte would be the length field. However, that is already done
+in i2c_smbus_read_i2c_block_data():
 
-For future reference, it needs both Fixes and Reported-by tags; I'll add
-those when I apply it.
+/* Returns the number of read bytes */
+s32 i2c_smbus_read_i2c_block_data(const struct i2c_client *client, u8 command,
+                                   u8 length, u8 *values)
+{
+         union i2c_smbus_data data;
+         int status;
 
-jon
+         if (length > I2C_SMBUS_BLOCK_MAX)
+                 length = I2C_SMBUS_BLOCK_MAX;
+         data.block[0] = length;
+         status = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
+                                 I2C_SMBUS_READ, command,
+                                 I2C_SMBUS_I2C_BLOCK_DATA, &data);
+         if (status < 0)
+                 return status;
+
+         memcpy(values, &data.block[1], data.block[0]);
+         return data.block[0];
+}
+
+Does the command return the length twice ?
+
+Thanks,
+Guenter
+
+>>
+>> One key example is the PIIX4 driver. Your new driver does not support the
+>> majority of PC style systems with AMD CPUs.
+>>
+> 
+> I see!
+> 
+> - Nuno Sá
+> 
+
