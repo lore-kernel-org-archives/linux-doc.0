@@ -1,122 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04706387590
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 09:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8BF3AAF52;
+	Fri, 31 Jul 2026 09:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785489949; cv=none; b=VXlDA6CSMB6HYL45ITJlIae2YmdLLom87p8/MYwjSYuMXxp/AWkf8t8b53lbaw6x+ll0jP7Wjyth35XbjY2oyRLYg/rhaw4yc6aPvNqIVkTxmqaBWsxJhwuM8afycmCuvjPPf29Y74YzfQDXzAglzuvsUYsrln4T6Ws3uwPV23A=
+	t=1785490777; cv=none; b=sP+JS36+wlwx5u6h1yvD0ANcaTvnMfjpmFrcCZATNXCf4gUZkEiEMsbtqmmjwaNhqhHlMKqrmqGDlgaeA+ZTIGwvu3OSqj2228Mo3kLZ5qOBFaKRFeoItXpU78vRdEDZKdoJ1fDDDnChPhcL8zdIqs//ZCudRsPEs8GrlJlwLVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785489949; c=relaxed/simple;
-	bh=pRupLG69mR7jstgZftLLGROhTPfktukeO7KNacG7zrc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ueeOUuhnHqwGULtZ5tDZRxXyGCQ2bvWOBy0mmLQfPayGZLGMe8yuyhhVfswx7b41Q/9UaUt+ZoI9QBPzeN7Fzcw/YWHt2A4vGAGO85/hwZLc7GTmfD7y+NRh6wPTGTaK4FEdqi/psMASgx4rQE6Q1GTSuHyIg++Jk1yJMYwAHv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqHpIa19; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785490777; c=relaxed/simple;
+	bh=zG6swiB/AMk0TGLjz2J7YcWMcFeSZMr+eM+NGLkx4t0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mAB9GxTa55tNcz2VBPaGs62CRKvfQMoAN00Wox4kJJ1pTE0vvk6T4K0zuGwZ7eobCK4zo+V4C7f6vL0j4uFMH646xiy7UA1LVm0JbIoURV77lVYGocPyJCBAyz0BIS6Pzsvhj0lVtwmDk4fGDHowDTWGZTaUVFEmVpmr3UK+ldw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XaNCiFXt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqHpIa19"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 357FD1F000E9;
-	Fri, 31 Jul 2026 09:25:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XaNCiFXt"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CCAFB1F00A3A;
+	Fri, 31 Jul 2026 09:39:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785489947;
-	bh=bPN/6Z+IhyvCKcPUIzWN0JtwhU4CTKabtbC1HJRcMRE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OqHpIa19f4txiqd8mdCMZEbxX+f0fi/hPi/1vpqzNUZR982hbkZdARnICBkm3mLqJ
-	 /1OgIWGQzG9YapvGUcRKSPZG75n/FWF04eF+7pWZnMJ1EJS1V4x10YRGg1xRR+9Wkl
-	 wLWvQRGDjoq3Ue7N6J3ZFamgNpwbX0QCz75v8ajQ6Nj0ZtZSkKrsf+HNIjLeiQPNLs
-	 jNOxfas431doPMTpIZ9XyRE3Etg21rSqse3GDWZHkey+r452mXyVB2iwmDoDuLXo0q
-	 eJqhA9S0cbRt/DwvsPMWv/y5qCPiPqlG/B933xNOP1Qx+vQxaISBwinjlKp6f6Brwo
-	 arf0uI0L9iNvg==
-Message-ID: <3066dc07-31b5-48ca-b14e-51b284bbb9e1@kernel.org>
-Date: Fri, 31 Jul 2026 11:25:40 +0200
+	s=k20260515; t=1785490775;
+	bh=vu8zzqXJAgd/ggo2pVA5oFd3CA10umr0vwdR2u0YsTk=;
+	h=From:To:Cc:Subject:Date;
+	b=XaNCiFXtF7inCpVpxi+3u+hhpm0MiMqk7wwurW9BMdgzKXrtlXBWtHoFpP/+OP2VA
+	 CFBGdLpyfxsgB8XvvuHKdQkA3Y8lH/CJIMdxhVIETBMOUSHhnhCH9Ok+BIZm3eweOt
+	 VcblC9kcJGT3iW/BijVpcXcypGriKdVITPcZgiUKPhBs99twMW9rS4ll7sGEPK7s1o
+	 s7KyY2TBeE5BEqxiAG+Ui8JGrn+TZqIML2k3dPuZH1wWBRyTSXddd31CAFPNQMrURW
+	 6yQzpvMtGJJuMiy1un1X3OUzsC5n0vmL7MdHQtbc43VPqkSZ832NpQ2MLFbMtw7lY+
+	 IRNxtnp2qCmjA==
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Cc: John Ogness <john.ogness@linutronix.de>,
+	Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
+	Alan Cox <alan@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Stepan Ionichev <sozdayvek@gmail.com>,
+	Fushuai Wang <wangfushuai@baidu.com>,
+	Osama Abdelkader <osama.abdelkader@gmail.com>,
+	linux-doc@vger.kernel.org,
+	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Abinash Singh <abinashsinghlalotra@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	Gerhard Engleder <eg@keba.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Rong Zhang <rongrong@oss.cipunited.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Haowei Zheng <zhenghaowei@loongson.cn>,
+	Rahul Bukte <rahul.bukte@sony.com>,
+	Russell King <rmk@dyn-67.arm.linux.org.uk>
+Subject: [PATCH v1 0/6] serial: Some yak shaving
+Date: Fri, 31 Jul 2026 11:39:03 +0200
+Message-ID: <cover.1785489518.git.ukleinek@kernel.org>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: ksm: fix typos in sysfs knob names
-To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
- xu.xin16@zte.com.cn, chengming.zhou@linux.dev, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
- shr@devkernel.io, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
-References: <20260731083526.3953421-1-tujinjiang@huawei.com>
- <20260731083526.3953421-2-tujinjiang@huawei.com>
- <d9236dc0-3332-4fab-aa26-e74d10ad0cda@kernel.org>
- <f1f5c486-f14c-44ad-8285-a9df437f7974@huawei.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <f1f5c486-f14c-44ad-8285-a9df437f7974@huawei.com>
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2501; i=ukleinek@kernel.org; h=from:subject:message-id; bh=zG6swiB/AMk0TGLjz2J7YcWMcFeSZMr+eM+NGLkx4t0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqbG0430SmozmDnsmI0NKnw4zAAtOWHMd+fZhg/ x1GjPpLNdqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCamxtOAAKCRCPgPtYfRL+ Tg+OB/96o7kGKIe7n09XmsuC+oTgqoJxDaBlADO/6AxrdN26RQDsW7V2Fm5FwFrRCC/ZTGWqokd j46UnehxgkOxGlgOHUyd3dqwDho9/KjpJgj2mFofun/gjf6GiYxNnf4VXE1iyrIw6xtcWzqtJEh 8Au5crx2ps47SOIGJ/VMmphPGZB7qPGoC0aV6iXFV09nhu0M+pIWwJtvYxiuVOPg7ysFYsjVGPy Rz3WYrYEkdsyYH1kqT4+LKbVaEwFqv070yzAmNqMKTc61Mc2lxBko3+ftBhYARLINDzzXt/cjGK jQ9hDDclcvktXJoLmx2eLGklDb/K2f4N8qznsfDGyHdZxoF9
+X-Developer-Key: i=ukleinek@kernel.org; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-On 7/31/26 11:22, Jinjiang Tu wrote:
-> 
-> 在 2026/7/31 17:11, David Hildenbrand (Arm) 写道:
->> On 7/31/26 10:35, Jinjiang Tu wrote:
->>> The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
->>> "advisor_max_pages_to_scan", but the ksm.rst documentation spelled
->>> both as "adivsor_*", fix the two typos.
->>>
->>> Fixes: 0710f38ad26a ("mm/ksm: document ksm advisor and its sysfs knobs")
->> I'm not sure on fixes tags for documentation stuff.
-> 
-> git log --grep "Fixes" Documentation/
-> 
-> Many commits in Documentation have fix tag.
-> I think both are ok, since documentation changes are needed to backport.
+Hello,
 
-What? When? How? Where?
+after the discussion with Hugo about hub6_match_port()[1] I looked into
+implementing my suggestion. Hugo had a doubt there:
 
-:)
+> I am not sure to fully understand what you suggest. Copying the same
+> function code to two drivers seems like a waisted opportunity for code
+> reuse?
 
+I don't think this is a wasted opportunity, as uart_match_port() only
+becomes a single comparison for the txx9 driver. Also having 8250
+specific parts in serial_core is a layer violation.
+
+I was unable to unsee some of the stuff I discovered, so there are a few
+more patches in this series now ...
+
+The first txx9 patch is a preparation for the second to establish the
+assertion ".iotype is always UPIO_PORT". It's also a fix that is correct
+on its own (assuming I understood the driver model misuse in this driver
+correctly).
+
+After that uart_match_port() is only used by the 8250 driver code and
+thus can be moved to there in the third patch, simplifying the
+dependencies a bit which enables fixing the breakage I found in the
+fourth patch.
+
+The two remaining patches are cleanups I found while working on that
+driver.
+
+Note this is only compile tested as I don't have a machine with any of
+the three affected serial hardwares.
+
+Best regards
+Uwe
+
+[1] https://lore.kernel.org/linux-serial/amn8Hb2dbv_Sah_Y@monoceros/
+
+Uwe Kleine-König (6):
+  serial: txx9: Drop noop probe function and dangerous remove callback
+  serial: txx9: Drop usage of uart_match_port()
+  serial: 8250: Make uart_match_port() a 8250 specific function
+  serial: 8250: Fix corner case for port matching
+  serial: 8250: hub6: Add cleanup code
+  serial: 8250: pnp: Annotate init and exit functions for conditional
+    discarding
+
+ Documentation/driver-api/serial/driver.rst |  2 +-
+ drivers/tty/serial/8250/8250.h             | 10 +++-
+ drivers/tty/serial/8250/8250_core.c        | 27 +++++++++-
+ drivers/tty/serial/8250/8250_hub6.c        | 11 ++---
+ drivers/tty/serial/8250/8250_platform.c    |  9 +++-
+ drivers/tty/serial/8250/8250_pnp.c         |  4 +-
+ drivers/tty/serial/8250/Kconfig            |  4 +-
+ drivers/tty/serial/8250/Makefile           |  2 +-
+ drivers/tty/serial/serial_core.c           | 27 ----------
+ drivers/tty/serial/serial_txx9.c           | 57 ++--------------------
+ include/linux/serial_core.h                |  2 -
+ 11 files changed, 58 insertions(+), 97 deletions(-)
+
+
+base-commit: 95d6a9ccef99117115e41e9adb271243bd5e985b
 -- 
-Cheers,
+2.55.0.11.g153666a7d9bb
 
-David
