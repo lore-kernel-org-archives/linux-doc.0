@@ -1,23 +1,23 @@
-Received: from out28-51.mail.aliyun.com (out28-51.mail.aliyun.com [115.124.28.51])
+Received: from out28-125.mail.aliyun.com (out28-125.mail.aliyun.com [115.124.28.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAA33859EC;
-	Fri, 31 Jul 2026 09:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5553A1CF8;
+	Fri, 31 Jul 2026 09:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785490980; cv=none; b=mmz3Vx6o8s20kxnG4nHGANUmvvueDPewHY8uFemmuc/JZsXUmGbHuFfeKkABtu5U7S934ol5ADVHYoI4Of1i3n1Drcfqxu1kjTLlZSYRXth5pEfWOuGKlP7yCo7FJMPPhZNplr7R4lt2UypxzIoWXCdMnz0BPipMWbCtv9jc8dI=
+	t=1785490983; cv=none; b=HM8a5ZtUbnIiTUa98Oh3wWXFFyR48PrlTnOmQoiiqcOxVJq5GC0IBeru9QSBLJGfb4eOa415McQw7lGugbWeHfw16IoQGCz7atUuj79B8NOA6/U+jAu2BguL+ENcc+NLNNHtSKJPs5njVzMRRrxO/GIhUvw+uU9gromTkdq8ciM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785490980; c=relaxed/simple;
-	bh=gkoJq86yZxF3Jj80lEqgVBd/hpAa7YwwPE1/Ga4d8Co=;
+	s=arc-20240116; t=1785490983; c=relaxed/simple;
+	bh=IBL4soTcSTGmRA/T+WPjdXEQwwXyDw2geunyRO1TFJk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EIJeuZ8W6rPIEnXEScyCKGvUtUWT4AeR2dV5Z7Sj9QgLdvJsBZ8KfIl6MXerlYBJaqt0sOcshtykOULrwr6jq/64nsFO/VnIpOA4mBGdBfrmIXkutSpAqmCabGi074gCjpgayniE+na1RyZvmE7Hb0dkuKLbthwdEYLh9CJhS6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.51
+	 MIME-Version; b=if5u0FDIj5+RF893h1eLFQ8jslfhE7shiB6/9L6F+yKzJ+Cg7acf6c9xuefDYgmOSM4XxTmFHFZ30LPGUv+06VM6qPGkpUGbNEM1KkOhwRC+X/hWc76JDjxcn0nF225iDbPNs3UzOGqBRNqCL3D9cwsE4OOj5IZtQTcyXSQWZNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.9171291|0.8777656;CH=green;DM=|SPAM|false|;DS=CONTINUE|ham_system_inform|0.0648243-0.0012499-0.933926;FP=10617093585646505146|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=18;RT=18;SR=0;TI=SMTPD_---.iaIzMjn_1785490971;
-Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.iaIzMjn_1785490971 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06712908|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0133718-0.000633626-0.985995;FP=16289885413366580283|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033068005250;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=18;RT=18;SR=0;TI=SMTPD_---.iaIzMgx_1785490968;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.iaIzMgx_1785490968 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Fri, 31 Jul 2026 17:42:51 +0800
+          Fri, 31 Jul 2026 17:42:49 +0800
 From: "illusion.wang" <illusion.wang@nebula-matrix.com>
 To: dimon.zhao@nebula-matrix.com,
 	illusion.wang@nebula-matrix.com,
@@ -37,9 +37,9 @@ Cc: andrew+netdev@lunn.ch,
 	skhan@linuxfoundation.org,
 	hkallweit1@gmail.com,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v23 net-next 06/12] net/nebula-matrix: add intr resource implementation
-Date: Fri, 31 Jul 2026 17:42:29 +0800
-Message-ID: <20260731094242.2655-7-illusion.wang@nebula-matrix.com>
+Subject: [PATCH v23 net-next 04/12] net/nebula-matrix: add channel layer
+Date: Fri, 31 Jul 2026 17:42:27 +0800
+Message-ID: <20260731094242.2655-5-illusion.wang@nebula-matrix.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260731094242.2655-1-illusion.wang@nebula-matrix.com>
 References: <20260731094242.2655-1-illusion.wang@nebula-matrix.com>
@@ -53,913 +53,2141 @@ Content-Transfer-Encoding: 8bit
 
 From: illusion wang <illusion.wang@nebula-matrix.com>
 
-Add nbl_interrupt module to manage driver global MSI-X vector indices,
-and extend hw_ops with callbacks to program vendor-specific internal
-MSI-X mapping registers, configure MSI-X metadata, and bind interrupts
-to PF mailbox channels.
+A channel management layer provides a structured approach to handle
+communication between different components and drivers. Here's a summary
+of its key functionalities:
 
-Key interfaces:
-- configure_msix_map:
-  Allocates driver global MSI-X indices via separate net/other interrupt
-  bitmaps (interrupt_net_bitmap / interrupt_others_bitmap).
-  Preallocates all required coherent DMA resources first; only tears down
-  old hardware configuration after all new allocations succeed.
-  Programs NBL_PCOMPLETER_FUNCTION_MSIX_MAP with the MSI-X table DMA address
-  and function BDF info. PCI MSI-X vector allocation itself is performed
-  via nbl_dev_alloc_msix_intr() at upper layer.
+1. Message Handling Framework
+   Message Registration: Functions (nbl_chan_register_msg) allow dynamic
+   registration of message handlers for specific message types, enabling
+   extensible communication protocols.
 
-- destroy_msix_map:
-  Releases allocated global vector indices, clears hardware MSI-X mappings,
-  frees DMA buffer and interrupt array. A delay is inserted before releasing
-  DMA memory to mitigate potential IOMMU faults caused by in-flight hardware
-  DMA access after MMIO disable.
+   Message Sending/Acknowledgment: Core functions (nbl_chan_send_msg,
+   nbl_chan_send_ack) handle message transmission. It supports two modes:
+   fire-and-forget transmission, and synchronous send with ACK waiting.
+   Received ACK messages are processed via nbl_chan_recv_ack_msg.
+   TX slot allocation logic is implemented to limit concurrent outstanding
+   messages; returns -EAGAIN when all waiting slots are occupied.
 
-- set_mailbox_irq:
-  Enables or disables MSI-X routing for a given PF mailbox by updating
-  NBL_MAILBOX_QINFO_MAP_REG_ARR with the target global vector id.
+   Hash-Based Handler Lookup: A hash table (`handle_hash_tbl`) stores
+   message handlers for efficient O(1) lookup by message type.
+   The entire table is removed via `nbl_chan_remove_msg_handler` during
+   driver teardown; per-message-type unregister is not implemented
+   in this version.
 
-- configure_msix_info:
-  Programs PADPT_HOST_MSIX_INFO and PCOMPLETER_HOST_MSIX_FID_TABLE
-  to record function BDF and MSI-X mask enable attribute for each global
-  interrupt vector.
+   Tx descriptor supports two data formats: small embedded payload inside
+   descriptor, and large payload via external DMA buffer.
 
-This module manages chip-internal MSI-X routing table and global vector
-index space. It does NOT invoke kernel PCI MSI-X allocation helpers
-(pci_alloc_irq_vectors, pci_msix_alloc_irq_at, irq_domain); physical
-PCI MSI-X vector allocation belongs to separate device layer.
+2. Channel Types and Queue Management
+   Mailbox Channel: implemented for inter-PF communication (PF0 <-> other PFs).
 
-Interrupt manager instance is created during resource startup
-(nbl_intr_mgt_start) and attached to resource management context.
+   Queue Initialization: Functions (nbl_chan_init_queue,
+   nbl_chan_init_tx_queue) allocate resources:
+   - TX/RX descriptors: dmam_alloc_coherent()
+   - TX/RX buffer metadata arrays (txq->buf, rxq->buf): devm_kcalloc()
 
-Note: Mutual exclusion for configure_msix_map, destroy_msix_map, and
-set_mailbox_irq is enforced by dispatch layer. These routines assume
-caller holds required locks.
+   Queue Teardown: nbl_chan_teardown_queue() stops hardware queues, cancels
+   pending work items (clean_task), and waits for in-flight send threads
+   to drain. It does NOT free DMA memory, which is released automatically
+   via devm on driver remove.
+
+   IMPORTANT - Resource Lifecycle Design:
+   DMA memory allocated with dmam_alloc_coherent() is intentionally NOT
+   freed in nbl_chan_teardown_queue(). The queues are allocated once
+   during driver probe and freed only during driver remove. Dynamic
+   per-PF queue teardown and re-creation during runtime is not supported.
+
+   Queue Configuration: Hardware-specific queue parameters (e.g., buffer
+   sizes, entry counts) are set via nbl_chan_config_queue, with hardware
+   interactions delegated to hw_ops.
+
+   RX completion relies on work_struct clean_task for descriptor processing.
+
+3. Hardware Abstraction Layer (HW Ops)
+   Hardware-Specific Operations: The nbl_hw_ops structure abstracts
+   hardware interactions: queue configuration (config_mailbox_txq/rxq),
+   tail pointer doorbell updates (update_mailbox_queue_tail_ptr),
+   and PF mailbox routing table configuration.
+
+NOTE: This initial implementation provides interrupt-driven receive path,
+where actual RX message processing is scheduled into workqueue after
+interrupt notification. Polling-based mailbox receive is not supported
+in this patch and will be added in subsequent series.
+
+And the optimization to requeue clean_task inside nbl_chan_clean_queue()
+when processing budget is exhausted is deferred to follow-up patches.
 
 Signed-off-by: illusion wang <illusion.wang@nebula-matrix.com>
 ---
- .../net/ethernet/nebula-matrix/nbl/Makefile   |   1 +
- .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  | 142 +++++++
- .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  42 ++
- .../nbl_hw_leonis/nbl_resource_leonis.c       |   8 +
- .../nbl_hw_leonis/nbl_resource_leonis.h       |   1 +
- .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.c  | 387 ++++++++++++++++++
- .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.h  |  21 +
- .../nebula-matrix/nbl/nbl_hw/nbl_resource.c   |  30 ++
- .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  35 ++
- .../nbl/nbl_include/nbl_def_hw.h              |  10 +
- .../nbl/nbl_include/nbl_def_resource.h        |   6 +
- .../nbl/nbl_include/nbl_include.h             |   1 +
- 12 files changed, 684 insertions(+)
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
+ .../net/ethernet/nebula-matrix/nbl/Makefile   |    4 +-
+ .../nbl/nbl_channel/nbl_channel.c             | 1044 +++++++++++++++++
+ .../nbl/nbl_channel/nbl_channel.h             |  170 +++
+ .../nebula-matrix/nbl/nbl_common/nbl_common.c |  166 +++
+ .../nebula-matrix/nbl/nbl_common/nbl_common.h |   29 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_core.h |    7 +
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  |  170 +++
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |   56 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     |   45 +
+ .../nbl/nbl_include/nbl_def_channel.h         |  110 ++
+ .../nbl/nbl_include/nbl_def_common.h          |   15 +
+ .../nbl/nbl_include/nbl_def_hw.h              |   19 +
+ .../nbl/nbl_include/nbl_include.h             |   13 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c |    7 +
+ 14 files changed, 1854 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
 
 diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-index 831b6cb51c37..bcedf278bab2 100644
+index caa863d3a582..6dc1539cee1f 100644
 --- a/drivers/net/ethernet/nebula-matrix/nbl/Makefile
 +++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-@@ -8,4 +8,5 @@ nbl-objs +=       nbl_common/nbl_common.o \
- 				nbl_hw/nbl_hw_leonis/nbl_hw_leonis.o \
- 				nbl_hw/nbl_hw_leonis/nbl_resource_leonis.o \
- 				nbl_hw/nbl_resource.o \
-+				nbl_hw/nbl_interrupt.o \
+@@ -3,5 +3,7 @@
+ 
+ obj-$(CONFIG_NBL) := nbl.o
+ 
+-nbl-objs +=       nbl_hw/nbl_hw_leonis/nbl_hw_leonis.o \
++nbl-objs +=       nbl_common/nbl_common.o \
++				nbl_channel/nbl_channel.o \
++				nbl_hw/nbl_hw_leonis/nbl_hw_leonis.o \
  				nbl_main.o
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-index bc273f13ed67..56b979cdc99a 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-@@ -34,6 +34,30 @@ static void nbl_hw_write_mbx_regs(struct nbl_hw_mgt *hw_mgt, u64 reg,
- 		nbl_mbx_wr32(hw_mgt, reg + i * sizeof(u32), data[i]);
- }
- 
-+static void nbl_hw_rd_regs(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 *data,
-+			   u32 len)
-+{
-+	u32 size = len / 4;
-+	u32 i;
-+
-+	if (len % 4)
-+		return;
-+	for (i = 0; i < size; i++)
-+		data[i] = rd32(hw_mgt->hw_addr, reg + i * sizeof(u32));
-+}
-+
-+static void nbl_hw_wr_regs(struct nbl_hw_mgt *hw_mgt, u64 reg, const u32 *data,
-+			   u32 len)
-+{
-+	u32 size = len / 4;
-+	u32 i;
-+
-+	if (len % 4)
-+		return;
-+	for (i = 0; i < size; i++)
-+		wr32(hw_mgt->hw_addr, reg + i * sizeof(u32), data[i]);
-+}
-+
- static void nbl_hw_rd_regs_lock(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 *data,
- 				u32 len)
- {
-@@ -78,6 +102,119 @@ static void nbl_hw_get_fw_eth_map(struct nbl_hw_mgt *hw_mgt, u32 *eth_map)
- 	*eth_map = FIELD_GET(NBL_FW_BOARD_DW6_ETH_BITMAP_MASK, data);
- }
- 
-+/*
-+ * nbl_hw_set_mailbox_irq - read-modify-write of NBL_MAILBOX_QINFO_MAP_REG_ARR
-+ *
-+ * Note: This RMW is currently safe because the two callers are strictly
-+ * sequential: nbl_hw_cfg_mailbox_qinfo() runs at init, nbl_hw_set_mailbox_irq()
-+ * runs at start. Future reset/hot-add/VF-reinit paths must preserve this
-+ * ordering; do not introduce concurrent access to this register without
-+ * making the RMW atomic (e.g., hold reg_lock across read+write, or use
-+ * cached state instead of read).
-+ */
-+static void nbl_hw_set_mailbox_irq(struct nbl_hw_mgt *hw_mgt, u16 func_id,
-+				   bool enable_msix, u16 global_vec_id)
-+{
-+	u32 data = 0;
-+
-+	spin_lock(&hw_mgt->reg_lock);
-+	nbl_hw_rd_regs(hw_mgt, NBL_MAILBOX_QINFO_MAP_REG_ARR(func_id), &data,
-+		       sizeof(data));
-+	data &= ~(NBL_MAILBOX_QINFO_MAP_MSIX_IDX_MASK |
-+		  NBL_MAILBOX_QINFO_MAP_MSIX_IDX_VALID_MASK);
-+	if (enable_msix)
-+		data |= FIELD_PREP(NBL_MAILBOX_QINFO_MAP_MSIX_IDX_MASK,
-+				   global_vec_id) |
-+			FIELD_PREP(NBL_MAILBOX_QINFO_MAP_MSIX_IDX_VALID_MASK,
-+				   1);
-+
-+	nbl_hw_wr_regs(hw_mgt, NBL_MAILBOX_QINFO_MAP_REG_ARR(func_id), &data,
-+		       sizeof(data));
-+	spin_unlock(&hw_mgt->reg_lock);
-+	nbl_flush_writes(hw_mgt);
-+}
-+
-+static void nbl_hw_configure_msix_map(struct nbl_hw_mgt *hw_mgt, u16 func_id,
-+				      bool valid, dma_addr_t dma_addr, u8 bus,
-+				      u8 devid, u8 function)
-+{
-+	struct nbl_function_msix_map function_msix_map;
-+
-+	memset(&function_msix_map, 0, sizeof(function_msix_map));
-+	if (valid) {
-+		function_msix_map.data[0] = lower_32_bits(dma_addr);
-+		function_msix_map.data[1] = upper_32_bits(dma_addr);
-+		/* use ctrl dev's bdf, because the dma memory was
-+		 * allocated by it
-+		 */
-+		function_msix_map.data[2] =
-+			FIELD_PREP(NBL_FUNCTION_MSIX_MAP_FUNCTION_MASK,
-+				   function) |
-+			FIELD_PREP(NBL_FUNCTION_MSIX_MAP_DEVID_MASK, devid) |
-+			FIELD_PREP(NBL_FUNCTION_MSIX_MAP_BUS_MASK, bus) |
-+			FIELD_PREP(NBL_FUNCTION_MSIX_MAP_VALID_MASK, 1);
-+	} else {
-+		/* clear VALID flag first, avoid transient invalid entry */
-+		function_msix_map.data[0] = lower_32_bits(dma_addr);
-+		function_msix_map.data[1] = upper_32_bits(dma_addr);
-+		function_msix_map.data[2] = 0;
-+	}
-+
-+	nbl_hw_wr_regs_lock(hw_mgt,
-+			    NBL_PCOMPLETER_FUNCTION_MSIX_MAP_REG_ARR(func_id),
-+			    function_msix_map.data, sizeof(function_msix_map));
-+}
-+
-+static void nbl_hw_configure_msix_info(struct nbl_hw_mgt *hw_mgt, u16 func_id,
-+				       bool valid, u16 interrupt_id, u8 bus,
-+				       u8 devid, u8 function, bool msix_mask_en)
-+{
-+	u32 host_msix_fid = 0;
-+	struct nbl_host_msix_info msix_info;
-+
-+	memset(&msix_info, 0, sizeof(msix_info));
-+	if (valid) {
-+		host_msix_fid =
-+			FIELD_PREP(NBL_PCOMPLETER_HOST_MSIX_FID_TABLE_FID_MASK,
-+				   func_id) |
-+			FIELD_PREP(NBL_PCOMPLETER_HOST_MSIX_FID_TABLE_VLD_MASK,
-+				   1);
-+
-+		msix_info.data[1] =
-+			FIELD_PREP(NBL_HOST_MSIX_INFO_FUNCTION_MASK, function) |
-+			FIELD_PREP(NBL_HOST_MSIX_INFO_DEVID_MASK, devid) |
-+			FIELD_PREP(NBL_HOST_MSIX_INFO_BUS_MASK, bus) |
-+			FIELD_PREP(NBL_HOST_MSIX_INFO_VALID_MASK, 1);
-+
-+		if (msix_mask_en)
-+			msix_info.data[1] |=
-+			FIELD_PREP(NBL_HOST_MSIX_INFO_MSIX_MASK_EN_MASK, 1);
-+	}
-+	spin_lock(&hw_mgt->reg_lock);
-+	/*
-+	 * Programming order rule:
-+	 * Enable: PADPT_HOST_MSIX_INFO -> PCOMPLETER_HOST_MSIX_FID_TABLE
-+	 * Teardown: reverse order, clear FID VLD first to avoid inconsistent
-+	 * state
-+	 */
-+	if (valid) {
-+		nbl_hw_wr_regs(hw_mgt,
-+			       NBL_PADPT_HOST_MSIX_INFO_REG_ARR(interrupt_id),
-+			       msix_info.data, sizeof(msix_info));
-+		nbl_hw_wr_regs(hw_mgt,
-+			       NBL_PCOMPLETER_HOST_MSIX_FID_TABLE(interrupt_id),
-+			       &host_msix_fid, sizeof(host_msix_fid));
-+	} else {
-+		nbl_hw_wr_regs(hw_mgt,
-+			       NBL_PCOMPLETER_HOST_MSIX_FID_TABLE(interrupt_id),
-+			       &host_msix_fid, sizeof(host_msix_fid));
-+		nbl_hw_wr_regs(hw_mgt,
-+			       NBL_PADPT_HOST_MSIX_INFO_REG_ARR(interrupt_id),
-+			       msix_info.data, sizeof(msix_info));
-+	}
-+	spin_unlock(&hw_mgt->reg_lock);
-+}
-+
- static void nbl_hw_update_mailbox_queue_tail_ptr(struct nbl_hw_mgt *hw_mgt,
- 						 u16 tail_ptr, u8 txrx)
- {
-@@ -198,6 +335,10 @@ static void nbl_hw_get_board_info(struct nbl_hw_mgt *hw_mgt,
- }
- 
- static struct nbl_hw_ops hw_ops = {
-+	.configure_msix_map = nbl_hw_configure_msix_map,
-+	.configure_msix_info = nbl_hw_configure_msix_info,
-+	.flush_write = nbl_flush_writes,
-+
- 	.update_mailbox_queue_tail_ptr = nbl_hw_update_mailbox_queue_tail_ptr,
- 	.config_mailbox_rxq = nbl_hw_config_mailbox_rxq,
- 	.config_mailbox_txq = nbl_hw_config_mailbox_txq,
-@@ -207,6 +348,7 @@ static struct nbl_hw_ops hw_ops = {
- 	.get_real_bus = nbl_hw_get_real_bus,
- 
- 	.cfg_mailbox_qinfo = nbl_hw_cfg_mailbox_qinfo,
-+	.set_mailbox_irq = nbl_hw_set_mailbox_irq,
- 
- 	.get_fw_eth_map = nbl_hw_get_fw_eth_map,
- 	.get_board_info = nbl_hw_get_board_info,
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
-index 1dee07cb7156..1d6d614be7d6 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
-@@ -68,6 +68,48 @@ struct nbl_mailbox_qinfo_cfg_table {
- #define NBL_PCIE_HOST_TL_CFG_BUSDEV (NBL_INTF_HOST_PCIE_BASE + 0x11040)
- 
- #define NBL_PCIE_BUS_MASK	GENMASK(12, 5)
-+
-+/*  --------  HOST_PADPT  --------  */
-+/* host_padpt host_msix_info */
-+#define NBL_PADPT_HOST_MSIX_INFO_REG_ARR(vector_id) \
-+	(NBL_INTF_HOST_PADPT_BASE + 0x00010000 +    \
-+	 (vector_id) * sizeof(struct nbl_host_msix_info))
-+
-+#define NBL_HOST_MSIX_INFO_DWLEN	2
-+/* data[0] */
-+#define NBL_HOST_MSIX_INFO_INTRL_PNUM_MASK GENMASK(15, 0)
-+#define NBL_HOST_MSIX_INFO_INTRL_RATE_MASK GENMASK(31, 16)
-+/* data[1] */
-+#define NBL_HOST_MSIX_INFO_FUNCTION_MASK GENMASK(2, 0)
-+#define NBL_HOST_MSIX_INFO_DEVID_MASK GENMASK(7, 3)
-+#define NBL_HOST_MSIX_INFO_BUS_MASK GENMASK(15, 8)
-+#define NBL_HOST_MSIX_INFO_VALID_MASK BIT(16)
-+#define NBL_HOST_MSIX_INFO_MSIX_MASK_EN_MASK BIT(17)
-+struct nbl_host_msix_info {
-+	u32 data[NBL_HOST_MSIX_INFO_DWLEN];
-+};
-+
-+/*  --------  HOST_PCOMPLETER  --------  */
-+/* pcompleter_host pcompleter_host_virtio_qid_map_table */
-+#define NBL_PCOMPLETER_FUNCTION_MSIX_MAP_REG_ARR(i)   \
-+	(NBL_INTF_HOST_PCOMPLETER_BASE + 0x00004000 + \
-+	 (i) * sizeof(struct nbl_function_msix_map))
-+#define NBL_PCOMPLETER_HOST_MSIX_FID_TABLE(i) \
-+	(NBL_INTF_HOST_PCOMPLETER_BASE + 0x0003a000 + (i) * sizeof(u32))
-+
-+#define NBL_PCOMPLETER_HOST_MSIX_FID_TABLE_FID_MASK  GENMASK(9, 0)
-+#define NBL_PCOMPLETER_HOST_MSIX_FID_TABLE_VLD_MASK  BIT(10)
-+
-+#define NBL_FUNC_MSIX_MAP_DWLEN		4
-+/* data[2] */
-+#define NBL_FUNCTION_MSIX_MAP_FUNCTION_MASK GENMASK(2, 0)
-+#define NBL_FUNCTION_MSIX_MAP_DEVID_MASK GENMASK(7, 3)
-+#define NBL_FUNCTION_MSIX_MAP_BUS_MASK GENMASK(15, 8)
-+#define NBL_FUNCTION_MSIX_MAP_VALID_MASK BIT(16)
-+struct nbl_function_msix_map {
-+	u32 data[NBL_FUNC_MSIX_MAP_DWLEN];
-+};
-+
- #define NBL_FW_BOARD_CONFIG			0x200
- #define NBL_FW_BOARD_DW3_OFFSET			(NBL_FW_BOARD_CONFIG + 12)
- #define NBL_FW_BOARD_DW6_OFFSET			(NBL_FW_BOARD_CONFIG + 24)
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-index bbd510f7f2cd..2d7c7747c712 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-@@ -10,6 +10,9 @@
- static struct nbl_resource_ops res_ops = {
- 	.get_vsi_id = nbl_res_func_id_to_vsi_id,
- 	.get_eth_id = nbl_res_get_eth_id,
-+	.configure_msix_map = nbl_res_intr_configure_msix_map,
-+	.destroy_msix_map = nbl_res_intr_destroy_msix_map,
-+	.set_mailbox_irq = nbl_res_intr_set_mailbox_irq,
- };
- 
- static struct nbl_resource_mgt *
-@@ -257,7 +260,12 @@ static int nbl_res_start(struct nbl_resource_mgt *res_mgt)
- 		ret = nbl_res_ctrl_dev_vsi_info_init(res_mgt);
- 		if (ret)
- 			return ret;
-+
-+		ret = nbl_intr_mgt_start(res_mgt);
-+		if (ret)
-+			return ret;
- 	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
-index 4e61a5c141e5..1da2abcaf00f 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
-@@ -7,4 +7,5 @@
- #define _NBL_RESOURCE_LEONIS_H_
- 
- #include "../nbl_resource.h"
-+#include "../nbl_interrupt.h"
- #endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
 new file mode 100644
-index 000000000000..0ff01e6d3982
+index 000000000000..d8234789cd83
 --- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
-@@ -0,0 +1,387 @@
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+@@ -0,0 +1,1044 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2025 Nebula Matrix Limited.
 + */
-+#include <linux/device.h>
 +#include <linux/delay.h>
-+#include <linux/dma-mapping.h>
++#include <linux/device.h>
++#include <linux/mutex.h>
 +#include <linux/bitfield.h>
-+#include "nbl_interrupt.h"
++#include <linux/pci.h>
++#include <linux/bits.h>
++#include <linux/dma-mapping.h>
++#include <linux/atomic.h>
++#include <linux/wait.h>
++#include "nbl_channel.h"
 +
-+#define NBL_MSIX_DMA_SYNC_MIN_US	100
-+#define NBL_MSIX_DMA_SYNC_MAX_US	120
-+
-+static void nbl_intr_release_bitmap(struct nbl_resource_mgt *res_mgt,
-+				    u16 *vec_buf, u16 cnt)
++static int nbl_chan_add_msg_handler(struct nbl_channel_mgt *chan_mgt,
++				    u16 msg_type, nbl_chan_resp func,
++				    void *priv)
 +{
-+	struct nbl_interrupt_mgt *intr_mgt = res_mgt->intr_mgt;
-+	u16 bit;
-+	u16 i;
++	struct nbl_chan_msg_node_data handler = { 0 };
++	int ret;
 +
-+	if (!vec_buf || cnt == 0)
-+		return;
++	handler.func = func;
++	handler.priv = priv;
++	ret = nbl_common_alloc_hash_node(chan_mgt->handle_hash_tbl, &msg_type,
++					 &handler, NULL);
 +
-+	for (i = 0; i < cnt; i++) {
-+		u16 intr_index = vec_buf[i];
-+
-+		if (intr_index >= NBL_NET_INTR_BASE) {
-+			bit = intr_index - NBL_NET_INTR_BASE;
-+			if (bit < NBL_MAX_NET_INTERRUPT)
-+				clear_bit(bit, intr_mgt->intr_net_bmap);
-+			else
-+				dev_warn(res_mgt->common->dev,
-+					 "invalid net intr index %u\n",
-+					 intr_index);
-+		} else {
-+			if (intr_index < NBL_MAX_OTHER_INTERRUPT)
-+				clear_bit(intr_index,
-+					  intr_mgt->intr_other_bmap);
-+			else
-+				dev_warn(res_mgt->common->dev,
-+					 "invalid other intr index %u\n",
-+					 intr_index);
-+		}
-+	}
++	return ret;
 +}
 +
-+/**
-+ * nbl_res_intr_destroy_msix_map - tear down MSI-X mapping for specified PF
-+ * @res_mgt: resource management instance
-+ * @func_id: target function identifier
-+ *
-+ * Clear interrupt bitmaps and disable MSI-X via hardware callbacks.
-+ * DMA coherent table buffer uses devm allocation and remains valid
-+ * until device removal to avoid IOMMU faults caused by in-flight hardware DMA.
-+ *
-+ * Caller note: this function has no internal locking. Serialization
-+ * must be guaranteed at upper dispatch layer.
-+ * Caller must ensure all concurrent resource operations are excluded.
-+ *
-+ * Caller guarantee: hardware cannot issue outstanding DMA to these regions,
-+ * all relevant IRQs have been released or not yet configured.
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ */
-+int nbl_res_intr_destroy_msix_map(struct nbl_resource_mgt *res_mgt,
-+				  u16 func_id)
++static int nbl_chan_init_msg_handler(struct nbl_channel_mgt *chan_mgt)
 +{
-+	struct nbl_interrupt_mgt *intr_mgt = res_mgt->intr_mgt;
-+	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-+	struct device *dev = res_mgt->common->dev;
-+	struct nbl_msix_map_table *msix_map_table;
-+	u16 *interrupts;
-+	u16 intr_num, i;
++	struct nbl_common_info *common = chan_mgt->common;
++	struct nbl_hash_tbl_key tbl_key = { 0 };
 +
-+	if (!res_mgt->common->has_ctrl)
-+		return -EINVAL;
-+	if (func_id >= NBL_MAX_FUNC) {
-+		dev_err(dev, "Invalid func_id %u\n", func_id);
-+		return -EINVAL;
-+	}
++	tbl_key.dev = common->dev;
++	tbl_key.key_size = sizeof(u16);
++	tbl_key.data_size = sizeof(struct nbl_chan_msg_node_data);
++	tbl_key.bucket_size = NBL_CHAN_HANDLER_TBL_BUCKET_SIZE;
 +
-+	intr_num = intr_mgt->func_intr_res[func_id].num_interrupts;
-+	interrupts = intr_mgt->func_intr_res[func_id].interrupts;
-+	msix_map_table = &intr_mgt->func_intr_res[func_id].msix_map_table;
-+
-+	if (!interrupts || !msix_map_table->base_addr) {
-+		dev_dbg(dev, "No interrupt resources for func %u\n", func_id);
-+		return 0;
-+	}
-+
-+	for (i = 0; i < intr_num; i++) {
-+		NBL_OPS_CALL(hw_ops->configure_msix_info,
-+			     (res_mgt->hw_ops_tbl->priv, func_id,
-+			      false, interrupts[i], 0, 0, 0, false));
-+	}
-+
-+	nbl_intr_release_bitmap(res_mgt, interrupts, intr_num);
-+
-+	NBL_OPS_CALL(hw_ops->configure_msix_map,
-+		     (res_mgt->hw_ops_tbl->priv, func_id, false, 0, 0, 0, 0));
-+	NBL_OPS_CALL(hw_ops->flush_write, (res_mgt->hw_ops_tbl->priv));
-+
-+	/*
-+	 * Hardware provides no idle status register for MSIX map DMA engine.
-+	 * Use bounded sleep to mitigate race between posted MMIO disable writes
-+	 * and ongoing in-flight table read DMA access.
-+	 * The MSIX table buffer uses devm allocation and survives until device
-+	 * detach, so no immediate buffer free is needed to avoid IOMMU faults.
-+	 */
-+	usleep_range(NBL_MSIX_DMA_SYNC_MIN_US, NBL_MSIX_DMA_SYNC_MAX_US);
-+
-+	/* Release runtime allocated interrupt vector buffer */
-+	kfree(intr_mgt->func_intr_res[func_id].interrupts);
-+	intr_mgt->func_intr_res[func_id].interrupts = NULL;
-+	intr_mgt->func_intr_res[func_id].num_interrupts = 0;
-+	intr_mgt->func_intr_res[func_id].num_net_interrupts = 0;
-+
-+	/* Clear stale MSIX table pointers for safety */
-+	msix_map_table->base_addr = NULL;
-+	msix_map_table->dma = 0;
-+	msix_map_table->size = 0;
++	chan_mgt->handle_hash_tbl = nbl_common_init_hash_table(&tbl_key);
++	if (!chan_mgt->handle_hash_tbl)
++		return -ENOMEM;
 +
 +	return 0;
 +}
 +
-+/**
-+ * nbl_res_intr_configure_msix_map - allocate & program MSI-X mapping table
-+ * @res_mgt: resource management instance
-+ * @func_id: target function identifier
-+ * @num_net_msix: required net data interrupt vectors
-+ * @num_others_msix: required control interrupt vectors
-+ * @net_msix_mask_en: enable mask for net interrupt entries
-+ *
-+ * Allocate interrupt vectors and coherent DMA table in advance;
-+ * only destroy old configuration once all allocations succeed.
-+ *
-+ * Note: There exists a transient window after tearing down old MSI-X hardware
-+ * state before programming new mapping. Atomic table swap is unsupported on
-+ * current silicon, this gap is accepted as hardware limitation.
-+ *
-+ * Caller note: this function has no internal locking. Serialization
-+ * must be guaranteed at upper dispatch layer.
-+ *
-+ * Return: 0 on success, negative errno on failure
-+ */
-+int nbl_res_intr_configure_msix_map(struct nbl_resource_mgt *res_mgt,
-+				    u16 func_id, u16 num_net_msix,
-+				    u16 num_others_msix,
-+				    bool net_msix_mask_en)
++static void nbl_chan_remove_msg_handler(struct nbl_channel_mgt *chan_mgt)
 +{
-+	struct nbl_interrupt_mgt *intr_mgt = res_mgt->intr_mgt;
-+	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-+	struct nbl_common_info *common = res_mgt->common;
-+	struct nbl_msix_map_table *tmp_msix_tbl = NULL;
-+	struct nbl_msix_map_table *official_tbl;
-+	struct nbl_msix_map *msix_map_entries;
++	if (!chan_mgt->handle_hash_tbl)
++		return;
++	nbl_common_remove_hash_table(chan_mgt->handle_hash_tbl);
++	chan_mgt->handle_hash_tbl = NULL;
++}
++
++static void nbl_chan_init_queue_param(struct nbl_chan_info *chan_info,
++				      u16 num_txq_entries, u16 num_rxq_entries,
++				      u16 txq_buf_size, u16 rxq_buf_size)
++{
++	chan_info->num_txq_entries = num_txq_entries;
++	chan_info->num_rxq_entries = num_rxq_entries;
++	chan_info->txq_buf_size = txq_buf_size;
++	chan_info->rxq_buf_size = rxq_buf_size;
++	atomic_set(&chan_info->inflight_tx_cnt, 0);
++	WRITE_ONCE(chan_info->shutdown, false);
++}
++
++static int nbl_chan_init_tx_queue(struct nbl_common_info *common,
++				  struct nbl_chan_info *chan_info)
++{
++	struct nbl_chan_ring *txq = &chan_info->txq;
 +	struct device *dev = common->dev;
-+	u16 requested, intr_index;
-+	u8 bus, devid, function;
-+	bool msix_mask_en = false;
-+	u16 *tmp_interrupts = NULL;
-+	u16 global_vec;
++	size_t size =
++		chan_info->num_txq_entries * sizeof(struct nbl_chan_tx_desc);
++	int i;
++
++	txq->desc.tx_desc =
++		dmam_alloc_coherent(dev, size, &txq->dma, GFP_KERNEL);
++	if (!txq->desc.tx_desc)
++		return -ENOMEM;
++
++	chan_info->wait = devm_kcalloc(dev, chan_info->num_txq_entries,
++				       sizeof(*chan_info->wait), GFP_KERNEL);
++	if (!chan_info->wait)
++		return -ENOMEM;
++	for (i = 0; i < chan_info->num_txq_entries; i++) {
++		init_waitqueue_head(&chan_info->wait[i].wait_queue);
++		chan_info->wait[i].status = NBL_MBX_STATUS_IDLE;
++		spin_lock_init(&chan_info->wait[i].status_lock);
++	}
++
++	txq->buf = devm_kcalloc(dev, chan_info->num_txq_entries,
++				sizeof(*txq->buf), GFP_KERNEL);
++	if (!txq->buf)
++		return -ENOMEM;
++
++	return 0;
++}
++
++static int nbl_chan_init_rx_queue(struct nbl_common_info *common,
++				  struct nbl_chan_info *chan_info)
++{
++	struct nbl_chan_ring *rxq = &chan_info->rxq;
++	struct device *dev = common->dev;
++	size_t size =
++		chan_info->num_rxq_entries * sizeof(struct nbl_chan_rx_desc);
++
++	rxq->desc.rx_desc =
++		dmam_alloc_coherent(dev, size, &rxq->dma, GFP_KERNEL);
++	if (!rxq->desc.rx_desc) {
++		dev_err_ratelimited(dev,
++				    "Allocate DMA for chan rx descriptor ring failed\n");
++		return -ENOMEM;
++	}
++
++	rxq->buf = devm_kcalloc(dev, chan_info->num_rxq_entries,
++				sizeof(*rxq->buf), GFP_KERNEL);
++	if (!rxq->buf)
++		return -ENOMEM;
++
++	return 0;
++}
++
++static int nbl_chan_init_queue(struct nbl_common_info *common,
++			       struct nbl_chan_info *chan_info)
++{
++	int err;
++
++	err = nbl_chan_init_tx_queue(common, chan_info);
++	if (err)
++		return err;
++
++	err = nbl_chan_init_rx_queue(common, chan_info);
++
++	return err;
++}
++
++static void nbl_chan_config_queue(struct nbl_channel_mgt *chan_mgt,
++				  struct nbl_chan_info *chan_info, bool tx)
++{
++	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
++	struct nbl_hw_mgt *p = chan_mgt->hw_ops_tbl->priv;
++	struct nbl_chan_ring *ring;
++	dma_addr_t addr;
++	int size_bwid;
++
++	if (tx)
++		ring = &chan_info->txq;
++	else
++		ring = &chan_info->rxq;
++	addr = ring->dma;
++	if (tx) {
++		size_bwid = ilog2(chan_info->num_txq_entries);
++		NBL_OPS_CALL(hw_ops->config_mailbox_txq, (p, addr, size_bwid));
++	} else {
++		size_bwid = ilog2(chan_info->num_rxq_entries);
++		NBL_OPS_CALL(hw_ops->config_mailbox_rxq, (p, addr, size_bwid));
++	}
++}
++
++static int nbl_chan_alloc_all_tx_bufs(struct nbl_channel_mgt *chan_mgt,
++				      struct nbl_chan_info *chan_info)
++{
++	struct nbl_chan_ring *txq = &chan_info->txq;
++	struct device *dev = chan_mgt->common->dev;
++	struct nbl_chan_buf *buf;
++	u16 i;
++
++	for (i = 0; i < chan_info->num_txq_entries; i++) {
++		buf = &txq->buf[i];
++		buf->va = dmam_alloc_coherent(dev, chan_info->txq_buf_size,
++					      &buf->pa, GFP_KERNEL);
++		if (!buf->va) {
++			dev_err_ratelimited(dev,
++					    "Allocate buffer for chan tx queue failed\n");
++			return -ENOMEM;
++		}
++	}
++
++	txq->next_to_clean = 0;
++	txq->next_to_use = 0;
++	txq->tail_ptr = 0;
++
++	return 0;
++}
++
++static void nbl_chan_cfg_qinfo_map_table(struct nbl_channel_mgt *chan_mgt,
++					 u8 bus, u8 devid)
++{
++	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
++	struct nbl_hw_mgt *p = chan_mgt->hw_ops_tbl->priv;
++	u8 func_id;
++	u32 pf_mask;
++
++	NBL_OPS_CALL(hw_ops->get_host_pf_mask, (p, &pf_mask));
++	for (func_id = 0; func_id < NBL_MAX_PF; func_id++) {
++		if (!(pf_mask & (1 << func_id)))
++			NBL_OPS_CALL(hw_ops->cfg_mailbox_qinfo,
++				     (p, func_id, bus, devid, func_id));
++	}
++}
++
++static int nbl_chan_alloc_all_rx_bufs(struct nbl_channel_mgt *chan_mgt,
++				      struct nbl_chan_info *chan_info)
++{
++	struct nbl_chan_ring *rxq = &chan_info->rxq;
++	struct device *dev = chan_mgt->common->dev;
++	struct nbl_chan_rx_desc *desc;
++	struct nbl_chan_buf *buf;
++	u16 i;
++
++	for (i = 0; i < chan_info->num_rxq_entries; i++) {
++		buf = &rxq->buf[i];
++		buf->va = dmam_alloc_coherent(dev, chan_info->rxq_buf_size,
++					      &buf->pa, GFP_KERNEL);
++		if (!buf->va) {
++			dev_err_ratelimited(dev,
++					    "Allocate buffer for chan rx queue failed\n");
++			goto err;
++		}
++	}
++
++	desc = rxq->desc.rx_desc;
++	/*
++	 * RX ring adopts empty-ring convention: reserve one unused entry
++	 * to distinguish queue FULL vs queue EMPTY.
++	 * We initialize entries [0 ... num_rxq_entries - 2],
++	 * leave the last entry uninitialized as the hole marker.
++	 */
++	for (i = 0; i < chan_info->num_rxq_entries - 1; i++) {
++		buf = &rxq->buf[i];
++		desc[i].buf_addr = cpu_to_le64(buf->pa);
++		desc[i].buf_len = cpu_to_le32(chan_info->rxq_buf_size);
++		desc[i].flags = cpu_to_le16(BIT(NBL_CHAN_RX_DESC_AVAIL));
++	}
++
++	rxq->next_to_clean = 0;
++	/* Reserve last slot as hole to differentiate full/empty status */
++	rxq->next_to_use = chan_info->num_rxq_entries - 1;
++	rxq->tail_ptr = chan_info->num_rxq_entries - 1;
++
++	return 0;
++err:
++	return -ENOMEM;
++}
++
++static int nbl_chan_alloc_all_bufs(struct nbl_channel_mgt *chan_mgt,
++				   struct nbl_chan_info *chan_info)
++{
++	int err;
++
++	err = nbl_chan_alloc_all_tx_bufs(chan_mgt, chan_info);
++	if (err)
++		return err;
++	err = nbl_chan_alloc_all_rx_bufs(chan_mgt, chan_info);
++
++	return err;
++}
++
++static void nbl_chan_stop_queue(struct nbl_channel_mgt *chan_mgt)
++{
++	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
++
++	NBL_OPS_CALL(hw_ops->stop_mailbox_rxq, (chan_mgt->hw_ops_tbl->priv));
++	NBL_OPS_CALL(hw_ops->stop_mailbox_txq, (chan_mgt->hw_ops_tbl->priv));
++}
++
++static int nbl_chan_teardown_queue(struct nbl_channel_mgt *chan_mgt,
++				   u8 chan_type)
++{
++	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
++	struct nbl_chan_waitqueue_head *wait_head;
++	unsigned long wait_start, wait_timeout;
 +	int ret = 0;
 +	u16 i;
 +
-+	if (!common->has_ctrl)
-+		return -EINVAL;
-+	if (func_id >= NBL_MAX_FUNC) {
-+		dev_err(dev, "Invalid func_id %u\n", func_id);
-+		return -EINVAL;
-+	}
-+	if (num_net_msix == 0 && num_others_msix == 0) {
-+		dev_err(dev, "MSI-X vector count cannot both be zero\n");
-+		return -EINVAL;
-+	}
-+	if (num_net_msix > NBL_MSIX_MAP_TABLE_MAX_ENTRIES ||
-+	    num_others_msix > NBL_MSIX_MAP_TABLE_MAX_ENTRIES) {
-+		dev_err(dev, "MSI-X count out of limit: net=%u, others=%u\n",
-+			num_net_msix, num_others_msix);
-+		return -EINVAL;
-+	}
-+
-+	if (check_add_overflow(num_net_msix, num_others_msix, &requested) ||
-+	    requested > NBL_MSIX_MAP_TABLE_MAX_ENTRIES) {
-+		dev_err(dev, "Total MSI-X vectors %u exceeds maximum %u\n",
-+			requested, NBL_MSIX_MAP_TABLE_MAX_ENTRIES);
-+		return -EINVAL;
-+	}
-+
-+	ret = nbl_res_func_id_to_bdf(res_mgt, func_id, &bus, &devid, &function);
-+	if (ret)
-+		return ret;
++	/* Step 1: Mark shutdown flag, reject all new send requests */
++	WRITE_ONCE(chan_info->shutdown, true);
++	/*
++	 * Full memory barrier: Ensure the write to 'shutdown' becomes visible
++	 * to all other CPUs BEFORE we start waiting on inflight_tx_cnt.
++	 * Peer send_msg threads check shutdown flag prior to taking new work;
++	 * this barrier prevents reordering that would let send paths observe
++	 * inflight_tx_cnt == 0 but still accept new messages.
++	 */
++	smp_mb();
++	/* Stop hardware queues */
++	nbl_chan_stop_queue(chan_mgt);
 +
 +	/*
-+	 * Phase1: Pre-allocate ALL new resources first.
-+	 * Do NOT destroy old configuration before all allocations succeed.
++	 * Step 2: Wait all in-flight send_msg threads exit FIRST.
++	 * Guarantee no further queue_work() can be triggered during cleanup.
++	 * Add timeout to avoid permanent blocking.
 +	 */
-+	tmp_msix_tbl = kzalloc_obj(*tmp_msix_tbl);
-+	if (!tmp_msix_tbl) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	tmp_msix_tbl->size =
-+		sizeof(struct nbl_msix_map) * NBL_MSIX_MAP_TABLE_MAX_ENTRIES;
-+	/*
-+	 * Hardware requires fixed stride table layout; allocate full size
-+	 * even when only partial entries are used. Memory managed by devm.
-+	 */
-+	tmp_msix_tbl->base_addr = dmam_alloc_coherent(dev, tmp_msix_tbl->size,
-+						      &tmp_msix_tbl->dma,
-+						      GFP_KERNEL);
-+	if (!tmp_msix_tbl->base_addr) {
-+		dev_err(dev, "Failed to allocate DMA memory for MSIX table\n");
-+		ret = -ENOMEM;
-+		goto free_tmp_tbl;
-+	}
-+
-+	tmp_interrupts = kcalloc(requested, sizeof(tmp_interrupts[0]),
-+				 GFP_KERNEL);
-+	if (!tmp_interrupts) {
-+		ret = -ENOMEM;
-+		goto free_tmp_tbl;
-+	}
-+
-+	/* Allocate net interrupt vectors */
-+	for (i = 0; i < num_net_msix; i++) {
-+		intr_index = find_first_zero_bit(intr_mgt->intr_net_bmap,
-+						 NBL_MAX_NET_INTERRUPT);
-+		if (intr_index == NBL_MAX_NET_INTERRUPT) {
-+			dev_err(dev, "No free net interrupt vectors left\n");
-+			ret = -EAGAIN;
-+			goto release_vecs;
++	wait_start = jiffies;
++	wait_timeout = msecs_to_jiffies(5000);
++	while (atomic_read(&chan_info->inflight_tx_cnt) != 0) {
++		if (time_after(jiffies, wait_start + wait_timeout)) {
++			dev_warn(chan_mgt->common->dev,
++				 "teardown: wait inflight_tx_cnt timeout, force continue\n");
++			ret = -ETIMEDOUT;
++			break;
 +		}
-+		tmp_interrupts[i] = intr_index + NBL_NET_INTR_BASE;
-+		set_bit(intr_index, intr_mgt->intr_net_bmap);
++		usleep_range(1000, 2000);
 +	}
 +
-+	/* Allocate other interrupt vectors */
-+	for (; i < requested; i++) {
-+		intr_index =
-+			find_first_zero_bit(intr_mgt->intr_other_bmap,
-+					    NBL_MAX_OTHER_INTERRUPT);
-+		if (intr_index == NBL_MAX_OTHER_INTERRUPT) {
-+			dev_err(dev, "No free control interrupt vectors left\n");
-+			ret = -EAGAIN;
-+			goto release_vecs;
-+		}
-+		tmp_interrupts[i] = intr_index;
-+		set_bit(intr_index, intr_mgt->intr_other_bmap);
++	/* Step3: All send paths drained, safely cancel cleanup work */
++	if (chan_info->clean_task) {
++		cancel_work_sync(chan_info->clean_task);
++		chan_info->clean_task = NULL;
 +	}
++
++	for (i = 0; i < chan_info->num_txq_entries; i++) {
++		wait_head = &chan_info->wait[i];
++		spin_lock_irq(&wait_head->status_lock);
++		/* Only wake threads that are actually waiting */
++		if (READ_ONCE(wait_head->status) == NBL_MBX_STATUS_WAITING) {
++			/* Mark as timeout so waking threads know to abort */
++			WRITE_ONCE(wait_head->status, NBL_MBX_STATUS_TIMEOUT);
++			WRITE_ONCE(wait_head->acked, 1);
++			WRITE_ONCE(wait_head->ack_err, (s32)-EIO);
++			wake_up_locked(&wait_head->wait_queue);
++		}
++		spin_unlock_irq(&wait_head->status_lock);
++	}
++
++	return ret;
++}
++
++static int nbl_chan_setup_queue(struct nbl_channel_mgt *chan_mgt, u8 chan_type)
++{
++	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
++	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
++	struct nbl_common_info *common = chan_mgt->common;
++	struct nbl_chan_ring *rxq = &chan_info->rxq;
++	int err;
++
++	if (READ_ONCE(chan_info->init_done))
++		return 0;
++	err = devm_mutex_init(common->dev, &chan_info->txq_lock);
++	if (err)
++		return err;
++	nbl_chan_init_queue_param(chan_info, NBL_CHAN_QUEUE_LEN,
++				  NBL_CHAN_QUEUE_LEN, NBL_CHAN_BUF_LEN,
++				  NBL_CHAN_BUF_LEN);
++	err = nbl_chan_init_queue(common, chan_info);
++	if (err)
++		return err;
++	err = nbl_chan_alloc_all_bufs(chan_mgt, chan_info);
++	if (err)
++		return err;
++	nbl_chan_config_queue(chan_mgt, chan_info, true); /* tx */
++	nbl_chan_config_queue(chan_mgt, chan_info, false); /* rx */
++	nbl_chan_update_tail_ptr(hw_ops, chan_mgt->hw_ops_tbl->priv,
++				 rxq->tail_ptr, NBL_MB_RX_QID);
++	WRITE_ONCE(chan_info->init_done, true);
++	return 0;
++}
++
++static int nbl_chan_update_txqueue(struct nbl_channel_mgt *chan_mgt,
++				   struct nbl_chan_info *chan_info,
++				   struct nbl_chan_tx_param *param)
++{
++	struct nbl_chan_ring *txq = &chan_info->txq;
++	struct nbl_chan_tx_desc *tx_desc =
++		NBL_CHAN_TX_RING_TO_DESC(txq, txq->next_to_use);
++	struct nbl_chan_buf *tx_buf =
++		NBL_CHAN_TX_RING_TO_BUF(txq, txq->next_to_use);
++
++	if (param->arg_len > NBL_CHAN_BUF_LEN - sizeof(*tx_desc))
++		return -EINVAL;
++
++	tx_desc->dstid = cpu_to_le16(param->dstid);
++	tx_desc->msg_type = cpu_to_le16(param->msg_type);
++	tx_desc->msgid = cpu_to_le16(param->msgid);
++
++	if (param->arg_len > NBL_CHAN_TX_DESC_EMBEDDED_DATA_LEN) {
++		memcpy(tx_buf->va, param->arg, param->arg_len);
++		tx_desc->buf_addr = cpu_to_le64(tx_buf->pa);
++		tx_desc->buf_len = cpu_to_le16(param->arg_len);
++		tx_desc->data_len = 0;
++		memset(tx_desc->data, 0, sizeof(tx_desc->data));
++	} else {
++		memset(tx_desc->data, 0, sizeof(tx_desc->data));
++		memset(&tx_desc->buf_addr, 0, sizeof(tx_desc->buf_addr));
++		memcpy(tx_desc->data, param->arg, param->arg_len);
++		tx_desc->buf_len = 0;
++		tx_desc->data_len = cpu_to_le16(param->arg_len);
++	}
++	dma_wmb();
++	tx_desc->flags = cpu_to_le16(BIT(NBL_CHAN_TX_DESC_AVAIL));
++
++	txq->next_to_use =
++		NBL_NEXT_ID(txq->next_to_use, chan_info->num_txq_entries - 1);
++	txq->tail_ptr++;
++
++	return 0;
++}
++
++static int nbl_chan_kick_tx_ring(struct nbl_channel_mgt *chan_mgt,
++				 struct nbl_chan_info *chan_info)
++{
++	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
++	struct nbl_chan_ring *txq = &chan_info->txq;
++	struct device *dev = chan_mgt->common->dev;
++	int max_retries = NBL_CHAN_TX_WAIT_TIMES;
++	struct nbl_chan_tx_desc *tx_desc;
++	int retry_count = 0;
++	u16 msg_type;
++
++	nbl_chan_update_tail_ptr(hw_ops, chan_mgt->hw_ops_tbl->priv,
++				 txq->tail_ptr, NBL_MB_TX_QID);
++
++	tx_desc = NBL_CHAN_TX_RING_TO_DESC(txq, txq->next_to_clean);
++	while (retry_count < max_retries) {
++		if (READ_ONCE(chan_info->shutdown))
++			return -ESHUTDOWN;
++
++		/* Ensure HW written descriptor visible to CPU */
++		dma_rmb();
++		if (le16_to_cpu(READ_ONCE(tx_desc->flags)) &
++		    BIT(NBL_CHAN_TX_DESC_USED)) {
++			break;
++		}
++
++		retry_count++;
++		if (retry_count == max_retries) {
++			msg_type = le16_to_cpu(READ_ONCE(tx_desc->msg_type));
++			dev_err_ratelimited(dev, "chan send message type: %d timeout\n",
++					    msg_type);
++			txq->next_to_clean = txq->next_to_use;
++			return -ETIMEDOUT;
++		}
++		usleep_range(NBL_CHAN_TX_WAIT_US, NBL_CHAN_TX_WAIT_US_MAX);
++	}
++
++	txq->next_to_clean = txq->next_to_use;
++
++	return 0;
++}
++
++static void nbl_chan_recv_ack_msg(void *priv, u16 srcid, u16 msgid, void *data,
++				  u32 data_len)
++{
++	struct nbl_channel_mgt *chan_mgt = (struct nbl_channel_mgt *)priv;
++	struct nbl_chan_waitqueue_head *wait_head = NULL;
++	struct device *dev = chan_mgt->common->dev;
++	struct nbl_chan_info *chan_info =
++		chan_mgt->chan_info[NBL_CHAN_TYPE_MAILBOX];
++	u32 ack_datalen, ack_msgtype = 0;
++	u32 *payload = data;
++	u16 ack_msgid = 0;
++	u32 copy_len;
++
++	if (READ_ONCE(chan_info->shutdown))
++		return;
++	if (data_len > NBL_CHAN_BUF_LEN ||
++	    data_len < NBL_CHAN_ACK_HEAD_LEN * sizeof(u32)) {
++		dev_err_ratelimited(dev, "Invalid ACK data_len: %u\n",
++				    data_len);
++		return;
++	}
++	ack_datalen = data_len - NBL_CHAN_ACK_HEAD_LEN * sizeof(u32);
++	ack_msgtype = le16_to_cpu(*(__le16 *)(payload + NBL_CHAN_MSG_TYPE_POS));
++	ack_msgid = le16_to_cpu(*(__le16 *)(payload + NBL_CHAN_MSG_ID_POS));
++	if (FIELD_GET(NBL_CHAN_MSGID_LOC_MASK, ack_msgid) >=
++	    chan_info->num_txq_entries) {
++		dev_err_ratelimited(dev, "chan recv msg id: %d err\n",
++				    ack_msgid);
++		return;
++	}
++	wait_head =
++		&chan_info->wait[FIELD_GET(NBL_CHAN_MSGID_LOC_MASK, ack_msgid)];
++	spin_lock_irq(&wait_head->status_lock);
++	if (srcid != READ_ONCE(wait_head->dstid)) {
++		/* Do not modify the status; the slot remains WAITING,
++		 * and the sender will time out normally
++		 */
++		spin_unlock_irq(&wait_head->status_lock);
++		dev_err_ratelimited(dev, "ACK srcid=%u != dstid=%u, rejecting\n",
++				    srcid, READ_ONCE(wait_head->dstid));
++		return;
++	}
++	if (READ_ONCE(wait_head->status) != NBL_MBX_STATUS_WAITING) {
++		spin_unlock_irq(&wait_head->status_lock);
++		dev_err_ratelimited(dev,
++				    "Skip ack with invalid status, wait msgtype:%u msg_index:%u status:%d ack_data_len:%d, ack msgtype:%u msgid:%u datalen:%d\n",
++				    READ_ONCE(wait_head->msg_type),
++				    READ_ONCE(wait_head->msg_index),
++				    READ_ONCE(wait_head->status),
++				    READ_ONCE(wait_head->ack_data_len),
++				    ack_msgtype, ack_msgid, ack_datalen);
++		return;
++	}
++
++	if (READ_ONCE(wait_head->msg_type) != ack_msgtype) {
++		spin_unlock_irq(&wait_head->status_lock);
++		dev_err_ratelimited(dev,
++				    "Skip ack msg type mismatch, wait msgtype:%u msg_index:%u status:%d ack_data_len:%d, ack msgtype:%u msgid:%u datalen:%d\n",
++				    READ_ONCE(wait_head->msg_type),
++				    READ_ONCE(wait_head->msg_index),
++				    READ_ONCE(wait_head->status),
++				    READ_ONCE(wait_head->ack_data_len),
++				    ack_msgtype, ack_msgid, ack_datalen);
++		return;
++	}
++	if (FIELD_GET(NBL_CHAN_MSGID_INDEX_MASK, ack_msgid) !=
++	    READ_ONCE(wait_head->msg_index)) {
++		spin_unlock_irq(&wait_head->status_lock);
++		dev_err_ratelimited(dev,
++				    "Stale ACK: expected index=%u, got msgid %u\n",
++				    READ_ONCE(wait_head->msg_index), ack_msgid);
++		return;
++	}
++
++	wait_head->ack_err =
++		(s32)le32_to_cpu(*(__le32 *)(payload + NBL_CHAN_ACK_RET_POS));
++
++	copy_len = min_t(u32, READ_ONCE(wait_head->ack_data_len), ack_datalen);
++	if (wait_head->ack_err >= 0 && copy_len > 0) {
++		if (!READ_ONCE(wait_head->ack_data)) {
++			dev_err_ratelimited(dev, "ACK payload dropped: ack_data is NULL\n");
++			wait_head->ack_data_len = 0;
++			goto ack_done;
++		}
++		memcpy((char *)wait_head->ack_data,
++		       payload + NBL_CHAN_ACK_HEAD_LEN, copy_len);
++		wait_head->ack_data_len = (u16)copy_len;
++	} else {
++		wait_head->ack_data_len = 0;
++	}
++ack_done:
++	WRITE_ONCE(wait_head->acked, 1);
++	spin_unlock_irq(&wait_head->status_lock);
++	if (READ_ONCE(wait_head->acked))
++		wake_up(&wait_head->wait_queue);
++}
++
++static void nbl_chan_recv_msg(struct nbl_channel_mgt *chan_mgt, void *data)
++{
++	struct device *dev = chan_mgt->common->dev;
++	struct nbl_chan_msg_node_data *msg_handler;
++	u16 msg_type, payload_len, srcid, msgid;
++	struct nbl_chan_info *chan_info =
++		chan_mgt->chan_info[NBL_CHAN_TYPE_MAILBOX];
++	struct nbl_chan_tx_desc *tx_desc;
++	void *payload;
++	size_t size;
++
++	if (READ_ONCE(chan_info->shutdown))
++		return;
++	tx_desc = data;
++	msg_type = le16_to_cpu(READ_ONCE(tx_desc->msg_type));
++	dev_dbg(dev, "recv msg_type: %d\n", msg_type);
++
++	srcid = le16_to_cpu(READ_ONCE(tx_desc->srcid));
++	msgid = le16_to_cpu(READ_ONCE(tx_desc->msgid));
++	/* Only check if the value exceeds the maximum, relying on the hash
++	 * table to filter invalid message IDs.
++	 * The gap values are reserved for future protocol extensions.
++	 */
++	if (msg_type >= NBL_CHAN_MSG_MAILBOX_MAX)
++		return;
++
++	if (le16_to_cpu(READ_ONCE(tx_desc->data_len))) {
++		payload_len = le16_to_cpu(READ_ONCE(tx_desc->data_len));
++		if (payload_len > NBL_CHAN_TX_DESC_EMBEDDED_DATA_LEN) {
++			dev_err_ratelimited(dev,
++					    "data_len=%u exceeds embedded buffer size=%u\n",
++					    payload_len,
++					    NBL_CHAN_TX_DESC_EMBEDDED_DATA_LEN);
++			return;
++		}
++		payload = tx_desc->data;
++	} else {
++		payload_len = le16_to_cpu(READ_ONCE(tx_desc->buf_len));
++		size = NBL_CHAN_BUF_LEN - sizeof(*tx_desc);
++		if (payload_len > size) {
++			dev_err_ratelimited(dev,
++					    "buf_len=%u exceeds external buffer size=%zu\n",
++					    payload_len,
++					    size);
++			return;
++		}
++		payload = tx_desc + 1;
++	}
++
++	msg_handler =
++		nbl_common_get_hash_node(chan_mgt->handle_hash_tbl, &msg_type);
++	if (!msg_handler || !msg_handler->func) {
++		dev_err_ratelimited(dev,
++				    "No handler for msg_type: %u (srcid=%u, msgid=%u)\n",
++				    msg_type, srcid, msgid);
++		return;
++	}
++	msg_handler->func(msg_handler->priv, srcid, msgid, payload,
++			  payload_len);
++}
++
++static void nbl_chan_advance_rx_ring(struct nbl_channel_mgt *chan_mgt,
++				     struct nbl_chan_info *chan_info,
++				     struct nbl_chan_ring *rxq)
++{
++	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
++	struct nbl_chan_rx_desc *rx_desc;
++	struct nbl_chan_buf *rx_buf;
++	u16 next_to_use;
++
++	next_to_use = rxq->next_to_use;
++	rx_desc = NBL_CHAN_RX_RING_TO_DESC(rxq, next_to_use);
++	rx_buf = NBL_CHAN_RX_RING_TO_BUF(rxq, next_to_use);
++
++	rx_desc->buf_addr = cpu_to_le64(rx_buf->pa);
++	rx_desc->buf_len = cpu_to_le32(chan_info->rxq_buf_size);
 +
 +	/*
-+	 * Phase2: All new resource allocation succeeded.
-+	 * Now tear down old MSIX hardware configuration.
++	 * DMA Write Memory Barrier:
++	 * Ensures all previous DMA-mapped writes (buffer address/length)
++	 * are completed before the descriptor flags are updated.
++	 * This prevents hardware from seeing a partially updated descriptor
++	 * where flags are set but buffer info isn't ready yet.
 +	 */
-+	ret = nbl_res_intr_destroy_msix_map(res_mgt, func_id);
-+	if (ret)
-+		goto release_vecs;
-+
-+	/* Swap temporary resources into official entry */
-+	official_tbl = &intr_mgt->func_intr_res[func_id].msix_map_table;
-+	official_tbl->base_addr = tmp_msix_tbl->base_addr;
-+	official_tbl->dma = tmp_msix_tbl->dma;
-+	official_tbl->size = tmp_msix_tbl->size;
-+	kfree(tmp_msix_tbl);
-+	tmp_msix_tbl = NULL;
-+
-+	intr_mgt->func_intr_res[func_id].interrupts = tmp_interrupts;
-+	intr_mgt->func_intr_res[func_id].num_interrupts = requested;
-+	intr_mgt->func_intr_res[func_id].num_net_interrupts = num_net_msix;
-+	tmp_interrupts = NULL;
-+
-+	/* Fill MSIX map table and program hardware */
-+	msix_map_entries = official_tbl->base_addr;
-+	for (i = 0; i < requested; i++) {
-+		global_vec = intr_mgt->func_intr_res[func_id].interrupts[i];
-+		msix_map_entries[i].data =
-+			cpu_to_le16(FIELD_PREP(NBL_MSIX_MAP_VALID_MASK, 1) |
-+				    FIELD_PREP(NBL_MSIX_MAP_INDEX_MASK,
-+					       global_vec));
-+
-+		msix_mask_en = (i < num_net_msix && net_msix_mask_en) ? true :
-+									false;
-+		NBL_OPS_CALL(hw_ops->configure_msix_info,
-+			     (res_mgt->hw_ops_tbl->priv, func_id,
-+			      true, global_vec, bus, devid, function,
-+			      msix_mask_en));
-+	}
-+
-+	/* Flush CPU writes to coherent memory before hardware DMA access */
 +	dma_wmb();
 +
-+	NBL_OPS_CALL(hw_ops->configure_msix_map,
-+		     (res_mgt->hw_ops_tbl->priv, func_id, true,
-+		      official_tbl->dma, common->hw_bus, common->devid,
-+		      common->function));
-+	NBL_OPS_CALL(hw_ops->flush_write, (res_mgt->hw_ops_tbl->priv));
++	rx_desc->flags = cpu_to_le16(BIT(NBL_CHAN_RX_DESC_AVAIL));
 +
-+out:
-+	return ret;
++	rxq->next_to_use++;
++	if (rxq->next_to_use == chan_info->num_rxq_entries)
++		rxq->next_to_use = 0;
++	rxq->tail_ptr++;
 +
-+release_vecs:
-+	nbl_intr_release_bitmap(res_mgt, tmp_interrupts, i);
-+free_tmp_tbl:
-+	kfree(tmp_msix_tbl);
-+	kfree(tmp_interrupts);
-+	tmp_msix_tbl = NULL;
-+	tmp_interrupts = NULL;
-+	goto out;
++	nbl_chan_update_tail_ptr(hw_ops, chan_mgt->hw_ops_tbl->priv,
++				 rxq->tail_ptr, NBL_MB_RX_QID);
 +}
 +
-+/**
-+ * nbl_res_intr_set_mailbox_irq - bind mailbox IRQ to specified vector
-+ * @res_mgt: resource management instance
-+ * @func_id: target function identifier
-+ * @vector_id: index inside local interrupt array
-+ * @enable_msix: enable/disable mailbox interrupt
-+ *
-+ * Caller note: this function has no internal locking. Serialization
-+ * must be guaranteed at upper dispatch layer.
-+ *
-+ * Return: 0 on success, negative errno on parameter check or hw failure
-+ */
-+int nbl_res_intr_set_mailbox_irq(struct nbl_resource_mgt *res_mgt,
-+				 u16 func_id, u16 vector_id,
-+				 bool enable_msix)
++static void nbl_chan_clean_queue(struct nbl_channel_mgt *chan_mgt,
++				 struct nbl_chan_info *chan_info)
 +{
-+	struct nbl_interrupt_mgt *intr_mgt = res_mgt->intr_mgt;
-+	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-+	struct nbl_common_info *common = res_mgt->common;
++	struct nbl_chan_ring *rxq = &chan_info->rxq;
++	struct device *dev = chan_mgt->common->dev;
++	struct nbl_chan_rx_desc *rx_desc;
++	struct nbl_chan_buf *rx_buf;
++	u16 next_to_clean;
++	u32 budget = 64;
++	u16 flags;
++
++	next_to_clean = rxq->next_to_clean;
++	rx_desc = NBL_CHAN_RX_RING_TO_DESC(rxq, next_to_clean);
++	rx_buf = NBL_CHAN_RX_RING_TO_BUF(rxq, next_to_clean);
++	while (le16_to_cpu(READ_ONCE(rx_desc->flags)) &
++	       BIT(NBL_CHAN_RX_DESC_USED)) {
++		flags = le16_to_cpu(READ_ONCE(rx_desc->flags));
++
++		if (READ_ONCE(chan_info->shutdown))
++			break;
++		if (!(flags & BIT(NBL_CHAN_RX_DESC_WRITE)))
++			dev_dbg(dev,
++				"mailbox rx flag 0x%x missing NBL_CHAN_RX_DESC_WRITE\n",
++				flags);
++
++		dma_rmb();
++		nbl_chan_recv_msg(chan_mgt, rx_buf->va);
++		nbl_chan_advance_rx_ring(chan_mgt, chan_info, rxq);
++		next_to_clean++;
++		if (next_to_clean == chan_info->num_rxq_entries)
++			next_to_clean = 0;
++		rx_desc = NBL_CHAN_RX_RING_TO_DESC(rxq, next_to_clean);
++		rx_buf = NBL_CHAN_RX_RING_TO_BUF(rxq, next_to_clean);
++		if (--budget == 0)
++			break;
++		cond_resched();
++	}
++	rxq->next_to_clean = next_to_clean;
++}
++
++static void nbl_chan_clean_queue_subtask(struct nbl_channel_mgt *chan_mgt,
++					 u8 chan_type)
++{
++	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
++
++	nbl_chan_clean_queue(chan_mgt, chan_info);
++}
++
++static int nbl_chan_get_msg_id(struct nbl_chan_info *chan_info,
++			       u16 *msgid)
++{
++	int search_loc = chan_info->wait_head_index, i;
++	struct nbl_chan_waitqueue_head *wait = NULL;
++	int status;
++
++	for (i = 0; i < chan_info->num_txq_entries; i++) {
++		wait = &chan_info->wait[search_loc];
++
++		spin_lock_irq(&wait->status_lock);
++		status = READ_ONCE(wait->status);
++		if (status == NBL_MBX_STATUS_IDLE ||
++		    status == NBL_MBX_STATUS_TIMEOUT) {
++			WRITE_ONCE(wait->msg_index,
++				   NBL_NEXT_ID(wait->msg_index,
++					       NBL_CHAN_MSG_INDEX_MAX));
++
++			*msgid = FIELD_PREP(NBL_CHAN_MSGID_INDEX_MASK,
++					    wait->msg_index) |
++				 FIELD_PREP(NBL_CHAN_MSGID_LOC_MASK,
++					    search_loc);
++			spin_unlock_irq(&wait->status_lock);
++
++			/* Advance starting search position for next caller */
++			WRITE_ONCE(chan_info->wait_head_index, search_loc);
++			return 0;
++		}
++		spin_unlock_irq(&wait->status_lock);
++
++		search_loc = NBL_NEXT_ID(search_loc,
++					 chan_info->num_txq_entries - 1);
++	}
++
++	/*
++	 * All tx slots are occupied. May happen under high transmit load
++	 * or delayed remote ACK responses. Caller should retry later.
++	 */
++	return -EAGAIN;
++}
++
++static int nbl_chan_send_msg(struct nbl_channel_mgt *chan_mgt,
++			     struct nbl_chan_send_info *chan_send)
++{
++	struct nbl_common_info *common = chan_mgt->common;
++	struct nbl_chan_waitqueue_head *wait_head;
++	struct nbl_chan_tx_param tx_param = { 0 };
++	struct nbl_chan_info *chan_info =
++		chan_mgt->chan_info[NBL_CHAN_TYPE_MAILBOX];
 +	struct device *dev = common->dev;
-+	u16 global_vec_id;
-+
-+	if (!common->has_ctrl)
-+		return -EINVAL;
-+	if (func_id >= NBL_MAX_FUNC) {
-+		dev_err(dev, "func_id %u out of range\n", func_id);
-+		return -EINVAL;
-+	}
-+	if (!intr_mgt->func_intr_res[func_id].interrupts) {
-+		dev_err(dev, "func %u MSIX map not configured\n", func_id);
-+		return -ENODEV;
-+	}
-+	if (vector_id >= intr_mgt->func_intr_res[func_id].num_interrupts) {
-+		dev_err(dev, "vector_id %u out of range (max %u)\n",
-+			vector_id,
-+			intr_mgt->func_intr_res[func_id].num_interrupts - 1);
-+		return -EINVAL;
-+	}
-+
-+	global_vec_id = intr_mgt->func_intr_res[func_id].interrupts[vector_id];
-+	NBL_OPS_CALL(hw_ops->set_mailbox_irq,
-+		     (res_mgt->hw_ops_tbl->priv, func_id,
-+		      enable_msix, global_vec_id));
-+
-+	return 0;
-+}
-+
-+static struct nbl_interrupt_mgt *nbl_intr_setup_mgt(struct device *dev)
-+{
-+	struct nbl_interrupt_mgt *intr_mgt;
-+
-+	intr_mgt = devm_kzalloc(dev, sizeof(*intr_mgt), GFP_KERNEL);
-+	if (!intr_mgt)
-+		return ERR_PTR(-ENOMEM);
-+
-+	bitmap_zero(intr_mgt->intr_net_bmap, NBL_MAX_NET_INTERRUPT);
-+	bitmap_zero(intr_mgt->intr_other_bmap, NBL_MAX_OTHER_INTERRUPT);
-+
-+	return intr_mgt;
-+}
-+
-+int nbl_intr_mgt_start(struct nbl_resource_mgt *res_mgt)
-+{
-+	struct device *dev = res_mgt->common->dev;
-+	struct nbl_interrupt_mgt *intr_mgt;
++	bool inflight_inc = false;
++	u16 msgid = 0;
 +	int ret;
 +
-+	intr_mgt = nbl_intr_setup_mgt(dev);
-+	if (IS_ERR(intr_mgt)) {
-+		ret = PTR_ERR(intr_mgt);
-+		return ret;
++	if (chan_send->resp_len > NBL_CHAN_BUF_LEN) {
++		dev_err_ratelimited(dev, "resp_len %zu exceeds max %d\n",
++				    chan_send->resp_len, NBL_CHAN_BUF_LEN);
++		return -EINVAL;
 +	}
-+	res_mgt->intr_mgt = intr_mgt;
-+	return 0;
++
++	if (READ_ONCE(chan_info->shutdown))
++		return -ESHUTDOWN;
++	/* ensures shutdown load is ordered before inflight cnt increment */
++	smp_rmb();
++
++	atomic_inc(&chan_info->inflight_tx_cnt);
++	inflight_inc = true;
++	/* makes inflight increment visible to teardown path immediately */
++	smp_wmb();
++
++	mutex_lock(&chan_info->txq_lock);
++	if (test_bit(NBL_CHAN_ABNORMAL, chan_info->state)) {
++		ret = -EIO;
++		goto unlock_out;
++	}
++	ret = nbl_chan_get_msg_id(chan_info, &msgid);
++	if (ret) {
++		dev_err_ratelimited(dev,
++				    "Channel tx wait head full, send msgtype:%u to dstid:%u failed\n",
++				    chan_send->msg_type, chan_send->dstid);
++		goto unlock_out;
++	}
++
++	tx_param.msg_type = chan_send->msg_type;
++	tx_param.arg = chan_send->arg;
++	tx_param.arg_len = chan_send->arg_len;
++	tx_param.dstid = chan_send->dstid;
++	tx_param.msgid = msgid;
++
++	ret = nbl_chan_update_txqueue(chan_mgt, chan_info, &tx_param);
++	if (ret) {
++		dev_err_ratelimited(dev,
++				    "Channel tx queue full, send msgtype:%u to dstid:%u failed\n",
++				    chan_send->msg_type, chan_send->dstid);
++		goto unlock_out;
++	}
++
++	wait_head =
++		&chan_info->wait[FIELD_GET(NBL_CHAN_MSGID_LOC_MASK, msgid)];
++	spin_lock_irq(&wait_head->status_lock);
++	WRITE_ONCE(wait_head->acked, 0);
++	WRITE_ONCE(wait_head->ack_data, chan_send->resp);
++	WRITE_ONCE(wait_head->ack_data_len, chan_send->resp_len);
++	WRITE_ONCE(wait_head->msg_type, chan_send->msg_type);
++	WRITE_ONCE(wait_head->msg_index,
++		   FIELD_GET(NBL_CHAN_MSGID_INDEX_MASK, msgid));
++	WRITE_ONCE(wait_head->dstid, chan_send->dstid);
++
++	WRITE_ONCE(wait_head->status, chan_send->ack ?
++		   NBL_MBX_STATUS_WAITING : NBL_MBX_STATUS_IDLE);
++	spin_unlock_irq(&wait_head->status_lock);
++
++	ret = nbl_chan_kick_tx_ring(chan_mgt, chan_info);
++	if (ret) {
++		spin_lock_irq(&wait_head->status_lock);
++		WRITE_ONCE(wait_head->status, NBL_MBX_STATUS_TIMEOUT);
++		WRITE_ONCE(wait_head->acked, 0);
++		WRITE_ONCE(wait_head->ack_data, NULL);
++		WRITE_ONCE(wait_head->ack_data_len, 0);
++		spin_unlock_irq(&wait_head->status_lock);
++		goto unlock_out;
++	}
++	mutex_unlock(&chan_info->txq_lock);
++	if (!chan_send->ack) {
++		atomic_dec(&chan_info->inflight_tx_cnt);
++		return 0;
++	}
++
++	/* choose wait strategy based on interrupt state */
++	if (test_bit(NBL_CHAN_INTERRUPT_READY, chan_info->state)) {
++		spin_lock_irq(&wait_head->status_lock);
++		while (!READ_ONCE(wait_head->acked)) {
++			spin_unlock_irq(&wait_head->status_lock);
++			ret = wait_event_timeout(wait_head->wait_queue,
++						 READ_ONCE(wait_head->acked) ||
++						 READ_ONCE(chan_info->shutdown),
++						 NBL_CHAN_ACK_WAIT_TIME);
++			spin_lock_irq(&wait_head->status_lock);
++
++			if (READ_ONCE(chan_info->shutdown)) {
++				ret = -ESHUTDOWN;
++				spin_unlock_irq(&wait_head->status_lock);
++				goto inflight_dec_out;
++			}
++			if (ret == 0) {
++				if (READ_ONCE(wait_head->status) ==
++				    NBL_MBX_STATUS_WAITING) {
++					WRITE_ONCE(wait_head->status,
++						   NBL_MBX_STATUS_TIMEOUT);
++					WRITE_ONCE(wait_head->acked, 0);
++					WRITE_ONCE(wait_head->ack_data, NULL);
++					WRITE_ONCE(wait_head->ack_data_len, 0);
++				}
++				spin_unlock_irq(&wait_head->status_lock);
++				dev_err_ratelimited(dev,
++						    "Channel waiting ack failed, message type: %d, msg id: %u\n",
++						    chan_send->msg_type, msgid);
++				ret = -ETIMEDOUT;
++				goto inflight_dec_out;
++			}
++
++			if (READ_ONCE(wait_head->acked))
++				break;
++		}
++
++		chan_send->ack_len = wait_head->ack_data_len;
++		ret = wait_head->ack_err;
++		WRITE_ONCE(wait_head->acked, 0);
++		WRITE_ONCE(wait_head->status, NBL_MBX_STATUS_IDLE);
++		spin_unlock_irq(&wait_head->status_lock);
++		goto inflight_dec_out;
++	}
++
++inflight_dec_out:
++	atomic_dec(&chan_info->inflight_tx_cnt);
++	return ret;
++
++unlock_out:
++	mutex_unlock(&chan_info->txq_lock);
++	if (inflight_inc)
++		atomic_dec(&chan_info->inflight_tx_cnt);
++	return ret;
 +}
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
++
++static int nbl_chan_send_ack(struct nbl_channel_mgt *chan_mgt,
++			     struct nbl_chan_ack_info *chan_ack)
++{
++	size_t head_len = NBL_CHAN_ACK_HEAD_LEN * sizeof(u32);
++	size_t data_len = chan_ack->data_len;
++	struct nbl_chan_send_info chan_send;
++	__le32 *tmp;
++	size_t len;
++	int ret;
++
++	if (data_len >
++	    NBL_CHAN_BUF_LEN - sizeof(struct nbl_chan_tx_desc) - head_len)
++		return -EINVAL;
++
++	len = head_len + data_len;
++	tmp = kzalloc(len, GFP_ATOMIC);
++	if (!tmp)
++		return -ENOMEM;
++
++	*(__le16 *)&tmp[NBL_CHAN_MSG_TYPE_POS] =
++		cpu_to_le16(chan_ack->msg_type);
++	*(__le16 *)&tmp[NBL_CHAN_MSG_ID_POS] = cpu_to_le16(chan_ack->msgid);
++	tmp[NBL_CHAN_ACK_RET_POS] = cpu_to_le32(chan_ack->err);
++	if (chan_ack->data && chan_ack->data_len)
++		memcpy(&tmp[NBL_CHAN_ACK_HEAD_LEN], chan_ack->data,
++		       chan_ack->data_len);
++
++	nbl_chan_fill_send_info(&chan_send, chan_ack->dstid, NBL_CHAN_MSG_ACK,
++				tmp, len, NULL, 0, 0);
++	ret = nbl_chan_send_msg(chan_mgt, &chan_send);
++	kfree(tmp);
++
++	return ret;
++}
++
++static int nbl_chan_register_msg(struct nbl_channel_mgt *chan_mgt, u16 msg_type,
++				 nbl_chan_resp func, void *callback)
++{
++	return nbl_chan_add_msg_handler(chan_mgt, msg_type, func, callback);
++}
++
++static bool nbl_chan_check_queue_exist(struct nbl_channel_mgt *chan_mgt,
++				       u8 chan_type)
++{
++	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
++
++	return chan_info ? true : false;
++}
++
++static void nbl_chan_register_chan_task(struct nbl_channel_mgt *chan_mgt,
++					u8 chan_type, struct work_struct *task)
++{
++	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
++
++	chan_info->clean_task = task;
++}
++
++static void nbl_chan_set_queue_state(struct nbl_channel_mgt *chan_mgt,
++				     enum nbl_chan_state state, u8 chan_type,
++				     u8 set)
++{
++	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
++
++	if (set)
++		set_bit(state, chan_info->state);
++	else
++		clear_bit(state, chan_info->state);
++}
++
++static struct nbl_channel_ops chan_ops = {
++	.send_msg			= nbl_chan_send_msg,
++	.send_ack			= nbl_chan_send_ack,
++	.register_msg			= nbl_chan_register_msg,
++	.unregister_all_msg		= nbl_chan_remove_msg_handler,
++	.cfg_chan_qinfo_map_table	= nbl_chan_cfg_qinfo_map_table,
++	.check_queue_exist		= nbl_chan_check_queue_exist,
++	.setup_queue			= nbl_chan_setup_queue,
++	.teardown_queue			= nbl_chan_teardown_queue,
++	.clean_queue_subtask		= nbl_chan_clean_queue_subtask,
++	.register_chan_task		= nbl_chan_register_chan_task,
++	.set_queue_state		= nbl_chan_set_queue_state,
++};
++
++static struct nbl_channel_mgt *
++nbl_chan_setup_chan_mgt(struct nbl_adapter *adapter)
++{
++	struct nbl_hw_ops_tbl *hw_ops_tbl = adapter->intf.hw_ops_tbl;
++	struct nbl_common_info *common = &adapter->common;
++	struct device *dev = &adapter->pdev->dev;
++	struct nbl_channel_mgt *chan_mgt;
++	struct nbl_chan_info *mailbox;
++	int ret;
++
++	chan_mgt = devm_kzalloc(dev, sizeof(*chan_mgt), GFP_KERNEL);
++	if (!chan_mgt)
++		return ERR_PTR(-ENOMEM);
++
++	chan_mgt->common = common;
++	chan_mgt->hw_ops_tbl = hw_ops_tbl;
++
++	mailbox = devm_kzalloc(dev, sizeof(*mailbox), GFP_KERNEL);
++	if (!mailbox)
++		return ERR_PTR(-ENOMEM);
++	mailbox->chan_type = NBL_CHAN_TYPE_MAILBOX;
++	chan_mgt->chan_info[NBL_CHAN_TYPE_MAILBOX] = mailbox;
++
++	ret = nbl_chan_init_msg_handler(chan_mgt);
++	if (ret)
++		return ERR_PTR(-ENOMEM);
++
++	return chan_mgt;
++}
++
++static struct nbl_channel_ops_tbl *
++nbl_chan_setup_ops(struct device *dev, struct nbl_channel_mgt *chan_mgt)
++{
++	struct nbl_channel_ops_tbl *chan_ops_tbl;
++	int ret;
++
++	chan_ops_tbl = devm_kzalloc(dev, sizeof(*chan_ops_tbl), GFP_KERNEL);
++	if (!chan_ops_tbl)
++		return ERR_PTR(-ENOMEM);
++
++	chan_ops_tbl->ops = &chan_ops;
++	chan_ops_tbl->priv = chan_mgt;
++
++	ret = nbl_chan_register_msg(chan_mgt, NBL_CHAN_MSG_ACK,
++				    nbl_chan_recv_ack_msg, chan_mgt);
++	if (ret)
++		return ERR_PTR(-ENOMEM);
++
++	return chan_ops_tbl;
++}
++
++int nbl_chan_init_common(struct nbl_adapter *adap)
++{
++	struct nbl_channel_ops_tbl *chan_ops_tbl;
++	struct device *dev = &adap->pdev->dev;
++	struct nbl_channel_mgt *chan_mgt;
++	int ret;
++
++	chan_mgt = nbl_chan_setup_chan_mgt(adap);
++	if (IS_ERR(chan_mgt)) {
++		ret = PTR_ERR(chan_mgt);
++		goto exit;
++	}
++
++	chan_ops_tbl = nbl_chan_setup_ops(dev, chan_mgt);
++	if (IS_ERR(chan_ops_tbl)) {
++		ret = PTR_ERR(chan_ops_tbl);
++		goto cleanup_mgt;
++	}
++	adap->intf.channel_ops_tbl = chan_ops_tbl;
++	adap->core.chan_mgt = chan_mgt;
++	return 0;
++
++cleanup_mgt:
++	nbl_chan_remove_msg_handler(chan_mgt);
++exit:
++	return ret;
++}
++
++void nbl_chan_remove_common(struct nbl_adapter *adap)
++{
++	struct nbl_channel_mgt *chan_mgt = adap->core.chan_mgt;
++
++	if (!chan_mgt)
++		return;
++
++	/*
++	 * All channel queues shall be torn down earlier in remove path
++	 * to drain inflight tx workers and stop hardware before destroying
++	 * message handler hash table.
++	 */
++	nbl_chan_remove_msg_handler(chan_mgt);
++	adap->core.chan_mgt = NULL;
++}
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
 new file mode 100644
-index 000000000000..5aa46a4fce4c
+index 000000000000..92db39e1b05e
 --- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
-@@ -0,0 +1,21 @@
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+@@ -0,0 +1,170 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (c) 2025 Nebula Matrix Limited.
 + */
 +
-+#ifndef _NBL_INTERRUPT_H_
-+#define _NBL_INTERRUPT_H_
++#ifndef _NBL_CHANNEL_H_
++#define _NBL_CHANNEL_H_
 +
-+#include "nbl_resource.h"
++#include <linux/types.h>
 +
-+#define NBL_MSIX_MAP_TABLE_MAX_ENTRIES	1024
-+int nbl_res_intr_destroy_msix_map(struct nbl_resource_mgt *res_mgt,
-+				  u16 func_id);
-+int nbl_res_intr_configure_msix_map(struct nbl_resource_mgt *res_mgt,
-+				    u16 func_id, u16 num_net_msix,
-+				    u16 num_others_msix,
-+				    bool net_msix_mask_en);
-+int nbl_res_intr_set_mailbox_irq(struct nbl_resource_mgt *res_mgt,
-+				 u16 func_id, u16 vector_id,
-+				 bool enable_msix);
-+#endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
-index 8dc3bc101eb6..a6e2c7eeed0e 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
-@@ -68,6 +68,36 @@ int nbl_res_vsi_id_to_pf_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id)
- 	return -ENOENT;
- }
- 
-+int nbl_res_func_id_to_bdf(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			   u8 *bus, u8 *dev, u8 *function)
-+{
-+	struct nbl_common_info *common = res_mgt->common;
-+	struct nbl_sriov_info *sriov_info;
-+	int pfid = func_id;
-+	u8 pf_bus, devfn;
-+	u32 rel_pf_id;
-+	int ret;
++#include "../nbl_include/nbl_include.h"
++#include "../nbl_include/nbl_def_channel.h"
++#include "../nbl_include/nbl_def_hw.h"
++#include "../nbl_include/nbl_def_common.h"
++#include "../nbl_core.h"
 +
-+	if (!common->has_ctrl || !bus || !dev || !function)
-+		return -EINVAL;
-+	ret = nbl_common_func_id_to_rel_pf_id(common, pfid, &rel_pf_id);
-+	if (ret)
-+		return ret;
-+	if (rel_pf_id >= res_mgt->resource_info->max_pf) {
-+		dev_err(common->dev, "PF ID %u exceeds maximum supported PF count %u\n",
-+			pfid, res_mgt->resource_info->max_pf);
-+		return -ERANGE;
-+	}
-+	sriov_info = res_mgt->resource_info->sriov_info + rel_pf_id;
-+	pf_bus = PCI_BUS_NUM(sriov_info->bdf);
-+	devfn = sriov_info->bdf & 0xff;
-+	*bus = pf_bus;
-+	*dev = PCI_SLOT(devfn);
-+	*function = PCI_FUNC(devfn);
++#define NBL_CHAN_TX_RING_TO_DESC(tx_ring, i) \
++	(&((((tx_ring)->desc.tx_desc))[i]))
++#define NBL_CHAN_RX_RING_TO_DESC(rx_ring, i) \
++	(&((((rx_ring)->desc.rx_desc))[i]))
++#define NBL_CHAN_TX_RING_TO_BUF(tx_ring, i) (&(((tx_ring)->buf)[i]))
++#define NBL_CHAN_RX_RING_TO_BUF(rx_ring, i) (&(((rx_ring)->buf)[i]))
 +
-+	return 0;
-+}
++#define NBL_CHAN_TX_WAIT_US			100
++#define NBL_CHAN_TX_WAIT_US_MAX			120
++#define NBL_CHAN_TX_WAIT_TIMES			100
++#define NBL_CHAN_QUEUE_LEN			256
++#define NBL_CHAN_BUF_LEN			4096
++#define NBL_CHAN_TX_DESC_EMBEDDED_DATA_LEN	16
 +
- int nbl_res_get_eth_id(struct nbl_resource_mgt *res_mgt, u16 func_id,
- 		       u16 vsi_id, u8 *eth_num, u8 *eth_id, u8 *logic_eth_id)
- {
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-index 8650310bf9b3..7f7624e9215d 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-@@ -17,6 +17,38 @@
- 
- struct nbl_resource_mgt;
- 
-+/* --------- INTERRUPT ---------- */
-+#define NBL_MAX_OTHER_INTERRUPT			1024
-+#define NBL_MAX_NET_INTERRUPT			4096
-+#define NBL_NET_INTR_BASE		NBL_MAX_OTHER_INTERRUPT
++#define NBL_CHAN_TX_DESC_AVAIL			0
++#define NBL_CHAN_TX_DESC_USED			1
++#define NBL_CHAN_RX_DESC_WRITE			1
++#define NBL_CHAN_RX_DESC_AVAIL			3
++#define NBL_CHAN_RX_DESC_USED			4
 +
-+#define NBL_MSIX_MAP_VALID_MASK		BIT(0)
-+#define NBL_MSIX_MAP_INDEX_MASK		GENMASK(13, 1)
-+#define NBL_MSIX_MAP_RSV_MASK		GENMASK(15, 14)
++#define NBL_CHAN_ACK_HEAD_LEN			3
++#define NBL_CHAN_ACK_RET_POS			2
++#define NBL_CHAN_MSG_ID_POS			1
++#define NBL_CHAN_MSG_TYPE_POS			0
 +
-+struct nbl_msix_map {
-+	__le16 data;
++#define NBL_CHAN_ACK_WAIT_TIME			(3 * HZ)
++
++#define NBL_CHAN_HANDLER_TBL_BUCKET_SIZE	512
++
++enum {
++	NBL_MB_RX_QID = 0,
++	NBL_MB_TX_QID = 1,
 +};
 +
-+struct nbl_msix_map_table {
-+	struct nbl_msix_map *base_addr;
-+	dma_addr_t dma;
++enum {
++	NBL_MBX_STATUS_IDLE = 0,
++	NBL_MBX_STATUS_WAITING,
++	NBL_MBX_STATUS_TIMEOUT,
++};
++
++struct nbl_chan_tx_param {
++	enum nbl_chan_msg_type msg_type;
++	void *arg;
++	size_t arg_len;
++	u16 dstid;
++	u16 msgid;
++};
++
++struct nbl_chan_buf {
++	void *va;
++	dma_addr_t pa;
 +	size_t size;
 +};
 +
-+struct nbl_func_interrupt_resource_mng {
-+	u16 num_interrupts;
-+	u16 num_net_interrupts;
-+	u16 *interrupts;
-+	struct nbl_msix_map_table msix_map_table;
++struct nbl_chan_tx_desc {
++	__le16 flags;
++	__le16 srcid;
++	__le16 dstid;
++	__le16 data_len;
++	__le16 buf_len;
++	__le64 buf_addr;
++	__le16 msg_type;
++	u8 data[16];
++	__le16 msgid;
++	u8 rsv[26];
++} __packed;
++
++struct nbl_chan_rx_desc {
++	__le16 flags;
++	__le32 buf_len;
++	__le16 buf_id;
++	__le64 buf_addr;
++} __packed;
++
++union nbl_chan_desc_ptr {
++	struct nbl_chan_tx_desc *tx_desc;
++	struct nbl_chan_rx_desc *rx_desc;
 +};
 +
-+struct nbl_interrupt_mgt {
-+	DECLARE_BITMAP(intr_net_bmap, NBL_MAX_NET_INTERRUPT);
-+	DECLARE_BITMAP(intr_other_bmap, NBL_MAX_OTHER_INTERRUPT);
-+	struct nbl_func_interrupt_resource_mng func_intr_res[NBL_MAX_FUNC];
++struct nbl_chan_ring {
++	union nbl_chan_desc_ptr desc;
++	struct nbl_chan_buf *buf;
++	u16 next_to_use;
++	u16 tail_ptr; /* hardware does modulo ring size internally */
++	u16 next_to_clean;
++	dma_addr_t dma;
 +};
 +
- /* --------- INFO ---------- */
- struct nbl_sriov_info {
- 	unsigned int bdf;
-@@ -66,8 +98,11 @@ struct nbl_resource_mgt {
- int nbl_res_vsi_id_to_pf_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id);
- int nbl_res_func_id_to_vsi_id(struct nbl_resource_mgt *res_mgt, u16 func_id,
- 			      u16 type, u16 *vsi_id);
-+int nbl_res_func_id_to_bdf(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			   u8 *bus, u8 *dev, u8 *function);
- int nbl_res_get_eth_id(struct nbl_resource_mgt *res_mgt, u16 func_id,
- 		       u16 vsi_id, u8 *eth_num, u8 *eth_id, u8 *logic_eth_id);
-+int nbl_intr_mgt_start(struct nbl_resource_mgt *res_mgt);
- int nbl_res_pf_dev_vsi_type_to_hw_vsi_type(struct nbl_resource_mgt *res_mgt,
- 					   u16 src_type,
- 					   enum nbl_vsi_serv_type *dst_type);
++#define NBL_CHAN_MSG_INDEX_MAX 63
++
++#define NBL_CHAN_MSGID_INDEX_MASK GENMASK(5, 0)
++#define NBL_CHAN_MSGID_LOC_MASK GENMASK(13, 6)
++
++static inline void nbl_chan_update_tail_ptr(struct nbl_hw_ops *hw_ops,
++					    void *hw_priv, u32 tail_ptr, u8 qid)
++{
++	hw_ops->update_mailbox_queue_tail_ptr(hw_priv, tail_ptr, qid);
++}
++
++struct nbl_chan_waitqueue_head {
++	struct wait_queue_head wait_queue;
++	char *ack_data;
++	int acked;
++	s32 ack_err;
++	u16 ack_data_len;
++	u16 msg_type;
++	/*
++	 * Spinlock protecting all fields.
++	 * Must be held when reading/writing: status, acked, ack_err,
++	 * ack_data_len, etc.
++	 * The lock ensures atomic updates of these fields and
++	 * proper memory ordering with smp_wmb()/smp_rmb().
++	 */
++	spinlock_t status_lock;
++	int status;
++	u8 msg_index;
++	u16 dstid;
++};
++
++struct nbl_chan_info {
++	struct nbl_chan_ring txq;
++	struct nbl_chan_ring rxq;
++	struct nbl_chan_waitqueue_head *wait;
++	/*
++	 *Protects access to the TX queue (txq) and related metadata.
++	 *This mutex ensures exclusive access when updating the TX queue
++	 */
++	struct mutex txq_lock;
++	struct work_struct *clean_task;
++	u16 wait_head_index;
++	u16 num_txq_entries;
++	u16 num_rxq_entries;
++	u16 txq_buf_size;
++	u16 rxq_buf_size;
++	DECLARE_BITMAP(state, NBL_CHAN_STATE_NBITS);
++	u8 chan_type;
++	atomic_t inflight_tx_cnt;
++	bool shutdown;
++	bool init_done;
++};
++
++struct nbl_chan_msg_node_data {
++	nbl_chan_resp func;
++	void *priv;
++};
++
++struct nbl_channel_mgt {
++	struct nbl_common_info *common;
++	struct nbl_hw_ops_tbl *hw_ops_tbl;
++	struct nbl_chan_info *chan_info[NBL_CHAN_TYPE_MAX];
++	struct nbl_hash_tbl_mgt *handle_hash_tbl;
++};
++
++#endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
+new file mode 100644
+index 000000000000..fc9b489ca02c
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
+@@ -0,0 +1,166 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2025 Nebula Matrix Limited.
++ */
++
++#include <linux/device.h>
++#include <linux/jhash.h>
++#include "nbl_common.h"
++
++static u32 nbl_common_calc_hash_key(void *key, u32 key_size, u32 bucket_size)
++{
++	u32 hash;
++
++	if (bucket_size == 0 || bucket_size == NBL_HASH_TBL_LIST_BUCKET_SIZE)
++		return 0;
++
++	hash = jhash(key, key_size, 0);
++
++	/* Use bitmask if bucket_size is a power of 2 */
++	if ((bucket_size & (bucket_size - 1)) == 0)
++		return hash & (bucket_size - 1);
++	else
++		return hash % bucket_size;
++}
++
++/*
++ * alloc a hash table
++ * the table support multi thread
++ */
++struct nbl_hash_tbl_mgt *
++nbl_common_init_hash_table(struct nbl_hash_tbl_key *key)
++{
++	struct nbl_hash_tbl_mgt *tbl_mgt;
++	int bucket_size;
++	int i;
++
++	tbl_mgt = devm_kzalloc(key->dev, sizeof(*tbl_mgt), GFP_KERNEL);
++	if (!tbl_mgt)
++		return NULL;
++
++	bucket_size = key->bucket_size;
++	tbl_mgt->hash = devm_kcalloc(key->dev, bucket_size,
++				     sizeof(struct hlist_head), GFP_KERNEL);
++	if (!tbl_mgt->hash)
++		goto alloc_hash_failed;
++
++	for (i = 0; i < bucket_size; i++)
++		INIT_HLIST_HEAD(tbl_mgt->hash + i);
++
++	memcpy(&tbl_mgt->tbl_key, key, sizeof(struct nbl_hash_tbl_key));
++
++	return tbl_mgt;
++
++alloc_hash_failed:
++	return NULL;
++}
++
++/*
++ * Allocate a hash node and add to the hash table.
++ *
++ * Note: The hash table is protected by the caller's mutex (txq_lock),
++ * not lock-free. The "single context" comment refers to: this function
++ * is only called during init from nbl_chan_init_msg_handler, so there
++ * is no concurrent mutation during init.
++ * After init, the table is read-only (no unregister API), so no lock is needed
++ * for lookups either.
++ *
++ * The tbl_mgt and bucket array are devm-allocated, so they are automatically
++ * freed on device detach. Only the hash nodes themselves need explicit cleanup.
++ */
++int nbl_common_alloc_hash_node(struct nbl_hash_tbl_mgt *tbl_mgt, void *key,
++			       void *data, void **out_data)
++{
++	struct nbl_hash_entry_node *hash_node;
++	u16 data_size;
++	u16 node_size;
++	u32 hash_val;
++	u16 key_size;
++
++	node_size = sizeof(*hash_node);
++	hash_node = kzalloc(node_size, GFP_KERNEL);
++	if (!hash_node)
++		return -ENOMEM;
++
++	key_size = tbl_mgt->tbl_key.key_size;
++	hash_node->key = kzalloc(key_size, GFP_KERNEL);
++	if (!hash_node->key)
++		goto alloc_key_failed;
++
++	data_size = tbl_mgt->tbl_key.data_size;
++	hash_node->data = kzalloc(data_size, GFP_KERNEL);
++	if (!hash_node->data)
++		goto alloc_data_failed;
++
++	memcpy(hash_node->key, key, key_size);
++	memcpy(hash_node->data, data, data_size);
++
++	hash_val = nbl_common_calc_hash_key(key, key_size,
++					    tbl_mgt->tbl_key.bucket_size);
++
++	hlist_add_head(&hash_node->node, tbl_mgt->hash + hash_val);
++	tbl_mgt->node_num++;
++	if (out_data)
++		*out_data = hash_node->data;
++
++	return 0;
++
++alloc_data_failed:
++	kfree(hash_node->key);
++alloc_key_failed:
++	kfree(hash_node);
++	return -ENOMEM;
++}
++
++/*
++ * get a hash node, return the data if node exist
++ */
++void *nbl_common_get_hash_node(struct nbl_hash_tbl_mgt *tbl_mgt, void *key)
++{
++	struct nbl_hash_entry_node *hash_node;
++	struct hlist_head *head;
++	void *data = NULL;
++	u32 hash_val;
++	u16 key_size;
++
++	key_size = tbl_mgt->tbl_key.key_size;
++	hash_val = nbl_common_calc_hash_key(key, key_size,
++					    tbl_mgt->tbl_key.bucket_size);
++	head = tbl_mgt->hash + hash_val;
++
++	hlist_for_each_entry(hash_node, head, node)
++		if (!memcmp(hash_node->key, key, key_size)) {
++			data = hash_node->data;
++			break;
++		}
++
++	return data;
++}
++
++static void nbl_common_detach_hash_node(struct nbl_hash_tbl_mgt *tbl_mgt,
++					struct nbl_hash_entry_node *hash_node)
++{
++	hlist_del(&hash_node->node);
++	kfree(hash_node->key);
++	kfree(hash_node->data);
++	kfree(hash_node);
++	tbl_mgt->node_num--;
++}
++
++/*
++ * Free all hash nodes in the table.
++ */
++void nbl_common_remove_hash_table(struct nbl_hash_tbl_mgt *tbl_mgt)
++{
++	struct nbl_hash_entry_node *hash_node;
++	struct hlist_node *safe_node;
++	struct hlist_head *head;
++	u32 i;
++
++	for (i = 0; i < tbl_mgt->tbl_key.bucket_size; i++) {
++		head = tbl_mgt->hash + i;
++		hlist_for_each_entry_safe(hash_node, safe_node, head, node) {
++			nbl_common_detach_hash_node(tbl_mgt, hash_node);
++		}
++	}
++}
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
+new file mode 100644
+index 000000000000..ad8fb7ec9f45
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2025 Nebula Matrix Limited.
++ */
++
++#ifndef _NBL_COMMON_H_
++#define _NBL_COMMON_H_
++
++#include <linux/types.h>
++
++#include "../nbl_include/nbl_include.h"
++#include "../nbl_include/nbl_def_common.h"
++
++/* list only need one bucket size */
++#define NBL_HASH_TBL_LIST_BUCKET_SIZE 1
++
++struct nbl_hash_tbl_mgt {
++	struct nbl_hash_tbl_key tbl_key;
++	struct hlist_head *hash;
++	u16 node_num;
++};
++
++struct nbl_hash_entry_node {
++	struct hlist_node node;
++	void *key;
++	void *data;
++};
++
++#endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+index e2e33fbb848a..66861d684220 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+@@ -14,13 +14,20 @@ enum {
+ 	NBL_CAP_HAS_NET_BIT,
+ };
+ 
++struct nbl_interface {
++	struct nbl_hw_ops_tbl *hw_ops_tbl;
++	struct nbl_channel_ops_tbl *channel_ops_tbl;
++};
++
+ struct nbl_core {
+ 	struct nbl_hw_mgt *hw_mgt;
++	struct nbl_channel_mgt *chan_mgt;
+ };
+ 
+ struct nbl_adapter {
+ 	struct pci_dev *pdev;
+ 	struct nbl_core core;
++	struct nbl_interface intf;
+ 	struct nbl_common_info common;
+ };
+ 
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+index d66d7ca8a2bb..e4212df5c106 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+@@ -10,6 +10,150 @@
+ #include <linux/bitfield.h>
+ #include "nbl_hw_leonis.h"
+ 
++static void nbl_hw_write_mbx_regs(struct nbl_hw_mgt *hw_mgt, u64 reg,
++				  const u32 *data, u32 len)
++{
++	u32 i;
++
++	if (len % 4)
++		return;
++
++	for (i = 0; i < len / 4; i++)
++		nbl_mbx_wr32(hw_mgt, reg + i * sizeof(u32), data[i]);
++}
++
++static void nbl_hw_rd_regs_lock(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 *data,
++				u32 len)
++{
++	u32 size = len / 4;
++	u32 i;
++
++	if (len % 4)
++		return;
++
++	spin_lock(&hw_mgt->reg_lock);
++
++	for (i = 0; i < size; i++)
++		data[i] = rd32(hw_mgt->hw_addr, reg + i * sizeof(u32));
++	spin_unlock(&hw_mgt->reg_lock);
++}
++
++static void nbl_hw_wr_regs_lock(struct nbl_hw_mgt *hw_mgt, u64 reg,
++				const u32 *data, u32 len)
++{
++	u32 size = len / 4;
++	u32 i;
++
++	if (len % 4)
++		return;
++	spin_lock(&hw_mgt->reg_lock);
++	for (i = 0; i < size; i++)
++		wr32(hw_mgt->hw_addr, reg + i * sizeof(u32), data[i]);
++	spin_unlock(&hw_mgt->reg_lock);
++}
++
++static void nbl_hw_update_mailbox_queue_tail_ptr(struct nbl_hw_mgt *hw_mgt,
++						 u16 tail_ptr, u8 txrx)
++{
++	/* local_qid 0 and 1 denote rx and tx queue respectively */
++	u32 local_qid = txrx;
++	u32 value = ((u32)tail_ptr << 16) | local_qid;
++
++	/* wmb for doorbell */
++	wmb();
++	nbl_mbx_wr32(hw_mgt, NBL_MAILBOX_NOTIFY_ADDR, value);
++}
++
++static void nbl_hw_config_mailbox_rxq(struct nbl_hw_mgt *hw_mgt,
++				      dma_addr_t dma_addr, int size_bwid)
++{
++	struct nbl_mailbox_qinfo_cfg_table cfg_tbl;
++
++	memset(&cfg_tbl, 0, sizeof(cfg_tbl));
++	cfg_tbl.data[3] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK, 1);
++	nbl_hw_write_mbx_regs(hw_mgt, NBL_MAILBOX_QINFO_CFG_RX_TABLE_ADDR,
++			      cfg_tbl.data, sizeof(cfg_tbl));
++
++	cfg_tbl.data[0] = lower_32_bits(dma_addr);
++	cfg_tbl.data[1] = upper_32_bits(dma_addr);
++	cfg_tbl.data[2] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_SIZE_BWID_MASK,
++				     size_bwid);
++	cfg_tbl.data[3] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK, 0) |
++			  FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_EN_MASK, 1);
++	nbl_hw_write_mbx_regs(hw_mgt, NBL_MAILBOX_QINFO_CFG_RX_TABLE_ADDR,
++			      cfg_tbl.data, sizeof(cfg_tbl));
++}
++
++static void nbl_hw_config_mailbox_txq(struct nbl_hw_mgt *hw_mgt,
++				      dma_addr_t dma_addr, int size_bwid)
++{
++	struct nbl_mailbox_qinfo_cfg_table cfg_tbl;
++
++	memset(&cfg_tbl, 0, sizeof(cfg_tbl));
++	cfg_tbl.data[3] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK, 1);
++	nbl_hw_write_mbx_regs(hw_mgt, NBL_MAILBOX_QINFO_CFG_TX_TABLE_ADDR,
++			      cfg_tbl.data, sizeof(cfg_tbl));
++
++	cfg_tbl.data[0] = lower_32_bits(dma_addr);
++	cfg_tbl.data[1] = upper_32_bits(dma_addr);
++	cfg_tbl.data[2] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_SIZE_BWID_MASK,
++				     size_bwid);
++	cfg_tbl.data[3] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK, 0) |
++			  FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_EN_MASK, 1);
++	nbl_hw_write_mbx_regs(hw_mgt, NBL_MAILBOX_QINFO_CFG_TX_TABLE_ADDR,
++			      cfg_tbl.data, sizeof(cfg_tbl));
++}
++
++static void nbl_hw_stop_mailbox_rxq(struct nbl_hw_mgt *hw_mgt)
++{
++	struct nbl_mailbox_qinfo_cfg_table cfg_tbl;
++
++	memset(&cfg_tbl, 0, sizeof(cfg_tbl));
++	cfg_tbl.data[3] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK, 1);
++	nbl_hw_write_mbx_regs(hw_mgt, NBL_MAILBOX_QINFO_CFG_RX_TABLE_ADDR,
++			      cfg_tbl.data, sizeof(cfg_tbl));
++}
++
++static void nbl_hw_stop_mailbox_txq(struct nbl_hw_mgt *hw_mgt)
++{
++	struct nbl_mailbox_qinfo_cfg_table cfg_tbl;
++
++	memset(&cfg_tbl, 0, sizeof(cfg_tbl));
++	cfg_tbl.data[3] = FIELD_PREP(NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK, 1);
++	nbl_hw_write_mbx_regs(hw_mgt, NBL_MAILBOX_QINFO_CFG_TX_TABLE_ADDR,
++			      cfg_tbl.data, sizeof(cfg_tbl));
++}
++
++static void nbl_hw_get_host_pf_mask(struct nbl_hw_mgt *hw_mgt, u32 *pf_mask)
++{
++	nbl_hw_rd_regs_lock(hw_mgt, NBL_PCIE_HOST_K_PF_MASK_REG, pf_mask,
++			    sizeof(*pf_mask));
++}
++
++static void nbl_hw_cfg_mailbox_qinfo(struct nbl_hw_mgt *hw_mgt, u16 func_id,
++				     u8 bus, u8 devid, u8 function)
++{
++	u32 data = 0;
++
++	data = FIELD_PREP(NBL_MAILBOX_QINFO_MAP_FUNCTION_MASK, function) |
++	       FIELD_PREP(NBL_MAILBOX_QINFO_MAP_DEVID_MASK, devid) |
++	       FIELD_PREP(NBL_MAILBOX_QINFO_MAP_BUS_MASK, bus);
++	nbl_hw_wr_regs_lock(hw_mgt, NBL_MAILBOX_QINFO_MAP_REG_ARR(func_id),
++			    &data,
++			    sizeof(data));
++}
++
++static struct nbl_hw_ops hw_ops = {
++	.update_mailbox_queue_tail_ptr = nbl_hw_update_mailbox_queue_tail_ptr,
++	.config_mailbox_rxq = nbl_hw_config_mailbox_rxq,
++	.config_mailbox_txq = nbl_hw_config_mailbox_txq,
++	.stop_mailbox_rxq = nbl_hw_stop_mailbox_rxq,
++	.stop_mailbox_txq = nbl_hw_stop_mailbox_txq,
++	.get_host_pf_mask = nbl_hw_get_host_pf_mask,
++	.cfg_mailbox_qinfo = nbl_hw_cfg_mailbox_qinfo,
++
++};
++
+ /* Structure starts here, adding an op should not modify anything below */
+ static struct nbl_hw_mgt *nbl_hw_setup_hw_mgt(struct nbl_common_info *common)
+ {
+@@ -25,6 +169,23 @@ static struct nbl_hw_mgt *nbl_hw_setup_hw_mgt(struct nbl_common_info *common)
+ 	return hw_mgt;
+ }
+ 
++static struct nbl_hw_ops_tbl *nbl_hw_setup_ops(struct nbl_common_info *common,
++					       struct nbl_hw_mgt *hw_mgt)
++{
++	struct nbl_hw_ops_tbl *hw_ops_tbl;
++	struct device *dev;
++
++	dev = common->dev;
++	hw_ops_tbl = devm_kzalloc(dev, sizeof(*hw_ops_tbl), GFP_KERNEL);
++	if (!hw_ops_tbl)
++		return ERR_PTR(-ENOMEM);
++
++	hw_ops_tbl->ops = &hw_ops;
++	hw_ops_tbl->priv = hw_mgt;
++
++	return hw_ops_tbl;
++}
++
+ static int nbl_pcim_request_selected_bars(struct pci_dev *pdev, u32 mask,
+ 					  const char *name)
+ {
+@@ -45,6 +206,7 @@ int nbl_hw_init_leonis(struct nbl_adapter *adapter)
+ {
+ 	struct nbl_common_info *common = &adapter->common;
+ 	struct pci_dev *pdev = common->pdev;
++	struct nbl_hw_ops_tbl *hw_ops_tbl = NULL;
+ 	struct nbl_hw_mgt *hw_mgt = NULL;
+ 	resource_size_t bar_len;
+ 	u32 bar_mask;
+@@ -136,6 +298,14 @@ int nbl_hw_init_leonis(struct nbl_adapter *adapter)
+ 		goto setup_mgt_fail;
+ 	}
+ 
++	spin_lock_init(&hw_mgt->reg_lock);
++
++	hw_ops_tbl = nbl_hw_setup_ops(common, hw_mgt);
++	if (IS_ERR(hw_ops_tbl)) {
++		ret = PTR_ERR(hw_ops_tbl);
++		goto setup_mgt_fail;
++	}
++	adapter->intf.hw_ops_tbl = hw_ops_tbl;
+ 	adapter->core.hw_mgt = hw_mgt;
+ 
+ 	return 0;
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+index 77c67b67ba31..1d2dd10e6239 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+@@ -11,4 +11,60 @@
+ #include "../../nbl_include/nbl_include.h"
+ #include "../nbl_hw_reg.h"
+ 
++/*  ----------  REG BASE ADDR  ----------  */
++/* Interface modules base addr */
++#define NBL_INTF_HOST_PCOMPLETER_BASE		0x00f08000
++#define NBL_INTF_HOST_PADPT_BASE		0x00f4c000
++#define NBL_INTF_HOST_MAILBOX_BASE		0x00fb0000
++#define NBL_INTF_HOST_PCIE_BASE			0X01504000
++/* DP modules base addr */
++#define NBL_DP_USTORE_BASE			0x00104000
++#define NBL_DP_UQM_BASE				0x00114000
++#define NBL_DP_UPED_BASE			0x0015c000
++#define NBL_DP_UVN_BASE				0x00244000
++#define NBL_DP_DSCH_BASE			0x00404000
++#define NBL_DP_SHAPING_BASE			0x00504000
++#define NBL_DP_DVN_BASE				0x00514000
++#define NBL_DP_DSTORE_BASE			0x00704000
++#define NBL_DP_DQM_BASE				0x00714000
++#define NBL_DP_DPED_BASE			0x0075c000
++#define NBL_DP_DDMUX_BASE			0x00984000
++/*  --------  MAILBOX BAR2 -----  */
++#define NBL_MAILBOX_NOTIFY_ADDR			0x00000000
++#define NBL_MAILBOX_BAR_REG			0x00000000
++#define NBL_MAILBOX_QINFO_CFG_RX_TABLE_ADDR	0x10
++#define NBL_MAILBOX_QINFO_CFG_TX_TABLE_ADDR	0x20
++#define NBL_MAILBOX_QINFO_CFG_DBG_TABLE_ADDR	0x30
++
++/*  --------  MAILBOX  --------  */
++
++/* mailbox BAR qinfo_cfg_table */
++#define MAILBOX_QINFO_CFG_TABLE_DWLEN	4
++/* data[2] */
++#define NBL_MAILBOX_QINFO_CFG_QUEUE_SIZE_BWID_MASK	GENMASK(3, 0)
++/* data[3] */
++#define NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK		BIT(0)
++#define NBL_MAILBOX_QINFO_CFG_QUEUE_EN_MASK		BIT(1)
++#define NBL_MAILBOX_QINFO_CFG_DIF_ERR_MASK		BIT(2)
++#define NBL_MAILBOX_QINFO_CFG_PTR_ERR_MASK		BIT(3)
++struct nbl_mailbox_qinfo_cfg_table {
++	u32 data[MAILBOX_QINFO_CFG_TABLE_DWLEN];
++};
++
++/*  --------  MAILBOX BAR0 -----  */
++/* mailbox qinfo_map_table */
++#define NBL_MAILBOX_QINFO_MAP_REG_ARR(func_id) \
++	(NBL_INTF_HOST_MAILBOX_BASE + 0x00001000 + (func_id) * sizeof(u32))
++
++/* MAILBOX qinfo_map_table */
++#define NBL_MAILBOX_QINFO_MAP_FUNCTION_MASK		GENMASK(2, 0)
++#define NBL_MAILBOX_QINFO_MAP_DEVID_MASK		GENMASK(7, 3)
++#define NBL_MAILBOX_QINFO_MAP_BUS_MASK			GENMASK(15, 8)
++#define NBL_MAILBOX_QINFO_MAP_MSIX_IDX_MASK		GENMASK(28, 16)
++#define NBL_MAILBOX_QINFO_MAP_MSIX_IDX_VALID_MASK	BIT(29)
++
++/*  --------  HOST_PCIE  --------  */
++#define NBL_PCIE_HOST_K_PF_MASK_REG (NBL_INTF_HOST_PCIE_BASE + 0x00001004)
++#define NBL_PCIE_HOST_TL_CFG_BUSDEV (NBL_INTF_HOST_PCIE_BASE + 0x11040)
++
+ #endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+index 1a199357e85f..0026cee101aa 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/types.h>
+ 
++#include "../nbl_include/nbl_def_channel.h"
+ #include "../nbl_include/nbl_def_hw.h"
+ #include "../nbl_include/nbl_def_common.h"
+ #include "../nbl_core.h"
+@@ -16,6 +17,7 @@
+ #define NBL_MAILBOX_BAR				2
+ #define NBL_RDMA_NOTIFY_LEN			(8ULL << 10)
+ #define NBL_REG_NET_ONLY_LEN			(8ULL << 10)
++#define NBL_HW_DUMMY_REG			0x1300904
+ /*
+  * PCI MEMORY BAR total size: 64MiB.
+  * First 32MiB: module registers + table entry address range.
+@@ -28,6 +30,49 @@ struct nbl_hw_mgt {
+ 	u8 __iomem *hw_addr;
+ 	u8 __iomem *mailbox_bar_hw_addr;
+ 	resource_size_t hw_size;
++	spinlock_t reg_lock; /* Protect reg access */
+ };
+ 
++static inline u32 rd32(u8 __iomem *addr, u64 reg)
++{
++	return readl(addr + reg);
++}
++
++static inline void wr32(u8 __iomem *addr, u64 reg, u32 value)
++{
++	writel(value, addr + reg);
++}
++
++static inline void nbl_hw_wr32(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 value)
++{
++	/* Used for emu, make sure that we won't write too frequently */
++	wr32(hw_mgt->hw_addr, reg, value);
++}
++
++static inline u32 nbl_hw_rd32(struct nbl_hw_mgt *hw_mgt, u64 reg)
++{
++	return rd32(hw_mgt->hw_addr, reg);
++}
++
++static inline void nbl_mbx_wr32(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 value)
++{
++	writel(value, hw_mgt->mailbox_bar_hw_addr + reg);
++}
++
++/*
++ * Only call this when has_ctrl=true, which maps enough space
++ * (bar_len - 8192) to cover NBL_HW_DUMMY_REG (0x1300904).
++ * The flow/design guarantees this is only called in the
++ * has_ctrl path.
++ */
++static inline void nbl_flush_writes(struct nbl_hw_mgt *hw_mgt)
++{
++	nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
++}
++
++static inline u32 nbl_mbx_rd32(struct nbl_hw_mgt *hw_mgt, u64 reg)
++{
++	return readl(hw_mgt->mailbox_bar_hw_addr + reg);
++}
++
+ #endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+index be374667c338..dff339923b52 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+@@ -6,6 +6,19 @@
+ #ifndef _NBL_DEF_CHANNEL_H_
+ #define _NBL_DEF_CHANNEL_H_
+ 
++#include <linux/types.h>
++
++struct nbl_channel_mgt;
++struct nbl_adapter;
++
++typedef void (*nbl_chan_resp)(void *, u16, u16, void *, u32);
++
++enum {
++	NBL_CHAN_RESP_OK = 0,
++	NBL_CHAN_RESP_ERR = 1,
++	NBL_CHAN_RESP_UNIMPLEMENTED = 2,
++};
++
+ /*
+  * Mailbox wire opcodes
+  * Every opcode is assigned explicit fixed numeric value, stable wire ABI
+@@ -239,4 +252,101 @@ enum nbl_chan_msg_type {
+ 	NBL_CHAN_MSG_MAILBOX_MAX,
+ };
+ 
++enum nbl_chan_state {
++	NBL_CHAN_INTERRUPT_READY,
++	NBL_CHAN_ABNORMAL,
++	NBL_CHAN_STATE_NBITS
++};
++
++struct nbl_board_port_info {
++	u8 eth_num;
++	u8 eth_speed;
++	u8 p4_version;
++	u8 rsv[5];
++};
++
++struct nbl_chan_send_info {
++	void *arg;
++	size_t arg_len;
++	void *resp;
++	size_t resp_len;
++	u16 dstid;
++	u16 msg_type;
++	u16 ack;
++	u16 ack_len;
++};
++
++struct nbl_chan_ack_info {
++	void *data;
++	int err;
++	u32 data_len;
++	u16 dstid;
++	u16 msg_type;
++	u16 msgid;
++};
++
++enum nbl_channel_type {
++	NBL_CHAN_TYPE_MAILBOX,
++	NBL_CHAN_TYPE_MAX
++};
++
++static inline void
++nbl_chan_fill_send_info(struct nbl_chan_send_info *info,
++			u16 dst_id, u16 msg_type,
++			void *argument, u32 arg_length,
++			void *response, u32 resp_length,
++			bool need_ack)
++{
++	info->dstid = dst_id;
++	info->msg_type = msg_type;
++	info->arg = argument;
++	info->arg_len = arg_length;
++	info->resp = response;
++	info->resp_len = resp_length;
++	info->ack = need_ack;
++}
++
++static inline void
++nbl_chan_fill_ack_info(struct nbl_chan_ack_info *info,
++		       u16 dst_id, u16 msg_type, u16 msg_id,
++		       int err_code, void *ack_data, u32 data_length)
++{
++	info->dstid = dst_id;
++	info->msg_type = msg_type;
++	info->msgid = msg_id;
++	info->err = err_code;
++	info->data = ack_data;
++	info->data_len = data_length;
++}
++
++struct nbl_channel_ops {
++	int (*send_msg)(struct nbl_channel_mgt *chan_mgt,
++			struct nbl_chan_send_info *chan_send);
++	int (*send_ack)(struct nbl_channel_mgt *chan_mgt,
++			struct nbl_chan_ack_info *chan_ack);
++	int (*register_msg)(struct nbl_channel_mgt *chan_mgt, u16 msg_type,
++			    nbl_chan_resp func, void *callback_priv);
++	void (*unregister_all_msg)(struct nbl_channel_mgt *chan_mgt);
++	void (*cfg_chan_qinfo_map_table)(struct nbl_channel_mgt *chan_mgt,
++					 u8 bus, u8 devid);
++	bool (*check_queue_exist)(struct nbl_channel_mgt *chan_mgt,
++				  u8 chan_type);
++	int (*setup_queue)(struct nbl_channel_mgt *chan_mgt, u8 chan_type);
++	int (*teardown_queue)(struct nbl_channel_mgt *chan_mgt, u8 chan_type);
++	void (*clean_queue_subtask)(struct nbl_channel_mgt *chan_mgt,
++				    u8 chan_type);
++	void (*register_chan_task)(struct nbl_channel_mgt *chan_mgt,
++				   u8 chan_type, struct work_struct *task);
++	void (*set_queue_state)(struct nbl_channel_mgt *chan_mgt,
++				enum nbl_chan_state state, u8 chan_type,
++				u8 set);
++};
++
++struct nbl_channel_ops_tbl {
++	struct nbl_channel_ops *ops;
++	struct nbl_channel_mgt *priv;
++};
++
++int nbl_chan_init_common(struct nbl_adapter *adapter);
++void nbl_chan_remove_common(struct nbl_adapter *adapter);
+ #endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+index 5b7ec68d620b..4f651a227539 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+@@ -29,4 +29,19 @@ struct nbl_common_info {
+ 	u8 has_net;
+ };
+ 
++struct nbl_hash_tbl_key {
++	struct device *dev;
++	u16 key_size;
++	u16 data_size; /* no include key or node member */
++	u16 bucket_size;
++	u16 resv;
++};
++
++struct nbl_hash_tbl_mgt *
++nbl_common_init_hash_table(struct nbl_hash_tbl_key *key);
++void nbl_common_remove_hash_table(struct nbl_hash_tbl_mgt *tbl_mgt);
++int nbl_common_alloc_hash_node(struct nbl_hash_tbl_mgt *tbl_mgt, void *key,
++			       void *data, void **out_data);
++void *nbl_common_get_hash_node(struct nbl_hash_tbl_mgt *tbl_mgt, void *key);
++
+ #endif
 diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
-index 74ed7be2ab7d..6569c567634c 100644
+index 517cfa5c755e..9cba73fe24ac 100644
 --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
 +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
-@@ -11,6 +11,14 @@
+@@ -10,6 +10,25 @@
+ 
  struct nbl_hw_mgt;
  struct nbl_adapter;
- struct nbl_hw_ops {
-+	void (*configure_msix_map)(struct nbl_hw_mgt *hw_mgt, u16 func_id,
-+				   bool valid, dma_addr_t dma_addr, u8 bus,
-+				   u8 devid, u8 function);
-+	void (*configure_msix_info)(struct nbl_hw_mgt *hw_mgt, u16 func_id,
-+				    bool valid, u16 interrupt_id, u8 bus,
-+				    u8 devid, u8 function,
-+				    bool net_msix_mask_en);
-+	void (*flush_write)(struct nbl_hw_mgt *hw_mgt);
- 	void (*update_mailbox_queue_tail_ptr)(struct nbl_hw_mgt *hw_mgt,
- 					      u16 tail_ptr, u8 txrx);
- 	void (*config_mailbox_rxq)(struct nbl_hw_mgt *hw_mgt,
-@@ -24,6 +32,8 @@ struct nbl_hw_ops {
++struct nbl_hw_ops {
++	void (*update_mailbox_queue_tail_ptr)(struct nbl_hw_mgt *hw_mgt,
++					      u16 tail_ptr, u8 txrx);
++	void (*config_mailbox_rxq)(struct nbl_hw_mgt *hw_mgt,
++				   dma_addr_t dma_addr, int size_bwid);
++	void (*config_mailbox_txq)(struct nbl_hw_mgt *hw_mgt,
++				   dma_addr_t dma_addr, int size_bwid);
++	void (*stop_mailbox_rxq)(struct nbl_hw_mgt *hw_mgt);
++	void (*stop_mailbox_txq)(struct nbl_hw_mgt *hw_mgt);
++	void (*get_host_pf_mask)(struct nbl_hw_mgt *hw_mgt, u32 *pf_mask);
++
++	void (*cfg_mailbox_qinfo)(struct nbl_hw_mgt *hw_mgt, u16 func_id,
++				  u8 bus, u8 devid, u8 function);
++};
++
++struct nbl_hw_ops_tbl {
++	struct nbl_hw_ops *ops;
++	struct nbl_hw_mgt *priv;
++};
  
- 	void (*cfg_mailbox_qinfo)(struct nbl_hw_mgt *hw_mgt, u16 func_id,
- 				  u8 bus, u8 devid, u8 function);
-+	void (*set_mailbox_irq)(struct nbl_hw_mgt *hw_mgt, u16 func_id,
-+				bool enable_msix, u16 global_vec_id);
- 	void (*get_fw_eth_map)(struct nbl_hw_mgt *hw_mgt, u32 *eth_map);
- 	void (*get_board_info)(struct nbl_hw_mgt *hw_mgt,
- 			       struct nbl_board_port_info *board);
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
-index cf034ab589fd..9e6995ff6c6f 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
-@@ -12,6 +12,12 @@ struct nbl_resource_mgt;
- struct nbl_adapter;
- 
- struct nbl_resource_ops {
-+	int (*configure_msix_map)(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+				  u16 num_net_msix, u16 num_others_msix,
-+				  bool net_msix_mask_en);
-+	int (*destroy_msix_map)(struct nbl_resource_mgt *res_mgt, u16 func_id);
-+	int (*set_mailbox_irq)(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			       u16 vector_id, bool enable_msix);
- 	int (*get_vsi_id)(struct nbl_resource_mgt *res_mgt, u16 func_id,
- 			  u16 type, u16 *vsi_id);
- 	int (*get_eth_id)(struct nbl_resource_mgt *res_mgt, u16 func_id,
+ int nbl_hw_init_leonis(struct nbl_adapter *adapter);
+ void nbl_hw_remove_leonis(struct nbl_adapter *adapter);
 diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-index d698190c3abc..00a79004f9c3 100644
+index 70f4f4b4c49c..d1a5c084094d 100644
 --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
 +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-@@ -17,6 +17,7 @@
- 		((_id) == (max) ? 0 : (_id) + 1);	\
- 	})
+@@ -10,6 +10,12 @@
  
-+#define NBL_MAX_FUNC					520
- #define NBL_MAX_ETHERNET				4
+ /*  ------  Basic definitions  -------  */
+ #define NBL_DRIVER_NAME					"nbl"
++#define NBL_MAX_PF					8
++#define NBL_NEXT_ID(id, max)				\
++	({						\
++		typeof(id) _id = (id);			\
++		((_id) == (max) ? 0 : (_id) + 1);	\
++	})
+ struct nbl_func_caps {
+ 	u32 has_ctrl:1;
+ 	u32 has_net:1;
+@@ -20,4 +26,11 @@ struct nbl_init_param {
+ 	struct nbl_func_caps caps;
+ };
  
- enum {
++#define NBL_OPS_CALL(func, para)		\
++do {						\
++	typeof(func) _func = (func);		\
++	if (_func)				\
++		_func para;			\
++} while (0)
++
+ #endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+index 1c13ff3bfee8..ae25731121e3 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+@@ -8,6 +8,7 @@
+ #include <linux/module.h>
+ #include <linux/bits.h>
+ #include "nbl_include/nbl_include.h"
++#include "nbl_include/nbl_def_channel.h"
+ #include "nbl_include/nbl_def_hw.h"
+ #include "nbl_include/nbl_def_common.h"
+ #include "nbl_core.h"
+@@ -38,13 +39,19 @@ struct nbl_adapter *nbl_core_init(struct pci_dev *pdev,
+ 	if (ret)
+ 		goto hw_init_fail;
+ 
++	ret = nbl_chan_init_common(adapter);
++	if (ret)
++		goto chan_init_fail;
+ 	return adapter;
++chan_init_fail:
++	nbl_hw_remove_leonis(adapter);
+ hw_init_fail:
+ 	return ERR_PTR(ret);
+ }
+ 
+ void nbl_core_remove(struct nbl_adapter *adapter)
+ {
++	nbl_chan_remove_common(adapter);
+ 	nbl_hw_remove_leonis(adapter);
+ }
+ 
 -- 
 2.47.3
 
