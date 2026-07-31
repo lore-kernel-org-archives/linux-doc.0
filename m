@@ -1,88 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E59935203A;
-	Fri, 31 Jul 2026 21:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785533856; cv=none; b=DfPkqFnroowS0334irsdAHO7IO7EwVyFm2PMzZLClqwjIQcVPisQzNrI2Haf/7vccJiIl3QjtsfNhe/ffvnho6X4pTHnx+dmgqxymUAZmN88C8nCOdrAcc7+f9/eABSWRirKunVTVeYVuho6jYGyykglukHaiV7jvFH6Me+G95A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785533856; c=relaxed/simple;
-	bh=pk9f3iIsJJZYqYPtFaAxp1dffLct3ichWT0EgO1tYj4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=CVCxS3pLh9jBSSDtAB4+uERexivCj9axC3HBYHLcfljFE1KRqaaK75edQdbYx/nXOD4IeLR2S9n75k2mR9P6sZjHcGCfJcgK2fur5M+kcNYJIa0T42BjbgJ+ukaG/6RZoJQixKy7XbD9CIM6a70jCUtOorjC04nDJUeOaF8Y4uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bsu9prvl; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D8236D9E7
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 21:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785534118; cv=pass; b=TlOy87uFqGGNXtk7KWY+zP2GKAnPDG8epMnItNn89cSnkMwgDT2UVcbZsv9PTlbHixK68x/mCdFKggcoWVLXY858tNm57nrvSgZ0ADDWbT9EUz0E15WkN3ytlDjuEQDnrGN61de3FBkP9Oo9rqUMj1/JC17BLQ7Ivzk6/+dCBrU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785534118; c=relaxed/simple;
+	bh=6VTzGQIz6zviRvkOs5vBipRRlnWyI84qCaMk91dcrBg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ex6yTVZ1kBLdLyYAtVF3OvDWIxVHsq6jpuoGRjmK+SKMa130ybJI5SmNeluonMpeFMJa/lCvU/PJZ3DII6PHe7GQr0PSldz7JiWfyTdIskP090txNOwTZ3oVr+EROtTpYNJek1vB8MSCnnINcMHHjND8UpfgVjKkKy6dzerPF/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sZ6/npVi; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bsu9prvl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 098FB1F00AC4;
-	Fri, 31 Jul 2026 21:37:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sZ6/npVi"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c15a5b265so86791cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 14:41:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785534116; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jOicPKb8+yBOnYZxUpNGW/CEm6NxwdmY52/lxTjNfUWc6k+w+b/Nk26Y7ICD2pVtM7
+         RUTdCIow71e2fCIXYjHgaj3XaNlPcsVDiPwoCbmLh8Yr13C9ehQjKrJQdJC5AuQzCq6V
+         pXo4pPBEcVkTO9Orf8BNYPYQ+7wHOUBGGx9w/ujRqckOzR0hmzOo89HoJ/nPv1XaTEoE
+         YhTegWcKFxlePhaqCjuLXZKeAl7b6E6oNZqBuKEp5pmaaIefhvNjHaXDYB4rgpaMYjoF
+         Qb4jUaIPhcYiVMhGlp0nmANNfVgQ5KTBEOn0njXMg2mGX/L6lgAkXrQ0W5SONp8QL7op
+         /e8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rVBIwZIPgIDhLzcF7RXhpKO3wVpM4DEMhlKxrjF7g5k=;
+        fh=aX5C1srBj1eHXAVL8XfDF/DSZDFRevIksdHXZVvauEI=;
+        b=rM6m2YHu1dsynq0tmBC1jjX8oQ+c0aHfTf1Z56w/d/rzGjOETsjoiE1ezr+J47o2A1
+         mdgXeqJY7FaF8H1kr6diVefjigUxcZ1iuGb5/lPsOeQkQ5rvlLNVlVRlo8BXyasCei3y
+         j420WRSWS/zsiFx40M8CUD7FSx9oHp3qA1wQrqyyL+9sw7w+SUmzlbGpX0KuENoNkByH
+         vz41iEMblJV0bi7wYW7wsKGQfW7JhkuJ6Joz35hgaw1lapSPA1KnRxkG9My2hQ0JlNbk
+         1GOMJJ6D+thKiYPYsUpQOzlxlh6bEKsCnXYwSB+PNjnzAWQsz6UoAy3z5VMhKpixWZCg
+         Rrwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1785533855;
-	bh=O1+5FJ+vsFbhTS3uy6QvGBbTfrl8nRF61DS//Z1gGs8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=bsu9prvliEAtWl9141QWG8ktEUrv3SrzZW0TRFfh52pvi18ypE6LALcgP5+/3tl5p
-	 chd7Y8huQ3OCgGlD/A9nlhMZoYfi1Iu1y6/OkpTPWSKlaEZNueaXh2uQfIC1pvoBtY
-	 SewvgNsJYjVN6u7HfHbW+4sjXANpuiXr+fCVombQ=
-Date: Fri, 31 Jul 2026 14:37:33 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Wei Liu <wei.liu@kernel.org>
-Cc: Stanislav Kinsburskii <skinsburskii@gmail.com>, Jason Gunthorpe
- <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, David Hildenbrand
- <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
- <dakr@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Min Ma <mamin506@gmail.com>, Lizhi Hou
- <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH v11 0/8] mm/hmm: Add mmap lock-drop support for
- userfaultfd-backed mappings
-Message-Id: <20260731143733.6f74ec9b9023f898c3c260e1@linux-foundation.org>
-In-Reply-To: <20260731211728.GA3243658@liuwe-devbox-debian-v2.local>
-References: <20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com>
-	<20260723142242.5d3f87208d47819d873ae458@linux-foundation.org>
-	<20260731211728.GA3243658@liuwe-devbox-debian-v2.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=google.com; s=20251104; t=1785534116; x=1786138916; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rVBIwZIPgIDhLzcF7RXhpKO3wVpM4DEMhlKxrjF7g5k=;
+        b=sZ6/npVisl3h6f8ScYElmNfE89LOXOX/s4PG/2/aDOtAn8OKJTgiHzaotIJQjVchU9
+         h20wY3p2uI1AkAFfzeZ2MJkOM1fAfaeYMMIeNEU4uCkB1n9ljSRswAP3ESOyDJJbhuzc
+         R8iHe6RFJ94cIeGl8/6YSQhPvscoYhBmVi5pMRnM+98htYUpw5xz83SJ676HeqkKcrOk
+         OY3NZqQRYDJK/J/YbZR4l2/H/vaSBra8f0aojhTdo5ryl4gAoynJLmGQAm9UZJ9pegCj
+         xXz/dxB2z5K7Ip0TqFPMCCBtZRo5Vw1Z0jGF5du/8yCOwQVuItfBZlCax1B4B4pbPHmR
+         NoUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785534116; x=1786138916;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rVBIwZIPgIDhLzcF7RXhpKO3wVpM4DEMhlKxrjF7g5k=;
+        b=LRXlF3BoAKaXDbnDQASgN53V3yJAL9+Uv0cw6XgT2wCAAdvkjZco08ZBA96LnH5KQ8
+         lt62TFLfK5mCjZqKwSr3ZUW6Mz/zLSenIcIjofV3q4TYx1VK1iVp799r5M9xBPJepbFY
+         v9hLjsR96UNulLG/JjGnjEvmQxRLTVmMoc9sgkw3dhrlXy5OjgOygObc8RgGNtyXjTLH
+         XHat4eGWYfkiVFsskWMaXGCgMmNjZr+R2cNQdbRzFQNw/k4ZQv+YlMPTPB7UtXKA4G3V
+         bCwqION23ZOjh6XL8hnMjCCYZ8Ouz6CzFvtbOyfMyU/WevOAn9TUdq98EQDY2atiOAnl
+         L0oA==
+X-Forwarded-Encrypted: i=1; AHgh+RpzQScqFK88Div4ucQc73/5CgHsQJoF0QzV5CD4IES4FW+ElEFcJ7+KcXSoc2zzOhBKRbZ5GzrH+6g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvBGSxA52ob83FGr2W8Dd5k5GVNO/xgV826kAnAxA+TMueO5u0
+	OYypEjYXQ5g5wzUttQIM/DhVzJ1nWsyI5YdPIRilYturB0+Sm18bPy24aRHH9coaP+m/aWST+um
+	T2MiGOSnDEd2zHtJzKT4cWTKcHkUmtwyHBXt9nQcb
+X-Gm-Gg: AR+sD134AywRMsyvRMnyyiKwqN9JOAg3mGdMDCHIHXbe4fM8sVn2MGRXs9edyyu0mAB
+	zVCqdzNMVa2iHL3Fg49ptwnY8WLXQzg7yjiFrevStCoo+YCF9Dr6kriv182PsD5F0iv1uvjozRp
+	f8yuaBuZmhNGT1i6+wtrYQRFPO76m/to2yhwKcltyDFsmKL86SxeLW/nsHQd4bO8YtJmTc2UHDr
+	ZvZnq3lvJrgMt7hzwyx56w5q/jdvzXZkWZC6tpTw6Ec0GV7JxnSplxkkCFkvK5Ay3rFhbn536/3
+	nAgp5xRqXRJ1UL8qwR2TQuFBjlUPHp2EmSBBLGMU5kh6ZH1SXkqHplmKRkm5OZ2B5rGGUbpju5j
+	ts8rxIzdXUgrI
+X-Received: by 2002:ac8:5752:0:b0:50f:af60:3496 with SMTP id
+ d75a77b69052e-52b5af82a24mr2496091cf.1.1785534115622; Fri, 31 Jul 2026
+ 14:41:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20260731193705.2902728-1-pratmal@google.com> <20260731143420.0787387ce2ca120ecee15338@linux-foundation.org>
+In-Reply-To: <20260731143420.0787387ce2ca120ecee15338@linux-foundation.org>
+From: Pratyush Mallick <pratmal@google.com>
+Date: Fri, 31 Jul 2026 14:41:43 -0700
+X-Gm-Features: AUfX_mxONT7BUnCqEgoJ5gcgCngtoxjaOpE8s96ir9f1CQtwXRsj0be_zU_HCIo
+Message-ID: <CALHaPKfeCqNUF_+_y=3_iqrDHK++aRNNeTCy1DUYdDOnzsXMxg@mail.gmail.com>
+Subject: Re: [PATCH v4] mm/page_reporting: Add page_reporting_delay_ms module parameter
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: vbabka@kernel.org, david@kernel.org, sj@kernel.org, corbet@lwn.net, 
+	ljs@kernel.org, skhan@linuxfoundation.org, anshuman.khandual@arm.com, 
+	gthelen@google.com, surenb@google.com, mhocko@suse.com, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, liam@infradead.org, rppt@kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 31 Jul 2026 14:17:28 -0700 Wei Liu <wei.liu@kernel.org> wrote:
+Sorry I forgot to update it in v4. Resolution looks good to me.
+Thanks Again!
 
-> On Thu, Jul 23, 2026 at 02:22:42PM -0700, Andrew Morton wrote:
-> > On Thu, 23 Jul 2026 10:36:32 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
-> > 
-> > > This series extends the HMM framework to support userfaultfd-backed memory
-> > > by allowing the mmap read lock to be dropped during hmm_range_fault().
-> > > 
-> > 
-> > Thanks, I've updated mm.git to this version.
-> 
-> Hi Andrew,
-> 
-> I see this series in linux-next now.
-> 
-> I'm curious to know if these patches are going to make 7.3.
+Regards,
+Pratyush
 
-Probably.  The series is incompletely reviewed at this time.  Perhaps
-you can assist with this?
 
-> We have some work that's dependent on this so would like to plan
-> accordingly.
-> 
-> Thank you Stanislav for continue pushing this.
+On Fri, Jul 31, 2026 at 2:34=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Fri, 31 Jul 2026 19:37:05 +0000 pratmal@google.com wrote:
+>
+> > Free page reporting currently hardcodes a 2-second interval between
+> > reports. This rigid delay cannot accommodate diverse guest workloads.
+> >
+> > This patch introduces a module parameter, page_reporting_delay_ms
+> > (default: 2000), allowing users to tune the reporting rate:
+> >  - Lower values enable aggressive memory reclamation by returning unuse=
+d
+> >    pages to the host immediately.
+> >  - Higher values help batch pages during spiky allocation/free churn,
+> >    reducing hypercalls and nested page fault overheads.
+> >
+> > Setting the delay to 0 is safe and execution is strictly gated by:
+> >  - reporting is only triggered by high-order page frees.
+> >  - expensive hypercalls are bounded by a slot capacity watermark check
+> >    before proceeding.
+>
+> This conflcits with the just-upstreamed 0b45f6927a1
+> ("mm/page_reporting: use system_freezable_wq to fix UAF during
+> suspend")
+> (https://lore.kernel.org/20260721005603.1710551-1-linkl@google.com).
+>
+> Please review my resolution:
+>
+> --- a/mm/page_reporting.c~mm-page_reporting-add-page_reporting_delay_ms-m=
+odule-parameter
+> +++ a/mm/page_reporting.c
+> @@ -48,7 +48,11 @@ MODULE_PARM_DESC(page_reporting_order, "
+>   */
+>  EXPORT_SYMBOL_GPL(page_reporting_order);
+>
+> -#define PAGE_REPORTING_DELAY   (2 * HZ)
+> +static unsigned int page_reporting_delay_ms =3D 2 * MSEC_PER_SEC;
+> +module_param(page_reporting_delay_ms, uint, 0644);
+> +MODULE_PARM_DESC(page_reporting_delay_ms,
+> +                "Set page reporting delay in milliseconds");
+> +
+>  static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
+>
+>  enum {
+> @@ -57,6 +61,13 @@ enum {
+>         PAGE_REPORTING_ACTIVE
+>  };
+>
+> +/* schedule work for page reporting */
+> +static void page_reporting_schedule_work(struct page_reporting_dev_info =
+*prdev)
+> +{
+> +       queue_delayed_work(system_freezable_wq, &prdev->work,
+> +                             msecs_to_jiffies(page_reporting_delay_ms));
+> +}
+> +
+>  /* request page reporting */
+>  static void
+>  __page_reporting_request(struct page_reporting_dev_info *prdev)
+> @@ -77,12 +88,10 @@ __page_reporting_request(struct page_rep
+>                 return;
+>
+>         /*
+> -        * Delay the start of work to allow a sizable queue to build. For
+> -        * now we are limiting this to running no more than once every
+> -        * couple of seconds.
+> +        * Delay the start of work to allow a sizable queue to build.
+> +        * We limit this based on page_reporting_delay_ms.
+>          */
+> -       queue_delayed_work(system_freezable_wq, &prdev->work,
+> -                          PAGE_REPORTING_DELAY);
+> +       page_reporting_schedule_work(prdev);
+>  }
+>
+>  /* notify prdev of free page reporting request */
+> @@ -337,13 +346,12 @@ static void page_reporting_process(struc
+>  err_out:
+>         /*
+>          * If the state has reverted back to requested then there may be
+> -        * additional pages to be processed. We will defer for 2s to allo=
+w
+> -        * more pages to accumulate.
+> +        * additional pages to be processed. We will defer by
+> +        * page_reporting_delay_ms to allow more pages to accumulate.
+>          */
+>         state =3D atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDL=
+E);
+>         if (state =3D=3D PAGE_REPORTING_REQUESTED)
+> -               queue_delayed_work(system_freezable_wq, &prdev->work,
+> -                                  PAGE_REPORTING_DELAY);
+> +               page_reporting_schedule_work(prdev);
+>  }
+>
+>  static DEFINE_MUTEX(page_reporting_mutex);
+> _
+>
