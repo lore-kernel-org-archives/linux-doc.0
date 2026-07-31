@@ -1,99 +1,89 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905B53B8BB9
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 18:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3582347987E;
+	Fri, 31 Jul 2026 18:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785521583; cv=none; b=RrS04Tiff4OSxu9kZo5M9iteKVF0qBXW1SSnJpi63WDhfD6BUy25kxsPq3sG24yghzt6T5Bf3pUvFPIdBEP7k9YEgDtg2BPw1XnGjmwQKjAUY5C8ZKrgYZ8aGjliwFwSG0mOBoqkfcYmQpRlBs9BxZheHCcwFzeNc+MPjFUeFIQ=
+	t=1785523914; cv=none; b=mN2WG/QCekCGE9wlsyupGHBUVzYByes2tCeIUA1Ag3QXhc9WHgzoq5ILeXMY8XwR5Ewl1+flHxD2zzmdD9RJ0G4aab5wGibLJywCyelQSD4vPkzB7DTTuFb6r72+z80XibhovY0wUk2cr9z+UQJt3AoN49Xig8ASbwmw2nbFJhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785521583; c=relaxed/simple;
-	bh=EKp0QlZ7Z41OBDL+3m0kdCgpaZWCqX8BP82X8YTT0X0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXbQX62KrCsmOyNOy0+9WDU3RbPRcvguRRPZq6mEkPgtk5rdg5SSfaQeHjE2gV1igYAA0yZuGvtV3sHCrqqWQyf+yArezDbZ+OOt8oE9gXTekF6IVaVjVPQ3MkyXsHcCoJndkgwoSnsOur7kSV6Xd+pyBoEGWU+eiKp1a1vm4AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=wz5s/8dc; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1785523914; c=relaxed/simple;
+	bh=Xk98sFUvrCpMxkX85+qDFdjYRwm+QTgOL6cUrk3dQgE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HWGpidng3LEkt2+pZkejMXA3EP3Js+X5Srkay/lZXzKF0GvAyFG3CdKzyZ4zbtNfroyFU90uMdtWdt6fVnAsN2dNISlLqaxbpm0OiZIY1NWWAEnicBQYNXH+q+UntvtEw8e6lnYHErJVqlJEmgBX8IVwnJ2gFOoEkrzobklNEMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWj+jl6+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="wz5s/8dc"
-Date: Sat, 1 Aug 2026 02:12:41 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1785521578;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D9LvtD/qM38sY1e5Z1uBWEe24MJ7uhzriNNJTv3BZoM=;
-	b=wz5s/8dcLe5CK+2ZM82QNULuuwJgEGxesKDtVhilhsDRKjeo2qOWw4zyI9rx3shE9xa0Ll
-	BjfyyjCgZWsyXfrMmv3Vunmz3kZY1NhtR10CbJc+nF5X5FtibLrnSxgMhuwt4Z9ih8TamJ
-	grfXOa1dZ+SARD4YH3QQUHspupgoD/ryDhtzJw8ymUBVMhWKKIsrSnyim08mbCG0TGYgxN
-	bLf90dfEGBthhGXSnDInDSY5tdnxg6SM4O/l7thn/AnZp0A/N12RzlHUd3CX57zLNhte5i
-	T35yc8mlcteycBq0YElmQyvF71VlPcUtlzml8vzg2jlf7Jf4gHd2SN04dOpD/w==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWj+jl6+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B221F00AC4;
+	Fri, 31 Jul 2026 18:51:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785523913;
+	bh=WZot6GFuhy9a+s0IugMlJ70eCJTGgM/zB3nf4mCWRaw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=cWj+jl6+CIO586r12U21up84e9GPZCTcTt1faCSxLcxizMMQQYcGKJGz/RvwNUsY/
+	 aNz08ZnrEy2GS4PI9u7HWHsjdy2cEuPiuw4/2ICAhpkLXV+jfknNspSWeB8GuyJdiZ
+	 v4l033aztqBDf7SJKezD1t/ki1Ul0fh+H749i48g6EUXUccI/Kk1nM9juxWpPQahEK
+	 hS5gBep5O6YqbxDTAEq0IbrHvL+dXmHxuPf6At3kVig8G23cbWX8/SnAMmXWMwo/vw
+	 xdCfQCzCunPoMu9xqGAK4A18oKbFIOUJQhxkIJYMXhgFS/Ms+YHadkGCkOuth+dJTa
+	 j/oVHggj+p9Hg==
+From: Oliver Upton <oupton@kernel.org>
+To: kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Congkai Tan <congkai@amazon.com>
+Cc: Oliver Upton <oupton@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Haris Okanovic <harisokn@amazon.com>,
+	Geoff Blake <blakgeof@amazon.com>,
+	Stanislav Spassov <stanspas@amazon.de>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/16] docs/zh_TW: process: localize terminology in
- 7.AdvancedTopics.rst
-Message-ID: <amzlmdeE0NA3Fnw4@wyuan.org>
-References: <20260728091038.171033-1-chenyou910331@gmail.com>
- <20260728091038.171033-2-chenyou910331@gmail.com>
- <amolg7NpObNT8Gnb@wyuan.org>
- <CAKspUh+v8cf-bndHUi8xNVQ2qMMUsRmku9vAaaAmF28AXWtnxg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] KVM: arm64: Expose PMMIR_EL1.SLOTS to guests
+Date: Fri, 31 Jul 2026 11:51:44 -0700
+Message-ID: <178552142318.30097.12495596662819704320.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260722202702.4165917-1-congkai@amazon.com>
+References: <20260722202702.4165917-1-congkai@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKspUh+v8cf-bndHUi8xNVQ2qMMUsRmku9vAaaAmF28AXWtnxg@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jul 31, 2026 at 01:14:03PM +0800, 葉宸佑 wrote:
-> > A small gripe: what is the best practice for reviewing a new revision
-> > of a patch series after it has been rerolled?
+On Wed, 22 Jul 2026 20:26:58 +0000, Congkai Tan wrote:
+> Today when the perf tool runs in a guest on cores with PMUv3p4, it fails
+> to parse the default metrics with "Failure to read '#slots'", since perf
+> can only read 0 from sysfs caps/slots, which is backed by PMMIR_EL1.SLOTS
+> that KVM traps as RAZ/WI.
 > 
-> Sorry about that -- a 16-patch Chinese series is about the worst case
-> for this, and it is my problem to make easier, not yours.
+> Taking into account backward compatibility and heterogeneous systems, the
+> exposure of PMMIR_EL1.SLOTS is gated behind a new vCPU feature flag:
+> 
+> [...]
 
-That's OK, no need to say sorry. :-)
+Applied to next, thanks!
 
-> For v3 I will use "git format-patch --range-diff=<v2-tag>", which puts
-> a per-patch range-diff in the cover letter. That should at least show
-> you which patches actually changed and how, without you having to
-> reconstruct it.
+[1/4] KVM: arm64: Expose PMMIR_EL1.SLOTS under strict PMUv3 UAPI
+      https://git.kernel.org/kvmarm/kvmarm/c/453f6ff04b8d
+[2/4] KVM: arm64: Advertise STALL_SLOT* in PMCEID1 under strict PMUv3 UAPI
+      https://git.kernel.org/kvmarm/kvmarm/c/203b22f76dc3
+[3/4] KVM: arm64: Ignore writes to PMCR_EL0.N when using strict UAPI
+      https://git.kernel.org/kvmarm/kvmarm/c/bbef6317f97b
+[4/4] KVM: arm64: Add KVM_ARM_VCPU_PMU_V3_STRICT vCPU feature
+      https://git.kernel.org/kvmarm/kvmarm/c/ad220e275c39
 
-Yes, that's how Git project is always recommending to do, while I'm not
-familiar with the convention or requirements in Kernel series rerolls:
-
-https://youtu.be/p79IjNay4mY?t=995&si=qgTDTBL9UzRH0eBx
-
-And as I said, b4 diff could also do that, even though reading Chinese
-diffs are not easy. Feels like that Git cannot recognize the inline
-changes in Chinese very well. (i.e. & e.g. cannot recognize the actual
-'word-diff' [1], such as: This is a [-bad-]{+good+} example.) And also,
-this time many line breaks and reordering have been added.
-
-[1] https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---word-diffmode
-
-So I'm fine with it, such situations are not too frequent.
-
-> Longer term this feels like something the zh_TW how-to should cover:
-> how to send and review Chinese translation series specifically. I have
-> been collecting notes while doing this one (line-width handling for
-> CJK, why checkpatch miscounts Chinese lines, the reflow pitfalls) and
-> would be happy to draft that section once this series lands.
-
-Very much appreciated! Kind of like 'Writing docs for how to write
-docs'! ;-)
-
-Constantly summarizing and improving such documents will undoubtedly be
-very useful for us and future contributors.
-
-Thanks!
+--
+Best,
+Oliver
