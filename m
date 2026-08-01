@@ -1,57 +1,55 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011002.outbound.protection.outlook.com [52.101.57.2])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012048.outbound.protection.outlook.com [40.107.200.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F45E3ACF0F;
-	Sat,  1 Aug 2026 02:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F923DA5B3;
+	Sat,  1 Aug 2026 02:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785550626; cv=fail; b=gdk5HtQrKKbcaKM6vNQWUv3D7Kc8yKJX3FoqlzhTHwhuYHc4t8YQaW/KM5/k5rACUepntFUSBZCJ78l3SUWhgDWhJf8vT6zIxc/+RPZH2pOwn7tUIacHgGFyGH6TlmRZmYdqM5NFUAJv4CyntQkap+N3Xnid5lsYd7mlLZgL5X4=
+	t=1785550652; cv=fail; b=mQ/uJjVIXIDs7/uPTD/Y0cd4prR1BC81WhzlaW5pW/RdcDHONo+q+4C6sFJzJe5pHY1T/zy8CBVksJf3eq4OdTzxDv+k3hAZO4uTC1C4tCNFsZ011gvNyoZRKLfIiZUPN0uTQhQziPn87eR67boSOgxpOdVgaau09KieppF1bBM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785550626; c=relaxed/simple;
-	bh=sC1FvhFhnE95FDcTTbwJDopZgy6VV3OmPtThvPD4g7A=;
-	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=L6k5/ki6qY89LCKQ8fsmld4kKvJxj+/U+Hz9pJQtKdpLyYut2OiTtMXgMv3ekO2pZTg1wE+smPu/kwUVdmfafNmwD8ejf5ZL0vu9s1rHx+dLknvWsJsHjm+pBk8c9MD7EbB9nIH9qU3nqkgtrb+1IFv/u707EVi4JPF4TrUzQ+E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FB5Uzv+j; arc=fail smtp.client-ip=52.101.57.2
+	s=arc-20240116; t=1785550652; c=relaxed/simple;
+	bh=dPMQlYiBrcK/QltKeGHD3DDkbJXPBe3L9DXSuQhEaqQ=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=rZebTi39qRE9UEGWZOGs3GPQ19gJYA/2+jB7HGCTTaRsK9hS/gkdQQbBIC+QndACd7F9IQKnXIjb2QP4+ZeDqtl57ypxO6h2OHDbc2y7QNqDzVDwDVVa9E/b4PhtCUEatilmhL11ljC8OZimSi1IO+M4x4LlbrY+y2OybmI/sXo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nFODE/+t; arc=fail smtp.client-ip=40.107.200.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FB5Uzv+j"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nFODE/+t"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=juOG2d/steEklncNOvTy2HvMCzBRsBGtDaBigF+Zw99wCtxthKH9xaGYT9qWEVMP8Q76Iov7fdZDUGjwHlvM66fNmEIIPjId1D7gZZLIViWJAtaPlxuhcb7/aCtyiXWtwjSDdkuhSj4uxmaU6voqSMzVv+wLCaZdEpm1UniIM6XXr/y08d3cNmlDzA37/s+JyM+lKktnI+pPDcw4LcroYMhMWSlFXabL9JX7qqq2G9GkbyzxNZZdBfDXhiVcwodCDaUwfV4RLlUop1Vjl3p2ixOvETBfmnPpPYyDCHPwUZ6z8D4R4UBbp3gbajUber9EYwmfNycR/9reTyem8JAXug==
+ b=XEXHn9OTclHnFLa0twxkAcXCaOWap+vQmvIuPgBMvTlMBQ55KCm2B9L4JShnGOPi1HHaThMo3iOQJ3HFe2FPziEiOlISoSMteq4O9usSzcsep83J87Yo8Rzkf5bQYwGoKOp3v+y+fN1UuvMieU+02SfIWojn/CcoH6Fq7IlVUgjEKspHW6uA9hB0YupL6uySnt3YmunGOA04bXUO7r3F5CKO3dYuqzU64Gkr+yRBbs0ooj92dzdr14hO+QqtnV/yh5R4ExCafFdf3kdfbvvKKsyKQwmDgADej7wYUXrF4DFm/YAjLN/RLzSITUxiCRQwQS/BP8GBM96OepoEFawBZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Dj2NYUyQZvuonVfcvoKoW2H3adtSVWranxYgEi8YQU=;
- b=nS22Y21LUCkU9rE1tarBHVVoAOS6WoqXifPtaQIE8OYP/CiU7e1kuVgaMB8YfpBfwoWAzik518UdioQWoZmjgtRvCkiZoV18o6PNnRTVj6ggOgtj6OEdb9s9LF2yhoqyLMGg1EJ5eSVv4eBT1+JcD+3kJZrBt9FU0cKgRk9BBrqrjgM5c0KkO59dyK/lRP96h2SLx1wu57lFNzyM/iAKasNf3twQFbmJao0qMCbFWmBjeHqehUINFK536hvgVac4mYp2NrOIMZcRh5B4mo81JHleaUmUx1urY27cvvzQgM2iZgZQWkKx38i1rxQ8hux3PaeLK5OtUsv35myLt1YIAw==
+ bh=OB4Z6HAhO90wSrzqBCueeDHnctlgsxAOSQ2ZuZDGWmw=;
+ b=mXbp6n7hPwqzEt1kp53pYLmyE7dBXKMjXLGWaewGRfYRovyyFWLu7g4zrgWtv7Uay9UqKbPtfmsdWUgosBg8YMKBmFiNNV1G67SIyi3sa1rlD/kM7etGohWyoy4ZnFFX5lkyJYGCa7pctEBdIF/5iuUiz35b32hY3YQa8LLhfo17WGhrg7cYPKi6uqUyb+rT6pBqMZlW6+iacWE0xmZR60+JdeYo7IOBwxn82wWlro9vnB0Gy5pFTC5ifRxrTBzGLBd33plPZBBpBCXxZj7/LkxQFlTTOcrIlCtgC/hpfzQIzdFj7bnykqIQWyoSqZO7WBPtrNTMexJxSXZeG17KMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Dj2NYUyQZvuonVfcvoKoW2H3adtSVWranxYgEi8YQU=;
- b=FB5Uzv+jjIOz2Gqd5kNRUmj0oMIAGc13ZaO7PxN87N2Vsm1h2AmI6UBCGxbiU8v7rBmpSk66cpyjk9doS0l2Cwug3L6tWxa7EnpwkUAI8obSHPvyEZtRmsQRP4Ad/qzEarvlDy1s6rnXeWJmaBg7+kXQP80MMmTUTKKx60Kkrzh78dZdHaCQVnN4Ent82GUKgm+hwh7r8TitUV618trGITHpcjPjn9zyBwtkgbG20BWoOZwi5n1SC1ZzVLkEqAMp7SKzKMlAu2o6c8XmMv0HO0zTS1DVdv1s4GB47p2UxxkBgmCmVu6y6Mvahl6HousWTQ32VDFXU9udlm0xGrD9Mg==
+ bh=OB4Z6HAhO90wSrzqBCueeDHnctlgsxAOSQ2ZuZDGWmw=;
+ b=nFODE/+t7haKzw4Xq5lAl1t3Z2a5CtIBoUVG+hKpiErSYjBQLpcYwjzoOo/pEmTBiV9HJ4WXJqIQ0f1b+FLPXcKaqMHRpqOiNislWW5yl8dWA9XntqWYek2vzxQGhTniIF1dMKxudNdWtsXfkRvgPStZdJnwiJTa3iPKGdKc9WwfqTLqzfu9LcitZHdRtBatKQgWOwfTPewOxlM3NBgyCJ7eQpnDAePprCUHgcA3qW78NGcBDehD3O8KDVOjw+Ttv/vlZ8SMMnb1rsQqxtdZAMt6HLARDwc2dHOP6tDvS/4BeNxKyvSdw+363JJfgPB6tw4h4qjpAm3Cgo0EMLM0lQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by PH8PR12MB7373.namprd12.prod.outlook.com (2603:10b6:510:217::16) with
+ by CHAPR12MB999250.namprd12.prod.outlook.com (2603:10b6:610:300::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.16; Sat, 1 Aug
- 2026 02:16:55 +0000
+ 2026 02:17:20 +0000
 Received: from IA0PR12MB8374.namprd12.prod.outlook.com
  ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
  ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0270.015; Sat, 1 Aug 2026
- 02:16:55 +0000
+ 02:17:20 +0000
 From: Zi Yan <ziy@nvidia.com>
-Subject: [PATCH RFC 00/14] Remove PG_private by using page/folio->private
- checks instead
-Date: Fri, 31 Jul 2026 22:13:23 -0400
-Message-Id: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+Date: Fri, 31 Jul 2026 22:13:37 -0400
+Subject: [PATCH RFC 14/14] mm/page-flags: remove PG_private
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAENWbWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDcyML3aLU3PyyVN2C9PiCosyyxJJU3eS0VEsjs2TzNAvjZCWgvoKi1LT
- MCrCZ0UpBbs5KsbW1AC4r+oRoAAAA
-X-Change-ID: 20260728-remove-pg_private-cfe926c7f83c
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260731-remove-pg_private-v1-14-142c97ba3562@nvidia.com>
+References: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+In-Reply-To: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
 To: David Hildenbrand <david@kernel.org>, 
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
  Andrew Morton <akpm@linux-foundation.org>, 
@@ -68,51 +66,18 @@ To: David Hildenbrand <david@kernel.org>,
  Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
  Kairui Song <kasong@tencent.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Zi Yan <ziy@nvidia.com>, Minchan Kim <minchan@kernel.org>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- James Clark <james.clark@linaro.org>, "H. Peter Anvin" <hpa@zytor.com>, 
- linux-perf-users@vger.kernel.org, Juergen Gross <jgross@suse.com>, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
- xen-devel@lists.xenproject.org, Eric Biggers <ebiggers@kernel.org>, 
- "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- linux-fscrypt@vger.kernel.org, Oscar Salvador <osalvador@suse.de>, 
- Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net, 
- Gao Xiang <xiang@kernel.org>, Jan Kara <jack@suse.cz>, 
- Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
- Sandeep Dhavale <dhavale@google.com>, Hongbo Li <hongbohbli@tencent.com>, 
- Chunhai Guo <guochunhai@vivo.com>, linux-erofs@lists.ozlabs.org, 
- linux-fsdevel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, linux-trace-kernel@vger.kernel.org, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- linux-nfs@vger.kernel.org, Song Liu <song@kernel.org>, 
- Yu Kuai <yukuai@fygo.io>, Ilya Dryomov <idryomov@gmail.com>, 
- Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
- Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>, 
- linux-raid@vger.kernel.org, ceph-devel@vger.kernel.org, 
- Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
- linux-mtd@lists.infradead.org, Baoquan He <baoquan.he@linux.dev>, 
+ Zi Yan <ziy@nvidia.com>, Baoquan He <baoquan.he@linux.dev>, 
  Pasha Tatashin <pasha.tatashin@soleen.com>, 
  Pratyush Yadav <pratyush@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Dave Young <ruirui.yang@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
- kexec@lists.infradead.org, linux-doc@vger.kernel.org
+ Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, Dave Young <ruirui.yang@linux.dev>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-ClientProxiedBy: BL1PR13CA0208.namprd13.prod.outlook.com
- (2603:10b6:208:2be::33) To IA0PR12MB8374.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQBPR0101CA0189.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:f::32) To IA0PR12MB8374.namprd12.prod.outlook.com
  (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -121,259 +86,226 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|PH8PR12MB7373:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8049e82e-f2ed-4234-27b6-08deef72f511
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CHAPR12MB999250:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1246d7d6-8757-413c-3889-08deef73040e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|23010399003|366016|5023799004|11063799006|56012099006|10067099003|18002099003|3023799007|6133799003|921020;
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|921020|6133799003|5023799004|56012099006|11063799006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	pNDbTnWlggYMSHNy6jsULJFDGtRzmhD27769oJzJU2pngka0LaGEKVpniUoUJ3CQmbg9xv959+2z+JRtqFf67HdU+qB4JaCwRrXHvxitHS4+X0w1LJjCqx7wSOTmTpy3XxuOd9+f8rK/oQHRePQKndJw/6mlHZZMRqE9wjM6o1AKyiS+KOoN9AwCyphX8Vge1MTQ4lDkgWBEWecQpXPpnk0UVsgsZQXPhDQPsCCipKZBMP4VxfsQyzGYHKkCHv+pjywEZE4DEG6l+4rl5dqSNtc7Qp/DQhsoH47boah3/NyuS1fH0f4kWHFAY6G6Uc40wwSbnwNwgs+WyRKk+i8gXQhhXxEgFiKIttIR6DzHA+ZDDvqLRYbRPY4/hfrCcr7v8m7gnFeK1A/TZtrfpXTX8OQHDcrLTPwZSWiqO7CgFcVOlcx6g3XcpK6DY058ctzvMykbyqZaT3/MipYsv6FlMBL6ObuDgleNuUqlH1qFmIrE1zerLMArOoouhPo7b0s2r8t/oX7VceX7KaXz8dR06EcgNpjyds4vn+pl4J9+JGfO801D7wUbLE0kNRfs3NfM96JMpb8PT2+Pv0dezg5+fDtkUnY8TRZh/pSBDuNLl0m7gAChrxtLbAkf1kt7TaGiF4i0NjEzc+x2hdxLFU5P8kIq8nFhZ6pjA5bStDcTp7wi6cPDfsKsUTMx1/68zgx1mYhoWmcx/XO8OqmYGdg28g==
+	YtgmYyd9j5YwgCrUn++onox1AGnpP1h6mxVq5hpgG47VCp2c3+zu5ju1GggoIOHPuuP85qCDpY/kEAnkwZDKeGwf9BFmov6SoCD2MsaBKPLlLe285aqKKjpz966FY/AUn3FF3e+wZ/1/e8Jz9znAE9jDB8zYzuGA3H0zQ0L86LkiuBHulnvUmziZITwwB0pOvgPpTWs7qgLmUrevDnjPlR9vFiS1Ri2H7eqZ/Jn8a3kKRc9T/8EkiO3og41Gmd5TQopM38AHhmWa3IkNVoixNMOmlAx+6SnRSTnOIpUYXT0V7HJ6yKo3yv4QpKLnvCrW24CsyMTCmULyxAbupDt11PH0T0OkEjA2HC/5yk9sGQNduHmVd1yQz23u+BVCYfFho+7Pmacdqlw8JxkjIKnHB2DTxKA9Z8OZds7bSEpMcQh0/2xjOLRfzKuWYlOxjveQpfSMyKXkmsPuSH3KjTmYGY53KnIekI2P7iw51m7xqk8UIdISosxod4q4Sy7efsiED54PadzHDOdhOKUmbZ5mSq4SII3KT9g69YDLtJO4N4/X1dGo+c5vVrR3+9NhvDqiI54yAQOv9HnDz94Vlag7LOxQuQUhs72bpB6fwFGYTuLvkEUlmF3j9z8EhgfkiJ9k+VwJ9dq0tfsxmQminF7CIi8Thx5HADy7/kKfda5XaNwXEWdYMElcRMNgVxYEMc7zKAIx3Tr3Nau3Ix2+eD9ZMg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(23010399003)(366016)(5023799004)(11063799006)(56012099006)(10067099003)(18002099003)(3023799007)(6133799003)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(921020)(6133799003)(5023799004)(56012099006)(11063799006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?S0xSZ2tsSUJ1YURzL2lvL2tRdmRuVEFFNFlkQnBtd1dkOG4vbTg2cHFsVnRG?=
- =?utf-8?B?VFNoYzN2cXdwK3picTlObkZKZGdHYTMxUjNlR0xycFB4WXUycHhxeEhYOHd3?=
- =?utf-8?B?K0J2Uk9rVk1WUkZOVEFtd2ZwNWdOZ2QxekZNTEphRWh5L2NxRlFZZFlVUXZB?=
- =?utf-8?B?K3NxZWdPQ0lyVThKaFZBelNPV1EzOVl5VEhQaFZydTRzblRDNDY1U01mQnhD?=
- =?utf-8?B?NDhiU1dKdE5SWXVoSjkvdDc0dnNUSzdoVjdSQnordHV1Tk0zSFZwaS9EUGto?=
- =?utf-8?B?aEtpY2ExQzM3T1VTbWEycmdiT1hzSTVFclVkMXg0eWJhWDI5WmhtL1duV0Z2?=
- =?utf-8?B?SlNBK1lYUCtaVkFtdFdRZ2RuQVZuTGdoVjl4V2xmVTBTRmhZQ2JYUDBORDJH?=
- =?utf-8?B?QnV2b2RvbnVFRUtOcnZHcTlRQlZMaWtzMXFyWnk5OXpvd1Vib0ZkSUdJZWdP?=
- =?utf-8?B?UDJ3Y2xwTmtNRVdYR1JJeTgvMXNOTERXcDFRaDBiQlpHOThGTnFQR1RCNnRr?=
- =?utf-8?B?SHE4M1BFZXBFTW9BbXExQWJYNEZsNTl6WkRtd1NMU08ycU5wRVFnWHlxb05L?=
- =?utf-8?B?a1pFT2h1VW9BdDlrYnBCNExFdWRTYnNmbVk4UEdaYnJyL0pueVZJczJ1MC85?=
- =?utf-8?B?RlJhcnRCbkl2SzZuV3ovN01xcjhkcWVNSVJqZHp1akNhUDA2b2Q1YWY5RkNa?=
- =?utf-8?B?TVpvUG9tSG5mcm0xMG9mTHFwZnVMYjBrdVRleG5UcmlXSVlnWGs5eWQ0Kzll?=
- =?utf-8?B?RDBSMlFuL3JucEFxeHRGYURTOERQdkxmYWMrWEFLak0xZVZ2RGVqUWZieFBu?=
- =?utf-8?B?NmhZMk9yci9URFpuaHUwQVpGa2p3VnJFK2pNRjduanF2Lys0Z0JDMTBkblBp?=
- =?utf-8?B?L3dQd2hhTC9PSkZhY09neFIxWEo1d2Q2UmJQQWdyMkF0aGQwWVprQ1hJTVcv?=
- =?utf-8?B?RTl0Z25ZM2J5SW8rMkMrblhROS9vZFZNTHIzY1BjKzFlTEZOTGd6ckozVmhY?=
- =?utf-8?B?YXBPdHVMRjgzNHgra3VibnRFbkdScXNjVkdFQ2pIdVJBRE81OWlsaS9IL01R?=
- =?utf-8?B?L25MZE92SFBFVFd6TFpEdG4wZ1JlRVdxS2x3WE5JbVViOXFsdU92eVN1TFdE?=
- =?utf-8?B?ak1UUjRUak5tVVh4MzFqdVpUT3BNbFNVRFBPUDc3d1ZXSlV6Nktoa0RhSjlW?=
- =?utf-8?B?UDlpRlViYzJaM09aY1lEYjVOOVNpWExmVFo1cFNSaXB3WGRKWlNaUGt1WkVv?=
- =?utf-8?B?bVp5QTFDM1BHZWZqZGQzbjFRMC8zM1I1Q1VtZWVhZWp5Ull6T2hJMmszTGFl?=
- =?utf-8?B?eXo5V0RMQWFUVHFMMG1ZQThHVW1nMDVIaEVKOEc5djY0TFIvNEpKVnJPM093?=
- =?utf-8?B?MHh4NmdhV0dERDZYTE5RdGF6OURVRThnUko4aDBsTmppSVRyb0pMYkV3b05u?=
- =?utf-8?B?UUVaNkxQNlp0NHRCWkFlVHhiR3hRZDF0RHMvcjFnelhHZU1peEpqYlNyLzlY?=
- =?utf-8?B?c1VsL1lNbHBEYk12cDkxZHJHM3Q2eS82UnZmT00vY0p2eWlwelRpeXc0cWxM?=
- =?utf-8?B?cVRpVExMSXdEQk1LUllBQ3RmOW02S0lOWDRqMFhoL2JTSkh0SnFhcGNzZWpC?=
- =?utf-8?B?eDYwR05Xbmg1WVhybkRrWW1sRTJZM1NENjlUNkM4RzdEWVZBSHN4NlcyRFdP?=
- =?utf-8?B?UUxDOEVZTXFsQVk1dCtmQ2Z0THZHTlRGdzlwV0FkTU5wdVdzZ3VncFNweEVH?=
- =?utf-8?B?WHBvSGUwcG5qVU10ZVBGYitrSkc2aUQvdzZaZXFKdzh5SjFHemVMTkhtSEhi?=
- =?utf-8?B?Slo0ZE9Cdjk4UkdVZ3I5dXhoNzlqdGE3c0xkOFM3clRCSDlnN2puNnFDWlhw?=
- =?utf-8?B?ZDZyTXNEQXBKdGc2LzhUSzNTVmYvOGZ0WEpxQXptbTA0ME5KWTQ5cHVybGov?=
- =?utf-8?B?SWNYYnJ3QVJlaW91d3VvMjFEcGl3R0RWemdqM1hYTHAxak5wL1VQeUo0TFdY?=
- =?utf-8?B?RDdmS3kxSUYwMlBwN01CTmlZMlpvQlg5Mkp0SWxzZTFMY3BrcEpqMHdGZ2Fy?=
- =?utf-8?B?Y0g3eWE3UlRuUmkrTnVnc29adHdwM3J2V3VrS21NUU92T3dBVHkwcThlbWJh?=
- =?utf-8?B?UkRmUDYwdy95cVByVklSRHpXenhpdHNORWJKdTNFaFV6WjNsbmZpaFRvM052?=
- =?utf-8?B?clUzczgvaXVmaWZjamxqNDVqQTRHR2M4MzFUQmN0Z2NkUjVROHJvakFZVlhD?=
- =?utf-8?B?TWRpYnhlNU5ZMjFXZDFzellUTlloTDMwZE1aTkxWYi8rM0xCbmpuM3JabDVp?=
- =?utf-8?Q?rIlyagVXs903sFdXgk?=
+	=?utf-8?B?NE5iN2VIa3RaSzRacVpGS1E3VGtWTjZKWkcrWHVjVTRiSmhtYTNMQW5hRnJ0?=
+ =?utf-8?B?NFdMYlF4WWo4M25jbWhzYjdKR012aG1vTk9idkxjME9vUXEyTnBldkVPQkRw?=
+ =?utf-8?B?cHpRenBrYmRNREljK25kSnRLUy9ZM0k2UmZQVzV2dzdVTzF4YWNDZHFPRVMx?=
+ =?utf-8?B?QUJCNllucm0rZWd0Q3dOUjMvMm9IM0h2ZmhOeFJJWlAvWU94K25lcUZRUTE5?=
+ =?utf-8?B?U3VkdHE0WTJxZjdRbkd4dzFpTmVFSG9WVzVMbVRzektSZlhTNlN6b1FjS0Vo?=
+ =?utf-8?B?ODRwbm5tRHFUb3FCSmdQSldDTnM1cXppMC9JVkJ4YnJpWmxiY0VmdjZYbmJt?=
+ =?utf-8?B?dUlIT3l1dXdYcm0vWFpyRHNickQxSTA2SVRIcEpYTitOWHRDU2s3QlJhVjFa?=
+ =?utf-8?B?Y3FORGpHdS9Jc0VjVjB0OW1PUFQxZkR1VldzaVQ1RVA5NTFtcGdOWGhnSEJz?=
+ =?utf-8?B?K0R3bEhPV2h4eURMdjRjS1ZQSGdmdkVEdFozRDZOVXhzb2x2SkpyY1RYQjVG?=
+ =?utf-8?B?SU9hOWcwS2J2aFVqeCtET3lPdjV3azBkS2p2Y0V0aXNpNkdsKzVHWVNnWnpD?=
+ =?utf-8?B?dGNTMlNETFdlWkVjRTdvc2VHdkxMU25qcUZwOXVBbFNPcjVqc2Zlb3FzU00y?=
+ =?utf-8?B?WTlUNHIwN2k0b2ZQOGRwZXRqR3JzT0ZxZUlvdDA3WFN0ZXpFVVg2cVhQc1Nt?=
+ =?utf-8?B?blFlUmp3T0hmN1NVc3d2eFlWTS9zRndHcitiVDhUMHJZNk5iWXZQWC9GalZ1?=
+ =?utf-8?B?TnpiaElKTnZzUGI3YmZLdHpFaG4wVDNpb3Foc1VZRDBFK28vTFpzaWVYZXNC?=
+ =?utf-8?B?ZWFZeEd2WnNWMDljeVJvRTEvYW9lOFB0Y2kxcjFWTTYxa3NCNDJVOXZDR2RP?=
+ =?utf-8?B?bTllSVNKRVFOMkloTnFIL1RwUHFtUU9QSjEvNnlBbFQvLzBJZXVFR1AxQ2xk?=
+ =?utf-8?B?NURiUTZMTElnTDBGaUo1UDByQ29sZnphRlZQSngzQy9nUmNCMlFNTGVvcXNv?=
+ =?utf-8?B?aENEcytJbHFZQzlyRnZJUGFTRHhoenhtOEoxMDY3QWxOY09GYytydGVhWkdR?=
+ =?utf-8?B?eUg3VUR1UVhiVTFtOFM2bUE5Y2Y2VjNoNUZ6ZDB5RVlQZTJGZDFEZ0ZGaGxR?=
+ =?utf-8?B?YzdXTWtHdDVxQ3ZIbWZvUlhlZjFzb21hekV4U0ljZ2phNml5U3VPVElocTRJ?=
+ =?utf-8?B?SDgvYktQb0JEeEgxS0ZQV01IQ0hXb3J4dVBubkVBQkw4WUNGeE5wRWpNbGNJ?=
+ =?utf-8?B?UkYzZyt0RDFFQnFHdERsSDhVZjVWNnFZV1NMdHZ4cGVxeTFYY1FZU3ZqRGNT?=
+ =?utf-8?B?Ly96bzJFU0tqbDZ5M0FtMkpwWUlPR2U4M0lqUmZPbUsrODI1YUZ0SVVIWEVk?=
+ =?utf-8?B?VG0xUmhyNEd2WlRqbmVjaitCdCtkSThyMjFxckpMYUcvM0E4akN2eHpXaVlu?=
+ =?utf-8?B?ckdkK1dZSDdDUTcvaVF3ekRNbkZhU3Z6T1lHbHV5alFObzBGUWlNR3QyWW1Q?=
+ =?utf-8?B?SFJsVFdoWUNFc1V2dmViWkV1Ky9hTlR3dWhCcVFwQVI5RG9TRzNaUWpYcXVp?=
+ =?utf-8?B?cGVia3lyQmo0NlpnWTlYYXFDWnFwVkpwUU1TSmtKbVZQdWl1Nks3WjV5TkNE?=
+ =?utf-8?B?YklnZnRWVFY2UlN3VnFGSzRoN0NMaUZqdkJFV1g5TEIxM1NNQUhlM1BJMWxp?=
+ =?utf-8?B?Q0Q3UDNtcHUxdElGL0t0WFFmY0RGWFFQU0RaS1ZCa3hHSC8wKzYwZWUrMGZV?=
+ =?utf-8?B?V1VqQlBtV0JsNXJ5eXV6S2NEdkFMalp5bmR5MC95RTQwQlR3Z1dDa1l3UjFq?=
+ =?utf-8?B?YWg2Q04rdUFneGdlV1dESVpEOGNFdzNmc0ZUNHpKWTIzTk5jdmRnVGVSbUdm?=
+ =?utf-8?B?VVdzODBOUDBlNFZjSnFqZk43QWw1R3BTN0VsTWtNWGJ1QzRTWlBtMi9Ud0dE?=
+ =?utf-8?B?dk05eHF1QmNpVDhCYWI0U2Y5ZHl5NFhGTHVrRGdsMUlhM3RUdjBDcTlxcC9z?=
+ =?utf-8?B?bjZFVEJvQnBxei8vM3I4TUJJRFBPYURyVENNS3lPY2U2Slc2bXpOKzZiOW9r?=
+ =?utf-8?B?cUtzUGZwYnExWk1JcXZJMjRHZ3JzQ1M3dzRuSkRrU3BtY2RZS0RNK1ZtVDBT?=
+ =?utf-8?B?V0JJWUQweGdkc2pDWHM0UWJqempMOHZBcHczdGpGUjNrd1Z0U3ZLSlIxWXJO?=
+ =?utf-8?B?VEdaTUVLaitNOS9iQklmTDZmaUt1M2ozS01qVUdWQmxCdzRIRkJuZVdMcW5E?=
+ =?utf-8?B?cHRheFlWSm1LSnIxcjJFdlJaMW1ybWs2M21UMlJIcmFoNjNKYlVFdkFCRWh3?=
+ =?utf-8?Q?cc4n9jaAEktgJX9rMA?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8049e82e-f2ed-4234-27b6-08deef72f511
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1246d7d6-8757-413c-3889-08deef73040e
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2026 02:16:55.1454
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2026 02:17:20.2222
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dHRY+Bi+1YHiBNSqzAr7tvYfQ+7uKeAf5TdP84c5qEpoH6FkhhVKrN9emBFarEQs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7373
+X-MS-Exchange-CrossTenant-UserPrincipalName: 91bkUmO6i4hIhaG8Qu5OmEn3y9IvCfuSTeJ6WjzB+wsg2Uw7eG38b12oK7hss0fg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHAPR12MB999250
 
-Hi all,
+folio->private != NULL indicates a folio carries private data, replacing
+PG_private. All PG_private users are converted. Remove PG_private and
+reserve the space as __PG_folio for future use.
 
-This patchset removes PG_private to make space for upcoming PG_folio
-(reserved as __PG_folio) for identifying pages from a folio (more details
-in Note below). Instead of checking PG_private, all code is changed to
-check page/folio->private != NULL instead.
-
-MM people are cc'd on all patches and subsystem people are cc'd on the
-cover letter and corresponding patches.
-
-Overview
-===
-Most code uses folio_attach/detach/change_private() functions, so folio
-refcount is increased and decreased when folio->private is set and reset,
-respectively. There is no need to change them.
-
-Changes are needed for exceptional users:
-1. zsmalloc uses PG_private to indicate first component zpdesc page and
-   page->private is used to store zspage in zpdesc. To remove PG_private,
-   is_first_zpdesc() is changed to zpdesc->zspage->first_zpdesc == zpdesc
-   instead of checking PG_private.
-
-2. kernel/events/ring_buffer.c stores page order in page->private.
-   Replacing PG_private with page->private != NULL works.
-
-3. drivers/xen/grant-table.c stores xen_page_foreign in page->private,
-   where on 32-bit, a pointer to xen_page_foreign is stored; on 64-bit,
-   page->private is used as xen_page_foreign. PG_private check is replaced
-   by page->private != NULL on 32-bit for xen_page_foreign deallocation.
-   On 64-bit, page->private is cleared unconditionally since {domid=0,
-   gref=0} (xen_page_foreign can be 0) is valid.
-
-4. fs/crypto/crypto.c stores a folio pointer in page->private, PG_private
-   checks are replaced by page->private != NULL.
-
-5. fs/erofs has two different uses:
-
-    5a. folio->private is used to form a reversed list of
-    the outputs of readahead_folio(). readahead_folio_reverse() is added to
-    output folios in reversed order, so that ->private is no longer needed.
-
-    5b. folio->private is used as an in-flight I/O counter. Convert the
-    code to use folio_attach/detach/get_private().
-
-6. fs/nfs/write.c: folio refcount maintenance is in a bigger scope than
-   folio->private. So folio_attach/detach/get_private() is not used.
-   Nothing to change.
-
-7. fs/f2fs uses attach_page_private() to first reset folio->private then
-   immediately sets PAGE_PRIVATE_NOT_POINTER bit on it. Change it to use
-   attach_page_private() to set PAGE_PRIVATE_NOT_POINTER bit directly to
-   avoid folio->private == NULL gap inside set_page_private_##name().
-
-8. hugetlb uses folio_change_private(folio, NULL) without folio refcount
-   maintenance. Change it to folio->private = NULL.
-
-After the above changes, PG_private ops are converted to
-page/folio->private ops.
-
-folio_test_fs_private() is added to check filesystem-only private data by
-excluding swapcache and hugetlb folios, because swapcache folios overlap
-swp_entry_t swap with ->private and hugetlb sets its own flags in
-->private.
-
-Note
-===
-1. KPF_PRIVATE has a minor semantic change. Since PG_private will be
-   removed, KPF_PRIVATE represents pagecache folios whose ->mapping is not
-   NULL and with ->private set. Currently KPF_PRIVATE can be set for
-   orphaned pagecache folios with ->mapping == NULL.
-
-2. Documentation/mm/hugetlbfs_reserv.rst is outdated, so I did not remove
-   PG_private related text. It should be rewritten.
-
-3. PG_folio is planned to be set on every page from a folio in
-   page_rmappable_folio(), so folios with any order (currently
-   PG_large_rmappable is used to identify >0 order folios) can be
-   identified, vm_insert_*() can correctly reject all folios, and rmap code
-   can accept only folios. Eventually, page_folio() will return NULL for
-   non-folio pages.
-
-Tests
-===
-1. allmodconfig build passed.
-
-2. zsmalloc is tested using ext4 on a 1GB lz4 zram:
-    2a. zram load + zsmalloc compaction;
-    2b. concurrent zspage migration via memory compaction;
-    2c. confirmed that multi-page zspages actually formed.
-
-    Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_zsmalloc.md
-
-3. erofs is tested on images created with -C4096 and lz4hc, lzma,
-   deflate, and zstd algorithms:
-   3a. cold read of all files, verify checksums match source;
-   3b. readahead + reclaim/migration race.
-
-   Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_erofs.md
-
-4. fscrypt is tested on software-encrypted ext4 with writes to exercise
-   bounce pages.
-
-   Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_fscrypt.md
-
-5. f2fs is tested on an image with inline_data,compress_algorithm=lz4:
-    5a. INLINE_INODE — lots of tiny files;
-    5b. REF_RESOURCE + general writeback — buffered write churn with fsync;
-    5c. ONGOING_MIGRATION — force GC / page migration;
-    5d. ATOMIC_WRITE — atomic-write ioctl path.
-
-    Details: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/test_f2fs.md
-    (I did not run xfstests)
-
-6. MM selftests passed.
-
-LLM use
-===
-Claude was used to form a concrete plan on what code needs to be changed
-and how to change them. The plan was reviewed by Codex until no issue was
-spotted.
-
-Plan is at: https://github.com/x-y-z/linux-dev/blob/b4/remove-pg_private/plan.md
-
-I then followed the plan to make code changes. I did bounce ideas with
-Claude how to change fs/erofs, since I did not like the original idea.
-After each change, I asked Claude to review my code and git commit message.
-I also asked Claude to give me test plans (see above).
-
-At last, Codex was used to review all patches.
-
-Comments and suggestions are welcome. Thanks.
+Also update files in Documentation. hugetlbfs_reserv.rst is outdated and
+left unchanged. It should be rewritten.
 
 Assisted-by: Claude:claude-opus-4-8
 Assisted-by: Codex:gpt-5
 Signed-off-by: Zi Yan <ziy@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Baoquan He <baoquan.he@linux.dev>
+To: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Jan Kara <jack@suse.cz>
+To: David Hildenbrand <david@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Dave Young <ruirui.yang@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: kexec@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-trace-kernel@vger.kernel.org
 ---
-Zi Yan (14):
-      mm/zsmalloc: replace PG_private with pointer comparison
-      perf/ring_buffer: stop using PG_private as AUX page high-order marker
-      xen/grant-table: stop setting PG_private on pages for grant mapping
-      fs/crypto: stop setting PG_private on bounce page
-      mm/hugetlb: use direct assignment instead of folio_change_private()
-      fs/f2fs: stop using PG_private
-      fs/erofs: mm/pagemap: add readahead_folio_reverse() to avoid folio->private
-      fs/erofs: use folio_attach/detach_private() instead of direct assignment
-      mm/page-flags: check page/folio->private instead of PG_private
-      mm/page-flags: introduce folio_test_fs_private()
-      treewide: remove folio_set/clear_private()
-      treewide: replace PagePrivate() with page_private()
-      treewide: adjust comments on PagePrivate and PG_private
-      mm/page-flags: remove PG_private
-
  Documentation/admin-guide/kdump/vmcoreinfo.rst |  2 +-
- Documentation/filesystems/vfs.rst              |  6 ++--
- arch/x86/events/intel/bts.c                    |  3 --
- arch/x86/events/intel/pt.c                     |  6 ++--
- drivers/md/md-bitmap.c                         |  6 ++--
- drivers/xen/balloon.c                          |  5 ++++
- drivers/xen/grant-table.c                      |  7 ++---
- fs/ceph/addr.c                                 |  8 ++----
- fs/crypto/crypto.c                             |  2 --
- fs/erofs/data.c                                |  5 ++--
- fs/erofs/zdata.c                               | 11 ++------
- fs/f2fs/f2fs.h                                 |  8 +++---
- fs/nfs/file.c                                  |  4 +--
- fs/nfs/write.c                                 |  2 --
- fs/proc/page.c                                 |  5 +++-
- fs/ubifs/file.c                                |  6 ++--
- include/linux/buffer_head.h                    |  6 ----
- include/linux/mm.h                             | 16 +++++------
- include/linux/mm_types.h                       |  4 +--
- include/linux/page-flags.h                     | 38 ++++++++++++++++++--------
- include/linux/pagemap.h                        | 35 ++++++++++++++++++++++--
+ Documentation/filesystems/vfs.rst              |  6 +++---
+ include/linux/page-flags.h                     | 19 ++-----------------
  include/trace/events/mmflags.h                 |  2 +-
- include/trace/events/pagemap.h                 |  2 +-
- kernel/events/ring_buffer.c                    |  7 ++---
  kernel/vmcore_info.c                           |  1 -
- mm/huge_memory.c                               |  2 +-
- mm/hugetlb.c                                   |  6 ++--
- mm/migrate.c                                   |  3 +-
- mm/page-writeback.c                            |  5 +++-
- mm/vmscan.c                                    |  3 +-
- mm/zpdesc.h                                    |  2 +-
- mm/zsmalloc.c                                  | 15 ++--------
- 32 files changed, 127 insertions(+), 106 deletions(-)
----
-base-commit: bcd5eb68a6a189497eb26c1b9f622538aa48895d
-change-id: 20260728-remove-pg_private-cfe926c7f83c
+ 5 files changed, 7 insertions(+), 23 deletions(-)
 
-Best regards,
+diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+index 7663c610fe901..5f1df6d080508 100644
+--- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
++++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+@@ -325,7 +325,7 @@ NR_FREE_PAGES
+ On linux-2.6.21 or later, the number of free pages is in
+ vm_stat[NR_FREE_PAGES]. Used to get the number of free pages.
+ 
+-PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_hwpoison|PG_head_mask
++PG_lru|PG_swapcache|PG_swapbacked|PG_hwpoison|PG_head_mask
+ --------------------------------------------------------------------------
+ 
+ Page attributes. These flags are used to filter various unnecessary for
+diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+index e7677423a20f7..5cc07f82fe371 100644
+--- a/Documentation/filesystems/vfs.rst
++++ b/Documentation/filesystems/vfs.rst
+@@ -649,8 +649,8 @@ Writeback.
+ 
+ The first can be used independently to the others.  The VM can try to
+ release clean pages in order to reuse them.  To do this it can call
+-->release_folio on clean folios with the private
+-flag set.  Clean pages without PagePrivate and with no external references
++->release_folio on clean folios with folio->private set. Clean pages
++without folio->private set and with no external references
+ will be released without notice being given to the address_space.
+ 
+ To achieve this functionality, pages need to be placed on an LRU with
+@@ -674,7 +674,7 @@ filemap_fdatawait_range, to wait for all writeback to complete.
+ 
+ An address_space handler may attach extra information to a page,
+ typically using the 'private' field in the 'struct page'.  If such
+-information is attached, the PG_Private flag should be set.  This will
++information is attached, non-NULL 'private' field will
+ cause various VM routines to make extra calls into the address_space
+ handler to deal with that data.
+ 
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 0e3628ea080c4..eb2961ed61018 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -44,10 +44,6 @@
+  * Consequently, PG_reserved for a page mapped into user space can indicate
+  * the zero page, the vDSO, MMIO pages or device memory.
+  *
+- * The PG_private bitflag is set on pagecache pages if they contain filesystem
+- * specific data (which is normally at page->private). It can be used by
+- * private allocations for its own usage.
+- *
+  * During initiation of disk I/O, PG_locked is set. This bit is set before I/O
+  * and cleared when writeback _starts_ or when read _completes_. PG_writeback
+  * is set before writeback starts and cleared when it finishes.
+@@ -105,7 +101,7 @@ enum pageflags {
+ 	PG_owner_2,		/* Owner use. If pagecache, fs may use */
+ 	PG_arch_1,
+ 	PG_reserved,
+-	PG_private,		/* If pagecache, has fs-private data */
++	__PG_folio,		/* Do not use: reserved for folio identification */
+ 	PG_private_2,		/* If pagecache, has fs aux data */
+ 	PG_reclaim,		/* To be reclaimed asap */
+ 	PG_swapbacked,		/* Page is backed by RAM/swap */
+@@ -576,7 +572,7 @@ FOLIO_FLAG(swapbacked, FOLIO_HEAD_PAGE)
+ /*
+  * Private page markings that may be used by the filesystem that owns the page
+  * for its own purposes.
+- * - PG_private and PG_private_2 cause release_folio() and co to be invoked
++ * - folio->private and PG_private_2 cause release_folio() and co to be invoked
+  */
+ 
+ static __always_inline bool folio_test_private(const struct folio *folio)
+@@ -584,17 +580,6 @@ static __always_inline bool folio_test_private(const struct folio *folio)
+ 	return folio->private;
+ }
+ 
+-static __always_inline int PagePrivate(const struct page *page)
+-{
+-	return !!page_private(page);
+-}
+-
+-/* no-ops during transition */
+-static __always_inline void folio_set_private(struct folio *folio) { }
+-static __always_inline void folio_clear_private(struct folio *folio) { }
+-static __always_inline void SetPagePrivate(struct page *page) { }
+-static __always_inline void ClearPagePrivate(struct page *page) { }
+-
+ FOLIO_FLAG(private_2, FOLIO_HEAD_PAGE)
+ 
+ /* owner_2 can be set on tail pages for anon memory */
+diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+index 935893e5ea53b..caf090cd6f85e 100644
+--- a/include/trace/events/mmflags.h
++++ b/include/trace/events/mmflags.h
+@@ -144,7 +144,7 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+ 	DEF_PAGEFLAG_NAME(owner_2),					\
+ 	DEF_PAGEFLAG_NAME(arch_1),					\
+ 	DEF_PAGEFLAG_NAME(reserved),					\
+-	DEF_PAGEFLAG_NAME(private),					\
++	{ 1UL << __PG_folio, "folio" },					\
+ 	DEF_PAGEFLAG_NAME(private_2),					\
+ 	DEF_PAGEFLAG_NAME(writeback),					\
+ 	DEF_PAGEFLAG_NAME(head),					\
+diff --git a/kernel/vmcore_info.c b/kernel/vmcore_info.c
+index 8614430ca212a..5a417f8a922ab 100644
+--- a/kernel/vmcore_info.c
++++ b/kernel/vmcore_info.c
+@@ -216,7 +216,6 @@ static int __init crash_save_vmcoreinfo_init(void)
+ 	VMCOREINFO_LENGTH(free_area.free_list, MIGRATE_TYPES);
+ 	VMCOREINFO_NUMBER(NR_FREE_PAGES);
+ 	VMCOREINFO_NUMBER(PG_lru);
+-	VMCOREINFO_NUMBER(PG_private);
+ 	VMCOREINFO_NUMBER(PG_swapcache);
+ 	VMCOREINFO_NUMBER(PG_swapbacked);
+ #define PAGE_SLAB_MAPCOUNT_VALUE	(PGTY_slab << 24)
+
 -- 
-Yan, Zi
+2.53.0
 
