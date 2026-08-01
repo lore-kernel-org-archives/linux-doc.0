@@ -1,102 +1,102 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6813335E1DA
-	for <linux-doc@vger.kernel.org>; Sat,  1 Aug 2026 11:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF595368957
+	for <linux-doc@vger.kernel.org>; Sat,  1 Aug 2026 11:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785583095; cv=none; b=trZQuwIfIB2zDy55UFNi+YBNshPBLpVkhct/lwSnsgCRTZAU1tYXD2T4j4luB2Hsd5qEa3AC9J0e+cftJLiQvYR6NXKjqpMlbM84+/ZYl2HwBHmK64T94m5fkXS4Z7RTqK4UNqtwciCPmWsPU43/YK4sCpEr2vCPj5KeQ7+uq8A=
+	t=1785585260; cv=none; b=UdvaKxG6K9OkABBn7nYlgPQL9DurVxLmJOplV76xkSThtdaLNjpuu8SM9XKAw8bEjeJqO09vikLviC9etvdWTTHuVSXrmvcrtMsEpJNesalBWZGzkjSvbKuU5YBLA1bGIoQ58ZiO96NliGPPqnOkib8dn0RRjeyCOkxHdsKlc1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785583095; c=relaxed/simple;
-	bh=NPEBvrt5ZbaoEk9PLEq/eC2w7vBXpetQazDzpSUUG/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=te+dYeXs40oHyuWgwT087lpV9EOKIL4qw6OOxDmq2krbB301/InjU1WLM9WjELH2rbBEE8vCX5OaBw/tuGlOIIwI9GAc3a5XvOWhwNNzrz/xRJIAiLO0kAKW07cdVY0tnWEue/FjfxZAzznsxeQd4k58Q1948AZEdKzD+81HUC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bRkWpyls; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1785585260; c=relaxed/simple;
+	bh=WAyIqKS13qhtcJ8TFErAU5BnHgc3X175FNY7xpwzme0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XUtezsDOCFxIx43YBe1zC2rqeh4j1DkqW9C1mY96itDB+a07tt4suGPX6NGEGUJX/qmV4mFOtM03DK/DwcGlJUdfNPWydPSwAfjOWC+GeeYRq1GDRktTpuoCdJYyLsUkk0hxvIZqd3gishQbidIkfEzjDWfPSoxHpYf+5vrqJ6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oAJPHfCO; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bRkWpyls"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1901191f8f.0
-        for <linux-doc@vger.kernel.org>; Sat, 01 Aug 2026 04:18:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oAJPHfCO"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-848d21bbaffso2096039b3a.0
+        for <linux-doc@vger.kernel.org>; Sat, 01 Aug 2026 04:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785583092; x=1786187892; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HpE77+UpX7tjb7BgpfaEz4mrjgXeleExLIigVJX5YNs=;
-        b=bRkWpylsUhqKDE2CQE7/AYjjskORcpoI4mgp3Q5kCnMDtZnxVl3IZJzOS51+89ooiD
-         Zld9jfDO4cHJs9Wp1Rr+qSga3Fkp6/EmMbNTv8MeZjQ4q/bGTbga5r1g1fZECrE9YOcS
-         RIygXWeAFgU1fq7gSZMzxEFTYYpjKnHqTdrcB9x6+ldWgXqm7hPqkDtyC5Vn5GZ3sxRv
-         a06cpLCgGGxmjqBP3o5nkohFGQUeDkoKiY2fWxoL6OE32tEDmxfe2xZhkDo2EKxwTYIc
-         btoceWkJHhBiWahjYLfvz8F7AuZAbXI375NiwFMpTMj2YjVMehm7Q2PPr0GJHzsf7xZd
-         9sRA==
+        d=gmail.com; s=20251104; t=1785585258; x=1786190058; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Q/xE7Iz2aJ6sTqnJq2mUQC5qwdq+R/GT89iKccAizqc=;
+        b=oAJPHfCO19SElpaN7jU4tUpjbRnkMxoCfJsocpMoXBkn2hJNQ7EK4vsCET2RkYlztn
+         BOE/6KePuHqBi6kt+c/T3X8/hCUL3NazA3PwWt7jivr/2rJEB8F6G0v3M0ezMDZrGvXe
+         hwerUf8FXfZNMNd8oYWcu2yEt2O0BxECMMCTq6s5AuDubq/Wb627oJPS63adn9qrFQP3
+         RzzRKEwWkIeMJ27t/Irn4SimFH+rWTEP/CGrTczPMzjYPbexI2gT0tB3YuPE/Agd6fUW
+         6DPaC2E2d4I7/clfZTkDMMXz/4FVATzn7E/5cO+K/q/IhgmE9vFosDLvDJ7y8RF9u56t
+         Z3nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785583093; x=1786187893;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1785585258; x=1786190058;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HpE77+UpX7tjb7BgpfaEz4mrjgXeleExLIigVJX5YNs=;
-        b=ejljCKys/G3+E0ZKSfm1BtVhlgzi3co1TvpwazT9uqVzzuBNK77WtoDT0tXddKx6WY
-         q7QWE5B9R5Rvlb/dBts9YWqFVQ++vivPdlftOngHPh1Ew0TKL2Uk/JnOI2rJdZFMZcD6
-         SbNLse2BWKgWEdZGKJVe6ziHtPLkNVCz7dNLj8Tn5N6a6ahG+WsG1Gn2yE62U1p4Gi5H
-         1bK1njvsmPttcUBo332KkCIoxOg0YKgjmi+QcH/4vL06iz6E/5R9FDGtYeWogIELjChc
-         KqU6lk9wDoCWJfOP7iJvqzDkLH8sfge0gYUekrt2HwMMc6iKgaOjCrddbPGPrTe15hU+
-         V41Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpSjk6YRY5jHRgYtsHESYJhGJ6oPmAGrh+gFzXub+7ol/FQO4cFmX5IYttsb0XecTSQyQdLT64imPQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiS8slaa62GsnUfLQyN3cU+7RDcARG1iyj9Mpx8PPYGNQh9uL4
-	u9zNZw2VYiPJnQt29WT9JriFRaFkeZshHG0hZfHePAXZoOK0lcnNlZY=
-X-Gm-Gg: AR+sD10OdyzAxvGCTGtAEk3imyW6153tF/lBlYRKfiS/gbTKrZvyc0MVFwnUl/GUe27
-	DRhbyREqCBslqDVADjIDwcWl4s0x3U5ztUZ1l62XQQKq0xKSqxjDW2yT4r+TdEOSNbcwfkBoLfN
-	/VuUKlj9Hc9onoVlI6rQHW/cH+U3AkubjYGhxBdm8NHj16lp++n0NT0f/ejTdgl8LEahnVGldlE
-	RAFlHYIUYjfzdSEC5jJfzgtaKq39VWjgn1Zl9Z6fy5EHY2AbTTO/KTbIbXwCZyqYXrz2MdPXDp8
-	Huoie/SpHe+FfrwtTpfB0SMHPxLyyidfnPLo1hlzkppL6c+VgLHasszK+1x0wuELqeDk1nd7ZU1
-	0hd3RP+7v+AOpzP4Fcnc3y+/ijCIAJxitTEEQma6FIkMah414fowpEYypKg+rEVT9z0G5P3vjmI
-	sEzuAyFKK2ol6+CNtbvpADz0QZ8S8LdYkvvCKByDNpPfQlp8G3TaWtmyC7HpATZXXlXMJx4cA4i
-	RkxMFn01rvnHuiCnL9S+KnYuH6r5VeCYjQ1AgSEuNoY5zI2UFPF7Reyb6Eima0VYw==
-X-Received: by 2002:a5d:5e8e:0:b0:47f:71a0:c060 with SMTP id ffacd0b85a97d-47fd32b19c5mr10140695f8f.2.1785583092579;
-        Sat, 01 Aug 2026 04:18:12 -0700 (PDT)
-Received: from fedora.cable.virginm.net (finc-16-b2-v4wan-164426-cust896.vm7.cable.virginm.net. [86.25.171.129])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd41d1756sm14224679f8f.4.2026.08.01.04.18.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 04:18:12 -0700 (PDT)
-From: Lukasz Tymoszczuk <lukastymo@gmail.com>
-To: Corey Minyard <corey@minyard.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	openipmi-developer@lists.sourceforge.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukasz Tymoszczuk <lukastymo@gmail.com>
-Subject: [PATCH] docs: ipmi: fix word order in create-user description
-Date: Sat,  1 Aug 2026 12:18:04 +0100
-Message-ID: <20260801111804.3593320-1-lukastymo@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        bh=Q/xE7Iz2aJ6sTqnJq2mUQC5qwdq+R/GT89iKccAizqc=;
+        b=EZx3kebMFgX0oaxiRo2q6YPZl93zycZF4GEFYzisj9KCiesyyQXq2nDSg6HmC58bgS
+         hvX1QSoj9vKx6SAm1vfut26URPl167aVJ5BHENO0P0YaB9791YsAlYvZeCKPSuNrJWDi
+         AoDTn8OKc2TQDbZw8R3t59laHmbm2APTqAy8Tax2cA7Tf+BdSXMJurv6bAOOboy2n2Ju
+         KMiNAlX06Xn6kY7i+mW1tZy8ucyBGmB5OIP9Y4CHSjsy0utzHfJYb24dgopNDlkmgqNB
+         5YvCKSdK3Ohd16EwUQ7uit9T5+j6wBBBTi2EXHSruHXfIw72VobSPoyl6e7p4wIiDADs
+         HJRQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqG5cSpQe2KLjdzVqxyfvBP8pxEPR59zmpyNSeJ+d50DV1wHqvZoG1jvT8u5AtqGxHmf6jL8ncq7YU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU5A8mnUjDQIAP6usU05CLHWWY2+WL0VBQIyvaPVKCrfZUJXJ5
+	NExz6pFuboW5UaOGIMH9moRt+Y7MhjWUYDjsr9YlLtAX76RerYC7OivX
+X-Gm-Gg: AR+sD10tFf5RPUqoihRB+f7TpGyLKVNhsKgLR4lCY9yVICDfed/tNMgj55vKzvjRGqy
+	zLR+s0WZ/0d+5DYGkNlj0l40fdnh5hPjKtNW5tWbKRZF1b7jsHlqR8Nzhgh6cT+xh+fa12USuek
+	Qjy5Irw6jsLBEE6i6dGyUyDbPe9j6AbAtxplcRJaXPHvlfHSpFaV1ZNnyVbB0TskQJWtvdMZm/r
+	cltsHVnB+x1/HbBRMH5Nko1te5YB0vpJwwBPnsosgPLmfKHWr+fQ4iwhIDLmwzrVb8n/B59SM1h
+	/PNHcn2sY+DHlGwCMvfA0Cl7cVMof6YtoCVShi4NFHdGqI8c/LxNmHzJGPJ1HC3Z8Kc1jshTa+8
+	JXNbNHQh0vTAtFzOKtTOpjT9oohPITLRzlMgovXLTpWVQihf+Q9hFb1lkYEqoE3PsTuRtjDTt1P
+	SQPWAz8PorY3RyIsPK9AhETgigwLlDaoETuY5jb//hP1mXMlV+9NwaKnpmRGiL6nbhg4VJp384E
+	KS/vIY2uI8RgD1/GLoWcQb5f7FvsNMFFg==
+X-Received: by 2002:a05:6a00:4b43:b0:845:40d1:87fa with SMTP id d2e1a72fcca58-84ee480a632mr2824973b3a.25.1785585258052;
+        Sat, 01 Aug 2026 04:54:18 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edbe57a9esm1602886b3a.19.2026.08.01.04.54.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Aug 2026 04:54:17 -0700 (PDT)
+Message-ID: <a13ae6e3-1f84-477a-9bfc-0a4a55152400@gmail.com>
+Date: Sat, 1 Aug 2026 20:54:01 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/ja_JP: translate submitting-patches.rst (tag usage)
+To: Akiyoshi Kurita <weibu@redadmin.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20260730130030.1078990-1-weibu@redadmin.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20260730130030.1078990-1-weibu@redadmin.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Correct "allows to you" to "allows you to".
+Hi,
 
-Signed-off-by: Lukasz Tymoszczuk <lukastymo@gmail.com>
----
- Documentation/driver-api/ipmi.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 30 Jul 2026 22:00:30 +0900, Akiyoshi Kurita wrote:
+> Translate the Acked-by:, Cc:, and Co-developed-by: section into Japanese.
+> 
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+>  .../ja_JP/process/submitting-patches.rst      | 94 +++++++++++++++++++
+>  1 file changed, 94 insertions(+)
+> 
 
-diff --git a/Documentation/driver-api/ipmi.rst b/Documentation/driver-api/ipmi.rst
-index d08cee98e34a..062c38d93fbb 100644
---- a/Documentation/driver-api/ipmi.rst
-+++ b/Documentation/driver-api/ipmi.rst
-@@ -280,7 +280,7 @@ Creating the User
- To use the message handler, you must first create a user using
- ipmi_create_user.  The interface number specifies which SMI you want
- to connect to, and you must supply callback functions to be called
--when data comes in.  This also allows to you pass in a piece of data,
-+when data comes in.  This also allows you to pass in a piece of data,
- the handler_data, that will be passed back to you on all calls.
- 
- Once you are done, call ipmi_destroy_user() to get rid of the user.
--- 
-2.54.0
+This looks mostly good to me.  So,
 
+Acked-by: Akira Yokosawa <akiyks@gmail.com>
+
+As before, I'll take care of a couple of rough edges when I have the
+time for a full review.
+
+Thanks, Akira
