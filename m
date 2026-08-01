@@ -1,186 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx-8.mail.web4u.cz (smtp7.web4u.cz [81.91.87.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921CA37996C;
-	Sat,  1 Aug 2026 09:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D810D3E3DBC;
+	Sat,  1 Aug 2026 11:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.91.87.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785576341; cv=none; b=M0yXSu1+rG0Nj0jsQln1jGgd4+HJb4kUlxqmKL6aUTG36Vi8/mHsKuW7PetUJlfpx6y/f+OqX0bct495zqAK9lV6cK8MjYyRQOo/ElvFnDMFnCFK+YAlmkQX/5gy+bCaXFUOao4zGlblOnO262oQ7AdtuX1tAq2YfG+5KGptEdY=
+	t=1785582148; cv=none; b=KcDOsmLx0JiIQkGYRWkMk11RR3MW7R7CRoxCxH6e+BKPi1jYUoTR7krY1RUDg08JoWZFSgqBpVv9EBNjekSta2JwKz/R/xzF7vdiLaoeC1QX4ZO2dDX2F3Xas2lfbauevzYJztCXKo73FHcp6/cwFCP1QJ1Y7eQzyX8xU4ocQoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785576341; c=relaxed/simple;
-	bh=M9XmZH4M5iP8qjbpSi9jwOlKI/kgMsZc0Bl4SJCkKf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S5bM91spav/tbbDyiAK4qo+kXzoHYH/9oWBr9ueR4U0Dv24W5W25i8izrfgn11aG6iiqoX9sCu/CGkaEnHmXRnbP9dgZXrehKoyOt9FBrz0bI5/bMd9ItlKPr/lJ8PQr0D2Pc9jvy3jVPgiYm8nWTw4DwSyp8NsXPO4XYby1P9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWOrIDhk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785582148; c=relaxed/simple;
+	bh=diTGh9pGYI+gWDvk3pLllvaE0gYZHY05lhYAOIA8QlU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=M+TAdtXBZoV+C/L4iue4U3v5Bf/I18/BsKESo6ue6768WScIh4lswBmk7iIRxvL1dRsUXjphmFEG0BMPob/aXv9Lmn/olDF1Ks2rldMslM6gUpMXHng/2U1uo9+v8IsA7UXKNtx5to3gsYnk/xHDkDERaOeyhl721UitdjVgByo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pikron.com; spf=pass smtp.mailfrom=pikron.com; dkim=pass (2048-bit key) header.d=pikron.com header.i=@pikron.com header.b=yK085N9C; arc=none smtp.client-ip=81.91.87.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pikron.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pikron.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWOrIDhk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CC0F1F00AC4;
-	Sat,  1 Aug 2026 09:25:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785576340;
-	bh=dnH8kMzvuedz5XR8h84XFqr31pF3AJSMqise3dLXv94=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MWOrIDhk7NpRd710mAh9X31XwxvhTvYZO67pcOs5p4384DYr18f6yJ2dMsHnrL7U6
-	 oqr2JLYspbFKTp695RDOwABAwGtkT4W46Whhzc/EyvIHxZO6jOcpVJ6dVlbkcSMETp
-	 qLyeaMZKLdl2h2zUzXedcxjFCIftmYVifVM4K2D47iVGgZ6jiU6jYOq/XVDbMCUHq4
-	 4MGJnAYhvegUBckzxfHOdHXMrF1L/T7Bfynw0dyBPMeoz2KkRIeTeNRUSrtfBosWA6
-	 EHRowDuVeHERq7mfdVmgrziTxmd8C/AulssOsb5KYw0dI/TmxZ50cIU6X54tEUJvrw
-	 a5dr/5n+1waEA==
-Date: Sat, 1 Aug 2026 10:25:20 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: pratmal@google.com
-Cc: akpm@linux-foundation.org, vbabka@kernel.org, david@kernel.org, 
-	sj@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	anshuman.khandual@arm.com, gthelen@google.com, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, liam@infradead.org, 
-	rppt@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] mm/page_reporting: Add page_reporting_delay_ms module
- parameter
-Message-ID: <am20uLFuMrJH9wfN@lucifer>
-References: <20260731193705.2902728-1-pratmal@google.com>
+	dkim=pass (2048-bit key) header.d=pikron.com header.i=@pikron.com header.b="yK085N9C"
+Received: from mx-8.mail.web4u.cz (localhost [127.0.0.1])
+	by mx-8.mail.web4u.cz (Postfix) with ESMTP id BC2C92024E8;
+	Sat,  1 Aug 2026 12:56:34 +0200 (CEST)
+Received: from baree.pikron.com (unknown [84.242.78.234])
+	(Authenticated sender: ppisa@pikron.com)
+	by mx-8.mail.web4u.cz (Postfix) with ESMTPA id 65FD820247E;
+	Sat,  1 Aug 2026 12:56:34 +0200 (CEST)
+From: Pavel Pisa <ppisa@pikron.com>
+To: linux-can@vger.kernel.org,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	"Marc Kleine-Budde" <mkl@pengutronix.de>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Ondrej Ille <ondrej.ille@gmail.com>,
+	Jiri Novak <jnovak@fel.cvut.cz>,
+	Pavel Pisa <ppisa@pikron.com>
+Subject: [PATCH 1/1] docs: ctucanfd: fix swapped colors in legend for TX buffer FSM of CTU CAN FD
+Date: Sat,  1 Aug 2026 12:55:52 +0200
+Message-ID: <d775feefa1c16d7ea7f42482483c81491f75ce6c.1785574572.git.pisa@cmp.felk.cvut.cz>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1785574572.git.pisa@cmp.felk.cvut.cz>
+References: <cover.1785574572.git.pisa@cmp.felk.cvut.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260731193705.2902728-1-pratmal@google.com>
+Content-Transfer-Encoding: 8bit
+X-Pylter4U-dkim-type: user
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pikron.com;
+	i=@pikron.com; q=dns/txt; s=w4u; t=1785581794; h=from : date : to :
+	subject; bh=diTGh9pGYI+gWDvk3pLllvaE0gYZHY05lhYAOIA8QlU=;
+	b=yK085N9Cu469XSjKLvEXIf6vHyvL+UDvrhiJ3sgiuzrFLwEmmdUL+cgLwsAMRdmVGccrF
+	K3BAq3+g5HMN9cku4WKFE5pyFQ/piHu/r01J3EgC6bAbb6ABx202aXuSwR2eomHwK9mtMaf
+	Io33/d1ghl71oufrbSvibs5CLAeNSOCMJOfQiLlFRoFBW7vw0JpY2Y4XbzfeXZCQ53jFvKN
+	F+aBbPg31XJ3mX6d0h4ny9iBiSBQbIPXb2cesUVj8dQqdDG5tbvCFrZ0OuBhq2KTFCtcxqM
+	kjcrFTpcNVvgUerOKLZcG6i5KYd9NqLfZfvMKU8QqAoxGmZv6Ng2LPOdCxjA==
+X-W4U-Auth: 5acbfc1bafd0ba02eddfa61b9e33c05656a20c63
 
-On Fri, Jul 31, 2026 at 07:37:05PM +0000, pratmal@google.com wrote:
-> From: Pratyush Mallick <pratmal@google.com>
->
-> Free page reporting currently hardcodes a 2-second interval between
-> reports. This rigid delay cannot accommodate diverse guest workloads.
->
-> This patch introduces a module parameter, page_reporting_delay_ms
-> (default: 2000), allowing users to tune the reporting rate:
->  - Lower values enable aggressive memory reclamation by returning unused
->    pages to the host immediately.
->  - Higher values help batch pages during spiky allocation/free churn,
->    reducing hypercalls and nested page fault overheads.
->
-> Setting the delay to 0 is safe and execution is strictly gated by:
->  - reporting is only triggered by high-order page frees.
->  - expensive hypercalls are bounded by a slot capacity watermark check
->    before proceeding.
+The Inaccessible and Accessible legend colors has been swapped
+for many years. As I have helped to clean the CTU CAN FD section
+of official documentation for mass produced silicon (multiple
+models of microcontrollers) with the company representatives,
+I have found the problem and propagate correction bask to
+the primary CTU CAN FD sources.
 
-Thanks!
+Signed-off-by: Pavel Pisa <ppisa@pikron.com>
+---
+ .../networking/device_drivers/can/ctu/fsm_txt_buffer_user.svg | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> Signed-off-by: Pratyush Mallick <pratmal@google.com>
+diff --git a/Documentation/networking/device_drivers/can/ctu/fsm_txt_buffer_user.svg b/Documentation/networking/device_drivers/can/ctu/fsm_txt_buffer_user.svg
+index 381323423b4c..c8cf0bc49b69 100644
+--- a/Documentation/networking/device_drivers/can/ctu/fsm_txt_buffer_user.svg
++++ b/Documentation/networking/device_drivers/can/ctu/fsm_txt_buffer_user.svg
+@@ -93,9 +93,9 @@
+    <ellipse cx="144.827" cy="159.143" rx="10.8866" ry="4.39308"/>
+    <ellipse cx="59.4364" cy="142.823" rx="7.36455" ry="4.39308"/>
+    <ellipse cx="144.827" cy="129.196" rx="10.8866" ry="4.39308"/>
+-   <ellipse cx="143.077" cy="180.53" rx="10.8866" ry="4.39308"/>
+   </g>
+-  <ellipse cx="110.386" cy="180.53" rx="10.8866" ry="4.39308" fill="#ffcb35" stroke="#000" stroke-linecap="square" stroke-width=".499999"/>
++  <ellipse cx="110.386" cy="180.53" rx="10.8866" ry="4.39308" fill="#28a4ff" stroke="#000" stroke-linecap="square" stroke-width=".499999"/>
++  <ellipse cx="143.077" cy="180.53" rx="10.8866" ry="4.39308" fill="#ffcb35" stroke="#000" stroke-linecap="square" stroke-width=".499999"/>
+   <text x="110.90907" y="179.42688" font-size="3.175px" xml:space="preserve"><tspan x="110.90907" y="179.42688" dy="0.60000002" text-align="center" text-anchor="middle">Accessible</tspan><tspan x="110.90907" y="183.39563"><tspan font-size="3.175px" text-align="center" text-anchor="middle">for S</tspan>W</tspan></text>
+   <text x="143.5869" y="179.52795" xml:space="preserve"><tspan x="143.5869" y="179.52795" dy="1 0 0 0 0 0" font-family="sans-serif" font-size="2.82222px" text-align="center" text-anchor="middle" style="font-variant-caps:normal;font-variant-east-asian:normal;font-variant-ligatures:normal;font-variant-numeric:normal">Inaccessible</tspan><tspan x="143.5869" y="183.36786" font-size="3.175px"><tspan font-size="3.175px" text-align="center" text-anchor="middle">for S</tspan>W</tspan></text>
+   <g font-size="3.175px">
+-- 
+2.47.3
 
-LGTM so:
-
-Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-> ---
-> v4:
->  - Added a helper function for schedule_delayed_work().
->  - Updated the commit message.
->  - v3: https://lore.kernel.org/linux-mm/amiPTPKfTOEpgetH@lucifer/T/#t
-> v3:
->  - Converted page_reporting_delay_ms from a sysctl to a module parameter.
->  - Dropped the max value cap (PAGE_REPORTING_DELAY_MS_MAX).
->  - Documented page_reporting.page_reporting_delay_ms in Documentation/admin-guide/kernel-parameters.txt.
->  - Updated code comments in mm/page_reporting.c to reflect dynamic parameterization.
->  - v2: https://lore.kernel.org/linux-mm/3da27fde-25dc-4cb8-8e05-74cd26fc2f7c@kernel.org/T/#t
-> v2:
->  - Documented page_reporting_delay_ms in Documentation/admin-guide/sysctl/vm.rst.
->  - v1: https://lore.kernel.org/linux-mm/20260722192935.1646848-1-pratmal@google.com/T/#u
-> v1: Fixed feedback from RFC.
->  - Added lower and upper cap to sysctl value.
->  - Reverted the reordering on page_reporting_delay_ms.
->  - Dropped the mod_delayed_work() change.
->  - RFC: https://lore.kernel.org/linux-mm/20260714171456.2350037-1-pratmal@google.com/T/#u
->  .../admin-guide/kernel-parameters.txt         |  6 +++++
->  mm/page_reporting.c                           | 26 +++++++++++++------
->  2 files changed, 24 insertions(+), 8 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8f22..364c2dce8e70 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4810,6 +4810,12 @@ Kernel parameters
->  			Adjust the minimal page reporting order. The page
->  			reporting is disabled when it exceeds MAX_PAGE_ORDER.
->
-> +	page_reporting.page_reporting_delay_ms=
-> +			[KNL] Free page reporting delay in milliseconds
-> +			Format: <unsigned integer>
-> +			Adjust the delay in milliseconds between free page
-> +			reporting intervals. Default is 2000 (2 seconds).
-> +
->  	panic=		[KNL] Kernel behaviour on panic: delay <timeout>
->  			timeout > 0: seconds before rebooting
->  			timeout = 0: wait forever
-> diff --git a/mm/page_reporting.c b/mm/page_reporting.c
-> index 942e84b6908a..c01aa3af80f3 100644
-> --- a/mm/page_reporting.c
-> +++ b/mm/page_reporting.c
-> @@ -47,7 +47,11 @@ MODULE_PARM_DESC(page_reporting_order, "Set page reporting order");
->   */
->  EXPORT_SYMBOL_GPL(page_reporting_order);
->
-> -#define PAGE_REPORTING_DELAY	(2 * HZ)
-> +static unsigned int page_reporting_delay_ms = 2 * MSEC_PER_SEC;
-> +module_param(page_reporting_delay_ms, uint, 0644);
-> +MODULE_PARM_DESC(page_reporting_delay_ms,
-> +		 "Set page reporting delay in milliseconds");
-> +
->  static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
->
->  enum {
-> @@ -56,6 +60,13 @@ enum {
->  	PAGE_REPORTING_ACTIVE
->  };
->
-> +/* schedule work for page reporting */
-> +static void page_reporting_schedule_work(struct page_reporting_dev_info *prdev)
-> +{
-> +	schedule_delayed_work(&prdev->work,
-> +			      msecs_to_jiffies(page_reporting_delay_ms));
-> +}
-> +
->  /* request page reporting */
->  static void
->  __page_reporting_request(struct page_reporting_dev_info *prdev)
-> @@ -76,11 +87,10 @@ __page_reporting_request(struct page_reporting_dev_info *prdev)
->  		return;
->
->  	/*
-> -	 * Delay the start of work to allow a sizable queue to build. For
-> -	 * now we are limiting this to running no more than once every
-> -	 * couple of seconds.
-> +	 * Delay the start of work to allow a sizable queue to build.
-> +	 * We limit this based on page_reporting_delay_ms.
->  	 */
-> -	schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
-> +	page_reporting_schedule_work(prdev);
->  }
->
->  /* notify prdev of free page reporting request */
-> @@ -335,12 +345,12 @@ static void page_reporting_process(struct work_struct *work)
->  err_out:
->  	/*
->  	 * If the state has reverted back to requested then there may be
-> -	 * additional pages to be processed. We will defer for 2s to allow
-> -	 * more pages to accumulate.
-> +	 * additional pages to be processed. We will defer by
-> +	 * page_reporting_delay_ms to allow more pages to accumulate.
->  	 */
->  	state = atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDLE);
->  	if (state == PAGE_REPORTING_REQUESTED)
-> -		schedule_delayed_work(&prdev->work, PAGE_REPORTING_DELAY);
-> +		page_reporting_schedule_work(prdev);
->  }
->
->  static DEFINE_MUTEX(page_reporting_mutex);
-> --
-> 2.55.0.508.g3f0d502094-goog
->
-
---
-Cheers, Lorenzo
