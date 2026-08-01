@@ -1,225 +1,99 @@
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20B93BE161
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 23:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFCA2DF68;
+	Sat,  1 Aug 2026 00:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785541119; cv=none; b=Pk+geQQrX8aShDqWqktgJb1cL3cAYAjrx68mnZKh242bmEqfMZcJ7uKK3qCuKzMHp6s/DUBEfxMyMAOOTZt+TigUylNnohCxzbX1fi+8aA9hXsIq2bzwHbiC5q8I4tVVjRJfKxTe1qASGe631n9bpKevog3xcrElRZ7pOPedlmU=
+	t=1785542585; cv=none; b=X0Xc1HHsX/hStKUSF2NL/IuGvqez5diZqiJwi2DtElUi24PmLHRfYm/BhDyhb21izTffdkCX2nLEbguEhcqZhJoXFCBRu5WuKetqDMfLwG8+EfskXx+iPpMulbumchP9ApN4NL2mi4Xrs8hY75puTymJGc7rqGErY7B1buxUFzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785541119; c=relaxed/simple;
-	bh=zKG0iS70PV1ZsDDU0ojNP7wKsx3DKqaKvtYhgGjhqec=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=maItTNNKySmDZesXkqexGkLLxRwnQ8qMpmWVcxGeLobQ5MnMRLwB31E09n1F/AqijRfedvTDMKf9YjVrOp42b/BUWdUFbkr3zPKsq/al/1V7QWRD7uhmSX47UxkERQmcKdOD7A88ktbv/UhzNzOvQkPVT/HMG2BwgyI+GukoYT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W1vKjvQW; arc=none smtp.client-ip=209.85.210.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1785542585; c=relaxed/simple;
+	bh=ZL1LE6RWrRR+TxEFNCVtAINo8B15XbU3517wESnXWWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aLuC2XAyIU+oTTsUub6iPIh9mB1ONlRfmElDvwNsoqd1vlnBIullBPJDcWBxd585GQEFIRAeEr29Q5C84h2cjltiiYUFyjE3MsX0deKJvh5mJhb0V3RNQtAWL+MtulDpWhvkrjBnUU07cFPMC8lgHVpMwzXWQWnS7deKuZe7GzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCVvSJdV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W1vKjvQW"
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8486ffba174so2723301b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 16:38:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785541117; x=1786145917; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=dmKsJOviftvACUGPABBN88S+tJ91thYPhBWQcoJdx18=;
-        b=W1vKjvQWU2LANf0hil7JAJKIzwtCO2qQsxWxRYPJFktMEYoEosVjNuPvQOlgo+yN9/
-         9Efpz3ACwONT5oj34ijQIr2zrNOzFUt4rGxNkk60pwlO+u7i7ffdexxCEMoAu5wHU8V3
-         zSYEsX3fR7iSQ3V2wDi6NUbH1MML9uI9P+KstO/dBj6nLwyJMr1hj0fLNUxQOqvAp3iY
-         +2MOL7MJnmK0fI8Qg2svBwS8be/XAIq3dym2AI6Bojk/7SaU4IG0ju0nN+ulP7vGKdGA
-         s662rLvG7wrLlDQYX7IxYNoaznEWfUsgM2VTbRVLusuNNfL6/ngs6/HhtedAOSKMdZoc
-         guHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785541117; x=1786145917;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dmKsJOviftvACUGPABBN88S+tJ91thYPhBWQcoJdx18=;
-        b=e6azDWalKSYYCkEZfuPCYjBRHERiGXrn55aVDQF9QJtzztPOhLxzN+OYNyUh+gSgb5
-         qEmK1qMMd5oKdfzBSgpAvc3G2IpZDeV1nLP2kLL/wCRPwD3MzxgWxp+w1zA3cdRCy6nK
-         8a/nLonSKAcBAya64YF2vAnaXknjHGdyPSUFM1No7+Nf1QhNricAEyzdNNZgulQefMih
-         4pYkoiO5Xlao+MJIFqEqtoRr+RNJIYiNeTid4wCL5jahdDIrREz6n/ljBsv6SoMX9b5Z
-         yYkRPm5lOia5xd8/cFYK/zTWxI6NxLB0jMxdKtqrvOCjsVvlfZb4V/lBdfRvxzSMjUB3
-         FQaQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqQBaHimDiFOxAMTTa9uP0CanA5gjdzqU7VAZ4cQ7wckgdhyZsS8tBtTe/gfAnmkQRWSqE55FP0ptg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz33tCQIcQ7/MkYvwYBxEAuw5kPLa2ycrlJNRILF1PDpTW+QSYJ
-	mneaYFNnOuhREum6HFPCUbSgiucIgt7Bp7wpP+LZmWr8dD8t4csxXhi5MforVGsHYQyU+FOP0W8
-	yq5/Nhg==
-X-Received: from pful5.prod.google.com ([2002:a05:6a00:1405:b0:847:a85b:6c23])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:6c8f:b0:847:8b0f:2508
- with SMTP id d2e1a72fcca58-84ee47789c4mr1324782b3a.13.1785541116639; Fri, 31
- Jul 2026 16:38:36 -0700 (PDT)
-Date: Fri, 31 Jul 2026 16:38:36 -0700
-In-Reply-To: <20260728144954.355376-35-dwmw2@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCVvSJdV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D9C21F00AC4;
+	Sat,  1 Aug 2026 00:03:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785542583;
+	bh=kKe36ovYx0ZIRWZyBdCD5oqQviaXIOCy9RWreiRdHts=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=BCVvSJdVnbUQEK77KUzBs/Bk2LG9oTBGvBRgRHfTrvgrnx2HJbuZU0F6/ecmMh3qN
+	 GArXeBh3QnH2IRie6698xUPhpXwnT5Wmw6vu0qrBvA0HP9P0acjTvCwqUkfY0VfQsd
+	 8qEsHGHpinbA2essXEKq51osF507kZmLvbHxMCh9Z31YST6OMTGtyo87ydZcpIcgX6
+	 pnxw7kAtkEK7eeT2uoXhC2f0U+/FyPvdxy4u9eKSm0VnPaBEJuEiWYpowGxfnoJNsf
+	 T+r9wLz138TXlZf85JV97U8TSEdsRkple3QL3Y/AKW78kIuDjLtimQ0p5QDhg5jDWV
+	 TUOA7g75W9oJQ==
+From: SJ Park <sj@kernel.org>
+To: pratmal@google.com
+Cc: SJ Park <sj@kernel.org>,
+	akpm@linux-foundation.org,
+	vbabka@kernel.org,
+	david@kernel.org,
+	corbet@lwn.net,
+	ljs@kernel.org,
+	skhan@linuxfoundation.org,
+	anshuman.khandual@arm.com,
+	gthelen@google.com,
+	surenb@google.com,
+	mhocko@suse.com,
+	jackmanb@google.com,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	liam@infradead.org,
+	rppt@kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Brendan Jackman <brendan.jackman@linux.dev>
+Subject: Re: [PATCH v4] mm/page_reporting: Add page_reporting_delay_ms module parameter
+Date: Fri, 31 Jul 2026 17:02:53 -0700
+Message-ID: <20260801000254.77032-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260731193705.2902728-1-pratmal@google.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728144954.355376-1-dwmw2@infradead.org> <20260728144954.355376-35-dwmw2@infradead.org>
-Message-ID: <am0x_ORC0olomizu@google.com>
-Subject: Re: [PATCH v7 34/36] KVM: selftests: Add master clock offset test
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 28, 2026, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
->=20
-> Verify that KVM master clock mode remains active when vCPUs have
-> different TSC offsets but the same frequency. Creates three vCPUs,
-> sets one to a different TSC value, and confirms:
->=20
->  - KVM_CLOCK_HOST_TSC is set (master clock active)
->  - KVM_CLOCK_TSC_STABLE IS set (master clock =E2=87=92 stable flag)
->  - PVCLOCK_TSC_STABLE_BIT is NOT set (offsets differ)
->=20
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> Assisted-by: Kiro (claude-opus-4.6-1m)
-> ---
->  tools/testing/selftests/kvm/Makefile.kvm      |   1 +
->  .../kvm/x86/masterclock_offset_test.c         | 180 ++++++++++++++++++
->  2 files changed, 181 insertions(+)
->  create mode 100644 tools/testing/selftests/kvm/x86/masterclock_offset_te=
-st.c
->=20
-> diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/sel=
-ftests/kvm/Makefile.kvm
-> index 95539deea266..f6027a35f790 100644
-> --- a/tools/testing/selftests/kvm/Makefile.kvm
-> +++ b/tools/testing/selftests/kvm/Makefile.kvm
-> @@ -108,6 +108,7 @@ TEST_GEN_PROGS_x86 +=3D x86/pmu_event_filter_test
->  TEST_GEN_PROGS_x86 +=3D x86/private_mem_conversions_test
->  TEST_GEN_PROGS_x86 +=3D x86/private_mem_kvm_exits_test
->  TEST_GEN_PROGS_x86 +=3D x86/pvclock_test
-> +TEST_GEN_PROGS_x86 +=3D x86/masterclock_offset_test
+Brendan changed his mail address [1].  I added him to the recipient list.
 
-Keep these sorted alphabetically.
+On Fri, 31 Jul 2026 19:37:05 +0000 pratmal@google.com wrote:
 
->  TEST_GEN_PROGS_x86 +=3D x86/pvclock_migration_test
->  TEST_GEN_PROGS_x86 +=3D x86/set_boot_cpu_id
->  TEST_GEN_PROGS_x86 +=3D x86/set_sregs_test
-> diff --git a/tools/testing/selftests/kvm/x86/masterclock_offset_test.c b/=
-tools/testing/selftests/kvm/x86/masterclock_offset_test.c
-> new file mode 100644
-> index 000000000000..88e2bd2edab5
-> --- /dev/null
-> +++ b/tools/testing/selftests/kvm/x86/masterclock_offset_test.c
-> @@ -0,0 +1,180 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Test that KVM master clock mode works with different TSC offsets
-> + * as long as all vCPUs have the same TSC frequency.
-> + */
-> +#include <stdint.h>
-> +#include <string.h>
-> +
-> +#include "test_util.h"
-> +#include "kvm_util.h"
-> +#include "processor.h"
-> +
-> +#include <asm/pvclock-abi.h>
-> +
-> +#define KVMCLOCK_GPA	0xc0000000ull
-> +#define TSC_OFFSET	(1000000000ULL)
-> +
-> +static uint64_t pvclock_calc(struct pvclock_vcpu_time_info *pvti, uint64=
-_t guest_tsc)
-> +{
-> +	uint64_t delta =3D guest_tsc - pvti->tsc_timestamp;
-> +
-> +	if (pvti->tsc_shift >=3D 0)
-> +		delta <<=3D pvti->tsc_shift;
-> +	else
-> +		delta >>=3D -(int)pvti->tsc_shift;
-> +
-> +	return pvti->system_time + ((__uint128_t)delta * pvti->tsc_to_system_mu=
-l >> 32);
-> +}
-> +
-> +static void guest_code(void)
-> +{
-> +	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, KVMCLOCK_GPA | KVM_MSR_ENABLED);
-> +	for (;;)
-> +		GUEST_SYNC(0);
-> +}
-> +
-> +int main(void)
-> +{
-> +	struct kvm_vcpu *vcpus[3];
-> +	struct kvm_clock_data clock;
-> +	struct pvclock_vcpu_time_info pvti[3];
-> +	struct kvm_vm *vm;
-> +	uint64_t offset0, host_tsc, clk0, clk2;
-> +	int i;
-> +
-> +	TEST_REQUIRE(sys_clocksource_is_based_on_tsc());
-> +
-> +	vm =3D vm_create_with_vcpus(3, guest_code, vcpus);
-> +
-> +	TEST_REQUIRE(!__vcpu_has_device_attr(vcpus[0], KVM_VCPU_TSC_CTRL,
-> +					     KVM_VCPU_TSC_OFFSET));
-> +
-> +	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-> +				    KVMCLOCK_GPA, 1,
-> +				    vm_calc_num_guest_pages(VM_MODE_DEFAULT,
-> +							   getpagesize()), 0);
-> +	virt_map(vm, KVMCLOCK_GPA, KVMCLOCK_GPA,
-> +		 vm_calc_num_guest_pages(VM_MODE_DEFAULT, getpagesize()));
-> +
-> +	/* Get vCPU 0's default offset and set vCPU 2's offset higher */
-> +	vcpu_device_attr_get(vcpus[0], KVM_VCPU_TSC_CTRL,
-> +			     KVM_VCPU_TSC_OFFSET, &offset0);
-> +	uint64_t offset2 =3D offset0 + TSC_OFFSET;
-> +	vcpu_device_attr_set(vcpus[2], KVM_VCPU_TSC_CTRL,
-> +			     KVM_VCPU_TSC_OFFSET, &offset2);
-> +
-> +	/* Run each vCPU to enable kvmclock (with offset already set) */
-> +	for (i =3D 0; i < 3; i++) {
+> From: Pratyush Mallick <pratmal@google.com>
+> 
+> Free page reporting currently hardcodes a 2-second interval between
+> reports. This rigid delay cannot accommodate diverse guest workloads.
+> 
+> This patch introduces a module parameter, page_reporting_delay_ms
+> (default: 2000), allowing users to tune the reporting rate:
+>  - Lower values enable aggressive memory reclamation by returning unused
+>    pages to the host immediately.
+>  - Higher values help batch pages during spiky allocation/free churn,
+>    reducing hypercalls and nested page fault overheads.
+> 
+> Setting the delay to 0 is safe and execution is strictly gated by:
+>  - reporting is only triggered by high-order page frees.
+>  - expensive hypercalls are bounded by a slot capacity watermark check
+>    before proceeding.
 
-ARRAY_SIZE(vcpus)
+Looks good and making sense to me.
 
-> +		vcpu_run(vcpus[i]);
-> +		TEST_ASSERT_KVM_EXIT_REASON(vcpus[i], KVM_EXIT_IO);
-> +	}
-> +
-> +	/* Check master clock is active */
-> +	memset(&clock, 0, sizeof(clock));
-> +	vm_ioctl(vm, KVM_GET_CLOCK, &clock);
+> 
+> Signed-off-by: Pratyush Mallick <pratmal@google.com>
 
-Provide an API.
+Reviewed-by: SJ Park <sj@kernel.org>
 
-> +	pr_info("KVM_GET_CLOCK flags: 0x%x\n", clock.flags);
-> +	TEST_ASSERT(clock.flags & KVM_CLOCK_HOST_TSC,
-> +		    "Master clock should be active, flags=3D0x%x", clock.flags);
-> +	TEST_ASSERT(clock.flags & KVM_CLOCK_TSC_STABLE,
-> +		    "KVM_CLOCK_TSC_STABLE should be set, flags=3D0x%x", clock.flags);
-> +
-> +	/* Get per-vCPU pvclock in order 0, 2, 1 */
-> +	int order[] =3D {0, 2, 1};
+[1] https://lore.kernel.org/20260729-email-change-v1-1-666ae7c2b7fc@google.com
 
-Please don't declare variables in the middle code.  Yes, it's now technical=
-ly
-possible thanks to all the guard() magic, but it's still against preferred =
-kernel
-style.
 
-Though this itself is probably a really, really good indication that this n=
-eeds
-to be split into multiple testcases.  Maybe using TEST_F() and a custom fix=
-ture?
+Thanks,
+SJ
+
+[...]
