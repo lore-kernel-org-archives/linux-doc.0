@@ -1,148 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from www2881.sakura.ne.jp (www2881.sakura.ne.jp [49.212.198.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DFA304BB3
-	for <linux-doc@vger.kernel.org>; Sat,  1 Aug 2026 06:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BCD2D8DA8;
+	Sat,  1 Aug 2026 07:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.198.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785567039; cv=none; b=dQT1rleEeLiZF137rp9iFDNbwYmb2PwgJlF3bF3gKZTjD+2UwwSYvAg98WjJ6AjpMjfK/lIJbDnzaF+LgMHij6IbllF+ivx4Fp5OX+gyf1uykS+23JAdg6O9Mp3E18yD9+bwce7k2NOEbhlSNQHxr0WUWxr7ZqtmARxx/JMudxo=
+	t=1785570316; cv=none; b=EGWhGX8JNhLwsXr902uqvcZ8jcbeux3ewqn6cyBLCfr4DmfYo3lWLUTxvkK29kWJhxtlcPnfW1hO8UIWzgDQzhFPtwahdZG3Kj/pCXtrUqoRSyZis6bfSuaTihIggz4gpLN74Qf1tXj2SU/RMieG+uRgUBtfokk7fnvlT/PF38g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785567039; c=relaxed/simple;
-	bh=K1LTJB8B+VFrYPw3h9IRyJGtWY9ACglE+phogWj1iTs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=haLEyybtbdrhb80jgkECoPwkLVqLYr/Qgi0O49UcTrgui5QA4uHO6RPyCQl0tth00OwJ1nIwf+D1KECL4UVxLXtyt2Di98PSVwSqhI2i+WYGaJ6NuKeeDbC9oTlBGduMe4JEJHeiDWhpUr2B8GdR3ogoNXyNRzOodlUj8jEXm1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfawsX1m; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785570316; c=relaxed/simple;
+	bh=ex3g9iR6+UTMOjHzQ7dE9XpiBCPGbgpprn2i5Rw+Jlc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X0HGun5/1f+67TaLYMKeyBzpv6JBKxNQutvF1Pw4ZTZyysOsmh7z4EhMytNPuXEv3tdzto0+ylaZNUJwhLG5jK7pGpL0vOcRKsRySHbflEC3vEm3PzUbUNQu49NRg3xSmOkXYxmNWFYU6fBTYfxFZPp2o91W3hUt/UCPhA7LUv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enjuk.jp; spf=pass smtp.mailfrom=enjuk.jp; dkim=pass (2048-bit key) header.d=enjuk.jp header.i=@enjuk.jp header.b=nvGPB1NH; arc=none smtp.client-ip=49.212.198.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enjuk.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enjuk.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfawsX1m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785567037; x=1817103037;
-  h=date:from:to:cc:subject:message-id;
-  bh=K1LTJB8B+VFrYPw3h9IRyJGtWY9ACglE+phogWj1iTs=;
-  b=cfawsX1m9mxLgnhKuvvpLBgH3u8h8Dz6d/cISttCE6E5XXH/lc0MNX46
-   wpTCZrA4q5qpr1wtt0A9kejDSsb8nya60O2+/juyu2k04thqmIsGjxO3y
-   dfbkSEOlQ1AxQ9egSIQ+smrYGeSVGJugZ4Ir2TWOFHAmCs+8lVZlzKmRU
-   b+xkEZ1hC7yWctlaHrdYpFsANU9xYNpxgYe9A7EM0NKlV7dvssnUFOZp8
-   fckVaokTqaUnTxfucb+swF5YQtLdrgiLGn+UR1oNWnxuZ+9P1h9aaavO1
-   C01LKbmpuSxXPS6aT/+hKxUtfZ+niXiLEVbkq+/veqs463sGzKg2epwkL
-   w==;
-X-CSE-ConnectionGUID: jRt+A07tT762rZLx/4dFPw==
-X-CSE-MsgGUID: v+QJv0GwSb2hKntAeWTMog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86135238"
-X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="86135238"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 23:50:37 -0700
-X-CSE-ConnectionGUID: DfUC4hdURWiV7CDQhwhaIw==
-X-CSE-MsgGUID: kS7eHYLiSKOgOJQqoNUFHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
-   d="scan'208";a="285379507"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 23:50:35 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wq3YH-000000003OY-0aji;
-	Sat, 01 Aug 2026 06:50:33 +0000
-Date: Sat, 01 Aug 2026 08:49:45 +0200
-From: kernel test robot <lkp@intel.com>
-To: "David Lechner (TI)" <dlechner@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [dlech:b4/iio-adc-ti-ads122c14 1/14] htmldocs:
- Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank
- line; unexpected unindent. [docutils]
-Message-ID: <202608010857.ceqTcPRr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=enjuk.jp header.i=@enjuk.jp header.b="nvGPB1NH"
+Received: from x1 (M106072126074.v4.enabler.ne.jp [106.72.126.74])
+	(authenticated bits=0)
+	by www2881.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6716iLcA026040
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 1 Aug 2026 15:44:21 +0900 (JST)
+	(envelope-from kohei@enjuk.jp)
+DKIM-Signature: a=rsa-sha256; bh=5aPRqBqevdyaIQe2OceZTahoSE455JINz5qEKLMWBmA=;
+        c=relaxed/relaxed; d=enjuk.jp;
+        h=From:Message-ID:To:Subject:Date;
+        s=rs20251215; t=1785566661; v=1;
+        b=nvGPB1NHJwFVmNsvibfWy0837mYLKY8VZDIQ7TtTztPNZuVNhoi7JiRDKJtSN3rN
+         TLHVuPqQk53h+WtCLEx1KmKbQR9vKRJ0LeemvyIWCjkvAAKA9Ckxgjq5kKtZy7Tv
+         HY9jHIY2osO2LniuEz1xb9hTAUa/4F/K/7xYD8MGsc0ns3Q62eLfQvfKdJaNzaKF
+         /0+QMKJZ0qJhoy3E8iWDg3h1ywZyUs7ut7nz+qMAHiRPDFLAoYJ0T6QRItg+pQaM
+         SLsP0FzS78jrYUxeIJrE07RvjE4JGOCGftcgO88KBin1jCX9OgAqUkNqx+97Lc1o
+         92dV9GruogoRDqlkaSMlHw==
+From: Kohei Enju <kohei@enjuk.jp>
+To: kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Kohei Enju <kohei@enjuk.jp>
+Subject: [PATCH] docs: KVM: fix heading level for KVM_S390_VM_CPU_PROCESSOR
+Date: Sat,  1 Aug 2026 15:44:08 +0900
+Message-ID: <20260801064414.23747-1-kohei@enjuk.jp>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/dlech/linux b4/iio-adc-ti-ads122c14
-head:   c0c226e06d7019964f60738cde5a3eae4f0c0814
-commit: 368fd704de0b90a9f9c30683d25db116ef8308bc [1/14] WIP
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260801/202608010857.ceqTcPRr-lkp@intel.com/reproduce)
+Change the section title underline from '=' to '-' so that the attribute
+is at the same heading level as the other attributes.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608010857.ceqTcPRr-lkp@intel.com/
+Signed-off-by: Kohei Enju <kohei@enjuk.jp>
+---
+ Documentation/virt/kvm/devices/vm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
+diff --git a/Documentation/virt/kvm/devices/vm.rst b/Documentation/virt/kvm/devices/vm.rst
+index a4d39fa1b083..71ab1351ad27 100644
+--- a/Documentation/virt/kvm/devices/vm.rst
++++ b/Documentation/virt/kvm/devices/vm.rst
+@@ -77,7 +77,7 @@ Allows user space to retrieve machine and kvm specific cpu related information::
+ 	    0 in case of success.
+ 
+ 2.2. ATTRIBUTE: KVM_S390_VM_CPU_PROCESSOR (r/w)
+-===============================================
++-----------------------------------------------
+ 
+ Allows user space to retrieve or request to change cpu related information for a vcpu::
+ 
+-- 
+2.55.0
 
-   Runtime Survivability
-   ===================== [docutils]
-   Documentation/iio/ads112c14.rst:56: ERROR: Unexpected indentation. [docutils]
->> Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
-   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
---
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/networking/netlink_spec/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
->> Documentation/iio/ads112c14.rst:22: WARNING: unknown document: '../devicetree/bindings/iio/adc/ti,ads112c14' [ref.doc]
-   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
-
-
-vim +57 Documentation/iio/ads112c14.rst
-
-    21	
-  > 22	See :doc:`../devicetree/bindings/iio/adc/ti,ads112c14` for the complete
-    23	binding description.
-    24	
-    25	The minimal device tree node looks like this::
-    26	
-    27	    adc@40 {
-    28	        compatible = "ti,ads122c14";
-    29	        reg = <0x40>;
-    30	        avdd-supply = <&avdd>;
-    31	        dvdd-supply = <&dvdd>;
-    32	
-    33	        /* TODO: add channel@ nodes here */
-    34	    };
-    35	
-    36	Effect of devicetree on registers
-    37	---------------------------------
-    38	
-    39	Device properties have the following effects on registers:
-    40	
-    41	* ``CLK_SEL`` and ``GPIO3_CFG`` are set if the ``clocks`` property is present.
-    42	* ``GPIO2_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
-    43	  "fault" is present.
-    44	* ``GPIO3_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
-    45	  "drdy" is present.
-    46	
-    47	Channel-specific properties have the following effects on registers only when
-    48	a measurement is active on the channel:
-    49	
-    50	* ``AINP`` and ``AINN`` are set according to the ``single-channel`` or
-    51	  ``diff-channel`` properties of each channel.
-    52	* ``REF_SEL`` and ``REF_VAL`` will be set according to the value of the
-    53	  ``reference-sources`` property.
-    54	* When ``reference-sources`` is set to "external":
-    55	  * If ``refp-supply`` is given and not the same phandle as ``avdd-supply``,
-    56	    ``REFP_BUF_EN`` will be set to 1, otherwise it will be 0.
-  > 57	  * If ``refn-supply`` is given, ``REFN_BUF_EN`` will be set to 1, otherwise it
-    58	    will be 0.
-    59	* ``I1MUX`` and ``I2MUX`` will be set to the values of the ``excitation-channels``
-    60	   property.
-    61	* ``IUNIT``, ``I1MAG`` and ``I2MAG`` will be set to best fit according to the
-    62	   values of the ``excitation-current-nanoamp`` property.
-    63	* ``GC_EN`` will be set to 1 if the ``input-chopping`` property is present,
-    64	  otherwise it will be 0.
-    65	* ``CODING`` is set based on the ``bipolar`` property.
-    66	* ``DELAY`` is set based on the ``settling-time-us`` property.
-    67	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
