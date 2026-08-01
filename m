@@ -1,115 +1,148 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC693372ED7;
-	Sat,  1 Aug 2026 06:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DFA304BB3
+	for <linux-doc@vger.kernel.org>; Sat,  1 Aug 2026 06:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785566139; cv=none; b=Fe2/aGzJPfSCwyFIEaV5bd9rE/cQWz0QIWchH2xQI7rhKK3h8P56X0hxnCpguWGWmzg0bOr9xeMel7hZWSgnTLXI3HikSPmgqrQFKTzote7x+QtjknC51LyDT9UMy4gE+9ZN5riW1b06PgkmCDt7sbsznlwEroCn8YfbU9Qbfs4=
+	t=1785567039; cv=none; b=dQT1rleEeLiZF137rp9iFDNbwYmb2PwgJlF3bF3gKZTjD+2UwwSYvAg98WjJ6AjpMjfK/lIJbDnzaF+LgMHij6IbllF+ivx4Fp5OX+gyf1uykS+23JAdg6O9Mp3E18yD9+bwce7k2NOEbhlSNQHxr0WUWxr7ZqtmARxx/JMudxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785566139; c=relaxed/simple;
-	bh=sobde0AGf3S5vrulxqXSeE8Yr9d4n8k+fI0Q3+tlJuA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eSbh19AK7GMnt3KdvX6wKgvFgenbxUm3DLwav0u4kjduys6ihHwtyYyeJecHBNq1G5XO4Re9WTaE1Bp87O+StnG93ZM4jG8rk0x+9Kl+vM68ZXNrvJubaA1ozowcoJMPbWUXcVS0XvvMOUUEqLUwEy2ZxzpCdyPEUrfLAntFD4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=K2XFECkA; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1785567039; c=relaxed/simple;
+	bh=K1LTJB8B+VFrYPw3h9IRyJGtWY9ACglE+phogWj1iTs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=haLEyybtbdrhb80jgkECoPwkLVqLYr/Qgi0O49UcTrgui5QA4uHO6RPyCQl0tth00OwJ1nIwf+D1KECL4UVxLXtyt2Di98PSVwSqhI2i+WYGaJ6NuKeeDbC9oTlBGduMe4JEJHeiDWhpUr2B8GdR3ogoNXyNRzOodlUj8jEXm1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfawsX1m; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="K2XFECkA"
-Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6716YCSG018797
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Sat, 1 Aug 2026 15:34:12 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=xJoh3FskZlMZXN0frCV7KCjMR5sn7IPdvl3P81QRqzo=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-ID:To:Subject:Date;
-        s=rs20250326; t=1785566053; v=1;
-        b=K2XFECkA0Z9J1wXM376KVU1kqybglUVyvN9n43lQWKGqRyrvg+1wAHFpXKrsJyTv
-         7dO28hIdlCPUIKivvDpx66LiaWaMiUf1eMwX6HKnwGFy0BQRI/ZPqLF3hJ52UeoK
-         9AP8hhhgXc9PTpW4Zl0NUnJo17Epe0Or63UjaIvExn2v2BtXF+fsswayy25CM5r7
-         A6r0MtMXHSxU1bBIFTHXchDGmoYOLmKCHLdg5MhGoVcYXjwTa2rvghFY1qORzTYk
-         LMgUJyt3SOTNzfKJTvTGqH9iBdkizXE0bRzs4ZGh1kMGUExnDgbs3mZYI8tjnGuQ
-         I5KG078+99SmfBTRnx/1lg==
-Message-ID: <417908e2-c226-46a3-9dbe-a7a2432d1662@rsg.ci.i.u-tokyo.ac.jp>
-Date: Sat, 1 Aug 2026 15:34:11 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfawsX1m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785567037; x=1817103037;
+  h=date:from:to:cc:subject:message-id;
+  bh=K1LTJB8B+VFrYPw3h9IRyJGtWY9ACglE+phogWj1iTs=;
+  b=cfawsX1m9mxLgnhKuvvpLBgH3u8h8Dz6d/cISttCE6E5XXH/lc0MNX46
+   wpTCZrA4q5qpr1wtt0A9kejDSsb8nya60O2+/juyu2k04thqmIsGjxO3y
+   dfbkSEOlQ1AxQ9egSIQ+smrYGeSVGJugZ4Ir2TWOFHAmCs+8lVZlzKmRU
+   b+xkEZ1hC7yWctlaHrdYpFsANU9xYNpxgYe9A7EM0NKlV7dvssnUFOZp8
+   fckVaokTqaUnTxfucb+swF5YQtLdrgiLGn+UR1oNWnxuZ+9P1h9aaavO1
+   C01LKbmpuSxXPS6aT/+hKxUtfZ+niXiLEVbkq+/veqs463sGzKg2epwkL
+   w==;
+X-CSE-ConnectionGUID: jRt+A07tT762rZLx/4dFPw==
+X-CSE-MsgGUID: v+QJv0GwSb2hKntAeWTMog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="86135238"
+X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
+   d="scan'208";a="86135238"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 23:50:37 -0700
+X-CSE-ConnectionGUID: DfUC4hdURWiV7CDQhwhaIw==
+X-CSE-MsgGUID: kS7eHYLiSKOgOJQqoNUFHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,198,1779174000"; 
+   d="scan'208";a="285379507"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2026 23:50:35 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wq3YH-000000003OY-0aji;
+	Sat, 01 Aug 2026 06:50:33 +0000
+Date: Sat, 01 Aug 2026 08:49:45 +0200
+From: kernel test robot <lkp@intel.com>
+To: "David Lechner (TI)" <dlechner@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [dlech:b4/iio-adc-ti-ads122c14 1/14] htmldocs:
+ Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank
+ line; unexpected unindent. [docutils]
+Message-ID: <202608010857.ceqTcPRr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 04/11] arm64: errata: Require Apple IMPDEF PMUv3 traps
- on all CPUs
-To: Will Deacon <will@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-        Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas
- <catalin.marinas@arm.com>,
-        Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <20260710-hybrid-v8-0-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
- <20260710-hybrid-v8-4-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
- <amzSTp3cUCMuwJKf@google.com>
-Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <amzSTp3cUCMuwJKf@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 2026/08/01 1:50, Will Deacon wrote:
-> On Fri, Jul 10, 2026 at 08:14:58PM +0900, Akihiko Odaki wrote:
->> KVM relies on ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS as a system-wide
->> precondition for PMUv3 emulation on affected Apple CPUs. A local CPU
->> erratum is too weak for that: once the workaround is enabled, a late CPU
->> that misses it may still be onlined.
->>
->> Make the workaround an all-early-CPU capability instead. The matcher is
->> still local because it depends on MIDR_EL1, but the capability is only
->> advertised if all early CPUs match, and late CPUs that miss it are
->> rejected once the capability is enabled.
->>
->> Assisted-by: Codex:gpt-5.5
->> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
->> ---
->>   arch/arm64/kernel/cpu_errata.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
->> index 476a37c82108..14ce49d693c4 100644
->> --- a/arch/arm64/kernel/cpu_errata.c
->> +++ b/arch/arm64/kernel/cpu_errata.c
->> @@ -964,7 +964,7 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
->>   	{
->>   		.desc = "Apple IMPDEF PMUv3 Traps",
->>   		.capability = ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS,
->> -		.type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,
->> +		.type = ARM64_CPUCAP_EARLY_LOCAL_CPU_FEATURE,
-> 
-> I always get tangled in knots with this code, but does this correctly
-> handle the case where the boot/early CPUs don't have the impdef PMU
-> feature but late-onlined CPUs do? I'm not sure we configure the traps
-> correctly in that case but this is all gloriously undocumented.
-It's not only you but Fuad and Sashiko also had the same question:
-https://lore.kernel.org/qemu-devel/4cf2911c-610e-4cf1-9c42-cc5792265a89@rsg.ci.i.u-tokyo.ac.jp/
+tree:   https://github.com/dlech/linux b4/iio-adc-ti-ads122c14
+head:   c0c226e06d7019964f60738cde5a3eae4f0c0814
+commit: 368fd704de0b90a9f9c30683d25db116ef8308bc [1/14] WIP
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260801/202608010857.ceqTcPRr-lkp@intel.com/reproduce)
 
-The answer is that we simply don't enable hypervisor traps. Accessing 
-PMUv3 registers will be UNDEFINED on all CPUs, enforcing the 
-architectural behavior system-wide.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608010857.ceqTcPRr-lkp@intel.com/
 
-I plan to change the patch message to clarify this in the next version.
+All warnings (new ones prefixed by >>):
 
-Regards,
-Akihiko Odaki
+   Runtime Survivability
+   ===================== [docutils]
+   Documentation/iio/ads112c14.rst:56: ERROR: Unexpected indentation. [docutils]
+>> Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
+   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
+   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
+   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
+   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
+--
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/networking/netlink_spec/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
+>> Documentation/iio/ads112c14.rst:22: WARNING: unknown document: '../devicetree/bindings/iio/adc/ti,ads112c14' [ref.doc]
+   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+
+
+vim +57 Documentation/iio/ads112c14.rst
+
+    21	
+  > 22	See :doc:`../devicetree/bindings/iio/adc/ti,ads112c14` for the complete
+    23	binding description.
+    24	
+    25	The minimal device tree node looks like this::
+    26	
+    27	    adc@40 {
+    28	        compatible = "ti,ads122c14";
+    29	        reg = <0x40>;
+    30	        avdd-supply = <&avdd>;
+    31	        dvdd-supply = <&dvdd>;
+    32	
+    33	        /* TODO: add channel@ nodes here */
+    34	    };
+    35	
+    36	Effect of devicetree on registers
+    37	---------------------------------
+    38	
+    39	Device properties have the following effects on registers:
+    40	
+    41	* ``CLK_SEL`` and ``GPIO3_CFG`` are set if the ``clocks`` property is present.
+    42	* ``GPIO2_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
+    43	  "fault" is present.
+    44	* ``GPIO3_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
+    45	  "drdy" is present.
+    46	
+    47	Channel-specific properties have the following effects on registers only when
+    48	a measurement is active on the channel:
+    49	
+    50	* ``AINP`` and ``AINN`` are set according to the ``single-channel`` or
+    51	  ``diff-channel`` properties of each channel.
+    52	* ``REF_SEL`` and ``REF_VAL`` will be set according to the value of the
+    53	  ``reference-sources`` property.
+    54	* When ``reference-sources`` is set to "external":
+    55	  * If ``refp-supply`` is given and not the same phandle as ``avdd-supply``,
+    56	    ``REFP_BUF_EN`` will be set to 1, otherwise it will be 0.
+  > 57	  * If ``refn-supply`` is given, ``REFN_BUF_EN`` will be set to 1, otherwise it
+    58	    will be 0.
+    59	* ``I1MUX`` and ``I2MUX`` will be set to the values of the ``excitation-channels``
+    60	   property.
+    61	* ``IUNIT``, ``I1MAG`` and ``I2MAG`` will be set to best fit according to the
+    62	   values of the ``excitation-current-nanoamp`` property.
+    63	* ``GC_EN`` will be set to 1 if the ``input-chopping`` property is present,
+    64	  otherwise it will be 0.
+    65	* ``CODING`` is set based on the ``bipolar`` property.
+    66	* ``DELAY`` is set based on the ``settling-time-us`` property.
+    67	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
