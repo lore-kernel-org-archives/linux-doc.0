@@ -1,99 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFCA2DF68;
-	Sat,  1 Aug 2026 00:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B468360EFA
+	for <linux-doc@vger.kernel.org>; Sat,  1 Aug 2026 00:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785542585; cv=none; b=X0Xc1HHsX/hStKUSF2NL/IuGvqez5diZqiJwi2DtElUi24PmLHRfYm/BhDyhb21izTffdkCX2nLEbguEhcqZhJoXFCBRu5WuKetqDMfLwG8+EfskXx+iPpMulbumchP9ApN4NL2mi4Xrs8hY75puTymJGc7rqGErY7B1buxUFzk=
+	t=1785544275; cv=none; b=GchZyuZj/F8rH42TitfIqdMntDdKyzvCqkWFSR++fYLkY06g2eUqwXXNvghGuj2uYFRyRUwkBhamu/O+RW77gxFNcnrUcQpfu21Vvqsi1bM7uBrSuMC6nJPURgXd3BcnHiwJt/opbxWRDW6Zv6d1uXP3fDwemUWIqZGULxwaYDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785542585; c=relaxed/simple;
-	bh=ZL1LE6RWrRR+TxEFNCVtAINo8B15XbU3517wESnXWWU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aLuC2XAyIU+oTTsUub6iPIh9mB1ONlRfmElDvwNsoqd1vlnBIullBPJDcWBxd585GQEFIRAeEr29Q5C84h2cjltiiYUFyjE3MsX0deKJvh5mJhb0V3RNQtAWL+MtulDpWhvkrjBnUU07cFPMC8lgHVpMwzXWQWnS7deKuZe7GzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCVvSJdV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785544275; c=relaxed/simple;
+	bh=DTBwgs8S1sAi2koYnIwWweu8EC1Mh2QZ7r67IGibE4A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vAZ8pwv1IXlOsZFPCvoEdPHzNrTo9A0qat9VD16IkWtk+hB5g4eyiYjixFtP92manooaKzb7cBgvOmVsAInX5TY0xxk7Z121EeZmfI/NNiGOvzMAzgZrH6CTbg8CHmbxNY1RfLcF9dy+w3xcA7oGCs7N57P09hHgZ7/gtH4QUSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nt5Md8af; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCVvSJdV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D9C21F00AC4;
-	Sat,  1 Aug 2026 00:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785542583;
-	bh=kKe36ovYx0ZIRWZyBdCD5oqQviaXIOCy9RWreiRdHts=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BCVvSJdVnbUQEK77KUzBs/Bk2LG9oTBGvBRgRHfTrvgrnx2HJbuZU0F6/ecmMh3qN
-	 GArXeBh3QnH2IRie6698xUPhpXwnT5Wmw6vu0qrBvA0HP9P0acjTvCwqUkfY0VfQsd
-	 8qEsHGHpinbA2essXEKq51osF507kZmLvbHxMCh9Z31YST6OMTGtyo87ydZcpIcgX6
-	 pnxw7kAtkEK7eeT2uoXhC2f0U+/FyPvdxy4u9eKSm0VnPaBEJuEiWYpowGxfnoJNsf
-	 T+r9wLz138TXlZf85JV97U8TSEdsRkple3QL3Y/AKW78kIuDjLtimQ0p5QDhg5jDWV
-	 TUOA7g75W9oJQ==
-From: SJ Park <sj@kernel.org>
-To: pratmal@google.com
-Cc: SJ Park <sj@kernel.org>,
-	akpm@linux-foundation.org,
-	vbabka@kernel.org,
-	david@kernel.org,
-	corbet@lwn.net,
-	ljs@kernel.org,
-	skhan@linuxfoundation.org,
-	anshuman.khandual@arm.com,
-	gthelen@google.com,
-	surenb@google.com,
-	mhocko@suse.com,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	liam@infradead.org,
-	rppt@kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Brendan Jackman <brendan.jackman@linux.dev>
-Subject: Re: [PATCH v4] mm/page_reporting: Add page_reporting_delay_ms module parameter
-Date: Fri, 31 Jul 2026 17:02:53 -0700
-Message-ID: <20260801000254.77032-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260731193705.2902728-1-pratmal@google.com>
-References: 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nt5Md8af"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785544272;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zqTqj3+/j/AbFq2RoVrHCV42PTj4hoEfVpDtllzCIrc=;
+	b=Nt5Md8af/bEpi3L58jkwzIWPN0HdrA0MUFbwPVQFb1zkimpGNksqs0Df5jR3b4tXYQ2wVV
+	w12CNb64wAKGt7oClvaO2te2JLEo0Bu/6HggBT2X/WOM95LQyBsiL3wEbfowpn4Q31sLd0
+	lNSHmA2O1NpdlslfjQR/XvFCImku2BQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-557-IM_ZwtJiOAmahgM67owaQg-1; Fri,
+ 31 Jul 2026 20:31:06 -0400
+X-MC-Unique: IM_ZwtJiOAmahgM67owaQg-1
+X-Mimecast-MFC-AGG-ID: IM_ZwtJiOAmahgM67owaQg_1785544264
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0504A1800348;
+	Sat,  1 Aug 2026 00:31:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.88.33])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2236330002E9;
+	Sat,  1 Aug 2026 00:31:01 +0000 (UTC)
+Date: Fri, 31 Jul 2026 20:30:58 -0400
+From: Joe Lawrence <joe.lawrence@redhat.com>
+To: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
+Cc: bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	live-patching@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org, rostedt@goodmis.org, mbenes@suse.cz,
+	corbet@lwn.net, jpoimboe@kernel.org, shuah@kernel.org,
+	jolsa@kernel.org, mhiramat@kernel.org, stable@vger.kernel.org,
+	linux-open-source@crowdstrike.com
+Subject: Re: [RFC PATCH bpf-next v2 2/2] selftests/livepatch: update
+ test-ftrace.sh for deprecated ftrace_enabled
+Message-ID: <am0-QoUNQo4p2sBg@redhat.com>
+References: <20260731175358.3542156-1-andrey.grodzovsky@crowdstrike.com>
+ <20260731175358.3542156-3-andrey.grodzovsky@crowdstrike.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260731175358.3542156-3-andrey.grodzovsky@crowdstrike.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Brendan changed his mail address [1].  I added him to the recipient list.
-
-On Fri, 31 Jul 2026 19:37:05 +0000 pratmal@google.com wrote:
-
-> From: Pratyush Mallick <pratmal@google.com>
+On Fri, Jul 31, 2026 at 01:53:58PM -0400, Andrey Grodzovsky wrote:
+> kernel.ftrace_enabled=0 is now refused on kernels that deprecate the
+> knob, so the old disable/reload flow no longer applies there. Probe
+> for this with ftrace_disable_supported() and keep the full original
+> scenario (disable, fail to load a livepatch, re-enable, load, confirm
+> disable is refused while loaded) on kernels where it still works;
+> otherwise just confirm the write is refused.
 > 
-> Free page reporting currently hardcodes a 2-second interval between
-> reports. This rigid delay cannot accommodate diverse guest workloads.
+> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+> Suggested-by: Miroslav Benes <mbenes@suse.cz>
+> Assisted-by: Claude:claude-sonnet-5
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
+> ---
+>  .../testing/selftests/livepatch/functions.sh  | 13 ++++++
+>  .../selftests/livepatch/test-ftrace.sh        | 45 ++++++++++++-------
+>  2 files changed, 41 insertions(+), 17 deletions(-)
 > 
-> This patch introduces a module parameter, page_reporting_delay_ms
-> (default: 2000), allowing users to tune the reporting rate:
->  - Lower values enable aggressive memory reclamation by returning unused
->    pages to the host immediately.
->  - Higher values help batch pages during spiky allocation/free churn,
->    reducing hypercalls and nested page fault overheads.
-> 
-> Setting the delay to 0 is safe and execution is strictly gated by:
->  - reporting is only triggered by high-order page frees.
->  - expensive hypercalls are bounded by a slot capacity watermark check
->    before proceeding.
+> diff --git a/tools/testing/selftests/livepatch/functions.sh b/tools/testing/selftests/livepatch/functions.sh
+> index 30dc677b2f45..7fa4bda70221 100644
+> --- a/tools/testing/selftests/livepatch/functions.sh
+> +++ b/tools/testing/selftests/livepatch/functions.sh
+> @@ -126,6 +126,19 @@ function set_ftrace_enabled() {
+>  	echo "livepatch: kernel.ftrace_enabled = $result" > /dev/kmsg
+>  }
+>  
+> +# ftrace_disable_supported() - probe whether kernel.ftrace_enabled=0
+> +#	can still disable ftrace on this kernel. Newer kernels deprecate
+> +#	the knob and always refuse the write with -EOPNOTSUPP.
+> +function ftrace_disable_supported() {
+> +	local result
+> +
+> +	sysctl -q kernel.ftrace_enabled=0 &> /dev/null
+> +	result=$(sysctl --values kernel.ftrace_enabled)
+> +	sysctl -q kernel.ftrace_enabled=1 &> /dev/null
+> +
+> +	[[ "$result" == "0" ]]
+> +}
 
-Looks good and making sense to me.
+Small nit: AFAICT, it doesn't really affect the test pattern, but it
+would be a bit cleaner if this function restored the original value
+instead of always turning it on, like (untested):
 
-> 
-> Signed-off-by: Pratyush Mallick <pratmal@google.com>
+	orig=$(sysctl --values kernel.ftrace_enabled)
+	sysctl -q kernel.ftrace_enabled=0 &> /dev/null
+	result=$(sysctl --values kernel.ftrace_enabled)
+	sysctl -q "kernel.ftrace_enabled=$orig" &> /dev/null
 
-Reviewed-by: SJ Park <sj@kernel.org>
+	[[ "$result" == "0" ]]
 
-[1] https://lore.kernel.org/20260729-email-change-v1-1-666ae7c2b7fc@google.com
+--
+Joe
 
-
-Thanks,
-SJ
-
-[...]
