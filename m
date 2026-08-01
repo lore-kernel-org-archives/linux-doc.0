@@ -1,122 +1,195 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DD530D418
-	for <linux-doc@vger.kernel.org>; Sat,  1 Aug 2026 12:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AAC3806CA;
+	Sat,  1 Aug 2026 14:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785586342; cv=none; b=T+KBN44VrQUvEK3pBBRB65n7L4omWGOi1mPh65TNhXs2HyoPqzDBYE4w5IItkZLZgdUT0UB1rSpEcwLEZz6LSn3qY8L61lYg2YLWi4tudcRX+FDlwmxmhtGqTnmodV07RYmEnui8Ta0Y7cLrxYemZkzSF+QArap8DJ3N2luTwQQ=
+	t=1785594747; cv=none; b=L7xpuE8JkPUN7mNhWrcyr7IC75waY7faonLpwmyTvI1/u5vdOUxtTY05mcie/k0vIrhSNqP8KTrnYOu6fTqDh6iR9BCgqvd36n7430IToZds1oC0kThtRdHKdtDCLL5JxnigFlEC8UwzYnVNk3gcsWLXQ6rOTIny6YslZmXLFkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785586342; c=relaxed/simple;
-	bh=kfSQrl1MR+AyG0VE5wHOAhlayRLI/h0scohGCwT3Ncw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NTtSZoDwk2uYgfavqMw0ZYxCjHdGGwNtx8sjob+vHRWplNuPxtKx/q1oljtpzRRRykRsJqUwDVjJWZIKRqzD0h11WGpCSNDMTcQS9Iv1Jl7cWoyUnkm6H0AyI0Q+mRNrfiCihBrI4eUkWpYMONYgZyVNQumTPHgka1dvov96KcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h6kKraMQ; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785594747; c=relaxed/simple;
+	bh=rfM03tKDOmetMwB2FOQ2Q+Q7TSXNdbScL3TGgGVzrlI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YkDC6Gaw90EmUb5d+QeOIEs2qXPH8gNIIK5qI4VlrL9SdDMNxppBXA8p+qi/pW9pUPODk0rLe4NRb1YmbGU2QB2UgqELZlIWEb/8WS8mB74dFqoBZmmlP0pxRtMm3RCpKQy6SDIgC8Yyfl2gnY+JQQEALMJPZMvUOcA8C7kszNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FtaMvwnS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h6kKraMQ"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cacb8416a1so19180255ad.1
-        for <linux-doc@vger.kernel.org>; Sat, 01 Aug 2026 05:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785586340; x=1786191140; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Qq/DwZH7YAlYucV7P0m7oCNJvs6xdClz/fo5aunqV0U=;
-        b=h6kKraMQKndKCbP+HpiUasGgTgG1rWIx9T+BVsY1TpnE7Y02D83DuMsF5kNgUrjVJ5
-         sryweLGfiXElVmxulJDdWD9TqHJCIyrViAH5QBCNUZSs9Kv5ObcHuC3b5fapefzy1zOL
-         0jfev+NRBIdLCalMWW2FdkRoPCkJ1IyEYiO40yb/Gj0AHtG0tB8lm6HyiXPW2VknvVsc
-         UFRwXjfRB3RlE7pzzVtZGD+2rJ+2ksieQ5BAV2VW/yAtOmGHD4IqRtqtMbVBLv1HJt+0
-         HiRQBA2OiGDxEOTCGO0UD9Kkq5EzOf8jQEPufD7Q1AbOuLyKMkG6LU+e7aNhWfOTpb1m
-         W5sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785586340; x=1786191140;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qq/DwZH7YAlYucV7P0m7oCNJvs6xdClz/fo5aunqV0U=;
-        b=dvLTEyqvSKvfzSRY4eXQRSFuFwTTIb/5rqLglVB+Me03mappMSsC7tlNT5gVugqZbm
-         E6S4hFOZJyHT36cg8hroBe8lrhj70ylwvr9GeshV0sHWaSe9wVjb/AxBy79fkjcg9rtS
-         q0vu5xewhOGJiNJJl67s2lnjYXVE+GKGlqhVG593vo76sPUWlR32SKv91RnGfC20O2ns
-         8+hnVNZOtoD3umnu+Zl2eZU6M95oV/qCeFUYkXtPODhgadiaoN454WwPZxFzLg97Amr+
-         LgH4ghb1QUUKbzZZVUjc6+mveSnrKUg1VyqVj5hw5gbalGry3lrswvfITNTot4kKmcJN
-         KNUA==
-X-Forwarded-Encrypted: i=1; AHgh+RoDrmxrwAby1dJcW4hw1B0xY4j0UUI53vlIM61WtxRygFAaGCJJl3xe5Jg6dSoJPj0JmmflIGfiEP0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiwhbaPkbUEh14Lk8IaJsL0bpsWCIDAmNAXRyPwM/TT2bPpDGQ
-	PfhXggASfxQKei2ICQZ1pW96xgvyGmLE42JXc9+7IWGp2aL3Vn5TIeQ1
-X-Gm-Gg: AR+sD11dgPb7rjoVlF8eDXCOc0J+tDR3BS/3g3zz+YoY5VN6FFVbM70e/n7fDKM1V4L
-	BRLnCByaEVQFz/RfOlVtiLhgo4237mAVbz7mLJiLyNvpgMJnEALhJDrRGUtYT0H8bGdBWl5i/Tu
-	goP1qjbp32gXA1vjbk5H7rz4Ai6dFsvGoG0j/478RjqK5/QgfV0TVVfIEabnMiKjRU876QtkE4u
-	e4oH4qfruNsT3qgrHGpJGP6IW8QAH74c29PwTd0CWVWTEzecP6ck0OAXJG05mYu2v5KGqTjwJml
-	vlH8pWXkhDqkIKZ+dcGrgM22/cn3gCXSkQpr6T+eDwYulFsks9KHvjwrFq9wyD5lPJKp173NxW6
-	Gn9Ax+vlRL4hsqab078C5x249ZfDTL2+tdHKQC7Q3LlEK5AmFeIeJ4yRETmgQfMcFwDvEQmI148
-	KH2FQNObzPldasTDqR6u/I42L+YjiCM799WswjfJlocT5HWslyOASeqo0xLZ+NzVFXk3uK5ohXI
-	vpmAeOJoy4HmBUGJlF1hq21os4LcwB07Q==
-X-Received: by 2002:a17:903:1b43:b0:2ce:d957:59c4 with SMTP id d9443c01a7336-2d052188a6bmr33458805ad.6.1785586340353;
-        Sat, 01 Aug 2026 05:12:20 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04b15d26esm16948215ad.76.2026.08.01.05.12.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Aug 2026 05:12:17 -0700 (PDT)
-Message-ID: <ff702136-839e-4d3e-957f-92573182df0e@gmail.com>
-Date: Sat, 1 Aug 2026 21:12:00 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FtaMvwnS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D50BD1F00AC4;
+	Sat,  1 Aug 2026 14:32:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785594744;
+	bh=En1PpSnljWrHrVUmcev/In3WM1VOJthrcFWC6cndCKE=;
+	h=From:To:Cc:Subject:Date;
+	b=FtaMvwnSCsNhDG/4S2wE9CWdqzDuVDyDgrSegnj/kJIZxkVA3pMEMwb+PfKfC0QB/
+	 5vuYDlaZ5wXAzQvtKzogY2RnImYFNnkDUmFlopDuMlu04Nxb8/uCP2zexcyjYAKlHV
+	 bHQowFLhvXmeEh6FAgKnXMfoREAb455/Fxorbwb+laqr9u00/Fx7B+33W7C++B1lGl
+	 QblBkLoZfTKDCzBH2BW5Ir64wYyoyU2PNChgVSkakLKt+XBzw9AkNnBmFCvcc7ul1Q
+	 eEBMT1A1NqjUWvYLenwC9CyfF7yVpiv9P0qtpdnbTdq80OT/g//ZYzK9D9jUeM19vU
+	 UH1MQhRTL9Cxw==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v8 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Sat,  1 Aug 2026 10:32:14 -0400
+Message-ID: <20260801143219.3975824-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts/kernel-doc: Fix kdoc for Python 3.9-3.11
-To: Ryszard Knop <ryszard.knop@intel.com>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Shuicheng Lin <shuicheng.lin@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20260731144508.912049-1-ryszard.knop@intel.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260731144508.912049-1-ryszard.knop@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+CONFIG_KALLSYMS_LINEINFO embeds a compact address-to-line lookup table in
+the kernel image so stack traces print source locations directly, without
+decode_stacktrace.sh or a vmlinux with debug info at runtime:
 
-On Fri, 31 Jul 2026 16:45:08 +0200, Ryszard Knop wrote:
-> The syntax used by the excess description suggestion change works on
-> Python 3.12+, while we need to support 3.9+.
-> 
-> Signed-off-by: Ryszard Knop <ryszard.knop@intel.com>
+  default_idle+0x9/0x10 (arch/x86/kernel/process.c:768)
+  default_idle_call+0x2e/0x100 (kernel/sched/idle.c:122)
+  do_idle+0x20b/0x2b0 (kernel/sched/idle.c:199)
+  cpu_startup_entry+0x24/0x30 (kernel/sched/idle.c:453)
+  rest_init+0xbc/0xc0 (init/main.c:717)
+  common_startup_64+0x13e/0x158 (arch/x86/kernel/head_64.S:418)
 
-Tested-by: Akira Yokosawa <akiyks@gmail.com>
+Patch 2 extends this to loadable modules, patch 3 delta-compresses the
+tables, patch 4 adds KUnit coverage.
 
-And here are needed tags for helping Jon (supposed to go ahead of Sob):
+Changes since v7
+================
 
-Fixes: d7758384ccb4 ("scripts/kernel-doc: Suggest possible names for excess descriptions")
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
-Closes: https://lore.kernel.org/22a9276d-c103-4306-a617-7f34abcd5c29@gmail.com/
+Two bugs turned up while working through Petr's review:
 
-> ---
->  tools/lib/python/kdoc/kdoc_parser.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-> index 884f42584667..9cba20f827c4 100644
-> --- a/tools/lib/python/kdoc/kdoc_parser.py
-> +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -601,7 +601,8 @@ class KernelDoc:
->          if not suggestions:
->              return ""
->  
-> -        return f"(did you mean one of: '{"', '".join(suggestions)}')"
-> +        joined_suggestions = "', '".join(suggestions)
-> +        return f"(did you mean one of: '{joined_suggestions}')"
->  
->      def check_sections(self, ln, decl_name, decl_type):
->          """
+- Module lineinfo blobs were malformed.  emit_section_table() emitted the
+  .Lhdr label before its .balign 4, so the kernel read each sub-table
+  header 1-3 bytes early.  5 of the 7 modules with two covered text
+  sections were affected here, kvm-intel.ko among them, which silently
+  lost .exit.text annotation.  Fixed in 2/4, with IS_ALIGNED() rejects on
+  the kernel side so a bad blob degrades instead of faulting in NMI
+  context.
 
-Thanks, Akira
+- v7's symbol-boundary check over-corrected, dropping annotation for 5017
+  functions -- 1542 .cold fragments, all __probestub_*, the __ia32_sys_*
+  compat wrappers -- which v6 printed correctly.  gen_lineinfo now keeps
+  an entry at every symbol start and synthesizes one where the compiler
+  emitted none, gated so that __pfx_* padding stubs and __SCT__*
+  trampolines stay unannotated.  Costs +0.12% entries.
+
+From Petr Pavlu's review of 1/4:
+
+- Size figures were measured on an unstripped vmlinux.  Redone with
+  x86_64_defconfig + CONFIG_DEBUG_INFO, recipe stated inline:
+  51.1 -> 69.1 MiB before the compression in 3/4, 51.1 -> 59.1 MiB with it.
+- Paths are made relative to $objtree/$srctree/$srcroot (read with
+  getenv(), so no Makefile change) rather than by scanning for well-known
+  top-level directory names; kernel_dirs[] stays as a fallback.
+- Private hash map replaced with scripts/include/hashtable.h.
+- xalloc.h for every allocation; the unchecked strdup() is gone.
+- ELF_C_READ_MMAP, and ELF_C_READ_MMAP_PRIVATE for modules, which lets
+  module mode drop O_RDWR.
+- Error handling unified on warn()/error(); main() no longer unwinds.
+- Statistics output moved behind -v / KBUILD_VERBOSE.
+- libelf named alongside libdw everywhere; Arch package corrected.
+- raw_offset/raw_min narrowed to unsigned long.
+- Dropped the unused -lz from HOSTLDLIBS_gen_lineinfo.
+- ARRAY_SIZE() instead of open-coded sizeof/sizeof.
+
+Also:
+
+- 2/4 no longer documents the delta compression that 3/4 introduces.
+- scripts/kallsyms.c matches the lineinfo symbols by prefix; two of them
+  had been leaking into /proc/kallsyms.
+- alloc_sym_buf() asserts on allocation failure, and a new KUnit case
+  pins the symbol-boundary contract the generator relies on.
+
+Testing
+=======
+
+x86_64_defconfig + CONFIG_DEBUG_INFO, booted under QEMU/KVM:
+
+- KUnit, CONFIG_LINEINFO_KUNIT_TEST=y builtin:
+  31 passed, 0 failed, 1 skipped
+- KUnit, =m with CONFIG_KALLSYMS_LINEINFO_MODULES=y:
+  30 passed, 0 failed, 2 skipped
+- KUnit, =m with CONFIG_KALLSYMS_LINEINFO_MODULES=n:
+  12 passed, 0 failed, 20 skipped (skips rather than fails, as intended)
+- SysRq-l backtraces annotated, including .S frames and header inlines
+- Module frames annotated, e.g.:
+    test_dump_stack_no_crash+0xd/0xe80 [lineinfo_kunit]
+      (lib/tests/lineinfo_kunit.c:681)
+- Every .ko sub-table header 4-byte aligned (8 modules with 2 descriptors);
+  was 5 of 7 misaligned before
+- Coverage cross-checked against addr2line
+- Each of the four patches builds standalone (vmlinux + modules), and 1/4
+  alone boots with working annotations
+- ARCH=i386 W=2 build of kernel/kallsyms.o and kernel/module/kallsyms.o is
+  clean, covering the 32-bit paths touched here
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |    1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |   97 +
+ MAINTAINERS                                   |    9 +
+ include/linux/kallsyms.h                      |   18 +-
+ include/linux/mod_lineinfo.h                  |  312 +++
+ include/linux/module.h                        |   40 +
+ init/Kconfig                                  |   35 +
+ kernel/kallsyms.c                             |  103 +-
+ kernel/kallsyms_internal.h                    |   11 +
+ kernel/module/kallsyms.c                      |  191 ++
+ kernel/module/main.c                          |   26 +
+ lib/Kconfig.debug                             |   10 +
+ lib/tests/Makefile                            |    3 +
+ lib/tests/lineinfo_kunit.c                    | 1040 +++++++++
+ scripts/.gitignore                            |    1 +
+ scripts/Makefile                              |    3 +
+ scripts/Makefile.modfinal                     |    6 +
+ scripts/empty_lineinfo.S                      |   38 +
+ scripts/gen-mod-lineinfo.sh                   |   50 +
+ scripts/gen_lineinfo.c                        | 1930 +++++++++++++++++
+ scripts/kallsyms.c                            |   11 +
+ scripts/link-vmlinux.sh                       |   43 +-
+ 22 files changed, 3967 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100644 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
+
+-- 
+2.53.0
+
