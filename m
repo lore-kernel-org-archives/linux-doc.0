@@ -1,110 +1,115 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BE626B971;
-	Sat,  1 Aug 2026 05:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC693372ED7;
+	Sat,  1 Aug 2026 06:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785561090; cv=none; b=VO595qXyfJJxLpJHbn45EawgaIMI8UsSVo/PzyO+FjyaS+/09lWasJpZw6s9+Wnu1R/9makYc3m9/czZZcnI5KZ1jqpfFXJ3aXOvaaJhWGOX02ET0nFfrpA0mYzcgXFT0Hu+jOXcdm2e0GtpL0F+UhFROzr5XC4KXbnm8qzyxCo=
+	t=1785566139; cv=none; b=Fe2/aGzJPfSCwyFIEaV5bd9rE/cQWz0QIWchH2xQI7rhKK3h8P56X0hxnCpguWGWmzg0bOr9xeMel7hZWSgnTLXI3HikSPmgqrQFKTzote7x+QtjknC51LyDT9UMy4gE+9ZN5riW1b06PgkmCDt7sbsznlwEroCn8YfbU9Qbfs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785561090; c=relaxed/simple;
-	bh=uzvfhUZICnZgPX0FvxYlIezlfYx2k1ZfbeO9G5r8I18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jsrWIEh52PBnkCH1fp1K5UyQpUoL8rE2tEVgbj3E0KGyTGIYk1I1pk16QTmkqFdRx6H4T8SXZQtHbStNYyiBV4/MtxKrpkiMVdPa/IydxwJkClIbUHflaJPFFp7/O/etPWrOulrSM03eYG0VWTngycgX8hMVms0c6Jhka7Cw5EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.99)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1wq20J-0000000039d-0kn4;
-	Sat, 01 Aug 2026 05:11:23 +0000
-Date: Sat, 1 Aug 2026 06:11:20 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 3/5] net: dsa: mxl862xx: add devlink
- flash_update and info_get
-Message-ID: <am1_-Hb-W25G1o0q@makrotopia.org>
-References: <cover.1784945329.git.daniel@makrotopia.org>
- <73a63f1d11658a041514f79ae177bfb93153d33a.1784945329.git.daniel@makrotopia.org>
- <14be7694-8ec7-40b9-8845-d93896ed822c@lunn.ch>
+	s=arc-20240116; t=1785566139; c=relaxed/simple;
+	bh=sobde0AGf3S5vrulxqXSeE8Yr9d4n8k+fI0Q3+tlJuA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eSbh19AK7GMnt3KdvX6wKgvFgenbxUm3DLwav0u4kjduys6ihHwtyYyeJecHBNq1G5XO4Re9WTaE1Bp87O+StnG93ZM4jG8rk0x+9Kl+vM68ZXNrvJubaA1ozowcoJMPbWUXcVS0XvvMOUUEqLUwEy2ZxzpCdyPEUrfLAntFD4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=K2XFECkA; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="K2XFECkA"
+Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6716YCSG018797
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 1 Aug 2026 15:34:12 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=xJoh3FskZlMZXN0frCV7KCjMR5sn7IPdvl3P81QRqzo=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-ID:To:Subject:Date;
+        s=rs20250326; t=1785566053; v=1;
+        b=K2XFECkA0Z9J1wXM376KVU1kqybglUVyvN9n43lQWKGqRyrvg+1wAHFpXKrsJyTv
+         7dO28hIdlCPUIKivvDpx66LiaWaMiUf1eMwX6HKnwGFy0BQRI/ZPqLF3hJ52UeoK
+         9AP8hhhgXc9PTpW4Zl0NUnJo17Epe0Or63UjaIvExn2v2BtXF+fsswayy25CM5r7
+         A6r0MtMXHSxU1bBIFTHXchDGmoYOLmKCHLdg5MhGoVcYXjwTa2rvghFY1qORzTYk
+         LMgUJyt3SOTNzfKJTvTGqH9iBdkizXE0bRzs4ZGh1kMGUExnDgbs3mZYI8tjnGuQ
+         I5KG078+99SmfBTRnx/1lg==
+Message-ID: <417908e2-c226-46a3-9dbe-a7a2432d1662@rsg.ci.i.u-tokyo.ac.jp>
+Date: Sat, 1 Aug 2026 15:34:11 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14be7694-8ec7-40b9-8845-d93896ed822c@lunn.ch>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 04/11] arm64: errata: Require Apple IMPDEF PMUv3 traps
+ on all CPUs
+To: Will Deacon <will@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+        Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas
+ <catalin.marinas@arm.com>,
+        Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+References: <20260710-hybrid-v8-0-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
+ <20260710-hybrid-v8-4-621409f3a592@rsg.ci.i.u-tokyo.ac.jp>
+ <amzSTp3cUCMuwJKf@google.com>
+Content-Language: en-US
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <amzSTp3cUCMuwJKf@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 30, 2026 at 11:29:47PM +0200, Andrew Lunn wrote:
->> The switch leaves MCUboot on its own by booting the new image, but the
->> driver has no in-place path back, so it reinitialises with a full
->> device_reprobe() scheduled regardless of the transfer outcome -- after a
->> failure the switch is still in MCUboot and probe re-detects it. During
-[...]
->
-> Just for my understanding....
->
-> The reprobe causes all the user point netdevs to be destroyed, and are
-> then recreated?
->
-> That seems like a good solution to the issue of all state information
-> has been lost in the switch.
+On 2026/08/01 1:50, Will Deacon wrote:
+> On Fri, Jul 10, 2026 at 08:14:58PM +0900, Akihiko Odaki wrote:
+>> KVM relies on ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS as a system-wide
+>> precondition for PMUv3 emulation on affected Apple CPUs. A local CPU
+>> erratum is too weak for that: once the workaround is enabled, a late CPU
+>> that misses it may still be onlined.
+>>
+>> Make the workaround an all-early-CPU capability instead. The matcher is
+>> still local because it depends on MIDR_EL1, but the capability is only
+>> advertised if all early CPUs match, and late CPUs that miss it are
+>> rejected once the capability is enabled.
+>>
+>> Assisted-by: Codex:gpt-5.5
+>> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+>> ---
+>>   arch/arm64/kernel/cpu_errata.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+>> index 476a37c82108..14ce49d693c4 100644
+>> --- a/arch/arm64/kernel/cpu_errata.c
+>> +++ b/arch/arm64/kernel/cpu_errata.c
+>> @@ -964,7 +964,7 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+>>   	{
+>>   		.desc = "Apple IMPDEF PMUv3 Traps",
+>>   		.capability = ARM64_WORKAROUND_PMUV3_IMPDEF_TRAPS,
+>> -		.type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,
+>> +		.type = ARM64_CPUCAP_EARLY_LOCAL_CPU_FEATURE,
+> 
+> I always get tangled in knots with this code, but does this correctly
+> handle the case where the boot/early CPUs don't have the impdef PMU
+> feature but late-onlined CPUs do? I'm not sure we configure the traps
+> correctly in that case but this is all gloriously undocumented.
+It's not only you but Fuad and Sashiko also had the same question:
+https://lore.kernel.org/qemu-devel/4cf2911c-610e-4cf1-9c42-cc5792265a89@rsg.ci.i.u-tokyo.ac.jp/
 
-Yes, exactly. device_reprobe() runs remove(), which unregisters the
-switch and with it all user netdevs, and the fresh probe registers
-them anew. They come back administratively down and userspace brings
-them up again. Everything is rebuilt from scratch rather than
-restored, which is the point given the switch itself lost all state
-too.
+The answer is that we simply don't enable hypervisor traps. Accessing 
+PMUv3 registers will be UNDEFINED on all CPUs, enforcing the 
+architectural behavior system-wide.
 
->> +static int mxl862xx_sb_pdi_poll_stat(struct mxl862xx_priv *priv, u16 expected,
-[...]
->> +		usleep_range(10000, 11000);
->> +	} while (time_before(jiffies, timeout));
->> +
->> +	return -ETIMEDOUT;
->
-> I suggest using iopoll.h. This code has the usual bug when rolling
-> your own.
+I plan to change the patch message to clarify this in the next version.
 
-Agreed. Since v6 all SB PDI polling uses read_poll_timeout(), which
-also does the one more read after the deadline that the open-coded
-loop missed.
-
->> +/* Post-flash reprobe. Runs from a self-contained heap work (not a kthread and
->> + * not the devlink caller's context): kthread_create() in the caller context
->> + * fails -EINTR if the devlink command was Ctrl-C'd, and schedule_work() cannot.
->
-> A English sentence should not finish with the word "cannot".
-
-That comment, and the kthread it talked about, are gone since v7; the
-reprobe is a plain delayed work item now.
-
->> +	/* Failures from here on must go through end_magic so MCUboot
->> +	 * reboots instead of waiting forever.
->> +	 */
->> +	ret = mxl862xx_sb_pdi_poll_stat(priv, MXL862XX_SB_PDI_READY,
->> +					MXL862XX_FW_READY_TIMEOUT_MS);
->> +	if (ret) {
-[...]
->> +		return ret;
->
-> What about the comment above? end_magic?
-
-You are right, in v5 the comment and the code disagreed. It has moved
-on since: it turned out that END written while the loader still sits
-in its receive loop is consumed as a byte count and can underflow the
-receive counter, so since v7 failures deliberately do not send END
-(the loader finalises on its own 2s timeout), and v8 renamed the
-label to no_end with a comment that now matches the code.
+Regards,
+Akihiko Odaki
