@@ -1,257 +1,117 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0427935DD1C
-	for <linux-doc@vger.kernel.org>; Sat,  1 Aug 2026 00:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C8D2FD7C3;
+	Sat,  1 Aug 2026 01:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785544281; cv=none; b=O6877qtmUNkiGkQVTWLAWlTpCLivUjOGUfXk1gHylXCM2lPyUnz0z2ePcfcLgeUxBoFKUKnrNlXf3n2J5lajXEM3cjE72ELv6njSTeTcbbEr0vITtnRS8fWo1wvfTBYTDWzD+Kw8wwo3iKnlw8KUCsPzDSP9HGNruN01Y3aZHFo=
+	t=1785547383; cv=none; b=EPtfcAL0EsA8JcdfAglCVCznrEtc2Cd2UR5pAQBfcP8Jz/Hr2rs7p7puB7LYmsmJHLPSI9W7TDo4Ufh0luIk9lCnvtf/5BuKiNzGeFCwvtLyiXt2paRIYsyoVlT7Jz6cPIlnveSADIwOeS3E46u238rVj25Ob4W2jSmRzjRi2SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785544281; c=relaxed/simple;
-	bh=8VI5d999L3cluB+QPSwmwFSWejSw56txXuUbAwSlNA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ILBs8y2Fs+8ivFHn+T3MCfy1LU6bXwGMWxZMtFIMYYhpTltLLbYFle1O4TFiMobjOCqIe5YLxMdgQqrfSV0Z+P2E/0q4TqTPStYN0edGF+rNlNSIPLRsixOU/RslzZ4Xz2/NSeY0Cp7TiOVpjgnZKCKyU3JicXV4PGLjqyi3sjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RW48if2q; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785547383; c=relaxed/simple;
+	bh=P0mlazgzIPXveFJihvrtcdXfNDABujrDqKiF4JKWm6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pFgPQpppizDPK+yKxH8NYvn6BLi2hG3sPrfaNQvXDnlYdeGDI3PyuUv3Ify9ugTaM9gwpQUVJ9QtlV/VxgFoFBmF3HOnl6nyXdKykyjZJu1EMkoFIG4OFMqu1DBUJyEGFIuLrKtB7pyE2OUsT0auIkqKDhvMvYm4Fhw7NoEViFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PNBjcU2Y; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RW48if2q"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-84e507b079dso1179400b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jul 2026 17:31:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785544279; x=1786149079; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=huQxdldpqRYaZEjHQZL7Ohp7YA7LATCZJOhI6k3svOo=;
-        b=RW48if2qbDQLvdaqBZNVw1rXq6qOOFoc1Dnx99ZLrlAdK2dcJEzsem02EsRN65JUck
-         IDiKN53RRJ4F7BVoBpU5M4/RvUITupe0gcDKQLl4fmc9HDlkOwfr9aRU1Ab7zXaXo6LB
-         DqaH6YPWOxwqpWbT5ZmvB9FxBCz/5w98FXJnKfCWzJgOH4qkUk/3Lwt8EAp9jquoJaIH
-         JjpSXiTXvMzN/+eNdFs6t+qCKZJv1ABPvo7WzEhPVAE/DIDfbBxOh4xHfOOxajLzvBHr
-         y1YE4w7CtsJqtlIhktdILZsZ/l91RrrShg8pMpfeJwUUpyFYyUBi9aWJCUbOoBl2Mm+P
-         PQ7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785544279; x=1786149079;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=huQxdldpqRYaZEjHQZL7Ohp7YA7LATCZJOhI6k3svOo=;
-        b=p1ftvXFKUeNac8xi6Xe6L1iHtxJFyL94Y3HYBdwFE+D4mFufPvRNf9SaWBzB/KthQN
-         /dzJkNzFjE+F8JBUT7RyIEaKYJNDALwUL82oap8xxmdvDu9Kpt5apr0nX3dRR+STRTal
-         3gqAsZwKwMOZwFAzSJpUdLRuAxg7nhb8VpoW8EY7Ph5ShP3iV/6oNQ6lVhXgo87qzLjH
-         zYCQktLvPRUX6L3TQBLYgngLPkvnQX7WWfDIreCsVizPeFFnB4F/L9BVWJHC2E7e8Jm4
-         x4tYTy616FOGt9DlOws8enX9z2qp8oRnoXJErAYxBc7Vh1Bx0pQHbv/toiDZT6id8CDY
-         VhFg==
-X-Forwarded-Encrypted: i=1; AHgh+RrPjOqe4DOLSjGgmHHBSmCoqRXWXv4R770Wzx9PuZWedGVnqRQxUkUWRzbY4AHhY/+lmmaQrQnXIJ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyr1oNLm8TtBwqDWhwrfzHladcOeYvsYPCkhCty773kxLy1Jbbz
-	AXizgdXwruE37ubBUjX7npzDDDZ67Dgk52pBsmvOWjEmkAlHzPaA5k7V
-X-Gm-Gg: AR+sD10Eexb64nm1eSLkhRW96M2d/5V9YX5QMD+DxqR+9V5PiFBHmlyCli8Eu6aGKUI
-	KYkM24Bfq0Sm6eZWz7osu3pu1q2Ma2UMNRS0rZEHZ4hvFxC5ivHiVr7gFGkaRYORg6LbDFFvrGX
-	GNGCmXBYJvIhapG8666VyWaBmGYhLhwzbgKLTvHWHt29DR4myFkVyVfwebqgeKPaJiMBslACTow
-	hEg/UF/xW/E5TwpBXZGih5ReorM9mb41rxjQeoIx9rq7vHKB01KB5wa3pmnyrvq4lehmtihNayk
-	j0gAOnwxe4jTEJddPnWnTIfbPG8tE8VriRRmP1UyfzojZJFHCJRY2Omw64lQy3ihOXQuVRht6kc
-	1VvXhvhi0cfo3mIQFz85eKH7ySWTBg/t5QXcoHxPMFvcf4nlOuYB7IrVsAXhkdK26TsjQ+Fr0Gg
-	tbknjBlyVlOl5G6PYP7/jyWe6foXRqAULBmzaMJTH/8qxMb7kJkHWCEhw5vHjwIDTPREfcvNvxu
-	Oc8kf4Rn/X47grF+fH9SEF9WSlKUqPp8hCRDnCJqrzh9tFKrUL8BKzFZtE=
-X-Received: by 2002:a05:6a00:4392:b0:84e:216d:7e4e with SMTP id d2e1a72fcca58-84ee479b03amr1357914b3a.1.1785544279161;
-        Fri, 31 Jul 2026 17:31:19 -0700 (PDT)
-Received: from ?IPV6:2409:8a28:62b:7644:8009:eff3:7a31:a025? ([2409:8a28:62b:7644:8009:eff3:7a31:a025])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edc4237e5sm1030113b3a.59.2026.07.31.17.31.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jul 2026 17:31:18 -0700 (PDT)
-Message-ID: <6e16a760-d84d-98e1-433e-3233a9dd2236@gmail.com>
-Date: Sat, 1 Aug 2026 08:31:09 +0800
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PNBjcU2Y"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D751840E02B7;
+	Sat,  1 Aug 2026 01:22:58 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Zgdzh314TKct; Sat,  1 Aug 2026 01:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1785547368; bh=F0SD6i6pVz8b5/Ctz0oWzgJGRgyCQQTAYRI4PwV2KW8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PNBjcU2YIZ71vCjCbYTzWLhf+yr9I55rMO0a49+aZM10pRFGxfVGeGQut0BQK4crU
+	 Ak4lWD0dYKkoS2MxKJakPKoKkJk6Lh6kJtcSVstWUC7wz2pyM9dBEI+0EcvqzlSAQ+
+	 wzlrEaAbG4DSVNS/mPHJeeH92223rt8H0tDXcednU+zV9AksZdI4ToJNPaVD8iLYv5
+	 /CTfWsvt8yoL0wklhvDz/IQiQ90GA8pfYWjMsA9vzo9fZ75Hg++oQrpw3Qo4wEs0Bt
+	 sVsA8Fz6M6epv+1Y1oQWtedYbFEdGXx1akmgYJ6jFyWmVoaqOFNZPGqkIxaiJINsQg
+	 +cVdw4RY0HAW4Bf12FRM7n76SQ+PAejNj8z6XA4Qkyx25/T8b3WnOKEMxH6HKtpy/L
+	 QPvtecg1DLjJCxuV735rrCQHT6GRNx5ChKghA0Ju/06THFxTIpDjRfQB3sKNd651Wj
+	 0X+zXqy1IQBvWlYDCLDznukLRzUJvXbR0GbFicfqV7EoZiiwIzrogQuRrr4GyataVI
+	 +T/fPhRmqd09R2lmwLVQMF1o1rGCdn5L4x7ajpDf0mcm1+NMaNepon9EVJqZimVxv1
+	 msyNdo5WC+U8o7nqeGC5uJQ77f74CWyrVPTPS2DZG1ZN/lYYmQDdKGsu30f/0+dVB7
+	 UOC0rUIYYuM3iZJIT5vVKdYo=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 242BF40E00C3;
+	Sat,  1 Aug 2026 01:22:31 +0000 (UTC)
+Date: Fri, 31 Jul 2026 18:22:27 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>, Babu Moger <babu.moger@amd.com>,
+	"Moger, Babu" <bmoger@amd.com>, "x86@kernel.org" <x86@kernel.org>,
+	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"tglx@kernel.org" <tglx@kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"Eranian, Stephane" <eranian@google.com>,
+	"peternewman@google.com" <peternewman@google.com>
+Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
+ "default" on boot
+Message-ID: <20260801012227.GEam1KUyMz601QOzrT@fat_crate.local>
+References: <7495c998-4f3f-4ea5-a383-350584afb42c@amd.com>
+ <6d006c4c-907a-435f-ac94-32974562ce2d@intel.com>
+ <e37866f2-974d-475a-b68a-8b74d6051dc4@amd.com>
+ <20260730184626.GIamucAtZxMUUGagGm@fat_crate.local>
+ <7d3dd384-9101-49cb-ada4-b8320198233e@amd.com>
+ <20260730194328.GEamupYLsURg6VvxBU@fat_crate.local>
+ <d364100d-45e4-458e-97d5-05416fbe5bef@amd.com>
+ <SJ1PR11MB6083F7EC6D533C4E183D5876FCC92@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260731003436.GKamvtnJlKydaEqstA@fat_crate.local>
+ <4bfafa1e-a7da-4c37-8da9-9fbba14106fd@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v3 2/2] mm/zswap: Support batch writeback in
- shrink_memcg()
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: akpm@linux-foundation.org, chengming.zhou@linux.dev, jiahao1@lixiang.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- mhocko@kernel.org, mkoutny@suse.com, muchun.song@linux.dev,
- nphamcs@gmail.com, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- stable@vger.kernel.org, tj@kernel.org, yosry@kernel.org
-References: <amufiuAaZbuDdKkQ@cmpxchg.org>
- <20260731071900.38942-1-jiahao.kernel@gmail.com>
- <amy8gAN33W4QsM5R@cmpxchg.org>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <amy8gAN33W4QsM5R@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4bfafa1e-a7da-4c37-8da9-9fbba14106fd@intel.com>
 
+On Fri, Jul 31, 2026 at 07:59:46AM -0700, Reinette Chatre wrote:
+> The underlying implementations appear to be different between AMD and Intel.
+> On Intel side only the RMIDs (not separate hardware counters) need to be
+> considered.  resctrl supports this RMID limit by placing a limit on how many
+> monitoring groups the user can create.
 
+Sounds to me like the AMD side should do this too, no, if it doesn't already?
 
-On 2026/7/31 23:17, Johannes Weiner wrote:
-> On Fri, Jul 31, 2026 at 03:19:00PM +0800, Hao Jia wrote:
->> From: Hao Jia <jiahao1@lixiang.com>
->>
->> Currently, shrink_memcg() writes back at most one entry per-node during
->> its traversal. This makes shrink_worker() inefficient, as it must
->> repeatedly re-enter shrink_memcg() to make any substantial progress.
->> Under high memory pressure, this can cause the writeback speed to be
->> too slow to keep up with refaults, leading to zswap store failures and
->> forcing pages to skip zswap and go directly to disk, which results in
->> an LRU inversion.
->>
->> To address this, extend shrink_memcg() and rewrite its LRU iteration logic,
->> enabling batch writeback for both the shrink_worker() and zswap_store() paths.
->> To prevent shrink unfairness across NUMA nodes caused by a shared global scan
->> quota, limit scanning to up to SWAP_CLUSTER_MAX pages per node and write back
->> any reclaimable entries found.
->>
->> Test Setup:
->> - Total memory: 32 GB, 1 NUMA node.
->> - zswap settings: accept_threshold_percent=50, shrinker_enabled=N.
->>
->> Test Case 1:
->> Set max_pool_percent=1, allocate 512MB of anonymous pages, and fill them
->> with random data (to avoid compression). Then, use cgroup memory.reclaim
->> to force a large amount of anonymous pages into zswap. At an interval of
->> 2ms, allocate a 4K anonymous page where the first 4 bytes are random numbers
->> and the rest are zeros, and then trigger reclamation of this 4K page through
->> cgroup memory.reclaim. When the pool threshold is reached, shrink_memcg()
->> will be triggered.
->> The test data after running for 120s is as follows:
->>                                  Baseline      Patched
->> shrink_worker wakeups              5,363          169
->> shrink_memcg calls            11,373,201      350,703
->> written_back pages                40,212       40,241
->> zswap_store calls                161,190      163,753
->>     store succeeded (ret=1)       102,743      117,183
->>     store rejected (ret=0)         58,447       46,570
->>     store reject rate                ~36%        ~28%
->> pool_limit_hit delta              55,826       33,760
->> pswpout                           98,659       86,811
->> pswpin                                 2            0
->>
->> Test Case 2:
->> We evaluated the following two sub-configurations using stress-ng inside
->> a cgroup capped at memory.max=1G for 120 seconds:
->>    Test Case 2a (max_pool_percent=1): Continuously triggers the global
->>    zswap pool limit, thereby waking up shrink_worker() to perform asynchronous
->>    shrinking.
->>    Test Case 2b (zswap.max=320M, max_pool_percent=50): Continuously triggers
->>    the cgroup's zswap.max limit, thereby invoking synchronous shrinking.
->> Command executed for both setups:
->>     bash -c 'echo $$ > /sys/fs/cgroup/zswaptest/cgroup.procs ; \
->>     exec stress-ng --vm 4 --vm-bytes 4G --vm-keep --vm-method rand-set -t \
->> 120s -q'
->>
->> Test Case 2a (max_pool_percent=1):
->>                                  Baseline       Patched
->> shrink_worker wakeups              5,640         1,308
->> shrink_memcg calls             8,481,500     3,140,972
->> written_back pages                   260       468,216
->> zswap_store calls              2,742,756     2,011,269
->>     store succeeded (ret=1)       934,640       947,988
->>     store rejected (ret=0)      1,808,116     1,063,281
->>     store reject rate                ~66%          ~52%
->> pool_limit_hit delta           1,181,310       196,882
->> pswpout                        1,808,376     1,531,497
->> pswpin                         4,288,497     3,635,365
->> Test Case 2b (zswap.max=320M, max_pool_percent=50):
->>                                  Baseline       Patched
->> shrink_worker wakeups                 0              0
->> shrink_memcg calls              687,608         54,002
->> written_back pages              639,176        846,663
->> zswap_store calls             1,224,222      1,228,548
->>     store succeeded (ret=1)      992,816      1,208,123
->>     store rejected (ret=0)       231,431         20,425
->>     store reject rate               ~19%            ~2%
->> pool_limit_hit delta                  0              0
->> pswpout                         870,745        867,360
->> pswpin                        1,707,823      1,216,814
->>
->> Under identical workloads and runtimes, batched zswap shrinking
->> exhibits a significant reduction in both shrink_worker() wakeups
->> and shrink_memcg() calls. Furthermore, the sharp drop in both pswpin
->> and zswap_store() rejections demonstrates that batching zswap shrink
->> operations effectively mitigates zswap_store() failures caused by
->> hitting the pool limit. This significantly prevents pages from bypassing
->> zswap and falling back directly to disk, thereby reducing LRU inversion.
->>
->> Suggested-by: Yosry Ahmed <yosry@kernel.org>
->> Acked-by: Yosry Ahmed <yosry@kernel.org>
->> Acked-by: Nhat Pham <nphamcs@gmail.com>
->> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
->> ---
->>   mm/zswap.c | 30 ++++++++++++++++++++++++++++--
->>   1 file changed, 28 insertions(+), 2 deletions(-)
->>
->> diff --git a/mm/zswap.c b/mm/zswap.c
->> index 48fc7b575e24..d406c14925d8 100644
->> --- a/mm/zswap.c
->> +++ b/mm/zswap.c
->> @@ -1275,6 +1275,21 @@ static struct shrinker *zswap_alloc_shrinker(void)
->>   	return shrinker;
->>   }
->>   
->> +/*
->> + * Scan up to SWAP_CLUSTER_MAX pages on each per-node zswap LRU of @memcg
->> + * and write back the reclaimable ones.
->> + *
->> + * Since the second-chance algorithm rotates referenced entries to the
->> + * LRU tail, the per-node scan is capped at the current LRU length so
->> + * each entry is scanned at most once per call. It is up to the caller
->> + * to handle retries, deciding whether to scan another memcg to complete
->> + * the full iteration, or to rescan the current memcg to drain its zswap
->> + * entries.
->> + *
->> + * Return: 0 if at least one entry was written back, -EAGAIN if entries
->> + * were scanned but none could be written back, or -ENOENT if @memcg has
->> + * writeback disabled, is a zombie cgroup, or has empty zswap LRUs.
->> + */
->>   static int shrink_memcg(struct mem_cgroup *memcg)
->>   {
->>   	int nid, shrunk = 0, scanned = 0;
->> @@ -1290,13 +1305,24 @@ static int shrink_memcg(struct mem_cgroup *memcg)
->>   		return -ENOENT;
->>   
->>   	for_each_node_state(nid, N_NORMAL_MEMORY) {
->> -		unsigned long nr_to_walk = 1;
->> +		unsigned long nr_to_walk, node_budget;
->> +
->> +		/*
->> +		 * Cap the scan at the per-node LRU length so each entry is
->> +		 * scanned at most once per call.
->> +		 */
->> +		node_budget = min(SWAP_CLUSTER_MAX,
->> +			     list_lru_count_one(&zswap_list_lru, nid, memcg));
-> 
-> AFAICS you can just do unsigned long nr_to_walk = SWAP_CLUSTER_MAX.
-> 
-> __list_lru_walk_one() does a list_for_each_safe() that will exit the
-> same way whether you hit !nr_to_walk or run out of items.
+I mean, it is kinda natural behavior to track counter occupancy and deny the
+allocation of new ones if there are none free...
 
-Wouldn't it be better to ensure that each entry is scanned at most once 
-per call, particularly when list_lru_count_one(nid) < SWAP_CLUSTER_MAX?
+> The Intel/RDT spec does leave room for this to occur but a return of
+> "Unavailable" when reading a monitoring event is not encountered on current
+> Intel hardware.
 
-On one hand, this avoids scanning the same entry multiple times within a 
-single pass. Since the second-chance algorithm rotates referenced 
-entries to the tail of the LRU, entries on nodes with a large number of 
-zswap entries require at least two shrink_memcg() calls to be written 
-back, whereas entries on nodes with fewer entries might get written back 
-in a single shrink_memcg() call instead. On the other hand, we also 
-avoid spinning repeatedly on entries that fail writeback.
+Why not? Because nothing's reaching that limit or?
 
-Thanks,
-Hao
+> The user can always expect a value when reading a monitoring event (on
+> current hardware).
 
-> 
->> +		if (!node_budget)
->> +			continue;
->>   
->> +		nr_to_walk = node_budget;
->>   		shrunk += list_lru_walk_one(&zswap_list_lru, nid, memcg,
->>   					    &shrink_memcg_cb, NULL, &nr_to_walk);
->> -		scanned += 1 - nr_to_walk;
->> +		scanned += node_budget - nr_to_walk;
-> 
-> scanned += SWAP_CLUSTER_MAX - nr_to_walk;
+How does that work when you exhaust the counters? Or it does switch between
+them quickly so that there's always *something* that counts?
+
+Hmmm.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
