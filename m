@@ -1,100 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AF228686;
-	Sun,  2 Aug 2026 01:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D493148A7;
+	Sun,  2 Aug 2026 05:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785635055; cv=none; b=h+lE9eeRXReaZghhjbni87FA7lNSl21ERIZ8ASo2/hzWOLpicXr3uOqOBWnQaE3T5psE9rBmz5KMPJK6pFi4Be9CmndjP5pu+BdjZFPbzNCd2KanEsKGQguPpK6GbjRbs9hgGdEdM0Q0US/nkqNHPto4bIV7JIyVOKuH43BpJ1I=
+	t=1785649594; cv=none; b=PmYaouA9b02PzmFo8udGBeQpsuyoqnQ+dDkGcSQ+btnMTh2V1OnQUTfWiV3TCQtAByMVj0Kc1njhGMYFfJJNvc7NW956WKBVf6Uu91lhqnv5jsV23wTsFbaSrEPv+1w4I7hjyqKIueDknrvG915khilfVly9MksbVMqdFwIru6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785635055; c=relaxed/simple;
-	bh=mdhh0j9f17YHsryDwKXiPEIWcHX7edR8lIqDa7uzH+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oHUTQRPkSkoeaKjCiyZ/9sfv9qQKYyBVa59bbsHlgH52veYesDmqYxuxPS1VgnY6GR23/QjzWofw14XibeOehaWTbCjGWuDtJ4PFokqrztHjzlTCXDF/3bEwWvA9HjeJgd2D+SjcdauP8BpgTdIE/nGQaYYDCgSojAisN5M29bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNpuRjyu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785649594; c=relaxed/simple;
+	bh=MqapeSfNopgYXh8J6thU9zppztHyJ13gCnQCSY/K5+Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=vA0GA6amn6AYnbezajyXKOpTxwGHdRzxQbSkhyZ94Zy6dKwInvNpq7icGNBzCkL3GKt+qE6RDASdv0y3DGvTTme7h6XaZL/De9YzcvIklOocw8zYcPFIVZVlQ0vZPkgF/uVnALS/CwXx7H4E+qmADeLHYws+E6CCqHs2AVjJib0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UpIwgUlj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FNpuRjyu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 877B61F00AC4;
-	Sun,  2 Aug 2026 01:44:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UpIwgUlj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B54E1F00ACA;
+	Sun,  2 Aug 2026 05:46:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785635053;
-	bh=mip0B/D0zbj+W8FY7Jr7m6LXBd0pDGkSWk8A82QP8So=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=FNpuRjyu1lAoIwK7i3W5Gl+YC7h8SCc/CK5xvSzpaVpFjqOnJGL3qbrRaM/i+d92U
-	 BiAgyoBgPe/alFI2vQUBzWBRREVfo1Bka2usHt7UOj906ZYwqzU+cMoDgHumXeqViV
-	 DPZE90VCDuWEJhu1OTz/vh6dXKB8yfY1um1cua2TaTAMfuL9ztlZPKQ8iAtmErXtYl
-	 rtLzrZoTceuDirdfFQ/JaTD3ZWQto0nefBxgDiE9smn2YMTMkHey0JS8jiqqScYdP/
-	 S5mNsqzHnH2swIY65W1UuBAhWF7Bxb2/GKKkvQBsmQbInWasbeC5teqqfPBTmx4Yii
-	 8YXABlF9yXi2Q==
-Date: Sun, 2 Aug 2026 02:44:06 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, Radu Sabau <radu.sabau@analog.com>,
- "Marcelo Schmitt" <marcelo.schmitt@analog.com>, Jorge Marques
- <jorge.marques@analog.com>, Salih Erim <salih.erim@amd.com>, Matti
- Vaittinen <mazziesaccount@gmail.com>, Jishnu Prakash
- <jishnu.prakash@oss.qualcomm.com>, <linux-iio@vger.kernel.org>,
- <linux@analog.com>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 0/4] iio: adc: ade9000: add support for ADE9078
-Message-ID: <20260802024406.6147807e@jic23-huawei>
-In-Reply-To: <20260731082951.1228-1-antoniu.miclaus@analog.com>
-References: <20260731082951.1228-1-antoniu.miclaus@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1785649592;
+	bh=WxhMRZaTW3jvA16d0Id8N7tbILuRU61GurYOALobZfM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=UpIwgUlj62DgCKqLWODGmUVytwPztj+oUaaCsPQtgForKx8/hb4RHrDRW/C5dCvqO
+	 b3gU8g6Vt458clRa/HZ7eJzdVgW9oE/A0QzkCT3YOPZBQS+V01dOpADopxEjqJA8o1
+	 5V7bHP1Xe9sb1qsCg+36y9AFP7Ev+fzVPYDvjINRQQW9mDHL7qzljgIio9hIdayc93
+	 OrinNFLjV5wGvr5S26wwEkh220ttgoTl8UQo4ONaAajbmqcLwc4HsMLbDvzG0ns59H
+	 gWFSpeKNtKqZ1Gf2qfXFd64llX9DCnE6TjwQQ+8vnIMRG0hF80xYuKIsarcsZQa9Wj
+	 dkul43QeqBKDA==
+From: Namhyung Kim <namhyung@kernel.org>
+To: rostedt@goodmis.org, mhiramat@kernel.org, 
+ mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+ bhelgaas@google.com, yangyccccc@gmail.com, jic23@kernel.org, 
+ john.g.garry@oracle.com, will@kernel.org, james.clark@linaro.org, 
+ mike.leach@arm.com, leo.yan@linux.dev, peterz@infradead.org, 
+ mingo@redhat.com, acme@kernel.org, mark.rutland@arm.com, 
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, 
+ adrian.hunter@intel.com, wangyushan12@huawei.com, 
+ Sizhe Liu <liusizhe5@huawei.com>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linuxarm@huawei.com, prime.zeng@hisilicon.com, 
+ wuyifan50@huawei.com
+In-Reply-To: <20260730062709.534139-1-liusizhe5@huawei.com>
+References: <20260730062709.534139-1-liusizhe5@huawei.com>
+Subject: Re: [PATCH v2 0/3] perf hisi-ptt: Fix TLP header parsing and
+ naming
+Message-Id: <178564959213.665203.10969359308974116817.b4-ty@kernel.org>
+Date: Sat, 01 Aug 2026 22:46:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c04d2
 
-On Fri, 31 Jul 2026 11:29:46 +0300
-Antoniu Miclaus <antoniu.miclaus@analog.com> wrote:
+On Thu, 30 Jul 2026 14:27:06 +0800, Sizhe Liu wrote:
+> This series fixes bugs and issues in the hisi_ptt packet decoder that were
+> introduced by commit 5e91e57e6809 ("perf auxtrace arm64: Add support
+> for parsing HiSilicon PCIe Trace packet").
+> 
+> Patch 1: Bugfix:
+> The DW0 bit-field layout of the hisi_ptt_4dw union does not match
+> the actual little-endian memory ordering, so the extracted
+> Format/Type/T9/T8/TH/SO/Length/Time fields are wrong.
+> 
+> [...]
+Applied to perf-tools-next, thanks!
 
-> The ADE9078 is a polyphase energy metering device from the same family as
-> the ADE9000 and is register compatible with it. The main differences
-> relevant to the driver are the absence of the on-chip dip/swell detection,
-> a lower maximum SPI clock (10 MHz), and slightly different full-scale ADC
-> codes.
+Best regards,
+Namhyung
 
-This looks fine to me, but will need to sit on list until the dt maintainers
-have gotten to it.  Sashiko did call out some possible preexisting issues
-in the driver.  I haven't looked at them, but if you have some time, it may
-be worth a look the power vs interrupt registration one smells plausible.
-
-https://sashiko.dev/#/patchset/20260731082951.1228-1-antoniu.miclaus%40analog.com
-> 
-> This series adds support for the ADE9078 to the existing ade9000 driver.
-> It first refactors the driver to move the part-specific values (device
-> name, channel table, and full-scale codes) into a chip_info structure
-> retrieved via device match data, then adds the new device tree compatible
-> and the ADE9078 support itself, and finally updates the documentation.
-> 
-> Changes in v2:
-> - move the "respective datasheets" comment wording to avoid churn.
-> - use a generic Kconfig title and list the supported parts.
-> - duplicate the RMS voltage macro instead of a shared base macro.
-> 
-> v1: https://lore.kernel.org/linux-iio/<FILL-IN-v1-MESSAGE-ID>/
-> 
-> Antoniu Miclaus (4):
->   iio: adc: ade9000: introduce chip_info structure
->   dt-bindings: iio: adc: adi,ade9000: add adi,ade9078 compatible
->   iio: adc: ade9000: add support for ADE9078
->   docs: iio: ade9000: document ADE9078 support
-> 
->  .../bindings/iio/adc/adi,ade9000.yaml         |  30 ++-
->  Documentation/iio/ade9000.rst                 |  28 +--
->  drivers/iio/adc/Kconfig                       |  16 +-
->  drivers/iio/adc/ade9000.c                     | 180 ++++++++++++------
->  4 files changed, 175 insertions(+), 79 deletions(-)
-> 
-> 
-> base-commit: 0b5e142ced4bcf20532da051934bd694d1bbd470
 
