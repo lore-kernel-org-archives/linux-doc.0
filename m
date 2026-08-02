@@ -1,71 +1,112 @@
-Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF1735A387;
-	Sun,  2 Aug 2026 09:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CA73932D3;
+	Sun,  2 Aug 2026 14:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785664513; cv=none; b=E/4grgxhV/zpC0HvdUp3HZmFw7PZqYJGTIJimr/k2m5eXuA+LrALsOGlwoYib3bH+wpzSDZ2Qr77hbwY4fvaUMYoN+ai0jdPK7UxtuxFDioDm9IOZ5Dd5x69F5XLqn/Q5MS/6MpJPhRCM41KRSNdOSy00t8NkeekhT8TeEfZPGE=
+	t=1785679900; cv=none; b=UdsWztA+/gzVVqgRi3d2/z0+0r4meNUHUFmx6Q1v/86kULgrUh3HcEsqzPnexnosRbYsvI5NP/dI+0ehjPwTyqUfoBKb1SGrcOQ7TRtxReu8lIR3hqLZ19o4vX9aODdof6UfY0JQ/3TZNlKef86l2pMXFhr2Q0hfu+y9VpotLQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785664513; c=relaxed/simple;
-	bh=XPT39FKVPO0EvbM9Yeiz1z5zRRqQL2CAlUK9GhiHb/4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=PPGykzs7/W8HkXIyU3vx4irxrFTuHpgkb5h4D6bmPYQ+lYdAhHwv1bJFVSfBr394a/kDtDK0z2q4gtWbMiLbOWPsJzLoU9MuluyPHP+KFsyqxsFfMGQoWt/bNpkfrlt5MIkUc0g9ex+aT4/FrTgv/xu57TobZehLhsCUHArgLQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=I2ljNp/n; arc=none smtp.client-ip=129.217.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
+	s=arc-20240116; t=1785679900; c=relaxed/simple;
+	bh=VHCNYdSDXQWPDgWPZRDdi7VBJYiSQANCYMrvMgh969s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lb0UoOnFyLjjrilyo2kYU3zrQqi0dP3h87yUNI5JPib4+mUmSehh6Jo4I2rCsLtVjLmXlRp3nrY+wVaR5R36yhILDKyFHyCHRuieGF0W8cNn1H3J0S3ximDSdJHIsWF6V/j/KTyDL6WWTWe2/X9YYlJ8QkpPAn4jL3SuA9nS+jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIxIvXSm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="I2ljNp/n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
-	s=unimail; t=1785664300;
-	bh=XPT39FKVPO0EvbM9Yeiz1z5zRRqQL2CAlUK9GhiHb/4=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=I2ljNp/nwBlo4CUWnHQkHGvqYf3MsZTOjj6DG+xpC0kBo7QX+T4pTYE2tpx5P9+Ha
-	 p8KPlVh+GeDvp0HJMxeDVkyphtkVcCH0/FifEavxSluWyTaw2RBFZiJiD+0JhKqUxZ
-	 5whzJ6mKrx/lImYRptYExFE0actV4TXuZbSWwSmw=
-Received: from [IPV6:2a01:599:313:73d7:25e8:a683:3a9b:5cb2] (tmo-121-3.customers.d1-online.com [80.187.121.3])
-	(authenticated bits=0)
-	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 6729pYCN019221
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 2 Aug 2026 11:51:34 +0200 (CEST)
-Message-ID: <3d7a5938-31ce-48ab-bf96-568f501cd7f9@tu-dortmund.de>
-Date: Sun, 2 Aug 2026 11:51:33 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIxIvXSm"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 448DCC19425;
+	Sun,  2 Aug 2026 14:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785679900;
+	bh=VHCNYdSDXQWPDgWPZRDdi7VBJYiSQANCYMrvMgh969s=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=TIxIvXSmvnW81Z3SD5E17lMTX29BMRCdAUgIFYi/8PQ5/PUmgQLdkJGiKXU6RaWka
+	 WXJ/ggPar41lYgWqeXKI+rcCaZrWGNLYWTQoi6psjOA1WMl3735RPDRjO0X+Nf53ps
+	 xKY2djP9nPPyl2a6DPf2511P+JZXkkpwX15VjZRFMv5x7TNkk1uYmvbbqb6/XGamL1
+	 A7DXz0Sp/+MZKkYgLPGNhRmp82tiL8DPPO2hYKoRewVRPREhCqa/8Z4bzjnjjrvxDP
+	 PvTzYi5vETAlKaCfP+Dy6/yhQrR3eFVAfpBEZnMg71rzsGWE1tRjmizinRgrTZrm4b
+	 8BHQs3e8GMzmw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D4BC55175;
+	Sun,  2 Aug 2026 14:11:40 +0000 (UTC)
+From: Anuj Bolewar via B4 Relay <devnull+bolewara.gmail.com@kernel.org>
+Date: Sun, 02 Aug 2026 19:41:39 +0530
+Subject: [PATCH] docs: kernel-parameters: Remove smsc-ircc2 IrDA parameters
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v13 0/5] tun/tap & vhost-net: apply qdisc
- backpressure on full ptr_ring to reduce TX drops
-To: willemdebruijn.kernel@gmail.com, jasowangio@gmail.com, jasowang@redhat.com,
-        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, mst@redhat.com,
-        eperezma@redhat.com, leiyang@redhat.com, stephen@networkplumber.org,
-        jon@nutanix.com, brett@librecast.net, corbet@lwn.net,
-        skhan@linuxfoundation.org, tim.gebauer@tu-dortmund.de,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux.dev
-References: <20260730213639.726381-1-simon.schippers@tu-dortmund.de>
-Content-Language: en-US
-From: Simon Schippers <simon.schippers@tu-dortmund.de>
-In-Reply-To: <20260730213639.726381-1-simon.schippers@tu-dortmund.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260802-docs-remove-smsc-ircc2-params-v1-1-91b302e90cce@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQrCMAwA0F8ZORvoapHpr4iHLku3DLqORIcw9
+ u9WPb7L28FYhQ1uzQ7Km5iUpaI9NUBTXEZGGarBO39xnfM4FDJUzmVjtGyEokQe16gxG0a69iF
+ xakM4Qz1W5STv339//G2vfmZ6flM4jg9hV08KgQAAAA==
+X-Change-ID: 20260802-docs-remove-smsc-ircc2-params-ac9b4fef1443
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Anuj Bolewar <bolewara@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785679899; l=1844;
+ i=bolewara@gmail.com; s=20260802; h=from:subject:message-id;
+ bh=btfNVB8ib3tu4wleNIK7XhSVR3Xyj+ZA0X1ZtsVXCSo=;
+ b=APrjjc8n5oH/TQnB/gfCuIGoHR/nASyOm00vdwQsAW4DEGMK8R7yd+hwwQZNRxPKBjWrSdfOH
+ +BHiTfzb3N2D71qzw9MQY9Dxuag1QLQjtYASTbQjZcnA4YEBfWvQ4V9
+X-Developer-Key: i=bolewara@gmail.com; a=ed25519;
+ pk=XxcXxqFWk9xQziyNEfhS6NRJQR1shqHRRYzkbaYamm0=
+X-Endpoint-Received: by B4 Relay for bolewara@gmail.com/20260802 with
+ auth_id=907
+X-Original-From: Anuj Bolewar <bolewara@gmail.com>
+Reply-To: bolewara@gmail.com
 
-On 7/30/26 23:36, Simon Schippers wrote:
-> This patch series deals with tun/tap & vhost-net which drop incoming
-> SKBs whenever their internal ptr_ring buffer is full. Instead, with this
-> patch series, the associated netdev queue is stopped, but only when the
-> new IFF_BACKPRESSURE flag is set and a qdisc is attached. Without the
-> flag, or if no qdisc is present, the existing behavior is preserved. The
-> XDP transmit path is not affected. This patch series touches tun/tap and
-> vhost-net, as they share common logic and must be updated together.
-> Modifying only one of them would break the other.
+From: Anuj Bolewar <bolewara@gmail.com>
 
-Sashiko found valid regressions, even though the code stayed the same.
+The smsc-ircc2 module parameters reference drivers/net/irda/
+smsc-ircc2.c, which was removed along with the entire IrDA stack in
+commit d64c2a76123f ("staging: irda: remove the irda network stack
+and drivers").
 
-I will address them and send a v14 soon.
+Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+---
+The IrDA stack and drivers were removed from the kernel in commit
+d64c2a76123f ("staging: irda: remove the irda network stack and
+drivers"). Remove the now-obsolete smsc-ircc2 module parameters from
+the kernel parameter documentation.
+---
+ Documentation/admin-guide/kernel-parameters.txt | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b5493a7f8f2..72afae6ea85 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7006,17 +7006,6 @@ Kernel parameters
+ 			take as long as they take.  Specifying 300,000
+ 			for this value provides a 5-minute timeout.
+ 
+-	smsc-ircc2.nopnp	[HW] Don't use PNP to discover SMC devices
+-	smsc-ircc2.ircc_cfg=	[HW] Device configuration I/O port
+-	smsc-ircc2.ircc_sir=	[HW] SIR base I/O port
+-	smsc-ircc2.ircc_fir=	[HW] FIR base I/O port
+-	smsc-ircc2.ircc_irq=	[HW] IRQ line
+-	smsc-ircc2.ircc_dma=	[HW] DMA channel
+-	smsc-ircc2.ircc_transceiver= [HW] Transceiver type:
+-				0: Toshiba Satellite 1800 (GP data pin select)
+-				1: Fast pin select (default)
+-				2: ATC IRMode
+-
+ 	smt=		[KNL,MIPS,S390,EARLY] Set the maximum number of threads
+ 			(logical CPUs) to use per physical CPU on systems
+ 			capable of symmetric multithreading (SMT). Will
+
+---
+base-commit: 2d2338c93da79b3bfe4b6099a931d9468d539952
+change-id: 20260802-docs-remove-smsc-ircc2-params-ac9b4fef1443
+
+Best regards,
+--  
+Anuj Bolewar <bolewara@gmail.com>
+
 
