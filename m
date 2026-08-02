@@ -1,439 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B959D1C28E;
-	Sun,  2 Aug 2026 08:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340922DF719
+	for <linux-doc@vger.kernel.org>; Sun,  2 Aug 2026 09:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785658839; cv=none; b=hsUbLwv6mXV//dn7ZWc/klnI9DHziW5GdZZjIAiw9aoUpbNxAn++WvT0mqJfnaWh1+YZGG9M8GwdZWiDig/aLqefiQUxtbCTjSVJndKqtG8zapHTPDc8emP3eyxomeVPzIdgPgDU/+KhWY35rwaPp4WRnlsLZBEjd7kFrWXt2Fs=
+	t=1785661450; cv=none; b=Hc2NVUbwzaMUFtt5OV3iqvyaVkSKQmuwnab+oWjEpbSAY86inH4iRnBxr3LxNfuACR184+kYpdPQs95lZlwkLb29Lc0zMgpTiwSVKfO4EasIEjtXxmBwp7kTWF1rXmCVbI+vX7iV9mDnrmq4rEN8LazvrgRqAGJkMehT1AgGkDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785658839; c=relaxed/simple;
-	bh=+yaRAa3iVwMuPsAwlnfT1/m5O40XZLIBty6vrotlxA8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fLfwy7+5cvEWC9MGDMmjIlMbpqHv40P4df3UBnsh5IAs92dmBro+ZpKsnrNWlxs/EdnYZFHPdXulhjZ+8fY5RVauA9HiJFggvOQvnQhX1uSC0XF1pKLDXcTzGilgM/cPRW/puWCUHPYWL3B2MaAsB7I8rI2P5hFEUEc/+Hc9D7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJtCC8ra; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785661450; c=relaxed/simple;
+	bh=XoqwTzBTDw0ldPHh8ANmlH4Zu4YUOeLFd2ixic5ddNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PoeM7km5hVl+5stFzSCVUrcfpUIvAyPKu33gAtshP9TZQOldrAA0/CYILsxAbLpmN9NtW4Y7q33tFFGtMh5tr1W9GdsQU7TC7Jdv+O0DJcYZiBP1UsIRKtJBVlg7/gzrZf2ydBW+12H7yKuoruoWQHNFpaA5QkcuZr9S7oXFfjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lStp2W/D; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJtCC8ra"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 774051F00AC4;
-	Sun,  2 Aug 2026 08:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785658835;
-	bh=+LqOBy2ngMM4xWHUH3tp7KNp5UNBH05WCZeBTt5E6SY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TJtCC8ra2dHoT/r8PYW3UjwmWnOG6UycEWPqFsMWp5V/0EB+/XJSy/1CwGU+yMIP5
-	 1rbediqXE+jvtY4ILhBLzoQPjA/PPBj0LNPXjG1cUlLJ6gwGRv8B4scqF4EGm6UpsO
-	 jzRbA/6dvDRr/Xr2z446Ye269GTtbaFmUC3Eu1xUUkvrsMQYOP+bJq3Uv2LtmQgu7Z
-	 eZunYL/v165zUXAGT0g/lOdSLEt6bJsPXuGDjA+k//ELUpfkd6nQoIitsG+QUrZkGR
-	 AWFyXiyFGFl+mHlBdOcTRA69OjXflKFuYr4bF64p4cDKwtuWA3M0kCJNB5lK3eAgRk
-	 mew455E4bERVQ==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH v11 11/11] tracing/wprobe: Support BTF typecast in wprobe trigger command
-Date: Sun,  2 Aug 2026 17:20:29 +0900
-Message-ID: <178565882911.714490.6743463801101196758.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178565870538.714490.11309825813968306287.stgit@devnote2>
-References: <178565870538.714490.11309825813968306287.stgit@devnote2>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lStp2W/D"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so2748815f8f.1
+        for <linux-doc@vger.kernel.org>; Sun, 02 Aug 2026 02:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785661445; x=1786266245; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KLNngFHUaW4FMnMMnOZ4ee/Vyns/yW+WufUQsHnkGgI=;
+        b=lStp2W/DxU44DcfIaqwGkszwmLSUYfjd6d1nZmvUTu9qDyc5YrR55OQM/qelXZAiym
+         snP1KDyR3CBcf24WNAKvGZU1+MjMF3uBoB2FVnEvyUkqPHEjWJbAAIeID/xVf7aGK8wS
+         wBdaquxyj7LsasO2ziK0lxo/ovcnWfdfMHIu6/EOO8nSIOsrnKssImg03jLud3y4Jiw/
+         bBoJKnnLCjFv+L0Suv+JTAYZL+ZHgK9T68mJwoDM0nGH+tNou6recLCy3sSEx1+h48OF
+         JGhaTu2cM2w21wvhrAkoZc4/YW4x/zzn3zSG68evkH9DkYmOoJ8ZDZZwHwBtZnJQP6gU
+         XEJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785661445; x=1786266245;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KLNngFHUaW4FMnMMnOZ4ee/Vyns/yW+WufUQsHnkGgI=;
+        b=Pb7qp7a27RA6SM7iVpJN514rAFi4Q2gMSGvvPB/iaQL1NmWkTudOt15zqSzsvLOe4w
+         VBk1+oy+582+NbUgPFSNvSgaLANBDUWqHLP2V5jJl2ZTs6Hu43NzeVH3HxjXHP+UD1te
+         3eiD58SKEQSqxVfDkHoJqxJZlIU0iTwgDjm6TOW53Lejm0cmnJbIC2H2/UvtcOLx8I68
+         4F1iaY52wMCb3bROv6OIP4AMz9WuoCZiHSgVJaQOv7/EOZU7W3n7muxvGoFRSWiDkihx
+         VU7VpBW6adHrLfkWcNoZffFpp/N17xJc2RwTPifoZgV8c+P2z12gLWytczClTnUGfymN
+         xG5A==
+X-Forwarded-Encrypted: i=1; AHgh+RpYHW/Qmo98qln8E6q2whPAsShnGwiteCxWgJEBtBSHq3exl7K864DGjP5h5pH9vznbmstykAXdCdY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/Vuj4Ej1crkeC1mvDCu/Oys5xfZIJ+ROTDlTxI0nFip081iu1
+	cpPqd5yYrnIZSMEhesIbY84IEyhfAJFo/pMURS3NI1OYd7nUoyW7INT4
+X-Gm-Gg: AR+sD12ieb2riWDEMu4L6YxcJU8YMbXZY3QpamDmMqac74NqGcDnFgSFTH4S/B51aJr
+	ClTcvjMQcqOyRsWpjXmUZJmZLHPsf8Tiz8rT0k8+ei7226jM5CNH07eNUDvI4PQ9/gNSmewE5WX
+	YC8bhU708OrZknLm1eI3YEpD4f2tjWu3LDTTSP98sxliHSGGPVg7DQgIAsAt7qVaPpFDRBn46hV
+	928Qs85/n9rUctvQd0qoxDjDksrV2RKLVMNE7bQBYOgMj6elX3yzPJ1UmpPGNzcPK9dR3D1s8Xx
+	6MfzdlgNoWVi5hVc2PyR8kctHM4MRfvk02UMAAtF/kzbG0rtYSe5Dqmo9Guq7raVZdAt8doookj
+	dPGBoi2BR6qGtWhfGeYI93G45sKzrSXMew3C/0jxzO9Q0qMbZ0lxZURESBwYnCx/UGIhpWD5tAr
+	mnQEURmnt3XUn1EMAwjJcTWBnt/qiJ6zT1ghyNMuVUDn/Qn3IuxFIRILcpzHckiIXMeumDKuleO
+	KMNq1Tzr+e8Wi1ChocMelEtpg==
+X-Received: by 2002:a05:6000:2dc5:b0:47f:34ba:2d0d with SMTP id ffacd0b85a97d-47fd72a9061mr14609516f8f.8.1785661445068;
+        Sun, 02 Aug 2026 02:04:05 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd4562a38sm22160461f8f.21.2026.08.02.02.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 02:04:04 -0700 (PDT)
+Date: Sun, 2 Aug 2026 10:04:00 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>,
+ rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
+ R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v10 11/17] iio: frequency: ad9910: add basic parallel
+ port support
+Message-ID: <20260802100400.588fa107@pumpkin>
+In-Reply-To: <20260802015607.7d7d4dd8@jic23-huawei>
+References: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
+	<20260729-ad9910-iio-driver-v10-11-aa1f6167729e@analog.com>
+	<20260802015607.7d7d4dd8@jic23-huawei>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On Sun, 2 Aug 2026 01:56:07 +0100
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-Extend the set_wprobe trigger syntax to support automatic BTF-based
-offset calculation using the form:
+> On Wed, 29 Jul 2026 09:25:38 +0100
+> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> 
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > Add parallel port support with amplitude, phase and frequency channels.
+> > Those will be buffered capable channels, but only basic control of offset
+> > and scale are implemented at this point. There are separate amplitude
+> > and phase control for polar destination, which will provide different scan
+> > types. Enabling and disabling of parallel mode will be implemented with
+> > buffer setup ops or with update_scan_mode() once IIO backend integration
+> > is in place.
+> > 
+> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>  
+> Hmm. Curious... clang --version gives 22.1.8 on x86_64.
+> 
+> make LLVM=1 LOCALVERSION= -j12 W=1 C=1
+>   DESCEND objtool
+> Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+>   CC [M]  drivers/iio/frequency/ad9910.o
+> In file included from drivers/iio/frequency/ad9910.c:10:
+> In file included from ./include/linux/clk.h:13:
+> In file included from ./include/linux/kernel.h:26:
+> In file included from ./include/linux/math.h:6:
+> ./arch/x86/include/asm/div64.h:113:8: error: invalid operand for instruction
+>   113 |                 asm ("addq %[add], %[lo]; adcq $0, %[hi]" :
+>       |                      ^
+> <inline asm>:1:7: note: instantiated into assembly here
+>     1 |         addq $2147483648, %rax; adcq $0, %rdx
+>       |              ^~~~~~~~~~~~
+> 1 error generated.
+> make[5]: *** [scripts/Makefile.build:289: drivers/iio/frequency/ad9910.o] Error 1
+> make[4]: *** [scripts/Makefile.build:549: drivers/iio/frequency] Error 2
+> make[3]: *** [scripts/Makefile.build:549: drivers/iio] Error 2
+> make[2]: *** [scripts/Makefile.build:549: drivers] Error 2
+> make[1]: *** [/home/jic23/src/kernel/iio/Makefile:2184: .] Error 2
+> make: *** [Makefile:248: __sub-make] Error 2
+> 
+> 
+> > ---
+> >  drivers/iio/frequency/ad9910.c | 154 +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 154 insertions(+)
+> > 
+> > diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
+> > index b41b011af281..aaeff2e7640e 100644
+> > --- a/drivers/iio/frequency/ad9910.c
+> > +++ b/drivers/iio/frequency/ad9910.c  
+> 
+> 
+> >  static int ad9910_read_raw(struct iio_dev *indio_dev,
+> > @@ -691,6 +753,48 @@ static int ad9910_read_raw(struct iio_dev *indio_dev,
+> >  			*val = 0;
+> >  			*val2 = tmp64 >> 14;
+> >  			return IIO_VAL_INT_PLUS_NANO;
+> > +		case AD9910_CHAN_IDX_PARALLEL_PHASE:
+> > +			*val = 0;
+> > +			*val2 = AD9910_PI_NANORAD >> 15;
+> > +			return IIO_VAL_INT_PLUS_NANO;
+> > +		case AD9910_CHAN_IDX_PARALLEL_FREQ:
+> > +			tmp32 = FIELD_GET(AD9910_CFR2_FM_GAIN_MSK,
+> > +					  st->reg[AD9910_REG_CFR2].val32);
+> > +			tmp64 = (u64)st->data.sysclk_freq_hz << tmp32;
+> > +			tmp64 = ad9910_rational_scale(tmp64, NANO, BIT_ULL(32));  
+> 
+> Process of elimination points me to this line which is a slim wrapper.
+> 
+> static inline u64 ad9910_rational_scale(u64 input, u64 scale, u64 reference)
+> {
+> 	return mul_u64_add_u64_div_u64(input, scale, reference >> 1, reference);
+> }
+> 
+> David, any thoughts?
 
-  set_wprobe:WPEVENT:(TYPE[,ASGN])FIELD->MEMBER[.SUBMEMBER[...]]
+Lots of instructions only support sign extending 32bit immediates.
+The asm constraint for the ADCQ needs to be "erm" not "irm".
+I bet that is true elsewhere as well.
 
-Previously, the ADJUST value in FIELD[+/-ADJUST] had to be a numeric
-literal, requiring the user to know the exact byte offset of the
-target struct member.
+See source/arch/x86/include/asm/div64.h line 114
 
-With this change, if the FIELD portion starts with (STRUCTTYPE), the
-offset of MEMBER within STRUCTTYPE is automatically resolved via BTF.
-This allows symbolic, kernel-version-independent watchpoint placement
-at specific struct fields.
+I'm actually surprised you see it with clang - it usually prefers the "m"
+constraint.
 
-For example, to watch when the d_inode pointer inside a dentry is
-modified (not just when the dentry itself is accessed):
+I'll try to find a source tree that is clean enough to generate a patch.
 
-  echo 'w:watch rw@0:8 address=$addr value=$value' >> dynamic_events
-  echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
-  echo 'set_wprobe:watch:(dentry)dentry->d_inode' \
-           >> events/fprobes/truncate/trigger
+	David
 
-Here, "dentry" is a field in the fprobe event record. The BTF
-lookup resolves offsetof(struct dentry, d_inode) at set_wprobe parse
-time, so no manual numeric offset is needed.
 
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
-Changes in v11:
- - Fix BTF member offset calculation and bitfield check in
-   get_offset_of_field().
- - Update trigger-wprobe-btf-offset.tc to use trace-events-sample
-   kernel module.
-Changes in v10:
- - Newly added.
----
- kernel/trace/trace_wprobe.c                        |  201 +++++++++++++++++---
- .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   74 +++++++
- 2 files changed, 245 insertions(+), 30 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-
-diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
-index 5a034dce0845..add7eae03917 100644
---- a/kernel/trace/trace_wprobe.c
-+++ b/kernel/trace/trace_wprobe.c
-@@ -27,6 +27,7 @@
- #include <asm/ptrace.h>
- 
- #include "trace.h"
-+#include "trace_btf.h"
- #include "trace_dynevent.h"
- #include "trace_probe.h"
- #include "trace_probe_kernel.h"
-@@ -935,9 +936,10 @@ static int wprobe_trigger_print(struct seq_file *m,
- 		seq_printf(m, ":count=%ld", wprobe_data->count);
- 
- 	if (data->filter_str)
--		seq_printf(m, " if %s\n", data->filter_str);
--	else
--		seq_putc(m, '\n');
-+		seq_printf(m, " if %s", data->filter_str);
-+
-+	seq_printf(m, " # offset:%d adjust:%ld\n",
-+		   wprobe_data->offset, wprobe_data->adjust);
- 
- 	return 0;
- }
-@@ -976,6 +978,155 @@ static void wprobe_trigger_free(struct event_trigger_data *data)
- 	}
- }
- 
-+#ifdef CONFIG_PROBE_EVENTS_BTF_ARGS
-+
-+static int get_offset_of_field(struct btf *btf, const struct btf_type *type, char *field_name)
-+{
-+	const struct btf_member *field;
-+	int bitoffs = 0;
-+	u32 anon_offs;
-+	char *next;
-+
-+	do {
-+		next = strchr(field_name, '.');
-+		if (next)
-+			*next++ = '\0';
-+
-+		field = btf_find_struct_member(btf, type, field_name, &anon_offs);
-+		if (IS_ERR_OR_NULL(field))
-+			return -ENOENT;
-+
-+		if (btf_type_kflag(type)) {
-+			/* Reject bitfield member access */
-+			if (BTF_MEMBER_BITFIELD_SIZE(field->offset))
-+				return -EINVAL;
-+			bitoffs += anon_offs + BTF_MEMBER_BIT_OFFSET(field->offset);
-+		} else {
-+			bitoffs += anon_offs + field->offset;
-+		}
-+
-+		field_name = next;
-+		if (next) {
-+			type = btf_type_skip_modifiers(btf, field->type, NULL);
-+			if (!type)
-+				return -ENOENT;
-+		}
-+	} while (next);
-+	return bitoffs / BITS_PER_BYTE;
-+}
-+
-+/* btf_put(NULL) is acceptable. */
-+DEFINE_FREE(btf_put, struct btf *, btf_put(_T))
-+
-+/* parse typecast: (TYPE[,ASGN])EVENT_FIELD->FIELD[.SUBFIELD...] and set adjust. */
-+static int wprobe_trigger_typecast_parse(char **field_str_ptr,
-+					 struct wprobe_trigger_data *wprobe_data)
-+{
-+	struct btf *btf __free(btf_put) = NULL;
-+	const struct btf_type *type;
-+	char *assign_field;
-+	char *event_field;
-+	char *type_field;
-+	char *type_name;
-+	char *offs;
-+	long val = 0;
-+	int id;
-+	int adjust;
-+
-+	type_name = *field_str_ptr + 1;
-+	event_field = strchr(type_name, ')');
-+	if (!event_field)
-+		return -EINVAL;
-+	*event_field++ = '\0';
-+
-+	/* Check the optional assign field. */
-+	assign_field = strchr(type_name, ',');
-+	if (assign_field)
-+		*assign_field++ = '\0';
-+
-+	/* Get the type field name. */
-+	type_field = strstr(event_field, "->");
-+	if (!type_field)
-+		return -EINVAL;
-+	*type_field = '\0';
-+	type_field += 2;
-+
-+	offs = strpbrk(type_field, "+-");
-+	if (offs) {
-+		if (kstrtol(offs, 0, &val) < 0)
-+			return -EINVAL;
-+		*offs = '\0';
-+	}
-+
-+	/* find type from BTF */
-+	id = bpf_find_btf_id(type_name, BTF_KIND_STRUCT, &btf);
-+	if (id < 0)
-+		return id;
-+
-+	type = btf_type_by_id(btf, id);
-+	if (!type)
-+		return -EINVAL;
-+
-+	adjust = get_offset_of_field(btf, type, type_field);
-+	if (adjust < 0)
-+		return adjust;
-+	wprobe_data->adjust = adjust + val;
-+
-+	if (assign_field) {
-+		/* assign_field should be a struct field */
-+		adjust = get_offset_of_field(btf, type, assign_field);
-+		if (adjust < 0)
-+			return adjust;
-+		wprobe_data->adjust -= adjust;
-+	}
-+
-+	*field_str_ptr = event_field;
-+	return 0;
-+}
-+#else
-+static int wprobe_trigger_typecast_parse(char **field_str_ptr,
-+					 struct wprobe_trigger_data *wprobe_data)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_PROBE_EVENTS_BTF_ARGS */
-+
-+static int wprobe_trigger_field_parse(char *field_str, struct trace_event_file *file,
-+					struct wprobe_trigger_data *wprobe_data)
-+{
-+	struct ftrace_event_field *field;
-+	char *offs;
-+
-+	if (field_str[0] == '(') {
-+		int ret = wprobe_trigger_typecast_parse(&field_str, wprobe_data);
-+
-+		if (ret < 0)
-+			return ret;
-+	} else {
-+		offs = strpbrk(field_str, "+-");
-+		if (offs) {
-+			long val;
-+
-+			if (kstrtol(offs, 0, &val) < 0)
-+				return -EINVAL;
-+			wprobe_data->adjust = val;
-+			*offs = '\0';
-+		}
-+	}
-+
-+	field = trace_find_event_field(file->event_call, field_str);
-+	if (!field)
-+		return -ENOENT;
-+	if (field->size != sizeof(void *))
-+		return -ENOEXEC;
-+	wprobe_data->offset = field->offset;
-+	wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
-+	if (!wprobe_data->field)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
- static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 				    struct trace_event_file *file,
- 				    char *glob, char *cmd,
-@@ -987,11 +1138,9 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 	 */
- 	struct wprobe_trigger_data *wprobe_data __free(free_wprobe_trigger_data) = NULL;
- 	struct event_trigger_data *trigger_data __free(kfree) = NULL;
--	char *event_str, *field_str, *count_str;
--	struct ftrace_event_field *field = NULL;
-+	char *event_str, *count_str, *comment;
- 	struct trace_event_file *wprobe_file;
- 	struct trace_array *tr = file->tr;
--	struct trace_event_call *event;
- 	bool remove, clear = false;
- 	struct trace_wprobe *tw;
- 	char *param, *filter;
-@@ -1002,6 +1151,10 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 	if (!strcmp(cmd, CLEAR_WPROBE_STR))
- 		clear = true;
- 
-+	comment = strchr(param_and_filter, '#');
-+	if (comment)
-+		*comment = '\0';
-+
- 	if (event_trigger_empty_param(param_and_filter))
- 		return -EINVAL;
- 
-@@ -1032,34 +1185,22 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 
- 	/* clear_wprobe does not need field. */
- 	if (!clear) {
--		char *offs;
-+		char *field_str = strsep(&param, ":");
- 
--		/* Find target field, which must be equivarent to "void *" */
--		field_str = strsep(&param, ":");
- 		if (!field_str)
- 			return -EINVAL;
--
--		offs = strpbrk(field_str, "+-");
--		if (offs) {
--			long val;
--
--			if (kstrtol(offs, 0, &val) < 0)
--				return -EINVAL;
--			wprobe_data->adjust = val;
--			*offs = '\0';
-+		ret = wprobe_trigger_field_parse(field_str, file, wprobe_data);
-+		if (ret < 0)
-+			return ret;
-+	} else if (param) {
-+		char *orig_param = param;
-+		char *field_str = strsep(&param, ":");
-+
-+		ret = wprobe_trigger_field_parse(field_str, file, wprobe_data);
-+		if (ret < 0) {
-+			/* field_str was not a field, so it must be count_str */
-+			param = orig_param;
- 		}
--
--		event = file->event_call;
--		field = trace_find_event_field(event, field_str);
--		if (!field)
--			return -ENOENT;
--
--		if (field->size != sizeof(void *))
--			return -ENOEXEC;
--		wprobe_data->offset = field->offset;
--		wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
--		if (!wprobe_data->field)
--			return -ENOMEM;
- 	}
- 
- 	/* count is optional, "unlimited" by default */
-diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-new file mode 100644
-index 000000000000..dda179a23282
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-@@ -0,0 +1,74 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: event trigger - test set_wprobe trigger with BTF struct offset
-+# requires: dynamic_events "w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]":README events/sched/sched_process_fork/trigger "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-+
-+rmmod trace-events-sample ||:
-+if ! modprobe trace-events-sample ; then
-+  echo "No trace-events sample module - please make CONFIG_SAMPLE_TRACE_EVENTS=m"
-+  exit_unresolved
-+fi
-+
-+cleanup_wprobe_triggers() {
-+  if [ -f events/fprobes/testevent/trigger ]; then
-+    reset_trigger_file events/fprobes/testevent/trigger || true
-+  fi
-+  echo 0 > events/enable 2>/dev/null || true
-+  echo > dynamic_events 2>/dev/null || true
-+  sleep 1
-+  rmmod trace-events-sample 2>/dev/null || true
-+  return 0
-+}
-+
-+trap cleanup_wprobe_triggers EXIT
-+
-+echo 0 > tracing_on
-+
-+# we will skip this test if fprobe is not supported.
-+if ! grep -Fq "f[:[<group>/][<event>]] <func-name>[%return] [<args>]" README; then
-+    echo "UNRESOLVED: fprobe is not supported"
-+    exit_unresolved
-+fi
-+
-+# we will skip this test if the target function does not exist.
-+if ! grep -wq "sample_timer_cb" /proc/kallsyms; then
-+    echo "UNRESOLVED: sample_timer_cb not found"
-+    exit_unresolved
-+fi
-+
-+:;: "Add a wprobe event watching 8 bytes" ;:
-+echo 'w:watch rw@0:8 address=$addr value=$value' >> dynamic_events
-+
-+:;: "Add fprobe event for sample_timer_cb" ;:
-+# sample_timer_cb(struct timer_list *t)
-+# container_of(t, struct foo_timer_data, timer)
-+echo 'f:fprobes/testevent sample_timer_cb timer=t' >> dynamic_events
-+
-+:;: "Enable all events before setting triggers" ;:
-+echo 1 > tracing_on
-+echo 1 >> events/fprobes/testevent/enable
-+
-+:;: "Set set_wprobe trigger using BTF struct offset resolution" ;:
-+# Syntax: set_wprobe:WPEVENT:(STRUCT,FIELD)EVENT_FIELD->MEMBER
-+# (foo_timer_data,timer) is the BTF struct type and field name
-+# timer->expires is the struct member whose offset is resolved automatically via BTF
-+echo 'set_wprobe:watch:(foo_timer_data,timer)timer->timer.expires' >> events/fprobes/testevent/trigger
-+cat events/fprobes/testevent/trigger | grep ^set_wprobe
-+
-+# Wait for sample_timer_cb to fire and set_wprobe trigger to activate
-+sleep 3
-+
-+:;: "Check set_wprobe trigger activated the watchpoint" ;:
-+cat trace | grep watch
-+
-+:;: "Remove wprobe triggers" ;:
-+# Since we don't know actual offset of timer->expires in foo_timer_data, we use reset_trigger_file
-+reset_trigger_file events/fprobes/testevent/trigger
-+! grep ^set_wprobe events/fprobes/testevent/trigger
-+
-+:;: "Disable events and remove dynamic events" ;:
-+echo 0 > events/enable
-+echo > dynamic_events
-+clear_trace
-+
-+exit 0
+> 
+> For now I'm backing out the series.
+> 
+> > +			*val = div_s64_rem(tmp64, NANO, val2);
+> > +			return IIO_VAL_INT_PLUS_NANO;
+> > +		case AD9910_CHAN_IDX_PARALLEL_POLAR_AMP:
+> > +			tmp64 = (u64)st->data.output_current_uA *
+> > +				AD9910_NANO_MILLIAMP_PER_MICROAMP;
+> > +			*val = 0;
+> > +			*val2 = tmp64 >> 8;
+> > +			return IIO_VAL_INT_PLUS_NANO;
+> > +		case AD9910_CHAN_IDX_PARALLEL_POLAR_PHASE:
+> > +			*val = 0;
+> > +			*val2 = AD9910_PI_NANORAD >> 7;
+> > +			return IIO_VAL_INT_PLUS_NANO;
+> > +		default:
+> > +			return -EINVAL;
+> > +		}  
 
