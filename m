@@ -1,69 +1,69 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF4E439F98
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D9543B498
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785782816; cv=none; b=OOgLCZ0pUUEb+KEcF9T5Br2FcXpDvBy/GhVeD7nJOkAUX5wf9TdO8zqpMw1VvqrbjV5EBtgzGEv78yzwUquFLbcNDdwX6rhgHVwccWfuBRFoditrjc6RvM/NSlTsuMGYbSD4fR1UWuycI7QvsXkyu5tshgXgL/PBhA7rmKbmsS0=
+	t=1785782817; cv=none; b=eWVHjbi8rFMRXz0D5gphYjSkl4/XnFjrWVaiumjeWQnUVY+NEyVGX/L7diBeVSXAJJLv+1UOD8vn9TJD3Dnpbm/3YNRWEEgaXuTjdsZILh/2iqQTHir2O/gqoRKWilAnUW8O/PgxJfzELd6dZeBH4CkmQjq82Ca6Pyqlg1H7yNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785782816; c=relaxed/simple;
-	bh=PisLEpAU851Mg7Pg4lhKpGxGkR/wS0p10CRwuDaFrww=;
+	s=arc-20240116; t=1785782817; c=relaxed/simple;
+	bh=65jOuI6e62BcdMsXySY+z4DsuyFq45DZBtqvCjGRPWI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RVjtTvp4aKm3nsrZZelGWBDTSk5Nr5yfxo2idQCZPn9Cy951aA2Av1m9kysm1tdCb5OdHjwHqMHG78Cy1T7Yid+9POxUQGqlvE5jMoTSBIkmgXaKF0PvfQccwDkZmYwUBs7GKVTs0WNf47cuS394ESuACm5eynKZfBbJWwUvXkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gBuYwrgN; arc=none smtp.client-ip=209.85.215.173
+	 In-Reply-To:To:Cc; b=ukl0pHOlYhqA5NAha/xcYHEAFs1dJhIpLU5LI08Z0cedVq2l0mW7ojJvkysO+XllWhzGNZ8I+rqOLH2TKjl/pivbiP9vg6wp+2S+ulOhZMOyrbI4XYDei72vzs3Xz6JaLnvVEwV2nYwQSHqPzAjbPRym2R+W8sOfs6jyyL3dISY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IIJlvWKi; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBuYwrgN"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-caf45fc5202so2529423a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:46:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IIJlvWKi"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38e071ed6aeso2827762a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:46:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785782811; x=1786387611; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785782813; x=1786387613; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=w0IDthsjYtA6pK63nJE/aU6irDSAEPiJfPVdmQsfY5g=;
-        b=gBuYwrgN/EuB1cyNYRUCJQJ9PJ+8H+07p7KTmI/v75T0poKS9DB50/s+aih/WpTcg5
-         SCMRyyI1BgWKUmThW8Frwvo0RUfyHchefsSSxOW83IHbbChAsvmrLbZhgsYUaEH74dAq
-         FBBbGLl0lSU+zzj0IsVNRge+pKm45ZsV6CxFQAbXJS+RYhyNVMNGw1ISUg1+/71zdXH3
-         hfaIfWMCeUNYLlR26keESeBBgVzt4ZsaNtKCKmBiIW4LegbxRvj5lpuKwCqyxxSk/noE
-         ibMGWoct7ezjPOE6rIitB2uTA9xxqkOb50mHWJrUNhmmpDtjUViBsnunyKbPJQ3c1xpO
-         3kPg==
+        bh=NXKKFDhD/yFBZfYuq7/G58wNu/C7P3oEAv/AO5ZEFrk=;
+        b=IIJlvWKiCj4bOwpeionY4joiDi8A20b6omQAhV61Byj3xw/h8kDbj9JBdzm+TeJIGd
+         q7YoNOTXQ+nl9w9xv1dgBtMF87KXv00g8rCaN+MeO9hwidDD+Dx1wPXUVq+/GB/Wpkx/
+         GcHkynaqovDbzdiufju3FbGmv0CircAyjICIIJIZ8Su1qdIkMU/B1oQ50qk6+sftI7UW
+         3Ynejh+uLwtFleLfR2SSd0156m4Ej8xhC/VUFDgq9cuR/RJCyRQzSg0SJzqlEPlI/AGM
+         f0eVv7eGSGZ34Fp67B9IOhCAIzEUrYRERmBeDl+VFi2zdOLofeOmmMsabdXzZyiF6Fh+
+         Lrkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785782811; x=1786387611;
+        d=1e100.net; s=20251104; t=1785782813; x=1786387613;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=w0IDthsjYtA6pK63nJE/aU6irDSAEPiJfPVdmQsfY5g=;
-        b=FOJpisXlBeUt2cuz4Hfr49/25HUTXeSHsCE2N9vpTlAnz35je15GH6z1ay+/cs/jxT
-         3F5jTA1NOKOAyjM3PNjttsEoLgPMz0U48i2bm2FrVSWCzv2j16xEitmR2U+jh5LVTt9m
-         6i/WlcyYxr8eDNeA7VaO+8/cw9exXosta5ElocLwvpiwyQg4HhdKizqwPb8agxnG1UxH
-         ZvusQsv0OtajecVU3ZvALlDmILJIA3EIEdZ28kyqpbB+TLawGTgkO98HQfFz6N8MUl7X
-         jWJZzGVGsZDM9FSZEG9CCExXvfyBXzezfE/jXkaXSRGGxD3dFqaVnDNd/VRZkydz3n/z
-         ujZQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqqzhas6MTt+es0ujbOr441ki3Tzer6JIIzJFfLcXeUfXMKnq2/vrlULMNyR/zCjH9FWwiPHQhvJZo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0rCKTNokoirz2RFHSkBYftVxUr8ZBx9tvKgYbAy4K7O+MQ/xR
-	tImA6RaraczYV6JEF/ocWoX2jdkOfeBwo9hFc7WCEHsDhxeRDhGnKg9f
-X-Gm-Gg: AR+sD11Dpl18B1pHoMQuAFDwdx9/80vk+Ywk2OZA2x6PTad2tPbMLUqGZKLBwuK83RW
-	a+9BGzW+F1xghqQwPX9jcR1kto+OYqNV8DzeugOs5RuDJnwVvxyWHQ4SoJ09Vtr/1gevlia4m6o
-	EewnpbZfG3rGk6ksIVoB8nNuzpqb4Az+JQvko6XCUbVHCN98aGWFWZWQ3o7ytW0kzI2/6hUDIkF
-	FIxP4IVjYGWsptaMuuMe43Wop+AF8mcCEGnRDier6e0mbfP8Q5nSb2HAZeaUiPWPT3ryyX5ur9t
-	MOcyguQe+k+vNWAxLxJArblEEFLn1uN+5haf40GHvaWS4qgIcHFAVIXk8n6uw6Rryx1TalKQzJE
-	4n+WYqv6awnevBnB1yqc9SNfm6PuqM8p4+al43dWcPEtcMZTVHwPeQ2FidW6Pu4lMkdiXIkQ2zA
-	z7HU0CQNqCswwtqK6BnWMn4ePOsMy983sz3qp6/nPkj9/A4Qj3JVswr9fhk4bOWpSXQe0bn14gk
-	RJJ/I/5cle1JpcLSy9mWIOhUmHBSgV1mS2z0pNcv1snPnDKDkeL
-X-Received: by 2002:a05:6a21:7a46:b0:3bf:6011:53b with SMTP id adf61e73a8af0-3c92a8139c6mr11132293637.38.1785782811369;
-        Mon, 03 Aug 2026 11:46:51 -0700 (PDT)
+        bh=NXKKFDhD/yFBZfYuq7/G58wNu/C7P3oEAv/AO5ZEFrk=;
+        b=eJ4YNnV42Y81L6+Yv9hXeYqrj9qIoXyVVbTTFMQetH6K16kORT8QF+HbzvcZ78xzFp
+         to4C1cuziZMyj4Fa9qi86EYuZ4BZuTCaAInKQSqZe7taEm/y1Yoy9/JVnfR/ZLNbades
+         KFrpRZP/ToGm4Oh/PLUeeNzfoVvuO8s397jkhsL44YQFZzFQGi2wmQD7nUaM36OA08Me
+         OweZmWXk5RF4pCpF9kXEj1woFq0yZnv66n6bbfQN2q9KZ7uh5F0uoCyN4berXpjlbiXP
+         qeUl11Q5B/1DQ8gFuaga9f4WgmtgqS1CXQyaA3Kb0rdBqbTanjBXmv4aAU/gVw5ceyfE
+         2KQQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoCUq7imWqWaHBT3MxbRNFspPH5nS6iB/SSYPTyagkWum7U06f3LkXQEIAMb/AwyiG/FkK5dQpRnos=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCoPdqr4Cn5wHIfPqsFlV3S41tsK6JgUE0qCAcVzHykqICSN6R
+	/ZBg2vWYn9A+uRl6mWUzEXXgHLLSl+y7JnPlj38sHswZKh+QyRjMfzi5
+X-Gm-Gg: AR+sD13qe4gc4taDdpg4kAulB4b02dN/pqBKUYEXayeSb5ebBxyi32GVkfiYyGc/1Nn
+	bq6+9fkxfVi1oDo0fUNayN7ZhE4mQ5z0QJTO5HLMLRo2JP7xYfMUkT8IWLPa/dMN0/8x9ER6cRK
+	MEQkcUOHH2rWR4dlisZtTewwoQ4db550ylRr7eE3o3LejGXeWyc47rasyQ4+l8wqKotI73O3sCV
+	jC7spgeUjWiiJiyqBZFICxxWhhxFzLeOrRz40fI3OAlR2cCujP7LifJn20ZoCieMIeo2FoDyewR
+	nFBKIUhRmiIes3FzegPia/q0AVw1mvc/cuHGObX17eRYY/89CHqaM0TBYvZVkrRtBKWiKimCEi8
+	kAizmsKjlqOKhKmNmcQ+axn7Ha0mHM6JurJ5JNBOzmLtU79EWQf0uLvujTAH4Ih+8nU9UkVWGnn
+	vZd8kCmN9esvx2nJhRvDGDPbkQ8NjWn6PEdmUAY8+PTWhoTnBhj/l6hTTYufBlb81iVB6uwzKGG
+	TKGAryLS2MIrvK5yioTNvAhJQFhxSiYGJQk+/FDjNXJYDF9Rm+Y
+X-Received: by 2002:a17:90b:53c3:b0:36a:5d1f:7b6 with SMTP id 98e67ed59e1d1-38fbc40e148mr10108506a91.2.1785782812925;
+        Mon, 03 Aug 2026 11:46:52 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:d109:cdba:8a20:74ad])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.46.49
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.46.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 11:46:50 -0700 (PDT)
+        Mon, 03 Aug 2026 11:46:52 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 03 Aug 2026 11:46:37 -0700
-Subject: [PATCH 12/21] HID: move generic FF initialization into
- hidinput_connect()
+Date: Mon, 03 Aug 2026 11:46:38 -0700
+Subject: [PATCH 13/21] HID: microsoft: move FF initialization to
+ .input_configured()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-hid-ff-input-configured-v1-12-1dc9bbacd88c@gmail.com>
+Message-Id: <20260803-hid-ff-input-configured-v1-13-1dc9bbacd88c@gmail.com>
 References: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 In-Reply-To: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -84,132 +84,108 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, cocci@inria.fr
 X-Mailer: b4 0.16-dev-b242f
 
-Generic force-feedback initialization (pidff) currently happens in
-hid_connect() after hidinput_connect() has already registered the input
-devices. This is racy as the device is live and visible to userspace
-before FF support is fully set up.
+The driver currently initializes force-feedback in its probe() function
+after calling hid_hw_start(). This is racy as the input device is
+already registered and visible to userspace at that point.
 
-Move the call to hdev->ff_init() into hidinput_connect(), ensuring it
-runs before input_register_device() is called. This closes the race
-window for standard PID-capable devices.
-
-The initialization now also checks (connect_mask & HID_CONNECT_FF) and
-!hid_has_ff_input() to avoid conflicts with custom FF implementations
-and respect driver opt-outs.
+Move the FF initialization to the .input_configured() callback to ensure
+the device is fully prepared before registration.
 
 Assisted-by: Gemini:gemini-3.1-pro
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/hid/hid-core.c  | 21 ++-------------------
- drivers/hid/hid-input.c | 21 +++++++++++++++++++--
- include/linux/hid.h     |  2 +-
- 3 files changed, 22 insertions(+), 22 deletions(-)
+ drivers/hid/hid-microsoft.c | 38 ++++++++------------------------------
+ 1 file changed, 8 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 2767a171eae9..d8cba852d2b5 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2287,18 +2287,6 @@ static const BIN_ATTR_RO(report_descriptor, HID_MAX_DESCRIPTOR_SIZE);
+diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
+index 18ac21c0bcb2..a7d3493a6141 100644
+--- a/drivers/hid/hid-microsoft.c
++++ b/drivers/hid/hid-microsoft.c
+@@ -323,22 +323,17 @@ static int ms_play_effect(struct input_dev *dev, void *data,
+ 	return 0;
+ }
  
- static const DEVICE_ATTR_RO(country);
- 
--static bool hid_has_ff_input(struct hid_device *hdev)
--{
+-static int ms_init_ff(struct hid_device *hdev)
++static int ms_input_configured(struct hid_device *hdev, struct hid_input *hidinput)
+ {
 -	struct hid_input *hidinput;
+-	struct input_dev *input_dev;
+ 	struct ms_data *ms = hid_get_drvdata(hdev);
 -
--	list_for_each_entry(hidinput, &hdev->inputs, list) {
--		if (test_bit(EV_FF, hidinput->input->evbit))
--			return true;
+-	if (list_empty(&hdev->inputs)) {
+-		hid_err(hdev, "no inputs found\n");
+-		return -ENODEV;
 -	}
+-	hidinput = list_entry(hdev->inputs.next, struct hid_input, list);
+-	input_dev = hidinput->input;
++	struct input_dev *input_dev = hidinput->input;
+ 
+ 	if (!(ms->quirks & MS_QUIRK_FF))
+ 		return 0;
+ 
++	if (!list_is_first(&hidinput->list, &hdev->inputs))
++		return 0;
++
+ 	ms->hdev = hdev;
+ 	INIT_WORK(&ms->ff_worker, ms_ff_worker);
+ 
+@@ -352,16 +347,6 @@ static int ms_init_ff(struct hid_device *hdev)
+ 	return input_ff_create_memless(input_dev, NULL, ms_play_effect);
+ }
+ 
+-static void ms_remove_ff(struct hid_device *hdev)
+-{
+-	struct ms_data *ms = hid_get_drvdata(hdev);
 -
--	return false;
+-	if (!(ms->quirks & MS_QUIRK_FF))
+-		return;
+-
+-	cancel_work_sync(&ms->ff_worker);
 -}
 -
- int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
+ static int ms_probe(struct hid_device *hdev, const struct hid_device_id *id)
  {
- 	static const char *types[] = { "Device", "Pointer", "Mouse", "Device",
-@@ -2324,8 +2312,8 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
- 	if (hid_hiddev(hdev))
- 		connect_mask |= HID_CONNECT_HIDDEV_FORCE;
+ 	unsigned long quirks = id->driver_data;
+@@ -385,29 +370,21 @@ static int ms_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	ret = hid_parse(hdev);
+ 	if (ret) {
+ 		hid_err(hdev, "parse failed\n");
+-		goto err_free;
++		return ret;
+ 	}
  
--	if ((connect_mask & HID_CONNECT_HIDINPUT) && !hidinput_connect(hdev,
--				connect_mask & HID_CONNECT_HIDINPUT_FORCE))
-+	if ((connect_mask & HID_CONNECT_HIDINPUT) &&
-+	    !hidinput_connect(hdev, connect_mask))
- 		hdev->claimed |= HID_CLAIMED_INPUT;
+ 	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT | ((quirks & MS_HIDINPUT) ?
+ 				HID_CONNECT_HIDINPUT_FORCE : 0));
+ 	if (ret) {
+ 		hid_err(hdev, "hw start failed\n");
+-		goto err_free;
++		return ret;
+ 	}
  
- 	if ((connect_mask & HID_CONNECT_HIDDEV) && hdev->hiddev_connect &&
-@@ -2347,11 +2335,6 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
- 
- 	hid_process_ordering(hdev);
- 
--	if ((hdev->claimed & HID_CLAIMED_INPUT) &&
--			(connect_mask & HID_CONNECT_FF) && hdev->ff_init &&
--			!hid_has_ff_input(hdev))
--		hdev->ff_init(hdev);
+-	ret = ms_init_ff(hdev);
+-	if (ret)
+-		hid_err(hdev, "could not initialize ff, continuing anyway");
 -
- 	len = 0;
- 	if (hdev->claimed & HID_CLAIMED_INPUT)
- 		len += sprintf(buf + len, "input");
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 3487600cadb4..70ec1b7e7d38 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -2317,7 +2317,19 @@ static inline void hidinput_configure_usages(struct hid_input *hidinput,
-  * Read all reports and initialize the absolute field values.
-  */
- 
--int hidinput_connect(struct hid_device *hid, unsigned int force)
-+static bool hid_has_ff_input(struct hid_device *hdev)
-+{
-+	struct hid_input *hidinput;
-+
-+	list_for_each_entry(hidinput, &hdev->inputs, list) {
-+		if (test_bit(EV_FF, hidinput->input->evbit))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+int hidinput_connect(struct hid_device *hid, unsigned int connect_mask)
+ 	return 0;
+-err_free:
+-	return ret;
+ }
+-
+ static void ms_remove(struct hid_device *hdev)
  {
- 	struct hid_driver *drv = hid->driver;
- 	struct hid_report *report;
-@@ -2330,7 +2342,7 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
+ 	hid_hw_stop(hdev);
+-	ms_remove_ff(hdev);
+ }
  
- 	hid->status &= ~HID_STAT_DUP_DETECTED;
- 
--	if (!force) {
-+	if (!(connect_mask & HID_CONNECT_HIDINPUT_FORCE)) {
- 		for (i = 0; i < hid->maxcollection; i++) {
- 			struct hid_collection *col = &hid->collection[i];
- 			if (col->type == HID_COLLECTION_APPLICATION ||
-@@ -2396,6 +2408,11 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
- 			continue;
- 		}
- 
-+		if (list_is_first(&hidinput->list, &hid->inputs) &&
-+		    (connect_mask & HID_CONNECT_FF) && hid->ff_init &&
-+		    !hid_has_ff_input(hid))
-+			hid->ff_init(hid);
-+
- 		if (input_register_device(hidinput->input))
- 			goto out_unwind;
- 		hidinput->registered = true;
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index b240baa95ab5..451c3e05d167 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1021,7 +1021,7 @@ extern void hid_unregister_driver(struct hid_driver *);
- 
- extern void hidinput_hid_event(struct hid_device *, struct hid_field *, struct hid_usage *, __s32);
- extern void hidinput_report_event(struct hid_device *hid, struct hid_report *report);
--extern int hidinput_connect(struct hid_device *hid, unsigned int force);
-+extern int hidinput_connect(struct hid_device *hid, unsigned int connect_mask);
- extern void hidinput_disconnect(struct hid_device *);
- void hidinput_reset_resume(struct hid_device *hid);
- 
+ static const struct hid_device_id ms_devices[] = {
+@@ -469,6 +446,7 @@ static struct hid_driver ms_driver = {
+ 	.report_fixup = ms_report_fixup,
+ 	.input_mapping = ms_input_mapping,
+ 	.input_mapped = ms_input_mapped,
++	.input_configured = ms_input_configured,
+ 	.event = ms_event,
+ 	.probe = ms_probe,
+ 	.remove = ms_remove,
 
 -- 
 2.55.0.629.g250fe7f194-goog
