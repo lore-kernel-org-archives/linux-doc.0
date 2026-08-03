@@ -1,97 +1,269 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B478835C193
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 11:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41949408031;
+	Mon,  3 Aug 2026 12:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785755648; cv=none; b=nRJ0zk5SDkleYjc3AB99p0GPjmyNwjDAcMdpYi/vOzAcubSUFM7tWr+vRpz4HXMxWNW6vUZpXeFvA/h8VqBRmrALofoqham3bzDP8awEvrYUHX++wEZqWN2MGfp8LpIc5kskkb1nl9ax0Kj3ygDEd5xOVi5C+UvcN7clmdltWj4=
+	t=1785760396; cv=none; b=HIO7BOSaX1ll+Qz3uNNLaPyNXzOmwGHhWHvL3t6XUwTF8OQ128sTwWVW5Hm5XEg/bVDv0lHzNOEeBnqwPr2uDFD209P2a3TdEUI3w62PDwS3R7tU/jSFd0g6NG4zi9vgNtJGgrd6uhz1u4gNpHE96gStHfx2UV5N3Dur/37VyeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785755648; c=relaxed/simple;
-	bh=GOypwzuf6fxfeu1acBhr0N6YZ+Ac2EyU4CZIc921WXo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YhX/kEPUWynugjmkMP8i350Z+pXdjblaUPZXEkSvBz5tYRqC1QQm79e7jOOqU3qsbDRz70AkqHB3fNvaJwAvaru6vkF2bJ36imHDeXsf9TXnZlXedRMhXIe2cFGWNWaO5l/wYtJYZ8hzrOmr2VoRTCNML2W7bJtAsuLKx1zAO9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7fXfzhr; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785760396; c=relaxed/simple;
+	bh=Zdqe5rG8MMuCQFdj8MvgN1UdO43dVP+caQNL2i6/NT4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=bHglgTc50dat5lqfAGtY0hSoZJkZQVLgz4CpexMf+yDf/BVv183lxfG0CE/EYjbPQPnPF0dK1JST+CRnafE0DoXpB263dS4FmhmcKgKVz1zuNlaBLfIuVFH4ThlJs2QNHywmvUuvujrdNyb48lPlE7dL1i5YvIj0M1d/hCAidx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GqpC3mkm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7fXfzhr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785755646; x=1817291646;
-  h=date:from:to:cc:subject:message-id;
-  bh=GOypwzuf6fxfeu1acBhr0N6YZ+Ac2EyU4CZIc921WXo=;
-  b=F7fXfzhrQGGsu+lksPhWxRvkO3KQ2zWi6lATaK7DWTMk3X0/StV0Weye
-   mgYI6N/RC24AI53FS6Fts+vCK+T3u/XkQL/TU20GFvTGi5OY/hxke2cMj
-   wlIG9dgLnXyVTk7KUeVdPK5upIAB2kspi1aCDwgpjOjBrgIKC1Z0zAdDZ
-   sHzDyPHL0l5COSXcx5fUtNTGjWbKv0XLoV4s73p4NdWIyltQaJ26CQMzo
-   egT23SYxd/njrpbKh39TapvZAgMuJ0Fc24Gec1HioCZa6Cv+7Zi/4Zppg
-   rHRB81PVVre2vM7cwnPzUE2VpnyxC70A0Ng+LnTA6Gw5w/C4zDNOE/Atl
-   g==;
-X-CSE-ConnectionGUID: sCNAFjAeRhCNslrsJ+3y3g==
-X-CSE-MsgGUID: jP58QfSjTbmewed78T/U4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="86162427"
-X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="86162427"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 04:14:05 -0700
-X-CSE-ConnectionGUID: t1hJMoIGSo+IpQeFzorUxQ==
-X-CSE-MsgGUID: 8MeKK2JYRJquI1M9QMOC7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="264662470"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 03 Aug 2026 04:13:50 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wqqc4-000000003vm-0q68;
-	Mon, 03 Aug 2026 11:13:44 +0000
-Date: Mon, 03 Aug 2026 13:12:56 +0200
-From: kernel test robot <lkp@intel.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/driver-api/steal-monitor.rst:2:
- WARNING: Explicit markup ends without a blank line; unexpected unindent.
- [docutils]
-Message-ID: <202608031322.Mwzvo1FC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GqpC3mkm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB4D1F00A3D;
+	Mon,  3 Aug 2026 12:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785760393;
+	bh=TjxtLTr1Ur/B7tyQMM0xK2Ieoel5FexyFCt+au7L/aM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=GqpC3mkmK3tkBfUSIBW+dB0NNppm2NcmuIsJBa2YquxYTL3W88ewjDOvwnJWsyArz
+	 O9s0GZaUsgRT8D3Rau9RXFuTEb1nAJ1YQlNYnRi2DpqlfpR/iP4iUNDs7AmsjvO3qB
+	 7VlYeB0UzW/oh1jDiblEQ2PIntEtk/zX6yhExyTQrdchyF99LIH2BQWOlj0wwNFHSZ
+	 +n9eRLxgVrPFQNlwyDNHBJM7sdDvq6rjdQa+NTAZ0+0XqsYdKMbMeAIFDzocoYgAB2
+	 BoNr3MCVm8/g9XNKzuD5hX98w89RddCLoBzUSeTUFrYz6SupOIRh3444KD1oVVZiET
+	 n00bpffnTDskQ==
+Date: Mon, 3 Aug 2026 21:33:07 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
+ Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v11 00/11] tracing: wprobe: x86: Add wprobe for
+ watchpoint
+Message-Id: <20260803213307.60116859f73bdeba3b72dbba@kernel.org>
+In-Reply-To: <178565870538.714490.11309825813968306287.stgit@devnote2>
+References: <178565870538.714490.11309825813968306287.stgit@devnote2>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/sched-docs-Document-cpu_preferred_mask-and-Preferred-CPU-concept/20260803-124520
-head:   6b51818cdef464c594cd8aeaa6f04a2f4ca1b1a5
-commit: 6100a3dbbee2530c908dde1eda5aff47105e4661 virt: Introduce steal monitor driver
-date:   6 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260803/202608031322.Mwzvo1FC-lkp@intel.com/reproduce)
+On Sun,  2 Aug 2026 17:18:25 +0900
+"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608031322.Mwzvo1FC-lkp@intel.com/
+> Hi,
+> 
+> Here is the 11th version of the series for adding new wprobe (watch probe)
+> which provides memory access tracing event. Moreover, this can be used
+> via event trigger. Thus it can trace memory access on dynamically
+> allocated objects too.
+> The previous version is here:
+> 
+>   https://lore.kernel.org/all/178476134787.26117.10094977293012760490.stgit@devnote2/
+> 
+> The major changes in this version is to use Jinchao's new
+> modify_local_hw_breakpoint_addr() API, add count option support to
+> wprobe trigger, skip wprobe trigger during another wprobe trigger is
+> working and rewrite selftests for wprobe trigger with
+> trace-events-sample module.
+> 
+> Changes in v11:
+>  - Updated hardware breakpoint modification API:
+>    - Replaced arch_reinstall_hw_breakpoint() with
+>      arch_modify_local_hw_breakpoint_addr() and
+>      modify_local_hw_breakpoint_addr() API.
+>    - Made DR7 updates NMI safe by using atomic cmpxchg for slot management
+>      and per-CPU sequence number (cpu_dr7_seq) to detect concurrent NMI
+>      updates.
+>  - Refactored wprobe trigger implementation:
+>    - Updated set_wprobe/clear_wprobe trigger to use
+>      modify_local_hw_breakpoint_addr().
+>    - Added tracepoint_synchronize_unregister() in wprobe_unregister_trigger()
+>      and parse error path.
+>    - Added NULL check for tw->bp_event in trace_wprobe_update_local() to
+>      prevent race conditions.
+>    - Switched trigger data freeing to use event_trigger_data::private_data_free.
+>    - Added count option support (count=N) for wprobe triggers.
+>    - Fixed trigger address calculation (cast rec to char *).
+>    - Added work_pending flag to avoid update conflicts between CPUs.
+>    - Fixed wprobe_trigger_find_same() to check wprobe_data->clear flag.
+>    - Update trigger-wprobe*.tc to use trace-events-sample kernel module.
+>  - Fixed selftest:
+>    - Updated trigger-wprobe.tc assertion logic for clear_wprobe trigger
+>      test to check trace log instead of sysfs enable file (which remains 1
+>      under soft-disable).
+> 
+> Public branch
+> -------------
+> I will push this branch as topic/wprobe-v2 to my tree so that it
+> can be easily tested.
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/log/?h=topic/wprobe-v2 
+> 
+> This is based on linux-trace tree's probes/for-next.
+> 
+> Usage
+> -----
+> 
+> The basic usage of this wprobe is similar to other probes;
+> 
+>   w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+OFFS]> [FETCHARGS]
+> 
+> This defines a new wprobe event. For example, to trace jiffies update,
+> you can do;
+> 
+>  echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+>  echo 1 > events/wprobes/my_jiffies/enable
+> 
+> Moreover, this can be combined with event trigger to trace the memory
+> access on slab objects. The trigger syntax is;
+> 
+>   set_wprobe:WPROBE_EVENT:FIELD[+OFFSET] [if FILTER]
+>   clear_wprobe:WPROBE_EVENT[:FIELD[+OFFSET]] [if FILTER]
+> 
+> set_wprobe sets WPROBE_EVENT's watch address on FIELD[+OFFSET].
+> clear_wprobe clears WPROBE_EVENT's watch address if it is set to
+> FIELD[+OFFSET]. If FIELD is omitted, forcibly clear the watch address
+> when trigger event is hit.
+> 
+> For example, trace the first 8 byte of the dentry data structure passed
+> to do_truncate() until it is deleted by dentry_kill().
+> (Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+> 
+>   # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
+> 
+>   # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+>   # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+> 
+>   # echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
+>   # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
+> 
+>   # echo 1 >> events/fprobes/truncate/enable
+>   # echo 1 >> events/fprobes/dentry_kill/enable
+> 
+>   # echo aaa > /tmp/hoge
+>   # echo bbb > /tmp/hoge
+>   # echo ccc > /tmp/hoge
+>   # rm /tmp/hoge
+> 
+> Then, the trace data will show;
+> 
+>  # tracer: nop
+>  #
+>  # entries-in-buffer/entries-written: 32/32   #P:8
+>  #
+>  #                                _-----=> irqs-off/BH-disabled
+>  #                               / _----=> need-resched
+>  #                              | / _---=> hardirq/softirq
+>  #                              || / _--=> preempt-depth
+>  #                              ||| / _-=> migrate-disable
+>  #                              |||| /     delay
+>  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+>  #              | |         |   |||||     |         |
+>                sh-107     [004] ...1.     9.990418: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+>                sh-107     [004] ...1.     9.990914: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b3de78
+>                sh-107     [004] ...1.     9.993175: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049ddd40
+>                sh-107     [004] .....     9.995198: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+>                sh-107     [004] ...1.     9.995389: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db998
+>                sh-107     [004] ..Zff     9.997503: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] ..Zff     9.997509: watch: (path_openat+0x211/0xda0) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] ..Zff     9.997514: watch: (path_openat+0xa56/0xda0) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] ..Zff     9.997518: watch: (path_openat+0xae2/0xda0) address=0xffff8880048083a8 value=0x8200080
+>                sh-107     [004] .....     9.997521: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+>                sh-107     [004] ...1.     9.997582: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004808270
+>                sh-107     [004] ...1.     9.999365: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db728
+>                sh-107     [004] ...1.     9.999388: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b1c000
+>                rm-113     [005] ..Zff    10.000965: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.000971: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.000984: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.000988: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001010: watch: (lookup_one_qstr_excl+0x28/0x140) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001014: watch: (lookup_one_qstr_excl+0xd1/0x140) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001018: watch: (may_delete_dentry+0x1c/0x200) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001021: watch: (may_delete_dentry+0x195/0x200) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] ..Zff    10.001031: watch: (vfs_unlink+0x5e/0x260) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] d.Z..    10.001067: watch: (d_make_discardable+0x1b/0x40) address=0xffff8880048083a8 value=0x8200080
+>                rm-113     [005] d.Z..    10.001071: watch: (d_make_discardable+0x29/0x40) address=0xffff8880048083a8 value=0x200080
+>                rm-113     [005] ...1.    10.001072: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+>                rm-113     [005] ...1.    10.001218: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+>                sh-107     [004] ...1.    10.001416: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db110
+>                sh-107     [004] ...1.    10.001444: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db248
+>                sh-107     [004] ...1.    10.001500: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+>                sh-107     [004] ...1.    10.002067: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+>                sh-107     [004] ...1.    10.904920: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+>                sh-107     [004] ...1.    10.905129: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+> 
+> 
+> Thank you,
+> 
+> ---
 
-All warnings (new ones prefixed by >>):
+Oops, I found I missed base-commit: tag here...
+I'll update my tool to add it automatically.
 
-   WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
-   WARNING: ./include/linux/device.h:117 struct member 'show_const' not described in 'device_attribute'
-   WARNING: ./include/linux/device.h:117 struct member 'store_const' not described in 'device_attribute'
-   WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
-   WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
->> Documentation/driver-api/steal-monitor.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
+Thanks,
+
+> 
+> Jinchao Wang (2):
+>       x86/hw_breakpoints: Make DR7 updates NMI safe
+>       x86/hw_breakpoints: Add arch_modify_local_hw_breakpoint_addr() API
+> 
+> Masami Hiramatsu (Google) (9):
+>       HWBP: Add modify_local_hw_breakpoint_addr() API
+>       tracing: wprobe: Add watchpoint probe event based on hardware breakpoint
+>       x86: hw_breakpoint: Add a kconfig to clarify when a breakpoint fires
+>       selftests: tracing: Add a basic testcase for wprobe
+>       selftests: tracing: Add syntax testcase for wprobe
+>       tracing: wprobe: Add wprobe event trigger
+>       selftests: ftrace: Add wprobe trigger testcase
+>       tracing/wprobe: Support BTF typecast in fetchargs
+>       tracing/wprobe: Support BTF typecast in wprobe trigger command
+> 
+> 
+>  Documentation/trace/index.rst                      |    1 
+>  Documentation/trace/wprobetrace.rst                |  163 ++
+>  arch/Kconfig                                       |   18 
+>  arch/x86/Kconfig                                   |    2 
+>  arch/x86/include/asm/debugreg.h                    |   36 -
+>  arch/x86/include/asm/hw_breakpoint.h               |    2 
+>  arch/x86/kernel/cpu/mce/core.c                     |   20 
+>  arch/x86/kernel/hw_breakpoint.c                    |  125 +-
+>  arch/x86/kernel/nmi.c                              |   10 
+>  arch/x86/kernel/traps.c                            |   10 
+>  include/linux/hw_breakpoint.h                      |    6 
+>  include/linux/trace_events.h                       |    3 
+>  kernel/events/hw_breakpoint.c                      |   35 +
+>  kernel/trace/Kconfig                               |   24 
+>  kernel/trace/Makefile                              |    1 
+>  kernel/trace/trace.c                               |    9 
+>  kernel/trace/trace.h                               |    6 
+>  kernel/trace/trace_events_trigger.c                |    2 
+>  kernel/trace/trace_probe.c                         |   34 
+>  kernel/trace/trace_probe.h                         |   15 
+>  kernel/trace/trace_wprobe.c                        | 1392 ++++++++++++++++++++
+>  tools/testing/selftests/ftrace/config              |    3 
+>  .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   63 +
+>  .../test.d/dynevent/wprobes_syntax_errors.tc       |   21 
+>  .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   74 +
+>  .../test.d/trigger/trigger-wprobe-btf-typecast.tc  |   72 +
+>  .../ftrace/test.d/trigger/trigger-wprobe.tc        |   85 +
+>  27 files changed, 2156 insertions(+), 76 deletions(-)
+>  create mode 100644 Documentation/trace/wprobetrace.rst
+>  create mode 100644 kernel/trace/trace_wprobe.c
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-typecast.tc
+>  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+> 
+> --
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
 
-vim +2 Documentation/driver-api/steal-monitor.rst
-
-   > 2	=============
-     3	Steal Monitor
-     4	=============
-     5	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
