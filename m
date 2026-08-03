@@ -1,85 +1,104 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F206726F2BE;
-	Mon,  3 Aug 2026 06:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07079463
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 06:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785737871; cv=none; b=niAIWYBTAKQASe0JG1ZiZN/zn94wloflixzrIIsKR4fbiLFEeaM9b1iQCBw9ANarAjMPryn5hzaW4EntI5TE0rMcA3By0Q3PVpkR+2hi6yR+WjTvzWEyhYkpaX5gpTS5lvAFWhOC/ZNF+Bi5M+1Vun96TijfYLrLAcRDfHenszg=
+	t=1785738117; cv=none; b=pgP7tvRk/MOVY1rInPXInw0UruYxXf803IeSYcPHsG/dwE0KGZh3BPO7qqFhap8/xHuKC/qbroi7FujVs1BuvwZRFZAqtGnJX6LIqQsm3rl68l5qXiB8euR6qkuPNXLlsP8+KvnfNnwZnHHiDsVUoSKyy28HXFW9+C3kRHXf+OA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785737871; c=relaxed/simple;
-	bh=CQ3FXkdxeKWpPhELkqzv7K35M4eBOFi0oyoT0bpmWbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tjmgtgAQWTRkvCfqit2r6tehNrFBl4hh68hankf6t21K6NF0fcfwYG8VpWWh3V3RbTfcf7ti9Qodcq5d1UOan1OG/zgPb8j2VUhqWBoIfrzhextLea3aXx6jVZInWwYGHInVfg6Xujn2Cadw8CgEP7EwrriKoi5SgR/0oPSSQ4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GR7C01Rp; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785738117; c=relaxed/simple;
+	bh=3T+/DKd+zxVubxYRaS8FcMZwD57sBWF4MdrCwuuAiqw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k1XDBrgX4VOj9E+ZdhUpFLKP1+pN86r7XhlHOPh8le2IarFSGGHw0Fzx/fGwc9DCLBKPcQlUpVmL/U/e0fNjH3WXahkO3YnhDopIns1qoG9kvbHpqsSN11JmdRkywz7AbGWyux3hxYEawhbEX42Lh+QAaNbO45JNZDRWQht4LJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eDIQEkdK; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GR7C01Rp"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 359C6143D;
-	Sun,  2 Aug 2026 23:17:45 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A88E3F66F;
-	Sun,  2 Aug 2026 23:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785737869; bh=CQ3FXkdxeKWpPhELkqzv7K35M4eBOFi0oyoT0bpmWbM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GR7C01RpF8anclulhv3lLdm+7g/UgSg5w56GRavq+rJ3vzytJVeGOQX3l1ViAxpkW
-	 8TCVCQn79y931nRk4K9w1IzCFgIYkI4kUaHR0y4KMrr8fIWLiKrejS4NpQuGec9DOp
-	 ss1cYF/ScRq4fYco1qNBoJA7lj86cgD196NfSXXQ=
-Date: Mon, 3 Aug 2026 07:17:39 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
-Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"d-gole@ti.com" <d-gole@ti.com>,
-	"david@kernel.org" <david@kernel.org>,
-	Elif Topuz <Elif.Topuz@arm.com>,
-	"etienne.carriere@st.com" <etienne.carriere@st.com>,
-	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"leitao@kernel.org" <leitao@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Lukasz Luba <Lukasz.Luba@arm.com>,
-	"michal.simek@amd.com" <michal.simek@amd.com>,
-	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
-	Philip Radford <Philip.Radford@arm.com>,
-	"puranjay@kernel.org" <puranjay@kernel.org>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	"subrahmanya.lingappa@oss.qualcomm.com" <subrahmanya.lingappa@oss.qualcomm.com>,
-	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
-	"usama.arif@linux.dev" <usama.arif@linux.dev>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v6 00/22] Introduce SCMI Telemetry support
-Message-ID: <anAyg0hr3S6mfIYX@pluto>
-References: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eDIQEkdK"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785738112;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WHgL7q6z3CErxPHvG+ihsc36p4rExS74ePzEBVIZczI=;
+	b=eDIQEkdKSqUxjkFWRpEuniHO0LGOE4/4kwl/QPsPV1NGJ1SFLv1Mh68jSLjF8zpw87rZsO
+	TKuvN74DSwzpXsYdXhDjSshfiXAS4f8TvZ4VW8bULIjJMMpvaOkGL6FgXf+isjMnr6TK4h
+	HB+0yntqP7v481n2+yWdFQC6Ot1bxno=
+From: Ye Liu <ye.liu@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] tools/mm/page_owner_sort: fix --sort, add module filter, improve usage
+Date: Mon,  3 Aug 2026 14:20:53 +0800
+Message-Id: <20260803062056.1518070-1-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jul 27, 2026 at 02:53:45PM +0100, Fayssal Benmlih wrote:
-> Hi Cristian,
+From: Ye Liu <liuye@kylinos.cn>
 
-Hi Fayçal,
+This series improves the page_owner_sort tool with a bug fix, a new
+module-name feature, and better usage text.
 
-just a quick one to say that the latest v7 just revolved around making
-ABI feature complete, so closing most of my pending TODO list...I have
-NOT addressed, if NOT minimally, these outstading issues or most of
-Sashiko reports....I will take care of all of these starting v8
-tomorrow..
+Patch 1 fixes a long-standing bug where --sort was silently ignored
+when used without a short option (-a, -m, -p, etc.).  The COMP_NO_FLAG
+case fell through to COMP_NUM and overwrote the sort conditions
+configured by parse_sort_args().
 
-Thanks,
-Cristian
+Patch 2 adds kernel module name support for sort, cull, and filter
+operations.  Page owner stack traces already contain module names in
+the "function+0xNN/0xNN [module]" format produced by %pS, but
+page_owner_sort had no way to use them.  Records without module frames
+are assigned "vmlinux".
+
+  # Aggregate page usage per module
+  ./page_owner_sort input.txt output.txt --cull=mod
+
+  # Filter to records from xfs module only
+  ./page_owner_sort input.txt output.txt --module xfs
+
+  # Sort by module name, then by pid descending
+  ./page_owner_sort input.txt output.txt --sort=mod,-pid
+
+Patch 3 lists all available sort keys with abbreviations and examples
+directly in the --sort help section so users no longer need to read
+the source to discover valid keys.
+
+Ye Liu (3):
+  tools/mm/page_owner_sort: fix --sort option being silently ignored
+  tools/mm/page_owner_sort: add module name sort/cull/filter support
+  tools/mm/page_owner_sort: show available sort keys in usage text
+
+ Documentation/mm/page_owner.rst |   8 +-
+ tools/mm/page_owner_sort.c      | 135 +++++++++++++++++++++++++++-----
+ 2 files changed, 123 insertions(+), 20 deletions(-)
+---
+v2:
+ - Patch 2: use regexec() directly in get_module() instead of search_pattern()
+   to avoid excessive debug spam for the common vmlinux case when debug_on is true
+ - Patch 2: anchor module regex to stack trace format "+0xNN/0xNN [module]" to
+   prevent false matches on kernel thread comm names like [khugepaged]
+ - Patch 2: add '-' to regex character class to support modules with hyphens
+   (e.g. aa-bb-cc)
+ - Link:https://lore.kernel.org/all/20260722023726.600200-1-ye.liu@linux.dev/
+
+-- 
+2.25.1
+
