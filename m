@@ -1,73 +1,91 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6083D364933;
-	Mon,  3 Aug 2026 16:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEB71F3B8A;
+	Mon,  3 Aug 2026 17:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785774280; cv=none; b=ANKbzP0keODwwiCATuX9p8eBuy5oqFyzsT8k6L5Za1m9tLeb2CAO6Avsfvjjb+K6ad1/synlgGUxlyjhAZThjonULBqo05jFpSFk82k7KG75673r9O+5eFl5eA2S5oiHtim0mTMj0kkS/VjWDMJfQ7bFjc60aLPwtC+v8Ekkr4M=
+	t=1785777666; cv=none; b=t1HCAenGXddTMdqMs3CP7aOt+oBFMo0C5cVZDc5HbyRK+oAWkA/DVqObo3FyIlkLGgq0xdGA/oyu+ZoKq6vExA4fbiBwG1yt1ugZJBZeI5061ZNnHYhyzDChQTxGbBtGIiaP0anrgTBy739PEQZAdrzwLW6V6538mU4Embrcx9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785774280; c=relaxed/simple;
-	bh=Noa2EcjPYEHob/iew68Dk81/4qIT4EPwVJTPZwig/QE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KdUBJmxLX0rk7oBhixv8GZutSwjlt3ovIrUJfLcEOCD2AiCwjAorFiQ6l9m9tHxcSsXI/OB0pnDzf8tgLQx/TTmkZvEo16YoKvh2lhycfKKHEewJhdPmn2w7QcLrXMiKARJElp3oEgOjcUV2gNvYmzmppYZExHH8WDmQwhoTkwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=pd1JZ/tX; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1785777666; c=relaxed/simple;
+	bh=7RmFye71I9IMjDXqX6AOi+mqlicGEG4NqoQTk3M4pd4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pMG5ON3RI/ksGEqVGGN+iMdcc+aqlceacFXKDqo/cIze0uhixRGZJO7G/6Tiug5+caaafnPNFl7hKBukwXXO9XEwkNS1obf8Dt+OvfFtNQuDLPaQRi2ZjQ1TFknXfQlnQ9juwDpum+cyQdkMlR4CtV9X9PXqfKvdUKVTx1oGRA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XtbGjz1B; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="pd1JZ/tX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1785774273; bh=zwHfI9fsRI2U2aVp1OZFk7kTR9BsljVvynCweb/hgTA=;
-	h=From:Message-ID:From;
-	b=pd1JZ/tXlvfD/P1qCjCxzzhcNMzjWV3Aie+ARfJGrkmjDITZWcWwVIEEYxOwPqN3D
-	 hB/iglP/xllMRsmQPIpfjM1+99+g9zubJhwhqzdmeboiV3q3+Ezgx133w6P0UMP0Wk
-	 uxqJMaV8lSGpjkXfUsfJy++fLWNKt467+M2EPPDU=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 069BDC0A40;
-	Mon, 03 Aug 2026 18:24:33 +0200 (CEST)
-Date: Mon, 3 Aug 2026 18:24:32 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: greg@kroah.com, security@kernel.org, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] docs: improve guidance for AI-assisted bug reports
-Message-ID: <anDAwIcyU-KfCqMT@1wt.eu>
-References: <20260802203540.3453-1-w@1wt.eu>
- <87a4r318h0.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XtbGjz1B"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=qWo52Aj2tnQvSqWfFzYKCQa7jEs6W4DtDHh9fvVn3xk=; b=XtbGjz1B3x7oJ7YV0Al2xaOSXd
+	Bs9C2fJjNBivBWDEhGtceQhAPBdYMxXX7ZAZRM3sTN2h5G3CBJOkhqJ8jfU//9/9SHK8bgUN/Pch0
+	BXBJzz2vTIE0dmaqS13oJaUc1q06Xng5RBVfShzJ/3HdatEVLIyqwFS4jNOXJqNs1dVUKqlU8vjS5
+	VPW9B8ktnCzc69ICGhN++4tJcp7BXGBoTHXnGFgqPiH1rmTPTA7V687RhNwvWgwy8MMTvxBCwclBM
+	Mg0JB65/XDYQREG+EEi/tt0WyRyJ8wCfavWhGa9iwb5aOcWCNTob9/dI1C0J6nAqwYqvbkLfkhlc3
+	PlQZ6q6g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wqwLN-00000000D1N-0jQQ;
+	Mon, 03 Aug 2026 17:20:53 +0000
+Message-ID: <247339d0-3e1f-4e7c-8c2f-032a61b8d56a@infradead.org>
+Date: Mon, 3 Aug 2026 10:20:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87a4r318h0.fsf@trenco.lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] Documentation: html: make sidebar section titles bold
+To: Antonin Godard <antonin.godard@bootlin.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260803-show-sections-in-sidebar-v1-0-b4fdc847525d@bootlin.com>
+ <20260803-show-sections-in-sidebar-v1-2-b4fdc847525d@bootlin.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260803-show-sections-in-sidebar-v1-2-b4fdc847525d@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 03, 2026 at 10:20:43AM -0600, Jonathan Corbet wrote:
-> Willy Tarreau <w@1wt.eu> writes:
-> 
-> > While vulnerability reporters have now started CCing maintainers,
-> > showing they read the docs, the security team still spends a lot of
-> > time repeating the same comments about tested version, incomplete
-> > fixes, poor email client setup causing formatting issues making
-> > patches unusable, unverified reports and missing Assisted-By tags,
-> > each time for AI-assisted reports.
-> >
-> > This series adds small updates to security-bugs.rst, threat-model.rst
-> > and coding-assistant.rst to better deal with this and provide minimal
-> > instructions helping the LLM follow our expectations.
-> >
-> > The updates were iteratively and carefully tested with 3 models,
-> > Opus-5, Qwen3.6-27B-Architect-Polaris2-Fable-B-F451, and Gemini,
-> > until all of them strictly followed the rules.
-> >
-> > It is expected to further improve the situation.
-> 
-> Just FWIW I've read through these and can't really find anything to
-> complain about.  It looks like Greg is planning to pick them up, so I'll
-> not do anything with them unless instructed otherwise.
 
-OK, many thanks to you both for the quick response!
-Willy
+
+On 8/3/26 7:35 AM, Antonin Godard wrote:
+> Now that section titles are displayed in the sidebar, make them bold to
+> have them stand out compared to the subsection titles.
+> 
+> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+
+LGTM. Thanks.
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  Documentation/sphinx-static/custom.css | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> index 0576d4fcb2a3..3938daf410c3 100644
+> --- a/Documentation/sphinx-static/custom.css
+> +++ b/Documentation/sphinx-static/custom.css
+> @@ -81,6 +81,11 @@ div.kerneltoc li.current ul { background-color: white; }
+>   */
+>  section#the-linux-kernel-documentation p.caption { display: none; }
+>  
+> +/*
+> + * Make section titles bold in the sidebar.
+> + */
+> +div.sphinxsidebar p.caption { font-weight: bold; }
+> +
+>  /*
+>   * The CSS magic to toggle the contents on small screens.
+>   */
+> 
+
+-- 
+~Randy
