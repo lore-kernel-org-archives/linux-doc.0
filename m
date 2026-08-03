@@ -1,64 +1,64 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99454345EAC
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 22:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FF931E822
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 22:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785795384; cv=none; b=lvFcGIi3MQEzlUBMXszwKG132uajDw5H3s1zwzIjtwSSzLPSn2HjyS0bz5+dw+cucNMnfPKEqVF/Vjt5t/wUObXCFt25PoFYTtD8k26yJ/0lxvvQlRcdiH+NvnNiHSrZzkaX4TMwKEeaHxqF5YCxtlGeS3c3nACzlBohzfBviCs=
+	t=1785795385; cv=none; b=JRv1QJPb/dzsrJS9z4yHTKGTkO2L9BkW+VKQ7N3recmAOQaKgwSYj1Y0kNNeyVbM3nM3XR/rKZPMnQsLzQ52l72yKpgj7wy5LWwrdhdRkwv4/OUsmm0ShFgYs9YT6xtwEJfSulYRV8atx8eL4IrR28uXpfk3j6g2ViG8Qc81Fig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785795384; c=relaxed/simple;
-	bh=zSTDonIyBsR3WqojOzXln4HA3bKn7fqzEMx8iWnncMc=;
+	s=arc-20240116; t=1785795385; c=relaxed/simple;
+	bh=EIMWWlWDcq0uEYhrtukreWiGwiCZqVgmmuCgjtQWFjc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q1rSBcFSJ+GDIm1S1npcakXkRq3VBCzD3uK04j7jxs3AiwAYwgroz/tW9dla0DWHUZu8WZIuH/7louy6rybDtjEty5skla715L94TsPL56bbW/+UU+6Zh2Nw5eebCqUbqzvIJFHTK9oEQ+7+8UZit2e8zYCHeSIJjhoK/CeNcQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2VGZe+E; arc=none smtp.client-ip=209.85.216.47
+	 MIME-Version; b=mUARhsaNDnKEdcDR5BFm5iJSuN7aPa4zv1BMIkQ48vpK/5qdoGG+xlSpAlN6hpWKEvLWoagpZqImqUsGjTB+E1ijIOSqWCzVXWWRnc0LlHQ2jJaq8JpkA5XtajLw8wS0E0utv0yf+7aEsFkXa0XkscGWbdVhUt7sxaKEOR6DOYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fmXc8oU8; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2VGZe+E"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so2932994a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 15:16:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fmXc8oU8"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so3313816a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 15:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785795382; x=1786400182; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785795383; x=1786400183; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BPAQpOydhVH6LbG4fSXhvyUlk2qXWOQA9jkrLqZQMCI=;
-        b=Z2VGZe+EXmWb/UElNyHc7clTzFJ4klD4DWiShD4RN6VAFyUBGMB/AD0WLHp3xGBESk
-         l7eO3R8kDiMtsahbG0B6OHj7YmqxW1PzEe3UlsTfpRDWt7lQJTIPqI90FJXhriDzRhsJ
-         oyg2fZdeDBZsc3cewehF6c7725fZ8T1PcxyxOXOJPrkK9ftEJdviHIOC+2lhBlJRP3WI
-         ReMlM3ofSNnMhpeBbiVREZp9Jc+kZwa088sPRI3d6qenOW7IYNzGcUcUKRzYr+gOIoqu
-         GBgH5GR00jMeqUrAJ94J0qD/t1bfJebZBYd0n1RqvKrE1sNm91vnXjpKVEzmFIp3qNw1
-         RGGw==
+        bh=cyQb3HEnxnGJdzSi8B8jk9beGpq3QOPyQ1mK+KBtq5A=;
+        b=fmXc8oU8QMWRSg83kAatQ3GNpWjjSeFXdDFz/EfLaJR8lKtFDy8k0BgzDeSjG2vWVz
+         ki12rrVoKtLy/xhEYzjUwiPnpnQx8EJvEVlnO38s8VFitlvTkKJgwNGwbzLtMkrnWoOo
+         fIqW34odSPmPAuE/k8SK5pPMnz4tKg8p1y788wYxfXejjxlxWjSdRzmNsDiU5Y/u1MSP
+         jAWjAy/LXbw4LMyus0OIqSPZ0VjjNN5H8HUBdbMKs6sgWpB5993X9HaBdcjRudC4qCPN
+         x1NAQAg5lJtFxI7qRIhyGFE0IWdPCENlqmcGjGMbKmUe/3alR/KpxVA/q1nWrNoaVCKJ
+         TNNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785795382; x=1786400182;
+        d=1e100.net; s=20251104; t=1785795383; x=1786400183;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BPAQpOydhVH6LbG4fSXhvyUlk2qXWOQA9jkrLqZQMCI=;
-        b=Lbky1/mVkdDchFylH5s0ASYlqnMjVEYi2nki4fnPxuIpKSoO7X2BnO9IEV3/fWI0sj
-         yuHR9m6OLzIVraNB0ukkkJ01C+BkiI3PfF49KI+2z7PP4NMFjU1QqWG/KdvaC9/fCGuf
-         tvTeCJ4OVss9KIan7BR2TrzebLWgd5dU5Dkh+wl1ieoiSJEHJaEJ/BZ8G0w68RrLrjA+
-         jR67nqENgQMWaw7woaX2KGfDIS9enYHZjOtcDghK65BZPxoOqIySXRzp9XIuEjMnTNeF
-         kDaMRPHuRPOUxTLOkw2sM8Qrg54AKkkL8m+92VahkZ1AzCGDtQn6OfdRzu+YerSTbHN+
-         IjpQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoId5b0PPmEtsmFDWpzXR/HHQyROIwNrxjp6/TTDwyS7AdROfVJ+/cfDIOLpGLr+Sse3w5IiETs16s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9wAowJq3qGnDT4F5tgT9wakiQUhc+mBZngW2EMgTZesLXymI7
-	KodTMtLxKT3M45VyXFZquZdf94TCTAuX4a2IYPM9LDmSx0tWVsGBUpGo
-X-Gm-Gg: AR+sD121e+bM2SAfhDfwsvnxoF1Nq9pp5UTFb9y/0QFiAt2Vm7dyCW06iP1Pqr43FhN
-	S5SO8AsBvI66c1/PNPyQnBvZAeT2DC2tajfMzdbymeZUFJs/7YlQr94/582Qzv3mOnFvcyKxSxb
-	K9mnxeDGzSzLa7OHDde54fzgnc9zUh+6nGgbQERl196EILElWuVf1dszNbmPWaXbBq2DfX5u6O0
-	5vcYCDaYmcO9wK7XwcdkNs5P6NOQ1NhcCdy298FIkqoIRt/k5LYUO2L1BDl4SvBNPhW+CB5bd5K
-	rsVSPsVjGefSrRTCF+Cx9j7jgVFjhq11sxOy1iF0s7ro6oLK1ipjRo6gpcbiux/I6WJ1JgLHYjo
-	LNL0j7GVcgv88RNHy5HbPuXJeOnKf+MvIgIyQye/LQaZSE9aCYJze2iT5jm2tjtCmtnmjzvVRrC
-	OGwlU3rYS9fAUDqmGu1nqVWHzskyIe+eBB36v9CmIHJgrfVlg2JNRO4kJrMQKFGvAg/53aO5ybb
-	QKZJeMdAy0F87W5rAcqC0x9pTZl+79GHuL3HGVXpw==
-X-Received: by 2002:a17:90b:2b86:b0:38f:240d:b857 with SMTP id 98e67ed59e1d1-38fbc3f7e4emr11504598a91.2.1785795382006;
+        bh=cyQb3HEnxnGJdzSi8B8jk9beGpq3QOPyQ1mK+KBtq5A=;
+        b=pS/2WhwfTUz8R0/UN7BVKRvtKutI07khLNJsE5zTB//JbIdCBl9+OjmPsA8sqAYXqH
+         HTUR5Ipx52LPutip8tKZTe3V8bwEzSGZn4zPOvBwd23580PCi9sYztRxdNtQ1NV4oAw3
+         FO3eyyi9Aeqx+70esv4lE17b153tHcG6a+bNwGskU0IkZM3Mx5suYtgMOE4hcERHE25V
+         Uo6s779w6t05yDM/1Kb1nXxjnV01kgNijrSj3sjPA5eGYkTHlMOrUUYR3x7jf5hRbbsk
+         QNRELYAg3RYPsr5UzJBELry07PQ/gPZdbMOL814+YtILWDyBPuXtWdWb4Wv9q8v8nVld
+         dQeA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr6cS/We8M1YIUh+iuOEnMUA538ebF0DbQeHavvrE/77B34c3v86OTD0q2/TwJherL4QCvusrGVSBo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF5Ie2La76PMvRNT39EkBalJ6ATs/mCWo8LLo21bL1zz6BsxDe
+	qXm1w59CTKTwFcMQF8dIVwAsHatB6EH1v9OekcmE5olkqkEBh79JGBsV
+X-Gm-Gg: AR+sD13+q1BD+/9N1dI2Xh0V/8q6zhDkET62JunSiFUHVJk3BbAzJVq7HfPbZQRPJ8f
+	HQ21S5SMoECIWjNAhwn5qzY44CI28gByP3+DXWIBwzQBvewfAHFDE+p381qPCi9wKr4PNMOOR8/
+	P9xY28ztGsrrfUN4RJXsh1PCgAWBieYO+xdgwcxIHffI61OIGgl/gzghjVhMcVl4ldAAsKTyMaP
+	lpLsd8iOCPI56+ReIgYlg8Hm7wmfYy0WljEqi8JNRl5fpc1613XfAo2Sd2URXqJNYGmy7QCwGqL
+	JU3Q4MR/KkrSpeudQTIaAmu+KWW1/GR/LthYEGsTUy6E1W2NzabVeCl6BoZ8ZxpxhfYTtcJs5AX
+	Y1yZijU318ZWjAJnE3KvdmS8CBNeghSXWkKN7Ha3dYwBu0NVohunF/GAlQg6qKq0xMYsZYobGNt
+	AywQkQzSE1wnZRDx9wU6gMMwe/eHxVMu19dKabOlRoqRIWE0dIwuR8aRjV1GG/nzFt7dgmzW81g
+	gpYMj6ImrAav6m9QaZkcpwbXZ3OZAZ58Bka7MiMbw==
+X-Received: by 2002:a17:90b:5824:b0:381:9028:5945 with SMTP id 98e67ed59e1d1-38fbc43a847mr11586487a91.14.1785795382878;
         Mon, 03 Aug 2026 15:16:22 -0700 (PDT)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab1334cfsm38685666c88.1.2026.08.03.15.16.21
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab1334cfsm38685666c88.1.2026.08.03.15.16.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 15:16:21 -0700 (PDT)
+        Mon, 03 Aug 2026 15:16:22 -0700 (PDT)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: lkml@antheas.dev
 Cc: W_Armin@gmx.de,
@@ -71,10 +71,10 @@ Cc: W_Armin@gmx.de,
 	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	platform-driver-x86@vger.kernel.org,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>
-Subject: [PATCH 2/6] platform/x86: msi-wmi-platform: fix: Remove unused err
-Date: Mon,  3 Aug 2026 15:16:10 -0700
-Message-ID: <20260803221614.59324-3-derekjohn.clark@gmail.com>
+	Matthew Schwartz <matthew.schwartz@linux.dev>
+Subject: [PATCH 3/6] platform/x86: msi-wmi-platform: terminate msi_quirks DMI table
+Date: Mon,  3 Aug 2026 15:16:11 -0700
+Message-ID: <20260803221614.59324-4-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260803221614.59324-1-derekjohn.clark@gmail.com>
 References: <20250511204427.327558-1-lkml@antheas.dev>
@@ -87,36 +87,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-msi_wmi_platform_profile_setup() declares int err and leaves it
-unintitialized, then returns PTR_ERR_OR_ZERO. Remove the unused
-variable.
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+The msi_quirks table lacks a terminating empty entry so it crashes the
+kernel on non-quirked MSI Claw devices.
+
+Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
 ---
- drivers/platform/x86/msi-wmi-platform.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/platform/x86/msi-wmi-platform.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/platform/x86/msi-wmi-platform.c b/drivers/platform/x86/msi-wmi-platform.c
-index 33acd448f674..2439b4f0001b 100644
+index 2439b4f0001b..fdc2f6f4ca7e 100644
 --- a/drivers/platform/x86/msi-wmi-platform.c
 +++ b/drivers/platform/x86/msi-wmi-platform.c
-@@ -1422,16 +1422,12 @@ static int msi_wmi_platform_init(struct msi_wmi_platform_data *data)
+@@ -268,6 +268,7 @@ static const struct dmi_system_id msi_quirks[] = {
+ 		},
+ 		.driver_data = &quirk_gen2,
+ 	},
++	{ }
+ };
  
- static int msi_wmi_platform_profile_setup(struct msi_wmi_platform_data *data)
- {
--	int err;
--
- 	if (!data->quirks->shift_mode)
- 		return 0;
- 
- 	data->ppdev = devm_platform_profile_register(
- 		&data->wdev->dev, "msi-wmi-platform", data,
- 		&msi_wmi_platform_profile_ops);
--	if (err)
--		return err;
- 
- 	return PTR_ERR_OR_ZERO(data->ppdev);
- }
+ static int msi_wmi_platform_parse_buffer(union acpi_object *obj, u8 *output, size_t length)
 -- 
 2.55.0
 
