@@ -1,233 +1,82 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4B74457B2
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0D3312815
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785782830; cv=none; b=GeW1GX0JyaXI/GvBAOkd9zbX6q5PTD4iDC3ofaPFmHlFxExoz/fW1eQ8lAyiEoLDO20gFIhmQttOfBoaNuxo9ZLZ2quuvUrGPLyajhfPERpIGGAuu1rwn701Sb93x2sTehSPH5GRz8Z+G95/pLB5F2mdfdp2UQBTjHs4vUaXK1c=
+	t=1785783304; cv=none; b=sDDH2Pqb48ZvWwTQs/Sf+OEWoBe/V2GxnH6yszmzmf+sUfCszvxcYbb/uJo36w6nXPrr1DIIaIyHf4BqQJPzwr1jLXZ5Ww+itB90GJ7HhjHJ3INulS4zovXI6h27TouIhokL9hdBcn8rLGJObKUDyJzUVrOPBFCncA6YS9smbvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785782830; c=relaxed/simple;
-	bh=Yoi3lubzRKWVWpcvd3Ifx+IIKQYam/xYCacTplW9mOc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=I5sn27eo6Epf7XDRhWO35kHKAl7/NoB0XyAXpDJf1uluQuvRHcakRB0pJ47EWBLioaZPcQJk2iOUKUQ+/7GbU/q3YWlwch3CUmosaoi6EDOjDHqrwt2vTRFuNnJdHcswvuHT8t1VQzjIiQeYWmbOAGsjFpEtbSYKrg4Yqtydfw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wbny/eZZ; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785783304; c=relaxed/simple;
+	bh=VX5Vy0lQAf1RQ7kVYta1XqSxu6+WfeiX1eYkkzH1JZk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=RIqpzWi5tVPTB18FAWPKavLOrTxlcp2+G0k1Cp2gAfZ5WKwUuG9zM22s4iCZY3JcH0uOn5Abx62QBx6lftZ6D/dIYllhyKbZnvQkoQnEGuuZJJnynl1PMNhhPJBfyRY72dwff92yEWR/VhSXyb+leAvsePLOzuSkwCZ6E7bbNmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YIvtEIwt; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wbny/eZZ"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-ca7bea5e5b3so2825656a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785782825; x=1786387625; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HhNt75xrdH23XiQfHURUjEm4mC5u0bmXUDGMCww7WdI=;
-        b=Wbny/eZZnYcxHGcyDYuqUE5R5b8+1HuCkouS6P99ImtVDUfIY6wge9Uerdtwr94PS2
-         ouaeTKPyKpess511lqIqgJvPqAX7tP5zMT59A2Zn0TPcdmckpKgFewOWp9SQB9654y74
-         MN5YFZd0bY0KZIkkT9t7Q6XxyAvOC/oLWVCrjNsqR+ScuvNjvQvVaWyRxd4fRqWYTSk7
-         B/zNxqhyz02yZxu+s5kaJZflI1Y8tuNAUfsNbLqXr2hlgWKCymX99XaBzbQENBwttgk1
-         n2VqhFThaKl8EUI32VJs6WEWJ/ITPgka6fDkMlgGIFwqc/LCkZ/9mYPjMesG1e44FkPz
-         Fqcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785782825; x=1786387625;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HhNt75xrdH23XiQfHURUjEm4mC5u0bmXUDGMCww7WdI=;
-        b=VRFcsvU+OSBJSuiGIjrU7buzGsi0EkmVsEt74i2i72oGVsuGQnagBc8zfL7H9rE59E
-         QhTjPsHqJt17UEI5jUAKZ2PQRTfSbxGsEj/bDdvpoZUDrjeTu2vXVavWmcpe6+ZxAjz+
-         zcnSZbNxGSnk+ayF0mnRYjR+Ht4YL6Rxjb8GPoIYz1r5NqIVO0125IkIj4f1EtJZhvN7
-         CUoPKTSs3ah3ekcDtGFJivmf27ka+xNaK5TBPUMiw7Jiw0TKpXGQv4tdFc+s2GAH8c3f
-         +faimcBAafO8lj+FpRugPLziqgKiVuaTlpWB8ie333ljdUIdlqXtwkIbV8CBvMrkVonb
-         7jvw==
-X-Forwarded-Encrypted: i=1; AHgh+Royr0jnOgUYwipjQGTkeCUPVf5Ve4oW0sC9zOpqPkSeWB1GrMsngc5qokoVTQiPIePrNfFsY7rP7xU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZmNUecjmZravefIW9/6q3+TReHK1MueokGUv+zrOYHGach4lc
-	agiIQOgW874LqXyNffk8qHDLy4E+mQA4HVjDRC9hOeFwmmpu4CDhecab
-X-Gm-Gg: AR+sD10f3r/FHzHhZmMn0nJdOj1ii3lqtbP7FCf8D5cBWwCfrenL7VswB6gdUKlxV8n
-	WytILMLgaIOFPnHU53YXi6kaLdkI2GwaNv0fHOx+qIAAgpa7UhSqD64kxC5tFzoBkwGe+gVn/0s
-	1kAN5QeojvfGDOsBGgQJxyS5BmO3Wy5AQqFMi+p1d5GTQUQw8OyXRLHfLce6/m22b3RTRalon0E
-	Gs1sgnG4/s2gQflXny8vkGOFMRsvdGQmvzlbNy6tCu+I1uyPRwbLB8fh9MuaJZ8o9Gep3GHiAGr
-	d/GNPq5KYrMTT/eBuFQRBB4onS90TfQueVk+P5XeRyfdeXYDsrbBJnxGQ7xWlW90Q0bNNH9ffy+
-	FgM5EV7OFEEpNsORSUccrDda8h4LYM9a45YAb/jMzleujPXvJZvh3Nhb2ZmGjzBM8OhEyM7nV5t
-	xadG4KzSWOiWLMvWPG38yUBVJ0OoBzvZdFTgztzF/KOkPCtpi1NWtedQyEDXRMlN365BU+klGEx
-	7bmcmiL0C2R+z+QloqYL6nGBIv6MKqzNVw7ZDRlR/AYMegAFu8R
-X-Received: by 2002:a05:6a20:93a0:b0:3c3:bbe6:95b1 with SMTP id adf61e73a8af0-3c92a5d6d57mr11389147637.24.1785782825402;
-        Mon, 03 Aug 2026 11:47:05 -0700 (PDT)
-Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:d109:cdba:8a20:74ad])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.47.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 11:47:04 -0700 (PDT)
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 03 Aug 2026 11:46:46 -0700
-Subject: [PATCH 21/21] HID: haptic: move FF initialization into
- .input_configured()
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YIvtEIwt"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1A996408B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785783302; bh=0F52mNV9uXw8ySNGiEk5gGtjqCUQxCmLDYsGM1O6MLQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=YIvtEIwtFnXtUSE17/Z9uRXkDkZW8k3oI+wc4WYZ/g9naOLCXfhqbMExNhwG8CTI6
+	 /wFbzeS85tbazqSQMbhzm0wAGfkZsvUQMzVNV93uY8LaG4EHlHe+xja6xxMZCwzQi3
+	 91bNDmXGQ9jL2i0Vw7yope5+DMu7sESjq5MqRV6rYFRphWe8R+Puv9nAB54sQRYc1l
+	 IYTk2/0U+lzuUJVW1eu0QG+sdeVkoVq6rtgM5B+eAlbGgiyYqMVWpMNWxIfgXpb8d5
+	 AfLD2wrVxXvP1xlV8IzgTBidkmORDS7ATETk5i/GewUVH4Qsd8Y9VOq93es0HdOdkL
+	 mfnzkEaQl7xlA==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1A996408B2;
+	Mon,  3 Aug 2026 18:55:02 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ygor Otavio <ygorotavio.sjc@gmail.com>, danielmaraboo@gmail.com
+Cc: linux-doc@vger.kernel.org, Ygor Otavio <ygorotavio.sjc@gmail.com>
+Subject: Re: [PATCH v4] docs: translations: pt_BR: fix email-clients.rst and
+ add to index
+In-Reply-To: <20260726235352.3926-1-ygorotavio.sjc@gmail.com>
+References: <20260726235352.3926-1-ygorotavio.sjc@gmail.com>
+Date: Mon, 03 Aug 2026 12:55:01 -0600
+Message-ID: <87pkzzxce2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-hid-ff-input-configured-v1-21-1dc9bbacd88c@gmail.com>
-References: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
-In-Reply-To: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
- =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>, 
- Bastien Nocera <hadess@hadess.net>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, cocci@inria.fr
-X-Mailer: b4 0.16-dev-b242f
+Content-Type: text/plain
 
-Refactor hid_haptic_init() to take a direct pointer to input_dev and
-integrate its invocation into hid_haptic_input_configured().
+Ygor Otavio <ygorotavio.sjc@gmail.com> writes:
 
-Update hid-multitouch to rely on the refactored callback to perform the
-force-feedback initialization during the registration loop. This ensures
-that force-feedback capabilities are set up before the input device is
-registered and exposed to userspace, closing the registration race.
+> For V1 Translates the documentation regarding email clients info for
+> Linux into Brazilian Portuguese, maintaining consistency with original
+> formatting rules.
+> For V2, the erros "bullet list ends without a blank line" and "inline
+> interpreted text start-string without end-string" were fixed. The others
+> erros that appeared after the submission of V2 ware also fixed.
+> For V3, the spelling errors pointed out during the review were
+> corrected, and the missing index.rst file was added
+> For V4, The last spelling and character errors have been corrected.
+>
+> Signed-off-by: Ygor Otavio <ygorotavio.sjc@gmail.com>
+> ---
+>  Documentation/translations/pt_BR/index.rst    |   1 +
+>  .../pt_BR/process/email-clients.rst           | 368 ++++++++++++++++++
+>  2 files changed, 369 insertions(+)
+>  create mode 100644 Documentation/translations/pt_BR/process/email-clients.rst
 
-Assisted-by: Gemini:gemini-3.1-pro
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/hid/hid-haptic.c     | 45 +++++++++++++++++---------------------------
- drivers/hid/hid-haptic.h     |  6 ++++--
- drivers/hid/hid-multitouch.c | 10 +---------
- 3 files changed, 22 insertions(+), 39 deletions(-)
+That is not an even remotely appropriate subject line or changelog.
+Your subject should be "docs: pt_BR: translate email-clients.rst" or
+something similar.  The changelog should describe the *patch*, not the
+process that led up to it.  That sort of inter-version information can
+be useful, but it belongs after the "---" line so that the maintainer
+does not have to edit it out.
 
-diff --git a/drivers/hid/hid-haptic.c b/drivers/hid/hid-haptic.c
-index deadab28cdbe..5d365a9767dd 100644
---- a/drivers/hid/hid-haptic.c
-+++ b/drivers/hid/hid-haptic.c
-@@ -82,16 +82,24 @@ int hid_haptic_input_configured(struct hid_device *hdev,
- 				struct hid_haptic_device *haptic,
- 				struct hid_input *hi)
- {
-+	int error;
- 
--	if (hi->application == HID_DG_TOUCHPAD) {
--		if (haptic->auto_trigger_report &&
--		    haptic->manual_trigger_report) {
--			__set_bit(INPUT_PROP_PRESSUREPAD, hi->input->propbit);
--			return 1;
--		}
-+	if (hi->application != HID_DG_TOUCHPAD)
-+		return -1;
-+
-+	if (!haptic->auto_trigger_report || !haptic->manual_trigger_report)
-+		return 0;
-+
-+	__set_bit(INPUT_PROP_PRESSUREPAD, hi->input->propbit);
-+
-+	error = hid_haptic_init(hdev, haptic, hi->input);
-+	if (error) {
-+		dev_warn(&hdev->dev, "Cannot allocate haptic for %s\n",
-+			 hdev->name);
- 		return 0;
- 	}
--	return -1;
-+
-+	return 1;
- }
- EXPORT_SYMBOL_GPL(hid_haptic_input_configured);
- 
-@@ -401,11 +409,9 @@ static void hid_haptic_destroy(struct ff_device *ff)
- }
- 
- int hid_haptic_init(struct hid_device *hdev,
--		    struct hid_haptic_device **haptic_ptr)
-+		    struct hid_haptic_device *haptic,
-+		    struct input_dev *dev)
- {
--	struct hid_haptic_device *haptic = *haptic_ptr;
--	struct input_dev *dev = NULL;
--	struct hid_input *hidinput;
- 	struct ff_device *ff;
- 	int ret = 0, r;
- 	struct ff_haptic_effect stop_effect = {
-@@ -447,19 +453,6 @@ int hid_haptic_init(struct hid_device *hdev,
- 	for (r = 0; r < haptic->auto_trigger_report->maxfield; r++)
- 		parse_auto_trigger_field(haptic, haptic->auto_trigger_report->field[r]);
- 
--	list_for_each_entry(hidinput, &hdev->inputs, list) {
--		if (hidinput->application == HID_DG_TOUCHPAD) {
--			dev = hidinput->input;
--			break;
--		}
--	}
--
--	if (!dev) {
--		dev_err(&hdev->dev, "Failed to find the input device\n");
--		ret = -ENODEV;
--		goto duration_map;
--	}
--
- 	haptic->input_dev = dev;
- 	haptic->manual_trigger_report_len =
- 		hid_report_len(haptic->manual_trigger_report);
-@@ -535,10 +528,6 @@ int hid_haptic_init(struct hid_device *hdev,
- 
- input_free:
- 	input_ff_destroy(dev);
--	/* Do not let double free happen, input_ff_destroy will call
--	 * hid_haptic_destroy.
--	 */
--	*haptic_ptr = NULL;
- 	/* Restore dev flush and event */
- 	dev->flush = flush;
- 	dev->event = event;
-diff --git a/drivers/hid/hid-haptic.h b/drivers/hid/hid-haptic.h
-index c6539ac04c1d..6332991a7844 100644
---- a/drivers/hid/hid-haptic.h
-+++ b/drivers/hid/hid-haptic.h
-@@ -69,7 +69,8 @@ int hid_haptic_input_mapping(struct hid_device *hdev,
- int hid_haptic_input_configured(struct hid_device *hdev,
- 				struct hid_haptic_device *haptic,
- 				struct hid_input *hi);
--int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr);
-+int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device *haptic,
-+		    struct input_dev *dev);
- void hid_haptic_handle_press_release(struct hid_haptic_device *haptic);
- void hid_haptic_pressure_reset(struct hid_haptic_device *haptic);
- void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
-@@ -107,7 +108,8 @@ static inline
- void hid_haptic_reset(struct hid_device *hdev, struct hid_haptic_device *haptic)
- {}
- static inline
--int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
-+int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device *haptic,
-+		    struct input_dev *dev)
- {
- 	return 0;
- }
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index edb37b4c867e..15218e92aaa4 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -2189,16 +2189,8 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- 	mt_set_modes(hdev, HID_LATENCY_NORMAL, TOUCHPAD_REPORT_ALL);
- 
--	if (td->is_haptic_touchpad) {
--		if (hid_haptic_init(hdev, &td->haptic)) {
--			dev_warn(&hdev->dev, "Cannot allocate haptic for %s\n",
--				 hdev->name);
--			td->is_haptic_touchpad = false;
--			devm_kfree(&hdev->dev, td->haptic);
--		}
--	} else {
-+	if (!td->is_haptic_touchpad)
- 		devm_kfree(&hdev->dev, td->haptic);
--	}
- 
- 	return 0;
- }
+I have applied the patch and fixed things up this time.
 
--- 
-2.55.0.629.g250fe7f194-goog
+Thanks,
 
+jon
