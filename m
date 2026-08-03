@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102253AE1BD
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 07:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339392D46B3;
+	Mon,  3 Aug 2026 08:17:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785743689; cv=none; b=QKzbUI2DAEAaY129T8qWxh02b3SQl2MRlVQzM+6FAvsccDhC7Z2ipaS678uPV0FRHdt4CUtg13UBL0vIBMoQFeVM/SoX/MJBBFW2QHpzoFXXJgnTO2yDrMznnVMbDeBX/x48Y2GF1hWEDrvYL5YZeY8bkDze4LoZTkn3ofDycQY=
+	t=1785745045; cv=none; b=P/t20Mz0YPtwUciNGcR3fSEq+50Iy2B4WzBZZxzJU3Yj8jDtzOshXeAUP4v5mMgugIBlBU/xdmtQv0TkWw1Ayqi6snxE38aGvsb8k1Ood52/ApW49Bm2rGCASOmOIlrFgfGIxC4EUOqmy0ovt5vARItfoT07LBuyZPYEEuC/ZD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785743689; c=relaxed/simple;
-	bh=1RToCMqJF1yS8LUnOBtMO0FQ6rqRQeOVXAht53Hd4VU=;
+	s=arc-20240116; t=1785745045; c=relaxed/simple;
+	bh=6TrLVgMhon2BxV0z09SMQMCdBtHfxBUMuW3q4kOI5+Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BOJiu3ZKFGhm8IWV9ftg8KapysJIZNRUbn8/vPlAgeCTEngWTe+R0oabQ1zCVBnXU66TJJEQQk3t3YZhDCle6GspZqGgEdRDCaXv0/aM3z1RVfnQVodBDAOpxrFRDJP6IoBcMQ1uO20gnlHIJuoDlVKtOdjfI8G/mBJldn+TZto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+Yzn4Ef; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=c/HsuCP4eqa6vq4OWIuNQoFX3SkMXykkhKfitIIT/G0rVacRFH2l8SlY8/mpXilTZ2bMgsveKr24OiQpv7/NbWQoq9r5y6amISapdJ+R+Bza9FnzDnhcy5y3xKJCd1lFoOTOuhaA1T9S7Wra25MInAgaJkNqmH9BWoRd2irkLMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZI6HV0g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+Yzn4Ef"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA0111F000E9;
-	Mon,  3 Aug 2026 07:54:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZI6HV0g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640961F000E9;
+	Mon,  3 Aug 2026 08:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785743686;
-	bh=BXJHyJVq8eSCZdvtdT9bf4WhjgSufN7PcFBzUWxZF+I=;
+	s=k20260515; t=1785745043;
+	bh=coiuyZR1VmW5G88T8irYDXeM/sT+sxprk8RM8Eu7o+Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=V+Yzn4Efg4P83a7IPaFwHq0PR/bx3sL1wXB9EPacsg7ju7bcAVds4YxIhmeqxAncl
-	 Z3S+cLHbVXvk6+zB8y+gbUja0mrLMgKK9khmLbzMw/fBh6sIKA4VHX9N3nnd1PU/Pp
-	 JrydOD2r6vjgmn+y0TgsqKyRrzVFEP1QvF4flOWZygDMG5Nb/td6OfWuNHoMf0QRIL
-	 MPGpLZrbMlpWR9UkchWCTJtQCYZcrUZ7xNYniTszsRd3sbDd5MRn++3vFDvDewEZsz
-	 HjZpJuWMLbx7WhMH4BZhrbtMWHI2gmLID57Nvk28Ts5qhzHNKti+/qxHocXjtrP21r
-	 po2SYR2j/GeMw==
-Message-ID: <c075be8b-4213-4ba4-8e95-6377986d7c8c@kernel.org>
-Date: Mon, 3 Aug 2026 09:54:38 +0200
+	b=dZI6HV0g2Yg7FFetdn3P1hVJ3ewoATxX0lbDDztDi38EgnW/HZUixAizvtVvOcT1N
+	 0XYqAUJja335FbBgZEej8RV8VxwYK0mG9eRHyK1p/94QKHkRiu4UDDUx5aEpLqofxg
+	 t0kdNV1n4nZbsAy0psfbz/75JReTYj2MPY+MSppD2mUt1tF1/XdoiBtJBvdYSuvnEr
+	 7StCacmDxqPx4H5JT5bs4NHPDHjlc7TPF87/CYpfk97fBJ5h02ynfLfrfsM6o49hZj
+	 T0oEZKDdPL/LpfqPjPgDSacgzrL/fAvfFsVjd3sPq0sGxzvbxneuED9S8zeAZ7WJmU
+	 mIF4g1h9D6nHQ==
+Message-ID: <e85ee97b-6a3a-482d-b6e1-6a6df9be60f3@kernel.org>
+Date: Mon, 3 Aug 2026 10:17:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,19 +35,17 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: ksm: fix typos in sysfs knob names
-To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
- xu.xin16@zte.com.cn, chengming.zhou@linux.dev, ljs@kernel.org,
- liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
- shr@devkernel.io, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
-References: <20260731083526.3953421-1-tujinjiang@huawei.com>
- <20260731083526.3953421-2-tujinjiang@huawei.com>
- <d9236dc0-3332-4fab-aa26-e74d10ad0cda@kernel.org>
- <f1f5c486-f14c-44ad-8285-a9df437f7974@huawei.com>
- <3066dc07-31b5-48ca-b14e-51b284bbb9e1@kernel.org>
- <fe724e58-f525-4eee-9471-d1765f6bdb0e@huawei.com>
+Subject: Re: [PATCH v2 1/3] tools/mm/page_owner_sort: fix --sort option being
+ silently ignored
+To: Ye Liu <ye.liu@linux.dev>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Ye Liu <liuye@kylinos.cn>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260803062056.1518070-1-ye.liu@linux.dev>
+ <20260803062056.1518070-2-ye.liu@linux.dev>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -94,55 +92,47 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <fe724e58-f525-4eee-9471-d1765f6bdb0e@huawei.com>
+In-Reply-To: <20260803062056.1518070-2-ye.liu@linux.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 8/3/26 09:15, Jinjiang Tu wrote:
+On 8/3/26 08:20, Ye Liu wrote:
+> From: Ye Liu <liuye@kylinos.cn>
 > 
-> 在 2026/7/31 17:25, David Hildenbrand (Arm) 写道:
->> On 7/31/26 11:22, Jinjiang Tu wrote:
->>> 在 2026/7/31 17:11, David Hildenbrand (Arm) 写道:
->>> git log --grep "Fixes" Documentation/
->>>
->>> Many commits in Documentation have fix tag.
->>> I think both are ok, since documentation changes are needed to backport.
->> What? When? How? Where?
->>
->> :)
+> When --sort is used without any short option (-a, -m, -p, etc.),
+> compare_flag remains COMP_NO_FLAG.  The switch (compare_flag) then
+> falls through to the COMP_NUM case and calls set_single_cmp(), which
+> unconditionally overwrites the sort conditions that parse_sort_args()
+> already configured.  This makes --sort silently ineffective unless a
+> short option is also supplied.
 > 
-> These commits only modify Documentation/ files and contains fix tags.
+> Split COMP_NO_FLAG out of the COMP_NUM fallthrough so that --sort is
+> respected when no short option is present.
 > 
-> 0c13ed77dd2b Docs/admin-guide/mm/damon/lru_sort: warn commit_inputs vs param updates race
-> 0beba407d458 Docs/admin-guide/mm/damon/reclaim: warn commit_inputs vs param updates race
-> d7f00084f686 Docs/admin-guide/mm/damn/lru_sort: fix intervals autotune parameter name
-> 652e1a51465f mm: fix docs for the kernel parameter ``thp_anon=``
-> 14e70e4660d6 Docs/admin-guide/mm/damon/usage: fix wrong schemes effective quota update command
-> da2a06188888 Docs/admin-guide/mm/damon/usage: fix wrong example of DAMOS filter matching sysfs file
-> 1beb8ae302a0 Docs/admin-guide/mm/zswap: remove zsmalloc's lack of writeback warning
-> 0ff11f103f5d Docs/admin-guide/mm/damon: rename the title of the document
-> 465d0eb0dc31 Docs/admin-guide/mm/damon/usage: fix the example code snip
-> 205498012513 Docs/admin-guide/damon/reclaim: remove a paragraph that been obsolete due to online tuning support
-> dd21bfa425c0 proc: fix documentation and description of pagemap
-> a8db400f997c memory-hotplug.rst: fix wrong /sys/module/memory_hotplug/parameters/ path
-> d83fe3c99d27 memory-hotplug.rst: fix two instances of "movablecore" that should be "movable_node"
-> 72a3e3e25a51 docs: hugetlbpage.rst: fix some warnings
-> 8867f6109b84 docs: fix numaperf.rst and add it to the doc tree
+> Reproduction:
+>   # Before fix: ascending order (ignored --sort=-pid)
+>   ./page_owner_sort --sort=-pid input.txt output.txt
+>   # After fix: descending order as expected
 > 
+> Signed-off-by: Ye Liu <liuye@kylinos.cn>
+> ---
+>  tools/mm/page_owner_sort.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> But there are also commits don't contain fix tags. Such as:
-> 
-> abdca14655fe Docs/admin-guide/mm/damon: fix 'parametrs' typo
-> 78a00cac1e96 docs: fix 're-use' -> 'reuse' in documentation
-> eb14b12c8c22 Docs/admin-guide/mm/damon/usage: fix and add missing DAMOS filter sysfs files on files hierarchy
-> 472098f23323 docs: mm: fix the incorrect 'FileHugeMapped' field
+> diff --git a/tools/mm/page_owner_sort.c b/tools/mm/page_owner_sort.c
+> index 35d3d254941c..3c86c8d0618c 100644
+> --- a/tools/mm/page_owner_sort.c
+> +++ b/tools/mm/page_owner_sort.c
+> @@ -821,6 +821,10 @@ int main(int argc, char **argv)
+>  		set_single_cmp(compare_stacktrace, SORT_ASC);
+>  		break;
+>  	case COMP_NO_FLAG:
+> +		if (sc.size > 0)
+> +			break;
+> +		set_single_cmp(compare_num, SORT_DESC);
+> +		break;
 
-That is not what I asked. You said "since documentation changes are needed to backport".
-
-Who backports documentation fixes and to which tree?
-
-We usually don't backport anything unless we Cc: stable. And distros don't generally
-care that much about documentation backports either.
+Why not a fallthrough; after the check?
 
 -- 
 Cheers,
