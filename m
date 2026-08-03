@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339392D46B3;
-	Mon,  3 Aug 2026 08:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2276C3AEF59;
+	Mon,  3 Aug 2026 08:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785745045; cv=none; b=P/t20Mz0YPtwUciNGcR3fSEq+50Iy2B4WzBZZxzJU3Yj8jDtzOshXeAUP4v5mMgugIBlBU/xdmtQv0TkWw1Ayqi6snxE38aGvsb8k1Ood52/ApW49Bm2rGCASOmOIlrFgfGIxC4EUOqmy0ovt5vARItfoT07LBuyZPYEEuC/ZD0=
+	t=1785745416; cv=none; b=iCzbq0cNtOw1x+YFIsKwIeYuvfVIzqUiLxjmKdX87KUxmPqCy2HZCHELS4bTqWvOFnSOwmqMGaVEBCaTZqcK5tEOr8+YvvfqV3DR68zphHoP3vF65C3e9GWJpYYGSJ3onNB4lE7vmKV2IENoIILvQymajgGJU697Ky92LpbT5pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785745045; c=relaxed/simple;
-	bh=6TrLVgMhon2BxV0z09SMQMCdBtHfxBUMuW3q4kOI5+Y=;
+	s=arc-20240116; t=1785745416; c=relaxed/simple;
+	bh=oPtqC8oPKTmIwo7mxOuO3yIiRIOTgQWZrblM1akIdGI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c/HsuCP4eqa6vq4OWIuNQoFX3SkMXykkhKfitIIT/G0rVacRFH2l8SlY8/mpXilTZ2bMgsveKr24OiQpv7/NbWQoq9r5y6amISapdJ+R+Bza9FnzDnhcy5y3xKJCd1lFoOTOuhaA1T9S7Wra25MInAgaJkNqmH9BWoRd2irkLMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZI6HV0g; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ecy89Bl3mqiXPH1mCtEo4ywjOj1ipHa6e0q8iAiBA0pg/3VhQCsZdzuRsc2PrvMb7McIrqvPFwlhKq4cF4K9jYM6PUrizzg4LdBpEF6bmJlO3PbT4kNB2/sHidgr5cLyLLhiBKgGxB4rZrosyyHaHIGaVEt/PmhEtAbQNAmRTmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kIa4FNQo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZI6HV0g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640961F000E9;
-	Mon,  3 Aug 2026 08:17:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kIa4FNQo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C411F000E9;
+	Mon,  3 Aug 2026 08:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785745043;
-	bh=coiuyZR1VmW5G88T8irYDXeM/sT+sxprk8RM8Eu7o+Y=;
+	s=k20260515; t=1785745414;
+	bh=Gr1XBpbnk0zX9E9Hf9+XaMO/o0eQfNbPl/6JAmkYcuQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dZI6HV0g2Yg7FFetdn3P1hVJ3ewoATxX0lbDDztDi38EgnW/HZUixAizvtVvOcT1N
-	 0XYqAUJja335FbBgZEej8RV8VxwYK0mG9eRHyK1p/94QKHkRiu4UDDUx5aEpLqofxg
-	 t0kdNV1n4nZbsAy0psfbz/75JReTYj2MPY+MSppD2mUt1tF1/XdoiBtJBvdYSuvnEr
-	 7StCacmDxqPx4H5JT5bs4NHPDHjlc7TPF87/CYpfk97fBJ5h02ynfLfrfsM6o49hZj
-	 T0oEZKDdPL/LpfqPjPgDSacgzrL/fAvfFsVjd3sPq0sGxzvbxneuED9S8zeAZ7WJmU
-	 mIF4g1h9D6nHQ==
-Message-ID: <e85ee97b-6a3a-482d-b6e1-6a6df9be60f3@kernel.org>
-Date: Mon, 3 Aug 2026 10:17:18 +0200
+	b=kIa4FNQoZ10ntwIac2bANO5VbZGe8hJzsApKeARQeHnL1gzrhSOnIYU71zqqvoEpx
+	 cZ7+KVZRof25vvxshmLw4I96b9lYdzNm36vIBmRScJkd0l3gezBunlfChOJHpr6S4D
+	 PNGRaeTNk+2GQVQkLZDCE1XHSGJ7RmiUdE8/rc7oBYyKllzvrtAl9cBmtxgCZF0ZeC
+	 e9VlOnhahZzLEC5lpkUo5pzKcKVk4SQ1Qt4N0UFQuYtIvoX8VFuFKIbaWeTgNY0TNk
+	 OIGBsuMR+1eTKxuLh7I4eIRoC6+vRZYXfVjeyM6Hhp7UwqJxTl1MPb3tZDU/hHkSCU
+	 SB2HFNKUf5BDQ==
+Message-ID: <7b687665-765a-486c-8a30-3bdd4f28f902@kernel.org>
+Date: Mon, 3 Aug 2026 10:23:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,17 +35,17 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] tools/mm/page_owner_sort: fix --sort option being
- silently ignored
-To: Ye Liu <ye.liu@linux.dev>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 2/3] tools/mm/page_owner_sort: add module name
+ sort/cull/filter support
+To: Ye Liu <ye.liu@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>
 Cc: Ye Liu <liuye@kylinos.cn>, Lorenzo Stoakes <ljs@kernel.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+ Michal Hocko <mhocko@suse.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20260803062056.1518070-1-ye.liu@linux.dev>
- <20260803062056.1518070-2-ye.liu@linux.dev>
+ <20260803062056.1518070-3-ye.liu@linux.dev>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -92,47 +92,40 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260803062056.1518070-2-ye.liu@linux.dev>
+In-Reply-To: <20260803062056.1518070-3-ye.liu@linux.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/3/26 08:20, Ye Liu wrote:
 > From: Ye Liu <liuye@kylinos.cn>
 > 
-> When --sort is used without any short option (-a, -m, -p, etc.),
-> compare_flag remains COMP_NO_FLAG.  The switch (compare_flag) then
-> falls through to the COMP_NUM case and calls set_single_cmp(), which
-> unconditionally overwrites the sort conditions that parse_sort_args()
-> already configured.  This makes --sort silently ineffective unless a
-> short option is also supplied.
+> Page owner stack traces already contain kernel module names in the
+> "function+0xNN/0xNN [module]" format produced by %pS, but page_owner_sort
+> has no way to sort, cull, or filter by module.
 > 
-> Split COMP_NO_FLAG out of the COMP_NUM fallthrough so that --sort is
-> respected when no short option is present.
+> Extract the first module name from each record's stack trace using an
+> anchored regex that matches the stack trace frame format
+> "+0x[0-9a-f]+/0x[0-9a-f]+\\s*\\[([a-zA-Z0-9_-]+)\\]".
 > 
-> Reproduction:
->   # Before fix: ascending order (ignored --sort=-pid)
->   ./page_owner_sort --sort=-pid input.txt output.txt
->   # After fix: descending order as expected
+> The regex is anchored to the stack trace frame to avoid false matches on
+> kernel thread comm names such as [khugepaged] that appear in the record
+> header.  The character class includes '-' so modules with hyphens
+> (e.g. aa-bb-cc) are correctly matched.
+> 
+> Records whose stack traces contain no module frames are assigned "vmlinux".
+> 
+> New options:
+>   -M                  Sort by module name
+>   --sort=mod          Sort by module name (supports +/- prefix)
+>   --cull=mod          Cull (aggregate) by module name
+>   --module <modlist>  Filter to records matching the given module(s)
+> 
+> The module field is also printed in cull output when relevant.
 > 
 > Signed-off-by: Ye Liu <liuye@kylinos.cn>
 > ---
->  tools/mm/page_owner_sort.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/tools/mm/page_owner_sort.c b/tools/mm/page_owner_sort.c
-> index 35d3d254941c..3c86c8d0618c 100644
-> --- a/tools/mm/page_owner_sort.c
-> +++ b/tools/mm/page_owner_sort.c
-> @@ -821,6 +821,10 @@ int main(int argc, char **argv)
->  		set_single_cmp(compare_stacktrace, SORT_ASC);
->  		break;
->  	case COMP_NO_FLAG:
-> +		if (sc.size > 0)
-> +			break;
-> +		set_single_cmp(compare_num, SORT_DESC);
-> +		break;
 
-Why not a fallthrough; after the check?
+Nothing jumped at me when skimming over it.
 
 -- 
 Cheers,
