@@ -1,72 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A322DCBF4;
-	Mon,  3 Aug 2026 20:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1712578F39
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 22:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785788811; cv=none; b=RyNkA1qoDBu70uPKjrC8ogNQY1WStF2+jcnyp24PF7rPKPHUna5nma6nIdZjKCq5cT0s0OPZUqHI2URjfhaZTgMy/J2JX27VI+jRdKvpO/c7Trozpfg09jSIWh2kT5HWmThqq0h3c3MdASUIoHdhPf5flJKjI8YxeU7UY2KVEX4=
+	t=1785795382; cv=none; b=EqcbDSC2q+xuecTQg851wG/vOluuMAHclp6BWoTKRIvu5hnMc/vPr1Tk+6u1KonoULp3kkIak5j75Lr5eKN2fzt0WiAZa0YDPT4QknkwAMlOqVhifI8ow9FXcodCsqrzLD/sS883zOIsYWpaNA4e1cefHGzUE2ypMPpiY14ErII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785788811; c=relaxed/simple;
-	bh=xSaDOAZN6xTgVKBCwzA+v6zyde7tVAYo4A3vWn4P7Ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lW/FpjWb4pUq80QxNmVUcUCAs5s1Y5ZllJBnLAtOZmEVxhfCTHJchpJCsBCUrebUz8ZjHfV9jwCb6CXkFFGAIR1gFr5ayKGUk3iqXwXRAUlILKn1TErWz5ZyCu4wnwnWcEWZKrCXz+B7tBuo6WaqGdTBPSNM+AMPBmwxqaXdwjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BjLYpBUf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785795382; c=relaxed/simple;
+	bh=wRf7seLg/PtIoq4q0F63L6Ynk1VyW+y1eS+2VnsaHaY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=m4cv9Shh0bUMqnGNT7oXML3vBF8SpDmm4MRf0lm+ZxDhFDHFSvCRNLGTjB5mAyjFPXHIwcV5yPJC0ijYvN6/7MBL7WngaxP279/1DR7PRIlwPVXsHoBL7z2ikJlvlP6RfFXrijDZGm1aGZJDiCMOKNE+wgMS8pxvS+658eHeOQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqWLP4sJ; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjLYpBUf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 965B01F000E9;
-	Mon,  3 Aug 2026 20:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785788809;
-	bh=R1P62nhGAM0hZg4XQd9r59zaBc0TW3sOl54YcUwf5LA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BjLYpBUf9NMg1irLa9HdsiWnzLupZRXHa/qDpUO43oFxly7Q1L4lmroMtbeZCoMnj
-	 v+Q1CefnAlP0MR/0AWOyS1lOEcNXlGtkwd4N6bomyb3qX4xmzM7XTTGUwvTsf6i0dd
-	 2VIq2Zz6YQcQiq0jFIh///O2oNiGsoGofR0qaVsLbU7KuMXTOMi6KaWSvVgGcl8mi7
-	 0Tz0dk1CTBERnSnr5ABM2ldK5i4aaY4FcfiDSccs310T06LlRt2PTVStKsl4ek4tf8
-	 G+HGIj8zTq5jeyUxODiRKtMddnFxB+3WJBe9QtIU+oJZfeprvNDPO1R23qe/xIC/MT
-	 PtmZ4vemUeS6Q==
-Date: Mon, 3 Aug 2026 15:26:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqWLP4sJ"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-382ef647e20so4129025a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 15:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785795380; x=1786400180; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=L+ei9qP/3pDlJdQw+OQB45Cnt4yPxyeAe4Q6yRcLbjU=;
+        b=AqWLP4sJim/QpUe4htViXKmmyZHPquOohotTStayvneoJZNsvYRJ0bOzH7xJw1LiV8
+         lxZrvqKLgNy78GgHXLX5PlAre+V53WciA//yn0Qbsn3I4DA/B0dpmY6NgDtWRhbnGrW6
+         8N1vuQh73gl8d9sSKMuejTlNbh63PRPlhH7chKoouFPxBEU5Es0rKEn0w0ECSB473/+g
+         OynkLBXArt0kW7eC9JPxjUqVLt2xZ/QsGxqBXQdP+4c52TvzA9gQuk7UXQlON0mlZUko
+         ipxTLXnfABOol8A2oUl+YoDF0iLdeMiFlhnMdnrlAPMTBb8OF9/NxpftBKq9I1uFnaI3
+         26Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785795380; x=1786400180;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=L+ei9qP/3pDlJdQw+OQB45Cnt4yPxyeAe4Q6yRcLbjU=;
+        b=SgoRAR5n91/gC4nj2MHgx0fFF2P/uW1wJ8TCCPcVyCFLYuDWfrPd+ieMcuL7BLiIHG
+         2HxFegyVpKGBZl6XwB4GZYlcIo4AAj7bMXcwp/lxch4LSKun/XWpYULBVYZQLOjfaUTy
+         LLiUNnkQoG+mKhYshJiVtgxLylwggvHd+hwkNCmaBiqC3MGaBX5c5XHDLCrreCNhseLx
+         UjNaglKD/ktbSs/W932tc1X+xk0TCcGqxPe/hOIB8ZxWgnxKkMLwfbj3jQryB1Wn6Vcx
+         RK2XXDEXhCc2P2TLp0xodb/CAUb4FCMUv+ihZLniQ//xZA3is+OBxMwTpyX1XZD51ERI
+         x+6w==
+X-Forwarded-Encrypted: i=1; AHgh+RrOL8cijnGhvm8iVtoTZ9xk8S+OB15pFOLqDgsyhZtkmuI4cJACE5lJ2q7W01C3OtNm+D2UMAJRYOA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzn1werjhRFXnAQsvtQ8ZkugFKL9+/m52I972Bsw91o8rqwENI3
+	Ug8mvuFzGNfNAXiT9ROhOGLmMjQc1naJsrpPeuw2jRcPnOPOFecvXZ5Y
+X-Gm-Gg: AR+sD12KI7IomD7q/a0Q+6plL6Ul9+LcSn66wFKYyz5UQvYQiJfKlyj9FuyX2fHW5Zf
+	Slgg564DHcLqtqP0iu7isOCnuuAtXes+uitG7hiKbE0RmozhZfmHnsMiBRzI7LHWVrfkla/P3aa
+	6GWnpkQ9N7u99R2Pvr35dSQnbcgUwhih8DydktFTwhXJI4lozfq2K1/TXDdMle7o2GLfB0tW37N
+	K7uk+1HAm+nWg/85CXZCXNmQKCKCxeopOJ27tV1+KcVQM0NDW0TSn6rWsq3NQUvciNKH4MRAxi2
+	JlFiC4/F3Tf3reNraO4L4laFm/d7Q8fW+ZMKguklRLanH40/csApzqL+BE5c8OBZfyzqbzkNR9S
+	kEhwMJVIZIrMNBNBcrLe8uFr3nCSwzYuwnc8fVb6aA2fkcZ0fjuG+ddXtj1025NOdNjkzkN2jSN
+	+nDF6ROyonlVS652a/7FBJZmJi9zOCbJ2c4YPYA9ctbh+NAvi+aKNF8OTQ6oLTjPgrMfber7yvT
+	CYvNB/WD7X2K9JGnN+qtfuMcjJd1en88Q3n7g44Ng==
+X-Received: by 2002:a17:90b:3852:b0:38e:5964:97a8 with SMTP id 98e67ed59e1d1-38fbc46d032mr9505429a91.16.1785795380404;
+        Mon, 03 Aug 2026 15:16:20 -0700 (PDT)
+Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab1334cfsm38685666c88.1.2026.08.03.15.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 15:16:19 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: lkml@antheas.dev
+Cc: W_Armin@gmx.de,
+	corbet@lwn.net,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	jdelvare@suse.com,
+	kuurtb@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Saravana Kannan <saravanak@kernel.org>, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v4] docs: dt: maintainer: Add Devicetree and OF
- maintainer profile document
-Message-ID: <20260803202648.GA393707-robh@kernel.org>
-References: <20260721060916.12465-2-krzysztof.kozlowski@oss.qualcomm.com>
+	platform-driver-x86@vger.kernel.org,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>
+Subject: [PATCH 0/6] Re: [PATCH v1 00/10] platform/x86: msi-wmi-platform: Add fan curves/platform profile/tdp/battery limiting
+Date: Mon,  3 Aug 2026 15:16:08 -0700
+Message-ID: <20260803221614.59324-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20250511204427.327558-1-lkml@antheas.dev>
+References: <20250511204427.327558-1-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260721060916.12465-2-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 21, 2026 at 08:09:16AM +0200, Krzysztof Kozlowski wrote:
-> Document how Devicetree and Open Firmware maintainers handle their
-> subsystem, especially focusing on two caveats:
-> 
-> Devicetree subsystem handles patches with a minor difference comparing
-> to other subsystems: while DT maintainers pick up OF code, they only
-> provide review of DT bindings without applying these.
-> 
-> All three DT bindings maintainers rely currently on Patchwork and due to
-> enormous amount of emails per day, regardless how much DT maintainers
-> try, they cannot read all the emails.
-> 
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Saravana Kannan <saravanak@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+While tesing this series, multiple issues were found that cause crashes
+or compilation warnings. Additionally, since this was first posted, two
+new models have been added that each have a unique feature that must be
+managed before TDP control will be used. Given that Antheas indicated he
+still plans on sending a v2, I'm posting these so they can be
+incorporated in the next version, and so that distro's packaing this out
+of tree can get the fixes and additional functionality in the meantime.
 
-Applied, thanks!
+A summary of the changes are as follows:
+
+- Patch 1 detangles a guard with a switch case that violates cleanup
+  rules.
+- Patch 2 removes an unused err variable.
+- Patch 3 teminates the quirk table with a null entry to prevent
+  unquirked platforms from crashing when the driver is loaded.
+- Patch 4 cleans up the device quirk names, fixes a bug with when buffer
+  data is copied as a payload, and adds separate PLx limits as indicated
+  by the windows DLL, if pl1 and pl2 are set to the same minumum it can
+  cause instability.
+- Patch 5 adds support for gen 3, the AMD Strixx version. In order for
+  manual TDP control to funciton the STAPM flag must be toggled off.
+- Patch 6 adds support for the 8 EX Ai+. This device uses a new shift
+  mode, called "manual", to enable TDP adjustment. Since this could
+  conflict with the existing "user" mode, use the quirk table to
+  specifiy which mode is "custom". As a consequence, "custom" must be
+  checked outside of the switch case as it could be one of multiple
+  values.
+
+If you incorporate any of these changes in v2, please add the
+appropriate attribution.
+
+Thanks,
+Derek
+
+Derek J. Clark (5):
+  platform/x86: msi-wmi-platform: Move guard out of switch in
+    platform_write()
+  platform/x86: msi-wmi-platform: fix: Remove unused err
+  platform/x86: msi-wmi-platform: Clean up devices
+  platform/x86: wmi-msi-platform: Add MSI Claw A8 support
+  platform-x86: msi-wmi-platform: Add Gen 4 device
+
+Matthew Schwartz (1):
+  platform/x86: msi-wmi-platform: terminate msi_quirks DMI table
+
+ drivers/platform/x86/msi-wmi-platform.c | 151 ++++++++++++++++++++----
+ 1 file changed, 127 insertions(+), 24 deletions(-)
+
+-- 
+2.55.0
+
