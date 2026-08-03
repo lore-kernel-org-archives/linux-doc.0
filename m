@@ -1,80 +1,85 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80136411F95
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 19:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B57938F945;
+	Mon,  3 Aug 2026 19:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785785487; cv=none; b=P1higOrm76C3I0z/1OM+VKTgy26s2x8EvQXZCac4+aaTiVdl+k4mLYkLoss/wV47uVoaWUZAfXNNu526XSZ3ahaBfFiKvDTSNxRNOeeE7yWaXQqeFKux7TpvWhHAPtq2NvpmyPOD8voDDhILdJostQx9TpzvqguWEJgHMWoCH/Y=
+	t=1785786149; cv=none; b=krdgglwHNepIW4Ahfhf2LjARWIjXEclDPOggRRidft2uhYhp6RKORB0pas0EH+iaohyk8WLumwz3WFY9bRNDhXNDb139weMdIYHndPWzt/5TXxSB9VWAR41DrNwPFZeaXtm0Boq2fiuYcB4fStjR+DlmHN2+LGoELQuj6zaCtr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785785487; c=relaxed/simple;
-	bh=x8gdoyM+IcIpnpGrgpEb1ICKLj3/svcr1+fgCIE0qH0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BYddw1WOpmUw3cmI5AjrtBITjUKs8ytsFt2xpXJ9bgxJOvbei2gW/4y7h99x/Uuc+pOZD4Y+EtJWznAle4Tww4tG0LCYMTC2/4HDbnHUeebleaMrCtiJOMlbeUTiziuCnZUWirkDWuX7nbRX+9qnD5rdhXGFFhLA76zNjOfnU1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KxqQa/y1; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1785786149; c=relaxed/simple;
+	bh=UZZxPuYF4VskiTorbPtrxUYQMq7QIuTMmu9jn1T0B6M=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=HqsfqrKT5EpkojsV94KkqcE3n3zHxqPJ73JSDeyCiQYisZqEB1xT63OCLKcmT5Y3cWCILr+tKFfv+dYpRJUeh2V9VzpiE76qe8kuOnrbXtlZppKoYIXRpyy1kTZF3pd8wFW+QsBRF2r2Mn1p66+nVfVnc7UfCujpNOTn+icJbgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erzYjX/Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KxqQa/y1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8FBDC408D2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1785785485; bh=L1KijGUcgI/p20hiaYETNLGtyhA3uwWjvwmgqk2MY/0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KxqQa/y1NAbxT7cuDKt9Vxa8SO4+vlu2ICcgRcylxNBIsr1R0EJAXtOavQhwg3vAs
-	 MDs/fYo4irSdfMHNwsC8fQffvqHKKTJoLcFVcUj5aCHR8cUd3fPtnYmAsIkgHlA3D1
-	 ST/GGdf/Dafo3KOIMVjr2Lcq7DDdXkvrQwPhETE1l1VcQpzWrgDYUSSnbDIlbs7E+S
-	 IDeJYTknOld6IwA1kI4udDL3l4OOVf23cLgMqJCDp+18qd/JCQIwUw75lTVUAnBnIS
-	 8ZcD7c0z/mLUwKQn+bcdmXxr9F6eFF3wALWWPzymzaDIpPkcAGsS7VrEeI10JlJdTm
-	 0CFKwz3Fv4irw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8FBDC408D2;
-	Mon,  3 Aug 2026 19:31:25 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Amanda =?utf-8?Q?Corr=C3=AAa?= <amandacorreasilvax@gmail.com>, Daniel
- Pereira
- <danielmaraboo@gmail.com>
-Cc: linux-doc@vger.kernel.org, Amanda =?utf-8?Q?Corr=C3=AAa?=
- <amandacorreasilvax@gmail.com>
-Subject: Re: [PATCH v2] docs: pt_BR: translate the management-style.rst to
- Brazilian Portuguese
-In-Reply-To: <20260704202831.112653-1-amandacorreasilvax@gmail.com>
-References: <20260704202831.112653-1-amandacorreasilvax@gmail.com>
-Date: Mon, 03 Aug 2026 13:31:24 -0600
-Message-ID: <87zez3vw4z.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erzYjX/Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B351F000E9;
+	Mon,  3 Aug 2026 19:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785786148;
+	bh=uKDvb+7BjDjbIZbK5so1hZN87PZxzHZIdme5WTnNNLQ=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References;
+	b=erzYjX/QDpMBE2wq8I66ydu+uHJp5S72tG7WoB5U5QUmMeDpMvgzUmMTTcX3d/T8M
+	 qQeHKRHHpQRn0COKGCHZ4Jf+S44ER9evY//vw9daPbFv2uu2hmhUWp8eEY/wFjNQSa
+	 +w7FXMn42IyHDVSB7OUT14ap9sJo+Mg/o6DsaMfiiAaiqbMJa/Ru/7jjFCMdWn8Vx9
+	 f1dWsGLqP6UjG6i2/2LppWXgxQ4i2ukQ/b+gNsGrR/yfQ79amapg6vjHk5v7/eHF4A
+	 kHSLR9Sthx1pc36fOekvEwBFmTLRu7sPcRdMhBddtNMoEnHeYdW0d/NJkD+dAKDaRV
+	 ZygQSECGznv4g==
+Date: Mon, 3 Aug 2026 21:42:25 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    Denis Benato <denis.benato@linux.dev>, 
+    Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v13 0/4] Add MSI Claw HID Configuration Driver
+In-Reply-To: <20260720031549.2272658-1-derekjohn.clark@gmail.com>
+Message-ID: <n7so4q55-1699-6s6p-qo38-4pr7055202qs@xreary.bet>
+References: <20260720031549.2272658-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-Amanda Corr=C3=AAa <amandacorreasilvax@gmail.com> writes:
+On Mon, 20 Jul 2026, Derek J. Clark wrote:
 
-> Key changes include:
-> - Translated management-style.rst into and adapted idiomatic expressions
->   and humor to sound natural in Brazilian Portuguese while maintaining
->   the original tone.
->
-> Key changes since v1:
-> - Fix incorrect author email address
+> This series adds an HID Configuration driver for the MSI Claw line of
+> Handheld Gaming PC's. The MSI Claw HID interface provides multiple
+> features, such as the ability to switch between xinput, dinput, and a
+> desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
+> keys. There are additional gamepad modes that are not included in this
+> driver as they appear to be used in assembly line testing or are
+> incomplete in the firmware. During my testing I found them to be unstable.
+> 
+> The initial version of this driver was written by Denis Benato, which
+> contained the initial reverse-engineering and implementation for the
+> gamepad mode switching. This work was later expanded by Zhouwang Huang
+> to include more gamepad modes and additional features. Finally, I
+> refactored the entire driver, fixed multiple bugs, and refined the overall
+> format to conform to kernel driver best practices and style guide.
+> 
+> Claude was used initially by Zhouwang Huang to quickly parse HID captures
+> during the reverse-engineering of some of the features. Since Claude had
+> already been used, as a test of its capabilities I had it implement the
+> rumble intensity attribute after I had already rewritten most of the
+> driver, which I then manually edited to fix some mistakes. I also used
+> Claude to review the driver and these patches for any mistakes and bugs.
+> 
+> Assisted-by: Claude:claude-sonnet-4-6
+> Co-developed-by: Denis Benato <denis.benato@linux.dev>
+> Signed-off-by: Denis Benato <denis.benato@linux.dev>
+> Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
+> Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 
-Here, too, I have had to remove this information from the changelog.
-Daniel, can you please educate your contributors on the proper way to
-convey this information?
+Now in hid.git#for-7.3/msi. Thanks,
 
-> Signed-off-by: Amanda Corr=C3=AAa <amandacorreasilvax@gmail.com>
-> ---
->  Documentation/translations/pt_BR/index.rst    |   1 +
->  .../pt_BR/process/management-style.rst        | 265 ++++++++++++++++++
->  2 files changed, 266 insertions(+)
->  create mode 100644 Documentation/translations/pt_BR/process/management-s=
-tyle.rst
+-- 
+Jiri Kosina
+SUSE Labs
 
-Applied, thanks.
-
-jon
