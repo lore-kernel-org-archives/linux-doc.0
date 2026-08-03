@@ -1,68 +1,68 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A077C435EEA
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B051F43F4D6
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785782819; cv=none; b=a0FGCyz3uyBF7WHtJeLRtltoO+UzQbF4lsHs1Aq7/h+GMP+/MaMUsU+YMEejYcOLaEeJCBNixxzq/9obWtHUtLCiyzF3GJJwCuBQS2367TXKqjYmMpX4z9j8YSLF8dUoEoLmHZ6Ag3T/SRAB9fFEkgeRKONmanG9DAoICTzyE60=
+	t=1785782820; cv=none; b=H7vX+aa8YkiWyXD06WTj1zBJHsV9KWTEJ7eUEXq/Dg1aT7iu+kCnmuhopmgARFYM1SPUUk9PdO9sERPhSkTogg8kvMpgqD81fY0rXCNe3X+odi3X9w08ooU2WXWd2KfUThqx/sR26B0QfazVRWf1ZFljII1qOLDg3rzXfBt87wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785782819; c=relaxed/simple;
-	bh=Hj2pUN9eZtk3cHH/+XZnpDlO6cmq6IWDj87s14TH9kc=;
+	s=arc-20240116; t=1785782820; c=relaxed/simple;
+	bh=bkkjuJ7kHovlBy2GQl50Xio+Ck7Q4NkLDSybgRgkKTQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bcqMZuhczHRWMWPgdRrLWICvEGbrefEllLlTFJ77+13dJQKU5RmRQ00GHxvijwMV8I/0IbD311DF8fOCo4onNrD5gDVFCzYsLYoi4lDHKYL6NIrqIhLHKFX4hIZsPPcGR65jKiMnHa6AJ2g9EXEk1fBgvyJbSGRE4W9w3iyb9Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/NiIsoB; arc=none smtp.client-ip=209.85.216.41
+	 In-Reply-To:To:Cc; b=XKs5H+frkWkYpZXBses4QsAS+hTslCv5+ydHyRS0XmqqUILHhyyHCRdzGFtj5E+HaqWQcjWQOwD8hT5cOdkbqEaeX45anktoiVpZQ8bYmz6z6p3QzGZSTn+VLa49A+36G4iFHoufblde6OilUrVZKrqC1XO6iLi7vWcx6jNpPhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SDn9GZH8; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/NiIsoB"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-381c51fde6bso4044475a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:46:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SDn9GZH8"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so3556559a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785782814; x=1786387614; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785782815; x=1786387615; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4g0QiXRRj0YBm7OorcxDBjlq8/39kTdHz/r69LBWkhc=;
-        b=h/NiIsoBL2lfeln2obAv4ESo8lg7BKnjVTsdBVo/x0S4hN8hRiFZxGfhQ+pdgrx5To
-         JCIGpBjPWx8hLnHp22D4tAre0HYY3cgTGUOMVVc3rnf1kd2WXKgc3cw8CHwgwmA2E4Og
-         Gfq5CfBrm3zgwkUmMxYnv6HgOOmLzGy4UaBuSHiBSPLbcMe+p8bMx0lMoBqPbwX7CRJ0
-         rVzSkAcBhycBrZNPjNk1h6LMWm6sPXS5VDTUg1GCVAUC8Gs0w/ApbQe4UEvtK1MuhMmo
-         uVZ84r7mc2vjKzfM5Hm3VLGTIxyldDK7NHLbAYy/mqrSDCJyE4wMndBDQvid46DWIM4N
-         mwpQ==
+        bh=mMeooT+Pd2wEyftNL9TbUExuIFr34iBpC5GZzR8qYww=;
+        b=SDn9GZH8AF7tWgGkUBLPSHgFgyD7EBkNNjHYiDdgT6pDLHMfHEbneYcHCPz6k4dlQi
+         fOrgQtcb9AQwMmYHPIv5auX+7pJCg6wniuJxXEf1ho1DBnCq2cKqyIW8DAlcSA+sODt5
+         8/Lkp0GlG8+w/ggt6QhYML/LDmkT9eKDXZUx+i4lSPmnSy8pc/zzh2H0h618pOxGutda
+         xD6eBWZxF2gbISWE13ANQiWY42Mas8WOiGbBqKVxRsbA3YnSZOM/1r77L3+K36Ho9inr
+         lE3LcfWhcRh2EKc2gwPCK/uwYVO6B6Do4lTgHhzSnbWYfq6ksradlqlMkyCIf2di5Jof
+         P7iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785782814; x=1786387614;
+        d=1e100.net; s=20251104; t=1785782815; x=1786387615;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4g0QiXRRj0YBm7OorcxDBjlq8/39kTdHz/r69LBWkhc=;
-        b=lUVbOK49ch2zBEims8jd/3Hx5DllFYXDKf0wt4eupk+2k0bCeaxSlpapv3vTExO1HD
-         4aF02XrBjxG10R5wuiuZBAoaAyNpJZ81duH04twNX0/JyjWubCAEg5Eb3r/9PEFXTAvE
-         HuZJVXpG42rkNaK6FY4/SZtOlPhXZtbi6XVVR2og4AJTnZ2ABNtOv9o6T4iIR+xz0clt
-         c/X4D+IRRpmG7kfjxbOhk18wnwEOgkSZtTwc9WgQ1IBOFj9mFpM4TohUvsu0I5n4NqjO
-         WikcgHS8caGOjNsFAXP9LIo7VBrL0oWPnzRYt4eG4yCtSWMvbJ4HZMP8nH+3mwGnhI85
-         P7Mg==
-X-Forwarded-Encrypted: i=1; AHgh+RrCuXuK4e332OorM74ju2jWtYQACrKeHxVOIwsXxZKjaCR6lHuMZNLRP0DSFFCGU6kbO+BAF4JWHUA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywwdd4bPEzKpPyV8kSriPBmpWeAx31dMCbu+8hjW40haFapkEkH
-	AsoDunGGG2PGWA9pfQaTj67UwYLCxiupHOWUKY4TxFgCi8VtwqV5ZMqy
-X-Gm-Gg: AR+sD13PeiCKwnTINmpnXEt1nrLVUkR7Ibv5xDAfrlh5yak2UauIo/exXC3vZ5+IgOf
-	nwVEercHNFpadmg4Xvl6Ffulfcpy+g6PAvYZcaRDfCZzDQWiQxwKS0SITDjG7IA2EASjfQf0rqS
-	UWd0WWDgIxhON4cLYFcZ85RWH1yBEmGN/S8yL5TRenaxLKmrMPNzMB0NE+yhzlKWCgNv0xAKr1x
-	2C01jCy3sYXrByLrpZQp0+D1l7OYsdtnnRMKO9TRWLZ+IthIf/4CxC679T1R5mJ/3UsiT3QfeHf
-	x/bL+Ag0Mk0POgEDdPp7T9RGA4H28QiKAH3YyBbUhKhIwj4rlRk4Jzuria8BnsJ1utuFHhz25oa
-	/3p+4aX91dzMbJ+RVYoQRhkr+JKM1XvpfDMN+yURouEFsBTT477RpB2F/fKqSx0X+uTuA3jjG33
-	v/33f9EwHF+eLu5xROTvXoX3QxWjqCAjejcIe9uhgFqRDX4ubee4uGy0unDmbdTyfQDaEb9CKhn
-	7x6h77hhwqSPZhbbK5s5EbuijIU7ynGoInnVWZMGj+tEneujMC2
-X-Received: by 2002:a17:90b:3b46:b0:38f:57f3:4dc6 with SMTP id 98e67ed59e1d1-38fbc4fe7aamr9686977a91.21.1785782814271;
-        Mon, 03 Aug 2026 11:46:54 -0700 (PDT)
+        bh=mMeooT+Pd2wEyftNL9TbUExuIFr34iBpC5GZzR8qYww=;
+        b=X8LjFXbPmUcJnvvrYWj89TOI6kb2eD6FxiEcznQQBabS4YcQFjI+5qVvVhApHn3FMv
+         +VI5PfFkFHMeiQ7AUVcnN8edI8wr/sUBfm3xjnM9QRrhHyobKIKudE9dDp+AOaV39gFI
+         KLb+G6PqzCcjgfpnTaCgVrO+4wEytbbrhzAS8HMUvJTAxI37C0bX4K8lOTz20q3l6Piz
+         IgxpumyljAuq8lZ6Or/dpWNosF/+6Z4OZiALE6YhLl+9O8KnzVG/k+F32RZAL8y6M9NU
+         4mh2TQBguxkfhrMwHN9SbuSx5pGg/vm7FNYKs52LyF9qjGLfc26aHhyiA0zA6TLGYFQb
+         5dXg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0UmMvb9RYcOs2R0dRaUHxitIdhEoB7pQDXtcI6c2RkgXMMRAPQnlmv/DJFZROzAqcTzTMsIybELY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyqbTP63cdvQDNQHKals+112tQDdVu3eM12RtP2oodD3QsWCfS
+	eLEuvHnU3OcsB6zWWpBl4LCzl6gFrhTKtZroEAajhkA+jTrvZrTVih3/
+X-Gm-Gg: AR+sD10X8cFQ28TWuSasBt+jh86GD7NI3QcBq6kXjGnSEvdToXco/HAeD+LDTh9JXBV
+	FsNZe4XZCf2AVRceEkysCvtn5p3ciPHYwc8ODN9nWqbaR6I4GjOgG/8i1Skvh6sIm797EacjrA8
+	bs89cHZlf6JVMsKwG0y6NCqbqt8cy/GkoaLqZ0KDn/bbWd8vFKdILhirDiNeHwxWCZDqnpc7x2/
+	d6VvT07PP+quqMi9XwQEAEghF7IHRfzXttkhKXj32yirBnNgaWMZCsaJ+sEOWCADTiHH9FS8ZPl
+	I06fKbMKXclooyILs9IsAKMEAkZDbhQuDxW9m2dbgINZOUK7SU2E7beS+NcvHWSFXUUOrjl1bkj
+	hMRJ16CweqO3YHYdsyXwG6E2nC8zD0yItKhKVvKeHVPrwkhAQF3HC3e7zxeo5gNEXwSaU+4FRsd
+	/BjTHk/DWpC0P78RIOF723kHVx0l1Vxi8EV82tLaCV8QdLY7cgL5lJTygs0T4i02kYbaOmt0Zbq
+	/elL10WYUbtgtR4L3YkIUOtWChLebnXNMtnlHSTWCk70z3U0gdPF+OcsPnwnGB/
+X-Received: by 2002:a05:6a20:a114:b0:3c0:9c19:65a3 with SMTP id adf61e73a8af0-3c92a98cd35mr11005065637.75.1785782815610;
+        Mon, 03 Aug 2026 11:46:55 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:d109:cdba:8a20:74ad])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.46.53
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.46.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 11:46:53 -0700 (PDT)
+        Mon, 03 Aug 2026 11:46:55 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 03 Aug 2026 11:46:39 -0700
-Subject: [PATCH 14/21] HID: pantherlord: move FF initialization to
+Date: Mon, 03 Aug 2026 11:46:40 -0700
+Subject: [PATCH 15/21] HID: thrustmaster: move FF initialization to
  .input_configured()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-hid-ff-input-configured-v1-14-1dc9bbacd88c@gmail.com>
+Message-Id: <20260803-hid-ff-input-configured-v1-15-1dc9bbacd88c@gmail.com>
 References: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 In-Reply-To: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -94,218 +94,93 @@ the device is fully prepared before registration.
 Assisted-by: Gemini:gemini-3.1-pro
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/hid/hid-pl.c | 150 ++++++++++++++++++++++-----------------------------
- 1 file changed, 65 insertions(+), 85 deletions(-)
+ drivers/hid/hid-tmff.c | 47 ++++++++++++++---------------------------------
+ 1 file changed, 14 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/hid/hid-pl.c b/drivers/hid/hid-pl.c
-index 8bba29ef6c7a..cae56a6c941b 100644
---- a/drivers/hid/hid-pl.c
-+++ b/drivers/hid/hid-pl.c
-@@ -62,15 +62,13 @@ static int hid_plff_play(struct input_dev *dev, void *data,
+diff --git a/drivers/hid/hid-tmff.c b/drivers/hid/hid-tmff.c
+index 423f395d01ac..0ed152e0dba9 100644
+--- a/drivers/hid/hid-tmff.c
++++ b/drivers/hid/hid-tmff.c
+@@ -115,22 +115,25 @@ static int tmff_play(struct input_dev *dev, void *data,
  	return 0;
  }
  
--static int plff_init(struct hid_device *hid)
-+static int pl_input_configured(struct hid_device *hid, struct hid_input *hidinput)
+-static int tmff_init(struct hid_device *hid, const signed short *ff_bits)
++static int tm_input_configured(struct hid_device *hid, struct hid_input *hidinput)
  {
- 	struct plff_device *plff;
+ 	struct tmff_device *tmff;
  	struct hid_report *report;
+ 	struct list_head *report_list;
 -	struct hid_input *hidinput;
- 	struct list_head *report_list =
- 			&hid->report_enum[HID_OUTPUT_REPORT].report_list;
--	struct list_head *report_ptr = report_list;
--	struct input_dev *dev;
-+	struct input_dev *dev = hidinput->input;
+-	struct input_dev *input_dev;
++	struct input_dev *input_dev = hidinput->input;
++	const struct hid_device_id *id;
++	const signed short *ff_bits;
  	int error;
- 	s32 maxval;
- 	s32 *strong;
-@@ -83,89 +81,80 @@ static int plff_init(struct hid_device *hid)
- 	   The input reports also contain a field which contains
- 	   8 ff00.0001 usages and 8 boolean values. Their meaning is
- 	   currently unknown.
--	   
-+
- 	   A version of the 0e8f:0003 exists that has all the values in
- 	   separate fields and misses the extra input field, thus resembling
- 	   Zeroplus (hid-zpff) devices.
- 	*/
+ 	int i;
  
--	if (list_empty(report_list)) {
+-	if (list_empty(&hid->inputs)) {
+-		hid_err(hid, "no inputs found\n");
 +	if (!list_is_first(&hidinput->list, &hid->inputs))
 +		return 0;
 +
-+	report = list_first_entry_or_null(report_list, struct hid_report, list);
-+	if (!report) {
- 		hid_err(hid, "no output reports found\n");
++	id = hid_match_device(hid, hid->driver);
++	if (!id)
  		return -ENODEV;
- 	}
-+	if (report->maxfield < 1) {
-+		hid_err(hid, "no fields in the report\n");
-+		return -ENODEV;
-+	}
+-	}
+-	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
+-	input_dev = hidinput->input;
++
++	ff_bits = (void *)id->driver_data;
  
--	list_for_each_entry(hidinput, &hid->inputs, list) {
--
--		report_ptr = report_ptr->next;
--
--		if (report_ptr == report_list) {
--			hid_err(hid, "required output report is missing\n");
--			return -ENODEV;
--		}
--
--		report = list_entry(report_ptr, struct hid_report, list);
--		if (report->maxfield < 1) {
--			hid_err(hid, "no fields in the report\n");
--			return -ENODEV;
--		}
--
--		maxval = 0x7f;
--		if (report->field[0]->report_count >= 4) {
--			report->field[0]->value[0] = 0x00;
--			report->field[0]->value[1] = 0x00;
--			strong = &report->field[0]->value[2];
--			weak = &report->field[0]->value[3];
--			hid_dbg(hid, "detected single-field device");
--		} else if (report->field[0]->maxusage == 1 &&
--			   report->field[0]->usage[0].hid ==
--				(HID_UP_LED | 0x43) &&
--			   report->maxfield >= 4 &&
--			   report->field[0]->report_count >= 1 &&
--			   report->field[1]->report_count >= 1 &&
--			   report->field[2]->report_count >= 1 &&
--			   report->field[3]->report_count >= 1) {
--			report->field[0]->value[0] = 0x00;
--			report->field[1]->value[0] = 0x00;
--			strong = &report->field[2]->value[0];
--			weak = &report->field[3]->value[0];
--			if (hid->vendor == USB_VENDOR_ID_JESS2)
--				maxval = 0xff;
--			hid_dbg(hid, "detected 4-field device");
--		} else {
--			hid_err(hid, "not enough fields or values\n");
--			return -ENODEV;
--		}
--
--		plff = kzalloc_obj(struct plff_device);
--		if (!plff)
--			return -ENOMEM;
--
--		dev = hidinput->input;
--
--		set_bit(FF_RUMBLE, dev->ffbit);
--
--		error = input_ff_create_memless(dev, plff, hid_plff_play);
--		if (error) {
--			kfree(plff);
--			return error;
--		}
--
--		plff->report = report;
--		plff->strong = strong;
--		plff->weak = weak;
--		plff->maxval = maxval;
--
--		*strong = 0x00;
--		*weak = 0x00;
--		hid_hw_request(hid, plff->report, HID_REQ_SET_REPORT);
-+	maxval = 0x7f;
-+	if (report->field[0]->report_count >= 4) {
-+		report->field[0]->value[0] = 0x00;
-+		report->field[0]->value[1] = 0x00;
-+		strong = &report->field[0]->value[2];
-+		weak = &report->field[0]->value[3];
-+		hid_dbg(hid, "detected single-field device");
-+	} else if (report->field[0]->maxusage == 1 &&
-+		   report->field[0]->usage[0].hid ==
-+			(HID_UP_LED | 0x43) &&
-+		   report->maxfield >= 4 &&
-+		   report->field[0]->report_count >= 1 &&
-+		   report->field[1]->report_count >= 1 &&
-+		   report->field[2]->report_count >= 1 &&
-+		   report->field[3]->report_count >= 1) {
-+		report->field[0]->value[0] = 0x00;
-+		report->field[1]->value[0] = 0x00;
-+		strong = &report->field[2]->value[0];
-+		weak = &report->field[3]->value[0];
-+		if (hid->vendor == USB_VENDOR_ID_JESS2)
-+			maxval = 0xff;
-+		hid_dbg(hid, "detected 4-field device");
-+	} else {
-+		hid_err(hid, "not enough fields or values\n");
-+		return -ENODEV;
- 	}
- 
--	hid_info(hid, "Force feedback for PantherLord/GreenAsia devices by Anssi Hannula <anssi.hannula@gmail.com>\n");
-+	plff = kzalloc_obj(struct plff_device);
-+	if (!plff)
-+		return -ENOMEM;
-+
-+	dev = hidinput->input;
-+
-+	set_bit(FF_RUMBLE, dev->ffbit);
-+
-+	error = input_ff_create_memless(dev, plff, hid_plff_play);
-+	if (error) {
-+		kfree(plff);
-+		return error;
-+	}
-+
-+	plff->report = report;
-+	plff->strong = strong;
-+	plff->weak = weak;
-+	plff->maxval = maxval;
-+
-+	*strong = 0x00;
-+	*weak = 0x00;
-+	hid_hw_request(hid, plff->report, HID_REQ_SET_REPORT);
- 
- 	return 0;
+ 	tmff = kzalloc_obj(struct tmff_device);
+ 	if (!tmff)
+@@ -204,35 +207,13 @@ static int tmff_init(struct hid_device *hid, const signed short *ff_bits)
+ 	return error;
  }
  #else
--static inline int plff_init(struct hid_device *hid)
-+static inline int pl_input_configured(struct hid_device *hid,
+-static inline int tmff_init(struct hid_device *hid, const signed short *ff_bits)
++static inline int tm_input_configured(struct hid_device *hid,
 +				      struct hid_input *hidinput)
  {
  	return 0;
  }
-@@ -181,27 +170,17 @@ static int pl_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	ret = hid_parse(hdev);
- 	if (ret) {
- 		hid_err(hdev, "parse failed\n");
--		goto err;
-+		return ret;
- 	}
+ #endif
  
+-static int tm_probe(struct hid_device *hdev, const struct hid_device_id *id)
+-{
+-	int ret;
+-
+-	ret = hid_parse(hdev);
+-	if (ret) {
+-		hid_err(hdev, "parse failed\n");
+-		goto err;
+-	}
+-
 -	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
-+	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
- 	if (ret) {
- 		hid_err(hdev, "hw start failed\n");
+-	if (ret) {
+-		hid_err(hdev, "hw start failed\n");
 -		goto err;
-+		return ret;
- 	}
- 
--	ret = plff_init(hdev);
--	if (ret)
--		goto stop;
+-	}
 -
- 	return 0;
+-	tmff_init(hdev, (void *)id->driver_data);
 -
--stop:
--	hid_hw_stop(hdev);
+-	return 0;
 -err:
 -	return ret;
- }
+-}
 -
- static const struct hid_device_id pl_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_GAMERON, USB_DEVICE_ID_GAMERON_DUAL_PSX_ADAPTOR),
- 		.driver_data = 1 }, /* Twin USB Joystick */
-@@ -217,6 +196,7 @@ static struct hid_driver pl_driver = {
- 	.name = "pantherlord",
- 	.id_table = pl_devices,
- 	.probe = pl_probe,
-+	.input_configured = pl_input_configured,
+ static const struct hid_device_id tm_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_THRUSTMASTER, 0xb300),
+ 		.driver_data = (unsigned long)ff_rumble },
+@@ -261,7 +242,7 @@ MODULE_DEVICE_TABLE(hid, tm_devices);
+ static struct hid_driver tm_driver = {
+ 	.name = "thrustmaster",
+ 	.id_table = tm_devices,
+-	.probe = tm_probe,
++	.input_configured = tm_input_configured,
  };
- module_hid_driver(pl_driver);
+ module_hid_driver(tm_driver);
  
 
 -- 
