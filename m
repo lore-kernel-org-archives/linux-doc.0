@@ -1,69 +1,69 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF35E43C069
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF4E439F98
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785782813; cv=none; b=IzGUYSPJdGQOj4Q7y49c8St2m0brhOQ8N3KISMapaTy/uqxzWR3/aQq9fkRjrrFEc3528B4rlSTgZirvscCl7VHCW90U+MZCcpvvBcny8cO2Zke47broIiN4rsSJIocI0ypPG2FwEdJCWtCpGarMv+K3hZR9BtLJIqXB7Q+A0F4=
+	t=1785782816; cv=none; b=OOgLCZ0pUUEb+KEcF9T5Br2FcXpDvBy/GhVeD7nJOkAUX5wf9TdO8zqpMw1VvqrbjV5EBtgzGEv78yzwUquFLbcNDdwX6rhgHVwccWfuBRFoditrjc6RvM/NSlTsuMGYbSD4fR1UWuycI7QvsXkyu5tshgXgL/PBhA7rmKbmsS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785782813; c=relaxed/simple;
-	bh=43vki49h06rq45+wi6hFCpgITlqMDHeBeV30GmHzBQU=;
+	s=arc-20240116; t=1785782816; c=relaxed/simple;
+	bh=PisLEpAU851Mg7Pg4lhKpGxGkR/wS0p10CRwuDaFrww=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VW1mlMMLs4XXLSuYC3H3HXWYNgDrDL7bWfdADOszELaE8+H/xAmuAXN9rXveE4XUyVKik6fOosGG02wLzJ8RYMwD5viLiFMCQHkmY7QQD5bdKclEMbiOZ0jE+ptkTqJgkCXjTFCBKH9dkgAMHzdAuKsrqahfDO29vD+j2NcIG30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXKMmOUc; arc=none smtp.client-ip=209.85.215.177
+	 In-Reply-To:To:Cc; b=RVjtTvp4aKm3nsrZZelGWBDTSk5Nr5yfxo2idQCZPn9Cy951aA2Av1m9kysm1tdCb5OdHjwHqMHG78Cy1T7Yid+9POxUQGqlvE5jMoTSBIkmgXaKF0PvfQccwDkZmYwUBs7GKVTs0WNf47cuS394ESuACm5eynKZfBbJWwUvXkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gBuYwrgN; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXKMmOUc"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c9e0b89e228so1968995a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:46:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBuYwrgN"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-caf45fc5202so2529423a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785782810; x=1786387610; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785782811; x=1786387611; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ydH8f/RNEjiAE8vzC0rt7/9rgp0aug18seAQOKz0/VY=;
-        b=lXKMmOUcfzkhR4P9DHpcm73LPrdw9Ul9LGtJQoMc7rITpSjEkbPvK60QBSyAU/TKfG
-         4F1Bn3K4K5LDklMUuMpSjCtrgNjPmoMe9tVevcdjyGyxS5YIaUV1sD7FgCEXX6MsITvI
-         LWYxpo2RGGjqoDGwrhgbYCfr8bW0MMlKpsfnEDUyu8VvjEdApsTQWLnN+ZkeuNfevhDc
-         Eq4BsGIKUu8q1EhsjtFcJuWRa2nOrqaQlQhuYiyq9+26RK2SzYdI5r0vONO02VKaVxp9
-         U+7uYFHyw6+aqvzcEk5PbmN5xw+yIgMntbPXgkjHHFWMfUkSUvMIhUL6c08csDvHzWbz
-         sdtQ==
+        bh=w0IDthsjYtA6pK63nJE/aU6irDSAEPiJfPVdmQsfY5g=;
+        b=gBuYwrgN/EuB1cyNYRUCJQJ9PJ+8H+07p7KTmI/v75T0poKS9DB50/s+aih/WpTcg5
+         SCMRyyI1BgWKUmThW8Frwvo0RUfyHchefsSSxOW83IHbbChAsvmrLbZhgsYUaEH74dAq
+         FBBbGLl0lSU+zzj0IsVNRge+pKm45ZsV6CxFQAbXJS+RYhyNVMNGw1ISUg1+/71zdXH3
+         hfaIfWMCeUNYLlR26keESeBBgVzt4ZsaNtKCKmBiIW4LegbxRvj5lpuKwCqyxxSk/noE
+         ibMGWoct7ezjPOE6rIitB2uTA9xxqkOb50mHWJrUNhmmpDtjUViBsnunyKbPJQ3c1xpO
+         3kPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785782810; x=1786387610;
+        d=1e100.net; s=20251104; t=1785782811; x=1786387611;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ydH8f/RNEjiAE8vzC0rt7/9rgp0aug18seAQOKz0/VY=;
-        b=DqbLdflzZawSa58/6u4FtjMFe3zz5cU3HKUwhnwgkWikW3pgvREmo9yfS5vP059Dwn
-         ny+gh9r9UHOEA4SfApR/wx/a2plPhjD6QItAibt6IlnJf5/wI0ajd3Y6ibNJF5lPxyjC
-         PqOEFNM2KDySMguACoevnxHkTh1ND2rcHTFwDJoNISkIcMrh9p8XY0y6dY8ntrHg/bTw
-         7VrXPa/AWz9eCx4iNF3QoPWyaZxaG8deun6neNQKd3QScpGawsQ5Q6nuUhdNQekiijFd
-         WXsI1OrMcYoOoQtYp35jcXAQ5KRE7uGnMc64FtR1+ekrvN4sAiETBYH8nawAbTG+MyMP
-         AI1g==
-X-Forwarded-Encrypted: i=1; AHgh+RrKs26M+Fw43NuNfpH9UNfBbVnwpV7Ji53VY91CESoH2CooQ7nqFJYEsOvovoQa88oLQdFWjs2HCwc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwW0yhykDCPAirc80+ssaWjYL1AMj46QHIbe3V7+fDHgDgEcwRa
-	7mHlLuSjOs+Q2HfjG2z7x4xEC7dju/M95h4eQVBBS2Exeieb+PYYFJ19
-X-Gm-Gg: AR+sD10yt823S9KGVcFvQ9jJgfJqYJ9/neMIsmNXGohpj7e2ENfXZ0W0jd9IEFP7AY8
-	FVBfoxgPRRPYipVKIC6tY1lAhdgafJ7hicOSiVIM1qKDAowENgtNfhAuC/WnZ9f/TB9kB8uFltB
-	z7/+MuNdgLACKlv7LO47bO73TyUo+GnkEeeURGA/ihuaMrFhdZHNNYooLQ//ZBi7fpbV0HqTyVO
-	cdtU7Le42ulYWis/ZlSIFQLDvqBWBY1LFFIN3AM/ZHnHeOI5oykxj6mQKga5Q8H27Snt5Daqsey
-	qa2wN/NXlNCxzfEZWd7+8HSyFEG/Yl/TVYVJirNHsPRHVe9uBIsaRUGn8u68Kx1grSBdFwGIFSJ
-	c3GcyRUwaPrrZpEKZ0PRZ8JswHA9GLbRDcotT79ll0ar4yrpUOM+ZvCobNWqABVqSMXCz3mrIz3
-	9TLRulUEEIdMv+Hz6WPHe60QQ+3bO63+aA9F7M8/yOE72dCkemif3AE70O10T5U6Swv0ExEzSjF
-	2s/Omv97m206f2/RQ5nXmnUqQ7OsLn9kUo3OXTxF4Im8dAZG7PF
-X-Received: by 2002:a05:6a21:7009:b0:3c3:76a8:c0f with SMTP id adf61e73a8af0-3c92a598292mr11186788637.4.1785782809771;
-        Mon, 03 Aug 2026 11:46:49 -0700 (PDT)
+        bh=w0IDthsjYtA6pK63nJE/aU6irDSAEPiJfPVdmQsfY5g=;
+        b=FOJpisXlBeUt2cuz4Hfr49/25HUTXeSHsCE2N9vpTlAnz35je15GH6z1ay+/cs/jxT
+         3F5jTA1NOKOAyjM3PNjttsEoLgPMz0U48i2bm2FrVSWCzv2j16xEitmR2U+jh5LVTt9m
+         6i/WlcyYxr8eDNeA7VaO+8/cw9exXosta5ElocLwvpiwyQg4HhdKizqwPb8agxnG1UxH
+         ZvusQsv0OtajecVU3ZvALlDmILJIA3EIEdZ28kyqpbB+TLawGTgkO98HQfFz6N8MUl7X
+         jWJZzGVGsZDM9FSZEG9CCExXvfyBXzezfE/jXkaXSRGGxD3dFqaVnDNd/VRZkydz3n/z
+         ujZQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqqzhas6MTt+es0ujbOr441ki3Tzer6JIIzJFfLcXeUfXMKnq2/vrlULMNyR/zCjH9FWwiPHQhvJZo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0rCKTNokoirz2RFHSkBYftVxUr8ZBx9tvKgYbAy4K7O+MQ/xR
+	tImA6RaraczYV6JEF/ocWoX2jdkOfeBwo9hFc7WCEHsDhxeRDhGnKg9f
+X-Gm-Gg: AR+sD11Dpl18B1pHoMQuAFDwdx9/80vk+Ywk2OZA2x6PTad2tPbMLUqGZKLBwuK83RW
+	a+9BGzW+F1xghqQwPX9jcR1kto+OYqNV8DzeugOs5RuDJnwVvxyWHQ4SoJ09Vtr/1gevlia4m6o
+	EewnpbZfG3rGk6ksIVoB8nNuzpqb4Az+JQvko6XCUbVHCN98aGWFWZWQ3o7ytW0kzI2/6hUDIkF
+	FIxP4IVjYGWsptaMuuMe43Wop+AF8mcCEGnRDier6e0mbfP8Q5nSb2HAZeaUiPWPT3ryyX5ur9t
+	MOcyguQe+k+vNWAxLxJArblEEFLn1uN+5haf40GHvaWS4qgIcHFAVIXk8n6uw6Rryx1TalKQzJE
+	4n+WYqv6awnevBnB1yqc9SNfm6PuqM8p4+al43dWcPEtcMZTVHwPeQ2FidW6Pu4lMkdiXIkQ2zA
+	z7HU0CQNqCswwtqK6BnWMn4ePOsMy983sz3qp6/nPkj9/A4Qj3JVswr9fhk4bOWpSXQe0bn14gk
+	RJJ/I/5cle1JpcLSy9mWIOhUmHBSgV1mS2z0pNcv1snPnDKDkeL
+X-Received: by 2002:a05:6a21:7a46:b0:3bf:6011:53b with SMTP id adf61e73a8af0-3c92a8139c6mr11132293637.38.1785782811369;
+        Mon, 03 Aug 2026 11:46:51 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:d109:cdba:8a20:74ad])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.46.48
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.46.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 11:46:49 -0700 (PDT)
+        Mon, 03 Aug 2026 11:46:50 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 03 Aug 2026 11:46:36 -0700
-Subject: [PATCH 11/21] HID: holtek: move FF initialization to
- .input_configured()
+Date: Mon, 03 Aug 2026 11:46:37 -0700
+Subject: [PATCH 12/21] HID: move generic FF initialization into
+ hidinput_connect()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-hid-ff-input-configured-v1-11-1dc9bbacd88c@gmail.com>
+Message-Id: <20260803-hid-ff-input-configured-v1-12-1dc9bbacd88c@gmail.com>
 References: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 In-Reply-To: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -84,107 +84,131 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, cocci@inria.fr
 X-Mailer: b4 0.16-dev-b242f
 
-The driver currently initializes force-feedback in its probe() function
-after calling hid_hw_start() with HID_CONNECT_DEFAULT. This is racy as
-the input device is already registered and visible to userspace at that
-point.
+Generic force-feedback initialization (pidff) currently happens in
+hid_connect() after hidinput_connect() has already registered the input
+devices. This is racy as the device is live and visible to userspace
+before FF support is fully set up.
 
-Move the FF initialization to the .input_configured() callback to ensure
-the device is fully prepared before registration.
+Move the call to hdev->ff_init() into hidinput_connect(), ensuring it
+runs before input_register_device() is called. This closes the race
+window for standard PID-capable devices.
+
+The initialization now also checks (connect_mask & HID_CONNECT_FF) and
+!hid_has_ff_input() to avoid conflicts with custom FF implementations
+and respect driver opt-outs.
 
 Assisted-by: Gemini:gemini-3.1-pro
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/hid/hid-holtekff.c | 46 +++++++++-------------------------------------
- 1 file changed, 9 insertions(+), 37 deletions(-)
+ drivers/hid/hid-core.c  | 21 ++-------------------
+ drivers/hid/hid-input.c | 21 +++++++++++++++++++--
+ include/linux/hid.h     |  2 +-
+ 3 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/hid/hid-holtekff.c b/drivers/hid/hid-holtekff.c
-index 32d08f7a660d..4834d42b2fa6 100644
---- a/drivers/hid/hid-holtekff.c
-+++ b/drivers/hid/hid-holtekff.c
-@@ -120,30 +120,24 @@ static int holtekff_play(struct input_dev *dev, void *data,
- 	return 0;
- }
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 2767a171eae9..d8cba852d2b5 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2287,18 +2287,6 @@ static const BIN_ATTR_RO(report_descriptor, HID_MAX_DESCRIPTOR_SIZE);
  
--static int holtekff_init(struct hid_device *hid)
-+static int holtek_input_configured(struct hid_device *hid, struct hid_input *hidinput)
- {
- 	struct holtekff_device *holtekff;
- 	struct hid_report *report;
--	struct hid_input *hidinput;
- 	struct list_head *report_list =
- 			&hid->report_enum[HID_OUTPUT_REPORT].report_list;
--	struct input_dev *dev;
-+	struct input_dev *dev = hidinput->input;
- 	int error;
+ static const DEVICE_ATTR_RO(country);
  
--	if (list_empty(&hid->inputs)) {
--		hid_err(hid, "no inputs found\n");
--		return -ENODEV;
--	}
--	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
--	dev = hidinput->input;
-+	if (!list_is_first(&hidinput->list, &hid->inputs))
-+		return 0;
- 
--	if (list_empty(report_list)) {
-+	report = list_first_entry_or_null(report_list, struct hid_report, list);
-+	if (!report) {
- 		hid_err(hid, "no output report found\n");
- 		return -ENODEV;
- 	}
- 
--	report = list_entry(report_list->next, struct hid_report, list);
--
- 	if (report->maxfield < 1 || report->field[0]->report_count != 7) {
- 		hid_err(hid, "unexpected output report layout\n");
- 		return -ENODEV;
-@@ -172,35 +166,13 @@ static int holtekff_init(struct hid_device *hid)
- 	return 0;
- }
- #else
--static inline int holtekff_init(struct hid_device *hid)
-+static inline int holtek_input_configured(struct hid_device *hid,
-+					  struct hid_input *hidinput)
- {
- 	return 0;
- }
- #endif
- 
--static int holtek_probe(struct hid_device *hdev, const struct hid_device_id *id)
+-static bool hid_has_ff_input(struct hid_device *hdev)
 -{
--	int ret;
+-	struct hid_input *hidinput;
 -
--	ret = hid_parse(hdev);
--	if (ret) {
--		hid_err(hdev, "parse failed\n");
--		goto err;
+-	list_for_each_entry(hidinput, &hdev->inputs, list) {
+-		if (test_bit(EV_FF, hidinput->input->evbit))
+-			return true;
 -	}
 -
--	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
--	if (ret) {
--		hid_err(hdev, "hw start failed\n");
--		goto err;
--	}
--
--	holtekff_init(hdev);
--
--	return 0;
--err:
--	return ret;
+-	return false;
 -}
 -
- static const struct hid_device_id holtek_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK, USB_DEVICE_ID_HOLTEK_ON_LINE_GRIP) },
- 	{ }
-@@ -210,7 +182,7 @@ MODULE_DEVICE_TABLE(hid, holtek_devices);
- static struct hid_driver holtek_driver = {
- 	.name = "holtek",
- 	.id_table = holtek_devices,
--	.probe = holtek_probe,
-+	.input_configured = holtek_input_configured,
- };
- module_hid_driver(holtek_driver);
+ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
+ {
+ 	static const char *types[] = { "Device", "Pointer", "Mouse", "Device",
+@@ -2324,8 +2312,8 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
+ 	if (hid_hiddev(hdev))
+ 		connect_mask |= HID_CONNECT_HIDDEV_FORCE;
+ 
+-	if ((connect_mask & HID_CONNECT_HIDINPUT) && !hidinput_connect(hdev,
+-				connect_mask & HID_CONNECT_HIDINPUT_FORCE))
++	if ((connect_mask & HID_CONNECT_HIDINPUT) &&
++	    !hidinput_connect(hdev, connect_mask))
+ 		hdev->claimed |= HID_CLAIMED_INPUT;
+ 
+ 	if ((connect_mask & HID_CONNECT_HIDDEV) && hdev->hiddev_connect &&
+@@ -2347,11 +2335,6 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
+ 
+ 	hid_process_ordering(hdev);
+ 
+-	if ((hdev->claimed & HID_CLAIMED_INPUT) &&
+-			(connect_mask & HID_CONNECT_FF) && hdev->ff_init &&
+-			!hid_has_ff_input(hdev))
+-		hdev->ff_init(hdev);
+-
+ 	len = 0;
+ 	if (hdev->claimed & HID_CLAIMED_INPUT)
+ 		len += sprintf(buf + len, "input");
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 3487600cadb4..70ec1b7e7d38 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -2317,7 +2317,19 @@ static inline void hidinput_configure_usages(struct hid_input *hidinput,
+  * Read all reports and initialize the absolute field values.
+  */
+ 
+-int hidinput_connect(struct hid_device *hid, unsigned int force)
++static bool hid_has_ff_input(struct hid_device *hdev)
++{
++	struct hid_input *hidinput;
++
++	list_for_each_entry(hidinput, &hdev->inputs, list) {
++		if (test_bit(EV_FF, hidinput->input->evbit))
++			return true;
++	}
++
++	return false;
++}
++
++int hidinput_connect(struct hid_device *hid, unsigned int connect_mask)
+ {
+ 	struct hid_driver *drv = hid->driver;
+ 	struct hid_report *report;
+@@ -2330,7 +2342,7 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
+ 
+ 	hid->status &= ~HID_STAT_DUP_DETECTED;
+ 
+-	if (!force) {
++	if (!(connect_mask & HID_CONNECT_HIDINPUT_FORCE)) {
+ 		for (i = 0; i < hid->maxcollection; i++) {
+ 			struct hid_collection *col = &hid->collection[i];
+ 			if (col->type == HID_COLLECTION_APPLICATION ||
+@@ -2396,6 +2408,11 @@ int hidinput_connect(struct hid_device *hid, unsigned int force)
+ 			continue;
+ 		}
+ 
++		if (list_is_first(&hidinput->list, &hid->inputs) &&
++		    (connect_mask & HID_CONNECT_FF) && hid->ff_init &&
++		    !hid_has_ff_input(hid))
++			hid->ff_init(hid);
++
+ 		if (input_register_device(hidinput->input))
+ 			goto out_unwind;
+ 		hidinput->registered = true;
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index b240baa95ab5..451c3e05d167 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1021,7 +1021,7 @@ extern void hid_unregister_driver(struct hid_driver *);
+ 
+ extern void hidinput_hid_event(struct hid_device *, struct hid_field *, struct hid_usage *, __s32);
+ extern void hidinput_report_event(struct hid_device *hid, struct hid_report *report);
+-extern int hidinput_connect(struct hid_device *hid, unsigned int force);
++extern int hidinput_connect(struct hid_device *hid, unsigned int connect_mask);
+ extern void hidinput_disconnect(struct hid_device *);
+ void hidinput_reset_resume(struct hid_device *hid);
  
 
 -- 
