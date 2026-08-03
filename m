@@ -1,40 +1,41 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319823064B2;
-	Mon,  3 Aug 2026 14:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D323126C0;
+	Mon,  3 Aug 2026 14:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785767773; cv=none; b=P91nfgtTWxbRTlPLV2rlgVmba+y4yVe0frhvgHaVPg5nBk4YrW+46cL+XNaPXuE7/ma28iSC/eDksh34XpixD5GwhvWPfENi2DoYRIXByGlyYZFMZOQdQkD2zOKTJBtw2/6Uic9Yjo2xWfmIpA3h8c3duKx/NaCUWOLhtBI7uCA=
+	t=1785767773; cv=none; b=QhV9jHbBgQJRdbE9rLZkO1vh2RINMWIXclLI38SQJ4qlbSkEV41XAHDiClHn4EpBWduOgpIvo510DY6NnoxKTy43tLvQ47qtv/MFyrjOSliPZsvkOdTzmrsYET32rITfD7XlG8PBBDIahw0hDVl3TQPlmQpY0uQl16g6+3p2b+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785767773; c=relaxed/simple;
-	bh=PiG/4SeP/ZGiVy5B7bUqumi2uiM0H7lZnFylX7S826s=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FX87gdTP/dhXlT1EhlnG63/NwR/d9JhqMZf78nDzDIDPWHmMQBy7+V4OKeMXDVLJGSDkhNRWw25WE2kNM8jQfAYtQ595+DANvRkXR5UmlgMgeEqVbW+CkM1rb/RWPHrqBblCrGOMCNYX6qyGlIkUu/kCu4ycyQ41qJOl5xIaKGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=la5TxL6b; arc=none smtp.client-ip=185.246.85.4
+	bh=kknA4YQe5BWnRbjMCYbMJBl3CYn62bwWLo/IYUoxOCQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YBgIgYPYMYWgRH0P+K3dkJfPMGLG4RStR7MhnVZFPYI6nwPyeiw1RDYS28/6ZMLExKj4M/ApQvBjA5C1oeh7O01wqQ5YSZ384f4vcTwONVOtrvwHnVRey5gv5AM157zuA+4uU8zJ3aQIbdSKMnxLoZ5l6BA3leHFKedwh1uN1/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=tpYNYnov; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="la5TxL6b"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="tpYNYnov"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 2A3EA4E410B9;
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D48671A13D3;
 	Mon,  3 Aug 2026 14:36:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EB0D76029B;
-	Mon,  3 Aug 2026 14:36:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BC82F11C30E67;
-	Mon,  3 Aug 2026 16:36:06 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A94BF6029B;
+	Mon,  3 Aug 2026 14:36:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BCC6E11C30E68;
+	Mon,  3 Aug 2026 16:36:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1785767768; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=jgmbwNUuaRAOoCqoqzSSpfi/jXOyqDf9xnqvfdIPrwA=;
-	b=la5TxL6bp6Xl2uEWX1zaHyia6Aw/pGUvEzEHiIObEXc2uG+iRzqWvd5fJc/YUSv9VOOrzw
-	qX6z1ffH+hkSxfxeHP+wW/AeHtfAFFdv3PYJYxjN4SaqpD0mt4I1EQySPhZnwr3E2lT4Wv
-	KhdHWL9dHZMBrEsYsRghZrGmsy8iFEj7jcUxFp5AR0+YNp8VA/8dSLHtjOfirKyFYimqOE
-	aZeMw2nmABVkS9ZJaiV0HKZRttrVHZWOufE7zcw5lOkK9L01Soj2gjgVbo2t0joHzGzqiJ
-	sjM+0rgx5aVhTXNJjT5SxGmrvTyq2Ji2q1Ipg9Zt6yaCZMuQ0F5TzCkBbJ4I+Q==
+	t=1785767769; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=oV5+IVdMGEuhE189tEa+3I+/nt0jZxPBiY2i9t/JrI8=;
+	b=tpYNYnovU5LzLDKOkBFQvyDw5X3mfFGgO39nH3u4vBBnWCNgbPochNW/XA7yufZzOSs6e5
+	TaZ3DLEQW+NJ9wujdBU54mp5XmrpEURNNj1twfevet1N1APCWu+w5j1oup8RJKYLzcZmZD
+	9KOU95WVRQD3csqpz4WuyJTpvIvMXmM7K4WM6QDciy6Yi9eVO9Q4mN0dpim+0yQaM9iFtE
+	6Rxu2jWg2EuhmZwMhwEIT0X3eGqDcq2zvmQ0M0ylkZBXP3DWGbMakyJycjTHJdvKDXStbW
+	EwRaNfsM3fUiwS2C/K/gxjKJKyB/CX77DU07Vb1la5aeBzUpa+yHFJPk0utiLg==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Subject: [PATCH 0/2] Documentation: html: show sections in the sidebar
-Date: Mon, 03 Aug 2026 16:35:49 +0200
-Message-Id: <20260803-show-sections-in-sidebar-v1-0-b4fdc847525d@bootlin.com>
+Date: Mon, 03 Aug 2026 16:35:50 +0200
+Subject: [PATCH 1/2] Documentation: html: show sections in the sidebar
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,31 +44,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQ6CMBAAv0L27Ca1IAS/Yjy0dAvLoZguiEnD3
- 130OMnMFBDKTAL3qkCmNwsvSeF6qWCYXBoJOSiDNbY1na1RpmVHoWFVUZATCgfyLqPvYu9ciLf
- GEGj+yhT581s/nn+Wzc9anj84ji/afCZkfAAAAA==
-X-Change-ID: 20260723-show-sections-in-sidebar-b7f9aadf540e
+Message-Id: <20260803-show-sections-in-sidebar-v1-1-b4fdc847525d@bootlin.com>
+References: <20260803-show-sections-in-sidebar-v1-0-b4fdc847525d@bootlin.com>
+In-Reply-To: <20260803-show-sections-in-sidebar-v1-0-b4fdc847525d@bootlin.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Antonin Godard <antonin.godard@bootlin.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1631;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3241;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=PiG/4SeP/ZGiVy5B7bUqumi2uiM0H7lZnFylX7S826s=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqcKdVPHi5MgqLwIK73dVWaBXJ8J5of3jgWuNBV
- CVDSlq0qLaJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCanCnVQAKCRDRgEFAKaOo
- NkphEACVRw+5nqO9KnalFMaN57TLohPfUJnhmkMvn8NUhMAiB5xVioWpkF1bxHexHC2v0RQ3fjJ
- BiU9H1iy9MVj81WSHOSbaQ15ULWat8NqBYrezMV7sycGOlbKTumI5qgCD8kOJu2mEfMHgZ2I5XS
- gAEOD10/skWt/CgTFS0i0bBMEvyghIhydTJ/7cQLWrdRh8BczORAcNGWBCnH+6yMD0wkwZYe8Bk
- pmqGb65oVhKxhuWdSio1kcY6mCYwu5tzUfbZElClFLPuxJHYoM3yvSmGz1GWqA2cfd43Ia3oct/
- G5L3Bu/1hCtOw9+LI4LKX7eqIYHmiL/htKu4mc/rfwlCuTJiwZL4dAUgQnvApEt9XSS03oAV7KW
- INJltMnWCOsAlFxUqNRvYUQonECOjRx5ZAOo2cySfy4O8ppFMtV0mw422FAiey04G2hMBVpkzq8
- XGqAgLSXZW7xKJKH4A6w01Dwcz5eZ5WmgwQwmJ7CXFIwCvb0p8nbC08XJVf1FQhzChHEkyfHLl/
- T3SaT1Ms9E6U8ts3IUjmsar2Y/FafRK1OJrgUIBw5/JFYWgt8XjcyVHKLm6GXYCu8JOEJU+thx4
- 2jC964vQZKqmP5EKc9JYeRg5T0Za/VszuYPoxe1UiDuR/hjrsmR8e/zC31lpw5zNmzqMgLS21Wq
- uyfDjKxmxRu4Y/g==
+ bh=kknA4YQe5BWnRbjMCYbMJBl3CYn62bwWLo/IYUoxOCQ=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqcKdWebCG9Gz3fOCMG56f4x4aFgzFw1nW+OurW
+ aOp7n3I+sCJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCanCnVgAKCRDRgEFAKaOo
+ NkmZEADLpLaRcHDkvJsamarV1ZwHIOx4wZZ3HjSrPPqT1t/Ajl2Iyk+xLZeUFbCd3jmcAQ2BvDm
+ m2/TUVTkioLVQA+Z49Gq/32gHkhiR+h8GXn2bFyE2PRsMFrBrG755NSQY5TS5zOHgHBhZaP/kd1
+ YZ7GoUCw+HHc8IH5kKnKxwoEM8A80RlEsKb5ttLylaL7YlqHCgP7AI6tkFJn1cxqExwoXt0rD3o
+ 8uUh68TRsYRzJ4wMEh5i/hUcn5xddsYmHTh02Zmk3sla7+UDncq+y5yS/otbsctmRyFxef1QYii
+ DN1Fudo7vEvfwcF4jyPtoFxv7Fy5R4DO3gUHf3z/kGvC0NoFj+u0g9bpnFc6R19+3V3mrSTBI8m
+ fVXNC89V70Oq1Adn4lV9YX7oWBvh1t+egqugDLv2/15kLZME67imRdwSYTF88nuHJyCq2qVnG9O
+ gZD/C1P1l2hdHi/eI0ayZhz005NQbmu58rH+y4kWcrut/j2L0Ypi63CgkfWkX2eMJBH+7pKvW7z
+ 0Kkwc417OGhF26wDIQw56NeGyMxdR6T4KrAbLG2D9GeP0s7q6Ca8JFdvZUtNpQ8chMCVABEllic
+ 5O4C8jIMfE4ATCZiHuGGeDCT3wbKD7PFwezPNBzZNgm0Zpo4MMR5sjGK5pvKW4Ykd36mNdfhDG9
+ QVDlUk1I9yOFsIQ==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
@@ -82,31 +82,98 @@ To workaround this issue, add the ":caption:" properties in the toctree
 calls which makes them show up in the sidenbar, but hide them from the
 index page with a custom CSS addition.
 
-Additionally, make the section titles in the sidebar bold to make them
-stand-out.
-
-This makes the overall structure of the documentation clearer from the
-sidebar directly.
-
-PS: This is how I've implemented this in the Yocto Project
-documentation[1] where I faced the same issue. See also the index.rst
-file[2] (which was by the way inspired by the kernel's own index.rst)
-and CSS addition[3].
-
-[1]: https://docs.yoctoproject.org/dev/
-[2]: https://git.yoctoproject.org/yocto-docs/tree/documentation/index.rst
-[3]: https://git.yoctoproject.org/yocto-docs/tree/documentation/sphinx-static/theme_overrides.css#n106
-
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
-Antonin Godard (2):
-      Documentation: html: show sections in the sidebar
-      Documentation: html: make sidebar section titles bold
+ Documentation/index.rst                | 8 ++++++++
+ Documentation/sphinx-static/custom.css | 6 ++++++
+ 2 files changed, 14 insertions(+)
 
- Documentation/index.rst                |  8 ++++++++
- Documentation/sphinx-static/custom.css | 11 +++++++++++
- 2 files changed, 19 insertions(+)
----
-base-commit: 075b74841bd0065a3bda3440873c747938e69b68
-change-id: 20260723-show-sections-in-sidebar-b7f9aadf540e
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index c0cf79a87c3a..a9eba8187de6 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -21,6 +21,7 @@ community and getting your work upstream.
+ 
+ .. toctree::
+    :maxdepth: 1
++   :caption: Working with the development community
+ 
+    Development process <process/development-process>
+    Submitting patches <process/submitting-patches>
+@@ -37,6 +38,7 @@ kernel.
+ 
+ .. toctree::
+    :maxdepth: 1
++   :caption: Internal API manuals
+ 
+    Core API <core-api/index>
+    Driver APIs <driver-api/index>
+@@ -50,6 +52,7 @@ Various other manuals with useful information for all kernel developers.
+ 
+ .. toctree::
+    :maxdepth: 1
++   :caption: Development tools and processes
+ 
+    Licensing rules <process/license-rules>
+    Writing documentation <doc-guide/index>
+@@ -71,6 +74,7 @@ developers seeking information on the kernel's user-space APIs.
+ 
+ .. toctree::
+    :maxdepth: 1
++   :caption: User-oriented documentation
+ 
+    Administration <admin-guide/index>
+    Build system <kbuild/index>
+@@ -88,6 +92,7 @@ platform firmware.
+ 
+ .. toctree::
+    :maxdepth: 1
++   :caption: Firmware-related documentation
+ 
+    Firmware <firmware-guide/index>
+    Firmware and Devicetree <devicetree/index>
+@@ -98,6 +103,7 @@ Architecture-specific documentation
+ 
+ .. toctree::
+    :maxdepth: 2
++   :caption: Architecture-specific documentation
+ 
+    CPU architectures <arch/index>
+ 
+@@ -111,6 +117,7 @@ to reStructuredText format, or are simply too old.
+ 
+ .. toctree::
+    :maxdepth: 1
++   :caption: Other documentation
+ 
+    Unsorted documentation <staging/index>
+ 
+@@ -120,6 +127,7 @@ Translations
+ 
+ .. toctree::
+    :maxdepth: 2
++   :caption: Translations
+ 
+    Translations <translations/index>
+ 
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index 5aa0a1ed9864..0576d4fcb2a3 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -75,6 +75,12 @@ div.kerneltoc li.current ul { margin-left: 0; }
+ div.kerneltoc { background-color: #eeeeee; }
+ div.kerneltoc li.current ul { background-color: white; }
+ 
++/*
++ * Hide toctree captions on the welcome page, they should only be shown in the
++ * sidebar.
++ */
++section#the-linux-kernel-documentation p.caption { display: none; }
++
+ /*
+  * The CSS magic to toggle the contents on small screens.
+  */
+
+-- 
+2.55.0
 
