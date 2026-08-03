@@ -1,85 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B57938F945;
-	Mon,  3 Aug 2026 19:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C07D3A3826
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 19:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785786149; cv=none; b=krdgglwHNepIW4Ahfhf2LjARWIjXEclDPOggRRidft2uhYhp6RKORB0pas0EH+iaohyk8WLumwz3WFY9bRNDhXNDb139weMdIYHndPWzt/5TXxSB9VWAR41DrNwPFZeaXtm0Boq2fiuYcB4fStjR+DlmHN2+LGoELQuj6zaCtr0=
+	t=1785787087; cv=none; b=ZTRFZ84VN6b8zXj/ZUeI2z8CJPrvg9cQORVvFB19KEr54B+MwHqWZLDobdWYrTXI4lfURZH4v25Rb9V81Fceaz1jjMMB3v40+GCJjkY2tofwwoL7+TVBjll26Q/FadfOOGP4kKqLwylFZdkrYB57i6ts13ePfC2yw3fVw9g5Y34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785786149; c=relaxed/simple;
-	bh=UZZxPuYF4VskiTorbPtrxUYQMq7QIuTMmu9jn1T0B6M=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=HqsfqrKT5EpkojsV94KkqcE3n3zHxqPJ73JSDeyCiQYisZqEB1xT63OCLKcmT5Y3cWCILr+tKFfv+dYpRJUeh2V9VzpiE76qe8kuOnrbXtlZppKoYIXRpyy1kTZF3pd8wFW+QsBRF2r2Mn1p66+nVfVnc7UfCujpNOTn+icJbgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erzYjX/Q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785787087; c=relaxed/simple;
+	bh=gU7IaoFAFmnD7LUdo5WUMUzqVX0frPTn5M1cd09IbNg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fRdHrL1HkFYI6qvCBYsR+Q7wtXDnoOG3MFVO4tCePOgfRyELKhCTKXboKGzW63tjrO1CDqvtaJWpEVf+5d/owxGk+Wfda86ZP98pGL7pGYfXdpNoSxy47p+fxUTtEDmM3dpjTyK/qwgyIPIrMMVGSswgSQDu+1jSWI6nVJIA3ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VUBz9cqE; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erzYjX/Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B351F000E9;
-	Mon,  3 Aug 2026 19:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785786148;
-	bh=uKDvb+7BjDjbIZbK5so1hZN87PZxzHZIdme5WTnNNLQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=erzYjX/QDpMBE2wq8I66ydu+uHJp5S72tG7WoB5U5QUmMeDpMvgzUmMTTcX3d/T8M
-	 qQeHKRHHpQRn0COKGCHZ4Jf+S44ER9evY//vw9daPbFv2uu2hmhUWp8eEY/wFjNQSa
-	 +w7FXMn42IyHDVSB7OUT14ap9sJo+Mg/o6DsaMfiiAaiqbMJa/Ru/7jjFCMdWn8Vx9
-	 f1dWsGLqP6UjG6i2/2LppWXgxQ4i2ukQ/b+gNsGrR/yfQ79amapg6vjHk5v7/eHF4A
-	 kHSLR9Sthx1pc36fOekvEwBFmTLRu7sPcRdMhBddtNMoEnHeYdW0d/NJkD+dAKDaRV
-	 ZygQSECGznv4g==
-Date: Mon, 3 Aug 2026 21:42:25 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-    Denis Benato <denis.benato@linux.dev>, 
-    Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org, 
-    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13 0/4] Add MSI Claw HID Configuration Driver
-In-Reply-To: <20260720031549.2272658-1-derekjohn.clark@gmail.com>
-Message-ID: <n7so4q55-1699-6s6p-qo38-4pr7055202qs@xreary.bet>
-References: <20260720031549.2272658-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VUBz9cqE"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 90521408D2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785787085; bh=piSRNWzGDW6P8BVUseJxRugEQF9AnFnMiAA8X8W7954=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=VUBz9cqEkgxx6wGv1N5hkNkMAt9dWwXpNpnFwyVlmQtxO69GwAhyqqyyU8tWh5ht6
+	 bvFwkS2yKuiMMHcCCIzNkrfc1+Ierz8tL1dhVu3cl2ZEXLUAaegjQs7YGZpukKxH/O
+	 4kwMRNnjH/faKkX8qIlC5Uu0gO1JNgnZCAxfb657dC7ytgBW2zJ2D265ETToEhuAJW
+	 ho/mNICdMyghebRgkvk13e7evOr9JI0y/a8qhRH+HLo5GbcKs3qZYCQ2Jyqiw5RUeN
+	 eODFi/tAP8JfvgiARooj6nugvpqrKjUrhT2u9oi2C8LU9ATKnvk8aoomzqPeZVke6G
+	 ZqLi7Kr/olN3Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 90521408D2;
+	Mon,  3 Aug 2026 19:58:05 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Matheus Patriota <matheuslinuxdeb@gmail.com>, danielmaraboo@gmail.com
+Cc: linux-doc@vger.kernel.org, Matheus Patriota <matheuslinuxdeb@gmail.com>
+Subject: Re: [PATCH v3] docs: pt_BR: process: Translate stable kernel rules
+ guide
+In-Reply-To: <20260713125113.20976-1-matheuslinuxdeb@gmail.com>
+References: <20260713125113.20976-1-matheuslinuxdeb@gmail.com>
+Date: Mon, 03 Aug 2026 13:58:04 -0600
+Message-ID: <87mrv3vuwj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 20 Jul 2026, Derek J. Clark wrote:
+Matheus Patriota <matheuslinuxdeb@gmail.com> writes:
 
-> This series adds an HID Configuration driver for the MSI Claw line of
-> Handheld Gaming PC's. The MSI Claw HID interface provides multiple
-> features, such as the ability to switch between xinput, dinput, and a
-> desktop mode, RGB control, rumble intensity, and mapping of the rear "M"
-> keys. There are additional gamepad modes that are not included in this
-> driver as they appear to be used in assembly line testing or are
-> incomplete in the firmware. During my testing I found them to be unstable.
-> 
-> The initial version of this driver was written by Denis Benato, which
-> contained the initial reverse-engineering and implementation for the
-> gamepad mode switching. This work was later expanded by Zhouwang Huang
-> to include more gamepad modes and additional features. Finally, I
-> refactored the entire driver, fixed multiple bugs, and refined the overall
-> format to conform to kernel driver best practices and style guide.
-> 
-> Claude was used initially by Zhouwang Huang to quickly parse HID captures
-> during the reverse-engineering of some of the features. Since Claude had
-> already been used, as a test of its capabilities I had it implement the
-> rumble intensity attribute after I had already rewritten most of the
-> driver, which I then manually edited to fix some mistakes. I also used
-> Claude to review the driver and these patches for any mistakes and bugs.
-> 
-> Assisted-by: Claude:claude-sonnet-4-6
-> Co-developed-by: Denis Benato <denis.benato@linux.dev>
-> Signed-off-by: Denis Benato <denis.benato@linux.dev>
-> Co-developed-by: Zhouwang Huang <honjow311@gmail.com>
-> Signed-off-by: Zhouwang Huang <honjow311@gmail.com>
-> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> Translates the documentation regarding stable kernel rules into
+> Brazilian Portuguese, maintaining consistency with original
+> formatting rules.
+>
+> Changes in v3:
+> - Removed the Sphinx label to avoid conflict with the original
+>  documentation, as suggested by Daniel Pereira.
+> - Removed duplicated/incorrectly named files from the commit.
+>
+> Changes in v2:
+> - I changed the patch name to avoid conflicts with the original patch.
+> - I adjusted the dashes by replacing them with commas.
+> - Regarding the typo, I corrected "conclu=C3=ADdasamp" to "conclu=C3=ADda=
+s".
 
-Now in hid.git#for-7.3/msi. Thanks,
+This inter-patch change information does not belong in the changelog;
+put it after the "---" line so that the maintainer does not have to edit
+it out by hand.
 
--- 
-Jiri Kosina
-SUSE Labs
+Speaking of the maintainer, always copy the relevant maintainers on your
+patches, or they will fall through the cracks.
+scripts/get_maintainer.pl will help you there.
 
+> Signed-off-by: Matheus Patriota <matheuslinuxdeb@gmail.com>
+> ---
+>  Documentation/translations/pt_BR/index.rst    |   1 +
+>  .../pt_BR/process/stable-kernel-rules.rst     | 232 ++++++++++++++++++
+>  2 files changed, 233 insertions(+)
+>  create mode 100644 Documentation/translations/pt_BR/process/stable-kerne=
+l-rules.rst
+>
+> diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/t=
+ranslations/pt_BR/index.rst
+> index 7a488f662..e761ee0eb 100644
+> --- a/Documentation/translations/pt_BR/index.rst
+> +++ b/Documentation/translations/pt_BR/index.rst
+> @@ -78,3 +78,4 @@ kernel e sobre como ver seu trabalho integrado.
+>     Processo do subsistema SoC <process/maintainer-soc>
+>     Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
+>     Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
+> +   Regras para kernels est=C3=A1veis <process/stable-kernel-rules>
+> diff --git a/Documentation/translations/pt_BR/process/stable-kernel-rules=
+.rst b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
+> new file mode 100644
+> index 000000000..22fc83a73
+> --- /dev/null
+> +++ b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
+> @@ -0,0 +1,232 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. _pt_BR_stable_kernel_rules:
+
+Please do not proliferate these pointless top-of-file labels, even if
+the English text has them.
+
+You did not actually build the docs with your changes:
+
+Documentation/translations/pt_BR/process/stable-kernel-rules.rst:68: WARNIN=
+G: duplicate label option_1, other instance in /stuff/k/git/kernel/Document=
+ation/process/stable-kernel-rules.rst
+Documentation/translations/pt_BR/process/stable-kernel-rules.rst:141: WARNI=
+NG: duplicate label option_2, other instance in /stuff/k/git/kernel/Documen=
+tation/process/stable-kernel-rules.rst
+Documentation/translations/pt_BR/process/stable-kernel-rules.rst:152: WARNI=
+NG: duplicate label option_3, other instance in /stuff/k/git/kernel/Documen=
+tation/process/stable-kernel-rules.rst
+
+Please fix all of these problems, then resubmit for 7.4.
+
+jon
