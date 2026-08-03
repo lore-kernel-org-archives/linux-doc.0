@@ -1,69 +1,33 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8892F25F7A5
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 15:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FAF333C183;
+	Mon,  3 Aug 2026 15:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785771931; cv=none; b=mYIeUCvJA4X4WyUi0X84vOU2ZpiiyuFMcOFxhiilUeHExYnBRgWwkNtWTESEoQsNQhwlJDd8Oh2DeSpd9Wvt8OQYauq9SRRuLkwWiUKyFGLypD3jglQ/vmNobsnbdHNrpM+qRIuLGrFN9uUTjBrSnt3HYNYGiNOHatuSSkMebu8=
+	t=1785772434; cv=none; b=GDfSq/Mi6PeqO58ioZ5rWaIDL/Ex8zoa1eMMiyGLzdhr0mMgohD7Jgb5Y6cClhK23BFOc7o5dF1816tRA2uz1zj9TxDPQztRA97bB63yZnnwe8u2c4jcSlRXC0n4Fmw+4P5PwMa1088Af/3M8+4iAlD7++1qki3b67o5oGNO93I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785771931; c=relaxed/simple;
-	bh=Ipp+MCCK7YinvsJCbSUzcQmor6cQB0RZUCzm1lx++k0=;
+	s=arc-20240116; t=1785772434; c=relaxed/simple;
+	bh=bipZvbkqUPc5n72uKORzyVnSydHD9nn566F6fsSOJZk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g4W8QfKpN7XtKuy/xCms2ZUm80B3/mCiaBRolm116h4adKtSNA12SKCgkOhOdUg9yGVs/ptIvWUfQAIfCG2E7QOGCGeU19QymXeEtaMzZ4x0FmjhAsQnq+pvupOU8vQ1sM1tLad568X028lN4XWDIhkhBKDcVmQnv27hHHm/DZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTdCcpTC; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=IRI+KpDcU0rLiF9CekrzoS04B+tO8SS/4jflRAtXSRyxMDTKUDNX2n2Bjq1KeLDOCnx4qpqddnlQfNGXpMwZEEtTEiqRPQacEwjtDzz940SFYIZzk/j9LrHm9r3C4k73K9i6InzeB9pboTpXQZNFRF23q2u1PLVrVdocwlBOhIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=FV1tr54R; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cTdCcpTC"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38e347638adso4131370a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 08:45:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785771929; x=1786376729; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XVgpd4PZNZ+So7ScyxntuWilkocD0aj6xFhiwfkcPA4=;
-        b=cTdCcpTCHiKVbT1L7PGNswUoqe5BuabRuIR49PkjWrB9DtahNErRcNrmb173pihPaK
-         gR/SUpRPtUbOCDA6Dn94Q7u0IRqupU7Kg1bPPnhPlc1/OswA2wfdjJ0Zdk8eP1ifGnq9
-         fLtXytrKfWnpSELJ8cJLX3pqyPxv2yygoo44PdvI3GUBpAd2q921P21dwYLRaZsmgQRZ
-         G+za9mGC6sr8pe9LlZ7bGHn/CrngpY7oc9bJK/t0YoM0EG7gZwdXsJ60yUFHvuNsHGVD
-         7MCVjZiu4n7B7pk/PxY/PJkQYzXh50tSSi/bN8KvXgB4spFuRkB9hu9oPNVf3R3gLweh
-         hfJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785771929; x=1786376729;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=XVgpd4PZNZ+So7ScyxntuWilkocD0aj6xFhiwfkcPA4=;
-        b=c1iOrGGz3OPIBRc+40db51ibJwrONvvsCmwbQ9fpN+17exvxR9GYl2AOkMAe19XqO/
-         FC3l4wCPoOPsHqvKRDQTOpaK6LEHoSdkKbNZnezETSIM51k3Auz/uRo1lQWTAKf90YlE
-         k5edJ6Ujpjhh/Z4Ycabp6lZ3hPRlVOexqn+13VEtnTf5G2fcDGmiasOSCd+0jVftxYPp
-         AWcx7rPOu9mtRDpE77ClwwEzlBJzMvl27ikCoyUv2PoxWgLju9mwjLfKsvX+wE94/jiV
-         CM2CCIDpgSfzLqnTSGDYzI778qctetlaBKDrDgBXdWJZ1EXVRW3JN5wTkqb20+W3eUAs
-         PLRg==
-X-Forwarded-Encrypted: i=1; AHgh+RqovuLUknaWgtOLi0zWJ74pvQJYCqEDSaVFxee8OzynBPs7y3auJCfJcaWy0Kf0wTHYTSHH5j5HU/4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRzSf7NLuLIza6NurTSsC9Z+aVoNbz5e5t7UXSz/LRlGWJTFzY
-	+GJVoGhDUIMT07ydz8HWNR8u/L0UwOPAx1SwlQxh2BIChA2y7/wzr4UT
-X-Gm-Gg: AR+sD11YacFxLt8QyWkJP9aduWYDuB0NlJ3oTCpUgKZafoRK00ELlznoEnyg7SSiaTL
-	hfS9e++MI0BKA3Ghkca8ZiVG4iPjF/ZB6hP1Aknznz2+2HDQqilpm/RZa8LHCTX+XvVif4biKp9
-	XqDr3lNkAnt8iWbXxr5ULmrkc8WBTmtskrMq+SQcb+XAv7Xov9ntV9ldLAgQKJbEG38R4j8GkT/
-	ZadvepDxPxsDn6yDnTVeGBo+KLg0i1TdEPqixNohGSt4A9hloyj8/751IdGSccYy6E3va+dYutD
-	x+ln8shlT2tAkSOus7DXraWGgtPDZ5d2cWcxL/NWDnRvCI8LxP3VLt8bJJ5DtxQqaBn1ZEE4ew3
-	76mm6yP1JsJP+aoundp0PToKpmXbzftUTYqw75nIzClg1gF2dymu9YDO+NY22dMHKM+c10LjLNt
-	b0ObrZcEj8gZqTIj9h8U4LfxCYp/CtcaISnQqv9ee65N0jx09TQrE6QOUDSGAjXtDdp5FIOV+Ow
-	K4JPKgc5QItub34i4D5rbEf3RT5+XskPILqeCCzMUD2NcgPsQ==
-X-Received: by 2002:a17:90b:4c0e:b0:387:df8f:1408 with SMTP id 98e67ed59e1d1-38fbc5d2f96mr9370451a91.41.1785771928753;
-        Mon, 03 Aug 2026 08:45:28 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38febfd8ff8sm19327a91.4.2026.08.03.08.45.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Aug 2026 08:45:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b8eaf1f3-2155-419e-b396-a094e548e7ec@roeck-us.net>
-Date: Mon, 3 Aug 2026 08:45:26 -0700
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="FV1tr54R"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08DE61476;
+	Mon,  3 Aug 2026 08:53:48 -0700 (PDT)
+Received: from [10.2.197.99] (ewhatever.cambridge.arm.com [10.2.197.99])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A7CA3F66F;
+	Mon,  3 Aug 2026 08:53:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785772432; bh=bipZvbkqUPc5n72uKORzyVnSydHD9nn566F6fsSOJZk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FV1tr54R+0e6tXlM27sqOKgR2cBmb4FKaia/3O3OP4s3hKmWPkEG7IS8+OLthX9KX
+	 GrYX0Lf2cSfDp5MfswPlbM3sUOONHqIqdrKUH+g+vk3O9IYEduMfGaEbAWs9TEbxZI
+	 EQn85U0teStXlYCFKD+VYERDRlEcXckmGvAmfDr0=
+Message-ID: <e14e022d-3fec-4edb-9458-47b31b26e0f5@arm.com>
+Date: Mon, 3 Aug 2026 16:53:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,173 +35,98 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
- pmbus_read_block_data()
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
-Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Alan Tull <atull@opensource.altera.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
- <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
- <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net> <amtewh9lOgWz0-Nh@nsa>
- <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net> <amtqPQSM6zsiCh4B@nsa>
- <6287e749-04f5-4a03-a91c-fcc705df269c@roeck-us.net> <amzB2aw_4y6ji9zs@nsa>
- <b48636b8-33d1-425f-93a7-d0b9c4dd86ca@roeck-us.net> <anCsIHUkaL7ckyiL@nsa>
+Subject: Re: [PATCH v9 10/41] KVM: guest_memfd: Add base support for
+ KVM_SET_MEMORY_ATTRIBUTES2
+To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ david@kernel.org, jmattson@google.com, jthoughton@google.com,
+ michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
+ qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
+ shivankg@amd.com, steven.price@arm.com, tabba@google.com,
+ willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
+ forkloop@google.com, pratyush@kernel.org, aneesh.kumar@kernel.org,
+ liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
+ <20260728-gmem-inplace-conversion-v9-10-35f9aec2aed2@google.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <anCsIHUkaL7ckyiL@nsa>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20260728-gmem-inplace-conversion-v9-10-35f9aec2aed2@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 8/3/26 08:03, Nuno Sá wrote:
-> On Fri, Jul 31, 2026 at 09:46:29AM -0700, Guenter Roeck wrote:
->> On 7/31/26 08:42, Nuno Sá wrote:
->>> On Thu, Jul 30, 2026 at 08:54:25AM -0700, Guenter Roeck wrote:
->>>> On 7/30/26 08:19, Nuno Sá wrote:
->>>>> On Thu, Jul 30, 2026 at 07:47:37AM -0700, Guenter Roeck wrote:
->>>>>> On 7/30/26 07:27, Nuno Sá wrote:
->>>>>>> On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
->>>>>>>> On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
->>>>>>>>> From: Nuno Sá <nuno.sa@analog.com>
->>>>>>>>>
->>>>>>>>> This is in preparation for adding support to a device which needs to
->>>>>>>>> use it's own read_block implementation.
->>>>>>>>>
->>>>>>>>
->>>>>>>> The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
->>>>>>>> I'll need to know if this is a chip limit or a controller limit.
->>>>>>>> If it is a controller limit, a chip specific override would be
->>>>>>>> inappropriate.
->>>>>>>
->>>>>>> I'll reply from top of my head (did not looked at the driver again).
->>>>>>> IIRC, the biggest reason we need the chip-specific implementation is because of
->>>>>>> the RAIL selection logic (mainly when not in page mode).
->>>>>>>
->>>>>>
->>>>>> Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
->>>>>> instead of i2c_smbus_read_block_data(). The rail selection logic would not
->>>>>> require that.
->>>>>
->>>>> IIRC the reason was because the i2c controller on the raspberry pie does not
->>>>> support i2c_smbus_read_block_data(). So I guess this:
->>>>>
->>>>> https://elixir.bootlin.com/linux/v7.1.4/source/drivers/i2c/i2c-core-smbus.c#L220
->>>>>
->>>>
->>>> Hmm, I think we really need a common solution for that problem. Not all
->>>> controllers support i2c_smbus_read_i2c_block_data(), so you are just moving
->>>> the problem from one controller to another.
->>>
->>> Yikes. I actually though i2c_smbus_read_i2c_block_data(9 was more widely
->>> supported (if not always). Not sure if you have something in mind but
->>> one straight way would be to choose different implementations (for
->>> read_block) depending on i2c_check_functionality()
->>>
->>
->> Handling it in pmbus_read_block_data() would be straightforward. Actually, I
->> wonder why it isn't handled as fallback in i2c_smbus_read_block_data(),
->> but I assume there must be a reason.
->>
->> Either case, I don't understand how the existing calls to i2c_smbus_read_i2c_block_data()
->> work. For example, in drivers/hwmon/pmbus/max20830.c, the assumption is that the
->> first returned data byte would be the length field. However, that is already done
->> in i2c_smbus_read_i2c_block_data():
->>
->> /* Returns the number of read bytes */
->> s32 i2c_smbus_read_i2c_block_data(const struct i2c_client *client, u8 command,
->>                                    u8 length, u8 *values)
->> {
->>          union i2c_smbus_data data;
->>          int status;
->>
->>          if (length > I2C_SMBUS_BLOCK_MAX)
->>                  length = I2C_SMBUS_BLOCK_MAX;
->>          data.block[0] = length;
->>          status = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
->>                                  I2C_SMBUS_READ, command,
->>                                  I2C_SMBUS_I2C_BLOCK_DATA, &data);
->>          if (status < 0)
->>                  return status;
->>
->>          memcpy(values, &data.block[1], data.block[0]);
->>          return data.block[0];
->> }
->>
->> Does the command return the length twice ?
+On 29/07/2026 01:35, Ackerley Tng via B4 Relay wrote:
+> From: Ackerley Tng <ackerleytng@google.com>
 > 
-> I think the device is actually the one sending the block size again. I
-> went looking at very old emails and found this chain:
+> Add a new ioctl (and matching struct), KVM_SET_MEMORY_ATTRIBUTES2, using
+> the same base ioctl number (0xd2), but with R/W semantics for the kernel
+> instead of just read semantics.  "Officially" documenting that KVM writes
+> to the payload will allow KVM to support partial/incremental conversions,
+> instead of all-or-nothing updates (which requires complex unwinding), by
+> recording the failing offset if an error occurs.
 > 
-> Me:
+> Opportunistically add a new struct as well, even though KVM could squeeze
+> the error offset into "struct kvm_memory_attributes", as there's no cost to
+> doing so in practice.  Pad the struct with a pile of extra space to try and
+> avoid ending up with "struct kvm_memory_attributes3" in the future.  Use
+> the same layout for the fields that common to version 1 of the struct,
+> e.g. to ease upgrading userspace, and to provide flexibility if KVM ever
+> adds support for KVM_SET_MEMORY_ATTRIBUTES2 at VM scope.
 > 
-> "Thanks for the inputs... As I said, I think know what’s my issue. I’m fairly sure the first
-> byte I’m reading is the block size. I’ll take this into account and re-test."
+> Introduce KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES to advertise the
+> availability of the KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
 > 
-> Reply:
+> Update the KVM API documentation to define the new ioctl and its behavior,
+> and add the necessary UAPI definitions and capability checks.
 > 
-> "On one hand, that does make sense. The first byte in a block read transaction should indeed
-> be the block size. That said, 0xB1 is 6 bytes long when not including this first byte. So we
-> are still missing a byte with actual information. Could you perhaps please share the full
-> packet data that you are capturing?"
+> The process of setting memory attributes has a clear point of no return
+> because, for CoCo VMs, zapping stage 2 page tables is a destructive
+> operation. Unlike regular VMs, where re-faulting pages into the stage 2
+> page tables merely incurs a performance penalty, CoCo guests must
+> (re-):accept pages after every fault. To preserve CoCo security guarantees,
+> guests will not accept pages they did not explicitly request faults
+> for. Consequently, during memory conversions, any operation that could
+> cause the process to abort must be completed before the stage 2 page tables
+> are zapped.
 > 
-> The above was me struggling with per phase reads.
+> Zap only the ranges that are not already in the requested state to avoid
+> inadvertently destroying (CoCo) data. ARM CCA guests will try to mark the
+> entire DRAM as private at boot. If there are no shared pages at all, the
+> to-private conversion can be skipped, but the existence of a single shared
+> page would require the conversion process to proceed, and if it proceeds,
+> zapping both shared and private pages would destroy data and break the
+> guest.
 > 
-> But maybe the above changed with newer FW versions for the chips. I'll
-> ask around.
-> 
+> Co-developed-by: Vishal Annapurve <vannapurve@google.com>
+> Signed-off-by: Vishal Annapurve <vannapurve@google.com>
+> Co-developed-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Reviewed-by: Fuad Tabba <tabba@google.com>
+> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+> Suggested-by: Michael Roth <michael.roth@amd.com>
+> Tested-by: Shivank Garg <shivankg@amd.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-No, I found that other chips do the same.
 
-I am working on a generic function pmbus_read_smbus_i2c_block_data() which calls
-i2c_smbus_read_block_data() if supported and otherwise (if supoported) calls
-i2c_smbus_read_i2c_block_data(). It should be ready within a day or so.
-
-Thanks,
-Guenter
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
