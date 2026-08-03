@@ -1,82 +1,110 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464B7281503;
-	Mon,  3 Aug 2026 07:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B244B340A76
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 07:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785740661; cv=none; b=VPzgyltDC2IvSIgK0KyUPQKyvEmBZ5rmNUhEgkN5NKM3AI9ifM3JTWBgz0paKDqAnkQ1CY37ONQdQLi8uFoxA2TAXa8bL3DOVmeDu97WuvWEk77TXCe2IIvBSPUhxogDRKsidjD40ylgiBRWxw2o216G8EQcu/2kR6aLNfWbNPo=
+	t=1785741369; cv=none; b=fdwrl5FstUfhfQZ0CtpmBNdHx/bjUFt7NmyLXss7xM7EszOR9U6ZKEsSHaBhEuwhRi7aoEG5adaYmg2pO1G9DwB0f1Tyf3RHvwYzAOLmuEZGzAWrzvlGo1u+5gyL0CoK5QSe8W2mgPtSxGlFx+WHRHhHofR7/cS0h6x6YOdQQ7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785740661; c=relaxed/simple;
-	bh=45B/4YxpGwiSyosWOVmD5P//n4CuXFA9CAl5n5a1Zkk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VLbLlE9idS5XmEdNy5groJSxNLeR4sS0ZTdC4vmMk2o3bs3Hd4fIK1zCRLqjAau5ku7NGJV2w0Y0O2r8qh39nAo83/tN1DvFp/t1HO0VgwfVdCKx6Xb8ia1Gdb2QeBupcHvlb985OJFMOlAOzBE9VO01bIbiRn46p7Ddn5eyTuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h98Mshf3; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1785741369; c=relaxed/simple;
+	bh=Dnw6NXnk8kwvNdo93WmVYhkyxHlgOe+nTgmTwSoBbA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=lHEFFj7gLg4Ml+2CAHfDE5O2KurTOTrzmHoKrUid5l9X2LCKcV9klGQCE4r/3qE84JaDqfccPZjemFos/D2eH9p9QPPtqizw8pFocUtVpQuSrfYu68VUpeqRb9bOVoPtUe+QmJdoFKt8sU+Ro6UF+zhd0VZ/KVHAJw5kKT+uX4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pk3T118R; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h98Mshf3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pN2mZZaKvdXjyFzFkW14Jlowmta22s09z5QPGKFDCvA=; b=h98Mshf3A1PPjJWaIRuyAiaG9K
-	O0eApEEkQJ7zQcZu1Us7uWTISWdY29sgXm3btM7LMW7wQBOH95tpNvde8ttM52G6PxqLoxHmObMJt
-	6BXo9EbbhhDCrU1e3h1QfE1cOzl1/NE5uDHOb4MmKnemaeyOmQoRwGdxCmOsSMpYMf9D7vioq+iGv
-	p0NqfLhbcoUIL4ybXWdMRb9BbFtJ/yb8B+Oi4W9jlF4Dw4H3OLXmnSo71IhKQ0y0QvMOrZZKrGT5B
-	Y4SSMTGV3I1HWrOG8l20K76RhdwmOjsN7/VoOidyBIBsb96SVpLhDdnU22sFsGQITk+FDpOfQbbyo
-	ru2eoeDA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wqmiM-00000008lIh-06kY;
-	Mon, 03 Aug 2026 07:04:00 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 20CA430045A; Mon, 03 Aug 2026 09:03:56 +0200 (CEST)
-Date: Mon, 3 Aug 2026 09:03:56 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
-	x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v11 04/11] tracing: wprobe: Add watchpoint probe event
- based on hardware breakpoint
-Message-ID: <20260803070356.GV49951@noisy.programming.kicks-ass.net>
-References: <178565870538.714490.11309825813968306287.stgit@devnote2>
- <178565875046.714490.17724442147958346980.stgit@devnote2>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pk3T118R"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Dnw6NXnk8kwvNdo93WmVYhkyxHlgOe+nTgmTwSoBbA0=;
+	b=pk3T118R/N20RkVgzptuQsU4dRxKrumW4ZfmyC+goiTs1lYHKS6TxU524NPqGLdT2dvfZce2Q
+	2B7Bk6kr16aPvTvIgWJ6mPvT9ujUaMKg1IFCgniKP9oVjKqIXoeJgDtkdxG78G4NLEdIIvLKdKu
+	E89KFLrJXoW3DEMYgfKSc6E=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hD7526HkGzLlX5;
+	Mon,  3 Aug 2026 15:06:30 +0800 (CST)
+Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
+	by mail.maildlp.com (Postfix) with ESMTPS id E350A4055B;
+	Mon,  3 Aug 2026 15:16:00 +0800 (CST)
+Received: from [10.174.178.9] (10.174.178.9) by kwepemr500001.china.huawei.com
+ (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 3 Aug
+ 2026 15:15:59 +0800
+Message-ID: <fe724e58-f525-4eee-9471-d1765f6bdb0e@huawei.com>
+Date: Mon, 3 Aug 2026 15:15:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178565875046.714490.17724442147958346980.stgit@devnote2>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: ksm: fix typos in sysfs knob names
+To: "David Hildenbrand (Arm)" <david@kernel.org>, <akpm@linux-foundation.org>,
+	<xu.xin16@zte.com.cn>, <chengming.zhou@linux.dev>, <ljs@kernel.org>,
+	<liam@infradead.org>, <vbabka@kernel.org>, <rppt@kernel.org>,
+	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <shr@devkernel.io>, <linux-mm@kvack.org>,
+	<linux-doc@vger.kernel.org>
+CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>
+References: <20260731083526.3953421-1-tujinjiang@huawei.com>
+ <20260731083526.3953421-2-tujinjiang@huawei.com>
+ <d9236dc0-3332-4fab-aa26-e74d10ad0cda@kernel.org>
+ <f1f5c486-f14c-44ad-8285-a9df437f7974@huawei.com>
+ <3066dc07-31b5-48ca-b14e-51b284bbb9e1@kernel.org>
+From: Jinjiang Tu <tujinjiang@huawei.com>
+In-Reply-To: <3066dc07-31b5-48ca-b14e-51b284bbb9e1@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemr500001.china.huawei.com (7.202.194.229)
 
-On Sun, Aug 02, 2026 at 05:19:10PM +0900, Masami Hiramatsu (Google) wrote:
-> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> Add a new probe event for the hardware breakpoint called wprobe-event.
-> This wprobe allows user to trace (watch) the memory access at the
-> specified memory address.
 
-s/the memory/the kernel memory/
+在 2026/7/31 17:25, David Hildenbrand (Arm) 写道:
+> On 7/31/26 11:22, Jinjiang Tu wrote:
+>> 在 2026/7/31 17:11, David Hildenbrand (Arm) 写道:
+>>> On 7/31/26 10:35, Jinjiang Tu wrote:
+>>>> The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
+>>>> "advisor_max_pages_to_scan", but the ksm.rst documentation spelled
+>>>> both as "adivsor_*", fix the two typos.
+>>>>
+>>>> Fixes: 0710f38ad26a ("mm/ksm: document ksm advisor and its sysfs knobs")
+>>> I'm not sure on fixes tags for documentation stuff.
+>> git log --grep "Fixes" Documentation/
+>>
+>> Many commits in Documentation have fix tag.
+>> I think both are ok, since documentation changes are needed to backport.
+> What? When? How? Where?
+>
+> :)
 
-> The new syntax is;
-> 
->  w[:[GROUP/]EVENT] [r|w|rw]@[ADDR|SYM][:SIZE] [FETCH_ARGs]
-> 
-> User also can use $addr to fetch the accessed address and $value to fetch
-> the accessed memory value (shorthand for '+0($addr)'). No other variables
-> are supported.
+These commits only modify Documentation/ files and contains fix tags.
 
-This seems limited to kernel addresses only? Should not also userspace
-addresses be supported?
+0c13ed77dd2b Docs/admin-guide/mm/damon/lru_sort: warn commit_inputs vs param updates race
+0beba407d458 Docs/admin-guide/mm/damon/reclaim: warn commit_inputs vs param updates race
+d7f00084f686 Docs/admin-guide/mm/damn/lru_sort: fix intervals autotune parameter name
+652e1a51465f mm: fix docs for the kernel parameter ``thp_anon=``
+14e70e4660d6 Docs/admin-guide/mm/damon/usage: fix wrong schemes effective quota update command
+da2a06188888 Docs/admin-guide/mm/damon/usage: fix wrong example of DAMOS filter matching sysfs file
+1beb8ae302a0 Docs/admin-guide/mm/zswap: remove zsmalloc's lack of writeback warning
+0ff11f103f5d Docs/admin-guide/mm/damon: rename the title of the document
+465d0eb0dc31 Docs/admin-guide/mm/damon/usage: fix the example code snip
+205498012513 Docs/admin-guide/damon/reclaim: remove a paragraph that been obsolete due to online tuning support
+dd21bfa425c0 proc: fix documentation and description of pagemap
+a8db400f997c memory-hotplug.rst: fix wrong /sys/module/memory_hotplug/parameters/ path
+d83fe3c99d27 memory-hotplug.rst: fix two instances of "movablecore" that should be "movable_node"
+72a3e3e25a51 docs: hugetlbpage.rst: fix some warnings
+8867f6109b84 docs: fix numaperf.rst and add it to the doc tree
+
+
+But there are also commits don't contain fix tags. Such as:
+
+abdca14655fe Docs/admin-guide/mm/damon: fix 'parametrs' typo
+78a00cac1e96 docs: fix 're-use' -> 'reuse' in documentation
+eb14b12c8c22 Docs/admin-guide/mm/damon/usage: fix and add missing DAMOS filter sysfs files on files hierarchy
+472098f23323 docs: mm: fix the incorrect 'FileHugeMapped' field
+
+>
