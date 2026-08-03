@@ -1,155 +1,81 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5947F1DFFB
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 12:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 479D543B6F6;
+	Mon,  3 Aug 2026 13:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785761787; cv=none; b=q+S3TAjdEsHLzxu0GfnEoHJTZ2At5+n7F2fNjKYyupYqEALoE4nPyyEwRX+tv4B6sAtrC9TesLHppCyQHNjR4Ez9VxoCfQhFk9DOoqMROvVLKQejTtZet5iQhcp+MP1bphVlodT8IEOO9sKV+hJqiMGeWhPbAyXAiYNEVBIW61w=
+	t=1785764857; cv=none; b=tlN+AaOz18Jwak0+nke0QWvyLHvILtTk2BYJzl4CLxAky6wDLSe62GtZ1lsxmh9yQDO2+xAPpd6ko5rjUUsz4wQ59XAeS9M4VkhNoedI9xLANe05DeYCrqdzRlND0UHcuZmvTbunhke0qOa0Q+1G8XIBxK37IGCLE/mdl9eWaXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785761787; c=relaxed/simple;
-	bh=Ir8txI41duHjjdUa1tYJv/Mb4slAcXRYTZiQjfKa4u0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CyxPc7FImSic2Vdiv4Ao2Ny/f3/bx5EZIPd0SZ41olD85ViLrQ4nKk+1hx+bKPghIpyFo5mlBpz8aGxcHO9DPhsnbQZAzEjCSYkNgt+MCfqn2KH0v67xUX2ASy8ePySicPxNxYuBEPHywP6chVb/U+JWQOiOBHW2dUArqYO3Q88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-73720e58dafso1622908137.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 05:56:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785761785; x=1786366585;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WGVqxVKLC2Gks94xayPEyUqyvnJiYIaVHNXa8plDaec=;
-        b=L+u52RTVzCAWnZS0eun8JSvgou8zo7s9mp7T+55sQL0c0kTbtTPBE9ASJYXL0UJXVf
-         5NhVnA/+NEKF9aXu3Xro14zLQF7kBkpPxMt1SgCCrxotaIeo594/8hPMQ2zoShtiPxdW
-         8/50RI+KUYVMWrNpb6ySIVhmsHTnjQ7WZb+HDJDAhPrrcBrmh2yk/sjeF0en9nhxOcpp
-         oo5bYfPufsZlZoVBjbnMD8SswX4Lvg3/klIa7VfA2iTjYze9z3q64ilXIbK8TbjMCkTD
-         yEBe8+NE/dQO8gOx6Gu6yJUQFdlW2U7zkgM3kmgjiklGfvnxD55tCNn+ROsPMoKfzFOl
-         yEGg==
-X-Forwarded-Encrypted: i=1; AHgh+RrtnwiCAZAyoQDvtacK1dC+s8vaFinTLisXPYtT5afQRuNnG2QqMSLdTTd1QlK+QD1htewbWVqLLV4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPtTdFaWYvYKHxvVSGMSfPNkRKWwojJmZ/WezmZFjvIud4esgY
-	YTgZPjLiZ14mrqjMGTdjYYyFzMHIiyCGVWMvRLH39H52fkx7R4iS2HG6oZHpw5d/
-X-Gm-Gg: AR+sD10WlvddauNF9ptBbRf9pqKijgQ8tAHaOz/HtB51Na4JI2S6ML8CM0YJqb7mYf2
-	++1oB3xu+S+WgTBldLe9iyDvz9umVrq1ETVhMmF1zRs6Rhfe30pT44EMQQt91zhiOpGkx4b7VcX
-	lixuzLUb4tKrC+Il8T0Xa4m0hWoUyagQyu+e3DZwUWtsx+D8zkmYN4Q1bMLCZjxjAIdIu1Dz20W
-	E/czvd5DQlRA7rXqK7rfyjt0Guu2Kg6TSQvQS7VsGALTy/MBLpd3FU2jjd6e7wvUyZAdd2YCNAo
-	KnuT5NBR6DGWqM2KVUm4mzpZ18iS7Dpq+2LcrndxeMs+EagGQh98RsFUcTnW/2KbwHXF5V23rOT
-	aNU62wVh2FvHdqvX5FBPQhGL5QPgDXx7BRqRZ7LBZMJ8HMnYyk+3iI+sUx74obR++lykCdRSivz
-	ZhZ0rqZgeS2Y1xisnJdeEfzBuj1KLzmE3gGioQ7+ir20zQPltuF11AerBfo1uInhOTRZSxY/DGZ
-	v9R8kcfRzlW/13jGWQ0wzhjFw==
-X-Received: by 2002:a05:6102:41a9:b0:740:2bcd:24d2 with SMTP id ada2fe7eead31-75b2245a880mr7913323137.5.1785761785175;
-        Mon, 03 Aug 2026 05:56:25 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-977e6a40a5csm6346432241.10.2026.08.03.05.56.25
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Aug 2026 05:56:25 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-74d55dac06eso1885066137.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 05:56:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr1yC7YMcWa3dw1g0CMVZPGXi6hN1QIz5dWJEziyzbv+QPe2Mfr66omsVbFRZCGK9ACUSZaWdRYSFM=@vger.kernel.org
-X-Received: by 2002:a05:6102:6a83:b0:729:affa:70fd with SMTP id
- ada2fe7eead31-75b2295c6d6mr7103654137.8.1785761305110; Mon, 03 Aug 2026
- 05:48:25 -0700 (PDT)
+	s=arc-20240116; t=1785764857; c=relaxed/simple;
+	bh=hhXsfn/zKWmJn+exhaR5yAw9rWiZOEgRl4BokkeuAis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j4YWt16FOXGavDiQzLMXUfc2wd3N0IUIo8ps8mwtSEMRWspoWECfIJnT/8HipM3MnGIfZmowYA0JJ6uz9zHqBse/GY6MS91oWp99VqOtA6wavDF7RC9wZ5iPiHyJbtyrZFyPMiqo0L3fL4uJ6Ab/zpxxd9GhrT3tX/yWIF5nJfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=JYalJtLF; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="JYalJtLF"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C60B21476;
+	Mon,  3 Aug 2026 06:47:31 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 42F223FAF5;
+	Mon,  3 Aug 2026 06:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785764855; bh=hhXsfn/zKWmJn+exhaR5yAw9rWiZOEgRl4BokkeuAis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JYalJtLFKsdTul5C+eXgLl5h/r+HoLJG8PCPUQtIj1di2hvliwdGTq4hy7X+HeTIM
+	 Y+jp53IxJk4UAXoaSZkMwRRoMpR2sER4qpgcji7R/nmCaoMxDTVCFOSk1YaBHI59D9
+	 ZrPAJpKpZp0808LmmYXfAv/KttwYh+PiL97FvXzo=
+Date: Mon, 3 Aug 2026 14:47:30 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v2 1/3] mm: kmemleak: default min_unref_scans to 2 for
+ verbose auto-scan
+Message-ID: <anCb8tz8KTwe9f6u@arm.com>
+References: <20260731-kmemleak_hardened-v2-0-7b9689ac77cb@debian.org>
+ <20260731-kmemleak_hardened-v2-1-7b9689ac77cb@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720-drm_simple_encoder_init-v2-0-5020b630668a@gmail.com> <20260720-drm_simple_encoder_init-v2-10-5020b630668a@gmail.com>
-In-Reply-To: <20260720-drm_simple_encoder_init-v2-10-5020b630668a@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 3 Aug 2026 14:48:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUe0F06RE4ahWb9ERFq0_pnNy-qGZ5ewod+59x-RtU_FQ@mail.gmail.com>
-X-Gm-Features: AUfX_mz7dUNKx_CkXmX2bBiqeRWfQJXaKympC5b4Q722_mZANMq2M_rTZsMnNYo
-Message-ID: <CAMuHMdUe0F06RE4ahWb9ERFq0_pnNy-qGZ5ewod+59x-RtU_FQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/15] drm/renesas/shmobile: remove dependency on DRM
- simple helpers
-To: Diogo Silva <diogompaissilva@gmail.com>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Michal Simek <michal.simek@amd.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>, 
-	Alison Wang <alison.wang@nxp.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
-	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
-	Jyri Sarha <jyri.sarha@iki.fi>, Liu Ying <victor.liu@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	John Stultz <jstultz@google.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	virtualization@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260731-kmemleak_hardened-v2-1-7b9689ac77cb@debian.org>
 
-Hi Diogo,
+On Fri, Jul 31, 2026 at 03:13:04AM -0700, Breno Leitao wrote:
+> min_unref_scans defers reporting an object as leaked until it has stayed
+> unreferenced for that many consecutive scans, filtering out objects that
+> are only transiently unreferenced during a scan.
+> 
+> It defaults to 1, which reports on the first unreferenced scan.
+> 
+> CONFIG_DEBUG_KMEMLEAK_VERBOSE depends on CONFIG_DEBUG_KMEMLEAK_AUTO_SCAN,
+> so a kernel built with it runs the scan thread periodically and the user
+> has opted into detailed leak reporting. A second confirming scan then
+> happens on its own.
+> 
+> Default min_unref_scans to 2 there to suppress transient false positives,
+> and keep it at 1 otherwise, where a manually triggered scan is expected to
+> report immediately. The value stays writable through the module parameter.
+> 
+> CONFIG_DEBUG_KMEMLEAK_VERBOSE defaults to n, so this does not change the
+> default for kernels that do not opt in.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-On Mon, 20 Jul 2026 at 17:41, Diogo Silva <diogompaissilva@gmail.com> wrote:
-> The simple KMS helpers are deprecated because they only add an
-> intermediate layer between drivers and atomic modesetting.
->
-> Open-code drm_simple_encoder_init() by calling drm_encoder_init()
-> directly and providing driver-local drm_encoder_funcs.
->
-> Signed-off-by: Diogo Silva <diogompaissilva@gmail.com>
-
-Thanks for your patch!
-
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-
-> @@ -29,7 +30,6 @@
->  #include <drm/drm_modeset_helper_vtables.h>
->  #include <drm/drm_panel.h>
->  #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
->  #include <drm/drm_vblank.h>
->
->  #include <video/videomode.h>
-> @@ -436,6 +436,10 @@ static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
->         .mode_fixup = shmob_drm_encoder_mode_fixup,
->  };
->
-> +static const struct drm_encoder_funcs shmob_encoder_funcs = {
-
-Nit: shmob_drm_encoder_funcs?
-
-> +       .destroy = drm_encoder_cleanup,
-> +};
-> +
->  /* -----------------------------------------------------------------------------
->   * Encoder
->   */
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
