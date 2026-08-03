@@ -1,128 +1,82 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41234334CA
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 19:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785783770; cv=pass; b=k0TmFlaIOTCr/VFJ1Db6d4XR+FjypeBtkgBHOmujW0vwN4ImTisyOOZtO1NjchoL9QxMtJkaBh5hLqux1jbRyfdYKukGAJz8isOCWOGt5GG0u1POsKV3e9cloyuQGVJrwkAGse70MIURlrOkr+y1ZwXIyd0S2MoJHLQgi2uov9E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785783770; c=relaxed/simple;
-	bh=ZPc110GH2lVPR3QVvH4kut4ZD+2dlr+I0bCsq3f4oFI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VWu0Et56bPu/aU9wpSTreueaRYEKku7bnhuwhV+8Xh0Sb64aoEZe1ruznlWTwbSHMwY0Q1BoZG0F3l9QcBJeMrrbrQesCtjmflr4FNUiblZ/HYSe+I4j44JSszSBKbg+WaQB+qQTAZvIzfpg/NzUEpB59EYLtLwJEN0y3hsAG9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tGm6/WgR; arc=pass smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7077C3C1F
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 19:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785783786; cv=none; b=AlwIGI/NCJl75PA7/OQ1UDuov9r2sioBsLKWvcVNlv2/mUZBoExd0L/ZypAD5exy1Fkv4cJRpZLLloUmv12ndL8eQ9apZmVFvqE0DcI+GI8vdciLOf/0wOT7XhRbSty69rZJr3m7CTaL4N5zPkeLTkc+tw4RYILmcfXqL8N0vV4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785783786; c=relaxed/simple;
+	bh=Y+guXIj/BmYM6swlo5VbPH2qTlmRR/DFoupqiUA9Ejg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ezFodJD4Aw+Ud93FecpDnnnEr468NfKaDqopBRH28KHd2ApZX2mDvYH8ybwzA71U5JNKBT9hAOW7YC2kBKYEykEiseoGntpzW9K5IKy+4njv23U9LWjOf3j02xXOFoMmdnYyrcHa44i0mBesZdtAJblrZI0GMWjmdINVyOBlIv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=J9Y/biMy; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tGm6/WgR"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8f186025973so37764276d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 12:02:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785783767; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fvptj1F8cqY5WFTQrmTk4Q6BLp2Xsqn7XE7mjBGjFcJpM1jYxXROkAvH7HAyOIDcLp
-         cXT8rAk/sZJDC8GSNOAIiREvKScwTvNb/N7IbeBvp7T6D0ktnB+eOyeqKFP0UVCEZQ97
-         UkHArcb8OUffLGdiNY2EJS09i/00/euyakeFIivS+0xksvVgH3OOuCoZlW5UrwMdeU63
-         e7jLEJ6Qi2nknrts3nCWjGk0U0JVNsM5cK1Nimmd2IBiUf9yWGP8v6U/bIh6fYULTgus
-         rpKDzex8wYlzaOO0XHMK4+VXRrrlk5wbdSH30qNkrfC0jHtPaasIxwar/4eJpX9iuPVU
-         nIxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZPc110GH2lVPR3QVvH4kut4ZD+2dlr+I0bCsq3f4oFI=;
-        fh=MwM/ibIM5CqoA0CYmYNey+nKQGz3x85+tcO5XyP/Ie8=;
-        b=WlVX0YpzSZZXZOi62JBrIf6mX10ECvXJC/3Va8Mbo0uCh6KxMu7MOoCAUIAJUQLyQ6
-         MaZxpo7/NlSDyGpE5jm9IstyeYkLreEPLOhdMR5fzEsHvC12HhKJ/qsNfgLT+oQ2lqIy
-         IdhAFfbNjImXreof8Os5ANG48RGBz+anQ16muRb6Z52xrd3eyQWL1e92P/Ueft2URC08
-         TTqsK+rTkQv+912/tJb/gitApVnJSoCO0rEL2bmhS2+bEGaD3KQNTilYaGaUtm9Y8BO9
-         shUR3EQnuHaTuwEg9GDxa876eKHiGSU7CrLP2xK7BqrICDAdUiuho9RaZJUc2J4npz0N
-         t6MQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785783767; x=1786388567; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZPc110GH2lVPR3QVvH4kut4ZD+2dlr+I0bCsq3f4oFI=;
-        b=tGm6/WgR7HOsIJlxyxj/udUH2werBsP0lVrWdn8ofrrOTNQKnOlLE4QMwhJF8ztSyM
-         RhRuYUvmu5ebjw6wC0HiaFefD+x+XG2C/V8MYZ+xc/zErCEey8XIfGFSBm2dLgpHW09Y
-         0gTA2bHZNYmfLb1a4qt9rTF1K61q3X41i4TUoYqAy5PyfP/W+tntn4TZmj/iVaRzHOLe
-         Ouhey9kBkEfJFWXwtlHsTqEBJeSfJj7c+W6Xul2PCbTSvVi4MRrpbilMQxm1b1O5gjOO
-         f5zG2riPtf9WfmBkCbs9VTzKps0bawx3m+U4Wk6PfK+vxImsiSZ0SRCr7YUiqdHIk2XC
-         BoyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785783767; x=1786388567;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZPc110GH2lVPR3QVvH4kut4ZD+2dlr+I0bCsq3f4oFI=;
-        b=OYEO6fUEEnt8u6ndr3+p+XdxG9PTomx7wlQ47mZxqdPeK2u7pPAuJcWyKUE4EPZFho
-         3E0Mo7BynkYKb3WEn8sBh9lMjpQaozov+/HIbbkYDnEU2sxkJbUbVRb4Vjq1hdZCykYm
-         NzeQdOBNg4sR8PIC7vhdb7CBh6FsSg/jD6IKJhlIjbwwyfrB09sfLrKvzeR27RqLY3tA
-         MkJ7cFg9xcbCBtQoHlTwYlVHO88WX+DP4h+L+DVs0EYEMgLNjrtgythzf1qStvSVDwGl
-         TV3VMqgAkwHe5X49JJgV6T5srMDfS8w9EqtCzNKKrLX1f/DsIhFu3Syd8AuVgm6al15J
-         9SIQ==
-X-Gm-Message-State: AOJu0YzGdRn5aJfwEycNFOmL93rOXxUPiwJslfwisME7G0PLoH5el+Iz
-	T3uwjpHBIByEEkFzQ9yLbguX9yvQqv4Qwgbw8Msahf+tZjyN01Rqdz7qG7lST9SH9+/vKYTb/Cw
-	ICIyFsdccb+4Rk+57l/ivJQywduJwxKk=
-X-Gm-Gg: AR+sD122xv+gNAxOdpEWcHtoOxlLg6QNjGr40KzLVkWO7KIAjTgjVJzd4kisJQS2geo
-	f3kTHRGsZi30zvZKqnx7XQ0m7Yw/y+qmwrH/Nfrt3KOK1ruvlC5Rir7Lth3GfIXhvRc2J+7ky/6
-	3hjtoWwwLbIcDWgZxCi3GQjrH4UoKmxGiaJ8yvVH+CYrL8Dhq1NmglX++ZbrnHvhLSNMs29jL9W
-	fbPZQL3OnjXkB3MOt8yEG0tHJYdRwLlJZF6wx2h0NpfrgJywuy2o34+ZnTNkV7GhDTfKXwlF4gz
-	SEb0Ku/2yAK4Lc9bOUi07e6ItCC8VFwv+5keQcouPM72xytoEB1RHsHZlT2uzqH7/pNOVhaORrT
-	sj5fWg6NtsFs9GNbZmZTNVyfaZ+hppqz5H+X3j674T6Y0d3OvSaJ1mt6qog==
-X-Received: by 2002:a05:6214:2c0a:b0:8f2:940e:2406 with SMTP id
- 6a1803df08f44-9084954d12dmr257890816d6.2.1785783767350; Mon, 03 Aug 2026
- 12:02:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="J9Y/biMy"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 99907408D2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785783784; bh=G7F+0uWxNTgm2x/cb0THzawGLZ49kLYdIXaMV0cZgMs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=J9Y/biMye42DzmgnCqo3rWYMehGj7aX8hT8YGx7cg2IBm+j5N+QS9OZqQYVhh9oe1
+	 3iL2z14bbsRLateNImL3QSmctEbpl6Lfgct0O24T5Up55HKl9wKKXcJCO3RutuOU2v
+	 ycnOtIDQmUl97ygtKOpUFUYDO1i9ugYrf9787nk8Wj4wjw4of9VMrhttkL/esJIT8h
+	 3LOsNI8q99uOo6Jv+eG7wtg7Bw+T5g2oaCqWhPuazMi1e1D18qeVUzisQQGFzYGPAJ
+	 1TllXdj81MA4CoyJlz/tXbmndaRBBd1IIKkcsZcEvT0NxcSqX+w5+40xQig6mVmPp8
+	 drDE1q3/t6+FA==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 99907408D2;
+	Mon,  3 Aug 2026 19:03:04 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] docs: xforms_lists: support DEFINE_IDTENTRY_IRQ()
+In-Reply-To: <20260723190151.507295-1-rdunlap@infradead.org>
+References: <20260723190151.507295-1-rdunlap@infradead.org>
+Date: Mon, 03 Aug 2026 13:03:03 -0600
+Message-ID: <87h5lbxc0o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260803185919.921073-1-le590616@gmail.com>
-In-Reply-To: <20260803185919.921073-1-le590616@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Mon, 3 Aug 2026 16:02:35 -0300
-X-Gm-Features: AUfX_my3E-FFLOQU8QuURaPJMGInDe-0B0CSXr6t-l3AbOg-lwoJns7yISWHpFM
-Message-ID: <CAMAsx6cCKNetvajbm=qr+PCMmKThLBJ1wFwn9uwXXYOWyb2ZgQ@mail.gmail.com>
-Subject: Re: [PATCH v4] docs: pt_BR: process: Translate programming-language
-To: Abel Philippe <le590616@gmail.com>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Em seg., 3 de ago. de 2026 =C3=A0s 15:59, Abel Philippe
-<le590616@gmail.com> escreveu:
+Randy Dunlap <rdunlap@infradead.org> writes:
+
+> Avoid kernel-doc warnings by supported DEFINE_IDTENTRY_IRQ() as a
+> function transform.
 >
-> Translate the programming language documentation into Brazilian Portugues=
-e.
+> Warning: arch/x86/kernel/apic/apic.c:2157 function parameter
+>  'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ'
+> Warning: arch/x86/kernel/apic/apic.c:2157 expecting prototype for
+>  spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ() instead
 >
-> Changes in v2:
-> - addition of SPDX-License-Identifier: GPL-2.0
-> - addition of the missing half of the file
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 >
-> Changes in v3:
-> - change "linguagem de progama=C3=A7=C3=A3o" to "linguagem de programa=C3=
-=A7=C3=A3o"
-> - removing duplicate "``rustc`` [rustc]_" from programming_language.rst
+>  tools/lib/python/kdoc/xforms_lists.py |    1 +
+>  1 file changed, 1 insertion(+)
 >
-> Changes in v4:
-> - remove zero-width characters
->
-> Signed-off-by: Abel Philippe <le590616@gmail.com>
+> --- linux-next-20260722.orig/tools/lib/python/kdoc/xforms_lists.py
+> +++ linux-next-20260722/tools/lib/python/kdoc/xforms_lists.py
+> @@ -90,6 +90,7 @@ class CTransforms:
+>          (CMatch("__(?:re)?alloc_size"), ""),
+>          (CMatch("__diagnose_as"), ""),
+>          (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
+> +        (CMatch("DEFINE_IDTENTRY_IRQ"), r"static void \1(struct pt_regs *regs, u32 vector)"),
+>          (CMatch("__cond_acquires"), ""),
 
+Applied, thanks.
 
-Hi Jon,
-
-Just to clarify, there were no grammatical changes in the patch
-between v3 and v4; the only update was the removal of the zero-width
-characters. My Acked-by stands.
-
-acked-by: <danielmaraboo@gmail.com>
-
-Best regards,
-
-Daniel Pereira
+jon
