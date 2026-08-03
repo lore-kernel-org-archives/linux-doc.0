@@ -1,267 +1,112 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7571344D9F;
-	Mon,  3 Aug 2026 23:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF4D36B91B;
+	Mon,  3 Aug 2026 23:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785798056; cv=none; b=W/T9OicbFRe7pnO0/a211gJrDKIJt9vvCKEPKQnkXf0eHZNUs6f/+jbzIiCmCZzrklM9BWft0j5Osor1admJEgzsKlYkmRx5Wy1kBM4nnfikBU+ub1w5IAWpM45kxRL8Siox+mUVFpIHK5+xWe56a8Xr+awzP8X7LNK55m4HNss=
+	t=1785798467; cv=none; b=NqeiCJ22LCc0A4kkDENjY8xIYW90gNNAsJMxxnYzhOd3i0ADtnK4cfKlQV2lyoM7LX6zEHdt3RVZWlF4eP2u1eUsTxoYP6iIqiywCryfLvuBrRi6kH8SO3sKJzaqDiZpPEPSdZB1uqvD/BvOGIjnuD/G1tsvO9m/wA6qxFvkHtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785798056; c=relaxed/simple;
-	bh=fH4BBFv/T7gkzNtaoBRTb2VhW1NMEfb1BaxI1lwXE4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f6gOw6Tt6Ttfg8QkebPuzqOZIlZ7ut1pVXryYFO1iTVpJGA42upDvBNGIP2wz2Qxcg0i2NqC7XJwFGt1aTuXNIngtQhZ7OA+mYthT4XsFT5yjChLe73dbV/5d1CinvMs66JseGce8yxhAFZE+LAJNaCne+M0dQkiGs31Yr1dUiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NFiqRJT1; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1785798467; c=relaxed/simple;
+	bh=amXPFJ8CZHSnBlYniZ+PCleD1O16gx/BvELGX+UHbrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cJlt8Z725nINMsnGR2us7rS+TZqlnQc0puR+E8pzR+19bMtFVjVUKTtlqaabYakExAtEwtfRCwRZw4H6WFeajeDu+U3GdiS1qUV56jOCj77tx5cf8PKlCHdv6j9Z4lDWYKWYuaVTWkPQ+xcaeJ68Eo4rXPDksnA0RIUrpnRy/yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IlAB5D0f; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NFiqRJT1"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IlAB5D0f"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Gn9SSiRXtkm8nj+O6hE9EDsFLBR/Z51cxSq1fiuimlc=; b=NFiqRJT1hlUk7IFnvqd1/hNinU
-	tj19dkH2W8ABMkawip3f+1GWYNndKR1SpCR+nAa7IfjpOwSceo9YkSxHuC5GMk/RlKf1PeS3mwJDT
-	995Ehm4QfObtIyiIyByva3UroqFJ1uG+lzXfs3qa0Q+kbXUSDnmDQhBSqQWpHUxHbbqnZPTee1CbK
-	sC10CQDfNlUtAviUOcZPB3BOt0STYtQYRYmqA43Ipdh6J56DcxEz/nbAwaylQA7i+hQYuIpndzTOK
-	EnFTQ79UUox5QZRAy4xtpmq4BJJF2ERGy7uc5C137Mf+tK3Fiu5y3zy9H1wofyp5fdPr6DVea31YX
-	UiytWiCw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wr1eI-00000000eV7-30Ve;
-	Mon, 03 Aug 2026 23:00:46 +0000
-Message-ID: <91244d6e-8fb3-4b0a-abde-ac8809368bde@infradead.org>
-Date: Mon, 3 Aug 2026 16:00:45 -0700
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7uIytpNge6chqys4rdDMfTYC2pXeWLCVjD81QhMZJmI=; b=IlAB5D0fNA5obkRDZHBVHlPkca
+	KSK+H6BGdCwDLpnzXunhn3k6KfOzBlCIhmw+JQS2IxyPZxYQ1E78zEyLozBz+dLDdh/+IE5y1qalY
+	v4aa64HFzGKybBUXuiDPnIpjmbqCRbKa8niSVdqE/P94jVdHOVeDPl+pJHSQ1UnBR1aB0YCvz1W8a
+	pBr6ULwL83zkq+CSesOU/fDaIpgwMG7QacTdRg92e8D4+cXwWk/To6Fr/yrKDnjVolY9+LUS5CrgO
+	GcVftxXA7xMQpmda4vsT/tiC8wkk8xmewGv8NJF1OJ+oEKpz2oBcS8XLQynoaxd/lKL1AdR5+lfSq
+	ogyXsc4w==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wr1ki-0000000Ewhx-3KoB;
+	Mon, 03 Aug 2026 23:07:24 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id CC55130063F; Tue, 04 Aug 2026 01:07:23 +0200 (CEST)
+Date: Tue, 4 Aug 2026 01:07:23 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
+	x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v11 01/11] x86/hw_breakpoints: Make DR7 updates NMI safe
+Message-ID: <20260803230723.GI687043@noisy.programming.kicks-ass.net>
+References: <178565870538.714490.11309825813968306287.stgit@devnote2>
+ <178565871750.714490.5506415865016304088.stgit@devnote2>
+ <20260803065744.GU49951@noisy.programming.kicks-ass.net>
+ <20260804075517.1c1c9e2dc6ff66e0e73f946d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] PCI/NTB: endpoint: packed vNTB memory windows
-To: Koichiro Den <den@valinux.co.jp>, Manivannan Sadhasivam
- <mani@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Niklas Cassel <cassel@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Jon Mason <jdmason@kudzu.us>,
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>
-Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, ntb@lists.linux.dev
-References: <20260803180439.1963864-1-den@valinux.co.jp>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260803180439.1963864-1-den@valinux.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260804075517.1c1c9e2dc6ff66e0e73f946d@kernel.org>
 
+On Tue, Aug 04, 2026 at 07:55:17AM +0900, Masami Hiramatsu wrote:
+> On Mon, 3 Aug 2026 08:57:44 +0200
+> Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > On Sun, Aug 02, 2026 at 05:18:37PM +0900, Masami Hiramatsu (Google) wrote:
+> > > From: Jinchao Wang <wangjinchao600@gmail.com>
+> > > 
+> > > Hardware breakpoint installation and removal run with IRQs disabled, but
+> > > an NMI can still enter the same code through KGDB. The interrupted
+> > > operation and the NMI can consequently claim the same slot or overwrite
+> > > each other's DR7 state.
+> > 
+> > Is KGDB really the only way to trip this? Mostly I think we let KGDB
+> > have the pieces if it does something 'funny'.
+> 
+> Hmm, I think even if so, this detection is better to be handled in
+> hw_breakpoint layer. And I plan to use this from kprobe events,
+> which is also a kind of NMI.
+> 
+> > 
+> > > diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
+> > > index f846c15f21ca..9ef24b55737f 100644
+> > > --- a/arch/x86/kernel/hw_breakpoint.c
+> > > +++ b/arch/x86/kernel/hw_breakpoint.c
+> > > @@ -40,6 +40,9 @@
+> > >  DEFINE_PER_CPU(unsigned long, cpu_dr7);
+> > >  EXPORT_PER_CPU_SYMBOL(cpu_dr7);
+> > >  
+> > > +/* Sequence number of the per-CPU DR7 state. */
+> > > +DEFINE_PER_CPU(unsigned int, cpu_dr7_seq);
+> > 
+> > > diff --git a/arch/x86/kernel/nmi.c b/arch/x86/kernel/nmi.c
+> > > index 3c9f60d6ca5a..f55a0cbd5927 100644
+> > > --- a/arch/x86/kernel/nmi.c
+> > > +++ b/arch/x86/kernel/nmi.c
+> > > @@ -532,10 +532,13 @@ enum nmi_states {
+> > >  static DEFINE_PER_CPU(enum nmi_states, nmi_state);
+> > >  static DEFINE_PER_CPU(unsigned long, nmi_cr2);
+> > >  static DEFINE_PER_CPU(unsigned long, nmi_dr7);
+> > > +static DEFINE_PER_CPU(unsigned int, nmi_dr7_seq);
+> > 
+> > This is weird, why have two distinct sequence numbers for dr7?
+> 
+> nmi_dr7_seq is for sequence number of operation, which is for
+> detecting dr7 overwrite in NMI.
+> nmi_dr7 is for saving the DR7.
 
-
-On 8/3/26 11:04 AM, Koichiro Den wrote:
-> Hi,
-> 
-> vNTB currently spends one BAR per MW. BAR count therefore limits the
-> number of MWs, even when one BAR has room for several. A large BAR,
-> especially a Resizable BAR, can instead be split into logical MWs and
-> leave more BARs for config and doorbells.
-> 
-> This series adds packed_mws, which exposes up to 16 equal-sized logical
-> MWs in one BAR. ntb_transport uses the new group operations to configure
-> them atomically.
-> 
-> The immediate use case is increasing the number of ntb_transport queues.
-> The resulting performance gain is shown in the Testing section.
-> 
-> Based on the latest pci/endpoint.
-> 
-> 
-> Why not BAR subrange mappings?
-> ==============================
-> 
-> An earlier proposal used mwN_offset and BAR subrange mappings to place
-> independently backed MWs in one BAR:
-> 
->   https://lore.kernel.org/r/20260312165005.1148676-11-den@valinux.co.jp/
-> 
-> BAR subrange mapping is currently implemented only by DWC, and that
-> design still needs one hardware mapping per MW in each direction. This
-> series instead requires one contiguous backing range and maps the whole
-> group once in each direction. The initial implementation intentionally
-> trades arbitrary MW placement for a constant mapping count as the MW
-> count grows. More flexible layouts can be added when a concrete use
-> case requires them.
-> 
-
-Hi,
-To be clear, this is totally outside of the scope of any PCI or NTB
-standards or specs?  or did I overlook that part of the discussion?
-Thanks.
-
-> 
-> Testing
-> =======
-> 
-> The packed data path was tested with ntb_transport and ntb_netdev. An
-> `iperf3 -ub0 -l 65482 -P 2` UDP saturation run produced the following
-> results when only one Resizable BAR was available for MWs:
-> 
->   Configuration                                   Receiver throughput
->   ----------------------------------------------  -------------------
->   num_mws=1, packed_mws unset (default 0)         607 Mbits/sec
->   num_mws=2, packed_mws=2, combined channels=2    1.19 Gbits/sec
-> 
-> Meanwhile, I realized that the in-tree ntb_test.sh does not fully pass
-> with the pci-epf-vntb/ntb_hw_epf setup on the base tree. I had to apply
-> a separate collection of local PCI endpoint and NTB fixes before this
-> setup could be used for regression testing. These fixes address
-> pre-existing issues and are not prerequisites of the packed MW
-> implementation.
-> 
-> With packed_mws unset and ntb_msi_tests disabled, ntb_test.sh reported
-> the same pass/unsupported results before and after this series. One run
-> follows:
-> 
->   $ sudo ./ntb_test.sh -r ${EP} -m 1048576 -p 28 0000:01:00.0 0001:10:00.0
->   Starting ntb_tool tests...
->   Running port tests on: 0000:01:00.0 / 0001:10:00.0
->   Local port 0 with index 0 on remote host
->   Peer port 0 with index 0 on local host
->     Passed
->   Running link tests on: 0000:01:00.0 / 0001:10:00.0
->     Passed
->   Running link tests on: 0001:10:00.0 / 0000:01:00.0
->     Passed
->   Running db tests on: 0000:01:00.0 / 0001:10:00.0
->     Passed
->   Running db tests on: 0001:10:00.0 / 0000:01:00.0
->     Passed
->   Running spad tests on: 0000:01:00.0 / 0001:10:00.0
->     Passed
->   Running spad tests on: 0001:10:00.0 / 0000:01:00.0
->     Passed
->   Running msg tests on: 0000:01:00.0 / 0001:10:00.0
->     Unsupported
->   Running msg tests on: 0001:10:00.0 / 0000:01:00.0
->     Unsupported
->   Running mw0 tests on: 0000:01:00.0 /  0001:10:00.0
->     Passed
->   Running mw0 tests on: 0001:10:00.0 /  0000:01:00.0
->     Passed
-> 
->   Starting ntb_pingpong tests...
->   Running ping pong tests on: 0000:01:00.0 / 0001:10:00.0
->     Passed
-> 
->   Starting ntb_perf tests...
->   Running local perf test without DMA
->         Peer 0 test statistics:
->   0: copied 268435456 bytes in 137063 usecs, 1958 MBytes/s
->     Passed
->   Running remote perf test without DMA
->         Peer 0 test statistics:
->   0: copied 268435456 bytes in 139188 usecs, 1928 MBytes/s
->     Passed
-> 
-> For comparison, the before-series run reported 1997 MBytes/s locally
-> and 1950 MBytes/s remotely. No obvious regression was seen in this
-> single-run comparison.
-> 
-> 
-> Control layout compatibility
-> ============================
-> 
-> The endpoint selects the control layout. Non-packed pci-epf-vntb keeps
-> the version 0 layout. packed_mws selects version 1. "Old" and "new"
-> below mean ntb_hw_epf without and with this series.
-> 
->   EP configuration  Old ntb_hw_epf            New ntb_hw_epf
->   ----------------  ------------------------  ------------------------
->   non-packed (v0)   Supported                 Supported
->   packed (v1)       Not supported [1]         Supported
-> 
-> [1] The old driver accepts two or four MWs but looks for a separate BAR
->     for each MW. It rejects larger MW counts at probe.
-> 
-> 
-> Packed MW compatibility with in-tree NTB clients
-> ================================================
-> 
-> The in-tree clients handle a packed MW group as follows:
-> 
->   Client          Behavior
->   --------------  ------------------------------------------------------
->   ntb_transport   Uses group operations. Without a singleton MW, MSI
->                   mode falls back to doorbells.
->   ntb_perf        Rejects a non-singleton MW group at probe.
->   ntb_tool        Loads normally. Per-MW inbound translation setup
->                   returns -EOPNOTSUPP for a non-singleton group.
->                   Doorbell and scratchpad access is unaffected.
->   ntb_msi_test    Fails probe unless the MW reserved for MSI is a
->                   singleton.
->   ntb_pingpong    Does not use MWs and is unaffected.
-> 
-> Further client support can be added separately when needed. A final
-> singleton MW on another BAR can also be added later if MSI mode is needed
-> with packed MWs.
-> 
-> 
-> Notes
-> =====
-> 
-> * About pci-epf-ntb:
-> 
->   pci-epf-ntb remains on the legacy version 0 layout; this series does
->   not add version 1 layout support to it. A pci-epf-ntb bridge should
->   therefore keep its existing behavior even when its nodes run a mix of
->   old and new kernels. I do not have hardware for the pci-epf-ntb bridge
->   topology.
-> 
-> * About existing inbound MW clear behavior:
-> 
->   pci-epf-vntb already leaves the inbound BAR mapping in place when an
->   MW translation is cleared. This series keeps that behavior for packed
->   MWs. This limitation is independent of packing.
-> 
->   pci_epc_clear_bar() is not suitable here because it can clear the BAR
->   address assigned by the host. An EPF can instead restore a persistent
->   fallback mapping with pci_epc_set_bar(), as pci-epf-test does:
-> 
->     https://lore.kernel.org/r/20250908161942.534799-2-cassel@kernel.org/
-> 
->   pci-epf-vntb has no such fallback mapping today. Adding one, or an EPC
->   operation to unmap only the inbound translation, should be separate
->   work.
-> 
-> Best regards,
-> Koichiro
-> 
-> 
-> Koichiro Den (11):
->   NTB: Add atomic MW translation group operations
->   NTB: epf: Parse a versioned packed MW layout
->   PCI: endpoint: pci-epf-vntb: Add packed MW layout handling
->   PCI: endpoint: pci-epf-vntb: Implement MW group translation callbacks
->   PCI: endpoint: pci-epf-vntb: Allocate packed outbound MW space
->   PCI: endpoint: pci-epf-vntb: Add outbound MW group commands
->   NTB: epf: Implement MW group translation callbacks
->   NTB: perf: Reject grouped memory windows
->   NTB/msi: Require a singleton memory window
->   NTB: ntb_transport: Use atomic MW translation groups
->   PCI: endpoint: pci-epf-vntb: Expose packed MWs through configfs
-> 
->  Documentation/PCI/endpoint/pci-vntb-howto.rst |  16 +-
->  drivers/ntb/hw/epf/ntb_hw_epf.c               | 143 +++++-
->  drivers/ntb/msi.c                             |  19 +-
->  drivers/ntb/ntb_transport.c                   | 127 +++++-
->  drivers/ntb/test/ntb_perf.c                   |  16 +-
->  drivers/pci/endpoint/functions/pci-epf-vntb.c | 423 ++++++++++++++++--
->  include/linux/ntb.h                           | 133 +++++-
->  7 files changed, 801 insertions(+), 76 deletions(-)
-> 
-
--- 
-~Randy
-
+I mean cpu_dr7_seq and nmi_dr7_seq.
