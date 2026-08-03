@@ -1,68 +1,68 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BC8442B12
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCAD445ADB
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 18:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785782826; cv=none; b=rm0i6QRX9gDijEm5xRExax1WKrYdF5LXo7LAb2xOw1inPXdaJgzgjd36L3JYZcmhynOhPIxS4gVmSlFsfvAZLkuMzHi65YdIUE5LmXJ1wANDf7A3kqV4cUqs1DzbO4hZSlWxecf3VMKhboWxc3SoTtidrB1eMqf7fbIifvut++g=
+	t=1785782827; cv=none; b=S4QzZW6p1pQkBya+hlP5TV/jVOgxd/P6sQDB0xMwf+FvMUB7IqfbJvG9kwJ1dMslCV0FtPPAyK56DA0Gonkuf83IvTEzUnNvvgZV1yH/fz6EWvh1OMP/8kgff7yIJ9rCRQwVm5V9yDVagKBWMfcnkrjquZ8pGRKr/qKdlEc9k3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785782826; c=relaxed/simple;
-	bh=jpAOqaBdI7XZv/2UrjAfgGxJNhTK/u5+yBOK2+bVK64=;
+	s=arc-20240116; t=1785782827; c=relaxed/simple;
+	bh=vP4IwtvXrpZhfmJWbeISKZ2NnXGuGtLCc+RIUUejyWA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b9Hw3NowoEOJUgd1tTvVxZTb1aacbc9hpIh/IzCf0wbTe00qdbvMZK8La1uF59J5gh+IFAIXAOQBlWLY7Ig4OELANcToMb4d4kaIfWHqPEh5V3wjrFG+VtcYQVoEYXyOtUXXNoGniPgm0assj1jGKNLEPMkxL7+JY9KiZ5Oa85w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mw9gI9k9; arc=none smtp.client-ip=209.85.216.50
+	 In-Reply-To:To:Cc; b=qOBds56ecUAyQbaO/gZlsaEzEBoY+l7LJlpi22qB79XO9NwrSlH5raRpADiCfQ11ECkQ/hsEE11mF9f7OMBKa0F4hH2XRjdOZthugDMZipmDxqEpOJP7K+ziKAaPp7IM0mBBK1mU6HWhmRgJ8ZLqb9pZLzLgk8S6v3be+7owdO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qI/V1ImP; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mw9gI9k9"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38dfe910e9dso3549941a91.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:47:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qI/V1ImP"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cbb973e6749so4163579a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 11:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785782822; x=1786387622; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785782824; x=1786387624; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BkuSCqc+yAADDamWfiyKN/ep68Wue9ZrU0Qqd8Kmzk8=;
-        b=mw9gI9k9psH2ucd/5v+hM7lpApumvm1YDsiCptAJtPp0syc2YadfzB8db2XcsXHRCA
-         yXgWnMvR2wr20udYKK3CUfISVdV2vPrQWUz4IbvS7D7zgI7MPBr6JU7If5ZTu7pIRnFG
-         5pnm6SjA5lWp1GV3K/+CO51N3aHYAw0+1dR2zeDodtdg7eMB78wHA/qxIvQkrfywCoaQ
-         c5CCm96cCWMJXFUdoHT+jZbKPljT3ny5WwwyQbEJNJbzjcp/C9h3hVUhroQk6E0e3a91
-         meEO9QctT4ETOCXGsOIZrAr/R5MTPaLGH+sk49Ss5a9Uj23Tw6fsey30BzvOfMcW8e7P
-         JxjA==
+        bh=tHw3HXNYpWvYMonYbPqZXuVoBB2JcVG5n1iAzr9iHHw=;
+        b=qI/V1ImPScdX+9joozEqP1fBIRb5BOQQJAp92RHw/S82xm9ERqP0wo1JZv5H0XsZ94
+         jT6rsx6DGYE8FRiw3uJxPnbtbUK5L8dng3q4gnK/gyT0uQFpzEF3ob7bJE0ZYfimDPw6
+         Zp/FtJsZIRlfTh3EGSbQ0qT9Y3tZaRSvchMQkNXxY8cMH34UlG4VojFehcERz9xs7A/Z
+         f948C09t4cBX5Zw306q4c23yrieIfnTgiZK7NkroRgYUdZqkwKo1hpj92sa37wNIbjSJ
+         1RB3OliCkPddYV61uimAZzIHP++GYCK2PBtTrvXQfMeKfSd5rlSzo+Jan3BY40DlfJHl
+         VwBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785782822; x=1786387622;
+        d=1e100.net; s=20251104; t=1785782824; x=1786387624;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BkuSCqc+yAADDamWfiyKN/ep68Wue9ZrU0Qqd8Kmzk8=;
-        b=lDAvsF1C/AVUKbs6eelZ0SCRDkqpz3VNwliq39IjNZULX8HKcDf4vqsVlwxvzPPjEu
-         HwB9uHoNk6zpUUjqZLCt876aiooLll6r5xdhgbrmzv17PQKCPikFdhBIUQutO4Z+Z4E0
-         Kdej782YevNt4/zTpd/ki2ejxuT9alu7pWBtl3YxPjLbmDgWYengCxk1tjD5wwP1QD4t
-         xpBpW9qTTWuZLVCMa4GzAZy1tfdW1vz+09Sux80vv/tTT43cl4IO5dD8/k5yW53sgSOj
-         aZgGF1PDHQNLc/TaZwYSOejrJV/ztnlbk/f3U51NgHCre9oJpMMgWtLTJBHBiLHNdLKG
-         JTmA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr0RL2uOYIZ2njKIWPadXvM10JHP0v82aIe1zfhaIOLpx7k7qkzyuSbMZuxku6l309IC7W5UnFdIBc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxaida8I9bVmESd19CsfT7VAavj73Ndod2lvLJfMmnAEJTT6HHw
-	N3FAC1Zqqd9ruIyQ1VZ/Q7l9mGcOh0XdiMLLlHBhthJmtDfTZhvTfWkj
-X-Gm-Gg: AR+sD1202V9MKRnUY2c20kWk8JuPcyabzCbuoW/qR9f0GbLtzPgXj/UKTf5/6CMHLpJ
-	tdKlXAai40u86na71siPktzKN+7O3DaU+iQ/nEBSwgzpiL75qBEVEG9foKWZAXm3w34vV3SP4Gj
-	SfSwYdlHh8odmth+ZCL4iOewYPkjCyobEkXB55+AuCJlcnwsx8r/z8FP8Xg/MEmPyLZo/B2q9Zs
-	l6J9pAdkfaQAw4qce6AIJmvkKbCqU6hBd/h1oZTt4NXF0eXwqn1K73tm2b9agIuEPuLzoWUK0nq
-	hmePXsyGmXHcnuhLOE4913S163X5GrQhsEJ750czLTc5PT6m44SNu+/QoaGvm4v5fEm6Fg5qa/g
-	0GbImMCO1hfAn+p6VQhqjDJK6jR/XJh4MOu5TXmTqxPlrjY08BLTRDlsLqeTy3HzO+y0VoD2klU
-	ULfaSAgSluxC5SgurStuQOi5R62lISBtjKEqUabux0FR9LEDJMd+nTpniDWoDgyn/qkwnvJb7ux
-	R2+HZmCkUkfc9t+WT6zG+3LWMP3AOW7j0JlaCoUUTJUmW9M/vNP
-X-Received: by 2002:a17:90b:3c86:b0:381:f7a:2e0d with SMTP id 98e67ed59e1d1-38fbc51f884mr10395038a91.33.1785782822529;
-        Mon, 03 Aug 2026 11:47:02 -0700 (PDT)
+        bh=tHw3HXNYpWvYMonYbPqZXuVoBB2JcVG5n1iAzr9iHHw=;
+        b=rmq8cMkZ4OFvaZX1r+DOCEyGPQNkyPotpNxaN2qxPvJA/gtGpKS609amUBsxNVdjln
+         Y+g+BcAAGH7nXwlUgf3NIR+0+3+17jqTrxzevBwMQwjr0+BGu51nmgXBgQk48Xp4Y+eF
+         yO7I89JLktHvdCWtMJvUNBHjq8qhhoEu7mHLWP9ZsLkTbW0Z1Z/BCRos8GSMFaQogTV6
+         e/CBTOPHG4ww51gbzGEb8VOOiUugVGVeazfSXkcg0RXzSpl3q0/M2ALypTOW0MJVvTuj
+         UC4x6/PWgcrMvf0UMxSJprjnVPsO9pvRaZjGE2GCPDLhBSHTjavtPQw1X/aWmhq3MtIJ
+         De4Q==
+X-Forwarded-Encrypted: i=1; AHgh+RohBAVbNwNUYLVrZOLdo2NVwUOSqui1FELrRfNg6W+p6a/GHEDMiTmood8zzZOzHkYgC5cgJtLohOo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxP0V5gjxwJg0HHWsbGuB4YgS3dIDwCWgzqJ1mfE1+H9wp/0Igu
+	CiVtY3j2w5744ZIT3oK3Jkax4+jkokkB5qatWxtkggKnlZV6z0Tx1DCJKedgsg==
+X-Gm-Gg: AR+sD12w0ROVMunRLJygLH9qnn6bsuE2WaCv3tIOqpzYOpG1Dnc53MkW8zCmu5I9KgU
+	F4XcmtrUA+xk33M5nu4UXBTSWzT2MuX5i6DTmNcSDnFiJo8owV692B+Uups6EVAvea6wX6PpAtP
+	Ed1xX3DzQxjFcqkwIGUbAj18W1Zb5nPgVkpqCk0+E0Z3cyulYXFBxvEYL1V/ixKs/3T8RoyxQyk
+	VuwdT8IbW0Od4D+/8xT55q2lffGd3expuZIw6LPIG3pK9YsBCH4jcyu/6oE11qfDNoDuBMzybAh
+	VkmFtmz5ab8GJAgtaSVGr2UkCe68IDLcj/QDUkxQpQ6ykPMiWwvtjiPyKpd66G70/CvE5U++T1I
+	HqX90ByUHUdzoT4VZb94wJU8ycMMXMtAb74QJF99B5x1bXPYpQfbJMPNI4SdT8vfFm++VEi1uIm
+	ktZmPnvP1igHD3PaNnPoVU6XOx3rEtEJOdS8/e80j6DLBV1ssxpNj5HkyvitYLDoveHiUaI5R9C
+	psNc6SKx7OtMkD4QnL0qxGhw567/lAswE+I2xGVDBV4r33rZawx
+X-Received: by 2002:a05:6a20:4e92:b0:3c3:bb13:438 with SMTP id adf61e73a8af0-3c92a74cf9emr11650080637.32.1785782824005;
+        Mon, 03 Aug 2026 11:47:04 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:d109:cdba:8a20:74ad])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.47.01
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab24ec10sm33935472c88.6.2026.08.03.11.47.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 11:47:02 -0700 (PDT)
+        Mon, 03 Aug 2026 11:47:03 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 03 Aug 2026 11:46:44 -0700
-Subject: [PATCH 19/21] HID: megaworld: move FF initialization to
+Date: Mon, 03 Aug 2026 11:46:45 -0700
+Subject: [PATCH 20/21] HID: logitech-hidpp: move FF initialization to
  .input_configured()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-hid-ff-input-configured-v1-19-1dc9bbacd88c@gmail.com>
+Message-Id: <20260803-hid-ff-input-configured-v1-20-1dc9bbacd88c@gmail.com>
 References: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 In-Reply-To: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -85,7 +85,7 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
 X-Mailer: b4 0.16-dev-b242f
 
 The driver currently initializes force-feedback in its probe() function
-after calling hid_hw_start(). This is racy as the input device is
+after calling hid_connect(). This is racy as the input device is
 already registered and visible to userspace at that point.
 
 Move the FF initialization to the .input_configured() callback to ensure
@@ -94,102 +94,70 @@ the device is fully prepared before registration.
 Assisted-by: Gemini:gemini-3.1-pro
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/hid/hid-megaworld.c | 51 ++++++++++-----------------------------------
- 1 file changed, 11 insertions(+), 40 deletions(-)
+ drivers/hid/hid-logitech-hidpp.c | 36 +++++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/hid/hid-megaworld.c b/drivers/hid/hid-megaworld.c
-index 81acdbc3a00f..d5c868974275 100644
---- a/drivers/hid/hid-megaworld.c
-+++ b/drivers/hid/hid-megaworld.c
-@@ -35,21 +35,16 @@ static int mwctrl_play(struct input_dev *dev, void *data,
- 	return 0;
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 90b0184df777..db53b45b0752 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -3861,15 +3861,32 @@ static void hidpp_populate_input(struct hidpp_device *hidpp,
+ 		hidpp10_extra_mouse_buttons_populate_input(hidpp, input);
  }
  
--static int mwctrl_init(struct hid_device *hid)
-+static int mwctrl_input_configured(struct hid_device *hid, struct hid_input *hidinput)
+-static int hidpp_input_configured(struct hid_device *hdev,
+-				struct hid_input *hidinput)
++static int hidpp_input_configured(struct hid_device *hdev, struct hid_input *hidinput)
  {
- 	struct mwctrl_device *mwctrl;
- 	struct hid_report *report;
--	struct hid_input *hidinput;
--	struct input_dev *dev;
-+	struct input_dev *dev = hidinput->input;
- 	int error;
- 	int i;
+ 	struct hidpp_device *hidpp = hid_get_drvdata(hdev);
+ 	struct input_dev *input = hidinput->input;
++	int ret;
  
--	if (list_empty(&hid->inputs)) {
--		hid_err(hid, "no inputs found\n");
--		return -ENODEV;
+ 	if (!hidpp)
+ 		return 0;
+ 
++	if (hidpp->quirks & HIDPP_QUIRK_CLASS_G920) {
++		struct hidpp_ff_private_data data;
++
++		if (!list_is_first(&hidinput->list, &hdev->inputs))
++			return 0;
++
++		ret = g920_get_config(hidpp, &data);
++		if (!ret)
++			ret = hidpp_ff_init(hidpp, &data);
++
++		if (ret) {
++			hid_warn(hidpp->hid_dev,
++				 "Unable to initialize force feedback support, errno %d\n",
++				 ret);
++		}
++	}
++
+ 	hidpp_populate_input(hidpp, input);
+ 
+ 	return 0;
+@@ -4530,21 +4547,6 @@ static int hidpp_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 	schedule_work(&hidpp->work);
+ 	flush_work(&hidpp->work);
+ 
+-	if (hidpp->quirks & HIDPP_QUIRK_CLASS_G920) {
+-		struct hidpp_ff_private_data data;
+-
+-		ret = g920_get_config(hidpp, &data);
+-		if (!ret)
+-			ret = hidpp_ff_init(hidpp, &data);
+-
+-		if (ret) {
+-			hid_warn(hidpp->hid_dev,
+-		     "Unable to initialize force feedback support, errno %d\n",
+-				 ret);
+-			ret = 0;
+-		}
 -	}
--	hidinput = list_entry(hid->inputs.next, struct hid_input, list);
--	dev = hidinput->input;
-+	if (!list_is_first(&hidinput->list, &hid->inputs))
-+		return 0;
- 
- 	for (i = 0; i < 4; i++) {
- 		report = hid_validate_values(hid, HID_OUTPUT_REPORT, 0, i, 1);
-@@ -61,16 +56,7 @@ static int mwctrl_init(struct hid_device *hid)
- 	if (!mwctrl)
- 		return -ENOMEM;
- 
--	set_bit(FF_RUMBLE, dev->ffbit);
 -
--	error = input_ff_create_memless(dev, mwctrl, mwctrl_play);
--	if (error) {
--		kfree(mwctrl);
--		return error;
--	}
--
- 	mwctrl->report = report;
--
- 	/* Field 0 is always 2, and field 1 is always 0. The original
- 	 * windows driver has a 5 bytes command, where the 5th byte is
- 	 * a repeat of the 3rd byte, however the device has only 4
-@@ -82,30 +68,15 @@ static int mwctrl_init(struct hid_device *hid)
- 	mwctrl->strong = &report->field[2]->value[0];
- 	mwctrl->weak = &report->field[3]->value[0];
- 
--	return 0;
--}
--
--static int mwctrl_probe(struct hid_device *hdev, const struct hid_device_id *id)
--{
--	int ret;
--
--	ret = hid_parse(hdev);
--	if (ret) {
--		hid_err(hdev, "parse failed\n");
--		return ret;
--	}
-+	set_bit(FF_RUMBLE, dev->ffbit);
- 
--	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
--	if (ret) {
--		hid_err(hdev, "hw start failed\n");
--		return ret;
-+	error = input_ff_create_memless(dev, mwctrl, mwctrl_play);
-+	if (error) {
-+		kfree(mwctrl);
-+		return error;
- 	}
- 
--	ret = mwctrl_init(hdev);
--	if (ret)
--		hid_hw_stop(hdev);
--
--	return ret;
-+	return 0;
- }
- 
- static const struct hid_device_id mwctrl_devices[] = {
-@@ -118,7 +89,7 @@ MODULE_DEVICE_TABLE(hid, mwctrl_devices);
- static struct hid_driver mwctrl_driver = {
- 	.name = "megaworld",
- 	.id_table = mwctrl_devices,
--	.probe = mwctrl_probe,
-+	.input_configured = mwctrl_input_configured,
- };
- module_hid_driver(mwctrl_driver);
- 
+ 	/*
+ 	 * This relies on logi_dj_ll_close() being a no-op so that DJ connection
+ 	 * events will still be received.
 
 -- 
 2.55.0.629.g250fe7f194-goog
