@@ -1,200 +1,134 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358D740D562
-	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 15:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB266411A01
+	for <linux-doc@vger.kernel.org>; Mon,  3 Aug 2026 15:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785769320; cv=none; b=JeydS3LPCbvy/2QzY77HTnfrNgLjAYv5n4Fmeve8egV/Y8sod/D+nrkg9bEPxvbnpN5P4pg6OJGWra8FRdfN0pDFBE3OapM1Rt+t8OJbtaxTEK5zrOGCrJhBf9+xO1rdku51Yr4K2f5JduxziCllVy9/uwmrIXQmcfShAyuIJmM=
+	t=1785769424; cv=none; b=KFQeBNRnAGhwBngqmV9Y3y8Nz6l/+eYEULvHhnWmWTTpk5UcMUonb0Tjaio6pEmqbjCbeQhfcy40lfwk4CqHPIZutxQHutJZj4C+GBHYYMZXSpDQD/R5Wl0vnXkzKTEg3upEpE141pxsEu4PGrI3v2mVh+/3t1++6DCHfs4UMcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785769320; c=relaxed/simple;
-	bh=IZhNb9orP3q/qKe1fv5lTgp5V9rCwNYTH1hDIO9R7MQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E3zcf6wWdlay4dm18oZSPfnpjXzvMtSxj3OhE0PQhPT3cm8gbX0lWVGmpZbpFBSEOt4CnxMGjWhmF51yzubk7CSduudkghp3JqkkIseu7SZgHc4k863StieS/RjJuXGx8BKJt8vs8yPYWaIOFH7YA4nXPpEDzfl3oFz3zAtqPG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMcHXGjF; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785769424; c=relaxed/simple;
+	bh=xpuun2FpwKl9xPy2b0ojl3YaE6k3z96AypSR1+LJ1mM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=e5w3PursMrkp31KTM/Nks0VCX0VRG7ir7kklUDaAt9EtFGfpdqNoDixmtN0brbpAtUcOwOOdMk/tfWsQwiFKMhnSGeoyM4JRMihjVKq9uNHxDTlVtJDmTKyWMoFwXBc//QmuYAGDhepbaF9H6SSROOvdTgsQnHVCFhfPOp0tV6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NwgDxCAO; arc=none smtp.client-ip=209.85.210.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMcHXGjF"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49553515a8bso35221745e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 08:01:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NwgDxCAO"
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-84e1da97175so5761852b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 08:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785769316; x=1786374116; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ep+nLqQCF6bAr0oltLdzKjN/n2j57SUc0s56vDHNl7U=;
-        b=QMcHXGjFysL9Kf0JxEJORaRDjwIncMKaYNK2PcOc1/FEYdQnad1oJmyAskYN9LhfZ+
-         LZuqmyG1r+TO8KpRPWxVhkr5GbSKTKKXLH3wxeXA8LpNFclWm34WDwB8xBr60EymguwZ
-         UYzyYdnxEqAGgFL6nwC8Kyj8xU5TJXh3fgKuLocxKYMkPOs73/r5vH7ADM+vc/X2oPkZ
-         up+aBPBU91JChuJ/O/WN0ky7Z4fMERYYhfvc6sgRYts00qDpCPgiSz4Q/GRgTzq8Y4FW
-         /pJ//JKSRW0VjEmG/E0YlSOrD/+vFVIpxlARFpyrPeEkg4SWIbfE3sdcEyN7AKKh+qgW
-         fgrw==
+        d=google.com; s=20251104; t=1785769422; x=1786374222; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kpmlhPaZ29dFNT38yqO3kihwGUlr59oo46zK4tKVuxM=;
+        b=NwgDxCAOP/Xtj8kYIjHtm6DbddQCtB92rxY3XZFV546upM9mp6NbsBf/OhR0+ElIny
+         F+2Zt9cfHVO5hVNYxXdXfA53A3ZkIr+BBjkSbBSt1dfLuLhXm9JsOiOpGGhbypYcS1nU
+         gxf6DtDemW0fLSSRPCtYHtFRbViRbT/DJ/tWusGe1eeILGOqWrmbe3aGO4Ri+pnd7O/N
+         TiNu3TUQZP78ygRPv3CkdOYfJ4URivnbfsPBpsUHbYoquTwi6AyQV13iBlUcFnCqykcN
+         6m5IfnXtHqnJgo9UZnFH3MFMAavHS+RUUeCzSCjV7fY/qurLk3V/Vo+L4UE2gOTGBfqu
+         5FHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785769316; x=1786374116;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Ep+nLqQCF6bAr0oltLdzKjN/n2j57SUc0s56vDHNl7U=;
-        b=QNWF3j0QbD4W+EAgQhH72JipnLEURQoCVw2IUdR6zJs1P69y7UlyerCZX5RgiQDV16
-         GXv4xxPA0uCAw58qUGem/jnE370Ug6R0ocfpSRLxd9PGMgJ0y9gbCndsdjd1+ojxbYdC
-         RXUzOF+Nx8EWjT+B0YyybQSgz9FXQg03JxrTLVeTRhfn0s1KjC5TukrlK0r7mh01joP/
-         IUbwxCJ6P5sxR78h5JsaUO6dgCQsqwQA/BfWd3l3Hv2g229tN6dHJMCfbQZovH80PVkQ
-         PVKAfxC2NGf5S9vErHl6oK06N05kADE6Z/yabdt2kKDNt6aeXfJJ7/xtAlY6F14EAA5c
-         1RXw==
-X-Forwarded-Encrypted: i=1; AHgh+RrLeeN/pW50LkreTE+sjCOzck2Iz93mybCbGA8iyrbmcvmmLCp/880jTdV83YHLgA3dvTIUjCqyw54=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAJYQv8N1Wi6J3jc49/Sjolo/jIPXZKaZalDaDJNvNX8NpEsxo
-	1t+Uq01vWGwadbGmt62p6RkLlWe35PWCX9hrCVY66MCetS6xmngVFwBL
-X-Gm-Gg: AR+sD11AWPA6BMLAnS3s8ojwzCpCYaSoSdgVwAknMm9YzLfqkCN0S8G+FEBFzhB03g8
-	74r7iIUsTyydVahMxsMDe6Ep6rb2Tjq/+ovRZXnhFkXRG77ADOG1ItOZBTQLQcmg3ZLemNP+lZX
-	gk+yl3cT0W7w0wMDa2d8MLtDuaS/wzFAfLgrzEtMoXazCh9g6EF04Wqt6/BhHa+mir+ic8p6amm
-	mCUXLf5PfiiVaP7KMilrkIUkOdhQbksDaW8MEnqEIKy0l/kXi15eY9qT5yjp1ffajwL+dKS36uy
-	wh4mrmJxx0Q8z9JSKPxSZOAbLLuiuJc4ozoR/jBUsLx/jI1GQxF769TlsH2UKndp1dTuw0lXj+M
-	m/SrHcd8w185t2nGC582Y/oGxHR/yxdduwJ+M9MlewFc79nISBSpEBpBEC+3myiarNypdYprfhe
-	RTCESxp2pCnFo6DjZdE+5t9noLQpbjtg6n9eKuGAcGnFNaaGPbIbhYhaPDwy+58dk=
-X-Received: by 2002:a05:600d:849c:10b0:499:48bb:417e with SMTP id 5b1f17b1804b1-49948bb41d5mr32558375e9.2.1785769315942;
-        Mon, 03 Aug 2026 08:01:55 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4980878dbaesm404528925e9.12.2026.08.03.08.01.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 08:01:55 -0700 (PDT)
-Date: Mon, 3 Aug 2026 16:03:04 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	Alan Tull <atull@opensource.altera.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 3/5] hwmon: (pmbus/core) Add mapping function to
- pmbus_read_block_data()
-Message-ID: <anCsIHUkaL7ckyiL@nsa>
-References: <20260728-hwmon-max20826-support-v1-0-224766e0acd1@analog.com>
- <20260728-hwmon-max20826-support-v1-3-224766e0acd1@analog.com>
- <c3e143ed-af08-4a0f-a630-96a255df838d@roeck-us.net>
- <amtewh9lOgWz0-Nh@nsa>
- <e37df572-1ca9-4c56-a16e-faa44f1ff1cd@roeck-us.net>
- <amtqPQSM6zsiCh4B@nsa>
- <6287e749-04f5-4a03-a91c-fcc705df269c@roeck-us.net>
- <amzB2aw_4y6ji9zs@nsa>
- <b48636b8-33d1-425f-93a7-d0b9c4dd86ca@roeck-us.net>
+        d=1e100.net; s=20251104; t=1785769422; x=1786374222;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kpmlhPaZ29dFNT38yqO3kihwGUlr59oo46zK4tKVuxM=;
+        b=AK793Xti8V9INfzGRSQR3Zl9KQ14BGxOg/uc5J3vQgUbgiQ78kEV8NNXMU/xdbejA8
+         mRyMPcyhqKAtGJqM1MqYNb1Nvri1upKSFj6XR0IhVWJcc0lCKJy8wbwlTKm7HxozNFSL
+         1b/gJlNJtiaKarSqGJUGqCYcu42vyoJn8OZX3ApmHd+/Dj4kuQv6eRqBylmo+i+cPQOr
+         XQHqwU33U7zreeBZZIhMZlDHYcbidS7yo/ympc7mkbvl9dWTRFXOPqKPsKzXpeozzRx4
+         0tg1egewDPEzXPyvD9dEMzIrM0htyCKtgFNDCvFZSncYsaIeR9urNFoVJemq81hRMQm9
+         yihg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpjx07ltAjZ08oEwmeydNn1Blv+Dm4bajo4o71KkEuBjMpKca3glqvbvNNAUVjUvCE+l9o+1bz1UIU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxs/XDPuJq8Ugx33RhS6hONiZGiTrqkqMP5KWEoaCa24UjouFvS
+	t9QEK4d4k+BPjvOMtlCNkUDxb6KJHjTvOK4vxRyQM0S9dVuznjyEl/wtbKpRcitwDvsx0ZqN/Pb
+	pdm6yJg==
+X-Received: from pfbki10.prod.google.com ([2002:a05:6a00:948a:b0:847:7765:a4c3])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1f08:b0:84e:d51d:86c9
+ with SMTP id d2e1a72fcca58-84ee490ac84mr9200662b3a.44.1785769421725; Mon, 03
+ Aug 2026 08:03:41 -0700 (PDT)
+Date: Mon, 3 Aug 2026 08:03:41 -0700
+In-Reply-To: <be77c2cb-6e41-4382-9d2f-cd299f634196@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b48636b8-33d1-425f-93a7-d0b9c4dd86ca@roeck-us.net>
+Mime-Version: 1.0
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
+ <20260728-gmem-inplace-conversion-v9-14-35f9aec2aed2@google.com>
+ <4460e252-b6de-4df3-bea8-0368a9d0f4ff@kernel.org> <CAEvNRgEUQSju2tW_1zMk2=QmveZNtmkjjCZdqVBgBD2JPh0k4Q@mail.gmail.com>
+ <a823e3d2-8acf-49d9-a812-ac1bb2136d7f@kernel.org> <edc3566b-370c-41a0-a71d-2e4a0e1a94f7@kernel.org>
+ <CAEvNRgEas_9BEV-cNxXu4_wQx8sR2M4_OaW6DEd4=fszALMV0w@mail.gmail.com>
+ <60552bee-3326-4917-b00f-5fb7ba3b8adb@kernel.org> <be77c2cb-6e41-4382-9d2f-cd299f634196@kernel.org>
+Message-ID: <anCtzQrUkFSSq8De@google.com>
+Subject: Re: [PATCH v9 14/41] mm: swap: Introduce lru_add_drain_progressive()
+From: Sean Christopherson <seanjc@google.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "hughd@google.com" <hughd@google.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Jul 31, 2026 at 09:46:29AM -0700, Guenter Roeck wrote:
-> On 7/31/26 08:42, Nuno Sá wrote:
-> > On Thu, Jul 30, 2026 at 08:54:25AM -0700, Guenter Roeck wrote:
-> > > On 7/30/26 08:19, Nuno Sá wrote:
-> > > > On Thu, Jul 30, 2026 at 07:47:37AM -0700, Guenter Roeck wrote:
-> > > > > On 7/30/26 07:27, Nuno Sá wrote:
-> > > > > > On Tue, Jul 28, 2026 at 02:05:53PM -0700, Guenter Roeck wrote:
-> > > > > > > On 7/28/26 09:03, Nuno Sá via B4 Relay wrote:
-> > > > > > > > From: Nuno Sá <nuno.sa@analog.com>
-> > > > > > > > 
-> > > > > > > > This is in preparation for adding support to a device which needs to
-> > > > > > > > use it's own read_block implementation.
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > The chip-specific implementation calls i2c_smbus_read_i2c_block_data().
-> > > > > > > I'll need to know if this is a chip limit or a controller limit.
-> > > > > > > If it is a controller limit, a chip specific override would be
-> > > > > > > inappropriate.
-> > > > > > 
-> > > > > > I'll reply from top of my head (did not looked at the driver again).
-> > > > > > IIRC, the biggest reason we need the chip-specific implementation is because of
-> > > > > > the RAIL selection logic (mainly when not in page mode).
-> > > > > > 
-> > > > > 
-> > > > > Yes, I have seen that. Question is why you use i2c_smbus_read_i2c_block_data()
-> > > > > instead of i2c_smbus_read_block_data(). The rail selection logic would not
-> > > > > require that.
-> > > > 
-> > > > IIRC the reason was because the i2c controller on the raspberry pie does not
-> > > > support i2c_smbus_read_block_data(). So I guess this:
-> > > > 
-> > > > https://elixir.bootlin.com/linux/v7.1.4/source/drivers/i2c/i2c-core-smbus.c#L220
-> > > > 
-> > > 
-> > > Hmm, I think we really need a common solution for that problem. Not all
-> > > controllers support i2c_smbus_read_i2c_block_data(), so you are just moving
-> > > the problem from one controller to another.
-> > 
-> > Yikes. I actually though i2c_smbus_read_i2c_block_data(9 was more widely
-> > supported (if not always). Not sure if you have something in mind but
-> > one straight way would be to choose different implementations (for
-> > read_block) depending on i2c_check_functionality()
-> > 
+On Fri, Jul 31, 2026, David Hildenbrand (Arm) wrote:
+> I sent a fix for the GUP code that always makes us drain right now:
 > 
-> Handling it in pmbus_read_block_data() would be straightforward. Actually, I
-> wonder why it isn't handled as fallback in i2c_smbus_read_block_data(),
-> but I assume there must be a reason.
+> https://lore.kernel.org/r/20260731-check_and_migrate_movable_folios-v1-1-e0002d7b791e@kernel.org
 > 
-> Either case, I don't understand how the existing calls to i2c_smbus_read_i2c_block_data()
-> work. For example, in drivers/hwmon/pmbus/max20830.c, the assumption is that the
-> first returned data byte would be the length field. However, that is already done
-> in i2c_smbus_read_i2c_block_data():
+> Would the following (agains mm-unstable + fix) work for you?
 > 
-> /* Returns the number of read bytes */
-> s32 i2c_smbus_read_i2c_block_data(const struct i2c_client *client, u8 command,
->                                   u8 length, u8 *values)
-> {
->         union i2c_smbus_data data;
->         int status;
 > 
->         if (length > I2C_SMBUS_BLOCK_MAX)
->                 length = I2C_SMBUS_BLOCK_MAX;
->         data.block[0] = length;
->         status = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
->                                 I2C_SMBUS_READ, command,
->                                 I2C_SMBUS_I2C_BLOCK_DATA, &data);
->         if (status < 0)
->                 return status;
+> I assume that you'd have to call it as
 > 
->         memcpy(values, &data.block[1], data.block[0]);
->         return data.block[0];
-> }
+> 	lru_cache_drain_for_folio(folio, 0, NULL);
 > 
-> Does the command return the length twice ?
-
-I think the device is actually the one sending the block size again. I
-went looking at very old emails and found this chain:
-
-Me:
-
-"Thanks for the inputs... As I said, I think know what’s my issue. I’m fairly sure the first
-byte I’m reading is the block size. I’ll take this into account and re-test."
-
-Reply:
-
-"On one hand, that does make sense. The first byte in a block read transaction should indeed
-be the block size. That said, 0xB1 is 6 bytes long when not including this first byte. So we
-are still missing a byte with actual information. Could you perhaps please share the full 
-packet data that you are capturing?"
-
-The above was me struggling with per phase reads.
-
-But maybe the above changed with newer FW versions for the chips. I'll
-ask around.
-
-- Nuno Sá
-
+> But maybe there are indeed extra references that are not reflected in
+> folio_expected_ref_count() that you would have to consider? I doubt it, but please check if
+> there would be a problem.
 > 
-> > > 
-> > > One key example is the PIIX4 driver. Your new driver does not support the
-> > > majority of PC style systems with AMD CPUs.
-> > > 
-> > 
-> > I see!
-> > 
-> > - Nuno Sá
-> > 
+> There is a small problem for merging:
 > 
+> (1) The patch depends on the fix.
+> 
+> (2) mm/swap.c was moved to mm/folio.c in the mm tree.
+> 
+> We could write what I have below against Linus' tree and have the conflict be
+> resolved when merging. Topic branches are unfortunately not yet a thing in MM
+> land.
+
+Are you expecting the aforementioned fix to land in 7.2, 7.3, or 7.4?  If it's
+7.2 or 7.3, then I would strongly prefer to base v10 on linux-next (where the fix
+will presumably land soonish), and target 7.4 for in-place conversion.  Then v10
+can be applied against an early 7.3-rcN and we don't need to juggle branches
+(assuming Andrew is ok taking the proposed patch through the KVM tree).
+
+Irrespective of this small mm issue, it's getting a bit too late in the 7.3 cycle
+to land the in-place series, and we need to address Xiaoyao's comments, i.e. v10
+is going to be necessary no matter what.
