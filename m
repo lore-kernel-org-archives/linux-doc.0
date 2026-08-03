@@ -1,64 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DD238B15E;
-	Sun,  2 Aug 2026 21:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933222571A0;
+	Mon,  3 Aug 2026 00:52:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785706371; cv=none; b=mUbVPGgAvq15jCj6dcgUatXv8ccfkrG8Lba/sadgWbBKYyrmvfI19Q/NfTyK0ghljq/p3+Xsfv00AYMM56XAIJnvCHDX5IFXmSwIt22j8trRf8OmFl13r82rJHWYdMOexhFHegegKeD4nWKl5qZg4Xcxx6PpED7KPN0oIfOxGNk=
+	t=1785718328; cv=none; b=a/HruugkMZSu/SjcKAxLDHIhiSywRVJrgfRV3ufA0tI7uYQHef4iIImmbxPsMnqpKPD+oFKWupbuNgKPy5HVplzve0OaebqWJdVPpcjqDaWtZtMABWNtutJO6KwlTPI7z7WTEwh6TAivMo5UhaSAfgN1PKB5jgilyQaOsvK8FjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785706371; c=relaxed/simple;
-	bh=KOljYON3jTRUwQm8eUqMu5CjveCeO2Eiom0kk+/OeRg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=HfueIvj3iN7vvl2GcJGAOyw5dcHTPsZBOq2ztl/3jNRhnx+iPG3Sh9BAC5HfWBqqR6lz3S35Nu8ArVtpXVWKSXdbx3fV6JmXm5yA1t3WBBKYaZ9L01VgVFJMnste8h35X62HFpIKQBK4XN+TQdPxN+xjxCRoaNYgsDdWHTyytXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZPmjozn/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785718328; c=relaxed/simple;
+	bh=uWEInhO7shXwx4VB2iAZk/NprwRvqYHoQSDlBFjCF0Q=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=qzYCLqSstF/8HVVrHHT65agE1caWbLxmlrpchwIxYHxNaVeGgxg9ukg+Op9O7UP1yU6U8M3BFFUxP6CtrumhA4Ealj29VTVv5Js2/8Xq4kpoqhhjYSiOvzVzsWhEIXhfKBK9DIEuvP+fmWe4KToIcTYfBUpgqzKx3jsm1Di8Huc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYa127XI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZPmjozn/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11F181F000E9;
-	Sun,  2 Aug 2026 21:32:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYa127XI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCB2B1F000E9;
+	Mon,  3 Aug 2026 00:52:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785706370;
-	bh=cDzhkG1w+YnSNaNsYPGfzaniZU7En9exAEkV+7q0Dbc=;
+	s=k20260515; t=1785718327;
+	bh=5FVnlOSd1v9C4sUZR1eg963cdHAOaz4d6tFY0CF5mPA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ZPmjozn/UqJ6ojT7xQXerEt+1sQb5lqXKF1qpwS9oCcKg9L7LOxssF7ng18B9nENp
-	 c3HiFce/7HjdmeFruI11cWzXwbmTuoEk7hXji7Njw94Dn43DTeSJGXuTGnf1QnPCcR
-	 DOI7PXDaEVtLEDWZkc1WuOVab1jDjlNiLtPKlvH5hh1MphQvEv2+PDTPgBgl7dQAlK
-	 cTk6yRmTsTSEwU5psGSY/Y8Mvdv9/2OZxbbOlGf1cZw/ULOslPsZOPRM23aXSFKFhd
-	 qwkLk3Sww4gjh9D/ikwQt/UfSnKjJQfU0XxhD47PueMXQ6mySwpVzSP80EvelnOpZ+
-	 9TK1cP27tGAEQ==
-Date: Sun, 02 Aug 2026 11:32:49 -1000
-Message-ID: <14bd63f0e59ce815ec1a1d066f578aa0@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, josef@toxicpanda.com, axboe@kernel.dk,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	cuitao@kylinos.cn
-Subject: Re: [PATCH v4] Docs/admin-guide/cgroup-v2: document io.latency rotational vs non-rotational behavior
-In-Reply-To: <20260728095707.2398498-1-cui.tao@linux.dev>
-References: <20260728095707.2398498-1-cui.tao@linux.dev>
+	b=NYa127XI8WJh7R5C2zr8TVnMQUnPmgf0lp1vNUvV3WZxbzseKYcUxPFdXa1CdK/e/
+	 pZAe37jH3Y9o1IbIILObyjpU7p+Se/ALcuGjbMWIFHGzU7i2VcrUBh2mC35GUmhEyx
+	 PIenH7+TH4kPFYw9kar+PT6ZJl3sJdJYmAuju4L5TbnTWvJzLg0YRpdSekvXOT+cqX
+	 mBaP0jN6URNtJXJolbHXjzadjnZ8H2Y3COvHX2rd3OAef8CQLuH4sauIAN6JsrL6Xw
+	 Jzbr4btnkikrdyZ4x5yPEgvI4G0zhJ3pla81u+6sR6Z0ia8xiwgu0h852NQ2PwHDzA
+	 g0Rc0F4dDVGiA==
+Date: Mon, 3 Aug 2026 09:52:01 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
+ Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v11 08/11] tracing: wprobe: Add wprobe event trigger
+Message-Id: <20260803095201.72a9f322b65acf240f050329@kernel.org>
+In-Reply-To: <178565879572.714490.13763586507727190682.stgit@devnote2>
+References: <178565870538.714490.11309825813968306287.stgit@devnote2>
+	<178565879572.714490.13763586507727190682.stgit@devnote2>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 28, 2026 at 05:57:07PM +0800, Tao Cui wrote:
-> io.latency is documented only in terms of average latency and the avg_lat
-> stat, which matches rotational devices.  On non-rotational devices a group
-> misses its target once enough of the IOs in the window individually exceed
-> it, and io.stat reports missed/total rather than avg_lat/win.
->
-> Describe both cases: how a miss is detected, note that the avg_lat tuning
-> guidance is rotational-only, and update the io.stat field list (mark
-> avg_lat/win as rotational-only, document missed/total).
->
-> Acked-by: Michal Koutný <mkoutny@suse.com>
-> Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+On Sun,  2 Aug 2026 17:19:55 +0900
+"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
 
-Applied to cgroup/for-7.2-fixes.
+> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> Add wprobe event trigger to set and clear the watch event dynamically.
+> This allows us to set an watchpoint on a given local variables and
+> a slab object instead of static objects.
+> 
+> The trigger syntax is below:
+> 
+>   - set_wprobe:WPROBE:FIELD[+OFFSET][:COUNT] [if FILTER]
+>   - clear_wprobe:WPROBE[:FIELD[+OFFSET]][:COUNT] [if FILTER]
+> 
+> set_wprobe sets the address pointed by FIELD[+offset] to the WPROBE
+> event. The FIELD is the field name of trigger event.
+> clear_wprobe clears the watch address of WPROBE event. If the FIELD
+> option is specified, it clears only if the current watch address is
+> same as the given FIELD[+OFFSET] value.
+> COUNT is the max number of activating trigger.
+> 
+> The set_wprobe trigger does not change the type and length, these
+> must be set when creating a new wprobe.
+> 
+> Also, the WPROBE event must be disabled when setting the new trigger
+> and it will be busy afterwards. Recommended usage is to add a new
+> wprobe at NULL address and keep disabled.
+> 
+> Assisted-by: Antigravity:gemini-3.5-flash
+> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> ---
+>  Changes in v11:
+>   - Use new modify_local_hw_breakpoint_addr() API.
+>   - Add tracepoint_synchronize_unregister() in wprobe_unregister_trigger()
+>     and parse error path.
+>   - Safely check tw->bp_event for NULL in trace_wprobe_update_local() to
+>     prevent race conditions.
+>   - Use event_trigger_data::private_data_free.
+>   - Add count option support.
 
-Thanks.
+Oops, I made a mistake on this count support.
 
---
-tejun
+> +static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
+> +				    struct trace_event_file *file,
+> +				    char *glob, char *cmd,
+> +				    char *param_and_filter)
+> +{
+[...]
+> +	/* count is optional, "unlimited" by default */
+> +	count_str = strsep(&param, ":");
+> +	if (count_str) {
+> +		long val;
+> +
+> +		if (strcmp(count_str, "unlimited")) {
+> +			if (str_has_prefix(count_str, "count="))
+> +				count_str += 6;
+> +			if (kstrtol(count_str, 0, &val) < 0)
+> +				return -EINVAL;
+> +			wprobe_data->count = val;
+> +		}
+> +	}
+
+This handles count option, but
+
+[...]
+> +	ret = event_trigger_parse_num(param, trigger_data);
+> +	if (ret)
+> +		return ret;
+
+Here we parse the count again. However, this trigger_data->count
+is ignored.
+
+I think the new wprobe_trigger_data->count is redundant. it should
+use trigger_data->count.
+
+Thank you,
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
