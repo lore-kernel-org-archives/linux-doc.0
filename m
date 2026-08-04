@@ -1,96 +1,98 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC90367B74
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 07:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A40F430CE9;
+	Tue,  4 Aug 2026 07:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785826882; cv=none; b=AF6Ak7z1rwSw/nXP2B8kW6tT71mMFd5X42k4MAGYg/kiuY4/1a0qyBIpPbXvR9j5Mnp59jkkg993UI87Ff1sEiVEY0GZzXVEH/DkleUUhNLZIA2GUmG3qQKaZeamLP85vOAi7xVbxqXlj30mjlZldYFIZZKWdU/Vam5ji+LhiLU=
+	t=1785827975; cv=none; b=GDbLRmMMuuYgcqgQv1g7Uzk2ErCQcLuRWozVDzdWIWLMSNaY6OzgFyk4+D9QLaumm5BNdBT7+U0iNVH/OEj4u54cFgjsAyTbzFiXkI0vNOK3T6sRCZ6mLQOCtnlnz79dcb8g3bpawtAocqeNEvALALs0Fs1ISXZj2EBdEMNGOXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785826882; c=relaxed/simple;
-	bh=mBSsXVt0WN5enn4Z/hBPVjUCrYh/wi/Nv9LqigZRkAk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=Fe7cHlcB8jVhXHoUDQHjd0hQ+2figjz5tAacr9XQsSfYhkUVJtKgb07V8yQjRcNg3nK3UDW8ErD44HawNlxd0UXbmtbRqZxiUkQ3GHON/OvF+7pEzXuZ5oEpxx0NJH+FzIZ00xsKOjAydyRXA+0yh2ommWrj95H0UYegJGsRtxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=r7nPMT4q; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="r7nPMT4q"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260804065129euoutp028ac6b878870abae370c8bfe8d91fff8d~Ih4yH8Rom0154501545euoutp02M
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 06:51:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260804065129euoutp028ac6b878870abae370c8bfe8d91fff8d~Ih4yH8Rom0154501545euoutp02M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1785826289;
-	bh=JXE2Em0fDmwmDn+ZED6OpcGydwsHXkapV9XebT8FZ3o=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=r7nPMT4qCrlnGmjXVcQCTeqmBvhISK3JGhDZyJjrEtP+q8x9DWar2XInl3BeB3Wpm
-	 GTCzz9w3ZqqSgtiAphIlFDzy6XUq+NHHYxMzbCQEPcLSaCAery1mQq37J9YxXpm3xI
-	 0B8fhqN2vGHu4OzYgsKO9LmKiFNN0a+XNq1Etu40=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260804065129eucas1p2d2dc0876b75c22d0d39e7316d691d37b~Ih4x35vH_2098420984eucas1p2N;
-	Tue,  4 Aug 2026 06:51:29 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260804065129eusmtip2493c2192bb64d370a5a0f00dfa851614~Ih4xYtVTw2119721197eusmtip2k;
-	Tue,  4 Aug 2026 06:51:29 +0000 (GMT)
-Message-ID: <692c582c-1849-4ee5-9d6f-91761ef5c80b@samsung.com>
-Date: Tue, 4 Aug 2026 08:51:28 +0200
+	s=arc-20240116; t=1785827975; c=relaxed/simple;
+	bh=SMNGzArOz/J72zqNYvHx7LQADrL2ZO6WVYJSbHH+Gqo=;
+	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=gdUexEVjEKBCF09h08/6nOkvHkSd5c9/5lMfgAf1qSXjug548RLz2+1V24AJEq6Emb75e2Tr2PSyWYttMReO9dYAq81j50WgnAsu05KTVDvUBxbAYdOlC+m/n84cbPG+TM4+79lxdgUfa/aUsvt02yxFp/x/oM4g+WycrU/0KmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hDlKX0sfcz57DCf;
+	Tue, 04 Aug 2026 15:19:28 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl1.zte.com.cn with SMTP id 6747JJQv074381;
+	Tue, 4 Aug 2026 15:19:19 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 4 Aug 2026 15:19:21 +0800 (CST)
+X-Zmail-TransId: 2afc6a719279d8b-43e29
+X-Mailer: Zmail v1.0
+Message-ID: <202608041519217820D922dVk3H9V6-H82jVyk@zte.com.cn>
+In-Reply-To: <20260724220543.7fdb36628c4726dec4c8e649@linux-foundation.org>
+References: 2026072415043227725SuvoyQ3SGDOmHLp8tdn@zte.com.cn,20260724220543.7fdb36628c4726dec4c8e649@linux-foundation.org
+Date: Tue, 4 Aug 2026 15:19:21 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2] swiotlb: introduce Kconfig option for compile-time
- default pool size
-To: bibek.patro@oss.qualcomm.com, Robin Murphy <robin.murphy@arm.com>,
-	Michael Kelley <mhklinux@outlook.com>
-Cc: iommu@lists.linux.dev, linux-kernel@vger.kernel.org, Jagadeesh Pagadala
-	<jpagadal@qti.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260702-swiotlb-v2-1-9205f3ba5408@oss.qualcomm.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260804065129eucas1p2d2dc0876b75c22d0d39e7316d691d37b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260702140941eucas1p22e5e3363c7e9338f18b2e050b0ef564a
-X-EPHeader: CA
-X-CMS-RootMailID: 20260702140941eucas1p22e5e3363c7e9338f18b2e050b0ef564a
-References: <CGME20260702140941eucas1p22e5e3363c7e9338f18b2e050b0ef564a@eucas1p2.samsung.com>
-	<20260702-swiotlb-v2-1-9205f3ba5408@oss.qualcomm.com>
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
+        <yang.yang29@zte.com.cn>
+Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2NCAwLzNdIHRvb2xzL2FjY291bnRpbmc6IHJlZmFjdG9yIGRlbGF5IGZpZWxkcyBhbmQgc2hhcmUgZm9ybWF0X3RpbWVzcGVjKCnCoA==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 6747JJQv074381
+X-TLS: YES
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Tue, 04 Aug 2026 15:19:28 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A719280.000/4hDlKX0sfcz57DCf
 
-On 02.07.2026 16:09, bibek.patro@oss.qualcomm.com wrote:
-> From: Jagadeesh Pagadala <jpagadal@qti.qualcomm.com>
+>Thanks.  Sashiko asks one question:
+>    https://sashiko.dev/#/patchset/2026072415043227725SuvoyQ3SGDOmHLp8tdn@zte.com.cn
 >
-> The SWIOTLB bounce buffer pool size is hardcoded at 64 MB via
-> IO_TLB_DEFAULT_SIZE with no compile-time knob to adjust it. On
-> memory-constrained embedded or mobile platforms equipped with a
-> hardware IOMMU (e.g., ARM SMMU) covering most DMA-capable devices,
-> reserving 64 MB at boot is unnecessarily wasteful — the SWIOTLB is
-> only exercised for devices that bypass the IOMMU or have restricted
-> DMA address ranges.
->
-> Introduce CONFIG_SWIOTLB_DEFAULT_SIZE_MB, an integer Kconfig option
-> (range 1–64 MB, default 64) that allows platforms to set a smaller
-> compile-time default. IO_TLB_DEFAULT_SIZE is updated to derive from
-> this value when CONFIG_SWIOTLB is enabled, preserving the existing
-> 64 MB default when the option is not configured.
->
-> The runtime "swiotlb=<nslabs>" kernel parameter override remains
-> fully supported and takes precedence over the compile-time default.
->
-> Signed-off-by: Jagadeesh Pagadala <jpagadal@qti.qualcomm.com>
-> Signed-off-by: Bibek Kumar Patro <bibek.patro@oss.qualcomm.com>
+>> +/*
+>> + * Copied from include/uapi/linux/time_types.h
+>> + *
+>> + * Uses the arch-dependent __kernel_long_t rather than a hardcoded
+>> + * 'long' so that x32 (ILP32 on x86_64), where the kernel defines
+>> + * __kernel_long_t as 'long long', gets the correct struct layout.
+>> + *
+>> + * __kernel_long_t is provided by <asm/posix_types.h> - included
+>> + * below via <linux/types.h> on most systems, or directly here.
+>> + */
+>[ ... ]
+>> +struct __kernel_old_timespec {
+>> +	__kernel_long_t		tv_sec;
+>> +	long			tv_nsec;
+>Does this hardcoded long for tv_nsec cause an ABI layout mismatch on x32?
+>The header comment above explicitly mentions avoiding a hardcoded long to
+>ensure x32 gets the correct struct layout, but tv_nsec is defined as long
+>here instead of __kernel_long_t. 
+>If tools compile against this header on x32, it looks like they will get a
+>32-bit tv_nsec instead of the 64-bit value expected by the core kernel UAPI,
+>which could result in truncated timestamps or out-of-bounds structure access.
 
-Applied to dma-mapping-for-next, thanks!
+We cannot replace long with __kernel_long_t for tv_nsec.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+struct __kernel_old_timespec is a frozen UAPI type with a fixed layout.
+On x32, the kernel uses long for tv_nsec, producing a 12-byte struct.
+Changing the stub to __kernel_long_t would yield a 16-byte struct,
+breaking sizeof() and struct embedding for any tool that includes
+this header.  tv_nsec only needs 32 bits (range 0..999,999,999), so
+the kernel intentionally uses plain long here.
 
+The comment about preferring __kernel_long_t applies to tv_sec, not
+tv_nsec — the stub should, and already does, match the kernel UAPI
+header byte-for-byte.
+
+Thanks
+Yaxin
