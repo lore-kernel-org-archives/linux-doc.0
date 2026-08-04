@@ -1,76 +1,69 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746D23A9002;
-	Tue,  4 Aug 2026 13:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A34443846C;
+	Tue,  4 Aug 2026 13:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785849935; cv=none; b=KgwBIpQQOS8oNrz7mY4Azq/66et2NuBOVlj1y+LquZkOeZo7EhFyBoOWuVgEQexQxnlMuEtCSVBDxQVCWkMUfxZxPZyx2izBGbpVgp9I1aL/YwMpKd0oL9J+W99fm7gvabYfe9XQkmIiEPqLKvxO2l27Yo086s5MzmYXQ5k4mAE=
+	t=1785849949; cv=none; b=j9Wpu+PsCCVGa73Mxdm+AlI6RQoBQgMuaezzCQ8qQpnbS8QyrFaJ7m32A/W9rXjMDk0i0Po4XP0yKc4MrcRI4c/ADnUlwSiYsl5XqzawzOYAu+rCcldPeqHCEcNAmbCicKp4fIneActFl1ogqH8iayJURghTDA3nvHQ51x4t7OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785849935; c=relaxed/simple;
-	bh=kjAMYg37toYGozoeJPNOSg44izrSpZsfTtoBO0zeE0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l5SDQnGwteo6/5K7Bt3iT5W6jOIzomXoj/35r7bBoUgjiXPRbHMlaidHi3MrSkR056Z35EQSo9z926s3yolGQW73knyG7mIfAySHsl9ME8nx+ro2FP2wv1XrBSAhrhtS2x+KqhgJqCWmccX5jxs0lP5/Nle1hDp3+T33b41qSjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 353036732A; Tue,  4 Aug 2026 15:25:27 +0200 (CEST)
-Date: Tue, 4 Aug 2026 15:25:27 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Jan Kara <jack@suse.cz>
-Cc: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Yu Kuai <yukuai@fygo.io>,
-	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@fygo.io>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Song Liu <song@kernel.org>, Dan Williams <djbw@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
-	Tao Cui <cui.tao@linux.dev>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
-	nvdimm@lists.linux.dev, virtualization@lists.linux.dev,
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC PATCH v1 1/3] blk-cgroup: add helpers for bio cgroup state
-Message-ID: <20260804132527.GA8078@lst.de>
-References: <20260804065313.2092022-1-yukuai@kernel.org> <20260804065313.2092022-2-yukuai@kernel.org> <prx5s4rwbgoeh7wtgyo7vwydh5iwqn6qc2utamowirsplspfmp@e3eteq5xwuyf>
+	s=arc-20240116; t=1785849949; c=relaxed/simple;
+	bh=L8d+JZXNEMA9DzwL3XU3p1wcy7WY9DQm7Hwn7Q2xwrc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aIHD/cmhjcvDmI1SfGqf/N1RPydasmsp8rPMDhQQjsnUy8JwxGFs6LN0E5zIIuWm547ODI1+hubjUIeghl/ivkyqQObEkHHo/n78Qnm76UW4QfNpBFHVi289Uhv65OpfkrEZpfHxG33FDF8cz8iatXGxCJY2Tqc34SrZaMmhJYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CryWbFoM; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CryWbFoM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 39FEE408BB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1785849947; bh=4ENAolMWyHG3xr8wGNw2bOQDm6BdYGkNxXUpRkRraTc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=CryWbFoMMqlUjDOPAF6vOacJDcmf4EwXJ5SnGBuhacM/skRC/qC8YBn0qv/Yvk5P4
+	 6ERsyfRGzd1DoiE2L6HRqAdC7AbFNwtlSGbRSU096+ufoKg2kD3acbhX95ZJhf0DNQ
+	 BEwQultYi3t83t3O6Bgs+8OFsczskNkreRE2k7QkohBe1dpVgWB6j0HM+coO0XrZZP
+	 79njkrmgDYb+9VbXExSkiE07d5DkFajjD88bTzlpbzuV3SQWCtme4QUVHy0R3chj8q
+	 sajf8nH/8jRaDpBNA65Gp74iVlLZkvZ2chs4nBFKQldsolU+bYDp2k8rMRDtH9EnGO
+	 fpaIVNQUjjkJQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 39FEE408BB;
+	Tue,  4 Aug 2026 13:25:47 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, Antonin Godard
+ <antonin.godard@bootlin.com>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Documentation: html: show sections in the sidebar
+In-Reply-To: <6928a83e-b268-4905-80e8-7b65048dd040@infradead.org>
+References: <20260803-show-sections-in-sidebar-v1-0-b4fdc847525d@bootlin.com>
+ <87cxvzxbin.fsf@trenco.lwn.net>
+ <6928a83e-b268-4905-80e8-7b65048dd040@infradead.org>
+Date: Tue, 04 Aug 2026 07:25:46 -0600
+Message-ID: <87qzkeuied.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <prx5s4rwbgoeh7wtgyo7vwydh5iwqn6qc2utamowirsplspfmp@e3eteq5xwuyf>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain
 
-On Tue, Aug 04, 2026 at 12:52:16PM +0200, Jan Kara wrote:
-> Mostly looks good. Just I think bio_blkcg() should gracefully handle the
-> case where bio->bi_blkg is NULL (and return NULL in that case). That way
-> you can also get rid of somewhat odd pattern:
-> 
-> 	if (!bio_blkg(bio))
-> 		return ...;
-> 	do something with bio_blkcg(bio)
-> 
-> You can then just check bio_blkcg(bio) directly which is much more obvious.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Yes.  Looking at the whole series I'm also not sure that this makes too
-much sense as a split out patch as the next one touches more than half
-of the callsite anyway.
+>> - Did you check the PDF build to be sure that the captions don't intrude
+>>   in some sort of obnoxious ways?
+>> 
+>
+> I only checked html and epub output. I can't see that epub is affected.
 
+EPUB is HTML+CSS underneath, though, so I would expect to behave
+similarly.  PDF, though, will lack the CSS trick used to disappear the
+captions in the normal text.
+
+Thanks,
+
+jon
