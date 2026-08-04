@@ -1,38 +1,38 @@
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B66413D62;
-	Tue,  4 Aug 2026 19:50:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E1D424D42;
+	Tue,  4 Aug 2026 19:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785873012; cv=none; b=Tf7jrq/Dl1riPFlePB6hHBrhV4PGVkUaGgNcW2Jszm2+vcMxyT21VN6gMq6ws+WteMADJerEdKQoTsLa5CZPkZG7aNuFBce+hUugKIX58SIJYyoZyF6kQUDNzgaY6UQfsAcJU0usHVp6PcXE1QsWZZWfIbLoj7uhkbhcbS7oEf0=
+	t=1785873146; cv=none; b=ZrQsEfGXQNjYjZEjFQ5HVVggsOeTllYl5WYeixLR0G2NmqsxvhUOdH6ZV5mTKY5Hx0oVvTyuUiY0TD3v25Psx2ftn8dZJHVaM8foM3V4+mOkGMKsDaaILG7O+ksCb5kC+CySpKE38J+6HW+P1Y/8Y7PeafzERRcKSpMdz4KSRv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785873012; c=relaxed/simple;
-	bh=OdmraEgayirjuQK9DWPhhWq8j1tl0vCxi/Q1BBjcw64=;
+	s=arc-20240116; t=1785873146; c=relaxed/simple;
+	bh=7OGB1EI11qWQ3Yg0ZG+Akx+MucSEes4qwa1Lae7ta70=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Subject; b=p1uPxzBhkR3gsVXIeRUFS+dOuRUhMsMg0pCv4MAaICRm7xE1sW2OX21yz+7Br50PDxfCUmoc+jpkoTCuEnR340lME/eo9THF5/xuX2TZGwN8XcRecHVWSP/IztaP3yTEY9neBNkgNTFn56n0kRlbODqbmwHUE0E9F10I8Am4Dhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=VqAy9ctR; arc=none smtp.client-ip=204.191.154.188
+	 Content-Type:Subject; b=g5a92rLS+2FJv43w2quBw6R3Yq05E9wo1WWxZxkIVcOBfPADT+22ri5L6WsS6MjhbPg0sejjyI4fOQGmFc/DkLa+Y0ZrRI8magjgV6zAOl13gxKGMeYhwQSPXtc3bEYzpq+yA5RIM4FPWEbNblzykVFw22C3JNGunXf8vElX+mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=bmk1Rn4p; arc=none smtp.client-ip=204.191.154.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="VqAy9ctR"
+	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="bmk1Rn4p"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
 	MIME-Version:Date:Message-ID:content-disposition;
-	bh=Z1wJRVHiSjrvdNZOMPAr/ED/XQobuU+iisI6uTija7A=; b=VqAy9ctRCeGkRe1uub/4LrjHU7
-	rhOdackadSHgPKpXspl2NsdYJyTX+O7PH9M/iJeYLYf2g0FuMgXeOiNUYf2/RaokG74DTfvXJtgbQ
-	RFckOVfZO6JOL9IS54YcZQ1DnehZ5oWAH/Z11ROExN+4ALIsaV7Hp+pkqCyr6dW/7fLpUk7fgGh7o
-	zuNLJKk/3ju5ltU6ZhmNpAD8IDDfDfwm39olb4p/1A+aWp3bIBtqsKxl7ovKLd/q+vbUKXB85VC8D
-	+CrFw8HmBcpMirMJz6oQcpvNpo/hEK8pPrHfv6YDjaOE/tL7vNBlQsfko+jPNiQtCKYw0QfCCxPdW
-	ioyE95zw==;
+	bh=N1C9RRyOtzx5HDheWD12qd4gUGvsBh4sdLPtUOddlFg=; b=bmk1Rn4pGpqpvKkjT/jrK2RdEj
+	okQJzHxZrYtKrXzo1iEgEqz6GpuDEbrHnkUZds7JA0HldYswn/HcOA/6mMFVlWe1+deBdLeZP84BT
+	wT8mNdN6Qw+tpGLfisqyPyzISKBeemJSuHCG7lX46iSsehCTP7zeS5JABxSogSPdO23j4755y9jMj
+	SizsX0cglhHtuJYO0lCVJ8AXKI/4CaE9aPfZDKILTF+hHwqh5XigEXZ15gUlGc4nwN8B6q/HOISxL
+	wK812Zx2yipsGWybyQhAb7ZG4Fel63TJExcPOniOUm6inNU53Qi6fgMGV9B8rhVqDHhM431sm2zHA
+	0ZeTAvMg==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
 	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.98.2)
 	(envelope-from <logang@deltatee.com>)
-	id 1wrL9M-000000000e6-3b0E;
-	Tue, 04 Aug 2026 13:50:09 -0600
-Message-ID: <239835d4-0854-43a2-aa57-6c70dfedb121@deltatee.com>
-Date: Tue, 4 Aug 2026 13:49:59 -0600
+	id 1wrLBW-000000000fR-2pJ8;
+	Tue, 04 Aug 2026 13:52:23 -0600
+Message-ID: <f1ec8777-b747-4c35-860d-cde520f9b3f5@deltatee.com>
+Date: Tue, 4 Aug 2026 13:52:22 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,17 +46,18 @@ To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
 Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org
 References: <20260802-fix-p2p-acs-v1-0-a7c5eb64fff6@nvidia.com>
- <20260802-fix-p2p-acs-v1-1-a7c5eb64fff6@nvidia.com>
+ <20260802-fix-p2p-acs-v1-2-a7c5eb64fff6@nvidia.com>
 Content-Language: en-CA
 From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260802-fix-p2p-acs-v1-1-a7c5eb64fff6@nvidia.com>
+In-Reply-To: <20260802-fix-p2p-acs-v1-2-a7c5eb64fff6@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, corbet@lwn.net, skhan@linuxfoundation.org, alex@shazbot.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 X-SA-Exim-Mail-From: logang@deltatee.com
 X-Spam-Level: 
-Subject: Re: [PATCH 01/13] PCI/P2PDMA: Safely terminate ACS redirect lists
+Subject: Re: [PATCH 02/13] PCI/P2PDMA: Report ACS ports when the paths share
+ no upstream bridge
 X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
@@ -65,18 +66,18 @@ X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 On 2026-08-02 09:09, Leon Romanovsky wrote:
 > From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> seq_buf marks an overflow by setting len to size + 1. The ACS diagnostic
-> path unconditionally writes a terminator to buffer[len - 1], so a path
-> with enough ACS ports to fill the 128-byte buffer writes one byte beyond
-> the buffer when verbose diagnostics are requested.
+> A provider and a client below different Root Ports share no upstream
+> bridge, so the search ends without a match and the walk takes the
+> host-bridge route directly. Neither path is examined for ACS, so no
+> redirect diagnostic is emitted and the host-bridge whitelist warning
+> stays suppressed.
 > 
-> Use seq_buf_str() to terminate truncated output safely and remove the final
-> semicolon only when the buffer did not overflow.
+> Examine the paths before taking that route, so every redirecting port is
+> named in the pci=disable_acs_redir= hint. The mapping type is unchanged.
 > 
-> Fixes: 52916982af48 ("PCI/P2PDMA: Support peer-to-peer memory")
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
-Looks good to me, thanks!
+Thanks! I vaguely remember I might have got hit by this bug a long time
+ago and didn't know why. The fix looks good.
 
 Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-
