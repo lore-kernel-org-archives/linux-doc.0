@@ -1,96 +1,138 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6367B43BDA5;
-	Tue,  4 Aug 2026 13:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F76145FFBE;
+	Tue,  4 Aug 2026 13:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785850337; cv=none; b=JxeTsQxv2zb7ELt5CydqYwQYzq/Ht8rA/cUZxPLO6xJ/XiM749RBtgs4ssDWGH4G9Z2T5GyuKeGGtbD1qi8sXgqDLbLrB1dQQfjP2uPplIoSlN577ScvKCNJ/u8dpJCBPWph4smLMPOHTacJo20EN1ogMpVg3G2WepnoOYjQTU8=
+	t=1785850676; cv=none; b=ArVL1dzag1FUYSA3AguixjANAOeDdewzTBeJuqE3cXmCrQMH/AV5Kne0xQ2IVUK8kbZiUI27N24tfMw1DVsE8yw9UAM4DLhOBgNux7qDvi7ZktFFMDsDeDUOKGFxSKfHHCyVhu3NbKWFVOtYEYJ3KO/UPd0rzRS9L+SFf8yGHqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785850337; c=relaxed/simple;
-	bh=nTLiwxrMjLSfaiIVFmR3cQtrnNCiV4/Sy7TgcYaomcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B/egnh4LgT9Coer74s7wB7kmErtaFw3tLMyQic3IZ9ozl/SxupLpeKl8tD95qVIHUDmsYzpj1hNdrnuNVmzch1as4sju8zmVjV1Bqalfvb3ClqsvWy9kIW9XPR2qTuotobipPtQ6f+i/UXB0Sap7HBIwd5D5jN64JbRllwB1kSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E2ABD6732A; Tue,  4 Aug 2026 15:32:08 +0200 (CEST)
-Date: Tue, 4 Aug 2026 15:32:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Tao Cui <cui.tao@linux.dev>
-Cc: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Yu Kuai <yukuai@fygo.io>,
-	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@fygo.io>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Song Liu <song@kernel.org>, Dan Williams <djbw@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
-	virtualization@lists.linux.dev, gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of
- blkg
-Message-ID: <20260804133208.GB8078@lst.de>
-References: <20260804065313.2092022-1-yukuai@kernel.org> <20260804065313.2092022-3-yukuai@kernel.org> <a677f581-344b-4d99-846d-a00801e26033@linux.dev>
+	s=arc-20240116; t=1785850676; c=relaxed/simple;
+	bh=toVxROmyk+1o3Ryb1If+rwWb7nThYqHxTqpgRMNSkEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FjQoXFboj1N1vyw9R+Zq4X9P4c7cmREqFPy1onHD1fnjIiUTo1+8yS9NlYasrsYTUluYCX/9qc1XjfWOth7B86L9xhdzS5EatLRt/D3/eFl5SkLyiwSaAqKburE3/QvH1SMZ2J2OWX1drFgIamixXgJa5YzsGiNjDcIzYLxCvNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nkF9Itac; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VaY5cpkl; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nkF9Itac";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VaY5cpkl"
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1785850672;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=D7sbq8oeA4cxG/QHlYb+FSitdt05dLLJzZDOlpdwROY=;
+	b=nkF9ItacF+mzIIFXRNvFTi7Y7iXhc6iGvcX7bVTy954Tc7Uq66vOYenULeQNQY/tZbb+Oz
+	3cPGV23UFiUyopolG53lwi9wVfzxZvKBqhOyf2btw/xzBv7lzf9rcFVfp9gg5qIqCQxJqs
+	hJxU9lUmEv+iB6/3bpBbYT85dwvE0aobXcM44LGaFTv4YTtaOBo+bf3JDe46XPFlyj7YXO
+	gboXAEuevkBvSJvvQor6SIYv/nBN+h5r9Q9BIr90/s6DiRae/9GNHn/ZnYheXIuWTonJ1W
+	435Y861GJYC1azeKDkewOrQD+o3rQY1qwxX7EnX0sL2/Ko6ncdUWvXPECLlNlA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1785850672;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=D7sbq8oeA4cxG/QHlYb+FSitdt05dLLJzZDOlpdwROY=;
+	b=VaY5cpkl+QXw8COVa3b+MPmIaU05mCUfrmrRRkjKBHqw92GJ3jTmMXjawTqUFbt7I/4F7o
+	7zG/I4L5p3N7t7AA==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: [PATCH v5 0/1] Documentation: Add real-time kernel configuration guide
+Date: Tue,  4 Aug 2026 15:37:44 +0200
+Message-ID: <20260804133746.744212-1-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a677f581-344b-4d99-846d-a00801e26033@linux.dev>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Aug 04, 2026 at 05:19:24PM +0800, Tao Cui wrote:
-> While reading 2/3, one spot in bio_pinned_blkg() made me wonder, so I
-> gave it a try — and the WARN_ON_ONCE triggers every time for me.
-> 
-> I may well be missing something, but my worry is that the bio's ref on
-> the blkg keeps the object alive, not its entry in the radix tree.
-> blkg_destroy() runs throtl_pd_offline (which only schedules an async
-> flush) before radix_tree_delete(), so the queued bio ends up dispatched
-> (blk_throtl_dispatch_work_fn -> blk_cgroup_bio_start ->
-> bio_pinned_blkg) after the blkg is already gone from the tree, and
-> blkg_lookup() returns NULL.
-> 
-> I applied the series and wrote a small reproducer:
-> 
->   - null_blk, cgroup v2, a child cgroup with io.max rbps=4096;
->   - a read issued in the child cgroup gets throttled and queued, pinning
->     the blkg;
->   - migrate the reader out and rmdir the cgroup; the queued bio is then
->     flushed after the blkg has left the tree.
+Hi,
 
-Can you add this to blktests?
+There is a no "one size fits all" solution for configuring a PREEMPT_RT
+kernel.
 
-> Maybe keeping the pinned blkg pointer in the bio would sidestep this, so
-> the lookup can't miss?
+Intorduce a PREEMPT_RT kernel configuration guide to better help system
+developers and integrators.
 
-That would grow the bio, which we try hard to avoid.  I think the way to
-avoid this is to have active/passive refcounts on the blkg, where an
-active one keeps it in the radix tree, but a 0 passive one would prevent
-the caller from getting a new reference to it.  The users who rely on the
-pin for the I/O completion path would then just keep the active reference
-and use a pure lookup without getting a new passive reference in the
-completion path.  This would remove the need for BIO_BLKG_REF which
-feels a bit kludgy and eats up precious bio flag space.
+Changelog v5
+------------
+
+Handle Sebastian remarks:
+
+- Reference other documents as Jonathan prefers; i.e., no :doc: tags.
+- Coalesce the CPU frequency governors text, and the tracing text.
+- Add might_sleep() note to CONFIG_DEBUG_ATOMIC_SLEEP.
+- Mention debugfs only as "allowed".
+- Mention CONFIG_DEBUG_BUGVERBOSE.
+- Do not mention DEBUG_INFO as it's not selectable; mention the
+  CONFIG_DEBUG_INFO* selectable variants.
+
+Changelog v4
+------------
+
+https://msgid.link/20260716195716.256025-1-darwi@linutronix.de
+
+Handle Sashiko review: Remove a no-longer-referenced link.  Remove
+CONFIG_WQ_SYS reference, which I thought it exists due to a quick
+misunderstanding of core-api/workqueue.
+
+Changelog v3
+------------
+
+https://msgid.link/20260715150147.225715-1-darwi@linutronix.de
+
+CONFIG_EFI_DISABLE_RUNTIME: Mention that system integrators can now assign
+the efi_runtime workqueue CPU affinity, then safely pin RT tasks on a
+different CPU range.  This is due to:
+
+  https://msgid.link/20260227170103.4042157-1-bigeasy@linutronix.de
+
+now being merged mainline.
+
+Changelog v2
+------------
+
+https://msgid.link/20260414174159.1271171-1-darwi@linutronix.de
+
+Handle Rostedt remarks:
+
+- Better reword certain paragraphs and statements
+- Warn about enabling CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER
+
+Handle Wilcox remarks:
+
+- Remove ToC comment + minor rewording
+
+Changelog v1
+------------
+
+https://msgid.link/20260305205023.361530-1-darwi@linutronix.de
+
+Thanks,
+
+8<-----
+
+Ahmed S. Darwish (1):
+  Documentation: real-time: Add kernel configuration guide
+
+ Documentation/core-api/real-time/index.rst    |   1 +
+ .../real-time/kernel-configuration.rst        | 307 ++++++++++++++++++
+ 2 files changed, 308 insertions(+)
+ create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
+
+base-commit: 075b74841bd0065a3bda3440873c747938e69b68
+-- 
+2.55.0
 
