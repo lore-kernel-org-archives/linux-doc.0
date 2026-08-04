@@ -1,270 +1,206 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E1B369985
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 22:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785882024; cv=none; b=q+OaKxNfLBlYn3x3MKiPRIKe5FYSDVIZhTX8rdZoNKfAJAFygo5bzPZjKtj8MU2ljV/nAhlkgQ7SrEOVZfribOCBnEpjM7+9I28kFdb49EHbfbHDUBpjJzyoejlHx3zbhF5D95KuMXSI/Ep/ukHbXZukmv0RSCZMWMtETh2qqNU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785882024; c=relaxed/simple;
-	bh=0Lz6nS3AYyC2P96/v945oKi3wmUa2AbdpEtf7dzfqKs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FUH/D6DDrecskqPQI2ruFh0cHhjUbPSkG9LxeSaY1VbTgBHXx2Ztlw5jhFvr9H1hw89VFSTnym8NzW09NpnJpzq8bkaxWPrUB+5EO9SM2StYdKiXM/zUgvrF2bIkT0ziE9S9a70gVNeUdOmv0+a6z9dQB8NgjLpQcjjB3Ldajts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lTXbSSZv; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFE3369985
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 22:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785882045; cv=pass; b=rNUTPNrEZY8LKtj6CRkLShF13scX2Nu/1vAQlFLKVg3BazhMEhmqiNM+h1+0JcDJBwXSinyEB2NUQqijOWhaYe5mKDFOw3jjHmQJlDDVlRwE1ACWbNZSkhc5Mosj9Lk9E8eQJV58d1EsgqfO47tYuAdcSOfUTjDXBNnTtz8o/mM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785882045; c=relaxed/simple;
+	bh=p7KpLXDbYWu/mxWpOCbWD2NL3j0JpP9nFMeNwakGxKM=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rnMalbasbkR+WJCwmtAZ+g34wEs0lB6hrWG2lvVnJCvW5GvWf1Fk9TLm0dCFu6pMPX0ifWMtZGm5Vr8+kySygzHnL2LefyLxdxUbW1B7OsaNmPf/ECjOdJFHI38uj1aCFCpdczFGqLTnKeXwri/lhj1LtSIDHseuf30qKPlybro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T0w7KDnZ; arc=pass smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lTXbSSZv"
-Message-ID: <0556e2fc-3be5-4023-a9a4-8482fa8c88b2@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785882008;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKXkCcRMGWTSPIx2M+vUMflHbZbJ8UbKojm3V5koHzo=;
-	b=lTXbSSZvUL4SJfXOdF++4CEyApWmTqxUjaeN3mxQ5u2ImrIEJbHG0FEnJvV/uRJtJqfwL8
-	mwnnvc7kyeVO+Fc7xM4qFj50XL1gBgWop+y6QXPTKGtqB13iyT9UTjAt1jKvF/BsIuPuEI
-	u0ci3Zm3/p+4lDVk2TCJM5RXUmBPSGQ=
-Date: Tue, 4 Aug 2026 15:19:34 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T0w7KDnZ"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3810c5d691bso249544a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 15:20:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785882044; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UsKkdAXEAIehW849B23XHwSr6PbJxS8Cp1YVV7Cd75YrPrwHz9/km76rV7vxL8zOeo
+         rnGcNLFo7RPGRJdok2bm90ihYbSkNox+zSqV3YrX3b0CV9PHAUD8OTHi3ZUw/PO83STg
+         DxpWgKXjAy3DrtbKNIq0eMHDAy3/KlyRPC+1oEcMyaC6mkxf+X9PRx5SO32P44dtFUX6
+         4akDRTKv1+me3b3qVp/vhxhbM8nEHVWfpf+watVgBcll2ryGwOh1h3jZ4b/u2r4+4Pds
+         Oa+4xw2Ue4KFGKAFs9wtiWWZowV95TvMb5jQ7t/7L1MLLq11u9Z7vmsfr28H94T2df2O
+         wN9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=voJFtdOcDQ3cvv3g0Px6B4YkGP5JAhQ6QCPfp6/emQc=;
+        fh=P3aQfpibPZsf9lOIq8Yn/wxsJJBD6P2N513TI8ICStE=;
+        b=Meo10r68fvAsqUKJJWA660USJ1yqaG/Zu2U+Jz+vxQZLM/e1PGnXq08kNi5tbtqepj
+         1xIjeCtzGJvrdAhM/6KNIhvsYiEi51pzjVnkSYrOEBGObN6gkVaOh7qUSoXRhigoG7ZW
+         MVfhLDb47pKphg/G0nMeOqBiijZAlQ+u/uq4bnj9S8RxrOddrd7fgSisEIs8ZMJW9nvm
+         ihYD1rBUXveSCaKefbEEsGgO/i1tcF5gjjYPfB9JoWC20bH9k5FJomM1HX9tMId8Fs2j
+         snUGCwUWdD5A753StDY7FgGfbHFdsuILQDCjtzXHxceI1+AIPDeqeEUbRsN9qfSCKQN/
+         tFqA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785882044; x=1786486844; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=voJFtdOcDQ3cvv3g0Px6B4YkGP5JAhQ6QCPfp6/emQc=;
+        b=T0w7KDnZr3jDS7HeDOIQ5foupHOVXSXTAbw+qAcmdFnD7uhWOR01G5pZ2TwfG02OR3
+         GoCokpW/JmEvbbp+dh5ZQCJH4MXtA0H2Vv3j9sltRAxZQFk5qayZKtUVUqO+eBv1P5Pb
+         Ya3sTRX+5ZrDXdtx3Z9jyWNq0DNk/bjVz1LaghtuPH+1dQanY6ZCDSVLl4wsviU2oeEe
+         KN3Td1pPk/Zw9ArFGFbgbYPFB1Mikp1LQN/U3qoVsnz8x3/rXJOp62ZcMOLbAb7Hn6//
+         q6lNvxPchY4EdvWRcTtON+8IRphlZHj43TZ7bADEKrF4RqlddHJxwclXT4FNGrogCWud
+         n4vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785882044; x=1786486844;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=voJFtdOcDQ3cvv3g0Px6B4YkGP5JAhQ6QCPfp6/emQc=;
+        b=WWSuYMTcXVem8sdYjpAdzpOyeUmuZt6Khl8JACdRfy+UgI//xchNYdpqXjoDfYTYE9
+         QAAJCgLuO9wnuDvqGQ6nrhUlMQH/osapw0oZP55n47PxClSfg9tfeMpP+tjxAZhfPpKo
+         Hke2I9t6q4y0lh9xnsTn/NHU9+IyE4PTTlLdaHGb9H63ZC+v+Wiq1nFqvbY6Xb1+P80+
+         XGEtJjsxjmjTCPGa5sXO8BQwaeEM0XPVhqdNqqIpDb6HqMc/HR1iXtrVjNgpCK1BvLPM
+         AgaCnuJXXAgEw3vkpmW6PuuNfUVq5xbQccpHKAYCCg1alDtmAAEbUoj7ltpvAFimSKyv
+         Ah7w==
+X-Forwarded-Encrypted: i=1; AHgh+Rr4kSHy1a6h0Pfca6oRqKSZSBw/XC1pzOIfOlPWnGOIVfZbce77tu7xET+h1Di0NiWc57svivn+oZA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlRAbrf+/I9C0ISk9skMcY38sWrB1tdDhauHBYEC/gokmIcy87
+	ROcF9ngFiOBSajZaRGaO5RORA1uYutARYJgzlQ8i6WVFmBVGmXcEzCplT3OyBGLtt0xXtPQ5DGU
+	muszn8nKKy2BFmOPSz5V4ELHXseAUoo3EkUTDCTb/
+X-Gm-Gg: AR+sD12C4dKqOjlQoCoxaLA4qbdehva0BFKbfKpP8vHplCh7EepA7s+DdiMY6SGxycb
+	KoACjdUfRUjKYFD+FcbdSfHFkG5hZi0lr/8WUU67zqEu39Fu3AP9oNzm7JjY+0s/nKxjm73oBZB
+	C0Jlz9oFIDDi6Y1zYOW+zTPFg8Smw1gOv3JV0glBBUwneKaGv+cuCEFXC5z+lZ+X8g4CdOZJ9ht
+	pVpOrkddmH/xEsG73hnXWWYT0bRbVqw5bP3e2PLr/vBiBV+I66f2MoyfcJayxsLs4U6m1dWS2m9
+	JaK9gh2MQ3Rl1p8nHNn9x1rws48UePvnVj6Guf1nr2T93tCpjLmthH8RFioAw6nPiiNUYLuq7uJ
+	AcattEZL8fisrrUbxv3CVWFgG9lq1kLtBFRXhQcvuCH/H
+X-Received: by 2002:a17:90b:270e:b0:366:3517:1aa2 with SMTP id
+ 98e67ed59e1d1-3903bb0cf61mr2065807a91.0.1785882042841; Tue, 04 Aug 2026
+ 15:20:42 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 4 Aug 2026 15:20:41 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 4 Aug 2026 15:20:41 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <de780cc3-8c43-46f8-b8e6-3ddfe93d753d@arm.com>
+References: <4460e252-b6de-4df3-bea8-0368a9d0f4ff@kernel.org>
+ <CAEvNRgEUQSju2tW_1zMk2=QmveZNtmkjjCZdqVBgBD2JPh0k4Q@mail.gmail.com>
+ <a823e3d2-8acf-49d9-a812-ac1bb2136d7f@kernel.org> <edc3566b-370c-41a0-a71d-2e4a0e1a94f7@kernel.org>
+ <CAEvNRgEas_9BEV-cNxXu4_wQx8sR2M4_OaW6DEd4=fszALMV0w@mail.gmail.com>
+ <60552bee-3326-4917-b00f-5fb7ba3b8adb@kernel.org> <be77c2cb-6e41-4382-9d2f-cd299f634196@kernel.org>
+ <anCtzQrUkFSSq8De@google.com> <99037993-ee13-4160-8c87-b6642faea554@kernel.org>
+ <CAEvNRgHYhKACDfx9ZZy4a-TTS4yWzEJt=Jc92=eXxS15LPnTYg@mail.gmail.com>
+ <anJbMf5GBe0Pxh_x@google.com> <de780cc3-8c43-46f8-b8e6-3ddfe93d753d@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 17/20] vfio: selftests: Add
- vfio_pci_liveupdate_kexec_test
-To: Vipin Sharma <vipinsh@google.com>, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- Zhu Yanjun <yanjun.zhu@linux.dev>
-Cc: ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com,
- ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com,
- chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net,
- dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com,
- jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com,
- kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com,
- lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com,
- parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com,
- pratyush@kernel.org, rananta@google.com, rientjes@google.com,
- rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com,
- schnelle@linux.ibm.com, skhan@linuxfoundation.org, skhawaja@google.com,
- vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com
-References: <20260714151505.3466855-1-vipinsh@google.com>
- <20260714151505.3466855-18-vipinsh@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
-In-Reply-To: <20260714151505.3466855-18-vipinsh@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Date: Tue, 4 Aug 2026 15:20:41 -0700
+X-Gm-Features: AUfX_mzkFKRHTDQOiQvLQ1e0yQheZQmYXCL22A9YUJawwpQUjT54D9_OoZJNsuw
+Message-ID: <CAEvNRgEOE5oeFVRYYucsCGJaFAQYS1oNRXAwGKzRAyqmoHT9OQ@mail.gmail.com>
+Subject: Re: [PATCH v9 14/41] mm: swap: Introduce lru_add_drain_progressive()
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, Sean Christopherson <seanjc@google.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "hughd@google.com" <hughd@google.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+Suzuki K Poulose <suzuki.poulose@arm.com> writes:
 
-On 7/14/26 8:15 AM, Vipin Sharma wrote:
-> Add a selftest to exercise preserving a vfio-pci device across a Live
-> Update. For now the test is extremely simple and just verifies that the
-> device file can be preserved and retrieved. In the future this test will
-> be extended to verify more parts about device preservation as they are
-> implemented.
+> On 04/08/2026 22:35, Sean Christopherson wrote:
+>> On Tue, Aug 04, 2026, Ackerley Tng wrote:
+>>> "David Hildenbrand (Arm)" <david@kernel.org> writes:
+>>>> Andrew wants to give it some more time in -next, so I'm expecting it to
+>>>> land for 7.3.
+>>>>
+>>>>> 7.2 or 7.3, then I would strongly prefer to base v10 on linux-next (where
+>>>>> the fix will presumably land soonish), and target 7.4 for in-place
+>>>>> conversion. Then v10 can be applied against an early 7.3-rcN and we don't
+>>>>> need to juggle branches (assuming Andrew is ok taking the proposed patch
+>>>>> through the KVM tree).
+>>>>
+>>>> Agreed. We'd also have to get the actual preparation patch into 7.3. I can
+>>>> send it out and coordinate with Andrew.
+>>>>
+>>>
+>>> Thank you!
+>>>
+>>> When we were discussing this earlier at guest_memfd biweekly, before
+>>> deciding to refactor out a function like lru_cache_drain_for_folio(), we
+>>> did say that the likelihood of actually draining in practice is low,
+>>> especially on a machine with heavy load making allocations all the time.
+>>>
+>>> I think the threads with Xiaoyao have resolved, I can put v10 out
+>>> tomorrow. Would it be okay to go with the following from v8, and then
+>>> clean up later when lru_cache_drain_for_folio() is available?
+>>
+>> No.
+>>
+>>> I'm hoping not to push this back by a full cycle to 7.4,
+>>
+>> Sorry, but we've missed 7.3, irrespective of the lru_cache_drain_for_folio() fix.
+>> Even if v10 is perfect, applying tomorrow means it will get ~3 business days in
+>> linux-next before I send pull requests to Paolo.  That's just not enough soak
+>> time for land a 40+ patch series, even if half of those patches are selftests.
+>>
+>>> and also hold back other series dependent on this one.
+>>
+>> Eh, I don't think there will be meaningful impact in practice.  If v10 is good
+>> to go, I'll get it applied on 7.3-r1, and will also get an early pull request
+>> over to Paolo (probably around 7.3-rc4).  I.e. folks can start posting against
+>> the landed series shortly after rc1, and I'll have a set-in-stone base on which
+>> to apply more stuff around rc4/rc5.
 >
-> This test is added to TEST_GEN_PROGS_EXTENDED since it must be run
-> manually along with a kexec.
+> For the record, Arm CCA KVM support depends on this series and that
+> being a big series (around 40+ patches), it is an inconvenience for the
+> Maintainers to make an effort to review the series.  That said,  we are
+> happy with the way this is progressing and next cycle merge for this
+> series would be perfect for us.
 >
-> To run this test manually:
->
->   $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
->   $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1 0000:00:04.0
->
->   $ kexec ...   # NOTE: Exact method will be distro-dependent
->
->   $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
->   $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 2 0000:00:04.0
-Hi, Vipin
 
-Thanks a lot for your help. I followed your suggestion, vfio-pci setup can
-work.
+I saw the exchange on v16 of the ARM CCA series.
 
-The followings are the test result. In the step 3, after kexec, there are
-some fails. I am not sure if these are known problem or not.
+I'm going to make every effort for the conversions series to get into
+7.3-rc1!!
 
-1. Before kexec command
+Sean, for the two attachments you left, did you intend 0001 to be the
+first patch in the conversions series, or separately handled? and 0002
+will replace these 2 patches (in-place, in terms of order), right?
 
-+ modprobe -v vfio-pci
-+ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
-+ echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
-+ echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
-+ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1
-0000:00:04.0
-Preserving device in session
-Preserving memfd of size 0x40100000 in session
-# [STAGE 1] Forking persistent child to hold sessions...
-# [STAGE 1] Child PID: 1236. Resources are pinned.
-# [STAGE 1] You may now perform kexec reboot.
-+ set +x
-
-2. Run kexec command
-
-3. After kexec command
-
-+ echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
-+ echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
-Checking open(/dev/vfio/devices/vfio0) fails  <--- I can confirm that the
-/dev/vfio/devices/vfio0 exists. But open this failed.
-Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
-(vfio_type1_iommu)      <--- fails
-Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
-(vfio_type1v2_iommu).  <--- fails
-Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
-(iommufd_compat_type1)  <--- fails
-Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
-(iommufd_compat_type1v2). <--- fails
-Retrieving memfd from LUO
-Finishing the session before retrieving the device (should fail)
-Retrieving the device FD from LUO
-Finishing the session before binding to iommufd (should fail)
-Binding the device to an iommufd and setting it up
-Finishing the session
-
-# lspci -vvv -s 0000:00:04.0
-00:04.0 Unclassified device [00ff]: Red Hat, Inc. QEMU PCI Test Device
-     Subsystem: Red Hat, Inc. QEMU Virtual Machine
-     Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr-
-Stepping- SERR- FastB2B- DisINTx+
-     Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort-
-<MAbort- >SERR- <PERR- INTx-
-     IOMMU group: 16
-     Region 0: Memory at fea23000 (32-bit, non-prefetchable) [size=4K]
-     Region 1: I/O ports at c000 [size=256]
-     Kernel driver in use: vfio-pci
-
-Zhu Yanjun
++ "KVM: guest_memfd: Introduce function to check GFN private/shared
+  status"
++ "KVM: guest_memfd: Wire up core private/shared attribute interfaces"
 
 >
-> The second call to setup.sh is necessary because preserved devices are
-> not bound to a driver after Live Update. Such devices must be manually
-> bound by userspace after Live Update via driver_override.
+>>
+>> And if v10 has issues, then *not* rushing it into 7.3 will likely be the fastest
+>> path forward.
 >
-> This test is considered passing if all commands exit with 0.
+> Absolutely !Like any work, if it is not ready to merge, it is not.
 >
-> Co-developed-by: David Matlack <dmatlack@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> ---
->   tools/testing/selftests/vfio/Makefile         |  4 +
->   .../vfio/vfio_pci_liveupdate_kexec_test.c     | 89 +++++++++++++++++++
->   2 files changed, 93 insertions(+)
->   create mode 100644 tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
->
-> diff --git a/tools/testing/selftests/vfio/Makefile b/tools/testing/selftests/vfio/Makefile
-> index 591f1a52c310..a2f0a459e1f4 100644
-> --- a/tools/testing/selftests/vfio/Makefile
-> +++ b/tools/testing/selftests/vfio/Makefile
-> @@ -15,6 +15,10 @@ TEST_GEN_PROGS += vfio_pci_driver_test
->   TEST_GEN_PROGS += vfio_pci_sriov_uapi_test
->   TEST_GEN_PROGS += vfio_pci_liveupdate_uapi_test
->   
-> +# This test must be run manually since it requires the user/automation to
-> +# perform a kexec during the test.
-> +TEST_GEN_PROGS_EXTENDED += vfio_pci_liveupdate_kexec_test
-> +
->   TEST_FILES += scripts/cleanup.sh
->   TEST_FILES += scripts/lib.sh
->   TEST_FILES += scripts/run.sh
-> diff --git a/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-> new file mode 100644
-> index 000000000000..15b3e3af91d1
-> --- /dev/null
-> +++ b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-> @@ -0,0 +1,89 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <libliveupdate.h>
-> +#include <libvfio.h>
-> +
-> +static const char *device_bdf;
-> +
-> +static char state_session[LIVEUPDATE_SESSION_NAME_LENGTH];
-> +static char device_session[LIVEUPDATE_SESSION_NAME_LENGTH];
-> +
-> +enum {
-> +	STATE_TOKEN,
-> +	DEVICE_TOKEN,
-> +};
-> +
-> +static void before_kexec(int luo_fd)
-> +{
-> +	struct vfio_pci_device *device;
-> +	struct iommu *iommu;
-> +	int session_fd;
-> +	int ret;
-> +
-> +	iommu = iommu_init("iommufd");
-> +	device = vfio_pci_device_init(device_bdf, iommu);
-> +
-> +	create_state_file(luo_fd, state_session, STATE_TOKEN, /*next_stage=*/2);
-> +
-> +	session_fd = luo_create_session(luo_fd, device_session);
-> +	VFIO_ASSERT_GE(session_fd, 0);
-> +
-> +	printf("Preserving device in session\n");
-> +	ret = luo_session_preserve_fd(session_fd, device->fd, DEVICE_TOKEN);
-> +	VFIO_ASSERT_EQ(ret, 0);
-> +
-> +	close(luo_fd);
-> +	daemonize_and_wait();
-> +}
-> +
-> +static void after_kexec(int luo_fd, int state_session_fd)
-> +{
-> +	struct vfio_pci_device *device;
-> +	struct iommu *iommu;
-> +	int session_fd;
-> +	int device_fd;
-> +	int stage;
-> +
-> +	restore_and_read_stage(state_session_fd, STATE_TOKEN, &stage);
-> +	VFIO_ASSERT_EQ(stage, 2);
-> +
-> +	session_fd = luo_retrieve_session(luo_fd, device_session);
-> +	VFIO_ASSERT_GE(session_fd, 0);
-> +
-> +	printf("Finishing the session before retrieving the device (should fail)\n");
-> +	VFIO_ASSERT_NE(luo_session_finish(session_fd), 0);
-> +
-> +	printf("Retrieving the device FD from LUO\n");
-> +	device_fd = luo_session_retrieve_fd(session_fd, DEVICE_TOKEN);
-> +	VFIO_ASSERT_GE(device_fd, 0);
-> +
-> +	printf("Finishing the session before binding to iommufd (should fail)\n");
-> +	VFIO_ASSERT_NE(luo_session_finish(session_fd), 0);
-> +
-> +	printf("Binding the device to an iommufd and setting it up\n");
-> +	iommu = iommu_init("iommufd");
-> +
-> +	/*
-> +	 * This will invoke various ioctls on device_fd such as
-> +	 * VFIO_DEVICE_GET_INFO. So this is a decent sanity test
-> +	 * that LUO actually handed us back a valid VFIO device
-> +	 * file and not something else.
-> +	 */
-> +	device = __vfio_pci_device_init(device_bdf, iommu, device_fd);
-> +
-> +	printf("Finishing the session\n");
-> +	VFIO_ASSERT_EQ(luo_session_finish(session_fd), 0);
-> +
-> +	vfio_pci_device_cleanup(device);
-> +	iommu_cleanup(iommu);
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	device_bdf = vfio_selftests_get_bdf(&argc, argv);
-> +
-> +	sprintf(device_session, "device-%s", device_bdf);
-> +	sprintf(state_session, "state-%s", device_bdf);
-> +
-> +	return luo_test(argc, argv, state_session, before_kexec, after_kexec);
-> +}
+> Cheers
+> Suzuki
