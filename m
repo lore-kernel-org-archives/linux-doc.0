@@ -1,136 +1,175 @@
-Received: from va-2-49.ptr.blmpb.com (va-2-49.ptr.blmpb.com [209.127.231.49])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD6A4028EE
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 15:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785857489; cv=none; b=EGzbaiqikhd+QTYWKa8ZYfAH05DxiQ00+43VFOjxrOoXiRLBlfOSVBQRl2vdB9rJ/GEvrsUmN1QgMN9hylJRJFCVpEhiFGFzgOVQb+RzFUYF0GwmKNNHLTLd17l2K5MEGt1x5WnvnyIRyn2c8AuuOlD3g95dhJcGH1duoYyAPcM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785857489; c=relaxed/simple;
-	bh=by/fcGncfc5OCuRW9skgJuC6t1LUujBBm0TnhfUwb/o=;
-	h=From:Content-Type:Mime-Version:In-Reply-To:Cc:Subject:References:
-	 To:Date:Message-Id; b=m4qbyhWIk52jO6sInC5j9tS7QXTGdSSHjq9RohyWfLt+ygOK+kFdOVZfQQ75gDgYhz8w6OT6o3EY7N2RGAGbfEsf8D/NJyAQgUuLu443cXCCim6yvJwxAadbHGpQ97RspJRhrQa+HBSgVzeW8/naGZIlxVgZ5kHuGZ9qtRABjTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=mtezs2ti; arc=none smtp.client-ip=209.127.231.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E09E46AF1B
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 15:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785857999; cv=pass; b=f+J3aEJwSvE9QT98i6hLT3hHC0Jx6HOe2mz8v7lEKZTqphmiysmTOMmQVYTNsyyv0ei9//Sr+KdH9+6ugoIHXA6g/cwQHo6uWbgDdwA14r1Deo7swRBRAR9d4iqtdC0ybPIL4qErdMYJowtmBLSUDLSru+rJ+NpFCUKd6NfOlRA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785857999; c=relaxed/simple;
+	bh=3oWNFp8mlmM3sK5SQC2KqwSAdHvsMlVK7v6l4lJqdEI=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ua8JGQKS1TTgGwGDKJ4VkHA+ZZkhG/2M8/LUQ7GJ0p0ZqE/fQKpfL8tv744/Rw9Z7nDV0rqdEuKcCWxDy4qFrCUrmO85/2p6bn5R9AeT9pXMCVapxuGVTr4irPY3qffonvNzj4hcBbMETee+YVCQIgNmSbjROH1YqszFFQiEvuA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=u8Kqbe+8; arc=pass smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="mtezs2ti"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1785857470;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=LX/Wg0tks/cc/fTlAyp1t5QsfNTLQnLsZm1iWKs61Hs=;
- b=mtezs2tiGfiYGQM344FBrDuxsSqwGDs7vd7+Mox4PVZMESzeEsvUYpUWyMpTlb2ymyfHZL
- ZzHgwC40uWHJvGkMfRZ33/sBA+WkDz4VMKVpF9RbGOnwPR45+S4V2kbxbo7wxHyVFFm+BO
- pditTjuxUFEshDgAdKF9cP/QDuapaDBwwR5x6WfRHSpEEwmZmrRdQ8vOya1i/CteT9gwm6
- ie7lAzSco3RIlVCiNYV6IDaGDgu76PtRajsacfn5gitEjF1YlBecs+sx2ENxWy/SeUNdmH
- lSvbw4ZcIEBnMd782fPXigNr0AcMKkzx6bOkf+o+HhwF5pk+91/BfEaCpq/EbA==
-From: "yu kuai" <yukuai@fygo.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Reply-To: yukuai@fygo.io
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u8Kqbe+8"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so3267189a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 08:39:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785857989; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aTfydTeSVevEElNnKCZMug0E3U6OXAp2ZjekECMRecqG2kNZbSsIa3nzAavTb6dpnR
+         5XAjwWzeInAUCJf+qQA+BZcptDKWaIG6whlDJdzPjVu966L8qOn+4wBsQf4+IZ4L+ymo
+         CLKiC6zfJB2aFPgw30Pg5zp0J93pKBxh0/a7PoZo0Y7/vPD6e0QfJ2HtjiZWZgoXLbiq
+         Lk49D1LhGnKyOODwP5GlN3e1QjZ+XuSPO0jElQ1odkPTnz/ydpBKchn+NMDWfOpMhxg1
+         nNdWkzEG60XYnw1HssB1Tp036oiVbwG+Bv+a1dOjy9j/hAznUBgpf9v8TcVQiCXFi+ko
+         /ncA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=CroU6+PYSvOtV4uy1av7nC/Q1rK5iyolsTF+JTm0nJU=;
+        fh=rO9ulBEU8jFH19KC2aq+fHnCu7RCIKeaY8BTloBtf4c=;
+        b=PmBV2A259jL+wwE0zAMb3VvS2aecagOf0mKKIZAEtLb/AF4Eh3iJqlNwj+4Bs2VEcT
+         xqox6VHif8kmVL9yGnpVd5Ds+l9CJ7Ys+qss96ldr+Hd4bxjYXkdYcNGF6QVE3TD/3XU
+         rGTfA3sNUv12dSf14FSfd8r+wMq8IC2cGptUNJTnnz7ZKR0f4khjGQag5u92nrGjf5jB
+         +ZaJY4dDUVlRo0hoVQUwS0mrFFKw7n9NZHBq//JNColW9z2J26RvYjlsEDYjI17uehOQ
+         Rp5hyqbq+LvEhDJVszH+Ta2gVgoEcgtO0bLoi0SMcEcCJjj0ipKiST0jcgaFFZCaDsBA
+         bz1A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785857989; x=1786462789; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CroU6+PYSvOtV4uy1av7nC/Q1rK5iyolsTF+JTm0nJU=;
+        b=u8Kqbe+8NUGx9yefTwTAvANAItwU6yEEGFtaF1wptzb3NCfl/HzgNPdrrKzF+QZPyO
+         qR2u7GnHAczFSGMxmu6RTivLrLESjLA6OcOIxReAP9at23zOfbu276qpd5NXebYcqTHA
+         5N8K/OoH4gPX6399D+5ml7KSo3wNwYoSnMp/TiyNx1wFTWwJjIDfZUmJLvmOiqvMoXaq
+         PV7jv6yblCt43N8A0QooLDkpvyGjlDlm4fFsN1RXKiXEpq8PzBqPKZHZ+22AjIlEmXOF
+         FMh1HQ4kc6jxGPgaZJqsu/nRxDxYvTkJUY9S6qVhyXd3fjEH+qC+jhzuO6k67htlAucv
+         cH1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785857989; x=1786462789;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CroU6+PYSvOtV4uy1av7nC/Q1rK5iyolsTF+JTm0nJU=;
+        b=VJGpXhPUdeJwApi6CQgwgIjXd9Q2O3RbdD4Uvh18tcZ4PlS0bMODUDtx3lfPLtuOAK
+         WbPmans3XcDHyHqSk7oMrnT8VeyJgIHPVptLuTogRo2YmLVK6EOy67yFvwVfYtcZQCcd
+         FX691lkNq6oaVsGWYrbDqdn9RFog2+FHC73M1z4BhGqAMcXdYW2dWcallKgL6WWN6Wf6
+         efSI8WTyQcLX+/PXoAO33X5QVG9gdNoq1uLVTzbBTiF6sLfk9+zGLoVGV8NrpbGmZtJa
+         R9nr2VXuSYpthB5/YOHvlPpUX1DcA8XKoB9hpd2aoHgIM3eU6/yFzym8l0gGs3HihJBT
+         kt0g==
+X-Forwarded-Encrypted: i=1; AHgh+Rr2Ijf1J8+eIKlh5UJ5JOscK5ocB9RiqBQWzLqf7ccLegx81VEiLZ8Aqhr1cy13IQk67trepbX8Ssc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbSdAqLWYmwGfqvkItteg39TuXBM2onXdVSkFiDVt97+SJBiWg
+	we+TX4Zgt+dOXRyIqHdvKJfonvxhSkJvBKHKviddO0ujbghZ6Vgp6tcLu98IOk0EsSk5yjP+RoB
+	fttFyQJ9IrLDhmSs0jdyUfhKZlzKAJ5MuaKku1z1E
+X-Gm-Gg: AR+sD13TG0lVRgTJVUPnhm8KFI4gfjj0NDJYz8/VkyWIUH5jHByuxLOPzNhFnC2Cwht
+	JxA1G/ZTThKpoHzbhGqArv82qfnCGClWvkdZnlm9ehUcyoA2D4scsC8hCkIDLywrq1wB8moX6t5
+	dPH2R/YmW7zmrdn80SDEpAocEM4W16k2MFfN3neySGMp97t8ye9Rpzi77RPTbY1iK6+1BouvpBP
+	jFDUmDBRK8P5MT26ZpIxhqPivCnkdWwJYAxp3CSDjCm3S11ZsaAv7ZSIrx3liva3ozNxNgIlBKa
+	uJRoT+/PD1FOp/oyP5EE3sl+j++WY+TIefwQH2iZAV7wTrqsHjXPe/kdZxT1Tgkint1k5SMkQ0p
+	OCNEPMl4txG4=
+X-Received: by 2002:a17:90b:1c8e:b0:38f:1a80:d1e7 with SMTP id
+ 98e67ed59e1d1-3903c596de7mr90484a91.13.1785857988201; Tue, 04 Aug 2026
+ 08:39:48 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 4 Aug 2026 08:39:47 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 4 Aug 2026 08:39:47 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <7f23d149-b7f0-465a-a9c0-5c7484e289d2@intel.com>
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
+ <20260728-gmem-inplace-conversion-v9-20-35f9aec2aed2@google.com> <7f23d149-b7f0-465a-a9c0-5c7484e289d2@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Original-From: yu kuai <yukuai@fygo.io>
-In-Reply-To: <20260804133208.GB8078@lst.de>
-User-Agent: Mozilla Thunderbird
-Cc: "Yu Kuai" <yukuai@kernel.org>, "Jens Axboe" <axboe@kernel.dk>, 
-	"Tejun Heo" <tj@kernel.org>, "Johannes Weiner" <hannes@cmpxchg.org>, 
-	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	"Jonathan Corbet" <corbet@lwn.net>, "Josef Bacik" <josef@toxicpanda.com>, 
-	"Coly Li" <colyli@fygo.io>, 
-	"Kent Overstreet" <kent.overstreet@linux.dev>, 
-	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
-	"Mikulas Patocka" <mpatocka@redhat.com>, 
-	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
-	"Dan Williams" <djbw@kernel.org>, 
-	"Vishal Verma" <vishal.l.verma@intel.com>, 
-	"Dave Jiang" <dave.jiang@intel.com>, 
-	"Alison Schofield" <alison.schofield@intel.com>, 
-	"Pankaj Gupta" <pankaj.gupta.linux@gmail.com>, 
-	"Andreas Gruenbacher" <agruenba@redhat.com>, 
-	"Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, 
-	"Andrew Morton" <akpm@linux-foundation.org>, 
-	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
-	"Nilay Shroff" <nilay@linux.ibm.com>, <cgroups@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-block@vger.kernel.org>, <linux-bcache@vger.kernel.org>, 
-	<dm-devel@lists.linux.dev>, <linux-raid@vger.kernel.org>, 
-	<nvdimm@lists.linux.dev>, <virtualization@lists.linux.dev>, 
-	<gfs2@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
-References: <20260804065313.2092022-1-yukuai@kernel.org> <20260804065313.2092022-3-yukuai@kernel.org> <a677f581-344b-4d99-846d-a00801e26033@linux.dev> <20260804133208.GB8078@lst.de>
-Received: from [192.168.1.104] ([39.182.0.181]) by smtp.larksuite.com with ESMTPS; Tue, 04 Aug 2026 15:31:03 +0000
-To: "Christoph Hellwig" <hch@lst.de>, "Tao Cui" <cui.tao@linux.dev>, 
-	"yu kuai" <yukuai@fygo.io>
-Date: Tue, 4 Aug 2026 23:30:55 +0800
-Message-Id: <0fc5dd22-7a8d-43f0-8555-d2ca966efff6@fygo.io>
-X-Lms-Return-Path: <lba+26a7205b8+e473bc+vger.kernel.org+yukuai@fygo.io>
+MIME-Version: 1.0
+Date: Tue, 4 Aug 2026 08:39:47 -0700
+X-Gm-Features: AUfX_my5tJzuKxcHX_DSDai20MF8F8MLGyTCXlBPRZTIfOOy8MGvwUJsA-dI9HA
+Message-ID: <CAEvNRgErZqaLPpBveBd2VxdrS_8mjMbArL_=AhzMdikXmUU5VA@mail.gmail.com>
+Subject: Re: [PATCH v9 20/41] KVM: Let userspace disable per-VM mem
+ attributes, enable per-gmem attributes
+To: Xiaoyao Li <xiaoyao.li@intel.com>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-
-=E5=9C=A8 2026/8/4 21:32, Christoph Hellwig =E5=86=99=E9=81=93:
-> On Tue, Aug 04, 2026 at 05:19:24PM +0800, Tao Cui wrote:
->> While reading 2/3, one spot in bio_pinned_blkg() made me wonder, so I
->> gave it a try =E2=80=94 and the WARN_ON_ONCE triggers every time for me.
->>
->> I may well be missing something, but my worry is that the bio's ref on
->> the blkg keeps the object alive, not its entry in the radix tree.
->> blkg_destroy() runs throtl_pd_offline (which only schedules an async
->> flush) before radix_tree_delete(), so the queued bio ends up dispatched
->> (blk_throtl_dispatch_work_fn -> blk_cgroup_bio_start ->
->> bio_pinned_blkg) after the blkg is already gone from the tree, and
->> blkg_lookup() returns NULL.
->>
->> I applied the series and wrote a small reproducer:
->>
->>    - null_blk, cgroup v2, a child cgroup with io.max rbps=3D4096;
->>    - a read issued in the child cgroup gets throttled and queued, pinnin=
-g
->>      the blkg;
->>    - migrate the reader out and rmdir the cgroup; the queued bio is then
->>      flushed after the blkg has left the tree.
-> Can you add this to blktests?
->
->> Maybe keeping the pinned blkg pointer in the bio would sidestep this, so
->> the lookup can't miss?
-
-The problem here is that blkg_destroy can be called while blkg is still pin=
-ned
-by blkg_get, in this case remove the cgroup directly remove the blkg from r=
-adix
-tree, that's why blkg_lookup can't find this blkg anymore, and the extra bl=
-kg ref
-is leaked :(
-
-> That would grow the bio, which we try hard to avoid.  I think the way to
-> avoid this is to have active/passive refcounts on the blkg, where an
-> active one keeps it in the radix tree, but a 0 passive one would prevent
-> the caller from getting a new reference to it.  The users who rely on the
-> pin for the I/O completion path would then just keep the active reference
-> and use a pure lookup without getting a new passive reference in the
-> completion path.  This would remove the need for BIO_BLKG_REF which
-> feels a bit kludgy and eats up precious bio flag space.
-
-The problem here is that remove a cgroup can also remove the blkg from radi=
-x tree,
-even through it still has active refcounts. I think this can be fixed by ch=
-ecking
-the cgroup online_pin first, if it's zero, we can search the blkg from the
-request_queue blkg list, where blkg will not be removed until blkg_free_wor=
-kfn().
-What's better, if we can convert the blkg list to hash table with key as bl=
-k-cgroup,
-it will be much better as we can lookup from this table instead of blkcg ra=
-dix tree.
+Xiaoyao Li <xiaoyao.li@intel.com> writes:
 
 >
---=20
-Thanks,
-Kuai
+> [...snip...]
+>
+>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>> index ea2752989f8bd..df67a6188aa99 100644
+>> --- a/virt/kvm/guest_memfd.c
+>> +++ b/virt/kvm/guest_memfd.c
+>> @@ -1137,10 +1137,12 @@ static bool kvm_range_is_private(struct file *file, pgoff_t index,
+>>   {
+>>   	struct inode *inode = file_inode(file);
+>>
+>> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>>   	if (!gmem_in_place_conversion)
+>>   		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
+>>   							  KVM_MEMORY_ATTRIBUTE_PRIVATE,
+>>   							  KVM_MEMORY_ATTRIBUTE_PRIVATE);
+>> +#endif
+>>
+>>   	return kvm_gmem_range_has_attributes(inode, index, nr_pages,
+>>   					     KVM_MEMORY_ATTRIBUTE_PRIVATE);
+>
+> With my suggestion[1] on patch 7, this diff block can be dropped.
+>
+> [1]
+> https://lore.kernel.org/all/dd4201f2-3660-46ad-958f-c70feb1ab1c3@intel.com/
+>
+> The code looks good to me,
+>
+> Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+>
+
+I think your earlier suggestion on only defining the module_param when
+CONFIG_KVM_VM_MEMORY_ATTRIBUTES is selected still applies, since it
+removes an avenue for a user to turn off gmem_in_place_conversion if
+the other option (VM memory attributes) isn't available.
+
+  +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+  +module_param(gmem_in_place_conversion, bool, 0444);
+  +#endif
+
+Given that we're now dropping the diff block as you suggested, do you
+agree that we should keep this #ifdef?
+
+>>
+>> [...snip...]
+>>
