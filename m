@@ -1,162 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2C54582CE;
-	Tue,  4 Aug 2026 11:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392ED37F317;
+	Tue,  4 Aug 2026 11:47:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785841376; cv=none; b=AuJITGNn1rcNo/t/IP31R9+ARhzVM5IdVziQsj5ukIOqu2Xp1vupCZ3xAlSkpN149Zyv+dSuTwcyEaQU4Awu40DnOm3/GOA/O5Eg9i3WG1JdlNrZJto9j5FaCrwSkt15GqgnuS6fgndDfQcoXnK0vgtludJCBWR5Lp0tO3EZ5y8=
+	t=1785844056; cv=none; b=BdW5XJPf4GK7hbMKxMuDwrjSWEGrFUTEpmVbpG9cxiDEvUmlf9lrI6/FO8C/jAnRS9WBqTLIzjchayGdvni9q73O70W+CLBuNgwDRMEWr+HI4He7+OKpe0B/u2uImS886/+nx/CHql/AO0Gmr8/giTrjGUfauBQanSngNw0zvOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785841376; c=relaxed/simple;
-	bh=lyqjcOKj4E5UAuM5fElK/TZO74N5BmACWR9xgzo3DVE=;
+	s=arc-20240116; t=1785844056; c=relaxed/simple;
+	bh=/aLADYUHbzdPB/rxjzUy7ZoYtsk8Y54o1w7CyE+cffc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dw02L7AnpPdSOANsZwNt8ot6ULjR1N5g4H5CEGIDsq0biI+s/18VNM754Cpltl6ePkarW5QCRfzkMPyR3SGbXDBvZIGTxYyHd0+PreE5la0Lawpd7feNJkcqCjmtaNowEMWrEKKAP7BFgkk2DrQ6/EDeZ35955XgXl8rPMbirNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UFGQem5o; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=shukgkmoKyFtdWaUqwddF6gb37xJuEskYVQM8RWbi6A3XGAGbQXzMHTOecNG7F4HiF1dtfSdMrIBSz+yHpk0GvaIQY0EcjesQx3nVwrXkAsPDCqzTNd85FVUmIGf88k8482OAztyC+o7+SkD4RdfJau4xqyPCeZ2/N9mO/05l0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxbUhdZB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UFGQem5o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50DC11F00A3E;
-	Tue,  4 Aug 2026 11:02:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxbUhdZB"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5A9BD1F000E9;
+	Tue,  4 Aug 2026 11:47:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785841374;
-	bh=pzVNG75jEMMbJL9B6jQVIbPoktae5dE9O/0HZigYuYQ=;
+	s=k20260515; t=1785844054;
+	bh=qnG7ioML9pnbleihEkIPHjMMg9P5H3fvGYFuWEZU2I4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UFGQem5o1Jsij4bIFuEwLH+baDq9qDffNNDDjSz3q55QjVUda1ixf+1JtuFuPN1Se
-	 Fs4jTE2ir3jhW56PbXbXWKMxrikSXqdJI2bTJ94leE+KKdDf+d+CuUTBu7BzV3yMqd
-	 Lvd0oQF4qzWmEZWZogA8ULpf6yeUjX24l61llNS5OCsURvIudwlbhhSs0LngHSYFbB
-	 R2xTJT8RXGHMT0VossM2XFQ7W0c6ZArsbYXzYIeYmfCUT0nu0WfcVz5LfBncNcT+Rr
-	 YxzM12jqjckU4KHWXDR+bSla9Nk0nLRa1mAGAUD4iu7hGrwS5hlGgskaSD6xX9LL1O
-	 3vQAs2w3TguKQ==
-Date: Tue, 4 Aug 2026 12:03:13 +0100
-From: Jean-Philippe Brucker <jpb@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Ryan Roberts <ryan.roberts@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v1 2/8] misc/arm-cla: Add launch operation helpers
-Message-ID: <20260804110313.GA733232@myrica>
-References: <20260717104759.123203-1-ryan.roberts@arm.com>
- <20260717104759.123203-3-ryan.roberts@arm.com>
- <5049af19-47c4-4ab5-bb4d-6b3cd54ad75c@app.fastmail.com>
+	b=lxbUhdZBm8Vf8NsFulA7P6V5eoN3d2Lsx4KjgALMkThhvJefcwcUZivrfOxA7KZUH
+	 RBvancpbaUnPm1wJUJ6K5hmd5KuIrg6T/Rod06/iX6E58ceKshWWSLc7WfFQTSQrqP
+	 ZWLgjTnuc2t57E9iKMtBA0cMp/ubEDIdV4Vi93DZfmd/Ec//6Q9sJynTKWGHVKeW4F
+	 M/XWdbVgSHJ3Gwr2RlIx1Fs4mRcNPi3r4QHHtr3szYgNdyUsyyoJYt6SihdTovLukw
+	 R+8vBttONSlPvcToRWkFHfHueFfxnDxRxA9TMfgFOFB+3pkkVt9dRkuS8A9AWpvKS5
+	 PSWqgmW0Y93ww==
+Date: Tue, 4 Aug 2026 13:47:16 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, arnd@arndb.de, stefan.hengelein@fau.de,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, nico@fluxnic.net,
+	officialnaumansabir@gmail.com, rdunlap@infradead.org,
+	vegard.nossum@oracle.com, kees@kernel.org, tj@kernel.org
+Subject: Re: [PATCH] Documentation: warn users not to use select on choice
+ options in Kconfig
+Message-ID: <anHRRDliJ777LnhB@levanger>
+Mail-Followup-To: Julian Braha <julianbraha@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, arnd@arndb.de, stefan.hengelein@fau.de,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, nico@fluxnic.net,
+	officialnaumansabir@gmail.com, rdunlap@infradead.org,
+	vegard.nossum@oracle.com, kees@kernel.org, tj@kernel.org
+References: <20260715220149.48700-1-julianbraha@gmail.com>
+ <am-W4tuI0k7MKXVP@levanger>
+ <30650585-9d4d-4771-af7c-7c3908281719@gmail.com>
+ <20260803174736.GA1067866@ax162>
+ <58a8c7fe-378e-44be-80d1-01479c425f5a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5049af19-47c4-4ab5-bb4d-6b3cd54ad75c@app.fastmail.com>
+In-Reply-To: <58a8c7fe-378e-44be-80d1-01479c425f5a@gmail.com>
 
-On Fri, Jul 17, 2026 at 02:16:36PM +0200, Arnd Bergmann wrote:
-> On Fri, Jul 17, 2026, at 12:47, Ryan Roberts wrote:
-> > From: Jean-Philippe Brucker <jpb@kernel.org>
-> >
-> > CLA commands are issued by writing optional payload registers,
-> > programming the LAUNCH register and polling LRESP until the hardware
-> > accepts or rejects the operation.
-> >
-> > Add a common launch helper that performs this sequence on the CLA's
-> > local CPU, waits for LRESP completion and translates launch response
-> > codes into Linux errors.
-> >
-> > Build accelerator reset and register read and write support on top of
-> > it. The register read and write helpers split larger accesses into
-> > multiple launch operations when an access crosses an eight-register
-> > window.
-> 
-> I'm a bit confused by the MMIO register access ordering, if this is
-> not a normal AXI attached device with a DMA master, I think it
-> would make sense to better document what it is.
-> 
-> > +static inline u64 cla_reg_read(struct cla_dev *dev, off_t reg)
-> > +{
-> > +	return readq_relaxed(dev->regs + reg);
-> > +}
-> > +
-> > +static inline void cla_reg_write(struct cla_dev *dev, off_t reg, u64 
-> > val)
-> > +{
-> > +	return writeq_relaxed(val, dev->regs + reg);
-> > +}
-> 
-> For regular devices that have a DMA master, you cannot use
-> the relaxed operations by default since they do not serialize
-> against DMA transfers.
-> 
-> To do this properly, you'd have to define separate cla_reg_read()
-> and cla_reg_read_relaxed() helpers and then use them as needed,
-> ideally with a comment for each relaxed instance to explain why
-> that one is both performance critical and safe.
-> 
-> If for some reason this accelerator is not a DMA master (e.g.
-> because it is implemented through CPU microcode and accesses
-> the memory through the CPU's own load/store unit), that should
-> be documented here to explain that you are relying on
-> implementation defined behavior outside of the normal driver
-> and memory model.
+On Mon, Aug 03, 2026 at 07:26:28PM +0100, Julian Braha wrote:
+> On 8/3/26 18:47, Nathan Chancellor wrote:
+> > It looks like number 4 has been picked up as well. Given that we only
+> > need three more patches to be accepted to turn this into a hard error, I
+> > think it would be better to hold off on taking the documentation patch
+> > and just push for the hard error next cycle. If these patches are not
+> > applied to other trees before 7.3-rc1, we can ask to take them via
+> > Kbuild with Acks and/or stable branches for 7.4.
 
-Good point, this needs better comments. The kernel driver doesn't use any
-DMA so the accessors can all be _relaxed. The userspace library, which
-does use DMA and MMIO, needs to insert memory barriers when programming
-the device.
+sounds good.  I'll prepare a patch for the hard error.
 
-It's possible we are missing barriers in the context switching path, but
-I don't think we need any. The driver forces accelerators to idle which,
-in this hardware, guarantees that all DMA initiated by previous user is
-complete, and no DMA will be issued until we return to user after
-assigning a new context. We don't touch the user buffers but for the page
-table walker, the barriers in the arch mm code should be sufficient.
+> All good on my end, we can drop this patch.
+
+thanks, removed commit 63dad1769941 ("Documentation: warn users not to
+use select on choice options in Kconfig") from kbuild-next-unstable.
 
 > 
-> > +	/*
-> > +	 * No barrier needed because accesses use Device-nGnRE, within the 
-> > same
-> > +	 * memory-mapped peripheral, so accesses arrive at the endpoint in
-> > +	 * program order.
-> > +	 */
-> 
-> This comment in turn looks completely useless, as that is true
-> for any MMIO device. The only barriers that you'd normally need
-> here on sane architectures (not Alpha) are to serialize MMIO
-> against DMA.
-> 
-> > +
-> > +	if (launch->data_mode == CLA_DATA_OUT)
-> > +		for (i = 0; i < launch->ndata_m1 + 1; i++)
-> > +			launch->data[i] = cla_reg_read(dev, CLA_REG_DATA(i));
-> 
-> Instead of the open-coded loop, maybe this can be built
-> on top of __iowrite32_copy()
+> - Julian Braha
 
-Ah yes, __iowrite64_copy() should work here (reg accesses must be 64-bit).
-
-> 
-> > +/**
-> > + * cla_op_wait_lresp - Wait for any LAUNCH op to complete.
-> > +int cla_op_wait_lresp(struct cla_dev *dev, u64 *lresp)
-> > +{
-> > +	return readq_relaxed_poll_timeout_atomic(dev->regs + CLA_REG_LRESP,
-> > +			*lresp, FIELD_GET(CLA_LRESP_PENDING, *lresp) == 0,
-> > +			CLA_LRESP_DELAY_US, CLA_LRESP_TIMEOUT_US);
-> 
-> Similarly, the readq_relaxed_poll_timeout_atomic() specifically
-> does not wait for DMA, so you may need separate helpers for
-> devices that can do DMA and readq_poll_timeout_atomic() vs devices
-> that never access memory and can use the relaxed version.
-
-This does not wait for DMA, only for the LAUNCH command issued with MMIO
-to complete.
-
-> 
-> You may also need a non-atomic version, as blocking the CPU
-> for 100µs is not great for realtime workloads.
-
-Agreed
-
-Thanks,
-Jean
+-- 
+Nicolas
