@@ -1,203 +1,523 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673DB44BCAF
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 10:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7DB44D01F
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 10:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785840323; cv=none; b=f6w/7RLWetZ9dLhCxeHjrJilO2ACkEeX2M1jRHMXrZRQAg7yRWbw71BaUdbDkvFWT+ChweAwVpET7IlEO2f+ip9honQrco7Okj18OgJtPtxHVcfr4gWReihDSHRaIyKWXd8PJU6+ZiJrApuJ/d1Z0OVwx+br2Z3/+5XmHej9QsQ=
+	t=1785840753; cv=none; b=kC8JCmqsmsQZgp6ioniJcpxUGBvj+MBfT1ecLo7dHVglkAjFWQoO1FdJVoUcAny0qQJM72zhyMxli+gr1zezy8Ijhx4qlVnm+Mo5L6TKkL6FIru5UQu7f9CskJk2TGklSM4DY6qON0fcRfQy3SLaHTE0aLUAVCDzgFDIc9lOUD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785840323; c=relaxed/simple;
-	bh=wLrvAGZ7jOnunflkcxAE6oQVsM5m+51uOLvAKd26H/0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dJGcnPNJkbAl4Y9Tq0AF1EKWomyhUPQeZe963lSUNG8y+RDtNHa8GjzimryK/kdLiTXrpgDrTKIQayNL+vg4HnJGvvzAvgfhdltB5w2wdRamcDDGXj4IOZYDnzD4eonPPzKTjdx0jHGh4ILalqf3SV1j5B3NPQq/gNPG/7zJJOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NU08A3+j; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=lm5/6Ctj; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785840753; c=relaxed/simple;
+	bh=CIkB7Fq0Wg1b7+56ASqIt9EC8jylOw3X85as1126IFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M+DgKl2vDub4gnzm/jiL6gwusWNsbacf/Vn+6Hnn/U0ej4IOkUti/4xxr1V8RrVxcn9kNSpPT6mBwThuyzwhIPzj1qtRVNzmNlSvIevoIXXCr7s4s0ORFZL0XBN9n5bXA77mAKoZBdIjsk+bxyMv4IllD8VavIBWZQjCc86rjnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fmfNYzjB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=b7wjcnyJ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=y1C6LIc/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8v/5kBe1; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NU08A3+j";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="lm5/6Ctj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785840321;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wLrvAGZ7jOnunflkcxAE6oQVsM5m+51uOLvAKd26H/0=;
-	b=NU08A3+jOE2C385WGjmCO35IH3Cl5nv+RWpPyWx3yRxhGVCdc00IrBBikORf2fc9DuF48j
-	pTf/RcG/BNJnX0L5XHCaJKwQdyDWmh2Q8ab8GKJmH/90JsYcu3LTWxqb8qv2uP+3VtTBlj
-	DiE3g9Zm1FDuBdaDTP4ubDbtEBTb4Js=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633-_VbsQ_VaNr2xvOy4yE99Gg-1; Tue, 04 Aug 2026 06:45:19 -0400
-X-MC-Unique: _VbsQ_VaNr2xvOy4yE99Gg-1
-X-Mimecast-MFC-AGG-ID: _VbsQ_VaNr2xvOy4yE99Gg_1785840318
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-496b6f97676so34255735e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 03:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785840318; x=1786445118; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wLrvAGZ7jOnunflkcxAE6oQVsM5m+51uOLvAKd26H/0=;
-        b=lm5/6CtjBCwZWJpZbOhC+UrSis1+yQ1q/kxQ6vl/O/auLifuUZCi5agWPwmtVKTW5x
-         da0Gi7yuVWqwnMfnTg9tC6TRbYv4/l7fHEjNL+xzPE5Lz26Xd82W+BjU+3Spu2W3l35V
-         ylOzJP6G7CCRoTA7RxXgs0lZd1aYWRm8rTi1AT6bSD0lsrExicmql23X26v7Gz7rsr55
-         mZGorFjsIwhLB2tupspX3PzwdNJN4r+UuvpIQ63HEAXCzPady/Tgj+oPnqF8Ou0WhrfX
-         RCuhR8TDRyChnfX9Qv2nJv9jNXyWmfEIm/7yZuy7fqSa9VT7VevL3kjNu9GgZ41/Hgvn
-         Vhkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785840318; x=1786445118;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=wLrvAGZ7jOnunflkcxAE6oQVsM5m+51uOLvAKd26H/0=;
-        b=eIeYjp94dXN7fGM9qmyD6BbyWgu0ijThmcL2tMdwjJoGC5Z6yJpwqDCG2su4fsR8/0
-         SC4MVId00Nd80X+4Eom1QfdZ5SP/TK/kTxa4J9TV+d9jMwN7N+04XbNe5qMb21bj8D8p
-         ZWXYTN5aKSDWJPBCrj2XskL8lNYUQ6lFPBCJcaeXwI6LVMkIEEz99iE4PGsZRP3rcBq/
-         CWkln/NYFxj5e5bf5RXN4wU3CStgZakP735DPY/jVYFPNLM8f9daccq+ndQ3OGrzudQT
-         66+RUelvIajDusYZRE0r1kJTC7cfw0r5WDBWJ1316onGjso0Mp9U6p88WjHPHvioRnvR
-         uPdQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro/0dBMrw8f4do1RETRvgnDHTe/Jj0Z2HjSDtfLOQeH1r7/adzjRlOrVjh5fJfItEzaG5ABVUz7+7M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXTnvgHDGl4FqnbTIJjedR1ffFxh8cnnAyALmcF4slWI6aSfEk
-	HzB86yxsUqUOeAh2KtOhecL+ZEJoSI7BZzqZzA3GRDwUJlzGhAuzFenHfxjqHziJvenL+8TSTtl
-	noK0rC8b0BaoChskwh/D1dBfSx7eRmw9WM31dr1rahWBTzIzlgOlfvuLodozN88Z2wnlNJA==
-X-Gm-Gg: AR+sD13FW9H3CNzvLw0ELEFPIGy8slxO8agCQlwUgKv3pZMS7QV3+InFqAXY8tTTIi/
-	XimVe+Bh1ioo8KcTFWSD7+mOe7msVAn+6NV9LJGPAWUCUB8Od9qBMfrHoXSi3cnGa2CnKRO0HzA
-	QyYbtTcmzM65UC0+13YrupvLpR24DkqGew3XTw1J9GiVBfz7Pj+FGdoF4UdHwgl+4XHgxTa/N28
-	SCAYDtTG6h+bUT6WEzgz61qA30lvz+xwwxwJdRAqijW/uYUuF/Y/tUgCTy4YrCr4qinnok3nCZO
-	3jxraACl3fa8TuSdt1ZujLcpyqBjSvBsGvv/hHG2lX/nxBLoLpn12pJjWxGHaWLOusWTwqx/4dg
-	vtahnz3AbS/JiOt4uvnFQDnqUWFzi
-X-Received: by 2002:a05:600c:3b01:b0:493:f0f5:f2d7 with SMTP id 5b1f17b1804b1-4980c66c90fmr254159955e9.7.1785840318394;
-        Tue, 04 Aug 2026 03:45:18 -0700 (PDT)
-X-Received: by 2002:a05:600c:3b01:b0:493:f0f5:f2d7 with SMTP id 5b1f17b1804b1-4980c66c90fmr254159185e9.7.1785840317938;
-        Tue, 04 Aug 2026 03:45:17 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.168.96.228])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6cbsm38107677f8f.23.2026.08.04.03.45.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 03:45:17 -0700 (PDT)
-Message-ID: <c9fbfea2eeb6603f275365e61bef0bbfb355d963.camel@redhat.com>
-Subject: Re: [RFC PATCH v2] Documentation/rv: Explain epoll and aborted
- sleeps
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Chao Liu <chao.liu@processmission.com>, Nam Cao <namcao@linutronix.de>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, 
-	zhouzhouyi@gmail.com, lianux.mm@gmail.com, lianux.wang@processmission.com, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Tue, 04 Aug 2026 12:45:16 +0200
-In-Reply-To: <20260729081102.73138-1-chao.liu@processmission.com>
-References: <20260729081102.73138-1-chao.liu@processmission.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fmfNYzjB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="b7wjcnyJ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="y1C6LIc/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8v/5kBe1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AE48D632AC;
+	Tue,  4 Aug 2026 10:52:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785840740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xx9RSAlyQBvstAY/xFI6SjBJ0rTAwuhs4IlUI3BJo2Y=;
+	b=fmfNYzjBPJMJ+rSOHUGUlCpzkAzO8vJ6aA+4JsK3bknHwa3yMYrxWH124/H52lGG2QMfMg
+	H2WrEaXYz5DRitEMDPU0Wr1HXsQ+mS9YHqUNJPXttU62PINKnVwr4zCVVTSO4ZGtonbgXx
+	CWAjOlbYMrLbLAZMkP/mJZkBYHjOF4c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785840740;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xx9RSAlyQBvstAY/xFI6SjBJ0rTAwuhs4IlUI3BJo2Y=;
+	b=b7wjcnyJzyhn2N3Z3DNaHuU3xZ8DzO6ROcEfsEZWFFQnEe7xpwMaXckk66iuu+Vdj/CBDg
+	xncOP9G0Eu4LZkAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1785840736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xx9RSAlyQBvstAY/xFI6SjBJ0rTAwuhs4IlUI3BJo2Y=;
+	b=y1C6LIc/gCXaW97d2rCpnR0Y0wSM+fEBIYX5TJ49DiHXtZgmBuMguEh8FTYlUBIh/Fz+qx
+	g/MN9vUOXG/YouM5x7IiCsc9cZ/UWjfffcXznZFlEex1Rk3Q+AtuP59DTdIY3mdxvJ46wn
+	ebnmztpongDxwm4kew4oYSyl9q+GJMU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1785840736;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xx9RSAlyQBvstAY/xFI6SjBJ0rTAwuhs4IlUI3BJo2Y=;
+	b=8v/5kBe12DZdzEP2UKvu4w2ouXYL7nnh1eQXlARHJZMmm2BKUCGefku33YQQz1RsKGfsnL
+	6SkQJqJOmbhFvMBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A42C779BE;
+	Tue,  4 Aug 2026 10:52:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NYakJWDEcWr4aQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 04 Aug 2026 10:52:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3DD48A13A6; Tue, 04 Aug 2026 12:52:16 +0200 (CEST)
+Date: Tue, 4 Aug 2026 12:52:16 +0200
+From: Jan Kara <jack@suse.cz>
+To: Yu Kuai <yukuai@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Yu Kuai <yukuai@fygo.io>, Josef Bacik <josef@toxicpanda.com>, 
+	Coly Li <colyli@fygo.io>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
+	Mikulas Patocka <mpatocka@redhat.com>, Benjamin Marzinski <bmarzins@redhat.com>, 
+	Song Liu <song@kernel.org>, Dan Williams <djbw@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>, Tao Cui <cui.tao@linux.dev>, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev, 
+	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev, virtualization@lists.linux.dev, 
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 1/3] blk-cgroup: add helpers for bio cgroup state
+Message-ID: <prx5s4rwbgoeh7wtgyo7vwydh5iwqn6qc2utamowirsplspfmp@e3eteq5xwuyf>
+References: <20260804065313.2092022-1-yukuai@kernel.org>
+ <20260804065313.2092022-2-yukuai@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260804065313.2092022-2-yukuai@kernel.org>
+X-Spam-Score: -2.29
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.19)[-0.962];
+	MIME_GOOD(-0.10)[text/plain];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,fygo.io:email,suse.com:email];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[41];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RL1yzqk935fhsmgf5duqcbiqr7)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,cmpxchg.org,suse.com,lwn.net,fygo.io,toxicpanda.com,linux.dev,redhat.com,intel.com,gmail.com,infradead.org,suse.cz,linux-foundation.org,tencent.com,lst.de,linux.ibm.com,vger.kernel.org,lists.linux.dev,kvack.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,fygo.io:email,suse.com:email]
 
-On Wed, 2026-07-29 at 16:11 +0800, Chao Liu wrote:
-> epoll_wait() is a valid sleeping reason for real-time tasks because it
-> uses PI-aware locking, but the rtapp sleep monitor documentation only
-> discusses clock_nanosleep() and futexes. Document it.
->=20
-> ABORT_SLEEP represents a task restoring TASK_RUNNING before entering
-> the scheduler. Since the task does not actually block, it becomes
-> runnable again without a wakeup sequence unsafe for real-time. Document
-> this behavior.
->=20
+On Tue 04-08-26 14:53:11, Yu Kuai wrote:
+> From: Yu Kuai <yukuai@fygo.io>
+> 
+> blk-cgroup users open-code bio->bi_blkg throughout the policy and
+> accounting paths.  Some users need the blkg itself, while others
+> immediately dereference it to get the associated blkcg.  The bio release
+> paths also open-code the CONFIG_BLK_CGROUP guarded blkg reference drop
+> and field clear.
+> 
+> Add bio_blkg(), bio_blkcg() and bio_clear_blkg() helpers.  Convert the
+> read-side users to use the accessors, and use bio_clear_blkg() from
+> bio_uninit() and bio_endio() so the release path no longer needs to know
+> about CONFIG_BLK_CGROUP.  Keep the direct bio->bi_blkg stores in the
+> association and initialization paths, as those paths still assign the
+> stored association.
+> 
+> This keeps the current behavior unchanged while preparing for changing
+> what cgroup state a bio stores internally.
+> 
+> Signed-off-by: Yu Kuai <yukuai@fygo.io>
 
-Looks good, thanks! Please next time you send a patch, even if it's an RFC,=
- put
-the extra comments after the --- . This way I can pull it directly without
-changing the commit message because git am ignores everything after the ---=
- .
-Also, no big deal, but for simple patches like this one, and even after get=
-ting
-comments, there's no need to mark as RFC.
+Mostly looks good. Just I think bio_blkcg() should gracefully handle the
+case where bio->bi_blkg is NULL (and return NULL in that case). That way
+you can also get rid of somewhat odd pattern:
 
-Reviewed-by: Gabriele Monaco <gmonaco@redhat.com>
+	if (!bio_blkg(bio))
+		return ...;
+	do something with bio_blkcg(bio)
 
-I'd appreciate an ack from Nam, then I might be able to squeeze this before=
- the
-merge window together with the last fixes.
+You can then just check bio_blkcg(bio) directly which is much more obvious.
 
-Thanks,
-Gabriele
+								Honza
 
-> This RFC is based on Nam Cao's pending "rv: rtapp monitor update" v2
-> series:
->=20
-> https://lore.kernel.org/r/cover.1781852967.git.namcao@linutronix.de
->=20
-> Signed-off-by: Chao Liu <chao.liu@processmission.com>
 > ---
-> Changes in v2:
-> - Explain why epoll_wait() is RT-safe in terms of PI-aware locking.
-> - Explain that ABORT_SLEEP does not require an RT-unsafe wakeup sequence.
-> - Update the commit message accordingly.
->=20
-> Link to v1:
-> https://lore.kernel.org/linux-trace-kernel/20260722045706.85633-1-chao.li=
-u@processmission.com/
->=20
-> =C2=A0Documentation/trace/rv/monitor_rtapp.rst | 6 ++++++
-> =C2=A01 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/trace/rv/monitor_rtapp.rst
-> b/Documentation/trace/rv/monitor_rtapp.rst
-> index 238b59395ff5..b95994ade14a 100644
-> --- a/Documentation/trace/rv/monitor_rtapp.rst
-> +++ b/Documentation/trace/rv/monitor_rtapp.rst
-> @@ -67,6 +67,8 @@ thread to sleep for one of the following reasons:
-> =C2=A0=C2=A0=C2=A0=C2=A0 variables as safe for real-time. As an alternati=
-ve, the librtpi library
-> =C2=A0=C2=A0=C2=A0=C2=A0 exists to provide a conditional variable impleme=
-ntation that is correct
-> for
-> =C2=A0=C2=A0=C2=A0=C2=A0 real-time applications in Linux.
-> +=C2=A0 - Real-time thread waiting for events using `epoll_wait`, which i=
-s a
-> +=C2=A0=C2=A0=C2=A0 real-time-safe syscall for sleeping as it uses PI-awa=
-re locking.
-> =C2=A0
-> =C2=A0Beside the reason for sleeping, the eventual waker should also be
-> =C2=A0real-time-safe. Namely, one of:
-> @@ -114,6 +116,10 @@ The monitor's specification is::
-> =C2=A0=C2=A0 ALLOWLIST =3D BLOCK_ON_RT_MUTEX
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 or FUT=
-EX_LOCK_PI
-> =C2=A0
-> +`ABORT_SLEEP` represents a task restoring its state to `TASK_RUNNING` be=
-fore
-> +entering the scheduler. In this case, the task does not actually block, =
-so
-> the
-> +task is back to runnable without any wakeup sequence unsafe for real-tim=
-e.
+>  block/bfq-cgroup.c          |  4 ++--
+>  block/bio.c                 | 14 ++------------
+>  block/blk-cgroup-fc-appid.c | 11 +++++++++--
+>  block/blk-cgroup.c          | 19 ++++++++++---------
+>  block/blk-cgroup.h          | 19 ++++++++++++++++++-
+>  block/blk-iocost.c          |  6 +++---
+>  block/blk-iolatency.c       |  6 +++---
+>  block/blk-ioprio.c          |  2 +-
+>  block/blk-throttle.c        |  2 +-
+>  block/blk-throttle.h        |  2 +-
+>  include/linux/bio.h         | 10 ++++++++++
+>  11 files changed, 60 insertions(+), 35 deletions(-)
+> 
+> diff --git a/block/bfq-cgroup.c b/block/bfq-cgroup.c
+> index e82ff03bda02..7e65fe6844ee 100644
+> --- a/block/bfq-cgroup.c
+> +++ b/block/bfq-cgroup.c
+> @@ -363,7 +363,7 @@ void bfqg_and_blkg_put(struct bfq_group *bfqg)
+>  
+>  void bfqg_stats_update_legacy_io(struct request_queue *q, struct request *rq)
+>  {
+> -	struct bfq_group *bfqg = blkg_to_bfqg(rq->bio->bi_blkg);
+> +	struct bfq_group *bfqg = blkg_to_bfqg(bio_blkg(rq->bio));
+>  
+>  	if (!bfqg)
+>  		return;
+> @@ -606,7 +606,7 @@ static void bfq_link_bfqg(struct bfq_data *bfqd, struct bfq_group *bfqg)
+>  
+>  struct bfq_group *bfq_bio_bfqg(struct bfq_data *bfqd, struct bio *bio)
+>  {
+> -	struct blkcg_gq *blkg = bio->bi_blkg;
+> +	struct blkcg_gq *blkg = bio_blkg(bio);
+>  	struct bfq_group *bfqg;
+>  
+>  	while (blkg) {
+> diff --git a/block/bio.c b/block/bio.c
+> index 6a2f6fc3413e..c207b248edba 100644
+> --- a/block/bio.c
+> +++ b/block/bio.c
+> @@ -179,12 +179,7 @@ static inline gfp_t try_alloc_gfp(gfp_t gfp)
+>  
+>  void bio_uninit(struct bio *bio)
+>  {
+> -#ifdef CONFIG_BLK_CGROUP
+> -	if (bio->bi_blkg) {
+> -		blkg_put(bio->bi_blkg);
+> -		bio->bi_blkg = NULL;
+> -	}
+> -#endif
+> +	bio_clear_blkg(bio);
+>  	if (bio_integrity(bio))
+>  		bio_integrity_free(bio);
+>  
+> @@ -1803,17 +1798,12 @@ void bio_endio(struct bio *bio)
+>  		goto again;
+>  	}
+>  
+> -#ifdef CONFIG_BLK_CGROUP
+>  	/*
+>  	 * Release cgroup info.  We shouldn't have to do this here, but quite
+>  	 * a few callers of bio_init fail to call bio_uninit, so we cover up
+>  	 * for that here at least for now.
+>  	 */
+> -	if (bio->bi_blkg) {
+> -		blkg_put(bio->bi_blkg);
+> -		bio->bi_blkg = NULL;
+> -	}
+> -#endif
+> +	bio_clear_blkg(bio);
+>  
+>  	if (bio->bi_end_io)
+>  		bio->bi_end_io(bio);
+> diff --git a/block/blk-cgroup-fc-appid.c b/block/blk-cgroup-fc-appid.c
+> index 3ec21333f393..b2e16e9a7a6c 100644
+> --- a/block/blk-cgroup-fc-appid.c
+> +++ b/block/blk-cgroup-fc-appid.c
+> @@ -50,8 +50,15 @@ EXPORT_SYMBOL_GPL(blkcg_set_fc_appid);
+>   */
+>  char *blkcg_get_fc_appid(struct bio *bio)
+>  {
+> -	if (!bio->bi_blkg || bio->bi_blkg->blkcg->fc_app_id[0] == '\0')
+> +	struct blkcg *blkcg;
 > +
-> =C2=A0Beside the scenarios described above, this specification also defin=
-es an
-> allow list
-> =C2=A0to handle some special cases:
-> =C2=A0
->=20
-> base-commit: 248951ddc14de84de3910f9b13f51491a8cd91df
-> prerequisite-patch-id: d8b6c952a954662852e6b0684e0a3386eaab7f41
-> prerequisite-patch-id: 940f7637aeabe4ba15a09c048c6f48138406f332
-> prerequisite-patch-id: b99812692691f76d825778e01a2e771e058febd6
-> prerequisite-patch-id: 512c300dce2cb74ac9cc007f9234aa507ef5c008
-
+> +	if (!bio_blkg(bio))
+>  		return NULL;
+> -	return bio->bi_blkg->blkcg->fc_app_id;
+> +
+> +	blkcg = bio_blkcg(bio);
+> +	if (blkcg->fc_app_id[0] == '\0')
+> +		return NULL;
+> +
+> +	return blkcg->fc_app_id;
+>  }
+>  EXPORT_SYMBOL_GPL(blkcg_get_fc_appid);
+> diff --git a/block/blk-cgroup.c b/block/blk-cgroup.c
+> index 354637f3b158..753a3bdd0e8c 100644
+> --- a/block/blk-cgroup.c
+> +++ b/block/blk-cgroup.c
+> @@ -239,7 +239,7 @@ static void blkg_async_bio_workfn(struct work_struct *work)
+>   */
+>  void blkcg_punt_bio_submit(struct bio *bio)
+>  {
+> -	struct blkcg_gq *blkg = bio->bi_blkg;
+> +	struct blkcg_gq *blkg = bio_blkg(bio);
+>  
+>  	if (blkg->parent) {
+>  		spin_lock(&blkg->async_bio_lock);
+> @@ -275,9 +275,9 @@ subsys_initcall(blkcg_punt_bio_init);
+>   */
+>  struct cgroup_subsys_state *bio_blkcg_css(struct bio *bio)
+>  {
+> -	if (!bio || !bio->bi_blkg)
+> +	if (!bio || !bio_blkg(bio))
+>  		return NULL;
+> -	return &bio->bi_blkg->blkcg->css;
+> +	return &bio_blkcg(bio)->css;
+>  }
+>  EXPORT_SYMBOL_GPL(bio_blkcg_css);
+>  
+> @@ -2118,8 +2118,8 @@ static inline struct blkcg_gq *blkg_tryget_closest(struct bio *bio,
+>  void bio_associate_blkg_from_css(struct bio *bio,
+>  				 struct cgroup_subsys_state *css)
+>  {
+> -	if (bio->bi_blkg)
+> -		blkg_put(bio->bi_blkg);
+> +	if (bio_blkg(bio))
+> +		blkg_put(bio_blkg(bio));
+>  
+>  	if (css && css->parent) {
+>  		bio->bi_blkg = blkg_tryget_closest(bio, css);
+> @@ -2146,7 +2146,7 @@ void bio_associate_blkg(struct bio *bio)
+>  	if (blk_op_is_passthrough(bio->bi_opf))
+>  		return;
+>  
+> -	if (bio->bi_blkg) {
+> +	if (bio_blkg(bio)) {
+>  		css = bio_blkcg_css(bio);
+>  		bio_associate_blkg_from_css(bio, css);
+>  	} else {
+> @@ -2170,7 +2170,7 @@ EXPORT_SYMBOL_GPL(bio_associate_blkg);
+>   */
+>  void bio_clone_blkg_association(struct bio *dst, struct bio *src)
+>  {
+> -	if (src->bi_blkg)
+> +	if (bio_blkg(src))
+>  		bio_associate_blkg_from_css(dst, bio_blkcg_css(src));
+>  }
+>  EXPORT_SYMBOL_GPL(bio_clone_blkg_association);
+> @@ -2186,7 +2186,8 @@ static int blk_cgroup_io_type(struct bio *bio)
+>  
+>  void blk_cgroup_bio_start(struct bio *bio)
+>  {
+> -	struct blkcg *blkcg = bio->bi_blkg->blkcg;
+> +	struct blkcg_gq *blkg = bio_blkg(bio);
+> +	struct blkcg *blkcg = bio_blkcg(bio);
+>  	int rwd = blk_cgroup_io_type(bio), cpu;
+>  	struct blkg_iostat_set *bis;
+>  	unsigned long flags;
+> @@ -2199,7 +2200,7 @@ void blk_cgroup_bio_start(struct bio *bio)
+>  		return;
+>  
+>  	cpu = get_cpu();
+> -	bis = per_cpu_ptr(bio->bi_blkg->iostat_cpu, cpu);
+> +	bis = per_cpu_ptr(blkg->iostat_cpu, cpu);
+>  	flags = u64_stats_update_begin_irqsave(&bis->sync);
+>  
+>  	/*
+> diff --git a/block/blk-cgroup.h b/block/blk-cgroup.h
+> index 615390f751aa..1e80b0a73233 100644
+> --- a/block/blk-cgroup.h
+> +++ b/block/blk-cgroup.h
+> @@ -124,6 +124,11 @@ static inline struct blkcg *css_to_blkcg(struct cgroup_subsys_state *css)
+>  	return css ? container_of(css, struct blkcg, css) : NULL;
+>  }
+>  
+> +static inline struct blkcg *bio_blkcg(struct bio *bio)
+> +{
+> +	return bio_blkg(bio)->blkcg;
+> +}
+> +
+>  /*
+>   * A blkcg_gq (blkg) is association between a block cgroup (blkcg) and a
+>   * request_queue (q).  This is used by blkcg policies which need to track
+> @@ -343,6 +348,16 @@ static inline void blkg_put(struct blkcg_gq *blkg)
+>  	percpu_ref_put(&blkg->refcnt);
+>  }
+>  
+> +static inline void bio_clear_blkg(struct bio *bio)
+> +{
+> +	struct blkcg_gq *blkg = bio_blkg(bio);
+> +
+> +	if (blkg) {
+> +		blkg_put(blkg);
+> +		bio->bi_blkg = NULL;
+> +	}
+> +}
+> +
+>  /**
+>   * blkg_for_each_descendant_pre - pre-order walk of a blkg's descendants
+>   * @d_blkg: loop cursor pointing to the current descendant
+> @@ -455,7 +470,7 @@ static inline void blkcg_clear_delay(struct blkcg_gq *blkg)
+>   */
+>  static inline bool blk_cgroup_mergeable(struct request *rq, struct bio *bio)
+>  {
+> -	return rq->bio->bi_blkg == bio->bi_blkg &&
+> +	return bio_blkg(rq->bio) == bio_blkg(bio) &&
+>  		bio_issue_as_root_blkg(rq->bio) == bio_issue_as_root_blkg(bio);
+>  }
+>  
+> @@ -481,6 +496,7 @@ struct blkcg_policy {
+>  struct blkcg {
+>  };
+>  
+> +static inline struct blkcg *bio_blkcg(struct bio *bio) { return NULL; }
+>  static inline struct blkcg_gq *blkg_lookup(struct blkcg *blkcg, void *key) { return NULL; }
+>  static inline void blkg_init_queue(struct request_queue *q) { }
+>  static inline int blkcg_init_disk(struct gendisk *disk) { return 0; }
+> @@ -497,6 +513,7 @@ static inline struct blkg_policy_data *blkg_to_pd(struct blkcg_gq *blkg,
+>  static inline struct blkcg_gq *pd_to_blkg(struct blkg_policy_data *pd) { return NULL; }
+>  static inline void blkg_get(struct blkcg_gq *blkg) { }
+>  static inline void blkg_put(struct blkcg_gq *blkg) { }
+> +static inline void bio_clear_blkg(struct bio *bio) { }
+>  static inline void blk_cgroup_bio_start(struct bio *bio) { }
+>  static inline bool blk_cgroup_mergeable(struct request *rq, struct bio *bio) { return true; }
+>  
+> diff --git a/block/blk-iocost.c b/block/blk-iocost.c
+> index 8b2aeba2e1e3..d4470476bcd0 100644
+> --- a/block/blk-iocost.c
+> +++ b/block/blk-iocost.c
+> @@ -2686,7 +2686,7 @@ iocg_handle_over_budget(struct rq_qos *rqos, struct ioc_gq *iocg,
+>  
+>  static void ioc_rqos_throttle(struct rq_qos *rqos, struct bio *bio)
+>  {
+> -	struct blkcg_gq *blkg = bio->bi_blkg;
+> +	struct blkcg_gq *blkg = bio_blkg(bio);
+>  	struct ioc *ioc = rqos_to_ioc(rqos);
+>  	struct ioc_gq *iocg = blkg_to_iocg(blkg);
+>  	struct ioc_now now;
+> @@ -2775,7 +2775,7 @@ static void ioc_rqos_throttle(struct rq_qos *rqos, struct bio *bio)
+>  static void ioc_rqos_merge(struct rq_qos *rqos, struct request *rq,
+>  			   struct bio *bio)
+>  {
+> -	struct ioc_gq *iocg = blkg_to_iocg(bio->bi_blkg);
+> +	struct ioc_gq *iocg = blkg_to_iocg(bio_blkg(bio));
+>  	struct ioc *ioc = rqos_to_ioc(rqos);
+>  	sector_t bio_end = bio_end_sector(bio);
+>  	struct ioc_now now;
+> @@ -2833,7 +2833,7 @@ static void ioc_rqos_merge(struct rq_qos *rqos, struct request *rq,
+>  
+>  static void ioc_rqos_done_bio(struct rq_qos *rqos, struct bio *bio)
+>  {
+> -	struct ioc_gq *iocg = blkg_to_iocg(bio->bi_blkg);
+> +	struct ioc_gq *iocg = blkg_to_iocg(bio_blkg(bio));
+>  
+>  	if (iocg && bio->bi_iocost_cost)
+>  		atomic64_add(bio->bi_iocost_cost, &iocg->done_vtime);
+> diff --git a/block/blk-iolatency.c b/block/blk-iolatency.c
+> index cef02b6c5fa9..c0d8d5f6bdba 100644
+> --- a/block/blk-iolatency.c
+> +++ b/block/blk-iolatency.c
+> @@ -463,7 +463,7 @@ static void check_scale_change(struct iolatency_grp *iolat)
+>  static void blkcg_iolatency_throttle(struct rq_qos *rqos, struct bio *bio)
+>  {
+>  	struct blk_iolatency *blkiolat = BLKIOLATENCY(rqos);
+> -	struct blkcg_gq *blkg = bio->bi_blkg;
+> +	struct blkcg_gq *blkg = bio_blkg(bio);
+>  	bool issue_as_root = bio_issue_as_root_blkg(bio);
+>  
+>  	if (!blkiolat->enabled)
+> @@ -590,11 +590,11 @@ static void blkcg_iolatency_done_bio(struct rq_qos *rqos, struct bio *bio)
+>  	bool issue_as_root = bio_issue_as_root_blkg(bio);
+>  	int inflight = 0;
+>  
+> -	blkg = bio->bi_blkg;
+> +	blkg = bio_blkg(bio);
+>  	if (!blkg || !bio_flagged(bio, BIO_QOS_THROTTLED))
+>  		return;
+>  
+> -	iolat = blkg_to_lat(bio->bi_blkg);
+> +	iolat = blkg_to_lat(blkg);
+>  	if (!iolat)
+>  		return;
+>  
+> diff --git a/block/blk-ioprio.c b/block/blk-ioprio.c
+> index 8fa8bca35062..5e3f8e49550d 100644
+> --- a/block/blk-ioprio.c
+> +++ b/block/blk-ioprio.c
+> @@ -132,7 +132,7 @@ static struct blkcg_policy ioprio_policy = {
+>  
+>  void blkcg_set_ioprio(struct bio *bio)
+>  {
+> -	struct ioprio_blkcg *blkcg = blkcg_to_ioprio_blkcg(bio->bi_blkg->blkcg);
+> +	struct ioprio_blkcg *blkcg = blkcg_to_ioprio_blkcg(bio_blkcg(bio));
+>  	u16 prio;
+>  
+>  	if (!blkcg || blkcg->prio_policy == POLICY_NO_CHANGE)
+> diff --git a/block/blk-throttle.c b/block/blk-throttle.c
+> index ffc3b70065d4..3828c3857900 100644
+> --- a/block/blk-throttle.c
+> +++ b/block/blk-throttle.c
+> @@ -1792,7 +1792,7 @@ static bool tg_within_limit(struct throtl_grp *tg, struct bio *bio, bool rw)
+>  bool __blk_throtl_bio(struct bio *bio)
+>  {
+>  	struct request_queue *q = bdev_get_queue(bio->bi_bdev);
+> -	struct blkcg_gq *blkg = bio->bi_blkg;
+> +	struct blkcg_gq *blkg = bio_blkg(bio);
+>  	struct throtl_qnode *qn = NULL;
+>  	struct throtl_grp *tg = blkg_to_tg(blkg);
+>  	struct throtl_service_queue *sq;
+> diff --git a/block/blk-throttle.h b/block/blk-throttle.h
+> index 9d7a42c039a1..609a126c7ccb 100644
+> --- a/block/blk-throttle.h
+> +++ b/block/blk-throttle.h
+> @@ -173,7 +173,7 @@ static inline bool blk_should_throtl(struct bio *bio)
+>  	if (!blk_throtl_activated(bio->bi_bdev->bd_queue))
+>  		return false;
+>  
+> -	tg = blkg_to_tg(bio->bi_blkg);
+> +	tg = blkg_to_tg(bio_blkg(bio));
+>  	if (!cgroup_subsys_on_dfl(io_cgrp_subsys)) {
+>  		if (!bio_flagged(bio, BIO_CGROUP_ACCT)) {
+>  			bio_set_flag(bio, BIO_CGROUP_ACCT);
+> diff --git a/include/linux/bio.h b/include/linux/bio.h
+> index 8f33f717b14f..dc4baa3602b7 100644
+> --- a/include/linux/bio.h
+> +++ b/include/linux/bio.h
+> @@ -503,12 +503,22 @@ static inline void bio_release_pages(struct bio *bio, bool mark_dirty)
+>  	disk_devt((bio)->bi_bdev->bd_disk)
+>  
+>  #ifdef CONFIG_BLK_CGROUP
+> +static inline struct blkcg_gq *bio_blkg(struct bio *bio)
+> +{
+> +	return bio->bi_blkg;
+> +}
+> +
+>  void bio_associate_blkg(struct bio *bio);
+>  void bio_associate_blkg_from_css(struct bio *bio,
+>  				 struct cgroup_subsys_state *css);
+>  void bio_clone_blkg_association(struct bio *dst, struct bio *src);
+>  void blkcg_punt_bio_submit(struct bio *bio);
+>  #else	/* CONFIG_BLK_CGROUP */
+> +static inline struct blkcg_gq *bio_blkg(struct bio *bio)
+> +{
+> +	return NULL;
+> +}
+> +
+>  static inline void bio_associate_blkg(struct bio *bio) { }
+>  static inline void bio_associate_blkg_from_css(struct bio *bio,
+>  					       struct cgroup_subsys_state *css)
+> -- 
+> 2.51.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
