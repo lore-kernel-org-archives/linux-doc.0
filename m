@@ -1,144 +1,285 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B6B442B3A
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 10:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785838634; cv=pass; b=So/AWPK95hkWUmE18uMYwtgx0G3OHkeSG4qt6Lk7p9/o+9jnVYyD2Xv9dB+CW/HmTuXxXlrAYqATHv6mQZEluwxpWFZJQ6kpAw3+EPTNWIuHj0hMtgZIuxodjOH192MKndnxAMLZvpTqIDTAQVcs1xT9LcqyJACxSYyqvR9jeVc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785838634; c=relaxed/simple;
-	bh=8lju9U2W7+LSdWc5IALcPW9k6NcSnHsFf54GqQorIHU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aIJ3Zo5Pzkm9Iwv/bFjqt6LfkjdmRaxVHWCnT3MI4Ti2X7NuZioDNEMHOVFw87+1RWgKjZEJdTlaOqzZDJrpG6QevyNb0OARD4cBCLk8Z0ZTUB7iPwGCzRVl2pM/YSVriJk6ROi6frRRN3i4jLR1oxOm50pF1p+afekvIm4fx8E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mxzSCpKl; arc=pass smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B91446857
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 10:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785839814; cv=none; b=h/pdEAygqdZoQ42seZyJ2g3anPpUVc7Jk0qWYtAg4Bn0S4yc7oJtMEK0pfmlpYQ1bhpKRElkl+1Rfn5LLkvAAM5A5Ws3u1Upp2j5xOD4Q+6yBNryg5EPOmSFnOKhyTcp75XDmrc8BMS5pKOk9ki6SEstYzPCffPvuN4eXUFho4w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785839814; c=relaxed/simple;
+	bh=4womcYsF9mcBGVtFV27nvc/PSxv0+NBwgwSEiADK8oY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KCVTQHu/fs0Cz7Nz+tp7sm2s3ptuMrWdD6ikqA/IybpcUF8d6dcFzKV2iUht9AGzxYCcjc99GjPsgqAKcFbMkZkSdtImBsqJnURwefkA3Ip+jFTAPiwtF6AEVumpbDjNXJVuFU9LYqWRhwRU39z6MH9NOFwgLfzhM4hme4ZzHiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHxUuCQi; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mxzSCpKl"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39f9d4bed90so6882261fa.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 03:17:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785838630; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iCMGvKPBJ2YxaPBxV2kNtijBGkng5B709XsFZc4QW83YxfcY5elZDIoansG+7+JvXr
-         d1G7Klr52ONJbti7Bs/FR0iE6stZMH+nANWqp63Zj4K+xrpmdpwGYzGyGxucRa4DD7RQ
-         ZkJdQGNYiln7d5zDwG+2cwE6z2M4TM10HVL+wIfkHLsK9DKLnvihdgDtKf8c0NmM1utS
-         TacLyrm3KSYi/hMlOEqMq30/s2XJDPiRlu69t2gWKKHVSg7f8ruoaL3NuecxdqTi8liv
-         r+mLyrbC1EXN5NCsWN4+ikGNe60GaxVm0qfvT4rhvJuCL4z8up6n16EYpxO4N/IkHJTf
-         f9xA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vkEoZO2efPEAJ3sLsu1MthIA4bsqPb/mDlCDSaYXZh4=;
-        fh=E1TSMumzMDoeuE5azjW5etq5z9QDl4A/cMnTyUZPzjU=;
-        b=rAq9Kv8/xE/Df3YVDVchwr+4vI0ypHwS3CKJAtemE7gkn8o3tQ5sz0R3OIPeFuGlfp
-         mUV53YnYsItC2pexO8ucYk86Pkn9yRG6fOJbySNzqEl7BUf+5mPuJhO9q6DwKi4GXiAZ
-         Npgr8ew2681ikUYKhKb/Voy3j69tgtcVmWP1eod6z5hQgjRPAav0Y7OvUy8GcVqjMBCo
-         c0W1cdGHaEBAhcInH/n779kSl3KT/r3TheLO2eoXeJkJJVvPwWa/0V3fn9qpTesz9M7e
-         BBsDb+w7aQccHuuKVrQMZwa9V190+vH8371kS4AJ21dPBSPTgzZmPZxQIcehBZFnL3u+
-         FZEw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHxUuCQi"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47f703a9d05so2661359f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 03:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785838630; x=1786443430; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vkEoZO2efPEAJ3sLsu1MthIA4bsqPb/mDlCDSaYXZh4=;
-        b=mxzSCpKl9I/HMYRUIcivIEFvXzGp3hm7kOVI7hU+1oD6SKRVWeMQDOTInYJROz9efP
-         ahMfrLXGcxH6+epChOI+k4ZVWYk4IZEi9Q3Z9mEp0FArD9kFQt5B2bi6UGyfuyvxw5cG
-         cgiUsYZdIRPB2Z0WN6pB6M0XEi+npmnM7wMoSDb1oQ0/+U4k99B66BkmcC6OO1Z4Aw7U
-         rVDZxw4hqgvlfCFtHnrKCb88t7Ii7dtj88jvop3g9Rwq/3VUPmgzoH83LvKAt0ahBk6i
-         8HpezMh3DnnpXotBn3ruf5UXucYIFKzrQa4KaVzMVLdPi2iDHEW4/i27xEmEed4AXVb5
-         3tEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785838630; x=1786443430;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1785839809; x=1786444609; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vkEoZO2efPEAJ3sLsu1MthIA4bsqPb/mDlCDSaYXZh4=;
-        b=UEVE93MhbK7yUfFdqqyRBPwnFej6f/VdmNQz+V0bkLQGQWlRJ6wl+h4FDCTFec95SH
-         T2HS1P/lWnqxa62aI/RY+YMloMHzCmrdte8m5uILt0j05O0h3oNE3n/nV9h/Is/purOR
-         5EaynPuXQD4s6nzlLPeUFzLn5hsgaOsKGzffT8XLQ2Ww7iuV7hTKESosvIpM7HO+lfD/
-         77X0q2FAMCa3CeMhcmupoZwfszqJsWzAXFaun4F6NvX1uiYoHhTy96ZviWAyBSY5il5B
-         S1uOG6yjFim3Eon1IaDEBMsjsvESKhF8bpC/kp9yRPCjhGZ/+Hgm/bM/JFdDeHCkqFWt
-         ckdQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrdgKUrdzzKcZ0XzOu5Z/AfRm1SeWaatlnY0v7o8rBhm0pCqZmM3sq2MjFwPVRwPiYC/DAfvO7vncM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbfxdrPx709RLY66jWh4FNLgkJAgt2T3cR3c40B3ayKpzchfGP
-	DTXC7ea5B0/9QbcVG4uRGtjqeq/yeYECGVVxxUtfDBuBBvq5AGd31G/qTUWSIsufghZVGyzWVLE
-	sXy9JcLpe7NL5Cqd/5lJlzdc1XrqYwLI=
-X-Gm-Gg: AR+sD10TwSGijxamvGyvmgQCLlgOtSs9z3j4IR74zDr+5GtPkGPbsKKRWO0ZUDyY53U
-	J+PyzHM/m3j1+0G/tWsisBbB4xgMGS0DhJiqA5jqc6/dcEWZqG55pUCS0GBXlgDlBZ1Tm0MCm8o
-	fUvsNqPABiK1MHKjkQgiSoyrWp4PYAXWQYZAubJ4bvQfre/rdf8cH4LQSOrZirSbTcs1n8Tdrq1
-	VhKQv2OaHEDWzTlxPdBiyZzeUU+5Qc6qpSNzN2ubbAXd46asKoutoavHS6C+s9jGjkJRr1ihTf4
-	yZJxix/qCkPWPgOGuUN6k0koERm0qbCD3SMYgakBbJcslAUqtxWATTFEDW+OFTmvqWRBnf5Byw=
-	=
-X-Received: by 2002:a05:6512:1113:b0:5ae:c3c6:245f with SMTP id
- 2adb3069b0e04-5b2f2816770mr559124e87.7.1785838629504; Tue, 04 Aug 2026
- 03:17:09 -0700 (PDT)
+        bh=9wfrbatFPCH8NCTYo6x4uNCytfKAxBGUxu1j+wIy4q8=;
+        b=KHxUuCQie+x/e5x3GbwZdpF9LUMt9sIhifFvllZgZ78b4U3ZNxKcwkX8Mb0VSpox+u
+         /Iz28fCic7gKp81WorkWm2g7n6z/+Bg2W/mnbSwXt0UpTOKfhEK+np5VUobNDXm9TKL4
+         9Hg5rW0mokGGcjtjR+PWBAG0rTjZk+qoH82zwzn921+BjLpH0w+qSD3a1wNEDAeTCoOx
+         YeZwFcJ3KOoOEIvDbLDqpmc4cbEmoPDIKjJD6pws8cOQMREJjS/zhrxiDqQ88fOXcvt0
+         oIwe1Lf+kAk8KaVVJh2g6aLkSf9/ac3vDay2hxrny4IZuS3TzWl98rJqD9nH9pJtByi4
+         iQnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785839809; x=1786444609;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9wfrbatFPCH8NCTYo6x4uNCytfKAxBGUxu1j+wIy4q8=;
+        b=F/tma9MhbCyeECL80xvpFv4SA60R88JB1OzEv2bPKO3fQZ8Apcpb4CTHjajFXLMR0B
+         MP24h/DAzVMlwruSI9ifL/hbWWy8zFEZpavCjkDxyJqPMAL9IBeGZMdmxCNxZAEKvd0Y
+         YYpuFPQgU+5cw/K8hlEgczl3VisjCljp7Lxenfm0WClA/t05iMUnQZ4cItp0xr3PxeB6
+         64HDkKJusyThNsrgklR+c96kxXNObGVrZMBNlaT74wkFzVkU6BmVLVonz0LKQ8faaGqm
+         yfcxUIIoFiflZqxHFG15RiqzMEN3+zowmVD7g1a/9IMBOTWnge1HBBaLTSdV7LK/l+Fu
+         tpaQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro8vHG6HpsEJDpoIUi61IZKYjnH0KhGT5OqO1GLvHh3Yq5S5+VaMMx2xWzQM7ydQPLnYUlKlcitSIQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXiBrSzCyu3FnmXjLAo9ce5ZmvFlPyzb5FVqz/hDYtXMwtJ04d
+	U+UlK6eCGVmqTQ5O6e+Q5gacSUS9KjNXGuT7F38vILbQBKgZ0x+PWVV3
+X-Gm-Gg: AR+sD105hQPRB/QYf0ay+N+Vxy48cgqm0t6Q+Gkj0Dpbh2BQ9hUEiOFC2+Mrc6XtfDz
+	GaZQHfKk9LRxZAgRfloycvIctSaNhCSHIo7aFfvUh2MDg+FTzf+O0knawEPXFrBXQOh1Da1SnPS
+	PZdLN7enLChxykmH3iqcAfvHwp5z1CpmsRHU3v1rGFlt7YNAIZA/xm3NMXpn9+8qTqdRfPROMq+
+	l/W22kf6JnkURQizx/3yDNYqnCGOUWD2ul1BdRmVT0i9YxvvhksAmEj1cdFP9mGrA8EA9tVvxXT
+	c1YXWh/g8tvbybbwzCDkiQ1W9Nvu1fNdzejtonOcOlLvjjsjc++FHrhlOQLbAqJ68EFmn8GZziC
+	fuqDjegpPVpKZ3863WKfwusPOCTcKob7MRH1BwUyVQLVcvmzVc+6OvW4yaCOxk5iuQxuT8mFPgK
+	HwYfXOhntjjyEp2GHIKDfhxQwW732VdqXL9EFAV+k8fPsGc15DUShvdaG0VMqT1KgMrYEtvRw2a
+	wG3WS6p0AxOfditPBDbtbae+jTsM156enW1qpdMlk8Q6zhsSdHNtOwoNJe3BLj3pUvXUObD73ib
+	v6M=
+X-Received: by 2002:a05:6000:200d:b0:47f:25e4:5c34 with SMTP id ffacd0b85a97d-47fd7309771mr35812640f8f.29.1785839808450;
+        Tue, 04 Aug 2026 03:36:48 -0700 (PDT)
+Received: from [172.24.138.145] (dynamic-176-002-083-080.176.2.pool.telefonica.de. [176.2.83.80])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456220esm43851882f8f.18.2026.08.04.03.36.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Aug 2026 03:36:47 -0700 (PDT)
+Message-ID: <c20621fd-571b-4c96-8397-c644970c6548@gmail.com>
+Date: Tue, 4 Aug 2026 12:36:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708-ch-swap-series-plus-folio-lru-cleanup-v9-0-2bc72b4f8730@gmail.com>
- <20260708-ch-swap-series-plus-folio-lru-cleanup-v9-2-2bc72b4f8730@gmail.com> <anG0QwQddFNo8PKJ@lucifer>
-In-Reply-To: <anG0QwQddFNo8PKJ@lucifer>
-From: Jianyue Wu <wujianyue000@gmail.com>
-Date: Tue, 4 Aug 2026 18:16:57 +0800
-X-Gm-Features: AUfX_mxjUrqj0tZCczAcQuPfenNF5iSWoMzSQsnx8UpwFtw0qufa8LonJR7O5MU
-Message-ID: <CAJxJ_jgdXA=B38huxC5hoevRFhqsVFWT9+Bt5R4zjJ3b6Ya58g@mail.gmail.com>
-Subject: Re: [PATCH v9 2/3] mm: rename swap.c to folio.c
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	David Hildenbrand <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
+ spi-device-addr
+To: Jonathan Cameron <jic23@kernel.org>, Conor Dooley <conor@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+ Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mark Brown <broonie@kernel.org>,
+ Marius Cristea <marius.cristea@microchip.com>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
+ Kent Gustavsson <nedo80@gmail.com>
+References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
+ <20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
+ <cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
+ <20260725230739.63ff7000@jic23-huawei>
+ <20260728-patronize-thwarting-56fab2e11077@spud>
+ <20260728221719.7f668a73@jic23-huawei>
+ <20260729-hundredth-suffice-f28afa67bc06@spud>
+ <20260730000929.2ec20cf8@jic23-huawei>
+ <20260730-impaired-protector-b58ae56ae3f6@spud>
+ <20260801024114.4c606ef7@jic23-huawei>
+Content-Language: en-US
+From: Janani Sunil <jan.sun97@gmail.com>
+In-Reply-To: <20260801024114.4c606ef7@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 4, 2026 at 5:46=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
+
+On 8/1/26 03:41, Jonathan Cameron wrote:
+> On Thu, 30 Jul 2026 19:02:08 +0100
+> Conor Dooley <conor@kernel.org> wrote:
 >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index d19822d574fd..c3e535ca4bef 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -17085,7 +17085,7 @@ F:    Documentation/admin-guide/mm/multigen_lru=
-.rst
-> >  F:   Documentation/mm/multigen_lru.rst
-> >  F:   include/linux/mm_inline.h
-> >  F:   include/linux/mmzone.h
-> > -F:   mm/swap.c
-> > +F:   mm/folio.c
+>> On Thu, Jul 30, 2026 at 12:09:29AM +0100, Jonathan Cameron wrote:
+>>> On Wed, 29 Jul 2026 21:47:45 +0100
+>>> Conor Dooley <conor@kernel.org> wrote:
+>>>    
+>>>> On Tue, Jul 28, 2026 at 10:17:19PM +0100, Jonathan Cameron wrote:
+>>>>> On Tue, 28 Jul 2026 17:00:55 +0100
+>>>>> Conor Dooley <conor@kernel.org> wrote:
+>>>>>      
+>>>>>> On Sat, Jul 25, 2026 at 11:07:39PM +0100, Jonathan Cameron wrote:
+>>>>>>> On Sat, 25 Jul 2026 15:57:07 -0500
+>>>>>>> David Lechner <dlechner@baylibre.com> wrote:
+>>>>>>>        
+>>>>>>>> On 7/22/26 2:54 AM, Janani Sunil wrote:
+>>>>>>>>> Add the generic spi-device-addr property to the binding and deprecate
+>>>>>>>>> the existing vendor specific microchip,hw-device-address property.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+>>>>>>>>> ---
+>>>>>>>>>   .../devicetree/bindings/iio/adc/microchip,mcp3564.yaml         | 10 ++++++++--
+>>>>>>>>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+>>>>>>>>> index 675319276197..de1ea289e7f5 100644
+>>>>>>>>> --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+>>>>>>>>> +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
+>>>>>>>>> @@ -80,6 +80,7 @@ properties:
+>>>>>>>>>       $ref: /schemas/types.yaml#/definitions/uint32
+>>>>>>>>>       minimum: 0
+>>>>>>>>>       maximum: 3
+>>>>>>>>> +    deprecated: true
+>>>>>>>>>       description:
+>>>>>>>>>         The address is set on a per-device basis by fuses in the factory,
+>>>>>>>>>         configured on request. If not requested, the fuses are set for 0x1.
+>>>>>>>>> @@ -91,6 +92,12 @@ properties:
+>>>>>>>>>         clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+>>>>>>>>>         which is first one on the wire).
+>>>>>>>>>   
+>>>>>>>>> +  spi-device-addr:
+>>>>>>>>> +    maxItems: 1
+>>>>>>>> Does it not make sense to all for more than once device connected
+>>>>>>>> to the same CS here? I would expect maxItems to be 4 to match the
+>>>>>>>> number of possible addresses.
+>>>>>>>>        
+>>>>>>> I think for this part their isn't a reason to aggregate.
+>>>>>>> No magic accesses that touch them all at once.  So this hits
+>>>>>>> exactly the point you raised about how we set the address for
+>>>>>>> more than one of them.
+>>>>>> No David is actually right here, and maxitems should be 4.
+>>>>>> Setting the address for multiple was already discussed I thought, with
+>>>>>> the property being an array and each compatible being used to determine
+>>>>>> the "stride" between entries based on the number of supported channels?
+>>>>> I don't think that applies for this device or at least to do so
+>>>>> is a major driver rewrite, not a simple binding change.  Probably we'd
+>>>> Whether or not it is a big driver change, the binding should represent
+>>>> what the hardware is capable of.
+>>>>    
+>>>>> just add a bus and hang the 4 instances off it. They are running on own
+>>>>> timing etc so we can't grab data across all of them in any sort of
+>>>>> synchronous way - the clocks will probably drift over time etc.
+>>>> Did I miss something about the ADI devices in this thread where they
+>>>> have some multicast ability to read all devices at once? I thought that
+>>>> that was a different series where each device had dedicated mosi and
+>>>> miso lines, rather than the shared ones here. I didn't think the ad5529r
+>>>> did anything special from my reading of the datasheet but I'm not the
+>>>> expert in this area!
+>>> It's a DAC so other way around but yes they have exactly that in the section:
+>>> https://www.analog.com/media/en/technical-documentation/data-sheets/ad5529r.pdf
+>>>
+>>> 	Register Details: Hotpath DAC registermap.
+>>>
+>>> The is a brief description earlier of the whole feature that might
+>>> serve for this discussion:
+>>>
+>>> "DAC HOTPATH
+>>> The DAC hotpath is a dedicated register region that optimizes
+>>> DAC updates in multidevice configurations where several AD5529R
+>>> devices share a common SPI bus. It reduces the number of SPI
+>>> frames required to write DAC data and supports synchronized
+>>> output updates across devices. In single device systems, the hotpath
+>>> offers no advantage over the standard register map and can be
+>>> disregarded."
+>>>
+>>> As an example
+>>> MULTI DEVICE SW LDAC MODE 0 REGISTER
+>>> "This register sends a software LDAC update to the selected devices
+>>> that share the SPI lines but have different addresses, using the ID0
+>>> and ID1 pins. The selection is done on a per-device basis corresponding
+>>> to the configured bit field."
+>>>
+>>> This one triggers all selected DACs (there is bit corresponding to
+>>> each address) to update in sync. (Lets put aside normal systems
+>>> where an LDAC gpio is wired to multiple devices as that is a whole
+>>> different problem).
+>>>
+>>>
+>>> It is this part that is driving the suggestion of having
+>>> a combined device representation for multiple physical devices.
+>>> In practice it is very similar to chained devices where we do that
+>>> already in that a longer access sequence is used to talk to multiple
+>>> devices at once.
+>> Ah I see. I definitely missed this section.
+>>
+>>> Those SPI messages do not carry the address (or they are ignored - I didn't
+>>> dig into the mechanism).
+>> It's definitely hard to tell this at a glance, nor does it really
+>> matter.
+>>
+>>>>> They are independent devices (think of them using spi-device-address
+>>>>> like an i2c address) -  so why have one DT node for up to 4 of
+>>>>> them?  Note this is different from the AD5529R where the design
+>>>>> is intended for them to operate as one single larger device.
+>>>> I don't buy this argument, I just don't see what differs between the
+>>>> devices. The microchip datasheet I read talked about using 3 devices to
+>>>> measure 3 phase power setups (I think that's what it was) which is, in
+>>>> my book, evidence that they're not just intended to be used
+>>>> independently.
+>>> Sure but that could just as easily be done with normal SPI and 3 chip
+>>> selects. For these devices there is no broadcast write magic (I think
+>>> anyway!)
+>> I don't think there's any magic, and yes I do buy the argument that it
+>> could be done normally.
+>> Quite frankly, I don't know why the device works like this other than
+>> pin saving. Probably some customer asked for it rather than there being
+>> a generic use case.
+>>
+>>>> That said, the more this discussion goes on, the more I think that
+>>>> merging the devices into a single node is a mistake. Logically there may
+>>>> be one device, but really there are one to four devices. Doing the
+>>>> logical device thing is nice maybe for software but I no longer think
+>>>> that it represents the hardware correctly. I know this will cause
+>>>> problems with registration of devices in the SPI core, but we need to
+>>>> pick one representation for these devices that fits in all usecases
+>>>> and with the things brought up in the other mail I am having a lot of
+>>>> doubts.
+>>> This wasn't about use cases as such but the broadcast like facilities the
+>>> ADI parts have which to me smell like the main reason you'd put them on
+>>> a single bus and use this feature in the first place - you are making
+>>> one big DAC from multiple chips.
+>> No, I think the use case bit is important. The representation (in dt)
+>> shouldn't change because someone wants to use the device as one big dac
+>> or 4 smaller dacs. The multicast thing does certainly lend a lot of
+>> weight to treating the dacs as one device, so I guess that would be the
+>> designated representation for this dac.
+>> But then I don't see why the microchip devices couldn't be dealt with in
+>> the same way, even if they don't have multicast, in order to create a
+>> single consistent way of describing the devices.
+> How about we kick this down the road. Leave the two microchip devices
+> alone for now with their vendor binding (which we have to carry on supporting
+> anyway) and just do the AD part.  For future devices we can push towards
+> that model if they have such a device-address feature.
 >
-> Hmm noticed today that mm/folio.c is in the MGLRU section :)
+> I don't mind changing the microchip parts in principle, but it is going
+> to be a non trivial change and I'd certainly be nervous to make it without test
+> parts
 >
-> This doesn't seem correct - shouldn't this be moved to the core mm sectio=
-n?
-> If this is already in mm-stable can send a follow up patch for that?
-Ah, sorry for that, exactly, should be in the CORE section.
-After mm/folio-compat.c
+> Of course if anyone does mix parts we have to think again.
+>
+> Jonathan
 
-F:  mm/debug.c
-F:  mm/folio-compat.c
-+F: mm/folio.c
-F:  mm/highmem.c
+Hi All,
 
-Not in apkm/mm-stable yet, which one is better?
-1) send a small follow-up MAINTAINERS fix, or
-2) send a rename commit, and could fold it into the commit.
+Based on the discussion for v8, I plan to:
 
-Best regards,
-Jianyue
+1) Drop the Microchip-related patches from this series
+2) Keep the spi-device-addr property and the AD5529R binding/driver and represent AD5529R sharing one CS as one device using the address array.
+
+This would reduce v8 into just three patches related to the AD5529r.
+
+Please let me know if I missed anything.
+
+Regards,
+Jan
+
