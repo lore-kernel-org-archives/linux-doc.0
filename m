@@ -1,36 +1,34 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1969C4756D6
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 19:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C8E486654
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 19:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785871532; cv=none; b=Rdk8LiC7krdszumnRX2JRcxsBdABUoM9C3V06nzJyk/D+Pxp2DXxl2cakIL/dX7keEJRLPxm2FjOrZOa+hDiXRzJv3KjQSaGjoMgzlFSuLCZ/cLKPshklPEZrtSWfWDi8RpneIN0gzyZL4M6fMAAte4Sx0DlF2pZNHKZkrRHcGg=
+	t=1785871534; cv=none; b=Yv1UrTmF9WeYkcwIYy42sRKKQLkotRjkZsFGT11zmlctvNBT0IybkbYuOp17oo5WQBm9+IjSmOYJFpX1YmHs/50YayM0Qt2xBuXthnxiQf/nOi88/xBTCo2u2HvKME3B0FmrGTONxfVKqi2x1wHOj+9e7EbXSyt6YU6btqpZzlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785871532; c=relaxed/simple;
-	bh=2G6xuOd+lEIt8bVMlUD0kGAehyrpR7NcNcsyLUWXgv8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WKSH3q358X4AWFP7Q90h2cdhGm4kXrCfILtsUNLNvBGb4puinlAgFpR9wXCaHJz/CHhUoFHd4Ed38LARZxya3ZI5d4H3i/exxFcn/rM49+EdFi7cKHbkiduJFqXsq+NANrqhKJDEd1UzY8g3ZwgnIbT1rdi8xw/D9yFOCyOUowQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rCWUb/f0; arc=none smtp.client-ip=91.218.175.188
+	s=arc-20240116; t=1785871534; c=relaxed/simple;
+	bh=//foxHH/2PjR6L5nJj8cK35FU0GLrVPpN7iBqJ+oFjo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oPJ8YnKHL4sbl3pPEvdNbFQBEI3PTXQ4VWlNSzyZ08nRrSpCmfOx7OT7FbIzpQleHHPlUxnoMz7okNY1FVXfotlkILg8iTEmycO86mczl228w7Kn8zsdg0V7qoXxX7i3kg8wcIiQH7LyqCUd3FSb76w5xL5kDADhh34cDHKZgiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n/+W1jeS; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rCWUb/f0"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n/+W1jeS"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785871527;
+	t=1785871520;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVme6Lrk8eLALEVFcm4lB1EGIT/woVs12FA3T5p62Gk=;
-	b=rCWUb/f0kE/YDFFqxsBddT28dRPKcKcZqwxdVfULUqxAts5R4l83/1wdpxno73X/EOlDRK
-	oSfjTrBWMELU/htvG4Y4VYUGu0G2B2GxotUs5qW9VbSlXmdCwyG1OA2Z2oc7HsIBlGnszN
-	EBN+yVvT6QPBVYbjB3l3TP4f6wYEZhA=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=XNHgMmLcA6KLROW2cwwRYhGascVVpa2hXvMzLiBjt7Q=;
+	b=n/+W1jeSVVxgrZJHSKLo8tW9t36GT/aD1idhxc1YJwHgw/DWhjcFdoTsZo5KOTRTDB0HKN
+	72vzNeTtpE9cHGj1hAwmTdIQlS/ij4TlC/GYsmf4IcL4lMltnJjmQVdDUE+9b28GJD/6EP
+	JNoPduMCBLMIwKjxTVdPCrvQYJHKPuE=
 From: "Nico Pache (Red Hat)" <nico.pache@linux.dev>
-Date: Tue, 04 Aug 2026 13:25:00 -0600
-Subject: [PATCH v3 2/7] mm/khugepaged: extract young page check into
- pte_is_referenced() helper
+Subject: [PATCH v3 0/7] mm/khugepaged: several cleanups
+Date: Tue, 04 Aug 2026 13:24:58 -0600
+Message-Id: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,9 +37,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260804-khugepaged_pte_refactor-v3-2-0364cad642a0@linux.dev>
-References: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
-In-Reply-To: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMWwqDMBSE4a3IeW4gNdZetiIiSZzG04KGJIog7
+ t3YPn4M828UERiRXsVGAQtHnsYMdSnIDnp0ENxnUynLWj5kJb7D7OC1Q9/5hC7grW2agrjB3Gt
+ cK/NUmvLb54XXX7lp/46z+cCmM0f7fgD/TRuoewAAAA==
+X-Change-ID: 20260804-khugepaged_pte_refactor-5eb76e14b93a
 To: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -56,82 +55,73 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  "Nico Pache (Red Hat)" <nico.pache@linux.dev>
 X-Migadu-Flow: FLOW_OUT
 
-This change deduplicates the "is this PTE/folio referenced enough to be
-considered for a collapse" condition that was repeated in both
-__collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
-a single inline helper function.
+The following changes stem from a number of reviews during my khugepaged
+mTHP support series [1]. Some of these are minor code cleanups, issues or
+reviews that we decided to deferred to a followup series, or in the case
+of the more major patch of the series, changes [2] Lance Yang attempted
+while my series was in-flight and we decided to wait till later to try.
 
-Also move the comment and use it as the function header. While we are at
-it, updated the comment to clarify that a young pte is a recently accessed
-one.
+The first 3 patches introduce helper functions to increase code reuse and
+readability. This includes a per-scan state clearing function, extracting
+the young page check into a helper, and a count_collapse_event() function
+to reduce a repetative pattern used across mTHP collapse.
 
-Acked-by: Usama Arif <usama.arif@linux.dev>
+The 4th patch was the byproduct of me throwing Claude at all the
+comments in khugepaged verifying and looking for any outdated info.
+
+The 5th patch is based on Lance Yang's commit series [2] trying to extract
+the PTE state checking into a helper function. This required a bit of
+rewriting due to differences after mTHP collapse was introduced. I also
+took into account the changes requested during his patches review cycle.
+
+The remaining 2 patches were review points during my mTHP series that we
+agreed can be deferred to a later series.
+
+Thank you to those whos reviews and work I leveraged to achieve these
+cleanups.
+
+V3 Changes:
+ - Add Acks/RB tags
+ - rename collapse_is_referenced() to pte_is_referenced()
+ - fix count_collapse_event() call-site indentation to match kernel style
+ - fold in the follow-up fix so collapse_scan_pmd() always assigns the
+   local folio from collapse_check_pte()
+ - normalize khugepaged comment references to use parentheses
+
+V2 Changes:
+ - Add Acks/RB tags
+ - rename collapse_is_young() to collapse_is_referenced()
+ - delete unncessary comment for collapse_control_init_scan()
+ - merge fixup from V1 (fixes stale folio reference) into patch 5
+ - keep original ordering for checks in patch 5
+ - merge patch 7 into patch 4
+ - conflict resolution from uffd_rwp changes
+
+V2: https://lore.kernel.org/all/20260715025941.1571316-1-npache@redhat.com/
+V1: https://lore.kernel.org/all/20260706154500.39178-1-npache@redhat.com/
+
+[1] - https://lore.kernel.org/all/20260605161422.213817-1-npache@redhat.com/
+[2] - https://lore.kernel.org/all/20251008043748.45554-1-lance.yang@linux.dev/
+
 Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
 ---
- mm/khugepaged.c | 35 +++++++++++++++++++----------------
- 1 file changed, 19 insertions(+), 16 deletions(-)
+Nico Pache (Red Hat) (7):
+      mm/khugepaged: refactor per-scan state clearing into collapse_control_init_scan()
+      mm/khugepaged: extract young page check into pte_is_referenced() helper
+      mm/khugepaged: introduce a count_collapse_event() helper
+      mm/khugepaged: fix outdated comments
+      mm/khugepaged: Refactor the PTE state checks into a helper
+      mm/khugepaged: unmap pte before releasing vma write lock
+      mm: Documentation: clarify where the mTHP stats live
 
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 1e26ea97381a..9b15c1740943 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -672,6 +672,23 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
- 	}
- }
- 
-+/*
-+ * pte_is_referenced() - Check for enough referenced PTEs to justify collapsing
-+ *
-+ * If collapse was initiated by khugepaged, check that the page has been
-+ * recently accessed (young pte) to justify collapsing the page.
-+ *
-+ * Return: true if the page has been recently accessed.
-+ */
-+static inline bool pte_is_referenced(struct collapse_control *cc, pte_t pteval,
-+	struct folio *folio, struct vm_area_struct *vma, unsigned long addr)
-+{
-+	return cc->is_khugepaged &&
-+	       (pte_young(pteval) || folio_test_young(folio) ||
-+		folio_test_referenced(folio) ||
-+		mmu_notifier_test_young(vma->vm_mm, addr));
-+}
-+
- static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
- 		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
- 		unsigned int order, struct list_head *compound_pagelist)
-@@ -810,14 +827,7 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
- 		if (folio_test_large(folio))
- 			list_add_tail(&folio->lru, compound_pagelist);
- next:
--		/*
--		 * If collapse was initiated by khugepaged, check that there is
--		 * enough young pte to justify collapsing the page
--		 */
--		if (cc->is_khugepaged &&
--		    (pte_young(pteval) || folio_test_young(folio) ||
--		     folio_test_referenced(folio) ||
--		     mmu_notifier_test_young(vma->vm_mm, addr)))
-+		if (pte_is_referenced(cc, pteval, folio, vma, addr))
- 			referenced++;
- 	}
- 
-@@ -1766,14 +1776,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
- 			goto out_unmap;
- 		}
- 
--		/*
--		 * If collapse was initiated by khugepaged, check that there is
--		 * enough young pte to justify collapsing the page
--		 */
--		if (cc->is_khugepaged &&
--		    (pte_young(pteval) || folio_test_young(folio) ||
--		     folio_test_referenced(folio) ||
--		     mmu_notifier_test_young(vma->vm_mm, addr)))
-+		if (pte_is_referenced(cc, pteval, folio, vma, addr))
- 			referenced++;
- 	}
- 	if (cc->is_khugepaged &&
+ Documentation/admin-guide/mm/transhuge.rst |   6 +-
+ mm/khugepaged.c                            | 417 +++++++++++++++--------------
+ 2 files changed, 223 insertions(+), 200 deletions(-)
+---
+base-commit: 486855239e38a91d3eae26618ccb7845c1764625
+change-id: 20260804-khugepaged_pte_refactor-5eb76e14b93a
 
--- 
-2.55.0
+Best regards,
+--  
+Nico Pache (Red Hat) <nico.pache@linux.dev>
 
