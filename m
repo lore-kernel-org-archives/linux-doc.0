@@ -1,72 +1,69 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012016.outbound.protection.outlook.com [52.101.48.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D673AE18C;
-	Tue,  4 Aug 2026 23:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785886884; cv=none; b=OCbpz/LPABCY3oOFhs+Y8BG+I9O18DQGbj410QMOnE0uvWUbpMCu/vQKbdueeSEEkvZwEL3ao6rvsybsfH+oDtynlBOjoVD6oG7LdSrrfKdQtGtd3U1DcYlNUq3d3Dy0h8F65gQFR8KC6hwA3sXOlmlz62Etgs31JVbDgWJbJds=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785886884; c=relaxed/simple;
-	bh=BkDaZCWbSk/329AoK6n704eToLRHqZIRlCPrkwTRRQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ju0eJ08UiI+KBn/JZCmj4SlC1qNRHrcB0QqoWdBaQMVCgWvCZMDC25MXlFukiM+R1OQ4gamXtLCpu6hPJAs21BAcai+X7+kgkbvfmsZBp2/jqGuVAUEdn/++kkw28+ShQpcdFhgBELvP3r3tS53qWh1584rXDkirbKAXfNvjnTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=F+GrqBL/; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C34B3DFC8A;
+	Tue,  4 Aug 2026 23:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785887082; cv=fail; b=D/3R3HiMaLyampiO9vRN+0XHbfiLjk1CRhN5KMlzuDFkAIuG4N7EOBQpRUXqLig374bgvb1ryhXNp4GA949CJ94M2HwfkBpC5xAU5aa8/nAi9JZiyfbaTAHRSjp65hLtLtcW4bIsxb6+e84HVs7yYwLKWx9AKHCiX2DZ0nDIw5U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785887082; c=relaxed/simple;
+	bh=dHWjRsfpAB+EegD5LtfrW26LzA4bKldv9+Q35UR7P84=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LcNjb1vFgAb5Gh/8dIhRs13F/1GSrVnuOKtRhm1hfTYpYbvCbabRUuZBVY2AtiKrjfMJ30icridU6vuE/m5bOw/QuDAdzTzeaLtcYMUkCGMyvhrhraADvvI2+m0IKUlc2vzVdyDloe9aBCiaZV8uoLma87nqERY6KZ7jlOiUN20=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WCQeGIOS; arc=fail smtp.client-ip=52.101.48.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="F+GrqBL/"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0647240E014A;
-	Tue,  4 Aug 2026 23:41:20 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id V7_SJc6WDtxQ; Tue,  4 Aug 2026 23:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785886869; bh=707JwGDc6Mj8NkuW1jOL3JPs5A2QsQSLVK8M281cHtU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F+GrqBL/t8tDXD8KYo66aoIsjQIchRRN+r4/f2hkxu8HIJXEhBwXPeUO5D0R2a2/0
-	 2o8KhLLw5jSP53MzHhZtQ8ZLOqVpA11BSqDBF0khAcW3jKIfcLHjgeE5Nz7TSU5WOW
-	 HpixDwhaXiZAk9xOAvE4H4iI9NpR+GNW3ky6H4lZEfxfu4Gf042kznjHbOnF//Totv
-	 0ZuZF/gRNg5g0pgvH+dmEilHu8Ip2CSKdCeC8XLfLnbNZeOc8uAHLuNtgZMCSHYhLp
-	 4vUabVuKPPyhmEmVZ+sunBC+gPdlA3ujZQ2QiatKEMol9DpSmS2yO8Ri55qXi0/Pig
-	 sIW6tw1pWhthDMjfv1T2msCTTghpvOYf3xg1rqXCu7ymekl00Sb7T83nluUoVzhU2B
-	 YAzFNZjY1ebSdHqlhcX8jic7HPnjdXMT6+qg/lMcOW+BujztVe9WR30dEf/EFMuope
-	 0cq0P3b25Fw1jouPX7juGUQHXwhHPXO3YjHrEb+GRKMaVxOKVPlCfkPHeKYHQvdh3X
-	 lgOqEvRbObZTu/w9+RYEENPEieD/U57YcfKouY1NXcnwNPBy+Zshrj5KIbk6WfhTfS
-	 VZoIv1d3ps8thZr5H5heWXLdA3Rg4sCv+YMSv1n6X+x6EqFGb131lER/ku4qOVLkUS
-	 xbiCPmAqI11Tz06+4AWNwM3A=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9870940E00B8;
-	Tue,  4 Aug 2026 23:40:51 +0000 (UTC)
-Date: Tue, 4 Aug 2026 16:40:48 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
-	Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"tglx@kernel.org" <tglx@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"Eranian, Stephane" <eranian@google.com>,
-	"peternewman@google.com" <peternewman@google.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WCQeGIOS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hvJT8UHlFVXckZNpZcLEOwkv9LrX9yQ7lJDnhFfl9kpNF9qua6Eg2OUi5EFsL0r48dZ/W/abwtGYf3poaL5J0Wa4Tu87IApxLt5yb9Bw7eFm9IXwcmBgKZQquZL7pZaAE3ABKhyNBYF/DioANWsGE19Xi1IIaItCWpdVpj7Sp+HLXYsjVs89+VbOjPBktWzOfv4VmoXUnJ1XWkfTayk0y6wga1r5qCJ8xZ50fA+IObd7nji+kXtERewJk0I1YSekpMv3ky/7rGaqrvfV4cl7enSQntDTyHi4trdXfHLHOZJONXhR6WJ9G4UgCitR/L7RJfnLcLt1WG5d/CRC4i9GNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VdpQeWJPmYl4o1bBEUre3oVUTo8DPGyS5RaXyennxoM=;
+ b=d7rM4qXq2A+C75R44bE+piFF0+BKvp/VEhYJ2YBRc31VVB6GLxiruZgzRMXODl7nUvvmEXkXpIA9+anUUkFqsoBXD25wBREkO+3grkUOkwdlTxe6NK2RMXOMHjWXAahIyNH2O5NF1HrXlSetydCM47gh1h/wScMSaDRVBVBbqYIPEfFXSXw+gxJ/jp3/FmrZ5IAxIdP1aeeAvbahcGGJrbjJh4eMOie0sC5INCLcKE1dMi/zp57KoHUMdvPdkefeLM8m0cUOS3r5wnAy/FvbIc3/omZupTy2MffbElvt17e89ZFzF6Ts3gQL9Q3gpg7KAHWo8/Y5gmTVrsFRSCv99A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VdpQeWJPmYl4o1bBEUre3oVUTo8DPGyS5RaXyennxoM=;
+ b=WCQeGIOShRc/2HYCToQ7URnImZBiakYpqOWZKz2i3IAOVjx8VPRrFeLWgVvGdmsdRaArPZpBY+ff3oncUKF/SvZMQECAZcXr1cqwpjzfF3XRo38b5Vs9bFhZhdsr7IbimMkVWB9a1YQ6pPhCFvgDdr1MO+kIA0hfXDe+7eTLbKk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by SJ1PR12MB6241.namprd12.prod.outlook.com (2603:10b6:a03:458::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.15; Tue, 4 Aug
+ 2026 23:44:35 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0270.017; Tue, 4 Aug 2026
+ 23:44:35 +0000
+Message-ID: <b067caec-4e20-4095-a7b4-eecb5d8594c2@amd.com>
+Date: Tue, 4 Aug 2026 18:44:33 -0500
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
  "default" on boot
-Message-ID: <20260804234048.GGanJ4gFClcqwTHHDJ@fat_crate.local>
-References: <d364100d-45e4-458e-97d5-05416fbe5bef@amd.com>
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Babu Moger <babu.moger@amd.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>,
+ "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+ "james.morse@arm.com" <james.morse@arm.com>, "corbet@lwn.net"
+ <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "hpa@zytor.com" <hpa@zytor.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "Eranian, Stephane" <eranian@google.com>,
+ "peternewman@google.com" <peternewman@google.com>
+References: <e37866f2-974d-475a-b68a-8b74d6051dc4@amd.com>
+ <20260730184626.GIamucAtZxMUUGagGm@fat_crate.local>
+ <7d3dd384-9101-49cb-ada4-b8320198233e@amd.com>
+ <20260730194328.GEamupYLsURg6VvxBU@fat_crate.local>
+ <d364100d-45e4-458e-97d5-05416fbe5bef@amd.com>
  <SJ1PR11MB6083F7EC6D533C4E183D5876FCC92@SJ1PR11MB6083.namprd11.prod.outlook.com>
  <20260731003436.GKamvtnJlKydaEqstA@fat_crate.local>
  <4bfafa1e-a7da-4c37-8da9-9fbba14106fd@intel.com>
@@ -74,52 +71,155 @@ References: <d364100d-45e4-458e-97d5-05416fbe5bef@amd.com>
  <5f10ceab-5569-409b-8e78-c4a4f232489f@intel.com>
  <20260804191608.GDanI6eK2Q07w6pNcb@fat_crate.local>
  <98be93cc-f2d8-4bad-bbb0-f309e912054c@intel.com>
- <20260804224703.GFanJr52UbKBrCOTij@fat_crate.local>
- <SJ1PR11MB6083C1B9D29DF6184B50597BFCD42@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <98be93cc-f2d8-4bad-bbb0-f309e912054c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR03CA0265.namprd03.prod.outlook.com
+ (2603:10b6:610:e5::30) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083C1B9D29DF6184B50597BFCD42@SJ1PR11MB6083.namprd11.prod.outlook.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|SJ1PR12MB6241:EE_
+X-MS-Office365-Filtering-Correlation-Id: df4452d5-3a4e-4316-1720-08def282571c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|366016|376014|1800799024|6133799003|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	r0VmfO4awEGOmcNGUCE7bgKAlxpwl7xAJMJ/8HLNnI04DR1Ts8+FYpjx/K/jwYMe4ijdflzPIyy0hVefWY+HOukwXO66rWHb3LXEyJKxdjag+g5WGK89HhOkrMQ1rqpTGG0Fvqt2xDvt7JRP2IuBi1RAaSBWjiOr86Bn9xHI07FNJTcbf6nXL4YOCgSIbGWAqmyUx7ga12ky/XGBAgJjnMDLPtqsEENEoNX7pwYLRlYBH6gouJO1khQ/GTJ6Gjf+cq7m4kjiivnLHqHKJDBgjq4WhS4j/PvAfOjRWBa1oxxRB3yj2czn5xusvbrzvbAAUy+1uxCK7qGpNd/9Z1uwpl/GYH0FGUI4jV/XgYGkExZGtr2P6Pz2ws5F8px+AKTWLxWl7ux+PqvR4+VxQb/QIkwW0K+DDpzafI2iv49o006hVH4ukNGiCfjABIM6jfl05+gVAq3nTg03hcurvbB0E8FwSjTWNqwaV9LASGgEC4mmptpKNo8GRPhxn5428DSg7V80OJz5mjV5+zkg2+Ic+sUsOfGl0zxbi6A0lzW+qdxUO9yCUcR3mx89xi3moV6zVDRMoecPjBTLFB3dqbsgZNsJzt5PN0nIirw95MtIEa48oxvZADaFOgGLD8oZ5W/nwukd1mVdC8RumBrj2f7PG/lRzJhVqt0wqZc3sxwPI4Q=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(366016)(376014)(1800799024)(6133799003)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OEU5QnFHNHBHelBMd2QvYi8vUmRjdkZ6OCtyZTJ1bDFwY2F3OW9BVjVlTTVh?=
+ =?utf-8?B?RWo4OEppKzkzeVd6cU5oVWM4dDVCTDRVOEZDQ3kwMjJhS3dYdE4wMTFqdk04?=
+ =?utf-8?B?VTRmZXFtU3hhVTVOam4yOS9BdnYvMnlKdThGNDN6bElZOEY0bVNXUFY0VDh4?=
+ =?utf-8?B?M25ReVFXald6eXBMdHVHcGpjUzl3Y2l2Wi9RNVBhWm9hU1RBcnpSN1ZuOW1v?=
+ =?utf-8?B?UXNhbHE3bkJtL0NQUVluZ1JEdWFFMDRULzlQV0hSa3Z5bDhtWVlqS0w4dTh6?=
+ =?utf-8?B?ZWpzUTZrTTZmZS80RmNJNGFjQ1FqRTM3V052KzhRNC90WmlLUTYzWDdJTFRR?=
+ =?utf-8?B?OHlkekUvNnNXY05KcS82U3IrdHUybk4vellBam1ZVno2bFl1RWwyQ0VpMXNW?=
+ =?utf-8?B?V2lSVGw0cUJvMDZrRzZ0bWZaSkQrWEdvajhsY1JTbmVsR0NTVVJkd2VRQmJq?=
+ =?utf-8?B?a29qeHllYXRmQjUveEtlVkdmTjBma1h4SGV6WDNlWjZCcmhzS2FmY1FBY3ZX?=
+ =?utf-8?B?TWpHZkROVVhqbzdtT2xmN0FFMDArTWQxc0pLZlBsTUpLZFhtTU9zcUNmbXo5?=
+ =?utf-8?B?RGpRRlVNZlZEV042S1UvNmlzc1lzUTRwQ1djaUdOTkRCWi9uMXJMei9kZnV5?=
+ =?utf-8?B?a015MGhHQjF6VFgxWjFmelpXVmJqSXRTZC9FQ1pjY2VUcW1kbU45ZnZjNFZm?=
+ =?utf-8?B?VFJ4dFhVTjdLVmtsc0s1OWtmcXNCSGdla1BlclVnM0tJL2dyYUVCOUtMaEYz?=
+ =?utf-8?B?a1JjU0hmdWM1dlJVSXg0TXpwbS8rTFpkTjFqN2FkV2NuNnVvNFpQcExwOFhN?=
+ =?utf-8?B?cjU0d0JSdFdHY2REMnQ0Nkludnp3MGlrbHo0bjQ1TEwyRWdGdG5pbzZ1dUtJ?=
+ =?utf-8?B?Vmxsb1RoUWxVbHRmWHlyUW1COS9ISUE5emEwbHZOb0tFZ0RqbVRLZ0RRZEFn?=
+ =?utf-8?B?aHVvV1hucW5sMGdjN0xNR2ZsaHJreFFrOEY4aGJpR0RUVFFXQ3Y5T3hHcXA0?=
+ =?utf-8?B?VlB4VzJhMkgrVkxRcEdiVXFHanpVV1F6SGtnTlZZS2RoLzNRak5HT2ZabWVR?=
+ =?utf-8?B?eXdVUDdlekJxeGMxQmFUbnBReFhOYnFpVWVTZkNPdTB2T3V1R0EvaHZqcW0z?=
+ =?utf-8?B?RGRkQ1hQWm0wMEN1MktNVVo5K0pEVm5mYTM4OGxGcFJuWTRUYjFnK2V4L3Mw?=
+ =?utf-8?B?alNoWFBYci9yY0NWaFFjMDhQejBWOVAzeXo3TnlFdWp0NUpvWm1NK0NIWm1C?=
+ =?utf-8?B?VTFaR0dMRHJYK3cxbUN1MHAzcWdidms4V0VPUE5nSzZEbUQ2bXB5M3d3dlk0?=
+ =?utf-8?B?WElaSGJFSVgzbDB1VWhscWM5WCtjOHd3N2RWMDU0RTQvbERiajVFQWp6RmVS?=
+ =?utf-8?B?QlE4WXNrN2ZpUC9UNG5HSHMySVY0UWRaRVgyOHdoTndxSU5IbUxIa0I4V2J4?=
+ =?utf-8?B?RS9ZM0ZzdGxpN0dhNUZkaW96VFgxenhMcThPNFdKaFNlWUdzOHY2QmJHWm85?=
+ =?utf-8?B?S3puYmYzd1pRNkJvcEx0UlRUUmlFVm12STRxOG41QVZzQWhrbTlwMmFjeTcr?=
+ =?utf-8?B?ZzFyM255bnF5OW91R0VWMjZpSVhnZDZCNlRWd043SlpsdHp0VmdJd0Y4L1Zv?=
+ =?utf-8?B?dmxSWGhhVDg2UDk3L2VDTGhsbFp5amo0NlJnNklnUWFNTnBIL3pRVGJPN3hu?=
+ =?utf-8?B?VDd1eVJGYW42K0NneiswWVZOTzRiMGxiREhWeGovUXR4dW1FSDRQOTJOZjFv?=
+ =?utf-8?B?QSsybnBNTlNha3dHb0JSZUdGSXo4VDI3Y1Z4ejEyMHlZN2FwbGVyd2xndzR5?=
+ =?utf-8?B?SW9oMENBZDY2azBnVkNWZWZhTm13RUF6eWRsdUxMNFdETXBmaVhiZ2w1amZw?=
+ =?utf-8?B?bjFOcjZ5UitJaWdnY0xLTnRzVktEVlVZd2hubzNoSE9YdnRHc2pHVFhmQmdZ?=
+ =?utf-8?B?SFhLK2d6NTJJRWgxem95ZFRac0s1aGI2UmlnY21XdzYzV29sTy81UUk1VUxD?=
+ =?utf-8?B?bzlHYk9Ec0pHTEZKbjY3ZzZzR1oycjgvUzd0TytGQ1krcTRPYlFYUUJIbUNP?=
+ =?utf-8?B?VXV4dTdUNXNwREN4TDFLOExZZW1ob3ZXMGJxOGZveFN1WEQ5N2FCNlYzN1Zm?=
+ =?utf-8?B?WEozdXVxc2V3NFFlR01WMTVtM2dRM2QreDBEQmpHc1lkYmNGOTFFNy80MVZB?=
+ =?utf-8?B?QnRWRUFJOUxQR0Y3dWU0MFZsM0htdUNHVkIrck8rbUlTakR6ZEszdkZEdUs2?=
+ =?utf-8?B?QnE0TFV0YXN5VHducGc3Q2gvM05XYWtQMXVQSHRST05iNXJKaGNKRVNRVGt5?=
+ =?utf-8?Q?jeKxETeCkawsMOvWfU?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df4452d5-3a4e-4316-1720-08def282571c
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 23:44:35.5278
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mAlSXehPJkG5wDvnPsJwUlYtyHbQTVgIunVbb9GOGe93/ZDEsfdOsJu9SMAjRLQA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6241
 
-On Tue, Aug 04, 2026 at 11:05:48PM +0000, Luck, Tony wrote:
-> Intel systems have counters backing up every RMID. So CPUD leaf 0xF tells
-> Linux how many can be used.
+Hi Reinette,
 
-Are you saying that there is not an Intel system out there which has less
-counters than RMIDs? If so, that would explain why the exhaustion happens on
-AMD only.
+On 8/4/2026 5:10 PM, Reinette Chatre wrote:
+> Hi Boris and Babu,
+> 
+> On 8/4/26 12:16 PM, Borislav Petkov wrote:
+>> On Sat, Aug 01, 2026 at 04:47:01PM -0700, Reinette Chatre wrote:
+>>> ...
+>>> On Intel the RMIDs are always counting. Please keep in mind that these RMID do not
+>>> actually return raw counts that are verbatim passed on to user space but instead
+>>> the returned value is "upscaled" using a hardware provided scaling factor to obtain the
+>>> value that is returned to user space. This is done on AMD (with and without ABMC)
+>>> and Intel.
+>>
+>> So, long story short - and I appreciate the explaining - we should switch
+>> AMD's default behavior back to RMID + 64 counters - exactly like it is on
+>> Intel - and the ABMC thing will be explicitly selectable by the user.
+> 
+> nit: s/exactly like it is on Intel//
+> 
+> ok.
+> 
+>> This way there are no surprises when running any tools on either vendor and if
+>> one wants something special, one selects it.
+> This patch, once minimized for easier backporting and marked for stable, would
+> accomplish this.
+> 
+> Two nitpicks:
+> * "no surprises" should be "no surprises (as long as AMD hardware does not return
+>    "Unavailable")".
+>     There is the known issue with the default mode on AMD where return of "Unavailable"
+>     is treated as wraparound by pqos.
+> * "one wants something special" should be "one wants accurate data".
+>     Caveat: User does not know how inaccurate data is in default mode. Users need to learn
+>     about existence of accurate data from outside resctrl via external sources, possibly
+>     leaving it up to the tools considered here.
 
-/me goes and looks at the SDM:
+I can capture these limitations in the documentation(resctrl.rst).
+Is that what you're suggesting?
 
-So there's leaf 0 there:
+> 
+> What is the plan with https://github.com/intel/intel-cmt-cat/issues/311 ?
 
-EBX[31:0]	MAX_RMID	Maximum range (zero-based) of RMID within this
-physical processor of all types.
+I see a few possible options:
 
-I'm assuming that means you have so many RMIDs and all of them are backed by
-counters.
+1. Use a workaround by mounting resctrl, setting mbm_assign_mode to 
+default, and rerunning pqos. We can also document this 
+limitation(Unavailable).
 
-And if we look at one example if Emerald Rapids:
+2. Reference the commit ID once the patch is merged.
 
-CPUID 0000000F: 00000000-0000007F-00000000-00000002 [SL 00]
-CPUID 0000000F: 00000008-00008000-0000007F-00000007 [SL 01]
+3. Reach out to the pqos maintainers to explore any other available options.
 
-https://instlatx64.github.io/InstLatx64/GenuineIntel/GenuineIntel00C06F2_EmeraldRapids_02_CPUID.txt
 
-That 0x7f there means 128 counters for 128 RMIDs so there cannot be any
-exhaustion.
+> 
+> sidenote:
+> Separate from this I again would like to propose that AMD work with pqos folks on
+> how pqos should handle the various text return values to fix the wraparound
+> issue. For example, is the preference for counting to stall at a number until the
+> hardware reports data again (so that user space always just sees numbers and not
+> be surprised by text) or should the text value (for example "Unavailable") be passed
+> on to user space or ...? The current wraparound issue should be fixed but it is
+> difficult for me to gauge what solution users would find least surprising. My
+> expectations from users do seem to be on the high side.
+> 
 
-Am I close?
+Yes, this has been a longstanding issue on AMD platforms. So far, we 
+haven't found a viable solution. Hopefully, AMD will eventually provide 
+support for all the counters that are advertised as supported.
 
-Thx.
+Thanks
+Babu
 
--- 
-Regards/Gruss,
-    Boris.
 
-https://people.kernel.org/tglx/notes-about-netiquette
