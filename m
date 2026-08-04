@@ -1,41 +1,42 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A340471D0F
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 16:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317C1471D0C;
+	Tue,  4 Aug 2026 16:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785859210; cv=none; b=lcUMvZ2pFdVBe+miBaUwHDClbzIztGKxUG59fcktw8KA72zIupuw8izYX7mEytSIxYhfdGA4OmKBomWWI5sdWwDCKmVTqlQGC3L0HNq/J9jhX3FaPRsvZFztK+oiFbTOtBHNwcz6FNSTEZrnwIfYMS9iwG1oMR2vqjyxXAnJUO4=
+	t=1785859212; cv=none; b=Try5Bvd4Obj542bFuzWK+DyLhTE4gMjVzpvZrk8dW/Oq7gGCOnFK3KvJbWnpXUCgM/T5qdRQTrfFZkakekdt/Cpkeg9rpYMGfuXmHtp0NkhbmhnDenIXCgkL0yR2JqJgagC1LSqRyxeQW1oAmIsFvv5apZMHx5khL9r2jPyo//Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785859210; c=relaxed/simple;
-	bh=HU7cYmvbSbRshrJ/kuuJMfToQoDrY3Cm0VY2le3w8Ps=;
+	s=arc-20240116; t=1785859212; c=relaxed/simple;
+	bh=tczW+vIe4YcPaKzy/wFQo8VsC+WbabUQM+DZZjvDOCM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uVihu613qkeWahdDOCUrDlZvmPoHln5rspzWIUQoIgus3IY+DFvD4UXWAE/EFK7MCzbPgxly+hY0NCYuFnWp8dYr2SulDqgUzr0NhJJIbuYShJrMcLW8IhloDEk0/VKUlWHqMxflbx49LkvCvZMuINrYG1KjDF0phyE40qnZhKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RjSZjgyw; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=dcpySul9+zzWyePVkNl/aUNkqEChn0QUDk2nGSc1psIj/0nYVY27TJufEhmOcMY9VRV3JTyS3qHUPSInUL4qyUhqmZvmFA4xcTKsdS3TXHtihb/4yfRTdlbNMxzKOXo179/v8MxTo13kpTBPGOvPld6bUyBBeURhLUfKj3XkWsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GVUBcd/X; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RjSZjgyw"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GVUBcd/X"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7E3A51A140F
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 16:00:03 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 4514C4E410E6;
+	Tue,  4 Aug 2026 16:00:08 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3BE516029E;
-	Tue,  4 Aug 2026 16:00:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9328911C330E9;
-	Tue,  4 Aug 2026 17:59:57 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0FE516029E;
+	Tue,  4 Aug 2026 16:00:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BC36111C330DB;
+	Tue,  4 Aug 2026 18:00:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1785859198; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1785859203; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=YkZvC1p+DD+q5AG/e9wSRjV6RfiGviNH1J47rikniv8=;
-	b=RjSZjgywtw7+cghx2B1uCgbzUrGq1c61hzaL+yt5dVxZNAjROhIu4S1JXCv5ZB6q9QcCzL
-	58EDX/TAIzzSOA/D14ya5NQ65RKO9d73RnuyX+bIEh0XKQDNQA7bTRS40YzwlGms3wM9+Q
-	oADkcoPk8t4vPB3xJbDBbtmt57mR0nK+kyRnp8LNlct1kpc9q5CtxW+WYMZsgZljst6vcB
-	07k5/WkHpH6bcLrpUczgL8K8ViIXejwFF7ijPvr+X13MlimSW3PtYUShjcQtykJFZcMypg
-	vz5TPWjA8FYMWX6ZeLYyluLXIk0BH9XP8i9DfP2+ofAUSZnHET2Br/1z2qQO1g==
+	bh=wXY+31TEoso0l8dIhnSmDNqvnx6Xg68W6dMgSAePoFs=;
+	b=GVUBcd/XidoWG7On2W1YKR2P25H/6hdIWtORF1OthBEOoN4S5HltxPBL1/cOwW1f+mG3mw
+	vEfMVkwnAReAymIWCXtmeF0fSveuWxBQ5WSTa9k23VcFJOUu976DUlP82wcE9ePIe0ms2B
+	NxEQHgsMr0y2LRkDGAMudq1iZVO9/OXII8ZyQYJ6a7D0J4wSA2fBpgvXcuTtD92nQ0xE3g
+	VDdZnMhtun6NeSuHNgJpbYRSD65Z24lnpZZ8aAqTzN8fU8JwIP6Ku8Q0eg03d1RZL4e2qm
+	THV5tzHY5lqqJFr07X+QQGjGcVnY4RxcPw0V6HyRTo6uAG7VOAIDho65up+q2Q==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Tue, 04 Aug 2026 17:59:34 +0200
-Subject: [PATCH v2 1/2] Documentation: html: show sections in the sidebar
+Date: Tue, 04 Aug 2026 17:59:35 +0200
+Subject: [PATCH v2 2/2] Documentation: html: adjust sidebar section titles
+ styling
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,135 +44,57 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260804-show-sections-in-sidebar-v2-1-a68d23bbc79d@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260804-show-sections-in-sidebar-v2-2-a68d23bbc79d@bootlin.com>
 References: <20260804-show-sections-in-sidebar-v2-0-a68d23bbc79d@bootlin.com>
 In-Reply-To: <20260804-show-sections-in-sidebar-v2-0-a68d23bbc79d@bootlin.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Antonin Godard <antonin.godard@bootlin.com>, 
- Randy Dunlap <rdunlap@infradead.org>
+ Antonin Godard <antonin.godard@bootlin.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3340;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1036;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=HU7cYmvbSbRshrJ/kuuJMfToQoDrY3Cm0VY2le3w8Ps=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqcgx2+i+R3m6d7Gw8jT0bad58wUqDzsXLdTr/d
- 2BUbgqsMuuJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCanIMdgAKCRDRgEFAKaOo
- NjOvEACO0qfT2jS+dx0+QQcoKt+9kuCI4uSjRC8OSyckFL1s2388hL21wM+/f0iOibO/nIL/pF7
- T9se/eyDUwPQabi4YM4FYr5WmsftoqRfWK1sqBkBkOOQeqwdf+NBEzz/VMlBT97ULknlfUCmZkb
- lp0M+tNh2GmwtPHiM3WGV4amSlyZ52je8Ia53pIFAEbSp3v5XoSaBS54mBbiDOCZTkgefw9fspD
- QyrHMzZm4ykPvbYPls5g7kEeTHdQMcK+L4Gve9fxJQP9E80wgzfN+Z6Bwx7o4/+U/G10FWygk9+
- slp/oS/AQWrJSz7JROfL4652F3QR2JoYPG0R7y2rH3aKyLamOefFU1ssXIHEjApqMZDC2XzbyNs
- wMTHoim3xCsfG0KfOn5bx6hABe869mJ219e/EV0CJ1w7Rh3hdflOyDhdZz9JkC3VIpLLEHFm0VZ
- 44oGUFH1a8uAF1hM7XdQjGjS+uyneRzDkFMyojLrdWdWSBHz+hu6AMCUAuOX0aI1FvQGZck3U0Z
- FFWpTGX7C6JUkorvkNFYaTg+XePt5gZjdgLf7k54FuDXetvCkHdm0Ay46HgQMBOBB5jkYREj8o+
- fVzvoSnfp0tBd2wh/D7tvUTR/smGkVLxKpLYaBhf7RIUOTAWZN8XP9vHsb7x/1mPm5vzXqlueC2
- inQoRm7KegLX4Ew==
+ bh=tczW+vIe4YcPaKzy/wFQo8VsC+WbabUQM+DZZjvDOCM=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqcgx2eQn6CjvGFpodt/1/94z3zGPuIKuVF4b9M
+ E+4QeUaCh2JAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCanIMdgAKCRDRgEFAKaOo
+ NgMYD/sEvvzwLjUOmnqOq5J794Krq3kWqbeL0IbbSwOSH+D/H3hbKvRzBg+q+QV937PEwLGD1Jg
+ WQYknGhOJacc0Sf4OyGnf+XFWVXX1hhsZfPDoY2JF93n1cleBI2NyFQHZb5UoITr50cPrxrmAjW
+ lcZnJMW444F245QMUOy2CRG/nZabLfLHnE+cRE3Ow/MtbOFRkPTSVT3Jt5tAwWpI/Ijx42wDPte
+ wCl5zXd/oSQrnCfWbYNyXKL1mkuEeaqG3nBj172z/X3LcqdL9Q8MgfccNCBboQy4Qbq8ubYhCUs
+ mrWotOawfnUOs2vqqkaNNTHdPFl0GAM9iuxD4rkAUxLUpG2aFidCodLFX2mzWzMHZGdD+6le63s
+ v1J8mVLZyLn2YruMGTt2U5oQnxOfVzVKPWGZrSayCWQp+5ptvoH7BxvpuYI+Dc3yo7pYIRd4pE4
+ NHYugERu34CRHcQxAU2r4L6njA8Kno46dPhI+dMqRYo9LxKenOfJDSY+OVD55QP5d/pJHQwOlJa
+ q3PgRoO0FT9LfhdB9qqU5T36+9NFjnaH2+/XfsWZd+81LdXy4dqjP6puaK7i4JIQfP7/0O7WV/M
+ a84VFZbM6gamwmT6bIhXaBk2yHXynC1zXn1T8BNtRiyal/89alyRDb7L/9L9lQZG8prfWdXlrNn
+ OEfRJBBkTUgBTaA==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
 
-The current sidebar in the HTML version of the documentation does not
-display the section titles because the toctree directives in the
-top-level index.rst document do not contain ":caption:" properties.
-Replacing the current section titles by ":caption:" properties would not
-allow having text between those and the table of contents.
+Now that section titles are displayed in the sidebar, make them bold to
+have them stand out compared to the subsection titles, and decrease
+their bottom margin to group them with their subsections.
 
-To workaround this issue, add the ":caption:" properties in the toctree
-calls which makes them show up in the sidebar, but hide them from the
-index page with a custom CSS addition.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
- Documentation/index.rst                | 8 ++++++++
  Documentation/sphinx-static/custom.css | 6 ++++++
- 2 files changed, 14 insertions(+)
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index c0cf79a87c3a..a9eba8187de6 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -21,6 +21,7 @@ community and getting your work upstream.
- 
- .. toctree::
-    :maxdepth: 1
-+   :caption: Working with the development community
- 
-    Development process <process/development-process>
-    Submitting patches <process/submitting-patches>
-@@ -37,6 +38,7 @@ kernel.
- 
- .. toctree::
-    :maxdepth: 1
-+   :caption: Internal API manuals
- 
-    Core API <core-api/index>
-    Driver APIs <driver-api/index>
-@@ -50,6 +52,7 @@ Various other manuals with useful information for all kernel developers.
- 
- .. toctree::
-    :maxdepth: 1
-+   :caption: Development tools and processes
- 
-    Licensing rules <process/license-rules>
-    Writing documentation <doc-guide/index>
-@@ -71,6 +74,7 @@ developers seeking information on the kernel's user-space APIs.
- 
- .. toctree::
-    :maxdepth: 1
-+   :caption: User-oriented documentation
- 
-    Administration <admin-guide/index>
-    Build system <kbuild/index>
-@@ -88,6 +92,7 @@ platform firmware.
- 
- .. toctree::
-    :maxdepth: 1
-+   :caption: Firmware-related documentation
- 
-    Firmware <firmware-guide/index>
-    Firmware and Devicetree <devicetree/index>
-@@ -98,6 +103,7 @@ Architecture-specific documentation
- 
- .. toctree::
-    :maxdepth: 2
-+   :caption: Architecture-specific documentation
- 
-    CPU architectures <arch/index>
- 
-@@ -111,6 +117,7 @@ to reStructuredText format, or are simply too old.
- 
- .. toctree::
-    :maxdepth: 1
-+   :caption: Other documentation
- 
-    Unsorted documentation <staging/index>
- 
-@@ -120,6 +127,7 @@ Translations
- 
- .. toctree::
-    :maxdepth: 2
-+   :caption: Translations
- 
-    Translations <translations/index>
- 
 diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 5aa0a1ed9864..0576d4fcb2a3 100644
+index 0576d4fcb2a3..40e4ced963dc 100644
 --- a/Documentation/sphinx-static/custom.css
 +++ b/Documentation/sphinx-static/custom.css
-@@ -75,6 +75,12 @@ div.kerneltoc li.current ul { margin-left: 0; }
- div.kerneltoc { background-color: #eeeeee; }
- div.kerneltoc li.current ul { background-color: white; }
+@@ -81,6 +81,12 @@ div.kerneltoc li.current ul { background-color: white; }
+  */
+ section#the-linux-kernel-documentation p.caption { display: none; }
  
 +/*
-+ * Hide toctree captions on the welcome page, they should only be shown in the
-+ * sidebar.
++ * Make section titles bold in the sidebar, and decrease their bottom margin to
++ * group them with their subsections.
 + */
-+section#the-linux-kernel-documentation p.caption { display: none; }
++div.sphinxsidebar p.caption { font-weight: bold; margin-bottom: -10px; }
 +
  /*
   * The CSS magic to toggle the contents on small screens.
