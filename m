@@ -1,60 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C865C3C7689;
-	Tue,  4 Aug 2026 13:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6367B43BDA5;
+	Tue,  4 Aug 2026 13:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785849994; cv=none; b=rNyLJoP2AcjxTG2G/tKP3fsEWMRNC/7Xs/u1ze70VtNiAsHvkQW7SHGSO5LhMRtlwgSkkAdRnx4Rvt32TwYI7UWSG46t9AocTh+MkDmi6PzzgKHSX6H88cKBjcEp6JKgFd+7bR/2itHWveejKLNAOSeX2MgGYm503PPz2qM3muw=
+	t=1785850337; cv=none; b=JxeTsQxv2zb7ELt5CydqYwQYzq/Ht8rA/cUZxPLO6xJ/XiM749RBtgs4ssDWGH4G9Z2T5GyuKeGGtbD1qi8sXgqDLbLrB1dQQfjP2uPplIoSlN577ScvKCNJ/u8dpJCBPWph4smLMPOHTacJo20EN1ogMpVg3G2WepnoOYjQTU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785849994; c=relaxed/simple;
-	bh=V+pZ+0zQGj8SXN0nB5hhQSg8A1d1HH0N8OxsN2C9znU=;
+	s=arc-20240116; t=1785850337; c=relaxed/simple;
+	bh=nTLiwxrMjLSfaiIVFmR3cQtrnNCiV4/Sy7TgcYaomcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzkrz/2H+1hu650XolLpfBefrkoEn/Z1e5JgsMK5vs/ZLtu0EzdsgSSvPhBN5yf63zTb9RUMe6eKIrNZ2ZFl1nbdOE0OBYyDj4UdewseSbqwSBty0o9sH/DWmYhV0LBXl4Ce9Cf8VknVHVslJMqKzDs+OwPKxnroNnvGv1p1aik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=npPVQA1N; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="npPVQA1N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E307E1F00A3A;
-	Tue,  4 Aug 2026 13:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785849993;
-	bh=mozmpqxreYt7kfWXg/1a/5py6oUvYOv4Rfa/YPbStmU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=npPVQA1NPT3z3In8PEI4GA24tKxI4vrxoDN8lFrWQ8JbTz0eFtjO5YVTPs75yOamX
-	 wH8a+1ILRGn4sQ3WReFTVZetBWeBlGJHy5cL4YW928zyQMgfPghenIVS9SCU6CiLfF
-	 jave392O/lw+ZhPcq4aKXqfYAHYNof5Nwb9x/4/Q=
-Date: Tue, 4 Aug 2026 15:26:16 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Krishnamoorthi M <krishnamoorthi.m@amd.com>
-Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
-	linux-spi@vger.kernel.org, akshata.mukundshetty@amd.com,
-	bleung@chromium.org, groeck@chromium.org,
-	chrome-platform@lists.linux.dev, corbet@lwn.net,
-	linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
-	andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org
-Subject: Re: [RFC PATCH 0/4] espi: introduce eSPI bus framework
-Message-ID: <2026080449-festivity-computer-693f@gregkh>
-References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
- <2026080416-lagoon-delirium-8e84@gregkh>
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/egnh4LgT9Coer74s7wB7kmErtaFw3tLMyQic3IZ9ozl/SxupLpeKl8tD95qVIHUDmsYzpj1hNdrnuNVmzch1as4sju8zmVjV1Bqalfvb3ClqsvWy9kIW9XPR2qTuotobipPtQ6f+i/UXB0Sap7HBIwd5D5jN64JbRllwB1kSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id E2ABD6732A; Tue,  4 Aug 2026 15:32:08 +0200 (CEST)
+Date: Tue, 4 Aug 2026 15:32:08 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Tao Cui <cui.tao@linux.dev>
+Cc: Yu Kuai <yukuai@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, Yu Kuai <yukuai@fygo.io>,
+	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>, Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
+	virtualization@lists.linux.dev, gfs2@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of
+ blkg
+Message-ID: <20260804133208.GB8078@lst.de>
+References: <20260804065313.2092022-1-yukuai@kernel.org> <20260804065313.2092022-3-yukuai@kernel.org> <a677f581-344b-4d99-846d-a00801e26033@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2026080416-lagoon-delirium-8e84@gregkh>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a677f581-344b-4d99-846d-a00801e26033@linux.dev>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Aug 04, 2026 at 02:18:42PM +0200, Greg KH wrote:
-> On Tue, Aug 04, 2026 at 05:22:55PM +0530, Krishnamoorthi M wrote:
-> >   4. Naming and structure of the public API in include/linux/espi/espi.h.
+On Tue, Aug 04, 2026 at 05:19:24PM +0800, Tao Cui wrote:
+> While reading 2/3, one spot in bio_pinned_blkg() made me wonder, so I
+> gave it a try — and the WARN_ON_ONCE triggers every time for me.
 > 
-> What specifically are you asking for for this?  Do you have userspace
-> code you want to integrate, if so, does it work with this?  And where
-> does it live?
+> I may well be missing something, but my worry is that the bio's ref on
+> the blkg keeps the object alive, not its entry in the radix tree.
+> blkg_destroy() runs throtl_pd_offline (which only schedules an async
+> flush) before radix_tree_delete(), so the queued bio ends up dispatched
+> (blk_throtl_dispatch_work_fn -> blk_cgroup_bio_start ->
+> bio_pinned_blkg) after the blkg is already gone from the tree, and
+> blkg_lookup() returns NULL.
+> 
+> I applied the series and wrote a small reproducer:
+> 
+>   - null_blk, cgroup v2, a child cgroup with io.max rbps=4096;
+>   - a read issued in the child cgroup gets throttled and queued, pinning
+>     the blkg;
+>   - migrate the reader out and rmdir the cgroup; the queued bio is then
+>     flushed after the blkg has left the tree.
 
-Oops, sorry, I thought this was uapi stuff, nevermind...
+Can you add this to blktests?
 
-greg "i need more coffee" k-h
+> Maybe keeping the pinned blkg pointer in the bio would sidestep this, so
+> the lookup can't miss?
+
+That would grow the bio, which we try hard to avoid.  I think the way to
+avoid this is to have active/passive refcounts on the blkg, where an
+active one keeps it in the radix tree, but a 0 passive one would prevent
+the caller from getting a new reference to it.  The users who rely on the
+pin for the I/O completion path would then just keep the active reference
+and use a pure lookup without getting a new passive reference in the
+completion path.  This would remove the need for BIO_BLKG_REF which
+feels a bit kludgy and eats up precious bio flag space.
+
