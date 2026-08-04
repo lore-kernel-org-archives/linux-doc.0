@@ -1,223 +1,83 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCC1448B96
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 08:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8C03E5EC0;
+	Tue,  4 Aug 2026 09:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785833914; cv=none; b=uPE9MbxAksca5lo2+yLIZex3PJn4nnt82kcmZz+drkmxw+kAmpWlS3ZwZIqMG5MdHv+03wMt/l19PydJ+pYJQ4qvd30FOQj9DrBrH5/LZ6z20e2u3A9AxSgLHQulp5NZ6MZpYBrGRNjLxVthS7l/seaWOp9woB1arnCXtPVE3Y4=
+	t=1785834302; cv=none; b=rV6Z9f3QZZa3z6Vf7oHaS3UkNmhJmMH4rd8vIp0HO/vhaGIoZe0ZU/h0H4ezNAOyXlErvLHPJIQxlB95UBoz/4h5Qc7YtwD1quYILSb7meF4LEWtfHbriIo1KKuYXHl0An7bC6vcRO/6S3zY00wzD8xAKYXV1w7p86NsUVgR5QU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785833914; c=relaxed/simple;
-	bh=MRGrhbWZVYwnSjvuiDXUp/YI+gfa7hnsqkfSWAXUbKw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WEFfuUnqXXv4qhYGSEN1cQmMVHW/ojLeUg950fM7j/zGuhTk1x/7dR71YvmnHRS9kt9VfULyihEVPS6ZFxnG5Qyqr48hcFuaU1Pd434O2WOgWgJoz+mEz0tYbSGY71NQbdh+QhDa5ovORrnY2pI8QEpAN4Sv0fXmvKsbW4Xpqxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=jo5CMF3y; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="jo5CMF3y"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4954afac04bso34841955e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 01:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1785833911; x=1786438711; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=haCHOmpHE5y8Tw1drV9culB8U3ivLBg4pq9M6KDTT1U=;
-        b=jo5CMF3yj7wRiZmHNUd1/GU13xTbECXHkJb6VRE+5x6PhzDmju3a2djNnIoEOFQqEn
-         EeGkJY0UYk5LPVZd0Nd8qOdqkcNsMi6uTokpvFVdnwx0afkMkcN5hVq9cN9Rl9WU5SEo
-         HJFvf3fEED8aonzcg0BfhGL5fYx/Ji7S0pKrUKtMDgQJGHlOjuIumKT69xgfPVJUKh3k
-         gyYr9qndBNtsmqQAXOjK6ZgQUEHDopO2zhavu4ielymgYTXhJ72pGDECrhGNST00Ow5a
-         /3tzLXVtxzfMvwScIu7lj/Fuf7Am2S1EJgyQ7cYcvvXB88Olx6YFByccV2AtvAkO5CZN
-         rmhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785833911; x=1786438711;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=haCHOmpHE5y8Tw1drV9culB8U3ivLBg4pq9M6KDTT1U=;
-        b=eyQVW5eOGRKMAXlPq3KBg1gLZ4VUN1/nniJBXnv4PX9kWlltMU5JDOr8E2Esj8Ay4Y
-         hRLffcaHrL9xgEivLGJ99j0MiCkffXz0hBL3zM0CQ1EmhToaWouK9qLFc4nlF4tf1cKx
-         GnGw0beh3XFmav6HwHoQFc5zn/2F650Iek6tlMYz7u6sMs/VT5rmweusG3nR+9x9ZrZV
-         m2JQl7wN8BMOUgvJR5T2c1Bb9GWwp3nxJ3qVN+Nh/8oy3BufnuZdogKkfq3NX/PCLwA0
-         j1zL2OGkP7hwK3OV962+GZfj+P+vsKpwrOSTXZhjUA4epsG1SX5WpDzA01BIrwyod4ZD
-         sxGQ==
-X-Forwarded-Encrypted: i=1; AHgh+RofFD2cF33VGQLn+Tp0rerBm6uhOC2SJjkLRSAIVk/sj7Ip0y483SwqQ3EBoKD5nNZKrbVF6cOMmc0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXcqZ3qsdKx3irXBsQO8RlrcCZAAi/WGT7JHFYHfXCyY8TF8WY
-	rGfF6iZd+booed0oTVbsfNqCYwYgSSBxcBLAhubb/YO8nUHvjM9OiTipzLDhhvdpbF4=
-X-Gm-Gg: AR+sD13Ojj/XsskM8l98l0s11jFki7ftVu1UUPxXb0IcuKvqmk4yhRCUcczxFJTR1S5
-	WDQuzdJ7ijAMYHlgPv4DOqdrUPO/lywsGERWOOxdytadMp2xQ09S05tT8PMJJFerVwqL1hUk2eY
-	uQ4QYZhdpIc+HvqoUZdpIBEilwqnLwU7cTO9pp9UOzPhdMOzt4bmt4yo4NSHJF05u4Oy3N8/94T
-	/9YAN+xCNyP+X/LFSvSuLGE7mROBSz7DTzrpzINY5rZyaLwPb+qmXXWfVNNnlHiQsVyiJp2NGYu
-	7ZG25K+ys+ISLlrZa1tAJllWOI1bYRtz+hlx0+m1wu10y2E8ItL8vgYaImOs1S5HNbgbYe4saLT
-	G+T18vFava/WRrlLz8jnTAy2hIGKkAbcLg2pifAWEmhdz0yFyPsHTvOaTDFGP+0OL0FMr3q3qjK
-	UsNKHrJu9MzyZ10qdK/7u737iNU8dvnrtXcrQIsRvlCCCEv5ul9I1vBt4KwYRiYNqjULYQjt6MO
-	lFSZBp88CmEUjbHHydiJim/GY2qSBRmELhAZ9G4L6yBzanYcyOJ
-X-Received: by 2002:a05:600c:3151:b0:496:c378:6420 with SMTP id 5b1f17b1804b1-4980c66c843mr240856375e9.8.1785833910659;
-        Tue, 04 Aug 2026 01:58:30 -0700 (PDT)
-Received: from localhost (p200300f65f01710496a76592f11363a3.dip0.t-ipconnect.de. [2003:f6:5f01:7104:96a7:6592:f113:63a3])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4994a0fca55sm74111255e9.13.2026.08.04.01.58.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 01:58:30 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Fushuai Wang <wangfushuai@baidu.com>,
-	Kees Cook <kees@kernel.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 4/8] serial: 8250: Make uart_match_port() a 8250 specific function
-Date: Tue,  4 Aug 2026 10:57:56 +0200
-Message-ID:  <378b78ace1bf46d384d9ec9f4aec6b49dfb5a0b5.1785832297.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
-In-Reply-To: <cover.1785832297.git.u.kleine-koenig@baylibre.com>
-References: <cover.1785832297.git.u.kleine-koenig@baylibre.com>
+	s=arc-20240116; t=1785834302; c=relaxed/simple;
+	bh=mkU+vD82/moEzc7Qbc2AQyIwtg30hDafXwtMtJGgr8M=;
+	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
+	 Subject:Content-Type; b=SqGrtcPCnhkmbirEWRhkF5mKoa+DvVDaAWDtndPmMDim76kD7pB+R0wN+s/UnU2Jejh2mAoNNMx8jioM0eM0a8uBAPLQA4IrwMdGjYGmeghkk6iOse6E7lLbOpUzluX9IPMQP1/LLJKOcj4HP1qSyF87j12eqMVr1rscNjhxxJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hDng749Zcz8Xrrn;
+	Tue, 04 Aug 2026 17:04:51 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl1.zte.com.cn with SMTP id 67494hGN056542;
+	Tue, 4 Aug 2026 17:04:43 +0800 (+08)
+	(envelope-from wang.yaxin@zte.com.cn)
+Received: from mapi (xaxapp04[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Tue, 4 Aug 2026 17:04:45 +0800 (CST)
+X-Zmail-TransId: 2afb6a71ab2d1bf-0c195
+X-Mailer: Zmail v1.0
+Message-ID: <20260804170445844sKtMq7g5zyVeX3R4pGpsv@zte.com.cn>
+In-Reply-To: <20260804093109-0cb2911d-72cc-41af-84dc-e0ca14e16f96@linutronix.de>
+References: 20260724220543.7fdb36628c4726dec4c8e649@linux-foundation.org,202608041519217820D922dVk3H9V6-H82jVyk@zte.com.cn,20260804093109-0cb2911d-72cc-41af-84dc-e0ca14e16f96@linutronix.de
+Date: Tue, 4 Aug 2026 17:04:45 +0800 (CST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4981; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=MRGrhbWZVYwnSjvuiDXUp/YI+gfa7hnsqkfSWAXUbKw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqcamcgsluV0MNojtUH94tVM1pfVMSAK1PZgEaZ nb9AwvA6dOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCanGpnAAKCRCPgPtYfRL+ Tne/CACt23HYm6yxdW3XjMwYv+yy+90brIpRx7heHhWiX4bAYJ8Hqqc1HvPqIKBsJNfPP5KDAH/ /HJzTrXBuhHsegnkWLpBNxCfzE4E5wyQIeKQC4uGAu2kVtmKr8fR2lFy62lCw7hK2NCkdD10yJg rEGzV5FvRrWvUuyxSNqv37rmV7R5i72z+bgRFEtuXby26qj2YIJPYQRWf5/y4dD0D5nJ8KIQx6x PyhsTgl/JcVlwU1xk6nLHsFZ5ymDMeKMwGylsEkQV/ftQnkTPyhuG3oFWQWxLxwRq98a4Jh07Fu vpjQvJFPtzrQ6KxYiKoe/3D0uiGqzHLiJ3ZyhKI8KLf1+rpu
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+From: <wang.yaxin@zte.com.cn>
+To: <thomas.weissschuh@linutronix.de>
+Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
+        <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <xu.xin16@zte.com.cn>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2NCAwLzNdIHRvb2xzL2FjY291bnRpbmc6IHJlZmFjdG9yIGRlbGF5IGZpZWxkcyBhbmQgc2hhcmUgZm9ybWF0X3RpbWVzcGVjKCnCoA==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 67494hGN056542
+X-TLS: YES
+X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Tue, 04 Aug 2026 17:04:51 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6A71AB33.000/4hDng749Zcz8Xrrn
 
-The 8250 driver conglomerate is the only user of uart_match_port() and
-in fact it already is 8250 specific as it uses hub6_match_port() which
-is defined in drivers/tty/serial/8250/8250_hub6.c unless the dummy
-implementation is in use.
+>> >> +struct __kernel_old_timespec {
+>> >> +	__kernel_long_t		tv_sec;
+>> >> +	long			tv_nsec;
+>> >Does this hardcoded long for tv_nsec cause an ABI layout mismatch on x32?
+>> >The header comment above explicitly mentions avoiding a hardcoded long to
+>> >ensure x32 gets the correct struct layout, but tv_nsec is defined as long
+>> >here instead of __kernel_long_t. 
+>> >If tools compile against this header on x32, it looks like they will get a
+>> >32-bit tv_nsec instead of the 64-bit value expected by the core kernel UAPI,
+>> >which could result in truncated timestamps or out-of-bounds structure access.
+>> 
+>> We cannot replace long with __kernel_long_t for tv_nsec.
+>
+>The UAPI *is* in fact about to use __kernel_long_t for tv_nsec.
+>See commit 79ced850e549 ("y2038: uapi: Use 64-bit
+>__kernel_old_timespec::tv_nsec on x32") in -next.
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- Documentation/driver-api/serial/driver.rst |  2 +-
- drivers/tty/serial/8250/8250_core.c        | 27 +++++++++++++++++++++-
- drivers/tty/serial/serial_core.c           | 27 ----------------------
- include/linux/serial_core.h                |  2 --
- 4 files changed, 27 insertions(+), 31 deletions(-)
+Thanks for the clarification. I've verified that commit 79ced850e549 has
+been merged into the next branch, where upstream changed `tv_nsec` of
+`__kernel_old_timespec` to `__kernel_long_t`. I will update this
+structure definition in our local header to keep our UAPI definitions
+aligned with the mainline kernel.
 
-diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
-index c1db6a1a67c4..975b0ba53e98 100644
---- a/Documentation/driver-api/serial/driver.rst
-+++ b/Documentation/driver-api/serial/driver.rst
-@@ -70,7 +70,7 @@ Other functions
- 
- .. kernel-doc:: drivers/tty/serial/serial_core.c
-    :identifiers: uart_update_timeout uart_get_baud_rate uart_get_divisor
--           uart_match_port uart_write_wakeup uart_register_driver
-+           uart_write_wakeup uart_register_driver
-            uart_unregister_driver uart_suspend_port uart_resume_port
-            uart_add_one_port uart_remove_one_port uart_console_write
-            uart_parse_earlycon uart_parse_options uart_set_options
-diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
-index f49862d90eeb..3e53ef54ad7d 100644
---- a/drivers/tty/serial/8250/8250_core.c
-+++ b/drivers/tty/serial/8250/8250_core.c
-@@ -630,6 +630,31 @@ EXPORT_SYMBOL(serial8250_resume_port);
-  */
- static DEFINE_MUTEX(serial_mutex);
- 
-+/**
-+ * serial8250_match_port - are the two ports equivalent?
-+ * @port1: first port
-+ * @port2: second port
-+ *
-+ * This utility function can be used to determine whether two uart_port
-+ * structures describe the same port.
-+ */
-+static bool serial8250_match_port(const struct uart_port *port1,
-+				  const struct uart_port *port2)
-+{
-+	if (port1->iotype != port2->iotype)
-+		return false;
-+	else if (port1->iotype == UPIO_PORT)
-+		return port1->iobase == port2->iobase;
-+	else if (port1->iotype == UPIO_HUB6)
-+		return hub6_match_port(port1, port2);
-+	else if (uart_iotype_mmio(port1->iotype))
-+		return port1->mapbase == port2->mapbase;
-+	else if (port1->iotype == UPIO_BUS)
-+		return true;
-+	else
-+		return false;
-+}
-+
- static struct uart_8250_port *serial8250_find_match_or_unused(const struct uart_port *port)
- {
- 	int i;
-@@ -638,7 +663,7 @@ static struct uart_8250_port *serial8250_find_match_or_unused(const struct uart_
- 	 * First, find a port entry which matches.
- 	 */
- 	for (i = 0; i < nr_uarts; i++)
--		if (uart_match_port(&serial8250_ports[i].port, port))
-+		if (serial8250_match_port(&serial8250_ports[i].port, port))
- 			return &serial8250_ports[i];
- 
- 	/* try line number first if still available */
-diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
-index edd1e7be2a5c..8a6c53a9996e 100644
---- a/drivers/tty/serial/serial_core.c
-+++ b/drivers/tty/serial/serial_core.c
-@@ -33,7 +33,6 @@
- #include <linux/uaccess.h>
- 
- #include "serial_base.h"
--#include "8250/8250.h" /* For hub6_match_port() */
- 
- /*
-  * This is used to lock changes in serial line configuration.
-@@ -3229,32 +3228,6 @@ static void serial_core_remove_one_port(struct uart_driver *drv,
- 	state->uart_port = NULL;
- }
- 
--/**
-- * uart_match_port - are the two ports equivalent?
-- * @port1: first port
-- * @port2: second port
-- *
-- * This utility function can be used to determine whether two uart_port
-- * structures describe the same port.
-- */
--bool uart_match_port(const struct uart_port *port1,
--		const struct uart_port *port2)
--{
--	if (port1->iotype != port2->iotype)
--		return false;
--	else if (port1->iotype == UPIO_PORT)
--		return port1->iobase == port2->iobase;
--	else if (port1->iotype == UPIO_HUB6)
--		return hub6_match_port(port1, port2);
--	else if (uart_iotype_mmio(port1->iotype))
--		return port1->mapbase == port2->mapbase;
--	else if (port1->iotype == UPIO_BUS)
--		return true;
--	else
--		return false;
--}
--EXPORT_SYMBOL(uart_match_port);
--
- static struct serial_ctrl_device *
- serial_core_get_ctrl_dev(struct serial_port_device *port_dev)
- {
-diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
-index c4cc4f66af4b..1659805e2233 100644
---- a/include/linux/serial_core.h
-+++ b/include/linux/serial_core.h
-@@ -1137,8 +1137,6 @@ int uart_add_one_port(struct uart_driver *reg, struct uart_port *port);
- void uart_remove_one_port(struct uart_driver *reg, struct uart_port *port);
- int uart_read_port_properties(struct uart_port *port);
- int uart_read_and_validate_port_properties(struct uart_port *port);
--bool uart_match_port(const struct uart_port *port1,
--		const struct uart_port *port2);
- 
- /*
-  * Power Management
--- 
-2.55.0.11.g153666a7d9bb
-
+Thanks
+Yaxin
