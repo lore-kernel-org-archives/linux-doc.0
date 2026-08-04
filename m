@@ -1,89 +1,101 @@
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89E33E49CF;
-	Tue,  4 Aug 2026 21:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CB53E49CF
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 21:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785880719; cv=none; b=YHbqAJmC4757LGYF5SOps0KRIMiyDZfuFXt0BK2qhj7rO9eyr01Pv6ns8YvSLUDx+jzkMbJJMmpViUAjjsY6i1OTtjVCvhUZyCCK2kSI0MsZtt4K90qB9O3FrHazu0MG38iFAAfIQx3S7svCIZD3neHTH8FyXFXhaho+MV852hE=
+	t=1785880749; cv=none; b=qZgfAnEf+5Eaa9PAQZ2CCHIUzOWDSJGILG12ImaDF0RZ8WIHcccjtxOU7NVbMwNNqS3LcgwrnWAo0wQGqpo5heqn/zWN+3Rcj/jH3e1IZudilvQ/hjtoyRdSUheTGZgJ1+29xZpazQEDwx/j2XAHhA2uLMGZQ+9S2uw0Z390ck0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785880719; c=relaxed/simple;
-	bh=AyhSe0n6wcbEK3hJEcyK51+BzkdN/qj/CcLePBuodkI=;
-	h=Message-ID:Date:MIME-Version:From:To:Cc:References:In-Reply-To:
-	 Content-Type:Subject; b=cu86JWVDouMPGlKa9Iw9hnYyl3cWp2sbfynZ5IyGu3F0++QLPICEgi4jD1YT61mFXlX50DbumsRrIKbsb5Thd3zVGAKuOXFVI8SGXD7xvQPWAGqUMWT/FOAAqR2mF/SXrNLTHBSjGeXF2z1ss2+7S+YbxieaioCM9HlxQhV2r90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=nrI8sfzJ; arc=none smtp.client-ip=204.191.154.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	s=arc-20240116; t=1785880749; c=relaxed/simple;
+	bh=rzsm1Og1+Pro9WxLmsneo1BIFN8FVoLBc08QmBOsYPI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=RVA6qcQpSV32VMiVTjKQb3VROYo/lHpIFE2WhRNUkO+jQtUT5hDZ6RKq4IBf7la8A8cRKzuGUEXnB3rq04Kw3Digz9v9CiedFfNoRhcfCQQoqoKamYqO9tHx5FHzGqCsT3FHVw2Sz8lGbDuXUKODKKEtN+Xl0iSzsNg/p0elAAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gbPwu/WJ; arc=none smtp.client-ip=209.85.215.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="nrI8sfzJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:References:Cc:To:From:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=eh8qYgOqyFWbSo5DTGGHH7EKKHPtztTL08Xw9DSwXw8=; b=nrI8sfzJ8vTMuB7tJGSOTxlhc+
-	KgUrsDOLVbFbdOln5YqDAaubJMt8omyyaM7RO+cXhSArRBvIKgnz8OFxQOvyvFcFULcUD25HlV0js
-	4QIOOImJGwxfTwlDWeTTtjrwmygFSPhshVs6txtb4n3mt+txNW8ek9llPKhaBF2wi7VLNJqQcYW7X
-	eMbm52lzT7eVFoa7w6cdBLInwThtERClb8Xrj5rGuOln5dSk8ZsR5Gub//TVwv/m5M/ALCyl7TFg0
-	6IjK4jJEEvP45AxWtuiNUQBaGUDp9Z8YsLbtKRytCj3w+vfV32cTp0404j+1O5H15ccfUnkxFoGXS
-	Fy4F9XLQ==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1wrN9f-000000002UI-3Gg2;
-	Tue, 04 Aug 2026 15:58:36 -0600
-Message-ID: <785f8fa5-89d8-4b1c-9261-93d9a4e48016@deltatee.com>
-Date: Tue, 4 Aug 2026 15:58:35 -0600
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gbPwu/WJ"
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cb835525b10so276307a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 14:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785880748; x=1786485548; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Dhc7N1hQKet78fMxmoZ11biZ2HS+JiXgm3DEUzu8sT0=;
+        b=gbPwu/WJroncOlA3k3yb7rFCo0IB81pMTChBk94ikKSzfNLRYpvdqORBT3Fu6YoCny
+         bkRY+fONrNwQF1K9Wis0vUczIdxyMimg02i8Rt6gK43xMHM4O6lDo+WASlDrdOM510FB
+         hgFOEFkFHCEfhu+lFBgeanXSDDErkfdoYsUe6T0K8YDP6910hTWB+U0iYO/PwLOptNFe
+         2w2gjqRo1xpvawWsX1KoEr2OyILMpvMwW4Anh9m0eYUgZ2MEOWMNTrkU/STbVPg1sDEE
+         W5ddEiOU9BquHurXkx4Gc0SDTUv8NUKd/lkbCRmI0b00J4A38PKCG7fiUG1GKc1/bbrJ
+         r2Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785880748; x=1786485548;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Dhc7N1hQKet78fMxmoZ11biZ2HS+JiXgm3DEUzu8sT0=;
+        b=PQB3WY612hnaR3Tm6WW2Uu/ej3wC+3RkLupEs86ywuHEs3xaInCTtxP5p5W/liIldP
+         Gb5F73rBsacTdZdVPYpCcELPBzAcvSNv5Xwlr207KD6NA03asc4p3pTUi3QCpXtk4qZS
+         20czeV18uF6/+NbdtHaayxVnvbK18EaOdE0uAzgF/DhDEufBLFdjdb1SqcfJ6MUiuqrN
+         LBxaePTGRHX2zGivemfsL+iGXHgK51/hGYKshwrGKPsJHOjKjgNHNSugLDj0bu019DT2
+         ufnbNgidJ/Mh+DR3gLYqQdcOsTkxJp9LSLVmtoLkxXuK0Ntcwo7tRcJVOkmkrBuxpZ91
+         nBpQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrTS+MAxNPBVrsCWtfLzwOqPl00Oc1V+NUbH1peXfEnJdvws9l7jUpQxvX7dBHrIqyOmm5lpq51qS8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywp/v30XXVjQReZ9geHPu/JRVdRaAizUocSkQvZtvgl4E++bSt/
+	c72LCT0YFiR00tvLd0ymce+uV403xw6OPT2MYVrgGYj//5il56wvx9YLzPi2qthyD71gKUOcQct
+	mqZYrJg==
+X-Received: from pgbdv13.prod.google.com ([2002:a05:6a02:446d:b0:c9a:3646:2398])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:998c:b0:3ba:cd5b:3dc8
+ with SMTP id adf61e73a8af0-3cb8603af30mr1757125637.31.1785880747446; Tue, 04
+ Aug 2026 14:59:07 -0700 (PDT)
+Date: Tue, 4 Aug 2026 14:59:06 -0700
+In-Reply-To: <anE4GtMa33nz7qdK@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Logan Gunthorpe <logang@deltatee.com>
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Alex Williamson <alex@shazbot.org>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260802-fix-p2p-acs-v1-0-a7c5eb64fff6@nvidia.com>
- <20260802-fix-p2p-acs-v1-7-a7c5eb64fff6@nvidia.com>
- <b69d8971-e1f5-4289-ae90-312f20cde3e2@deltatee.com>
-Content-Language: en-CA
-In-Reply-To: <b69d8971-e1f5-4289-ae90-312f20cde3e2@deltatee.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, corbet@lwn.net, skhan@linuxfoundation.org, alex@shazbot.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: Re: [PATCH 07/13] PCI/P2PDMA: Derive peer-to-peer routing from ACS
- control bits
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Mime-Version: 1.0
+References: <178552799129.2700794.10181439022561913222.b4-ty@google.com>
+ <8b90851f38ef5b10cdcdc70e7543bd6b0b5e2773.camel@infradead.org> <anE4GtMa33nz7qdK@google.com>
+Message-ID: <anJgqpOJGPjLAqYe@google.com>
+Subject: Re: [PATCH v6 00/36] Cleaning up the KVM clock mess
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-
-
-On 2026-08-04 15:55, Logan Gunthorpe wrote:
+On Mon, Aug 03, 2026, Sean Christopherson wrote:
+> On Sat, Aug 01, 2026, David Woodhouse wrote:
+> > On Fri, 2026-07-31 at 13:09 -0700, Sean Christopherson wrote:
+> > > Applied patch 1 to kvm-x86 clocks.
+> > >
+> > > [01/36] KVM: x86/xen: Do not corrupt KVM clock in kvm_xen_shared_info_init()
+> > >         https://github.com/kvm-x86/linux/commit/3d4b20b5a7df
+> > 
+> > Thanks. Could the clocks branch be based on something that includes the
+> > timekeeping work from the timers-ptp-2026-06-13 merge (in v7.2-rc1)?
 > 
+> Yeah, I can rebase onto a 7.2-rcN.  Y'all are likely the only people that care
+> about the above commit, so a late rebase isn't a big deal.
 > 
-> On 2026-08-02 09:09, Leon Romanovsky wrote:
->> From: Leon Romanovsky <leonro@nvidia.com>
->>
->> The redirect test reports an upstream redirect for any ACS redirect or
->> egress control bit. PCIe r7.0, sec 6.12.3, table 6-11 ties the outcome to
->> the control bits and the target vector, and an enabled egress control bit
->> alone does not redirect. Compute the result from the control bits so the
->> vector can be honored next, using the host-bridge route while the peer
->> target is unknown.
->>
->> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Ok, thanks, this is not the simplest thing to understand but I've
-> followed through this and the next 3 patches and I think it makes sense
-> to me.
+> There's basically zero chance I'll get the entire series applied for 7.3, but
+> "Use ktime_get_snapshot_id() for master clock" is at least in striking distance,
+> so there's no reason not to allow for the possibility.
 
-Err, I thought I was sending this on patch 5 but I made a mistake. I
-meant patches 5 through 8 here.
+New hash:
 
-Logan
+[1/1] KVM: x86/xen: Do not corrupt KVM clock in kvm_xen_shared_info_init()
+      https://github.com/kvm-x86/linux/commit/633d7652f80f
