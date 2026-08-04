@@ -1,81 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-49.ptr.blmpb.com (va-2-49.ptr.blmpb.com [209.127.231.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C8D36B92A;
-	Tue,  4 Aug 2026 15:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD6A4028EE
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 15:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785857324; cv=none; b=TrmGrd41DiKSjZJ7jNW7tC6E7VufKZVNmHw54d4ORAoRLw1lfEeaNZbnx7VgOlL0WfNWHn3Q7dA2kc9NZO+TU0It+x68Q2WLx7QBguP+TwWX7NMYzOBAIuHjYQ4Z1HdnVIaS2rDJNmFrH+63OaNyhSe4VIM3mFe1rBsHJFwifQs=
+	t=1785857489; cv=none; b=EGzbaiqikhd+QTYWKa8ZYfAH05DxiQ00+43VFOjxrOoXiRLBlfOSVBQRl2vdB9rJ/GEvrsUmN1QgMN9hylJRJFCVpEhiFGFzgOVQb+RzFUYF0GwmKNNHLTLd17l2K5MEGt1x5WnvnyIRyn2c8AuuOlD3g95dhJcGH1duoYyAPcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785857324; c=relaxed/simple;
-	bh=qKu1Uq8Ws4ezcv1MmeqyoQS8otvhNCUZgtGEnfwrwDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aq5EQd/6ps0h9JWmsBifhNYZtRlcTmjcJm6IZRAdkeP9ccHIgLWjzoMg4ZFtEmTMZohKH7wGz1ZUH/lEvJ3I5X/Afo2ixIX2DsXawNE9Yu6by5z0Cx4fHMHYv+Nn76QAOwDBSNVaM5fKF1Gadswq5GEmw0osrU7CM4pFWbmjxrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DQcZs7cj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785857489; c=relaxed/simple;
+	bh=by/fcGncfc5OCuRW9skgJuC6t1LUujBBm0TnhfUwb/o=;
+	h=From:Content-Type:Mime-Version:In-Reply-To:Cc:Subject:References:
+	 To:Date:Message-Id; b=m4qbyhWIk52jO6sInC5j9tS7QXTGdSSHjq9RohyWfLt+ygOK+kFdOVZfQQ75gDgYhz8w6OT6o3EY7N2RGAGbfEsf8D/NJyAQgUuLu443cXCCim6yvJwxAadbHGpQ97RspJRhrQa+HBSgVzeW8/naGZIlxVgZ5kHuGZ9qtRABjTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=mtezs2ti; arc=none smtp.client-ip=209.127.231.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DQcZs7cj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52FBD1F000E9;
-	Tue,  4 Aug 2026 15:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785857322;
-	bh=ZYbbqjWngEpE/AeQwnGOGwW8Q/t20SmBx/XPZzicJVA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DQcZs7cj6Xljp/HiJ22bJWeugENk5fcBDjxnsDDQ150tn3JXQX06FFoODTG0IfZeL
-	 GhwWK0t0fklziHtUVyTFGzcgkN8bFKNdLTRT1yn7kJqdu+I5qibr4EE5VE4IeHT8ke
-	 HMIZzVtM8ztd+K0Cpa+15v1zkibxJ4dR1jWw+QvcDviX1/L7j/d51J7vwMhwRcxsxJ
-	 uciEPhg1kn2yapVcbShN08Z7tbROB1NXZFazicizo6D3oTRP9Cbt/XZZ0Vr+I2QCp7
-	 FDNNf+QRPnWm6Y8PsQmzTeiDLFJdVfNdcg7DOHA4+jwzCsIMnY1gwbI/1ZcxEKXsas
-	 j5L+Fb0pGo38g==
-Date: Tue, 4 Aug 2026 16:28:36 +0100
-From: Will Deacon <will@kernel.org>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] arch: arm64: add early_param idle=<wfi|yield|nop>
-Message-ID: <anIFJJ3H-pHWhuL5@willie-the-truck>
-References: <20260711-arm64-idle-param-v2-1-0ab67652a435@cyberchaos.dev>
- <amE5bX0jey6WS0U1@willie-the-truck>
- <a6602971-87f8-4365-9ec2-dfe3a1ccfeb6@cyberchaos.dev>
- <amzKZgqrqqM7E_9Q@google.com>
- <90d1e043-22bd-4396-9661-7d6bc09c577b@cyberchaos.dev>
+	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="mtezs2ti"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1785857470;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=LX/Wg0tks/cc/fTlAyp1t5QsfNTLQnLsZm1iWKs61Hs=;
+ b=mtezs2tiGfiYGQM344FBrDuxsSqwGDs7vd7+Mox4PVZMESzeEsvUYpUWyMpTlb2ymyfHZL
+ ZzHgwC40uWHJvGkMfRZ33/sBA+WkDz4VMKVpF9RbGOnwPR45+S4V2kbxbo7wxHyVFFm+BO
+ pditTjuxUFEshDgAdKF9cP/QDuapaDBwwR5x6WfRHSpEEwmZmrRdQ8vOya1i/CteT9gwm6
+ ie7lAzSco3RIlVCiNYV6IDaGDgu76PtRajsacfn5gitEjF1YlBecs+sx2ENxWy/SeUNdmH
+ lSvbw4ZcIEBnMd782fPXigNr0AcMKkzx6bOkf+o+HhwF5pk+91/BfEaCpq/EbA==
+From: "yu kuai" <yukuai@fygo.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Reply-To: yukuai@fygo.io
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90d1e043-22bd-4396-9661-7d6bc09c577b@cyberchaos.dev>
+Mime-Version: 1.0
+X-Original-From: yu kuai <yukuai@fygo.io>
+In-Reply-To: <20260804133208.GB8078@lst.de>
+User-Agent: Mozilla Thunderbird
+Cc: "Yu Kuai" <yukuai@kernel.org>, "Jens Axboe" <axboe@kernel.dk>, 
+	"Tejun Heo" <tj@kernel.org>, "Johannes Weiner" <hannes@cmpxchg.org>, 
+	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	"Jonathan Corbet" <corbet@lwn.net>, "Josef Bacik" <josef@toxicpanda.com>, 
+	"Coly Li" <colyli@fygo.io>, 
+	"Kent Overstreet" <kent.overstreet@linux.dev>, 
+	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
+	"Mikulas Patocka" <mpatocka@redhat.com>, 
+	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
+	"Dan Williams" <djbw@kernel.org>, 
+	"Vishal Verma" <vishal.l.verma@intel.com>, 
+	"Dave Jiang" <dave.jiang@intel.com>, 
+	"Alison Schofield" <alison.schofield@intel.com>, 
+	"Pankaj Gupta" <pankaj.gupta.linux@gmail.com>, 
+	"Andreas Gruenbacher" <agruenba@redhat.com>, 
+	"Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, 
+	"Andrew Morton" <akpm@linux-foundation.org>, 
+	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
+	"Nilay Shroff" <nilay@linux.ibm.com>, <cgroups@vger.kernel.org>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-block@vger.kernel.org>, <linux-bcache@vger.kernel.org>, 
+	<dm-devel@lists.linux.dev>, <linux-raid@vger.kernel.org>, 
+	<nvdimm@lists.linux.dev>, <virtualization@lists.linux.dev>, 
+	<gfs2@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, 
+	<linux-mm@kvack.org>
+Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
+References: <20260804065313.2092022-1-yukuai@kernel.org> <20260804065313.2092022-3-yukuai@kernel.org> <a677f581-344b-4d99-846d-a00801e26033@linux.dev> <20260804133208.GB8078@lst.de>
+Received: from [192.168.1.104] ([39.182.0.181]) by smtp.larksuite.com with ESMTPS; Tue, 04 Aug 2026 15:31:03 +0000
+To: "Christoph Hellwig" <hch@lst.de>, "Tao Cui" <cui.tao@linux.dev>, 
+	"yu kuai" <yukuai@fygo.io>
+Date: Tue, 4 Aug 2026 23:30:55 +0800
+Message-Id: <0fc5dd22-7a8d-43f0-8555-d2ca966efff6@fygo.io>
+X-Lms-Return-Path: <lba+26a7205b8+e473bc+vger.kernel.org+yukuai@fygo.io>
 
-On Fri, Jul 31, 2026 at 09:32:04PM +0200, Yureka Lilian wrote:
-> On 7/31/26 18:16, Will Deacon wrote:
-> > What do you think about a funny sort of hybrid approach where:
-> > 
-> >    * We have idle=, but it really only affects the idle loop
-> >    * We have a cpu_errata entry to detect (based on the MIDR) this CPU
-> >      and then avoid patching in the WFIT instructions (i.e. don't detect
-> >      the ARM64_HAS_WFXT capability).
-> > 
-> > I think that would solve the case for you, as well as giving others finer
-> > grained control over the idle implementation and adding the infrastructure
-> > we need to handle a CPU with broken wfit.
-> 
-> The idle param portion, if implemented like you say only affecting the idle
-> loop, should be rather uncontroversial.
-> 
-> Getting the other part of it (the WFIT in the delay function) right is much
-> more difficult, but it also has less of an performance / efficiency impact
-> if it's a bit on the conservative side and we can find a good solution
-> independently of the idle param.
+Hi,
 
-Thinking about this some more, why isn't the WFIT side handled with an
-idreg override? If we extend the ID_AA64ISAR2_EL1 override entry in
-arch/arm64/kernel/pi/idreg-override.c to include wfxt, then you can
-nobble that on the cmdline as well.
+=E5=9C=A8 2026/8/4 21:32, Christoph Hellwig =E5=86=99=E9=81=93:
+> On Tue, Aug 04, 2026 at 05:19:24PM +0800, Tao Cui wrote:
+>> While reading 2/3, one spot in bio_pinned_blkg() made me wonder, so I
+>> gave it a try =E2=80=94 and the WARN_ON_ONCE triggers every time for me.
+>>
+>> I may well be missing something, but my worry is that the bio's ref on
+>> the blkg keeps the object alive, not its entry in the radix tree.
+>> blkg_destroy() runs throtl_pd_offline (which only schedules an async
+>> flush) before radix_tree_delete(), so the queued bio ends up dispatched
+>> (blk_throtl_dispatch_work_fn -> blk_cgroup_bio_start ->
+>> bio_pinned_blkg) after the blkg is already gone from the tree, and
+>> blkg_lookup() returns NULL.
+>>
+>> I applied the series and wrote a small reproducer:
+>>
+>>    - null_blk, cgroup v2, a child cgroup with io.max rbps=3D4096;
+>>    - a read issued in the child cgroup gets throttled and queued, pinnin=
+g
+>>      the blkg;
+>>    - migrate the reader out and rmdir the cgroup; the queued bio is then
+>>      flushed after the blkg has left the tree.
+> Can you add this to blktests?
+>
+>> Maybe keeping the pinned blkg pointer in the bio would sidestep this, so
+>> the lookup can't miss?
 
-Will
+The problem here is that blkg_destroy can be called while blkg is still pin=
+ned
+by blkg_get, in this case remove the cgroup directly remove the blkg from r=
+adix
+tree, that's why blkg_lookup can't find this blkg anymore, and the extra bl=
+kg ref
+is leaked :(
+
+> That would grow the bio, which we try hard to avoid.  I think the way to
+> avoid this is to have active/passive refcounts on the blkg, where an
+> active one keeps it in the radix tree, but a 0 passive one would prevent
+> the caller from getting a new reference to it.  The users who rely on the
+> pin for the I/O completion path would then just keep the active reference
+> and use a pure lookup without getting a new passive reference in the
+> completion path.  This would remove the need for BIO_BLKG_REF which
+> feels a bit kludgy and eats up precious bio flag space.
+
+The problem here is that remove a cgroup can also remove the blkg from radi=
+x tree,
+even through it still has active refcounts. I think this can be fixed by ch=
+ecking
+the cgroup online_pin first, if it's zero, we can search the blkg from the
+request_queue blkg list, where blkg will not be removed until blkg_free_wor=
+kfn().
+What's better, if we can convert the blkg list to hash table with key as bl=
+k-cgroup,
+it will be much better as we can lookup from this table instead of blkcg ra=
+dix tree.
+
+>
+--=20
+Thanks,
+Kuai
