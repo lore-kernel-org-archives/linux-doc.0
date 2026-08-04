@@ -1,34 +1,36 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C8E486654
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 19:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799AF3B8930
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 19:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785871534; cv=none; b=Yv1UrTmF9WeYkcwIYy42sRKKQLkotRjkZsFGT11zmlctvNBT0IybkbYuOp17oo5WQBm9+IjSmOYJFpX1YmHs/50YayM0Qt2xBuXthnxiQf/nOi88/xBTCo2u2HvKME3B0FmrGTONxfVKqi2x1wHOj+9e7EbXSyt6YU6btqpZzlE=
+	t=1785871535; cv=none; b=Snkss/YPtUjmYWtQmWHYdIK4rJhM6H0R5fqrqmfVm7NIdy14HcF7gdS42MM54GJE6QKxnjqLboOy+/t+8OP6gVuo5rgMoMn7kxWjr4GXn47e/lcC9Wq2iq2tDHvlkixCLF/XyD6yW6W5uS9QMubicU2TiLHmTysJMgFxv/7Lp2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785871534; c=relaxed/simple;
-	bh=//foxHH/2PjR6L5nJj8cK35FU0GLrVPpN7iBqJ+oFjo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oPJ8YnKHL4sbl3pPEvdNbFQBEI3PTXQ4VWlNSzyZ08nRrSpCmfOx7OT7FbIzpQleHHPlUxnoMz7okNY1FVXfotlkILg8iTEmycO86mczl228w7Kn8zsdg0V7qoXxX7i3kg8wcIiQH7LyqCUd3FSb76w5xL5kDADhh34cDHKZgiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n/+W1jeS; arc=none smtp.client-ip=91.218.175.178
+	s=arc-20240116; t=1785871535; c=relaxed/simple;
+	bh=C9KrXbUFI/wTtvIMDZPEqxUqUQDs+7HwRf1I3BaFkk0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=q0w2dAQnAgEDiQ1DDIS344Q829YyJcbBbTyGXzxdlu6xxjIrsx+Qor9Jl8riesngwoIMUOtnS11m33rKIFfp/BskK/RR0YQ7PUZpIhR8Kd0V1aj7Utm82P//E66UFFLk0J9DFmmK81ztEbsxhcEvTfassXAYEykV3KI+vpWO6w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=u2G6hqEi; arc=none smtp.client-ip=91.218.175.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n/+W1jeS"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="u2G6hqEi"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785871520;
+	t=1785871531;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=XNHgMmLcA6KLROW2cwwRYhGascVVpa2hXvMzLiBjt7Q=;
-	b=n/+W1jeSVVxgrZJHSKLo8tW9t36GT/aD1idhxc1YJwHgw/DWhjcFdoTsZo5KOTRTDB0HKN
-	72vzNeTtpE9cHGj1hAwmTdIQlS/ij4TlC/GYsmf4IcL4lMltnJjmQVdDUE+9b28GJD/6EP
-	JNoPduMCBLMIwKjxTVdPCrvQYJHKPuE=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=geBTcCptRliUmzhkX/SVMpzDuh58iStAuLW+HnKYxWU=;
+	b=u2G6hqEi51nhf0mr0uDzHxvKicocCqA6MAzaVDI4UjoE1Ie6BmiaQpyPM/o6o0cAU4xnKi
+	Ou0JgTb+njRMLuI2VrHhPphBJrcIf3hd3lWV0/VwUHHFcLtPVpZNBc55Xum4DioltpPCd+
+	mTeeHNr4k6j0TzYke7FIaxBSitAhOzc=
 From: "Nico Pache (Red Hat)" <nico.pache@linux.dev>
-Subject: [PATCH v3 0/7] mm/khugepaged: several cleanups
-Date: Tue, 04 Aug 2026 13:24:58 -0600
-Message-Id: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
+Date: Tue, 04 Aug 2026 13:25:01 -0600
+Subject: [PATCH v3 3/7] mm/khugepaged: introduce a count_collapse_event()
+ helper
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,10 +39,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMWwqDMBSE4a3IeW4gNdZetiIiSZzG04KGJIog7
- t3YPn4M828UERiRXsVGAQtHnsYMdSnIDnp0ENxnUynLWj5kJb7D7OC1Q9/5hC7grW2agrjB3Gt
- cK/NUmvLb54XXX7lp/46z+cCmM0f7fgD/TRuoewAAAA==
-X-Change-ID: 20260804-khugepaged_pte_refactor-5eb76e14b93a
+Message-Id: <20260804-khugepaged_pte_refactor-v3-3-0364cad642a0@linux.dev>
+References: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
+In-Reply-To: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
 To: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -55,73 +56,118 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  "Nico Pache (Red Hat)" <nico.pache@linux.dev>
 X-Migadu-Flow: FLOW_OUT
 
-The following changes stem from a number of reviews during my khugepaged
-mTHP support series [1]. Some of these are minor code cleanups, issues or
-reviews that we decided to deferred to a followup series, or in the case
-of the more major patch of the series, changes [2] Lance Yang attempted
-while my series was in-flight and we decided to wait till later to try.
+Provide a simple helper function to help reduce a often used, and
+duplicate pattern across the khugepaged code.
 
-The first 3 patches introduce helper functions to increase code reuse and
-readability. This includes a per-scan state clearing function, extracting
-the young page check into a helper, and a count_collapse_event() function
-to reduce a repetative pattern used across mTHP collapse.
+When collapsing to a PMD we need to record a vm_event and the mTHP_stat
+event. When doing mTHP collapse we only update the mTHP stat.
 
-The 4th patch was the byproduct of me throwing Claude at all the
-comments in khugepaged verifying and looking for any outdated info.
-
-The 5th patch is based on Lance Yang's commit series [2] trying to extract
-the PTE state checking into a helper function. This required a bit of
-rewriting due to differences after mTHP collapse was introduced. I also
-took into account the changes requested during his patches review cycle.
-
-The remaining 2 patches were review points during my mTHP series that we
-agreed can be deferred to a later series.
-
-Thank you to those whos reviews and work I leveraged to achieve these
-cleanups.
-
-V3 Changes:
- - Add Acks/RB tags
- - rename collapse_is_referenced() to pte_is_referenced()
- - fix count_collapse_event() call-site indentation to match kernel style
- - fold in the follow-up fix so collapse_scan_pmd() always assigns the
-   local folio from collapse_check_pte()
- - normalize khugepaged comment references to use parentheses
-
-V2 Changes:
- - Add Acks/RB tags
- - rename collapse_is_young() to collapse_is_referenced()
- - delete unncessary comment for collapse_control_init_scan()
- - merge fixup from V1 (fixes stale folio reference) into patch 5
- - keep original ordering for checks in patch 5
- - merge patch 7 into patch 4
- - conflict resolution from uffd_rwp changes
-
-V2: https://lore.kernel.org/all/20260715025941.1571316-1-npache@redhat.com/
-V1: https://lore.kernel.org/all/20260706154500.39178-1-npache@redhat.com/
-
-[1] - https://lore.kernel.org/all/20260605161422.213817-1-npache@redhat.com/
-[2] - https://lore.kernel.org/all/20251008043748.45554-1-lance.yang@linux.dev/
-
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Acked-by: Usama Arif <usama.arif@linux.dev>
 Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
 ---
-Nico Pache (Red Hat) (7):
-      mm/khugepaged: refactor per-scan state clearing into collapse_control_init_scan()
-      mm/khugepaged: extract young page check into pte_is_referenced() helper
-      mm/khugepaged: introduce a count_collapse_event() helper
-      mm/khugepaged: fix outdated comments
-      mm/khugepaged: Refactor the PTE state checks into a helper
-      mm/khugepaged: unmap pte before releasing vma write lock
-      mm: Documentation: clarify where the mTHP stats live
+ mm/khugepaged.c | 42 +++++++++++++++++++++---------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
- Documentation/admin-guide/mm/transhuge.rst |   6 +-
- mm/khugepaged.c                            | 417 +++++++++++++++--------------
- 2 files changed, 223 insertions(+), 200 deletions(-)
----
-base-commit: 486855239e38a91d3eae26618ccb7845c1764625
-change-id: 20260804-khugepaged_pte_refactor-5eb76e14b93a
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 9b15c1740943..a2691587a510 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -689,6 +689,14 @@ static inline bool pte_is_referenced(struct collapse_control *cc, pte_t pteval,
+ 		mmu_notifier_test_young(vma->vm_mm, addr));
+ }
+ 
++static void count_collapse_event(unsigned int order, enum vm_event_item vm_event,
++		enum mthp_stat_item mthp_event)
++{
++	if (is_pmd_order(order))
++		count_vm_event(vm_event);
++	count_mthp_stat(order, mthp_event);
++}
++
+ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
+ 		unsigned int order, struct list_head *compound_pagelist)
+@@ -709,9 +717,8 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 		if (pte_none_or_zero(pteval)) {
+ 			if (++none_or_zero > max_ptes_none) {
+ 				result = SCAN_EXCEED_NONE_PTE;
+-				if (is_pmd_order(order))
+-					count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+-				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
++				count_collapse_event(order, THP_SCAN_EXCEED_NONE_PTE,
++						     MTHP_STAT_COLLAPSE_EXCEED_NONE);
+ 				goto out;
+ 			}
+ 			continue;
+@@ -753,9 +760,8 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 			 */
+ 			if (++shared > max_ptes_shared) {
+ 				result = SCAN_EXCEED_SHARED_PTE;
+-				if (is_pmd_order(order))
+-					count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
+-				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
++				count_collapse_event(order, THP_SCAN_EXCEED_SHARED_PTE,
++						     MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+ 				goto out;
+ 			}
+ 		}
+@@ -1264,15 +1270,12 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
+ 	folio = __folio_alloc(gfp, order, node, &cc->alloc_nmask);
+ 	if (!folio) {
+ 		*foliop = NULL;
+-		if (is_pmd_order(order))
+-			count_vm_event(THP_COLLAPSE_ALLOC_FAILED);
+-		count_mthp_stat(order, MTHP_STAT_COLLAPSE_ALLOC_FAILED);
++		count_collapse_event(order, THP_COLLAPSE_ALLOC_FAILED,
++				     MTHP_STAT_COLLAPSE_ALLOC_FAILED);
+ 		return SCAN_ALLOC_HUGE_PAGE_FAIL;
+ 	}
+ 
+-	if (is_pmd_order(order))
+-		count_vm_event(THP_COLLAPSE_ALLOC);
+-	count_mthp_stat(order, MTHP_STAT_COLLAPSE_ALLOC);
++	count_collapse_event(order, THP_COLLAPSE_ALLOC, MTHP_STAT_COLLAPSE_ALLOC);
+ 
+ 	if (unlikely(mem_cgroup_charge(folio, mm, gfp))) {
+ 		folio_put(folio);
+@@ -1662,9 +1665,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+ 		if (pte_none_or_zero(pteval)) {
+ 			if (++none_or_zero > max_ptes_none) {
+ 				result = SCAN_EXCEED_NONE_PTE;
+-				count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+-				count_mthp_stat(HPAGE_PMD_ORDER,
+-						MTHP_STAT_COLLAPSE_EXCEED_NONE);
++				count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_NONE_PTE,
++						     MTHP_STAT_COLLAPSE_EXCEED_NONE);
+ 				goto out_unmap;
+ 			}
+ 			continue;
+@@ -1672,9 +1674,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+ 		if (!pte_present(pteval)) {
+ 			if (++unmapped > max_ptes_swap) {
+ 				result = SCAN_EXCEED_SWAP_PTE;
+-				count_vm_event(THP_SCAN_EXCEED_SWAP_PTE);
+-				count_mthp_stat(HPAGE_PMD_ORDER,
+-						MTHP_STAT_COLLAPSE_EXCEED_SWAP);
++				count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_SWAP_PTE,
++						     MTHP_STAT_COLLAPSE_EXCEED_SWAP);
+ 				goto out_unmap;
+ 			}
+ 			/*
+@@ -1731,9 +1732,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+ 		if (folio_maybe_mapped_shared(folio)) {
+ 			if (++shared > max_ptes_shared) {
+ 				result = SCAN_EXCEED_SHARED_PTE;
+-				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
+-				count_mthp_stat(HPAGE_PMD_ORDER,
+-						MTHP_STAT_COLLAPSE_EXCEED_SHARED);
++				count_collapse_event(HPAGE_PMD_ORDER, THP_SCAN_EXCEED_SHARED_PTE,
++						     MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+ 				goto out_unmap;
+ 			}
+ 		}
 
-Best regards,
---  
-Nico Pache (Red Hat) <nico.pache@linux.dev>
+-- 
+2.55.0
 
