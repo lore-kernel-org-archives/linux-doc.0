@@ -1,106 +1,125 @@
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ED03AE18C
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 23:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D673AE18C;
+	Tue,  4 Aug 2026 23:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785886700; cv=none; b=ED5RPvqh9Z06ALHxRr9pCcYvwIuVSp78CXHin9LWbvfUmaVZ8oA2CWuqmWv51GioFm3If7iuf3hsifRKqiNOQj4sveDgmCRw21MjN1W3cr+zNrvrIbhBlCgXxRngLskdy+mcYYvMQ5IQCR9s7D5D85ycO2cmiIfD0Mp1RW6arwc=
+	t=1785886884; cv=none; b=OCbpz/LPABCY3oOFhs+Y8BG+I9O18DQGbj410QMOnE0uvWUbpMCu/vQKbdueeSEEkvZwEL3ao6rvsybsfH+oDtynlBOjoVD6oG7LdSrrfKdQtGtd3U1DcYlNUq3d3Dy0h8F65gQFR8KC6hwA3sXOlmlz62Etgs31JVbDgWJbJds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785886700; c=relaxed/simple;
-	bh=7nykWB6HWQWBtzXDzLlBfOGF8GccFcz3uG03qRHgn6o=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=NvJU2osb9CJ5kmDS8jDYoJrM6BKRmnKgRUEVl3FKxgOA3xP5YTK8pyHXJI7WXhFLvBnnHQn2VI2X4f+k6FEj8RbyIy8v6qVlMq8/o1pVEZU/mC++K/mx8ybHMT4RaDM9wJzYW2mqMA+WxHeHfuH+3LFTAYNdkm8uKEKAVcXVCnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tWRJ/czV; arc=none smtp.client-ip=209.85.210.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1785886884; c=relaxed/simple;
+	bh=BkDaZCWbSk/329AoK6n704eToLRHqZIRlCPrkwTRRQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ju0eJ08UiI+KBn/JZCmj4SlC1qNRHrcB0QqoWdBaQMVCgWvCZMDC25MXlFukiM+R1OQ4gamXtLCpu6hPJAs21BAcai+X7+kgkbvfmsZBp2/jqGuVAUEdn/++kkw28+ShQpcdFhgBELvP3r3tS53qWh1584rXDkirbKAXfNvjnTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=F+GrqBL/; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tWRJ/czV"
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-84e048a801dso448130b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 16:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785886698; x=1786491498; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=MCQeULnuxyizouUVujp9ZRZMwHTWkFpcMFYeBXRE7J4=;
-        b=tWRJ/czVIciPcCnKqFPzTC2zDIy7WTK03oJtlTjFhoiOqM5WI30VD/kecpcTM8u4f8
-         V8ACH55V+Ou+T7MzlXw9ZJ9zbdZbLzhlo4XRs0EOIgzsKnAIK4gFsPVHMwY5RLR4kDM4
-         vr2/rg9NtBqTTCByHQUAY3qWiwop5cjT12oKQVAsvql11/kQp0lRFmZfxLOPG7sdFpSB
-         o7JNa5ADEq7AoiSp5k50CUD/GcE3aG1CsALrXs9mc5uoRX9R2g1JtLOQqHGhTvQwVeL/
-         SCmtUIq5hqLGzO9y5nk4n3C3/xXPkX5l2r5GWdqRAANnCXUHTk4GftatoOGU8+AJltHK
-         EbWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785886698; x=1786491498;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MCQeULnuxyizouUVujp9ZRZMwHTWkFpcMFYeBXRE7J4=;
-        b=c4FzDCKgaHvQMMwJKOzrlHLPeT2EJIemJ3CGGWbI8tHWDWVCrc8oIBULnGYqhvN2vw
-         x/usdX0MGIMwn04fXERctb64z8N0h/kmG4Gh3McaQTg8IxAPLpm5bxLUWd6RHV2r+ut1
-         VY9+8QAwkcJf4YYdWDEgV4B0F9+1yPxWm/eXf3Ax00O0h/poSWEew2a6mq3xCbhE1Fgq
-         aoCWJLVbrpGxig2MMUoiXGD/zHuzTwkGQfE7hWecI6rRoVMKuGTdXkd7Uu1bf82okz7+
-         RC8FBqMMh8iBXwb0Psnyi2grU6YzM6KmcorU+60x3LdwxDO0QBDXkwzAbdDU4QGQ3iTs
-         b7Aw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro3S4eOWLax/xj/JE1EqqqP71ctEEPzXMmlxsPdxcwtk2+kaoKmvmUwjIrguuz6FaLyY3S1XtpPx1c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyobu2wUflomaKei0Qvl5O5lKiOZEhBooxbJFkqisNGS6Ho0qC7
-	Cud1yzKWSDJIymM7pPRJpRKGNyo2xcx2rrYwzKzeOEqCFN8K9n8/Cr2L1VD56iSD00YH/JEPPXK
-	mAZIDUQ==
-X-Received: from pgig16.prod.google.com ([2002:a63:f410:0:b0:c92:11a5:bbce])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3a15:b0:84a:60a4:2651
- with SMTP id d2e1a72fcca58-84f2dfc53efmr1961102b3a.6.1785886697620; Tue, 04
- Aug 2026 16:38:17 -0700 (PDT)
-Date: Tue, 4 Aug 2026 16:38:17 -0700
-In-Reply-To: <d2d98dd31718eb925ae44b0eceb325538a8174ae.camel@infradead.org>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="F+GrqBL/"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0647240E014A;
+	Tue,  4 Aug 2026 23:41:20 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id V7_SJc6WDtxQ; Tue,  4 Aug 2026 23:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1785886869; bh=707JwGDc6Mj8NkuW1jOL3JPs5A2QsQSLVK8M281cHtU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F+GrqBL/t8tDXD8KYo66aoIsjQIchRRN+r4/f2hkxu8HIJXEhBwXPeUO5D0R2a2/0
+	 2o8KhLLw5jSP53MzHhZtQ8ZLOqVpA11BSqDBF0khAcW3jKIfcLHjgeE5Nz7TSU5WOW
+	 HpixDwhaXiZAk9xOAvE4H4iI9NpR+GNW3ky6H4lZEfxfu4Gf042kznjHbOnF//Totv
+	 0ZuZF/gRNg5g0pgvH+dmEilHu8Ip2CSKdCeC8XLfLnbNZeOc8uAHLuNtgZMCSHYhLp
+	 4vUabVuKPPyhmEmVZ+sunBC+gPdlA3ujZQ2QiatKEMol9DpSmS2yO8Ri55qXi0/Pig
+	 sIW6tw1pWhthDMjfv1T2msCTTghpvOYf3xg1rqXCu7ymekl00Sb7T83nluUoVzhU2B
+	 YAzFNZjY1ebSdHqlhcX8jic7HPnjdXMT6+qg/lMcOW+BujztVe9WR30dEf/EFMuope
+	 0cq0P3b25Fw1jouPX7juGUQHXwhHPXO3YjHrEb+GRKMaVxOKVPlCfkPHeKYHQvdh3X
+	 lgOqEvRbObZTu/w9+RYEENPEieD/U57YcfKouY1NXcnwNPBy+Zshrj5KIbk6WfhTfS
+	 VZoIv1d3ps8thZr5H5heWXLdA3Rg4sCv+YMSv1n6X+x6EqFGb131lER/ku4qOVLkUS
+	 xbiCPmAqI11Tz06+4AWNwM3A=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9870940E00B8;
+	Tue,  4 Aug 2026 23:40:51 +0000 (UTC)
+Date: Tue, 4 Aug 2026 16:40:48 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
+	Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"tglx@kernel.org" <tglx@kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"Eranian, Stephane" <eranian@google.com>,
+	"peternewman@google.com" <peternewman@google.com>
+Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
+ "default" on boot
+Message-ID: <20260804234048.GGanJ4gFClcqwTHHDJ@fat_crate.local>
+References: <d364100d-45e4-458e-97d5-05416fbe5bef@amd.com>
+ <SJ1PR11MB6083F7EC6D533C4E183D5876FCC92@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260731003436.GKamvtnJlKydaEqstA@fat_crate.local>
+ <4bfafa1e-a7da-4c37-8da9-9fbba14106fd@intel.com>
+ <20260801012227.GEam1KUyMz601QOzrT@fat_crate.local>
+ <5f10ceab-5569-409b-8e78-c4a4f232489f@intel.com>
+ <20260804191608.GDanI6eK2Q07w6pNcb@fat_crate.local>
+ <98be93cc-f2d8-4bad-bbb0-f309e912054c@intel.com>
+ <20260804224703.GFanJr52UbKBrCOTij@fat_crate.local>
+ <SJ1PR11MB6083C1B9D29DF6184B50597BFCD42@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728144954.355376-1-dwmw2@infradead.org> <20260728144954.355376-32-dwmw2@infradead.org>
- <am0upFND1r93HPxq@google.com> <d2d98dd31718eb925ae44b0eceb325538a8174ae.camel@infradead.org>
-Message-ID: <anJ36SBzN7HL4A2D@google.com>
-Subject: Re: [PATCH v7 31/36] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for
- accurate KVM clock migration
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <SJ1PR11MB6083C1B9D29DF6184B50597BFCD42@SJ1PR11MB6083.namprd11.prod.outlook.com>
 
-On Sat, Aug 01, 2026, David Woodhouse wrote:
-> On Fri, 2026-07-31 at 16:24 -0700, Sean Christopherson wrote:
-> >=20
-> > > +	/*
-> > > +	 * Allow for a discrepancy of 1 kHz either way between the TSC
-> > > +	 * frequency used to generate the user's pvclock and the current
-> > > +	 * host's measured frequency, since they may not precisely match.
-> > > +	 */
-> > > +	if (user_tsc_hz < curr_tsc_hz - 1000 ||
-> > > +	=C2=A0=C2=A0=C2=A0 user_tsc_hz > curr_tsc_hz + 1000) {
-> >=20
-> > I don't follow, why is KVM restricting what frequency userspace can set=
-?
->=20
-> Userspace actually sets the frequency with KVM_SET_TSC_KHZ. What KVM is
-> insisting upon here is that the input to KVM_SET_CLOCK_GUEST is
-> *consistent* with the guest's TSC frequency (within a little slop
-> caused by different host TSCs).
+On Tue, Aug 04, 2026 at 11:05:48PM +0000, Luck, Tony wrote:
+> Intel systems have counters backing up every RMID. So CPUD leaf 0xF tells
+> Linux how many can be used.
 
-Why does KVM care though?  I know some people hate that KVM's uAPI is permi=
-ssive
-to a fault, but trying to "help" userspace often ends badly for everyone.  =
-E.g.
-what happens if userspace does KVM_SET_TSC_KHZ after KVM_SET_CLOCK_GUEST?
+Are you saying that there is not an Intel system out there which has less
+counters than RMIDs? If so, that would explain why the exhaustion happens on
+AMD only.
+
+/me goes and looks at the SDM:
+
+So there's leaf 0 there:
+
+EBX[31:0]	MAX_RMID	Maximum range (zero-based) of RMID within this
+physical processor of all types.
+
+I'm assuming that means you have so many RMIDs and all of them are backed by
+counters.
+
+And if we look at one example if Emerald Rapids:
+
+CPUID 0000000F: 00000000-0000007F-00000000-00000002 [SL 00]
+CPUID 0000000F: 00000008-00008000-0000007F-00000007 [SL 01]
+
+https://instlatx64.github.io/InstLatx64/GenuineIntel/GenuineIntel00C06F2_EmeraldRapids_02_CPUID.txt
+
+That 0x7f there means 128 counters for 128 RMIDs so there cannot be any
+exhaustion.
+
+Am I close?
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
