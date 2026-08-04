@@ -1,319 +1,303 @@
-Received: from sender4-of-o52.zoho.com (sender4-of-o52.zoho.com [136.143.188.52])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8B649552D;
-	Tue,  4 Aug 2026 18:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785866434; cv=pass; b=LLrVBV8tiX8zNkKtZecgunwGK09FbAF6O3AOHrm8CjSuNLTUmUFe7rhhDl2kFDmKA1g3FErl2nSoCTS29j68YsvskseVdmuWBcxwy1j8x3ZAiIJ0D24P0VW6Rfs8i/l3H9ad/NkBdQUKatdBvdA5TJUCA/oZDUIRgr31b/cWEgQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785866434; c=relaxed/simple;
-	bh=SwJCU6dzIpARsSxB4INX7Wbgfj/GVUgzjebrU0XPmg8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F1vi2KS/X02LLayWad+10DLzx8KWpkMg1ILQjrU5FM1PpwdgatkEuQmIL6BscISSbxW3cMzFsznZjQQHXDDF+AZqof2/izrVZM8JDZiZgu+tjPdnLmKe1WY3ozyy7Jllj1K06CmJ2OCfDSnCRT8pPZEkggsrP5hxq/NJebkRHME=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=machnikowski.net; spf=pass smtp.mailfrom=machnikowski.net; dkim=pass (2048-bit key) header.d=machnikowski.net header.i=maciek@machnikowski.net header.b=PiSNxoTV; arc=pass smtp.client-ip=136.143.188.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=machnikowski.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=machnikowski.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CFD2EC0A6;
+	Tue,  4 Aug 2026 18:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785866858; cv=none; b=hTLOMgqvM99MulB2HslAEEN7hc81YhPmlmEAz3ow3VNe5j9huFe5ur2MMYI8ZEJnXgQuvhVOkA1vffSN7Bd9wHYL6UXZMMSvXm6TdmkFwJ9tNtXmA5Pjg3q1KGwY8+9nevBEQeF1MgYheB94gGh6VJz+sdWvJPTZXZKhEohbLyw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785866858; c=relaxed/simple;
+	bh=Dq+MykSa/oEtCzAF1F+YmA1JO7IrFSdqE3lhnCqT1Zc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eaZlylV3+z8hnUHzwKsJlXP0WpJtn4fWSQpPr0L+TtzsN61SBgVduuEe6o0Zi7MnXXlM7zMd7XC4ZNs6ZZnU9AC+4v5yblOJat9k9di+wg2Nhrkq/1nsp7zxhPRvYA13PqaA5i7YBz+Y9ONLI25EKJxRZNvHEdFw+BK6qswYMf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=BArlU6Kj; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=machnikowski.net header.i=maciek@machnikowski.net header.b="PiSNxoTV"
-ARC-Seal: i=1; a=rsa-sha256; t=1785866366; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=OnC5K4A/dzXaV6HATJklnN+Hw+yBdk3rqZmBuHrYk7jSO/sScIaX68QnXW1tR8mmQ6t0BsXU1L/dVki81tCF7WwcBFuOba042vQ37JeuooxED+/ZQpoDQnex8stB3eGwmRypaIEprc3K4q5DKM5MZduwDtgbKhuaKxqBOwVq3So=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1785866366; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4Hx63wYyhpUz8/M2kRLyuJ7fuvr6MmVRCdKtXgYif5s=; 
-	b=bpul9Si9UyKF/yNA59FdLe63GAZ5nc1+ysxs6HNOcl6rVyFF+yodf7ZzdohdEzvSGNGT7TSxn4Qh045mKuk0jcZd5Q/24Xp+A/FBYNOdxUg3bgwMbQJ0C3Nb7wHvjai3v50PRAGhWwAPcRiGgU0gyovntZg2qfkuOiTLtWpusb8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=machnikowski.net;
-	spf=pass  smtp.mailfrom=maciek@machnikowski.net;
-	dmarc=pass header.from=<maciek@machnikowski.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785866365;
-	s=zoho; d=machnikowski.net; i=maciek@machnikowski.net;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=4Hx63wYyhpUz8/M2kRLyuJ7fuvr6MmVRCdKtXgYif5s=;
-	b=PiSNxoTVfKmD8NiFTgrFFqTOG7ZUeM3fwcE7ZgNbNMELHo0fICOyPRC9ZipP2vxM
-	mOMpcgqfVbHjrZ5c+SAts5+QhfXSAMctQZRT8E0jWE6yTY1TSZuSG2/Oe0ma4lPS+cz
-	aKtvi9GElocGs5IKV/QzglCjkBwaG7NHpgB7M4hohpL9K/Ht8RcnSxTYA7LRzKWI9iz
-	hC0e49KPLO+AcJuc1jTThwcfvarpmT/7WBwAk5q8hGm73QWS+20YQ+wY5DMdZhssqN8
-	X/SAm9RCSOR8iJ2WMZ2uQ8FRHCLpRj1hvzkyyT5D2azJUI3+vM/p0S5hXbicDiXNl4Z
-	0+ey0GsWvQ==
-Received: by mx.zohomail.com with SMTPS id 1785866362148587.1866007291997;
-	Tue, 4 Aug 2026 10:59:22 -0700 (PDT)
-Message-ID: <d43d255a-4a67-44c7-ab1e-5e08ac01a9c6@machnikowski.net>
-Date: Tue, 4 Aug 2026 19:59:14 +0200
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="BArlU6Kj"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 674FlXg63598933;
+	Tue, 4 Aug 2026 18:07:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=B1tdDoMdjI/edwrfeWJUOcTxU6qlA1BigMxQ/o05A
+	wk=; b=BArlU6KjJ2xv7mLJAtyYPeh89LJDtrAfWHXHFV6m2K5XBhlSpLjW3jbKH
+	AZfowk/2xm2VrWmQgS1qvBDRvr+A/ETGp/I4UVVfF4wrZN2UhzOoCO7DWkaN9Gw9
+	CWySX1GjO6Udjqu7roO0aLW2Ibn6yR7XSdiySzAiSsFtNhQyz0ZKkcEPdIROhXzp
+	rBF8AmM7twLN7QfpiXIzOpss/BL5U9wMcrqGR7TJNvyQa4czwnU1QabasKsWd706
+	U7sgJw7lyj7o+p4pXOy669NCU81z78CPapGqv5eiTIdBflLU1X2GJ+9YUnCVJZPC
+	kaXticB0yPZIL9222Zsp38yclttbg==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs8fqq7q6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Aug 2026 18:07:21 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 674HuHrn019927;
+	Tue, 4 Aug 2026 18:07:19 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fsugw385e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Aug 2026 18:07:19 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 674I7Fxr35389742
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 4 Aug 2026 18:07:16 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9CAF82004E;
+	Tue,  4 Aug 2026 18:07:15 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2C8772004B;
+	Tue,  4 Aug 2026 18:07:12 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.39.28.45])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  4 Aug 2026 18:07:11 +0000 (GMT)
+From: Amit Machhiwal <amachhiw@linux.ibm.com>
+To: linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Amit Machhiwal <amachhiw@linux.ibm.com>,
+        Anushree Mathur <anushree.mathur@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ritesh Harjani <ritesh.list@gmail.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v6 0/4] KVM: PPC: Expose CPU compatibility modes for nested guests
+Date: Tue,  4 Aug 2026 23:37:01 +0530
+Message-ID: <20260804180705.59160-1-amachhiw@linux.ibm.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 net-next 1/7] ptp: Add ioctls for PHC timestamps with
- quality attributes
-To: Arthur Kiyanovski <akiyano@amazon.com>, David Miller
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org
-Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- Miroslav Lichvar <mlichvar@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Andrew Lunn <andrew@lunn.ch>, Carolina Jubran <cjubran@nvidia.com>,
- Wen Gu <guwen@linux.alibaba.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- David Woodhouse <dwmw@amazon.com>, Yonatan Sarna <ysarna@amazon.com>,
- Zorik Machulsky <zorik@amazon.com>, Alexander Matushevsky
- <matua@amazon.com>, Saeed Bshara <saeedb@amazon.com>,
- Matt Wilson <msw@amazon.com>, Anthony Liguori <aliguori@amazon.com>,
- Nafea Bshara <nafea@amazon.com>, Evgeny Schmeilin <evgenys@amazon.com>,
- Netanel Belgazal <netanel@amazon.com>, Ali Saidi <alisaidi@amazon.com>,
- Benjamin Herrenschmidt <benh@amazon.com>, Noam Dagan <ndagan@amazon.com>,
- David Arinzon <darinzon@amazon.com>, Evgeny Ostrovsky <evostrov@amazon.com>,
- Ofir Tabachnik <ofirt@amazon.com>, Amit Bernstein <amitbern@amazon.com>,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- shuah@kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, vadim.fedorenko@linux.dev
-References: <20260729233740.16516-1-akiyano@amazon.com>
- <20260729233740.16516-2-akiyano@amazon.com>
-Content-Language: en-US
-From: Maciek Machnikowski <maciek@machnikowski.net>
-In-Reply-To: <20260729233740.16516-2-akiyano@amazon.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: 7bmwyHflP4NVJYmhpMFvsOVu04KzKXa1
+X-Proofpoint-ORIG-GUID: gVGxR_g8TGJF-BunpEBxxwzTu9w1Ppq3
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDE0NCBTYWx0ZWRfXyZJkPJ9XqJ2q
+ gEs8YRpGpQOmc80b/OE9SH/6mkYIaVl9wkkEf3Q7lX7ItWBhKEo0gJTNl/+rN9Vhbimf8PcBDpw
+ S0EQL/X7W5Nf5ujQF1yLmy4uw9RoW4Y=
+X-Authority-Analysis: v=2.4 cv=K8cS2SWI c=1 sm=1 tr=0 ts=6a722a59 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=h7u5zJOLz3W6SXC_pSsA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDE0NCBTYWx0ZWRfXx1d7AnOMSyVN
+ byM5fc32iWopzasc2gQB20mWLiwdHQOyiJXFfUJA5Qwm/v0ScvqxkC72DAgBJai94qMK6zJk0m7
+ PgNKyEkWwEXkPPzs8JwxVWtOHSGbD6kx44mt61wmyKeuE8ma/t4nK18m/09z9pkPN3eHd5mID/H
+ fLP8c/f762Wky4N91m+32kUJNZNPEr5iGRVdvrd8xv9dIalyQOK8YIQgJZ9JkmJ+GtD8FEtu+hD
+ Ylf0Xghj/SKmUV15uDI8BFNZf/RtwLUfYdJ9BcMjXw4KexKMBgnaLkHJBFjCMOkDgLn56/nyZ+b
+ y62NUwYy+e9tjG+UgKw1kmaUemobr6FWZMOVAdqv+rd9Dito9wIc7EpjZlxSorM0k6MrJvE6eMg
+ EXAL8+zEXPIagUHzkp9XNtao8aua4qGnD6TuLf7dFG7ROmZLpOAjGo09uXd4POFcCdCVYRI4Zbs
+ Emzuha/H6HOcItMn3RQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-04_03,2026-08-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 phishscore=0 suspectscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608040144
+
+On POWER systems, newer processor generations can operate in compatibility
+modes corresponding to earlier generations (e.g., a Power11 system running
+in Power10 compatibility mode). In such cases, the effective CPU level
+exposed to guests differs from the physical processor generation.
+
+This creates a problem for nested virtualization. When booting a nested KVM
+guest (L2) inside a host KVM guest (L1) running in a compatibility mode,
+userspace (e.g., QEMU) may derive the CPU model from the raw hardware PVR
+and attempt to configure the nested guest accordingly. However, the L1
+partition is constrained by the compatibility level negotiated with the
+hypervisor (L0), and requests exceeding that level are rejected, leading to
+guest boot failures such as:
+
+  KVM-NESTEDv2: couldn't set guest wide elements
+
+This series provides a mechanism for userspace to query the effective CPU
+compatibility modes supported by the host, so it can select an appropriate
+CPU model for nested guests.
+
+To achieve this, the series introduces a new KVM capability and ioctl
+(KVM_CAP_PPC_COMPAT_CAPS / KVM_PPC_GET_COMPAT_CAPS) that expose the
+compatibility modes supported by the host.
+
+Why a new UAPI?
+===============
+While cpu-version is available in /proc/device-tree/cpus/<cpu#>/cpu-version
+on both L1 booted on PowerNV and PowerVM LPARs, the UAPI approach is
+preferable for several reasons:
+
+1. pHYP (L0) capabilities: On PowerVM, we need to rely on capabilities
+   negotiated with pHYP in KVM, not just device tree properties. The
+   cpu-version property depicts the current compat mode but doesn't point
+   to what all compat modes are supported for the nested guest.
+
+2. procfs dependency: Not all systems run with procfs enabled (CONFIG_PROC_FS
+   is optional). Minimal configurations like buildroot might disable it, but
+   KVM ioctl works regardless since it accesses kernel data structures
+   directly.
+
+3. Kernel validation: The kernel validates and normalizes the compatibility
+   information, ensuring userspace gets validated, consistent data.
+
+4. Abstraction & stability: /proc/device-tree is an implementation detail.
+   The UAPI provides a stable interface that won't break if the underlying
+   mechanism changes.
+
+5. Semantic clarity: KVM_PPC_GET_COMPAT_CAPS clearly expresses what
+   compatibility modes can be used for KVM guests, vs. parsing device tree
+   which requires understanding the semantic meaning of cpu-version.
+
+The implementation supports both:
+
+  - KVM on PowerVM (nested API v2), where compatibility information is
+    served from the cached nested_capabilities value, originally obtained
+    via the H_GUEST_GET_CAPABILITIES hypercall at module init.
+  - KVM on PowerNV (nested API v1), where compatibility is derived from the
+    device tree ("cpu-version") representing the effective processor
+    compatibility level.
+
+This allows userspace (e.g., QEMU) to select a CPU model consistent with
+the host compatibility mode, avoiding mismatches and enabling successful
+nested guest boot.
+
+Note: This series is built on top of patch [1] which must be applied first.
+Patch [1] ensures arch_compat is validated against the host compatibility
+mode before this series adds the capability query mechanism.
+Commit e4de1b9cb3b5 ("powerpc/dt_cpu_ftrs: Set CPU_FTR_P11_PVR for Power11
+and later processors") which was also a prerequisite has been merged upstream.
+
+Changes in v6:
+  - Changed KVM_PPC_GET_COMPAT_CAPS ioctl number from 0xe4 to 0xb8 to
+    avoid placing it in the KVM_CREATE_DEVICE fd ioctl range (0xe0-0xe3);
+    relocated definition to sit alongside other PPC vm ioctls (patch 1)
+    - [Gautam]
+  - kvmppc_map_compat_capabilities(): changed parameter type from
+    'const __be32' to 'u32' to fix Sparse type annotation warning (patch 3)
+    - [Sashiko]
+  - kvmppc_get_compat_caps(): replaced of_get_property() + be32_to_cpup()
+    with of_property_read_u32() for implicit length validation and cleaner
+    endianness handling (patch 3) - [Sashiko]
+  - Documentation: corrected :Parameters: from (out) to (in/out) since
+    userspace must set size and flags before calling (patch 4) - [Sashiko]
+
+Patch summary:
+  [1/4] Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+  [2/4] Implement capability retrieval for KVM on PowerVM (API v2)
+  [3/4] Add KVM on PowerNV support (API v1)
+  [4/4] Document the new ioctl
+
+Testing (with QEMU v4 patches and on top of patch [1]):
+
+KVM APIv1 Testing
+=================
+  On P10 PowerNV machine (L0)
+  ---------------------------
+    - P10 L1 KVM guest -> works
+      - P10 nested L2 KVM guest -> works
+      - P9 compat nested L2 KVM guest -> works
+    - P9 compat L1 KVM guest -> works
+      - P9 nested L2 KVM guest -> works
+
+  On Powernv11 TCG Guest (L0)
+  ---------------------------
+    - P11 PowerNV TCG L0 guest -> works
+    - P11 L1 KVM guest -> works
+      - P11 L2 KVM guest -> works
+    - P10 compat L1 KVM guest -> works
+      - P10 L2 KVM guest -> works
+    - P9  compat L1 KVM guest -> works
+      - P9 L2 KVM guest -> works
+
+KVM APIv2 Testing
+=================
+  On P11 PowerVM LPAR (L1)
+  ------------------------
+    - P11 L2 KVM guest -> works
+    - P10 compat L2 KVM guest -> works
+    - P9 compat L2 KVM guest fails to boot as expected
+    - Without QEMU patches but Linux patches
+      - P11 L2 KVM guest -> works
+      - P10 compat L2 KVM guest -> works
+      - P9 compat L2 KVM guest fails to boot as expected
+    - Without Linux patches but QEMU patches
+      - P11 L2 KVM guest -> works
+      - P10 compat L2 KVM guest -> works
+
+  On P11 LPAR in P10 compat (L1)
+  ------------------------------
+    - P10 (host compat) L2 KVM guest -> works
+    - Without QEMU patch but Linux patches
+      - P10 guest fails to boot as expected (error: kvm run failed Invalid argument)
+    - Without Linux patch but QEMU patches
+      - P10 guest fails to boot as expected (KVM: unknown exit, hardware reason ffffffffffffffea)
+
+  On P10 PowerVM LPAR (L1)
+  ------------------------
+    - P10 L2 KVM guest -> works
+    - P9 compat L2 KVM guest fails to boot as expected
+
+TCG pSeries Guest
+=================
+    - P11 (default) pSeries guest boots fine
+
+ABI Extensibility Testing (struct size 32, extra member)
+=========================================================
+    - Newer struct on QEMU, older kernel -> works (kernel returns -E2BIG,
+      QEMU retries with correct size)
+    - New struct on Linux kernel, older QEMU -> works (kernel zero-pads
+      trailing fields, QEMU gets correct data)
+
+With this series, nested guests boot successfully in configurations where
+they previously failed due to compatibility mismatches.
+
+Related QEMU series:
+====================
+A corresponding QEMU v5 series will be sent soon.
+
+Previous QEMU versions:
+v4: https://lore.kernel.org/all/20260701052341.62289-1-amachhiw@linux.ibm.com/
+v3: https://lore.kernel.org/all/20260616113915.25589-1-amachhiw@linux.ibm.com/
+v2: https://lore.kernel.org/all/20260502140021.69712-1-amachhiw@linux.ibm.com/
+v1: https://lore.kernel.org/all/20260430061333.37905-1-amachhiw@linux.ibm.com/
+
+Previous versions:
+==================
+v5: https://lore.kernel.org/linuxppc-dev/20260701051409.51820-1-amachhiw@linux.ibm.com/
+v4: https://lore.kernel.org/linuxppc-dev/20260616123314.82721-1-amachhiw@linux.ibm.com/
+v3: https://lore.kernel.org/linuxppc-dev/20260522152744.55251-1-amachhiw@linux.ibm.com/
+v2: https://lore.kernel.org/linuxppc-dev/20260513100755.83195-1-amachhiw@linux.ibm.com/
+v1: https://lore.kernel.org/linuxppc-dev/20260430054906.94431-1-amachhiw@linux.ibm.com/
+
+References:
+===========
+[1] https://lore.kernel.org/all/20260714175432.86388-1-amachhiw@linux.ibm.com/
+
+Amit Machhiwal (4):
+  KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+  KVM: PPC: Book3S HV: Implement compat CPU capability retrieval for KVM
+    on PowerVM
+  KVM: PPC: Book3S HV: Add support for compat CPU capabilities for KVM
+    on PowerNV
+  KVM: PPC: Document KVM_PPC_GET_COMPAT_CAPS ioctl
+
+ Documentation/virt/kvm/api.rst      | 79 +++++++++++++++++++++++++++++
+ arch/powerpc/include/asm/kvm_ppc.h  |  1 +
+ arch/powerpc/include/uapi/asm/kvm.h | 18 +++++++
+ arch/powerpc/kvm/book3s_hv.c        | 56 ++++++++++++++++++++
+ arch/powerpc/kvm/powerpc.c          | 71 ++++++++++++++++++++++++++
+ include/uapi/linux/kvm.h            |  3 ++
+ 6 files changed, 228 insertions(+)
 
 
+base-commit: 848acc8ffe1b7cd5f1bf427b93069becfebc2c9d
+prerequisite-patch-id: 7755786f0e4f415e47065ff1972765008727fe10
+-- 
+2.50.1 (Apple Git-155)
 
-On 30/07/2026 01:37, Arthur Kiyanovski wrote:
-> Introduce two new ioctls that extend existing PTP timestamp interfaces
-> with clock quality information:
-> 
-
->  
-> +/*
-> + * Clock status values for struct ptp_clock_attrs.status
-> + */
-> +enum ptp_clock_status {
-> +	/* Clock synchronization status cannot be reliably determined */
-> +	PTP_CLOCK_STATUS_UNKNOWN      = 0,
-> +
-> +	/* Clock is acquiring synchronization */
-> +	PTP_CLOCK_STATUS_INITIALIZING = 1,
-> +
-> +	/* Clock is synchronized and maintained accurately by the device */
-> +	PTP_CLOCK_STATUS_SYNCED       = 2,
-> +
-> +	/*
-> +	 * Clock is drifting but remains within acceptable error bounds;
-> +	 * error_bound is valid and can be trusted.
-> +	 */
-> +	PTP_CLOCK_STATUS_HOLDOVER     = 3,
-> +
-> +	/*
-> +	 * Clock is free-running: not currently disciplined toward a reference
-> +	 * (unlike HOLDOVER), but coasting on a known oscillator. error_bound
-> +	 * remains valid and can be trusted, and typically grows over time.
-> +	 */
-> +	PTP_CLOCK_STATUS_FREE_RUNNING = 4,
-> +
-> +	/*
-> +	 * Clock is considered broken (e.g. the oscillator is faulty or
-> +	 * abnormally unstable): error_bound cannot be trusted. A clock that is
-> +	 * merely unsynchronized or resynchronizing should report
-> +	 * PTP_CLOCK_STATUS_UNKNOWN or PTP_CLOCK_STATUS_INITIALIZING instead.
-> +	 */
-> +	PTP_CLOCK_STATUS_UNRELIABLE   = 5
-What is the practical use of UNRELIABLE vs UNKNOWN.
-I think it can be simplified to UNRELIABLE, SYNCED and HOLDOVER. All
-clocks will start in UNRELIABLE, switch to SYNCED whenever the clock
-gets synchronized correctly and enter HOLDOVER if it was at the SYNCED
-state and report the last synced for that state. Status INITIALIZING has
-no practical meaning and requires more work from the APIs, and
-HOLDOVER->FREE_RUNNING state transition is undefined (what is
-"acceptable" for one application won't be acceptable for another)
-
-> +};
-> +
-> +/*
-> + * Clock timescale values for struct ptp_clock_attrs.timescale.
-> + *
-> + * These definitions describe the mathematical properties and reference
-> + * epochs of the timescale provided by the PHC.
-> + *
-> + * Discipline: Describes the frequency/phase steering behavior.
-> + * Continuity: Describes whether the timeline is uninterrupted.
-> + */
-> +enum ptp_clock_timescale {
-> +	/* Unknown or unspecified timescale */
-> +	PTP_TIMESCALE_UNKNOWN = 0,
-> +
-> +	/********************* Absolute Atomic Timescales *********************
-> +	 * These timescales are continuous, monotonic standards based on atomic
-> +	 * physics. They do not experience phase jumps.
-> +	 **********************************************************************/
-> +
-> +	/**
-> +	 * International Atomic Time (TAI)
-> +	 * Epoch: 1958-01-01 00:00:00.
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Primary atomic reference; no phase jumps.
-> +	 */
-> +	PTP_TIMESCALE_TAI = 1,
-> +
-> +	/**
-> +	 * Terrestrial Time (TT)
-> +	 * Epoch: 1958-01-01 00:00:00.
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Defined as TAI + 32.184s constant offset.
-> +	 */
-> +	PTP_TIMESCALE_TT = 2,
-> +
-> +	/**
-> +	 * Global Positioning System (GPS) Time
-> +	 * Epoch: 1980-01-06 00:00:00.
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Defined by the GPS constellation; fixed offset from TAI.
-> +	 */
-> +	PTP_TIMESCALE_GPS = 3,
-> +
-> +	/****************** UTC-Based Timescales (Civil Time) *****************
-> +	 * These timescales are derived from TAI but adjusted to align with
-> +	 * the Earth's rotation, primarily through leap seconds.
-> +	 **********************************************************************/
-> +
-> +	/**
-> +	 * Coordinated Universal Time (UTC) - Wall-clock (CLOCK_REALTIME)
-> +	 * Epoch: 1970-01-01 00:00:00 (Unix epoch).
-> +	 * Continuity: Discontinuous; subject to 1-second leap second
-> +	 *             phase jumps.
-> +	 * Discipline: Frequency steered; incorporates leap second corrections.
-> +	 *
-> +	 * Note: Leap-smeared UTC MUST NOT be advertised as PTP_TIMESCALE_UTC.
-> +	 * Smear algorithms are not standardized and the resulting timescale
-> +	 * is ambiguous. Implementations using smeared UTC MUST advertise
-> +	 * PTP_TIMESCALE_UNKNOWN or PTP_TIMESCALE_PROPRIETARY instead.
-> +	 */
-> +	PTP_TIMESCALE_UTC = 4,
-> +
-> +	/**
-> +	 * POSIX Time (Unix Time)
-> +	 * Epoch: 1970-01-01 00:00:00.
-> +	 * Continuity: Discontinuous; leap seconds handled by
-> +	 *             repeating/skipping values.
-> +	 * Discipline: Follows UTC frequency steering and phase jumps.
-> +	 */
-> +	PTP_TIMESCALE_POSIX = 5,
-> +
-> +	/****************** System-Relative Monotonic Clocks ******************
-> +	 * These timescales are relative to a system event (like boot)
-> +	 * and are not synchronized to an external atomic standard.
-> +	 **********************************************************************/
-> +
-> +	/**
-> +	 * Monotonic System Clock (CLOCK_MONOTONIC)
-> +	 * Epoch: Arbitrary (System boot time).
-> +	 * Continuity: Strictly monotonic; no leap seconds.
-> +	 * Discipline: Frequency steered to match system reference;
-> +	 *             does not advance during suspend.
-> +	 */
-> +	PTP_TIMESCALE_MONOTONIC = 6,
-> +
-> +	/**
-> +	 * Raw Monotonic System Clock (CLOCK_MONOTONIC_RAW)
-> +	 * Epoch: Arbitrary (System boot time).
-> +	 * Continuity: Strictly monotonic; no leap seconds.
-> +	 * Discipline: Raw hardware oscillator; no frequency steering
-> +	 *             or discipline.
-> +	 */
-> +	PTP_TIMESCALE_MONOTONIC_RAW = 7,
-> +
-> +	/**
-> +	 * Boot Time System Clock (CLOCK_BOOTTIME)
-> +	 * Epoch: Arbitrary (System boot time).
-> +	 * Continuity: Strictly monotonic and continuous; no leap seconds.
-> +	 * Discipline: Frequency steered to match system reference;
-> +	 *             advances during suspend.
-> +	 */
-> +	PTP_TIMESCALE_BOOTTIME = 8,
-> +
-> +	/********************** Vendor-Specific Timescale *********************/
-> +
-> +	/* A proprietary or vendor-specific timescale with custom rules. */
-> +	PTP_TIMESCALE_PROPRIETARY = 9,
-> +};
-Do we need this many timescales defined here? Can't we just use the
-notion of TIMESCALE_ARBITRARY and TIMESCALE_ABSOLUTE with the UTC
-offset? CLOCK_MONOTONIC / MONOTONIC_RAW are really ARBITRARY, is there
-any value of differentating between those two?
- > +
->  /*
->   * struct ptp_clock_time - represents a time value
->   *
-> @@ -94,6 +237,136 @@ struct ptp_clock_time {
->  	__u32 reserved;
->  };
->  
-> +/*
-> + * Hardware counter identifiers for struct ptp_sys_time.sys_counter_id
-> + */
-> +enum ptp_counter_id {
-> +	/* Counter value not available or type not specified */
-> +	PTP_COUNTER_UNKNOWN = 0,
-> +
-> +	/* x86 Time Stamp Counter (TSC) */
-> +	PTP_COUNTER_X86_TSC = 1,
-> +
-> +	/* ARM Generic Timer virtual counter */
-> +	PTP_COUNTER_ARM_ARCH = 2,
-> +};
-> +
-> +/* Valid flags for struct ptp_clock_attrs.valid */
-> +#define PTP_ATTRS_VALID_ERROR_BOUND	(1 << 0)
-> +#define PTP_ATTRS_VALID_TIMESCALE	(1 << 1)
-> +#define PTP_ATTRS_VALID_STATUS		(1 << 2)
-> +
-> +/**
-> + * struct ptp_clock_attrs - quality attributes for a PHC timestamp
-> + *
-> + * @valid:       Bitmask of PTP_ATTRS_VALID_* indicating which fields
-> + *               are populated. Zero means no attributes available.
-> + * @error_bound: Maximum error (an upper bound, in nanoseconds) between the
-> + *               returned device_time and true time on the advertised
-> + *               @timescale; a worst-case bound, not a statistical estimate.
-> + *               Valid only when PTP_ATTRS_VALID_ERROR_BOUND is set, and must
-> + *               not be trusted when @status is PTP_CLOCK_STATUS_UNKNOWN or
-> + *               PTP_CLOCK_STATUS_UNRELIABLE.
-> + * @timescale:   Clock timescale (enum ptp_clock_timescale). Valid only
-> + *               when PTP_ATTRS_VALID_TIMESCALE is set.
-> + * @status:      Synchronization status (enum ptp_clock_status). Valid
-> + *               only when PTP_ATTRS_VALID_STATUS is set. Transitions between
-> + *               states are device-specific; there are no kernel-defined
-> + *               thresholds relating @status to @error_bound.
-> + * @rsv:         Reserved for future use, must be zero.
-> + */
-> +struct ptp_clock_attrs {
-> +	__u32 valid;
-> +	__u32 error_bound;
-> +	__u32 timescale;
-> +	__u32 status;
-> +	__u32 rsv[4];
-> +};
-This does not look like a practical model. Error bounds changes over
-time and will get stale by the time you transfer them over IOCTL.
-
-I think a more practical approach would be to return error_bound
-alongside the anchor_timestamp at which it was measured. For example you
-can define master_offset for the RX timestamp of the Sync packet, or the
-offset for the last 1PPS signal you received. This should be
-complemented by some drift_factor that would define how fast it grows.
-
-If you capture the time from the PHC you can use the formula of
-error_bound+(phc_time - anchor_timestamp)*drift_factor to interpolate
-the boundaries.
-
-Do we want to squash all errors into a single error_bound - it may make
-sense to add the hw_error and sync_error - hw_error would squash
-hw-based error bounds (such as clock resolution, GNSS precision) and
-sync_error (which would hold the dynamic part derived from the sync
-protocol)
-
-Thanks,
-Maciek
