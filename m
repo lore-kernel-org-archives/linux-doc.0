@@ -1,285 +1,160 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B91446857
-	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 10:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA8B64457A8;
+	Tue,  4 Aug 2026 10:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785839814; cv=none; b=h/pdEAygqdZoQ42seZyJ2g3anPpUVc7Jk0qWYtAg4Bn0S4yc7oJtMEK0pfmlpYQ1bhpKRElkl+1Rfn5LLkvAAM5A5Ws3u1Upp2j5xOD4Q+6yBNryg5EPOmSFnOKhyTcp75XDmrc8BMS5pKOk9ki6SEstYzPCffPvuN4eXUFho4w=
+	t=1785839990; cv=none; b=kClZ5+5TcIrOsVnxDhrchB5vahlm3g13lmJfQEbZRy+gFeQcYlLJA99hkdZHb0JCDgVrjgqXHWxV5gef4ns+00jAeLDdq43Y/XiDVrpfCexRBlV8k5F+AQCUnJmurQ+aaz56Drn2Qo73E8SCW5epzHLFgMzGHG3pH0Q917KIeUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785839814; c=relaxed/simple;
-	bh=4womcYsF9mcBGVtFV27nvc/PSxv0+NBwgwSEiADK8oY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KCVTQHu/fs0Cz7Nz+tp7sm2s3ptuMrWdD6ikqA/IybpcUF8d6dcFzKV2iUht9AGzxYCcjc99GjPsgqAKcFbMkZkSdtImBsqJnURwefkA3Ip+jFTAPiwtF6AEVumpbDjNXJVuFU9LYqWRhwRU39z6MH9NOFwgLfzhM4hme4ZzHiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHxUuCQi; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785839990; c=relaxed/simple;
+	bh=gVQqttvdXx3czP0D8ZQjf0BF0PNoIikglrJsh5tdPNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AlWfxfHzGYf2mqqLD4YWWbMqdHxHSYxLhwfVj6iVc943DBIoVfu3QvntvMguRH965CIqDLs05Du/Qb8GGDgpmr6rg68M6zgqfwhd6HyEwnWZWCRlp7X4h3Q9ADG6pFWPqeC4ZysLAWGOMbMGb8MNCCC7eZu+ffITxczP6qLtthY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=goM700yk; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHxUuCQi"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47f703a9d05so2661359f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 03:36:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785839809; x=1786444609; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9wfrbatFPCH8NCTYo6x4uNCytfKAxBGUxu1j+wIy4q8=;
-        b=KHxUuCQie+x/e5x3GbwZdpF9LUMt9sIhifFvllZgZ78b4U3ZNxKcwkX8Mb0VSpox+u
-         /Iz28fCic7gKp81WorkWm2g7n6z/+Bg2W/mnbSwXt0UpTOKfhEK+np5VUobNDXm9TKL4
-         9Hg5rW0mokGGcjtjR+PWBAG0rTjZk+qoH82zwzn921+BjLpH0w+qSD3a1wNEDAeTCoOx
-         YeZwFcJ3KOoOEIvDbLDqpmc4cbEmoPDIKjJD6pws8cOQMREJjS/zhrxiDqQ88fOXcvt0
-         oIwe1Lf+kAk8KaVVJh2g6aLkSf9/ac3vDay2hxrny4IZuS3TzWl98rJqD9nH9pJtByi4
-         iQnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785839809; x=1786444609;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9wfrbatFPCH8NCTYo6x4uNCytfKAxBGUxu1j+wIy4q8=;
-        b=F/tma9MhbCyeECL80xvpFv4SA60R88JB1OzEv2bPKO3fQZ8Apcpb4CTHjajFXLMR0B
-         MP24h/DAzVMlwruSI9ifL/hbWWy8zFEZpavCjkDxyJqPMAL9IBeGZMdmxCNxZAEKvd0Y
-         YYpuFPQgU+5cw/K8hlEgczl3VisjCljp7Lxenfm0WClA/t05iMUnQZ4cItp0xr3PxeB6
-         64HDkKJusyThNsrgklR+c96kxXNObGVrZMBNlaT74wkFzVkU6BmVLVonz0LKQ8faaGqm
-         yfcxUIIoFiflZqxHFG15RiqzMEN3+zowmVD7g1a/9IMBOTWnge1HBBaLTSdV7LK/l+Fu
-         tpaQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro8vHG6HpsEJDpoIUi61IZKYjnH0KhGT5OqO1GLvHh3Yq5S5+VaMMx2xWzQM7ydQPLnYUlKlcitSIQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXiBrSzCyu3FnmXjLAo9ce5ZmvFlPyzb5FVqz/hDYtXMwtJ04d
-	U+UlK6eCGVmqTQ5O6e+Q5gacSUS9KjNXGuT7F38vILbQBKgZ0x+PWVV3
-X-Gm-Gg: AR+sD105hQPRB/QYf0ay+N+Vxy48cgqm0t6Q+Gkj0Dpbh2BQ9hUEiOFC2+Mrc6XtfDz
-	GaZQHfKk9LRxZAgRfloycvIctSaNhCSHIo7aFfvUh2MDg+FTzf+O0knawEPXFrBXQOh1Da1SnPS
-	PZdLN7enLChxykmH3iqcAfvHwp5z1CpmsRHU3v1rGFlt7YNAIZA/xm3NMXpn9+8qTqdRfPROMq+
-	l/W22kf6JnkURQizx/3yDNYqnCGOUWD2ul1BdRmVT0i9YxvvhksAmEj1cdFP9mGrA8EA9tVvxXT
-	c1YXWh/g8tvbybbwzCDkiQ1W9Nvu1fNdzejtonOcOlLvjjsjc++FHrhlOQLbAqJ68EFmn8GZziC
-	fuqDjegpPVpKZ3863WKfwusPOCTcKob7MRH1BwUyVQLVcvmzVc+6OvW4yaCOxk5iuQxuT8mFPgK
-	HwYfXOhntjjyEp2GHIKDfhxQwW732VdqXL9EFAV+k8fPsGc15DUShvdaG0VMqT1KgMrYEtvRw2a
-	wG3WS6p0AxOfditPBDbtbae+jTsM156enW1qpdMlk8Q6zhsSdHNtOwoNJe3BLj3pUvXUObD73ib
-	v6M=
-X-Received: by 2002:a05:6000:200d:b0:47f:25e4:5c34 with SMTP id ffacd0b85a97d-47fd7309771mr35812640f8f.29.1785839808450;
-        Tue, 04 Aug 2026 03:36:48 -0700 (PDT)
-Received: from [172.24.138.145] (dynamic-176-002-083-080.176.2.pool.telefonica.de. [176.2.83.80])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456220esm43851882f8f.18.2026.08.04.03.36.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Aug 2026 03:36:47 -0700 (PDT)
-Message-ID: <c20621fd-571b-4c96-8397-c644970c6548@gmail.com>
-Date: Tue, 4 Aug 2026 12:36:46 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="goM700yk"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0CCC61476;
+	Tue,  4 Aug 2026 03:39:44 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D9353F86F;
+	Tue,  4 Aug 2026 03:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785839988; bh=gVQqttvdXx3czP0D8ZQjf0BF0PNoIikglrJsh5tdPNg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=goM700ykIlZQZM3yxmueia6Ug+QFJAnVUCKicYMAmearzqG9V4D7+Rw2nlW5/Dgk4
+	 Qu8Uc0VxTw/8peiOKj5HovqW8VmHkViEM3Vr/VGIgwLxICebfLSLbvTGM2W1UCWgsO
+	 sdDsn2QY6n1qaEIsWmN60+caR5AicRYDT1rYEMcE=
+Date: Tue, 4 Aug 2026 11:39:29 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"d-gole@ti.com" <d-gole@ti.com>,
+	"david@kernel.org" <david@kernel.org>,
+	Elif Topuz <Elif.Topuz@arm.com>,
+	"etienne.carriere@st.com" <etienne.carriere@st.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>,
+	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
+	Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>,
+	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
+	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+	"usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v7 19/23] uapi: Add ARM SCMI Telemetry definitions
+Message-ID: <anHBYe15lb-G3mqd@pluto>
+References: <20260802145618.1952804-20-cristian.marussi@arm.com>
+ <A113D0AA-C4C5-4694-B3AD-731D6D39666B@contoso.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
- spi-device-addr
-To: Jonathan Cameron <jic23@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>,
- Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Mark Brown <broonie@kernel.org>,
- Marius Cristea <marius.cristea@microchip.com>,
- Marcus Folkesson <marcus.folkesson@gmail.com>,
- Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
- Kent Gustavsson <nedo80@gmail.com>
-References: <20260722-ad5529r-driver-v7-0-7781cd74ad75@analog.com>
- <20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
- <cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
- <20260725230739.63ff7000@jic23-huawei>
- <20260728-patronize-thwarting-56fab2e11077@spud>
- <20260728221719.7f668a73@jic23-huawei>
- <20260729-hundredth-suffice-f28afa67bc06@spud>
- <20260730000929.2ec20cf8@jic23-huawei>
- <20260730-impaired-protector-b58ae56ae3f6@spud>
- <20260801024114.4c606ef7@jic23-huawei>
-Content-Language: en-US
-From: Janani Sunil <jan.sun97@gmail.com>
-In-Reply-To: <20260801024114.4c606ef7@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <A113D0AA-C4C5-4694-B3AD-731D6D39666B@contoso.com>
 
+On Mon, Aug 03, 2026 at 11:25:20PM +0100, Fayssal Benmlih wrote:
+> Hi Cristian,
+> 
 
-On 8/1/26 03:41, Jonathan Cameron wrote:
-> On Thu, 30 Jul 2026 19:02:08 +0100
-> Conor Dooley <conor@kernel.org> wrote:
->
->> On Thu, Jul 30, 2026 at 12:09:29AM +0100, Jonathan Cameron wrote:
->>> On Wed, 29 Jul 2026 21:47:45 +0100
->>> Conor Dooley <conor@kernel.org> wrote:
->>>    
->>>> On Tue, Jul 28, 2026 at 10:17:19PM +0100, Jonathan Cameron wrote:
->>>>> On Tue, 28 Jul 2026 17:00:55 +0100
->>>>> Conor Dooley <conor@kernel.org> wrote:
->>>>>      
->>>>>> On Sat, Jul 25, 2026 at 11:07:39PM +0100, Jonathan Cameron wrote:
->>>>>>> On Sat, 25 Jul 2026 15:57:07 -0500
->>>>>>> David Lechner <dlechner@baylibre.com> wrote:
->>>>>>>        
->>>>>>>> On 7/22/26 2:54 AM, Janani Sunil wrote:
->>>>>>>>> Add the generic spi-device-addr property to the binding and deprecate
->>>>>>>>> the existing vendor specific microchip,hw-device-address property.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->>>>>>>>> ---
->>>>>>>>>   .../devicetree/bindings/iio/adc/microchip,mcp3564.yaml         | 10 ++++++++--
->>>>>>>>>   1 file changed, 8 insertions(+), 2 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
->>>>>>>>> index 675319276197..de1ea289e7f5 100644
->>>>>>>>> --- a/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
->>>>>>>>> +++ b/Documentation/devicetree/bindings/iio/adc/microchip,mcp3564.yaml
->>>>>>>>> @@ -80,6 +80,7 @@ properties:
->>>>>>>>>       $ref: /schemas/types.yaml#/definitions/uint32
->>>>>>>>>       minimum: 0
->>>>>>>>>       maximum: 3
->>>>>>>>> +    deprecated: true
->>>>>>>>>       description:
->>>>>>>>>         The address is set on a per-device basis by fuses in the factory,
->>>>>>>>>         configured on request. If not requested, the fuses are set for 0x1.
->>>>>>>>> @@ -91,6 +92,12 @@ properties:
->>>>>>>>>         clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
->>>>>>>>>         which is first one on the wire).
->>>>>>>>>   
->>>>>>>>> +  spi-device-addr:
->>>>>>>>> +    maxItems: 1
->>>>>>>> Does it not make sense to all for more than once device connected
->>>>>>>> to the same CS here? I would expect maxItems to be 4 to match the
->>>>>>>> number of possible addresses.
->>>>>>>>        
->>>>>>> I think for this part their isn't a reason to aggregate.
->>>>>>> No magic accesses that touch them all at once.  So this hits
->>>>>>> exactly the point you raised about how we set the address for
->>>>>>> more than one of them.
->>>>>> No David is actually right here, and maxitems should be 4.
->>>>>> Setting the address for multiple was already discussed I thought, with
->>>>>> the property being an array and each compatible being used to determine
->>>>>> the "stride" between entries based on the number of supported channels?
->>>>> I don't think that applies for this device or at least to do so
->>>>> is a major driver rewrite, not a simple binding change.  Probably we'd
->>>> Whether or not it is a big driver change, the binding should represent
->>>> what the hardware is capable of.
->>>>    
->>>>> just add a bus and hang the 4 instances off it. They are running on own
->>>>> timing etc so we can't grab data across all of them in any sort of
->>>>> synchronous way - the clocks will probably drift over time etc.
->>>> Did I miss something about the ADI devices in this thread where they
->>>> have some multicast ability to read all devices at once? I thought that
->>>> that was a different series where each device had dedicated mosi and
->>>> miso lines, rather than the shared ones here. I didn't think the ad5529r
->>>> did anything special from my reading of the datasheet but I'm not the
->>>> expert in this area!
->>> It's a DAC so other way around but yes they have exactly that in the section:
->>> https://www.analog.com/media/en/technical-documentation/data-sheets/ad5529r.pdf
->>>
->>> 	Register Details: Hotpath DAC registermap.
->>>
->>> The is a brief description earlier of the whole feature that might
->>> serve for this discussion:
->>>
->>> "DAC HOTPATH
->>> The DAC hotpath is a dedicated register region that optimizes
->>> DAC updates in multidevice configurations where several AD5529R
->>> devices share a common SPI bus. It reduces the number of SPI
->>> frames required to write DAC data and supports synchronized
->>> output updates across devices. In single device systems, the hotpath
->>> offers no advantage over the standard register map and can be
->>> disregarded."
->>>
->>> As an example
->>> MULTI DEVICE SW LDAC MODE 0 REGISTER
->>> "This register sends a software LDAC update to the selected devices
->>> that share the SPI lines but have different addresses, using the ID0
->>> and ID1 pins. The selection is done on a per-device basis corresponding
->>> to the configured bit field."
->>>
->>> This one triggers all selected DACs (there is bit corresponding to
->>> each address) to update in sync. (Lets put aside normal systems
->>> where an LDAC gpio is wired to multiple devices as that is a whole
->>> different problem).
->>>
->>>
->>> It is this part that is driving the suggestion of having
->>> a combined device representation for multiple physical devices.
->>> In practice it is very similar to chained devices where we do that
->>> already in that a longer access sequence is used to talk to multiple
->>> devices at once.
->> Ah I see. I definitely missed this section.
->>
->>> Those SPI messages do not carry the address (or they are ignored - I didn't
->>> dig into the mechanism).
->> It's definitely hard to tell this at a glance, nor does it really
->> matter.
->>
->>>>> They are independent devices (think of them using spi-device-address
->>>>> like an i2c address) -  so why have one DT node for up to 4 of
->>>>> them?  Note this is different from the AD5529R where the design
->>>>> is intended for them to operate as one single larger device.
->>>> I don't buy this argument, I just don't see what differs between the
->>>> devices. The microchip datasheet I read talked about using 3 devices to
->>>> measure 3 phase power setups (I think that's what it was) which is, in
->>>> my book, evidence that they're not just intended to be used
->>>> independently.
->>> Sure but that could just as easily be done with normal SPI and 3 chip
->>> selects. For these devices there is no broadcast write magic (I think
->>> anyway!)
->> I don't think there's any magic, and yes I do buy the argument that it
->> could be done normally.
->> Quite frankly, I don't know why the device works like this other than
->> pin saving. Probably some customer asked for it rather than there being
->> a generic use case.
->>
->>>> That said, the more this discussion goes on, the more I think that
->>>> merging the devices into a single node is a mistake. Logically there may
->>>> be one device, but really there are one to four devices. Doing the
->>>> logical device thing is nice maybe for software but I no longer think
->>>> that it represents the hardware correctly. I know this will cause
->>>> problems with registration of devices in the SPI core, but we need to
->>>> pick one representation for these devices that fits in all usecases
->>>> and with the things brought up in the other mail I am having a lot of
->>>> doubts.
->>> This wasn't about use cases as such but the broadcast like facilities the
->>> ADI parts have which to me smell like the main reason you'd put them on
->>> a single bus and use this feature in the first place - you are making
->>> one big DAC from multiple chips.
->> No, I think the use case bit is important. The representation (in dt)
->> shouldn't change because someone wants to use the device as one big dac
->> or 4 smaller dacs. The multicast thing does certainly lend a lot of
->> weight to treating the dacs as one device, so I guess that would be the
->> designated representation for this dac.
->> But then I don't see why the microchip devices couldn't be dealt with in
->> the same way, even if they don't have multicast, in order to create a
->> single consistent way of describing the devices.
-> How about we kick this down the road. Leave the two microchip devices
-> alone for now with their vendor binding (which we have to carry on supporting
-> anyway) and just do the AD part.  For future devices we can push towards
-> that model if they have such a device-address feature.
->
-> I don't mind changing the microchip parts in principle, but it is going
-> to be a non trivial change and I'd certainly be nervous to make it without test
-> parts
->
-> Of course if anyone does mix parts we have to think again.
->
-> Jonathan
+Hi,
 
-Hi All,
+> A few comments on the updated UAPI inline.
+> 
+> > struct scmi_tlm_batch {
+> > 	__u32 num_items;
+> > 	__u32 item_sz;
+> > 	__u64 reserved;
+> > 	__u64 states;
+> > 	__u64 items;
+> > };
+> 
+> Please define an upper bound for num_items. Without a common ABI limit,
+> callers can request effectively unbounded allocation and iteration, and
+> userspace does not know which sizes the kernel is expected to support.
 
-Based on the discussion for v8, I plan to:
+This structure is meant to be a generic container of different kind of
+objects, so the sensible upper bound depends on the contained object...
+....num_des mostly, check which I forgot to add, anyway, in the IOCTl
+handling...I'll do that and document this...
 
-1) Drop the Microchip-related patches from this series
-2) Keep the spi-device-addr property and the AD5529R binding/driver and represent AD5529R sharing one CS as one device using the address array.
+> 
+> >  * @states: A reference to an arrays of u32 items representing the
+> >  *	    outcome of the requests for each single item in @items: these are
+> >  *	    ordered in the same order as the @items. - OUT
+> 
+> These statuses contain zero or a negative Linux errno, but the array is
+> described as u32 while the implementation uses int *. Could this be
+> specified as an array of __s32 so the signed error-value ABI is explicit?
 
-This would reduce v8 into just three patches related to the AD5529r.
+Sure.
 
-Please let me know if I missed anything.
+> 
+> Is states == 0 explicitly supported? The driver treats it as optional and
+> stops at the first error when it is absent, potentially after preceding
+> configuration changes have succeeded. Please document both the optional
+> pointer and the resulting partial-completion semantics.
 
-Regards,
-Jan
+I'll do.
 
+> 
+> > #define SCMI_TLM_SET_CFG	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x02, struct scmi_tlm_config)
+> > [...]
+> > #define SCMI_TLM_SET_DE_CFG	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x05, struct scmi_tlm_batch)
+> > [...]
+> > #define SCMI_TLM_SET_ALL_CFG	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x0A, struct scmi_tlm_de_config)
+> 
+> SET_DE_CFG now returns per-DE tracking information, so _IOWR makes sense
+> for that command.
+> 
+> SET_CFG and SET_ALL_CFG, however, still only consume their arguments and
+> do not copy a result back. Unless output is planned, should these two
+> commands be _IOW before the ioctl numbers become ABI?
+> 
+
+I'll double check all of this.
+
+> > #define SCMI_TLM_BATCH_READ	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x10, struct scmi_tlm_data_read)
+> 
+> SCMI_TLM_BATCH_READ is encoded with struct scmi_tlm_data_read, but
+> scmi_tlm_des_batch_read_ioctl() copies and interprets struct
+> scmi_tlm_batch. These structures are different sizes, so _IOC_SIZE(cmd)
+> does not describe what the handler accesses.
+> 
+> Please use struct scmi_tlm_batch here and update the documentation example
+> accordingly.
+
+Indeed..some kind of leftover...the puzzling thing is that it worked fine
+when tested even with such mismatched IOC_SIZE()...I'll fix
+
+> 
+> A few kerneldoc nits:
+> 
+> - scmi_tlm_abi_info documents @de_impl_version, but the member is named
+>   primary_de_impl_version.
+> - scmi_tlm_batch documents @items_sz, but the member is item_sz.
+> - scmi_tlm_grp_info documents a reserved member that is not present in the
+>   structure.
+> 
+
+...ok...so, beside all of the above bugs (and a few more from Sashiko) to be
+certainly fixed in the upcoming series, at this point I assume, from the lack
+of further comments, that from your userspace perspective the UAPI/ABI is now
+sufficiently complete, feature-wise, and the usage model is acceptable.
+
+Thanks,
+Cristian
