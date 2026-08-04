@@ -1,174 +1,276 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C4035966;
-	Tue,  4 Aug 2026 02:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785810654; cv=fail; b=aK5v81PNKrYP8zrDLd/fpoq14lSf1sBOJK+E4EtPD5ShOrD59sHkU6O5QmeUBX6qgElNqaah0xorwEQcIUdgv/YEt3Wnd1hrelR64I37nMpGBPe0oWdJq1kgHaL8DjrEfAJ+JvN2wLpU/TgUFJCB5S0e5TLKRTYcxaAj549GKWI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785810654; c=relaxed/simple;
-	bh=w9uo3LIu2vWlzO0sLJVNxMkMqX6LO2zRgYKSFAAo5Zc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UqKtDbyXmH9om9/heRuOVY6ssa/UtZjl3GKKnmX3hK2VFe5KHETnvDZawPwGMV6GN0loBwGRppCSX2Onnu9y63SRbeqGBbADy0+l8N7McQUe137z3a9Op8p8syXsnoS3ZcjbL9SxZWiXg5OlnXO6BlCIW1fZZj3WxyJDyQc5Hkg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4GtfVAx; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88261411FA6
+	for <linux-doc@vger.kernel.org>; Tue,  4 Aug 2026 02:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785811663; cv=none; b=OPX/fjSCo20j5853thvACpc4ANimEWQ4X15E+PeIZdfhaKnrE7G3g5+uGIUu3nepzCbkuav2A2RdDYC9sOlhsnFxNbBZ4DQSHba2MA1aoioTrEsVzNvkt6xudlA3jqNm+yQGaF3LgD/thTR5KHXHTCNDPPEyLgjeyghur+VnZ1A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785811663; c=relaxed/simple;
+	bh=QkLpYv8KH0MOp6Q77EfpRY1TXzOuzuXrpiC5qfZcK2w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KzeTNsVHHm/Xrj8eRpy2XlgB6PIE+kN+OQI4/Ero+W6KJdkDD/n37riKxuuVuSPiL8pZvSsNghlX2fuGZuCzeuIER3DqM2xUCDC5Ilt44Zc1v9TQlMDoApq9ZduqCCEtbHRwOkh/y1dUEvD3DLAy4g5bgQc10tcDrZm4R7ukqNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eW61HPaT; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4GtfVAx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785810652; x=1817346652;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=w9uo3LIu2vWlzO0sLJVNxMkMqX6LO2zRgYKSFAAo5Zc=;
-  b=Q4GtfVAxMAKzYxR6eG0A/xvbjozw2BF0JoulNY+eO2UqnHcfHMMA02Mu
-   F2hEoS7F+EHxyR2NjlBEp4xwxMy2yk7PSfay2hQW7f/vZyRfg/+MkYo9T
-   BAzYKdib/a9pmvb0jYnXZJSJMIeH/+ijOJk8wOTEmR9eANRcSBfgpaV9M
-   PgYaod+nbfr93+wwy580aQXB/J9SZjm4fK+hs51Fem4NYq3W73K9i/BTn
-   sKsz3SBd5MEEwkAkmPU0zdn5LBURClDF63kQev7u7ciwl6cwVxuT6qR62
-   gLVVDcmdw2rviQ569CtxUlDLWRdVqJywOP/slOkF2CxrCxf3gH0oyo5T5
-   w==;
-X-CSE-ConnectionGUID: yMFSzOw7QsCxKwmgZCieLg==
-X-CSE-MsgGUID: Tj23Vws6QjOnOLT2DV5mDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86386900"
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="86386900"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 19:30:51 -0700
-X-CSE-ConnectionGUID: /NhB0+P0SnSmMpNeBQZaMg==
-X-CSE-MsgGUID: 8NFNb7OCSzau/HQ5ZxQ5KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="299604678"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 19:30:51 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 3 Aug 2026 19:30:50 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Mon, 3 Aug 2026 19:30:50 -0700
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.33) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 3 Aug 2026 19:30:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uQUAMYAhSgdCp4BnD2Ep4eiKIOBUKdDYgTgg9I9WO1RRKDATVx/PU5W50PG87IennteI7hG1cHXVDS6OuLDjts6gPRZqAh5UnoGzsv7zb54AH0IcQJMUEkHDEosh0z7a6QVewNNBzMNnz013wPbYGJ56swtBVByMha6+ezdsgxnknuUKsM3ZZ4XwmjUUyoXTsJhH8x/6nNyMArVBNOUo05tho1ktxXgHl9iZdUGUiDKIn4sVaQ56wSm2hXT1vgaWBhg6AaCOxyGOyq8Rxu6T44ZZwRHRtBc0sRd6/9oZI4SEqMqUKrq0tQpNH4ihP5kSnvP7/G+srJsMQJajlxGC4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7SEDsuQqHJh7i1OsCfXjcJdOfswp8S3xLqfqsbkLjHU=;
- b=OkRGCKQeBQ1qDTBWr/IJhHk4VBx4yaYkrSu3YlxlL0p0im9XCC4OuHDzkPmOvTLeBISWMkS6V3Fe1iD4orJaMUej00rsmo8Mu/4szOPPaTgjpzWcen4ur3ukioHEqF3rmsygLbQtcxMfzvW8fulm3CKbUS3pKohWc7zvpr4eY8wm9t4GNqF78DzR2kgdUke7jG6woej1+OUwXx5u8AkYXIXCELXeI0Bd4CGjpEq38xTOLh0UVZtf6WC2CDe5HaQWvj99O1hHnMsLzbt8nJQV/jX14CukTTBpQTwXQxEBrWUAyyNZxSCIb3pqm9k3AWQ4jjWQekG0acp9v68pXoyONg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by SJ5PPFA0B9CD929.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::84a) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Tue, 4 Aug
- 2026 02:30:43 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::e721:90d7:9214:2d53]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::e721:90d7:9214:2d53%6]) with mapi id 15.21.0270.017; Tue, 4 Aug 2026
- 02:30:43 +0000
-Date: Mon, 3 Aug 2026 19:30:38 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>
-CC: Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Bjorn Helgaas <bhelgaas@google.com>, "Rafael J . Wysocki"
-	<rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-cxl@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, Borislav Petkov
-	<bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown
-	<lenb@kernel.org>, Ira Weiny <iweiny@kernel.org>, Li Ming
-	<ming.li@zohomail.com>, Shuah Khan <skhan@linuxfoundation.org>, Ben Cheatham
-	<Benjamin.Cheatham@amd.com>, Richard Cheng <icheng@nvidia.com>, "Robert
- Richter" <rrichter@amd.com>, <linux-pci@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v19 14/14] Documentation: cxl: Document CXL protocol
- error handling
-Message-ID: <anFOzvK_PHcZnv3S@aschofie-mobl2.lan>
-References: <20260803221810.3685703-1-terry.bowman@amd.com>
- <20260803221810.3685703-15-terry.bowman@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260803221810.3685703-15-terry.bowman@amd.com>
-X-ClientProxiedBy: SJ0PR03CA0127.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::12) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eW61HPaT"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84864086bfeso4211936b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Aug 2026 19:47:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785811661; x=1786416461; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=n4kZP+sF/QMfPPiLTmI8ScpIheCw+l8Hd9ySn9On/vg=;
+        b=eW61HPaTyURwXaDjC6fGbgrP8Zjuu/5acZgJiqzpbeTyy0dSamJ3e14AEPDpFzINa5
+         K6AIA34NrbzHbzgn+7nHd49aclJFrK7nXDAx+TYj28aWJa+jwXM9EznjQ/kLxDdjWpuX
+         OgPcsTTDJAE8JlwYVIsM8m9v0pyx9Gvhv2ibWlLgdZ6ObyFLXoPjQ16qQ9nxzPAvavdj
+         s3w/wpAA0cbVEiRUWHWjS4ayeLZ+lB3NfNzXE0xefELZJNDf8HI43pM+UfzJ5hJ1pSy8
+         grXhKHsIsVVn4oVu3N/Hm+mNUU43zM1q0TniBOf4/WmuTRXJupXqKIElh5h86/n9S+oI
+         p5Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785811661; x=1786416461;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=n4kZP+sF/QMfPPiLTmI8ScpIheCw+l8Hd9ySn9On/vg=;
+        b=OrZA58TDZiWFSb97ccPSFkcPfw65Z5n8PrIO1kQPoqHxL/cbN7La2fz33vLE82u6dc
+         Ye4ccobLCNGpjJ69wQPVm2N2CaPnjYQ42UV1wsSDJvj3M4uoLU1L9uD6jbDzTnrA9S9k
+         3WsdU0kUViy8EP8yK1jboHCkUdimeItwVeJpznqxDBUqfdu2oUncnj5WBYP0mge9iVIc
+         5n6+u1eigHFYMHb8ByrIPli49mdEKTTbqlf2sFgnD4w8hlC+2VcQSEIg37ClLPAzmR5R
+         AAd0ZzNu5d2rV+GZAosAAp/w19+W8JRpSXGX2une3XBt8VrhH3mDC17LPdLZxEQAUwAs
+         y3cQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpRUoJnjriGl77hu5Fh94FazEvVlyA0RpAzNlzc5s+nJEHHsk4XDcKX1aBAWq+aL5ynz1a2cF7hQtQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGDnDnGZgnxc3mo9X+6sjCfaPRhtYZAtygUorawYwotaFCZ22M
+	iKPUhPaNwaLFo4xZhct5X+vUyayOd6VYs1mKpfEVuwmgq83wEk7rCHlr
+X-Gm-Gg: AR+sD12aPyu8RicYbKX1lrM3pfMvqG311S2ATQe2ctWm8DMY7Yc5aOeohygO+LmuOlv
+	0rMF5BtGq1JV3r1tYhz89vULs6gpijE6RKUNfsLOoG2OfBck6NoQueIRdexFRJDY6acUCJ/Xbcp
+	aPogAXQqYBmc1+C8Urpdi14mvs1/HDv8WJuLxkuA/fHETB0EOWAhFJ6qaCAZSMvxp9TITJLHeFX
+	RCKWIZS+bc3SFrMpNqhLYsSPlAsyFlqBKV6qd0qYAUnGvdPOHUFx0ticik7zoWfoFyhBq0KkOZn
+	nH74nT3gNYJ36D0EQly7Khjuv86A7QsIDkaDVjp6O09vfiOX1CY3CA2jKW5CzaZfHmV98YJFMqi
+	Vuu9ONifIR5j0AGXgRxIpWXEC9RDjHqvMgoKa2CSu+b/VCwA6xkjHYuO5/8pWAJUIgYKVkbBxSh
+	w7nFNFP95Lp5RsD+WM9RWnc6wMN8MSgJzoBfxI0jErLnzaaKYFsUyhZOzYYkm9oTk5OrhtBguF8
+	REMfyg=
+X-Received: by 2002:a05:6a00:330a:b0:848:4754:28e5 with SMTP id d2e1a72fcca58-84ee47c1e51mr11869884b3a.16.1785811660618;
+        Mon, 03 Aug 2026 19:47:40 -0700 (PDT)
+Received: from cyh-System-Product-Name.. ([129.227.183.200])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84eecf81b08sm3240286b3a.22.2026.08.03.19.47.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 19:47:40 -0700 (PDT)
+From: "Yuhang.Chen" <yhchen312@gmail.com>
+To: Anup Patel <anup@brainfault.org>
+Cc: Atish Patra <atish.patra@linux.dev>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Quan Zhou <zhouquan@iscas.ac.cn>,
+	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] RISC-V: KVM: Add kvm-riscv.wfi_trap_policy to control VS-mode WFI trapping
+Date: Tue,  4 Aug 2026 10:47:07 +0800
+Message-Id: <20260804024707.2400404-1-yhchen312@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|SJ5PPFA0B9CD929:EE_
-X-MS-Office365-Filtering-Correlation-Id: a9f6ea0e-0f4f-4ec1-64ec-08def1d06204
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|11063799006|10067099003|4143699003|56012099006|3023799007|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: YDcKmbJeJ9z+dlmrQmK4SgZiTR2h31OtG/kkuEVmkxXAFGeTuYpkshQySS8shYxNMntvLCY7JK28wwSZGVEzJTKABGfVZ/ZgZdDe7QAuMBISBnsDPvE2GZvJJuNF5A+RrqoRPko16S4b8eE+2Xgt5IEkFCQzOciLPyg4YHxq3Vs0Vdx9Ww9ZQUJ9qLXijwJXj0Mz9UqLwAzhH4B992YJUi33wOfEQoxN1SJjiH0K6D2oZIfDTR/MJYw6tfumLOtZeEGSWCCy9nXDikweyZn7Glzs1EtvZDvIFhljjyI5CszOwDxLbGn2074nUP4Xk6MwLt7no1u3uGWEt8kx9RGDBq9LYxvgZA+OcyICJiuPtrAxRC5LoCiGGTZZI5ejmPNqt/OpqK8XycRcRdntels8G2qoPgL7kwDVEZ9u3EsTAsSF90kfM+nHUwk9QuqNmfF6NWTAyoYodDehNr2gA91/oN4YoJwlunJ5IYjagnHdS354JqdtYvjL9j9CDvhCl8JAWzWGA7oHqIwFuFWm6YHmDAkcvYISHTtuqH+z5y9Ops+DgJO96N+EWeh9DEhO+I2bWsqL+H7gpzuYnFyUcypIWW8T78lH+L+hSVoGbTnDJJuXKHiglVgbo09gd8e5qljb0Ki7SpYCjmLB6/RHUc+s9q3UMP1T6W/yo+cgZTuSt0Y=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(11063799006)(10067099003)(4143699003)(56012099006)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p83QMMvxBYU2LbF5KZqh793QqBWGNmal6agYFH4cXmE8xztwNIRq7Hh1gYXR?=
- =?us-ascii?Q?DrfTG33aIA2m1+olXWp/sERsf+poEUByQRBU56p9sbhJDFl29UTEurjeMi/8?=
- =?us-ascii?Q?wK9EmTRFEGB7lqQ1k1ARzPAq6X6YaFJpMcX4TKSlzR/tW/aROxidC6PeOxZU?=
- =?us-ascii?Q?C6b2o0SdbDewHmQXrNx52pBNkFfVEAeWbduYEd3TGB8n3cMIXwvw5ZuddAwW?=
- =?us-ascii?Q?lU6uKBmi0ULuiU/eAeIeZJ0g7YjKKkMU2GVjZYe2igsnKAf6WNLBOrQeeeWx?=
- =?us-ascii?Q?7Z6o23EiLrbYKIhS4UX+aPfdAq/4NtUJ0sOW55bBVsBU6YO5keQ5E6HDlfLC?=
- =?us-ascii?Q?9AdLayiCJRGmsGlbuUEFRd2XRIhuyO1sejahGEKALjDxsfj+7YxneSiknan5?=
- =?us-ascii?Q?n2vGjdZCdEMYiVkAJKWkyR0uPi6dppKufXS3UwJf92/6eeiVwTQb0nqE61Hg?=
- =?us-ascii?Q?JPc8Ahc+SVtIbWR27vPFnI73kndaS7sS4H9uwVDfQaMgXlSRf0kyLlj65uEW?=
- =?us-ascii?Q?ud6rxVwRRazvlRPZol45hdYcF/f2WbdXmvJdA9KQepAN1zcky549MlibObX0?=
- =?us-ascii?Q?uMi+JceSBrsJ/cF7dNyPzQoHKZEq+roOoq9p+tvgsC8a8GOapmUXIIKDcy44?=
- =?us-ascii?Q?BBthdMKz30nhL8916VqhUtsoSRRcfm0nwn8OpTEgXz4h0thnM2ysZumHk5qL?=
- =?us-ascii?Q?yZqBP6VHU36ApAT2PleUWVjrpOESOYtR3Es7ZZ9+1zs/N8lhwMzqL0CsWVWH?=
- =?us-ascii?Q?oxO5CI/vqd2oFyeJ0k6aeFaTaWqYVn8ufTjm5YSXGVdAcvwaEDH1kPbvVrBq?=
- =?us-ascii?Q?lrJsfbvEcU3e62G/gevqKATaFNlmc8Mr1xHmqiyLOTXAlpEuNv7RRtRn3mPp?=
- =?us-ascii?Q?XdIFaxmBrKgA57uQgpDDpH4BkCiKAIgwZZFMc1DS815bgcCB6GDdFfIZyQ7U?=
- =?us-ascii?Q?hKsbUY/8qAE3nx0bQBBKrxG8pKrWx0QvaxDtnjJnSS3tjY/V00bfkQAul4YS?=
- =?us-ascii?Q?UaP7G2KxegLVVM5yWg7Dbo0MpV/GuHnePI+vjgu5Z5HnS9QTUoeIRRralI1b?=
- =?us-ascii?Q?KBC47qNhUXb79Hy3SM7ZPxAbP0oTrdiSFE1ir//mKIa3hDapQUWqFHqzO3i6?=
- =?us-ascii?Q?esEFAVlrEky+j5dTfqLinhv9wbAxLvQHyhUVuki+h7Z0qawVMnV5byV5vN4E?=
- =?us-ascii?Q?6dXjZRtP9GJsTCWJRiPyYvIup1/M/roBDnkT4srCFDA7GFdfyyDAKAQwYkjZ?=
- =?us-ascii?Q?WdTDO3K+k9TqKYXCuEGkznXoKUjouUQhdYaGfSXvgrBsENFUmXoK3lTN2qKH?=
- =?us-ascii?Q?wrgo25T9QKtEeCSsV8fMHr/zj9kBf1Gyn+xI20B6tpK+ryb/jPkXjVDBngi/?=
- =?us-ascii?Q?0N5wipET1LLOmFo4TtC9Y09MOzgarO1vtdnlxcHvdEL3yy5AYyHC9wZVh3CA?=
- =?us-ascii?Q?95GloOdgqN7rkHwytOwcNKW2yJLA8i50zrSqGgQbqHCI2xa6uDZgTp70LdUT?=
- =?us-ascii?Q?aE5viBNdhFQe/Tlu4d3cClX3V3SlW9iqoTvOgBJ+P3/WiMwfrzzp8T4O5CLu?=
- =?us-ascii?Q?c0+aH6AiErCycZPPNwk/vGrI3M3VPMd3GzmYi9sgL2JKB6ySIFOo2gfQa21t?=
- =?us-ascii?Q?1tg9zkusRomCbSicBFKCOj1KNWqTdUcMhAzv38UQVhytQtX8YPdLH8tQqLge?=
- =?us-ascii?Q?cb4ClsNgC69Mtn0NMmtrai9/jK7ET/ZuzxjEsDCgorjB49nHkQ9BcOpJlujW?=
- =?us-ascii?Q?+ToXFq/jwRgZo8WoVGjJem8DcinvdFg=3D?=
-X-Exchange-RoutingPolicyChecked: M4vFm8Pe+bkTG74qkJW/fgXhd6+wgvGq/M2A7u4Ljr8qd1lczWpmhhRluCGdVg6lpm0BWfzVIXMt8QtG70bhS1n76AN5wV0lXudLHeSzqHbEhC/7HpbKLHv4jZ/JBVCYMOHXP+10CcEthcxy/Kbk1DBNFUjcpY/aCDfjSQIN5crmvbTftlldlV25TMd+waYBnsRC4qkTpchPA340ib3bP9O7L21orPWKv6yF3FN1feNr785TQvELhDF58aKD9mSsHOYgj617FqK5ic6UqpiuUj9Yc3hHEMhDctEf0e9Bx3zkLSh15d9AhiAObNXGNQto7KaW3vMx+yytktCOu9F9JQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9f6ea0e-0f4f-4ec1-64ec-08def1d06204
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 02:30:43.4825
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IaO93wazd9BktNkKxZRSvrgNZIueFpeKfeB4HVw8oBnC2698p+VhmKUGiFp1XOuwJSrI0ngyZY2EFF73+/iCJBDgR+q1aH6wuI8ZzOq2lHo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFA0B9CD929
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 03, 2026 at 05:18:10PM -0500, Terry Bowman wrote:
-> Add Documentation/driver-api/cxl/linux/protocol-error-handling.rst
-> describing the end-to-end CXL protocol error path: AER ingress, the
-> AER-CXL kfifo handoff, the cxl_core consumer worker, RCD/RCH special
-> cases, severity policy, trace events, and a source code map.
-> 
-> This documents the architecture introduced by the preceding patches in
-> this series.
-> 
+Add a kernel command-line option, kvm-riscv.wfi_trap_policy=trap|auto,
+that controls whether a WFI executed by a VS-mode guest traps into KVM
+(HS-mode) or executes natively.
 
-Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+HSTATUS.VTW governs VS-mode WFI: when set, the WFI traps into KVM, which
+blocks the vCPU through kvm_vcpu_halt() and releases the CPU to other
+runnable tasks; when clear, the guest runs WFI natively. Because RISC-V
+WFI is only a hint (it may be a no-op on some implementations), the
+policy is re-evaluated each time a vCPU is loaded rather than fixed once
+at reset.
+
+  trap  : always trap VS-mode WFI into KVM (HSTATUS.VTW=1). This is the
+          default and preserves the previous unconditional behavior.
+
+  auto  : clear HSTATUS.VTW so the guest runs WFI natively only when the
+          vCPU is the sole runnable task on the current CPU; otherwise
+          keep trapping. When the vCPU is alone, skipping the
+          virtual-instruction exit cannot starve another task, and on
+          hardware that honors WFI the hart blocks until a VS-mode
+          interrupt. As soon as another task becomes runnable, the
+          policy traps again so that KVM blocks the vCPU and yields the
+          CPU to it. The vCPU therefore never monopolizes the CPU the
+          way an unconditional native WFI would: it either blocks
+          through kvm_vcpu_halt(), or runs WFI natively only when no
+          other task needs the CPU.
+
+Measured on QEMU TCG (-smp 1, -cpu max): wfi_exit_stat delta and guest
+wake count over a 3 s window. "busy" adds a CPU-bound competitor that
+shares the vCPU's CPU so that single_task_running() reports false:
+
+  policy  busy  exits  wakes   cpu%  note
+  ------  ----  -----  -----   ----  ------------------------
+  trap    off    286    285    6.5   default; no regression
+  trap    on     291    290  101.0   trap is unconditional
+  auto    off      4    287    5.0   sole task: native WFI
+  auto    on     285    284  101.5   competitor -> traps
+
+With "auto", WFI exits drop to ~0 when the vCPU is the only runnable
+task, and rise back to the trap level as soon as a competitor appears,
+which is the desired dynamic behavior. Host CPU stays low in the
+sole-task case; the ~101% in the busy cases is the forked competitor,
+not the vCPU.
+
+Assisted-by: YuanSheng:deepseek-v4-pro
+Co-developed-by: Quan Zhou <zhouquan@iscas.ac.cn>
+Signed-off-by: Quan Zhou <zhouquan@iscas.ac.cn>
+Signed-off-by: Yuhang.Chen <yhchen312@gmail.com>
+
+---
+Changes in v2:
+
+- Drop the "notrap" mode, which cleared HSTATUS.VTW unconditionally and
+  so never trapped: the vCPU never reached kvm_vcpu_halt() and could
+  stay busy even while idle.
+- Add the "auto" mode, which clears HSTATUS.VTW only when the vCPU is
+  the sole runnable task (single_task_running()) and otherwise traps.
+  The policy is applied dynamically from kvm_arch_vcpu_load() instead of
+  once at reset, so a vCPU that stops being the sole runnable task
+  switches back to trapping.
+- Update the kernel-parameters.txt entry for trap/auto.
+
+v1: https://lore.kernel.org/all/20260709115610.287420-1-yhchen312@gmail.com/
+---
+ .../admin-guide/kernel-parameters.txt         | 16 +++++
+ arch/riscv/kvm/vcpu.c                         | 59 +++++++++++++++++++
+ 2 files changed, 75 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b5493a7f8f22..29fc824b5ce2 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3254,6 +3254,22 @@ Kernel parameters
+ 
+ 			notrap: clear WFI instruction trap
+ 
++	kvm-riscv.wfi_trap_policy=
++			[KVM,RISCV] Control when to set the WFI instruction
++			trap (HSTATUS.VTW) for KVM VMs. The policy is
++			re-evaluated each time a vCPU is loaded, not only at
++			reset, since RISC-V WFI is only a hint.
++
++			trap: always trap VS-mode WFI into KVM (HSTATUS.VTW=1)
++
++			auto: trap unless the vCPU is the only runnable task on
++				the current CPU, in which case clear the trap
++				(HSTATUS.VTW=0) and let the guest execute WFI
++				natively
++
++			Defaults to trap, preserving the previous unconditional
++			behavior.
++
+ 	kvm_cma_resv_ratio=n [PPC,EARLY]
+ 			Reserves given percentage from system memory area for
+ 			contiguous memory allocation for KVM hash pagetable
+diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+index cf6e231e76e2..e9251f81a4f8 100644
+--- a/arch/riscv/kvm/vcpu.c
++++ b/arch/riscv/kvm/vcpu.c
+@@ -12,8 +12,10 @@
+ #include <linux/kdebug.h>
+ #include <linux/module.h>
+ #include <linux/percpu.h>
++#include <linux/string.h>
+ #include <linux/vmalloc.h>
+ #include <linux/sched/signal.h>
++#include <linux/sched/stat.h>
+ #include <linux/fs.h>
+ #include <linux/kvm_host.h>
+ #include <asm/cacheflush.h>
+@@ -26,6 +28,59 @@
+ 
+ static DEFINE_PER_CPU(struct kvm_vcpu *, kvm_former_vcpu);
+ 
++/*
++ * WFI trap policy for VS-mode guests, controllable through the
++ * kvm-riscv.wfi_trap_policy= kernel command-line option.
++ */
++enum kvm_riscv_wfi_trap_policy {
++	KVM_RISCV_WFI_TRAP,	/* Always trap VS-mode WFI into KVM */
++	KVM_RISCV_WFI_AUTO,	/* Trap unless the vCPU is the only runnable task */
++};
++
++static enum kvm_riscv_wfi_trap_policy kvm_riscv_wfi_trap_policy __read_mostly =
++	KVM_RISCV_WFI_TRAP;
++
++static int __init early_kvm_riscv_wfi_trap_policy_cfg(char *arg)
++{
++	if (!arg)
++		return -EINVAL;
++
++	if (strcmp(arg, "trap") == 0) {
++		kvm_riscv_wfi_trap_policy = KVM_RISCV_WFI_TRAP;
++		return 0;
++	}
++
++	if (strcmp(arg, "auto") == 0) {
++		kvm_riscv_wfi_trap_policy = KVM_RISCV_WFI_AUTO;
++		return 0;
++	}
++
++	return -EINVAL;
++}
++early_param("kvm-riscv.wfi_trap_policy", early_kvm_riscv_wfi_trap_policy_cfg);
++
++static bool kvm_riscv_vcpu_wfi_should_trap(struct kvm_vcpu *vcpu)
++{
++	switch (kvm_riscv_wfi_trap_policy) {
++	case KVM_RISCV_WFI_AUTO:
++		/* Native WFI only when the vCPU is the sole runnable task. */
++		return !single_task_running();
++	case KVM_RISCV_WFI_TRAP:
++	default:
++		return true;
++	}
++}
++
++static void kvm_riscv_vcpu_update_wfi_trap(struct kvm_vcpu *vcpu)
++{
++	struct kvm_cpu_context *cntx = &vcpu->arch.guest_context;
++
++	if (kvm_riscv_vcpu_wfi_should_trap(vcpu))
++		cntx->hstatus |= HSTATUS_VTW;
++	else
++		cntx->hstatus &= ~HSTATUS_VTW;
++}
++
+ const struct kvm_stats_desc kvm_vcpu_stats_desc[] = {
+ 	KVM_GENERIC_VCPU_STATS(),
+ 	STATS_DESC_COUNTER(VCPU, ecall_exit_stat),
+@@ -73,6 +128,7 @@ static void kvm_riscv_vcpu_context_reset(struct kvm_vcpu *vcpu,
+ 	/* Setup reset state of shadow SSTATUS and HSTATUS CSRs */
+ 	cntx->sstatus = SR_SPP | SR_SPIE;
+ 
++	/* Trap VS-mode WFI by default; kvm_arch_vcpu_load() reapplies the policy. */
+ 	cntx->hstatus |= HSTATUS_VTW;
+ 	cntx->hstatus |= HSTATUS_SPVP;
+ 	cntx->hstatus |= HSTATUS_SPV;
+@@ -609,6 +665,9 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+ 
+ 	kvm_make_request(KVM_REQ_STEAL_UPDATE, vcpu);
+ 
++	/* Re-evaluate the WFI trap policy for this vCPU. */
++	kvm_riscv_vcpu_update_wfi_trap(vcpu);
++
+ 	vcpu->cpu = cpu;
+ }
+ 
+-- 
+2.34.1
+
