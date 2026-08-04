@@ -1,174 +1,108 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FBC484223;
-	Tue,  4 Aug 2026 17:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0263A0E99;
+	Tue,  4 Aug 2026 17:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785864237; cv=none; b=WXHRpeDKHseeRHaO/Y6kaEaroCCNtQmCH3l2sxk6B2RckGjRqRMuoOOFlzNYGyeufpo/lc92SxB38XCJOJQN0sazOqMg9BLDXr9YHPrjckR2UUw8/YpXvAK66UYnmvb7YSRsLxuRnI9aS5YOXulZzy1m5jqI5fPiA2Ht5oySuYU=
+	t=1785865617; cv=none; b=MyfrATQK+Nq7+S1305tToY1HSFRTiFzH4p9ZMBthrJp5oA+kAn8sSZQyqYqRdZZzUY2aZR2aaQ/FHCdZYxM+DBA9M94tG1xcJLbESzFm4WmNjLNSDTBlLTfVhOeguZVxfNBETcQeZslwIGGijNjobycN7kq+idnyH0Hr2D/lKrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785864237; c=relaxed/simple;
-	bh=RTWVpPjZ6KH05ervdTn/O7HoSMSJtEj1ajgmNjEuYsw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dVsaeAy4deGza/+YwviIE0US0KShMdBFC9tfuJguayYHndSlu+lJWIn5bOBK2cvkdqE3dH9WLcfdYJp+0mCQI2DrLqNKWgbijoD/H4u2KJVgNpgSDYfXm5KdXvdf4Zt7Vt1tKlk74McK5VEKpFPwFnfXJQvDpQIH2vQcPVlp3PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=Q+AgpakC; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	s=arc-20240116; t=1785865617; c=relaxed/simple;
+	bh=8bS6rY5Z84xBuNdz9oIjeOWVaxNllCLB7dHER8USCXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oSLETMo4wZQ2eTMUdggG3IpBY/iN96krmAz3Ww7G7KgTnHPgG73uipozCTZJKDdtx4rnvO1oPNLAqc6m+oc4/6qZNTSbbqhzAi1wSrx26TQ0P9wPUNdFqXoN8w4FNMABtgpciAp6Dew8OwF/pOQGesBmY9lD5EAYOVH7u+TC7Hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CBqMjyM2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="Q+AgpakC"
-From: Yureka Lilian <yureka@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1785864223;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=M5UXze5ARMASnHW0DMs+U94NSouTokoB+K8E72tD5u8=;
-	b=Q+AgpakCP/bdeBvONoVu3oyREQlYxGbbzUDk+8E+iqqDOABmC/+O0b2nz0m0VyKwqBb5WY
-	sT3gZDCPB6jMLNOrJauwTdD52BGoyE2J2+qJDTLm8NT91J3DteptZlPXjMYuWawrRFGf3W
-	EQNlCUG1UsdDvVS1omoKjWhXISNo6ZE=
-Date: Tue, 04 Aug 2026 19:23:15 +0200
-Subject: [PATCH v3] arch: arm64: add early_param idle=<wfi|yield|nop>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CBqMjyM2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D27B11F000E9;
+	Tue,  4 Aug 2026 17:46:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785865616;
+	bh=8bS6rY5Z84xBuNdz9oIjeOWVaxNllCLB7dHER8USCXo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CBqMjyM2zfyQH+l1Tl4AR36KpJck1WeF1OJZQ3KGr+GVvN4GcZ51vVX5+GPtgcTxv
+	 sUggidh4cKMa8e4Rl/mXGtTuLDO6v/0TpnDJESFcOICOTBcIhbHuHBQNrSJeBbuIxD
+	 sJ6POEbrYRhpSUZ3Gv1a3hUd1uRk/0d4tjZlxo9wB/ZGjAS7ZX8xV8lMJD7EnrR6bn
+	 SEZiI+SUDDCTM/5HIBjO7CFuiMC9oq4IWPMCaykikCrHiTu5n6kZMTvMg/3WjGxgtE
+	 Blc57nYygdrNys+u+2iQQwdi9+OYndJksLZVdVwqDH+vQjeAg04RGRPr03ud84J7lK
+	 CDzjIMI5KhO8g==
+Date: Tue, 4 Aug 2026 18:46:49 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Janani Sunil <jan.sun97@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Janani Sunil <janani.sunil@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
+	Kent Gustavsson <nedo80@gmail.com>
+Subject: Re: [PATCH v7 2/7] dt-bindings: iio: adc: microchip,mcp3564: Add
+ spi-device-addr
+Message-ID: <20260804-patrol-surpass-8e7c2a829e12@spud>
+References: <20260722-ad5529r-driver-v7-2-7781cd74ad75@analog.com>
+ <cb4098c1-4bad-4a11-9a6f-a833e554f197@baylibre.com>
+ <20260725230739.63ff7000@jic23-huawei>
+ <20260728-patronize-thwarting-56fab2e11077@spud>
+ <20260728221719.7f668a73@jic23-huawei>
+ <20260729-hundredth-suffice-f28afa67bc06@spud>
+ <20260730000929.2ec20cf8@jic23-huawei>
+ <20260730-impaired-protector-b58ae56ae3f6@spud>
+ <20260801024114.4c606ef7@jic23-huawei>
+ <c20621fd-571b-4c96-8397-c644970c6548@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260804-arm64-idle-param-v3-1-d10f8159062b@cyberchaos.dev>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OTQ7CIBAF4Ks0rMUA5Se68h7GBaWDxdjSQCU2T
- e8u1I2JxuWbvPlmFhQhOIjoWC0oQHLR+SGHelch0+nhCti1OSNGmCSKCKxDL3ke3gGPOugeG6a
- sIaBAE4Hy2hjAuudGni/vHB/NDcxUnNLoXJx8mLebiZbeHz5RTLHigjN+sFzV9mTmBkJ+zsd9C
- wmVG4l9KJT+UFhWiG6kkoJpXosvZV3XFxDJLlgNAQAA
-X-Change-ID: 20260705-arm64-idle-param-c27fc0e7ea05
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Yureka Lilian <yureka@cyberchaos.dev>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fqdqxmi/we6pcyex"
+Content-Disposition: inline
+In-Reply-To: <c20621fd-571b-4c96-8397-c644970c6548@gmail.com>
 
-Overriding the idle mechanism might be useful for debugging and performance
-testing. Add a cmdline parameter for it, similar to the existing idle=
-parameter already present for the x86 and ppc architectures.
+--fqdqxmi/we6pcyex
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It is also useful on platforms where the WFI instruction misbehaves,
-such as Apple Silicon SoCs. Generally, a misbehaving instruction should
-be treated as an erratum and patched using the alternatives framework.
-However, in the Apple Silicon case we need more flexibility because it is
-difficult to detect whether the erratum applies. For example, Linux VMs
-inside macOS have the same MIDR and may even seem like they're running
-in EL2 in the case of NV, but should continue using WFI (it's trapped and
-handled correctly by the hypervisor there). Thus, we prefer to
-let the m1n1 bootloader add the idle=nop parameter[1].
+On Tue, Aug 04, 2026 at 12:36:46PM +0200, Janani Sunil wrote:
+>=20
+> Hi All,
+>=20
+> Based on the discussion for v8, I plan to:
+>=20
+> 1) Drop the Microchip-related patches from this series
+> 2) Keep the spi-device-addr property and the AD5529R binding/driver and r=
+epresent AD5529R sharing one CS as one device using the address array.
+>=20
+> This would reduce v8 into just three patches related to the AD5529r.
+>=20
+> Please let me know if I missed anything.
+>=20
 
-Link[1]: https://lore.kernel.org/all/99b69262-e54b-424e-baa2-96ef7013b87a@kernel.org/
-Suggested-by: Will Deacon <will@kernel.org>
-Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
----
-Changes in v3:
-- Make the param only affect the default idle loop.
-  The changes to the delay function have been removed, and the idle.h header is no longer needed.
-- Link to v2: https://patch.msgid.link/20260711-arm64-idle-param-v2-1-0ab67652a435@cyberchaos.dev
+Sure, wfm.
 
-Changes in v2:
-- Applied suggestions by Anshuman Khandual (Thanks!)
-- Link to v1: https://patch.msgid.link/20260705-arm64-idle-param-v1-1-7454249f473f@cyberchaos.dev
----
- Documentation/admin-guide/kernel-parameters.txt | 23 ++++++++++++++++++
- arch/arm64/kernel/idle.c                        | 32 +++++++++++++++++++++++--
- 2 files changed, 53 insertions(+), 2 deletions(-)
+--fqdqxmi/we6pcyex
+Content-Type: application/pgp-signature; name=signature.asc
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b2d7d3540ded..d7f5471edf8f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2239,6 +2239,29 @@ Kernel parameters
- 
- 			idle=nomwait: Disable mwait for CPU C-states
- 
-+			[ARM64,EARLY]
-+			Format: idle=wfi, idle=yield, idle=nop
-+
-+			idle=wfi: Use the WFI (Wait For Interrupt) hint
-+			instruction in the idle loop. This is the default and
-+			allows the CPU to enter a low-power state until an
-+			interrupt arrives.
-+
-+			idle=yield: Use the YIELD hint instruction instead of
-+			WFI. CPUs supporting simultaneous multi-threading (SMT),
-+			can continue executing another thread when the current
-+			thread reaches the idle loop. This will make the CPUs
-+			eat more power, but may be useful to get slightly better
-+			performance in some applications, since the CPUs will
-+			not enter a low-power state.
-+
-+			idle=nop: Do not execute any idle instruction in the
-+			idle loop. This is useful on platforms where WFI
-+			misbehaves, leading to system instability or loss of CPU
-+			state. This will make the CPUs eat more power, but may
-+			give slightly better performance in some applications,
-+			since the CPUs will not enter a low-power state.
-+
- 	idxd.sva=	[HW]
- 			Format: <bool>
- 			Allow force disabling of Shared Virtual Memory (SVA)
-diff --git a/arch/arm64/kernel/idle.c b/arch/arm64/kernel/idle.c
-index 05cfb347ec26..42c5543f9589 100644
---- a/arch/arm64/kernel/idle.c
-+++ b/arch/arm64/kernel/idle.c
-@@ -11,6 +11,29 @@
- #include <asm/cpufeature.h>
- #include <asm/sysreg.h>
- 
-+enum {
-+    ARM64_IDLE_WFI,
-+    ARM64_IDLE_YIELD,
-+    ARM64_IDLE_NOP,
-+} idle = ARM64_IDLE_WFI;
-+
-+static int __init setup_idle(char *arg)
-+{
-+	if (!arg)
-+		return -1;
-+	else if (!strcmp(arg, "wfi"))
-+		idle = ARM64_IDLE_WFI;
-+	else if (!strcmp(arg, "yield"))
-+		idle = ARM64_IDLE_YIELD;
-+	else if (!strcmp(arg, "nop"))
-+		idle = ARM64_IDLE_NOP;
-+	else
-+		return -1;
-+
-+	return 0;
-+}
-+early_param("idle", setup_idle);
-+
- /*
-  *	cpu_do_idle()
-  *
-@@ -26,8 +49,13 @@ void __cpuidle cpu_do_idle(void)
- 
- 	arm_cpuidle_save_irq_context(&context);
- 
--	dsb(sy);
--	wfi();
-+	if (likely(idle == ARM64_IDLE_WFI)) {
-+		dsb(sy);
-+		wfi();
-+	} else if (idle == ARM64_IDLE_YIELD) {
-+		dsb(sy);
-+		asm volatile("yield" ::: "memory");
-+	}
- 
- 	arm_cpuidle_restore_irq_context(&context);
- }
+-----BEGIN PGP SIGNATURE-----
 
----
-base-commit: bee763d5f341b99cf472afeb508d4988f62a6ca1
-change-id: 20260705-arm64-idle-param-c27fc0e7ea05
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCanIliQAKCRB4tDGHoIJi
+0nkiAQCgqo7hK7tjCd47M7wIm/wUnyb4ezgxRvkbfBzCVq/jDgD/Y8iYse3Eu6Yf
+w5TWvQ9BEP9YOsPps0bzKzhJ+Qll8ww=
+=0fIc
+-----END PGP SIGNATURE-----
 
-Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
-
+--fqdqxmi/we6pcyex--
