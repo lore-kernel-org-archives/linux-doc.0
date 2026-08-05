@@ -1,114 +1,146 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C313DDDA3
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 07:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD65D3911DD;
+	Wed,  5 Aug 2026 07:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785913239; cv=none; b=GSSnlCKsPD6vSWmq4WqwC5H82FRIh6jkngB1j80/GyMGbCnC+wtqZgAvbMIq3yWwwjbVEEhn9jiNLRavnIbuo81kO2qc2bHoCGjFAmJjORZhjrhhiDM5XbVNju2mNaeuE8ZcE7ZWTG3tKfjy7FZqOeZZp8tuzSYpGmOZIkzs4rI=
+	t=1785913325; cv=none; b=WLht77AxQRp9ATgFwQ0N5Vvauc6RkoVuHGLA1A6tfCweJkd+aJK0nQPEfauWrHw4XDu6cxRMdhEekpIMMYNO54IdHCTbHubv+rYFvgy/lf/n9s4GWHtLPOnzdQTA3AD6Z2jOjNfBr1C/4/IyOF9uwJimO7qIIE541U4kc+0ekHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785913239; c=relaxed/simple;
-	bh=5gH94852z0R5p6plHi2l40Xkn51mOuVnoSug1HOnMz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XSV2fS5eNCnWblGYrmicJrRvIt7icYyvNCcnbWXuz0Pc+WmfdUsx2vyFqkujktKLHnYsUQ1Od5LGlzDQXXZee4kGvOLUFbVhmw7IM8piiz5zbfjyXErRK4ag4kkqKn9k+qCO74pJnT5Y2pOLWX6iu89qXxEAdrE2D2igXQGuU5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=d4wRCA0Z; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="d4wRCA0Z"
-Date: Wed, 5 Aug 2026 15:00:26 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1785913234;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6GYOh1tJXjXrL/DeRcVIxqpCZHIs5smRsPoUzpES6Yc=;
-	b=d4wRCA0ZYBqw3vdWD+HBeQCCvF3dFKAxv7TXRexxupi02TIVCOykVoQKnoh71ihorCU+zc
-	7qRt0ytjS+ykgL0CW00iGylLexUO10FGHQQwXhJ8yAvnFRdDwyqGyRTKXWqn0/tchDvClq
-	srBHstV3quH/nkTLnWBCLetQ2JmMC6LDP01srx2uPNyl4IbwYc18R+b/xLRAW5rMuUvE7g
-	jo29x8dxBS8cS9PfQeXhmHGG4oFD+L/1HyCa2mBBzqbUi+tkI24s50HYA5h8OS5gyjzXdx
-	6cwMMxwJ3secV8nF9WwJzC+wJRruqI02gaycagJ8Y012feiWnM/1gEDCBRdPUA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/16] docs/zh_TW: process: localize terminology in
- submitting-patches.rst
-Message-ID: <anLfiibgvpzMmRz_@wyuan.org>
-References: <20260721215542.98435-1-chenyou910331@gmail.com>
- <20260721215542.98435-14-chenyou910331@gmail.com>
- <amNHU60OL_HjMWbX@wyuan.org>
- <CAKspUh+vAyHt+qQfZrNnkk0cKOks1nrRGtDapXp3Tzas4WT7=g@mail.gmail.com>
+	s=arc-20240116; t=1785913325; c=relaxed/simple;
+	bh=UOpsT06C24d5TS5sJ5lYeroSKNNRqr7ZqwaKyMD5j5o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DfXgNhm92jdsxGAY0M4hVS380ZFpuPhn34wS3waP41v3bZUEjCK3JI7NPC22v44JCielUJfJiCW/qEFe6TpMZITUArhX5g8kRGf/HWNhrHMAa/icIHRwO+l+6F843B9Cht6Uyzk45tr58vWZoTtMweMajAMHV5okfoyn0MOY30c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrABnSA3O33JqcuqZAA--.59699S2;
+	Wed, 05 Aug 2026 15:01:34 +0800 (CST)
+Received: from [192.168.1.8] (unknown [39.128.49.253])
+	by gateway (Coremail) with SMTP id _____wDn71fK33Jqk2EZAA--.36489S2;
+	Wed, 05 Aug 2026 15:01:33 +0800 (CST)
+Message-ID: <8cfff5b7-c6a6-44e3-add9-f8eb217366c1@hust.edu.cn>
+Date: Wed, 5 Aug 2026 15:01:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKspUh+vAyHt+qQfZrNnkk0cKOks1nrRGtDapXp3Tzas4WT7=g@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] MAINTAINERS: update Traditional Chinese documentation
+ maintainers
+To: Chen-Yu Yeh <chenyou910331@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Alex Shi <alexs@kernel.org>, Weijie Yuan <wy@wyuan.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260804201012.110713-1-chenyou910331@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260804201012.110713-1-chenyou910331@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HwEQrABnSA3O33JqcuqZAA--.59699S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw1UGry7Ww43tFW8tw17trb_yoW5Zw48pa
+	n8trWayF1DtryakayIka12ya1rXryfGr47Gw1vgwn5CrZxtr1vqw1rKanIgF43urZ7KFWa
+	qrnaga4Duw4jyFDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
+	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVj
+	vjDU0xZFpf9x07jDL05UUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-Ah, somehow I forgot to reply this email... Sorry
+On 8/5/26 4:10 AM, Chen-Yu Yeh wrote:
+> The zh_TW translation has been unmaintained for about two years: the
+> listed maintainer has been unreachable, and because no active
+> maintainer was listed, get_maintainer.pl did not point contributors at
+> anyone who could actually pick up a patch. My own zh_TW patch sat on
+> the list for five weeks for exactly that reason.
+>
+> Following the discussion in [1] and the plan in [2], list the people
+> who have stepped up to carry zh_TW forward, with a shift in focus
+> towards Taiwanese Mandarin terminology rather than a plain
+> simplified-to-traditional conversion.
+>
+> Move Hu Haowen to CREDITS and drop his personal repository links,
+> which are no longer reachable. The current translation is built on his
+> work, but MAINTAINERS is a list of who to contact, and the listed
+> address has not answered zh_TW mail for about two years, which is what
+> made zh_TW hard to contribute to in the first place.
+>
+> zh_TW stays a separate entry and is maintained separately from zh_CN;
+> the two may share a tree for pull requests, but the review and
+> terminology work is independent.
+>
+> [1] https://lore.kernel.org/linux-doc/<20260603082531.263115-1-chenyou910331@gmail.com>/
+> [2] https://lore.kernel.org/linux-doc/<amcZ5SI3-Hzw4HkJ@wyuan.org>/
+Acked-by: Dongliang Mu <dzm91@hust.edu.cn>
+> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+> ---
+> Changes in v2:
+>   - Drop Hu Haowen's M: entry (Jonathan Corbet); a CREDITS patch will
+>     follow separately.
+>   - Move the division of responsibilities below --- as suggested by
+>     Weijie: it will drift over time, and a commit message is the one
+>     place it cannot be updated.
+>   - Collected Weijie's Acked-by.
+>
+> Current split of work, for the record rather than for the git history:
+>
+>    Chen-Yu Yeh   - translation and zh_TW terminology decisions
+>    Weijie Yuan   - miscellaneous matters, list monitoring, status reports
+>    Dongliang Mu  - review
+>
+> The address in the CREDITS entry is the one Hu Haowen asked to be
+> listed under in [3].
+>
+> [3] https://lore.kernel.org/linux-doc/20260220160201.41149-1-srcres258@furdevs.cn/
+>
+>   CREDITS     | 4 ++++
+>   MAINTAINERS | 6 +++---
+>   2 files changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/CREDITS b/CREDITS
+> index 91c51c14e993..3866480db6aa 100644
+> --- a/CREDITS
+> +++ b/CREDITS
+> @@ -1817,6 +1817,10 @@ S: Am Strand 5
+>   S: D-19063 Schwerin
+>   S: Germany
+>   
+> +N: Haowen Hu
+> +E: srcres258@furdevs.cn
+> +D: Traditional Chinese (zh_TW) documentation translation and maintenance
+> +
+>   N: Jan Hubicka
+>   E: hubicka@freesoft.cz
+>   E: hubicka@suse.cz
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2f9472c1a090..1f7e783023a4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -27460,10 +27460,10 @@ F:	kernel/trace/trace_osnoise.c
+>   F:	kernel/trace/trace_sched_wakeup.c
+>   
+>   TRADITIONAL CHINESE DOCUMENTATION
+> -M:	Hu Haowen <2023002089@link.tyut.edu.cn>
+> +M:	Chen-Yu Yeh <chenyou910331@gmail.com>
+> +M:	Weijie Yuan <wy@wyuan.org>
+> +M:	Dongliang Mu <dzm91@hust.edu.cn>
+>   S:	Maintained
+> -W:	https://github.com/srcres258/linux-doc
+> -T:	git https://github.com/srcres258/linux-doc.git doc-zh-tw
+>   F:	Documentation/translations/zh_TW/
+>   
+>   TRIGGER SOURCE
 
-
-On Sat, Jul 25, 2026 at 08:36:26AM +0800, 葉宸佑 wrote:
-> On Fri, Jul 24, 2026 at 07:06:59PM +0800, Weijie Yuan wrote:
-> > For the translation of DCO, I have the same concern with Akira:
-> >   https://lore.kernel.org/linux-doc/c8c36d99-9c0a-4767-8a4e-a5ad28093530@gmail.com/
-> > Could it be better if adding a sentence like:
-> >     "The translation is for reference only and has no legal
-> >     effect. Please refer to the original text."
-> 
-> This is a fair concern, and I think you and Akira are right. The DCO is
-> a legal statement that contributors certify with their Signed-off-by,
-> so a reader who only reads the translation should be told explicitly
-> that the English text is the authoritative one.
-> 
-> The existing disclaimer-zh_TW.rst included at the top of each file only
-> warns that a translation may be out of date; it says nothing about
-> legal effect. So a dedicated note next to the DCO section would add
-> something the current disclaimer does not cover.
-> 
-> Two thoughts on how to do it:
-> 
->   - This affects every locale that translates submitting-patches.rst,
->     not just zh_TW, so it would be better to have the same wording
->     everywhere rather than each locale inventing its own. If the docs
->     maintainers prefer, the note could even live in the English
->     original as guidance for translators.
->   - Since it is a policy question rather than a terminology fix, I
->     would rather not slip it into this series. I am happy to send it
->     as a separate patch once we agree on the wording, or to follow
->     whatever the zh_CN side decides so the two stay aligned.
-> 
-> The GNU page you linked is a good model; their point that only the
-> original is legally valid, with translations provided to aid
-> understanding, is exactly the framing we need. Let me know if you
-> would like me to draft the wording.
-
-Agreed. A separate patch (series) is obviously a proper solution. (So
-yeah the same, I was just "thinking aloud", to prevent my thoughts from
-being submerged in the sea of patches)
-
-After this patch series is completed, let's deal with these issues.
-
-> > As far as I know, it seems that there would be a final decision in LPC
-> > 2026 soon (Oct.5-7), so let's mark this into our TODO notebook for later
-> > potential changes.
-> 
-> Noted, I will keep the Assisted-by: section on the TODO list and
-> revisit it after LPC. And you are right that translating
-> coding-assistants.rst first would make more sense than churning the
-> reference to it.
-
-Yes and nice.
-
-Thanks.
