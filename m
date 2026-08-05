@@ -1,35 +1,35 @@
 Received: from forwardcorp1b.mail.yandex.net (forwardcorp1b.mail.yandex.net [178.154.239.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC90640BCA4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA1F40BCCD;
 	Wed,  5 Aug 2026 09:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785923437; cv=none; b=b6EjKlkfVklK0bdYLfjSBxTUDBMiKBpRI0tWO227r1d2PIPitQwziKrZlyH63kroeetaYzSTA/YBPiCSAlm87pMzSm9UJQHg4VBQpDgLUSczxjiHw4jUp1rU3+dNYW8Q+c7Ot0wfZwI8M5JWphIX+ZIAKpuiOhm1RXzFUK05A3A=
+	t=1785923438; cv=none; b=HWEQHLFlw16UgotogYAvGFjOnbZvV1UInZ3gDC1+iK06d2gzRVW0yBVqHh/ihGAHAnK4Fpq7lE2EWE+xhUU3MEXmWRQ9j46Axh67JCpnUGu1nKxpUgPbv/zidc1b5fHtZ7uL3DqbLCVDu+E6InE7dZusBOOGs1Gav93RtGF8pKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785923437; c=relaxed/simple;
-	bh=+DPUREpJ7JP1BozhW/O6WxiikVuX22GN1ZGO1VmW5WY=;
+	s=arc-20240116; t=1785923438; c=relaxed/simple;
+	bh=qFcmD6+jFBE4ofTKht86RoKCtuehCqHi9X+zR35oKws=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bOkCf9zXXKW9xp3x1Hb7z/eLPzOr6BlTjyC7D/Ycc7XnAT10gk2j6R3nI3rUGCfaas7bXaOJ06pv5KJgekZ0hXhPThvoHg46FgLePVduf90RSDGEF6W2KBbQIqtzRtiUkpOF52BqStyspfliYw0FUuNu50YYabaMKQw5A2dAFQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=fxwougjJ; arc=none smtp.client-ip=178.154.239.136
+	 MIME-Version; b=pjn2C3TWgNe3O68pE7IP2K683gZdxcw/JEL0iQpPU8i9XCNiAM1toOEHMdrKqMs5cwQj+l9bnxFnlMZashYhYKZQsUEyWC60BKQC3xi00E0WlJYP49RUXGF1bTKSsTVlXIQ7D7hpIb0NphnK0zMJ2ekERJlLEtyQx8oQ13fWFzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=OQwTPY4F; arc=none smtp.client-ip=178.154.239.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="fxwougjJ"
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="OQwTPY4F"
 Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:43a8:0:640:574d:0])
-	by forwardcorp1b.mail.yandex.net (postfix) with ESMTPS id 5BBAE80D59;
-	Wed, 05 Aug 2026 12:49:01 +0300 (MSK)
+	by forwardcorp1b.mail.yandex.net (postfix) with ESMTPS id 17FE9808E2;
+	Wed, 05 Aug 2026 12:48:56 +0300 (MSK)
 Received: from i101646577.yandex-team.ru (unknown [2a02:6bf:8080:43c::1:39])
-	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp) with ESMTPSA id lmErQB23hCg0-VUeLwzBg;
-	Wed, 05 Aug 2026 12:49:00 +0300
+	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp) with ESMTPSA id lmErQB23hCg0-WtxDo90n;
+	Wed, 05 Aug 2026 12:48:55 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; t=1785923340;
-	bh=08PDMaN0bX1KTvGS72tD6r1te965RsIsSrHzkPrJ3Qc=;
+	s=default; t=1785923335;
+	bh=txy7XdeWKzueWCucPRXi6adETsnhStuNq13oMYnNdp0=;
 	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
-	b=fxwougjJ+IEAxihuunhEEh4xsivbF8OV4Xi2LD10xS2C1fut94Evc0hEphnEX0D7a
-	 iwVRysZPTXJawfOkU8VnpHZdXeoV3M0rmZaK0uquvAz2JrPeIaWsZMk1U3xWwmcoII
-	 cz0NzXAgAlF6Zc5nRZQawahmuI4tdczDdZRCL1KI=
+	b=OQwTPY4Fl4gi2xKppKdVfGp0Edujpnzp9YsYCCxa17juxvZdpMOfSJN/JPWhAzpkJ
+	 Yry6H/cCawKYQOdfA8qX8Uh04Sb3x3Fw1t2QcQSaTMXlf555rhTf5Jsgk/QglDR0AC
+	 GpsarBNTeW9HI6jJs6U/NeW4y9dpPhMPaZamoMaA=
 Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
 From: Daniil Tatianin <d-tatianin@yandex-team.ru>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -51,9 +51,9 @@ Cc: Christoph Lameter <cl@gentwo.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: [RFC PATCH 3/3] mm/slub: add KUnit coverage for the kvmalloc order limit
-Date: Wed,  5 Aug 2026 12:48:43 +0300
-Message-ID: <20260805094843.292134-4-d-tatianin@yandex-team.ru>
+Subject: [RFC PATCH 1/3] mm/slub: allow capping the order kvmalloc() uses for kmalloc()
+Date: Wed,  5 Aug 2026 12:48:41 +0300
+Message-ID: <20260805094843.292134-2-d-tatianin@yandex-team.ru>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
 References: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
@@ -65,314 +65,239 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The limit has no observable effect other than which allocator served a
-request, so it is easy to break without noticing.  Add a KUnit suite that
-checks the behavior directly.
+kvmalloc() callers explicitly state that they do not require physically
+contiguous memory, yet every request is still handed to kmalloc() first.
+Above KMALLOC_MAX_CACHE_SIZE that becomes a page allocator request of the
+corresponding order, which the caller cannot observe any benefit from,
+but which the rest of the system pays for.
 
-is_vmalloc_addr() is what the tests key on: a request the limit denied must
-have come from vmalloc().  The reverse is deliberately not asserted, as
-kmalloc() may always fail and fall back on its own, which would make such a
-test depend on how fragmented the machine happens to be.
+Commit 46459154f997 ("mm: kvmalloc: make kmalloc fast path real fast
+path") removed the worst of it by dropping __GFP_DIRECT_RECLAIM, so the
+caller no longer stalls in direct reclaim and compaction.  What is left
+is cheaper, but not free:
 
-Covered:
+ - the attempt takes the zone lock and either splits a higher order block
+   or steals a pageblock of a different migratetype, which is precisely
+   the long term fragmentation kvmalloc() was trying to avoid,
 
- - a request one byte above the limit is served by vmalloc(),
- - a request of exactly the limit is not denied,
- - requests a kmalloc cache can serve are not denied even with the limit at
-   the lowest value the sysctl accepts, which is the invariant that lets
-   kvmalloc_order_denied() get away with a single order comparison,
- - at the default value nothing is denied,
- - requests above KMALLOC_MAX_SIZE are not accounted to the limit,
- - sub page requests are never diverted.
+ - wakeup_kswapd() raises pgdat->kswapd_order to the requested order, so
+   even an attempt that fails makes kswapd do higher order work later on,
 
-The suite drives sysctl_kvmalloc_max_contig_order directly instead of going
-through the sysctl, so the variable is made visible to the test with
-VISIBLE_IF_KUNIT and EXPORT_SYMBOL_IF_KUNIT and declared in mm/slab.h.  It
-stays static, and unexported, when CONFIG_KUNIT is disabled.
+ - when the node is balanced but too fragmented for the order,
+   wakeup_kcompactd() schedules background compaction on behalf of an
+   allocation that ends up in vmalloc() anyway.
+
+Callers who would rather not pay any of this have no way to say so.
+kvmalloc() has become the default way to allocate anything large, and the
+overwhelming majority of its users have no use for the contiguity at all.
+
+Add a vm.kvmalloc_max_contig_order sysctl that caps the order kvmalloc()
+is willing to ask the page allocator for.  Requests above the cap skip the
+kmalloc() attempt and are served by vmalloc() directly, which is the exact
+path they would have taken had that attempt failed, so no semantics
+change: __GFP_NOFAIL is still implemented by the vmalloc() fallback, and
+the INT_MAX guard still rejects oversized requests.
+
+Anything a kmalloc cache can serve, i.e. up to KMALLOC_MAX_CACHE_SIZE, is
+deliberately left alone: it comes out of slabs shared by many objects and
+is far cheaper than the vmap area, page tables and unmap-time TLB flush an
+equivalent vmalloc() would cost.  That is enforced by the accepted range of
+the sysctl, which starts at the order of KMALLOC_MAX_CACHE_SIZE and ends at
+MAX_PAGE_ORDER, rather than by a size check on every allocation.
+
+The default is MAX_PAGE_ORDER, which is also the largest order kmalloc()
+can produce, so out of the box behavior is unchanged and this is strictly
+opt-in.  PAGE_ALLOC_COSTLY_ORDER is the natural value for anyone opting
+in, as it is where the page allocator itself starts treating requests as
+expensive.
 
 Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 ---
- MAINTAINERS                |   1 +
- lib/Kconfig.debug          |  15 +++
- lib/tests/Makefile         |   1 +
- lib/tests/kvmalloc_kunit.c | 184 +++++++++++++++++++++++++++++++++++++
- mm/slab.h                  |   4 +
- mm/slub.c                  |   4 +-
- 6 files changed, 208 insertions(+), 1 deletion(-)
- create mode 100644 lib/tests/kvmalloc_kunit.c
+ Documentation/admin-guide/sysctl/vm.rst | 30 ++++++++++
+ mm/Kconfig                              | 20 +++++++
+ mm/slub.c                               | 78 ++++++++++++++++++++++---
+ 3 files changed, 121 insertions(+), 7 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 716acfc3d7c1..128dd3508e66 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24915,6 +24915,7 @@ F:	Documentation/admin-guide/mm/slab.rst
- F:	Documentation/mm/slab.rst
- F:	include/linux/mempool.h
- F:	include/linux/slab.h
-+F:	lib/tests/kvmalloc_kunit.c
- F:	lib/tests/slub_kunit.c
- F:	mm/failslab.c
- F:	mm/mempool.c
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 1244dcac2294..3025d5693891 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2998,6 +2998,21 @@ config SLUB_KUNIT_TEST
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index b9b0c218bfb4..bc669052c50b 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -41,6 +41,7 @@ Currently, these files are in /proc/sys/vm:
+ - extfrag_threshold
+ - highmem_is_dirtyable
+ - hugetlb_shm_group
++- kvmalloc_max_contig_order (only if CONFIG_KVMALLOC_ORDER_LIMIT=y)
+ - legacy_va_layout
+ - lowmem_reserve_ratio
+ - max_map_count
+@@ -365,6 +366,35 @@ hugetlb_shm_group contains group id that is allowed to create SysV
+ shared memory segment using hugetlb page.
  
- 	  If unsure, say N.
  
-+config KVMALLOC_ORDER_LIMIT_KUNIT_TEST
-+	tristate "KUnit test for the kvmalloc order limit" if !KUNIT_ALL_TESTS
-+	depends on KVMALLOC_ORDER_LIMIT && KUNIT
-+	default KUNIT_ALL_TESTS
++kvmalloc_max_contig_order
++=========================
++
++The largest allocation order for which kvmalloc() attempts a physically
++contiguous allocation.  Requests larger than ``PAGE_SIZE << order`` are served
++by vmalloc() without attempting kmalloc() first.
++
++kvmalloc() callers state that they do not require physical contiguity, so the
++contiguous attempt is only ever an optimization for them: it saves a vmap
++area, the page tables backing it and the TLB flush when the memory is freed.
++That optimization is not free for the rest of the system, though, as high
++order requests fragment the buddy allocator and wake up kswapd and kcompactd
++even when they succeed.  On workloads where large kvmalloc() calls are
++frequent and the callers do not benefit from contiguity, capping the order is
++a net win.
++
++The default is MAX_PAGE_ORDER, which preserves the behavior of always
++attempting kmalloc() first.  Setting it to PAGE_ALLOC_COSTLY_ORDER (3) limits
++kvmalloc() to the orders the page allocator itself considers cheap.
++
++Requests up to KMALLOC_MAX_CACHE_SIZE are served by the kmalloc caches, out of
++slabs shared by many objects, which is cheaper than an equivalent vmalloc()
++would be.  The limit does not apply to them, so the accepted range runs from
++the order of KMALLOC_MAX_CACHE_SIZE up to MAX_PAGE_ORDER.
++
++Requests above KMALLOC_MAX_SIZE end up in vmalloc() whatever this is set to,
++since kmalloc() cannot serve them at all.
++
++
+ legacy_va_layout
+ ================
+ 
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 9e0ca4824905..9b1fcabb6d8f 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -248,6 +248,26 @@ config SLUB_STATS
+ 	  out which slabs are relevant to a particular load.
+ 	  Try running: slabinfo -DA
+ 
++config KVMALLOC_ORDER_LIMIT
++	default n
++	bool "Allow limiting the allocation order kvmalloc() may use"
++	depends on SYSCTL
 +	help
-+	  This builds the unit test for vm.kvmalloc_max_contig_order.
-+	  Tests that requests above the limit are served by vmalloc(), that
-+	  requests a kmalloc cache can serve are never diverted, and that the
-+	  kvmalloc_forced_vmalloc counter only accounts allocations the limit
-+	  actually diverted.
-+	  For more information on KUnit and unit tests in general please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++	  kvmalloc() attempts a physically contiguous allocation before it
++	  falls back to vmalloc().  Most callers do not benefit from the
++	  contiguity in any way, yet large requests still have to be served
++	  by the page allocator, which fragments the buddy allocator and
++	  wakes up kswapd/kcompactd for no gain.
++
++	  This enables the vm.kvmalloc_max_contig_order sysctl, which caps
++	  the allocation order kvmalloc() is willing to ask the page
++	  allocator for.  Larger requests are routed to vmalloc() directly.
++
++	  The default value of the sysctl preserves the existing behavior,
++	  so saying Y here only makes the tunable available.
 +
 +	  If unsure, say N.
 +
- config RATIONAL_KUNIT_TEST
- 	tristate "KUnit test for rational.c" if !KUNIT_ALL_TESTS
- 	depends on KUNIT && RATIONAL
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index 4ead57602eac..19ecc339b227 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -48,6 +48,7 @@ obj-$(CONFIG_RANDSTRUCT_KUNIT_TEST) += randstruct_kunit.o
- obj-$(CONFIG_SCANF_KUNIT_TEST) += scanf_kunit.o
- obj-$(CONFIG_SEQ_BUF_KUNIT_TEST) += seq_buf_kunit.o
- obj-$(CONFIG_SIPHASH_KUNIT_TEST) += siphash_kunit.o
-+obj-$(CONFIG_KVMALLOC_ORDER_LIMIT_KUNIT_TEST) += kvmalloc_kunit.o
- obj-$(CONFIG_SLUB_KUNIT_TEST) += slub_kunit.o
- obj-$(CONFIG_TEST_SORT) += test_sort.o
- CFLAGS_stackinit_kunit.o += $(call cc-disable-warning, switch-unreachable)
-diff --git a/lib/tests/kvmalloc_kunit.c b/lib/tests/kvmalloc_kunit.c
-new file mode 100644
-index 000000000000..3c792fddc63e
---- /dev/null
-+++ b/lib/tests/kvmalloc_kunit.c
-@@ -0,0 +1,184 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit tests for the vm.kvmalloc_max_contig_order limit.
-+ *
-+ * The observable the tests rely on is is_vmalloc_addr(): a request the limit
-+ * denied must have been served by vmalloc(), never by kmalloc().  The reverse
-+ * direction is deliberately not asserted, as kmalloc() is always free to fail
-+ * and fall back to vmalloc() on its own, which would make such a test depend
-+ * on how fragmented the machine happens to be.
-+ */
-+#include <kunit/test.h>
-+#include <kunit/visibility.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/vmalloc.h>
-+#include <linux/vmstat.h>
-+#include "../mm/slab.h"
-+
-+/* The order used whenever a test needs a limit below MAX_PAGE_ORDER. */
-+#define TEST_ORDER		PAGE_ALLOC_COSTLY_ORDER
-+/* The smallest limit the sysctl accepts, i.e. the order of a full kmalloc cache. */
-+#define TEST_ORDER_MIN		(KMALLOC_SHIFT_HIGH - PAGE_SHIFT)
-+
-+static unsigned int saved_order;
-+
-+static unsigned long forced_vmalloc_count(struct kunit *test)
-+{
-+	unsigned long *events, count;
-+
-+	events = kunit_kcalloc(test, NR_VM_EVENT_ITEMS, sizeof(*events),
-+			       GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, events);
-+
-+	all_vm_events(events);
-+	count = events[KVMALLOC_FORCED_VMALLOC];
-+
-+	kunit_kfree(test, events);
-+	return count;
-+}
-+
-+/*
-+ * Allocate @size with the limit set to @order and report whether the result
-+ * came from vmalloc(), along with how much the counter moved.
-+ */
-+static bool alloc_at_order(struct kunit *test, size_t size, unsigned int order,
-+			   unsigned long *counted)
-+{
-+	unsigned long before, after;
-+	bool vmalloced;
-+	void *p;
-+
-+	sysctl_kvmalloc_max_contig_order = order;
-+
-+	before = forced_vmalloc_count(test);
-+	p = kvmalloc(size, GFP_KERNEL);
-+	after = forced_vmalloc_count(test);
-+
-+	sysctl_kvmalloc_max_contig_order = MAX_PAGE_ORDER;
-+
-+	KUNIT_ASSERT_NOT_NULL(test, p);
-+	vmalloced = is_vmalloc_addr(p);
-+	kvfree(p);
-+
-+	if (counted)
-+		*counted = after - before;
-+
-+	return vmalloced;
-+}
-+
-+/* A request above the limit must not be served by kmalloc(). */
-+static void test_over_limit_is_vmalloc(struct kunit *test)
-+{
-+	size_t size = (PAGE_SIZE << TEST_ORDER) + 1;
-+	unsigned long nr;
-+
-+	KUNIT_EXPECT_TRUE(test, alloc_at_order(test, size, TEST_ORDER, &nr));
-+	KUNIT_EXPECT_EQ(test, nr, 1UL);
-+}
-+
-+/* A request of exactly the limit is still allowed to use kmalloc(). */
-+static void test_at_limit_is_not_denied(struct kunit *test)
-+{
-+	size_t size = PAGE_SIZE << TEST_ORDER;
-+	unsigned long nr;
-+
-+	alloc_at_order(test, size, TEST_ORDER, &nr);
-+	KUNIT_EXPECT_EQ(test, nr, 0UL);
-+}
-+
-+/*
-+ * Requests a kmalloc cache can serve are never denied, even with the limit at
-+ * the smallest value the sysctl accepts.
-+ */
-+static void test_cache_sized_never_denied(struct kunit *test)
-+{
-+	size_t size = KMALLOC_MAX_CACHE_SIZE;
-+	unsigned long nr;
-+
-+	KUNIT_EXPECT_FALSE(test, alloc_at_order(test, size, TEST_ORDER_MIN, &nr));
-+	KUNIT_EXPECT_EQ(test, nr, 0UL);
-+
-+	size = PAGE_SIZE;
-+	KUNIT_EXPECT_FALSE(test, alloc_at_order(test, size, TEST_ORDER_MIN, &nr));
-+	KUNIT_EXPECT_EQ(test, nr, 0UL);
-+}
-+
-+/* At the default the limit must be inert, whichever way the allocation goes. */
-+static void test_default_does_not_deny(struct kunit *test)
-+{
-+	size_t size = PAGE_SIZE << TEST_ORDER;
-+	unsigned long nr;
-+
-+	alloc_at_order(test, size, MAX_PAGE_ORDER, &nr);
-+	KUNIT_EXPECT_EQ(test, nr, 0UL);
-+
-+	size = KMALLOC_MAX_SIZE;
-+	alloc_at_order(test, size, MAX_PAGE_ORDER, &nr);
-+	KUNIT_EXPECT_EQ(test, nr, 0UL);
-+}
-+
-+/*
-+ * kmalloc() cannot serve anything above KMALLOC_MAX_SIZE, so such a request
-+ * reaches vmalloc() either way and must not be accounted to the limit.
-+ */
-+static void test_over_kmalloc_max_not_counted(struct kunit *test)
-+{
-+	size_t size = KMALLOC_MAX_SIZE + PAGE_SIZE;
-+	unsigned long nr;
-+
-+	KUNIT_EXPECT_TRUE(test, alloc_at_order(test, size, TEST_ORDER, &nr));
-+	KUNIT_EXPECT_EQ(test, nr, 0UL);
-+}
-+
-+/* Sub-page requests never fall back to vmalloc(), limit or not. */
-+static void test_sub_page_untouched(struct kunit *test)
-+{
-+	unsigned long nr;
-+
-+	KUNIT_EXPECT_FALSE(test, alloc_at_order(test, 64, TEST_ORDER_MIN, &nr));
-+	KUNIT_EXPECT_EQ(test, nr, 0UL);
-+}
-+
-+static int kvmalloc_limit_init(struct kunit *test)
-+{
-+	/*
-+	 * TEST_ORDER has to be a value the sysctl would accept, otherwise the
-+	 * tests would be exercising a state userspace cannot reach.
-+	 */
-+	if (TEST_ORDER < TEST_ORDER_MIN || TEST_ORDER >= MAX_PAGE_ORDER)
-+		kunit_skip(test, "TEST_ORDER %d outside the accepted range [%d, %d]",
-+			   TEST_ORDER, TEST_ORDER_MIN, MAX_PAGE_ORDER);
-+
-+	saved_order = sysctl_kvmalloc_max_contig_order;
-+	return 0;
-+}
-+
-+static void kvmalloc_limit_exit(struct kunit *test)
-+{
-+	sysctl_kvmalloc_max_contig_order = saved_order;
-+}
-+
-+static struct kunit_case kvmalloc_limit_cases[] = {
-+	KUNIT_CASE(test_over_limit_is_vmalloc),
-+	KUNIT_CASE(test_at_limit_is_not_denied),
-+	KUNIT_CASE(test_cache_sized_never_denied),
-+	KUNIT_CASE(test_default_does_not_deny),
-+	KUNIT_CASE(test_over_kmalloc_max_not_counted),
-+	KUNIT_CASE(test_sub_page_untouched),
-+	{}
-+};
-+
-+static struct kunit_suite kvmalloc_limit_suite = {
-+	.name = "kvmalloc_order_limit",
-+	.init = kvmalloc_limit_init,
-+	.exit = kvmalloc_limit_exit,
-+	.test_cases = kvmalloc_limit_cases,
-+};
-+
-+kunit_test_suite(kvmalloc_limit_suite);
-+
-+MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
-+MODULE_DESCRIPTION("KUnit tests for the kvmalloc order limit");
-+MODULE_LICENSE("GPL");
-diff --git a/mm/slab.h b/mm/slab.h
-index f5e336b6b6b0..157845af6e45 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -782,4 +782,8 @@ static inline bool slub_debug_orig_size(struct kmem_cache *s)
- void skip_orig_size_check(struct kmem_cache *s, const void *object);
- #endif
- 
-+#if defined(CONFIG_KVMALLOC_ORDER_LIMIT) && IS_ENABLED(CONFIG_KUNIT)
-+extern unsigned int sysctl_kvmalloc_max_contig_order;
-+#endif
-+
- #endif /* MM_SLAB_H */
+ config KMALLOC_PARTITION_CACHES
+ 	depends on !SLUB_TINY
+ 	bool "Partitioned slab caches for normal kmalloc"
 diff --git a/mm/slub.c b/mm/slub.c
-index 7287949ea247..2502bc74f506 100644
+index 0337e60db5ac..0a9910602cec 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -52,6 +52,7 @@
+@@ -50,6 +50,7 @@
+ #include <linux/irq_work.h>
+ #include <linux/kprobes.h>
  #include <linux/debugfs.h>
- #include <linux/sysctl.h>
- #include <linux/vmstat.h>
-+#include <kunit/visibility.h>
++#include <linux/sysctl.h>
  #include <trace/events/kmem.h>
  
  #include "internal.h"
-@@ -6890,7 +6891,8 @@ static gfp_t kmalloc_gfp_adjust(gfp_t flags, size_t size)
+@@ -6887,6 +6888,62 @@ static gfp_t kmalloc_gfp_adjust(gfp_t flags, size_t size)
+ 	return flags;
  }
  
- #ifdef CONFIG_KVMALLOC_ORDER_LIMIT
--static unsigned int sysctl_kvmalloc_max_contig_order __read_mostly = MAX_PAGE_ORDER;
-+VISIBLE_IF_KUNIT unsigned int sysctl_kvmalloc_max_contig_order __read_mostly = MAX_PAGE_ORDER;
-+EXPORT_SYMBOL_IF_KUNIT(sysctl_kvmalloc_max_contig_order);
++#ifdef CONFIG_KVMALLOC_ORDER_LIMIT
++static unsigned int sysctl_kvmalloc_max_contig_order __read_mostly = MAX_PAGE_ORDER;
++
++/*
++ * The limit only ever applies to requests too large for a kmalloc cache, so
++ * the smallest value it can take is the order of KMALLOC_MAX_CACHE_SIZE,
++ * which is KMALLOC_SHIFT_HIGH - PAGE_SHIFT.  kvmalloc_order_denied() relies
++ * on this floor, do not lower it.
++ */
++static unsigned int kvmalloc_max_contig_order_min = KMALLOC_SHIFT_HIGH - PAGE_SHIFT;
++static unsigned int kvmalloc_max_contig_order_max = MAX_PAGE_ORDER;
++
++/*
++ * Decide whether the physically contiguous attempt is worth its cost to the
++ * rest of the system.
++ *
++ * Requests that a kmalloc cache can serve are never denied, as they come out
++ * of slabs shared by many objects and put far less pressure on the buddy
++ * allocator than the page tables, vmap area and unmap-time TLB flush a
++ * vmalloc() of the same size would cost.  No explicit check is needed for
++ * that, as the floor on the sysctl keeps the comparison below from ever
++ * denying a request that small.
++ */
++static bool kvmalloc_order_denied(size_t size)
++{
++	if (likely(sysctl_kvmalloc_max_contig_order >= MAX_PAGE_ORDER))
++		return false;
++
++	return get_order(size) > sysctl_kvmalloc_max_contig_order;
++}
++
++static const struct ctl_table kvmalloc_sysctl_table[] = {
++	{
++		.procname	= "kvmalloc_max_contig_order",
++		.data		= &sysctl_kvmalloc_max_contig_order,
++		.maxlen		= sizeof(sysctl_kvmalloc_max_contig_order),
++		.mode		= 0644,
++		.proc_handler	= proc_douintvec_minmax,
++		.extra1		= &kvmalloc_max_contig_order_min,
++		.extra2		= &kvmalloc_max_contig_order_max,
++	},
++};
++
++static int __init init_kvmalloc_sysctls(void)
++{
++	register_sysctl_init("vm", kvmalloc_sysctl_table);
++	return 0;
++}
++subsys_initcall(init_kvmalloc_sysctls);
++#else
++static bool kvmalloc_order_denied(size_t size)
++{
++	return false;
++}
++#endif /* CONFIG_KVMALLOC_ORDER_LIMIT */
++
+ void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long align,
+ 			     gfp_t flags, int node)
+ {
+@@ -6899,14 +6956,21 @@ void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long
+ 	};
  
- /*
-  * The limit only ever applies to requests too large for a kmalloc cache, so
+ 	/*
+-	 * It doesn't really make sense to fallback to vmalloc for sub page
+-	 * requests
++	 * The limit never denies anything a kmalloc cache could have served,
++	 * so a denied request is always larger than a page and is therefore
++	 * guaranteed to be vmalloc-able.
+ 	 */
+-	ret = __do_kmalloc_node(PASS_BUCKET_PARAM(b),
+-				kmalloc_gfp_adjust(flags, size),
+-				node, PASS_TOKEN_PARAM(token), &ac);
+-	if (ret || size <= PAGE_SIZE)
+-		return ret;
++	if (!kvmalloc_order_denied(size)) {
++		/*
++		 * It doesn't really make sense to fallback to vmalloc for sub
++		 * page requests
++		 */
++		ret = __do_kmalloc_node(PASS_BUCKET_PARAM(b),
++					kmalloc_gfp_adjust(flags, size),
++					node, PASS_TOKEN_PARAM(token), &ac);
++		if (ret || size <= PAGE_SIZE)
++			return ret;
++	}
+ 
+ 	/* Don't even allow crazy sizes */
+ 	if (unlikely(size > INT_MAX)) {
