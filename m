@@ -1,109 +1,136 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BE519D065;
-	Wed,  5 Aug 2026 00:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732C025B0A5
+	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 00:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785890562; cv=none; b=Qq/6i7cOSpYcu6oYUqwUDk5jnbaixMT8octsd0D6QDla3b+OMwxrFihhH+gFhGshnOCZ1mujf5kvb6CEb8ZcXOZIjKZG0FKpu6XUIlOQIJvZZfvz8pB0Rmx9KPxZelIh8I3jcWu8wnvTWsDyJvaCqxXaYKYf1NomOau6NDxA7W0=
+	t=1785891545; cv=none; b=hrxQXPlF8lQUBheHErMcbQwZW4SLUu6/p55sCEIzZINDt01XIFlerwd+mHNqtrhRxKoHgCzJ/M0FJewsXj8FGv9IRek4U5y2JjtGFzsrjbpFPqxGdSf4Lne5xpbgSg0h3oIuEV5VEMDGmQF+o9XuicKBCClcPihMkpg7YNeLUnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785890562; c=relaxed/simple;
-	bh=oF+pMqKRVfoHbj0aKmhSJyXoon4yiMyJ+CZtPLw2efU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Pbm7l9Nz+iX/cUwXhFa9SEkUPoHbct9keG9fMC2A8SWkjk8W0OhdcRkMJ9yNGydWHyoczry3DK4kS5DMwJr90B5SN06hf90ETSq9ctBNyX/o6YSjWtUM37T/Jc21ou1nempvph1nQohsMuFCov+nd3SMcsLp5dOL9SVJ5dgyTWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=c51MoOa0; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	s=arc-20240116; t=1785891545; c=relaxed/simple;
+	bh=QXq+No4NCvplH5iP+cVU/DLqFEsEiO2ABlKqbYf8N0U=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=kqIpXP3C7i6Il3J96zQA2fgG46csQ5RfvI1c2puhoXuAu1ZyOa5ZQYqGA7Hr9udxNmq/kx2+WZ8AYwJAxQdJ33bhuSqJYuYJkbEPliaySy8S3iLRaDO/g+4vRPT76nsGh/4muZyQwd9jAaWLhIqhNJSWvv8QolM5spB/qsNdLDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UKD+o0Q9; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="c51MoOa0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1785890557;
-	bh=oF+pMqKRVfoHbj0aKmhSJyXoon4yiMyJ+CZtPLw2efU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=c51MoOa0qnaW3TduSdx06EE6rJuShhuxXVETYm2f1U2ukoI0+XhZOrLuGUJ8nphU3
-	 97nskKjuXTQHfWVza+H5DxU68zAYrb+h5sRgO5vYvhIfDCguZV3bM3EDAnsa7AmzZw
-	 mck/Me0g6012NuTdXFokiaJWE/3vwGMLaMRuODe9MNIJisqZzoxFCGd9Q32IYr7vJy
-	 jzjBHZq5lZyRyKTJFNFemv2H1nopyQjavdGlsiKfXOVbB7GKx6eRt4d80VeUn+HxuM
-	 7QRJQ1NvLnsm24lO1B71uU+7UXX/a8EOJ+qTUVWqEr6Gvgcz0B/+N5csdmLqtIjU2a
-	 l6lhOZ6hkoLLg==
-Received: from [192.168.68.117] (unknown [180.150.113.112])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DAD4166B55;
-	Wed,  5 Aug 2026 08:42:35 +0800 (AWST)
-Message-ID: <83210c6e2a7b203bd5913b455ea45cfddf3d29ec.camel@codeconstruct.com.au>
-Subject: Re: [RFC PATCH 0/4] espi: introduce eSPI bus framework
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Greg KH <gregkh@linuxfoundation.org>, Krishnamoorthi M
-	 <krishnamoorthi.m@amd.com>, aspeedyh <yh_chung@aspeedtech.com>
-Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
- linux-spi@vger.kernel.org, 	akshata.mukundshetty@amd.com,
- bleung@chromium.org, groeck@chromium.org, 	chrome-platform@lists.linux.dev,
- corbet@lwn.net, linux-doc@vger.kernel.org, 	skhan@linuxfoundation.org,
- linux-aspeed@lists.ozlabs.org, 	openbmc@lists.ozlabs.org
-Date: Wed, 05 Aug 2026 10:12:34 +0930
-In-Reply-To: <2026080416-lagoon-delirium-8e84@gregkh>
-References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
-	 <2026080416-lagoon-delirium-8e84@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UKD+o0Q9"
+Message-ID: <a340d525-5713-4cf4-b88c-77773ae349d7@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785891530;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kXCZx29YWK0KuSZTNZlcIo3NjcMPu1Ep/GSGxvMq9+g=;
+	b=UKD+o0Q9O0GP/b1+xVPt8DW6AJyHnKdGgtR0kNlepREPLrvPQUsgmz6uhTn2BgsnwwgsW7
+	6FERSa+9CQu0aEvQy/RHASDL9rD1MgLiRdBkudQn0F5tsVVNDL9YEXbEVMFS961KB/SsYE
+	mzNcNjONJWNh0bFcrOTll82xxRN0PX0=
+Date: Wed, 5 Aug 2026 08:58:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Cc: cui.tao@linux.dev, Yu Kuai <yukuai@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@fygo.io>,
+ Kent Overstreet <kent.overstreet@linux.dev>, Alasdair Kergon
+ <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>, Song Liu <song@kernel.org>,
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Andreas Gruenbacher <agruenba@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Nilay Shroff <nilay@linux.ibm.com>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
+ virtualization@lists.linux.dev, gfs2@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
+To: yukuai@fygo.io, Christoph Hellwig <hch@lst.de>
+References: <20260804065313.2092022-1-yukuai@kernel.org>
+ <20260804065313.2092022-3-yukuai@kernel.org>
+ <a677f581-344b-4d99-846d-a00801e26033@linux.dev>
+ <20260804133208.GB8078@lst.de> <0fc5dd22-7a8d-43f0-8555-d2ca966efff6@fygo.io>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Tao Cui <cui.tao@linux.dev>
+In-Reply-To: <0fc5dd22-7a8d-43f0-8555-d2ca966efff6@fygo.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Greg, Krishnamoorthi,
 
-YH Chung has been working on eSPI support for ASPEED's BMC SoCs, so
-I've included them in the To line.
+Hi Kuai,Christoph,
+在 2026/8/4 23:30, yu kuai 写道:
+> Hi,
+> 
+> 在 2026/8/4 21:32, Christoph Hellwig 写道:
+>> On Tue, Aug 04, 2026 at 05:19:24PM +0800, Tao Cui wrote:
+>>> While reading 2/3, one spot in bio_pinned_blkg() made me wonder, so I
+>>> gave it a try — and the WARN_ON_ONCE triggers every time for me.
+>>>
+>>> I may well be missing something, but my worry is that the bio's ref on
+>>> the blkg keeps the object alive, not its entry in the radix tree.
+>>> blkg_destroy() runs throtl_pd_offline (which only schedules an async
+>>> flush) before radix_tree_delete(), so the queued bio ends up dispatched
+>>> (blk_throtl_dispatch_work_fn -> blk_cgroup_bio_start ->
+>>> bio_pinned_blkg) after the blkg is already gone from the tree, and
+>>> blkg_lookup() returns NULL.
+>>>
+>>> I applied the series and wrote a small reproducer:
+>>>
+>>>    - null_blk, cgroup v2, a child cgroup with io.max rbps=4096;
+>>>    - a read issued in the child cgroup gets throttled and queued, pinning
+>>>      the blkg;
+>>>    - migrate the reader out and rmdir the cgroup; the queued bio is then
+>>>      flushed after the blkg has left the tree.
+>> Can you add this to blktests?
+>>
 
-On Tue, 2026-08-04 at 14:18 +0200, Greg KH wrote:
-> On Tue, Aug 04, 2026 at 05:22:55PM +0530, Krishnamoorthi M wrote:
-> > Feedback Requested
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > =C2=A0 1. We chose a dedicated bus_type for the reasons described above
-> > =C2=A0=C2=A0=C2=A0=C2=A0 (capability negotiation, four independent chan=
-nels, asynchronous
-> > =C2=A0=C2=A0=C2=A0=C2=A0 ALERT#). Does the community agree this is the =
-right direction, or
-> > =C2=A0=C2=A0=C2=A0=C2=A0 is there a strong preference to extend the SPI=
- subsystem instead?
->=20
-> That's up to the SPI maintainers and developers...
+yes, I'll turn the reproducer into a blktests case and send
+it out. 
 
-There's concurrent discussion from YH regarding device-side eSPI
-support in the thread ending here:
+>>> Maybe keeping the pinned blkg pointer in the bio would sidestep this, so
+>>> the lookup can't miss?
+> 
+> The problem here is that blkg_destroy can be called while blkg is still pinned
+> by blkg_get, in this case remove the cgroup directly remove the blkg from radix
+> tree, that's why blkg_lookup can't find this blkg anymore, and the extra blkg ref
+> is leaked :(
+> 
+>> That would grow the bio, which we try hard to avoid.  I think the way to
+>> avoid this is to have active/passive refcounts on the blkg, where an
+>> active one keeps it in the radix tree, but a 0 passive one would prevent
+>> the caller from getting a new reference to it.  The users who rely on the
+>> pin for the I/O completion path would then just keep the active reference
+>> and use a pure lookup without getting a new passive reference in the
+>> completion path.  This would remove the need for BIO_BLKG_REF which
+>> feels a bit kludgy and eats up precious bio flag space.
+> 
+> The problem here is that remove a cgroup can also remove the blkg from radix tree,
+> even through it still has active refcounts. I think this can be fixed by checking
+> the cgroup online_pin first, if it's zero, we can search the blkg from the
+> request_queue blkg list, where blkg will not be removed until blkg_free_workfn().
+> What's better, if we can convert the blkg list to hash table with key as blk-cgroup,
+> it will be much better as we can lookup from this table instead of blkcg radix tree.
+> 
 
-https://lore.kernel.org/all/KL1PR0601MB4276FA2C6347192CC45826E490ED2@KL1PR0=
-601MB4276.apcprd06.prod.outlook.com/
+Both of your approaches go further than my store-the-pointer idea;
+looking forward to the next version.
 
-So far it's arrived at a matching proposal for drivers/espi.
+Thanks,
+Tao
 
->=20
-> > =C2=A0 3. Any concerns with the ops table design or the -EOPNOTSUPP fal=
-lback?
-> > =C2=A0 4. Naming and structure of the public API in include/linux/espi/=
-espi.h.
->=20
-> What specifically are you asking for for this?=C2=A0 Do you have userspac=
-e
-> code you want to integrate, if so, does it work with this?=C2=A0 And wher=
-e
-> does it live?
+>>
 
-I've seen your follow-up realisation Greg, however, regarding
-userspace, the thread above suggests that we should be able to back
-existing subsystems (GPIO for VW, MCTP for OOB, MTD for some flash
-functionality) onto eSPI to minimise eSPI-specific interfaces:
-
-https://lore.kernel.org/all/KL1PR0601MB4276B5BE3B96C18E3A66AD709049A@KL1PR0=
-601MB4276.apcprd06.prod.outlook.com/
-
-That doesn't cover the peripheral channel, as that's dealt with in
-hardware on the device side, but for the purpose of the controller the
-devices on the peripheral channel should all be driven by the kernel
-anyway.
-
-Andrew
