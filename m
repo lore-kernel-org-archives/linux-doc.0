@@ -1,71 +1,96 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E640470456
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 16:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B8A3EEAD0;
+	Wed,  5 Aug 2026 16:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785946861; cv=none; b=QFBg7OhI7yFHIbSB7Fs82SeTjxPWpRIWjI7znkOt86fjOBN20VMasAe0ODbif6b2r0PWT818xuaqsDRYoLf1qb7nrHwqRWGGYydgkMhC5QpvTzCttXr6VgSyGLxXm7DY9gjwoUQ5mYF1ocydlonERs/9xDo82hOtnt4zPRaaNmo=
+	t=1785947404; cv=none; b=MRYSbGYa22DYKh5DYAEs/H55OG1rFON8R5bNKL7k9rO9EXVvADFLZAfcKkmifcStIoHS26LIUdHp/aRO8zBdhTHX3BBwCgPGwsT1MvzxjMWQ/x+y4o/xZ7kcI5NLPXRasvHQLV2F0eCmPQI9q/IZd7Ke/DithF+wn5jl0NftFv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785946861; c=relaxed/simple;
-	bh=JUrzj4o7bCoiRqiZ0x0xZy5NjydHTuKvPjo5Ei2xZ/E=;
+	s=arc-20240116; t=1785947404; c=relaxed/simple;
+	bh=2SG2FZhElwQiDCbm8UKj/zw7brGqIk7YhSgEajStjIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MYREpn0Zz6cnC46wX5K7Ww4Ss23QjMdJZCfWCsBS440pZ42OtBErfbQuFAOD/f9p1y/ZeJIKjJiG3IcopeV+Ag9K/ILZrZXHdxoSnkCi6HDoU0UGnCE0kukH5jtji9XddNk0PRzqhJiuWFOaPdKjrYJVeOUrhlqCwcbjnOpP34E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=XBoMljhQ; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=oZAFUecJAJjcetZJGqn9LZ/6qqBEE2VCMiO+TIjNo0U3ykZk+L67SvW9eBuc1AkZfEMIvH+IWXq6zkbL4DZjOWbBBRGT4iukz8bh2eUVLYJU67eKJ0nceMOEEMsjCwOocefnnZNKekJbQq1RRDORjkM9LbwunrhZpr0b3jbw7KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=la2ITovw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="XBoMljhQ"
-Date: Thu, 6 Aug 2026 00:20:18 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1785946846;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j9slRGvAf7x6jKGJc5G6UKGZHe7yu2gGcgYDSb2BoTM=;
-	b=XBoMljhQlaM5HFYH7tEhp+31lDeePAbWGvFCPXn+VqMoHxmmN21w/mSqKmD1jAp1cP6DEE
-	l09KHLO9Fp5QVv5csz/KyckNQyYZU3i+I2oEtCJcixzrH2HmgOE+dqToy88c76to18qKpE
-	JjnA4HafYdzrUB5O7Zkue3uatIX+qPmpKlUCuxN6VjRdUm6iAoKEeEC8vfBA/r2jLoVd9D
-	044ZGoTZh65n9ISPtZEba5ToD5qGtrug4eTX+UD0SRoJTX5OndFv4sQAr4KA37TQyDV153
-	fqNJ2XVYurQGx7DtfIYS5P8OMSvVkmmYOw8/hhDg9bireSVCugRw9cA/Q8TAlg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/16] docs/zh_TW: process: localize terminology in
- stable-kernel-rules.rst
-Message-ID: <anNiwt5jL-tYUeNs@wyuan.org>
-References: <20260728091038.171033-1-chenyou910331@gmail.com>
- <20260728091038.171033-9-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="la2ITovw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F246A1F00A3A;
+	Wed,  5 Aug 2026 16:29:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785947398;
+	bh=2SG2FZhElwQiDCbm8UKj/zw7brGqIk7YhSgEajStjIU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=la2ITovwDNoQQ+lebVDhplFW1Suj90Ng1jwbBZ//p8+6pzNjsQ2D1w7dxZ6C8BK0i
+	 Q8GKbR8aUVc/H1aRMp/5UULRVTJavsVQPTXh1E/2WfmXQjz2LSPiYuXROZKy55BIP9
+	 8dHPmc6iqw18bzvvrM0aes4eaYDeAPBvrMBCd3jDNtulbCKgWFnkaq7kwqhDJZ9JUT
+	 c/MMkeYVOPaoHEsprtbLEE6RynatFn3TF/jkd7X6BEjEw4IYYZLWtqC8rT0b2nq2N0
+	 FYstJu3VFcTRWGPgGWiH//P+E76LP9spYZcKR8eVda1ji0qptPfRK/b4CgjO17dSyL
+	 EGk9konvrxUog==
+Date: Wed, 5 Aug 2026 17:29:50 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org,
+	Kent Gustavsson <nedo80@gmail.com>, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 2/3] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <20260805-unrefined-knelt-ef167d1ee8fe@spud>
+References: <20260805-ad5529r-driver-v8-0-b41781f5632a@analog.com>
+ <20260805-ad5529r-driver-v8-2-b41781f5632a@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AfwjZNltJEtqQdzn"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260728091038.171033-9-chenyou910331@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260805-ad5529r-driver-v8-2-b41781f5632a@analog.com>
 
-On Tue, Jul 28, 2026 at 05:10:30PM +0800, Chen-Yu Yeh wrote:
-> Retranslate from the current English text, which was heavily
-> restructured upstream (three submission options, stable tag variants,
-> tree list), and localize mainland terms to Taiwanese Mandarin
-> (內核→核心, 隊列→佇列, 數據→資料, ...).
-> 
-> update to commit 10466b17af65 ("docs: stable-kernel-rules: fix typo
-> sent->send")
+--AfwjZNltJEtqQdzn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Weijie Yuan <wy@wyuan.org>
+On Wed, Aug 05, 2026 at 09:17:42AM +0200, Janani Sunil wrote:
+> Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> buffered voltage output digital-to-analog converter (DAC) with an
+> integrated precision reference.
+>=20
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 
-> 
-> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
-> ---
->  .../zh_TW/process/stable-kernel-rules.rst     | 256 ++++++++++++++----
->  1 file changed, 208 insertions(+), 48 deletions(-)
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
+
+--AfwjZNltJEtqQdzn
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCanNk/gAKCRB4tDGHoIJi
+0n8CAP9UQoKgTQNzIthZtfOEAQcvA4iVbixd3DeiT1fmLwxHJgEAvjGN4gtWStZp
+TLBwYCZ6rsPwFBFzKksT74SEX9jQNwI=
+=eu2m
+-----END PGP SIGNATURE-----
+
+--AfwjZNltJEtqQdzn--
