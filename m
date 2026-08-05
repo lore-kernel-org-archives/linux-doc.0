@@ -1,52 +1,46 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F40637F728;
-	Wed,  5 Aug 2026 14:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914703B47F6;
+	Wed,  5 Aug 2026 15:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785939757; cv=none; b=ayWEXb+ts4qmUMwEw3OIhHF520JTHwCGIuEmY+UdsinZnO9SLGET7CD8HBOg8wfNWVxxlYUk6gr4ko8HIM66pXOop4MeiMLaIBGjZ5pwLkoIsJ/Z7ALFbNBWz0IlzMFrBY4r4JjVbtOtube4yOKW3V4TTXk/s5LFgozuRgO0hC8=
+	t=1785943967; cv=none; b=uyanGOweSXFDZ+c+o13qJMwHrLis7qST+gRd3VogLtogQIz2aTOTaMyoPAk+BLY0dWutVWnn5OnyKbdQ1gLmKmXHQEsUfMdqPGqiLvOU3jxM84tT0BZDsIdEqHhMVLQmUZUvm/vhNq9SKSqHyzfuiNTRjnSqPdYBP0U6VT9ZHuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785939757; c=relaxed/simple;
-	bh=C4o83UnET4uzURflwM4lwPqhbAEM6dutEIC1zJg2MSA=;
+	s=arc-20240116; t=1785943967; c=relaxed/simple;
+	bh=egSkI3/8O2d+T4Z+DjHOWQSxrGXZVFpX8Bhs+dpAVPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMcMCdY7ySeSducLwtcSneu1IFLA8hGpZ3UXcV73IAsunFHEcItHUdTsIxpq//J4fAEZQntqEnfFh2KKmaujOu5cbUPi7mVhn+z530Mlx0E5EtnoXnrIyzAKj+dVTG0xvQvQvyzTtJ6p3XfFjh2OwrCOq7va6tdk2G+MnpWMbI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=HJh4EKTU; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ih3IWqA1R6BX0f7Ssqr2KBau0QbB+C9GbAIfHLQZym46sWr+ArnCq9QGzg9b3+vM5ZhTmo7qB0veybm5u6MKnXfQy5AEetLGEPNVVaKDTxa6pGz9K9JbX2RhLwJiO2de0KN96nnJbgXViaMAJoE3Vxi01veSFov9E8uFCurzeY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=CmEpqvCR; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="HJh4EKTU"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A1BC153B;
-	Wed,  5 Aug 2026 07:22:25 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A4BD63F632;
-	Wed,  5 Aug 2026 07:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785939749; bh=C4o83UnET4uzURflwM4lwPqhbAEM6dutEIC1zJg2MSA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HJh4EKTUEis2BCFSeUpsxUs+Q0egrLDeMN8kEPmsRwjh+ZfcbWy71z95VMhoWI8mR
-	 66pHcVpfq/Cuym6A0zuN0xbTDd1rxvh/g8qwve0ff6gysp2FvYS05WLnkoauGLMYFV
-	 RaP068KoCzfuTrgaYPRA7kIzMPyp4bFddRDXoAog=
-Date: Wed, 5 Aug 2026 15:22:07 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
-	elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
-	brauner@kernel.org, souvik.chakravarty@arm.com, david@kernel.org,
-	subrahmanya.lingappa@oss.qualcomm.com, leitao@kernel.org,
-	kas@kernel.org, puranjay@kernel.org, usama.arif@linux.dev,
-	kernel-team@meta.com
-Subject: Re: [PATCH v6 03/22] firmware: arm_scmi: Introduce protocol instance
- notifiers
-Message-ID: <anNHD3S4tHm6yC9R@pluto>
-References: <20260724144430.1440170-1-cristian.marussi@arm.com>
- <20260724144430.1440170-4-cristian.marussi@arm.com>
- <20260728010004.35fcac96@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="CmEpqvCR"
+Date: Wed, 5 Aug 2026 23:31:43 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
+	t=1785943957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xm5hsHN+ogJlNQXRNc6/yrSo2Oyud8t5eb4EX2piMtM=;
+	b=CmEpqvCRqBrhXHFfgC+lHs3WUWOuo3gVuQYYKl31w5Nc0+5Rx8CZT+K+VNcyk3iBfm6HoO
+	TMzB1HFYY1VyyPma0TiBvAG49AN7+IUCkxwIyyLX3PNg2RslmJz+34dGc7tGfK2f0CwXBj
+	qJ9eKibmHOidnclF05MSTwtAZVs+M3Nk1S44yTrUlu4VhwzLLE6qzu0RWltp94lx8r3fzt
+	erpgoOgfoQkBOzo2tVIV92O72OfweZaLs79OaHjCSeVwf+UYOcGHCkT5xqTPi+xIBswvvg
+	Ia7FkoKJG0tUCHtQqPmJYy5NlyVWOCyJK6CNilDSx+u7GXsX01hMT9pE2mPHOQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Weijie Yuan <wy@wyuan.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Chen-Yu Yeh <chenyou910331@gmail.com>, Alex Shi <alexs@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] MAINTAINERS: update Traditional Chinese documentation
+ maintainers
+Message-ID: <anNXXwe_f-3iDdE4@wyuan.org>
+References: <20260804201012.110713-1-chenyou910331@gmail.com>
+ <anLkaTxwuklKyNq9@wyuan.org>
+ <87ecgcr8w5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,90 +49,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260728010004.35fcac96@jic23-huawei>
+In-Reply-To: <87ecgcr8w5.fsf@trenco.lwn.net>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 28, 2026 at 01:00:04AM +0100, Jonathan Cameron wrote:
-> On Fri, 24 Jul 2026 15:44:11 +0100
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
+On Wed, Aug 05, 2026 at 07:31:38AM -0600, Jonathan Corbet wrote:
+> Weijie Yuan <wy@wyuan.org> writes:
 > 
-> > Allow protocols themselves to register for their own notifications and
-> > provide their own notifier callbacks. Each protocol can now register one
-> > unique per-protocol instance notifier block whose callback will be
-> > registered on the proper notification chain as usual: such notifier will
-> > be automatically removed during the protocol de-initialiazation phase.
-> > 
+> > On Wed, Aug 05, 2026 at 04:10:12AM +0800, Chen-Yu Yeh wrote:
+> >> [1] https://lore.kernel.org/linux-doc/<20260603082531.263115-1-chenyou910331@gmail.com>/
+> >> [2] https://lore.kernel.org/linux-doc/<amcZ5SI3-Hzw4HkJ@wyuan.org>/
+> >
+> > Sorry I forgot to mention this in v1, somehow I'm not sure whether we
+> > have a strict trailer rule towards this one or not:
+> >
+> > Do we need to change the "[1] [2]" into two "Link:" ?
 > 
-> Would be nice to say why they might do this. I'm sure it becomes
-> apparent later in the series, but anyone looking just this patch
-> is missing that useful information.
->
+> It's fine, no need to make changes.
 
-Hi Jonathan,
-
-thanks for your review... 
-
-I've reworked this comment in V8.
-
-> I'd also like something here to talk briefly about why it is fine to
-> drop the lock briefly on the unregister side.
-
-I've reviewed this logic... (spoiler... it was wrong :P)...the lock still
-cannot be held BUT the new implementation should avoid races by using
-the refcount and a new flag...
-
-> 
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> 
-> 
-> > diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> > index 8e06e40d1a11..0f9e8dfc6137 100644
-> > --- a/drivers/firmware/arm_scmi/driver.c
-> > +++ b/drivers/firmware/arm_scmi/driver.c
-> ...
-> 
-> 
-> > @@ -2367,13 +2402,29 @@ int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
-> >  void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
-> >  {
-> >  	struct scmi_info *info = handle_to_scmi_info(handle);
-> > +	struct notifier_block *proto_notifier_nb = NULL;
-> >  	struct scmi_protocol_instance *pi;
-> >  
-> > -	mutex_lock(&info->protocols_mtx);
-> > -	pi = idr_find(&info->protocols, protocol_id);
-> > -	if (WARN_ON(!pi))
-> > -		goto out;
-> > +	scoped_guard(mutex, &info->protocols_mtx) {
-> > +		pi = idr_find(&info->protocols, protocol_id);
-> > +		if (WARN_ON(!pi))
-> > +			return;
-> > +
-> > +		proto_notifier_nb = pi->pno.nb;
-> > +		/* Ensure NULL is visible */
-> > +		smp_store_mb(pi->pno.nb, NULL);
-> > +	}
-> >  
-> 
-> I'd like to see a little commentary on safety of not holding
-> the mutex over the whole sequence.  Can anything mess around
-> with pi between the code getting hold of it and the release below?
-> I assume the refcount is enough.
-
-I changed a bit the implementation and added a comment in v8 that
-should explain...it has to do with the refcount indeed (but with the
-new revised implementation..)
-
-> 
-> > +	if (proto_notifier_nb) {
-> > +		int ret;
-> > +
-> > +		ret = scmi_protocol_notifier_unregister(pi->handle, &pi->pno);
-> > +		if (ret)
-> 
-> Maybe this changes later but if not get rid of ret. It kind of suggests
-> the value itself is useful in a way that isn't true.
-
-...good point...reviewed in v8.
-
-Thanks,
-Cristian
+OK, thanks!
