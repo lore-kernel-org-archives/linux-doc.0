@@ -1,225 +1,178 @@
-Received: from forwardcorp1b.mail.yandex.net (forwardcorp1b.mail.yandex.net [178.154.239.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC86440BCA1;
-	Wed,  5 Aug 2026 09:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4DD3DD849
+	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 10:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785923438; cv=none; b=gDTBvyPFeyhY277hEqqB7HypqkXvDoImg2Ad5dns26ShiuFgPVjLzxio0YwsyJ6wSKjUNOODZ40oVO3xu8x0YgPxmDUjG+fJ5UGEPIxv5svhpFSV/h2zPbojFh9lKITD++dYvLMEDn78/LyD1lbYNywsthTVivqgKLvbNEsY+PU=
+	t=1785924554; cv=none; b=LKdOgWPdpL6rPazbnEXS5mjfmb0pk5MjkIrDDMQU9yCr5Feh7HHsjo0KVYtopAwZnUdcKOeuLOCFbKYKdIZAr8HONOeNU5jLje5u0dLF/8QIJYQ4kviAIqGUSl3pJ8RGN/7SPkrhMDJvnEJkefT3TQy9vB+QF3FLoZ/jWf0p1o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785923438; c=relaxed/simple;
-	bh=SSaaYC8x0Ob+e1v/cv9vzLM7AAGkmTFCGJ7J+ERAKc8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bcK33vEYmx87EaiA8+/15ObJ356IkjRuDfBY+LLhbJZf6BA00RhHjsYaiX8d+dMDqKNgOESQ91Ow7ZrPOkb7Obucw3LrfA4qvzdxDNUae/j8t2y8w5HsijQIem8TOMccbx8Ic6ezzIGYN/fg9kKip5QjwcvVuB8jtI55ATxrQ8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=sc8OhmLP; arc=none smtp.client-ip=178.154.239.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
+	s=arc-20240116; t=1785924554; c=relaxed/simple;
+	bh=M2jF0Jt2bDRZzymZQmRY6Uui16djwBoVWK1VjhYmc30=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a4npNz8ugBgV6r3vkpMBLTlYToNLgMqFRVGLL+mYuXzIq51qL4oAdqhwNgiRj7b2ZV60enIWBCLqoGBUn4TVyh2N47wdqBT9Nw0DHOmrmWKmf9Jk1ypbE/dnETO9YGZEDXp0k0h86Sw2bon2oZ2kDGxsnYHsSNhFnkXScWO1b2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TE/KrOhR; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="sc8OhmLP"
-Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:43a8:0:640:574d:0])
-	by forwardcorp1b.mail.yandex.net (postfix) with ESMTPS id 874B1808E1;
-	Wed, 05 Aug 2026 12:48:53 +0300 (MSK)
-Received: from i101646577.yandex-team.ru (unknown [2a02:6bf:8080:43c::1:39])
-	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp) with ESMTPSA id lmErQB23hCg0-cG0RyIly;
-	Wed, 05 Aug 2026 12:48:52 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; t=1785923332;
-	bh=w3V7sfmWLggUmQu9ZRjliJsNs4NKeoQcp6wRpWpznBc=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=sc8OhmLPz7+seM305BniVNbQHKGkHFF8xJGHDIByfwGJskh5qeWNca8Fgqb1D0ecs
-	 X/Z/gZgFJqYLz2iWEoY38gCCndFux78xIKoZIOu0NGyQz/kV4caqUJcD6OvAgcGtZd
-	 0cxxv3wlCann1+83k/HGWaEYx18PohSKkzVdzN9Q=
-Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Harry Yoo <harry@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vlastimil Babka <vbabka@kernel.org>
-Cc: Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Hao Li <hao.li@linux.dev>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: [RFC PATCH 0/3] mm/slub: allow capping the order kvmalloc() uses for kmalloc()
-Date: Wed,  5 Aug 2026 12:48:40 +0300
-Message-ID: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TE/KrOhR"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47f6609c657so372306f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Aug 2026 03:09:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1785924550; x=1786529350; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XrcStaMXdkE1hM0cDDyjF0ywdDXESAjsr6s/h+tclqU=;
+        b=TE/KrOhR+hPudONkTR1ud9BiEGids6A4j5g+iSX3NQwqqv6UfQ47ho6Hh78BSarN2j
+         VWzEyTQE8opn3ybr4nWb3fjO7eL+EqXnotKCRyt60OPtewwHVI83MmxQZ0mugzSrfWSR
+         srhdnWhCAL9c4niOLoY674o7bU8UFewIHCw+UewJbpeCNUsTKFEbjz7zh4+rSi11hefP
+         WHUIykpewpxsiYaBLNXJsg12u+XR49pDltYLOwA7VaQ5irinX+W/K7zA1hKrKNV9RHOb
+         psGh+0pSrS7J7E2cxeXYEt60vzL1QgUcqBQJ4tIDLN8LVd7OttdhMhnvv8Rd22OJaTxt
+         N18g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785924550; x=1786529350;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XrcStaMXdkE1hM0cDDyjF0ywdDXESAjsr6s/h+tclqU=;
+        b=CGtIfzmH8EKyrT/4eTZFZnePoeDZ6HtOccrt0wCHTwUW0Jg57d0c8wmwMNAWt6tNX3
+         1xQnBd/5u/688ZY9Mj+akezvtT8hzM9PZmqEF5yrnSD1WRAOPA9okAGkfnOfvi4EvoGq
+         ZFztHaf4DmFOEYR2AsA7ivfKQnH4deTI1l1UKugXuH7379bGsQt72caPODHX/DmKvg71
+         q2mVSFjP+pmKpVdGAy19RWCGF3MdSXSy5IRiOpMxkNS2Fd2BfS647sZPS+y/8STPgM+Z
+         ZmPhEcShm1cbEPfJ4UJwEoaKBJv99m6d9CElcrlBV1kw4GO/5T030bfXJtOnC3jXv99U
+         o0BA==
+X-Forwarded-Encrypted: i=1; AHgh+RobF5AZ6aCMV7WOoYN1srAQosh6FaIq3mSlwJREz2PfKZ44ZSlBp46FljCTO9VsWytRUrlyhdgY+Sk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsBJ/BmRrVEWdTVoxkkmq6/AUrMP6EPGhmNPshTKM7vG2pSWy+
+	LU+I+5X/wEKdD5SaOWOxWDRmEwYaP04H+vZtnIShV98Ikde2pZ9enoBG1DahX+bJ1rI=
+X-Gm-Gg: AR+sD11+AYyy8cn/5n/lmgJW3EYZz/VPx0y1mkvWsTdigLSW61+70/tVlp+DnZcWYCj
+	Wfdp7T9fq2OGQjJpV4eb9qcfl7/sIAT5M42OQ42lgUeE8ZhFvxQjxfyCf0iBY1xjRHIYDAUaAQR
+	TslUSN5/4H0wu7hYyTm4oq3Im3lAHUO7PV0V5jt45kxC7c/5BujKfQCzndnz4UpF6mAJ4W4+u/7
+	cHqn0qJ+vqpYzp+Xd2W0SWp7HZjRYn82Eh96NHrJ/SLYsWhzj673GIGlkemqtSeuye2z2EVvLsx
+	CcauoPNvmWbFFW36w0DGbSolOAzWnyiQQNQdkLz06H4KlqBT67/pcN9+mMmOlmyxTxwP5vg2av9
+	EM/mFQWGMy/9/yeygpW5BpabTJ0ShTQrKHgXFsA68EmravEx+/bbZtuyvoB7MQIApbNYf9sHFqS
+	fjRQFVtlI7UD0mX+WNZHOhPLyKVfqMkWNDQnebDff1EiAooYc9ohuvcolLDa2pcrt6fqw=
+X-Received: by 2002:a5d:5291:0:b0:47f:d072:87d7 with SMTP id ffacd0b85a97d-47fec4f663fmr7081483f8f.9.1785924550297;
+        Wed, 05 Aug 2026 03:09:10 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47febfda0cbsm7427247f8f.6.2026.08.05.03.09.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Aug 2026 03:09:09 -0700 (PDT)
+Message-ID: <ebb8a1b7-d5c8-4be0-af64-1496a7fd29d0@linaro.org>
+Date: Wed, 5 Aug 2026 11:09:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 00/21] ARM64 PMU Partitioning
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com,
+ corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com,
+ will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
+ mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <gsntse4tvbn2.fsf@coltonlewis-kvm.c.googlers.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <gsntse4tvbn2.fsf@coltonlewis-kvm.c.googlers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-By calling kvmalloc() rather than kmalloc(), a caller states that it does
-not require physically contiguous memory.  For the vast majority of those
-callers the contiguity is not an optimization they can observe at all, yet
-the attempt to obtain it is paid for by the whole system in buddy
-fragmentation and background reclaim/compaction work.
-
-Commit 46459154f997 ("mm: kvmalloc: make kmalloc fast path real fast
-path") made the kmalloc() attempt much cheaper by dropping
-__GFP_DIRECT_RECLAIM, which removed the synchronous stall.  It did not
-remove the attempt itself, and the attempt still takes the zone lock,
-still steals pageblocks when it succeeds, still raises
-pgdat->kswapd_order, and still ends up waking kcompactd for allocations
-that are served by vmalloc() a moment later.
-
-Individual callers can be converted to vmalloc(), and that is the better
-fix where it applies, but it does not scale: in practice each offender is
-found only after it has hurt a production machine.  One example is
-xt_jumpstack_alloc(), which issues one kvmalloc_node() per possible CPU on
-every iptables/ip6tables table replace, while holding the per-address
-family xt mutex.  On a 192 CPU machine a single reload is therefore 192
-order-6 allocations, and the 384 below are just two of them, a little over
-two minutes apart, on a 6.6 based kernel:
-
-    ================================================================
-    COUNT: 384 | PID COMM: ip6tables | ORDER: 6 | GFP: 0x52cc0
-    FIRST SEEN : 2026-06-02 13:31:16.378
-    LAST SEEN  : 2026-06-02 13:33:27.921  (Span: 131.543 sec)
-    FLAGS      : IO | FS | DIRECT_RECLAIM | KSWAPD_RECLAIM | NORETRY
-    ----------------------------------------------------------------
-        __alloc_pages+0x5
-        __kmalloc_large_node+0x82
-        __kmalloc_node+0xc3
-        kvmalloc_node+0x48
-        xt_replace_table+0x95
-        __do_replace+0xd3
-        do_ip6t_set_ctl+0x38f
-        nf_setsockopt+0x5b
-        rawv6_setsockopt+0x54
-        do_sock_setsockopt+0xae
-        __sys_setsockopt+0x79
-        __x64_sys_setsockopt+0x25
-        do_syscall_64+0x37
-        entry_SYSCALL_64_after_hwframe+0x78
-
-On that kernel each of those entered direct compaction with the xt mutex
-held, which is what made it visible.  That call site, and the ruleset blob
-allocation next to it, have since been converted to vmalloc() in our tree,
-and 46459154f997 addresses that shape of stall generically, so this series
-is not asking for that incident to be fixed again.  It is about the callers
-of the same shape that are still there: the veth path quoted further down
-is one that 46459154f997 deliberately does not cover, and it is unlikely to
-be the only one.
-
-Patch 1 adds a vm.kvmalloc_max_contig_order sysctl capping the order
-kvmalloc() will ask the page allocator for.  Requests above the cap go
-straight to vmalloc(), which is the path they would have taken had the
-kmalloc() attempt failed, so no semantics change.  Requests small enough
-for a kmalloc cache to serve are never diverted.
-
-Patch 2 adds a kvmalloc_forced_vmalloc counter to /proc/vmstat so that the
-effect of a given setting is observable.
-
-Patch 3 adds a KUnit suite covering both, including the invariant that the
-lower bound on the sysctl is what keeps cache sized requests out of
-vmalloc().
-
-The default is MAX_PAGE_ORDER, i.e. current behavior, so this is entirely
-opt-in and all three patches are gated behind CONFIG_KVMALLOC_ORDER_LIMIT.
-
-Some things I am explicitly unsure about and would like opinions on:
-
- - Where does the kmalloc()/vmalloc() crossover point belong?  Callers
-   whose size is always large do not need kvmalloc() at all and should
-   simply call vmalloc(), which is how the netfilter sites above were
-   fixed in our tree.  The class this series is aimed at is the other one:
-   callers whose size is only known at runtime, is usually small, and is
-   occasionally huge.  Those cannot be converted to vmalloc() without
-   penalizing the common small case, so for them the crossover point has
-   to live inside kvmalloc().  Today that point is fixed at "always try
-   kmalloc() first".  This series makes it a global tunable.  It could
-   equally be a compile time constant or a per callsite hint.  I have no
-   strong opinion on which is right, only that the current value is too
-   generous.
-
- - Order versus size units for the sysctl.  Orders match the mechanism
-   being protected and give MAX_PAGE_ORDER as a natural "off" value, but
-   an order valued sysctl under vm/ is unusual, and both ends of the
-   accepted range end up being arch dependent.
-
- - __GFP_RETRY_MAYFAIL callers are currently subject to the cap like
-   everyone else.  There is a reasonable argument that the flag is already
-   the "I really do want contiguity" annotation and should be exempt.
-   Only 7 call sites in the tree use it today.  They were deliberately not
-   exempted, because that flag is also what keeps those call sites in
-   direct reclaim and direct compaction after 46459154f997, and in
-   practice they are not rare.  Container churn creating veth pairs
-   produced this over twelve days on a single machine:
-
-    ==================================================================
-    TOTAL COUNT : 4948  =>  [ Order 7 (x4948) ]
-    TIME SPAN   : 2026-05-22 13:03:27.119 --> 2026-06-03 11:40:27.303
-    GFP         : 0x446dc0
-    FLAGS       : IO | FS | DIRECT_RECLAIM | KSWAPD_RECLAIM | RETRY_MAYFAIL
-    ------------------------------------------------------------------
-        __alloc_pages
-        __kmalloc_large_node
-        __kmalloc_node
-        kvmalloc_node
-        veth_dev_init
-        register_netdevice
-        veth_newlink
-        __rtnl_newlink
-        rtnl_newlink
-        rtnetlink_rcv_msg
-        netlink_rcv_skb
-        netlink_unicast
-        netlink_sendmsg
-        __sock_sendmsg
-        __sys_sendto
-        __x64_sys_sendto
-        do_syscall_64
-        entry_SYSCALL_64_after_hwframe
-
-   Every one of those is a 512 KiB contiguous request, made by a caller
-   that does not need contiguity, from inside a sendto() syscall, and each
-   one is still entitled to reclaim and compact synchronously on a current
-   kernel.  Exempting __GFP_RETRY_MAYFAIL would make the cap a no-op here,
-   so the series treats the sysctl as an administrative override that
-   supersedes caller hints, in the same spirit as the other allocation
-   policy knobs under vm/.  If the consensus is that the flag must be
-   honored, the exemption is a one line change.
-
- - The counter only accounts allocations the limit diverted, so it stays at
-   zero until the limit is lowered below its MAX_PAGE_ORDER default.  It
-   therefore cannot answer "what should I set this to?" ahead of time, which
-   still needs tracing kvmalloc() directly, or lowering the limit on a
-   canary machine and reading the counter there.  If a per order histogram
-   would be a better answer to that question, say so and I will add one.
 
 
+On 04/08/2026 10:06 pm, Colton Lewis wrote:
+> James Clark <james.clark@linaro.org> writes:
+> 
+>> On 23/07/2026 9:57 pm, Colton Lewis wrote:
+>>> James Clark <james.clark@linaro.org> writes:
+>>>>>> When running the guest on a single CPU I get different counts for the
+>>>>>> same event for a single process, although this never happens on a 
+>>>>>> host.
+>>>>>> I think there might even be some Perf tests which expect them to 
+>>>>>> be the
+>>>>>> same, and this doesn't depend on whether any events are running on 
+>>>>>> the
+>>>>>> host or not. Not sure if you ran all the Perf selftests in a guest or
+>>>>>> not?
+> 
+>>>>> I'll investigate but I'm not sure perf is intended to guarantee
+>>>>> that. perf stat just runs the event counters but may not write or read
+>>>>> them at exactly the same time.
+> 
+> 
+>>>> Is that true? The perf core calls perf_pmu_disable() when a process is
+>>>> scheduled out before reading the count of each event of that process in
+>>>> an inner loop. The perf_pmu_disable() clears PMCR_EL0.E which freezes
+>>>> all of the counters so they can be read out in a consistent state.
+> 
+>>>> It's important that they're all stopped at the same time because
+>>>> counters might be used in metrics as ratios of each other. So I think
+>>>> it's deliberately designed that way and appears to not be working in a
+>>>> guest now.
+> 
+>>> By default I think perf assumes events can be measured independently, If
+>>> you want to guarantee events are scheduled together to avoid measurement
+>>> skew you need to make sure the events are grouped.
+> 
+>>> The common way to do that is with {} around the event list:
+> 
+>>> perf stat -e {branches,branches}
+> 
+>>> Please see if that resolves the issue.
+> 
+> 
+>> Groups only change how the events are scheduled, not how the driver
+>> starts or stops multiple events running on the same PMU (grouped or
+>> ungrouped). In my repro I had less events than counters in HW, so they
+>> will always be scheduled at the same time regardless of grouping.
+> 
+>> I did notice something extra though, you have to first open some amount
+>> of counters, and then open more than that. Then the second time the ones
+>> with different counts will be however many were opened first time, as if
+>> some state has stuck.
+> 
+>> For example if I open two counters then 6, the first two always have
+>> different counts the second time:
+> 
+>>     $ perf stat -e branches,branches true
+> 
+>>     Performance counter stats for 'true':
+> 
+>>               106129      branches
+> 
+>>               106129      branches
+> 
+> 
+> 
+>>     $ perf stat -e
+>> '{branches,branches,branches,branches,branches,branches}' true
+> 
+>>     Performance counter stats for 'true':
+> 
+>>               117013      branches
+> 
+>>               117013      branches
+> 
+>>               110364      branches
+> 
+>>               110364      branches
+> 
+>>               110364      branches
+> 
+>>               110364      branches
+> 
+> 
+>> After opening 6 again a third time they'll all have the same counts.
+> 
+> Interesting. Thanks. To clarify, is this happening in the host or VM?
 
-Daniil Tatianin (3):
-  mm/slub: allow capping the order kvmalloc() uses for kmalloc()
-  mm/slub: count kvmalloc() allocations forced to vmalloc()
-  mm/slub: add KUnit coverage for the kvmalloc order limit
+This is in the VM
 
- Documentation/admin-guide/sysctl/vm.rst |  35 +++++
- MAINTAINERS                             |   1 +
- include/linux/vm_event_item.h           |   3 +
- lib/Kconfig.debug                       |  15 ++
- lib/tests/Makefile                      |   1 +
- lib/tests/kvmalloc_kunit.c              | 184 ++++++++++++++++++++++++
- mm/Kconfig                              |  22 +++
- mm/slab.h                               |   4 +
- mm/slub.c                               |  93 +++++++++++-
- mm/vmstat.c                             |   3 +
- 10 files changed, 354 insertions(+), 7 deletions(-)
- create mode 100644 lib/tests/kvmalloc_kunit.c
-
-
-base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
