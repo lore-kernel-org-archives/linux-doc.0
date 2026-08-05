@@ -1,159 +1,184 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EEA377AB4
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 05:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BA837755A
+	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 06:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785909312; cv=none; b=Y7OXakoG11Bf1omm1CgVQs03ufqY7Of15DQfzdkfqy3vmrsvffhsZpQOLN6MShXcVIY+DKjCJvcm7bYfgy46KUhrBb/wwbJjoG3yOMEKVYj9SxZIogLDcWZLdZJDRIVkvawI/YYe62XqL5T7Zm5BrqnyXmD1vv2zLsFahvnXzzg=
+	t=1785909783; cv=none; b=jQf0dI8fYOAMJ5PNniMc2SgaOnZtaf/Kpk1MUrKaH2BLnurSj4b4oifKVhOI7MIlnsVPIPEjiPHUOzjSXJhp0LEoWsXZg/MgXO+etQfO3YVRCG6JjdeLoUgwfchoQei6M8u+xaIohJSUhZPt4+WwcA+lxeU91l9S3sTm7JQTrUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785909312; c=relaxed/simple;
-	bh=hNu5OzkiiKB1hod0eLP3Mcrxrl4RJaAjWg0Akk7RKOs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=T01OcQw2hcGWeslHH5enG8PDHVqQm4ghPbkuo5rqVzPJyo9Dbdvv4iCNCaOUw/M0uwAUN6JjgxHyFvX5n44gI6zEKS2E9lyct11cB7lwziMECfbvaDOJZYHMsPFot0VoXUrAz6ogM6eJF5NyYKjFU9i8YRG/u4AGW5CLWj3VEoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctk5dKbK; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785909783; c=relaxed/simple;
+	bh=RdLobgOPFHKM1jabhTYcuWGSUWCJfrHg80slU16JWAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=onEegI2OWgMOgIImG2ve1v9CoHUUW1ooibon9D3g13BTfJriVf9mB5GybDHIA0NIpa1CrNLXb8p8IbYrubCbo3A8+qJ3sNHPhkL640x+8e5Jf+DARiAW3DFJ5hZIgw62VrVEjH/6Lp3wnq44x10/2OYacp5J5MOJrfQHayq1d5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Wn/JcLW3; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctk5dKbK"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92e65e18969so53477585a.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 22:55:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wn/JcLW3"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cab97c86bdso59705ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 23:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785909310; x=1786514110; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jdkA4cKJBsXoZIn8gr/e/FUgv7zUR1X9l5opTMXg4NQ=;
-        b=ctk5dKbKoTkNGD6xFvdINrLIcxTXv58mjUigXZ2elBPj631BWOXthHUbPwFClpcZAS
-         rXzTUjvjYUEWfum1WHiM2Emo4BvnWhx/9AfWk9XJYviQ5LyPHP4eqOOOyM0fXoi9HF7T
-         f50c6b0vygRVebR1ewJkFEl81VjCy8umfKk4gwF4LOF3Cd4E1mnfgEWjjX3Z7RoRIFqS
-         TlcHGN3l27pQFLtdsqAJHgxucbY4slgVavfRp+pfn07OYcfhVK6xaNFqotdCTcQutbSW
-         w8E6bLd1oJ8mvHGgJYnZtePnc8EN7a4vr2pZEgiTD8qw/tuNQR3YCGSIlcyOkpAcJWtL
-         smTA==
+        d=google.com; s=20251104; t=1785909781; x=1786514581; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kYGJAHMfaG43a10+DAahsWI+BDlKwBdKnhIOAj6soTQ=;
+        b=Wn/JcLW3NTc/Zio6s41Pjeo0FzZOfmMA3cdckoyk2oK0yu15LoDRopazptTaDU0jBT
+         iKfaw35tkhoujxN33+c917G3Ex3R1ipUR6hlZnsg8nimNlYzlziJARDl1AH6b1b9ykXS
+         dyGQxJ4uoRiY1ZoOubNTJTF46GU8oXdCruBwWpRE9Yc6P9g1TbZvYRqOmpVJuhltQk0s
+         8cxSCZalX4kIW4RlHgi9Wqdrv0Ivaaj32tbBAPo5uq2cgHMgqB2H+D9ElH/03StNPbTG
+         QWz2YtY1sAvJDj31Zt+71wJqcxIlHfuJgeg6LZI/+0daZmR3bdUPsTzqvUie+pn52bh5
+         a4KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785909310; x=1786514110;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20251104; t=1785909781; x=1786514581;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=jdkA4cKJBsXoZIn8gr/e/FUgv7zUR1X9l5opTMXg4NQ=;
-        b=lsiNGnXc0jinpjE9RJqfIBW6jE5/ngxYKJBQqJSLs5U2ty/qw9REyc4PdXy4h+j2gx
-         YsbE4aXxUEajpTZJehhi7zFBktYftCFnSoj3xZbV12QebRWYUJtQ6orIK664DWQDrtOT
-         KZIn3vu04+8Q0D4M9zxHRfAe+tpDIOK+MaFc+LXw7Es/DxTLWXBqed35/moCXEFXePku
-         zVfpimi4N/n9gbi1HFd733/qMhSB0dfCHpeKTnnR61+p89jptt9xucZd00L1n4I5P2Co
-         5tcEx+aCQ2NTVDdoJ3zgtpuLe2sHS+9AUitRvcgCY88G+g92nP4BkUDUbAeRkBjEJ29W
-         OiWg==
-X-Forwarded-Encrypted: i=1; AHgh+RpskUrHYccIesgugCgow0TD5HmFl7QNqPnu5bYK31gyhWybr7fn/mVRGfhoujaXIw51cauWubk3lIE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUEPYoeAIbjCF2si6UNEsPxdOZgSMi/xNHSp4QQ9F9VJFkTNHp
-	yS+ezJ5YKaLC2VyYktRo2/nzida4hRMLAy5ee0zUGPPfB632/A0ld50u
-X-Gm-Gg: AR+sD11oR0EhR/Bdg0I1TYmVNx0ihN1e7miPWOaaN3Uq3pB1JDKCjdXabAqTKIDD3li
-	ykV3w6SRLnaywvOcvfGhBIJNw2YXptGZBbw77KuJ8jwpG7p7gjkclgRd1WX6++ClAaS2Cfw74TC
-	MzCBrdFaSKej9tmdziwPWkWK3RgwQzH1b1Wp2QflvxYPROtTCtDL2Fpm3VtqdCCqBaNcpb9WmYV
-	tJGIrfZwLCvVRGih/vPDvKsFxzw3o1YGOt7x9Sx7IZALDWuAxGgPGq1uuQ0NOFfeHTSkIeNojkX
-	jWiUeJ2liv9kpUMsTZw+0gdpn4VKE9khx+ivDWJHqt9eyMJVZntS/OHWlNj2DJYOpAFnFGVX+EC
-	4DqE8nmHF58Ezn9CYuU5/1JwAvXKbBG5CZiJaDnd+mSASv+weUFkBdiqfh3RXrHkubtBXCDnrcF
-	r/MijVx8a31xHgnlY7MilXHOZOJHmy3u73CW5jS53VvPTiTiLsKIoYyygXlLJ0z62zQr2F43Ri/
-	zSm/uxkQGk/HDF2TbPcs6BQ0db8BNo=
-X-Received: by 2002:a05:620a:8aca:b0:932:db03:4da3 with SMTP id af79cd13be357-9363192efebmr784775785a.19.1785909309977;
-        Tue, 04 Aug 2026 22:55:09 -0700 (PDT)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9364a566d28sm85981685a.32.2026.08.04.22.55.08
+        bh=kYGJAHMfaG43a10+DAahsWI+BDlKwBdKnhIOAj6soTQ=;
+        b=Lw8juzX4V68EdsP1JYIJUwFIKFmGmRymLWGZO4j2CnVV/CyNN86xFFpPRu0nq4e4Ep
+         qVwKFDRl5cn+opl/elWY63qEFE0oE1DnzBp8P53RvUAnbut3/VNQb41s18eHqR6PI7Gd
+         EwOWUIu5eetCBb60CrPexTPIJMZMX7MAb0EO6oK+974xLEpVkZAE1oYfmzTfjqoWFFwq
+         UhRZEtNDsMDGTixWECdqdAgx38iQW6pOAf/+xqyMaM3J5bzbyTs6JfnyX24Ci2iwqYy0
+         L0DoI9kJPR+6BsVQZRgH9BxYwD9YIWQ8xExw1vJs+hC+wmR7DKGUXCf3gKDPCerdsFxD
+         Jfiw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4EOwXEeHMWYlLFN4fj7xrnub4tWdTmfvbhjAo8gY+tWcT8E0dw2OpG2tmF9UUVURbcTxzM3gwg5c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsZvCcSZDFgt9oc++548hbPyXl5yJ/1bmFM74qPQVZ04TPPJrr
+	5S5aZjWc3sHIUw+ExGUN0uf9hzyAKibqOi0K9Ubkqg994n/nkHDTZdrNsCksZw7eaA==
+X-Gm-Gg: AR+sD131V6A90MblcfZ6stGhax8mQfDO12oengxvqtUxLa7Op4dmjvbnucITOzfLnwg
+	rbjIBMsgD1+ojfzrGLgL2Ci4FyBEAXwE4LcRjMgUiQfaNL7ewIgJD/YQUJskMM1lRB5MlnzrOkf
+	qkFU4q6bNk5NSOD31YvbTQgnXg0pZByUFjXWOfeUTz3ekWkkGSG3EBK/pXXZgNLfr6Ne7frkYaU
+	UDC7SLB7m/ybxLQTMzxltP3xnubDPVlGWjd7jtO4FpuV+lgcm1BTr7NWFfIrzz3EhmVNvbDziJg
+	kDARsYip5U3XMn7wtaA6ujLy6sNfO89AQzl1pPGvpck/fLrVJLKBVs1YLWdV9XutnYWWMhmPXId
+	1yE6i0pFEfW90OIkco60PurGAOPU50qE6rMlGKHYqpE7GmOo2pLM98c1uLPOyrdKa3q4ZA8qeVH
+	m7ZWBWibD8mRge624CpJblNUoWul0+B71qrX9n9NUuqpO3l4LAZucsME4wdcIjfVOKMTOfFtbN5
+	yaUHr1IlfCB98k7L+24Uk4=
+X-Received: by 2002:a17:902:ea0e:b0:2ce:b436:272a with SMTP id d9443c01a7336-2d0d0704d14mr5233675ad.3.1785909780734;
+        Tue, 04 Aug 2026 23:03:00 -0700 (PDT)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38febfdae85sm3462574a91.3.2026.08.04.23.02.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 22:55:09 -0700 (PDT)
-From: Trevor Woerner <twoerner@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Gang Yan <yangang@kylinos.cn>,
-	David Disseldorp <ddiss@suse.de>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Luis Augenstein <luis.augenstein@tngtech.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Andrew Jones <andrew.jones@linux.dev>,
-	linux-kbuild@vger.kernel.org (open list:KERNEL BUILD + files below scripts/ (unless mai...),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH] kbuild: let the environment set HOSTPKG_CONFIG
-Date: Wed,  5 Aug 2026 01:54:35 -0400
-Message-ID: <20260805055438.3482019-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Tue, 04 Aug 2026 23:02:59 -0700 (PDT)
+Date: Tue, 4 Aug 2026 23:02:55 -0700
+From: Vipin Sharma <vipinsh@google.com>
+To: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com, 
+	ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com, chrisl@kernel.org, 
+	christian.koenig@amd.com, corbet@lwn.net, dmatlack@google.com, graf@amazon.com, 
+	jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com, 
+	julianr@linux.ibm.com, kees@kernel.org, kevin.tian@intel.com, leon@kernel.org, 
+	leonro@nvidia.com, lukas@wunner.de, mattev@meta.com, michal.winiarski@intel.com, 
+	parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, 
+	rananta@google.com, rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, 
+	saeedm@nvidia.com, schnelle@linux.ibm.com, skhan@linuxfoundation.org, 
+	skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, yi.l.liu@intel.com
+Subject: Re: [PATCH v5 17/20] vfio: selftests: Add
+ vfio_pci_liveupdate_kexec_test
+Message-ID: <20260805055042.GA806762.vipinsh@google.com>
+References: <20260714151505.3466855-1-vipinsh@google.com>
+ <20260714151505.3466855-18-vipinsh@google.com>
+ <0556e2fc-3be5-4023-a9a4-8482fa8c88b2@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <0556e2fc-3be5-4023-a9a4-8482fa8c88b2@linux.dev>
 
-HOSTPKG_CONFIG was added so that "tooling that builds the kernel" could
-choose which pkg-config the host tools ask about their dependencies, but
-it is assigned with '=', so only a make command line assignment takes
-effect. Exporting it does nothing, silently.
+On Tue, Aug 04, 2026 at 03:19:34PM -0700, Yanjun.Zhu wrote:
+> 
+> On 7/14/26 8:15 AM, Vipin Sharma wrote:
+> > Add a selftest to exercise preserving a vfio-pci device across a Live
+> > Update. For now the test is extremely simple and just verifies that the
+> > device file can be preserved and retrieved. In the future this test will
+> > be extended to verify more parts about device preservation as they are
+> > implemented.
+> > 
+> > This test is added to TEST_GEN_PROGS_EXTENDED since it must be run
+> > manually along with a kexec.
+> > 
+> > To run this test manually:
+> > 
+> >   $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
+> >   $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1 0000:00:04.0
+> > 
+> >   $ kexec ...   # NOTE: Exact method will be distro-dependent
+> > 
+> >   $ tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
+> >   $ tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 2 0000:00:04.0
+> Hi, Vipin
+> 
+> Thanks a lot for your help. I followed your suggestion, vfio-pci setup can
+> work.
 
-That is surprising, because the other inputs to host program builds do
-honour the environment: HOSTCFLAGS, HOSTCXXFLAGS, HOSTLDFLAGS and
-HOSTLDLIBS are all read from it and documented in kbuild.rst as such.
+I am glad your setup using virsh is working.
 
-It also matters. A cross development environment sets
-PKG_CONFIG_SYSROOT_DIR and PKG_CONFIG_PATH so that pkg-config answers
-for the target rather than the build machine. Those settings are correct
-for everything that will run on the target and wrong for a program that
-has to run on the build machine. objtool asks pkg-config where libelf is,
-gets the target's include directory, and compiles a host tool against
-the target's C library headers. Because the directory arrives as -I it
-is not treated as a system header directory, -Wno-system-headers no
-longer covers it, and the build stops on warnings that would otherwise
-be suppressed:
+> 
+> The followings are the test result. In the step 3, after kexec, there are
+> some fails. I am not sure if these are known problem or not.
+> 
+> 1. Before kexec command
+> 
+> + modprobe -v vfio-pci
+> + tools/testing/selftests/vfio/scripts/setup.sh 0000:00:04.0
+> + echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
+> + echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
+> + tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test --stage 1
+> 0000:00:04.0
+> Preserving device in session
+> Preserving memfd of size 0x40100000 in session
+> # [STAGE 1] Forking persistent child to hold sessions...
+> # [STAGE 1] Child PID: 1236. Resources are pinned.
+> # [STAGE 1] You may now perform kexec reboot.
+> + set +x
+> 
+> 2. Run kexec command
+> 
+> 3. After kexec command
+> 
+> + echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
+> + echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
+> Checking open(/dev/vfio/devices/vfio0) fails  <--- I can confirm that the
+> /dev/vfio/devices/vfio0 exists. But open this failed.
 
-  usr/include/sys/cdefs.h:486: error: "__attribute_const__" redefined [-Werror]
-  tools/include/linux/compiler.h:123: note: previous definition
-  usr/include/stdio.h:449: error: redundant redeclaration of 'fscanf'
+This is correct output. Test is verifying that open should fail. If it
+didn't fail the ntest would have exited with an error. A preserved VFIO
+FD can only be retrived using Live Update session ioctls and not through
+usual VFIO dev path.
 
-An environment that knows it is cross building can then say
+> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+> (vfio_type1_iommu)      <--- fails
+> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+> (vfio_type1v2_iommu).  <--- fails
+> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+> (iommufd_compat_type1)  <--- fails
+> Checking ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, "0000:00:04.0") fails
+> (iommufd_compat_type1v2). <--- fails
 
-  export HOSTPKG_CONFIG="env -u PKG_CONFIG_SYSROOT_DIR \
-                             -u PKG_CONFIG_PATH pkg-config"
+These are all correct output. Test is verifying that userspace should
+not be able to get VFIO device FD only through Live Update session
+ioctls and nothing else.
 
-once, in the shell it hands to the user, instead of every make command
-line growing an override. Build systems that already pass it on the
-command line are unaffected.
+> Retrieving memfd from LUO
+> Finishing the session before retrieving the device (should fail)
+> Retrieving the device FD from LUO
+> Finishing the session before binding to iommufd (should fail)
+> Binding the device to an iommufd and setting it up
+> Finishing the session
+> 
 
-Assisted-by: Codex:claude-opus-5
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- Documentation/kbuild/kbuild.rst | 5 +++++
- Makefile                        | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+This is shows VFIO FD is successfully retrived by Live Update ioctl.
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 5a9013bacfb7..6d7de86764be 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -110,6 +110,11 @@ HOSTLDLIBS
- ----------
- Additional libraries to link against when building host programs.
- 
-+HOSTPKG_CONFIG
-+--------------
-+The pkg-config to use when building host programs. Set this when cross
-+building, where the default would otherwise answer for the target.
-+
- .. _userkbuildflags:
- 
- USERCFLAGS
-diff --git a/Makefile b/Makefile
-index 902f3f3d54b7..ba64518d5309 100644
---- a/Makefile
-+++ b/Makefile
-@@ -461,7 +461,7 @@ HOSTCC	= gcc
- HOSTCXX	= g++
- endif
- HOSTRUSTC = rustc
--HOSTPKG_CONFIG	= pkg-config
-+HOSTPKG_CONFIG	?= pkg-config
- 
- # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
- # has a logic to call it
--- 
-2.51.0
+So, you saw expected output from successful test run. I will change
+the message getting printed to avoid confusion. I think current way of
+printing ".... fails" is confusing.
 
+Thanks
+Vipin
