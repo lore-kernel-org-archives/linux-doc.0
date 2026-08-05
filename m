@@ -1,178 +1,189 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010056.outbound.protection.outlook.com [52.101.201.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4DD3DD849
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 10:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785924554; cv=none; b=LKdOgWPdpL6rPazbnEXS5mjfmb0pk5MjkIrDDMQU9yCr5Feh7HHsjo0KVYtopAwZnUdcKOeuLOCFbKYKdIZAr8HONOeNU5jLje5u0dLF/8QIJYQ4kviAIqGUSl3pJ8RGN/7SPkrhMDJvnEJkefT3TQy9vB+QF3FLoZ/jWf0p1o4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785924554; c=relaxed/simple;
-	bh=M2jF0Jt2bDRZzymZQmRY6Uui16djwBoVWK1VjhYmc30=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a4npNz8ugBgV6r3vkpMBLTlYToNLgMqFRVGLL+mYuXzIq51qL4oAdqhwNgiRj7b2ZV60enIWBCLqoGBUn4TVyh2N47wdqBT9Nw0DHOmrmWKmf9Jk1ypbE/dnETO9YGZEDXp0k0h86Sw2bon2oZ2kDGxsnYHsSNhFnkXScWO1b2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TE/KrOhR; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C1D3E5577;
+	Wed,  5 Aug 2026 10:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785924902; cv=fail; b=NQRmRjtxKk/kdc32QyOVvcSdkgKUnrpklif+Wq3yqGbf4NzrsH3/PJTi/zdII/oK2U17tFOmmgCFU8pPH3sCF86sj3snr+IrmMe5DZk/5hnsFc/p0YZAURxtIRKjbDiLNf9Nb4IKAwfpEa/uNsv/D8NPJMTEIrncjcnhsewMAXw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785924902; c=relaxed/simple;
+	bh=6jSolmH2EUGBrGuQ6q7f9RH8V02exMaUtlGh5R44070=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=G4RBz+eOrvxSufqRqSTGdsCMgnl9Z7SnWMTUf7g/VcGQzV/BrsA7N00zOUKHFgbcgL+rH5armYTkFWLP1w+WUAojP8Kdj9te2KXNjHjKobOgHY3Zu/4OVvPceuAixJJ/LNZjYjqxP3SHHwU+s+gKk6mwxiddlxt0Py2hgQHjaCg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0Lj2mr+r; arc=fail smtp.client-ip=52.101.201.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TE/KrOhR"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47f6609c657so372306f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 05 Aug 2026 03:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1785924550; x=1786529350; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XrcStaMXdkE1hM0cDDyjF0ywdDXESAjsr6s/h+tclqU=;
-        b=TE/KrOhR+hPudONkTR1ud9BiEGids6A4j5g+iSX3NQwqqv6UfQ47ho6Hh78BSarN2j
-         VWzEyTQE8opn3ybr4nWb3fjO7eL+EqXnotKCRyt60OPtewwHVI83MmxQZ0mugzSrfWSR
-         srhdnWhCAL9c4niOLoY674o7bU8UFewIHCw+UewJbpeCNUsTKFEbjz7zh4+rSi11hefP
-         WHUIykpewpxsiYaBLNXJsg12u+XR49pDltYLOwA7VaQ5irinX+W/K7zA1hKrKNV9RHOb
-         psGh+0pSrS7J7E2cxeXYEt60vzL1QgUcqBQJ4tIDLN8LVd7OttdhMhnvv8Rd22OJaTxt
-         N18g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785924550; x=1786529350;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XrcStaMXdkE1hM0cDDyjF0ywdDXESAjsr6s/h+tclqU=;
-        b=CGtIfzmH8EKyrT/4eTZFZnePoeDZ6HtOccrt0wCHTwUW0Jg57d0c8wmwMNAWt6tNX3
-         1xQnBd/5u/688ZY9Mj+akezvtT8hzM9PZmqEF5yrnSD1WRAOPA9okAGkfnOfvi4EvoGq
-         ZFztHaf4DmFOEYR2AsA7ivfKQnH4deTI1l1UKugXuH7379bGsQt72caPODHX/DmKvg71
-         q2mVSFjP+pmKpVdGAy19RWCGF3MdSXSy5IRiOpMxkNS2Fd2BfS647sZPS+y/8STPgM+Z
-         ZmPhEcShm1cbEPfJ4UJwEoaKBJv99m6d9CElcrlBV1kw4GO/5T030bfXJtOnC3jXv99U
-         o0BA==
-X-Forwarded-Encrypted: i=1; AHgh+RobF5AZ6aCMV7WOoYN1srAQosh6FaIq3mSlwJREz2PfKZ44ZSlBp46FljCTO9VsWytRUrlyhdgY+Sk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsBJ/BmRrVEWdTVoxkkmq6/AUrMP6EPGhmNPshTKM7vG2pSWy+
-	LU+I+5X/wEKdD5SaOWOxWDRmEwYaP04H+vZtnIShV98Ikde2pZ9enoBG1DahX+bJ1rI=
-X-Gm-Gg: AR+sD11+AYyy8cn/5n/lmgJW3EYZz/VPx0y1mkvWsTdigLSW61+70/tVlp+DnZcWYCj
-	Wfdp7T9fq2OGQjJpV4eb9qcfl7/sIAT5M42OQ42lgUeE8ZhFvxQjxfyCf0iBY1xjRHIYDAUaAQR
-	TslUSN5/4H0wu7hYyTm4oq3Im3lAHUO7PV0V5jt45kxC7c/5BujKfQCzndnz4UpF6mAJ4W4+u/7
-	cHqn0qJ+vqpYzp+Xd2W0SWp7HZjRYn82Eh96NHrJ/SLYsWhzj673GIGlkemqtSeuye2z2EVvLsx
-	CcauoPNvmWbFFW36w0DGbSolOAzWnyiQQNQdkLz06H4KlqBT67/pcN9+mMmOlmyxTxwP5vg2av9
-	EM/mFQWGMy/9/yeygpW5BpabTJ0ShTQrKHgXFsA68EmravEx+/bbZtuyvoB7MQIApbNYf9sHFqS
-	fjRQFVtlI7UD0mX+WNZHOhPLyKVfqMkWNDQnebDff1EiAooYc9ohuvcolLDa2pcrt6fqw=
-X-Received: by 2002:a5d:5291:0:b0:47f:d072:87d7 with SMTP id ffacd0b85a97d-47fec4f663fmr7081483f8f.9.1785924550297;
-        Wed, 05 Aug 2026 03:09:10 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47febfda0cbsm7427247f8f.6.2026.08.05.03.09.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Aug 2026 03:09:09 -0700 (PDT)
-Message-ID: <ebb8a1b7-d5c8-4be0-af64-1496a7fd29d0@linaro.org>
-Date: Wed, 5 Aug 2026 11:09:08 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0Lj2mr+r"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=q+VEa7ZBFtU+OB874m4k/OKcJdNvZ+TDfZT6lXQZQ89nGRdXn4cug0W2XqUXh6lN68IKK9tq1A96Ujh1u5QGWb395Pxmv1psjenUxXR9X4T+2aT5dgzM5NfV5kqdzj0uJ+SnI49I0CRApzOse9CbHPKY9cMNyfJMTBQK2qYxQY1kwUFey2cBz5AR5p1jJlF3lAGOmt10ULlANzX91shVSU+E1N4yiW9tq3kJYEL730a5HOR6GPNfAtsps26xFo/WMYGPKY4j9R4PtOY1TmXVKx/mptH5YfHrd8YswYqSWD1tRUs5qXWTVHcjGaVNZhoPDODGmZXQGRBe14ds2s0wng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5DxoqzE5C5inPeOflpZl3pfhxlvyujxI/BawB25Hhwc=;
+ b=T7T4xYKjnLzOzv4BmvpvpKt/vKSjN2zUTWUOoZOyqpPDKSARDNvN7Cw2wKI7Ful8yMRmX0/yZLqlB0ircGbjDZk5HXQ7vNaezkHRbe9LfaptOTVWjD4jO+oT/FZUo6lpYoUH+tfecf56jyqWHRd3CjwDi2j1HppWlPtNKu1OdQkW0SZfH6W/wAwrmmXPE+XAtFADst1fyPpl3OVg7CfroFgH9iw7wb9Ioe6E/Kz4XmCOAAhlWV4SZXTyAgF8lyhogFJMI33AQIO2D/lNXNBFd+7M53x5GdWIu3ZjZguXbnNVKsnRSiv6fQq2vlskel/7/ykiMyYxE+pqMh/+WlaEKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5DxoqzE5C5inPeOflpZl3pfhxlvyujxI/BawB25Hhwc=;
+ b=0Lj2mr+rugBmW2mOITvVi+unby2q+P/+XP1XCtjgHdGxPVvXwV2ypHFv+T98DF7KDR2wd9KRbXFtCjcbSxzVSHN/M2nz+IHSKtaXJXHvchmxEHq1yCCIZYZNqnTbKMRAbr4g06eHOgOz15yNbfEnkxXw7PeQe/oHM8O95BMNH6o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB9733.namprd12.prod.outlook.com (2603:10b6:8:225::13)
+ by CY1PR12MB9627.namprd12.prod.outlook.com (2603:10b6:930:104::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Wed, 5 Aug
+ 2026 10:14:56 +0000
+Received: from DM4PR12MB9733.namprd12.prod.outlook.com
+ ([fe80::aeaa:23b5:1d59:602c]) by DM4PR12MB9733.namprd12.prod.outlook.com
+ ([fe80::aeaa:23b5:1d59:602c%3]) with mapi id 15.21.0270.017; Wed, 5 Aug 2026
+ 10:14:56 +0000
+Message-ID: <96494f6f-fbdc-4705-921b-97ded0acba18@amd.com>
+Date: Wed, 5 Aug 2026 15:44:47 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/4] espi: introduce eSPI bus framework
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
+ linux-spi@vger.kernel.org, akshata.mukundshetty@amd.com,
+ bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
+ corbet@lwn.net, linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+ andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org
+References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
+ <2026080416-lagoon-delirium-8e84@gregkh>
+Content-Language: en-US
+From: "M, Krishnamoorthi" <krishnamoorthi.m@amd.com>
+In-Reply-To: <2026080416-lagoon-delirium-8e84@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5P287CA0188.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b6::15) To DM4PR12MB9733.namprd12.prod.outlook.com
+ (2603:10b6:8:225::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/21] ARM64 PMU Partitioning
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com,
- corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com,
- will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com,
- joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
- mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <gsntse4tvbn2.fsf@coltonlewis-kvm.c.googlers.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <gsntse4tvbn2.fsf@coltonlewis-kvm.c.googlers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9733:EE_|CY1PR12MB9627:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ec82c44-3031-4c98-30e3-08def2da65ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|6133799003|10067099003|11063799006|5023799004|56012099006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	6gI8XYX+0Ys5vW9klqsL/LNGP7iBlIdaVpvVVhdKRw3UhgSm6BUOxNC/ZAI3FQ9UEHyoJhQWxpQUDcItOB+4LZUdnvxn/EfcS9l5XjsgTEuX6Eg9FbV4VIneRhLDUbXH9hb9/LqHOtrXeOh5jqQOBDCe6+dSt+nZGaHrVjuCI4LhBbrGx/W/XmQffwHG7vDFDzO11loomUm5JCO+cOGW1GFTjcT+2AOnNfEibIdZlcRznBryN6ub4RVjvAFh8X0ZFUu6BGhdLE6caDU8g3JNf/yonWu6gXbJRuu76m0IRor9y6BgdYstkhdEUH5Ln8Cq95DubrjaKfQB6/F2ANmfb4DK04IZeOLgiONXxm2LzW9dZ0/JJAAVQZhd/7Ah2A5MoRLPWheh8AkkwydmJnGljJpR1aj6gfSIM9Xfy47+P4ergyvhGUXzwNnnqsDeyu2ZnryZ1EMpbB1YBQ/szR+wEpppGnlMtmMUsXvfKp3Qg0nQ8Apn7GbnfKDJOPmMGNQMS3B3i6zXeMWk5Ge3k0BZuP2YLeOYByH5AEJZB00Aep/z679wwW/7HZRPikfY0l1qwxhyidbwOROd/aHC2P5iL4VC+tTRlPc2tHOhPx0PYWq3avV4aLitqHiSTCeVo+kyRy3i/khX+k6QuPEVoKCetaSscQCoF/DaTG+eAw+00VM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB9733.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(6133799003)(10067099003)(11063799006)(5023799004)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?U0hqTlAwTnpYdndXODkwYmhORVp1NVcycW5CanJkRlRGVTJ3OUZuNE1waDRt?=
+ =?utf-8?B?SExVaWR5ay9WQjNzV1Jjc0RBS1BJMkJvUzhHTUpETjRFeVdvcG16bWVlZ3BW?=
+ =?utf-8?B?STVZOXRlb2VMQmNxbHJpRk10aHZrdDVwRTVkZnZYN0hZU2tGZytyTlk3SUY3?=
+ =?utf-8?B?cDdNM3VPcE91R0dHdmE3c3ZhcFJLN21MREdGSDhrc0JDOXU1M2YxRmpQb0p1?=
+ =?utf-8?B?WDIrTE0vSXR4SHVPdXVWZXpyNERGUVlwcFp3NjVuVkc5dFVmTHE0ZnhydXRt?=
+ =?utf-8?B?SnV6dDNwY0NqT2xEVHZkRUdQNFZ2TWhRSGZJYXJIeWZjRnNiNzAyM0RpN1Nx?=
+ =?utf-8?B?MHhMVlZFejlSK2tmV0JseTZnVXFtbTZyZHE2UTFSQVFMUm9PNi9WcWc0L0Zn?=
+ =?utf-8?B?ZWpZRUtIVTg5ODhXdHdYQ2J5ZS9qcStIbjRNL0hDeW4rL3BEbnJvWXlRak80?=
+ =?utf-8?B?R2lTUFZzRWw0ZW9sQmdPODRucFNsb0ZVRzFvMU9LUC85cU5Fdld1bVZNRjND?=
+ =?utf-8?B?Z3NCZTA3TzQvdnJwcU84cERLZlM1bEVpNHdUMkRmVjVZODNWRDVYbWxISVhP?=
+ =?utf-8?B?ZGVuUnI1MVVMaTBHZUJoU1B5QU5WblBUNjk2OHpuT0xESDNyNGxPWU52UjBO?=
+ =?utf-8?B?SUlIcnllak5Nd2NUOVBWS1VwcjBLZGJ2Vk9TT3BhTENCZ2h4UVU2M3hjMDdD?=
+ =?utf-8?B?eGU4aElEVmphL216bWNuSk96NHRhbmVaN1FxUDBPSnNtbDdMKzN3b1gvWmhY?=
+ =?utf-8?B?RGJ0RnhSKzFVOXBGSUVMc01DRExva1dWOTRrWFlqeWx0a0R1bng5TDJENUdi?=
+ =?utf-8?B?MHdSelRmNm9oQzhxWVYwL241NTFNbWFmUGJoTEREMVZzYU1FVkZzQ1JnMERI?=
+ =?utf-8?B?QnIweU5pZzVXTkUrb0tMYWFvemtQUVQvQ2tpVWpXL0Fjc0lJSzJXNDd6UmN1?=
+ =?utf-8?B?RFZoRlNXSlVNVjBDVE5EanFkN1JXeUIrdSs1d3UwVTNqVS8wVGhhTTJFWjl6?=
+ =?utf-8?B?djhvNit2U29oSWVFcDhFZE4wUngvUld2c0ZpYkxRNTFmL0xZQzdkZXdUL3F4?=
+ =?utf-8?B?U0tVWkRSb0tEM2cyeXJPanNOMUZKalhiL3dram9iMkcvWHVrd1ZyMkJPYjNV?=
+ =?utf-8?B?YXB1WFgzVVVDUEhtRTg5VXdTMGNSTDlwa1laN29GbnNSWDlIQXcyYzJWdG82?=
+ =?utf-8?B?SGhGRnIrTWdCNFBIT0NtakJITHdvVnk4eUJmMS9PbTE1NzJkM0dyY3NRZE1z?=
+ =?utf-8?B?djV6dXhJTW85UnBmdmFVZFBKanQwOWNLN3ZWYTNNQWhVekxLM2FnUzdHMXNz?=
+ =?utf-8?B?UGdVNkdGOUFhN2pIbURVbGFIMzBMRU04bjNJTnBPTDZHS21vbCtHckoxZ0VM?=
+ =?utf-8?B?TC9iY0tWUTNTdTQza3JwN3g3cEo5cUJ6NVJpTVpJOXc0VDAraktyTEJzU0tD?=
+ =?utf-8?B?cm1FZ00vYmg4cmM3cWo0MkFmdzIrWTZXaGRKU1pnNmc4WDB1R3VxcHZibzR6?=
+ =?utf-8?B?VDA3RmNIK0ZKdWZKbWhaczNCYmZEUHpwQWdEcStGRGVOdWZGR0hqWkRoTW9m?=
+ =?utf-8?B?Y0ZaNUlQNlhtZU02MUJ0UmNQTzZkVUxCd0x1N05ySnhmWFVGSEw1VmV5Uk41?=
+ =?utf-8?B?NkxoYWZYU2dnYVVLNE0wWDNUWDNaM2pRQmFiUGVkdnVzeTdrZ1VPRUFpVDFP?=
+ =?utf-8?B?TnYxTGVuWThLWGRmVi9zSWpxaVVyQzhtZkpVbWFSVTNKcFRrYWVuWDVEL3pE?=
+ =?utf-8?B?ODJRTGhBNytKekZ6eU5VWEFCS1p1ZWcvdTVlR3VKV0todEVKcGp2OEhQUFFD?=
+ =?utf-8?B?ZHhDNnNPV0t5anU4ZTRZM1lyQkdlSGNLN2cySDRhRGlyd3o3ODJyWEtuYnFD?=
+ =?utf-8?B?cXkwYlVMZXJ5VzdmbmJOS0lodVNKcXA0MXFGcGlzRGYzWUpNNnVrNUMyWWdH?=
+ =?utf-8?B?cmIySk5GOXMzL3A3ZUpkdlF6aUJEK2h0WDE0dG00clBRZXlmOWVYRlNjVHJp?=
+ =?utf-8?B?MHlEekZ2RzJxblZrdURIcG9sY1FxU0MwU0ZpYi9LUGVNaTRwZ1E1eVRpSFQ0?=
+ =?utf-8?B?d216aVlscG1Ta1hzNTZIS1IxUXlYbGFmTVlibzU0UklJYXF5R1dpaXpEdWdo?=
+ =?utf-8?B?VGZONjBiM3JabitlK3RjQW9sSW81bXlucStqUEFBS3JWVERraEpnYlVsNmFa?=
+ =?utf-8?B?S3pCcWJYWnZsVGMvb3V4Q2lzNWtiZDBPTzEyb1p4bVRFUGcySUVIdzNySWRO?=
+ =?utf-8?B?T1FYekhQUWE0MTEyQVpVOEhGbnEvdUV5UU1IM0t2N040WUZDbEorTGxPQ2Jv?=
+ =?utf-8?B?WTNMT0dTblUrY2NjYkUva1VvRE85SWw3bWJ2bnhCZFdtaGxjMEplUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ec82c44-3031-4c98-30e3-08def2da65ee
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9733.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 10:14:56.3245
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZHL/Vp1f1VGA/YIIjr7skkYSBUOOctHnfcH/MPzTkQCuJXKTywYoWvDL418BxRUk4+zxCwBwDzG0Xp9H6l6GWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9627
 
+Hi Greg,
 
+On 8/4/2026 5:48 PM, Greg KH wrote:
+> On Tue, Aug 04, 2026 at 05:22:55PM +0530, Krishnamoorthi M wrote:
+>> Feedback Requested
+>> ==================
+>>
+>>    1. We chose a dedicated bus_type for the reasons described above
+>>       (capability negotiation, four independent channels, asynchronous
+>>       ALERT#). Does the community agree this is the right direction, or
+>>       is there a strong preference to extend the SPI subsystem instead?
+> 
+> That's up to the SPI maintainers and developers...
+> 
+>>    2. Is the blocking notifier chain the right mechanism for event
+>>       delivery to slave drivers?
+> 
+> Notifier chains are almost never the correct solution, especially for
+> real data you wish to send to devices/drivers.  Just use a real
+> callback function you have to register for, and a workqueue, or
+> something like that.  Ideally just use the process context of the thread
+> that created the data in the first place, why can't something simple
+> work like that?
+> 
 
-On 04/08/2026 10:06 pm, Colton Lewis wrote:
-> James Clark <james.clark@linaro.org> writes:
-> 
->> On 23/07/2026 9:57 pm, Colton Lewis wrote:
->>> James Clark <james.clark@linaro.org> writes:
->>>>>> When running the guest on a single CPU I get different counts for the
->>>>>> same event for a single process, although this never happens on a 
->>>>>> host.
->>>>>> I think there might even be some Perf tests which expect them to 
->>>>>> be the
->>>>>> same, and this doesn't depend on whether any events are running on 
->>>>>> the
->>>>>> host or not. Not sure if you ran all the Perf selftests in a guest or
->>>>>> not?
-> 
->>>>> I'll investigate but I'm not sure perf is intended to guarantee
->>>>> that. perf stat just runs the event counters but may not write or read
->>>>> them at exactly the same time.
-> 
-> 
->>>> Is that true? The perf core calls perf_pmu_disable() when a process is
->>>> scheduled out before reading the count of each event of that process in
->>>> an inner loop. The perf_pmu_disable() clears PMCR_EL0.E which freezes
->>>> all of the counters so they can be read out in a consistent state.
-> 
->>>> It's important that they're all stopped at the same time because
->>>> counters might be used in metrics as ratios of each other. So I think
->>>> it's deliberately designed that way and appears to not be working in a
->>>> guest now.
-> 
->>> By default I think perf assumes events can be measured independently, If
->>> you want to guarantee events are scheduled together to avoid measurement
->>> skew you need to make sure the events are grouped.
-> 
->>> The common way to do that is with {} around the event list:
-> 
->>> perf stat -e {branches,branches}
-> 
->>> Please see if that resolves the issue.
-> 
-> 
->> Groups only change how the events are scheduled, not how the driver
->> starts or stops multiple events running on the same PMU (grouped or
->> ungrouped). In my repro I had less events than counters in HW, so they
->> will always be scheduled at the same time regardless of grouping.
-> 
->> I did notice something extra though, you have to first open some amount
->> of counters, and then open more than that. Then the second time the ones
->> with different counts will be however many were opened first time, as if
->> some state has stuck.
-> 
->> For example if I open two counters then 6, the first two always have
->> different counts the second time:
-> 
->>     $ perf stat -e branches,branches true
-> 
->>     Performance counter stats for 'true':
-> 
->>               106129      branches
-> 
->>               106129      branches
-> 
-> 
-> 
->>     $ perf stat -e
->> '{branches,branches,branches,branches,branches,branches}' true
-> 
->>     Performance counter stats for 'true':
-> 
->>               117013      branches
-> 
->>               117013      branches
-> 
->>               110364      branches
-> 
->>               110364      branches
-> 
->>               110364      branches
-> 
->>               110364      branches
-> 
-> 
->> After opening 6 again a third time they'll all have the same counts.
-> 
-> Interesting. Thanks. To clarify, is this happening in the host or VM?
+Thank you for the feedback. The notifier chain was chosen to support 
+multiple slave drivers subscribing to events from a single controller. 
+However, your concern is valid — it is not the right abstraction here. A 
+cleaner approach is a typed per-device event callback on struct espi_driver:
 
-This is in the VM
+void (*event)(struct espi_device *edev, struct espi_event *event);
+
+When the controller decodes an ALERT#, it identifies the originating 
+chip select# and calls the callback only on the driver bound to that 
+device — no chain walking, no per-driver filtering, no untyped casts. 
+The callback is invoked directly from the threaded IRQ context that 
+decoded the event, keeping the delivery path simple as you suggested.
+
+We will rework the event delivery along these lines in v2. Does this 
+direction sound acceptable?
+
+Thanks,
+Krishna
+
+>>    3. Any concerns with the ops table design or the -EOPNOTSUPP fallback?
+>>    4. Naming and structure of the public API in include/linux/espi/espi.h.
+> 
+> What specifically are you asking for for this?  Do you have userspace
+> code you want to integrate, if so, does it work with this?  And where
+> does it live?
+> 
+> thanks,
+> 
+> greg k-h
 
