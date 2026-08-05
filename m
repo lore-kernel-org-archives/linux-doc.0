@@ -1,277 +1,234 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011021.outbound.protection.outlook.com [40.107.208.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274D73B42CD
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 06:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785910896; cv=none; b=jgxq2V9NKUPVP/EwhSTId4Jm/ykR7f0Tqz/kl1iZOZlUBXG47qhS7Ls3vUNDNKg9+mtXNdG9hYj6zuDV+Sc1S2qwBKxowXb/F8rnTb+GkBZtTxCtQl3ZGKCbLOaPEHn+oa7CqeVN8pFITtT2fdokSupm2QagOjz13sPvTNRWJNM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785910896; c=relaxed/simple;
-	bh=qSx+Kgiz5nV4+oH8PMKK6Uq7fmr/VKlJXmnhqO/OcaM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=l/bbfyoknuyjYFqDPNL7azHd3mV0rnAuNXooyDFsxoJlFjvppiS7mPvvPIrJf7y+n3slRondxOYdZ3KO+UOF9nZUR45V4e8aFrNnfrbRzOwuCdONV2UtA/FyUlbZfFwzWZW7V/LVZbAwZ2wRnctjUPS2Zv8jm+foQXEHMJ5+r7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fLBo51ES; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10683CA4AF;
+	Wed,  5 Aug 2026 06:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785912079; cv=fail; b=Qx5NIq+Uvvvo0OOk7vUz93/ofrbb2wyEuoPiCbTm7EYJFnIOQOFHoJiUx/ItySYNk7C8ExzFpUbRJ1aDQFKn3/Mpl0E4QhMCWsy8LrXnvq2ZMX7DKMbUTvgeyHBa+IOOmNoOhtYK1QqCY9UFjFCmtsMDC0HHJO6s/T8w2EzwDTs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785912079; c=relaxed/simple;
+	bh=6YpaUZG/dEytQdwZs+uQW7CIHQm9uiyT1mCFeYw/aiA=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=ufiOQA42t8Xp6YfM5niwokijNKr641n2SGAWlPn5BdFJkuhzNqjRHFNxYjIt8YS96F/MdMeJuFSbyU4J/7ZYLKBegOyxcSRmjLx5gxFF5y9KRe5T6A4o3cZtrOHKp8ycMhHEINpWNXkOLjyzuP0JB2qzq9ffk/HdJ9KzPx3gkCA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oUGBCddW; arc=fail smtp.client-ip=40.107.208.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fLBo51ES"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84f38f3b36eso28892b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 23:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785910894; x=1786515694; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:references:cc:to
-         :from:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=90dET2o+stuXHdvr17MtJ609siDKgo9CQdU/QNgsB1k=;
-        b=fLBo51ESPFtJSZZokdZDZqfLjwCR/j4/cPeiN1Oj0WzmdXBAuqI7TbzEuyc1XN8mrI
-         Bkv2eWgKWBM7yeFzTlm6woIfrg3AvaGRHHyPePsja3pG72r+ZN9Fjm0F7i4VjwONZKGq
-         asJDynpFoECNfBCEBelCis/cehVgoa8wDse5D6NWY8ukAZNxwljL0dnwIHpHnQK2YMBB
-         dEJDeDi3w+//g6yTFA8/wvnCsLCRc4Ncz0O8c7v9LYiMo909SG7WIxTVECk2NamyyrBb
-         FPgOQYgBYPnG2qrMk39gnFmKxtdbvU/2IA4vIqk7jRmX4NcTiNQd6X2ZsnbjoKtDJ0uo
-         Vudg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785910894; x=1786515694;
-        h=content-transfer-encoding:content-type:in-reply-to:references:cc:to
-         :from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=90dET2o+stuXHdvr17MtJ609siDKgo9CQdU/QNgsB1k=;
-        b=pW42WEekgLoludkevOxcMu7+DYsIPBuSpCRwrZ+X5taPCxjlgiS2A2JSsiv3/w6DSm
-         X98/ZqtKA2VHRs9hUXhkF5e28mTJMlV3iZBmEfx7X9yHhpPYghrrvvGDjqM1RUX2KLLo
-         1GThV75RkGhM+UuyLAM3MVzKvN3hSKc+7mRnx2GrOYCmVzM7GuNNirTNVYz2dXWv9dSw
-         Y3lgqzKKvyYqfJQtxtDOtljfJL29xd508o3N3/JmNBQu/GlT39k0I+jFvMVIbEcZxL00
-         y/u8R58qjuKruUsFn6AkZYy6HPWkZPRZiqizSqn2gSTmf+mBsY9/5y+hpiynGPvaQUkC
-         /guA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2XVq75pStDy04hyHnsIKPNz7LvdPyeiRI/JiQgLnWNZDzl85YQzurMPLyWQ+4o1k4FH8LAO8UKOA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRMwGPxJLHzIzh5DLkrsxN/u9zWJwOS+5LpSbV8dF0NPY8gcEL
-	WP8hM6tHnots40WecqKdizN6zqaLxhQE0yPChYp25kOSFPkoh7NU9f9T
-X-Gm-Gg: AR+sD10Ovor0n1h+9ROPcWTdaZe1tlfVlRe47ksYHPH0tGGnn2cq8BHXGbBISxEKhdr
-	AR9vUCozI+lcdO0iu9xQGAKl7POha/3WH8laNHx+GXiFfElNNRb6C/NKh4ugaiKonVTSjZjb6LI
-	zbYdscpiaEoNyxfZs3QkbTBhdR5ftIwz2Xfs+p+VLGSX8llt/aqBi/FvJvvuVPPRiOx9x8pXnGC
-	dg8xJks0/tfQGW0GfBK3E0gv0QZFKezLWV3j/J4DDSC1tjRsDh7iXjKEOlAjQRoIqRfmQVdfm71
-	Eu3xHTF4nA3DeBx+bzvvi7Go/oFlmQZK+Gp13DV+S/Ko8XOk1aqHSIjgCKRfWfog8Eu8GvO5Udq
-	mwBIDszMTabZZ2wcYSLSl6Xr1fCFZ9HzWEWJx5hdRqTEi76EaAOnbWBeN76KonZqXzq2L9BdBPX
-	CsfGfw6nY35WmzQr68TZFpn2gT8mV/CJqXQl93eYqZKIWSKexgFu6ZQxMMBbQCUoexE2IG6tjcD
-	lEA1gCI
-X-Received: by 2002:a05:6a00:3a1f:b0:847:8dec:1427 with SMTP id d2e1a72fcca58-84f2dfc340bmr4646658b3a.8.1785910894366;
-        Tue, 04 Aug 2026 23:21:34 -0700 (PDT)
-Received: from [10.125.192.43] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f2e5139casm464939b3a.44.2026.08.04.23.21.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Aug 2026 23:21:33 -0700 (PDT)
-Message-ID: <94d74382-2e2c-8f8e-35e6-1ecafdcc445f@gmail.com>
-Date: Wed, 5 Aug 2026 14:21:23 +0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oUGBCddW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PGAW3w3LViXmPsh8V3DEGzvOaXZj1usnWwb1+I2wC+BitNEp7HYdk7ta1W3sEPi5HjIcNR9smmMLGkAkhkPfXZRDNsOBb9Nz5ibypn3o4/VHi5sg/K1UbU9GkHd5gJA6cycBPt1AfnMRcYCRpPLMQFKnoHzy0PX0dY/9e7BZ/U70Apr/LscaK6FYOS4fdJAbkfbOdI7/1mMyCL+ypVDa5KiX3dJyF1BN/v6uBYmtttAl6Oz7ITMreostKmP1J9s6d2StHG5oNxqgbK8k3ONjI/Q1iT+pnyhNJWjd+PY5h8mGSp2C3owL75+XoGroSw2ApSIrGCZ/QMYgM/touG48Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R3x7VEe6Nw3J8dp/2fK+blzdJ9zV/j4pRmT1R964lPQ=;
+ b=QzQB8/KZNBW7GJEEFl7bXp34pIb3tw7BoY6j9/g2mtd9JpEGpxXlfJEKv+fqcLHrslw+AJLG5d8GaSuWzT/lWUKzguoOfsB3yrvxSYu2s4ivGy9r6OVRmC9EYFw6py2FQpvOZMOcvNYwe9e7SqDhauCwVlE15MGocBEP/lK5J7PXF5/F+iP8RRrjYkn9dt0Q8eNPzegqKrgL2efVSsB9g6mEo8Lrk8j3T2sBLBEQ2UgkOuJhYuD0nQM+SnGBmberp7/bUgK1GBgy1CaRAOQTZbwMj1HetpXQqY7hiX8ONRPiKP2Y1Tn4XL61OMB6BvtTn6YnBU9MVgy+Ws6wOLgmuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R3x7VEe6Nw3J8dp/2fK+blzdJ9zV/j4pRmT1R964lPQ=;
+ b=oUGBCddWlHegtqlGGkykEgKyh25H1XxVfe2sFapXL3XxctJzY7/N4cBDuc7LKDwnY6+8NusUPlFipSGbPhiwArPfrKb3IDyWq2uLNeITqRobIXq99V3nJr/h7x8uNtFtErJy5p+/p/6J/ZE7Kkcp+OzhccTTPz7rLKqKtcSSnm0=
+Received: from BL0PR05CA0008.namprd05.prod.outlook.com (2603:10b6:208:91::18)
+ by LV3PR12MB9117.namprd12.prod.outlook.com (2603:10b6:408:195::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Wed, 5 Aug
+ 2026 06:41:11 +0000
+Received: from BL02EPF0001A103.namprd05.prod.outlook.com
+ (2603:10b6:208:91:cafe::69) by BL0PR05CA0008.outlook.office365.com
+ (2603:10b6:208:91::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.16 via Frontend Transport; Wed, 5
+ Aug 2026 06:41:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.292.8 via Frontend Transport; Wed, 5 Aug 2026 06:41:11 +0000
+Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Wed, 5 Aug
+ 2026 01:40:59 -0500
+From: Shivank Garg <shivankg@amd.com>
+Subject: [PATCH v3 0/9] KVM: guest_memfd: folio migration for
+ non-confidential VMs
+Date: Wed, 5 Aug 2026 06:40:29 +0000
+Message-ID: <20260805-shivank-gmem-migrate-v3-0-00d8bdec4e1d@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v3 2/2] mm/zswap: Support batch writeback in
- shrink_memcg()
-From: Hao Jia <jiahao.kernel@gmail.com>
-To: Johannes Weiner <hannes@cmpxchg.org>, yosry@kernel.org, nphamcs@gmail.com
-Cc: akpm@linux-foundation.org, chengming.zhou@linux.dev, jiahao1@lixiang.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- mhocko@kernel.org, mkoutny@suse.com, muchun.song@linux.dev,
- roman.gushchin@linux.dev, shakeel.butt@linux.dev, stable@vger.kernel.org,
- tj@kernel.org
-References: <amufiuAaZbuDdKkQ@cmpxchg.org>
- <20260731071900.38942-1-jiahao.kernel@gmail.com>
- <amy8gAN33W4QsM5R@cmpxchg.org>
- <6e16a760-d84d-98e1-433e-3233a9dd2236@gmail.com>
-In-Reply-To: <6e16a760-d84d-98e1-433e-3233a9dd2236@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN3acmoC/4XNQQ6CMBCF4auYrq1pBxnBlfcwLkqZwsQUTEsaD
+ eHuFjasjMv/JfPNLCIFpiiuh1kEShx5HHIUx4OwvRk6ktzmFqAAFWotY8/JDE/ZefLScxfMRLK
+ y2pa6bgplUOTTVyDH7429P3L3HKcxfLYvSa/rHzBpqSS0gNg4i64ub8a3Jzt6sXIJduIC1Q8CV
+ gJrY7WrzgTNTizL8gWpNTKA+QAAAA==
+X-Change-ID: 20260611-shivank-gmem-migrate-8c1c519b30a6
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka
+	<vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, Johannes Weiner
+	<hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, David Hildenbrand
+	<david@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+	<joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+	<byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
+	<ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>, Chao Peng
+	<chao.p.peng@linux.intel.com>, Nikunj A Dadhania <nikunj@amd.com>, "Michael
+ Roth" <michael.roth@amd.com>, Pankaj Gupta <pankaj.gupta@amd.com>, "Ackerley
+ Tng" <ackerleytng@google.com>, Sean Christopherson <seanjc@google.com>,
+	"Vishal Annapurve" <vannapurve@google.com>, Nikita Kalyazin
+	<nikita.kalyazin@linux.dev>, Patrick Roy <patrick.roy@linux.dev>, "Pratik
+ Sampat" <prsampat@amd.com>, Ashish Kalra <Ashish.Kalra@amd.com>, "Thomas
+ Gleixner" <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Peter Shier <pshier@google.com>, "Jim
+ Mattson" <jmattson@google.com>, Ricardo Koller <ricarkol@google.com>, "Ira
+ Weiny" <iweiny@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>
+CC: <linux-fsdevel@vger.kernel.org>, <linux-coco@lists.linux.dev>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>, Shivank Garg
+	<shivankg@amd.com>, Sashiko <sashiko-bot@kernel.org>
+X-Mailer: b4 0.15-dev-47d62
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785912059; l=4784;
+ i=shivankg@amd.com; s=20260518; h=from:subject:message-id;
+ bh=6YpaUZG/dEytQdwZs+uQW7CIHQm9uiyT1mCFeYw/aiA=;
+ b=N9UBFTS3Klw9d7OkUXWnt7t1k25cHHAtXyr/C4esTFUtisMCAIBlE0Iehm6wGSmcMHIdgagk2
+ O4T2PiVurvkBhnU0k7FccTVO6Ss1TZZijn5xrss25UZi64RBL6MWwUj
+X-Developer-Key: i=shivankg@amd.com; a=ed25519;
+ pk=2l2QGTeXuGkZTtfmx0nPQU8iFZfjYmX/ymMojitevx4=
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|LV3PR12MB9117:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ac01d0a-20c9-4f66-a3e6-08def2bc89c7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|36860700016|1800799024|82310400026|13003099007|921020|6133799003|10067099003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	k5WxsUpEjy+W6sM6mYdAQ59xkWyKr7LFUET5BMGtY5IAC++hKH90PPN4mav0l3ulh/jLfGq5eNx7Ap6s8pwvJsxX/ryjmehW0pxoU2fWE77xnTxbF6egZ2KwoK8F6k7NSaa0i0Cs2YeMerH/nQ1Fmo7AfEwwzlkZG5U91qt2k1jXiS59/hwo7PsS09L9MNFVWLMI39gY2rfLyTIVSv/G1eoS2RQlZm+mm3Q8/KcTuBSsb1bPUDIuHOYq9QIjgEAPNCt4L4NnOPANLa9dEOekLXSFmH6qa4n7eLbY3Tb1y0KBEZWod3qU11eWY3pfgfby7VcUmxsQ68j+sebC0Jel7sdptdeYy4Rm7mD9y//aQASZKcSQUHo3r0az8ga8ROuPMsWNyQhYmfSG+AAboHcSJfIQFyeC5aRuVkg7yCyQbtrk+fg6qVsmoElgN73Gd0hHEBuq8Udz6vQz+Cg3qWOw30VhwgeY8W12ehVg2RcGywBcpa5aryrdi06gbTUN3wpLCyRqeA9BBug50RCNyb9HErni2r8m0W+mGuDdZTYUaDuVFSEm7Vysnj4JCJCRPYp1BvzY7evTbMdV6APKUfkav+3Qa89+ITmHodAAAA3D1NblVsBZmG5VBe6B4BMwzu5Ug2NJS2ZZDltqz2vfFuWEIvxYfPNMcpirxHA8+9E3EW6ca+EYacsqFN37mEai0qBB
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(36860700016)(1800799024)(82310400026)(13003099007)(921020)(6133799003)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ykodeOeYq94s5WR8QSr2rY8/M/wrVcJ8k08vAtY/KkU8Gfb5dpAt+S069A8TeDze8o55cgMXPXF7Ghcbs310pZmWH+8HCWs/k/8Arp97noUjcSrsWBcXN2SZBWDNIDjA7t0SZ/bcWB69+Z3yGXOi2yF5UYlUdcvhOYKbb26UYLma9dqec98O7sCAYmU6ddq5aMcHcaFtv2eoPhYI9t+jiBBgIS8LgmCuRyEkrgCe9XuyieiAP9YRO4LmiFsTjtGiEvrmCVV8iQ3plYe4Tcv83D+TFKGGoWeDCdmkVgg8CdZt5afGe5FY6ubo+pbI6j5Ewelw3v0Ha/jY3BJylwBYo6gS1KiaJxmnkZab7ktzQO/Q//2xNHER05OQmEgxoRtQdl5FvBsVOGXK4MFTjcV7ok55mphWM3GaFhHJH8m4LD2hFj0eCbAipk6RbJ4fz3V5
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 06:41:11.2085
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ac01d0a-20c9-4f66-a3e6-08def2bc89c7
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A103.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9117
 
+guest_memfd folios are currently always marked unmovable, so the kernel cannot
+perform memory compaction, offlining, etc. This is unavoidable for
+confidential VMs (SEV-SNP, TDX), since memory is encrypted and copying it
+needs firmware assistance. However, for non-confidential VMs (like
+Firecracker), we can migrate the folios.
 
+This series enables folio migration for non-confidential guest_memfd and
+also lays the groundwork for migrating confidential guest_memfd later.
+Once firmware-assisted copying support is available, those VMs can be
+made movable, the confidential folio content can be copied separately,
+and the destination folio marked with FOLIO_CONTENT_COPIED[4] so
+__migrate_folio() skips the host-side folio_mc_copy().
 
-On 2026/8/1 08:31, Hao Jia wrote:
-> 
-> 
-> On 2026/7/31 23:17, Johannes Weiner wrote:
->> On Fri, Jul 31, 2026 at 03:19:00PM +0800, Hao Jia wrote:
->>> From: Hao Jia <jiahao1@lixiang.com>
->>>
->>> Currently, shrink_memcg() writes back at most one entry per-node during
->>> its traversal. This makes shrink_worker() inefficient, as it must
->>> repeatedly re-enter shrink_memcg() to make any substantial progress.
->>> Under high memory pressure, this can cause the writeback speed to be
->>> too slow to keep up with refaults, leading to zswap store failures and
->>> forcing pages to skip zswap and go directly to disk, which results in
->>> an LRU inversion.
->>>
->>> To address this, extend shrink_memcg() and rewrite its LRU iteration 
->>> logic,
->>> enabling batch writeback for both the shrink_worker() and 
->>> zswap_store() paths.
->>> To prevent shrink unfairness across NUMA nodes caused by a shared 
->>> global scan
->>> quota, limit scanning to up to SWAP_CLUSTER_MAX pages per node and 
->>> write back
->>> any reclaimable entries found.
->>>
->>> Test Setup:
->>> - Total memory: 32 GB, 1 NUMA node.
->>> - zswap settings: accept_threshold_percent=50, shrinker_enabled=N.
->>>
->>> Test Case 1:
->>> Set max_pool_percent=1, allocate 512MB of anonymous pages, and fill them
->>> with random data (to avoid compression). Then, use cgroup memory.reclaim
->>> to force a large amount of anonymous pages into zswap. At an interval of
->>> 2ms, allocate a 4K anonymous page where the first 4 bytes are random 
->>> numbers
->>> and the rest are zeros, and then trigger reclamation of this 4K page 
->>> through
->>> cgroup memory.reclaim. When the pool threshold is reached, 
->>> shrink_memcg()
->>> will be triggered.
->>> The test data after running for 120s is as follows:
->>>                                  Baseline      Patched
->>> shrink_worker wakeups              5,363          169
->>> shrink_memcg calls            11,373,201      350,703
->>> written_back pages                40,212       40,241
->>> zswap_store calls                161,190      163,753
->>>     store succeeded (ret=1)       102,743      117,183
->>>     store rejected (ret=0)         58,447       46,570
->>>     store reject rate                ~36%        ~28%
->>> pool_limit_hit delta              55,826       33,760
->>> pswpout                           98,659       86,811
->>> pswpin                                 2            0
->>>
->>> Test Case 2:
->>> We evaluated the following two sub-configurations using stress-ng inside
->>> a cgroup capped at memory.max=1G for 120 seconds:
->>>    Test Case 2a (max_pool_percent=1): Continuously triggers the global
->>>    zswap pool limit, thereby waking up shrink_worker() to perform 
->>> asynchronous
->>>    shrinking.
->>>    Test Case 2b (zswap.max=320M, max_pool_percent=50): Continuously 
->>> triggers
->>>    the cgroup's zswap.max limit, thereby invoking synchronous shrinking.
->>> Command executed for both setups:
->>>     bash -c 'echo $$ > /sys/fs/cgroup/zswaptest/cgroup.procs ; \
->>>     exec stress-ng --vm 4 --vm-bytes 4G --vm-keep --vm-method 
->>> rand-set -t \
->>> 120s -q'
->>>
->>> Test Case 2a (max_pool_percent=1):
->>>                                  Baseline       Patched
->>> shrink_worker wakeups              5,640         1,308
->>> shrink_memcg calls             8,481,500     3,140,972
->>> written_back pages                   260       468,216
->>> zswap_store calls              2,742,756     2,011,269
->>>     store succeeded (ret=1)       934,640       947,988
->>>     store rejected (ret=0)      1,808,116     1,063,281
->>>     store reject rate                ~66%          ~52%
->>> pool_limit_hit delta           1,181,310       196,882
->>> pswpout                        1,808,376     1,531,497
->>> pswpin                         4,288,497     3,635,365
->>> Test Case 2b (zswap.max=320M, max_pool_percent=50):
->>>                                  Baseline       Patched
->>> shrink_worker wakeups                 0              0
->>> shrink_memcg calls              687,608         54,002
->>> written_back pages              639,176        846,663
->>> zswap_store calls             1,224,222      1,228,548
->>>     store succeeded (ret=1)      992,816      1,208,123
->>>     store rejected (ret=0)       231,431         20,425
->>>     store reject rate               ~19%            ~2%
->>> pool_limit_hit delta                  0              0
->>> pswpout                         870,745        867,360
->>> pswpin                        1,707,823      1,216,814
->>>
->>> Under identical workloads and runtimes, batched zswap shrinking
->>> exhibits a significant reduction in both shrink_worker() wakeups
->>> and shrink_memcg() calls. Furthermore, the sharp drop in both pswpin
->>> and zswap_store() rejections demonstrates that batching zswap shrink
->>> operations effectively mitigates zswap_store() failures caused by
->>> hitting the pool limit. This significantly prevents pages from bypassing
->>> zswap and falling back directly to disk, thereby reducing LRU inversion.
->>>
->>> Suggested-by: Yosry Ahmed <yosry@kernel.org>
->>> Acked-by: Yosry Ahmed <yosry@kernel.org>
->>> Acked-by: Nhat Pham <nphamcs@gmail.com>
->>> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
->>> ---
->>>   mm/zswap.c | 30 ++++++++++++++++++++++++++++--
->>>   1 file changed, 28 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/mm/zswap.c b/mm/zswap.c
->>> index 48fc7b575e24..d406c14925d8 100644
->>> --- a/mm/zswap.c
->>> +++ b/mm/zswap.c
->>> @@ -1275,6 +1275,21 @@ static struct shrinker 
->>> *zswap_alloc_shrinker(void)
->>>       return shrinker;
->>>   }
->>> +/*
->>> + * Scan up to SWAP_CLUSTER_MAX pages on each per-node zswap LRU of 
->>> @memcg
->>> + * and write back the reclaimable ones.
->>> + *
->>> + * Since the second-chance algorithm rotates referenced entries to the
->>> + * LRU tail, the per-node scan is capped at the current LRU length so
->>> + * each entry is scanned at most once per call. It is up to the caller
->>> + * to handle retries, deciding whether to scan another memcg to 
->>> complete
->>> + * the full iteration, or to rescan the current memcg to drain its 
->>> zswap
->>> + * entries.
->>> + *
->>> + * Return: 0 if at least one entry was written back, -EAGAIN if entries
->>> + * were scanned but none could be written back, or -ENOENT if @memcg 
->>> has
->>> + * writeback disabled, is a zombie cgroup, or has empty zswap LRUs.
->>> + */
->>>   static int shrink_memcg(struct mem_cgroup *memcg)
->>>   {
->>>       int nid, shrunk = 0, scanned = 0;
->>> @@ -1290,13 +1305,24 @@ static int shrink_memcg(struct mem_cgroup 
->>> *memcg)
->>>           return -ENOENT;
->>>       for_each_node_state(nid, N_NORMAL_MEMORY) {
->>> -        unsigned long nr_to_walk = 1;
->>> +        unsigned long nr_to_walk, node_budget;
->>> +
->>> +        /*
->>> +         * Cap the scan at the per-node LRU length so each entry is
->>> +         * scanned at most once per call.
->>> +         */
->>> +        node_budget = min(SWAP_CLUSTER_MAX,
->>> +                 list_lru_count_one(&zswap_list_lru, nid, memcg));
->>
->> AFAICS you can just do unsigned long nr_to_walk = SWAP_CLUSTER_MAX.
->>
->> __list_lru_walk_one() does a list_for_each_safe() that will exit the
->> same way whether you hit !nr_to_walk or run out of items.
-> 
-> Wouldn't it be better to ensure that each entry is scanned at most once 
-> per call, particularly when list_lru_count_one(nid) < SWAP_CLUSTER_MAX?
-> 
-> On one hand, this avoids scanning the same entry multiple times within a 
-> single pass. Since the second-chance algorithm rotates referenced 
-> entries to the tail of the LRU, entries on nodes with a large number of 
-> zswap entries require at least two shrink_memcg() calls to be written 
-> back, whereas entries on nodes with fewer entries might get written back 
-> in a single shrink_memcg() call instead. On the other hand, we also 
-> avoid spinning repeatedly on entries that fail writeback.
-> 
-> Thanks,
-> Hao
-> 
+Testing
+-------
+Host: 7.2-rc6+(c21bb419386) + this, AMD EPYC ZEN 3, 2 NUMA nodes
 
-Johannes, Yosry, Nhats, any thoughts on this?
+- KVM selftest: allocate folios on node 0, migrate them to node 1 and
+  back and verify resulting NUMA node and the folio contents at each
+  step.
 
->>
->>> +        if (!node_budget)
->>> +            continue;
->>> +        nr_to_walk = node_budget;
->>>           shrunk += list_lru_walk_one(&zswap_list_lru, nid, memcg,
->>>                           &shrink_memcg_cb, NULL, &nr_to_walk);
->>> -        scanned += 1 - nr_to_walk;
->>> +        scanned += node_budget - nr_to_walk;
->>
->> scanned += SWAP_CLUSTER_MAX - nr_to_walk;
+- Firecracker [1]: booted a microVM backed by guest_memfd. While the
+  guest was running, forced host-side migration of its folios via
+  migratepages(8) and explicit move_pages(2) of guest_memfd
+  pages. Verify with /proc/firecracker_pid/numa_maps.
+
+Notes
+-----
+- Sashiko pointed out a pre-existing ABBA deadlock between
+  kvm_gmem_error_folio() and truncation. It's being addressed separately
+  by Hao Zhang. [2][3]
+
+[1] https://github.com/firecracker-microvm/firecracker/tree/feature/secret-hiding
+    In builder.rs, add GUEST_MEMFD_FLAG_MIGRATABLE to bit-2 and pass it instead
+    of GUEST_MEMFD_FLAG_NO_DIRECT_MAP to vm.create_guest_memfd().
+[2] https://lore.kernel.org/all/ambEdSPjerZIVN0b@192.168.1.215/
+[3] https://sashiko.dev/#/patchset/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95%40amd.com
+[4] https://lore.kernel.org/all/20260630-shivank-batch-migrate-offload-v6-1-da95d7e8b8a2@amd.com
+
+Signed-off-by: Shivank Garg <shivankg@amd.com>
+---
+Changes in v3:
+- Fix unbalanced mmu_invalidate_in_progress count unbinding dying guest_memfd. (Sashiko)
+- Fix maxnode handling in xapic_ipi_test selftest.
+- Add GUEST_MEMFD_FLAG_MIGRATABLE documentation
+- Replace open-coded sizeof() * 8 calculation with BITS_PER_TYPE()
+- Add get_numa_mem_nodes() and use  MPOL_F_MEMS_ALLOWED for allowed NUMA ndoes
+  instead of hardcoded NUMA node IDs. (Sashiko)
+- Extend migration selftest to verify rejection without MIGRATABLE flag and
+  move repeated checks into common helpers.
+- Drop RFC tag.
+- Link to v2: https://lore.kernel.org/r/20260728-shivank-gmem-migrate-v2-0-269ac1f84e2b@amd.com
+
+Changes in v2:
+- Make folio migration opt-in through GUEST_MEMFD_FLAG_MIGRATABLE,
+  preserving unmovable behavior if userspace don't explictly ask. (Alexandru, David, Sean)
+- Add kvm_arch_supports_gmem_migration() so arch can control whether
+  GUEST_MEMFD_FLAG_MIGRATABLE is advertised.
+- Allocate movable folios with GFP_HIGHUSER_MOVABLE. (David)
+- Keep guest_memfd unevictable. (David, Sashiko, Sean)
+- Split migrate_folio() implementation and enablement as separate patches.
+- Update selftest with new flag.
+- Link to v1: https://lore.kernel.org/r/20260611-shivank-gmem-migrate-v1-0-2d266bfc6f95@amd.com
+
+---
+Shivank Garg (9):
+      KVM: guest_memfd: take the invalidate lock when unbinding a dying file
+      mm: split AS_UNMOVABLE back out of AS_INACCESSIBLE
+      KVM: guest_memfd: implement folio migration for non-confidential VMs
+      KVM: guest_memfd: add GUEST_MEMFD_FLAG_MIGRATABLE
+      KVM: selftests: fix maxnode arguments in xapic_ipi_test
+      KVM: selftests: use BITS_PER_TYPE() for NUMA masks
+      KVM: selftests: add get_numa_mem_nodes()
+      KVM: selftests: use allowed NUMA nodes in guest_memfd_test
+      KVM: selftests: exercise guest_memfd folio migration
+
+ Documentation/virt/kvm/api.rst                   |   3 +
+ arch/x86/kvm/x86.c                               |   9 ++
+ include/linux/kvm_host.h                         |   4 +
+ include/linux/pagemap.h                          |  24 ++-
+ include/uapi/linux/kvm.h                         |   1 +
+ mm/compaction.c                                  |  12 +-
+ mm/migrate.c                                     |   2 +-
+ tools/include/uapi/linux/kvm.h                   |   1 +
+ tools/testing/selftests/kvm/guest_memfd_test.c   | 193 +++++++++++++++++++----
+ tools/testing/selftests/kvm/include/numaif.h     |  52 +-----
+ tools/testing/selftests/kvm/x86/xapic_ipi_test.c |  14 +-
+ virt/kvm/guest_memfd.c                           |  76 +++++++--
+ 12 files changed, 284 insertions(+), 107 deletions(-)
+---
+base-commit: c21bb4193868a8de71fc4693fa741e195fdf5d86
+change-id: 20260611-shivank-gmem-migrate-8c1c519b30a6
+
+Best regards,
+-- 
+Shivank Garg <shivankg@amd.com>
+
