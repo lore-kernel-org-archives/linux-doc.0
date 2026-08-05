@@ -1,183 +1,206 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD7C3939A6
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 20:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785960816; cv=pass; b=ItEwsd71ugpKNzzDu8KkXzISHK1i0/JqHSZuSN/8RMXIIc+MSKyEZVAlkaBqopFY9xrEljEaAcbtiapdx6d9/a4LCG8Nn2ulsfIR1OnzzdSxGGJh4FNzbaPbBW7SHqYbi8kFJj0Q47CZMnEFIwqxxC1Ae8aGnThUTeiW+2CcQtA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785960816; c=relaxed/simple;
-	bh=g12LaLPJsLpqEtT63cQLavmzm8/ph2Z//VjxD2i0dHI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S9PfMMBoinJ2P7VSvpDOQKQcRGnmql1zJsMEPEHSgyKTqmViBnEdPog6cKAIQN2T+eovPHZnoV34tGusSZ/ADgFkCaEvjMyarDzUhGhsyo9GZo+GdA4HQDJfst1oJ4v8TrxtvbX+akAnAJjC5xrlko3zCJ6CtJv8C1eoewnw1i4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JPxfcJ1T; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JPxfcJ1T"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c15a5b265so79151cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Aug 2026 13:13:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785960814; cv=none;
-        d=google.com; s=arc-20260327;
-        b=e0plZn7YTtJSAqUbU7phgJ1CxTL+0LX6EEvo4uGuLCDzj+lspyxpAX7a1nI7yb2dG8
-         pcvEz0g+hsNZGhhs6NZYCXkC0427TOCwyOyHe+BTuOt7YOZDNNk16Dewf4+1Oba7bIhU
-         Bt36Nnal7reM4GFlmMqkFlvl/8SEXHVYo8xZBWZPuB1K0oCghx6w7EsxT7G2+IFcNBZS
-         gPCXOmuIcFFVP2PYjMrnGCYT5mV8xLmzfMkFErFxl4INvIhUsQoX0dnSnHVQWou3bQf7
-         VWmNvfD1fGrNLssbn34RbvwOBwt2OI15+hCwxqyTSAuuyF0w5poFf4mFD4o1gR1gw5cT
-         jIng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ADCnc/FtBR+Yt7qlq3IfA9GY1QXXiS1r22j7WPvZmf8=;
-        fh=KM6o1TDzoaOWqNZrf7q87C1t8G6HGx8ZkqiqY2RDFzY=;
-        b=KjibvmtSt7H8ntbzeI50tgSq50LfGXQ1A3VSKT8NgKkyA7ukuNJF2UNm3j5FO69xMP
-         1mpp4mwOxvXhtoFb/9e46j2JOHEulAtAhisnRtJbfmd/pFrLr2e1Mw9h7VvuhPif747Y
-         pMvOs0awneaJpDvFpAftTG5NFmt8wBMaQoZ9YjmTO4nFbgTnzpLY51WyMOV7M2L0uKi3
-         vt64GBfTBEWgZSYBH92jcaZ4C03TPffscRRXa1YBX2K4fpRhlsIl/H7LIPox+4lyGUjy
-         g40ayY/GVwgobJqrqk0C4xckAOrcuLYLI2odMcI1lD66OKOCGBvAUkxGC8C5eesnw+7d
-         5j2w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785960814; x=1786565614; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ADCnc/FtBR+Yt7qlq3IfA9GY1QXXiS1r22j7WPvZmf8=;
-        b=JPxfcJ1TjyN3ZywU83pf+qPuegPaIOEBF7gCWAcaQksnU9awkU5hVbECuSJ5+RYCHp
-         +Gcrqfb5AJfN/VZn8S10fkXDxBVpT7jEimuRHsQUh9Ur/D2T2bUZVPRO+smj4cSh540g
-         msls7/kXY54Uqz5nq0xoAbVJObYP0aomMDlL5LhuktsJfAoFxVJewyLWFgHtyNs4BL30
-         u7Hlu+fbNzf4/dDJU9iTlmZESox0oWupWPfBU30SFBfsiwMRmA75DBCzAs9Uxz9JHBHH
-         0GDwmoteVPOaEzB1NKyEhY9tEanLO131y3RRqGnCSODgfIOhvFshamkCVBUCfNxXZqcj
-         FxSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785960814; x=1786565614;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ADCnc/FtBR+Yt7qlq3IfA9GY1QXXiS1r22j7WPvZmf8=;
-        b=cXa9oqOgqZhgvYbaEVdXNescd4NwvQfkgNsuomkGXCenf34sTgaSourlsYUPar4Cn+
-         Tv9FFg2O/K1Jeex8vKlHVik9lU+EsGgIcgaPumh30NBZbSuoLoPeKnjJET4SQFWHtpG5
-         zfIXyj0PGDuFULtgbxlf+nZJU2aOSWmr/z2dmxy3HBREFoaMFB0hlL0JbXthKBYDOPWC
-         mIZqpGXzbQo4Rj+pylnHWvdpuMUuZ8NBRG1S9R2MqgX+mk3HofTNhNrESovNAau1m85t
-         5JzR6QkOMxqU0r4IZMBzFWjpY/GQ/zQ3TpU+b/ievHrvuNrrJfnT4I/A3Op/D2uovYiI
-         DwJQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqUMqCAXHMwMS4ZHvxgJ7qQZ6qnUqwgN/d4KTEqkTZUiknh2ML+DGNYO3iUSy+jqh3fsSlDXtGDgE8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbtKqnGGXKTDiIZ+Lq3MvnfC6Bqi16UCYd8oKbCNhQQi+LVtZ0
-	Y6cp2+DRzSgwunij6oO7z/wOXLDGFAZzO4AR+qBivBisdqj5oEDwWIiGSRdBUl4c2c4/h/aMw0U
-	xt1vpXK16OE6oH7l3yI4ce6gn4/v7dSIIsikPYF87
-X-Gm-Gg: AR+sD13LMeMTIXyMmf0uq5PD9JIQvwg+1nOcKgO8ISdADV0e1u1sSi6AfeKebjC7jEl
-	tPQIlRkkAH69/TiU+LChKpi/A7EDufQ4mSPoTBB9+r5DAIgTftgF2srCbTUXgPVH1JS5BELmVT+
-	7ZnnNyXX5oUB+YyxwPKyya2TYX1B2qNZiM+eNNd7ID3MtqQQdxz4G/P9EIa/i3tfBS9jUP1nUVI
-	k1ShWv0W0UChdgOYEfiE53xbY5ijXh0+5KU5kx1jL+K24zEYWaiMe0Q5OeQ6E7Er9xxjVCtmIUX
-	kWUZYomhj0KoNP6ihAhxNtM7j95p/dMz9tEj0hydGx7w70SuPu4vwvyfA43xaqFrnI9C7bOTTnY
-	=
-X-Received: by 2002:a05:622a:9ce:10b0:516:ccc0:ee38 with SMTP id
- d75a77b69052e-52cfc0cb726mr4580321cf.9.1785960813363; Wed, 05 Aug 2026
- 13:13:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D7247ACF9;
+	Wed,  5 Aug 2026 20:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785961351; cv=none; b=Tid+3nrkrw85Q92BMH1r9//H1fnTbqqOpiGRp+aJvR+zF+LZgPAcGuhLdt7mrLkXN9CrVtgFVdPD7FX82UnwoUGg806O6+pZEKuohC8bB4i27/rDHh3pnkXJ0SL/aMXC3yqNWktErbEME1RjcU4EjAbuis9yKhz02FKpzgAWxjs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785961351; c=relaxed/simple;
+	bh=bjJELJGjRJBekkjijGW+YIzeuEcnI4WoOsPTOsfXV0o=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=lt5FswRsQZYiKNjE+KE8Tw87p2frD+RG92MvZsff3US+93AUf+Hb4S1OeRvWUse5pkYucq02jK2NFDhR+VlLWNeM5WDjpi1HxyPaqteB3lMYeRYTJB7tDTuXvjYgmUJFs35M6AuzmQvEDKfa1Oowkc3u0Z0DEYuhEvI0h4qWcds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf14.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 8213B1605C1;
+	Wed,  5 Aug 2026 20:22:22 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf14.hostedemail.com (Postfix) with ESMTPA id 5BD0732;
+	Wed,  5 Aug 2026 20:22:09 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfauth.phl.internal (Postfix) with ESMTP id AAF26F40067;
+	Wed,  5 Aug 2026 16:22:08 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-09.internal (MEProxy); Wed, 05 Aug 2026 16:22:08 -0400
+X-ME-Sender: <xms:cJtzaqR3PcOj43Cgsczq92QBAdZqSE4rgUzBdUEJwrP3VcZbke85Lg>
+    <xme:cJtzaqkcaLl_vuhbW-p9boZDBJhio_iw9QDQcWSD34Bo_C3nMgHYGi9v5njzFGxyQ
+    nAQVQq31ubnAYlCM9uLkDGAFyWWjwrhAHzHSeJP15hx21tVuOu_GBG->
+X-ME-Proxy-Cause: dmFkZTEgN3mZ+QEJUwEqouzbGUkvs1NrM1Uf8yKq1T3bPSyNnkFsJ52RRNNRh2Ojv0XvTq
+    Z8QVsL33SOtljl1piJ7lr855K8pR5Y7vEr1d0HmHBVVuzJ19uXGeP2T4DhtaxR8ejg0O+O
+    amAJSE9x4EhMpfw/cMiHVekADujOdwJ7zZQzYfIAhgcP+d3gDCUK6AR7T0KCP0bsj1A2Wk
+    ojgIKX+Qp2+e2qVUx3YdQoHphgGVhDr6pt5LolnLvPXMP7aOjEDwEz/sQd3PElgo9kuOE5
+    qLlzWmq5Fjc3oIbCicshZzzYdPvRDGcpk142JRZ3TMyGfU1V50drAtodGGBdMfvs6mA4aT
+    ZZG2mGkNRtJk/3fEw6NVGjXrh8Z0KZGaXyr72ax5akDYRLdkhKjX7PdU2c9yYqzuj/KSy3
+    gqcH6WYkI/8LnM7oSG6oVOJlyCxyZ/YRIdfwh3/JFyvmZcRDO3eKpLDcfQD4tkhKcgV1x7
+    DV4NsVBrNd2xfifUamdP7YSj9+4pgSSE1RICLY0F9XJgFSKlC+IehN547j3HvSTEmn8vdu
+    utbsBVgSh3jyGLK+VDGYInWZPM04MobxqT+30aDj0oTRdTTnZDG2yOpCgRtJjfCvsxWf9e
+    gldA57sOikCD26nKZaV4XpHJmdKE8i7EzkV+0ZWGP4z1Em0G5/4sL6U+u1VQ
+X-ME-Proxy: <xmx:cJtzalGhWCkhLkFiYz-EpVbpZnouiEz2S-_6m3MLWgNKE7lG07VbxA>
+    <xmx:cJtzaoBVs9nMOnn6nRRcU1rE-_yOtgPPyj7JarqC9V_l-L87AEq7_A>
+    <xmx:cJtzavNOuxDG0eGaKD-nBqCFgWvZswAqCDRoHrmoXYX6Jw3NJO3A5g>
+    <xmx:cJtzajfSIybCCZOX1VnfoKCV-DBmwp25nwGLFKypNWO6XwAR7J5Rhw>
+    <xmx:cJtzaigYhRs_yF1j75FiHnvI58d-NkslJfhWJK6BJTQa05_7c7eCshaJ>
+Feedback-ID: i3a164872:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 71021700065; Wed,  5 Aug 2026 16:22:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <c795f8089f82841e8a6e00d7ca286da2b23aeb7b.1785950530.git.abhishekbapat@google.com>
-In-Reply-To: <c795f8089f82841e8a6e00d7ca286da2b23aeb7b.1785950530.git.abhishekbapat@google.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 5 Aug 2026 13:13:21 -0700
-X-Gm-Features: AUfX_mzf39-bsRwpGcBa3cjVj341l4DEa9qZWVyKWwAe4bbPf3pd4npdn87EHqU
-Message-ID: <CAJuCfpHn4wkRf97TUUBW5Kr2TbtMy4bn=54VubRFo_b9NSMR2g@mail.gmail.com>
-Subject: Re: [PATCH v5] alloc_tag: expose boot-time compression configuration
-To: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Hao Ge <hao.ge@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 Aug 2026 15:21:48 -0500
+From: "John Groves" <john@groves.net>
+To: "Alison Schofield" <alison.schofield@intel.com>,
+ "John Groves" <john@jagalactic.com>
+Cc: "Miklos Szeredi" <miklos@szeredi.hu>, "Dan Williams" <djbw@kernel.org>,
+ "Bernd Schubert" <bschubert@ddn.com>,
+ "John Groves (jgroves)" <jgroves@micron.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Jake Edge" <jake@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "David Hildenbrand" <david@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Stefan Hajnoczi" <shajnocz@redhat.com>,
+ "Joanne Koong" <joannelkoong@gmail.com>,
+ "Josef Bacik" <josef@toxicpanda.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Chen Linxuan" <chenlinxuan@uniontech.com>,
+ "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Shivank Garg" <shivankg@amd.com>,
+ "Ackerley Tng" <ackerleytng@google.com>,
+ "Gregory Price" <gourry@gourry.net>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Ira Weiny" <iweiny@kernel.org>,
+ "Pasha Tatashin" <pasha.tatashin@soleen.com>,
+ "Haren Myneni" <haren@linux.ibm.com>,
+ "Pratyush Yadav" <pratyush@kernel.org>,
+ "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
+ "Jiri Slaby" <jirislaby@kernel.org>,
+ "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+ "Gabriel Whigham" <gabewhigham@gmail.com>,
+ "Aravind Ramesh" <arramesh@micron.com>,
+ "Ajay Joshi" <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Message-Id: <94e39ae2-08e5-4606-a43a-d4a8ca71cdae@app.fastmail.com>
+In-Reply-To: <anDoPTHjlOPhnnR-@aschofie-mobl2.lan>
+References: 
+ <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022817.75759-1-john@jagalactic.com>
+ <0100019fc5737596-636bde4f-7fc7-46a4-b011-63870098df09-000000@email.amazonses.com>
+ <anDoPTHjlOPhnnR-@aschofie-mobl2.lan>
+Subject: Re: [PATCH V12 01/12] dax: replace exported dax_dev_get() with non-allocating
+ dax_dev_find()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: b188p7q6x6rdo47trbfafeefzjhknazn
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 5BD0732
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18vLKW3a6wRLmy0PcxyeH7L133BOHb78wo=
+X-HE-Tag: 1785961329-990005
+X-HE-Meta: U2FsdGVkX1+LVTZHsSvYpNndp/Qc+FC7te14b6PbXuGr7dm4qoVpu6X0SWbLKkmkOBUorTVCqub7oknHL+UTVkG4A5RLa8CC2dxPBL//mUw9u6e6/56yBiKLZ33tKGVODYIH9zink/kH+tR78Yg6zbegX6JwZ3QdUE+3HVaXB7/WGQduQt9hf77uUKNSXe/3+Mvk69fkz6Mzwo7x7JensRaAd9lZkEogV44MSQQY5M8ArAaJzpVdygbHq9NSYnKixUiQuQ+GsD3hz6WAsQNnmQduN+ofjAm25FmIeEdccB56Dx4rBb2e4bxKO9pRXipjp1L7LLzVoSgr8mqSPu65p1t4l//x+pwJTFLAptqkcTjxZcjeL3tM/YmYg31hDHLgD8EEhCgmZev7NnKv76KL4g==
 
-On Wed, Aug 5, 2026 at 10:29=E2=80=AFAM Abhishek Bapat <abhishekbapat@googl=
-e.com> wrote:
->
-> Currently, userspace has limited visibility into the exact active
-> runtime state of memory allocation profiling and its page extension
-> compression ('sysctl.vm.mem_profiling=3D{0|1|never}[,compressed]').
->
-> While reading the sysctl provides basic on/off status, it is currently
-> impossible for userspace to natively determine whether page-tag
-> compression was successfully enabled without scraping dmesg boot logs.
->
-> Add a new read-only sysctl representing how compression was configured
-> at boot time.
->
-> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
 
-Acked-by: Suren Baghdasaryan <surenb@google.com>
 
-> ---
-> v5 change:
-> - More documentation and commit message refactoring.
->
-> v4 change:
-> - Documentation and commit message refactor.
->
-> v3 change:
-> - Added documentation about the behaviour details of the new sysctl.
->
-> v2 change:
-> - Moved from displaying the state in /proc/allocinfo to a new read-only
-> sysctl.
->
->  Documentation/mm/allocation-profiling.rst | 11 +++++++++++
->  mm/alloc_tag.c                            |  6 ++++++
->  2 files changed, 17 insertions(+)
->
-> diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/mm=
-/allocation-profiling.rst
-> index c3a28467955f..b2ebcef8af6f 100644
-> --- a/Documentation/mm/allocation-profiling.rst
-> +++ b/Documentation/mm/allocation-profiling.rst
-> @@ -43,6 +43,17 @@ sysctl:
->    warnings produced by allocations made while profiling is disabled and =
-freed
->    when it's enabled.
->
-> +  /proc/sys/vm/mem_profiling_compressed
-> +
-> +  1: Page alloc tag compression is enabled.
-> +
-> +  0: Page alloc tag compression is disabled.
-> +
-> +  This reflects a static boot-time configuration of how page allocation =
-tags are
-> +  stored (in page flags when compression is enabled and in page_ext when=
- disabled).
-> +  Toggling ``mem_profiling`` at runtime does not change the state of
-> +  ``mem_profiling_compressed``.
-> +
->  Runtime info:
->    /proc/allocinfo
->
-> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
-> index 84c5c3783ca4..b33410310477 100644
-> --- a/mm/alloc_tag.c
-> +++ b/mm/alloc_tag.c
-> @@ -1303,6 +1303,12 @@ static const struct ctl_table memory_allocation_pr=
-ofiling_sysctls[] =3D {
->                 .mode           =3D 0644,
->                 .proc_handler   =3D proc_mem_profiling_handler,
->         },
-> +       {
-> +               .procname       =3D "mem_profiling_compressed",
-> +               .data           =3D &mem_profiling_compressed,
-> +               .mode           =3D 0444,
-> +               .proc_handler   =3D proc_do_static_key,
-> +       },
->  };
->
->  static void __init sysctl_init(void)
->
-> base-commit: a946fa1d96648b92c9f37f0488e0e47a85f9e235
-> --
-> 2.55.0.508.g3f0d502094-goog
->
+On Mon, Aug 3, 2026, at 2:13 PM, Alison Schofield wrote:
+> On Mon, Aug 03, 2026 at 02:28:26AM +0000, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > This fix is in response to a Sashiko review, and some subsequent
+> > analysis.
+> > 
+> > dax_dev_get() uses iget5_locked() which creates a new inode if no
+> > matching one exists. This is correct for the internal caller
+> > (alloc_dax), but dangerous for external callers that look up devices
+> > from user-supplied or metadata-supplied dev_t values:
+> > 
+> > 1. A new inode is created with DAXDEV_ALIVE set but no backing driver,
+> >    no ops, and no IDA-allocated minor number.
+> > 
+> > 2. On teardown, dax_destroy_inode() warns because kill_dax() was never
+> >    called, and dax_free_inode() calls ida_free() for a minor that was
+> >    never ida_alloc'd -- potentially freeing the minor of a real device.
+> > 
+> > Add dax_dev_find() which uses ilookup5() for lookup-only semantics:
+> > it returns an existing dax_device with an elevated inode reference, or
+> > NULL if no device with the given dev_t exists. It never creates inodes.
+> > A dax_alive() check under dax_read_lock() guards against returning a
+> > device that is concurrently being torn down by kill_dax().
+> > 
+> > Make dax_dev_get() static again (internal to super.c for alloc_dax),
+> > export dax_dev_find() instead, and update the two external callers
+> > (famfs_inode.c, famfs.c). Also add the missing CONFIG_DAX=n stub.
+> 
+> There are no external callers yet as those arrive in subsequent
+> famfs patches.
+> 
+> 
+> > 
+> > About the 'fixes' tag: this removes the export of dax_dev_get(),
+> > which was flawed, and replaces is with dax_dev_find(). It feels like
+> > the fixes tag makes sense for correcting an ABI error.
+> > 
+> > Fixes: 2ae624d5a555d ("dax: export dax_dev_get()")
+> 
+> Hi John,
+> 
+> I think this should be split.
+> 
+> Please send a standalone DAX patch that only removes the dax_dev_get()
+> export (make it static again, drop the header declaration). It's unused
+> in-tree and unsafe for its intended use, so it stands on its own with
+> no FAMFS dependency. I'll take it through the DAX tree for 7.3.
+> 
+> Please drop the Fixes: tag on the removal. IIUC the stable team uses
+> it to pick backports, and this shouldn't land in 7.2.y. Removing this
+> fixes nothing since no in-tree code calls the symbol. Name the commit
+> in prose instead, something like:
+> 
+>   Commit 2ae624d5a555 ("dax: export dax_dev_get()") exported
+>   dax_dev_get() in v7.2 for famfs, which has not merged. The export
+>   has never had an in-tree caller, so make dax_dev_get() static again.
+> 
+> Keep the dax_dev_find() addition in this famfs series, so the new export
+> lands with famfs.
+> 
+> -- Alison
+> 
+> > 
+> > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> 
+> I think you can carry the tags for both patches because the code
+> should end up byte identical.
+> 
+> snip
+> 
+
+Thanks Alison, done in my local tree.
+
+The patch that drops dev_dax_get() should hit your inbox today or tomorrow;
+the one that adds dev_dax_find() will stay with this series.
+
+Best,
+John
