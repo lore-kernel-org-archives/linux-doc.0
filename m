@@ -1,294 +1,378 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from forwardcorp1b.mail.yandex.net (forwardcorp1b.mail.yandex.net [178.154.239.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C8C3DE456;
-	Wed,  5 Aug 2026 09:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC90640BCA4;
+	Wed,  5 Aug 2026 09:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785923294; cv=none; b=gZ6R0rbrDV2+qxCdSXjcJkv1Knj6kTEXPT33uaUiIxicEXVqByGfzx/9Or7+tdihj4IMPhat19fkY/0mXNrGBCkKJnA6bRryDqML+oWxaF27TH0pufHv/EqcLHosQ/l8QMssKuPW1lDeNu2cwy+Ln5eb0nV1l+6NX9Clmo51LAI=
+	t=1785923437; cv=none; b=b6EjKlkfVklK0bdYLfjSBxTUDBMiKBpRI0tWO227r1d2PIPitQwziKrZlyH63kroeetaYzSTA/YBPiCSAlm87pMzSm9UJQHg4VBQpDgLUSczxjiHw4jUp1rU3+dNYW8Q+c7Ot0wfZwI8M5JWphIX+ZIAKpuiOhm1RXzFUK05A3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785923294; c=relaxed/simple;
-	bh=CVfxZrZ5huEz9sWFUaYHx7H8oC8g6MtMzrFqIFwcjgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EjLaRBGUjBzJODlZTDUOEVVQ/VlSHiYPQ2vwc7GekmK3OxEsqIbRPWaSNQmKd+Ru7rUmaZbt+Vn3bLJVXnbs5VqWjnYAG8M/oHvR9tNSIKz4aQdYDCyvAUv4gjAwDIvL41cdiTCE3+WuqTYT74pb0FzBJQi+xH4Fxhf3Lj8DI5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=j/cpIwPE; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1785923437; c=relaxed/simple;
+	bh=+DPUREpJ7JP1BozhW/O6WxiikVuX22GN1ZGO1VmW5WY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bOkCf9zXXKW9xp3x1Hb7z/eLPzOr6BlTjyC7D/Ycc7XnAT10gk2j6R3nI3rUGCfaas7bXaOJ06pv5KJgekZ0hXhPThvoHg46FgLePVduf90RSDGEF6W2KBbQIqtzRtiUkpOF52BqStyspfliYw0FUuNu50YYabaMKQw5A2dAFQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=fxwougjJ; arc=none smtp.client-ip=178.154.239.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="j/cpIwPE"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1785923286; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=jeqp+GWZYrC7CG++av88Z1rhW3KrVbOyZV3jpxeJENk=;
-	b=j/cpIwPE6ZqHkgRSTVka8LRFVpq3l2TXaiADmbNRjXcCduVqgy4cYnX5rhE+e9z2zGWpQozpXZTyJo7IECH6ei7yrahUn8FzCc7vvMONvGhLQ3bNY9iTvZo9vf9w9BUJf3f/uaGIpjW1CqWXU0KiFa1iVfem2CkXRrt6ov3FzRU=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=yaoyuan@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0X8Qm5AG_1785923285;
-Received: from localhost(mailfrom:yaoyuan@linux.alibaba.com fp:SMTPD_---0X8Qm5AG_1785923285 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 05 Aug 2026 17:48:05 +0800
-Date: Wed, 5 Aug 2026 17:48:04 +0800
-From: Yao Yuan <yaoyuan@linux.alibaba.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>, 
-	Oliver Upton <oupton@kernel.org>, Peter Maydell <peter.maydell@linaro.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 03/14] KVM: arm64: Manage GCS access and registers
- for guests
-Message-ID: <enhoyivbkdaacgyazubgfzftt34xjemtrybvgpuqvr4czjtbhm@7qvrce5lmdyw>
-References: <20260803-arm64-gcs-v18-0-fd8c40f5ad88@kernel.org>
- <20260803-arm64-gcs-v18-3-fd8c40f5ad88@kernel.org>
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="fxwougjJ"
+Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:43a8:0:640:574d:0])
+	by forwardcorp1b.mail.yandex.net (postfix) with ESMTPS id 5BBAE80D59;
+	Wed, 05 Aug 2026 12:49:01 +0300 (MSK)
+Received: from i101646577.yandex-team.ru (unknown [2a02:6bf:8080:43c::1:39])
+	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp) with ESMTPSA id lmErQB23hCg0-VUeLwzBg;
+	Wed, 05 Aug 2026 12:49:00 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+	s=default; t=1785923340;
+	bh=08PDMaN0bX1KTvGS72tD6r1te965RsIsSrHzkPrJ3Qc=;
+	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
+	b=fxwougjJ+IEAxihuunhEEh4xsivbF8OV4Xi2LD10xS2C1fut94Evc0hEphnEX0D7a
+	 iwVRysZPTXJawfOkU8VnpHZdXeoV3M0rmZaK0uquvAz2JrPeIaWsZMk1U3xWwmcoII
+	 cz0NzXAgAlF6Zc5nRZQawahmuI4tdczDdZRCL1KI=
+Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Harry Yoo <harry@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vlastimil Babka <vbabka@kernel.org>
+Cc: Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Hao Li <hao.li@linux.dev>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Daniil Tatianin <d-tatianin@yandex-team.ru>
+Subject: [RFC PATCH 3/3] mm/slub: add KUnit coverage for the kvmalloc order limit
+Date: Wed,  5 Aug 2026 12:48:43 +0300
+Message-ID: <20260805094843.292134-4-d-tatianin@yandex-team.ru>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
+References: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260803-arm64-gcs-v18-3-fd8c40f5ad88@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 03, 2026 at 11:56:48PM +0800, Mark Brown wrote:
-> GCS introduces a number of system registers, on systems with GCS we need
-> to context switch them and expose them to VMMs to allow guests to use
-> GCS.
->
-> In order to allow guests to use GCS we also need to configure
-> HCRX_EL2.GCSEn, if this is not set GCS instructions will be noops and
-> CHKFEAT will report GCS as disabled.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/kvm_emulate.h       |  3 +++
->  arch/arm64/include/asm/kvm_host.h          | 14 ++++++++++
->  arch/arm64/include/asm/vncr_mapping.h      |  2 ++
->  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 31 ++++++++++++++++++++++
->  arch/arm64/kvm/hyp/vhe/sysreg-sr.c         | 10 +++++++
->  arch/arm64/kvm/sys_regs.c                  | 42 ++++++++++++++++++++++++++++++
->  6 files changed, 102 insertions(+)
-...
-> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> @@ -17,6 +17,7 @@
->  #include <asm/kvm_mmu.h>
->
->  static inline bool ctxt_has_s1poe(struct kvm_cpu_context *ctxt);
-> +static inline bool ctxt_has_gcs(struct kvm_cpu_context *ctxt);
->
->  static inline struct kvm_vcpu *ctxt_to_vcpu(struct kvm_cpu_context *ctxt)
->  {
-> @@ -67,6 +68,11 @@ static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
->  {
->  	ctxt_sys_reg(ctxt, TPIDR_EL0)	= read_sysreg(tpidr_el0);
->  	ctxt_sys_reg(ctxt, TPIDRRO_EL0)	= read_sysreg(tpidrro_el0);
-> +
-> +	if (ctxt_has_gcs(ctxt)) {
-> +		ctxt_sys_reg(ctxt, GCSPR_EL0) = read_sysreg_s(SYS_GCSPR_EL0);
-> +		ctxt_sys_reg(ctxt, GCSCRE0_EL1)	= read_sysreg_s(SYS_GCSCRE0_EL1);
-> +	}
->  }
->
->  static inline bool ctxt_has_mte(struct kvm_cpu_context *ctxt)
-> @@ -131,6 +137,17 @@ static inline bool ctxt_has_sctlr2(struct kvm_cpu_context *ctxt)
->  	return kvm_has_sctlr2(kern_hyp_va(vcpu->kvm));
->  }
->
-> +static inline bool ctxt_has_gcs(struct kvm_cpu_context *ctxt)
-> +{
-> +	struct kvm_vcpu *vcpu;
-> +
-> +	if (!cpus_have_final_cap(ARM64_HAS_GCS))
-> +		return false;
-> +
-> +	vcpu = ctxt_to_vcpu(ctxt);
-> +	return kvm_has_feat(kern_hyp_va(vcpu->kvm), ID_AA64PFR1_EL1, GCS, IMP);
-> +}
-> +
->  static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
->  {
->  	ctxt_sys_reg(ctxt, SCTLR_EL1)	= read_sysreg_el1(SYS_SCTLR);
-> @@ -144,6 +161,10 @@ static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
->  		if (ctxt_has_s1pie(ctxt)) {
->  			ctxt_sys_reg(ctxt, PIR_EL1)	= read_sysreg_el1(SYS_PIR);
->  			ctxt_sys_reg(ctxt, PIRE0_EL1)	= read_sysreg_el1(SYS_PIRE0);
-> +			if (ctxt_has_gcs(ctxt)) {
-> +				ctxt_sys_reg(ctxt, GCSPR_EL1)	= read_sysreg_el1(SYS_GCSPR);
-> +				ctxt_sys_reg(ctxt, GCSCR_EL1)	= read_sysreg_el1(SYS_GCSCR);
-> +			}
->  		}
->
->  		if (ctxt_has_s1poe(ctxt))
-> @@ -206,6 +227,11 @@ static inline void __sysreg_restore_user_state(struct kvm_cpu_context *ctxt)
->  {
->  	write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL0),	tpidr_el0);
->  	write_sysreg(ctxt_sys_reg(ctxt, TPIDRRO_EL0),	tpidrro_el0);
-> +	if (ctxt_has_gcs(ctxt)) {
-> +		write_sysreg_s(ctxt_sys_reg(ctxt, GCSPR_EL0), SYS_GCSPR_EL0);
-> +		write_sysreg_s(ctxt_sys_reg(ctxt, GCSCRE0_EL1),
-> +			       SYS_GCSCRE0_EL1);
-> +	}
->  }
->
->  static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt,
-> @@ -239,6 +265,11 @@ static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt,
->  		if (ctxt_has_s1pie(ctxt)) {
->  			write_sysreg_el1(ctxt_sys_reg(ctxt, PIR_EL1),	SYS_PIR);
->  			write_sysreg_el1(ctxt_sys_reg(ctxt, PIRE0_EL1),	SYS_PIRE0);
-> +
-> +			if (ctxt_has_gcs(ctxt)) {
-> +				write_sysreg_el1(ctxt_sys_reg(ctxt, GCSPR_EL1),	SYS_GCSPR);
-> +				write_sysreg_el1(ctxt_sys_reg(ctxt, GCSCR_EL1),	SYS_GCSCR);
-> +			}
->  		}
->
->  		if (ctxt_has_s1poe(ctxt))
-> diff --git a/arch/arm64/kvm/hyp/vhe/sysreg-sr.c b/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
-> index be685b63e8cf..2431c18f5792 100644
-> --- a/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
-> +++ b/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
-> @@ -61,6 +61,9 @@ static void __sysreg_save_vel2_state(struct kvm_vcpu *vcpu)
->
->  			if (ctxt_has_s1poe(&vcpu->arch.ctxt))
->  				__vcpu_assign_sys_reg(vcpu, POR_EL2, read_sysreg_el1(SYS_POR));
-> +
-> +			if (ctxt_has_gcs(&vcpu->arch.ctxt))
-> +				__vcpu_assign_sys_reg(vcpu, GCSCR_EL2, read_sysreg_el1(SYS_GCSCR));
->  		}
->
->  		/*
-> @@ -77,6 +80,8 @@ static void __sysreg_save_vel2_state(struct kvm_vcpu *vcpu)
->  	__vcpu_assign_sys_reg(vcpu, SP_EL2,	 read_sysreg(sp_el1));
->  	__vcpu_assign_sys_reg(vcpu, ELR_EL2,	 read_sysreg_el1(SYS_ELR));
->  	__vcpu_assign_sys_reg(vcpu, SPSR_EL2,	 read_sysreg_el1(SYS_SPSR));
-> +	if (ctxt_has_gcs(&vcpu->arch.ctxt))
-> +		__vcpu_assign_sys_reg(vcpu, GCSPR_EL2, read_sysreg_el1(SYS_GCSPR));
->
->  	if (ctxt_has_sctlr2(&vcpu->arch.ctxt))
->  		__vcpu_assign_sys_reg(vcpu, SCTLR2_EL2, read_sysreg_el1(SYS_SCTLR2));
-> @@ -133,6 +138,11 @@ static void __sysreg_restore_vel2_state(struct kvm_vcpu *vcpu)
->
->  		if (ctxt_has_s1poe(&vcpu->arch.ctxt))
->  			write_sysreg_el1(__vcpu_sys_reg(vcpu, POR_EL2), SYS_POR);
-> +
-> +		if (ctxt_has_gcs(&vcpu->arch.ctxt)) {
-> +			write_sysreg_el1(__vcpu_sys_reg(vcpu, GCSCR_EL2), SYS_GCSCR);
-> +			write_sysreg_el1(__vcpu_sys_reg(vcpu, GCSPR_EL2), SYS_GCSPR);
-> +		}
+The limit has no observable effect other than which allocator served a
+request, so it is easy to break without noticing.  Add a KUnit suite that
+checks the behavior directly.
 
-Hi Mark,
+is_vmalloc_addr() is what the tests key on: a request the limit denied must
+have come from vmalloc().  The reverse is deliberately not asserted, as
+kmalloc() may always fail and fall back on its own, which would make such a
+test depend on how fragmented the machine happens to be.
 
-Looks the s1pie checking for GCS vEL2 context switch is
-necessary yet IIUC, KVM does vEL2 context switch for nested
-L1's EL2, it should follow same rule as non-nested L1's EL1
-context switch.
+Covered:
 
->  	}
->
->  	write_sysreg_el1(__vcpu_sys_reg(vcpu, ESR_EL2),		SYS_ESR);
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index 5d5c579d4579..d18ada283809 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -109,6 +109,10 @@ static enum sr_loc_attr locate_direct_register(const struct kvm_vcpu *vcpu,
->  	case PIR_EL1:
->  	case PIRE0_EL1:
->  	case POR_EL1:
-> +	case GCSCRE0_EL1:
-> +	case GCSPR_EL0:
-> +	case GCSCR_EL1:
-> +	case GCSPR_EL1:
->  	case ESR_EL1:
->  	case AFSR0_EL1:
->  	case AFSR1_EL1:
-> @@ -200,6 +204,8 @@ static void locate_register(const struct kvm_vcpu *vcpu, enum vcpu_sysreg reg,
->  		MAPPED_EL2_SYSREG(PIR_EL2,     PIR_EL1,     NULL	     );
->  		MAPPED_EL2_SYSREG(PIRE0_EL2,   PIRE0_EL1,   NULL	     );
->  		MAPPED_EL2_SYSREG(POR_EL2,     POR_EL1,     NULL	     );
-> +		MAPPED_EL2_SYSREG(GCSCR_EL2,   GCSCR_EL1,   NULL             );
-> +		MAPPED_EL2_SYSREG(GCSPR_EL2,   GCSPR_EL1,   NULL             );
->  		MAPPED_EL2_SYSREG(AMAIR_EL2,   AMAIR_EL1,   NULL	     );
->  		MAPPED_EL2_SYSREG(ELR_EL2,     ELR_EL1,	    NULL	     );
->  		MAPPED_EL2_SYSREG(SPSR_EL2,    SPSR_EL1,    NULL	     );
-> @@ -228,6 +234,10 @@ static u64 read_sr_from_cpu(enum vcpu_sysreg reg)
->  	case TCR2_EL1:		val = read_sysreg_s(SYS_TCR2_EL12);	break;
->  	case PIR_EL1:		val = read_sysreg_s(SYS_PIR_EL12);	break;
->  	case PIRE0_EL1:		val = read_sysreg_s(SYS_PIRE0_EL12);	break;
-> +	case GCSPR_EL0:		val = read_sysreg_s(SYS_GCSPR_EL0);	break;
-> +	case GCSCRE0_EL1:	val = read_sysreg_s(SYS_GCSCRE0_EL1);	break;
-> +	case GCSCR_EL1:		val = read_sysreg_s(SYS_GCSCR_EL12);	break;
-> +	case GCSPR_EL1:		val = read_sysreg_s(SYS_GCSPR_EL12);	break;
->  	case POR_EL1:		val = read_sysreg_s(SYS_POR_EL12);	break;
->  	case ESR_EL1:		val = read_sysreg_s(SYS_ESR_EL12);	break;
->  	case AFSR0_EL1:		val = read_sysreg_s(SYS_AFSR0_EL12);	break;
-> @@ -267,6 +277,10 @@ static void write_sr_to_cpu(enum vcpu_sysreg reg, u64 val)
->  	case PIR_EL1:		write_sysreg_s(val, SYS_PIR_EL12);	break;
->  	case PIRE0_EL1:		write_sysreg_s(val, SYS_PIRE0_EL12);	break;
->  	case POR_EL1:		write_sysreg_s(val, SYS_POR_EL12);	break;
-> +	case GCSCRE0_EL1:	write_sysreg_s(val, SYS_GCSCRE0_EL1);	break;
-> +	case GCSPR_EL0:		write_sysreg_s(val, SYS_GCSPR_EL0);	break;
-> +	case GCSCR_EL1:		write_sysreg_s(val, SYS_GCSCR_EL12);	break;
-> +	case GCSPR_EL1:		write_sysreg_s(val, SYS_GCSPR_EL12);	break;
->  	case ESR_EL1:		write_sysreg_s(val, SYS_ESR_EL12);	break;
->  	case AFSR0_EL1:		write_sysreg_s(val, SYS_AFSR0_EL12);	break;
->  	case AFSR1_EL1:		write_sysreg_s(val, SYS_AFSR1_EL12);	break;
-> @@ -2995,6 +3009,21 @@ static unsigned int cnthv_visibility(const struct kvm_vcpu *vcpu,
->  	return REG_HIDDEN;
->  }
->
-> +static unsigned int gcs_visibility(const struct kvm_vcpu *vcpu,
-> +				   const struct sys_reg_desc *r)
-> +{
-> +	if (kvm_has_gcs(vcpu->kvm))
-> +		return 0;
-> +
-> +	return REG_HIDDEN;
-> +}
-> +
-> +static unsigned int gcs_el2_visibility(const struct kvm_vcpu *vcpu,
-> +				       const struct sys_reg_desc *rd)
-> +{
-> +	return __el2_visibility(vcpu, rd, gcs_visibility);
-> +}
-> +
->  static bool access_mdcr(struct kvm_vcpu *vcpu,
->  			struct sys_reg_params *p,
->  			const struct sys_reg_desc *r)
-> @@ -3399,6 +3428,13 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  	PTRAUTH_KEY(APDB),
->  	PTRAUTH_KEY(APGA),
->
-> +	{ SYS_DESC(SYS_GCSCR_EL1), NULL, reset_val, GCSCR_EL1, 0,
-> +	  .visibility = gcs_visibility },
-> +	{ SYS_DESC(SYS_GCSPR_EL1), NULL, reset_unknown, GCSPR_EL1,
-> +	  .visibility = gcs_visibility },
-> +	{ SYS_DESC(SYS_GCSCRE0_EL1), NULL, reset_val, GCSCRE0_EL1, 0,
-> +	  .visibility = gcs_visibility },
-> +
->  	{ SYS_DESC(SYS_SPSR_EL1), access_spsr},
->  	{ SYS_DESC(SYS_ELR_EL1), access_elr},
->
-> @@ -3523,6 +3559,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  		    CTR_EL0_DminLine_MASK |
->  		    CTR_EL0_L1Ip_MASK |
->  		    CTR_EL0_IminLine_MASK),
-> +	{ SYS_DESC(SYS_GCSPR_EL0), NULL, reset_unknown, GCSPR_EL0,
-> +	  .visibility = gcs_visibility },
->  	{ SYS_DESC(SYS_SVCR), undef_access, reset_val, SVCR, 0, .visibility = sme_visibility  },
->  	{ SYS_DESC(SYS_FPMR), undef_access, reset_val, FPMR, 0, .visibility = fp8_visibility },
->
-> @@ -3764,6 +3802,10 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  	EL2_REG_FILTERED(VNCR_EL2, bad_vncr_trap, reset_val, 0,
->  			 vncr_el2_visibility),
->
-> +	EL2_REG_FILTERED(GCSCR_EL2, access_rw, reset_val, 0,
-> +			 gcs_el2_visibility),
-> +	EL2_REG_FILTERED(GCSPR_EL2, access_rw, reset_val, 0,
-> +			 gcs_el2_visibility),
->  	{ SYS_DESC(SYS_DACR32_EL2), undef_access, reset_unknown, DACR32_EL2 },
->  	EL2_REG_VNCR_FILT(HDFGRTR2_EL2, fgt2_visibility),
->  	EL2_REG_VNCR_FILT(HDFGWTR2_EL2, fgt2_visibility),
->
-> --
-> 2.47.3
->
+ - a request one byte above the limit is served by vmalloc(),
+ - a request of exactly the limit is not denied,
+ - requests a kmalloc cache can serve are not denied even with the limit at
+   the lowest value the sysctl accepts, which is the invariant that lets
+   kvmalloc_order_denied() get away with a single order comparison,
+ - at the default value nothing is denied,
+ - requests above KMALLOC_MAX_SIZE are not accounted to the limit,
+ - sub page requests are never diverted.
+
+The suite drives sysctl_kvmalloc_max_contig_order directly instead of going
+through the sysctl, so the variable is made visible to the test with
+VISIBLE_IF_KUNIT and EXPORT_SYMBOL_IF_KUNIT and declared in mm/slab.h.  It
+stays static, and unexported, when CONFIG_KUNIT is disabled.
+
+Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
+---
+ MAINTAINERS                |   1 +
+ lib/Kconfig.debug          |  15 +++
+ lib/tests/Makefile         |   1 +
+ lib/tests/kvmalloc_kunit.c | 184 +++++++++++++++++++++++++++++++++++++
+ mm/slab.h                  |   4 +
+ mm/slub.c                  |   4 +-
+ 6 files changed, 208 insertions(+), 1 deletion(-)
+ create mode 100644 lib/tests/kvmalloc_kunit.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 716acfc3d7c1..128dd3508e66 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -24915,6 +24915,7 @@ F:	Documentation/admin-guide/mm/slab.rst
+ F:	Documentation/mm/slab.rst
+ F:	include/linux/mempool.h
+ F:	include/linux/slab.h
++F:	lib/tests/kvmalloc_kunit.c
+ F:	lib/tests/slub_kunit.c
+ F:	mm/failslab.c
+ F:	mm/mempool.c
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 1244dcac2294..3025d5693891 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2998,6 +2998,21 @@ config SLUB_KUNIT_TEST
+ 
+ 	  If unsure, say N.
+ 
++config KVMALLOC_ORDER_LIMIT_KUNIT_TEST
++	tristate "KUnit test for the kvmalloc order limit" if !KUNIT_ALL_TESTS
++	depends on KVMALLOC_ORDER_LIMIT && KUNIT
++	default KUNIT_ALL_TESTS
++	help
++	  This builds the unit test for vm.kvmalloc_max_contig_order.
++	  Tests that requests above the limit are served by vmalloc(), that
++	  requests a kmalloc cache can serve are never diverted, and that the
++	  kvmalloc_forced_vmalloc counter only accounts allocations the limit
++	  actually diverted.
++	  For more information on KUnit and unit tests in general please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  If unsure, say N.
++
+ config RATIONAL_KUNIT_TEST
+ 	tristate "KUnit test for rational.c" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT && RATIONAL
+diff --git a/lib/tests/Makefile b/lib/tests/Makefile
+index 4ead57602eac..19ecc339b227 100644
+--- a/lib/tests/Makefile
++++ b/lib/tests/Makefile
+@@ -48,6 +48,7 @@ obj-$(CONFIG_RANDSTRUCT_KUNIT_TEST) += randstruct_kunit.o
+ obj-$(CONFIG_SCANF_KUNIT_TEST) += scanf_kunit.o
+ obj-$(CONFIG_SEQ_BUF_KUNIT_TEST) += seq_buf_kunit.o
+ obj-$(CONFIG_SIPHASH_KUNIT_TEST) += siphash_kunit.o
++obj-$(CONFIG_KVMALLOC_ORDER_LIMIT_KUNIT_TEST) += kvmalloc_kunit.o
+ obj-$(CONFIG_SLUB_KUNIT_TEST) += slub_kunit.o
+ obj-$(CONFIG_TEST_SORT) += test_sort.o
+ CFLAGS_stackinit_kunit.o += $(call cc-disable-warning, switch-unreachable)
+diff --git a/lib/tests/kvmalloc_kunit.c b/lib/tests/kvmalloc_kunit.c
+new file mode 100644
+index 000000000000..3c792fddc63e
+--- /dev/null
++++ b/lib/tests/kvmalloc_kunit.c
+@@ -0,0 +1,184 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit tests for the vm.kvmalloc_max_contig_order limit.
++ *
++ * The observable the tests rely on is is_vmalloc_addr(): a request the limit
++ * denied must have been served by vmalloc(), never by kmalloc().  The reverse
++ * direction is deliberately not asserted, as kmalloc() is always free to fail
++ * and fall back to vmalloc() on its own, which would make such a test depend
++ * on how fragmented the machine happens to be.
++ */
++#include <kunit/test.h>
++#include <kunit/visibility.h>
++#include <linux/mm.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/vmalloc.h>
++#include <linux/vmstat.h>
++#include "../mm/slab.h"
++
++/* The order used whenever a test needs a limit below MAX_PAGE_ORDER. */
++#define TEST_ORDER		PAGE_ALLOC_COSTLY_ORDER
++/* The smallest limit the sysctl accepts, i.e. the order of a full kmalloc cache. */
++#define TEST_ORDER_MIN		(KMALLOC_SHIFT_HIGH - PAGE_SHIFT)
++
++static unsigned int saved_order;
++
++static unsigned long forced_vmalloc_count(struct kunit *test)
++{
++	unsigned long *events, count;
++
++	events = kunit_kcalloc(test, NR_VM_EVENT_ITEMS, sizeof(*events),
++			       GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, events);
++
++	all_vm_events(events);
++	count = events[KVMALLOC_FORCED_VMALLOC];
++
++	kunit_kfree(test, events);
++	return count;
++}
++
++/*
++ * Allocate @size with the limit set to @order and report whether the result
++ * came from vmalloc(), along with how much the counter moved.
++ */
++static bool alloc_at_order(struct kunit *test, size_t size, unsigned int order,
++			   unsigned long *counted)
++{
++	unsigned long before, after;
++	bool vmalloced;
++	void *p;
++
++	sysctl_kvmalloc_max_contig_order = order;
++
++	before = forced_vmalloc_count(test);
++	p = kvmalloc(size, GFP_KERNEL);
++	after = forced_vmalloc_count(test);
++
++	sysctl_kvmalloc_max_contig_order = MAX_PAGE_ORDER;
++
++	KUNIT_ASSERT_NOT_NULL(test, p);
++	vmalloced = is_vmalloc_addr(p);
++	kvfree(p);
++
++	if (counted)
++		*counted = after - before;
++
++	return vmalloced;
++}
++
++/* A request above the limit must not be served by kmalloc(). */
++static void test_over_limit_is_vmalloc(struct kunit *test)
++{
++	size_t size = (PAGE_SIZE << TEST_ORDER) + 1;
++	unsigned long nr;
++
++	KUNIT_EXPECT_TRUE(test, alloc_at_order(test, size, TEST_ORDER, &nr));
++	KUNIT_EXPECT_EQ(test, nr, 1UL);
++}
++
++/* A request of exactly the limit is still allowed to use kmalloc(). */
++static void test_at_limit_is_not_denied(struct kunit *test)
++{
++	size_t size = PAGE_SIZE << TEST_ORDER;
++	unsigned long nr;
++
++	alloc_at_order(test, size, TEST_ORDER, &nr);
++	KUNIT_EXPECT_EQ(test, nr, 0UL);
++}
++
++/*
++ * Requests a kmalloc cache can serve are never denied, even with the limit at
++ * the smallest value the sysctl accepts.
++ */
++static void test_cache_sized_never_denied(struct kunit *test)
++{
++	size_t size = KMALLOC_MAX_CACHE_SIZE;
++	unsigned long nr;
++
++	KUNIT_EXPECT_FALSE(test, alloc_at_order(test, size, TEST_ORDER_MIN, &nr));
++	KUNIT_EXPECT_EQ(test, nr, 0UL);
++
++	size = PAGE_SIZE;
++	KUNIT_EXPECT_FALSE(test, alloc_at_order(test, size, TEST_ORDER_MIN, &nr));
++	KUNIT_EXPECT_EQ(test, nr, 0UL);
++}
++
++/* At the default the limit must be inert, whichever way the allocation goes. */
++static void test_default_does_not_deny(struct kunit *test)
++{
++	size_t size = PAGE_SIZE << TEST_ORDER;
++	unsigned long nr;
++
++	alloc_at_order(test, size, MAX_PAGE_ORDER, &nr);
++	KUNIT_EXPECT_EQ(test, nr, 0UL);
++
++	size = KMALLOC_MAX_SIZE;
++	alloc_at_order(test, size, MAX_PAGE_ORDER, &nr);
++	KUNIT_EXPECT_EQ(test, nr, 0UL);
++}
++
++/*
++ * kmalloc() cannot serve anything above KMALLOC_MAX_SIZE, so such a request
++ * reaches vmalloc() either way and must not be accounted to the limit.
++ */
++static void test_over_kmalloc_max_not_counted(struct kunit *test)
++{
++	size_t size = KMALLOC_MAX_SIZE + PAGE_SIZE;
++	unsigned long nr;
++
++	KUNIT_EXPECT_TRUE(test, alloc_at_order(test, size, TEST_ORDER, &nr));
++	KUNIT_EXPECT_EQ(test, nr, 0UL);
++}
++
++/* Sub-page requests never fall back to vmalloc(), limit or not. */
++static void test_sub_page_untouched(struct kunit *test)
++{
++	unsigned long nr;
++
++	KUNIT_EXPECT_FALSE(test, alloc_at_order(test, 64, TEST_ORDER_MIN, &nr));
++	KUNIT_EXPECT_EQ(test, nr, 0UL);
++}
++
++static int kvmalloc_limit_init(struct kunit *test)
++{
++	/*
++	 * TEST_ORDER has to be a value the sysctl would accept, otherwise the
++	 * tests would be exercising a state userspace cannot reach.
++	 */
++	if (TEST_ORDER < TEST_ORDER_MIN || TEST_ORDER >= MAX_PAGE_ORDER)
++		kunit_skip(test, "TEST_ORDER %d outside the accepted range [%d, %d]",
++			   TEST_ORDER, TEST_ORDER_MIN, MAX_PAGE_ORDER);
++
++	saved_order = sysctl_kvmalloc_max_contig_order;
++	return 0;
++}
++
++static void kvmalloc_limit_exit(struct kunit *test)
++{
++	sysctl_kvmalloc_max_contig_order = saved_order;
++}
++
++static struct kunit_case kvmalloc_limit_cases[] = {
++	KUNIT_CASE(test_over_limit_is_vmalloc),
++	KUNIT_CASE(test_at_limit_is_not_denied),
++	KUNIT_CASE(test_cache_sized_never_denied),
++	KUNIT_CASE(test_default_does_not_deny),
++	KUNIT_CASE(test_over_kmalloc_max_not_counted),
++	KUNIT_CASE(test_sub_page_untouched),
++	{}
++};
++
++static struct kunit_suite kvmalloc_limit_suite = {
++	.name = "kvmalloc_order_limit",
++	.init = kvmalloc_limit_init,
++	.exit = kvmalloc_limit_exit,
++	.test_cases = kvmalloc_limit_cases,
++};
++
++kunit_test_suite(kvmalloc_limit_suite);
++
++MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
++MODULE_DESCRIPTION("KUnit tests for the kvmalloc order limit");
++MODULE_LICENSE("GPL");
+diff --git a/mm/slab.h b/mm/slab.h
+index f5e336b6b6b0..157845af6e45 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -782,4 +782,8 @@ static inline bool slub_debug_orig_size(struct kmem_cache *s)
+ void skip_orig_size_check(struct kmem_cache *s, const void *object);
+ #endif
+ 
++#if defined(CONFIG_KVMALLOC_ORDER_LIMIT) && IS_ENABLED(CONFIG_KUNIT)
++extern unsigned int sysctl_kvmalloc_max_contig_order;
++#endif
++
+ #endif /* MM_SLAB_H */
+diff --git a/mm/slub.c b/mm/slub.c
+index 7287949ea247..2502bc74f506 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -52,6 +52,7 @@
+ #include <linux/debugfs.h>
+ #include <linux/sysctl.h>
+ #include <linux/vmstat.h>
++#include <kunit/visibility.h>
+ #include <trace/events/kmem.h>
+ 
+ #include "internal.h"
+@@ -6890,7 +6891,8 @@ static gfp_t kmalloc_gfp_adjust(gfp_t flags, size_t size)
+ }
+ 
+ #ifdef CONFIG_KVMALLOC_ORDER_LIMIT
+-static unsigned int sysctl_kvmalloc_max_contig_order __read_mostly = MAX_PAGE_ORDER;
++VISIBLE_IF_KUNIT unsigned int sysctl_kvmalloc_max_contig_order __read_mostly = MAX_PAGE_ORDER;
++EXPORT_SYMBOL_IF_KUNIT(sysctl_kvmalloc_max_contig_order);
+ 
+ /*
+  * The limit only ever applies to requests too large for a kmalloc cache, so
