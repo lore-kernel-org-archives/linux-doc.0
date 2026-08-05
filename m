@@ -1,71 +1,80 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86503C1F45;
-	Wed,  5 Aug 2026 02:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DE33AC00;
+	Wed,  5 Aug 2026 02:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785897073; cv=none; b=Qt+uReXFm/7DDImQo7Cjb12csg0gpKs0dRNJEMWIuFuDKZiCZWcjQ6trsDMwrsNDJE0SnyWrUULMYstXlc5H/fczuI9bh4wtE42WnfuhFslarddZvSDxnkCtiwCaWXEAWukL2S9+VBUA8cXomMQVIVaUlli11e51UG2LnbOZakM=
+	t=1785898011; cv=none; b=QEfm03VS5p7rvJ0vEoDkJtNOqq7nmMWNTtvymvPFpKp8zECUSHd6Hh8fEqusGnlAuqIoM9oMygQtKa3+l9hh0ShpDsxlBeH0yMy1+BsXV6FZjMgP6LSAz0L9NbQUhM77M46LyekwdQad0IHGkYSXg98G1yEXCmwYwTnLgup1OYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785897073; c=relaxed/simple;
-	bh=DIr2Q04lO8c7g5YifszBX/tgpihSNW2RkZlQuLJQbaE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aX4tuhcJc3j1AAhz84W0wXhHJxX781E1fPZ+LjbJVL26zKtx6JwTnVxc+c8Fb3Vrbw2keXrN2dID4HRyjYAJVemh6Dc+wdgDtRAVE1gL6/WDzlxYHR4gVxc2vcatCb4n5brSHuH2Qo45nwQA8DYSqyNWnZpOBlOLQdlHok/BMXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=MIW9R9Ro; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1785898011; c=relaxed/simple;
+	bh=anDmmYmDCw85dJdG5F1r05td0cG0ll5ir6h6ibLQk5Y=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=VsVDAbkLs3F68gQEtDz7Hndl0xCpfcs3YXnKDQbMVt6MgmLWXg+3pkEls8nBZB1PgoenkPKjs6ciLU217REcFYZW4SBqN/ZtID1qkxAwrckE5qOsxCjEHRHwpHSuuadPHePnKppOXHa6r3mPwFnlD5bBarqMH+2gpV3i5KceQ7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=md2voIh7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="MIW9R9Ro"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=DIr2Q04lO8c7g5YifszBX/tgpihSNW2RkZlQuLJQbaE=;
-	b=MIW9R9RoQtNs6HtlH8+86sD/BsdftwDHxgRE/Ju1UOKnErGjslFzc4ApY7vYh1wwj1jI+vdon
-	VHcpdFJQ2NIbuxltNxPpgD+YSBKR3kANi/3vb9X3k+YI+h3kcQxb5PEQgFb9RKyQhpFe6zGtWQG
-	wbm13UUB2Ew8cIuCK0b9Zmg=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4hFDgB5BP7z1T4LH;
-	Wed,  5 Aug 2026 10:21:26 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id BD13E2025F;
-	Wed,  5 Aug 2026 10:31:06 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 5 Aug 2026 10:31:05 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: <kuba@kernel.org>
-CC: <andrew+netdev@lunn.ch>, <august.hewei@huawei.com>,
-	<chenanwen@huawei.com>, <davem@davemloft.net>,
-	<dimitri.daskalakis1@gmail.com>, <edumazet@google.com>,
-	<gongfan1@huawei.com>, <guoxin09@huawei.com>, <horms@kernel.org>,
-	<hramamurthy@google.com>, <ioana.ciornei@nxp.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<luosifu@huawei.com>, <maxime.chevallier@bootlin.com>,
-	<mohsin.bashr@gmail.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-	<shijing34@huawei.com>, <tengpeisen@huawei.com>, <wudi234@huawei.com>,
-	<wulike1@huawei.com>, <zhengjiezhen@h-partners.com>, <zhoushuai28@huawei.com>
-Subject: Re: Re: [PATCH net-next v12 1/8] hinic3: Fix drop skb when
-Date: Wed, 5 Aug 2026 10:30:55 +0800
-Message-ID: <20260805023055.2188-1-gongfan1@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <20260803230745.2291141-2-kuba@kernel.org>
-References: <20260803230745.2291141-2-kuba@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="md2voIh7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295501F000E9;
+	Wed,  5 Aug 2026 02:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785898009;
+	bh=anDmmYmDCw85dJdG5F1r05td0cG0ll5ir6h6ibLQk5Y=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References;
+	b=md2voIh7SHArpmBf3q4HUy7wT+dp8MyfuKgWe70PZGwm9zg8GTsSISge1OGz0Dvay
+	 Cyy6QcZ7bKEV8MBUYudZskpMWyDjQYiQUkOfW3gmfVuI+zp4wJepzFaN9yUrN7cZiV
+	 06a8WwYxF/QIhHnuiDDhWRl0+onya9B3hwfV03aSwa8Nc10zLIHk9UVExrWZcbiFES
+	 0LoCfxM9GHxx3M5ma2l5gpaz8o3Kq9qfRrRb6ouF2KJ3bCOspfPFFW2NlR5QXzusKB
+	 BdBPsv/u4Db42cNl3bppRMo1EvkfYRfTMncaYGoLAoBfX4Bo3VzG9uWPvsajpyIFEU
+	 cZiDtUj1q4NJQ==
+Date: Tue, 4 Aug 2026 20:46:39 -0600 (MDT)
+From: Paul Walmsley <pjw@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+cc: Adrien Ricciardi <aricciardi@baylibre.com>, 
+    Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
+    Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
+    Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
+    Chen Pei <cp0613@linux.alibaba.com>, 
+    Conor Dooley <conor.dooley@microchip.com>, 
+    Conor Dooley <conor+dt@kernel.org>, 
+    Dave Hansen <dave.hansen@linux.intel.com>, 
+    Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
+    Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
+    guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
+    =?ISO-8859-2?Q?Kornel_Dul=EAba?= <mindal@semihalf.com>, 
+    Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
+    Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+    Peter Newman <peternewman@google.com>, 
+    =?ISO-8859-2?Q?Radim_Kr=E8m=E1=F8?= <rkrcmar@ventanamicro.com>, 
+    Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
+    Samuel Holland <samuel.holland@sifive.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
+    Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
+    yunhui cui <cuiyunhui@bytedance.com>, 
+    Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
+    linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+    x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 1/8] dt-bindings: riscv: Add Ssqosid extension
+ description
+In-Reply-To: <20260729-dfustini-atl-sc-cbqri-dt-v6-1-7c22b05d461b@kernel.org>
+Message-ID: <8d9a90e2-37c5-f1d6-edc4-9531942aaa35@kernel.org>
+References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org> <20260729-dfustini-atl-sc-cbqri-dt-v6-1-7c22b05d461b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: text/plain; charset=US-ASCII
 
-> This is an AI-generated review of your patch. Larysa is right, this patch
-> looks like a fix. And there seems to be more bugs in the csum handling
-> according to AI.
+On Wed, 29 Jul 2026, Drew Fustini wrote:
 
-Thanks for the review. We will drop this patch from the current series and
-submit it separately to the net tree as a bug fix. We will also revise the
-commit message according to your feedback.
+> Document the ratified Supervisor-mode Quality of Service ID (Ssqosid)
+> extension v1.0.
+
+Thanks, queued for v7.3.
+
+
+- Paul
