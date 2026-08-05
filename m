@@ -1,77 +1,215 @@
-Received: from unimail.uni-dortmund.de (mx1.hrz.uni-dortmund.de [129.217.128.51])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012053.outbound.protection.outlook.com [40.107.200.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CFF33F383;
-	Wed,  5 Aug 2026 05:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.217.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785907442; cv=none; b=m4l7QmOnfSwFD0mYAdr9RbskdV97lfaQF8kg8y4uN1My3gCtFhnBTI1XlfTcGpbqPRSy8HrjgJ3WM169SkPLvapZBMriqBRMp78zmG8Q+EDxaUKP0D6HrUWO9kFzmNx4GkcUh9b3UT6t1sM4wrFTf2LjluYfOsiLgPNhJENsJ00=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785907442; c=relaxed/simple;
-	bh=s1uXNVpEAHN4f/x9IHGPV+gZso6zL17IL/l6/kWi1+w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=oSzCLAhGuOC1MJRkQ2mthZX3BAu3XEtjuIfxh3Qfy6Hrx7sCZzKwFefPhqca9Baq8kdT3NQ/uARzmJ/wlcuaU0k06vmRYziCEN1gY0v268pwjxFaNBjr8ryRbTomZzHBsY2wP2eGagtgHuAieIWppC84rBC7FiY/u/QwGUMcXac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de; spf=pass smtp.mailfrom=tu-dortmund.de; dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b=dM1nqOnD; arc=none smtp.client-ip=129.217.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tu-dortmund.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tu-dortmund.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A314B393DC8;
+	Wed,  5 Aug 2026 05:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785908716; cv=fail; b=KTZzlFrNuvB1vfXB95po98wSLpiG+Xj2itmqiTmPy/6YBay2jCGMs+HMXTFbWUnbhs+pMUpNsdPpaEphNRluEWOh6Z637xsnvnfv4FWkLZo0gSwH29ZQ+Zzp55+fPqztUupTwKSRiqgP8LXOZNmDeZItWJKe5YJ3ROshV3PmqaQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785908716; c=relaxed/simple;
+	bh=GWhVdiyh6IKLzJrCDon28zBpt1kUv+hTBC32kR3kY6M=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=eGTpdtkWCFF0XWr7g4KF7eGJG2b3p33Pu2S21n3Hwa2E/OdMrgtXqk+wOm+fDtG8pe365rjaYvzPbgWM8KqRV1DQDwggwKunV6F0sduEGV9HrovfdJNObpCQzM22wMzRRe6FRykehvtmimTYQwL33y3uVzZ8fAtCvumGMJJqLro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fg3qpCah; arc=fail smtp.client-ip=40.107.200.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tu-dortmund.de header.i=@tu-dortmund.de header.b="dM1nqOnD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tu-dortmund.de;
-	s=unimail; t=1785907230;
-	bh=tnJ1K0fIN2izUR1UfRoFKGa/WS2bVfZZL5bJfos5cCk=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=dM1nqOnDArETP2YaQuChbwXjt658w2p/8a01FVV3lZYiPmkV1Km9pfbmjAeaqhEVb
-	 SyYdPGTZea9DQ4qf3zTB6goRoae/8SULlKeBjeVhLJMQzr3ntFv0/lRjkWv0grkOWC
-	 VFyAS9aFOZrv8ai5fBGfbXZKmXziVrsqNufENRPM=
-Received: from [IPV6:2a01:599:232:c1b0:84f0:11ed:69b4:d86b] (tmo-075-246.customers.d1-online.com [80.187.75.246])
-	(authenticated bits=0)
-	by unimail.uni-dortmund.de (8.19.0.2/8.19.0.2) with ESMTPSA id 6755KRMg017404
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 5 Aug 2026 07:20:27 +0200 (CEST)
-Message-ID: <0e3efa4a-e9bb-4e98-8b1f-1a8637c429db@tu-dortmund.de>
-Date: Wed, 5 Aug 2026 07:20:26 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fg3qpCah"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bMUngYWj1Tp1OHFvWJNDcdLd77Ekn99yL1zs0Ymxms1iIqsj5Jxe6WQ84m/urJ3Zf8XtJeWShIRhq553VHNjxbglH+9nx2vaVfIRqE40rj5a51UWmX9WiQyk324ZZIow7LtfZus64y3ersO5OmbSYT5aDoUSlKLhUlK1EvBbi8Q5F9TZbiKbVU1SeF3/t+dyLicWprichf7qecWYNCekRwNYrGN7pYwk8ZdWS/ymBLWB8qAC7PRsiBZQSfOjATO9ha/lKWlcbS+eRVlYnr7tx8rY8RxtVURU9m3z4foQmkM9vv1tArDIqRt+qxY2dcAI/TenTtQ+hmcV5DbYRKiNAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4Me+n0FksMQOS5OcfszZir4AwvdtrSn6Fm8gbv1ncTM=;
+ b=q+jP+EMr/UGv/QjKbrXHYoGoyaJWrxWviq4D3Bqc5qZWvbCIUpL9qWaMmh2cViLJX0WNrZi7OfaZVPAWudUMXyDIYo/ajn85U7dJMtUISua1Sk0RXJ42AkUO5+B655A29Tf8iUCYYM6SN00rFWo6l+87iLsuw0gyk4tnfyLK7zvLbHyrUQtgt727VuhGkFpRKxmUyx6r02v+a+O75Q4lg3z20uSOL88f+J6RrPhUvg6GrciKDFnZV7AnvKydJNbmXbzDYit31YzR3CeyUap3PkvF7UwDbWUgMSnXGlaCYfbOgfAVVzKVJpha/XywgVX5Cz83lg80/STfbezUKsWuRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4Me+n0FksMQOS5OcfszZir4AwvdtrSn6Fm8gbv1ncTM=;
+ b=fg3qpCahXXan7+Olzbs0Pweb8363bklAJdVJ5MV2Hs22atPiw7UGItffufrt9NQZUyYNiI7PwNl6KXOmNM0PK0ggcu9zNJcl3cvj/Y8VZJEgUpiDmC8o/f5RdC5KWduf5GPGHlSozUfe5F81bcFSoQVzW4DYmBnC7sF2X138RjpTijedkslkmDr4Ubm+R55OxUQ8IHUBlt+psms+PG0GOLA8xC0T+WF4ex8uRdxhMjYsfMdJSiKkd6EwmGDNWqiBPW2OkVAys/M9JtL+dhIGw3ydd66AbwZN734DZNSlIGQKk/5r0LLu/y6Ig+iziUN6CqF/VuYXy07lJKm7mOKRbg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
+ by CYYPR12MB8989.namprd12.prod.outlook.com (2603:10b6:930:c2::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Wed, 5 Aug
+ 2026 05:45:06 +0000
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.21.0270.017; Wed, 5 Aug 2026
+ 05:45:06 +0000
+From: Eliot Courtney <ecourtney@nvidia.com>
+Subject: [PATCH 00/12] gpu: nova-core: add PRAMIN window support
+Date: Wed, 05 Aug 2026 14:44:47 +0900
+Message-Id: <20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDCwMT3YKixNzMPN3igpzMEl1LU4NUI0ODJLNU4zQloJaCotS0zAqwcdG
+ xEH5xaVJWanIJyAyl2loAEd0VTXAAAAA=
+X-Change-ID: 20260804-pramin-split-950e210b6e3f
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Yury Norov <yury.norov@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ Eliot Courtney <ecourtney@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: TY4P301CA0039.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:2be::14) To BL0PR12MB2353.namprd12.prod.outlook.com
+ (2603:10b6:207:4c::31)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v14 0/5] tun/tap & vhost-net: apply qdisc
- backpressure on full ptr_ring to reduce TX drops
-To: willemdebruijn.kernel@gmail.com, jasowangio@gmail.com, jasowang@redhat.com,
-        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, mst@redhat.com,
-        eperezma@redhat.com, leiyang@redhat.com, stephen@networkplumber.org,
-        jon@nutanix.com, brett@librecast.net, corbet@lwn.net,
-        skhan@linuxfoundation.org, tim.gebauer@tu-dortmund.de,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux.dev
-References: <20260803183641.96882-1-simon.schippers@tu-dortmund.de>
-Content-Language: en-US
-From: Simon Schippers <simon.schippers@tu-dortmund.de>
-In-Reply-To: <20260803183641.96882-1-simon.schippers@tu-dortmund.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|CYYPR12MB8989:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5d2f325-a05b-4f96-4d89-08def2b4b440
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|10070799003|3023799007|10067099003|11063799006|56012099006|921020|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	Von0udgR5Dyzacn3BNbOgW/hkbbTQq6lId0vfkYiAt2lqmMds7hD+XIrvOeUcrudxW4oyb64MDyqox3mfDaB2hMULv4Mt5MddI5U9nOwdOguHhdv0BEHYK4SMGcYlyHlSzm+2O5+jk5vM6OJLt8CSon3pMnGYwVnyU2+vlKYVUFfKg1ReUB89GztqFU09CCazNO0Ff8Rk9rVxWlTDpvtyrEQqUnvwr7CMEusbALwsD9oqushEtPvTEE/Ul49NsLlp23dn1Qf52IBgS5p2nIHFmSaIxWn4EEmCt3eppiusLemUU7z2TdHa23nFtXB6CFYkd1kqitwmRkDSwmtN7BB9N665JHcb9PF+0/KnNmBJnYt09rsFL4Oyu5WbTmUnxUMQW9e9GKb1fJS1uEw8lJYrYr1CBZijdXvQOVrCegaoLy0HZd5EJgZpWRcwW14xw14WQSpqiICLgoYKGMfYKeXTsnSZ0pc9WtXbHu38ncwsNFTE1cZ2gk6CS59YT6k520ot73K1PuOcTJ0tgqxcP/46c4L4WCIikAdI7V8fjpWsP1jR9QY004BL25NyHP9J4EXWWIdeC0ZeafzF7AdLK9HpcBPlQMhyj32JRR6uHdzVNBneqw9sv4QzECNeK/zmQcJeHDc5ISQdKEQ4LdZt0xfkXWRCnvfDqZ4/5vRJLbv5W3KuTnfumt4wjIm13hGRTAooDaIg3wQrHu5IiBTCdr6Jw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2353.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(10070799003)(3023799007)(10067099003)(11063799006)(56012099006)(921020)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YzJJRytEcmV4K3Z5WmQwNSs0T2VTSWUzSVFiRmRSK1JIeDZzN1J3K0pscmlQ?=
+ =?utf-8?B?c0J3dkx6NXA2TFRDQ3YzenJ4Zm8rRVFxMWZMa3hJSzhGNUY3U0pqNCtQQ0xx?=
+ =?utf-8?B?YlpYYzhiVjBYVVp4bFFmVktHTzlRRDlQWTc0bkVpYVp4TFNLN3FkT2d5eWZF?=
+ =?utf-8?B?bEp5U0J3RDJVeGh5cHFtTHg4ek04Y2NxU0dDeXBxUDBBeVFpeWVhcG9PN2wz?=
+ =?utf-8?B?U0Vkdjl3a0x5RmlmNEM1WW9yMis4b2NpVVl5Sm9nTWVEbW13Z2pCL2Jtb3pP?=
+ =?utf-8?B?RzlrVnVzb1dDWWNEMzgrTGplSG4rMlpTYkhFR1Z6bnl2RUhlQ3plME5QRlN2?=
+ =?utf-8?B?T25DQjJyN1hSelFaUWZRYjE1R0lUS0YrSDBVbU4rSWZucktqcTNFVGJSMTlr?=
+ =?utf-8?B?aTdCaW1qcHJvQlIrcVNvbC9HcnBmRGMzUTRYSyszTWY0YTYvR2YvdDh4aXJa?=
+ =?utf-8?B?Q1dkWGpGOS8zSjRBN0daV3R6bUxUL2Y0bU1SVEFjNXQrWmNLNGhocFl5bi9P?=
+ =?utf-8?B?eUZsVWswOHRzWUNwaHNDK3FheGphUXFBc3l6VU5zTHUvM2orYXJQZkdOWm1o?=
+ =?utf-8?B?dk00b0ZFWFM4QkMrVkNTWkgzTzh1bHlrZTNkOC8yenN4bWIrMHB3WXBsS3Fh?=
+ =?utf-8?B?U3VYdGd4cy9qcDN2UDQyZjMxTnlIN3JHZ0N1ZTFHSEZtMUpGak5XWkcwbFF5?=
+ =?utf-8?B?MVpJeUttM2orV01WZWl6NkduRE94dmY5UkxEYnBYdGhTalh0ZnhGa3dUVzNa?=
+ =?utf-8?B?ZHJBdm9OUy9nS2JXV2I3cUhmUTk3eExGY0FXUGJ2RTV5b1hZRWVXajdUWnZS?=
+ =?utf-8?B?NGw0azlPWngvMC9XWWlQUlNVVnB0TVJGcVU1RERZUkdENXArVVJwQmo3Y0Ny?=
+ =?utf-8?B?YWRDbjhUMmxLbG4xb1pXZFJVVXlXbGwvRUlwSUlHdHBKQnY5STV2dkFyVjI0?=
+ =?utf-8?B?NFZ6dldtVUJ2eXZhMmxNSkRVcjQrWUZRc3c4cXZhODUzRDd5bTRzcncwSmR3?=
+ =?utf-8?B?cVdnOW5VOERVRW16bCtCUTNPSkpWUWxoVnRTQlNVclRRcmhJMENuRG1DVUlh?=
+ =?utf-8?B?TXVkTmMwVUY3dGo4N2xhckU3eXk4dXNjMHZoaHlkSSsveEFTcUZLTS9PWE9t?=
+ =?utf-8?B?VFd4WW5EUlBrZ096aXZMZUlQUFByWEVaQ0g0cWgxUmtGRGFDcFhGdFhtVVU2?=
+ =?utf-8?B?cjUzRDltcmp3WHdmaDRDc3F2dk9RNDdWS1AzTG11NTBXa3Bsa3Q2Y3dvZXN1?=
+ =?utf-8?B?VTJqOTQzeENnOEx3MVlRV2N2V2FkNFFkcE1xeG1CNGNTd2dnT3dscXhCR0h5?=
+ =?utf-8?B?Y1JKdmVSa2JJazFMVWFJVTk5Q3c0UXBSMm9ZWFZjaWwxVkcxd3V1TElpS1p0?=
+ =?utf-8?B?L3RCT09RTXhoZ0g3V0EwWDlwZi8wUndkOFF3R3E4T2sxeVoxSUlzaER3MHNW?=
+ =?utf-8?B?Q3ljN3NJQXBFaHUvOEcrTTJuK29EdzUydjdGaFhlaEc2UFJUVCtvVmhKMVVn?=
+ =?utf-8?B?YmpoOU11ZGRtajA4MTdqd0NCTlM0d2szbGRYcDE1MGQ2Uy9XSTJMbHFQUllG?=
+ =?utf-8?B?aFN0clFOWG45bHY0dEFyMWdiS0JUY0pXN3IzWGhWR25LZmRuQUFndFBjUDhu?=
+ =?utf-8?B?VmxkTmFmZGVid0Z5YkFzQi81NEM3ZW9FZld5MmM0UU1RZ3BRZElYcGJTMzEr?=
+ =?utf-8?B?MWZzcUtYdzVQMEN5ZnJFeU1rbDVhYmV0Ry9jcDlGMGZKSzZGajFSdS9Vck5M?=
+ =?utf-8?B?QVFyWW5XZVRPTjNzQWZPOXZYZTVGVEJCcGYwd2lXTThHMXJWOVJkRVl0OGUr?=
+ =?utf-8?B?dHRYVWcvWDdsYWR6eHJZN1NxR1o1MXFaaXoyTEUvNnppNlViV1h2OWt1VHda?=
+ =?utf-8?B?dHUzbU4waUpmOEVSd0IvOEhSYWJ6Rlg0dGdvKyt5bGdOV2VEY2lxd2xqbUEy?=
+ =?utf-8?B?VnB1Y2JxeEZvT1lmTTRrMkVlTytYS3pnSHVodVhIcDJzOGxzS29odE5yTEV0?=
+ =?utf-8?B?QnJsUFFNTkJNWTBiVEpKTjdKM05MYWx1THRlcHNmMUhvdk5nRXdLTnpQdk94?=
+ =?utf-8?B?VmY5SnJ0V2hkQk0xNzBmRFdEZm1pUm1Qa2FvZnVFRDgyeFJ4WWRBZGNVMjA5?=
+ =?utf-8?B?b3FsSHQ0NUZ5NFJVa3l4ckVSU3VCc1VYOUNIejNQNHlleCtWRXNRMzFScnBt?=
+ =?utf-8?B?bVFQcWUyQzZGWmZJLzRwcjNKMGhBbnJkZk00MkFRZGw0R21LOFIrUitXaC9z?=
+ =?utf-8?B?dXBJMGE4K01uL1lOYmViUi9ZWm1ES0NXd1dXL3JJMGxUSXNxRnRxWGJvUGFx?=
+ =?utf-8?B?bjFoTFR0RU03dUpFdDVKYU9XT1Q2UllqQVpoTTdMZzhRQ1J0dHlyaTVtbzRV?=
+ =?utf-8?Q?0xhppaJTq81t4l6uCS0AUFR8DkHa1L1IAS+voNA965ZYe?=
+X-MS-Exchange-AntiSpam-MessageData-1: n0XUT10uznNVZA==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5d2f325-a05b-4f96-4d89-08def2b4b440
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 05:45:06.6419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xk6ew58ZoURK+m461uDXBiBlt4ChAQ3qsJFQ66KCDxQDUoRm498lQ8Qu68XCOKQmED48htUPZHRFmF3LT10myw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8989
 
-On 8/3/26 20:36, Simon Schippers wrote:
-> This patch series deals with tun/tap & vhost-net which drop incoming
-> SKBs whenever their internal ptr_ring buffer is full. Instead, with this
-> patch series, the associated netdev queue is stopped, but only when the
-> new IFF_BACKPRESSURE flag is set and a qdisc is attached. Without the
-> flag, or if no qdisc is present, the existing behavior is preserved. The
-> XDP transmit path is not affected. This patch series touches tun/tap and
-> vhost-net, as they share common logic and must be updated together.
-> Modifying only one of them would break the other.
-> 
+This series adds support for the PRAMIN window, plus some documentation.
+Some of these patches were originally written by Joel Fernandes [1]. I
+have updated them with changelog notes in each patch. For example, I
+updated them for the newer IO machinery from Gary Guo.
 
-Sashiko is happy now.
+This series adds a Pramin structure which deals with updating the PRAMIN
+window and handing out typed MMIO views. The PRAMIN window is a method
+that lets arbitrary VRAM be written over BAR0 by configuring a 1 MiB
+window through GPU registers. That 1 MiB window can point anywhere in
+VRAM. This is useful for bootstrapping e.g. GPU side page tables.
 
-Gemini reports in patch 2:
-"[Severity: Medium]
-Will vhost-net bypass this wrapper and cause permanent TX queue stalls when
-IFF_BACKPRESSURE is enabled?"
-... but this is added in patch 3. It just cant cross-reference it.
-So it is fine.
+The Pramin structure hands out typed MMIO views to do writes through
+rather than letting callers write directly through it. A follow up
+series will add support for GPU side page table entry writing through
+this mechanism. This abstraction is important for later since we will
+eventually want to write the PTEs via BAR2 not PRAMIN - using a view
+that we grab from the Pramin structure can abstract this out.
+
+[1]: https://lore.kernel.org/all/20260518180342.2387845-1-joelagnelf@nvidia.com/
+
+This is based on drm-rust-next.
+
+Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+---
+Eliot Courtney (6):
+      rust: io: add Region::try_subregion
+      rust: num: reject Bounded::shr overshifts at build time
+      rust: num: add Bounded::shr_exact
+      gpu: nova-core: mm: Implement Alignable and Debug for VramAddress
+      gpu: nova-core: mm: Add the memory management HAL
+      gpu: nova-core: Add self-test assertion macros and config option
+
+Joel Fernandes (6):
+      gpu: nova-core: mm: Add VramAddress type
+      gpu: nova-core: mm: Add PRAMIN window registers
+      gpu: nova-core: mm: Add support to use PRAMIN windows to write to VRAM
+      docs: gpu: nova-core: Document the PRAMIN aperture mechanism
+      gpu: nova-core: mm: Add GpuMm centralized memory manager
+      gpu: nova-core: mm: Add PRAMIN aperture self-tests
+
+ Documentation/gpu/nova/core/pramin.rst   | 128 ++++++++++++++
+ Documentation/gpu/nova/index.rst         |   1 +
+ drivers/gpu/nova-core/Kconfig            |   9 +
+ drivers/gpu/nova-core/driver.rs          |   3 +
+ drivers/gpu/nova-core/gpu.rs             |  30 +++-
+ drivers/gpu/nova-core/gsp/commands.rs    |   4 +
+ drivers/gpu/nova-core/gsp/fw/commands.rs |   5 +
+ drivers/gpu/nova-core/mm.rs              | 163 ++++++++++++++++++
+ drivers/gpu/nova-core/mm/hal.rs          |  56 ++++++
+ drivers/gpu/nova-core/mm/hal/gb100.rs    |  35 ++++
+ drivers/gpu/nova-core/mm/hal/gh100.rs    |  35 ++++
+ drivers/gpu/nova-core/mm/hal/tu102.rs    |  37 ++++
+ drivers/gpu/nova-core/mm/pramin.rs       | 285 +++++++++++++++++++++++++++++++
+ drivers/gpu/nova-core/mm/regs.rs         |  57 +++++++
+ drivers/gpu/nova-core/nova_core.rs       |   3 +
+ drivers/gpu/nova-core/selftest.rs        |  64 +++++++
+ rust/kernel/io.rs                        |  31 +++-
+ rust/kernel/num/bounded.rs               |  31 ++++
+ 18 files changed, 975 insertions(+), 2 deletions(-)
+---
+base-commit: 44e7e7f7cffb10a93bb88e7cb59b7b8b3e2deb1c
+change-id: 20260804-pramin-split-950e210b6e3f
+
+Best regards,
+--  
+Eliot Courtney <ecourtney@nvidia.com>
 
