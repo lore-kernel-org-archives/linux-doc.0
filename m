@@ -1,35 +1,34 @@
 Received: from forwardcorp1b.mail.yandex.net (forwardcorp1b.mail.yandex.net [178.154.239.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC77740B0F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC86440BCA1;
 	Wed,  5 Aug 2026 09:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785923438; cv=none; b=FOUZgFGdUqBeBFv2+hCnwPPiqJZz5lts9GQuLycSeTCaYWsCeSlk2frV7e715Bsq+ITHSxZIqEhtiy27vPYgks82LpzpnwB7u9TPxUeJ6QGF/QgivgGVq3fcDcaPVZN9mflDU236Yq2zGAWrMFRohFeL0oH1f0uuzFrjErRJOzg=
+	t=1785923438; cv=none; b=gDTBvyPFeyhY277hEqqB7HypqkXvDoImg2Ad5dns26ShiuFgPVjLzxio0YwsyJ6wSKjUNOODZ40oVO3xu8x0YgPxmDUjG+fJ5UGEPIxv5svhpFSV/h2zPbojFh9lKITD++dYvLMEDn78/LyD1lbYNywsthTVivqgKLvbNEsY+PU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785923438; c=relaxed/simple;
-	bh=vB22L7UG1eUGKv/env9KbOguTU2gRMB4zLo21TYg9lg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BWEvWCp2HTTh0+yYzVklDz5s45kukAAUHzs1wK1pwJB33c1MgnBBpGrZgX6JARopGA1kSAH/qYgk1brpMqkI5uqLMuH2/rHkSeFpS0pj6l5azT/gh7lOn8I7KCjVWpKB+njADfRZd060g1Y4aGBiWIR2Qi2JrotK4ARTMbgHrfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=bdUXnjOx; arc=none smtp.client-ip=178.154.239.136
+	bh=SSaaYC8x0Ob+e1v/cv9vzLM7AAGkmTFCGJ7J+ERAKc8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bcK33vEYmx87EaiA8+/15ObJ356IkjRuDfBY+LLhbJZf6BA00RhHjsYaiX8d+dMDqKNgOESQ91Ow7ZrPOkb7Obucw3LrfA4qvzdxDNUae/j8t2y8w5HsijQIem8TOMccbx8Ic6ezzIGYN/fg9kKip5QjwcvVuB8jtI55ATxrQ8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=sc8OhmLP; arc=none smtp.client-ip=178.154.239.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="bdUXnjOx"
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="sc8OhmLP"
 Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:43a8:0:640:574d:0])
-	by forwardcorp1b.mail.yandex.net (postfix) with ESMTPS id 8713A808EE;
-	Wed, 05 Aug 2026 12:48:58 +0300 (MSK)
+	by forwardcorp1b.mail.yandex.net (postfix) with ESMTPS id 874B1808E1;
+	Wed, 05 Aug 2026 12:48:53 +0300 (MSK)
 Received: from i101646577.yandex-team.ru (unknown [2a02:6bf:8080:43c::1:39])
-	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp) with ESMTPSA id lmErQB23hCg0-GTyl9azN;
-	Wed, 05 Aug 2026 12:48:57 +0300
+	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp) with ESMTPSA id lmErQB23hCg0-cG0RyIly;
+	Wed, 05 Aug 2026 12:48:52 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; t=1785923337;
-	bh=OEgYGOPyUdkWmhmw/xLhA86o+THVk2n1bh92QDcf71k=;
-	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
-	b=bdUXnjOxIJbJYiNdTjGbNTzkBxiVQ3SdcnT1P5qghHticrfxnq1e/xKGktvs/H4xA
-	 S+zvLyi/kSOot3/D/cPt8SM6z6/zUKiBxFU6T8y6y+S8nkrLLo29v9Dl1tt5b5kK80
-	 nwPiHJBSIQi5MuYFDRVX+vXLa5poj+IolBlcaHhY=
+	s=default; t=1785923332;
+	bh=w3V7sfmWLggUmQu9ZRjliJsNs4NKeoQcp6wRpWpznBc=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=sc8OhmLPz7+seM305BniVNbQHKGkHFF8xJGHDIByfwGJskh5qeWNca8Fgqb1D0ecs
+	 X/Z/gZgFJqYLz2iWEoY38gCCndFux78xIKoZIOu0NGyQz/kV4caqUJcD6OvAgcGtZd
+	 0cxxv3wlCann1+83k/HGWaEYx18PohSKkzVdzN9Q=
 Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
 From: Daniil Tatianin <d-tatianin@yandex-team.ru>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -51,12 +50,10 @@ Cc: Christoph Lameter <cl@gentwo.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: [RFC PATCH 2/3] mm/slub: count kvmalloc() allocations forced to vmalloc()
-Date: Wed,  5 Aug 2026 12:48:42 +0300
-Message-ID: <20260805094843.292134-3-d-tatianin@yandex-team.ru>
+Subject: [RFC PATCH 0/3] mm/slub: allow capping the order kvmalloc() uses for kmalloc()
+Date: Wed,  5 Aug 2026 12:48:40 +0300
+Message-ID: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
-References: <20260805094843.292134-1-d-tatianin@yandex-team.ru>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,122 +62,164 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vm.kvmalloc_max_contig_order changes allocation behavior silently.  There
-is no way to tell whether a given value is doing anything at all, or how
-much of the workload it affects, short of tracing kvmalloc() by hand,
-which makes it hard to pick a value and hard to notice when a workload
-starts running into it.
+By calling kvmalloc() rather than kmalloc(), a caller states that it does
+not require physically contiguous memory.  For the vast majority of those
+callers the contiguity is not an optimization they can observe at all, yet
+the attempt to obtain it is paid for by the whole system in buddy
+fragmentation and background reclaim/compaction work.
 
-Add a kvmalloc_forced_vmalloc counter to /proc/vmstat, incremented for
-every allocation that skipped kmalloc() because of the limit.  Requests
-above KMALLOC_MAX_SIZE are skipped by the limit like any other, since the
-attempt would fail regardless, but they are not counted, as they would
-have reached vmalloc() either way.  What is left is the number of
-allocations the limit actually diverted, which is what is needed to tell
-whether it is set sensibly.
+Commit 46459154f997 ("mm: kvmalloc: make kmalloc fast path real fast
+path") made the kmalloc() attempt much cheaper by dropping
+__GFP_DIRECT_RECLAIM, which removed the synchronous stall.  It did not
+remove the attempt itself, and the attempt still takes the zone lock,
+still steals pageblocks when it succeeds, still raises
+pgdat->kswapd_order, and still ends up waking kcompactd for allocations
+that are served by vmalloc() a moment later.
 
-Note that the counter stays at zero while the sysctl is left at its
-default, since no allocation is denied in that case.  Determining what to
-set the limit to in the first place still requires tracing kvmalloc()
-directly, or setting the limit on a canary first and reading the counter
-there.
+Individual callers can be converted to vmalloc(), and that is the better
+fix where it applies, but it does not scale: in practice each offender is
+found only after it has hurt a production machine.  One example is
+xt_jumpstack_alloc(), which issues one kvmalloc_node() per possible CPU on
+every iptables/ip6tables table replace, while holding the per-address
+family xt mutex.  On a 192 CPU machine a single reload is therefore 192
+order-6 allocations, and the 384 below are just two of them, a little over
+two minutes apart, on a 6.6 based kernel:
 
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
----
- Documentation/admin-guide/sysctl/vm.rst |  5 +++++
- include/linux/vm_event_item.h           |  3 +++
- mm/Kconfig                              |  2 ++
- mm/slub.c                               | 15 ++++++++++++++-
- mm/vmstat.c                             |  3 +++
- 5 files changed, 27 insertions(+), 1 deletion(-)
+    ================================================================
+    COUNT: 384 | PID COMM: ip6tables | ORDER: 6 | GFP: 0x52cc0
+    FIRST SEEN : 2026-06-02 13:31:16.378
+    LAST SEEN  : 2026-06-02 13:33:27.921  (Span: 131.543 sec)
+    FLAGS      : IO | FS | DIRECT_RECLAIM | KSWAPD_RECLAIM | NORETRY
+    ----------------------------------------------------------------
+        __alloc_pages+0x5
+        __kmalloc_large_node+0x82
+        __kmalloc_node+0xc3
+        kvmalloc_node+0x48
+        xt_replace_table+0x95
+        __do_replace+0xd3
+        do_ip6t_set_ctl+0x38f
+        nf_setsockopt+0x5b
+        rawv6_setsockopt+0x54
+        do_sock_setsockopt+0xae
+        __sys_setsockopt+0x79
+        __x64_sys_setsockopt+0x25
+        do_syscall_64+0x37
+        entry_SYSCALL_64_after_hwframe+0x78
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index bc669052c50b..4581fb68c974 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -394,6 +394,11 @@ the order of KMALLOC_MAX_CACHE_SIZE up to MAX_PAGE_ORDER.
- Requests above KMALLOC_MAX_SIZE end up in vmalloc() whatever this is set to,
- since kmalloc() cannot serve them at all.
- 
-+The kvmalloc_forced_vmalloc counter in /proc/vmstat counts the allocations
-+that were routed to vmalloc() because of this limit.  Requests that
-+kmalloc() could not have served anyway are not counted, so the counter only
-+reflects allocations the limit itself diverted.
-+
- 
- legacy_va_layout
- ================
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 03fe95f5a020..c060c06ca2d2 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -145,6 +145,9 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		DIRECT_MAP_LEVEL2_COLLAPSE,
- 		DIRECT_MAP_LEVEL3_COLLAPSE,
- #endif
-+#ifdef CONFIG_KVMALLOC_ORDER_LIMIT
-+		KVMALLOC_FORCED_VMALLOC,
-+#endif
- #ifdef CONFIG_PER_VMA_LOCK_STATS
- 		VMA_LOCK_SUCCESS,
- 		VMA_LOCK_ABORT,
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 9b1fcabb6d8f..0ca7fc5321cf 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -262,6 +262,8 @@ config KVMALLOC_ORDER_LIMIT
- 	  This enables the vm.kvmalloc_max_contig_order sysctl, which caps
- 	  the allocation order kvmalloc() is willing to ask the page
- 	  allocator for.  Larger requests are routed to vmalloc() directly.
-+	  It also adds the kvmalloc_forced_vmalloc counter to /proc/vmstat,
-+	  which tells how many allocations were routed this way.
- 
- 	  The default value of the sysctl preserves the existing behavior,
- 	  so saying Y here only makes the tunable available.
-diff --git a/mm/slub.c b/mm/slub.c
-index 0a9910602cec..7287949ea247 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -51,6 +51,7 @@
- #include <linux/kprobes.h>
- #include <linux/debugfs.h>
- #include <linux/sysctl.h>
-+#include <linux/vmstat.h>
- #include <trace/events/kmem.h>
- 
- #include "internal.h"
-@@ -6916,7 +6917,19 @@ static bool kvmalloc_order_denied(size_t size)
- 	if (likely(sysctl_kvmalloc_max_contig_order >= MAX_PAGE_ORDER))
- 		return false;
- 
--	return get_order(size) > sysctl_kvmalloc_max_contig_order;
-+	if (get_order(size) <= sysctl_kvmalloc_max_contig_order)
-+		return false;
-+
-+	/*
-+	 * kmalloc() cannot serve anything above KMALLOC_MAX_SIZE, so such a
-+	 * request would have reached vmalloc() with or without the limit.
-+	 * Skipping the doomed attempt is still worthwhile, but the limit did
-+	 * not divert anything, so do not account it.
-+	 */
-+	if (size <= KMALLOC_MAX_SIZE)
-+		count_vm_event(KVMALLOC_FORCED_VMALLOC);
-+
-+	return true;
- }
- 
- static const struct ctl_table kvmalloc_sysctl_table[] = {
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index f534972f517d..e7139c0947ce 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1459,6 +1459,9 @@ const char * const vmstat_text[] = {
- 	[I(DIRECT_MAP_LEVEL2_COLLAPSE)]		= "direct_map_level2_collapses",
- 	[I(DIRECT_MAP_LEVEL3_COLLAPSE)]		= "direct_map_level3_collapses",
- #endif
-+#ifdef CONFIG_KVMALLOC_ORDER_LIMIT
-+	[I(KVMALLOC_FORCED_VMALLOC)]		= "kvmalloc_forced_vmalloc",
-+#endif
- #ifdef CONFIG_PER_VMA_LOCK_STATS
- 	[I(VMA_LOCK_SUCCESS)]			= "vma_lock_success",
- 	[I(VMA_LOCK_ABORT)]			= "vma_lock_abort",
+On that kernel each of those entered direct compaction with the xt mutex
+held, which is what made it visible.  That call site, and the ruleset blob
+allocation next to it, have since been converted to vmalloc() in our tree,
+and 46459154f997 addresses that shape of stall generically, so this series
+is not asking for that incident to be fixed again.  It is about the callers
+of the same shape that are still there: the veth path quoted further down
+is one that 46459154f997 deliberately does not cover, and it is unlikely to
+be the only one.
+
+Patch 1 adds a vm.kvmalloc_max_contig_order sysctl capping the order
+kvmalloc() will ask the page allocator for.  Requests above the cap go
+straight to vmalloc(), which is the path they would have taken had the
+kmalloc() attempt failed, so no semantics change.  Requests small enough
+for a kmalloc cache to serve are never diverted.
+
+Patch 2 adds a kvmalloc_forced_vmalloc counter to /proc/vmstat so that the
+effect of a given setting is observable.
+
+Patch 3 adds a KUnit suite covering both, including the invariant that the
+lower bound on the sysctl is what keeps cache sized requests out of
+vmalloc().
+
+The default is MAX_PAGE_ORDER, i.e. current behavior, so this is entirely
+opt-in and all three patches are gated behind CONFIG_KVMALLOC_ORDER_LIMIT.
+
+Some things I am explicitly unsure about and would like opinions on:
+
+ - Where does the kmalloc()/vmalloc() crossover point belong?  Callers
+   whose size is always large do not need kvmalloc() at all and should
+   simply call vmalloc(), which is how the netfilter sites above were
+   fixed in our tree.  The class this series is aimed at is the other one:
+   callers whose size is only known at runtime, is usually small, and is
+   occasionally huge.  Those cannot be converted to vmalloc() without
+   penalizing the common small case, so for them the crossover point has
+   to live inside kvmalloc().  Today that point is fixed at "always try
+   kmalloc() first".  This series makes it a global tunable.  It could
+   equally be a compile time constant or a per callsite hint.  I have no
+   strong opinion on which is right, only that the current value is too
+   generous.
+
+ - Order versus size units for the sysctl.  Orders match the mechanism
+   being protected and give MAX_PAGE_ORDER as a natural "off" value, but
+   an order valued sysctl under vm/ is unusual, and both ends of the
+   accepted range end up being arch dependent.
+
+ - __GFP_RETRY_MAYFAIL callers are currently subject to the cap like
+   everyone else.  There is a reasonable argument that the flag is already
+   the "I really do want contiguity" annotation and should be exempt.
+   Only 7 call sites in the tree use it today.  They were deliberately not
+   exempted, because that flag is also what keeps those call sites in
+   direct reclaim and direct compaction after 46459154f997, and in
+   practice they are not rare.  Container churn creating veth pairs
+   produced this over twelve days on a single machine:
+
+    ==================================================================
+    TOTAL COUNT : 4948  =>  [ Order 7 (x4948) ]
+    TIME SPAN   : 2026-05-22 13:03:27.119 --> 2026-06-03 11:40:27.303
+    GFP         : 0x446dc0
+    FLAGS       : IO | FS | DIRECT_RECLAIM | KSWAPD_RECLAIM | RETRY_MAYFAIL
+    ------------------------------------------------------------------
+        __alloc_pages
+        __kmalloc_large_node
+        __kmalloc_node
+        kvmalloc_node
+        veth_dev_init
+        register_netdevice
+        veth_newlink
+        __rtnl_newlink
+        rtnl_newlink
+        rtnetlink_rcv_msg
+        netlink_rcv_skb
+        netlink_unicast
+        netlink_sendmsg
+        __sock_sendmsg
+        __sys_sendto
+        __x64_sys_sendto
+        do_syscall_64
+        entry_SYSCALL_64_after_hwframe
+
+   Every one of those is a 512 KiB contiguous request, made by a caller
+   that does not need contiguity, from inside a sendto() syscall, and each
+   one is still entitled to reclaim and compact synchronously on a current
+   kernel.  Exempting __GFP_RETRY_MAYFAIL would make the cap a no-op here,
+   so the series treats the sysctl as an administrative override that
+   supersedes caller hints, in the same spirit as the other allocation
+   policy knobs under vm/.  If the consensus is that the flag must be
+   honored, the exemption is a one line change.
+
+ - The counter only accounts allocations the limit diverted, so it stays at
+   zero until the limit is lowered below its MAX_PAGE_ORDER default.  It
+   therefore cannot answer "what should I set this to?" ahead of time, which
+   still needs tracing kvmalloc() directly, or lowering the limit on a
+   canary machine and reading the counter there.  If a per order histogram
+   would be a better answer to that question, say so and I will add one.
+
+
+
+Daniil Tatianin (3):
+  mm/slub: allow capping the order kvmalloc() uses for kmalloc()
+  mm/slub: count kvmalloc() allocations forced to vmalloc()
+  mm/slub: add KUnit coverage for the kvmalloc order limit
+
+ Documentation/admin-guide/sysctl/vm.rst |  35 +++++
+ MAINTAINERS                             |   1 +
+ include/linux/vm_event_item.h           |   3 +
+ lib/Kconfig.debug                       |  15 ++
+ lib/tests/Makefile                      |   1 +
+ lib/tests/kvmalloc_kunit.c              | 184 ++++++++++++++++++++++++
+ mm/Kconfig                              |  22 +++
+ mm/slab.h                               |   4 +
+ mm/slub.c                               |  93 +++++++++++-
+ mm/vmstat.c                             |   3 +
+ 10 files changed, 354 insertions(+), 7 deletions(-)
+ create mode 100644 lib/tests/kvmalloc_kunit.c
+
+
+base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
