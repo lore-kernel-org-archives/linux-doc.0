@@ -1,79 +1,320 @@
-Received: from out-186.mta1.migadu.com (mta1.migadu.com [37.59.57.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AF53DE453
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 06:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.59.57.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED4E3E0724
+	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 06:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785912625; cv=none; b=YIr5QWC6COWQ92RM+wXghFLSPOru92IEBd/sS+2qCO2g+jkwJP9OF8UJW562L5Xc95DXzlSr0UBadgo9a94HB4pgszgihUhn7KN/Hu9qJTzK/SnWiZbxTp377VgVZyu5GUdxTi7XVDbK5JF7u8YKFo1E2LcHTqE0wd0GdlNpnUY=
+	t=1785912730; cv=none; b=YejeDI/Nb8CLWlWLPcsKQa4GPzT6eO+DYk+d/fw6bJxoBykItRyWodiePmd4HB9zG69VPjQVepseQ+OtYoamqaYySnm5MniLq47KNOLVpnFdyt3jVsGFQQrABYt888tO/tqGyanhRUi1TVSGIXzHQXXd+m73KoRKpcUgeQTpNRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785912625; c=relaxed/simple;
-	bh=hgYd0++50OZGmD/HFFSD2UuS8R6Q054PdSAGyYhAxDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cBB6PRAm6FgwHATcIpKLBc39pN4rNUnqhx/obwcqlZiDMyuCQB2EyWpfEnPRwxGmD2zHlZC0MtHkSpPVY9M7hGO4/UFpr0bClwkk52UrH8U8Lc+f8CEp9U3cTjY96nYppGeLpT8b9W2SD128gs8I6SfiBBnagiQ4dGazwUzyXmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=tDavDdkU; arc=none smtp.client-ip=37.59.57.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1785912730; c=relaxed/simple;
+	bh=AvJ9MagU8duZjSz4tI5oi9cEuxlSaWddwjqe48vSyj4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lI10K4Ga/GDfdliFTHmqXsDygYNUXDM5kWH2u1BRFkQDoYYHARkQNvhdweCWV1Ob4uRNUUFREcpMx2MeZ2Piw45u+8PTHZzWLQD/hjPuBqsEb5RtlA2XuVPV1QsIEyITZ0+lCPTouU3Io1CAAE9qBVLrBHR/la5ndUXq2WmSLAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMcDVRSA; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="tDavDdkU"
-Date: Wed, 5 Aug 2026 14:49:58 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1785912621;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zqYDKU+agB6bvXxNBx1X6OE93x4H4MGsXirqespjRM0=;
-	b=tDavDdkUNJN27Db3KYyOcWGhuO+9MjmZ5OJ44uJXZKjQzG33bWh9MQs62at+v0opsKhe1e
-	gwGVrSoJ14FQPcF/ztZX1mNFHNqr3tvcZ2GKW9qsFFnWvTjGtn/Uw0KgJuZhE/E3R3N4W4
-	rsbiHlyRhJMnmdoz30zw7D+/KcsKxMvw7sQNioKPidoZ36vYgyCzVyzKUxmE/cKDEqppF9
-	0hNiGco3TqcLtw4/UYPz9gAxmeI1omAJZIp7ASsvgyISffpUwcCmx5pBEa/8b8X7hSuV6l
-	N3u8mUSB9G9/Ng8dSnrqSOeAlL1nkRfh2VCXSPLBhHRC+Au8IsRiPfcQYkKUgg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/16] docs/zh_TW: process: localize terminology in
- embargoed-hardware-issues.rst
-Message-ID: <anLdFtHtcZMNpyIx@wyuan.org>
-References: <20260728091038.171033-1-chenyou910331@gmail.com>
- <20260728091038.171033-13-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMcDVRSA"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38e7109321dso410073a91.3
+        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 23:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785912723; x=1786517523; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BZveE5TKFRvmEM6ufGP9KCDDa09D/zv/1Va+H0O6po0=;
+        b=PMcDVRSAXAa/Ux/9o3cXvCpo4g4wm27qH0JbgOlpBPYIqA3PTQ8Rnb31brmgFmt9KY
+         Qo9ciuNW4XH7Hzy4W2hqCIHJPgZnirE8a8hzMp9QDF/mOiuLvi/E0JN1mFF9ni+6zvU6
+         BO2bULnSGxwFx5XsbdZsj1ucnzc/8PSLpLP8TdMK4LOcjrPN1a2IZ2l2rZb6XNzH4q8u
+         pBQrAlONlZHAdMZ7378aARvd7QMQT7stWLQxA7c1xGcJ/eAo8N+53URZ+4vAKt7P4qIS
+         EsB/kOFYrhanie5Erei3lkHz6O2RL6rOivIv4/a7A9yKW/HJtsgwz6i4yhTtSHCTEKzs
+         XLIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785912723; x=1786517523;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BZveE5TKFRvmEM6ufGP9KCDDa09D/zv/1Va+H0O6po0=;
+        b=mEYATKn2igIsvMgFuWEhccCwo2nuYZyFFuLQN0alq9rm2TnRqiizBizhoUEi94cUX5
+         +/07Y+7fz4N6FtNL7zbUqB5CKUXZNRupDwgqwJj6e0y/X1Ki+V6xf5fFFFKDV2WpY6+Z
+         zaRp5PNcdVTyb0QGyg1rbGT3j7gvWpVJiL0ahg8ALhbh4tnBgUOb0rAIlPY59k2KS5GH
+         NOJ4PrZWhjOtTjRIQmHSOiTT9xi3zEWPsNxyKS6Kd6B381DonqQTm/COysVTnjDHRu24
+         UK9fpo4M7o2O70yTLg3I7La30Oi5xLkYWNQMiVl8qTXgE/FGZWhrnXYPWj2kBEIipfyq
+         mZOA==
+X-Forwarded-Encrypted: i=1; AHgh+RonarMF4v/lYWK2LoChneH+85/UPc5lcNgVaIfFzE88aAeebf9oG3ikmb6N5oG8/gqzfVAFi1hAaD8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo5l+qg5RjaFWwfHXguQ/btA0A+UfUx8vyh0FDqIqVwySBjVtL
+	WOpEqTLQCGHKPa06RCXncr/cGISJM0Oi5PTEj1leSFHne+kyED5D9TNw
+X-Gm-Gg: AR+sD106cEFdkQjInzh8BCFmuumDzJU56uWOwnKj6kpPIsb+64xuv/Q3EjtwdqC3+rQ
+	V3N7K7m9v1VCSkjvE+8XZU4NBGj8830lQVyAG/guDmnSI7kbutLXrVbbnxLEbBe2N7b+ALsCMm6
+	GKwu+UzwBlYL5VtppmFTK7eBJhZkvO/6HksHrAUCcjvzRomx3qxnw9WFHS0VDXb2Cki+BhXP4bd
+	JbIZqkzflEx4uqRc/68KGpSzJ2U/q7DXKkGkMn0IORAZ2wd1/nGc1/CgLL9WsIhBJvYopBCkdS3
+	qZnzfHASAyFxIoOneVPTcqxo7SLK0NqY3ZFtf6dmZspy3NOZ6gL33YaklHdWT2mzvxaB5XSSabx
+	yvosbokpTlODR9j6xcL4hoxqoV7LA86R1RGndgd99mttQHK056ZPAArMeUrEAyCzp/g1vLLa7UZ
+	QFT1P7NMi7ljRWOz7kz/PfK061KImNTvOH6cXerYCMK8pepJX4aUJszNol37UVFgpt+0jYoyPoS
+	rZtZmIw+K8MwkLb0A==
+X-Received: by 2002:a17:90b:1c8e:b0:38f:1a80:d1e7 with SMTP id 98e67ed59e1d1-3903c596de7mr3372058a91.13.1785912722454;
+        Tue, 04 Aug 2026 23:52:02 -0700 (PDT)
+Received: from cyh-System-Product-Name.. ([129.227.183.200])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-390392b2b7fsm2113080a91.14.2026.08.04.23.51.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 23:52:02 -0700 (PDT)
+From: "Yuhang.Chen" <yhchen312@gmail.com>
+To: Anup Patel <anup@brainfault.org>
+Cc: Atish Patra <atish.patra@linux.dev>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Quan Zhou <zhouquan@iscas.ac.cn>,
+	kernel test robot <lkp@intel.com>,
+	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH v3] RISC-V: KVM: Add kvm-riscv.wfi_trap_policy to control VS-mode WFI trapping
+Date: Wed,  5 Aug 2026 14:51:32 +0800
+Message-Id: <20260805065132.3210346-1-yhchen312@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260728091038.171033-13-chenyou910331@gmail.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 28, 2026 at 05:10:34PM +0800, Chen-Yu Yeh wrote:
-> Localize mainland terms to Taiwanese Mandarin (內核→核心, 硬件→硬體,
-> 信息→資訊, ...) and sync with the English original: silicon-vendor
-> wording, real PGP/S/MIME key URLs, updated Linux Foundation IT
-> paragraph, disclosing-party responsibilities, shared-resources rule,
-> the new "Early access" section, and the current process ambassadors
-> list. Also fix the broken zh_Contact cross reference.
-> 
-> update to commit cead34ac1ce1 ("MAINTAINERS: update ndesaulniers")
-> 
+Add a kernel command-line option, kvm-riscv.wfi_trap_policy=trap|auto,
+that controls whether a WFI executed by a VS-mode guest traps into KVM
+(HS-mode) or executes natively.
 
-Reviewed-by: Weijie Yuan <wy@wyuan.org>
+HSTATUS.VTW governs VS-mode WFI: when set, the WFI traps into KVM, which
+blocks the vCPU through kvm_vcpu_halt() and releases the CPU to other
+runnable tasks; when clear, the guest runs WFI natively. Because RISC-V
+WFI is only a hint (it may be a no-op on some implementations), the
+policy is re-evaluated before each guest entry rather than fixed once
+at reset.
 
-Note: the translation of "Linux Foundation Fellow" remains unchanged.
-      As Chen-Yu suggested, and I also heard many different opinions on
-      this. So let's leave a note here for furture reference, since the
-      main purpose of thie series is only about correcting certain
-      terminologies.
+  trap  : always trap VS-mode WFI into KVM (HSTATUS.VTW=1). This is the
+          default and preserves the previous unconditional behavior.
 
-> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
-> ---
->  .../process/embargoed-hardware-issues.rst     | 209 ++++++++++--------
->  1 file changed, 122 insertions(+), 87 deletions(-)
-> 
+  auto  : clear HSTATUS.VTW so the guest runs WFI natively only when the
+          vCPU is the sole runnable task on the current CPU; otherwise
+          keep trapping. When the vCPU is alone, skipping the
+          virtual-instruction exit cannot starve another task, and on
+          hardware that honors WFI the hart blocks until a VS-mode
+          interrupt. The policy is re-evaluated before every guest entry,
+          so when another task becomes runnable the next entry traps
+          again and KVM blocks the vCPU through kvm_vcpu_halt(), yielding
+          the CPU. The vCPU therefore never monopolizes the CPU the way
+          an unconditional native WFI would: it either blocks through
+          kvm_vcpu_halt(), or runs WFI natively only when no other task
+          needs the CPU.
+
+Measured on QEMU TCG (-smp 1, -cpu max): wfi_exit_stat delta and guest
+wake count over a 3 s window. "busy" adds a CPU-bound competitor that
+shares the vCPU's CPU so that single_task_running() reports false:
+
+  policy  busy  exits  wakes   cpu%  note
+  ------  ----  -----  -----   ----  ------------------------
+  trap    off    286    285    6.5   default; no regression
+  trap    on     291    290  101.0   trap is unconditional
+  auto    off      4    287    5.0   sole task: native WFI
+  auto    on     285    284  101.5   competitor -> traps
+
+With "auto", WFI exits drop to ~0 when the vCPU is the only runnable
+task, and rise back to the trap level as soon as a competitor appears,
+which is the desired dynamic behavior. Host CPU stays low in the
+sole-task case; the ~101% in the busy cases is the forked competitor,
+not the vCPU.
+
+Assisted-by: YuanSheng:deepseek-v4-pro
+Co-developed-by: Quan Zhou <zhouquan@iscas.ac.cn>
+Signed-off-by: Quan Zhou <zhouquan@iscas.ac.cn>
+Signed-off-by: Yuhang.Chen <yhchen312@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202608051354.KYOXP5po-lkp@intel.com/
+
+---
+Changes in v3:
+
+- Guard the early_param() parser with #ifndef MODULE. RISC-V KVM is
+  tristate and may be built as a module (CONFIG_KVM=m), but
+  early_param() is only defined for built-in code, so v2 failed to
+  compile as a module. With CONFIG_KVM=m the policy now keeps its
+  default (trap) value, which is safe and regression-free; the rest of
+  the policy logic is unaffected. The kernel-parameters.txt entry now
+  documents that the option is only honored when KVM is built in.
+
+- Re-evaluate the WFI trap policy before each guest entry instead of
+  only in kvm_arch_vcpu_load(). In v2 the policy was checked once when
+  the vCPU was loaded, so between two kvm_arch_vcpu_load() calls
+  HSTATUS.VTW could go stale: if a task of lower or equal priority woke
+  on the vCPU's CPU while the guest was running, the run loop would
+  re-enter the guest without re-checking and without preempting, and a
+  native WFI could then halt the hart and delay the woken task until the
+  next timer tick. Checking before every entry closes this window,
+  because a wakeup arrives through a host interrupt that forces a VM
+  exit, and the next entry re-evaluates and traps.
+
+Changes in v2:
+
+- Drop the "notrap" mode, which cleared HSTATUS.VTW unconditionally and
+  so never trapped: the vCPU never reached kvm_vcpu_halt() and could
+  stay busy even while idle.
+- Add the "auto" mode, which clears HSTATUS.VTW only when the vCPU is
+  the sole runnable task (single_task_running()) and otherwise traps.
+  The policy is applied dynamically from kvm_arch_vcpu_load() instead of
+  once at reset, so a vCPU that stops being the sole runnable task
+  switches back to trapping.
+- Update the kernel-parameters.txt entry for trap/auto.
+
+v1: https://lore.kernel.org/all/20260709115610.287420-1-yhchen312@gmail.com/
+v2: https://lore.kernel.org/all/20260804024707.2400404-1-yhchen312@gmail.com/
+---
+ .../admin-guide/kernel-parameters.txt         | 20 ++++++
+ arch/riscv/kvm/vcpu.c                         | 72 +++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b5493a7f8f22..2ab9eb335e60 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3254,6 +3254,26 @@ Kernel parameters
+ 
+ 			notrap: clear WFI instruction trap
+ 
++	kvm-riscv.wfi_trap_policy=
++			[KVM,RISCV] Control when to set the WFI instruction
++			trap (HSTATUS.VTW) for KVM VMs. The policy is
++			re-evaluated before each guest entry, not only at
++			reset, since RISC-V WFI is only a hint.
++
++			trap: always trap VS-mode WFI into KVM (HSTATUS.VTW=1)
++
++			auto: trap unless the vCPU is the only runnable task on
++				the current CPU, in which case clear the trap
++				(HSTATUS.VTW=0) and let the guest execute WFI
++				natively
++
++			Defaults to trap, preserving the previous unconditional
++			behavior.
++
++			Only honored when KVM is built into the kernel
++			(CONFIG_KVM=y); as a module (CONFIG_KVM=m) the policy
++			stays at its default (trap).
++
+ 	kvm_cma_resv_ratio=n [PPC,EARLY]
+ 			Reserves given percentage from system memory area for
+ 			contiguous memory allocation for KVM hash pagetable
+diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+index cf6e231e76e2..8efeb74699cc 100644
+--- a/arch/riscv/kvm/vcpu.c
++++ b/arch/riscv/kvm/vcpu.c
+@@ -12,8 +12,10 @@
+ #include <linux/kdebug.h>
+ #include <linux/module.h>
+ #include <linux/percpu.h>
++#include <linux/string.h>
+ #include <linux/vmalloc.h>
+ #include <linux/sched/signal.h>
++#include <linux/sched/stat.h>
+ #include <linux/fs.h>
+ #include <linux/kvm_host.h>
+ #include <asm/cacheflush.h>
+@@ -26,6 +28,67 @@
+ 
+ static DEFINE_PER_CPU(struct kvm_vcpu *, kvm_former_vcpu);
+ 
++/*
++ * WFI trap policy for VS-mode guests, controllable through the
++ * kvm-riscv.wfi_trap_policy= kernel command-line option.
++ */
++enum kvm_riscv_wfi_trap_policy {
++	KVM_RISCV_WFI_TRAP,	/* Always trap VS-mode WFI into KVM */
++	KVM_RISCV_WFI_AUTO,	/* Trap unless the vCPU is the only runnable task */
++};
++
++static enum kvm_riscv_wfi_trap_policy kvm_riscv_wfi_trap_policy __read_mostly =
++	KVM_RISCV_WFI_TRAP;
++
++/*
++ * RISC-V KVM is tristate and may be built as a module, but early_param() is
++ * only defined for built-in code (see <linux/init.h>). Guard the command-line
++ * parser accordingly: when CONFIG_KVM=m the policy simply keeps its default
++ * (trap) value, which is the safe, regression-free behavior.
++ */
++#ifndef MODULE
++static int __init early_kvm_riscv_wfi_trap_policy_cfg(char *arg)
++{
++	if (!arg)
++		return -EINVAL;
++
++	if (strcmp(arg, "trap") == 0) {
++		kvm_riscv_wfi_trap_policy = KVM_RISCV_WFI_TRAP;
++		return 0;
++	}
++
++	if (strcmp(arg, "auto") == 0) {
++		kvm_riscv_wfi_trap_policy = KVM_RISCV_WFI_AUTO;
++		return 0;
++	}
++
++	return -EINVAL;
++}
++early_param("kvm-riscv.wfi_trap_policy", early_kvm_riscv_wfi_trap_policy_cfg);
++#endif
++
++static bool kvm_riscv_vcpu_wfi_should_trap(struct kvm_vcpu *vcpu)
++{
++	switch (kvm_riscv_wfi_trap_policy) {
++	case KVM_RISCV_WFI_AUTO:
++		/* Native WFI only when the vCPU is the sole runnable task. */
++		return !single_task_running();
++	case KVM_RISCV_WFI_TRAP:
++	default:
++		return true;
++	}
++}
++
++static void kvm_riscv_vcpu_update_wfi_trap(struct kvm_vcpu *vcpu)
++{
++	struct kvm_cpu_context *cntx = &vcpu->arch.guest_context;
++
++	if (kvm_riscv_vcpu_wfi_should_trap(vcpu))
++		cntx->hstatus |= HSTATUS_VTW;
++	else
++		cntx->hstatus &= ~HSTATUS_VTW;
++}
++
+ const struct kvm_stats_desc kvm_vcpu_stats_desc[] = {
+ 	KVM_GENERIC_VCPU_STATS(),
+ 	STATS_DESC_COUNTER(VCPU, ecall_exit_stat),
+@@ -73,6 +136,7 @@ static void kvm_riscv_vcpu_context_reset(struct kvm_vcpu *vcpu,
+ 	/* Setup reset state of shadow SSTATUS and HSTATUS CSRs */
+ 	cntx->sstatus = SR_SPP | SR_SPIE;
+ 
++	/* Trap VS-mode WFI by default; the run loop reapplies the policy before each entry. */
+ 	cntx->hstatus |= HSTATUS_VTW;
+ 	cntx->hstatus |= HSTATUS_SPVP;
+ 	cntx->hstatus |= HSTATUS_SPV;
+@@ -936,6 +1000,14 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+ 		 */
+ 		kvm_riscv_local_tlb_sanitize(vcpu);
+ 
++		/*
++		 * Re-evaluate the WFI trap policy for this entry so that
++		 * HSTATUS.VTW tracks the current runnable-task count and
++		 * cannot go stale across guest entries (which would let a
++		 * native WFI halt the CPU while another task is runnable).
++		 */
++		kvm_riscv_vcpu_update_wfi_trap(vcpu);
++
+ 		trace_kvm_entry(vcpu);
+ 
+ 		guest_timing_enter_irqoff();
+-- 
+2.34.1
+
