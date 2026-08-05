@@ -1,324 +1,111 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB953F075D
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 09:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDDE3F326E;
+	Wed,  5 Aug 2026 09:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785920666; cv=none; b=PRIj+4e7YjsPJsmL64OYhSMODCoUYfm/4HwXJqiS4/29v7FQZS/rVOcngDEhVhKWEjxfSYzO2hyV6M8JrjXvxN6Ic0T8J1zEQ1w7OsLq2JDFN2QhdoSSZb71qedPaNnZ7XDAeKokPd/cigG9L54zhW88X4XZkWrxYTl7lDp0D5E=
+	t=1785920812; cv=none; b=nBiFyq8KIzJ9WnjOxNA+132vqt0Netvf13sEx9WlGDTb7scRrEdOHmb+ZTcRAlEfq1sLNm5lNh07f/0WHyAJRVPMFC4cDUZS6lAboZ1E+ja2dI4OrA+LghF85aj0dBWsgRnaMMUtMPlWf2IrUgvruZt8XRe3PUfuPTAh0Fw92QM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785920666; c=relaxed/simple;
-	bh=szaMRTU+Zc37ZMSKJAfhvlWzAFBia28AJQiOz4Mp840=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oEebBn/asxRBy9hNS1+WAk+WWJF54mbNeOxYKUu2zrdz5fUIkpt3YVCLxwU9/fKkp80c3MnSwWI+VXVG1DsF/40xKRYIpRhrI5C1t69ZqQwUNxGkjLq1z22eHX4npjgiE9pyBs6ADoREsD8oUyTxedwcqVDk0uUZt76IzetGjNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ABQjrXAK; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1785920812; c=relaxed/simple;
+	bh=6ULmfgGm/6PkjvPT8MztTypZT/gsCiM4msnZQhL74Qw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FPdkWoIT/xEArRtEH+kQ9ARe0tMr3EWAuYZiu8kA1tg1dSJH9lY9N4WZj1Ke4v+XQmiG6d7TDWW8KmWZ9ZyHV2JrL5zMG4kfs9pYUj2+LbN2ZoACQ6SKswg1llD/9Y2/M2IERELeqRUTC3xqOSKPI3lULwgO01VpiNaR8/bT1+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLtTQ2bF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ABQjrXAK"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-495635a85d2so6384155e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Aug 2026 02:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1785920653; x=1786525453; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=h4tn8Gp0RSKaHrUjo2zWoNmBQth+dfFwqaEytCzyX04=;
-        b=ABQjrXAKN/nYS84ske6BvRE5NouubEX/t9mlwXP7IDcpNFsU94wa+XtgF1qACtV8QB
-         pV5ZAnPoqWqvh/8kDk9Q29gF72KQs38xS2KCf1WU+tlDDrOBnBtwXdSNJ6zM62WFG1s9
-         XUt4l/nBiw/6JQ41+FM7eMfy/kpa8GUQPC0zP7+70Wtf2BluTz8dY6ld6mBX5LV8dF/Z
-         XBF2U3FG+1zoDypuQf/CzMIV6d5Y+8DoM9JqpwoR9F/+VR9JLgzBU/6h7QYIpHdDsBoU
-         HRuRRHrz//c29wAZ6qQQ8hnpiMu5/mBX4BMebwVEvjoBeqqPn+3D0bm9dGqy29IUzoDO
-         HPbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785920653; x=1786525453;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=h4tn8Gp0RSKaHrUjo2zWoNmBQth+dfFwqaEytCzyX04=;
-        b=THFRqCfghGmsbap4qdbmqOJ5RBF7Tx5ivBLLSHEyBkL/tJoavwvarC+YilzbTdqAhH
-         1yHTCsPH07F0RI/9fuftj/Q9KaIoP51yCTQKkqc89l8bNF69XzuIIVO6eo79qxZv5OGI
-         /aa2B8XN8PSoAPJW/R6cVz7SisWKvkJwRQMWYXnueWFvzMFipclnKsbM9aqdO+LxrRqW
-         fC15AG15ceawOaGyQ5NLAb7INltZ/1d3qqGkyrJtebgZfu3mcx7ooBUEeUQuRcWhOdjS
-         nuSzMquyJq6RNNGsV18P7czQ2u4E9WS9cTFpCK1FZnBFMHfSVSu20sjKdkxCNy87WuBA
-         rMiw==
-X-Forwarded-Encrypted: i=1; AHgh+RqOL2uD6vyvkMUMWjyzTQDH+1zvVYFkoRpIOBOVT74erJE8Agesw/Y8E/ejsYY1CmADc0hf2/S0juw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywz7ZIGY3e8Ep/dxKJjNZgZp87b8DChjZzWvQkyEbftd2VzywPs
-	BndOfVGtyO8QoG2sd6fLguNrZR+xMyHYrYDrPaIRVaQenW0595X16+xZ6Vw5Y8VdxOQ=
-X-Gm-Gg: AR+sD1322g/C7Ztc2iyiAb+oOdEuqCtsO/1RvKjMvmM2lK+E3IYDlJmtavkcu6GouEc
-	XQ+d8u7Pkq+bqwxBy/jr9HuIzZTuMHVm7af5w4Sz+ABbeyrbHlspNNrCX6G1FqwfN574dqiD/q+
-	0bQ42lC5uKwdVaaJBUqQffsy96yO8HO6gJ2FnjqwyThOIFTXOTBQBPhsIOHBin8uzzNnP186lXI
-	18vny//DmE5sR3+3nxhkYiE0Omb9Lren0KhCFGqau5GPg77bPbAOD4ObgQcUhbQP8ACYD+1lACY
-	CwZXasLef7JOghRDyzQHcbAUniA2a2mCAlP0UInd8FYNydKbQGV82Wxjsv/HEvioVFtO65auHyW
-	xEv5Op/HaMFuI6qwK3iy823wEB3Axbc7SH+YmwMbfryy6YaaRzsuImFffeErjxvF39YJDCJ4vD5
-	ti+G2mGCqU1S5WpXCqAawSsty3JDUIH+/0/ZAB18tMjRnSA/kYYC+lQNBrtHSY85q8BxamtIU6z
-	puJZvLDg4dX+o7+ZzE+m/Nr4zAGL+viyN1OI3VjcvHz2TXDY+zC5ooplFpXfm/3nyka1VLtduR/
-	1zbVrswMSu8zRqKP63MxDvslEs9JWA==
-X-Received: by 2002:a05:600c:4692:b0:498:162a:dbda with SMTP id 5b1f17b1804b1-4994e714b73mr45253615e9.5.1785920652804;
-        Wed, 05 Aug 2026 02:04:12 -0700 (PDT)
-Received: from silence.. ([46.10.240.40])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4994e99319bsm34082105e9.3.2026.08.05.02.04.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 02:04:12 -0700 (PDT)
-From: Stoyan Bogdanov <sbogdanov@baylibre.com>
-To: jbrunet@baylibre.com,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stoyan Bogdanov <sbogdanov@baylibre.com>
-Subject: [PATCH v6 3/3] hwmon: (pmbus/tps25990): Add TPS1689 support
-Date: Wed,  5 Aug 2026 12:03:57 +0300
-Message-ID: <20260805090400.2059006-4-sbogdanov@baylibre.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260805090400.2059006-1-sbogdanov@baylibre.com>
-References: <20260805090400.2059006-1-sbogdanov@baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLtTQ2bF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E3281F000E9;
+	Wed,  5 Aug 2026 09:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785920809;
+	bh=h+inmSss70iOjx8T7Tc+O2oE/UL2EDBuic2L1hxny08=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NLtTQ2bFAn/5DdRAwk7wjJzUuKJEJ3DwFTWUgckvU4K4EzosB49jPXNbVmTYhJnXm
+	 AI4NglBpwsrxAKF3NsbRR610dSoxlHL8m4kc6DSL1LP0vhQjiyybiA6gbUPOA/qpGE
+	 7hMPXhhfBZWI0fJA684YinO6WFuw/o0WbisfJxm41V/9x2b0ss+9BntLb0PoKBKTHa
+	 /L0c3URaJg8Eim6mO5Dr7XA0MZ7sp+o7Cbe1OLH/zisHvc+b/u49dG6LEk2iULHYNK
+	 yvCSw88xYpbK6kwOJpHa2iIsI6JbbV8UP1I33TlWgwYM7k1zno1TbAZNDq6cHlO2mf
+	 W46XrrMWkUOdQ==
+Date: Wed, 5 Aug 2026 12:06:43 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Alex Williamson <alex@shazbot.org>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	"Claude Opus 4.8" <noreply@anthropic.com>
+Subject: Re: [PATCH 10/13] PCI/P2PDMA: Extract pure ACS routing decision
+ helpers
+Message-ID: <20260805090643.GC23431@unreal>
+References: <20260802-fix-p2p-acs-v1-0-a7c5eb64fff6@nvidia.com>
+ <20260802-fix-p2p-acs-v1-10-a7c5eb64fff6@nvidia.com>
+ <461ab877-a5ab-44bd-8c24-1a77e42e9746@deltatee.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <461ab877-a5ab-44bd-8c24-1a77e42e9746@deltatee.com>
 
-Extend the existing TPS25990 driver to support the TPS1689 eFuse,
-as both devices share the same command interface and functionality.
+On Tue, Aug 04, 2026 at 04:07:27PM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> On 2026-08-02 09:09, Leon Romanovsky wrote:
+> 
+> >  static enum pci_acs_p2pdma_state
+> >  pci_acs_p2pdma_state(struct pci_dev *pdev, struct pci_dev *target)
+> >  {
+> > -	int pos, ret;
+> > +	int egress = 0;
+> >  	u16 ctrl;
+> >  
+> > -	pos = pdev->acs_cap;
+> > -	if (!pos)
+> > +	if (!pdev->acs_cap)
+> >  		return PCI_ACS_P2PDMA_DIRECT;
+> 
+> I don't necessarily disagree with the change, but removing pos in this
+> patch seems unnecessary and makes the patch more difficult to review
+> than it needed to be.
 
-Update the documentation to include TPS1689 support.
+I usually combine small cleanups, but I'll restore pos here in
+the next version if I repost this patch.
 
-Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
----
- Documentation/hwmon/tps25990.rst |  15 +++--
- drivers/hwmon/pmbus/tps25990.c   | 106 ++++++++++++++++++++++++++++---
- 2 files changed, 107 insertions(+), 14 deletions(-)
+> 
+> > @@ -1046,6 +1047,22 @@ resource_size_t pci_min_window_alignment(struct pci_bus *bus,
+> >  void pci_acs_init(struct pci_dev *dev);
+> >  void pci_enable_acs(struct pci_dev *dev);
+> >  int pci_acs_egress_ctrl_set(struct pci_dev *pdev, struct pci_dev *target);
+> > +
+> > +/*
+> > + * Peer-to-peer routing decision for an ACS-capable ingress port, per
+> > + * PCIe r7.0, sec 6.12.3, table 6-11.
+> > + */
+> > +enum pci_acs_p2pdma_state {
+> > +	PCI_ACS_P2PDMA_DIRECT,		/* peer-to-peer permitted directly */
+> > +	PCI_ACS_P2PDMA_REDIRECT,	/* redirected upstream to host bridge */
+> > +	PCI_ACS_P2PDMA_NOT_SUPPORTED,	/* no usable peer-to-peer route */
+> > +};
+> > +
+> > +#if IS_ENABLED(CONFIG_KUNIT)
+> > +bool pci_acs_egress_port_valid(u16 acs_caps, u8 target_port);
+> > +enum pci_acs_p2pdma_state pci_acs_p2pdma_decision(u16 ctrl, bool has_target,
+> > +						  int egress);
+> > +#endif
+> 
+> One minor weird whitespace issue here. Probably the empty line should
+> come after #endif
+> 
+> 
+> But both of these are very minor points, so:
+> 
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 
-diff --git a/Documentation/hwmon/tps25990.rst b/Documentation/hwmon/tps25990.rst
-index 04faec780d26..e8bc9a550bda 100644
---- a/Documentation/hwmon/tps25990.rst
-+++ b/Documentation/hwmon/tps25990.rst
-@@ -9,26 +9,31 @@ Supported chips:
- 
-     Prefix: 'tps25990'
- 
--  * Datasheet
-+    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
- 
--    Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
-+  * TI TPS1689
-+
-+    Prefix: 'tps1689'
-+
-+    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps1689
- 
- Author:
- 
- 	Jerome Brunet <jbrunet@baylibre.com>
-+	Stoyan Bogdanov <sbogdanov@baylibre.com>
- 
- Description
- -----------
- 
--This driver implements support for TI TPS25990 eFuse.
-+This driver implements support for TI TPS25990 and TI TPS1689 eFuse chips.
- This is an integrated, high-current circuit protection and power
- management device with PMBUS interface
- 
--Device compliant with:
-+Devices are compliant with:
- 
- - PMBus rev 1.3 interface.
- 
--Device supports direct format for reading input voltages,
-+Devices supports direct format for reading input voltages,
- output voltage, input current, input power and temperature.
- 
- Due to the specificities of the chip, all history reset attributes
-diff --git a/drivers/hwmon/pmbus/tps25990.c b/drivers/hwmon/pmbus/tps25990.c
-index 7634ac743025..a91ea8f33b29 100644
---- a/drivers/hwmon/pmbus/tps25990.c
-+++ b/drivers/hwmon/pmbus/tps25990.c
-@@ -47,7 +47,14 @@
- 					 PK_MIN_AVG_RST_AVG  | \
- 					 PK_MIN_AVG_RST_MIN)
- 
-+#define TPS1689_VIN_OV_RANGE_SEL_MASK	GENMASK(7, 6)
-+#define TPS1689_VIN_VOV_MASK		GENMASK(5, 0)
-+#define TPS1689_VIN_SCALING		251
-+#define TPS1689_VIN_VOV_STEP_MV		250
-+#define TPS1689_VIN_RANGE_SPAN_MV	16000
-+
- enum chips {
-+	tps1689,
- 	tps25990,
- };
- 
-@@ -105,6 +112,8 @@ static int tps25990_mfr_write_protect_get(struct i2c_client *client)
- static int tps25990_read_word_data(struct i2c_client *client,
- 				   int page, int phase, int reg)
- {
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct tps25990_data *data = container_of(info, struct tps25990_data, info);
- 	int ret;
- 
- 	switch (reg) {
-@@ -193,9 +202,18 @@ static int tps25990_read_word_data(struct i2c_client *client,
- 		ret = pmbus_read_word_data(client, page, phase, reg);
- 		if (ret < 0)
- 			break;
--		ret = DIV_ROUND_CLOSEST(ret * TPS25990_VIN_OVF_NUM,
--					TPS25990_VIN_OVF_DIV);
--		ret += TPS25990_VIN_OVF_OFF;
-+		if (data->chip_id == tps25990) {
-+			ret = DIV_ROUND_CLOSEST(ret * TPS25990_VIN_OVF_NUM,
-+						TPS25990_VIN_OVF_DIV);
-+			ret += TPS25990_VIN_OVF_OFF;
-+		} else if (data->chip_id == tps1689) {
-+			ret = DIV_ROUND_CLOSEST(
-+				((FIELD_GET(TPS1689_VIN_OV_RANGE_SEL_MASK, ret) + 1) *
-+				TPS1689_VIN_RANGE_SPAN_MV) +
-+				(FIELD_GET(TPS1689_VIN_VOV_MASK, ret) *
-+				TPS1689_VIN_VOV_STEP_MV - TPS1689_VIN_RANGE_SPAN_MV),
-+				TPS1689_VIN_SCALING);
-+		}
- 		break;
- 
- 	case PMBUS_IIN_OC_FAULT_LIMIT:
-@@ -208,7 +226,7 @@ static int tps25990_read_word_data(struct i2c_client *client,
- 		if (ret < 0)
- 			break;
- 		ret = DIV_ROUND_CLOSEST(ret * TPS25990_IIN_OCF_NUM,
--					TPS25990_IIN_OCF_DIV);
-+						TPS25990_IIN_OCF_DIV);
- 		ret += TPS25990_IIN_OCF_OFF;
- 		break;
- 
-@@ -238,6 +256,8 @@ static int tps25990_read_word_data(struct i2c_client *client,
- static int tps25990_write_word_data(struct i2c_client *client,
- 				    int page, int reg, u16 value)
- {
-+	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-+	struct tps25990_data *data = container_of(info, struct tps25990_data, info);
- 	int ret;
- 
- 	switch (reg) {
-@@ -255,10 +275,23 @@ static int tps25990_write_word_data(struct i2c_client *client,
- 		break;
- 
- 	case PMBUS_VIN_OV_FAULT_LIMIT:
--		value -= TPS25990_VIN_OVF_OFF;
--		value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_VIN_OVF_DIV,
--					  TPS25990_VIN_OVF_NUM);
--		value = clamp_val(value, 0, 0xf);
-+		if (data->chip_id == tps25990) {
-+			value -= TPS25990_VIN_OVF_OFF;
-+			value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_VIN_OVF_DIV,
-+						  TPS25990_VIN_OVF_NUM);
-+			value = clamp_val(value, 0, 0xf);
-+		} else if (data->chip_id == tps1689) {
-+			u32 scaled_value = value * TPS1689_VIN_SCALING + TPS1689_VIN_RANGE_SPAN_MV;
-+			u32 tmp_scaled_value = scaled_value;
-+			u8 ov_rng_sel = 0;
-+			u32 ov_set = 0;
-+
-+			ov_rng_sel = tmp_scaled_value / TPS1689_VIN_RANGE_SPAN_MV;
-+			ov_set = tmp_scaled_value - (TPS1689_VIN_RANGE_SPAN_MV * ov_rng_sel);
-+			value = FIELD_PREP(TPS1689_VIN_OV_RANGE_SEL_MASK, ov_rng_sel - 1) |
-+						FIELD_PREP(TPS1689_VIN_VOV_MASK,
-+						(ov_set / TPS1689_VIN_VOV_STEP_MV));
-+		}
- 		ret = pmbus_write_word_data(client, page, reg, value);
- 		break;
- 
-@@ -347,6 +380,60 @@ static const struct regulator_desc tps25990_reg_desc[] = {
- #endif
- 
- static const struct pmbus_driver_info tps25990_base_info[] = {
-+	[tps1689] = {
-+		.pages = 1,
-+		.format[PSC_VOLTAGE_IN] = direct,
-+		.m[PSC_VOLTAGE_IN] = 3984,
-+		.b[PSC_VOLTAGE_IN] = -63750,
-+		.R[PSC_VOLTAGE_IN] = -3,
-+		.format[PSC_VOLTAGE_OUT] = direct,
-+		.m[PSC_VOLTAGE_OUT] = 1166,
-+		.b[PSC_VOLTAGE_OUT] = 0,
-+		.R[PSC_VOLTAGE_OUT] = -2,
-+		.format[PSC_TEMPERATURE] = direct,
-+		.m[PSC_TEMPERATURE] = 140,
-+		.b[PSC_TEMPERATURE] = 32103,
-+		.R[PSC_TEMPERATURE] = -2,
-+		/*
-+		 * Current and Power measurement depends on the ohm value
-+		 * of Rimon. m is multiplied by 1000 below to have an integer
-+		 * and -3 is added to R to compensate.
-+		 */
-+		.format[PSC_CURRENT_IN] = direct,
-+		.m[PSC_CURRENT_IN] = 9548,
-+		.b[PSC_CURRENT_IN] = 0,
-+		.R[PSC_CURRENT_IN] = -6,
-+		.format[PSC_CURRENT_OUT] = direct,
-+		.m[PSC_CURRENT_OUT] = 24347,
-+		.b[PSC_CURRENT_OUT] = 0,
-+		.R[PSC_CURRENT_OUT] = -3,
-+		.format[PSC_POWER] = direct,
-+		.m[PSC_POWER] = 2775,
-+		.b[PSC_POWER] = 0,
-+		.R[PSC_POWER] = -4,
-+		.func[0] = (PMBUS_HAVE_VIN |
-+			    PMBUS_HAVE_VOUT |
-+			    PMBUS_HAVE_VMON |
-+			    PMBUS_HAVE_IIN |
-+			    PMBUS_HAVE_IOUT |
-+			    PMBUS_HAVE_PIN |
-+			    PMBUS_HAVE_TEMP |
-+			    PMBUS_HAVE_STATUS_VOUT |
-+			    PMBUS_HAVE_STATUS_IOUT |
-+			    PMBUS_HAVE_STATUS_INPUT |
-+			    PMBUS_HAVE_STATUS_TEMP |
-+			    PMBUS_HAVE_SAMPLES),
-+
-+		.read_word_data = tps25990_read_word_data,
-+		.write_word_data = tps25990_write_word_data,
-+		.read_byte_data = tps25990_read_byte_data,
-+		.write_byte_data = tps25990_write_byte_data,
-+
-+#if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
-+		.reg_desc = tps25990_reg_desc,
-+		.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
-+#endif
-+		},
- 	[tps25990] = {
- 		.pages = 1,
- 		.format[PSC_VOLTAGE_IN] = direct,
-@@ -389,7 +476,6 @@ static const struct pmbus_driver_info tps25990_base_info[] = {
- 		.write_word_data = tps25990_write_word_data,
- 		.read_byte_data = tps25990_read_byte_data,
- 		.write_byte_data = tps25990_write_byte_data,
--
- #if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
- 		.reg_desc = tps25990_reg_desc,
- 		.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
-@@ -398,12 +484,14 @@ static const struct pmbus_driver_info tps25990_base_info[] = {
- };
- 
- static const struct i2c_device_id tps25990_i2c_id[] = {
-+	{ .name = "tps1689", .driver_data = tps1689 },
- 	{ .name = "tps25990", .driver_data = tps25990 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, tps25990_i2c_id);
- 
- static const struct of_device_id tps25990_of_match[] = {
-+	{ .compatible = "ti,tps1689", .data = (void *)tps1689 },
- 	{ .compatible = "ti,tps25990", .data = (void *)tps25990 },
- 	{}
- };
--- 
-2.43.0
+Thanks
 
+> 
+> 
+> 
