@@ -1,188 +1,398 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C80D37F322;
-	Wed,  5 Aug 2026 03:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DDF3B5307;
+	Wed,  5 Aug 2026 04:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785901567; cv=none; b=bp7jYGG8Y4pwlRLVkmspbZHtuAIA30CF8IIhZLa/fa+XRq+D4x/djfaLazZkgHsH6YhC8WVIpaYszQWxPLuZo9Gkt/VTlDVDD3m9KhKgAdbwiqEQfAFfDVewSheGFuAUgNPM2086aeaqiRihxLZkyY0Cgx3ro1jopHC0Ob2dI9k=
+	t=1785904373; cv=none; b=lSOyvlA3i7vl1INi/zkdWjgNyvYs+p8siakJf6wX+6Wtw0HFQrNXyRdA4nvvbeR6jU52jCwLpwR+AepTBrc7IlPkKQKoSe7KKgC3MxsWWwJAzsrqbT+aboWs0qswJcND4x/JpE4/FO0KYQuqreUiL2Xaks9eye+0HCbb1PxOaiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785901567; c=relaxed/simple;
-	bh=UPAjB0BdsiGVSp/QBakciyTb0Cb2PgDPRyhiNB6yjbg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ORP8wt0IUkr/VTOxX/XbkT96UhKmB2ubAjJbOc94lOgZppReHPRkxq8HgAKNgyiic0D7FWqwekgSLw6TWey0TOHHMUf2xZkv8wykdPtSW4qyVsoMuTNDkK2MV/RtwyouilNUR3da7BmcpZ3ieM289XqTiyMMCbi2oBjRIeWYZYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Tp0/Var9; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1785904373; c=relaxed/simple;
+	bh=7kGphA0i5eZd1ILgObRIX3yiLbbigfmiTN6TUEeJhJ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oXUEsbSz14ENrWHa7kul5fC3EurhojB0KjD4idkZSJnYi0AtICWOnSMQLOfiOoTKqo9WerJIyJUBJSrwH/5OJBW+4BQ2ZH3m4aAfSay8dZP2b5xzzD75Kfxc8UXGcg2HZkB9NUKyBelBFptcqNAJPb3mYkUHRlvNq/pgtmcqFlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=HmmaCqJK; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Tp0/Var9"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=cmpSACpQmSDOvkCsslSgBCvhphPrgzodOLZTrWWOAUY=;
-	b=Tp0/Var93VcbMnNN/DXf5t3Qwl9TbSqrL6DVz1Mmr38m/M3Yqmtm11CWu20dFVskW8sl/gzBe
-	9mitCO1ZFNe2Leu7zofD3tG05KcR4ruf0j7/cqAgDgoPf5yaXFjztC/lFXGwpvKz8lOufXI/haO
-	0kIl9iGHsO61/UVxWGM/i+0=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hFGKq3hP4zmVWY;
-	Wed,  5 Aug 2026 11:36:31 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id E01CE40586;
-	Wed,  5 Aug 2026 11:46:02 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 5 Aug 2026 11:46:01 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Teng Peisen <tengpeisen@huawei.com>, Wu Di
-	<wudi234@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Larysa Zaremba
-	<larysa.zaremba@intel.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chen Anwen
-	<chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>, Zhang Min
-	<zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
-	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
-Subject: [PATCH net] hinic3: Fix SKB linearization mismatch and silent TX drops
-Date: Wed, 5 Aug 2026 11:45:55 +0800
-Message-ID: <ca8f219dd1eac99e41e22477bd0902b92ec7628e.1785899557.git.tengpeisen@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="HmmaCqJK"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6752nE5R2612541;
+	Wed, 5 Aug 2026 04:32:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=sHJ1iP
+	vT8K2mXnbeba6IcA2Xdi7doDnL2X/2P1fLIpI=; b=HmmaCqJKrbW6vQy3TsH0tU
+	/6gYb1weOydiIVhE+x0a7X+q6Yo6l3wPs54lGXVwlaK0+OU+36Cp73Y/KOlxEabl
+	7NWkJiqVxqdX2XiwZHac4yx4E1hixHYd2Uo/bobX3/fWWX7O+9VSKxTZhdW23sua
+	v7a6QT+zLxbtRms5rRfRuoewJxmuahmV+2XjyLlmxDsbbVdIeQhu8u+OtJRTM48O
+	UdpZDTmBIpd847MJEeTVb0yUw3wGVRgg11AFaFQIIyji+pzlNbo+SmjdPoACxoWc
+	dW1ZZAjbYQXQi+qMFTFr8gALP6Q99ResQt3Ytm8Em0q6v+YL8Gs7IBfCpikE+tdw
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs8a417vj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Aug 2026 04:32:34 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6754QM6X009481;
+	Wed, 5 Aug 2026 04:32:33 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fsvmhcwat-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Aug 2026 04:32:33 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6754WWPT13369944
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 5 Aug 2026 04:32:32 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5DCF1580A3;
+	Wed,  5 Aug 2026 04:32:32 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2EE7D58156;
+	Wed,  5 Aug 2026 04:32:27 +0000 (GMT)
+Received: from [9.61.246.192] (unknown [9.61.246.192])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  5 Aug 2026 04:32:16 +0000 (GMT)
+Message-ID: <4c1f7c37-56c9-4fa9-94ae-c867872da353@linux.ibm.com>
+Date: Wed, 5 Aug 2026 10:02:15 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] KVM: PPC: Expose CPU compatibility modes for
+ nested guests
+To: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, Paolo Bonzini
+ <pbonzini@redhat.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Ritesh Harjani <ritesh.list@gmail.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Anushree Mathur <anushree.mathur@linux.vnet.ibm.com>
+References: <20260804180705.59160-1-amachhiw@linux.ibm.com>
+Content-Language: en-US
+From: Anushree Mathur <anushree.mathur@linux.ibm.com>
+In-Reply-To: <20260804180705.59160-1-amachhiw@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemf100013.china.huawei.com (7.202.181.12)
-
-Previously, hinic3_send_one_skb() cached the SKB fragment count before
-calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
-skb_checksum_help() for unsupported tunnel packets, the SKB may be
-linearized. Continuing to build the TX descriptor with the stale
-fragment count leads to a descriptor mismatch, which can trigge
-out-of-bounds DMA reads or IOMMU faults.
-
-Furthermore, the old code ignored the return value of skb_checksum_help(),
-transmitting corrupted packets with incomplete checksums upon failure. It
-also failed to increment drop statistics across various TX error paths,
-causing packets to be dropped silently without notifying the user.
-
-Fix this by:
-1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
-   ensure the correct fragment count is used if the SKB is linearized.
-2. Propagating skb_checksum_help() errors and returning
-   HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
-3. Adding missing statistics increments (dropped, map_frag_err,
-   unknown_tunnel_pkt, skb_pad_err) across the TX error paths so these
-   events are correctly reflected in interface statistics.
-
-Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
-Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-Co-developed-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 31 ++++++++++++++++---
- 1 file changed, 26 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index 9306bf0020ca..45effdddb434 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -97,8 +97,12 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
-
- 	dma_info[0].dma = dma_map_single(&pdev->dev, skb->data,
- 					 skb_headlen(skb), DMA_TO_DEVICE);
--	if (dma_mapping_error(&pdev->dev, dma_info[0].dma))
-+	if (dma_mapping_error(&pdev->dev, dma_info[0].dma)) {
-+		u64_stats_update_begin(&txq->txq_stats.syncp);
-+		txq->txq_stats.map_frag_err++;
-+		u64_stats_update_end(&txq->txq_stats.syncp);
- 		return -EFAULT;
-+	}
-
- 	dma_info[0].len = skb_headlen(skb);
-
-@@ -117,6 +121,9 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 						     skb_frag_size(frag),
- 						     DMA_TO_DEVICE);
- 		if (dma_mapping_error(&pdev->dev, dma_info[idx].dma)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.map_frag_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			err = -EFAULT;
- 			goto err_unmap_page;
- 		}
-@@ -260,9 +267,11 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
- 		if (l4_proto != IPPROTO_UDP ||
- 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
- 		    VXLAN_OFFLOAD_PORT_LE) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.unknown_tunnel_pkt++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			/* Unsupported tunnel packet, disable csum offload */
--			skb_checksum_help(skb);
--			return 0;
-+			return skb_checksum_help(skb);
- 		}
- 	}
-
-@@ -412,6 +421,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
- 		offload |= HINIC3_TX_OFFLOAD_TSO;
- 	} else {
- 		tso_cs_en = hinic3_tx_csum(txq, task, skb);
-+		if (tso_cs_en < 0) {
-+			offload = HINIC3_TX_OFFLOAD_INVALID;
-+			return offload;
-+		}
- 		if (tso_cs_en)
- 			offload |= HINIC3_TX_OFFLOAD_CSUM;
- 	}
-@@ -539,12 +552,17 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 	int err;
-
- 	if (unlikely(skb->len < MIN_SKB_LEN)) {
--		if (skb_pad(skb, MIN_SKB_LEN - skb->len))
-+		if (skb_pad(skb, MIN_SKB_LEN - skb->len)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.skb_pad_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			goto err_out;
-+		}
-
- 		skb->len = MIN_SKB_LEN;
- 	}
-
-+	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
- 	num_sge = skb_shinfo(skb)->nr_frags + 1;
- 	/* assume normal wqe format + 1 wqebb for task info */
- 	wqebb_cnt = num_sge + 1;
-@@ -560,7 +578,6 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 		return NETDEV_TX_BUSY;
- 	}
-
--	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
- 	if (unlikely(offload == HINIC3_TX_OFFLOAD_INVALID)) {
- 		goto err_drop_pkt;
- 	} else if (!offload) {
-@@ -604,6 +621,10 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- err_drop_pkt:
- 	dev_kfree_skb_any(skb);
- err_out:
-+	u64_stats_update_begin(&txq->txq_stats.syncp);
-+	txq->txq_stats.dropped++;
-+	u64_stats_update_end(&txq->txq_stats.syncp);
-+
- 	return NETDEV_TX_OK;
- }
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=E6P9Y6dl c=1 sm=1 tr=0 ts=6a72bce3 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=Lms9HglfbqfVGmd6hngA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: -22EsFqoBbEErTSaiDVW_rs_5lzvDxzf
+X-Proofpoint-GUID: tUXB9BNiuAM8LPj7TbytVNr8cIqMDoH3
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDAyOSBTYWx0ZWRfXzz+le/8tdkFd
+ MMAsnNYiGZSpTg8SrjGncEL+5WTN3+yv2Uc7rCnH1GUc9NzEhffXf866dT4gHG6zwf6wEuOSg2g
+ xj0s03rOm2/QXyk6m5tcsv9gmGV/USw=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDAyOSBTYWx0ZWRfXwQtuSVyiL5x3
+ dZ3ig3d2mwIU3p7fRkrT/jFs6DHTL/eqS6C2QeRzE3yxyGGChYjLWEhmGSRYUtwG/ba4UIVL7dn
+ vXPAnrM3L0S7oC7XJTUvDycd6m9PJhweMjDJ08AntqhwmdHAOkWalBjZJ5ixCnKwwBwajrxtRDP
+ K0gt35RyHA+KUgA44i7AdDJEZEUZOgz1lnE5eYKFKpyfkurAOdPlJuse9xc1Rfjpn3QNLiY/mhf
+ Sm2oaXGsI4i7mHNcBBcmvN7MF54EQbfPE3a0nNXzBSvSVU0XmT4UygAO4VY7J28oaAzke2pNcuR
+ +roM2eW0+mzT7Q5pjnDnkLO8Cib2iR6dxhlrB78zce1QOv+zOMf1sGjPHsjZ128tvvkyLshKYCy
+ UtXumVt1AxXDUu7SKBDIT6XXx1GWBA8BjlKBPjIzkAl0mtgITUkHjt2OzN4TE0WaEuwR4xsKVtE
+ Sw4BV16EpDwT7eKUebQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-05_01,2026-08-04_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608050029
 
 
-base-commit: 2195424c3da2ef1829a63b807e3a900a90e57d85
---
-2.54.0
 
+On 04/08/26 11:37 PM, Amit Machhiwal wrote:
+> On POWER systems, newer processor generations can operate in compatibility
+> modes corresponding to earlier generations (e.g., a Power11 system running
+> in Power10 compatibility mode). In such cases, the effective CPU level
+> exposed to guests differs from the physical processor generation.
+>
+> This creates a problem for nested virtualization. When booting a nested KVM
+> guest (L2) inside a host KVM guest (L1) running in a compatibility mode,
+> userspace (e.g., QEMU) may derive the CPU model from the raw hardware PVR
+> and attempt to configure the nested guest accordingly. However, the L1
+> partition is constrained by the compatibility level negotiated with the
+> hypervisor (L0), and requests exceeding that level are rejected, leading to
+> guest boot failures such as:
+>
+>    KVM-NESTEDv2: couldn't set guest wide elements
+>
+> This series provides a mechanism for userspace to query the effective CPU
+> compatibility modes supported by the host, so it can select an appropriate
+> CPU model for nested guests.
+>
+> To achieve this, the series introduces a new KVM capability and ioctl
+> (KVM_CAP_PPC_COMPAT_CAPS / KVM_PPC_GET_COMPAT_CAPS) that expose the
+> compatibility modes supported by the host.
+>
+> Why a new UAPI?
+> ===============
+> While cpu-version is available in /proc/device-tree/cpus/<cpu#>/cpu-version
+> on both L1 booted on PowerNV and PowerVM LPARs, the UAPI approach is
+> preferable for several reasons:
+>
+> 1. pHYP (L0) capabilities: On PowerVM, we need to rely on capabilities
+>     negotiated with pHYP in KVM, not just device tree properties. The
+>     cpu-version property depicts the current compat mode but doesn't point
+>     to what all compat modes are supported for the nested guest.
+>
+> 2. procfs dependency: Not all systems run with procfs enabled (CONFIG_PROC_FS
+>     is optional). Minimal configurations like buildroot might disable it, but
+>     KVM ioctl works regardless since it accesses kernel data structures
+>     directly.
+>
+> 3. Kernel validation: The kernel validates and normalizes the compatibility
+>     information, ensuring userspace gets validated, consistent data.
+>
+> 4. Abstraction & stability: /proc/device-tree is an implementation detail.
+>     The UAPI provides a stable interface that won't break if the underlying
+>     mechanism changes.
+>
+> 5. Semantic clarity: KVM_PPC_GET_COMPAT_CAPS clearly expresses what
+>     compatibility modes can be used for KVM guests, vs. parsing device tree
+>     which requires understanding the semantic meaning of cpu-version.
+>
+> The implementation supports both:
+>
+>    - KVM on PowerVM (nested API v2), where compatibility information is
+>      served from the cached nested_capabilities value, originally obtained
+>      via the H_GUEST_GET_CAPABILITIES hypercall at module init.
+>    - KVM on PowerNV (nested API v1), where compatibility is derived from the
+>      device tree ("cpu-version") representing the effective processor
+>      compatibility level.
+>
+> This allows userspace (e.g., QEMU) to select a CPU model consistent with
+> the host compatibility mode, avoiding mismatches and enabling successful
+> nested guest boot.
+>
+> Note: This series is built on top of patch [1] which must be applied first.
+> Patch [1] ensures arch_compat is validated against the host compatibility
+> mode before this series adds the capability query mechanism.
+> Commit e4de1b9cb3b5 ("powerpc/dt_cpu_ftrs: Set CPU_FTR_P11_PVR for Power11
+> and later processors") which was also a prerequisite has been merged upstream.
+>
+> Changes in v6:
+>    - Changed KVM_PPC_GET_COMPAT_CAPS ioctl number from 0xe4 to 0xb8 to
+>      avoid placing it in the KVM_CREATE_DEVICE fd ioctl range (0xe0-0xe3);
+>      relocated definition to sit alongside other PPC vm ioctls (patch 1)
+>      - [Gautam]
+>    - kvmppc_map_compat_capabilities(): changed parameter type from
+>      'const __be32' to 'u32' to fix Sparse type annotation warning (patch 3)
+>      - [Sashiko]
+>    - kvmppc_get_compat_caps(): replaced of_get_property() + be32_to_cpup()
+>      with of_property_read_u32() for implicit length validation and cleaner
+>      endianness handling (patch 3) - [Sashiko]
+>    - Documentation: corrected :Parameters: from (out) to (in/out) since
+>      userspace must set size and flags before calling (patch 4) - [Sashiko]
+>
+> Patch summary:
+>    [1/4] Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+>    [2/4] Implement capability retrieval for KVM on PowerVM (API v2)
+>    [3/4] Add KVM on PowerNV support (API v1)
+>    [4/4] Document the new ioctl
+>
+> Testing (with QEMU v4 patches and on top of patch [1]):
+>
+> KVM APIv1 Testing
+> =================
+>    On P10 PowerNV machine (L0)
+>    ---------------------------
+>      - P10 L1 KVM guest -> works
+>        - P10 nested L2 KVM guest -> works
+>        - P9 compat nested L2 KVM guest -> works
+>      - P9 compat L1 KVM guest -> works
+>        - P9 nested L2 KVM guest -> works
+>
+>    On Powernv11 TCG Guest (L0)
+>    ---------------------------
+>      - P11 PowerNV TCG L0 guest -> works
+>      - P11 L1 KVM guest -> works
+>        - P11 L2 KVM guest -> works
+>      - P10 compat L1 KVM guest -> works
+>        - P10 L2 KVM guest -> works
+>      - P9  compat L1 KVM guest -> works
+>        - P9 L2 KVM guest -> works
+>
+> KVM APIv2 Testing
+> =================
+>    On P11 PowerVM LPAR (L1)
+>    ------------------------
+>      - P11 L2 KVM guest -> works
+>      - P10 compat L2 KVM guest -> works
+>      - P9 compat L2 KVM guest fails to boot as expected
+>      - Without QEMU patches but Linux patches
+>        - P11 L2 KVM guest -> works
+>        - P10 compat L2 KVM guest -> works
+>        - P9 compat L2 KVM guest fails to boot as expected
+>      - Without Linux patches but QEMU patches
+>        - P11 L2 KVM guest -> works
+>        - P10 compat L2 KVM guest -> works
+>
+>    On P11 LPAR in P10 compat (L1)
+>    ------------------------------
+>      - P10 (host compat) L2 KVM guest -> works
+>      - Without QEMU patch but Linux patches
+>        - P10 guest fails to boot as expected (error: kvm run failed Invalid argument)
+>      - Without Linux patch but QEMU patches
+>        - P10 guest fails to boot as expected (KVM: unknown exit, hardware reason ffffffffffffffea)
+>
+>    On P10 PowerVM LPAR (L1)
+>    ------------------------
+>      - P10 L2 KVM guest -> works
+>      - P9 compat L2 KVM guest fails to boot as expected
+>
+> TCG pSeries Guest
+> =================
+>      - P11 (default) pSeries guest boots fine
+>
+> ABI Extensibility Testing (struct size 32, extra member)
+> =========================================================
+>      - Newer struct on QEMU, older kernel -> works (kernel returns -E2BIG,
+>        QEMU retries with correct size)
+>      - New struct on Linux kernel, older QEMU -> works (kernel zero-pads
+>        trailing fields, QEMU gets correct data)
+>
+> With this series, nested guests boot successfully in configurations where
+> they previously failed due to compatibility mismatches.
+>
+> Related QEMU series:
+> ====================
+> A corresponding QEMU v5 series will be sent soon.
+>
+> Previous QEMU versions:
+> v4: https://lore.kernel.org/all/20260701052341.62289-1-amachhiw@linux.ibm.com/
+> v3: https://lore.kernel.org/all/20260616113915.25589-1-amachhiw@linux.ibm.com/
+> v2: https://lore.kernel.org/all/20260502140021.69712-1-amachhiw@linux.ibm.com/
+> v1: https://lore.kernel.org/all/20260430061333.37905-1-amachhiw@linux.ibm.com/
+>
+> Previous versions:
+> ==================
+> v5: https://lore.kernel.org/linuxppc-dev/20260701051409.51820-1-amachhiw@linux.ibm.com/
+> v4: https://lore.kernel.org/linuxppc-dev/20260616123314.82721-1-amachhiw@linux.ibm.com/
+> v3: https://lore.kernel.org/linuxppc-dev/20260522152744.55251-1-amachhiw@linux.ibm.com/
+> v2: https://lore.kernel.org/linuxppc-dev/20260513100755.83195-1-amachhiw@linux.ibm.com/
+> v1: https://lore.kernel.org/linuxppc-dev/20260430054906.94431-1-amachhiw@linux.ibm.com/
+>
+> References:
+> ===========
+> [1] https://lore.kernel.org/all/20260714175432.86388-1-amachhiw@linux.ibm.com/
+>
+> Amit Machhiwal (4):
+>    KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+>    KVM: PPC: Book3S HV: Implement compat CPU capability retrieval for KVM
+>      on PowerVM
+>    KVM: PPC: Book3S HV: Add support for compat CPU capabilities for KVM
+>      on PowerNV
+>    KVM: PPC: Document KVM_PPC_GET_COMPAT_CAPS ioctl
+>
+>   Documentation/virt/kvm/api.rst      | 79 +++++++++++++++++++++++++++++
+>   arch/powerpc/include/asm/kvm_ppc.h  |  1 +
+>   arch/powerpc/include/uapi/asm/kvm.h | 18 +++++++
+>   arch/powerpc/kvm/book3s_hv.c        | 56 ++++++++++++++++++++
+>   arch/powerpc/kvm/powerpc.c          | 71 ++++++++++++++++++++++++++
+>   include/uapi/linux/kvm.h            |  3 ++
+>   6 files changed, 228 insertions(+)
+>
+>
+> base-commit: 848acc8ffe1b7cd5f1bf427b93069becfebc2c9d
+> prerequisite-patch-id: 7755786f0e4f415e47065ff1972765008727fe10
+
+Hi Amit,
+I have tested this patch and it works as expected. Here is my analysis :
+
+I booted a host with Power10 compat mode and tried following scenarios -
+
+
+lscpu on host :
+
+Architecture:                ppc64le
+   Byte Order:                Little Endian
+CPU(s):                      8
+   On-line CPU(s) list:       0-7
+Model name:                  POWER10 (architected), altivec supported
+
+
+Before applying the patch :
+
+When I am trying to bringup the guest on a compat mode host it was 
+bringing up a Power11 guest and was failing as
+
+[ 1411.578944] [   T2928] KVM-NESTEDv2: couldn't set guest wide elements
+[ 1411.578963] [   T2928] vcpu 000000000b9c4155 (0):
+[ 1411.578968] [   T2928] pc  = 000000007daf9790  msr = 
+8000000000103000  trap = ffffffea
+[ 1411.578973] [   T2928] r 0 = 8000000000003000  r16 = 0000000000000000
+[ 1411.578978] [   T2928] r 1 = 000000007e581e20  r17 = 0000000000000000
+[ 1411.578982] [   T2928] r 2 = 000000007db26c00  r18 = 0000000000000000
+[ 1411.578985] [   T2928] r 3 = 0000000000000000  r19 = 0000000000000000
+[ 1411.578989] [   T2928] r 4 = 0000000002e30c80  r20 = 0000000000000000
+[ 1411.578993] [   T2928] r 5 = 000000007df80000  r21 = 0000000000000000
+[ 1411.578996] [   T2928] r 6 = 0000000000200000  r22 = 00000000018c5fd6
+[ 1411.579000] [   T2928] r 7 = 000000007df80000  r23 = 000000007db21cc0
+[ 1411.579003] [   T2928] r 8 = 000000007db6e5d8  r24 = 000000007db66000
+[ 1411.579006] [   T2928] r 9 = 000000007e6655d8  r25 = 000000007e665508
+[ 1411.579010] [   T2928] r10 = 000000007db6e5d0  r26 = 00000000018c5fd6
+[ 1411.579013] [   T2928] r11 = 0000000000003000  r27 = 0000000000000003
+[ 1411.579017] [   T2928] r12 = 8000000000000001  r28 = 000000007db6e5e0
+[ 1411.579020] [   T2928] r13 = 0000000000000000  r29 = 000000007db224b0
+[ 1411.579024] [   T2928] r14 = 0000000000000000  r30 = 000000007daf274c
+[ 1411.579028] [   T2928] r15 = 0000000000000000  r31 = 000000007db76000
+[ 1411.579033] [   T2928] ctr = 000000007daf1b44  lr  = 000000007daf1b7c
+[ 1411.579037] [   T2928] srr0 = 000000007daf9790 srr1 = 8000000000102000
+[ 1411.579041] [   T2928] sprg0 = 0000000000000000 sprg1 = 000000000000ff10
+[ 1411.579045] [   T2928] sprg2 = 0000000000000000 sprg3 = 0000000000000000
+[ 1411.579049] [   T2928] cr = 20000402  xer = 0000000020040000 dsisr = 
+00000000
+[ 1411.579054] [   T2928] dar = 0000000000000000
+[ 1411.579057] [   T2928] fault dar = 0000000000000000 dsisr = 00000000
+[ 1411.579061] [   T2928] SLB (0 entries):
+[ 1411.579064] [   T2928] lpcr = 0040000000020400 sdr1 = 
+0000000000000000 last_inst = ffffffffffffffff
+[ 1411.579069] [   T2928] trap=0xffffffea | pc=0x7daf9790 | 
+msr=0x8000000000103000
+
+
+
+
+
+After applying this patch along with the qemu built with it's dependent 
+patch 
+(https://lore.kernel.org/all/20260804182914.83091-1-amachhiw@linux.ibm.com/):
+
+I am able to bringup a guest and it got boot up with Power10 by default:
+
+
+lscpu on guest -
+
+ltcbonn53-vm2:~ # lscpu
+Architecture:                ppc64le
+   Byte Order:                Little Endian
+CPU(s):                      8
+   On-line CPU(s) list:       0-7
+Model name:                  POWER10 (architected), altivec supported
+   Model:                     2.0 (pvr 0082 0200)
+   Thread(s) per core:        2
+   Core(s) per socket:        4
+   Socket(s):                 1
+
+
+
+Please feel free to add my tested-by:
+Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
+
+
+Thank you,
+Anushree Mathur
