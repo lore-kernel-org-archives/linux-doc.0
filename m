@@ -1,133 +1,188 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A03399352
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 03:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C80D37F322;
+	Wed,  5 Aug 2026 03:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785901244; cv=none; b=T7uQBUjklg81ucwKvgueRS7oTzGBRDvMhC2bjmW7wRIEEWKn2aOlKztMPlpdzKu505EMfYHPB8aLU7tIHQsRmVs4PhajvRVeqSD42Qcf5VZjD2Fkx7QNx0/XJUkth8P6wSGPzQ5S+A8/crUYEolSYuo9u2373e8fSp61/eg2XwE=
+	t=1785901567; cv=none; b=bp7jYGG8Y4pwlRLVkmspbZHtuAIA30CF8IIhZLa/fa+XRq+D4x/djfaLazZkgHsH6YhC8WVIpaYszQWxPLuZo9Gkt/VTlDVDD3m9KhKgAdbwiqEQfAFfDVewSheGFuAUgNPM2086aeaqiRihxLZkyY0Cgx3ro1jopHC0Ob2dI9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785901244; c=relaxed/simple;
-	bh=9bRo+Ywi3z6M397Ttk8WJOCfNaXfPL/cDqxTv2yA2Ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AhfUde/DKxxplpPH+jiFuSIw+sSkZ9zrAlpxNUIfaZIC3zmxNHDJ1fnpQbfY2WC7CCnWo5sT1X9960Q0NSg3Afq1zOBNzBHedLM8eOFfudYOCaserkbPAZ1AGoGogFXZYfQHNDkc28s+oIlrbO62zDb0nO3Mg5OYQCfSWdcH9fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6n+AYVx; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785901567; c=relaxed/simple;
+	bh=UPAjB0BdsiGVSp/QBakciyTb0Cb2PgDPRyhiNB6yjbg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ORP8wt0IUkr/VTOxX/XbkT96UhKmB2ubAjJbOc94lOgZppReHPRkxq8HgAKNgyiic0D7FWqwekgSLw6TWey0TOHHMUf2xZkv8wykdPtSW4qyVsoMuTNDkK2MV/RtwyouilNUR3da7BmcpZ3ieM289XqTiyMMCbi2oBjRIeWYZYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Tp0/Var9; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6n+AYVx"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cf50c6f235so6798115ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Aug 2026 20:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785901243; x=1786506043; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b3uhTNsEfEA4V2HM2KbClDOzdBojungNZKQ+/eKrllo=;
-        b=d6n+AYVxTgvuQaBP3tvTDmtUa+BufNiI0QFRb7MP6o5tWa1v92kxKQT9945R11vRvV
-         9VhSZ1XJU26KUnSXR6CiwcBYyEKReDh2DM467CincLHDeBSQEe/lofMxioEFa5Lpdx/7
-         c1lRENYeL0mOFpM7yq7yjVmPrcr33CENBNBXZALnao8XzhA6GqBD9v/nGUCGIDp6m8ot
-         ogVgV/L2xuCetRLMuf9T1A5LoMJM/jIXuyqTva6ElqGGZGqOO/cvYXpocS7i76TZR/5r
-         v6ieGIoSr+4xFK7Oig+LKiH+P/s93d6uiRuZePE//UfhG0B/74aBN2bKMLR6OW8rFpfj
-         bAXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785901243; x=1786506043;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=b3uhTNsEfEA4V2HM2KbClDOzdBojungNZKQ+/eKrllo=;
-        b=I05GkdEMhKZE53ZTbTP81Ui6HV9mljK+ZpNJHjEic3q9du9sEJV2n5u7fozqnQCRjb
-         GXyJ0uK3HWItQuXpmHrU9ELTVKr+Q0nRs9hJiie0e6ODkbw/PdEouMUfEtVe+xAQOPn4
-         T9Ni9uUMKrGl/K8/NwySGrQ2OJzy9+0Yv3Lu2TTynuMgIFIL/Ennz1WmyNx677UUFA+3
-         Pu8hayVEEcawu+VjmNXPa0vgizTeRqgQw+tJHDQEHBNoIylThax92e4iIluMNk/bKIxA
-         FPq1GyT1I0+x1u07l+Kao8wwhgojRCMStY6ZvHidhAad7xNHnaGRlzyml4FwiN6cDQRv
-         eJeQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoagTnOZH/XAFrWyF4jW3qZnVkKuqYDbpEEw+fW4UET1w4AbyPlBH94NxqD44yGaN2j10sBbOgZw7E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD8JhG+tZJ1EPVd8YIbwnCjIZzrooHlhs0kuld5sww/gVdiRLQ
-	canJbqUiVA9nd9+J2gr4dINz9Foee6EnFt8CgFeY1xo8hb90XLQdX3TY
-X-Gm-Gg: AR+sD11icDdJ+AINAAV9O1Y/U4l00CulOJMY2/Uph+XS4em4v+cMWuqi760ykjqH68F
-	dtFU/U/XslM74BL5eyufA37ZWda1KChKJo+YsKSQ/TCTFY5gBVyLIurQzE3el9BOfEd8rBTpIT1
-	JOEaOWdjUcy3tqmpgbTRpowt8teHWtq8YB0NOozJFMHY3VpWfwrW9g1gJdcyPAswCC/b272ZmuT
-	fdDZhUJ+blmTx4atmHQZTLYziviiWDgePyh6z4RQ/wcvY2gBFmebzHLlS5ya9+lEW6DHOqOU1aX
-	AzLr8tqTZlysxID7EHglQLBZQu4poXoJTSbn0kCpgzdxSyyCCgWQUVCC82kl0e5VYtWG283Sh2E
-	xtAtdBfFTExTrm3EEp1FsyYdsUD7Iu6JcsWQ6y3dWmKChpjhjNRO68pfHVrzRzQdZqUeP6/J6DO
-	PoA+lhykela5GwD7oLrSLDta09cV+vYvbF6e5Nm7FrCfxt/PGzH/qlu6QhjQ==
-X-Received: by 2002:a17:90b:1811:b0:38e:c7b0:84ad with SMTP id 98e67ed59e1d1-3903bb0ab77mr3022104a91.0.1785901242802;
-        Tue, 04 Aug 2026 20:40:42 -0700 (PDT)
-Received: from x1 ([184.3.251.152])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3903917a5d0sm1534085a91.6.2026.08.04.20.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 20:40:41 -0700 (PDT)
-Date: Tue, 4 Aug 2026 20:40:39 -0700
-From: Drew Fustini <pdp7pdp7@gmail.com>
-To: Paul Walmsley <pjw@kernel.org>
-Cc: Drew Fustini <fustini@kernel.org>,
-	Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Atish Kumar Patra <atishp@rivosinc.com>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 2/8] riscv: Detect the Ssqosid extension
-Message-ID: <anKwt4llzgwySljb@x1>
-References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org>
- <20260729-dfustini-atl-sc-cbqri-dt-v6-2-7c22b05d461b@kernel.org>
- <c38f0bfa-54fc-d141-c166-7355901d8ad1@kernel.org>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Tp0/Var9"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=cmpSACpQmSDOvkCsslSgBCvhphPrgzodOLZTrWWOAUY=;
+	b=Tp0/Var93VcbMnNN/DXf5t3Qwl9TbSqrL6DVz1Mmr38m/M3Yqmtm11CWu20dFVskW8sl/gzBe
+	9mitCO1ZFNe2Leu7zofD3tG05KcR4ruf0j7/cqAgDgoPf5yaXFjztC/lFXGwpvKz8lOufXI/haO
+	0kIl9iGHsO61/UVxWGM/i+0=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hFGKq3hP4zmVWY;
+	Wed,  5 Aug 2026 11:36:31 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id E01CE40586;
+	Wed,  5 Aug 2026 11:46:02 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 5 Aug 2026 11:46:01 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Teng Peisen <tengpeisen@huawei.com>, Wu Di
+	<wudi234@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Larysa Zaremba
+	<larysa.zaremba@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chen Anwen
+	<chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>, Zhang Min
+	<zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
+Subject: [PATCH net] hinic3: Fix SKB linearization mismatch and silent TX drops
+Date: Wed, 5 Aug 2026 11:45:55 +0800
+Message-ID: <ca8f219dd1eac99e41e22477bd0902b92ec7628e.1785899557.git.tengpeisen@huawei.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c38f0bfa-54fc-d141-c166-7355901d8ad1@kernel.org>
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Tue, Aug 04, 2026 at 08:47:04PM -0600, Paul Walmsley wrote:
-> On Wed, 29 Jul 2026, Drew Fustini wrote:
-> 
-> > Ssqosid is the RISC-V Quality-of-Service (QoS) Identifiers specification
-> > which defines the Supervisor Resource Management Configuration (srmcfg)
-> > register.
-> > 
-> > Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
-> > Co-developed-by: Kornel Dulęba <mindal@semihalf.com>
-> > Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> 
-> Thanks, queued for v7.3.
-> 
-> 
-> - Paul
+Previously, hinic3_send_one_skb() cached the SKB fragment count before
+calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
+skb_checksum_help() for unsupported tunnel packets, the SKB may be
+linearized. Continuing to build the TX descriptor with the stale
+fragment count leads to a descriptor mismatch, which can trigge
+out-of-bounds DMA reads or IOMMU faults.
 
-Thank you for queuing patch 1 and 2. Can Patch 3 also be considered to
-make the Ssqosid CSR handling complete for this merge window?
+Furthermore, the old code ignored the return value of skb_checksum_help(),
+transmitting corrupted packets with incomplete checksums upon failure. It
+also failed to increment drop statistics across various TX error paths,
+causing packets to be dropped silently without notifying the user.
 
--Drew
+Fix this by:
+1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
+   ensure the correct fragment count is used if the SKB is linearized.
+2. Propagating skb_checksum_help() errors and returning
+   HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
+3. Adding missing statistics increments (dropped, map_frag_err,
+   unknown_tunnel_pkt, skb_pad_err) across the TX error paths so these
+   events are correctly reflected in interface statistics.
+
+Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
+Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
+Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
+Co-developed-by: Wu Di <wudi234@huawei.com>
+Signed-off-by: Wu Di <wudi234@huawei.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
+---
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 31 ++++++++++++++++---
+ 1 file changed, 26 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+index 9306bf0020ca..45effdddb434 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+@@ -97,8 +97,12 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
+
+ 	dma_info[0].dma = dma_map_single(&pdev->dev, skb->data,
+ 					 skb_headlen(skb), DMA_TO_DEVICE);
+-	if (dma_mapping_error(&pdev->dev, dma_info[0].dma))
++	if (dma_mapping_error(&pdev->dev, dma_info[0].dma)) {
++		u64_stats_update_begin(&txq->txq_stats.syncp);
++		txq->txq_stats.map_frag_err++;
++		u64_stats_update_end(&txq->txq_stats.syncp);
+ 		return -EFAULT;
++	}
+
+ 	dma_info[0].len = skb_headlen(skb);
+
+@@ -117,6 +121,9 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
+ 						     skb_frag_size(frag),
+ 						     DMA_TO_DEVICE);
+ 		if (dma_mapping_error(&pdev->dev, dma_info[idx].dma)) {
++			u64_stats_update_begin(&txq->txq_stats.syncp);
++			txq->txq_stats.map_frag_err++;
++			u64_stats_update_end(&txq->txq_stats.syncp);
+ 			err = -EFAULT;
+ 			goto err_unmap_page;
+ 		}
+@@ -260,9 +267,11 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
+ 		if (l4_proto != IPPROTO_UDP ||
+ 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
+ 		    VXLAN_OFFLOAD_PORT_LE) {
++			u64_stats_update_begin(&txq->txq_stats.syncp);
++			txq->txq_stats.unknown_tunnel_pkt++;
++			u64_stats_update_end(&txq->txq_stats.syncp);
+ 			/* Unsupported tunnel packet, disable csum offload */
+-			skb_checksum_help(skb);
+-			return 0;
++			return skb_checksum_help(skb);
+ 		}
+ 	}
+
+@@ -412,6 +421,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
+ 		offload |= HINIC3_TX_OFFLOAD_TSO;
+ 	} else {
+ 		tso_cs_en = hinic3_tx_csum(txq, task, skb);
++		if (tso_cs_en < 0) {
++			offload = HINIC3_TX_OFFLOAD_INVALID;
++			return offload;
++		}
+ 		if (tso_cs_en)
+ 			offload |= HINIC3_TX_OFFLOAD_CSUM;
+ 	}
+@@ -539,12 +552,17 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ 	int err;
+
+ 	if (unlikely(skb->len < MIN_SKB_LEN)) {
+-		if (skb_pad(skb, MIN_SKB_LEN - skb->len))
++		if (skb_pad(skb, MIN_SKB_LEN - skb->len)) {
++			u64_stats_update_begin(&txq->txq_stats.syncp);
++			txq->txq_stats.skb_pad_err++;
++			u64_stats_update_end(&txq->txq_stats.syncp);
+ 			goto err_out;
++		}
+
+ 		skb->len = MIN_SKB_LEN;
+ 	}
+
++	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
+ 	num_sge = skb_shinfo(skb)->nr_frags + 1;
+ 	/* assume normal wqe format + 1 wqebb for task info */
+ 	wqebb_cnt = num_sge + 1;
+@@ -560,7 +578,6 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ 		return NETDEV_TX_BUSY;
+ 	}
+
+-	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
+ 	if (unlikely(offload == HINIC3_TX_OFFLOAD_INVALID)) {
+ 		goto err_drop_pkt;
+ 	} else if (!offload) {
+@@ -604,6 +621,10 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ err_drop_pkt:
+ 	dev_kfree_skb_any(skb);
+ err_out:
++	u64_stats_update_begin(&txq->txq_stats.syncp);
++	txq->txq_stats.dropped++;
++	u64_stats_update_end(&txq->txq_stats.syncp);
++
+ 	return NETDEV_TX_OK;
+ }
+
+
+base-commit: 2195424c3da2ef1829a63b807e3a900a90e57d85
+--
+2.54.0
+
