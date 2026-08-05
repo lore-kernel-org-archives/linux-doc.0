@@ -1,245 +1,630 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5AB3CFF7F;
-	Wed,  5 Aug 2026 17:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4F53806C4
+	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 17:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785951020; cv=fail; b=JvpNLmaqIHaz87ZZIXICw2GbPpGgXlBlaons80Kzg1iWMnXFVAZDiK/jM1hyOwNeSQahN3K9DutM9lYqs86Ago7uf4N8kj5Xim7gbLywNQQ5Ms2AihJlsTDZq6h3cyzKKXa3jmn5cPfBnL15NIy/JyHmjVjHunCmcpgucABnkJo=
+	t=1785951532; cv=pass; b=siS2+CmQlWeIp+Ci60y0Jjlq9scp5kSVmD5CCo+2DZ66Bn1/r5+eWIZTe4oT8lj9eZMEbS9fYJyV+F0dzcIiNJxYCYPAOXGQxNqmzjd7yJQ2ruOK0//1XQFWUlgqcNO5nwuZh//WSzJSpRr3NSmcbfukt1PO0ISIZxYppWclzp4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785951020; c=relaxed/simple;
-	bh=H9dvtfVuR+LwqEAsO3tAdVkfr5EcXfqan7SrvRb+rq0=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rnqTBf1/R51tJg7FIzGl0oRGb6BOu/QL7RC8JOK8hDW+PgUNNXXywD7d08tV0KMVI53J+Qu2zxIYFKNZ92EKuuO4JGh9yq2ddLRctt7FiXrVgrV+a16nkkCkiVhiFp8ZTv2F+IVvYwl6jY4HNEDhMGceCpU1IVQTZctebKjrKB0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDsyNzyO; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785951532; c=relaxed/simple;
+	bh=UXu2ZT4YYHVHvwUkwRhAX40MP9D/8NH4Fp90pgqs0fE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e5akF5pPXfX4G4vX4miK8H+57kIMs99UTRcD0tcMwQKI+9tnj2wPbmulfM97DXl42jRhjhCB0X4aZ/SWc33f9nqwcLCnYXVGHwLBFYNIkg6Lb+POMVCZ68JxbfQXN7aji3Ud3gT3+mBZsvMTSfD2isqHPxmNTgnZZRMFK1aIhqg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eFf7q4eH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OVtnf8v1; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDsyNzyO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785951019; x=1817487019;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=H9dvtfVuR+LwqEAsO3tAdVkfr5EcXfqan7SrvRb+rq0=;
-  b=VDsyNzyOzBbPF9CsvagJgJvv2N/jpv6/WyAByFTdwsGno9bcyLjU2W5I
-   J9ZIUT5AOq/2nFWmo8BCnBF/yXp6A9+WCu8kDoMlM5T09cuYKxykbYRoN
-   mDHOGxv94Htw3v9dZdaKQorBBkoqSOScQp8f1C8I6tTqwrxox5p4G+duK
-   tZUAfg8qbkd2rwrKyE/03T8dkR1x7iuKz022xD7+gtmJnL+RQelpoPwiQ
-   raOXs+qPzAAAamr4QxrXG5mXi37bhq+xnyq1dvqrY4aJtwy3buvE+EcSg
-   qhUhbCgClY7piUuw1oxRadiNlb1DFzZHwydopijLi5YehWf6xOcisoxN6
-   A==;
-X-CSE-ConnectionGUID: WFrXm/T5QHiN8j2Ypq4pqQ==
-X-CSE-MsgGUID: uH67WBWVQ2i0eK3LB8eoSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="90415740"
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="90415740"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 10:30:18 -0700
-X-CSE-ConnectionGUID: iXgsbzn/QOqxJjQ2upQe8w==
-X-CSE-MsgGUID: S4PajeSMRDy/QP0IPY5QsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="263849205"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 10:30:18 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 5 Aug 2026 10:30:17 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Wed, 5 Aug 2026 10:30:17 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.9) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 5 Aug 2026 10:30:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FiaphtQ9KIKdqOLlIfIpwX8Roo9Fg1XcMmxyc8ZqsQsICpTuG8nh2saZjHhGYpHo9pr8VkHh/3WfLrqeEZI3duzvL/lrcfO1LGsTqfW8CD2dhaVv4X+D7ZgnzHJHXDfRbuzfC7b7LjM1tKPxD3kjuVCPG8v1EOz8r6Ur3lh4bPrWbJjcNiwnZYsJTo51SNUz/tKN0yMwK35FsEDn/qbDhAYlXDHuG9dBCpuRZDZ651W2l04585qh+E7/kT3TmC7TrgeTF59Lz3BHrmQZ+tktWjx26p0bVwiypUpjnr7wJhJBoOJCDuFrTDhAERBxoSW6NwezNg5bRfqcwpf1SGV3Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/WgyVWWW6w/EklP8v4zGF3J01LIz2gnhBMtvxiCWSHY=;
- b=fIyu08huumSwedGDk8HGn0OpewBD0mJHPTPvWFOmDPq7BXmDe0EbMTQTLtLs4iLYxth3Xh/Tr70ARL0BQX8b1QB+OPzxNaIFu2i6OaTifPYIf77v5d+uEv3RyKYu84IR5dIZCVjLW2uAGyUHS4IFE/Nr1bJLaZM888k2KfPTR4ZEbCXJwz6irN8oCNstiAapBFi/aemkpvFmAebKbjx/T9KYoxjAjTVH4BmCECoTIrOdcTnvYtC0Xp5vFB3nYegx9EA0SvN51Jx2VZaC+2uJZnulYplLR9HhipZCp4znBy787moZJwupSmNnRSjE+ET5ILrIUUFSf1qKFh9Ek2vbgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB8230.namprd11.prod.outlook.com (2603:10b6:8:158::21)
- by SJ0PR11MB5198.namprd11.prod.outlook.com (2603:10b6:a03:2ad::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Wed, 5 Aug
- 2026 17:30:13 +0000
-Received: from DS0PR11MB8230.namprd11.prod.outlook.com
- ([fe80::2592:f5a9:a751:be40]) by DS0PR11MB8230.namprd11.prod.outlook.com
- ([fe80::2592:f5a9:a751:be40%5]) with mapi id 15.21.0292.018; Wed, 5 Aug 2026
- 17:30:13 +0000
-Message-ID: <936c428d-9a6c-46d9-999a-08fc36d4177f@intel.com>
-Date: Wed, 5 Aug 2026 10:30:10 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 00/15][pull request] Introduce iXD driver
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<edumazet@google.com>, <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>
-CC: <larysa.zaremba@intel.com>, <przemyslaw.kitszel@intel.com>,
-	<aleksander.lobakin@intel.com>, <sridhar.samudrala@intel.com>,
-	<michal.swiatkowski@linux.intel.com>, <maciej.fijalkowski@intel.com>,
-	<emil.s.tantilov@intel.com>, <madhu.chittim@intel.com>,
-	<joshua.a.hay@intel.com>, <jacob.e.keller@intel.com>,
-	<jayaprakash.shanmugam@intel.com>, <jiri@resnulli.us>, <horms@kernel.org>,
-	<corbet@lwn.net>, <richardcochran@gmail.com>, <skhan@linuxfoundation.org>,
-	<linux-doc@vger.kernel.org>
-References: <20260804031638.1531994-1-anthony.l.nguyen@intel.com>
-Content-Language: en-US
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-In-Reply-To: <20260804031638.1531994-1-anthony.l.nguyen@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0331.namprd04.prod.outlook.com
- (2603:10b6:303:8a::6) To DS0PR11MB8230.namprd11.prod.outlook.com
- (2603:10b6:8:158::21)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eFf7q4eH";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OVtnf8v1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785951528;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3lRm7g+n7FF22QeOz+/xTZKQ6F7/TnGjH8qeWFAC3m4=;
+	b=eFf7q4eHiImNnBT4bjfoJhUUxbcCdZOHcGPlZ7pM9Bo9WLmSzU0ZMJZP9XLjyRb7UN5smZ
+	1JzWjukv6RRxvat89JKGGn1RtlyaT1GHgfXKzPnkSmCISuxUheMw9bkgXQL8wjgpbXrBdY
+	rpQpmCqtqnMHesbo/BpK2fj9RMSiB1Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-133-UZjpLgH2MRaoDxEc642KXw-1; Wed, 05 Aug 2026 13:38:46 -0400
+X-MC-Unique: UZjpLgH2MRaoDxEc642KXw-1
+X-Mimecast-MFC-AGG-ID: UZjpLgH2MRaoDxEc642KXw_1785951525
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4740be00302so1013210f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Aug 2026 10:38:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785951525; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bPdCdy0309TM1mx0Rngl8jgbqkqxTeXpmZbjaa4519sZK3Kpjfm7vqrqa9ytgKpx41
+         wqHVum1Z0d7fHiv9YHKkxM6zViVMrt1f25CYvfttW6NtXV6qBwUttnlcSsPsqmuqrwAv
+         gSpDqrELiH2MSOIx3nVJMsqHuk8I1TULNxTynSLD+vJ4WSfH1iabNg36v3QbRtPPLH6A
+         LkPLx3+D+OAIKTyeLykAakDM5DFAMVrjCbg/1W2aA+pAYGVWmv0yy4e8jdNQ2y38hUMC
+         9lZL/B6DqNOS5fWGAmtv52jB0mYMaE+fCqLLEFT/rEfelav37TXMQ7NVsaURkdDiiOlm
+         cotA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3lRm7g+n7FF22QeOz+/xTZKQ6F7/TnGjH8qeWFAC3m4=;
+        fh=+l5i5MYS3aH/dBzkw5e/rpzkIrJni24cAh63Au8xBW0=;
+        b=k72/zj+4MPwRWzF9RG/ovF9URwnSQzd6ji2gp9Og0xw5TE4fk0240qyjlpu7Hs6XCv
+         ce86KQOu0OrDlV7wKB2g82DH7D+pNv748P4i4SzVdK59zfZ0Sk69BKg+STauk6FfuvqA
+         LYAKbVsgtmzVyvKUGLnUMl8/Lc/KPoxtE2Mo6E9r1HxgYXOoeykYN+fBzv0OuQ0WtEA3
+         fXVgrsGFKk/GrZUTJIWZufGHUD5LVpe0LMEvNzRTdxM0mQjGwV4oGdiblX2qGc5fAPc3
+         qjnmfRGZHkuTcRRz10KPkRrMxrKg/i+UrM8BPbiRr3/LtWFINT7hBDMPbutl+NAON6Py
+         gUiQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1785951525; x=1786556325; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3lRm7g+n7FF22QeOz+/xTZKQ6F7/TnGjH8qeWFAC3m4=;
+        b=OVtnf8v1SaWQsPlBe2fRHANaq9X1u9b9fpW8UNmEWUcXPc+KjgsE8XcXMSSV3230MF
+         TOZDL6ujcoIctHLk9UfxzlrMkpjbYyyPkImUIg8/4hrEDITQPxtjnBpbPXGHu9oWOF3a
+         XiF0XEk40cQfD310/pDXcAM6eeemKHv+DvN4PJwbo9mxfTf8q2CXxcVjslfJJmUhJ4tE
+         NvqktuToHdJ+BIdVC5y/aqWiar0wW5zQHaycUvUr5YhxxBhoNjafncFXnstCdlDOIF65
+         adY2WCI0kZx9gtt97xBAbIs+C2xjfFmwbYmvcauEf2/Fdzp8dTXtu8AtguyXBQEGpl70
+         l8YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785951525; x=1786556325;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3lRm7g+n7FF22QeOz+/xTZKQ6F7/TnGjH8qeWFAC3m4=;
+        b=LRaWnA9TMGM8R3jL2XltssDOSBmSJfajpGxOgYBMmkYcAk+HhaQPvLcFMy5oYR4Mdj
+         6pxci1kSFqYE0L+fWZRsL35ump8um7E3FpNW7N8ew6Yhe4AF5R+BCM+EIJCJQYzT76z9
+         9wNtcNjg4R+KOsTLj6D5XxH38kw09D77zAcx+pXM4XCaWaAPVdBFzP1H7QT8nG6gOpoZ
+         IWwjQn950brcjdTLOm363rgCLoRlytqesGtAzr3DZ44UFehkfIG5LOuxl54GMVyoNWSF
+         PCjwveHR+LVTA6FphLeyqb9uDohZiieV103irmgcVj1v5V76IqHWn8rNInYCweQK1tFd
+         MTrg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr3maaf/1TDHzUAyMYyPxIepO/SaKTPbYSfEdPf389CWLc6TsSH9Yn5cxt4DQv+vq9ji71JCI6wkxA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlbBdnkSYwxXkHaA0McVFzcFsku29/0RgWD9nQE0Kc31ruLe7v
+	BqpKHDdrcFBLaETJXDtRKzA8SyHRe0n8qCnseT0g/T+pw9DTTFJbfpEUKbUk6WqHLikQj30/T6U
+	ZYnk6i0wqV4FjYN2Pk1XJEMUGn/TS1yGasWIzqU4A1AP+99AgqixDrh1xhuW2edlpWWsVauaskI
+	yDFGlBmdVZ5MlKYcm7lCbKZgxmm0fHxDnbj5n8
+X-Gm-Gg: AR+sD10lx4ZgCxe9ai1a+EugWtdMnV95jsVH1EmS+ALuqDEv73fY4B/oskP4IZY2Rzz
+	BMWLksELMsyzwFvwtiDOZZrZuE+un6RHoeZIrSJwUu+LBfXE0EYfE4fN+NxXBZoIUmB34s+XTGB
+	3+KbcmTgU7vY12PndLhtDeTTWQ0Wdv30deDRJTepk/DpTMezHaAoVWTo1QZzxyam+QA4TynxPbH
+	4ELz77zCLQIa/xsPQ==
+X-Received: by 2002:a05:6000:2004:b0:47f:5a97:2a63 with SMTP id ffacd0b85a97d-47fec4f0502mr14593987f8f.9.1785951525134;
+        Wed, 05 Aug 2026 10:38:45 -0700 (PDT)
+X-Received: by 2002:a05:6000:2004:b0:47f:5a97:2a63 with SMTP id
+ ffacd0b85a97d-47fec4f0502mr14593913f8f.9.1785951524656; Wed, 05 Aug 2026
+ 10:38:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB8230:EE_|SJ0PR11MB5198:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3de449a-db67-4321-88fc-08def3173508
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|10067099003|11063799006|5023799004|56012099006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: mYy5qIgu0lzMAnb5nNjTylda7rjW4OWZEBdXjIOpgrGgriAnnJIjyW6gCATkM+Xkn1VhXchzgFKcbH4g/184OZrLENb97a9pwg6Sq1Bz+JKewLsc5yNjsPya5w7o3ltURYY+uakV9oTfMZ9ShXPJ9ul0OwxBKdzRdUnaOa33npGXOYNiA7cHfJEPn4qJPsK/+AE2ZsB9K4WQkFLmnJX46O2GeutsJW0irSsGjuMnW+rHkS6VzdaH4D/dDKaMzraiSqCCsQIDFamHsL6FhDwOjjGwzmiHHtpNTm3I3sQXnCVuh+BH4pd7eSJe3XVG/0f/6bDsTr9tmorEqmk7pq6I4sWEBFG/GQbR2iTYRuWesjzsOeEC8i7hqfZaWXWEEYArfVbYvDXZWwMo42jtcLeF3Y6F5VyoizUZKoKiJZR/LoMs5HB71Xrg/Hk3hIw6JWfCDEwAr/fYDNQYmrdT6GwMUbvk00QjTY5ZV1ghuobJW+J+er8WJTVCF/ZoFf80LckckFYSP6+aRFGWqhILE4xSvb4d2nvH7yG0aDSVHP0lXzuL8qh6ad4ej3iw8ht5SbZEZj1JXI246N5WtGeMHmT1HnL0f3I2fDxyjRuhXTvEY0nQAxDQd/ShoPYTghYJ1SrLCeQeFGOAX5mP9RGGfKbha8GU4zU5Bofnwh/t4CMmd/Q=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8230.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(10067099003)(11063799006)(5023799004)(56012099006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0ZiSVVPYXFyZ2FSNzV1WVpycXNNNEltOWxnTVpwWW9kWDc5VkVxNjMvY29W?=
- =?utf-8?B?OXhFQVVGVDVPc0M0ZDB4S0NJSG1XaW9wSXpyZEhmcFJ0ZXBvTVI1VjFHTElH?=
- =?utf-8?B?YXdiQTBNK1hLQnhEbnBSOEN0aVJ6VGtCbXB2TUdPaXp0aTc0VEt5U0EwT1Er?=
- =?utf-8?B?SlVORlNVM3F5RnQwb3M3bFNmeFZweUxCN010Z0ExclR4MjJWUmo3L3RCaWxT?=
- =?utf-8?B?cnBvMkJZWWhGUVpGdG5DRXM5Y29NZ1pUbDNzNExnQ1ZJWlBCb3JoNlJrU0I0?=
- =?utf-8?B?bEVHYkFjWCtpUi90WVRET2RBZ0tRci8yZmVrb29ic1Y1dE9VMzFjYlFDblRZ?=
- =?utf-8?B?WkQwdVkydTJNM3hNZTRrMGRzNzNpTFljWkE0MjlvWm00S2VBQzlUdEtDNjgw?=
- =?utf-8?B?Y3g5Z2hpQXh0L3dza2hmbk5NcHlqSTBqcENEbW8xcnZ0KzVXNklvQi9NcWNk?=
- =?utf-8?B?N2hhclM4Zk1ydTJHK0Z6dEExOFdoa0YyNmpSc3IwNkVrV2tKdWlVcy9iUVk4?=
- =?utf-8?B?ekNtWFFkazVwZVJuUVJOY2ltY3IvTUFzd29pcEk4Rk5pVmNnQUQ0czdGWFVw?=
- =?utf-8?B?SXM1dHlKM0RyMjRHNzlieFhBaUFoNFRoL2YyODNGVUVKL2VLVVFIc0dDMXYr?=
- =?utf-8?B?Qk91V05hZGR0MVE0SzVkMlNKZVFXK2tZRE14RE96SXJXMmVPdkEwczI5UkRB?=
- =?utf-8?B?Z21yV3lBTTUxaXV0d0NVZVBLVDZNSVhDRkJOUEpuSXZTT0NESktzNjRoWXhD?=
- =?utf-8?B?SmtOZUV1di85cmlKNHRGOW43RzF4eVlzcStFRzFlUUxUOE9ldGNNaThoTTM5?=
- =?utf-8?B?YkF3cDdxYnpERVVVT0w0Z3JqeXIxSHVJbng1Yk44Q1JjUkhGejYrcnFlSU5M?=
- =?utf-8?B?MGxEb0V6a0JMSkxnMU5jNjhiUUJvWklIVDZ1NTlrVitRcVRvc2tvcWgrUWxJ?=
- =?utf-8?B?L0hEWWlEd2d4dFUxOXYvaWVnTHd6QWpJd0d4NFJIUDlWU0M4YlozMlordCtK?=
- =?utf-8?B?Um9sUGFGSzlwb2RxQkwvVGFtWmwyT2RnMmh0bXNMOURSZzVDUk5pK1hQT2pi?=
- =?utf-8?B?b0pNOGhGMDd3YmFERVpMR1NkSzc1MzRkQ2FwRVN4dVNKUXdmNGZuMjM2cWZV?=
- =?utf-8?B?Y2gyWU1ZVmVNNlQwOWFYZEFnSVhGMEczdHdWUE1JRit6SmhodC9BU29Pb1VM?=
- =?utf-8?B?eGU2c2JZV0VWNGo0djBTdSs0T1E5Z0p5cXVDVUdCaVNRLzltOG5haXh1d0lY?=
- =?utf-8?B?aHpTZWpmZFNJTFl4RUJwMzFrTDNmN2JndnVCVVEyVVJhMmpnNHdrcVlydFVx?=
- =?utf-8?B?eUJrVW05KzhxU0w0NklJM3pEZXlCci9FZFhkRHZDRTFORVpyYXEvdS9NbGpG?=
- =?utf-8?B?anZUdk10R0ltN1c1U2p3ZmdtblBoU3Ywcytvcm5NUVpkQnlGaHU3WkZUOFE4?=
- =?utf-8?B?ckVBVVBoQlZVaXR4R0tnTlEzM1hjTEgzeUZ3aGJoUkpRY1JOZktXNTIwUmc5?=
- =?utf-8?B?VTFMR0ZPb3lRaDNrOHgrT0JlZjhOQzU1YlU3c3M2VTVaWnhFQUJrNGZIZTBm?=
- =?utf-8?B?Y1dRazUrOXJlMkJpSFl2SUhiSU00VlFNYmVOSUdWclFMY2dXVTRDL2xoVjhY?=
- =?utf-8?B?ei8xWWxrYlJzQWV5QlBtREJBQm8vckRXSVRXbXpFN1VlRmU4WjVwTXpLeVJz?=
- =?utf-8?B?VUI1aXpWUENPbXM1N0E4Tk0yaEdHZWNJWnVzUE9jZG9yVHZ6NUYwaEdkanJZ?=
- =?utf-8?B?MlQ3Z2QzNGFQSC9XdXhibnRYMXNNTlZUNXh2ZngyZzZMcVg5K0RPNnlzYWFW?=
- =?utf-8?B?UTBRblBvUXVUQStObTdITUhzb2pIdzdhUUhsd2hOaXo5Vks0OWZSeDhDaVpI?=
- =?utf-8?B?M2xwOW9TTHl6UTdvMGc0ZWtGWGkrUElQdm1kRGJaR0dCSmdYMU1YaEhmaXRn?=
- =?utf-8?B?WnRZbUpXaks2NUgydnNwU1RLdkFvUUJvU29rVmVYQVFWVncxbWFWd05NRWN0?=
- =?utf-8?B?S2xldWcxa21ZaGw0Y25vRUFVUDFyN0pBRDFLV3VQZGVhMkc1akx2RndhV2RD?=
- =?utf-8?B?QWNSYzIyem1LRlhqMGNuQkZla3FEeTJvSHNEcHlmOTU1Z1ovazlvd1Y1ZlR5?=
- =?utf-8?B?V3lVQnQ1YkdvRXBJcXZ5QnlNTTRSQzRpZFJuQWR5N2RqMXlsQ2R0anVQYTFI?=
- =?utf-8?B?NHVnL3RiU3JDR0doYUQ0UGxpbDNYQm42UytmMGp1WS8zd2drTC8vYk1FYzJK?=
- =?utf-8?B?ei9iWXVGaS9mZExUR0JPWEV1WDFLRzZKdGl3R05UcERRbXhORmVhN0F3N3Fv?=
- =?utf-8?B?d3NwZ2tjeWRoSFE4c09Ecys2cWtSSmp2dHRkb2Z2TWMyN0IwSkhDcWEvMkFn?=
- =?utf-8?Q?9hhfXDT3UmsqGWNk=3D?=
-X-Exchange-RoutingPolicyChecked: XgHj3OM+6O7S6KRSo+kAAKv/IXKL7jvbNpi3fGannKvOfOfDBdGv/+KglCKoGPng2Xgtfw+eWpR7mFXmaz/r7iVdcNl6jwlYNjd6ycqAR9S2GYqAlx3E50O5afE0CQKV3lkXuRWogz0S1oswz6aO8YgHQKg2jjP6nbK6Uo/XOPoA/IXzzyXLQKwAKTYc8ysuxkh63jH7UdDGo+M6G5JlwmiqNTLSfSgvn+ZaDSOd7okdBnwULzUCuvRjdXKlxh8A9DPN5bovXYz85tNj0zDgNW5a4OmRvPLbBKDfwB/6zrqcyjuwxMefPd7hVzq784WOS7j79XfxSRb5CiOEJ8ralg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3de449a-db67-4321-88fc-08def3173508
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8230.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 17:30:13.4489
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TC0X0iKEQgzhMb273mzkvxgDcPFyBFKHPuM5DjPc11Y1cbs+nGchQDUMwb3MPSiz8nCzK580HOZ0xE60c44qEP250yzscfst0DdDaJ0dLrg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5198
-X-OriginatorOrg: intel.com
+References: <20260725001614.2578617-1-tchiu@tenstorrent.com> <20260725001614.2578617-3-tchiu@tenstorrent.com>
+In-Reply-To: <20260725001614.2578617-3-tchiu@tenstorrent.com>
+From: Jesse Taube <jtaubepe@redhat.com>
+Date: Wed, 5 Aug 2026 13:38:33 -0400
+X-Gm-Features: AUfX_mxLbKolS7UpTADOOxeTj5u1JQXH0y9GOdihL1xAtI41ka4rWlrusCIRWNU
+Message-ID: <CADRr4bccaiDeMF+R94Sd8hetoi84Z0p9Dxin5TCm3iAy8r9phA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] riscv: hwprobe: export the availability of vector
+ to user
+To: Andy Chiu <tchiu@tenstorrent.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland <samuel.holland@sifive.com>, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, bergner@tenstorrent.com, 
+	kito.cheng@sifive.com, dfustini@oss.tenstorrent.com, greentime.hu@sifive.com, 
+	Andrew Jones <andrew.jones@oss.qualcomm.com>, Guodong Xu <docular.xu@gmail.com>, 
+	Aleksa Paunovic <aleksa.paunovic@htecgroup.com>, 
+	Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>, Xu Lu <luxu.kernel@bytedance.com>, 
+	Yao Zihong <zihong.plct@isrc.iscas.ac.cn>, Jingwei Wang <wangjingwei@iscas.ac.cn>, 
+	Deepak Gupta <debug@rivosinc.com>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jul 24, 2026 at 8:17=E2=80=AFPM Andy Chiu <tchiu@tenstorrent.com> w=
+rote:
+>
+> Userland IFUNC resolvers use hwprobe to decide whether to dispatch to
+> vectorized routines. But RISCV_HWPROBE_KEY_IMA_EXT_0 only reports what
+> is present in hardware, not what the calling process may actually use:
+> when Vector is disabled for a process via
+> prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_OFF), it is still
+> reported as present. A resolver that trusts this and runs a vector
+> instruction crashes with SIGILL.
+>
+> Add RISCV_HWPROBE_KEY_EXT_ENABLED, a positional modifier key that carries
+> no value of its own. Within a single request, keys placed after it report
+> extensions that are both present and enabled for the calling process,
+> while keys before it keep reporting hardware presence. This masks out V
+> and its V-dependent sub-extensions when V is disabled for the process, an=
+d
+> lets userland obtain both views in one query:
+>
+>       [ {IMA_EXT_0}, {EXT_ENABLED}, {IMA_EXT_0} ]
+>           present       modifier       enabled
+>
+> The enabled view depends on per-process state, so it cannot be served fro=
+m
+> the vDSO's process-independent cache; requests carrying the modifier are
+> deferred to the syscall. Unknown keys are still reported as -1, so the
+> feature is detectable and existing users are unaffected.
+>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D220795
+> Link: https://lore.kernel.org/all/20260107000609.63892-1-andybnac@gmail.c=
+om/
+> Signed-off-by: Andy Chiu <tchiu@tenstorrent.com>
+> ---
+> Changelog v2:
+>  - rebase on top of latest for-next
+>  - add test_avail to sifive's vector depending extensions
+> ---
+>  Documentation/arch/riscv/hwprobe.rst          | 27 ++++++++++++++
+>  arch/riscv/include/asm/hwprobe.h              |  2 +-
+>  .../asm/vendor_extensions/sifive_hwprobe.h    |  6 ++--
+>  .../asm/vendor_extensions/thead_hwprobe.h     |  6 ++--
+>  arch/riscv/include/uapi/asm/hwprobe.h         |  2 ++
+>  arch/riscv/kernel/sys_hwprobe.c               | 36 +++++++++++++------
+>  arch/riscv/kernel/vdso/hwprobe.c              | 25 +++++++++----
+>  .../kernel/vendor_extensions/sifive_hwprobe.c | 16 ++++++---
+>  .../kernel/vendor_extensions/thead_hwprobe.c  |  9 +++--
+>  9 files changed, 100 insertions(+), 29 deletions(-)
+>
+> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/ri=
+scv/hwprobe.rst
+> index d9928641deb9..b9b3cf23c212 100644
+> --- a/Documentation/arch/riscv/hwprobe.rst
+> +++ b/Documentation/arch/riscv/hwprobe.rst
+> @@ -401,3 +401,30 @@ The following keys are defined:
+>      as defined in version 1.0 of the RISC-V Control-flow Integrity (CFI)
+>      extensions specification, ratified in commit 302a2d45c243
+>      ("Update build-pdf.yml") of riscv-cfi.
+> +
+> + * :c:macro:`RISCV_HWPROBE_KEY_EXT_ENABLED`: A modifier key. It reports =
+no
+> +  value of its own (its value is always 0) and instead changes how the
+> +  extension-bitmask keys that follow it in the same request are reported=
+.
+> +  Keys placed before it report the extensions that are present in hardwa=
+re,
+> +  as usual. Keys placed after it additionally require each reported exte=
+nsion
+> +  to be enabled for the calling process, i.e. usable without receiving a
+> +  SIGILL.
+> +
+> +  Currently this applies to Vector. When V has been disabled for the pro=
+cess
+> +  with ``prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_OFF)``,
+> +  :c:macro:`RISCV_HWPROBE_IMA_V` and the V-dependent sub-extensions are
+> +  cleared from any :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0` that follows t=
+he
+> +  modifier, and :c:macro:`RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR` is clea=
+red
+> +  from any :c:macro:`RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0` that follows =
+it,
+> +  while a preceding key still reports them as present. A single request =
+can
+> +  therefore return both the hardware-present set and the process-usable
+> +  set::
+> +
+> +      struct riscv_hwprobe pairs[3] =3D {
+> +          { .key =3D RISCV_HWPROBE_KEY_IMA_EXT_0, },   /* present in har=
+dware */
+> +          { .key =3D RISCV_HWPROBE_KEY_EXT_ENABLED, }, /* modifier      =
+      */
+> +          { .key =3D RISCV_HWPROBE_KEY_IMA_EXT_0, },   /* present and en=
+abled */
+> +      };
+> +
+> +  The effect is positional: reordering the pairs changes which keys have=
+ the
+> +  enablement filter applied.
+> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hw=
+probe.h
+> index 8b9f5e1cf4cb..e8364a3eaeef 100644
+> --- a/arch/riscv/include/asm/hwprobe.h
+> +++ b/arch/riscv/include/asm/hwprobe.h
+> @@ -8,7 +8,7 @@
+>
+>  #include <uapi/asm/hwprobe.h>
+>
+> -#define RISCV_HWPROBE_MAX_KEY          16
+> +#define RISCV_HWPROBE_MAX_KEY          17
+>
+>  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+>  {
+> diff --git a/arch/riscv/include/asm/vendor_extensions/sifive_hwprobe.h b/=
+arch/riscv/include/asm/vendor_extensions/sifive_hwprobe.h
+> index 90a61abd033c..c961c78a7927 100644
+> --- a/arch/riscv/include/asm/vendor_extensions/sifive_hwprobe.h
+> +++ b/arch/riscv/include/asm/vendor_extensions/sifive_hwprobe.h
+> @@ -7,10 +7,12 @@
+>  #include <uapi/asm/hwprobe.h>
+>
+>  #ifdef CONFIG_RISCV_ISA_VENDOR_EXT_SIFIVE
+> -void hwprobe_isa_vendor_ext_sifive_0(struct riscv_hwprobe *pair, const s=
+truct cpumask *cpus);
+> +void hwprobe_isa_vendor_ext_sifive_0(struct riscv_hwprobe *pair,
+> +                                    const struct cpumask *cpus, bool tes=
+t_avail);
+>  #else
+>  static inline void hwprobe_isa_vendor_ext_sifive_0(struct riscv_hwprobe =
+*pair,
+> -                                                  const struct cpumask *=
+cpus)
+> +                                                  const struct cpumask *=
+cpus,
+> +                                                  bool test_avail)
+>  {
+>         pair->value =3D 0;
+>  }
+> diff --git a/arch/riscv/include/asm/vendor_extensions/thead_hwprobe.h b/a=
+rch/riscv/include/asm/vendor_extensions/thead_hwprobe.h
+> index 65a9c5612466..3e1c4271383f 100644
+> --- a/arch/riscv/include/asm/vendor_extensions/thead_hwprobe.h
+> +++ b/arch/riscv/include/asm/vendor_extensions/thead_hwprobe.h
+> @@ -7,10 +7,12 @@
+>  #include <uapi/asm/hwprobe.h>
+>
+>  #ifdef CONFIG_RISCV_ISA_VENDOR_EXT_THEAD
+> -void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *pair, const st=
+ruct cpumask *cpus);
+> +void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *pair,
+> +                                   const struct cpumask *cpus, bool test=
+_avail);
+>  #else
+>  static inline void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *=
+pair,
+> -                                                 const struct cpumask *c=
+pus)
+> +                                                 const struct cpumask *c=
+pus,
+> +                                                 bool test_avail)
+>  {
+>         pair->value =3D 0;
+>  }
+> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
+api/asm/hwprobe.h
+> index 9139edba0aec..561483172ce5 100644
+> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> @@ -116,6 +116,8 @@ struct riscv_hwprobe {
+>  #define RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE    15
+>  #define RISCV_HWPROBE_KEY_IMA_EXT_1            16
+>  #define                RISCV_HWPROBE_EXT_ZICFISS       (1ULL << 0)
+> +/* Modifier key working as a signal to the kernel to gather enablement s=
+tatus */
+> +#define RISCV_HWPROBE_KEY_EXT_ENABLED  17
+>
+>  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+>
+> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
+obe.c
+> index d2bb70fed8b9..5949e3d9146f 100644
+> --- a/arch/riscv/kernel/sys_hwprobe.c
+> +++ b/arch/riscv/kernel/sys_hwprobe.c
+> @@ -79,8 +79,9 @@ static void hwprobe_arch_id(struct riscv_hwprobe *pair,
+>  }
+>
+>  static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+> -                            const struct cpumask *cpus)
+> +                            const struct cpumask *cpus, bool report_avai=
+l)
+>  {
+> +       bool report_v;
+>         int cpu;
+>         u64 missing =3D 0;
+>
+> @@ -91,7 +92,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair=
+,
+>         if (riscv_isa_extension_available(NULL, c))
+>                 pair->value |=3D RISCV_HWPROBE_IMA_C;
+>
+> -       if (has_vector() && riscv_isa_extension_available(NULL, v))
+> +       report_v =3D report_avail ? riscv_v_vstate_ctrl_user_allowed() : =
+true;
+> +       if (has_vector() && riscv_isa_extension_available(NULL, v) && rep=
+ort_v)
+>                 pair->value |=3D RISCV_HWPROBE_IMA_V;
+>
+>         /*
+> @@ -146,7 +148,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pa=
+ir,
+>                  * All the following extensions must depend on the kernel
+>                  * support of V.
+>                  */
+> -               if (has_vector()) {
+> +               if (has_vector() && report_v) {
+>                         EXT_KEY(isainfo->isa, ZVBB, pair->value, missing)=
+;
+>                         EXT_KEY(isainfo->isa, ZVBC, pair->value, missing)=
+;
+>                         EXT_KEY(isainfo->isa, ZVE32F, pair->value, missin=
+g);
+> @@ -215,7 +217,7 @@ static bool hwprobe_ext0_has(const struct cpumask *cp=
+us, u64 ext)
+>  {
+>         struct riscv_hwprobe pair;
+>
+> -       hwprobe_isa_ext0(&pair, cpus);
+> +       hwprobe_isa_ext0(&pair, cpus, false);
+>         return (pair.value & ext);
+>  }
+>
+> @@ -293,7 +295,7 @@ static u64 hwprobe_vec_misaligned(const struct cpumas=
+k *cpus)
+>  #endif
+>
+>  static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+> -                            const struct cpumask *cpus)
+> +                            const struct cpumask *cpus, bool test_avail)
+>  {
+>         pair->value =3D 0;
+>
+> @@ -314,7 +316,7 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pa=
+ir,
+>                 break;
+>
+>         case RISCV_HWPROBE_KEY_IMA_EXT_0:
+> -               hwprobe_isa_ext0(pair, cpus);
+> +               hwprobe_isa_ext0(pair, cpus, test_avail);
+>                 break;
+>
+>         case RISCV_HWPROBE_KEY_IMA_EXT_1:
+> @@ -351,11 +353,11 @@ static void hwprobe_one_pair(struct riscv_hwprobe *=
+pair,
+>                 break;
+>
+>         case RISCV_HWPROBE_KEY_VENDOR_EXT_SIFIVE_0:
+> -               hwprobe_isa_vendor_ext_sifive_0(pair, cpus);
+> +               hwprobe_isa_vendor_ext_sifive_0(pair, cpus, test_avail);
+>                 break;
+>
+>         case RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0:
+> -               hwprobe_isa_vendor_ext_thead_0(pair, cpus);
+> +               hwprobe_isa_vendor_ext_thead_0(pair, cpus, test_avail);
+>                 break;
+>         case RISCV_HWPROBE_KEY_VENDOR_EXT_MIPS_0:
+>                 hwprobe_isa_vendor_ext_mips_0(pair, cpus);
+
+It might be good to add a warning if `RISCV_HWPROBE_KEY_EXT_ENABLED`
+is ever passed to `hwprobe_one_pair` in the future as it should never
+be passed here.
+
+> @@ -378,6 +380,7 @@ static int hwprobe_get_values(struct riscv_hwprobe __=
+user *pairs,
+>                               unsigned long __user *cpus_user,
+>                               unsigned int flags)
+>  {
+> +       bool test_avail =3D false;
+>         size_t out;
+>         int ret;
+>         cpumask_t cpus;
+> @@ -418,7 +421,10 @@ static int hwprobe_get_values(struct riscv_hwprobe _=
+_user *pairs,
+>                         return -EFAULT;
+>
+>                 pair.value =3D 0;
+> -               hwprobe_one_pair(&pair, &cpus);
+> +               if (pair.key =3D=3D RISCV_HWPROBE_KEY_EXT_ENABLED)
+> +                       test_avail =3D true;
+> +               else
+> +                       hwprobe_one_pair(&pair, &cpus, test_avail);
+>                 ret =3D put_user(pair.key, &pairs->key);
+>                 if (ret =3D=3D 0)
+>                         ret =3D put_user(pair.value, &pairs->value);
+> @@ -437,6 +443,7 @@ static int hwprobe_get_cpus(struct riscv_hwprobe __us=
+er *pairs,
+>  {
+>         cpumask_t cpus, one_cpu;
+>         bool clear_all =3D false;
+> +       bool test_avail =3D false;
+>         size_t i;
+>         int ret;
+>
+> @@ -476,6 +483,10 @@ static int hwprobe_get_cpus(struct riscv_hwprobe __u=
+ser *pairs,
+>                         if (ret)
+>                                 return -EFAULT;
+>                 }
+> +               if (pair.key =3D=3D RISCV_HWPROBE_KEY_EXT_ENABLED) {
+> +                       test_avail =3D true;
+> +                       continue;
+> +               }
+>
+>                 if (clear_all)
+>                         continue;
+> @@ -485,7 +496,7 @@ static int hwprobe_get_cpus(struct riscv_hwprobe __us=
+er *pairs,
+>                 for_each_cpu(cpu, &cpus) {
+>                         cpumask_set_cpu(cpu, &one_cpu);
+>
+> -                       hwprobe_one_pair(&tmp, &one_cpu);
+> +                       hwprobe_one_pair(&tmp, &one_cpu, test_avail);
+>
+>                         if (!riscv_hwprobe_pair_cmp(&tmp, &pair))
+>                                 cpumask_clear_cpu(cpu, &cpus);
+> @@ -535,8 +546,11 @@ static int complete_hwprobe_vdso_data(void)
+>          * save a syscall in the common case.
+
+By the way this got removed in for-next
+("Revert "riscv: hwprobe: Fix stale vDSO data for late-initialized
+keys at boot"")
+
+>          */
+>         for (key =3D 0; key <=3D RISCV_HWPROBE_MAX_KEY; key++) {
+> +               if (key =3D=3D RISCV_HWPROBE_KEY_EXT_ENABLED)
+> +                       continue;
+> +
+>                 pair.key =3D key;
+> -               hwprobe_one_pair(&pair, cpu_online_mask);
+> +               hwprobe_one_pair(&pair, cpu_online_mask, false);
+>
+>                 WARN_ON_ONCE(pair.key < 0);
+>
+> diff --git a/arch/riscv/kernel/vdso/hwprobe.c b/arch/riscv/kernel/vdso/hw=
+probe.c
+> index 8f45500d0a6e..f40c21e44ef9 100644
+> --- a/arch/riscv/kernel/vdso/hwprobe.c
+> +++ b/arch/riscv/kernel/vdso/hwprobe.c
+> @@ -14,7 +14,7 @@ extern int riscv_hwprobe(struct riscv_hwprobe *pairs, s=
+ize_t pair_count,
+>
+>  static int riscv_vdso_get_values(struct riscv_hwprobe *pairs, size_t pai=
+r_count,
+>                                  size_t cpusetsize, unsigned long *cpus,
+> -                                unsigned int flags)
+> +                                unsigned int flags, bool avail_test)
+>  {
+>         const struct vdso_arch_data *avd =3D &vdso_u_arch_data;
+>         bool all_cpus =3D !cpusetsize && !cpus;
+> @@ -27,7 +27,8 @@ static int riscv_vdso_get_values(struct riscv_hwprobe *=
+pairs, size_t pair_count,
+>          * homogeneous, then this function can handle requests for arbitr=
+ary
+>          * masks.
+>          */
+> -       if (flags !=3D 0 || (!all_cpus && !avd->homogeneous_cpus) || unli=
+kely(!avd->ready))
+> +       if (flags !=3D 0 || (!all_cpus && !avd->homogeneous_cpus) ||
+> +           unlikely(!avd->ready) || avail_test)
+>                 return riscv_hwprobe(pairs, pair_count, cpusetsize, cpus,=
+ flags);
+>
+>         /* This is something we can handle, fill out the pairs. */
+> @@ -48,7 +49,7 @@ static int riscv_vdso_get_values(struct riscv_hwprobe *=
+pairs, size_t pair_count,
+>
+>  static int riscv_vdso_get_cpus(struct riscv_hwprobe *pairs, size_t pair_=
+count,
+>                                size_t cpusetsize, unsigned long *cpus,
+> -                              unsigned int flags)
+> +                              unsigned int flags, bool avail_test)
+>  {
+>         const struct vdso_arch_data *avd =3D &vdso_u_arch_data;
+>         struct riscv_hwprobe *p =3D pairs;
+> @@ -68,7 +69,8 @@ static int riscv_vdso_get_cpus(struct riscv_hwprobe *pa=
+irs, size_t pair_count,
+>                 }
+>         }
+>
+> -       if (empty_cpus || flags !=3D RISCV_HWPROBE_WHICH_CPUS || !avd->ho=
+mogeneous_cpus)
+> +       if (empty_cpus || flags !=3D RISCV_HWPROBE_WHICH_CPUS ||
+> +           !avd->homogeneous_cpus || avail_test)
+>                 return riscv_hwprobe(pairs, pair_count, cpusetsize, cpus,=
+ flags);
+>
+>         while (p < end) {
+> @@ -105,10 +107,21 @@ int __vdso_riscv_hwprobe(struct riscv_hwprobe *pair=
+s, size_t pair_count,
+>                          size_t cpusetsize, unsigned long *cpus,
+>                          unsigned int flags)
+>  {
+> +       struct riscv_hwprobe *p =3D pairs;
+> +       bool avail_test =3D false;
+> +       size_t i;
+> +
+> +       for (i =3D 0; i < pair_count; i++) {
+> +               if (p[i].key =3D=3D RISCV_HWPROBE_KEY_EXT_ENABLED) {
+> +                       avail_test =3D true;
+
+NIT: `avail_test` is very similar to `test_avail`, which confused me at fir=
+st.
+I would change `avail_test` to `has_avail_test` or `does_avail_test`
+so its more readable.
 
 
-
-On 8/3/2026 8:16 PM, Tony Nguyen wrote:
-> Larysa Zaremba says:
-> 
-> This patch series adds the iXD driver, which supports the Intel(R)
-> Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
-> It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
-> exposed by the same card. The reason for the separation is to be able
-> to offload the control plane to the host different from where the data
-> plane is running.
-> 
-> This is the first phase in the release of this driver where we implement the
-> initialization of the core PCI driver. Subsequent phases will implement
-> advanced features like usage of idpf ethernet aux device, link management,
-> NVM update via devlink, switchdev port representors, data and exception path,
-> flow rule programming, etc.
-
-There's one new report from Sashiko that's a possible issue and, since 
-we have to do a new version, a bunch of nice to-dos so we'll be doing a 
-new version.
-
-Thanks,
-Tony
-
-pw-bot: changes-requested
-
-> The first phase entails the following aspects:
-> 
-> 1. Additional libie functionalities:
-> Patches 1-5 introduce additional common library API for drivers to
-> communicate with the control plane through mailbox communication.
-> A control queue is a hardware interface which is used by the driver
-> to interact with other subsystems (like firmware). The library APIs
-> allow the driver to setup and configure the control queues to send and
-> receive virtchnl messages. The library has an internal bookkeeping
-> (XN API) mechanism to keep track of the send messages. It supports both
-> synchronous as well as asynchronous way of handling the messages. The
-> library also handles the timeout internally for synchronous messages
-> using events. This reduces the driver's overhead in handling the timeout
-> error cases.
-> 
-> The current patch series supports only APIs that are needed for device
-> initialization. These include APIs in the libie_pci module:
-> * Allocating/freeing the DMA memory and mapping the MMIO regions for
->    BAR0, read/write APIs for drivers to access the MMIO memory
-> 
-> and libie_cp module:
-> * Control queue initialization and configuration
-> * Transport initialization for bookkeeping
-> * Blocking and asynchronous mailbox transactions
-> 
-> Once the mailbox is initialized, the drivers can send and receive virtchnl
-> messages to/from the control plane.
-> 
-> The modules above are not supposed to be linked with the main libie library,
-> but do share the folder with it.
-> 
-> 2. idpf:
-> Patches 6-11 refactor the idpf driver to use the libie APIs for control
-> queue configuration, virtchnl transaction, device initialization
-> and reset and adjust related code accordingly.
-> 
-> 3. ixd:
-> Patches 12-15 add the ixd driver and implement multiple pieces of the
-> initialization flow as follows:
-> * Add the ability to load
-> * A reset is issued to ensure a clean device state, followed by
->    initialization of the mailbox
-> * Device capabilities:
->    As part of initialization, the driver has to determine what the device is
->    capable of (ex. max queues, vports, etc). This information is obtained from
->    the firmware and stored by the driver.
-> * Enable initial support for the devlink interface
-
+> +                       break;
+> +               }
+> +       }
+> +
+>         if (flags & RISCV_HWPROBE_WHICH_CPUS)
+>                 return riscv_vdso_get_cpus(pairs, pair_count, cpusetsize,
+> -                                          cpus, flags);
+> +                                          cpus, flags, avail_test);
+>
+>         return riscv_vdso_get_values(pairs, pair_count, cpusetsize,
+> -                                    cpus, flags);
+> +                                    cpus, flags, avail_test);
+>  }
+> diff --git a/arch/riscv/kernel/vendor_extensions/sifive_hwprobe.c b/arch/=
+riscv/kernel/vendor_extensions/sifive_hwprobe.c
+> index 1f77f6309763..379ea16bd89f 100644
+> --- a/arch/riscv/kernel/vendor_extensions/sifive_hwprobe.c
+> +++ b/arch/riscv/kernel/vendor_extensions/sifive_hwprobe.c
+> @@ -6,17 +6,23 @@
+>
+>  #include <linux/cpumask.h>
+>  #include <linux/types.h>
+> +#include <asm/vector.h>
+>
+>  #include <uapi/asm/hwprobe.h>
+>  #include <uapi/asm/vendor/sifive.h>
+>
+> -void hwprobe_isa_vendor_ext_sifive_0(struct riscv_hwprobe *pair, const s=
+truct cpumask *cpus)
+> +void hwprobe_isa_vendor_ext_sifive_0(struct riscv_hwprobe *pair, const s=
+truct cpumask *cpus,
+> +                                    bool test_avail)
+>  {
+> +       bool report_v =3D test_avail ? riscv_v_vstate_ctrl_user_allowed()=
+ : true;
+> +
+>         VENDOR_EXTENSION_SUPPORTED(pair, cpus,
+>                                    riscv_isa_vendor_ext_list_sifive.per_h=
+art_isa_bitmap, {
+> -               VENDOR_EXT_KEY(XSFVQMACCDOD);
+> -               VENDOR_EXT_KEY(XSFVQMACCQOQ);
+> -               VENDOR_EXT_KEY(XSFVFNRCLIPXFQF);
+> -               VENDOR_EXT_KEY(XSFVFWMACCQQQ);
+> +               if (report_v) {
+> +                       VENDOR_EXT_KEY(XSFVQMACCDOD);
+> +                       VENDOR_EXT_KEY(XSFVQMACCQOQ);
+> +                       VENDOR_EXT_KEY(XSFVFNRCLIPXFQF);
+> +                       VENDOR_EXT_KEY(XSFVFWMACCQQQ);
+> +               }
+>         });
+>  }
+> diff --git a/arch/riscv/kernel/vendor_extensions/thead_hwprobe.c b/arch/r=
+iscv/kernel/vendor_extensions/thead_hwprobe.c
+> index 2eba34011786..28c58a7123d5 100644
+> --- a/arch/riscv/kernel/vendor_extensions/thead_hwprobe.c
+> +++ b/arch/riscv/kernel/vendor_extensions/thead_hwprobe.c
+> @@ -6,14 +6,19 @@
+>
+>  #include <linux/cpumask.h>
+>  #include <linux/types.h>
+> +#include <asm/vector.h>
+>
+>  #include <uapi/asm/hwprobe.h>
+>  #include <uapi/asm/vendor/thead.h>
+>
+> -void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *pair, const st=
+ruct cpumask *cpus)
+> +void hwprobe_isa_vendor_ext_thead_0(struct riscv_hwprobe *pair, const st=
+ruct cpumask *cpus,
+> +                                   bool test_avail)
+>  {
+> +       bool report_v =3D test_avail ? riscv_v_vstate_ctrl_user_allowed()=
+ : true;
+> +
+>         VENDOR_EXTENSION_SUPPORTED(pair, cpus,
+>                                    riscv_isa_vendor_ext_list_thead.per_ha=
+rt_isa_bitmap, {
+> -               VENDOR_EXT_KEY(XTHEADVECTOR);
+> +               if (report_v)
+> +                       VENDOR_EXT_KEY(XTHEADVECTOR);
+>         });
+>  }
+> --
+> 2.43.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>
 
