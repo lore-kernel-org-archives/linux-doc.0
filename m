@@ -1,104 +1,109 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882D0361656;
-	Wed,  5 Aug 2026 00:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BE519D065;
+	Wed,  5 Aug 2026 00:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785889333; cv=none; b=IDNpGDiyCwvWuOmarqZKvIclevb8D8wIvkJ12p+6OFafq7LXrd7NyeSAKKicVXJ1PfFnnCOiuTDDQ+2WI1RZgraRoODzz239u1NRo3kij8WBU5F8SaDrh6YsOPQmFw09TDoUMAf6gFayPsI8rrMpCAAwUdYZ2EGSPY+nfqrt9FE=
+	t=1785890562; cv=none; b=Qq/6i7cOSpYcu6oYUqwUDk5jnbaixMT8octsd0D6QDla3b+OMwxrFihhH+gFhGshnOCZ1mujf5kvb6CEb8ZcXOZIjKZG0FKpu6XUIlOQIJvZZfvz8pB0Rmx9KPxZelIh8I3jcWu8wnvTWsDyJvaCqxXaYKYf1NomOau6NDxA7W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785889333; c=relaxed/simple;
-	bh=QFTLvXeTcMs5/AGfg7+CMECeegde3iRx4/ybF0OsHPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hQEISEyBDDoX15mw6Yy+3Z3c2gJZGxXZI8eypb6uTytVQ68bQvq44huwkUWK5JFRpWbUYwMDeGBRtbaeh4y7+C6md3OYAIonMUySudjU6GzjE8zdSdY7sHd1ncKXTH+2v+f/kTSxosksxU5FgapfAklfkuK8XU+EkeuAgTp1E0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=eV6wHyx1; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1785890562; c=relaxed/simple;
+	bh=oF+pMqKRVfoHbj0aKmhSJyXoon4yiMyJ+CZtPLw2efU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Pbm7l9Nz+iX/cUwXhFa9SEkUPoHbct9keG9fMC2A8SWkjk8W0OhdcRkMJ9yNGydWHyoczry3DK4kS5DMwJr90B5SN06hf90ETSq9ctBNyX/o6YSjWtUM37T/Jc21ou1nempvph1nQohsMuFCov+nd3SMcsLp5dOL9SVJ5dgyTWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=c51MoOa0; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="eV6wHyx1"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2BCD040E014A;
-	Wed,  5 Aug 2026 00:22:09 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id dixRh73Opure; Wed,  5 Aug 2026 00:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785889319; bh=0Rtb4RXDI8WoYfEgRQzhqCXskdcss2/7k113ehDu/rE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eV6wHyx1UAQ8tJfBphVOty8iYDpRYDOc5ibSgf74mkiLqbwbd3CveIlDy7SI5kgRO
-	 swUJ4fYqqy6dgX3VBHqI5hEDU1yO17R4R44qmsx2yyVPD1UtqfkNuVaAR7ZQJZYAcu
-	 BujDwfboKFGb0M73ZeU8YU3xyXHxW9b0UqzT9aBhyzPM20Ckap4yPCQRAuNQg8m0U0
-	 QGbmdc3jJ9iae4Sr9flI8JZTBQ743iFBrafxJ5RJYn9M1P5mHvDEr/OZuiqE5rv3fu
-	 3HwE1BVE3hURUdKrgZBOMJuEnMqsMVQpKYeEgtCJUArFght0ME8XQe57BdjoRcqqpN
-	 3C8A+sF89C75uhEtzCITkVZiM+JvUREBAvkngrZi1VPpISS2C4QhPu/unaR02cW2ed
-	 V8Q4o3uq2cVJ1ymxt6bW3vwx2fl0L4jMAX/Y4HFPxJwmRZec2y5DL83IyLJmVUtgkX
-	 otNTVN8M94V4BbQfbm8qIohqj0ZW1gyJnfse3RuutxK/LJVioUe5gLGmihvoENR09k
-	 H0jKBj75PvL1e8Ci8irn5Ck1ezE8P5efmG9WAc7wkk0E4WJPiUK8V0vjRUonUElPAa
-	 9nDboU3txe9Dke0MzVVAEc4NYH/W1ZZ8SdO4KBNtP65kKjtEd5Wd1RJBdEQIWsKveZ
-	 AHzNHp2b3fkEqANDS1Kks9vE=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8B9BF40E00B8;
-	Wed,  5 Aug 2026 00:21:41 +0000 (UTC)
-Date: Tue, 4 Aug 2026 17:21:38 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
-	Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"tglx@kernel.org" <tglx@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"Eranian, Stephane" <eranian@google.com>,
-	"peternewman@google.com" <peternewman@google.com>
-Subject: Re: [PATCH 1/2] x86/resctrl, Documentation: Keep mbm_assign_mode
- "default" on boot
-Message-ID: <20260805002138.GHanKCEmyMcvK8Xg4w@fat_crate.local>
-References: <20260731003436.GKamvtnJlKydaEqstA@fat_crate.local>
- <4bfafa1e-a7da-4c37-8da9-9fbba14106fd@intel.com>
- <20260801012227.GEam1KUyMz601QOzrT@fat_crate.local>
- <5f10ceab-5569-409b-8e78-c4a4f232489f@intel.com>
- <20260804191608.GDanI6eK2Q07w6pNcb@fat_crate.local>
- <98be93cc-f2d8-4bad-bbb0-f309e912054c@intel.com>
- <20260804224703.GFanJr52UbKBrCOTij@fat_crate.local>
- <SJ1PR11MB6083C1B9D29DF6184B50597BFCD42@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260804234048.GGanJ4gFClcqwTHHDJ@fat_crate.local>
- <SJ1PR11MB6083DBB0D7FF2B466F9CA808FCD32@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="c51MoOa0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1785890557;
+	bh=oF+pMqKRVfoHbj0aKmhSJyXoon4yiMyJ+CZtPLw2efU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=c51MoOa0qnaW3TduSdx06EE6rJuShhuxXVETYm2f1U2ukoI0+XhZOrLuGUJ8nphU3
+	 97nskKjuXTQHfWVza+H5DxU68zAYrb+h5sRgO5vYvhIfDCguZV3bM3EDAnsa7AmzZw
+	 mck/Me0g6012NuTdXFokiaJWE/3vwGMLaMRuODe9MNIJisqZzoxFCGd9Q32IYr7vJy
+	 jzjBHZq5lZyRyKTJFNFemv2H1nopyQjavdGlsiKfXOVbB7GKx6eRt4d80VeUn+HxuM
+	 7QRJQ1NvLnsm24lO1B71uU+7UXX/a8EOJ+qTUVWqEr6Gvgcz0B/+N5csdmLqtIjU2a
+	 l6lhOZ6hkoLLg==
+Received: from [192.168.68.117] (unknown [180.150.113.112])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DAD4166B55;
+	Wed,  5 Aug 2026 08:42:35 +0800 (AWST)
+Message-ID: <83210c6e2a7b203bd5913b455ea45cfddf3d29ec.camel@codeconstruct.com.au>
+Subject: Re: [RFC PATCH 0/4] espi: introduce eSPI bus framework
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Greg KH <gregkh@linuxfoundation.org>, Krishnamoorthi M
+	 <krishnamoorthi.m@amd.com>, aspeedyh <yh_chung@aspeedtech.com>
+Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
+ linux-spi@vger.kernel.org, 	akshata.mukundshetty@amd.com,
+ bleung@chromium.org, groeck@chromium.org, 	chrome-platform@lists.linux.dev,
+ corbet@lwn.net, linux-doc@vger.kernel.org, 	skhan@linuxfoundation.org,
+ linux-aspeed@lists.ozlabs.org, 	openbmc@lists.ozlabs.org
+Date: Wed, 05 Aug 2026 10:12:34 +0930
+In-Reply-To: <2026080416-lagoon-delirium-8e84@gregkh>
+References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
+	 <2026080416-lagoon-delirium-8e84@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083DBB0D7FF2B466F9CA808FCD32@SJ1PR11MB6083.namprd11.prod.outlook.com>
 
-On Wed, Aug 05, 2026 at 12:02:35AM +0000, Luck, Tony wrote:
-> If AET has less, then resctrl drags the limit down to make sure everything
-> that the user sees in the resctrl file system will work.
+Hi Greg, Krishnamoorthi,
 
-So this "dragging down" would prevent counter exhaustion. That could be one
-way to do it, hohumm.
+YH Chung has been working on eSPI support for ASPEED's BMC SoCs, so
+I've included them in the To line.
 
-> You are all the way there :-)
+On Tue, 2026-08-04 at 14:18 +0200, Greg KH wrote:
+> On Tue, Aug 04, 2026 at 05:22:55PM +0530, Krishnamoorthi M wrote:
+> > Feedback Requested
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > =C2=A0 1. We chose a dedicated bus_type for the reasons described above
+> > =C2=A0=C2=A0=C2=A0=C2=A0 (capability negotiation, four independent chan=
+nels, asynchronous
+> > =C2=A0=C2=A0=C2=A0=C2=A0 ALERT#). Does the community agree this is the =
+right direction, or
+> > =C2=A0=C2=A0=C2=A0=C2=A0 is there a strong preference to extend the SPI=
+ subsystem instead?
+>=20
+> That's up to the SPI maintainers and developers...
 
-Thanks! :-)
+There's concurrent discussion from YH regarding device-side eSPI
+support in the thread ending here:
 
--- 
-Regards/Gruss,
-    Boris.
+https://lore.kernel.org/all/KL1PR0601MB4276FA2C6347192CC45826E490ED2@KL1PR0=
+601MB4276.apcprd06.prod.outlook.com/
 
-https://people.kernel.org/tglx/notes-about-netiquette
+So far it's arrived at a matching proposal for drivers/espi.
+
+>=20
+> > =C2=A0 3. Any concerns with the ops table design or the -EOPNOTSUPP fal=
+lback?
+> > =C2=A0 4. Naming and structure of the public API in include/linux/espi/=
+espi.h.
+>=20
+> What specifically are you asking for for this?=C2=A0 Do you have userspac=
+e
+> code you want to integrate, if so, does it work with this?=C2=A0 And wher=
+e
+> does it live?
+
+I've seen your follow-up realisation Greg, however, regarding
+userspace, the thread above suggests that we should be able to back
+existing subsystems (GPIO for VW, MCTP for OOB, MTD for some flash
+functionality) onto eSPI to minimise eSPI-specific interfaces:
+
+https://lore.kernel.org/all/KL1PR0601MB4276B5BE3B96C18E3A66AD709049A@KL1PR0=
+601MB4276.apcprd06.prod.outlook.com/
+
+That doesn't cover the peripheral channel, as that's dealt with in
+hardware on the device side, but for the purpose of the controller the
+devices on the peripheral channel should all be driven by the kernel
+anyway.
+
+Andrew
