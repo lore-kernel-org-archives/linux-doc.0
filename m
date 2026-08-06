@@ -1,178 +1,399 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11021127.outbound.protection.outlook.com [52.101.62.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA123BB68B
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 19:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786044662; cv=none; b=a9LtnwEXfjwFnMz7OuzVI7VWaReePY9e8fzxiEdqNHWh25xjjtmDCxPdWe4wwjVRXhvUIguBIikqQjKZiIP1wOLSw6Vi2OXto1GbP5Ykx8c7sQobGRd//EA5sI0YgvnDUE/taKyQ49xQreWjEogPbN3M5CPXt5/rc+v3QUzKsUs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786044662; c=relaxed/simple;
-	bh=4tx9NSGNynTF4PHpWC7vIVZqpu7kF9vx/gpj/G0H91k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ww7C34AHrmh81XxgKuv+NztY94cSJHwicDlmTsrd47QV2GNvl9mDCAZpKVNNlSbOSRSnxpkbEKKpEW7TBE044Xu2u/QhJQRPVRZq/ffGtgp30QGFngN7MeJiqrk/Ge83fCYCGnsOjCXh23uEtUaXyQohI9WY0D7wz2GeEVc3lnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tOc5nwmY; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8232F494830;
+	Thu,  6 Aug 2026 19:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.127
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786046134; cv=fail; b=uFMMR4dMez6CN611vOAkLPzR8EHFDFfxLcD/GgrkQbc6+Gqu0/xD045Pygy21/bmx2N0WGsnd2svNAlnxviGGKKuLjnr2kIGwuYiCCAuaT6cPMCSzqxO95HMO0NYJ8WszhMqf6vyDgis19IOoQ2QZ/BjO8fqIQKdqUklVTrfKaI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786046134; c=relaxed/simple;
+	bh=IJ5SBq3e6Bt1pNsfc3TGuAfLtTYBHefo+h+4Oc+xK3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=juL0mt46mTY9RJJN6B4hmuoq52OfALHfMJzdzVOs/TS1TUevnGATwelaK68zarOVh7HVkd/uqfoHBpYtJCTaTREiX9Ma9z7WwV2DGjfXIQe2YiKvLcAu0c9lcfMA9zlNXhCLJsMD3mR73sOyCiVuyyYJInokkO5sblsdMscTi4w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=ho/+IDpO; arc=fail smtp.client-ip=52.101.62.127
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tOc5nwmY"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2d049069377so28454065ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 12:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786044661; x=1786649461; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=96I6v/AKBNTvV/KdjO4chCrzAPiR9Nz0WdXHIejWW6U=;
-        b=tOc5nwmYFCvlGy8dUXREVOPcy7N1vVKdRwITx7q4Bddtof25Dtvh7e73KtAivBa40C
-         qJPmo7jT5oMLIcylajuff3PWOJLYJe+SpB4ZacDKqKmEqjAhf9m3NJghHxNRp6PKkPf5
-         RJxFRVfsq9hTlYyw0UCvCLDySBiSQDLwuRPiizyqWbA+dnllpX/QtwHmREM8FA1VDYpf
-         2fE8mQ9A5esdkJ9Fx2zF9WcAIQUqU47RYjXm595d1Qap87mHPrthFHdK6P+V6yds0O4u
-         LhrclSZs7mKmuQ62k7GKzv5PnVYBCZgvUpe/AOQoREjtLSsEBqvdfsc1s9hgGDUlS8LF
-         Rpwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786044661; x=1786649461;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=96I6v/AKBNTvV/KdjO4chCrzAPiR9Nz0WdXHIejWW6U=;
-        b=lkR9zTpIKbuBeEzSOrINWSl+pmxDuK3D7CxTFaiwlu4bDCUCA6CAUNs4aENQ3Ix31a
-         6l7cOglS2PhfNn7s5CpVQQw42HMSm0ALXOnOjVDN65k19fUTj1HPznS0WYqHluiQIFni
-         6dc1a0zHntP1CD3GduLC4jirF8SaJ+SxdAoTLhx78T1oZCLJ7Yn2bvDFmVHvP1g8v+PR
-         QMOOf9kcORoREj51lk5qzy++J50raZy2JqlPkeV3WsVqHKtvLvU+kSzQRIhZR6GKy0Od
-         5eptMDtQEaip3R9gdwjiAXwG/LhUsIy7lJahXXhE1QVyFqd5fbrloaVTaJWgn0WUUVaJ
-         waEw==
-X-Forwarded-Encrypted: i=1; AHgh+RrFv6cK7VJwspuqI9iGBPe7AlWXizh55y/tcjNGp+hWVYxOLSCi2F6bAxi+LNWiTNDd/dnbzv/kLw8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyv5d46BNpNDGNUD1vtaTp5DUCbnWsswziXdBhSgDoMUxQpgXZJ
-	suvabYjODi8e/ojkwXVAiXGMvxVqaU0SUH5Ox3VpiD3kzZh5XhQVGkR+
-X-Gm-Gg: AR+sD11uQvJTznKHN02ZjuqZq+Xl0sBXncMiRyI0+beQTjz6wtWQlG2ayHSmAdgSOLk
-	ydIEQ8XAPE2QOe+t2pADmOvfp3FZ2jIkbD1MFT4AsTf1/SeJrubMCXtb6PM4tGizZG69s9P78uZ
-	WIyodeqmwE04lTqVdsQMsOhYyy6QTKSn2FpaCedvlneiSkU78vO9qe/zuucTHQQgECvUbt3ujTu
-	XGSAHZZxDsA83/4hiadnWUP8zs4osW/bk7HuC4ARzYo+y7SpyL10GIuHhiooGb4q6jm4TvgQ+S2
-	76qNqBK8eX6HdWp/pAVNOvpXIQWPplogtboljHQnPNp5OkRpQVUhWA3qlmboho5EX0LXQgvVyGv
-	t8lN192+rL0Y1ISctBI/LqPzS909770ixMIU3LBIZhN/YQoUloF+YIPzH0MvPVMmj9cPHjuL+8Y
-	r35jKlVH/YNcozgxhT1YmphR8tFpg1vCSkorij+sANbjQKmgZBth02t9wki2L8qd++IzUm/YOOD
-	hg=
-X-Received: by 2002:a17:903:1a83:b0:2cc:307c:51fc with SMTP id d9443c01a7336-2d106e81d72mr45720725ad.21.1786044660266;
-        Thu, 06 Aug 2026 12:31:00 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d120c611casm1084905ad.83.2026.08.06.12.30.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 12:30:59 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 6 Aug 2026 12:30:59 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Troy Mitchell <troy.mitchell@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
+	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="ho/+IDpO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uiJnMeEVWrARVeJAKxi/PtgNm4tltOI3qfIiw001ZI9Vk75BJOm7jHvwJbCE8VyGXK0VGzNLvmslepboOSNLtFj1YGKB8TIFW/Vwy/lVeXwQ/JZa9H5JEuKr3I5pqWbdQLvAJ5HyjeQE0szfuAi9J9iN/9WPBbFyf98sdR8MZuckn06jahw+jfg2w//8ybNh9lVeCDDkpvXSCu46+5RG5yrxpZ+L605TdJ5fnWw4eWYw5iP9oD39r82E3A7CcKIV88k+A4TVdDhw6J0SccX+boi19+0MI+kB9Iy080v/up8MDf8siHEEBFOCyOG+VT7gsa4llT2poNins/Gl5TiNhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YKOKyGfa2aAjHKsoye5pnQe6zvJ10LSCqxewIjsiY/4=;
+ b=aot2IUFkNfwPv1f2fexuGQxg2VSPYJ/61QmVgc+4BwL5zJlZnF/1D/zN5bYhkfizrz3NsGetIbMzW1pjla6ScGxeWvqhI/VQcfLnyBgEPSHL4uipJ1CyFnqcYdOi0WOImULlJom7/ErfYPmzqDOoW8Mb4Bx86lxFOIWoVmLdFumes3Hpkguf+Sc7yoWeSksLpZylyR9K1GiIjoVkDRwkTFcMk2mkZdZ2/yWF4tHPR34Yl/zsG2vrphQ/y3YAJ6bsk9dn9gcFfA0g5D0FTHyuwO/mmwIbtq+gmLzCU667jljy0ESU1rMgerhcPKDS8LFtu/AMBDfScJJwpIH2kb0IQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.86.86.210) smtp.rcpttodomain=cryptography.com smtp.mailfrom=rambus.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=rambus.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YKOKyGfa2aAjHKsoye5pnQe6zvJ10LSCqxewIjsiY/4=;
+ b=ho/+IDpOu717dxzmrc7el+GtE797/jh4R/F3uXTxYpkdgtOInLxyhX+VUT/bVpJE7ObfsUYjxwfbdgvvUdp+T0B9AYNYybwagBKb4KwLIhREoXt+T9++dhq/pVcsnpl1953Wjkx+Yn7yVT7UJ0n/+Gwwz1IZmXZ9mCUIdOnptF9QUoOYYCXNJGzmaFXSAKkvsOmYco7FomKxJREkBJerU6CFJCQWauMrmMbekO4aMFzXCUj/andVAqBZhXOKQGCJCDYR5IxzfvfggOr++SLyp8bYlzBjb884G+chXocKdItIGwfh23tJ2LQOK1vG+mqIwmZ4W88DgVneq/h4V0Rg1A==
+Received: from SJ0PR03CA0030.namprd03.prod.outlook.com (2603:10b6:a03:33a::35)
+ by MW4PR04MB7153.namprd04.prod.outlook.com (2603:10b6:303:67::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Thu, 6 Aug
+ 2026 19:55:26 +0000
+Received: from BY1PEPF0001AE18.namprd04.prod.outlook.com
+ (2603:10b6:a03:33a:cafe::30) by SJ0PR03CA0030.outlook.office365.com
+ (2603:10b6:a03:33a::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.21 via Frontend Transport; Thu, 6
+ Aug 2026 19:55:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.86.86.210)
+ smtp.mailfrom=rambus.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=rambus.com;
+Received-SPF: Pass (protection.outlook.com: domain of rambus.com designates
+ 192.86.86.210 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.86.86.210; helo=hqxsv-psmtppxy02.rambus.com; pr=C
+Received: from hqxsv-psmtppxy02.rambus.com (192.86.86.210) by
+ BY1PEPF0001AE18.mail.protection.outlook.com (10.167.242.100) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
+ via Frontend Transport; Thu, 6 Aug 2026 19:55:25 +0000
+Received: from hqxsv-cmdev3-skrishnamoorthy.rambus.com (hqn-lb-int-float.rambus.com [10.12.20.20])
+	by hqxsv-psmtppxy02.rambus.com (Postfix) with ESMTPS id A43111801748;
+	Thu,  6 Aug 2026 19:55:25 +0000 (UTC)
+From: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+To: Albert Ou <aou@eecs.berkeley.edu>,
+	Alex Ousherovitch <aousherovitch@rambus.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.de>
-Subject: Re: [PATCH v3 4/6] hwmon: (lm63) Add Sensylink CTF2301 support
-Message-ID: <977654fc-d5e1-4d23-8ab3-286acd2dc372@roeck-us.net>
-References: <20260805-ctl2301-v3-0-fd4b8ffb5b0d@linux.dev>
- <20260805-ctl2301-v3-4-b86c75d1c552@linux.dev>
+	Paul Walmsley <pjw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>,
+	devicetree@vger.kernel.org,
+	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
+	linux-api@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thi Nguyen <thin@rambus.com>
+Subject: [PATCH v3 00/19] crypto: cmh - add Rambus CryptoManager Hub driver
+Date: Thu,  6 Aug 2026 12:54:59 -0700
+Message-ID: <20260806195519.2703224-1-skrishnamoorthy@rambus.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260805-ctl2301-v3-4-b86c75d1c552@linux.dev>
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE18:EE_|MW4PR04MB7153:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 8d81a04e-5164-4cc9-ed6d-08def3f4a8a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|23010399003|36860700016|7416014|376014|18002099003|11063799006|3023799007|13003099007|6133799003|10067099003|56012099006|921020;
+X-Microsoft-Antispam-Message-Info:
+	XduhScxT5DBYQU27E5dn7StrbTAHtMG/sCX1bY8jVPxINncVD/OkMCmE3pVN6/QLHt405yTuy7qBQEYBVE2VzczTgiNwT0F14JJOI6NJxZQqsH03Zj70rcJKaNO5ej1rRVGechItJ5IK6evKo3+Ba3jFUIN9trVYvHcQWiv8aK27p9Iov9G/ZzpGgUR0pDTQZu6TxbeK3Es5GlGXRKMFLtkgoDfneh9hIGhv1/ncPVEvc82tof3P+6lR5iMeZfjqogs+bRpMwZY58FfHgPmRhHVZxUA1Q/VV0Nb3010/1s4Ohw6o6SV/YPn5GnnjuV0EhipF1kEK+hBgXFS/ETzSKzRMiW2g8Q9ge6L1kqJLxsCoqc9jCy9BnTZjAllY81xTrickq8fP3gMfr/fpnq1U5wl3lRVOle44wzmoGNROs1XrcZOExbAz4/DWorepYL2htx62sK6Rz+TEPGOjTr+nl4rldmIw5QDh6WNrGF2H1vXKGjyy1cios84wtJ8j0NBoxL6+vGHD6d6iGzOTXjFMpeK3tvwnhugMgP9gB+9AgkEkndyQjnukn7Uec7enD57Frmy5MGAl+IW9r6FRELO/TRP3pZSvhOnbS0u6U5t9opppDrmIYakT/VOGjda6r9kuU45qYX/5feDkVELe4IbhhOoKdGV5IQjCuFuoZvDp4JyGTGFFTvh4l2oULMoTM0GanxtYBAomQhd0t8umhSF/OM7DAPJ1tKOlLKgJLNYQkgpAqBAOJiJJ/wBXrdYX88fO
+X-Forefront-Antispam-Report:
+	CIP:192.86.86.210;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hqxsv-psmtppxy02.rambus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(23010399003)(36860700016)(7416014)(376014)(18002099003)(11063799006)(3023799007)(13003099007)(6133799003)(10067099003)(56012099006)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	gSsU/Exyt+i+gkv0Y+9hC2i3SMBpNH/Uja2J9+o3kt1hrNO/o3B+6+zIqMuNtMjiPnrEqBGhcjLLnUw/xVMrYE+73jipNbNaKPjRmCprp+q87NZ6KFB4ml5nik/CItuIv5yuwA5z0VX0Rp0kxEVciHAO2XyBE/YfZ0CQHmXsOApaX7DiBbxgkC5Sj9g640c79TysfaN217Odwv8XiU/S5Ay924/FJYQKjCoUbJJgTO8F12bsFf18ubQIcBdFqP8LsundCOt+eq/JRBcGkpz8wRkBEx1tGKZ/uC+TVs7Cd+RxVDvbbig5PWM89zbgO9lxlAZybUp+VMGfUCLpZeHrfdESzWtcVXKrtKLBIzlShjinOgHTOwlVBE+vreoPOalkIQiidnuv5TsX2wC2bSS8o7o9/PL6CVWMXiU7SK5+16YfIPJWqyZwpT52U41qquSY
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 19:55:25.8164
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d81a04e-5164-4cc9-ed6d-08def3f4a8a8
+X-MS-Exchange-CrossTenant-Id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bd0ba799-c2b9-413c-9c56-5d1731c4827c;Ip=[192.86.86.210];Helo=[hqxsv-psmtppxy02.rambus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BY1PEPF0001AE18.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR04MB7153
 
-On Wed, Aug 05, 2026 at 02:00:54AM -0700, Troy Mitchell wrote:
-> Add Sensylink CTF2301 support to the LM63 driver. CTF2301 follows
-> the LM63-style temperature, tachometer, and PWM register layout,
-> while using a 12-bit local temperature register and requiring the
-> ALERT/TACH pin to be configured for tachometer input.
-> 
-> Register an optional thermal cooling device when the device tree
-> node provides #cooling-cells, allowing thermal zones to control
-> the fan through the existing PWM path without changing behavior
-> for existing LM63-family users.
-> 
-> Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
-> ---
->  Documentation/hwmon/lm63.rst |  22 +++
->  drivers/hwmon/Kconfig        |   8 +-
->  drivers/hwmon/lm63.c         | 414 +++++++++++++++++++++++++++++++++++--------
->  3 files changed, 366 insertions(+), 78 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/lm63.rst b/Documentation/hwmon/lm63.rst
-> index 9e27367d7405..c40bd0dfe591 100644
-> --- a/Documentation/hwmon/lm63.rst
-> +++ b/Documentation/hwmon/lm63.rst
-> @@ -33,6 +33,16 @@ Supported chips:
->  
->  	       http://www.national.com/pf/LM/LM96163.html
->  
-> +  * Sensylink CTF2301
-> +
-> +    Prefix: 'ctf2301'
-> +
-> +    Addresses scanned: none
-> +
-> +    Datasheet: https://www.sensylink.com/upload/1/net.sensylink.portal/1689557281035.pdf
-> +
-> +    Register description: https://github.com/TroyMitchell911/ctf2301-datasheet
-> +
->  
->  Author: Jean Delvare <jdelvare@suse.de>
->  
-> @@ -62,6 +72,8 @@ value have to be masked out. The value is still 16 bit in width.
->  
->  All temperature values are given in degrees Celsius. Resolution is 1.0
->  degree for the local temperature, 0.125 degree for the remote temperature.
-> +The CTF2301 local temperature input and limit have a resolution of 0.0625
-> +degree.
->  
->  The fan speed is measured using a tachometer. Contrary to most chips which
->  store the value in an 8-bit register and have a selectable clock divider
-> @@ -93,3 +105,13 @@ support these GPIO lines at present.
->  The LM96163 is an enhanced version of LM63 with improved temperature accuracy
->  and better PWM resolution. For LM96163, the external temperature sensor type is
->  configurable as CPU embedded diode(1) or 3904 transistor(2).
-> +
-> +The CTF2301 is register-compatible with the LM63 family and provides 12 fan
-> +control lookup table entries. It supports 8-bit PWM resolution when configured
-> +for a 22.5 kHz PWM frequency.
-> +
-> +Device tree nodes may declare ``#cooling-cells`` to register the fan controller
-> +with the thermal framework. The cooling state is mapped to the existing
-> +``pwm1`` range from 0 to 255. The driver keeps the current automatic or manual
-> +fan control mode during probe and switches to manual control when the thermal
-> +framework first requests a cooling state.
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 2bfbcc033d59..abb1af8664fb 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -1501,10 +1501,10 @@ config SENSORS_LM63
->  	depends on I2C
+From: Alex Ousherovitch <aousherovitch@rambus.com>
 
-This seems to be missing the THERMAL dependency as suggested by Sashiko.
+crypto: cmh - add Rambus CryptoManager Hub hardware crypto accelerator
 
-...
-> -enum chips { lm63, lm64, lm96163 };
-> +enum chips { lm63, lm64, lm96163, ctf2301 };
+This series adds a driver for the Rambus CryptoManager Hub (CMH), a
+hardware cryptographic accelerator IP from Cryptography Research at
+Rambus Inc. (https://www.rambus.com/cryptographyresearch/).
+CMH provides a broad set of symmetric, asymmetric, and post-quantum
+cryptographic algorithms accelerated in hardware, accessed via a
+mailbox-based Virtual Command Queue (VCQ) interface.
 
-Alphabetic order, please.
+The hardware is a platform device matched via device tree
+(compatible = "rambus,cmh-v1030").  It exposes a single MMIO register region
+(SIC) with per-mailbox doorbell, status, and command registers.
+Each mailbox has DMA-coherent queue memory for VCQ command
+submission and completion.
 
-> +		if (data->kind == ctf2301) {
-> +			msb = i2c_smbus_read_byte_data(client,
-> +						       LM63_REG_LOCAL_TEMP);
-> +			lsb = i2c_smbus_read_byte_data(client,
-> +						       CTF2301_REG_LOCAL_TEMP_LSB);
-> +			if (msb >= 0 && lsb >= 0) {
-> +				data->temp8[0] = msb;
+Driver architecture:
 
-Why keep the assignments to data->temp8[0] and data->temp8[1] ?
+  In-kernel users                       /dev/cmh_mgmt (ioctl)
+  (dm-crypt, IPsec, kTLS, fscrypt)      (key management)
+       |                                        |
+       v                                        v
+  +----------------------------------------------------+
+  |        Kernel Crypto API + hwrng (72 total)        |
+  |   ahash | skcipher | aead | akcipher | sig | kpp   |
+  +----------------------------------------------------+
+       |                                           |
+       v                                           v
+  +------------------+    +------------------------+
+  | Transaction Mgr  |--->| Key / Mgmt subsystem   |
+  | (kthread, CMQ)   |    | (datastore, ioctl ops) |
+  +------------------+    +------------------------+
+       |
+       v
+  +------------------+     +-------------------+
+  | MQI (VCQ pack,   |---->| Response Handler  |
+  |  DMA map, submit)|     | (threaded IRQ,    |
+  +------------------+     |  watchdog, unmap) |
+       |                   +-------------------+
+       v                          ^
+  +-----------+              +-----------+
+  | Hardware  |--- IRQ ----->| Hardware  |
+  | (mailbox) |              | (mailbox) |
+  +-----------+              +-----------+
 
-Thanks,
-Guenter
+The transaction manager runs as a dedicated kthread that pulls
+requests from a central command queue, packs VCQ entries, maps DMA
+buffers, and submits to the least-loaded mailbox.  Completion is
+handled by per-mailbox threaded IRQs.  The driver returns
+-EINPROGRESS for async crypto requests and supports the
+CRYPTO_TFM_REQ_MAY_BACKLOG flag for queue-full backpressure.
+
+Registered algorithms (72 total):
+
+  Type       Count  Algorithms
+  ---------  -----  --------------------------------------------------
+  ahash         15  SHA-{224,256,384,512}, SHA3-{224,256,384,512},
+                     SHAKE-{128,256}, cSHAKE-{128,256},
+                     KMAC-{128,256}, SM3
+  ahash(HMAC)    8  HMAC-SHA-{224,256,384,512},
+                     HMAC-SHA3-{224,256,384,512}
+  ahash(MAC)     4  CMAC(AES), CMAC(SM4), XCBC(SM4), Poly1305
+  skcipher      11  AES-{ECB,CBC,CTR,CFB,XTS},
+                     SM4-{ECB,CBC,CTR,CFB,XTS}, ChaCha20
+  aead           6  AES-{GCM,CCM}, SM4-{GCM,CCM},
+                     rfc7539(chacha20,poly1305),
+                     rfc7539esp(chacha20,poly1305)
+  akcipher       1  RSA (2048--4096 bit; 512/1024 legacy/test)
+  sig           23  ECDSA P-{256,384,521}, SM2 (verify-only),
+                     ML-DSA-{44,65,87},
+                     SLH-DSA (12 parameter sets),
+                     LMS, LMS-HSS, XMSS, XMSS-MT
+  kpp            3  ECDH P-{256,384}, X25519
+  hwrng          1  DRBG-backed /dev/hwrng
+
+The keyed MACs (HMAC, CMAC, XCBC, Poly1305) accumulate input for a
+single finalize-time submission -- the hardware has no keyed-MAC
+save/restore -- and fall back to a generic software MAC (Poly1305 uses
+the in-kernel library) once the input or a clone exceeds a 64 KB window,
+so they are not input-capped.  KMAC has no software equivalent and keeps
+the cap; the driver selects the generic MAC/hash and Poly1305-library
+configs for the fallbacks.
+
+Ioctl-only algorithms (not registered with the crypto API at all):
+  - EdDSA (Ed25519, Ed448): sign and verify
+  - ML-KEM (ML-KEM-512/768/1024): no standard kernel KEM API exists
+
+The driver also exposes /dev/cmh_mgmt, a misc device providing 44
+ioctl commands.  Relative to the in-kernel crypto API these fall into
+two groups; the distinction matters because some commands name the
+same primitives the driver also registers, and that overlap is
+deliberate and bounded:
+
+(1) Operations with no crypto API representation - the large
+    majority.  The crypto API has no transform type or verb for
+    these, so a character device is the only available UAPI:
+      - hardware key lifecycle: create, import, export, derive,
+        destroy, enumerate (keystore CRUD) - no keystore verb
+      - KIC key derivation (HKDF, AES-CMAC-KDF, DKEK)
+      - asymmetric key generation (RSA, EC, EdDSA, ML-DSA, SLH-DSA)
+        and public-key derivation - the crypto API has no keygen verb
+      - ML-KEM encapsulate/decapsulate - no kernel KEM API exists
+      - SM2 encrypt/decrypt and key exchange (multi-step GM/T 0003)
+      - EdDSA sign/verify - not registered with the crypto API
+      - EAC Chip Authentication and DRBG (re)configuration
+
+(2) Hardware-held-key operations on algorithms that ARE also
+    registered (RSA decrypt, ECDSA/ML-DSA/SLH-DSA sign, ECDH).  These
+    name the same primitives as the registered akcipher/sig/kpp
+    transforms, but the crypto API's set_priv_key()/set_secret()
+    accept only raw key bytes supplied by the caller; they cannot
+    reference a private key that is generated inside, and never
+    leaves, the hardware datastore - the central security property of
+    this device.  The ioctl path keeps the private key
+    hardware-resident, while the registered transforms serve raw-key
+    in-kernel users.  The two paths are complementary, not redundant.
+
+The device requires CAP_SYS_ADMIN.
+
+/dev/cmh_mgmt is built conditionally on CONFIG_CRYPTO_DEV_CMH_MGMT
+(default n); when disabled the ioctl interface is absent while all
+kernel crypto API algorithms remain registered.
+
+The ML-DSA sig algorithms are registered at priority 5001.  The
+kernel's crypto/mldsa.c registers at priority 5000 with verify-only
+(sign returns -EOPNOTSUPP).  Our driver provides full HW-accelerated
+sign + verify, so the higher priority ensures the hardware
+implementation is preferred when the driver is loaded.
+
+Power management uses DEFINE_SIMPLE_DEV_PM_OPS.  On suspend the
+transaction manager drains in-flight requests (configurable 10s
+timeout, returns -ECANCELED on timeout), stops the kthread, and
+masks IRQs.  On resume it re-verifies SIC/boot status and restarts
+the kthread.
+
+Dependencies:
+  - Kernel 7.1+ (based on Herbert Xu's cryptodev-2.6 tree, 7.2.0-rc1)
+  - sig_alg backend (upstream since 6.13)
+  - CRYPTO_AHASH_REQ_VIRT (native support, no REQ_VIRT interop fallback needed)
+  - CMH eSW loaded independently by hardware before driver probe
+
+The driver registers all algorithms through the standard in-kernel
+crypto API; in-kernel users (dm-crypt, fscrypt, IPsec, etc.) consume
+them directly.  Key provisioning and hardware-held-key operations are
+exposed to user space via /dev/cmh_mgmt ioctls.
+
+Public hardware documentation:
+  Product brief: https://go.rambus.com/ch-7xx-and-cc-7xx-product-brief
+  No public datasheets are currently available.  The driver was
+  developed against the Rambus CryptoManager Hub Hardware Reference
+  Manual (Rambus Inc. confidential).  Detailed hardware reference is
+  available under NDA from Rambus Inc.; contact the maintainers listed
+  in MAINTAINERS for access during review.
+
+Tested on RISC-V and ARM64 QEMU emulation with the CMH hardware
+model (QEMU TCG, 512 MiB RAM).  Also exercised on Xilinx VMK180
+FPGA board with real CMH IP.
+
+  - testmgr: 41 CMH algorithm registrations matched by upstream
+    test vectors, all pass; 30 names report "No test for" (PQC
+    families, KMAC, cSHAKE - no upstream vectors yet).
+  - kselftest tools/testing/selftests/drivers/crypto/cmh:
+    6 pass, 0 fail.
+
+checkpatch.pl --strict: 0 errors, 0 warnings, 0 checks on all
+files (the only output is the expected per-file "does MAINTAINERS
+need updating?" reminder, satisfied by the MAINTAINERS patch).
+sparse (C=2): 0 warnings.
+W=1 -Werror: clean.
+make dt_binding_check: clean (dtschema validates the
+rambus,cmh.yaml binding).
+
+Tested with the following debug options enabled simultaneously
+(submit-checklist "Test your code" item 1):
+  CONFIG_PROVE_LOCKING, CONFIG_PROVE_RCU, CONFIG_DEBUG_LOCK_ALLOC,
+  CONFIG_DEBUG_OBJECTS_RCU_HEAD, CONFIG_SLUB_DEBUG,
+  CONFIG_DEBUG_PAGEALLOC, CONFIG_DEBUG_MUTEXES, CONFIG_DEBUG_SPINLOCK,
+  CONFIG_DEBUG_PREEMPT, CONFIG_DEBUG_ATOMIC_SLEEP.
+  Result: no lockdep warnings, no ODEBUG splats, no slab corruption.
+
+Additionally tested (separate passes - mutually exclusive configs):
+  - CONFIG_KASAN + CONFIG_UBSAN + CONFIG_DEBUG_KMEMLEAK + CONFIG_KFENCE:
+    no sanitizer findings; KMEMLEAK scan reports 0 unreferenced objects.
+  - CONFIG_KCSAN (arm64; riscv64 lacks HAVE_ARCH_KCSAN):
+    0 data-race reports attributed to the driver.
+
+Stack usage: worst-case under 1 KB on both riscv64 and arm64
+(scripts/checkstack.pl).  Hardware command buffers live in
+per-request context (heap-allocated by the crypto framework).
+
+Alex Ousherovitch (19):
+  dt-bindings: crypto: add Rambus CryptoManager Hub
+  crypto: cmh - add core platform driver
+  crypto: cmh - add key provisioning and management
+  crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
+  crypto: cmh - add HMAC ahash
+  crypto: cmh - add CSHAKE/KMAC ahash
+  crypto: cmh - add SM3 ahash
+  crypto: cmh - add AES skcipher/aead/cmac
+  crypto: cmh - add SM4 skcipher/aead/cmac/xcbc
+  crypto: cmh - add ChaCha20-Poly1305
+  crypto: cmh - add DRBG hwrng
+  crypto: cmh - add RSA akcipher
+  crypto: cmh - add ECDSA/SM2 sig
+  crypto: cmh - add ECDH/X25519 kpp
+  crypto: cmh - add ML-KEM/ML-DSA (QSE)
+  crypto: cmh - add SLH-DSA/LMS/XMSS (HCQ)
+  Documentation: ioctl: add CMH ioctl documentation and register 'J'
+  selftests: crypto: cmh - add kselftest for management ioctl
+  MAINTAINERS: add Rambus CryptoManager Hub (CMH)
+
+---
+
+Changes in v3:
+ - dt-bindings: crypto: cmh: rework the mailbox topology per DT review --
+   mailbox@N child nodes; cores discovered from CORE_ENABLE, not the DT.
+ - dt-bindings: crypto: cmh: adopt the "rambus" vendor prefix and a
+   device-specific "rambus,cmh-v1030" compatible (the IP revision) per
+   DT review; rename the per-mailbox properties to rambus,slots-log2 /
+   rambus,strides-log2 / rambus,cores and the crypto driver-name prefix
+   to rambus-cmh-*.
+ - dt-bindings: crypto: cmh: describe the optional functional clocks
+   (core, core-div2, rt) and an optional host-driven reset-gpios; the
+   driver enables all supplied clocks and acquires the optional reset
+   line deasserted.
+ - crypto: cmh: register the platform driver from module_init() without
+   unregistering on probe failure; propagate -EPROBE_DEFER from
+   of_irq_get().
+ - crypto: cmh: harden the key-management and crypto error paths; fix
+   three transaction-manager concurrency issues found by an automated
+   kernel-style review of v2.
+ - crypto: cmh: further automated kernel-style review fixes (hwrng bounce
+   buffer and short-read, truncated export state, RSA re-key unmap, MAC
+   setkey ordering, CCM fallback alignment, persistent PKE/PQC key buffer).
+ - crypto: cmh: give the buffered keyed MACs (hmac, cmac, xcbc, poly1305)
+   a software fallback past the 64 KB window instead of a hard input cap;
+   KMAC keeps its hard cap and rejects export/import.
+ - crypto: cmh: rfc7539(chacha20,poly1305): always issue the AAD-final
+   command, fixing -EIO on empty-AAD requests.
+ - crypto: cmh: chacha20 skcipher: leave req->iv unchanged on completion,
+   matching the generic chacha20 skcipher.
+ - Documentation: cmh: describe the management ioctls as a permanent
+   interface and add ioctl struct layouts; document the keyed-MAC
+   software fallback and KMAC exception.
+
+Changes in v2:
+ - crypto: cmh: wait for both eSW readiness bits at probe. The probe
+   readiness gate polled SW_BOOT_STATUS for MISSION (bit 6, primary
+   VCQ engine) only, but the sidecar engine signals readiness
+   separately via MISSION2 (bit 7), asserted asynchronously. Gate on
+   both bits so an operation offloaded to the sidecar cannot race an
+   engine that is not yet up.
+ - crypto: cmh: compute cmac(sm4) of a zero-length message in software.
+   The SM4 core mishandles an empty CMAC input, so -- exactly like the
+   existing xcbc(sm4) empty-message path, and per NIST SP 800-38B -- the
+   driver now derives the K2 subkey and computes the tag with a software
+   cipher. Surfaced by the testmgr fuzz comparison against the generic
+   cmac(sm4); no change for non-empty messages.
+ - Documentation: link cmh_mgmt.rst into the userspace-api/ioctl index
+   toctree, fixing a "document isn't included in any toctree" htmldocs
+   warning reported on the v1 posting of patch 17.
+ - crypto: cmh: carry the XTS block offset (xts_offset) inline in the
+   AES INIT command, matching the updated CMH hardware ABI that
+   retired the separate XTS_OFFSET command. Always 0 on the skcipher
+   path (data units start at block 0); no functional change.
+ - MAINTAINERS: drop the internal moderated list (sipsupport@rambus.com)
+   and the T: tree line from the CMH entry, per review. The driver
+   goes through the crypto tree, so keep only linux-crypto@vger.kernel.org
+   and no T: line.
+ - Rebased onto current cryptodev-2.6 (v7.2-rc1); no code changes were
+   required (the merge window touches none of the crypto APIs the driver
+   uses).
+
+v1: https://lore.kernel.org/linux-crypto/20260625173328.1140487-1-skrishnamoorthy@rambus.com/
+v2: https://lore.kernel.org/linux-crypto/20260709203037.1884436-1-skrishnamoorthy@rambus.com/
+
+base-commit: e264401ce4776a288524e5b87593d4d864147115
+-- 
+2.43.7
