@@ -1,115 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5E61DC985;
-	Thu,  6 Aug 2026 00:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145F5346E7A
+	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 00:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785974866; cv=none; b=bE5rklQkEvMBwZsqRlBZ9qhV3pWEkSQviH6pKA4nPVy62wMnvdIyyk3GuK10YKGNiOc8gqTi77HqXkcmO4BG7lSFSZySh8oMJvlC3GZ1OMxlRcGq87dx64kv8uWRfx2hN+LuO6UGSKZNFpzwoXu1OJRjwX+RxZQ4vWQpmu3Visg=
+	t=1785977033; cv=none; b=HGFxB36ta1GIDCEw5CNi/8N4dSZ+MRsjFOBWoFawmdX9nKhE8hEgQ7T54XZPyJrF7YBgWNZ3FGtPPP4MI/FCDXHCWNzCnvoNQ+ueNwQNAHQ8kWOOXx4PBlIo5kK6HDyQL9rMwzrnoGq9wXfKjcvUEztiI7wDRm/GuadBoSbrmB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785974866; c=relaxed/simple;
-	bh=wXylmxewTYBhW4McsYwSxB07thOf9YPPTzqAKwpV7CM=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=bWo+ShiUAwGLvhxPiP51O84s7kjglVxSIgB7eTFpKicwEnn84g8kQkTlU+EXYCUqumuyi1CV8Ts6arEMjBE1T7p+0NdzT+nwdL8kTXXjlZgQneVes/SUUKDfy42xh8GMmgE6y6BowvjGJ0oQ1AWQKlK0inFAwcu2I6Kg1ui2syg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Llm3elE3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785977033; c=relaxed/simple;
+	bh=MOBnrAzJHjAXv0busTUd8AQe2wVTRESDC3GYmdGx6Jc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=pqT4YUaYAtv/wZ85y1YOflWK9x/CJvMnt1rBGL8kODlLApVnCrPXDDO/Z57iCuZ9oyUvHkoZsX7pCOYrOFo1TW63jo6E1m9GIQvxYYYRH1mbk6V2kFS9AlxJacTxFxlbPY6ZcFd0LRyqmcb+2oyzzGQb11RN3YDF7mmkl94JIt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s9W9uVBX; arc=none smtp.client-ip=209.85.215.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Llm3elE3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21491F000E9;
-	Thu,  6 Aug 2026 00:07:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785974861;
-	bh=r+o9nSPE+sJH2kzglqwMqLUgDYGI789gXecC5Xqpk6w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Llm3elE3wFD7YihG80E3v5sG8LzhTCZUzU3Ki+1LsQx58AYxocc+uJ2O/6jIjhfUb
-	 ZisjrRW1ov2NxVyFev1yXhwzpW70EB304yTDUfdBVCOfMfzaFQTMQlOcDlNhnC1l0v
-	 lvsMBneqTn2/QyFpPy0aDB6qvniMJnnLWYzTQ0g6VLGmfw7VRWH51qTMtPwaohdBhf
-	 DNsC2l3OeoFPMbfkkUJGOsxARFThUa7Mp3cpWcs6RsDGxjvZVpzwiZ5ULL/FC6Gk7Z
-	 rd5Oyq8DbfW3v0KoUMtjYZon3tBbn1KrPECXf4+7hpGTmH1S75fXwDbeWx8Qt2TlBS
-	 RsGntYqXCwixg==
-Date: Thu, 6 Aug 2026 09:07:35 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
- x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v11 01/11] x86/hw_breakpoints: Make DR7 updates NMI safe
-Message-Id: <20260806090735.0ee427ef5c18445b89d2f3cd@kernel.org>
-In-Reply-To: <20260803230723.GI687043@noisy.programming.kicks-ass.net>
-References: <178565870538.714490.11309825813968306287.stgit@devnote2>
-	<178565871750.714490.5506415865016304088.stgit@devnote2>
-	<20260803065744.GU49951@noisy.programming.kicks-ass.net>
-	<20260804075517.1c1c9e2dc6ff66e0e73f946d@kernel.org>
-	<20260803230723.GI687043@noisy.programming.kicks-ass.net>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s9W9uVBX"
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cb11535e6a1so1394038a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Aug 2026 17:43:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785977031; x=1786581831; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GW1XyS3pE1vmBMrFND4uaqlT60WFAOcGNZed7ARn/tI=;
+        b=s9W9uVBXMZADMYL3esIoidDW/3wdqPJ/VWnjeAbH6rJQJRQPL0AggH0/MOCz7FWeoV
+         EGW4WNmQRuMx2WRkobs6JklVdkd+HnuAtR8jtJ4gUbjU23NQXBvQlRiBLlu8KpzKJc1G
+         XUx5jKHagJDb77xXRqa877eee8TI6vhVWvZHj0OBitBkg8QBF3NnBLs+k1wcrnH1WrKL
+         Xba3KfjDaCPDRtpnL5ff33HcpEBLdJPB3hzbvB37BGUJNXddi1+omIEmN9n8Qnw3NCYi
+         L3wzawiNBzx2tbrN/pDuO+IiJRzFiJ5msDIUPSakKdCbGAicfGYnrwjwmfFT+s7HPha/
+         aMog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785977031; x=1786581831;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GW1XyS3pE1vmBMrFND4uaqlT60WFAOcGNZed7ARn/tI=;
+        b=N01zDn5ArESB0hiUF/GS1bqqdVE3j5OWUrS1dpc06H/TgeAKjH2aEASxCd5BIXyJo5
+         vCgpz9RP0g13+yYPCTj5fYs71TB5Tz2PFsqJgV5Jess0f4WWIjoCF914LqvKlQFVM+uT
+         VBB8FnnUznaroTIKyejmvKyOEby/OJBxOgoC1tkUj0+zyl2H1NKl1W5vFaR53TKEqDgC
+         3ZP86nLTi+njAFZ+wqooniXJYMUG37DyfCQM5xW/iQPDUhxPxhcr6PCeU4C44/gHCnov
+         +QLvF3h976Q6098uEc4/XESVeT+Dl/d9cOcXCGJrJIrULk9DcinUEzE/h+P5q4c7zHky
+         IYcQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpePepYLAw2mGvbhp4qXAZ4pAKRWGn44Flp3TCisRrYi6pI+mSZJUF9R86RkFOiO5gReps0Cm8vB3w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUgZrERH0kHr1EfN7WsINP2xJ1STIhIINwiLAqndm/HDNxmVXW
+	TurjAYyy6UoqMFh3qXl83ijzbKvFDBYyOyut00Tr0+kMUr+BSPwopyLfC4j8VyCYhH1J84p7iUx
+	3tKbLmw==
+X-Received: from pgki21.prod.google.com ([2002:a63:e455:0:b0:c9e:9c6:a85e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:6112:b0:3b4:e4f6:4f15
+ with SMTP id adf61e73a8af0-3cb85e9922cmr13235742637.5.1785977030773; Wed, 05
+ Aug 2026 17:43:50 -0700 (PDT)
+Date: Wed, 5 Aug 2026 17:43:50 -0700
+In-Reply-To: <b9ad1a1d-c167-4adb-980b-90096515a363@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
+ <20260728-gmem-inplace-conversion-v9-3-35f9aec2aed2@google.com>
+ <7dafaa90-f3d4-4be4-a5cc-472163f18040@intel.com> <CAEvNRgG3qXrG2ix2MEcyVo0GXaen-Pte4gFAwEN+9AY=VtGU5w@mail.gmail.com>
+ <b9ad1a1d-c167-4adb-980b-90096515a363@intel.com>
+Message-ID: <anPYxp-LMWaLDbMk@google.com>
+Subject: Re: [PATCH v9 03/41] KVM: Enumerate support for PRIVATE memory iff
+ kvm_arch_has_private_mem is defined
+From: Sean Christopherson <seanjc@google.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 4 Aug 2026 01:07:23 +0200
-Peter Zijlstra <peterz@infradead.org> wrote:
-
-> On Tue, Aug 04, 2026 at 07:55:17AM +0900, Masami Hiramatsu wrote:
-> > On Mon, 3 Aug 2026 08:57:44 +0200
-> > Peter Zijlstra <peterz@infradead.org> wrote:
-> > 
-> > > On Sun, Aug 02, 2026 at 05:18:37PM +0900, Masami Hiramatsu (Google) wrote:
-> > > > From: Jinchao Wang <wangjinchao600@gmail.com>
-> > > > 
-> > > > Hardware breakpoint installation and removal run with IRQs disabled, but
-> > > > an NMI can still enter the same code through KGDB. The interrupted
-> > > > operation and the NMI can consequently claim the same slot or overwrite
-> > > > each other's DR7 state.
-> > > 
-> > > Is KGDB really the only way to trip this? Mostly I think we let KGDB
-> > > have the pieces if it does something 'funny'.
-> > 
-> > Hmm, I think even if so, this detection is better to be handled in
-> > hw_breakpoint layer. And I plan to use this from kprobe events,
-> > which is also a kind of NMI.
-> > 
-> > > 
-> > > > diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
-> > > > index f846c15f21ca..9ef24b55737f 100644
-> > > > --- a/arch/x86/kernel/hw_breakpoint.c
-> > > > +++ b/arch/x86/kernel/hw_breakpoint.c
-> > > > @@ -40,6 +40,9 @@
-> > > >  DEFINE_PER_CPU(unsigned long, cpu_dr7);
-> > > >  EXPORT_PER_CPU_SYMBOL(cpu_dr7);
-> > > >  
-> > > > +/* Sequence number of the per-CPU DR7 state. */
-> > > > +DEFINE_PER_CPU(unsigned int, cpu_dr7_seq);
-> > > 
-> > > > diff --git a/arch/x86/kernel/nmi.c b/arch/x86/kernel/nmi.c
-> > > > index 3c9f60d6ca5a..f55a0cbd5927 100644
-> > > > --- a/arch/x86/kernel/nmi.c
-> > > > +++ b/arch/x86/kernel/nmi.c
-> > > > @@ -532,10 +532,13 @@ enum nmi_states {
-> > > >  static DEFINE_PER_CPU(enum nmi_states, nmi_state);
-> > > >  static DEFINE_PER_CPU(unsigned long, nmi_cr2);
-> > > >  static DEFINE_PER_CPU(unsigned long, nmi_dr7);
-> > > > +static DEFINE_PER_CPU(unsigned int, nmi_dr7_seq);
-> > > 
-> > > This is weird, why have two distinct sequence numbers for dr7?
-> > 
-> > nmi_dr7_seq is for sequence number of operation, which is for
-> > detecting dr7 overwrite in NMI.
-> > nmi_dr7 is for saving the DR7.
+On Wed, Aug 05, 2026, Xiaoyao Li wrote:
+> On 7/31/2026 4:34 AM, Ackerley Tng wrote:
+> > I think another way to phrase this is that if we don't make this change,
+> > say, on the foo architecture where there's no CoCo and no private mem
+> > support, kvm_supported_mem_attributes() would return true for the !kvm
+> > case, which is over-reporting.
 > 
-> I mean cpu_dr7_seq and nmi_dr7_seq.
+> Under the condition that the foo architecture enables
+> CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+> 
+> > How about this, replacing the entire changelog paragraph above:
+> > 
+> >    Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE
+> >    based on kvm_arch_has_private_mem being #defined. This improves
+> >    reporting accuracy by not reporting support for
+> >    KVM_MEMORY_ATTRIBUTE_PRIVATE when kvm_supported_mem_attributes() is
+> >    called with kvm == NULL.
+> 
+> It doesn't help for the case where kvm == NULL, but help for the case where
+> CONFIG_KVM_VM_MEMORY_ATTRIBUTES is defined but kvm_arch_has_private_mem not.
+> 
+> sorry for being picky. I think we can say
+> 
+> This improves the reporting accuracy by avoiding the case where
+> KVM_MEMORY_ATTRIBUTE_PRIVATE is reported when kvm == null even without
+> kvm_arch_has_private_mem being #defined.
 
-Oops, Indeed. Let me fix it. Thanks!
+How about this?
 
+Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE based
+on kvm_arch_has_private_mem being #defined in anticipation of tracking
+PRIVATE vs. SHARED state per-guest_memfd, not per-VM (to allow in-place
+conversion).
 
+guest_memfd support for memory attributes is expected to be unconditional
+to avoid yet more macros (all architectures that support guest_memfd are
+expected to use per-gmem attributes at some point), at which point
+enumerating support KVM_MEMORY_ATTRIBUTE_PRIVATE based solely on memory
+attributes being supported by KVM at-large would result in a system-scope
+check (NULL @kvm) over-reporting support on arm64.
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> >    Give architectures full control over overriding the default definition
+> >    of kvm_arch_has_private_mem() by removing the coupling with
+> >    CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+> > 
+> >    In a later patch, kvm_arch_has_private_mem() will be defined based on
+> >    whether architectural features are compiled in, and made orthogonal to
+> >    CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+> 
