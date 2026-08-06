@@ -1,84 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290373AB289;
-	Thu,  6 Aug 2026 01:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0100738E8A6
+	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 01:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785979274; cv=none; b=XZpLJHjOpBzythc6cX6eQ9TpzHxD2awE3zlIM62tCs+iooxzqOE15elLbCL4S/GELnHIuqlVXvj6CLGm64tNkIi8HbBLX0Y7bVTlANtuJEVwBk0NukBROlqO3RAx5hwY6Mf81yWD/6n5JCt8LVdsZu1GxJtmr9LMa2ZyI71yfus=
+	t=1785979867; cv=none; b=QrJgeRArzG1vTQwXkkq92waLEAVmDiRKc4x4KeFLx7BgDavH2O1Al4QyANfEXwlC1UGDbzNlTcs5Ke8kaA33La1MymZzqXHV8E1WdEDrZID7A9emh+vNyE3dgZW9m1sRlv4AWZqHnqNnbYG4/AE68aerKruy+/1/QcvSGPJrf+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785979274; c=relaxed/simple;
-	bh=0P6er77yxOQAHda1I+NPlreAN19z90eBknaLSRxsUAM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kuQwdhEPFx/5hPfSA/N4uZxxAtaJiDL7jljoL17Ps0ngdMRnk8VCgZi2NcPm9YrueqBfYZHW/pTY9miq++kJHzmMUtCzdRi/EnsPaY9D2h+WvJu5AoZsu9PdR2OOSnYe9r2gXb2gAt0bmdbbYbSVyAHJX+6w6VagNLLbV1jsUH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuJaJ7Ca; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785979867; c=relaxed/simple;
+	bh=zxWjcb4X1Iw9tXimIVoDts6LOLbhiIXv7ohDFx0fCa8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=BMMN/TKwYXetmetwuiNNQiQNJRf1dJpcPjX5k8jw0E3pEf46vDwv6HpsXTlkdOyvgAZXLmP0OXwcKOLL32pZ+L40MiuUg8sMqDPNOHs+GTRS8ACXb5ZLylL7HrutjfL0zvI1gPEiGHzhanMjT1tOtdO9TaEU6SqloXeZ2cYl15k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hiAM6j6d; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuJaJ7Ca"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0961F000E9;
-	Thu,  6 Aug 2026 01:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785979272;
-	bh=hDGqstzzjBKEwA87lDJOzh7sqG1Xvv3RgfgKzbRXTKc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=ZuJaJ7CaSUNULH/y7SLUAu0fEGbuBeEu7FyezYtiybDTQ8Pa/foOX0STx0NeHytEb
-	 l93xuHs0Z+E9Z7Vc/TnyskljCazpEUdompRI91EEwPFabhE6+bBP8onlxT+Y0OXKEG
-	 iGa3n1WDx51n1WNF7xMhNBB9O+udscqJ0jggSotCNIJ/GrhzNzapRPgXUBj59cK3jW
-	 6+W+4GyKkPhv9+fOjnWBBMecce3rdE441E4hgON18UuyHDU4ggVzAZZ389yLe/x9/T
-	 ikjF9UEL2cNoxo++KOjOxXCBf+/WmS2FEyqCt+5JakJ/b0bHxqVS/Ii3Y4nN3zfgD0
-	 tKbEbA80Pc0ag==
-Date: Wed, 5 Aug 2026 19:21:02 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: Drew Fustini <fustini@kernel.org>
-cc: Paul Walmsley <pjw@kernel.org>, Adrien Ricciardi <aricciardi@baylibre.com>, 
-    Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
-    Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
-    Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
-    Chen Pei <cp0613@linux.alibaba.com>, 
-    Conor Dooley <conor.dooley@microchip.com>, 
-    Conor Dooley <conor+dt@kernel.org>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
-    Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
-    guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
-    =?ISO-8859-2?Q?Kornel_Dul=EAba?= <mindal@semihalf.com>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
-    Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Peter Newman <peternewman@google.com>, 
-    =?ISO-8859-2?Q?Radim_Kr=E8m=E1=F8?= <rkrcmar@ventanamicro.com>, 
-    Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
-    Samuel Holland <samuel.holland@sifive.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
-    Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
-    yunhui cui <cuiyunhui@bytedance.com>, 
-    Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
-    linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-    x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 3/8] riscv: Add support for srmcfg CSR from Ssqosid
- extension
-In-Reply-To: <anOiJHmU24Lpbizi@x1>
-Message-ID: <c6d85325-7ba6-57f3-62e0-9ae843c98cf6@kernel.org>
-References: <20260729-dfustini-atl-sc-cbqri-dt-v6-0-7c22b05d461b@kernel.org> <20260729-dfustini-atl-sc-cbqri-dt-v6-3-7c22b05d461b@kernel.org> <3b6dd35e-dabb-3cb0-547f-0c8a0b035e1a@kernel.org> <anOiJHmU24Lpbizi@x1>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hiAM6j6d"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785979861;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=97O2rgb7/Rt9aFUmLp5hoCt8bE+pGi8HovBA2l4IRR4=;
+	b=hiAM6j6dtnreiKNgEseMfGUMBjLobCrz6PcTAj1gOENH90tAMG749sgZD6PM8ozc9VAVTb
+	8eZJmH7l8PfcPhYvua6U/abETBnarhOXYvuiauahrye7QFGD5aCOzYxkVffeFJmhnyz7n0
+	FGyMbIH2M2AqdVTUkuvCxpf2nu6qhZE=
+From: Ye Liu <ye.liu@linux.dev>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs/zh_CN: sync page_table_check.rst translation
+Date: Thu,  6 Aug 2026 09:30:55 +0800
+Message-Id: <20260806013055.2690464-1-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 5 Aug 2026, Drew Fustini wrote:
+From: Ye Liu <liuye@kylinos.cn>
 
-> Thanks for queuing this patch. It is okay to leave out the READ_ONCE()
-> since only Patches 1-3 are being applied.
-> 
-> The READ_ONCE() is meant to pair with the WRITE_ONCE() in
-> resctrl_arch_set_closid_rmid(), which comes in patch 5. RCID and MCID
-> share the srmcfg csr, and resctrl can update thread.srmcfg from another
-> hart while this task is switched in.
+Update the translation of page_table_check.rst to reflect changes in
+the English original, including the clarification on corruption
+detection and the new paragraph about userfaultfd wr-protect
+verification.
 
-OK thanks, that makes sense; I've put it back. 
+Update the translation through commit 8430557fc584
+("mm/page_table_check: support userfault wr-protect entries")
 
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
+---
+v2:
+ - Update the commit message.
 
-- Paul
+ .../translations/zh_CN/mm/page_table_check.rst         | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/translations/zh_CN/mm/page_table_check.rst b/Documentation/translations/zh_CN/mm/page_table_check.rst
+index dc34570dceff..7ba5a39db487 100644
+--- a/Documentation/translations/zh_CN/mm/page_table_check.rst
++++ b/Documentation/translations/zh_CN/mm/page_table_check.rst
+@@ -21,9 +21,13 @@
+ 当新的页面可以从用户空间访问时，页表检查通过将它们的页表项（PTEs PMD等）添加到页表中来执行额外
+ 的验证。
+ 
+-在检测到损坏的情况下，内核会被崩溃。页表检查有一个小的性能和内存开销。因此，它在默认情况下是禁用
+-的，但是在额外的加固超过性能成本的系统上，可以选择启用。另外，由于页表检查是同步的，它可以帮助调
+-试双映射内存损坏问题，在错误的映射发生时崩溃内核，而不是在内存损坏错误发生后内核崩溃。
++在检测到大多数类型的损坏时，内核会崩溃。页表检查有一个小的性能和内存开销。因此，它在默认情况下是
++禁用的，但是在额外的加固超过性能成本的系统上，可以选择启用。另外，由于页表检查是同步的，它可以帮
++助调试双映射内存损坏问题，在错误的映射发生时崩溃内核，而不是在内存损坏错误发生后内核崩溃。
++
++页表检查还可用于对各种标志进行页表项检查，在检测到非法的标志组合时输出警告。目前，userfaultfd 是
++唯一的使用者，用于对 wr-protect 位与任何可写标志进行一致性检查。在这种情况下，非法的标志组合不会
++立即直接导致数据损坏，但会使只读数据变为可写，从而在后续修改页面内容时导致损坏。
+ 
+ 双重映射检测逻辑
+ ================
+-- 
+2.25.1
+
