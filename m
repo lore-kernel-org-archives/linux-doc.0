@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF562F0661;
-	Thu,  6 Aug 2026 13:38:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA7530E0F2;
+	Thu,  6 Aug 2026 13:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786023494; cv=none; b=RNfgIoU7UOZcr/dA7P48gedXMGLh+KMib4vYcXTEzglOLMPT8N/A3RF6m8Huai5Qu3gbHR+iUKHgHsK+jeYxnaapqbBZmyMO3u/D/hzhk11m/04FZZt0vq1lRWVwMXvU1c7335XAKhNSpxZlGj3PPeJKk2SmCXcHXQP/1g96XtA=
+	t=1786023750; cv=none; b=c53zGsHnsv5/JxZBL/NbLTOm19oYyLrRdKb0B8SmjTe97Og4l4xKS4229lj8RTAzj6p6jtfD0FoTJluVgq+U4DgC2PQzWv1m48zi1+q9PvCW3rW5b2+RgJxNmFFy48BjDJr5DYGtFsmuA1is/3dERP3m4fvLkDVODVWpDFfPb6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786023494; c=relaxed/simple;
-	bh=yB4Ur0hZohOjTC4gaDnzn/O3bwYGXZ1KrTpsAW8Ykxw=;
+	s=arc-20240116; t=1786023750; c=relaxed/simple;
+	bh=een6lFaAPc1fcqKrgq9p/CgYVRDltT//2kqwv76cccA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bj47BK0nqJNgyPEK++VAGjosiG6mEyks6+kj2edsm9raVf7c2myBMRXfGXml9mTh/s65Lb50ISxd1lpRUN3Hs4FHDG5awXh2fqQmdQIkn7ptLZIbRT33Jdx5r11VfXe7CDe2gGcAqUkMJivGzrNrfxlQMZ0eNPXYNP8KqbNWJWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+H2uClb; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=q+dZwQoWB+tCHgZuMOHiXeVsDpDnQo8YV/AMr+xnlsM1t9BEi4v3UgMl2MHZd0HOXS4oU3U9F7dfXW3++D22Ai6jwABgjUzAKw+MofUNTHabIHMo9iRrKL5deGbfUSFlS+C0aWJEuRuQAIen4FVuYIGNTBrldpM98C8+Wcdz9wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=op9s3D08; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+H2uClb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EAB51F000E9;
-	Thu,  6 Aug 2026 13:38:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="op9s3D08"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0581F000E9;
+	Thu,  6 Aug 2026 13:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786023493;
-	bh=NWz/cApfw5KEvVt3CONwJTdpcBFR/sFDxLGxiU8Jc8A=;
+	s=k20260515; t=1786023748;
+	bh=rhms/CncUEbTJbEN1GalhQ1XaoUDp8JHYdDp0s1oW/s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=e+H2uClbj28vgJXpuA1NLeii6LJaOAi2uIkd6dWHvK/jORTGh759PpPPgJ1VMIVG+
-	 A+EC7jMjESUiBGq9Fiuphw2n1wfFROxy1M3sk8glOsWr/ZCjtmd8LKOx1qwhAkziAY
-	 s8PJMf12DFEtLWNtbXrEqXHgLbO4hIrDpMDnP82B2tltTu04GMlmlg6czmntPz+Bs6
-	 Al/H8ak/Mr7/OeRhjiXt4c5pLasSh0vMlKUiqB74ozIB+9H1cZdNT9Fjl250Glmd9m
-	 Rtyq5mhAAAx6sAt7hrx6Qd5wyyp9oiI7g8gWE0kVN4C5EquH/7y06OUXmfnxPNfn0u
-	 L2JyWWTMpeS6A==
-Message-ID: <1a0cba58-5d0d-44f2-86ab-3081601623bf@kernel.org>
-Date: Thu, 6 Aug 2026 15:38:05 +0200
+	b=op9s3D08TfnwWI74/l/IpPsxqeubCMK8JCfVnyqT0sYzdrruHoDsVhMXR7N1ZuwbI
+	 3J9i7J9w/mSSa2F94YHlbn8q6Njb9tpePv/2d8ZogA2XJZ9/GRprdfmtcKZB2+EJtQ
+	 2M+a90+1PTQwHh7syrozGAX4yyWpEWNpNx4Fr6O4lHAjX3PDoK3Z/xwrp55RMsdNFi
+	 bPjpggqKFjmHRNwEJbcTY9z3hIVn3g1fnnu8aok19rN3UpHAPkxIzPOCtAct0/v9Ut
+	 +6tqywMYRqJL1aiUhrPrmxEwX5CwTQsNPqZfKid3cWiDQIrBbyUdsoTXjO0uHHk/o4
+	 s+/G4xESIzjFw==
+Message-ID: <26a86c05-e9ac-4bf0-af5b-da06ce644a76@kernel.org>
+Date: Thu, 6 Aug 2026 15:42:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/7] mm/khugepaged: introduce a count_collapse_event()
- helper
+Subject: Re: [PATCH v3 4/7] mm/khugepaged: fix outdated comments
 To: "Nico Pache (Red Hat)" <nico.pache@linux.dev>, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -49,7 +48,7 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
 References: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
- <20260804-khugepaged_pte_refactor-v3-3-0364cad642a0@linux.dev>
+ <20260804-khugepaged_pte_refactor-v3-4-0364cad642a0@linux.dev>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,21 +95,33 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260804-khugepaged_pte_refactor-v3-3-0364cad642a0@linux.dev>
+In-Reply-To: <20260804-khugepaged_pte_refactor-v3-4-0364cad642a0@linux.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/4/26 21:25, Nico Pache (Red Hat) wrote:
-> Provide a simple helper function to help reduce a often used, and
-> duplicate pattern across the khugepaged code.
+> Fix comment in collapse_scan_pmd() that still described the old
+> folio_mapcount() > folio_ref_count() check and a "512" false-positive
+> scenario. The code now uses folio_expected_ref_count() != folio_ref_count()
+> which doesn't suffer from the same limitation.
 > 
-> When collapsing to a PMD we need to record a vm_event and the mTHP_stat
-> event. When doing mTHP collapse we only update the mTHP stat.
+> Fix comment in collapse_huge_page() that referenced ptep_clear_flush,
+> when the code actually uses pmdp_collapse_flush.
 > 
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Fix comment in __collapse_huge_page_swapin() that referenced the old
+> function name khugepaged_scan_pmd, now collapse_scan_pmd.
+> 
+> Also clean up some simple typos and stale terminology (mmap_sem ->
+> mmap_lock, PG_lock -> folio lock, page -> folio, grammar).
+> 
+> We also clarify a comment regarding where the max_ptes_none check is
+> deferred to in mthp_collapse() from the original collapse_scan_pmd check.
+> 
+> Update all comments that references a function to include parentheses.
+> 
 > Acked-by: Usama Arif <usama.arif@linux.dev>
+> Assisted-by: Cursor(claude-sonnet-4):4.6
 > Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
-> ---
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
