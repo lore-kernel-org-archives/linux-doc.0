@@ -1,200 +1,432 @@
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6248E386435
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 13:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7251332EBD;
+	Thu,  6 Aug 2026 13:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786022427; cv=none; b=MhNaqFPkUmB5Zup3RpE6aQEoJge2E6SIy3QSdECr86ang4BS0IsY1ukVChDfZTaZm17FxqSVfovmkfMhD/Vae1/Hl5qlFWErnoy9BOkig7HYEnasc+JSrrd148bNnaA5+/Jtbz1idpZwkU7WbtB6oLKvpu3biODgbR645yTSgGA=
+	t=1786022599; cv=none; b=dMwUBacoeJkbdxMzOWPhUUa0Ba1NX9oHg++U7dERXE/C7mRiI5X3iV+5R32LRWD3hs2VoJVNlegHOAq/3tzw+l6dwwWRgNWUys4aG1Aa4W/cyOSzPa3RGMsa8QpVjfx1Hryah560TTLzo4MwR6u5fV8iFBjaDQQ/V9/fEr9oIx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786022427; c=relaxed/simple;
-	bh=/Jh5oYlubsywuVmQ5YDdqkn0evsJEQYRz4nFdjoYIFk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=grkKN5JFBVAWCUXDXmkNteNvCZl4vILa0m0y37dRFPiYJHijp1czfeOm9/HhsItsASWCn+3F8NeIJ6qxd3xfWm0/8GH4YXXUs0f8N3qMyt1Bag4BO5vN0Jsq9RzDIBXwZp1nSmXX14dbHiErn5z+wRPHzYtXK8bXvqcg71xddsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D1byBUH7; arc=none smtp.client-ip=209.85.210.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D1byBUH7"
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-84e13b57b2cso2745294b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 06:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786022417; x=1786627217; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=quMxwgvzS8F8CxQzPIpHc+hBSqfVyEO+f6ARjKTQRm8=;
-        b=D1byBUH7rhMNbdLarcIo2F/MsOXYOEPyXeY+6+x/GiEXIJoBjTRlBaVdK+7cwRD1jd
-         RpiQZKlSrwUHSx6vEl6JrUiPikI9JuQSWm5atoi9VR52Vi2ReT090mwH2GuDPXUqKvxY
-         8/aXK8AK6ziAu1ZOTEpfvxHeohVtHGjDUIWsKRTbTy0kslhg3t248Uu88Q9XZbEONLYU
-         Zsre/Wn0z/1QV1rxgRtZzOq7igMLsgeNTsuNDU33xuDpuRHPIM4rY7tG3qdISx4F5T3n
-         ZAiDSdbMMM3GP2lDxo3/V+Jq/Wj54gEYJ6sGAkQRyTqGxv3o1XZdgmZpgmbvjK+bphia
-         x49w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786022417; x=1786627217;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=quMxwgvzS8F8CxQzPIpHc+hBSqfVyEO+f6ARjKTQRm8=;
-        b=YLQwOuL/rMmHNF5awyEGsuXEwMCepWdtnMmAvKc96X0mpwzfkbDtsJfBWS2GlSqNMp
-         /W78+uSO+gC+34uX138euNFPG5FYoBoyCYt6n6ovxaoVabGHFVeEgvEqITGPO4suk+9x
-         XR6h94KKTUPZQy2bW51rrTuqEmcWTkXTWSYIsLEkoeELos5grbjcwHMiUOm1SVxHuG+O
-         rEjrp2GysH2heiXjqlSkdptVCWn4CtJX0lCSG9x6NF7COKIl8j7+l352DZNFsI8t58zD
-         /OQ66LxnnDAG71J75VanpH1I2zqqX+wV49Ir+UgL3aYgNTIZIJDFIGOeMCSfoArtMhNx
-         /0yQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5PuGjk1TIyb+9KX90aDSHm7sQwkviwmzY9wE74mKM5RIq5+lKew2yFrGHatNeeFTxZJVDtocRIEQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMySC6Jb8GEQT2SyPXldhLcAKgaRkYHecMqpF27+KA1CzvyzGV
-	UpYEdid0NnyUarp1vVRZWri/BGTwJU743DtOnFq3cYvmMnfYLLUj/d3QCw9qYh9iHYPWMMNSz9U
-	62bQZJw==
-X-Received: from pfbcj19.prod.google.com ([2002:a05:6a00:2993:b0:84c:3651:a4b1])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3ccd:b0:845:c7f1:29fa
- with SMTP id d2e1a72fcca58-84f2e04a63bmr16001363b3a.30.1786022416699; Thu, 06
- Aug 2026 06:20:16 -0700 (PDT)
-Date: Thu, 6 Aug 2026 06:19:45 -0700
-In-Reply-To: <fda26964-721d-4a8c-9225-46ca3a5b2785@intel.com>
+	s=arc-20240116; t=1786022599; c=relaxed/simple;
+	bh=5InyUl5W0jLvoAx9w8BZWnekydhALDFIUIOZUziCFU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tEwwDKp+9vJVLp8yrH2/6wSsZho1UsmFO9peYWFD8Ju0iZ752omb0lS8a5zsn3Wma1aE9Op8EdU5rVP0IHLubcJA2fnXSilQtjgJn1Bv2wGFYvJnUnnVgA5X89eHY/8WTohg4V/abD5d0ctMTdqIDiYekDhufZQEzpjZh1VsD04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 457861C1436;
+	Thu,  6 Aug 2026 13:23:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf01.hostedemail.com (Postfix) with ESMTPA id 36E5360010;
+	Thu,  6 Aug 2026 13:22:50 +0000 (UTC)
+Date: Thu, 6 Aug 2026 08:22:48 -0500
+From: John Groves <John@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+Message-ID: <anSJef-23hvo3okz@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
- <20260728-gmem-inplace-conversion-v9-3-35f9aec2aed2@google.com>
- <7dafaa90-f3d4-4be4-a5cc-472163f18040@intel.com> <CAEvNRgG3qXrG2ix2MEcyVo0GXaen-Pte4gFAwEN+9AY=VtGU5w@mail.gmail.com>
- <b9ad1a1d-c167-4adb-980b-90096515a363@intel.com> <anPYxp-LMWaLDbMk@google.com>
- <fda26964-721d-4a8c-9225-46ca3a5b2785@intel.com>
-Message-ID: <anSJ1lLS0HZnfjCt@google.com>
-Subject: Re: [PATCH v9 03/41] KVM: Enumerate support for PRIVATE memory iff
- kvm_arch_has_private_mem is defined
-From: Sean Christopherson <seanjc@google.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806043712.GB3560084@frogsfrogsfrogs>
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 36E5360010
+X-Stat-Signature: shjbta4o48sxj74rzcf84bmuf9m9kkhm
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18CNzZzCcvFvDKrpIBpdeDzhRyo6ppcLJ8=
+X-HE-Tag: 1786022570-514801
+X-HE-Meta: U2FsdGVkX1//78HpFSnURyveHl0WDWBrl5XmaV5ySoWTonC8Cd/MPvj1KnaCN5R6Mf1Ldc1ejYuMv2EX0TqJl96ntffOg/JEGWJlJPO208TIntX8pJVRnTBURMpby7cVQBmq1KBEmoj6W4bot816mU2TDDU60w6lWL0xT+vwPMA4w5iGteTaplpQNjlBeT3rozb/ebDOteQ0n01itanLO0xMBVsj8EjQeOHrgv7qfTIivI2EoJO5YjtR8yIu6D186+D7NFbM9b38MJ8seJkcgqYGI1lY2c0rKwqf8cqViTG+VU/ACfNiSzmW+uK88sID6x2dDzIufR7MOEOt94I5Qppo+CdKmuZXdzARCaXPHW8wXPUlQ9zSpLHRvy8fkQaHLe5OYi8BuUh3BrpFU8CEqMC13K75ftUVL6ONo9QQbsvOsKIOTWD2egnq2SBZdOkC4B3kL/8utQ/DdyR0mCm8iI8jeDG/r8XA4WMqxp8Btjg=
 
-On Thu, Aug 06, 2026, Xiaoyao Li wrote:
-> On 8/6/2026 8:43 AM, Sean Christopherson wrote:
-> > On Wed, Aug 05, 2026, Xiaoyao Li wrote:
-> > > On 7/31/2026 4:34 AM, Ackerley Tng wrote:
-> > > > I think another way to phrase this is that if we don't make this change,
-> > > > say, on the foo architecture where there's no CoCo and no private mem
-> > > > support, kvm_supported_mem_attributes() would return true for the !kvm
-> > > > case, which is over-reporting.
-> > > 
-> > > Under the condition that the foo architecture enables
-> > > CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
-> > > 
-> > > > How about this, replacing the entire changelog paragraph above:
-> > > > 
-> > > >     Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE
-> > > >     based on kvm_arch_has_private_mem being #defined. This improves
-> > > >     reporting accuracy by not reporting support for
-> > > >     KVM_MEMORY_ATTRIBUTE_PRIVATE when kvm_supported_mem_attributes() is
-> > > >     called with kvm == NULL.
-> > > 
-> > > It doesn't help for the case where kvm == NULL, but help for the case where
-> > > CONFIG_KVM_VM_MEMORY_ATTRIBUTES is defined but kvm_arch_has_private_mem not.
-> > > 
-> > > sorry for being picky. I think we can say
-> > > 
-> > > This improves the reporting accuracy by avoiding the case where
-> > > KVM_MEMORY_ATTRIBUTE_PRIVATE is reported when kvm == null even without
-> > > kvm_arch_has_private_mem being #defined.
+On 26/08/05 09:37PM, Darrick J. Wong wrote:
+> On Mon, Aug 03, 2026 at 02:28:36AM +0000, John Groves wrote:
+> > From: John Groves <john@groves.net>
 > > 
-> > How about this?
+> > Start building up from the famfs module operations. This commit
+> > includes the following:
 > > 
-> > Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE based
-> > on kvm_arch_has_private_mem being #defined in anticipation of tracking
-> > PRIVATE vs. SHARED state per-guest_memfd, not per-VM (to allow in-place
-> > conversion).
+> > * Register as a file system
+> > * Parse mount parameters
+> > * Allocate or find (and initialize) a superblock via famfs_get_tree()
+> > * Lookup the host dax device, and bail if it's in use (or not dax)
+> > * Add Kconfig and Makefile misc to build famfs
+> > * Add FAMFS_SUPER_MAGIC to include/uapi/linux/magic.h
+> > * Add export of fs/namei.c:may_open_dev(), which famfs needs to call
+> > * Update MAINTAINERS file for the fs/famfs/ path
+> > 
+> > The following exports had to happen to enable famfs:
+> > 
+> > * This adds the new fs/super.c:kill_char_super() - the other kill*super
+> >   helpers were not quite right.
 > 
-> Sorry, maybe I'm stupid. I still don't understand how to connect it to
-> tracking PRIVATE vs. SHARED state per-guest_memfd.
+> Err, how were they not quite right??
+
+Adding this to the description:
+
+   famfs keys its superblock on the backing devdax device's dev_t (via
+    sget_dev()), so a second mount of the same device shares one super,
+    much as a block filesystem keys on its block device. As a result
+    sb->s_dev is a real char-device number: there is no s_bdev, and no
+    anonymous block device was allocated. None of the existing kill_sb
+    helpers fit:
+
+      - kill_block_super() releases an s_bdev, which famfs does not have.
+      - kill_anon_super()/kill_litter_super() call free_anon_bdev(s_dev),
+        but s_dev is the devdax dev_t, not an anon-bdev minor famfs
+        allocated; freeing it would corrupt the anonymous-dev IDA.
+      - generic_shutdown_super() alone omits kill_super_notify(), which
+        unlinks the dying sb from fs_supers and wakes concurrent mounters
+        (SB_DEAD); skipping it can leave a dead sb discoverable and hang a
+        racing mount.
+
+    The correct teardown is generic_shutdown_super() + kill_super_notify()
+    with no device free. kill_super_notify() is static to fs/super.c, so a
+    module cannot compose it -- hence this small exported helper.
+
 > 
-> There are two diffs in this patch, and we are talking about the second diff,
-> right?
+> > This commit builds but is otherwise too incomplete to run
+> 
+> Maybe you shouldn't add famfs to fs/Makefile until the very last patch,
+> since that would eliminate all bisection errors.
+> 
+> Also, are you trying to get this merged for 7.3?  Because I'm /really/
+> tired of watching this continue to drag on for three years now.  You
+> prototyped a weird left turn through fuse.  In trying to work with
+> Miklos and Amir on various fuse improvements, we both discovered that
+> Miklos says he's not a good maintainer[1].
+> 
+> At this point I agree with you that it makes no sense to continue with
+> the fuse direction even if Amir and Joanne think you're close, because
+> no, you're not close, you're *done*.  This is a working driver, you've
+> spent years QAing it, sampling it to some users (apparently) to get
+> feedback so you know that you've built better than a trash fire, and now
+> you're the co-chair of some CXL committee so you and Micron are probably
+> stuck with it in the long run.  You've even demonstrated that you can
+> follow community processes even when they're frustrating and slow.
+> 
+> IOWs, let's fix the remaining wobbles (if any) and just merge this
+> already.  No more side quests through gigantic refactorings of fusex,
+> that's too much to ask after you already redesigned and reimplemented
+> the whole thing already.
+> 
+> Quoting Miklos from the fuse session at LSFMM:
+> [1] https://lwn.net/Articles/1086336/
+> 
+> Proceeding on to the wobbles (if any).
+> 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  MAINTAINERS                |   7 +
+> >  fs/Kconfig                 |   2 +
+> >  fs/Makefile                |   1 +
+> >  fs/famfs/Kconfig           |  11 ++
+> >  fs/famfs/Makefile          |   5 +
+> >  fs/famfs/famfs_inode.c     | 293 +++++++++++++++++++++++++++++++++++++
+> >  fs/famfs/famfs_internal.h  |  32 ++++
+> >  fs/namei.c                 |   1 +
+> >  fs/super.c                 |   7 +
+> >  include/linux/fs.h         |   1 +
+> >  include/uapi/linux/magic.h |   1 +
+> >  11 files changed, 361 insertions(+)
+> >  create mode 100644 fs/famfs/Kconfig
+> >  create mode 100644 fs/famfs/Makefile
+> >  create mode 100644 fs/famfs/famfs_inode.c
+> >  create mode 100644 fs/famfs/famfs_internal.h
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a674e36529f7..ca7b90a8f0a1 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -9905,6 +9905,13 @@ F:	Documentation/networking/failover.rst
+> >  F:	include/net/failover.h
+> >  F:	net/core/failover.c
+> >  
+> > +FAMFS [Fabric-Attached Memory File System]
+> > +M:	John Groves <John@Groves.net>
+> > +L:	linux-fsdevel@vger.kernel.org
+> > +L:	linux-cxl@vger.kernel.org
+> > +S:	Supported
+> > +F:	fs/famfs/
+> > +
+> >  FANOTIFY
+> >  M:	Jan Kara <jack@suse.cz>
+> >  R:	Amir Goldstein <amir73il@gmail.com>
+> > diff --git a/fs/Kconfig b/fs/Kconfig
+> > index cf6ae64776e6..2db647accc00 100644
+> > --- a/fs/Kconfig
+> > +++ b/fs/Kconfig
+> > @@ -131,6 +131,8 @@ source "fs/autofs/Kconfig"
+> >  source "fs/fuse/Kconfig"
+> >  source "fs/overlayfs/Kconfig"
+> >  
+> > +source "fs/famfs/Kconfig"
+> > +
+> >  menu "Caches"
+> >  
+> >  source "fs/netfs/Kconfig"
+> > diff --git a/fs/Makefile b/fs/Makefile
+> > index 89a8a9d207d1..f49f9a000210 100644
+> > --- a/fs/Makefile
+> > +++ b/fs/Makefile
+> > @@ -129,3 +129,4 @@ obj-$(CONFIG_VBOXSF_FS)		+= vboxsf/
+> >  obj-$(CONFIG_ZONEFS_FS)		+= zonefs/
+> >  obj-$(CONFIG_BPF_LSM)		+= bpf_fs_kfuncs.o
+> >  obj-$(CONFIG_RESCTRL_FS)	+= resctrl/
+> > +obj-$(CONFIG_FAMFS)		+= famfs/
+> > diff --git a/fs/famfs/Kconfig b/fs/famfs/Kconfig
+> > new file mode 100644
+> > index 000000000000..ed40cf8b0592
+> > --- /dev/null
+> > +++ b/fs/famfs/Kconfig
+> > @@ -0,0 +1,11 @@
+> > +
+> > +
+> > +config FAMFS
+> > +       tristate "famfs: shared memory file system"
+> > +       depends on DEV_DAX && FS_DAX && DEV_DAX_FSDEV
+> > +       default m if DEV_DAX && FS_DAX && DEV_DAX_FSDEV
+> > +       help
+> > +	  Support for the famfs file system. Famfs is a dax file system that
+> > +	  can support scale-out shared access to fabric-attached memory
+> > +	  (e.g. CXL shared memory). Famfs is not a general purpose file system;
+> > +	  it is an enabler for data sets in shared memory.
+> > diff --git a/fs/famfs/Makefile b/fs/famfs/Makefile
+> > new file mode 100644
+> > index 000000000000..62230bcd6793
+> > --- /dev/null
+> > +++ b/fs/famfs/Makefile
+> > @@ -0,0 +1,5 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +obj-$(CONFIG_FAMFS) += famfs.o
+> > +
+> > +famfs-y := famfs_inode.o
+> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
+> > new file mode 100644
+> > index 000000000000..c299a90912a5
+> > --- /dev/null
+> > +++ b/fs/famfs/famfs_inode.c
+> 
+> You could probably call this fs/famfs/inode.c.
 
-Yes, the second diff is what provides the desired change in behavior.
-
-> If the kvm_supported_mem_attributes() will be used by gmem, I can buy the
-> justification. But it won't. At least, it won't after this series.
-
-It's not about gmem using that API, it's about non-gmem using the API when
-reporting KVM_CAP_MEMORY_ATTRIBUTES.  Without the change, if KVM supports any
-memory attributes, i.e. if KVM_GENERIC_MEMORY_ATTRIBUTES=y, then the below will
-*incorrctly* include PRIVATE in the set of memory attributes, because
-KVM_CAP_MEMORY_ATTRIBUTES reports what memory attributes are supported via the
-VM-scoped KVM_SET_MEMORY_ATTRIBUTES.
-
-#ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
-	case KVM_CAP_MEMORY_ATTRIBUTES:
-		return kvm_supported_mem_attributes(kvm);
-#endif
-
+Can do. I have a personal bias against same-name-different-dir
+files, but it would save some keystrokes...
 
 > 
-> > guest_memfd support for memory attributes is expected to be unconditional
-> > to avoid yet more macros (all architectures that support guest_memfd are
-> > expected to use per-gmem attributes at some point), at which point
-> > enumerating support KVM_MEMORY_ATTRIBUTE_PRIVATE based solely on memory
-> > attributes being supported by KVM at-large would result in a system-scope
+> > @@ -0,0 +1,293 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * famfs - dax file system for shared fabric-attached memory
+> > + *
+> > + * Copyright 2023-2024 Micron Technology, inc
+> > + *
+> > + * This file system, originally based on ramfs the dax support from xfs,
+> > + * is intended to allow multiple host systems to mount a common file system
+> > + * view of dax files that map to shared memory.
+> > + */
+> > +
+> > +#include <linux/fs.h>
+> > +#include <linux/cleanup.h>
+> > +#include <linux/time.h>
+> > +#include <linux/init.h>
+> > +#include <linux/string.h>
+> > +#include <linux/parser.h>
+> > +#include <linux/magic.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/fs_context.h>
+> > +#include <linux/fs_parser.h>
+> > +#include <linux/dax.h>
+> > +#include <linux/hugetlb.h>
+> > +#include <linux/iomap.h>
+> > +#include <linux/path.h>
+> > +#include <linux/namei.h>
+> > +
+> > +#include "famfs_internal.h"
+> > +
+> > +#define FAMFS_DEFAULT_MODE	0755
+> > +
+> > +static struct inode *famfs_get_inode(
+> > +			struct super_block *sb,
+> > +			const struct inode *dir,
+> > +			umode_t mode, dev_t dev)
+> > +{
+> > +	struct inode *inode = new_inode(sb);
+> > +	struct timespec64 tv;
+> > +
+> > +	if (!inode)
+> > +		return NULL;
+> > +
+> > +	inode->i_ino = get_next_ino();
+> > +	inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
+> > +	inode->i_mapping->a_ops = &ram_aops;
+> > +	mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
+> > +	mapping_set_unevictable(inode->i_mapping);
+> > +	tv = inode_set_ctime_current(inode);
+> > +	inode_set_mtime_to_ts(inode, tv);
+> > +	inode_set_atime_to_ts(inode, tv);
+> > +
+> > +	switch (mode & S_IFMT) {
+> > +	default:
+> > +		init_special_inode(inode, mode, dev);
+> > +		break;
+> > +	case S_IFREG:
+> > +		inode->i_op = NULL /* famfs_file_inode_operations */;
+> > +		inode->i_fop = NULL /* &famfs_file_operations */;
 > 
-> s/memory attributes/CONFIG_KVM_VM_MEMORY_ATTRIBUTES/ ?
+> (I would almost rather you declare empty ops structs instead of churning
+> this later, but eh.)
 
-No.  I mean "memory attributes" as in KVM as a whole entity, i.e. everything
-linked into kvm.ko (and kvm-{amd,intel}.ko, supports memory attributes.
+That might have been easier to get this rebased into a bisectable
+series (which was hard)... but unless I broke it last minute, it 
+is bisectable, so I'll leave it alone unless somebody feels strongly.
 
-> > check (NULL @kvm) over-reporting support on arm64.
 > 
-> I think arm64 won't define CONFIG_KVM_VM_MEMORY_ATTRIBUTES?
-
-Precisely *because* of this patch.  More at the bottom.
-
-> So it seems to have nothing to do with arm64.
+> > +		break;
+> > +	case S_IFDIR:
+> > +		inode->i_op = NULL /* famfs_dir_inode_operations */;
+> > +		inode->i_fop = &simple_dir_operations;
+> > +
+> > +		/* Directory inodes start off with i_nlink == 2 (for ".") */
+> > +		inc_nlink(inode);
+> > +		break;
+> > +	case S_IFLNK:
+> > +		inode->i_op = &page_symlink_inode_operations;
+> > +		inode_nohighmem(inode);
+> > +		break;
+> > +	}
+> > +	return inode;
+> > +}
+> > +
+> > +/*
+> > + * famfs dax_operations (for famfs-mode dax)
+> > + */
+> > +/*****************************************************************************
+> > + * fs_context_operations
+> > + */
+> > +
+> > +static void
+> > +famfs_fill_super(struct super_block *sb, struct fs_context *fc)
+> > +{
+> > +	sb->s_maxbytes		= MAX_LFS_FILESIZE;
+> > +	sb->s_blocksize		= PAGE_SIZE;
+> > +	sb->s_blocksize_bits	= PAGE_SHIFT;
+> > +	sb->s_magic		= FAMFS_SUPER_MAGIC;
+> > +	sb->s_op		= NULL /* famfs_super_ops */;
+> > +	sb->s_time_gran		= 1;
+> > +}
+> > +
+> > +int
+> > +lookup_daxdev(const char *pathname, dev_t *devno)
+> > +{
+> > +	struct inode *inode;
+> > +	struct path path;
+> > +	int err;
+> > +
+> > +	if (!pathname || !*pathname)
+> > +		return -EINVAL;
+> > +
+> > +	err = kern_path(pathname, LOOKUP_FOLLOW, &path);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	inode = d_backing_inode(path.dentry);
+> > +	if (!S_ISCHR(inode->i_mode)) {
+> > +		err = -EINVAL;
+> > +		goto out_path_put;
+> > +	}
+> > +
+> > +	if (!may_open_dev(&path)) {
+> > +		err = -EACCES;
+> > +		goto out_path_put;
+> > +	}
+> > +
+> > +	/* i_rdev is the char dev_t; fs_dax_get() confirms it is dax later */
+> > +	*devno = inode->i_rdev;
+> > +
+> > +out_path_put:
+> > +	path_put(&path);
+> > +	return err;
+> > +}
+> > +
+> > +static int
+> > +famfs_get_tree(struct fs_context *fc)
+> > +{
+> > +	struct famfs_fs_info *fsi = fc->s_fs_info;
+> > +	struct super_block *sb;
+> > +	struct inode *inode;
+> > +	dev_t daxdevno;
+> > +	int err;
+> > +
+> > +	err = lookup_daxdev(fc->source, &daxdevno);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	/* This will set sb->s_dev=daxdevno */
+> > +	sb = sget_dev(fc, daxdevno);
+> > +	if (IS_ERR(sb)) {
+> > +		pr_debug("%s: sget_dev error\n", __func__);
+> > +		return PTR_ERR(sb);
+> > +	}
+> > +
+> > +	if (sb->s_root) {
+> > +		pr_debug("%s: found a matching superblock for %s\n",
+> > +			__func__, fc->source);
+> > +
+> > +		/* We don't expect to find a match by dev_t; if we do, it must
+> > +		 * already be mounted, so we bail
+> > +		 */
+> > +		err = -EBUSY;
+> > +		goto deactivate_out;
+> > +	} else {
+> > +		pr_debug("%s: initializing new superblock for %s\n",
+> > +			__func__, fc->source);
+> > +		famfs_fill_super(sb, fc);
+> > +	}
+> > +
+> > +	inode = famfs_get_inode(sb, NULL, S_IFDIR | fsi->mount_opts.mode, 0);
 > 
-> It matters for x86. After patch 20, CONFIG_KVM_VM_MEMORY_ATTRIBUTES is
-> user-configurable. At that time, people can disable
-> CONFIG_KVM_SW_PROTECTED_VM, CONFIG_KVM_INTEL_TDX and CONFIG_KVM_AMD_SEV, but
-> enable CONFIG_KVM_VM_MEMORY_ATTRIBUTES on x86. 
+> Can this fail?
+> 
+> The rest looks good to me, though I imagine shashiko will mumble things
+> off-list for you to fix. :P
 
-No, they can't.  KVM_VM_MEMORY_ATTRIBUTES depends on one of those three being
-enabled.  What am I missing?
+Yes it did!
 
-config KVM_VM_MEMORY_ATTRIBUTES
-	bool "Enable per-VM PRIVATE vs. SHARED attributes (for CoCo VMs)"
-	depends on KVM_SW_PROTECTED_VM || KVM_INTEL_TDX || KVM_AMD_SEV  <======
+Thank you Darrick!!
 
-> In this case, kvm_supported_mem_attributes() reports
-> KVM_MEMORY_ATTRIBUTE_PRIVATE for system-scope query which is totally wrong. I
-> think this is the case we want to prevent not something won't happen for
-> arm64?
+John
 
-Well, yeah, because of patches like this one.  That's the whole point.  Without
-this change, kvm_supports_private_mem() would be reachable if and only if
-KVM_VM_MEMORY_ATTRIBUTES=y, which would prevent burying that Kconfig in x86 and
-would prevent arm64 from enabling the PRIVATE memory attribute in guest_memfd.
+<snip>
