@@ -1,194 +1,284 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4216F397929
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 13:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F97E1DF74F;
+	Thu,  6 Aug 2026 14:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024141; cv=none; b=QRD0s02yHS35jVbCHXQVOrSK5Ma43EOVYwAlopJA0VkTmVoj0QKAGl1/N+7rS9S2FIzRxusMETfDg1KJWZf2yjpKC7C8yR1FblMYiXNKkPr19bElmANdb48x4r1AtcZID/mIcfP7vyU1wYjyLYMt/BT7jxkb2suMkHV+HAYR6Vc=
+	t=1786024848; cv=none; b=Vy7fWKDLFzKUjCedQjlce5UjlagxORrM9GFPP5w99vEXTv0GVu5Qbfb84L2fNnV06edHntONg7v7t92muFV2jfGxJ27W/zPJ+j4ckuvBFnTkEHq/dV853QU0rmWLwj2UIbzVfIzpMLhlT3Kvvw9jK+gv2j6j/q1mKjdaKZeEtEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024141; c=relaxed/simple;
-	bh=zR4Buq8Cqbhx+BoaM3N9Hxez+9qWEGN61TfM+T+/GOE=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-version:Content-type; b=dX8TftpbuQkZtAsglPIGkEnowVlogRxfDqOTpAF6EBhHjTDeqg0P7ZX3hMHedzxo96g7sKbI+yOiiu5G2e8+mAtkUMOwhDWAUJ4HU6Y+/GTUXudaNnX4G4OtEfAYi891nT3+1BzXYOoNZlQULnPH9utyN49GHgARyav+MS6zBrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZ+xoyFP; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786024848; c=relaxed/simple;
+	bh=FLo/tTT1AA7PcBx0X2JOGcd9MVdDBypORBeegIPBKxY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=o2s6CDFfCHlHLxDx0k//iNsQetixZ7sSpk3yqMOoPjEqRkEMFACuGcQLyNklL/OwCiZIWdsHSDZSs0POBtKOz0cYrtQsoi6KFUkH0lMcaDiPkg2SZF55tUXBVs9A/hlxiMhkMyLaabaUzbJfpytlsUKkKiCmDYm2ya6JoeMMbL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BlsIq/oc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZ+xoyFP"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cb5b8572b70so2373913a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 06:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786024135; x=1786628935; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :message-id:date:in-reply-to:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QjVIN0UdWGoOCTancp6az5kLjHEYcF1w7gKX5HKdYSA=;
-        b=KZ+xoyFPZc8FZIdY6ETtPzI8oTwr5YDZG/dGkp3gmH2IpSPWxmHiJ5t+jt/x2GElp2
-         myWLTYENr5Iw5E6/KMmDDjO0q+s7n3z419sQ4e1tE01MO2fUNjSSscqAhT9krsMxdaOm
-         wuNM37tJ6EyIEZF0yYzPj/OqNPAWmBOUQsCm/RwFDyUiuhTOarA/YM7tDmO00vIKuZy0
-         1BaG86uIsMSUt4dhO+uoHIgXCNJIc9vmH6P3enEQIiWsXUl9UPV21+rsguEW0hB/J/VA
-         4tg/S6WytwXdaF216xNI6xX/pbp92Rql88fvNla7DFtKXVqhX+a6ir7TagxfLzCJQNN2
-         Rhlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786024135; x=1786628935;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QjVIN0UdWGoOCTancp6az5kLjHEYcF1w7gKX5HKdYSA=;
-        b=KqhGYsJgFrzXn667tXsytsRHnArRpRU6ek4NSXdg/dr/eIG55/Mis5FnwIKaGrT0Kw
-         51L1Bm4qFbtO7UamzsxSeVa9vUTwU9xT4w922ImWtNBi4J35fkWj4WqX9Nfszs+D3PNg
-         ObP3bzXaOEA0vmOOTwD3O6cvsu2A1gY55qN0mf65rHhveNDT8Q4JZ8xmmEH/OEKhy9Sz
-         XFr+cJOdFOeGKQ64WZeYYDIknpjkIvYE48/9uIZtmeGbL49uKuYriw2T+4G4NZCA5IiN
-         4SvGfEhzZhKIVvua9/xZOxBB2VrjBDvv94K01lUV0nG78RYY/hwS0ykEkiBDif77j2vc
-         K4kA==
-X-Forwarded-Encrypted: i=1; AHgh+RqOQpKwM0XecItPt5WdukY+GAusbBxHOOS/0tDZSeylayK7Y48uS9G6AOyiv2HW9LYYRNGbNysK9Nk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrjrf0Bpvcrql7WeI1EaNl0fK9ao2YvDZ0NBGV2u95nDjXePbT
-	yD1c34JmWdbexDkxGHY17BpHl8a1gjPzncOjiztRymuYvWv+fvjGMxkMzbKw9A==
-X-Gm-Gg: AR+sD111x2iwTxF3NpxPxcL62HEjXImsD8UBatYAWeYhJQ1a076Bh9a3ARJzIPMouur
-	XfomYers7kB2N/JcY2P4cJIiYkENfeZJ6hvcv1NgFvxYDHibn99vtl8W/AR2HLfrLTRvMNCcraL
-	39EZTN83pPWTAtx+xTPcMe9guNguYzshBuVNXtdk9otTzeMevZeIDnFKyS/q5KnNebb0osXTFvO
-	wKiDuR84BV2uSz81PxhjRhFyUrcc220YhVuiCbQH+TQ9pIm4cJKBvCXS492HEIGtj1xoiOqKAnh
-	7VxbUX7EjrF5ovzWq90tzmEczA4uJVMLM8dkX8yxvZKQ8k5LW/RximNPbgv4H2C0OXs1Y1FYyQf
-	WZp0xong+gY9uDefywphmD216oncTDuyiUH3iB1qbvTLBiuRLOPCDjwpiyoHcnbXK2ZmRg/Ub6p
-	loyvQztg6Vy0P7C0xEGOWpJUwQ8niYpTqTGSfnkPksroLZ7CFRRdxVYffuSzE=
-X-Received: by 2002:a05:6a21:6013:b0:3c3:7ac4:dac0 with SMTP id adf61e73a8af0-3cb85df2790mr19356193637.13.1786024134598;
-        Thu, 06 Aug 2026 06:48:54 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315ae6c1fd4sm6563410eec.14.2026.08.06.06.48.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 06:48:53 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Amit Machhiwal <amachhiw@linux.ibm.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, Vaibhav Jain <vaibhav@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 0/4] KVM: PPC: Expose CPU compatibility modes for nested guests
-In-Reply-To: <20260806104222.7e435b28-8d-amachhiw@linux.ibm.com>
-Date: Thu, 06 Aug 2026 18:35:31 +0530
-Message-ID: <mruzl7qc.ritesh.list@gmail.com>
-References: <20260804180705.59160-1-amachhiw@linux.ibm.com> <tsp8l8cw.ritesh.list@gmail.com> <20260806104222.7e435b28-8d-amachhiw@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BlsIq/oc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8E51F000E9;
+	Thu,  6 Aug 2026 14:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786024847;
+	bh=clwkUdjC9f6arDcuk5/6HHXe9MuwtSGSEYEAbJBzyF4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=BlsIq/ocHUL+LSB2Fazepjlb97ldgloqUre/sGiQ15JUXarJeAB6P/+yXJlvyTMg4
+	 o7KDivndjU8u+yZ2+ymvki3/LuI0JPnkJX4I8t18GzXCNeTWG2htRvfnLSMLxYv0CS
+	 P9x8TTKSGyYfx430H3kp3MieT/5OP3NyHMWffRlUbXWsyJ7t6zxZOlWpRG8zQzuYjv
+	 1sota53wQxg3539kFtlLZCKWi7fdO4ACoLCM4RX4R9F1MBNHynhC4lUq/EHPxkRJsB
+	 eg+VAvokS/pzaFKgtSTvu/a/WWU0nI4ucdoxdW915lRWgSWSDpVeXbQs93eyjuh+b2
+	 o0St4TM7xyJHQ==
+Date: Thu, 6 Aug 2026 23:00:42 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 1/2] tracing/boot: Add support for eprobe, fprobe, and
+ tprobe events
+Message-Id: <20260806230042.ab2b9cc1b67c3d888b3f94a4@kernel.org>
+In-Reply-To: <178597842125.123558.2594525097237345437.stgit@devnote2>
+References: <178597841107.123558.13065821394773752510.stgit@devnote2>
+	<178597842125.123558.2594525097237345437.stgit@devnote2>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-version: 1.0
-Content-type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Amit Machhiwal <amachhiw@linux.ibm.com> writes:
+On Thu,  6 Aug 2026 10:07:01 +0900
+"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
 
-> Hi Ritesh,
->
-> Thanks for taking a look. Please find my response inline.
->
-> On 2026/08/06 12:09 AM, Ritesh Harjani wrote:
->> 
->> Hi Amit,
->> 
->> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
->> 
->> > On POWER systems, newer processor generations can operate in compatibility
->> > modes corresponding to earlier generations (e.g., a Power11 system running
->> > in Power10 compatibility mode). In such cases, the effective CPU level
->> > exposed to guests differs from the physical processor generation.
->> >
->> > This creates a problem for nested virtualization. When booting a nested KVM
->> > guest (L2) inside a host KVM guest (L1) running in a compatibility mode,
->> > userspace (e.g., QEMU) may derive the CPU model from the raw hardware PVR
->> > and attempt to configure the nested guest accordingly. However, the L1
->> > partition is constrained by the compatibility level negotiated with the
->> > hypervisor (L0), and requests exceeding that level are rejected, leading to
->> > guest boot failures such as:
->> >
->> >   KVM-NESTEDv2: couldn't set guest wide elements
->> >
->> > This series provides a mechanism for userspace to query the effective CPU
->> > compatibility modes supported by the host, so it can select an appropriate
->> > CPU model for nested guests.
->> >
->> > To achieve this, the series introduces a new KVM capability and ioctl
->> > (KVM_CAP_PPC_COMPAT_CAPS / KVM_PPC_GET_COMPAT_CAPS) that expose the
->> > compatibility modes supported by the host.
->> >
->> 
->> Sorry, but I am somehow not convinced on whether we need all of this
->> machinary just to get these 3 bits of information, which we are
->> returning today.
->> 
->> Since KVM_CHECK_EXTENSION can already return an int, so why can't we use
->> KVM_CAP_PPC_COMPAT_CAPS itself and return the bitmap of supported compat
->> modes to the user?
->> Say if the cap is not supported, we can return 0, otherwise we can
->> return the bitmap of supported compat modes. This will easily allow us
->> to use 31-bits which as I see would be hardly a problem in the near
->> future. In the future if it grows - we can always use KVM_CAP_PPC_COMPAT_CAPS2.
->> 
->> This should reduce the code complexity both in the kernel and
->> userspace and we don't even need a new ioctl then.
->
-> Thanks for the suggestion. I considered this approach
+> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> Boot-time tracing currently supports kprobe-events and synthetic-events
+> under per-event configuration options.
+> 
+> Extend boot-time tracing to support newly added dynamic probe types:
+> - event probes (eprobe) under the "eprobes" event group
+> - function probes (fprobe) under the "fprobes" event group
+> - tracepoint probes (tprobe) under the "tracepoints" or "tprobes"
+>   event group
+> 
+> To support this cleanly, update dyn_event_create() in trace_dynevent.c
+> so that passing NULL as the type parameter delegates to
+> create_dyn_event(), allowing generic creation of any registered
+> dynamic event type from a raw command string.
+> 
+> Update Documentation/trace/boottime-trace.rst accordingly to describe
+> the new per-event bootconfig options.
+> 
+> Assisted-by: Antigravity:gemini-3.6-flash
+> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> ---
+>  Documentation/trace/boottime-trace.rst |   18 ++++-
+>  kernel/trace/trace_boot.c              |  113 ++++++++++++++++++++++++++++++++
+>  kernel/trace/trace_dynevent.c          |    5 +
+>  3 files changed, 133 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
+> index 651f3a2c01de..2c3c1fedb92c 100644
+> --- a/Documentation/trace/boottime-trace.rst
+> +++ b/Documentation/trace/boottime-trace.rst
+> @@ -121,9 +121,21 @@ ftrace.[instance.INSTANCE.]event.synthetic.EVENT.fields = FIELD[, FIELD2[...]]
+>     Defines new synthetic event with FIELDs. Each field should be
+>     "type varname".
+>  
+> -Note that kprobe and synthetic event definitions can be written under
+> -instance node, but those are also visible from other instances. So please
+> -take care for event name conflict.
+> +ftrace.[instance.INSTANCE.]event.eprobes.EVENT.probes = PROBE[, PROBE2[...]]
+> +   Defines new event probe based on PROBEs. This option is available only
+> +   for the event which group name is "eprobes".
+> +
+> +ftrace.[instance.INSTANCE.]event.fprobes.EVENT.probes = PROBE[, PROBE2[...]]
+> +   Defines new fprobe event based on PROBEs. This option is available only
+> +   for the event which group name is "fprobes".
+> +
+> +ftrace.[instance.INSTANCE.]event.tracepoints.EVENT.probes = PROBE[, PROBE2[...]]
+> +   Defines new tracepoint probe based on PROBEs. This option is available only
+> +   for the event which group name is "tracepoints" or "tprobes".
+> +
+> +Note that dynamic event definitions can be written under instance node, but
+> +those are also visible from other instances. So please take care for event
+> +name conflict.
+>  
+>  Ftrace Histogram Options
+>  ------------------------
+> diff --git a/kernel/trace/trace_boot.c b/kernel/trace/trace_boot.c
+> index 2ca2541c8a58..6ecf1a035caa 100644
+> --- a/kernel/trace/trace_boot.c
+> +++ b/kernel/trace/trace_boot.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/trace_events.h>
+>  
+>  #include "trace.h"
+> +#include "trace_dynevent.h"
+>  
+>  #define MAX_BUF_LEN 256
+>  
+> @@ -172,6 +173,109 @@ trace_boot_add_synth_event(struct xbc_node *node, const char *event)
+>  }
+>  #endif
+>  
+> +#ifdef CONFIG_EPROBE_EVENTS
+> +static int __init
+> +trace_boot_add_eprobe_event(struct xbc_node *node, const char *group,
+> +			    const char *event)
+> +{
+> +	struct xbc_node *anode;
+> +	char buf[MAX_BUF_LEN];
+> +	const char *val;
+> +	int ret = 0;
+> +
+> +	xbc_node_for_each_array_value(node, "probes", anode, val) {
+> +		if (val[0] == 'e' && (val[1] == ':' || isdigit(val[1])))
 
-Then we should have brought that up early on during the design
-discussion. But for the sake of discussion let's call this as
-approach-2.
+Oops, I missed it, this isdigit is only required kretprobes...
 
-> but would like to
-> go with a dedicated ioctl for the following reasons:
->
+Let me fix it.
 
-> 1. Intended semantics: The KVM API documentation states:
->
->    ..kvm defines extension identifiers and a facility to query
->    whether a particular extension identifier is available.  If it is, a
->    set of ioctls is available for application use.
->
->    [...]
->
->    KVM defines many constants of the form KVM_CAP_*, each corresponding
->    to a set of functionality provided by one or more ioctls. Availability
->    of these capabilities can be checked with KVM_CHECK_EXTENSION.
->
->    The intended role of KVM_CAP_* is to signal ioctl availability, not
->    to serve as a data retrieval mechanism itself.
+Thank you,
 
-That's not entirely true. We do return data as part of check extension
-for e.g. for getting the SMT modes check KVM_CAP_PPC_SMT_POSSIBLE.
+> +			strscpy(buf, val, MAX_BUF_LEN);
+> +		else
+> +			snprintf(buf, MAX_BUF_LEN, "e:%s/%s %s", group, event, val);
+> +
+> +		ret = dyn_event_create(buf, NULL);
+> +		if (ret) {
+> +			pr_err("Failed to add eprobe: %s\n", buf);
+> +			break;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +#else
+> +static inline int __init
+> +trace_boot_add_eprobe_event(struct xbc_node *node, const char *group,
+> +			    const char *event)
+> +{
+> +	pr_err("Event probe is not supported.\n");
+> +	return -EOPNOTSUPP;
+> +}
+> +#endif
+> +
+> +#ifdef CONFIG_FPROBE_EVENTS
+> +static int __init
+> +trace_boot_add_fprobe_event(struct xbc_node *node, const char *group,
+> +			    const char *event)
+> +{
+> +	struct xbc_node *anode;
+> +	char buf[MAX_BUF_LEN];
+> +	const char *val;
+> +	int ret = 0;
+> +
+> +	xbc_node_for_each_array_value(node, "probes", anode, val) {
+> +		if (val[0] == 'f' && (val[1] == ':' || isdigit(val[1])))
+> +			strscpy(buf, val, MAX_BUF_LEN);
+> +		else
+> +			snprintf(buf, MAX_BUF_LEN, "f:%s/%s %s", group, event, val);
+> +
+> +		ret = dyn_event_create(buf, NULL);
+> +		if (ret) {
+> +			pr_err("Failed to add fprobe: %s\n", buf);
+> +			break;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int __init
+> +trace_boot_add_tprobe_event(struct xbc_node *node, const char *group,
+> +			    const char *event)
+> +{
+> +	struct xbc_node *anode;
+> +	char buf[MAX_BUF_LEN];
+> +	const char *val;
+> +	int ret = 0;
+> +
+> +	xbc_node_for_each_array_value(node, "probes", anode, val) {
+> +		if (val[0] == 't' && (val[1] == ':' || isdigit(val[1])))
+> +			strscpy(buf, val, MAX_BUF_LEN);
+> +		else
+> +			snprintf(buf, MAX_BUF_LEN, "t:%s/%s %s", group, event, val);
+> +
+> +		ret = dyn_event_create(buf, NULL);
+> +		if (ret) {
+> +			pr_err("Failed to add tprobe: %s\n", buf);
+> +			break;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +#else
+> +static inline int __init
+> +trace_boot_add_fprobe_event(struct xbc_node *node, const char *group,
+> +			    const char *event)
+> +{
+> +	pr_err("Fprobe event is not supported.\n");
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int __init
+> +trace_boot_add_tprobe_event(struct xbc_node *node, const char *group,
+> +			    const char *event)
+> +{
+> +	pr_err("Tracepoint probe is not supported.\n");
+> +	return -EOPNOTSUPP;
+> +}
+> +#endif
+> +
+>  #ifdef CONFIG_HIST_TRIGGERS
+>  static int __init __printf(3, 4)
+>  append_printf(char **bufp, char *end, const char *fmt, ...)
+> @@ -477,6 +581,15 @@ trace_boot_init_one_event(struct trace_array *tr, struct xbc_node *gnode,
+>  	if (!strcmp(group, "synthetic"))
+>  		if (trace_boot_add_synth_event(enode, event) < 0)
+>  			return;
+> +	if (!strcmp(group, "eprobes"))
+> +		if (trace_boot_add_eprobe_event(enode, group, event) < 0)
+> +			return;
+> +	if (!strcmp(group, "fprobes"))
+> +		if (trace_boot_add_fprobe_event(enode, group, event) < 0)
+> +			return;
+> +	if (!strcmp(group, "tracepoints") || !strcmp(group, "tprobes"))
+> +		if (trace_boot_add_tprobe_event(enode, group, event) < 0)
+> +			return;
+>  
+>  	mutex_lock(&event_mutex);
+>  	file = find_event_file(tr, group, event);
+> diff --git a/kernel/trace/trace_dynevent.c b/kernel/trace/trace_dynevent.c
+> index c4dfbc293bae..6f2e39b797e5 100644
+> --- a/kernel/trace/trace_dynevent.c
+> +++ b/kernel/trace/trace_dynevent.c
+> @@ -116,6 +116,8 @@ int dyn_event_release(const char *raw_command, struct dyn_event_operations *type
+>  	return ret;
+>  }
+>  
+> +static int create_dyn_event(const char *raw_command);
+> +
+>  /*
+>   * Locked version of event creation. The event creation must be protected by
+>   * dyn_event_ops_mutex because of protecting trace_probe_log.
+> @@ -124,6 +126,9 @@ int dyn_event_create(const char *raw_command, struct dyn_event_operations *type)
+>  {
+>  	int ret;
+>  
+> +	if (!type)
+> +		return create_dyn_event(raw_command);
+> +
+>  	mutex_lock(&dyn_event_ops_mutex);
+>  	ret = type->create(raw_command);
+>  	mutex_unlock(&dyn_event_ops_mutex);
+> 
 
->
->    You may take a look at KVM_CAP_PPC_GET_CPU_CHAR for instance.
->
-> 2. Return type constraint: KVM_CHECK_EXTENSION returns a signed 32-bit int. The
->    capability bits are defined as (1ULL << 62), (1ULL << 61), and (1ULL << 60) —
->    64-bit values that cannot fit in a 32-bit return. Renumbering them to small
->    integers would be a UAPI change and would lose alignment with the
 
-There is no _change_ in the UAPI so far. This is the patch which is
-defining that in the first place.
-
->    H_GUEST_CAP_* values from the hypervisor ABI.
-
-No please. Those are 2 different ABIs and there is no need to set a hard
-dependency among the two.
-
->
-> 3. Extensibility: The struct-based approach with the size field provides clean
->    forward and backward ABI versioning via copy_struct_from/to_user(), without
->    needing a KVM_CAP_PPC_COMPAT_CAPS2 in the future.
->
-
-This only make sense if we really have a usecase already in mind which
-you are planning to extend it for. Otherwise, IMO, this is a lot of
-machinary and I think we should consider the simpler approach.
-
-IMO - I think approach-2 is a much simpler for this usecase. I don't see
-any valid reason on why we should not do that instead. We don't need an
-extra ioctl and all the struct machinary along with that just for
-returning a bitmask. The existing check extension ioctl can be
-easily used for this purpose.
-
-Would it be possible for you to give, approach-2 a try? Do you see any
-geniunine roadblock or limitation with that?
-
--ritesh
-
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
