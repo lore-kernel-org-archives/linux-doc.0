@@ -1,215 +1,259 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C0322B8F;
-	Thu,  6 Aug 2026 14:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2439533AD8C;
+	Thu,  6 Aug 2026 14:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024928; cv=none; b=apJJ7j+nwsaItWIy6QZH9uWD0wComDTM8lnPQFvj2WRD89xtXPxN+GVCTTuYXKGcvIPAJBleSo2C50IZp52eAugPD0Z2+khYMr8QMn4mcDymfR6ZUEkFg+9N3dNCJt3ezYfVdnS6JV4yYsgbUxoMmDxIdqT9HCu3scG0zp7tZRU=
+	t=1786028274; cv=none; b=ZGmMA+sjdEhMu+EwQ5sUUwcqeXP4uzplVt7x5wF3A85/j7k6Wsp4ulLhifjPg4dBQK0Dv8CekoVuYEYYQK5+/z7yfmJ/8M/k928AvG5YLwIWR4BJuI+P32V9EwSM9rNDYobn6kb69UeoiuE+6o5snYtmOMcMJW7YWqQnI0pdMNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024928; c=relaxed/simple;
-	bh=7uikDqcUSON7uqNGM7h37lnEznB8FDrnFTV8wbSCGVo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HAYaG7ntA+nbyKKod600Kjfme+yaHLxXOorF+3AtSblGD3rWTC9ZkIUnSBstW6lYFfsIHvNdlLAHrSlEvKZQAMBYqmODSHCXJf58o9zz0UjhMvjg98Zh8DsYu1qud02eynsRUAnbTlc+Dx5S3J/kPusm1rOqjsLEzUljESNYsvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G3mH/ZAJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786028274; c=relaxed/simple;
+	bh=nlYYNOtgm4XbL5atya/GGVjdnpJ8VTOr0r+iSIDsMqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tGrXBUj71yrMW3gOQ8CbkZffFJxxLooVmyaTuXZfF56DErxInmM+TJY1tPZaZMYvTLXrNzFFf/9oFIrrvYt2s8dPi9ugmVEqavd4rqFC6f2Jf5a2Oex2qWeYs6iKGk9B9PkzrEWnDT+eu5wrT2yFYsPVZmBQcfdkukK+758Nshw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=dLPxqC82; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G3mH/ZAJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D5371F000E9;
-	Thu,  6 Aug 2026 14:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786024927;
-	bh=sj8CY+ONiryU5APtwGc/YgR+xr5XRUh8Uhoc/B/yfJM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=G3mH/ZAJKCJgwvR/WrgftIJm0005B7WQFMvcWeCYDpwdVnLh7nNFwwWciAmB/E4Fc
-	 cvegeZcVis1f2q0QFmnlkIOgrIdHYQTUs3lBuIaFyetIg23BXmPc5dFGbcAssiZGOn
-	 9uaI9TV/EPRa9wHchr/EtZYg+s5birOeVhMfpVny0x7NFRC6TP9NbPV9rFFu3WZ86e
-	 SRArRbZedRs8ijk1OKnZQTg5Boe7IQVsAlpcgmM6tEZr8wmQipGDbpBuXvTEcuVard
-	 57/TDa5Wnq/eqrkTTHDUCrOMNmdtgmWwvrkaoY+stU6YUTGAAM9mLz0B7/1hYlhwFk
-	 wcKf4BErxoW+w==
-Message-ID: <8c763f1b-85ad-44b9-b36c-becd7598fe77@kernel.org>
-Date: Thu, 6 Aug 2026 16:01:55 +0200
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="dLPxqC82"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 676EnKXm2964507;
+	Thu, 6 Aug 2026 14:57:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=X9ZCWo
+	FyjqoTs1Wdrr0tb85vfPjmxaw5shuuiJIRD9c=; b=dLPxqC82CNPm8yAXvvjdHV
+	EXeLsk1Q70u12l5ZtG7B++FsNwYiiMA5hcweezFYsvXzPTnSYUDBcx0CjFz0BJV4
+	6JGVCNfxV0OZmEGYbm4YmIP0DCiZE70PjTmDFVYkVvSp4jXCf/7FdU1KOtBe71aR
+	F+EsPufZZaqTBC35Qo06cmdV5CU5VAO5CWfHkLnp8f/bMK7ajxD0FuJmFvz9njnp
+	r4SfWk7mrm0sLfIwpIXeotDbd1V/uzWqbvTze6FaIKJXP0Pcv2UgntNjMecT/kmp
+	RJi5/52BlBqrt9E0Acyo5zrhNS7iHYq8/2VVKaDpEA00keJyNnRhf5Dm9jm/P7Ng
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs8h58v8b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Aug 2026 14:57:30 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 676EugwZ003358;
+	Thu, 6 Aug 2026 14:57:29 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fsvmhkj0q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Aug 2026 14:57:29 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 676EvPfR52035930
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 6 Aug 2026 14:57:25 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3E25C2004B;
+	Thu,  6 Aug 2026 14:57:25 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6D90220043;
+	Thu,  6 Aug 2026 14:57:22 +0000 (GMT)
+Received: from fedora (unknown [9.5.7.39])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu,  6 Aug 2026 14:57:22 +0000 (GMT)
+Date: Thu, 6 Aug 2026 20:28:11 +0530
+From: Amit Machhiwal <amachhiw@linux.ibm.com>
+To: Ritesh Harjani <ritesh.list@gmail.com>
+Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Anushree Mathur <anushree.mathur@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 0/4] KVM: PPC: Expose CPU compatibility modes for
+ nested guests
+Message-ID: <20260806195943.1fa6cacd-be-amachhiw@linux.ibm.com>
+Mail-Followup-To: Ritesh Harjani <ritesh.list@gmail.com>, 
+	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Vaibhav Jain <vaibhav@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260804180705.59160-1-amachhiw@linux.ibm.com>
+ <tsp8l8cw.ritesh.list@gmail.com>
+ <20260806104222.7e435b28-8d-amachhiw@linux.ibm.com>
+ <mruzl7qc.ritesh.list@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] coredump: Add bit 9 of coredump_filter for pre-exit
- files before dumping
-To: Xin Zhao <jackzxcui1989@163.com>, brauner@kernel.org, ljs@kernel.org,
- rppt@kernel.org, pfalcato@suse.de, viro@zeniv.linux.org.uk, corbet@lwn.net,
- skhan@linuxfoundation.org, akpm@linux-foundation.org, liam@infradead.org,
- vbabka@kernel.org, surenb@google.com, mhocko@suse.com, mingo@redhat.com,
- peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- mjguzik@gmail.com, ebiederm@xmission.com, jack@suse.cz, jlayton@kernel.org,
- chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de,
- keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com,
- allen.lkml@gmail.com
-Cc: kuba@kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org
-References: <20260804001703.1340667-1-jackzxcui1989@163.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260804001703.1340667-1-jackzxcui1989@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <mruzl7qc.ritesh.list@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA2MDExNSBTYWx0ZWRfXyb8VSYwFs6jy
+ CvdE88yiGqnbT0NJ3ZS/jf+dZQZ4bFs00IiqXhiMERgghrSpP1xwpOrGC/44dSwKC+H3Bie75DM
+ CpFcnXKh2DaIbUMV82pbfuTVjuMhdfc=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA2MDExNSBTYWx0ZWRfX7AasYGKtMULE
+ wNZ03bxfJgQaD6K13xy9P5TuotuqHOK6Fnpv2NfK7/9osndLEa/TIL/0ftJHqaMZqpHp0qq6gKd
+ QUxAtVoL2KRrVUNUyBDuI/uwEwVK9ZTh2+Blviq9ePhASgW/kZmxtDoCTDRB2/dJAYoa3T9lGIK
+ QLPkd46QwZ9liv57u05YL4bw3DVewT3A1UugWdA7Oigggcm3FqRc7S5EDQg+kLAzLITLkFjHKDU
+ kCBf0eVgytcwDP3OJq4zXb2Lm7VwWYl4DUyUmwPX7VpjxYl2NeFhkq7NZ1LdPpmh7ZWH5EYG+g/
+ 5Df5jZYBHsa1IVSQS3iEPVIfmAYfmrL0oekeE0xF3gYGDngd0W8q0pn5hjcw/rkMwUjXb8yh4fg
+ 4W6r3afwBczoH3eOKd2XTBJiQVNfdfH/RQTvrR0hJRTuNC4oycimtmUR5kiTfeiJXdxT2U/wXh7
+ jQOtRc/+AIUDcv7I7Pw==
+X-Authority-Analysis: v=2.4 cv=SI1ykuvH c=1 sm=1 tr=0 ts=6a74a0db cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8
+ a=a07hoUeaLZJ5nhunpkIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: ACYYhBt_gOpV2mwcDM734kjCwx89R1Zm
+X-Proofpoint-GUID: YeR6JNO4hYzHddb9dOpKTjsRYLFqsOp9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-06_01,2026-08-05_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608060115
 
-On 8/4/26 02:17, Xin Zhao wrote:
-> A coredump typically takes seconds or even longer to complete. If we
-> happen to hold a write lock with flock just before triggering the
-> coredump, that write lock will not be released during the entire coredump
-> process. As a result, other processes attempting to acquire the same write
-> lock may experience significant delays. Another typical scenario is that
-> some custom management modules for shared memory also need to release the
-> reference counts of the related buffers as soon as possible, rather than
-> waiting until the coredump is complete.
+On 2026/08/06 06:35 PM, Ritesh Harjani wrote:
+> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
 > 
-> Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
-> We set it by default because tools like systemd-coredump go through the
-> fds. Some other coredump pipe programs like minicoredump do not use fds by
-> default. If you are sure that your coredump backend does not use the fds,
-> you can clear bit 9, which will allow some file resources without VMA
-> references to be released earlier.
+> > Hi Ritesh,
+> >
+> > Thanks for taking a look. Please find my response inline.
+> >
+> > On 2026/08/06 12:09 AM, Ritesh Harjani wrote:
+> >> 
+> >> Hi Amit,
+> >> 
+> >> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
+> >> 
+> >> > On POWER systems, newer processor generations can operate in compatibility
+> >> > modes corresponding to earlier generations (e.g., a Power11 system running
+> >> > in Power10 compatibility mode). In such cases, the effective CPU level
+> >> > exposed to guests differs from the physical processor generation.
+> >> >
+> >> > This creates a problem for nested virtualization. When booting a nested KVM
+> >> > guest (L2) inside a host KVM guest (L1) running in a compatibility mode,
+> >> > userspace (e.g., QEMU) may derive the CPU model from the raw hardware PVR
+> >> > and attempt to configure the nested guest accordingly. However, the L1
+> >> > partition is constrained by the compatibility level negotiated with the
+> >> > hypervisor (L0), and requests exceeding that level are rejected, leading to
+> >> > guest boot failures such as:
+> >> >
+> >> >   KVM-NESTEDv2: couldn't set guest wide elements
+> >> >
+> >> > This series provides a mechanism for userspace to query the effective CPU
+> >> > compatibility modes supported by the host, so it can select an appropriate
+> >> > CPU model for nested guests.
+> >> >
+> >> > To achieve this, the series introduces a new KVM capability and ioctl
+> >> > (KVM_CAP_PPC_COMPAT_CAPS / KVM_PPC_GET_COMPAT_CAPS) that expose the
+> >> > compatibility modes supported by the host.
+> >> >
+> >> 
+> >> Sorry, but I am somehow not convinced on whether we need all of this
+> >> machinary just to get these 3 bits of information, which we are
+> >> returning today.
+> >> 
+> >> Since KVM_CHECK_EXTENSION can already return an int, so why can't we use
+> >> KVM_CAP_PPC_COMPAT_CAPS itself and return the bitmap of supported compat
+> >> modes to the user?
+> >> Say if the cap is not supported, we can return 0, otherwise we can
+> >> return the bitmap of supported compat modes. This will easily allow us
+> >> to use 31-bits which as I see would be hardly a problem in the near
+> >> future. In the future if it grows - we can always use KVM_CAP_PPC_COMPAT_CAPS2.
+> >> 
+> >> This should reduce the code complexity both in the kernel and
+> >> userspace and we don't even need a new ioctl then.
+> >
+> > Thanks for the suggestion. I considered this approach
 > 
-> In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
-> otherwise file put operation will NOT execute util coredump finish.
+> Then we should have brought that up early on during the design
+> discussion. But for the sake of discussion let's call this as
+> approach-2.
 > 
-> Test Case One - flock
-> Test program send signal SIGABRT to the program which owns the flock,
-> output the wait time(unit ms) to successfully attach the flock.
-> Test program malloc 500MB heap and memset it.
-> If NOT set bit9 of coredump_filter, waitms is 11280.
-> If set bit9 of coredump_filter, waitms is 0.
+> > but would like to
+> > go with a dedicated ioctl for the following reasons:
+> >
 > 
-> Test Case Two - ion buffer
-> Test programs include ion buffer publisher and ion buffer subscriber.
-> Ion buffer publisher output the ion buffer hold_time if the subscriber
-> NOT send ack to publisher and NOT release it. The subscriber will trig
-> coredump by itself in some time.
-> If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
-> If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
+> > 1. Intended semantics: The KVM API documentation states:
+> >
+> >    ..kvm defines extension identifiers and a facility to query
+> >    whether a particular extension identifier is available.  If it is, a
+> >    set of ioctls is available for application use.
+> >
+> >    [...]
+> >
+> >    KVM defines many constants of the form KVM_CAP_*, each corresponding
+> >    to a set of functionality provided by one or more ioctls. Availability
+> >    of these capabilities can be checked with KVM_CHECK_EXTENSION.
+> >
+> >    The intended role of KVM_CAP_* is to signal ioctl availability, not
+> >    to serve as a data retrieval mechanism itself.
 > 
-> Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
-> ---
+> That's not entirely true. We do return data as part of check extension
+> for e.g. for getting the SMT modes check KVM_CAP_PPC_SMT_POSSIBLE.
 > 
-> Change in v6:
-> - Fix operator precedence in PF_KTHREAD/PF_DUMPCORE check.
+> >
+> >    You may take a look at KVM_CAP_PPC_GET_CPU_CHAR for instance.
+> >
+> > 2. Return type constraint: KVM_CHECK_EXTENSION returns a signed 32-bit int. The
+> >    capability bits are defined as (1ULL << 62), (1ULL << 61), and (1ULL << 60) —
+> >    64-bit values that cannot fit in a 32-bit return. Renumbering them to small
+> >    integers would be a UAPI change and would lose alignment with the
 > 
-> Change in v5:
-> - Not add another bootargs for the feature,
->   as suggested by Christian Brauner and Lorenzo Stoakes.
->   Add bit9 of coredump_filter to tag whether need to dump fd list.
->   Set bit9 to 1 as default.
-> - Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
->   problems of the code related to umap that was added in v4, delete all of
->   it which is unnecessary. The management of reference counting for shared
->   memory generally does not need to be released through the release
->   operation of files that have VMA references. Traversing all the threads
->   within the process and executing exit_files() is sufficient.
-> - Fulfill comments and commit log,
->   as suggested by Pedro Falcato and Lorenzo Stoakes.
-> - Link to v5: https://lore.kernel.org/all/20260630075604.52533-1-jackzxcui1989@163.com/
+> There is no _change_ in the UAPI so far. This is the patch which is
+> defining that in the first place.
 > 
-> Change in v4:
-> - Christian pointed out that the coredump process will traverse file
->   descriptors (fd), so certain fds should not be closed by default.
->   Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
->   pre-exit resources selection, default is NOT pre-exit anything.
-> - Mateusz suggested that walking the fd table and release the file-lock is
->   reasonable. No longer release all the fd(s). Based on user config, only
->   the flock fd(s) and the fd(s) correspondent to file-backed shared memory
->   will be released at most.
-> - Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
+> >    H_GUEST_CAP_* values from the hypervisor ABI.
 > 
-> Change in v3:
-> - Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
->   mm_flags_test() check, note that memory mapped files keep their own
->   separate references to the files. The case to work around is that early
->   unlocking a flock on a file allows other processes to lock and modify
->   the mapped data protected by the flock,
->   as suggested by Pedro Falcato.
-> - Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
+> No please. Those are 2 different ABIs and there is no need to set a hard
+> dependency among the two.
 > 
-> Change in v2:
-> - Get rid of the implement of adding new fcntl API, the issue does not
->   worth inflicting the cost on everyone,
->   as suggested by Al Viro.
-> - Call exit_files() in coredump_wait(),
->   as suggested by Eric W. Biederman.
->   Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
->   need to dump file-backed shared memory.
-> - Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
+> >
+> > 3. Extensibility: The struct-based approach with the size field provides clean
+> >    forward and backward ABI versioning via copy_struct_from/to_user(), without
+> >    needing a KVM_CAP_PPC_COMPAT_CAPS2 in the future.
+> >
 > 
-> v1:
-> - Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
-> ---
->  Documentation/filesystems/proc.rst | 14 ++++++++++++--
->  fs/coredump.c                      | 21 +++++++++++++++++++++
->  fs/file_table.c                    |  7 ++++++-
->  include/linux/mm_types.h           |  6 ++++--
->  4 files changed, 43 insertions(+), 5 deletions(-)
+> This only make sense if we really have a usecase already in mind which
+> you are planning to extend it for. Otherwise, IMO, this is a lot of
+> machinary and I think we should consider the simpler approach.
 > 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index db6167bef..d590a1dda 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
->    - (bit 6) hugetlb shared memory
->    - (bit 7) DAX private memory
->    - (bit 8) DAX shared memory
-> +  - (bit 9) fd list
+> IMO - I think approach-2 is a much simpler for this usecase. I don't see
+> any valid reason on why we should not do that instead. We don't need an
+> extra ioctl and all the struct machinary along with that just for
+> returning a bitmask. The existing check extension ioctl can be
+> easily used for this purpose.
+> 
+> Would it be possible for you to give, approach-2 a try? Do you see any
+> geniunine roadblock or limitation with that?
 
-"The following 9 memory types are supported: ... fd list"
+As discussed, one additional and deeper technical reason is that the
+Power Hypervisor (PHYP) returns a 64-bit capabilities mask as part of
+the H_GUEST_GET_CAPABILITIES hcall (defined in the PAPR specification).
+Our KVM_PPC_COMPAT_CAP_* bits are deliberately aligned to this 64-bit
+mask so that the cached nested_capabilities value can be used directly
+without any translation.
 
-What?
+The PAPR spec reserves bits beyond the current processor modes and
+capability flags for future capabilities. As new processor generations
+arrive, some of those reserved bits may become relevant for them — at
+which point a 32-bit return from KVM_CHECK_EXTENSION would be
+insufficient, forcing a KVM_CAP_PPC_COMPAT_CAPS2.
 
--- 
-Cheers,
+The struct-based ioctl avoids this problem cleanly.
 
-David
+Thanks,
+Amit
+
+> 
+> -ritesh
+> 
