@@ -1,171 +1,244 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11020131.outbound.protection.outlook.com [52.101.46.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C328E41F5C1;
-	Thu,  6 Aug 2026 09:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786006901; cv=fail; b=NrrULpex/4zgk14rBcYrT3UA0QWJo0PC46z9yTweBrWKKDRa0aWtEGif+ZuosH5EtNFVCghl4goyOYhBN/N2dP63ZL7nf8PufBGuYrhuVYWeFp6CVi42uh8GB2BcF1cHLqIBUgjL8QvNvbFFCsboK4cXEjmL4vG9uk8knqkiBQk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786006901; c=relaxed/simple;
-	bh=L1errroewBQQ9h3a50ccUPOFxOTJzBDhDpiOOeW/1u0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ar6EZiNS9lVO/OQcXGPU45CdIkURtXexNe5Z3lUw6z5f/pClYiKuv6xgN8PBr3ybMQDDNENkQPVuiPpQWzUDIdcGCAHO3KsHhme/2XssN3EUBxaAGT/Ra+BaP+Ok/1N+bZar721yeZfHMHLZYnsDUXM0IeO6PP/7EQtR4X1/q58=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axiado.com; spf=pass smtp.mailfrom=axiado.com; dkim=pass (2048-bit key) header.d=axiado.com header.i=@axiado.com header.b=XYXLBAtI; arc=fail smtp.client-ip=52.101.46.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axiado.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axiado.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7034314AC
+	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 09:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786008144; cv=none; b=nVX9cTrjp/e/v/rqDQOvzRLavZeWyXsAgGx9XsZ9I930XcN5Na2BVrpaQhrYC/DiSIYTI+jwqt4S6bHv89N3gHUwMz3sUnUkAEc1EYpHAeAxuM37t7kq37HR36OQeWq1LqC8UgO2X6ZeS2UNVexGfi8oOFKDw80JMXPweU5dA/s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786008144; c=relaxed/simple;
+	bh=eAkOXZtlwNYjPhDGjyZtRke2iyDCQ2QqdzoXZFHQk1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=peYCzunsIpHhDshU1aF5XVT+lomJrzEhIgdwsnO/Eor2xAAPFseNaM3dlZNUiRYHirpt4JsD9Olr9tbXxw7qo9cbiKqYkqljlTY3XPIaetOVOiueUsa8qSXWueQpVj5N9q4n1Shv6XyJI/MjGUQw/GH6Jnz54qFDWB1MEfO9QGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XrnD5ycW; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=axiado.com header.i=@axiado.com header.b="XYXLBAtI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AyoqmN+z1dPzmmsLPVXfjPGTN7T867p3ZEBhQ9Z1io3kIYWviXvym9gKm9Ia9ZKlrG7UBwDYKDV3kuP2aDT8XSYsExOBDYXie1TDnrSZLb04NSxOZJvzt7IcvXRRgRlUM90MrUcsJCAWhyyCeON09KLV43HY/hE+73TMqSNeGFTHj7DgYzLnOD0WfflmhT6oS5utqoIwFHmkzSbX4MuWBplBORhTy3vV5KsX6WTm/WRJ3gT/i2GHg13r2UppP3zZdJZ1+78VHxUaVOwxwcV2aqDglhCg/F+/kcbht+4oPZybrAgtMhvCA0fwyi+PYTmIHqrTmoDQtf2UHHR9ze0bvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rp6JZ2VZMu6D7qs8xPRngx/HR+ZmZziCVMPQ8iG3ozM=;
- b=HmncpdBw9vag1YJv7nfS8hhbrrS9Aozbwq4XhmPaDDzt3NTuTotnw+k+LHaHWgzuozQnoaUHijmxJxX0x9gAcZcyh7cmKFv7sTzr6BMRerryE0eQ5rrgTvlNfyYJUmWFnFB4f6e+sUlCWkPWkYPAvyUALXYUCLeNAyFIudkx36ROAzx8PioOWVY31bYuk8pmO/STzjbtRPB9bzM/puM3W9eHsQleVdZaB5Vx+6lTnzhE0oci5SPgrVJqeOjxuXXbqSVsMDynuaLjwmqzMRZainZOufOZtf5LHfNMO9S+SeKXSezfze8kF4uUQk/NS7+n4fi/8SL652s8PiRs4/Sueg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 64.62.143.114) smtp.rcpttodomain=axiado.com smtp.mailfrom=axiado.com;
- dmarc=none action=none header.from=axiado.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axiado.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rp6JZ2VZMu6D7qs8xPRngx/HR+ZmZziCVMPQ8iG3ozM=;
- b=XYXLBAtIVkowZpNbVM9UOLANOZS8u5OeL+hxPqLFLFRgI/917pvSUkZppoEZ8Xfsw22dRll3+d9n+5jiH5mfU9QQo+RnDzXvAaGBkk2LH+UO5A2dqeQFUGU3DtXDQqL9Nx7pa07UerX1wcTp2ap+ezq36bBqGZsVrue1y6K6kkCwWWFHOy9Z6kNuVPopgbzZCnFSUd4c75j602kmi01q5Xzu9txYE+bED+EmbrO9UUANMW9eFmhvQ7JEyJODkLmxSRzOu7yQPal+DNFN7bHF1kBkgVD2VShVaxOu4X+jnmi7Q0CT4Ftz9Ie61aaGJGvU9d+J4NUZA15OT/4zfKuBOw==
-Received: from BY5PR04CA0004.namprd04.prod.outlook.com (2603:10b6:a03:1d0::14)
- by BY3PR18MB4739.namprd18.prod.outlook.com (2603:10b6:a03:3ca::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.20; Thu, 6 Aug
- 2026 09:01:35 +0000
-Received: from SJ1PEPF000023CE.namprd02.prod.outlook.com
- (2603:10b6:a03:1d0:cafe::4d) by BY5PR04CA0004.outlook.office365.com
- (2603:10b6:a03:1d0::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.19 via Frontend Transport; Thu, 6
- Aug 2026 09:01:35 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 64.62.143.114)
- smtp.mailfrom=axiado.com; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axiado.com;
-Received-SPF: Fail (protection.outlook.com: domain of axiado.com does not
- designate 64.62.143.114 as permitted sender) receiver=protection.outlook.com;
- client-ip=64.62.143.114; helo=smtp.corp.axiado.com;
-Received: from smtp.corp.axiado.com (64.62.143.114) by
- SJ1PEPF000023CE.mail.protection.outlook.com (10.167.244.10) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
- via Frontend Transport; Thu, 6 Aug 2026 09:01:35 +0000
-Received: from axz-uw1-build-vm02.corp.axiado.com (unknown [10.14.1.22])
-	by smtp.corp.axiado.com (Postfix) with ESMTP id 77F064186B53;
-	Thu,  6 Aug 2026 02:01:35 -0700 (PDT)
-From: Petar Stepanovic <pstepanovic@axiado.com>
-Subject: [PATCH 0/2] hwmon: add Axiado AX3000 and AX3005 PWM fan support
-Date: Thu, 06 Aug 2026 02:01:28 -0700
-Message-Id: <20260806-axiado-ax3000-pwm-fan-v1-0-f6db4cf2166b@axiado.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XrnD5ycW"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47fd66a094eso767796f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 02:22:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1786008140; x=1786612940; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Pcnhqt0EtUylxXGbjqsf+1Pc4DS5YZiCgI0VutNek2Q=;
+        b=XrnD5ycWprfq6ZXTgx/sPzXa5ZnxABDwcpmPqfn9GG88R1oeKt24y55hESrkuenR00
+         nCKpfv3AkKfF4BEvNi1Np0lFOrYCUwYWexMxsBnhPOx2mxRlL7ydg2m/kBT+aiUV3Zd3
+         VESkJ5GGNCSExJTW9D+DzbWi1fVcVr4NwLIFru+84F1HhDvhmChS2J0YqoM0vX1T/1cK
+         iAluYuFr7ppe3xH4njcLfGLfuvucdrfjmvVOh34RYec6puIycELs/LS1OFCHdSinjMYe
+         umcNKcyjctdczgVSItKFxhC6REpSN1RTegig96f/He4KlWghfvQV4c9yOrOSyHOvsfie
+         Z3iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786008140; x=1786612940;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Pcnhqt0EtUylxXGbjqsf+1Pc4DS5YZiCgI0VutNek2Q=;
+        b=mPb2v3Dy+0Kv21wEi+HTcqlyfAlUmc2Z7SX4ZzIUr28kxh5rXr2bIfMto2jkkQjeWd
+         E+PpJtjE5OLUf4Fr8MjiKTQ0tXPTuS53qXyAm/lUbZh3PC62ubIt3yxp9clLgDPk5CZC
+         Ve5Vov63TMxx3lfZMN5sdsEX0uOd4hFZptduAREQnfCC7u6HliKdjANFWT392non2Kfr
+         6WRagZb0lR6L1OhDnwj6wALNm5rdzOrwa3T0YIPlG3wwf3SdzPMoPhDrmADd/3uiUBmI
+         pgu94ROJrMM9/8S7PXbAJ00Q7wivkdv/gJ8mj4EmQpASq2F9m3O2S7StJqLgdm7SiXr0
+         cktA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq4uOPhbX4Ub8sJBxl69dr0fzbpfZpJDdq/jFFGkPtBW9aUs4yvzLGVOSPgeJZm5ykKks8xN1+HTDs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/+Chafvop+d/7J7Zhx9W2OFsPLLcuAyqFmejNfvxqYlakeo4L
+	JxaU4CSGWaSW0gH+kogDS4XpUpkQkRV90Z2aILAn6CvMmPNTuWYXUEZRxDHumumIw5w=
+X-Gm-Gg: AR+sD1048ypKJDiI6yD4DqFPVm+dzdKphY4BiQt4ynnQr1Vof3HPweDJ2sn+22xTyvS
+	pIlcmr2jSmfJZLUrr2AMZYtT/linl/C/uT/Afwd/ph3L2K5Ny+D9dHpfuMev21L0STrlIekTTbs
+	WW6BfgRFVMhdYL17k8KPfuG02soxYxVEpyqlDiLlbKr9hu3wUR1qDGiJIP9vZVmeQFsw8w5eIkX
+	wTkCGI7guxk8JtOK1+wcbBnc3cGTLJfWCZNZ4thFjlEYSutLqcrP11JK98GKlnbOIR9NneS8vRU
+	0J0TBYyp39VxqjiVTcGWnwU5ZmxTMYKqiU4ELN44FmAYTXaWbYdvw1JEXjqWlQfi2KqFz/O8ss3
+	LGS4/+Cs9V2CWVXZmBtp1u1LSJpI5olZphtlLWrUAgjYUbfF62aQhEUv+XoyqYy3nFR/pqRp8ZZ
+	cFhkxAM/cpRXvDFniiYbOvGs105DDLkh5vbi5KynEwCiEGbK5dRQDBS7+pb858Z0Nf
+X-Received: by 2002:a5d:624a:0:b0:47f:9750:26cc with SMTP id ffacd0b85a97d-47fec630b5cmr16574414f8f.23.1786008139632;
+        Thu, 06 Aug 2026 02:22:19 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff7b31975sm4112794f8f.33.2026.08.06.02.22.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 02:22:18 -0700 (PDT)
+Date: Thu, 6 Aug 2026 11:22:16 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Yu Kuai <yukuai@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Yu Kuai <yukuai@fygo.io>, 
+	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@fygo.io>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Alasdair Kergon <agk@redhat.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
+	Benjamin Marzinski <bmarzins@redhat.com>, Song Liu <song@kernel.org>, Dan Williams <djbw@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>, Tao Cui <cui.tao@linux.dev>, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev, 
+	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev, virtualization@lists.linux.dev, 
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
+Message-ID: <anRPSKHWo59GPIA0@localhost.localdomain>
+References: <20260804065313.2092022-1-yukuai@kernel.org>
+ <20260804065313.2092022-3-yukuai@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGhNdGoC/x2MMQqAMAwAvyKZDcQWi/oVcYg2agartKCC+HeL0
- 3HD3QNJokqCrnggyqlJ95ClKguYVg6LoPrsYMg4qg0h38p+z7BEhMe14cwBreOm9eL86CrI7RF
- l1vv/9sP7fkAayEZnAAAA
-X-Change-ID: 20260520-axiado-ax3000-pwm-fan-36a89de6db61
-To: Petar Stepanovic <pstepanovic@axiado.com>, 
- Akhila Kavi <akavi@axiado.com>, Prasad Bolisetty <pbolisetty@axiado.com>, 
- Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Tzu-Hao Wei <twei@axiado.com>, Karthikeyan Mitran <kmitran@axiado.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786006895; l=2103;
- i=pstepanovic@axiado.com; s=20250916; h=from:subject:message-id;
- bh=L1errroewBQQ9h3a50ccUPOFxOTJzBDhDpiOOeW/1u0=;
- b=7bX0V3G8/2zI9kiRlqLXiXWLtUoWx4pJFJaPaiO2c+cWc1zSdQ57Fddf90sB2wHp0ctMYqytY
- u12dZtooJllCkQnpuGFceTCzU8VJpKcNRtG2cMLmV8FQCHUilMd/2qG
-X-Developer-Key: i=pstepanovic@axiado.com; a=ed25519;
- pk=70f1UJOGT9U11ZK6o+ENXtv0I5wBE3e+Y9YWODzRsdI=
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023CE:EE_|BY3PR18MB4739:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4505a7df-c331-407b-8c17-08def399519d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|376014|7416014|23010399003|56012099006|10067099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	UxmJT3eKjLLquuigrOMh8L7s2aHV1iItKHcGITPBtFQ7UjC7rAsEpiRQDX80h2xUqaDDurumPMNx/9L/ej95s9j8LLcZMYekfYzb3a3kyf3HWpfDFiIPd2NWdLHrGgG7auqoiYAQ34KY2Ty9JJRCk4g/Ot2QkNVhQoDsOBRGQF5zmnkV8AXwX6H7IrT/tqlm7p+k+JWL691EGLt1EIk5/6Kt0IFNB/H7gJF8S+QnggXOVRTZvj5dzjAoS1l6UOuvHs2fmrHtAvUG1F97HCNKBjeu/7YKO4fsUmwtKpSTjfqBhvuGKEd6GhwOvUUtDR9Rgcimify7E72PjGASWcV6JvCYstSbkgJWx8E2JBo2vC1s1V+ubckgd497WDKf8ChpYXinigbuQgNko3+rv05SDinmUraDUoDA5MxDGiuzLJQ/OEORQuBDNAIU4fk8xKN/4+eqOof9iMAOvZz6sm5xbG2dO8EK3oeJ9RFD2lMlzoRA8/jVPbELyeBD4/3kKwNqJmA9SjB27RhIHJ5Qqqq9cCVifHGVkwph+IhV8wMVmCmq2r14Fl3XiyIqPj/+MvJP/m/EH1JUhcSiv4OOzCAvrM7H9jLQ4IO/ioUtGlPfmVhjOFDrXCnK2xFkPHubvrxpExjNtr2q6KpX06f7s+kJc/OnQX9xXy+gk2hwysqHDPo7RweAl+1BJkzTqjDqvhsDFmfrEa9B5TSMCgbSpMebkGt3ADkfF+KOjaBjEBzMELugGu5qoPTFhVT+ZDc0z1jX
-X-Forefront-Antispam-Report:
-	CIP:64.62.143.114;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp.corp.axiado.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(376014)(7416014)(23010399003)(56012099006)(10067099003)(18002099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	PFcV2kV2hA7kqXD1o0qRem2kPZD80MkYP9tM/TvFnEQv37A3N6XcEu1RxltIkQvl326FcSjH6X1qkapapU3/0rA+6+M2h3SM/tduU/+bXeX5SI67qkaBEYz4BEVqWEB1p4NAICiPzi9a7vYST6bMR21MC5WAqOst8xP8+21I191MzvkmV8gYa/9+ZjM3ULr2L9FtZ/NLshXicKtpIyVx1YJSwDJ4jEu1j+3q/aADp7gjHGwZ2gV3WAokJk5DxuUzPYL6wp1DRlc8RSO+b6+GwXItSjo2xWtvm8nXSDfNgrckXB/SbJWlut672w4icmCDhtPL7pvGw8MBkS7KixNP9YSYlvDfbRKKEmtYWqU/oZPH3FeIG7x2KpMcQAzKoYTR10HcEjbCJMDwTcNyPNKQXds6yXNtyfRoRncbCK8uZFo/ulZ3vafi8tLooaANaAaX
-X-OriginatorOrg: axiado.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 09:01:35.6693
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4505a7df-c331-407b-8c17-08def399519d
-X-MS-Exchange-CrossTenant-Id: ff2db17c-4338-408e-9036-2dee8e3e17d7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=ff2db17c-4338-408e-9036-2dee8e3e17d7;Ip=[64.62.143.114];Helo=[smtp.corp.axiado.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023CE.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR18MB4739
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ltojthlavrpt3nkl"
+Content-Disposition: inline
+In-Reply-To: <20260804065313.2092022-3-yukuai@kernel.org>
 
-This series adds support for the fan controller found on the Axiado
-AX3000 and AX3005 SoCs.
 
-The controller provides a hardware tachometer block for measuring the
-rotational speed of one fan. Fan speed is controlled through a PWM
-signal supplied by an external PWM controller.
+--ltojthlavrpt3nkl
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
+MIME-Version: 1.0
 
-The tachometer counts fan pulses in hardware and reports the accumulated
-count through an MMIO register when the measurement interval expires.
-The generic pwm-fan driver counts tachometer interrupts in software and
-therefore cannot directly operate this hardware counter block.
+Hi Kuai.
 
-The driver registers with the hwmon subsystem and provides the
-following standard sysfs attributes:
+On Tue, Aug 04, 2026 at 02:53:12PM +0800, Yu Kuai <yukuai@kernel.org> wrote:
+> From: Yu Kuai <yukuai@fygo.io>
+>=20
+> A bio currently stores a queue-local blkg reference.  This forces bio
+> association and remap paths to look up or create a blkg even when the bio
+> will never enter a blkcg policy.
+>=20
+> Store the blkcg css association in the bio instead, and derive the blkg
+> from the bio's blkcg and current bdev when a policy needs it.  The first
+> successful policy lookup pins the blkg, records the pin with BIO_BLKG_REF,
+> and drops it from bio_clear_blkcg() or when bio_set_dev() changes the
+> lookup key.
+>=20
+> Keep lookup-only users from creating missing blkgs by using
+> bio_blkg_lookup(), and rename the bio cgroup association helpers to match
+> the stored blkcg state.
 
-  - fan1_input for the measured fan speed in RPM
-  - pwm1 for fan-speed control in the range 0 to 255
+I assume this should be OK due to limited lifetime of bios -- this would
+not lead no possibly indefinite accumulation of offlined blkcgs,
+correct?
 
-The number of tachometer pulses generated per fan revolution can be
-configured using the pulses-per-revolution devicetree property. If the
-property is not specified, the driver uses two pulses per revolution.
+> -void bio_associate_blkg_from_css(struct bio *bio,
+> +void bio_associate_blkcg_from_css(struct bio *bio,
+>  				 struct cgroup_subsys_state *css)
+>  {
+> -	if (bio_blkg(bio))
+> -		blkg_put(bio_blkg(bio));
+> +	struct blkcg *blkcg;
+> =20
+> -	if (css && css->parent) {
+> -		bio->bi_blkg =3D blkg_tryget_closest(bio, css);
+> -	} else {
+> -		blkg_get(bdev_get_queue(bio->bi_bdev)->root_blkg);
+> -		bio->bi_blkg =3D bdev_get_queue(bio->bi_bdev)->root_blkg;
+> -	}
+> +	if (!css || !css->parent)
+> +		css =3D &blkcg_root.css;
+> +
+> +	blkcg =3D css_to_blkcg(css);
+> +	if (bio_blkcg(bio) =3D=3D blkcg)
+> +		return;
+> +
+> +	css_get(css);	<---
+> +	bio_clear_blkcg(bio);
+> +	bio->bi_blkcg =3D blkcg;
+>  }
+> -EXPORT_SYMBOL_GPL(bio_associate_blkg_from_css);
+> +EXPORT_SYMBOL_GPL(bio_associate_blkcg_from_css);
 
-The series includes:
+[skip to next comment below now]
 
-  - Devicetree binding documentation
-  - Axiado PWM fan hwmon driver
-  - hwmon driver documentation
-  - MAINTAINERS entry
+And here yet another (any) reference to same css is taken 2nd time.
 
-The driver was tested on AX3000 and AX3005 platforms.
+[skip after next comment below :)]
 
-Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
----
-Petar Stepanovic (2):
-      dt-bindings: hwmon: add Axiado AX3000 and AX3005 PWM fan controller
-      hwmon: add Axiado AX3000 and AX3005 PWM fan controller driver
 
- .../bindings/hwmon/axiado,ax3000-pwm-fan.yaml      |  68 ++++
- Documentation/hwmon/axiado-pwm-fan.rst             |  38 ++
- Documentation/hwmon/index.rst                      |   1 +
- MAINTAINERS                                        |  10 +
- drivers/hwmon/Kconfig                              |  12 +
- drivers/hwmon/Makefile                             |   1 +
- drivers/hwmon/axiado-pwm-fan.c                     | 389 +++++++++++++++++++++
- 7 files changed, 519 insertions(+)
----
-base-commit: 28807a684f870463e059fbc8cb22f5b780b94fe4
-change-id: 20260520-axiado-ax3000-pwm-fan-36a89de6db61
+> =20
+>  /**
+> - * bio_associate_blkg - associate a bio with a blkg
+> + * bio_associate_blkcg - associate a bio with a blkcg
+>   * @bio: target bio
+>   *
+> - * Associate @bio with the blkg found from the bio's css and request_que=
+ue.
+> - * If one is not found, bio_lookup_blkg() creates the blkg.  If a blkg is
+> - * already associated, the css is reused and association redone as the
+> - * request_queue may have changed.
+> + * Associate @bio with the blkcg found from the bio's css.  If a blkcg is
+> + * already associated, keep it as blkcg association is not queue-local.
+>   */
+> -void bio_associate_blkg(struct bio *bio)
 
-Best regards,
--- 
-Petar Stepanovic <pstepanovic@axiado.com>
 
+> +void bio_associate_blkcg(struct bio *bio)
+>  {
+>  	struct cgroup_subsys_state *css;
+> =20
+>  	if (blk_op_is_passthrough(bio->bi_opf))
+>  		return;
+> =20
+> -	if (bio_blkg(bio)) {
+> -		css =3D bio_blkcg_css(bio);
+> -		bio_associate_blkg_from_css(bio, css);
+> -	} else {
+> -		rcu_read_lock();
+> -		css =3D blkcg_css();
+> -		if (!css_tryget_online(css))
+> -			css =3D NULL;
+> -		rcu_read_unlock();
+> +	if (bio_blkcg(bio))
+> +		return;
+> =20
+> -		bio_associate_blkg_from_css(bio, css);
+> -		if (css)
+> -			css_put(css);
+> -	}
+> +	rcu_read_lock();
+> +	css =3D blkcg_css();
+> +	if (!css_tryget_online(css))	<---
+> +		css =3D NULL;
+> +	rcu_read_unlock();
+> +
+> +	bio_associate_blkcg_from_css(bio, css);
+> +	if (css)
+> +		css_put(css);
+>  }
+> -EXPORT_SYMBOL_GPL(bio_associate_blkg);
+> +EXPORT_SYMBOL_GPL(bio_associate_blkcg);
+
+next:
+Here you take (online) reference to the blkcg->css.
+
+[return back to previous comment]
+
+
+after:
+Ideally, no tasks should be in offlined (blk)cgs, so the `current` would
+not resolve to blkcg_css() returning an offlined blkcgs. OTOH, it's
+generally good not to do _new_ associations to an offlined blkcg.
+Which is why I think this logic would better fit to
+bio_associate_blkcg_from_css()
+
+
+0.02=E2=82=AC,
+Michal
+
+
+--ltojthlavrpt3nkl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCanRSRBsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ahf+gEA5FtU8iXyQA9tlhJdWJEf
+nyf1IBDUt4tisH7UDE8KiSEBAP5BK6FXkSftml/wn918ol1iwizfBzFhephd2gZc
+e3UL
+=GgwG
+-----END PGP SIGNATURE-----
+
+--ltojthlavrpt3nkl--
