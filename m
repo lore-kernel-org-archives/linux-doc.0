@@ -1,71 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165813D565B;
-	Thu,  6 Aug 2026 08:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA103E638E;
+	Thu,  6 Aug 2026 08:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786003357; cv=none; b=CqS4+DwEDIdLGN3K+Zvj+74zML0j0RV0MfFuvahltv2dQQFAXVXyRXv7pAaA/TuzJsGM5N44TYZAxri5GBzNlTpt+lMXlQ2g2qYNNkIdNIKJnnJWq9NarZxdC9PC53bKe5frHVmDPeiQaxM700pu/fKN1VxOkS3oiO9VZ8wMErU=
+	t=1786003363; cv=none; b=O2EfNi6JudGguUYKORmNbhl+TKaJoxCVUflPmaqTxVKwUu48Pj/JOMshsT8aQZ7U3+A7jhzYvaUCfWnEs35JDoDDaloJzxcE76Kc+bDNmqEGucbq7Rt9UHRrA1HaxAXDIMaCoHuCc+IPFYZqZuR7ryOmJ15qD6LJ117anEIEmiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786003357; c=relaxed/simple;
-	bh=j6PhW6PY5n4zqaAr8T7SDxJ8+N7jAopqx4x7Fwvcjqc=;
+	s=arc-20240116; t=1786003363; c=relaxed/simple;
+	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iamIiV6EBE07pSmjHdqa63UgJ3v38Vg0Qwg3ZkDWAT69vcVjLwmeerSV8pDdJrO+GFYvlV9RUlVOmkWZEj9weWFe1FYc4cbNdYn93L+FfPZ6U0APFCbgT5UX6ik9Ftl4J2OEDTzun9VLhJVrfoK7Y8NIv04oPFpYHfGtASBh9m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VObp9xbG; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=MhFb8v6rUYfijsjHk0aV9v2Ml3ZWYZNHoqqwKVji3gnY+ZtZFjDXHNdLMHe2oKdHgznoQpUQWjif5nWh1ai34fA6p4debPPwzFq5+0D2TnyLoZR9/iShNugP1V5D+vOd/6kHwn6INmUO917tcDUpwVh4F+nGHFPiDNyxjvsSUb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rTCiWdMY; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PlF25EdF; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VObp9xbG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF2A41F00A3A;
-	Thu,  6 Aug 2026 08:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786003355;
-	bh=M8jb/1pcJb8SYMFFRFHCA5u79FyRrSRWCSvu7jFWqgI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VObp9xbGjaGK9xAGOZ4m6TodTE/89fC1vGZHBE3eiburmZ9aYruGBjS16xZYXD6w/
-	 Tdy5wzcW5sz+f+7ltbD3KtUhdd7IUFVYNe+qqpxpNK1yCJRDr8s6O2tcNxRDbpFur1
-	 R6Y59+uf5FGCoFFTWH1ZcVW9nhuHeK//RpJUEjlccK1d7LTsilryliTsGFXGJkTVtI
-	 suu8fyl1jL2SmRZY6sT+7OZoVQHUOaS/r7IAy5IgcscuhVz6YTDhbUSsB6IJtH3Akv
-	 RZsV8U84HNOHvWphrBrsRcSqs0paekjacTAi7pv/hrHQj5tFdAjgsFFGTM1V2itmQN
-	 TeSOP+CFtv/XA==
-Date: Thu, 6 Aug 2026 10:02:31 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Troy Mitchell <troy.mitchell@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/6] dt-bindings: hwmon: Move LM63 family to a
- dedicated binding
-Message-ID: <20260806-pastoral-splendid-fennec-b7dda8@quoll>
-References: <20260805-ctl2301-v3-0-fd4b8ffb5b0d@linux.dev>
- <20260805-ctl2301-v3-2-b86c75d1c552@linux.dev>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rTCiWdMY";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PlF25EdF"
+Date: Thu, 6 Aug 2026 10:02:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1786003360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
+	b=rTCiWdMYwTg3AdL0umlWZMfCwxHA8rx3+tGcbAetMIKchqjQZPE6ynzAMcqO3sctOqFiDU
+	iMVFcJv/a7IesG2vvO2dAKaZOUBEON9PULX7r1aw8ay/QHaJ7kZyyUys8mf6syq9R7K5To
+	1qkiun5o0TezJL8W1YZE2S2W/+JCFbIf9Zul4si98v5F2rlB+gtFzZLrCVNtIxXehEhkyv
+	vitDwApMDx9Uwzdy5l9voe7jLelIP/YcT6HJUzdgUYulki3nzvUYvXxrc9RpRM0atHPtMp
+	iAY6R38yP+EUlIxqIOQDD6Gw0CDYh4ZZo8/3ruIliiChAx3SoJk2Lkst/D7W7g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1786003360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
+	b=PlF25EdFSBKuwj+ZTAYXmsKrIvDEjtzSECZW6cJehC0jkI/GiMrVfl+Qa8luVju4tsy8kE
+	YRq5YIeFG5i2e2CQ==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/1] Documentation: real-time: Add kernel
+ configuration guide
+Message-ID: <anQ_nfveudT4ax7v@lx-t490>
+References: <20260804141541.747704-1-darwi@linutronix.de>
+ <20260804141541.747704-2-darwi@linutronix.de>
+ <87pkzwnylm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260805-ctl2301-v3-2-b86c75d1c552@linux.dev>
+In-Reply-To: <87pkzwnylm.fsf@trenco.lwn.net>
 
-On Wed, Aug 05, 2026 at 02:00:52AM -0700, Troy Mitchell wrote:
-> Move the National Semiconductor LM63, LM64, and LM96163 compatibles out
-> of trivial-devices.yaml and into a dedicated binding. Describe their
-> integrated fan control and preserve the optional interrupt used by the
-> ALERT output. Permit use as thermal cooling devices via #cooling-cells.
-> 
-> Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
-> ---
->  .../devicetree/bindings/hwmon/national,lm63.yaml   | 53 ++++++++++++++++++++++
->  .../devicetree/bindings/trivial-devices.yaml       |  6 ---
->  2 files changed, 53 insertions(+), 6 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+On Wed, 05 Aug 2026, Jonathan Corbet wrote:
+>
+> So would you like me to pick this up in the docs tree
+>
 
-Best regards,
-Krzysztof
+Yes, please; through docs.
 
+Thanks!
+Ahmed
