@@ -1,76 +1,74 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA103E638E;
-	Thu,  6 Aug 2026 08:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22AF3D565B;
+	Thu,  6 Aug 2026 08:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786003363; cv=none; b=O2EfNi6JudGguUYKORmNbhl+TKaJoxCVUflPmaqTxVKwUu48Pj/JOMshsT8aQZ7U3+A7jhzYvaUCfWnEs35JDoDDaloJzxcE76Kc+bDNmqEGucbq7Rt9UHRrA1HaxAXDIMaCoHuCc+IPFYZqZuR7ryOmJ15qD6LJ117anEIEmiU=
+	t=1786003367; cv=none; b=KoqvQKxCfO7l0e05RX263ljMIYMFcVAl/Frz2MRzfip/w7GDTVrn0ttRasN3p/qbuZVENnOJCyyNuPmFIENLiY+6+nJc2Bu9Px2d+s5dGVYas9uDWj20QYZS0uNv6rhDP8zoWho+sorpwCVimzacbrCsvE3JF77LrZIz6dv3Wd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786003363; c=relaxed/simple;
-	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
+	s=arc-20240116; t=1786003367; c=relaxed/simple;
+	bh=Jlqf/4D/E01mv0gqEGNnwsvtcn2BaBtu80ou9NYd0aE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MhFb8v6rUYfijsjHk0aV9v2Ml3ZWYZNHoqqwKVji3gnY+ZtZFjDXHNdLMHe2oKdHgznoQpUQWjif5nWh1ai34fA6p4debPPwzFq5+0D2TnyLoZR9/iShNugP1V5D+vOd/6kHwn6INmUO917tcDUpwVh4F+nGHFPiDNyxjvsSUb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rTCiWdMY; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PlF25EdF; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=rClT4z9sUv8EAGQa+UdioElLQUU9lmYjMeNwHlyWkrDTDSsO3BXO9TbH2sknlXU0r5qKQNZ0BZ7nkfEcZKCeZ5NuVFjw5C/qRWc+gkYN8rox5TvmZl45xSnSvrLJMey/CcRE4tlmVcnCNu6+IsmupF2uiU/fZIlJByTuJVlf+M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gapas08f; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rTCiWdMY";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PlF25EdF"
-Date: Thu, 6 Aug 2026 10:02:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1786003360;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
-	b=rTCiWdMYwTg3AdL0umlWZMfCwxHA8rx3+tGcbAetMIKchqjQZPE6ynzAMcqO3sctOqFiDU
-	iMVFcJv/a7IesG2vvO2dAKaZOUBEON9PULX7r1aw8ay/QHaJ7kZyyUys8mf6syq9R7K5To
-	1qkiun5o0TezJL8W1YZE2S2W/+JCFbIf9Zul4si98v5F2rlB+gtFzZLrCVNtIxXehEhkyv
-	vitDwApMDx9Uwzdy5l9voe7jLelIP/YcT6HJUzdgUYulki3nzvUYvXxrc9RpRM0atHPtMp
-	iAY6R38yP+EUlIxqIOQDD6Gw0CDYh4ZZo8/3ruIliiChAx3SoJk2Lkst/D7W7g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1786003360;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=orrb8uAa7KvJjb6Ri3VMbD7Djzwl7d8TqNhSsyKUvDo=;
-	b=PlF25EdFSBKuwj+ZTAYXmsKrIvDEjtzSECZW6cJehC0jkI/GiMrVfl+Qa8luVju4tsy8kE
-	YRq5YIeFG5i2e2CQ==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/1] Documentation: real-time: Add kernel
- configuration guide
-Message-ID: <anQ_nfveudT4ax7v@lx-t490>
-References: <20260804141541.747704-1-darwi@linutronix.de>
- <20260804141541.747704-2-darwi@linutronix.de>
- <87pkzwnylm.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gapas08f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88CAD1F000E9;
+	Thu,  6 Aug 2026 08:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786003366;
+	bh=idcwp6KHbiBQ5C7uiDAZRyemXBi5Ek9ZsWuxuZ5Hl0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Gapas08fqJU5eV6gWBXgoDj7GB5a/rJ5Da2PZkKOWcQ2wsdi1DhHWXna4lhCe/bnq
+	 uXEszbe0uLxDd0ppBwe8ErstloA7eReluB96Hw7M/V3afBhVt5538IRlGN3En7vgLC
+	 Z2s32EQMMb39DK4iRb50dx3kixFDubznh+nHYiJWf5mTVFe2xM6EyFD0vAW/AwpfED
+	 By/8vfqOD5dtqkUTFYy7oeI6J+USyAqtzGhV7SpqyStlyvmi9+8rDk0p/vjPDURYZY
+	 i7/mfEfjTbQR4+hwXPtnskSis0Ldxew4IK8A1QJ6m+PL7XqAK4ODnKoblo1yHYZOuZ
+	 qMaLJZd4zo+iw==
+Date: Thu, 6 Aug 2026 10:02:42 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Troy Mitchell <troy.mitchell@linux.dev>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 3/6] dt-bindings: hwmon: Add Sensylink CTF2301
+Message-ID: <20260806-fair-bright-leopard-afbe1e@quoll>
+References: <20260805-ctl2301-v3-0-fd4b8ffb5b0d@linux.dev>
+ <20260805-ctl2301-v3-3-b86c75d1c552@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87pkzwnylm.fsf@trenco.lwn.net>
+In-Reply-To: <20260805-ctl2301-v3-3-b86c75d1c552@linux.dev>
 
+On Wed, Aug 05, 2026 at 02:00:53AM -0700, Troy Mitchell wrote:
+> Add the Sensylink CTF2301 temperature sensor and fan controller to the
+> LM63 family binding. The chip follows the LM63 register model and can
+> provide a thermal cooling device when #cooling-cells is present.
+> 
+> Do not provide a national,lm63 fallback because the CTF2301 is not fully
+> compatible with LM63. It uses different conversion-rate encodings,
+> extended local-temperature registers, additional fan lookup table
+> entries, and device-specific PWM and ALERT/TACH configuration. An older
+> LM63 driver would therefore not operate the device correctly.
+> 
+> Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+> ---
+>  Documentation/devicetree/bindings/hwmon/national,lm63.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Wed, 05 Aug 2026, Jonathan Corbet wrote:
->
-> So would you like me to pick this up in the docs tree
->
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Yes, please; through docs.
+Best regards,
+Krzysztof
 
-Thanks!
-Ahmed
