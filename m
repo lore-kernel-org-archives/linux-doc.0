@@ -1,99 +1,83 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3D52AEF5
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 06:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A28B38551D;
+	Thu,  6 Aug 2026 06:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785997929; cv=none; b=HGN+RQ6E2CYPENuvQehzgJTUrSHcxsnF7y+jPkRHEuB9qM8lDqY24UDaE5orVQy4nSgul01PXym/WDI1ZExY1B2GeAdbckkXCeQjDtKrIBMD3o8etEXyQ9HkWPCvw+uoixZYySwUBnBOmuiz8SMU0Nf2qY+FdeVaZJjnfIRItVs=
+	t=1785999124; cv=none; b=T7w68IAUjmiQjtgD+Fq2E6DjPCToTQOw8JonYiIx4YUaG1Yym81Hy076A5XTksxvizuZ7ad9KSt71agR2J6IFdcRm0Qsc/EeVN9SmQvb7FvdMNdbZTo3VvfVgkkfmIESNOpMpYryhobZd4ZKMqjQlP2WGpYIbo9ysL/W9lR53I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785997929; c=relaxed/simple;
-	bh=U99UY9nqamgfVI4HnGKMhpt5HM6LIFsK7fT1lmmLATY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fmksTDMWxWaWFZfK1sUN8uxe+y6YsmhUjNe/rg2H/+e8mRykfYOEHQyei5ztMj1cwCbOqxqIJ6iotTqzNCPb+xRef0radn3w+zc0mo0CErYAZW1EuN+ioFp/e5EWvO1+gL9DSnPm62MyfcJi2HeS5QaFTuiG/xFLsK45H9MyZ64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZdLq5BEQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785999124; c=relaxed/simple;
+	bh=vkG8XIqRe+o8AgwJqlAVMeUNOmNm0mUbnlXEHa/a/14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fyl6mmC596EFPDax5iFJXFSLjZuMGy47V8qdDj7V0vAKzObGcgJ7w/sTIRNb6zrqcjaePiDN3RXbzV23YufWssMaZ8TKeBYn3jg6f3bwW2F4pfLr33CDN0SRTMTDvAMZCEXtTRwP/ue+vND82evCPcyS2a1FiwwdX3jGOFXCC5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=blVOxzEg; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZdLq5BEQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785997927;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4E5y/AkNbZJxw0IkAsjY/ZvET0ucQGZj9LI++HPuzv4=;
-	b=ZdLq5BEQmizi1VBR6N/DvE4O2wx2JEZga7/Mtmx+LbZyOcgAh5XQueT68qRiAYydp57ZTJ
-	EWhCykyOU1yBm6vh59v7eXg69CNEUIWhRADefvTN3bmt4QjAIMr7YnUgi3O0w+ZVYIQVm5
-	AkueneeTQU+peOTbI4SkFhnckHIfEN4=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-10-AReQfHRvOQSizv01XUWLeg-1; Thu,
- 06 Aug 2026 02:32:05 -0400
-X-MC-Unique: AReQfHRvOQSizv01XUWLeg-1
-X-Mimecast-MFC-AGG-ID: AReQfHRvOQSizv01XUWLeg_1785997921
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 44BEA18000A3;
-	Thu,  6 Aug 2026 06:31:59 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E85001956049;
-	Thu,  6 Aug 2026 06:31:50 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Peter Bergner <bergner@oss.tenstorrent.com>
-Cc: Andy Chiu <tchiu@tenstorrent.com>,  Jonathan Corbet <corbet@lwn.net>,
-  Shuah Khan <skhan@linuxfoundation.org>,  Paul Walmsley <pjw@kernel.org>,
-  Palmer Dabbelt <palmer@dabbelt.com>,  Albert Ou <aou@eecs.berkeley.edu>,
-  Alexandre Ghiti <alex@ghiti.fr>,  linux-doc@vger.kernel.org,
-  linux-riscv@lists.infradead.org,  kito.cheng@sifive.com,
-  dfustini@oss.tenstorrent.com,  greentime.hu@sifive.com,  Andrew Jones
- <andrew.jones@oss.qualcomm.com>,  Nutty Liu <nutty.liu@hotmail.com>,
-  Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>,  Yao Zihong
- <zihong.plct@isrc.iscas.ac.cn>,  Xu Lu <luxu.kernel@bytedance.com>,
-  Aleksa Paunovic <aleksa.paunovic@htecgroup.com>,  Jingwei Wang
- <wangjingwei@iscas.ac.cn>,  Zong Li <zong.li@sifive.com>,  Deepak Gupta
- <debug@rivosinc.com>,  =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?=
- <cleger@rivosinc.com>,
-  linux-api@vger.kernel.org,  Jeffrey Law <jeffrey.law@oss.qualcomm.com>
-Subject: Re: [EXT] Re: [PATCH 1/2] riscv: hwprobe: export the availability
- of vector to user
-In-Reply-To: <cc671848-f954-41bf-b7a9-ba34c29593ec@oss.tenstorrent.com> (Peter
-	Bergner's message of "Wed, 5 Aug 2026 13:40:27 -0500")
-References: <20260723222109.2229089-1-tchiu@tenstorrent.com>
-	<20260723222109.2229089-2-tchiu@tenstorrent.com>
-	<87bjbwk0q5.fsf@oldenburg.str.redhat.com>
-	<cc671848-f954-41bf-b7a9-ba34c29593ec@oss.tenstorrent.com>
-Date: Thu, 06 Aug 2026 08:31:48 +0200
-Message-ID: <lhuik5n4v57.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="blVOxzEg"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1785999117; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=aGK/RoC19nUT02iTa9oP7JFher0vxY/EWJohRihzv6k=;
+	b=blVOxzEgxxjO0SxaWZdXqBmxsBSxeuQmQTEtTC1GdGFnbyoNLEbS7IeWCw3O1RhIw/cI/My1DPWdo6aLoCTviZtMqk/XcMXGEtI09NcoxbJRnrx3e9K5f+pGWNtFQVsd0AJY6XW21Fx/gaMc+/DpeU1+ddhXfQnvo1jknkkSQGk=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=yaoyuan@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0X8TCDP1_1785999116;
+Received: from localhost(mailfrom:yaoyuan@linux.alibaba.com fp:SMTPD_---0X8TCDP1_1785999116 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 06 Aug 2026 14:51:57 +0800
+Date: Thu, 6 Aug 2026 14:51:55 +0800
+From: Yao Yuan <yaoyuan@linux.alibaba.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>, 
+	Oliver Upton <oupton@kernel.org>, Peter Maydell <peter.maydell@linaro.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v18 03/14] KVM: arm64: Manage GCS access and registers
+ for guests
+Message-ID: <rduid57zbypxwiujgfez67walqgqkekhyktkbibtiqcjh5buge@jqqcu52yl5nc>
+References: <20260803-arm64-gcs-v18-0-fd8c40f5ad88@kernel.org>
+ <20260803-arm64-gcs-v18-3-fd8c40f5ad88@kernel.org>
+ <enhoyivbkdaacgyazubgfzftt34xjemtrybvgpuqvr4czjtbhm@7qvrce5lmdyw>
+ <6d63905e-8c6e-4c88-b60b-d34ab1401783@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6d63905e-8c6e-4c88-b60b-d34ab1401783@sirena.org.uk>
 
-* Peter Bergner:
-
->> We only get a true userspace simplification over hwprobe + prctl if we
->> can disable vector extension usage if the kernel does not support
->> RISCV_HWPROBE_KEY_EXT_ENABLED (so a V usage regression for older
->> kernels).  Otherwise we'd have to use the new approach and, as a
->> fallback, the old combination of hwprobe and prctl.
+On Wed, Aug 05, 2026 at 01:32:26PM +0800, Mark Brown wrote:
+> On Wed, Aug 05, 2026 at 05:48:04PM +0800, Yao Yuan wrote:
+> > On Mon, Aug 03, 2026 at 11:56:48PM +0800, Mark Brown wrote:
 >
-> Since the kernel ignores unknown keys, we do get a userspace simplification
-> over hwprobe + prctl.  The plan is for our GLIBC IFUNC resolvers to just have
-> one hwprobe call (as they do now) with RISCV_HWPROBE_KEY_EXT_ENABLED as the
-> first key and RISCV_HWPROBE_KEY_IMA_EXT_0 as the second key.
+> > >
+> > >  		if (ctxt_has_s1poe(&vcpu->arch.ctxt))
+> > >  			write_sysreg_el1(__vcpu_sys_reg(vcpu, POR_EL2), SYS_POR);
+> > > +
+> > > +		if (ctxt_has_gcs(&vcpu->arch.ctxt)) {
+> > > +			write_sysreg_el1(__vcpu_sys_reg(vcpu, GCSCR_EL2), SYS_GCSCR);
+> > > +			write_sysreg_el1(__vcpu_sys_reg(vcpu, GCSPR_EL2), SYS_GCSPR);
+> > > +		}
+>
+> > Looks the s1pie checking for GCS vEL2 context switch is
+> > necessary yet IIUC, KVM does vEL2 context switch for nested
+> > L1's EL2, it should follow same rule as non-nested L1's EL1
+> > context switch.
+>
+> Right, it's not really needed in either case but hopefully helps code
+> generation a bit.  Thanks for spotting that.
+>
+> Please delete unneeded context from mails when replying.  Doing this
+> makes it much easier to find your reply in the message, helping ensure
+> it won't be missed by people scrolling through the irrelevant quoted
+> material.
 
-And if RISCV_HWPROBE_KEY_IMA_EXT_0 comes back at -1, we'd turn on V
-unconditionally?  That still leaves the existing bug on old kernels, but
-at least the bug goes away with a kernel upgrade.  This isn't too bad.
-
-Thanks,
-Florian
-
+Sure. let me try delete more next time.
+I delete some but decide to leave the whole context switch
+diffs to help other guys to see the realted changes when
+read my comment.
