@@ -1,83 +1,123 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A28B38551D;
-	Thu,  6 Aug 2026 06:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD003DDAF9
+	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 07:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785999124; cv=none; b=T7w68IAUjmiQjtgD+Fq2E6DjPCToTQOw8JonYiIx4YUaG1Yym81Hy076A5XTksxvizuZ7ad9KSt71agR2J6IFdcRm0Qsc/EeVN9SmQvb7FvdMNdbZTo3VvfVgkkfmIESNOpMpYryhobZd4ZKMqjQlP2WGpYIbo9ysL/W9lR53I0=
+	t=1786000200; cv=none; b=WPE1zh8AatEPWCsaAZVvkzWLZy0EdVzIY0GyqTlpSPtBx+HSdEexnLQOKlR0nFglrV1vrrNVEcYmX/iaoo6rMuw9N+GwalzdFbUXYqLdaY85kuptAUu2EfTA1nVplXn1h0H3d/WTs1P5mUmiwBO7xsQSdDUWj+kvami0eDNDQQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785999124; c=relaxed/simple;
-	bh=vkG8XIqRe+o8AgwJqlAVMeUNOmNm0mUbnlXEHa/a/14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fyl6mmC596EFPDax5iFJXFSLjZuMGy47V8qdDj7V0vAKzObGcgJ7w/sTIRNb6zrqcjaePiDN3RXbzV23YufWssMaZ8TKeBYn3jg6f3bwW2F4pfLr33CDN0SRTMTDvAMZCEXtTRwP/ue+vND82evCPcyS2a1FiwwdX3jGOFXCC5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=blVOxzEg; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1786000200; c=relaxed/simple;
+	bh=KB/jB6OqWEcRCtVeInMUBakqguBclC5RDAHwxdTvA14=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FWoJ+zdpG2/to1S8DFkDmsBa+I56AHj9Pej/tzyakUH10HS267ZPLCGA+JxcS9lXYAWNRb5c0erBew1wNX0mGYWtCPLQEQuMzQOFYDkECbHy+FAuDQsco2c0x+ifGkmcKbydJ24nrUKnGYcEg2tD/nRo72DKxRfSG3SJ9IMNJ0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=it0YtjD3; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="blVOxzEg"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1785999117; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=aGK/RoC19nUT02iTa9oP7JFher0vxY/EWJohRihzv6k=;
-	b=blVOxzEgxxjO0SxaWZdXqBmxsBSxeuQmQTEtTC1GdGFnbyoNLEbS7IeWCw3O1RhIw/cI/My1DPWdo6aLoCTviZtMqk/XcMXGEtI09NcoxbJRnrx3e9K5f+pGWNtFQVsd0AJY6XW21Fx/gaMc+/DpeU1+ddhXfQnvo1jknkkSQGk=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=yaoyuan@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0X8TCDP1_1785999116;
-Received: from localhost(mailfrom:yaoyuan@linux.alibaba.com fp:SMTPD_---0X8TCDP1_1785999116 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 06 Aug 2026 14:51:57 +0800
-Date: Thu, 6 Aug 2026 14:51:55 +0800
-From: Yao Yuan <yaoyuan@linux.alibaba.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>, 
-	Oliver Upton <oupton@kernel.org>, Peter Maydell <peter.maydell@linaro.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 03/14] KVM: arm64: Manage GCS access and registers
- for guests
-Message-ID: <rduid57zbypxwiujgfez67walqgqkekhyktkbibtiqcjh5buge@jqqcu52yl5nc>
-References: <20260803-arm64-gcs-v18-0-fd8c40f5ad88@kernel.org>
- <20260803-arm64-gcs-v18-3-fd8c40f5ad88@kernel.org>
- <enhoyivbkdaacgyazubgfzftt34xjemtrybvgpuqvr4czjtbhm@7qvrce5lmdyw>
- <6d63905e-8c6e-4c88-b60b-d34ab1401783@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="it0YtjD3"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84a4d8fd6ecso2288267b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 00:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786000197; x=1786604997; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2rWnIhKLtx7RMjDuQwqgCN4If/Fil+88btYo9NiRc0M=;
+        b=it0YtjD3GvRnyc2JpTyu4GZQQ1kiIU0+Tsb2Q4RZCxnmVs2vKx45u29vyf13oFjkWg
+         aCy/Y5qLpWI564umd5WWuePxlbwxpsQMkv100mbDMGQz61s9MsQ/ii/YvpCrFyzVxdi4
+         phPKjS6QazkOq5cc63hko5e4h4d+1DY8Ls36tzMQFGc2rfeBeuHzJbxmgfblN34kuUux
+         EzhQUXbtc/JIzbVCs2BoTveEHfkB0Zl+UO5VejiAP/vxmhQbApwNZz9ejcOOWbVNK4Qo
+         RbQkGET2QdjDdOqZ/cQqwpdzejVF6mMC5PHlapRMrODVAa4c99KaiBDRhYvVew/GxEj/
+         YduA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786000197; x=1786604997;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2rWnIhKLtx7RMjDuQwqgCN4If/Fil+88btYo9NiRc0M=;
+        b=POFgTpv3EBJDUd1Yh73BMxYKJzuzvjoelufdqyHyMwmwfMHBefBBnHbHvgdS6suNaw
+         XgNVxCsYTrjCj5y4iTx9V+TxokkR9dg9b8TEHz/rfeSIa0On0kdLl1/rXnJy2frfDfMO
+         MAnJNbG6PiJPaoTSXZDu1i05YDJwOxRppsc/SqMh6cY5tRJuc6nMUBsED5ATwiP07hui
+         CHPFpdivtx2QtqwBhyLOnJ50qaZxtiyinhKA+QZmSZsEgoaks0KwUMpEZA6k+GaUNU6z
+         0EavhQDQC4IeISbJBw/hCQgs+EegSAirHgAgIZVBrtyWTyOvSPz8ey5lTA9Zs6tDKrPX
+         QAxw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrj6yOceTeu7nf/n/giTH78kSo5uWmdbhhK46xGZvDbJPwi+KncA12Nc6CNcezvQHnmVK8kDf1Bq94=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVrzCO3R9oW6eRAd97kvLma2En22CXoEGRGe5n7W5l5hdmfJ5c
+	IozYig0bZz+BKOhEshKhGFb0D/+T4VyZixAemNzO5HpW1U/vzXzK/tV0
+X-Gm-Gg: AR+sD129PODkMpfbOCCPUxvoZycSDvrZ59nENFUgd98zWUga+a2Hgxe0JEPIw03aqGR
+	CvuppPhMvAQuiQZBgMo+6Fwo6tlLnvvHyFZTAhOJKx/OB5/PUQxvy3fC6kHyI7YwcdrhDiM3HBP
+	qpmUG8Yhn/u1Sk/iEcKB06mDFm5hHQV4nO4FYaQRcJt4JevywWl/sRhtYmik5zfqIQdna6rhONX
+	tJh6gZByLhl24O0sHBKHXtrIiayp49+r91pY9jemJMMUk6VnicJAIGc1jtiZmVdapqxYMapWua0
+	xvsYrhYiitbcmPt6ZJZYUBJ7AJY/Ff5n7sJTDr0iKIklTxAHAPp/QElpwZ78RA5pBzq7b+AeR83
+	JpJeDCAik3hNd2cgAdivSi2iuRJOIKrsI4eyuZKXNS9NWhLvpAig6cKqyAxAqoVxKprHdhHrgkv
+	8AR4sz0gjqXvwtJwfQZrsjG+hdn+CmZVxpQtMWA9495FHw3mCzn2SFSTo4OBoI7QaTxfNhw0PJq
+	6DALI9cFA0FtMWi
+X-Received: by 2002:a05:6a00:3d54:b0:847:8b1d:230d with SMTP id d2e1a72fcca58-84f2e014151mr13785011b3a.3.1786000197171;
+        Thu, 06 Aug 2026 00:09:57 -0700 (PDT)
+Received: from localhost.localdomain ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f45bc9cffsm760154b3a.59.2026.08.06.00.09.50
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 06 Aug 2026 00:09:56 -0700 (PDT)
+From: Hao Jia <jiahao.kernel@gmail.com>
+To: akpm@linux-foundation.org,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	shakeel.butt@linux.dev,
+	mhocko@kernel.org,
+	yosry@kernel.org,
+	mkoutny@suse.com,
+	nphamcs@gmail.com,
+	chengming.zhou@linux.dev,
+	muchun.song@linux.dev,
+	roman.gushchin@linux.dev
+Cc: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Hao Jia <jiahao1@lixiang.com>
+Subject: [PATCH v4 0/2] mm/zswap: Fixes and improves the zswap shrink
+Date: Thu,  6 Aug 2026 15:09:41 +0800
+Message-Id: <20260806070943.95542-1-jiahao.kernel@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6d63905e-8c6e-4c88-b60b-d34ab1401783@sirena.org.uk>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 05, 2026 at 01:32:26PM +0800, Mark Brown wrote:
-> On Wed, Aug 05, 2026 at 05:48:04PM +0800, Yao Yuan wrote:
-> > On Mon, Aug 03, 2026 at 11:56:48PM +0800, Mark Brown wrote:
->
-> > >
-> > >  		if (ctxt_has_s1poe(&vcpu->arch.ctxt))
-> > >  			write_sysreg_el1(__vcpu_sys_reg(vcpu, POR_EL2), SYS_POR);
-> > > +
-> > > +		if (ctxt_has_gcs(&vcpu->arch.ctxt)) {
-> > > +			write_sysreg_el1(__vcpu_sys_reg(vcpu, GCSCR_EL2), SYS_GCSCR);
-> > > +			write_sysreg_el1(__vcpu_sys_reg(vcpu, GCSPR_EL2), SYS_GCSPR);
-> > > +		}
->
-> > Looks the s1pie checking for GCS vEL2 context switch is
-> > necessary yet IIUC, KVM does vEL2 context switch for nested
-> > L1's EL2, it should follow same rule as non-nested L1's EL1
-> > context switch.
->
-> Right, it's not really needed in either case but hopefully helps code
-> generation a bit.  Thanks for spotting that.
->
-> Please delete unneeded context from mails when replying.  Doing this
-> makes it much easier to find your reply in the message, helping ensure
-> it won't be missed by people scrolling through the irrelevant quoted
-> material.
+From: Hao Jia <jiahao1@lixiang.com>
 
-Sure. let me try delete more next time.
-I delete some but decide to leave the whole context switch
-diffs to help other guys to see the realted changes when
-read my comment.
+This series fixes and improves the zswap global shrinker (shrink_worker()):
+Patch 1: Fix missing global shrinker when memory cgroup is disabled.
+Patch 2: Extend shrink_memcg() to support batch writeback and thereby improving
+         the writeback efficiency in the shrink_worker() and zswap_store() paths.
+
+v3->v4:
+    - Remove the nr_to_scan parameter from shrink_memcg() and cap the per-node
+      scan count at SWAP_CLUSTER_MAX to avoid writeback unfairness across NUMA
+      nodes caused by a shared global scan quota.
+v2->v3:
+    - Added user impact to the commit 1 message.
+    - Updated writeback batch size to SWAP_CLUSTER_MAX to avoid introducing new
+      magic macros. And enabled batched shrinking in the zswap_store() path as well.
+    - Re-benchmarked performance data with the updated patch.
+v1->v2:
+    - Add a reschedule check to the -ENOENT return path in shrink_memcg() to
+      handle the theoretical issue of prolonged heavy concurrent zswap stores.
+    - Remove the shrink_memcg() return value changes part, and include a more
+       detailed test report in the commit message.
+
+[v3] https://lore.kernel.org/all/20260729084206.77793-1-jiahao.kernel@gmail.com
+[v2] https://lore.kernel.org/all/20260717085151.22822-1-jiahao.kernel@gmail.com
+[v1] https://lore.kernel.org/all/20260714081510.16895-1-jiahao.kernel@gmail.com
+
+Hao Jia (2):
+  mm/zswap: Fix global shrinker when memory cgroup is disabled
+  mm/zswap: Support batch writeback in shrink_memcg()
+
+ mm/zswap.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
+
+-- 
+2.34.1
+
