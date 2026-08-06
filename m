@@ -1,177 +1,125 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE4A48F822;
-	Thu,  6 Aug 2026 20:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CDB4D2ECD;
+	Thu,  6 Aug 2026 20:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786048887; cv=none; b=pSzAwD36BcriZmKqZqSBYJ22vcgcNwDJ4f4Fys+lQ+ilfbqfv5s47xYGorHuRbXK3pqbnpF7ObpMdH2TEDoTug5L+fWfELpDabQZNDQmGSf8o60OaMTc1oldhw6m6e20PDjtvT3S7U/4Yx0Zz/JOuYMjWZIN035Aia1E8kDGunA=
+	t=1786049822; cv=none; b=hAaQ4PZWUMHpQVyG2sPDWyxYweNMXaRxMpxPvYhPUx04eDvL/d5/whXhlvcW9yJaK+hzJARcsXGvxLgzeUVrpHRCnfgfOUXc3oOX7QMy3XxMpIpyi5yJcIeFeRWHW9MKIIiFxBJz37Qk9zV0olM2w61q4Ii6gj4+LGI2vcR4+U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786048887; c=relaxed/simple;
-	bh=xR6HG6PiaFqYPWaSc0BbpGc+xguUSO7QguoVLPIuIIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LAvX1cS0DaERMgH3SW+b+wcEVLQL21F0cUrTLHCaY0Hq8oo7Ad+xU42h6LDBRjZdudKIgzZNWkt0gOV5pmUnCKR7EWU2nH2cuxPaDLbVBFXcoL9TiVO0QhYfSpBhq9cu84yhOqN1a8or7pqQDp//6OpJNCTV7gl1TnfB4jH8qPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf14.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 811A9C0208;
-	Thu,  6 Aug 2026 20:41:14 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf14.hostedemail.com (Postfix) with ESMTPA id 0254130;
-	Thu,  6 Aug 2026 20:40:57 +0000 (UTC)
-Date: Thu, 6 Aug 2026 15:40:56 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 06/12] famfs: Introduce mmap and VM fault handling
-Message-ID: <anTwmJN1uDMt1_rS@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022909.75856-1-john@jagalactic.com>
- <0100019fc5743aef-39284cf3-b235-4a69-832f-c51b2198e8da-000000@email.amazonses.com>
- <20260806051643.GF3560084@frogsfrogsfrogs>
+	s=arc-20240116; t=1786049822; c=relaxed/simple;
+	bh=hOwVl7pJeSPXQ/tE4KvKe61l0j0odbkHlxGnR1kRqGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bwjyvA9HMcc24kp+nnLDBwhLsjM0k8ZXCpvP2rewsiUdpWQXCgsg0WpuH1Vy3lfUxdIt6mxNdZF4yAOpg+rJh1CGpcfLfwSu4pfkAwfeYN5YYc/TGa4qyLNYEGYh+LlaQoD++P28hxLEx95iqxXWk2BT+OGOvowCCRsF+O8mI3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/lGvtni; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/lGvtni"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786049819; x=1817585819;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=hOwVl7pJeSPXQ/tE4KvKe61l0j0odbkHlxGnR1kRqGQ=;
+  b=X/lGvtniaXbxr7RNUBQQm1WgqQ9cQ6KP1JWIIAkHHYJYG/1w+v+Z06kC
+   D2rY7hBTDR2Gf8S6dgG9ZZ22IFCNtlZ8UfHAFG64rAagGrxL4olx9OW1P
+   gPbLpDPtfk9Vssm+SUrJCc6AWd5WWuoVG5RsJZpyPHZjUiOX9qUpVID6I
+   03OOFklSRj3hHjIFagCpepcdt0RLk0FILKBbtXpuDmrRUv8DCDeJ/a4WE
+   TMyXg6/naKgZuRXgid9ts5I3n8ZCcsl85GEWzdzi643NKntBWxDLwTO+H
+   g2ggPDC0uGnYJrbKEiMIA6xYwEPLIM1e3KCTYBNLP+GboYx9mMWLpfxGU
+   w==;
+X-CSE-ConnectionGUID: IwreOj+eT4ylfssnsbghbQ==
+X-CSE-MsgGUID: HA7/fLhER4i9VN8aon/RDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97251149"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="97251149"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 13:56:51 -0700
+X-CSE-ConnectionGUID: A0CDQx6fSkq36X4DXeKrlw==
+X-CSE-MsgGUID: esdOXU/eQ7i1bUwMXTZ3cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="262836533"
+Received: from sghuge-mobl2.amr.corp.intel.com (HELO [10.125.109.157]) ([10.125.109.157])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 13:56:50 -0700
+Message-ID: <73c0e29f-3164-4294-a18b-0e07bb958d17@intel.com>
+Date: Thu, 6 Aug 2026 13:56:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806051643.GF3560084@frogsfrogsfrogs>
-X-Rspamd-Queue-Id: 0254130
-X-Stat-Signature: rgkrbshmb4e5xmnxcodmnkbtuy4zi1hh
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+E2Va6GuIuXSLukgenZUgCPOnJ1XdWtXg=
-X-HE-Tag: 1786048857-712595
-X-HE-Meta: U2FsdGVkX18tDPFgu0OyBXUVVFumMXeX6MI7yVjs5QcOa2qMbkCR4fyrWsOwrcAliP+/0VRtGY04vN7FfLDx9/+XWXXKl5CdWNwz3bxG5ZuP4FvGiy6zEOi5mxjRzx2Xj1FqlZbmKPsGML3hXhEEO/8b9pOIgxqy0pkbFbt9X3FXkjkHbSijiOq/00NE0yIsvJjky3qzKUB/tPcFW1L+7hNKSHFMKYvmK7EAjLoGD2UPQL7URStfeGlAScywurhpMu8zX5bn/ID3BeYLJzpv3sTzKPfML8DtspQw7HM7QrLAOCn6tlbwgGR9bfgtqQ6/1FysFaoFbkADyJqIRAd0nl8s5GJM1uAMr4DXkTgTXNa43IViI67fUGg1D8QiSYmw
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 04/11] x86/virt/tdx: Allocate refcounts for Dynamic
+ PAMT memory
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>, bp@alien8.de, hpa@zytor.com,
+ kas@kernel.org, kvm@vger.kernel.org, linux-coco@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mingo@redhat.com,
+ nik.borisov@suse.com, pbonzini@redhat.com, seanjc@google.com,
+ tglx@kernel.org, vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
+ yan.y.zhao@intel.com, kai.huang@intel.com, tony.lindgren@linux.intel.com,
+ binbin.wu@intel.com, sohil.mehta@intel.com
+Cc: Hongyu Ning <hongyu.ning@linux.intel.com>,
+ Binbin Wu <binbin.wu@linux.intel.com>
+References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com>
+ <20260806020850.1221381-5-rick.p.edgecombe@intel.com>
+Content-Language: en-US
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260806020850.1221381-5-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 26/08/05 10:16PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:29:16AM +0000, John Groves wrote:
-> > From: John Groves <john@groves.net>
-> > 
-> > This commit adds vm_operations, plus famfs_mmap() and fault handlers.
-> > It is still missing iomap_ops, iomap mapping resolution, and
-> > famfs_ioctl() for setting up file-to-memory mappings.
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  fs/famfs/famfs_file.c | 101 +++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 100 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
-> > index e192b573c51f..678f2035fd5f 100644
-> > --- a/fs/famfs/famfs_file.c
-> > +++ b/fs/famfs/famfs_file.c
-> > @@ -16,6 +16,75 @@
-> >  
-> >  #include "famfs_internal.h"
-> >  
-> > +/*********************************************************************
-> > + * vm_operations
-> > + */
-> > +static vm_fault_t
-> > +__famfs_filemap_fault(struct vm_fault *vmf, unsigned int order,
-> > +		      bool write_fault)
-> > +{
-> > +	struct inode *inode = file_inode(vmf->vma->vm_file);
-> > +	struct super_block *sb = inode->i_sb;
-> > +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> > +	vm_fault_t ret;
-> > +	unsigned long pfn;
-> > +
-> > +	if (fsi->deverror)
-> > +		return VM_FAULT_SIGBUS;
-> > +
-> > +	if (!IS_DAX(file_inode(vmf->vma->vm_file))) {
-> > +		pr_err("%s: file not marked IS_DAX!!\n", __func__);
-> > +		return VM_FAULT_SIGBUS;
-> > +	}
-> > +
-> > +	if (write_fault) {
-> > +		sb_start_pagefault(inode->i_sb);
-> > +		file_update_time(vmf->vma->vm_file);
-> > +	}
-> > +
-> > +	ret = dax_iomap_fault(vmf, order, &pfn, NULL, NULL /*&famfs_iomap_ops */);
-> > +	if (ret & VM_FAULT_NEEDDSYNC)
-> > +		ret = dax_finish_sync_fault(vmf, order, pfn);
-> > +
-> > +	if (write_fault)
-> > +		sb_end_pagefault(inode->i_sb);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static inline bool
-> > +famfs_is_write_fault(struct vm_fault *vmf)
-> > +{
-> > +	return (vmf->flags & FAULT_FLAG_WRITE) &&
-> > +	       (vmf->vma->vm_flags & VM_SHARED);
-> > +}
-> > +
-> > +static vm_fault_t
-> > +famfs_filemap_fault(struct vm_fault *vmf)
-> > +{
-> > +	return __famfs_filemap_fault(vmf, 0, famfs_is_write_fault(vmf));
-> > +}
-> > +
-> > +static vm_fault_t
-> > +famfs_filemap_huge_fault(struct vm_fault *vmf, unsigned int order)
-> > +{
-> > +	return __famfs_filemap_fault(vmf, order, famfs_is_write_fault(vmf));
-> > +}
-> > +
-> > +static vm_fault_t
-> > +famfs_filemap_mkwrite(struct vm_fault *vmf)
-> > +{
-> > +	return __famfs_filemap_fault(vmf, 0, true);
-> 
-> Do neither of the conditions in famfs_is_write_fault apply here?
+On 8/5/26 19:08, Rick Edgecombe wrote:
+> + * Allocate PAMT reference counters for all physical memory.
 
-I'm confident this is correct. This is directly copied from xfs on the 
-dax path:
+Nit for all of these: This has *ZERO* to do with the "PAMT", which is an
+ancient TDX concept. This new gunk is 100% for *dynamic* PAMT.
 
-	if (IS_DAX(inode))
-		ret = xfs_dax_fault_locked(vmf, order, true);
+Could we please be clear about that universally?
 
-Famfs never has to do COW or allocate a page or any of that sort of
-sfuff; It ends up just looking at the fmap to resolve to a page,
-which always exists unless out or range or bugs.
-
-> 
-> The rest of the patch looks ok to me.
-> 
-> --D
-
-Thank you!
-
-John
-
-<snip>
-
+I think just saying "DPAMT" in most cases this says "PAMT" will help.
