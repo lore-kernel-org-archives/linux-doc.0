@@ -1,86 +1,47 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7034314AC
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 09:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5484334C1;
+	Thu,  6 Aug 2026 10:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786008144; cv=none; b=nVX9cTrjp/e/v/rqDQOvzRLavZeWyXsAgGx9XsZ9I930XcN5Na2BVrpaQhrYC/DiSIYTI+jwqt4S6bHv89N3gHUwMz3sUnUkAEc1EYpHAeAxuM37t7kq37HR36OQeWq1LqC8UgO2X6ZeS2UNVexGfi8oOFKDw80JMXPweU5dA/s=
+	t=1786010678; cv=none; b=WRQRaHhM6+zGr+Dq4jGhd9yXQIS5DkxeDDmw8DFi/MO/Twvx8QwVUU8O/wYr817UH7qFp6LW/0SY0i2PPbg7Hq7TcVio07b0tdRQPX7iO4ez27C74Sl1hAaXSUotn1QJP27m1VlVe2Cg4hhkMxnPS81AM/KNGspTcEsKikZ5Css=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786008144; c=relaxed/simple;
-	bh=eAkOXZtlwNYjPhDGjyZtRke2iyDCQ2QqdzoXZFHQk1s=;
+	s=arc-20240116; t=1786010678; c=relaxed/simple;
+	bh=g8N09sQ7+n26z20HOBNc7m22lVupQdaAjZNvoBGpEgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=peYCzunsIpHhDshU1aF5XVT+lomJrzEhIgdwsnO/Eor2xAAPFseNaM3dlZNUiRYHirpt4JsD9Olr9tbXxw7qo9cbiKqYkqljlTY3XPIaetOVOiueUsa8qSXWueQpVj5N9q4n1Shv6XyJI/MjGUQw/GH6Jnz54qFDWB1MEfO9QGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XrnD5ycW; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJUl7mzd/hCyX08AoegB1/hLU3C9JTI+9rxYZVSPua62ko3pxhbo/GqI+npBeZULUh89Uh5dkmrq4jqwnMJuiI+vyg8UsjkW7MEdpA+SxpuicY4BCANVyf0dXnAn+9we4V/1rwh0JUQpbUAbX35LMZN8o9ASZpY4HNe7Qo9gXaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l9wHswZn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XrnD5ycW"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47fd66a094eso767796f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 02:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1786008140; x=1786612940; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Pcnhqt0EtUylxXGbjqsf+1Pc4DS5YZiCgI0VutNek2Q=;
-        b=XrnD5ycWprfq6ZXTgx/sPzXa5ZnxABDwcpmPqfn9GG88R1oeKt24y55hESrkuenR00
-         nCKpfv3AkKfF4BEvNi1Np0lFOrYCUwYWexMxsBnhPOx2mxRlL7ydg2m/kBT+aiUV3Zd3
-         VESkJ5GGNCSExJTW9D+DzbWi1fVcVr4NwLIFru+84F1HhDvhmChS2J0YqoM0vX1T/1cK
-         iAluYuFr7ppe3xH4njcLfGLfuvucdrfjmvVOh34RYec6puIycELs/LS1OFCHdSinjMYe
-         umcNKcyjctdczgVSItKFxhC6REpSN1RTegig96f/He4KlWghfvQV4c9yOrOSyHOvsfie
-         Z3iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786008140; x=1786612940;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Pcnhqt0EtUylxXGbjqsf+1Pc4DS5YZiCgI0VutNek2Q=;
-        b=mPb2v3Dy+0Kv21wEi+HTcqlyfAlUmc2Z7SX4ZzIUr28kxh5rXr2bIfMto2jkkQjeWd
-         E+PpJtjE5OLUf4Fr8MjiKTQ0tXPTuS53qXyAm/lUbZh3PC62ubIt3yxp9clLgDPk5CZC
-         Ve5Vov63TMxx3lfZMN5sdsEX0uOd4hFZptduAREQnfCC7u6HliKdjANFWT392non2Kfr
-         6WRagZb0lR6L1OhDnwj6wALNm5rdzOrwa3T0YIPlG3wwf3SdzPMoPhDrmADd/3uiUBmI
-         pgu94ROJrMM9/8S7PXbAJ00Q7wivkdv/gJ8mj4EmQpASq2F9m3O2S7StJqLgdm7SiXr0
-         cktA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq4uOPhbX4Ub8sJBxl69dr0fzbpfZpJDdq/jFFGkPtBW9aUs4yvzLGVOSPgeJZm5ykKks8xN1+HTDs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/+Chafvop+d/7J7Zhx9W2OFsPLLcuAyqFmejNfvxqYlakeo4L
-	JxaU4CSGWaSW0gH+kogDS4XpUpkQkRV90Z2aILAn6CvMmPNTuWYXUEZRxDHumumIw5w=
-X-Gm-Gg: AR+sD1048ypKJDiI6yD4DqFPVm+dzdKphY4BiQt4ynnQr1Vof3HPweDJ2sn+22xTyvS
-	pIlcmr2jSmfJZLUrr2AMZYtT/linl/C/uT/Afwd/ph3L2K5Ny+D9dHpfuMev21L0STrlIekTTbs
-	WW6BfgRFVMhdYL17k8KPfuG02soxYxVEpyqlDiLlbKr9hu3wUR1qDGiJIP9vZVmeQFsw8w5eIkX
-	wTkCGI7guxk8JtOK1+wcbBnc3cGTLJfWCZNZ4thFjlEYSutLqcrP11JK98GKlnbOIR9NneS8vRU
-	0J0TBYyp39VxqjiVTcGWnwU5ZmxTMYKqiU4ELN44FmAYTXaWbYdvw1JEXjqWlQfi2KqFz/O8ss3
-	LGS4/+Cs9V2CWVXZmBtp1u1LSJpI5olZphtlLWrUAgjYUbfF62aQhEUv+XoyqYy3nFR/pqRp8ZZ
-	cFhkxAM/cpRXvDFniiYbOvGs105DDLkh5vbi5KynEwCiEGbK5dRQDBS7+pb858Z0Nf
-X-Received: by 2002:a5d:624a:0:b0:47f:9750:26cc with SMTP id ffacd0b85a97d-47fec630b5cmr16574414f8f.23.1786008139632;
-        Thu, 06 Aug 2026 02:22:19 -0700 (PDT)
-Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff7b31975sm4112794f8f.33.2026.08.06.02.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 02:22:18 -0700 (PDT)
-Date: Thu, 6 Aug 2026 11:22:16 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Yu Kuai <yukuai@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Yu Kuai <yukuai@fygo.io>, 
-	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@fygo.io>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
-	Benjamin Marzinski <bmarzins@redhat.com>, Song Liu <song@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>, Tao Cui <cui.tao@linux.dev>, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev, 
-	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev, virtualization@lists.linux.dev, 
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
-Message-ID: <anRPSKHWo59GPIA0@localhost.localdomain>
-References: <20260804065313.2092022-1-yukuai@kernel.org>
- <20260804065313.2092022-3-yukuai@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l9wHswZn"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D742E1F00A3A;
+	Thu,  6 Aug 2026 10:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786010676;
+	bh=EvfjZC9+BJl+tHW2HeH5B1q6/FvCkYz1fIW9Dc4GRXE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l9wHswZnH0VZ5WnJ6vBhnNGe69jlToiJUhWX/SkuYWp0Y6UpqTNKsrcHlLkQxf2jO
+	 LhCywSbWq8veEc+5eCv4IRTK6zEjheTIclipwzEsawbLel0BJrW0UU4Rqk7AfvFh77
+	 euq0TZeZfTwiEX4nT6Z+0UaD1KLcbsN9Grs0br1dTgJIIHuF74VgLmnodD9e/9hD/7
+	 buG4fCodh9tcOqM8e5LDOaXmmcyAn4zsdSGioQXMLEs//5X1mn81Mp3rQ7eS6xmtig
+	 FhXyWBgdNBhdnOgRkhr46HUox+C5TlnykN9oP1of1z4ZuH4uTZwem3sTBStzx86dw8
+	 oGzxNPVbOix6g==
+Date: Thu, 6 Aug 2026 12:04:33 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Petar Stepanovic <pstepanovic@axiado.com>
+Cc: Akhila Kavi <akavi@axiado.com>, 
+	Prasad Bolisetty <pbolisetty@axiado.com>, Guenter Roeck <linux@roeck-us.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>, Tzu-Hao Wei <twei@axiado.com>, 
+	Karthikeyan Mitran <kmitran@axiado.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: add Axiado AX3000 and AX3005 PWM fan
+ controller driver
+Message-ID: <anRaB--HAHoWFkDo@monoceros>
+References: <20260806-axiado-ax3000-pwm-fan-v1-0-f6db4cf2166b@axiado.com>
+ <20260806-axiado-ax3000-pwm-fan-v1-2-f6db4cf2166b@axiado.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,157 +49,91 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ltojthlavrpt3nkl"
+	protocol="application/pgp-signature"; boundary="phnqktoz57ccllis"
 Content-Disposition: inline
-In-Reply-To: <20260804065313.2092022-3-yukuai@kernel.org>
+In-Reply-To: <20260806-axiado-ax3000-pwm-fan-v1-2-f6db4cf2166b@axiado.com>
 
 
---ltojthlavrpt3nkl
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--phnqktoz57ccllis
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH v1 2/3] blk-cgroup: store blkcg in bio instead of blkg
+Subject: Re: [PATCH 2/2] hwmon: add Axiado AX3000 and AX3005 PWM fan
+ controller driver
 MIME-Version: 1.0
 
-Hi Kuai.
+On Thu, Aug 06, 2026 at 02:01:30AM -0700, Petar Stepanovic wrote:
+> +#define PWM_MAX	255
 
-On Tue, Aug 04, 2026 at 02:53:12PM +0800, Yu Kuai <yukuai@kernel.org> wrote:
-> From: Yu Kuai <yukuai@fygo.io>
->=20
-> A bio currently stores a queue-local blkg reference.  This forces bio
-> association and remap paths to look up or create a blkg even when the bio
-> will never enter a blkcg policy.
->=20
-> Store the blkcg css association in the bio instead, and derive the blkg
-> from the bio's blkcg and current bdev when a policy needs it.  The first
-> successful policy lookup pins the blkg, records the pin with BIO_BLKG_REF,
-> and drops it from bio_clear_blkcg() or when bio_set_dev() changes the
-> lookup key.
->=20
-> Keep lookup-only users from creating missing blkgs by using
-> bio_blkg_lookup(), and rename the bio cgroup association helpers to match
-> the stored blkcg state.
+That define has a name that looks much more generic than it actually is.
+Please call it AX_TACH_PWM_VAL_MAX or something similar.
 
-I assume this should be OK due to limited lifetime of bios -- this would
-not lead no possibly indefinite accumulation of offlined blkcgs,
-correct?
-
-> -void bio_associate_blkg_from_css(struct bio *bio,
-> +void bio_associate_blkcg_from_css(struct bio *bio,
->  				 struct cgroup_subsys_state *css)
->  {
-> -	if (bio_blkg(bio))
-> -		blkg_put(bio_blkg(bio));
-> +	struct blkcg *blkcg;
-> =20
-> -	if (css && css->parent) {
-> -		bio->bi_blkg =3D blkg_tryget_closest(bio, css);
-> -	} else {
-> -		blkg_get(bdev_get_queue(bio->bi_bdev)->root_blkg);
-> -		bio->bi_blkg =3D bdev_get_queue(bio->bi_bdev)->root_blkg;
-> -	}
-> +	if (!css || !css->parent)
-> +		css =3D &blkcg_root.css;
+> [...]
+> +static int axiado_pwm_fan_read(struct device *dev, enum hwmon_sensor_types type,
+> +			       u32 attr, int channel, long *val)
+> +{
+> +	struct axiado_pwm_fan_ctx *ctx = dev_get_drvdata(dev);
 > +
-> +	blkcg =3D css_to_blkcg(css);
-> +	if (bio_blkcg(bio) =3D=3D blkcg)
-> +		return;
+> +	switch (type) {
+> +	case hwmon_pwm:
+> +		if (attr != hwmon_pwm_input)
+> +			return -EOPNOTSUPP;
 > +
-> +	css_get(css);	<---
-> +	bio_clear_blkcg(bio);
-> +	bio->bi_blkcg =3D blkcg;
->  }
-> -EXPORT_SYMBOL_GPL(bio_associate_blkg_from_css);
-> +EXPORT_SYMBOL_GPL(bio_associate_blkcg_from_css);
+> +		scoped_guard(mutex, &ctx->pwm_lock)
+> +			*val = ctx->pwm_value;
 
-[skip to next comment below now]
+If there is a hwmon lock that serializes calls to hwmon_ops::read and
+hwmon_ops::write, .pwm_lock isn't needed. (Unless I miss something,
+please double check. Also I'm unsure if there is such a hwmon
+serialization.)
 
-And here yet another (any) reference to same css is taken 2nd time.
+> [...]
+> +static const struct of_device_id axiado_pwm_fan_match[] = {
+> +	{ .compatible = "axiado,ax3000-pwm-fan" },
+> +	{ },
 
-[skip after next comment below :)]
+No trailing , after the list terminator please.
 
-
-> =20
->  /**
-> - * bio_associate_blkg - associate a bio with a blkg
-> + * bio_associate_blkcg - associate a bio with a blkcg
->   * @bio: target bio
->   *
-> - * Associate @bio with the blkg found from the bio's css and request_que=
-ue.
-> - * If one is not found, bio_lookup_blkg() creates the blkg.  If a blkg is
-> - * already associated, the css is reused and association redone as the
-> - * request_queue may have changed.
-> + * Associate @bio with the blkcg found from the bio's css.  If a blkcg is
-> + * already associated, keep it as blkcg association is not queue-local.
->   */
-> -void bio_associate_blkg(struct bio *bio)
-
-
-> +void bio_associate_blkcg(struct bio *bio)
->  {
->  	struct cgroup_subsys_state *css;
-> =20
->  	if (blk_op_is_passthrough(bio->bi_opf))
->  		return;
-> =20
-> -	if (bio_blkg(bio)) {
-> -		css =3D bio_blkcg_css(bio);
-> -		bio_associate_blkg_from_css(bio, css);
-> -	} else {
-> -		rcu_read_lock();
-> -		css =3D blkcg_css();
-> -		if (!css_tryget_online(css))
-> -			css =3D NULL;
-> -		rcu_read_unlock();
-> +	if (bio_blkcg(bio))
-> +		return;
-> =20
-> -		bio_associate_blkg_from_css(bio, css);
-> -		if (css)
-> -			css_put(css);
-> -	}
-> +	rcu_read_lock();
-> +	css =3D blkcg_css();
-> +	if (!css_tryget_online(css))	<---
-> +		css =3D NULL;
-> +	rcu_read_unlock();
+> +};
+> +MODULE_DEVICE_TABLE(of, axiado_pwm_fan_match);
 > +
-> +	bio_associate_blkcg_from_css(bio, css);
-> +	if (css)
-> +		css_put(css);
->  }
-> -EXPORT_SYMBOL_GPL(bio_associate_blkg);
-> +EXPORT_SYMBOL_GPL(bio_associate_blkcg);
+> +static struct platform_driver axiado_pwm_fan_driver = {
+> +	.probe		= axiado_pwm_fan_probe,
+> +	.shutdown	= axiado_pwm_fan_shutdown,
+> +	.driver	= {
+> +		.name		= "axiado-pwm-fan",
+> +		.pm		= pm_sleep_ptr(&axiado_pwm_fan_pm),
+> +		.of_match_table	= axiado_pwm_fan_match,
+> +	},
+> +};
+> +
+> +module_platform_driver(axiado_pwm_fan_driver);
 
-next:
-Here you take (online) reference to the blkcg->css.
+Typically `module_platform_driver` follows the struct platform_driver
+without a newline.
 
-[return back to previous comment]
+> +MODULE_AUTHOR("Axiado Corporation");
+> +MODULE_DESCRIPTION("Axiado PWM fan controller driver");
+> +MODULE_LICENSE("GPL");
+> +
 
+Trailing newline at end of file.
 
-after:
-Ideally, no tasks should be in offlined (blk)cgs, so the `current` would
-not resolve to blkcg_css() returning an offlined blkcgs. OTOH, it's
-generally good not to do _new_ associations to an offlined blkcg.
-Which is why I think this logic would better fit to
-bio_associate_blkcg_from_css()
+Best regards
+Uwe
 
-
-0.02=E2=82=AC,
-Michal
-
-
---ltojthlavrpt3nkl
+--phnqktoz57ccllis
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCanRSRBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ahf+gEA5FtU8iXyQA9tlhJdWJEf
-nyf1IBDUt4tisH7UDE8KiSEBAP5BK6FXkSftml/wn918ol1iwizfBzFhephd2gZc
-e3UL
-=GgwG
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmp0XC8ACgkQj4D7WH0S
+/k6CtggAqc2SkaT/74paCQn8c06aLqh+ZQkQt9kOhzsh+nqXBbzoUpyzYVbZ1qKf
+KljBTvQZl662s+bADLObfOmJraNBFmm4geuKju1SwTtb4306Vq9YyVCz1QNSlcVz
+IGmVDdNGZFpIOa9TpCH6yxDwpSZG0NS6s7AphknUn7pROhVDFGgPAKuU99SxGicj
+63kSmknKODrbwIQZNPNQcVGHHwMzbHL8s/cY5KOxhHir6ZcjnL8qeuKVMagPeI1b
+4o4/N2UiUDomVIp3Uyj3R2sUBzN+TjtbM+KWQKGfPQZEWanKRDdoo06r2w4yJkdd
+p3w5vHhYuCUQi44Swaz41xcqITW3sA==
+=Mni6
 -----END PGP SIGNATURE-----
 
---ltojthlavrpt3nkl--
+--phnqktoz57ccllis--
