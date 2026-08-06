@@ -1,151 +1,265 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABA447CA66
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 15:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AD447ECF2;
+	Thu,  6 Aug 2026 15:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786030503; cv=none; b=tLekTI+jZ5jXnWdEfR1EE3c5uH6BuOddPAWGQnPrjiBrOWAWoMIISY7JTEIiWpMPWXd18TvpJs8EpWp4ekH9LZoVAE2SqPf1i7E6cyi0G5REMDJ6TqGGE7n795WzYhTi/sO4FxQigtXgYRc7GrIxWcbzFBFTQhB0FpjjIHcTYz8=
+	t=1786030946; cv=none; b=YVdFdYrV1Ct5YJxAx2dek/JVvkQ6+G2oZN5OGo/3K+5phqWbwDX/1tiLNA19S5sCRR0aGW1amTSqMZNztBTft6RaDsmc2/36Bge5YDk61MbBEsFjvAQ6F49JVa2rbpkb5wF2hrwXzGx3DRPGmY8l5QfQd+bCLkn0RW3E7Iy0hyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786030503; c=relaxed/simple;
-	bh=I82qCAapuq5q4XLsdlrx/cBUqFtHqRFuOYioPzImCLw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QVKi52/NJ6Rv0QnKhh7/rNOXtdTTxb113kW8HXDs8GvsG0Fbvkiqy7CBIkNSkCix0dMgZzMzhARCB59ifNMLKzl5zMOcttOdVU19t/3Yd7JMwnEAmcf0MdpPC1M1+s194+qSk12gy4uYRuZ2u72f/sRpYaa+KnPHielaAs6V63o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dnNuNjR6; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786030946; c=relaxed/simple;
+	bh=cdis5cPip72Bds+HVE118777rlAoUkFOaTG3iCIbBnY=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=P8oq9jBbUr9qImCiEDwG8w/tBQEprhD5OA3CYvqxQHlQ0H0QLaamWv+Z+c/anoW7lDEce05WOIkGSWRebih5ksm9SuHTHraHDdcvSuWQ/a4OeKOcmbHpYkj0qRmj+cEdgypLeC1DyE/UstSxwBE5jzzV6El8DwkjTkeTe/MqbNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=07MKdXX4; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnNuNjR6"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2caed617615so32139095ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 08:35:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786030501; x=1786635301; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bbrmQ+GhkVEYubpdUNjaSBaIV7BvrLU3vULivoHV6Ks=;
-        b=dnNuNjR6V3XOnbyCTm2mqXFwVpmNxbMVGxQjowCGYR4n6HR8Sgn0f3S76rauk3SXVv
-         JnqKC9ArrZNFoTNVZv0pkrbp/33CjNcILlPwjWY7+qdJHCbe+3r6xPpJ3xaP8xEeHP1i
-         9pJG5bQU/cVdj1MfnKePWqItT0AJNXd90b5BLSbR0vMHxA4yLMEb3h3vYB3Fj/9JYpNg
-         6Z4eBeoi486nHpV8HIRHIR15PWoGCtsDLfhEsZKWP9+1RSFocQvEmueWbbBJ6WzzQ/Aa
-         pzoZ9Z+1/3aJDobjrmZyWUkTLbsqU5zDHzrslSM3uGmmp3N2ktPq6THN7JBzf/VWFkQD
-         STSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786030501; x=1786635301;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=bbrmQ+GhkVEYubpdUNjaSBaIV7BvrLU3vULivoHV6Ks=;
-        b=fwoe3k5nCwWRNmQnR1dZ1piviv9H10vLrkthdP76Dpnqbbsb6Vtm2gY4LGY+zUsrFQ
-         N5lg7K6NG6hE1HqJPKf5cVIDi5MEN+qDcflzASnZ6J0QHdZn/Lv4qsNagmQHjDfr5je2
-         GgjpWxxS4louigmmns07gPEhNJkJiJY9N879XEnAxLil8tgk6eddyMrTZgYcKnaeCSoZ
-         z6tooevCwWBwiDvfUTPI9pkQDDO+R852in/3oudlLbSbadlQgVd1iYLVZh1aIh/UHn2d
-         iKa9vDRiNJxclvopkDMfWXrG1aHtYvwIE0AXJMfFtdhlTtitGSsG6YjBfFnM2TvlwWzJ
-         y7IA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9Mz5VQtS8LPLIf06ciGF0MLw5JkTEwVSZW+FPFhci1bbUPPcdrB9HX0rWh9FpfDyEu9bCircwMYc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb4jk/pdepDpJCidSbr8nmBSxRfNO739ZY6e2xOZnjwqF13/EK
-	deX7IWeKpkm1zJlRKaBMtOyUV61YwX/g6XUK9MRpV8/RL6jfhGWKqzEM
-X-Gm-Gg: AR+sD10lxE3ZJaG8pEKUc+wvIAL+plu3mDfAW2kqGZ0fIddnVj5PQGSZcJAGwQpJmP4
-	HzXdGV9sAMwGnRT1K0kyvu7jIMm2U+78LPXwlJEyNbxoe9HkWIAaxLqio5oAwWTnccXGpUpjqC9
-	/8cuqEPXmmhGgsBJpPuxDAwUT9scLHC0QHVsNsxMNYz6vHwdLD+ij1rhvRwiHdLrf7Anv/Dxivm
-	6eJJWDMXoG9CHyeYWJ1BolC7o+Vnr8nsCp1nZ0RpEeUWYJ2tPayaSOscBZKsgbQulq0/ekh24Xv
-	aeKos5tSfr+XDdD4ZjkbqBboXRaiEeTMgJ9WWtybV+aAf5vWhGiJvHSnINjvZHKuKfUP59FoPRR
-	XAHB670yRhMZPhawJx//3QeW9gxBSfS5/Wvn6w/ajkWu4LKoV7i4xd8a8jR632cW5wsEF4jLFkU
-	JK+eYDxhNAUjrXZyDNDyjeU3Y+7bGyQfIHhxlXbsZxb5VD5tACoyMlswdhEs0uHR+uNrNafY6ja
-	0C03Bc7Jhfr9/v9U/RujYCBGPuoHIVRKEzOfA==
-X-Received: by 2002:a05:6a21:9992:b0:3bf:b68f:4685 with SMTP id adf61e73a8af0-3cb85f43e7cmr17944621637.23.1786030500875;
-        Thu, 06 Aug 2026 08:35:00 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31586777bcfsm42980668eec.21.2026.08.06.08.34.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2026 08:35:00 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d027eec5-ca83-4aba-a3c1-4724c77df0dc@roeck-us.net>
-Date: Thu, 6 Aug 2026 08:34:58 -0700
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="07MKdXX4"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 676EqlHl3342773;
+	Thu, 6 Aug 2026 11:42:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=PHHPtgJlL1psJV48pid+ZAo3ndp
+	+Bi1ajAMRXQ92tuc=; b=07MKdXX4GmEX0gbe0uXFS9JLkDshyeNZ3uzS3YRkEty
+	tGkBI+BUzEpA40mpHJ4iHo5Vm8M1wOrfQCN7iC5MQ2P8aK9YyKXS92ur7Blo53/N
+	Akya3j4iyWCdYF++Tb9C7Maxp/RXkNuIL9g7Jc10xv5HM5/0LPugTLVcP5fOCjBu
+	RT9iFdemClRbbKxjBQj0uALFwCUztIHRiAOJF8kiWRHbh6X5mDOtwqKg+//9gEbL
+	acF+VHWAF/6wi2H6+hWoYP0ChNEtOV5+h+eF2YhiCrvEbD7y71W4b6VeeGV2YE15
+	j5GPDH7zG+IVyqH+pu9F/pKWF2zngtODKwuqD2V1i9A==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4fvuvyrd51-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Aug 2026 11:42:03 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 676Fg16R007015
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 6 Aug 2026 11:42:01 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 6 Aug
+ 2026 11:42:01 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Thu, 6 Aug 2026 11:42:01 -0400
+Received: from HYB-e1y2fvUQ3cx.ad.analog.com ([10.32.223.174])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 676FfcgX008127;
+	Thu, 6 Aug 2026 11:41:40 -0400
+From: Janani Sunil <janani.sunil@analog.com>
+Subject: [PATCH v2 0/7] iio: adc: Add AD7768/AD7768-4 ADC driver support
+Date: Thu, 6 Aug 2026 17:41:19 +0200
+Message-ID: <20260806-ad7768-driver-v2-0-027ac5e2a641@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: add Axiado AX3000 and AX3005 PWM fan
- controller driver
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Petar Stepanovic <pstepanovic@axiado.com>
-Cc: Akhila Kavi <akavi@axiado.com>, Prasad Bolisetty <pbolisetty@axiado.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>,
- Tzu-Hao Wei <twei@axiado.com>, Karthikeyan Mitran <kmitran@axiado.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260806-axiado-ax3000-pwm-fan-v1-0-f6db4cf2166b@axiado.com>
- <20260806-axiado-ax3000-pwm-fan-v1-2-f6db4cf2166b@axiado.com>
- <anRaB--HAHoWFkDo@monoceros>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <anRaB--HAHoWFkDo@monoceros>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB+rdGoC/13MwQoCIRSF4VcZ7jpDxXRs1XvELETvzFwoDQ0pB
+ t89G2jT8j9wvg0KZsIC52GDjJUKpdhDHgbwq4sLMgq9QXKpueEjc8EYPbKQqWJmgvsgTtJqLzn
+ 0zyPjTK/du069VyrPlN87X8V3/Un2T6qCcaYUCmHVHKx2FxfdLS1Hn+4wtdY+MHlOH6sAAAA=
+X-Change-ID: 20260708-ad7768-driver-10cd15296c20
+To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        David
+ Lechner <dlechner@baylibre.com>,
+        Andy Shevchenko <andy@kernel.org>, Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Michael Walle <mwalle@kernel.org>
+CC: <linux@analog.com>, <linux-iio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <jananisunil.dev@gmail.com>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@baylibre.com>,
+        Janani Sunil <janani.sunil@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786030898; l=6922;
+ i=janani.sunil@analog.com; s=20260507; h=from:subject:message-id;
+ bh=cdis5cPip72Bds+HVE118777rlAoUkFOaTG3iCIbBnY=;
+ b=LznloeH1J5LTevl8JZYhVdtDskT86PLWeOXsu4oO7+usmLGUhykSMZrP/M4wIegLd6OMTzBIP
+ Pk7X+Zjnc9PBEIqecotmwMwhIlzGUPczosFiL7Hy0cGRwqtwJkp0zJP
+X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
+ pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA2MDEyMSBTYWx0ZWRfX8YcqCCFEQzKW
+ 4PNxq6oEFgIzIiy2582VIJHvzutuMYiVqabGSYMmIDYVR/yqm52B3146pKPZCzrtAtVpfSKgUJv
+ Et+4Yw3i4IRmBoa9AULNvxGmFCZvZk4jRHG9S6vbu07TxQ5GP05S2dQ1+DV+iNyppFOF0/l9eN5
+ Kcm0Y3pd+n4hYX6ie368ZBvslNLND2Y/xQyMC/HD9v0IyOk60GRTrTdza6OcDwYnPpa5SmNn5yY
+ e/rw5Ln4zx7y2QDwrGo7TPNWpx9wxq8H8lHDlYiOIzluUrSfEgJBpY+3loPde7Bsn8T/p5PanLb
+ eKO84WIVUIFWDFQ8AVhpEXUeM2SYfi4jgw9iQO/n0mhXe3G5L9UWDKn1+NCDTrlCH8lj3arJ/qo
+ UrF7UntCK/r5LhCRRJtSFFvS9GFVE4KJYfLO7DaXrLFqMn8RN5/gfs2ZL3oZJJVQ5JtXFfvWXAJ
+ p3XfssLHmS7k0OS79tA==
+X-Proofpoint-GUID: 09nL_w-frpfHQLcqfDgi9AwZ8vqRzCIu
+X-Proofpoint-ORIG-GUID: 09nL_w-frpfHQLcqfDgi9AwZ8vqRzCIu
+X-Authority-Analysis: v=2.4 cv=JsjBas4C c=1 sm=1 tr=0 ts=6a74ab4b cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=gAnH3GRIAAAA:8
+ a=VwQbUJbxAAAA:8 a=j9EIZ_jAAyhqBOZAihwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA2MDEyMSBTYWx0ZWRfX5irjicTMh44U
+ aCNxnnp0RcvaCxGk6r07Zd426ilDfamuhXqvzlW5fzzk1/jTg8VzQhV/VKrX1N9tVtT5bs/Pdti
+ 8cRm0MzC9FyXBubaeiB7gzRXWLjcJftA+PHzSUVLRH2iq13mN/gW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-06_01,2026-08-05_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 malwarescore=0 suspectscore=0 bulkscore=0 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 impostorscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608060121
 
-On 8/6/26 03:04, Uwe Kleine-König wrote:
+Add support for Analog Devices AD7768 and AD7768-4, 24-bit simultaneous
+sampling Sigma-Delta ADCs with automatic power mode selection.
 
-> If there is a hwmon lock that serializes calls to hwmon_ops::read and
-> hwmon_ops::write, .pwm_lock isn't needed. (Unless I miss something,
-> please double check. Also I'm unsure if there is such a hwmon
-> serialization.)
-> 
+Datasheet:
+https://www.analog.com/media/en/technical-documentation/data-sheets/ad7768.pdf
 
-In hwmon_attr_show(), hwmon_attr_show_string(), and hwmon_attr_store():
+**Device Overview:**
+The AD7768 is an 8-channel, 24-bit simultaneous sampling ADC. The
+AD7768-4 is a 4-channel variant. Both support configurable power modes,
+programmable decimation filters, and a high-speed serial interface with
+1, 2, 4, or 8 data output lines. Per-channel offset, gain, and phase
+calibration registers are available.
 
-	guard(mutex)(&hwdev->lock);
+**Features Implemented:**
+- Support for AD7768 (8-channel) and AD7768-4 (4-channel) via device
+  match data.
+- Automatic low-noise power mode selection (fast, median, low power)
+  with associated decimation rate and output data rate tables.
+- Per-channel offset, gain, and conversion delay via IIO attributes.
+- SPI communication with custom regmap bus for the device's protocol.
+- IIO backend integration with adi-axi-adc for high-speed data capture.
+- CRC data integrity verification over the serial interface.
+- GPIO auxiliary driver to expose the 5 on-chip GPIO pins.
+- VCM common-mode output exposed through the regulator framework, with
+  runtime PM management while the output is enabled.
 
-Guenter
+**Patch Summary:**
+1. **dt-bindings**: Binding documentation for AD7768 and AD7768-4,
+   covering SPI interface, clock, power supplies, reference voltage,
+   reset GPIO, serial data lane count, and on-chip GPIO controller.
+2. **iio: backend**: Add CRC enable/disable backend operation for data
+   integrity verification over the high-speed serial interface.
+3. **iio: adi-axi-adc**: Implement the new CRC backend operation.
+4. **driver**: Core IIO driver for AD7768/AD7768-4 with regmap, power
+   mode, calibration, and IIO backend support. Registers an auxiliary
+   device to expose the GPIO functionality.
+5. **gpio: regmap**: Add optional runtime PM integration and support for
+   reading output values from a separate register.
+6. **gpio**: Auxiliary bus GPIO driver for the AD7768's 5 general-purpose
+   I/O pins, reusing the parent's regmap and runtime PM.
+7. **docs**: Driver documentation.
+
+**Testing:**
+The driver was compiled and tested on the EVAL-AD7768FMCZ using a
+Zedboard with a mainline kernel.
+
+**Driver Rationale:**
+The AD7768/AD7768-4 warrants its own driver due to several
+device-specific characteristics:
+
+1. A custom SPI framing protocol: register reads and writes use 16-bit
+   frames with embedded read/write bits and register address fields,
+   requiring a custom regmap bus implementation rather than the standard
+   SPI regmap backend.
+
+2. A coupled power mode / sample rate model: available output data rates
+   are not a flat list but depend on the active power mode (fast, median,
+   low power), each with its own set of valid decimation rates. This
+   relationship must be managed in the driver.
+
+3. Simultaneous sampling across all channels with per-channel calibration
+   registers (24-bit offset, gain, and phase) that are laid out
+   differently between the 8-channel AD7768 and the 4-channel AD7768-4,
+   requiring device-specific register mapping.
+
+4. IIO backend integration for high-speed data capture via adi-axi-adc,
+   including CRC data integrity verification over the serial interface.
+
+5. On-chip GPIO: 5 general-purpose I/O pins exposed via an auxiliary bus
+   driver, sharing the parent's regmap and runtime PM.
+
+Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+---
+Changes in v2:
+- Renamed and expanded supply descriptions, split reference to
+  ref1-supply and ref2-supply.
+- Added START and synchronization signal descriptions.
+- Added variant-specific channel and data-line validation.
+- Made adi,data-lines-number optional, defaulting to the maximum.
+- Renamed the precharge and reference-buffer properties, removed channel
+  mode and power mode properties.
+- Exposed the VCM output through the regulator framework and updated
+  documentation accordingly.
+- Improved runtime PM initialization and requested initial autosuspend
+  after probe.
+- Automatically assigned channels to two hardware mode profiles.
+- Selected the lowest noise compatible power mode when ODR ranges overlap.
+- Replaced the raw phase attribute with the standard conversion-delay
+  attribute.
+- Added filter-settling delays based on the selected filter and ODR.
+- Fixed AD7768-4 register and channel-bit mapping, including standby,
+  calibration, phase, precharge and reference-buffer handling.
+- Added direct-mode protection around runtime channel configuration.
+- Added calibration register range validation and documented
+  calibration values as raw unsigned 24-bit values.
+- Added the required reset pulse delay derived from MCLK.
+- Added a generic GPIO-regmap patch providing runtime-PM integration
+  and separate output-register readback.
+- Converted the AD7768 GPIO auxiliary driver to use gpio-regmap.
+- Documented that AXI ADC CRC control bit 8 is common to the AXI ADC
+  cores.
+- Added the missing AXI ADC mutex initialization.
+- Expanded the driver documentation to describe dynamic channel
+  grouping, power-mode selection, VCM regulation and conversion delay.
+- Link to v1: https://lore.kernel.org/r/20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com
+
+---
+Janani Sunil (7):
+      dt-bindings: iio: adc: Add AD7768
+      iio: backend: Add support for CRC
+      iio: adc: adi-axi-adc: Add support for CRC
+      iio: adc: Add AD7768 IIO Driver support
+      gpio: regmap: Add runtime PM and read_output_reg_set support
+      gpio: ad7768: Add AD7768 GPIO auxiliary driver
+      Documentation: iio: Add AD7768 Documentation
+
+ .../devicetree/bindings/iio/adc/adi,ad7768.yaml    |  343 ++++
+ Documentation/iio/ad7768.rst                       |  240 +++
+ Documentation/iio/index.rst                        |    1 +
+ MAINTAINERS                                        |   10 +
+ drivers/gpio/Kconfig                               |   12 +
+ drivers/gpio/Makefile                              |    1 +
+ drivers/gpio/gpio-ad7768.c                         |   78 +
+ drivers/gpio/gpio-regmap.c                         |  113 +-
+ drivers/iio/adc/Kconfig                            |   16 +
+ drivers/iio/adc/Makefile                           |    1 +
+ drivers/iio/adc/ad7768.c                           | 1720 ++++++++++++++++++++
+ drivers/iio/adc/adi-axi-adc.c                      |   26 +
+ drivers/iio/industrialio-backend.c                 |   33 +
+ include/linux/gpio/regmap.h                        |    8 +
+ include/linux/iio/backend.h                        |    6 +
+ 15 files changed, 2592 insertions(+), 16 deletions(-)
+---
+base-commit: b75697ef53e435d894833dad2a8c2fa882cb9b19
+change-id: 20260708-ad7768-driver-10cd15296c20
+
+Best regards,
+-- 
+Janani Sunil <janani.sunil@analog.com>
 
