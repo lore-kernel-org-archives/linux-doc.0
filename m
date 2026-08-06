@@ -1,86 +1,106 @@
-Received: from smtp-42af.mail.infomaniak.ch (smtp-42af.mail.infomaniak.ch [84.16.66.175])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8621841D113
-	for <linux-doc@vger.kernel.org>; Wed,  5 Aug 2026 22:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AAC1A680A;
+	Thu,  6 Aug 2026 00:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785970453; cv=none; b=DmrSdhxlzeUStruWXPpOGMpjuvSY+W3IeOj7vsBQFj90vN2V56C9zaT9t5IbW2+ncRYzvMlboeRWuneh5fztLGzxCxPNnziGNsI39Kda5U9Nt629W6lwmB7/cJW2m2rszbHLmLyCnFaxr11edkSdUVl7nTtBZEaf8ja+StiIH6k=
+	t=1785974811; cv=none; b=Efhod+5WBJuBhZR9zdAaIfFGOS9qCC+LpUJkddmo1+86VFRjokz08waCg56Gg8j4DZn87OcSlfeX7lE7a1lljZj2f0xsp9dCFE11JJ+AE89NQK137mB7ei3Ltf8eTqe8CSJC/O+XUscItV/kjxGp6bPrxvdf6tMxSz/J60rZcIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785970453; c=relaxed/simple;
-	bh=oewnEe14kaB8XDm5GpkaVLZkIwiHqy+X0QsiWm4/w9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hbyee8GCHPJFl1d65kuHzXOPpPj/N16OklqyZv+FFEjr6YfItOruXlIKNxvHH4Y2O9XnADCZ73eChehwgrmprkRWMEjOyT5FJzQ4qRozg3udauh8WijH+Y8jgGP6ldzprGWz423Pt4rnr6ROsNLD3VUv3ASqp4g+2dBn+YfC0Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh; spf=pass smtp.mailfrom=gibson.sh; dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b=RIuOM2rm; arc=none smtp.client-ip=84.16.66.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gibson.sh
+	s=arc-20240116; t=1785974811; c=relaxed/simple;
+	bh=j0iXAhzq/EXZrl5z7Bgshe2QkzJBiTLBxvu1KXFBzrw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=XXpEyCNeTmYvnM0042GKy5L/hxOWxQ3ti1FLtcW0RTofvExBJZh5xNwIvHL698q6zoZeohErQhpGLkXsZPUp4gGDIBFFiXIZgiRBFYs50c4YTSeKtQKIw6GpX7GgJ78XqcoJQ6MlNkCde+faI7DaF2C7WNQqRheWQV+b2tIKVFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q876qwC3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b="RIuOM2rm"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hFm1W3LbmzZhn;
-	Thu,  6 Aug 2026 00:54:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gibson.sh;
-	s=20260228; t=1785970447;
-	bh=wr9bTNYWG8k3rN54Rtif7YaEf7FLcyiOPBHegMBXBmA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RIuOM2rm3v5AXidPunWQmbk+hwmQyjrGZMQX0XAa6bGhgTCMsMrDGh49eKeWiSOR8
-	 OGoblVAQ7efkVN9vz7+bfnhOMFBo44HVOU8QdHBYGOqUU4Z491YCdus6rgnouLneK8
-	 9w4UFQcHfDEUWW42HXqqSKQgr+uM+46eSRYX3J5MTi3ijFimii7gT2g0gPUkGOdlOp
-	 7cNucTvO/qpc9PFzBncYVbyFqfkzIO17ssVumJI883l5YEOaE89SCOt56nSTcJKrcC
-	 m2QYnVcceNmfIWuVu7yveq9P2ZoHmk14uDxBotn0L6lRnMGae9uPSpfDRWxQe7159k
-	 6rCs3w3NBpwqw==
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4hFm1T1lfZzQ3S;
-	Thu,  6 Aug 2026 00:54:05 +0200 (CEST)
-Message-ID: <87aa8f40-2c99-4bbc-88f4-1ef6d54f3c60@gibson.sh>
-Date: Thu, 6 Aug 2026 00:54:04 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q876qwC3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37A21F000E9;
+	Thu,  6 Aug 2026 00:06:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785974807;
+	bh=1xgvjthnyVe567/MSXkAs2MyNkBdDIpQh6/KOVGBMck=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Q876qwC3uvGRG7VHFA0m0T6I5IhlK4WUxj1lgf4oQ2+VJKQaLC2jKxsXe+9Iqtdb4
+	 qQD65IQ0utOqG8tbeaKoR0SLyBBpin9veCGrWDgv/cgFTCZ1qabG5Oa2VzPJM8a9aa
+	 SBR2VuDPwvCJBe/896cAI0c2KAzXzuDYTEcv+2ZHQ+vqF7U7UsHiebXL5YPsNCPfnB
+	 MoxSK1IwpEkRWD+AQdXgc/XsGamJrUr0wu/HKEcitJa4d1OxVS7iwcmSsJouk4Sjl5
+	 lg9lLdP+KDFBbtNuoe9w4MWfjnWwhftWfu2n8MN6F8aXDkvOEmrw2s57G3sUd6A8nk
+	 VpppsWj0G3Fhg==
+Date: Thu, 6 Aug 2026 09:06:41 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
+ x86@kernel.org, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v11 04/11] tracing: wprobe: Add watchpoint probe event
+ based on hardware breakpoint
+Message-Id: <20260806090641.e59484ac570b0f842bc930bc@kernel.org>
+In-Reply-To: <20260803230840.GJ687043@noisy.programming.kicks-ass.net>
+References: <178565870538.714490.11309825813968306287.stgit@devnote2>
+	<178565875046.714490.17724442147958346980.stgit@devnote2>
+	<20260803070356.GV49951@noisy.programming.kicks-ass.net>
+	<20260804080035.6b719368c9328bbdd8219867@kernel.org>
+	<20260803230840.GJ687043@noisy.programming.kicks-ass.net>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation/arch/x86/amd-debugging: Add section
- about delay_suspend
-To: Borislav Petkov <bp@alien8.de>, Mario Limonciello <superm1@kernel.org>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>
-References: <20260624124326.746525-1-daniel@gibson.sh>
- <20260624124326.746525-3-daniel@gibson.sh>
- <b784820c-a027-44fd-a47a-ba51e52de7ea@gibson.sh>
- <20260805224017.GCanO70QxPHpDxW2-c@fat_crate.local>
-Content-Language: en-US
-From: Daniel Gibson <daniel@gibson.sh>
-In-Reply-To: <20260805224017.GCanO70QxPHpDxW2-c@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Infomaniak-Routing: alpha
 
+On Tue, 4 Aug 2026 01:08:40 +0200
+Peter Zijlstra <peterz@infradead.org> wrote:
 
-
-On 06/08/2026 12:40 am, Borislav Petkov wrote:
-> On Thu, Aug 06, 2026 at 12:09:13AM +0200, Daniel Gibson wrote:
->> any chance to get this merged?
->> As the delay_suspend parameter for the amd_pmc module are in all the current
->> stable kernels >= 6.6 now (6.6.147, 6.12.100 etc) it would be great if the
->> documentation was also available.
+> On Tue, Aug 04, 2026 at 08:00:35AM +0900, Masami Hiramatsu wrote:
+> > On Mon, 3 Aug 2026 09:03:56 +0200
+> > Peter Zijlstra <peterz@infradead.org> wrote:
+> > 
+> > > On Sun, Aug 02, 2026 at 05:19:10PM +0900, Masami Hiramatsu (Google) wrote:
+> > > > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > > > 
+> > > > Add a new probe event for the hardware breakpoint called wprobe-event.
+> > > > This wprobe allows user to trace (watch) the memory access at the
+> > > > specified memory address.
+> > > 
+> > > s/the memory/the kernel memory/
+> > 
+> > Indeed.
+> > 
+> > > 
+> > > > The new syntax is;
+> > > > 
+> > > >  w[:[GROUP/]EVENT] [r|w|rw]@[ADDR|SYM][:SIZE] [FETCH_ARGs]
+> > > > 
+> > > > User also can use $addr to fetch the accessed address and $value to fetch
+> > > > the accessed memory value (shorthand for '+0($addr)'). No other variables
+> > > > are supported.
+> > > 
+> > > This seems limited to kernel addresses only? Should not also userspace
+> > > addresses be supported?
+> > 
+> > Hmm, for x86, yes, since it causes a trap after executing (all page fault
+> > are handled). But other architecture like arm64 may not be able to support
+> > it because it needs to enable watchpoint after major page fault.
+> > At this step, I would like to limit it just for kernel memory.
 > 
-> I'm not sure this belongs here. More likely on some wiki page or so, but not
-> in a document which talks about techniques how to debug AMD machines.
+> Sure, but suppose you were to add userspace, what would the ABI be?
+
+Ahh, sorry. It was misreading, I mean it should be only for the kernel address,
+not for user space. So I don't want to add userspace. (I answered the first one)
+
+Thank you,
+
 > 
+> That is, don't paint yourself in a corner etc.
 
-That document mainly talks about s2idle issues and lists issues that 
-have been quirked in the past, so IMHO it fits there?
 
-Also, Mario Limonciello (of AMD) suggested documenting it there in:
-https://lore.kernel.org/platform-driver-x86/f86d9af4-6415-427a-9f4e-639b2ae6203e@kernel.org/
-
-However, if there's a specific Wiki you think would be appropriate to 
-document this in, I should probably document it there as well.
-
-Cheers,
-Daniel
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
