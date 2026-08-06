@@ -1,135 +1,100 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1652C3EFFA7;
-	Thu,  6 Aug 2026 08:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0513E3F210A;
+	Thu,  6 Aug 2026 08:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786004727; cv=none; b=allCWNM27E2w/xOPe1SuovDf5tCdh2+C9ilWbxSZ6Zq/d7wZPKkYX9qzzV3yZzPvdBKmOd16+BaT17swyrI20gKC5wP2I+c4vOVlndJGRGBLkxrhm5FSqVnf1Kb8I5o4GH5vTrW25LrgTjxkgse7f2cbLElzNX7RTSKuEyj9i7A=
+	t=1786005746; cv=none; b=cfL6SnreSezyyaXHme1FGmA+LWfazz8T4u4/qKI3MkbPRCkGez3nvFCIhI5NL0pCYG5Frg4y/b1rGLkcCYH0EtDTFbCaf2Rre++pccrtI2l4YYJ16aaF3lKy16XNmpAArPUZaJjti2TS6UzRDYEVCVpYCz7nHtAnZ8+1j58drsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786004727; c=relaxed/simple;
-	bh=EtoUC10RvYxFSimpW9zBON3W+wVo+Kuru8pdzr+Zm94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WhKSUyVHzrxe3nLV6ohKhSgnSwrO7BphokVETSwN1Na+mw6vdJc/p5ZjpAMN2pnWt4rInAxzyeTJVMu6YK15LeSNhhowfBUIELQnFFws+6OAr3V22P4L03jyJBMOG0s9pkRoRn0KRJnbYv/GdBQsJ4Z1rqJBV0PxfZvU/dcqXnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=mcxP7Igm; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1786005746; c=relaxed/simple;
+	bh=1XZ52c7N7R/7ik+1Q56O2gFc7n1LYmIvcHRd9KWsOdo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bM05OBJ50FTjBGEA8FHTeTtOptbpiK845Vi59ixKaILG/DhpKi6ud+BBH464i3Bop2w1Ds+G2fiIdOwGkUNoOZv9GDY6QPuC55Xz84pgHqM16IhzB1X8lGMtkweKzD+J7hlQy5jm2SmuaNNnbKucE1N3/ExD/lIf2O74HR0/5gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Vk3YFbse; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="mcxP7Igm"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1786004718; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=6n9+tn1FX85xHqa53wOOTAdXVH64YAjilIMF7HdWsJo=;
-	b=mcxP7Igm1hPNnZOzVtzFvgx8aT3Cv8t+pEIF9BmY3Omj07iNj5xM8X2KeaasuJ6ZQh2OcCY6N4pTcYe1SuP2GKwcWt8WPKAhI96lhuKOfnPriu7BAFWcjO3WrmSJb9gm6dKRBWwORXIizxwzH/+60JZUQC4182ri4puegrTUcUY=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=yaoyuan@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0X8TPEvo_1786004716;
-Received: from localhost(mailfrom:yaoyuan@linux.alibaba.com fp:SMTPD_---0X8TPEvo_1786004716 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 06 Aug 2026 16:25:17 +0800
-Date: Thu, 6 Aug 2026 16:25:16 +0800
-From: Yao Yuan <yaoyuan@linux.alibaba.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>, 
-	Oliver Upton <oupton@kernel.org>, Peter Maydell <peter.maydell@linaro.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 04/14] KVM: arm64: Ensure GCS memory effects are
- visible
-Message-ID: <q2kb7muy5d3rdl2d3pvipggc33xkgq2o7tn6wy6p75qeegas5n@ijikgyexqt74>
-References: <20260803-arm64-gcs-v18-0-fd8c40f5ad88@kernel.org>
- <20260803-arm64-gcs-v18-4-fd8c40f5ad88@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Vk3YFbse"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8811153B;
+	Thu,  6 Aug 2026 01:42:18 -0700 (PDT)
+Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81F433F632;
+	Thu,  6 Aug 2026 01:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786005742; bh=1XZ52c7N7R/7ik+1Q56O2gFc7n1LYmIvcHRd9KWsOdo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Vk3YFbseN1J/KkpXJV6XxeMhp8z09cM7QKEaGOWthnB2rK15LrGgVvARUQKfSIB3A
+	 q+/JfafIf6kUrbpn/GxsrT0SfxqyDag4S4foyW9/Kksq3ryx9lyhrhSqMaGBY5RWAa
+	 Z36t681xIH1xquFeoaBivxQxzxvg4wMqdvfwdNBs=
+Message-ID: <7cf591e8-e182-447f-9808-d8e328d28f79@arm.com>
+Date: Thu, 6 Aug 2026 09:42:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260803-arm64-gcs-v18-4-fd8c40f5ad88@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/7] riscv: iommu: Add QoS ID support for resctrl
+ device assignment
+To: Drew Fustini <fustini@kernel.org>,
+ Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Cc: xiaqinxin@huawei.com, zengheng4@huawei.com, palmer@dabbelt.com,
+ tony.luck@intel.com, reinette.chatre@intel.com, tomasz.jeznach@linux.dev,
+ will@kernel.org, robin.murphy@arm.com, pjw@kernel.org,
+ aou@eecs.berkeley.edu, alex@ghiti.fr, Dave.Martin@arm.com,
+ james.morse@arm.com, babu.moger@amd.com, corbet@lwn.net, shuah@kernel.org,
+ jgg@ziepe.ca, kevin.tian@intel.com, cuiyunhui@bytedance.com,
+ yuanzhu@bytedance.com, iommu@lists.linux.dev,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, x86@kernel.org
+References: <20260714130657.46963-1-zhangzhanpeng.jasper@bytedance.com>
+ <anQaaQvpEXFTRYvS@x1>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <anQaaQvpEXFTRYvS@x1>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 03, 2026 at 11:56:49PM +0800, Mark Brown wrote:
-> In order to allow efficient implementation of GCS implementations are
-> permitted to do GCS specific caching, with barriers implicit in stack
-> switch operations and GCSB DSYNC as an explicit barrier.  Since we do
-> not use GCS in the hypervisor or host kernel the hypervisor cannot rely
-> on any barriers being present in vCPU context switches other than those
-> it explicitly inserts.  Add explicit barriers when loading and saving
-> vCPU state.
->
+Hi Drew,
 
-Reviewed-by: Yuan Yao <yaoyuan@linux.alibaba.com>
+On 06/08/2026 06:23, Drew Fustini wrote:
+> On Tue, Jul 14, 2026 at 09:06:50PM +0800, Zhanpeng Zhang wrote:
+>> This RFC extends RISC-V CBQRI/resctrl support to external requesters
+>> behind a RISC-V IOMMU.
+> [..]
+>> Open questions for this RFC:
+>>
+>>   * whether a common resctrl "devices" file is the right ABI for
+>>     associating external requesters with a resource group;
+> 
+> I think a separate file is the right approach to avoid confusing iommu
+> groups with pids. 
+> 
+> I should note that James Morse had an ARM MPAM "extras" tree [1] which
+> carried an iommu_group assignment interface, using the same
+> iommu_group:<id> format, but writing it to the tasks file. However, Ben
+> Horgan clarified back in March [2] in a reply to Qinxin Xia that it is
+> no longer maintained. Ben also wrote that the interface would likely
+> change upstream. I've added Ben Horgan and Qinxin Xia to the CC list so
+> hopefully they can chime in.
 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/kvm/hyp/nvhe/switch.c   | 13 +++++++++++++
->  arch/arm64/kvm/hyp/vhe/sysreg-sr.c | 14 ++++++++++++++
->  2 files changed, 27 insertions(+)
->
-> diff --git a/arch/arm64/kvm/hyp/nvhe/switch.c b/arch/arm64/kvm/hyp/nvhe/switch.c
-> index 7318e3e6a5f3..fe8727bf2833 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/switch.c
-> +++ b/arch/arm64/kvm/hyp/nvhe/switch.c
-> @@ -301,6 +301,12 @@ int __kvm_vcpu_run(struct kvm_vcpu *vcpu)
->  	 */
->  	dsb(nsh);
->
-> +	/*
-> +	 * Ensure any GCS memory effects are visible to this CPU.
-> +	 */
-> +	if (ctxt_has_gcs(guest_ctxt))
-> +		gcsb_dsync();
-> +
->  	__kvm_adjust_pc(vcpu);
->
->  	/*
-> @@ -345,6 +351,13 @@ int __kvm_vcpu_run(struct kvm_vcpu *vcpu)
->  	 */
->  	dsb(nsh);
->
-> +	/*
-> +	 * Ensure any GCS memory effects from the outgoing vCPU are
-> +	 * visible elsewhere.
-> +	 */
-> +	if (ctxt_has_gcs(guest_ctxt))
-> +		gcsb_dsync();
-> +
->  	__deactivate_traps(vcpu);
->  	__load_host_stage2();
->
-> diff --git a/arch/arm64/kvm/hyp/vhe/sysreg-sr.c b/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
-> index 2431c18f5792..4594992b008c 100644
-> --- a/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
-> +++ b/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
-> @@ -239,6 +239,13 @@ void __vcpu_load_switch_sysregs(struct kvm_vcpu *vcpu)
->  	if (vcpu_has_nv(vcpu))
->  		dsb(nsh);
->
-> +	/*
-> +	 * Ensure any GCS memory effects are visible to the incoming
-> +	 * vCPU.
-> +	 */
-> +	if (ctxt_has_gcs(guest_ctxt))
-> +		gcsb_dsync();
-> +
->  	/*
->  	 * Load guest EL1 and user state
->  	 *
-> @@ -299,5 +306,12 @@ void __vcpu_put_switch_sysregs(struct kvm_vcpu *vcpu)
->  	/* Restore host user state */
->  	__sysreg_restore_user_state(host_ctxt);
->
-> +	/*
-> +	 * Ensure any GCS memory effects from the outgoing vCPU are
-> +	 * visible elsewhere.
-> +	 */
-> +	if (ctxt_has_gcs(guest_ctxt))
-> +		gcsb_dsync();
-> +
->  	vcpu_clear_flag(vcpu, SYSREGS_ON_CPU);
->  }
->
-> --
-> 2.47.3
->
+I haven't thought about the interface much but Reinette let me know here [1], with good reasons,
+that we should consider the format of the tasks file fixed.
+
+Thanks,
+
+Ben
+
+[1] https://lore.kernel.org/all/f9b08563-4958-4f3c-ad6c-1e7fa3047896@intel.com/
+
+> 
+> I plan to review the patches in this series further but I didn't want to
+> delay any further in pointing out the above.
+> 
+> Thanks,
+> Drew
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/log/?h=mpam/snapshot%2Bextras/v6.18-rc1
+> [2] https://lore.kernel.org/lkml/d13fdc75-b647-44f3-9657-d592353e8a1a@huawei.com/
+
