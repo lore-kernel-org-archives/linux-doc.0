@@ -1,625 +1,362 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE60437702B
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 13:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA6A2EEE61;
+	Thu,  6 Aug 2026 13:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786023092; cv=none; b=QpjWNi5ijy8C9uDK6H5xTDzd6W4YXZkf5FKHFwMPW5bhiKkHOSRQTLmEgyIwcwYTOfdBr2k998HEGDSVhj+FBVtq5RT0LsZ/o987ShkHFGKQJkmFJwMDfnFQf/LgeLeu4IcvEBmlXZI4g5EGSt1hpLmenwl0+qZH/Dddgj2x+xw=
+	t=1786023414; cv=none; b=At6P0FRD5RU9FhlNv7Xxfolqb7XbAFHx+pb+GswDXPocVe3GAHE24VHh/SjMJ4m+dFdNVe1UZfehyNarBGKB534zmCOv+140PJELUu1bIVSQPqnteRNacQ0mRGJcP6LWrMFjRaA4k62jN5XjCZW/9N6WdDdhl3vm/9rKXK5XqLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786023092; c=relaxed/simple;
-	bh=GnOx+Tmr5wl+KmyMUNBxuy4l8Nz6/yD5Gke5xylqq8k=;
+	s=arc-20240116; t=1786023414; c=relaxed/simple;
+	bh=1jilKzxFY+yt4QHXYapG9VrqSYnTTieJrea1TD9oyFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JhY7sbcejaxhWJQBAzEn/R3ukT5UyGEBtlh0QSyblbSExluiaMMIhdeRoBBQh88/CmeZHVG3ADr6lEr7+NuPC01Hfv0phCOD4nmOI40QpioNXhQ1YZQ+OWqhVZyTX3NcxQCarjKLwBfRW1J9iFDPC3oSXOcF23gyxW6Rt86n6L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=dvZVAD3q; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="dvZVAD3q"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4954a32cf1eso11554025e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 06:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1786023086; x=1786627886; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+266hrS7mEktQxRGxY5IZKFbj9rEORb0vFzpxiZg8KU=;
-        b=dvZVAD3qKGN4DF8j18yxFQ84mFNeYBXU25jlxpjlPKApI537tqrCz67K5tGEdY9ASU
-         l2OlQySGA9+UcrvwvJe8D6XwCwEFv1Tn/cb6+dVKpMX4ss5VURR7kKnnvXrMuQYeFrxo
-         5k21LFhmllA9OHn0355kVqQ5gp3v3OoDkgQObrBYOvHyl4NhdlzvgnXGwyijUXcI8LqM
-         N9PL1DuA7+MYXi0saAWbxTx26lyzAufBQGS+iRV4rFP/zJ4vJGb4LipzQQ5toz5p4qzX
-         ukfUn7kvmVK3nm7APkQjODa1YuLrDenEMB/PZjB4y/qHPVJnSH0Al2DaVNlGQJ0aCvk9
-         iZ2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786023086; x=1786627886;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+266hrS7mEktQxRGxY5IZKFbj9rEORb0vFzpxiZg8KU=;
-        b=FR35GAfv4Xpgyu+JmdqXS9E6Ir5HBuuehH6XmqodvMBQzdYLCx+fobqNHDT+ldTHgI
-         /1U5tUt4m1sHVgs/VUO3rSKz/79763Qkrss+e0VznrqDGzpoV7KM1OYKy3XBoh2RuflB
-         fYjaP3yBJNTa5NY5jF6OKwhTR4YIo040pP/bp5T3D+umFpl/gU9vxIUtxIXpmkOdJL/h
-         2D9o3W2ijrlnosAIa7F6liwtnX1iy9b6WJWhEiwSRkx57ZQtJEwYBrGwKZYw4Vt7qSyQ
-         07rXqXn/eYZBL351mWvjOK7JD1poQndgUEe80Zm3OeICw15yCBJSQBdV+06bqo7hEV8H
-         JweA==
-X-Forwarded-Encrypted: i=1; AHgh+RqzcBpSPfuUltPiaFGsFzJDXE47oKONp6KWnjc9MQ/5nAMLylu/I2egfGGmIDr8V903Eih+nuCDYEc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCcfBskJ1//+OuNnTW6/4ELqEzJyzDW3FgS6H1to1LgI9bXx8v
-	nHB5I3kRALPnzHBL0O+FukI6psatM+GOS6gXAxMa9ulh2SxU21fyl8BuDPVILUz34VM=
-X-Gm-Gg: AR+sD13AfXnQ2mwOq2UfDDColapDz1gSIRDdQR/5oPoLpor/hqBaJLK0gsPhTZ+5yn/
-	WhwGu6ksIKAyVLSl0fGfmxYWQwzSPam+pOXAVIOa397k09AqXwd9qlfctWpVG5XRS7pizr7CfGb
-	kOKbNMLp4nbF6J1jjsgWUrM6TbAGdx8mdv3k4og9ggvw7EoNERwqKOvX5C7nlSXndlZ7LU8yokF
-	vqJMq6MKYq7zjs1LDzh1e+THPVt8wLIqzrazWTlu0o3dNmyxTmEkKi2M62d3NOUOQ21ohk7Jkv+
-	t4xLi25Bq+LmYXbZ97wJ35Go41dHBM22i6W3OeNPd7FVBDeZEsA7IPzokLzhByxjZ+JkKivr0Bh
-	WHyVxss76UBPzUi9M4fAy8+MKEW3D4PuSE9thOm3u0aqTmNFFCDs0mxJlGP0OQY6UafQmE4JudS
-	ivyYv4IDFwOmP5oz13BLgsJBcUyTSgVfYM/5zCsHfKEO4jWnHTxxcboTVCGDv4asikWZSPfmnHC
-	IrC1AI1oKi7fQGGUbTy2YLzTm+S+sJkNuvvluhdH1I7kELNQdxpI69iIsbmTIY=
-X-Received: by 2002:a05:600c:4691:b0:495:7426:c392 with SMTP id 5b1f17b1804b1-4994e72823emr175267365e9.1.1786023085603;
-        Thu, 06 Aug 2026 06:31:25 -0700 (PDT)
-Received: from localhost (p200300f65f0171047a0a39ae84ac36f8.dip0.t-ipconnect.de. [2003:f6:5f01:7104:7a0a:39ae:84ac:36f8])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49952da50bfsm29818385e9.1.2026.08.06.06.31.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 06:31:23 -0700 (PDT)
-Date: Thu, 6 Aug 2026 15:31:21 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Krishnamoorthi M <krishnamoorthi.m@amd.com>
-Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, 
-	broonie@kernel.org, linux-spi@vger.kernel.org, akshata.mukundshetty@amd.com, 
-	bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, skhan@linuxfoundation.org, 
-	andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org
-Subject: Re: [RFC PATCH 1/4] espi: add core bus framework
-Message-ID: <anSGjRK8spayFnKw@monoceros>
-References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
- <20260804115259.4065638-2-krishnamoorthi.m@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=j9LfiL3u/076HDZnxxkBNb3VqfruvBWxfYwnkIabrpIZGpY/f5nnVVxavPKXzvfFAL1kuWiTBibIjPlbrUI6LaNjxZK/hxiM/o7STVFlu76+tg/i+oyuUx30qL5Iofs99MKrv2FRxFfypfYZTkDREfVSXoC+TNShkNj4LN1s8iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id 6472CA2582;
+	Thu,  6 Aug 2026 13:36:37 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id D18892002A;
+	Thu,  6 Aug 2026 13:36:20 +0000 (UTC)
+Date: Thu, 6 Aug 2026 08:36:19 -0500
+From: John Groves <John@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 03/12] famfs: Add daxdev table and dax notify_failure
+ support
+Message-ID: <anSLGYPHAw6OjXo_@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022839.75794-1-john@jagalactic.com>
+ <0100019fc573c7cd-d37cbc1c-7687-4b05-99e7-7d3624087b98-000000@email.amazonses.com>
+ <20260806050527.GC3560084@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4cyzarwpv5f6fyd6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260804115259.4065638-2-krishnamoorthi.m@amd.com>
+In-Reply-To: <20260806050527.GC3560084@frogsfrogsfrogs>
+X-Rspamd-Queue-Id: D18892002A
+X-Stat-Signature: 98okigfjbtq8fsq47gg46t9mt68bby4b
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18rCJ03bEiGaIW33HDQgfAKKDy6499XHo0=
+X-HE-Tag: 1786023380-59630
+X-HE-Meta: U2FsdGVkX19PYkvTOYROG/8Csf4/oSvpmL3bJl7etF2c8GvfIDrKF0z+yxEFdxMDToAteXhLyQenqvZZGd0DHv3E1mBEedBKi+yestjeDyStwZa5WJ4y3lJSqA5k+ZWAIFd7AwBKOpg99GojX8WIwQQ5bLTxwmkMMnGTg1DDAi+sylT7/dYe5L8BfNEAmsel63LR9ZvAoifYC0GMEA8tGa5DBeDY7ykaNxmaELUGQqrZ8zNbrkPATIa63pYHvmJzfqw1ELrGSJNpiylo6A3qIanXQvxyHPBOTwRRNCugK4iEkvh8ITT91u7+Cbi9cQ4eNPAC+kW/+RkthBxoAVa9DJGWBzMrw5JIYOkMVE3Q4/TZOESBOUuGaw265W+eq95E
 
+Quick heads-up: my email provider may rate-limit me before 
+I'm done responding to this thread, since there are a *lot* of 
+recipients. But hopefully not...
 
---4cyzarwpv5f6fyd6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [RFC PATCH 1/4] espi: add core bus framework
-MIME-Version: 1.0
+On 26/08/05 10:05PM, Darrick J. Wong wrote:
+> On Mon, Aug 03, 2026 at 02:28:47AM +0000, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > Famfs file systems can span multiple dax devices, and daxdevs are stored
+> > in the daxdev_table. This adds the basic table structure, primtives and
+> > serialization code. Famfs file extents reference daxdevs by index, which
+> > is a cluster invariant maintained by user space.
+> > 
+> > We also add dax_holder_operations and a notify_failure handler, which
+> > is necessary to properly "open" a famfs-mode daxdev.
+> 
+> So you have to "mount /dev/somedaxthing0 /mnt" but you can then add more
+> dax devices later through some ioctl?
 
-Hello,
+The primary daxdev is in the mount command line. Secondaries are added
+via the famfs metadata log (their superblocks know the uuid of the primary,
+and the primary finds the secondaries via those log entries).
 
-On Tue, Aug 04, 2026 at 05:22:56PM +0530, Krishnamoorthi M wrote:
-> diff --git a/drivers/espi/Kconfig b/drivers/espi/Kconfig
-> new file mode 100644
-> index 000000000000..4411d8336e82
-> --- /dev/null
-> +++ b/drivers/espi/Kconfig
-> @@ -0,0 +1,19 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# eSPI (Enhanced Serial Peripheral Interface) bus configuration
-> +#
-> +
-> +menuconfig ESPI
-> +	bool "eSPI (Enhanced Serial Peripheral Interface) bus support"
+In-memory metadata references daxdevs by their index, which is their order
+of appearance in the metadata log (with the primary being index=0).
 
-Can this be tristate instead?
+Theoretically they could be added at any time, but the normal case is they
+get added as a "last" step of mkfs.famfs.
 
-> +	help
-> +	  Enhanced Serial Peripheral Interface (eSPI) bus framework.
-> +
-> [...]
-> +const struct bus_type espi_bus_type = {
-> +	.name	= "espi",
-> +	.match	= espi_bus_match,
-> +	.uevent	= espi_bus_uevent,
-> +	.probe	= espi_bus_probe,
-> +	.remove	= espi_bus_remove,
-> +};
-> +EXPORT_SYMBOL_GPL(espi_bus_type);
+Also, in a later message you asked if daxdevs could be passed in by file
+descriptor rather than by path. Yes they could, and I did that in the most
+recent famfs_fuse patch series, but then I'd have two different methods of 
+"opening" them, which seemed worth avoiding. (Because mount is by dev path).
 
-Do you really need this exported?
+> 
+> Can you remove daxdevs?  (I gather not...)
 
-> +static ssize_t supported_channels_show(struct device *dev,
-> +				       struct device_attribute *attr, char *buf)
-> +{
-> +	struct espi_controller *ctrl = to_espi_controller(dev);
-> +
-> +	return sysfs_emit(buf, "0x%02x\n", ctrl->caps.supported_channels);
-> +}
-> +static DEVICE_ATTR_RO(supported_channels);
-> +
-> +static ssize_t max_freq_mhz_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf)
-> +{
-> +	struct espi_controller *ctrl = to_espi_controller(dev);
-> +
-> +	return sysfs_emit(buf, "%u\n", ctrl->caps.max_freq_mhz);
+Daxdevs can't be removed - you just blow away the whole fs and start over.
 
-Is the unit here mHz or MHz? Maybe pick a better name that answers this
-question.
+> 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/famfs/famfs_inode.c    | 234 ++++++++++++++++++++++++++++++++++++++
+> >  fs/famfs/famfs_internal.h |  46 ++++++++
+> >  2 files changed, 280 insertions(+)
+> > 
+> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
+> > index c299a90912a5..ad71e5e7a8e3 100644
+> > --- a/fs/famfs/famfs_inode.c
+> > +++ b/fs/famfs/famfs_inode.c
+> > @@ -75,6 +75,225 @@ static struct inode *famfs_get_inode(
+> >  /*
+> >   * famfs dax_operations (for famfs-mode dax)
+> >   */
+> > +static void famfs_set_daxdev_err(struct famfs_fs_info *fsi,
+> > +				 struct dax_device *dax_devp);
+> > +
+> > +static int
+> > +famfs_dax_notify_failure(
+> > +		struct dax_device *dax_dev, u64 offset,
+> > +		u64 len, int mf_flags)
+> > +{
+> > +	struct super_block *sb = dax_holder(dax_dev);
+> > +	struct famfs_fs_info *fsi = sb->s_fs_info;
+> > +
+> > +	pr_err("%s: offset=%lld len=%llu flags=%x\n", __func__,
+> > +	       offset, len, mf_flags);
+> > +
+> > +	/*
+> > +	 * Record the error on the specific daxdev and, near-term, shut the
+> > +	 * mount down: famfs_set_daxdev_err() also sets fsi->deverror so
+> > +	 * subsequent famfs operations fail. The resolver's per-daxdev
+> > +	 * famfs_dax_err() check remains and can make this finer later.
+> > +	 */
+> > +	famfs_set_daxdev_err(fsi, dax_dev);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct dax_holder_operations famfs_dax_holder_ops = {
+> > +	.notify_failure		= famfs_dax_notify_failure,
+> > +};
+> > +
+> > +/*
+> > + * Allocate the daxdev table on first use (idempotent via cmpxchg).
+> > + */
+> > +int famfs_devlist_alloc(struct famfs_fs_info *fsi)
+> > +{
+> > +	struct famfs_dax_devlist *devlist;
+> > +
+> > +	if (fsi->dax_devlist)
+> > +		return 0;
+> > +
+> > +	devlist = kcalloc(1, sizeof(*devlist), GFP_KERNEL);
+> > +	if (!devlist)
+> > +		return -ENOMEM;
+> > +
+> > +	devlist->nslots = FAMFS_MAX_DAXDEVS;
+> > +	devlist->devlist = kcalloc(FAMFS_MAX_DAXDEVS, sizeof(struct famfs_daxdev),
+> > +				   GFP_KERNEL);
+> > +	if (!devlist->devlist) {
+> > +		kfree(devlist);
+> > +		return -ENOMEM;
+> > +	}
+> > +
+> > +	/* If another thread allocated it first, drop ours */
+> > +	if (cmpxchg(&fsi->dax_devlist, NULL, devlist) != NULL) {
+> > +		kfree(devlist->devlist);
+> > +		kfree(devlist);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/*
+> > + * famfs_install_daxdev() - exclusively acquire a resolved daxdev and publish
+> > + * it in the table at @index. Slot 0 is the mount primary; slots 1..n come from
+> > + * the daxdev-open ioctl.
+> > + *
+> > + * Serializes with concurrent installers under devlist_sem and rechecks
+> > + * ->valid, so re-registering an already-installed slot is idempotent. A daxdev
+> > + * is entered in the table only once it has been exclusively acquired via
+> > + * fs_dax_get() (with the super_block as the holder); on failure the
+> > + * dax_dev_find() reference is released and the slot is left invalid. @name may
+> > + * be NULL (the ioctl path passes no pathname).
+> > + */
+> > +int famfs_install_daxdev(
+> > +		struct famfs_fs_info *fsi,
+> > +		struct super_block *sb,
+> > +		u64 index,
+> > +		dev_t devno,
+> > +		const char *name)
+> > +{
+> > +	struct famfs_daxdev *daxdev;
+> > +	int rc = 0;
+> > +
+> > +	if (index >= fsi->dax_devlist->nslots) {
+> > +		pr_debug("%s: index(%llu) >= nslots(%d)\n",
+> > +		       __func__, index, fsi->dax_devlist->nslots);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	scoped_guard(rwsem_write, &fsi->devlist_sem) {
+> > +		daxdev = &fsi->dax_devlist->devlist[index];
+> > +
+> > +		/* Installed already by a concurrent (or repeated) open */
+> > +		if (daxdev->valid)
+> > +			return 0;
+> > +
+> > +		/*
+> > +		 * A prior attempt already determined this daxdev cannot be
+> > +		 * exclusively acquired (see the fs_dax_get() failure handling
+> > +		 * below). Don't thrash on fs_dax_get(); fail fast.
+> > +		 */
+> > +		if (daxdev->dax_err)
+> > +			return -EIO;
+> > +
+> > +		daxdev->devp = dax_dev_find(devno);
+> > +		if (!daxdev->devp) {
+> > +			pr_debug("%s: device %u:%u not found or not dax\n",
+> > +				__func__, MAJOR(devno), MINOR(devno));
+> > +			return -ENODEV;
+> > +		}
+> > +
+> > +		rc = fs_dax_get(daxdev->devp, sb, &famfs_dax_holder_ops);
+> > +		if (rc) {
+> > +			/*
+> > +			 * Distinguish a lost race from a real failure. -EBUSY
+> > +			 * with the daxdev already held by *this* super_block
+> > +			 * means a concurrent acquire won and will publish the
+> > +			 * slot valid: not an error, and must not be cached as
+> > +			 * dax_err. Any other failure is permanent for this
+> > +			 * mount, so record dax_err to stop re-acquiring it.
+> > +			 */
+> > +			if (!(rc == -EBUSY && dax_holder(daxdev->devp) == sb)) {
+> > +				pr_debug("%s: fs_dax_get(%u:%u) failed rc=%d\n",
+> > +				       __func__, MAJOR(devno), MINOR(devno), rc);
+> > +				daxdev->dax_err = true;
+> > +			}
+> > +			put_dax(daxdev->devp);
+> > +			daxdev->devp = NULL;
+> > +			return rc;
+> > +		}
+> > +
+> > +		daxdev->devno = devno;
+> > +		if (name) {
+> > +			daxdev->name = kstrdup(name, GFP_KERNEL);
+> > +			if (!daxdev->name) {
+> > +				fs_put_dax(daxdev->devp, sb);
+> > +				put_dax(daxdev->devp);
+> > +				daxdev->devp = NULL;
+> > +				return -ENOMEM;
+> > +			}
+> > +		}
+> > +
+> > +		wmb(); /* All other fields must be visible before valid */
+> > +		daxdev->valid = 1;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/*
+> > + * Release every daxdev in the table and free it. Detach the table under
+> > + * devlist_sem so a notify_failure racing teardown either runs first against
+> > + * the live table or observes dax_devlist == NULL and bails.
+> > + */
+> > +static void famfs_devlist_free(
+> > +			struct famfs_fs_info *fsi,
+> > +			struct super_block *sb)
+> > +{
+> > +	struct famfs_dax_devlist *devlist __free(kfree) = NULL;
+> > +	int i;
+> > +
+> > +	scoped_guard(rwsem_write, &fsi->devlist_sem) {
+> > +		devlist = fsi->dax_devlist;
+> > +		fsi->dax_devlist = NULL;
+> > +	}
+> > +
+> > +	if (!devlist || !devlist->devlist)
+> > +		return;
+> > +
+> > +	for (i = 0; i < devlist->nslots; i++) {
+> > +		struct famfs_daxdev *dd = &devlist->devlist[i];
+> > +
+> > +		if (!dd->valid)
+> > +			continue;
+> > +
+> > +		if (dd->devp) {
+> > +			if (!dd->dax_err)
+> > +				fs_put_dax(dd->devp, sb);
+> > +			put_dax(dd->devp);
+> > +		}
+> > +		kfree(dd->name);
+> > +	}
+> > +	kfree(devlist->devlist);
+> > +}
+> > +
+> > +/*
+> > + * Record a memory error on the daxdev matching @dax_devp. Searches the table
+> > + * under the write lock (which serializes against famfs_devlist_free()).
+> > + */
+> > +static void famfs_set_daxdev_err(
+> > +			struct famfs_fs_info *fsi,
+> > +			struct dax_device *dax_devp)
+> > +{
+> > +	int i;
+> > +
+> > +	scoped_guard(rwsem_write, &fsi->devlist_sem) {
+> > +		if (!fsi->dax_devlist)
+> > +			return;
+> > +		for (i = 0; i < fsi->dax_devlist->nslots; i++) {
+> > +			struct famfs_daxdev *dd = &fsi->dax_devlist->devlist[i];
+> > +
+> > +			if (!dd->valid || dd->devp != dax_devp)
+> > +				continue;
+> > +
+> > +			dd->error = true;
+> > +			/*
+> > +			 * Near-term policy: any daxdev memory error shuts down
+> > +			 * the whole mount. Finer per-daxdev handling (via
+> > +			 * famfs_dax_err() in the resolver) already exists and
+> > +			 * can supersede this later.
+> > +			 */
+> > +			fsi->deverror = true;
+> 
+> Hmm, I guess this is memory where really bad stuff happens ...?
+> 
+> I would have thought that you'd just kill the files on that device, but
+> you can relax this later if desirable.
 
-> +}
-> +static DEVICE_ATTR_RO(max_freq_mhz);
-> +
-> +static ssize_t io_mode_show(struct device *dev,
-> +			    struct device_attribute *attr, char *buf)
-> +{
-> +	struct espi_controller *ctrl = to_espi_controller(dev);
-> +	static const char * const modes[] = { "single", "dual", "quad" };
-> +	u8 m = ctrl->caps.io_mode;
-> +
-> +	if (WARN_ON_ONCE(m > ESPI_IO_MODE_QUAD))
-> +		return sysfs_emit(buf, "unknown\n");
-> +	return sysfs_emit(buf, "%s\n", modes[m]);
-> +}
-> +static DEVICE_ATTR_RO(io_mode);
-> +
-> +static ssize_t channel_enabled_show(struct device *dev,
-> +				    struct device_attribute *attr, char *buf)
-> +{
-> +	struct espi_controller *ctrl = to_espi_controller(dev);
-> +
-> +	return sysfs_emit(buf, "0x%02x\n", READ_ONCE(ctrl->channel_enabled));
-> +}
-> +static DEVICE_ATTR_RO(channel_enabled);
-> +
-> +static struct attribute *espi_controller_attrs[] = {
-> +	&dev_attr_supported_channels.attr,
-> +	&dev_attr_max_freq_mhz.attr,
-> +	&dev_attr_io_mode.attr,
-> +	&dev_attr_channel_enabled.attr,
-> +	NULL,
+It's memory, not storage ;). And the longer you leave something in memory,
+the more likely you'll get unrecoverable errors. Users are warned not to keep
+their only copy of valuable data in famfs. Famfs is mostly for fast access to 
+more data than fits in regular memory.
 
-No , after the list terminator please.
+Right now I'm taking the cautious approach, basically shutting down the whole
+mount if there are memory errors. Getting smarter is for later...
 
-> +};
-> +ATTRIBUTE_GROUPS(espi_controller);
-> +
-> +static void espi_controller_release(struct device *dev)
-> +{
-> +	struct espi_controller *ctrl = to_espi_controller(dev);
-> +
-> +	mutex_destroy(&ctrl->lock);
-> +	mutex_destroy(&ctrl->device_list_lock);
-> +	kfree(ctrl);
-> +}
-> +
-> +static const struct device_type espi_controller_type = {
-> +	.groups	 = espi_controller_groups,
-> +	.release = espi_controller_release,
-> +};
-> +
-> +struct espi_controller *espi_controller_alloc(struct device *parent,
-> +					      unsigned int size)
-> +{
-> +	struct espi_controller *ctrl;
-> +
-> +	if (!parent)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	ctrl = kzalloc(sizeof(*ctrl) + size, GFP_KERNEL);
+Finding all the files that touch a device isn't trivial, but *might* be worth
+doing at some later date.
 
-You might want to align sizeof(*ctrl) to something like
-ARCH_DMA_MINALIGN, to ensure that devdata below is aligned
-appropriately. Also use size_add() instead of direct arithmetic with
-sizes.
+Thank you!
 
-> +	if (!ctrl)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	device_initialize(&ctrl->dev);
-> +	ctrl->dev.parent = parent;
-> +	ctrl->dev.type = &espi_controller_type;
-> +
-> +	mutex_init(&ctrl->lock);
-> +	INIT_LIST_HEAD(&ctrl->device_list);
-> +	mutex_init(&ctrl->device_list_lock);
-> +	BLOCKING_INIT_NOTIFIER_HEAD(&ctrl->notifier_list);
-> +
-> +	if (size)
-> +		espi_controller_set_devdata(ctrl, (void *)ctrl + sizeof(*ctrl));
-> +
-> +	return ctrl;
-> +}
-> +EXPORT_SYMBOL_GPL(espi_controller_alloc);
-> +
-> +int espi_controller_register(struct espi_controller *ctrl)
-> +{
-> +	int ret;
-> +	u32 id;
-> +
-> +	if (!ctrl || !ctrl->ops)
-> +		return -EINVAL;
-> +
-> +	ret = xa_alloc(&espi_controllers, &id, ctrl, xa_limit_31b,
-> +		       GFP_KERNEL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ctrl->bus_num = id;
-> +	ret = dev_set_name(&ctrl->dev, "espi%d", ctrl->bus_num);
-> +	if (ret)
-> +		goto err_erase;
-> +
-> +	if (ctrl->ops->setup) {
-> +		ret = ctrl->ops->setup(ctrl);
-> +		if (ret) {
-> +			dev_err(&ctrl->dev, "controller setup failed: %d\n", ret);
-> +			goto err_erase;
-> +		}
-> +	}
+John
 
-is ops->setup supposed to be only called in espi_controller_register()?
-If yes, why does it exist? The driver specific stuff in it can just be
-done before espi_controller_register() is called, can it not?
+<snip>
 
-> +	ret = device_add(&ctrl->dev);
-> +	if (ret) {
-> +		dev_err(&ctrl->dev, "device_add failed: %d\n", ret);
-
-Better use %pe for error codes.
-
-> +		if (ctrl->ops->cleanup)
-> +			ctrl->ops->cleanup(ctrl);
-> +		goto err_erase;
-> +	}
-> +
-> +	dev_info(&ctrl->dev, "registered: channels=0x%02x freq=%uMHz\n",
-> +		 ctrl->caps.supported_channels, ctrl->caps.max_freq_mhz);
-
-Please degrade that to dev_dbg. We're already have too many messages
-during boot that are not really usefull once driver/subsystem debugging
-is done.
-
-Also I'd add a space between "%u" and "MHz".
-
-> +	return 0;
-> +
-> +err_erase:
-> +	xa_erase(&espi_controllers, ctrl->bus_num);
-> +	ctrl->bus_num = -1;
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(espi_controller_register);
-> +
-> +void espi_controller_unregister(struct espi_controller *ctrl)
-> +{
-> +	if (!ctrl)
-> +		return;
-> +	/*
-> +	 * Remove from the lookup table before dropping the device reference,
-> +	 * so a concurrent espi_controller_get_by_bus_num() can never take a
-> +	 * reference on a controller that is going away.
-> +	 */
-> +	xa_erase(&espi_controllers, ctrl->bus_num);
-> +	if (ctrl->ops && ctrl->ops->cleanup)
-> +		ctrl->ops->cleanup(ctrl);
-> +	device_unregister(&ctrl->dev);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_controller_unregister);
-> +
-> +void espi_controller_put(struct espi_controller *ctrl)
-> +{
-> +	if (ctrl)
-> +		put_device(&ctrl->dev);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_controller_put);
-> +
-> +struct espi_controller *espi_controller_get_by_bus_num(int bus_num)
-> +{
-> +	struct espi_controller *ctrl;
-> +
-> +	guard(spinlock)(&espi_controllers.xa_lock);
-> +	ctrl = xa_load(&espi_controllers, bus_num);
-> +	if (ctrl)
-> +		get_device(&ctrl->dev);
-> +	return ctrl;
-> +}
-> +EXPORT_SYMBOL_GPL(espi_controller_get_by_bus_num);
-> +
-> +int espi_get_capabilities(struct espi_controller *ctrl,
-> +			  struct espi_capabilities *caps)
-> +{
-> +	if (!ctrl || !caps)
-> +		return -EINVAL;
-> +	guard(mutex)(&ctrl->lock);
-> +	*caps = ctrl->caps;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(espi_get_capabilities);
-> +
-> +bool espi_channel_is_enabled(struct espi_controller *ctrl, u8 channel)
-> +{
-> +	if (!ctrl || channel >= ESPI_CHANNEL_COUNT)
-> +		return false;
-> +	guard(mutex)(&ctrl->lock);
-> +	return !!(ctrl->channel_enabled & BIT(channel));
-> +}
-> +EXPORT_SYMBOL_GPL(espi_channel_is_enabled);
-> +
-> +int espi_get_configuration(struct espi_controller *ctrl,
-> +			   u32 slave_reg_addr, u32 *config)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->get_configuration)
-> +		return -EOPNOTSUPP;
-> +	if (!config)
-> +		return -EINVAL;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->get_configuration(ctrl, slave_reg_addr, config);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_get_configuration);
-> +
-> +int espi_set_configuration(struct espi_controller *ctrl,
-> +			   u32 slave_reg_addr, u32 config)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->set_configuration)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->set_configuration(ctrl, slave_reg_addr, config);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_set_configuration);
-> +
-> +int espi_inband_reset(struct espi_controller *ctrl)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->inband_reset)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->inband_reset(ctrl);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_inband_reset);
-> +
-> +int espi_get_status(struct espi_controller *ctrl,
-> +		    struct espi_slave_status *status)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->get_status)
-> +		return -EOPNOTSUPP;
-> +	if (!status)
-> +		return -EINVAL;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->get_status(ctrl, status);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_get_status);
-> +
-> +int espi_enable_channel(struct espi_controller *ctrl, u8 channel)
-> +{
-> +	int ret;
-> +
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->enable_channel)
-> +		return -EOPNOTSUPP;
-> +	if (channel >= ESPI_CHANNEL_COUNT)
-> +		return -EINVAL;
-> +	guard(mutex)(&ctrl->lock);
-> +	ret = ctrl->ops->enable_channel(ctrl, channel);
-> +	if (!ret)
-> +		ctrl->channel_enabled |= BIT(channel);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(espi_enable_channel);
-> +
-> +int espi_disable_channel(struct espi_controller *ctrl, u8 channel)
-> +{
-> +	int ret;
-> +
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->disable_channel)
-> +		return -EOPNOTSUPP;
-> +	if (channel >= ESPI_CHANNEL_COUNT)
-> +		return -EINVAL;
-> +	guard(mutex)(&ctrl->lock);
-> +	ret = ctrl->ops->disable_channel(ctrl, channel);
-> +	if (!ret)
-> +		ctrl->channel_enabled &= ~BIT(channel);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(espi_disable_channel);
-> +
-> +int espi_periph_io_read(struct espi_controller *ctrl,
-> +			u16 port, u8 width, u32 *value)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->periph_io_read)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->periph_io_read(ctrl, port, width, value);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_periph_io_read);
-> +
-> +int espi_periph_io_write(struct espi_controller *ctrl,
-> +			 u16 port, u8 width, u32 value)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->periph_io_write)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->periph_io_write(ctrl, port, width, value);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_periph_io_write);
-> +
-> +int espi_periph_mem_read(struct espi_controller *ctrl,
-> +			 u32 addr, void *buf, size_t len)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->periph_mem_read)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->periph_mem_read(ctrl, addr, buf, len);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_periph_mem_read);
-> +
-> +int espi_periph_mem_write(struct espi_controller *ctrl,
-> +			  u32 addr, const void *buf, size_t len)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->periph_mem_write)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->periph_mem_write(ctrl, addr, buf, len);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_periph_mem_write);
-> +
-> +int espi_vwire_get(struct espi_controller *ctrl, u8 index, u8 *value, u8 *valid)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->vwire_get)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->vwire_get(ctrl, index, value, valid);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_vwire_get);
-> +
-> +int espi_vwire_put(struct espi_controller *ctrl, u8 index, u8 value, u8 valid)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->vwire_put)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->vwire_put(ctrl, index, value, valid);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_vwire_put);
-> +
-> +int espi_oob_send(struct espi_controller *ctrl, const void *buf, size_t len, u8 tag)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->oob_send)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->oob_send(ctrl, buf, len, tag);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_oob_send);
-> +
-> +int espi_oob_recv(struct espi_controller *ctrl, void *buf, size_t *len, u8 *tag)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->oob_recv)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->oob_recv(ctrl, buf, len, tag);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_oob_recv);
-> +
-> +int espi_flash_read(struct espi_controller *ctrl, u32 offset, void *buf, size_t len)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->flash_read)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->flash_read(ctrl, offset, buf, len);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_flash_read);
-> +
-> +int espi_flash_write(struct espi_controller *ctrl, u32 offset, const void *buf, size_t len)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->flash_write)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->flash_write(ctrl, offset, buf, len);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_flash_write);
-> +
-> +int espi_flash_erase(struct espi_controller *ctrl, u32 offset, size_t len)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->flash_erase)
-> +		return -EOPNOTSUPP;
-> +	guard(mutex)(&ctrl->lock);
-> +	return ctrl->ops->flash_erase(ctrl, offset, len);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_flash_erase);
-> +
-> +/*
-> + * espi_handle_alert - dispatch a hardware alert to the controller
-> + *
-> + * Must be called from process context (threaded IRQ or workqueue).
-> + *
-> + * ctrl->lock is NOT held across ops->handle_alert so that the driver
-> + * callback can call espi_notify_event() without deadlocking: notifier
-> + * callbacks may in turn call channel APIs that also acquire ctrl->lock.
-> + * The driver is responsible for taking ctrl->lock around any register
-> + * accesses that need serialisation with the channel API.
-> + */
-> +int espi_handle_alert(struct espi_controller *ctrl)
-> +{
-> +	if (!ctrl || !ctrl->ops || !ctrl->ops->handle_alert)
-> +		return -EOPNOTSUPP;
-> +	return ctrl->ops->handle_alert(ctrl);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_handle_alert);
-> +
-> +int __espi_register_driver(struct module *owner, struct espi_driver *drv)
-> +{
-> +	drv->driver.owner = owner;
-> +	drv->driver.bus = &espi_bus_type;
-> +	return driver_register(&drv->driver);
-> +}
-> +EXPORT_SYMBOL_GPL(__espi_register_driver);
-> +
-> +void espi_unregister_driver(struct espi_driver *drv)
-> +{
-> +	driver_unregister(&drv->driver);
-> +}
-> +EXPORT_SYMBOL_GPL(espi_unregister_driver);
-> +
-> +static int __init espi_init(void)
-> +{
-> +	int ret = bus_register(&espi_bus_type);
-> +
-> +	if (ret)
-> +		pr_err("failed to register eSPI bus: %d\n", ret);
-> +	return ret;
-> +}
-> +postcore_initcall(espi_init);
-> +
-> +MODULE_AUTHOR("Krishnamoorthi M <krishnamoorthi.m@amd.com>");
-> +MODULE_DESCRIPTION("eSPI core framework");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/linux/espi/espi.h b/include/linux/espi/espi.h
-> new file mode 100644
-> index 000000000000..a191ddc10cdd
-> --- /dev/null
-> +++ b/include/linux/espi/espi.h
-> @@ -0,0 +1,345 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * eSPI (Enhanced Serial Peripheral Interface) framework
-> + *
-> + * Copyright (c) 2026, Advanced Micro Devices, Inc.
-> + * All Rights Reserved.
-> + */
-> +#ifndef _LINUX_ESPI_ESPI_H
-> +#define _LINUX_ESPI_ESPI_H
-> +
-> +#include <linux/bits.h>
-> +#include <linux/device.h>
-> +#include <linux/list.h>
-> +#include <linux/mutex.h>
-> +#include <linux/types.h>
-> +#include <linux/mod_devicetable.h>
-
-Please don't include <linux/mod_devicetable.h>. I think you're not even
-using a symbol defined by it, so you can just drop it.
-
-> [...]
-> +struct espi_device_id {
-> +	char name[ESPI_NAME_SIZE];
-> +	kernel_ulong_t driver_data;
-
-There is an effort to replace .driver_data by an anonymous union for the
-already existing *_device_id. See
-https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
-for details. It would be awesome if you'd do that from the start.
-
-> +};
-
-Best regards
-Uwe
-
---4cyzarwpv5f6fyd6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmp0jKYACgkQj4D7WH0S
-/k4p9Qf7BUGvxEKKl262VR9b7B6L9bAn/WG96XeigPh/Kw7mzkBJ3bS+0lsmY31R
-4+dN6vyZ+qLdoxOsqIln6tMOi+6cqjd5X+b5+HMPUGhsxsR6U+kKH98yjVinzQjN
-cHWDA7p9MfENtvOkdDJ2QH3O6tITZPk0xZzIi3uWPlXYybRFIvi7/MC0r/CMYUGE
-oEqw0g1lIsM4Bmx5dRYCr5uoI9tM0R8eCIsTz8bWqNyK60a/Lts6+ynl0wGswz+1
-BcdJIU2zpUuhwbxk9BqOG7A/Us9Lman7TzvAJw0MPxMNwGLLmMYql/2ncpq4D8qc
-svWFOkY6GCkY8GJaQvLMmmJa9vAaTA==
-=SCU3
------END PGP SIGNATURE-----
-
---4cyzarwpv5f6fyd6--
