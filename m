@@ -1,104 +1,132 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF58943847A;
-	Thu,  6 Aug 2026 15:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658733839BD;
+	Thu,  6 Aug 2026 15:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786029351; cv=none; b=fYony5ld4Nmcpl4kDuvXdLDzP8SzpFF4dYKWfl7zgqvOWUvBG/cS89Ifvb8mhSntsqVh1xucSGWN/QV84vXVQGwIPoZVFfcQFvxxb+MUgT+uYY/DMvATLMa7MIwHeIVmX6JdkSUeFCpnhMSql55qkWcjPj4D+qAq4DzzE3MoF+0=
+	t=1786029704; cv=none; b=AqdC1+7ZFEjhYE80g1Z3JWBjKjMNuDCI/VXJpgZa70L442sHL2+qmPRdi51MJRb7FDk6gAmg+R6nfvWAw9iBRe80hVS4n3DqcgOQtEFajvdyrxInE+McgzDoex4EW5YnK1fu7E+UycloZT/4BvNTRv+VVvDunA5xYJnmgayGeAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786029351; c=relaxed/simple;
-	bh=6dcFxI60i+WGfAZGFh5LYNehhr8fvnFlJNLAcFs1C6Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Rwac4YxxSV8secvLgEnZlKL0VCCxBIsbkCxHWQ++/25Yu0GPGdpVFRhtHPTNz1saLyZhi0cLncDwwUVgJTQmsghXh6fA8q72kJ6BHu5FZG4WZc7BOmoopqFopT7H+ZYvF5cDfUGKtBaAcCu39qj0Q3CKEJuEgm7MbImpIKZUdWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=DPFGxbZk; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1786029704; c=relaxed/simple;
+	bh=If94aqDMfUhqHZbf0eoe4fgpsQJQfmn3Y15jw7TnSqs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dtCxYrR7qB5eQrrb73JvXFd8wA1XewVN//zBl0PP0As0G7IJHRAeI855EWk4sTXXDu0A/WaRPpDi63dLPXT79Vn7vJDl4dSt30t/no5y1pgxeqItkaCbzIKeScn0cWiwNF5K1x54ZVmHvUuHajFQzuwbhQkiym/vLAdHKHorT/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kj6SV/f8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="DPFGxbZk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=dw
-	i9iYgVIz2PjYVlalCQyEOyqE7a1Bmy1TlzV0GkyVE=; b=DPFGxbZkl3Pr+zJTS0
-	tqDPVIL4GvDE9/8si5GMcnmTSMHUW+8O1T0e0xRgkOX516yvKZxOYqvbOk+oMLq8
-	hbv5PjfZa+xvjicZ3zyZJnDv0pD3j05TgInzzmtpC5SF+YACo9XahdUGDgMHUPS9
-	eI8Djsk6XbbO2XrEgkuSxOD3I=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgCXn69gpHRqAwzILg--.36236S2;
-	Thu, 06 Aug 2026 23:12:34 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: david@kernel.org
-Cc: akpm@linux-foundation.org,
-	alex.aring@gmail.com,
-	allen.lkml@gmail.com,
-	arnd@arndb.de,
-	brauner@kernel.org,
-	chuck.lever@oracle.com,
-	corbet@lwn.net,
-	ebiederm@xmission.com,
-	j.granados@samsung.com,
-	jack@suse.cz,
-	jackzxcui1989@163.com,
-	jlayton@kernel.org,
-	juri.lelli@redhat.com,
-	keescook@chromium.org,
-	kuba@kernel.org,
-	liam@infradead.org,
-	linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kj6SV/f8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD2A1F000E9;
+	Thu,  6 Aug 2026 15:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786029703;
+	bh=AR3+Gfeim1gth5wk3IdJHMpUv87QCXqfBE3YsoXite4=;
+	h=From:To:Cc:Subject:Date;
+	b=kj6SV/f8Jz3lDjU87yK7Z4ZiPTX/SVnrx+7dUxFVCGuOtCvZWSsU0NZl34/4LE/gP
+	 UTrhtJhPq3+83aasb3ySOHoja1srW/0TDswc/33rJVLJBYSDPArVIPuYRp0DTa4qHs
+	 KL1M0QZhO3tz678oocm6Op/JWzDSZBiVPVKLsncNPzzRyFabTdlJkqf4rFn7rmzcm1
+	 DKwRdbXjHVbWT305+n1CFkScb3CkS32kkRra0wFT01Yi+I7yVJNi7uN5sA1Ko759V0
+	 eBdI+oy5Nj67AhT9go23t1oqDbyQAviwzDGXe26Cwu1ZpDNGgPoBUwTzM2MOK+y/kl
+	 2UaCH4Wcr9bdQ==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mcgrof@kernel.org,
-	mhocko@suse.com,
-	mingo@redhat.com,
-	mjguzik@gmail.com,
-	peterz@infradead.org,
-	pfalcato@suse.de,
-	rppt@kernel.org,
-	skhan@linuxfoundation.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	vincent.guittot@linaro.org,
-	viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v6] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
-Date: Thu,  6 Aug 2026 23:12:32 +0800
-Message-Id: <20260806151232.1263773-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <8c763f1b-85ad-44b9-b36c-becd7598fe77@kernel.org>
-References: <8c763f1b-85ad-44b9-b36c-becd7598fe77@kernel.org>
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 0/2] tracing/boot: Support eprobe, fprobe, and tprobe events and add test framework
+Date: Fri,  7 Aug 2026 00:21:38 +0900
+Message-ID: <178602969872.141946.3932041319962687996.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgCXn69gpHRqAwzILg--.36236S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrGr4UZFykKw4DXryDur45KFg_yoWxXwcE9r
-	Z7AFn5XFZ2yFW8CF4xtFs5WwnIvFsakr1kZr1fZayqyw17JFZ7AFyDJry0yrWUJrWI9r4r
-	CFs8XrsIyFnIyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7VUj3l13UUUUU==
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbC5wL4A2p0pGKOXQAA3V
 
-On Thu, 6 Aug 2026 16:01:55 +0200 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
+Hi,
 
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > index db6167bef..d590a1dda 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
-> >    - (bit 6) hugetlb shared memory
-> >    - (bit 7) DAX private memory
-> >    - (bit 8) DAX shared memory
-> > +  - (bit 9) fd list
-> 
-> "The following 9 memory types are supported: ... fd list"
-> 
-> What?
+This is 2nd version of series to extend kernel boot-time tracing to
+support newly added dynamic event types (eprobes, fprobes, and tracepoint
+probes) and introduces an automated QEMU-based test suite under
+tools/tracing/boottime/.
+Previous version is here:
 
-Thank you. It is a silly mistake. I'll fix it.
+ https://lore.kernel.org/all/178597841107.123558.13065821394773752510.stgit@devnote2/
 
-Thanks
-Xin Zhao
+This version fixes some issues reported by Sashiko [1], simplifying
+code, and improve test program.
 
+[1/2]
+ - Fix raw command detection logic for eprobes, fprobes, and tprobes
+   by requiring ':' or isspace() after type prefix.
+ - Consolidate duplicate loop logic into trace_boot_add_probe_event()
+   helper function.
+[2/2]
+ - Copy shared library dependencies using ldd if busybox is dynamically
+   linked.
+ - Wrap QEMU execution with timeout command and add -T/--timeout CLI
+   option.
+ - Add pre-flight checks for busybox architecture compatibility and
+   cpio tool in run_boottime_test.sh.
+ - Fix POSIX syntax compatibility and allow bypassing HOST_ARCH skip
+   when custom kernel/QEMU parameters are passed.
+ - Add boottime/run_boottime_test.sh to TEST_PROGS_EXTENDED in
+   selftests/ftrace/Makefile.
+
+[1] https://sashiko.dev/#/patchset/178597841107.123558.13065821394773752510.stgit%40devnote2
+
+Thanks,
+
+---
+base-commit: ea694cdd92b6bfa123b3f5c563e47b4cf968046a
+
+Masami Hiramatsu (Google) (2):
+      tracing/boot: Add support for eprobe, fprobe, and tprobe events
+      selftests/ftrace: Add boot-time tracing test framework
+
+
+ Documentation/trace/boottime-trace.rst             |   18 +
+ kernel/trace/trace_boot.c                          |   86 +++++++
+ kernel/trace/trace_dynevent.c                      |    5 
+ tools/testing/selftests/ftrace/Makefile            |    4 
+ tools/testing/selftests/ftrace/boottime/Makefile   |   10 +
+ tools/testing/selftests/ftrace/boottime/README     |   58 ++++
+ .../ftrace/boottime/bootconfigs/01-kprobe.bconf    |    5 
+ .../ftrace/boottime/bootconfigs/02-synth.bconf     |    4 
+ .../ftrace/boottime/bootconfigs/03-eprobe.bconf    |    4 
+ .../ftrace/boottime/bootconfigs/04-fprobe.bconf    |    4 
+ .../ftrace/boottime/bootconfigs/05-tprobe.bconf    |    4 
+ .../ftrace/boottime/bootconfigs/06-instance.bconf  |    5 
+ .../selftests/ftrace/boottime/run_boottime_test.sh |  264 ++++++++++++++++++++
+ .../selftests/ftrace/boottime/tests/01-kprobe.sh   |   18 +
+ .../selftests/ftrace/boottime/tests/02-synth.sh    |   18 +
+ .../selftests/ftrace/boottime/tests/03-eprobe.sh   |   18 +
+ .../selftests/ftrace/boottime/tests/04-fprobe.sh   |   18 +
+ .../selftests/ftrace/boottime/tests/05-tprobe.sh   |   18 +
+ .../selftests/ftrace/boottime/tests/06-instance.sh |   23 ++
+ tools/testing/selftests/ftrace/config              |    4 
+ 20 files changed, 583 insertions(+), 5 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/boottime/Makefile
+ create mode 100644 tools/testing/selftests/ftrace/boottime/README
+ create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/01-kprobe.bconf
+ create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/02-synth.bconf
+ create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/03-eprobe.bconf
+ create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/04-fprobe.bconf
+ create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/05-tprobe.bconf
+ create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/06-instance.bconf
+ create mode 100755 tools/testing/selftests/ftrace/boottime/run_boottime_test.sh
+ create mode 100755 tools/testing/selftests/ftrace/boottime/tests/01-kprobe.sh
+ create mode 100755 tools/testing/selftests/ftrace/boottime/tests/02-synth.sh
+ create mode 100755 tools/testing/selftests/ftrace/boottime/tests/03-eprobe.sh
+ create mode 100755 tools/testing/selftests/ftrace/boottime/tests/04-fprobe.sh
+ create mode 100755 tools/testing/selftests/ftrace/boottime/tests/05-tprobe.sh
+ create mode 100755 tools/testing/selftests/ftrace/boottime/tests/06-instance.sh
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
