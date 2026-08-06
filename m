@@ -1,284 +1,215 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F97E1DF74F;
-	Thu,  6 Aug 2026 14:00:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C0322B8F;
+	Thu,  6 Aug 2026 14:02:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024848; cv=none; b=Vy7fWKDLFzKUjCedQjlce5UjlagxORrM9GFPP5w99vEXTv0GVu5Qbfb84L2fNnV06edHntONg7v7t92muFV2jfGxJ27W/zPJ+j4ckuvBFnTkEHq/dV853QU0rmWLwj2UIbzVfIzpMLhlT3Kvvw9jK+gv2j6j/q1mKjdaKZeEtEY=
+	t=1786024928; cv=none; b=apJJ7j+nwsaItWIy6QZH9uWD0wComDTM8lnPQFvj2WRD89xtXPxN+GVCTTuYXKGcvIPAJBleSo2C50IZp52eAugPD0Z2+khYMr8QMn4mcDymfR6ZUEkFg+9N3dNCJt3ezYfVdnS6JV4yYsgbUxoMmDxIdqT9HCu3scG0zp7tZRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024848; c=relaxed/simple;
-	bh=FLo/tTT1AA7PcBx0X2JOGcd9MVdDBypORBeegIPBKxY=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=o2s6CDFfCHlHLxDx0k//iNsQetixZ7sSpk3yqMOoPjEqRkEMFACuGcQLyNklL/OwCiZIWdsHSDZSs0POBtKOz0cYrtQsoi6KFUkH0lMcaDiPkg2SZF55tUXBVs9A/hlxiMhkMyLaabaUzbJfpytlsUKkKiCmDYm2ya6JoeMMbL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BlsIq/oc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786024928; c=relaxed/simple;
+	bh=7uikDqcUSON7uqNGM7h37lnEznB8FDrnFTV8wbSCGVo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HAYaG7ntA+nbyKKod600Kjfme+yaHLxXOorF+3AtSblGD3rWTC9ZkIUnSBstW6lYFfsIHvNdlLAHrSlEvKZQAMBYqmODSHCXJf58o9zz0UjhMvjg98Zh8DsYu1qud02eynsRUAnbTlc+Dx5S3J/kPusm1rOqjsLEzUljESNYsvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G3mH/ZAJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BlsIq/oc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8E51F000E9;
-	Thu,  6 Aug 2026 14:00:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G3mH/ZAJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D5371F000E9;
+	Thu,  6 Aug 2026 14:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786024847;
-	bh=clwkUdjC9f6arDcuk5/6HHXe9MuwtSGSEYEAbJBzyF4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=BlsIq/ocHUL+LSB2Fazepjlb97ldgloqUre/sGiQ15JUXarJeAB6P/+yXJlvyTMg4
-	 o7KDivndjU8u+yZ2+ymvki3/LuI0JPnkJX4I8t18GzXCNeTWG2htRvfnLSMLxYv0CS
-	 P9x8TTKSGyYfx430H3kp3MieT/5OP3NyHMWffRlUbXWsyJ7t6zxZOlWpRG8zQzuYjv
-	 1sota53wQxg3539kFtlLZCKWi7fdO4ACoLCM4RX4R9F1MBNHynhC4lUq/EHPxkRJsB
-	 eg+VAvokS/pzaFKgtSTvu/a/WWU0nI4ucdoxdW915lRWgSWSDpVeXbQs93eyjuh+b2
-	 o0St4TM7xyJHQ==
-Date: Thu, 6 Aug 2026 23:00:42 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] tracing/boot: Add support for eprobe, fprobe, and
- tprobe events
-Message-Id: <20260806230042.ab2b9cc1b67c3d888b3f94a4@kernel.org>
-In-Reply-To: <178597842125.123558.2594525097237345437.stgit@devnote2>
-References: <178597841107.123558.13065821394773752510.stgit@devnote2>
-	<178597842125.123558.2594525097237345437.stgit@devnote2>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=k20260515; t=1786024927;
+	bh=sj8CY+ONiryU5APtwGc/YgR+xr5XRUh8Uhoc/B/yfJM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=G3mH/ZAJKCJgwvR/WrgftIJm0005B7WQFMvcWeCYDpwdVnLh7nNFwwWciAmB/E4Fc
+	 cvegeZcVis1f2q0QFmnlkIOgrIdHYQTUs3lBuIaFyetIg23BXmPc5dFGbcAssiZGOn
+	 9uaI9TV/EPRa9wHchr/EtZYg+s5birOeVhMfpVny0x7NFRC6TP9NbPV9rFFu3WZ86e
+	 SRArRbZedRs8ijk1OKnZQTg5Boe7IQVsAlpcgmM6tEZr8wmQipGDbpBuXvTEcuVard
+	 57/TDa5Wnq/eqrkTTHDUCrOMNmdtgmWwvrkaoY+stU6YUTGAAM9mLz0B7/1hYlhwFk
+	 wcKf4BErxoW+w==
+Message-ID: <8c763f1b-85ad-44b9-b36c-becd7598fe77@kernel.org>
+Date: Thu, 6 Aug 2026 16:01:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] coredump: Add bit 9 of coredump_filter for pre-exit
+ files before dumping
+To: Xin Zhao <jackzxcui1989@163.com>, brauner@kernel.org, ljs@kernel.org,
+ rppt@kernel.org, pfalcato@suse.de, viro@zeniv.linux.org.uk, corbet@lwn.net,
+ skhan@linuxfoundation.org, akpm@linux-foundation.org, liam@infradead.org,
+ vbabka@kernel.org, surenb@google.com, mhocko@suse.com, mingo@redhat.com,
+ peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ mjguzik@gmail.com, ebiederm@xmission.com, jack@suse.cz, jlayton@kernel.org,
+ chuck.lever@oracle.com, alex.aring@gmail.com, arnd@arndb.de,
+ keescook@chromium.org, mcgrof@kernel.org, j.granados@samsung.com,
+ allen.lkml@gmail.com
+Cc: kuba@kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org
+References: <20260804001703.1340667-1-jackzxcui1989@163.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260804001703.1340667-1-jackzxcui1989@163.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu,  6 Aug 2026 10:07:01 +0900
-"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-
-> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On 8/4/26 02:17, Xin Zhao wrote:
+> A coredump typically takes seconds or even longer to complete. If we
+> happen to hold a write lock with flock just before triggering the
+> coredump, that write lock will not be released during the entire coredump
+> process. As a result, other processes attempting to acquire the same write
+> lock may experience significant delays. Another typical scenario is that
+> some custom management modules for shared memory also need to release the
+> reference counts of the related buffers as soon as possible, rather than
+> waiting until the coredump is complete.
 > 
-> Boot-time tracing currently supports kprobe-events and synthetic-events
-> under per-event configuration options.
+> Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
+> We set it by default because tools like systemd-coredump go through the
+> fds. Some other coredump pipe programs like minicoredump do not use fds by
+> default. If you are sure that your coredump backend does not use the fds,
+> you can clear bit 9, which will allow some file resources without VMA
+> references to be released earlier.
 > 
-> Extend boot-time tracing to support newly added dynamic probe types:
-> - event probes (eprobe) under the "eprobes" event group
-> - function probes (fprobe) under the "fprobes" event group
-> - tracepoint probes (tprobe) under the "tracepoints" or "tprobes"
->   event group
+> In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
+> otherwise file put operation will NOT execute util coredump finish.
 > 
-> To support this cleanly, update dyn_event_create() in trace_dynevent.c
-> so that passing NULL as the type parameter delegates to
-> create_dyn_event(), allowing generic creation of any registered
-> dynamic event type from a raw command string.
+> Test Case One - flock
+> Test program send signal SIGABRT to the program which owns the flock,
+> output the wait time(unit ms) to successfully attach the flock.
+> Test program malloc 500MB heap and memset it.
+> If NOT set bit9 of coredump_filter, waitms is 11280.
+> If set bit9 of coredump_filter, waitms is 0.
 > 
-> Update Documentation/trace/boottime-trace.rst accordingly to describe
-> the new per-event bootconfig options.
+> Test Case Two - ion buffer
+> Test programs include ion buffer publisher and ion buffer subscriber.
+> Ion buffer publisher output the ion buffer hold_time if the subscriber
+> NOT send ack to publisher and NOT release it. The subscriber will trig
+> coredump by itself in some time.
+> If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
+> If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
 > 
-> Assisted-by: Antigravity:gemini-3.6-flash
-> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
 > ---
->  Documentation/trace/boottime-trace.rst |   18 ++++-
->  kernel/trace/trace_boot.c              |  113 ++++++++++++++++++++++++++++++++
->  kernel/trace/trace_dynevent.c          |    5 +
->  3 files changed, 133 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
-> index 651f3a2c01de..2c3c1fedb92c 100644
-> --- a/Documentation/trace/boottime-trace.rst
-> +++ b/Documentation/trace/boottime-trace.rst
-> @@ -121,9 +121,21 @@ ftrace.[instance.INSTANCE.]event.synthetic.EVENT.fields = FIELD[, FIELD2[...]]
->     Defines new synthetic event with FIELDs. Each field should be
->     "type varname".
->  
-> -Note that kprobe and synthetic event definitions can be written under
-> -instance node, but those are also visible from other instances. So please
-> -take care for event name conflict.
-> +ftrace.[instance.INSTANCE.]event.eprobes.EVENT.probes = PROBE[, PROBE2[...]]
-> +   Defines new event probe based on PROBEs. This option is available only
-> +   for the event which group name is "eprobes".
-> +
-> +ftrace.[instance.INSTANCE.]event.fprobes.EVENT.probes = PROBE[, PROBE2[...]]
-> +   Defines new fprobe event based on PROBEs. This option is available only
-> +   for the event which group name is "fprobes".
-> +
-> +ftrace.[instance.INSTANCE.]event.tracepoints.EVENT.probes = PROBE[, PROBE2[...]]
-> +   Defines new tracepoint probe based on PROBEs. This option is available only
-> +   for the event which group name is "tracepoints" or "tprobes".
-> +
-> +Note that dynamic event definitions can be written under instance node, but
-> +those are also visible from other instances. So please take care for event
-> +name conflict.
->  
->  Ftrace Histogram Options
->  ------------------------
-> diff --git a/kernel/trace/trace_boot.c b/kernel/trace/trace_boot.c
-> index 2ca2541c8a58..6ecf1a035caa 100644
-> --- a/kernel/trace/trace_boot.c
-> +++ b/kernel/trace/trace_boot.c
-> @@ -18,6 +18,7 @@
->  #include <linux/trace_events.h>
->  
->  #include "trace.h"
-> +#include "trace_dynevent.h"
->  
->  #define MAX_BUF_LEN 256
->  
-> @@ -172,6 +173,109 @@ trace_boot_add_synth_event(struct xbc_node *node, const char *event)
->  }
->  #endif
->  
-> +#ifdef CONFIG_EPROBE_EVENTS
-> +static int __init
-> +trace_boot_add_eprobe_event(struct xbc_node *node, const char *group,
-> +			    const char *event)
-> +{
-> +	struct xbc_node *anode;
-> +	char buf[MAX_BUF_LEN];
-> +	const char *val;
-> +	int ret = 0;
-> +
-> +	xbc_node_for_each_array_value(node, "probes", anode, val) {
-> +		if (val[0] == 'e' && (val[1] == ':' || isdigit(val[1])))
-
-Oops, I missed it, this isdigit is only required kretprobes...
-
-Let me fix it.
-
-Thank you,
-
-> +			strscpy(buf, val, MAX_BUF_LEN);
-> +		else
-> +			snprintf(buf, MAX_BUF_LEN, "e:%s/%s %s", group, event, val);
-> +
-> +		ret = dyn_event_create(buf, NULL);
-> +		if (ret) {
-> +			pr_err("Failed to add eprobe: %s\n", buf);
-> +			break;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +#else
-> +static inline int __init
-> +trace_boot_add_eprobe_event(struct xbc_node *node, const char *group,
-> +			    const char *event)
-> +{
-> +	pr_err("Event probe is not supported.\n");
-> +	return -EOPNOTSUPP;
-> +}
-> +#endif
-> +
-> +#ifdef CONFIG_FPROBE_EVENTS
-> +static int __init
-> +trace_boot_add_fprobe_event(struct xbc_node *node, const char *group,
-> +			    const char *event)
-> +{
-> +	struct xbc_node *anode;
-> +	char buf[MAX_BUF_LEN];
-> +	const char *val;
-> +	int ret = 0;
-> +
-> +	xbc_node_for_each_array_value(node, "probes", anode, val) {
-> +		if (val[0] == 'f' && (val[1] == ':' || isdigit(val[1])))
-> +			strscpy(buf, val, MAX_BUF_LEN);
-> +		else
-> +			snprintf(buf, MAX_BUF_LEN, "f:%s/%s %s", group, event, val);
-> +
-> +		ret = dyn_event_create(buf, NULL);
-> +		if (ret) {
-> +			pr_err("Failed to add fprobe: %s\n", buf);
-> +			break;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int __init
-> +trace_boot_add_tprobe_event(struct xbc_node *node, const char *group,
-> +			    const char *event)
-> +{
-> +	struct xbc_node *anode;
-> +	char buf[MAX_BUF_LEN];
-> +	const char *val;
-> +	int ret = 0;
-> +
-> +	xbc_node_for_each_array_value(node, "probes", anode, val) {
-> +		if (val[0] == 't' && (val[1] == ':' || isdigit(val[1])))
-> +			strscpy(buf, val, MAX_BUF_LEN);
-> +		else
-> +			snprintf(buf, MAX_BUF_LEN, "t:%s/%s %s", group, event, val);
-> +
-> +		ret = dyn_event_create(buf, NULL);
-> +		if (ret) {
-> +			pr_err("Failed to add tprobe: %s\n", buf);
-> +			break;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +#else
-> +static inline int __init
-> +trace_boot_add_fprobe_event(struct xbc_node *node, const char *group,
-> +			    const char *event)
-> +{
-> +	pr_err("Fprobe event is not supported.\n");
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline int __init
-> +trace_boot_add_tprobe_event(struct xbc_node *node, const char *group,
-> +			    const char *event)
-> +{
-> +	pr_err("Tracepoint probe is not supported.\n");
-> +	return -EOPNOTSUPP;
-> +}
-> +#endif
-> +
->  #ifdef CONFIG_HIST_TRIGGERS
->  static int __init __printf(3, 4)
->  append_printf(char **bufp, char *end, const char *fmt, ...)
-> @@ -477,6 +581,15 @@ trace_boot_init_one_event(struct trace_array *tr, struct xbc_node *gnode,
->  	if (!strcmp(group, "synthetic"))
->  		if (trace_boot_add_synth_event(enode, event) < 0)
->  			return;
-> +	if (!strcmp(group, "eprobes"))
-> +		if (trace_boot_add_eprobe_event(enode, group, event) < 0)
-> +			return;
-> +	if (!strcmp(group, "fprobes"))
-> +		if (trace_boot_add_fprobe_event(enode, group, event) < 0)
-> +			return;
-> +	if (!strcmp(group, "tracepoints") || !strcmp(group, "tprobes"))
-> +		if (trace_boot_add_tprobe_event(enode, group, event) < 0)
-> +			return;
->  
->  	mutex_lock(&event_mutex);
->  	file = find_event_file(tr, group, event);
-> diff --git a/kernel/trace/trace_dynevent.c b/kernel/trace/trace_dynevent.c
-> index c4dfbc293bae..6f2e39b797e5 100644
-> --- a/kernel/trace/trace_dynevent.c
-> +++ b/kernel/trace/trace_dynevent.c
-> @@ -116,6 +116,8 @@ int dyn_event_release(const char *raw_command, struct dyn_event_operations *type
->  	return ret;
->  }
->  
-> +static int create_dyn_event(const char *raw_command);
-> +
->  /*
->   * Locked version of event creation. The event creation must be protected by
->   * dyn_event_ops_mutex because of protecting trace_probe_log.
-> @@ -124,6 +126,9 @@ int dyn_event_create(const char *raw_command, struct dyn_event_operations *type)
->  {
->  	int ret;
->  
-> +	if (!type)
-> +		return create_dyn_event(raw_command);
-> +
->  	mutex_lock(&dyn_event_ops_mutex);
->  	ret = type->create(raw_command);
->  	mutex_unlock(&dyn_event_ops_mutex);
+> Change in v6:
+> - Fix operator precedence in PF_KTHREAD/PF_DUMPCORE check.
 > 
+> Change in v5:
+> - Not add another bootargs for the feature,
+>   as suggested by Christian Brauner and Lorenzo Stoakes.
+>   Add bit9 of coredump_filter to tag whether need to dump fd list.
+>   Set bit9 to 1 as default.
+> - Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
+>   problems of the code related to umap that was added in v4, delete all of
+>   it which is unnecessary. The management of reference counting for shared
+>   memory generally does not need to be released through the release
+>   operation of files that have VMA references. Traversing all the threads
+>   within the process and executing exit_files() is sufficient.
+> - Fulfill comments and commit log,
+>   as suggested by Pedro Falcato and Lorenzo Stoakes.
+> - Link to v5: https://lore.kernel.org/all/20260630075604.52533-1-jackzxcui1989@163.com/
+> 
+> Change in v4:
+> - Christian pointed out that the coredump process will traverse file
+>   descriptors (fd), so certain fds should not be closed by default.
+>   Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
+>   pre-exit resources selection, default is NOT pre-exit anything.
+> - Mateusz suggested that walking the fd table and release the file-lock is
+>   reasonable. No longer release all the fd(s). Based on user config, only
+>   the flock fd(s) and the fd(s) correspondent to file-backed shared memory
+>   will be released at most.
+> - Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
+> 
+> Change in v3:
+> - Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
+>   mm_flags_test() check, note that memory mapped files keep their own
+>   separate references to the files. The case to work around is that early
+>   unlocking a flock on a file allows other processes to lock and modify
+>   the mapped data protected by the flock,
+>   as suggested by Pedro Falcato.
+> - Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
+> 
+> Change in v2:
+> - Get rid of the implement of adding new fcntl API, the issue does not
+>   worth inflicting the cost on everyone,
+>   as suggested by Al Viro.
+> - Call exit_files() in coredump_wait(),
+>   as suggested by Eric W. Biederman.
+>   Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
+>   need to dump file-backed shared memory.
+> - Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
+> 
+> v1:
+> - Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
+> ---
+>  Documentation/filesystems/proc.rst | 14 ++++++++++++--
+>  fs/coredump.c                      | 21 +++++++++++++++++++++
+>  fs/file_table.c                    |  7 ++++++-
+>  include/linux/mm_types.h           |  6 ++++--
+>  4 files changed, 43 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index db6167bef..d590a1dda 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
+>    - (bit 6) hugetlb shared memory
+>    - (bit 7) DAX private memory
+>    - (bit 8) DAX shared memory
+> +  - (bit 9) fd list
 
+"The following 9 memory types are supported: ... fd list"
+
+What?
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Cheers,
+
+David
