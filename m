@@ -1,486 +1,298 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5E837AA78
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 17:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3E7433BA6;
+	Thu,  6 Aug 2026 17:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786036423; cv=none; b=MTF2Js0Ggzxdz3tiXyvLL87SbCJfzUUPMoMJmLcjPp+OQgVkdZXsbqFM68q/FlvLoDPIUhZuFh/8uqKz2vqTwlmEdxN5M9aNuB9+sJcFzG6Ff44AvKclUhT61Gjzrr3pYQrqL6Jo/gRMHsNZfIsQSZH6Ik8CUrRLKyJxYp5+TUc=
+	t=1786036667; cv=none; b=PzmqTFo/lQcOgCyFp6g5KO/eHYzdDnYqHB5738DMp936hq0xWfOLW6oxYJJF3L2MCNEXYBtzZv4y3/8SkSF3Gu3jJPbfFDpvVGb71CDVjWIm2omH1gk/DFsDsG6H0z2l7ATHpU4owCFSEqqeDS9cKzksDVF5REuVtGiiJFZ7bfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786036423; c=relaxed/simple;
-	bh=2g/BH7/dnQkVJ5j6ZHSFOFFmOj5t0qrsnPL18Dt9tD8=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jVXKi0XG2xURwyzQaMutcCENdiLTXmNsWc87OZUPtRcMnJi8LlnOgmNytLl28RQQ1VE/59O5WBepvDj8vZyB+FzmsNGtg9SeK+oNPx6HhX5zo3u3AhwVFNf7MBqUstKCn3I9P35SL3fri+G0K03RB/f+jnIb/Z1b1KeeXtvXWBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2YXmTbd; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786036667; c=relaxed/simple;
+	bh=K1FnRBiNbYYnsYBbpxCVAZyEDLtZPc793DQLnfKoRgw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AGQCZ8IA1G12ysw7VLk05tUWsO9MvN0rrix4qGY+keYmrSmBoXm1PsH7tyTn7KHu8yVrLxS21SQDsJPTnwKxRu6oQwVx0R6Mom4tKkouS8abeWWn2K/ga0/dnjcnud9yPH2g/rCMSoppD8Tib0qfOyvx0EdQRogV5QAlrNp1VRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BAOvmCM8; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N2YXmTbd"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493b966dd74so15202325e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 10:13:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786036419; x=1786641219; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:subject:cc:to:from:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZtyOCXOdSpPncxX9X95K21xTpnlgw4ERbigVVrepMHc=;
-        b=N2YXmTbdcjN973XvjwRBtUOypM+iKBrXRqUP6HPq7aSCcjFeWncSFcUG9CJUiCQfR4
-         DI2U2RaFgYTir/ENqUGwcAtT1tn/vRag/if2uFLgIKbt6M5mdQ2dl+8PO9T8k8HLk415
-         JjDFXlnVRHTZGHRU6lLN8AtQT6SFeVyxW6jr5JrqHSDMRZuv2NRLnm6HlB+LKqBgVV7i
-         HgNhNiYsUZD8vNk3ynXimA6W6M+iiC8e/wKLrSIv1DEmxSjeJ4wfo/I+K+sKqG4lG3Pb
-         iGeYKvp5n7jh+6WJ6qhkxfC1oeN7ryOJwkLeizvgOcCMHhkDvSntzwE6jueZBxcPtYko
-         9qmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786036419; x=1786641219;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:subject:cc:to:from:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZtyOCXOdSpPncxX9X95K21xTpnlgw4ERbigVVrepMHc=;
-        b=spCQVDJc/rg95No6YH3lAOLF6ytUzBOoe3nw5Bh+KF9i2mbnMLMCmZinCKPTuz/O16
-         WZLfms+lE4L7W21hR2+BzffGXOs/dvN1zwuclM3shRPl8M0fqJKVBPJfiIIDsPB6ifuk
-         xyMg6i/n4gDrH6KVw1+W/8LZbW0cjqHxtaIxCJD6NNuX1runrJVbyHz/F1+oup9A08gr
-         q6avtSMl3piSAjpNqHgyEWtPgRMVeMLBFbXJiadcRiCP6pr3IlfUCCyC7mcJtH/KhHfo
-         nPPIIhWEYBPLYJt9zWG4AfORfC9n+Sf4pCflxL4mt9oD8zHRK6EMNA5Nmieeuol8tJWr
-         nM8g==
-X-Forwarded-Encrypted: i=1; AHgh+RofCByaSetxKdrOJqWqLpEAsF3YjHsodWTmfmEFwt4keZUw+T/SmKghMAKpgCCAvzAXX8XmGJLdVeg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJJhjRvpozUeXKS48hd7oNNwl5jN+mekZhdnm+CyZV6fHKy87C
-	P/8mBaEl0z4Bs1wrmf/osOcsUsRlqhgw7av+fAksbj21sv03X3xagDXd
-X-Gm-Gg: AR+sD12aq/ihefQJ1QgRrmOGJ9O0PjjVC/tSMYbpfrQg+kyJ0RaDd3nO4SD31DTE9Tz
-	n2r8bA7YGTfGlCXTXQpUgtM468l8/pqBVJ7GojR7haCdqPUuVY8Z6LaOJs3DtjNBlrMTuO/t1ct
-	W1M5sb51VkyPEowx57T3/KZcJ8IGvRsDvjjAluNV36d5Mu+cCaQ3xOCYmGVQ7mWeDmbKrDQz2z/
-	a3J7SDb/YMz8sc4nYBqMffi54lcM9nplXxt83kCTmIMttp7m92HSb9SC3tiXb47UXTW9LsYXERx
-	V7wBUQt1UBGBbtyqJuqvK9sVgg7ubwLjCfaufwY9XPrz6MZGPyNF8baj3ZDUqrVHd+3Vv6X0Qfg
-	/FlmcyoDG5SoPN4a9WWP4mowN+Ccv5n2/X32Nc6Lnh9zzcMBwpjo46c+tGjZTTFuBsymUW36iUL
-	nbmNO/hP8r2fIWZHquqC8VIIVG4UoEfhT4d47kCNCsHD9q6bCfMxGVbm9/AprdtNcgP6Ip18i5a
-	MZxr87YXLnivnM4UtbK0K/Jr8Pe7oTwx42j
-X-Received: by 2002:a05:600c:5251:b0:499:5b04:6920 with SMTP id 5b1f17b1804b1-4995b04695bmr7965295e9.16.1786036419254;
-        Thu, 06 Aug 2026 10:13:39 -0700 (PDT)
-Received: from Ansuel-XPS. (host-79-42-255-151.retail.telecomitalia.it. [79.42.255.151])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995bb81731sm1732145e9.0.2026.08.06.10.13.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 10:13:38 -0700 (PDT)
-Message-ID: <6a74c0c2.1c04d3ff.d716d.a9f0@mx.google.com>
-X-Google-Original-Message-ID: <anTAvad1j37P3ZfY@Ansuel-XPS.>
-Date: Thu, 6 Aug 2026 19:13:33 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [PATCH net-next v10 11/11] net: airoha: add phylink support
-References: <20260730102444.1967900-1-ansuelsmth@gmail.com>
- <20260730102444.1967900-12-ansuelsmth@gmail.com>
- <ams72wEsCiACYh-k@lore-desk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BAOvmCM8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786036664; x=1817572664;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=K1FnRBiNbYYnsYBbpxCVAZyEDLtZPc793DQLnfKoRgw=;
+  b=BAOvmCM8TvE+0DFeP+wHr3KgOFjyeyT6bxQZMAdaLr01f2NGf2L9U5dq
+   6eze1tLWqCtiCees7y2g9eCbOQqpVvUYMhbfdSQwf/sswVTONMHPh7RZ4
+   +TGFBF3WzCYuNG4nDN1BZ4JoSltI8vog5M+gal5xvDxHeolBBAkb3+rd5
+   dPyxmZRiUWFeQeOceTmze6dbJj0KUa6jTn9adn2Q52xdzyzMjjTb0r+Or
+   zkcgJu3OnBGVBZTOxPd5vkjE0xcXwUtrETq5g6B8Nm+3VbR/eCBbG1x7w
+   PuEBLccSAU2Qr0hfj599BRAe8Q7MkSqunvUtzZkgbuprU1akmD32lD2J5
+   w==;
+X-CSE-ConnectionGUID: p40Jfs11SGOpkNioI17dFw==
+X-CSE-MsgGUID: wztKQl27TQCW1oXOPTcxrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86514622"
+X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
+   d="scan'208";a="86514622"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 10:17:43 -0700
+X-CSE-ConnectionGUID: KA7djey7SWOZTkXIQ08b0Q==
+X-CSE-MsgGUID: 5Io8ssLRSk6k0Zlw6AffHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
+   d="scan'208";a="265645903"
+Received: from jmaxwel1-mobl.amr.corp.intel.com (HELO [10.125.109.101]) ([10.125.109.101])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 10:17:43 -0700
+Message-ID: <84deae0a-2922-4d69-9e8b-4b1b18968c6a@intel.com>
+Date: Thu, 6 Aug 2026 10:17:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ams72wEsCiACYh-k@lore-desk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 03/11] x86/virt/tdx: Add tdx_alloc/free_control_page()
+ helpers
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>, bp@alien8.de, hpa@zytor.com,
+ kas@kernel.org, kvm@vger.kernel.org, linux-coco@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mingo@redhat.com,
+ nik.borisov@suse.com, pbonzini@redhat.com, seanjc@google.com,
+ tglx@kernel.org, vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
+ yan.y.zhao@intel.com, kai.huang@intel.com, tony.lindgren@linux.intel.com,
+ binbin.wu@intel.com, sohil.mehta@intel.com
+Cc: Hongyu Ning <hongyu.ning@linux.intel.com>,
+ Binbin Wu <binbin.wu@linux.intel.com>
+References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com>
+ <20260806020850.1221381-4-rick.p.edgecombe@intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260806020850.1221381-4-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 30, 2026 at 01:56:11PM +0200, Lorenzo Bianconi wrote:
-> > Add phylink support for each GDM port. For GDM1 add the internal interface
-> > mode as the only supported mode. For GDM2/3/4 add the required
-> > configuration of the PCS to make the external PHY or attached SFP cage
-> > work.
-> > 
-> > These needs to be defined in the GDM port node using the pcs-handle
-> > property.
-> > 
-> > Update and provide a .get/set_link_ksettings function that use phylink
-> > for ethtool OPs now that we fully support phylink.
-> > 
-> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> 
-> Hi Christian,
-> 
-> just some nits inline. Fixing them:
-> 
-> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> 
-> Regards,
-> Lorenzo
-> 
-> > ---
-> >  drivers/net/ethernet/airoha/Kconfig       |   1 +
-> >  drivers/net/ethernet/airoha/airoha_eth.c  | 189 +++++++++++++++++++++-
-> >  drivers/net/ethernet/airoha/airoha_eth.h  |   5 +
-> >  drivers/net/ethernet/airoha/airoha_regs.h |  12 ++
-> >  4 files changed, 205 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/net/ethernet/airoha/Kconfig b/drivers/net/ethernet/airoha/Kconfig
-> > index 1f6640a15fc9..789906516bf8 100644
-> > --- a/drivers/net/ethernet/airoha/Kconfig
-> > +++ b/drivers/net/ethernet/airoha/Kconfig
-> > @@ -20,6 +20,7 @@ config NET_AIROHA
-> >  	depends on NET_DSA || !NET_DSA
-> >  	select NET_AIROHA_NPU
-> >  	select PAGE_POOL
-> > +	select PHYLINK
-> >  	help
-> >  	  This driver supports the gigabit ethernet MACs in the
-> >  	  Airoha SoC family.
-> > diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/ethernet/airoha/airoha_eth.c
-> > index dba7c52c0896..5065d6583b9f 100644
-> > --- a/drivers/net/ethernet/airoha/airoha_eth.c
-> > +++ b/drivers/net/ethernet/airoha/airoha_eth.c
-> > @@ -8,6 +8,7 @@
-> >  #include <linux/of_reserved_mem.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/tcp.h>
-> > +#include <linux/pcs/pcs.h>
-> 
-> nit: alphabetic order.
-> 
-> >  #include <linux/u64_stats_sync.h>
-> >  #include <net/dst_metadata.h>
-> >  #include <net/page_pool/helpers.h>
-> > @@ -1915,6 +1916,14 @@ static int airoha_dev_open(struct net_device *netdev)
-> >  	struct airoha_qdma *qdma;
-> >  	int err;
-> >  
-> > +	err = phylink_of_phy_connect(dev->phylink, netdev->dev.of_node, 0);
-> > +	if (err) {
-> > +		netdev_err(netdev, "could not attach PHY: %d\n", err);
-> > +		return err;
-> > +	}
-> > +
-> > +	phylink_start(dev->phylink);
-> 
-> Should it be last operation in airoha_dev_open()?
->
+> +/*
+> + * Calculate the arg needed for operating on the DPAMT backing for
+> + * a given 4KB page.
+> + */
+> +static u64 pamt_2mb_arg(kvm_pfn_t pfn)
+> +{
+> +	/* Arg value will specify a 2MB region of physical address space. */
+> +	unsigned long hpa_2mb = ALIGN_DOWN(pfn << PAGE_SHIFT, PMD_SIZE);
+> +
+> +	return hpa_2mb | TDX_PS_2M;
+> +}
 
-I checked also other ethernet driver for this pattern and it seems
-phylink_start is always called before any netif_start_queues.
+/* Helper for building dynamic PAMT seamcall() arguments. */
+static u64 pamt_2mb_arg(kvm_pfn_t pfn)
+{
+	/* Find the 2MB-wide DPAMT region for 'pfn':  */
+	unsigned long hpa_2mb = ALIGN_DOWN(pfn << PAGE_SHIFT, PMD_SIZE);
 
-I'm addressing all the other suggestion and adding the Ack if you are ok
-with keeping this as is.
- 
-> > +
-> >  	netif_tx_start_all_queues(netdev);
-> >  	err = airoha_set_vip_for_gdm_port(dev, true);
-> >  	if (err)
-> > @@ -1954,6 +1963,10 @@ static int airoha_dev_stop(struct net_device *netdev)
-> >  		airoha_set_gdm_port_fwd_cfg(dev->eth,
-> >  					    REG_GDM_FWD_CFG(port->id),
-> >  					    FE_PSE_PORT_DROP);
-> > +
-> > +	phylink_stop(dev->phylink);
-> 
-> Should it be the first one? (reverse order of airoha_dev_open()).
-> 
-> > +	phylink_disconnect_phy(dev->phylink);
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > @@ -2509,6 +2522,24 @@ airoha_ethtool_get_rmon_stats(struct net_device *netdev,
-> >  	} while (u64_stats_fetch_retry(&dev->stats.syncp, start));
-> >  }
-> >  
-> > +static int
-> > +airoha_ethtool_get_link_ksettings(struct net_device *netdev,
-> > +				  struct ethtool_link_ksettings *cmd)
-> > +{
-> > +	struct airoha_gdm_dev *dev = netdev_priv(netdev);
-> > +
-> > +	return phylink_ethtool_ksettings_get(dev->phylink, cmd);
-> > +}
-> > +
-> > +static int
-> > +airoha_ethtool_set_link_ksettings(struct net_device *netdev,
-> > +				  const struct ethtool_link_ksettings *cmd)
-> > +{
-> > +	struct airoha_gdm_dev *dev = netdev_priv(netdev);
-> > +
-> > +	return phylink_ethtool_ksettings_set(dev->phylink, cmd);
-> > +}
-> > +
-> >  static int airoha_qdma_set_chan_tx_sched(struct net_device *netdev,
-> >  					 int channel, enum tx_sched_mode mode,
-> >  					 const u16 *weights, u8 n_weights)
-> > @@ -3353,7 +3384,8 @@ static const struct ethtool_ops airoha_ethtool_ops = {
-> >  	.get_drvinfo		= airoha_ethtool_get_drvinfo,
-> >  	.get_eth_mac_stats      = airoha_ethtool_get_mac_stats,
-> >  	.get_rmon_stats		= airoha_ethtool_get_rmon_stats,
-> > -	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
-> > +	.get_link_ksettings	= airoha_ethtool_get_link_ksettings,
-> > +	.set_link_ksettings	= airoha_ethtool_set_link_ksettings,
-> >  	.get_link		= ethtool_op_get_link,
-> >  };
-> >  
-> > @@ -3409,6 +3441,155 @@ bool airoha_is_valid_gdm_dev(struct airoha_eth *eth,
-> >  	return false;
-> >  }
-> >  
-> > +/* Nothing to do in MAC, everything is handled in PCS */
-> > +static void airoha_mac_config(struct phylink_config *config, unsigned int mode,
-> > +			      const struct phylink_link_state *state)
-> > +{
-> > +}
-> > +
-> > +static void airoha_mac_link_up(struct phylink_config *config, struct phy_device *phy,
-> > +			       unsigned int mode, phy_interface_t interface,
-> > +			       int speed, int duplex, bool tx_pause, bool rx_pause)
-> > +{
-> > +	struct airoha_gdm_dev *dev = container_of(config, struct airoha_gdm_dev,
-> > +						  phylink_config);
-> > +	struct airoha_gdm_port *port = dev->port;
-> > +	struct airoha_eth *eth = dev->eth;
-> > +	u32 frag_size_tx, frag_size_rx;
-> > +	u32 mask, val;
-> > +
-> > +	/* TX/RX frag is configured only for GDM4 */
-> > +	if (port->id != AIROHA_GDM4_IDX)
-> > +		return;
-> > +
-> > +	switch (speed) {
-> > +	case SPEED_10000:
-> > +	case SPEED_5000:
-> > +		frag_size_tx = 8;
-> > +		frag_size_rx = 8;
-> > +		break;
-> > +	case SPEED_2500:
-> > +		frag_size_tx = 2;
-> > +		frag_size_rx = 1;
-> > +		break;
-> > +	default:
-> > +		frag_size_tx = 1;
-> > +		frag_size_rx = 0;
-> 
-> Missing break here.
-> 
-> > +	}
-> > +
-> > +	mutex_lock(&port->reg_lock);
-> > +
-> > +	/* Configure TX/RX frag based on speed */
-> > +	if (dev->nbq == 1) {
-> > +		mask = GDM4_SGMII1_TX_FRAG_SIZE_MASK;
-> > +		val = FIELD_PREP(GDM4_SGMII1_TX_FRAG_SIZE_MASK,
-> > +				 frag_size_tx);
-> > +	}  else {
-> > +		mask = GDM4_SGMII0_TX_FRAG_SIZE_MASK;
-> > +		val = FIELD_PREP(GDM4_SGMII0_TX_FRAG_SIZE_MASK,
-> > +				 frag_size_tx);
-> > +	}
-> > +	airoha_fe_rmw(eth, REG_FE_GDM4_TMBI_FRAG, mask, val);
-> > +
-> > +	if (dev->nbq == 1) {
-> > +		mask = GDM4_SGMII1_RX_FRAG_SIZE_MASK;
-> > +		val = FIELD_PREP(GDM4_SGMII1_RX_FRAG_SIZE_MASK,
-> > +				 frag_size_rx);
-> > +	} else {
-> > +		mask = GDM4_SGMII0_RX_FRAG_SIZE_MASK;
-> > +		val = FIELD_PREP(GDM4_SGMII0_RX_FRAG_SIZE_MASK,
-> > +				 frag_size_rx);
-> > +	}
-> > +	airoha_fe_rmw(eth, REG_FE_GDM4_RMBI_FRAG, mask, val);
-> 
-> nit: I guess you can have just one if/else block here running airoha_fe_rmw()
-> inside the block and getting rid of val/mask.
-> 
-> > +
-> > +	mutex_unlock(&port->reg_lock);
-> > +}
-> > +
-> > +/* Nothing to do in MAC, everything is handled in PCS */
-> > +static void airoha_mac_link_down(struct phylink_config *config, unsigned int mode,
-> > +				 phy_interface_t interface)
-> > +{
-> > +}
-> > +
-> > +static const struct phylink_mac_ops airoha_phylink_ops = {
-> > +	.mac_config = airoha_mac_config,
-> > +	.mac_link_up = airoha_mac_link_up,
-> > +	.mac_link_down = airoha_mac_link_down,
-> > +};
-> > +
-> > +static int airoha_fill_available_pcs(struct phylink_config *config,
-> > +				     struct phylink_pcs **available_pcs,
-> > +				     unsigned int num_possible_pcs)
-> > +{
-> > +	struct device *dev = config->dev;
-> > +
-> > +	return fwnode_phylink_pcs_parse(dev_fwnode(dev), available_pcs,
-> > +					num_possible_pcs);
-> > +}
-> > +
-> > +static int airoha_setup_phylink(struct net_device *netdev)
-> > +{
-> > +	struct airoha_gdm_dev *dev = netdev_priv(netdev);
-> > +	struct device_node *np = netdev->dev.of_node;
-> > +	struct airoha_gdm_port *port = dev->port;
-> > +	struct phylink_config *config;
-> > +	phy_interface_t phy_mode;
-> > +	struct phylink *phylink;
-> > +	int err;
-> > +
-> > +	err = of_get_phy_mode(np, &phy_mode);
-> > +	if (err) {
-> > +		dev_err(&netdev->dev, "incorrect phy-mode\n");
-> > +		return err;
-> > +	}
-> > +
-> > +	config = &dev->phylink_config;
-> > +	config->dev = &netdev->dev;
-> > +	config->type = PHYLINK_NETDEV;
-> > +
-> > +	/*
-> > +	 * GDM1 only supports internal for Embedded Switch
-> > +	 * and doesn't require a PCS.
-> > +	 */
-> > +	if (port->id == AIROHA_GDM1_IDX) {
-> > +		config->mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> > +					   MAC_10000FD;
-> > +
-> > +		__set_bit(PHY_INTERFACE_MODE_INTERNAL,
-> > +			  config->supported_interfaces);
-> > +	} else {
-> > +		config->mac_capabilities = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> > +					   MAC_10 | MAC_100 | MAC_1000 |
-> > +					   MAC_2500FD | MAC_5000FD | MAC_10000FD;
-> > +
-> > +		config->num_possible_pcs = fwnode_phylink_pcs_count(dev_fwnode(config->dev));
-> > +		config->fill_available_pcs = airoha_fill_available_pcs;
-> > +
-> > +		__set_bit(PHY_INTERFACE_MODE_SGMII,
-> > +			  config->supported_interfaces);
-> > +		__set_bit(PHY_INTERFACE_MODE_1000BASEX,
-> > +			  config->supported_interfaces);
-> > +		__set_bit(PHY_INTERFACE_MODE_2500BASEX,
-> > +			  config->supported_interfaces);
-> > +		__set_bit(PHY_INTERFACE_MODE_10GBASER,
-> > +			  config->supported_interfaces);
-> > +		__set_bit(PHY_INTERFACE_MODE_USXGMII,
-> > +			  config->supported_interfaces);
-> > +
-> > +		phy_interface_copy(config->pcs_interfaces,
-> > +				   config->supported_interfaces);
-> > +	}
-> > +
-> > +	phylink = phylink_create(config, of_fwnode_handle(np),
-> > +				 phy_mode, &airoha_phylink_ops);
-> > +	if (IS_ERR(phylink))
-> > +		return PTR_ERR(phylink);
-> > +
-> > +	dev->phylink = phylink;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int airoha_alloc_gdm_device(struct airoha_eth *eth,
-> >  				   struct airoha_gdm_port *port,
-> >  				   int nbq, struct device_node *np)
-> > @@ -3474,7 +3655,7 @@ static int airoha_alloc_gdm_device(struct airoha_eth *eth,
-> >  	dev->nbq = nbq;
-> >  	port->devs[index] = dev;
-> >  
-> > -	return 0;
-> > +	return airoha_setup_phylink(netdev);
-> >  }
-> >  
-> >  static int airoha_alloc_gdm_port(struct airoha_eth *eth,
-> > @@ -3510,6 +3691,7 @@ static int airoha_alloc_gdm_port(struct airoha_eth *eth,
-> >  
-> >  	port->id = id;
-> >  	spin_lock_init(&port->stats_lock);
-> > +	mutex_init(&port->reg_lock);
-> >  	eth->ports[p] = port;
-> >  
-> >  	err = airoha_metadata_dst_alloc(port);
-> > @@ -3706,6 +3888,8 @@ static int airoha_probe(struct platform_device *pdev)
-> >  			netdev = netdev_from_priv(dev);
-> >  			if (netdev->reg_state == NETREG_REGISTERED)
-> >  				unregister_netdev(netdev);
-> > +			if (dev->phylink)
-> > +				phylink_destroy(dev->phylink);
-> >  			of_node_put(netdev->dev.of_node);
-> >  		}
-> >  		airoha_metadata_dst_free(port);
-> > @@ -3744,6 +3928,7 @@ static void airoha_remove(struct platform_device *pdev)
-> >  
-> >  			netdev = netdev_from_priv(dev);
-> >  			unregister_netdev(netdev);
-> > +			phylink_destroy(dev->phylink);
-> >  			of_node_put(netdev->dev.of_node);
-> >  		}
-> >  		airoha_metadata_dst_free(port);
-> > diff --git a/drivers/net/ethernet/airoha/airoha_eth.h b/drivers/net/ethernet/airoha/airoha_eth.h
-> > index fa9a8edce22f..6396a5aec384 100644
-> > --- a/drivers/net/ethernet/airoha/airoha_eth.h
-> > +++ b/drivers/net/ethernet/airoha/airoha_eth.h
-> > @@ -595,6 +595,9 @@ struct airoha_gdm_dev {
-> >  	 * QDMA migration.
-> >  	 */
-> >  	spinlock_t txq_lock[AIROHA_NUM_NETDEV_TX_RINGS];
-> > +
-> > +	struct phylink *phylink;
-> > +	struct phylink_config phylink_config;
-> >  };
-> >  
-> >  struct airoha_gdm_port {
-> > @@ -604,6 +607,8 @@ struct airoha_gdm_port {
-> >  
-> >  	/* protect concurrent hw_stats accesses */
-> >  	spinlock_t stats_lock;
-> > +	/* protect concurrent GDM4 register access */
-> > +	struct mutex reg_lock;
-> 
-> nit: naming is always hard, maybe link_lock?
-> 
-> >  
-> >  	struct metadata_dst *dsa_meta[AIROHA_MAX_DSA_PORTS];
-> >  };
-> > diff --git a/drivers/net/ethernet/airoha/airoha_regs.h b/drivers/net/ethernet/airoha/airoha_regs.h
-> > index 442b48c9b991..4ea89057b560 100644
-> > --- a/drivers/net/ethernet/airoha/airoha_regs.h
-> > +++ b/drivers/net/ethernet/airoha/airoha_regs.h
-> > @@ -357,6 +357,18 @@
-> >  #define IP_FRAGMENT_PORT_MASK		GENMASK(8, 5)
-> >  #define IP_FRAGMENT_NBQ_MASK		GENMASK(4, 0)
-> >  
-> > +#define REG_FE_GDM4_TMBI_FRAG		0x2028
-> > +#define GDM4_SGMII1_TX_WEIGHT_MASK	GENMASK(31, 26)
-> > +#define GDM4_SGMII1_TX_FRAG_SIZE_MASK	GENMASK(25, 16)
-> > +#define GDM4_SGMII0_TX_WEIGHT_MASK	GENMASK(15, 10)
-> > +#define GDM4_SGMII0_TX_FRAG_SIZE_MASK	GENMASK(9, 0)
-> > +
-> > +#define REG_FE_GDM4_RMBI_FRAG		0x202c
-> > +#define GDM4_SGMII1_RX_WEIGHT_MASK	GENMASK(31, 26)
-> > +#define GDM4_SGMII1_RX_FRAG_SIZE_MASK	GENMASK(25, 16)
-> > +#define GDM4_SGMII0_RX_WEIGHT_MASK	GENMASK(15, 10)
-> > +#define GDM4_SGMII0_RX_FRAG_SIZE_MASK	GENMASK(9, 0)
-> > +
-> >  #define REG_MC_VLAN_EN			0x2100
-> >  #define MC_VLAN_EN_MASK			BIT(0)
-> >  
-> > -- 
-> > 2.53.0
-> > 
+	/* Talk about why the flag is needed... */
+	return hpa_2mb | TDX_PS_2M;
+}
 
 
+> +/* Add PAMT backing for the 2MB region surrounding the given pfn. */
+> +static u64 tdh_phymem_pamt_add(kvm_pfn_t pfn, struct page **pamt_pages)
+> +{
+> +	struct tdx_module_args args = {
+> +		.rcx = pamt_2mb_arg(pfn),
+> +		.rdx = page_to_phys(pamt_pages[0]),
+> +		.r8 = page_to_phys(pamt_pages[1]),
 
--- 
-	Ansuel
+Super nit:          ^ should be vertically aligned
+
+> +	};
+> +
+> +	return seamcall(TDH_PHYMEM_PAMT_ADD, &args);
+> +}
+> +
+> +/* Remove PAMT backing for the 2MB region surrounding the given pfn. */
+> +static u64 tdh_phymem_pamt_remove(kvm_pfn_t pfn, struct page **pamt_pages)
+> +{
+> +	struct tdx_module_args args = {
+> +		.rcx = pamt_2mb_arg(pfn),
+> +	};
+> +	u64 ret;
+> +
+> +	ret = seamcall_ret(TDH_PHYMEM_PAMT_REMOVE, &args);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Copy PAMT pages out of the struct per the TDX ABI */
+> +	pamt_pages[0] = phys_to_page(args.rdx);
+> +	pamt_pages[1] = phys_to_page(args.r8);
+> +
+> +	return 0;
+> +}
+> +
+> +/* Allocate PAMT memory for the given page */
+> +static int tdx_pamt_get(kvm_pfn_t pfn)
+> +{
+> +	struct page *pamt_pages[TDX_DPAMT_ENTRY_PAGE_CNT];
+> +	u64 tdx_status;
+> +	int ret;
+> +
+> +	if (!tdx_supports_dynamic_pamt(&tdx_sysinfo))
+> +		return 0;
+> +
+> +	ret = alloc_pamt_array(pamt_pages);
+> +	if (ret)
+> +		return ret;
+> +
+> +	tdx_status = tdh_phymem_pamt_add(pfn, pamt_pages);
+> +	if (tdx_status != TDX_SUCCESS) {
+> +		ret = -EIO;
+> +		goto out_free;
+> +	}
+> +
+> +	return 0;
+> +
+> +out_free:
+> +	free_pamt_array(pamt_pages);
+> +
+> +	return ret;
+> +}
+> +
+> +/* Free PAMT memory for the given page */
+> +static void tdx_pamt_put(kvm_pfn_t pfn)
+> +{
+> +	struct page *pamt_pages[TDX_DPAMT_ENTRY_PAGE_CNT] = {};
+> +	u64 tdx_status;
+> +
+> +	if (!tdx_supports_dynamic_pamt(&tdx_sysinfo))
+> +		return;
+> +
+> +	tdx_status = tdh_phymem_pamt_remove(pfn, pamt_pages);
+> +
+> +	/*
+> +	 * Don't free pamt_pages as it could hold garbage when
+> +	 * tdh_phymem_pamt_remove() fails.  Don't panic/BUG_ON(), as
+> +	 * there is no risk of data corruption, but do yell loudly as
+> +	 * failure indicates a kernel bug, memory is being leaked, and
+> +	 * the dangling PAMT entry may cause future operations to fail.
+> +	 */
+> +	if (WARN_ON_ONCE(tdx_status != TDX_SUCCESS))
+> +		return;0
+
+Whose fault is the bug here? Probably the TDX module?
+
+> +	free_pamt_array(pamt_pages);
+> +}
+> +
+> +/*
+> + * Return a page that can be gifted to the TDX-Module for use as a "control"
+> + * page, i.e. pages that are used for control structures for a given TDX
+> + * guest, and thus obtain TDX protections, including PAMT tracking.
+> + */
+> +struct page *tdx_alloc_control_page(void)
+> +{
+> +	struct page *page;
+> +
+> +	page = alloc_page(GFP_KERNEL_ACCOUNT);
+> +	if (!page)
+> +		return NULL;
+> +
+> +	if (tdx_pamt_get(page_to_pfn(page))) {
+> +		__free_page(page);
+> +		return NULL;
+> +	}
+
+Here's where I start to get lost.
+
+What are the rules around tdx_pamt_get()? tdx_alloc_control_page() is
+obviously for one 4k page. But tdx_pamt_get() does an allocation for 2MB
+regions. So it has to be able to fail to actually add PAMT in some
+cases, gracefully.
+
+Right?
+
+How does that happen?
+
+I know the changelog tried to hand wave this away a bit. But the
+comments in here need to say something about tdx_pamt_get() being
+unusable on its own. The normal convention would be to __ it, too.
+
+> +	return page;
+> +}
+> +EXPORT_SYMBOL_FOR_KVM(tdx_alloc_control_page);
+> +
+> +/*
+> + * Free a page that was gifted to the TDX-Module for use as a control
+
+Nit "TDX Module" for consistency.
+
+> + * page. After this, the page is no longer protected by TDX.
+> + */
+> +void tdx_free_control_page(struct page *page)
+> +{
+> +	if (!page)
+> +		return;
+> +
+> +	tdx_pamt_put(page_to_pfn(page));
+> +	__free_page(page);
+> +}
+> +EXPORT_SYMBOL_FOR_KVM(tdx_free_control_page);
+> +
+>  void tdx_sys_disable(void)
+>  {
+>  	struct tdx_module_args args = {};
+> diff --git a/arch/x86/virt/vmx/tdx/tdx.h b/arch/x86/virt/vmx/tdx/tdx.h
+> index bdfd0e1e337ac..a886c54decaad 100644
+> --- a/arch/x86/virt/vmx/tdx/tdx.h
+> +++ b/arch/x86/virt/vmx/tdx/tdx.h
+> @@ -48,6 +48,8 @@
+>  #define TDH_SYS_CONFIG			45
+>  #define TDH_SYS_SHUTDOWN		52
+>  #define TDH_SYS_UPDATE			53
+> +#define TDH_PHYMEM_PAMT_ADD		58
+> +#define TDH_PHYMEM_PAMT_REMOVE		59
+>  #define TDH_SYS_DISABLE			69
+>  
+>  /*
+
