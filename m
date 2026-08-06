@@ -1,189 +1,92 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398153C6A57;
-	Fri,  7 Aug 2026 11:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C87141D4EA;
+	Fri,  7 Aug 2026 11:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786101096; cv=none; b=SkJrJasLy70RwM541hhFmu18/deQjvJkKiKufEEFNPU0hgMstKtSS2RjbWExMZby36dDtFqsrrysQVH6uVEFQzo/+cf4ZNhq3GbKdVXqV6pl85nr8OekKGmvX5clI0z7tEapF4cBmBHcx83xwC9YrUtN1t2EA4dJ90Eg7TZ4eOk=
+	t=1786101866; cv=none; b=jxxYOwuHLZ1RB/pUWvwFp8NrV8/qF/UAfxD08O22sGiawF2y8TkaaAWt6kLP+ZWCxI4VRt+CI2fNe2eomOvyDEEfO2AF+paOwBWp1PuMX3bSj9wdQtzqidCjyihEHHp5nlQpqsAL4KAsUHJF28eXU4UpBAZtTnNQfPn+2ksWt40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786101096; c=relaxed/simple;
-	bh=UPAjB0BdsiGVSp/QBakciyTb0Cb2PgDPRyhiNB6yjbg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nDV4sOjKy4LYZ9gqL7XI/mammlckfTtlySmPDlU/XOyRBSj39RSsW5WiHqpnrpUFFJsKyZfUd0sLEcUQQBK3rmM6rm9Q5JtD8DAy+z94XArIq3wHQmSGHlbHsLwk+6aMwvIAe50An4JQZ4LQvcNd+AaA/EJ1EcRKrU9TYYYJAqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Tp0/Var9; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1786101866; c=relaxed/simple;
+	bh=BLpAfIgdKE2g2TXD0nYMJQzdWT+koZWc69P9ILVrv8A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=P1EIx9HwGBqLiqvtDtW9enxNGm0oyDBV/skyUPLfCvJ8h/iPJ6GQDhIuzaM+0XRt6zvzsvWTRXobAdApJHezrWBxHk/RIdVmHJlW/fSZxPqeZ7hqcKBsvwyldQTM8e41m0eFxXtAveOmotS47kj/9239DVd9Crc8+NlesEJ628c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpAyYgYi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Tp0/Var9"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=cmpSACpQmSDOvkCsslSgBCvhphPrgzodOLZTrWWOAUY=;
-	b=Tp0/Var93VcbMnNN/DXf5t3Qwl9TbSqrL6DVz1Mmr38m/M3Yqmtm11CWu20dFVskW8sl/gzBe
-	9mitCO1ZFNe2Leu7zofD3tG05KcR4ruf0j7/cqAgDgoPf5yaXFjztC/lFXGwpvKz8lOufXI/haO
-	0kIl9iGHsO61/UVxWGM/i+0=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hGh5d74zBzmV99;
-	Fri,  7 Aug 2026 19:00:53 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id EFF8D4057A;
-	Fri,  7 Aug 2026 19:11:27 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Fri, 7 Aug 2026 19:11:26 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Teng Peisen <tengpeisen@huawei.com>, Wu Di
-	<wudi234@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Larysa Zaremba
-	<larysa.zaremba@intel.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chen Anwen
-	<chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>, Zhang Min
-	<zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
-	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
-Subject: [PATCH net] hinic3: Fix SKB linearization mismatch and silent TX drops
-Date: Fri, 7 Aug 2026 19:11:19 +0800
-Message-ID: <ca8f219dd1eac99e41e22477bd0902b92ec7628e.1785899557.git.tengpeisen@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpAyYgYi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89471F000E9;
+	Fri,  7 Aug 2026 11:24:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786101865;
+	bh=Y+OnyiutdAeZqdCaIL9vv826Rscy3ErecGau84y8hCg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=NpAyYgYiTHhaj/NZS4GWynUp3LpN7jIhG81h+HIdZraHExddMxDRJ91fY1Y5yauEx
+	 X2TOAGXLZ2DU8KQmxJ9Opb2fkTHC2qIIyPkUy2/xn44b9QZxH+xjszl3MiND1Rjw3c
+	 iro6fps9K0L/RWzXSDSf3yruV9kfsIBXCwbeKnpYqDTSzwKBWbxUybu0b80BUhMUsg
+	 C6+y0djxelL0spLEisLJxLIsl1SxTiqpMbu8JgQpN2OBYzHqwsKbR2T1NnOlsWDHqN
+	 ymRmnC5uzx7DXutci5iaC+jy+XOZ2HkVJYZZLuqM65YfRgHJX3QRLsU07sOEOx2jDD
+	 2mSJ/uZsQvvaQ==
+From: Mark Brown <broonie@kernel.org>
+To: Vishwaroop A <va@nvidia.com>
+Cc: linux-spi@vger.kernel.org, jonathanh@nvidia.com, 
+ thierry.reding@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
+ smangipudi@nvidia.com
+In-Reply-To: <20260803104614.2548375-1-va@nvidia.com>
+References: <20260803104614.2548375-1-va@nvidia.com>
+Subject: Re: [PATCH v9 0/2] spi: add new_device/delete_device sysfs
+ interface
+Message-Id: <178604004753.110757.12124960041355613352.b4-ty@b4>
+Date: Thu, 06 Aug 2026 19:14:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100013.china.huawei.com (7.202.181.12)
-Message-ID: <20260807111119.fbukxHs-iuZ7DczDDq1cu4F7WC8OtTKc-4WXyZzTFKk@z>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
 
-Previously, hinic3_send_one_skb() cached the SKB fragment count before
-calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
-skb_checksum_help() for unsupported tunnel packets, the SKB may be
-linearized. Continuing to build the TX descriptor with the stale
-fragment count leads to a descriptor mismatch, which can trigge
-out-of-bounds DMA reads or IOMMU faults.
+On Mon, 03 Aug 2026 10:46:12 +0000, Vishwaroop A wrote:
+> spi: add new_device/delete_device sysfs interface
+> 
+> Add I2C-style new_device/delete_device sysfs attributes to SPI host
+> controllers, allowing userspace to instantiate and remove SPI devices
+> at runtime without device-tree changes.
+> 
+> Patch 1 adds the new_device/delete_device attributes and the supporting
+> infrastructure (userspace_clients list, manual sysfs group registration).
+> Patch 2 adds the ABI and user-facing documentation.
+> 
+> [...]
 
-Furthermore, the old code ignored the return value of skb_checksum_help(),
-transmitting corrupted packets with incomplete checksums upon failure. It
-also failed to increment drop statistics across various TX error paths,
-causing packets to be dropped silently without notifying the user.
+Applied to
 
-Fix this by:
-1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
-   ensure the correct fragment count is used if the SKB is linearized.
-2. Propagating skb_checksum_help() errors and returning
-   HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
-3. Adding missing statistics increments (dropped, map_frag_err,
-   unknown_tunnel_pkt, skb_pad_err) across the TX error paths so these
-   events are correctly reflected in interface statistics.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.3
 
-Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
-Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-Co-developed-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 31 ++++++++++++++++---
- 1 file changed, 26 insertions(+), 5 deletions(-)
+Thanks!
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index 9306bf0020ca..45effdddb434 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -97,8 +97,12 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
+[1/2] spi: add new_device/delete_device sysfs interface
+      https://git.kernel.org/broonie/spi/c/e0db3f62dbe6
+[2/2] docs: spi: add documentation for userspace device instantiation
+      https://git.kernel.org/broonie/spi/c/036d4b059be0
 
- 	dma_info[0].dma = dma_map_single(&pdev->dev, skb->data,
- 					 skb_headlen(skb), DMA_TO_DEVICE);
--	if (dma_mapping_error(&pdev->dev, dma_info[0].dma))
-+	if (dma_mapping_error(&pdev->dev, dma_info[0].dma)) {
-+		u64_stats_update_begin(&txq->txq_stats.syncp);
-+		txq->txq_stats.map_frag_err++;
-+		u64_stats_update_end(&txq->txq_stats.syncp);
- 		return -EFAULT;
-+	}
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
- 	dma_info[0].len = skb_headlen(skb);
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-@@ -117,6 +121,9 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 						     skb_frag_size(frag),
- 						     DMA_TO_DEVICE);
- 		if (dma_mapping_error(&pdev->dev, dma_info[idx].dma)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.map_frag_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			err = -EFAULT;
- 			goto err_unmap_page;
- 		}
-@@ -260,9 +267,11 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
- 		if (l4_proto != IPPROTO_UDP ||
- 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
- 		    VXLAN_OFFLOAD_PORT_LE) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.unknown_tunnel_pkt++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			/* Unsupported tunnel packet, disable csum offload */
--			skb_checksum_help(skb);
--			return 0;
-+			return skb_checksum_help(skb);
- 		}
- 	}
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-@@ -412,6 +421,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
- 		offload |= HINIC3_TX_OFFLOAD_TSO;
- 	} else {
- 		tso_cs_en = hinic3_tx_csum(txq, task, skb);
-+		if (tso_cs_en < 0) {
-+			offload = HINIC3_TX_OFFLOAD_INVALID;
-+			return offload;
-+		}
- 		if (tso_cs_en)
- 			offload |= HINIC3_TX_OFFLOAD_CSUM;
- 	}
-@@ -539,12 +552,17 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 	int err;
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
- 	if (unlikely(skb->len < MIN_SKB_LEN)) {
--		if (skb_pad(skb, MIN_SKB_LEN - skb->len))
-+		if (skb_pad(skb, MIN_SKB_LEN - skb->len)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.skb_pad_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			goto err_out;
-+		}
-
- 		skb->len = MIN_SKB_LEN;
- 	}
-
-+	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
- 	num_sge = skb_shinfo(skb)->nr_frags + 1;
- 	/* assume normal wqe format + 1 wqebb for task info */
- 	wqebb_cnt = num_sge + 1;
-@@ -560,7 +578,6 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 		return NETDEV_TX_BUSY;
- 	}
-
--	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
- 	if (unlikely(offload == HINIC3_TX_OFFLOAD_INVALID)) {
- 		goto err_drop_pkt;
- 	} else if (!offload) {
-@@ -604,6 +621,10 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- err_drop_pkt:
- 	dev_kfree_skb_any(skb);
- err_out:
-+	u64_stats_update_begin(&txq->txq_stats.syncp);
-+	txq->txq_stats.dropped++;
-+	u64_stats_update_end(&txq->txq_stats.syncp);
-+
- 	return NETDEV_TX_OK;
- }
-
-
-base-commit: 2195424c3da2ef1829a63b807e3a900a90e57d85
---
-2.54.0
+Thanks,
+Mark
 
