@@ -1,222 +1,151 @@
-Received: from mx0a-00206402.pphosted.com (mx0a-00206402.pphosted.com [148.163.148.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7353C8C43
-	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 15:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=148.163.148.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786030323; cv=pass; b=cwAAK+fuv8iDcbs7kY0Ymw8kgrL+pw1v0GSVmAASBqBrtoCxwLshbMEEn5OZmFjj505FaktAprlBky/RPZ3YsIDJfhkZodZnKI18kJRNfVrfAZhPzAi67shGmEWx7sFWZAV4bA3a4IvuE2zuxnhg/eoc195ZLa91DG0R4Td0UyY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786030323; c=relaxed/simple;
-	bh=q1yKAchAKLYq079ovpGA477d3rJNusw7Xe8p+FR68lg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jCoPeb7b86nw1MGPUWWManG/3ib2hMpE1pJaTepKwYBHyTBX+aBgA67R6uKRHcdRbeNjJlJJScs9JTVE/Iiodj6I/NXb4tGC29n1rvnmDjnR1whp93Kda61yt9Aln0XoopIcQP1VGuykkWRq74IVKo8ZAzPxEBAEPPPRsc10MjM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com; spf=pass smtp.mailfrom=crowdstrike.com; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=cD4zTm5M; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=jUwr7YyE; arc=pass smtp.client-ip=148.163.148.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crowdstrike.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABA447CA66
+	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 15:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786030503; cv=none; b=tLekTI+jZ5jXnWdEfR1EE3c5uH6BuOddPAWGQnPrjiBrOWAWoMIISY7JTEIiWpMPWXd18TvpJs8EpWp4ekH9LZoVAE2SqPf1i7E6cyi0G5REMDJ6TqGGE7n795WzYhTi/sO4FxQigtXgYRc7GrIxWcbzFBFTQhB0FpjjIHcTYz8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786030503; c=relaxed/simple;
+	bh=I82qCAapuq5q4XLsdlrx/cBUqFtHqRFuOYioPzImCLw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QVKi52/NJ6Rv0QnKhh7/rNOXtdTTxb113kW8HXDs8GvsG0Fbvkiqy7CBIkNSkCix0dMgZzMzhARCB59ifNMLKzl5zMOcttOdVU19t/3Yd7JMwnEAmcf0MdpPC1M1+s194+qSk12gy4uYRuZ2u72f/sRpYaa+KnPHielaAs6V63o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dnNuNjR6; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="cD4zTm5M";
-	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="jUwr7YyE"
-Received: from pps.filterd (m0354651.ppops.net [127.0.0.1])
-	by mx0a-00206402.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 676F0s1o4162558
-	for <linux-doc@vger.kernel.org>; Thu, 6 Aug 2026 15:32:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crowdstrike.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	default; bh=c2fkWs3IPyqlvD9JKIug3ApdmdvPne7OgC9UgDf+NxM=; b=cD4z
-	Tm5M17fPCDrNyQnDpnqttK1cC6kuMPVg4/jD/NafaBCKl0S12uY23MLt8b4AzTR1
-	tNtAlGU6iP65NOCAbZGM/AFS1P8A8jFJtgC+Gka/cS6al6ZUwTehMeQPyb49rJQ/
-	ju69mZ7d/ia/w2ssTJghneL2trmQpwiu1JI2o4ewFKbpqsE6YwXRn0dDomX5s3g/
-	TzyMqV1CTrn8xM9VTU4dBjoou0s9LDokE/Lr5b8h6sM33N7AXcM7VGNgAH/pGgMd
-	cZseJx5SSRaCvi1pYSw14VZx4tyjkzymIS24edQKmC4N7Wsh7W7pzQS0ATIUeCok
-	yJesokBCRMEHIY5+8g==
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com [74.125.224.71])
-	by mx0a-00206402.pphosted.com (PPS) with ESMTPS id 4fvq5k9nvd-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 15:32:01 +0000 (GMT)
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-664e15b53d3so5822023d50.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 08:32:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786030320; cv=none;
-        d=google.com; s=arc-20260327;
-        b=C1jIcQRumpW1wlOo+4zouAXI4cuO/cvSYwkIiv0w7rOWCGJvZ4DfxOroALjl3sIlWE
-         pUwGYagH66PXcQloRznYlEQY7MXpZCP+hdzB7nbSGSqOaVeELZpHozmO/+4YxHBcz2dn
-         P/BsFTiTOOCF9riUyb7Un6FvFM3usvoJJAgklEUsldvZxZGRy0gI2DLkxKRW6bSztgWh
-         MT2TgUacmdgUT+DBojHoEgwtYKVbEIW4ua9vr+xHmzKKtLKMS7a6JoPfc+RxSaU22eiX
-         2vh7wmYbBhpwPsB7YOtQvDyZOSGDoUgNJYA3MGUEPAlEc0zYi9U0LOY3nL8hqW9xO7Qq
-         PLVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=c2fkWs3IPyqlvD9JKIug3ApdmdvPne7OgC9UgDf+NxM=;
-        fh=EcmRhzBmu6EgQDwpf6HpduJYvBSpF0jqse0NZT+M3DQ=;
-        b=WluE24v7avSww0TnFbE1hg1mhOj46IgNFOW7eh2Su6pEPjoeFgVuPxzGLFComlc/eZ
-         zuBkZ+tZNIRvHdaOE9yfQS2s7A5SG0pOcjq3ZGBlBK/ztGp3ReWzWXm31BC57FOQMhZA
-         UEL4XJR55jp6P0ybQ25K0GhPM9t99XDpLLibIesRx8SWfMNyAxpEJRl5/coNJHZuWmDT
-         nnfWktb87D+sy8HKnUZJyEeK4e+m+AsVsNiulFm7rT0OnHYaEN7q6pyB8zW+QC1yJnDg
-         9pYUcAlVOhO0YOaBm1/d/6GNV5jT85fECt7/RS+yCoQ+Hq4eErulE92DjOiDFNnSyPua
-         Djlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnNuNjR6"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2caed617615so32139095ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 08:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=crowdstrike.com; s=google; t=1786030320; x=1786635120; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=c2fkWs3IPyqlvD9JKIug3ApdmdvPne7OgC9UgDf+NxM=;
-        b=jUwr7YyEutR2ntg8mjiTkWr8G03wYaEMxMSDpwpeIO060yep4vdjVdLNRvdpnYyHTh
-         Q2ja/+7W1N89qUtLLHRF2mQFXrKXQw1q7TKbCzzFGzCy8phwlVgFemybh4MsP+CUcdjM
-         lH3nwDnpqcmGChjsCbjpWZo8NYW4J3mXH8mmmFURQgcdbKZ6uwkM5LI8SnhJQM7acml/
-         nJF1EDne5owqizd5ct1e56AakdqqUXBYpxOm46SB/gVYfEap/FbxbnM7SCuYg+6J+inK
-         m/vmdXVQn4/+CKbdIOqRKB//rjFCjK81hRMhXyWjyAMGfCvtjZljQDehl4TxvX+xCLXI
-         vkGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786030320; x=1786635120;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1786030501; x=1786635301; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=c2fkWs3IPyqlvD9JKIug3ApdmdvPne7OgC9UgDf+NxM=;
-        b=O2uygf3pk9FiZ0L9mKMT0XtYgPUBF9poeKhN2dVFwquA3y67U53kmuvSXBuWRu1dHK
-         7dUZjbvCTjZLiaTPUDK+Rzszubwbjnvy3FLUyLGZ221zRmE1aGyjmAPBJaIeOI3COCzo
-         /KDnNccs6IisSYbOp1NXA/MwpPDzDcNWXZ+9Q06S9c7RFa0Cc4PZF+LSoY586yYFyaHE
-         7BcVytP02OVThN8rOZYcZ4mUc096g/dQxVOlqfBZwGYQxwg9zgbYlMepxl4V7ZIegDXS
-         eF6TxEi7ecKZdEJtN/hGhSydQOTGsK+K1UI1d8rYfN5KW5LH0zcoA6EnzmIMSMl2Cna9
-         h/Kg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2kqGgxf5pWHnRFSr7f1TtmY+Bweg6ZP5xFxTRUAe1UdCo3uxQEJ3Vv6eGc89NFbYgdMA5Ygcxlks=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHXJNVz8IwAwCHYiyCn4qHvbEF6A8S0GIrvQX/cvWJBxmy5SXm
-	5vABcnZn1rJZbMiNsSybg45PuDeURErL7p0Mq4q6sC3hNkJF+xQh+g6tFj1CBMcM5rAD1ThmC2h
-	IljZa9JNiOBTWEN8grAqhzWkMfF0YqLoMu8ZK6FQz4+V9klyH+A3VjeqKgLtOrvj32By/KRk1Rz
-	3Al6bUbHdMOwyYrPUGBwSo/ghx6mrOHY0VGcgj
-X-Gm-Gg: AR+sD10ugaCDVN3U9aZqOLiqvyXwVucD0LvvDH+R6s1AThJy/wF0PoKnOYCcoJ7jwjS
-	iOdn9d+lrq87NkWhxOF+7VOLAg/FSWRe5XwK+RdkRL4Y0+M3QweDDQe66eIXqpWBYgo5XxHzF5w
-	iLo6X3Rr8UKEi4282Gxwu5ouFUlS2Ug9z17Rao9E63BgNsTN9hgXN4EgDi4A==
-X-Received: by 2002:a05:690e:488a:b0:664:bd5c:6e72 with SMTP id 956f58d0204a3-6699aa7511dmr7229011d50.34.1786030320220;
-        Thu, 06 Aug 2026 08:32:00 -0700 (PDT)
-X-Received: by 2002:a05:690e:488a:b0:664:bd5c:6e72 with SMTP id
- 956f58d0204a3-6699aa7511dmr7228964d50.34.1786030319671; Thu, 06 Aug 2026
- 08:31:59 -0700 (PDT)
+        bh=bbrmQ+GhkVEYubpdUNjaSBaIV7BvrLU3vULivoHV6Ks=;
+        b=dnNuNjR6V3XOnbyCTm2mqXFwVpmNxbMVGxQjowCGYR4n6HR8Sgn0f3S76rauk3SXVv
+         JnqKC9ArrZNFoTNVZv0pkrbp/33CjNcILlPwjWY7+qdJHCbe+3r6xPpJ3xaP8xEeHP1i
+         9pJG5bQU/cVdj1MfnKePWqItT0AJNXd90b5BLSbR0vMHxA4yLMEb3h3vYB3Fj/9JYpNg
+         6Z4eBeoi486nHpV8HIRHIR15PWoGCtsDLfhEsZKWP9+1RSFocQvEmueWbbBJ6WzzQ/Aa
+         pzoZ9Z+1/3aJDobjrmZyWUkTLbsqU5zDHzrslSM3uGmmp3N2ktPq6THN7JBzf/VWFkQD
+         STSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786030501; x=1786635301;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=bbrmQ+GhkVEYubpdUNjaSBaIV7BvrLU3vULivoHV6Ks=;
+        b=fwoe3k5nCwWRNmQnR1dZ1piviv9H10vLrkthdP76Dpnqbbsb6Vtm2gY4LGY+zUsrFQ
+         N5lg7K6NG6hE1HqJPKf5cVIDi5MEN+qDcflzASnZ6J0QHdZn/Lv4qsNagmQHjDfr5je2
+         GgjpWxxS4louigmmns07gPEhNJkJiJY9N879XEnAxLil8tgk6eddyMrTZgYcKnaeCSoZ
+         z6tooevCwWBwiDvfUTPI9pkQDDO+R852in/3oudlLbSbadlQgVd1iYLVZh1aIh/UHn2d
+         iKa9vDRiNJxclvopkDMfWXrG1aHtYvwIE0AXJMfFtdhlTtitGSsG6YjBfFnM2TvlwWzJ
+         y7IA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9Mz5VQtS8LPLIf06ciGF0MLw5JkTEwVSZW+FPFhci1bbUPPcdrB9HX0rWh9FpfDyEu9bCircwMYc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzb4jk/pdepDpJCidSbr8nmBSxRfNO739ZY6e2xOZnjwqF13/EK
+	deX7IWeKpkm1zJlRKaBMtOyUV61YwX/g6XUK9MRpV8/RL6jfhGWKqzEM
+X-Gm-Gg: AR+sD10lxE3ZJaG8pEKUc+wvIAL+plu3mDfAW2kqGZ0fIddnVj5PQGSZcJAGwQpJmP4
+	HzXdGV9sAMwGnRT1K0kyvu7jIMm2U+78LPXwlJEyNbxoe9HkWIAaxLqio5oAwWTnccXGpUpjqC9
+	/8cuqEPXmmhGgsBJpPuxDAwUT9scLHC0QHVsNsxMNYz6vHwdLD+ij1rhvRwiHdLrf7Anv/Dxivm
+	6eJJWDMXoG9CHyeYWJ1BolC7o+Vnr8nsCp1nZ0RpEeUWYJ2tPayaSOscBZKsgbQulq0/ekh24Xv
+	aeKos5tSfr+XDdD4ZjkbqBboXRaiEeTMgJ9WWtybV+aAf5vWhGiJvHSnINjvZHKuKfUP59FoPRR
+	XAHB670yRhMZPhawJx//3QeW9gxBSfS5/Wvn6w/ajkWu4LKoV7i4xd8a8jR632cW5wsEF4jLFkU
+	JK+eYDxhNAUjrXZyDNDyjeU3Y+7bGyQfIHhxlXbsZxb5VD5tACoyMlswdhEs0uHR+uNrNafY6ja
+	0C03Bc7Jhfr9/v9U/RujYCBGPuoHIVRKEzOfA==
+X-Received: by 2002:a05:6a21:9992:b0:3bf:b68f:4685 with SMTP id adf61e73a8af0-3cb85f43e7cmr17944621637.23.1786030500875;
+        Thu, 06 Aug 2026 08:35:00 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31586777bcfsm42980668eec.21.2026.08.06.08.34.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2026 08:35:00 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d027eec5-ca83-4aba-a3c1-4724c77df0dc@roeck-us.net>
+Date: Thu, 6 Aug 2026 08:34:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260731175358.3542156-1-andrey.grodzovsky@crowdstrike.com>
- <20260731175358.3542156-3-andrey.grodzovsky@crowdstrike.com> <am0-QoUNQo4p2sBg@redhat.com>
-In-Reply-To: <am0-QoUNQo4p2sBg@redhat.com>
-From: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
-Date: Thu, 6 Aug 2026 11:31:47 -0400
-X-Gm-Features: AUfX_mw1nwxsETix0HLa6WjJrBSSAU1_0A9CQBJUP5Fq4BDIA8mjk_ZZNVuhTmY
-Message-ID: <CAOu3gNhFL+1JmWRVwJVq4xUn-8mENkNwYexCwpFZ8FaZY82SRw@mail.gmail.com>
-Subject: Re: [RFC PATCH bpf-next v2 2/2] selftests/livepatch: update
- test-ftrace.sh for deprecated ftrace_enabled
-To: Joe Lawrence <joe.lawrence@redhat.com>
-Cc: bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        live-patching@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, rostedt@goodmis.org, mbenes@suse.cz,
-        corbet@lwn.net, jpoimboe@kernel.org, shuah@kernel.org,
-        jolsa@kernel.org, mhiramat@kernel.org, stable@vger.kernel.org,
-        linux-open-source@crowdstrike.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA2MDEyMCBTYWx0ZWRfX7/5Z0qB+qs5U
- VpJQ9hsaSiEFExH1LwsTMqJdBk3dVVvMHB7U3xpn+gqTSgPdswLphDjeyApL8yo6tfZzJMc6r49
- u0FA0aKIn4H4c9XCP1BkHq/h4APJ7LDLLPgmPmjw1rgurAIOHYzx
-X-Proofpoint-ORIG-GUID: 86wEoubULjPVICa5rraeXiOVAFNi7oLO
-X-Authority-Analysis: v=2.4 cv=QfJWeMbv c=1 sm=1 tr=0 ts=6a74a8f1 cx=c_pps
- a=ngMg22mHWrP7m7pwYf9JkA==:117 a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10
- a=KZhmPCYDdY0A:10 a=VkNPw1HP01LnGYTKEx00:22 a=T2KQ53IYiC3MXPrxx8bB:22
- a=b3B37AjAgz0HnGB3MuNd:22 a=ngmC-yC5AAAA:8 a=e25ExAebAAAA:8 a=20KFwNOVAAAA:8
- a=meVymXHHAAAA:8 a=pl6vuDidAAAA:8 a=dDW-ktzWsA5qhXuJ1JwA:9 a=QEXdDO2ut3YA:10
- a=yHXA93iunegOHmWoMUFd:22 a=P5XVh-r7Nk77isVNjX_M:22 a=Fx-rEtueDibNKiZPBj-h:22
- a=2JgSa4NbpEOStq-L5dxp:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA2MDEyMCBTYWx0ZWRfX95BFuv1eOTIY
- 1Qnl5Dl1JLUrdl006RpbIUPY917peRao3xvH1XXPhZUKGsbRPXoAGIRN7wSf9DPANufrBeKMg/g
- +y2uabFYhI7MFhcxmXqcXeGoW3l+Tizx0bGBL1IqF38pdRr9hky7aTCzbira/U8aopbp94eZgtp
- TTRZRjbmNmx7heNZUtQOqzovGFujYj9hTfF8EjwLjndbsqS59Fl6dYhnDSHF9ij2DCHIfl37USn
- MAYySaM1VD7qKLuMwod9zTQ2YpSHY6U9VlRyoXENg4mQ7PivGd3PQGls7zQJY4Mmt3w6uvxMPYR
- KNb39yPzsGd0vGsj79DwhAQ3VgHSsP5dCI8SyCjXi6KDJQd3WBXEjIDB+dboGI+sz0OIXgGon2V
- 3XckVLwb9O3RdTjFctz9IoOTkMVkybVQ1yzQD0nrOGAujF+P4Rn8XCbXxq8tIt8A/xU8IIxUw4Q
- cf3P19CY2LO9NuPmhHA==
-X-Proofpoint-GUID: 86wEoubULjPVICa5rraeXiOVAFNi7oLO
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11867
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
- impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608060120
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: add Axiado AX3000 and AX3005 PWM fan
+ controller driver
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Petar Stepanovic <pstepanovic@axiado.com>
+Cc: Akhila Kavi <akavi@axiado.com>, Prasad Bolisetty <pbolisetty@axiado.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>,
+ Tzu-Hao Wei <twei@axiado.com>, Karthikeyan Mitran <kmitran@axiado.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260806-axiado-ax3000-pwm-fan-v1-0-f6db4cf2166b@axiado.com>
+ <20260806-axiado-ax3000-pwm-fan-v1-2-f6db4cf2166b@axiado.com>
+ <anRaB--HAHoWFkDo@monoceros>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <anRaB--HAHoWFkDo@monoceros>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you Joe and Steven for your comments; I sent V3.
+On 8/6/26 03:04, Uwe Kleine-König wrote:
 
-Andrey
+> If there is a hwmon lock that serializes calls to hwmon_ops::read and
+> hwmon_ops::write, .pwm_lock isn't needed. (Unless I miss something,
+> please double check. Also I'm unsure if there is such a hwmon
+> serialization.)
+> 
 
-On Fri, Jul 31, 2026 at 8:31=E2=80=AFPM Joe Lawrence <joe.lawrence@redhat.c=
-om> wrote:
->
-> On Fri, Jul 31, 2026 at 01:53:58PM -0400, Andrey Grodzovsky wrote:
-> > kernel.ftrace_enabled=3D0 is now refused on kernels that deprecate the
-> > knob, so the old disable/reload flow no longer applies there. Probe
-> > for this with ftrace_disable_supported() and keep the full original
-> > scenario (disable, fail to load a livepatch, re-enable, load, confirm
-> > disable is refused while loaded) on kernels where it still works;
-> > otherwise just confirm the write is refused.
-> >
-> > Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-> > Suggested-by: Miroslav Benes <mbenes@suse.cz>
-> > Assisted-by: Claude:claude-sonnet-5
-> > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>
-> > ---
-> >  .../testing/selftests/livepatch/https://urldefense.com/v3/__http://fun=
-ctions.sh__;!!BmdzS3_lV9HdKG8!zXXcFqHACaJ7PyoFMFh-_8DFTwWSotPltPcR5ezYC87Va=
-VkoNZcqFkVTtLbYUQp4DKEh9Z-0WLN8c5sMeyug2BCCuslAibAtHJo$   | 13 ++++++
-> >  .../selftests/livepatch/https://urldefense.com/v3/__http://test-ftrace=
-.sh__;!!BmdzS3_lV9HdKG8!zXXcFqHACaJ7PyoFMFh-_8DFTwWSotPltPcR5ezYC87VaVkoNZc=
-qFkVTtLbYUQp4DKEh9Z-0WLN8c5sMeyug2BCCuslAJf9tNxM$         | 45 ++++++++++++=
--------
-> >  2 files changed, 41 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/livepatch/https://urldefense.com/v=
-3/__http://functions.sh__;!!BmdzS3_lV9HdKG8!zXXcFqHACaJ7PyoFMFh-_8DFTwWSotP=
-ltPcR5ezYC87VaVkoNZcqFkVTtLbYUQp4DKEh9Z-0WLN8c5sMeyug2BCCuslAibAtHJo$  b/to=
-ols/testing/selftests/livepatch/https://urldefense.com/v3/__http://function=
-s.sh__;!!BmdzS3_lV9HdKG8!zXXcFqHACaJ7PyoFMFh-_8DFTwWSotPltPcR5ezYC87VaVkoNZ=
-cqFkVTtLbYUQp4DKEh9Z-0WLN8c5sMeyug2BCCuslAibAtHJo$
-> > index 30dc677b2f45..7fa4bda70221 100644
-> > --- a/tools/testing/selftests/livepatch/https://urldefense.com/v3/__htt=
-p://functions.sh__;!!BmdzS3_lV9HdKG8!zXXcFqHACaJ7PyoFMFh-_8DFTwWSotPltPcR5e=
-zYC87VaVkoNZcqFkVTtLbYUQp4DKEh9Z-0WLN8c5sMeyug2BCCuslAibAtHJo$
-> > +++ b/tools/testing/selftests/livepatch/https://urldefense.com/v3/__htt=
-p://functions.sh__;!!BmdzS3_lV9HdKG8!zXXcFqHACaJ7PyoFMFh-_8DFTwWSotPltPcR5e=
-zYC87VaVkoNZcqFkVTtLbYUQp4DKEh9Z-0WLN8c5sMeyug2BCCuslAibAtHJo$
-> > @@ -126,6 +126,19 @@ function set_ftrace_enabled() {
-> >       echo "livepatch: kernel.ftrace_enabled =3D $result" > /dev/kmsg
-> >  }
-> >
-> > +# ftrace_disable_supported() - probe whether kernel.ftrace_enabled=3D0
-> > +#    can still disable ftrace on this kernel. Newer kernels deprecate
-> > +#    the knob and always refuse the write with -EOPNOTSUPP.
-> > +function ftrace_disable_supported() {
-> > +     local result
-> > +
-> > +     sysctl -q kernel.ftrace_enabled=3D0 &> /dev/null
-> > +     result=3D$(sysctl --values kernel.ftrace_enabled)
-> > +     sysctl -q kernel.ftrace_enabled=3D1 &> /dev/null
-> > +
-> > +     [[ "$result" =3D=3D "0" ]]
-> > +}
->
-> Small nit: AFAICT, it doesn't really affect the test pattern, but it
-> would be a bit cleaner if this function restored the original value
-> instead of always turning it on, like (untested):
->
->         orig=3D$(sysctl --values kernel.ftrace_enabled)
->         sysctl -q kernel.ftrace_enabled=3D0 &> /dev/null
->         result=3D$(sysctl --values kernel.ftrace_enabled)
->         sysctl -q "kernel.ftrace_enabled=3D$orig" &> /dev/null
->
->         [[ "$result" =3D=3D "0" ]]
->
-> --
-> Joe
->
+In hwmon_attr_show(), hwmon_attr_show_string(), and hwmon_attr_store():
+
+	guard(mutex)(&hwdev->lock);
+
+Guenter
+
