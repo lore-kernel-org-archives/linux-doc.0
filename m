@@ -1,74 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22AF3D565B;
-	Thu,  6 Aug 2026 08:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1652C3EFFA7;
+	Thu,  6 Aug 2026 08:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786003367; cv=none; b=KoqvQKxCfO7l0e05RX263ljMIYMFcVAl/Frz2MRzfip/w7GDTVrn0ttRasN3p/qbuZVENnOJCyyNuPmFIENLiY+6+nJc2Bu9Px2d+s5dGVYas9uDWj20QYZS0uNv6rhDP8zoWho+sorpwCVimzacbrCsvE3JF77LrZIz6dv3Wd8=
+	t=1786004727; cv=none; b=allCWNM27E2w/xOPe1SuovDf5tCdh2+C9ilWbxSZ6Zq/d7wZPKkYX9qzzV3yZzPvdBKmOd16+BaT17swyrI20gKC5wP2I+c4vOVlndJGRGBLkxrhm5FSqVnf1Kb8I5o4GH5vTrW25LrgTjxkgse7f2cbLElzNX7RTSKuEyj9i7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786003367; c=relaxed/simple;
-	bh=Jlqf/4D/E01mv0gqEGNnwsvtcn2BaBtu80ou9NYd0aE=;
+	s=arc-20240116; t=1786004727; c=relaxed/simple;
+	bh=EtoUC10RvYxFSimpW9zBON3W+wVo+Kuru8pdzr+Zm94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rClT4z9sUv8EAGQa+UdioElLQUU9lmYjMeNwHlyWkrDTDSsO3BXO9TbH2sknlXU0r5qKQNZ0BZ7nkfEcZKCeZ5NuVFjw5C/qRWc+gkYN8rox5TvmZl45xSnSvrLJMey/CcRE4tlmVcnCNu6+IsmupF2uiU/fZIlJByTuJVlf+M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gapas08f; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=WhKSUyVHzrxe3nLV6ohKhSgnSwrO7BphokVETSwN1Na+mw6vdJc/p5ZjpAMN2pnWt4rInAxzyeTJVMu6YK15LeSNhhowfBUIELQnFFws+6OAr3V22P4L03jyJBMOG0s9pkRoRn0KRJnbYv/GdBQsJ4Z1rqJBV0PxfZvU/dcqXnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=mcxP7Igm; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gapas08f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88CAD1F000E9;
-	Thu,  6 Aug 2026 08:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786003366;
-	bh=idcwp6KHbiBQ5C7uiDAZRyemXBi5Ek9ZsWuxuZ5Hl0Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Gapas08fqJU5eV6gWBXgoDj7GB5a/rJ5Da2PZkKOWcQ2wsdi1DhHWXna4lhCe/bnq
-	 uXEszbe0uLxDd0ppBwe8ErstloA7eReluB96Hw7M/V3afBhVt5538IRlGN3En7vgLC
-	 Z2s32EQMMb39DK4iRb50dx3kixFDubznh+nHYiJWf5mTVFe2xM6EyFD0vAW/AwpfED
-	 By/8vfqOD5dtqkUTFYy7oeI6J+USyAqtzGhV7SpqyStlyvmi9+8rDk0p/vjPDURYZY
-	 i7/mfEfjTbQR4+hwXPtnskSis0Ldxew4IK8A1QJ6m+PL7XqAK4ODnKoblo1yHYZOuZ
-	 qMaLJZd4zo+iw==
-Date: Thu, 6 Aug 2026 10:02:42 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Troy Mitchell <troy.mitchell@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Yixun Lan <dlan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 3/6] dt-bindings: hwmon: Add Sensylink CTF2301
-Message-ID: <20260806-fair-bright-leopard-afbe1e@quoll>
-References: <20260805-ctl2301-v3-0-fd4b8ffb5b0d@linux.dev>
- <20260805-ctl2301-v3-3-b86c75d1c552@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="mcxP7Igm"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1786004718; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=6n9+tn1FX85xHqa53wOOTAdXVH64YAjilIMF7HdWsJo=;
+	b=mcxP7Igm1hPNnZOzVtzFvgx8aT3Cv8t+pEIF9BmY3Omj07iNj5xM8X2KeaasuJ6ZQh2OcCY6N4pTcYe1SuP2GKwcWt8WPKAhI96lhuKOfnPriu7BAFWcjO3WrmSJb9gm6dKRBWwORXIizxwzH/+60JZUQC4182ri4puegrTUcUY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=yaoyuan@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0X8TPEvo_1786004716;
+Received: from localhost(mailfrom:yaoyuan@linux.alibaba.com fp:SMTPD_---0X8TPEvo_1786004716 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 06 Aug 2026 16:25:17 +0800
+Date: Thu, 6 Aug 2026 16:25:16 +0800
+From: Yao Yuan <yaoyuan@linux.alibaba.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>, 
+	Oliver Upton <oupton@kernel.org>, Peter Maydell <peter.maydell@linaro.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v18 04/14] KVM: arm64: Ensure GCS memory effects are
+ visible
+Message-ID: <q2kb7muy5d3rdl2d3pvipggc33xkgq2o7tn6wy6p75qeegas5n@ijikgyexqt74>
+References: <20260803-arm64-gcs-v18-0-fd8c40f5ad88@kernel.org>
+ <20260803-arm64-gcs-v18-4-fd8c40f5ad88@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260805-ctl2301-v3-3-b86c75d1c552@linux.dev>
+In-Reply-To: <20260803-arm64-gcs-v18-4-fd8c40f5ad88@kernel.org>
 
-On Wed, Aug 05, 2026 at 02:00:53AM -0700, Troy Mitchell wrote:
-> Add the Sensylink CTF2301 temperature sensor and fan controller to the
-> LM63 family binding. The chip follows the LM63 register model and can
-> provide a thermal cooling device when #cooling-cells is present.
-> 
-> Do not provide a national,lm63 fallback because the CTF2301 is not fully
-> compatible with LM63. It uses different conversion-rate encodings,
-> extended local-temperature registers, additional fan lookup table
-> entries, and device-specific PWM and ALERT/TACH configuration. An older
-> LM63 driver would therefore not operate the device correctly.
-> 
-> Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+On Mon, Aug 03, 2026 at 11:56:49PM +0800, Mark Brown wrote:
+> In order to allow efficient implementation of GCS implementations are
+> permitted to do GCS specific caching, with barriers implicit in stack
+> switch operations and GCSB DSYNC as an explicit barrier.  Since we do
+> not use GCS in the hypervisor or host kernel the hypervisor cannot rely
+> on any barriers being present in vCPU context switches other than those
+> it explicitly inserts.  Add explicit barriers when loading and saving
+> vCPU state.
+>
+
+Reviewed-by: Yuan Yao <yaoyuan@linux.alibaba.com>
+
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 > ---
->  Documentation/devicetree/bindings/hwmon/national,lm63.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
-
+>  arch/arm64/kvm/hyp/nvhe/switch.c   | 13 +++++++++++++
+>  arch/arm64/kvm/hyp/vhe/sysreg-sr.c | 14 ++++++++++++++
+>  2 files changed, 27 insertions(+)
+>
+> diff --git a/arch/arm64/kvm/hyp/nvhe/switch.c b/arch/arm64/kvm/hyp/nvhe/switch.c
+> index 7318e3e6a5f3..fe8727bf2833 100644
+> --- a/arch/arm64/kvm/hyp/nvhe/switch.c
+> +++ b/arch/arm64/kvm/hyp/nvhe/switch.c
+> @@ -301,6 +301,12 @@ int __kvm_vcpu_run(struct kvm_vcpu *vcpu)
+>  	 */
+>  	dsb(nsh);
+>
+> +	/*
+> +	 * Ensure any GCS memory effects are visible to this CPU.
+> +	 */
+> +	if (ctxt_has_gcs(guest_ctxt))
+> +		gcsb_dsync();
+> +
+>  	__kvm_adjust_pc(vcpu);
+>
+>  	/*
+> @@ -345,6 +351,13 @@ int __kvm_vcpu_run(struct kvm_vcpu *vcpu)
+>  	 */
+>  	dsb(nsh);
+>
+> +	/*
+> +	 * Ensure any GCS memory effects from the outgoing vCPU are
+> +	 * visible elsewhere.
+> +	 */
+> +	if (ctxt_has_gcs(guest_ctxt))
+> +		gcsb_dsync();
+> +
+>  	__deactivate_traps(vcpu);
+>  	__load_host_stage2();
+>
+> diff --git a/arch/arm64/kvm/hyp/vhe/sysreg-sr.c b/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
+> index 2431c18f5792..4594992b008c 100644
+> --- a/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
+> +++ b/arch/arm64/kvm/hyp/vhe/sysreg-sr.c
+> @@ -239,6 +239,13 @@ void __vcpu_load_switch_sysregs(struct kvm_vcpu *vcpu)
+>  	if (vcpu_has_nv(vcpu))
+>  		dsb(nsh);
+>
+> +	/*
+> +	 * Ensure any GCS memory effects are visible to the incoming
+> +	 * vCPU.
+> +	 */
+> +	if (ctxt_has_gcs(guest_ctxt))
+> +		gcsb_dsync();
+> +
+>  	/*
+>  	 * Load guest EL1 and user state
+>  	 *
+> @@ -299,5 +306,12 @@ void __vcpu_put_switch_sysregs(struct kvm_vcpu *vcpu)
+>  	/* Restore host user state */
+>  	__sysreg_restore_user_state(host_ctxt);
+>
+> +	/*
+> +	 * Ensure any GCS memory effects from the outgoing vCPU are
+> +	 * visible elsewhere.
+> +	 */
+> +	if (ctxt_has_gcs(guest_ctxt))
+> +		gcsb_dsync();
+> +
+>  	vcpu_clear_flag(vcpu, SYSREGS_ON_CPU);
+>  }
+>
+> --
+> 2.47.3
+>
