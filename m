@@ -1,131 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA7530E0F2;
-	Thu,  6 Aug 2026 13:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4216F397929
+	for <linux-doc@vger.kernel.org>; Thu,  6 Aug 2026 13:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786023750; cv=none; b=c53zGsHnsv5/JxZBL/NbLTOm19oYyLrRdKb0B8SmjTe97Og4l4xKS4229lj8RTAzj6p6jtfD0FoTJluVgq+U4DgC2PQzWv1m48zi1+q9PvCW3rW5b2+RgJxNmFFy48BjDJr5DYGtFsmuA1is/3dERP3m4fvLkDVODVWpDFfPb6o=
+	t=1786024141; cv=none; b=QRD0s02yHS35jVbCHXQVOrSK5Ma43EOVYwAlopJA0VkTmVoj0QKAGl1/N+7rS9S2FIzRxusMETfDg1KJWZf2yjpKC7C8yR1FblMYiXNKkPr19bElmANdb48x4r1AtcZID/mIcfP7vyU1wYjyLYMt/BT7jxkb2suMkHV+HAYR6Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786023750; c=relaxed/simple;
-	bh=een6lFaAPc1fcqKrgq9p/CgYVRDltT//2kqwv76cccA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q+dZwQoWB+tCHgZuMOHiXeVsDpDnQo8YV/AMr+xnlsM1t9BEi4v3UgMl2MHZd0HOXS4oU3U9F7dfXW3++D22Ai6jwABgjUzAKw+MofUNTHabIHMo9iRrKL5deGbfUSFlS+C0aWJEuRuQAIen4FVuYIGNTBrldpM98C8+Wcdz9wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=op9s3D08; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786024141; c=relaxed/simple;
+	bh=zR4Buq8Cqbhx+BoaM3N9Hxez+9qWEGN61TfM+T+/GOE=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-version:Content-type; b=dX8TftpbuQkZtAsglPIGkEnowVlogRxfDqOTpAF6EBhHjTDeqg0P7ZX3hMHedzxo96g7sKbI+yOiiu5G2e8+mAtkUMOwhDWAUJ4HU6Y+/GTUXudaNnX4G4OtEfAYi891nT3+1BzXYOoNZlQULnPH9utyN49GHgARyav+MS6zBrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZ+xoyFP; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="op9s3D08"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0581F000E9;
-	Thu,  6 Aug 2026 13:42:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786023748;
-	bh=rhms/CncUEbTJbEN1GalhQ1XaoUDp8JHYdDp0s1oW/s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=op9s3D08TfnwWI74/l/IpPsxqeubCMK8JCfVnyqT0sYzdrruHoDsVhMXR7N1ZuwbI
-	 3J9i7J9w/mSSa2F94YHlbn8q6Njb9tpePv/2d8ZogA2XJZ9/GRprdfmtcKZB2+EJtQ
-	 2M+a90+1PTQwHh7syrozGAX4yyWpEWNpNx4Fr6O4lHAjX3PDoK3Z/xwrp55RMsdNFi
-	 bPjpggqKFjmHRNwEJbcTY9z3hIVn3g1fnnu8aok19rN3UpHAPkxIzPOCtAct0/v9Ut
-	 +6tqywMYRqJL1aiUhrPrmxEwX5CwTQsNPqZfKid3cWiDQIrBbyUdsoTXjO0uHHk/o4
-	 s+/G4xESIzjFw==
-Message-ID: <26a86c05-e9ac-4bf0-af5b-da06ce644a76@kernel.org>
-Date: Thu, 6 Aug 2026 15:42:21 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZ+xoyFP"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cb5b8572b70so2373913a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 06:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786024135; x=1786628935; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :message-id:date:in-reply-to:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=QjVIN0UdWGoOCTancp6az5kLjHEYcF1w7gKX5HKdYSA=;
+        b=KZ+xoyFPZc8FZIdY6ETtPzI8oTwr5YDZG/dGkp3gmH2IpSPWxmHiJ5t+jt/x2GElp2
+         myWLTYENr5Iw5E6/KMmDDjO0q+s7n3z419sQ4e1tE01MO2fUNjSSscqAhT9krsMxdaOm
+         wuNM37tJ6EyIEZF0yYzPj/OqNPAWmBOUQsCm/RwFDyUiuhTOarA/YM7tDmO00vIKuZy0
+         1BaG86uIsMSUt4dhO+uoHIgXCNJIc9vmH6P3enEQIiWsXUl9UPV21+rsguEW0hB/J/VA
+         4tg/S6WytwXdaF216xNI6xX/pbp92Rql88fvNla7DFtKXVqhX+a6ir7TagxfLzCJQNN2
+         Rhlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786024135; x=1786628935;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QjVIN0UdWGoOCTancp6az5kLjHEYcF1w7gKX5HKdYSA=;
+        b=KqhGYsJgFrzXn667tXsytsRHnArRpRU6ek4NSXdg/dr/eIG55/Mis5FnwIKaGrT0Kw
+         51L1Bm4qFbtO7UamzsxSeVa9vUTwU9xT4w922ImWtNBi4J35fkWj4WqX9Nfszs+D3PNg
+         ObP3bzXaOEA0vmOOTwD3O6cvsu2A1gY55qN0mf65rHhveNDT8Q4JZ8xmmEH/OEKhy9Sz
+         XFr+cJOdFOeGKQ64WZeYYDIknpjkIvYE48/9uIZtmeGbL49uKuYriw2T+4G4NZCA5IiN
+         4SvGfEhzZhKIVvua9/xZOxBB2VrjBDvv94K01lUV0nG78RYY/hwS0ykEkiBDif77j2vc
+         K4kA==
+X-Forwarded-Encrypted: i=1; AHgh+RqOQpKwM0XecItPt5WdukY+GAusbBxHOOS/0tDZSeylayK7Y48uS9G6AOyiv2HW9LYYRNGbNysK9Nk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyrjrf0Bpvcrql7WeI1EaNl0fK9ao2YvDZ0NBGV2u95nDjXePbT
+	yD1c34JmWdbexDkxGHY17BpHl8a1gjPzncOjiztRymuYvWv+fvjGMxkMzbKw9A==
+X-Gm-Gg: AR+sD111x2iwTxF3NpxPxcL62HEjXImsD8UBatYAWeYhJQ1a076Bh9a3ARJzIPMouur
+	XfomYers7kB2N/JcY2P4cJIiYkENfeZJ6hvcv1NgFvxYDHibn99vtl8W/AR2HLfrLTRvMNCcraL
+	39EZTN83pPWTAtx+xTPcMe9guNguYzshBuVNXtdk9otTzeMevZeIDnFKyS/q5KnNebb0osXTFvO
+	wKiDuR84BV2uSz81PxhjRhFyUrcc220YhVuiCbQH+TQ9pIm4cJKBvCXS492HEIGtj1xoiOqKAnh
+	7VxbUX7EjrF5ovzWq90tzmEczA4uJVMLM8dkX8yxvZKQ8k5LW/RximNPbgv4H2C0OXs1Y1FYyQf
+	WZp0xong+gY9uDefywphmD216oncTDuyiUH3iB1qbvTLBiuRLOPCDjwpiyoHcnbXK2ZmRg/Ub6p
+	loyvQztg6Vy0P7C0xEGOWpJUwQ8niYpTqTGSfnkPksroLZ7CFRRdxVYffuSzE=
+X-Received: by 2002:a05:6a21:6013:b0:3c3:7ac4:dac0 with SMTP id adf61e73a8af0-3cb85df2790mr19356193637.13.1786024134598;
+        Thu, 06 Aug 2026 06:48:54 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315ae6c1fd4sm6563410eec.14.2026.08.06.06.48.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 06:48:53 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Amit Machhiwal <amachhiw@linux.ibm.com>
+Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, Vaibhav Jain <vaibhav@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 0/4] KVM: PPC: Expose CPU compatibility modes for nested guests
+In-Reply-To: <20260806104222.7e435b28-8d-amachhiw@linux.ibm.com>
+Date: Thu, 06 Aug 2026 18:35:31 +0530
+Message-ID: <mruzl7qc.ritesh.list@gmail.com>
+References: <20260804180705.59160-1-amachhiw@linux.ibm.com> <tsp8l8cw.ritesh.list@gmail.com> <20260806104222.7e435b28-8d-amachhiw@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/7] mm/khugepaged: fix outdated comments
-To: "Nico Pache (Red Hat)" <nico.pache@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260804-khugepaged_pte_refactor-v3-0-0364cad642a0@linux.dev>
- <20260804-khugepaged_pte_refactor-v3-4-0364cad642a0@linux.dev>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260804-khugepaged_pte_refactor-v3-4-0364cad642a0@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On 8/4/26 21:25, Nico Pache (Red Hat) wrote:
-> Fix comment in collapse_scan_pmd() that still described the old
-> folio_mapcount() > folio_ref_count() check and a "512" false-positive
-> scenario. The code now uses folio_expected_ref_count() != folio_ref_count()
-> which doesn't suffer from the same limitation.
-> 
-> Fix comment in collapse_huge_page() that referenced ptep_clear_flush,
-> when the code actually uses pmdp_collapse_flush.
-> 
-> Fix comment in __collapse_huge_page_swapin() that referenced the old
-> function name khugepaged_scan_pmd, now collapse_scan_pmd.
-> 
-> Also clean up some simple typos and stale terminology (mmap_sem ->
-> mmap_lock, PG_lock -> folio lock, page -> folio, grammar).
-> 
-> We also clarify a comment regarding where the max_ptes_none check is
-> deferred to in mthp_collapse() from the original collapse_scan_pmd check.
-> 
-> Update all comments that references a function to include parentheses.
-> 
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Assisted-by: Cursor(claude-sonnet-4):4.6
-> Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
+Amit Machhiwal <amachhiw@linux.ibm.com> writes:
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Hi Ritesh,
+>
+> Thanks for taking a look. Please find my response inline.
+>
+> On 2026/08/06 12:09 AM, Ritesh Harjani wrote:
+>> 
+>> Hi Amit,
+>> 
+>> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
+>> 
+>> > On POWER systems, newer processor generations can operate in compatibility
+>> > modes corresponding to earlier generations (e.g., a Power11 system running
+>> > in Power10 compatibility mode). In such cases, the effective CPU level
+>> > exposed to guests differs from the physical processor generation.
+>> >
+>> > This creates a problem for nested virtualization. When booting a nested KVM
+>> > guest (L2) inside a host KVM guest (L1) running in a compatibility mode,
+>> > userspace (e.g., QEMU) may derive the CPU model from the raw hardware PVR
+>> > and attempt to configure the nested guest accordingly. However, the L1
+>> > partition is constrained by the compatibility level negotiated with the
+>> > hypervisor (L0), and requests exceeding that level are rejected, leading to
+>> > guest boot failures such as:
+>> >
+>> >   KVM-NESTEDv2: couldn't set guest wide elements
+>> >
+>> > This series provides a mechanism for userspace to query the effective CPU
+>> > compatibility modes supported by the host, so it can select an appropriate
+>> > CPU model for nested guests.
+>> >
+>> > To achieve this, the series introduces a new KVM capability and ioctl
+>> > (KVM_CAP_PPC_COMPAT_CAPS / KVM_PPC_GET_COMPAT_CAPS) that expose the
+>> > compatibility modes supported by the host.
+>> >
+>> 
+>> Sorry, but I am somehow not convinced on whether we need all of this
+>> machinary just to get these 3 bits of information, which we are
+>> returning today.
+>> 
+>> Since KVM_CHECK_EXTENSION can already return an int, so why can't we use
+>> KVM_CAP_PPC_COMPAT_CAPS itself and return the bitmap of supported compat
+>> modes to the user?
+>> Say if the cap is not supported, we can return 0, otherwise we can
+>> return the bitmap of supported compat modes. This will easily allow us
+>> to use 31-bits which as I see would be hardly a problem in the near
+>> future. In the future if it grows - we can always use KVM_CAP_PPC_COMPAT_CAPS2.
+>> 
+>> This should reduce the code complexity both in the kernel and
+>> userspace and we don't even need a new ioctl then.
+>
+> Thanks for the suggestion. I considered this approach
 
--- 
-Cheers,
+Then we should have brought that up early on during the design
+discussion. But for the sake of discussion let's call this as
+approach-2.
 
-David
+> but would like to
+> go with a dedicated ioctl for the following reasons:
+>
+
+> 1. Intended semantics: The KVM API documentation states:
+>
+>    ..kvm defines extension identifiers and a facility to query
+>    whether a particular extension identifier is available.  If it is, a
+>    set of ioctls is available for application use.
+>
+>    [...]
+>
+>    KVM defines many constants of the form KVM_CAP_*, each corresponding
+>    to a set of functionality provided by one or more ioctls. Availability
+>    of these capabilities can be checked with KVM_CHECK_EXTENSION.
+>
+>    The intended role of KVM_CAP_* is to signal ioctl availability, not
+>    to serve as a data retrieval mechanism itself.
+
+That's not entirely true. We do return data as part of check extension
+for e.g. for getting the SMT modes check KVM_CAP_PPC_SMT_POSSIBLE.
+
+>
+>    You may take a look at KVM_CAP_PPC_GET_CPU_CHAR for instance.
+>
+> 2. Return type constraint: KVM_CHECK_EXTENSION returns a signed 32-bit int. The
+>    capability bits are defined as (1ULL << 62), (1ULL << 61), and (1ULL << 60) —
+>    64-bit values that cannot fit in a 32-bit return. Renumbering them to small
+>    integers would be a UAPI change and would lose alignment with the
+
+There is no _change_ in the UAPI so far. This is the patch which is
+defining that in the first place.
+
+>    H_GUEST_CAP_* values from the hypervisor ABI.
+
+No please. Those are 2 different ABIs and there is no need to set a hard
+dependency among the two.
+
+>
+> 3. Extensibility: The struct-based approach with the size field provides clean
+>    forward and backward ABI versioning via copy_struct_from/to_user(), without
+>    needing a KVM_CAP_PPC_COMPAT_CAPS2 in the future.
+>
+
+This only make sense if we really have a usecase already in mind which
+you are planning to extend it for. Otherwise, IMO, this is a lot of
+machinary and I think we should consider the simpler approach.
+
+IMO - I think approach-2 is a much simpler for this usecase. I don't see
+any valid reason on why we should not do that instead. We don't need an
+extra ioctl and all the struct machinary along with that just for
+returning a bitmask. The existing check extension ioctl can be
+easily used for this purpose.
+
+Would it be possible for you to give, approach-2 a try? Do you see any
+geniunine roadblock or limitation with that?
+
+-ritesh
+
