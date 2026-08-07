@@ -1,300 +1,123 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A841746D577
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 16:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786120312; cv=none; b=usoX9l6ovq/47HtsmR/Lxqw128/aboDW8kNCpMUPhJRqEzeSdJ6KrPdssjK+e/9BdFxqm1WANNeorOXiCaUrb3q7IXq3fWsJzVqGmWjKX7/WznU+cWganJOhNjQM2IaCSK78yFfZTpTuRRgiZkbWqbuGxqmFPGDuseoTQk2iwDk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786120312; c=relaxed/simple;
-	bh=i2PqP9GN1rc1C/aHcpmeJ7dfbh11hyBtG/3G8aAPeQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LkUyHhRiNKdC/UT1hJNDx3MQ0zUyP8T4LxF38vG2eW1/t8DX2w0V1yObqnWnpfXO1BgF57/Rvsps9tfyp3sGVGAgStF2UdBCZabTmBC3/r6qCve5phOYjHrWFzf/+j711LZtnprCSD4/wEH2UTwvvxaL0sHzsGuzjJ/PObH4o68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=Ajqh+gc4; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E843A3AA9CA
+	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 17:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786122761; cv=pass; b=IGGZFBDC6uFTTRZTrln9ieD+GQeGJxRsrNZkfIWkOLC8uQ9u7pCA3niOWzlzGdJjl/eGtBA2GY4MwziLTiMJgbYfbIIeXExzvdkJ8k+n/kfjh8RiGlTR6zZeuxJ4klzlNK1DcCwhxQfpCRLkfYsy8QppGaUHza25TF7+qtIO7Bw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786122761; c=relaxed/simple;
+	bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sJ2cF/pNHw9nYqsOvPiQ79qnckdFiO4/zPx8bg3vlcd16A5vNhlWMCiJT3WMs0szkx94ItVRWvZLpf64TjInoHXvhgmCY1SCIhIzm8zcoA1jRgMMseRkgSC27TesToBu9HiHAAQAb74gFrFJHrWie8BnstlpRTBpoYcbIyT3e6Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EHYPMaZB; arc=pass smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="Ajqh+gc4"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8ef1dc934d1so17361896d6.0
-        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 09:31:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHYPMaZB"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c8612812170so271409a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 10:12:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786122759; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dblH5rFltc3JUOzAOD/wL16m2sgoVGps0ulkYQkvgs/7O2eRVOIYUmSevseV2DZYe+
+         XutYKqfpafBMAq5Q1nMyPTKNOovC05OlAxWW/TTLFTgl0HJthdxiCivk3Fphq3Y2Em5p
+         J4PaWe3hsNjT9voqJ8PywXVVzvQZyhWnlIf3I/z9OcNMzHdh1jfbMGe2FEodQ7jX40gf
+         Bh19AUH/mRCwfCa0TGfOz8oSsHCY1M8HZmVMkz2Bniqw+WkvMZ/Cqa5HzBMI/PF+n3Td
+         5g5Cj6sQQoZZmjIMSYnIRPUaoUCk0/8nagVqWPTX1V5dtl1LaQ8Jor92e56mG8Ju/t5x
+         3EtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
+        fh=y2yyNuYPjgIn82U5mbXvBEw3lse+H/AXTyBkiz8eF5U=;
+        b=mtFXFtiFnOsPuMK77yXIh1jexko8EExvNG4zJ9x2Tiz7nm9+WLU0L8qexqXYk2Czjh
+         9HCOBGju21uu+oxrfP5nDpgzg+Qni9bFAxf+gKMk1j1yhy4iXjoNYQmTto08sl/tsLzL
+         8XcOWUjPJ+czNCIBQo8cvRnhEYmoF0+nWRhmmdenyfLl1Q5KrFzbNgd+bRYuTCdK4Ns9
+         tP2J+LXH/RBamwrq17iIvo2Hrdam5OpIlsQqnc8uDK8FUmJMYgtswYH89ne+o43z3Loc
+         kl9IvE0K2vXFFnWnc8Dtf7D895c/s96/VNd+E5fZ06gQ2iES0wKOCLpCaoJvgTZkT5IH
+         D0mw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1786120307; x=1786725107; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1786122759; x=1786727559; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dYO5gL84ZfhgoOGOa76MHQFHtbyAJJVUdQQDYUbGmIY=;
-        b=Ajqh+gc4UNQMOcqMryzAgygqBtj4Pgh30RDj2x84hSdFOZ7xQq6t0y7EhxWVcE/J7F
-         hnI+oNVoUuHqMOI/UIAzG6vVlkCzKNYYyWwB3iMiW8WF8THEUjTnLCuo5Gk15IJG8wOd
-         0yMLxPpRgu7AuQUhv3p0OzqHYwcQA9ddGKtlDhEbkExc8nhWqMbffwWx6kCXa63dXwqq
-         Dd5VEOTHGqaBgdx40v9XhwohJxaEtQ3kd6S4ZCRDkeUCJ4Ou487M6ezQL8BdtB+t0LcM
-         HfIGm082R8imCORrVr5ujmDt+Qf1jKKAlF9vcBoGCRkg8LAuxEgwMV3+2H+czlPVqxlB
-         QolQ==
+        bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
+        b=EHYPMaZBMz+4qGl436AEPpxDhPsRGe8iGQvvRzyUuHBYC4iNDJykV3dND4upD6TXVE
+         ggSneTgwnyqbXe3QasXupXScDQoNKrbEMFOoCbhppHt+tYo+CNZv7aWVCXmvjQSi3J2e
+         dQb09Jz/6eKr0+ars72RuFzqMQFFtMOlEapyoJulN0h4HbNBvxuPuznanu7h7J+UuEoJ
+         C0jiS+ez4H68dEt1ZVI/vD6pzie9muzozUcTJv7PeHe6X2uQByAJwwXA8QJINlN/3jpz
+         +XKQkDg//rZbUCrMY7jh/UeGR8cg91BIolAFu/vgFeWEMFf5X1EtNFzSs9WfbpGEx/tm
+         UJfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786120307; x=1786725107;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1786122759; x=1786727559;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dYO5gL84ZfhgoOGOa76MHQFHtbyAJJVUdQQDYUbGmIY=;
-        b=qDa6oeF75d+6C2OCV6EVM/fkhRb/R4Z8i6Ygg3xiIliif7ZCqfRsuqxkk5zmrQI2Rr
-         DWXq3AtRuCQNpAhOjkodwHT3D1cw++QgDGHmu4LSbmW/cc3EHQGmww+pGeFwFtEdBBmu
-         6kwoREgom/DYjJ9WlXWJR1BQN3FsDseoHuphK8FvJzUr1sprop1BQdXLwhTnGsFFM+Oj
-         3ubVJt3DkQZOMIdYhGKKMzKn5+wJHfBPPv023S/rgVXOuj1dNh6ogcAxld1lppi5DKVc
-         qrwrX/IZDPfuLYOZlgHqRQ2a/TpRRO04v/NpRqiE0nCe6ontfFeBKGtPBCUGbiJU6QDc
-         LDfQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqm9SxyWSjxXKnVzRJwlnFHmFFV4bO7fS6fPabDlcC0nrWwPd/ovbVvMNT/tXBzdhiZSbbtSl9ob58=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzweGJX9YUtuONpT2Mu5fq04P8ccvXDEskpJRqZQrVtzcoaq+Ni
-	fQiJCZQ/Ep/8bn2AmxEvYl7h+V73yVpbOciiAeak1yTJzQc7jGTr3ARdwwFREsPNuV4=
-X-Gm-Gg: AR+sD10D9ZA+bTqtyzis+SkdO6+L0FFr/ps33PRoijz95LThc5C9pClBtMJe+E3BN9k
-	NJtfN889GP0Ay2CZ+AWXdQf+jcsdrSXJ8fAOEwBQVVkIo/qk+UVroMe6PBSSdJWaMqNcpuHKOCT
-	SoxHGDCm/OCkCrWgxOUenOtGTRJFNMkpXP1niVzWniSvf8+RfcauzTEXXJHz7HPkoRHQWZF+9WP
-	F79jBB6v3jU/CZMLDskZzrtVJBT31ok3DWet/u04CUs4k4SjoY3z/Naw842FnI1/VhJ4mUU2rf9
-	qj5+QxlKNlW5FW1pq8Ommjld/dhqC8gt1As2zKdOQqfREZMcqCOIhTr6GuC0Dum/HemlSjqHKgu
-	NTWoGnNSIKjx2JaIh986N4w9t3wKJyfUnn8rZ7ZxqOYCOoVSNJLVb5WIbz50+wGJphZFLy/dlmC
-	hHaYsV3hUjB6m5OqUAFfnDODjE8De2A02Z3rQBfnFnjzUlPYmPbJfQX1zxWL0=
-X-Received: by 2002:ad4:5c8f:0:b0:907:6f9c:3b43 with SMTP id 6a1803df08f44-90a34c86e42mr12128346d6.2.1786120307299;
-        Fri, 07 Aug 2026 09:31:47 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a932ce88sm12048886d6.38.2026.08.07.09.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 09:31:46 -0700 (PDT)
-Date: Fri, 7 Aug 2026 12:31:42 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev,
-	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org,
-	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org,
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
-	surenb@google.com, qi.zheng@linux.dev, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, riel@surriel.com,
-	gourry@gourry.net, haowenchao22@gmail.com, corbet@lwn.net,
-	kernel-team@meta.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 08/11] mm, swap: only charge physical swap entries
-Message-ID: <anYIboHEUZb4fhHv@cmpxchg.org>
-References: <20260806184254.3790858-1-nphamcs@gmail.com>
- <20260806184254.3790858-9-nphamcs@gmail.com>
+        bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
+        b=lSFUnuZfHJKLvFxkl02eZuQOnBY/VI2BUrJMN5p8fPlJkQgJzl6UhxXvxLCMyaXTDK
+         /ByeJ2wC9tPoxdOgRuRYCGIx6u6mjXqFibvug5WwVwfo964dkomj6wK6sKTv6eawmhIC
+         60lS9OsJPxtdzyiL4bqzGRaH8/MBaNsZ4tv6UusZ9MCSW11zffN3K8N1o8MTfIXPAKCM
+         nh80RDyRki+uy/SuUA0w0Gr3A5ofYTmopXcrlqm7z+ojClTJRZV+bKZNmFsy3S98OxCY
+         ozbzE0xYPU69OtOxx4ft/VHCqtNrZjOCmX81sldEs3BWuFvrezGDs+r958K9JGbY6vGI
+         AWmA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpr9cNa5uvSpDULWcEMl2UD0W81mAu8I4vrdug/slf4OepwZWo8b5ZiofTFb41y1SyjaYiDTILTKEk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS1471vHYxgLvQ20MjvjDOxAZDD7IiDNmOWNqFK6p/bfwvkuG7
+	YLRzyH5lbYMaZXq1M5+V9JbXBi7yrlAA04IXqqcl5z6DxA7BeLP5uYTU2mamwYMslNU5opg3aQZ
+	jpYxaVLvoVxKr52QeOGYCOzguCyLt5DQ=
+X-Gm-Gg: AR+sD102C7PcJRpLhZqK6pCB/f/gj6cvCFhKoyzV/Ite3PJefiIgikeWXrna7PielN/
+	TX3ysU8ys35col3u0MizRdQSilCxzHgQQF5vhhL+v8yZ4poRzeXm2OJuST6JNPJhdBo+fJ1xaOv
+	lzwWYzzxZp55umrKy3jI8xi+H1LSyMCz0P+c86RnnCGwnTiHz+vM0/HGSuOD76Ni/BCa/mGwUpx
+	Q5twN1xiU0KbZQLEZtNpsImzVCcg/96Ge/jeqJscwiaB3udyx3vd4UUumV3fCpeV+Qbtsc1g8vN
+	0aQoGEWbjz9WMaaVgfsbgn+5wNGO2+6JGlr+efnElWkg9jBNBDbOoSEPu+pM/WXcnE0sp86Ei5v
+	9p4+zdLhDbfQLjUuRCyCuT7apiYIGgtmqSdhF2tOzt9APDIjexKVeotXwwIT6
+X-Received: by 2002:a17:90b:1fc8:b0:38e:ab3f:2c99 with SMTP id
+ 98e67ed59e1d1-3903c628181mr18187876a91.2.1786122759120; Fri, 07 Aug 2026
+ 10:12:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806184254.3790858-9-nphamcs@gmail.com>
+References: <20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com>
+ <20260805-pramin-split-v1-2-ff3e84a75dac@nvidia.com> <DKIRNHGHK4O6.2IRJZGM6W79B@nvidia.com>
+In-Reply-To: <DKIRNHGHK4O6.2IRJZGM6W79B@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 7 Aug 2026 19:12:25 +0200
+X-Gm-Features: AUfX_mw-cYa1MKRYuhH-uVGjXrAOGt3b9pyVqsuViit8BjsQ3XkXMD2u-qTWwOs
+Message-ID: <CANiq72kYqPySwS8ci84CEsvjJqCTBjrveSx14xxnNWJZWRFAuw@mail.gmail.com>
+Subject: Re: [PATCH 02/12] rust: num: reject Bounded::shr overshifts at build time
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Eliot Courtney <ecourtney@nvidia.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Yury Norov <yury.norov@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, driver-core@lists.linux.dev, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 06, 2026 at 11:42:51AM -0700, Nhat Pham wrote:
-> Charge memcg->swap when a vswap entry acquires physical backing rather
-> than when it is allocated, so memory.swap.current tracks on-disk swap
-> usage. Zswap-backed and zero-filled pages occupy no swap space but were
-> charged as though they did.
-> 
-> memory.swap.current therefore no longer counts them, and a cgroup whose
-> pages all land in zswap can now reclaim anon memory with memory.swap.max
-> set to 0.
-> 
-> Direct-mapped physical swap charging is unchanged.
-> 
-> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+On Fri, Aug 7, 2026 at 4:03=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.c=
+om> wrote:
+>
+> Indeed it looks like this would panic with the kernel build, and can be
+> easily caught at build-time since `SHIFT` is a constant.
+>
+> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
 
-To head off any uncertainty about this: this is exactly what needs to
-happen in terms of cgroup semantics.
+Do you want me to take it this cycle? And maybe the next one too?
 
-memory.swap.* are about physical swap space. They track, control, and
-enforce fairness for a finite resource that is separate from memory.
-
-When a user switches on vswsap and a bunch of empty pages are stored
-inside the zeromap without consuming swapfile space, these counters
-must be 0.
-
-When a user switches on vswap to use zswap without a backing file,
-these counters must be 0.
-
-When a user switches on vswap to use zswap with writeback, only the
-pages that get written to the swapfile must be tracked and controlled
-by these counters.
-
-A few inline comments on the implementation:
-
-> @@ -5701,6 +5702,116 @@ int __mem_cgroup_try_charge_swap(struct folio *folio)
->  	return 0;
->  }
->  
-> +/**
-> + * __mem_cgroup_record_swap - record memcg for swap without charging
-> + * @folio: folio being added to swap
-> + *
-> + * Pin the memcg private ID ref and record it in the swap cgroup table
-> + * without charging memcg->swap; the charge is deferred to physical-backing
-> + * allocation (vswap).
-> + */
-> +void __mem_cgroup_record_swap(struct folio *folio)
-> +{
-> +	unsigned int nr_pages = folio_nr_pages(folio);
-> +	struct swap_cluster_info *ci;
-> +	struct mem_cgroup *memcg;
-> +	struct obj_cgroup *objcg;
-> +
-> +	if (do_memsw_account())
-> +		return;
-> +
-> +	objcg = folio_objcg(folio);
-> +	VM_WARN_ON_ONCE_FOLIO(!objcg, folio);
-> +	if (!objcg)
-> +		return;
-> +
-> +	rcu_read_lock();
-> +	memcg = obj_cgroup_memcg(objcg);
-> +	if (!folio_test_swapcache(folio)) {
-> +		rcu_read_unlock();
-> +		return;
-> +	}
-> +
-> +	memcg = mem_cgroup_private_id_get_online(memcg, nr_pages);
-> +	rcu_read_unlock();
-> +
-> +	ci = swap_cluster_get_and_lock(folio);
-> +	__swap_cgroup_set(ci, swp_cluster_offset(folio->swap), nr_pages,
-> +			  mem_cgroup_private_id(memcg));
-> +	swap_cluster_unlock(ci);
-> +}
-> +
-> +/**
-> + * __mem_cgroup_charge_backing_phys_swap - charge memcg->swap
-> + * @memcg: the mem_cgroup to charge (may be NULL)
-> + * @nr_pages: number of physical swap pages to charge
-> + *
-> + * Charge the swap counter when a vswap entry gains physical backing. The
-> + * private ID ref is already held (pinned by __mem_cgroup_record_swap() at
-> + * vswap allocation), so this only moves the counter.
-> + *
-> + * Return: 0 on success, -ENOMEM on failure.
-> + */
-> +int __mem_cgroup_charge_backing_phys_swap(struct mem_cgroup *memcg,
-> +					  unsigned int nr_pages)
-> +{
-> +	struct page_counter *counter;
-> +
-> +	if (do_memsw_account())
-> +		return 0;
-> +	if (!memcg)
-> +		return 0;
-> +
-> +	if (!mem_cgroup_is_root(memcg) &&
-> +	    !page_counter_try_charge(&memcg->swap, nr_pages, &counter)) {
-> +		memcg_memory_event(memcg, MEMCG_SWAP_MAX);
-> +		memcg_memory_event(memcg, MEMCG_SWAP_FAIL);
-> +		return -ENOMEM;
-> +	}
-> +	mod_memcg_state(memcg, MEMCG_SWAP, nr_pages);
-> +	return 0;
-> +}
-
-These functions are just __mem_cgroup_try_charge_swap() in two acts :-)
-
-Please refactor this properly:
-
-__mem_cgroup_swap_record()
-__mem_cgroup_swap_charge()
-
-> + * __mem_cgroup_uncharge_backing_phys_swap - uncharge memcg->swap counter
-> + * @memcg: the mem_cgroup to uncharge (may be NULL)
-> + * @nr_pages: number of physical swap pages to uncharge
-> + *
-> + * Uncharge the swap counter on physical backing release for a vswap entry.
-> + * The private ID ref is dropped separately via __mem_cgroup_id_put_swap() when
-> + * the vswap entry is freed.
-> + */
-> +void __mem_cgroup_uncharge_backing_phys_swap(struct mem_cgroup *memcg,
-> +					     unsigned int nr_pages)
-
-Same on the uncharge side...
-
-__mem_cgroup_swap_uncharge()
-
-> +{
-> +	if (!memcg)
-> +		return;
-> +
-> +	if (!mem_cgroup_is_root(memcg)) {
-> +		if (do_memsw_account())
-> +			page_counter_uncharge(&memcg->memsw, nr_pages);
-> +		else
-> +			page_counter_uncharge(&memcg->swap, nr_pages);
-> +	}
-> +	mod_memcg_state(memcg, MEMCG_SWAP, -nr_pages);
-> +}
-> +
-> +/**
-> + * __mem_cgroup_id_put_swap - drop memcg private ID ref without uncharging
-> + * @id: cgroup private id
-> + * @nr_pages: number of refs to drop
-> + */
-> +void __mem_cgroup_id_put_swap(unsigned short id, unsigned int nr_pages)
-> +{
-> +	struct mem_cgroup *memcg;
-> +
-> +	rcu_read_lock();
-> +	memcg = mem_cgroup_from_private_id(id);
-> +	if (memcg)
-> +		mem_cgroup_private_id_put(memcg, nr_pages);
-> +	rcu_read_unlock();
-> +}
-
-__mem_cgroup_swap_put()
-
-and then remove __mem_cgroup_uncharge_swap(). Handle this split the
-same way as on the charge path.
-
-> @@ -2116,8 +2117,16 @@ int folio_alloc_swap(struct folio *folio)
->  			goto again;
->  	}
->  
-> -	/* Need to call this even if allocation failed, for MEMCG_SWAP_FAIL. */
-> -	if (unlikely(mem_cgroup_try_charge_swap(folio)))
-> +	/*
-> +	 * A vswap entry has no physical swap yet, so only record the memcg;
-> +	 * folio_realloc_swap() charges once backing is allocated.
-> +	 *
-> +	 * Need to call this even if allocation failed, for MEMCG_SWAP_FAIL.
-> +	 */
-> +	if (folio_test_swapcache(folio) &&
-> +	    is_vswap_entry(folio->swap))
-> +		mem_cgroup_record_swap(folio);
-> +	else if (unlikely(mem_cgroup_try_charge_swap(folio)))
->  		swap_cache_del_folio(folio);
-
-This becomes:
-
-	if (!vswap && mem_cgroup_swap_try_charge())
-		abort
-	mem_cgroup_swap_record()
-
-> @@ -2614,18 +2685,28 @@ void __swap_cluster_free_entries(struct swap_info_struct *si,
->  		/*
->  		 * Uncharge swap slots by memcg in batches. Consecutive
->  		 * slots with the same cgroup id are uncharged together.
-> +		 * For vswap, only drop the ID ref - physical swap was
-> +		 * already uncharged in __vswap_release_backing above.
->  		 */
->  		id_cur = __swap_cgroup_clear(ci, ci_off, 1);
->  		if (batch_id != id_cur) {
-> -			if (batch_id)
-> -				mem_cgroup_uncharge_swap(batch_id, ci_off - batch_off);
-> +			if (batch_id) {
-> +				if (is_vswap)
-> +					mem_cgroup_id_put_swap(batch_id, ci_off - batch_off);
-> +				else
-> +					mem_cgroup_uncharge_swap(batch_id, ci_off - batch_off);
-> +			}
-
-And this becomes:
-
-	if (!vswap)
-		mem_cgroup_swap_uncharge()
-	mem_cgroup_swap_put()
+Cheers,
+Miguel
