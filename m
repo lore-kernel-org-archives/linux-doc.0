@@ -1,67 +1,33 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF2C463B6C
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 07:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5552F379C48;
+	Fri,  7 Aug 2026 07:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786088676; cv=none; b=du8OA1roJj4v1l7P5Kn0TBzkXKgeiuqh8e0/4cCvkBIArh+QiVZIByjgluMiS2EeM2ZCe+m1tfcU5AHe+3hPamLcB6PFHOyTEstyfZVvi954IDa4Dwvi+c6OptSJ5+KBP7a/i0nfAfmEZWzFKFLkkgpuq69dfmbdRRE35FBnCHA=
+	t=1786089058; cv=none; b=ZX4iqoaeWgQ4aVd/LBJMPA+HvmCK/NSCPkYOFXYP1TEkuz6T8KCAcMjsLfVgLljg6Skh80NXlTqrq530Wq9WXsRPqSQJwA6WTSVpxh+3ZcA0z+Rm2DBA+TefBC75XHuerNvdy+a1EvrZMoAQ4EosO6iSeBK3vF0jtNW8DrhHx/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786088676; c=relaxed/simple;
-	bh=krEAkeXszBNqSc769Wiqlc+dXeSA0G6Y6ZRNOxuRxCM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PfDkNRY3VajYY9XyUXS4K3yqdGZTVJMr9pUgSPmHySpywViW5ljS/y0M3RU0faAuQ9F1TCONaPMZGAoOHqjf6EYL1ZdgKaSvfIG+PU24NB4cKFDFVA88tGcL5Pub/PDP+jbWO0Gbo6PFtXQopJdE8wKE15p48rbRbH25tCJ3KqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=none smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b=kJ/ZY3li; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osyx.tech
+	s=arc-20240116; t=1786089058; c=relaxed/simple;
+	bh=Ea/OGBQ87x+sUBseDvhO3ALrt6UKHVsULHEfCHux7Lg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=am+IMfO1tCBn7lJF0px+7XcPnBW3+HUGJO5QEgaJM5n6ZtCuMorDK7mwyYiW3FFjRARD+9hOwLhTC18cE1ty5nK2dYmPPtxeX/az2stBm0DwE9DRCdIIzE1x+UF0xR0BmmpS5NfB7e21Ly500RC269grKfDaP4CG9eHegytosMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RkXrBrls; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b="kJ/ZY3li"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49554ebb87dso27960795e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 00:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osyx-tech.20251104.gappssmtp.com; s=20251104; t=1786088673; x=1786693473; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iTSNicc+okuCkFtzHEeSEUokN2gPYtw2OOgCgXZ1BUM=;
-        b=kJ/ZY3ligSqeddSXBAhLFJFyTyY5k7dbF764xeCL7YDZASJm82/K/2SLxdckQ9n6H4
-         JWnbFHYOLcuxQbr6bbuRlW+7+7OF2RjOgXzOsQgajvvxtMZfvaUSheSehG8C+8tn0NNI
-         iEfxqAhzLheDzaz9UfrmhBu1Pa3idoSZIoshUggbG2Ed5rjjIM+OwjOvT48Q/Bsslsu+
-         oj01/ER9aw6VfnAlstL9sGpa9RTtnchio/bNKQBxQc6catXnvpnFhFdqGqjcPFcnGzSn
-         ie0qLSUi/w/3XwCwr66HGMjSwxNa3pD12Q9qmmSqGRJBzGWzwjPrjz3Plg1e6luv35Fn
-         mQ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786088673; x=1786693473;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iTSNicc+okuCkFtzHEeSEUokN2gPYtw2OOgCgXZ1BUM=;
-        b=PcH6KyCGuVo2BF+Arl/nT/HIIya37wVmKBZG4wpevIKJR52LJeE0J5+V/SRjtFGA3O
-         QnffzOm0LDCIEDUmix/YKGloq/CkbKiSGT6R4CC/UGWEFykga9s9sh2ucr8HV66mYWjU
-         O8eoBKKQpXoIGt+ceJ4Y00NmHUs3h61khwTTD57EZfuWcSCtopNFqXgpAr6Qkt4lw11h
-         JrIFjM1zO97C2Th0wcOm799nd+HP+wdo0v0XhL2TXmabdAp3+SDRxSF07fEpb2cKSfFx
-         l8O7GvVAwUrmwobLmr4I8jul/LSd+9n1YBXwFN6Og0kYC16YSNmERLvuVpR7Ltmuw9R4
-         NsLQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp4FO+2Y+q3OavNQ9QxNpQZk7uBhs+0fOgfUGMEDCKkp14jBXIO3PhXVxFwPEIl0akIwRR0PZIg5Gk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxenVZlsiJn5xXrN9G5BLLY3TUg/WUqfE+JjupiDXX+nxzkxKnF
-	E8l/W/usS4IWwsmfzLv0iFBgllM595SUgXEG099/EU/JDXtA42aPNL15aqtNJUCghajo
-X-Gm-Gg: AR+sD10Jt19fwB5QF3g3Iybc8RP0p6o6E8GkxQKDXPYrAvoyQ1pV6mbSHagIKoUMOsX
-	QERDhZxis6s9sOyED8Am8UQ4RkgjtGLEpHtkKhuNxmrj9Bz5q8PWbqsmJxVXHvbFGBS40fy1Udz
-	2z8PWQ+sGSIrpvihgCawWdRFUuY4qhhE2QnFswKVh3d70ZCs+A3vqWZb0FBL/aAKKueSVD/zp0u
-	rCVrwUYLY/BiJ08FvZGF/UBhVEyKWcntuf8CEqQ8AGODUluXlHRaK1cU6XnSItj5PXMDa4jyUuQ
-	VHm+0PTcYB/RGwK3Hg2jFhAKZsFDFeKN4OiTQAYkXV9AuWmHQiGLlmaD+7KXQAwIB/OpvhA6kQD
-	TPbyr1cRXVO6/w2Xfb/qirTcfgVaNZYC7ugtktlbQClDPvo2Kin6rOCmZB3alvyLmsOiX86rrZm
-	2wSp2Osbwj+yudJr5JAK5+Z7oS/YIXnCfak62ezKPUX155oz68rS9OGwD7soKTnoL8NhuWhUCmP
-	dQby2fPhJSpp9vRzpvr1pVU0TznhgMGYQ==
-X-Received: by 2002:a05:600c:46ca:b0:499:5e50:5be9 with SMTP id 5b1f17b1804b1-4995e505da9mr18485315e9.16.1786088673162;
-        Fri, 07 Aug 2026 00:44:33 -0700 (PDT)
-Received: from ?IPV6:2001:8a0:f59c:a900:2600:fba1:8d1e:1692? ([2001:8a0:f59c:a900:2600:fba1:8d1e:1692])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995c7a56c5sm40919585e9.3.2026.08.07.00.44.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Aug 2026 00:44:31 -0700 (PDT)
-Message-ID: <96442d4d-ec8c-4637-89a2-9dcbca7bb98b@osyx.tech>
-Date: Fri, 7 Aug 2026 08:44:29 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RkXrBrls"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB981F000E9;
+	Fri,  7 Aug 2026 07:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786089056;
+	bh=F9Z+y9mwvwTE/vqgn10FR4pH6LkQapgkAfJrJp6N+o0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RkXrBrlsARtc2+B/RyGqAGrmllcUeLy/WCgkwA5eobUGMbF1vmSoSCLaDElxasA6L
+	 1nE+3Ue8uE+lDmiYKwQMozGpclUMd/R9yqzUAqvbkP1b94lkSWe2NChET5xzWRu8UX
+	 nC6HMIvPaF1o/nkPmTflob/gOHENUjR/uKwJAUHZM+gcrVtMP9NrLAOOG0juJlwsa8
+	 qT0zfl++dkDqx2lJAnCpmaAZ16xfE54tewWe4WhNWsL9kJ/XqschYcDnEcPEAq0Bfm
+	 5JYzBrrF5bk1Oq1EliolvCSLwK7x/ESwmxXa4e+2+AgDeBPG/6nEPm3aY+2E73zI2N
+	 rdwQkYSH8454g==
+Message-ID: <d2bd6eb7-6fed-4827-bbf0-0f1dfcdf6d21@kernel.org>
+Date: Fri, 7 Aug 2026 09:50:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,16 +35,15 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: =?UTF-8?Q?Jo=C3=A3o_Peixoto?= <jpeixoto@osyx.tech>
-Subject: Re: [PATCH 5/6] virt: bao: Move BAO_IPCSHMEM_HYPERCALL_ID to common
- header
-To: Andrew Jones <andrew.jones@oss.qualcomm.com>, joaopeixoto@osyx.tech
-Cc: linux-kernel@vger.kernel.org, ajd@linux.ibm.com, alex@ghiti.fr,
- aou@eecs.berkeley.edu, bagasdotme@gmail.com, catalin.marinas@arm.com,
- conor+dt@kernel.org, corbet@lwn.net, dan.j.williams@intel.com,
- davidmcerdeira@osyx.tech, devicetree@vger.kernel.org, dev@kael-k.io,
- gregkh@linuxfoundation.org, haren@linux.ibm.com, heiko@sntech.de,
- jose@osyx.tech, kever.yang@rock-chips.com, krzk+dt@kernel.org,
+Subject: Re: [PATCH 1/6] dt-bindings: Add Bao IPC shared memory driver binding
+To: =?UTF-8?Q?Jo=C3=A3o_Peixoto?= <jpeixoto@osyx.tech>,
+ joaopeixoto@osyx.tech, linux-kernel@vger.kernel.org
+Cc: ajd@linux.ibm.com, alex@ghiti.fr, aou@eecs.berkeley.edu,
+ bagasdotme@gmail.com, catalin.marinas@arm.com, conor+dt@kernel.org,
+ corbet@lwn.net, dan.j.williams@intel.com, davidmcerdeira@osyx.tech,
+ devicetree@vger.kernel.org, dev@kael-k.io, gregkh@linuxfoundation.org,
+ haren@linux.ibm.com, heiko@sntech.de, jose@osyx.tech,
+ kever.yang@rock-chips.com, krzk+dt@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
  linux-riscv@lists.infradead.org, maddy@linux.ibm.com, mani@kernel.org,
  nathan@kernel.org, neil.armstrong@linaro.org, palmer@dabbelt.com,
@@ -86,33 +51,87 @@ Cc: linux-kernel@vger.kernel.org, ajd@linux.ibm.com, alex@ghiti.fr,
  will@kernel.org
 References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
  <20260107162829.416885-1-joaopeixoto@osyx.tech>
- <20260107162829.416885-6-joaopeixoto@osyx.tech>
- <5kjiicdwq2ny3zg4mooojsntylukuadx4ajhf7mn7sue4aedpk@j2xfslwvkwur>
+ <20260107162829.416885-2-joaopeixoto@osyx.tech>
+ <8a1a9ebf-a3ed-4077-aa07-48cc98e071f9@kernel.org>
+ <a42446a5-ec45-4323-b35c-34d882b86a74@osyx.tech>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <5kjiicdwq2ny3zg4mooojsntylukuadx4ajhf7mn7sue4aedpk@j2xfslwvkwur>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <a42446a5-ec45-4323-b35c-34d882b86a74@osyx.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-
-On 1/14/26 20:34, Andrew Jones wrote:
-> On Wed, Jan 07, 2026 at 04:28:28PM +0000,joaopeixoto@osyx.tech wrote:
->> From: João Peixoto<joaopeixoto@osyx.tech>
+On 07/08/2026 09:41, João Peixoto wrote:
+>>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>>> index c7591b2aec2a..c047fbd6b91a 100644
+>>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+>>> @@ -223,6 +223,8 @@ patternProperties:
+>>>       description: Shenzhen AZW Technology Co., Ltd.
+>>>     "^baikal,.*":
+>>>       description: BAIKAL ELECTRONICS, JSC
+>>> +  "^bao,.*":
+>>> +    description: Bao Hypervisor
+>> Vendor prefixes are for companies. What is the company here? What is
+>> stock ticker or website?
 >>
->> Move the IPC shared-memory hypercall ID from architecture-specific
->> headers into include/linux/bao.h.
-> The series should be rebased to have this fixup integrated into the
-> previous patches where the code is first introduced.
->
-> Thanks,
-> drew
-Understood. The reason it is currently a separate patch is layering: the
-shared header include/linux/bao.h is introduced by the I/O dispatcher patch
-(4/6), while the IPC helper that would use the constant is introduced 
-earlier
-(2/6). To fold this away cleanly I will move creation of include/linux/bao.h
-into 2/6 (with the IPC hypercall ID) and have 4/6 only add the Remote 
-I/O ID,
-so the arch helpers are parameter-free from the start and this patch
-disappears. I will do that in v4 (I kept it separate in v3 only so the
-changelog against v2 stays readable, and it now has a proper "why" message).
-If you would prefer I fold it immediately, I am happy to respin.
+>>
+>>>     "^bananapi,.*":
+>>>       description: BIPAI KEJI LIMITED
+>>>     "^beacon,.*":
+> "bao" is the Bao Project, an open-source static-partitioning hypervisor
+> (https://github.com/bao-project), not a single company - analogous to the
+> existing "qemu" and "virtio" prefixes, which likewise name a software
+> interface rather than a vendor. I have updated the vendor-prefixes entry
+> accordingly. If you would rather namespace this under the maintaining 
+
+Software components do not get bindings, so entire binding is not
+applicable really.
+
+You control your hypervisor and driver so use fully SW communication
+channels instead of embedding SW into DT.
+
+Best regards,
+Krzysztof
