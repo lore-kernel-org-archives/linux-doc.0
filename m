@@ -1,328 +1,309 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68DC325495
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 03:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663213E47B;
+	Fri,  7 Aug 2026 04:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786073202; cv=none; b=NmWcSJF6ZQkq9thpdr/8I47UpBIkhHjvrc+5zDNYmhJPSshI48v+PrdUwfLQUodpBC+s9nbEF3eGZNHgB1oCjI9A9EnJJTceMHTSiF2LSOWzmEA/9dQB2CT3GpOrX/tCE5Gzp7i9UHAP1S0526BhSf9sE2P9dBnek+XcK0Dd5VA=
+	t=1786075418; cv=none; b=LkY1a5nzzYh5GrTpNekD63kwZaknlb+54Phf92we3sU5jmX7qRQCmJzV/nMRhcbV/pGb8tYzsjVCBKfPHY2lNPFxILrF42MRHPGWgcxAESLiIjGDFX4ajzMRfs8T2jSj4f/coY1OFeV+wvQbYatr9aIN9Hz/f/gs82z5aDfYCYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786073202; c=relaxed/simple;
-	bh=j7j8TjC9eA2FYpmjEOuIioEe1d2Pn3oZcGiD30pxino=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=GBKL3NoaOkyHsoBacz22FUXgQWzEJPmJcBFdbWvUc/Oh/+e+/e5lMn1KP8izbC59fPxN7g6fX88V+HbPLin6Dm1+bhUm6euk0ccI8kBEe/w/V/L7Q82LfmM/k9N7HHrRed5qczSg8Md1xonJAjJ5mea8ccCsQ84DLMxEnnEu1YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOwonxmp; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786075418; c=relaxed/simple;
+	bh=QdnUZ/1RQP4y7jtPb7o7EKN2ulMmKmTsmcM+xHGCVWE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VZnBFS8332NHj+q6AesgEP43M4vdM7VFTVY+jvFJ6HYOKWJYotWxjfPpVrQYrdjFizu/ztUuU74KM7JTc/VkH498VHLjXbPglKrEJJYzH6bQbbOCjeRWcSx4y6U9HBQeEicPECN7e748GuClCdItb0PyTFBIrkI9CuUTneMC6uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oaznZLub; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOwonxmp"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-ca766c1c9ccso2274401a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 20:26:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786073200; x=1786678000; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=JRf2EBTavDe7BzK6GUvtTHBHqH7rXidb69cs4e3i5nA=;
-        b=bOwonxmp7F9lBKm7PVvYU/YMaTEhT+J6bJ0P/b+L4ZMQYQeeEdrUPKtLi+YlJy2koK
-         ZjMDJfBy+GeI4n35XVS9GblXOamhqHBn31wfydG/oZWqtBLPiG42x/ID608NNaV3IG/w
-         u0OrtGPUPiTsfwIhCHtwo/OUF18f8wSxbIHmt2rhLZDA+LsEcIGEbQRc+7cObksG1g0r
-         HotpSVNYcy9jPfioodZ31iRKg3+nyRVeyfUcAZIj4oy52UBVmEP5uSIUw3oFaXjKEG/i
-         7Z1oXPaFDQuRnWojFUbpK5LZHe69GsZQm8eZtP5m8laBPEjiqH9vbCrnWlBaaaU2DC4+
-         nCeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786073200; x=1786678000;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JRf2EBTavDe7BzK6GUvtTHBHqH7rXidb69cs4e3i5nA=;
-        b=SPTnhPndYHffg0gdMxEdBIcdXFcxkxXayyF1Tbtdby22y3kreHjdyFq31wqNgaEuzs
-         nLdme5ETzlnklIIxdKtgDnC9ABVat7YkDv3EzD1ZsBGMvtibFffKkxtdgO1/MEue3XT3
-         +qG1Jg8JxPMCGdyW7/PugTnW6snrN8/Sq0TOGhXNM8ldmyx34S93DuV6NNGBpfTQXNCe
-         uCLWNWm8WtwwnbVlzooZPikGCsarmK0xSlQX0wW51/SSH0TPoNdCcIPl/6sCLdLhwM6n
-         F+uxIWrK8YCmaaRzYJ3XPjzlHXwOGGqQVMmvKZSDT9YBpXYa4fA0rQFPwSTzeKe4Mb35
-         4qfg==
-X-Forwarded-Encrypted: i=1; AHgh+RpLcbu80W/Vvei2euqKeMJqUv1OaWDjIfHXq+cpTP6OjHVP3VN7RjK44OCkkoXTmzaWXcu7Y+oG2a8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHPd/uZBT9OumfuOiaHrxJFUzXDGdXkx49np6N86uq3Hx8zsPO
-	iZKResMVTlrdHSLQ+0gIQjUN2Gt+hApNXJt7fkxegf/4gooRXmpNkymy
-X-Gm-Gg: AR+sD11unz0OHxSlnpv3rs3DSbJdvsCPY2t/kCKE34phWOpHFZwPh0vIwY98d/WsLm0
-	7+ZExpW2qIadGTW1iCtIVrdl4MskfMnJeU4Rha9snjfzgzHRPuFeHzq78TyclYVig09Ae0m369J
-	5jVj41lKX655WQ4G8H/crsrp8tTdviyvM9zkufOsk7dh0pBY+kdYXp+ghxkW9cG3m5v1IE/xGyu
-	z6lDZETYhaMvmSjOarvSwrlY4nHfK+xnugt4j4MsKSF0QEtu0yLZnFMMzCxNGOg3fnX2sGGoM+q
-	PP9tLPlkf50E9rNWpKro+7N8uFES+qH5unju38/+atsiBA9rACi+TrUb8b/k0D++mg2S0rKiYzk
-	e7Kmfh6YG22WeRASgSzn02nvlcZ/jcAfVheO6Z35bLYuhveSpyr7a1vKR1zm6JYn8vtT+zG/ly7
-	x7LZQD7p8m+1qnU07ntT+P9GCVHsNEg9Zbl+Js1HKZJpYlxagSHta2II1lkhA=
-X-Received: by 2002:a05:6a20:7fa1:b0:3c8:e140:63c3 with SMTP id adf61e73a8af0-3cb86076804mr21598472637.37.1786073200060;
-        Thu, 06 Aug 2026 20:26:40 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be86e90asm1946929eec.3.2026.08.06.20.26.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 20:26:38 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, Amit Machhiwal <amachhiw@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Gautam Menghani <gautam@linux.ibm.com>
-Subject: Re: [PATCH v7 1/4] KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
-In-Reply-To: <20260806170645.11892-2-amachhiw@linux.ibm.com>
-Date: Fri, 07 Aug 2026 08:38:36 +0530
-Message-ID: <ik5mlj9n.ritesh.list@gmail.com>
-References: <20260806170645.11892-1-amachhiw@linux.ibm.com> <20260806170645.11892-2-amachhiw@linux.ibm.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oaznZLub"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=PV
+	njRD7StArmNZCJz/ovC5T3H+x2rUiTPvE7OuI7tZw=; b=oaznZLubF/vpHKc8Ip
+	7m7rvN3wYF2Y+AZhC1I/EfGuiO5IDqiBearkPZgGbPi/SYkVrKxiJt+rV/l2C/3i
+	hkyO8hXrAawjnB5yO6ZQPXh7Znzssr6QYFqrN9s7UBbnVCgtMn5Kzj61B/67imdU
+	Rqhq+yaTeNTY217rXJF9iPHSI=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3F3KWWHVqYovENw--.12045S2;
+	Fri, 07 Aug 2026 12:01:28 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: david@kernel.org,
+	brauner@kernel.org,
+	ljs@kernel.org,
+	rppt@kernel.org,
+	pfalcato@suse.de,
+	viro@zeniv.linux.org.uk,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	akpm@linux-foundation.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	mjguzik@gmail.com,
+	ebiederm@xmission.com,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	chuck.lever@oracle.com,
+	alex.aring@gmail.com,
+	arnd@arndb.de,
+	keescook@chromium.org,
+	mcgrof@kernel.org,
+	j.granados@samsung.com,
+	allen.lkml@gmail.com
+Cc: kuba@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Xin Zhao <jackzxcui1989@163.com>
+Subject: [PATCH v7] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
+Date: Fri,  7 Aug 2026 12:01:24 +0800
+Message-Id: <20260807040124.1706927-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3F3KWWHVqYovENw--.12045S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3JF4fKw18Xw1UZrWDGr4DArb_yoWDGF43pF
+	WrKay3KF48KF47tFZ7Ja17Xa4rJw4vgrWa9ry2gw43Ca15Aryxur4ft3W3XwnrAr9aka18
+	XF4jqr9ru34qqFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_byCDUUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCwBo0Pmp1WJr7LQAA3b
 
-Amit Machhiwal <amachhiw@linux.ibm.com> writes:
+A coredump typically takes seconds or even longer to complete. If we
+happen to hold a write lock with flock just before triggering the
+coredump, that write lock will not be released during the entire coredump
+process. As a result, other processes attempting to acquire the same write
+lock may experience significant delays. Another typical scenario is that
+some custom management modules for shared memory also need to release the
+reference counts of the related buffers as soon as possible, rather than
+waiting until the coredump is complete.
 
-> Introduce a new capability and ioctl to expose CPU compatibility modes
-> supported by the host processor for nested guests.
->
-> On IBM POWER systems, newer processor generations (N) can operate in
-> compatibility modes corresponding to earlier generations, like (N-1) and
-> (N-2). This is particularly relevant for nested virtualization, where
-> nested KVM guests may need to run with a specific processor compatibility
-> level.
->
-> Introduce KVM_CAP_PPC_COMPAT_CAPS capability and the corresponding
-> KVM_PPC_GET_COMPAT_CAPS vm ioctl. The ioctl returns a bitmap describing
-> the compatibility modes supported by the host in respective bit numbers,
-> allowing userspace (e.g., QEMU) to select an appropriate compatibility
-> level when configuring nested KVM guests.
->
-> The ioctl handling is added in kvm_arch_vm_ioctl() and retrieves host
-> CPU compatibility capabilities via a PowerPC-specific backend
-> implementation when available.
->
-> The struct kvm_ppc_compat_caps places the 'size' field first so it can
-> be read alone via get_user() before copy_struct_from_user() is called,
-> avoiding pointer arithmetic to locate the size field.
->
-> The ioctl is defined using _IO so the ioctl number remains stable even if
-> the struct grows in future versions. It uses copy_struct_from_user() and
-> copy_struct_to_user() to provide forward- and backward-compatible
-> extensibility: older userspace passing a smaller struct to a newer kernel
-> gets zero-padded trailing fields, while newer userspace passing a larger
-> struct to an older kernel (usize > ksize) gets sizeof(struct
-> kvm_ppc_compat_caps) written back to host_caps.size so it can retry with the
-> older kernel-supported size, after which the kernel returns -E2BIG.
->
-> KVM_PPC_COMPAT_CAPS_SIZE_VER0 is defined as a frozen integer constant
-> (24) marking the size of the initial struct version, used as the
-> minimum floor for size field validation, similar to other versioned
-> struct interfaces in the kernel.
->
-> The 'flags' field is reserved for future use. The kernel rejects any
-> call where flags is non-zero with -EINVAL, preventing garbage values
-> from being baked into ABI permanently.
->
-> The ioctl returns appropriate error codes: EINVAL for an invalid size
-> or non-zero reserved fields, E2BIG if new userspace provides a larger
-> struct than the kernel knows about (with ksize written back into
-> host_caps.size for the retry), EFAULT for failed copy operations, and
-> ENOTTY if the backend doesn't implement get_compat_caps.
->
-> Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> Tested-by: Gautam Menghani <gautam@linux.ibm.com>
-> Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
-> Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-> Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> ---
-> Changes in this version:
->   - KVM_CAP_PPC_COMPAT_CAPS: add hv_enabled guard to align the capability
->     check with ioctl availability; a PR KVM VM on pseries now correctly
->     returns 0 for the capability [Sashiko]
->
->  arch/powerpc/include/asm/kvm_ppc.h  |  1 +
->  arch/powerpc/include/uapi/asm/kvm.h |  8 ++++
->  arch/powerpc/kvm/powerpc.c          | 71 +++++++++++++++++++++++++++++
->  include/uapi/linux/kvm.h            |  3 ++
->  4 files changed, 83 insertions(+)
->
-> diff --git a/arch/powerpc/include/asm/kvm_ppc.h b/arch/powerpc/include/asm/kvm_ppc.h
-> index 0953f2daa466..169ea6a7fbad 100644
-> --- a/arch/powerpc/include/asm/kvm_ppc.h
-> +++ b/arch/powerpc/include/asm/kvm_ppc.h
-> @@ -319,6 +319,7 @@ struct kvmppc_ops {
->  	bool (*hash_v3_possible)(void);
->  	int (*create_vm_debugfs)(struct kvm *kvm);
->  	int (*create_vcpu_debugfs)(struct kvm_vcpu *vcpu, struct dentry *debugfs_dentry);
-> +	int (*get_compat_caps)(struct kvm_ppc_compat_caps *host_caps);
->  };
->  
->  extern struct kvmppc_ops *kvmppc_hv_ops;
-> diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
-> index 077c5437f521..19e53d5ae540 100644
-> --- a/arch/powerpc/include/uapi/asm/kvm.h
-> +++ b/arch/powerpc/include/uapi/asm/kvm.h
-> @@ -437,6 +437,14 @@ struct kvm_ppc_cpu_char {
->  	__u64	behaviour_mask;		/* valid bits in behaviour */
->  };
->  
-> +/* For KVM_PPC_GET_COMPAT_CAPS */
-> +struct kvm_ppc_compat_caps {
-> +	__u64	size;			/* Size of this structure */
-> +	__u64	flags;			/* Reserved for future use */
-> +	__u64	compat_capabilities;	/* Capabilities supported by the host */
-> +};
-> +#define KVM_PPC_COMPAT_CAPS_SIZE_VER0	24 /* sizeof first published struct */
-> +
->  /*
->   * Values for character and character_mask.
->   * These are identical to the values used by H_GET_CPU_CHARACTERISTICS.
-> diff --git a/arch/powerpc/kvm/powerpc.c b/arch/powerpc/kvm/powerpc.c
-> index b6b83fe3233f..e64b3cfadd3a 100644
-> --- a/arch/powerpc/kvm/powerpc.c
-> +++ b/arch/powerpc/kvm/powerpc.c
-> @@ -703,6 +703,13 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->  			}
->  		}
->  		break;
-> +#if defined(CONFIG_KVM_BOOK3S_HV_POSSIBLE)
-> +	case KVM_CAP_PPC_COMPAT_CAPS:
-> +		r = 0;
-> +		if (hv_enabled && kvmhv_on_pseries())
+Add a new bit(9) of coredump_filter to tag whether need to dump fd list.
+We set it by default because tools like systemd-coredump go through the
+fds. Some other coredump pipe programs like minicoredump do not use fds by
+default. If you are sure that your coredump backend does not use the fds,
+you can clear bit 9, which will allow some file resources without VMA
+references to be released earlier.
 
-I think sashiko is just complaining in the 1st patch because we have not
-yet wired up the kvmppc_hv_ops->get_compat_caps() yet in patch-1. I
-think it is expecting..
+In fput(), check FP_DUMPCORE task flags to NOT release file by task work,
+otherwise file put operation will NOT execute util coredump finish.
 
-if (hv_enabled && kvmhv_on_pseries() && kvmppc_hv_ops->get_compat_caps)
+Test Case One - flock
+Test program send signal SIGABRT to the program which owns the flock,
+output the wait time(unit ms) to successfully attach the flock.
+Test program malloc 500MB heap and memset it.
+If NOT set bit9 of coredump_filter, waitms is 11280.
+If set bit9 of coredump_filter, waitms is 0.
 
-But either way is fine.
+Test Case Two - ion buffer
+Test programs include ion buffer publisher and ion buffer subscriber.
+Ion buffer publisher output the ion buffer hold_time if the subscriber
+NOT send ack to publisher and NOT release it. The subscriber will trig
+coredump by itself in some time.
+If NOT set bit9 of subscriber coredump_filter, max hold_time is 19591ms.
+If set bit9 of subscriber coredump_filter, max hold_time is 320ms.
 
+Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+---
 
-> +			r = 1;
-> +		break;
-> +#endif /* CONFIG_KVM_BOOK3S_HV_POSSIBLE */
->  	default:
->  		r = 0;
->  		break;
-> @@ -2469,6 +2476,70 @@ int kvm_arch_vm_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
->  		r = kvm->arch.kvm_ops->svm_off(kvm);
->  		break;
->  	}
-> +	case KVM_PPC_GET_COMPAT_CAPS: {
-> +		struct kvm_ppc_compat_caps host_caps = {};
-> +		u64 usize;
-> +
-> +		/*
-> +		 * Read the size field first to drive copy_struct_from_user.
-> +		 * size must be the first field of the struct.
-> +		 */
-> +		r = -EFAULT;
-> +		if (get_user(usize, (__u64 __user *)argp))
-> +			goto out;
-> +
-> +		/*
-> +		 * Enforce a minimum: reject buffers smaller than the initial
-> +		 * struct version (VER0). This allows old userspace compiled
-> +		 * against the original struct to still work on a newer kernel
-> +		 * that has grown the struct with appended fields.
-> +		 */
-> +		r = -EINVAL;
-> +		if (usize < KVM_PPC_COMPAT_CAPS_SIZE_VER0)
-> +			goto out;
-> +
-> +		/*
-> +		 * New userspace with a larger struct called an older kernel.
-> +		 * Write back ksize in host_caps.size so userspace knows which
-> +		 * older struct to retry with, then fail with -E2BIG.
-> +		 */
-> +		if (usize > sizeof(host_caps)) {
-> +			host_caps.size = sizeof(host_caps);
-> +			r = -EFAULT;
-> +			if (put_user(host_caps.size, (__u64 __user *)argp))
-> +				goto out;
-> +			r = -E2BIG;
-> +			goto out;
-> +		}
+Change in v7:
+- Fix description error in proc.rst. Since bit9 has been added, the
+  supported memory types should now be 10,
+  as suggested by David Hildenbrand (Arm).
 
-You anyways mentioned copy_struct_from_user() is taking care of both
-forward and backward compat. Then what is the point of this check?
-shouldn't we get rid of this complete if logic? I don't see a point of
-this if we are anyway using copy_struct_from_user().
+Change in v6:
+- Fix operator precedence in PF_KTHREAD/PF_DUMPCORE check.
+- Link to v6: https://lore.kernel.org/all/20260804001703.1340667-1-jackzxcui1989@163.com/
 
-> +
-> +		/*
-> +		 * copy_struct_from_user() handles forward/backward compat:
-> +		 *   usize == ksize: verbatim copy
-> +		 *   usize <  ksize: zero-pad trailing (old userspace, new kernel)
+Change in v5:
+- Not add another bootargs for the feature,
+  as suggested by Christian Brauner and Lorenzo Stoakes.
+  Add bit9 of coredump_filter to tag whether need to dump fd list.
+  Set bit9 to 1 as default.
+- Al Viro, Christian Brauner and Lorenzo Stoakes point out so many
+  problems of the code related to umap that was added in v4, delete all of
+  it which is unnecessary. The management of reference counting for shared
+  memory generally does not need to be released through the release
+  operation of files that have VMA references. Traversing all the threads
+  within the process and executing exit_files() is sufficient.
+- Fulfill comments and commit log,
+  as suggested by Pedro Falcato and Lorenzo Stoakes.
+- Link to v5: https://lore.kernel.org/all/20260630075604.52533-1-jackzxcui1989@163.com/
 
-+		 *   usize >  ksize: succeed iff the trailing bytes userspace
-+		 *                   sent are zero, else -E2BIG
+Change in v4:
+- Christian pointed out that the coredump process will traverse file
+  descriptors (fd), so certain fds should not be closed by default.
+  Rework the whole feature, add /proc/<pid>/coredump_pre_exit for user
+  pre-exit resources selection, default is NOT pre-exit anything.
+- Mateusz suggested that walking the fd table and release the file-lock is
+  reasonable. No longer release all the fd(s). Based on user config, only
+  the flock fd(s) and the fd(s) correspondent to file-backed shared memory
+  will be released at most.
+- Link to v4: https://lore.kernel.org/all/20260624145552.70143-1-jackzxcui1989@163.com/
 
-shouldn't we add usize > ksize case details, like ^^^,  which
-copy_struct_from_user() handles since we are already adding the details
-of other 2 cases.
+Change in v3:
+- Add comment and commit-log to explain why do the MMF_DUMP_MAPPED_SHARED
+  mm_flags_test() check, note that memory mapped files keep their own
+  separate references to the files. The case to work around is that early
+  unlocking a flock on a file allows other processes to lock and modify
+  the mapped data protected by the flock,
+  as suggested by Pedro Falcato.
+- Link to v3: https://lore.kernel.org/all/20260619122419.3954581-1-jackzxcui1989@163.com/
 
+Change in v2:
+- Get rid of the implement of adding new fcntl API, the issue does not
+  worth inflicting the cost on everyone,
+  as suggested by Al Viro.
+- Call exit_files() in coredump_wait(),
+  as suggested by Eric W. Biederman.
+  Add MMF_DUMP_MAPPED_SHARED mm_flags_test() check to filter cases that
+  need to dump file-backed shared memory.
+- Link to v2: https://lore.kernel.org/lkml/20260618150301.3226517-1-jackzxcui1989@163.com/
 
-</btw snip from copy_struct_from_user kdoc>
+v1:
+- Link to v1: https://lore.kernel.org/all/20260618030700.2511668-1-jackzxcui1989@163.com/
+---
+ Documentation/filesystems/proc.rst | 16 +++++++++++++---
+ fs/coredump.c                      | 21 +++++++++++++++++++++
+ fs/file_table.c                    |  7 ++++++-
+ include/linux/mm_types.h           |  6 ++++--
+ 4 files changed, 44 insertions(+), 6 deletions(-)
 
- * There are three cases to consider:
- *  * If @usize == @ksize, then it's copied verbatim.
- *  * If @usize < @ksize, then the userspace has passed an old struct to a
- *    newer kernel. The rest of the trailing bytes in @dst (@ksize - @usize)
- *    are to be zero-filled.
- *  * If @usize > @ksize, then the userspace has passed a new struct to an
- *    older kernel. The trailing bytes unknown to the kernel (@usize - @ksize)
- *    are checked to ensure they are zeroed, otherwise -E2BIG is returned.
- *
- * Returns (in all cases, some data may have been copied):
- *  * -E2BIG:  (@usize > @ksize) and there are non-zero trailing bytes in @src.
- *  * -EFAULT: access to userspace failed.
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index db6167bef..0728ebd73 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1927,7 +1927,7 @@ will be dumped when the <pid> process is dumped. coredump_filter is a bitmask
+ of memory types. If a bit of the bitmask is set, memory segments of the
+ corresponding memory type are dumped, otherwise they are not dumped.
  
-> +		 */
-> +		r = copy_struct_from_user(&host_caps, sizeof(host_caps),
-> +					  argp, usize);
-> +		if (r)
-> +			goto out;
-> +
-> +		/* Reserved fields must be zero */
-> +		r = -EINVAL;
-> +		if (host_caps.flags)
-> +			goto out;
-> +
-> +		r = -ENOTTY;
-> +		if (!kvm->arch.kvm_ops->get_compat_caps)
-> +			goto out;
-> +
-> +		r = kvm->arch.kvm_ops->get_compat_caps(&host_caps);
-> +		if (r)
-> +			goto out;
-> +
-> +		host_caps.size = sizeof(host_caps);
+-The following 9 memory types are supported:
++The following 10 memory types are supported:
+ 
+   - (bit 0) anonymous private memory
+   - (bit 1) anonymous shared memory
+@@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
+   - (bit 6) hugetlb shared memory
+   - (bit 7) DAX private memory
+   - (bit 8) DAX shared memory
++  - (bit 9) fd list
+ 
+   Note that MMIO pages such as frame buffer are never dumped and vDSO pages
+   are always dumped regardless of the bitmask status.
+@@ -1946,13 +1947,22 @@ The following 9 memory types are supported:
+   Note that bits 0-4 don't affect hugetlb or DAX memory. hugetlb memory is
+   only affected by bit 5-6, and DAX is only affected by bits 7-8.
+ 
++  Note that bit 9 is set by default because tools like systemd-coredump go
++  through the fds. If you do not set bit 9, files that are not referenced by
++  any VMA are released before dumping core. Some file release logic, such as
++  exiting flock or releasing references to shared buffers is executed much
++  earlier.
++
++The default value of coredump_filter is 0x233; this means all anonymous memory
++segments, ELF header pages, hugetlb private memory and fd list are dumped.
++
+ The default value of coredump_filter is 0x33; this means all anonymous memory
+ segments, ELF header pages and hugetlb private memory are dumped.
+ 
+ If you don't want to dump all shared memory segments attached to pid 1234,
+-write 0x31 to the process's proc file::
++write 0x231 to the process's proc file::
+ 
+-  $ echo 0x31 > /proc/1234/coredump_filter
++  $ echo 0x231 > /proc/1234/coredump_filter
+ 
+ When a new process is created, the process inherits the bitmask status from its
+ parent. It is useful to set up coredump_filter before the program runs.
+diff --git a/fs/coredump.c b/fs/coredump.c
+index bb6fdb1f4..ed4d30916 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -521,6 +521,25 @@ static int zap_threads(struct task_struct *tsk,
+ 	return nr;
+ }
+ 
++/*
++ * If do not dump fd list, files that are not referenced by any VMA
++ * can be released before dumping core. Therefore, some file release
++ * logic, such as exiting flock or releasing references to shared
++ * buffers is executed much earlier. Note that do_coredump() often
++ * takes several seconds or even longer to execute.
++ */
++static void coredump_pre_exit(void)
++{
++	struct task_struct *tsk = current, *t;
++
++	if (mm_flags_test(MMF_DUMP_FD_LIST, tsk->mm))
++		return;
++
++	for_each_thread(tsk, t) {
++		exit_files(t);
++	}
++}
++
+ static int coredump_wait(int exit_code, struct core_state *core_state)
+ {
+ 	struct task_struct *tsk = current;
+@@ -1124,6 +1143,8 @@ static void do_coredump(struct core_name *cn, struct coredump_params *cprm,
+ 	if (cn->mask & COREDUMP_REJECT)
+ 		return;
+ 
++	coredump_pre_exit();
++
+ 	/* get us an unshared descriptor table; almost always a no-op */
+ 	/* The cell spufs coredump code reads the file descriptor tables */
+ 	if (unshare_files())
+diff --git a/fs/file_table.c b/fs/file_table.c
+index 16e52e7fc..6ed8ace8c 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -566,7 +566,12 @@ static void __fput_deferred(struct file *file)
+ 		return;
+ 	}
+ 
+-	if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
++	/*
++	 * coredump_pre_exit() may release files before dumping core.
++	 * Cannot use task_work in the case, needs to release files
++	 * earlier.
++	 */
++	if (likely(!in_interrupt() && !(task->flags & (PF_KTHREAD | PF_DUMPCORE)))) {
+ 		init_task_work(&file->f_task_work, ____fput);
+ 		if (!task_work_add(task, &file->f_task_work, TWA_RESUME))
+ 			return;
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index c7db35be6..e865edb04 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -1954,14 +1954,16 @@ enum {
+ #define MMF_DUMP_HUGETLB_SHARED  8
+ #define MMF_DUMP_DAX_PRIVATE	9
+ #define MMF_DUMP_DAX_SHARED	10
++#define MMF_DUMP_FD_LIST	11
+ 
+ #define MMF_DUMP_FILTER_SHIFT	MMF_DUMPABLE_BITS
+-#define MMF_DUMP_FILTER_BITS	9
++#define MMF_DUMP_FILTER_BITS	10
+ #define MMF_DUMP_FILTER_MASK \
+ 	((BIT(MMF_DUMP_FILTER_BITS) - 1) << MMF_DUMP_FILTER_SHIFT)
+ #define MMF_DUMP_FILTER_DEFAULT \
+ 	(BIT(MMF_DUMP_ANON_PRIVATE) | BIT(MMF_DUMP_ANON_SHARED) | \
+-	 BIT(MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF)
++	 (1 << MMF_DUMP_HUGETLB_PRIVATE) | MMF_DUMP_MASK_DEFAULT_ELF |\
++	 (1 << MMF_DUMP_FD_LIST))
+ 
+ #ifdef CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS
+ # define MMF_DUMP_MASK_DEFAULT_ELF	BIT(MMF_DUMP_ELF_HEADERS)
+-- 
+2.34.1
 
-shouldn't this be, since we don't want to be reporting a larger size to
-the user?
-
-          host_caps.size = min_t(u64, usize, sizeof(host_caps));
-
-
-> +		r = copy_struct_to_user(argp, usize, &host_caps,
-> +					sizeof(host_caps), NULL);
-> +		break;
-> +	}
->  	default: {
->  		struct kvm *kvm = filp->private_data;
->  		r = kvm->arch.kvm_ops->arch_vm_ioctl(filp, ioctl, arg);
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 419011097fa8..70e36e6a0ad4 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -997,6 +997,7 @@ struct kvm_enable_cap {
->  #define KVM_CAP_S390_KEYOP 247
->  #define KVM_CAP_S390_VSIE_ESAMODE 248
->  #define KVM_CAP_S390_HPAGE_2G 249
-> +#define KVM_CAP_PPC_COMPAT_CAPS 250
->  
->  struct kvm_irq_routing_irqchip {
->  	__u32 irqchip;
-> @@ -1341,6 +1342,8 @@ struct kvm_s390_keyop {
->  /* Available with KVM_CAP_COUNTER_OFFSET */
->  #define KVM_ARM_SET_COUNTER_OFFSET _IOW(KVMIO,  0xb5, struct kvm_arm_counter_offset)
->  #define KVM_ARM_GET_REG_WRITABLE_MASKS _IOR(KVMIO,  0xb6, struct reg_mask_range)
-> +/* Available with KVM_CAP_PPC_COMPAT_CAPS */
-> +#define KVM_PPC_GET_COMPAT_CAPS	_IO(KVMIO,  0xb8)
->  
->  /* ioctl for vm fd */
->  #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
-> -- 
-> 2.50.1 (Apple Git-155)
