@@ -1,499 +1,482 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C97F377ED7;
-	Fri,  7 Aug 2026 09:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA623F6C21
+	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 09:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786094604; cv=none; b=fmloAyf4jFQgE7XdAcX4dLgDAwb+cXS6oMkZFsmYB1J/oWS2hNxQeg1/Avf8/+2iQl5xKQLSGcvWS5BGqCveYUZ82uzFQRMPVIyqP1f3CV8GqTqz9b4FIkhgCvDO7YYb50jJns2z3qRuEb1wlFPV6Q0ACwTSuMdtGT2BBI52iGc=
+	t=1786096785; cv=none; b=ZZINAcJiEUhMEI1ouS94m+fFKmVMUTxofbSrT0Hep7VJr4BJMK3nmhpfUR85l8T35oYJc3LuGKVELu93ngCe8BFuFHDt5h2fTqlWAZk2kNLB54hmn6N3PPKljBY0rOXzHxpAyv71ZNL/WRbwLFyL78ZYYsK7bUj9B4ln+YtljIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786094604; c=relaxed/simple;
-	bh=OKTUlHumXiL4yjEAPiKA7xySXGmD4XZ7MwraHs2v7Wk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I8bFJUNd9vERQD+xyQHsBm2AAHpzzSyBp64UMTfE2WJWrfNBYlLpfgo9w3TYHdWsT9L2fShUN1WKOwpzd3R2QgjY8tIsaPmPJ80Oij6s23fCTg6Kk1cAyUaEajRa3BlVeCLEOmvLxEE9CB4FXjowbyGa+ywED/86iIkFS7mDyNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NgegLwUF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786096785; c=relaxed/simple;
+	bh=K0H9fewkIhlXFTqjkM30OaQUwcL139AqnCgFNBomnoQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kC1yhhlCELlPP1PC/CfQ8GLjlV/YLw/x8UJ3QmWDNEnRMRAZ9EFU6Rd7t0QbQwLaQOSZNxhNit4YNp+ZsSy3Q2ruh371h9hM2ZxTtaOdkW10eN0m/rs61Fi10dN20GvlFicL0l3ri4MwbAWANHtuuopsXeCt+TKjUtY6H1n1xRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NItqfnvJ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NgegLwUF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9992D1F00A3A;
-	Fri,  7 Aug 2026 09:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786094603;
-	bh=YQQIIcoVDl4XGLckZltIX3NSmdGB/0glURatR93oa2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NgegLwUFkoTqxCVOO/B4Nub71rLTKzrgcr6TO3DDEzYVt7r8TYWEHvv0cjcj0BObQ
-	 WnHGEh9STRKzTEQ8nrJF+y54OB6Y4+RO1FZzeHfaPeaWUSiffZRhy9LZoha5j7Kqcj
-	 Y9/kQsSLAuFGJE0CN5BMdqWJbRwKexB9oiT3Vxxi8RC0P7q0zdaOymDXSuBbHfS3HR
-	 CymnSwluqN5ylBVlVL7atPdJuwP1TaCnQkGNJ5TDVTwvYMznYy1idFVdKt0KJgqV/9
-	 nWnufbzxd4lrKqVppH7f8zopI4JI3FtMVHUsWLjZiuZYCOTWacfUujEM29aZ5Y2/U+
-	 hfrlBkigYTf0A==
-Date: Fri, 7 Aug 2026 11:23:20 +0200
-From: Lorenzo Bianconi <lorenzo@kernel.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NItqfnvJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786096783;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TBdE0GGKObowf+Tk1zmn9S0i/uvPVbxIgS5ePj0YzYk=;
+	b=NItqfnvJLq9zs5UBk5vq3vvIQue3Sz6AbQitcchC6c5FXbJ4Nu+qllUZbZWwPYmD1jtVHj
+	OnCkr8S6wDSZnq15wJBLqVJNO2WQ7hCqynXohVyG9m+MeL/7gGJH3yXETN8rpr3XwTQM5W
+	i7jFIqK5RXO7MF/KUVxtExBjfkizGqY=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-692-w4RfsUl4NOmSbPqmubJCKg-1; Fri,
+ 07 Aug 2026 05:59:41 -0400
+X-MC-Unique: w4RfsUl4NOmSbPqmubJCKg-1
+X-Mimecast-MFC-AGG-ID: w4RfsUl4NOmSbPqmubJCKg_1786096780
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D9311195608F;
+	Fri,  7 Aug 2026 09:59:39 +0000 (UTC)
+Received: from p16v.redhat.com (unknown [10.44.32.215])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1912930001A2;
+	Fri,  7 Aug 2026 09:59:35 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Min Li <min.li@microchip.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Petr Oros <poros@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	linux-kernel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [PATCH net-next v10 11/11] net: airoha: add phylink support
-Message-ID: <anWkCLIp9NxIJJec@lore-desk>
-References: <20260730102444.1967900-1-ansuelsmth@gmail.com>
- <20260730102444.1967900-12-ansuelsmth@gmail.com>
- <ams72wEsCiACYh-k@lore-desk>
- <6a74c0c2.1c04d3ff.d716d.a9f0@mx.google.com>
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v3 2/2] dpll: use pin owner's dpll ref for pin-level attribute setting
+Date: Fri,  7 Aug 2026 11:59:26 +0200
+Message-ID: <20260807095926.386923-3-ivecera@redhat.com>
+In-Reply-To: <20260807095926.386923-1-ivecera@redhat.com>
+References: <20260807095926.386923-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8p7i5PObBPdgE3my"
-Content-Disposition: inline
-In-Reply-To: <6a74c0c2.1c04d3ff.d716d.a9f0@mx.google.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
---8p7i5PObBPdgE3my
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pin-level attributes (frequency, phase adjust, embedded sync, reference
+sync) are properties of the pin itself, not of a particular DPLL device.
+The get callbacks already use only the pin owner's DPLL reference
+(via dpll_pin_own_dpll_ref_first()), but the set callbacks iterate over
+all registered DPLL references and invoke the set operation on each one.
 
-> On Thu, Jul 30, 2026 at 01:56:11PM +0200, Lorenzo Bianconi wrote:
-> > > Add phylink support for each GDM port. For GDM1 add the internal inte=
-rface
-> > > mode as the only supported mode. For GDM2/3/4 add the required
-> > > configuration of the PCS to make the external PHY or attached SFP cage
-> > > work.
-> > >=20
-> > > These needs to be defined in the GDM port node using the pcs-handle
-> > > property.
-> > >=20
-> > > Update and provide a .get/set_link_ksettings function that use phylink
-> > > for ethtool OPs now that we fully support phylink.
-> > >=20
-> > > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> >=20
-> > Hi Christian,
-> >=20
-> > just some nits inline. Fixing them:
-> >=20
-> > Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> >=20
-> > Regards,
-> > Lorenzo
-> >=20
-> > > ---
-> > >  drivers/net/ethernet/airoha/Kconfig       |   1 +
-> > >  drivers/net/ethernet/airoha/airoha_eth.c  | 189 ++++++++++++++++++++=
-+-
-> > >  drivers/net/ethernet/airoha/airoha_eth.h  |   5 +
-> > >  drivers/net/ethernet/airoha/airoha_regs.h |  12 ++
-> > >  4 files changed, 205 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/drivers/net/ethernet/airoha/Kconfig b/drivers/net/ethern=
-et/airoha/Kconfig
-> > > index 1f6640a15fc9..789906516bf8 100644
-> > > --- a/drivers/net/ethernet/airoha/Kconfig
-> > > +++ b/drivers/net/ethernet/airoha/Kconfig
-> > > @@ -20,6 +20,7 @@ config NET_AIROHA
-> > >  	depends on NET_DSA || !NET_DSA
-> > >  	select NET_AIROHA_NPU
-> > >  	select PAGE_POOL
-> > > +	select PHYLINK
-> > >  	help
-> > >  	  This driver supports the gigabit ethernet MACs in the
-> > >  	  Airoha SoC family.
-> > > diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/e=
-thernet/airoha/airoha_eth.c
-> > > index dba7c52c0896..5065d6583b9f 100644
-> > > --- a/drivers/net/ethernet/airoha/airoha_eth.c
-> > > +++ b/drivers/net/ethernet/airoha/airoha_eth.c
-> > > @@ -8,6 +8,7 @@
-> > >  #include <linux/of_reserved_mem.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/tcp.h>
-> > > +#include <linux/pcs/pcs.h>
-> >=20
-> > nit: alphabetic order.
-> >=20
-> > >  #include <linux/u64_stats_sync.h>
-> > >  #include <net/dst_metadata.h>
-> > >  #include <net/page_pool/helpers.h>
-> > > @@ -1915,6 +1916,14 @@ static int airoha_dev_open(struct net_device *=
-netdev)
-> > >  	struct airoha_qdma *qdma;
-> > >  	int err;
-> > > =20
-> > > +	err =3D phylink_of_phy_connect(dev->phylink, netdev->dev.of_node, 0=
-);
-> > > +	if (err) {
-> > > +		netdev_err(netdev, "could not attach PHY: %d\n", err);
-> > > +		return err;
-> > > +	}
-> > > +
-> > > +	phylink_start(dev->phylink);
-> >=20
-> > Should it be last operation in airoha_dev_open()?
-> >
->=20
-> I checked also other ethernet driver for this pattern and it seems
-> phylink_start is always called before any netif_start_queues.
->=20
-> I'm addressing all the other suggestion and adding the Ack if you are ok
-> with keeping this as is.
+This is redundant because a pin is a single physical entity - setting
+its frequency or phase adjust once through the owner's ops is sufficient.
+Calling set on every registered DPLL just results in duplicate HW writes
+for drivers that share a pin across multiple DPLL devices (e.g. ice
+registers each input pin with both the EEC and PPS DPLL, zl3073x
+registers input pins with every DPLL channel).
 
-sure, I am fine with that.
+Simplify dpll_pin_freq_set(), dpll_pin_esync_set(),
+dpll_pin_ref_sync_state_set() and dpll_pin_phase_adj_set() to call the
+set callback only through the owner's DPLL reference, matching the
+existing get-side behavior. This removes the xa_for_each iteration
+loops, the now-unnecessary rollback logic, and several local variables.
 
-Regards,
-Lorenzo
+The -EOPNOTSUPP validation loop, which checked ops support across all
+owner-matching references, is replaced with a direct check on the
+single owner reference returned by dpll_pin_own_dpll_ref_first().
 
-> =20
-> > > +
-> > >  	netif_tx_start_all_queues(netdev);
-> > >  	err =3D airoha_set_vip_for_gdm_port(dev, true);
-> > >  	if (err)
-> > > @@ -1954,6 +1963,10 @@ static int airoha_dev_stop(struct net_device *=
-netdev)
-> > >  		airoha_set_gdm_port_fwd_cfg(dev->eth,
-> > >  					    REG_GDM_FWD_CFG(port->id),
-> > >  					    FE_PSE_PORT_DROP);
-> > > +
-> > > +	phylink_stop(dev->phylink);
-> >=20
-> > Should it be the first one? (reverse order of airoha_dev_open()).
-> >=20
-> > > +	phylink_disconnect_phy(dev->phylink);
-> > > +
-> > >  	return 0;
-> > >  }
-> > > =20
-> > > @@ -2509,6 +2522,24 @@ airoha_ethtool_get_rmon_stats(struct net_devic=
-e *netdev,
-> > >  	} while (u64_stats_fetch_retry(&dev->stats.syncp, start));
-> > >  }
-> > > =20
-> > > +static int
-> > > +airoha_ethtool_get_link_ksettings(struct net_device *netdev,
-> > > +				  struct ethtool_link_ksettings *cmd)
-> > > +{
-> > > +	struct airoha_gdm_dev *dev =3D netdev_priv(netdev);
-> > > +
-> > > +	return phylink_ethtool_ksettings_get(dev->phylink, cmd);
-> > > +}
-> > > +
-> > > +static int
-> > > +airoha_ethtool_set_link_ksettings(struct net_device *netdev,
-> > > +				  const struct ethtool_link_ksettings *cmd)
-> > > +{
-> > > +	struct airoha_gdm_dev *dev =3D netdev_priv(netdev);
-> > > +
-> > > +	return phylink_ethtool_ksettings_set(dev->phylink, cmd);
-> > > +}
-> > > +
-> > >  static int airoha_qdma_set_chan_tx_sched(struct net_device *netdev,
-> > >  					 int channel, enum tx_sched_mode mode,
-> > >  					 const u16 *weights, u8 n_weights)
-> > > @@ -3353,7 +3384,8 @@ static const struct ethtool_ops airoha_ethtool_=
-ops =3D {
-> > >  	.get_drvinfo		=3D airoha_ethtool_get_drvinfo,
-> > >  	.get_eth_mac_stats      =3D airoha_ethtool_get_mac_stats,
-> > >  	.get_rmon_stats		=3D airoha_ethtool_get_rmon_stats,
-> > > -	.get_link_ksettings	=3D phy_ethtool_get_link_ksettings,
-> > > +	.get_link_ksettings	=3D airoha_ethtool_get_link_ksettings,
-> > > +	.set_link_ksettings	=3D airoha_ethtool_set_link_ksettings,
-> > >  	.get_link		=3D ethtool_op_get_link,
-> > >  };
-> > > =20
-> > > @@ -3409,6 +3441,155 @@ bool airoha_is_valid_gdm_dev(struct airoha_et=
-h *eth,
-> > >  	return false;
-> > >  }
-> > > =20
-> > > +/* Nothing to do in MAC, everything is handled in PCS */
-> > > +static void airoha_mac_config(struct phylink_config *config, unsigne=
-d int mode,
-> > > +			      const struct phylink_link_state *state)
-> > > +{
-> > > +}
-> > > +
-> > > +static void airoha_mac_link_up(struct phylink_config *config, struct=
- phy_device *phy,
-> > > +			       unsigned int mode, phy_interface_t interface,
-> > > +			       int speed, int duplex, bool tx_pause, bool rx_pause)
-> > > +{
-> > > +	struct airoha_gdm_dev *dev =3D container_of(config, struct airoha_g=
-dm_dev,
-> > > +						  phylink_config);
-> > > +	struct airoha_gdm_port *port =3D dev->port;
-> > > +	struct airoha_eth *eth =3D dev->eth;
-> > > +	u32 frag_size_tx, frag_size_rx;
-> > > +	u32 mask, val;
-> > > +
-> > > +	/* TX/RX frag is configured only for GDM4 */
-> > > +	if (port->id !=3D AIROHA_GDM4_IDX)
-> > > +		return;
-> > > +
-> > > +	switch (speed) {
-> > > +	case SPEED_10000:
-> > > +	case SPEED_5000:
-> > > +		frag_size_tx =3D 8;
-> > > +		frag_size_rx =3D 8;
-> > > +		break;
-> > > +	case SPEED_2500:
-> > > +		frag_size_tx =3D 2;
-> > > +		frag_size_rx =3D 1;
-> > > +		break;
-> > > +	default:
-> > > +		frag_size_tx =3D 1;
-> > > +		frag_size_rx =3D 0;
-> >=20
-> > Missing break here.
-> >=20
-> > > +	}
-> > > +
-> > > +	mutex_lock(&port->reg_lock);
-> > > +
-> > > +	/* Configure TX/RX frag based on speed */
-> > > +	if (dev->nbq =3D=3D 1) {
-> > > +		mask =3D GDM4_SGMII1_TX_FRAG_SIZE_MASK;
-> > > +		val =3D FIELD_PREP(GDM4_SGMII1_TX_FRAG_SIZE_MASK,
-> > > +				 frag_size_tx);
-> > > +	}  else {
-> > > +		mask =3D GDM4_SGMII0_TX_FRAG_SIZE_MASK;
-> > > +		val =3D FIELD_PREP(GDM4_SGMII0_TX_FRAG_SIZE_MASK,
-> > > +				 frag_size_tx);
-> > > +	}
-> > > +	airoha_fe_rmw(eth, REG_FE_GDM4_TMBI_FRAG, mask, val);
-> > > +
-> > > +	if (dev->nbq =3D=3D 1) {
-> > > +		mask =3D GDM4_SGMII1_RX_FRAG_SIZE_MASK;
-> > > +		val =3D FIELD_PREP(GDM4_SGMII1_RX_FRAG_SIZE_MASK,
-> > > +				 frag_size_rx);
-> > > +	} else {
-> > > +		mask =3D GDM4_SGMII0_RX_FRAG_SIZE_MASK;
-> > > +		val =3D FIELD_PREP(GDM4_SGMII0_RX_FRAG_SIZE_MASK,
-> > > +				 frag_size_rx);
-> > > +	}
-> > > +	airoha_fe_rmw(eth, REG_FE_GDM4_RMBI_FRAG, mask, val);
-> >=20
-> > nit: I guess you can have just one if/else block here running airoha_fe=
-_rmw()
-> > inside the block and getting rid of val/mask.
-> >=20
-> > > +
-> > > +	mutex_unlock(&port->reg_lock);
-> > > +}
-> > > +
-> > > +/* Nothing to do in MAC, everything is handled in PCS */
-> > > +static void airoha_mac_link_down(struct phylink_config *config, unsi=
-gned int mode,
-> > > +				 phy_interface_t interface)
-> > > +{
-> > > +}
-> > > +
-> > > +static const struct phylink_mac_ops airoha_phylink_ops =3D {
-> > > +	.mac_config =3D airoha_mac_config,
-> > > +	.mac_link_up =3D airoha_mac_link_up,
-> > > +	.mac_link_down =3D airoha_mac_link_down,
-> > > +};
-> > > +
-> > > +static int airoha_fill_available_pcs(struct phylink_config *config,
-> > > +				     struct phylink_pcs **available_pcs,
-> > > +				     unsigned int num_possible_pcs)
-> > > +{
-> > > +	struct device *dev =3D config->dev;
-> > > +
-> > > +	return fwnode_phylink_pcs_parse(dev_fwnode(dev), available_pcs,
-> > > +					num_possible_pcs);
-> > > +}
-> > > +
-> > > +static int airoha_setup_phylink(struct net_device *netdev)
-> > > +{
-> > > +	struct airoha_gdm_dev *dev =3D netdev_priv(netdev);
-> > > +	struct device_node *np =3D netdev->dev.of_node;
-> > > +	struct airoha_gdm_port *port =3D dev->port;
-> > > +	struct phylink_config *config;
-> > > +	phy_interface_t phy_mode;
-> > > +	struct phylink *phylink;
-> > > +	int err;
-> > > +
-> > > +	err =3D of_get_phy_mode(np, &phy_mode);
-> > > +	if (err) {
-> > > +		dev_err(&netdev->dev, "incorrect phy-mode\n");
-> > > +		return err;
-> > > +	}
-> > > +
-> > > +	config =3D &dev->phylink_config;
-> > > +	config->dev =3D &netdev->dev;
-> > > +	config->type =3D PHYLINK_NETDEV;
-> > > +
-> > > +	/*
-> > > +	 * GDM1 only supports internal for Embedded Switch
-> > > +	 * and doesn't require a PCS.
-> > > +	 */
-> > > +	if (port->id =3D=3D AIROHA_GDM1_IDX) {
-> > > +		config->mac_capabilities =3D MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> > > +					   MAC_10000FD;
-> > > +
-> > > +		__set_bit(PHY_INTERFACE_MODE_INTERNAL,
-> > > +			  config->supported_interfaces);
-> > > +	} else {
-> > > +		config->mac_capabilities =3D MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-> > > +					   MAC_10 | MAC_100 | MAC_1000 |
-> > > +					   MAC_2500FD | MAC_5000FD | MAC_10000FD;
-> > > +
-> > > +		config->num_possible_pcs =3D fwnode_phylink_pcs_count(dev_fwnode(c=
-onfig->dev));
-> > > +		config->fill_available_pcs =3D airoha_fill_available_pcs;
-> > > +
-> > > +		__set_bit(PHY_INTERFACE_MODE_SGMII,
-> > > +			  config->supported_interfaces);
-> > > +		__set_bit(PHY_INTERFACE_MODE_1000BASEX,
-> > > +			  config->supported_interfaces);
-> > > +		__set_bit(PHY_INTERFACE_MODE_2500BASEX,
-> > > +			  config->supported_interfaces);
-> > > +		__set_bit(PHY_INTERFACE_MODE_10GBASER,
-> > > +			  config->supported_interfaces);
-> > > +		__set_bit(PHY_INTERFACE_MODE_USXGMII,
-> > > +			  config->supported_interfaces);
-> > > +
-> > > +		phy_interface_copy(config->pcs_interfaces,
-> > > +				   config->supported_interfaces);
-> > > +	}
-> > > +
-> > > +	phylink =3D phylink_create(config, of_fwnode_handle(np),
-> > > +				 phy_mode, &airoha_phylink_ops);
-> > > +	if (IS_ERR(phylink))
-> > > +		return PTR_ERR(phylink);
-> > > +
-> > > +	dev->phylink =3D phylink;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >  static int airoha_alloc_gdm_device(struct airoha_eth *eth,
-> > >  				   struct airoha_gdm_port *port,
-> > >  				   int nbq, struct device_node *np)
-> > > @@ -3474,7 +3655,7 @@ static int airoha_alloc_gdm_device(struct airoh=
-a_eth *eth,
-> > >  	dev->nbq =3D nbq;
-> > >  	port->devs[index] =3D dev;
-> > > =20
-> > > -	return 0;
-> > > +	return airoha_setup_phylink(netdev);
-> > >  }
-> > > =20
-> > >  static int airoha_alloc_gdm_port(struct airoha_eth *eth,
-> > > @@ -3510,6 +3691,7 @@ static int airoha_alloc_gdm_port(struct airoha_=
-eth *eth,
-> > > =20
-> > >  	port->id =3D id;
-> > >  	spin_lock_init(&port->stats_lock);
-> > > +	mutex_init(&port->reg_lock);
-> > >  	eth->ports[p] =3D port;
-> > > =20
-> > >  	err =3D airoha_metadata_dst_alloc(port);
-> > > @@ -3706,6 +3888,8 @@ static int airoha_probe(struct platform_device =
-*pdev)
-> > >  			netdev =3D netdev_from_priv(dev);
-> > >  			if (netdev->reg_state =3D=3D NETREG_REGISTERED)
-> > >  				unregister_netdev(netdev);
-> > > +			if (dev->phylink)
-> > > +				phylink_destroy(dev->phylink);
-> > >  			of_node_put(netdev->dev.of_node);
-> > >  		}
-> > >  		airoha_metadata_dst_free(port);
-> > > @@ -3744,6 +3928,7 @@ static void airoha_remove(struct platform_devic=
-e *pdev)
-> > > =20
-> > >  			netdev =3D netdev_from_priv(dev);
-> > >  			unregister_netdev(netdev);
-> > > +			phylink_destroy(dev->phylink);
-> > >  			of_node_put(netdev->dev.of_node);
-> > >  		}
-> > >  		airoha_metadata_dst_free(port);
-> > > diff --git a/drivers/net/ethernet/airoha/airoha_eth.h b/drivers/net/e=
-thernet/airoha/airoha_eth.h
-> > > index fa9a8edce22f..6396a5aec384 100644
-> > > --- a/drivers/net/ethernet/airoha/airoha_eth.h
-> > > +++ b/drivers/net/ethernet/airoha/airoha_eth.h
-> > > @@ -595,6 +595,9 @@ struct airoha_gdm_dev {
-> > >  	 * QDMA migration.
-> > >  	 */
-> > >  	spinlock_t txq_lock[AIROHA_NUM_NETDEV_TX_RINGS];
-> > > +
-> > > +	struct phylink *phylink;
-> > > +	struct phylink_config phylink_config;
-> > >  };
-> > > =20
-> > >  struct airoha_gdm_port {
-> > > @@ -604,6 +607,8 @@ struct airoha_gdm_port {
-> > > =20
-> > >  	/* protect concurrent hw_stats accesses */
-> > >  	spinlock_t stats_lock;
-> > > +	/* protect concurrent GDM4 register access */
-> > > +	struct mutex reg_lock;
-> >=20
-> > nit: naming is always hard, maybe link_lock?
-> >=20
-> > > =20
-> > >  	struct metadata_dst *dsa_meta[AIROHA_MAX_DSA_PORTS];
-> > >  };
-> > > diff --git a/drivers/net/ethernet/airoha/airoha_regs.h b/drivers/net/=
-ethernet/airoha/airoha_regs.h
-> > > index 442b48c9b991..4ea89057b560 100644
-> > > --- a/drivers/net/ethernet/airoha/airoha_regs.h
-> > > +++ b/drivers/net/ethernet/airoha/airoha_regs.h
-> > > @@ -357,6 +357,18 @@
-> > >  #define IP_FRAGMENT_PORT_MASK		GENMASK(8, 5)
-> > >  #define IP_FRAGMENT_NBQ_MASK		GENMASK(4, 0)
-> > > =20
-> > > +#define REG_FE_GDM4_TMBI_FRAG		0x2028
-> > > +#define GDM4_SGMII1_TX_WEIGHT_MASK	GENMASK(31, 26)
-> > > +#define GDM4_SGMII1_TX_FRAG_SIZE_MASK	GENMASK(25, 16)
-> > > +#define GDM4_SGMII0_TX_WEIGHT_MASK	GENMASK(15, 10)
-> > > +#define GDM4_SGMII0_TX_FRAG_SIZE_MASK	GENMASK(9, 0)
-> > > +
-> > > +#define REG_FE_GDM4_RMBI_FRAG		0x202c
-> > > +#define GDM4_SGMII1_RX_WEIGHT_MASK	GENMASK(31, 26)
-> > > +#define GDM4_SGMII1_RX_FRAG_SIZE_MASK	GENMASK(25, 16)
-> > > +#define GDM4_SGMII0_RX_WEIGHT_MASK	GENMASK(15, 10)
-> > > +#define GDM4_SGMII0_RX_FRAG_SIZE_MASK	GENMASK(9, 0)
-> > > +
-> > >  #define REG_MC_VLAN_EN			0x2100
-> > >  #define MC_VLAN_EN_MASK			BIT(0)
-> > > =20
-> > > --=20
-> > > 2.53.0
-> > >=20
->=20
->=20
->=20
-> --=20
-> 	Ansuel
+The documentation in dpll.rst is updated to reflect that pin-level
+attributes are set through the pin owner's dpll reference only.
 
---8p7i5PObBPdgE3my
-Content-Type: application/pgp-signature; name=signature.asc
+No existing driver is affected:
+  - ptp_ocp and mlx5 register each pin with a single DPLL.
+  - ice registers input pins with two DPLLs (EEC and PPS) using
+    identical ops and pin_priv; the set callbacks address the HW by
+    pin index, not by DPLL, so the second call was a no-op.
+  - zl3073x registers input pins with every DPLL channel; the set
+    callbacks address HW by pin/ref ID regardless of DPLL. The
+    ref_sync_set callback was the only one with per-channel behavior,
+    addressed by the preceding patch.
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+---
+ Documentation/driver-api/dpll.rst |  11 +-
+ drivers/dpll/dpll_netlink.c       | 213 +++++++-----------------------
+ 2 files changed, 56 insertions(+), 168 deletions(-)
 
-iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCanWkCAAKCRA6cBh0uS2t
-rAhhAP9ChrPJx+1KRMSesbgkCVk3ak6QiDvF6BcAQyS3S0qaowD8CZUfTR7MH4LZ
-JV7nKPw+7/veEL5G2Dz2LvFxWGJ+yAg=
-=SJXp
------END PGP SIGNATURE-----
+diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
+index f83150917814e2..7c117ae37cc1bc 100644
+--- a/Documentation/driver-api/dpll.rst
++++ b/Documentation/driver-api/dpll.rst
+@@ -116,8 +116,9 @@ Shared pins
+ A single pin object can be attached to multiple dpll devices.
+ Then there are two groups of configuration knobs:
+ 
+-1) Set on a pin - the configuration affects all dpll devices pin is
+-   registered to (i.e., ``DPLL_A_PIN_FREQUENCY``),
++1) Set on a pin - the configuration is a property of the pin itself and
++   applies to all dpll devices the pin is registered with
++   (i.e., ``DPLL_A_PIN_FREQUENCY``),
+ 2) Set on a pin-dpll tuple - the configuration affects only selected
+    dpll device (i.e., ``DPLL_A_PIN_PRIO``, ``DPLL_A_PIN_STATE``,
+    ``DPLL_A_PIN_DIRECTION``).
+@@ -507,9 +508,9 @@ as well as parameter being configured (``DPLL_A_MODE``).
+ ``DPLL_CMD_PIN_SET`` - to target a pin user must provide a
+ ``DPLL_A_PIN_ID``, which is unique identifier of a pin in the system.
+ Also configured pin parameters must be added.
+-If ``DPLL_A_PIN_FREQUENCY`` is configured, this affects all the dpll
+-devices that are connected with the pin, that is why frequency attribute
+-shall not be enclosed in ``DPLL_A_PIN_PARENT_DEVICE``.
++If ``DPLL_A_PIN_FREQUENCY`` is configured, it is a property of the pin
++itself and applies to all dpll devices the pin is registered with, so the
++frequency attribute shall not be enclosed in ``DPLL_A_PIN_PARENT_DEVICE``.
+ Other attributes: ``DPLL_A_PIN_PRIO``, ``DPLL_A_PIN_STATE`` or
+ ``DPLL_A_PIN_DIRECTION`` must be enclosed in
+ ``DPLL_A_PIN_PARENT_DEVICE`` as their configuration relates to only one
+diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
+index afb31c0040382c..a909cd4451b008 100644
+--- a/drivers/dpll/dpll_netlink.c
++++ b/drivers/dpll/dpll_netlink.c
+@@ -1079,10 +1079,9 @@ dpll_pin_freq_set(struct dpll_pin *pin, struct nlattr *a,
+ 		  struct netlink_ext_ack *extack)
+ {
+ 	u64 freq = nla_get_u64(a), old_freq;
+-	struct dpll_pin_ref *ref, *failed;
+ 	const struct dpll_pin_ops *ops;
++	struct dpll_pin_ref *ref;
+ 	struct dpll_device *dpll;
+-	unsigned long i;
+ 	int ret;
+ 
+ 	if (!dpll_pin_is_freq_supported(pin, freq)) {
+@@ -1090,22 +1089,17 @@ dpll_pin_freq_set(struct dpll_pin *pin, struct nlattr *a,
+ 		return -EINVAL;
+ 	}
+ 
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		ops = dpll_pin_ops(ref);
+-		if ((!ops->frequency_set || !ops->frequency_get) &&
+-		    ref->dpll->module == pin->module &&
+-		    ref->dpll->clock_id == pin->clock_id) {
+-			NL_SET_ERR_MSG(extack,
+-				       "frequency set not supported by the device");
+-			return -EOPNOTSUPP;
+-		}
+-	}
+ 	ref = dpll_pin_own_dpll_ref_first(pin);
+ 	if (!ref) {
+ 		NL_SET_ERR_MSG(extack, "pin owner dpll not found");
+ 		return -ENODEV;
+ 	}
+ 	ops = dpll_pin_ops(ref);
++	if (!ops->frequency_set || !ops->frequency_get) {
++		NL_SET_ERR_MSG(extack,
++			       "frequency set not supported by the device");
++		return -EOPNOTSUPP;
++	}
+ 	dpll = ref->dpll;
+ 	ret = ops->frequency_get(pin, dpll_pin_on_dpll_priv(dpll, pin), dpll,
+ 				 dpll_priv(dpll), &old_freq, extack);
+@@ -1116,68 +1110,42 @@ dpll_pin_freq_set(struct dpll_pin *pin, struct nlattr *a,
+ 	if (freq == old_freq)
+ 		return 0;
+ 
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->frequency_set)
+-			continue;
+-		dpll = ref->dpll;
+-		ret = ops->frequency_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
+-					 dpll, dpll_priv(dpll), freq, extack);
+-		if (ret) {
+-			failed = ref;
+-			NL_SET_ERR_MSG_FMT(extack, "frequency set failed for dpll_id:%u",
+-					   dpll->id);
+-			goto rollback;
+-		}
++	ret = ops->frequency_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
++				 dpll, dpll_priv(dpll), freq, extack);
++	if (ret) {
++		NL_SET_ERR_MSG_FMT(extack,
++				   "frequency set failed for dpll_id:%u",
++				   dpll->id);
++		return ret;
+ 	}
+ 	__dpll_pin_change_ntf(pin);
+ 
+ 	return 0;
+-
+-rollback:
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		if (ref == failed)
+-			break;
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->frequency_set)
+-			continue;
+-		dpll = ref->dpll;
+-		if (ops->frequency_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
+-				       dpll, dpll_priv(dpll), old_freq, extack))
+-			NL_SET_ERR_MSG(extack, "set frequency rollback failed");
+-	}
+-	return ret;
+ }
+ 
+ static int
+ dpll_pin_esync_set(struct dpll_pin *pin, struct nlattr *a,
+ 		   struct netlink_ext_ack *extack)
+ {
+-	struct dpll_pin_ref *ref, *failed;
+ 	const struct dpll_pin_ops *ops;
+ 	struct dpll_pin_esync esync;
+ 	u64 freq = nla_get_u64(a);
++	struct dpll_pin_ref *ref;
+ 	struct dpll_device *dpll;
+ 	bool supported = false;
+-	unsigned long i;
+-	int ret;
++	int ret, i;
+ 
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		ops = dpll_pin_ops(ref);
+-		if ((!ops->esync_set || !ops->esync_get) &&
+-		    ref->dpll->module == pin->module &&
+-		    ref->dpll->clock_id == pin->clock_id) {
+-			NL_SET_ERR_MSG(extack,
+-				       "embedded sync feature is not supported by this device");
+-			return -EOPNOTSUPP;
+-		}
+-	}
+ 	ref = dpll_pin_own_dpll_ref_first(pin);
+ 	if (!ref) {
+ 		NL_SET_ERR_MSG(extack, "pin owner dpll not found");
+ 		return -ENODEV;
+ 	}
+ 	ops = dpll_pin_ops(ref);
++	if (!ops->esync_set || !ops->esync_get) {
++		NL_SET_ERR_MSG(extack,
++			       "embedded sync feature is not supported by this device");
++		return -EOPNOTSUPP;
++	}
+ 	dpll = ref->dpll;
+ 	ret = ops->esync_get(pin, dpll_pin_on_dpll_priv(dpll, pin), dpll,
+ 			     dpll_priv(dpll), &esync, extack);
+@@ -1196,44 +1164,17 @@ dpll_pin_esync_set(struct dpll_pin *pin, struct nlattr *a,
+ 		return -EINVAL;
+ 	}
+ 
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		void *pin_dpll_priv;
+-
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->esync_set)
+-			continue;
+-		dpll = ref->dpll;
+-		pin_dpll_priv = dpll_pin_on_dpll_priv(dpll, pin);
+-		ret = ops->esync_set(pin, pin_dpll_priv, dpll, dpll_priv(dpll),
+-				      freq, extack);
+-		if (ret) {
+-			failed = ref;
+-			NL_SET_ERR_MSG_FMT(extack,
+-					   "embedded sync frequency set failed for dpll_id: %u",
+-					   dpll->id);
+-			goto rollback;
+-		}
++	ret = ops->esync_set(pin, dpll_pin_on_dpll_priv(dpll, pin), dpll,
++			     dpll_priv(dpll), freq, extack);
++	if (ret) {
++		NL_SET_ERR_MSG_FMT(extack,
++				   "embedded sync frequency set failed for dpll_id: %u",
++				   dpll->id);
++		return ret;
+ 	}
+ 	__dpll_pin_change_ntf(pin);
+ 
+ 	return 0;
+-
+-rollback:
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		void *pin_dpll_priv;
+-
+-		if (ref == failed)
+-			break;
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->esync_set)
+-			continue;
+-		dpll = ref->dpll;
+-		pin_dpll_priv = dpll_pin_on_dpll_priv(dpll, pin);
+-		if (ops->esync_set(pin, pin_dpll_priv, dpll, dpll_priv(dpll),
+-				   esync.freq, extack))
+-			NL_SET_ERR_MSG(extack, "set embedded sync frequency rollback failed");
+-	}
+-	return ret;
+ }
+ 
+ static int
+@@ -1241,14 +1182,12 @@ dpll_pin_ref_sync_state_set(struct dpll_pin *pin,
+ 			    unsigned long ref_sync_pin_idx,
+ 			    const enum dpll_pin_state state,
+ 			    struct netlink_ext_ack *extack)
+-
+ {
+-	struct dpll_pin_ref *ref, *failed;
+ 	const struct dpll_pin_ops *ops;
+ 	enum dpll_pin_state old_state;
+ 	struct dpll_pin *ref_sync_pin;
++	struct dpll_pin_ref *ref;
+ 	struct dpll_device *dpll;
+-	unsigned long i;
+ 	int ret;
+ 
+ 	ref_sync_pin = xa_find(&pin->ref_sync_pins, &ref_sync_pin_idx,
+@@ -1282,42 +1221,20 @@ dpll_pin_ref_sync_state_set(struct dpll_pin *pin,
+ 	}
+ 	if (state == old_state)
+ 		return 0;
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->ref_sync_set)
+-			continue;
+-		dpll = ref->dpll;
+-		ret = ops->ref_sync_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
+-					ref_sync_pin,
+-					dpll_pin_on_dpll_priv(dpll,
+-							      ref_sync_pin),
+-					state, extack);
+-		if (ret) {
+-			failed = ref;
+-			NL_SET_ERR_MSG_FMT(extack, "reference sync set failed for dpll_id:%u",
+-					   dpll->id);
+-			goto rollback;
+-		}
++
++	ret = ops->ref_sync_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
++				ref_sync_pin,
++				dpll_pin_on_dpll_priv(dpll, ref_sync_pin),
++				state, extack);
++	if (ret) {
++		NL_SET_ERR_MSG_FMT(extack,
++				   "reference sync set failed for dpll_id:%u",
++				   dpll->id);
++		return ret;
+ 	}
+ 	__dpll_pin_change_ntf(pin);
+ 
+ 	return 0;
+-
+-rollback:
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		if (ref == failed)
+-			break;
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->ref_sync_set)
+-			continue;
+-		dpll = ref->dpll;
+-		if (ops->ref_sync_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
+-				      ref_sync_pin,
+-				      dpll_pin_on_dpll_priv(dpll, ref_sync_pin),
+-				      old_state, extack))
+-			NL_SET_ERR_MSG(extack, "set reference sync rollback failed");
+-	}
+-	return ret;
+ }
+ 
+ static int
+@@ -1478,11 +1395,10 @@ static int
+ dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr *phase_adj_attr,
+ 		       struct netlink_ext_ack *extack)
+ {
+-	struct dpll_pin_ref *ref, *failed;
+ 	const struct dpll_pin_ops *ops;
+ 	s32 phase_adj, old_phase_adj;
++	struct dpll_pin_ref *ref;
+ 	struct dpll_device *dpll;
+-	unsigned long i;
+ 	int ret;
+ 
+ 	phase_adj = nla_get_s32(phase_adj_attr);
+@@ -1499,21 +1415,16 @@ dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr *phase_adj_attr,
+ 		return -EINVAL;
+ 	}
+ 
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		ops = dpll_pin_ops(ref);
+-		if ((!ops->phase_adjust_set || !ops->phase_adjust_get) &&
+-		    ref->dpll->module == pin->module &&
+-		    ref->dpll->clock_id == pin->clock_id) {
+-			NL_SET_ERR_MSG(extack, "phase adjust not supported");
+-			return -EOPNOTSUPP;
+-		}
+-	}
+ 	ref = dpll_pin_own_dpll_ref_first(pin);
+ 	if (!ref) {
+ 		NL_SET_ERR_MSG(extack, "pin owner dpll not found");
+ 		return -ENODEV;
+ 	}
+ 	ops = dpll_pin_ops(ref);
++	if (!ops->phase_adjust_set || !ops->phase_adjust_get) {
++		NL_SET_ERR_MSG(extack, "phase adjust not supported");
++		return -EOPNOTSUPP;
++	}
+ 	dpll = ref->dpll;
+ 	ret = ops->phase_adjust_get(pin, dpll_pin_on_dpll_priv(dpll, pin),
+ 				    dpll, dpll_priv(dpll), &old_phase_adj,
+@@ -1525,41 +1436,17 @@ dpll_pin_phase_adj_set(struct dpll_pin *pin, struct nlattr *phase_adj_attr,
+ 	if (phase_adj == old_phase_adj)
+ 		return 0;
+ 
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->phase_adjust_set)
+-			continue;
+-		dpll = ref->dpll;
+-		ret = ops->phase_adjust_set(pin,
+-					    dpll_pin_on_dpll_priv(dpll, pin),
+-					    dpll, dpll_priv(dpll), phase_adj,
+-					    extack);
+-		if (ret) {
+-			failed = ref;
+-			NL_SET_ERR_MSG_FMT(extack,
+-					   "phase adjust set failed for dpll_id:%u",
+-					   dpll->id);
+-			goto rollback;
+-		}
++	ret = ops->phase_adjust_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
++				    dpll, dpll_priv(dpll), phase_adj, extack);
++	if (ret) {
++		NL_SET_ERR_MSG_FMT(extack,
++				   "phase adjust set failed for dpll_id:%u",
++				   dpll->id);
++		return ret;
+ 	}
+ 	__dpll_pin_change_ntf(pin);
+ 
+ 	return 0;
+-
+-rollback:
+-	xa_for_each(&pin->dpll_refs, i, ref) {
+-		if (ref == failed)
+-			break;
+-		ops = dpll_pin_ops(ref);
+-		if (!ops->phase_adjust_set)
+-			continue;
+-		dpll = ref->dpll;
+-		if (ops->phase_adjust_set(pin, dpll_pin_on_dpll_priv(dpll, pin),
+-					  dpll, dpll_priv(dpll), old_phase_adj,
+-					  extack))
+-			NL_SET_ERR_MSG(extack, "set phase adjust rollback failed");
+-	}
+-	return ret;
+ }
+ 
+ static int
+-- 
+2.54.0
 
---8p7i5PObBPdgE3my--
