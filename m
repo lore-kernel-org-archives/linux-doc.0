@@ -1,201 +1,163 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4527C3DCDB5
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 05:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC61240A945
+	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 05:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786078899; cv=none; b=h8rvRGuh4lCANePyMXgB6CuQSH940zp+FRVVPgTP2zn6/1y4rmbDE4o3qdtMNDGYeCwlE7G60Nv9BserADuMf3Z83PaQwBx5pilOf9lmX4vtixnQGp50WTA3f3J60BT1JcpHycV9aGzecmfUvRmcBRfferYYT8fl0ExgrlFocf8=
+	t=1786080374; cv=none; b=gmyC9cvo5DABLphxezXMaBJAmH6GeYY/4QCQ61g+DERHU871R26KLrc73kWFbkL7xj4Of40LrxUmGcb1aZVA4aeLZjD7br0Gu+M74woCz1bSPIrhaz2DJEeV4PqcRl2oNdNChS/bQAqKWQIq+HWiRftxoybIATeduFZCMAY37nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786078899; c=relaxed/simple;
-	bh=GwGIzJRmOrXEhGKC2NN6k5R1SdCDi1PH7dohr9HhOV8=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=ZC5hl98YuUvzwmIK322GIz1ieVfbU3Mdo+r3cvXQN58aVhz4oe/2GzHUZ/fmhZj9Oc01O4koTSjNdzQGu8Mh3yOUeVeggavEWwMho8ykg6Vze3AXn/4AhRkeLL6sDoS2owoDZ6KlWYCH6lPh9vWZOYwOpfwkFyEvn8topujW2q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XZMtcwK3; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XZMtcwK3"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84867f07d63so3525754b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 22:01:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786078885; x=1786683685; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=gaexW5MzRJUBpA4wcPJkWsT4Yi4ofryncF8L6Hb2nTM=;
-        b=XZMtcwK3fT1rNTNr4b4iwRClgZJFGJLbLsL8IyR4OZOdwMVYm4H2ijX4ZCFeJ6m22b
-         Ucs3C7Fs6zyHS3gmFhCdPZRP9BYeMILMKy/2Xy6ktlIcEX9VZPXzKB2BFj5SuPy5Jyk8
-         ZUjH9RacR3v+hwWEYN/zZaSqvVP645PMSRwZcQppSY59hUPOHM07dVSwpB7kw3yG/zSY
-         XNJ3ZIko2B8U8L0ozCrDgrwlXJcZtQmccxa+qWog1s8idd3uw4XaGhmo+TmcgfwJrVqm
-         Sn9Gb4uxkyvhfvMQndA5k/oKbVeu7l26NpuUrcRNVXf5rwv7FmdVvxu1MnD7MUIRVVG2
-         KFbA==
+	s=arc-20240116; t=1786080374; c=relaxed/simple;
+	bh=XoAKRdAJIJ9Bz8/wlI6yz3LVQ9NQvOp4X8SzO7nxy1g=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=d3PB0gSIQxz90A8g4Ias0JJ1AVEVRdQ1XkRG4gS5NMsnVI8L2qekOcZFneIIVEML9uplnstMhQhR1d6xLuFgVtDYVgdf9k/ZL+k7HN3O6FmsEqWF3EicPRdHUG5wds7wNO/Bw2nHXDAn7PsadUmvcgm5SSofzkbQtCJZTj5woDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-485ebc5706cso2067309b6e.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 22:26:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786078885; x=1786683685;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gaexW5MzRJUBpA4wcPJkWsT4Yi4ofryncF8L6Hb2nTM=;
-        b=rha/8zlhLXjGUZoXyVBI0auJHB86yjYnJJBUxFu7RHB9gb02IMgtQ2wHo5qJPaRVzh
-         3wqLYjOg8gKuf7syBCqWTwO0hrIaby44fFPpB1ZeqHzM19YPYUsEXucK1ntJ+AXrhc9e
-         oyuPT7epBfsa5QLe928l0dy7OJJ3R6vEESvA2kupCNiciDYuGZ7izNvNkjjwSSNCsV+j
-         1wLs71pvpw5cYuTwTYLnG4PS/Vl5SHOjP+ZwwbhYqKv0ux4wjGt2stxsUzLxbFIxbxnl
-         Ous0PrZDr+VfPZv1A75gRfhswsGgQWU8tG5+sz4wmfE17SSwTR110zOO7Zqmuox/eSMK
-         NmkQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoH7e8MUQzXDHlmgZUpwm+aghF6jXbLRHYfUQ2g4KSgnM2sivNYJgdkqfVoUGUU2DFkj0siuFPxa40=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSYKFKLA4hzdu9A6lb2b5Xm5Yhs2dYM6yRCJkDjobwygtscSoK
-	pjcN8BwVFn0bfTEsroJE5Fvvko/bU5RidJBRgur1pjAchfoTn5FL+do9FS1TqQ==
-X-Gm-Gg: AR+sD12yNpeHnwtZef5/Q0HMOL6CTGa/oY4nlrCM9TxaBVCz5kpsZWNo/uCz3R41hgf
-	QoxofEdym+MkU9FXHkLjNhqumaqi80gASQTzdl1ZSTxxu2pri5Xp5UfPxVDfk8XJeh83geJzvZy
-	+fhMI2gfQSv3oXJGG8aw4d0WRWpEP4Jsvo2pjHsiZYwo4u/xjOo+DJdC2SlMHHv10R7GWdOlxyq
-	pzSfODUrD25HXRAwIIOgOGG8FMgEofWDZkR+kEiNWxIC6AjhlYdZpsDF4KC41coxtpQ4LirwiPb
-	nWAUXy/miB+U53PvHOTGKlOBw8BM2JguVfsNuc4hAVIehTJlufJJQ9jVMvRVYV7h3nkpGwG1aEl
-	cYtkQnTBgYSShS/lwja/d7qxIwGf7CIaOHgCEzmp+jJQxxibiKGi9YicSkST4j97PYDEQY4A1+R
-	dMabMSbzeLHwJmZqC6oreb2FafMI1sisZAerjqXf4j1pxEJGeHRcxIXstuWhU=
-X-Received: by 2002:a05:6a21:7a9c:b0:3bf:983d:e9b4 with SMTP id adf61e73a8af0-3cb8603af0dmr23716971637.33.1786078884954;
-        Thu, 06 Aug 2026 22:01:24 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315bec2ec20sm3026655eec.28.2026.08.06.22.01.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 22:01:24 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, Amit Machhiwal <amachhiw@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Gautam Menghani <gautam@linux.ibm.com>
-Subject: Re: [PATCH v7 3/4] KVM: PPC: Book3S HV: Add support for compat CPU capabilities for KVM on PowerNV
-In-Reply-To: <20260806170645.11892-4-amachhiw@linux.ibm.com>
-Date: Fri, 07 Aug 2026 10:24:18 +0530
-Message-ID: <bjbeledh.ritesh.list@gmail.com>
-References: <20260806170645.11892-1-amachhiw@linux.ibm.com> <20260806170645.11892-4-amachhiw@linux.ibm.com>
+        d=1e100.net; s=20251104; t=1786080369; x=1786685169;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=T3m0nal8RAOlIDKOwy4iei8tz0r4SQ1BHd4+5WMc7ws=;
+        b=pYF/CqEwxpxalZSzbXbDUpO9JMtTu6HhPGgszSYRA2Wi5X9kPJ93nVVQm7ogl4IdLU
+         GTHgc912+WFzmf06TdLzQqAQfmTHtDWQDS7ODgo8yd+btLSzI8Qo0KaGOkOeYeUpvOsy
+         p/AHCh5Im6C4ps2pCP1qiRZavzElP27uUqXDmu9L1MH9y6MlzJOarjDNqjED7EodJ9ke
+         drJmk5oXfkmuwwqkLDq5hCX/j9L6nJ1a4x9sHtadCg3WOJD6wD0DcIXa+qYO3YW6ha64
+         bQwBPG/Jtg15rdpaOjYc/WNfEzODwrnFTfTf5DZJIgdpuHiC1fyoXXZH0XrvpPugklLD
+         8HHw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2OglfjoPQ9BPHvj7AyRk9mspcoJhCLEGCmf/iyZip0hxfAcrPWNbkrrSzDMUBJey4UC+PuYyXD1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/1juVeOB/JkAEbkuYKOLmd7kHDZZF7ZEWADlXsqBl3zseMG5o
+	hzbaJoz4b00B+wUOa3IMGM1A3SttLiEsVe9iNIyjKTOytDg1roXhT6MbZByQ51VUmJ5qZgf3dPg
+	PA2PhicC5fTLRySNLTVdpw9kKb/+GKj6/b+FJV6FTGV6nWU4EDk5JHzgic90=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:169f:b0:485:7c46:b866 with SMTP id
+ 5614622812f47-4afc513e9b0mr6403807b6e.16.1786080369495; Thu, 06 Aug 2026
+ 22:26:09 -0700 (PDT)
+Date: Thu, 06 Aug 2026 22:26:09 -0700
+In-Reply-To: <20260806184254.3790858-1-nphamcs@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a756c71.01d0871a.3a0d52.003a.GAE@google.com>
+Subject: [syzbot ci] Re: Virtual Swap Space (Swap Table Edition)
+From: syzbot ci <syzbot+cif942a042aaa8793c@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org, 
+	baoquan.he@linux.dev, cgroups@vger.kernel.org, chengming.zhou@linux.dev, 
+	chrisl@kernel.org, corbet@lwn.net, david@kernel.org, gourry@gourry.net, 
+	hannes@cmpxchg.org, haowenchao22@gmail.com, kasong@tencent.com, 
+	kernel-team@meta.com, liam@infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org, 
+	mhocko@kernel.org, muchun.song@linux.dev, nphamcs@gmail.com, 
+	qi.zheng@linux.dev, riel@surriel.com, roman.gushchin@linux.dev, 
+	rppt@kernel.org, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
+	surenb@google.com, vbabka@kernel.org, weixugc@google.com, yosry@kernel.org, 
+	youngjun.park@lge.com, yuanchu@google.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Amit Machhiwal <amachhiw@linux.ibm.com> writes:
+syzbot ci has tested the following series
 
-> Currently, when booting a compatibility-mode KVM guest (L1) on a PowerNV
-> hypervisor (L0), the guest runs with the expected processor
-> compatibility level. However, when booting a nested KVM guest (L2)
-> inside the L1, QEMU derives the CPU model from the raw host PVR and
-> attempts to run the nested guest at that level, instead of honoring the
-> compatibility mode of the L1.
->
-> Extend host CPU compatibility capability reporting to support nested
-> virtualization on PowerNV systems (PAPR nested API v1).
->
-> For nested API v2 (PowerVM), compatibility capabilities are served from
-> the cached nested_capabilities value (populated at module init via
-> kvmhv_nested_init() using the H_GUEST_GET_CAPABILITIES hcall). This
-> information is not available on PowerNV systems.
->
-> For nested API v1, derive the compatibility capabilities from the L1
-> guest by reading the "cpu-version" property from the device tree, which
-> reflects the effective (logical) processor compatibility level. Map this
-> value to the corresponding compatibility capability bitmap using
-> KVM-specific constants.
->
-> The mapping is cumulative: a system running at a given compatibility
-> level is assumed to also support older generations down the supported
-> chain. Note that unlike KVM on PowerVM (nested API v2), KVM on PowerNV
-> currently does not strictly enforce older generation compatibility modes
-> for nested guests - the reported capabilities reflect what the host CPU
-> can present, not what the hypervisor independently validates.
->
-> Introduce a helper kvmppc_map_compat_capabilities() to translate CPU
-> version values into KVM_PPC_COMPAT_CAP bits using a fallthrough switch,
-> and integrate it into kvmppc_get_compat_caps(). The implementation
-> applies masking to ensure only supported processor modes are exposed.
->
-> This allows userspace to query host CPU compatibility modes on both
-> KVM on PowerVM and on PowerNV platforms via the KVM_PPC_GET_COMPAT_CAPS
-> ioctl.
->
-> Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> Tested-by: Gautam Menghani <gautam@linux.ibm.com>
-> Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
-> Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-> Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> ---
->  arch/powerpc/kvm/book3s_hv.c | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->
-> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-> index 152cd08a5b38..4d0307f55e06 100644
-> --- a/arch/powerpc/kvm/book3s_hv.c
-> +++ b/arch/powerpc/kvm/book3s_hv.c
-> @@ -6523,20 +6523,56 @@ static bool kvmppc_hash_v3_possible(void)
->  	return true;
->  }
->  
-> +static int kvmppc_map_compat_capabilities(u32 cpu_version,
-> +					  unsigned long *capabilities)
-> +{
-> +	switch (cpu_version) {
-> +	case PVR_ARCH_31_P11:
-> +		*capabilities |= KVM_PPC_COMPAT_CAP_POWER11;
-> +		fallthrough;
-> +	case PVR_ARCH_31:
-> +		*capabilities |= KVM_PPC_COMPAT_CAP_POWER10;
-> +		fallthrough;
-> +	case PVR_ARCH_300:
-> +		*capabilities |= KVM_PPC_COMPAT_CAP_POWER9;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
->  
->  static int kvmppc_get_compat_caps(struct kvm_ppc_compat_caps *host_caps)
->  {
-> +	struct device_node *np;
->  	unsigned long capabilities = 0;
->  	long rc = -EINVAL;
-> +	u32 cpu_version = 0;
->  
->  	if (kvmhv_on_pseries()) {
->  		if (kvmhv_is_nestedv2()) {
->  			WARN_ON_ONCE(!nested_capabilities);
->  			capabilities = nested_capabilities;
->  			rc = 0;
-> +		} else {
-> +			for_each_node_by_type(np, "cpu") {
-> +				if (!of_property_read_u32(np, "cpu-version",
-> +							  &cpu_version)) {
-> +					of_node_put(np);
-> +					break;
-> +				}
-> +			}
+[v3] Virtual Swap Space (Swap Table Edition)
+https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.com
+* [PATCH v3 01/11] mm, swap: add virtual swap device infrastructure
+* [PATCH v3 02/11] mm, swap: support zswap and zeroswap as vswap backends
+* [PATCH v3 03/11] mm, swap: prepare the swap IO path for vswap
+* [PATCH v3 04/11] mm, swap: support physical swap as a vswap backend
+* [PATCH v3 05/11] mm, swap: enable THP swapin for vswap entries
+* [PATCH v3 06/11] mm, swap: write back vswap zswap entries to physical swap
+* [PATCH v3 07/11] mm, swap: reclaim physical slots backing cache-only vswap entries
+* [PATCH v3 08/11] mm, swap: only charge physical swap entries
+* [PATCH v3 09/11] mm, swap: add debugfs counters for vswap
+* [PATCH v3 10/11] mm, swap: defer memcg_table allocation for physical swap clusters
+* [PATCH v3 11/11] mm, swap: widen swap_info_struct max/pages to unsigned long
 
-What happens when we don't have "cpu-version" DT property?
-Check this commit
-5a61ef74f269f2 ("powerpc/64s: Support new device tree binding for discovering CPU features")
+and found the following issue:
+KASAN: null-ptr-deref Read in swap_entry_backend_has_flag
 
-And also why do we need to parse the DT properties again?
-Shouldn't we check something like this?
+Full report is available here:
+https://ci.syzbot.org/series/e7da1097-3230-4e50-80cb-1dfafeebea40
 
-	if (cpu_has_feature(CPU_FTR_P11_PVR))
-		capabilities |= KVM_PPC_COMPAT_CAP_POWER11;
-	if (cpu_has_feature(CPU_FTR_ARCH_31))
-		capabilities |= KVM_PPC_COMPAT_CAP_POWER10;
-	if (cpu_has_feature(CPU_FTR_ARCH_300))
-		capabilities |= KVM_PPC_COMPAT_CAP_POWER9;
-	
+***
 
--ritesh
+KASAN: null-ptr-deref Read in swap_entry_backend_has_flag
 
-> +			if (!cpu_version)
-> +				return -EINVAL;
-> +			rc = kvmppc_map_compat_capabilities(cpu_version,
-> +							    &capabilities);
->  		}
->  	}
->  
-> +	if (rc < 0)
-> +		return rc;
-> +
->  	host_caps->compat_capabilities = capabilities & KVM_PPC_COMPAT_BITMASK;
->  
->  	return rc;
-> -- 
-> 2.50.1 (Apple Git-155)
+tree:      linux-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
+base:      bacc32cc7de65ffff70080a48eb294f89e434d5e
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/4f943657-9481-4637-9b1f-9be1bff18f92/config
+syz repro: https://ci.syzbot.org/findings/f6c4f1ab-951c-4759-b397-e22c23c3bf32/syz_repro
+
+==================================================================
+BUG: KASAN: null-ptr-deref in instrument_atomic_read include/linux/instrumented.h:82 [inline]
+BUG: KASAN: null-ptr-deref in atomic_long_read include/linux/atomic/atomic-instrumented.h:3188 [inline]
+BUG: KASAN: null-ptr-deref in __vtable_get mm/vswap.h:147 [inline]
+BUG: KASAN: null-ptr-deref in vswap_to_phys mm/vswap.h:197 [inline]
+BUG: KASAN: null-ptr-deref in swap_entry_backend_has_flag+0xfe/0x220 mm/vswap.h:441
+Read of size 8 at addr 0000000000000000 by task syz.2.20/5818
+
+CPU: 1 UID: 0 PID: 5818 Comm: syz.2.20 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ atomic_long_read include/linux/atomic/atomic-instrumented.h:3188 [inline]
+ __vtable_get mm/vswap.h:147 [inline]
+ vswap_to_phys mm/vswap.h:197 [inline]
+ swap_entry_backend_has_flag+0xfe/0x220 mm/vswap.h:441
+ do_swap_page+0x3c0/0x5620 mm/memory.c:4975
+ __collapse_huge_page_swapin mm/khugepaged.c:1202 [inline]
+ collapse_huge_page mm/khugepaged.c:1325 [inline]
+ mthp_collapse mm/khugepaged.c:1524 [inline]
+ collapse_scan_pmd mm/khugepaged.c:1786 [inline]
+ collapse_single_pmd+0x24c6/0x3da0 mm/khugepaged.c:2803
+ madvise_collapse+0x2cf/0x790 mm/khugepaged.c:3237
+ madvise_vma_behavior+0x115f/0x4170 mm/madvise.c:1363
+ madvise_walk_vmas+0x576/0xb00 mm/madvise.c:1712
+ madvise_do_behavior+0x385/0x540 mm/madvise.c:1907
+ do_madvise+0x327/0x3a0 mm/madvise.c:2005
+ __do_sys_madvise mm/madvise.c:2014 [inline]
+ __se_sys_madvise mm/madvise.c:2012 [inline]
+ __x64_sys_madvise+0xa6/0xc0 mm/madvise.c:2012
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbcad79e019
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fbcae5c4028 EFLAGS: 00000246 ORIG_RAX: 000000000000001c
+RAX: ffffffffffffffda RBX: 00007fbcada25fa0 RCX: 00007fbcad79e019
+RDX: 0000000000000019 RSI: 0000000000c00000 RDI: 0000200000000000
+RBP: 00007fbcad83500c R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fbcada26038 R14: 00007fbcada25fa0 R15: 00007fff095fa0b8
+ </TASK>
+==================================================================
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
