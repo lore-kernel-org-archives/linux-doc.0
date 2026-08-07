@@ -1,253 +1,264 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E0434BA24;
-	Fri,  7 Aug 2026 15:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5E3280331;
+	Fri,  7 Aug 2026 15:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786115133; cv=none; b=nr7QD4T1EfFAjl2lxIUSxmi3hMjNhSa3h9z9fcKLkD1+A9H1JhRtesA83ktADyZzj2d+6cuNjB/Sy4vAXBl2qb3fARrtBdRioVfGEfE2yVdptqqJShPEHeAI7cPjZ5cde+p56EhpOpgk0nSrMpa3S8dVIs6XRm5oxw8nHkf1DxE=
+	t=1786116805; cv=none; b=drgMhb3l+oHPPBWNEvl1/rvsAFz7JS9fd6kbnmWuSIJBFYxOKDH15E7rgX4bqt/K5Z8xDXIOYo6q31IujTSYgYu8qjlJ1rM9LdBF9kQu8QKGFdzqjGpc+ufTZ/09axPX82HQTyUZAkKk34iG77qLnBVWk7mqVOQn7400Lymp5kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786115133; c=relaxed/simple;
-	bh=glgKEem+6g70PraGqIwL/Po1kA8bdnkrVHo0WIwVe+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VS8GKmzZHVgJ2FNHhc4zq/0jjhDD+zNZivE9JaiqsNS2KqJPrsamRVN1VidLAo/VaXc57d56VV4sNMCCLi+GuwihsprO6PW7Jcy12xBeq9wz8G+1RbabBHlyRgVurEKYrLgeV0TAGOT7u9t3hpeoor+NtCtrI82CSz/vV9OZuJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id EC469A1A6B;
-	Fri,  7 Aug 2026 15:05:24 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf01.hostedemail.com (Postfix) with ESMTPA id BC60A6000C;
-	Fri,  7 Aug 2026 15:05:07 +0000 (UTC)
-Date: Fri, 7 Aug 2026 10:05:06 -0500
-From: John Groves <john@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>, Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH V12 12/12] famfs: Add documentation
-Message-ID: <anXpf1JJYsV5cfYL@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803023009.75966-1-john@jagalactic.com>
- <0100019fc5752a8f-df47f869-a29b-4b6d-936a-67dd521c0f5e-000000@email.amazonses.com>
- <20260806053852.GM3560084@frogsfrogsfrogs>
+	s=arc-20240116; t=1786116805; c=relaxed/simple;
+	bh=7Ku3pasvjzjXsRxVr+HfHLFub3sMwuMg4SaK7sxmLk4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FxuJMZN48U3q5J4unN2x9qkXBwW2Vl6DPK+ZvipGyoouIczHFR4wc4GkKh6HAwUNZ3aoPDLiMF87M3Vyp4zLvXhleY/3qL7oLADGBe1lZksqQDArT3Q3njTYA0nsClTKQaHQxaB7w2wEED1MuUkKb32je12W3GHVpiV5N8kWBu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nKBi6B3u; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nKBi6B3u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8371F00A3A;
+	Fri,  7 Aug 2026 15:33:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786116804;
+	bh=tAH5rbzhabQyHIHTxImciFbY+7vaUKx8v4aPJFy3PKY=;
+	h=From:To:Cc:Subject:Date;
+	b=nKBi6B3uysNr/n/Phh1w5etGUsWR6jyuwZY2UN1Y3dlicLfcq/0k8siXl6p8SCSvx
+	 Neqty11B5JV+SgDzlH3dB86ueHE14t8267Sxt90cjIwBbqpT49daiYIInC2Lh9Vk2T
+	 Kmo5BuieyhRS2ehDKTY+/7dqzDdkwJirzwIawY71PBsy6v8DQsXSVKcfPgdJfBKQ7p
+	 /7Ik3xAtEU9m+LmFJXE5vec+jUjR0NjGNjbat5n33A4+z6AcOzmYj9EHNXs2KeWgdH
+	 0VllDi75wMHWKSNDULilkSSGPZ3rdmc4PBKHJDozjQDP52ep4ShaxhX+82GVMIBIx4
+	 Mj0eKocWAtlfw==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	x86@kernel.org
+Cc: Jinchao Wang <wangjinchao600@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH v12 00/11] tracing: wprobe: x86: Add wprobe for watchpoint
+Date: Sat,  8 Aug 2026 00:33:17 +0900
+Message-ID: <178611679753.237811.10190793347982785419.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806053852.GM3560084@frogsfrogsfrogs>
-X-Stat-Signature: wwskbdqhc3jzktyryshh4awcxi5ukaeg
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: BC60A6000C
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX18b4zxH4gkowpJ5t9P02dhsJKnGhwZqyp8=
-X-HE-Tag: 1786115107-833865
-X-HE-Meta: U2FsdGVkX1/xIhMDbEBd8+CBNlywVoLemHpmYl/fPnh6lKjCc2JVy4c74zDaDkCO2uGhn6St9fhFdvYDhRuJ23fJys9OIJTD5Et6krB5GW4dqcpEdR7GikNbBR3R6zTWf9MACb1vtXepkUro47UJOKPy1RMf4Weanu6F2kWB4YE5cFyX5YU5ocWy+jXPHq90GTqdTHS8BEQhh2SWrHRjLJ8IAE88yLOzg/QGsQOULqMJZqFg/s/ha4sQ6SLAbYVkR7RzW6zioBI59jux6vj2AAlx5W4ozheg9lKV/v7wszwfwUWTYGsFmoWYpUVfo6h+/D9D+QCbnNewuw0zAGkxIjzO3jMPWcx6wod1RXQzlC7TZeEJPKt2xPG3iCyAUAhlIY/Xf0qLPTnRA9qKYS/mfGGpZdq2hZWtMEXZTZaGzCFd2tg/bDBZhO1HjhdzcDBtvwikOx/NBgQUMk/lll/sbw==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 26/08/05 10:38PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:30:18AM +0000, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
-> > Add Documentation/filesystems/famfs.rst and update MAINTAINERS
-> > 
-> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  Documentation/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++
-> >  Documentation/filesystems/index.rst |   1 +
-> >  MAINTAINERS                         |   1 +
-> >  3 files changed, 144 insertions(+)
-> >  create mode 100644 Documentation/filesystems/famfs.rst
-> > 
-> > diff --git a/Documentation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst
-> > new file mode 100644
-> > index 000000000000..048791bcbcfd
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/famfs.rst
-> > @@ -0,0 +1,142 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _famfs_index:
-> > +
-> > +==================================================================
-> > +famfs: The fabric-attached memory file system
-> > +==================================================================
-> > +
-> > +- Copyright (C) 2024-2026 Micron Technology, Inc.
-> > +
-> > +Introduction
-> > +============
-> > +Compute Express Link (CXL) provides a mechanism for disaggregated or
-> > +fabric-attached memory (FAM). This creates opportunities for data sharing;
-> > +clustered apps that would otherwise have to shard or replicate data can
-> > +share one copy in disaggregated memory.
-> > +
-> > +Famfs, which is not CXL-specific in any way, provides a mechanism for
-> > +multiple hosts to concurrently access data in shared memory, by giving it
-> > +a file system interface. With famfs, any app that understands files can
-> > +access data sets in shared memory. Although famfs supports read and write,
-> > +the real point is to support mmap, which provides direct (dax) access to
-> > +the memory - either writable or read-only.
-> > +
-> > +Shared memory can pose complex coherency and synchronization issues, but
-> > +there are also simple cases. Two simple and eminently useful patterns that
-> > +occur frequently in data analytics and AI are:
-> > +
-> > +* Serial Sharing - Only one host or process at a time has access to a file
-> > +* Read-only Sharing - Multiple hosts or processes share read-only access
-> > +  to a file
-> > +
-> > +The famfs file system is part of the famfs framework; user space
-> > +components [1] handle metadata allocation and distribution, and populate
-> > +the in-kernel files (via ioctls) so that they map directly to shared
-> > +memory.
-> 
-> Ok, so maybe it is the famfs server that's supposed to go modify the
-> directory tree after the metadata log updates.
+Hi,
 
-Right, pretty much. With standalone famfs, there is currently no stateful
-server per se (which is a benefit!). There is state in the log, and state in 
-the kernel (dirs and files with fmaps). Periodically we replay the log to 
-push up any new state into the kernel - at which point we add dirs and files 
-if the log has been appended.  Since we don't delete or truncate stuff, 
-logplay either adds files/dirs or does nothing.
+Here is the 12th version of the series for adding new wprobe (watch probe)
+which provides memory access tracing event. Moreover, this can be used
+via event trigger. Thus it can trace memory access on dynamically
+allocated objects too.
+The previous version is here:
 
-> 
-> > +The famfs framework manages coherency of its own metadata and structures,
-> > +but does not attempt to manage coherency for applications.
-> > +
-> > +Famfs also provides data isolation between files. That is, even though
-> > +the host has access to an entire memory "device" (as a devdax device), apps
-> > +cannot write to memory for which the file is read-only, and mapping one
-> > +file provides isolation from the memory of all other files. This is pretty
-> > +basic, but some experimental shared memory usage patterns provide no such
-> > +isolation.
-> > +
-> > +Principles of Operation
-> > +=======================
-> > +
-> > +Famfs is a file system with one or more devdax devices as a first-class
-> > +backing device(s). Metadata maintenance and query operations happen
-> > +entirely in user space.
-> > +
-> > +The famfs user space provides each file's map (fmap) and its backing
-> > +devdax devices to the kernel through ioctls (FAMFSIOC_MAP_CREATE and
-> > +FAMFSIOC_DAXDEV_OPEN), after which read/write/mapping faults are handled
-> > +entirely in the kernel with no up-calls for all active files.
-> > +
-> > +The famfs user space is responsible for maintaining and distributing
-> > +consistent metadata. This is currently handled via an append-only
-> > +metadata log within the memory, but this is orthogonal to the famfs
-> > +kernel code.
-> > +
-> > +Once instantiated, "the same file" on each host points to the same shared
-> > +memory, but in-memory metadata (inodes, etc.) is ephemeral on each host
-> > +that has a famfs instance mounted. Use cases are free to allow or not
-> > +allow mutations to data on a file-by-file basis.
-> > +
-> > +When an app accesses a data object in a famfs file, there is no page cache
-> > +involvement. The CPU cache is loaded directly from the shared memory. In
-> > +some use cases, this is an enormous reduction in read amplification
-> > +compared to loading an entire page into the page cache.
-> > +
-> > +
-> > +Famfs is Not a Conventional File System
-> > +---------------------------------------
-> > +
-> > +Famfs files can be accessed by conventional means, but there are
-> > +limitations. The famfs kernel module is not involved in the allocation of
-> > +backing memory for files at all; the famfs user space creates files and
-> > +supplies their fmaps and devdax device info to the kernel via ioctls.
-> 
-> ...and just to be clear, regular programs *do not* modify the directory
-> tree, create files, or delete them?
+  https://lore.kernel.org/all/178565870538.714490.11309825813968306287.stgit@devnote2/
 
-Right, though I'm hesitant to say it should *never* be allowed. One recent
-use case needed to create local-only symlinks within famfs, to make some 
-app or benchmark happy...
+This version fixes circular lock issue, remove nmi_dr7/nmi_dr7_seq, NULL
+pointer access issue, and add more error parse logs etc. See below for more
+details.
 
-But any mutability other than by the logplay machinery is severely or
-completely restricted.
+Changes in v12:
+ - HWBP: Save and restore old address on arch_modify_local_hw_breakpoint_addr()
+   failure to prevent internal state corruption.
+ - x86/hw_breakpoints: Use stack variables dr7 and dr7_seq directly in
+   exc_nmi() and remove redundant per-CPU nmi_dr7 and nmi_dr7_seq variables.
+ - tracing/wprobe: Fix comment typo ('b' -> 'w'), remove dead 'ret = 0'
+   initialization, and update RST documentation notation to SYMBOL[[+|-]OFFS].
+ - tracing/wprobe: Add more error logging to wprobe event and wprobe triggers.
+ - tracing/wprobe: Fix circular lock dependency in wprobe_trigger_cmd_parse() by
+   removing dyn_event_ops_mutex locking and trace_probe_log_* calls in trigger
+   parsing.
+ - tracing/wprobe: Add event_trigger_init() call prior to event_trigger_register()
+   in wprobe_trigger_cmd_parse() to increment trigger reference count and
+   prevent memory use-after-free.
+ - tracing/wprobe: Use WRITE_ONCE() when modifying tw->addr to pair with
+   READ_ONCE(), add missing braces in wprobe_trigger_print(), and initialize
+   tw->addr only after trace_event_enable_disable() succeeds.
+ - tracing/wprobe: Fix NULL pointer dereference on empty trigger parameter
+   strings and preserve colon delimiter for caret position error logging in
+   ftrace_errlog_check.
+ - tracing/wprobe: Refactor field parsing logic into wprobe_trigger_field_parse(),
+   and remove unused variable count_str.
+ - selftests/tracing: Add NO_ARG_BODY syntax error testcase in
+   wprobe_syntax_errors.tc.
+ - selftests/ftrace: Add trigger-wprobe-syntax-errors.tc for verifying wprobe
+   trigger syntax error logging against "wprobe_trigger".
 
-> 
-> > +Famfs differs in some important ways from conventional file systems:
-> > +
-> > +* Files must be pre-allocated by the famfs framework; allocation is never
-> > +  performed on (or after) write.
-> > +* Any operation that changes a file's size is considered to put the file
-> > +  in an invalid state, disabling access to the data. It may be possible to
-> > +  revisit this in the future. (Typically the famfs user space can restore
-> > +  files to a valid state by replaying the famfs metadata log.)
-> > +
-> > +Famfs exists to apply the existing file system abstractions to shared
-> > +memory so applications and workflows can more easily adapt to an
-> > +environment with disaggregated shared memory.
-> > +
-> > +Memory Error Handling
-> > +=====================
-> > +
-> > +Possible memory errors include timeouts, poison, and unexpected
-> > +reconfiguration of an underlying dax device. In all of these cases, famfs
-> > +receives a call from the devdax layer via its
-> > +dax_holder_operations->notify_failure() function. If any memory errors have
-> > +been detected, access to the affected
-> > +daxdev is disabled to avoid further errors or corruption.
-> > +
-> > +In all known cases, famfs can be unmounted cleanly. In most cases errors
-> > +can be cleared by re-initializing the memory - at which point a new famfs
-> > +file system can be created.
-> 
-> Should media failure notifications get passed to the new fserror
-> framework (see xfs_verify_media.c)?
-> 
-> --D
 
-I didn't know about fserror; Initial impression is I'm hesitant to jump in
-immediately, but we should consider adding it later.
+Public branch
+-------------
+I will push this branch as topic/wprobe-v2 to my tree so that it
+can be easily tested.
 
-Famfs currently does not attempt to determine which files are affected by
-a memory error - it just shuts down the mount. It's possible we'll attempt
-this in the future, but I'm not yet convinced it's needed.
+https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/log/?h=topic/wprobe-v2
 
-Famfs is not storage, and we advise users that it's a mistake to put your 
-only copy of valuable data in famfs. But it's great for stuff like kv-cache 
-blocks, which can be regenerated. So errors famfs memory, if you're using
-it right, are not lost data in the same sense as with xfs.
+This is based on linux-trace tree's probes/for-next.
 
-Push back if you disagree. Otherwise I've noted it in our internal roadmap
-docs...
+Usage
+-----
 
-Thanks!
-John
+The basic usage of this wprobe is similar to other probes;
 
-<snip>
+  w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+OFFS]> [FETCHARGS]
 
+This defines a new wprobe event. For example, to trace jiffies update,
+you can do;
+
+ echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+ echo 1 > events/wprobes/my_jiffies/enable
+
+Moreover, this can be combined with event trigger to trace the memory
+access on slab objects. The trigger syntax is;
+
+  set_wprobe:WPROBE_EVENT:FIELD[+OFFSET] [if FILTER]
+  clear_wprobe:WPROBE_EVENT[:FIELD[+OFFSET]] [if FILTER]
+
+set_wprobe sets WPROBE_EVENT's watch address on FIELD[+OFFSET].
+clear_wprobe clears WPROBE_EVENT's watch address if it is set to
+FIELD[+OFFSET]. If FIELD is omitted, forcibly clear the watch address
+when trigger event is hit.
+
+For example, trace the first 8 byte of the dentry data structure passed
+to do_truncate() until it is deleted by dentry_kill().
+(Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
+
+  # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
+
+  # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+  # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
+
+  # echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
+  # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
+
+  # echo 1 >> events/fprobes/truncate/enable
+  # echo 1 >> events/fprobes/dentry_kill/enable
+
+  # echo aaa > /tmp/hoge
+  # echo bbb > /tmp/hoge
+  # echo ccc > /tmp/hoge
+  # rm /tmp/hoge
+
+Then, the trace data will show;
+
+ # tracer: nop
+ #
+ # entries-in-buffer/entries-written: 32/32   #P:8
+ #
+ #                                _-----=> irqs-off/BH-disabled
+ #                               / _----=> need-resched
+ #                              | / _---=> hardirq/softirq
+ #                              || / _--=> preempt-depth
+ #                              ||| / _-=> migrate-disable
+ #                              |||| /     delay
+ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+ #              | |         |   |||||     |         |
+               sh-107     [004] ...1.     9.990418: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.     9.990914: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b3de78
+               sh-107     [004] ...1.     9.993175: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049ddd40
+               sh-107     [004] .....     9.995198: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.995389: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db998
+               sh-107     [004] ..Zff     9.997503: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997509: watch: (path_openat+0x211/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997514: watch: (path_openat+0xa56/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997518: watch: (path_openat+0xae2/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] .....     9.997521: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.997582: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004808270
+               sh-107     [004] ...1.     9.999365: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db728
+               sh-107     [004] ...1.     9.999388: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b1c000
+               rm-113     [005] ..Zff    10.000965: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000971: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000984: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000988: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001010: watch: (lookup_one_qstr_excl+0x28/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001014: watch: (lookup_one_qstr_excl+0xd1/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001018: watch: (may_delete_dentry+0x1c/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001021: watch: (may_delete_dentry+0x195/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001031: watch: (vfs_unlink+0x5e/0x260) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001067: watch: (d_make_discardable+0x1b/0x40) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001071: watch: (d_make_discardable+0x29/0x40) address=0xffff8880048083a8 value=0x200080
+               rm-113     [005] ...1.    10.001072: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               rm-113     [005] ...1.    10.001218: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.    10.001416: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db110
+               sh-107     [004] ...1.    10.001444: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db248
+               sh-107     [004] ...1.    10.001500: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.    10.002067: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.904920: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.905129: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+
+
+Thank you,
+
+---
+base-commit: 54f133c6178d06b169dceae18cc92c4945933b8c
+
+Jinchao Wang (2):
+      x86/hw_breakpoints: Make DR7 updates NMI safe
+      x86/hw_breakpoints: Add arch_modify_local_hw_breakpoint_addr() API
+
+Masami Hiramatsu (Google) (9):
+      HWBP: Add modify_local_hw_breakpoint_addr() API
+      tracing/wprobe: Add wprobe (watchpoint probe) trace event support
+      x86: hw_breakpoint: Add a kconfig to clarify when a breakpoint fires
+      selftests: tracing: Add a basic testcase for wprobe
+      selftests: tracing: Add syntax testcase for wprobe
+      tracing/wprobe: Add set_wprobe and clear_wprobe event triggers
+      selftests: ftrace: Add wprobe trigger testcase
+      tracing/wprobe: Support BTF typecast in fetchargs
+      tracing/wprobe: Support BTF struct offset resolution in set_wprobe trigger
+
+
+ Documentation/trace/index.rst                      |    1 
+ Documentation/trace/wprobetrace.rst                |  168 ++
+ arch/Kconfig                                       |   18 
+ arch/x86/Kconfig                                   |    2 
+ arch/x86/include/asm/debugreg.h                    |   36 
+ arch/x86/include/asm/hw_breakpoint.h               |    2 
+ arch/x86/kernel/cpu/mce/core.c                     |   20 
+ arch/x86/kernel/hw_breakpoint.c                    |  125 +-
+ arch/x86/kernel/nmi.c                              |    7 
+ arch/x86/kernel/traps.c                            |   10 
+ include/linux/hw_breakpoint.h                      |    6 
+ include/linux/trace_events.h                       |    3 
+ kernel/events/hw_breakpoint.c                      |   40 +
+ kernel/trace/Kconfig                               |   24 
+ kernel/trace/Makefile                              |    1 
+ kernel/trace/trace.c                               |    9 
+ kernel/trace/trace.h                               |    6 
+ kernel/trace/trace_dynevent.h                      |    1 
+ kernel/trace/trace_events_trigger.c                |    2 
+ kernel/trace/trace_probe.c                         |   36 
+ kernel/trace/trace_probe.h                         |   22 
+ kernel/trace/trace_wprobe.c                        | 1450 ++++++++++++++++++++
+ tools/testing/selftests/ftrace/config              |    3 
+ .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   63 +
+ .../test.d/dynevent/wprobes_syntax_errors.tc       |   22 
+ .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   74 +
+ .../test.d/trigger/trigger-wprobe-btf-typecast.tc  |   72 +
+ .../test.d/trigger/trigger-wprobe-syntax-errors.tc |   31 
+ .../ftrace/test.d/trigger/trigger-wprobe.tc        |   85 +
+ 29 files changed, 2261 insertions(+), 78 deletions(-)
+ create mode 100644 Documentation/trace/wprobetrace.rst
+ create mode 100644 kernel/trace/trace_wprobe.c
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-typecast.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-syntax-errors.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
