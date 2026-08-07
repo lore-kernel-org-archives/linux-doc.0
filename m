@@ -1,96 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF2537B02E;
-	Fri,  7 Aug 2026 06:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E4F3806CD;
+	Fri,  7 Aug 2026 06:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786082635; cv=none; b=jKFc3QZMTSM9dXcQLYfa7RZwUN7RsRGp88vYQD7XhZhFok+fbLHVEypJBSoAfugqj3qCc+thQTjAX930c547Dkd3OJwHBloeHqR47yDxlfIWoI30GdGAhgza3jD7DZFtZ8zJ+ahhuQoXz4Jsvn8M7cjD87TxvYyHr3AaSquK4xw=
+	t=1786083108; cv=none; b=uCCMfK4iLhXRG4Sck4P4TBxLxpPxla5PKYsKxkNy0uzGidh/J0OCTsLHH9qAc7/l1fiUe1LuQgqYeKWrY401GzbVslB+n3P2TkxWrg/jbRYGfxs/Bg3at6whvEfHrAg9bHN9Yp6zq1XJ+UfAUi/Uhp4JoNAUSxJHLnbV9uYP+kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786082635; c=relaxed/simple;
-	bh=r79KBSafuypr2IL7FZR5tHn+AYGzsbkYbXZeTVqxWeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MVGljVta2GzyxccQ4BpV0uMyrLCRC2/J8vcxTkU/pkg8/ldQA/CFLmDW3t+2q/Q+UO4kFcsgjdL4V5htEWgnvex+n4E0umBTYEvs0z9hVpBgQQ9Ctjweyl1GQ1wtR3inKJMjPG71O+B6kGTTjMBW70EhNEc46Hd87yZL+hMPw/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JQG+Okni; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786083108; c=relaxed/simple;
+	bh=C3ChUSnO6LkTcCWJcLX/bnHSSnlGzwMbnkOsxKb6GV4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=LBDSciRGEZ54LtWPSg53IVoWHJg72+48IhTu3bmI2yFeoUX1qmcX2Zg+sgd8Za0f40CYLgezEOs/BYAQbGwJ/VVTbCZ8BFIANf6DbRV7oGnFm2fvmqj8acjEhMrg4c238Q8FLSB8jn91x0Tn6g/0t9SOyjoRPcPQaS8EGEIggEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Px1dKUSg; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JQG+Okni"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E6771F000E9;
-	Fri,  7 Aug 2026 06:03:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786082634;
-	bh=OnjnoPTc2IU8C5hw2ZSi8CiARlOXZApAwqNm8RU5PYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JQG+OknipBtwjmOkl7R15Eji5ytxCL9qh/lVqe+DB/hJhj5SWrf+zLf4cNaj/CHCV
-	 xaDVax4X+pBh+FN2ei6AHbq0oyqY8A4+C0tj59Qi4UgqS8BPeLkO96Xo+LfcDtcjbP
-	 QoojMnK3xxD1VsakhQMR7w50A3/YBnlX6nG+3p3SmLVoHGyW4Xj8DBiUoO28VqID7I
-	 /y2iock8d2/fQ8Tt55Cdzl0NuuHxBxZq07PK52xtrFY3UDvLCuluegTT2Z/X5ltIbK
-	 uY1p1d7YLHEgIhy+Msw45EdRmIPtxMpGRNuI/9cFGi+k7kBCXMqrJRyuy+8YxhaOq7
-	 k5J1uKW/EV05A==
-Date: Fri, 7 Aug 2026 08:03:30 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Alessio Belle <alessio.belle@imgtec.com>, Luigi Santivetti <luigi.santivetti@imgtec.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jeff Johnson <jjohnson@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Loic Poulain <loic.poulain@oss.qualcomm.com>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	imagination@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-wireless@vger.kernel.org, 
-	ath10k@lists.infradead.org, linux-pci@vger.kernel.org, 
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: Re: [PATCH v3] power: sequencing: rename pwrseq_power_on/off() to
- pwrseq_enable/disable()
-Message-ID: <nbsevqzspfbiptmq2mlxx2yo5z2wk5hdbc6f66yfjklmtl6hc7@ut47v44qgzgu>
-References: <20260731-pwrseq-vote-rename-v3-1-44e60b8be053@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Px1dKUSg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=YG
+	Rz6WB9lU3wlD2STC8uk6Jl3YtCrm4akVDEQj4iVJI=; b=Px1dKUSgN0ds0QRJxl
+	zFG7j0Hbb06euelKNoN1Bds7SkB446HEeQAtU2xTWhOw/e7kWkFJKTnU/pGzDoLM
+	YdrciyVOwJ0KVq8jdFO/i0HuQy+Y0CEC+giBSSKhyP5XhllL1NfyeR5QnKEW379t
+	J9bss1T/sTJatoLqqa2hssNEE=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzsmtp1 (Coremail) with SMTP id PCgvCgAX62t2dnVqBJMmJg--.29689S2;
+	Fri, 07 Aug 2026 14:08:56 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: rdunlap@infradead.org
+Cc: akpm@linux-foundation.org,
+	alex.aring@gmail.com,
+	allen.lkml@gmail.com,
+	arnd@arndb.de,
+	brauner@kernel.org,
+	chuck.lever@oracle.com,
+	corbet@lwn.net,
+	david@kernel.org,
+	ebiederm@xmission.com,
+	j.granados@samsung.com,
+	jack@suse.cz,
+	jackzxcui1989@163.com,
+	jlayton@kernel.org,
+	juri.lelli@redhat.com,
+	keescook@chromium.org,
+	kuba@kernel.org,
+	liam@infradead.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	mcgrof@kernel.org,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	mjguzik@gmail.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	rppt@kernel.org,
+	skhan@linuxfoundation.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	vincent.guittot@linaro.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v7] coredump: Add bit 9 of coredump_filter for pre-exit files before dumping
+Date: Fri,  7 Aug 2026 14:08:54 +0800
+Message-Id: <20260807060854.1785634-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <a2293778-bce7-4f88-a049-6370707694ef@infradead.org>
+References: <a2293778-bce7-4f88-a049-6370707694ef@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260731-pwrseq-vote-rename-v3-1-44e60b8be053@oss.qualcomm.com>
+X-CM-TRANSID:PCgvCgAX62t2dnVqBJMmJg--.29689S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZF1fWryrZr4fZF1kCw1kuFg_yoWxKFb_Xa
+	yvqr9rJr1ru3W2vF43GF1FyaykK390yF1fJ3y7Zw1jqayktF1agFWDKFWSv3WxKFWDKrZ7
+	CF1UXw4Sy3yavjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7VUU7DJtUUUUU==
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbC5xizvWp1dniqEAAA3a
 
-On Fri, Jul 31, 2026 at 03:42:18PM +0200, Bartosz Golaszewski wrote:
-> The way power sequencing works means that a call to pwrseq_power_on()
-> does not necessarily result in the pwrseq target being powered-on at
-> that time: it may have already been powered on before. Similarly: a call
-> to pwrseq_power_off() does not have to result in an actual powering off
-> of resources: there may still be other users that requested a power-on
-> before.
-> 
-> We will also introduce the concept of "non-controllable" pwrseq targets
-> soon which further increases the disconnect between the naming
-> convention and the actual semantics.
-> 
-> What consumers of pwrseq descriptors actually do is: they *vote* for a
-> powering on of a given target or retract that vote. These operations
-> could be called get/put in line with runtime PM but this could become
-> confusing since we already provide pwrseq_get/put() for a different
-> purpose. pwrseq_vote_on/off() also have been rejected as unusual in
-> the tree.
-> 
-> Change the name of the two functions to pwrseq_enable/disable() which
-> better reflects their purpose and semantics and also mirrors other
-> enable-counted resources like regulators and clocks. No functional change
-> intended.
-> 
-> If at any point users need to know *when* the exact power event happens,
-> we can provide that information in the form of a notifier.
-> 
-> Acked-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+On Thu, 6 Aug 2026 21:08:46 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > +The default value of coredump_filter is 0x233; this means all anonymous memory
+> > +segments, ELF header pages, hugetlb private memory and fd list are dumped.
+> > +
+> >  The default value of coredump_filter is 0x33; this means all anonymous memory
+> >  segments, ELF header pages and hugetlb private memory are dumped.
+> 
+> I could easily be missing something here, but to me it appears that the
+> paragraph immediately above here should have been deleted (i.e., replaced
+> by the one above it).
+> Can you explain, please?
 
-- Mani
+Thank you. This is another silly mistake. I'll fix it.
+I think I should see a doctor to check my eyes. :(
 
--- 
-மணிவண்ணன் சதாசிவம்
+Thanks
+Xin Zhao
+
