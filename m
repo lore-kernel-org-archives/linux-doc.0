@@ -1,195 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D7A3B841B
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 07:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAEE36AB4D
+	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 07:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786087307; cv=none; b=YA3Im2PferD+KYS8qbqnHCvcYDVG4RQw3nvxHhXa/b7BnP3/eZIU9tTYQmM2rNvE1OeJeuzkBpY5DqzRmXUB/Juhwdatv7aoktbuop+rTftZMH9z6nizGDtpCPZpFXfG1RXCfF5fULGg65NfedSrdgefMQRXw/nUPkC9PZwZ1vY=
+	t=1786088450; cv=none; b=ny/3grvSMP10cKA19yeULFjXSUmeB9wbw9TiK7KHE28FwPj4etesx13RIz1L5vNIYlK8FpFJ6JD0vPmw17Uq4sduIw+c7PuMr65E9DxZ4Z584ipl+LO7vp9DRdr87VY2sPCkBPHN6p0LRIrxja0Tn/2hefYWT2KtzOyjlkq+K5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786087307; c=relaxed/simple;
-	bh=sODOpdzjCpH/tq/ElSBVsdqLUkhfKBufQNYjtkcKSoY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U7lQYteEBDAIgumIsJsdlwyJXyeH7B3wqJ9wqSfE8Vgs/v4Gk7cOH+sV0aGJ8SePGgkRKKm38NOC12HvkeHVcN0qgCQoPjMcrftXXpsn9PlSf9SLJImJc2JzZNjiz0M5S7QJ5gt+i9NciorlTRGwxIfGpbcetinvbT5XKEGsiPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNRCUnbF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786088450; c=relaxed/simple;
+	bh=yLlEJtUA4c+lx4MJarEGHOb+L+h2dwEqGLbgGSEeKdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BvR8kvEw5ZhJ+SlweWX1ABo2xD4Rb1mRb7ByX2822x6luN86BYfDbXng3B7XCBideNoEr5eSJrQazM1Vbw+twEt+BtngtG2wLK8/N5MAo6QPvhxLQwZ7wAj2zzzrRxV9k+d8IETw0+kxTcFqh9fnCnYZGg0QM8IpvSWBHRrCDas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=none smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b=WexycwIf; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNRCUnbF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24C321F01563
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 07:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786087305;
-	bh=6knPXuawpByGmHYtyjqi3P0YpFZD/HtTUFoZPvYRqx8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=HNRCUnbFaam/k5LgBTYP/e6dtJ7kDEWtYzOhDewwe8Er1hfweJSQYSRyo6dzVkgJQ
-	 eRnrcNOVLNuuVWsQ1aqV5NJ0uAIEDfHGGh+d3ylc39ThDzBeTR0teEYM8wCIJp+SV6
-	 zQ1xH5NBr/Pcs6NuIT1ZoteqSlS8sATsjlD5a+zsl7d/W6wsJjx9AR5C8YfpXVixTq
-	 IYg/kMlenwslbTydnxz5YRtD1jbi6IgpmhtBeYK8h+1oG+UKtsZYeO8kDpPCmJ1w4n
-	 HEXdAMYl6Yio7PLL4ivbbqGxn1hCEXhwMQm8OjUD620gFi38aNjmn+FMP0NRD9VCHm
-	 OSJOF8KAVMxjQ==
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-80bb41f7f3cso33972287b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 00:21:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoUwv2enbM6TFKn3sVRBJX8iKPc+vmErd/tzBA+w+uwyfAXDuZMN7y8L2SPnUpXuCdXuZMJz1sXN28=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVgzxkfOoJpPaGFfuXuRry5fdpipJ++qqVABrXSrw/U48AT7oa
-	AkSHVursg1VTp86gW3yvnKexFNiPM/RdMUAOen/IhVVHEseBlS25apoZBCPG/oxBbln4YkBLbp6
-	hTx2NXbYVd0JlW2v5/80Z6xPfqDQcBEYpsRA5aqP5mA==
-X-Received: by 2002:a05:690c:b98:b0:820:b24:27c7 with SMTP id
- 00721157ae682-82258a8f2e6mr43057887b3.14.1786087304379; Fri, 07 Aug 2026
- 00:21:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b="WexycwIf"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so6834755e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 00:40:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osyx-tech.20251104.gappssmtp.com; s=20251104; t=1786088446; x=1786693246; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5ZtlYdzWPfbUjT+3726P4tEkOyWdFs4LizgvGG0WnvQ=;
+        b=WexycwIfQb4Vr9e6JAlRE5A2UPYI1M9X/NoURuwfeKuVWMYL8LlolX0gVIx6ipYqxu
+         KqVW57YQtHscbnGtBdbujIk7aa/YUqRL+nYhB+o5lBjH0fOTTbqzSm3r28Yr1rKPlrv1
+         O2Cn60M87aL2yPL4v7pMLC6uJByQANsZejo+nSCli1u7hv+EXxX8lB4oLIigmcyL9SJB
+         1OYglJ+1fCNwvAQsAuJgB5K3BgRhn4KZHKZAd81SFTTDS7Ond6BpdHNJwni/wie1+PAx
+         xaxcLEDXKP1Uoadc+3KbDtNiF8+Jepihn1YU0bQwteMr8lT99YSOs3Zn9DWVvRxvmzaS
+         mV6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786088446; x=1786693246;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5ZtlYdzWPfbUjT+3726P4tEkOyWdFs4LizgvGG0WnvQ=;
+        b=LSlhZqtk3WBE57hDODy/khcvuW9rE8LOnFrvAmoniXqLo/nmzvqwzj/7Lt5CMtm/7r
+         mxab4aJAabmSOe7NLlm4yTqmuKdZkVto2cH5inQsDCzhB6RaOnOlCJQqkjwyPgRixP3W
+         t+TeKtK+1rXAMtss3CJ8qBd/NwrUUYgmrJgYOLyyDDuiBB8TIIQY7WWGmTKfXbVx6OAf
+         YtFBjqMQd2mQBnYvUu2/7OUX7qjq5P1109UzTMHpeXAfojQtecoCqm9GH/cWGM2sDu0H
+         lbpY/xQAnBq4950S/kXMe0tryheps6yTl9AmICPonQu4UROKVeKuEt9Nn8hUX9IjQlJO
+         6oIg==
+X-Forwarded-Encrypted: i=1; AHgh+RotrpUrl+ucbnMMjaOMlzY7J1slepCNJlISx8GKqQo3gxcIBkOSx60CBs0xRQWcW/gPGfqwKGl1+YU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt3aLW6kOegJiUDxOgP8QgFazGdyhVJIYaXd59ecV+YNW8NAi/
+	TAdDDqnvs3xgs0O//gcZBj0RgWrijf4y8+D0JFjt0BCYXeNQiz4E/H/NT2c28l6Js0ap
+X-Gm-Gg: AR+sD10hDKjdd9tSiiDRfq9EfnkEQoTB3lJG17AWgCCEttgIvkyUfVPYGd802WPmcHi
+	E+CRIwk2Xf4e5Vuz5igLFyYPEHEvntWV0YtvpvXAVLYIk6DIgOg3RAjDimOMSluCiw4FfXRKz4f
+	omh7aREjUGKmdu3BqWtk5baMHjt26JV3vMsjqKs4d7m7Mc+afIFD+uqupaJGtrtT4NI2DZqdizR
+	y65uLVpav+R4ntG5MZFm27WU3gu+GbzY1TYc2j/2Vcd2T1s3z6Vvic9gtGTFbEaeLIEbsPR2iCJ
+	Jca8Ycmd1/VHUsQFeVKeA5qnyybuCSDCqmPaidWo3NxS8/HC1YaCxWcj90V0jac5rJxzLWjPa3D
+	F4tjvHMeSsvfcD3ide0jetbhAObrfdwvlPwvv/f8zrni7uz/FyeeNb7T4WsCcyZjTpfaNJBb4sl
+	Z4sfemUtkq37K9pFH4u3OjRi3M5FNJQ7sNISiuikSn0V6Jb4C14i2LnzOrVVDWfJg=
+X-Received: by 2002:a05:600c:1f96:b0:496:c249:dd9a with SMTP id 5b1f17b1804b1-4994e71364fmr248230245e9.3.1786088445905;
+        Fri, 07 Aug 2026 00:40:45 -0700 (PDT)
+Received: from jp-linux.Home ([2001:8a0:f59c:a900:2600:fba1:8d1e:1692])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480021f90f8sm2819904f8f.26.2026.08.07.00.40.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 00:40:45 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Peixoto?= <jpeixoto@osyx.tech>
+To: gregkh@linuxfoundation.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: jose@osyx.tech,
+	davidmcerdeira@osyx.tech,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	linux@armlinux.org.uk,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	andrew.jones@oss.qualcomm.com,
+	rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org
+Subject: [RFC PATCH v3 0/6] virt: bao: Add Bao hypervisor IPC and I/O dispatcher drivers
+Date: Fri,  7 Aug 2026 08:39:27 +0100
+Message-ID: <cover.1786010512.git.jpeixoto@osyx.tech>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806184254.3790858-1-nphamcs@gmail.com> <6a756c71.01d0871a.3a0d52.003a.GAE@google.com>
-In-Reply-To: <6a756c71.01d0871a.3a0d52.003a.GAE@google.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Fri, 7 Aug 2026 00:21:33 -0700
-X-Gmail-Original-Message-ID: <CACePvbVKpkyV7KpUoiYPTUN0MgEcRUzZL71qTL5ePyjHTA3Kbg@mail.gmail.com>
-X-Gm-Features: AUfX_mztVbvHM-WKo6lxh0LLm1G5XKwrWW650OzZbqB3e06Q5YutiaN72WNICvM
-Message-ID: <CACePvbVKpkyV7KpUoiYPTUN0MgEcRUzZL71qTL5ePyjHTA3Kbg@mail.gmail.com>
-Subject: Re: [syzbot ci] Re: Virtual Swap Space (Swap Table Edition)
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org, 
-	baoquan.he@linux.dev, cgroups@vger.kernel.org, chengming.zhou@linux.dev, 
-	corbet@lwn.net, david@kernel.org, gourry@gourry.net, hannes@cmpxchg.org, 
-	haowenchao22@gmail.com, kasong@tencent.com, kernel-team@meta.com, 
-	liam@infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, ljs@kernel.org, mhocko@kernel.org, muchun.song@linux.dev, 
-	qi.zheng@linux.dev, riel@surriel.com, roman.gushchin@linux.dev, 
-	rppt@kernel.org, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
-	surenb@google.com, vbabka@kernel.org, weixugc@google.com, yosry@kernel.org, 
-	youngjun.park@lge.com, yuanchu@google.com, syzbot@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Nhat,
+This series adds guest-side drivers for the Bao static-partitioning
+hypervisor: an IPC shared-memory driver and an I/O dispatcher, plus their
+device-tree bindings, UAPI and MAINTAINERS entry.
 
-On Thu, Aug 6, 2026 at 10:26=E2=80=AFPM syzbot ci
-<syzbot+cif942a042aaa8793c@syzkaller.appspotmail.com> wrote:
->
-> syzbot ci has tested the following series
->
-> [v3] Virtual Swap Space (Swap Table Edition)
-> https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.com
-> * [PATCH v3 01/11] mm, swap: add virtual swap device infrastructure
-> * [PATCH v3 02/11] mm, swap: support zswap and zeroswap as vswap backends
-> * [PATCH v3 03/11] mm, swap: prepare the swap IO path for vswap
-> * [PATCH v3 04/11] mm, swap: support physical swap as a vswap backend
-> * [PATCH v3 05/11] mm, swap: enable THP swapin for vswap entries
-> * [PATCH v3 06/11] mm, swap: write back vswap zswap entries to physical s=
-wap
-> * [PATCH v3 07/11] mm, swap: reclaim physical slots backing cache-only vs=
-wap entries
-> * [PATCH v3 08/11] mm, swap: only charge physical swap entries
-> * [PATCH v3 09/11] mm, swap: add debugfs counters for vswap
-> * [PATCH v3 10/11] mm, swap: defer memcg_table allocation for physical sw=
-ap clusters
-> * [PATCH v3 11/11] mm, swap: widen swap_info_struct max/pages to unsigned=
- long
->
-> and found the following issue:
-> KASAN: null-ptr-deref Read in swap_entry_backend_has_flag
->
-> Full report is available here:
-> https://ci.syzbot.org/series/e7da1097-3230-4e50-80cb-1dfafeebea40
+Bao is a lightweight static-partitioning hypervisor for embedded and
+safety-critical systems.
+- The IPC shared-memory driver lets Bao guests exchange data through a
+  shared-memory region split into a read and a write channel.
+- The I/O dispatcher lets a backend guest service paravirtualised (VirtIO)
+  I/O on behalf of frontend guests.
 
-Please take a look at the syzbot report and let us know what you think.
+Sent as RFC: the RISC-V backend uses the SBI experimental extension space
+(see "Open items" below), and the device-tree bindings were reworked in this
+version and would benefit from another look.
 
-Chris
+## Changes since v2
+- dt-bindings (ipcshmem): describe the two channels through reg/reg-names,
+  drop read-channel/write-channel and the "id" property, use a vendor
+  "bao,id", and use a generic node name (Krzysztof Kozlowski).
+- dt-bindings (io-dispatcher): one node per backend device (single reg +
+  interrupt) instead of one node describing many devices, modelled on the
+  gunyah/Mediatek Genio bindings (Krzysztof Kozlowski).
+- io dispatcher driver: one platform device per device model (/dev/bao-dmX);
+  removed the global DM list, the anonymous-inode fd and the dispatcher
+  indirection ioctl; fixed a leak and probe error-path bugs; initialise
+  virtio_requests_lock and the hypercall context fields.
+- ipcshmem driver: derive the two regions from reg; drop the success print;
+  do the range arithmetic in u64.
+- Kconfig: fix the help-text indentation (Randy Dunlap).
+- style: unwrap the few-char line wraps; the IPC hypercall helper now takes a
+  single argument and fits on one line (Andrew Jones).
+- riscv: use BAO_SBI_EXT_ID consistently, document that it is in the SBI
+  experimental extension space, and drop the redundant ecall input
+  constraints (Andrew Jones).
+- commit messages: rewritten to kernel style; the "consolidate the IPC
+  hypercall ID" patch now explains why and covers the signature change
+  (Greg KH).
+- process: sent as a fresh thread with this changelog, and the mail setup that
+  bounced v1/v2 is fixed (Krzysztof Kozlowski, Greg KH).
 
->
-> ***
->
-> KASAN: null-ptr-deref Read in swap_entry_backend_has_flag
->
-> tree:      linux-next
-> URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/=
-linux-next
-> base:      bacc32cc7de65ffff70080a48eb294f89e434d5e
-> arch:      amd64
-> compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~e=
-xp1~20260613092250.77), Debian LLD 22.1.8
-> config:    https://ci.syzbot.org/builds/4f943657-9481-4637-9b1f-9be1bff18=
-f92/config
-> syz repro: https://ci.syzbot.org/findings/f6c4f1ab-951c-4759-b397-e22c23c=
-3bf32/syz_repro
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> BUG: KASAN: null-ptr-deref in instrument_atomic_read include/linux/instru=
-mented.h:82 [inline]
-> BUG: KASAN: null-ptr-deref in atomic_long_read include/linux/atomic/atomi=
-c-instrumented.h:3188 [inline]
-> BUG: KASAN: null-ptr-deref in __vtable_get mm/vswap.h:147 [inline]
-> BUG: KASAN: null-ptr-deref in vswap_to_phys mm/vswap.h:197 [inline]
-> BUG: KASAN: null-ptr-deref in swap_entry_backend_has_flag+0xfe/0x220 mm/v=
-swap.h:441
-> Read of size 8 at addr 0000000000000000 by task syz.2.20/5818
->
-> CPU: 1 UID: 0 PID: 5818 Comm: syz.2.20 Not tainted syzkaller #0 PREEMPT(f=
-ull)
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.=
-16.2-1 04/01/2014
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
->  kasan_report+0x117/0x150 mm/kasan/report.c:595
->  check_region_inline mm/kasan/generic.c:-1 [inline]
->  kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
->  instrument_atomic_read include/linux/instrumented.h:82 [inline]
->  atomic_long_read include/linux/atomic/atomic-instrumented.h:3188 [inline=
-]
->  __vtable_get mm/vswap.h:147 [inline]
->  vswap_to_phys mm/vswap.h:197 [inline]
->  swap_entry_backend_has_flag+0xfe/0x220 mm/vswap.h:441
->  do_swap_page+0x3c0/0x5620 mm/memory.c:4975
->  __collapse_huge_page_swapin mm/khugepaged.c:1202 [inline]
->  collapse_huge_page mm/khugepaged.c:1325 [inline]
->  mthp_collapse mm/khugepaged.c:1524 [inline]
->  collapse_scan_pmd mm/khugepaged.c:1786 [inline]
->  collapse_single_pmd+0x24c6/0x3da0 mm/khugepaged.c:2803
->  madvise_collapse+0x2cf/0x790 mm/khugepaged.c:3237
->  madvise_vma_behavior+0x115f/0x4170 mm/madvise.c:1363
->  madvise_walk_vmas+0x576/0xb00 mm/madvise.c:1712
->  madvise_do_behavior+0x385/0x540 mm/madvise.c:1907
->  do_madvise+0x327/0x3a0 mm/madvise.c:2005
->  __do_sys_madvise mm/madvise.c:2014 [inline]
->  __se_sys_madvise mm/madvise.c:2012 [inline]
->  __x64_sys_madvise+0xa6/0xc0 mm/madvise.c:2012
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7fbcad79e019
-> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f=
-7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff=
- ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007fbcae5c4028 EFLAGS: 00000246 ORIG_RAX: 000000000000001c
-> RAX: ffffffffffffffda RBX: 00007fbcada25fa0 RCX: 00007fbcad79e019
-> RDX: 0000000000000019 RSI: 0000000000c00000 RDI: 0000200000000000
-> RBP: 00007fbcad83500c R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007fbcada26038 R14: 00007fbcada25fa0 R15: 00007fff095fa0b8
->  </TASK>
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->
-> ***
->
-> If these findings have caused you to resend the series or submit a
-> separate fix, please add the following tag to your commit message:
->   Tested-by: syzbot@syzkaller.appspotmail.com
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> syzbot ci engineers can be reached at syzkaller@googlegroups.com.
->
-> To test a patch for this bug, please reply with `#syz test`
-> (should be on a separate line).
->
-> The patch should be attached to the email.
-> Note: arguments like custom git repos and branches are not supported.
+## Open items / still under discussion
+- RISC-V uses the experimental SBI extension ID (0x08000ba0). A permanent
+  implementation ID must be registered in the RISC-V SBI spec before RISC-V
+  can be non-experimental; hence RFC.
+- Whether the Remote I/O hypercall must follow SBI chapter-3 register rules
+  (Andrew Jones) — see the reply on patch 4.
+- The "bao,id" property and the "bao" vendor prefix (Krzysztof Kozlowski) —
+  rationale is in the bindings; alternatives welcome.
+
+Link to v2: https://lore.kernel.org/all/20260107162829.416885-1-joaopeixoto@osyx.tech/
+
+João Peixoto (6):
+  dt-bindings: bao: add IPC shared-memory device
+  virt: bao: add IPC shared-memory driver
+  dt-bindings: bao: add I/O dispatcher device
+  virt: bao: add I/O dispatcher driver
+  virt: bao: consolidate the IPC hypercall ID in include/linux/bao.h
+  MAINTAINERS: add Bao hypervisor entry
+
+ .../bindings/bao/bao,io-dispatcher.yaml       |  58 +++
+ .../devicetree/bindings/bao/bao,ipcshmem.yaml |  59 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ MAINTAINERS                                   |  13 +
+ arch/arm/include/asm/bao.h                    |  60 +++
+ arch/arm64/include/asm/bao.h                  |  60 +++
+ arch/riscv/include/asm/bao.h                  |  66 +++
+ drivers/virt/Kconfig                          |   2 +
+ drivers/virt/Makefile                         |   2 +
+ drivers/virt/bao/Kconfig                      |   5 +
+ drivers/virt/bao/Makefile                     |   4 +
+ drivers/virt/bao/io-dispatcher/Kconfig        |  16 +
+ drivers/virt/bao/io-dispatcher/Makefile       |   4 +
+ drivers/virt/bao/io-dispatcher/bao_drv.h      | 349 +++++++++++++++
+ drivers/virt/bao/io-dispatcher/dm.c           | 316 ++++++++++++++
+ drivers/virt/bao/io-dispatcher/driver.c       |  95 +++++
+ drivers/virt/bao/io-dispatcher/intc.c         |  64 +++
+ drivers/virt/bao/io-dispatcher/io_client.c    | 401 ++++++++++++++++++
+ .../virt/bao/io-dispatcher/io_dispatcher.c    | 181 ++++++++
+ drivers/virt/bao/io-dispatcher/ioeventfd.c    | 323 ++++++++++++++
+ drivers/virt/bao/io-dispatcher/irqfd.c        | 314 ++++++++++++++
+ drivers/virt/bao/ipcshmem/Kconfig             |  10 +
+ drivers/virt/bao/ipcshmem/Makefile            |   3 +
+ drivers/virt/bao/ipcshmem/ipcshmem.c          | 228 ++++++++++
+ include/linux/bao.h                           |  44 ++
+ include/uapi/linux/bao.h                      |  96 +++++
+ 27 files changed, 2777 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml
+ create mode 100644 Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml
+ create mode 100644 arch/arm/include/asm/bao.h
+ create mode 100644 arch/arm64/include/asm/bao.h
+ create mode 100644 arch/riscv/include/asm/bao.h
+ create mode 100644 drivers/virt/bao/Kconfig
+ create mode 100644 drivers/virt/bao/Makefile
+ create mode 100644 drivers/virt/bao/io-dispatcher/Kconfig
+ create mode 100644 drivers/virt/bao/io-dispatcher/Makefile
+ create mode 100644 drivers/virt/bao/io-dispatcher/bao_drv.h
+ create mode 100644 drivers/virt/bao/io-dispatcher/dm.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/driver.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/intc.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/io_client.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/io_dispatcher.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/ioeventfd.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/irqfd.c
+ create mode 100644 drivers/virt/bao/ipcshmem/Kconfig
+ create mode 100644 drivers/virt/bao/ipcshmem/Makefile
+ create mode 100644 drivers/virt/bao/ipcshmem/ipcshmem.c
+ create mode 100644 include/linux/bao.h
+ create mode 100644 include/uapi/linux/bao.h
+
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+-- 
+2.43.0
+
