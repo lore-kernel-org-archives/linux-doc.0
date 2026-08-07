@@ -1,254 +1,168 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010039.outbound.protection.outlook.com [52.101.85.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25C02E764D;
-	Fri,  7 Aug 2026 13:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786110474; cv=none; b=UzJYc+akD85DJ0JNd11zWkSi3888iNFZ/4y6FwHfqe7eE7nUkxfRS+4b+lnSG4OXPKq6qgRu4NjzXklUeEGfurhYrr83igW8jZ7xLN4rO+2RAgNggb9Udf2dQOUyTbTF+3if/1aI2IaH3V4brM7uS7RfwZG5FYCImcBqGDXFJdA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786110474; c=relaxed/simple;
-	bh=eYl16HP5uXexE4QsoqXNys6JrQgZzYjwhcMhwbxiam4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utySyGCpK+wT4OuQ38kW+kLAy4SRieSySdEip3g4fbJLCCafvd2FeZxTXXOpEWyu/xAgTmEkkrEfAL5qzJRwNUfM9cqGDthck8tsj9SBWr/WislGyK+uKVfYAMwlzWHXMWDZ5SRrYwZTGXHIYSaP/4SvhEBm257+1c6SZM9WEqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf06.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 23379403D0;
-	Fri,  7 Aug 2026 13:47:37 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf06.hostedemail.com (Postfix) with ESMTPA id 7B8F32000F;
-	Fri,  7 Aug 2026 13:47:20 +0000 (UTC)
-Date: Fri, 7 Aug 2026 08:47:19 -0500
-From: John Groves <john@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 11/12] famfs: Report device capacity via statfs so df
- works
-Message-ID: <anXhywwC-DWjHGRz@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803023000.75948-1-john@jagalactic.com>
- <0100019fc57500f5-06c293c8-393c-44e3-ad42-d4f4de58245d-000000@email.amazonses.com>
- <20260806053300.GK3560084@frogsfrogsfrogs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8486032B133;
+	Fri,  7 Aug 2026 14:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786111411; cv=fail; b=ZqAtt2cpOTkJCOUZpp860PDLiBQiad5j3W21lumzktECwZZmrejPb14N82uBMx6CDcAVBm2K+XeQtGexa0C08EnXWD9LLRSbkEvE8WUhShqT+3FI7FCMaHX8OUmrbmzMrXFGou5iX4g2/B0eRvFyyJ+oDZ0NXD6Y/TrEYTIUgZI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786111411; c=relaxed/simple;
+	bh=uA8Vow+Zfovg3Df4kdk0qjr/sXhA5dgldObzAL7ShmE=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=Iacgoiqg+d2hbYaq+MvUtsmD1fw/F7eXPR4Q0Yb1FCDdrI7EFmIG9f6FAzenUiBx4m/++ENJYKlH47DTdUwE0X1dtEnogOy76uR/EIGvo1/urnSGdWh8592cNgFfOZM/e869O56h0mPUTK0PplTjAEiHDgFKjRuFaYhmtUyVvko=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MBXEdnbj; arc=fail smtp.client-ip=52.101.85.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MBXEdnbj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tytNp06VEzRYiDIxqrrqf48u+Lyw5JBW3vpDBB8M/7G+sho6EU2HSXkqY2DN83uqTV5FY1fVYU2vKVXF4W2JOW6kKpixs4DlEajo3x9Sd/x1wKAAgSqhNEhOalZoZ9TRmGaXZ7TBkCNNcxOdRBMCBM6CHac+wuKatnUr3mYNIbxECC0WNHiTKUQefGxkM3HbIa590vxQZyl59ZldRMXPCo3N9+loQ/iO0xUXhkhHCSMYMl3MDYfbOvbb7IKDHrc+lq1PrIN4HlvYXkFKap5hjhuO5Cu/8OWRW5z/dfK8TwW5JJ6WLWgR+sTsGOR1/1+GwNXBPlDbbAj92RfZKqsYpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+lAGhc3gPzYH24KmYPBFB5GbnhhwkL4ncIAhr24++KY=;
+ b=Vb8gbtGmmbXHr5ewcCr3KIdD3gHMbQvn7bxL4lV+LHqNzD4uNj1oaA0bugTKp8w8PBOqrqq+AYHaqhrDwoqjqdRh4SI1IGhhZzu6U25GFoYbGDw9jvFZDRw9nCeAEnKlwpfnRbUDjWnvZxisAwJgdWmdY04q+Gf++UuqJa+SOMc6/Unal3bjRpfTJQ2VeEXmUZN05k1O5onoz4VtOYdiXCV4Kh4RLiS2XD/MEbEwamh4R9/oXcO07MKkpwypYG/89nJ7XksfhUdFDXN+x4ujq7RKwUHSiwbqa0NsevmOfJh4evlFVB7L9Tkca09gjU1s5xVL/t+PRmR5xlIoNie/Wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+lAGhc3gPzYH24KmYPBFB5GbnhhwkL4ncIAhr24++KY=;
+ b=MBXEdnbjBWJ0KxHnSGpx5rbHEK860Eq/pVjDY0Dk+qluZtfqQmpE8aAbY/nZ+oFitvAAxQbJWomG5B2FSXgijykXPX7N5lIOSoJzmQEU1TcYzEU2HrZwKjyA1vvgQ30yFHuuEn4Iq8MBFQJkInukhqM8VaGoWrhnyrK3foAQq63dMMyN4tSmgJijbzCxUBZeiLMijTdRIY1YTXmzvd8qLBRTPjiFOE1Q5/vogl4I51LiR/ha9Vd5P/BLatt5cYt3+HM1hN2fOrzO5DWAzmknKQyzRfbTZ26sQ5XIRmjL4M/XfxrmOqNSC/OumI9TFMiwKfvfDLkotpgskBPKQJxFKg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SA3PR12MB9157.namprd12.prod.outlook.com (2603:10b6:806:39a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.24; Fri, 7 Aug
+ 2026 14:03:18 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0292.018; Fri, 7 Aug 2026
+ 14:03:18 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 07 Aug 2026 23:03:10 +0900
+Message-Id: <DKIRN9CO8EGF.2U1743ODPICPU@nvidia.com>
+Subject: Re: [PATCH 01/12] rust: io: add Region::try_subregion
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Cc: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Tamir Duberstein" <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Yury Norov" <yury.norov@gmail.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+References: <20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com>
+ <20260805-pramin-split-v1-1-ff3e84a75dac@nvidia.com>
+ <DKGY508IDAS4.9E9983YWQ2F5@garyguo.net>
+In-Reply-To: <DKGY508IDAS4.9E9983YWQ2F5@garyguo.net>
+X-ClientProxiedBy: TYCPR01CA0178.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b2::19) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806053300.GK3560084@frogsfrogsfrogs>
-X-Stat-Signature: pwrq6rgztu5gdqo7od7a6fg3d45qzcuy
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 7B8F32000F
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/1vmEfcB0ZWzj6v0b7ezNU01nhES/SZBA=
-X-HE-Tag: 1786110440-538022
-X-HE-Meta: U2FsdGVkX18XfVA4JrV3nFfuua9yhjn8m+dg/G+LQxmf4sMMGGtOUQeXXEIGISUaUu2JXALFW2BVZgTaH+aLE+iiUKA6KBpKfPLmriNfaWgaaNO3gDRGkhL9PknoGyjO4ZfsB91+bThfZy/mFbb/FV4wwDKoAjrYlqZ9aT0hy84B5GoSYVx1b77c5IiFpOiobgd0krwslBQXQcV5QetVVePkDJMKd38vkethLgeN4HSUCM9LcQR7+vvX4pHFK8u4H8GFzvxBQRfgP8jaHaadlZv//y3F7EKkr2oUqGs+I5QvKS9nbYQRTiLWS+CosOTDiGZ76yRmhpE5r5HZZw15st6ikc3A7GCiTRUhab1kTKTC+JkbRnhogTcDhWHxpDd+
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SA3PR12MB9157:EE_
+X-MS-Office365-Filtering-Correlation-Id: 055b4b26-e86f-422e-e000-08def48ca224
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|10070799003|56012099006|11063799006|10067099003|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	JzwZUX1YPXWek6tdy+KI9ej0tChbDqKPYOKiigQyZiavxFim7eMhaY28H+ZbOxV6MeGAYEDP/T8Qs/khERppcGPllEmwAEjCnAoXCj8SKCpQDochdFNRvmRoye3jfmRk954U8ePTeeJigb/aZ7WlKxwz2pREeo8pkWCKQCvs9VnM44PIH/ywUQUf6xukml8cG75NGih4hdF/EYEVlSntkzd9FN8wBIEE648yLjPjqUfZiERBaaM4Edyq8Eyvk5NWKYuNRov6ne38y4DUekRDQbbBwdypn6RSJnrYlMViAMdEsBExs0jXnhqrCUidUOPyYhF5Kyc2SJnPmRzc5LRHmQmpeFxNSLu/eaZpKNH8+R4vP/QLORniZY9UZT95H4tZD8YvZdmgY7xlhkiNpjawFjpsf2/xYiTyXRl1bpCQRKW+ZN+BFR0pXvj4tZi/8VZg7PrtADNfGgLtIFPhoPIdN73pVdYf5AYlHEFhsrD3L3Z4y5DW0HnanNHxXUEL2JK1VuehbEc628jDFTgICrFp180/loAqpXz9LZOpar0Nu5c02oczElCZdo4zJNkYZZg/FRxrJ3vHoa2PWZsS28dyDXPLD+VNGXyFNVIw+0vCLwefqBtglaAwbNlKZpLhyWE6oiY5CygKmbrmq8FheWvn7/Gjrs4+hcRkLx8um3cMy4w=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(10070799003)(56012099006)(11063799006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?V2lLS2NvRk53MlBYOFZkZm9IcnVUTjB1TUU0d1FhbEVkYXRLR1g2Zk9INC9Z?=
+ =?utf-8?B?YWxPZ2I4YnZUcVNvUmZkcFo4UHJSMkFRVDdJNXhrUWJDekQvN2FkRStvSjE3?=
+ =?utf-8?B?Q0NoSThoQ2pQdXBBaEQwK0s2bThMTXlrNE44eXQvbllGek95VEJjZmlxL08y?=
+ =?utf-8?B?bW1kZXhjYnc5c1gwdmwrMExwTm5ZWjZPTWtET21RSEYxZ010bXE2bFJzOHkr?=
+ =?utf-8?B?WUljUDNLbGZpaVcyMmZ0YTNDdDBSQ2hkOTkyaDJjS1A3TU5sVGlUd2FwRmJM?=
+ =?utf-8?B?VG04dHVSbXZYLy9mMmNXWEdxY042dUxMaWNUY1hQc2tiUXR1alZxQVVWS0pT?=
+ =?utf-8?B?UE5KdGVremorWThEcnZrTVM5SjZlLzY2TVlFeHM5Z3VqMW1HSGpyRUdFOTFK?=
+ =?utf-8?B?Q2lyNUxrM1dmcVQrOG5FekJvb1prTWFIWTVsTmg1citDdVZKbUh0U2tpNnNT?=
+ =?utf-8?B?ZTQ3ZlJlcks4VGVCTGZQVkxIQytvZnY0RzdOWEUxSEZRWTFzTnB2S1ViZytR?=
+ =?utf-8?B?TXAyOFU5UzFLNGJMV1lrbEZpZEFybGhiV2N0bHI3K2lrUFBrWkthQjdObksv?=
+ =?utf-8?B?M3lhWktYa1pHTGsySnRkRWxQd0d3eVFzdDZwQ2U1eFJtbS90enRkc1JnUm9W?=
+ =?utf-8?B?WkVieldjYyt4ZktNYi9na2hTRUZoQncySjIyMlZicC8yUTNKRW1lUE43WlIv?=
+ =?utf-8?B?YllHL2V5RnJGbUgzYmhMc1k2UER4YkM4SjM5bldPY25keTNIUWhTMFB6MnVn?=
+ =?utf-8?B?aHY1SnB2YVo5YkFaVE54ZXBNRllLd3NDN3hvSEtYdmxHRlNWc3crUDlYV2Rq?=
+ =?utf-8?B?YXlKUUhZZUlIY0hJaEtBZ3J5K0tHUUdoVjZKTCtheDRZNHdzVlUxdEtibEwy?=
+ =?utf-8?B?alJ3a2VNV3VZK1p6ZUJsbFBwTUtNUWRsTWJDU0JISitNaUZUbmxmYis1UnRm?=
+ =?utf-8?B?ZjBTdlhPYVpHZDNRb25lUmUxNTFnaWN0czVXeGJ0N2NkUkFWUWs4ZXpSa2N3?=
+ =?utf-8?B?N2wxaE4wWlRyTm9FTEszelo4d2ExU3k4NC9mNTN6ckhCRnFqSWduZWkwU1Ru?=
+ =?utf-8?B?SU9hY1hzQmVybm5iQUlLVW9DRFRmUVNQbm1WQXBMMkF6QVVPTVY3c3dMREtW?=
+ =?utf-8?B?S3dGMmpLdThrTENYL0lBLyt4Z3JFcGVCZE1URmJTbEVpWWNCbktPUm9YTXJu?=
+ =?utf-8?B?UnRBTjByQWEzQW02STdkOTB6dkV5T1hZNU5nOU80WjIrVmNra2x1dGR4cXhq?=
+ =?utf-8?B?dFBuOEMzNDRuelptTXJ0SlJqY3ZuajNUU3lLbkNnQ2w1c1paU3F0VmdrQ05p?=
+ =?utf-8?B?c21zdWtJbXlHeTR2T1JZRGtQZ1lFcjQzSGFYTUhFa3IwZHgxeDh6Nkg3VTJN?=
+ =?utf-8?B?Ym1ZN3RLNUdlL0l0eS9RNDYzUloyUFIvN3lpa0ozNkw4bytraVltUUxNUy84?=
+ =?utf-8?B?MzVvWW40dHo1bHRYbE1hbTY0TXlMS2hnanl2emtXS1JjRyt3YzE1TGpLWXUr?=
+ =?utf-8?B?aHlwUTU4aU8wWlFJVGZUK21CRldNRlR5WTdMQTBMT0tJRjl1bWU0ZVJhNzdi?=
+ =?utf-8?B?QjRTZnhDMUtyRlJxZXBMZXZWbDRZcEYwQlFMUllpdlhLL3ZkQ3pVRzdzcTFy?=
+ =?utf-8?B?eXh2ZzF1b0JtSjlmOFVvTldGUHVjdW5GSHphYTF2UzRBaVZmWFE4cjNPdU91?=
+ =?utf-8?B?YnRnVGl1MHpJZEVxZXlGdllTczBjRUlZL0lFSlVla2N0dFAwSmtKdHFJakJl?=
+ =?utf-8?B?UmhXKy9GOVhZSzJZQUVEdEFuZzNMN01JZkp4ZGU2OFF6RHJkZEcxdDhYMUto?=
+ =?utf-8?B?L3B0aWIwcFBMUnI5RzBaa050QjdqYUxzeXkzck1QdkQ0NjYvN0Q2bFdIN2ov?=
+ =?utf-8?B?bEg2bThvTTNlVktSQSswVk80K05yUW5ucjdpUE1oSHZtV0dSSFkyS2F2RWVU?=
+ =?utf-8?B?U3dFNEdIa3pTQ3I4WVl1SnA1aXJnNG54UnVLNFlWbDhrUkVHeldEcnlZQmFT?=
+ =?utf-8?B?MWpqam9LdGFqaVhKYlFza29sWjA4T0EzdEtIaDBPMFBlSjF6THhoYkR0TzVS?=
+ =?utf-8?B?aFMvZGJ5am5YWStvMUVrd1h4VjVvbHVrVHZRbU5sblZQQkhNOTlWZzJlVi9o?=
+ =?utf-8?B?MXNjTzBWZWNYS1ZXZ3dpM0F6OGkyMG84M1U4TDI0VExhUURjV0FJUWgzQ0w2?=
+ =?utf-8?B?dFVyZ1k2amtTTGhUQUpiMzJPdEJhZkRxR0xuR1Q3NFBhK2RZcmZCcnNhMzIw?=
+ =?utf-8?B?U09LVUdsNlVoZFRuRUg5dk9TYVRMMlB6enRyWUt3cXg4MWlZc3gzMGZKcDJS?=
+ =?utf-8?B?cG9DQWp6M1MvVXMyM1ZqbUFidGJXQnl4b2tSVzN2VXhuTm5acEtJbTBlRU45?=
+ =?utf-8?Q?HLqi2jEk/IsU2WPje5QKl+xqPXz3Epyl7QTW2FjzjJUGE?=
+X-MS-Exchange-AntiSpam-MessageData-1: 80Y5w1arXdL5ag==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 055b4b26-e86f-422e-e000-08def48ca224
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 14:03:18.8161
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8IIfNPxRQ/lKUs/Z+FLo50LJNbZ+xsPOjd+MBGdytLdvt3ymRmkL1PDCFO2x6wQoAg1cggXazNgHIp8Lmun72A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9157
 
-On 26/08/05 10:33PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:30:07AM +0000, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
-> > Replace simple_statfs(), which reports zero blocks (so df omits the mount),
-> > with famfs_statfs() reporting real capacity and usage.
-> > 
-> > Add dax_fsdev_size() in drivers/dax/fsdev.c, returning the size fsdev
-> > caches at probe (dev_dax->cached_size - the sum of the device's ranges,
-> > stable while bound), exported. It lives in fsdev.c because cached_size is
-> > set only by the fsdev driver, and famfs only ever holds fsdev-mode daxdevs
-> > (fs_dax_get() enforces DAXDRV_FSDEV_TYPE); famfs.ko therefore depends on
-> > fsdev_dax.ko.
-> > 
-> > famfs tracks two byte counters under a new stats_sem:
-> >  - total_capacity: summed in famfs_install_daxdev() from dax_fsdev_size(),
-> >    covering the mount primary and every DAXDEV_OPEN secondary, counted once
-> >    per daxdev (on the valid 0->1 transition).
-> >  - used_capacity: summed in famfs_file_init_dax() from the fmap's mapped
-> >    device bytes (superblock + log + data files).
-> > 
-> > famfs_statfs() reports total and free (total - used). Free is an
-> > approximation of the userspace allocator's free space (it ignores allocator
-> > gaps and reserved regions), which is adequate for df.
-> > 
-> > (Side note: I am the maintainer of drivers/dax/fsdev.c)
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  drivers/dax/fsdev.c       | 19 +++++++++++++++++
-> >  fs/famfs/famfs_file.c     |  5 +++++
-> >  fs/famfs/famfs_inode.c    | 43 ++++++++++++++++++++++++++++++++++++++-
-> >  fs/famfs/famfs_internal.h |  8 ++++++++
-> >  include/linux/dax.h       |  1 +
-> >  5 files changed, 75 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> > index 188b2526bee4..a5b4b2d79428 100644
-> > --- a/drivers/dax/fsdev.c
-> > +++ b/drivers/dax/fsdev.c
-> > @@ -104,6 +104,25 @@ static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff
-> >  	return _copy_from_iter_flushcache(addr, bytes, i);
-> >  }
-> >  
-> > +/**
-> > + * dax_fsdev_size() - total size in bytes of an fsdev dax device
-> > + * @dax_dev: the dax device (must be bound to this driver)
-> > + *
-> > + * Returns the size cached at probe time (sum of all ranges); it cannot change
-> > + * while the driver is bound. Only valid for fsdev dax devices - callers
-> > + * ensure that (e.g. fs_dax_get() enforces DAXDRV_FSDEV_TYPE). Returns 0 if the
-> > + * device is not alive.
-> > + */
-> > +u64 dax_fsdev_size(struct dax_device *dax_dev)
-> > +{
-> > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
-> > +
-> > +	if (!dev_dax)
-> > +		return 0;
-> > +	return dev_dax->cached_size;
-> > +}
-> > +EXPORT_SYMBOL_GPL(dax_fsdev_size);
-> > +
-> >  static const struct dax_operations dev_dax_ops = {
-> >  	.direct_access = fsdev_dax_direct_access,
-> >  	.zero_page_range = fsdev_dax_zero_page_range,
-> > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
-> > index abf049b32a4b..5be39d677089 100644
-> > --- a/fs/famfs/famfs_file.c
-> > +++ b/fs/famfs/famfs_file.c
-> > @@ -280,6 +280,11 @@ famfs_file_init_dax(struct file *file, void __user *arg)
-> >  	}
-> >  	inode_unlock(inode);
-> >  
-> > +	/* Account the mapped device bytes for statfs (only on success) */
-> > +	if (!rc) {
-> > +		scoped_guard(rwsem_write, &fsi->stats_sem)
-> > +			fsi->used_capacity += extent_total;
-> > +	}
-> >  out:
-> >  	kvfree(fmap_buf);
-> >  	if (meta)
-> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> > index 6cbd7d657fd8..3c0d1094d653 100644
-> > --- a/fs/famfs/famfs_inode.c
-> > +++ b/fs/famfs/famfs_inode.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/iomap.h>
-> >  #include <linux/path.h>
-> >  #include <linux/namei.h>
-> > +#include <linux/statfs.h>
-> >  
-> >  #include "famfs_internal.h"
-> >  
-> > @@ -307,8 +308,37 @@ static void famfs_evict_inode(struct inode *inode)
-> >  	clear_inode(inode);
-> >  }
-> >  
-> > +/*
-> > + * famfs_statfs() - report device capacity and consumption so 'df' works.
-> > + * @total_capacity is the sum of installed daxdev sizes; @used_capacity is the
-> > + * sum of device bytes mapped by fmaps (superblock + log + data files). Free is
-> > + * the difference - an approximation of the userspace allocator's free space
-> > + * (it ignores allocator gaps / reserved regions), which is fine for df.
-> > + */
-> > +static int famfs_statfs(struct dentry *dentry, struct kstatfs *buf)
-> > +{
-> > +	struct famfs_fs_info *fsi = dentry->d_sb->s_fs_info;
-> > +	u64 total, used, free;
-> > +
-> > +	scoped_guard(rwsem_read, &fsi->stats_sem) {
-> > +		total = fsi->total_capacity;
-> > +		used  = fsi->used_capacity;
-> > +	}
-> > +	free = total > used ? total - used : 0;
-> > +
-> > +	buf->f_type    = FAMFS_SUPER_MAGIC;
-> > +	buf->f_bsize   = PAGE_SIZE;
-> > +	buf->f_frsize  = PAGE_SIZE;
-> > +	buf->f_blocks  = total >> PAGE_SHIFT;
-> > +	buf->f_bfree   = free  >> PAGE_SHIFT;
-> > +	buf->f_bavail  = free  >> PAGE_SHIFT;	/* no root reservation */
-> > +	buf->f_namelen = NAME_MAX;
-> > +	buf->f_fsid    = u64_to_fsid(huge_encode_dev(dentry->d_sb->s_dev));
-> > +	return 0;
-> > +}
-> > +
-> >  static const struct super_operations famfs_super_ops = {
-> > -	.statfs		= simple_statfs,
-> > +	.statfs		= famfs_statfs,
-> >  	.drop_inode	= inode_just_drop,
-> >  	.show_options	= famfs_show_options,
-> >  	.evict_inode    = famfs_evict_inode,
-> > @@ -399,6 +429,7 @@ int famfs_install_daxdev(
-> >  		const char *name)
-> >  {
-> >  	struct famfs_daxdev *daxdev;
-> > +	struct dax_device *devp = NULL;
-> >  	int rc = 0;
-> >  
-> >  	if (index >= fsi->dax_devlist->nslots) {
-> > @@ -462,6 +493,15 @@ int famfs_install_daxdev(
-> >  
-> >  		wmb(); /* All other fields must be visible before valid */
-> >  		daxdev->valid = 1;
-> > +		devp = daxdev->devp;
-> > +	}
-> > +
-> > +	/* Freshly installed: add its capacity to the statfs accounting */
-> > +	if (devp) {
-> > +		u64 sz = dax_fsdev_size(devp);
-> > +
-> > +		scoped_guard(rwsem_write, &fsi->stats_sem)
-> > +			fsi->total_capacity += sz;
-> 
-> Can dax devices change size the same way block devices can?
-> 
-> Though for statfs that hardly matters; a bdev shrinkage rarely causes
-> b_avail to be updated even if the filesystem starts barfing IO errors
-> due to invalid LBA range.
-> 
-> The code in here looks good to me otherwise.
-> 
-> --D
+On Wed Aug 5, 2026 at 7:43 PM JST, Gary Guo wrote:
+> On Wed Aug 5, 2026 at 6:44 AM BST, Eliot Courtney wrote:
+>> Add a helper to get a subregion of an IO view fallibly.
+>>
+>> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+>> ---
+>>  rust/kernel/io.rs | 31 ++++++++++++++++++++++++++++++-
+>>  1 file changed, 30 insertions(+), 1 deletion(-)
+>
+> Looks like the case where you need this don't actually require a `Region`
+> (dynamically sized type) but rather a fixed size window?
+>
+> In that case the next version of
+> https://lore.kernel.org/rust-for-linux/20260721-typed_register-v1-0-452d7=
+2b60262@garyguo.net/
+> will contain what you need.
 
-There are cases where a daxdev can change size, but fsdev/famfs mode
-explicitly prohibits that.
-
-Since the whole idea is that daxdevs probably point to shared memory,
-We can't let the size change because it might not happen at the same
-instant everywhere. Because special relativity ;)
-
-I watched a video of Leslie Lamport some time back where he said software
-concurrency was like special relativity: you often *cannot* know whether
-A happened after B, etc.
-
-Thanks!
-John
-
-<snip>
+Looks like we are going to need to full series (or at least until and
+including patch 11) before this can get in. Gary, what tree are you
+planning to merge the register projection series into? It would be nice
+if we could do it in a way that makes it possible for this series to be
+merged shortly after (either through `drm-rust-next`, or a merged signed
+tag) for the next cycle.
