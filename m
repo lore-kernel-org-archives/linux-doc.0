@@ -1,521 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B474B049E;
-	Fri,  7 Aug 2026 00:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786062499; cv=none; b=lr87W29SfEzB8Pzmyrx3PLQDHGbJHoagwX3r12Jy5VR+1kcaHy5M/YNpHU9Q0wU5XHAQRcDwqZH448GAydwaua2aNUl6CeacW2MQ5cQ/bbWnGyO41F267nmR/ySd0jNi2HJwDdRqwNxDr6I6lenth+K8RUbfQd/ht5AuhDCuov8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786062499; c=relaxed/simple;
-	bh=fAgGaE7Bge7S6Gvxnw+mbjQTtNJx336SuDBx1Mmjl5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GvvEVYBKZ1drmDhyNuy75r+3v8eNlTvJ1WVJvDrB/dIeKMidWIaabchCM8RzqvHrZjDxM/F4T+38Zj3w0Uy8C/qgIfGuUX99gf/iOSHDoDf4M2uH4EqOU8wxkFY7Z0hYW4mlZogSA/zLUPUJ4pt32FL6dLmu+kh9aBTngkkqriw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rg+TQJFY; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A54A199FAB;
+	Fri,  7 Aug 2026 00:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786063043; cv=fail; b=oz7GI+DgXolJZGsvvnRQXfzhu/+sW04dCIOxY0mmkdEkkS5rUG5G2JxnD062mTWtand6DUHDf3Udh0oAzH5vZMd5jDwJI3rsBWbc8KniAemXD0RFjTMM/JsIWRKNXv3BPCj1PSVqjNx0X9qLeKHSW/9ueYpxWiURa9unItpJ7ug=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786063043; c=relaxed/simple;
+	bh=to80hCi5OQYemxHeZ2KGpHlxVolLg8/t0c/VVevGBQ8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=FONrE+MpyCuNzrTwl0ArVtiZfajozAFjakK2AGmFCNRIAH1A5hLz9aM4fO8znLhkwBkL8X1tF+2+aiXC8GhFnFpOBaQtPYS26y7N1uVay5DxqF4fMMoHvuoJou+XW/LgJ6P3BIygcXxdfL8aY1AV4GZeYIsjj4TcUxD1HajsVBU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NX5n9gtm; arc=fail smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rg+TQJFY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NX5n9gtm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786062496; x=1817598496;
+  t=1786063040; x=1817599040;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=fAgGaE7Bge7S6Gvxnw+mbjQTtNJx336SuDBx1Mmjl5o=;
-  b=Rg+TQJFYj96zOcSGq1E3WwPKphcI6n0RuOFaEa/poLkg6vLpF+lYSu/B
-   XTs1yjJT6uzNq2ABVaftiqGJbncwIH9RoGk+j0qecnSfF6ddUn3L2Jhvy
-   uE2uBFNUtePuXhEYMkIO5AADEvEIy4us7wIyTFZM5uOChNU/rSrkC+rbK
-   cvs88SExvnYvu0dKUM/KwLl0ek74ee15ApPTnlYK2MHfjFhxi8BmDJK5D
-   Wqt6RDYT2K/b8tsj2Tw0DRilD7vleNakHKdd0KLZW1LCrcnKyS5tIj+JN
-   r2db+v8d/19op6GXFWTlhWedku/J157tqpYGV0C7km1AzNhbOEnCqkc2m
-   Q==;
-X-CSE-ConnectionGUID: /YGsjPOXTFO19Tb+3X+PgA==
-X-CSE-MsgGUID: EAQ8Qv7lQAGBENwDRqHaAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86698543"
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=to80hCi5OQYemxHeZ2KGpHlxVolLg8/t0c/VVevGBQ8=;
+  b=NX5n9gtm+gTpkVEyb/+K9LI1kXRRptHTIBaK8aXtr0dSdz83Gx+/mdIa
+   zEv2x52MVe2/Bnz2YvOWfRd6k1woCbD5xw+SItWpCSFA0iubzUVZGdUuD
+   WHRzBwrnZI07aTqymBj08pveHEvEfWvAJ/voVNdLWd0eNCgleeRvp5fLB
+   RJofZICapCGLQWybXxQAnnCY99Mo+qdIQSUlafhT4Y07eH8zN6GgUYbOV
+   7wg6qM6EO2nrmEIgk7G9lS7yt/OokFbSqfvyaTMuYAb5AymtN/46/BIV3
+   EIeHBVNDe3M75AK/BcC+UfDvNkLGfJ3Vi3zqObtfY59XubLKXBDA/8kJb
+   A==;
+X-CSE-ConnectionGUID: mQFWOPFlQX69WCHqD891eQ==
+X-CSE-MsgGUID: A4ogmwJMTKmlVbddFyNsSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="104072410"
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="86698543"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 17:28:16 -0700
-X-CSE-ConnectionGUID: VdCM8yGyT0GEhqCkxTkFiQ==
-X-CSE-MsgGUID: bX2hfQQfS9yLhbIgVnb5zw==
+   d="scan'208";a="104072410"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 17:37:20 -0700
+X-CSE-ConnectionGUID: ONMWPX6cSUGgqXCMFfyo8g==
+X-CSE-MsgGUID: FWhHzbiKTSGdpd3W+nT8kg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="266088332"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 17:28:10 -0700
-Date: Fri, 7 Aug 2026 03:28:08 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>, linux@analog.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v2 4/7] iio: adc: Add AD7768 IIO Driver support
-Message-ID: <anUmmKFMEJyc5tW7@ashevche-desk.local>
-References: <20260806-ad7768-driver-v2-0-027ac5e2a641@analog.com>
- <20260806-ad7768-driver-v2-4-027ac5e2a641@analog.com>
+   d="scan'208";a="292143452"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 17:37:20 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 6 Aug 2026 17:37:19 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Thu, 6 Aug 2026 17:37:19 -0700
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.51) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 6 Aug 2026 17:37:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pTps7ZogsYIxATOYaM7hadgooX5fK3HoaAjxd0zQiEENcIleS+ssTGnhKd/+8L16iod/jMCATYR1l99pHxSeLSRrL7YCbe0X31xna4IwF9wdFJ7ElFdA/hySKDW62ChQr2u3kw2aT+4q11yyCvi8Cc+fB+31G3LViJdHHAf747ndaBh/T9+gMwG8SsYwsaaAspRJGt93RkMrrR0oASGN5sA5Xts13LlXuuupfjfAqkJgW/BthXPwxA0vzTPyokU8pud43AB4fnpNLOD8mkFZD6W3YuNpS2zfu+BJ01QykQpaAyNnkTLNxjP56bgbqvqdeqM4ft5GRRqNlVmh9PkXgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aj5wDgu7IJRnQeaurNUel+B2ejguU+W2BDKRALxn5lc=;
+ b=scAGDUVqorsH3iaZP9OROmgJime5YfhrJp3Q38ckCO6zXuixXwDBUxzm7CEG3xtFZjpsiV3qRVXRHWx0C/1PwUpDhpYlogBV9l5OOk+lx9LFuTljBaRHp8HwbMKmoHuTPE0lnx2na070HAJ8j6YosEgNzCZBoJZfFdxky1OCPgyQp9APgM+N01q1IBP2WXjOK7dEJHv0XJvoEbNQa3Xnu1Uovg0wHoEVwCON5yya6TgMgig5CMFz+0Z+40f1/MiHmPe1NQrInpmyghignn9mo7+Z2Ixm9GVGBbFugkCdqWp2VXd8zQ/s77IZXtbRRJjjmph+R/KBxI09Ct1a1Kp2TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
+ by DM4PR11MB6020.namprd11.prod.outlook.com (2603:10b6:8:61::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Fri, 7 Aug
+ 2026 00:37:12 +0000
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::e721:90d7:9214:2d53]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::e721:90d7:9214:2d53%6]) with mapi id 15.21.0292.013; Fri, 7 Aug 2026
+ 00:37:11 +0000
+Date: Thu, 6 Aug 2026 17:37:08 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: <sashiko-reviews@lists.linux.dev>
+CC: <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 1/2] docs: python: abi_regex: catch the right exception
+ for a bad regex
+Message-ID: <anUotMOFSJpBTtJh@aschofie-mobl2.lan>
+References: <d57d3ddc0d7d883bd61ad07c6d3969b622fd446f.1786058698.git.alison.schofield@intel.com>
+ <20260807000345.86D851F000E9@smtp.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260807000345.86D851F000E9@smtp.kernel.org>
+X-ClientProxiedBy: SJ2P221CA0005.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5db::17) To DS4PPF0BAC23327.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260806-ad7768-driver-v2-4-027ac5e2a641@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Thu, Aug 06, 2026 at 05:41:23PM +0200, Janani Sunil wrote:
-> Add support for AD7768 4/8 channel,simultaneous sampling Sigma-Delta
-> ADCs. The driver supports configurable decimation filters, per-channel
-> conversion delay, VCM regulation, runtime PM and IIO backend data
-> capture.
-
-Can you split this to the basic minimum + patch per feature?
-
-1.7k LoC is too much for a review, the usual size is ~750±150 per patch.
-Here sounds like 3+ patches.
-
-...
-
-> +#define   AD7768_PICO_PER_SEC			1000000000000ULL
-
-Don't we have this in time.h (beneath it somewhere)?
-
-...
-
-> +struct ad7768_freq_config {
-> +	unsigned int freq;
-
-freq_Hz?
-
-> +	unsigned int dec_rate;
-> +};
-
-...
-
-> +struct ad7768_avail_freq {
-> +	unsigned int n_freqs;
-> +	int freqs[MAX_FREQ_PER_MODE];
-
-Negative frequency?
-
-> +	struct ad7768_freq_config freq_cfg[MAX_FREQ_PER_MODE];
-> +};
-
-...
-
-> +struct ad7768_state {
-> +	struct spi_device *spi;
-> +	struct regmap *regmap;
-
-One of them seems redundant. Is regmap created out from &spi->dev?
-
-> +	struct mutex lock; /* Protects device register access and configuration */
-> +	struct clk *mclk;
-> +	unsigned int datalines;
-> +	enum ad7768_power_modes power_mode;
-> +	const struct ad7768_chip_info *chip_info;
-> +	struct ad7768_avail_freq avail_freq[AD7768_NUM_POWER_MODES];
-> +	unsigned int n_freqs;
-> +	int freqs[AD7768_MAX_FREQS];
-> +	unsigned int chn_mode[AD7768_MAX_CHANNEL];
-> +	unsigned int ch_freq[AD7768_MAX_CHANNEL];
-> +	u64 ch_convdelay_ps[AD7768_MAX_CHANNEL];
-> +	enum ad7768_filter_type ch_filter[AD7768_MAX_CHANNEL];
-> +	struct iio_backend *back;
-> +	struct regulator_dev *vcm_rdev;
-> +	unsigned int avdd1_uv;
-
-_uV
-
-> +
-> +	__be16 d16 __aligned(IIO_DMA_MINALIGN);
-> +};
-
-...
-
-> +static const unsigned int ad7768_vcm_voltage_table[] = {
-> +	0, 1650000, 2500000, 2140000
-
-In this case, keep trailing comma.
-
-> +};
-
-...
-
-> +static int ad7768_vcm_is_enabled(struct regulator_dev *rdev)
-> +{
-> +	struct ad7768_state *st = rdev_get_drvdata(rdev);
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(&st->spi->dev, pm);
-> +	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_read(st->regmap, AD7768_REG_GENERAL_CONFIG, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return !(val & AD7768_GEN_CONFIG_VCM_PD);
-
-regmap_test_bits() ?
-
-> +}
-
-...
-
-> +static const int ad7768_dec_rate[MAX_FREQ_PER_MODE] = {
-> +	32, 64, 128, 256, 512, 1024
-
-Even in the very same page you have inconsistent approach. Make sure your code
-is consistent in every aspect. Two+ people wrote the driver?
-
-> +};
-> +
-> +static const int ad7768_mclk_div[3] = {
-> +	32, 8, 4
-> +};
-> +
-> +static const unsigned int ad7768_available_datalines[] = {
-> +	1, 2, 8,
-> +};
-> +
-> +static const unsigned int ad7768_4_available_datalines[] = {
-> +	1, 4,
-> +};
-> +
-> +static const u8 ad7768_chan_map[] = {
-> +	0, 1, 2, 3, 4, 5, 6, 7,
-> +};
-> +
-> +static const u8 ad7768_4_chan_map[] = {
-> +	0, 1, 4, 5,
-> +};
-
-...
-
-> +static int ad7768_set_power_mode(struct ad7768_state *st, unsigned int mode);
-
-Can forward decl be avoided?
-
-...
-
-> +static u8 ad7768_all_channels_mask(const struct ad7768_state *st)
-> +{
-> +	u8 mask = 0;
-> +	unsigned int ch;
-> +
-> +	for (ch = 0; ch < st->chip_info->num_channels; ch++)
-
-	for (unsigned int ch = 0; ch < st->chip_info->num_channels; ch++)
-
-> +		mask |= ad7768_channel_mask(st, ch);
-> +
-> +	return mask;
-> +}
-
-...
-
-> +static int ad7768_regmap_read(void *context, const void *reg_buf,
-> +			      size_t reg_size, void *val_buf, size_t val_size)
-> +{
-> +	struct spi_device *spi = context;
-> +	struct ad7768_state *st = spi_get_drvdata(spi);
-> +	u8 *data_val = val_buf;
-> +	unsigned int reg;
-> +	int ret;
-> +	struct spi_transfer t[] = {
-> +		{
-> +			.tx_buf = &st->d16,
-> +			.len = 2,
-> +			.cs_change = 1,
-> +		}, {
-> +			/*
-> +			 * The second transfer clocks out the readback data, so
-> +			 * we must provide dummy TX bytes while receiving the
-> +			 * response. The device ignores MOSI in this phase, so
-> +			 * reuse st->d16 for both TX and RX.
-> +			 */
-> +			.tx_buf = &st->d16,
-> +			.rx_buf = &st->d16,
-> +			.len = 2,
-> +		},
-> +	};
-> +
-> +	reg = *(const u8 *)reg_buf;
-> +
-> +	st->d16 = cpu_to_be16(AD7768_SPI_READ_CMD |
-> +			      FIELD_PREP(AD7768_SPI_REG_MASK, reg));
-
-be16_replace_bits() ?
-
-> +	ret = spi_sync_transfer(spi, t, ARRAY_SIZE(t));
-> +	if (ret)
-> +		return ret;
-> +
-> +	*data_val = FIELD_GET(AD7768_SPI_DATA_MASK, be16_to_cpu(st->d16));
-
-be16_get_bits()?
-
-> +	return ret;
-> +}
-
-...
-
-> +static int ad7768_read_calib_value(struct ad7768_state *st,
-> +				   unsigned int base_reg, unsigned int *val)
-> +{
-> +	u8 data[3];
-> +	int ret;
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	ret = regmap_bulk_read(st->regmap, base_reg, data, ARRAY_SIZE(data));
-> +	if (ret)
-> +		return ret;
-> +
-> +	*val = (data[0] << 16) | (data[1] << 8) | data[2];
-
-get_unaligned_be24()
-
-> +	return 0;
-> +}
-
-> +static int ad7768_write_calib_value(struct ad7768_state *st,
-> +				    unsigned int base_reg, unsigned int val)
-> +{
-> +	int ret;
-> +
-> +	if (val > AD7768_CALIB_REG_MSK)
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	ret = regmap_write(st->regmap, base_reg,
-> +			   FIELD_GET(AD7768_CALIB_REG_MSB_MSK, val));
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(st->regmap, base_reg + 1,
-> +			   FIELD_GET(AD7768_CALIB_REG_MID_MSK, val));
-> +	if (ret)
-> +		return ret;
-> +
-> +	return regmap_write(st->regmap, base_reg + 2,
-> +			    FIELD_GET(AD7768_CALIB_REG_LSB_MSK, val));
-
-Can you prepare value and use bulk write? Probably you want
-put_unaligned_be24().
-
-> +}
-
-...
-
-> +static int ad7768_set_clk_divs(struct ad7768_state *st,
-> +			       unsigned int freq)
-> +{
-> +	unsigned int mclk, dclk, dclk_div, i;
-> +	struct ad7768_freq_config f_cfg = {};
-> +	unsigned int chan_per_doutx;
-> +
-> +	mclk = clk_get_rate(st->mclk);
-> +
-> +	chan_per_doutx = st->chip_info->num_channels / st->datalines;
-> +	if (!chan_per_doutx)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < st->avail_freq[st->power_mode].n_freqs; i++) {
-> +		f_cfg = st->avail_freq[st->power_mode].freq_cfg[i];
-> +		if (freq == f_cfg.freq)
-> +			break;
-> +	}
-> +
-> +	if (i == st->avail_freq[st->power_mode].n_freqs)
-> +		return -EINVAL;
-> +
-> +	dclk = f_cfg.freq * AD7768_SAMPLE_SIZE * chan_per_doutx;
-> +	if (dclk > mclk)
-> +		return -EINVAL;
-> +
-> +	/* Set dclk_div to the nearest power of 2 less than the original value */
-> +	dclk_div = DIV_ROUND_CLOSEST_ULL(mclk, dclk);
-
-_ULL for sure?! Please, use 32-bit arithmetics for 32-bit values (yes, 32-bit,
-they never be 64 in real life).
-
-> +	if (dclk_div > AD7768_MAX_DCLK_DIV)
-> +		dclk_div = AD7768_MAX_DCLK_DIV;
-> +	else if (dclk_div > 0 && hweight32(dclk_div) != 1)
-> +		dclk_div = 1 << (fls(dclk_div) - 1);
-
-rounddown_pow_of_two() ?
-
-> +	return regmap_update_bits(st->regmap, AD7768_REG_INTERFACE_CFG,
-> +				  AD7768_INTERFACE_CFG_DCLK_DIV_MSK,
-> +				  AD7768_INTERFACE_CFG_DCLK_DIV_MODE(dclk_div));
-> +}
-
-...
-
-> +static bool ad7768_freq_supported(const struct ad7768_state *st,
-> +				  unsigned int mode, unsigned int freq)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < st->avail_freq[mode].n_freqs; i++) {
-
-	for (unsigned int i = 0; i < st->avail_freq[mode].n_freqs; i++) {
-
-> +		if (freq == st->avail_freq[mode].freq_cfg[i].freq)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static bool ad7768_freq_supported_in_any_mode(const struct ad7768_state *st,
-> +					      unsigned int freq)
-> +{
-> +	unsigned int mode;
-> +
-> +	for (mode = 0; mode < AD7768_NUM_POWER_MODES; mode++) {
-
-Ditto.
-
-> +		if (ad7768_freq_supported(st, mode, freq))
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-
-...
-
-> +static int ad7768_set_lowest_noise_mode(struct ad7768_state *st,
-> +					const unsigned long *scan_mask)
-> +{
-> +	unsigned int channel;
-> +	unsigned int mode;
-> +
-> +	/*
-> +	 * The output data rate ranges overlap between the power modes. At a
-> +	 * common ODR, the faster mode has lower noise, so prefer the fastest
-> +	 * mode that supports every enabled channel.
-> +	 */
-> +	for (mode = AD7768_NUM_POWER_MODES; mode-- > 0;) {
-
-	unsigned int mode = AD7768_NUM_POWER_MODES;
-	...
-	while (mode--) {
-
-> +		for (channel = 0; channel < st->chip_info->num_channels; channel++) {
-> +			if (test_bit(channel, scan_mask) &&
-> +			    !ad7768_freq_supported(st, mode, st->ch_freq[channel]))
-> +				break;
-> +		}
-> +
-> +		if (channel == st->chip_info->num_channels)
-> +			return ad7768_set_power_mode(st, mode);
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-
-...
-
-> +	struct ad7768_state *st = iio_priv(indio_dev);
-> +
-> +	if (!freq)
-> +		return -EINVAL;
-> +
-> +	if (!ad7768_freq_supported_in_any_mode(st, freq))
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&st->lock);
-
-+ blank line here.
-
-> +	st->ch_freq[ch] = freq;
-> +
-> +	return 0;
-
-...
-
-> +static int ad7768_get_freq_cfg(struct ad7768_state *st, unsigned int freq,
-> +			       struct ad7768_freq_config *f_cfg)
-> +{
-> +	unsigned int i;
-
-Embed into for-loop.
-
-> +	for (i = 0; i < st->avail_freq[st->power_mode].n_freqs; i++) {
-> +		*f_cfg = st->avail_freq[st->power_mode].freq_cfg[i];
-> +		if (freq == f_cfg->freq)
-> +			return 0;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-
-...
-
-> +static void ad7768_filter_wait(const unsigned int *mode_freq,
-> +			       const enum ad7768_filter_type *mode_filter,
-> +			       const bool *mode_used)
-> +{
-> +	unsigned long t_settle_us = 0;
-> +	unsigned int mode;
-> +
-> +	for (mode = 0; mode < AD7768_NUM_CHANNEL_MODES; mode++) {
-> +		unsigned long t_mode_us;
-
-Hmm... Are you sure about the type? Shouldn't it be always 64-bit (or 32-bit)?
-
-> +		unsigned int settling_samples;
-> +
-> +		if (!mode_used[mode] || !mode_freq[mode])
-> +			continue;
-> +
-> +		if (mode_filter[mode] == AD7768_FILTER_TYPE_SINC5)
-> +			settling_samples = AD7768_SINC5_SETTLING_SAMPLES;
-> +		else
-> +			settling_samples = AD7768_WIDEBAND_SETTLING_SAMPLES;
-> +
-> +		t_mode_us = DIV_ROUND_UP_ULL((u64)settling_samples *
-> +					     USEC_PER_SEC,
-> +					     mode_freq[mode]);
-> +		t_settle_us = max(t_settle_us, t_mode_us);
-> +	}
-> +
-> +	if (t_settle_us)
-> +		fsleep(t_settle_us);
-> +}
-
-...
-
-I stopped here as this is too much and unreviewable bulk.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|DM4PR11MB6020:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85ac010e-9204-4241-7f6b-08def41c04d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|6133799003|56012099006|4143699003|10067099003|18002099003|22082099003|11063799006;
+X-Microsoft-Antispam-Message-Info: dcNvLENGxkoH6ZnEWls3EM+muQS48g873RDNlfhFtr0H0e+pAnoXWS8xzhSE+Wkp0IF42UbVYTkTWLyDtyC6sW+Enkr/SgTxr0eeb/AhZpqAB/D3NOv4HTmXwYy/yIPCXlYIIU8wGX8KMu4t5ijisA3ttTOD7eDKRedj6ouqAuLOLx4AnUimLtBNxEIwD50Ru/habBQyIe4yZ+FGFAnWG5RUwN+cPU1mFgEcms2uldeTW45iR+rooVvE8Y6Cd6/I+X0b0gphNNM50iDPfhULmnn0jOTAtO6ZiNpjDivXL2eSt2gi2Ul45NOFl3rPgadjzazMZ+32du0KB6kzMnMSELaDmQJSpguOymaeujjdoeOLDgvd6/lEU1XLAX85EPt/3sPnkw+4x1ZQ7vbb1B3KOkfRIhjaMnRRATeGFPLkPDtnHV/wsTY0F1jxt/ZhGKVcFM2aNCQLXQgSRfNSf450kQmHsbnoMn1m2A7rir5oobAXDto1TvC7an6KQI3vZpnzBrX5PXXQ3rWMJMAvA3a3FTU346mYsr0GJR0IfcDRorerxYoqVvHaZJuyTG6A4NuaQh+/ElJsEdtASDypxVkSXT0AaqVuHsrZiyyP/r01csw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(6133799003)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?YpYOqJtRE7EHszf/e7+oz84vf0VzwfnJLsk7TCsz0HkDjVbT60o/jxk3XB?=
+ =?iso-8859-1?Q?vgRMQtg5MZN3CGnW6M+2KKZWgG+dx0PitNF+/aVKQsNALdnicLR2d2PumS?=
+ =?iso-8859-1?Q?UTJUJZh5wivILi5SUXkFfWyqIkNHqRg3ETzSBpUqfu2620n5jPCCHDDxyL?=
+ =?iso-8859-1?Q?xhBWtf3/UAqqbZQI1m4YWBvJQmYZ0GdwbKEeQ2RQ/z+6RYlHa1Y49kYmzB?=
+ =?iso-8859-1?Q?+cv+HT6y89qpp3J/6IFxwmNLSWFoSqUeX1mUqyp4iQYJyYvaT8jnoCgAcs?=
+ =?iso-8859-1?Q?YEASaheqjExfoWZuPtUYu9CVoGPSHMrpUGao9CmkWeZLJVSQr8nWmN+7BM?=
+ =?iso-8859-1?Q?jGBvTHC02Oxx+YSuiWYB54wQ3jqryfTUl5mboMlfsDTypuzBHjaGETG0ow?=
+ =?iso-8859-1?Q?5CoP/ZeoNvCB7cPzKH0gaV0AOdPF78dgEuod9248ncFVIF2VtQlb3dBhRM?=
+ =?iso-8859-1?Q?4LKyzpdyb1LY8FGq65oyZYT+1L771Pk4sdLbuy/+d259vrsTRAFMZ1yic7?=
+ =?iso-8859-1?Q?IthLtFEdd7TOksYbxilk0ITzs+xoIEJsjjbcX5tSDU1vQKNZ3sWJr1CMDz?=
+ =?iso-8859-1?Q?JYPeZiuNgElHNO7zIjTxvHuDg1/LozZFdKSwqJUgeL0b1VxZs2+9P+6wnz?=
+ =?iso-8859-1?Q?Q9jKZ7cYotQxKjih8VgLXii78tbTe0yfgLuvrCQHd81zBYX/sGVden9glW?=
+ =?iso-8859-1?Q?wKHmmUXS2f7FoINKjwzL3vklq0N8tgwjHgLo5vjaUMkWpPtR2zVKh4MsC1?=
+ =?iso-8859-1?Q?sBP5I8v7XJqHMQHESc8kZcds1L5DNEkPtoEg4O+kZbOxIZLJsHtHyIQXZE?=
+ =?iso-8859-1?Q?VDxf9X/HhoRHsuvV2vZx72EWBtw6pzt6Zls/u+Euu1SyElKmYZCUaRwCeq?=
+ =?iso-8859-1?Q?TrY+WTbokRlt7fAQU25dNzZQSR1ucIQe52tLYVXeXDwf21/8UdlU6FcQ28?=
+ =?iso-8859-1?Q?Lc9cQq3KDFuRJgF6NKzgsoaXsZRVs/Gz13IoCETKjIaNkxvECdk+Fg0nU5?=
+ =?iso-8859-1?Q?1l7nnAGKgeL0SIVj7ZPSAdzt9a6WFw9U+DQvpRhBQrP8ioKc1etrCbtHcQ?=
+ =?iso-8859-1?Q?lTsRwtV2l79Gqd4KzXXUBvrI1XSgW6gnU0kXB6kkzWv6Ppfbi6WPx4K9DX?=
+ =?iso-8859-1?Q?0hD527hoR67QdThYZjGkv9VHXHUuer/fjxcQtjcInYyQ/Ci5KcSsuI0xk3?=
+ =?iso-8859-1?Q?qoS0Tv5rbIiaDBOW8wwrfdyCCSX6IvXYqmD/jt4L9St1DCjDIz1DXaQx+/?=
+ =?iso-8859-1?Q?ksgEBkKx+OjY7woXQLJMoVixaMw26bSJIQkNFCGfvimVgpK6aITfpu5uJv?=
+ =?iso-8859-1?Q?woT2GbGju8M5ZjgnYb70469sKKGTdg6gUjbY3Rj1FpCP5pQgOQpu6gYNFi?=
+ =?iso-8859-1?Q?Lg8BHEZpVSjJB3zxu4pZ32/QGiW/Xt8xhHWf7/9nzt7bZt93ivB+Ir/6Ud?=
+ =?iso-8859-1?Q?nJTuJGUqh5kWYCYVMIwGwYPSslP1dKUbcRtAKrPsSAX2RhlBr0J6xEC014?=
+ =?iso-8859-1?Q?IFUX2ibNvZkf3WB1sP+pXhxfftdZz6QxKuH5FFPxRSAjO8kQbhi16GqCEb?=
+ =?iso-8859-1?Q?jdMLxZaHUcMHrM5cOk2tMMEt+qy2a1BS2kZU20T6MekYy24Ihm1lySPaKp?=
+ =?iso-8859-1?Q?y8HP0KQdmhnT2xFi8HYZUDHqQJONN6YUEbsws7cXleLLtNSvLH5ukrKZTt?=
+ =?iso-8859-1?Q?B7sQ3lp1xZZoUwfifPjZFM7v935OAOiDr06F2GQPNH7J/KbZhUBrxLwB3t?=
+ =?iso-8859-1?Q?bsdNljzxYuNJduqi0cOYTox5mJb+7VskKKzUCyzVpuebQPlsMc0A0T4rcG?=
+ =?iso-8859-1?Q?1KRGghwqugKSzOOyQJTScAojIH1C3SI=3D?=
+X-Exchange-RoutingPolicyChecked: UM0LdEi3WUpAaoL79wLKwZTpT5SnVCLSxf+B/41Nx4Y+/sZZFr5KhV3XOZyp/0xsPzv6apUfcY/9wrxLoybVgNnZLoB8M8hkx5RS/7v9arWEHbkCHOSoBG6bmPan9xNtEMXPFQbA+YMOMjMQ8pkCRn7tRfcrF++7dvjhfI66hLKNX35XdwSqG1hFa6r7Cs9pZr1j7TBS78DSeMWMtgeJHjb06KhG5HQkInPGMVednYgpw01o1r4f2z5OOSCqCqyPVbfxn51ZXKhbOiMc6sJwxeI+PkjJ3F1JpT0HuC4PbZh7kQdgULW7zcPEv3wlMp/q5SBh8YdmLJu93zBhdFbsaA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85ac010e-9204-4241-7f6b-08def41c04d2
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 00:37:11.3556
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SXbHgUuW/dqvM6b/59xlAqSJNaADagOqN3Q9pv82i4xSMgiwrWQV9Bk0n0SAr3M8axQ38HztdClBY1fFZed11w5751c+1d9WAAT0YHYgs7s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6020
+X-OriginatorOrg: intel.com
+
+On Fri, Aug 07, 2026 at 12:03:44AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Medium] The patch replaces `re.PatternError` with `re.error` rather than catching both, directly contradicting the commit message and exposing a misunderstanding of standard Python.
+
+It does indeed catch both by simply using 're.error'.
+
+re.PatternError is not a separate exception because re.error was
+kept as an alias for backward compatibility.
+
+So yes, a bit of secret sauce not obvious in the commit message.
+
+I'll wait a bit and see if Maintainers want a respin with a commit
+log update for that.
+
+
+> --
+> 
+> --- Patch [1]: [PATCH 1/2] docs: python: abi_regex: catch the right exception for a bad regex ---
+> commit ed601931671f151d8ef4f1bbd0e817520a34f3c5
+> Author: Alison Schofield <alison.schofield@intel.com>
+> 
+> docs: python: abi_regex: catch the right exception for a bad regex
+> 
+> This commit updates the exception handling in abi_regex.py to prevent the
+> script from aborting on invalid regular expressions. It aims to support
+> both older and newer Python releases by handling regex errors correctly.
+> 
+> > Older Python releases raise re.error, while newer releases expose
+> > re.PatternError. Catching only the newer name causes the scan to
+> > abort when an invalid expression is encountered.
+> > 
+> > Catch both names so the scan continues and reports the remaining
+> > results.
+> 
+> [Severity: Medium]
+> Does the commit message accurately reflect the changes? 
+> 
+> The text states it will "Catch both names", but the patch replaces 
+> re.PatternError with re.error entirely. While standard Python uses re.error, 
+> if newer releases actually exposed re.PatternError as stated in the commit 
+> message, wouldn't replacing the handler cause newer Python releases to abort?
+> 
+> > diff --git a/tools/lib/python/abi/abi_regex.py b/tools/lib/python/abi/abi_regex.py
+> > --- a/tools/lib/python/abi/abi_regex.py
+> > +++ b/tools/lib/python/abi/abi_regex.py
+> > @@ -155,7 +155,7 @@ class AbiRegex(AbiParser):
+> >              if self.search_string:
+> >                  if what.find(self.search_string) >= 0:
+> >                      print(f"What: {what}")
+> > -        except re.PatternError:
+> > +        except re.error:
+> 
+> [Severity: Medium]
+> Is it intentional to only catch re.error here in regex_append(), rather
+> than catching both as described in the commit message?
+> 
+> [ ... ]
+> 
+> > @@ -194,7 +194,7 @@ class AbiRegex(AbiParser):
+> >  
+> >                  try:
+> >                      self.re_string = re.compile(self.search_string)
+> > -                except re.PatternError as e:
+> > +                except re.error as e:
+> 
+> [Severity: Medium]
+> Does this __init__() block also need to catch both exceptions, or is
+> replacing re.PatternError with re.error sufficient?
+> 
+> [ ... ]
+> 
+> > @@ -223,9 +223,9 @@ class AbiRegex(AbiParser):
+> >                  for r, s in self.re_whats:
+> >                      try:
+> >                          new = r.sub(s, new)
+> > -                    except re.PatternError as e:
+> > +                    except re.error as e:
+> >                          # Help debugging troubles with new regexes
+> > -                        raise re.PatternError(f"{e}\nwhile re.sub('{r.pattern}', {s}, str)") from e
+> > +                        raise re.error(f"{e}\nwhile re.sub('{r.pattern}', {s}, str)") from e
+> 
+> [Severity: Medium]
+> Similar to the other locations, parse_abi() replaces the exception class
+> instead of catching both. Does this match the intended behavior?
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/d57d3ddc0d7d883bd61ad07c6d3969b622fd446f.1786058698.git.alison.schofield@intel.com?part=1
