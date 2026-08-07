@@ -1,139 +1,206 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F211D435F
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 00:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129E24369A;
+	Fri,  7 Aug 2026 00:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786060882; cv=none; b=SFKzwSOs3sXCyECp9Ee08oCnXM5GkJC+FYtloTQYa2YNhes2VH3Wf3qPwrR4IdoQWCx6IRt8q2jPdL//K/qY5ICdsOcy0k6dsnFHzTnSZVA7eUnxWV3P6og/MVn/RuPTSjyyYNaPPv7QTbA6dgZFDiBJ3DqCi3GfSlTou3N+yPM=
+	t=1786060948; cv=none; b=MVZaK+0yrm+GuOuS39CWudjaTN/hLhC8qMNQCIXZi+RqpKb6VCztlfI4AdJH2lPRpb0ubwnuvzqrQTDLpIGEC+efR+hKC1B27BnPSJX9XveE0GsNptIWsX20XF0y0AKakiymHHpeZhrrinY4ZDUdxmB3jIGcJuqJ7mEGrYfRu4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786060882; c=relaxed/simple;
-	bh=k2RXB/lBpEZb0Xvy9dDABovXMTpTDSPEDT43rkEWuCw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JyxhnsX1lBjs3iRwTZylB80KWBZA0Ezg203PuONB7v39nQSEioLB5fPCR6YCJMecm1Pv8tPChGa7y2cnt/8UHROx/c4g2BDDEC6lhDbgDbAq0J42lc7WQOfr4uM4vmEV+gKWWPvTbjyreCf2qpVT2E2SlVx6yBecZDFnXER3YCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arimil.com; spf=pass smtp.mailfrom=arimil.com; dkim=pass (2048-bit key) header.d=arimil.com header.i=@arimil.com header.b=lSGdeLJi; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arimil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arimil.com
+	s=arc-20240116; t=1786060948; c=relaxed/simple;
+	bh=es/3Rp5Kv8CoLiBfOFFo/p1hSqvIEaneMfjF49har/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyj1JvtfmbBq3lGrQuJZhhg62V6RGufRa0AYgPFitFiHWfy2kani777rHVDyymqWktsxBXvYuRq5bgQJ+w9yIAHAeK4Em/1Ye2j31o3JUafD2a/GOnbUyafOKfbmB0ij1u1sfRTutLuhl3NMovt9QVQax56oSOrW9WAyGfVl534=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQiZ55aO; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arimil.com header.i=@arimil.com header.b="lSGdeLJi"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c5382806fso28463621cf.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 17:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arimil.com; s=google; t=1786060879; x=1786665679; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rIhsby11fc8DrjdIUcLHC64tuvgWtC8uYK9JmHgOEVw=;
-        b=lSGdeLJiLEhiyeZz2/gsGf4nJKUtq9adeB17lZ5ejVHUcOd+mLQ7qE2GNTPdfSVvac
-         +HyXAkd1RQqP2/kbLx+Bss2TlN6R0t5rltoOCcBi/IrApA+5h5b1Vww1ZKFtuaFXK0WH
-         ZJXAbdBbEW58+xkUQN1sNYme9vTuUGECndpCkXT3f22HOVOgtgMPdF+uaFpYqS2ZTcgq
-         i1FCJkm0Y208IYeYv8y/kbwSaF8kDQ1QFPWZRxkFIXb/NZyU5RfXVxNm8FTqmZAkOKkd
-         uN5X6NPgqewipRGOAORixfEDgZCrzWk+0eBSF98dbzY/bogDWwfESGlssUq9CCDwGf72
-         AA/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786060879; x=1786665679;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rIhsby11fc8DrjdIUcLHC64tuvgWtC8uYK9JmHgOEVw=;
-        b=peMszPsKpfbMKr9argS29g/jEXicLbhe0JvfOyW5K4P3kH9iyXUsdQyBS85KNhv0iZ
-         lueNYEa9/Wiy84tPG6fTcFzREgoB9HcA8yhb+Dytr+gIe2mzpbKZ3fh7ki0oAlaHs7aj
-         Rfb/oRk+OYF/Ds4Ja3sHK80lavsDCJGMHxwlHt6bbcznk8ZTiEsffU9vUBNu/1w75hxZ
-         /P/P5e152EcEP1r7g0O2/uEkfBP2I6mf9hz/HkBoaPVTHhHVEkbLIzaagIcvUnPxnFaA
-         w8TMQ3vYOECvvf195Xay2yVOzKoOg7c0qsM+Q5ISsIRiE2A153XpisgS0ypI8gio9Ig4
-         IcpA==
-X-Forwarded-Encrypted: i=1; AHgh+RqyDJiDOsz6Gr/+AH1cDrgmBXcVsjrE62OCrGkfjjHHLlQHQh+yg5qGdcSnvUG1ip12M5plquW0b6s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2f7kph5PjNXdRQ2vV64e6F+47apYBXFSB97741/ZwyHXjUyou
-	98YFgY+8fVZGyVibDre1tf4J/JH5CwG2rXD/NcX8/9+Y6QdZGxDU1RBh2hYkrOzvmuzAhZxXhqT
-	9DMMr5ioLXQ==
-X-Gm-Gg: AR+sD13JI8rftGNmEbwwELNbcmUD9TefPP8iIsF8/DzZar4s/ruL43tmSzA9FDDvFVK
-	i8/G7SNgDUUk0r2B7gh8neefV++wFx7NZvbeuUkNAKIbOxG4j3C4hbyWWk4k3ALIVUAZxH3OEWU
-	de9H7T8cx2UDqyetUEwiHSuZjcirTD2rLfX6VTf3afefoElfKVkX8RkYS5MndgDorCDC7lecdtG
-	FrW/zkwB1Z8g2glzNnRUiGBbkziEkYRQgwOinFKpDv2+uM3yhU5e+0VUVV7wf8m9bCWYt+wnejP
-	/6OzVgf/NvyPjDkkHssxnopA8Ql0+iPjm8mIiLkTs26aGmHUSjs+F0HLWfMmY1ZZ0b7dKheo0WS
-	+K2q3JasrpfRdMS1RcI9zS3V1Oih8o//RSrHWiY/hRQQmvTxp/mOAVfRkE6ZAt07F5uv/0GVuNB
-	iw1NFSa1pVSLUTt3fY7w7p0OJpZppNlmkLRPGfR7ucnZh3kNd1fHDc6WkxcDvQDHpklTYc/bpxN
-	GxedBPxgQ2zMdFnGEdRaL5reVElfaoHw3aOLCQnhfMy
-X-Received: by 2002:a05:620a:29c9:b0:936:5771:2b42 with SMTP id af79cd13be357-93666401242mr639770185a.10.1786060879234;
-        Thu, 06 Aug 2026 17:01:19 -0700 (PDT)
-Received: from camelot.arimil.com (24.229.171.193.res-cmts.sm3.ptd.net. [24.229.171.193])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9366e279f0esm27341485a.38.2026.08.06.17.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 17:01:18 -0700 (PDT)
-From: Arie Miller <renari@arimil.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Aleksa Savic <savicaleksa83@gmail.com>,
-	Will Smith <github@notthatwillsmith.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQiZ55aO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786060946; x=1817596946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=es/3Rp5Kv8CoLiBfOFFo/p1hSqvIEaneMfjF49har/o=;
+  b=XQiZ55aOxeoe5IqlpzoOvBLHSKHIdNYTv1fWSaZ0hsmqKezFvkLhOiVV
+   bXUvDziCa2AKk2kWCOnqvB9AVCm00Q+RLL5ZZpjToo1gvzLaFAeshmSdj
+   Ka4OpkNWXZIQorwTQTskRuobylyxhsDmaUv8JtO6JHt91zBhNImRThwDq
+   l4tdUm861MCkiwR/2msG9lLstVR+MaPG93lUTMl1Oov++hVggAc62B4W3
+   IutEGWu2/BDRG69AhPwclqCYLfh5YMVVf2vFzaflQ0YwyWE2zVtNOu4gj
+   46/JKHQNVc1BXs7ZxVd6R7OtJtZZ4yL0Ym0mHxgGhrj0LWIUtfJtZMpvu
+   A==;
+X-CSE-ConnectionGUID: PF+xRugWQw+XlEKtE2ltvA==
+X-CSE-MsgGUID: C0cbY1CzREynySHVQCtmaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="112217474"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="112217474"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 17:02:23 -0700
+X-CSE-ConnectionGUID: 0Dh23k81SxC4uoCQNwRJ0w==
+X-CSE-MsgGUID: WuSWqERSTqC7KGQkPpxiuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="261730580"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 17:02:17 -0700
+Date: Fri, 7 Aug 2026 03:02:15 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arie Miller <renari@arimil.com>
-Subject: [PATCH 3/3] hwmon: (asus_rog_ryujin) Add ROG Ryujin III White Edition
-Date: Thu,  6 Aug 2026 20:01:07 -0400
-Message-ID: <20260807000107.1786892-4-renari@arimil.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260807000107.1786892-1-renari@arimil.com>
-References: <20260807000107.1786892-1-renari@arimil.com>
+	Michael Walle <mwalle@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, jananisunil.dev@gmail.com,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v2 5/7] gpio: regmap: Add runtime PM and
+ read_output_reg_set support
+Message-ID: <anUgh6qgESzpRJwa@ashevche-desk.local>
+References: <20260806-ad7768-driver-v2-0-027ac5e2a641@analog.com>
+ <20260806-ad7768-driver-v2-5-027ac5e2a641@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806-ad7768-driver-v2-5-027ac5e2a641@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Will Smith <github@notthatwillsmith.com>
+On Thu, Aug 06, 2026 at 05:41:24PM +0200, Janani Sunil wrote:
+> The new pm_dev field in gpio_regmap_config allows a driver to supply a
+> device for runtime PM. All operations call pm_runtime_resume_and_get()
+> before accessing the regmap and pm_runtime_put_autosuspend() on return.
+> 
+> The new read_output_reg_set flag when set, gpio_regmap_get() checks the
+> pin direction first and reads from reg_set_base instead of reg_dat_base
+> for output pins. Requires both reg_dat_base and reg_set_base to be
+> configured.
 
-The ROG Ryujin III White Edition uses the same report layout as the
-other supported Ryujin III variants. Add its USB device ID and list it
-in the driver documentation.
+...
 
-The device was tested with the driver on the author's hardware.
+> struct gpio_regmap {
 
-Link: https://github.com/aleksamagicka/asus_rog_ryujin-hwmon/pull/10
-Signed-off-by: Will Smith <github@notthatwillsmith.com>
-Assisted-by: Codex:gpt-5.6-sol sparse
-Signed-off-by: Arie Miller <renari@arimil.com>
----
- Documentation/hwmon/asus_rog_ryujin.rst | 1 +
- drivers/hwmon/asus_rog_ryujin.c         | 3 +++
- 2 files changed, 4 insertions(+)
+>  	unsigned int reg_clr_base;
+>  	unsigned int reg_dir_in_base;
+>  	unsigned int reg_dir_out_base;
+> +	struct device *pm_dev;
+> +	bool read_output_reg_set;
+>  	unsigned long *fixed_direction_mask;
+>  	unsigned long *fixed_direction_output;
 
-diff --git a/Documentation/hwmon/asus_rog_ryujin.rst b/Documentation/hwmon/asus_rog_ryujin.rst
-index cfdfe3712f19..b0d7ce8dd921 100644
---- a/Documentation/hwmon/asus_rog_ryujin.rst
-+++ b/Documentation/hwmon/asus_rog_ryujin.rst
-@@ -8,6 +8,7 @@ Supported devices:
- * ASUS ROG RYUJIN II 360
- * ASUS ROG RYUJIN III EXTREME
- * ASUS ROG RYUJIN III EVA EDITION
-+* ASUS ROG RYUJIN III WHITE EDITION
- 
- Author: Aleksa Savic
- 
-diff --git a/drivers/hwmon/asus_rog_ryujin.c b/drivers/hwmon/asus_rog_ryujin.c
-index 5bc60c6036de..9b34c6e06bf7 100644
---- a/drivers/hwmon/asus_rog_ryujin.c
-+++ b/drivers/hwmon/asus_rog_ryujin.c
-@@ -19,6 +19,7 @@
- #define USB_PRODUCT_ID_RYUJIN_AIO	0x1988	/* ASUS ROG RYUJIN II 360 */
- #define USB_PRODUCT_ID_RYUJIN_III_EXTREME	0x1bcb
- #define USB_PRODUCT_ID_RYUJIN_III_EVA		0x1ade
-+#define USB_PRODUCT_ID_RYUJIN_III_WHITE		0x1ada
- 
- struct rog_ryujin_device_info {
- 	u8 temp_offset;
-@@ -587,6 +588,8 @@ static const struct hid_device_id rog_ryujin_table[] = {
- 	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III_EVA),
- 	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III_WHITE),
-+	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
- 	{ }
- };
- 
+>  }
+
+Have you run `pahole`? Is it okay to put bool there and not after one of
+unsigned int:s (just from the given context, it might be even better location)?
+
+...
+
+> +static int gpio_regmap_runtime_get(struct gpio_regmap *gpio)
+> +{
+> +	if (!gpio->pm_dev)
+> +		return 0;
+> +
+> +	return pm_runtime_resume_and_get(gpio->pm_dev);
+> +}
+> +
+> +static void gpio_regmap_runtime_put(struct gpio_regmap *gpio)
+> +{
+
+> +	if (gpio->pm_dev)
+> +		pm_runtime_put_autosuspend(gpio->pm_dev);
+
+Same pattern as per above.
+
+> +}
+
+...
+
+> +static int gpio_regmap_get_direction(struct gpio_chip *chip,
+> +				     unsigned int offset);
+
+Can this be avoidable?
+
+...
+
+>  	/* ensure we don't spoil any register cache with pin input values */
+>  	if (gpio->reg_dat_base == gpio->reg_set_base)
+>  		ret = regmap_read_bypassed(gpio->regmap, reg, &val);
+>  	else
+>  		ret = regmap_read(gpio->regmap, reg, &val);
+> -	if (ret)
+> -		return ret;
+> +	if (!ret)
+> +		ret = !!(val & mask);
+>  
+> -	return !!(val & mask);
+
+You want regmap_test_bits() in one case, and the regular pattern in the other.
+
+> +out_pm:
+
+labels should be marked better to show what will be when goto them.
+
+out_pm_put:
+
+> +	gpio_regmap_runtime_put(gpio);
+> +	return ret;
+
+...
+
+> +out_pm:
+> +	gpio_regmap_runtime_put(gpio);
+>  	return ret;
+
+Ditto.
+
+...
+
+>  	ret = regmap_read(gpio->regmap, reg, &val);
+>  	if (ret)
+> -		return ret;
+> +		goto out_pm;
+>  
+>  	if (!!(val & mask) ^ invert)
+> -		return GPIO_LINE_DIRECTION_OUT;
+> +		ret = GPIO_LINE_DIRECTION_OUT;
+>  	else
+> -		return GPIO_LINE_DIRECTION_IN;
+> +		ret = GPIO_LINE_DIRECTION_IN;
+
+Also can be transformed to use regmap_test_bits() (but in a separate change).
+
+...
+
+> struct gpio_regmap_config {
+
+>  	unsigned int reg_clr_base;
+>  	unsigned int reg_dir_in_base;
+>  	unsigned int reg_dir_out_base;
+> +	struct device *pm_dev;
+> +	bool read_output_reg_set;
+>  	int reg_stride;
+>  	int ngpio_per_reg;
+>  	struct irq_domain *irq_domain;
+
+`pahole`?
+
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
