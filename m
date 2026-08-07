@@ -1,42 +1,42 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EB5470E8F;
-	Fri,  7 Aug 2026 10:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62649470EAF;
+	Fri,  7 Aug 2026 10:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786097711; cv=none; b=JjbU97lt8G7vKGxoK2Rb5nNc5OQeQxJ6d9uKFtkKd9iDRwsfB0lSpcepn9q81NUpuBRTLa+NZwQzZzg5SBLpMecc+cResmhwiYQvNgnmAYdnUHDyV3IFXBukouiutlBMBgAMC8LQ33G5+5vRT4U6LsJJp0B91Ru0QSBvCaiGXoE=
+	t=1786097713; cv=none; b=mdeHzK/CV1Xv8KiiXHY6upHYS8G9bOHO26tyzf5LgaeOfmB2LRLm1nd4bNjHfM6XLGBIf0ke/mlj5tiNI++nuWk92VgbE5sxyZUXsFGMKGbxXf/70abJxtvk8BwJuN6mUyNSCd8yZvsTMzMF7LVSBJjlZrVWRFIJn03r6mkX+1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786097711; c=relaxed/simple;
-	bh=xUFleoc4OxnWc0fMvUQ08LmYYj+lRAruZ5B841kO2UU=;
+	s=arc-20240116; t=1786097713; c=relaxed/simple;
+	bh=GdxXF6OVwNzqN9Ba2H+LmyQFreFBh0rFawBRK1ZaHMk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aIiPOKDPPSWGaua3owu6gKYAhApcM7ZNIu8TZBRPdNT+RFunFoJlmeeozkcYbO2j5JWXXmYIdD3ao1Z5YA5pHrRICJ8OIFlyk3wf6eDen0BwiPeGZ3zfQgb2n6Y44597JBQF6LIdYihO48+Xei+lHWwxrSlunNzLIAuFY+4Rjls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=tY32tZdI; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=rnBa7uX9JibHBePzz7fEdV5L7ebr5J4Ksk9a2yifttYqj9+usJmkGpSXnat2qKwrzs7vYinohZfHymtHuc7mgRukKOyyswZ7tfdyYFsuhVTcqjyNf0+/ESrmicGFdw/hgK4iIMa2OeOKznMSd1RMGVcNhyJJ4SXULGlrL2uYRCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ncdi+6M/; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="tY32tZdI"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ncdi+6M/"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 9F3104E41136;
-	Fri,  7 Aug 2026 10:15:07 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C59BB1A149B;
+	Fri,  7 Aug 2026 10:15:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6BDA5603F0;
-	Fri,  7 Aug 2026 10:15:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 985E511C3750A;
-	Fri,  7 Aug 2026 12:15:04 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 93E5E603F0;
+	Fri,  7 Aug 2026 10:15:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A381511C37523;
+	Fri,  7 Aug 2026 12:15:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786097706; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1786097708; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=YIcQIYOb8WRakMR4QF2N+EU56xSs7c72GvKGLdWLtsA=;
-	b=tY32tZdIvdjua0uLucyYbNN+MwaN5GEkXkFNMmCmNbpAGT8WV/deQcLmsH87AKWlk3t+E0
-	Rlvi6Io3aWgUJu//FfltORp/wF1WUM3tiOOJtHJy21ww0xQlGi6I5PtsV1d1Y0GC1hmfFJ
-	NM7qPiS2nghFwIsEhFLjFQ6JYZEUS/aVJw+kFo9fmffm3Iv9ukS+4W34bibVeTTF/8y7iS
-	bmr4iLgVJ4/bvi7mC7qxhB9DThp2kgS1nF9OkYOhFMO+pwMTdeirylrqFXO2KVdIxf3zK0
-	6AGGyo0ooDMhYtSOLhCLc2k2jN77ag0d46fIO/lPaF/tpB2ncf46eEPMlvpXlQ==
+	bh=uE94rroX8EBiwoQlcx55oym73p6AyO336Qsn9jN228g=;
+	b=ncdi+6M/vHl7CmAZhQitAXVwXqbFGmddhJtzKy87uaF3BjNh3A7KmHiLIQ4IwLBPOfvRRr
+	sDY18D7tbIihlf+NYwunwIedt8XEyxn48nxNn256CCVGsaPhxB26IZUnrh7MFnzR+AxiMz
+	pDv+IHsjLOuLoQj3Us5veRoZ3lEjZcBp8Ktk6fUU/rW4atunjHywTdW07xjE4sMM/v2DLV
+	lPOAtzTOQI1xEu6Zp764103susIv5/BqoY73NyzmwOF3og97t5s+1tH1Zh7Qv+9Q3i7cQj
+	q/8WexHPYqbzpxhl8DUPYUz3xhgbWK5KwWJr7iBKxqat5xrsIo5wuT1pRckLvQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Fri, 07 Aug 2026 12:14:09 +0200
-Subject: [PATCH v2 17/18] mtd: spi-nor: winbond: W25QxxRV-Q/N/M: Add
- missing chips
+Date: Fri, 07 Aug 2026 12:14:10 +0200
+Subject: [PATCH v2 18/18] mtd: spi-nor: debugfs: Expose SR opcodes and QE
+ mask
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260807-winbond-v7-1-spi-nor-rv-addition-v2-17-7797642dfc40@bootlin.com>
+Message-Id: <20260807-winbond-v7-1-spi-nor-rv-addition-v2-18-7797642dfc40@bootlin.com>
 References: <20260807-winbond-v7-1-spi-nor-rv-addition-v2-0-7797642dfc40@bootlin.com>
 In-Reply-To: <20260807-winbond-v7-1-spi-nor-rv-addition-v2-0-7797642dfc40@bootlin.com>
 To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
@@ -63,64 +63,59 @@ Cc: Steam Lin <STLin2@winbond.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-I currently do not have access to the following chips:
+Expose Status Register opcodes based on the flash capabilities
+discovered while parsing the SFDP QER field.
 
-- W25Q25RV-Q/N
-- W25Q25RV-M
-- W25Q51RV-M
-- W25Q02RV-Q/N
+Value '0' indicates an absence of opcode (non supported), we do not
+print anything in that case.
 
-Yet, I successfully tested the entire JV family and all other chips from
-the RV family. They all behaved strictly identically, so I propose to
-nevertheless add the missing comments for the sake of clarity and
-completeness, as well as the missing 02JV/RV entry.
+The QE bit is also displayed.
+
+Example on a W25Q02JV-M:
+
+$ grep opcodes -A10 /sys/kernel/debug/spi-nor/spi0.0/params
+opcodes
+ read		0xec
+  dummy cycles	6
+ erase		0xdc
+ program	0x34
+ SR1 read	0x05
+ SR2 read	0x35
+ SR1+SR2 write	0x01
+ QE		SR2 bit 1
+ 8D extension	none
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/mtd/spi-nor/winbond.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/mtd/spi-nor/debugfs.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-index 5e3924345667..17d889709d53 100644
---- a/drivers/mtd/spi-nor/winbond.c
-+++ b/drivers/mtd/spi-nor/winbond.c
-@@ -258,7 +258,7 @@ static const struct flash_info winbond_nor_parts[] = {
- 		.flags = SPI_NOR_QUAD_PP | SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_HAS_CMP,
- 		.fixups = &w25q128_fixups,
- 	}, {
--		/* W25Q256JV-Q/N */
-+		/* W25Q256JV-Q/N, W25Q25RV-Q/N */
- 		.id = SNOR_ID(0xef, 0x40, 0x19),
- 		.size = SZ_32M,
- 		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-@@ -278,6 +278,12 @@ static const struct flash_info winbond_nor_parts[] = {
- 		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
- 			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
- 		.fixups = &w25qxxjv_rv_fixups,
-+	}, {
-+		/* W25Q02RV-Q/N */
-+		.id = SNOR_ID(0xef, 0x40, 0x22),
-+		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
-+			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
-+		.fixups = &w25qxxjv_rv_fixups,
- 	}, {
- 		.id = SNOR_ID(0xef, 0x50, 0x12),
- 		.name = "w25q20bw",
-@@ -361,12 +367,12 @@ static const struct flash_info winbond_nor_parts[] = {
- 		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
- 		.flags = SPI_NOR_QUAD_PP | SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_HAS_CMP,
- 	}, {
--		/* W25Q256JV-M */
-+		/* W25Q256JV-M, W25Q25RV-M */
- 		.id = SNOR_ID(0xef, 0x70, 0x19),
- 		.flags = SPI_NOR_QUAD_PP | SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB |
- 			 SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
- 	}, {
--		/* W25Q512JV-M */
-+		/* W25Q512JV-M, W25Q51RV-M */
- 		.id = SNOR_ID(0xef, 0x70, 0x20),
- 		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
- 			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+diff --git a/drivers/mtd/spi-nor/debugfs.c b/drivers/mtd/spi-nor/debugfs.c
+index 512825c3fc85..ec5b87861539 100644
+--- a/drivers/mtd/spi-nor/debugfs.c
++++ b/drivers/mtd/spi-nor/debugfs.c
+@@ -106,6 +106,21 @@ static int spi_nor_params_show(struct seq_file *s, void *data)
+ 	seq_printf(s, "  dummy cycles\t%u\n", nor->read_dummy);
+ 	seq_printf(s, " erase\t\t0x%02x\n", nor->erase_opcode);
+ 	seq_printf(s, " program\t0x%02x\n", nor->program_opcode);
++	seq_printf(s, " SR1 read\t0x%02x\n", params->opcodes.read_sr1);
++	if (params->opcodes.read_sr2)
++		seq_printf(s, " SR2 read\t0x%02x\n", params->opcodes.read_sr2);
++	if (params->opcodes.write_sr1)
++		seq_printf(s, " SR1 write\t0x%02x\n", params->opcodes.write_sr1);
++	if (params->opcodes.write_sr2)
++		seq_printf(s, " SR2 write\t0x%02x\n", params->opcodes.write_sr2);
++	if (params->opcodes.write_sr1_and_sr2)
++		seq_printf(s, " SR1+SR2 write\t0x%02x\n",
++			   params->opcodes.write_sr1_and_sr2);
++
++	if (params->qe_mask[0] || params->qe_mask[1])
++		seq_printf(s, " QE\t\tSR%d bit %d\n",
++			   params->qe_mask[0] ? 1 : 2,
++			   ffs(params->qe_mask[0] | params->qe_mask[1]) - 1);
+ 
+ 	switch (nor->cmd_ext_type) {
+ 	case SPI_NOR_EXT_NONE:
 
 -- 
 2.54.0
