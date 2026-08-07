@@ -1,200 +1,300 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A7B23A561
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 16:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A841746D577
+	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 16:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786119579; cv=none; b=UEl9ejSU7GwOAmueHgYwWOshtr1j0ubrEmL3dJKf+h/bt2AakDbBWh1O1WCAv2ULZoxwbCyb5/YwFxZTRe3sXpGMXJzZUzKl/pWlgUjb5OHLLsXWkh6Ek9gAdN7XGasWAPOdGJsXUceRQfw/xzY8q1vRNYpD3FVUHhiaySdBg7A=
+	t=1786120312; cv=none; b=usoX9l6ovq/47HtsmR/Lxqw128/aboDW8kNCpMUPhJRqEzeSdJ6KrPdssjK+e/9BdFxqm1WANNeorOXiCaUrb3q7IXq3fWsJzVqGmWjKX7/WznU+cWganJOhNjQM2IaCSK78yFfZTpTuRRgiZkbWqbuGxqmFPGDuseoTQk2iwDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786119579; c=relaxed/simple;
-	bh=dEpKf7v329BrXdPs9AJn8DwSnEo1KjYommT4Au6roLA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fB/atLhFf2B7jhdPvHCLxNopblI2ZPqi1S7xo76kg3O7p2z6SpSqk7HGu9NRCO95mewqwtjE8sy0MnhiP1ePZ37ZnrTodEEQ+t/wc1ZbWFYhSadioyBx2qQ2+M+yGF91sHVtXJQ0c7ZyJIqGZVwfu+zGjWLEnqEcyvlugpn7Bl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SSXaIUAf; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786120312; c=relaxed/simple;
+	bh=i2PqP9GN1rc1C/aHcpmeJ7dfbh11hyBtG/3G8aAPeQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LkUyHhRiNKdC/UT1hJNDx3MQ0zUyP8T4LxF38vG2eW1/t8DX2w0V1yObqnWnpfXO1BgF57/Rvsps9tfyp3sGVGAgStF2UdBCZabTmBC3/r6qCve5phOYjHrWFzf/+j711LZtnprCSD4/wEH2UTwvvxaL0sHzsGuzjJ/PObH4o68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=Ajqh+gc4; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SSXaIUAf"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84e0688b7e8so3429475b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 09:19:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="Ajqh+gc4"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8ef1dc934d1so17361896d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 09:31:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786119577; x=1786724377; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fM3zY6Yx/Bjknh43MLjZGdkrP5Xjj8XZi4L5KKoZ5Gk=;
-        b=SSXaIUAfULKdK/qALvM1HAuu4rj5ZfndhdQF9r+BQZkkflbn70URWCVZEh1o0i060f
-         ngHTr+rk9LhlrLNOqfUHqH+NivvhItoWoxBuwxX3kZDP2PTxCNuGUL3pLrS6iNFWwQ7O
-         VWeX5z3d+sOBX1f40tV/8EcbFFNq+tw1RtNTKxsq3ED321zuMJlNw+xpbCgZJ7epGlD5
-         4PJ/cYZNkWaCUMS2tu7ZsVeHQyCQUlJmpQYywd1Se1uwHEK22Gd+Qv9GtpSa9joDdZYG
-         6xLN0oet/uRy/0+AAUFFYtGO8jafr4Kt1uqdXhsJWXMmuHHYhYLtjTvPQvfvhEQKOs/R
-         0iHQ==
+        d=cmpxchg.org; s=google; t=1786120307; x=1786725107; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dYO5gL84ZfhgoOGOa76MHQFHtbyAJJVUdQQDYUbGmIY=;
+        b=Ajqh+gc4UNQMOcqMryzAgygqBtj4Pgh30RDj2x84hSdFOZ7xQq6t0y7EhxWVcE/J7F
+         hnI+oNVoUuHqMOI/UIAzG6vVlkCzKNYYyWwB3iMiW8WF8THEUjTnLCuo5Gk15IJG8wOd
+         0yMLxPpRgu7AuQUhv3p0OzqHYwcQA9ddGKtlDhEbkExc8nhWqMbffwWx6kCXa63dXwqq
+         Dd5VEOTHGqaBgdx40v9XhwohJxaEtQ3kd6S4ZCRDkeUCJ4Ou487M6ezQL8BdtB+t0LcM
+         HfIGm082R8imCORrVr5ujmDt+Qf1jKKAlF9vcBoGCRkg8LAuxEgwMV3+2H+czlPVqxlB
+         QolQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786119577; x=1786724377;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fM3zY6Yx/Bjknh43MLjZGdkrP5Xjj8XZi4L5KKoZ5Gk=;
-        b=JHwV048+VljZUSPFBwfgF6ieFFqjzIlQEDwBcuIVa4kaJG7LOg8GHTrGg/Dbxgxmua
-         eMRHrX/e0V/487MQ2o8VmG8m2A7aDUIaAN7JJCCCjNhEOXhQy0BSMdKuo1qpxCL7niKG
-         XiPPOXQP1qWBWwUf53V9G/4bVYf6DT87wSDduhH/X/H9XAi+H3FPwbGnZNFiFK9fDiDW
-         NplrSV6vy/CNB1F1CYxcJbFUHgGV03HgSsYr6jsrdg0Kr9+kvnDH7lBEees0znrsstwx
-         vCCUWicKTRGgIq0dq5UFRPbnwLL1sB0gv0lSwJukMlIC9cV6xYJCk/Ik0+MAK2ZEYkGL
-         SReA==
-X-Forwarded-Encrypted: i=1; AHgh+RrWYiS6W8sIUCKA0ghngA5Z4CoNIJY7fR9uTTCQM2zkuOi/MayJhI9f2kIKuihE/OEaU3tib0DWluE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVw7jbIQaf4daOrI+fiRGL3eC3MaOsbbjuZzFsuY5kbyAPdRIy
-	9w4EZH6NPv70ExNO1LMlK5ebeLEfgtZ/NNRvO79eSD89oaK8svDxrlfH
-X-Gm-Gg: AR+sD10UetHNx6LAEk6MSRNwTrTA1ztbSi2eb5jn6w9R4BPMnyWMwQrhktNbKCY8Tyd
-	cY/J+pqfokyfMLWfub4z633zCkNpIm0ahLRGklYm1S01qiCkdKIpnR/tHEVF2/c/ecCwBXciBCb
-	QctBp6U+MaFpIWZ+peNFxDSwrLguxM2gfsPjYWqsTxdTrkJOWKJv1aiKrQU6oBF0JvsUuS46au3
-	WCZloEXhnBHuRQcwPHTrjJpjit/UtfSwbEyftvcKCF9LVeNukmYjZFX2f1thzJYmBYS5vcz0k46
-	uti8lqVSxJl04A4WnSPXliPfjKbgbEqDPEyhtPKQdxnTLyAlt8HdG7+k0+y+aCpUjiwtctkxWwt
-	nVBr5NetA/pHfY728wKirEbAtPB2ZsthDOnIq5+tQhkD6/J83CEHssEL+lqh+BobZkB/U6Q2J2y
-	Ye+O0ghQanTz8EF3Ft9YdaUOuyvMXCIungZEJVcgbfDLl+KxDIkIQToKfrKagmwp6KqVai9aElA
-	Q==
-X-Received: by 2002:a05:6a00:3cce:b0:847:711f:49ab with SMTP id d2e1a72fcca58-84f2e006c85mr24601093b3a.22.1786119576732;
-        Fri, 07 Aug 2026 09:19:36 -0700 (PDT)
-Received: from localhost ([220.196.228.78])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f5a3a1911sm1285011b3a.3.2026.08.07.09.19.35
+        d=1e100.net; s=20251104; t=1786120307; x=1786725107;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dYO5gL84ZfhgoOGOa76MHQFHtbyAJJVUdQQDYUbGmIY=;
+        b=qDa6oeF75d+6C2OCV6EVM/fkhRb/R4Z8i6Ygg3xiIliif7ZCqfRsuqxkk5zmrQI2Rr
+         DWXq3AtRuCQNpAhOjkodwHT3D1cw++QgDGHmu4LSbmW/cc3EHQGmww+pGeFwFtEdBBmu
+         6kwoREgom/DYjJ9WlXWJR1BQN3FsDseoHuphK8FvJzUr1sprop1BQdXLwhTnGsFFM+Oj
+         3ubVJt3DkQZOMIdYhGKKMzKn5+wJHfBPPv023S/rgVXOuj1dNh6ogcAxld1lppi5DKVc
+         qrwrX/IZDPfuLYOZlgHqRQ2a/TpRRO04v/NpRqiE0nCe6ontfFeBKGtPBCUGbiJU6QDc
+         LDfQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqm9SxyWSjxXKnVzRJwlnFHmFFV4bO7fS6fPabDlcC0nrWwPd/ovbVvMNT/tXBzdhiZSbbtSl9ob58=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzweGJX9YUtuONpT2Mu5fq04P8ccvXDEskpJRqZQrVtzcoaq+Ni
+	fQiJCZQ/Ep/8bn2AmxEvYl7h+V73yVpbOciiAeak1yTJzQc7jGTr3ARdwwFREsPNuV4=
+X-Gm-Gg: AR+sD10D9ZA+bTqtyzis+SkdO6+L0FFr/ps33PRoijz95LThc5C9pClBtMJe+E3BN9k
+	NJtfN889GP0Ay2CZ+AWXdQf+jcsdrSXJ8fAOEwBQVVkIo/qk+UVroMe6PBSSdJWaMqNcpuHKOCT
+	SoxHGDCm/OCkCrWgxOUenOtGTRJFNMkpXP1niVzWniSvf8+RfcauzTEXXJHz7HPkoRHQWZF+9WP
+	F79jBB6v3jU/CZMLDskZzrtVJBT31ok3DWet/u04CUs4k4SjoY3z/Naw842FnI1/VhJ4mUU2rf9
+	qj5+QxlKNlW5FW1pq8Ommjld/dhqC8gt1As2zKdOQqfREZMcqCOIhTr6GuC0Dum/HemlSjqHKgu
+	NTWoGnNSIKjx2JaIh986N4w9t3wKJyfUnn8rZ7ZxqOYCOoVSNJLVb5WIbz50+wGJphZFLy/dlmC
+	hHaYsV3hUjB6m5OqUAFfnDODjE8De2A02Z3rQBfnFnjzUlPYmPbJfQX1zxWL0=
+X-Received: by 2002:ad4:5c8f:0:b0:907:6f9c:3b43 with SMTP id 6a1803df08f44-90a34c86e42mr12128346d6.2.1786120307299;
+        Fri, 07 Aug 2026 09:31:47 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a932ce88sm12048886d6.38.2026.08.07.09.31.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 09:19:36 -0700 (PDT)
-From: Liang Hao <haohlliang@gmail.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Liang Hao <haohlliang@gmail.com>
-Subject: [PATCH] docs: timers: hrtimers: clarify expiry modes and ktimersd on PREEMPT_RT
-Date: Sat,  8 Aug 2026 00:19:29 +0800
-Message-ID: <20260807161929.49913-1-haohlliang@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        Fri, 07 Aug 2026 09:31:46 -0700 (PDT)
+Date: Fri, 7 Aug 2026 12:31:42 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev,
+	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org,
+	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org,
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, qi.zheng@linux.dev, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, riel@surriel.com,
+	gourry@gourry.net, haowenchao22@gmail.com, corbet@lwn.net,
+	kernel-team@meta.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 08/11] mm, swap: only charge physical swap entries
+Message-ID: <anYIboHEUZb4fhHv@cmpxchg.org>
+References: <20260806184254.3790858-1-nphamcs@gmail.com>
+ <20260806184254.3790858-9-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806184254.3790858-9-nphamcs@gmail.com>
 
-Documentation/timers/hrtimers.rst described the high-resolution timer
-subsystem but did not cover the PREEMPT_RT expiry-mode semantics.  On a
-PREEMPT_RT kernel a timer that is not explicitly marked
-HRTIMER_MODE_HARD is forced into softirq expiry and its callback runs on
-the per-CPU ktimers/%u thread at SCHED_FIFO priority 1, regardless of
-the priority of the task that armed it -- a SCHED_FIFO task's priority
-does not extend into its timer callback.  This is a recurring source of
-hard-to-diagnose latency for RT/DL authors who assume the opposite.
+On Thu, Aug 06, 2026 at 11:42:51AM -0700, Nhat Pham wrote:
+> Charge memcg->swap when a vswap entry acquires physical backing rather
+> than when it is allocated, so memory.swap.current tracks on-disk swap
+> usage. Zswap-backed and zero-filled pages occupy no swap space but were
+> charged as though they did.
+> 
+> memory.swap.current therefore no longer counts them, and a cgroup whose
+> pages all land in zswap can now reclaim anon memory with memory.swap.max
+> set to 0.
+> 
+> Direct-mapped physical swap charging is unchanged.
+> 
+> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
 
-Add a dedicated "Expiry modes and PREEMPT_RT" section that documents:
+To head off any uncertainty about this: this is exactly what needs to
+happen in terms of cgroup semantics.
 
- - the distinction between HRTIMER_MODE_HARD and HRTIMER_MODE_SOFT;
- - the fact that unmarked timers are forced into softirq expiry on
-   PREEMPT_RT (__hrtimer_setup());
- - the role of the per-CPU ktimers/%u thread and its fixed SCHED_FIFO
-   priority 1 (sched_set_fifo_low());
- - the absence of priority inheritance between the arming task and the
-   timer callback on RT;
- - the sleeper exception, where hrtimer_setup_sleeper() automatically
-   marks RT/DL-armed timers HRTIMER_MODE_HARD
-   (__hrtimer_setup_sleeper());
- - the critical distinction between the *requested* expiry mode (passed
-   by the caller) and the *effective* execution context (chosen by the
-   kernel and stored in timer->is_soft).
+memory.swap.* are about physical swap space. They track, control, and
+enforce fairness for a finite resource that is separate from memory.
 
-The hrtimer_start tracepoint logs the *requested* mode, not the
-effective one.  On PREEMPT_RT a timer armed with the default mode
-(e.g. ABS or REL without HARD/SOFT flags) is implicitly forced into
-softirq expiry, so the effective soft nature must be inferred from the
-*absence* of explicit mode flags in the trace rather than read directly.
+When a user switches on vswsap and a bunch of empty pages are stored
+inside the zeromap without consuming swapfile space, these counters
+must be 0.
 
-Documentation only; no code or behaviour change.
+When a user switches on vswap to use zswap without a backing file,
+these counters must be 0.
 
-Signed-off-by: Liang Hao <haohlliang@gmail.com>
----
- Documentation/timers/hrtimers.rst | 66 +++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+When a user switches on vswap to use zswap with writeback, only the
+pages that get written to the swapfile must be tracked and controlled
+by these counters.
 
-diff --git a/Documentation/timers/hrtimers.rst b/Documentation/timers/hrtimers.rst
-index f88ff8bae89c..ff42377668c1 100644
---- a/Documentation/timers/hrtimers.rst
-+++ b/Documentation/timers/hrtimers.rst
-@@ -171,3 +171,69 @@ hrtimers-based high-resolution clock implementation, so the hrtimers
- code got a healthy amount of testing and use in practice.
- 
- 	Thomas Gleixner, Ingo Molnar
-+
-+
-+Expiry modes and PREEMPT_RT
-+---------------------------
-+
-+Each hrtimer carries an expiry mode that determines the execution context
-+of its callback:
-+
-+  * ``HRTIMER_MODE_HARD`` -- the callback runs in hard interrupt context.
-+    It must be hardirq-safe (no sleeping locks, no allocations, no
-+    scheduling).
-+  * ``HRTIMER_MODE_SOFT`` -- the callback runs in softirq context and may
-+    use operations that are not hardirq-safe.
-+  * Default (neither flag) -- the mode is selected by the subsystem or
-+    the kernel configuration.
-+
-+On ``CONFIG_PREEMPT_RT`` the choice is not optional for most timers:
-+any timer not explicitly marked ``HRTIMER_MODE_HARD`` is forced into
-+softirq expiry (see ``__hrtimer_setup()``). Instead of executing in
-+hardirq context or within the context of the task that armed it, the
-+callback runs on the per-CPU ``ktimers/%u`` thread.
-+
-+The ``ktimersd`` thread operates at ``SCHED_FIFO`` priority 1 (established
-+via ``sched_set_fifo_low()``). This priority is fixed and **does not
-+inherit the priority of the task that armed the timer**. The effective
-+execution context is determined internally by the hrtimer subsystem at
-+setup time and is reflected in ``timer->is_soft``; it is not directly
-+visible as a mode flag at arming time.
-+
-+Consequently, even if a timer is armed by a ``SCHED_FIFO`` task with
-+priority 99, its callback will execute only when the ``ktimersd`` thread
-+(priority 1) is selected to run.
-+
-+This design ensures that timer processing does not interfere with
-+higher-priority real-time workloads, while still providing bounded
-+latency relative to ``SCHED_OTHER`` tasks. However, it also means that
-+latency-sensitive processing must not rely on implicit priority
-+inheritance through the timer arming path.
-+
-+A notable exception is the sleeper path: a timer set up via
-+``hrtimer_setup_sleeper()`` (used by ``clock_nanosleep()`` and similar)
-+that is armed by an RT or DEADLINE task is automatically marked
-+``HRTIMER_MODE_HARD``, so its wakeup runs in hardirq context and does
-+not go through ``ktimersd`` (see ``__hrtimer_setup_sleeper()``).
-+
-+**Guidelines for RT authors:**
-+
-+- If the timer callback contains logic that must execute at the priority
-+  of the owning RT task, the timer must be declared as
-+  ``HRTIMER_MODE_HARD``. Ensure the callback adheres to hardirq context
-+  constraints.
-+- Alternatively, move the latency-sensitive logic out of the timer
-+  callback and into a dedicated, properly prioritized kthread which is
-+  woken by the timer.
-+
-+**Debugging context:** The ``hrtimer_start`` tracepoint logs the
-+*requested* expiry mode passed by the caller (e.g. ``ABS``, ``REL``,
-+``ABS|HARD``), not the effective mode chosen by the kernel. On
-+PREEMPT_RT, any timer armed with the default mode (i.e. the trace shows
-+``ABS`` or ``REL`` without ``|SOFT`` or ``|HARD``) is implicitly forced
-+into softirq expiry. When such a timer is armed by an RT or DEADLINE
-+task, the consequence -- the callback running at ``ktimersd`` priority
-+rather than the arming task's -- is the case to watch. The effective
-+soft nature of such timers is inferred from the *absence* of an explicit
-+mode flag in the trace, combined with the ``CONFIG_PREEMPT_RT``
-+configuration.
--- 
-2.50.1 (Apple Git-155)
+A few inline comments on the implementation:
 
+> @@ -5701,6 +5702,116 @@ int __mem_cgroup_try_charge_swap(struct folio *folio)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * __mem_cgroup_record_swap - record memcg for swap without charging
+> + * @folio: folio being added to swap
+> + *
+> + * Pin the memcg private ID ref and record it in the swap cgroup table
+> + * without charging memcg->swap; the charge is deferred to physical-backing
+> + * allocation (vswap).
+> + */
+> +void __mem_cgroup_record_swap(struct folio *folio)
+> +{
+> +	unsigned int nr_pages = folio_nr_pages(folio);
+> +	struct swap_cluster_info *ci;
+> +	struct mem_cgroup *memcg;
+> +	struct obj_cgroup *objcg;
+> +
+> +	if (do_memsw_account())
+> +		return;
+> +
+> +	objcg = folio_objcg(folio);
+> +	VM_WARN_ON_ONCE_FOLIO(!objcg, folio);
+> +	if (!objcg)
+> +		return;
+> +
+> +	rcu_read_lock();
+> +	memcg = obj_cgroup_memcg(objcg);
+> +	if (!folio_test_swapcache(folio)) {
+> +		rcu_read_unlock();
+> +		return;
+> +	}
+> +
+> +	memcg = mem_cgroup_private_id_get_online(memcg, nr_pages);
+> +	rcu_read_unlock();
+> +
+> +	ci = swap_cluster_get_and_lock(folio);
+> +	__swap_cgroup_set(ci, swp_cluster_offset(folio->swap), nr_pages,
+> +			  mem_cgroup_private_id(memcg));
+> +	swap_cluster_unlock(ci);
+> +}
+> +
+> +/**
+> + * __mem_cgroup_charge_backing_phys_swap - charge memcg->swap
+> + * @memcg: the mem_cgroup to charge (may be NULL)
+> + * @nr_pages: number of physical swap pages to charge
+> + *
+> + * Charge the swap counter when a vswap entry gains physical backing. The
+> + * private ID ref is already held (pinned by __mem_cgroup_record_swap() at
+> + * vswap allocation), so this only moves the counter.
+> + *
+> + * Return: 0 on success, -ENOMEM on failure.
+> + */
+> +int __mem_cgroup_charge_backing_phys_swap(struct mem_cgroup *memcg,
+> +					  unsigned int nr_pages)
+> +{
+> +	struct page_counter *counter;
+> +
+> +	if (do_memsw_account())
+> +		return 0;
+> +	if (!memcg)
+> +		return 0;
+> +
+> +	if (!mem_cgroup_is_root(memcg) &&
+> +	    !page_counter_try_charge(&memcg->swap, nr_pages, &counter)) {
+> +		memcg_memory_event(memcg, MEMCG_SWAP_MAX);
+> +		memcg_memory_event(memcg, MEMCG_SWAP_FAIL);
+> +		return -ENOMEM;
+> +	}
+> +	mod_memcg_state(memcg, MEMCG_SWAP, nr_pages);
+> +	return 0;
+> +}
+
+These functions are just __mem_cgroup_try_charge_swap() in two acts :-)
+
+Please refactor this properly:
+
+__mem_cgroup_swap_record()
+__mem_cgroup_swap_charge()
+
+> + * __mem_cgroup_uncharge_backing_phys_swap - uncharge memcg->swap counter
+> + * @memcg: the mem_cgroup to uncharge (may be NULL)
+> + * @nr_pages: number of physical swap pages to uncharge
+> + *
+> + * Uncharge the swap counter on physical backing release for a vswap entry.
+> + * The private ID ref is dropped separately via __mem_cgroup_id_put_swap() when
+> + * the vswap entry is freed.
+> + */
+> +void __mem_cgroup_uncharge_backing_phys_swap(struct mem_cgroup *memcg,
+> +					     unsigned int nr_pages)
+
+Same on the uncharge side...
+
+__mem_cgroup_swap_uncharge()
+
+> +{
+> +	if (!memcg)
+> +		return;
+> +
+> +	if (!mem_cgroup_is_root(memcg)) {
+> +		if (do_memsw_account())
+> +			page_counter_uncharge(&memcg->memsw, nr_pages);
+> +		else
+> +			page_counter_uncharge(&memcg->swap, nr_pages);
+> +	}
+> +	mod_memcg_state(memcg, MEMCG_SWAP, -nr_pages);
+> +}
+> +
+> +/**
+> + * __mem_cgroup_id_put_swap - drop memcg private ID ref without uncharging
+> + * @id: cgroup private id
+> + * @nr_pages: number of refs to drop
+> + */
+> +void __mem_cgroup_id_put_swap(unsigned short id, unsigned int nr_pages)
+> +{
+> +	struct mem_cgroup *memcg;
+> +
+> +	rcu_read_lock();
+> +	memcg = mem_cgroup_from_private_id(id);
+> +	if (memcg)
+> +		mem_cgroup_private_id_put(memcg, nr_pages);
+> +	rcu_read_unlock();
+> +}
+
+__mem_cgroup_swap_put()
+
+and then remove __mem_cgroup_uncharge_swap(). Handle this split the
+same way as on the charge path.
+
+> @@ -2116,8 +2117,16 @@ int folio_alloc_swap(struct folio *folio)
+>  			goto again;
+>  	}
+>  
+> -	/* Need to call this even if allocation failed, for MEMCG_SWAP_FAIL. */
+> -	if (unlikely(mem_cgroup_try_charge_swap(folio)))
+> +	/*
+> +	 * A vswap entry has no physical swap yet, so only record the memcg;
+> +	 * folio_realloc_swap() charges once backing is allocated.
+> +	 *
+> +	 * Need to call this even if allocation failed, for MEMCG_SWAP_FAIL.
+> +	 */
+> +	if (folio_test_swapcache(folio) &&
+> +	    is_vswap_entry(folio->swap))
+> +		mem_cgroup_record_swap(folio);
+> +	else if (unlikely(mem_cgroup_try_charge_swap(folio)))
+>  		swap_cache_del_folio(folio);
+
+This becomes:
+
+	if (!vswap && mem_cgroup_swap_try_charge())
+		abort
+	mem_cgroup_swap_record()
+
+> @@ -2614,18 +2685,28 @@ void __swap_cluster_free_entries(struct swap_info_struct *si,
+>  		/*
+>  		 * Uncharge swap slots by memcg in batches. Consecutive
+>  		 * slots with the same cgroup id are uncharged together.
+> +		 * For vswap, only drop the ID ref - physical swap was
+> +		 * already uncharged in __vswap_release_backing above.
+>  		 */
+>  		id_cur = __swap_cgroup_clear(ci, ci_off, 1);
+>  		if (batch_id != id_cur) {
+> -			if (batch_id)
+> -				mem_cgroup_uncharge_swap(batch_id, ci_off - batch_off);
+> +			if (batch_id) {
+> +				if (is_vswap)
+> +					mem_cgroup_id_put_swap(batch_id, ci_off - batch_off);
+> +				else
+> +					mem_cgroup_uncharge_swap(batch_id, ci_off - batch_off);
+> +			}
+
+And this becomes:
+
+	if (!vswap)
+		mem_cgroup_swap_uncharge()
+	mem_cgroup_swap_put()
