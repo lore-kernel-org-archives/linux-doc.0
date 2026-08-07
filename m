@@ -1,426 +1,349 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADB648035B;
-	Fri,  7 Aug 2026 13:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463E7473C9E
+	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 13:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786107928; cv=none; b=BKQnnoPyHe4r/9kC+1HTkvd9BLDBQottxkssQvACXk+bt0Ha5QzLFFEEtOAE5igOgImtxnY6AaYKlHlJrhLj43uHdx//NG/wXSQuYQV8DEsFf8/2zqVWblrU30nYxLqK2RBo6rSxfaaI1AakCry/UKYiEIY4TVNJaPRp0+k701k=
+	t=1786108400; cv=none; b=qQ7rEsHTI6sJMKZI17NNtMidwTi/96WxKmgRslzKJv6774B2d19TyCDraMY6+RJeyPJlHMZ32qGd2D0mw9RzZF/VPayNEVKR04NNL+nOTx7Xqw8FFn5Ft+tgotgLLSK6sznnSHjqjGtp7Lu8FaG7V4tm1EjChH0s25vRJ8F1CSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786107928; c=relaxed/simple;
-	bh=+y+QG1VdcjfpKSatpfVb8yXZAQWyz1QbF7OUOo6OSB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JN7BF/0hSM/gy8iRMDKiUq0UN6/CtzFa+ZrHcV0DdP95Uc6KNIOn9+VHNcbEjCakXFWpDIFNYT0Pw+kqbq96npyk6/9TLCAFkYxhDHd0WZ5759NJ3Ne/hgMAYkjbPGqZbADV0m270IJDGbTLCqTmRLtgEaXFiCtxhnPLcrRlBqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=WHa9Pmxt; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1786108400; c=relaxed/simple;
+	bh=zI56knWFw/+tBZzE1Wa/MAoDEMerBFTMov3jlzEKrG8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=MAWONfzzfwkJnjqJOPDc6EESlGHSknufYxsCCPsAmXvnlbYhJgjF35Zp/n+E7XYViTyQZMf9HjB1oIGTNCEuofpfTvCqkZ1GWLOZde4YUB6l2T6PVe+9pjbW5rj4N1lKJ7iy9mT5QWN6Mo2t4F72dCTnAa1Xuh3otJQacPR4BwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LfgleWTK; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="WHa9Pmxt"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 677Cm4SG1413128;
-	Fri, 7 Aug 2026 13:05:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=c7Zt2c
-	JcYDfRFlMdh4SH0h3y2GANc4Ok5cTjrhSHrhE=; b=WHa9PmxtHNomM3e9BNUpuB
-	HwTvjtwCjN72MnPsZUMMZjZTg3emgJi7rAwQ899cvzfAsHovqSB89M7v9zEgLboR
-	jAjhx/nu/oWLnVaKGHIb7BABSBDDrx0MgiaPhMdJDsfDy8kbxvj9mcCfnF39jwkK
-	YFKmfZg4rCrMUMRVfhQ6vijVPGuC8XoozYvQ38MAqLHwkV6odS1KN51buTIsLh0d
-	2ANIcTDipF5bMOxx2Inkw17wdPDnasGTiMr7TRhJoEuB0/B+4bhx+Vji093fYR9u
-	uAqSVUqqED0uZbEVJ/0z4GOV06oM+KZRa2sp7Do4k5gUcU8u6kEOuv46ecPcC9Wg
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fvy02bva7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Aug 2026 13:04:59 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 677CuHbI028708;
-	Fri, 7 Aug 2026 13:04:59 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fsu4qyvva-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Aug 2026 13:04:58 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 677D4txw39256376
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 7 Aug 2026 13:04:55 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 13A9A2004E;
-	Fri,  7 Aug 2026 13:04:55 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 01D6620063;
-	Fri,  7 Aug 2026 13:04:52 +0000 (GMT)
-Received: from fedora (unknown [9.5.7.39])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri,  7 Aug 2026 13:04:51 +0000 (GMT)
-Date: Fri, 7 Aug 2026 18:34:58 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: Ritesh Harjani <ritesh.list@gmail.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Anushree Mathur <anushree.mathur@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Gautam Menghani <gautam@linux.ibm.com>
-Subject: Re: [PATCH v7 1/4] KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and
- wire up ioctl
-Message-ID: <20260807182905.c357b7de-95-amachhiw@linux.ibm.com>
-Mail-Followup-To: Ritesh Harjani <ritesh.list@gmail.com>, 
-	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Vaibhav Jain <vaibhav@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Gautam Menghani <gautam@linux.ibm.com>
-References: <20260806170645.11892-1-amachhiw@linux.ibm.com>
- <20260806170645.11892-2-amachhiw@linux.ibm.com>
- <ik5mlj9n.ritesh.list@gmail.com>
- <20260807161434.73dfde8c-36-amachhiw@linux.ibm.com>
- <8q6ikvqo.ritesh.list@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfgleWTK"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4994c49f588so20228335e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 06:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786108393; x=1786713193; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wgZD8Qie28A4lMky1ZmmngaVSHaSCD6Vbp39BPYyPjk=;
+        b=LfgleWTK1lJ3McINQDJd1dKzxE3q+n4aV53WsjMGBHHG1dhnfhuyoSq64JRHOGh4Sq
+         SKEjVihxUWxeaFMFaz0R99SohQ0OLZhX/k5wR5yPqYzolzxQbWzY25eYz6qZEnY5jHZP
+         D6/BMToooO5LWPA6gmNYNblrznObRhP4saNLLruq1T3o6DYJ/l6Ei97jU89pqFR390EM
+         mMG2EOtxE9IpN8/zNM4Xk4q/AxvppI4/PkCVjdcwrNcxgvPmXmME5RnG2tH+aI6u3AbJ
+         xEZeCOMN6GBoog93uE/E0fCoTAD0nUk2zCL569mKMLsmNHtYL+UEwr5wnQu2pcK6hxo0
+         JiCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786108393; x=1786713193;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wgZD8Qie28A4lMky1ZmmngaVSHaSCD6Vbp39BPYyPjk=;
+        b=OpN5zD02jedy1OV/e6QSnbLg3WlGIaWxzH8L/1ElKsr1M3hhHDvAUmO8epm/XkS17/
+         FIJ2SplbYEcPP0Sa8n2SBuD7djcH1T11nxG3euuzCDauQCy8HunONqff/+vijt/hJW0o
+         cRoS4TYvqhgUBtfGMElj3Q2Wl5Rtj8liwc8xwPsrmvOJWQL7xcvjHSevLOqw/2vqGOfb
+         oWF2ta5rda3JsJz+ZWMeGBSAAZzqdezl76N9mWFAKPVINrH3lDbz5X8v1OGu4K+2h8E+
+         BJrL3tMcGj+1JM1MSGFvmOwdJqeu2SO9kXLGwzMLPzSleYFNzqTucu06gOmQBqzjzp7e
+         AJQQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpLQtdtJ1uxtfzhQIEKf+YyScR6h+bm93s5dFoJMSnBEYF6qUIhDsGSRD9859OtEqRp5fI4i+ScHOw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywnw2VOev8YK4edo6Gm63btwpgytQJBtLJUOWPyKy2rBUktddac
+	syP3ZDlQ3jLBnTfOZBJLeclUIXvqighRjKU5PYY/IDu9peu3xEMIrGtT
+X-Gm-Gg: AR+sD12QpUSPnfRWwa3H2XaiVl5u5a9o/7LwPiGmkg305hehr9kYlxANZEGECPAwufM
+	uH6Di3/8REPpeR9F0pqRT/y5h3HoBH3CuiToGRBDVhgtvnx/VgQiHmP1FR+vOWEbUt4Dqlnqe6h
+	t/IBOl01Z23v/10Rv6n/cmfLJWw0Diqv0nNdEUes6D5ggx4vYZcB5BADctizHBeCGy3AedeAEru
+	jMmUKqNy3e9J8yMFgqlucb5VpxoaVGko/gr2G+PRJtmh0P9ftHyxYsQ+QS0AZdsJNW/cCRcnsbt
+	vsA0nJcGo2FwsDJThlfaSwsS721++OX6++TvsddcKLvYNY6QSi2Fka57QE8D/nw/hnfpxgatICJ
+	xDlsaFRs1208J1juWOjHnINbdlzTe5tGl1WD8fJoObuXi3aCNFsVZAsozBuFnVW0xg3i++mMKNI
+	u/hwv1cikjSaKvnAzWeLY0IOU3YLcVXr5xE0KJsKhvA3CMwEzDQUWC23Xg8/EkH7XrFZNAsTUHi
+	OmSTY8RJB0HBnXqWi0nBZhCFrnH7yHFS5ApkBBtahjG1OwrUVGGfA==
+X-Received: by 2002:a05:600c:1546:b0:495:3bc6:d381 with SMTP id 5b1f17b1804b1-499553bcbc8mr134755265e9.2.1786108392410;
+        Fri, 07 Aug 2026 06:13:12 -0700 (PDT)
+Received: from Ansuel-XPS24.localdomain (host-87-19-255-168.retail.telecomitalia.it. [87.19.255.168])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4995c7b2b68sm58827665e9.4.2026.08.07.06.13.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 06:13:11 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	llvm@lists.linux.dev
+Subject: [PATCH net-next v11 00/12] net: pcs: Introduce support for fwnode PCS
+Date: Fri,  7 Aug 2026 15:12:42 +0200
+Message-ID: <20260807131301.192060-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8q6ikvqo.ritesh.list@gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=G6ws1dk5 c=1 sm=1 tr=0 ts=6a75d7fc cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
- a=h3gdUq23L0XHQMYVencA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDEwMCBTYWx0ZWRfX7XHbdyWVZZUp
- bz971WoWmET5t5COtd1tpChD6GwHuWz0KZt87obkz4RFQU+kmByMqHDO6En/0sMw/xTlV8cdTJP
- ThWfLSrfXban3+LKqyXX1jD91hFFsD6oOyJJu9t9saWdbbYbJHVeZ+o5Q/WABrbJbAIxxNXig+x
- OA0RNOzo/ytJyIyL3w8X+DSGdSiU3Tmw+IywUm61XYaB3x6Tj+xGmWsF+XaDN3wmAgyFiu2uBu1
- JEJbSrTzNRNfWUBRElBMT450hH4CIghyDZmHsN8zlJ0RqoKcur4W5i+VdQAJRd76a7dTOWbQkqu
- UuvNZpkM6FOda31Csmqn5oGB39kWFlj/Zp4/UmzkOj3tvIDHSNuQJ4LxA6kAwyglSSZvw5hr6N6
- tuxwtFCb/FJEPgxHfLaB0k0Cw0AS2dJ0DCEb6Pt9RWHJzRzlH1lhijUQIOEEPlZTnAuytkHzkvX
- voXns7bpBxV8DmA1ViQ==
-X-Proofpoint-ORIG-GUID: Dlan0QoHbDmDevN3o__qjBND2Ck4EdFP
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDEwMCBTYWx0ZWRfXy7JInibYBrrc
- YJgrblyoTkc/LWIPSGrex3rWH/i/8LucFZR/kPn3S6My2H5Mcgu6+118GlMlqQGu5XD93L5anR1
- Gs7bL1NcYoijmJ5V2EmQmnl7s4sUJBI=
-X-Proofpoint-GUID: x4LCc1u6ywBL69xwSiNo8KjmO2kF_yiN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-07_02,2026-08-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- phishscore=0 priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608070100
 
-On 2026/08/07 05:06 PM, Ritesh Harjani wrote:
-> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-> 
-> > Hi Ritesh,
-> >
-> > Thanks for reviewing this patch. Please find my response inline below.
-> >
-> > On 2026/08/07 08:38 AM, Ritesh Harjani wrote:
-> >> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-> >> 
-> >> > Introduce a new capability and ioctl to expose CPU compatibility modes
-> >> > supported by the host processor for nested guests.
-> >> >
-> >> > On IBM POWER systems, newer processor generations (N) can operate in
-> >> > compatibility modes corresponding to earlier generations, like (N-1) and
-> >> > (N-2). This is particularly relevant for nested virtualization, where
-> >> > nested KVM guests may need to run with a specific processor compatibility
-> >> > level.
-> >> >
-> >> > Introduce KVM_CAP_PPC_COMPAT_CAPS capability and the corresponding
-> >> > KVM_PPC_GET_COMPAT_CAPS vm ioctl. The ioctl returns a bitmap describing
-> >> > the compatibility modes supported by the host in respective bit numbers,
-> >> > allowing userspace (e.g., QEMU) to select an appropriate compatibility
-> >> > level when configuring nested KVM guests.
-> >> >
-> >> > The ioctl handling is added in kvm_arch_vm_ioctl() and retrieves host
-> >> > CPU compatibility capabilities via a PowerPC-specific backend
-> >> > implementation when available.
-> >> >
-> >> > The struct kvm_ppc_compat_caps places the 'size' field first so it can
-> >> > be read alone via get_user() before copy_struct_from_user() is called,
-> >> > avoiding pointer arithmetic to locate the size field.
-> >> >
-> >> > The ioctl is defined using _IO so the ioctl number remains stable even if
-> >> > the struct grows in future versions. It uses copy_struct_from_user() and
-> >> > copy_struct_to_user() to provide forward- and backward-compatible
-> >> > extensibility: older userspace passing a smaller struct to a newer kernel
-> >> > gets zero-padded trailing fields, while newer userspace passing a larger
-> >> > struct to an older kernel (usize > ksize) gets sizeof(struct
-> >> > kvm_ppc_compat_caps) written back to host_caps.size so it can retry with the
-> >> > older kernel-supported size, after which the kernel returns -E2BIG.
-> >> >
-> >> > KVM_PPC_COMPAT_CAPS_SIZE_VER0 is defined as a frozen integer constant
-> >> > (24) marking the size of the initial struct version, used as the
-> >> > minimum floor for size field validation, similar to other versioned
-> >> > struct interfaces in the kernel.
-> >> >
-> >> > The 'flags' field is reserved for future use. The kernel rejects any
-> >> > call where flags is non-zero with -EINVAL, preventing garbage values
-> >> > from being baked into ABI permanently.
-> >> >
-> >> > The ioctl returns appropriate error codes: EINVAL for an invalid size
-> >> > or non-zero reserved fields, E2BIG if new userspace provides a larger
-> >> > struct than the kernel knows about (with ksize written back into
-> >> > host_caps.size for the retry), EFAULT for failed copy operations, and
-> >> > ENOTTY if the backend doesn't implement get_compat_caps.
-> >> >
-> >> > Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> >> > Tested-by: Gautam Menghani <gautam@linux.ibm.com>
-> >> > Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
-> >> > Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-> >> > Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> >> > ---
-> >> > Changes in this version:
-> >> >   - KVM_CAP_PPC_COMPAT_CAPS: add hv_enabled guard to align the capability
-> >> >     check with ioctl availability; a PR KVM VM on pseries now correctly
-> >> >     returns 0 for the capability [Sashiko]
-> >> >
-> >> >  arch/powerpc/include/asm/kvm_ppc.h  |  1 +
-> >> >  arch/powerpc/include/uapi/asm/kvm.h |  8 ++++
-> >> >  arch/powerpc/kvm/powerpc.c          | 71 +++++++++++++++++++++++++++++
-> >> >  include/uapi/linux/kvm.h            |  3 ++
-> >> >  4 files changed, 83 insertions(+)
-> >> >
-> >> > diff --git a/arch/powerpc/include/asm/kvm_ppc.h b/arch/powerpc/include/asm/kvm_ppc.h
-> >> > index 0953f2daa466..169ea6a7fbad 100644
-> >> > --- a/arch/powerpc/include/asm/kvm_ppc.h
-> >> > +++ b/arch/powerpc/include/asm/kvm_ppc.h
-> >> > @@ -319,6 +319,7 @@ struct kvmppc_ops {
-> >> >  	bool (*hash_v3_possible)(void);
-> >> >  	int (*create_vm_debugfs)(struct kvm *kvm);
-> >> >  	int (*create_vcpu_debugfs)(struct kvm_vcpu *vcpu, struct dentry *debugfs_dentry);
-> >> > +	int (*get_compat_caps)(struct kvm_ppc_compat_caps *host_caps);
-> >> >  };
-> >> >  
-> >> >  extern struct kvmppc_ops *kvmppc_hv_ops;
-> >> > diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
-> >> > index 077c5437f521..19e53d5ae540 100644
-> >> > --- a/arch/powerpc/include/uapi/asm/kvm.h
-> >> > +++ b/arch/powerpc/include/uapi/asm/kvm.h
-> >> > @@ -437,6 +437,14 @@ struct kvm_ppc_cpu_char {
-> >> >  	__u64	behaviour_mask;		/* valid bits in behaviour */
-> >> >  };
-> >> >  
-> >> > +/* For KVM_PPC_GET_COMPAT_CAPS */
-> >> > +struct kvm_ppc_compat_caps {
-> >> > +	__u64	size;			/* Size of this structure */
-> >> > +	__u64	flags;			/* Reserved for future use */
-> >> > +	__u64	compat_capabilities;	/* Capabilities supported by the host */
-> >> > +};
-> >> > +#define KVM_PPC_COMPAT_CAPS_SIZE_VER0	24 /* sizeof first published struct */
-> >> > +
-> >> >  /*
-> >> >   * Values for character and character_mask.
-> >> >   * These are identical to the values used by H_GET_CPU_CHARACTERISTICS.
-> >> > diff --git a/arch/powerpc/kvm/powerpc.c b/arch/powerpc/kvm/powerpc.c
-> >> > index b6b83fe3233f..e64b3cfadd3a 100644
-> >> > --- a/arch/powerpc/kvm/powerpc.c
-> >> > +++ b/arch/powerpc/kvm/powerpc.c
-> >> > @@ -703,6 +703,13 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
-> >> >  			}
-> >> >  		}
-> >> >  		break;
-> >> > +#if defined(CONFIG_KVM_BOOK3S_HV_POSSIBLE)
-> >> > +	case KVM_CAP_PPC_COMPAT_CAPS:
-> >> > +		r = 0;
-> >> > +		if (hv_enabled && kvmhv_on_pseries())
-> >> 
-> >> I think sashiko is just complaining in the 1st patch because we have not
-> >> yet wired up the kvmppc_hv_ops->get_compat_caps() yet in patch-1. I
-> >> think it is expecting..
-> >> 
-> >> if (hv_enabled && kvmhv_on_pseries() && kvmppc_hv_ops->get_compat_caps)
-> >> 
-> >> But either way is fine.
-> >> 
-> >> 
-> >> > +			r = 1;
-> >> > +		break;
-> >> > +#endif /* CONFIG_KVM_BOOK3S_HV_POSSIBLE */
-> >> >  	default:
-> >> >  		r = 0;
-> >> >  		break;
-> >> > @@ -2469,6 +2476,70 @@ int kvm_arch_vm_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
-> >> >  		r = kvm->arch.kvm_ops->svm_off(kvm);
-> >> >  		break;
-> >> >  	}
-> >> > +	case KVM_PPC_GET_COMPAT_CAPS: {
-> >> > +		struct kvm_ppc_compat_caps host_caps = {};
-> >> > +		u64 usize;
-> >> > +
-> >> > +		/*
-> >> > +		 * Read the size field first to drive copy_struct_from_user.
-> >> > +		 * size must be the first field of the struct.
-> >> > +		 */
-> >> > +		r = -EFAULT;
-> >> > +		if (get_user(usize, (__u64 __user *)argp))
-> >> > +			goto out;
-> >> > +
-> >> > +		/*
-> >> > +		 * Enforce a minimum: reject buffers smaller than the initial
-> >> > +		 * struct version (VER0). This allows old userspace compiled
-> >> > +		 * against the original struct to still work on a newer kernel
-> >> > +		 * that has grown the struct with appended fields.
-> >> > +		 */
-> >> > +		r = -EINVAL;
-> >> > +		if (usize < KVM_PPC_COMPAT_CAPS_SIZE_VER0)
-> >> > +			goto out;
-> >> > +
-> >> > +		/*
-> >> > +		 * New userspace with a larger struct called an older kernel.
-> >> > +		 * Write back ksize in host_caps.size so userspace knows which
-> >> > +		 * older struct to retry with, then fail with -E2BIG.
-> >> > +		 */
-> >> > +		if (usize > sizeof(host_caps)) {
-> >> > +			host_caps.size = sizeof(host_caps);
-> >> > +			r = -EFAULT;
-> >> > +			if (put_user(host_caps.size, (__u64 __user *)argp))
-> >> > +				goto out;
-> >> > +			r = -E2BIG;
-> >> > +			goto out;
-> >> > +		}
-> >> 
-> >> You anyways mentioned copy_struct_from_user() is taking care of both
-> >> forward and backward compat. Then what is the point of this check?
-> >> shouldn't we get rid of this complete if logic? I don't see a point of
-> >> this if we are anyway using copy_struct_from_user().
-> >
-> > The pre-check is intentional and serves a purpose that
-> > copy_struct_from_user() alone cannot provide: explicit kernel struct
-> > size discovery.
-> >
-> > copy_struct_from_user() returns -E2BIG when usize > ksize and trailing
-> > bytes are non-zero — but it gives userspace no way to know what ksize to
-> > retry with. It also silently succeeds when trailing bytes are zero,
-> > which means a new userspace on an old kernel would never learn the
-> > kernel's struct size at all.
-> >
-> > This design is different by intent: when new userspace passes a larger
-> > struct, we always return -E2BIG and write back sizeof(host_caps) into
-> > the size field so userspace learns the exact kernel-supported size and
-> > can retry with it. This explicit negotiation is verified in the ABI
-> > extensibility testing in the cover letter ("Newer struct on QEMU, older
-> > kernel -> works"). The explicit -E2BIG + ksize writeback makes the
-> > version negotiation unambiguous.
-> >
-> 
-> yup, my bad, should have seen the comment in the code above.
+This series introduce a most awaited feature that is correctly
+provide PCS with fwnode without having to use specific export symbol
+and additional handling of PCS in phylink.
 
-No worries...
+At times there were 2 different implementation (this and the one
+from Sean) but Sean agreed that this can be picked and used in favor
+of his implementation as long as his case with race condition is
+correctly handled.
 
-> 
-> But isn't this a bad design? Tomorrow, say we have a v2, a larger
-> version of this struct and if your newer Qemu (with larger struct size)
-> is running on an older kernel with a smaller struct size, then you will
-> fail it because usize > ksize even though the userspace has zero filled
-> the rest of the trailing bytes... 
+---
+First the PCS fwnode:
 
-You're right and thanks for pointing this out. A newer userspace that
-zero-initialises the new fields (e.g. struct caps = {}; caps.size =
-sizeof(caps);) is a valid forward-compat call — zero means "use default
-for unknown fields", which is exactly the contract
-copy_struct_from_user() is designed to honour. Forcing a round-trip in
-that case is wrong.
+The concept is to implement a producer-consumer API similar to other
+subsystem like clock or PHY.
 
-I'll drop the manual usize > sizeof(host_caps) pre-check and let
-copy_struct_from_user() own the usize > ksize path entirely.
+That seems to be the best solution to the problem as PCS driver needs
+to be detached from phylink and implement a simple way to provide a
+PCS while maintaining support for probe defer or driver removal.
 
-One small correction to your suggested snippet though: put_user()
-return value is ignored there. put_user() returns 0 on success or
--EFAULT on failure, so if the write-back fails we'd silently return
--E2BIG instead of -EFAULT. The fix is straightforward:
+To keep the implementation simple, the PCS driver devs needs some
+collaboration to correctly implement this. This is O.K. as helper
+to correctly implement this are provided hence it's really a matter
+of following a pattern to correct follow removal of a PCS driver.
 
-  diff --git a/arch/powerpc/kvm/powerpc.c b/arch/powerpc/kvm/powerpc.c
-  index e64b3cfadd3a..ed48f069fb76 100644
-  --- a/arch/powerpc/kvm/powerpc.c
-  +++ b/arch/powerpc/kvm/powerpc.c
-  @@ -2498,29 +2498,28 @@ int kvm_arch_vm_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
-                  if (usize < KVM_PPC_COMPAT_CAPS_SIZE_VER0)
-                          goto out;
-   
-  -               /*
-  -                * New userspace with a larger struct called an older kernel.
-  -                * Write back ksize in host_caps.size so userspace knows which
-  -                * older struct to retry with, then fail with -E2BIG.
-  -                */
-  -               if (usize > sizeof(host_caps)) {
-  -                       host_caps.size = sizeof(host_caps);
-  -                       r = -EFAULT;
-  -                       if (put_user(host_caps.size, (__u64 __user *)argp))
-  -                               goto out;
-  -                       r = -E2BIG;
-  -                       goto out;
-  -               }
-  -
-                  /*
-                   * copy_struct_from_user() handles forward/backward compat:
-                   *   usize == ksize: verbatim copy
-                   *   usize <  ksize: zero-pad trailing (old userspace, new kernel)
-  +                *   usize >  ksize: succeed iff trailing bytes are zero, else -E2BIG
-                   */
-                  r = copy_struct_from_user(&host_caps, sizeof(host_caps),
-                                            argp, usize);
-  -               if (r)
-  +               if (r) {
-  +                       /*
-  +                        * New userspace with a larger struct called an older
-  +                        * kernel. Write back ksize in host_caps.size so
-  +                        * userspace knows which older struct to retry with,
-  +                        * then fail with -E2BIG.
-  +                        */
-  +                       if (r == -E2BIG)
-  +                               if (put_user((__u64)sizeof(host_caps),
-  +                                            (__u64 __user *)argp))
-  +                                       r = -EFAULT;
-                          goto out;
-  +               }
-   
-                  /* Reserved fields must be zero */
-                  r = -EINVAL;
+A PCS provider have to implement and call fwnode_pcs_add_provider() in
+probe function and define an xlate function to define how the PCS
+should be provided based on the requested interface and phandle spec
+defined in fwnode (based on the #pcs-cells)
 
-This preserves -EFAULT priority if put_user() fails, consistent with
-how the get_user() guard earlier in the same handler works.
+fwnode_pcs_get() is provided to provide a specific PCS declared in
+fwnode at index.
 
-Will post v8 with this fix.
+A simple xlate function is provided for simple single PCS
+implementation, fwnode_pcs_simple_get.
 
-Thanks,
-Amit
+A PCS provider on driver removal must call fwnode_pcs_del_provider()
+to delete itself as a provider.
 
->      if (usize > sizeof(host_caps)) 
-> 
-> Instead wouldn't it be better if we do something like this?
-> 
-> 		r = copy_struct_from_user(&host_caps, sizeof(host_caps),
-> 					  argp, usize);
-> 		if (r) {
-> 			if (r == -E2BIG)
-> 				put_user(sizeof(host_caps), &argp->size);
-> 			goto out;
-> 		}
-> 
-> So, we only fail if the userspace has passed a newer struct and the
-> trailing bytes, which are unknown to this older kernel, are zeroed,
-> otherwise we return -E2BIG. We also write the ksize back, so the user
-> knows what ksize it supports.
-> 
-> This would avoid an unncessary round trip and will simplify the
-> userspace design, isn't it?
-> 
-> >> 
-<snip>
+---
+Second PCS handling in phylink:
+
+We have the PCS problem for the only reason that in initial
+implementation, we permitted way too much flexibility to MAC driver
+and things started to deviate. At times we couldn't think SoC
+would start to put PCS outside the MAC hence it was OK to assume
+they would live in the same driver. With the introduction of
+10g in more consumer devices, we are observing a rapid growth
+of this pattern with multiple PCS external to MAC.
+
+To put a stop on this, the only solution is to give back to phylink
+control on PCS handling and enforce more robust supported interface
+definition from both MAC and PCS side.
+
+It's suggested to read patch 0003 of this series for more info, here
+a brief explaination of the idea:
+
+This series introduce handling of PCS in phylink and try to deprecate
+.mac_select_pcs.
+
+Phylink now might contain a linked list of available PCS and
+those will be used for PCS selection on phylink_major_config.
+
+MAC driver needs to define pcs_interfaces mask in phylink_config
+for every interface that needs a dedicated PCS.
+
+These PCS needs to be provided to phylink at phylink_create time
+by setting the .fill_available_pcs and .num_possible_pcs in phylink_config.
+Helpers to parse PCS from fwnode are provided
+fwnode_phylink_pcs_count() that will return the count of PCS entries
+described in the firmware node and fwnode_phylink_pcs_parse() that will
+fill a preallocated array of PCS pointer with the actual available PCS
+(ignoring the one that still needs to be probed).
+
+phylink_create() will fill the internal PCS list with the passed
+array of PCS. phylink_major_config and other user of .mac_select_pcs
+are adapted to make use of this new PCS list.
+
+The supported interface value is also moved internally to phylink
+struct. This is to handle late removal and addition of PCS.
+(the bonus effect to this is giving phylink a clear idea of what
+is actually supported by the MAC and his constraint with PCS)
+
+The supported interface mask in phylink is done by OR the
+supported_interfaces in phylink_config with every PCS in PCS list.
+
+PCS removal is supported by forcing a mac_config, refresh the
+supported interfaces and run a phy_resolve().
+
+PCS late addition is supported by introducing a global notifier
+for PCS provider. If a phylink have the pcs_interfaces mask not
+zero, it's registered to this notifier.
+
+PCS provider will emit a global PCS add event to signal any
+interface that a new PCS might be available.
+
+The function will then check if the PCS is related to the MAC
+fwnode and add it accordingly.
+
+A user for this new implementation is provided as an Airoha PCS
+driver. This was also tested downstream with the IPQ95xx QCOM SoC
+and with the help of Daniel also on the various Mediatek MT7988
+SoC with both SFP cage implementation and DSA attached.
+
+Lots of tests were done with driver unbind/bind and with interface
+up/down also by adding print to make sure major_config_fail gets
+correctly triggered and reset once the PCS comes back.
+
+The dedicated commits have longer description on the implementation
+so it's suggested to also check there for additional info.
+
+It's worth to mention that OpenWrt is currently using this on
+Mediatek SoC and QCOM ipq807x/ipq60xx/ipq50xx and Airoha are
+already ported in staging tree for testing.
+
+---
+
+Changes v11:
+- Rework PCS release to notifier way (fix race as pointed out by bot)
+- Add Ack from Lorenzo for Airoha Ethernet driver
+- Introduce devm variant for pcs_provider_add
+- Better support firmware node reference for PCS late attach
+- Better protect list iteration with state mutex
+- Minor fixup to airoha pcs driver (flow control fixup)
+- Rebase on top of net-next
+Changes v10:
+- Minor code cleanup and fixes as suggested by bot
+- Drop devlink patch
+- Add reviewed by tag
+- Configure old_link_state on PCS release
+- Unlink PCS on error in phylink_create()
+- Use list_add_tail
+- Fix typo in Airoha PCS driver
+- Update phylink migration guide
+- Better handle late PCS attach (idempotent function and
+  add unser state_mutex)
+- Use dedicated lock in Airoha ethernet driver
+Changes v9:
+- Rebase on top of net-next/main
+- Drop early verification of supported_interface
+  (it can also be provided by get_capabilites MAC OP)
+Changes v8:
+- Back to RFC (net-next closed)
+- Address additional bug reported by Sashiko bot
+  - Better handle priv interface for Airoha PCS driver
+  - Better handle locking for modifying the PCS list in
+    phylink code
+  - Improve fwnode_phylink_pcs_parse() parsing on -ENOENT
+  - Better handle error condition in phylink_create()
+  - Turn down the link when current PCS is released
+- Fix compilation warning caused by copy paste error
+Changes v7:
+- Address all the bug from the Sashiko bot
+- Rename .num_available_pcs to .num_possible_pcs
+- Link PCS in phylink_create()
+- Correctly unregister the notifier on phylink_destroy()
+- Introduce fwnode_phylink_pcs_count()
+- Better handle locking in phylink for PCS handling
+- Better handle unavailable PCS at phylink_create() time
+- Improve Documentation file
+- Other minor fixes to address suggestion from bot
+- Rebase on top of net-next
+Changes v6:
+- Rebase on top of net-next
+- Add Documentation files
+- Add fw_devlink patch
+- Fix some comments typo
+- Rework the airoha_eth.c implementation with new multi serdes code
+- Extend PCS code with PCIe and USB support
+- Align schema to new property
+Changes v5:
+- Rebase on top of net-next
+- Use the new force_major_config
+- Reword some comments and commit description
+- Return -ENODEV instead of -EPROBE_DEFER to perevent race condition
+- Drop phy_interface_copy patch (Russell pushed an equivalent version)
+Changes v4:
+- Move patch 0002 phy_interface_copy to 0002 (fix bisectability
+  problem)
+- Address review from Lorenzo for Airoha ethernet driver
+- Fix kdoc error with missing Return (actually missing : before Return)
+- Fix UNMET dependency reported error for CONFIG_FWNODE_PCS
+- Revert to pcs.c instead of core.c (due to name conflict with other kmod)
+- Fix clang compilation error for Airoha PCS driver
+- Add missing inline function to pcs.h function
+Changes v3:
+- Out of RFC
+- Fix various spelling mistake
+- Drop circular dependency patch
+- Complete Airoha Ethernet phylink integration
+- Introduce .pcs_link_down PCS OP
+Changes v2:
+- Switch to fwnode
+- Implement PCS provider notifier
+- Better split changes
+- Move supported_interfaces to phylink
+- Add circular dependency patch
+- Rework handling with indirect addition/removal and
+  trigger of phylink_resolve()
+
+Christian Marangi (12):
+  net: phylink: keep and use MAC supported_interfaces in phylink struct
+  net: phylink: introduce internal phylink PCS handling
+  net: pcs: implement Firmware node support for PCS driver
+  net: phylink: save phylink instance fwnode on phylink_create
+  net: phylink: support PCS provider release
+  net: phylink: support late PCS provider attach
+  net: Document PCS subsystem
+  MAINTAINERS: add myself as PCS subsystem maintainer
+  net: phylink: add .pcs_link_down PCS OP
+  dt-bindings: net: pcs: Document support for Airoha Ethernet PCS
+  net: pcs: airoha: add PCS driver for Airoha AN7581 SoC
+  net: airoha: add phylink support
+
+ .../bindings/net/pcs/airoha,pcs.yaml          |  261 ++
+ Documentation/networking/index.rst            |    1 +
+ Documentation/networking/pcs.rst              |  229 ++
+ Documentation/networking/sfp-phylink.rst      |   35 +-
+ MAINTAINERS                                   |    9 +
+ drivers/net/ethernet/airoha/Kconfig           |    2 +
+ drivers/net/ethernet/airoha/airoha_eth.c      |  190 +-
+ drivers/net/ethernet/airoha/airoha_eth.h      |    5 +
+ drivers/net/ethernet/airoha/airoha_regs.h     |   12 +
+ drivers/net/pcs/Kconfig                       |    8 +
+ drivers/net/pcs/Makefile                      |    3 +
+ drivers/net/pcs/airoha/Kconfig                |   12 +
+ drivers/net/pcs/airoha/Makefile               |    7 +
+ drivers/net/pcs/airoha/pcs-airoha-common.c    | 1303 ++++++++++
+ drivers/net/pcs/airoha/pcs-airoha.h           | 1311 +++++++++++
+ drivers/net/pcs/airoha/pcs-an7581.c           | 2093 +++++++++++++++++
+ drivers/net/pcs/pcs.c                         |  294 +++
+ drivers/net/phy/phylink.c                     |  347 ++-
+ include/linux/pcs/pcs-provider.h              |   65 +
+ include/linux/pcs/pcs.h                       |  141 ++
+ include/linux/phylink.h                       |   28 +
+ 21 files changed, 6298 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/pcs/airoha,pcs.yaml
+ create mode 100644 Documentation/networking/pcs.rst
+ create mode 100644 drivers/net/pcs/airoha/Kconfig
+ create mode 100644 drivers/net/pcs/airoha/Makefile
+ create mode 100644 drivers/net/pcs/airoha/pcs-airoha-common.c
+ create mode 100644 drivers/net/pcs/airoha/pcs-airoha.h
+ create mode 100644 drivers/net/pcs/airoha/pcs-an7581.c
+ create mode 100644 drivers/net/pcs/pcs.c
+ create mode 100644 include/linux/pcs/pcs-provider.h
+ create mode 100644 include/linux/pcs/pcs.h
+
+-- 
+2.53.0
+
