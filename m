@@ -1,178 +1,189 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09962D249B;
-	Fri,  7 Aug 2026 10:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398153C6A57;
+	Fri,  7 Aug 2026 11:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786100348; cv=none; b=pHm8Q9Max45W3NqkzJyDuzM7lG0smbpLsNHudtTnkBmMRmMj2uFqa5Cdxa3dKHL8t1Mz0WbBoZrGxamVqR/Af8+0ad4eFckRWfRhMZjPjrrqO5ZXlHdr/u/RZy24pv1Hn860Vg0BsI5/LgbAC13V935uVayf4vmjs4W9o7HNtS0=
+	t=1786101096; cv=none; b=SkJrJasLy70RwM541hhFmu18/deQjvJkKiKufEEFNPU0hgMstKtSS2RjbWExMZby36dDtFqsrrysQVH6uVEFQzo/+cf4ZNhq3GbKdVXqV6pl85nr8OekKGmvX5clI0z7tEapF4cBmBHcx83xwC9YrUtN1t2EA4dJ90Eg7TZ4eOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786100348; c=relaxed/simple;
-	bh=L1MhdzwapaQeZxWjhc3Ij6CUn/5aZkpaV9BwvEAzj0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DXeNRYHao/v4UoSk3nUdXTR6JhI/Eoh93XWgu0ckzuN6CPH33OWGMCRU1A1z/ZmwCQa18Qz+f260qewd93fXENwT7SRW9nG/nJ6nRExnWL/eDxYgKUQnUCBKpKwrsXXL8c7PbS7YvgLMg3M0t77/okq10lknbSmZ88aAdm9MRoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=dqeHSIaL; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1786101096; c=relaxed/simple;
+	bh=UPAjB0BdsiGVSp/QBakciyTb0Cb2PgDPRyhiNB6yjbg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nDV4sOjKy4LYZ9gqL7XI/mammlckfTtlySmPDlU/XOyRBSj39RSsW5WiHqpnrpUFFJsKyZfUd0sLEcUQQBK3rmM6rm9Q5JtD8DAy+z94XArIq3wHQmSGHlbHsLwk+6aMwvIAe50An4JQZ4LQvcNd+AaA/EJ1EcRKrU9TYYYJAqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Tp0/Var9; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="dqeHSIaL"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6770I5V74162026;
-	Fri, 7 Aug 2026 10:58:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=wdarfIqciowp+pL47aDTBo7eMfzKp2
-	1bb8+EWwO9clM=; b=dqeHSIaLb+XDkSqXw2C2MLQY7zbKt5fGBYOIuusv2XU07s
-	lFUr4M/B12oxS8+cBVD5DZvrCyJpqj6peEfiFbtHB2dlBobAjAAAnRuJ8HwY40Ea
-	sLllYYdEBYSdSQsFCvcKfMKYtMpp8CDMA56mdhgaRPjO88B4YvAKGYeaTag0GCig
-	WQtCF2LYLV69Yg1oCS5Q6IzX7HFTxTExbsCOVTGqYTpgIVEQ75j1YQ358W9xgXPs
-	mQNTBl8SitC9sFxmus69q+plTbhNUurHFcdQSdDa4x3xrZU/AlJKyHo6pw1jZx8V
-	cODu+pgXapgjrWMi0HNTDVAQMTaRXXedz5L6JfRg==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fvxyyugwh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Aug 2026 10:58:52 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 677AuGlj018972;
-	Fri, 7 Aug 2026 10:58:51 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fswbgq5y5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Aug 2026 10:58:51 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 677AwmYl32309522
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 7 Aug 2026 10:58:48 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 00B8620043;
-	Fri,  7 Aug 2026 10:58:48 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0EEFD20040;
-	Fri,  7 Aug 2026 10:58:45 +0000 (GMT)
-Received: from fedora (unknown [9.5.7.39])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri,  7 Aug 2026 10:58:44 +0000 (GMT)
-Date: Fri, 7 Aug 2026 16:28:51 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: Ritesh Harjani <ritesh.list@gmail.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Anushree Mathur <anushree.mathur@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Gautam Menghani <gautam@linux.ibm.com>
-Subject: Re: [PATCH v7 2/4] KVM: PPC: Book3S HV: Implement compat CPU
- capability retrieval for KVM on PowerVM
-Message-ID: <20260807162828.2a058992-ed-amachhiw@linux.ibm.com>
-Mail-Followup-To: Ritesh Harjani <ritesh.list@gmail.com>, 
-	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Vaibhav Jain <vaibhav@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Gautam Menghani <gautam@linux.ibm.com>
-References: <20260806170645.11892-1-amachhiw@linux.ibm.com>
- <20260806170645.11892-3-amachhiw@linux.ibm.com>
- <h5l6lfep.ritesh.list@gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Tp0/Var9"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=cmpSACpQmSDOvkCsslSgBCvhphPrgzodOLZTrWWOAUY=;
+	b=Tp0/Var93VcbMnNN/DXf5t3Qwl9TbSqrL6DVz1Mmr38m/M3Yqmtm11CWu20dFVskW8sl/gzBe
+	9mitCO1ZFNe2Leu7zofD3tG05KcR4ruf0j7/cqAgDgoPf5yaXFjztC/lFXGwpvKz8lOufXI/haO
+	0kIl9iGHsO61/UVxWGM/i+0=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hGh5d74zBzmV99;
+	Fri,  7 Aug 2026 19:00:53 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id EFF8D4057A;
+	Fri,  7 Aug 2026 19:11:27 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Fri, 7 Aug 2026 19:11:26 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Teng Peisen <tengpeisen@huawei.com>, Wu Di
+	<wudi234@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Larysa Zaremba
+	<larysa.zaremba@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chen Anwen
+	<chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>, Zhang Min
+	<zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
+Subject: [PATCH net] hinic3: Fix SKB linearization mismatch and silent TX drops
+Date: Fri, 7 Aug 2026 19:11:19 +0800
+Message-ID: <ca8f219dd1eac99e41e22477bd0902b92ec7628e.1785899557.git.tengpeisen@huawei.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <h5l6lfep.ritesh.list@gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=SYrHsPRu c=1 sm=1 tr=0 ts=6a75ba6d cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8
- a=pGLkceISAAAA:8 a=nVGv5udEVB_H-HuN8jAA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDA4MyBTYWx0ZWRfX41cLFsdUHpnw
- 3MJ8CVzPs6V6RWuQgPTn6DV3ZCFVBWfMamQOnb0NQLW568BH8rv23nJyKqTbWK8lrJpgxoGJZEA
- Nb5EgXtsuykKgkFr8fOe/JoHuubkwVc=
-X-Proofpoint-ORIG-GUID: A5C6p1omfupWrT1c77AgYDvtCGUbsntY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDA4MyBTYWx0ZWRfX3WvTxNIZm6E1
- qwYS06xflV2u5is1JubIOFdsNl/Kn36LA4kUgUwCYutB6uBzRRXG7aGNHEkKLnhwqaN4XkL0aiP
- NZSp8EeoZkn6kMgDYPC5monLGdgsobhRQ5TgKFJcjDzMfZG12Y4hc8CjxMQvTub/rsWl8qi6c30
- /DR2eeumgnWz4iZSLcuBfSCLuTOax2c3qjFd6NEozKZ/bwlSJA0+Pw5XLD0qSF6mdTkidm5bk+V
- l3T59CoHm4re5DlmVTSbZi+uUnNHrFpI0lv/Mg1XzCr9XhB0nVQmqP8KXb5/d7ncNE4J04H35vN
- 4KbYi4EvyoKZW+3qsc5no9RQqNk4+AgoeLqoksTT8XGt0DSgj4FFigPAk602c8ZuXbJOqOlAAG5
- r4V8L9rdkIpaeaep/4LjHBlcWTglKLK+FyPiOuebv9N1v1dX//B5Yw5pTelAyjnEZPZfbuNuWgm
- 1s6bkbMpimUYAMR4szg==
-X-Proofpoint-GUID: BZb3XddkEIH-vHW_axws0ufPySg33Ivd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-07_01,2026-08-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 bulkscore=0 impostorscore=0 phishscore=0 spamscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608070083
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
+Message-ID: <20260807111119.fbukxHs-iuZ7DczDDq1cu4F7WC8OtTKc-4WXyZzTFKk@z>
 
-On 2026/08/07 10:01 AM, Ritesh Harjani wrote:
-> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-> 
-> > On POWER systems, the host CPU may run in a compatibility mode (e.g., a
-> > Power11 processor operating in Power10 compatibility mode). In such
-> > cases, the effective CPU level exposed to guests differs from the
-> > physical processor generation.
-> >
-> > When running nested KVM guests, QEMU derives the host CPU type using
-> > mfpvr(), which reflects the physical processor version. This can result
-> > in a mismatch between the CPU model selected by QEMU and the
-> > compatibility mode enforced by the host, leading to guest boot failures.
-> >
-> > For example, booting a nested guest on a Power11 LPAR configured in
-> > Power10 compatibility mode fails with:
-> >
-> >   KVM-NESTEDv2: couldn't set guest wide elements
-> >   [..KVM reg dump..]
-> >
-> > This occurs because QEMU selects a CPU model corresponding to the
-> > physical processor (via mfpvr()), while the host operates in a lower
-> > compatibility mode. As a result, KVM rejects the requested compatibility
-> > level during guest initialization.
-> >
-> > On pseries nestedv2 systems, add support for retrieving host CPU
-> > compatibility capabilities for nested guests on PowerVM. The capability
-> > bitmap reflects the processor modes negotiated between the Power
-> > hypervisor (L0) and the host partition (L1) via the
-> > H_GUEST_GET_CAPABILITIES hcall, but is retrieved from the cached
-> > nested_capabilities value populated during module initialization,
-> > avoiding repeated hypervisor calls. A WARN_ON_ONCE() flags the
-> > unexpected case where nested_capabilities is zero on a nestedv2 system.
-> > The implementation defines KVM-specific capability constants
-> > (KVM_PPC_COMPAT_CAP_POWER9/10/11), masks unsupported bits, and exposes
-> > the result through the KVM_PPC_GET_COMPAT_CAPS ioctl.
-> >
-> > Hook the implementation into the Book3S HV kvmppc_ops so that it can be
-> > invoked by the generic KVM ioctl handling code.
-> >
-> > Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> > Tested-by: Gautam Menghani <gautam@linux.ibm.com>
-> > Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
-> > Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-> > Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> > ---
-> >  arch/powerpc/include/uapi/asm/kvm.h | 10 ++++++++++
-> >  arch/powerpc/kvm/book3s_hv.c        | 20 ++++++++++++++++++++
-> >  2 files changed, 30 insertions(+)
-> 
-> Looks good to me. Please feel free to add:
-> 
-> Reviewed-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+Previously, hinic3_send_one_skb() cached the SKB fragment count before
+calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
+skb_checksum_help() for unsupported tunnel packets, the SKB may be
+linearized. Continuing to build the TX descriptor with the stale
+fragment count leads to a descriptor mismatch, which can trigge
+out-of-bounds DMA reads or IOMMU faults.
 
-Thanks for the review, Ritesh!
+Furthermore, the old code ignored the return value of skb_checksum_help(),
+transmitting corrupted packets with incomplete checksums upon failure. It
+also failed to increment drop statistics across various TX error paths,
+causing packets to be dropped silently without notifying the user.
 
-~Amit
+Fix this by:
+1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
+   ensure the correct fragment count is used if the SKB is linearized.
+2. Propagating skb_checksum_help() errors and returning
+   HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
+3. Adding missing statistics increments (dropped, map_frag_err,
+   unknown_tunnel_pkt, skb_pad_err) across the TX error paths so these
+   events are correctly reflected in interface statistics.
+
+Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
+Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
+Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
+Co-developed-by: Wu Di <wudi234@huawei.com>
+Signed-off-by: Wu Di <wudi234@huawei.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
+---
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 31 ++++++++++++++++---
+ 1 file changed, 26 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+index 9306bf0020ca..45effdddb434 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+@@ -97,8 +97,12 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
+
+ 	dma_info[0].dma = dma_map_single(&pdev->dev, skb->data,
+ 					 skb_headlen(skb), DMA_TO_DEVICE);
+-	if (dma_mapping_error(&pdev->dev, dma_info[0].dma))
++	if (dma_mapping_error(&pdev->dev, dma_info[0].dma)) {
++		u64_stats_update_begin(&txq->txq_stats.syncp);
++		txq->txq_stats.map_frag_err++;
++		u64_stats_update_end(&txq->txq_stats.syncp);
+ 		return -EFAULT;
++	}
+
+ 	dma_info[0].len = skb_headlen(skb);
+
+@@ -117,6 +121,9 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
+ 						     skb_frag_size(frag),
+ 						     DMA_TO_DEVICE);
+ 		if (dma_mapping_error(&pdev->dev, dma_info[idx].dma)) {
++			u64_stats_update_begin(&txq->txq_stats.syncp);
++			txq->txq_stats.map_frag_err++;
++			u64_stats_update_end(&txq->txq_stats.syncp);
+ 			err = -EFAULT;
+ 			goto err_unmap_page;
+ 		}
+@@ -260,9 +267,11 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
+ 		if (l4_proto != IPPROTO_UDP ||
+ 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
+ 		    VXLAN_OFFLOAD_PORT_LE) {
++			u64_stats_update_begin(&txq->txq_stats.syncp);
++			txq->txq_stats.unknown_tunnel_pkt++;
++			u64_stats_update_end(&txq->txq_stats.syncp);
+ 			/* Unsupported tunnel packet, disable csum offload */
+-			skb_checksum_help(skb);
+-			return 0;
++			return skb_checksum_help(skb);
+ 		}
+ 	}
+
+@@ -412,6 +421,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
+ 		offload |= HINIC3_TX_OFFLOAD_TSO;
+ 	} else {
+ 		tso_cs_en = hinic3_tx_csum(txq, task, skb);
++		if (tso_cs_en < 0) {
++			offload = HINIC3_TX_OFFLOAD_INVALID;
++			return offload;
++		}
+ 		if (tso_cs_en)
+ 			offload |= HINIC3_TX_OFFLOAD_CSUM;
+ 	}
+@@ -539,12 +552,17 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ 	int err;
+
+ 	if (unlikely(skb->len < MIN_SKB_LEN)) {
+-		if (skb_pad(skb, MIN_SKB_LEN - skb->len))
++		if (skb_pad(skb, MIN_SKB_LEN - skb->len)) {
++			u64_stats_update_begin(&txq->txq_stats.syncp);
++			txq->txq_stats.skb_pad_err++;
++			u64_stats_update_end(&txq->txq_stats.syncp);
+ 			goto err_out;
++		}
+
+ 		skb->len = MIN_SKB_LEN;
+ 	}
+
++	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
+ 	num_sge = skb_shinfo(skb)->nr_frags + 1;
+ 	/* assume normal wqe format + 1 wqebb for task info */
+ 	wqebb_cnt = num_sge + 1;
+@@ -560,7 +578,6 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ 		return NETDEV_TX_BUSY;
+ 	}
+
+-	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
+ 	if (unlikely(offload == HINIC3_TX_OFFLOAD_INVALID)) {
+ 		goto err_drop_pkt;
+ 	} else if (!offload) {
+@@ -604,6 +621,10 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ err_drop_pkt:
+ 	dev_kfree_skb_any(skb);
+ err_out:
++	u64_stats_update_begin(&txq->txq_stats.syncp);
++	txq->txq_stats.dropped++;
++	u64_stats_update_end(&txq->txq_stats.syncp);
++
+ 	return NETDEV_TX_OK;
+ }
+
+
+base-commit: 2195424c3da2ef1829a63b807e3a900a90e57d85
+--
+2.54.0
+
