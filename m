@@ -1,163 +1,167 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010055.outbound.protection.outlook.com [52.101.193.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC61240A945
-	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 05:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786080374; cv=none; b=gmyC9cvo5DABLphxezXMaBJAmH6GeYY/4QCQ61g+DERHU871R26KLrc73kWFbkL7xj4Of40LrxUmGcb1aZVA4aeLZjD7br0Gu+M74woCz1bSPIrhaz2DJEeV4PqcRl2oNdNChS/bQAqKWQIq+HWiRftxoybIATeduFZCMAY37nE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786080374; c=relaxed/simple;
-	bh=XoAKRdAJIJ9Bz8/wlI6yz3LVQ9NQvOp4X8SzO7nxy1g=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=d3PB0gSIQxz90A8g4Ias0JJ1AVEVRdQ1XkRG4gS5NMsnVI8L2qekOcZFneIIVEML9uplnstMhQhR1d6xLuFgVtDYVgdf9k/ZL+k7HN3O6FmsEqWF3EicPRdHUG5wds7wNO/Bw2nHXDAn7PsadUmvcgm5SSofzkbQtCJZTj5woDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-485ebc5706cso2067309b6e.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 22:26:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786080369; x=1786685169;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=T3m0nal8RAOlIDKOwy4iei8tz0r4SQ1BHd4+5WMc7ws=;
-        b=pYF/CqEwxpxalZSzbXbDUpO9JMtTu6HhPGgszSYRA2Wi5X9kPJ93nVVQm7ogl4IdLU
-         GTHgc912+WFzmf06TdLzQqAQfmTHtDWQDS7ODgo8yd+btLSzI8Qo0KaGOkOeYeUpvOsy
-         p/AHCh5Im6C4ps2pCP1qiRZavzElP27uUqXDmu9L1MH9y6MlzJOarjDNqjED7EodJ9ke
-         drJmk5oXfkmuwwqkLDq5hCX/j9L6nJ1a4x9sHtadCg3WOJD6wD0DcIXa+qYO3YW6ha64
-         bQwBPG/Jtg15rdpaOjYc/WNfEzODwrnFTfTf5DZJIgdpuHiC1fyoXXZH0XrvpPugklLD
-         8HHw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2OglfjoPQ9BPHvj7AyRk9mspcoJhCLEGCmf/iyZip0hxfAcrPWNbkrrSzDMUBJey4UC+PuYyXD1c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/1juVeOB/JkAEbkuYKOLmd7kHDZZF7ZEWADlXsqBl3zseMG5o
-	hzbaJoz4b00B+wUOa3IMGM1A3SttLiEsVe9iNIyjKTOytDg1roXhT6MbZByQ51VUmJ5qZgf3dPg
-	PA2PhicC5fTLRySNLTVdpw9kKb/+GKj6/b+FJV6FTGV6nWU4EDk5JHzgic90=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCFA3242D4;
+	Fri,  7 Aug 2026 05:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786081173; cv=fail; b=AgkJlb1LVVwXa4VESRT/bZNX8qdVuVn9qOaBHYKoeCbSJ67KhHJfpqtorFZyVI7b0ZuNf+3jMTpxQixStFckGbYwyHVLep5g685LtLwg4zMeccwHWVFoVYDlBNoqQlhTM+Gt6vv4vMQmyDAMAwxXXEM+aCZIqP4K/tezE9gNLzs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786081173; c=relaxed/simple;
+	bh=+6AY+bd1TUphpyUEakumVYe9zcBiIZJyeu4bZvNJ74Q=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=RMATaeph+//UI2tL4U2zpSEjmwCW692KcGQAYyIWy11vTZeP4NexICbcFDz1P/ARVuprP0G7BaQAT/WTo6YHk3bxS3waU1qYV0qjKwKNVTpFAQHbvYSHUYsqfJyBjQ4qm4rBbmLiZgPoIB5Ad4CpbVMtEf8ORPTCyQCATofQJYY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IAyy4CCM; arc=fail smtp.client-ip=52.101.193.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IAyy4CCM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nV/fyInIJhJmq40htdSMciGED3tLCZqZUfu8zSAR59CAzm0KGmeUmwhAlI0WaSFR2tT7ovlTec5KWbyeCxyQW/dvidMZMbVbvR8UAHszTx4XTIrlFytOJ2B7668chU/7sR2oWybf2G3c789ZgtMogHosIqpVsdsnSQe686jPv4zF9NU6vknCsOnAGFrTP34Bjj3lQyYYOgtI52YxLsMKntT+IsJVuYOmFazxn1ROv1nquCiceKlcIWRLEiVkE+8ZWsjhFuOEqEc5+voJefK1IT+M2i3w1ww9iw3CXSaNHrs/foaekpx/IKm1SsL7nGsYzbVC9TdRUxgQzSstWhm77A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c/eHAJqk/jy6euDHsV+Kt/veOAlK9QH5PUhPEYSnStc=;
+ b=Ur1Sgv9B0xL6XXaN1cDX9F1io6LkJZgw0I1xa43tEYH+YnhDvvkQbYqSux+c9eN/BJWvRIjpVfJeACCqHXXscth714AXnPcTHwfYsYGULixzI4EPJCs9hkaucxGMstw1UPZY2Fp5VLJLjrQf8t6hGlU3ETC95TUp4kjgbcI+SRQKwrWvQl1ybeSdZvJThuhuJ4UYr5iyua1zN31kbyx3M9L8J9AioYthejRN0bJkdLXrOYTysJsy4GdovO1An3+K1ukNDAP9vTQ9U6Ln8l6FWvfjjcjJgoWTSJArfzRwNL04EyiShiUl4A+LU3MLZABZSi0De5JgMWWr5rEinC8TeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c/eHAJqk/jy6euDHsV+Kt/veOAlK9QH5PUhPEYSnStc=;
+ b=IAyy4CCM6piEBV68pdhgwZ9Jx0F4sDlscCuUyWWL4VGkHGlVRjuNHP+XuST5kjcCyTqkett0+qO7pZjWNoJEQve70kqA5fPYzST52rWFVV4MYjqlPmHJrchNkRDCyuA9oepJ1//flZ+FXbQKWfWFFbjXRWhnHcmNyzJx3zlShxKCiNwLolInf4YTySKOVmGjFOUOxCX49O7vL0WhkWhGcILnpFDh2ALtbuH+AqrJv6DbfgaZdXTbqQnKn7gACJncLA29s20Jb2Gz0c8bE2CEzMTvGl/yEYIUKZ7uGfMXQeJWXA9AKwnurQuD4OcMnaG+v3XKhLEU7ezzgQokIolKhQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
+ by CH3PR12MB7618.namprd12.prod.outlook.com (2603:10b6:610:14c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.21; Fri, 7 Aug
+ 2026 05:39:21 +0000
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.21.0292.022; Fri, 7 Aug 2026
+ 05:39:21 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 07 Aug 2026 14:39:17 +0900
+Message-Id: <DKIGXGJ5AQ77.23M6T9W3W741Y@nvidia.com>
+Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>, "dri-devel"
+ <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH 01/12] rust: io: add Region::try_subregion
+From: "Eliot Courtney" <ecourtney@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Yury Norov" <yury.norov@gmail.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com>
+ <20260805-pramin-split-v1-1-ff3e84a75dac@nvidia.com>
+ <DKGY508IDAS4.9E9983YWQ2F5@garyguo.net>
+In-Reply-To: <DKGY508IDAS4.9E9983YWQ2F5@garyguo.net>
+X-ClientProxiedBy: TY4PR01CA0105.jpnprd01.prod.outlook.com
+ (2603:1096:405:378::19) To BL0PR12MB2353.namprd12.prod.outlook.com
+ (2603:10b6:207:4c::31)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:169f:b0:485:7c46:b866 with SMTP id
- 5614622812f47-4afc513e9b0mr6403807b6e.16.1786080369495; Thu, 06 Aug 2026
- 22:26:09 -0700 (PDT)
-Date: Thu, 06 Aug 2026 22:26:09 -0700
-In-Reply-To: <20260806184254.3790858-1-nphamcs@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a756c71.01d0871a.3a0d52.003a.GAE@google.com>
-Subject: [syzbot ci] Re: Virtual Swap Space (Swap Table Edition)
-From: syzbot ci <syzbot+cif942a042aaa8793c@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org, 
-	baoquan.he@linux.dev, cgroups@vger.kernel.org, chengming.zhou@linux.dev, 
-	chrisl@kernel.org, corbet@lwn.net, david@kernel.org, gourry@gourry.net, 
-	hannes@cmpxchg.org, haowenchao22@gmail.com, kasong@tencent.com, 
-	kernel-team@meta.com, liam@infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org, 
-	mhocko@kernel.org, muchun.song@linux.dev, nphamcs@gmail.com, 
-	qi.zheng@linux.dev, riel@surriel.com, roman.gushchin@linux.dev, 
-	rppt@kernel.org, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
-	surenb@google.com, vbabka@kernel.org, weixugc@google.com, yosry@kernel.org, 
-	youngjun.park@lge.com, yuanchu@google.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|CH3PR12MB7618:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f4222fa-5364-4ef5-492b-08def4463b3b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|10070799003|366016|1800799024|376014|7416014|921020|18002099003|22082099003|10067099003|4143699003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	4HVULx1f1x93KaIVkK0GX7emwcGTmiacRlIL+qJoRQVFxKTJTZCyYcxEIi2YS4PONEtfR5w1RWdmSVTEIk557i4eUHKE+KHgLSvTSgsFsL7enJZvJxaAFJt2555nsaH+BhXsjqz084r53xATNa7rMC4wsURg7yvQIGMeeUJJ8RemGmghG2JhDzxw6g64FHSX+tcj4bmYnKH0fdxqp7kK7d85DeeWHsk16QZN4o1FzH146GYsm30OGoQVJf5XCm58CHVmn9QeC4pXyTFPewfrHyXFlgiw0zdTctSQyqaX5Qkmn904oB0b6W4lNEeIrNHXSRYDzfHpf4CPgNrwwKoFfu/XQIQ6Jt2KON1JOef87xXpk+1UBg2/kzhcB/Ct8PaHQdJIq6cmApqS3vxJPySma/L4U11rBifccNnnupwjqzb8K3H5H4YlIzeOSfVrPZDV3ia7ZVwa8n35/fN+WHGgOYloasxEQjamfa3KEMAlaMhGolMJfJOD7yyWZyu0y4URiKDtylAATt30J4GA7MeS6Ua7vhSaTPg1ajzVJ0GkH8yLp7apun+GHKMxRhTcRZPz2IWi8GUyg2bn2HZsMoQwKNuCSegiYouiC2TsjD034t1aPcydNrkb2ovdGh8sphTurUNxVmRLOfp03L0F8cm+GVZ5Kd2ZV8J8QYufWnOnI5pfJmNTdYE760q4DhgU919rgMgoFUfs9gsNV653zVXfng==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2353.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(1800799024)(376014)(7416014)(921020)(18002099003)(22082099003)(10067099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UVplR04xdDA2TXF6b0gvcVlzb2FWQVdGcHZ6L3NtNkNsbFpzZHR6NFBKUWhu?=
+ =?utf-8?B?b2Vhc3ZjTmlUeTljWk5yZk9zY1haRTBTc2FxODRYL3d0NzE4aHpPVkcwaitU?=
+ =?utf-8?B?c1VlWVZvRHM2WFlrcXFPOVBNaWJwOWpYTWtnei9KblVNMnZyR09admJYTThs?=
+ =?utf-8?B?Y2dSRGpMUEFmTXdWYmpBS1BtTURNVnQveFFZRXZoald3VEdBQVBtOXNxQjdX?=
+ =?utf-8?B?Tm92Myt1ZGlVSnBFbTNSYWhLR2hUMWExOWlHSUplZzVMdFlrNHNUMVZkVTdO?=
+ =?utf-8?B?SkVDbGlXbnBheGIwcFNac3REekwvakduME12RXk4dnFGemFHYXhuOFI1MDEz?=
+ =?utf-8?B?YXl5bGxlczJuck9YZ0REVFZEcUJIVEJ0VkJpVDJsNEJtYUVQTUErNU1oWGhJ?=
+ =?utf-8?B?Y0pSNldQRlh4T3FlZkVxSTlnTTVJY3BEdEkwbmdObjFkb2FERHkwb0hrK2NG?=
+ =?utf-8?B?NlZUbHZpZGE0aHJjSnBuUE5yeVRSK2hDOXVPTEJSUE0xbVJDQjR3NTU3eWdR?=
+ =?utf-8?B?a2lXcUZLVzdJUWN1Sm9MaEtnTlhDQXN6MHZEMGR6eit1eE4zTDAwVUk0ODlT?=
+ =?utf-8?B?MDRHRURheGFZbk5qZGRrVUxOMWxNOFZ5bktiU1V4V09pR1Q2KzdyMFV1STNU?=
+ =?utf-8?B?elFjeEVNME5tME1hNlIybk1vbWhPOWE1a2ZkL3JjTHFYWjdPVFhvaTNicUV5?=
+ =?utf-8?B?ZE1nYUZUTkU5Zkcydmh5c2laV1J2R0xVZk5uWmpLSXdLdkpueUp6NWk1Nmk4?=
+ =?utf-8?B?aEhCWmo1N3FFWm5TK0hFOUdjK2pRSVZaazJ3WmJwWDUzdUR5K2dDS0lMV1hN?=
+ =?utf-8?B?dURKZmFCZzQ2cUdDcHVSdUVGRDhMTDFacGtQd1NJaFVkSDVHSUpHTVF1KzQz?=
+ =?utf-8?B?bjIwZzFaeE5vcDNrM2svM3hOYTJaOGt0SjFlMkhLQUc0d1JMVmkxdnp5RXo1?=
+ =?utf-8?B?Q0ZnV0FuYmlIalE5T045OG42bmVobXk0SFhaQStzTGJIbXRMU1cxYVRoMDMz?=
+ =?utf-8?B?c2YvRGZtK0JHYmkrd1lSamZaRHl0aW5lQ2ozTTVWdlA5S3dOMjQxZmNvbFYy?=
+ =?utf-8?B?Nm1GREMxc21hQUR6TWdKRHByUGhUcDN2aDNRMWdLdkpFd3dRbTU2ckVuYVJL?=
+ =?utf-8?B?b1dKMHhCV3pnZ3IwREJrM1ZaNWxOVTZjVjZtUml0RG8rbXRpN1pUK3h1cGFw?=
+ =?utf-8?B?ai9TMS9WTmZuVGE0bXViZlNIUnozNnZ3TkpmWFBsV2o0b0RmcHJDa21iS1Nj?=
+ =?utf-8?B?a3A2UlpFajVpcWdWVjhsRnMrbTkxSi9NRWQzS3FHOEN0N3JzbG5QdVhoOUFi?=
+ =?utf-8?B?bForT0U2Z0l2dDBvNUxldXl2T3JwZGs3b3U4RXJSb0pZL3VzZGVyelRVdEp0?=
+ =?utf-8?B?VG9BV0pJdU01R3F1MGFrbkpLMVR5eHVGWmRqNlVpZTNidkNTd3ovU01ZL0kz?=
+ =?utf-8?B?MUFwby9ZK1AwY2ZFWHlSNzYyMElGb3dqNkNUK1lmcElmbVY1VzgyK3BWRGkw?=
+ =?utf-8?B?M2Q2L1QvM3lhQlRVZ3NOaXIrM0NmK0tmTDI2RHE5cmZqZGxicFYrc0tJdnRp?=
+ =?utf-8?B?cURJVWxEc2VsNG1tcmIyK3VJVmp2bTNCNHR1Q1piYXg1cDM1ZFpNRXcrSFBN?=
+ =?utf-8?B?c1NXREYyRXR3N0xMSUlCUGdObnp2MlpCSk9pdUMrMmRtSjVJUXBCb1VZWmti?=
+ =?utf-8?B?RUUzR0d1RmNWY1N6WDlkTG1lbmN2WURSZFEwKzQ2VlhrczQ2emRkaThXL1VG?=
+ =?utf-8?B?YjhDUDhBY2Voak5mZExJSkovcU9YRUw4YTMzNEJidksyNDBWR0xjYVJuWGIv?=
+ =?utf-8?B?TUp6YUlLYnFLYnJLTGNYRjBQTUk3MVZNOElrZDdIWElkelF3Wk5BSUE0djR1?=
+ =?utf-8?B?YmdoMFFnbGtNK2pyaDFTeUxNczYwRU1KeDBpZy80bWxTVkRianoyN3VNc3ov?=
+ =?utf-8?B?dEVBdlZZRXI3UGsyQ05aQVY2WDFWQ0NDKzRRN3RLV3NPSEZ0aVZqT3F3L2hE?=
+ =?utf-8?B?b2IxdXZUTmlWRUU0Z0xGdkdSRDhiekFpMmdMTXNibmZNLy9WUlQwU0JVR2x3?=
+ =?utf-8?B?dWVsbnp3Qm1rNFZCTXJwUXVBcmJiWnV4QWJPZlhVb3RRWnlENFJGb2ZuVzdo?=
+ =?utf-8?B?blRCNi94TlZqeC9TQm56TGpoL09ZcDJTOW82ZHF1RWdLZ1VlOFZkcDcyKzdN?=
+ =?utf-8?B?SmJ2UlIxUWVvUEtEOFFCdTNXYlVXTUFSbG1zUkw5ZHl1Yktxd2F0c0ZXR2VY?=
+ =?utf-8?B?TG5RQk5wVmdOWEl1OHdUWDZ5WFk2UWUzVWc1MFhsQXBKaGJpTzFWMkRLNmZv?=
+ =?utf-8?B?MC9YZFllSTU1V2VHdTRLcnBzQkhQL0NwUi9icW42UXNNSzdCbldjQVprT0or?=
+ =?utf-8?Q?T+TNFROYiOeu7mHTZkfu2zKixJSFnLKhEA+TEdRcEkmbH?=
+X-MS-Exchange-AntiSpam-MessageData-1: ne7ynCEGOmxuQw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f4222fa-5364-4ef5-492b-08def4463b3b
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 05:39:21.3202
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DANxhlaRTcwt3Ywg1hGWIu8sDwpNONnD4ngPc3D613lBY9aGlTtKTZ6nCtIuu79UrSJCYKOL4ZdJaBIqFUh5DA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7618
 
-syzbot ci has tested the following series
+On Wed Aug 5, 2026 at 7:43 PM JST, Gary Guo wrote:
+> On Wed Aug 5, 2026 at 6:44 AM BST, Eliot Courtney wrote:
+>> Add a helper to get a subregion of an IO view fallibly.
+>>
+>> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+>> ---
+>>  rust/kernel/io.rs | 31 ++++++++++++++++++++++++++++++-
+>>  1 file changed, 30 insertions(+), 1 deletion(-)
+>
+> Looks like the case where you need this don't actually require a `Region`
+> (dynamically sized type) but rather a fixed size window?
+>
+> In that case the next version of
+> https://lore.kernel.org/rust-for-linux/20260721-typed_register-v1-0-452d7=
+2b60262@garyguo.net/
+> will contain what you need.
 
-[v3] Virtual Swap Space (Swap Table Edition)
-https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.com
-* [PATCH v3 01/11] mm, swap: add virtual swap device infrastructure
-* [PATCH v3 02/11] mm, swap: support zswap and zeroswap as vswap backends
-* [PATCH v3 03/11] mm, swap: prepare the swap IO path for vswap
-* [PATCH v3 04/11] mm, swap: support physical swap as a vswap backend
-* [PATCH v3 05/11] mm, swap: enable THP swapin for vswap entries
-* [PATCH v3 06/11] mm, swap: write back vswap zswap entries to physical swap
-* [PATCH v3 07/11] mm, swap: reclaim physical slots backing cache-only vswap entries
-* [PATCH v3 08/11] mm, swap: only charge physical swap entries
-* [PATCH v3 09/11] mm, swap: add debugfs counters for vswap
-* [PATCH v3 10/11] mm, swap: defer memcg_table allocation for physical swap clusters
-* [PATCH v3 11/11] mm, swap: widen swap_info_struct max/pages to unsigned long
-
-and found the following issue:
-KASAN: null-ptr-deref Read in swap_entry_backend_has_flag
-
-Full report is available here:
-https://ci.syzbot.org/series/e7da1097-3230-4e50-80cb-1dfafeebea40
-
-***
-
-KASAN: null-ptr-deref Read in swap_entry_backend_has_flag
-
-tree:      linux-next
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
-base:      bacc32cc7de65ffff70080a48eb294f89e434d5e
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/4f943657-9481-4637-9b1f-9be1bff18f92/config
-syz repro: https://ci.syzbot.org/findings/f6c4f1ab-951c-4759-b397-e22c23c3bf32/syz_repro
-
-==================================================================
-BUG: KASAN: null-ptr-deref in instrument_atomic_read include/linux/instrumented.h:82 [inline]
-BUG: KASAN: null-ptr-deref in atomic_long_read include/linux/atomic/atomic-instrumented.h:3188 [inline]
-BUG: KASAN: null-ptr-deref in __vtable_get mm/vswap.h:147 [inline]
-BUG: KASAN: null-ptr-deref in vswap_to_phys mm/vswap.h:197 [inline]
-BUG: KASAN: null-ptr-deref in swap_entry_backend_has_flag+0xfe/0x220 mm/vswap.h:441
-Read of size 8 at addr 0000000000000000 by task syz.2.20/5818
-
-CPU: 1 UID: 0 PID: 5818 Comm: syz.2.20 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- instrument_atomic_read include/linux/instrumented.h:82 [inline]
- atomic_long_read include/linux/atomic/atomic-instrumented.h:3188 [inline]
- __vtable_get mm/vswap.h:147 [inline]
- vswap_to_phys mm/vswap.h:197 [inline]
- swap_entry_backend_has_flag+0xfe/0x220 mm/vswap.h:441
- do_swap_page+0x3c0/0x5620 mm/memory.c:4975
- __collapse_huge_page_swapin mm/khugepaged.c:1202 [inline]
- collapse_huge_page mm/khugepaged.c:1325 [inline]
- mthp_collapse mm/khugepaged.c:1524 [inline]
- collapse_scan_pmd mm/khugepaged.c:1786 [inline]
- collapse_single_pmd+0x24c6/0x3da0 mm/khugepaged.c:2803
- madvise_collapse+0x2cf/0x790 mm/khugepaged.c:3237
- madvise_vma_behavior+0x115f/0x4170 mm/madvise.c:1363
- madvise_walk_vmas+0x576/0xb00 mm/madvise.c:1712
- madvise_do_behavior+0x385/0x540 mm/madvise.c:1907
- do_madvise+0x327/0x3a0 mm/madvise.c:2005
- __do_sys_madvise mm/madvise.c:2014 [inline]
- __se_sys_madvise mm/madvise.c:2012 [inline]
- __x64_sys_madvise+0xa6/0xc0 mm/madvise.c:2012
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fbcad79e019
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fbcae5c4028 EFLAGS: 00000246 ORIG_RAX: 000000000000001c
-RAX: ffffffffffffffda RBX: 00007fbcada25fa0 RCX: 00007fbcad79e019
-RDX: 0000000000000019 RSI: 0000000000c00000 RDI: 0000200000000000
-RBP: 00007fbcad83500c R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fbcada26038 R14: 00007fbcada25fa0 R15: 00007fff095fa0b8
- </TASK>
-==================================================================
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
-
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+Yeah you are right. I think a previous version I was working on needed
+runtime lengths. But yes it should work with your compile time
+subregion stuff.
