@@ -1,148 +1,328 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C827E12B94;
-	Fri,  7 Aug 2026 03:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68DC325495
+	for <linux-doc@vger.kernel.org>; Fri,  7 Aug 2026 03:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786072722; cv=none; b=mrSYoK4P92i7laq+tZHOmurElXo0H6mK9NvgNK/NKqF2/zJm4AtjkembfJdeQyfS3WGMtPQAKo+/7w9NgwDjO5PNr4eUAOZsURR8P1API4PfCxsmMp4zPxMcKjf0NcNP2ULyunDsWfOak8I3JXr/RrS1t/8m6OqYz8VK0AwjaeE=
+	t=1786073202; cv=none; b=NmWcSJF6ZQkq9thpdr/8I47UpBIkhHjvrc+5zDNYmhJPSshI48v+PrdUwfLQUodpBC+s9nbEF3eGZNHgB1oCjI9A9EnJJTceMHTSiF2LSOWzmEA/9dQB2CT3GpOrX/tCE5Gzp7i9UHAP1S0526BhSf9sE2P9dBnek+XcK0Dd5VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786072722; c=relaxed/simple;
-	bh=s23l0O6fCghOlWr/zsMY0OzB9sZzX7MTVfXtPB7jxlI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=F5MF1BShN3rY3K1UByrSdRAH2gEvzMzIcZJ/EMNPKbh7iUeXQOe2YGggIPoUHXQdn1zuETbcdYCHgSTPpl1EhMU7ujAi5J3za7s9/sHVBvOZzXwZ5hkJkjl+cE/+HeWTlTbtTTQdMzdDZse1IAuuIXgwrJxOk8IADlXuV5rzTuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=La2ce4kY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786073202; c=relaxed/simple;
+	bh=j7j8TjC9eA2FYpmjEOuIioEe1d2Pn3oZcGiD30pxino=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=GBKL3NoaOkyHsoBacz22FUXgQWzEJPmJcBFdbWvUc/Oh/+e+/e5lMn1KP8izbC59fPxN7g6fX88V+HbPLin6Dm1+bhUm6euk0ccI8kBEe/w/V/L7Q82LfmM/k9N7HHrRed5qczSg8Md1xonJAjJ5mea8ccCsQ84DLMxEnnEu1YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOwonxmp; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="La2ce4kY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BD721F000E9;
-	Fri,  7 Aug 2026 03:18:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786072721;
-	bh=Nf9aUtzxN4Fd2ktNXVpkAqfVgFak3j5BcrDp4kyVJyg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=La2ce4kYXl+6fMdw/JB0W2b6eZKRqGmBTQdzn3a28YHbS+QIhcJsiE0W/qKEUvvMn
-	 8S+02iCnmUgR06GlBOdCB7cIaQuZB7PY87dFiFWKC6ikUMXikKW9zlo/weap4g/Qip
-	 Bj+MIzzGtz3cvdrbDic0pCFTgJwFbrLXtv9uhmRp04DufL5EypqBF9du7OTMQyzYBF
-	 0m371Ibfy2Xt8BDcC814Q3p/sjhitDB3zm5CaUcSl4SnoVdxEv8EeCFgWGbj/NYQ8T
-	 1lbIAB+rDlSDL/PDtCupTAXghjrW+fRFcGAQTyYct4KN63F0t7lkymu6cgilMBAwYl
-	 CziK+nCJ+7+/Q==
-Date: Fri, 7 Aug 2026 12:18:32 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Steven Rostedt
- <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
- Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v11 01/11] x86/hw_breakpoints: Make DR7 updates NMI safe
-Message-Id: <20260807121832.57dccaf6e6b25ef54bb0b0ca@kernel.org>
-In-Reply-To: <20260806090735.0ee427ef5c18445b89d2f3cd@kernel.org>
-References: <178565870538.714490.11309825813968306287.stgit@devnote2>
-	<178565871750.714490.5506415865016304088.stgit@devnote2>
-	<20260803065744.GU49951@noisy.programming.kicks-ass.net>
-	<20260804075517.1c1c9e2dc6ff66e0e73f946d@kernel.org>
-	<20260803230723.GI687043@noisy.programming.kicks-ass.net>
-	<20260806090735.0ee427ef5c18445b89d2f3cd@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOwonxmp"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-ca766c1c9ccso2274401a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Aug 2026 20:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786073200; x=1786678000; darn=vger.kernel.org;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=JRf2EBTavDe7BzK6GUvtTHBHqH7rXidb69cs4e3i5nA=;
+        b=bOwonxmp7F9lBKm7PVvYU/YMaTEhT+J6bJ0P/b+L4ZMQYQeeEdrUPKtLi+YlJy2koK
+         ZjMDJfBy+GeI4n35XVS9GblXOamhqHBn31wfydG/oZWqtBLPiG42x/ID608NNaV3IG/w
+         u0OrtGPUPiTsfwIhCHtwo/OUF18f8wSxbIHmt2rhLZDA+LsEcIGEbQRc+7cObksG1g0r
+         HotpSVNYcy9jPfioodZ31iRKg3+nyRVeyfUcAZIj4oy52UBVmEP5uSIUw3oFaXjKEG/i
+         7Z1oXPaFDQuRnWojFUbpK5LZHe69GsZQm8eZtP5m8laBPEjiqH9vbCrnWlBaaaU2DC4+
+         nCeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786073200; x=1786678000;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JRf2EBTavDe7BzK6GUvtTHBHqH7rXidb69cs4e3i5nA=;
+        b=SPTnhPndYHffg0gdMxEdBIcdXFcxkxXayyF1Tbtdby22y3kreHjdyFq31wqNgaEuzs
+         nLdme5ETzlnklIIxdKtgDnC9ABVat7YkDv3EzD1ZsBGMvtibFffKkxtdgO1/MEue3XT3
+         +qG1Jg8JxPMCGdyW7/PugTnW6snrN8/Sq0TOGhXNM8ldmyx34S93DuV6NNGBpfTQXNCe
+         uCLWNWm8WtwwnbVlzooZPikGCsarmK0xSlQX0wW51/SSH0TPoNdCcIPl/6sCLdLhwM6n
+         F+uxIWrK8YCmaaRzYJ3XPjzlHXwOGGqQVMmvKZSDT9YBpXYa4fA0rQFPwSTzeKe4Mb35
+         4qfg==
+X-Forwarded-Encrypted: i=1; AHgh+RpLcbu80W/Vvei2euqKeMJqUv1OaWDjIfHXq+cpTP6OjHVP3VN7RjK44OCkkoXTmzaWXcu7Y+oG2a8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHPd/uZBT9OumfuOiaHrxJFUzXDGdXkx49np6N86uq3Hx8zsPO
+	iZKResMVTlrdHSLQ+0gIQjUN2Gt+hApNXJt7fkxegf/4gooRXmpNkymy
+X-Gm-Gg: AR+sD11unz0OHxSlnpv3rs3DSbJdvsCPY2t/kCKE34phWOpHFZwPh0vIwY98d/WsLm0
+	7+ZExpW2qIadGTW1iCtIVrdl4MskfMnJeU4Rha9snjfzgzHRPuFeHzq78TyclYVig09Ae0m369J
+	5jVj41lKX655WQ4G8H/crsrp8tTdviyvM9zkufOsk7dh0pBY+kdYXp+ghxkW9cG3m5v1IE/xGyu
+	z6lDZETYhaMvmSjOarvSwrlY4nHfK+xnugt4j4MsKSF0QEtu0yLZnFMMzCxNGOg3fnX2sGGoM+q
+	PP9tLPlkf50E9rNWpKro+7N8uFES+qH5unju38/+atsiBA9rACi+TrUb8b/k0D++mg2S0rKiYzk
+	e7Kmfh6YG22WeRASgSzn02nvlcZ/jcAfVheO6Z35bLYuhveSpyr7a1vKR1zm6JYn8vtT+zG/ly7
+	x7LZQD7p8m+1qnU07ntT+P9GCVHsNEg9Zbl+Js1HKZJpYlxagSHta2II1lkhA=
+X-Received: by 2002:a05:6a20:7fa1:b0:3c8:e140:63c3 with SMTP id adf61e73a8af0-3cb86076804mr21598472637.37.1786073200060;
+        Thu, 06 Aug 2026 20:26:40 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be86e90asm1946929eec.3.2026.08.06.20.26.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 20:26:38 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, Amit Machhiwal <amachhiw@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Gautam Menghani <gautam@linux.ibm.com>
+Subject: Re: [PATCH v7 1/4] KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+In-Reply-To: <20260806170645.11892-2-amachhiw@linux.ibm.com>
+Date: Fri, 07 Aug 2026 08:38:36 +0530
+Message-ID: <ik5mlj9n.ritesh.list@gmail.com>
+References: <20260806170645.11892-1-amachhiw@linux.ibm.com> <20260806170645.11892-2-amachhiw@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Thu, 6 Aug 2026 09:07:35 +0900
-Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+Amit Machhiwal <amachhiw@linux.ibm.com> writes:
 
-> On Tue, 4 Aug 2026 01:07:23 +0200
-> Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > On Tue, Aug 04, 2026 at 07:55:17AM +0900, Masami Hiramatsu wrote:
-> > > On Mon, 3 Aug 2026 08:57:44 +0200
-> > > Peter Zijlstra <peterz@infradead.org> wrote:
-> > > 
-> > > > On Sun, Aug 02, 2026 at 05:18:37PM +0900, Masami Hiramatsu (Google) wrote:
-> > > > > From: Jinchao Wang <wangjinchao600@gmail.com>
-> > > > > 
-> > > > > Hardware breakpoint installation and removal run with IRQs disabled, but
-> > > > > an NMI can still enter the same code through KGDB. The interrupted
-> > > > > operation and the NMI can consequently claim the same slot or overwrite
-> > > > > each other's DR7 state.
-> > > > 
-> > > > Is KGDB really the only way to trip this? Mostly I think we let KGDB
-> > > > have the pieces if it does something 'funny'.
-> > > 
-> > > Hmm, I think even if so, this detection is better to be handled in
-> > > hw_breakpoint layer. And I plan to use this from kprobe events,
-> > > which is also a kind of NMI.
-> > > 
-> > > > 
-> > > > > diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
-> > > > > index f846c15f21ca..9ef24b55737f 100644
-> > > > > --- a/arch/x86/kernel/hw_breakpoint.c
-> > > > > +++ b/arch/x86/kernel/hw_breakpoint.c
-> > > > > @@ -40,6 +40,9 @@
-> > > > >  DEFINE_PER_CPU(unsigned long, cpu_dr7);
-> > > > >  EXPORT_PER_CPU_SYMBOL(cpu_dr7);
-> > > > >  
-> > > > > +/* Sequence number of the per-CPU DR7 state. */
-> > > > > +DEFINE_PER_CPU(unsigned int, cpu_dr7_seq);
+> Introduce a new capability and ioctl to expose CPU compatibility modes
+> supported by the host processor for nested guests.
+>
+> On IBM POWER systems, newer processor generations (N) can operate in
+> compatibility modes corresponding to earlier generations, like (N-1) and
+> (N-2). This is particularly relevant for nested virtualization, where
+> nested KVM guests may need to run with a specific processor compatibility
+> level.
+>
+> Introduce KVM_CAP_PPC_COMPAT_CAPS capability and the corresponding
+> KVM_PPC_GET_COMPAT_CAPS vm ioctl. The ioctl returns a bitmap describing
+> the compatibility modes supported by the host in respective bit numbers,
+> allowing userspace (e.g., QEMU) to select an appropriate compatibility
+> level when configuring nested KVM guests.
+>
+> The ioctl handling is added in kvm_arch_vm_ioctl() and retrieves host
+> CPU compatibility capabilities via a PowerPC-specific backend
+> implementation when available.
+>
+> The struct kvm_ppc_compat_caps places the 'size' field first so it can
+> be read alone via get_user() before copy_struct_from_user() is called,
+> avoiding pointer arithmetic to locate the size field.
+>
+> The ioctl is defined using _IO so the ioctl number remains stable even if
+> the struct grows in future versions. It uses copy_struct_from_user() and
+> copy_struct_to_user() to provide forward- and backward-compatible
+> extensibility: older userspace passing a smaller struct to a newer kernel
+> gets zero-padded trailing fields, while newer userspace passing a larger
+> struct to an older kernel (usize > ksize) gets sizeof(struct
+> kvm_ppc_compat_caps) written back to host_caps.size so it can retry with the
+> older kernel-supported size, after which the kernel returns -E2BIG.
+>
+> KVM_PPC_COMPAT_CAPS_SIZE_VER0 is defined as a frozen integer constant
+> (24) marking the size of the initial struct version, used as the
+> minimum floor for size field validation, similar to other versioned
+> struct interfaces in the kernel.
+>
+> The 'flags' field is reserved for future use. The kernel rejects any
+> call where flags is non-zero with -EINVAL, preventing garbage values
+> from being baked into ABI permanently.
+>
+> The ioctl returns appropriate error codes: EINVAL for an invalid size
+> or non-zero reserved fields, E2BIG if new userspace provides a larger
+> struct than the kernel knows about (with ksize written back into
+> host_caps.size for the retry), EFAULT for failed copy operations, and
+> ENOTTY if the backend doesn't implement get_compat_caps.
+>
+> Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> Tested-by: Gautam Menghani <gautam@linux.ibm.com>
+> Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
+> Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
+> Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
+> ---
+> Changes in this version:
+>   - KVM_CAP_PPC_COMPAT_CAPS: add hv_enabled guard to align the capability
+>     check with ioctl availability; a PR KVM VM on pseries now correctly
+>     returns 0 for the capability [Sashiko]
+>
+>  arch/powerpc/include/asm/kvm_ppc.h  |  1 +
+>  arch/powerpc/include/uapi/asm/kvm.h |  8 ++++
+>  arch/powerpc/kvm/powerpc.c          | 71 +++++++++++++++++++++++++++++
+>  include/uapi/linux/kvm.h            |  3 ++
+>  4 files changed, 83 insertions(+)
+>
+> diff --git a/arch/powerpc/include/asm/kvm_ppc.h b/arch/powerpc/include/asm/kvm_ppc.h
+> index 0953f2daa466..169ea6a7fbad 100644
+> --- a/arch/powerpc/include/asm/kvm_ppc.h
+> +++ b/arch/powerpc/include/asm/kvm_ppc.h
+> @@ -319,6 +319,7 @@ struct kvmppc_ops {
+>  	bool (*hash_v3_possible)(void);
+>  	int (*create_vm_debugfs)(struct kvm *kvm);
+>  	int (*create_vcpu_debugfs)(struct kvm_vcpu *vcpu, struct dentry *debugfs_dentry);
+> +	int (*get_compat_caps)(struct kvm_ppc_compat_caps *host_caps);
+>  };
+>  
+>  extern struct kvmppc_ops *kvmppc_hv_ops;
+> diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
+> index 077c5437f521..19e53d5ae540 100644
+> --- a/arch/powerpc/include/uapi/asm/kvm.h
+> +++ b/arch/powerpc/include/uapi/asm/kvm.h
+> @@ -437,6 +437,14 @@ struct kvm_ppc_cpu_char {
+>  	__u64	behaviour_mask;		/* valid bits in behaviour */
+>  };
+>  
+> +/* For KVM_PPC_GET_COMPAT_CAPS */
+> +struct kvm_ppc_compat_caps {
+> +	__u64	size;			/* Size of this structure */
+> +	__u64	flags;			/* Reserved for future use */
+> +	__u64	compat_capabilities;	/* Capabilities supported by the host */
+> +};
+> +#define KVM_PPC_COMPAT_CAPS_SIZE_VER0	24 /* sizeof first published struct */
+> +
+>  /*
+>   * Values for character and character_mask.
+>   * These are identical to the values used by H_GET_CPU_CHARACTERISTICS.
+> diff --git a/arch/powerpc/kvm/powerpc.c b/arch/powerpc/kvm/powerpc.c
+> index b6b83fe3233f..e64b3cfadd3a 100644
+> --- a/arch/powerpc/kvm/powerpc.c
+> +++ b/arch/powerpc/kvm/powerpc.c
+> @@ -703,6 +703,13 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  			}
+>  		}
+>  		break;
+> +#if defined(CONFIG_KVM_BOOK3S_HV_POSSIBLE)
+> +	case KVM_CAP_PPC_COMPAT_CAPS:
+> +		r = 0;
+> +		if (hv_enabled && kvmhv_on_pseries())
 
-This is actual sequence number.
+I think sashiko is just complaining in the 1st patch because we have not
+yet wired up the kvmppc_hv_ops->get_compat_caps() yet in patch-1. I
+think it is expecting..
 
-> > > > 
-> > > > > diff --git a/arch/x86/kernel/nmi.c b/arch/x86/kernel/nmi.c
-> > > > > index 3c9f60d6ca5a..f55a0cbd5927 100644
-> > > > > --- a/arch/x86/kernel/nmi.c
-> > > > > +++ b/arch/x86/kernel/nmi.c
-> > > > > @@ -532,10 +532,13 @@ enum nmi_states {
-> > > > >  static DEFINE_PER_CPU(enum nmi_states, nmi_state);
-> > > > >  static DEFINE_PER_CPU(unsigned long, nmi_cr2);
-> > > > >  static DEFINE_PER_CPU(unsigned long, nmi_dr7);
-> > > > > +static DEFINE_PER_CPU(unsigned int, nmi_dr7_seq);
+if (hv_enabled && kvmhv_on_pseries() && kvmppc_hv_ops->get_compat_caps)
 
-and this is a backup.
+But either way is fine.
 
-> > > > 
-> > > > This is weird, why have two distinct sequence numbers for dr7?
-> > > 
-> > > nmi_dr7_seq is for sequence number of operation, which is for
-> > > detecting dr7 overwrite in NMI.
-> > > nmi_dr7 is for saving the DR7.
-> > 
-> > I mean cpu_dr7_seq and nmi_dr7_seq.
-> 
-> Oops, Indeed. Let me fix it. Thanks!
 
-BTW, do we really need nmi_dr7 as a per-cpu variable?
+> +			r = 1;
+> +		break;
+> +#endif /* CONFIG_KVM_BOOK3S_HV_POSSIBLE */
+>  	default:
+>  		r = 0;
+>  		break;
+> @@ -2469,6 +2476,70 @@ int kvm_arch_vm_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+>  		r = kvm->arch.kvm_ops->svm_off(kvm);
+>  		break;
+>  	}
+> +	case KVM_PPC_GET_COMPAT_CAPS: {
+> +		struct kvm_ppc_compat_caps host_caps = {};
+> +		u64 usize;
+> +
+> +		/*
+> +		 * Read the size field first to drive copy_struct_from_user.
+> +		 * size must be the first field of the struct.
+> +		 */
+> +		r = -EFAULT;
+> +		if (get_user(usize, (__u64 __user *)argp))
+> +			goto out;
+> +
+> +		/*
+> +		 * Enforce a minimum: reject buffers smaller than the initial
+> +		 * struct version (VER0). This allows old userspace compiled
+> +		 * against the original struct to still work on a newer kernel
+> +		 * that has grown the struct with appended fields.
+> +		 */
+> +		r = -EINVAL;
+> +		if (usize < KVM_PPC_COMPAT_CAPS_SIZE_VER0)
+> +			goto out;
+> +
+> +		/*
+> +		 * New userspace with a larger struct called an older kernel.
+> +		 * Write back ksize in host_caps.size so userspace knows which
+> +		 * older struct to retry with, then fail with -E2BIG.
+> +		 */
+> +		if (usize > sizeof(host_caps)) {
+> +			host_caps.size = sizeof(host_caps);
+> +			r = -EFAULT;
+> +			if (put_user(host_caps.size, (__u64 __user *)argp))
+> +				goto out;
+> +			r = -E2BIG;
+> +			goto out;
+> +		}
 
-Since this patch changes local_db_save()/restore() to handle both
-DR7 and its sequence number, we need to save/restore both.
-I thought it is used for handling nested NMI but in exc_nmi, we have
-this gate check before using the nmi_dr7.
+You anyways mentioned copy_struct_from_user() is taking care of both
+forward and backward compat. Then what is the point of this check?
+shouldn't we get rid of this complete if logic? I don't see a point of
+this if we are anyway using copy_struct_from_user().
 
-	if (this_cpu_read(nmi_state) != NMI_NOT_RUNNING) {
-		this_cpu_write(nmi_state, NMI_LATCHED);
-		return;
-	}
+> +
+> +		/*
+> +		 * copy_struct_from_user() handles forward/backward compat:
+> +		 *   usize == ksize: verbatim copy
+> +		 *   usize <  ksize: zero-pad trailing (old userspace, new kernel)
 
-Thus the nested NMI is handled serial, not stacked. So we can use
-a local variable instead of per-cpu variable.
++		 *   usize >  ksize: succeed iff the trailing bytes userspace
++		 *                   sent are zero, else -E2BIG
 
-Thank you,
+shouldn't we add usize > ksize case details, like ^^^,  which
+copy_struct_from_user() handles since we are already adding the details
+of other 2 cases.
 
-> 
-> 
-> 
+
+</btw snip from copy_struct_from_user kdoc>
+
+ * There are three cases to consider:
+ *  * If @usize == @ksize, then it's copied verbatim.
+ *  * If @usize < @ksize, then the userspace has passed an old struct to a
+ *    newer kernel. The rest of the trailing bytes in @dst (@ksize - @usize)
+ *    are to be zero-filled.
+ *  * If @usize > @ksize, then the userspace has passed a new struct to an
+ *    older kernel. The trailing bytes unknown to the kernel (@usize - @ksize)
+ *    are checked to ensure they are zeroed, otherwise -E2BIG is returned.
+ *
+ * Returns (in all cases, some data may have been copied):
+ *  * -E2BIG:  (@usize > @ksize) and there are non-zero trailing bytes in @src.
+ *  * -EFAULT: access to userspace failed.
+ 
+> +		 */
+> +		r = copy_struct_from_user(&host_caps, sizeof(host_caps),
+> +					  argp, usize);
+> +		if (r)
+> +			goto out;
+> +
+> +		/* Reserved fields must be zero */
+> +		r = -EINVAL;
+> +		if (host_caps.flags)
+> +			goto out;
+> +
+> +		r = -ENOTTY;
+> +		if (!kvm->arch.kvm_ops->get_compat_caps)
+> +			goto out;
+> +
+> +		r = kvm->arch.kvm_ops->get_compat_caps(&host_caps);
+> +		if (r)
+> +			goto out;
+> +
+> +		host_caps.size = sizeof(host_caps);
+
+shouldn't this be, since we don't want to be reporting a larger size to
+the user?
+
+          host_caps.size = min_t(u64, usize, sizeof(host_caps));
+
+
+> +		r = copy_struct_to_user(argp, usize, &host_caps,
+> +					sizeof(host_caps), NULL);
+> +		break;
+> +	}
+>  	default: {
+>  		struct kvm *kvm = filp->private_data;
+>  		r = kvm->arch.kvm_ops->arch_vm_ioctl(filp, ioctl, arg);
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 419011097fa8..70e36e6a0ad4 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -997,6 +997,7 @@ struct kvm_enable_cap {
+>  #define KVM_CAP_S390_KEYOP 247
+>  #define KVM_CAP_S390_VSIE_ESAMODE 248
+>  #define KVM_CAP_S390_HPAGE_2G 249
+> +#define KVM_CAP_PPC_COMPAT_CAPS 250
+>  
+>  struct kvm_irq_routing_irqchip {
+>  	__u32 irqchip;
+> @@ -1341,6 +1342,8 @@ struct kvm_s390_keyop {
+>  /* Available with KVM_CAP_COUNTER_OFFSET */
+>  #define KVM_ARM_SET_COUNTER_OFFSET _IOW(KVMIO,  0xb5, struct kvm_arm_counter_offset)
+>  #define KVM_ARM_GET_REG_WRITABLE_MASKS _IOR(KVMIO,  0xb6, struct reg_mask_range)
+> +/* Available with KVM_CAP_PPC_COMPAT_CAPS */
+> +#define KVM_PPC_GET_COMPAT_CAPS	_IO(KVMIO,  0xb8)
+>  
+>  /* ioctl for vm fd */
+>  #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
 > -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 2.50.1 (Apple Git-155)
