@@ -1,228 +1,95 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0F036F900;
-	Sat,  8 Aug 2026 16:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16B639A06B;
+	Sat,  8 Aug 2026 17:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786205565; cv=none; b=mRxgf7Lk5vJjrWbSBj2SBkvBkFToC7KfT+doyGVGUpJ41W9PgZdXBDEtYXH3OuRO+cIP4jQcxexZu3VIeGLtdBluuT2qUl7FQNx2T6G1ORTsVEDtzkAz4dcr5mbt8v5/GSeL4P96dpUpJnkXAnrWE0u/ihFNWUseMl0aUbB7B2k=
+	t=1786208862; cv=none; b=dY5mm1tSei1R1enPEAZBTniGMJ3CuYHp5pQmjdneXgUdY9jIgm8SRA+jUqVVvUkGa8AJJrnW3sC7TqhCAMjIFBTzRaYqFMiLZ3FlrXgVDRbqNmnZgHDaBohnNK3E2aLrFCexKCUPyn/3F5d0E0halcs4FmGgO21SYXcKX/KpAj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786205565; c=relaxed/simple;
-	bh=1HeJlmpeRxKjQq+ge7hyKyQsZjOmD0gdM28GYEb2JbA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ef5CvDbNblsc13YBxf9c30x+YtR1P1o+8fv17342ko9fpgZ/MoE8QFXwiX9N8Bc3ulCC9BIuItmM9+7G7Dn42Q0xQsOMDzkMVYeqbxu3gP3ORTuowSUT/8gjF2DSDNkZg5VAGcpji1bpm7TMl4MmF623+Fi4+fGdRB6d+Rf7R14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=E49/3/Yr; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1786208862; c=relaxed/simple;
+	bh=Cbe4a50Wo3yQ5YnrOL+KyHPWvwCwhzKq9Ds6GgnjbB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ScLe8DzhT/NcwWDEjDJXuyyV06U20PpUIc5eajSRuh9Tp7t1koeEq6PbinQld6IshAyI6QdOm1E4g1zWG5Fdt6B1q6UXyIkAA5ssi8fqlt6x037UlMcL/4zCh73R08/K2tJXpaTd3TSG6KmfNGlPm4WvvYXgjZfu+IZXG5NQr6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kEFiTAk6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="E49/3/Yr"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 678E1rHO2693437;
-	Sat, 8 Aug 2026 16:12:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=gj4ui9kz41zX9V9VU
-	JmxHpEXrLvfRCtOc/o4abThskE=; b=E49/3/Yr8NkjeBjs7Iw7siefdhK6Rbkba
-	rxusIUbX8EjeJxs4z1vaFolY2YKDp6LMIEixWJCV18FGY0GogD9DFOeDjHh7AZX5
-	wL4qUW4IbHPg8kWn6Q3EewyeJBoArjL9t4lOH/e8Gf+BBxAk1rPEHRkKtufWE812
-	qfGi4euet6Pd349AfUHbhKY2f2CDWPaXT9tEMBg7BVJGdJ2a4JPu8JJsf8j/09Ja
-	072qEjvEhs+Y5DheI0ICdkVZTagnNgeKwyW9udB9Gb9WZq7VSFtWgv3uZUBjnMFy
-	vRRqjfcxRIEyz9ChJL9kOgjqkvDQFZhlGiOoe15EDNZ3igyWN9d4Q==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvjyhmkq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 08 Aug 2026 16:12:30 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 678GBHKb003347;
-	Sat, 8 Aug 2026 16:12:29 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fsugwm1wq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 08 Aug 2026 16:12:29 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 678GCP4L32571692
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 8 Aug 2026 16:12:25 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8AFA520043;
-	Sat,  8 Aug 2026 16:12:25 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D199620040;
-	Sat,  8 Aug 2026 16:12:21 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.124.213.63])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat,  8 Aug 2026 16:12:21 +0000 (GMT)
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Amit Machhiwal <amachhiw@linux.ibm.com>,
-        Anushree Mathur <anushree.mathur@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Ritesh Harjani <ritesh.list@gmail.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Harsh Prateek Bora <harshpb@linux.ibm.com>,
-        Gautam Menghani <gautam@linux.ibm.com>
-Subject: [PATCH v9 4/4] KVM: PPC: Document KVM_PPC_GET_COMPAT_CAPS ioctl
-Date: Sat,  8 Aug 2026 21:41:48 +0530
-Message-ID: <20260808161148.66673-5-amachhiw@linux.ibm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260808161148.66673-1-amachhiw@linux.ibm.com>
-References: <20260808161148.66673-1-amachhiw@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kEFiTAk6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17AA41F000E9;
+	Sat,  8 Aug 2026 17:07:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786208860;
+	bh=RZkqPDjuFooi7QGj5t/O5g20eJ3XuiiAxeKTnLb8vz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kEFiTAk6dJwIY8ucP0WzJtmpjuaY0C2iT2p+mcdqjztfYKRa56w+59ixsW4besMiB
+	 I+LCAEHif77oFP0PO5ikGI93N7c9RiayxBy4AKiD/ui5Acq2aLvitujKgo2Vey5Z1X
+	 1zbbFnwgJJamAgXfbqv767RaOdSui+4dLoTiG/sFVkZ1U5G9ERjZqWwHc1dglNP08S
+	 e8rSud3pG8YZyO+oCPNUfNGfGMTQGgu9lAVS4kak6v+q2o+CgyPniHNZHvpuSNYF1l
+	 coWzoRoN/7Kuc4DeESugxBCGrzNB5GAjf8SKquYJXGkGJKuWlXEdimU3XE6THBUlhU
+	 NA69MO+GnjKhw==
+Date: Sat, 8 Aug 2026 10:07:38 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Cc: joro@8bytes.org, palmer@dabbelt.com, tony.luck@intel.com,
+	reinette.chatre@intel.com, tomasz.jeznach@linux.dev,
+	will@kernel.org, robin.murphy@arm.com, pjw@kernel.org,
+	aou@eecs.berkeley.edu, alex@ghiti.fr, Dave.Martin@arm.com,
+	james.morse@arm.com, babu.moger@amd.com, corbet@lwn.net,
+	shuah@kernel.org, jgg@ziepe.ca, kevin.tian@intel.com,
+	cuiyunhui@bytedance.com, yuanzhu@bytedance.com,
+	iommu@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, x86@kernel.org
+Subject: Re: [RFC PATCH 4/7] iommu/riscv: Program QoS IDs for assigned groups
+Message-ID: <andiWrKhz5rLPVuq@x1>
+References: <20260714130657.46963-1-zhangzhanpeng.jasper@bytedance.com>
+ <20260714130657.46963-5-zhangzhanpeng.jasper@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA4MDEzNyBTYWx0ZWRfXzzjJ0qtsCbNd
- +9OzBcp7gBYdoo8TKQb2OXv+2m70vGbJidu18biu3MM/Y9fs3OU0E3gGwLeX74Wtwhb7vc0F0ky
- KH6VbRziyeuKB8NSQ9KgyZLbQjFjOQrw8GauiG2cq9bOWmt9AIqvOKVDQizBx1fBtlpUoGiepdC
- j0YsCDUfFBsZrEZMJkY8+5doUKQ0kGrrGHwCE1HELYn5LL+eHV37rjfXktMdklRIqHIJmKjKJ7r
- KXEB1D36fCdRIXpCkOsF+4aWpxyj21/hSQAl7Lm2H/9XkDkQGi8kFrujoRZGYsSAgOJbnyiUTWP
- f0bGLBSh4T6vOfF4Qh2cyFt5LWS66SWulFyGk8c14qtghiYIru+hY9QuxtvjQDTCyIXWYk67f4n
- WEdRPuTbulgJl+PB6hMLQQ8SE0AewH4dCCntIKT+1Qb4YUQh8y6QyAPLBe34JD+W6x9KYDUU3Ka
- 9+tx3kytJqUMg7zrdTw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA4MDEzNyBTYWx0ZWRfX5aaLY79UMRiI
- 8MiEHywuvTWT7774//X7Kfrg8bXVutzb5dzEuXF470ptwaz9QPLeFW65T6Us+ajSsVGRWqMSZt6
- WVhg79n2y46M2707oP3VCAtMaJ36SNw=
-X-Authority-Analysis: v=2.4 cv=RqD16imK c=1 sm=1 tr=0 ts=6a77556f cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8 a=pGLkceISAAAA:8
- a=hQeoMbdVOOR6M4iuoH8A:9
-X-Proofpoint-GUID: nCJEZoLmeAcTg7JuNgY6yQYjvdRt3rYh
-X-Proofpoint-ORIG-GUID: u028xhPpvvCdjVTo0ORtRjWovfm7cRba
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-08_05,2026-08-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 bulkscore=0 malwarescore=0 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608080137
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714130657.46963-5-zhangzhanpeng.jasper@bytedance.com>
 
-Add documentation for the KVM_PPC_GET_COMPAT_CAPS ioctl to the KVM API
-documentation.
+On Tue, Jul 14, 2026 at 09:06:54PM +0800, Zhanpeng Zhang wrote:
+> Program RCID and MCID for RISC-V IOMMU groups through the device context
+> TA fields. The resctrl group assignment is per device group, so reject
+> BARE mode where only the per-IOMMU iommu_qosid global default is
+> available.
+> 
+> Validate every group member, firmware ID, device context, field value,
+> and QoS ID capability before changing hardware. Then update all members
+> through the checked IOMMU group helper so a validation failure leaves the
+> group unchanged.
+> 
+> Serialize DC.ta changes with context setup under qosid_lock. Change only
+> the RCID and MCID fields with ordinary accesses so fixed DDT mappings are
+> not subject to atomic LR/SC operations, invalidate active device contexts
+> after an update, and clear the IDs when a device is released.
+> 
+> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+> ---
+>  arch/riscv/include/asm/qos.h     |  16 +++
+>  drivers/iommu/riscv/iommu-bits.h |  15 +++
+>  drivers/iommu/riscv/iommu.c      | 200 ++++++++++++++++++++++++++++++-
+>  drivers/iommu/riscv/iommu.h      |   3 +
+>  4 files changed, 232 insertions(+), 2 deletions(-)
+> 
+[..]
+> +static void riscv_iommu_dc_update_qosid(struct riscv_iommu_device *iommu,
+> +					struct riscv_iommu_dc *dc,
+> +					u32 rcid, u32 mcid)
+> +{
+> +	u64 qos_ta = riscv_iommu_qosid_ta(rcid, mcid);
+> +	u64 ta;
+> +
+> +	lockdep_assert_held(&iommu->qosid_lock);
 
-The ioctl exposes host processor compatibility modes supported for
-nested KVM guests on PowerPC systems. The documentation covers error
-code descriptions including E2BIG for forward compatibility,
-KVM_PPC_COMPAT_CAPS_SIZE_VER0 as the minimum size floor, the rationale
-for rejecting non-zero reserved fields to prevent ABI ambiguity, bit
-numbering clarification for IBM MSB-0 convention, and KVM-specific
-capability bit constants.
+It seems that qosid_lock is not defined until the next patch. I think
+you should move the definition to this patch so that the series is
+bisectable.
 
-Tested-by: Gautam Menghani <gautam@linux.ibm.com>
-Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
-Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-Reviewed-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
----
-Changes in this version:
-  - Simplify versioning paragraph: drop the three-case explanation of
-    copy_struct_{from,to}_user() behaviour; keep a single sentence
-    referencing the functions [Ritesh]
-
- Documentation/virt/kvm/api.rst | 77 ++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index e3003a241d5b..3660d7478fb9 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6566,6 +6566,83 @@ KVM_S390_KEYOP_SSKE
-   Sets the storage key for the guest address ``guest_addr`` to the key
-   specified in ``key``, returning the previous value in ``key``.
- 
-+4.145 KVM_PPC_GET_COMPAT_CAPS
-+-----------------------------
-+:Capability: KVM_CAP_PPC_COMPAT_CAPS
-+:Architectures: powerpc
-+:Type: vm ioctl
-+:Parameters: struct kvm_ppc_compat_caps (in/out)
-+:Returns: 0 on success, negative value on failure
-+
-+Errors include:
-+
-+  ======== ============================================================
-+  EFAULT   if ``struct kvm_ppc_compat_caps`` cannot be read from or
-+           written to userspace
-+  EINVAL   if the ``size`` field is smaller than
-+           ``KVM_PPC_COMPAT_CAPS_SIZE_VER0``, if the ``flags`` field
-+           is non-zero, or if the backend fails to retrieve or map
-+           CPU compatibility capabilities
-+  E2BIG    if ``size`` exceeds ``PAGE_SIZE`` (pathological input guard),
-+           or if ``size`` is larger than the kernel's struct size and
-+           the unknown trailing bytes are non-zero (new userspace on
-+           old kernel with non-default fields set); in the latter case
-+           the kernel writes back its own struct size into the ``size``
-+           field so userspace can retry with the correct size
-+  ENOTTY   if the backend does not implement the ``get_compat_caps``
-+           operation (e.g., on non-HV KVM implementations where the
-+           required KVM operations are not available)
-+  ======== ============================================================
-+
-+IBM POWER system server-based processors provide a compatibility mode feature
-+where an Nth generation processor can operate in modes consistent with earlier
-+generations such as (N-1) and (N-2).
-+
-+This ioctl provides userspace with information about the CPU compatibility modes
-+supported by the current host processor for booting the nested KVM guests on
-+KVM on PowerNV (nested API v1) and KVM on PowerVM (nested API v2) platforms.
-+
-+::
-+
-+  struct kvm_ppc_compat_caps {
-+	__u64	size;			/* Size of this structure */
-+	__u64	flags;			/* Reserved for future use, must be 0 */
-+	__u64	compat_capabilities;	/* Capabilities supported by the host */
-+  };
-+
-+Before calling this ioctl, userspace must set the ``size`` field to
-+``sizeof(struct kvm_ppc_compat_caps)`` and zero the ``flags`` field.
-+The kernel rejects non-zero ``flags`` with ``-EINVAL`` to prevent
-+uninitialized stack values from being silently accepted, keeping the
-+field available for future use without ABI ambiguity.
-+
-+The ioctl uses ``copy_struct_from_user()`` and ``copy_struct_to_user()``
-+to support extensible versioning.
-+
-+``KVM_PPC_COMPAT_CAPS_SIZE_VER0`` (24) is a frozen constant marking the
-+size of the initial struct version.
-+
-+The ``compat_capabilities`` bit field describes the processor compatibility
-+modes supported by the host. The following bits indicate support for specific
-+processor modes (using IBM's MSB-0 convention where bit 0 is the most
-+significant bit):
-+
-+- ``KVM_PPC_COMPAT_CAP_POWER9``  (bit 1) -- KVM guests can run in Power9 processor mode
-+- ``KVM_PPC_COMPAT_CAP_POWER10`` (bit 2) -- KVM guests can run in Power10 processor mode
-+- ``KVM_PPC_COMPAT_CAP_POWER11`` (bit 3) -- KVM guests can run in Power11 processor mode
-+
-+.. note::
-+
-+   The bit numbering above uses IBM's MSB-0 convention (bit 0 is the most
-+   significant bit). In the actual implementation, these are defined as:
-+
-+   - ``KVM_PPC_COMPAT_CAP_POWER9``  = ``(1ULL << 62)``
-+   - ``KVM_PPC_COMPAT_CAP_POWER10`` = ``(1ULL << 61)``
-+   - ``KVM_PPC_COMPAT_CAP_POWER11`` = ``(1ULL << 60)``
-+
-+   Userspace should use the defined constants from ``<linux/kvm.h>`` rather
-+   than hardcoding bit positions.
-+
- .. _kvm_run:
- 
- 5. The kvm_run structure
--- 
-2.50.1 (Apple Git-155)
-
+Thanks,
+Drew
