@@ -1,154 +1,156 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147B1466AE1;
-	Fri,  7 Aug 2026 22:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF371FE44A
+	for <linux-doc@vger.kernel.org>; Sat,  8 Aug 2026 01:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786141074; cv=none; b=OU5FQfAw7SuiEo57cQ3IB+s/8z8rkRbFCjTNOl7dSD9LnO3DtP5Kal4jK0E2KCca3TFG8Ar6c8rkpbekthIkoK/iufsHuYq+dqs/f0C99esgDsXl5d1/2/grmvlfOqKBiGufh1eMPLZGyTQb+5a3ugIBsnIv4diWhYPQ9GXH48U=
+	t=1786151365; cv=none; b=vE9EtG04TdgMCrtxjb4N+KSw95e7q7S5syAl4AYp34Pdeu19ZH/R1ggex+yi/S8VJQBMMvkegQadBBqmOvhS0vntCbB28dTrweKyOn2lK/svVJ/5v7I9mpjKWKyMfmfFfTrrngjbxuPLqcDMiWN5xbygZjE2PoVny2HP2Ht93WQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786141074; c=relaxed/simple;
-	bh=J4JLIR8qt7OMPKMUTgAP0WX5jKAWME93N1J+XGiazdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8xIiRU+envJBWHryQZ/9cBlv5oMbUsqeK3/rXJKsFTYBQBpRc+IoRP8kL2K4opWaa6zplUf7K0zqVAIrrMHiNDmyvYWfFeS/ojWWELeukohUuG0ukSO69XRM9gkBPsHCl5GeADmB/oyWwsE+/bxj14rnFkQkScJiFNuDL59B5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 42B5AC01E3;
-	Fri,  7 Aug 2026 22:17:39 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id C813317;
-	Fri,  7 Aug 2026 22:17:22 +0000 (UTC)
-Date: Fri, 7 Aug 2026 17:17:21 -0500
-From: John Groves <john@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 07/12] famfs: MAP_CREATE ioctl and fmap ingest (ABI
- 44)
-Message-ID: <anZXxns2H0hraevA@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022919.75875-1-john@jagalactic.com>
- <0100019fc5746312-6cfe9a07-a658-4aba-b1e9-5233b0ddfcf4-000000@email.amazonses.com>
- <20260806052449.GG3560084@frogsfrogsfrogs>
- <anTxt3qsUQuCKvMz@groves.net>
+	s=arc-20240116; t=1786151365; c=relaxed/simple;
+	bh=MhcB397fB9fZ8OKdkEZCupInxArvrZSMIawSJHA8+Ek=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=FU8yyYsOiwlexiQX8MnRCqnuuExjzdkzicb3U46Z7gfJMU5C3iMvfTJR8lWrs+BY7UizO0rq8aUKiBER/rjkBUFWiTE2g1C/jQ6FgKPXaCr4PsujlCXhmNc7sIVjpWAUy2YcqbQciK5T3srgMGEZA2ch9ty4YNt1VDjZ7ZEwR2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mfhBXpjE; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mfhBXpjE"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84830c774a0so81313b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Aug 2026 18:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786151363; x=1786756163; darn=vger.kernel.org;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=6xF7Vf0vsAzDGiN9uOUXdMTijirUIpfVi3ov9/6Fs1k=;
+        b=mfhBXpjEtC/5v1cIVhlw3L9No97b0YVNag6MsCfrnY85xpM/Lb5pm4ns/lUFssCfvZ
+         1bogLjY76QLabrpeVvFfTid2AUtgrxnIU9+tPYvk31Bsrdgdck4XxDRCSZT20X5zp8hA
+         H1i/c7Lm6XKc7sOTHqfzl1PlO1z5WXdGW7jCLrcnvaEq6ibiJXRFPmRsB5iGd16ChAF8
+         1XuT+NEWFQ+VvU1bTEQKdpU+Xr5Mej+35eptTw0Pydy8q/hBDy/pkHYTlVK327l8dnHp
+         ww8BgvCKqzXtGLapHlXkkDiTx93lYGpm4uLlkTUvOrQODngPx93P1QsNxnu7sVfLHRRu
+         Du1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786151363; x=1786756163;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6xF7Vf0vsAzDGiN9uOUXdMTijirUIpfVi3ov9/6Fs1k=;
+        b=f3R61ekM76e+eVgi3v2iLAClU0KjCsR7YhBcKc8GVVjcgxiynR6sk73vbOVj+s8gch
+         L6n8cztpblReXCwsgMspBUVrWJf73q/0L3MraFWb0FdC6QqAloSfuuzpzmh3ImfT/LcL
+         fCy9eQrPYB+MRfH/mU1c2qMQFvuObgCPs+xpQGjS2dC6vN6VbFMcI2aXDcPi42WkaB0n
+         Eq8rSsuhLdwXUHhRbD/4aVp/qz2vy1mkRQZB3InfJgjk2CBiBC06c5FNFe/c1fBFOGaE
+         L95JAUMbKp0CEVnDOkFW23O3Zqf341P1AsAI+pK25Pb/Yl0yJ/sAM5SQOqQI5jwwtCsi
+         JpHw==
+X-Forwarded-Encrypted: i=1; AHgh+RoE3SEW3fFUdmRWpFtI+zK3C+AKBfmonWdtXhHRYcZU7vRDz+zB1BD6rpiC25A/Q16b+1CpKdylK3Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQnRSyploIBQGbur3H0l22YalflQT5tK/hOqsqp9WxYtFqDMw/
+	Z8w3Wnpj6krsknGT3ZYG46a+UTsz8rhR+Qeezy4jwaYUGS/TJgmRlvoz8q1p4A==
+X-Gm-Gg: AR+sD12ONDZMkp1dMRn5uY3rzXTK3zd+f0CDW4599rvqPyyJjp2qz6J/xlks4OC3xPH
+	XbQW2LVcaXVdQyw+hDrC5Yhdf09gwopdWs/LdW1sVhQLtwhP57BM7Vx/p21oDiBcRtchheMq0+z
+	bAqkWcqFkTIJfhW9MrV32uXuZp72ptry20UXYeb/+MqzwOLm/XfNFbnkmB9dbGpf7OFrewxGBp+
+	ZBqmrpGPQlVhkV5GfFJzX9z0Vd1cu7WkFWmvetw5iYeY+QpRVOxRI/uGLBPbd04KcbC04DB2bYN
+	8j4H9dT9Payxtibbt5gWm+U9kmF+Vw2V2fcwctR40Y+ZaAcUEfiCcrhSZQV4kbzzmnYFmY8S9UX
+	eFGIHWtfXkHyQVqrH0/Q6AtATVC9gop5pDf1uEcIHMPWj1Tl9eoq3m4tAg2jcg78vrdJamH2HiU
+	scAfKZNInl/aairzlvVBXFwLvwv9vrerrGICQl9oB9kZg6c22wxUIwr5g5fWM=
+X-Received: by 2002:a05:6a20:c79a:b0:3b4:71c1:ab29 with SMTP id adf61e73a8af0-3cbce7d128emr5049089637.16.1786151363483;
+        Fri, 07 Aug 2026 18:09:23 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141018f18d6sm12260170c88.0.2026.08.07.18.09.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 18:09:22 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, Amit Machhiwal <amachhiw@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Gautam Menghani <gautam@linux.ibm.com>
+Subject: Re: [PATCH v8 1/4] KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+In-Reply-To: <20260807172433.82045-2-amachhiw@linux.ibm.com>
+Date: Sat, 08 Aug 2026 06:30:40 +0530
+Message-ID: <33wpl93b.ritesh.list@gmail.com>
+References: <20260807172433.82045-1-amachhiw@linux.ibm.com> <20260807172433.82045-2-amachhiw@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anTxt3qsUQuCKvMz@groves.net>
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: C813317
-X-Stat-Signature: 8j34j75gqi1wmp6t4z3xaq87gdp38by1
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+Jhg+QZrZX5fW8FKmAtX44m54gPSILj4M=
-X-HE-Tag: 1786141042-871016
-X-HE-Meta: U2FsdGVkX19CtPIfRxeFZ3e99ugG6+ZU3FJMM8tlxbxau2+hivErNN8eJFH7VkJHIzdcrThG0zrLMFoBhzt+qIVnrbtUGpNoH2u0ciCcd1TX4m8T34JMcfhKMrCpF1shSRwIqSGS6E9LxQ0z67EQxus0sJB8AqdTVFbP+mFcJhkxSzvGwXcl6DAp1lEouJWztVlhsYZ3ixSy8Cn8s4mKt8jyY2cmnMcg8sxPxG0dz4NQwdQaIqamoAtByXbmTzVN6ymFtoS2vI78/PkZL15H5B2V3yN3vEpo79o3qWwgaxcvIEHzBRpRh+tOZf13+uWS4nO+5VnxYxqjD+oqAyCgLBwCy9PjI0xTdbLAdVpXmobkOf4+RwMP0ar5Mk01PK5t
 
-On 26/08/06 03:53PM, John Groves wrote:
-> On 26/08/05 10:24PM, Darrick J. Wong wrote:
-> > On Mon, Aug 03, 2026 at 02:29:26AM +0000, John Groves wrote:
-> > > From: John Groves <John@Groves.net>
-> > > 
-> > > Add the famfs file ioctl handler (FAMFSIOC_NOP, FAMFSIOC_MAP_CREATE) and
-> > > the KABI-44 self-describing fmap message: the wire ABI in famfs_ioctl.h
-> > > (famfs_ioc_fmap_header plus the simple and interleaved extent structs), the
-> > > in-core famfs_file_meta, and famfs_file_init_dax(), which copies the
-> > > message in, parses both the simple-extent and interleaved (striped) wire
-> > > forms into inode->i_private, and sets S_DAX.
-> > > 
-> > > Resolving those mappings to dax-device offsets (iomap_begin) is added in
-> > > the following commit; the read/write/fault paths keep their NULL iomap_ops
-> > > stub until then.
-> > > 
-> > > Also add famfs ioctls to ioctl-number.rst
-> > > 
-> > > Signed-off-by: John Groves <john@groves.net>
-> > > ---
-> > >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
-> > >  fs/famfs/famfs_file.c                         | 326 +++++++++++++++++-
-> > >  fs/famfs/famfs_inode.c                        |   1 +
-> > >  fs/famfs/famfs_internal.h                     |  46 +++
-> > >  include/uapi/linux/famfs_ioctl.h              |  91 +++++
-> > >  5 files changed, 462 insertions(+), 3 deletions(-)
-> > >  create mode 100644 include/uapi/linux/famfs_ioctl.h
-> > > 
-> > > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > index 3f0ef1e27eb0..5e244dec1b98 100644
-> > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > @@ -299,6 +299,7 @@ Code  Seq#    Include File                                             Comments
-> > >  'u'   00-2F  linux/ublk_cmd.h                                          conflict!
-> > >  'u'   20-3F  linux/uvcvideo.h                                          USB video class host driver
-> > >  'u'   40-4f  linux/udmabuf.h                                           userspace dma-buf misc device
-> > > +'u'   50-5F  linux/famfs_ioctl.h                                       famfs shared memory file system
-> > >  'v'   00-1F  linux/ext2_fs.h                                           conflict!
-> > >  'v'   00-1F  linux/fs.h                                                conflict!
-> > >  'v'   00-0F  linux/sonypi.h                                            conflict!
-> > > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
-> > > index 678f2035fd5f..d710c8a0c923 100644
-> > > --- a/fs/famfs/famfs_file.c
-> > > +++ b/fs/famfs/famfs_file.c
-> > > @@ -13,9 +13,313 @@
-> > >  #include <linux/mm.h>
-> > >  #include <linux/dax.h>
-> > >  #include <linux/iomap.h>
-> > > +#include <linux/capability.h>
-> > >  
-> > > +#include <linux/famfs_ioctl.h>
-> > >  #include "famfs_internal.h"
-> > >  
-> > > +/* Expose famfs kernel abi version as a read-only module parameter */
-> > > +static int famfs_kabi_version = FAMFS_KABI_VERSION;
-> > > +module_param(famfs_kabi_version, int, 0444);
-> > > +MODULE_PARM_DESC(famfs_kabi_version, "famfs kernel abi version");
-> > 
-> > Maybe make the "NOP" ioctl a geometry ioctl that tells you the abi
-> > version and (I guess) the page and pmd size? :D
-> 
-> I like it - will do
+Amit Machhiwal <amachhiw@linux.ibm.com> writes:
 
-Err, gonna leave this alone after all. The kabi_version is already exposed
-as a module parameter - which is better. That is needed before mount (and
-the ioctls can't be called till mounted). The other useful stuff that goes 
-here is the supported page sizes (which famfs generally calls "allocation 
-units". But there again, user space needs them prior to mount. So exposing 
-those as one or more module parameters is ideal.
+> Introduce a new capability and ioctl to expose CPU compatibility modes
+> supported by the host processor for nested guests.
+>
+> On IBM POWER systems, newer processor generations (N) can operate in
+> compatibility modes corresponding to earlier generations, like (N-1) and
+> (N-2). This is particularly relevant for nested virtualization, where
+> nested KVM guests may need to run with a specific processor compatibility
+> level.
+>
+> Introduce KVM_CAP_PPC_COMPAT_CAPS capability and the corresponding
+> KVM_PPC_GET_COMPAT_CAPS vm ioctl. The ioctl returns a bitmap describing
+> the compatibility modes supported by the host in respective bit numbers,
+> allowing userspace (e.g., QEMU) to select an appropriate compatibility
+> level when configuring nested KVM guests.
+>
+> The ioctl handling is added in kvm_arch_vm_ioctl() and retrieves host
+> CPU compatibility capabilities via a PowerPC-specific backend
+> implementation when available.
+>
+> The struct kvm_ppc_compat_caps places the 'size' field first so it can
+> be read alone via get_user() before copy_struct_from_user() is called,
+> avoiding pointer arithmetic to locate the size field.
+>
+> The ioctl is defined using _IO so the ioctl number remains stable even if
+> the struct grows in future versions. It uses copy_struct_from_user() and
+> copy_struct_to_user() to provide forward- and backward-compatible
+> extensibility: older userspace passing a smaller struct to a newer kernel
+> gets zero-padded trailing fields. Newer userspace passing a larger struct to
+> an older kernel (usize > ksize) succeeds if trailing bytes are zero (the
+> kernel reports back min(usize, ksize) as the filled size); if trailing bytes
+> are non-zero, the kernel writes back ksize into host_caps.size and returns
+> -E2BIG so userspace can retry with the correct size.
+>
+> KVM_PPC_COMPAT_CAPS_SIZE_VER0 is defined as a frozen integer constant
+> (24) marking the size of the initial struct version, used as the
+> minimum floor for size field validation, similar to other versioned
+> struct interfaces in the kernel.
+>
+> The 'flags' field is reserved for future use. The kernel rejects any
+> call where flags is non-zero with -EINVAL, preventing garbage values
+> from being baked into ABI permanently.
+>
+> The ioctl returns appropriate error codes: E2BIG if usize exceeds
+> PAGE_SIZE, or if new userspace provides a larger struct with non-zero
+> trailing bytes (with ksize written back into host_caps.size for the
+> retry); EINVAL for an invalid size or non-zero reserved fields; EFAULT
+> for failed copy operations; and ENOTTY if the backend doesn't implement
+> get_compat_caps.
+>
+> Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> Tested-by: Gautam Menghani <gautam@linux.ibm.com>
+> Reviewed-by: Gautam Menghani <gautam@linux.ibm.com>
+> Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
+> Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
+> ---
+> Changes in this version:
+>   - Add PAGE_SIZE guard after get_user() to bound the check_zeroed_user()
+>     scan in the usize > ksize path [Ritesh]
+>   - Drop manual usize > sizeof(host_caps) pre-check; delegate entirely to
+>     copy_struct_from_user() which succeeds on zero trailing bytes and
+>     returns -E2BIG only on non-zero trailing bytes; handle -E2BIG with
+>     ksize writeback and -EFAULT escalation if put_user() fails [Ritesh]
+>   - Fix host_caps.size on success path: use min_t(u64, usize,
+>     sizeof(host_caps)) so new userspace with zero trailing bytes gets back
+>     the number of bytes the kernel actually populated, not usize [Ritesh]
+>
 
-The NOP ioctl originated to answer the question "is this file famfs", and
-it still works fine for that (and user space relies on that in certain
-circumstances).
+Thanks for addressing them!
+The only remaining comments from Sashiko now are because, it cannot find
+the implementation of ->get_compat_caps() since it is in the next patch.
 
-Thanks!
-John
+So as for this patch, the changes looks good to me. Please feel free to
+add:
 
-<snip>
+Reviewed-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+
+>  arch/powerpc/include/asm/kvm_ppc.h  |  1 +
+>  arch/powerpc/include/uapi/asm/kvm.h |  8 +++
+>  arch/powerpc/kvm/powerpc.c          | 78 +++++++++++++++++++++++++++++
+>  include/uapi/linux/kvm.h            |  3 ++
+>  4 files changed, 90 insertions(+)
 
