@@ -1,117 +1,126 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7612DF13F;
-	Sat,  8 Aug 2026 05:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A19637AA9F
+	for <linux-doc@vger.kernel.org>; Sat,  8 Aug 2026 09:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786168568; cv=none; b=U63hq4sNXSDS0V+fVivyb3yB8ITmcV2r5Mn5msC+PMkoxF6MxN4jt/lWDw6YkL0B6ckjjcrB5XDz7Ifra+ryo8/kG4e6Y6Q0frwX4akCnZ6ePwNdGwVPJbx+rKJa2IMiKGvPh0s9qcF0uR1IcmTZeaSbDNNPaAjO3YsdhXawDrY=
+	t=1786183144; cv=none; b=snmbl28WhyonmpmZzB+1P+VQnkSpxD3tizcTAP/0tCkUP3RPKTZ2DVhgybqOU/kTP/W9E2BbNBPf2RBtYrn8YGfpXGi4h2s4QXXfnHbGYzTOjsvjH69Nr0cZTrS02FIGQkmIhAw+kOD6ppH+Age8/34iMX4I98jrQxpAhrjSoMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786168568; c=relaxed/simple;
-	bh=7ikBaTUy8/PElNFiPxFNAV2bh8BzEeEx/vxd16mL7fE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JJdxsoiugCEfMY0aPcCC4mTCFH6PN54fy/GUZIt8PqbGkvFhoHXU27ZbrChc6vKQrL7vJjdSYQvB6p8FBiJq9Xk/QoSPzk7DiomWvy7XlNdqUoxUQFO8/3lOxXNap6MN0VLucVNlhgausjKmIVcQpFJNCTBMBJaok4yNo/yvJ20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DlUG588I; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1786183144; c=relaxed/simple;
+	bh=W0eW/ZasrcB2H3LJL+03kv0ucwEjc0ZwxAGacASR04w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=skVcrFloNx3IUhlJzDne5rB3AwHFJDwUMmD4oMXb1Uq8LUQZ86IZGF0EwN1AYB3/5ov0aa5FKhu3OW64XBgze19cJ3ShP0YiR9isNZC/BUydxQOPwg9GUAAsCLrV1jYg9FJgawjKAJFT1U/mIi6+KgwPiE8aUIFmpetXJLbnHr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=IbduS9jn; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DlUG588I"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7KLdu5uE6R81g5U1iRPk0cqe3X/yRt9IJYdbtNaS8kk=; b=DlUG588IRRw+WNQZ3SS4c9jYol
-	VobwQaT+Ow7xBvSq74Wpm7SPwmybUyfKNj8PYdNvIXjB/+cdh27sh5HKHf//DgUHpwq4Z4e7vZApA
-	FT8AkIhtHrLOoHonFQ7UPfxOi8cczP8kpIy98JXttfyKBT7XMTx+AmZa/+07DARO8Bnpk9f1jsBYa
-	i7RTC7XugfDeeksJpFogZ7e7aHADaWlPa02Yp5cBcepnNAp5TvBmplHWTQvFOQx5RGGak9juN+tc+
-	uGlVc64+rcj7M5UOVLdyz7iVWRlh7sa/TtWJXtRDfyms1feiqDqea/wkpUckMTl9DESD0mCJK5Csm
-	nePzbl/g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsa23-000000094rQ-1UNG;
-	Sat, 08 Aug 2026 05:55:43 +0000
-Message-ID: <f3bcf9e5-89eb-4885-a671-910722782ca8@infradead.org>
-Date: Fri, 7 Aug 2026 22:55:42 -0700
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="IbduS9jn"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so3665235e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 08 Aug 2026 02:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1786183139; x=1786787939; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Hr4rNoSGp4NHIekFunzyCDZp2DX3uWJ4HIovEA2xeO4=;
+        b=IbduS9jnB2UahRDtFzqXuVcSkf1SQSDTZ77nciPUlfptm3qzygluDCSQTBKEDvPzeq
+         8k77tza2nOc+9xrHVicwmDQHirDKLznbzGF6HCD9Z3uoK9gKk2J1v3Km9eIeAJaxoqM3
+         dEIUp/Vub+Vbp/H0Ir3zZtrVfOLuoEOWhwPhyEL9wEAcwEtKnLVkWc1ARNNxb3/B+SpK
+         u/4D5tdCc2hU2FTWTMCfjl/GhKtYajTCooy0QuevtdQ0QVGwroJmTgNXdwymbm5VpNBv
+         w9WRXk0ERb5Fypm8J0hgmO9E6CR/nsr0svpCMAMdh//ROUH6WXvEOMRlAk9zvNwDssVU
+         X3XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786183139; x=1786787939;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Hr4rNoSGp4NHIekFunzyCDZp2DX3uWJ4HIovEA2xeO4=;
+        b=DhRmT1nIISZuxowGRMp2yReN6t576dYwKUqump2Tl/Y81So1hGr2dManymV0+KrUrT
+         k+QOjiUurKXu8G2OLT6CU+47YI70yYvyZh6UUzHoqBH2CWocITCG0iPiTF0olxfiufDp
+         YE91dEoYupFkz/KDGpfEdqN6vd4cbdWkiWMnlUx96U5agmYf/nsin5nIezSO6HuT73js
+         7+MqBYbh/o68356giexdhi7b16Tv/pzE6g9Eau/Y3f5QC+B6Ql6+Xhe7gkR3zvFZtFfA
+         rv8fB5RZdt85v8zqcdmZuDW8e5C7TVWPbAv/agYrmXnK0pKVrR+61hLCQ6+K54vHx+X3
+         yqHA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpwp1SFm8WMMi2N6oNRvXDSbLIVfjpD4LHKsui5+zJFbjKitJ0hHOmHH+zVuk8D/5ft7YCUKk05qTc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvxjU+sJkeeg2laQbNez9pkDEkGlOHh+79inNNK7DChLl7gvE2
+	MwOnNkWlrMBIoaTNz8ssBtHFxWC7vsStUgiWcUIlPDkNCBoPDRTStKGwcZqtnnBafP0=
+X-Gm-Gg: AR+sD11ND+q9Gq/MlpTqZm/xl64C7nwENgNn6WOVc8GnLztbPK/b50frWkW9+2b60B3
+	676ENvuf7zPPBKyKjMJB6veMw0YD6wIwdBrx7Nck2rCYGIU8XhFL3NbyBLmLpyuVQFVT/pbxJzc
+	mDYy+V5I68R8C7QCbQaH6YVH/25mG4Zi8nHp73R8ebqnmjBJEqtPXQZUAMOfEtrukCIatRGrQJO
+	0EURm0rSybRHjtO9dzQABtoaGZdD83OwzttO+WARc6S+wHj3I5aQ1RQxPVB2XlBn0JluaF2iC4w
+	2hlfewBnbtCvMyRchVYEkRKQPjWyaBjK8HYajKBnTjNWXhRzD5DopXPhVxD8uCJJXxueRsUBKXS
+	7+wsXn2tnkhsO/sSQJnZeuMHBPXqTgrjRp7cEYDpz321TZr0/PpGT2jo/MqCLTxvaBO0Vd/DbNa
+	ipEIryn/0TEyxTMqMO+zMnIHKWodU3kcZb2rY/La1DyhbU0KsiFijEeAEV8r8o2W89kHdpq6KsH
+	6vVEW17FTgU+eBNHhc5
+X-Received: by 2002:a05:600c:3b04:b0:490:c6c2:52 with SMTP id 5b1f17b1804b1-49959e016f2mr204095965e9.3.1786183138873;
+        Sat, 08 Aug 2026 02:58:58 -0700 (PDT)
+Received: from localhost ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995ea2dc4esm123249915e9.13.2026.08.08.02.58.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Aug 2026 02:58:58 -0700 (PDT)
+Date: Sat, 8 Aug 2026 11:58:54 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, 
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jakub Kicinski <kuba@kernel.org>, Min Li <min.li@microchip.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Petr Oros <poros@redhat.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v3 2/2] dpll: use pin owner's dpll ref for
+ pin-level attribute setting
+Message-ID: <anb91_uhQWVz_oMh@FV6GYCPJ69>
+References: <20260807095926.386923-1-ivecera@redhat.com>
+ <20260807095926.386923-3-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8] coredump: Add bit 9 of coredump_filter for pre-exit
- files before dumping
-To: Xin Zhao <jackzxcui1989@163.com>, david@kernel.org, brauner@kernel.org,
- ljs@kernel.org, rppt@kernel.org, pfalcato@suse.de, viro@zeniv.linux.org.uk,
- corbet@lwn.net, skhan@linuxfoundation.org, akpm@linux-foundation.org,
- liam@infradead.org, vbabka@kernel.org, surenb@google.com, mhocko@suse.com,
- mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, mjguzik@gmail.com, ebiederm@xmission.com,
- jack@suse.cz, jlayton@kernel.org, chuck.lever@oracle.com,
- alex.aring@gmail.com, arnd@arndb.de, keescook@chromium.org,
- mcgrof@kernel.org, j.granados@samsung.com, allen.lkml@gmail.com
-Cc: kuba@kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org
-References: <20260808052732.2589657-1-jackzxcui1989@163.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260808052732.2589657-1-jackzxcui1989@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260807095926.386923-3-ivecera@redhat.com>
 
-Hi,
+Fri, Aug 07, 2026 at 11:59:26AM +0200, ivecera@redhat.com wrote:
+>Pin-level attributes (frequency, phase adjust, embedded sync, reference
+>sync) are properties of the pin itself, not of a particular DPLL device.
+>The get callbacks already use only the pin owner's DPLL reference
+>(via dpll_pin_own_dpll_ref_first()), but the set callbacks iterate over
+>all registered DPLL references and invoke the set operation on each one.
+>
+>This is redundant because a pin is a single physical entity - setting
+>its frequency or phase adjust once through the owner's ops is sufficient.
+>Calling set on every registered DPLL just results in duplicate HW writes
+>for drivers that share a pin across multiple DPLL devices (e.g. ice
+>registers each input pin with both the EEC and PPS DPLL, zl3073x
+>registers input pins with every DPLL channel).
+>
+>Simplify dpll_pin_freq_set(), dpll_pin_esync_set(),
+>dpll_pin_ref_sync_state_set() and dpll_pin_phase_adj_set() to call the
+>set callback only through the owner's DPLL reference, matching the
+>existing get-side behavior. This removes the xa_for_each iteration
+>loops, the now-unnecessary rollback logic, and several local variables.
+>
+>The -EOPNOTSUPP validation loop, which checked ops support across all
+>owner-matching references, is replaced with a direct check on the
+>single owner reference returned by dpll_pin_own_dpll_ref_first().
+>
+>The documentation in dpll.rst is updated to reflect that pin-level
+>attributes are set through the pin owner's dpll reference only.
+>
+>No existing driver is affected:
+>  - ptp_ocp and mlx5 register each pin with a single DPLL.
+>  - ice registers input pins with two DPLLs (EEC and PPS) using
+>    identical ops and pin_priv; the set callbacks address the HW by
+>    pin index, not by DPLL, so the second call was a no-op.
+>  - zl3073x registers input pins with every DPLL channel; the set
+>    callbacks address HW by pin/ref ID regardless of DPLL. The
+>    ref_sync_set callback was the only one with per-channel behavior,
+>    addressed by the preceding patch.
+>
+>Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 
-On 8/7/26 10:27 PM, Xin Zhao wrote:
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index db6167bef..aee03858b 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1927,7 +1927,7 @@ will be dumped when the <pid> process is dumped. coredump_filter is a bitmask
->  of memory types. If a bit of the bitmask is set, memory segments of the
->  corresponding memory type are dumped, otherwise they are not dumped.
->  
-> -The following 9 memory types are supported:
-> +The following 10 memory types are supported:
->  
->    - (bit 0) anonymous private memory
->    - (bit 1) anonymous shared memory
-> @@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
->    - (bit 6) hugetlb shared memory
->    - (bit 7) DAX private memory
->    - (bit 8) DAX shared memory
-> +  - (bit 9) fd list
->  
->    Note that MMIO pages such as frame buffer are never dumped and vDSO pages
->    are always dumped regardless of the bitmask status.
-> @@ -1946,13 +1947,19 @@ The following 9 memory types are supported:
->    Note that bits 0-4 don't affect hugetlb or DAX memory. hugetlb memory is
->    only affected by bit 5-6, and DAX is only affected by bits 7-8.
->  
-> -The default value of coredump_filter is 0x33; this means all anonymous memory
-> -segments, ELF header pages and hugetlb private memory are dumped.
-> +  Note that bit 9 is set by default because tools like systemd-coredump go
-> +  through the fds. If you do not set bit 9, files that are not referenced by
-> +  any VMA are released before dumping core. Some file release logic, such as
-> +  exiting flock or releasing references to shared buffers is executed much
-> +  earlier.
-> +
-> +The default value of coredump_filter is 0x233; this means all anonymous memory
-> +segments, ELF header pages, hugetlb private memory and fd list are dumped.
->  
->  If you don't want to dump all shared memory segments attached to pid 1234,
-> -write 0x31 to the process's proc file::
-> +write 0x231 to the process's proc file::
->  
-> -  $ echo 0x31 > /proc/1234/coredump_filter
-> +  $ echo 0x231 > /proc/1234/coredump_filter
->  
->  When a new process is created, the process inherits the bitmask status from its
->  parent. It is useful to set up coredump_filter before the program runs.
-
-The proc.rst update LGTM. Thanks.
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org> # for proc.rst
-
--- 
-~Randy
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
