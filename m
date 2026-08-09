@@ -1,183 +1,242 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5026D3B0AE3;
-	Sun,  9 Aug 2026 17:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B36388E66;
+	Sun,  9 Aug 2026 17:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786295365; cv=none; b=afo88BZ3pO+qe+cuCb0h+eyRrfEDOdHApFk6MULC6TqmDWNIE8OJCmHH2mKZKDaGlIg6HTz/IJafZG+kb+gMWm8AeWVBql/7/nD22o9+OMAuxr1YycdRiVo3t9OJ16lmN+tTkREqP8XItyQwZ7EY9WtLwtzxVFmGAGsIhWwj+10=
+	t=1786295913; cv=none; b=od+EJT4KZwcey7vIJLmWXYVqPKrlGtr9t9uJmrB/I+OY7EMcVst8QGaYQihZxzi4yyS2L0opKMUIMQLsBXxcAHMQRNW5HEQ4GhQeHlNPRq688nPbqu3I/bJ3wCNKNNB1RX5XGGy6NYZBqAyMzVpRPbwlCNy0cte7Hu8WG/x6xMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786295365; c=relaxed/simple;
-	bh=MdYkuAgf2+KP/Gc3lb3DWHOV43ibGRy0XMjJ9Ea7ExE=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d40BugXVjUwbflr97Vj9cf5P74cf8coNOaXAurnYbJPu8kFTzCM3d1fV5qTE4rex8bf2WVc7ciBi9HiTUomurh53Bx8dEoQrEChw01TgSLQCd7tTvLyPljrK5aFXWwNoNX+nirXKsuLppbIsoL8klHYrf/PyWDR+8yrzLDil3EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.99)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1wt71S-000000000RQ-3ay9;
-	Sun, 09 Aug 2026 17:09:19 +0000
-Date: Sun, 9 Aug 2026 18:09:07 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Golle <daniel@makrotopia.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v10 5/5] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <995eae5a0da8f8420266177755d81a41beaddbc6.1786294649.git.daniel@makrotopia.org>
-References: <cover.1786294649.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1786295913; c=relaxed/simple;
+	bh=LH6T0DfMpRvOJTzaWnwxiOnKtcytUdIfDfjBy2FPk3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MaImqzIgVT78GHQe9SYJjBNHWgNmQov9S4SvyGbJZnbYWs5oooVVrKcQ78AXQfYlQ3ptnHeTY8LC7vt2368ZoKqmI1H7aeSnNHqlYMx3ZkgZlz39Ph20HE2bPqwKRvXEAthxaUO909/L6X3oUjaZ91Y6L51+6Wkti/3glL4zWUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U7TUs52a; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7TUs52a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91AB11F000E9;
+	Sun,  9 Aug 2026 17:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786295909;
+	bh=zm72Jk8YJbUwKflSdewaD4AA2Mq78CUnZiw+gSUiT98=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=U7TUs52aGQPX+GxxjNiUY/hnfeYOEjjaTUy8OTqME/78lYUUxw72W+5bV87DrVCf7
+	 hM43+wtF9at0lXoBU0UEsvmRpaozNd1mKqr34KUfDuJpMHQWvqOeYbGiYkbMf/UP1b
+	 tE/Eiw9BOzXQypJgTgrIu9vRFUiHkmx9tGzQQulKbk+bufF1Lbkwl4bAuEfNjiRvZd
+	 47VRbpMiTFArc9AXQlCqa2Ud4armNU91zDzrurpEuG97oJqYumhzIw+RXbKR0he0FW
+	 Ii9tC01hgE0yRV3oKpY6BztCOy5WtN/R5QvdrLb9l/OzR22iuWAHXEn+/q0V15ERDA
+	 c4rsqUAnR8i8w==
+Date: Sun, 9 Aug 2026 19:18:24 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Chen Miao <chenmiao.ku@gmail.com>
+Cc: corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ skhan@linuxfoundation.org, dzm91@hust.edu.cn, mchehab@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] docs: sphinx-pre-install: check GNU Make version
+Message-ID: <20260809191824.06e6c39e@foz.lan>
+In-Reply-To: <20260809101923.13176-3-chenmiao.ku@gmail.com>
+References: <20260809101923.13176-1-chenmiao.ku@gmail.com>
+	<20260809101923.13176-3-chenmiao.ku@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1786294649.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+On Sun,  9 Aug 2026 18:19:21 +0800
+Chen Miao <chenmiao.ku@gmail.com> wrote:
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+> The kernel documentation build requires GNU Make 4.0 or newer, but the
+> Sphinx dependency checker only verifies that a make executable exists.
+> This lets incompatible make implementations pass the check and fail
+> later during the build.
+>=20
+> Check the GNU Make version on all supported systems. If make is missing
+> or too old, report it as a missing dependency. Also accept a compatible
+> gmake command, which is how Homebrew provides GNU Make on macOS.
+>=20
+> Document the requirement and the macOS gmake fallback.
+>=20
+> Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
+> ---
+>  Documentation/doc-guide/sphinx.rst            |  4 +-
+>  .../translations/zh_CN/doc-guide/sphinx.rst   |  2 +
+>  Documentation/translations/zh_CN/how-to.rst   |  3 +-
+>  tools/docs/sphinx-pre-install                 | 52 ++++++++++++++++++-
+>  4 files changed, 58 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide=
+/sphinx.rst
+> index 62aca56b8..d9b9e025f 100644
+> --- a/Documentation/doc-guide/sphinx.rst
+> +++ b/Documentation/doc-guide/sphinx.rst
+> @@ -136,7 +136,9 @@ commands are printed without ``sudo``. The PDF depend=
+encies are provided by
+>  the ``mactex`` cask; use ``--no-pdf`` when only building HTML documentat=
+ion.
+>  The default virtualenv mode is recommended on macOS because PyYAML is
+>  installed from ``Documentation/sphinx/requirements.txt`` rather than fro=
+m a
+> -Homebrew formula.
+> +Homebrew formula. The script also checks for GNU Make 4.0 or newer; when
+> +Homebrew provides it as ``gmake``, use ``gmake htmldocs`` instead of
+> +``make htmldocs``.
+> =20
+>  Installing Sphinx Minimal Version
+>  ---------------------------------
+> diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Docu=
+mentation/translations/zh_CN/doc-guide/sphinx.rst
+> index 154142318..93f27d35a 100644
+> --- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> +++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> @@ -114,6 +114,8 @@ PDF=E5=92=8CLaTeX=E6=9E=84=E5=BB=BA
+>  ``sudo``=E3=80=82PDF =E4=BE=9D=E8=B5=96=E9=80=9A=E8=BF=87 ``mactex`` cas=
+k =E6=8F=90=E4=BE=9B=EF=BC=9B=E5=A6=82=E6=9E=9C=E5=8F=AA=E6=9E=84=E5=BB=BA =
+HTML =E6=96=87=E6=A1=A3=EF=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=A8
+>  ``--no-pdf``=E3=80=82macOS =E7=94=A8=E6=88=B7=E5=BB=BA=E8=AE=AE=E4=BD=BF=
+=E7=94=A8=E9=BB=98=E8=AE=A4=E7=9A=84 Python =E8=99=9A=E6=8B=9F=E7=8E=AF=E5=
+=A2=83=EF=BC=8C=E5=9B=A0=E4=B8=BA PyYAML =E4=BC=9A=E4=BB=8E
+>  ``Documentation/sphinx/requirements.txt`` =E5=AE=89=E8=A3=85=EF=BC=8C=E8=
+=80=8C=E4=B8=8D=E6=98=AF=E9=80=9A=E8=BF=87 Homebrew =E5=AE=89=E8=A3=85=E3=
+=80=82
+> +=E8=84=9A=E6=9C=AC=E8=BF=98=E4=BC=9A=E6=A3=80=E6=9F=A5 GNU Make 4.0 =E6=
+=88=96=E6=9B=B4=E9=AB=98=E7=89=88=E6=9C=AC=EF=BC=9B=E5=A6=82=E6=9E=9C Homeb=
+rew =E5=B0=86=E5=85=B6=E5=AE=89=E8=A3=85=E4=B8=BA ``gmake``=EF=BC=8C
+> +=E8=AF=B7=E4=BD=BF=E7=94=A8 ``gmake htmldocs``=EF=BC=8C=E8=80=8C=E4=B8=
+=8D=E6=98=AF ``make htmldocs``=E3=80=82
+> =20
+>  Sphinx=E6=9E=84=E5=BB=BA
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/=
+translations/zh_CN/how-to.rst
+> index e8c91d81a..84f277124 100644
+> --- a/Documentation/translations/zh_CN/how-to.rst
+> +++ b/Documentation/translations/zh_CN/how-to.rst
+> @@ -106,7 +106,8 @@ Linux =E5=8F=91=E8=A1=8C=E7=89=88=E5=92=8C=E7=AE=80=
+=E5=8D=95=E5=9C=B0=E4=BD=BF=E7=94=A8 Linux =E5=91=BD=E4=BB=A4=E8=A1=8C=EF=
+=BC=8C=E9=82=A3=E4=B9=88=E5=8F=AF=E4=BB=A5=E8=BF=85=E9=80=9F=E5=BC=80=E5=A7=
+=8B=E4=BA=86
+>  sudo=E3=80=82PDF =E6=9E=84=E5=BB=BA=E6=89=80=E9=9C=80=E7=9A=84 MacTeX =
+=E9=80=9A=E8=BF=87 Homebrew cask =E5=AE=89=E8=A3=85=EF=BC=9B=E5=A6=82=E6=9E=
+=9C=E5=8F=AA=E6=9E=84=E5=BB=BA HTML =E6=96=87=E6=A1=A3=EF=BC=8C
+>  =E5=8F=AF=E4=BB=A5=E6=89=A7=E8=A1=8C ``./tools/docs/sphinx-pre-install -=
+-no-pdf``=E3=80=82macOS =E7=94=A8=E6=88=B7=E5=BB=BA=E8=AE=AE=E4=BD=BF=E7=94=
+=A8=E9=BB=98=E8=AE=A4
+>  =E7=9A=84 Python =E8=99=9A=E6=8B=9F=E7=8E=AF=E5=A2=83=EF=BC=8C=E5=9B=A0=
+=E4=B8=BA PyYAML =E4=BC=9A=E4=BB=8E ``Documentation/sphinx/requirements.txt=
+``
+> -=E5=AE=89=E8=A3=85=EF=BC=8C=E8=80=8C=E4=B8=8D=E6=98=AF=E9=80=9A=E8=BF=87=
+ Homebrew =E5=AE=89=E8=A3=85=E3=80=82
+> +=E5=AE=89=E8=A3=85=EF=BC=8C=E8=80=8C=E4=B8=8D=E6=98=AF=E9=80=9A=E8=BF=87=
+ Homebrew =E5=AE=89=E8=A3=85=E3=80=82=E8=84=9A=E6=9C=AC=E8=BF=98=E4=BC=9A=
+=E6=A3=80=E6=9F=A5 GNU Make 4.0 =E6=88=96=E6=9B=B4=E9=AB=98=E7=89=88=E6=9C=
+=AC=EF=BC=9B=E5=A6=82=E6=9E=9C
+> +Homebrew =E5=B0=86=E5=85=B6=E5=AE=89=E8=A3=85=E4=B8=BA ``gmake``=EF=BC=
+=8C=E8=AF=B7=E4=BD=BF=E7=94=A8 ``gmake htmldocs``=EF=BC=8C=E8=80=8C=E4=B8=
+=8D=E6=98=AF ``make htmldocs``=E3=80=82
+> =20
+>  =E5=A6=82=E6=9E=9C=E6=82=A8=E5=A4=84=E4=BA=8E=E4=B8=80=E4=B8=AA=E5=A4=9A=
+=E7=94=A8=E6=88=B7=E7=8E=AF=E5=A2=83=E4=B8=AD=EF=BC=8C=E4=B8=BA=E4=BA=86=E9=
+=81=BF=E5=85=8D=E5=AF=B9=E5=85=B6=E4=BB=96=E4=BA=BA=E9=80=A0=E6=88=90=E5=BD=
+=B1=E5=93=8D=EF=BC=8C=E5=BB=BA=E8=AE=AE=E6=82=A8=E9=85=8D=E7=BD=AE=E5=8D=95=
+=E7=94=A8=E6=88=B7
+>  sphinx =E8=99=9A=E6=8B=9F=E7=8E=AF=E5=A2=83=EF=BC=8C=E5=8D=B3=E5=8F=AA=
+=E9=9C=80=E8=A6=81=E6=89=A7=E8=A1=8C::
+> diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
+> index 51a296cc7..079655078 100755
+> --- a/tools/docs/sphinx-pre-install
+> +++ b/tools/docs/sphinx-pre-install
+> @@ -40,6 +40,7 @@ from kdoc.python_version import PythonVersion
+> =20
+>  RECOMMENDED_VERSION =3D PythonVersion("3.4.3").version
+>  MIN_PYTHON_VERSION =3D PythonVersion("3.7").version
+> +MIN_MAKE_VERSION =3D PythonVersion("4.0").version
+> =20
+> =20
+>  class DepManager:
+> @@ -308,6 +309,55 @@ class MissingCheckers(AncillaryMethods):
+> =20
+>          return None
+> =20
+> +    def get_make_version(self, cmd):
+> +        """Get the GNU Make version, or None if cmd is not GNU Make."""
+> +        if not cmd:
+> +            return None
+> +
+> +        try:
+> +            result =3D self.run(
+> +                [cmd, "--version"],
+> +                capture_output=3DTrue,
+> +                text=3DTrue,
+> +                check=3DTrue,
+> +            )
+> +        except (subprocess.CalledProcessError, FileNotFoundError):
+> +            return None
+> +
+> +        match =3D re.search(
+> +            r"^GNU Make\s+([0-9]+(?:\.[0-9]+)*)", result.stdout, re.MULT=
+ILINE
+> +        )
+> +        if not match:
+> +            return None
+> +
+> +        return PythonVersion.parse_version(match.group(1))
+> +
+> +    def check_make(self):
+> +        """Check for GNU Make 4.0 or newer."""
+> +        make =3D self.which("make")
+> +        version =3D self.get_make_version(make)
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+I would invert the check: test first for "gmake", and then for "make".
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 4745148fecf4..058999d0dc56 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -94,6 +94,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..5b24d8cb57bc
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version read from the same register word, so it is
-+       omitted whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the recovery fails, the loader needs a power cycle: ``devlink dev
-+flash`` then returns ``-EIO`` and says so in its extack message. The
-+driver only re-examines the switch when it binds, so on a board where
-+the switch can be power cycled on its own, unbind and rebind the driver
-+afterwards to have the recovered switch recognised.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 03bfb79fca2a..8d9b1ea3faad 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16107,6 +16107,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+Lots of Linux distros have an alias for gmake, like on Fedora:
+
+	lrwxrwxrwx 1 root root        4 Apr 24 21:33 /usr/bin/gmake -> make
+	-rwxr-xr-x 1 root root   287384 Apr 24 21:33 /usr/bin/make
+
+Yet, I would do it on a different way:
+
+	make =3D self.which("gmake")
+	if not make:
+		make =3D self.which("make")
+
+	version =3D self.get_make_version(make)
+
+This should simplify the code a little bit.
+
+> +
+> +        if version and version >=3D MIN_MAKE_VERSION:
+> +            return
+> +
+> +        # macOS commonly has an incompatible /usr/bin/make, while Homebr=
+ew
+> +        # installs GNU Make as gmake. Also accept gmake on other systems=
+ when
+> +        # it is the only compatible command available.
+> +        gmake =3D self.which("gmake")
+> +        gmake_version =3D self.get_make_version(gmake)
+> +        if gmake_version and gmake_version >=3D MIN_MAKE_VERSION:
+> +            make_name =3D os.path.basename(make) if make else "make"
+> +            gmake_name =3D os.path.basename(gmake)
+> +            make_ver =3D PythonVersion.ver_str(version) if version else =
+"unknown"
+> +            gmake_ver =3D PythonVersion.ver_str(gmake_version)
+> +            print(
+> +                f"Note: {make_name} ({make_ver}) does not meet the GNU M=
+ake "
+> +                f"requirement; use {gmake_name} ({gmake_ver}) instead."
+> +            )
+> +            return
+
+With that, you probably can remove most of the above.
+
+Btw, you likely need to teach tools/docs/sphinx-build-wrapper
+to also consider gmake binary, as it can run make internally
+to generate info and Rust docs.
+
+Thanks,
+Mauro
