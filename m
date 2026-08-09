@@ -1,64 +1,64 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C173CA4A9
-	for <linux-doc@vger.kernel.org>; Sun,  9 Aug 2026 10:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813093C4577
+	for <linux-doc@vger.kernel.org>; Sun,  9 Aug 2026 10:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786270780; cv=none; b=cAsmtmT2Sfgz2tt+2ldOzDPnIh134bnwFQ+Dez3JRlHabVy362rQIIeN/3FBlRmb9pLbbbERQLjuPb0HW/9Td59pWh0iY9Zl9oXBTzwuPrdl58UGBTh2fpl/cg0Uu7cFKrfgdlwAdaKWIrDsbW/ntLh2EiZJUVbxDBvP8Uyy1e4=
+	t=1786270784; cv=none; b=sBaQyFbaezVvh6cbFAaloVr0VwZfzEXQcGPE5sp52/ntZyoTe49qIuFLlqdASm+nVQaUhDzh4zrAC4waiUUqtSTKSVBhbxEoQ1xkU7jipClCf4reNjnPgkTkIBzvSzZeH3fJtXaVSDj6xuhgWVQy1rU8zp97i1iXvICwyVTwnGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786270780; c=relaxed/simple;
-	bh=XFpa9qqJHXQ75q8ftQFv3NfSfTXAQFOerS7OCU49TIU=;
+	s=arc-20240116; t=1786270784; c=relaxed/simple;
+	bh=/i6kEpz5wmIoaseuOyVhaNR4V1C7KIvR8SZtaPFOafU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S3s29PLNOXem62F/zi9YIZRAt1IHdDwB8nTvXhBSuCav4AQ1Y9kAiYqwCsfrD+xoTtdfojUuJGI62lCSlPT7SKeBZVM2umibyu7AudIt5zCqaMSUOzssyq51fTKr7RxsngtJvoNKqC38cBvUL0h+rQfsgY3KXsvTxvvtMAs6FB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VyHv7c7C; arc=none smtp.client-ip=209.85.216.47
+	 MIME-Version:Content-Type; b=FWSTfcT8bg//1bUsvtpvkjdCGM89K7h59LXwcKJd/JRAJlH3XqhoWfclYMtkrlQNAqp0EKp6wbtjReh3DYcfbQmlLUBbJ9uxV5AvCxUBbW+SGhtJFsAN2Qkp2WLAtBfCjR92KcHAtr61MHUeuIwno7R00Pe+J/uUPyxh+f8Zs/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MD8gvEG1; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VyHv7c7C"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38759bcd877so937045a91.2
-        for <linux-doc@vger.kernel.org>; Sun, 09 Aug 2026 03:19:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MD8gvEG1"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c981c2c37cbso624007a12.0
+        for <linux-doc@vger.kernel.org>; Sun, 09 Aug 2026 03:19:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786270778; x=1786875578; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786270782; x=1786875582; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=j0GQIEu3grCj2nut7YybPJeaOsz3yt22QKb2C8hAm64=;
-        b=VyHv7c7Cuakcji0XWr4pXZ07xwrATIupaNHN6P/s5CdgdmZ410T4d4his2R4eFj3UH
-         tFusVhnFhAOMYgNeG6j8Znyj9HiqUhC3ui5UugmP+GJIMHhdZuoiiqpypv7MrmcNbGc2
-         usVP/n5XCMdfgYgdhK6xQn69CjB40w4EQrobxuo0VVw8uUOBKDUqrDFYkY6RXel0/39s
-         AUpQzE/27xgrydOujU5qmZlbQ9bYdmui7sMN3kSkv+7adV8g8MDH30hZ/RGysTe/1FBZ
-         fscJXoSw/jYgqJpLJjJTuyV5fkADo1+Ea3WM8X1LUb1ri8DZMfJ38movnW/xGMFqtJw1
-         xefw==
+        bh=QPwYJ1xuRDlGdV5WCrmZ+pmRm2w/eGmXKPl/ug4pFzw=;
+        b=MD8gvEG1S4t/EuEALsziJ670Hz8OlFs1HqeBNS7nXYDZWEnHd9lD3OMKTJGYgcWITw
+         +B9+ECDn0b3bg3obZrBe01PQDhMA72R3RvJJ5wq3YdWBD97earaBDqV3xF1DQOsfHSzr
+         uFtSJXMrEThfHfwjQlLXSUE6y2TpTEmqXUojhK09DLrjyAHEIgmQKSaPoZst/rLkz+gJ
+         lvv35UtcA3rqPhXtwIK/9gvbfDmLd/TLn+znl/VjtUPA3PGXD1csKzrfLlg3nuKaSz/G
+         S9D9ba11zQt/hdrgEIzWHPAhH0T5pB0J6fplL3qWwC7LWWH2D4L+ooJr0P6qlcocOoWe
+         IuAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786270778; x=1786875578;
+        d=1e100.net; s=20251104; t=1786270782; x=1786875582;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=j0GQIEu3grCj2nut7YybPJeaOsz3yt22QKb2C8hAm64=;
-        b=eO6x8uBYDDrhfZC1dSkBZYboyNfRlwGYV9OgT7XsqeLEeqEUQfjhBulGlvYJyMc493
-         6iVGoO2ELFrivrZaGF6mOVn8xWaFG3O+YlTOx0hzm/h+itw6DzDgZZk500Q0JozRp/nI
-         9MVJBmx4lOFeiIwXDqEWjxWa0vrstUD5CmPW/0cmTLvXBTnenUbIQhvcuDI9Aff+ZOOc
-         THPBWkB0vgikynmRwoDN+BXc0dMa5cxi4Yl2XsOJbNtBg0aRffrule/M8RbJi/sSFYU0
-         RCa98s69T86nLhYT8HJNFHtkBUbYz4UNz8bH5umW5zXo++Wn7eIREzvZrSFhIwgRMZMh
-         mJVw==
-X-Gm-Message-State: AOJu0YyqPahr+glXHlsZFEbe64g/4W0yuw07jO/A8hC8Vt8F0Sl74Xm8
-	LrSx4YjPEyUHlj6bMOfBGtWtdvKdaJNjdu+2utxtmPf1yyOB6unFviXO
-X-Gm-Gg: AR+sD13IP8o2S/6uXZYtCTgjXWoLlYzm1map0mSrPNneX0V9aSzQ8MMmI+vXS7KZ+vf
-	QZu8mcv/VwHWZLlzfFMQ4+Roa4rgQwpwWAQ+X5zdPoq4U0PiSwh2icWMw5sx4ESbKF+3XQXUzSQ
-	xzRgTcOop89FMt6Pl4QFThCKKMOmwq0lqmUCL2AowYGMRHQ+JeycFQPpt2VcHfzh/GuW/wF//fE
-	s4uteNur7IJcRi9KMJAoAmAy91+Y6FfqcDlZI0lW1IU1SBn8+G0ltVf3BZddWN2Na0NlI2XMaxB
-	2nI0QxLyqNZ9PXWne8m2gAT0dKXKWVdfBxBtOU5QWG3ALbsyBgGzErqh6k9pv9I3D7LaQrEclSZ
-	w0tbaaDfQfwFgkBOo5SnEEbDJeau9JAeL0pD1wn32MABUm0m2Xb9J0rFqOqOxkaSWtEg4F2xJO8
-	rE//LmpYoCdWySEPFPB3q+u3JGHvedIfx+CPqpRfqJoys7Rf2gp7UZfYJPvq2sybZ+iyjtIc+bL
-	10=
-X-Received: by 2002:a17:90b:3a81:b0:37f:f8c5:93c2 with SMTP id 98e67ed59e1d1-3903c634c04mr28765977a91.21.1786270777871;
-        Sun, 09 Aug 2026 03:19:37 -0700 (PDT)
+        bh=QPwYJ1xuRDlGdV5WCrmZ+pmRm2w/eGmXKPl/ug4pFzw=;
+        b=sNg/qQBb7qRNbSIzLGxKIGEnyBMdwPEB5soGFvwP+eJRGN3E6n5WNDbrzpDlUHzoPV
+         NzKTofmaKOpowo3ilEXPPj8rh8/PhxWL2n1aChq0+RQYsGjTFro0fTqZXX4iLTUzDs5+
+         MR6UGet5Gwq5ZLf5mERdxBsE08vZoylDmcL5lGzgdIp1+aAz2DS/8CBluB2Sz2uOD3yE
+         83fkW3qF/GT/kaQ7le6mR1qafaQZ8UQP7yB+Vj4Y8Wdorz8mxOnv3POa+uPfbkc8Lyq+
+         RQWt6MOQrk/QkFe7wr9zTeVIJjHmK4QCjws7X4HfIEqVJ+ye9KNUzrAXffTzMtoJ8k3F
+         VtKg==
+X-Gm-Message-State: AOJu0YxxBHCcRB+MPE+Rn4C/WCjup1+UAYu8zQ9LD2KO4nGIgBMyIPMx
+	eCRDzxaMd4OozyaMwKIQ6POYS/8Tqqkl2rfFD1zaoSKYpzz6GZxQO2XF
+X-Gm-Gg: AR+sD11LpuIwsqd+H/cDWJXVSfeBRFeEzT09TpCbst9o4gukXco7kW/J0q5q5/qTb0Z
+	/uo/6xdAxlV7NWtVUjeIMt5X5C6mDBkrtO/dYR5/kYDrKKHfR7yDvBfjKNwUutxFHBWU6PwI919
+	kJG5XZwaHfm7NqL3LdpZRAls9mnT5UAThGkY9T+VIWixSRR+NFy0VdrNphvCb8Xz4+LnszNxu6I
+	8oHyooDigp+ck4BNSI9lTJo7DV/SachCeXgQsAe0gvZ4nhNdd+EwSM87p0s1FP4+jtOpq5Dhxpf
+	lhMVvVaMl4DEyObPhk1dpkh5RsHbF/jRUVswKglGLP9TCjjWR7Hqrg+sdMYsvdrEafgGjuS9oT5
+	wl97kDJRdWaIuC8pjg8B9tDpTwXwWYO6OGA2mD7j5zkIIDQ8OC+NoiH06njrmx9Pkk6ef6IL0wK
+	/x37Aud6iA9nE3ZxuP8m5x/Sy/YwAosf2ZapvCwR8I1aQDOt7sNNHfk+cUJwXo+0a+59WY9U9wq
+	xI=
+X-Received: by 2002:a05:6a20:9e48:b0:3c3:875d:704d with SMTP id adf61e73a8af0-3cb85ee77c2mr46113590637.25.1786270781667;
+        Sun, 09 Aug 2026 03:19:41 -0700 (PDT)
 Received: from localhost.localdomain ([64.186.250.142])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be8a9220sm31496134eec.7.2026.08.09.03.19.35
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be8a9220sm31496134eec.7.2026.08.09.03.19.38
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 09 Aug 2026 03:19:37 -0700 (PDT)
+        Sun, 09 Aug 2026 03:19:41 -0700 (PDT)
 From: Chen Miao <chenmiao.ku@gmail.com>
 To: corbet@lwn.net,
 	alexs@kernel.org,
@@ -69,9 +69,9 @@ To: corbet@lwn.net,
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen Miao <chenmiao.ku@gmail.com>
-Subject: [PATCH v1 1/2] docs: sphinx-pre-install: add macOS Homebrew support
-Date: Sun,  9 Aug 2026 18:19:20 +0800
-Message-ID: <20260809101923.13176-2-chenmiao.ku@gmail.com>
+Subject: [PATCH v1 2/2] docs: sphinx-pre-install: check GNU Make version
+Date: Sun,  9 Aug 2026 18:19:21 +0800
+Message-ID: <20260809101923.13176-3-chenmiao.ku@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260809101923.13176-1-chenmiao.ku@gmail.com>
 References: <20260809101923.13176-1-chenmiao.ku@gmail.com>
@@ -84,196 +84,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The dependency checker currently reports an unknown distribution on macOS
-and cannot provide installation hints.
+The kernel documentation build requires GNU Make 4.0 or newer, but the
+Sphinx dependency checker only verifies that a make executable exists.
+This lets incompatible make implementations pass the check and fail
+later during the build.
 
-Detect macOS and include its product version in the status output. Use
-Homebrew for formula dependencies and install MacTeX as a cask without
-sudo. Keep PyYAML in the virtual environment requirements because
-Homebrew does not provide a PyYAML formula.
+Check the GNU Make version on all supported systems. If make is missing
+or too old, report it as a missing dependency. Also accept a compatible
+gmake command, which is how Homebrew provides GNU Make on macOS.
 
-Document the macOS setup and the --no-pdf option.
+Document the requirement and the macOS gmake fallback.
 
 Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
 ---
- Documentation/doc-guide/sphinx.rst            |  7 ++
- .../translations/zh_CN/doc-guide/sphinx.rst   |  5 ++
- Documentation/translations/zh_CN/how-to.rst   |  6 ++
- tools/docs/sphinx-pre-install                 | 89 ++++++++++++++++++-
- 4 files changed, 106 insertions(+), 1 deletion(-)
+ Documentation/doc-guide/sphinx.rst            |  4 +-
+ .../translations/zh_CN/doc-guide/sphinx.rst   |  2 +
+ Documentation/translations/zh_CN/how-to.rst   |  3 +-
+ tools/docs/sphinx-pre-install                 | 52 ++++++++++++++++++-
+ 4 files changed, 58 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 51c370260..62aca56b8 100644
+index 62aca56b8..d9b9e025f 100644
 --- a/Documentation/doc-guide/sphinx.rst
 +++ b/Documentation/doc-guide/sphinx.rst
-@@ -131,6 +131,13 @@ It supports two optional parameters:
- ``--no-virtualenv``
- 	Use OS packaging for Sphinx instead of Python virtual environment.
+@@ -136,7 +136,9 @@ commands are printed without ``sudo``. The PDF dependencies are provided by
+ the ``mactex`` cask; use ``--no-pdf`` when only building HTML documentation.
+ The default virtualenv mode is recommended on macOS because PyYAML is
+ installed from ``Documentation/sphinx/requirements.txt`` rather than from a
+-Homebrew formula.
++Homebrew formula. The script also checks for GNU Make 4.0 or newer; when
++Homebrew provides it as ``gmake``, use ``gmake htmldocs`` instead of
++``make htmldocs``.
  
-+On macOS, the script uses Homebrew for system dependencies. Homebrew
-+commands are printed without ``sudo``. The PDF dependencies are provided by
-+the ``mactex`` cask; use ``--no-pdf`` when only building HTML documentation.
-+The default virtualenv mode is recommended on macOS because PyYAML is
-+installed from ``Documentation/sphinx/requirements.txt`` rather than from a
-+Homebrew formula.
-+
  Installing Sphinx Minimal Version
  ---------------------------------
- 
 diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-index 3375c6f3a..154142318 100644
+index 154142318..93f27d35a 100644
 --- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
 +++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-@@ -110,6 +110,11 @@ PDF和LaTeX构建
+@@ -114,6 +114,8 @@ PDF和LaTeX构建
+ ``sudo``。PDF 依赖通过 ``mactex`` cask 提供；如果只构建 HTML 文档，请使用
+ ``--no-pdf``。macOS 用户建议使用默认的 Python 虚拟环境，因为 PyYAML 会从
+ ``Documentation/sphinx/requirements.txt`` 安装，而不是通过 Homebrew 安装。
++脚本还会检查 GNU Make 4.0 或更高版本；如果 Homebrew 将其安装为 ``gmake``，
++请使用 ``gmake htmldocs``，而不是 ``make htmldocs``。
  
- 	使用Sphinx的系统打包，而不是Python虚拟环境。
- 
-+在 macOS 上，该脚本使用 Homebrew 安装系统依赖，输出的 Homebrew 命令不需要
-+``sudo``。PDF 依赖通过 ``mactex`` cask 提供；如果只构建 HTML 文档，请使用
-+``--no-pdf``。macOS 用户建议使用默认的 Python 虚拟环境，因为 PyYAML 会从
-+``Documentation/sphinx/requirements.txt`` 安装，而不是通过 Homebrew 安装。
-+
  Sphinx构建
  ==========
- 
 diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-index 9ec2384e1..e8c91d81a 100644
+index e8c91d81a..84f277124 100644
 --- a/Documentation/translations/zh_CN/how-to.rst
 +++ b/Documentation/translations/zh_CN/how-to.rst
-@@ -102,6 +102,12 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
- 开头的命令。**请注意**，最新版本 Sphinx 的文档编译速度有极大提升，强烈建议
- 您通过 pip/pypi 安装最新版本 Sphinx。
+@@ -106,7 +106,8 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
+ sudo。PDF 构建所需的 MacTeX 通过 Homebrew cask 安装；如果只构建 HTML 文档，
+ 可以执行 ``./tools/docs/sphinx-pre-install --no-pdf``。macOS 用户建议使用默认
+ 的 Python 虚拟环境，因为 PyYAML 会从 ``Documentation/sphinx/requirements.txt``
+-安装，而不是通过 Homebrew 安装。
++安装，而不是通过 Homebrew 安装。脚本还会检查 GNU Make 4.0 或更高版本；如果
++Homebrew 将其安装为 ``gmake``，请使用 ``gmake htmldocs``，而不是 ``make htmldocs``。
  
-+如果您使用 macOS，脚本会使用 Homebrew 输出安装命令，Homebrew 命令不需要
-+sudo。PDF 构建所需的 MacTeX 通过 Homebrew cask 安装；如果只构建 HTML 文档，
-+可以执行 ``./tools/docs/sphinx-pre-install --no-pdf``。macOS 用户建议使用默认
-+的 Python 虚拟环境，因为 PyYAML 会从 ``Documentation/sphinx/requirements.txt``
-+安装，而不是通过 Homebrew 安装。
-+
  如果您处于一个多用户环境中，为了避免对其他人造成影响，建议您配置单用户
  sphinx 虚拟环境，即只需要执行::
- 
 diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
-index 965c9b093..51a296cc7 100755
+index 51a296cc7..079655078 100755
 --- a/tools/docs/sphinx-pre-install
 +++ b/tools/docs/sphinx-pre-install
-@@ -518,6 +518,24 @@ class MissingCheckers(AncillaryMethods):
-         a decent coverage.
+@@ -40,6 +40,7 @@ from kdoc.python_version import PythonVersion
+ 
+ RECOMMENDED_VERSION = PythonVersion("3.4.3").version
+ MIN_PYTHON_VERSION = PythonVersion("3.7").version
++MIN_MAKE_VERSION = PythonVersion("4.0").version
+ 
+ 
+ class DepManager:
+@@ -308,6 +309,55 @@ class MissingCheckers(AncillaryMethods):
+ 
+         return None
+ 
++    def get_make_version(self, cmd):
++        """Get the GNU Make version, or None if cmd is not GNU Make."""
++        if not cmd:
++            return None
++
++        try:
++            result = self.run(
++                [cmd, "--version"],
++                capture_output=True,
++                text=True,
++                check=True,
++            )
++        except (subprocess.CalledProcessError, FileNotFoundError):
++            return None
++
++        match = re.search(
++            r"^GNU Make\s+([0-9]+(?:\.[0-9]+)*)", result.stdout, re.MULTILINE
++        )
++        if not match:
++            return None
++
++        return PythonVersion.parse_version(match.group(1))
++
++    def check_make(self):
++        """Check for GNU Make 4.0 or newer."""
++        make = self.which("make")
++        version = self.get_make_version(make)
++
++        if version and version >= MIN_MAKE_VERSION:
++            return
++
++        # macOS commonly has an incompatible /usr/bin/make, while Homebrew
++        # installs GNU Make as gmake. Also accept gmake on other systems when
++        # it is the only compatible command available.
++        gmake = self.which("gmake")
++        gmake_version = self.get_make_version(gmake)
++        if gmake_version and gmake_version >= MIN_MAKE_VERSION:
++            make_name = os.path.basename(make) if make else "make"
++            gmake_name = os.path.basename(gmake)
++            make_ver = PythonVersion.ver_str(version) if version else "unknown"
++            gmake_ver = PythonVersion.ver_str(gmake_version)
++            print(
++                f"Note: {make_name} ({make_ver}) does not meet the GNU Make "
++                f"requirement; use {gmake_name} ({gmake_ver}) instead."
++            )
++            return
++
++        self.deps.add_package("make", DepManager.SYSTEM_MANDATORY)
++
+     def check_perl_module(self, prog, dtype):
          """
+         Does perl have a dependency? Is it available?
+@@ -1535,7 +1585,7 @@ class SphinxDependencyChecker(MissingCheckers):
+         # Check for needed programs/tools
+         self.check_perl_module("Pod::Usage", DepManager.SYSTEM_MANDATORY)
  
-+        if sys.platform == "darwin":
-+            sw_vers = self.which("sw_vers")
-+            if sw_vers:
-+                try:
-+                    result = self.run(
-+                        [sw_vers, "-productVersion"],
-+                        capture_output=True,
-+                        text=True,
-+                        check=True,
-+                    )
-+                    version = result.stdout.strip()
-+                    if version:
-+                        return f"macOS {version}"
-+                except (subprocess.CalledProcessError, FileNotFoundError):
-+                    pass
-+
-+            return "macOS"
-+
-         system_release = ""
+-        self.check_program("make", DepManager.SYSTEM_MANDATORY)
++        self.check_make()
+         self.check_program("which", DepManager.SYSTEM_MANDATORY)
  
-         if self.which("lsb_release"):
-@@ -716,6 +734,69 @@ class SphinxDependencyChecker(MissingCheckers):
- 
-         return self.get_install_progs(progs, "apt-get install")
- 
-+    def give_macos_hints(self):
-+        """
-+        Provide package installation hints for macOS using Homebrew.
-+
-+        Homebrew formulae and casks must not be installed with sudo. MacTeX
-+        is a cask, while the other dependencies are formulae.
-+        """
-+        if not self.which("brew"):
-+            if not self.distro_msg:
-+                self.deps.add_package("Homebrew", DepManager.SYSTEM_MANDATORY)
-+                self.deps.check_missing({})
-+                self.deps.warn_install()
-+                self.distro_msg = \
-+                    "Homebrew is required for macOS support. Install it from " \
-+                    "https://brew.sh/ and re-run this script."
-+            return None
-+
-+        progs = {
-+            "Pod::Usage":    "perl",
-+            "convert":       "imagemagick",
-+            "dot":           "graphviz",
-+            "ensurepip":     "python",
-+            "python-sphinx": "sphinx-doc",
-+            "rsvg-convert":   "librsvg",
-+            "xelatex":        "mactex",
-+            "latexmk":        "mactex",
-+        }
-+
-+        install = self.deps.check_missing(progs)
-+
-+        if self.verbose_warn_install:
-+            self.deps.warn_install()
-+
-+        if not install:
-+            return None
-+
-+        formulae = set()
-+        casks = set()
-+        for prog in self.deps.missing:
-+            if prog == "yaml":
-+                self.distro_msg = \
-+                    "PyYAML is not provided as a Homebrew formula. Use the " \
-+                    "default virtualenv mode so it is installed from " \
-+                    "Documentation/sphinx/requirements.txt."
-+                continue
-+
-+            package = progs.get(prog, prog)
-+            if package == "mactex":
-+                casks.add(package)
-+            else:
-+                formulae.add(package)
-+
-+        commands = []
-+        if formulae:
-+            commands.append("\tbrew install " + " ".join(sorted(formulae)))
-+        if casks:
-+            commands.append("\tbrew install --cask " + " ".join(sorted(casks)))
-+
-+        if not commands:
-+            return None
-+
-+        return "\nYou should run:\n" + "\n".join(commands)
-+
-     def give_redhat_hints(self):
-         """
-         Provide package installation hints for RedHat-based distros
-@@ -1138,6 +1219,8 @@ class SphinxDependencyChecker(MissingCheckers):
-             re.compile("Kali"):                       self.give_debian_hints,
-             re.compile("Mint"):                       self.give_debian_hints,
- 
-+            re.compile("macOS"):                      self.give_macos_hints,
-+
-             re.compile("openSUSE"):                   self.give_opensuse_hints,
- 
-             re.compile("Mageia"):                     self.give_mageia_hints,
-@@ -1458,7 +1541,11 @@ class SphinxDependencyChecker(MissingCheckers):
          self.check_program("dot", DepManager.SYSTEM_OPTIONAL)
-         self.check_program("convert", DepManager.SYSTEM_OPTIONAL)
- 
--        self.check_python_module("yaml")
-+        # PyYAML is installed from Documentation/sphinx/requirements.txt in
-+        # the virtualenv recommended on macOS. Homebrew does not provide a
-+        # PyYAML formula, so do not ask for a nonexistent brew package here.
-+        if not (sys.platform == "darwin" and self.virtualenv and self.need_pip):
-+            self.check_python_module("yaml")
- 
-         if self.pdf:
-             self.check_program("xelatex", DepManager.PDF_MANDATORY)
 -- 
 2.50.1 (Apple Git-155)
 
