@@ -1,45 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D885536A03A
-	for <linux-doc@vger.kernel.org>; Sun,  9 Aug 2026 18:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C93D37C0E2
+	for <linux-doc@vger.kernel.org>; Sun,  9 Aug 2026 18:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786299836; cv=none; b=NxKLIAHdV+/mlQQkffRjQXOHUNIpOUUpnY4HD9ixX3RwveHoXKhUFGHM2XgQ3Nu1ipCusFLIIftnE9iKD9Eq40ICSCgm43XjucN0rZKkcwk0EVqp4+/gd7ki1Y/zwALkbQR3NW/l1zgB4urXKUdu+ecZOUHgvDelXMY4IPh3FZs=
+	t=1786299848; cv=none; b=ct6a+Jirw8hjTNmnszUEZWlkJJ0buLAo+qqLEbaLiYaz2QXl0TlHsaP9NsqHgky/l5brkutfxHhXo5x6+wT7gudCnZR60kw6g5fXGiQGVHglrEB9u+AE1OvO3YIAVj+uoh2VikZnjkoDeRCK+G2Hn3i6AnqZc2D+V70m8HJI5q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786299836; c=relaxed/simple;
-	bh=p5WVLKUeEmp2PslBqVqAqPkZbzVfvNuO12mRHOo6vEQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PTYrU4/BkEe9vvDpm39fZWtjaAZtqS8HXmAIfd0qD7+S9mxpLCf4OQ2YsVbrd72aaKu/HSjShB1VWAogwXNGeeJu+6PYkLxEA2hc9UiKl+cmnsSMouwzX9nYjuiOLC3JmRjc0ycOYBSiSIGNfBV60ChiQfKdNJ3gYgHMzLFul3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Wz0WMLfY; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1786299848; c=relaxed/simple;
+	bh=hZHi9NW2g/WqAEpGxXYimUrRfchRnZho0g3kDJOMeUE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DzL3VeIiEUqgVMAsSMbaBXYtC60ec1z3cL734UM7eVMhqMxesGogW8QMNR+awkd+XT8yEN7ca60PbcKAXHnmSx6EUSVfEr/SJyYa1xQTfWl4YR8wz5MRJwSKdgNdmSwBp8hS8owuEYA6ZATBsbno0vwYoOeVJw0pEikt6Fa/8m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S4hST7C9; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Wz0WMLfY"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S4hST7C9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786299833;
+	s=mimecast20190719; t=1786299846;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=IbyizjQT+ZchHG273z8jFyeoatiIa49MRUnzKlaFcS4=;
-	b=Wz0WMLfY45Yu08mZFgf3sz/SL9pzkcN+lYTmyMoB47FGgpDOo7VmhHLO5o5CJPpKzO++/W
-	0Rs+WiqH2xxXhA88CDrCuTewzcZ2XCtgogEaPCfmwLYeyhs37b58JkXncbuX7AxcEqQ6oJ
-	9AOqwLuNMCtWf8xfLx09L5EtXCQzbWs=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R6/TbhPr4NGkFf7ZBR9YY44udE2MKMd2e1TIVa7v+k0=;
+	b=S4hST7C9ti3uPgodcYHour1LvO1Nv6Fl4Ed8NBNjHn21u4K4FTfl/aHDJ6PLYrltawlyOq
+	x5gRrjiTxBU/BXb09NuV1Xpspr80cWgxJmhMiW1Y0NYKxAi7Rs6M3iWxRf/F3piNQ2MLce
+	HMZQbLNXp/LFZCK1HwgiDlv4S8Kls2A=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-428-1n3I2C75OF2-aG2LqxJTPg-1; Sun,
- 09 Aug 2026 14:23:50 -0400
-X-MC-Unique: 1n3I2C75OF2-aG2LqxJTPg-1
-X-Mimecast-MFC-AGG-ID: 1n3I2C75OF2-aG2LqxJTPg_1786299828
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-371-rmDA2ecIN5qdf2i-kSxzGw-1; Sun,
+ 09 Aug 2026 14:23:55 -0400
+X-MC-Unique: rmDA2ecIN5qdf2i-kSxzGw-1
+X-Mimecast-MFC-AGG-ID: rmDA2ecIN5qdf2i-kSxzGw_1786299834
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7E2C51956088;
-	Sun,  9 Aug 2026 18:23:48 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE5651956080;
+	Sun,  9 Aug 2026 18:23:53 +0000 (UTC)
 Received: from p16v.luc.cera.cz (unknown [10.44.32.36])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DAF7519560AB;
-	Sun,  9 Aug 2026 18:23:43 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A4A319560AB;
+	Sun,  9 Aug 2026 18:23:48 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
@@ -54,9 +56,11 @@ Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v6 0/3] dpll: zl3073x: add PTP clock support
-Date: Sun,  9 Aug 2026 20:23:37 +0200
-Message-ID: <20260809182340.1081610-1-ivecera@redhat.com>
+Subject: [PATCH net-next v6 1/3] dpll: zl3073x: scale poll interval proportionally to timeout
+Date: Sun,  9 Aug 2026 20:23:38 +0200
+Message-ID: <20260809182340.1081610-2-ivecera@redhat.com>
+In-Reply-To: <20260809182340.1081610-1-ivecera@redhat.com>
+References: <20260809182340.1081610-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,84 +70,43 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Add PTP hardware clock support to the zl3073x DPLL driver.
+Replace the fixed 10 us poll sleep in zl3073x_poll_zero_u8() with
+timeout_us / 50. This scales the sleep interval proportionally to
+the timeout, targeting approximately 50 iterations regardless of
+the timeout magnitude.
 
-Patch 1 scales the poll sleep interval in zl3073x_poll_zero_u8()
-proportionally to the timeout to avoid excessive bus traffic for
-the longer PTP-related timeouts.
+The fixed 10 us interval was adequate for the existing 25-50 ms
+timeouts but wasteful for the longer PTP-related timeouts (up to
+3000 ms for phase step) added in the following patches, where it
+would generate on the order of 10^5 bus transactions per wait.
 
-Patch 2 adds low-level channel operations for ToD read/write/adjust,
-output phase step, delta frequency offset write and TIE write as
-building blocks for PTP callbacks.
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+---
+ drivers/dpll/zl3073x/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Patch 3 registers a PTP clock device for each DPLL channel with
-gettimex64, settime64, adjtime, adjfine, adjphase and getmaxphase
-callbacks. Callback availability adapts to the current channel
-state - adjfine requires NCO pin connected, adjphase uses TIE write
-when tracking a reference, and adjtime selects the appropriate
-mechanism automatically. Periodic output support will be added in a
-follow-up series.
-
-Link: https://lore.kernel.org/netdev/20260807094430.120683-1-ivecera@redhat.com/
-Link: https://lore.kernel.org/netdev/20260803140637.102339-1-ivecera@redhat.com/
-Link: https://lore.kernel.org/netdev/20260730132150.371376-1-ivecera@redhat.com/
-Link: https://lore.kernel.org/netdev/20260713103739.1553284-1-ivecera@redhat.com/
-Link: https://lore.kernel.org/netdev/20260708170527.916035-1-ivecera@redhat.com/
-
-Changes:
-v6:
-  - Fix kernel-doc warning: move ZL_TOD_MAX_RETRIES define inside
-    the function body to avoid confusing the kernel-doc parser
-v5:
-  - Add prep patch to scale poll interval with timeout
-  - Enumerate all ToD commands in tod_ready_wait switch, return
-    -EOPNOTSUPP with WARN_ON in default case (Vadim)
-  - Handle CMD=0 (power-on default) in tod_ready_wait
-  - Rewrite tod_adjust rollover guard as a retry loop that re-reads
-    until the margin is sufficient, replacing manual fixup and fsleep
-  - Fix "lowest-ID synth" comments to "first enabled synth"
-  - Include dev_name() in PTP clock name for multi-device systems
-  - Update kernel-doc for adjfine/adjphase to document zero no-op
-v4:
-  - Move out_step_time_mask to struct zl3073x_dev (device-global)
-  - Fix tod_adjust rollover guard for tick-crossing case
-  - Drop trailing tod_ready_wait from tod_adjust
-  - Fix TOD_CTRL register item count
-  - Move phase step registers into existing page 9 section in regs.h
-  - Align ToD command define values
-  - Update kernel-doc for chan_state_fetch
-  - Drop perout support (will rework as follow-up)
-  - Replace abs(delta) with explicit range check to avoid S64_MIN UB
-  - Add locking context doc to zl3073x_chan_df_offset_set
-  - Export zl3073x_chan_tod_ready_wait and wait for ToD completion in
-    adjtime before phase step/TIE write to prevent WR_NEXT_1HZ from
-    overwriting the sub-second adjustment
-v3:
-  - Use PTP_1588_CLOCK instead of PTP_1588_CLOCK_OPTIONAL (Jakub)
-  - Factor out output pin frequency helper to a separate commit (Jakub)
-  - Remove spurious #include <linux/mutex.h> from dpll.h (Jakub)
-v2:
-  - Squash low-level ops patches (1+3) into patch 1.
-  - Squash PTP callback patches (2+4) into patch 2, register PTP
-    clock regardless of initial channel state.
-
-Ivan Vecera (3):
-  dpll: zl3073x: scale poll interval proportionally to timeout
-  dpll: zl3073x: add channel ToD, phase step and TIE operations
-  dpll: zl3073x: add PTP clock support
-
- drivers/dpll/zl3073x/Kconfig |   6 +-
- drivers/dpll/zl3073x/chan.c  | 322 +++++++++++++++++++++++++-
- drivers/dpll/zl3073x/chan.h  |  32 +++
- drivers/dpll/zl3073x/core.c  |  17 +-
- drivers/dpll/zl3073x/core.h  |  23 ++
- drivers/dpll/zl3073x/dpll.c  | 431 +++++++++++++++++++++++++++++++++--
- drivers/dpll/zl3073x/dpll.h  |   5 +
- drivers/dpll/zl3073x/regs.h  |  52 +++++
- 8 files changed, 856 insertions(+), 32 deletions(-)
-
-
-base-commit: 4fa4977a0d900f936bcae5cd2c510be5554e8dd6
+diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
+index 5b2d77f2c2288e..2e8b52c8de5e26 100644
+--- a/drivers/dpll/zl3073x/core.c
++++ b/drivers/dpll/zl3073x/core.c
+@@ -322,7 +322,7 @@ int zl3073x_write_u48(struct zl3073x_dev *zldev, unsigned int reg, u64 val)
+ int zl3073x_poll_zero_u8(struct zl3073x_dev *zldev, unsigned int reg,
+ 			 u8 mask, unsigned int timeout_us)
+ {
+-#define ZL_POLL_SLEEP_US 10
++	unsigned int sleep_us = timeout_us / 50;
+ 	unsigned int val;
+ 
+ 	/* Check the register is 8bit */
+@@ -336,7 +336,7 @@ int zl3073x_poll_zero_u8(struct zl3073x_dev *zldev, unsigned int reg,
+ 	reg = ZL_REG_ADDR(reg) + ZL_RANGE_OFFSET;
+ 
+ 	return regmap_read_poll_timeout(zldev->regmap, reg, val, !(val & mask),
+-					ZL_POLL_SLEEP_US, timeout_us);
++					sleep_us, timeout_us);
+ }
+ 
+ int zl3073x_mb_op(struct zl3073x_dev *zldev, unsigned int op_reg, u8 op_val,
 -- 
 2.54.0
 
