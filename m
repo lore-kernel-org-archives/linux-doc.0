@@ -1,181 +1,166 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010030.outbound.protection.outlook.com [52.101.85.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF751F8755;
-	Sun,  9 Aug 2026 01:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786238965; cv=none; b=rvcXW9BXpo3h/+rc5Gul6EVAG30wbguAZ67MtPgjnDIhlK49RDBdfT9+tV7muLTAAw62yDypiEkyeVIc+KLHvOLrr3C+IVAVT6IuAA2JZ2OtrhFZGQUFovrLNTwLAc4gQ5wmea0xHSwvCK2CtAd1XEUKjlSG8qV9VoAv5FKv5x8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786238965; c=relaxed/simple;
-	bh=65zC6bgiIOa+ZNTw/BhxTe/xKIHf84mMOgPh/jQyIMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKhJQ3z2mB4CFbG1buj0MarWM9IH/mns4xzCf2g08tSElHT3Mfp98K5ba7gl/1zlppa/Lte8FXePAXsi9OfjdhFAdvWDeWBXC7uYSWfGGKjDhzf1+HcCTnbOuVlSnsh4ICEz9Ph4jmDSFQNIbrjWWZewHqYvl9E48J2O4zVewak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.99)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1wsrze-0000000068e-1gYP;
-	Sun, 09 Aug 2026 01:06:26 +0000
-Date: Sun, 9 Aug 2026 02:05:51 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, horms@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, andrew@lunn.ch, olteanv@gmail.com,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v9 4/5] net: dsa: mxl862xx: recover switch stuck
- in MCUboot rescue mode
-Message-ID: <20260809005030.GA31337@makrotopia.org>
-References: <6ab6dd06b95c01e30cf3a7387817a53cdb5e84f9.1785728574.git.daniel@makrotopia.org>
- <20260806112621.164297-1-pabeni@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EBE199920;
+	Sun,  9 Aug 2026 02:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786241542; cv=fail; b=T1QX6IOo8OUagzI0fIJSN1EtFAcWWVKbU+e958nBxOfAgmlF1ds5HXoIl7T62w/GVzZLbKarxFD2sTG8WS6Qo6WoZzVzAl1P1gxlSfqK2rvhwW1VcKuV5oDfYaJxV9ghcfGbiR+Ox+eU3QMjTF9GLZPW5ReyyregJ/3xsB4d0JI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786241542; c=relaxed/simple;
+	bh=fPCdzmeq/MgXyYntPi4m/sguf961AXSTocar9DXw6aA=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=QiAj6uGpoLYPhYTxpiZ97eRXxmfKW3wXdmMor50aIgZax02zQm+6py06yHRuGj9l3QQvJZm23X6H/szYDNfsq3TsY5t51VqwdBFjKP280ynYNwAhdPn2B7dJHO7m2O1zeUHmRuW7X3gLX0q3Ok2HN0d4vOM3WGXCzPjc4bT+Jjo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DptccLmk; arc=fail smtp.client-ip=52.101.85.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DptccLmk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iWPmXjBPvLkvIVUSavojhrZsLGrBMIGkrwb55dYXdojdyv8LZ5iMk64CsE/1NDtB1TYTxlhSaI85yU+GDv87/URedvfzEJRZHYulsirg/8bohYWcw/2jN/MA65Ul/1t+0M3DvfA7JFKifL5Kbdj8CZm0rF7dVrHo4OJxF9XVNhO6LCvODYTYp3TTcKP0Wx23gGqNSUrp7higsBxdvG6mCX/tyXG4cmNVDumU2S6+zL0LhEfgmoRyz3xK7cSOm6ossHIcEVCgJN6z1sC7KIqZrpNTuDlKyEXif0PhuVqzSZxOuRLPslthqeW/qVqyBJTzyE3d4KBJcssyMhVNijTS0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fPCdzmeq/MgXyYntPi4m/sguf961AXSTocar9DXw6aA=;
+ b=pdRbKQDCo6HsDoJj8nxOlU/CbdtL0JTrfKfFTZh9gbwk56UvcujZHafP22MXNhpQcXYMibS43z+mc+tdwMbYKK+faEJozN/tzw1zhMCSszsQgrgjH1eP1617D4GG++Dl4DO2MF1krqgARzBCihIcVV4/mLvd8WfDmHA3ZuYp3QWKwOGmvfh2V65VJ+O/p7561NfI8VIVbL02JXphzVSJcsBI8/CIdTWIzSxZnCwyetC7Air+Wmw+jQtWZuuI8mkAG8Qj5v7N0xSUSeBzC9mLY3gaFHmNByuBv1d9yODoFbSOZofftuv4fprHyMmU4URsx+LAx0T31kkxDI+XkCC+Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fPCdzmeq/MgXyYntPi4m/sguf961AXSTocar9DXw6aA=;
+ b=DptccLmkTfAwruQTarKMBZfJmp1C0xYNAYnEzTsd0SS34fEF6D+QXoT/EidxoYcOlPmg+B/yzaVbOCLpPSxE9cKUlHKO/R/t38NPugvGW2cfGOp+5OOQ7OTpx/9VU/1SNIA7E9Wt4nbtc045ApRR8HdJ3+khPZ7eno+ogy66aedQdIDOuSh7HGxb69oCojMILSeI76tB902vFgcvxQqldDaIfOrYKRFvfPZ7Ev/rwERgAYZ4oQpHYQgor8GDjfmgN7L1AfDFl/fAxsExDQnJGb4wIJketBTpuep99IldBwj1qttZaOx1y591IclaUWC7mqoljfg0DL76jCq3AB5Mzg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB6762.namprd12.prod.outlook.com (2603:10b6:510:1ac::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.24; Sun, 9 Aug
+ 2026 02:12:17 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0292.018; Sun, 9 Aug 2026
+ 02:12:17 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 09 Aug 2026 11:12:13 +0900
+Message-Id: <DKK1S09OWP6A.361WY739QCTUE@nvidia.com>
+Cc: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Yury Norov"
+ <yury.norov@gmail.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 02/12] rust: num: reject Bounded::shr overshifts at
+ build time
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+References: <20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com>
+ <20260805-pramin-split-v1-2-ff3e84a75dac@nvidia.com>
+ <DKIRNHGHK4O6.2IRJZGM6W79B@nvidia.com>
+ <CANiq72kYqPySwS8ci84CEsvjJqCTBjrveSx14xxnNWJZWRFAuw@mail.gmail.com>
+In-Reply-To: <CANiq72kYqPySwS8ci84CEsvjJqCTBjrveSx14xxnNWJZWRFAuw@mail.gmail.com>
+X-ClientProxiedBy: TY6P286CA0007.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:3b8::6) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806112621.164297-1-pabeni@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB6762:EE_
+X-MS-Office365-Filtering-Correlation-Id: aeaa697a-c938-4ce6-6fd5-08def5bba2be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|10070799003|10067099003|4143699003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	VkW6N1asg57nKenNFeZexu9LbRp6tD1pjB8vNLa0m5Vv/Fr04vDOwEsrNMHLMDvJxyVZrMxhLJ0438tjVeBx32d8mptgNJeYUQi9ZpFDgl7qmI2FD04Q6ZtltG0asFIRqluC/4zwoYD690IyICuHWtSIMKqekiPCF1lH0CUZkX6CfP18i1edy7l3AbnC7aRAE1PMGOjeb/9ilJZitJa/mSWgf0P0pY4JollTMqIbstsaWpzDoILFkuQOCCJbn3FfIDsbnx6yejiBsPBXUgi3sN6jHrUbly0L+z3QM3afBXDauE8/tZwdDkTJfUeUxsYMvs/0ID3GC8eerhGnBmxmqthxFFbmrVdF75rNGSMgNiF73r11ulA03SWs8wV7YfTo8HUDeLJyqHrO3C8+MK4SFmqPu+O62GkU5uOxhSPPUit+rVRFhUXIvv0+W5lBNviIrVbAme5Ir5H6Bb5rOoiR57/59ybLG2B4PMAYx9ebV6uwMtaUDoLtWPEgy/IVtGJP4Fnz7VLxofwxO8hLxaJ+3FCR5Be+GzfoVq2brxthrta/R2bGqT8HOlWSFsgmjlc/cRrRemRMbTyJCctuMUD9BwjhvqdKQCDIM4BWbB4uvnGvnI7/WsbKegoYzwMB6Zq70b/oCsUGLDa/l4EUSm+1ZjReExBZpcW3dPx59tsB8kU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(10070799003)(10067099003)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Zm9zMTBZRGNaSnFPREVUK0k3d3k2RXYrcFNVc1pZSXFkTEtJTnIxVjRNeEFy?=
+ =?utf-8?B?NGU2K0xHWjZZQ2w5bURjWHUwaTRjYVphRjhsVk9zMGZSeEYySnlYSHNxWEdp?=
+ =?utf-8?B?cXlTcWNZWk9jWklrUlp2SVhkRHFFVG9PaFNyMkhwTng5NlJHVXFOU3RLNkR1?=
+ =?utf-8?B?U093M2djemU3cmNGTWZYRDVpZTJ3d2hnVmI3ZUREMUlZditzN2FPL2c1dHBo?=
+ =?utf-8?B?cUU0WTdVZVVhQXRvdWhrRlI0eG8zZk9LVTBOVzNoVTFXZlQ5empiU3Uxci9q?=
+ =?utf-8?B?ZjJ3T0R0QzFaR3U4ZU9hWFNKYlM3YXhVeUtJWTZaR0xSaTRoZGtRYzN3UWNP?=
+ =?utf-8?B?RmQwV1ZyeUQxY3FXK2wwVXV6czlnSHdGTGxKc0krQ1V2QVZ4Nnd4K01DSUl6?=
+ =?utf-8?B?dHNMczE0VXE3c0EwTWFzbWwrWm5xTXFidkJ1cWUyL0t2dkZuS3FnY1pHK1Vx?=
+ =?utf-8?B?bytoQS91T0JxdDlKODE3RkdUQ200czdmYzVRRDRGOWQzNnpJeElwM2VOYXdT?=
+ =?utf-8?B?WDd6NnhKc0ZONVF0SklsS1haK1hVYmN2WU9hV05rek5pMUZPV255akpjYm81?=
+ =?utf-8?B?UzBjUm5wOGFycWxnVzlEYWo1Q1JaU0M2TEpjMjh6QUJVRHY2dzRzTUhBOUNF?=
+ =?utf-8?B?bXhxbEUzcGY1OFV0MzlPMnJyZnVtczdSS29lbFgwbndMYWpPMEEwUTFXemts?=
+ =?utf-8?B?RTJldEpvWlB1R0JUSys1dUlHb1ZIL2UvWUZydVZBbkoyblY3NEswL2NyeHZ5?=
+ =?utf-8?B?TW5uWTkvais3QmlBL3BXUUlXOWh6eEdkc0pjZTV5M2NyVHN4Q2pqRXlyTkZC?=
+ =?utf-8?B?bU5IL0pmSWlrNXoyZ2dqUXB6bE52a2xBMVhoOWxVTFRvOXFiSVVjdnRkOTJQ?=
+ =?utf-8?B?cDdya0RQbndjTFVRMEpCelo2azRMR1o2ckVsd0ptYlJDUU95RzM5WGgxc2FZ?=
+ =?utf-8?B?L0tobStvWjM5OVhYR3BkS0ZYVXFzdW5uZ2h1L1M0c244amF3aGVqMVphaU1y?=
+ =?utf-8?B?cHRtZXdvU2k2NVE0NVFNaGVZVURYdktSSldmSEtPVjNzOFkrYXowZ05uZVVL?=
+ =?utf-8?B?SkMzWEJ3UzlzVUpyd1NUeGNTandQdjVZV1lMYWg4MWt1UFd6QzdKY25IL3ps?=
+ =?utf-8?B?YWRNeEoxTzBqeVBmdFpxTktIWWt1dGVkMUEwMkZOWmlia1JPdU1WcjhkTExo?=
+ =?utf-8?B?MXdpTUNjemtGM2ZKNGsyM25oeXF6T0Z4OUVVMGl1bmFHdFJGVTVzd0Z3aU8z?=
+ =?utf-8?B?c001L1NDMEtnYit5ZDR6VjFaM1RYZkJoTEFWNEFjdjN5VHZReTBuZTgyenlz?=
+ =?utf-8?B?TlFoYTZmOEFqRUNyVndRZ3drbmlIOUliVE9SNlQvVVgvM0N6cG5Ya25yK0tG?=
+ =?utf-8?B?aStnT1RHZHZENW1ObkZOM1dLcHBmQVFrd1FXcHlZNTkvRzF2YkwvQkJrZXE1?=
+ =?utf-8?B?WEJTMlp2OE1rcHVaU0NYMVNqU1Zta21WcWtkN0JGN2xwRjhtRDVMVXBwNi8v?=
+ =?utf-8?B?VnNHYjJBeHZZTUM0ajllQWZtVUNLdkhhREUxSHJMZTBOTHhZeHhhQ0NOZmhK?=
+ =?utf-8?B?R2FEaHNGSFZvcHRuYWpqWGZiOWd2UEJJVkVLdGpvSXNkWWVzb0lrSXEwL2h3?=
+ =?utf-8?B?S0xDeWNwYUtIeFEzbS9ON1JpRWFBZFRHSTlZRXFIelZJUU9xMjI5enFMblpk?=
+ =?utf-8?B?UnpCbjBSMlNuUHphYktpUnVLNFZCTEhSU2Yrdk81aWVVRkd1RWVzTzhsMEZB?=
+ =?utf-8?B?Si8xY1Zva0lWWmowaWlVdzZ1S2dCWHJ6Qno0dUFBYlZ0cmVsSzRqMXhQcE9G?=
+ =?utf-8?B?SnpBNGdON2JFYjZESFo2d1Jwb3FiWmdlUTJ6eGFoekNOUFQ3YnovaHBkM1FS?=
+ =?utf-8?B?WEJ0MzVyaFVpNng0bUJHVFNnL21hUTBDQUdINDFiS2pKTHZ5cW9IOHFwby9Q?=
+ =?utf-8?B?eld2b1pkZitVRStpcHlKSndEbUo3LytJQlQxb21UZ0RmSjZETDM0QWU1K0xL?=
+ =?utf-8?B?ZXdGQWhhV1FJL2gwZXk1VDFZWjNEOGkvbks1VEgwNmZVSDFJUEdCWFZEOVUx?=
+ =?utf-8?B?cS82M01JY0VWU3BSVmlRRnhNMkt3enE1SXhpQnhuUDZHWk9ZY21NaVhqMDBU?=
+ =?utf-8?B?Z3pkLzlOd3A4VGlwcTV1bXFZeWloVlVZM0l3bzV6ZjlETmFkWGJFemFSMXFP?=
+ =?utf-8?B?UzZpK25Hd1psc3MvYkp4MWxmcnNLVklPYTZKMUNTbUw2TmZobEtSYy9JZ2x1?=
+ =?utf-8?B?Wm4yUVFHWGxpRjlva296M1BKMUhjZUo0VGVCTkd3YUJUbk1sdXhCQ1ZTS1N6?=
+ =?utf-8?B?NFV1cVF5STZPNmxmV2NKOFRpYWdzOWpOVzRiSGdqV1dmelBnanBtYys3ZGZE?=
+ =?utf-8?Q?qIlDvse7aQ0EEh1lqUqxY/luFWLPHYjFwuGohHn4XAWCO?=
+X-MS-Exchange-AntiSpam-MessageData-1: JKqkI3ZrOHXg4Q==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aeaa697a-c938-4ce6-6fd5-08def5bba2be
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2026 02:12:17.2580
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QQCudIGLfbzMyZ/5iEg8XZQsBqJYiNWH0CEg3gX8hTy7nHjEJTj4b/GCuzwxkUJF8++jkie8ATMQwb5eij7kYw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6762
 
-On Thu, Aug 06, 2026 at 01:26:21PM +0200, Paolo Abeni wrote:
-> This is an AI-generated review of your patch. The human sending this
-> email has considered the AI review valid, or at least plausible.
+On Sat Aug 8, 2026 at 2:12 AM JST, Miguel Ojeda wrote:
+> On Fri, Aug 7, 2026 at 4:03=E2=80=AFPM Alexandre Courbot <acourbot@nvidia=
+.com> wrote:
+>>
+>> Indeed it looks like this would panic with the kernel build, and can be
+>> easily caught at build-time since `SHIFT` is a constant.
+>>
+>> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+>
+> Do you want me to take it this cycle? And maybe the next one too?
 
-Thanks. I traced all six findings. One is a real bug, two become
-comment and commit message fixes, and the rest I believe the loader
-protocol answers.
+If this works for you it would remove them off the plate. OTOH I don't
+think we will have another user besides PRAMIN for the short term, so
+next cycle together with the rest of the series would work as well, as
+long as they are merged into the same tree.
 
-For context, since several findings concern state classification: v9
-was tested on hardware in all three states the detection has to tell
-apart, that is WSP firmware running, loader idle at READY, and a
-loader wedged in the payload receive loop after an interrupted
-download. Classification was correct in each case, and the wedged case
-drained back to READY and reprobed into a flashable rescue mode.
-
-[main-4-7] the queued reprobe cannot be cancelled
-
-Real, and I will fix it. dsa_switch_shutdown() only unlinks the
-netdevs, so dst->ports keeps entries whose dp->ds points at the devm
-allocated switch, and the tree stays on dsa_tree_list.
-mxl862xx_shutdown() then clears drvdata. A reprobe queued earlier
-fires 500 ms later and finds dev->driver still set, since shutdown
-does not unbind, so it detaches: mxl862xx_remove() returns early on
-the NULL drvdata, dsa_unregister_switch() never runs, devres frees
-priv and ds under the live tree, and the rebind walks those stale
-ports in dsa_switch_find().
-
-Two corrections. The probe failure variant is already covered, because
-mxl862xx_probe() cancels the heal work when dsa_register_switch()
-fails and that path calls dsa_switch_release_ports(), leaving no stale
-ports. And the mechanism came in with patch 3: every user flash queues
-the same uncancellable reprobe. The realistic reproducer is "devlink
-dev flash, then reboot within 500 ms", so the fix belongs there.
-
-The simple fixes do not hold. cancel_delayed_work_sync() from teardown
-deadlocks, as the work calls device_reprobe() which takes device_lock
-while device_shutdown() holds it across ->shutdown(). A drvdata or
-system_state test inside the work is check then act: it can pass,
-block on device_lock behind shutdown, and detach anyway. For v10 I
-plan to track the pending reprobe in priv under heal_lock and have
-teardown do an asynchronous cancel_delayed_work() with an ownership
-handoff, so whoever wins the cancel drops the module and device
-references. For a work item already executing when teardown starts, I
-will drop devm for priv and ds and free them in mxl862xx_remove().
-The early return on cleared drvdata then leaks them on a dying system
-instead of freeing them under a live tree, dsa_switch_find() returns
-the old ds, parse fails with a clean -EEXIST, and the reprobe only
-logs that the device was left unbound.
-
-[main-1-1] inconsistent timeouts for the same loader step
-
-Agreed, fixed for v10. FW_WRITE_TIMEOUT_MS drops from 120 s to 60 s.
-DRAIN_DONE_MS becomes SB_PDI_VERIFY_MS, still 15 s, and now covers the
-verdict wait on both paths; flush_last() cannot see the boundary
-between programming the last slice and verifying, so it gets the sum
-of the write and verify budgets. DRAIN_POLL_MS becomes SB_PDI_STEP_MS
-at 2 s, and both detection waits use it too. RESCUE_READY_TIMEOUT_MS
-is gone. There is now one constant per loader operation.
-
-I would keep the sticky verdict. With the budgets aligned, a STAT
-still holding 1 after the verify window means a genuinely wedged
-loader, usually a counter underflowed by an earlier oversized chunk,
-and only a power cycle clears that. I will document that power cycling
-the switch alone does not clear rescue_failed while the driver stays
-bound.
-
-[main-3-5] is STAT == 0 unambiguous enough?
-
-I do not think the ambiguous state exists. The loader leaves the
-receive loop exactly when r_remain reaches zero, so "in the loop,
-asking for the next chunk" and "out of the loop, publishing verdict 0"
-cannot overlap in time. Once it has left, a STAT write is a command
-rather than a decrement, so there is nothing to underflow. Verdict 0
-ending a drain would also require the zero stuffed remains of an
-interrupted image to pass the checksum. What the hardware does at the
-end of a drain is the other branch: STAT lingers at 1 during verify,
-then the loader resets into READY, which is what
-mxl862xx_rescue_drain_finish() waits out.
-
-The post reset case cannot arrive that early either. The second
-detection call runs only after mxl862xx_reset() and after
-mxl862xx_wait_ready() has spent its whole budget, an unconditional 2 s
-sleep plus polling to timeout, while MCUboot reaches its loop in
-milliseconds. It is also self correcting: a booting MCU publishes
-READY or a firmware status word, a freshly booted loader sits in the
-console loop where the 1-byte advance is not a count, and the drain
-converges through the "firmware booted while draining" branch. I will
-add a comment so the next reader need not re-derive this.
-
-[main-3-6] alloc failure after a successful drain
-
-The hole is real: a NULL from mxl862xx_reprobe_alloc() leaves both
-rescue_ready and rescue_failed clear and logs nothing, so flash
-answers "retry shortly" forever. I would rather not set rescue_ready
-before queueing the reprobe, though. That flag is what stops a user
-flash from starting while the reprobe is pending, given that the flash
-path's own guard is skip_teardown, which the heal path never sets, so
-setting it early would let a flash begin and then be detached mid
-transfer. v10 will log the failure and set rescue_failed instead. The
-try_module_get() leg needs nothing, as it only fails during rmmod.
-
-[main-1-0] "left untouched" and the -ENODEV cases
-
-Fair, the commit message overstates it. The presence probe does write
-the CTRL/ADDR/DATA scratch latches of a running firmware. It never
-writes STAT, and the writes are inert on the tested firmware, but I
-will reword it rather than claim the firmware is untouched.
-
-A live switch with a relocated SB PDI window would indeed fail to
-probe now. Those offsets are the OTP reset defaults and no supported
-compatible moves them, so I would document the behaviour rather than
-consult the probe only after clause-45 has failed, which brings back
-the CRC error storm for genuinely absent switches. Happy to
-reconsider.
-
-[main-1-2] the -ENXIO outcome
-
-Deliberate, and I will say so in the commit message. The RDREG
-challenge is what separates a loader idle at READY from a running
-firmware whose status word happens to read 0xc55c. Treating an
-unresponsive challenge as flashable would sometimes classify healthy
-firmware as a flash target, which is worse than refusing to bind.
-Every loader I have tested services it.
-
-[main-2-4] documented return values
-
-Both mismatches are real and will be fixed. Detection can also return
-the -ETIMEDOUT from mxl862xx_sb_pdi_poll_stat() when READY is never
-re-armed, and drain_finish() also returns -EIO and SMDIO bus errors.
-I lean towards mapping the challenge timeout to -ENXIO so the
-documented set becomes true.
-
-
-Cheers
-
-Daniel
+Thanks!
+Alex.
