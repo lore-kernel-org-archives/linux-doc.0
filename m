@@ -1,776 +1,313 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B597346A0B
-	for <linux-doc@vger.kernel.org>; Sun,  9 Aug 2026 22:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786313363; cv=none; b=HlKP5yely61zDOAyTW3yqZTXqj4F1YeJm0oSn3GPQorrfso4UKzgIxnCvLJmWQtH7+0sKkeRwRFXY1z3zZCpXXntgHx2O68KEYgc5twn5JaEzcI6ithKZ2/u8YGtWscaLZszyIRewDJPK/EO8VMXkripzT7Jx8Dv+wgNNwBR38A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786313363; c=relaxed/simple;
-	bh=+++fDxupvd46DJYwMiE2YUnfSPff5nadf4nKlCcJ5sQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/v6ZnTGRa94S9jrzbo4QN9eHfTINszf0CfrA2F8ezNkFGgmjrirbs+mMN9JNrF53+/MCawAhHqx1HSbN/Syd1s06lGqTx3ezczlITVYNAHaHveke9d5XdCmZJhRUGlUqFBZyqq/ZKJM9chqMxslVBjapFPeO7l+EyrAQS30+kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DrN6hJgg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=SCWxWkgC; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321A6199E89;
+	Sun,  9 Aug 2026 22:32:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786314767; cv=fail; b=NUJVUojUii27dtnBL2xQdBrzUp+NgsldldHx0QXipbcxC+lhxhjLdP2vW/iuke4UBQfWh3JdexS9EY5NB+I2SjdyJ0aNxzJw852gZCwO+OFJRi5ibhoDEMS2wbGo0O4+lmy3QWdZb1tXxttJik0T+0j03I8yOtTHD9wG+AGFlrY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786314767; c=relaxed/simple;
+	bh=Z6Nut3JqUkivUkFgfgtxRD98EUotezr0k65ZYhJfie0=;
+	h=Date:From:To:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Spcn4Uf8Uh8pNCRJwYDuv7mBukMBPgz/VmDvFt5Xz0BDz+zRVLv7PpNSp+lVZwkha2wi47q5dkms6niRki3NNFXrn4QKA84bcQfkLE25/ihvcw3aEbLVUB7aDEuu9cTtlbJ3Gqcy55XR67V7AkBucXGACNEVJWMEYsLqOuJNjOE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8eO2Nrb; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DrN6hJgg";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="SCWxWkgC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786313359;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zicUCoA4nl4iMSz406A/lMJZB9G0iZXr1xqjq+HYMrg=;
-	b=DrN6hJggIrNM028BoBWN1LsnqRGCWBODA/GsHjuUkg/U7gMSaXWwWjtQbxPDOL1TcluU4m
-	LlCnbZxPbGhf8whgTINVHRmiznss0meGop4G2QZ2sv9aot7sO9JJqGpR79kOawTqCGe7m1
-	it5oaM5nGJrN3bRFfzarcMcyVjaJfC0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-96-DfmpwKSPOgW61naAgrxRxw-1; Sun, 09 Aug 2026 18:09:17 -0400
-X-MC-Unique: DfmpwKSPOgW61naAgrxRxw-1
-X-Mimecast-MFC-AGG-ID: DfmpwKSPOgW61naAgrxRxw_1786313356
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49545071724so11818015e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 09 Aug 2026 15:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1786313356; x=1786918156; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zicUCoA4nl4iMSz406A/lMJZB9G0iZXr1xqjq+HYMrg=;
-        b=SCWxWkgCjBRWPYnuzHqDVy9FvoJaWM0k2EbLLNYzsDCla1lNFZsQpvWWXLwTOwuJaC
-         iAY9Xsiquk7dwShUyiZQaGxLrk0Yr4SujJblf+aGq3E0WsrdA1H9O7WCd+taCxRvejDL
-         YThfSTaSAM/Q273g98rOyR5ENZP433qvfg77mKNOyV14MZhg1ApdyOfAJxpu2yIxmlC0
-         8Bm313ztqYzpHdYCL2gKmsZmj9+X28jp41fT2+yZ3XJxfH8qoeE0Ls4RhxMyAA6a5TzC
-         4kP8apDgk9I0UqCgG+Skpx/2s23Q9VoNfV5U1ZRMOTuorCjLNTkENFBcceLmgaT5S14+
-         3YlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786313356; x=1786918156;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zicUCoA4nl4iMSz406A/lMJZB9G0iZXr1xqjq+HYMrg=;
-        b=endjI4r8mj7g+YtUDf09lBQnRyk9t1qyxOHkpouIm2uhFCEL9vUshU5tfc4ySwpMDW
-         y57Now3pUqiKUyFrH5zelW84qdUaicsasphu8ty2TDHmgOTuGRvcGHCxTlHQzgMHiCvq
-         PVh/llcM7CuvpJUdGQGrMJJvZ3UFqf8PnXpdjqZwJ/1Hh8+4Tqg5Doa/biWKLLI4pnbb
-         sgj+gziUnCTsaVISVygvgC2MMLB776opmDg39EVGa9T4t2DsHgktfLceaiHXcqlHW03C
-         IMTn92E3Fk8GpLqeM31m7VgmDLqyJsNhK+x2Y24wIoM06qhWkkAvxUfpgJ78HBMtwZ4f
-         m8Yg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1V10fuRK3NOW32MXhdlWYp2eQT4m+yYLECb9IY1nveN2p+qs3ayChnElXFRlR1+jPhAyRrAegUVQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUksYX/uYGjhpoLiyjEUykh/3LwkCTVtViVmb7o5JBNzWYILnq
-	qF9MNo6eaLQjRu/5M+FW3h8IGr2kupENmMI+mg4L1WBag2LhWvc1GlvTVn1O+PK02+q0qh1EC50
-	k2LpQqetvcj6Hlclts2M9JnNTUxHbE1KmuuhLJj/ESanOMIXO4nzGCjjZD2KE0g==
-X-Gm-Gg: AR+sD10YPxkkbKK2gbYIu8OqqrrcAS5/R/1XXdq8wC4zYVovrt0Eq0lJ32bVaNpIgFL
-	+BHvZc1YiAPagBbHHZU3kXesCGyLINKpcxudQp2VzHnbvZVhDjjOEXA0dXxY+4HZ75LkKU2PpKk
-	oGidja1BUyfZx5DnBdiR/x4IW7oN3mg0h/bdcXyG1BrEoIdUwgJmlFwqwy3DvQJ5CFAaKw2llCM
-	QAb69MG1j4tvSTD/MzPwRncy0H+ivJAJSh8OCBKE/8ZdCW+o1qOYevUQ/DSQy5AT1aZaCA04NTS
-	sLYSOqji/HT+xMmEYQmwq1peEcz9umw2+MeAiAark9/jODHcwdVp1OhLI4OI4aVK+zIvywkT0KV
-	iIYB9rCk8L1yXpmD9X27kng==
-X-Received: by 2002:a05:600c:35c8:b0:498:28b:1025 with SMTP id 5b1f17b1804b1-49959e08745mr287733135e9.5.1786313355684;
-        Sun, 09 Aug 2026 15:09:15 -0700 (PDT)
-X-Received: by 2002:a05:600c:35c8:b0:498:28b:1025 with SMTP id 5b1f17b1804b1-49959e08745mr287732375e9.5.1786313354776;
-        Sun, 09 Aug 2026 15:09:14 -0700 (PDT)
-Received: from redhat.com (IGLD-80-230-39-98.inter.net.il. [80.230.39.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480021e902dsm29089160f8f.21.2026.08.09.15.09.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2026 15:09:14 -0700 (PDT)
-Date: Sun, 9 Aug 2026 18:09:11 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alexander Graf <graf@amazon.com>
-Cc: Jason Wang <jasowangio@gmail.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nh-open-source@amazon.com,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 09/12] Documentation: virtio: describe the device
- memory buffer
-Message-ID: <20260809180705-mutt-send-email-mst@kernel.org>
-References: <20260809182010.32931-1-graf@amazon.com>
- <20260809182010.32931-10-graf@amazon.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8eO2Nrb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786314766; x=1817850766;
+  h=date:from:to:subject:message-id:reply-to:references:
+   in-reply-to:mime-version;
+  bh=Z6Nut3JqUkivUkFgfgtxRD98EUotezr0k65ZYhJfie0=;
+  b=L8eO2NrbSBBu88U4abb4ATTspgXtriZt8X/7nkmrm2xLrRoq3aX2HplS
+   AbTYwuvbWD/tIfkp0OY+cH7Wlo3rRHk7MWlQ/gc83hhzQL4KiNPzqopTZ
+   2Se06Q0dcIkMz5Rq8z8kVVhYzqgtr5bekJqQsCSwNVjVecMUihBSrMajO
+   t3QNLBWo3bkEblWeL4Tdd753hONz7vsVBGAaCAgmGRVflvUVILCaBfmch
+   hyFcF7NW/DFlhEqEeL8Lr3tMoWBK9Zu8K+1AyaGdvQLdNFMWpcXvmHPL5
+   Kw6l9SU1i9Qje3cxINthcCS+WRPmAVH90G2hnk99cgZ616obgqguFjbKo
+   w==;
+X-CSE-ConnectionGUID: XckOTeZoQgmSqrRzNezK9Q==
+X-CSE-MsgGUID: 4BUWUwu8R0a56wdZFRkZng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="87046350"
+X-IronPort-AV: E=Sophos;i="6.25,214,1779174000"; 
+   d="scan'208";a="87046350"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 15:32:45 -0700
+X-CSE-ConnectionGUID: uX1HnpfdSEmoso4seaYnow==
+X-CSE-MsgGUID: eDht+bxPTrCiLJv7lQ0ebQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,214,1779174000"; 
+   d="scan'208";a="259562115"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2026 15:32:44 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Sun, 9 Aug 2026 15:32:43 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Sun, 9 Aug 2026 15:32:43 -0700
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.8) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Sun, 9 Aug 2026 15:32:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JZ9sMxv9zkuRIdjwLjgeGeAO4gN0gnMlq32eX1uIS6mS9LTLtMGtlDXdV08Vb1zYWFgsbrULI162n5/5/BgJFDIbKEfhcQ0RpeFDDqPWv7EidgvA6sSZjConY4HY9RBo5JbExKohUMJeWAyitU0g3R3erqAaJfAm4ThQtaAJ0ZwUPZtje8CASoLzlgcVkdYCOj4+hehZhJU/evhwCa1AGwk+69SKCCAlXS18zJUeUP5yLhSEezw3kZE+3oOMcWBxRmYIdLUaQ6+l8Pizo49FR10tRC+jY9ONw/1fsUT3MkvSgFA7fHIeYSNhFVtgbZOvkhK1BtUqxb0UQCfh7LUC7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vJ15D2VIsi7yHAUnQtN26vDgyzXtl6Vy9mttyAs9J5s=;
+ b=rKq2UK4qUhHRYoxpPgUjbxOlc9PgJfIM3ca49Hf0OZDVfSDFodoHR4Lomo/cyZzbEZJhCzdcZoAVjbLvhyMK+XqknIvdlfckUGVYCrPSJixQTD2Ui88pdo92dHK95gJbKdkxrXcgd//wCD1ItluFWgm83amBLMZc0mD99vtXKAGWUl+TesQyXNIDYrmMq6IBrpOZKpERnC3ThnXdTx01upth8+WsHdbmM45jPAmQ4hsDOHbpkyRzLV1ZUwOvuxkyGlCVapoygV2+GHLQkZhVZ7qOeFnws6ZhSnKIq/LK7qswTU6pUa/aumwPFE5pQ8YQC6iSpWsYQzZ8mTkj1ENMiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DSVPR11MB9579.namprd11.prod.outlook.com (2603:10b6:8:383::17)
+ by SA3PR11MB689426.namprd11.prod.outlook.com (2603:10b6:806:58b::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Sun, 9 Aug
+ 2026 22:32:40 +0000
+Received: from DSVPR11MB9579.namprd11.prod.outlook.com
+ ([fe80::ab5f:5d0f:fb90:9d]) by DSVPR11MB9579.namprd11.prod.outlook.com
+ ([fe80::ab5f:5d0f:fb90:9d%3]) with mapi id 15.21.0292.024; Sun, 9 Aug 2026
+ 22:32:40 +0000
+Date: Mon, 10 Aug 2026 05:51:40 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: <ackerleytng@google.com>, <aik@amd.com>, <andrew.jones@linux.dev>,
+	<binbin.wu@linux.intel.com>, <brauner@kernel.org>,
+	<chao.p.peng@linux.intel.com>, <david@kernel.org>, <jmattson@google.com>,
+	<jthoughton@google.com>, <michael.roth@amd.com>, <oupton@kernel.org>,
+	<pankaj.gupta@amd.com>, <qperret@google.com>, <rick.p.edgecombe@intel.com>,
+	<rientjes@google.com>, <shivankg@amd.com>, <steven.price@arm.com>,
+	<tabba@google.com>, <willy@infradead.org>, <wyihan@google.com>,
+	<forkloop@google.com>, <pratyush@kernel.org>, <suzuki.poulose@arm.com>,
+	<aneesh.kumar@kernel.org>, <liam@infradead.org>, Paolo Bonzini
+	<pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, "Thomas
+ Gleixner" <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, "Vishal
+ Annapurve" <vannapurve@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song
+	<kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham
+	<nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, Axel Rasmussen
+	<axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu
+	<weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, Qi Zheng
+	<qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau
+	<kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe
+	<jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+	<peterx@redhat.com>, <tarunsahu@google.com>, Vlastimil Babka
+	<vbabka@kernel.org>, <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-coco@lists.linux.dev>
+Subject: Re: [PATCH v10 11/41] KVM: guest_memfd: Ensure pages are not in use
+ before conversion
+Message-ID: <anj2bPrGqzZgZWMF@yzhao56-desk.sh.intel.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-11-2fc18ee6d3ba@google.com>
+ <anZ4W9o5pTWIEgMY@yzhao56-desk.sh.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <anZ4W9o5pTWIEgMY@yzhao56-desk.sh.intel.com>
+X-ClientProxiedBy: TP0P295CA0046.TWNP295.PROD.OUTLOOK.COM (2603:1096:910:3::9)
+ To DSVPR11MB9579.namprd11.prod.outlook.com (2603:10b6:8:383::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260809182010.32931-10-graf@amazon.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DSVPR11MB9579:EE_|SA3PR11MB689426:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c2ed973-4574-4cfd-8a6a-08def6661eed
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|7416014|4143699003|11063799006|10067099003|6133799003|56012099006|921020|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: kvap3r+n/nZt5B/dC76sUC+VKssvaio9bt6/oT18FaXLkJP1wgSDiHWDlnwLHY3gtB+zYonAH3e+0MZ8x8HfmA51WcqO62rCHAg+jbpPq9gt1FFM7IPaWoPLST3cSP+rVIrfJ8/eQmIrkj86cE9opllCLfQONlcUYT9GVxaEzUAMZBUJ4BAFcwa7F2eplfUPQEpzqbantwWFPsBlyyP3Q90iH78Y76ZPGdSTzKDWpOz0Qmc3NNuJlZPgJTh3mQKqN5S3Om/UiKpTji9C6aunx+9HcljYRThDTN7bZEMDnm63giSfMS150/30/yoX389Fthq7hoxoZXYvaHyj/KMMO/FJ7Io6L0YUV99kt1XUuKMjK43BAF7+8mqN/nvgZUNsvrtOs3pNC1dgUi6t0wIXLbMyfs11FmwCJeB0cMQTnrKwMjXVFAAkjKQ0neXu91+m/0J0QITS9mI43b0wOxI+BHQdI/XxNMJNUXlJ4hj5Ao2YEJegZvZTLF/yLV0lcU/lCe7Q2+ho3DK1EItbIjck7X96MSf2JbvTYai9CXju4n/fV+mNGIzeqP13wkAnkL23M0gqTkFc2r3GzyRdwoAEvxMTdhoaI8wwV/GDhuwV8cwnO2fPaYVUzHOhHRUtx/W7Xr/S6R6tM7jjdOc+utDRCDwRXul0n2Qu/9e5U5/shFPAu12GWBQv8qosTAvuKXJ6Qth7P+s5l7rWZQMWGV7J8g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSVPR11MB9579.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(7416014)(4143699003)(11063799006)(10067099003)(6133799003)(56012099006)(921020)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?quxruQiV8gQjkIoHofjjJPnlSvrEpk8VhYAR1EzEoJ8SaUbW3PI79phPeUPv?=
+ =?us-ascii?Q?g+jGFKhsYq18DWU7wnn8jOTqoWZOh54UJIVH+IiKA/++LvUk0Sf1bSBB/pUa?=
+ =?us-ascii?Q?HLTzIyjpyYI1a4aUQdAQKBq985U7BqRDigyKQvVGL+tnK6hGyGsiRbgFkTlL?=
+ =?us-ascii?Q?k6UzXIqxSfHsf9XeEy3X+1klPGuAnsuU6XZWBT6Ib5zAoREaPs1YAbRDdywD?=
+ =?us-ascii?Q?8efKUZ7tOEbRVkrkyBbAHaES0pe9cK1rgDj/dnFqktPgTHqCRw0ELGm4Dcka?=
+ =?us-ascii?Q?fgQKaFyF8LWyZz3e8kFh0f+qH2bgyLwVcJU9NrwSKlghMfcjkNEKkxc73XTX?=
+ =?us-ascii?Q?bFqL+t2BxQh/I4OAtRfMEsYw0ppu5w5vpZQAEKEts7dDO8LQFCS9nUpxJ4zn?=
+ =?us-ascii?Q?nhXyo8p6eVrOZ14gFPmBKmm+Nkjf5+U5zZfX4ZvlDKq+sFHaRa9ZY0LfAgSJ?=
+ =?us-ascii?Q?f/b5CX0EENMMR37do2/CuGyfR/JNia4RV74/r/Kbm40IPjiKGHEc63TG2fR1?=
+ =?us-ascii?Q?MkAYl/1AI8tmnMFNrW7I6tsVSQM05YJIx8jQu5FQNlRMcCoK/cO6KZXMztkX?=
+ =?us-ascii?Q?L3eAci+2Op+5c+6sIukXkA7ZqT/9K6YfcXwrHkU3RIaWKckawhQR+IB8PP+5?=
+ =?us-ascii?Q?Bxs1RyWMAg591z81UTK4OdP6bZMbUIW4DO9JHvZXrvWsqrvicVFlF4ODgDFt?=
+ =?us-ascii?Q?26ODV0z2nW7rWaf35Gf6iE4S/tlIgOZBs449JmLlWfZY4JP9NSBTadj5XG4B?=
+ =?us-ascii?Q?BZ9oXEoveXbJTyUUcghjFrjWN4R3yG5SG6nd03qNGu99IwaiArVqUOiLG61m?=
+ =?us-ascii?Q?edZqUQBXqOTm8L7e7dFeRc6y1+W4nRxhoLapYoKL1vEJpv0Qy1JCI9CFTMc0?=
+ =?us-ascii?Q?qT5EsPzzXAwnW5jfOitujQNFs4T1T0YgF2TByKPKWrvVPshJOwzWLmg6qiZL?=
+ =?us-ascii?Q?+E1dLIC/ERU/zKvcDSvcqWJ5tXg28fZ+281vs2VAUnGxUUJ+X546jeXAHzPB?=
+ =?us-ascii?Q?UC3ECW0Q/AelNjwTdIEQFkl8sYY1OJJqh76/P2KhS61EZVtvXfSV3p7n9PZE?=
+ =?us-ascii?Q?cYWdM9rlJhTgqNRPrh8KEB/xeJch2exwkvGSSQbp3eC4tg7fVQNFRO69roRs?=
+ =?us-ascii?Q?w5nPhUPUwDR6Cub+1mnfL6YKFWdAVdMk3DHFYUXL8vcWR/4xJwiXGTc+81x4?=
+ =?us-ascii?Q?r1wlSobqeOqTaw5p95SKdW984Ya4SgRkOI2NVO0d6JcAyQYbSgEd9hiQG3MO?=
+ =?us-ascii?Q?EzO1w/aoaxb1bh/HNclujonH/XrStCIDpqTT4nD8BYZq8e2V3XQlIyPGm8og?=
+ =?us-ascii?Q?45cR+09lrP1tE4Jdcc2896m496IU/IChYiNQEw+yvprrO9dcQ4zWgbXKiIEM?=
+ =?us-ascii?Q?7NPQ66rkquYvFZwaWE+dYcxBdyhGPxdNM4ZLVifgkK5F8B7W6Te60kF9Lbqd?=
+ =?us-ascii?Q?RjiKpySjenZikZ8sHE08IP9RHHO5YYtzbzpI96ZEo2BO2RqLeMEsXTaSLduj?=
+ =?us-ascii?Q?HMOJy2yB4aa1SlQ1B05g7zZV7jMXXtIU4Of7/dCd5JZ+EsJ3KSDy37PiSj6s?=
+ =?us-ascii?Q?jg8wEvg42DbGNr2N2LjNSW1i64txWoWH5D6JPmhUUj31wxBc4an0casp2HyD?=
+ =?us-ascii?Q?bii+wkpuSMgY0exPBztZe0n+OibjaOVUUcr8Rgb6hxvA2ltmhIyTgneSpqo1?=
+ =?us-ascii?Q?roEQhxz09LC4tM3k9JhJduXS3B2V6KSpPJrCfQchxamk9MT+WpyGVlP6t1xj?=
+ =?us-ascii?Q?deJN9GByew=3D=3D?=
+X-Exchange-RoutingPolicyChecked: tOaZFxI0dTKmRT6W8ugHXxxNjcF6c2MvbM1MO6nNgc/xYy1a/t/OhYxWQQiW+n4yn71+MazK2gMCcUxOTBoWhWNbCIdWmVwfN2PiozxIpLkCKGXSxmRwZoJG4skzEgt35uizmHyzGIuN1wSKhcX2N8DhA5nZuRSN0/ve3o3ZxbeX1jyzzaZLdLkhNagmLw/+h+BDm9FsojVldGY16mr42/IPgerBdKxCvp7R/e1HndWk14L2R1ZAmBzFizfF4BLuB8TVNcpXRdCp6ZDE5M+QkT9Xsl825Tf3mLXbBOaQ/fo0nlwUXO3sIc0c9da2Fph8zch4P9yMFUzESw8dSj/6kg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c2ed973-4574-4cfd-8a6a-08def6661eed
+X-MS-Exchange-CrossTenant-AuthSource: DSVPR11MB9579.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2026 22:32:40.0926
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WP4n5Vj0SMv42azTYhd+fRJNo3FK8L0dN0uaAwAYo9De6Q9pxniTt9Lhgo8YMLkwfJdEdBrD1mMKiAgoXyed/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB689426
+X-OriginatorOrg: intel.com
 
-On Sun, Aug 09, 2026 at 06:20:07PM +0000, Alexander Graf wrote:
-> A Device Memory Buffer device hands the driver a dma_addr_t that is an
-> offset into the region and not an address the DMA API accepts. The next
-> person to write a virtio_map_ops implementation has nowhere in the tree
-> to read that, and the sizing rules a device has to follow live only in
-> the code that enforces them.
+On Sat, Aug 08, 2026 at 08:29:15AM +0800, Yan Zhao wrote:
+> On Fri, Aug 07, 2026 at 02:52:50PM -0700, Ackerley Tng via B4 Relay wrote:
+> > +static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
+> > +					    size_t nr_pages, pgoff_t *err_index)
+> > +{
+> > +	struct address_space *mapping = inode->i_mapping;
+> > +	const int filemap_get_folios_refcount = 1;
+> > +	pgoff_t last = start + nr_pages - 1;
+> > +	struct folio_batch fbatch;
+> > +	bool safe = true;
+> > +	pgoff_t next;
+> > +	int i;
+> > +
+> > +	folio_batch_init(&fbatch);
+> > +
+> > +	next = start;
+> > +	while (safe && filemap_get_folios(mapping, &next, last, &fbatch)) {
+> > +		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+> > +			struct folio *folio = fbatch.folios[i];
+> > +
+> > +			if (folio_ref_count(folio) !=
+> > +			    folio_nr_pages(folio) + filemap_get_folios_refcount) {
+> > +				safe = false;
+> > +				*err_index = max(start, folio->index);
+> > +				break;
+> > +			}
+> > +		}
+> > +
+> > +		folio_batch_release(&fbatch);
+> > +		cond_resched();
+> > +	}
+> > +
+> > +	return safe;
+> > +}
+> > +
+> >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> > -				     size_t nr_pages, uint64_t attrs)
+> > +				     size_t nr_pages, uint64_t attrs,
+> > +				     pgoff_t *err_index)
+> >  {
+> >  	bool to_private = attrs & KVM_MEMORY_ATTRIBUTE_PRIVATE;
+> >  	struct address_space *mapping = inode->i_mapping;
+> > @@ -542,8 +576,21 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> >  
+> >  	mas_init(&mas, mt, start);
+> >  	r = kvm_gmem_mas_preallocate(&mas, attrs, start, nr_pages);
+> > -	if (r)
+> > +	if (r) {
+> > +		*err_index = start;
+> >  		goto out;
+> > +	}
+> > +
+> > +	if (to_private) {
+> > +		unmap_mapping_pages(mapping, start, nr_pages, false);
+> > +
+> > +		if (!kvm_gmem_is_safe_for_conversion(inode, start, nr_pages,
+> > +						     err_index)) {
+> Note: conversion failures could occur if another vCPU is attempting to map a GFN
+> within this range.
 > 
-> Document both, along with what the driver builds over the region and
-> what it assumes about coherency.
+> CPU 0 (setting attributes)          CPU 1 (attempting to map)
+> --------------------------          --------------------
+>                                  A: mmu_invalidate_retry_gfn_unsafe
+>                                     filemap_invalidate_lock_shared
+>                                     __kvm_gmem_get_pfn ==> folio refcount++
+>                                     filemap_invalidate_unlock_shared
 > 
-> Link: https://lore.kernel.org/virtio-comment/20260804161202.38619-1-graf@amazon.com/
-> Assisted-by: Kiro:claude-opus-5 checkpatch sparse
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> ---
->  Documentation/driver-api/virtio/index.rst     |   1 +
->  .../driver-api/virtio/virtio-dmb.rst          | 614 ++++++++++++++++++
->  drivers/virtio/Kconfig                        |   1 +
->  3 files changed, 616 insertions(+)
->  create mode 100644 Documentation/driver-api/virtio/virtio-dmb.rst
+> filemap_invalidate_lock
+> filemap_get_folios
+> check folio_ref_count(folio) ==> Not match !!
+> filemap_invalidate_unlock
 > 
-> diff --git a/Documentation/driver-api/virtio/index.rst b/Documentation/driver-api/virtio/index.rst
-> index 528b14b291e3..8c885d189991 100644
-> --- a/Documentation/driver-api/virtio/index.rst
-> +++ b/Documentation/driver-api/virtio/index.rst
-> @@ -9,3 +9,4 @@ Virtio
->  
->     virtio
->     writing_virtio_drivers
-> +   virtio-dmb
-> diff --git a/Documentation/driver-api/virtio/virtio-dmb.rst b/Documentation/driver-api/virtio/virtio-dmb.rst
-> new file mode 100644
-> index 000000000000..5975948165c9
-> --- /dev/null
-> +++ b/Documentation/driver-api/virtio/virtio-dmb.rst
-> @@ -0,0 +1,614 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================
-> +Device Memory Buffer
-> +====================
-> +
-> +A device that offers ``VIRTIO_F_DMB`` presents one shared memory region,
-> +the Device Memory Buffer, that it owns.  When the feature is negotiated
-> +the region holds that device's virtqueues and the buffers its descriptors
-> +reference, and every address the driver places in a virtqueue is an
-> +offset from the start of the region rather than a physical or a bus
-> +address.
-> +
-> +Because each device has its own region, devices do not contend for one
-> +shared bounce buffer, and the implementation of one device can be torn down
-> +without touching the memory another device is using.  A consequence is
-> +confinement of the virtqueue data path: to process virtqueues the device
-> +can only reach memory the driver has published in the region.  It says
-> +nothing about other shared memory regions the device exposes, or about
-> +DMA the device performs outside a virtqueue.
-> +
-> +.. note::
-> +
-> +   ``VIRTIO_F_DMB`` is a specification proposal before the virtio
-> +   Technical Committee, not a ratified feature:
-> +
-> +     https://lore.kernel.org/virtio-comment/20260804161202.38619-1-graf@amazon.com/
-> +
-> +   The feature bit number and the PCI register the driver reads the
-> +   ``shmid`` from are both provisional, pending allocation by that
-> +   committee, and the definitions of both in the uapi headers say so.  A
-> +   device implementing this must expect either to change.
-> +
-> +What lives in the region
-> +========================
-> +
-> +For every virtqueue of the device: its Descriptor Area, Driver Area and
-> +Device Area.  For every buffer made available to the device: the buffer
-> +itself.  With ``VIRTIO_F_INDIRECT_DESC`` also negotiated: every indirect
-> +descriptor table, and the buffers the descriptors in it name.
-> +
-> +Not in the region, and not changed by this feature: available and used
-> +buffer notifications, configuration change notifications, the
-> +configuration space, and everything else the transport conveys.  The
-> +memory ordering requirements of the three virtqueue areas are unchanged.
-> +What did change is that the driver accepts ``VIRTIO_F_DMB`` only together
-> +with ``VIRTIO_F_ORDER_PLATFORM`` where the device offers it, because the
-> +areas are now in memory the device supplies rather than memory the driver
-> +allocated.
-> +
-> +What the device must guarantee
-> +==============================
-> +
-> +* It must not offer ``VIRTIO_F_DMB`` unless the transport defines both a
-> +  shared memory region discovery mechanism and a way to report which
-> +  region is the Device Memory Buffer.  It must also offer
-> +  ``VIRTIO_F_ACCESS_PLATFORM``.  Of the transports Linux implements only
-> +  PCI defines the second, and only PCI accepts the feature bit at all: on
-> +  every other transport it is cleared during transport feature negotiation
-> +  and never reaches the device's driver.
-> +
-> +* It must not offer ``VIRTIO_F_DMB`` unless the platform permits the
-> +  driver to access the region as memory shared with the device, and unless
-> +  a write by either side becomes visible to the other without any cache
-> +  maintenance by the driver.  It must offer ``VIRTIO_F_ORDER_PLATFORM`` if
-> +  it needs the driver to use barriers suitable for a device described by
-> +  the platform, and the driver then accepts ``VIRTIO_F_DMB`` only together
-> +  with it.
-> +
-> +* It must expose exactly one shared memory region for the Device Memory
-> +  Buffer, and report that region's ``shmid`` through the
-> +  transport-specific mechanism.  On the PCI transport that is the
-> +  ``dmb_shm_id`` field of the common configuration structure, whose value
-> +  is confined to 8 bits because a ``virtio_pci_cap`` id is 8 bits wide,
-> +  and a device offering the feature must present a common configuration
-> +  structure long enough to contain the field.
-> +
-> +* It must not report a ``dmb_shm_id`` equal to any ``shmid`` its device
-> +  type defines.  The driver looks up only the region the device points it
-> +  at, but the device-type driver bound to the same device looks up the ids
-> +  its own specification reserves, so a collision has the two look up the
-> +  same region.  The Device Memory Buffer claims the range first, because it
-> +  is installed during feature negotiation and before the device-type driver
-> +  probes, so a virtio-fs device reporting ``dmb_shm_id`` 0 fails to probe
-> +  rather than sharing the region, and the failure names neither the feature
-> +  nor the collision.
-> +
-> +* It must interpret every address the driver supplies in a virtqueue as
-> +  an offset from the start of the region, and must not interpret any of
-> +  them as a physical or bus address.  That covers the three area
-> +  addresses, the ``addr`` field of every descriptor, the address of every
-> +  indirect descriptor table, and the ``addr`` field of every descriptor
-> +  inside one.
-> +
-> +* Before accessing anything a driver-supplied offset refers to, it must
-> +  check that the offset together with the length of that structure lies
-> +  within the region and does not overflow.  If the check fails it must
-> +  not perform the access, and must set the ``DEVICE_NEEDS_RESET`` device
-> +  status bit.
-> +
-> +* It must not access memory outside the region in order to process
-> +  virtqueues.
-> +
-> +* A device that cannot function at all without a Device Memory Buffer
-> +  must refuse ``FEATURES_OK`` when the driver has not accepted
-> +  ``VIRTIO_F_DMB``.  Nothing else can catch that case: a driver that did
-> +  not accept the feature proceeds with ordinary host-memory addresses,
-> +  which such a device cannot reach, and it has no way to know that.
-> +
-> +Exposing other shared memory regions alongside the Device Memory Buffer
-> +is allowed; the driver looks up only the reported ``shmid`` and ignores
-> +every other region.
-> +
-> +The proposal does not state two of the obligations above: the
-> +``dmb_shm_id`` collision rule, and the ``FEATURES_OK`` refusal by a
-> +device that cannot work without a region.  Both follow from what the
-> +driver does rather than from the standard, and the driver cannot check
-> +either, so treat them as requirements anyway.
-> +
-> +Coherency, and what this driver assumes
-> +=======================================
-> +
-> +The driver maps the region as ordinary cacheable memory shared with the
-> +device and uses plain loads and stores on it, including for the virtqueue
-> +areas themselves.  It asks for a mapping that does not apply the guest's
-> +own memory encryption, because the device has to be able to read what the
-> +driver writes there; that is what lets a guest whose memory is encrypted
-> +use the feature at all.
-> +
-> +Plain loads and stores are only correct if the region is coherent with
-> +CPU caches as seen by the device, which is satisfied by a device whose
-> +region is host memory.  A device whose region is not host memory must
-> +additionally offer ``VIRTIO_F_ORDER_PLATFORM``: without it the ring's
-> +barriers are the inner-shareable ones, which do not order accesses as
-> +seen by a device outside that domain, and the available ring and the
-> +notification would be reordered silently.
-> +
-> +The driver accepts ``VIRTIO_F_DMB`` only if it also accepts
-> +``VIRTIO_F_ACCESS_PLATFORM``, and, where the device offers
-> +``VIRTIO_F_ORDER_PLATFORM``, only if it accepts that as well.  What it
-> +cannot do is refuse the feature when ``VIRTIO_F_ORDER_PLATFORM`` is simply
-> +absent from the offer: which barriers are needed depends on where the
-> +region's memory is, the transport reports a ``shmid``, a base and a length
-> +and nothing about the memory behind them, and refusing unconditionally
-> +would reject the emulated device whose region is ordinary host memory and
-> +for which the inner-shareable barriers are correct.  So a device whose
-> +region needs the platform's barriers has to say so by offering the
-> +feature, and one that does not misbehaves in a way that looks like a ring
-> +bug.
-> +
-> +The proposal states both requirements, and states the coupling the driver
-> +implements.
-> +
-> +A device whose region is not coherent with CPU caches at all is out of
-> +scope here.
+>                                  B: read_lock(&vcpu->kvm->mmu_lock);
+>                                     is_page_fault_stale
+>                                     kvm_mmu_finish_page_fault ==>folio recount--
+> 				    read_unlock(&vcpu->kvm->mmu_lock);
+> 
+> 
+> Retrying in kvm_gmem_is_safe_for_conversion() or moving the invocation of
+> kvm_mmu_invalidate_start() + kvm_mmu_invalidate_range_add() to an earlier
+> position does not help as long as CPU 1 stays at stage A.
+> 
+> So, should we avoid this failure?
+> e.g., by moving filemap_invalidate_unlock_shared() from stage A to after
+> stage B?
 
-This kind of thing belongs in the spec, not in the driver documentation.
-Users will have no idea whether device region is coherent, and
-"scope" has no meaning for them.
+Or what about having KVM always treat gmem page as non-refcounted, and have
+kvm_gmem_get_pfn() put folio refcount before releasing the filemap invalidate
+lock?
+Below patch is applied and tested at the end of this series.
 
+From 8c2f29bc15bceb6a8fa103cf2585ec11354fd74e Mon Sep 17 00:00:00 2001
+From: Yan Zhao <yan.y.zhao@intel.com>
+Date: Mon, 10 Aug 2026 06:24:52 +0800
+Subject: [PATCH] KVM: guest_memfd: Return gmem page as non-refcounted
 
+Have kvm_gmem_get_pfn() put gmem page refcount before releasing filemap
+invalidate lock and return the gmem page as non-refcounted. This avoids
+gmem memory attribute conversion failure caused by temporarily holding gmem
+page after faulting and before completing mapping.
 
->  Supporting one would need two things that do not exist: a
-> +way for the device to declare the memory type of its region, and explicit
-> +flush points in the virtqueue code.  Mapping the region write-combining
-> +instead is not a substitute, because on some architectures draining a
-> +write-combining buffer needs an explicit barrier that virtio's ring
-> +barriers do not issue, which would break available-ring and notification
-> +ordering silently.
-> +
-> +Sizing the region
-> +=================
-> +
-> +The region has to hold everything at once: every virtqueue's virtqueue
-> +areas, and every buffer in flight.  Allocation is page-granular, so a
-> +device sizing its region counts pages and not bytes.
-> +
-> +The pool does not start at the start of the region.  The driver places it
-> +at the first page-aligned address after the region base, so the bytes
-> +ahead of it are lost: a whole page where the region base is page-aligned,
-> +and the leading partial page, which was never usable, where it is not.  A
-> +device must count that in what it offers rather than in what it expects to
-> +be used, and since it cannot know the guest's ``PAGE_SIZE`` it cannot know
-> +which of the two cases it is in, so it has to budget a whole page.  That
-> +page is a page of the guest's ``PAGE_SIZE``, not of the device's own
-> +granularity, and like every other figure here it has to be sized for the
-> +largest page size the device expects a driver to run with.
-> +
-> +Offset zero is never published, and that is why the page goes.  The
-> +proposal reserves it: it is not the address of any structure the driver
-> +places in the region, and a device may treat an offset of zero as an
-> +error.  Device implementations would not accept it in any case: a device
-> +that has ever driven a virtqueue uses a queue address of zero as its
-> +"this queue was never programmed" sentinel, and QEMU's generic virtio
-> +core and its vhost path both do, so a queue published at offset zero is
-> +dropped silently, with no error reported anywhere and no way for the
-> +driver to tell.  The driver keeps the value out of its pool rather than
-> +rely on being an exception to that.
-> +
-> +Which pages is the guest's business, and the device cannot find out.
-> +Every count and every byte figure below is a multiple of the guest's
-> +``PAGE_SIZE``, and the figures given are for a 4 KiB page; a guest with
-> +64 KiB pages needs up to sixteen times the bytes for the same queue depth
-> +and the same traffic.  So a device must size its region for the largest
-> +page size it expects a driver to run with, or state the page size it was
-> +sized for.
-> +
-> +One buffer costs ``ceil(len / PAGE_SIZE)`` slots per scatterlist entry::
-> +
-> +  slots(request) = sum over sg entries of ceil(len / PAGE_SIZE)
-> +                 + ceil(nr_sg * 16 / PAGE_SIZE)   [1]
-> +
-> +  [1] with VIRTIO_F_INDIRECT_DESC and for a chain of more than one entry,
-> +      for the indirect descriptor table; one slot for up to 256 entries
-> +
-> +The term that surprises people is neither the payload nor the indirect
-> +table: it is the small scatterlist entries, because each costs a whole
-> +page.  A virtio_blk read of 4 KiB, with ``VIRTIO_F_INDIRECT_DESC``
-> +negotiated, spends one slot on the 16-byte header, one on the 1-byte
-> +status, one on the indirect table and one on the data, so 16 KiB of
-> +region carries 4 KiB of payload.  The 12 KiB of metadata is the same for
-> +a 4 KiB request and for a 128 KiB one, so the amplification is worst for
-> +small requests: 4x for that 4 KiB read, under 1.1x for a 128 KiB one.
-> +
-> +How much a driver pays therefore depends on how it lays a request out,
-> +and a virtio_net transmit costs one slot rather than the four above.
-> +``VIRTIO_F_VERSION_1``, which a device offering this feature has to offer
-> +anyway, lets virtio_net push its header into the skb headroom; a linear
-> +skb then yields a single scatterlist entry, and
-> +``virtqueue_use_indirect()`` wants more than one entry before it builds a
-> +table.  One slot for the whole transmit, then: about 2.7x for a full-MTU
-> +frame and about 57x for a 60-byte one, counting the pushed header as part
-> +of what the slot carries.  An skb the driver cannot push into, or one
-> +carrying fragments, pays a slot per entry and one more for the table.
-> +
-> +How the pool is divided
-> +-----------------------
-> +
-> +The pool is not one flat range.  It is divided into *areas*, each with its
-> +own lock, and a claim is served from one of them: the area belonging to the
-> +CPU that asked, or the next area that has room.  This is the structure
-> +``kernel/dma/swiotlb.c`` uses, and it exists so that mappings on different
-> +CPUs do not serialise on a single lock, and so that the time one search
-> +spends with interrupts disabled does not grow with the region.
-> +
-> +.. note::
-> +
-> +   In this document *area* on its own always means a pool area: one of the
-> +   allocator's lock partitions, the quantity ``areas`` counts and
-> +   ``area_pages`` sizes.  The Descriptor, Driver and Device Areas the
-> +   specification names are always written out as *virtqueue areas*, and the
-> +   pages one virtqueue's three areas occupy are ``ring_pages(num)``.
-> +
-> +A pool area covers a power-of-two number of pages, never fewer than 512 or
-> +one cacheline of the allocator's bitmap, whichever is larger, and never more
-> +than 4096, and the count follows from that::
-> +
-> +  area_pages = clamp(rounddown_pow2(pages / roundup_pow2(possible_cpus)),
-> +                     max(512, L1_CACHE_BYTES * 8), 4096)
-> +  areas      = ceil(pages / area_pages)
-> +
-> +The last area is short unless ``area_pages`` divides ``pages``.  A region
-> +small enough for one area to cover behaves exactly as a single lock over
-> +the whole pool does, which includes every region up to 2 MiB on a 4 KiB
-> +page, and more than that on a guest with few possible CPUs.
-> +Both values are printed at probe time, so a device implementer can read
-> +back what a guest derived from the region it offered.
-> +
-> +A device cannot influence the count and should not try to: it is derived
-> +from the guest's page size, cacheline size and possible-CPU count, none of
-> +which the device knows.  What it costs the guest is one cacheline per pool
-> +area, against one bit of bitmap and one slot record of ``sizeof(phys_addr_t)
-> ++ 8`` bytes for every page of pool.  On a 512 MiB region on a guest with
-> +sixty-five or more possible CPUs, where the pool comes to 256 areas of 512
-> +pages, that is 16 KiB of areas against 2 MiB of slot records.
-> +
-> +No single buffer mapping may exceed an eighth of the pool or half of one
-> +pool area, whichever is smaller, rounded down to a page; and never less
-> +than one page, which is the floor that governs a region at the four-page
-> +minimum, where an eighth rounds down to nothing.  That is what
-> +``max_mapping_size`` reports, through ``virtio_max_dma_size()``.  Only
-> +virtio_blk consults it, as its segment-size limit; on a driver that does
-> +not, an over-cap mapping is refused rather than split, and that refusal is
-> +permanent rather than back-pressure.  The eighth bounds the capacity one
-> +mapping can deny the rest of the device.  The half-area is not a choice: an
-> +allocation has to lie inside one pool area so that a single lock covers it,
-> +and half rather than all of an area is headroom, because a request the size
-> +of an area could only ever be satisfied by a completely empty one.  Which of
-> +the two governs follows from the geometry rather than from the region size
-> +alone, because ``area_pages`` is itself derived from the possible-CPU count:
-> +the half-area becomes the smaller only once ``area_pages`` has fallen below a
-> +quarter of ``pages``.  On a 16 MiB region with three or more possible CPUs it
-> +has, and the cap is 1048576 bytes rather than the 2093056 an eighth alone
-> +would give; on a one- or two-CPU guest the eighth still governs a 16 MiB
-> +region.  Virtqueue areas are allocated from the region too and are subject to
-> +neither cap, though an ``alloc()`` still has to fit inside one pool area.  A
-> +split ring costs one allocation for all three virtqueue areas together, of
-> +``vring_size(num, align)`` bytes, which at the cache-line alignment the
-> +PCI transport passes is one slot at a queue depth of 128, two at 256,
-> +seven at 1024 and twenty-seven at 4096.  A packed ring costs three
-> +separate allocations, the descriptor ring and two event structures, and
-> +the two event structures are four bytes each: a packed queue therefore
-> +always spends two whole pages on eight bytes.
-> +
-> +So a device must offer at least::
-> +
-> +  region_bytes >= PAGE_SIZE
-> +                + sum over virtqueues of
-> +                    [ ring_pages(num) + num * slots(max_request) ]
-> +                    * PAGE_SIZE
-> +
-> +  where the leading PAGE_SIZE covers the bytes ahead of the pool, and is
-> +  a whole page because a device cannot know the guest's page size and so
-> +  cannot know whether its region base is aligned to one,
-> +  slots(max_request) is the largest slots(request) value from the
-> +  formula above the driver can produce for one request on that queue,
-> +  and ring_pages(num) is the pages one virtqueue's Descriptor, Driver and
-> +  Device Areas occupy: ceil(vring_size(num, align) / PAGE_SIZE) for a
-> +  split ring, and ceil(num * 16 / PAGE_SIZE) + 2 for a packed one
-> +
-> +A device that also offers an administration virtqueue pays for it out of
-> +the same region: its virtqueue areas are allocated through the same path,
-> +and one
-> +administration command occupies several slots more.
-> +
-> +A driver that resizes a queue needs the region to hold both copies of its
-> +virtqueue areas at once.  ``virtqueue_resize()``, which ``VIRTIO_F_RING_RESET``
-> +makes reachable and which ``ethtool -G`` reaches on virtio_net, allocates
-> +the new virtqueue areas before it frees the old, so on a region sized for
-> +one copy
-> +it is the new allocation that fails.  What happens then differs by ring
-> +layout, and only one of the two is a refusal.  A packed ring cannot be
-> +made smaller, so the resize fails and the queue keeps the depth it had.
-> +A split ring on the PCI transport is created with ``may_reduce_num`` set,
-> +so it halves the requested depth until the virtqueue areas fit and then
-> +reports success at that smaller depth: a driver asking for a deeper queue
-> +can get a shallower one instead, and the depth the queue goes on to report
-> +is the only thing that says so.  The halving stops once they fit in a single
-> +page, which at 4 KiB pages and cache-line alignment is a depth of 128, so a
-> +region with no free page at all fails the resize as a packed ring would.
-> +
-> +A device must offer a region of at least four usable pages, which is five
-> +pages of region where the region base is page-aligned.  The driver refuses
-> +a smaller one and sets the ``FAILED`` device status bit.  That floor is
-> +derived from one minimally-sized virtqueue and one buffer in
-> +flight against it, so it is a lower bound on any working configuration
-> +and not a size a device with several queues can sit on.  Above that floor
-> +a device that offers less than the formula asks for still probes, and the
-> +shortfall appears as reduced effective queue depth: the ring reports a
-> +mapping failure and the driver applies back-pressure.  One case is not
-> +back-pressure: a mapping longer than ``max_mapping_size`` is refused however
-> +empty the pool is, and retrying it never succeeds.  The allocator is next fit
-> +within one pool area, from a hint that advances past each claim and rewinds to
-> +each release, beginning in the area belonging to the running CPU and then
-> +trying each other area in turn, and nothing is moved, so a region that meets
-> +the formula can still fail an individual mapping to fragmentation.  Either is
-> +legal, and either should be a deliberate choice rather than a surprise.
-> +
-> +A region too small even for the virtqueue areas is a different case.  A
-> +split ring halves the queue size and retries, so such a region can still
-> +produce a working queue shorter than the device asked for, down to the
-> +depth whose virtqueue areas fit in one page and no further; a packed ring
-> +cannot be made smaller at all, so queue creation fails.  The driver logs the
-> +size of the virtqueue area that did not fit and how many pages the region
-> +has: at
-> +warning level for an attempt the ring did not mark as retryable, and at
-> +debug level for the ones it did, which for a packed ring is all of them.
-> +
-> +Sizing the region for several virtqueues
-> +----------------------------------------
-> +
-> +The formula above is per virtqueue, and the sum over a multi-queue device
-> +is what matters.  A driver creates every virtqueue the device offers, not
-> +the ones it goes on to use: ``virtnet_find_vqs()`` creates
-> +``2 * max_queue_pairs`` virtqueues plus a control virtqueue, whatever
-> +``curr_queue_pairs`` ends up being.  So::
-> +
-> +  V         = 2 * Q + C          Q = max_queue_pairs, C = 1 with
-> +                                 VIRTIO_NET_F_CTRL_VQ
-> +  rings     = 2 * Q * ring_pages(num) + C * ring_pages(num_ctrl)
-> +                                 the table below takes num_ctrl = num,
-> +                                 which over-counts a device giving its
-> +                                 control virtqueue a shallower ring
-> +  rx_fill   = Q * num * B_rx     B_rx = 1 with VIRTIO_NET_F_MRG_RXBUF
-> +                                 (or small buffers), MAX_SKB_FRAGS + 3
-> +                                 without it
-> +  tx_min    = Q * (MAX_SKB_FRAGS + 3)   one worst-case segmented packet
-> +                                        per transmit queue, each of whose
-> +                                        scatterlist entries is assumed to
-> +                                        fit in one page
-> +  ctrl      = 5                  header, status, up to two data entries and
-> +                                 the indirect table they take, since
-> +                                 virtqueue_use_indirect() builds one for
-> +                                 more than a single entry; each entry is
-> +                                 assumed to fit in one page
-> +
-> +  floor_slots = rings + Q * B_rx + tx_min + ctrl   multi-queue works: one
-> +                                                   receive buffer per queue
-> +  work_slots  = rings + rx_fill + tx_min + ctrl    receive rings full
-> +
-> +Every term above assumes ``VIRTIO_F_INDIRECT_DESC``, which is what the
-> +``+ 3`` and the ``ctrl`` table account for.  Without it a chain occupies one
-> +descriptor per entry instead of one, so a queue of depth ``num`` posts fewer
-> +buffers and ``rx_fill`` falls rather than rises.
-> +
-> +``try_fill_recv()`` fills a receive queue until it has no free descriptors,
-> +so ``rx_fill`` and not ``floor_slots`` is the working figure.  For a split
-> +ring, x86_64, 4 KiB pages, ``MAX_SKB_FRAGS`` 17, mergeable receive buffers
-> +and ``C = 1``:
-> +
-> +=====  =====  =======  =========  ============  ==========
-> +Q      num    rings    rx_fill    work_slots    work MiB
-> +=====  =====  =======  =========  ============  ==========
-> +1      256    6        256        287           1.1
-> +4      256    18       1024       1127          4.4
-> +8      256    34       2048       2247          8.8
-> +8      1024   119      8192       8476          33.1
-> +16     1024   231      16384      16940         66.2
-> +32     1024   455      32768      33868         132.3
-> +64     1024   903      65536      67724         264.5
-> +=====  =====  =======  =========  ============  ==========
-> +
-> +Two things to take from it.  ``rx_fill`` dominates: it is 65536 slots of the
-> +67724 sixty-four queue pairs come to, so sizing a region for multiple queues
-> +is "how many receive buffers will be posted" to within three and a quarter
-> +percent, and the virtqueue rings are the smaller part of what is left -- 903
-> +slots against ``tx_min``'s 1280.  And the pool areas of the previous
-> +subsection do not appear at all, because they cost guest memory rather than
-> +region pages.
-> +
-> +The receive buffer mode is a twenty-fold multiplier the device cannot
-> +predict.  A driver that negotiates any of ``VIRTIO_NET_F_GUEST_TSO4``,
-> +``VIRTIO_NET_F_GUEST_TSO6``, ``VIRTIO_NET_F_GUEST_ECN`` or
-> +``VIRTIO_NET_F_GUEST_UFO`` *without* ``VIRTIO_NET_F_MRG_RXBUF`` uses big
-> +receive buffers, which cost ``MAX_SKB_FRAGS + 3`` slots each instead of
-> +one: the eight-queue, depth-256 row above goes from 2247 slots to 41159,
-> +which is 160.8 MiB instead of 8.8.  A device offering guest segmentation
-> +offload without ``MRG_RXBUF`` must size for that.  Offering ``MRG_RXBUF``
-> +is the better answer.
-> +
-> +An undersized multi-queue region fails in two ways, and both are
-> +properties of the network driver's existing behaviour rather than of the
-> +region.
-> +
-> +First, cross-queue starvation.  ``virtnet_open()`` pre-fills the receive
-> +queues in index order and discards the result, so queue 0 takes what it
-> +needs before queue 1 asks.  A region that cannot hold every queue's fill
-> +leaves the later queues with no buffers at all; the device's receive
-> +steering then drops whatever it sends to them, and transmit fails on every
-> +queue with ``tx_fifo_errors``, ``tx_dropped`` and a rate-limited
-> +``Unexpected TXQ`` message.  Pool areas do not help: at
-> +``virtnet_open()`` every fill runs on whichever CPU brought the link up, so
-> +they all share one home area.  Areas give preference, never reservation.
-> +
-> +Second, a receive queue that cannot refill spends softirq time without
-> +making progress.  ``try_fill_recv()`` reports failure, ``virtnet_receive()``
-> +returns the full budget to force a repoll, and ``virtnet_poll()`` therefore
-> +never completes NAPI.  There is no delayed worker behind that: commit
-> +1e7b90aa7988 ("virtio-net: remove unused delayed refill worker") removed it
-> +deliberately, "since we switched to retry refilling receive buffer in NAPI
-> +poll instead of delayed worker".  The repoll always recovers once capacity
-> +is released, and it burns a CPU until then.
-> +
-> +What the driver does
-> +====================
-> +
-> +Feature negotiation comes first.  ``VIRTIO_F_DMB`` is accepted only when
-> +the same offer carries ``VIRTIO_F_ACCESS_PLATFORM`` and
-> +``VIRTIO_F_VERSION_1``, and only when the kernel was built with
-> +``CONFIG_VIRTIO_DMB``.  Once the device has
-> +confirmed ``FEATURES_OK``, and not before, the driver reads the
-> +``shmid``, locates the region through the ordinary shared memory
-> +enumeration, and maps it.  That happens during feature negotiation and so
-> +before the device-type driver's own probe, and it records a claim on the
-> +range, which appears in ``/proc/iomem``.  The claim is advisory: a range
-> +something else already owns is mapped anyway and nothing fails.  If it
-> +cannot locate the region it sets the ``FAILED`` device status bit: it has
-> +already committed to the feature by accepting it, so refusing at that point
-> +is not available to it.
-> +
-> +The driver then places every virtqueue area, indirect table and buffer
-> +inside the
-> +region and publishes offsets from the region start.  Allocation is
-> +page-granular, which is what makes each absolute address satisfy the
-> +alignment the virtqueue layout in use requires, since the region base
-> +carries no alignment guarantee of its own.  Buffers that were not
-> +allocated from the region are copied into it, and copied back out on
-> +unmap for any mapping the device may have written, so a driver needs no
-> +change to its data path to work with such a device.
-> +
-> +That copy in happens for every mapping, in either direction and whether
-> +or not the caller asked for the CPU sync to be skipped, because a device
-> +that writes only part of a buffer has to leave the rest of the caller's
-> +bytes as they were.  It covers the length of that mapping and nothing
-> +beyond it, so where a buffer does not end on a page boundary the rest of
-> +its last page still holds what that page held before: an earlier mapping
-> +of this device, a freed virtqueue area, or what the device itself left
-> +there.  A device is given the length of every buffer it is offered, and
-> +nothing outside that length is part of the buffer.
-> +
-> +A driver bound to such a device must delete its virtqueues before it
-> +creates them again across a suspend or a reset.  When the region is
-> +unchanged the allocator is kept as it was, so a virtqueue that survived
-> +still holds slots the pool has recorded as in use, and a second
-> +``find_vqs()`` claims fresh slots alongside them that nothing will
-> +release.
-> +
-> +The region is located after every feature negotiation, so its lifetime
-> +is the lifetime of the negotiation and not of the device.  A negotiation
-> +that reports the same shmid, base and usable length as last time keeps
-> +the region's kernel mapping that is already there, so an offset
-> +published before it stays valid.  A negotiation that reports a different
-> +region replaces that mapping only when no virtqueue is live; nothing the
-> +device left in the old one is reachable afterwards.  A different region
-> +under live virtqueues is refused and the device is marked ``FAILED``, so
-> +a device must not move its region, or resize it by a whole page or more,
-> +across a suspend or a reset it expects the driver's virtqueues to
-> +survive.  Either way, a device must not treat anything it left in the
-> +region as still valid once the driver has reset it.
-> +
-> +Keeping the existing kernel mapping is also the whole of what happens
-> +across hibernation, and that carries a limitation worth stating.  That
-> +mapping and the pool that describes it are ordinary kernel memory, so
-> +they are part of the hibernation image, and on the way back up the
-> +driver adopts them rather than establishing it again.  Whether the
-> +kernel address it sits at still reaches the region depends on the kernel
-> +page tables being restored from the image along with everything else,
-> +which is the same thing every driver carrying a ``memremap()`` or
-> +``ioremap()`` across hibernation relies on, and nothing here checks it.
-> +Establishing it again instead is not available while virtqueues are
-> +live: a virtqueue holds the kernel addresses of its own virtqueue areas,
-> +which are addresses inside it, and this code cannot rewrite them.
-> +Tearing the region down at freeze time in order to make that safe is the
-> +one thing it must not do, because a driver with no freeze callback
-> +cannot be torn down, and a device that refuses to be frozen refuses
-> +suspend for the whole system.
-> +
-> +The region's length bounds how much virtqueue data can be in flight at
-> +once.  Running out of room is therefore an ordinary condition and not an
-> +error: a mapping fails and the driver applies the back-pressure it
-> +already has for a full queue.  The errno is whichever the ring already
-> +reports for a failed mapping, which is ``-ENOMEM`` from a split ring and
-> +from a packed indirect table, and ``-EIO`` from a packed ring using
-> +direct descriptors.  A driver must therefore treat any error from
-> +``virtqueue_add_*()`` as back-pressure, and must not treat a particular
-> +errno as the only indication of exhaustion.
-> +
-> +Under this feature the virtqueue data path calls no DMA mapping function
-> +at all, so no bus address is ever passed to the device and the
-> +``VIRTIO_F_ACCESS_PLATFORM`` obligation to translate one has nothing to
-> +act on.  The IOMMU is neither disabled nor programmed by this path.  DMA
-> +the device performs that does not go through a virtqueue, such as MSI-X
-> +writes, is programmed by the transport as usual and is unaffected.
-> +
-> +``virtqueue_dma_dev()`` returns NULL for such a device, which every
-> +driver bound to it inherits whether or not it asked for anything.  A
-> +driver that maps buffers itself loses that ability, and in virtio_net the
-> +consequences are worth stating precisely because they are narrower than
-> +"page_pool is unavailable".  ``virtnet_create_page_pools()`` branches on
-> +``virtqueue_dma_dev()`` and still creates the pool, without
-> +``PP_FLAG_DMA_MAP`` and ``PP_FLAG_DMA_SYNC_DEV``: allocation and recycling
-> +both keep working, and only the mapping the pool would have done is lost,
-> +so the ring maps each buffer instead.  Plain XDP works, being gated on
-> +headroom rather than on a mapping device.  ``AF_XDP`` does not:
-> +``virtnet_xsk_pool_enable()`` refuses outright without a mapping device.
-> +
-> +The cost is that a receive buffer is mapped and copied on every post and
-> +unmapped and copied on every completion, where a driver that could map for
-> +itself would map once and recycle.  Nothing here removes that, and the
-> +reasons are structural rather than a matter of scheduling.  Making
-> +``virtqueue_dma_dev()`` return the parent device would be untrue: page_pool
-> +would call ``dma_map_page()`` on it and produce addresses the device cannot
-> +use, since a device using this feature reads offsets into its region.  A
-> +region-backed page_pool would have to allocate its pages inside the region,
-> +which is a larger change than this.  And eliding the copy on a receive
-> +mapping needs ``DMA_ATTR_SKIP_CPU_SYNC`` both honoured on the map side and
-> +produced by a driver, and no producer of it exists in the ring or in any
-> +driver today.  VDUSE already imposes the same downgrade for the same
-> +reason, so drivers handle it, but it is a capability the device removes
-> +from the driver rather than one the driver declines.
-> +
-> +Observing a region
-> +==================
-> +
-> +A device that negotiates the feature reports what it got, the first time
-> +the driver installs the region and again only if the device later reports
-> +a different one::
-> +
-> +  virtio_net virtio5: device memory buffer 2 at 0x00000000c0000000, 4095 usable pages in 8 areas of 512 pages
-> +
-> +That names the ``shmid`` the device reported, where the region turned out
-> +to be, how many pages the allocator can hand out, which is the region
-> +length less the bytes ahead of the pool and less any trailing partial
-> +page, and the pool-area geometry the guest derived.  The count multiplied
-> +by the page size is therefore smaller than
-> +the length the transport reported for the region, and a device sizing
-> +itself against the count rather than the length is the one that matches.
-> +The eight areas of 512 pages in the example are what 4095 pages come to on
-> +a guest with three or more possible CPUs; a guest with one or two derives
-> +fewer, larger areas from the same region.
-> +The claimed range also appears in ``/proc/iomem`` as
-> +``virtio-dmb``, but only where the claim was granted, and the ``shmid``
-> +appears nowhere else at all.
-> +
-> +Notes for kernel code
-> +=====================
-> +
-> +A ``dma_addr_t`` belonging to a device using a Device Memory Buffer is a
-> +byte offset into that region.  It is not a DMA address, it is not valid
-> +for any DMA API call, and no code outside the device's
-> +``virtio_map_ops`` may treat it as either.  It is never zero: the pool
-> +starts after the first byte of the region, so that no address handed to
-> +the device can be mistaken by it for a queue it was never given, and the
-> +handle validation rejects zero along with every other offset below the
-> +pool.
-> +
-> +The contents of the region are readable and writable by the device at
-> +all times, including the descriptor table, the available ring and every
-> +buffer.  No value read back from the region may be used to compute a
-> +kernel address, a length or an index without being validated first.  In
-> +particular, a header the driver has already validated may have been
-> +rewritten by the time it is read a second time.
-> diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
-> index b6b5a36c3c21..67a7dc1a87df 100644
-> --- a/drivers/virtio/Kconfig
-> +++ b/drivers/virtio/Kconfig
-> @@ -195,6 +195,7 @@ config VIRTIO_DMB
->  	help
->  	  Support devices that place their virtqueues and buffers in a shared
->  	  memory region they own, rather than in memory the driver allocates.
-> +	  See Documentation/driver-api/virtio/virtio-dmb.rst.
->  
->  	  Enabling this adds a page allocator and per-page bookkeeping, both
->  	  of which are set up only for a device that negotiates the feature.
+guest_memfd always holds gmem page in filemap cache. TDX does not increment
+gmem page refcount when having gmem pages mapped in S-EPT. Additionally,
+as gmem pages are not swappable, setting dirty or accessed bit is not
+necessary. Therefore, there's no need to treat gmem pages as refcounted
+pages.
 
+Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+---
+ virt/kvm/guest_memfd.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index 2115e73e455a..e357b4ffa777 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -1332,11 +1332,10 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+ #endif
+ 
+ 	folio_unlock(folio);
++	folio_put(folio);
+ 
+ 	if (!r)
+-		*page = folio_file_page(folio, index);
+-	else
+-		folio_put(folio);
++		*page = NULL;
+ 
+ out:
+ 	filemap_invalidate_unlock_shared(file_inode(file)->i_mapping);
+-- 
+2.43.2
