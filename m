@@ -1,66 +1,66 @@
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC7D3B7B71
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 22:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E26742DA39
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 23:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786402702; cv=none; b=p3yeGOt1M9P9cQjm0iLxH7E+evqFMIs7ax+6UpUIE6ru3r6/SllVr1l3zaYrxhJqjh7ZaeUvd5GxVdJT6xnneToLwUj4S1hSuU/RxDDeHnjrt/YG/kbkS+Z8Xq5dNCcaqEi3PEBRnecxvhsD5ftInIby7hWJ9fHn7Acr0FdRDtY=
+	t=1786403124; cv=none; b=mW9UAlXaqx2dtMtgjFhYEP5fqehYvLGkcZNLU1n1l1y72hxWmlCfMrdhJsDSSb+Ilr7Ac6dg4HIsih2onVduhHP8VP4BHampRu1zxrDLSR8dD4WZN6ZlWtby5FxcANQ9GNeits61ISHxZAhnylKm/iOt2UKnXPqAn1kIJV9iBb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786402702; c=relaxed/simple;
-	bh=CFuIJ7Uu9OrHMxjTOKTqmRsJbmdzzsMA0Hirgq5XFeY=;
+	s=arc-20240116; t=1786403124; c=relaxed/simple;
+	bh=1UixVDhcKktfLAVV3KH2xdxG9X17YLjD04ZwlUbLKmA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=j1XvRTAT9fVWYZZMfRVNrulc2G+C2u+57RKmhoiFBrkYPcdun7tk1e5Eq6A1ORWG9Xz/TN8WiO8tirHZUpTOMJ1QcXMaQAG43fpVC0TduTDvqt+oeHCxgj2FxS+MItkXiNE1pPULFrLAUNF0Z9/FtE5vLHIHoPLzk8W+tdT2UTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BFzdxsgw; arc=none smtp.client-ip=209.85.216.69
+	 To:Cc:Content-Type; b=f18d/RYHoLWM0NAxoXpIY4eMEw4yV55HjEgmL/2FrG4XIvU4SYW3OdVvUknqU/kZLPhBjRk7fGcKkJKKhopeEXgk2/TDvPOCcaBzAqFT+6nll221QsVPU8ZT0Av0LDV2jddjvK5JKUIx7Xo+7ozdqZOYuM6L96ExK6D4zsc9kzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=in7jiRgQ; arc=none smtp.client-ip=209.85.210.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BFzdxsgw"
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e4758ab46so2768557a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 15:58:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="in7jiRgQ"
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-84857446424so4157834b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 16:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786402701; x=1787007501; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786403122; x=1787007922; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2Mn9WKaRVsVTpGaOSKTBrlWB9M3O9fuL04U/nAsMmiI=;
-        b=BFzdxsgwmV9AfYECEQb5U55p7KLFSBr1yWq0jKJgtc2uNPBAF/Ra9vEUmuP4bFDo5O
-         2fBcSBN81+M/Jhh1Mr45n7WXZ6tqpeZLkK8CvmATDeGurMRBKASPp/+4kVyma7fV9Asz
-         ldyuq6Dsv51G6aA/smBxoIrNF5VySBDAvPHioJDokN+e8BOnLxnwzQuFdaDqV0xtKJ2S
-         +LHrfNlfRx98FGJ55MA9YhsUHBjC0rht1TtMJkyMmhaypoVXC34bWQCwexkV/mct8Qai
-         ENvvCPZWhvZUCsH26DRBUDjqfWrVS5mU/WxP6I229e/DXvsROJzSchKbs93cv/2Ea+MN
-         9ZBg==
+        bh=/9OrpqxZWhRM/HFUiR8JGN523y//wB+NGc5onZ0jOJQ=;
+        b=in7jiRgQ4y4nSlP2ti2hlC4pWj0ssxrD7VlSOSQ23O2AZZQPOoPApx0AdVZ/KZiZaS
+         vCKgfCLVcQx/CuPJcA4oe/2eL1Zq1v5jKF+38D+z616QAHspIus7C112/8NhLZw5+YWV
+         8CShGUyObkww6pRdQA4+yRq9hgAGA58FWXz5A78WNhXfjQ/n6tNYqGRk9z8qVsJWXFnK
+         wrqf/eC7+2BXcxX51uqLYJU2BFug4zyTSJG6EupkLav4U1ouCL2xQlDVnNrQTTqKhqH/
+         Zzb0f5a97+Ng0zfpv8udzvIKiU8KI+CfOd5qSYz3eKw9umlbP8N7i7dPpW3u8Lky0etc
+         qGOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786402701; x=1787007501;
+        d=1e100.net; s=20251104; t=1786403122; x=1787007922;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2Mn9WKaRVsVTpGaOSKTBrlWB9M3O9fuL04U/nAsMmiI=;
-        b=ePTyFeSUsd296RD0b70jIEDhSPunhWDb2iokQXQ5t28Wiovz+FQqDsS8YllJLcxV90
-         Q70BtKKhEsZY6LZZPH7V/VA2ecDdyn/hqiOsm2+Hdh93qUBDoTme56NkooSyKs0OCklZ
-         dGHflTLxp01crtLu+z0Art/cDt7y3/oveLgALQPXilr1HMTr+cuIJWUX1MECEpQepVQn
-         gPwI46yqMY+eM6njfQDwDnbrhUNi4fvZc6hA2MHUE6DMdDrCxA3kC5DmwncvoEJp3u6L
-         3XmUOjKQ/EV2x8wHD9YVno20xRAXXGD4PXP/cagZwA7Qk9xHpPEMjV1l0XsONi/fpI7A
-         SW/Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoH6D58xu7FC3/Lq24vIeLgWnw2pkOpxaRZDYY2kEUXsq/ST4qxEUOcPRgGbNasgkqLuoETj+561RI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUsb1a1vooWN0SMKSaTDwEVa4br4EbMGePzUL9h4MN6Q1O8xl0
-	Ui/fidU9I2+xdfi9fEyv08ilxY7VIYao4QaMaXtvnfaAjk8ucD4I01/BoqADrqs4jtS9kqugLww
-	TU29zMA==
-X-Received: from pjse9.prod.google.com ([2002:a17:90a:77c9:b0:384:934b:9128])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:590e:b0:38e:6a44:671b
- with SMTP id 98e67ed59e1d1-3909d301d9cmr33802476a91.0.1786402700758; Mon, 10
- Aug 2026 15:58:20 -0700 (PDT)
-Date: Mon, 10 Aug 2026 15:58:20 -0700
-In-Reply-To: <20260728121138.1103610-2-tarunsahu@google.com>
+        bh=/9OrpqxZWhRM/HFUiR8JGN523y//wB+NGc5onZ0jOJQ=;
+        b=swq5KYIzTLheopK0FLigR33tYJLbPycRJF6IC0O+3wlLLnbzETlpGulL2c8sbwyxkG
+         dbhIlSg8FcRSNNHdmhEhClYShx9LTjpJgOPPI2UrIwnmi0HMeVMFYery75o77w0fW4Lo
+         gQrhLOd/qAJ7zrcNbmJUC/3RguimGFBV3q8SGT8LN9/svTUO/M48cHCShNGWsNuuGpBX
+         Im7RYIcU4KuMKCv3k9V3bFyk5mjdqRvQ27Yq12w6A3kw+mq6ItYN7LkGc8UApaw635IP
+         RueBCYoO3/1wwsa188WXcZAccxabcZzMI6wIHuQARGHNNfCDQ9oStO9sxh4yVtnQjYKL
+         cZxA==
+X-Forwarded-Encrypted: i=1; AHgh+RqYfNFYEWRWr6O4J+Qley6y0C/KONdMrn7p51JHJaG4/svNwXiBqnh+3+MjJFoFb199XmLhBAa4Jc8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFKhE45dJIhb4uTxp9y2fxyarKxZqlNiMlwp5LUQtaJGz8z0hy
+	rXXNsgo0I0m3PuUCt1f/8T0ieKqBYba1t3xnNsn+7eTJam77AqK2bBlEJ7lFAVPFjYwM3X1GBQ4
+	1WTtH8g==
+X-Received: from pfnv2.prod.google.com ([2002:aa7:8502:0:b0:847:7765:a4c3])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:420c:b0:848:2f2c:b2c8
+ with SMTP id d2e1a72fcca58-84f9c95f809mr5850968b3a.24.1786403121703; Mon, 10
+ Aug 2026 16:05:21 -0700 (PDT)
+Date: Mon, 10 Aug 2026 16:05:21 -0700
+In-Reply-To: <20260728121138.1103610-3-tarunsahu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260728121138.1103610-1-tarunsahu@google.com> <20260728121138.1103610-2-tarunsahu@google.com>
-Message-ID: <anpXjM_lg_UTpl0q@google.com>
-Subject: Re: [PATCH v4 01/11] liveupdate: Add LIVEUPDATE_GUEST_MEMFD config option
+References: <20260728121138.1103610-1-tarunsahu@google.com> <20260728121138.1103610-3-tarunsahu@google.com>
+Message-ID: <anpZMemVz5yC_WLo@google.com>
+Subject: Re: [PATCH v4 02/11] KVM: Introduce kvm_create_vm_file() helper
 From: Sean Christopherson <seanjc@google.com>
 To: Tarun Sahu <tarunsahu@google.com>
 Cc: ackerleytng@google.com, fuad.tabba@linux.dev, 
@@ -78,14 +78,14 @@ Cc: ackerleytng@google.com, fuad.tabba@linux.dev,
 Content-Type: text/plain; charset="us-ascii"
 
 On Tue, Jul 28, 2026, Tarun Sahu wrote:
-> Introduce the LIVEUPDATE_GUEST_MEMFD Kconfig option. This option
-> enables live update support for KVM guest_memfd files, enabling
-> guest_memfd-backed memory preservation across kernel upgrades.
-> 
-> Currently this support only guest_memfd files that are full-shared
-> (INIT_SHARED and no support for private_mem).
+> - Move ITOA_MAX_LEN to kvm_mm.h for reuse by upcoming kvm_luo code.
+> - Introduce kvm_create_vm_file() to wrap kvm_create_vm() and
+>   anon_inode_getfile(), providing a unified VM file creation API.
 
-Why?  Specifically, why do we need/want a separate Kconfig for guest_memfd
-liveupdate versus KVM liveupdate?  I can _maybe_ see a KVM-wide Kconfig, but
-even that seems like a stretch given that (AFAIK) hypervisors are the one and
-only use-case for liveupdate.
+As Ackerley pointed out, changelogs that are literally a list pretty much always
+needs to be split.
+
+These also need to explain *why*.  "providing a unified VM file creation API"
+isn't sufficient justification.  In general, all of these changelogs need to
+provide more of the "why"; I can figure out what the patches are doing easily
+enough, but in my speed read of the series, it's hard to figure out the "why".
