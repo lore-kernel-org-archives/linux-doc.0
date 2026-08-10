@@ -1,162 +1,113 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69EC426D0B
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 16:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786379626; cv=pass; b=Fk+nNoNYaRIlF9o5kXJRI9s5MhZWZVnRkKVsXmp1JWnsBDBGI/qIYNMBhfW+a1Vzlm05mHo0ZOnfce4siisnZ4fzsCbuWiWQPtKq0d+Raw+MKq81EO9miRXpMHjnACN2T0U3fq2TP7pO9cCpKIU5posa6GgX8Try6SfCb+Vvyac=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786379626; c=relaxed/simple;
-	bh=92IdV19r0TDh/ZZaldtV1bjlAmTbuJX6DPtxnWcUDvU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NrTg7z/wqCniXy9Now2vxFIJdN5xZl21RQaZ5Zw0O1Dj6exNEQUXPCvk+yNrYL4uE+nkn6MU3Tl3D1dCmgu2mKWIA5demMG0WrVwajTQblxvlxWvz7JCXI1XLRDAn+a09XEI3KgZMzR2yHCEkWZrn/NRTCU6kFcaEfrp2bUkadQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A8nkiV09; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E6B3FE35C
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 16:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786380150; cv=none; b=nqyGjBkkiV10hU987prIM20hug4S8zv0FxI1Uv4EjrAkXXYlXFDzghxqbNNg3xkHhVbaK+aMRoS2LBZnas4rnhdNxeGwiiLy5W/9pbkoaxGuctLjvxS6f+a8/9JnUHcrMSbcjjCwp/J8KQ3xhl1fGESytFBvfmiqQuGEHPCofBE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786380150; c=relaxed/simple;
+	bh=18EoA/xa5wu6UGPt1xX3ZYgfinL8Hx9sPGkt/lCoJjM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Content-Type; b=ge6nTpR1fRh1n1SNhRsOjnjfYA0xwxtT7gB/UdWjLkf7rRyyevF8Il07WuJXbYOCh72/lnU0Q6VCkrGhAySrT/bwI9LBpX0/x+vlhIM0V6ovJuRqvfcVqVXTLOM6kUjBgj6eCfckK0jHjK3eFx0f+OE9EbkWKQULInl+3UOW2bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OCZrv7lO; arc=none smtp.client-ip=209.85.210.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A8nkiV09"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so2183410f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 09:33:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786379623; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qjqA/D1aHWkIraQ4RT4UU0zLXW2HutEEh+Iauzw2C/QZ1k+hkkOAwKbcEnjHqlDJ9q
-         oeWxZLUNnwH2JlsDXdLYZ87dpbl+VRDtSjZljWFdkVuziGvr8VKk5dg/mFlUBXztm3NK
-         CFtnZ3osw8OeSMxInFV3kBqwx0TemQVODhc1PvKXRZDh0E0fbtXs5PsWgR43D4Z07hnl
-         VycLkSxq6KuXh7p11a0enmM4HaQKpNJoqzEhkSu7qxWmsRATATQWCiPRYQMAUmRwETny
-         JVzpgGdH5g0vuo1mZrvZoDAOaW0rmF2GImYUIcvYEJy7cGtQdLoG+pCCc38k6pDCpLqL
-         8VzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=92IdV19r0TDh/ZZaldtV1bjlAmTbuJX6DPtxnWcUDvU=;
-        fh=GNlmhdW/lrgvGefREKYJw0cL075FDoEff4SGblE2vTE=;
-        b=emzeo+mQYVc8hsRxaf+15Tbp2qu3MENrmCC1PZGNAHWAnXVn6QrR64pPU851pTkFMG
-         6wFnT3hwkYXW+3tPRdEHTBGTDR1ei1lRtByLqXioEioAASzORZ1RJq9OVVNIt8Jz63o8
-         9me74qedcd4VIaXi0TiOEZbagbXb0CkhoLV9i7Z1zBF7maa6jgFMU+/mfVOt3wLXf5WR
-         PM+oFcqfM+I7jNMYDZpWlT8PPNGJwcIK1t83DgiMIrXqVqJQbxzwgdAsGsCjXZN5oKjR
-         Bvzq+7D93rROaJbfENBuj8kvZUgB4UXw/P2a6tY7/lusXVnAeEZp3rORwEh1TaQydMkX
-         YhuQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OCZrv7lO"
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8484f26852dso2366192b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 09:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786379623; x=1786984423; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=92IdV19r0TDh/ZZaldtV1bjlAmTbuJX6DPtxnWcUDvU=;
-        b=A8nkiV09mUMVaZGn1g6ZmAv/VBnKw+90bPl8eOV5UL0+5cLisIR16/CTIvY4uWRWKg
-         k46P1Up/l3E2F+v1Af2QpJ1dtIVaCUdyCVMaP8N+jDyC4r+/1jjBLgGWGWfr2PiyTlpo
-         yO8SQ1oGEI4zJ/AHG7tAtraUmjG33aBFPsZxw7mxUckVT4jV0M5OhgZsmKn3phguqK2q
-         vT7jmyO2YajscjBl09EaXZ68Fv5JK14077LWaLVnlvR/7hhNTzPu5XuoHakWVFsr6658
-         mS2DB621jYV+H945yn7UXEcLVEWHh7S9wLrAbZSz/uGkaOuihfDehLaLuGMqcOAhhohl
-         RbNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786379623; x=1786984423;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1786380147; x=1786984947; darn=vger.kernel.org;
+        h=content-type:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=92IdV19r0TDh/ZZaldtV1bjlAmTbuJX6DPtxnWcUDvU=;
-        b=nZe4ceQ54Kr8B1kzoKg4UjXrnBYCJJWJZ4cghWOeOhfrfrHUnK5JHIpZ7MbvahbSA/
-         IIwVTMp6mT37gMOlYjReTXUiHCpk1p+Ko8clr2HtFen8Ky6ulX3FBZHhyLJ8Cc3CZn8u
-         oCNJLkawf3/YTb9yy7C9WkeiGDvzD9Hla5iWjHnMEeJ73j2e407l1nmU3dFL5HM47snO
-         CDn5uENo29yJdwldCmQFUzdpWAC02cjADFgbQTQN1S9/CrpynyKjLVnewIFxCcwJrzFa
-         vNnaVFSRLzxtRkIa7lhZae3++JRM3g8pC7H2zUPPQIqFBAnGVkxIn+tkxFsrHLO9idYc
-         VADg==
-X-Forwarded-Encrypted: i=1; AHgh+Rra092tRnsu/jObyPMcMWSBSdfIXFRHf7X1aRxbAkaZiis/JNFZcLhkncjU+W+cwwY1HcXR3z030Dw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUOYa4zczNttOYpeaq10uK8iUFTixI22Tp7O+Wqdgw/jvl4Nhj
-	BOn28OwqR/3hTli4Bgk+yj721xORQY0AX6mPV9sKibgodGF6aYiyTEe9cGGvqIOjcF0unkPz80V
-	uxH1J1P/KZFmLLxeQ3rtkMl2EluWg+8U=
-X-Gm-Gg: AR+sD1001xyKi0UgEG0Nb7i+z5DzURvkaMPxMPX76pzecIvtwkD8IyVh411xhSl5Q94
-	xk8XVaFCBenM/Vu8f5GwiBKXs4HvX8lOwSl13F1eZm7xpXMuq6T7GkB3hfQ9+95YWx91iQUCT6z
-	0PfkMrZci7k5ojk1WNLvibEK3pW3jQdzyXzXfjK8rWHnzcd3PyopF2+z1kJRH2z84DNVwiyJD0I
-	ITlN0CyejWJH/8JnUJ1di6rQhLCJFXLyl7KQJL6/pvTkQXHTnRnP45Wlk9e7EzTNPiestvAB9VS
-	WeWTY+syEEu4UKSrjHgobwBz9QXGbIFlDbzZKN9rfu8BZQ921zaQeoNqAtFgTb4krZwG0+1Lxz4
-	bCFUgQvSQTbjB
-X-Received: by 2002:a05:6000:c50:b0:47f:7c50:2222 with SMTP id
- ffacd0b85a97d-47ffd967728mr37586913f8f.24.1786379622849; Mon, 10 Aug 2026
- 09:33:42 -0700 (PDT)
+        bh=1aMkrKlnySSkZTh98FOauiGYQlFOQqftaK5JuEjFP4g=;
+        b=OCZrv7lOaH5GGiWiSTGo9sOZLKOUWniv4U0nh2OOTOGk9ZnOFWrSzl5+z4LBFX6F1F
+         WqqUUkEohic2BBlUestzm8czL4GjmlkM1b9QICFO6e6cqhoLVczSRA1s2HjSsaAFHjUX
+         K7vviHue6tbdd9s1KhnSISjOubtAyjrvxKbtJK4YzIw7RHhPbd11DncjSRRfdKTYA0+O
+         AIUakgZgFVTFlKf2s8QLoFqMVMosNVOMg6bVlZPO8Xf+0NH9xzwlfzQRSny4QT8p8YEt
+         MJHghrGXDZUQuuAX2YKxjTxxezGuTyRusSLBPRjZnuNaJbrMWQykkRHrlsAgjwWj6MvS
+         0V6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786380147; x=1786984947;
+        h=content-type:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1aMkrKlnySSkZTh98FOauiGYQlFOQqftaK5JuEjFP4g=;
+        b=M0B2Us0tIh2+oJvkief5QH66H1Rk3hI/Ar3EpHJPU1M0qyvyeipOVEY4oRbOmSs8ly
+         rlE8diyOx0AcFqQaouUL5EV33GKglvW5knnWiWrn0/OmxHBzb7riR4beCQBNAE6Y5coQ
+         Ofb7nr7kItlDYPHdnLs7PmMq6GHrIWfWOBpQPjhvSgCqNK5p1soUzKIrRI6GUQ8j0DFD
+         eiXHOPwDTzyCT3FWn1LkzMVOTK2NroPKrSfA3J24hLQxtIagZB09guUIPnmi5JIWLccp
+         luC1wFX+ueQnVeUo+FfbIMKEUe+We6/qvZpFsVZJPKqQ89sseE3jO9gIGwAzPfsrLzt9
+         yAUw==
+X-Forwarded-Encrypted: i=1; AHgh+RrQcVbz9bHIMem8mUmQe/IcYgI77eafsyUJakytRqfdpVUMYj44ELSgD8Y/bGXOW6esz/Z1RujDxSY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAs0soiGhTjZWzE/TaiMQRGbgocbj65c1X39xL++XyORhJZfxr
+	f8ctgaczpNB2iO7/PZ2MHECjTQaZfM+m9aJg5h6hZWyv0mgrgbwqMjOT6MGnsIExjYL7msAx2Q2
+	uitSl8Q==
+X-Received: from pfbkr10.prod.google.com ([2002:a05:6a00:4b4a:b0:848:569f:3464])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3cc5:b0:847:8dec:1427
+ with SMTP id d2e1a72fcca58-84f4fd9f647mr32987651b3a.8.1786380147208; Mon, 10
+ Aug 2026 09:42:27 -0700 (PDT)
+Date: Mon, 10 Aug 2026 09:42:21 -0700
+In-Reply-To: <20260728144954.355376-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260806184254.3790858-1-nphamcs@gmail.com> <6a756c71.01d0871a.3a0d52.003a.GAE@google.com>
- <CACePvbVKpkyV7KpUoiYPTUN0MgEcRUzZL71qTL5ePyjHTA3Kbg@mail.gmail.com>
-In-Reply-To: <CACePvbVKpkyV7KpUoiYPTUN0MgEcRUzZL71qTL5ePyjHTA3Kbg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 10 Aug 2026 09:33:31 -0700
-X-Gm-Features: AUfX_mzZKBGWa5jQHBx4faGYg8WQuFE8t_gvjrXgkg0wPeZavX_nvUNwRzCJVmE
-Message-ID: <CAKEwX=M=08W43G3dSjRh1p7Z0QFSDQZWuNWguon1yETvxW+89A@mail.gmail.com>
-Subject: Re: [syzbot ci] Re: Virtual Swap Space (Swap Table Edition)
-To: Chris Li <chrisl@kernel.org>
-Cc: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org, 
-	baoquan.he@linux.dev, cgroups@vger.kernel.org, chengming.zhou@linux.dev, 
-	corbet@lwn.net, david@kernel.org, gourry@gourry.net, hannes@cmpxchg.org, 
-	haowenchao22@gmail.com, kasong@tencent.com, kernel-team@meta.com, 
-	liam@infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, ljs@kernel.org, mhocko@kernel.org, muchun.song@linux.dev, 
-	qi.zheng@linux.dev, riel@surriel.com, roman.gushchin@linux.dev, 
-	rppt@kernel.org, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
-	surenb@google.com, vbabka@kernel.org, weixugc@google.com, yosry@kernel.org, 
-	youngjun.park@lge.com, yuanchu@google.com, syzbot@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20260728144954.355376-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
+Message-ID: <178637989949.703398.16006467247639187150.b4-ty@google.com>
+Subject: Re: [PATCH v7 00/36] Cleaning up the KVM clock mess
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org, 
+	David Woodhouse <dwmw2@infradead.org>
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Aug 7, 2026 at 12:21=E2=80=AFAM Chris Li <chrisl@kernel.org> wrote:
->
-> Hi Nhat,
->
-> On Thu, Aug 6, 2026 at 10:26=E2=80=AFPM syzbot ci
-> <syzbot+cif942a042aaa8793c@syzkaller.appspotmail.com> wrote:
-> >
-> > syzbot ci has tested the following series
-> >
-> > [v3] Virtual Swap Space (Swap Table Edition)
-> > https://lore.kernel.org/all/20260806184254.3790858-1-nphamcs@gmail.com
-> > * [PATCH v3 01/11] mm, swap: add virtual swap device infrastructure
-> > * [PATCH v3 02/11] mm, swap: support zswap and zeroswap as vswap backen=
-ds
-> > * [PATCH v3 03/11] mm, swap: prepare the swap IO path for vswap
-> > * [PATCH v3 04/11] mm, swap: support physical swap as a vswap backend
-> > * [PATCH v3 05/11] mm, swap: enable THP swapin for vswap entries
-> > * [PATCH v3 06/11] mm, swap: write back vswap zswap entries to physical=
- swap
-> > * [PATCH v3 07/11] mm, swap: reclaim physical slots backing cache-only =
-vswap entries
-> > * [PATCH v3 08/11] mm, swap: only charge physical swap entries
-> > * [PATCH v3 09/11] mm, swap: add debugfs counters for vswap
-> > * [PATCH v3 10/11] mm, swap: defer memcg_table allocation for physical =
-swap clusters
-> > * [PATCH v3 11/11] mm, swap: widen swap_info_struct max/pages to unsign=
-ed long
-> >
-> > and found the following issue:
-> > KASAN: null-ptr-deref Read in swap_entry_backend_has_flag
-> >
-> > Full report is available here:
-> > https://ci.syzbot.org/series/e7da1097-3230-4e50-80cb-1dfafeebea40
->
-> Please take a look at the syzbot report and let us know what you think.
->
-> Chris
->
+On Tue, 28 Jul 2026 15:39:40 +0100, David Woodhouse wrote:
+> This is v7 of the series to clean up the KVM clock, rebased onto
+> kvm-x86/next (patch 1 of v6 is already merged there as commit
+> 710b3a30f407).
+> 
+> The KVM clock has historically suffered from three problems:
+> 
+>  1. Imprecision: get_kvmclock_ns() computed the clock from the *host*
+>     TSC without applying guest TSC scaling, causing systemic drift from
+>     the values the guest computes from its own TSC.
+> 
+> [...]
 
-Oh it's a real bug. Not too hard to fix though.
+Applied two more Xen patches to kvm-x86 clocks.
 
-Basically, before adding the folio to the swap cache, all bets are
-off. If you don't lock the PTE ("and pte mapped but not yet locked"),
-the swap entry can even go away under you. With the old code and no
-indirection, it's fine - we pin the swap device, and we only need that
-swap device's property here (for the sync IO dispatch). With vswap
-though, you need to also check vswap's entry backend device. I need to
-add proper rcu/null check here in the case the vswap entry (and its
-cluster) goes away.
+Given that KVM was updating the wrong sub-leaf (which amused me greatly), I
+didn't see any point in waiting for the new uAPI updates to yank out the CPUID
+updates.  Holler if you feel strongly that that change in particular should be
+bundled with the kernel that adds the TSC scaling uAPI, omitting these changes
+from 7.3 and waiting for 7.4 is trivial.  I'm just trying to reduce the number
+of in-flight patches we need to keep track of.
 
-Ironically, I think I got this correct in the pre-swap-table version
-:) I was way, way overly defensive over there (I think I add one extra
-pin for the vswap entry, and then pin the backend device to just for
-good measures, which is not really necessary).
+Thanks!
+
+[20/36] KVM: x86/xen: Prevent runstate times from becoming negative
+        https://github.com/kvm-x86/linux/commit/36a85200643e
+
+...
+
+[22/36] KVM: x86: Remove runtime Xen TSC frequency CPUID update
+        https://github.com/kvm-x86/linux/commit/7d3bd21e457b
+
+--
+https://github.com/kvm-x86/linux/tree/next
