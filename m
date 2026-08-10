@@ -1,138 +1,100 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C16654652;
-	Mon, 10 Aug 2026 00:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AFC2FBE;
+	Mon, 10 Aug 2026 01:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786323462; cv=none; b=WCbgycPAeDi/OTIeflP4Xa67LJmS2p4Wly+vXl4EiHkZ6txFMFMp/2WsdyOCXnFuf6eQE0nhfmm8iZ24YqIEMuxg6k+Xtzjzqyrh/DhWOWw2lDYwSkkDAcil9B963CyxrQqsAXRsitRdFH+K5DPXymiq3wmt9UUrZL7SqsyGjIE=
+	t=1786324584; cv=none; b=Au5ofTdY+SyCVJil+T56Wr58KPJYv//PkP0oxcV6OZ3RtsNKdH8CGgepVa1a+ijYUeDMSmjEzpwV6oGK1yLHADy8eivmu9YZKcWbvw0OIPZkee+UFh6ljFuq9k6FoWDxlbROTT+0bC74FLpZ7P7P/8kYVc+bla3DekJBMDEOgB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786323462; c=relaxed/simple;
-	bh=GfgY8O0J2ffAHdu5F2U5peqoLzRw+JRWfU3Fix4dAuA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aCBdC3oEpj+LClw7iOMe37IgmDfUXV+cIQUIyoPZiyf3+JLPaFKNUZO4iRADXTigRNNGBmADt+HgSJPpBX4NI/7JyIH2kAS+wF6iZE5iCZtyE/Rn2wpiOijK2+i3BrdCyvktXzANSA1GEGDqcr23wA9/SvZHzo5zafb3ztZRFXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=G3DT65bV; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1786324584; c=relaxed/simple;
+	bh=rbrRi11I6qOw1JS5/3NzaYjbAQN4/Vletf+9Nj4kEEc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rkXuD2jAwS9OrI0kC9sn8Gn+1RCvUFi93fRKHmrnOH4M1eOJl/F1EvTICPn0fpSzDS9ikqPKGKF321vuMzR2lLOz9vHgSWRMkTBiFSB20CdQ2rHDYqyYo8che6c8nzeP/LXFal3m7/GRZcrHVfyF6DMQgRyiw4645V4q/MHZye0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anka1.top; spf=pass smtp.mailfrom=anka1.top; dkim=pass (1024-bit key) header.d=anka1.top header.i=@anka1.top header.b=DlzkyVid; arc=none smtp.client-ip=52.59.177.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anka1.top
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anka1.top
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="G3DT65bV"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=7RLgHnk2O+mardnN2/VLpLm/wznio/mdtwTSJero/ro=;
-	b=G3DT65bVjLEgWtZ7JxUs9YwE3FLNfZpxZS+oaCmCV0jxYk307F83oLIU/kYx+BmDRHyBJLqZf
-	bbibRSrz9D6nvJ4aAd5vOGnk+z6v6jUYlbdZg3319Ax4VBZ7GTYNJMFuOInVhrDGwlcfmDSzTew
-	dgtwRymy8bzUIV0B3vIA9JI=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4hJGKx5rF3z1cyTD;
-	Mon, 10 Aug 2026 08:47:01 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 92FDF4055B;
-	Mon, 10 Aug 2026 08:57:36 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Mon, 10 Aug 2026 08:57:35 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Teng Peisen <tengpeisen@huawei.com>, Wu Di
-	<wudi234@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Larysa Zaremba
-	<larysa.zaremba@intel.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chen Anwen
-	<chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>, Zhang Min
-	<zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>, Xin Guo
-	<guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
-	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
-Subject: [PATCH net] hinic3: Fix SKB linearization mismatch and silent TX drops
-Date: Mon, 10 Aug 2026 08:57:32 +0800
-Message-ID: <f742377e33f33541420c0ba741925180517b3a9f.1786091276.git.tengpeisen@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
+	dkim=pass (1024-bit key) header.d=anka1.top header.i=@anka1.top header.b="DlzkyVid"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anka1.top;
+	s=fpjh2607; t=1786324535;
+	bh=yEaVS6nQ0XEVBRDx4COLJ87oqZq91YA83wSOhmu55jU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=DlzkyVidBVm8adNj1sn9nb1DsR6PGYeOKTsmTcAqWom/pYqlOBXtNZ9csFt7XsEIv
+	 Ndj1mulpk84bCR7SLVngRg3a9Yrw1WQMHZJQ7Wp77njyLozmM9RFR+bF7tMT3eMCxw
+	 QaWBXU7K10Jxi2XEzjcrj4VDLecMsvrvcvhrqYuI=
+X-QQ-mid: esmtpsz17t1786324533tbee50e23
+X-QQ-Originating-IP: jU1vNZFjPZYqQkMSo4LSpZ+fv/ctLGNV3a6/oN0ufPQ=
+Received: from anka-20eya00ycd.localnet ( [110.188.67.176])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 10 Aug 2026 09:15:30 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 10038015587027930732
+From: Siwei Chen <businiaoanka@anka1.top>
+To: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn, corbet@lwn.net,
+ skhan@linuxfoundation.org, Siwei Chen <anka@stu.cdut.edu.cn>
+Cc: wy@wyuan.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v2 0/5] docs/zh_CN: Add Chinese translations for five networking
+ documents
+Date: Mon, 10 Aug 2026 09:15:30 +0800
+Message-ID: <E0A8AEC487870DFA+12952253.O9o76ZdvQC@anka-20eya00ycd>
+In-Reply-To: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
+References: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:anka1.top:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: N/36BtZsN8Hh1RFcSblB8L4j3/5XnZAL80u48pUnfPvBvC+E7gU4AhKQ
+	BUAhyporjSXwDKT6FAuFNbrg2lUn0CsQOCeDKPvpBPN+NBeTeo5YvgvIuDUndfajLERXONm
+	yrThaZAnFJnIlfsQYr6hSdPVbtNmeZpGAJfDbsOhQGBMZ5vrAhUf15HE2hO1Za0bXTGQbjQ
+	CAVe4FGtZEkIk9hEG9xmhatlstCSzDHGNIEH7W3xphA6F037W6qSGj+CTPwsejphDqajrKa
+	RBwjij5Bef9yjUxbGzRicayLY52m2Yy6UyyTNy0zykmHFXN3cUR9XS5ywK8LSvapq/qhmyc
+	1eFtRgwrKNb7EVXtuIDfLRy1obJw0rxiXzr4pt18vxe+29qmn5L8jsCo0mdZVTT6Bcu9tpP
+	mPN5kLfvvFXQq2eZ+Ozv/Cik3HJgBULFHbqAs8vZpvrHiBDakQIxYOiPuCUMok5hkNOQDKI
+	bdKP06lVYCK1eacHwYEs+P+U5q7HITiFH/Q0khHIg+wO74RPsHtYjTbqKWVtrNho55GnZwj
+	ZxMXFaNbKSRzv2pbhKHifhnL2ed8nAcwJMCnApgHMxGZfM+B3Jmc7OCNR8VoB1hMtW1IWAM
+	jq5MbTAFv/8djEsEtoR94dQVd0YvxbL3tNgyjtJ3sA7/241Dy4bjg83dpc/VIbcm5tANj0N
+	1A9+yN0OPeso1oc0TTgwTtxQfMGkvk08ZZ1Sxzm1t2/wsDAsuouCMOWfGNplwaiuiYT04sm
+	LJSGe4vM9LoMmK5zymW9mmS1DHSnrLx6W3Pz3vupIRo5RiNmjjbSu1hPs6rVnhRKY72dVXN
+	tqTBgdTYXEws01bF02STDJMGk1fGgVN7n/gN0JBT7eIKMkCvG3rbBsP1gbka0BUcM3fLvVk
+	QaUL86l6rM2w+ssYbpeGY1XhriQxUxAxJW4ElcesYCYynyE10Yss+H31KAd6dCpJ1gaWhUs
+	zk0PFoP3EjlNU6NB6MTU2gaJRiFc7bA9LatkarvG1Wk1lPRFOB6deTZ5oHbDp3zQkPhiBTW
+	/2cvRJLQ==
+X-QQ-XMRINFO: Nq+8W0+stu50/hJ9IaixOkx9NRI1cPreIg==
+X-QQ-RECHKSPAM: 0
 
-Previously, hinic3_send_one_skb() cached the SKB fragment count before
-calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
-skb_checksum_help() for unsupported tunnel packets, the SKB may be
-linearized. Continuing to build the TX descriptor with the stale
-fragment count leads to a descriptor mismatch, which can trigge
-out-of-bounds DMA reads or IOMMU faults.
+=E5=9C=A8 2026=E5=B9=B47=E6=9C=8827=E6=97=A5=E6=98=9F=E6=9C=9F=E4=B8=80 =E4=
+=B8=AD=E5=9B=BD=E6=A0=87=E5=87=86=E6=97=B6=E9=97=B4 15:35:31=EF=BC=8CSiwei =
+Chen =E5=86=99=E9=81=93=EF=BC=9A
+> From: Siwei Chen <businiaoanka@anka1.top>
+>=20
+> This series adds Simplified Chinese translations for five documents
+> under Documentation/networking/:
+>=20
+>   - team.rst: Team devices driven from userspace via libteam
+>   - sriov.rst: NIC SR-IOV APIs (switchdev model and legacy API)
+>   - driver.rst: Softnet driver issues (probing, close/stop,
+>     transmit path guidelines, and extack error reporting)
+>   - ipv6.rst: ipv6 module parameters (disable, autoconf,
+>     disable_ipv6)
+>   - secid.rst: LSM/SELinux secid usage in the flowi structure
+>=20
+> Changes in v2:
+>   - Add translated documents to corresponding index file.
+>   - Link to v1:
+> https://lore.kernel.org/linux-doc/54B9FF7CF7DE776B+6294277.lOV4Wx5bFT@ank=
+a-> 20eya00ycd/T/#t
+>=20
 
-Furthermore, the old code ignored the return value of skb_checksum_help(),
-transmitting corrupted packets with incomplete checksums upon failure. It
-also failed to increment drop statistics across various TX error paths,
-causing packets to be dropped silently without notifying the user.
+Ping
 
-Fix this by:
-1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
-   ensure the correct fragment count is used if the SKB is linearized.
-2. Propagating skb_checksum_help() errors and returning
-   HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
-3. Adding missing statistics increments (dropped, map_frag_err,
-   unknown_tunnel_pkt, skb_pad_err) across the TX error paths so these
-   events are correctly reflected in interface statistics.
 
-Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
-Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-Co-developed-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_tx.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index 9306bf0020ca..cc541e7a2318 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -261,8 +261,7 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
- 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
- 		    VXLAN_OFFLOAD_PORT_LE) {
- 			/* Unsupported tunnel packet, disable csum offload */
--			skb_checksum_help(skb);
--			return 0;
-+			return skb_checksum_help(skb);
- 		}
- 	}
-
-@@ -412,6 +411,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
- 		offload |= HINIC3_TX_OFFLOAD_TSO;
- 	} else {
- 		tso_cs_en = hinic3_tx_csum(txq, task, skb);
-+		if (tso_cs_en < 0) {
-+			offload = HINIC3_TX_OFFLOAD_INVALID;
-+			return offload;
-+		}
- 		if (tso_cs_en)
- 			offload |= HINIC3_TX_OFFLOAD_CSUM;
- 	}
-@@ -545,6 +548,7 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 		skb->len = MIN_SKB_LEN;
- 	}
-
-+	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
- 	num_sge = skb_shinfo(skb)->nr_frags + 1;
- 	/* assume normal wqe format + 1 wqebb for task info */
- 	wqebb_cnt = num_sge + 1;
-@@ -560,7 +564,6 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 		return NETDEV_TX_BUSY;
- 	}
-
--	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
- 	if (unlikely(offload == HINIC3_TX_OFFLOAD_INVALID)) {
- 		goto err_drop_pkt;
- 	} else if (!offload) {
-
-base-commit: 2195424c3da2ef1829a63b807e3a900a90e57d85
---
-2.54.0
 
