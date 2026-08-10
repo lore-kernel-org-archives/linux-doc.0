@@ -1,63 +1,63 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F7F3F4DEE
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 14:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004E33F86E7
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 14:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786372409; cv=none; b=MbJUk5Gdeq+T3ObioslbdlNwQMYhNysg6uYDgXytehKXSs1GQWuZvm6ONp/hKbHQc+07sgaIbgkpmcS6sYen1ew81MMrhvT9AZ+fyvCo27/+Bh4YnxKLKahff/BG9rK512g9hUdGPQaoEnD4Q8IAASphR6tgijiRjQ/AXjv3w88=
+	t=1786372412; cv=none; b=DpSkvFLJX9RALWa/5aKCP9MxnbioymVzIkPqvRjxqx6ZWoPRo5QU2KP2guuzH+DmExTdVSbKSRoDHQN4n3A40LhQVFfqDwqzENyTLFM7Q1kwPFJPI6JbtmYB3lHX3fSPKdLqMV/qZNLZSwm+m7d3a2m9GK5vxwMg/0qWfj+bSPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786372409; c=relaxed/simple;
-	bh=SkWJziYAltGYw0TJ8LmA/O3aXe/nbpzfJr3gzN3OpRc=;
+	s=arc-20240116; t=1786372412; c=relaxed/simple;
+	bh=64TB55FHYFwfaYz9gCVrUPYWAOUkrsbqFhpR+gClBKM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Md3gcmNkb3oUAwUIeOL8kFTJN73g5iI3X36AwDIUmwBqbXxnt+w52ZnG4+sA55WW6GUB2ivYduDdJRJSUyjLLIVns/yt3nXb8ooy8MtC4qAQ7h12+EDJZL6QGcl3IEGvw/hMGhzffW2Ao/ZsRvxatO7UK56g1SMtvcgh5vUy9Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNSaq1mL; arc=none smtp.client-ip=209.85.216.45
+	 MIME-Version; b=A9Mrw5XVaCl8yIaK2keCNUABqOBW4V/gffz/ZHOrMVFBgazY+d8RHe/2nFS10Fk1KdzhiXg+pqJcEcPFs9rAjpfwZQXhM1WhTucEcu+Tb3QkkoILKPhHi6+jDx32QAeupOVz42ZMAcM+Oql7PG34onulvOSX+rA0TY2z4mGguzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzQvdwry; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNSaq1mL"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so1809658a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 07:33:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzQvdwry"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cfff5f88dbso30154015ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 07:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786372406; x=1786977206; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786372409; x=1786977209; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3eGPyLBs9QZ3Nwm6ypDb5+mFyEwjns3mEiwXdV8ptF0=;
-        b=GNSaq1mLmI2ROmYXZ/l5mgBpfoPgjNKryi35qJsNK5bTr26ACuah7ZUoDMGEWKWs4Q
-         NLINFVRSM8twcHEk8VlF6IhMFbAZHs+dKcAftF2ay2ahKi8G/IH3fCDYQk3wbwvv7iMW
-         aJ4m+q3vYR8MX50BG/euYuGxEH+P2HiVyXdsvfyVSGCKmZqae3anu38hU4xMuCqSP0Te
-         cAqklaQNJFXVl8GqOHC1MCfkjlQ/JaI3XsJb/fPamwfBHdmW90jc2Z41fEV2EWdtsphc
-         qVrRIbwDB/ec6YMFfmdgKQqXkZ8BNSfCrCl2Q70XQruwA9r4x+k2rxadwqc2zj5jHsy/
-         CHKA==
+        bh=mW6857ZUCKMxTWq8NsQePygvrLZZIX0lwqlDz2Pl/S8=;
+        b=LzQvdwryqh/oRypoaAwf9nrotr1vFHaayuFEFk9n1CSCYkXdkCPJClrUF4SP0mU1dF
+         KJOHdYwM5ux1pJjMJK8ZiYhT5Opkwp3/dkrsFa71AeubkmLePUBvUl4prVKcyfJLYK1l
+         Fi8QTTPzG1sN4lZ0YtWCG31VvCxMzV0qvm9yc6vIIniQDLmazemLKFC7yBeu9KSzR/r8
+         6KgU33BcxI0T6gBzSP3b2ko3rWh9LVrJ9dNv6Jml3K8T5p786eGSFdqqo9UKn+vCnotK
+         d2qXXHLTaGb5yl/bsk7NZ+IIOj/a1ikT3Au0fem+eZzsgaWhBklrlPrIiVYoWYXZTizC
+         BxSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786372407; x=1786977207;
+        d=1e100.net; s=20251104; t=1786372409; x=1786977209;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3eGPyLBs9QZ3Nwm6ypDb5+mFyEwjns3mEiwXdV8ptF0=;
-        b=G3rHvzkMYNjSgtwuQHU365XV33wVNPST2pYyYCxZtLw1tEBO2+/QPybloDj+t0njJw
-         tZqF5n3hjFlbPfTlYh/64zS9baxAeIxQEzqbxujn6Eb4TfhhDU92t0HMCbT2Po6ApizP
-         dNSu2byYDfVXUVRFIxtaiwMxOVP9VpVCtB4zolbQx8GiS+wuTzq2Tb3zakiEXdzSpghO
-         DTmxBUDEwC72heoQbIFtTRO1Jxjhh8cRQOwwyPQo9yp9OrXybWjS5PGvXIxDtpnKi0cF
-         T8pM/Y56vWUk+gejOoEYypRBUW4nAvVIMByN50mqHU8JIu0Px10A9Fi+7Z3QT9fQ+RXp
-         nL8A==
-X-Gm-Message-State: AOJu0YwWZP7o2P6Jqvs1a9ckmJnPePfWpXsY27dvTo/eM8QHLCNc9nZQ
-	iD87wqxbmorLyGitOddtAOrCHkkQjm5+qJchTwoCugQ1L5S4NvGsVdsE
-X-Gm-Gg: AR+sD11afVUQsVBGxOpqXzb7Wgyg4KijnbV1SqnCGkPeXrdu6K/OvW539vq2kG5PUmA
-	/rM71j6DuUWJx6L0lvMTZhu8OP/uJPU0g9SJkrZJJ9mKiPLWK6LSRbu/bunviiZoZEFJmrZVt6P
-	+TqYZtHpU0Syvq8YrBJdJZCPm8eamrQ1hd8pJdpe9TwAP/e9BC6v+JvZaJXi/kk4buSoAcLgluA
-	hfLOeoH9vOAc8on+G5DN69d52YG8j7OZZJxljF7VkEWmpNuH8ig3+rTyqGnSXE7K/bWGpGbrYAO
-	iM+h5BAEunJCkpTEvll0y6J7+yCCaJIALmqELAm+xVD11fBQQR0EABR1/UL0IuGJWjP/Xb1HI9Q
-	nBUp06Yfp56aRZ6jrITA5xnvURdQWddHPF7OsEYZShekQv4YrYMK8UQfaENqaGB9i1JFlrauUsk
-	2Ams80tEji3Hox4SM5C2JLZyhzX1/jOVLkSQ7BcEjpYHHYNI1SkDe8iGcsJIYi80YWnJM59jJYV
-	Ak=
-X-Received: by 2002:a17:90b:3bcb:b0:392:c868:35af with SMTP id 98e67ed59e1d1-392c8683878mr3727898a91.20.1786372406427;
-        Mon, 10 Aug 2026 07:33:26 -0700 (PDT)
+        bh=mW6857ZUCKMxTWq8NsQePygvrLZZIX0lwqlDz2Pl/S8=;
+        b=Cqop1hz6stywOTGREnlOQeRmkruNWaiyWl+MyDXCHHZV5RBAIzxbSXv0TATk1Zr+ke
+         3Rk9y3vWwm6HMNO35Jiq212MWGHH0SXGkxRxQLr9nIpH3TJeWRqOA35f7FmuXRC969KG
+         uFEanBNgP2zmPTVSApqjZ4rED7DVVrhtRP6nDUYaxtpWyDHgGM8vk2Ko+R6J8EMdK5dt
+         gohFBtRcdcprjhPnL2a3Rf27ITi9mBoPYFjbMU9Z1ic9GCEicBSoO+9uiQJpamCtHYdX
+         aAXl8HcnyVnDcL4gnk8hR6myEpVIs7CVkiueZ7XsL2piuhE9KfSDsTPs0rngAAGYjS/T
+         BBpw==
+X-Gm-Message-State: AOJu0YwCGZ4Vbnc0qxu8vCEyOFtFJ0CwApvphGcxkHFo47y06tNkklqr
+	nTpnfKntLn/UrxNk1yJcI4szlr74husEu5eHvbf47LkYqSXEw4l/qlhS
+X-Gm-Gg: AR+sD13+MgWlslmNyUE5cfBWlWc8wVIWlx6yeysT9hSOn1PLdkThEYoTTkCEN6e1WxA
+	x6xcPUsovggpAiZOEzzKp2L0ZSA2nPEkh4QNBUOi35w76gtmp7Ah5hheiazodG6FbinknYsCslj
+	dB0wlXmSsT8D5GLa/tzqIGHU7hxEjgRkMO0+wxFv33m4WjqljeCFFIFDpy+Na/URjN9GoAyWYoN
+	U6GmJreYOXg6UUtfEPQIq5Snkrj9nNR1ZQzcYaYTyW7JQJY7xMiq42leXve1NdtkqGWdIEnn6s2
+	/zn9Er901xAXF+bKoQ4W9GtwuEGhLFp8OWqVRdf/CQDJgzgqlhIX5KHk8eYg5jsyIuGJUr9aDhB
+	wZJ0rcauvvAtA5pN7YDF4bgzxUqwnukaUT5dveSHDv+1jCivXZDvL/bwAWoDre8J7eb+0QqgaNU
+	kkAGnXEXESp02R5tFycVbRSLbqn3nXMNOdAnGyLaI1KD1QJ0AGHyyFOWTkMusXkhc9iadIsQ1rw
+	CY=
+X-Received: by 2002:a05:6a21:3a44:b0:3cb:eb06:ce09 with SMTP id adf61e73a8af0-3cc1a38a664mr3122778637.25.1786372409128;
+        Mon, 10 Aug 2026 07:33:29 -0700 (PDT)
 Received: from localhost.localdomain ([64.186.250.142])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1410cc132c1sm22197001c88.8.2026.08.10.07.33.24
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1410cc132c1sm22197001c88.8.2026.08.10.07.33.26
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 10 Aug 2026 07:33:26 -0700 (PDT)
+        Mon, 10 Aug 2026 07:33:28 -0700 (PDT)
 From: Chen Miao <chenmiao.ku@gmail.com>
 To: corbet@lwn.net,
 	alexs@kernel.org,
@@ -69,9 +69,9 @@ To: corbet@lwn.net,
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen Miao <chenmiao.ku@gmail.com>
-Subject: [PATCH v2 2/5] docs: sphinx-pre-install: check GNU Make version
-Date: Mon, 10 Aug 2026 22:33:06 +0800
-Message-ID: <20260810143311.57775-3-chenmiao.ku@gmail.com>
+Subject: [PATCH v2 3/5] docs: sphinx-build-wrapper: prefer gmake
+Date: Mon, 10 Aug 2026 22:33:07 +0800
+Message-ID: <20260810143311.57775-4-chenmiao.ku@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260810143311.57775-1-chenmiao.ku@gmail.com>
 References: <20260810143311.57775-1-chenmiao.ku@gmail.com>
@@ -83,62 +83,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The kernel documentation build requires GNU Make 4.0 or newer, but the
-Sphinx dependency checker only verifies that a make executable exists.
-This lets incompatible make implementations pass the check and fail
-later during the build.
+Homebrew installs GNU Make as gmake on macOS, but the Sphinx build
+wrapper invokes make directly when generating Info and Rust
+documentation. This can make the dependency check succeed while those
+documentation targets still use an incompatible make implementation.
 
-Check the GNU Make version on all supported systems. Prefer a compatible
-gmake command, which is how Homebrew provides GNU Make on macOS, and
-fall back to make. Document the requirement and the macOS gmake
-invocation.
+Honor MAKE when it names a compatible GNU Make. Otherwise check gmake
+and then make, selecting the first GNU Make 4.0 or newer. This keeps the
+wrapper's selection consistent with sphinx-pre-install.
 
 Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
 ---
- Documentation/doc-guide/sphinx.rst |  4 ++-
- tools/docs/sphinx-pre-install      | 41 +++++++++++++++++++++++++++++-
- 2 files changed, 43 insertions(+), 2 deletions(-)
+ tools/docs/sphinx-build-wrapper | 55 ++++++++++++++++++++++++++++-----
+ 1 file changed, 48 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 1e105542a..4fb716e77 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -147,7 +147,9 @@ documentation. After installing MacTeX, restart the terminal or run
- ``eval "$(/usr/libexec/path_helper)"`` so its command-line tools are visible.
- The default virtualenv mode is recommended on macOS because PyYAML is
- installed from ``Documentation/sphinx/requirements.txt`` rather than from a
--Homebrew formula.
-+Homebrew formula. The script also checks for GNU Make 4.0 or newer; when
-+Homebrew provides it as ``gmake``, use ``gmake htmldocs`` instead of
-+``make htmldocs``.
- 
- Installing Sphinx Minimal Version
- ---------------------------------
-diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
-index 1b9d77ec3..54f36c3b8 100755
---- a/tools/docs/sphinx-pre-install
-+++ b/tools/docs/sphinx-pre-install
-@@ -40,6 +40,7 @@ from kdoc.python_version import PythonVersion
- 
- RECOMMENDED_VERSION = PythonVersion("3.4.3").version
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index 1bb962202..aa6a297db 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -71,6 +71,7 @@ from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
+ #
+ VENV_DEFAULT = "sphinx_latest"
  MIN_PYTHON_VERSION = PythonVersion("3.7").version
 +MIN_MAKE_VERSION = PythonVersion("4.0").version
+ PAPER = ["", "a4", "letter"]
  
+ TARGETS = {
+@@ -97,6 +98,46 @@ class SphinxBuilder:
+     with the Kernel.
+     """
  
- class DepManager:
-@@ -308,6 +309,44 @@ class MissingCheckers(AncillaryMethods):
- 
-         return None
- 
-+    def get_make_version(self, cmd):
-+        """Get the GNU Make version, or None if cmd is not GNU Make."""
++    @staticmethod
++    def get_make_version(cmd):
++        """Return the GNU Make version, or None for another make."""
 +        if not cmd:
 +            return None
 +
 +        try:
-+            result = self.run(
++            result = subprocess.run(
 +                [cmd, "--version"],
-+                capture_output=True,
++                stdout=subprocess.PIPE,
++                stderr=subprocess.PIPE,
 +                text=True,
 +                check=True,
 +            )
@@ -153,33 +138,54 @@ index 1b9d77ec3..54f36c3b8 100755
 +
 +        return PythonVersion.parse_version(match.group(1))
 +
-+    def check_make(self):
-+        """Check for GNU Make 4.0 or newer."""
-+        candidates = (
-+            os.environ.get("MAKE"),
-+            self.which("gmake"),
-+            self.which("make"),
-+        )
++    def get_make(self):
++        """Select the first GNU Make 4.0 or newer in preference order."""
++        candidates = [
++            self.env.get("MAKE"),
++            shutil.which("gmake"),
++            shutil.which("make"),
++        ]
 +
-+        for make in candidates:
-+            version = self.get_make_version(make)
++        for cmd in candidates:
++            version = self.get_make_version(cmd)
 +            if version and version >= MIN_MAKE_VERSION:
-+                return
++                return cmd
 +
-+        self.deps.add_package("make", DepManager.SYSTEM_MANDATORY)
++        sys.exit("GNU Make 4.0 or newer is required")
 +
-     def check_perl_module(self, prog, dtype):
+     def get_path(self, path, use_cwd=False, abs_path=False):
          """
-         Does perl have a dependency? Is it available?
-@@ -1559,7 +1598,7 @@ class SphinxDependencyChecker(MissingCheckers):
-         # Check for needed programs/tools
-         self.check_perl_module("Pod::Usage", DepManager.SYSTEM_MANDATORY)
+         Ancillary routine to handle patches the right way, as shell does.
+@@ -569,9 +610,10 @@ class SphinxBuilder:
+         texinfo directory.
+         """
  
--        self.check_program("make", DepManager.SYSTEM_MANDATORY)
-+        self.check_make()
-         self.check_program("which", DepManager.SYSTEM_MANDATORY)
++        make = self.get_make()
+         for output_dir in output_dirs:
+             try:
+-                subprocess.run(["make", "info"], cwd=output_dir, check=True)
++                subprocess.run([make, "info"], cwd=output_dir, check=True)
+             except subprocess.CalledProcessError as e:
+                 sys.exit(f"Error generating info docs: {e}")
  
-         self.check_program("dot", DepManager.SYSTEM_OPTIONAL)
+@@ -787,12 +829,11 @@ class SphinxBuilder:
+ 
+         if rustdoc and target in ["htmldocs", "epubdocs"]:
+             print("Building rust docs")
+-            if "MAKE" in self.env:
+-                cmd = [self.env["MAKE"]]
+-            else:
+-                cmd = ["make", "LLVM=1"]
+-
+-            cmd += [ "rustdoc"]
++            make = self.get_make()
++            cmd = [make]
++            if make != self.env.get("MAKE"):
++                cmd.append("LLVM=1")
++            cmd.append("rustdoc")
+             if self.verbose:
+                 print(" ".join(cmd))
+ 
 -- 
 2.50.1 (Apple Git-155)
 
