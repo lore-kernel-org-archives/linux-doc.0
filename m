@@ -1,159 +1,139 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022113.outbound.protection.outlook.com [52.101.101.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8362D3FE36A;
-	Mon, 10 Aug 2026 14:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.113
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786371827; cv=fail; b=XrePMJ3D/DvoO0G8d1fqSK8Ven2XsLo9fbHu0U+WhZ6+/bJsUkMMc+QGW8Z1j3/vFqjO9C5WH/qE+Q6QYe3M9Y/wyq3PRUanX52iaSE6S/wv97SkGP2i7CtFdG7PuyT81arFPQav4BFPmxthItGdBRu5DlL9mbdV/aDVTYby3Dw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786371827; c=relaxed/simple;
-	bh=aNtzEOkmIACdAfzeTcX73dJ593T/tc2gCEbtwloxnLg=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=ghJnDKKiJmynYY59uQ70GHP01llH5fVLEFPsG6rLg1/VFiWR9Y1TkBNoaptHQzldh/23/u7cBelyb7kqGlDuAUBiOnbGAhIy9Tb/+jXzT50AeSyEp209cnkEdL28y5COcemrpqxO/MOtWs0UFt9cQyJ358Uv/8D/9GyGTcTYND8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=APpAHvNV; arc=fail smtp.client-ip=52.101.101.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94141385D96
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 14:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786372402; cv=none; b=kTdWnBId+eyvH/QSwg4am0MfSBaSXDHM6IhZjr6aYXA7MDLIafBt8cGGQClhZAwBgosA2FOYYUPwqgyX7LnBaqRZqGhDg+tDU2Dh/ET/rNgXSLcR6qibuBeZFlB3kU0o9Ul2eGhFbu1sgbABu1E+2PlXyxHf3ZfiRfaRh0nklVs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786372402; c=relaxed/simple;
+	bh=ddBOwFQP75Qb14CLIFWGyJEobXUeSf4VrfeJrbdXns0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OShM+ByhHAAEtQzw5zhEGujCLm4Vau5CD9D/qiJfm2gZdmcRp7uqKvoEdhzQ7uW0Ww46w1rgSWoL9FDn7eNim1LWzXFta7AOqGrpZLJcg5i2r58Q3JzKevKRMnBkJKR5S5Rz9uqLqCnXAOJ3iaiIxRXV2L5e11OAko+WZYerSHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RzzhLsAk; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="APpAHvNV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R/yKGZxKYLofFPDl7H2oSchmMvw1G+6Kl8libC1IGghXyQId7UfZMZC7DcntXVHDIyZSX0paMwXxbzw7IcOtxO+/HNhRydEqu/uXQ4zDkdlDShh0zFWAJvjH/dn+9itPi95InVb3fBwSOuMeu5mZyFLPphINx+XkeY4nepu4lyGnQXT9kVPhncaQ0M4WF0omExjRT7+EvKAU3+ucsH/R9yf4ZJQfeaqxg2qcs7FECtvYdB+3F++oFgCL2cR1w68UOZSgcmbMFXkd9J+pUtibz7QHBm8GYLQiKw9XTEm7F9zwy2dvNTJxK8uepw1Z4gACDXNK/dR/WUgG13gD/NG3Cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kAw6aAVyuV8jWN0l3ClGBXzotilVaCIIj6Su4PcJryo=;
- b=LWkTxNPjEYs0kpzCipZ98fkvD64/gUM6BKU/uFagaVujM2QLcDT3NUunObqvLlwQzCy6pjy0Tb0LdQjg0fCVCBbXD0xFmETZX/KivjnU9DTZpafUkbkvOjj0Nz3S3rFcVKpnzHl7iy1hpuSGDDXhebkL67T7Okil8EU3R7bTe3ZqNpzO1AtWA5MQFff+sgme80BqcwtmCADr0188Zgx4L45GZ4JugG3U3YnNMR9lcdtNlC4ZeFJtSrGuUyRMwuQiE0Utar3bxrXfvCQT/pEJxQmGrXULY9C85FkL4gdxr5JZMAb8v6APM2bpYBkoAj5OHOD9TtVrMh7XjPEQ64RbcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kAw6aAVyuV8jWN0l3ClGBXzotilVaCIIj6Su4PcJryo=;
- b=APpAHvNVWBuBQSYHdb732dAO2EglwiEfNCITjyfiQ1HJSGeGwgIO52pjkoU/KO/QW8Tj9L5koPJi76+dwePhCUJYLRG7oJHb5J3SCvNEw+na/wS6CySAhF6EHfIUAOTVPUwDuSOSYrtDPoNhKu2FaDp66Hn8/63R80jU6/mKWpY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by LO8P265MB7829.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3b3::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 14:23:41 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
- 14:23:41 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 10 Aug 2026 15:23:39 +0100
-Message-Id: <DKLBYKUZSY6R.2K495H31XVY24@garyguo.net>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 02/12] rust: num: reject Bounded::shr overshifts at
- build time
-From: "Gary Guo" <gary@garyguo.net>
-To: "Eliot Courtney" <ecourtney@nvidia.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "Yury Norov" <yury.norov@gmail.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-X-Mailer: aerc 0.21.0
-References: <20260810-pramin-split-v2-0-65a00b3c7309@nvidia.com>
- <20260810-pramin-split-v2-2-65a00b3c7309@nvidia.com>
-In-Reply-To: <20260810-pramin-split-v2-2-65a00b3c7309@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0598.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:295::22) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RzzhLsAk"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38e88b60121so1668282a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 07:33:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786372401; x=1786977201; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8o1H4sECBKvhf7M/CFqW2c6l+zb7GZ1cuCHqkYF0Whk=;
+        b=RzzhLsAkBBGDc0DMXREiH9luYN4JUwmf7VY7yQf7caIWWMZiLcT/cLz7soqviN+unI
+         QAEi/Dopk/sVAcRC29GFttz4y/oFEWbO5dsjCDJPBh1S34QJinuSQ5VBE/XZ3js9Ovn3
+         IVrCRcrBnZo69c+UDY+GdprO7X1OhG+NIXsLI1N76g0UBk/yWSt0QqjlBPEwJpXNCSxq
+         4sge1g3wjawZ/2DDHYMGOOgKAK0Wziz3x1xC1TEsNKm+Mw4zCCmWw2W+Hm4s43WNdCSR
+         8Sg449K14irHZ+V42XWUadhpvxxwqvfnAQlizm5fXk2rHgJEY5iEbCrd8Lk2I+T4HhO2
+         z3Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786372401; x=1786977201;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8o1H4sECBKvhf7M/CFqW2c6l+zb7GZ1cuCHqkYF0Whk=;
+        b=qOQYC67oXKOzquTrUi48ybZegEni2ohA9UmQSMOYK530WDQl/T+sbiB/4fxID+exdG
+         oDtzMgkrMd3+Ob0y6ew8sabtNukCpauqaaFuv7vCm7Bm5xk5fQn++TwpfvwaIqAb8U6c
+         mJClK+KUIiHOxH1exNnuzlcEHcIAE6UfSdF91BHiIVYe0NpV0gHj0pqWdglXVnmH+Fma
+         I75CPPrLa7Fkw/dH+gkd5bbuSO281Smtz9XwpuhDNJULo5xcDCRL3DeXDhPQ4IoKtDNI
+         30hF8SRrTfBh9gGr350gcQoX6hyyXHzGJEVaekHErT0XFYt0evrs/kqINnBoz5L5OrYZ
+         WNiQ==
+X-Gm-Message-State: AOJu0Yxk4As3HePrWTx58y+C2NwfHnupPoo0sRzeQPvOdHHMbPC5D2PA
+	H8+Zjj7AFQQnFzr7vTsq18d93FCLbUnwUR5xNg4jQGZTV+jVQEvhzWux
+X-Gm-Gg: AR+sD10hp5GWEpIt94lYrWfHLF31Bqk7Nzz9MPsw5DfpENQAZodT6VBUeSvSBSa5eBr
+	Is52zFDU25rIk3idu4Z9I83751YiXk5XLV/opYyPwgMw4gRCoO7LbcHR+ShWT4vF/rFG/ZO35KG
+	2r0YmtFowmrEGPVj6+tuYVvfdyX1SfONFjqzGcbBLxfAhPSd4dLteFVkgQoiP67i7hZakvMK94T
+	y1feJXK3Uv+jiBx4pLLpgiqaXXJIp8txRLlMwGrMPwExS6sRfg8kTvpOmHVf6rxE9kb9XRTCutE
+	uXjCZXuTRM/8L85cqNtgDwIGAnyx8M16a3kMztv+OlyoDQsfkdebgGNppxsw9/iqEBHgNLNqSDm
+	HUVYe1g/J3f7E3K1MW6JvboZ05lemhlJdvvtOjYCIAGWnpjzbny1728wWE74Hqqy4vydVB8Hdct
+	IHhDS1VgPwJlbEO9zuWgIWmWgjyHd5Y1JhPLRE4XDds7miJsvq8Gr/cHhCP3tdOLn76Trs9UjVD
+	7kptGWfGbAk5Q==
+X-Received: by 2002:a17:90b:2690:b0:38e:bfe:81e9 with SMTP id 98e67ed59e1d1-392822bf758mr22993895a91.1.1786372400722;
+        Mon, 10 Aug 2026 07:33:20 -0700 (PDT)
+Received: from localhost.localdomain ([64.186.250.142])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1410cc132c1sm22197001c88.8.2026.08.10.07.33.18
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 10 Aug 2026 07:33:20 -0700 (PDT)
+From: Chen Miao <chenmiao.ku@gmail.com>
+To: corbet@lwn.net,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	skhan@linuxfoundation.org,
+	dzm91@hust.edu.cn,
+	mchehab@kernel.org,
+	wy@wyuan.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Miao <chenmiao.ku@gmail.com>
+Subject: [PATCH v2 0/5] docs: sphinx-pre-install: improve dependency checks
+Date: Mon, 10 Aug 2026 22:33:04 +0800
+Message-ID: <20260810143311.57775-1-chenmiao.ku@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO8P265MB7829:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ab318bf-9a6f-4c3b-38eb-08def6eaf9ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|10070799003|7416014|376014|1800799024|23010399003|921020|10067099003|4143699003|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	+JyxNoa2ui6sxMIO62CG0jTFfMe27jvtGyMYdDglQpu1yKiaYUPQ0Uo2TNubTNy3yWw9hnoHJTxoxPJvgM63MLiAsKGib11SpBQFCd0XGyBwwy8LFtzz27n7aRymdqiLHNUvbcqQTCf1Hc8kGuPfM7mWnZGsmK2f8yyOG0EY+qZlHRkdWkR3dAVL90yN9rPxdhHYorkZvXCFNQCJRVZPHnsyz70F/NxJ2MIptrKp3z+iczNddPv4flGjF6KctRTGyWYo1nI7J7LECA010EekqJ8JKEDwr4jbwHp/Ix3dKxyp9W6Mc29MVzokJaNwJi4wqryVKCdKRkwCheD1KFjp8pf9Pl10+Qid2jAEDxr28yzGWWPONADFe/1tW+8Sj2CVCYksSLaB++ZKrXrAZLi3DZf4orYmSfHfksp9z1mc36xBLxxxSjJtuaTjzOuftQai15lwtpO3xZlK28EQpkEX5y3m7MCUYwhi9PCMg9m/jedZiY00oIzOqaiKw+R3Enf3tfZ3ZehKxm9Hwp7jp/yXVeJw81dh6lw0uE72jjsWDvkIqq+8ZAGViwnt4uTKtNaIhLpsCm0HriTPYnXRNrpihinm1k1ylviuKeUbvX6K9ncsKH+xR+GsyhEtx/zDq/cH6gUAuGjZKUgcfea5fUiXx0qU8YYr58eYXN2jSIQEoadBJz0fIm00Fr3XUFJ9j5uVwmdD2QveR2SoQLWPpGmdow==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(7416014)(376014)(1800799024)(23010399003)(921020)(10067099003)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eW9xTHZyLzdJN05lL3RmZTJmRHVkaENrb1BHY0dzSEhMZjdZMUdHRzAyRjQz?=
- =?utf-8?B?NW94SCtsaVg4Yyt0TEppWGxvNUFLa2hPd2RZY0cvNUdad05XTTNjQ3hvVHhU?=
- =?utf-8?B?SFdkTmFLZXlpb01aQUszeE56QlZaem0xU3E5Nmx5TmpZTkxSSzg2Q2F0T2hM?=
- =?utf-8?B?RldheEtTd0dNVkNtaE1mUytpaUVMWXlOc1VValBLTE1CT1JvaDYrcmJiV2tB?=
- =?utf-8?B?M05RbGFucHZVSmhSdkZNL0VrUmc1MC9MeWNaS3pnNmY0M0dwVHh4S1Q2Sm5i?=
- =?utf-8?B?bU5qSVpyaUJUMUpqYTRDa1E0OTRuNExRSFNaMnhObDdCUnJ5NnJmNC9OdGQw?=
- =?utf-8?B?OHBHY3JsS29GTzR6SXBEamlyRFQzQlpRSUc2WTg2dFhJTDdCRWIyTkxtSDhR?=
- =?utf-8?B?N2F2YUcvV0RxcUtJb1FmS3d3M2dCWUtTNnhuRTFsWjg0UGZKRHZGT0d6L3ky?=
- =?utf-8?B?RjEwbHBFaDZXU0VXaEJRVkhjOUdrZlhNbGs3RU5XZHprK2o0RmhuanpKanVv?=
- =?utf-8?B?aWdKaktyZXltU0RUZzQwSm9BNk1DMXpxUUFZVlpXbVVtNjRmOUtZaklpSnpV?=
- =?utf-8?B?TW4rRlRNTXVpNVE4VFA0MU90SVlaNUZlUzFEZ05zV1FLVDVpMnZUS0JXb2la?=
- =?utf-8?B?REJvcUN0a0VabVFRNUpCamlKa3VYaXBMdDgybDlVaVpUWnFNd3BiL1lBZVly?=
- =?utf-8?B?OURFRExVS20rNGxzL3NXd2dDeTdrWlZIeldsNmdoeS9wTlM4NEdmT0UrRHYz?=
- =?utf-8?B?QkRaNmREaytHOWtFR2dBR2IvRlY3RU45STJ6K2hQcmwwd2hzTVl4WFNHKzhQ?=
- =?utf-8?B?WTE3RmVheHA2SUNybGNpVkY0WTBTcHBKWm5ZY3YwNUpaN1RyblhXakg5ZnZC?=
- =?utf-8?B?N0ZhNkZVVFpsaFA0MzhFUTlnZUhHZCtjbHpOZzZjb3dra1lSSWRVd05VMkRT?=
- =?utf-8?B?VXUwOS9jZlFzZzdpbG43WmFaSlhxSHpMUWVtbDNzR3dJVUc4czZSQi9YN1FU?=
- =?utf-8?B?VHpVZlBXdVZpRG5sK0NYUUhXSlRsSWc0OC93M1pqamVwNE01eForb2lVdWl1?=
- =?utf-8?B?OURua1VJRlFOQm1HcENtcFhTcmtTSGFvbm1pbk91NG12N2ttUlBENHhVNnZZ?=
- =?utf-8?B?Q3lPODBjVEtXd3BoaDRWb1BRWWJkZUdmbXE1dWsyclQvRE1XUUh4eFNtdVFw?=
- =?utf-8?B?bm5Nb1dKN0JjOHAwOGNLYyt3UHdBRG4xZS85c01xbDdSZlplSWJ6SkZnWnV0?=
- =?utf-8?B?L0JUdWlRaUEycmRoY1BCbXVxY1RCZTYwRTFJNk1vQ2R4Z3RQNVR1RGROV0NG?=
- =?utf-8?B?T0VYRC9GZWtDVFR4U0NMaERlVUlMdUppUURWK1RkU252cGxFYzN4WkJRZmp4?=
- =?utf-8?B?Wm5hWDF5TC91dFIzZGk3WVBxZUd2dlJhRnNlWGFHQVAxbG9Lb29DRkVBUkhv?=
- =?utf-8?B?R2YyL1FCdFRCNVQzdUhFMzlJWGh2amlFazJ6blkrbWRHSkpiVXlvSWc0SEQx?=
- =?utf-8?B?MkNBbjA5bjRpckFyWHRBdkNPR2MzdklsTEpaRld3dHBxdEJNRWZsUXR2ODEv?=
- =?utf-8?B?b1dtaUx1cjdVR3Z2WVBwZkhmbzJNQjNHc1JTaVhIRkRCR2t6bEhUMWlMcmIw?=
- =?utf-8?B?QTRiNVdCUWtuY0lRTnNvQTMzRjgvVktSWjh3d0RoNldzSEJUSkgxcFpkMGJr?=
- =?utf-8?B?dkJwTFNCU0EyS3M4VDZFM3lDT0JreVN2NWFhbHozMEM0bzZQcnNrRll2bEJi?=
- =?utf-8?B?Rk9vcDR3aDhiNXlrTXJOaVNMSnF2ZVA3MnF0VDlVbitINU1WWTVBRmhwR2Mx?=
- =?utf-8?B?Um9ZVStHa08vbzlldnhtWEVPZXpabTc2Qy9wYXorYjA4dlN0emZXU0pEVFhy?=
- =?utf-8?B?U2VQOWdkemtpaDgxYnJHdVVZL1VQWjZxZ2VKaE51Y2JkT1ZWa0dRMGYwZ1BX?=
- =?utf-8?B?MEtYM2NGL2xUM3dKSnhTQ1VaNEpCMmp1MUx6b2hGZ1VJNlVrb1Yvdkw1cDF0?=
- =?utf-8?B?Yk9oTTZhS3hnVjRjU0pZdWNseTZPd21OZHdrcFM1cC9pVklnVUhmR3A1Q050?=
- =?utf-8?B?MXBnWTVqZTdFSXJ2dTZmWEp4UnZHSnllem56MGJCRVZiWVRxWURKSWV5ZzJL?=
- =?utf-8?B?Y1VGaHJaSUhZVkN4TDZ5TUdrTjBqOERNWHJVRHl0WWdjQzd2TEpSa2RSa3FX?=
- =?utf-8?B?TVNxUXdxTFVWYVJUdlZGSlZVWXZ3WVhnY09kNTBKUFJIQ3EvK1NjLzEyS2Fo?=
- =?utf-8?B?TW9UMjI5SjFDSzZKbWdoYUk2aXA3RndMZXhIVTJ6M0ZmMEpNNG5lUW96b3p6?=
- =?utf-8?B?UWlUWms3MktiYk9VTlVuaWQ1Y2FvQTFEaEptdHJ1OFJSNE9yUUt4dz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ab318bf-9a6f-4c3b-38eb-08def6eaf9ce
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 14:23:41.1011
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NYexgmPRyW5QypKHScfPwgo7YOTq0D7F+oHnMvFoF1Zy/f7jlylxG6wkr8CAA8I3E2YbMVpfnIckOKVaXPr5wg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P265MB7829
+Content-Transfer-Encoding: 8bit
 
-On Mon Aug 10, 2026 at 2:55 PM BST, Eliot Courtney wrote:
-> Make `shr` reject shifts of at least the type's bit width at build
-> time, instead of panicking or masking the shift amount at runtime.
->=20
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
-> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+Hi all,
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+The Sphinx dependency checker currently does not provide useful
+installation guidance on macOS and only checks whether a make executable
+exists. This can leave macOS users without a clear setup path and allow an
+incompatible make implementation to pass the dependency check before the
+documentation build fails.
 
-> ---
->  rust/kernel/num/bounded.rs | 1 +
->  1 file changed, 1 insertion(+)
+This series:
 
+- documents the case-sensitive APFS volume needed for a kernel tree on
+  macOS;
+- adds macOS/Homebrew dependency handling, including command-line-only
+  MacTeX support, required PDF font casks, and a PATH refresh hint;
+- checks for GNU Make 4.0 or newer and honors an exported MAKE before
+  preferring Homebrew gmake;
+- teaches sphinx-build-wrapper to select a compatible GNU Make lazily for
+  Info and Rust docs; and
+- updates the zh_CN documentation in separate patches, including the APFS
+  guidance in the contributor how-to.
+
+Changes in v2:
+
+- do not treat Homebrew itself as a mandatory build dependency;
+- use the mactex-no-gui cask, install the required DejaVu and Noto CJK
+  font casks, and document the post-install PATH refresh;
+- honor MAKE consistently in the dependency checker and build wrapper;
+- prefer a compatible gmake before falling back to make;
+- resolve GNU Make only for targets that invoke it;
+- add a separate patch for tools/docs/sphinx-build-wrapper;
+- split the English changes and zh_CN translations into separate patches;
+  and
+- document diskutil apfs addVolume diskX APFSX Linux in the English guide,
+  its zh_CN translation, and the zh_CN contributor how-to.
+
+Link: https://lore.kernel.org/linux-doc/20260809101923.13176-1-chenmiao.ku@gmail.com/
+
+Thanks,
+Chen Miao
+
+Chen Miao (5):
+  docs: sphinx-pre-install: add macOS Homebrew support
+  docs: sphinx-pre-install: check GNU Make version
+  docs: sphinx-build-wrapper: prefer gmake
+  docs/zh_CN: doc-guide: document macOS Sphinx setup
+  docs/zh_CN: how-to: document case-sensitive APFS setup
+
+ Documentation/doc-guide/sphinx.rst            |  20 +++
+ .../translations/zh_CN/doc-guide/sphinx.rst   |  17 +-
+ Documentation/translations/zh_CN/how-to.rst   |   8 +
+ tools/docs/sphinx-build-wrapper               |  55 ++++++-
+ tools/docs/sphinx-pre-install                 | 154 +++++++++++++++++-
+ 5 files changed, 244 insertions(+), 10 deletions(-)
+
+
+base-commit: 8492d4e6bb7b9b1e78f2d17c4dda5272f25ec118
+-- 
+2.50.1 (Apple Git-155)
