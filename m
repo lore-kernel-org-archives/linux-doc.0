@@ -1,164 +1,94 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC80357702
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 05:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786338761; cv=pass; b=Kw415vgHzKzPR6pGSNJCJPUk6ovqjrkZb/9m+H7fxQIFd/OCuJUE+OmjDoBo8beeM2/vONA8WaAH3aaL2SvMxDGb/wTCS1BPC8lLqKSMoJ7rJPYv0VheHVG/qwfMEO71224rfdboOHSOFTryvNfw3fLZvEtL4O33EVJJTHhccVU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786338761; c=relaxed/simple;
-	bh=fYJ/sJDWld2Y8fxP55LJJ+LvFpUiY9nSb4OKhpDbaE0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FXlWa8IA1R+ODy6h3JX36ltmJcNohYdT8Q6td6OakEUMziGf3cwmGcdszygmE8KuUoy4a8fRrQFuL8jEeGKev8iV3THbGalVd0KLabG1OXqLyZTzwi7FXrhK4wRQOsgOZA7k+DgjPyUB5Jg71yuT+pIuC2sV4rfyIn1eJ5bW78I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B68sSqHc; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B68sSqHc"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-529a1ee0e62so9924621cf.2
-        for <linux-doc@vger.kernel.org>; Sun, 09 Aug 2026 22:12:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786338759; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nvBW33hVHtCu1boBMnp6xbzFpnXS3VvFCJ2XSV/I+Q8fXHKp3m4J2JBEw3Pf3JIle1
-         ewG80859Hwo80T1+dCZvBJL1O4+4NwoZELEqZazjuepC0SXRVVVLO1QIr0hGG0iS/gMz
-         HEQLkWMzMX+EcsK4Kpf197rn1jYGDk3jbtObv/+B8aCUgWn+uvUsAPW62YekKHN0h3SR
-         5HTqzJXVBBYZYyVu/CT50ngKI+IZb8i9yLOD/E1SYOCFpYGnYzvXPoDUf9kPk8zdDRQM
-         8yP5slo/BGPreEFi6Paoje6mj/5TvWmegIZcGhMl2uobeKa7fYATAnh4u04ptQrgBGJf
-         WVRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fYJ/sJDWld2Y8fxP55LJJ+LvFpUiY9nSb4OKhpDbaE0=;
-        fh=kcOcqXyExu0XCQkr4HN+c9sVSt359CyxZ+YXIyECctM=;
-        b=LpEXVcm1IF/BpXaWK5VEmR3wpCjpLfGL8cB9ZZniQS1HvElO11ShGpHZVHEiHCZjNt
-         8ChjT2q2mRVOTD8zPRks9pqnn4ioYOoKWccSp+ZlUswopgVAfYEIfrLjPiZmzHEHu2t4
-         TBgYCNidhq5lr0bKwX8BffSmq32E9MDAYSNgiZO1tPcQyLcovAeVJ4gtDj0Gjj7Oibnk
-         WuImApAoaGn0rHUK3e33BaOVtikP1SFoRXpsAysbVzYHDIMKoRCFEO3HTsIGLYPZOrLA
-         ZzADol93S4ABF5ve+lgpCSKtkY4kyeuq8cVoqL8F8odY7Z9DqLVAbx8x6BVuPbpA8KVj
-         exbw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786338759; x=1786943559; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fYJ/sJDWld2Y8fxP55LJJ+LvFpUiY9nSb4OKhpDbaE0=;
-        b=B68sSqHcczS8T2YI9acfGvDyOJajmb/8sVtYNQXuJRYxkCyaDYZ5WWRguLCx9+NeXe
-         VGp7dANaIyAN1gUSJCtQtL17NbLrYRF1PzbigCgPqBfu1CaQuZhK2kJtUBVUT5VmDk1Q
-         HPqskTkZ8n8bxplR6TvHfow+aYYGAtf1Co+z57g5FbImXBq6pbGz81FB1hYa6JS2KMZa
-         +Nr0b0QIpLwjgR7PBdJt7NLQDX6i0/bpda61yu8foTR46i4icA4FHZinPFozo3r/I99O
-         djzrzv+G5f2ohEhXaHbsvQjxbh83IkUEfEdzZnMxZEtSgFUMqSruPY09yrQHG3C9REEN
-         mbQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786338759; x=1786943559;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fYJ/sJDWld2Y8fxP55LJJ+LvFpUiY9nSb4OKhpDbaE0=;
-        b=QNUsvIDZAJXPfnRJ7Hx7p0Bh94EBLXsDyZf4konIntqWtXgyGK0MHYmlS9BJGmIClW
-         5hmUy+Eaixlru81CCn4RlkchbtkB/F5gL8UhEvxxRft6jhx2MNm5gLWt49gehA1wtzpN
-         jEM7P8gSyYW8rVbGzIjjihP6uewp9UEsWHD3VUDU0JbQ13DPnijMC3IrX2kH0zmDpyjy
-         /b8o24DvJp3n86fpX8Y0Nc+QaRHhSVchzsPBGkX3m21ynnBguYm69TQPCIDkWGUOaYeK
-         yZ65R3b3fz3LvVU86Hpz2CRNd4FdDTLgnKlR9Y/6jar9OhNFY5UZzAKtvyJPmy3mQZiu
-         Sq1w==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0yqfNc/TyFHOSK2anKpuDqgVrzM/SK4pJFMsi5FD7cXCQkDhexuKWT9X2boq3K5VPbeUTY4W9lOI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRY+mzvJuVVrYPnhJWuLdzHebxz06JqMwGInKspZX6K7o52rlh
-	IbvlT45H3gSxghrWTjYmok7thY/iAvD7ubGPOyKGkSeGmyXGfETZaOUE7ay56MCg3vEi8chCK0M
-	xJdXeWpIJycBL3ciwdw0ZrLYVLf1GFX0=
-X-Gm-Gg: AR+sD12DpQsOX2VUy2uOIBTSzROlMx4QaQ+CEWPfApXyA3jt4Nq6nEMWwA/PJmb5aaz
-	HX/V8zvFmCjBGjed5whgE1iHw+IF97XlEys1MNUbXJxG6pIHsqt3rq+Mj4xktgpYAdopkEgocez
-	dgrw7PHJ0E22GqgdDOREiSlKv10jIumfP669jZ55L+9qv7C0PiDUuHmy25+xOfwMi5qAG9LCkoL
-	02ncSRaBbZIyvP4i3UXZus4jK+yDfEstJ4OwPfng3Jjs3//RdKcHKCDmDRQeKWqdjb+VZUSJm85
-	RvQj655RJwqUv7R/qFBYXMj5B/pnHeL/pHAT9Q0TbcUKv5ktJN23S3ar
-X-Received: by 2002:ac8:5acc:0:b0:51c:61a:50e6 with SMTP id
- d75a77b69052e-52ce5f41d0dmr423204861cf.3.1786338758508; Sun, 09 Aug 2026
- 22:12:38 -0700 (PDT)
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A5B025B0A3;
+	Mon, 10 Aug 2026 05:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786340071; cv=none; b=j5g+bG444ZJcFWI83hXrJFYLJY3bZOgD5SjB/7Fk+2SnLc6SqcWQ9YqxK/HAcig/n3fM1HWm7b3IVkQJ3fPjrAG6w1vfMm8GSPPb4Ryw1VdDgWve9PWh1vbIjcR/JpaPkCia5l+cMGAgVbXNc17xOm+uXMTOnWwHNPaJzE3M3Yo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786340071; c=relaxed/simple;
+	bh=Oh7Aw4ihyWWhFGMeF8pKi+kZqY3CVLMKhRqAoywjbB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DheORwKpCzMHBUk1zbfn4ePtQWmJmkQf9BCKBOukthMbo0zko7JpPWJCJfWWFDd9Su8L0miKNTjnHZfnKkQq802vEDQHSMiSnyLU+FirgSu6x8SbdgvO8FswLkB+P3Z7CT8/0N4AedNXxqZLLEbVHpXqQPzyAe1spJcA4pfzoCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrACXn7PaYnlqKU2kAA--.21407S2;
+	Mon, 10 Aug 2026 13:34:18 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wAXks7XYnlqap0iAQ--.41849S2;
+	Mon, 10 Aug 2026 13:34:16 +0800 (CST)
+Message-ID: <f47c9427-10ac-4838-86ee-b377263b065e@hust.edu.cn>
+Date: Mon, 10 Aug 2026 13:34:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260809101923.13176-1-chenmiao.ku@gmail.com> <20260809101923.13176-2-chenmiao.ku@gmail.com>
- <anh6axawbEiF37WD@wyuan.org> <49a6022d-7d7b-4414-ba61-4482ecca4b11@hust.edu.cn>
- <aniKpkE5iCCU835q@wyuan.org> <CAKxVwgdjNjDLWpR2WPOdsXKhusobwq_52ioB5J15gdD2C=obvQ@mail.gmail.com>
- <87tsp2j543.fsf@trenco.lwn.net> <anlJ7YQzjJ9qlZfA@wyuan.org>
-In-Reply-To: <anlJ7YQzjJ9qlZfA@wyuan.org>
-From: Chen Miao <chenmiao.ku@gmail.com>
-Date: Mon, 10 Aug 2026 13:12:02 +0800
-X-Gm-Features: AUfX_mxUDp8Rd_khSP8SUm8T8nWbvRz-3E7rd7suUgsB6_yyP6HMPzLJ8vR770M
-Message-ID: <CAKxVwgeH3Nkc2F5-Kz8r5zGFLOnJZorT+t7UQyAkobo3zYV4yg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] docs: sphinx-pre-install: add macOS Homebrew support
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Dongliang Mu <dzm91@hust.edu.cn>, alexs@kernel.org, 
-	si.yanteng@linux.dev, skhan@linuxfoundation.org, mchehab@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] docs/zh_CN: Add Chinese translations for five
+ networking documents
+To: Siwei Chen <businiaoanka@anka1.top>, alexs@kernel.org,
+ si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
+ Siwei Chen <anka@stu.cdut.edu.cn>
+Cc: wy@wyuan.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
+ <E0A8AEC487870DFA+12952253.O9o76ZdvQC@anka-20eya00ycd>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <E0A8AEC487870DFA+12952253.O9o76ZdvQC@anka-20eya00ycd>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrACXn7PaYnlqKU2kAA--.21407S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xry7uw47Xry8Xw15Jw13Arb_yoWfKFc_u3
+	y5uFW7AF1UXr4qkw10k3W3Arnxtr18GFW5tFy0yFWfC3sxX3ySvF9rW390vwn8GrWxZrZx
+	A3W8Xas3ZwnrXjkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbPAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
+	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Weijie Yuan <wy@wyuan.org> =E4=BA=8E2026=E5=B9=B48=E6=9C=8810=E6=97=A5=E5=
-=91=A8=E4=B8=80 11:48=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sun, Aug 09, 2026 at 04:34:04PM -0600, Jonathan Corbet wrote:
-> > Chen Miao <chenmiao.ku@gmail.com> writes:
-> >
-> > > Thanks for the clarification. I'll first check whether the kernel doc=
-umentation
-> > > already has something like a "macOS kernel development guide." If not=
-, I think
-> > > it might be worth documenting this.
-> > >
-> > > In particular, macOS uses a case-insensitive APFS volume by default, =
-which can
-> > > cause unexpected problems for newcomers working with the Linux kernel=
- source
-> > > tree. It would be unfortunate if there were no documentation covering=
- the
-> > > things developers need to be aware of when doing kernel development o=
-n macOS.
-> > > That said, I suspect this would be better handled in a separate patch=
- series.
-> > >
-> > > Of course, if such documentation already exists, then that's even bet=
-ter, and
-> > > there would be no need to add another one.
-> >
-> > There is no such guide now.
-> >
-> > Correct me if I'm wrong, but I *think* that absence reflects the fact
-> > that Linux kernel development is mostly done on Linux systems?
->
-> Yes, I think so. But while macOS is not a common platform for kernel
-> development itself, it might still be worthwhile to make things a little
-> easier for people who want to contribute to the kernel *documentation*
-> from macOS.
->
-> That said, I don't have any data on how many people would actually want
-> to work on the documentation from macOS. In my own case, though, there
-> have been a few times when I only had an Apple machine available and
-> still needed to get some work done.
->
-> So overall, if supporting that use case is not too complicated and does
-> not create much of a maintenance burden, having one more option
-> available does not seem like a bad thing.
->
-> Thanks.
-Thanks for the discussion. My takeaway is that support for macOS
-*development* is still limited.
 
-For v2, I=E2=80=99ll limit the change to kernel *documentation*: I=E2=80=99=
-ll add a note to
-how-to.rst for macOS users about APFS being case-insensitive by default
-and the resulting issue. I won=E2=80=99t try to document a broader macOS de=
-velopment
-setup in this series; that would need more established guidance first.
+On 8/10/26 9:15 AM, Siwei Chen wrote:
+> 在 2026年7月27日星期一 中国标准时间 15:35:31，Siwei Chen 写道：
+>> From: Siwei Chen <businiaoanka@anka1.top>
+>>
+>> This series adds Simplified Chinese translations for five documents
+>> under Documentation/networking/:
+>>
+>>    - team.rst: Team devices driven from userspace via libteam
+>>    - sriov.rst: NIC SR-IOV APIs (switchdev model and legacy API)
+>>    - driver.rst: Softnet driver issues (probing, close/stop,
+>>      transmit path guidelines, and extack error reporting)
+>>    - ipv6.rst: ipv6 module parameters (disable, autoconf,
+>>      disable_ipv6)
+>>    - secid.rst: LSM/SELinux secid usage in the flowi structure
 
-Unless there are objections, I=E2=80=99ll proceed on that basis for v2.
 
-Thanks.
+I will post my review today or tomorrow.
+
+Dongliang Mu
+
+
+>>
+>> Changes in v2:
+>>    - Add translated documents to corresponding index file.
+>>    - Link to v1:
+>> https://lore.kernel.org/linux-doc/54B9FF7CF7DE776B+6294277.lOV4Wx5bFT@anka-> 20eya00ycd/T/#t
+>>
+> Ping
 >
-> > We can certainly add such a guide if somebody is willing to write it,
-> > and if it would be useful to people.
+>
+
