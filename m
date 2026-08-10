@@ -1,145 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB03385539;
-	Mon, 10 Aug 2026 07:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C65386C2A
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 08:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786348431; cv=none; b=B8sT+DEDutPSec6zY/eMlqhjrfySxe7nJQCWxYTWfxZdFB+9bd5Iq7wUxq18sxLGrsXbDB1Bg9EXFsDQMiTVYOAJcknUMGJFuuzsp8PkTov/NxjXgtder7cGtvfzf9ftxzCTnld8t6qg7PPEp9CCtmi1fFQFevI3ZZ5RGrFnAXI=
+	t=1786349106; cv=none; b=Tmct8387TRxFLHZvwMfsPYB2gMZfTqUuqLy03VvLVWonmuGzQc+d7PNukJydC9cv8B00ZCs06vbWHFbfn8Cz9gVIdaZwYKYl2msPhmBnFyaAJ5tdqa7GxfzlKlJh19M7yCyg+RTBV49R1wa2jcCrAd/eR2080M6AQq7tuMsxHKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786348431; c=relaxed/simple;
-	bh=VMV7wF4iX17BywCnYarc9BOhOELXo5U3yK2somfxFbI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ifo3Pf5xuRku+6xgQtdF7U+8+pGAZNDXQdQR8ASK434g/2BRQ2Jo67tm+hPNqLesKqvO9v29huEgMNq1lRuiNYEJdzkXPXfHL7HfzBMnU/fnHyMDyiDZeq374B3CiBnHCWYoYAuahqHJFqn2Lpza7CWvUvqjAWWMR7xTdvKrFhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DW4z82QM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786349106; c=relaxed/simple;
+	bh=+lkuVQnHgrhF7fjMdkJDE/fkoUTrWZAAHCdTOrn70ZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h6uRAvx9HzJl0erOOgkAb8E8JhCeiUzY3SuTTmRSA/sGKZwLkLovcmVYTX7cBNA6c53mvExGATqnk/7mGs8NBgMe1CqYdMGsvAzQpT6ZJMoTAO42nXfru84lSUGYD4CXY+nCYrI6DEjMRobLn3A/FAPUF0spdyytSH/Goo7q0K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HtDRncU4; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=pUhzANjy; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DW4z82QM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D63B1F000E9;
-	Mon, 10 Aug 2026 07:53:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786348429;
-	bh=RsQ1603LS78fzd75k/x6TR3rmaLDzL0DbDH4cQP+xIY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=DW4z82QMtva6XBNmUaUzZLe0byysfZf29zr2G0Oagu6iwv3gzJhRTdY+73TWV76VC
-	 3GiIznMMAdA1VjRdjRC+6TzB1p0b8gcI4x/hHUrwU5ayS9XABnhXcKXqNKhOM2B/x8
-	 23mdTZtUDc/42rg8xEidBlpG6SpASoWPIpKJhSB6fVLXlTnAScj4SlUiUaCGyx6kra
-	 OfgYRsVfVvLKmLQc3RjVdcmA3OFw27AGfkw2aL57TxhkVId3It4gJNivfkVxcrhlhi
-	 QhiUKSDg1PRV4kC6A3y7MWEY1KBv6YQ+C0TOtDTGLk3Wm8OWbCjyIjIdzn41kjR3gU
-	 qujSBCM1IL+mw==
-Message-ID: <fa1ee6d5-9a89-49af-ba50-1beb3b417c6a@kernel.org>
-Date: Mon, 10 Aug 2026 09:53:30 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HtDRncU4";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="pUhzANjy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786349104;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/+a+0U5GgUWNz5gXhQg+X0ag29Jj0knQnRmccGbHPwc=;
+	b=HtDRncU4deVZ6/pds6lrVOQqNJhU1y4ENzBkn2/tcPF53KHEWCD9syx3b7wrKlSb0QwQIc
+	yYeMRdwGrmzLSkO8XWWcD+B/Mg6T38Do8FKX00uuU12jyCAGb/C9XUcsjEYB3WHk7y5a06
+	EW2Lmrmcz2BQ3W95Q6kzi+lSNJBHOj0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-26-b4WUM_bSNNqPtRq7Hla0tA-1; Mon, 10 Aug 2026 04:05:02 -0400
+X-MC-Unique: b4WUM_bSNNqPtRq7Hla0tA-1
+X-Mimecast-MFC-AGG-ID: b4WUM_bSNNqPtRq7Hla0tA_1786349101
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-47fe23b5acdso1535475f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 01:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1786349101; x=1786953901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/+a+0U5GgUWNz5gXhQg+X0ag29Jj0knQnRmccGbHPwc=;
+        b=pUhzANjy0WIZNYvNWcTLS5xtZ59irPzJVi+JUXcDPgBa+uXkuWvDrTwU5Ve4gIIIik
+         j4rr/dPqogEdtEdgvVwcHJsTLKu/Ohr48YVVeMB3w/Q757BdEzRETPGpycI1FtD9o6aN
+         Xu7rm9vrYti0mSvf3Jeifo2bTvPVn+QXIEfurJjMpcucS8PjJ5F8mAj9+hcisf7+3/tr
+         N0d3xqUu17lgxxyNRhbyCIcex2MZQJiFkw4w6XJZRFG0JE18LHEtSqcvZoBbgpKu4diF
+         1FXgZQU/OYkbB3UHpZvKYewYFTjFlS8Zci3BGpa3IPjCBDfLXAGmlkKgCQ5aMPcP+Tfu
+         3zag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786349101; x=1786953901;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/+a+0U5GgUWNz5gXhQg+X0ag29Jj0knQnRmccGbHPwc=;
+        b=kSzQKn1w7kM3pKOIB8Rn8K8zjJQq1IT1b3nlcBk11ZYJwaMjQmIU3VQAPZyRBp9qtr
+         tmrUggROQJcJWd0H+UKty5w9BpbSS30B5KdptYGRQVQCX4dWN6bLY4WgHsXxE5dKkfhQ
+         sOvS6GsO3udiuWfR/bV41Djg+f6oIl+sMtQB3FuLO0gj0mJ6gsQwK1iwabn5CP/Ie9Zy
+         0LqsSwD9E7rrM3R51wgqX5J4h2zvtib+CPXtEbrA13O12rcd8v8OuX7yAlBwpJJ0aqD9
+         P3u0/7VmFaZgxE2p+w81RoMjeCUSOyzdb60EwsUjAxFDFR10X/L2krcYKPCJqnMVVzdm
+         rWHw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+uR/3/dHGyvu1ShYTWaV2EV6by7jnfL29TTEH1x3erggtJhilf4BSTQIu6wNfp32R2ZJyzvoNhpE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH6SZzqGv3XL2Vuivbf3hyGNYjwlxpyv3HfdAVdF2LNvR+Fj7n
+	ZU1DMMwWYPg0cdLqSz2fa9l9m280eRaP83k5b3YNw8xICUMzU6W9J/ZP/irlcKtlLQ1gkq4I7qF
+	EqixbdNOGMB8p7WHjbbHpFRxdH4riqvBI9urt+y3SCNMnjlZxTeNZNZJBZhq5YA==
+X-Gm-Gg: AR+sD12aNQ0xMlmbiFHJcT6jcQUE5j+RpSmO8cI05kfZUDl5F4+GqGMpnW3Mt5hK+2L
+	zB+b0yaJztwl1Q/fI09mjjWxoB/YWs3wefv7bchyZbKl7ph3ZE6sOOk9EHTlwrCmfFi1hHHCFYO
+	I1mbZjje8rSiOvPPBxy3LUeysVYWnVcKqgq1hLTu8m+eiuWF488bBrtqoNGp/ngRYQlC0nPM65G
+	gOozh14mpsFgp10ySDINUSsSOCt4yxWAx9OLOL2Sf+3OP327DrEqeVMB+m2UqOBepZqu6i+mlyN
+	ckk+MC+PyePp0PLmNgSsPy69HcFmBYK3EJQoDYJ74geQH0kBsPnEZ9zvnwDgNJodiBwsS4sScYz
+	JOexuge5A6jsMfQA/u1XJ1g==
+X-Received: by 2002:a05:6000:430a:b0:47f:71a6:970e with SMTP id ffacd0b85a97d-47ffd203e5emr38268904f8f.2.1786349101180;
+        Mon, 10 Aug 2026 01:05:01 -0700 (PDT)
+X-Received: by 2002:a05:6000:430a:b0:47f:71a6:970e with SMTP id ffacd0b85a97d-47ffd203e5emr38268788f8f.2.1786349100617;
+        Mon, 10 Aug 2026 01:05:00 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-39-98.inter.net.il. [80.230.39.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480021e8b09sm35811136f8f.23.2026.08.10.01.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Aug 2026 01:05:00 -0700 (PDT)
+Date: Mon, 10 Aug 2026 04:04:55 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Graf (AWS), Alexander" <graf@amazon.de>
+Cc: Jason Wang <jasowangio@gmail.com>, Alex Williamson <alex@shazbot.org>,
+	David Airlie <airlied@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Feng Liu <feliu@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>, Jens Axboe <axboe@kernel.dk>,
+	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nh-open-source@amazon.com" <nh-open-source@amazon.com>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Parav Pandit <parav@nvidia.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [RFC PATCH 00/12] virtio: support devices that own their
+ virtqueue memory
+Message-ID: <20260810035246-mutt-send-email-mst@kernel.org>
+References: <20260809182010.32931-1-graf@amazon.com>
+ <20260810021450-mutt-send-email-mst@kernel.org>
+ <c56fb4d0-33ef-4e9b-ac18-ac4e896957cd@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 02/41] KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to
- KVM_VM_MEMORY_ATTRIBUTES
-To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- jmattson@google.com, jthoughton@google.com, michael.roth@amd.com,
- oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com,
- rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com,
- steven.price@arm.com, tabba@google.com, willy@infradead.org,
- wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com,
- pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org,
- liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev, Xiaoyao Li <xiaoyao.li@intel.com>
-References: <20260728-gmem-inplace-conversion-v9-0-35f9aec2aed2@google.com>
- <20260728-gmem-inplace-conversion-v9-2-35f9aec2aed2@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260728-gmem-inplace-conversion-v9-2-35f9aec2aed2@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c56fb4d0-33ef-4e9b-ac18-ac4e896957cd@amazon.com>
 
-On 7/29/26 02:35, Ackerley Tng via B4 Relay wrote:
-> From: Sean Christopherson <seanjc@google.com>
+On Mon, Aug 10, 2026 at 07:39:02AM +0000, Graf (AWS), Alexander wrote:
+> Hey Michael,
 > 
-> Rename the per-VM memory attributes Kconfig to make it explicitly about
-> per-VM attributes in anticipation of adding memory attributes support to
-> guest_memfd, at which point it will be possible (and desirable) to have
-> memory attributes without the per-VM support, even in x86.
+> Thanks a bunch for having a detailed and quick look!
 > 
-> No functional change intended.
+> On 10.08.26 08:23, Michael S. Tsirkin wrote:
+> > On Sun, Aug 09, 2026 at 06:19:58PM +0000, Alexander Graf wrote:
+> >> Virtio drivers use guest memory to back virtqueues and their buffers.
+> >> That means a VMM needs to be able to map guest memory. That is ok in the
+> >> normal virt case. It gets icky with confidential computing (where we use
+> >> swiotlb as workaround) and it defeats the purpose of isolated vhost-user
+> >> backing devices, because they end up with full RAM access to the guest.
+> >>
+> >> So instead, I'm proposing an extension to virtio which allows it to give
+> >> each virtio device its own dedicated memory region to communicate with the
+> >> host, called DMB (Device Memory Buffer). A trusted hypervisor can force
+> >> DMB to be present, which then enables safer, more isolated and resilient
+> >> communication between guest and host.
+> >>
+> >> With DMB, the device provides a shared memory region that both parties
+> >> agree is the full memory map both have access to. All memory offsets
+> >> that previously would have been into guest RAM, are then offsets into
+> >> this shared memory buffer region. One nice property of this is that it
+> >> is a generic mechanism in the virtio transport layer, so higher level
+> >> drivers work unmodified.
+> >>
+> >> I was exploring to use swiotlb instead to create individual pools. But
+> >> that approach has multiple downsides:
+> >>
+> >> 1. Swiotlb is an OS primitive which is not available in all Operating
+> >> Systems. DMB however lives in the virtio transport layer, which means we
+> >> can add support for it in any OS independent of generic layers. This
+> >> helps with Windows support.
+> >
+> > How does it help, if you are going to put a pool in
+> > the driver, put a pool in the driver. Maybe with virtio mem to
+> > simplify allocation.
 > 
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-> Tested-by: Shivank Garg <shivankg@amd.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
+> 
+> I'm not sure I understand the suggestion :)
+> 
 
-Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+
+I'm not sure what the problem is for windows :)
+
+But if you want a chunk of contiguos memory that windows
+does not poke at without a driver, virtio mem is that :)
+
+> >
+> >> 2. We munge DMA space together. DMB provides a separate DMA space per
+> >> virtio device. This means we can for example implement a device in
+> >> vhost-user and give the implementing process only visibility to the DMB
+> >> region, not all of guest memory. That reduces the exposure the
+> >> vhost-user provider has, improving security.
+> >>
+> >> 3. Devices can opt-in. A hypervisor can choose to use standard virtio
+> >> semantics for self-implemented devices (e.g. NSM), while requiring DMB
+> >> for devices implemented by less trustworthy providers. The
+> >> non-trustworthy devices do not get any visibility into the trustworthy
+> >> ones, even with DMB in place for both.
+> >
+> > So I am not sure whether the implication is that it's purely a software
+> > construct. But if it is, can we extend virtio iommu to
+> > add a way to discover and enforce trust boundaries?
+> > And maybe translate offsets to BARs, if that is desired?
+> >
+> > It seems to be that the result would be that we don't need fiddly
+> > special casing in virtio ring specifically, and a lot of things like
+> > pre-mapped dma will begin to work.
+> 
+> 
+> On thing I'm trying to avoid is dynamicity. Anything that dynamically 
+> changes visibility or needs state tracking is something that can go 
+> wrong. By keeping everything self-contained within the guest, I can 
+> reason about what is visible and what is not easily. Especially for 
+> confidential computing, IMHO static wins over dynamic in general.
+> 
+> Or did I misunderstand your suggestion?
+
+
+I get this part. But we can absolutely make it static.
+
+
+Let's start by replicating your functionality with virtio-iommu.  So:
+
+-device is behind virtio-iommu
+-virtio-iommu tells guest "this device can only consume memory from that range,"
+-and maybe: ...and translation is 1:1 with this offset
+
+if guest does not acknowledge it will just fail?
+
+
+this covers the proposal here simply by using a dedicated range
+per device, right?
+
+
+
+But look what we can easily add later: share a range
+between devices, now you can move data between them with zero copies.
+
+
+Isn't that better?
+
+
+> As to pure software construct: With CXL, you can implement the exact 
+> same protocol on real hardware as well. All it takes is cache coherency 
+> of the BAR (or whatever the transport uses) region.
+> 
+> 
+> 
+> Alex
+
+Yes this is what I thought originally, that you intend to
+do it in hardware. But re-reading it, it begins to look like
+that's not really the case, it's only "theoretically possible"?
+
+
 
 -- 
-Cheers,
+MST
 
-David
