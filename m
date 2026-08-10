@@ -1,121 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39EB3EC80E;
-	Mon, 10 Aug 2026 14:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3744D3E9C33;
+	Mon, 10 Aug 2026 14:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786371065; cv=none; b=VJndvmV5Ob4eLizlrQo8pC7mQyB21/ATQa+KpGBuqWmYmy5G5+cE0dYcF0kW3DKfEyv99+JJau5b4Cz8KYAlLQj5Fkuv63s5tBQ4Dh9aNLhgigxtN2PaxNGobiBp1BOx0dGCjecMpqwT+fT4V0dLQrxL59E9uiXOTaUkPzDB0ao=
+	t=1786371212; cv=none; b=gvAMIZyxxnLcztv/nsDKkaqWxgUQFKdE8te5qNkAcKM76SQD+onqQowLvbkcjFr1lTfRJwda30+i79RDcCXDvIuKchnF+WLDOrqH9ZpdxTJAkjbd3dju/vO9jJVu/OCDHnf5MK2eDbWjX01zK01rh0V5RwgzTe3irGjZwfU/aTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786371065; c=relaxed/simple;
-	bh=vuh4kbRPUFLbOmtHCicEajya223aTy/mciIy0utSVoo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pk+5iMFz7q1zEL5BYgXBi+nx616KjvkcfCa+PzevlPc7dCl1CGjZYV/txBlygW0jjuLnoJh0095ApASX5tmMJFz0AwZE/ueX81DsC59M92E+UkEkB3bORZ54HEDogYV5rHB7rkxjxpSWgnk4Zg7tzBTlQnwYSHHQc5oircKiW4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuV3IbZ6; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786371212; c=relaxed/simple;
+	bh=zYnXF4fid7nru4L+UN6cx73+9ENOxlbLHCYi9e/TLbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R1tsMtphBQ4rDuCj3sdwiAp2iCHPmsVAUATa6ZgUubmtrOoukIDZGOHjc/KqHzU1NoyIda8fZNXLPt8O+UcIAN8rXWREo72VSJCyvcHhe4HFqRTfI5tJDmuMrL3L4yiCbo+Z3eN7VpxlpOH4e/S7xSxYTQSOi/+MS+j5z4V67qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=c4OaKYOd; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuV3IbZ6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786371062; x=1817907062;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=vuh4kbRPUFLbOmtHCicEajya223aTy/mciIy0utSVoo=;
-  b=OuV3IbZ6C7uRo6Q4co6Ymz/WT0cjzUSMNaYd3pNtY/+OVjwnR1Utab9D
-   q05QrTzLqHJ3Sv3UTj8qt5Y/KiXwswVwualSdkeA3WkD6XKiu6QgeGEZm
-   XONFyrQPcBDmNDLnZYvlELVk2mMd1tzNTbo1wQuS1oJ9ptLdqOuBHIQMC
-   UCFxJk8oA/qr0FLyTfM9Ia42ot0JxmRHBMcWXNlO0fCQTWcvPyc590Mcr
-   5CmzBKEl6etk0QNA7pWjdHcB/KDqD48FeBlDOE47DR/HtrIMI0k/JUhjI
-   VcEdSwxvjdeArgqXdhRFeuBDfmk770l34U2sylkJ3Sv1gjP3MCgs5YVGW
-   w==;
-X-CSE-ConnectionGUID: UyRx8J9IQqyRGCZKw8zBMA==
-X-CSE-MsgGUID: HA4jMk6HQ3mmGEmGqM99yA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="74420154"
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="74420154"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 07:11:00 -0700
-X-CSE-ConnectionGUID: u2clbYScRW6dMcQXpVYwoA==
-X-CSE-MsgGUID: 1jOtyXAARE2rMmszGSwb8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="261759544"
-Received: from aschende-mobl.amr.corp.intel.com (HELO [10.125.110.41]) ([10.125.110.41])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 07:11:00 -0700
-Message-ID: <d2f9f52e-66ba-42d9-bbf7-2bf72d958ca4@intel.com>
-Date: Mon, 10 Aug 2026 07:10:59 -0700
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="c4OaKYOd"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71E781516;
+	Mon, 10 Aug 2026 07:13:26 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E145D3F86F;
+	Mon, 10 Aug 2026 07:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786371210; bh=zYnXF4fid7nru4L+UN6cx73+9ENOxlbLHCYi9e/TLbk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c4OaKYOdMrP2zYlAL+9Ck9ytNUdfa4vN23e1uvO8+zr+aIIaVGbiPz8omcY23SsKm
+	 69UbHQH7fCfBzAQRXN6684AqVtZFko90HF3FUO0+1yumxbokV6x6NFEDB3De+636G0
+	 L1fRQ8tn65V06Wdi/ESvTdQtsPnqOd4UbC6BfEog=
+Date: Mon, 10 Aug 2026 15:13:22 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"d-gole@ti.com" <d-gole@ti.com>,
+	"david@kernel.org" <david@kernel.org>,
+	Elif Topuz <Elif.Topuz@arm.com>,
+	"etienne.carriere@st.com" <etienne.carriere@st.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>,
+	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
+	Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>,
+	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
+	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+	"usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v7 08/23] firmware: arm_scmi: Add Telemetry configuration
+ operations
+Message-ID: <anncgnjIKCzuBKLL@pluto>
+References: <20260802145618.1952804-9-cristian.marussi@arm.com>
+ <1E14B66B-A2A3-4FF7-8178-D27433A316B1@contoso.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 11/11] x86/virt/tdx: Optimize tdx_pamt_get/put()
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>, bp@alien8.de, hpa@zytor.com,
- kas@kernel.org, kvm@vger.kernel.org, linux-coco@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mingo@redhat.com,
- nik.borisov@suse.com, pbonzini@redhat.com, seanjc@google.com,
- tglx@kernel.org, vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
- yan.y.zhao@intel.com, kai.huang@intel.com, tony.lindgren@linux.intel.com,
- binbin.wu@intel.com, sohil.mehta@intel.com
-Cc: Hongyu Ning <hongyu.ning@linux.intel.com>
-References: <20260806020850.1221381-1-rick.p.edgecombe@intel.com>
- <20260806020850.1221381-12-rick.p.edgecombe@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
- LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
- lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
- MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
- IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
- aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
- I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
- E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
- F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
- CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
- P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
- 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
- GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
- MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
- Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
- lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
- 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
- qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
- BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
- 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
- vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
- FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
- l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
- yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
- +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
- asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
- WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
- sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
- KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
- MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
- hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
- vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <20260806020850.1221381-12-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1E14B66B-A2A3-4FF7-8178-D27433A316B1@contoso.com>
 
-On 8/5/26 19:08, Rick Edgecombe wrote:
-> So create a fast and slow path. Check the refcount outside the lock and
-> only take it for the slow path (0->1 and 1->0 transitions).
+On Mon, Aug 03, 2026 at 11:54:30PM +0100, Fayssal Benmlih wrote:
+> Hi Cristian,
+> 
 
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
+Hi,
 
-Thanks for the thorough description of how you used the LLMs here.
+> I found two configuration issues inline.
+> 
+> > 	if (!is_group) {
+> > 		active_update_interval =
+> > 			&ti->info.active_update_interval;
+> > 		current_mode = &ti->info.current_mode;
+> > 	} else {
+> > 		struct scmi_telemetry_res_info *rinfo;
+> >
+> > 		rinfo = ti->res_get(ti);
+> > 		active_update_interval =
+> > 			&rinfo->grps[res_id].active_update_interval;
+> > 		current_mode = &rinfo->grps[res_id].current_mode;
+> > 	}
+> > [...]
+> > 	if (!ret) {
+> > 		ti->info.enabled = tlm_enable;
+> > 		*current_mode = next_mode;
+> > 		ti->info.notif_enabled =
+> > 			*current_mode == SCMI_TLM_NOTIFICATION;
+> > 		if (update_interval_ms)
+> > 			*active_update_interval =
+> > 				le32_to_cpu(interval);
+> > 	}
+> 
+> For a group operation, active_update_interval and current_mode point to the
+> group, but enabled and notif_enabled are still written into the global
+> ti->info state.
+> 
+> Disabling one group can therefore make the driver believe the entire
+> Telemetry instance is disabled, causing reads for unrelated DEs to return
+> no data. A group's collection mode can similarly overwrite the global
+> notification state.
+> 
+> Please select group-versus-instance cached state consistently for every
+> field updated here.
+> 
+
+Yes indeed...fixed in v8.
+
+> > 			de_offs = le32_to_cpu(resp->shmti_de_offset);
+> >
+> > 			shmti = &ti->shmti[sid];
+> > 			payld = shmti->base;
+> > 			/* Check boundary first... */
+> > 			if (de_offs + LINE_LENGTH_BYTES(payld) >=
+> > 			    shmti->info.len)
+> > 				return -EPROTO;
+> 
+> The addition can wrap, and the payload must end before the TDCF epilogue,
+> not merely before the end of the entire SHMTI allocation.
+> 
+> Please use checked addition and verify the complete line against the
+> payload boundary, such as len - TDCF_EPLG_SZ. The same boundary rule
+> should be used for an explicitly returned block-timestamp offset.
+> 
+
+To be further reworked in v9.
+
+Thanks,
+Cristian
+
