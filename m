@@ -1,235 +1,128 @@
-Received: from a11-17.smtp-out.amazonses.com (a11-17.smtp-out.amazonses.com [54.240.11.17])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC88422A4F1;
-	Mon, 10 Aug 2026 20:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF9737F300
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 20:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786393573; cv=none; b=OYi5zNU3vA0Yv4Z+o4kmEOLuyX28WKuUQIWFn1y/pCHsquww1MKWQTmusRKntBIgyRTE8oMVaqAwEZV+S2AgnWK/cbE3FUdRdFnKTrVk00cpUAr5avcnjbmQDhgBqZ6Z1pf1DKMu7rLcDOASEKdZ+n+P6KP9WwMOeB/DQC+0oFQ=
+	t=1786393704; cv=none; b=MX18NhQTI5nuYx6AZaPujKd58bD2f5e2dBPMoUaBhBFX3ko1UntqW5xozldWzT4tbzBJXinT9BBZ9ZDwv6JNg5YnlGFhuHyJ2X6IBF/z3eXlQrEEx/dMZuDl1qdAhPKbZr5H5Ipti7dAFQGxP1rnQOlEXbl66DO5XwigCz79rPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786393573; c=relaxed/simple;
-	bh=jlzaWT67ROlF0vfbvokOde288YAFHqOzVK71vsJxpdg=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=O5iXg+B14resyzX8a1BBeOO+0DwEv2A0z+3hYDg51ji+NQLBYCSa/AxTnSA02wKhjtK3WlnvK8rF0BW/U0aVtQIcO0hOATvO5BhFPltQnM93IGcPn/JgjrTAzr0x8TDqKhGVLhus7OuvFcytEOH8+tJOFliejroT6f3bx3YeP9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=lGS9I+AT; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=ifS33NOT; arc=none smtp.client-ip=54.240.11.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1786393704; c=relaxed/simple;
+	bh=WaHj5Zt+OlrXBWAOx8cwo6TE6HgBE+TGhfmUqd6RUV0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gBuc0NzpOigxm5D11zmIqwZvXviuGZTrQO7NdXQRdkOSvFlAxpEhdhtsM9H2C6ebJXTiceKR+BDdukR7N24r9uMJLfArWzZfXpmCKrHgu/nyAamwDHSZEG2P0RBIt1tsJI5luH+ffUUTaF/DnbWzg7FoV9aio5ubYVvuWcI4PZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh; spf=pass smtp.mailfrom=gibson.sh; dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b=NtRLau8F; arc=none smtp.client-ip=84.16.66.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gibson.sh
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="lGS9I+AT";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="ifS33NOT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1786393569;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=jlzaWT67ROlF0vfbvokOde288YAFHqOzVK71vsJxpdg=;
-	b=lGS9I+ATknj9B1YCRSvnciUiZKSNweGCxe32f0LROMEHN3xP/SrfWEsdAvrsLHIF
-	iG3yP50CAmfIMIz3qV5yj/YQiSA33W9UKRy1Uf51eaiXr1Eg2nfQQyRVHSbua37DYI3
-	GmIiqs28CcYck8GThPMJW035AUgNHnuQ3zMEXQIo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1786393569;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=jlzaWT67ROlF0vfbvokOde288YAFHqOzVK71vsJxpdg=;
-	b=ifS33NOTfcs6ck4PCf6QQr5PXxApjrbMC9lx8HuEbWV7xZCJxjip9IhJXQr+4g7Q
-	2/unBRkeA9N2cj03zaXj+bDrGErpbcN6r6xoBqdpyCSIgz99pNFw1cD3QmCU4Rt0z88
-	xXL107PYC+HiCaiavirbq/ZidMELEODt7PhzS4Tc=
-Subject: [PATCH v13 12/12] famfs: Add documentation
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>, 
-	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
-	=?UTF-8?Q?Jake_Edge?= <jake@lwn.net>, 
-	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
-	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
-	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
-	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
-	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
-	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
-	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
-	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
-	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
-	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
-	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
-	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
-	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
-	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
-	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
-	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
-	=?UTF-8?Q?Andrew_Morton?= <akpm@linux-foundation.org>, 
-	=?UTF-8?Q?Namjae_Jeon?= <linkinjeon@kernel.org>, 
-	=?UTF-8?Q?Lorenzo_Stoakes?= <ljs@kernel.org>, 
-	=?UTF-8?Q?Greg_Kroah-Hartman?= <gregkh@linuxfoundation.org>, 
-	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
-	=?UTF-8?Q?Pasha_Tatashin?= <pasha.tatashin@soleen.com>, 
-	=?UTF-8?Q?Haren_Myneni?= <haren@linux.ibm.com>, 
-	=?UTF-8?Q?Pratyush_Yadav?= <pratyush@kernel.org>, 
-	=?UTF-8?Q?Giovanni_Cabiddu?= <giovanni.cabiddu@intel.com>, 
-	=?UTF-8?Q?Jiri_Slaby?= <jirislaby@kernel.org>, 
-	=?UTF-8?Q?Ethan_Nelson-Moo?= =?UTF-8?Q?re?= <enelsonmoore@gmail.com>, 
-	=?UTF-8?Q?Gabriel_Whigham?= <gabewhigham@gmail.com>, 
-	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
-	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
-	=?UTF-8?Q?venkataravis=40m?= =?UTF-8?Q?icron=2Ecom?= <venkataravis@micron.com>, 
-	=?UTF-8?Q?linux-doc=40?= =?UTF-8?Q?vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?fuse-devel=40lists=2Elinux=2E?= =?UTF-8?Q?dev?= <fuse-devel@lists.linux.dev>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jonathan.cameron@huawei.com>
-Date: Mon, 10 Aug 2026 20:26:09 +0000
+	dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b="NtRLau8F"
+Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hJmXt1QZwznq9;
+	Mon, 10 Aug 2026 22:28:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gibson.sh;
+	s=20260228; t=1786393693;
+	bh=bzHOf4RkDtrbhzhDZ0OVVDaP9rUzza8uKqcWI8q1P8I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NtRLau8FChXR/HKlcAHAwtecTUfpMkCd+zT8JC5r8y+mQzvT1C7LP4YYDKYjT++fs
+	 yL3N3K9zLQfND3pMDlnPN1iwFyEw1XZUDr/Ka6hiFVMvYWcrHdM5sngwuGbGh+1OU1
+	 7Lf7zDUn2dhkkIvs9bY5QPQmQSU9J0kTG0IgHz9GpZTx2l18SfQs+TUWFnyb1oCp/q
+	 9ycpnX6iAfmyoLTG8YlYbYdQ6xa84y1CQGketONKCciJh5lovqZgBqYV7sCqcrOv+H
+	 AtvPfVjq27ATygQxhHpA/igev4bIcA5X40NA+/kuISHMxC7g6pq0TiMeJPQ8ReQz4c
+	 nbB0so/t6mDzQ==
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hJmXr0QBXzwxT;
+	Mon, 10 Aug 2026 22:28:11 +0200 (CEST)
+Message-ID: <6a9c7f9e-600c-490e-86e6-9f358b0c1a82@gibson.sh>
+Date: Mon, 10 Aug 2026 22:28:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] Documentation/arch/x86/amd-debugging: Add section
+ about delay_suspend
+To: Mario Limonciello <superm1@kernel.org>, Borislav Petkov <bp@alien8.de>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>
+References: <20260624124326.746525-1-daniel@gibson.sh>
+ <20260624124326.746525-3-daniel@gibson.sh>
+ <b784820c-a027-44fd-a47a-ba51e52de7ea@gibson.sh>
+ <20260805224017.GCanO70QxPHpDxW2-c@fat_crate.local>
+ <87aa8f40-2c99-4bbc-88f4-1ef6d54f3c60@gibson.sh>
+ <20260806014151.GFanPmX5VhBUG_6DLS@fat_crate.local>
+ <05d560cb-d218-4638-bfcb-d3e549720b16@kernel.org>
+Content-Language: de-DE, en-GB
+From: Daniel Gibson <daniel@gibson.sh>
+In-Reply-To: <05d560cb-d218-4638-bfcb-d3e549720b16@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
-References: 
- <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com> 
- <20260810202559.96415-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHdKQYd8BhJGjNjSyqPwMCz2Vr35AAAFwXs
-Thread-Topic: [PATCH v13 12/12] famfs: Add documentation
-X-Wm-Sent-Timestamp: 1786393567
-X-Original-Mailer: git-send-email 2.55.0
-Message-ID: <0100019fed5aa95d-21a4a553-a4af-476a-9903-43dd5af8a017-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.08.10-54.240.11.17
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 
-From: John Groves <john@groves.net>=0D=0A=0D=0AAdd Documentation/filesyst=
-ems/famfs.rst and update MAINTAINERS=0D=0A=0D=0AReviewed-by: Randy Dunlap=
- <rdunlap@infradead.org>=0D=0ATested-by: Randy Dunlap <rdunlap@infradead.=
-org>=0D=0AReviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>=0D=0A=
-Signed-off-by: John Groves <john@groves.net>=0D=0A---=0D=0A Documentation=
-/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++=0D=0A Documenta=
-tion/filesystems/index.rst |   1 +=0D=0A MAINTAINERS                     =
-    |   1 +=0D=0A 3 files changed, 144 insertions(+)=0D=0A create mode 10=
-0644 Documentation/filesystems/famfs.rst=0D=0A=0D=0Adiff --git a/Document=
-ation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst=0D=0Ane=
-w file mode 100644=0D=0Aindex 000000000000..048791bcbcfd=0D=0A--- /dev/nu=
-ll=0D=0A+++ b/Documentation/filesystems/famfs.rst=0D=0A@@ -0,0 +1,142 @@=0D=
-=0A+.. SPDX-License-Identifier: GPL-2.0=0D=0A+=0D=0A+.. _famfs_index:=0D=0A=
-+=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+famfs: Th=
-e fabric-attached memory file system=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+- Copyright (C) 2024-2026 Micron Technolo=
-gy, Inc.=0D=0A+=0D=0A+Introduction=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=0D=0A+Compute Express Link (CXL) provides a mechanism for disaggregat=
-ed or=0D=0A+fabric-attached memory (FAM). This creates opportunities for =
-data sharing;=0D=0A+clustered apps that would otherwise have to shard or =
-replicate data can=0D=0A+share one copy in disaggregated memory.=0D=0A+=0D=
-=0A+Famfs, which is not CXL-specific in any way, provides a mechanism for=
-=0D=0A+multiple hosts to concurrently access data in shared memory, by gi=
-ving it=0D=0A+a file system interface. With famfs, any app that understan=
-ds files can=0D=0A+access data sets in shared memory. Although famfs supp=
-orts read and write,=0D=0A+the real point is to support mmap, which provi=
-des direct (dax) access to=0D=0A+the memory - either writable or read-onl=
-y.=0D=0A+=0D=0A+Shared memory can pose complex coherency and synchronizat=
-ion issues, but=0D=0A+there are also simple cases. Two simple and eminent=
-ly useful patterns that=0D=0A+occur frequently in data analytics and AI a=
-re:=0D=0A+=0D=0A+* Serial Sharing - Only one host or process at a time ha=
-s access to a file=0D=0A+* Read-only Sharing - Multiple hosts or processe=
-s share read-only access=0D=0A+  to a file=0D=0A+=0D=0A+The famfs file sy=
-stem is part of the famfs framework; user space=0D=0A+components [1] hand=
-le metadata allocation and distribution, and populate=0D=0A+the in-kernel=
- files (via ioctls) so that they map directly to shared=0D=0A+memory.=0D=0A=
-+=0D=0A+The famfs framework manages coherency of its own metadata and str=
-uctures,=0D=0A+but does not attempt to manage coherency for applications.=
-=0D=0A+=0D=0A+Famfs also provides data isolation between files. That is, =
-even though=0D=0A+the host has access to an entire memory "device" (as a =
-devdax device), apps=0D=0A+cannot write to memory for which the file is r=
-ead-only, and mapping one=0D=0A+file provides isolation from the memory o=
-f all other files. This is pretty=0D=0A+basic, but some experimental shar=
-ed memory usage patterns provide no such=0D=0A+isolation.=0D=0A+=0D=0A+Pr=
-inciples of Operation=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Famfs is a file system with one or =
-more devdax devices as a first-class=0D=0A+backing device(s). Metadata ma=
-intenance and query operations happen=0D=0A+entirely in user space.=0D=0A=
-+=0D=0A+The famfs user space provides each file's map (fmap) and its back=
-ing=0D=0A+devdax devices to the kernel through ioctls (FAMFSIOC_MAP_CREAT=
-E and=0D=0A+FAMFSIOC_DAXDEV_OPEN), after which read/write/mapping faults =
-are handled=0D=0A+entirely in the kernel with no up-calls for all active =
-files.=0D=0A+=0D=0A+The famfs user space is responsible for maintaining a=
-nd distributing=0D=0A+consistent metadata. This is currently handled via =
-an append-only=0D=0A+metadata log within the memory, but this is orthogon=
-al to the famfs=0D=0A+kernel code.=0D=0A+=0D=0A+Once instantiated, "the s=
-ame file" on each host points to the same shared=0D=0A+memory, but in-mem=
-ory metadata (inodes, etc.) is ephemeral on each host=0D=0A+that has a fa=
-mfs instance mounted. Use cases are free to allow or not=0D=0A+allow muta=
-tions to data on a file-by-file basis.=0D=0A+=0D=0A+When an app accesses =
-a data object in a famfs file, there is no page cache=0D=0A+involvement. =
-The CPU cache is loaded directly from the shared memory. In=0D=0A+some us=
-e cases, this is an enormous reduction in read amplification=0D=0A+compar=
-ed to loading an entire page into the page cache.=0D=0A+=0D=0A+=0D=0A+Fam=
-fs is Not a Conventional File System=0D=0A+------------------------------=
----------=0D=0A+=0D=0A+Famfs files can be accessed by conventional means,=
- but there are=0D=0A+limitations. The famfs kernel module is not involved=
- in the allocation of=0D=0A+backing memory for files at all; the famfs us=
-er space creates files and=0D=0A+supplies their fmaps and devdax device i=
-nfo to the kernel via ioctls.=0D=0A+=0D=0A+Famfs differs in some importan=
-t ways from conventional file systems:=0D=0A+=0D=0A+* Files must be pre-a=
-llocated by the famfs framework; allocation is never=0D=0A+  performed on=
- (or after) write.=0D=0A+* Any operation that changes a file's size is co=
-nsidered to put the file=0D=0A+  in an invalid state, disabling access to=
- the data. It may be possible to=0D=0A+  revisit this in the future. (Typ=
-ically the famfs user space can restore=0D=0A+  files to a valid state by=
- replaying the famfs metadata log.)=0D=0A+=0D=0A+Famfs exists to apply th=
-e existing file system abstractions to shared=0D=0A+memory so application=
-s and workflows can more easily adapt to an=0D=0A+environment with disagg=
-regated shared memory.=0D=0A+=0D=0A+Memory Error Handling=0D=0A+=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Possi=
-ble memory errors include timeouts, poison, and unexpected=0D=0A+reconfig=
-uration of an underlying dax device. In all of these cases, famfs=0D=0A+r=
-eceives a call from the devdax layer via its=0D=0A+dax_holder_operations-=
->notify_failure() function. If any memory errors have=0D=0A+been detected=
-, access to the affected=0D=0A+daxdev is disabled to avoid further errors=
- or corruption.=0D=0A+=0D=0A+In all known cases, famfs can be unmounted c=
-leanly. In most cases errors=0D=0A+can be cleared by re-initializing the =
-memory - at which point a new famfs=0D=0A+file system can be created.=0D=0A=
-+=0D=0A+Key Requirements=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=0D=0A+=0D=0A+The primary requirements for famfs are:=0D=0A+=0D=0A+=
-1. Must support a file system abstraction backed by sharable devdax memor=
-y=0D=0A+2. Files must efficiently handle VMA faults=0D=0A+3. Must support=
- metadata distribution in a sharable way=0D=0A+4. Must handle clients wit=
-h a stale copy of metadata=0D=0A+=0D=0A+The famfs kernel component takes =
-care of 1-2 above by caching each file's=0D=0A+mapping metadata in the ke=
-rnel.=0D=0A+=0D=0A+Requirements 3 and 4 are handled by the user space com=
-ponents, and are=0D=0A+largely orthogonal to the functionality of the fam=
-fs kernel module.=0D=0A+=0D=0A+Requirements 3 and 4 cannot be met by conv=
-entional fs-dax file systems=0D=0A+(e.g. xfs) because they use write-back=
- metadata; it is not valid to mount=0D=0A+such a file system on two hosts=
- from the same in-memory image.=0D=0A+=0D=0A+=0D=0A+Famfs Usage=0D=0A+=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Famfs usage is documented at =
-[1].=0D=0A+=0D=0A+=0D=0A+References=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=
-=0A+=0D=0A+- [1] Famfs user space repository and documentation=0D=0A+    =
-  https://github.com/cxl-micron-reskit/famfs=0D=0Adiff --git a/Documentat=
-ion/filesystems/index.rst b/Documentation/filesystems/index.rst=0D=0Ainde=
-x 1f71cf159547..97a9a1f1e96a 100644=0D=0A--- a/Documentation/filesystems/=
-index.rst=0D=0A+++ b/Documentation/filesystems/index.rst=0D=0A@@ -91,6 +9=
-1,7 @@ Documentation for filesystem implementations.=0D=0A    ext3=0D=0A =
-   ext4/index=0D=0A    f2fs=0D=0A+   famfs=0D=0A    gfs2/index=0D=0A    h=
-fs=0D=0A    hfsplus=0D=0Adiff --git a/MAINTAINERS b/MAINTAINERS=0D=0Ainde=
-x 156fa62f7086..605b8d06f7d8 100644=0D=0A--- a/MAINTAINERS=0D=0A+++ b/MAI=
-NTAINERS=0D=0A@@ -9910,6 +9910,7 @@ M:=09John Groves <john@groves.net>=0D=
-=0A L:=09linux-fsdevel@vger.kernel.org=0D=0A L:=09linux-cxl@vger.kernel.o=
-rg=0D=0A S:=09Supported=0D=0A+F:=09Documentation/filesystems/famfs.rst=0D=
-=0A F:=09fs/famfs/=0D=0A=20=0D=0A FANOTIFY=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=
-=0A
+On 10.08.26 19:27, Mario Limonciello wrote:
+> On 8/5/26 20:41, Borislav Petkov wrote:
+>> On Thu, Aug 06, 2026 at 12:54:04AM +0200, Daniel Gibson wrote:
+>>> That document mainly talks about s2idle issues and lists issues that
+>>> have
+>>> been quirked in the past, so IMHO it fits there?
+>>
+>> Did you not read the first sentence of that document?
+>>
+>>> Also, Mario Limonciello (of AMD) suggested documenting it there in:
+>>> https://lore.kernel.org/platform-driver-x86/
+>>> f86d9af4-6415-427a-9f4e-639b2ae6203e@kernel.org/
+>>
+>> Maybe he needs to read the first sentence of that document too.
+>>
+>>> However, if there's a specific Wiki you think would be appropriate to
+>>> document this in, I should probably document it there as well.
+>>
+>> You have a pretty good commit message in
+>>
+>>    428b9fd2dce5 ("platform/x86/amd/pmc: Add delay_suspend module
+>> parameter")
+>>
+>> You have a bugzilla entry, you have a mailing list thread, you have a
+>> module
+>> param documentation.
+>>
+>> How much more do you need to document this? People should be able to use
+>> search engines or AI, right?
+>>
+>> The problem with adding some hints as to how suspend can be fixed on some
+>> laptops is that we'll open the floodgates. Do you know how many
+>> laptops need
+>> quirks and fixes for suspend?
+>>
+>> In any case, this doc is not for that.
+>>
+>> Sorry.
+>>
+> 
+> I guess I have a different opinion here.  If someone very technical
+> comes to me and says I want to debug an issue with suspend or shutdown I
+> want to give them a single link that has all the information they can
+> use to learn.
+> 
+> I thought this could fit in well at 18.7, and then even if a search
+> engine or AI tool stumbles on that page it can learn about the debugging
+> parameter too.
+
+The assumption that commit messages or bug reports are documentation
+sure explains why Linux official documentation is so lacking and users
+(have to) rely on AI and Reddit and distro forums and the like, where
+like half of the information is outdated or even misunderstood hearsay.
+
+Even as a very technical users with strong coding skills (compared to
+normal users, not to kernel developers), using git blame to figure out
+the context of kernel module parameter's one-line documentation is very
+annoying.
+
+I thought that AMD debugging document was a step in the right direction
+(and wondered if I just haven't found the proper documentation in
+similar cases in the past), but seems like it's just a glitch in the matrix…
+
