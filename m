@@ -1,135 +1,223 @@
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DF0433024
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 17:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786384083; cv=none; b=CdIIjheYttMKyt0Zo8hNw7beYTWHhz6GTLWdiqwiY1KKBfzTqjjvyVn/Tdilw3JX97oCbc6vkHbJJgUcKNFMLV5S1bJRjKu3qEIDgMQGG4zhdD7yWUDILpxDyK65uULl/I2UHZ0MeIc/9+mq/TC7FQJS2MzkpFxG8m4MywtSnF4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786384083; c=relaxed/simple;
-	bh=WV2Q9fWMiiBE2quaCNFLiWKbqMDhCIs+TWHSaxt0ih0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=sJrz+gqcWVkpCKzUb6vQ2dVDfKBV1FelxcKcY4ad+kQVZJXq0TXv2m7dZVrtb/vb9ZZ6cdodBvBGqyYwOxZtQyKXhL0fFBuiUCfiR8P2nQjF9rANl7RHel/lqo5qtZN0ukO3muKkwPS65eGpd9BSrvVoF4oA7wlhX+uBQG0sSkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XX/TmtLz; arc=none smtp.client-ip=209.85.214.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DC342125D
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 18:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786387443; cv=pass; b=KkTod89AT3RqktJzHETaCj0LA+TmnLWRpHb1HAScFIeNRCD5BmOaJGomIdT48BpWpwSYWC55uxSSWcGHZrDbxNyWFCliZTpm7Bfh255p1JxuBkxJ0fZfCg5oSGgfwgbYNvpVq+EYjfPEV5f7tDeG/tgrlR2by6hx0akYBvNxYKE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786387443; c=relaxed/simple;
+	bh=C3672GsGsY2/UL7vfkutsQ4ku3Q5wCtnn5EwQZops84=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VNdspwkN9+CYmFGjl53TiaoYy8EuhWuTfpQnpmTegg/4bRyoVBfCQqYtCv+o06kLG33uE5F8xcWF4RkEFVHjYdj7FAZZBo8lO/M/IT2Szl9MtvNYQ6/NcYbe3nfXdlurgC9kEG/5ei+795yAXcFTY0RbI71T2s8YlvZYh1ghI9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LbGH2IXY; arc=pass smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XX/TmtLz"
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cf7dd9fd91so22722555ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 10:48:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbGH2IXY"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15ca7a7ca9so217388566b.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 11:44:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786387440; cv=none;
+        d=google.com; s=arc-20260327;
+        b=psoA20FVqrTmA2fC+wlHsC863y6fJe0kBP+nH/IEm3jTBvONBmopYj1rygyI03zI3H
+         qMA7XpeuKKREe+tPZ3g5ooRDhr88qrWqWoRbOoFonIK275EaN+7U1rsBZPV0YaytmZxP
+         opjHdTyK36IsgpKkgG2zM3AkTdFMY6RwVa1QQ5/cP5im75vd27KNFVebGnURgooJ7cO2
+         FDJNxOMXlYfo+uU/LV5iMMsscfuat1U4ycT9V4RL5pv2B2jLr5ahBXQHnQgxOyB1cdrA
+         urMthYdCvhroM4rAJIKhFsf+95q3Dph6wiv8uLAdTfCo5fJAGqI/Dd2bcIvX/d1yusOu
+         Mpuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        fh=JoNAIeLGtqWfPmtx3LX6q8g1ehCQsZnH1AL9xM62MDM=;
+        b=lXZwiqjiMIJc4qDWh++3yFecxrJIghPxPeyGuXzfXG0RUbxtj68q9Xz771+1dpyp9g
+         TPRK/9aFRYCjoCwLYmKUObyeVViItJPCmn/s7nJbvvrcjGiEa8DFsGdMf31TSw7FY+7d
+         FjQyCNl9tm4jzzwYan72ETLrTuzfOIWFDuXQ93/l3SyvqCBQsZcMYNMgvjyTEbKJ5EXs
+         brXciRJiYBY6qIj6NHq3Eam0MbZzhhlPRN6vcYEB1/uF45iXApv5PEU+8u7XM+L/cHHC
+         9f4BP5wRG1KUtaUOh+ZHi6/Hi+CG7KQCSUv3vp0BIwdh5RopysMple+U2TlhQ1nOEZlD
+         a0SA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786384081; x=1786988881; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SniDEAr8Q0oZEkC+DBXZ7AH2ONN7iandHQRV9KjayUM=;
-        b=XX/TmtLzDVVI1lTUIBFQP5LCdvuwQcPy14AE09qrvA1Dij50/+VanqUJKPvHmbapoz
-         ngGHI6q/bpYMezJ2nPrcmr5PSNV11iGrwYNu5wSwG4XhFyHFKvUnppZQne2J4RgoweUo
-         5yTCDyz/zv4Qvv9De8qeY7BFHDiHa4J6HuwQc0cX7wZEVjV2N6x5VA63YyoduT92brzZ
-         67twIlA7IWATvZtznIjJI9H/c7H7EBlTxnSt64cRT9E7UzLLDpOD/tCeawGJqX7DrR7T
-         h6Dix8D29WPZCcnHreTYg/ZSjrm9XJ0XcnvCm5UEk6IPAUUrWSpC9Kl4ZZgZDle4Yo8K
-         DwTA==
+        d=gmail.com; s=20251104; t=1786387440; x=1786992240; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        b=LbGH2IXYqYTzx943KYvvZJeGgQwqow6Wk7jRpVqrv163Gjm7R56bxZ38E8rQ76ylMy
+         0y+HSOGJw9FSzD2Lh68Dmyn2qlDfxsS/czi6Xte7nZDrPoFchJWHM0yy/X3hDJGuGDGB
+         uOxcBs4DscZ5KMlUnyq3tGOA6AWSIW4hjiy7IYqje2+lYd93fLKpu94uF15E+KtJjrPf
+         T4UAsddTrIouHhvScYlgtzSLcCtHRzK6UjxEYfX1R9YkB+6dXZAjLPzX3vBJhYvbKAjd
+         z+36Avwe78XuXlio1CMs1HR1/ovRScyS6J4M1n2Kzvb6lkGJhjKh1g4/jSW8iN11HDTf
+         FxsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786384081; x=1786988881;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SniDEAr8Q0oZEkC+DBXZ7AH2ONN7iandHQRV9KjayUM=;
-        b=RFj07KK5C9aoqTPNOlpCfgUuMkr+y5/HXpvy8rKmnByszw0ueGMicTmIaVFxloWDtm
-         m/OZds35B8cTAN5Hqbo+fP167AP/+Y4Tju3nDkTaR8aaClPR30Z1nyLpLXbtbG60zjbm
-         zVhAY7ei1XfBw32kGgFUhAvLEahjGiSSUzih9ivHIxz8C0v5tblcN79DgM3IF6+r1POi
-         CYE/uA0nFImG0fIO94CaGeUD/ak6q1i3mMgEMoNO2a/dHn9z4MA/EYeLezeXzAWVAnwI
-         Zj0pBJSDYNv+iNxuM8GSc+caN0JbfO2T7fyYEbomd7hs73knKDTLkwnSugbhg4xpGh/F
-         03Sw==
-X-Forwarded-Encrypted: i=1; AHgh+Rperg2vS6lmqvP5KgKCIIlrjZIk52lk6LPLSY/eWwlSQSHRvGsc8zuuIgcF/G5M+CcyZL9fwETApYk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzozi+rGUsRh29UALhSu+YsjvzOfh0yjr5r1ZWhNZiONKIkSlIA
-	cpoBKXjnu99s1zzUuQ6qIfA868RWDba2qCt6mpASajRgUfRjW8Ggb1hL6XWW0sN2SK0FtGlcrFU
-	BOXLrmg==
-X-Received: from plof2.prod.google.com ([2002:a17:902:8602:b0:2ca:f171:2082])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ea0d:b0:2c6:a012:6241
- with SMTP id d9443c01a7336-2d106a7e616mr344060945ad.6.1786384080573; Mon, 10
- Aug 2026 10:48:00 -0700 (PDT)
-Date: Mon, 10 Aug 2026 10:47:59 -0700
-In-Reply-To: <20260728144954.355376-18-dwmw2@infradead.org>
+        d=1e100.net; s=20251104; t=1786387440; x=1786992240;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        b=LfGe8ZhfH9pZIZFmTFIOonyfCg1xA3pkKu8T88bg27lA3CUGaO1Zjh9GNKLSreq3hQ
+         3OdA6KZGyv64md3UXkoMlnRqLDw8y3S/TIaUIornNyPrlb9yTM4Obx5qLfmPzFBzSSIp
+         NB4t07SHLWTnTHM4eW1iatuie8HQfPe6LlNBkdep8s7nEmWL3TPsIGQIlytRj6Zrv743
+         4Cdq9iZco0PUXcvp3yQ4xHqMeqcFM4YfQUe3O0o1pfjwlkub1YV3fGK+yhLMDQPF9Ohv
+         TuFYmXOIAJQwqxFwXEm4wt0QEIIvB1nQKV4MOnpVMMTwK1xQcQbWA8FTn5+lrvWZ6u/w
+         1fsQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqVjArAgqmDMYDBAmMItF9yra7XyJLGWJVpH/3X5Ca4zHD0aKzTXGH7FZWxNd9GBw+e9OHuD6CCrqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx++VlwVfk2v3+07W4loot02LnWEuQopJ9i9F4mRJHSM4A2ssjd
+	MBItL3whmP4mSDqQt1at0ArQizXtp+Opp6dBvtChYf4AXccvUhcFb9oznBwkyJHXvMJjBclpnZF
+	isrB/6nNglxK04KeJ2ca1Mc8PiuRo9oI=
+X-Gm-Gg: AR+sD12kRHnrdh0DehesYM6E2Yc1Fp0h96ZTrncT13cG6B2teh1jwWnqCuIyiuGxj8E
+	OJ6plJTNF9dSjpd5kyROFJ5gAUOTgS7mZdIY5KjQlxJOiwn+bX6HN0wf99pBimkpPkPb+x6mwTm
+	3lDnDYP0aMKLl5cdB2cD74fpEUUoi0u4liJXM5qkek6HuhApLuGNV34N0zrQTdAGIViIcA9Tuo+
+	1q15gfqs9sItXMHAG0itmr7zWi8Ywn2E2NvMgLV14MrlFeHpKmH7fHXTLat2sJFCC4UL0W7W5T1
+	vSaXvz8jfka01dX3s1Qlz+ra6/+fBJenVwwNAA2vhfdh9GUAc9akUBAr
+X-Received: by 2002:a17:907:1c01:b0:c12:b227:614b with SMTP id
+ a640c23a62f3a-c2087558b24mr976428066b.27.1786387439743; Mon, 10 Aug 2026
+ 11:43:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728144954.355376-1-dwmw2@infradead.org> <20260728144954.355376-18-dwmw2@infradead.org>
-Message-ID: <anoOz2rZ02KFk1l-@google.com>
-Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when TSCs
- are offset from each other
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20260803022730.75731-1-john@jagalactic.com> <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <CAOQ4uxhpkP7FsjaqqVO2aDSKCJ9yc3WKms6dncqnDuwGxqthng@mail.gmail.com>
+ <anQZdSsJSyoqJkCo@casper.infradead.org> <20260806053409.GL3560084@frogsfrogsfrogs>
+In-Reply-To: <20260806053409.GL3560084@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 10 Aug 2026 20:43:48 +0200
+X-Gm-Features: AUfX_mzPA_vPx6O-eQdEFVgO0KbHbmWxqFSTIYp2pX0K6A7Tp_f_HeH4HfA_LAw
+Message-ID: <CAOQ4uxgP5K6JM-WJfYDAQxN+6aWCNZLjeaocT2KGdxapjq3u-w@mail.gmail.com>
+Subject: Re: [PATCH V12 00/12] famfs: the Fabric-Attached Memory File System (standalone)
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 28, 2026, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> Previously, a guest writing different TSC values on different vCPUs could
-> force KVM out of master clock mode. With this change, only a frequency
-> mismatch disables master clock. The only ways for non-master-clock mode
-> to happen now are archaic hardware without a TSC-based clocksource, a
-> VMM that sets different TSC frequencies across vCPUs, or a guest using
-> the legacy MSR_KVM_SYSTEM_TIME (which could be addressed in future by
-> simply updating tsc_timestamp more frequently rather than falling out of
-> master clock mode entirely).
-> 
-> Running at a different frequency would lead to a systemic skew between
-> the clock(s) as observed by different vCPUs due to arithmetic precision
-> in the scaling. So that should indeed force the clock to be based on the
-> host's CLOCK_MONOTONIC_RAW instead of being in masterclock mode where it
-> is defined by the guest TSC.
-> 
-> But when the vCPUs merely have a different TSC *offset*, that's not a
-> problem. The offset is applied to that vCPU's kvmclock->tsc_timestamp
-> field, and it all comes out in the wash.
+On Thu, Aug 6, 2026 at 7:34=E2=80=AFAM Darrick J. Wong <djwong@kernel.org> =
+wrote:
+>
+> On Thu, Aug 06, 2026 at 06:19:49AM +0100, Matthew Wilcox wrote:
+> > On Mon, Aug 03, 2026 at 10:52:19AM +0200, Amir Goldstein wrote:
+> > > > The most important thing to know about famfs is that it CANNOT be u=
+sed as a
+> > > > general purpose file system. It is for enabling file-based byte-lev=
+el access
+> > > > (including direct mmap) to very large (e.g. 100TB) shared/disaggreg=
+ated
+> > > > memory appliances - which have become available during this long pr=
+ocess,
+> > > > and which are in need of Linux support.
+> > > >
+> > > > So famfs cannot be used by anybody who doesn't know why they need i=
+t; Making
+> > > > famfs standalone means it can't affect users who don't use it. And =
+my super-
+> > > > mega-corp employer (Micron), as well as other memory companies, nee=
+d it.
+> > > > We do not intend to abandon it, but imagine if we did: fs/famfs/ sh=
+ould be
+> > > > removed if the memory companies can't be bothered to maintain it.
+> > >
+> > > It does not work this way.
+> > > When vfs maintainers accept standalone famfs they accept the burden o=
+f
+> > > maintaining it whenever vfs internal APIs change even if the filesyst=
+em was
+> > > abandoned by the mega-corps.
+> > > That is the code of the push back for adding new filesystems.
+> > > Removing the fs and breaking deployed systems is not an option for th=
+e vfs
+> > > maintainers.
+> >
+> > Sure it is.  We removed EFS just last month, because we decided that it
+> > wasn't worth keeping any more.  Just like we removed Itanium architectu=
+re
+> > support (and a number of other architectures before that).  We've remov=
+ed
+> > other filesystems in the past (xiafs, ext, surely a few others).
+>
+> and freevxfs just this week because the one user/complainer said hch
+> could let it die.
+>
 
-It's not though?  The value stored in kvmclock->tsc_timestamp is per-VM, not
-per-vCPU, when using the master clock.  It's a little easier to see once the
-master clock TSC isn't shoved into host_tsc:
+Guys really, these examples prove what point exactly?
+They prove that if all the users are gone we can remove a filesystem
+wow, revelation.
 
-	do {
-		seq = read_seqcount_begin(&ka->pvclock_sc);
-		use_master_clock = ka->use_master_clock;
-		if (!use_master_clock)
-			continue;
+This is the reality as I see it:
+Famfs is backed by a major corp selling expensive hardware
+and championed by John who has proved commitment above and beyond.
+So as it stands, famfs is a fair candidate for merging standalone.
 
-		if (!kvm_get_time_and_clockread(&kernel_ns, &host_tsc)) {
-			use_master_clock = false;
-			continue;
-		}
+And yet, circumstances can and do change over the years.
+I need only name your employer as a recent example of
+major corp losing interest and axing the maintainers budget to many project=
+s.
 
-		master_tsc = ka->master_cycle_now;
-		master_ns = ka->master_kernel_ns;
-	} while (read_seqcount_retry(&ka->pvclock_sc, seq));
+These things can and do happen and when they happen there is often
+little correlation to the number of deployed users who paid many $$$ for th=
+e
+expensive hardware, which major corp lost interest in maintaining.
 
-	...
+If as a community we do not prepare ourselves for this possibility we
+would be fools.
+In the unlikely event of future famfs abandonment we are left with two tech=
+nical
+options depending on the choices that we make in the present:
 
-	if (use_master_clock) {
-		hv_clock.tsc_timestamp = kvm_read_l1_tsc(v, master_tsc);
-		hv_clock.system_time = master_ns + v->kvm->arch.kvmclock_offset;
-	} else {
-		hv_clock.tsc_timestamp = tsc_timestamp;
-		hv_clock.system_time = kernel_ns + v->kvm->arch.kvmclock_offset;
-	}
+1. The VFS maintainers are left to maintain an abandoned fs whose surface
+    area interacting with the code is super/inode/file/vm operations and mo=
+re
+2. FUSE maintainer is left to maintain an abandoned feature whose surface
+    area interacting with the code is substantially smaller - basically, so=
+me
+    custom logic for DAX fault handling - because the rest is (or can be)
+    plain fuse with a dash of fuse passthrough.
 
-To allow different offsets, KVM would need to track a per-vCPU offset to the
-master clock and apply that in kvm_guest_time_update() (and maybe other places?).
-Which is doable, but it's not clear to me why we'd want to support that (though
-I haven't fully processed the back half ot his series, so it's very possible I'm
-missing something obvious).
+No option is categorically better or worse than the other.
+The burden just falls on different people and the weight of the burden
+depends on how much active development of the API is going on.
+
+We have had many mostly-dead filesystems which did not bother anyone
+for a long time, until someone comes along and starts a revolution in the A=
+PI,
+such as folios, iomap, new mount api, parallel dirops and then we pay the p=
+rice,
+or the abandoned customers pay the price.
+
+I said enough, probably too much.
+I'll be happy with any decision, just as long as we make it continuously
+based on correct information.
+
+Thanks,
+Amir.
