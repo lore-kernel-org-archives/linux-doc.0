@@ -1,259 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03187442B1B
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 20:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525A4442FCD
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 20:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786394358; cv=none; b=VR3gn50JiLNfZiq/8Rc8YA/wspP6NxJ2+H5NsBzn8Pus3TjWOXvOv30qrTHALgGW/wJFt1cwGQgZB33sO2wsHBurJ9SQ5S4wYgxJeIRpNEUqG6znuKMDBwPyOCW8pJw/By+EYoTVKGLkqqNNbbM4e7vmoL4UHFxv8RIB4Y7yUG4=
+	t=1786395390; cv=none; b=kR1bRlVRTigAP+Xr86307S4pY8xNR6I4Yix+gXcPbetGJTnYrhwYyZs+7S+oBcEEZqk1M77bijm2RGe0kzMs/PEjrQLWSrXslVvS+/cJms0XYtAwD0rg/P1TCWz/tw1kc96V+eGNNAlYAbylLaa3RFH2Rdl3jOhLo4wOBkyuErQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786394358; c=relaxed/simple;
-	bh=khTbQWWFV9bOrfXG+iqpW/ZtxmkD74y/07pmEqhXD30=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EPXYPv10XUetbJGGBP8LVhJLVlP81Npuw1aRwlO5c/UtBndSfDzWwUvaixPv6bygH2DwoIqzEpZF5/UoWLgp26QS9foRTqsBuoNNz0x2eC6pRB1zyQMrA8Qhg2dSGDanu53ltSQMJ3hAIR1N37JA9QobIvg5/tbjhE0GaaXQS70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=En76OmdX; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1786395390; c=relaxed/simple;
+	bh=gV3PXNtOPo2dzqJVberp/Nshsac9CmoYYB8G1uWRGMw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=MT9UG36bGlRyAyvTnmLxnij9yOxC1JEyvlp4mp0MMaog+EGGDBiCxFSv5CfNct/R4el7yaq63x8Up1+t0Udg+fW56LE7Xq1xrxcIP4Grv0+/uPBWC+UGWxZQQtuQvpW03+UgUl9mFMpG/wPiF6ikbpmdr/inixT7heGLbnRp8ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bNFSUFW+; arc=none smtp.client-ip=209.85.210.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="En76OmdX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786394354;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hBu07eFdsAaRS4DouGyS0AD72vCjFyZu2g7jKIa4PTw=;
-	b=En76OmdXIYwCxRSqmnk5VCyYgUFe12FB3T0qs0f3To1WX6dduD9FD/TMEfXoSnlQQg9cm1
-	KxxcTpe+uMQozx+WbvNDbZygUBd7O29QUcrghBeVpa2q5Y8QB3+TKF1ksoOLn2HqcoD3Z1
-	y/dLkynbC8bl+m6EZnU+uhG7CZmSyls=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-144-VnfPPCRKObiAty1uR5NNVQ-1; Mon,
- 10 Aug 2026 16:39:10 -0400
-X-MC-Unique: VnfPPCRKObiAty1uR5NNVQ-1
-X-Mimecast-MFC-AGG-ID: VnfPPCRKObiAty1uR5NNVQ_1786394348
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C00A19560BB;
-	Mon, 10 Aug 2026 20:39:07 +0000 (UTC)
-Received: from localhost (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7FE851800347;
-	Mon, 10 Aug 2026 20:39:05 +0000 (UTC)
-Date: Mon, 10 Aug 2026 16:39:01 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alexander Graf <graf@amazon.com>
-Cc: Jason Wang <jasowangio@gmail.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Alex Williamson <alex@shazbot.org>,
-	David Airlie <airlied@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	dri-devel@lists.freedesktop.org,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Feng Liu <feliu@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	Halil Pasic <pasic@linux.ibm.com>, Jens Axboe <axboe@kernel.dk>,
-	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nh-open-source@amazon.com,
-	nvdimm@lists.linux.dev, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Parav Pandit <parav@nvidia.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	virtualization@lists.linux.dev,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [RFC PATCH 00/12] virtio: support devices that own their
- virtqueue memory
-Message-ID: <20260810203901.GA35278@fedora>
-References: <20260809182010.32931-1-graf@amazon.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bNFSUFW+"
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-84859a64079so4156133b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 13:56:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786395387; x=1787000187; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LCgbuv6Vd7zF2bZTNz0VWHu3WJNY8tSX432zegD8YdU=;
+        b=bNFSUFW+Hwr1m2QoQQwTY3YLdMhY07wlQ2bWpfNlmdFRpWQnc/9ugInC3tOqzfMCju
+         qRkuPEQU1eqU85C4yzJPYQPaGAS1NrW6s8oMOQkjf9LCNSed118JxqCZt92MV5fp4qVy
+         ObWZnmkn+jj4R8IK8TJS1IHNyfzswodPXaxpdIzSe4cdl/ysXHSfo3z7DXfez+w/P4kW
+         dWP4m2QDSle7h3cdAfJ+vkgb9jL2irTF3Zm69u9qOjGuzdMqF9wU4pTW+s2oYvycioJ6
+         Gf1Ms5ppjgdu0N8nRrLJUTdn5RY3cc1yDhLdWVKydyYGg9Vgjfs5D6EY2FjrQANEoOMF
+         I5ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786395387; x=1787000187;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LCgbuv6Vd7zF2bZTNz0VWHu3WJNY8tSX432zegD8YdU=;
+        b=CfZ3HN/1S0O1AyP5MIMGYylOzU/yp+OjG9GQnS8n1G+8M6CEvMP56lGm6dM56joEfC
+         Qfnoeh9c+lpugy4vDIvyEIUfZxw93zjExhTEAw1meXI6vcmBCABk2J4rN3srT9w5ZcgL
+         fJFh5c+c1TKJrJR6Gb1M5CSXQjK48SyEek735f1okd+2KmzIEqJSkdF8Gl1KYTnZWKy5
+         p+0lgCyAInt89G8GlIs8RfCEktQv46yQ5xufujTkMeft53SKDbGxPEot2gtRrfsCsTkf
+         +MXJpc54TDVtyZpyUPwxid9M9MguUeOyGIv9UGfWF7EC0CgAmOfClr2dxlrYXHzkZ46L
+         E2mg==
+X-Forwarded-Encrypted: i=1; AHgh+RpGcbvqkY/DHM2jHehYo4dISNVD5Y6iZs5nz/FmGfvwf9ykgaESlUAxhpIoq0jkRk9Yrd7NHIzgTBE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywjha02nsmwG4QsZm8s4P5zmAP5JgnFhazUSbTliX8gwOQBoxI5
+	lo8mPYdHOWvpZKhRT6Ho5Pwzl2gT7WI3mNCK3Uezw01Gy6sINLIqfttOQcnz7LmC1BjGtVWvpQr
+	+GMRljg==
+X-Received: from pgmc19.prod.google.com ([2002:a63:1c53:0:b0:c98:2639:852e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:ad1:b0:848:4d1a:9556
+ with SMTP id d2e1a72fcca58-84f9c8f6a11mr4384666b3a.11.1786395387317; Mon, 10
+ Aug 2026 13:56:27 -0700 (PDT)
+Date: Mon, 10 Aug 2026 13:56:26 -0700
+In-Reply-To: <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="E1944FrHRiu7HOOY"
-Content-Disposition: inline
-In-Reply-To: <20260809182010.32931-1-graf@amazon.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-
---E1944FrHRiu7HOOY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <20260728144954.355376-1-dwmw2@infradead.org> <20260728144954.355376-18-dwmw2@infradead.org>
+ <anoOz2rZ02KFk1l-@google.com> <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
+Message-ID: <ano6-gIZtqMfipiD@google.com>
+Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when TSCs
+ are offset from each other
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 09, 2026 at 06:19:58PM +0000, Alexander Graf wrote:
-> Virtio drivers use guest memory to back virtqueues and their buffers.
-> That means a VMM needs to be able to map guest memory. That is ok in the
-> normal virt case. It gets icky with confidential computing (where we use
-> swiotlb as workaround) and it defeats the purpose of isolated vhost-user
-> backing devices, because they end up with full RAM access to the guest.
+On Mon, Aug 10, 2026, David Woodhouse wrote:
+> On Mon, 2026-08-10 at 10:47 -0700, Sean Christopherson wrote:
+> > =C2=A0
+> > > But when the vCPUs merely have a different TSC *offset*, that's not a
+> > > problem. The offset is applied to that vCPU's kvmclock->tsc_timestamp
+> > > field, and it all comes out in the wash.
+> >=20
+> > It's not though?=C2=A0 The value stored in kvmclock->tsc_timestamp is p=
+er-VM, not
+> > per-vCPU, when using the master clock.=C2=A0 It's a little easier to se=
+e once the
+> > master clock TSC isn't shoved into host_tsc:
+> >=20
+> > 	do {
+> > 		seq =3D read_seqcount_begin(&ka->pvclock_sc);
+> > 		use_master_clock =3D ka->use_master_clock;
+> > 		if (!use_master_clock)
+> > 			continue;
+> >=20
+> > 		if (!kvm_get_time_and_clockread(&kernel_ns, &host_tsc)) {
+> > 			use_master_clock =3D false;
+> > 			continue;
+> > 		}
+> >=20
+> > 		master_tsc =3D ka->master_cycle_now;
+> > 		master_ns =3D ka->master_kernel_ns;
+> > 	} while (read_seqcount_retry(&ka->pvclock_sc, seq));
+> >=20
+> > 	...
+> >=20
+> > 	if (use_master_clock) {
+> > 		hv_clock.tsc_timestamp =3D kvm_read_l1_tsc(v, master_tsc);
+> > 		hv_clock.system_time =3D master_ns + v->kvm->arch.kvmclock_offset;
+> > 	} else {
+> > 		hv_clock.tsc_timestamp =3D tsc_timestamp;
+> > 		hv_clock.system_time =3D kernel_ns + v->kvm->arch.kvmclock_offset;
+> > 	}
 >=20
-> So instead, I'm proposing an extension to virtio which allows it to give
-> each virtio device its own dedicated memory region to communicate with the
-> host, called DMB (Device Memory Buffer). A trusted hypervisor can force
-> DMB to be present, which then enables safer, more isolated and resilient
-> communication between guest and host.
+> Meh. I shall have to build a better test case for that one. Thanks.
 >=20
-> With DMB, the device provides a shared memory region that both parties
-> agree is the full memory map both have access to. All memory offsets
-> that previously would have been into guest RAM, are then offsets into
-> this shared memory buffer region. One nice property of this is that it
-> is a generic mechanism in the virtio transport layer, so higher level
-> drivers work unmodified.
+> > To allow different offsets, KVM would need to track a per-vCPU offset t=
+o the
+> > master clock and apply that in kvm_guest_time_update() (and maybe other=
+ places?).
+> > Which is doable, but it's not clear to me why we'd want to support that=
+ (though
+> > I haven't fully processed the back half ot his series, so it's very pos=
+sible I'm
+> > missing something obvious).
+>=20
+> Because I want to reduce the number of cases where we have to fall back
+> to non-masterclock mode. Especially the ones which are driven by
+> *guests* rather than weird choices on the VMM's part.
 
-This is similar to VIRTIO's Shared Memory Regions. A problem with this
-kind of approach is that guest software that depends on zero-copy,
-O_DIRECT, the ability to mmap, etc may break when passing an address
-=66rom one device to another device.
-
-For example, a guest userspace application writing to a virtio-blk
-device with O_DIRECT can pass any source memory buffer. One VIRTIO
-device will be unable to address another VIRTIO device's DMB. This
-problem also extends to vhost-user where one back-end cannot access
-another back-end's DMB or Shared Memory Regions.
-
-Maybe your use case will never hit this problem because you can rely on
-the guest software never to assume zero-copy/O_DIRECT/etc works.
-virtiofs hit it with its DAX Shared Memory Regions.
-
-I'm mentioned it in case this is something you want to think about
-before deploying this approach.
-
->=20
-> I was exploring to use swiotlb instead to create individual pools. But
-> that approach has multiple downsides:
->=20
-> 1. Swiotlb is an OS primitive which is not available in all Operating
-> Systems. DMB however lives in the virtio transport layer, which means we
-> can add support for it in any OS independent of generic layers. This
-> helps with Windows support.
->=20
-> 2. We munge DMA space together. DMB provides a separate DMA space per
-> virtio device. This means we can for example implement a device in
-> vhost-user and give the implementing process only visibility to the DMB
-> region, not all of guest memory. That reduces the exposure the
-> vhost-user provider has, improving security.
-
-Connor Kite is working on a different approach for vhost-user memory
-isolation here:
-https://lore.kernel.org/qemu-devel/20260723-vhost-user-isolated-memory-v1-0=
--6b97c439eb28@gmail.com/T/#t
-
-It involves a bounce buffer at the VMM level. Unmodified vhost-user
-back-ends never sees guest RAM. Guest drivers are also unmodified. The
-cost of doing this is that the VMM has to intercept kick and call
-eventfds in order to copy between the bounce buffer and guest RAM.
-
-I don't see DMB or vhost-user memory isolation as conflicting features.
-There can be two ways of solving the same problem with different
-trade-offs. I just wanted to share a link to Connor's ongoing work.
-
->=20
-> 3. Devices can opt-in. A hypervisor can choose to use standard virtio
-> semantics for self-implemented devices (e.g. NSM), while requiring DMB
-> for devices implemented by less trustworthy providers. The
-> non-trustworthy devices do not get any visibility into the trustworthy
-> ones, even with DMB in place for both.
->=20
-> =3D=3D Limitations =3D=3D
->=20
->   - Only PCI is wired up.
->   - Feature bit 44 and the shared memory id register at offset 0x40 of the
->     PCI common configuration are provisional: the OASIS technical
->     committee has the specification and has allocated neither.
->=20
->   https://lore.kernel.org/virtio-comment/20260804161202.38619-1-graf@amaz=
-on.com/
->=20
->   - The device I ran this against is not public, so you cannot reproduce
->     the numbers below. The KUnit test you can.
->=20
-> =3D=3D Testing =3D=3D
->=20
-> Without patches 10 and 12 a receive refill livelocks and queues starve
-> each other: 29,319,791 receive softirqs in five seconds with not one
-> packet received, against 4 with them, and 2 of 7 receive queues that never
-> see a buffer, against none. Earlier revisions moved 512 MiB of O_DIRECT
-> block I/O and 2.7 GB of verified vsock through a region with no error.
->=20
-> The KUnit test for patch 12's guarantee you can run yourself, and two of
-> its five cases fail if I take the fix out:
->=20
->   tools/testing/kunit/kunit.py run --arch=3Dx86_64 \
->       --kconfig_add CONFIG_VIRTIO_MMIO=3Dy \
->       --kconfig_add CONFIG_VIRTIO_DMB=3Dy virtio_dmb
->=20
-> Patch 1 can be taken on its own: a stale worked example in a vdpa
-> comment. Patch 10 fixes something older than this series too, a failed
-> mapping arriving as -EIO from a packed ring, failing an I/O that on a
-> split ring is only back-pressure, but it does not apply alone: it wants
-> patch 2, and patch 9 for the file its documentation hunk edits. Both
-> carry Fixes:. Patch 12 wants 10 first.
->=20
-> I wrote this series with an AI coding assistant, which drafted the code,
-> the changelogs and this cover letter. I reviewed and reworked all of it,
-> and every commit carries an Assisted-by: trailer.
->=20
-> Alex
->=20
-> Alexander Graf (12):
->   vdpa: correct the VIRTIO_DEVICE_F_MASK example value
->   virtio_ring: validate premapped addresses through the device's map
->   virtio: add the VIRTIO_F_DMB feature bit
->   virtio_pci: read the device memory buffer shared memory id
->   virtio_pci: create virtqueues with the device's mapping token
->   virtio: add a device memory buffer region allocator
->   virtio: locate the device memory buffer after feature negotiation
->   virtio_pci: support VIRTIO_F_DMB
->   Documentation: virtio: describe the device memory buffer
->   virtio_ring: report a bounded pool's exhaustion as -ENOSPC
->   virtio: expose device memory buffer occupancy over debugfs
->   virtio: guarantee a virtqueue can publish its first descriptor chain
->=20
->  Documentation/driver-api/virtio/index.rst     |    1 +
->  .../driver-api/virtio/virtio-dmb.rst          |  803 ++++++++
->  drivers/vdpa/vdpa.c                           |    2 +-
->  drivers/virtio/Kconfig                        |   29 +
->  drivers/virtio/Makefile                       |    3 +-
->  drivers/virtio/virtio.c                       |   15 +-
->  drivers/virtio/virtio_dmb.c                   | 1719 +++++++++++++++++
->  drivers/virtio/virtio_dmb.h                   |   34 +
->  drivers/virtio/virtio_dmb_test.c              |  279 +++
->  drivers/virtio/virtio_pci_modern.c            |  100 +-
->  drivers/virtio/virtio_pci_modern_dev.c        |   23 +-
->  drivers/virtio/virtio_ring.c                  |  216 ++-
->  include/linux/virtio.h                        |    3 +
->  include/linux/virtio_config.h                 |   41 +
->  include/linux/virtio_pci_modern.h             |    1 +
->  include/uapi/linux/virtio_config.h            |   17 +-
->  include/uapi/linux/virtio_pci.h               |   10 +
->  17 files changed, 3254 insertions(+), 42 deletions(-)
->  create mode 100644 Documentation/driver-api/virtio/virtio-dmb.rst
->  create mode 100644 drivers/virtio/virtio_dmb.c
->  create mode 100644 drivers/virtio/virtio_dmb.h
->  create mode 100644 drivers/virtio/virtio_dmb_test.c
->=20
->=20
-> base-commit: fc02acf6ac0ccde0c805c2daa9148683cdd01ba8
->=20
-
---E1944FrHRiu7HOOY
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmp6NuUACgkQnKSrs4Gr
-c8h0ggf9EhOgsO3HluDcAxl3LjRyKeWbnNqK/dzD/aM1tcO8azZNHWFtAJ2p4lRl
-tdNT844A8krTR2ljwTsyQ0A5RDiSb1bG78G03NSmTWjTXp9o8czKuB9vppbMVcPE
-cbTditRQwpwQNt2xKLg1jkObOA5IZj7NMDSZPsDGrdWsRZN3q2zOorsyykwSGLVv
-fnfdz5V0COWy+6Y1PR0sfOpW++T5hV2YPCs0B/s99hdMkCC0j9K42jkhcMTJK5eT
-aBQTdNsanuH6DeW6YTIoikD01SLzLy1sJvvJx0Slw00aA1QsPXxEK51YkQZqSnkn
-pgJmmLt2/LwAxoWM3zZC5sUiv5kkpQ==
-=R2aw
------END PGP SIGNATURE-----
-
---E1944FrHRiu7HOOY--
+But why though?  What is the harm to the host or guest?  E.g. does it make =
+it more
+difficult to accurately migrate the VM?  I'm not opposed to allowing master=
+-clock
+mode with diverging offsets, just trying to understand why it matters.
 
