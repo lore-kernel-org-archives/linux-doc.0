@@ -1,66 +1,66 @@
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E26742DA39
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 23:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830983B9D97
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 23:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786403124; cv=none; b=mW9UAlXaqx2dtMtgjFhYEP5fqehYvLGkcZNLU1n1l1y72hxWmlCfMrdhJsDSSb+Ilr7Ac6dg4HIsih2onVduhHP8VP4BHampRu1zxrDLSR8dD4WZN6ZlWtby5FxcANQ9GNeits61ISHxZAhnylKm/iOt2UKnXPqAn1kIJV9iBb8=
+	t=1786404194; cv=none; b=JK04fPV+YPsSza598VDZqzuexm/wUOcagizhykEr7XR3tFibswAnrQTq5EK84smzSdAPnZkYZUAmku8bXDVsR9Q/9ooqagkqWQONg9yu6IgWdxZ3T1t4IkQZiNAUwQRKtR9GLql5Hlz/Tpy5G2+BfKGKOn8u4dXE7doAwoNP2C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786403124; c=relaxed/simple;
-	bh=1UixVDhcKktfLAVV3KH2xdxG9X17YLjD04ZwlUbLKmA=;
+	s=arc-20240116; t=1786404194; c=relaxed/simple;
+	bh=6riWePLyH2qYVpMlK+T7n9ft2OfONf7BSNufpXaF5IY=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=f18d/RYHoLWM0NAxoXpIY4eMEw4yV55HjEgmL/2FrG4XIvU4SYW3OdVvUknqU/kZLPhBjRk7fGcKkJKKhopeEXgk2/TDvPOCcaBzAqFT+6nll221QsVPU8ZT0Av0LDV2jddjvK5JKUIx7Xo+7ozdqZOYuM6L96ExK6D4zsc9kzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=in7jiRgQ; arc=none smtp.client-ip=209.85.210.199
+	 To:Cc:Content-Type; b=LVgAxmV6eSfOzAQDzRwfNjISoYfghHjRYeVoiCkFj3wjHm3IVUD6Z4la8yv60PEuE42GTFKIcXWzIGgX0JgdXR3fzZKQ6mnCXK8HkQevmAhvoCRkXqMpWsrkUQ+gzhrmd4y0J7WeK7RdAnTF8lB1AqwTDt6MPFFuimaqIRoDlMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i5QQIT6K; arc=none smtp.client-ip=209.85.214.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="in7jiRgQ"
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-84857446424so4157834b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 16:05:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i5QQIT6K"
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2cc86a9ef97so4132415ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 16:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786403122; x=1787007922; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786404193; x=1787008993; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/9OrpqxZWhRM/HFUiR8JGN523y//wB+NGc5onZ0jOJQ=;
-        b=in7jiRgQ4y4nSlP2ti2hlC4pWj0ssxrD7VlSOSQ23O2AZZQPOoPApx0AdVZ/KZiZaS
-         vCKgfCLVcQx/CuPJcA4oe/2eL1Zq1v5jKF+38D+z616QAHspIus7C112/8NhLZw5+YWV
-         8CShGUyObkww6pRdQA4+yRq9hgAGA58FWXz5A78WNhXfjQ/n6tNYqGRk9z8qVsJWXFnK
-         wrqf/eC7+2BXcxX51uqLYJU2BFug4zyTSJG6EupkLav4U1ouCL2xQlDVnNrQTTqKhqH/
-         Zzb0f5a97+Ng0zfpv8udzvIKiU8KI+CfOd5qSYz3eKw9umlbP8N7i7dPpW3u8Lky0etc
-         qGOQ==
+        bh=FpMqKDZdeqkAxP+HMbo4Vf8RyrsMvHYCAM3HPa8Xz3s=;
+        b=i5QQIT6KOO80pdis5TMSEZl5JDgS0kyM22Ryt0UJqA7PHuGWVGn52ej9OAYgHAvW4E
+         VYeCD9t/Fwz2lxuoIMYjUKQlbF1j6gAN+nJIsCsj5F7cvqqolk5bD7INvJ+FO3z8rALA
+         KNgslamz3nRwE2JviGqRyMqKUFAFOyX17ky18RQ4DahFZoNbyxzyrVmGYjS9VS8jR+vu
+         AAI1QnBEnXdqi6ooZLn0OondriMyyGy+qUefTgcUyxzvQfkA01dnpWBPVAEOnBCC9Cy4
+         V3EMP8eMs1jVW15UBOEiAxtUNjCSM8LenlR0GnMxOF9c42n3xNhSF+3F12uQc1MH7HQY
+         O0eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786403122; x=1787007922;
+        d=1e100.net; s=20251104; t=1786404193; x=1787008993;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/9OrpqxZWhRM/HFUiR8JGN523y//wB+NGc5onZ0jOJQ=;
-        b=swq5KYIzTLheopK0FLigR33tYJLbPycRJF6IC0O+3wlLLnbzETlpGulL2c8sbwyxkG
-         dbhIlSg8FcRSNNHdmhEhClYShx9LTjpJgOPPI2UrIwnmi0HMeVMFYery75o77w0fW4Lo
-         gQrhLOd/qAJ7zrcNbmJUC/3RguimGFBV3q8SGT8LN9/svTUO/M48cHCShNGWsNuuGpBX
-         Im7RYIcU4KuMKCv3k9V3bFyk5mjdqRvQ27Yq12w6A3kw+mq6ItYN7LkGc8UApaw635IP
-         RueBCYoO3/1wwsa188WXcZAccxabcZzMI6wIHuQARGHNNfCDQ9oStO9sxh4yVtnQjYKL
-         cZxA==
-X-Forwarded-Encrypted: i=1; AHgh+RqYfNFYEWRWr6O4J+Qley6y0C/KONdMrn7p51JHJaG4/svNwXiBqnh+3+MjJFoFb199XmLhBAa4Jc8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFKhE45dJIhb4uTxp9y2fxyarKxZqlNiMlwp5LUQtaJGz8z0hy
-	rXXNsgo0I0m3PuUCt1f/8T0ieKqBYba1t3xnNsn+7eTJam77AqK2bBlEJ7lFAVPFjYwM3X1GBQ4
-	1WTtH8g==
-X-Received: from pfnv2.prod.google.com ([2002:aa7:8502:0:b0:847:7765:a4c3])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:420c:b0:848:2f2c:b2c8
- with SMTP id d2e1a72fcca58-84f9c95f809mr5850968b3a.24.1786403121703; Mon, 10
- Aug 2026 16:05:21 -0700 (PDT)
-Date: Mon, 10 Aug 2026 16:05:21 -0700
-In-Reply-To: <20260728121138.1103610-3-tarunsahu@google.com>
+        bh=FpMqKDZdeqkAxP+HMbo4Vf8RyrsMvHYCAM3HPa8Xz3s=;
+        b=qwHAexA8n0YuRwvsY5f91W3LPReAaEREfk+zeuVW8Gw93hWSKWXKI/YkrJcwefbsSr
+         G7CCMpKfOv32PispPKatmxcq4HI/UvNCeVHfcW5pY5A3t5l3slEB0r6Ju529qvTcj9pu
+         H5yWzA4JpxASZX/QMxvBWdelew8YnycRaTx/tPlUCCcMcsIxehM/+fLQVgqtImGHskTr
+         pzqpTFWLWzdKtvWkCHxqwlUm5ROoBLbpzN95grjnshfu0S3fJrN5IzdrMbptDozgWl65
+         q7IM3IhLGuLuVa4yeEjEaVz3ljgqbcv940n+rOcxEnvxsPG2QfJxNPXTmhZXxQjqR72P
+         fh0A==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+Wi5+lqWND22+J8Jz/exULyMhMrrGguuUl4vqMz9p0N/QLKwjpwNwFbRwyUYyZfsfbqpR248HOkk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlayRuPlJOtfp8gmK82KkOJJitDQlyRYoSh0LSWjHHJ5bPIErB
+	EiQckKAw8c32QkLJjCuG9qyTWFJQiW81SSQH9vIw8tfkWypB1XO20HJxkRXg9EmvIQuCEtc4/AB
+	rjNdABw==
+X-Received: from plkb4.prod.google.com ([2002:a17:903:fa4:b0:2c0:a516:2c2])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:fdad:b0:2bf:9760:b94d
+ with SMTP id d9443c01a7336-2d0ca7fd072mr611571635ad.15.1786404192685; Mon, 10
+ Aug 2026 16:23:12 -0700 (PDT)
+Date: Mon, 10 Aug 2026 16:23:12 -0700
+In-Reply-To: <20260728121138.1103610-5-tarunsahu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260728121138.1103610-1-tarunsahu@google.com> <20260728121138.1103610-3-tarunsahu@google.com>
-Message-ID: <anpZMemVz5yC_WLo@google.com>
-Subject: Re: [PATCH v4 02/11] KVM: Introduce kvm_create_vm_file() helper
+References: <20260728121138.1103610-1-tarunsahu@google.com> <20260728121138.1103610-5-tarunsahu@google.com>
+Message-ID: <anpdYD1UaO0ffQgi@google.com>
+Subject: Re: [PATCH v4 04/11] KVM: Track weak reference to vm_file in struct kvm
 From: Sean Christopherson <seanjc@google.com>
 To: Tarun Sahu <tarunsahu@google.com>
 Cc: ackerleytng@google.com, fuad.tabba@linux.dev, 
@@ -78,14 +78,15 @@ Cc: ackerleytng@google.com, fuad.tabba@linux.dev,
 Content-Type: text/plain; charset="us-ascii"
 
 On Tue, Jul 28, 2026, Tarun Sahu wrote:
-> - Move ITOA_MAX_LEN to kvm_mm.h for reuse by upcoming kvm_luo code.
-> - Introduce kvm_create_vm_file() to wrap kvm_create_vm() and
->   anon_inode_getfile(), providing a unified VM file creation API.
+> - Add a weak reference 'vm_file' in struct kvm under
 
-As Ackerley pointed out, changelogs that are literally a list pretty much always
-needs to be split.
+"vm_file" is effectively already claimed by vm_area_struct.vm_file.  *If* we go
+this route, I would very strongly prefer to take a dependency on "vfio: Use
+file-based reference counting for KVM"[*].  I'll poke that thread, we really
+should land that one particular patch long before the s390-is-arm64 insanity.
 
-These also need to explain *why*.  "providing a unified VM file creation API"
-isn't sufficient justification.  In general, all of these changelogs need to
-provide more of the "why"; I can figure out what the patches are doing easily
-enough, but in my speed read of the series, it's hard to figure out the "why".
+Empashish on "if" because this all feels backwards.  It's not at all clear to
+me why liveupdate goes directly to guest_memfd, but then requires a token associated
+with the VM.
+
+https://lore.kernel.org/all/20260731130902.654679-2-seiden@linux.ibm.com
