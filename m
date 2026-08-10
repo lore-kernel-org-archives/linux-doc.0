@@ -1,200 +1,285 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5933D3A9D84;
-	Mon, 10 Aug 2026 09:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E1D397945
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 10:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786354606; cv=none; b=aJ63w2jr15ycJUoLEW27d2F8rOf8RqHd5clzZVYKf6fi4HuRN9te/Dc5jH51N1Knl6r1z40ANgIK8x12oP7wIQwUDN/FCEu6xnyj4TgT641ObgtXpwvRsefV7mDctgZjBXrqiOyijwYReXfdqlsuDOk1MB+xRgdqbm5uFYR2PP4=
+	t=1786356184; cv=none; b=ghwPTzMUNyUQlwR+3wtet95emefu8Ku2gzgbpZv5VRv0wKH2CxErlEF5USgcZeJgnQJysRJdiTCaXDdsluP++2kocxjrBO+BV0xbdAeIFqzoF9kay2xTANR6Tl1BukpNDd4Vvl5QifFF25zuValmE33izzk8CzH0eRTQ0pM562k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786354606; c=relaxed/simple;
-	bh=h7Nc45SrHl4WCfk5QMOMP9uMHtwbzXXTEM+QuY3ciko=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rrIdWaZtXeoRVDkPoj3SEagdS5ca6B18BuSD3KVR0b9691HFM+RJZqLBplIRMY/HUlrKiqIf+AXiZNOcsRTFHTIFOa35JEwERiVG5E64+ri+9A/C94zGcRanr2NpbFsfEY9/8jJpUArTIiU07qIUvkYwQf9ZfVqhd7RxEdy1qnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=naiOe+eg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786356184; c=relaxed/simple;
+	bh=10PrNCiUqf7MFfhmFCMTznji5GTBy7odo1AXC+FKaCE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RjRrBASxeIvP+xHqnMVSM771ej2FjUYWaTFGoL0r/OYC7L1dxHqj35keSjVYgBlQpiOh7dgpFdvvvUQDJrzC7TGNGADdZNlM/zp0TFnaCjqRoliHodzr1/w2W2BSnZhRShMjFNn4ugV3c6x/SldOG7lAvcV2vk5Pd0Ymuo4svgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=v1wsTj9z; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="naiOe+eg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6194F1F000E9;
-	Mon, 10 Aug 2026 09:36:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786354605;
-	bh=+k/eeTx9qjkejJzGngTPDoZRvZJW0OrywFXyx2wWmks=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=naiOe+egLnCkmhBy384Tr900GjqhrGJqk1C7AcedbDBvoX9KRByDtjUx4JHpXljWs
-	 T+x+GF/wBLrmCAdWQr5DNEFy8+c3mJwhqlG+8nSbFbqfGOH8EO1jeBO7LT2O74f+s/
-	 /FWBeqhvacxTsfe83QPHQPwTK/DabFSLKr8ro7BpI9SsZWpv3iWG9OxuqF55Ew7sx0
-	 XkeYiQ7cylnP+WJsrurG/uDPOzsxQ53VD+MsluKnYFeKoZkz1OThcXBSSd4EvG2vtB
-	 EuxGhzLPq5OvqTSJ+X4toQAWbBJ9FiiZi23Sj1G+LGb5zjQpnzhLpKBKIp0GiS/M52
-	 eKdltieFInJGQ==
-Message-ID: <82ded1ea-e0f6-48d9-8bcb-38a6bc5e9176@kernel.org>
-Date: Mon, 10 Aug 2026 11:36:26 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="v1wsTj9z"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1786356179;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZOk+5BLcXsTf1sIgyFEEL/riyjLwUZTSDU+26n2J4Eg=;
+	b=v1wsTj9zUkv9wZQRiDbb4EQSdPav4EA4HFtdxAwvfRU3czfkFuOk67/w4bADGoad6Oni/c
+	s400B6JVBgjNAyCypItNzVBmnp0Jxp1WCWAuUE1h5m7WBeZv4JOBb9YgBScyChK3ySyrUA
+	39vKsOfddXgsaWK6c3Gl2XnT5Vu4yr0=
+From: Guopeng Zhang <guopeng.zhang@linux.dev>
+To: longman@redhat.com,
+	ridong.chen@linux.dev,
+	cgroups@vger.kernel.org
+Cc: tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	peterz@infradead.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Guopeng Zhang <zhangguopeng@kylinos.cn>
+Subject: [PATCH] cgroup/cpuset: Remove obsolete PFA_SPREAD_SLAB task flag
+Date: Mon, 10 Aug 2026 18:02:34 +0800
+Message-ID: <20260810100234.78144-1-guopeng.zhang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 20/41] KVM: Let userspace disable per-VM mem
- attributes, enable per-gmem attributes
-To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- jmattson@google.com, jthoughton@google.com, michael.roth@amd.com,
- oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com,
- rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com,
- steven.price@arm.com, tabba@google.com, willy@infradead.org,
- wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com,
- pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org,
- liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
- Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev, Xiaoyao Li <xiaoyao.li@intel.com>
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-20-2fc18ee6d3ba@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260807-gmem-inplace-conversion-v10-20-2fc18ee6d3ba@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 8/7/26 23:52, Ackerley Tng via B4 Relay wrote:
-> From: Ackerley Tng <ackerleytng@google.com>
-> 
-> Make gmem_in_place_conversion a module parameter so that userspace can
-> configure enable or disable the use of VM-level memory attributes. The
-> module parameter is only available if CONFIG_KVM_VM_MEMORY_ATTRIBUTES is
-> enabled.
-> 
-> To avoid inconsistencies in the way memory attributes are tracked in KVM
-> and guest_memfd, the vm_memory_attributes module_param is made
-> read-only (0444).
-> 
-> Since selecting CONFIG_KVM_VM_MEMORY_ATTRIBUTES disables in-place
-> conversion, actually make CONFIG_KVM_VM_MEMORY_ATTRIBUTES selectable. Make
-> the config only selectable for (CoCo) VM types that might use
-> vm_memory_attributes.
-> 
-> Since memory attributes are trackable in guest_memfd, the concept of having
-> private memory is no longer dependent on
-> CONFIG_KVM_VM_MEMORY_ATTRIBUTES. Define kvm_arch_has_private_mem() based on
-> platform config, so that having private memory is dependent on (CoCo) VM
-> type.
-> 
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Tested-by: Shivank Garg <shivankg@amd.com>
-> [Define module_param only if CONFIG_KVM_VM_MEMORY_ATTRIBUTES is enabled]
-> Suggested-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
->  arch/x86/include/asm/kvm_host.h |  4 +++-
->  arch/x86/kvm/Kconfig            | 14 ++++++++++----
->  virt/kvm/kvm_main.c             |  5 ++++-
->  3 files changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 497da6aaf2942..bb2c1ade62cf9 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -1851,7 +1851,9 @@ enum kvm_intr_type {
->  	((vcpu) && (vcpu)->arch.handling_intr_from_guest && \
->  	 (!!in_nmi() == ((vcpu)->arch.handling_intr_from_guest == KVM_HANDLING_NMI)))
->  
-> -#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-> +#if defined(CONFIG_KVM_SW_PROTECTED_VM) ||	\
-> +    defined(CONFIG_KVM_INTEL_TDX) ||		\
-> +    defined(CONFIG_KVM_AMD_SEV)
->  #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.has_private_mem)
->  #endif
->  
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index abb108886733a..2c3c22aeafa54 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -81,13 +81,21 @@ config KVM_WERROR
->  	  If in doubt, say "N".
->  
->  config KVM_VM_MEMORY_ATTRIBUTES
-> -	bool
-> +	bool "Enable per-VM PRIVATE vs. SHARED attributes (for CoCo VMs)"
-> +	depends on KVM_SW_PROTECTED_VM || KVM_INTEL_TDX || KVM_AMD_SEV
-> +	help
-> +	  Enable support for tracking PRIVATE vs. SHARED memory using per-VM
-> +	  memory attributes.  Using per-VM attributes is deprecated in favor of
-> +	  tracking PRIVATE state in guest_memfd.  Select this if you need to run
-> +	  CoCo VMs using a VMM that doesn't support guest_memfd memory
-> +	  attributes.
-> +
-> +	  If unsure, say N.
+From: Guopeng Zhang <zhangguopeng@kylinos.cn>
 
-Hm, does that imply that a distribution that must support both, cannot ship a
-single kernel?
+Commit 16a1d968358a ("mm/slab: remove mm/slab.c and slab_def.h")
+removed the SLAB allocator, the only allocator that implemented cpuset
+slab spreading. Commit 61a182ab61a6 ("cgroup/cpuset: Remove
+cpuset_do_slab_mem_spread()") then removed the last task_spread_slab()
+caller. Commit 3ab67a9ce82f ("cgroup/cpuset: Mark memory_spread_slab as
+obsolete") marked the legacy control obsolete.
 
+cpuset still updates PFA_SPREAD_SLAB when tasks attach to a legacy
+cpuset and walks all tasks in a cpuset when memory_spread_slab changes.
+Remove the unused task flag and its helpers, and make spread task
+updates depend only on memory_spread_page.
+
+Keep the memory_spread_slab control and CS_SPREAD_SLAB state so legacy
+users retain the existing write, readback and inheritance behavior.
+Update the comments and documentation to describe only page-cache
+spreading as functional.
+
+Assisted-by: LLM
+Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+---
+ .../admin-guide/cgroup-v1/cpusets.rst         | 39 +++++++------------
+ include/linux/sched.h                         |  5 ---
+ kernel/cgroup/cpuset-v1.c                     | 13 ++-----
+ kernel/cgroup/cpuset.c                        | 23 ++++-------
+ 4 files changed, 26 insertions(+), 54 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+index 52a213aff04e..434612780074 100644
+--- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
++++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+@@ -179,7 +179,7 @@ files describing that cpuset:
+  - cpuset.mem_hardwall flag:  is memory allocation hardwalled
+  - cpuset.memory_pressure: measure of how much paging pressure in cpuset
+  - cpuset.memory_spread_page flag: if set, spread page cache evenly on allowed nodes
+- - cpuset.memory_spread_slab flag: OBSOLETE. Doesn't have any function.
++ - cpuset.memory_spread_slab flag: OBSOLETE. Has no effect on allocation behavior.
+  - cpuset.sched_load_balance flag: if set, load balance within CPUs on that cpuset
+  - cpuset.sched_relax_domain_level: the searching range when migrating tasks
+ 
+@@ -318,26 +318,20 @@ times 1000.
+ 
+ 1.6 What is memory spread ?
+ ---------------------------
+-There are two boolean flag files per cpuset that control where the
+-kernel allocates pages for the file system buffers and related in
+-kernel data structures.  They are called 'cpuset.memory_spread_page' and
+-'cpuset.memory_spread_slab'.
++The 'cpuset.memory_spread_page' boolean flag file controls where the kernel
++allocates page-cache pages.
++The 'cpuset.memory_spread_slab' file is obsolete and has no effect on
++allocation behavior, but is retained for compatibility.
+ 
+ If the per-cpuset boolean flag file 'cpuset.memory_spread_page' is set, then
+ the kernel will spread the file system buffers (page cache) evenly
+ over all the nodes that the faulting task is allowed to use, instead
+ of preferring to put those pages on the node where the task is running.
+ 
+-If the per-cpuset boolean flag file 'cpuset.memory_spread_slab' is set,
+-then the kernel will spread some file system related slab caches,
+-such as for inodes and dentries evenly over all the nodes that the
+-faulting task is allowed to use, instead of preferring to put those
+-pages on the node where the task is running.
+-
+-The setting of these flags does not affect anonymous data segment or
++The setting of this flag does not affect anonymous data segment or
+ stack segment pages of a task.
+ 
+-By default, both kinds of memory spreading are off, and memory
++By default, page cache memory spreading is off, and memory
+ pages are allocated on the node local to where the task is running,
+ except perhaps as modified by the task's NUMA mempolicy or cpuset
+ configuration, so long as sufficient free memory pages are available.
+@@ -345,18 +339,17 @@ configuration, so long as sufficient free memory pages are available.
+ When new cpusets are created, they inherit the memory spread settings
+ of their parent.
+ 
+-Setting memory spreading causes allocations for the affected page
+-or slab caches to ignore the task's NUMA mempolicy and be spread
+-instead.    Tasks using mbind() or set_mempolicy() calls to set NUMA
+-mempolicies will not notice any change in these calls as a result of
+-their containing task's memory spread settings.  If memory spreading
++Setting page cache memory spreading causes affected allocations to ignore the
++task's NUMA mempolicy and be spread instead. Tasks using mbind() or
++set_mempolicy() to set NUMA mempolicies will not notice any change as a
++result of their containing task's memory spread settings.  If memory spreading
+ is turned off, then the currently specified NUMA mempolicy once again
+ applies to memory page allocations.
+ 
+ Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean flag
+-files.  By default they contain "0", meaning that the feature is off
+-for that cpuset.  If a "1" is written to that file, then that turns
+-the named feature on.
++files whose values are inherited by newly created cpusets. The value of
++'cpuset.memory_spread_slab' is retained and can be read back, but it does not
++affect allocation behavior.
+ 
+ The implementation is simple.
+ 
+@@ -367,10 +360,6 @@ is modified to perform an inline check for this PFA_SPREAD_PAGE task
+ flag, and if set, a call to a new routine cpuset_mem_spread_node()
+ returns the node to prefer for the allocation.
+ 
+-Similarly, setting 'cpuset.memory_spread_slab' turns on the flag
+-PFA_SPREAD_SLAB, and appropriately marked slab caches will allocate
+-pages from the node returned by cpuset_mem_spread_node().
+-
+ The cpuset_mem_spread_node() routine is also simple.  It uses the
+ value of a per-task rotor cpuset_mem_spread_rotor to select the next
+ node in the current task's mems_allowed to prefer for the allocation.
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 499943987c1a..8b3d47a325cc 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1869,7 +1869,6 @@ static __always_inline bool is_user_task(struct task_struct *task)
+ /* Per-process atomic flags. */
+ #define PFA_NO_NEW_PRIVS		0	/* May not gain new privileges. */
+ #define PFA_SPREAD_PAGE			1	/* Spread page cache over cpuset */
+-#define PFA_SPREAD_SLAB			2	/* Spread some slab caches over cpuset */
+ #define PFA_SPEC_SSB_DISABLE		3	/* Speculative Store Bypass disabled */
+ #define PFA_SPEC_SSB_FORCE_DISABLE	4	/* Speculative Store Bypass force disabled*/
+ #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
+@@ -1895,10 +1894,6 @@ TASK_PFA_TEST(SPREAD_PAGE, spread_page)
+ TASK_PFA_SET(SPREAD_PAGE, spread_page)
+ TASK_PFA_CLEAR(SPREAD_PAGE, spread_page)
+ 
+-TASK_PFA_TEST(SPREAD_SLAB, spread_slab)
+-TASK_PFA_SET(SPREAD_SLAB, spread_slab)
+-TASK_PFA_CLEAR(SPREAD_SLAB, spread_slab)
+-
+ TASK_PFA_TEST(SPEC_SSB_DISABLE, spec_ssb_disable)
+ TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
+ TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
+diff --git a/kernel/cgroup/cpuset-v1.c b/kernel/cgroup/cpuset-v1.c
+index 3e9968dd91e9..562ad35f00d0 100644
+--- a/kernel/cgroup/cpuset-v1.c
++++ b/kernel/cgroup/cpuset-v1.c
+@@ -204,7 +204,7 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ }
+ 
+ /*
+- * update task's spread flag if cpuset's page/slab spread flag is set
++ * Update a task's spread flag if the cpuset's page spread flag is set.
+  *
+  * Call with callback_lock or cpuset_mutex held. The check can be skipped
+  * if on default hierarchy.
+@@ -219,18 +219,13 @@ void cpuset1_update_task_spread_flags(struct cpuset *cs,
+ 		task_set_spread_page(tsk);
+ 	else
+ 		task_clear_spread_page(tsk);
+-
+-	if (is_spread_slab(cs))
+-		task_set_spread_slab(tsk);
+-	else
+-		task_clear_spread_slab(tsk);
+ }
+ 
+ /**
+- * cpuset1_update_tasks_flags - update the spread flags of tasks in the cpuset.
+- * @cs: the cpuset in which each task's spread flags needs to be changed
++ * cpuset1_update_tasks_flags - update the page spread flag of cpuset tasks
++ * @cs: the cpuset whose tasks need their page spread flag updated
+  *
+- * Iterate through each task of @cs updating its spread flags.  As this
++ * Iterate through each task of @cs updating its page spread flag.  As this
+  * function is called with cpuset_mutex held, cpuset membership stays
+  * stable.
+  */
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 0a0fffb5673c..9761a5dd006f 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -2862,7 +2862,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ {
+ 	struct cpuset *trialcs;
+ 	int balance_flag_changed;
+-	int spread_flag_changed;
++	int spread_page_changed;
+ 	int err;
+ 
+ 	trialcs = dup_or_alloc_cpuset(cs);
+@@ -2881,8 +2881,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ 	balance_flag_changed = (is_sched_load_balance(cs) !=
+ 				is_sched_load_balance(trialcs));
+ 
+-	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
+-			|| (is_spread_page(cs) != is_spread_page(trialcs)));
++	spread_page_changed = is_spread_page(cs) != is_spread_page(trialcs);
+ 
+ 	spin_lock_irq(&callback_lock);
+ 	cs->flags = trialcs->flags;
+@@ -2895,7 +2894,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ 			rebuild_sched_domains_locked();
+ 	}
+ 
+-	if (spread_flag_changed)
++	if (spread_page_changed)
+ 		cpuset1_update_tasks_flags(cs);
+ out:
+ 	free_cpuset(trialcs);
+@@ -4484,14 +4483,10 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
+  * cpuset_spread_node() - On which node to begin search for a page
+  * @rotor: round robin rotor
+  *
+- * If a task is marked PF_SPREAD_PAGE or PF_SPREAD_SLAB (as for
+- * tasks in a cpuset with is_spread_page or is_spread_slab set),
+- * and if the memory allocation used cpuset_mem_spread_node()
+- * to determine on which node to start looking, as it will for
+- * certain page cache or slab cache pages such as used for file
+- * system buffers and inode caches, then instead of starting on the
+- * local node to look for a free page, rather spread the starting
+- * node around the tasks mems_allowed nodes.
++ * If a task is marked PFA_SPREAD_PAGE and a page cache allocation uses
++ * cpuset_mem_spread_node() to determine where to start looking, spread the
++ * starting node around the task's mems_allowed nodes instead of starting on
++ * the local node.
+  *
+  * We don't have to worry about the returned node being offline
+  * because "it can't happen", and even if it did, it would be ok.
+@@ -4502,9 +4497,7 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
+  * offline node.  But if it did, that would be ok, as this routine
+  * is not returning the node where the allocation must be, only
+  * the node where the search should start.  The zonelist used by
+- * the allocator will include all nodes.  If the slab allocator
+- * is passed an offline node, it will fall back to the local node.
+- * See kmem_cache_alloc_node().
++ * the allocator will include all nodes.
+  */
+ static int cpuset_spread_node(int *rotor)
+ {
 -- 
-Cheers,
+2.43.0
 
-David
