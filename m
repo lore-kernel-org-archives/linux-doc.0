@@ -1,189 +1,148 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4463DD50D;
-	Mon, 10 Aug 2026 13:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC9A1DDA18;
+	Mon, 10 Aug 2026 13:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786368275; cv=none; b=nWLmYn53Zs0drNziqjQ2QYh2HJdmGrFnhaF8TFPCJ+C0KzCmumfVrdjs/uay8nJc4GfKiiHgKv2xXnRzM/v/Q1VYb0PjkOaVp+HQfJaHSgMm8e1PO9SN3VbAfcWZqQduBYfM0Ke0Y4i2b61E8aO5VxGCWhYdu/Z97u2dqifthwY=
+	t=1786368952; cv=none; b=e0viV5vijY+lGyFKVHNopJHgjEbJMYAJ5yyZLdC40Gghx2s0VPan281kpf9OGX1SumYkpjeyODV2ChuHsvP9HglrKhRAVicoVYp154uk0Oc4SYJgUNH6ZZlfSvyees0+6uFLO7ucKZ0v76ui05ITFNoNC6Zq8d4SLo1ZntyR054=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786368275; c=relaxed/simple;
-	bh=4P+N0dmzp+E+cGX8207jgIViCCigjIHn+YfzZBXj4ls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=skzAMJvOQUUSUmzHY9zPlmaS+/oQ7mygi5YEj7HhyZ6NFjIqLDAFIirR+HSXLys6LI0TjMT6JIdXMk+JPY6DR8FKLsn2bT+HmdKs2mxG7RkngHi7tLk5+YL2ldsVMgDvdfcLdp9fnvv92Q4xyEr1h8PUD4LWSjxWa+qefOCnnaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=eVkCCWNk; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1786368952; c=relaxed/simple;
+	bh=991HfjnG6QbqkXDaoqknVpf0eV83dcGtzfTkULWDnW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0Mt6OSEVyv1DhFKXLxb3WnMYae5nTco8XaRSi4ofAElej1ZGmNC5NVTwSieFo0UlOulh/iMKXP7PNz4X5weaK/VSHD2Zjqfcq46X7igteTD6kEQYrTxYxop8V+sIYCfNjfN+mpLB/gFZWMoZ/js5lCl7PWjz7KszpnCJVzmEC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fzZ91UK5; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="eVkCCWNk"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67AD1cEh4027218;
-	Mon, 10 Aug 2026 13:24:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=J/G9MH
-	op1bQdqm3o5hSuf6LyOSBCc7bsB1+v/bdl5Fg=; b=eVkCCWNk2wC9aKaGGSeDAX
-	yFmvrovTv1vPasB2WRHpzODqekCr77AmmShkudckOM5FMCYl0yspmRSQo7FNeExz
-	8GuuIKHpJraEdCm294DoS9YLubFxT7tO/8cEd9FSO/kbVw2zlEqwMH2wCftnCDog
-	QX2Qlp+9AsbtDjPWTuCErFx4jbYHqLIi71S2h47a47OrPYKuM3xY7Kce83/uLN98
-	kECLuPEuZblAW5rbmUOCJYRqlpQI5kBNxhfUpufik+fVo3UEWs2h9h7YEF/6ij7t
-	83J438kZl7eF/GPJnYP7zOer13pX2anwOqV/yODdt4x8ElGMResK4lB8UI+jjPig
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvjyr3vg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Aug 2026 13:24:11 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67ADBIAx008472;
-	Mon, 10 Aug 2026 13:24:10 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fxespw2n2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Aug 2026 13:24:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67ADO6pv49611206
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 10 Aug 2026 13:24:06 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7B67020043;
-	Mon, 10 Aug 2026 13:24:06 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 64B7720040;
-	Mon, 10 Aug 2026 13:23:58 +0000 (GMT)
-Received: from [9.39.23.237] (unknown [9.39.23.237])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 10 Aug 2026 13:23:58 +0000 (GMT)
-Message-ID: <a02c8bfe-5bec-4d2f-9183-8a0f856d3247@linux.ibm.com>
-Date: Mon, 10 Aug 2026 18:53:57 +0530
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fzZ91UK5"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3B6C1477;
+	Mon, 10 Aug 2026 06:35:45 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B55813F632;
+	Mon, 10 Aug 2026 06:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786368949; bh=991HfjnG6QbqkXDaoqknVpf0eV83dcGtzfTkULWDnW8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fzZ91UK57kTdR2Ef94w96o0QEjTTIdkLtR5TrjLYYUymDnuoep0zcxLwSPCZqBq2v
+	 /WhhmO/bx1xbKgv53Kzk6Wio2s2PHD6HdMQ0O+39vsRa0XTg5jqHFctPtBJYMzwnix
+	 jbqKDeH739XPRiYNzgMx3dVujXp0ygb21wLMQ3gQ=
+Date: Mon, 10 Aug 2026 14:35:38 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"d-gole@ti.com" <d-gole@ti.com>,
+	"david@kernel.org" <david@kernel.org>,
+	Elif Topuz <Elif.Topuz@arm.com>,
+	"etienne.carriere@st.com" <etienne.carriere@st.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>,
+	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
+	Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>,
+	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
+	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+	"usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v7 03/23] firmware: arm_scmi: Introduce protocol instance
+ notifiers
+Message-ID: <annTqkEfL2hqcKFw@pluto>
+References: <20260802145618.1952804-4-cristian.marussi@arm.com>
+ <B5F86BAB-83E2-4C54-BEC9-7714C865CB7D@contoso.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 04/11] sched/core: Try to use a preferred CPU in
- is_cpu_allowed
-To: Mete Durlu <meted@linux.ibm.com>, linux-kernel@vger.kernel.org
-Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org,
-        jgross@suse.com, virtualization@lists.linux.dev, mingo@kernel.org,
-        peterz@infradead.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, yury.norov@gmail.com,
-        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net
-References: <20260724140732.2683314-1-sshegde@linux.ibm.com>
- <20260724140732.2683314-5-sshegde@linux.ibm.com>
- <31646728-5af6-4f3d-b461-8992c213e230@linux.ibm.com>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <31646728-5af6-4f3d-b461-8992c213e230@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDExMiBTYWx0ZWRfX2eQHCac+wRev
- 80O/qJpE7GLgFnQRfOGfSZWdri56cwtSLYGhM16LheEcGEO2vWGTHbT8zkdifNiuBD7pbXOHCQm
- ESS2lEEu96JjkWg7QiPLqiVYZuEVrrEgbAsDNVqXabELo0cStzPW43rjXww6hTalmO6LoFqT1vB
- cdtgPpdqCV1+llhKnhC1eiPZFJJM7Mw+HrJNsM7UHXdPm8B2wqv8DV5DMkqWguTrO9M5rQmrOMd
- GiGwowHYrsLmDSeq5U+c0N1wW4/C9Qb86+HAFcLkAjWQHFo721ukVfWWKXZRTfNSIHP3hf8REQv
- 8RpZl6f3AEph9tGCrA39CAtfKzvzquYipf3/SqU/pZeaYMv5/u+nSoOOeONnkHuEEYifyl2AakM
- wLBYJWTA0H6a2UFufIJ4HO/HG9S/uivdUTsD7iSnUUsgj1WrZ9OuIGvjMrlcP7orNcJYApncyv/
- Rh8V1IgWhHvln5lwWvQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDExMiBTYWx0ZWRfXzrfM0ODdCebM
- bmjTR+x8LavNRsQVzwEHidJtIf4Gf1wqBIGTjK/XeHDe3bZCFEA3g7NgTHwfekzUOVMryxIKQm0
- DrfHuAfibmsV5kzmwarUqMAAnU6xyWI=
-X-Authority-Analysis: v=2.4 cv=RqD16imK c=1 sm=1 tr=0 ts=6a79d0fb cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
- a=2eUty9qkGphTp3J6qE4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: zTtBMhQId9jhfyaGKZchu1dPJTn-_J-r
-X-Proofpoint-ORIG-GUID: Gkq1fUHav5AqOl8Y7R49E8MdhM85LY_h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-10_03,2026-08-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 bulkscore=0 malwarescore=0 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608100112
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <B5F86BAB-83E2-4C54-BEC9-7714C865CB7D@contoso.com>
 
-Hi Mete, thanks for taking a look.
-
-On 8/10/26 5:28 PM, Mete Durlu wrote:
-> Hi,
-> 
-> ...
->> For majority of the cases this would still keep select_fallback_rq
->> as O(N). task_has_preferred_cpus which is O(N) is called only if
->> !cpu_preferred. Then task running there is expected to move out.
->> So subsequent it should run on preferred CPU. This becomes O(N**2)
->> only for tasks pinned only non preferred CPUs. That is rare case.
->>
->> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->> ---
->>   kernel/sched/core.c  | 12 ++++++++++--
->>   kernel/sched/sched.h | 12 ++++++++++++
->>   2 files changed, 22 insertions(+), 2 deletions(-)
->>
->> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->> index a45f7c308329..9e8eec4451b6 100644
->> --- a/kernel/sched/core.c
->> +++ b/kernel/sched/core.c
->> @@ -2509,8 +2509,12 @@ static inline bool is_cpu_allowed(struct 
->> task_struct *p, int cpu)
->>           return cpu_online(cpu);
->>       /* Non kernel threads are not allowed during either online or 
->> offline. */
->> -    if (!(p->flags & PF_KTHREAD))
->> +    if (!(p->flags & PF_KTHREAD)) {
->> +        /* Try to use preferred CPU if task's affinity allows */
->> +        if (task_can_sched_on_preferred(cpu, p))
->> +            return false;
->>           return cpu_active(cpu);
->> +    }
->>       /* KTHREAD_IS_PER_CPU is always allowed. */
->>       if (kthread_is_per_cpu(p))
->> @@ -2520,7 +2524,11 @@ static inline bool is_cpu_allowed(struct 
->> task_struct *p, int cpu)
->>       if (cpu_dying(cpu))
->>           return false;
->> -    /* But are allowed during online. */
->> +    /* Try to keep unbound kthreads on a preferred CPU if possible. */
->> +    if (task_can_sched_on_preferred(cpu, p))
->> +        return false;
->> +
->> +    /* Otherwise, they are allowed to run on online CPU. */
->>       return cpu_online(cpu);
->>   }
->> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
->> index 26ae13c86b69..6de6366f2faa 100644
->> --- a/kernel/sched/sched.h
->> +++ b/kernel/sched/sched.h
->> @@ -4230,4 +4230,16 @@ DEFINE_CLASS_IS_UNCONDITIONAL(sched_change)
->>   #include "ext/ext.h"
->> +static inline bool task_can_sched_on_preferred(int cpu, struct 
->> task_struct *p)
-> 
-> 
-> Sorry, I glanced to the earlier versions but I couldn't find
-> the answer to my question. Trivial one but still.
-> 
-> FWICT, task_can_sched_on_preferred() is only being used in
-> core.c, is there a reason why it is defined in
-> kernel/sched/sched.h and not in core.c ?
+On Mon, Aug 03, 2026 at 11:52:05PM +0100, Fayssal Benmlih wrote:
+> Hi Cristian,
 > 
 
-Will move it out of sched.h. Thanks for pointing it out.
+Hi,
 
-> Thanks.
-> -Mete
+> A couple of notifier lifetime issues inline.
+> 
+> > 	scoped_guard(mutex, &info->protocols_mtx) {
+> > 		pi = idr_find(&info->protocols, protocol_id);
+> > 		if (WARN_ON(!pi))
+> > 			return;
+> >
+> > 		proto_notifier_nb = pi->pno.nb;
+> > 		/* Ensure NULL is visible */
+> > 		smp_store_mb(pi->pno.nb, NULL);
+> > 	}
+> >
+> > 	if (proto_notifier_nb) {
+> > 		int ret;
+> >
+> > 		ret = scmi_protocol_notifier_unregister(pi->handle,
+> > 							&pi->pno);
+> > 		if (ret)
+> > 			dev_err(handle->dev,
+> > 				"Failed to release protocol notifier\n");
+> > 	}
+> >
+> > 	guard(mutex)(&info->protocols_mtx);
+> > 	if (refcount_dec_and_test(&pi->users)) {
+> 
+> The notifier is cleared and unregistered before decrementing the protocol
+> users refcount. If the protocol instance has multiple users, the first
+> user that releases it removes the protocol implementation's notifier even
+> though the instance remains active for the remaining users.
+> 
 
-Also, thanks for checking that s390 change.
+> Should notifier removal happen only when the final protocol reference is
+> released?
+> 
+
+Yes, but it is not so easy to do given the current notification handlers
+design (that I did :P) since notifier were not supposed to be used from
+within a protocol, till Telemetry...so the attempt is to fit (cleanly)
+this new use-case into the existing SCMI Notification framework..since
+99% of the related handling is the same....I have reviewed this logic
+in V8, improved I think, but still Sashiko has some complaints...
+
+> The ordering may need to be reworked so the final-reference decision and
+> clearing of pno are made under protocols_mtx, while the potentially
+> blocking notifier unregister operation is performed without freeing the
+> protocol instance underneath it.
+> 
+
+Cannot be done holding the mutex with the current design...
+
+> > 	if (proto_notifier_nb) {
+> > 		int ret;
+> >
+> > 		ret = scmi_protocol_notifier_register(pi->handle, &pi->pno);
+> > 		if (ret)
+> > 			dev_warn(handle->dev,
+> > 				 "Failed to register protocol notifier\n");
+> > 	}
+> 
+> If registration fails, pi->pno.nb remains populated. Future acquisitions
+> of the existing protocol instance do not retry registration, while release
+> later attempts to unregister the notifier even though registration never
+> succeeded.
+> 
+> Please either clear the stored notifier on registration failure or track
+> registration state separately and provide a defined retry/error path.
+> 
+Reviewed all of this in V8.
+
+Thanks,
+Cristian
+> 
