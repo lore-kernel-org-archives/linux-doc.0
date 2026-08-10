@@ -1,63 +1,64 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004E33F86E7
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 14:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B603F86E7
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 14:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786372412; cv=none; b=DpSkvFLJX9RALWa/5aKCP9MxnbioymVzIkPqvRjxqx6ZWoPRo5QU2KP2guuzH+DmExTdVSbKSRoDHQN4n3A40LhQVFfqDwqzENyTLFM7Q1kwPFJPI6JbtmYB3lHX3fSPKdLqMV/qZNLZSwm+m7d3a2m9GK5vxwMg/0qWfj+bSPQ=
+	t=1786372413; cv=none; b=QEEKSXlBXNzhozIIy81l47Re8OgP8JP3+QeH8u83VZ78L2ATlRl3Eq0mdEo4L5imardd5rhDMAOQZwTTd0lwSaF245GhnrWbxn6b0sqUP4z90KiwiJXdx6jHA8KwZX+uh+ojBM3hG6kCxch2Izy8+TAIM6GVzibxThD4E+RalMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786372412; c=relaxed/simple;
-	bh=64TB55FHYFwfaYz9gCVrUPYWAOUkrsbqFhpR+gClBKM=;
+	s=arc-20240116; t=1786372413; c=relaxed/simple;
+	bh=vAS3XXy80kygIF9Q312sEQcYcNWCvzeW4fKWAXXwzmE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A9Mrw5XVaCl8yIaK2keCNUABqOBW4V/gffz/ZHOrMVFBgazY+d8RHe/2nFS10Fk1KdzhiXg+pqJcEcPFs9rAjpfwZQXhM1WhTucEcu+Tb3QkkoILKPhHi6+jDx32QAeupOVz42ZMAcM+Oql7PG34onulvOSX+rA0TY2z4mGguzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzQvdwry; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version:Content-Type; b=ovfJUvipWRy36Blu6IdJ9RODgr/+gYC+UvY1Pjs2U2XApBaomfkKHRwqasdBfEz0OpaJgmXFGX88it0HrrDiwb69TGm8w3PfVFnpiS4+HE1oMFzK2ukrGJQb6tdFXDUbADfchjLEA8Mxb8edrkMaV7LdsSOJfo6zqOXmykYCF8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cet86NRS; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzQvdwry"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cfff5f88dbso30154015ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 07:33:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cet86NRS"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84867f07d63so2258701b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 07:33:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786372409; x=1786977209; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mW6857ZUCKMxTWq8NsQePygvrLZZIX0lwqlDz2Pl/S8=;
-        b=LzQvdwryqh/oRypoaAwf9nrotr1vFHaayuFEFk9n1CSCYkXdkCPJClrUF4SP0mU1dF
-         KJOHdYwM5ux1pJjMJK8ZiYhT5Opkwp3/dkrsFa71AeubkmLePUBvUl4prVKcyfJLYK1l
-         Fi8QTTPzG1sN4lZ0YtWCG31VvCxMzV0qvm9yc6vIIniQDLmazemLKFC7yBeu9KSzR/r8
-         6KgU33BcxI0T6gBzSP3b2ko3rWh9LVrJ9dNv6Jml3K8T5p786eGSFdqqo9UKn+vCnotK
-         d2qXXHLTaGb5yl/bsk7NZ+IIOj/a1ikT3Au0fem+eZzsgaWhBklrlPrIiVYoWYXZTizC
-         BxSQ==
+        d=gmail.com; s=20251104; t=1786372412; x=1786977212; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rY7zCmLlC8EX8bVm77K2UlgL+HheFi3M6EBapeAXM2A=;
+        b=Cet86NRSfWzecA6rjkoYXiXxVRDjFeSeQkbCvLoPwTpJ9EXWpnUOkiXpyUPLUF4DP4
+         ou7slsWcpfniWgnI+YTJE0p9t0E0egawCHNNJhq3TUhx3X79zhHaYMSUpImKdYfJYIM8
+         e8fWvV9Z1NWZMFN1ET2YVEDAAMtSq5TGd2Aj7qhtcLXBCzEKfEL/gIRwIsM2XD2LguTQ
+         n3vL5K+EbQNkhKflFs3Laxg0+n4UW51MWccd++XSHCuBc4UeV796Z+fexZAU7bO/9dOj
+         /mLC1kf8uNeQTELKN895vkD0mWoLYjKzj58zrX7ZSZvWU9Wdx+nTGTH/4CqF15H4ZmjW
+         42bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786372409; x=1786977209;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mW6857ZUCKMxTWq8NsQePygvrLZZIX0lwqlDz2Pl/S8=;
-        b=Cqop1hz6stywOTGREnlOQeRmkruNWaiyWl+MyDXCHHZV5RBAIzxbSXv0TATk1Zr+ke
-         3Rk9y3vWwm6HMNO35Jiq212MWGHH0SXGkxRxQLr9nIpH3TJeWRqOA35f7FmuXRC969KG
-         uFEanBNgP2zmPTVSApqjZ4rED7DVVrhtRP6nDUYaxtpWyDHgGM8vk2Ko+R6J8EMdK5dt
-         gohFBtRcdcprjhPnL2a3Rf27ITi9mBoPYFjbMU9Z1ic9GCEicBSoO+9uiQJpamCtHYdX
-         aAXl8HcnyVnDcL4gnk8hR6myEpVIs7CVkiueZ7XsL2piuhE9KfSDsTPs0rngAAGYjS/T
-         BBpw==
-X-Gm-Message-State: AOJu0YwCGZ4Vbnc0qxu8vCEyOFtFJ0CwApvphGcxkHFo47y06tNkklqr
-	nTpnfKntLn/UrxNk1yJcI4szlr74husEu5eHvbf47LkYqSXEw4l/qlhS
-X-Gm-Gg: AR+sD13+MgWlslmNyUE5cfBWlWc8wVIWlx6yeysT9hSOn1PLdkThEYoTTkCEN6e1WxA
-	x6xcPUsovggpAiZOEzzKp2L0ZSA2nPEkh4QNBUOi35w76gtmp7Ah5hheiazodG6FbinknYsCslj
-	dB0wlXmSsT8D5GLa/tzqIGHU7hxEjgRkMO0+wxFv33m4WjqljeCFFIFDpy+Na/URjN9GoAyWYoN
-	U6GmJreYOXg6UUtfEPQIq5Snkrj9nNR1ZQzcYaYTyW7JQJY7xMiq42leXve1NdtkqGWdIEnn6s2
-	/zn9Er901xAXF+bKoQ4W9GtwuEGhLFp8OWqVRdf/CQDJgzgqlhIX5KHk8eYg5jsyIuGJUr9aDhB
-	wZJ0rcauvvAtA5pN7YDF4bgzxUqwnukaUT5dveSHDv+1jCivXZDvL/bwAWoDre8J7eb+0QqgaNU
-	kkAGnXEXESp02R5tFycVbRSLbqn3nXMNOdAnGyLaI1KD1QJ0AGHyyFOWTkMusXkhc9iadIsQ1rw
-	CY=
-X-Received: by 2002:a05:6a21:3a44:b0:3cb:eb06:ce09 with SMTP id adf61e73a8af0-3cc1a38a664mr3122778637.25.1786372409128;
-        Mon, 10 Aug 2026 07:33:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786372412; x=1786977212;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rY7zCmLlC8EX8bVm77K2UlgL+HheFi3M6EBapeAXM2A=;
+        b=ExVBMyufZwERMh7myeY7XdLfJnDWQwRpwcs/oF5udk+LCQbe9I+Oa55zXpfCOGkrb/
+         e5n06UmKTKgBN4dibV2b1Pw8eVn8/KdXgx6OnFp8XwBrQjBIPb6sXt2gvvbPxrlbVy66
+         6cThxkoaDXpkkbV2Z79MhTM93F1r46gVLQN/7IXkcCeSjy/FEnyrBEi61/HGErhfPJSc
+         fOjyBic4gFPSTGGkQdY8O9AKhA9S8Zt8KLiFrUszgqwTp5HBEQeaphZlssBOLzo5y/Pk
+         gUEwYa1voB2Kgig0qlym0jknR+qyrzKzt7fBbow36/qzocOdJwn6fix99MNG7o9JTUCA
+         3ZIA==
+X-Gm-Message-State: AOJu0Ywr8nXRXp+9Zr5jm6dVmchD+RPFmB/OxNuzqTTp4Nyn2QbXbiPp
+	L70r0Ok0teZABEO2wXXszCGJr68GV9gruAqaf/505FiAgAjqx725VZY3
+X-Gm-Gg: AR+sD10RqrD10y2Qr8foF6c8JLi93l4PsLPsIMRCV/opu1be8iv6/Z8eX5T89W7CNlh
+	GcYV1KwkZq/1XA5aK3zWFD8UZ27Ia4ZEOO8aiRFtKfxuh1H7M7SzTV2jM4FlVeZlPaqGiEJ6jd0
+	mKPUVOlFLuGfexHzWkrxCwcE5Fo4dYhb4PoG4hpGCNswR1iGQ99VmbInYZECedAcs74M3xY9CfL
+	UeL0I22VRSQZZJH12R63Qh2wUJtW/An3DLHW0MPIuO+qPUmzFxnYzNNd3HnSMDowJ1HtMvAFoWH
+	dsUekdkAQWMvsIxbBniwvlyi6fwub451sL6hiEyKZAC77xYdRpRpgP/Jv+FSEmpLbjgUVgFnYN+
+	uk1O9YhCk4Ck/OHKfC4sFzT33/MECya38ivzOWk6pCUaa1mUeYDpoO3xyWwQ+g4PqJfllfG1H22
+	TDRPQnw7n9gctIHt/Gtbt6nuN1I6pKz/wo087ULzCNUwZU6/XG+L4bFsw1j4s8dzen3c5IRKTVZ
+	f+v3KY+mekwyg==
+X-Received: by 2002:a05:6a20:e211:b0:3c8:e140:63a8 with SMTP id adf61e73a8af0-3cc1a315881mr2311626637.23.1786372411945;
+        Mon, 10 Aug 2026 07:33:31 -0700 (PDT)
 Received: from localhost.localdomain ([64.186.250.142])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1410cc132c1sm22197001c88.8.2026.08.10.07.33.26
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1410cc132c1sm22197001c88.8.2026.08.10.07.33.29
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 10 Aug 2026 07:33:28 -0700 (PDT)
+        Mon, 10 Aug 2026 07:33:31 -0700 (PDT)
 From: Chen Miao <chenmiao.ku@gmail.com>
 To: corbet@lwn.net,
 	alexs@kernel.org,
@@ -69,9 +70,9 @@ To: corbet@lwn.net,
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen Miao <chenmiao.ku@gmail.com>
-Subject: [PATCH v2 3/5] docs: sphinx-build-wrapper: prefer gmake
-Date: Mon, 10 Aug 2026 22:33:07 +0800
-Message-ID: <20260810143311.57775-4-chenmiao.ku@gmail.com>
+Subject: [PATCH v2 4/5] docs/zh_CN: doc-guide: document macOS Sphinx setup
+Date: Mon, 10 Aug 2026 22:33:08 +0800
+Message-ID: <20260810143311.57775-5-chenmiao.ku@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260810143311.57775-1-chenmiao.ku@gmail.com>
 References: <20260810143311.57775-1-chenmiao.ku@gmail.com>
@@ -81,111 +82,50 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Homebrew installs GNU Make as gmake on macOS, but the Sphinx build
-wrapper invokes make directly when generating Info and Rust
-documentation. This can make the dependency check succeed while those
-documentation targets still use an incompatible make implementation.
-
-Honor MAKE when it names a compatible GNU Make. Otherwise check gmake
-and then make, selecting the first GNU Make 4.0 or newer. This keeps the
-wrapper's selection consistent with sphinx-pre-install.
+Translate the macOS Sphinx dependency setup added to the English
+documentation. Keep the translation in a separate patch so translation
+status tooling can track the source change correctly.
 
 Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
 ---
- tools/docs/sphinx-build-wrapper | 55 ++++++++++++++++++++++++++++-----
- 1 file changed, 48 insertions(+), 7 deletions(-)
+ .../translations/zh_CN/doc-guide/sphinx.rst     | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 1bb962202..aa6a297db 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -71,6 +71,7 @@ from jobserver import JobserverExec         # pylint: disable=C0413,C0411,E0401
- #
- VENV_DEFAULT = "sphinx_latest"
- MIN_PYTHON_VERSION = PythonVersion("3.7").version
-+MIN_MAKE_VERSION = PythonVersion("4.0").version
- PAPER = ["", "a4", "letter"]
+diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+index 3375c6f3a..e6d42d970 100644
+--- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
++++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+@@ -110,6 +110,22 @@ PDF和LaTeX构建
  
- TARGETS = {
-@@ -97,6 +98,46 @@ class SphinxBuilder:
-     with the Kernel.
-     """
+ 	使用Sphinx的系统打包，而不是Python虚拟环境。
  
-+    @staticmethod
-+    def get_make_version(cmd):
-+        """Return the GNU Make version, or None for another make."""
-+        if not cmd:
-+            return None
++macOS 默认使用不区分文件名大小写的 APFS 卷，而内核源码树中存在仅大小写
++不同的文件。克隆源码前，请用 ``diskutil apfs list`` 找到 APFS 容器标识符，
++将下面的 ``diskX`` 替换为该标识符，并创建一个额外的大小写敏感卷::
 +
-+        try:
-+            result = subprocess.run(
-+                [cmd, "--version"],
-+                stdout=subprocess.PIPE,
-+                stderr=subprocess.PIPE,
-+                text=True,
-+                check=True,
-+            )
-+        except (OSError, subprocess.CalledProcessError):
-+            return None
++	diskutil apfs addVolume diskX APFSX Linux
 +
-+        match = re.search(
-+            r"^GNU Make\s+([0-9]+(?:\.[0-9]+)*)", result.stdout, re.MULTILINE
-+        )
-+        if not match:
-+            return None
++在 macOS 上，该脚本使用 Homebrew 安装系统依赖，输出的 Homebrew 命令不需要
++``sudo``。PDF 工具链由 ``mactex-no-gui`` cask 提供，所需的 DejaVu 和 Noto CJK
++字体则通过 Homebrew font cask 安装；如果只构建 HTML 文档，请使用 ``--no-pdf``。
++安装 MacTeX 后，请重新启动终端，或运行
++``eval "$(/usr/libexec/path_helper)"`` 使命令行工具可见。macOS 用户建议使用
++默认的 Python 虚拟环境，因为 PyYAML 会从
++``Documentation/sphinx/requirements.txt`` 安装，而不是通过 Homebrew 安装。
++该脚本还会检查 GNU Make 4.0 或更高版本；如果 Homebrew 将其安装为
++``gmake``，请使用 ``gmake htmldocs``，而不是 ``make htmldocs``。
 +
-+        return PythonVersion.parse_version(match.group(1))
-+
-+    def get_make(self):
-+        """Select the first GNU Make 4.0 or newer in preference order."""
-+        candidates = [
-+            self.env.get("MAKE"),
-+            shutil.which("gmake"),
-+            shutil.which("make"),
-+        ]
-+
-+        for cmd in candidates:
-+            version = self.get_make_version(cmd)
-+            if version and version >= MIN_MAKE_VERSION:
-+                return cmd
-+
-+        sys.exit("GNU Make 4.0 or newer is required")
-+
-     def get_path(self, path, use_cwd=False, abs_path=False):
-         """
-         Ancillary routine to handle patches the right way, as shell does.
-@@ -569,9 +610,10 @@ class SphinxBuilder:
-         texinfo directory.
-         """
+ Sphinx构建
+ ==========
  
-+        make = self.get_make()
-         for output_dir in output_dirs:
-             try:
--                subprocess.run(["make", "info"], cwd=output_dir, check=True)
-+                subprocess.run([make, "info"], cwd=output_dir, check=True)
-             except subprocess.CalledProcessError as e:
-                 sys.exit(f"Error generating info docs: {e}")
- 
-@@ -787,12 +829,11 @@ class SphinxBuilder:
- 
-         if rustdoc and target in ["htmldocs", "epubdocs"]:
-             print("Building rust docs")
--            if "MAKE" in self.env:
--                cmd = [self.env["MAKE"]]
--            else:
--                cmd = ["make", "LLVM=1"]
+@@ -409,4 +425,3 @@ Documentation/doc-guide/kernel-doc.rst 。
+    <line x1="180" y1="370" x2="500" y2="50" stroke="black" stroke-width="15px"/>
+    <polygon points="585 0 525 25 585 50" transform="rotate(135 525 25)"/>
+    </svg>
 -
--            cmd += [ "rustdoc"]
-+            make = self.get_make()
-+            cmd = [make]
-+            if make != self.env.get("MAKE"):
-+                cmd.append("LLVM=1")
-+            cmd.append("rustdoc")
-             if self.verbose:
-                 print(" ".join(cmd))
- 
 -- 
 2.50.1 (Apple Git-155)
 
