@@ -1,128 +1,259 @@
-Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF9737F300
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 20:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03187442B1B
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 20:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786393704; cv=none; b=MX18NhQTI5nuYx6AZaPujKd58bD2f5e2dBPMoUaBhBFX3ko1UntqW5xozldWzT4tbzBJXinT9BBZ9ZDwv6JNg5YnlGFhuHyJ2X6IBF/z3eXlQrEEx/dMZuDl1qdAhPKbZr5H5Ipti7dAFQGxP1rnQOlEXbl66DO5XwigCz79rPU=
+	t=1786394358; cv=none; b=VR3gn50JiLNfZiq/8Rc8YA/wspP6NxJ2+H5NsBzn8Pus3TjWOXvOv30qrTHALgGW/wJFt1cwGQgZB33sO2wsHBurJ9SQ5S4wYgxJeIRpNEUqG6znuKMDBwPyOCW8pJw/By+EYoTVKGLkqqNNbbM4e7vmoL4UHFxv8RIB4Y7yUG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786393704; c=relaxed/simple;
-	bh=WaHj5Zt+OlrXBWAOx8cwo6TE6HgBE+TGhfmUqd6RUV0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gBuc0NzpOigxm5D11zmIqwZvXviuGZTrQO7NdXQRdkOSvFlAxpEhdhtsM9H2C6ebJXTiceKR+BDdukR7N24r9uMJLfArWzZfXpmCKrHgu/nyAamwDHSZEG2P0RBIt1tsJI5luH+ffUUTaF/DnbWzg7FoV9aio5ubYVvuWcI4PZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh; spf=pass smtp.mailfrom=gibson.sh; dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b=NtRLau8F; arc=none smtp.client-ip=84.16.66.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gibson.sh
+	s=arc-20240116; t=1786394358; c=relaxed/simple;
+	bh=khTbQWWFV9bOrfXG+iqpW/ZtxmkD74y/07pmEqhXD30=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EPXYPv10XUetbJGGBP8LVhJLVlP81Npuw1aRwlO5c/UtBndSfDzWwUvaixPv6bygH2DwoIqzEpZF5/UoWLgp26QS9foRTqsBuoNNz0x2eC6pRB1zyQMrA8Qhg2dSGDanu53ltSQMJ3hAIR1N37JA9QobIvg5/tbjhE0GaaXQS70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=En76OmdX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b="NtRLau8F"
-Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6c])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hJmXt1QZwznq9;
-	Mon, 10 Aug 2026 22:28:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gibson.sh;
-	s=20260228; t=1786393693;
-	bh=bzHOf4RkDtrbhzhDZ0OVVDaP9rUzza8uKqcWI8q1P8I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NtRLau8FChXR/HKlcAHAwtecTUfpMkCd+zT8JC5r8y+mQzvT1C7LP4YYDKYjT++fs
-	 yL3N3K9zLQfND3pMDlnPN1iwFyEw1XZUDr/Ka6hiFVMvYWcrHdM5sngwuGbGh+1OU1
-	 7Lf7zDUn2dhkkIvs9bY5QPQmQSU9J0kTG0IgHz9GpZTx2l18SfQs+TUWFnyb1oCp/q
-	 9ycpnX6iAfmyoLTG8YlYbYdQ6xa84y1CQGketONKCciJh5lovqZgBqYV7sCqcrOv+H
-	 AtvPfVjq27ATygQxhHpA/igev4bIcA5X40NA+/kuISHMxC7g6pq0TiMeJPQ8ReQz4c
-	 nbB0so/t6mDzQ==
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hJmXr0QBXzwxT;
-	Mon, 10 Aug 2026 22:28:11 +0200 (CEST)
-Message-ID: <6a9c7f9e-600c-490e-86e6-9f358b0c1a82@gibson.sh>
-Date: Mon, 10 Aug 2026 22:28:11 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="En76OmdX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786394354;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hBu07eFdsAaRS4DouGyS0AD72vCjFyZu2g7jKIa4PTw=;
+	b=En76OmdXIYwCxRSqmnk5VCyYgUFe12FB3T0qs0f3To1WX6dduD9FD/TMEfXoSnlQQg9cm1
+	KxxcTpe+uMQozx+WbvNDbZygUBd7O29QUcrghBeVpa2q5Y8QB3+TKF1ksoOLn2HqcoD3Z1
+	y/dLkynbC8bl+m6EZnU+uhG7CZmSyls=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-144-VnfPPCRKObiAty1uR5NNVQ-1; Mon,
+ 10 Aug 2026 16:39:10 -0400
+X-MC-Unique: VnfPPCRKObiAty1uR5NNVQ-1
+X-Mimecast-MFC-AGG-ID: VnfPPCRKObiAty1uR5NNVQ_1786394348
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C00A19560BB;
+	Mon, 10 Aug 2026 20:39:07 +0000 (UTC)
+Received: from localhost (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7FE851800347;
+	Mon, 10 Aug 2026 20:39:05 +0000 (UTC)
+Date: Mon, 10 Aug 2026 16:39:01 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alexander Graf <graf@amazon.com>
+Cc: Jason Wang <jasowangio@gmail.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Alex Williamson <alex@shazbot.org>,
+	David Airlie <airlied@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	dri-devel@lists.freedesktop.org,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Feng Liu <feliu@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Halil Pasic <pasic@linux.ibm.com>, Jens Axboe <axboe@kernel.dk>,
+	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nh-open-source@amazon.com,
+	nvdimm@lists.linux.dev, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Parav Pandit <parav@nvidia.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	virtualization@lists.linux.dev,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [RFC PATCH 00/12] virtio: support devices that own their
+ virtqueue memory
+Message-ID: <20260810203901.GA35278@fedora>
+References: <20260809182010.32931-1-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation/arch/x86/amd-debugging: Add section
- about delay_suspend
-To: Mario Limonciello <superm1@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>
-References: <20260624124326.746525-1-daniel@gibson.sh>
- <20260624124326.746525-3-daniel@gibson.sh>
- <b784820c-a027-44fd-a47a-ba51e52de7ea@gibson.sh>
- <20260805224017.GCanO70QxPHpDxW2-c@fat_crate.local>
- <87aa8f40-2c99-4bbc-88f4-1ef6d54f3c60@gibson.sh>
- <20260806014151.GFanPmX5VhBUG_6DLS@fat_crate.local>
- <05d560cb-d218-4638-bfcb-d3e549720b16@kernel.org>
-Content-Language: de-DE, en-GB
-From: Daniel Gibson <daniel@gibson.sh>
-In-Reply-To: <05d560cb-d218-4638-bfcb-d3e549720b16@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="E1944FrHRiu7HOOY"
+Content-Disposition: inline
+In-Reply-To: <20260809182010.32931-1-graf@amazon.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 10.08.26 19:27, Mario Limonciello wrote:
-> On 8/5/26 20:41, Borislav Petkov wrote:
->> On Thu, Aug 06, 2026 at 12:54:04AM +0200, Daniel Gibson wrote:
->>> That document mainly talks about s2idle issues and lists issues that
->>> have
->>> been quirked in the past, so IMHO it fits there?
->>
->> Did you not read the first sentence of that document?
->>
->>> Also, Mario Limonciello (of AMD) suggested documenting it there in:
->>> https://lore.kernel.org/platform-driver-x86/
->>> f86d9af4-6415-427a-9f4e-639b2ae6203e@kernel.org/
->>
->> Maybe he needs to read the first sentence of that document too.
->>
->>> However, if there's a specific Wiki you think would be appropriate to
->>> document this in, I should probably document it there as well.
->>
->> You have a pretty good commit message in
->>
->>    428b9fd2dce5 ("platform/x86/amd/pmc: Add delay_suspend module
->> parameter")
->>
->> You have a bugzilla entry, you have a mailing list thread, you have a
->> module
->> param documentation.
->>
->> How much more do you need to document this? People should be able to use
->> search engines or AI, right?
->>
->> The problem with adding some hints as to how suspend can be fixed on some
->> laptops is that we'll open the floodgates. Do you know how many
->> laptops need
->> quirks and fixes for suspend?
->>
->> In any case, this doc is not for that.
->>
->> Sorry.
->>
-> 
-> I guess I have a different opinion here.  If someone very technical
-> comes to me and says I want to debug an issue with suspend or shutdown I
-> want to give them a single link that has all the information they can
-> use to learn.
-> 
-> I thought this could fit in well at 18.7, and then even if a search
-> engine or AI tool stumbles on that page it can learn about the debugging
-> parameter too.
+--E1944FrHRiu7HOOY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The assumption that commit messages or bug reports are documentation
-sure explains why Linux official documentation is so lacking and users
-(have to) rely on AI and Reddit and distro forums and the like, where
-like half of the information is outdated or even misunderstood hearsay.
+On Sun, Aug 09, 2026 at 06:19:58PM +0000, Alexander Graf wrote:
+> Virtio drivers use guest memory to back virtqueues and their buffers.
+> That means a VMM needs to be able to map guest memory. That is ok in the
+> normal virt case. It gets icky with confidential computing (where we use
+> swiotlb as workaround) and it defeats the purpose of isolated vhost-user
+> backing devices, because they end up with full RAM access to the guest.
+>=20
+> So instead, I'm proposing an extension to virtio which allows it to give
+> each virtio device its own dedicated memory region to communicate with the
+> host, called DMB (Device Memory Buffer). A trusted hypervisor can force
+> DMB to be present, which then enables safer, more isolated and resilient
+> communication between guest and host.
+>=20
+> With DMB, the device provides a shared memory region that both parties
+> agree is the full memory map both have access to. All memory offsets
+> that previously would have been into guest RAM, are then offsets into
+> this shared memory buffer region. One nice property of this is that it
+> is a generic mechanism in the virtio transport layer, so higher level
+> drivers work unmodified.
 
-Even as a very technical users with strong coding skills (compared to
-normal users, not to kernel developers), using git blame to figure out
-the context of kernel module parameter's one-line documentation is very
-annoying.
+This is similar to VIRTIO's Shared Memory Regions. A problem with this
+kind of approach is that guest software that depends on zero-copy,
+O_DIRECT, the ability to mmap, etc may break when passing an address
+=66rom one device to another device.
 
-I thought that AMD debugging document was a step in the right direction
-(and wondered if I just haven't found the proper documentation in
-similar cases in the past), but seems like it's just a glitch in the matrix…
+For example, a guest userspace application writing to a virtio-blk
+device with O_DIRECT can pass any source memory buffer. One VIRTIO
+device will be unable to address another VIRTIO device's DMB. This
+problem also extends to vhost-user where one back-end cannot access
+another back-end's DMB or Shared Memory Regions.
+
+Maybe your use case will never hit this problem because you can rely on
+the guest software never to assume zero-copy/O_DIRECT/etc works.
+virtiofs hit it with its DAX Shared Memory Regions.
+
+I'm mentioned it in case this is something you want to think about
+before deploying this approach.
+
+>=20
+> I was exploring to use swiotlb instead to create individual pools. But
+> that approach has multiple downsides:
+>=20
+> 1. Swiotlb is an OS primitive which is not available in all Operating
+> Systems. DMB however lives in the virtio transport layer, which means we
+> can add support for it in any OS independent of generic layers. This
+> helps with Windows support.
+>=20
+> 2. We munge DMA space together. DMB provides a separate DMA space per
+> virtio device. This means we can for example implement a device in
+> vhost-user and give the implementing process only visibility to the DMB
+> region, not all of guest memory. That reduces the exposure the
+> vhost-user provider has, improving security.
+
+Connor Kite is working on a different approach for vhost-user memory
+isolation here:
+https://lore.kernel.org/qemu-devel/20260723-vhost-user-isolated-memory-v1-0=
+-6b97c439eb28@gmail.com/T/#t
+
+It involves a bounce buffer at the VMM level. Unmodified vhost-user
+back-ends never sees guest RAM. Guest drivers are also unmodified. The
+cost of doing this is that the VMM has to intercept kick and call
+eventfds in order to copy between the bounce buffer and guest RAM.
+
+I don't see DMB or vhost-user memory isolation as conflicting features.
+There can be two ways of solving the same problem with different
+trade-offs. I just wanted to share a link to Connor's ongoing work.
+
+>=20
+> 3. Devices can opt-in. A hypervisor can choose to use standard virtio
+> semantics for self-implemented devices (e.g. NSM), while requiring DMB
+> for devices implemented by less trustworthy providers. The
+> non-trustworthy devices do not get any visibility into the trustworthy
+> ones, even with DMB in place for both.
+>=20
+> =3D=3D Limitations =3D=3D
+>=20
+>   - Only PCI is wired up.
+>   - Feature bit 44 and the shared memory id register at offset 0x40 of the
+>     PCI common configuration are provisional: the OASIS technical
+>     committee has the specification and has allocated neither.
+>=20
+>   https://lore.kernel.org/virtio-comment/20260804161202.38619-1-graf@amaz=
+on.com/
+>=20
+>   - The device I ran this against is not public, so you cannot reproduce
+>     the numbers below. The KUnit test you can.
+>=20
+> =3D=3D Testing =3D=3D
+>=20
+> Without patches 10 and 12 a receive refill livelocks and queues starve
+> each other: 29,319,791 receive softirqs in five seconds with not one
+> packet received, against 4 with them, and 2 of 7 receive queues that never
+> see a buffer, against none. Earlier revisions moved 512 MiB of O_DIRECT
+> block I/O and 2.7 GB of verified vsock through a region with no error.
+>=20
+> The KUnit test for patch 12's guarantee you can run yourself, and two of
+> its five cases fail if I take the fix out:
+>=20
+>   tools/testing/kunit/kunit.py run --arch=3Dx86_64 \
+>       --kconfig_add CONFIG_VIRTIO_MMIO=3Dy \
+>       --kconfig_add CONFIG_VIRTIO_DMB=3Dy virtio_dmb
+>=20
+> Patch 1 can be taken on its own: a stale worked example in a vdpa
+> comment. Patch 10 fixes something older than this series too, a failed
+> mapping arriving as -EIO from a packed ring, failing an I/O that on a
+> split ring is only back-pressure, but it does not apply alone: it wants
+> patch 2, and patch 9 for the file its documentation hunk edits. Both
+> carry Fixes:. Patch 12 wants 10 first.
+>=20
+> I wrote this series with an AI coding assistant, which drafted the code,
+> the changelogs and this cover letter. I reviewed and reworked all of it,
+> and every commit carries an Assisted-by: trailer.
+>=20
+> Alex
+>=20
+> Alexander Graf (12):
+>   vdpa: correct the VIRTIO_DEVICE_F_MASK example value
+>   virtio_ring: validate premapped addresses through the device's map
+>   virtio: add the VIRTIO_F_DMB feature bit
+>   virtio_pci: read the device memory buffer shared memory id
+>   virtio_pci: create virtqueues with the device's mapping token
+>   virtio: add a device memory buffer region allocator
+>   virtio: locate the device memory buffer after feature negotiation
+>   virtio_pci: support VIRTIO_F_DMB
+>   Documentation: virtio: describe the device memory buffer
+>   virtio_ring: report a bounded pool's exhaustion as -ENOSPC
+>   virtio: expose device memory buffer occupancy over debugfs
+>   virtio: guarantee a virtqueue can publish its first descriptor chain
+>=20
+>  Documentation/driver-api/virtio/index.rst     |    1 +
+>  .../driver-api/virtio/virtio-dmb.rst          |  803 ++++++++
+>  drivers/vdpa/vdpa.c                           |    2 +-
+>  drivers/virtio/Kconfig                        |   29 +
+>  drivers/virtio/Makefile                       |    3 +-
+>  drivers/virtio/virtio.c                       |   15 +-
+>  drivers/virtio/virtio_dmb.c                   | 1719 +++++++++++++++++
+>  drivers/virtio/virtio_dmb.h                   |   34 +
+>  drivers/virtio/virtio_dmb_test.c              |  279 +++
+>  drivers/virtio/virtio_pci_modern.c            |  100 +-
+>  drivers/virtio/virtio_pci_modern_dev.c        |   23 +-
+>  drivers/virtio/virtio_ring.c                  |  216 ++-
+>  include/linux/virtio.h                        |    3 +
+>  include/linux/virtio_config.h                 |   41 +
+>  include/linux/virtio_pci_modern.h             |    1 +
+>  include/uapi/linux/virtio_config.h            |   17 +-
+>  include/uapi/linux/virtio_pci.h               |   10 +
+>  17 files changed, 3254 insertions(+), 42 deletions(-)
+>  create mode 100644 Documentation/driver-api/virtio/virtio-dmb.rst
+>  create mode 100644 drivers/virtio/virtio_dmb.c
+>  create mode 100644 drivers/virtio/virtio_dmb.h
+>  create mode 100644 drivers/virtio/virtio_dmb_test.c
+>=20
+>=20
+> base-commit: fc02acf6ac0ccde0c805c2daa9148683cdd01ba8
+>=20
+
+--E1944FrHRiu7HOOY
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmp6NuUACgkQnKSrs4Gr
+c8h0ggf9EhOgsO3HluDcAxl3LjRyKeWbnNqK/dzD/aM1tcO8azZNHWFtAJ2p4lRl
+tdNT844A8krTR2ljwTsyQ0A5RDiSb1bG78G03NSmTWjTXp9o8czKuB9vppbMVcPE
+cbTditRQwpwQNt2xKLg1jkObOA5IZj7NMDSZPsDGrdWsRZN3q2zOorsyykwSGLVv
+fnfdz5V0COWy+6Y1PR0sfOpW++T5hV2YPCs0B/s99hdMkCC0j9K42jkhcMTJK5eT
+aBQTdNsanuH6DeW6YTIoikD01SLzLy1sJvvJx0Slw00aA1QsPXxEK51YkQZqSnkn
+pgJmmLt2/LwAxoWM3zZC5sUiv5kkpQ==
+=R2aw
+-----END PGP SIGNATURE-----
+
+--E1944FrHRiu7HOOY--
 
