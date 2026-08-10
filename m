@@ -1,57 +1,57 @@
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8CC3DDAFD
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 13:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEBF3DDDD0
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 13:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786368040; cv=none; b=YPYp0nwwcacbcLFwa0+oKhXx85J6METfKuViE7DnCqtu2y5w0mZ4rnJvvSmyRjmcHou3oiRwYPz/tVWA1AA3EN1llb2UD/6oChmhQXAAOoPq45B+3IoX9Afs/3gmfF0YM8i56N7HhG+8XAASOe+clLT4/gMN0w9hFejWzvzBMa0=
+	t=1786368168; cv=none; b=VA79BgJZhEZeEEQglCz90ZcCAaUpz8qiadpa3H35t2owpHbr9LS9vQwqO2B/DAH8aTihOHlZzAY0rcF+6Uflzdcrmsz2GbA6C1hApirjXm/ce/cUrvYgAS+fd1ty/QgZJvPc2T8MTrkMzfbD1zowlcX8FYQ9rR1JW8yKIosUFdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786368040; c=relaxed/simple;
-	bh=C02jowBpg6icZy7M67rcd8sfmgZFev9qbAUxwJbAP88=;
+	s=arc-20240116; t=1786368168; c=relaxed/simple;
+	bh=QgQ3h16t1I2y58P4HYcYNeAl6wbVQDA6rb4jfsvSqvs=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=R3dYObB277uRrIxeJq5SObd0c+yMyXp+5VRgujKJCWqEfl0rzDUJzflrq79V/9yyMulqCZfW5gygRKLUibx9g2REP1X7W2EWDRt3o4XX0uDaywIy0mUWMyhlJyVJnnAft/JS+5leOrFqdp4dL3gLZL76tRZ9Oze9dlM9ZahiS+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HfOKlsYm; arc=none smtp.client-ip=209.85.218.72
+	 To:Cc:Content-Type; b=T7x86XgbacgUVX1mtdi35DXyKWLqxqzkgvQ0QDhmCYjzEXbFVdE/qCt9fr4UNeGpq6AHWQjLrvNjaEz+XGbDPRBT+trksvs6acG1sdoUN7ZfxTPYAO7PQCVLOZMyskdTxR/rHi7364ppw7NB31Ui8Abv56vz6BPshF+BTBOs8OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gX4zsmpF; arc=none smtp.client-ip=209.85.208.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HfOKlsYm"
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c158e733fd6so159773166b.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 06:20:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gX4zsmpF"
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-69abf97d53aso1780757a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 06:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786368036; x=1786972836; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786368165; x=1786972965; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aoXL2lcVuXDTzwRL1s4LiTCXpMnjYT/r+wP/urETSuU=;
-        b=HfOKlsYm83vSaL/w75YVQaUCcjUT7asAf4J+kiJjAmUd+9nc5kNC+Eu/SDODK8E8Op
-         Xp1ODgTITjADjskkaPl6UOpJNouTdTaJxVKYoegHaIK4NHke1y/Qe5pEtstir1RmhhzN
-         CdX19QhdDlow4z3LaEtD/26fXHlGdMVtO4nhNejkupESYBYLdoTkF+k2rJN9jn0AeQyW
-         9PWdKCETpXQ4SJCUEN3oFPnKn1rSJJGF7Yx4FJM4i7TWmOdhb++8X+bBOUYXPiRUFD2i
-         OdA9AHNLK7ATg9yZyOFc9RpA/R58H8jNR6DYSgCp8bEMtO7MAd02Ph1epitcPP0X8JGm
-         sogw==
+        bh=iM/Qa4ThtXGVoAOuESD7ZLMy4Hwa1Cb/UO9QtFpTQ7s=;
+        b=gX4zsmpFsaLr1vGEnAU3pmgiSc5VIlJ8EHzi78YoYadPtC+xjXHFXrET9ARQvunh8U
+         4GmNg2eDH2SseIUkS7ciWSMVtEchs9GXxiJV0NgQ09bSMQgPdx6/va18LCgf8izxg/Cd
+         skrEWyLVjwpH7hSc4ifLRKFoa72rpInVTZ9U6HZStig+4uXxR0Y9DV3Vc5QqDutBZTcz
+         Cf2bD2qjeu9j8jfi0jsDtxSuifWx2goD+j//Jyyhmz482IXz9mivqzql6tOt8zv7HsCu
+         ie/7P1yim5tC4vp+9cVqmhASNY1nPoljd3eIc/R/B2oTyiyOgjHeUoKGVcIcDO+8oBFt
+         FwVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786368036; x=1786972836;
+        d=1e100.net; s=20251104; t=1786368165; x=1786972965;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aoXL2lcVuXDTzwRL1s4LiTCXpMnjYT/r+wP/urETSuU=;
-        b=Rcv4H3nYYqzrOgMQCFAg/ponfjQ2CFqkE+SZ42LyJiTKKrzCXWYbNGBki+vw7mMuNu
-         prM00CxBIz7G6yzgPa29Zj7zjnv9tZYYIrKmRu92pJ/6fg9Ko/IR7ZVKCd8IfY8e/xW8
-         pTZNHH6b10oLAfBWvaaABWCV83YSPhTROBMeEdiZ5ULatel9qOc5LnO5qASMwgLCDF5b
-         5kWwiMYmj6oDQ8YQJZpkTWg2OtRo+wxzng6+v1aNPmTU6UACIBARxWvinT92A0891mfK
-         NIcFjksFHI07gVs1B+bmdsCzvg9woTf9V6tKXU/IVV3ZNbDXQMiECPlaYiE5h83uM8Kc
-         cLgQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrtINrRQZFQwogPeomKwo/noEZ/AWfVaQPxFoPbifbm1BNhW4fn+qKgKV984OH2LarSyY+1ArcYSXQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNb3IwkrgadPEq6HuLEmnHmnx2lKfdTLen7i6wOU7CsfGGm0hH
-	LCQqJkUZfvR6n7j/2GNn3QnQPOoC3ij0+sk/GmuvRKMNOi0IdnYW3+/iqx0Hpou2ijdIK2i4SSQ
-	jTKd8eCFePw2te3isXw==
-X-Received: from ejczw12-n2.prod.google.com ([2002:a17:907:e00c:20b0:c19:71f5:ee20])
+        bh=iM/Qa4ThtXGVoAOuESD7ZLMy4Hwa1Cb/UO9QtFpTQ7s=;
+        b=shfPu4Sx3rSM2vT5QzdxseCtzyZX3cL7InN4t1jjkYJIb3f2A4Ac79cufg3WkMsk6c
+         iumdlZLLl8hj8hcHdNYJ+7qqIznQPj32I/G3SBJdeA9Gk8ccP8/saTvQ2jYXl2zkD/up
+         YLw1yHgsl++33qUuzIO25zZX5pWwTwOn0CtW5nZXEipSWgDI7aSYvWjx7h/dV5gB5bOy
+         cX2vFieKSooRNyYZo7SPiCCZOscmwACflpwm/UFMujPkbtHZcBwlY9NS164bjCn8hIQE
+         R4yyeghMj+VEkr6gjUWua1dVQJi8tqA5maih0dYUhn6NAb3FmoXDcE5oJGAQt5BXb6uO
+         xMLQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpKShRAK4ZHcff046Wn0tsvvA4SMFQiv0gp9WQIbxsg8W914qIWVO5fTBi4qshfSs40VdrwMfJgq5M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7Q1dSDxoYhbKm4Hvvy/lYeb/asftP1tupczANupdyUWzTXlup
+	vUU5Xs0NBc2T70AUnk1Ubp5IFgGgj3xqnd3Pxtn6TjGs5GdpNSWZ9yBELR8rjkleTDLPJwVbJ/0
+	T2lMSfMjNYe6AEIGviw==
+X-Received: from edap32.prod.google.com ([2002:a05:6402:5020:b0:6a0:ddb8:db7f])
  (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:ea8b:b0:c16:126b:98b4 with SMTP id a640c23a62f3a-c2039c03283mr2125010166b.3.1786368035983;
- Mon, 10 Aug 2026 06:20:35 -0700 (PDT)
-Date: Mon, 10 Aug 2026 13:20:34 +0000
-In-Reply-To: <CAEvNRgGJ0s5Vu8xRvfPmA39p2Bmkr-U7JFFkshM9Dyk9j+t-YA@mail.gmail.com>
+ 2002:a05:6402:a5c1:20b0:6a1:f7f4:200b with SMTP id 4fb4d7f45d1cf-6a1f7f4278bmr5285938a12.12.1786368164940;
+ Mon, 10 Aug 2026 06:22:44 -0700 (PDT)
+Date: Mon, 10 Aug 2026 13:22:44 +0000
+In-Reply-To: <CAEvNRgEbS06snhyHznPSqxnUrdudVEKUuOpPwnU+AJATWFBRBA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,10 +59,9 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260728121138.1103610-1-tarunsahu@google.com>
- <20260728121138.1103610-9-tarunsahu@google.com> <CAEvNRgGJ0s5Vu8xRvfPmA39p2Bmkr-U7JFFkshM9Dyk9j+t-YA@mail.gmail.com>
-Message-ID: <9huz1pc6863h.fsf@tarunix.c.googlers.com>
-Subject: Re: [PATCH v4 08/11] KVM: guest_memfd: Add support for preservation
- via LUO
+ <20260728121138.1103610-12-tarunsahu@google.com> <CAEvNRgEbS06snhyHznPSqxnUrdudVEKUuOpPwnU+AJATWFBRBA@mail.gmail.com>
+Message-ID: <9huzv79i6rff.fsf@tarunix.c.googlers.com>
+Subject: Re: [PATCH v4 11/11] KVM: selftests: Add guest_memfd_preservation_test
 From: tarunsahu@google.com
 To: Ackerley Tng <ackerleytng@google.com>, fuad.tabba@linux.dev, 
 	Andrew Morton <akpm@linux-foundation.org>, seanjc@google.com, dmatlack@google.com, 
@@ -82,68 +81,51 @@ Ackerley Tng <ackerleytng@google.com> writes:
 
 > Tarun Sahu <tarunsahu@google.com> writes:
 >
+>> Add guest_memfd_preservation_test to verify that KVM VM state and guest
+>> memory backed by guest_memfd are preserved across a kexec reboot via Live
+>> Update Orchestrator (LUO).
+>>
+>> This test includes multiple tests
+>> - (A) Test to preserve non-guest_memfd, non-memfd which must fail (/dev/null)
+>> - (B) Test to preserve guest_memfd with no INIT_SHARED flag which must fail
+>> - (C) Test to allocate the guest_memfd memory after preservation because
+>>   preservation makes the guest_memfd frozen. Which must fail as well.
+>> - (D) Test to verify guest_memfd with INIT_SHARED flag preservation across
+>>   kexec: Below is the details of stages in this test.
+>>
+>
+> I think we should split this into multiple patches, where each patch
+> introduces 1 test.
+
+Got it. I will split them. I thought that this test already spawn a VM
+and other test can just reuse the same VM.
+
+>
 >>
 >> [...snip...]
 >>
->> +static bool kvm_gmem_luo_can_preserve(struct liveupdate_file_handler *handler, struct file *file)
->> +{
->> +	struct inode *inode = file_inode(file);
->> +	struct gmem_file *gmem_file;
->> +	struct kvm *kvm;
->> +
->> +	if (inode->i_sb->s_magic != GUEST_MEMFD_MAGIC)
->> +		return false;
->> +
->> +	gmem_file = file->private_data;
->> +	if (!gmem_file)
->> +		return false;
->> +
->> +	/*
->> +	 * Only Fully-shared guest_memfd preservation is supported
->> +	 */
->> +	if (!(GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED))
->> +		return false;
->> +
+>> +++ b/tools/testing/selftests/kvm/guest_memfd_preservation_test.c
+>> @@ -0,0 +1,357 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) 2026, Google LLC.
+>> + *
+>> + * Author: Tarun Sahu <tarunsahu@google.com>
+>> + *
+>> + * Test for VM and guest_memfd preservation across kexec (Live Update) via LUO.
+>> + *
+>> + * NOTE: This is a MANUAL test and is excluded from automated CI/testing
+>> + * frameworks because Stage 1 daemonizes into the background to pin resources
+>> + * and requires a human operator to manually trigger kexec before Stage 2
+>> + * is executed. Running Stage 1 automatically would leak the background daemon
+>> + * and cause CI runners to falsely interpret it as a passed test.
+>> + *
 >
-> The above check can probably be removed. I think the core thing about
-> this series is "we can preserve any memory that doesn't have any
-> encryption state that goes along with it", and so the check for
-> kvm_arch_has_private_mem() below would be sufficient to gate that.
-
-
-Sounds Good. Will remove it in next version. I will rephrase the
-Line: "Support only fully shared guest_memfd" => "Support only
-guest_memfd that does not support private pages and also can not be
-converted to private"
-
+> Usually there aren't many printfs in tests, but since this is a MANUAL
+> test, maybe that's ok?
 >
->> +	/*
->> +	 * It makes sure that no memory can be converted to private
->> +	 * even if it was initially fully shared (in-place conversions are
->> +	 * prevented).
->> +	 */
->> +	kvm = gmem_file->kvm;
->> +	if (kvm_arch_has_private_mem(kvm))
->> +		return false;
->> +
+> Would like to know what Sean thinks of this, and printfs in general.
 >
-> For now, has_private_mem == has some encryption state that we can't
-> preserve yet.
->
-> This also gates off KVM_X86_SW_PROTECTED_VM, but I guess that is
-> intended, since when work is done for preserving encryption state, we
-> can then test using KVM_X86_SW_PROTECTED_VM, and only then, remove this
-> check?
-
-Yes, It will be enabled when private memory preservation will be supported.
-
->
->> +	if (mapping_large_folio_support(inode->i_mapping))
->> +		return false;
->> +
->> +	return true;
->> +}
->> +
 >>
 >> [...snip...]
 >>
