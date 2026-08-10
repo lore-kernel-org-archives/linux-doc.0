@@ -1,153 +1,309 @@
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A482403AF9
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 15:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9CC3033E3
+	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 15:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786374783; cv=none; b=PAo/Oxj9PMkmbCJmsRgpvmg/EaPoJGHjt2g0WaOrtQBGqWagqrnLbang6BMtKkI0sEASG+1AGgAY7nG0b5PvK69k3Yu/LjgBTwJlrmImHfhPhrLFsU/Azh5GAHdohjR3t0ztS6X2tyeKM+/xIT+y9I4K/9eNVLCmnWGLMkCZWr8=
+	t=1786376780; cv=none; b=CHukkaZ6EQVRxZvOr7tYIi9XRQMaCghvSVkXUQ8OAKFDOZJ1E9ycr9zbaLN25MwL8WLo3KLu2TMDtrG3gqUqXXy3QPUuNq/8Q2hldhJ3xLctZS1PXVDBRJqUeNLPrkQ7Mjf11X8HvZ9orZ1C8HRWP2Z3gwaSzuHqpb7jKivYwWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786374783; c=relaxed/simple;
-	bh=e8a82G3vdF1gTRu9deHGJJWozJtJR+he1ppv5OSrv/w=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ZI88Y23G6pdtCj293eBkoMREJrqRGkynM9Buly0Q7QkNzzl1a579DSp9hJsDrvNnE3xhVoyiEA3rfr33C7wgplktCaI0vRioVO3wTfp7ivrmHVpz9aM3Hi1PpzSUj0YGdQdAmsK4MvvJU3z0AnvGobZozRLpbrkNpE/f7Yg9gZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IT+sDP8O; arc=none smtp.client-ip=209.85.210.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1786376780; c=relaxed/simple;
+	bh=OziMoSViIuKjNioiO1+agDv1kCewb7HNFcSk+eV6WHo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fW0EsCr3fRBgiDT9rVBfDFRV6ZFptMb9nyWAT5nWL+z9djxLCBBwzgdMd5Lbkrao0uA34F9serCByQl9JtRuMuLT2yslaVSXFuIvfE2wJAIvX4RXxwXaY+FUbs+XmYf+IQY5dEEMotxKw5Z5WJY2TG4lKYT78gaThHM0fytMfsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OZ3fF6+I; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IT+sDP8O"
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8485b7e18b4so3672849b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 08:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786374781; x=1786979581; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jP6OZG+k89vE4yr/pvKA0W8zcNVpjbJQrQC8mI91fW0=;
-        b=IT+sDP8OZWdknMBCj+jUaT5LnA6Ow5v22niPqrSYGF8L3nwkcru4ObO6PsTsHvwhRu
-         w0wPRpwxMaeyCoHuK9oxL94vmEBYdVRu0hQ9XYpavkER5C5Ne7ulYtTzG/z5bWzR/mLp
-         FYc4Kc4bUdb/C5AsSTzaWM7KYzlWM5Rn5zt6r9sUo1VHLZ94QiWUOPt76o3U6EwrL0hd
-         9krDBH/9KF1A3DejRttnMAPLDQzC74v5anj8WcRnk0CnHQVtIdHH9xg0ZG0gtr5TS3JB
-         HtYy67mhe0xL27wczJGVc3tpVC66+b875u92KVVsm70ffLdeatf0JOzMlaYEW9tjLPtm
-         2zqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786374781; x=1786979581;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jP6OZG+k89vE4yr/pvKA0W8zcNVpjbJQrQC8mI91fW0=;
-        b=YN6Zp7DulAf4VmiAK7ZtKGbZIhpU4suC/f1f57ke88cw8IrU6vxxFnnF59EG8vz2uT
-         YbEsAEBINX5C/2gqaT9Fukkt67k/MEN4P33uBrC/W0i2g4CPNQSMPpkgrg1eeB4VFLuu
-         wFSf1X7G4aZUoZY8hDsUkDOyN8sUHEHsumyWv40pR9oKniyZJWkh9Bsiy0mjlv4nmwDu
-         B2XSVBHdCw0DSAc6Bf6IHs7JKDxUnVEppFnXQmqtkvgnPuCIXJ5IUpyEBoxA4P5fkCUF
-         0iq1dnw+n7G+T1CESjNVvNRLe2QK8OZpG2Er8aIm2+KR6H2YKhgusyRuAVQsVqY4CP8d
-         O4/A==
-X-Forwarded-Encrypted: i=1; AHgh+RoRaxklpDdYwL910NPs8i8A9ySpE0XDkH54/8gxIhJzMnMME/BH6U4ELUobUaXaVUie/US1Q3WXLs0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwX1VMH7JPyWOXlBhuTUkNorZGm9OUnRUVTZftT3MhXKBg+Gnjf
-	LUQUHPvO3Lt2/m4TnrnEenL3VeGVHVlpzCf1fPKrOmFUMeGYG88nJ2bwmK+gw2szDQyAX11rC7l
-	9EgpYhw==
-X-Received: from pfqf14.prod.google.com ([2002:aa7:9d8e:0:b0:84d:f9cf:1f3d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:2286:b0:848:76af:db37
- with SMTP id d2e1a72fcca58-84f694200b5mr21737517b3a.7.1786374779939; Mon, 10
- Aug 2026 08:12:59 -0700 (PDT)
-Date: Mon, 10 Aug 2026 08:12:59 -0700
-In-Reply-To: <20260807-gmem-inplace-conversion-v10-2-2fc18ee6d3ba@google.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OZ3fF6+I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786376777;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k4aqbj0eUOhRD/fJo9fd2RmbLRpSFnpXpDIVPc4r6OE=;
+	b=OZ3fF6+IRRTg7KLKPMxJogQ8NQNR3b0nfR/EGH6kVMw4i96AOu/GbYO3+xeg0M5C+B7jCT
+	xMvGaL41y2BRrBEugh4ZMxBEREMr++63YIdAf+nL12lfKTEKljvcxcN8QMtEUeXae8OSEc
+	X+GlhxAh0SFTiC5AnlLpRLwS//dO2N4=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-30-VoHbQpIvN0a3_TpN7Hs7qQ-1; Mon,
+ 10 Aug 2026 11:46:14 -0400
+X-MC-Unique: VoHbQpIvN0a3_TpN7Hs7qQ-1
+X-Mimecast-MFC-AGG-ID: VoHbQpIvN0a3_TpN7Hs7qQ_1786376773
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9E976180064B;
+	Mon, 10 Aug 2026 15:46:12 +0000 (UTC)
+Received: from [10.22.80.220] (unknown [10.22.80.220])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 741FB1800348;
+	Mon, 10 Aug 2026 15:46:10 +0000 (UTC)
+Message-ID: <093753d0-70b8-4442-a12a-155eaeff9ebb@redhat.com>
+Date: Mon, 10 Aug 2026 11:46:09 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com> <20260807-gmem-inplace-conversion-v10-2-2fc18ee6d3ba@google.com>
-Message-ID: <annqex-kBOc0UJvp@google.com>
-Subject: Re: [PATCH v10 02/41] KVM: guest_memfd: Introduce per-gmem
- attributes, use to guard user mappings
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev, Xiaoyao Li <xiaoyao.li@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cgroup/cpuset: Remove obsolete PFA_SPREAD_SLAB task flag
+To: Guopeng Zhang <guopeng.zhang@linux.dev>, ridong.chen@linux.dev,
+ cgroups@vger.kernel.org
+Cc: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com,
+ peterz@infradead.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Guopeng Zhang <zhangguopeng@kylinos.cn>
+References: <20260810100234.78144-1-guopeng.zhang@linux.dev>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260810100234.78144-1-guopeng.zhang@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Fri, Aug 07, 2026, Ackerley Tng wrote:
->  static __always_inline struct gmem_inode *GMEM_I(struct inode *inode)
-> @@ -61,9 +69,25 @@ static pgoff_t kvm_gmem_get_index(struct kvm_memory_slot *slot, gfn_t gfn)
->  	return gfn - slot->base_gfn + slot->gmem.pgoff;
->  }
->  
-> +static u64 kvm_gmem_get_attributes(struct inode *inode, void *entry)
-> +{
-> +	if (WARN_ON_ONCE(!entry)) {
-> +		bool initially_shared = GMEM_I(inode)->flags &
-> +					GUEST_MEMFD_FLAG_INIT_SHARED;
-> +
-> +		return initially_shared ? 0 : KVM_MEMORY_ATTRIBUTE_PRIVATE;
+On 8/10/26 6:02 AM, Guopeng Zhang wrote:
+> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+>
+> Commit 16a1d968358a ("mm/slab: remove mm/slab.c and slab_def.h")
+> removed the SLAB allocator, the only allocator that implemented cpuset
+> slab spreading. Commit 61a182ab61a6 ("cgroup/cpuset: Remove
+> cpuset_do_slab_mem_spread()") then removed the last task_spread_slab()
+> caller. Commit 3ab67a9ce82f ("cgroup/cpuset: Mark memory_spread_slab as
+> obsolete") marked the legacy control obsolete.
+>
+> cpuset still updates PFA_SPREAD_SLAB when tasks attach to a legacy
+> cpuset and walks all tasks in a cpuset when memory_spread_slab changes.
+> Remove the unused task flag and its helpers, and make spread task
+> updates depend only on memory_spread_page.
+>
+> Keep the memory_spread_slab control and CS_SPREAD_SLAB state so legacy
+> users retain the existing write, readback and inheritance behavior.
+> Update the comments and documentation to describe only page-cache
+> spreading as functional.
+>
+> Assisted-by: LLM
+> Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+> ---
+>   .../admin-guide/cgroup-v1/cpusets.rst         | 39 +++++++------------
+>   include/linux/sched.h                         |  5 ---
+>   kernel/cgroup/cpuset-v1.c                     | 13 ++-----
+>   kernel/cgroup/cpuset.c                        | 23 ++++-------
+>   4 files changed, 26 insertions(+), 54 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> index 52a213aff04e..434612780074 100644
+> --- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> +++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> @@ -179,7 +179,7 @@ files describing that cpuset:
+>    - cpuset.mem_hardwall flag:  is memory allocation hardwalled
+>    - cpuset.memory_pressure: measure of how much paging pressure in cpuset
+>    - cpuset.memory_spread_page flag: if set, spread page cache evenly on allowed nodes
+> - - cpuset.memory_spread_slab flag: OBSOLETE. Doesn't have any function.
+> + - cpuset.memory_spread_slab flag: OBSOLETE. Has no effect on allocation behavior.
+>    - cpuset.sched_load_balance flag: if set, load balance within CPUs on that cpuset
+>    - cpuset.sched_relax_domain_level: the searching range when migrating tasks
+>   
+> @@ -318,26 +318,20 @@ times 1000.
+>   
+>   1.6 What is memory spread ?
+>   ---------------------------
+> -There are two boolean flag files per cpuset that control where the
+> -kernel allocates pages for the file system buffers and related in
+> -kernel data structures.  They are called 'cpuset.memory_spread_page' and
+> -'cpuset.memory_spread_slab'.
+> +The 'cpuset.memory_spread_page' boolean flag file controls where the kernel
+> +allocates page-cache pages.
+> +The 'cpuset.memory_spread_slab' file is obsolete and has no effect on
+> +allocation behavior, but is retained for compatibility.
+>   
+>   If the per-cpuset boolean flag file 'cpuset.memory_spread_page' is set, then
+>   the kernel will spread the file system buffers (page cache) evenly
+>   over all the nodes that the faulting task is allowed to use, instead
+>   of preferring to put those pages on the node where the task is running.
+>   
+> -If the per-cpuset boolean flag file 'cpuset.memory_spread_slab' is set,
+> -then the kernel will spread some file system related slab caches,
+> -such as for inodes and dentries evenly over all the nodes that the
+> -faulting task is allowed to use, instead of preferring to put those
+> -pages on the node where the task is running.
+> -
+> -The setting of these flags does not affect anonymous data segment or
+> +The setting of this flag does not affect anonymous data segment or
+>   stack segment pages of a task.
+>   
+> -By default, both kinds of memory spreading are off, and memory
+> +By default, page cache memory spreading is off, and memory
+>   pages are allocated on the node local to where the task is running,
+>   except perhaps as modified by the task's NUMA mempolicy or cpuset
+>   configuration, so long as sufficient free memory pages are available.
+> @@ -345,18 +339,17 @@ configuration, so long as sufficient free memory pages are available.
+>   When new cpusets are created, they inherit the memory spread settings
+>   of their parent.
+>   
+> -Setting memory spreading causes allocations for the affected page
+> -or slab caches to ignore the task's NUMA mempolicy and be spread
+> -instead.    Tasks using mbind() or set_mempolicy() calls to set NUMA
+> -mempolicies will not notice any change in these calls as a result of
+> -their containing task's memory spread settings.  If memory spreading
+> +Setting page cache memory spreading causes affected allocations to ignore the
+> +task's NUMA mempolicy and be spread instead. Tasks using mbind() or
+> +set_mempolicy() to set NUMA mempolicies will not notice any change as a
+> +result of their containing task's memory spread settings.  If memory spreading
+>   is turned off, then the currently specified NUMA mempolicy once again
+>   applies to memory page allocations.
+>   
+>   Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean flag
+> -files.  By default they contain "0", meaning that the feature is off
+> -for that cpuset.  If a "1" is written to that file, then that turns
+> -the named feature on.
+> +files whose values are inherited by newly created cpusets. The value of
+> +'cpuset.memory_spread_slab' is retained and can be read back, but it does not
+> +affect allocation behavior.
+I think you should keep the statement about the default value of the 
+flag files.
+>   
+>   The implementation is simple.
+>   
+> @@ -367,10 +360,6 @@ is modified to perform an inline check for this PFA_SPREAD_PAGE task
+>   flag, and if set, a call to a new routine cpuset_mem_spread_node()
+>   returns the node to prefer for the allocation.
+>   
+> -Similarly, setting 'cpuset.memory_spread_slab' turns on the flag
+> -PFA_SPREAD_SLAB, and appropriately marked slab caches will allocate
+> -pages from the node returned by cpuset_mem_spread_node().
+> -
+>   The cpuset_mem_spread_node() routine is also simple.  It uses the
+>   value of a per-task rotor cpuset_mem_spread_rotor to select the next
+>   node in the current task's mems_allowed to prefer for the allocation.
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 499943987c1a..8b3d47a325cc 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1869,7 +1869,6 @@ static __always_inline bool is_user_task(struct task_struct *task)
+>   /* Per-process atomic flags. */
+>   #define PFA_NO_NEW_PRIVS		0	/* May not gain new privileges. */
+>   #define PFA_SPREAD_PAGE			1	/* Spread page cache over cpuset */
+> -#define PFA_SPREAD_SLAB			2	/* Spread some slab caches over cpuset */
+>   #define PFA_SPEC_SSB_DISABLE		3	/* Speculative Store Bypass disabled */
+>   #define PFA_SPEC_SSB_FORCE_DISABLE	4	/* Speculative Store Bypass force disabled*/
+>   #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
+> @@ -1895,10 +1894,6 @@ TASK_PFA_TEST(SPREAD_PAGE, spread_page)
+>   TASK_PFA_SET(SPREAD_PAGE, spread_page)
+>   TASK_PFA_CLEAR(SPREAD_PAGE, spread_page)
+>   
+> -TASK_PFA_TEST(SPREAD_SLAB, spread_slab)
+> -TASK_PFA_SET(SPREAD_SLAB, spread_slab)
+> -TASK_PFA_CLEAR(SPREAD_SLAB, spread_slab)
+> -
+>   TASK_PFA_TEST(SPEC_SSB_DISABLE, spec_ssb_disable)
+>   TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
+>   TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
+> diff --git a/kernel/cgroup/cpuset-v1.c b/kernel/cgroup/cpuset-v1.c
+> index 3e9968dd91e9..562ad35f00d0 100644
+> --- a/kernel/cgroup/cpuset-v1.c
+> +++ b/kernel/cgroup/cpuset-v1.c
+> @@ -204,7 +204,7 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+>   }
+>   
+>   /*
+> - * update task's spread flag if cpuset's page/slab spread flag is set
+> + * Update a task's spread flag if the cpuset's page spread flag is set.
+>    *
+>    * Call with callback_lock or cpuset_mutex held. The check can be skipped
+>    * if on default hierarchy.
+> @@ -219,18 +219,13 @@ void cpuset1_update_task_spread_flags(struct cpuset *cs,
+>   		task_set_spread_page(tsk);
+>   	else
+>   		task_clear_spread_page(tsk);
+> -
+> -	if (is_spread_slab(cs))
+> -		task_set_spread_slab(tsk);
+> -	else
+> -		task_clear_spread_slab(tsk);
+>   }
+>   
+>   /**
+> - * cpuset1_update_tasks_flags - update the spread flags of tasks in the cpuset.
+> - * @cs: the cpuset in which each task's spread flags needs to be changed
+> + * cpuset1_update_tasks_flags - update the page spread flag of cpuset tasks
+> + * @cs: the cpuset whose tasks need their page spread flag updated
+>    *
+> - * Iterate through each task of @cs updating its spread flags.  As this
+> + * Iterate through each task of @cs updating its page spread flag.  As this
+>    * function is called with cpuset_mutex held, cpuset membership stays
+>    * stable.
+>    */
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 0a0fffb5673c..9761a5dd006f 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -2862,7 +2862,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+>   {
+>   	struct cpuset *trialcs;
+>   	int balance_flag_changed;
+> -	int spread_flag_changed;
+> +	int spread_page_changed;
+>   	int err;
+>   
+>   	trialcs = dup_or_alloc_cpuset(cs);
+> @@ -2881,8 +2881,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+>   	balance_flag_changed = (is_sched_load_balance(cs) !=
+>   				is_sched_load_balance(trialcs));
+>   
+> -	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
+> -			|| (is_spread_page(cs) != is_spread_page(trialcs)));
+> +	spread_page_changed = is_spread_page(cs) != is_spread_page(trialcs);
+>   
+>   	spin_lock_irq(&callback_lock);
+>   	cs->flags = trialcs->flags;
+> @@ -2895,7 +2894,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+>   			rebuild_sched_domains_locked();
+>   	}
+>   
+> -	if (spread_flag_changed)
+> +	if (spread_page_changed)
+>   		cpuset1_update_tasks_flags(cs);
+>   out:
+>   	free_cpuset(trialcs);
+> @@ -4484,14 +4483,10 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
+>    * cpuset_spread_node() - On which node to begin search for a page
+>    * @rotor: round robin rotor
+>    *
+> - * If a task is marked PF_SPREAD_PAGE or PF_SPREAD_SLAB (as for
+> - * tasks in a cpuset with is_spread_page or is_spread_slab set),
+> - * and if the memory allocation used cpuset_mem_spread_node()
+> - * to determine on which node to start looking, as it will for
+> - * certain page cache or slab cache pages such as used for file
+> - * system buffers and inode caches, then instead of starting on the
+> - * local node to look for a free page, rather spread the starting
+> - * node around the tasks mems_allowed nodes.
+> + * If a task is marked PFA_SPREAD_PAGE and a page cache allocation uses
+> + * cpuset_mem_spread_node() to determine where to start looking, spread the
+> + * starting node around the task's mems_allowed nodes instead of starting on
+> + * the local node.
+>    *
+>    * We don't have to worry about the returned node being offline
+>    * because "it can't happen", and even if it did, it would be ok.
+> @@ -4502,9 +4497,7 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
+>    * offline node.  But if it did, that would be ok, as this routine
+>    * is not returning the node where the allocation must be, only
+>    * the node where the search should start.  The zonelist used by
+> - * the allocator will include all nodes.  If the slab allocator
+> - * is passed an offline node, it will fall back to the local node.
+> - * See kmem_cache_alloc_node().
+> + * the allocator will include all nodes.
 
-As David pointed out in v9[*], a helper would make this code in particular much
-easier to read.  Though my vote is to add "get" and make it plural, because this
-function is also plural.  I.e. this as fixup:
+The slab allocator here is the general term that can refer to slub. Is 
+the statement about passing an offline node no longer true?
 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index f2bec0d49747..b7435a8d2405 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -69,14 +69,17 @@ static pgoff_t kvm_gmem_get_index(struct kvm_memory_slot *slot, gfn_t gfn)
-        return gfn - slot->base_gfn + slot->gmem.pgoff;
- }
- 
-+static u64 kvm_gmem_get_default_attributes(struct inode *inode)
-+{
-+       bool init_shared = GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED;
-+
-+       return init_shared ? 0 : KVM_MEMORY_ATTRIBUTE_PRIVATE;
-+}
-+
- static u64 kvm_gmem_get_attributes(struct inode *inode, void *entry)
- {
--       if (WARN_ON_ONCE(!entry)) {
--               bool initially_shared = GMEM_I(inode)->flags &
--                                       GUEST_MEMFD_FLAG_INIT_SHARED;
--
--               return initially_shared ? 0 : KVM_MEMORY_ATTRIBUTE_PRIVATE;
--       }
-+       if (WARN_ON_ONCE(!entry))
-+               return kvm_gmem_get_default_attributes(inode);
- 
-        return xa_to_value(entry);
- }
-@@ -833,7 +836,7 @@ static int kvm_gmem_init_inode(struct inode *inode, loff_t size, u64 flags)
-         * index is represented in the maple tree at all times simplifies the
-         * conversion and merging logic.
-         */
--       attrs = gi->flags & GUEST_MEMFD_FLAG_INIT_SHARED ? 0 : KVM_MEMORY_ATTRIBUTE_PRIVATE;
-+       attrs = kvm_gmem_get_default_attributes(inode);
- 
-        /*
-         * Acquire the invalidation lock purely to make lockdep happy.  The
+Cheers,
+Longman
 
+>    */
+>   static int cpuset_spread_node(int *rotor)
+>   {
 
-[*] https://lore.kernel.org/all/0a85b27a-121e-40a3-92b6-3927fc298e4e@kernel.org
