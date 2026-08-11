@@ -1,104 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C90446849;
-	Tue, 11 Aug 2026 14:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8516C449B10
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 14:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786458376; cv=none; b=s8u3vRTlR9invksqUppvEdo+LroJsVovZ5iAaBY76hQgWiH2WDA6Xx6TU88ITC9uDHv0etea7f8i0E/BsaOsi9YFuY5GEPnvKjoLFiX1UviWaZyiP5JO0GRbPpukJmuZGWPtvpawJNf+Rq78GBtddx4dbV6usH2hdOHwAgIx60E=
+	t=1786458822; cv=none; b=JOxVqBfkCy22SB0wYnMcte/ASSl3udS2ILH681m8mq2TPrp8+/UK8M+XvrbOyE2U17g+SjkRtfjne4ZIEUDzLXb254fWNpFZhWMywZbMnGEmVMbkMyPndDZGtuv8mZHb8BCAhqhdtEiV7dAnlOTPBBhk9Rp+63dqmGgHYo/mVXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786458376; c=relaxed/simple;
-	bh=Xf8IW2PoKEaI9XjO0KPhFgu/IxFmoWD+LuuiaO9WROs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I9WuQw/enQ67fDPcGWioyRYNF9RA+vRqjJdqiLDZ8rNHxcRDb1fwpF7smy2aN4PvvZhq20nmFJZ6PzuQFXyCfv6R8msmGluDyHxShFlxMotmglIx8qXbF+6xqOJ7sNjm7v+xKqrBH0qAOZzBgxVkB8GfekoTXy2ciLo0jpwWBiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eDBCBzBo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786458822; c=relaxed/simple;
+	bh=souBD1zXcD3502IpHWBQS+Z7c2GdHUFCg0StFugdYWM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=sX+B71tOxetXz6FlVL71jZ60QKuMpg80s8i3kwpyoVtYFTafzLVIIuUc4QW2onQARYwlttJTh9+mqa+/yGaFP8nR62LZFxJ0RKBlH4eYyBf7r0nYK31SdUfQt5mzQjVNckt//XXEVH2R/bwtU3DVk0wRgGnnC+eZVni54yhK+gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OT3EtFaj; arc=none smtp.client-ip=209.85.215.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eDBCBzBo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46DF1F000E9;
-	Tue, 11 Aug 2026 14:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786458374;
-	bh=j382q/eDo7NZRlCB8G+HYMC1atDyj9D1eZrb0YzdQcY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=eDBCBzBol/0gRW/p1dCFr07C+760Y0ZDMLtAhhjrUo7YyElei4LLBK+rnG8lqkFr/
-	 aQOAtc/Wuva0VDxFn4yGzU7DhyGXHm6uWR6I77cmgMknJcV0kMP9o1MrctrKUsK9OC
-	 x3ILGX8vTSbCzs1m/bn/CZ7MS47bvHYLaHBn24kqZ6oyyVU6b8TRsFzxrzeyRLUrQt
-	 fNgS1xLTLwk+6naZ9PQ5c5xRzoCNuDLec0jKoV6PK51NaiCJOPVkUIodOCsRPqqsLf
-	 LEm9FJv7tIoUGvzA5tMLAd+bEWI0t9zSi+E1u4t8HOxf2IVirHjJgHiSGgDptxXp4P
-	 qa8qu4Ocblg3w==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wtnQi-0000000EXak-330f;
-	Tue, 11 Aug 2026 14:26:12 +0000
-Date: Tue, 11 Aug 2026 15:26:12 +0100
-Message-ID: <86o6f820or.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	"Ivan T. Ivanov" <iivanov@suse.de>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Frank Li <frank.li@nxp.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>,
-	Steffen Eiden <seiden@linux.ibm.com>
-Subject: Re: [PATCH v3] arm64: errata: Add NXP iMX8QM workaround for A53 cache coherency issue
-In-Reply-To: <20260803-imx8qm-cache-coherency-v3-1-c518d0da3d3b@nxp.com>
-References: <20260803-imx8qm-cache-coherency-v3-1-c518d0da3d3b@nxp.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OT3EtFaj"
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cb5ea36f969so3860343a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 07:33:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786458820; x=1787063620; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=wHiT8wO1O96VMhGw9PY7w1Kf2WhC1UcbMKtaZdcKQc8=;
+        b=OT3EtFajZv5pw+LfUNeiZgnB+EO8Uh0tkYhSTPOfDCbIHQXQjsejJR5XtPxTquM1S4
+         wHYcGzxXGhSQvVVS+5tIwwBpvN3zXqurZWBUe9jihCrnJwRYiApAv64LW/zpLlUn0xsm
+         hkpqABC/1zx0Apfpb6Bdqh8y/QY+DP0kd0CoLyd8HWPwz2AdLCoIxlyjFiD3VQAZrdYJ
+         KumgTUGJTHdaas15SdVjcNmu+qUvYibqSntOCpF95z3sPAFuPS/3sKEg8JGbK3XxjOke
+         bpSlgCvfZl8s0BxGNezTKIhkZBBNG1X0HV3y9qfQhFFj6MXGNUVSvCPgsZl6+vSpEm5a
+         kfRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786458820; x=1787063620;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wHiT8wO1O96VMhGw9PY7w1Kf2WhC1UcbMKtaZdcKQc8=;
+        b=cPlWiCG6F5UfIln917dx3owPwxW4am400Xu3xfRYfU7A/DXOWG2Le7IxKVTvbl3e3G
+         LzxbXFVBTH7axlLlbaGPZnnJtSSx99I0J6n5DiboMkbBdJ42lB7poLeQaGx8m6CRq9+d
+         sBUx3HIDSf8pJkkEjOI2sFw6x84ThOdrsIAC35GGL4CSEA8Q61IeFHG62hI0J4dSjMbt
+         KWmunntb7dR6GEXNFZ1BxPfakOXY5ae6QqXP9NgEO5prjuGZpkIvkpjuSA5MIU6tqU+v
+         T2oMLpB3iWTsSdrCWqvsE9Q8JdwQsb9Htwk3vG5PbDOOXwGqiD0Fk8MCUj7GynVggO6i
+         LOnw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/84SjUB7CfbwafXUuIT0a1hsVeEWx8+hucyMyVirdFaS7CxYCjcWHhvDyNEsGKvRRKRTzg4H2QD0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEQcfZ9U3KeVBCJQpzkfNNWv7brbtpsH2ckFFQYb30R4ep0nJ6
+	uAVYqvpFsyJlhmA+ji0dIg0oSW3qMUPzNhUcuGGWxiQ1dx0FIsNred/Xlt0Mkgv81UNPtTg6Xd1
+	rsSSc7g==
+X-Received: from pgmo14.prod.google.com ([2002:a63:5d4e:0:b0:cbe:7df7:35b0])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:9f10:b0:3bf:77d7:667d
+ with SMTP id adf61e73a8af0-3cc2babdf84mr4904619637.28.1786458819619; Tue, 11
+ Aug 2026 07:33:39 -0700 (PDT)
+Date: Tue, 11 Aug 2026 07:33:39 -0700
+In-Reply-To: <ansuqrD2KwFuLWbV@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: peng.fan@oss.nxp.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oupton@kernel.org, fuad.tabba@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, iivanov@suse.de, francesco@dolcini.it, frank.li@nxp.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, imx@lists.linux.dev, peng.fan@nxp.com, seiden@linux.ibm.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Mime-Version: 1.0
+References: <20260728144954.355376-1-dwmw2@infradead.org> <20260728144954.355376-18-dwmw2@infradead.org>
+ <anoOz2rZ02KFk1l-@google.com> <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
+ <ano6-gIZtqMfipiD@google.com> <bb9a12cc663130eb2caa8e839d0f6ca53d722d1c.camel@infradead.org>
+ <ansuqrD2KwFuLWbV@google.com>
+Message-ID: <ansywxh0VX5rtfWc@google.com>
+Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when TSCs
+ are offset from each other
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 03 Aug 2026 09:54:44 +0100,
-"Peng Fan (OSS)" <peng.fan@oss.nxp.com> wrote:
->
+On Tue, Aug 11, 2026, Sean Christopherson wrote:
+> On Mon, Aug 10, 2026, David Woodhouse wrote:
+> > On Mon, 2026-08-10 at 13:56 -0700, Sean Christopherson wrote:
+> > > =C2=A0
+> > > > > To allow different offsets, KVM would need to track a per-vCPU of=
+fset to the
+> > > > > master clock and apply that in kvm_guest_time_update() (and maybe=
+ other places?).
+> > > > > Which is doable, but it's not clear to me why we'd want to suppor=
+t that (though
+> > > > > I haven't fully processed the back half ot his series, so it's ve=
+ry possible I'm
+> > > > > missing something obvious).
+> > > >=20
+> > > > Because I want to reduce the number of cases where we have to fall =
+back
+> > > > to non-masterclock mode. Especially the ones which are driven by
+> > > > *guests* rather than weird choices on the VMM's part.
+> > >=20
+> > > But why though?=C2=A0 What is the harm to the host or guest?=C2=A0 E.=
+g. does it make it more
+> > > difficult to accurately migrate the VM?=C2=A0 I'm not opposed to allo=
+wing master-clock
+> > > mode with diverging offsets, just trying to understand why it matters=
+.
+> >=20
+> > Accurate migration without masterclock is hard, yes. The
+> > KVM_SET_CLOCK_GUEST thing relies on it (because the principle is that
+> > you get the *TSC* right, then the KVM clock is just a fixed
+> > mathematical function of that).
+> >=20
+> > That *shouldn't* be difficult with offsets between vCPUs. Just use the
+> > TSC of vCPU0 as the reference for KVM_SET_CLOCK_GUEST and let the
+> > others just have their offset from that.
+>=20
+> Yeah, my only (quite mild) concern is that we would introduce fragility b=
+y adding
+> yet another variable that needs to be accounted for, but AFAICT it's lite=
+rally
+> just the tsc_timestamp in the shared data structure that consumes the per=
+-vCPU
+> offset.
 
-[...]
+Actually, why are KVM_{G,S}ET_CLOCK_GUEST vCPU-scoped?  Per the documentati=
+on,
+the API "Sets the KVM clock (for the whole VM) in terms of the vCPU TSC".  =
+If
+the APIs are VM-scoped instead of vCPU-scoped, then KVM can simply save/res=
+tore
+what's in the per-VM masterclock state, no?
 
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 9a6c72a18672..1b9213d3e168 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -3176,4 +3176,9 @@ enum kvm_mode kvm_get_mode(void)
->  	return kvm_mode;
->  }
->  
-> +void kvm_disable_mode(void)
-> +{
-> +	kvm_mode = KVM_MODE_NONE;
-> +}
-> +
-
-If you are respinning this for any odd reason, please rename it to
-kvm_force_disabled(), and place it next to early_kvm_mode_cfg().
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+That would also help address my concerns about sanity checking the TSC freq=
+uency
+against the kvmclock frequency, as the APIs are much more blatantly about s=
+aving
+and restoring masterclock state.  For whatever reason, it feels more natura=
+l for
+me to say that KVM_SET_CLOCK_GUEST will fail if the target frequency doesn'=
+t
+(fuzzily?) match the frequency at which the masterclock is already configur=
+ed.
+Probably because use_master_clock directly gates that information?  Whereas=
+ the
+vCPU's frequency is independently configured but obviously influences maste=
+rclock
+mode.
