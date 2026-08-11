@@ -1,298 +1,238 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3DE339381
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 17:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA1233985A;
+	Tue, 11 Aug 2026 17:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786469494; cv=none; b=hEblLpMIu+hROPxsOuhqL19i7D5BmwOl+HN40miC++MF/+iC4eTO6Ot+Z/jUM/tK70VxnF1VvcfI+N12zgdmvaagwvxy3q+bDcaD8TC9xvkGCE5aW5ZvB8mejRrqsGUgfRWKR/EqEq3pPL7liHV3KD/wV/ZA7d//FHZRSEz86fk=
+	t=1786469576; cv=none; b=gGN1uhasWqCb6jHSzFmzID04Lx3UHmcYzDHkJyJxaj3VKkFeF5qnhAw7cJq7njC+9V1vm5+aQGWLLQBgke4U5/92rahZ3jHoyMgqSaEKOcPDJymIk6F8JlmFI2EvaDOMUSknYSAL3ouhvoemD1UROSb8WNR0bPVw+3X+xjnYgqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786469494; c=relaxed/simple;
-	bh=F6kIh5uzfd2ibRqDiHG3LBh3jaOvqHIwsL72BR7QUt0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BpwdBRvaVVwYbNwRJ77tDnwXs+a5tpS++XUoI3AR/jcruo3ZUZKbU9wioM7ZIL2i/JaREZ1W0C/jF3L3xSW0WdZRLw6JHSLfHdZa6ynVKgqvKz1iKsRrMTsmK6zQyHM2lUWAgOXzPOdSWQcMTfmyIpDhsvBhMyHSJQ5AQI4FUNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aVOcBLL2; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1786469576; c=relaxed/simple;
+	bh=xUaudyzVAtVFOAuHuBOLpN0ePfnJcuF2YmB5H+89s4I=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HEFzfOHb6fnEjz1mjJM03dRBCKfDPE/AnTiizEBqqznftVq4+Go4bqlUCnKqbSbXCvZu5CkoLg/aD1igOEwtHV+sNNXi3SmgGfRsBzmOoeZaJZJJLmmwpb7A1hcmvPxqynYaSgNcSiS80f0JilEqeDzFtQVPRxZjs/VGigAbLM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cZDoMmys; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aVOcBLL2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786469491;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4s/VdzCIs7o3XxH6rlseRSuupEo7i8FWTX27LtJSzg=;
-	b=aVOcBLL2H8xLa4PpKrDSkO0IjnONYksGTqu/A4ZBzg17CX3cST9YN2gWDBIVG+nWgxrKpJ
-	2KdUPdTZ9OKkHvwE0axkvrrUsNy6RcocqAIyWy5ZC8l78Ve17nsFzT2iFcSrCk+GmHSv6t
-	e4fYsuroxGgOZd2ivviJackiXHS/lhY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-326-S_WOoHamPY674pi4XNHM4Q-1; Tue,
- 11 Aug 2026 13:31:27 -0400
-X-MC-Unique: S_WOoHamPY674pi4XNHM4Q-1
-X-Mimecast-MFC-AGG-ID: S_WOoHamPY674pi4XNHM4Q_1786469485
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BAC3180034C;
-	Tue, 11 Aug 2026 17:31:25 +0000 (UTC)
-Received: from [10.22.65.157] (unknown [10.22.65.157])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D09ED195DF91;
-	Tue, 11 Aug 2026 17:31:22 +0000 (UTC)
-Message-ID: <e01fceb8-9333-4224-8255-67312c131066@redhat.com>
-Date: Tue, 11 Aug 2026 13:31:21 -0400
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cZDoMmys"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=xUaudyzVAtVFOAuHuBOLpN0ePfnJcuF2YmB5H+89s4I=; b=cZDoMmysvO74lse4HqJleIEcXx
+	jQnZBMP0Tt1sU4mZUrgKQrd6OZgh3FMwOMMFFjDIYnukxFmiFdqOEDMpN/X9qKDr9XZd7Z2eYFKET
+	oPAp1t/0tfPbVnjRPccy9HnS3g3NjJpMb3Ief3wWtY4zbQdHRszuDzxKoPpX7nMIxf2COoDdoD8+W
+	VXquRd3kXXUqXcHYExoszvR1fomIkkCM/tMs7yRqoxkREllvkRVZPlRSOL0PgXMMjvCVQ/ctXAAWI
+	rFplhQKoyge1icaZ0l1XJh+NsCb/uf0sK+NBu98qy/erlOWMUj4ZfwX3JuwVb5UPebUHVPwRBTmV0
+	3m9fvfQg==;
+Received: from 54-240-197-227.amazon.com ([54.240.197.227] helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wtqL8-00000000mOf-03wa;
+	Tue, 11 Aug 2026 17:32:38 +0000
+Message-ID: <6ab49538675d97f1f4bf01574b1b066aae0bc05c.camel@infradead.org>
+Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when
+ TSCs are offset from each other
+From: David Woodhouse <dwmw2@infradead.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>,  Borislav Petkov	 <bp@alien8.de>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"	
+ <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross	
+ <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul
+ Durrant	 <paul@xen.org>, Jonathan Cameron <jic23@kernel.org>, Sascha
+ Bischoff	 <Sascha.Bischoff@arm.com>, Marc Zyngier <maz@kernel.org>, Joey
+ Gouly	 <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, Dongli
+ Zhang	 <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Date: Tue, 11 Aug 2026 18:32:32 +0100
+In-Reply-To: <antb01WqOrs-tztm@google.com>
+References: <20260728144954.355376-18-dwmw2@infradead.org>
+	 <anoOz2rZ02KFk1l-@google.com>
+	 <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
+	 <ano6-gIZtqMfipiD@google.com>
+	 <bb9a12cc663130eb2caa8e839d0f6ca53d722d1c.camel@infradead.org>
+	 <ansuqrD2KwFuLWbV@google.com> <ansywxh0VX5rtfWc@google.com>
+	 <e256fa4af96e916ba30019cbba501fa896025fb0.camel@infradead.org>
+	 <antQYJvRxJxOjtut@google.com>
+	 <f5dc701cf3319a7b3c8fd1497f26d051aa9fa3ba.camel@infradead.org>
+	 <antb01WqOrs-tztm@google.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-MMosgLFBG0M8t4KcrasE"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] cgroup/cpuset: Remove obsolete PFA_SPREAD_SLAB task
- flag
-To: Guopeng Zhang <guopeng.zhang@linux.dev>, ridong.chen@linux.dev,
- cgroups@vger.kernel.org
-Cc: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com,
- peterz@infradead.org, corbet@lwn.net, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, zhangguopeng@kylinos.cn
-References: <20260811083027.140577-1-guopeng.zhang@linux.dev>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260811083027.140577-1-guopeng.zhang@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On 8/11/26 4:30 AM, Guopeng Zhang wrote:
-> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
->
-> Commit 16a1d968358a ("mm/slab: remove mm/slab.c and slab_def.h")
-> removed the SLAB allocator, the only allocator that implemented cpuset
-> slab spreading. Commit 61a182ab61a6 ("cgroup/cpuset: Remove
-> cpuset_do_slab_mem_spread()") then removed the last task_spread_slab()
-> caller. Commit 3ab67a9ce82f ("cgroup/cpuset: Mark memory_spread_slab as
-> obsolete") marked the legacy control obsolete.
->
-> cpuset still updates PFA_SPREAD_SLAB when tasks attach to a legacy
-> cpuset and walks all tasks in a cpuset when memory_spread_slab changes.
-> Remove the unused task flag and its helpers, and make spread task
-> updates depend only on memory_spread_page.
->
-> Keep the memory_spread_slab control and CS_SPREAD_SLAB state so legacy
-> users retain the existing write, readback and inheritance behavior.
-> Update the comments and documentation to describe only page-cache
-> spreading as functional.
->
-> Assisted-by: LLM
-> Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
-> ---
-> Changes in v2:
-> - Restore the default-value description and clarify the write semantics.
-> - Retain the generic slab allocator fallback note in the
->    cpuset_spread_node() comment.
->
->   .../admin-guide/cgroup-v1/cpusets.rst         | 42 +++++++------------
->   include/linux/sched.h                         |  5 ---
->   kernel/cgroup/cpuset-v1.c                     | 13 ++----
->   kernel/cgroup/cpuset.c                        | 19 ++++-----
->   4 files changed, 27 insertions(+), 52 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> index 52a213aff04e..fb3fb6fa88cb 100644
-> --- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-> @@ -179,7 +179,7 @@ files describing that cpuset:
->    - cpuset.mem_hardwall flag:  is memory allocation hardwalled
->    - cpuset.memory_pressure: measure of how much paging pressure in cpuset
->    - cpuset.memory_spread_page flag: if set, spread page cache evenly on allowed nodes
-> - - cpuset.memory_spread_slab flag: OBSOLETE. Doesn't have any function.
-> + - cpuset.memory_spread_slab flag: OBSOLETE. Has no effect on allocation behavior.
->    - cpuset.sched_load_balance flag: if set, load balance within CPUs on that cpuset
->    - cpuset.sched_relax_domain_level: the searching range when migrating tasks
->   
-> @@ -318,26 +318,20 @@ times 1000.
->   
->   1.6 What is memory spread ?
->   ---------------------------
-> -There are two boolean flag files per cpuset that control where the
-> -kernel allocates pages for the file system buffers and related in
-> -kernel data structures.  They are called 'cpuset.memory_spread_page' and
-> -'cpuset.memory_spread_slab'.
-> +The 'cpuset.memory_spread_page' boolean flag file controls where the kernel
-> +allocates page-cache pages.
-> +The 'cpuset.memory_spread_slab' file is obsolete and has no effect on
-> +allocation behavior, but is retained for compatibility.
->   
->   If the per-cpuset boolean flag file 'cpuset.memory_spread_page' is set, then
->   the kernel will spread the file system buffers (page cache) evenly
->   over all the nodes that the faulting task is allowed to use, instead
->   of preferring to put those pages on the node where the task is running.
->   
-> -If the per-cpuset boolean flag file 'cpuset.memory_spread_slab' is set,
-> -then the kernel will spread some file system related slab caches,
-> -such as for inodes and dentries evenly over all the nodes that the
-> -faulting task is allowed to use, instead of preferring to put those
-> -pages on the node where the task is running.
-> -
-> -The setting of these flags does not affect anonymous data segment or
-> +The setting of this flag does not affect anonymous data segment or
->   stack segment pages of a task.
->   
-> -By default, both kinds of memory spreading are off, and memory
-> +By default, page cache memory spreading is off, and memory
->   pages are allocated on the node local to where the task is running,
->   except perhaps as modified by the task's NUMA mempolicy or cpuset
->   configuration, so long as sufficient free memory pages are available.
-> @@ -345,18 +339,18 @@ configuration, so long as sufficient free memory pages are available.
->   When new cpusets are created, they inherit the memory spread settings
->   of their parent.
->   
-> -Setting memory spreading causes allocations for the affected page
-> -or slab caches to ignore the task's NUMA mempolicy and be spread
-> -instead.    Tasks using mbind() or set_mempolicy() calls to set NUMA
-> -mempolicies will not notice any change in these calls as a result of
-> -their containing task's memory spread settings.  If memory spreading
-> +Setting page cache memory spreading causes affected allocations to ignore the
-> +task's NUMA mempolicy and be spread instead. Tasks using mbind() or
-> +set_mempolicy() to set NUMA mempolicies will not notice any change as a
-> +result of their containing task's memory spread settings.  If memory spreading
->   is turned off, then the currently specified NUMA mempolicy once again
->   applies to memory page allocations.
->   
-> -Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean flag
-> -files.  By default they contain "0", meaning that the feature is off
-> -for that cpuset.  If a "1" is written to that file, then that turns
-> -the named feature on.
-> +Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean
-> +flag files. In the root cpuset, both files initially contain "0". Writing "1"
-> +or "0" to 'cpuset.memory_spread_page' enables or disables page-cache spreading,
-> +respectively. The value of 'cpuset.memory_spread_slab' is retained, can be read
-> +back and inherited, but it does not affect allocation behavior.
->   
->   The implementation is simple.
->   
-> @@ -367,10 +361,6 @@ is modified to perform an inline check for this PFA_SPREAD_PAGE task
->   flag, and if set, a call to a new routine cpuset_mem_spread_node()
->   returns the node to prefer for the allocation.
->   
-> -Similarly, setting 'cpuset.memory_spread_slab' turns on the flag
-> -PFA_SPREAD_SLAB, and appropriately marked slab caches will allocate
-> -pages from the node returned by cpuset_mem_spread_node().
-> -
->   The cpuset_mem_spread_node() routine is also simple.  It uses the
->   value of a per-task rotor cpuset_mem_spread_rotor to select the next
->   node in the current task's mems_allowed to prefer for the allocation.
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 499943987c1a..8b3d47a325cc 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1869,7 +1869,6 @@ static __always_inline bool is_user_task(struct task_struct *task)
->   /* Per-process atomic flags. */
->   #define PFA_NO_NEW_PRIVS		0	/* May not gain new privileges. */
->   #define PFA_SPREAD_PAGE			1	/* Spread page cache over cpuset */
-> -#define PFA_SPREAD_SLAB			2	/* Spread some slab caches over cpuset */
->   #define PFA_SPEC_SSB_DISABLE		3	/* Speculative Store Bypass disabled */
->   #define PFA_SPEC_SSB_FORCE_DISABLE	4	/* Speculative Store Bypass force disabled*/
->   #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
-> @@ -1895,10 +1894,6 @@ TASK_PFA_TEST(SPREAD_PAGE, spread_page)
->   TASK_PFA_SET(SPREAD_PAGE, spread_page)
->   TASK_PFA_CLEAR(SPREAD_PAGE, spread_page)
->   
-> -TASK_PFA_TEST(SPREAD_SLAB, spread_slab)
-> -TASK_PFA_SET(SPREAD_SLAB, spread_slab)
-> -TASK_PFA_CLEAR(SPREAD_SLAB, spread_slab)
-> -
->   TASK_PFA_TEST(SPEC_SSB_DISABLE, spec_ssb_disable)
->   TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
->   TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
-> diff --git a/kernel/cgroup/cpuset-v1.c b/kernel/cgroup/cpuset-v1.c
-> index 3e9968dd91e9..562ad35f00d0 100644
-> --- a/kernel/cgroup/cpuset-v1.c
-> +++ b/kernel/cgroup/cpuset-v1.c
-> @@ -204,7 +204,7 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
->   }
->   
->   /*
-> - * update task's spread flag if cpuset's page/slab spread flag is set
-> + * Update a task's spread flag if the cpuset's page spread flag is set.
->    *
->    * Call with callback_lock or cpuset_mutex held. The check can be skipped
->    * if on default hierarchy.
-> @@ -219,18 +219,13 @@ void cpuset1_update_task_spread_flags(struct cpuset *cs,
->   		task_set_spread_page(tsk);
->   	else
->   		task_clear_spread_page(tsk);
-> -
-> -	if (is_spread_slab(cs))
-> -		task_set_spread_slab(tsk);
-> -	else
-> -		task_clear_spread_slab(tsk);
->   }
->   
->   /**
-> - * cpuset1_update_tasks_flags - update the spread flags of tasks in the cpuset.
-> - * @cs: the cpuset in which each task's spread flags needs to be changed
-> + * cpuset1_update_tasks_flags - update the page spread flag of cpuset tasks
-> + * @cs: the cpuset whose tasks need their page spread flag updated
->    *
-> - * Iterate through each task of @cs updating its spread flags.  As this
-> + * Iterate through each task of @cs updating its page spread flag.  As this
->    * function is called with cpuset_mutex held, cpuset membership stays
->    * stable.
->    */
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 0a0fffb5673c..f1dd0fa56b3b 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -2862,7 +2862,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
->   {
->   	struct cpuset *trialcs;
->   	int balance_flag_changed;
-> -	int spread_flag_changed;
-> +	int spread_page_changed;
->   	int err;
->   
->   	trialcs = dup_or_alloc_cpuset(cs);
-> @@ -2881,8 +2881,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
->   	balance_flag_changed = (is_sched_load_balance(cs) !=
->   				is_sched_load_balance(trialcs));
->   
-> -	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
-> -			|| (is_spread_page(cs) != is_spread_page(trialcs)));
-> +	spread_page_changed = is_spread_page(cs) != is_spread_page(trialcs);
->   
->   	spin_lock_irq(&callback_lock);
->   	cs->flags = trialcs->flags;
-> @@ -2895,7 +2894,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
->   			rebuild_sched_domains_locked();
->   	}
->   
-> -	if (spread_flag_changed)
-> +	if (spread_page_changed)
->   		cpuset1_update_tasks_flags(cs);
->   out:
->   	free_cpuset(trialcs);
-> @@ -4484,14 +4483,10 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
->    * cpuset_spread_node() - On which node to begin search for a page
->    * @rotor: round robin rotor
->    *
-> - * If a task is marked PF_SPREAD_PAGE or PF_SPREAD_SLAB (as for
-> - * tasks in a cpuset with is_spread_page or is_spread_slab set),
-> - * and if the memory allocation used cpuset_mem_spread_node()
-> - * to determine on which node to start looking, as it will for
-> - * certain page cache or slab cache pages such as used for file
-> - * system buffers and inode caches, then instead of starting on the
-> - * local node to look for a free page, rather spread the starting
-> - * node around the tasks mems_allowed nodes.
-> + * If a task is marked PFA_SPREAD_PAGE and a page cache allocation uses
-> + * cpuset_mem_spread_node() to determine where to start looking, spread the
-> + * starting node around the task's mems_allowed nodes instead of starting on
-> + * the local node.
->    *
->    * We don't have to worry about the returned node being offline
->    * because "it can't happen", and even if it did, it would be ok.
-Reviewed-by: Waiman Long <longman@redhat.com
 
+--=-MMosgLFBG0M8t4KcrasE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 2026-08-11 at 10:28 -0700, Sean Christopherson wrote:
+> On Tue, Aug 11, 2026, David Woodhouse wrote:
+> > On Tue, 2026-08-11 at 09:40 -0700, Sean Christopherson wrote:
+> > >=20
+> > > >=20
+> > > > FWIW in my local tree I've just extended the pvclock_migration_test=
+ to
+> > > > test precisely the thing you were concerned about: three vCPUs with
+> > > > divergent TSC offsets, migrated by setting each vCPU's TSC and then
+> > > > invoking KVM_SET_CLOCK_GUEST once, through vCPU0.=20
+> > >=20
+> > > I wasn't actually concerned about migration, I was concerned about ti=
+me going
+> > > backwards from the guest's perspective.
+> >=20
+> > But KVM_[SG]ET_CLOCK_GUEST is *purely* for migration.=20
+>=20
+> Huh?=C2=A0 I raised my concern in the context of "Allow KVM master clock =
+mode when
+> TSCs are offset from each other", and AFAICT, nothing ensures that won't =
+cause
+> problems.
+>=20
+> Aaah, it clears PVCLOCK_TSC_STABLE_BIT and relies on the guest to clean u=
+p the
+> mess.=C2=A0 So the guest won't see time go backwards, but it could see ti=
+me stop for
+> an extended duration, or jump forward.
+
+It shouldn't. Each vCPU gets its *own* pvclock structure, tailored to
+*its* offset. They should all see *identical* results.
+
+But yeah, if the guest does that then we can't set the
+PVCLOCK_TSC_STABLE_BIT.
+>=20
+> > And your variant just added a dependency on wallclock time back into it
+>=20
+> Can you elaborate?=C2=A0 I'm guessing I don't entirely understand what yo=
+u mean by
+> wallclock time.
+
+The system_time field? The unspecified might-be-UTC-might-have-leap-
+seconds one :)
+
+--=-MMosgLFBG0M8t4KcrasE
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
++ZrnRTsL4E76XrA+yjhtS44AAAAAAAA=
+
+
+--=-MMosgLFBG0M8t4KcrasE--
