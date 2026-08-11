@@ -1,120 +1,143 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50B52931D3
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 04:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D770E2F616A;
+	Tue, 11 Aug 2026 04:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786421088; cv=none; b=cBoeUJO8pvohKtzIwYpCMfMwnUJAeKIZBaPYc9WUpJZsiYfohBOvDhT1H80KFyuCoIBkjg/BD0kkOMWd12PhKhdZnRoGpNhQ6Saaa+LuQ1Bi3njS2cxGCINxB2YYWQH8E4bTM2ZJ8IcyCxJnYiJ6/Y6wrsNjFwJju6ZEPzH/wNI=
+	t=1786421381; cv=none; b=VfMU0ceI8twOiI1ovBRPWh/GtPklC+/iIO8MkYygoQz3O4hR37wLgO1N8L79Aw4XKriKfvdKyHJpANh+MtjFlA55JAbQzRF8pBQDfK4Ol/c2RKMe6P2FvuKAv25GRSBnZwPadxW1FTIFUGevV8I8MOdb4cQDGuD3+/tsBCkh24k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786421088; c=relaxed/simple;
-	bh=8qHcHKTf37z84C1TpcBIna+Z8IPgcdcdnQQrEpH5TE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LXa1pLdhXSvHXNm9f9ZDvvc75pzOGgLaRmcdGzwm7JPnRXzveyim0JWRyV2FnLrOOD9ym+mTqxokCJGS9EKNsOQrLE4uoBdC4XteDNoy7NAUh6IyH/SlHIiLSicrBTPJcyJY1IBhjtCqenV9sbl9fbUFu958N2osWpsPGtJl1eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=OIMoBF/e; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="OIMoBF/e"
-Date: Tue, 11 Aug 2026 12:04:22 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1786421083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bnct8wpSSJVBq9Uev1slKvcml2+2qDgXSxoB9jioqm8=;
-	b=OIMoBF/eMJqC8ugYidMg4ihV/od47X9JQubS/F7o0LIKHv/Lt4ywHyBeoaOL4TUnwpHBZB
-	ZVn/YuI7lVwzKJS2JjYStOeWSn26Gm+leBt4lzMI7kcwGwvxEqmisO9r9GI2Wnl3zkpQoC
-	BmNffgYWCXSNovC7ljAU+Z3wlPZ2ZmCjrHoon22XRN3omaNyobJv2oYqw/DOOKagM4HlpX
-	blmFLMtj5c45lYDKXaDO/AbiQ9WSi9+GN3bSA928DDzEUyCU9tyg2pmM5qc4+I84PfjGc9
-	OQRCDZ7RpyQY4JD+CIo4qUkebODQ2wlA31KF9LMSiHBQUga1sGCeOBLbA7I0BQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 10/16] docs/zh_TW: process: localize terminology in
- 2.Process.rst
-Message-ID: <anqfRvYGG5-mvKt4@wyuan.org>
-References: <20260728091038.171033-1-chenyou910331@gmail.com>
- <20260728091038.171033-11-chenyou910331@gmail.com>
- <anDANHRAHb3wr2o8@wyuan.org>
- <CAKspUhL-1fh8o19aEvLzxVGMqvnFtmP0XksS7ni5QCYNBWqSKw@mail.gmail.com>
- <anXddDML5sw8loCQ@wyuan.org>
- <CAKspUhJryJv0ebW2cjGzcAPHRE4AtFjGKF7aZbpdS4R7AhXdkQ@mail.gmail.com>
+	s=arc-20240116; t=1786421381; c=relaxed/simple;
+	bh=Q5XVaZSkqfmjFAVnWl4fG2ixczECIvapq358RUeTxRA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fV6evhqVmcRx0dzVxwEmZMq31LzwW/oDi9gCDzTcVLT04SraLe2YUspsEAvzN0UsUgFPbcUHetS6oj5p8as/9ZoyrrboQzr7f110LOPP2yC3C8encVmpTaITx6FJL7h/jYiz7pbFAgZAB0A/WM0CTZXAhJA+lnuISkLZ2vmI/zU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrACXn7NZoHpqw3ymAA--.26398S2;
+	Tue, 11 Aug 2026 12:08:57 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wCHUlZXoHpqzxQ7AA--.50602S2;
+	Tue, 11 Aug 2026 12:08:56 +0800 (CST)
+Message-ID: <e1eb07d6-9da6-4936-aaac-e12889886e90@hust.edu.cn>
+Date: Tue, 11 Aug 2026 12:08:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] docs/zh_CN: Add LSM/SeLinux secid Chinese
+ translation
+To: Siwei Chen <anka@stu.cdut.edu.cn>, alexs@kernel.org,
+ si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org
+Cc: wy@wyuan.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Siwei Chen <businiaoanka@anka1.top>
+References: <20260727073538.56951-1-anka@stu.cdut.edu.cn>
+ <20260727073538.56951-6-anka@stu.cdut.edu.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260727073538.56951-6-anka@stu.cdut.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKspUhJryJv0ebW2cjGzcAPHRE4AtFjGKF7aZbpdS4R7AhXdkQ@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID:HwEQrACXn7NZoHpqw3ymAA--.26398S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw17uF4UZr1kArW7GF4xCrg_yoW5Wr47pF
+	1DKrWfAF4fWr1xt39xGr17Gw15JF4xua15Gr17X3ZYqr95JanYkrnrKryDKrWxKrW8AFWa
+	qa1rKrW5WF40k3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQjb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUAV
+	WUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Cr
+	1j6rxdMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1UMcvj
+	eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20x
+	vY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
+	Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+	AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+	cVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
+	8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+	6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07U9VyxUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Mon, Aug 10, 2026 at 02:59:55PM +0800, 葉宸佑 wrote:
-> On Fri, Aug 07, 2026 at 09:28:20PM +0800, Weijie Yuan wrote:
-> > I might be more inclined to remain neutral, so I would prefer to hear
-> > the opinions of others. Or we could take a look at how zh_CN and
-> > jp_JP handle it.
-> 
-> Fair enough -- I put that entry in the v3 glossary before seeing this,
-> so let me pull it back to a description rather than a rule.
 
-Agreed.
+On 7/27/26 3:35 PM, Siwei Chen wrote:
+> From: Siwei Chen <businiaoanka@anka1.top>
+>
+> Translate .../networking/secid.rst into Chinese.
+>
+> Update the translation through commit de1fd4a7b0f2
+> ("docs: networking: convert secid.txt to ReST")
+>
+> Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
+> ---
+>   .../translations/zh_CN/networking/index.rst   |  2 +-
+>   .../translations/zh_CN/networking/secid.rst   | 24 +++++++++++++++++++
+>   2 files changed, 25 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/networking/secid.rst
+>
+> diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+> index cd768d0a2837..bf22d22b64db 100644
+> --- a/Documentation/translations/zh_CN/networking/index.rst
+> +++ b/Documentation/translations/zh_CN/networking/index.rst
+> @@ -24,6 +24,7 @@
+>      driver
+>      ipv6
+>      napi
+> +   secid
+>      vxlan
+>      netif-msg
+>      xfrm_proc
+> @@ -126,7 +127,6 @@ Todolist:
+>   *   representors
+>   *   rxrpc
+>   *   sctp
+> -*   secid
+>   *   seg6-sysctl
+>   *   smc-sysctl
+>   *   statistics
+> diff --git a/Documentation/translations/zh_CN/networking/secid.rst b/Documentation/translations/zh_CN/networking/secid.rst
+> new file mode 100644
+> index 000000000000..0168feddcc3d
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/networking/secid.rst
+> @@ -0,0 +1,24 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/networking/secid.rst
+> +
+> +:翻译:
+> +
+> +	陈思为 Siwei Chen <businiaoanka@anka1.top>
+> +
+> +=================
+> +LSM/SELinux secid
+> +=================
+> +
+> +flowi 结构体：
+> +
+> +flow 结构体中的 secid 成员在 LSM（如 SELinux）中用于表示该流的标签。
+> +该流的标签目前用于选择相匹配的带标签 xfrm。
+> +
+> +若为出向流，标签派生自套接字（若有），或派生自本流作为响应而生成的入站报文
+> +（如 TCP 复位、timewait ACK 等）。在特殊情况下，也可酌情让标签派生自其他
+> +来源，如进程上下文、设备等。
 
-Just like what Dongliang said, a clearly and explicitly stated rule for
-this is not necessary now, because we need more contributors, obviously
-;-)
+If this is an outbound flow, the label is derived from the socket, if any, or
+the incoming packet this flow is being generated as a response to (e.g. tcp
+resets, timewait ack, etc.).
 
-> Here is what the other locales look like, same measurement (a CJK
-> character directly adjacent to an ASCII alphanumeric):
-> 
-> zh_CN    有空格   3624 / 無空格  11022
-> ja_JP    有空格    128 / 無空格     70
-> ko_KR    有空格     93 / 無空格      0
+Suggested translation:
 
-wow, thanks for the statistics.
+若为出向流，标签派生自套接字（若有）；如果该流是为响应某个入站报文而生成的，则标签派生自相应的入站报文（例如 
+TCP 复位、
 
-> > Or: for new articles, we can start to require spaces between.
-> 
-> I am sympathetic, since spaces are what I would write myself. My worry
-> is that it makes the tree inconsistent in a way that is visible within
-> a single document -- a reader opening howto.rst would see one style in
-> the paragraphs we have rewritten and another in the ones we have not.
-> Right now the inconsistency at least correlates with nothing in
-> particular.
+timewait ACK 等）。
 
-So apparently I guess this is without doubt: we keep the same style in
-current _existing_ articles. And then we are discussing what would be
-the preferred style in new translations.
+Dongliang Mu
 
-> So I would suggest either:
-> 
->   (a) describe current practice in the glossary without making it a
->       rule, and revisit once we have more contributors, or
->   (b) agree on spaces as the target style, and let it spread naturally
->       as files get rewritten -- accepting mixed files in the interim
-> 
-> I lean towards (a) for now, but I do not feel strongly. If you or the
-> zh_CN side prefer (b) I will follow. Either way I can adjust the
-> glossary in v4 or as a follow-up.
+> +
+> +若为入向流，标签派生自报文所使用的 IPSec 安全关联（若存在）。
 
-Both fine I guess, since it's not a big deal.
-
-Correct me if I'm wrong: having spaces or not *does not* affect
-rendering as HTML. So, (kind of out of topic, sorry) I'm quite curious,
-Do people prefer to view the HTML version of the webpages or the plain
-text version? (For the whole documentation, not only translations)
-
-I happened to be reminded that I missed some interesting and useful docs
-just because I preferred to read docs on docs.kernel.org, while that
-file is not listed in the index.rst file, so I didn't notice it before.
-But this seems to be an issue more for English Documentation though. [1]
-
-[1] https://lore.kernel.org/linux-doc/amjsCufED-hm3ixe@wyuan.org/
