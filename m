@@ -1,68 +1,67 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F075395ADD
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 15:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD0E3B27C6
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 15:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786462249; cv=none; b=QFMgUKfd6aludxbJSJnysoNO63bpWVEKVjNDI3XC07mwvhlT8LdJQ5sQgQ13kBKbWiJEDDYiMW+dphd5higcRxw9uPbJYdpuQXmWQq4zCRLztDxnbz00GHnQodG6tqXmssFiSumqNptmw3bJewpZjzIKqTC8lzNZBtFfDSksVNQ=
+	t=1786462250; cv=none; b=jMH+cS5VUzjKrm87qgRQ5i6W/h4O93NMyEGnNGAhHfh86KbqBv570KaQaoce80jU3eBixZgqh7gG8LEZ+pWoQrLmjgClxxtCIKB06wlXw+JipS9zKb9V1ksTahD1BDi0x6iUnOEaoRwFggakoDociMSR/mt47MHt47emjar3sks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786462249; c=relaxed/simple;
-	bh=jkGm2XnEEYvI3D+wc+k8mgIXGLOkNXkPZcP/RQghtd4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jA5hfLVf/YRbHM3GuzJVL7EofVi5VvKvxkXt7JuF5STcdrJQD43l+PX7OuNQUC10EwZ2hc/i1cD8lzYi/j86bpNhtYlWo46br+pWcyClLpz7PdxVFzSyqPzKIlLjKZvsH3eZYnVed8omnvhNrrwd3q7mehU+2GMCe7k1Tsu0W/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kC3rP5hk; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1786462250; c=relaxed/simple;
+	bh=Zl8zJhePqsl4XxqWo/nMyVaX7NU6Mei8MsQZ1ECwbYM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=h8txJ8E0LWdFSJPpagvNXKsXmAL/tVKRhqPCdcFtCHe2NpRyL0071+s0oU110La2q2H7MEeHiQglRsNxUnKDzT/UPiN7iQjzM4r+ydZYVgeXX+cmymNBp7oLrMhcg4yZUg27Ft1foWJXBd9Q6N+ipFQhJIpebjZs2z4TQfcFgHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hcW+/+9K; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kC3rP5hk"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4954dff6536so25333115e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 08:30:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hcW+/+9K"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4980fe6b3beso9187795e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 08:30:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1786462246; x=1787067046; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=qG1LYmIXQwJhNszNA6JSaXd2z4OF9GJH1weAVjbiHlk=;
-        b=kC3rP5hkgN4sClZg1VauGmPR2XBcWF7X+u5bcrbGwVlGzpsrj9wvr8T4qCvJqOl7dN
-         wbDMq3SlGRN3OuPrIJjAafzbeG+Tq9z9txmeNj0iW81OiXgUXy/MI0j0nSfZsm+QZSO4
-         JTnJPSb05SSv9WgCVIAA8laM3STH5hPqgu8ioje44JFSn1+ujlfCjMlu2NIOsCVHg6bR
-         jbAdQhPKa7rcJ4Chq664KDJh6YoMEl1bm9WrfsdE4YLEmWHHKFmqNel4aA2lg3k97vEf
-         XZzRZRv9fFEOkBOny9+6uQshGATyU3pjub65/FkEmeo/QQQ4690CObQgIqeeD3dOrIhM
-         bR8w==
+        d=linaro.org; s=google; t=1786462247; x=1787067047; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8eAS2yWgoyXdx0wzQOuU1GOQ+foCx6winuzdwJ7kHsY=;
+        b=hcW+/+9KVRKNcMfhpHWOKmiE7TxsCcKmaHfgP8fNTm9L1yx/YNDN1mMl6ndniRRT5B
+         nQi0wSv4aFceeL35/R7luYQk787102MhOoqEdb7x4XVMMc84Bu+V06TY55DEfuGpVt5J
+         lrSo/9URk6Onit6t3WIsap5MqibAXYy/cJq8XnaWrOHkJO2Vd58NgLgecqE5PTQrd7Nz
+         ko4uUVbDvie0f4dRn9KQLgqmog6i9SI11JailHVSE9y2V1xJY8iv3d0O33V86qNNAIaV
+         ztAIH78LJvxeyM54vrJwuBP4Xwh1xE8vQ9QQ1yEy2ljF+SbTvS39b0RSYfWRM+mUClA5
+         AEaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786462246; x=1787067046;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qG1LYmIXQwJhNszNA6JSaXd2z4OF9GJH1weAVjbiHlk=;
-        b=J2ujH4WvdONFSegg9L6OFz05fNaonCQssPKpEi+iAojInAiCoZt8xpRFcflCFRrtq0
-         BX7/BfTMUtWqQT3ARUezBo117S5ZJ1G4gVlynDEaqulV+aNu2jKTRDLAUjucvTwAT1h3
-         P+lNoMXyc/V4sML1ElqkhHEPVArqgHfMBpVg6AOKnMoTWEqi5r9aFuDFYW68wzw3ybhv
-         8voNFV22FTotubYcsyJhI2iKIubNZ8fsP9lfVkZLBX0v8vJStMx8Wpqx/sHiG7W1Bkmc
-         uPvIDc3Usuj6t96dQs3vtoYhB8oxuUiZiJQYOKkh4HoGiimD1iCvxsNPPhLVH6FXts9o
-         ABzA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro98/2qTSfd6S0MB1QaBmR1gL9hGF4+t8x3QCt6Ozbsh4nVsj3EuVI7Fkq9CSvsXho8aQ7RFsmyE7s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzt9VQ7hbvkLuy5dniqAf/9PDWa1+VrcZTK7OjRh+mDrw4BooOE
-	zaMR13nt4s72AinhsDPyTlYp2K0xvs5xjVWvDwBD/T9rknpPB90dbbrKfR71VSlem76uJblLYFm
-	JlkNg/lg=
-X-Gm-Gg: AR+sD13xHJCaXG0pS1HBBDcBhabv6ElcVktqkQVW9fd70HN8ARZsvGnY9bycj7mliqG
-	Fu56yTR1kMohJ9ndLrSD5nm3122/yKBjIGJTgzUkLPLW7BC788/xBYdQs9qCeLr3LUNVbwo8We+
-	byGTyXRsyExoOR7QCmFFDDu8qJtzHplDhR26qinmIbK7AwNmX9Zl8kQLNZZq+U7kk6CrM6Yqram
-	mK3sL3n/z4Gp7zGDRdPqSMmllOND+CAhD6ALbaKqK3hhF97WnQXkRcQjQvmTf4BPJI/Y1NwhvsI
-	0Y95OQzUaNNxKFHDCTHLtU9FjEhBDvheiRR+79dYzxys91n+xAVzkCqhC9U5C894uIiaJZ/By+A
-	bqcjl73gIFR4ZcD9+WjibsHNAksF5tXGY97f7BwuIBmmF9f4BAFjYx+GEFLa/d83SoaUUu56A2l
-	9I+yMpFRWsbREAy8oL8ZzDH36i7LvJD6/1MhDupIhzEONTMlqMeTvshJNZtJeKxk2L
-X-Received: by 2002:a05:600c:8595:b0:499:518d:ebd6 with SMTP id 5b1f17b1804b1-4997846c98fmr70953065e9.17.1786462245612;
-        Tue, 11 Aug 2026 08:30:45 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786462247; x=1787067047;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8eAS2yWgoyXdx0wzQOuU1GOQ+foCx6winuzdwJ7kHsY=;
+        b=b3O35YwQss5bgEdD6UlvSQeJc/JMXeuATYTGaCx1GP+Pv4ausVq3UEICWjchHrM9Oo
+         w3ov70gx3F1I1OVOYUbNq012uEnycNRWeuAHpleSHuzSIxb6EgF7+yXYwap9V1qRMoi6
+         KRULf6biykmEjutyhWr1J2EYKsj/XT8kL55EN7t821BJWBKfvol6n2rcK3fpCmClRwQf
+         OZoN4a8Qt+h+QemjwQSsM8dsVkDueis2LeMcySPsEOgs+XRng9kx7eNeiDY0IK/blA2T
+         ThzUbLkujq4CL9EgEHogpFrYt2zy9cfeLUw49l728Mq9dj+BG0VkrdeIaKRfkTiPvGvQ
+         TxRA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4zu9zkaC0PtpSq1P8HI+qPxtSQ4tTtEg5Hz9gq72z/wC3mCCswzvSMwZM/ve6hF99TxphHNZdiPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/1eEQHamDZ9IxsrcWVBQgOnhvTsNL/eBmYeLj8P92tr3vFNVQ
+	mRF4HmRvSwqqYCBn+r3wVgbzgEfD6IpKyEwK2Px9Ln91NpupUbf/XXuESggDNx3Nj7M=
+X-Gm-Gg: AR+sD11HTREYl1iSqRXVg/UjPsXkhNg1bKeGcBdQGFYU37OqF8WqOhtlY80hql7DCoU
+	xl5zOvNegT/mHJcMAbBnI1WoJmqpwOFV+Qiq26o6f6E2VvWrusfck6rZ617aTHpdpr9A1x4OzC/
+	SSlPBUiRP1GmN9fltjssaM6yPbqrg6YNCVOTP0F3vSPLFYoQQfn79thpZWxS0NWVT3VUMJDO2Wh
+	qXU/TxKe2LR10Xs5ZKUWcMBpNa2CIhcFjSZ+sNjIxAORYZRynksFcYONUXIH0vEQhkLmltSqaKp
+	8esXqY51RJObnHvVBIFYW+QHD7sz/m/YQEh8O502OzuW7EmD25NHycc5FdCobXaswbB9JPOkf7r
+	4+iUrf7vHUULEIsmwX4kYBfgI3cZOL9u5RarKz4FSCGfjZSF96UQW/CGPVB22SZVEa21sWUT4Hp
+	lDBfbMTTHENF2QtJWjhnQ+H9aZteQonHV3ZG5Y54KRftYlE9t5Fbgfb/XIi+6854Ps
+X-Received: by 2002:a05:600c:8b63:b0:495:69eb:27d3 with SMTP id 5b1f17b1804b1-4997a71648fmr13439405e9.8.1786462247498;
+        Tue, 11 Aug 2026 08:30:47 -0700 (PDT)
 Received: from pop-os.local ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49977dfacb6sm49865395e9.1.2026.08.11.08.30.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49977dfacb6sm49865395e9.1.2026.08.11.08.30.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 08:30:45 -0700 (PDT)
+        Tue, 11 Aug 2026 08:30:46 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Subject: [PATCH 00/14] perf cs-etm: Per-thread mode fixes and snapshot wrap
- support
-Date: Tue, 11 Aug 2026 16:30:03 +0100
-Message-Id: <20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org>
+Date: Tue, 11 Aug 2026 16:30:04 +0100
+Subject: [PATCH 01/14] perf cs-etm: Fix nVHE per-thread decoding
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,10 +70,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPw/e2oC/x3NQQrCMBCF4auUWTsQI23Bq4iLoZmYEZqUmViUk
- rsbXX5v8f4DjFXY4DocoLyLSckd59MAS6L8YJTQDd75yU1uxCetbLgYvnIsulKtHHBjxZqUKWC
- UN46OZ38hmqNj6E+bcp//ldu9O4nVop9ftLX2BR8T+p6EAAAA
-X-Change-ID: 20260605-james-cs-unformatted-per-thread-fix-50e723aa7f0e
+Message-Id: <20260811-james-cs-unformatted-per-thread-fix-v1-1-90565318f5f8@linaro.org>
+References: <20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org>
+In-Reply-To: <20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
  Mike Leach <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>, 
  John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>, 
@@ -93,61 +91,44 @@ Cc: Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.15.2
 
-Fix a few issues with per-thread mode:
-  - With TRBE, thread migrations hit a queue without a decoder assert
-  - On nVHE, everything looks like guest trace instead of host
-  - Tracing multiple threads didn't really work
+pid_fmt is unset in per-thread mode because we don't need PIDs, so we
+can't use it as a hint to determine which EL the host is running at.
+That results in falling though to the next part where EL1 is treated as
+guest, which is wrong for nVHE.
 
-After adding a tests for those, it turns out there were some snapshot
-bugs not picked up by the other snapshot tests. That showed that the
-different snapshot searches for Intel BTS and Arm SPE were inconsistent
-and I think all tracers can benefit from using the same pointer fixup
-logic, so that gets refactored into the common auxtrace.c. Then SPE can
-just share the Intel BTS search as it was obviously copied from it
-originally. IntelPT keeps the more advanced duplicate data search, but
-in the future that could probably be made the common one and all tracers
-would benefit from using it (except maybe BTS if it always has a very
-small buffer, but I doubt the overhead of the duplicate search would be
-an issue). For now this is more of a refactor rather than behavioral
-change so don't do that yet.
+Fix it by only returning a guest machine when run from perf kvm where a
+guest image would be provided, which matches existing behavior in other
+parts of Perf.
 
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
-James Clark (14):
-      perf cs-etm: Fix nVHE per-thread decoding
-      perf cs-etm: Warn for invalid timestamp option
-      perf cs-etm: Turn on context packet timestamps in per-thread mode
-      perf cs-etm: Use per-CPU queues for per-thread mode
-      perf cs-etm: Increase default timestamp generation period
-      perf auxtrace: Turn Intel BTS snapshot search into a generic one
-      perf arm-spe: Use generic snapshot search
-      perf auxtrace: intel-pt: Use new snapshot_has_wrapped callback
-      perf cs-etm: Queue partial AUX records
-      perf cs-etm: Don't print missing buffers in snapshot mode
-      perf auxtrace: cs-etm: Capture wrapped snapshots
-      perf test: Allow infinite named_thread loops
-      perf test: Add test for per-thread mode
-      perf cs-etm: Test multiple per-thread threads
+ tools/perf/util/cs-etm.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
- Documentation/userspace-api/perf_ring_buffer.rst   |   6 +-
- tools/perf/Documentation/perf-test.txt             |   2 +-
- tools/perf/arch/arm/util/cs-etm.c                  |  30 ++++-
- tools/perf/arch/arm64/util/arm-spe.c               | 147 +--------------------
- tools/perf/arch/x86/util/intel-bts.c               | 115 +---------------
- tools/perf/arch/x86/util/intel-pt.c                |  58 +++-----
- .../perf/tests/shell/coresight/per-thread-multi.sh |  78 +++++++++++
- tools/perf/tests/shell/coresight/per-thread.sh     |  48 +++++++
- .../perf/tests/shell/coresight/raw_dump_stress.sh  |   5 -
- tools/perf/tests/workloads/named_threads.c         |   7 +-
- tools/perf/util/auxtrace.c                         | 136 +++++++++++++++++--
- tools/perf/util/auxtrace.h                         |  20 ++-
- tools/perf/util/cs-etm.c                           |  98 ++++++++++----
- 13 files changed, 382 insertions(+), 368 deletions(-)
----
-base-commit: bf10e6ee2ac3034c9068e03eed418fd16961984e
-change-id: 20260605-james-cs-unformatted-per-thread-fix-50e723aa7f0e
+diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+index 114b3cd2da49..d423f1cb408f 100644
+--- a/tools/perf/util/cs-etm.c
++++ b/tools/perf/util/cs-etm.c
+@@ -1071,6 +1071,18 @@ static struct machine *cs_etm__get_machine(struct cs_etm_queue *etmq,
+ 	if (pid_fmt == CS_ETM_PIDFMT_CTXTID)
+ 		return &etmq->etm->session->machines.host;
+ 
++	/*
++	 * If guest processing hasn't been enabled, also assume everything is
++	 * the host.
++	 *
++	 * This matches Perf's guest handling in machines__find_for_cpumode()
++	 * etc where guest machines are only created and used when perf_guest is
++	 * set. This also guards against accidentally using guest machines when
++	 * pid_fmt can't be used as a hint (per-thread mode).
++	 */
++	if (!perf_guest)
++		return &etmq->etm->session->machines.host;
++
+ 	/*
+ 	 * Not perfect, but otherwise assume anything in EL1 is the default
+ 	 * guest, and everything else is the host. Distinguishing between guest
 
-Best regards,
---  
-James Clark <james.clark@linaro.org>
+-- 
+2.43.0
 
