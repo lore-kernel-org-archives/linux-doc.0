@@ -1,176 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74A53B42D3;
-	Tue, 11 Aug 2026 11:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3067B43800B;
+	Tue, 11 Aug 2026 11:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786447912; cv=none; b=bteNnyAR3ESvUKsFo5zKgYhqI+z+iw7eXux/6w7zVjUryrQ93EaXuZu88Ntj50tApDyQIr56tTv0HIvxi2r20NY5VI+TrQRDrs78AsCNz8BTD0WUKAzaASF26u2vDrV8FXmxwF+37jL+F0aYBrhBlks0WL0qc7iiXLyr3dAzddM=
+	t=1786448656; cv=none; b=PmgJv57hZe9IBUyOETrpc9xtRoXzpMvUDWy/6LuaJrpGZeFUjvO6EPGe7mHayRiQU7zpQBtgKAdh+mpxDMpsaRY5y5dR8JS/Lk8zgYBbP6/jWtDx+Or5JxNYc6oY4GbKXX1mO205RQliw73oXge53L47gHbw+6Zwjr9+4DQv2GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786447912; c=relaxed/simple;
-	bh=vkmS5xbZv/MhrmuCuWRhhmFAuTY1aGqY1fkJvBus3Io=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lf6istahwf4INGLFlN6va8ta78YHse419ZQZXuJRw+qB1vyE2WqW8LILqgciLVbccN1Zdo6WipnY9fuMWPwF36ebCWxysgnG4tO/F1pU9R3n3Wcp5G1MONkxPbHy63X+2oIZc0Ww9CTGynAKrXBw/yS9SSnXZU4jknfUZz0/nIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=om8xJIfj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786448656; c=relaxed/simple;
+	bh=aKcHfZtH0PqJRxo5ON3bY99gAedM8k6F67oOVHHOl0s=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gvr9+MFZqAo4PGWtYxvNAi6h1i4OqbxzryMS2tSWfCjIeD2wfNJbmx+wEte1DiAwzmI0v/YYfvW6Pqo/8eFvfLu0WlkucGW60UpXjbORpOyZ3VvpCNDJHqnKOzHiYdF+KSy1MiZlDhcrA3FKW97rT+av7SZHlyrl2BYZIRxwkYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=TQGk9eQd; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="om8xJIfj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A141F000E9;
-	Tue, 11 Aug 2026 11:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786447910;
-	bh=4h7/hkwvCsY0fI00T2PR/Y4OZG0mhUElOQ2zn4pF7HM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=om8xJIfjsRUCvKibHk4AB92a86v/0sm2xMl+BtSmgoyg7QzhmHmd3v9z3YvwkioCW
-	 9u/nZK6wJXKOBRJSadI/b5pqpyXdCXcN7dsJ9BaeaAZz90F1BIBA4twS1gV3wuBHJO
-	 mJtZngYdB7FxDju+zrnYNhjNPFjwE8vD9dfqPU/3VUsDjvBzcsgX4U7GyWO21QietQ
-	 +uDGaQz1ywUPS27qK7TYb35Ab1PJEijr+OqHQQPgoG/BBG0vdmmBqVwPLY/LGZtoQR
-	 7NrPUAPpNv5bhHusvIMbXZwA2gJ2vJg4PJ/zmo8j6qYfhy4KZUMw6mp3S6iqu2krU4
-	 1EuINsbUcsIhg==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Tarun Sahu <tarunsahu@google.com>,  ackerleytng@google.com,
-  fuad.tabba@linux.dev,  Andrew Morton <akpm@linux-foundation.org>,
-  dmatlack@google.com,  Shuah Khan <skhan@linuxfoundation.org>,  Jonathan
- Corbet <corbet@lwn.net>,  david@redhat.com,  Pasha Tatashin
- <pasha.tatashin@soleen.com>,  Pratyush Yadav <pratyush@kernel.org>,
-  sagis@google.com,  Paolo Bonzini <pbonzini@redhat.com>,  Mike Rapoport
- <rppt@kernel.org>,  Alexander Graf <graf@amazon.com>,
-  linux-kselftest@vger.kernel.org,  andre.przywara@arm.com,
-  michael.roth@amd.com,  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
-  will@kernel.org,  vannapurve@google.com,  maz@kernel.org,
-  fvdl@google.com,  kvm@vger.kernel.org,  oliver.upton@linux.dev,
-  kvmarm@lists.linux.dev,  alexandru.elisei@arm.com,  skhawaja@google.com,
-  aneesh.kumar@kernel.org,  linux-doc@vger.kernel.org,  David Hildenbrand
- <david@kernel.org>,  yan.y.zhao@intel.com,  kexec@lists.infradead.org,
-  suzuki.poulose@arm.com
-Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live
- updates
-In-Reply-To: <anphyjFv3FhF61iB@google.com> (Sean Christopherson's message of
-	"Mon, 10 Aug 2026 16:42:02 -0700")
-References: <20260728121138.1103610-1-tarunsahu@google.com>
-	<20260728121138.1103610-6-tarunsahu@google.com>
-	<anphyjFv3FhF61iB@google.com>
-Date: Tue, 11 Aug 2026 13:31:43 +0200
-Message-ID: <2vxzpkzo51wg.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="TQGk9eQd"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=413gHxUCocv8Yk4mjtkav76BxsrjOjkJp7/QRl5D8oI=;
+	b=TQGk9eQdx63xM+AAskLcpqwrL7hLYMJn4O2F4E85CJ47MpvPUQnxif8xVSIMIYR5WuZTz8+3t
+	LQxQzUn5ZiyS7ibX/ASXt6kLjfSqj3EKy3KziSDvdKgiozeLsyzyNViMqEnX4JBPG1C65Flc0tz
+	6JDeumwpaiNe3m4AILxYPMQ=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hK8dQ6lhyzLlTg;
+	Tue, 11 Aug 2026 19:33:30 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 469914056C;
+	Tue, 11 Aug 2026 19:44:07 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Tue, 11 Aug 2026 19:44:05 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Teng Peisen <tengpeisen@huawei.com>, Wu Di
+	<wudi234@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Larysa Zaremba
+	<larysa.zaremba@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chen Anwen
+	<chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>, Zhang Min
+	<zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>, Xin Guo
+	<guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
+Subject: [PATCH net v04] hinic3: Fix skb linearization mismatch and drop skb when skb_checksum_help() failed
+Date: Tue, 11 Aug 2026 19:43:59 +0800
+Message-ID: <78d8c61cab588240948eaddcb437d59add9f77ae.1786448013.git.tengpeisen@huawei.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Mon, Aug 10 2026, Sean Christopherson wrote:
+Previously, hinic3_send_one_skb() cached the skb fragment count before
+calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
+skb_checksum_help() for unsupported tunnel packets, the skb may be
+linearized. Continuing to build the TX descriptor with the stale
+fragment count leads to a descriptor mismatch, which can trigger
+out-of-bounds DMA reads or IOMMU faults.
 
-> On Tue, Jul 28, 2026, Tarun Sahu wrote:
->> Register a Live Update Orchestrator (LUO) file handler for KVM VM files
->> to serialize and deserialize VM state across kexec live updates.
->> 
->> Currently, Only VM type (e.g. arch.vm_type on x86) is preserved as part
->> of VM preservation.
->
-> Why?
->
->> On retrieval, kvm_luo_retrieve() recreates the KVM VM file via
->> kvm_create_vm_file() and use an atomically incremented ID for the internal
->> fdname, as the final fdname assigned by userspace is not yet known during
->> retrieval. As this fdname is only used in debugfs infra, This will not break
->> any UAPI.
->> 
->> This infrastructure establishes the foundation for preserving guest_memfd
->> instances across live updates, and can be expanded in the future to
->> preserve additional VM state.
->
-> Uh, why guest_memfd?  As much as I want to push guest_memfd adoption, it seems
-> guest_memfd should be the _last_ thing we support, not the first.  As evidenced
-> by the last two decades, it's very doable to have KVM VMs without guest_memfd,
-> but it's rather hard to have VMs without vCPUs.
+Furthermore, the old code ignored the return value of skb_checksum_help(),
+transmitting corrupted packets with incomplete checksums upon failure.
 
-You _can_ preserve vCPUs today using KVM_{GET,SET}_REGS, they just won't
-run in the background during the reboot. This series can save you from
-dumping VM memory to disk if it is backed by guest_memfd.
+Fix this by:
+1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
+   ensure the correct fragment count is used if the SKB is linearized.
+2. Propagating skb_checksum_help() errors and returning
+   HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
 
->
->> Also updates MAINTAINERS to include virt/kvm/kvm_luo.c and
->> include/linux/kho/abi/kvm.h.
->> 
->> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
->> ---
->>  MAINTAINERS                 |  11 ++
->>  include/linux/kho/abi/kvm.h |  39 ++++++++
->>  virt/kvm/Makefile.kvm       |   1 +
->>  virt/kvm/kvm_luo.c          | 195 ++++++++++++++++++++++++++++++++++++
->>  virt/kvm/kvm_main.c         |   8 ++
->>  virt/kvm/kvm_mm.h           |   8 ++
->>  6 files changed, 262 insertions(+)
->>  create mode 100644 include/linux/kho/abi/kvm.h
->>  create mode 100644 virt/kvm/kvm_luo.c
->> 
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index a3ed337e827d..0283f0fd6ef4 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -14539,6 +14539,17 @@ S:	Maintained
->>  F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
->>  F:	drivers/video/backlight/ktz8866.c
->>  
->> +KVM LIVE UPDATE
->> +M:	Pasha Tatashin <pasha.tatashin@soleen.com>
->> +M:	Mike Rapoport <rppt@kernel.org>
->> +M:	Pratyush Yadav <pratyush@kernel.org>
->> +R:	Tarun Sahu <tarunsahu@google.com>
->> +L:	kexec@lists.infradead.org
->> +L:	kvm@vger.kernel.org
->> +S:	Maintained
->> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
->
-> NAK on taking changes through a different tree.  This is KVM code, period.
->
-> In general, I'm skeptical of the dedicated MAINTAINERS entry.  It's extremely
-> difficult to tell since this series is little more than a skeleton (either that
-> or liveupdate is way simpler that I was expecting), but I suspect that maintaining
+Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
+Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
+Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
+Co-developed-by: Wu Di <wudi234@huawei.com>
+Signed-off-by: Wu Di <wudi234@huawei.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
+---
+ drivers/net/ethernet/huawei/hinic3/hinic3_tx.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-It's a bit of both. This series of course doesn't support everything
-that guest_memfd can. At the same time, I also keep being (pleasantly)
-surprised at preservation being relatively simple. For example, the code
-to preserve a shmem file (via memfd) is roughly 600 lines, a big chunk
-of which is comments. The code of course has some limitations, but it is
-good enough for use in production.
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+index 9306bf0020ca..cc541e7a2318 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+@@ -261,8 +261,7 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
+ 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
+ 		    VXLAN_OFFLOAD_PORT_LE) {
+ 			/* Unsupported tunnel packet, disable csum offload */
+-			skb_checksum_help(skb);
+-			return 0;
++			return skb_checksum_help(skb);
+ 		}
+ 	}
 
-> liveupdate for KVM (or for any subsystem) will require more subsystem-specific
-> knowledge than liveupdate knowledge.
->
-> E.g. the LUO APIs seem pretty straightforward; I assume the bulk of the complexity
-> is going to be in knowing what to save/restore, and how, which is much more about
-> KVM than it is about liveupdate.
+@@ -412,6 +411,10 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
+ 		offload |= HINIC3_TX_OFFLOAD_TSO;
+ 	} else {
+ 		tso_cs_en = hinic3_tx_csum(txq, task, skb);
++		if (tso_cs_en < 0) {
++			offload = HINIC3_TX_OFFLOAD_INVALID;
++			return offload;
++		}
+ 		if (tso_cs_en)
+ 			offload |= HINIC3_TX_OFFLOAD_CSUM;
+ 	}
+@@ -545,6 +548,7 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ 		skb->len = MIN_SKB_LEN;
+ 	}
 
-I think it is fine if you want to take these changes through the KVM
-tree, but I would like live update maintainers to be listed as reviewers
-at least.
++	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
+ 	num_sge = skb_shinfo(skb)->nr_frags + 1;
+ 	/* assume normal wqe format + 1 wqebb for task info */
+ 	wqebb_cnt = num_sge + 1;
+@@ -560,7 +564,6 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
+ 		return NETDEV_TX_BUSY;
+ 	}
 
-For one, we care about ABI breakages and versioning. The serialized
-state is a part of live update ABI and changes to it should be ACKed by
-us. For another, how the file handlers interact with their dependencies
-can affect the behaviour that VMMs observe. Those changes should also
-pass by some live update eyes.
+-	offload = hinic3_tx_offload(skb, &task, &queue_info, txq);
+ 	if (unlikely(offload == HINIC3_TX_OFFLOAD_INVALID)) {
+ 		goto err_drop_pkt;
+ 	} else if (!offload) {
 
-So I think we should have a separate entry for KVM LIVE UPDATE that
-lists the live update maintainers (or perhaps only kexec@) as a
-reviewer. The patches can still flow through KVM tree but we'd get a
-chance to ACK/NACK them.
+base-commit: 2195424c3da2ef1829a63b807e3a900a90e57d85
+--
+2.54.0
 
-Of course this all can evolve later as we see fit but I think this is a
-good starting point.
-
->
->> +F:	virt/kvm/kvm_luo.c
->> +
->>  KVM PARAVIRT (KVM/paravirt)
->>  M:	Paolo Bonzini <pbonzini@redhat.com>
->>  R:	Vitaly Kuznetsov <vkuznets@redhat.com>
-[...]
-
--- 
-Regards,
-Pratyush Yadav
