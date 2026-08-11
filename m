@@ -1,366 +1,276 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2398B30DD22
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 17:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786469746; cv=pass; b=U3rAWv/7OlX/xqwkFessjsM1QOEP/PijLG0rYU8OrQOnagHa1VN/ZPn9Et8M7fvNMg9/sL4IuWsTmEZXV5lEBYE5iQMZEg5a/TKUO4ySWfYHLDUztHrkL8FcT+3XK3Dh/1fujnNV5hc9zi12xxNWjxvb1dTtOEi4j+9v0FFb2hc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786469746; c=relaxed/simple;
-	bh=HFEKR1KyXmrTm3F9xUOu47SOoPRZkqoHDZ+hl5bPILM=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LafjD0KUbjI2BF611F0s33MV8oH1Pgs9Eu3uNLR4ltIW23tFiuu0dv8HTOSLqq14hI3XxptHEmDg1b8kGd3MOazAe+R9ZGp/jcH1QWPRZ/mlCl3+NIqBEmrvB54Tqz4h6ubmIJPblq7tu69eDOocgddF2YkJ35uYCA9NBB8BsNM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a/O29S4r; arc=pass smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FB13D5652;
+	Tue, 11 Aug 2026 17:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786469802; cv=none; b=E5OopHTV7Ntox7gZejeNu4PwnezruReIt3ZMQ/x/RxOdy+Bm91GV+wlnevCdTIZSRFIeo9UVZ26FngV/FTjCIkZiwCheIYwn4ScUllNDRbL0lMHiuxm2FG7jv0RoV0gY0QMC89umKlLstKn/cQ7nA3Zr5tcAWdXhOq61wGb2rgQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786469802; c=relaxed/simple;
+	bh=R2+DA3JIXt29PpRgb06h0/Lfi4nOBtEDB95587kTMEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ssAFhYhoZEu6y92Ndcct+6EO8ruP1iuwffzseuSgrmKc/CU+ylilFBeiJ9yT8DsTaRVG0PJcwuwNhPBydLa7kctpzre2FMJDFdmfcFrR6BzYlMoxm4J40ZyCtLj6vl6GB1fH1EYRf/enuit1uFRXuatqsQ0A2T4mVD+Kbg47BVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TTpVjpRR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a/O29S4r"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8485ef63b68so236466b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 10:35:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786469744; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hwQ5r5Y0lJQaOXsP2UU5dumysdcK0Gw4Dj4dxmgIIWuYY3GMT278Zynp/50Ngv2xGV
-         0GpR87smLv9hbOOZ2w9n79XorG8FWAAYV3unEdgtkbIrZmmUB03gtFkbzcU1jGR0qnLu
-         9fo6U6EG2V3ONTQin7rVhr3Il1RbWxK3K5sb19QrehbipHfkOOJ9+0g51mB2Bn1XLJcE
-         6ipU4aoHYqiYD0f+WFW6LPgj8NyTA8/ofqQOgpINraUY5qJrbZjd/mxH8CoyBUn5Aihx
-         2Qhd4Oa9RpToW45gihDgVgQ/kdscdo9zhl5xeAKmg9ktClhQIGUov1HeokoTAQWrWckM
-         X3Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=gwkanNiJJOt3W9zGrZeGCByYdRnaM6Axwx+xtbIB3o4=;
-        fh=j7ZsW+oXJ2/YSOGN5h/iSYAhr3eDSop1JDCKqkH2pms=;
-        b=ratXes6yWveo3GJ58VMPmVCvqaoO+KxzsPIfKqHDiJbnk8ddYhp3kVFoYhCyMNa2NS
-         nz8IZ4Iw3dM2U/lfIjFWwW4vizFexHKsIXXmarV7rssdqJW0vvScOXigFsufGzDEQ2xJ
-         7xfuZFZ35MESalCU8ympnYPQ+ES1pfVoWCREIA+1dw62agvb7FvKSFvb5Z8g2NVTGiHO
-         uaICggvFEVQbQfPHyDHoZHxpS0nGSPNxc1ShsBKYGymOz3RDnxNsJHahigKjKECqOdos
-         69SgtnrTttpGBxME9k6vgJCD+4ua3IZgG3OFyEpSbQCo1XSuqiRGOBKtZeVd+ssFytu3
-         UpOA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786469744; x=1787074544; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gwkanNiJJOt3W9zGrZeGCByYdRnaM6Axwx+xtbIB3o4=;
-        b=a/O29S4r4YoiuC7rytL2/s0OUubS9cRYOFqtGA3gM5dRi2l9ALGBhBocGJUbOyhxpV
-         vm7HReS0JgnnySLie/hPJ2iEpN2FeI6ox43ORP+/hC+WkpLGwaDWH9ySqkNZOC59/tVL
-         KyIfo09xe8KgRJtKfSNYhJarXvX5eIjA0Uj5QXIk02YOKY6mLo0rxxBRN2UNAICUzo6Y
-         6UWoiwYhAayjIoEnJ+NWBaikTWA5OUNns7qqgFZS+cocILxa2/Voqw7/waAcYINPgHiJ
-         nW+oH6BveMgP/OUo+0ndNzzzskDRG4ZR1va418cvCp9ioT1tRsydhIA2eyQA/Ffq/+oL
-         zPkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786469744; x=1787074544;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gwkanNiJJOt3W9zGrZeGCByYdRnaM6Axwx+xtbIB3o4=;
-        b=Z1MRBj9B8rei/bw4gJjQgCu02oCSrdyvUSINXkRWBDGWk3kIyWoehqyRnDLQjZsYfv
-         hv0/4QcCaPT0RDRUlnaNh9BrLhCayBJkW+WL8uzMYSSdfKiTyxP/H5pPd8aLZb/Vf9/E
-         pXd8xzai9ktEs4HHn+GsuKsjeKqZZs+bfuJ7hiL0RxJMVEzvFTfmH8U5nI8+aIeOz4uA
-         HilACnpdQl6e0hcGkZSKzeKjInQlguiRtBSH+C5gNaSVoDtP6WGXRpr7tgN15hvNMPjd
-         blTI9jYr2t4WyJhhEwAd2okv0GL3w/aFsshh4wqlq09413/A5R7ULK3q0TwDQkRfDhyz
-         5rtg==
-X-Forwarded-Encrypted: i=1; AHgh+RrMiWqC7Ol5V8xm49F7EUDQwi3KVqJX3oxGRcb1rNlsPyCki9PzwEbgtpylOemILK1VdEMVoA3t8d8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5KNGAiyvdZ1zPOzccZauuQD1Juqt4RfoXeqClJuSE8WgiDOa9
-	qTrD81iS6eQZJdZMxgBH7PrV0ghl4oShOwaDTZoU5NyIXetFscBunzjgg3Z6YBqkK073tOWH2Y1
-	EePRORNmsNuYCAhasdbStxn38dWT1A7yQPtA8irqo
-X-Gm-Gg: AR+sD11mxEsSV4mthbLAU3XebrY8IZ4Ce/7sDUqoEFwfdkS0B47tuy6z/b4cwWrJ6rW
-	MJmxomtc2gVxUceQghzUEpMY6LDPbkk93GgJyTGkhUq5stvDmAntwWOeMQ0exE5ogPBFH2SUofu
-	U4o10Qv/8FWi0hoUoNqOPr1ZbqyWgAwLjfnop8h5dQXLi8s/QSFerxvASV+ma5tT7xE3DSJVgbh
-	pEwWrY3wpOYaSWzVIvcBF3fm7+4BqqQhO9nLIAybC724NWa4G4gCJpij9InYpuSDKG3T9qwpSYZ
-	SL7jM7Z8wLyjcIRbe/26Znqp23Ynr/bNJSB2BRopVkQU83KEaILHSs/nK+H8kAP7Q7bRtmEnCM5
-	zGH1TfUlQNnwK1oY/pVpPGfUBfbLsptbZaHemZpC9yHITug==
-X-Received: by 2002:a05:6a20:9146:b0:3b4:9171:2573 with SMTP id
- adf61e73a8af0-3cc37e9e740mr1534763637.37.1786469743361; Tue, 11 Aug 2026
- 10:35:43 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 11 Aug 2026 10:35:42 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 11 Aug 2026 10:35:42 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <anqqKH6kuwpvuwp9@yzhao56-desk.sh.intel.com>
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-11-2fc18ee6d3ba@google.com>
- <anZ4W9o5pTWIEgMY@yzhao56-desk.sh.intel.com> <anj2bPrGqzZgZWMF@yzhao56-desk.sh.intel.com>
- <CAEvNRgFzRj_=GVy8T4P8ehhQjYomYxkngzwtKBF0iEL0Cv6fuQ@mail.gmail.com>
- <anp1I64K0KeyQuyo@yzhao56-desk.sh.intel.com> <CAEvNRgFWcndQKJE_q+ZATFZEMYd=6uRLygozLvg7L77bPX0cEQ@mail.gmail.com>
- <anqqKH6kuwpvuwp9@yzhao56-desk.sh.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TTpVjpRR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1401F000E9;
+	Tue, 11 Aug 2026 17:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786469800;
+	bh=ovqsCP+te5b6m0rzBKx7ArddWmlNyNr7xBcwXmKAcRc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TTpVjpRRcay3bDQfGq4t41rGRV5opcKp3iYDL1FyUe3PyWTGqAvI+a1M8h+2AWa8B
+	 rVPzjN4+Isl4AM1/ITuEVlYKvluPVjBst47BMeBP4+b6S3QZzR0zFuGgHrzDPcrco/
+	 wsf2AlNVHtwj4GyL8cky49S+mRCm7uBHxialkbfbaosSHAsHvHuGCexU8Xmmx7i/Gn
+	 U+lL8rVekwsiyZdvTWGZVQrycIvX3WhPyksFay+iz9V8at0VcqA6rlgq9X5FE4duwb
+	 A1UUCZoAeiFUSFCzrCPoICO7VV8XTxgFzI20JvljU2D8owSEB3SXqsjhxF8/xeQvSv
+	 vBCWaD+poMchA==
+Date: Tue, 11 Aug 2026 10:36:39 -0700
+From: Wei Liu <wei.liu@kernel.org>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFC 2/2] PCI: hv: Add vPCI device reset support
+Message-ID: <20260811173639.GA2714057@liuwe-devbox-debian-v2.local>
+References: <20260724230844.3259741-1-wei.liu@kernel.org>
+ <20260724230844.3259741-3-wei.liu@kernel.org>
+ <SN6PR02MB4157BC49B4B8A6FD7C7B5FEED4DD2@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 11 Aug 2026 10:35:42 -0700
-X-Gm-Features: AUfX_mzVH_IxH_llFqF_n5qSatkkY6boTgbwv62Y4hoT6hGdHCS9TGJ6hA5mdxs
-Message-ID: <CAEvNRgGWDY_fxbyBM-5sMdYMevMe0HzVP9kbC1cCGLE_dV=_Gw@mail.gmail.com>
-Subject: Re: [PATCH v10 11/41] KVM: guest_memfd: Ensure pages are not in use
- before conversion
-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SN6PR02MB4157BC49B4B8A6FD7C7B5FEED4DD2@SN6PR02MB4157.namprd02.prod.outlook.com>
 
-Yan Zhao <yan.y.zhao@intel.com> writes:
+On Tue, Aug 11, 2026 at 04:10:33PM +0000, Michael Kelley wrote:
+> From: wei.liu@kernel.org <wei.liu@kernel.org> Sent: Friday, July 24, 2026 4:09 PM
+> > 
+> > Hyper-V vPCI protocol version 1.5 adds a RESET_DEVICE request for projected
+> > PCI functions. Negotiate the new protocol version and issue the request
+> > through the vPCI VMBus channel from the PCI controller reset callback.
+> > 
+> > Use the existing VMBus response path. Return -ENOTTY when the host reports
+> > STATUS_NOT_SUPPORTED so PCI core may try another reset method.
+> > 
+> > Signed-off-by: Wei Liu <wei.liu@kernel.org>
+> > ---
+> >  Documentation/virt/hyperv/vpci.rst  |  2 +-
+> >  drivers/pci/controller/pci-hyperv.c | 61 +++++++++++++++++++++++++++++
+> >  2 files changed, 62 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/virt/hyperv/vpci.rst b/Documentation/virt/hyperv/vpci.rst
+> > index b65b2126ede3..6bfee7225c14 100644
+> > --- a/Documentation/virt/hyperv/vpci.rst
+> > +++ b/Documentation/virt/hyperv/vpci.rst
+> > @@ -65,7 +65,7 @@ exchange messages with the vPCI VSP for the purpose of setting
+> >  up and configuring the vPCI device in Linux.  Once the device
+> >  is fully configured in Linux as a PCI device, the VMBus
+> >  channel is used only if Linux changes the vCPU to be interrupted
+> > -in the guest, or if the vPCI device is removed from
+> > +in the guest, or if the vPCI device is reset or removed from
+> >  the VM while the VM is running.  The ongoing operation of the
+> >  device happens directly between the Linux device driver for
+> >  the device and the hardware, with VMBus and the VMBus channel
+> > diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+> > index cfc8fa403dad..d3c0fd5e1d8e 100644
+> > --- a/drivers/pci/controller/pci-hyperv.c
+> > +++ b/drivers/pci/controller/pci-hyperv.c
+> > @@ -68,6 +68,7 @@ enum pci_protocol_version_t {
+> >  	PCI_PROTOCOL_VERSION_1_2 = PCI_MAKE_VERSION(1, 2),	/* RS1 */
+> >  	PCI_PROTOCOL_VERSION_1_3 = PCI_MAKE_VERSION(1, 3),	/* Vibranium */
+> >  	PCI_PROTOCOL_VERSION_1_4 = PCI_MAKE_VERSION(1, 4),	/* WS2022 */
+> > +	PCI_PROTOCOL_VERSION_1_5 = PCI_MAKE_VERSION(1, 5),	/* GE, device reset */
+> 
+> I wish there were a better way to identify the Hyper-V version than internal
+> code names that mean nothing to the Linux community. "GE" refers to
+> Germanium, which would be the Build 26100 series, right?
+> 
 
-> On Mon, Aug 10, 2026 at 07:17:11PM -0700, Ackerley Tng wrote:
->> Yan Zhao <yan.y.zhao@intel.com> writes:
->>
->> > On Mon, Aug 10, 2026 at 02:06:06PM -0700, Ackerley Tng wrote:
->> >> Yan Zhao <yan.y.zhao@intel.com> writes:
->> >>
->> >> >
->> >> > [...snip...]
->> >> >
->> >> >> > @@ -542,8 +576,21 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
->> >> >> >
->> >> >> >  	mas_init(&mas, mt, start);
->> >> >> >  	r = kvm_gmem_mas_preallocate(&mas, attrs, start, nr_pages);
->> >> >> > -	if (r)
->> >> >> > +	if (r) {
->> >> >> > +		*err_index = start;
->> >> >> >  		goto out;
->> >> >> > +	}
->> >> >> > +
->> >> >> > +	if (to_private) {
->> >> >> > +		unmap_mapping_pages(mapping, start, nr_pages, false);
->> >> >> > +
->> >> >> > +		if (!kvm_gmem_is_safe_for_conversion(inode, start, nr_pages,
->> >> >> > +						     err_index)) {
->> >> >> Note: conversion failures could occur if another vCPU is attempting to map a GFN
->> >> >> within this range.
->> >> >>
->> >> >> CPU 0 (setting attributes)          CPU 1 (attempting to map)
->> >> >> --------------------------          --------------------
->> >> >>                                  A: mmu_invalidate_retry_gfn_unsafe
->> >> >>                                     filemap_invalidate_lock_shared
->> >> >>                                     __kvm_gmem_get_pfn ==> folio refcount++
->> >> >>                                     filemap_invalidate_unlock_shared
->> >> >>
->> >> >> filemap_invalidate_lock
->> >> >> filemap_get_folios
->> >> >> check folio_ref_count(folio) ==> Not match !!
->> >> >> filemap_invalidate_unlock
->> >> >>
->> >> >>                                  B: read_lock(&vcpu->kvm->mmu_lock);
->> >> >>                                     is_page_fault_stale
->> >> >>                                     kvm_mmu_finish_page_fault ==>folio recount--
->> >> >> 				    read_unlock(&vcpu->kvm->mmu_lock);
->> >> >>
->> >> >>
->> >>
->> >> Thanks for reporting this!
->> >>
->> >> >> Retrying in kvm_gmem_is_safe_for_conversion() or moving the invocation of
->> >> >> kvm_mmu_invalidate_start() + kvm_mmu_invalidate_range_add() to an earlier
->> >> >> position does not help as long as CPU 1 stays at stage A.
->> >> >>
->> >>
->> >> IIUC CPU 1 isn't blocked by a conversion so stages A and B should
->> >> complete fine, and CPU 0 would already be retrying for other reasons
->> >> anyway, like speculative refcounts from elsewhere in the kernel, so the
->> >> conversion would take longer but it'd work out.
->> >>
->> >> Is that understanding right, that this doesn't completely break
->> >> conversions?
->> > It depends on the timing. The max retry count cannot be expected under unlucky
->> > conditions.
->> >
->> >> >> So, should we avoid this failure?
->> >> >> e.g., by moving filemap_invalidate_unlock_shared() from stage A to after
->> >> >> stage B?
->> >>
->> >> Not really sure about this, how will control go back to guest_memfd
->> >> after the fault finishes for guest_memfd to unlock the filemap?
->> > I don't understand your question. But I find this solution is less ideal than my
->> > below proposal.
->> >
->>
->> When kvm_gmem_get_pfn() is called from kvm_mmu_faultin_pfn_gmem(), KVM
->> MMU takes over from there, there isn't another call when KVM MMU
->> finishes mapping the page into the stage 2 page tables back into
->> guest_memfd.
->>
->> After stage B, how is filemap_invalidate_unlock_shared() going to be
->> called? Do you mean filemap_invalidate_unlock_shared(folio->mapping)?
-> Something like this. However, since this would cause the shared filemap
-> invalidate lock to be held longer, conversions may have to wait for any on-going
-> faults regardless of the GFN range, which I don't quite like.
->
->> I think filemap_invalidate_unlock_shared(folio->mapping) is a little
->> asymmetric...
->>
->> >> > Or what about having KVM always treat gmem page as non-refcounted, and have
->> >> > kvm_gmem_get_pfn() put folio refcount before releasing the filemap invalidate
->> >> > lock?
->> >> > Below patch is applied and tested at the end of this series.
->> >> >
->> >> > From 8c2f29bc15bceb6a8fa103cf2585ec11354fd74e Mon Sep 17 00:00:00 2001
->> >> > From: Yan Zhao <yan.y.zhao@intel.com>
->> >> > Date: Mon, 10 Aug 2026 06:24:52 +0800
->> >> > Subject: [PATCH] KVM: guest_memfd: Return gmem page as non-refcounted
->> >> >
->> >> > Have kvm_gmem_get_pfn() put gmem page refcount before releasing filemap
->> >> > invalidate lock and return the gmem page as non-refcounted. This avoids
->> >> > gmem memory attribute conversion failure caused by temporarily holding gmem
->> >> > page after faulting and before completing mapping.
->> >> >
->> >> > guest_memfd always holds gmem page in filemap cache. TDX does not increment
->> >> > gmem page refcount when having gmem pages mapped in S-EPT. Additionally,
->> >> > as gmem pages are not swappable, setting dirty or accessed bit is not
->> >> > necessary. Therefore, there's no need to treat gmem pages as refcounted
->> >> > pages.
->> >> >
->> >> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
->> >> > ---
->> >> >  virt/kvm/guest_memfd.c | 5 ++---
->> >> >  1 file changed, 2 insertions(+), 3 deletions(-)
->> >> >
->> >> > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
->> >> > index 2115e73e455a..e357b4ffa777 100644
->> >> > --- a/virt/kvm/guest_memfd.c
->> >> > +++ b/virt/kvm/guest_memfd.c
->> >> > @@ -1332,11 +1332,10 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
->> >> >  #endif
->> >> >
->> >> >  	folio_unlock(folio);
->> >> > +	folio_put(folio);
->> >> >
->> >> >  	if (!r)
->> >> > -		*page = folio_file_page(folio, index);
->> >> > -	else
->> >> > -		folio_put(folio);
->> >> > +		*page = NULL;
->> >> >
->> >> >  out:
->> >> >  	filemap_invalidate_unlock_shared(file_inode(file)->i_mapping);
->> >> > --
->> >> > 2.43.2
->> >>
->> >> Hmm going with the above CPU 0 and 1 illustration, if instead CPU 0
->> >> truncates the folio and the folio ends up being freed, then KVM's MMU
->> >> has a pointer to a page that is already
->> >> freed. kvm_release_faultin_page() is passed the pointer to this page and
->> >> will dereference the page.
->> > Not really. It's just like KVM mapping non-refcounted pages.
->> > kvm_release_faultin_page() does not access the non-refcounted pages.
->> > The invalidate protocol also ensures no mapping of stale pfn.
->> >
->> > As below, if CPU 0 truncates the folio, it needs to hold filemap invalidate lock,
->> > add KVM mmu invalidate range, hold mmu_lock, zap KVM mappings before the
->> > truncation.
->> >
->> >
->> > CPU 0                                      CPU 1
->> > -----                                    --------
->> >                                          Save fault->mmu_seq
->> >
->> >                                      B1. filemap_invalidate_lock_shared
->> >                                          __kvm_gmem_get_pfn
->> >                                          folio_put
->> >                                          filemap_invalidate_unlock_shared
->> >
->> > 				     B2. read_lock
->> >                                          is_page_fault_stale
->> >
->> >                                      B3. kvm_tdp_mmu_map
->> >                                      B4. kvm_mmu_finish_page_fault
->> >                                          read_unlock
->> > A1. filemap_invalidate_lock
->> >     kvm_gmem_invalidate_start
->> >
->> > A2. write_lock
->> >     zap KVM MMU
->> >     write_unlock
->> >     truncate
->> >
->> > A3. kvm_gmem_invalidate_end
->> >     filemap_invalidate_unlock
->> >
->> >
->> > A1 occurs either before or after B1.
->> > 1) If A1 occurs before B1, B1 will find the correct pfn.
->> > 2) If A1 occurs after B1 and before B2,
->> >    a. if A2 is before B2, B2 must find the fault is stale, so it's fine.
->> >    b. if A2 is after B2, A2 must be after B4 as well. So, accessing stale pfn
->> >       in CPU 1 is fine.
->> > 3) If A1 occurs after B2 and before B3,
->> > 4) If A1 occurs after B3 and before B4,
->> > 5) If A1 occurs after B4,
->> >    A2 must be after B4 (for 3-5 conditions).
->> >    So, accessing stale pfn in CPU 1 is fine.
->>
->> It's not about the stale PFN, if there's no refcount on the page
->> returned from B1, then after A3, the page can be freed.
->>
->> Contractually, I think KVM is allowed to reference the page?
->> kvm_release_page_clean() calls kvm_set_page_accessed() on the page
-> In my patch, "*page = NULL;" is returned in kvm_gmem_get_pfn(). So,
-> fault->refcounted_page is NULL. With it, kvm_release_faultin_page() does
-> not access the faultin PFN or the page.
-> So, no worry about UAF.
->
+Yes, you're right about Germanium. I see the numbers also match, though
+I don't have a clear idea that the numbering will stay the same.
 
-Oh sorry, I missed that. I did see *page = NULL but I didn't connect the
-dots.
+> >  };
+> > 
+> >  #define CPU_AFFINITY_ALL	-1ULL
+> > @@ -77,6 +78,7 @@ enum pci_protocol_version_t {
+> >   * first.
+> >   */
+> >  static enum pci_protocol_version_t pci_protocol_versions[] = {
+> > +	PCI_PROTOCOL_VERSION_1_5,
+> >  	PCI_PROTOCOL_VERSION_1_4,
+> >  	PCI_PROTOCOL_VERSION_1_3,
+> >  	PCI_PROTOCOL_VERSION_1_2,
+> > @@ -90,6 +92,7 @@ static enum pci_protocol_version_t pci_protocol_versions[] = {
+> >  #define MAX_SUPPORTED_MSI_MESSAGES 0x400
+> > 
+> >  #define STATUS_REVISION_MISMATCH 0xC0000059
+> > +#define STATUS_NOT_SUPPORTED     0xC00000BB
+> > 
+> >  /* space for 32bit serial number as string */
+> >  #define SLOT_NAME_SIZE 11
+> > @@ -136,6 +139,7 @@ enum pci_message_type {
+> >  	PCI_BUS_RELATIONS2		= PCI_MESSAGE_BASE + 0x19,
+> >  	PCI_RESOURCES_ASSIGNED3         = PCI_MESSAGE_BASE + 0x1A,
+> >  	PCI_CREATE_INTERRUPT_MESSAGE3   = PCI_MESSAGE_BASE + 0x1B,
+> > +	PCI_RESET_DEVICE                = PCI_MESSAGE_BASE + 0x1C,
+> >  	PCI_MESSAGE_MAXIMUM
+> >  };
+> > 
+> > @@ -1397,10 +1401,66 @@ static int hv_pcifront_write_config(struct pci_bus *bus,
+> > unsigned int devfn,
+> >  	return PCIBIOS_SUCCESSFUL;
+> >  }
+> > 
+> > +static int hv_pcifront_reset(struct pci_dev *pdev, bool probe)
+> > +{
+> > +	struct hv_pcibus_device *hbus =
+> > +		container_of(pdev->bus->sysdata, struct hv_pcibus_device, sysdata);
+> > +	struct pci_child_message reset = {};
+> > +	struct hv_pci_compl comp_pkt;
+> > +	struct pci_packet pkt = {
+> > +		.completion_func = hv_pci_generic_compl,
+> > +		.compl_ctxt = &comp_pkt,
+> > +	};
+> > +	enum hv_pcibus_state state;
+> > +	int ret;
+> > +
+> > +	/* Device reset was added in vPCI protocol version 1.5. */
+> > +	if (hbus->protocol_version < PCI_PROTOCOL_VERSION_1_5)
+> > +		return -ENOTTY;
+> > +
+> > +	/* Hyper-V exposes projected functions directly on the root bus. */
+> > +	if (!pci_is_root_bus(pdev->bus))
+> > +		return -ENOTTY;
+> > +
+> > +	if (probe)
+> > +		return 0;
+> > +
+> > +	/* Do not take state_lock: eject holds it while removing/locking pdev. */
+> > +	state = READ_ONCE(hbus->state);
+> > +	if (state != hv_pcibus_probed && state != hv_pcibus_installed)
+> > +		return -ENODEV;
+> > +
+> > +	init_completion(&comp_pkt.host_event);
+> > +	reset.message_type.type = PCI_RESET_DEVICE;
+> > +	reset.wslot.slot = devfn_to_wslot(pdev->devfn);
+> > +
+> > +	ret = vmbus_sendpacket(hbus->hdev->channel, &reset, sizeof(reset),
+> > +			       (unsigned long)&pkt, VM_PKT_DATA_INBAND,
+> > +			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = wait_for_response(hbus->hdev, &comp_pkt.host_event);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (comp_pkt.completion_status == STATUS_NOT_SUPPORTED)
+> > +		return -ENOTTY;
+> 
+> I tried this patch series in a linux-next20260726 build, and running on a D16lds v6
+> VM in Azure. The host hypervisor version is 10.0.26100.1652-1-0, and the VM
+> has a paravisor with HvLite.
+> 
+> This VM has an NVMe OS disk, two NVMe temp disks, and a MANA network controller.
+> Absent this patch set, the temp disks and MANA report the "reset_method" as "flr",
+> while the NVMe OS disk reports no reset methods. With this patch set, "controller"
+> is added as a reset method for all. The NVMe disks and MANA network controller
+> are probed with PCI protocol 1.5. That's all good and as expected (though I'm not
+> sure why the NVMe OS disk doesn't support flr).
+> 
+> I then did "echo 1 >reset" for the NVMe OS disk. This returns a -ENOTTY error
+> from the above line of code. So the host hypervisor (or paravisor?) is saying that
+> the new PCI_RESET_DEVICE message isn't supported. Presumably this is new
+> functionality that hasn’t been rolled out to where I'm running this Azure VM.
+> That's fine too.
+> 
 
-Wait but in the above trace, if CPU 1 got the page correctly, wouldnt it
-take the !r branch where page is not set to NULL? It's only later that
-CPU 0 truncates the page, but by that time KVM MMU already holds a
-non-NULL page pointer?
+That's right. It is not yet rolled out.
 
-Unless on both branches guest_memfd just doesn't provide the page to KVM
-MMU?
+> But interestingly, the NVMe OS disk did a Linux-side reset anyway. That's
+> because of this stack trace from the "echo 1 >reset" command:
+> 
+> [   99.642483]  nvme_try_sched_reset+0x25/0x60 [nvme_core]
+> [   99.642495]  nvme_reset_done+0x1c/0x40 [nvme]
+> [   99.642499]  pci_dev_restore+0x35/0x70
+> [   99.642503]  pci_reset_function+0x100/0x140
+> [   99.642506]  reset_store+0x5a/0xa0
+> [   99.642508]  dev_attr_store+0x16/0x30
+> [   99.642512]  sysfs_kf_write+0x71/0x80
+> [   99.642516]  kernfs_fop_write_iter+0x140/0x1d0
+> [   99.642518]  vfs_write+0x313/0x420
+> [   99.642522]  ksys_write+0x68/0xe0
+> [   99.642525]  __x64_sys_write+0x18/0x20
+> [   99.642527]  x64_sys_call+0x1700/0x21c0
+> [   99.642530]  do_syscall_64+0x8d/0x440
+> [   99.642532]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> 
+> Even though __pci_reset_function_locked() failed, the subsequent
+> code in pci_reset_function() calls nvme_try_sched_reset(), which puts
+> nvme_reset_work() on a workqueue.  nvme_reset_work() tears
+> things down on the Linux side and rebuilds, and the message
+> 
+>     nvme nvme0: 16/0/0 default/read/poll queues
+> 
+> is output.
+> 
+> It's not immediately clear to me how to resolve this issue, so
+> I'm just pointing it out. :-(
+> 
 
->> (UAF?). Not sure which other KVM architectures reference the struct page
->> itself. Are we going to teach the rest of KVM to not reference and not
->> do kvm_release_page_*?
-> It's just like how KVM maps non-refcounted pages.
-> And guest_memfd actually asks consumers (like TDX) not to take page refcount.
-> __kvm_gmem_populate() also puts the folio refcount before invoking
-> filemap_invalidate_unlock().
->
+Is resetting the OS disk a real use case?
 
-I guess long term this is what guest_memfd would like, that KVM should
-just be getting PFNs from guest_memfd.
+I'm not sure what magic is happening behind this.
 
->> Would like to see what Sean thinks of this. Either way, is it okay to
->> follow up after conversions lands?
-> Let's see what Sean thinks of this :)
-> I raised this because the issue was encountered by one TDX's stress selftest.
+Wei
 
-Which stress selftest is this? I can try running this on my side too.
-
-> I have no strong opinion on whether it should be fixed after this series lands.
-> But the fix I proposed is quite small :)
-
-Small code change, big implications! Might be nice to have this for the
-future where guest_memfd no longer hands out pages.
+> Michael
+> 
+> > +
+> > +	if (comp_pkt.completion_status) {
+> > +		pci_err(pdev, "Hyper-V device reset failed: %#x\n",
+> > +			comp_pkt.completion_status);
+> > +		return -EIO;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /* PCIe operations */
+> >  static struct pci_ops hv_pcifront_ops = {
+> >  	.read  = hv_pcifront_read_config,
+> >  	.write = hv_pcifront_write_config,
+> > +	.reset = hv_pcifront_reset,
+> >  };
+> > 
+> >  /*
+> > @@ -1996,6 +2056,7 @@ static void hv_compose_msi_msg(struct irq_data *data,
+> > struct msi_msg *msg)
+> >  		break;
+> > 
+> >  	case PCI_PROTOCOL_VERSION_1_4:
+> > +	case PCI_PROTOCOL_VERSION_1_5:
+> >  		size = hv_compose_msi_req_v3(&ctxt.int_pkts.v3,
+> >  					cpu,
+> >  					hpdev->desc.win_slot.slot,
+> > --
+> > 2.53.0
+> > 
+> 
