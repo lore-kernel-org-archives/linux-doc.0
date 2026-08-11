@@ -1,197 +1,212 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723123358AD
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 17:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786468688; cv=pass; b=iM+UOugVsnePwLcGWxWbEI6JRYZc6iejTolcDelKN8p6Ef+1u59/21u/CfqzgIN37w1OzeKPEAOCeVwT/EVItoGbpzIA8LYn02OECs0/ABL1QaXd3uN41d8ZzxbmSW7LmPZttjn+tX9ivLzmJ46jgb/yMNeBonY14XQuhS9wwOk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786468688; c=relaxed/simple;
-	bh=mCw4EcdCBFDHSFVDpulqFfKL6PaPg9wrcOVbtLUExCM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uQ9Jjjgx2Iz4ZNL3B6+pyKbppOch+Wz0E+VYeg2TFDwsHbs3iNOo+JTuF9EGZlAlQog0QVgYCFnp3zRiegzW1UcQYedybitwFCvBRIv5FED4R8e/1ztDheudR2+eWImh3FseCXsq1r2KqBG5LRkFrOD0T/MLYgfayIT3SzXR+Ns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2q2jRVq; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD44335066;
+	Tue, 11 Aug 2026 17:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786468707; cv=none; b=e+nhtiapdZhPa7+xnkbppGpkGFnsZNE6BLi3+IUuP79qTsm/YVYg6hgdBMmErSFbsTJe6R4KPzvlo43ejFMOkOwClZlKiuuXaGbQ7Y5QKpseLMSaKWBeG3k2Mf6eg0IiMdwRDA8D7cGlGi1MfyhQ3l7uCUz12eBR+cDQ7kW4A3I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786468707; c=relaxed/simple;
+	bh=yabOVscRtLsJ60EcC+RTYQeed7LX9IVuCx/CQSf7Yo4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kkA4K8LpLQFXCPTj7k9LrlWQMBt99zCfZ6uXxtDj1Wmmp1VVqF8p1TE3Zzfg8vFLFg4ONL414YlbQSdWKC8O9BJKSFKy6dp3Yp6f28oCjoCRicYcU6DJQoh2hOHlH9Qj99+lbkryM0VYEw+6grtNHQ0f/bzFttmT/DWnQVxR15g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZDXi7rQN; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2q2jRVq"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so232435e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 10:18:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786468685; cv=none;
-        d=google.com; s=arc-20260327;
-        b=A3GJat0cU6CBTLoWnxMf+QgocD2HSO6EElDhVSearp+XNIUDToe95Y9j7lWxVFxf9j
-         C+E1UNPreGGqGFRmiunt+fs+kZVlvarte1QHxqLMjbnI6xuO9BWN/xxW/bP8S/2Y1KqV
-         uM7lJCM+HGg/3FjyF8OaSm1P9zuqUPJaHhLaGClLK+F1mAo3B5r6HIYB7gC8PWMcGkDm
-         aGuPh5+g75kKBc/crdBx8HD1QAW/+c6rwT+56gKVYkxMSEfn/uyRJKKj/Od+hgZZr2YC
-         fAUgsFkOA62/YZ2Syl6vwNsuuyIRpLcssPjN1GI3WY4K916vToJzpk2akN3R6AJX6Ck8
-         ZquA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=g1lMjqfyM2pcqzkOWtKU+Em6fjGGxptW037mrJGCaz8=;
-        fh=F43JAXjxEPX/iFmFJkOC0icWdXMW7iRivTuZ2UVjWR8=;
-        b=GWdAzYDahqjAcCjFxBk5jAJ8QEDAkVzHxFMl4DFRldIJ27oyv1B7DORsAuXOnGoHpe
-         kVBdJHWBchDzOOUs7V+BGIJiFWEJnOA9vaZotGIsnYfhEpke6Gk+OAndBJUp7w6Lu5Q1
-         wp8Lw84qsM9MHKXPk/1X0V7XaP57XKUs0Tmxji6ihfic6AUBhVUyqxjx/b3NYk0d5ADi
-         EEzMjOPkDxZqR2lSvecinkdfLq0tn+Txoega32fS3JpvEGo1NMQEA+aKPlIdWW7MTobW
-         +LfV9m9Ywa+atqbyuigi+UpczTcU8V2mrTviXZR8M4ezRCklCeEpY9qEjGBMpYhpFy1q
-         R5vw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786468685; x=1787073485; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=g1lMjqfyM2pcqzkOWtKU+Em6fjGGxptW037mrJGCaz8=;
-        b=G2q2jRVq42dn48MrWGkGN3334xkaAh5dnLN98YznKNr4HRmHHQwQ015XyOrJswXooH
-         fJ8xDx2pkdmFayJ/C5w3+sO86xqdXIGy73A55ukY1NC5OfRqbZa5jy6AgUkG1mNruSnF
-         SyW4TdMClojdtKcN0lb9OnDACku2Exz+Zh9h6H/7TI3Bh6xtui1hbNT9oNyTQEpNv8fo
-         PcL7CJCWBaAyRUWhlSB3SjYMc9Eq6ws3TyWzFRAbx9cPZ9qt+goFV3/qOttp4cP9tG/P
-         tPplN0anwwM7JJ5eVof5wAZDpGoOVR367KoyT7m0/qyYI/4Z2vkSAhwONk1Byn2QFuzx
-         124Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786468685; x=1787073485;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g1lMjqfyM2pcqzkOWtKU+Em6fjGGxptW037mrJGCaz8=;
-        b=DS02G2ECMWc4ph59zG7r/7iMugMQSBDjHLyd4Rvq7dFk9eK/oPTRNry2/e+jWT6O8B
-         w3lIoMyWeUMhiYYO2BUOdDw75Ak3C/41SQ+5VFpojFeuRl5jOHeieKtdbDnyaFni4j1n
-         ecVi72EcsCfBO2Vf0ug+uBid/x9wpQhciy2LjnR6RztePniBrnnXQ/c4J9Efty9nXSdK
-         tjQJWLCeURIKcndFBYkUhWBTDupJIiGEaZB3+8M8fLbAI8BdJVcRlTVb3zzii3B7AnQP
-         7Kg97jFVEI7MF0HsdM1WvipFAY4tUDSqF2A1HKytHMCV8T7j1Ua4bGgTIc+Ere3zvUGN
-         3ShA==
-X-Forwarded-Encrypted: i=1; AHgh+RrE7s6GxI5wGZL+ghzPfJCZceAx/fDNgh5uiRHVgagnAehfdejps2tTJqzzRqE6dve/IDueNREjAV8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0HyplAxvhY7U2OQ7KLyCENU+3KuP2E+h1/j3IHbbkzNwvLOLM
-	TXXUfp5NTx8d+tHK4ecU8oDLF2QZnZVPoseWcdcbPgbNisGFS7eCyniygQmG9WWh+vVie+IFr9X
-	AmQNRM0x5f7PsAyy5RxgrwneF3uJMsLA=
-X-Gm-Gg: AR+sD122RC6M+761V4t9qkoOPEp3dt3tZyM1kALmRGnrCMJie5VPqrSGOyyaudheghL
-	IUvGF0JBBLPn4YV83RvoaxP44u/6kV2nMy5qu25BGH3Z0lD4oqLHjxHpijD4KqR9fS1pt9MCT5W
-	HPVgO/0pGBax1pOK5TguVnNvSC2/j6CIonVyTybnGnWBnHDlUc+TRX5pEQKgpOb3eimAXH5od49
-	HADD6gxyhdRhnbMZ682N1fKFtQ8fM5YMlmjZucSwf0o7GayYUqPLPu/q9niPzdGHwKBtkLTK8/y
-	5agILp1P54/72ouq2kvzxm+NKeXsjfaPhuJulcRGWsBNEpaQrUE/LqLXA30SlqK9ZSdXD3hlFuI
-	2
-X-Received: by 2002:a05:600c:4593:b0:495:5858:8101 with SMTP id
- 5b1f17b1804b1-4997846ac04mr68274895e9.15.1786468684401; Tue, 11 Aug 2026
- 10:18:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZDXi7rQN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=yabOVscRtLsJ60EcC+RTYQeed7LX9IVuCx/CQSf7Yo4=; b=ZDXi7rQNBsLe/Fy7S1rXTgOeNK
+	TNdcKg8GGTMPvy3ojzbCTsDah366jjbrqurq6/0hPOVAU23O4xaT8uwSJ32yhKGit+t4ckFJtaw6t
+	pSZL94DFi8foAJdSsFrbjvKqR0ZTgHShBWuw43ro/MnKpBUOuryTfXEGMZWfaDQ62VBDVFk+aJivU
+	yAKYjRa9BXShODtL1rRMqRojXeZNjQcf1QxtnswodmRH0cYME/oSG374xjx5UWdnkQrRVGKs2PteF
+	G69jYW9xZfNfNaSsuaG/HpZaWJkV6MbqU/wTiqLxBNgNCBQFZVYFPTbGc7QSvvzqpCLht4rLiFIci
+	OTFTKCwg==;
+Received: from 54-240-197-235.amazon.com ([54.240.197.235] helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wtq75-00000000l9e-1Ota;
+	Tue, 11 Aug 2026 17:18:07 +0000
+Message-ID: <f5dc701cf3319a7b3c8fd1497f26d051aa9fa3ba.camel@infradead.org>
+Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when
+ TSCs are offset from each other
+From: David Woodhouse <dwmw2@infradead.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>,  Borislav Petkov	 <bp@alien8.de>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"	
+ <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross	
+ <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul
+ Durrant	 <paul@xen.org>, Jonathan Cameron <jic23@kernel.org>, Sascha
+ Bischoff	 <Sascha.Bischoff@arm.com>, Marc Zyngier <maz@kernel.org>, Joey
+ Gouly	 <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, Dongli
+ Zhang	 <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Date: Tue, 11 Aug 2026 18:18:01 +0100
+In-Reply-To: <antQYJvRxJxOjtut@google.com>
+References: <20260728144954.355376-1-dwmw2@infradead.org>
+	 <20260728144954.355376-18-dwmw2@infradead.org>
+	 <anoOz2rZ02KFk1l-@google.com>
+	 <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
+	 <ano6-gIZtqMfipiD@google.com>
+	 <bb9a12cc663130eb2caa8e839d0f6ca53d722d1c.camel@infradead.org>
+	 <ansuqrD2KwFuLWbV@google.com> <ansywxh0VX5rtfWc@google.com>
+	 <e256fa4af96e916ba30019cbba501fa896025fb0.camel@infradead.org>
+	 <antQYJvRxJxOjtut@google.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-UW2XW6iDoT/p3pb+WhA8"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806184254.3790858-1-nphamcs@gmail.com> <20260806184254.3790858-11-nphamcs@gmail.com>
- <20260806191958.44F881F000E9@smtp.kernel.org>
-In-Reply-To: <20260806191958.44F881F000E9@smtp.kernel.org>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 11 Aug 2026 10:17:51 -0700
-X-Gm-Features: AUfX_myfSmM-We7RZK14vgJtCA25PP9imNWJ2f-4bhH6ulFBjzqzSD-QM8ww2hc
-Message-ID: <CAKEwX=NB9LiX6t=MrkB7TgB31XK3FpLxFEb2_mSsY2mD-+NpFA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/11] mm, swap: defer memcg_table allocation for
- physical swap clusters
-To: sashiko-reviews@lists.linux.dev
-Cc: mkoutny@suse.com, hannes@cmpxchg.org, tj@kernel.org, 
-	Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Meta kernel team <kernel-team@meta.com>, Nhat Pham <nphamcs@gmail.com>, 
-	linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+
+
+--=-UW2XW6iDoT/p3pb+WhA8
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 6, 2026 at 12:19=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+On Tue, 2026-08-11 at 09:40 -0700, Sean Christopherson wrote:
+>=20
+> >=20
+> > FWIW in my local tree I've just extended the pvclock_migration_test to
+> > test precisely the thing you were concerned about: three vCPUs with
+> > divergent TSC offsets, migrated by setting each vCPU's TSC and then
+> > invoking KVM_SET_CLOCK_GUEST once, through vCPU0.=20
+>=20
+> I wasn't actually concerned about migration, I was concerned about time g=
+oing
+> backwards from the guest's perspective.
 
-Hmm seems like this is not sent to the list. I'll just cc the response
-to my original sent list...
+But KVM_[SG]ET_CLOCK_GUEST is *purely* for migration. And your variant
+just added a dependency on wallclock time back into it again, where
+wallclock should *only* be used for setting the TSC, and even then
+*only* for a live *migration* to a different host, not a live *update*
+via kexec/KHO on the same host, where the TSC should be restored as an
+offset from the host TSC.
 
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Critical] Deferring `memcg_table` allocation to `alloc_swap_scan_clust=
-er` under `local_lock` using `GFP_ATOMIC` causes an infinite loop under mem=
-ory pressure and violates allocation constraints.
-> --
->
-> > +#ifdef CONFIG_MEMCG
-> > +             /*
-> > +              * Lazy-allocate memcg_table on the first direct-use slot=
- of a
-> > +              * physical cluster.
-> > +              */
-> > +             if (IS_ENABLED(CONFIG_VSWAP) && folio &&
-> > +                 !folio_test_swapcache(folio) && !mem_cgroup_disabled(=
-) &&
-> > +                 !ci->memcg_table) {
-> > +                     ci->memcg_table =3D kzalloc_obj(*ci->memcg_table,
-> > +                                                   GFP_ATOMIC | __GFP_=
-NOWARN);
-> > +                     if (!ci->memcg_table)
-> > +                             goto out;
-> > +             }
-> > +#endif
->
-> [Severity: Critical]
-> Does this error path create an infinite loop under memory pressure?
->
-> If the GFP_ATOMIC allocation fails, we jump to the out label, which calls
-> relocate_cluster() and puts the unmodified cluster back on the list,
-> returning 0.
->
-> When called via this path:
->
-> cluster_alloc_swap_entry()
->   alloc_swap_scan_list(..., scan_all =3D true)
->     do {
->         ci =3D isolate_lock_cluster(si, list);
->         found =3D alloc_swap_scan_cluster(si, ci, ...);
->         if (found)
->             break;
->     } while (scan_all);
->
-> Won't alloc_swap_scan_list() continuously dequeue the exact same cluster
-> and fail the allocation indefinitely, since the cluster is never consumed
-> or discarded?
+--=-UW2XW6iDoT/p3pb+WhA8
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-Oh nice catch! It's a a bit of a rare construction. You need:
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+3jt9KdG+cqxHq/ln6zoRp+IAAAAAAAA=
 
-1. Vswap enabled.
 
-2. The physical swap clusters start out backing vswap entries.
-
-3. Then we use these same cluster to directly map to PTEs, bypassing
-vswap. This usually means vswap allocation fails (rare), or is disabled
-during runtime (rare).
-
-4. The deferred memcg_table (1KB per cluster IIRC) allocation must fail.
-
-Technically possible, but does not seem very likely, so I'll just do
-the minimum to not infinite-loop here: i.e if memcg_table allocation
-fails, just propagate that information up the call stack and
-short-circuit the list scan.
-
-We can add complexity (dropping the lock and retry allocation)
-if the rate of allocation failure is high enough in this case (which I
-doubt).
-
->
-> Additionally, alloc_swap_scan_cluster() runs with preemption disabled und=
-er
-> a local_lock. Does using GFP_ATOMIC here risk lock recursion? GFP_ATOMIC
-> includes __GFP_KSWAPD_RECLAIM, which wakes kswapd and can take scheduler
-> locks while preemption is disabled.
-
-I don't think this is correct.
+--=-UW2XW6iDoT/p3pb+WhA8--
