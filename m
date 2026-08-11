@@ -1,280 +1,919 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A72D353EEB
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 08:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6B7353EEB;
+	Tue, 11 Aug 2026 08:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786437098; cv=none; b=jZZDgv2B9mswF5rGGlku3RRmthPqQaLckGWD0KHDRvGB2bUb1OcSS9PpfifHSqa0hqQe7O5aMVtZRTvwDnsR/BdIM0TQa9THIgkvEhFT34FvgtzTbO6CVPSasQkEIqSbm/Ud55uH/ihs8rLCOLRV2az3C1XwPKDCsO+CwdE+AtU=
+	t=1786437113; cv=none; b=Mue3GupeApYbMn6ComP0cJeyJZ93FnjZhDXa8bfVgVhWAgCjHHeEm6miIJphERQadHR6XlAosTx/m2mvyjYaUivo0FTM12hXAHuhWJWPhZi8htrgVold/SO8sndykA5prAHvnxKJEHOuSzK7EC6/YL7XKehzMhuUfuMzimab+HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786437098; c=relaxed/simple;
-	bh=uMBvMqDFHkv5Dbt1COLIOPk1VgUYUW3xk1ZHUhoyiZ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fUquCXd0zVytLRuh1KFTML88ytD22xT4F3qH9xwx4imchotbDcvs9rB0qXH+XZwbUErbVFWcnst8Bfcrhgw6Fjcoy89FUGTXOmHu5MOrZua0jYpC/LppuVDGmSXZiCRQKpYsynR0ek5B8Yh/NvzoHRgt4G3plPg/Jq5ffJ3CG4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZsBBGFQm; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1786437113; c=relaxed/simple;
+	bh=XxtMQMa3DWnbUEYiKI1HexTjUOrCLDNv+gFPU+EiYrs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sa8wlVzxLRvfmo3OmAguz3Yjj6ykHToU7uXlk27cZf+I4pUqPnjZ6uSgUKYLAt+BJkUXrarGwvyA6Z6mQvlBanSxZHS2NozlXGqACxE5QIcnAmhNdrqwwpGE7/DJnU8pdkz5b9QT+EbCqx+4W2leWK9NYRlEPy2DmhIrBdqlvqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NulNofAE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZsBBGFQm"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786437084;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=QSwpnUN82TaJRirbgvxNKqzW9uVPfe1inAZ+MwxZbN8=;
-	b=ZsBBGFQm8uheiLcFdFApBtmIncyZk5YuODbMikRFMMiGSXX1P5oJVihVp5RtUYzZZpfu6e
-	CDgQ+nyWjZ9jNHVw/wDuLMoDcK0vkM81qbTL3h4HfTXSWrJrQxLAzj6MkbCEtI9i/KmYHx
-	vV/wOEitLxA8/xpaQvbWKlofeG7B5z4=
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
-To: longman@redhat.com,
-	ridong.chen@linux.dev,
-	cgroups@vger.kernel.org
-Cc: tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	peterz@infradead.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zhangguopeng@kylinos.cn
-Subject: [PATCH v2] cgroup/cpuset: Remove obsolete PFA_SPREAD_SLAB task flag
-Date: Tue, 11 Aug 2026 16:30:27 +0800
-Message-ID: <20260811083027.140577-1-guopeng.zhang@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NulNofAE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C4031F000E9;
+	Tue, 11 Aug 2026 08:31:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786437111;
+	bh=q24FXb5XSOw6meqa4O771D1hDFpcGicSkaNFYx4f7GE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NulNofAEBo2BnsIahUe5aGazyJKkC0SgBOdgAVDsoSNMobanFRaE8E+EoW2C9jKuD
+	 iKSxpbpfe3CjNblRam6RUx4joDPwI7d2pZoSmxJooJ/xyheIFXFcsdec7rPIQUgGq5
+	 ZW6IjiEnVBHtYqKZ6nN3e3fgzpSl5ha+0EY+JemW6VtQYWHvbjIG06uvP7AJWNGplV
+	 t6T6CHt/xLzUf2mTjOXFXEJi/xwoMTS89mA/ngSo3Ee0iGtWE2Ph7pZF+GHbkDHex1
+	 xrdkppSPfC0XSfqHNUILQiLiERLHsgh++8/r+AoxJ4hxUfNV3TltJ6Q+8oCSxEQA7U
+	 PCkGHcIqZO5GA==
+Date: Tue, 11 Aug 2026 10:31:47 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, 
+	Alex Ousherovitch <aousherovitch@rambus.com>, Conor Dooley <conor+dt@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>, devicetree@vger.kernel.org, 
+	Joel Wittenauer <Joel.Wittenauer@cryptography.com>, linux-api@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, Shuah Khan <skhan@linuxfoundation.org>, 
+	Thi Nguyen <thin@rambus.com>
+Subject: Re: [PATCH v3 02/19] crypto: cmh - add core platform driver
+Message-ID: <20260811-meerkat-of-excellent-satiation-d4c32f@quoll>
+References: <20260806195519.2703224-1-skrishnamoorthy@rambus.com>
+ <20260806195519.2703224-3-skrishnamoorthy@rambus.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260806195519.2703224-3-skrishnamoorthy@rambus.com>
 
-From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+On Thu, Aug 06, 2026 at 12:55:01PM -0700, Saravanakrishnan Krishnamoorthy wrote:
+> These are the single-block cipher API used for software-fallback paths:
+> CCM empty-input tag computation (2 ECB encryptions + XOR) and XCBC(SM4)
+> empty-message workaround (3 ECB encryptions + XOR).  No public wrapper
+> exists; this is the same pattern used by in-tree crypto/ccm.c,
+> crypto/cmac.c, and crypto/xcbc.c.
+> 
+> Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+> Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
+> Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
+> Reviewed-by: Joel Wittenauer <Joel.Wittenauer@cryptography.com>
+> Reviewed-by: Thi Nguyen <thin@rambus.com>
 
-Commit 16a1d968358a ("mm/slab: remove mm/slab.c and slab_def.h")
-removed the SLAB allocator, the only allocator that implemented cpuset
-slab spreading. Commit 61a182ab61a6 ("cgroup/cpuset: Remove
-cpuset_do_slab_mem_spread()") then removed the last task_spread_slab()
-caller. Commit 3ab67a9ce82f ("cgroup/cpuset: Mark memory_spread_slab as
-obsolete") marked the legacy control obsolete.
+These two reviews did not happen, drop the tags. The code has trivial
+mistakes from downstream code. Internal review would point these trivial
+issues, so I do not believe you received valid, meaningful internal
+review which would justify the tags.
 
-cpuset still updates PFA_SPREAD_SLAB when tasks attach to a legacy
-cpuset and walks all tasks in a cpuset when memory_spread_slab changes.
-Remove the unused task flag and its helpers, and make spread task
-updates depend only on memory_spread_page.
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +#include <linux/slab.h>
+> +#include <linux/io.h>
+> +#include <linux/clk.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/of.h>
+> +
+> +#include "cmh.h"
+> +#include "cmh_dma.h"
+> +#include "cmh_mqi.h"
+> +#include "cmh_txn.h"
+> +#include "cmh_rh.h"
+> +#include "cmh_registers.h"
+> +#include "cmh_debugfs.h"
+> +#include "cmh_sysfs.h"
+> +
+> +#include <linux/iopoll.h>
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Alex Ousherovitch <aousherovitch@rambus.com>");
+> +MODULE_AUTHOR("Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>");
+> +MODULE_AUTHOR("Joel Wittenauer <Joel.Wittenauer@cryptography.com>");
+> +MODULE_DESCRIPTION("Rambus CryptoManager Hub (CMH) hardware crypto accelerator");
+> +MODULE_ALIAS("platform:cmh");
 
-Keep the memory_spread_slab control and CS_SPREAD_SLAB state so legacy
-users retain the existing write, readback and inheritance behavior.
-Update the comments and documentation to describe only page-cache
-spreading as functional.
+Why?
 
-Assisted-by: LLM
-Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
----
-Changes in v2:
-- Restore the default-value description and clarify the write semantics.
-- Retain the generic slab allocator fallback note in the
-  cpuset_spread_node() comment.
+> +MODULE_IMPORT_NS("CRYPTO_INTERNAL");
 
- .../admin-guide/cgroup-v1/cpusets.rst         | 42 +++++++------------
- include/linux/sched.h                         |  5 ---
- kernel/cgroup/cpuset-v1.c                     | 13 ++----
- kernel/cgroup/cpuset.c                        | 19 ++++-----
- 4 files changed, 27 insertions(+), 52 deletions(-)
+Why all this is in completely odd place, not next to the module init
+code?
 
-diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-index 52a213aff04e..fb3fb6fa88cb 100644
---- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
-+++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
-@@ -179,7 +179,7 @@ files describing that cpuset:
-  - cpuset.mem_hardwall flag:  is memory allocation hardwalled
-  - cpuset.memory_pressure: measure of how much paging pressure in cpuset
-  - cpuset.memory_spread_page flag: if set, spread page cache evenly on allowed nodes
-- - cpuset.memory_spread_slab flag: OBSOLETE. Doesn't have any function.
-+ - cpuset.memory_spread_slab flag: OBSOLETE. Has no effect on allocation behavior.
-  - cpuset.sched_load_balance flag: if set, load balance within CPUs on that cpuset
-  - cpuset.sched_relax_domain_level: the searching range when migrating tasks
- 
-@@ -318,26 +318,20 @@ times 1000.
- 
- 1.6 What is memory spread ?
- ---------------------------
--There are two boolean flag files per cpuset that control where the
--kernel allocates pages for the file system buffers and related in
--kernel data structures.  They are called 'cpuset.memory_spread_page' and
--'cpuset.memory_spread_slab'.
-+The 'cpuset.memory_spread_page' boolean flag file controls where the kernel
-+allocates page-cache pages.
-+The 'cpuset.memory_spread_slab' file is obsolete and has no effect on
-+allocation behavior, but is retained for compatibility.
- 
- If the per-cpuset boolean flag file 'cpuset.memory_spread_page' is set, then
- the kernel will spread the file system buffers (page cache) evenly
- over all the nodes that the faulting task is allowed to use, instead
- of preferring to put those pages on the node where the task is running.
- 
--If the per-cpuset boolean flag file 'cpuset.memory_spread_slab' is set,
--then the kernel will spread some file system related slab caches,
--such as for inodes and dentries evenly over all the nodes that the
--faulting task is allowed to use, instead of preferring to put those
--pages on the node where the task is running.
--
--The setting of these flags does not affect anonymous data segment or
-+The setting of this flag does not affect anonymous data segment or
- stack segment pages of a task.
- 
--By default, both kinds of memory spreading are off, and memory
-+By default, page cache memory spreading is off, and memory
- pages are allocated on the node local to where the task is running,
- except perhaps as modified by the task's NUMA mempolicy or cpuset
- configuration, so long as sufficient free memory pages are available.
-@@ -345,18 +339,18 @@ configuration, so long as sufficient free memory pages are available.
- When new cpusets are created, they inherit the memory spread settings
- of their parent.
- 
--Setting memory spreading causes allocations for the affected page
--or slab caches to ignore the task's NUMA mempolicy and be spread
--instead.    Tasks using mbind() or set_mempolicy() calls to set NUMA
--mempolicies will not notice any change in these calls as a result of
--their containing task's memory spread settings.  If memory spreading
-+Setting page cache memory spreading causes affected allocations to ignore the
-+task's NUMA mempolicy and be spread instead. Tasks using mbind() or
-+set_mempolicy() to set NUMA mempolicies will not notice any change as a
-+result of their containing task's memory spread settings.  If memory spreading
- is turned off, then the currently specified NUMA mempolicy once again
- applies to memory page allocations.
- 
--Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean flag
--files.  By default they contain "0", meaning that the feature is off
--for that cpuset.  If a "1" is written to that file, then that turns
--the named feature on.
-+Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean
-+flag files. In the root cpuset, both files initially contain "0". Writing "1"
-+or "0" to 'cpuset.memory_spread_page' enables or disables page-cache spreading,
-+respectively. The value of 'cpuset.memory_spread_slab' is retained, can be read
-+back and inherited, but it does not affect allocation behavior.
- 
- The implementation is simple.
- 
-@@ -367,10 +361,6 @@ is modified to perform an inline check for this PFA_SPREAD_PAGE task
- flag, and if set, a call to a new routine cpuset_mem_spread_node()
- returns the node to prefer for the allocation.
- 
--Similarly, setting 'cpuset.memory_spread_slab' turns on the flag
--PFA_SPREAD_SLAB, and appropriately marked slab caches will allocate
--pages from the node returned by cpuset_mem_spread_node().
--
- The cpuset_mem_spread_node() routine is also simple.  It uses the
- value of a per-task rotor cpuset_mem_spread_rotor to select the next
- node in the current task's mems_allowed to prefer for the allocation.
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 499943987c1a..8b3d47a325cc 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1869,7 +1869,6 @@ static __always_inline bool is_user_task(struct task_struct *task)
- /* Per-process atomic flags. */
- #define PFA_NO_NEW_PRIVS		0	/* May not gain new privileges. */
- #define PFA_SPREAD_PAGE			1	/* Spread page cache over cpuset */
--#define PFA_SPREAD_SLAB			2	/* Spread some slab caches over cpuset */
- #define PFA_SPEC_SSB_DISABLE		3	/* Speculative Store Bypass disabled */
- #define PFA_SPEC_SSB_FORCE_DISABLE	4	/* Speculative Store Bypass force disabled*/
- #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
-@@ -1895,10 +1894,6 @@ TASK_PFA_TEST(SPREAD_PAGE, spread_page)
- TASK_PFA_SET(SPREAD_PAGE, spread_page)
- TASK_PFA_CLEAR(SPREAD_PAGE, spread_page)
- 
--TASK_PFA_TEST(SPREAD_SLAB, spread_slab)
--TASK_PFA_SET(SPREAD_SLAB, spread_slab)
--TASK_PFA_CLEAR(SPREAD_SLAB, spread_slab)
--
- TASK_PFA_TEST(SPEC_SSB_DISABLE, spec_ssb_disable)
- TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
- TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
-diff --git a/kernel/cgroup/cpuset-v1.c b/kernel/cgroup/cpuset-v1.c
-index 3e9968dd91e9..562ad35f00d0 100644
---- a/kernel/cgroup/cpuset-v1.c
-+++ b/kernel/cgroup/cpuset-v1.c
-@@ -204,7 +204,7 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- }
- 
- /*
-- * update task's spread flag if cpuset's page/slab spread flag is set
-+ * Update a task's spread flag if the cpuset's page spread flag is set.
-  *
-  * Call with callback_lock or cpuset_mutex held. The check can be skipped
-  * if on default hierarchy.
-@@ -219,18 +219,13 @@ void cpuset1_update_task_spread_flags(struct cpuset *cs,
- 		task_set_spread_page(tsk);
- 	else
- 		task_clear_spread_page(tsk);
--
--	if (is_spread_slab(cs))
--		task_set_spread_slab(tsk);
--	else
--		task_clear_spread_slab(tsk);
- }
- 
- /**
-- * cpuset1_update_tasks_flags - update the spread flags of tasks in the cpuset.
-- * @cs: the cpuset in which each task's spread flags needs to be changed
-+ * cpuset1_update_tasks_flags - update the page spread flag of cpuset tasks
-+ * @cs: the cpuset whose tasks need their page spread flag updated
-  *
-- * Iterate through each task of @cs updating its spread flags.  As this
-+ * Iterate through each task of @cs updating its page spread flag.  As this
-  * function is called with cpuset_mutex held, cpuset membership stays
-  * stable.
-  */
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 0a0fffb5673c..f1dd0fa56b3b 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -2862,7 +2862,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
- {
- 	struct cpuset *trialcs;
- 	int balance_flag_changed;
--	int spread_flag_changed;
-+	int spread_page_changed;
- 	int err;
- 
- 	trialcs = dup_or_alloc_cpuset(cs);
-@@ -2881,8 +2881,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
- 	balance_flag_changed = (is_sched_load_balance(cs) !=
- 				is_sched_load_balance(trialcs));
- 
--	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
--			|| (is_spread_page(cs) != is_spread_page(trialcs)));
-+	spread_page_changed = is_spread_page(cs) != is_spread_page(trialcs);
- 
- 	spin_lock_irq(&callback_lock);
- 	cs->flags = trialcs->flags;
-@@ -2895,7 +2894,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
- 			rebuild_sched_domains_locked();
- 	}
- 
--	if (spread_flag_changed)
-+	if (spread_page_changed)
- 		cpuset1_update_tasks_flags(cs);
- out:
- 	free_cpuset(trialcs);
-@@ -4484,14 +4483,10 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
-  * cpuset_spread_node() - On which node to begin search for a page
-  * @rotor: round robin rotor
-  *
-- * If a task is marked PF_SPREAD_PAGE or PF_SPREAD_SLAB (as for
-- * tasks in a cpuset with is_spread_page or is_spread_slab set),
-- * and if the memory allocation used cpuset_mem_spread_node()
-- * to determine on which node to start looking, as it will for
-- * certain page cache or slab cache pages such as used for file
-- * system buffers and inode caches, then instead of starting on the
-- * local node to look for a free page, rather spread the starting
-- * node around the tasks mems_allowed nodes.
-+ * If a task is marked PFA_SPREAD_PAGE and a page cache allocation uses
-+ * cpuset_mem_spread_node() to determine where to start looking, spread the
-+ * starting node around the task's mems_allowed nodes instead of starting on
-+ * the local node.
-  *
-  * We don't have to worry about the returned node being offline
-  * because "it can't happen", and even if it did, it would be ok.
--- 
-2.43.0
+> +
+> +#ifdef CONFIG_CRYPTO_DEV_CMH_DEBUG
+> +static bool skip_fw_check;
+> +module_param(skip_fw_check, bool, 0444);
+> +MODULE_PARM_DESC(skip_fw_check,
+> +		 "[debug] Skip eSW boot status check at probe (default: false)");
+> +#else
+> +#define skip_fw_check false
+> +#endif
+> +
+> +/* Global device state (single-instance module) */
+> +
+> +static struct cmh_device *g_cmh_dev;
+
+Eh, no. Don't implement singletons.
+
+> +
+> +/* SIC Sanity Check */
+> +
+> +static int cmh_check_sic(struct cmh_config *cfg)
+> +{
+> +	const u32 ready = SIC_SW_BOOT_STATUS_MISSION |
+> +			  SIC_SW_BOOT_STATUS_MISSION2;
+> +	u32 boot_status;
+> +	u32 hw_version;
+> +	u32 sw_boot;
+> +	int ret;
+> +
+> +	boot_status = cmh_reg_read32(cfg->sic_mapped, R_SIC_BOOT_STATUS);
+> +	hw_version  = cmh_reg_read32(cfg->sic_mapped, R_SIC_HW_VERSION0);
+> +
+> +	dev_info(cmh_dev(), "SIC boot_status=0x%08x hw_version=0x%08x\n",
+> +		 boot_status, hw_version);
+> +
+> +	if ((boot_status & SIC_BOOT_STATUS_MASK) != SIC_BOOT_STATUS_PASS) {
+> +		dev_err(cmh_dev(), "SIC boot status check failed (0x%02x != 0x%02x)\n",
+> +			boot_status & SIC_BOOT_STATUS_MASK, SIC_BOOT_STATUS_PASS);
+> +		return -EIO;
+> +	}
+> +
+> +	/*
+> +	 * Wait for eSW readiness: MISSION signals the primary VCQ engine,
+> +	 * MISSION2 the sidecar engine (set asynchronously).  The driver
+> +	 * uses both, so require both bits.
+> +	 */
+> +	ret = read_poll_timeout(ioread32, sw_boot,
+> +				(sw_boot & ready) == ready,
+> +				1000,
+> +				(unsigned long)cfg->fw_ready_timeout_ms * 1000UL,
+> +				false,
+> +				cfg->sic_mapped + R_SIC_SW_BOOT_STATUS);
+> +	if (ret) {
+> +		sw_boot = cmh_reg_read32(cfg->sic_mapped, R_SIC_SW_BOOT_STATUS);
+> +		dev_err(cmh_dev(), "CMH eSW not ready (sw_boot_status=0x%08x, timeout=%ums)\n",
+> +			sw_boot, cfg->fw_ready_timeout_ms);
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	dev_info(cmh_dev(), "CMH eSW fully operational (sw_boot_status=0x%08x)\n",
+> +		 sw_boot);
+
+Drop
+
+> +
+> +	return 0;
+> +}
+> +
+> +/* Module Init -- platform driver probe */
+> +
+> +static int cmh_probe(struct platform_device *pdev)
+> +{
+> +	struct cmh_device *dev;
+> +	struct cmh_config *cfg;
+> +	struct clk_bulk_data *clks;
+> +	struct gpio_desc *reset;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/* Single-instance guard: reject if already probed */
+> +	if (g_cmh_dev)
+> +		return -EBUSY;
+
+NAK
+
+> +
+> +	dev_info(&pdev->dev, "loading v%s\n", CMH_VERSION);
+
+NAK and internal review should tell you that
+
+> +
+> +	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+> +	if (!dev)
+> +		return -ENOMEM;
+> +
+> +	dev->dev = &pdev->dev;
+> +	cfg = &dev->config;
+> +
+> +	/* Declare DMA addressing capability */
+> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "dma_set_mask_and_coherent failed (rc=%d)\n",
+> +			ret);
+> +		goto err_free_dev;
+> +	}
+> +
+> +	/* Initialize DMA backend (standard API or FPGA pool) */
+> +	ret = cmh_dma_init(pdev);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "DMA init failed (rc=%d)\n", ret);
+> +		goto err_free_dev;
+> +	}
+> +
+> +	/* Step 1: Parse and validate configuration (DT + module params) */
+> +	ret = cmh_config_init(cfg, pdev);
+> +	if (ret)
+> +		goto err_dma_init;
+> +
+> +	dev_info(cmh_dev(), "sic_base=0x%llx size=0x%zx mbx_count=%u\n",
+> +		 (unsigned long long)cfg->sic_base, cfg->sic_size,
+> +		 cfg->mbx_count);
+
+How many dev_info are you going to print?
+
+> +
+> +	/*
+> +	 * Enable functional clocks and release reset.  Both are optional --
+> +	 * integrations where a separate management/power controller owns the
+> +	 * clock and reset lines describe neither, and these calls are
+> +	 * no-ops.  The hub gates its clocks internally, but
+> +	 * clk_disable_unused() would otherwise gate an always-on input the
+> +	 * driver never claimed, so the driver enables whatever clocks the
+> +	 * device tree provides.  Clocks come up before reset is released (a
+> +	 * hard reset requires an active clock) and before any SIC register
+> +	 * access.  The reset line is acquired already deasserted; the driver
+> +	 * does not drive a reset pulse -- the eSW boots independently and its
+> +	 * mission-mode readiness is verified separately below, and no in-tree
+> +	 * platform wires this line for a reset sequence to be exercised.
+> +	 * devm unwinds both on remove or probe error.
+> +	 */
+> +	ret = devm_clk_bulk_get_all_enabled(&pdev->dev, &clks);
+> +	if (ret < 0) {
+> +		dev_err(cmh_dev(), "failed to enable clocks (rc=%d)\n", ret);
+> +		goto err_dma_init;
+> +	}
+> +	if (ret > 0)
+> +		dev_info(cmh_dev(), "enabled %d clock(s)\n", ret);
+
+Again?
+
+> +
+> +	reset = devm_gpiod_get_optional(&pdev->dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(reset)) {
+> +		ret = PTR_ERR(reset);
+> +		dev_err(cmh_dev(), "failed to acquire reset GPIO (rc=%d)\n",
+> +			ret);
+
+Syntax is ret = dev_err_probe and internal review should tell you that.
+
+> +		goto err_dma_init;
+> +	}
+> +
+> +	/* Step 2: ioremap the SIC region */
+> +	cfg->sic_mapped = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(cfg->sic_mapped)) {
+> +		ret = PTR_ERR(cfg->sic_mapped);
+> +		cfg->sic_mapped = NULL;
+> +		dev_err(cmh_dev(), "ioremap failed for SIC region (rc=%d)\n",
+> +			ret);
+> +		goto err_dma_init;
+> +	}
+> +
+> +	/* Step 3: Verify CMH is alive */
+> +	if (skip_fw_check) {
+> +		dev_info(cmh_dev(), "skipping eSW boot check (skip_fw_check=1)\n");
+> +	} else {
+> +		ret = cmh_check_sic(cfg);
+> +		if (ret)
+> +			goto err_dma_init;
+> +	}
+> +
+> +	/* Step 3.5: Discover crypto cores from the SIC CORE_ENABLE register */
+> +	ret = cmh_config_discover_cores(cfg);
+> +	if (ret)
+> +		goto err_dma_init;
+> +
+> +	/* Step 4: Compute per-instance register bases */
+> +	for (i = 0; i < cfg->mbx_count; i++) {
+> +		struct cmh_mbx_config *m = &cfg->mailboxes[i];
+> +
+> +		m->reg_base = cmh_mbx_instance_base(cfg->sic_mapped,
+> +						    m->instance);
+> +
+> +		dev_dbg(cmh_dev(), "mbx[%u] instance=%u reg_base=%p\n",
+> +			i, m->instance, m->reg_base);
+> +	}
+> +
+> +	(void)cmh_debugfs_init(cfg);
+
+Why the cast?
+
+> +
+> +	/* Initialise mailbox queue interface */
+> +	ret = cmh_mqi_init(cfg);
+> +	if (ret)
+> +		goto err_mqi_init;
+> +
+> +	/* Initialise transaction manager */
+> +	ret = cmh_tm_init(cfg);
+> +	if (ret)
+> +		goto err_tm_init;
+> +
+> +	/* Initialise response handler */
+> +	ret = cmh_rh_init(cfg);
+> +	if (ret)
+> +		goto err_rh_init;
+> +
+> +	g_cmh_dev = dev;
+
+Nope (and we do not call things "g" from globals)
+
+> +	platform_set_drvdata(pdev, dev);
+> +
+> +	dev_info(cmh_dev(), "initialized successfully\n");
+
+NAK
+
+> +	return 0;
+> +
+> +err_rh_init:
+> +	cmh_tm_cleanup();
+> +err_tm_init:
+> +	cmh_mqi_cleanup(cfg);
+> +err_mqi_init:
+> +	cmh_debugfs_cleanup();
+> +err_dma_init:
+> +	cmh_dma_cleanup();
+> +err_free_dev:
+> +	return ret;
+> +}
+> +
+> +/* Module Exit -- platform driver remove */
+> +
+> +static void cmh_remove(struct platform_device *pdev)
+> +{
+> +	struct cmh_device *dev = platform_get_drvdata(pdev);
+> +	struct cmh_config *cfg;
+> +
+> +	if (!dev)
+> +		return;
+> +
+> +	cfg = &dev->config;
+> +
+> +	cmh_rh_cleanup(cfg);
+> +	cmh_tm_cleanup();
+> +	cmh_mqi_cleanup(cfg);
+> +	cmh_debugfs_cleanup();
+> +	cmh_dma_cleanup();
+> +
+> +	dev_info(&pdev->dev, "unloaded successfully\n");
+
+NAK
+
+> +
+> +	g_cmh_dev = NULL;
+> +}
+> +
+> +static const struct of_device_id cmh_of_match[] = {
+> +	{ .compatible = "rambus,cmh-v1030" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, cmh_of_match);
+> +
+> +/*
+> + * PM suspend/resume.
+> + *
+> + * Suspend: drain the TM first (while the RH is still active and can
+> + * deliver completions for in-flight transactions), then quiesce the
+> + * RH (cancel watchdog, mask HW interrupts).  This ordering ensures
+> + * the drain_timeout_ms wait in cmh_tm_quiesce() can actually succeed
+> + * -- if we suspended RH first, no completions would be delivered and
+> + * the drain would always hit the force-cancel path.
+> + *
+> + * IRQ handlers remain registered (standard PM pattern: the kernel
+> + * disables the IRQ lines during suspend, no need to free/re-request).
+> + *
+> + * Resume: re-check the SIC/SW boot status, re-synchronise the RH
+> + * with hardware (head positions, interrupt masks, watchdog), then
+> + * restart the TM kthread.
+> + */
+> +
+> +static int cmh_suspend(struct device *dev)
+> +{
+> +	struct cmh_device *cmh = dev_get_drvdata(dev);
+> +
+> +	if (!cmh)
+> +		return 0;
+> +
+> +	dev_info(dev, "suspending\n");
+
+Really, how many dev_info do you intend to have?
+
+> +	cmh_tm_quiesce();
+> +	cmh_rh_suspend(&cmh->config);
+> +	return 0;
+> +}
+> +
+> +static int cmh_resume(struct device *dev)
+> +{
+> +	struct cmh_device *cmh = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	if (!cmh)
+> +		return 0;
+> +
+> +	ret = cmh_check_sic(&cmh->config);
+> +	if (ret) {
+> +		dev_err(dev, "resume: CMH eSW health check failed (%d)\n",
+> +			ret);
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * cmh_rh_resume() is void: it only re-syncs MMIO head pointers,
+> +	 * clears stale interrupt status bits (W1C), re-enables interrupt
+> +	 * masks, and re-arms the watchdog timer -- none of which can fail
+> +	 * after the SIC health check above has confirmed HW accessibility.
+> +	 */
+> +	cmh_rh_resume(&cmh->config);
+> +
+> +	ret = cmh_tm_resume();
+> +	if (ret) {
+> +		dev_err(dev, "resume: TM restart failed (%d)\n", ret);
+> +		return ret;
+> +	}
+> +	dev_info(dev, "resumed successfully\n");
+
+NAK
+
+> +	return 0;
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(cmh_pm_ops,
+> +				cmh_suspend,
+> +				cmh_resume);
+> +
+> +/*
+> + * Runtime PM is intentionally not implemented.  The CMH hardware does
+> + * not expose HLOS-accessible clock gates or power domains -- the eSW
+> + * firmware manages HW power state independently.  There is no mechanism
+> + * for the kernel to idle, gate clocks, or power down the accelerator
+> + * block from HLOS.  If a future platform variant exposes power control
+> + * to HLOS (e.g. via a SCMI power domain), runtime PM support can be
+> + * added at that time using SET_RUNTIME_PM_OPS and pm_runtime_get/put
+> + * around VCQ submission paths.
+> + *
+> + * System sleep (suspend/resume) is supported via DEFINE_SIMPLE_DEV_PM_OPS
+> + * above: suspend quiesces the TM and masks IRQs; resume re-verifies
+> + * eSW health (SIC status) and restarts the TM thread.
+> + */
+> +
+> +static struct platform_driver cmh_driver = {
+> +	.probe      = cmh_probe,
+> +	.remove     = cmh_remove,
+> +	.driver = {
+> +		.name           = CMH_DRV_NAME,
+
+Use name directly.
+
+> +		.of_match_table = cmh_of_match,
+> +		.dev_groups     = cmh_sysfs_groups,
+> +		.pm             = pm_sleep_ptr(&cmh_pm_ops),
+> +	},
+> +};
+> +
+> +static int __init cmh_init(void)
+> +{
+> +	/*
+> +	 * Register the platform driver and let the driver core drive
+> +	 * probing.  Probe failures are logged by probe() itself; a probe
+> +	 * that returns -EPROBE_DEFER (e.g. its interrupt controller is not
+> +	 * yet ready) is retried by the core.  Do not gate module load on
+> +	 * g_cmh_dev -- that would defeat deferred probe.
+> +	 */
+
+Why do you need this? Why your driver is done differently than all
+others?
+
+> +	return platform_driver_register(&cmh_driver);
+> +}
+> +
+> +static void __exit cmh_exit(void)
+> +{
+> +	platform_driver_unregister(&cmh_driver);
+> +}
+> +
+> +module_init(cmh_init);
+> +module_exit(cmh_exit);
+
+And this is not module_platform_driver because...?
+
+> diff --git a/drivers/crypto/cmh/cmh_mqi.c b/drivers/crypto/cmh/cmh_mqi.c
+> new file mode 100644
+> index 000000000000..99ba44695d3c
+> --- /dev/null
+> +++ b/drivers/crypto/cmh/cmh_mqi.c
+> @@ -0,0 +1,347 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
+> + * CMH LKM -- Mailbox Queue Initializer
+> + *
+> + * Responsibilities:
+> + *   - Allocate queue buffers for each configured mailbox
+> + *   - Execute the MBX lock/setup/enable register sequence
+> + *   - Readback-verify all critical register writes
+> + *   - Hold lock for MBX lifetime (CMH eSW requires it for host access)
+> + *   - Clean up (flush + unlock + free) on exit or error
+> + *
+> + * Register sequence per instance (per CMH MBX hardware specification):
+> + *   1. Read R_MBX_LOCK -> non-zero = ownership token acquired
+> + *   2. W1C stale R_MBX_INTERRUPT bits (avoids spurious error cascade)
+> + *   3. Set R_MBX_INTERRUPT_MASK = MBX_IRQ_MASK
+> + *   4. Write QUEUE_LO/HI, SLOTS, STRIDE (queue address + geometry)
+> + *   5. Sync TAIL = HEAD (CMH eSW owns HEAD; avoids stale-queue parse)
+> + *   6. Readback verify QUEUE_LO/HI/SLOTS/STRIDE
+> + *   7. Write COMMAND = MBX_COMMAND_RUN
+> + *   8. Lock stays held -- released only in teardown
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +#include <linux/slab.h>
+> +#include <linux/delay.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+
+
+...
+
+
+> +/**
+> + * cmh_mqi_init() - Initialize all mailbox queues
+> + * @cfg: CMH configuration describing the mailboxes to set up
+> + *
+> + * Allocates DMA queue buffers for each configured mailbox, then executes
+> + * the MBX lock/setup/enable register sequence.  On failure, all
+> + * successfully initialized mailboxes are torn down and buffers freed.
+> + *
+> + * Return: 0 on success, negative errno on failure.
+> + */
+> +int cmh_mqi_init(struct cmh_config *cfg)
+> +{
+> +	unsigned int i, j;
+> +	int ret;
+> +
+> +	/* Allocate queue buffers */
+> +	for (i = 0; i < cfg->mbx_count; i++) {
+> +		struct cmh_mbx_config *m = &cfg->mailboxes[i];
+> +
+> +		m->virt_addr = cmh_dma_alloc(m->queue_size, &m->dma_handle,
+> +					     GFP_KERNEL);
+> +		if (!m->virt_addr) {
+> +			ret = -ENOMEM;
+> +			goto err_free_bufs;
+> +		}
+> +
+> +		dev_dbg(cmh_dev(), "mqi[%u] alloc %zu bytes @ virt=%pK dma=%pad\n",
+> +			i, m->queue_size, m->virt_addr, &m->dma_handle);
+> +	}
+> +
+> +	/* Lock/setup/enable each mailbox */
+> +	for (i = 0; i < cfg->mbx_count; i++) {
+> +		ret = cmh_mbx_setup_one(&cfg->mailboxes[i]);
+> +		if (ret) {
+> +			dev_err(cmh_dev(), "mqi[%u] setup failed (rc=%d)\n",
+> +				i, ret);
+> +			goto err_teardown;
+> +		}
+> +	}
+> +
+> +	dev_info(cmh_dev(), "MQI init complete (%u mailboxes)\n", cfg->mbx_count);
+
+NAK
+
+> +	return 0;
+> +
+> +err_teardown:
+> +	for (j = 0; j < i; j++)
+> +		cmh_mbx_teardown_one(&cfg->mailboxes[j]);
+> +err_free_bufs:
+> +	for (j = 0; j < cfg->mbx_count; j++) {
+> +		if (cfg->mailboxes[j].virt_addr)
+> +			cmh_dma_free(cfg->mailboxes[j].queue_size,
+> +				     cfg->mailboxes[j].virt_addr,
+> +				     cfg->mailboxes[j].dma_handle);
+> +		cfg->mailboxes[j].virt_addr = NULL;
+> +		cfg->mailboxes[j].dma_handle = 0;
+> +	}
+> +	return ret;
+> +}
+> +
+> +/**
+> + * cmh_mqi_cleanup() - Clean up all mailbox queues
+> + * @cfg: CMH configuration describing the mailboxes to tear down
+> + *
+> + * Tears down each mailbox (flush + unlock) and frees the DMA queue
+> + * buffers allocated by cmh_mqi_init().
+> + */
+> +void cmh_mqi_cleanup(struct cmh_config *cfg)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < cfg->mbx_count; i++) {
+> +		struct cmh_mbx_config *m = &cfg->mailboxes[i];
+> +
+> +		cmh_mbx_teardown_one(m);
+> +
+> +		if (m->virt_addr)
+> +			cmh_dma_free(m->queue_size, m->virt_addr,
+> +				     m->dma_handle);
+> +		m->virt_addr = NULL;
+> +		m->dma_handle = 0;
+> +	}
+> +
+> +	dev_info(cmh_dev(), "MQI cleanup complete\n");
+
+NAK
+
+...
+
+> +
+> +/*
+> + * Resolve per-MBX Linux virqs for the CMH interrupt lines.
+> + *
+> + * Each mailbox declares its own completion interrupt in its device-tree
+> + * child node; cmh_config_init() resolves these to Linux virqs and stores
+> + * them in cfg->mailboxes[i].irq (-1 when the mailbox has no interrupt).
+> + * IRQ mode requires every configured mailbox to have an interrupt; if
+> + * none do (or only some), the response handler uses watchdog polling.
+> + *
+> + * Populates rh.irqs[] and rh.nirqs.  Returns 0 on success, or a
+> + * negative errno if no IRQs could be resolved (polling-only mode).
+> + */
+> +static int cmh_rh_resolve_irqs(struct cmh_config *cfg)
+> +{
+> +	u32 i, nwith = 0;
+> +
+> +	rh.nirqs = 0;
+> +
+> +	for (i = 0; i < cfg->mbx_count; i++)
+> +		if (cfg->mailboxes[i].irq >= 0)
+> +			nwith++;
+> +
+> +	if (nwith == 0) {
+> +		dev_info(cmh_dev(), "rh: no mailbox IRQs -- polling mode\n");
+
+So a warning or info?
+
+> +		return -ENODEV;
+> +	}
+> +
+> +	if (nwith != cfg->mbx_count) {
+> +		dev_warn(cmh_dev(),
+> +			 "rh: only %u/%u mailboxes have IRQs -- falling back to polling\n",
+> +			 nwith, cfg->mbx_count);
+> +		return -ENODEV;
+> +	}
+> +
+> +	for (i = 0; i < cfg->mbx_count; i++) {
+> +		rh.irqs[i] = cfg->mailboxes[i].irq;
+> +		dev_dbg(cmh_dev(), "rh: MBX%u -> IRQ %d\n", i, rh.irqs[i]);
+> +	}
+> +
+> +	rh.nirqs = cfg->mbx_count;
+> +	return 0;
+> +}
+> +
+> +/**
+> + * cmh_rh_init() - Initialize the response handler
+> + * @cfg: Device configuration (mailbox count, MMIO bases, IRQ info)
+> + *
+> + * Resolve per-mailbox IRQs from the device tree (or module parameter
+> + * override), register threaded IRQ handlers (hardirq + kthread), and
+> + * arm the missed-IRQ software watchdog timer.  If no IRQs can be
+> + * resolved, falls back to watchdog-only polling mode.
+> + *
+> + * Return: 0 on success, negative errno on failure.
+> + */
+> +int cmh_rh_init(struct cmh_config *cfg)
+> +{
+> +	int ret;
+> +	u32 i;
+> +
+> +	rh.cfg = cfg;
+> +	rh.nirqs = 0;
+> +	rh.active = false;
+> +	atomic_set(&rh.irq_count, 0);
+> +
+> +	/* Allocate per-MBX tracking */
+> +	rh.mbx = kcalloc(cfg->mbx_count, sizeof(*rh.mbx), GFP_KERNEL);
+> +	if (!rh.mbx)
+> +		return -ENOMEM;
+> +
+> +	/* Resolve per-MBX IRQs */
+> +	if (cmh_rh_resolve_irqs(cfg) < 0) {
+> +		/*
+> +		 * No IRQs available.  The watchdog timer provides
+> +		 * a polling fallback: it reads MBX head registers
+> +		 * periodically and processes completions.  This is
+> +		 * slower than IRQ-driven completion but functional.
+> +		 *
+> +		 * Completion latency in polling-only mode is bounded
+> +		 * by the watchdog interval (default 200 ms, tunable
+> +		 * via debugfs config/watchdog_ms).
+> +		 */
+> +		dev_warn(cmh_dev(),
+> +			 "rh: no IRQs -- using watchdog polling (interval %u ms)\n",
+> +			 watchdog_ms);
+
+And here it is a warning?
+
+> +
+> +		/* Seed last_head from HW before first watchdog tick */
+> +		for (i = 0; i < cfg->mbx_count; i++)
+> +			rh.mbx[i].last_head =
+> +				cmh_reg_read32(cfg->mailboxes[i].reg_base,
+> +					       R_MBX_QUEUE_HEAD);
+> +
+> +		rh.active = true;
+> +		timer_setup(&rh_watchdog, cmh_rh_watchdog_fn, 0);
+> +		mod_timer(&rh_watchdog, jiffies +
+> +			  msecs_to_jiffies(max(watchdog_ms,
+> +					       CMH_RH_WATCHDOG_MS_MIN)));
+> +		return 0;
+> +	}
+> +
+> +	/* Initialize per-MBX state: read current head positions */
+> +	for (i = 0; i < cfg->mbx_count; i++)
+> +		rh.mbx[i].last_head = cmh_reg_read32(rh.cfg->mailboxes[i].reg_base,
+> +						     R_MBX_QUEUE_HEAD);
+> +
+> +	/*
+> +	 * Register threaded IRQ handlers.
+> +	 *
+> +	 * DT per-MBX path: one distinct virq per MBX, nirqs == mbx_count.
+> +	 * DT single-IRQ path: one shared IRQ, nirqs == 1.  The handler
+> +	 * scans all mailboxes unconditionally, so a single registration
+> +	 * suffices.
+> +	 *
+> +	 * Use IRQF_SHARED only for the single-IRQ path where one line
+> +	 * is shared across all MBXes.  Dedicated per-MBX virqs need no
+> +	 * sharing flag.
+> +	 */
+> +	{
+
+What is with this indentation?
+
+> +		unsigned long irqflags = (rh.nirqs == 1 && cfg->mbx_count > 1)
+> +					  ? IRQF_SHARED : 0;
+> +
+> +		for (i = 0; i < rh.nirqs; i++) {
+> +			ret = request_threaded_irq(rh.irqs[i],
+> +						   cmh_rh_hardirq,
+> +						   cmh_rh_thread,
+> +						   irqflags,
+> +						   "cmh", cfg);
+> +			if (ret) {
+> +				dev_err(cmh_dev(), "rh: request_threaded_irq(%d) for MBX%u failed (rc=%d)\n",
+> +					rh.irqs[i], i, ret);
+> +				/* Unwind previously registered IRQs */
+> +				while (i--)
+> +					free_irq(rh.irqs[i], cfg);
+> +				rh.nirqs = 0;
+> +				kfree(rh.mbx);
+> +				rh.mbx = NULL;
+> +				return ret;
+> +			}
+> +		}
+> +	}
+> +
+> +	rh.active = true;
+> +
+> +	/* Enable MBX completion interrupts (DONE + ERROR) */
+> +	for (i = 0; i < cfg->mbx_count; i++) {
+> +		u32 stale;
+> +
+> +		/*
+> +		 * W1C any interrupt bits that accumulated between
+> +		 * MQI setup and now (e.g. CMH eSW processing stale
+> +		 * commands) before enabling the mask.
+> +		 */
+> +		stale = cmh_reg_read32(cfg->mailboxes[i].reg_base,
+> +				       R_MBX_INTERRUPT);
+> +		if (stale)
+> +			cmh_reg_write32(stale, cfg->mailboxes[i].reg_base,
+> +					R_MBX_INTERRUPT);
+> +
+> +		cmh_reg_write32(MBX_IRQ_MASK,
+> +				cfg->mailboxes[i].reg_base,
+> +				R_MBX_INTERRUPT_MASK);
+> +	}
+> +
+> +	dev_info(cmh_dev(), "rh: initialized (%u IRQs, %u mailboxes, watchdog %u ms)\n",
+> +		 rh.nirqs, cfg->mbx_count, watchdog_ms);
+
+One more dev_info....
+
+
+> +
+> +	/* Arm missed-IRQ watchdog timer */
+> +	timer_setup(&rh_watchdog, cmh_rh_watchdog_fn, 0);
+> +	mod_timer(&rh_watchdog, jiffies +
+> +		  msecs_to_jiffies(max(watchdog_ms,
+> +				       CMH_RH_WATCHDOG_MS_MIN)));
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * cmh_rh_suspend() - Suspend the response handler
+> + * @cfg: Device configuration
+> + *
+> + * Stop the watchdog timer and mask mailbox interrupts at the hardware
+> + * level.  The IRQ handlers remain registered so that resume can
+> + * re-enable them without re-requesting.
+> + */
+> +void cmh_rh_suspend(struct cmh_config *cfg)
+> +{
+> +	u32 i;
+> +
+> +	if (!rh.active)
+> +		return;
+> +
+> +	/* Stop the watchdog before masking HW interrupts */
+> +	timer_delete_sync(&rh_watchdog);
+> +
+> +	/* Mask MBX interrupts at the hardware level */
+> +	for (i = 0; i < cfg->mbx_count; i++)
+> +		cmh_reg_write32(0, cfg->mailboxes[i].reg_base,
+> +				R_MBX_INTERRUPT_MASK);
+> +
+> +	/*
+> +	 * Ensure no threaded IRQ handler is still in-flight.
+> +	 * After masking, a handler may already have been scheduled.
+> +	 * synchronize_irq() waits for it to complete before we
+> +	 * proceed with suspend (which tears down TM state).
+> +	 */
+> +	for (i = 0; i < rh.nirqs; i++)
+> +		synchronize_irq(rh.irqs[i]);
+> +
+> +	rh.active = false;
+> +	dev_dbg(cmh_dev(), "rh: suspended\n");
+
+No, you cannot have even debug messages which re-implement and
+duplicated standard tracing and standard debugging code.
+
+
+...
+
+
+> +static unsigned int cmq_max_depth = 256;
+> +module_param(cmq_max_depth, uint, 0444);
+> +MODULE_PARM_DESC(cmq_max_depth,
+> +		 "Max pending commands in the Command Message Queue (default: 256)");
+> +
+> +static unsigned int backlog_max_depth = 1024;
+> +module_param(backlog_max_depth, uint, 0444);
+
+Drop all module params, not really right way to do things.
+
+> +MODULE_PARM_DESC(backlog_max_depth,
+> +		 "Max pending commands in the backlog queue (0 = disable backlog, default: 1024)");
+> +
+> +static unsigned int async_timeout_ms = 2000;
+> +
+> +#define CMH_TM_BACKOFF_MIN_US   100  /* queue-full backoff range (us) */
+> +#define CMH_TM_BACKOFF_MAX_US   500
+> +static unsigned int cmq_depth;       /* current CMQ depth, protected by tm.cmq_lock */
+
+...
+
+
+> diff --git a/drivers/crypto/cmh/include/cmh.h b/drivers/crypto/cmh/include/cmh.h
+> new file mode 100644
+> index 000000000000..18150ba39129
+> --- /dev/null
+> +++ b/drivers/crypto/cmh/include/cmh.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2026 Cryptography Research, Inc. (CRI).
+> + * CMH LKM -- Top-level Device Structure
+> + */
+> +
+> +#ifndef CMH_H
+> +#define CMH_H
+> +
+> +#include <linux/device.h>
+> +
+> +#include "cmh_config.h"
+> +
+> +#define CMH_DRV_NAME   "cmh"
+> +#define CMH_VERSION    "1.0.0"
+
+NAK, this is not allowed in Linux kernel code. Do you see drivers
+(except complete junk from AMD) doing this?
+
+Best regards,
+Krzysztof
+
