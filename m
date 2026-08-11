@@ -1,33 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06FB3A5E87;
-	Tue, 11 Aug 2026 15:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5283B14D2
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 15:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786463248; cv=none; b=pOGoZS8ba2I0ZoIG+t7yQaWEEyYM1a4iP8vb5YIioUZ/ecy4UCRC9xICi63j9EF5NPZl7mVXx+0FII/6lNIVXlgIlxCZa3bjxlEvLAbyUF255ablhVTZJ4eiYQApoq3PvaeiBNYk2oWZvR5nqUQKt6pFpes5BjqMWGEraKPFHbQ=
+	t=1786463741; cv=none; b=G6qS8Wf1FYrIDKfeSuzFVNCbANafMH6sDa+ymltLqZjFg0dtejCLvjw3SeqxtTf801fdOGtIRE9dthgaqZdpXD4h5VyIe+mnIjgBGhkNnPwHd2KnvTjYiY/MPoe7NlEdxj90QxabuUUfmpTA4nDC6w3lFfrrSbkkydbM1oNq+v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786463248; c=relaxed/simple;
-	bh=9xUrK4lNQ37Zs5TVva9wLwEAoT7GKU14Ht/96n7EMA0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YlkSsEgk2wfntlQG5bmv/pYNjYwyk7e+Rq+psnl4+oc0vgyZn3eKFHOy4A1xgdDbGc79zGxxfpzTrkVgNP6z8YKjIJ7cRWk1V/O8NwtZJ7qWzxLwYzNW0MKEGISax3mNtvGINp0fdvwlHN3KDFvAf437fqcw4GHENojU47q6H6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GgrgMgO4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786463741; c=relaxed/simple;
+	bh=nT8cLL/y+y5sK54nxhdUvolR+F3zBZ6Gyj7LYc/L6ZY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=S+gNxaTChxB6SN6bzuWxt2FPphgqXOVhc78PegVo2fvdkr3L0EqP+fnzUclANXTkCZcV7mZxVWhpOQJDDr3hfacsbSz3kattpyYaiUq6V9G7TpQM4+VVn4TmlvJWYTbu0yplLlDEg+JE7Nlr+Zry0voyrWb8cnrkpCU+d3UuU4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4yCTKYd; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GgrgMgO4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E801F000E9;
-	Tue, 11 Aug 2026 15:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786463246;
-	bh=HkuepmDqjWQSzwu3ceqTZgODzsd43lLjqsd5McLVs/0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GgrgMgO4XdTOq+R2D6nd4KR7/v9VTcV+XrLCb+/+Rn2gxbqKUtDZt4nLiwdMwEE34
-	 XK9mrgx05mHoE+5Gb3iahlpPjjMctjXb1mLA678R9C4EVDYyXr0942JC+3OZfLt3JC
-	 l1hrrsDfgYSjVQObNrGzh2uRda5Ub4SYVC/eYei2jbDaIvU1sKLGgewGWaughaoRYd
-	 YP8ubwv3Y82GnjpT/EZKLocyucbUPLLJbKw8R/bMsXVfAP+Z4+xdJHOCuBd8yNr4PU
-	 AIn6VZLacO2TyEZZRsu5XroOQ1ftyE2BRhxc4LVBTVqDl3vb+StqgzvaMF2hPL1nCP
-	 iKVB3GjO/CagQ==
-Message-ID: <a23dd413-1462-4b7a-9ce1-136e1d806ed8@kernel.org>
-Date: Tue, 11 Aug 2026 17:47:18 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4yCTKYd"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cbe827e3cb4so3559078a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 08:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786463738; x=1787068538; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZP+tJKH/tyuUNQHRDyf5Si2FoMuT24X9NWHm/gMOJtI=;
+        b=m4yCTKYdNGtXAnD0fwjhary0YvCscSgiCFDDES7VwZxJKLCmUwsIeGFHnrDAbV9Y5a
+         TijmWC800v4RgsLZ306K19nMTKNkcqeRHtShdvDJXBO+85i0v6h5IkJs9PinXya5azb/
+         SXC60PE2ZQ9PrMlykXVHFtL5N3vbWzlvjLi6up1c+pV3Z+9/tUBfY895VxiyO+vTxMkP
+         n7hfOGPZZFWCchZzVn++F11O5TLBNdCQfR/QwiaLRw72I39SpHzg0jzPJlMbeuNdOttz
+         xLvhbolLXnkh3Ice8xUUWEuC/11LCXOYY0UOck+c0gNbxUEAT4Sk4ucuD7gwcBM6HHlX
+         1+fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786463738; x=1787068538;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZP+tJKH/tyuUNQHRDyf5Si2FoMuT24X9NWHm/gMOJtI=;
+        b=RsW0hZFpBR3y8HKqwopo4UBUBP2lfnEnhvtIQz3qcSmjKhad1VyjdTSH2mXNsbDPiN
+         Ccgy8CJDe+DLjXhgwo6N7H7ajUznqlR//cyaNcfmhm2PqVTnfoFnCbfQsHSuW9xTwnEk
+         jWUFGxG7UqkhZbx2e2zPaRkdm4KJTlzjleHgiR5a61sNGWJeOImSY0YIyHS3Ug2PaZ8H
+         488ecw/6cWzVDar23EPH4+W03T/kvOYcGbdFzDkwJGDrblqCZp2uyOpsrzA4HuQU+3/1
+         Sj907J1BmURh9i23y+EIRN7/Jw3fd6SfdGtVKTPxLx/LVkz0UeIV2vk6Tw9wyCOSV4sd
+         LJVA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrdlrf1lkKb3wixbYcs8wuMJqj+uhu13Hn3GfGlG0UrLPEADJnZ8WY5l2pfwRRI0tM0pcNWjXVVSQg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo+0YRczlxzbNlxNRRJ/VFeD6+8D+zUL+0SA/BQyWz6IeoAxdr
+	YlAh6OPAQ+tEr3fCBQoFMSnazv1N7tIxedUCUKf07x3s37in8F0WGbSZ
+X-Gm-Gg: AR+sD10rmfcmJY+ucN/O0yWFHtToWA+OysAhPjDs7sQaF33YTkM4v9N9mCRzyTecaf7
+	vhUGby+UXgcfXN/l/UzKhBQaXlxvAjK9jtnwHQKvxMCfMvIVjxRc7VD2drLu38jA+LbdAmxCvDh
+	NfzlSab4jWpCsckvoGXocB4lCDboAIUQQYXiBzW+OY5vkDydXOk6GiTIhZb1OdW2cQj/NNFK2cQ
+	5LBFC8v6gVpTHZHlhK2WfJOVAHEHsmxRqDO4HL2dluON1KCArNSSA4ybRFHFssAuTw00HYZT9U6
+	ewSfi8E35R2+lqxBGrHKEExRWkbl7TPr+508ezh2kEV97zZSqVOMMtPDYdlrMqRHoQBOLZom2ht
+	/CnARWPgzJice2Y3yrs0ckai3YoBn2R9aU5q3SYPUdRnIp8ZAmE5QF+0Csk/9Al3DllQy0SPQ2o
+	93JRQL3iByFFnocOYcAC7Wc9+wNXEoVlp6RA1m7Iua2gmJFm+/fa40NQIFhYAtegVddXgDCoe6P
+	5d81v5PmOopSRj+TJnm46Rju0Y0ZDKbh6kMUw==
+X-Received: by 2002:a05:6a00:1da5:b0:84a:2c46:3fdb with SMTP id d2e1a72fcca58-84fa867cd02mr4878028b3a.5.1786463737798;
+        Tue, 11 Aug 2026 08:55:37 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fa954c125sm994954b3a.41.2026.08.11.08.55.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2026 08:55:37 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <42ac07a2-a812-4dbd-a771-70f5a16129e2@roeck-us.net>
+Date: Tue, 11 Aug 2026 08:55:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,118 +71,198 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/7] mm/khugepaged: extract reference check into
- folio_pte_referenced() helper
-To: "Nico Pache (Red Hat)" <nico.pache@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
- <20260811-khugepaged_pte_refactor-v4-2-ddac39d61c4a@linux.dev>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH] hwmon: (socfpga) add Agilex 5 channel mapping
+To: tze.yee.ng@altera.com,
+ Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <0701aacab270fb8ca7bb35e8e72b7dd629e2cdcb.1786428156.git.tze.yee.ng@altera.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260811-khugepaged_pte_refactor-v4-2-ddac39d61c4a@linux.dev>
-Content-Type: text/plain; charset=UTF-8
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <0701aacab270fb8ca7bb35e8e72b7dd629e2cdcb.1786428156.git.tze.yee.ng@altera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/11/26 14:48, Nico Pache (Red Hat) wrote:
-> This change deduplicates the "is this PTE/folio referenced enough to be
-> considered for a collapse" condition that was repeated in both
-> __collapse_huge_page_isolate() and collapse_scan_pmd(), extracting it into
-> a single inline helper function.
+On 8/10/26 23:11, tze.yee.ng@altera.com wrote:
+> From: Tze Yee Ng <tze.yee.ng@altera.com>
 > 
-> Also move the comment and use it as the function header. While we are at
-> it, updated the comment to clarify that a young pte is a recently accessed
-> one.
+> Add temperature channel mapping for Agilex 5 and bind it to the
+> "intel,agilex5-svc" compatible string. Reuse the Agilex voltage channels.
+> Agilex 5 omits temperature channel 2 (top-left corner) because that
+> sensor is not present; remaining sensors keep Agilex channel numbers.
 > 
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
+> Match intel,agilex5-svc before intel,agilex-svc so dual-compatible DT
+> nodes select the Agilex 5 board data.
+> 
+> Update the socfpga-hwmon documentation to list Agilex 5, the matching
+> compatible string, and the SDM temperature/voltage channel tables.
+> 
+> Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
 > ---
->  mm/khugepaged.c | 32 ++++++++++++++++++--------------
->  1 file changed, 18 insertions(+), 14 deletions(-)
+>   Documentation/hwmon/socfpga-hwmon.rst | 52 +++++++++++++++++++++++++++
+>   drivers/hwmon/socfpga-hwmon.c         | 27 ++++++++++++++
+>   2 files changed, 79 insertions(+)
 > 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 1e26ea97381a..8babd4c97db6 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -672,6 +672,22 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
->  	}
->  }
->  
-> +/*
-> + * folio_pte_referenced() - Check if a folio or its PTE mapping was recently used
-> + *
-> + * Return: true if recent access was observed through either the folio state
-> + * or the current PTE mapping.
-> + */
-
-No need for doc for such a trivial internal helper :)
-
-> +static inline bool folio_pte_referenced(struct folio *folio,
-> +		struct vm_area_struct *vma, unsigned long addr, pte_t pteval)
-> +{
-> +	/* The folio was referenced previously ... */
-> +	if (folio_test_young(folio) || folio_test_referenced(folio))
-> +		return true;
-> +	/* ... or the PTE mapping was recently used */
-> +	return pte_young(pteval) || mmu_notifier_test_young(vma->vm_mm, addr);
-> +}
+> diff --git a/Documentation/hwmon/socfpga-hwmon.rst b/Documentation/hwmon/socfpga-hwmon.rst
+> index e5da42556a62..664103a38195 100644
+> --- a/Documentation/hwmon/socfpga-hwmon.rst
+> +++ b/Documentation/hwmon/socfpga-hwmon.rst
+> @@ -7,6 +7,7 @@ Supported chips:
+>   
+>    * Altera Stratix 10 SoC FPGA
+>    * Altera Agilex SoC FPGA
+> + * Altera Agilex 5 SoC FPGA
+>   
+>   Authors:
+>         - Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> @@ -32,3 +33,54 @@ driver based on the service layer compatible string:
+>   
+>     * intel,stratix10-svc
+>     * intel,agilex-svc
+> +  * intel,agilex5-svc
 > +
+> +Channel mappings are fixed in the driver (not described in DT). The tables
+> +below list the SDM page/channel encodings used for each family.
+> +
+> +Temperature channels
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +==========  ====  =======  =================================
+> +Family      Page  Channel  Label
+> +==========  ====  =======  =================================
+> +Stratix 10  0     0        Main Die SDM
+> +Agilex      0     0        Main Die SDM
+> +Agilex      1     0        Main Die corner bottom left max
+> +Agilex      2     0        Main Die corner top left max
+> +Agilex      3     0        Main Die corner bottom right max
+> +Agilex      4     0        Main Die corner top right max
+> +Agilex 5    0     0        Main Die SDM
+> +Agilex 5    1     0        Main Die corner bottom left max
+> +Agilex 5    3     0        Main Die corner bottom right max
+> +Agilex 5    4     0        Main Die corner top right max
+> +==========  ====  =======  =================================
+> +
+> +Agilex 5 omits SDM temperature channel 2 (top-left corner on Agilex)
+> +because that sensor is not present in hardware. The remaining sensors keep
+> +the same channel numbers as Agilex.
+> +
+> +Voltage channels
+> +~~~~~~~~~~~~~~~~
+> +
+> +==========  ====  =======  =================
+> +Family      Page  Channel  Label
+> +==========  ====  =======  =================
+> +Stratix 10  0     2        0.8V VCC
+> +Stratix 10  0     3        1.8V VCCIO_SDM
+> +Stratix 10  0     6        0.9V VCCERAM
+> +Agilex      0     2        0.8V VCC
+> +Agilex      0     3        1.8V VCCIO_SDM
+> +Agilex      0     4        1.8V VCCPT
+> +Agilex      0     5        1.2V VCCCRCORE
+> +Agilex      0     6        0.9V VCCH
+> +Agilex      0     7        0.8V VCCL
+> +Agilex 5    0     2        0.8V VCC
+> +Agilex 5    0     3        1.8V VCCIO_SDM
+> +Agilex 5    0     4        1.8V VCCPT
+> +Agilex 5    0     5        1.2V VCCCRCORE
+> +Agilex 5    0     6        0.9V VCCH
+> +Agilex 5    0     7        0.8V VCCL
+> +==========  ====  =======  =================
+> +
+> +Agilex 5 reuses the Agilex voltage SDM page/channel layout and labels.
+> diff --git a/drivers/hwmon/socfpga-hwmon.c b/drivers/hwmon/socfpga-hwmon.c
+> index 5b43274d0aa2..92bffc02e309 100644
+> --- a/drivers/hwmon/socfpga-hwmon.c
+> +++ b/drivers/hwmon/socfpga-hwmon.c
+> @@ -433,6 +433,30 @@ static const struct socfpga_hwmon_board_data agilex_hwmon_board = {
+>   	.num_volt = ARRAY_SIZE(agilex_hwmon_volt_channels),
+>   };
+>   
+> +/*
+> + * Agilex 5 exposes the SDM and three corner temperature sensors. Channel 2
+> + * (top-left corner on Agilex) is not present in hardware, so the SDM channel
+> + * numbering keeps the gap (0, 1, 3, 4) rather than renumbering.
+> + */
+> +static const struct socfpga_hwmon_channel agilex5_hwmon_temp_channels[] = {
+> +	{ SOCFPGA_HWMON_CHAN(0, 0), "Main Die SDM" },
+> +	{ SOCFPGA_HWMON_CHAN(1, 0), "Main Die corner bottom left max" },
+> +	{ SOCFPGA_HWMON_CHAN(3, 0), "Main Die corner bottom right max" },
+> +	{ SOCFPGA_HWMON_CHAN(4, 0), "Main Die corner top right max" },
+> +};
+> +
+> +/*
+> + * Agilex 5 reuses the Agilex voltage SDM page/channel encoding and labels.
+> + * Check more specific "intel,agilex5-svc" before "intel,agilex-svc" below so a
+> + * node that lists both compatibles selects this board data.
+> + */
+> +static const struct socfpga_hwmon_board_data agilex5_hwmon_board = {
+> +	.temp = agilex5_hwmon_temp_channels,
+> +	.num_temp = ARRAY_SIZE(agilex5_hwmon_temp_channels),
+> +	.volt = agilex_hwmon_volt_channels,
+> +	.num_volt = ARRAY_SIZE(agilex_hwmon_volt_channels),
+> +};
+> +
+>   static const struct socfpga_hwmon_board_data *
+>   socfpga_hwmon_get_board(struct device *dev)
+>   {
+> @@ -443,6 +467,9 @@ socfpga_hwmon_get_board(struct device *dev)
+>   
+>   	if (of_device_is_compatible(np, "intel,stratix10-svc"))
+>   		return &s10_hwmon_board;
+> +	/* Prefer the more specific Agilex 5 compatible over generic Agilex. */
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+I don't think that is going to work (see Sashiko feedback). On top of that, it is
+conceptually wrong.
 
--- 
-Cheers,
+Guenter
 
-David
+> +	if (of_device_is_compatible(np, "intel,agilex5-svc"))
+> +		return &agilex5_hwmon_board;
+>   	if (of_device_is_compatible(np, "intel,agilex-svc"))
+>   		return &agilex_hwmon_board;
+>   
+
