@@ -1,237 +1,612 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1448D47D922;
-	Tue, 11 Aug 2026 21:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A33424D6C;
+	Tue, 11 Aug 2026 22:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786485435; cv=none; b=Bs3FeOYuGns40Ndb+ddUliEF4MSnJwJHsf6uw9bGWemOD21cOvjJWT6pufmvMNrw8iVFwvqTugBJBieUPDbDISUln7KiuT6FO2iQJfj5zRnerfiwLzwL8o0JpTi7cZJS8kJak9l9FVIjbl0LTThX0/kat9lr6QngsLzXYn9fDM8=
+	t=1786486694; cv=none; b=V4evBCt17gOl6ilRvJZUBvFPWARa7vIwIQ/FUNU/wxSVBO58grM+8dwoAdlbAGBf8xestLdSt55WHV+uFWd+wHvqDNsSLTT7XOnJIFsIUSJf9BHgUU69MlUk/AxT2475HcyuTCLZJ2WrFzinVSO1kUa0DxZpogf9mZ4PMWEhI74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786485435; c=relaxed/simple;
-	bh=oV98QYeUC3NkyosKp2b8pkhzXaPhLuZz65LU9F6UUMU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QigjO2fd5wPDBDlKb6QXuCNtCy1UbEBpTq3aQs9dqtKk2l/YWNvqbtMKSv6NKZovxqT6zM8HD8xsqKL/9Q7umse2MOpO54mPr3dB7N4EEtLBhOQuy58hU3NVccnilSPpY128w371hDqR6cAPneZ5AdLLplZ0w6ep1YiC5XVrx8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=swfdPiIz; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="swfdPiIz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=oV98QYeUC3NkyosKp2b8pkhzXaPhLuZz65LU9F6UUMU=; b=swfdPiIzvnlnphAddtRqyGnjyf
-	uetoNMBDmO8+cSJWH8NKO3a73TXewMx1UJpqpQ3fzyQG60kaEDD36P31m5mWbLSOBd69/HSNtKN/t
-	PDMlb1WK29Bi6ZBzFvqOKVryUu2nFv5gUvV7mIXaZc9BX2KtlM2m+F9lOd22HLMUyDzH0U7L0Fh31
-	yHrMf49g2B7pnEJqn/6TAFFpCzUHnhEQqLQIoHv84RwMe2zsE4ERefK3nZwFe+wH7xv2zkpM00lrD
-	DGA2C0YNoCrUzTB82vHu0W2NkVPi2U1zL+64e87LVECLepcyqhfhBZc77U2h8v16Zsnru5sApgYxf
-	SUp0IpfQ==;
-Received: from [2001:8b0:10b:5:e09:5b1f:c111:693d] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wtuSt-000000013TK-3eSZ;
-	Tue, 11 Aug 2026 21:56:56 +0000
-Message-ID: <5efe7a3914a3610ee00a487379caff84af6aa731.camel@infradead.org>
-Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when
- TSCs are offset from each other
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>,  Borislav Petkov	 <bp@alien8.de>, Dave
- Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"	
- <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross	
- <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul
- Durrant	 <paul@xen.org>, Jonathan Cameron <jic23@kernel.org>, Sascha
- Bischoff	 <Sascha.Bischoff@arm.com>, Marc Zyngier <maz@kernel.org>, Joey
- Gouly	 <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, Dongli
- Zhang	 <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Date: Tue, 11 Aug 2026 22:56:50 +0100
-In-Reply-To: <anuYNxD81OE3MrQw@google.com>
-References: <bb9a12cc663130eb2caa8e839d0f6ca53d722d1c.camel@infradead.org>
-	 <ansuqrD2KwFuLWbV@google.com> <ansywxh0VX5rtfWc@google.com>
-	 <e256fa4af96e916ba30019cbba501fa896025fb0.camel@infradead.org>
-	 <antQYJvRxJxOjtut@google.com>
-	 <f5dc701cf3319a7b3c8fd1497f26d051aa9fa3ba.camel@infradead.org>
-	 <antb01WqOrs-tztm@google.com>
-	 <6ab49538675d97f1f4bf01574b1b066aae0bc05c.camel@infradead.org>
-	 <ants4VjfAiblaWsl@google.com>
-	 <3dc73f745b6abfd1eb53e7d3fce2067eaa3b3c92.camel@infradead.org>
-	 <anuYNxD81OE3MrQw@google.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-wSSskaTjZd27bgLZsARo"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	s=arc-20240116; t=1786486694; c=relaxed/simple;
+	bh=GdqizPjNKUS/sESjWTPlE2DUDtjAaePnChP7exL3IAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ChzmPZ9iri0TcHAIhNdhq4CVNjmTAZ53HSR04I8lcKM0XB7QQsYoGzSr6ykKsIAutd/ogyVGeESe3NT/xrp9xB5QZ3Qxf4JkJsYty34WqjHWlYnlC6Z3O28bxXAanrApy7MPV71e1w3ZdCKRl1EoGfUxUo20OkLZDHNx9zaU2l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf09.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 7FE9F1A0247;
+	Tue, 11 Aug 2026 22:18:08 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id 89AC620028;
+	Tue, 11 Aug 2026 22:17:51 +0000 (UTC)
+Date: Tue, 11 Aug 2026 17:17:50 -0500
+From: John Groves <john@groves.net>
+To: Richard Cheng <icheng@nvidia.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH v13 07/12] famfs: MAP_CREATE ioctl and fmap ingest (ABI
+ 44)
+Message-ID: <ant9osbVPJyUPdWB@groves.net>
+References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
+ <20260810202510.96332-1-john@jagalactic.com>
+ <0100019fed59de28-dde6a382-affe-4bc6-a91d-d4054a7c61a5-000000@email.amazonses.com>
+ <anrUDcyctLFe8dZL@MWDK4CY14F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anrUDcyctLFe8dZL@MWDK4CY14F>
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 89AC620028
+X-Stat-Signature: ynebxmmcuweffp5fb4m4pjfzamtnzggb
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18Nyk1cH53UsnaHL+/i1VTMUr0fDQgLRiE=
+X-HE-Tag: 1786486671-23516
+X-HE-Meta: U2FsdGVkX1/UO05OxbgKtK/k8D2whFwfdTnxCJPhimnTNePAyb8qCaOvtXPU3Nla+lUST9sB7E8hR84T3m7kl92gNPsUlQ4Yd1RvjbeRFMqta4TgQ5VbpW+8FlrHADyN8qfCDmxKOVrEt4cDOhS5bOo3Uy8YiJF7DqFV8aMMReHjPmGg96EQxTC2mnuEmxnQnXy0BFOjEU9mddAGFL4aKxS4XLFsEIgnd6HYSmfee+DDMZbQzZsZSeUb4w/+2c6E1VZl42qwAUk+JQWaCKKTPFNuZxjBC5Z6BPII266sSBKBYYIO7+HwkPGXTbDWVqqkQq/Qug6vM6LUSi/Ul0jR2bxnmHo0PxgzpsAc3nYsTb4XQnWCBCdNDHCF/Pk0mb6G
 
+On 26/08/11 04:03PM, Richard Cheng wrote:
+> On Mon, Aug 10, 2026 at 08:25:17PM +0800, John Groves wrote:
+> > From: John Groves <john@groves.net>
+> >
+> 
+> Hi John,
+> 
+> I have some questions below.
+>  
+> > Add the famfs file ioctl handler (FAMFSIOC_NOP, FAMFSIOC_MAP_CREATE) and
+> > the KABI-44 self-describing fmap message: the wire ABI in famfs_ioctl.h
+> > (famfs_ioc_fmap_header plus the simple and interleaved extent structs), the
+> > in-core famfs_file_meta, and famfs_file_init_dax(), which copies the
+> > message in, parses both the simple-extent and interleaved (striped) wire
+> > forms into inode->i_private, and sets S_DAX.
+> > 
+> > Resolving those mappings to dax-device offsets (iomap_begin) is added in
+> > the following commit; the read/write/fault paths keep their NULL iomap_ops
+> > stub until then.
+> > 
+> > Famfs now accepts extent and chunk alignment at either PMD or PTE. PMD
+> > is the normal case, and it guarantees PMD faults - which is right for
+> > large files, which are the original use case. But there are also active
+> > use cases that use zillions of small files, and those need PTE support
+> > to avoid big space amplification.
+> > 
+> > Also add famfs ioctls to ioctl-number.rst
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> > v13:
+> >  - Renamed the read-only module parameter famfs_kabi_version -> kabi_version;
+> >    it already lives under /sys/module/famfs/parameters/, so the famfs_ prefix
+> >    was redundant. New path: /sys/module/famfs/parameters/kabi_version (same
+> >    for =y and =m).
+> >  - Dropped the proposed GET_GEOMETRY ioctl (Darrick suggested turning the NOP
+> >    ioctl into one reporting the abi version and page/pmd sizes). The abi
+> >    version and supported allocation units are module-wide and needed before
+> >    mount, where an ioctl cannot reach; they are exposed as read-only module
+> >    parameters instead (kabi_version already is; alloc-unit reporting will
+> >    follow when sub-PMD support lands). FAMFSIOC_NOP is retained as the
+> >    "is this famfs?" probe (Darrick).
+> >  - Accept 4 KiB extent alignment, not only 2 MiB. Extent offset and length
+> >    (simple extents and interleaved strips) must now be PAGE_SIZE-aligned
+> >    instead of PMD_SIZE-aligned -- page alignment is a superset, so 2 MiB
+> >    fmaps still pass, and a 4 KiB-granular fmap is now accepted and maps as
+> >    PTEs (the fault path already falls back PMD -> PTE, while 2 MiB-aligned
+> >    extents still get huge pages). The interleaved striping chunk_size must be
+> >    exactly one supported allocation unit -- PAGE_SIZE (4 KiB) or PMD_SIZE
+> >    (2 MiB) -- not an arbitrary page multiple. The alloc-unit module param to
+> >    advertise supported granularities is deferred.
+> > 
+> >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+> >  fs/famfs/famfs_file.c                         | 328 +++++++++++++++++-
+> >  fs/famfs/famfs_inode.c                        |   1 +
+> >  fs/famfs/famfs_internal.h                     |  46 +++
+> >  include/uapi/linux/famfs_ioctl.h              |  91 +++++
+> >  5 files changed, 464 insertions(+), 3 deletions(-)
+> >  create mode 100644 include/uapi/linux/famfs_ioctl.h
+> > 
+> > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > index 3f0ef1e27eb0..5e244dec1b98 100644
+> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > @@ -299,6 +299,7 @@ Code  Seq#    Include File                                             Comments
+> >  'u'   00-2F  linux/ublk_cmd.h                                          conflict!
+> >  'u'   20-3F  linux/uvcvideo.h                                          USB video class host driver
+> >  'u'   40-4f  linux/udmabuf.h                                           userspace dma-buf misc device
+> > +'u'   50-5F  linux/famfs_ioctl.h                                       famfs shared memory file system
+> >  'v'   00-1F  linux/ext2_fs.h                                           conflict!
+> >  'v'   00-1F  linux/fs.h                                                conflict!
+> >  'v'   00-0F  linux/sonypi.h                                            conflict!
+> > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
+> > index 9c1cd2f67489..ba19b17e80b1 100644
+> > --- a/fs/famfs/famfs_file.c
+> > +++ b/fs/famfs/famfs_file.c
+> > @@ -13,9 +13,315 @@
+> >  #include <linux/mm.h>
+> >  #include <linux/dax.h>
+> >  #include <linux/iomap.h>
+> > +#include <linux/capability.h>
+> >  
+> > +#include <linux/famfs_ioctl.h>
+> >  #include "famfs_internal.h"
+> >  
+> > +/* Expose famfs kernel abi version as a read-only module parameter */
+> > +static int kabi_version = FAMFS_KABI_VERSION;
+> > +module_param(kabi_version, int, 0444);
+> > +MODULE_PARM_DESC(kabi_version, "famfs kernel abi version");
+> > +
+> > +void
+> > +famfs_meta_free(struct famfs_file_meta *map)
+> > +{
+> > +	if (map) {
+> > +		switch (map->fm_extent_type) {
+> > +		case FAMFS_IOC_EXT_SIMPLE:
+> > +			kfree(map->se);
+> > +			break;
+> > +		case FAMFS_IOC_EXT_INTERLEAVE:
+> > +			if (map->ie) {
+> > +				u32 i;
+> > +
+> > +				for (i = 0; i < map->fm_niext; i++)
+> > +					kfree(map->ie[i].ie_strips);
+> > +			}
+> > +			kfree(map->ie);
+> > +			break;
+> > +		default:
+> > +			break;
+> > +		}
+> > +	}
+> > +	kfree(map);
+> > +}
+> > +
+> > +static int
+> > +famfs_check_ext_alignment(struct famfs_meta_simple_ext *se)
+> > +{
+> > +	int errs = 0;
+> > +
+> > +	if (!IS_ALIGNED(se->ext_offset, PAGE_SIZE))
+> > +		errs++;
+> > +	if (!IS_ALIGNED(se->ext_len, PAGE_SIZE))
+> > +		errs++;
+> > +
+> > +	return errs;
+> > +}
+> > +
+> > +/**
+> > + * famfs_file_init_dax() - FAMFSIOC_MAP_CREATE ioctl handler
+> > + * @file: the un-initialized file
+> > + * @arg:  user pointer to a self-describing fmap message
+> > + *
+> > + * The map-create ioctl carries the fmap as a self-describing message: a
+> > + * struct famfs_ioc_fmap_header followed by an extent list. The message is
+> > + * copied in, parsed into a famfs_file_meta, and published on inode->i_private.
+> > + * Both the simple-extent and the interleaved (striped) wire forms are handled.
+> > + * The wire layout byte-matches the fmap carried in a fuse famfs GET_FMAP reply.
+> > + */
+> > +static int
+> > +famfs_file_init_dax(struct file *file, void __user *arg)
+> > +{
+> > +	struct famfs_ioc_fmap_header fmh;
+> > +	struct famfs_file_meta *meta = NULL;
+> > +	struct famfs_fs_info *fsi;
+> > +	struct super_block *sb;
+> > +	struct inode *inode;
+> > +	void *fmap_buf = NULL;
+> > +	size_t extent_total = 0;
+> > +	size_t next_offset;
+> > +	int errs = 0;
+> > +	int rc;
+> > +	u32 i, j;
+> > +
+> > +	inode = file_inode(file);
+> > +	if (!inode)
+> > +		return -EBADF;
+> > +	if (inode->i_private)
+> > +		return -EEXIST;
+> > +
+> > +	sb  = inode->i_sb;
+> > +	fsi = sb->s_fs_info;
+> > +	if (fsi->deverror)
+> > +		return -ENODEV;
+> > +	if (!famfs_opt_enabled(fsi, FAMFS_OPT_MAP_CREATE))
+> > +		return -EPERM;
+> > +
+> 
+> I think this only check whether MAP_CREATE is enabled for the mount ?
+> 
+> Does it check whether the caller is trusted or not ? I think no ?
+> 
+> Maybe we require more privilege such as CAP_SYS_RAWIO, FMODE_WRITE?
 
---=-wSSskaTjZd27bgLZsARo
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+CAP_SYS_RAWIO is checked on DAXDEV_OPEN, so no daxdevs can be enabled
+without it. But it's a fair point that if CAP_SYS_RAWIO is not checked
+when initializing a file map (MAP_CREATE) files could be created 
+that point where they shouldn't...within the set of daxdevs that were
+provided with the CAP_SYS_RAWIO gate.
 
-On Tue, 2026-08-11 at 14:46 -0700, Sean Christopherson wrote:
-> On Tue, Aug 11, 2026, David Woodhouse wrote:
-> > On Tue, 2026-08-11 at 11:41 -0700, Sean Christopherson wrote:
-> >=20
-> > >=20
-> > > Ok, I think I finally understand the goal.=C2=A0 I got turned around =
-by the combination
-> > > of the name SET_CLOCK_GUEST and the full pvclock structure being pass=
-ed to the
-> > > guest.=C2=A0 I was expecting SET_CLOCK_GUEST to literally set the ent=
-ire clock, e.g.
-> > > mul+shift, timestamp, etc.
-> >=20
-> > That's an implementation detail.=C2=A0
->=20
-> Yes and no.=C2=A0 If the payload didn't literally have all the assets nee=
-ded to set
-> the kvmclock fields, then I wouldn't care.=C2=A0 But I don't think I'd be=
- the only
-> person to see a GET+SET pair and expect GET to return exactly what was wr=
-itten
-> via SET.
+I'll add a CAP_SYS_RAWIO check here too.
 
-Sure, but right now, even a sequence of GET+GET+GET won't necessarily
-return the same answer three times in a row =E2=80=94 not just because we
-haven't fully eliminated the non-masterclock mode (which we might never
-do) but because the masterclock mode itself isn't truly the first-class
-citizen =E2=80=94 so we have to kind of reverse-engineer it into the per-VM
-clock data, and then build each vCPU's pvclock back out of that again.
+Thanks!
 
-We *ought* to live in a world where that pvclock information *is* the
-canonical source of truth, and any series of GET/SET/GET/GET/SET should
-never see it change. And we can build our future-looking API around
-that model.
+> 
+> 
+> > +	if (copy_from_user(&fmh, arg, sizeof(fmh)))
+> > +		return -EFAULT;
+> > +
+> > +	if (fmh.fmap_version != FAMFS_FMAP_VERSION)
+> > +		return -EINVAL;
+> > +	if (fmh.fmap_size < sizeof(fmh))
+> > +		return -EINVAL;
+> > +	if (fmh.fmap_size > FAMFS_FMAP_MSG_MAX)
+> > +		return -EFBIG;
+> > +	if (fmh.nextents < 1)
+> > +		return -EINVAL;
+> > +
+> > +	fmap_buf = kvmalloc(fmh.fmap_size, GFP_KERNEL);
+> > +	if (!fmap_buf)
+> > +		return -ENOMEM;
+> > +
+> > +	if (copy_from_user(fmap_buf, arg, fmh.fmap_size)) {
+> > +		rc = -EFAULT;
+> > +		goto out;
+> > +	}
+> > +	next_offset = sizeof(fmh);	/* start of the extent list */
+> > +
+> > +	meta = kzalloc_obj(*meta, GFP_KERNEL);
+> > +	if (!meta) {
+> > +		rc = -ENOMEM;
+> > +		goto out;
+> > +	}
+> > +
+> > +	meta->error = false;
+> > +	meta->file_type = fmh.file_type;
+> > +	meta->file_size = fmh.file_size;
+> > +	meta->fm_extent_type = fmh.ext_type;
+> > +
+> > +	switch (fmh.ext_type) {
+> > +	case FAMFS_IOC_EXT_SIMPLE: {
+> > +		struct famfs_ioc_simple_ext *se_in = fmap_buf + next_offset;
+> > +
+> > +		next_offset += (size_t)fmh.nextents * sizeof(*se_in);
+> > +		if (next_offset > fmh.fmap_size) {
+> > +			rc = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +
+> > +		meta->fm_nextents = fmh.nextents;
+> > +		meta->se = kcalloc(meta->fm_nextents, sizeof(*meta->se),
+> > +				   GFP_KERNEL);
+> > +		if (!meta->se) {
+> > +			rc = -ENOMEM;
+> > +			goto out;
+> > +		}
+> > +
+> > +		for (i = 0; i < fmh.nextents; i++) {
+> > +			meta->se[i].dev_index  = se_in[i].se_devindex;
+> > +			meta->se[i].ext_offset = se_in[i].se_offset;
+> > +			meta->se[i].ext_len    = se_in[i].se_len;
+> > +
+> > +			if (meta->se[i].dev_index >= FAMFS_MAX_DAXDEVS) {
+> > +				rc = -EINVAL;
+> > +				goto out;
+> > +			}
+> > +			meta->dev_bitmap |= BIT_ULL(meta->se[i].dev_index);
+> > +			errs += famfs_check_ext_alignment(&meta->se[i]);
+> > +			extent_total += meta->se[i].ext_len;
+> 
+> offset + length + entent_total can overflow, and file_size can be larger
+> than MAX_LFS_FILESIZE. And overflow can wrap the DAX address back to 0
+> and map the wrong memory.
+> 
+> Maybe check_add_overflow() can be utilized ?
 
-I think I do stand by my claim that SET/GET/GET potentially having
-*three* slightly different sets of data is an implementation detail
-that we will strive to eliminate.
+Good idea, thanks!
 
-And hey, at *least* they genuinely are within single-digit nanoseconds
-now!
+> 
+> 
+> > +		}
+> > +		break;
+> > +	}
+> > +
+> > +	case FAMFS_IOC_EXT_INTERLEAVE: {
+> > +		s64 size_remainder = meta->file_size;
+> > +		u32 niext = fmh.nextents;
+> > +
+> > +		meta->fm_niext = niext;
+> > +		meta->ie = kcalloc(niext, sizeof(*meta->ie), GFP_KERNEL);
+> > +		if (!meta->ie) {
+> > +			rc = -ENOMEM;
+> > +			goto out;
+> > +		}
+> > +
+> > +		/* Outer loop is over the separate interleaved extents */
+> > +		for (i = 0; i < niext; i++) {
+> > +			struct famfs_ioc_iext *ie_in = fmap_buf + next_offset;
+> > +			struct famfs_ioc_simple_ext *sie_in;
+> > +			u64 nstrips;
+> > +
+> > +			next_offset += sizeof(*ie_in);
+> > +			if (next_offset > fmh.fmap_size) {
+> > +				rc = -EINVAL;
+> > +				goto out;
+> > +			}
+> > +
+> > +			/* chunk_size must be exactly one supported alloc unit */
+> > +			if (ie_in->ie_chunk_size != PAGE_SIZE &&
+> > +			    ie_in->ie_chunk_size != PMD_SIZE) {
+> > +				rc = -EINVAL;
+> > +				goto out;
+> > +			}
+> > +			if (ie_in->ie_nbytes == 0) {
+> > +				rc = -EINVAL;
+> > +				goto out;
+> > +			}
+> > +
+> > +			nstrips = ie_in->ie_nstrips;
+> > +			if (nstrips < 1) {
+> > +				rc = -EINVAL;
+> > +				goto out;
+> > +			}
+> > +
+> > +			meta->ie[i].fie_chunk_size = ie_in->ie_chunk_size;
+> > +			meta->ie[i].fie_nstrips    = ie_in->ie_nstrips;
+> > +			meta->ie[i].fie_nbytes     = ie_in->ie_nbytes;
+> > +
+> > +			/* The strip extents follow the interleaved-ext header */
+> > +			sie_in = fmap_buf + next_offset;
+> > +			next_offset += nstrips * sizeof(*sie_in);
+> > +			if (next_offset > fmh.fmap_size) {
+> > +				rc = -EINVAL;
+> > +				goto out;
+> > +			}
+> > +
+> > +			meta->ie[i].ie_strips =
+> > +				kcalloc(nstrips,
+> > +					sizeof(meta->ie[i].ie_strips[0]),
+> > +					GFP_KERNEL);
+> > +			if (!meta->ie[i].ie_strips) {
+> > +				rc = -ENOMEM;
+> > +				goto out;
+> > +			}
+> > +
+> > +			/* Inner loop is over the strips */
+> > +			for (j = 0; j < nstrips; j++) {
+> > +				struct famfs_meta_simple_ext *so =
+> > +					&meta->ie[i].ie_strips[j];
+> > +
+> > +				so->dev_index  = sie_in[j].se_devindex;
+> > +				so->ext_offset = sie_in[j].se_offset;
+> > +				so->ext_len    = sie_in[j].se_len;
+> > +
+> > +				if (so->dev_index >= FAMFS_MAX_DAXDEVS) {
+> > +					rc = -EINVAL;
+> > +					goto out;
+> > +				}
+> > +				meta->dev_bitmap |= BIT_ULL(so->dev_index);
+> > +				errs += famfs_check_ext_alignment(so);
+> > +				extent_total += so->ext_len;
+> > +				size_remainder -= so->ext_len;
+> 
+> We use physical allocation size here to check logical file coverage,
+> it doesn't make sense to me.
+> For example, file_size can be 1MB and ie_nbytes only 4KB, but a 1MB ext_len makes this check pass, and you access the area after the first 4 KB will fail,
+> because it has no logical mapping.
+> 
+> Maybe we should make sure the sum of ie_nbytes covers file_size, and
+> separately check that each strip's ext_len is large enough for its assigned
+> chunks ?
 
+Chapeau to you for actually studying this code. Not many have gone
+there. It's arcane, but logically not too complicated.
 
---=-wSSskaTjZd27bgLZsARo
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+You're right that famfs_file_init_dax() doesn't check for pathological
+strip sizes or overflows. It does do some basic checking, but would
+not catch a short strip followed by one or more "correct" strips.
+That stuff would indicate a buggy or malicious caller, since it
+violates the fmap logic.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-fFB77++8lvtvApchR6aj2pIAAAAAAAA=
+However, the vma fault handler for interleaved files, 
+famfs_meta_to_dax_offset_interleaved(), *does* check for strip 
+overflows. It resolves a file offset to an offset in a specific
+strip (based on strip count and chunk size), and then checks that 
+it falls within the strip and not past the end.
 
+Here is that code:
 
---=-wSSskaTjZd27bgLZsARo--
+	/*
+	 * MAP_CREATE only checks that the strips' combined
+	 * length covers the file, not that each strip is large
+	 * enough for the chunks striped onto it. Guard against a
+	 * malformed fmap with an undersized strip so we never
+	 * resolve to a dax offset past the strip's extent.
+	 */
+	if (strip_offset >= strip->ext_len)
+		goto err_out;
+
+	daxdev = famfs_daxdev_from_index(fsi, strip->dev_index, &rc);
+	if (!daxdev) {
+		meta->error = true;
+		return rc;
+	}
+
+	iomap->addr    = strip->ext_offset + strip_offset;
+	iomap->offset  = file_offset;
+	iomap->length  = min_t(loff_t, len, chunk_remainder);
+	iomap->length  = min_t(loff_t, iomap->length,
+			       strip->ext_len - strip_offset);
+	iomap->dax_dev = daxdev;
+	iomap->type    = IOMAP_MAPPED;
+
+	return 0;
+
+Since this condition is an error or malice on the part of the 
+MAP_CREATE caller, I'm comfortable with catching it at fault time.
+
+> 
+> 
+> > +			}
+> > +		}
+> > +
+> > +		if (size_remainder > 0) {
+> > +			/* Strips do not cover the whole file */
+> > +			rc = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +		break;
+> > +	}
+> > +
+> > +	default:
+> > +		rc = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +
+> > +	if (errs > 0) {
+> > +		rc = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +	if (extent_total < meta->file_size) {
+> > +		rc = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +
+> > +	/* Publish the famfs metadata on inode->i_private */
+> > +	inode_lock(inode);
+> > +	if (inode->i_private) {
+> > +		rc = -EEXIST; /* file already has famfs metadata */
+> > +	} else {
+> > +		inode->i_private = meta;
+> > +		i_size_write(inode, meta->file_size);
+> > +		inode->i_flags |= S_DAX;
+> > +		meta = NULL; /* owned by the inode now */
+> > +		rc = 0;
+> > +	}
+> > +	inode_unlock(inode);
+> > +
+> > +out:
+> > +	kvfree(fmap_buf);
+> > +	if (meta)
+> > +		famfs_meta_free(meta);
+> > +	return rc;
+> > +}
+> > +
+> > +/**
+> > + * famfs_file_ioctl() - Top-level famfs file ioctl handler
+> > + * @file: the file
+> > + * @cmd:  ioctl opcode
+> > + * @arg:  ioctl opcode argument (if any)
+> > + */
+> > +static long
+> > +famfs_file_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> > +{
+> > +	struct inode *inode = file_inode(file);
+> > +	struct famfs_fs_info *fsi = inode->i_sb->s_fs_info;
+> > +	long rc;
+> > +
+> > +	if (fsi->deverror && (cmd != FAMFSIOC_NOP))
+> > +		return -ENODEV;
+> > +
+> > +	switch (cmd) {
+> > +	case FAMFSIOC_NOP:
+> > +		rc = 0;
+> > +		break;
+> > +
+> > +	case FAMFSIOC_MAP_CREATE:
+> > +		rc = famfs_file_init_dax(file, (void __user *)arg);
+> > +		break;
+> > +
+> > +	default:
+> > +		rc = -ENOTTY;
+> > +		break;
+> > +	}
+> > +
+> > +	return rc;
+> > +}
+> > +
+> >  /*********************************************************************
+> >   * vm_operations
+> >   */
+> > @@ -94,9 +400,25 @@ const struct vm_operations_struct famfs_file_vm_ops = {
+> >  static ssize_t
+> >  famfs_file_invalid(struct inode *inode)
+> >  {
+> > +	struct famfs_file_meta *meta = inode->i_private;
+> > +	size_t i_size = i_size_read(inode);
+> > +
+> > +	if (!meta) {
+> > +		pr_debug("%s: un-initialized famfs file\n", __func__);
+> > +		return -EIO;
+> > +	}
+> > +	if (meta->error) {
+> > +		pr_debug("%s: previously detected metadata errors\n", __func__);
+> > +		return -EIO;
+> > +	}
+> > +	if (i_size != meta->file_size) {
+> > +		pr_warn("%s: i_size overwritten from %ld to %ld\n",
+> > +		       __func__, meta->file_size, i_size);
+> > +		meta->error = true;
+> > +		return -ENXIO;
+> > +	}
+> >  	if (!IS_DAX(inode)) {
+> > -		pr_debug("%s: inode %llx IS_DAX is false\n",
+> > -			 __func__, (u64)inode);
+> > +		pr_debug("%s: inode %llx IS_DAX is false\n", __func__, (u64)inode);
+> >  		return -ENXIO;
+> >  	}
+> >  	return 0;
+> > @@ -233,7 +555,7 @@ const struct file_operations famfs_file_operations = {
+> >  	/* Custom famfs operations */
+> >  	.write_iter	   = famfs_dax_write_iter,
+> >  	.read_iter	   = famfs_dax_read_iter,
+> > -	.unlocked_ioctl    = NULL /*famfs_file_ioctl*/,
+> > +	.unlocked_ioctl    = famfs_file_ioctl,
+> >  	.mmap		   = famfs_file_mmap,
+> > 
+> 
+> We don't have compat_ioctl handler, a 32-bit application on a 64-bit
+> kernel will get ENOTTY, if we will have that scenario I think the handler
+> should be added.
+> 
+> Best regards,
+> Richard Cheng.
+
+This one is simple but arcane. Here are the kconfig deps:
+
+FAMFS -> FS_DAX -> ZONE_DEVICE -> MEMORY_HOTPLUG
+
+And MEMORY_HOTPLUG is depends on 64BIT. So famfs is definitively 64BIT-only.
+
+In this series I added a direct dependency on 64BIT, to make it more 
+clear...
+
+Thanks,
+John
+
+<snip>
+
