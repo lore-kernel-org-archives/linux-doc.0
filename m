@@ -1,110 +1,196 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCD23C8724;
-	Tue, 11 Aug 2026 20:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AE33FFFAB
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 20:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786479463; cv=none; b=hpR5eCgA75YIZdFHBTL/RpJFKZMr87vvRVUfOjuZzWiruBA76kg4XtaM5iMurAI7XZIvWfNBdduG5zdCdnXVfcHWxII6IXCHoEzDwK3F3f+LXwdnCb40CtzT79m7pOpNYuz1s7TgWoIjTh7Kw6HVgHAC+nKRI6MQriTU3ztft+I=
+	t=1786479515; cv=none; b=CNpJUFVOnQYrQWE9t9TJh4NUsH4CFStOrj+R/JhVp4luv+cvbge/24SprzIza0qogQyXQ6Eb8YBvhjONyp2/OQHn6V35Ai1q6nRjxhwPL11u47mkw2BOd1A8abauoFd9XcONjnzqxQn9TeuocB9l4Zbprtb6MJSzWLi3t4qLKug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786479463; c=relaxed/simple;
-	bh=gSjBIMWHca5U46ZxsrGHxju0cEEsz9xxV4nSDxxb9do=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rz2BBp2rNsH8DvN6skWZcbKNSnIdK0xbJqN9u1HIoVQr5n4dYC54wxPJYIhEjeZmta2DVOt5LI0VE8M7dKX+IARCrR8uWaB6wgZo5hNVq9I9w71jqSBA9lXkB438xCIGVm2xr5YLqfPaz59TE/xyNSP7IiLm2uNFXsyIQ4hfioQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=QpOiOYAK; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	s=arc-20240116; t=1786479515; c=relaxed/simple;
+	bh=ccUlQITujjKDxvsizPgp3QY5vJYvUp9kjFimThDnMxk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oYSYbOdC5Z/IGt8FW+CynGgiUHsmzY6o6kSBcJHBLTAH6agL88hNBa2ruXI3Ay/9/FAPvXwFmEpYyHylQd+n2f+3z5I7Ne3BBbIVCtKJFcgh/0rLXuI45cLxQznWM4lTxeCvDFBtV7WBZNxs2or5T9X56tZASFWjQeU2G5n2zck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pa7YLGEj; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="QpOiOYAK"
-From: Yureka Lilian <yureka@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1786479459;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OvNAr9Lgf36KCWSOvkbkg/HFww2daCBUTIh+sBR2P4U=;
-	b=QpOiOYAK93eoX1joUGvSC/oFNENqYkEePKK9HJoho93XKmWa2u4StufcOkb/bc1z7dxnaN
-	6V0t4X+zAVrRzyKhllZXS6y88QVWeDBsfgQUUexnPDRMMOpgRsYiklgPVekIXFvZMWm9pu
-	qKpLQ1JmXEQBTIglVc/IBEQgxrFgD/E=
-Date: Tue, 11 Aug 2026 22:17:35 +0200
-Subject: [PATCH] arm64: Add override for WFxT
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pa7YLGEj"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47de008b020so157028f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 13:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786479511; x=1787084311; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JFLe6tkLYuEC2gnEl/GsgjOSVqwPRw7abghLXfye9/g=;
+        b=Pa7YLGEjq+OIlzTFZMUQczrnv8nhodyrexeB8TosOw5rd2s7hrHMHVv2IxRnKOxePx
+         iHhHvEtRUoR06HeffIfbA0Ffu7+N9K4t0D/dC6xnu+gHofT7gtQJ5iVnjqtTZJ3lNEGE
+         2n/+ciBMi4W3n3MVJz6jXrIBlQubrTfFR7rXzRp9Plqdd9Kk/ub2nnX5WyOzstA/t1YI
+         kR0GvxM1Z/phs/XDzVJEs81p4NjrhUei7611y8D/QTZk1Z+g9SNQ4U+zVR+J8pIS23NP
+         SsT8q8ZWd+UJOgKSnCoe38k2JzvrEemASF53MWxAqvL51fYBLWe6KY4pZYDHyWaGdCIq
+         Wqzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786479511; x=1787084311;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JFLe6tkLYuEC2gnEl/GsgjOSVqwPRw7abghLXfye9/g=;
+        b=alIMEQppM38iCBb2bzwbPrMp86sFaZdAaL3sf0poRvzz6miDmPq7k5n5oo5EhIFtOU
+         6D8JSP5eRw1y0y2IiYuzHhsGjjNtW7xZp/FKUcW44C2+9Cxoed640DxpOjxq/vL+vlft
+         qc1qD2WedWGGTFXhrFW9gS9zzAipnrrRbz/XNeNeP649YJJX9f1+dHWedHSjC2GyhnX1
+         OHwkjtRxLcZmA4Ghj6RBoLWJTDFoA83QRvwqy+2HCGW06zh8Yxsmz81rX051ZuoFFVB2
+         2NyS00XlO9LAczuv9NRNVJWR7gacsGfEc66yL461rN5i0qgd9GmQa+Q23TeKlU9kIUuv
+         selQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7MXWW0m+qkEJXA5w6aL/l0K9kPJb1a0lqXiWuh4OWAu+/xhq5qEMmt+bVhYTZPFy9STNi3CAPP1U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1mH1wytte1kF+y7yt045qEZc44GjMiIMHHRdDOxwHCVlPDP3c
+	0kSRhB9Jacm22KxB8+lg46pjng3fJrlZUPUjHrEmZiN9gg9OIgk4uhJ3
+X-Gm-Gg: AR+sD10mTlE4nBkjD1PIUQ1xEr6gnRDiExUPQxQuOUNE8FzTsbK+E6UnKFiwCO1Hph/
+	7pV88/wT0mS86dOz/fwMFVkLIzCyeDYA/CVYBWFyMCOE6Hi8xDZ0SEnBM2z9VGKYW/2MyPjQH2a
+	5o+G9pITOSwehyePHNcoBdj1EU4F9rpkHS1UxavmLLeBVJfLlzOLVON9iq+kFO7mX87cnonEqMk
+	96piztT2WrwnlwoKz7WBTKRVbQLUoey76zBROUeTb0UX4a7QTYpY4BJ6FkVeSN5gAz//9BSAuiq
+	so+tTl9paokXjzVCjZE2Z6JQnIULdQ3YYKyngRIqAvE8hfoz9Wh/mQ03Hy52zWT4L6Kez+8B7DI
+	F5xhnpQqK94rMSU4rwI5/QY1dtiCl77h9T13GplDgJLFWavdprI2BuEGonYFK0JG43C1bKKtZJl
+	DPDbIMsoUCqGfR3V6V1saorvsXPVhflWbxhidOkdkrZYN1e9VjxrFCGatGR0Bq6iUM/JCaKjodO
+	paIOAMLRx/Wug==
+X-Received: by 2002:a05:6000:430d:b0:47f:e7f9:5251 with SMTP id ffacd0b85a97d-4814ffe28b1mr3367485f8f.3.1786479511163;
+        Tue, 11 Aug 2026 13:18:31 -0700 (PDT)
+Received: from [192.168.2.14] (85-70-151-113.rcd.o2.cz. [85.70.151.113])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48150bf5c5fsm976683f8f.3.2026.08.11.13.18.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2026 13:18:30 -0700 (PDT)
+Message-ID: <8654c2d4-8d9d-43f5-9256-adf2915209e9@gmail.com>
+Date: Tue, 11 Aug 2026 22:18:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260811-idreg-override-wfxt-v1-1-1c71228d0719@cyberchaos.dev>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw5FMBRG4VeRPT5N2hIRryIGh/5lGyC7bol4d
- 8XwG6x1UoAwApXJSYKNA09jhPkl1Pb/sYNiF01W21wXxkQKOjVtEGEHtftjUY3N09S7zOnMUyx
- ngefjvVb157A2A9rlWdF13R8QyA93AAAA
-X-Change-ID: 20260811-idreg-override-wfxt-b2633fd4d04f
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev, 
- Yureka Lilian <yureka@cyberchaos.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 13/13] dm crypt: wipe key material before kdump
+To: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+ keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org,
+ netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>, Baoquan He
+ <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Lukas Wunner <lukas@wunner.de>,
+ Ignat Korchagin <ignat@linux.win>, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Marc Dionne <marc.dionne@auristor.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>
+References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+ <20260811-crash-zeroize-rework-v2-13-9561d13c2340@jaseg.de>
+Content-Language: en-US
+From: Milan Broz <gmazyland@gmail.com>
+Autocrypt: addr=gmazyland@gmail.com; keydata=
+ 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
+In-Reply-To: <20260811-crash-zeroize-rework-v2-13-9561d13c2340@jaseg.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Add an override for WFxT support within ID_AA64ISAR2_EL1 to allow
-it to be disabled using the new arm64.nowfxt command line parameter.
+On 8/11/26 7:53 PM, Jan Sebastian GÃ¶tte wrote:
+> Wipe volume key/iv copies kept by dm-crypt with
+> CONFIG_CRASH_WIPE_SECRETS. The backend tfms are already handled
+> separately.
+> 
+> Add a list tracking struct crypt_config instances when
+> CONFIG_CRASH_WIPE_SECRETS is set. Structs are tracked here to avoid
+> having to enumerate them through some roundabout way before kdump, when
+> we can't safely take locks anymore.
 
-This accompanies the idle=nop param introduced in a previous patch
-series [1] in dealing with misbehaving WFI and WFIT instructions on
-Apple Silicon SoCs, and eases debugging of other quirky WFxT
-implementations.
+Well, dm-crypt has crypt_wipe_key(), which can be called through a device-mapper message.
+It also sets keys to zero in the crypto API.
 
-Link[1]: https://lore.kernel.org/all/20260804-arm64-idle-param-v3-1-d10f8159062b@cyberchaos.dev/
-Suggested-by: Will Deacon <will@kernel.org>
-Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
----
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- arch/arm64/kernel/pi/idreg-override.c           | 2 ++
- 2 files changed, 5 insertions(+)
+Why do we need yet another way to wipe keys here, reimplementing everything twice?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cb5251242311..6a35623e4a17 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -587,6 +587,9 @@ Kernel parameters
- 	arm64.nosve	[ARM64] Unconditionally disable Scalable Vector
- 			Extension support
- 
-+	arm64.nowfxt    [ARM64] Unconditionally disable Wait For Event with
-+			Timeout and Wait For Interrupt with Timeout support
-+
- 	ataflop=	[HW,M68k]
- 
- 	atarimouse=	[HW,MOUSE] Atari Mouse
-diff --git a/arch/arm64/kernel/pi/idreg-override.c b/arch/arm64/kernel/pi/idreg-override.c
-index 274bc72ba98d..acaf56234973 100644
---- a/arch/arm64/kernel/pi/idreg-override.c
-+++ b/arch/arm64/kernel/pi/idreg-override.c
-@@ -186,6 +186,7 @@ static const struct ftr_set_desc isar2 __prel64_initconst = {
- 	.name		= "id_aa64isar2",
- 	.override	= &id_aa64isar2_override,
- 	.fields		= {
-+		FIELD("wfxt", ID_AA64ISAR2_EL1_WFxT_SHIFT, NULL),
- 		FIELD("gpa3", ID_AA64ISAR2_EL1_GPA3_SHIFT, NULL),
- 		FIELD("apa3", ID_AA64ISAR2_EL1_APA3_SHIFT, NULL),
- 		FIELD("mops", ID_AA64ISAR2_EL1_MOPS_SHIFT, NULL),
-@@ -254,6 +255,7 @@ static const struct {
- 	  "id_aa64isar1.api=0 id_aa64isar1.apa=0 "
- 	  "id_aa64isar2.gpa3=0 id_aa64isar2.apa3=0"	   },
- 	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
-+	{ "arm64.nowfxt",		"id_aa64isar2.wfxt=0" },
- 	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
- 	{ "nokaslr",			"arm64_sw.nokaslr=1" },
- 	{ "rodata=off",			"arm64_sw.rodataoff=1" },
+I can imagine an emergency wrapper callback that will suspend dm-crypt and call existing code.
 
----
-base-commit: 5e6de6a2b522f659defacb1551d0465ba6ce13cf
-change-id: 20260811-idreg-override-wfxt-b2633fd4d04f
+> Use custom wipe handlers even for things like ivs that have existing
+> wipe functions elsewhere because we need to use crash_wipe_memzero
+> instead of memzero_explicit. The crash_wipe helper memzero_explicit's
+> the target buffers and flushes data caches. On ARM64, missing that cache
+> flush could lead to the zeros not being written to DRAM before the kdump
+> code turns off the data caches moments later.
 
-Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
+Please no. It looks to me like you are trying to fix this on the wrong layer.
+This way everyone will need their own memzero...
 
+Dunno, but I really do not like dm-crypt becoming completely bloated with code
+that has nothing to do with the original purpose of this driver.
+
+Milan
+
+
+> 
+> Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
+> ---
+>   drivers/md/dm-crypt.c | 151 ++++++++++++++++++++++++++++++++++++++++++++------
+>   1 file changed, 134 insertions(+), 17 deletions(-)
+> 
