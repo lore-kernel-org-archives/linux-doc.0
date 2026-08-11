@@ -1,172 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A091142EEA4;
-	Tue, 11 Aug 2026 09:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4035E41F349;
+	Tue, 11 Aug 2026 09:36:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786440741; cv=none; b=rSNDKbWy/r+zEOaA5BZkRuqV4EDMFl5LKLPeiisq11AmEluMTxiUB6TwlsoPboQjwvPDCE7Oq1bg3HC3sbYWX5q7nqEZI/c2SFVpeSAngYZVZ77SO/s2c8h7K3RODs7C8rSv6CBeUiCst8Q7/O/JroCrbew1s4aGXuI+MM68xcg=
+	t=1786440978; cv=none; b=WH+2BhItONCfBqCYXwZ48tfAUtcSenZ5IQH+lpxqEJ2UFVSUzCb32moOHWCTGp/jNK8AY15TwnvSSg01J/6830mbAUi+nZkrFtSZcn90hTIitM69mU8qPyBsm73dySLCraNF79O2ERkQJfgrs40nvWM+yE+o/AUcGu3DDFKyBwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786440741; c=relaxed/simple;
-	bh=Pt1nevMTgJ0hyu2UqYgqPOmzI5fgDrwSDPKbuwPAmCw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tfy4VyIy1Zg9CoegB2AcreQdaKv93LtMBpA3gD+EVOknE/1o2Gfgs6oQ8CA0ElVds57MytuswdUAD+QWihSUzBRpgFMCS/ypdICRdMPSA0y/DpzbUR9ejMcg1mPAFmWlgOosH/U6JF6nZoSyZOw+7Fl6vW9eq8D3SktnRhSqu5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlu1PxGu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786440978; c=relaxed/simple;
+	bh=rNECVYttPJXRkLDQTwvzgFZfTa6shAnpcGNPWE5RGKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iYF1PIWBi/wlRAJAQXmPPogtuGLN0p0Tm5ln0GanDBhomBCnLBvtHb8rMiuObO31sWvtP6p6wkXzKbkVfJBOn46oEuS6Zfr5Rk4j8HKJ082mPEOeyppZS3vavoDD2VapcqBFl4KA2nfxGI67xuMmTazndVl/tjnpy5F2GpeJw1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WhcEyBLA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlu1PxGu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F29A51F000E9;
-	Tue, 11 Aug 2026 09:32:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WhcEyBLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 737111F000E9;
+	Tue, 11 Aug 2026 09:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786440740;
-	bh=ffLJzyWnTCRIbRrdEkbpXBdeTZ14TQNfRzt8dE7+yJg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hlu1PxGu9/0mtIhIrSV+P7xR0aFEX7dwbF6vhlhkIB1O8Ir/xgO7B1fAitns/Jnna
-	 shEhZE/fhKwBdk2m7dMDrGT4Z9eE0rBA9CQjNmPIwVZ584tYt9FqcfrOdFkntKME0c
-	 x7aSIduzqio2g76hiJAFrpyiqgJLTB4WL00IliYlOO0S3prZPjY4Fhvnt+53BDsdNN
-	 QswvCXJZjssnMG7tOAt49/BufIk4djnqLYV8LkgyfbJTBATv50F07XnMtZDadHKTsq
-	 exHydF58F5IbFnbPhQNgVz20k4+jed5On+QAszjrzpe2v6iuRW+/YabYHWFzFUlaEx
-	 w9wimDwGrio5Q==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alex Williamson <alex@shazbot.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: [PATCH v3 11/17] PCI/P2PDMA: Derive peer-to-peer routing from ACS control bits
-Date: Tue, 11 Aug 2026 12:30:53 +0300
-Message-ID: <20260811-fix-p2p-acs-v3-11-efc488ee7c03@nvidia.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260811-fix-p2p-acs-v3-0-efc488ee7c03@nvidia.com>
-References: <20260811-fix-p2p-acs-v3-0-efc488ee7c03@nvidia.com>
+	s=k20260515; t=1786440976;
+	bh=HZT+zjBaG4GNDVXxnzBjYWXgumXbZ+jUWdPESO0+yzM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WhcEyBLAbbmW83UWvq0DuzIvVVR6dfBbhnRk93T+dGBc/gY1Fk7EQDMjm2He+3S63
+	 I7y9VHldf8lIlIV5LpCl1iAaatcj1/niZAYpQqC0qYNVtMnTVL9x9DZg40h+XxNz8L
+	 nsUNYTqWSB6qs8/Q1LXXhm4maQML85ylmetOeUj3NSWtQnPkZ59Iy0kcdC2o3Yma1q
+	 wpSescVfFIgkGnS1PjPPv/8l4zjvC7MAliG5qIvhwASS/yc11Mn8mYVeT49nIXkNRt
+	 salMWQeyjOTHsL92+pixX6BecFQe5q+8OIN1tfI5WqpsWFxZhFSbbk5fKAcQJ8nqD7
+	 tKnCaWnagzhSA==
+Date: Tue, 11 Aug 2026 10:36:11 +0100
+From: Simon Horman <horms@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Teng Peisen <tengpeisen@huawei.com>, Wu Di <wudi234@huawei.com>,
+	netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Larysa Zaremba <larysa.zaremba@intel.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Chen Anwen <chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>,
+	Zhang Min <zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>,
+	Wu Like <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
+Subject: Re: [PATCH net] hinic3: Fix SKB linearization mismatch and silent TX
+ drops
+Message-ID: <20260811093611.GA51943@horms.kernel.org>
+References: <f742377e33f33541420c0ba741925180517b3a9f.1786091276.git.tengpeisen@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f742377e33f33541420c0ba741925180517b3a9f.1786091276.git.tengpeisen@huawei.com>
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Mon, Aug 10, 2026 at 08:57:32AM +0800, Fan Gong wrote:
+> Previously, hinic3_send_one_skb() cached the SKB fragment count before
+> calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
+> skb_checksum_help() for unsupported tunnel packets, the SKB may be
+> linearized. Continuing to build the TX descriptor with the stale
+> fragment count leads to a descriptor mismatch, which can trigge
+> out-of-bounds DMA reads or IOMMU faults.
+> 
+> Furthermore, the old code ignored the return value of skb_checksum_help(),
+> transmitting corrupted packets with incomplete checksums upon failure. It
+> also failed to increment drop statistics across various TX error paths,
+> causing packets to be dropped silently without notifying the user.
+> 
+> Fix this by:
+> 1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
+>    ensure the correct fragment count is used if the SKB is linearized.
+> 2. Propagating skb_checksum_help() errors and returning
+>    HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
+> 3. Adding missing statistics increments (dropped, map_frag_err,
+>    unknown_tunnel_pkt, skb_pad_err) across the TX error paths so these
+>    events are correctly reflected in interface statistics.
 
-The redirect test reports an upstream redirect for any ACS redirect or
-egress control bit. PCIe r7.0, sec 6.12.3, table 6-11 ties the outcome to
-the control bits and the target vector, and an enabled egress control bit
-alone does not redirect. Compute the result from the control bits so the
-vector can be honored next, using the host-bridge route while the peer
-target is unknown.
+Did part 3 go missing?
+I'm not seeing it in the patch.
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/pci/p2pdma.c | 49 ++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 36 insertions(+), 13 deletions(-)
+> 
+> Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
+> Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
+> Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
+> Co-developed-by: Wu Di <wudi234@huawei.com>
+> Signed-off-by: Wu Di <wudi234@huawei.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index a364008bbf50..69cef8ca9557 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -21,6 +21,8 @@
- #include <linux/seq_buf.h>
- #include <linux/xarray.h>
- 
-+#include "pci.h"
-+
- /*
-  * Lifetime and RCU usage
-  *
-@@ -536,26 +538,45 @@ static struct pci_dev *find_parent_pci_dev(struct device *dev)
- 	return NULL;
- }
- 
--/*
-- * Check if a PCI bridge has its ACS redirection bits set to redirect P2P
-- * TLPs upstream via ACS. Returns 1 if the packets will be redirected
-- * upstream, 0 otherwise.
-- */
--static int pci_bridge_has_acs_redir(struct pci_dev *pdev)
-+enum pci_acs_p2pdma_state {
-+	PCI_ACS_P2PDMA_DIRECT,
-+	PCI_ACS_P2PDMA_REDIRECT,
-+};
-+
-+static enum pci_acs_p2pdma_state
-+pci_acs_p2pdma_state(struct pci_dev *pdev, struct pci_dev *target)
- {
- 	int pos;
- 	u16 ctrl;
- 
- 	pos = pdev->acs_cap;
- 	if (!pos)
--		return 0;
-+		return PCI_ACS_P2PDMA_DIRECT;
- 
--	pci_read_config_word(pdev, pos + PCI_ACS_CTRL, &ctrl);
-+	if (pci_read_config_word(pdev, pos + PCI_ACS_CTRL, &ctrl))
-+		return PCI_ACS_P2PDMA_REDIRECT;
- 
--	if (ctrl & (PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC))
--		return 1;
-+	if (!(ctrl & PCI_ACS_EC))
-+		return ctrl & (PCI_ACS_RR | PCI_ACS_CR) ?
-+			PCI_ACS_P2PDMA_REDIRECT : PCI_ACS_P2PDMA_DIRECT;
- 
--	return 0;
-+	/*
-+	 * The vector cannot be read without the peer target, so redirect
-+	 * upstream until the paths diverge.
-+	 */
-+	if (!target)
-+		return PCI_ACS_P2PDMA_REDIRECT;
-+
-+	/*
-+	 * PCIe r7.0, sec 6.12.3, table 6-11: a set or indeterminate egress
-+	 * control vector bit keeps the request off the direct path; a clear
-+	 * bit permits it, subject only to completion redirect.
-+	 */
-+	if (pci_acs_egress_ctrl_is_set(pdev, target))
-+		return PCI_ACS_P2PDMA_REDIRECT;
-+
-+	return ctrl & PCI_ACS_CR ? PCI_ACS_P2PDMA_REDIRECT :
-+				    PCI_ACS_P2PDMA_DIRECT;
- }
- 
- static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
-@@ -767,7 +788,8 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
- 	while (a) {
- 		dist_b = 0;
- 
--		if (pci_bridge_has_acs_redir(a)) {
-+		if (pci_acs_p2pdma_state(a, NULL) ==
-+		    PCI_ACS_P2PDMA_REDIRECT) {
- 			seq_buf_print_bus_devfn(&acs_list, a);
- 			acs_cnt++;
- 		}
-@@ -796,7 +818,8 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
- 		if (a == bb)
- 			break;
- 
--		if (pci_bridge_has_acs_redir(bb)) {
-+		if (pci_acs_p2pdma_state(bb, NULL) ==
-+		    PCI_ACS_P2PDMA_REDIRECT) {
- 			seq_buf_print_bus_devfn(&acs_list, bb);
- 			acs_cnt++;
- 		}
+Also, this seems to be v3 of this patch.
+For reference, that should be noted in the subject like this:
 
--- 
-2.55.0
-
+Subject: [PATCH v3 net] ...
