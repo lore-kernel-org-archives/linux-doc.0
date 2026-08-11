@@ -1,103 +1,169 @@
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D62237A85D
-	for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 23:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BA325392A
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 00:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786405501; cv=none; b=EwpbodgL9JyyrUQgwetd1GMz4CEdd6+pxKDCqcHjmy2Ry15BxTf+lMeCttMqIkGy0GF/ciQbjfaUQKJtB+KIA3S9Zlo/DnZR/j0r9UK2NKstGCqhsvU/D8MMst5a564bLRhTBFR2ThX1ffhIl7wQgwpSCZHzRwOquHvAbTWhNLc=
+	t=1786407540; cv=none; b=EBGYaRXFZ6Ox3CNP052VBsQD9Jt4aYuLL+ejRAdctwZYKOB6nGGAgbFGH7SB8LmCXWARYkzV/BGa2mCX6/fXLi92dHFh9HfZO6o5rPQkhYbRqob1U3uocKxkcgxWktSb00GWwJCyUsA8urbGWxg318cPJuEYZMt4u86TzR6fIi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786405501; c=relaxed/simple;
-	bh=33plBrcKy5Ba/ieAnvSmeZoRK1u7IAJOuZUoYzX0htw=;
+	s=arc-20240116; t=1786407540; c=relaxed/simple;
+	bh=W9uYraziRHJ/HXbsiKxTSK4X1mr9zUukCf8sFFZRRAo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qBapsjbrf5tou6NYp+tJmzK5mdCJmqeeM9tp6+IRtM8bNKmtOyjobHgt2Wjvsk0Jd5862hk/N2KMoX1JraLb9yxWfV6AGmfXKec4/vWMvpzukHqBeMK+3FLQg5iNgvjWqRlc9vopXwSOmRRWNYi7sfQnu2VtY/6/ZkqonZ/MfUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Xvbp7ppf; arc=none smtp.client-ip=209.85.210.199
+	 To:Cc:Content-Type; b=c+TfWwrXPPXTjTlk6ch8FpGc26ipiJm7Z2W/HQrSn9QK887iazOS35ECQlQTrKHDrKoOrbouPFY6MUfc8AJLlnr3lS/lwapdPm9cVz0R6SoyLgXtD5H0NHBmP7MhC5Wh03rASZL09Ycdp/XWYDT6fiHR7YxC8+Ax4ONWvfKmEhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D/rW2gWm; arc=none smtp.client-ip=209.85.210.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Xvbp7ppf"
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-84a3514f912so319762b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 16:45:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D/rW2gWm"
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-84e048a801dso3624161b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Aug 2026 17:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786405500; x=1787010300; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786407538; x=1787012338; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Lgf1v7ZyMRecW6GzYu5RKpdf3OAqJ1cTW2eoW0KSWKY=;
-        b=Xvbp7ppfw8Q5IUwrjSowvGe4cN8rUxiv8TmMQvdmi8+qCFWLf1e0WtjgwycszONm31
-         6wdeaBuxbB+h9wj/vQRMD33aLbTpzBKQC/FrgvT6qjwPROGUtKZQF5+Y7f5ZRgWSefcF
-         LxUnV7BQtTtho8YLhEJuB6Q4bOB5Tv0zP71DShGC6qG1JT0hixCdnZKrHE3nraIE9RSq
-         pgq4WYmEjzcCjfjIijMjcsuERgW9PdJglBgxv4bCpRdJqt2dlLftKV4AYV5qgGyVWQDT
-         wRCTmDvoftmFz+MU2wciCFeYCkN1V+1UfoTUKnU0eSjJF5mWDSAvtiTCendRpBOMjAE7
-         BUzA==
+        bh=eAiudkcAvitRicnlZsTp/8XRyAoMENjhlvyXGhGU0wA=;
+        b=D/rW2gWmTNAE5+DCLMdWb4DPZZMk+8nv4EYnFqKoFHlMaIG2Nnr6Uk1E/naDkrIY+Q
+         aVjS8+ZQGu/Xa3WUw+QT+YRkTo93E1jLOoRx0O8uAX6XIN1wn/pon0A3rmNZn1ByTKLb
+         kz+kqL6fmyLBAsMsQmKRdsJsl1gwGSkqgnfAoNwQWqSbb2C3jmHM/oq/P0gLtSNqDk4X
+         aK1AgfWLfSf83fXvTYu7b8PnjB9//fYKw/S2HB5TECWpSGT2Rr/fUNvi8AC4q9jgjVsc
+         GSpoK68iMOshthALn/mjGpCRKsBCil3eJMwp3l5t4zIEKFSjgrOQ4IGzjaDNxRdDqncm
+         Tdgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786405500; x=1787010300;
+        d=1e100.net; s=20251104; t=1786407538; x=1787012338;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Lgf1v7ZyMRecW6GzYu5RKpdf3OAqJ1cTW2eoW0KSWKY=;
-        b=G+9kYRfBiUypww/1qox3z44wUgBiJyc0Llq5EhYYhuT11cxrIoGZ0TVWlPErOQKyrA
-         C8St4I8LDOcBl+mv+FqY81Z9fx53y/mYFbc8xLXO4VL1tqmLMfURNeuFarWhvqeXKeR0
-         J+jkNtGYagRkuzv3PyBnV2sWWYApbEGcOlLpadPnKaH17hS66b42O4pOhx/Z07Q4WAif
-         21aEO4G02+7ExTe3zs5hTzj3k6M7zQ8YtZcrMn/QDpbscbrsiqHysr+Kb9hNR5/w7M64
-         oROc8KkS1JolYGQCvVrHfGLjUYekKZpaxBaybW4aVhq2AkuL5RwcNlckPLeVUgOGV+RG
-         OzAw==
-X-Forwarded-Encrypted: i=1; AHgh+RpWHY2vBg7WUT8kEeNseHy0FlaIjX3EiWdQfQAoLR4WaYSDn6ZXKT1bQAt/8QUQ0vWGEbjCykqu84Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMo4QVXHWKIjebIff1+phkUw64HTnKzfSYzkcnlUbvG77lJile
-	rI9OomvjTIy7IOvdpRXPwevb7nLb9xV7cHRg9I7ddtoy1kWvpAJCP9nPz/bLhTJ4BOis6eYIJjR
-	Rbe7QzQ==
-X-Received: from pggg21.prod.google.com ([2002:a63:2015:0:b0:c9b:bdf2:2507])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:178a:b0:845:e97d:447e
- with SMTP id d2e1a72fcca58-84f2e040170mr49815116b3a.26.1786405499340; Mon, 10
- Aug 2026 16:44:59 -0700 (PDT)
-Date: Mon, 10 Aug 2026 16:44:58 -0700
-In-Reply-To: <20260728121138.1103610-8-tarunsahu@google.com>
+        bh=eAiudkcAvitRicnlZsTp/8XRyAoMENjhlvyXGhGU0wA=;
+        b=AaC7MF5C66ga+QcT51HB+VRzR+Uf3OmSqnyb+C/6IDcJ3tHLRmr/qP8i8NpGW+kC2j
+         +CTnP1MqUh+eAqO9TcaAUKCNVncVRN4knHIQXrYfDHufwf3UOo+gvTdB5RwM6C0sRgat
+         5cXUIrlgEs5hJLIfqD9RkntqoIoBQRSwlTOfjDWLu30/MENmlCLRU/VqDG2faAJ0eJxK
+         v4yABCC2HoeS4fjg4LJe/PStHBHSUsn7/SWMcTBamfvd2heq2azR58QKJYB251LK3Mbr
+         O5iwawdw5T5mbxwqAyU8Zggjm7hJCXrh0MoM/DAnUzbbhfp5DzUFzJT1rLt5r5poDMwL
+         RflQ==
+X-Forwarded-Encrypted: i=1; AHgh+Roy6P8DPkLvXh4jszPTuh2N3HKG6JjWO1zhiPKGPau73LHGryxC2OwjpEMr6vTNJ5qa21qGeb8spgw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7ENJkks6iyFkcpyE/NuWMNpphiYDjtI4ACYpuHnOdysyqATfw
+	mB3FTURR6zEn1Ot4yGfVTO3d1J8QduanxeMEAUFRSUdHq0BjKfhnis7t1s5rybPUT4yooXkeQuk
+	C/ls/LQ==
+X-Received: from pglg7.prod.google.com ([2002:a63:1107:0:b0:cbe:948f:d640])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4613:b0:842:2a81:4c63
+ with SMTP id d2e1a72fcca58-84f9c95fbfemr5369150b3a.25.1786407537909; Mon, 10
+ Aug 2026 17:18:57 -0700 (PDT)
+Date: Mon, 10 Aug 2026 17:18:57 -0700
+In-Reply-To: <CAEvNRgGSK9tO_-TvQvXoMwVwGygh5WjjBUOY-zLOA5yP2DwS1g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260728121138.1103610-1-tarunsahu@google.com> <20260728121138.1103610-8-tarunsahu@google.com>
-Message-ID: <anpieno-RyRl54fp@google.com>
-Subject: Re: [PATCH v4 07/11] KVM: guest_memfd: Add support for freezing mappings
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-16-2fc18ee6d3ba@google.com>
+ <dd9ebd52-7171-4353-8c83-9363019d55b8@kernel.org> <CAEvNRgGSK9tO_-TvQvXoMwVwGygh5WjjBUOY-zLOA5yP2DwS1g@mail.gmail.com>
+Message-ID: <anpqcZlwvjWCWGId@google.com>
+Subject: Re: [PATCH v10 16/41] KVM: guest_memfd: Zero page while getting pfn
 From: Sean Christopherson <seanjc@google.com>
-To: Tarun Sahu <tarunsahu@google.com>
-Cc: ackerleytng@google.com, fuad.tabba@linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, sagis@google.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
-	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
-	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
-	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
-	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
-	suzuki.poulose@arm.com
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev, Xiaoyao Li <xiaoyao.li@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Jul 28, 2026, Tarun Sahu wrote:
-> +/**
-> + * kvm_gmem_freeze - Freeze or unfreeze a guest_memfd inode mapping.
-> + * @inode: The guest_memfd inode.
-> + * @freeze: True to freeze, false to unfreeze.
-> + *
-> + * This API is used strictly during the live update / preservation transition
-> + * window to prevent host userspace and guest-side faults from making any
-> + * mapping modifications (such as fallocate or page fault allocation)
-> + * to the guest_memfd page cache.
-> + *
-> + * Synchronization Strategy (Sleepable RCU):
-> + * To avoid high-contention VFS locks (like inode_lock or
-> + * filemap_invalidate_lock) on the vCPU page fault hot paths, this subsystem
-> + * implements a lightweight, system-wide Sleepable RCU (SRCU) mechanism
-> + * (`kvm_gmem_freeze_srcu`):
-> + *
-> + * Global vs. Per-Inode SRCU
-> + * ======================
-> + * A single system-wide global static `srcu_struct` is used instead of a
-> + * per-inode SRCU structure to completely prevent unprivileged users from
-> + * exhausting the host's per-CPU memory allocator. 
+On Mon, Aug 10, 2026, Ackerley Tng wrote:
+> "David Hildenbrand (Arm)" <david@kernel.org> writes:
+> 
+> > On 8/7/26 23:52, Ackerley Tng via B4 Relay wrote:
+> >> From: Ackerley Tng <ackerleytng@google.com>
+> >>
+> >> Move the folio initialization logic from kvm_gmem_get_pfn() into
+> >> __kvm_gmem_get_pfn() to also zero pages if the page is to be used in
+> >> kvm_gmem_populate().
+> >>
+> >> With in-place conversion, the existing data in a guest_memfd page can be
+> >> populated into guest memory through platform-specific ioctls.
+> >>
+> >> Without first zeroing the page obtained using __kvm_gmem_get_pfn(), it
+> >> might contain uninitialized host memory, which would leak to the guest if
+> >> the populate completes.
+> >>
+> >> guest_memfd pages are zeroed at most once in the page's entire lifetime
+> >> with guest_memfd, and that is tracked using the uptodate flag.
+> >>
+> >> Zeroing the page in __kvm_gmem_get_pfn() is chosen over zeroing in
+> >> kvm_gmem_get_folio() since other flows, such as a future write() syscall,
+> >> can get a page, write to the page and then set page uptodate without
+> >> zeroing.
+> >>
+> >> This aligns with the concept of zeroing before first use - the other place
+> >> where zeroing happens is in kvm_gmem_fault_user_mapping().
+> >>
+> >> Don't mark the page uptodate again after populating, since the page would
+> >> already be marked uptodate before the post_populate() call.
+> >
+> > The downside is that __kvm_gmem_populate() will now zero+write. I assume we
+> > don't care about possible performance impacts?
+> >
+> 
+> Would we rather zero in kvm_gmem_populate() only if !uptodate &&
+> gmem_in_place_conversion && src_addr == 0? That could work too.
 
-This argument doesn't hold up given that each kvm structure has two SRCU structs.
+No.  I'm 99% certain we discussed this (multiple times?), and the consensus was
+that any performance penalties due to redundant zeroing would pale in comparison
+to the cost of actually assigning the page to the VM.
+
+> Previously, without in-place conversion, populate never reads memory
+> from guest_memfd so there was no danger of leaking uninitialized memory.
+> >> @@ -1159,8 +1159,6 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
+> >>  	}
+> >>
+> >>  	ret = post_populate(kvm, gfn, pfn, src_page, opaque);
+> >> -	if (!ret)
+> >> -		folio_mark_uptodate(folio);
+> >
+> > In case post-populate failed, do we want to re-zero the pages?
+> 
+> I believe we can't re-zero the pages. When SNP fails to populate it
+> could be because SNP didn't like the CPUIDs userspace set up, and after
+> the error userspace is expected to check what SNP likes, then
+> retry.
+> 
+> IIUC zeroing will destroy the message SNP wanted to leave for userspace.
+> 
+> Michael should be able to explain more here :)
+
+Not Michael, but the above is correct.  If firmware rejects a CPUID page, then
+KVM copies back the expected CPUID values provided by firmware.
+
+That said, now that we have have @may_writeback_src we _could_ re-zero the page,
+i.e. only zero pages for which @may_writeback_src is %false.
+
+And _that_ said, I vote "no".  KVM zeros the memory mostly to ensure userspace
+can't read stale data, e.g. someone else's data.  I don't think we need to
+guarantee that a failed populate() (or rather, whatever ioctl called into it)
+will leave memory in any particular state.  It would be easier to document that
+the page contents may be modified on failure.
