@@ -1,33 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3EB440A2D;
-	Tue, 11 Aug 2026 12:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C312441612
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 12:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786450420; cv=none; b=ibD9F6h2hq3hVm3GWsIhV1NsHm6QkV1ajYXKV67FzvLkZtMHEW42pYz1hxNQgf5fEAKXQbxJPJWrwrKEZq/biMRf0PCvC6awh7nnJ/zKjcrsLibCt4OemfZBRt3AxFY7Lrs7W9kOtsiaCSj86xOh8BVv9p3vvZduw3VjG6tmXRU=
+	t=1786450816; cv=none; b=WONunS/q/DQH3a8GDnkibZ9HDX119yorPRyCYudvifv8L+dxN/3+t2RYyEP5amhV6I3cIQWLqanN3is5fzHASgpCn/sOVjMrvvOHD63xJCUahWAePqkw9fltZUHNZ3rg/lSVpPicYr7LiQdRh0Ty7qAkpujww4Wg+lvjps+VVMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786450420; c=relaxed/simple;
-	bh=iL6/GFG6s+t1x8jrnKd7ZiAEyqa22F98923kgA2GDMw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HFwXHTeuUhKkbu8UfLVDH4QlLunMUhjKtsBZYs7E2ePBr0qlCq9RyD/hSH5mmYtezNcR0ZGvpFO//i7MPSbAW4KtT/aAohvhX3NWrFFIjpQeT/t1hi4NmUsWeP2sZt4X7T1YK4++DrKQ5nIxhBXzmfHvEPbfEgdiQ6duqF1W25c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RkcpAC+5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786450816; c=relaxed/simple;
+	bh=bZhfQ75/tBx76bRwf/yqfxbrZJKpDXW17ur7HV4Joh0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=VhZ0QNessj3q6b18QTSXY8BrFHM+EHN1p2J8EzOHbA2LxBg+2BgjSSleoL5x9UnH+CZZc9Rr1vJkEcBVD9UFMdZbeJHsk4K5ccDfav52+Nymr6NFGwKGK3elJ4igBJq3wGH4EUm+6rGX7E74EaHTk0oyx2ODQJ8OOvx4+XwwDxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zk9oSKyd; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RkcpAC+5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B71B1F000E9;
-	Tue, 11 Aug 2026 12:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786450419;
-	bh=CGgWpN1i+NlUCQibsDxSg1wYekJ19m1pWqZNmrOKPiI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RkcpAC+5i4iSwbVpCxb06SLXvRgB782ALB84/TQxbTDsFJxQ5DiaF6Bp9c8FvbA3M
-	 Hw6qFCNlrIk9kXEfnuVEQh1avOTlL5YZt9ow61jljcQsx/yrR5jqeslE5e045TlXgt
-	 L85v95miw9GM4em2SbtXJrE1VkcYIU4bcIS3RV8zKn3uTM4lWTlhOaj9NCX/p7MKOZ
-	 c4LPOrEL3PlyPY3jf82d4hs3KT1kwpDoGED4XKrRRwLgWsykwgAwdKPOCNr7iiF512
-	 QmNsLrUt6/McOxB2NV3VzFsNHVab6z1nwLZ42zMkRmvA+uLHQHuTnNUZ9lfMIgcJ7c
-	 NdAouu7sF6I0g==
-Message-ID: <16f37d27-657a-4dd3-8935-975fce5a82b2@kernel.org>
-Date: Tue, 11 Aug 2026 14:13:28 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zk9oSKyd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786450814;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eWX499O3iR5H1HkaG3ftvTfcj6oM13J2855Qi6h6PhE=;
+	b=Zk9oSKydjALtk9i15bKxJxJIy4uB+j0UBRtz5Grlxj3doYL/rTO1VpyByXIA6X713d0iqu
+	wwYGjiFZU3FoU1JTMGAf2a5X6EVsonZfkncPlVyzk0Zm2oC+ynIsBCSn7FgyHR7lyIZxAx
+	PVahEbxJqlCaPN1X4gcs4yYIfuvTTmQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-306-SKRFYKPRMfm9AfZj5zxrqw-1; Tue,
+ 11 Aug 2026 08:20:04 -0400
+X-MC-Unique: SKRFYKPRMfm9AfZj5zxrqw-1
+X-Mimecast-MFC-AGG-ID: SKRFYKPRMfm9AfZj5zxrqw_1786450803
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C26751956052;
+	Tue, 11 Aug 2026 12:20:02 +0000 (UTC)
+Received: from [10.43.2.199] (unknown [10.43.2.199])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 57C50180049F;
+	Tue, 11 Aug 2026 12:19:59 +0000 (UTC)
+Message-ID: <b2173b95-a110-4301-870f-b54145028e6f@redhat.com>
+Date: Tue, 11 Aug 2026 14:19:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,98 +51,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] coredump: Add bit 9 of coredump_filter for pre-exit
- files before dumping
-To: Xin Zhao <jackzxcui1989@163.com>
-Cc: akpm@linux-foundation.org, alex.aring@gmail.com, allen.lkml@gmail.com,
- arnd@arndb.de, brauner@kernel.org, chuck.lever@oracle.com, corbet@lwn.net,
- ebiederm@xmission.com, j.granados@samsung.com, jack@suse.cz,
- jlayton@kernel.org, juri.lelli@redhat.com, keescook@chromium.org,
- kuba@kernel.org, liam@infradead.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
- mcgrof@kernel.org, mhocko@suse.com, mingo@redhat.com, mjguzik@gmail.com,
- peterz@infradead.org, pfalcato@suse.de, rppt@kernel.org,
- skhan@linuxfoundation.org, surenb@google.com, vbabka@kernel.org,
- vincent.guittot@linaro.org, viro@zeniv.linux.org.uk
-References: <8c763f1b-85ad-44b9-b36c-becd7598fe77@kernel.org>
- <20260806151232.1263773-1-jackzxcui1989@163.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH net-next v6 1/3] dpll: zl3073x: scale poll interval
+ proportionally to timeout
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
+ Min Li <min.li@microchip.com>, Paolo Abeni <pabeni@redhat.com>,
+ Petr Oros <poros@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org
+References: <20260809182340.1081610-1-ivecera@redhat.com>
+ <20260809182340.1081610-2-ivecera@redhat.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260806151232.1263773-1-jackzxcui1989@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20260809182340.1081610-2-ivecera@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 8/6/26 17:12, Xin Zhao wrote:
-> On Thu, 6 Aug 2026 16:01:55 +0200 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
-> 
->>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->>> index db6167bef..d590a1dda 100644
->>> --- a/Documentation/filesystems/proc.rst
->>> +++ b/Documentation/filesystems/proc.rst
->>> @@ -1939,6 +1939,7 @@ The following 9 memory types are supported:
->>>    - (bit 6) hugetlb shared memory
->>>    - (bit 7) DAX private memory
->>>    - (bit 8) DAX shared memory
->>> +  - (bit 9) fd list
->>
->> "The following 9 memory types are supported: ... fd list"
->>
->> What?
-> 
-> Thank you. It is a silly mistake. I'll fix it.
+Sashiko findings with comments:
 
-FWIW, that's not what I meant. We talk about "memory types" and then you throw
-in a fd list.
+ > Since zl3073x_poll_zero_u8() is the single shared polling helper, 
+does this
+ > also change the poll granularity for all the pre-existing callers [...]
+ > sleep_us becomes 500 us, 1000 us, 1000 us, 600 us and 1000 us 
+respectively
 
-This all doesn't make sense, really. As Christian says, the whole approach is
-flawed. Sorry :)
+Yes, the change affects all callers. Testing showed that the
+existing callers typically completed in low hundreds of sleep cycles
+with the fixed 10 us interval. With the scaled interval, the cycle
+count dropped to single digits — a much better fit for the actual
+hardware response times.
 
--- 
-Cheers,
+ > Does the flash path also get slower? [...]
+ > over the tens of thousands of words in a firmware or utility image
+ > could add a noticeable amount of time to a devlink flash.
 
-David
+No. Firmware flash operations were tested with no observable
+regression. The overall flash time remained the same because the
+reduced number of sleep cycles compensates for the longer individual
+sleep intervals.
+
+ > Would clamping the derived interval [...] reach the stated goal [...]
+ > without changing the existing 25-50 ms call sites?
+
+Given the test results above, clamping is not necessary.
+
+ > Reading this, one would conclude the existing 25-50 ms call sites 
+keep their
+ > old behaviour [...]  Could the changelog mention the effect on the 
+existing
+ > [...] polls?
+
+Fair point. Will update the changelog to mention that all callers are
+affected.
+
+ > Is "approximately 50 iterations" accurate?
+
+Will reword to avoid the specific iteration count claim.
+
+Thanks,
+Ivan
+
