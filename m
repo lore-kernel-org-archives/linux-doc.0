@@ -1,49 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FD0442FB6
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 12:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B4A42C4FD
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 12:25:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786450972; cv=none; b=gwLvP1be20QV6zkKlKAVuCsiTpUKpbvtY28POwr8v1toh+XKGHsgwbLZk/Wxl8YUDyLJBrvHu/lV6iTi2glbrtxFzek9ZpgyU8Z3ovRM0BSOVfUDEwmxlfbyVRGvWCwj7xjOToCyghBZL9KwUA+09hiXqFW2V3LwPwc+XGrbsn4=
+	t=1786451134; cv=none; b=d/c603ilwaarVezZ4I+WlSeoZX40MOAeNFpz3biUJniVfEHoKSQ1Q5EnzZ7NzJAnaMHLBd/IlXOMybWk09/GYQ+8HoStP7tqEzHAwoef4pzpDpPRqVoZrWp/SrgiEfu4gR7mucWjSLPIpBCFksAFVRbA2AvvPAMDtmRQJL9vC+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786450972; c=relaxed/simple;
-	bh=OXjwWaAHCtJe/l1tvo90Y//Wq15ugOpZvjih3gIWlgg=;
+	s=arc-20240116; t=1786451134; c=relaxed/simple;
+	bh=ialVvxyjCVKcgb89/PzFSUBLWApaezqledsu4ls7L0I=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=mT++7/QSTMreFgnLddd+n0zkLiCIfU0cGweSK1qqRmcn3mDM3HIrzkTWtmSdMtP1fPvKZqdUuMheqhfI2o/TPL+q7WgQjf5uw2M4Brstho+DuoQa0YQpvWlLTrBox3pWd21RKemfo3BUwpZung/ISvvoY9dEOfX/QNlg9hZljI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BD1kM0Bi; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=cQn8z+tcnFgt3mHLV6MGpKEJvI6zwgcQDgjS84jgkY9hkmVkypA797u6GpasqRb52UBbMI3DKMJaH5Bcnk4/neqik7H4nD9Q2nr3X9+3kmEJ8keLotuxb6jngNtTuE/uvakY053eqxrFOmAcRyn/UtWEPKDiWKoXCMUVRQX7bOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GYPff5fX; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BD1kM0Bi"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GYPff5fX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786450969;
+	s=mimecast20190719; t=1786451132;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OXjwWaAHCtJe/l1tvo90Y//Wq15ugOpZvjih3gIWlgg=;
-	b=BD1kM0Bi1vBuGPPoYlZ6oZP4MzePfWQvvU7+P24uOdFc2j8aZe/UGFIHj0dOlrIQ7Xmd5T
-	WIu1cnXWEtcyhOl5XF7zhsBbQUSCuTlacU5FXyCBfsoKyOOL92tTU+hLag6uxEdf1nSTBK
-	saQ4n99m9JiiBzVnCt8Ts51KIgzrI6Q=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=ialVvxyjCVKcgb89/PzFSUBLWApaezqledsu4ls7L0I=;
+	b=GYPff5fXswVKNWHN3jX9bym9hjpLAT7PdrIv1YyrZPt9TJuLbNN/9FOKC2qvwJsc4S3IrM
+	b2UGgyw63ymumuXzBoyh8SHxvO/ffleq0azqPFVpyCg2xqQi1kpPg+o0F8JadeLC/E/0sL
+	MtilRhfB630tFOgRfpebWXXylOGk8Dk=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-481-h5trJIUWN6WM6DBYAzrkbw-1; Tue,
- 11 Aug 2026 08:22:43 -0400
-X-MC-Unique: h5trJIUWN6WM6DBYAzrkbw-1
-X-Mimecast-MFC-AGG-ID: h5trJIUWN6WM6DBYAzrkbw_1786450961
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-557-gpUd9JUhNmebUvTeI1oRpw-1; Tue,
+ 11 Aug 2026 08:25:28 -0400
+X-MC-Unique: gpUd9JUhNmebUvTeI1oRpw-1
+X-Mimecast-MFC-AGG-ID: gpUd9JUhNmebUvTeI1oRpw_1786451127
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BA341800984;
-	Tue, 11 Aug 2026 12:22:41 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D933B19560B4;
+	Tue, 11 Aug 2026 12:25:26 +0000 (UTC)
 Received: from [10.43.2.199] (unknown [10.43.2.199])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EA8EC19560AB;
-	Tue, 11 Aug 2026 12:22:37 +0000 (UTC)
-Message-ID: <2a02b878-d605-4db4-a9a1-7323beb35e4a@redhat.com>
-Date: Tue, 11 Aug 2026 14:22:36 +0200
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 999BC1800346;
+	Tue, 11 Aug 2026 12:25:23 +0000 (UTC)
+Message-ID: <a16ae174-5e15-415f-9858-e9ad7b4bef26@redhat.com>
+Date: Tue, 11 Aug 2026 14:25:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,8 +51,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6 2/3] dpll: zl3073x: add channel ToD, phase
- step and TIE operations
+Subject: Re: [PATCH net-next v6 3/3] dpll: zl3073x: add PTP clock support
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Petr Oros <poros@redhat.com>,
@@ -65,40 +64,83 @@ Cc: Petr Oros <poros@redhat.com>,
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  linux-doc@vger.kernel.org
 References: <20260809182340.1081610-1-ivecera@redhat.com>
- <20260809182340.1081610-3-ivecera@redhat.com>
+ <20260809182340.1081610-4-ivecera@redhat.com>
 Content-Language: en-US
-In-Reply-To: <20260809182340.1081610-3-ivecera@redhat.com>
+In-Reply-To: <20260809182340.1081610-4-ivecera@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Sashiko findings and replies:
+Sashiko findings and my replies:
 
- > Does capturing the post-timestamp here degrade cross-timestamping
- > precision? [...]
- > Should the post-timestamp be captured immediately after
- > zl3073x_chan_tod_ctrl() issues the command?
+ > Is the hard dependency on PTP_1588_CLOCK intended here?
 
-The post-timestamp must be taken after the semaphore clears, not
-after the command write. The hardware latches the ToD value as part
-of processing the command, which completes when the semaphore is
-cleared. Taking the post-timestamp before the wait would risk the
-window not containing the actual latch event, which would be worse
-than a wider but correct window.
+Yes. This was explicitly requested by Jakub in the v2 review [1].
 
- > Could this retry loop exhaust its budget and fail spuriously [...]?
+[1] https://lore.kernel.org/netdev/20260722135848.2d401ada@kernel.org/
 
-Testing shows that a single iteration of the loop body (two ToD
-reads) takes approximately 17-19 ms. With 20 retries that gives a
-budget of 340-380 ms, which is more than enough to outlast the 20 ms
-margin window. After the 1 Hz edge crosses, the next read returns
-~980 ms of margin and the loop breaks.
+ > Does the requested timestamp need compensation for the 1 Hz latch
+ > here? [...] gettimex64() keeps returning the old time until that
+ > edge
 
- > Is it possible for preemption to cause a 1-second clock shift here?
+gettimex64() does not return the old value. It calls
+zl3073x_chan_tod_read() which starts with zl3073x_chan_tod_ready_wait().
+If a WR_NEXT_1HZ from a previous settime64() is still pending, the
+wait blocks until the 1 Hz edge applies it, and the subsequent read
+returns the new value. So the written timestamp is applied accurately
+at the edge with no drift to compensate for.
 
-The 20 ms threshold provides sufficient margin for the write
-sequence. This requires ~20 ms of preemption under a held mutex to
-cause an issue, which is not reachable in practice.
+ > What state is the hardware left in on this path? [partial phase step
+ > failure returns 0]
+
+This is intentional. At this point the seconds and the first synth
+group (with ToD) have been committed. Propagating the error would
+cause the PTP servo to retry the full delta, applying seconds a
+second time — a much worse outcome than a sub-second skew on some
+outputs. A regmap/bus error at this stage indicates a serious
+hardware problem that dev_warn() surfaces appropriately.
+
+ > zl3073x_dpll_ptp_adjtime() documents "Return: 0 on success, <0 on
+ > error", yet it returns 0 with rc != 0 when the seconds were already
+ > committed [...]
+ > Could these blocks spell out that 0 does not imply the requested
+ > adjustment was fully applied?
+
+Good point. Will update the kernel-doc to document the partial
+success semantics.
+
+ > Should sec_adjusted be set right after the successful
+ > zl3073x_chan_tod_adjust() rather than after the wait?
+ >
+ > Once zl3073x_chan_tod_adjust() returns 0, the WR_NEXT_1HZ command has
+ > been accepted and the firmware will latch the seconds at the next
+ > 1 Hz edge; the driver cannot cancel it.
+
+If tod_ready_wait fails, we cannot be certain that WR_NEXT_1HZ was
+actually applied — the semaphore timeout means we do not know whether
+the hardware committed the seconds or not. Returning the error and
+letting the caller handle the retry is the safer choice.
+
+ > Does the template need to be copied here [in alloc], or in
+ > zl3073x_dpll_ptp_register() just before ptp_clock_register()?
+ >
+ > ptp_clock_register() writes into the driver-owned struct
+ > ptp_clock_info [...] On the second registration the leftover
+ > getcycles64/getcyclesx64 pointers [...]
+
+Good catch. Will move the template assignment from
+zl3073x_dpll_alloc() to zl3073x_dpll_ptp_register() so that
+ptp_info is always fresh before each registration.
+
+ > Sub-second PTP adjustments can be overwritten by pending hardware ToD
+ > writes from previous API calls.
+
+The PTP callbacks are serialized by zldpll->lock. A pending
+WR_NEXT_1HZ from a previous settime64 or adjtime call is consumed
+at the next 1 Hz edge. Any subsequent ToD operation goes through
+tod_ready_wait which waits for the pending write to complete. For
+phase step and TIE write: these operate on independent hardware
+blocks and do not conflict with a pending ToD write.
 
 Thanks,
 Ivan
