@@ -1,474 +1,71 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A295E3E00A0
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 07:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D727361640
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 07:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786433690; cv=none; b=gj6GJNZ1VeXxsQVH8YlU81/wJ8m6eS9iGi1aDq0SPXy+snxeZjgK2P5gqqEe+SGxV99k9+snkokFrrBv8qWN0po5sb6KeNw+pdne2Mx06vnik2fv8S2HgxrqaZOoD7Q6AnkFJm+ajAb8QaCyVXAkIyUDFawyvXhj9+bRWN1Hyq0=
+	t=1786433933; cv=none; b=Ll0EmjgSepN4MeXGFQCpehr9PfBdapwL5BsOLp4I2lKoxzVLeWaY4wFdabixMlICH4aqnCUc1xcxsq14CDJe/+MNIBZBWGlpbWQJ1z69cAWlMO3XZv+V77TsKLnHZlrk77A0RYaP5UkapUJQWJGEgvV4BXLzHPDzxlIxlVVHQBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786433690; c=relaxed/simple;
-	bh=f4+IYnTGLF4q13/M9+5n5iXPBwuoRLcq6zbFVgvErJA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qQdPN6cAyjrEqFu8r6LZkng7k/7wd+qVFDHHtYrLMPwunmj65PdvXO+LJRbau6Cy/wXkexbr2OdsOUl5T4yq/QtSktJUZaddOUI/9FEi9G8DhEuBAKtcGg5lil+Hs++/iRhwexS/NuwudOaVmI29c7beoy0IuGm4DQuSK1pi1Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b=aHcuJbZm; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
+	s=arc-20240116; t=1786433933; c=relaxed/simple;
+	bh=hudZ7it0neGAksgRgLThkhz3Cv+lH/seZNwlPqyLIFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jbQdCo8qhnWQ0QsQK5h3GlvhOSzuOK1cGkgam6MNH1u2KJdhbD7LaAfvyi9Jj7+Djk+Wa9W+uO2lK/2Cy2JxpGNWFfyHFGN+k+0x2CBCQ4W6TXEmTwLH9AtvUFqf7RTHVpbdJJ5myqjq+w6GmpXd/fsQdmHmqvjVXuPAS20HL18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=c1iLnb28; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b="aHcuJbZm"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49553515a8bso42689775e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 00:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blackwall.org; s=google; t=1786433685; x=1787038485; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NVnKLZgiKZe8iYRQVbzyFRscNaqtCQyFP5/0vS+MJnE=;
-        b=aHcuJbZmYTmx+rJa2CqteaFOl2MsdaNnPJGKmbQyAkBxVBDzsY/1g3VcaHpBhkfjYl
-         hTarDeRAWBQ78H6xCocKiQlu//Y8iV+sCb2kaeKdrSmaix3f+7TT0ImuUuxl4DWxjd42
-         IUjVr4TINHTHsW8LPnCpaul+5ephMunHSvrf6Y3D0VSew/SIwfyfJgbNXEiUvF5ZUJol
-         678ubwWbHwMRxvVniHN5wlDuTLei6d92md1QkxdPYHtvosr44Bsm39MhA99Df0q8dk4V
-         1CGrPV2KrgBEVJXDL1of1a2h8XNIngh3t43lxizaQ0pcCLiCZBqoKRm88O2GZwFrUcy8
-         o5qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786433685; x=1787038485;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NVnKLZgiKZe8iYRQVbzyFRscNaqtCQyFP5/0vS+MJnE=;
-        b=hdU3Ij5/V1QX2o90/QbKcgREUm2bzPKib5f/nuKuLn/ghgk/N1PBZFARiwJws8EK13
-         ljyfXVYDncxuBa9vMWQX+nJRJNnUa07+xro87p3eHuVLxPSyyx69j8ul6Nv11yj1U6n+
-         gKj18xWMRmMN/ami0/tm7dWGXdYX4TruQjtNHi5Oq7xDCLs/a5GsKK+r5TN0Zqir/QfI
-         1dY8W5+520mQvwU1u6SLQMVZ8QVsDOto+fTkGYViQIbDtPgrhu91rMa0I4AkWZLhrpKe
-         I9Sc6HotpW1JMpwGqoPcu86MJn3SxqWKYbsupaN+weBDgcBZGaHlq+01wwC8RdKcdEP/
-         VyHA==
-X-Forwarded-Encrypted: i=1; AHgh+RpeQxzbKoLjg0V7lTK3hIpaFOzEJ2rex4LOGCpvkC5Ld8SnDYn3YkEBlwvKutP+H19kJemUsia+QpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvDWoTdXLCavEJ41ib+nJFDq15cMXqORGBf/J7QMy6FE19hdgt
-	1CaL0sJ6uG2omF/Tgi7yJ2zmdKVCCqyScBLyO0Fwst28LdaW9c/UUylYH99QanRRBTc=
-X-Gm-Gg: AR+sD11zejFLVyo3tgy7oU+2FfBRFCsNa5ceTdV3gPTEd7v4rCiNeCLd0C0yIFbnAQm
-	33PeILBoLlnWJJjcj8pHDGswp/h0DsKoEcICic5f8IiHiOJQ+Aadj/fkYE251pXqw/Hm4Awc5Wi
-	L6u/CQqsNb/v1mtbSU4pcR4rOsYL19T1+t5X6S/8E5AU13cWVUORNtB8Dygf76QPQiAffpfgQm9
-	pOSrYKW7y0Bivcvs6vnI5Y4y2WmSwtry99nreoGJzbwir5j2g4+ONGzZxjVQGtTkQstSnO9gaZo
-	ly0VU/ZRHNZsK/bBNHAGsM3XK9kvOf65/YQteZ6NK3U6pZfe3huGWacmaU8YU1jtq8VrpOAhf0g
-	7Ajahfhg739koxwvYa6Y6xrq7dihaSRxODpPjRbwJbuCy3S7wNFwKI8yolcgHM6LiHphiNwIXIh
-	5Kx5hY6QCrduZebKGLh3MsUMBKwwjCiIGn5d0aBS9c8KlOQi5hENtJ6DMpYAXo8Jm5MRJqA6vaZ
-	StR+jkZw9E2ZOSgtCE=
-X-Received: by 2002:a05:600c:4455:b0:499:51f0:a9b2 with SMTP id 5b1f17b1804b1-4997842c101mr21893655e9.1.1786433684490;
-        Tue, 11 Aug 2026 00:34:44 -0700 (PDT)
-Received: from [192.168.0.161] (78-154-15-182.ip.btc-net.bg. [78.154.15.182])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4814a5ac75dsm1949735f8f.7.2026.08.11.00.34.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Aug 2026 00:34:44 -0700 (PDT)
-Message-ID: <edf81977-7642-434e-b565-29a23605a183@blackwall.org>
-Date: Tue, 11 Aug 2026 10:34:42 +0300
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="c1iLnb28"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1786433928;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=J5kaFKVWfsSegFeC84ly4ZTSKxKYis3YIo4wmGDmJdI=;
+	b=c1iLnb28Xc9FW2/2B5F0dmLL1vV1Zcy8GWN1P/C4+yqj7LQtHmCdMkVLTalHCXPKTwvHam
+	SU1YLSH83BmbP0NIVJf7BnOFns0lXioBQcWlCmmlBbVMMaxhFtMoXOZM+E65QvdfRRp111
+	rcr+KvCS+Jw8BqkDIUaTN2btiPyiRJU=
+From: Tao Cui <cui.tao@linux.dev>
+To: tj@kernel.org,
+	corbet@lwn.net
+Cc: rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	arighi@nvidia.com,
+	yphbchou0911@gmail.com,
+	jpiecuch@google.com,
+	ihor.solodrai@linux.dev,
+	suzhidao@xiaomi.com,
+	luoliang@kylinos.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cui.tao@linux.dev,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH 0/2] sched_ext: minor doc and comment fixes
+Date: Tue, 11 Aug 2026 15:37:59 +0800
+Message-ID: <20260811073801.342165-1-cui.tao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next V5 2/2] net/mlx5: implement max_sfs parameter
-Content-Language: en-US, bg
-To: Jakub Kicinski <kuba@kernel.org>, tariqt@nvidia.com
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- netdev@vger.kernel.org, pabeni@redhat.com, aleksandr.loktionov@intel.com,
- aleksander.lobakin@intel.com, akiyano@amazon.com, daniel.zahka@gmail.com,
- dsahern@kernel.org, gal@nvidia.com, jiri@nvidia.com, jiri@resnulli.us,
- corbet@lwn.net, leon@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, mbloch@nvidia.com,
- nikolay@nvidia.com, petrm@nvidia.com, przemyslaw.kitszel@intel.com,
- rkannoth@marvell.com, saeedm@nvidia.com, skhan@linuxfoundation.org,
- horms@kernel.org, vdumitrescu@nvidia.com
-References: <20260806073037.3001886-3-tariqt@nvidia.com>
- <20260810225131.933746-1-kuba@kernel.org>
-From: Nikolay Aleksandrov <razor@blackwall.org>
-In-Reply-To: <20260810225131.933746-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 11/08/2026 01:51, Jakub Kicinski wrote:
-> This is an AI-generated review of your patch. The human sending this
-> email says "second one looks legit at least (about the max value)?"
+From: Tao Cui <cuitao@kylinos.cn>
 
-I went over these, the second one isn't right because there is no limit
-cap to check as opposed to VFs (noted by Sashiko as well). I've tried
-and there is no problem to set it to 65k (max_sfs: 0xffff (65535))
-so U16_MAX is a correct limit.
+Two small doc and comment fixes noticed while
+reading the code. No functional changes.
 
-The rest either aren't real problems, or are expected behaviour.
+Tao Cui (2):
+  Documentation: sched_ext: fix events sysfs path and show_state example
+  sched_ext: fix stale references in doc comments
 
-Cheers,
-  Nik
+ Documentation/scheduler/sched-ext.rst | 9 +++++----
+ kernel/sched/ext/inlines.h            | 2 +-
+ kernel/sched/ext/internal.h           | 5 ++---
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-> ---
-> net/mlx5: implement max_sfs parameter
-> 
-> This adds the generic devlink permanent parameter max_sfs to mlx5, so the
-> number of light-weight subfunctions a PF may create can be set through
-> devlink instead of vendor tooling.  The setter enables the global
-> per_pf_num_sf bit and then programs the per-PF SF fields in the MNVDA
-> non-volatile configuration.
-> 
-> A few questions on the new code below.
-> 
->> diff --git a/Documentation/networking/devlink/mlx5.rst b/Documentation/networking/devlink/mlx5.rst
->> index cf1dffa676696..9421c89951a05 100644
->> --- a/Documentation/networking/devlink/mlx5.rst
->> +++ b/Documentation/networking/devlink/mlx5.rst
->> @@ -45,8 +45,13 @@ Parameters
->>        - The range is between 1 and a device-specific max.
->>        - Applies to each physical function (PF) independently, if the device
->>          supports it. Otherwise, it applies symmetrically to all PFs.
->> +   * - ``max_sfs``
->> +     - permanent
->> +     - The range is between 0 and a device-specific max.
->> +     - Applies to each physical function (PF) independently.
->>   
->> -Note: permanent parameters such as ``enable_sriov`` and ``total_vfs`` require FW reset to take effect
->> +Note: permanent parameters such as ``enable_sriov``, ``total_vfs`` and ``max_sfs``
->> +      require FW reset to take effect
->>   
->>   .. code-block:: bash
->>   
->> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c b/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
->> index 4a7275e8b62e3..72cc8da5f1193 100644
->> --- a/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
->> +++ b/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
->> @@ -68,7 +68,9 @@ struct mlx5_ifc_mnvda_reg_bits {
->>   
->>   struct mlx5_ifc_nv_global_pci_conf_bits {
->>   	u8         sriov_valid[0x1];
->> -	u8         reserved_at_1[0x10];
->> +	u8         reserved_at_1[0xa];
->> +	u8         per_pf_num_sf[0x1];
->> +	u8         reserved_at_c[0x5];
->>   	u8         per_pf_total_vf[0x1];
->>   	u8         reserved_at_12[0xe];
->>   
->> @@ -93,9 +95,11 @@ struct mlx5_ifc_nv_global_pci_cap_bits {
->>   };
->>   
->>   struct mlx5_ifc_nv_pf_pci_conf_bits {
->> -	u8         reserved_at_0[0x9];
->> +	u8         log_sf_bar_size[0x8];
->> +	u8         pf_total_sf_en[0x1];
->>   	u8         pf_total_vf_en[0x1];
->> -	u8         reserved_at_a[0x16];
->> +	u8         reserved_at_a[0x6];
->> +	u8         total_sf[0x10];
->>   
->>   	u8         reserved_at_20[0x20];
->>   
->> @@ -158,6 +162,8 @@ struct mlx5_ifc_nv_sw_accelerate_conf_bits {
->>   #define MLX5_GET_CFG_HDR_LEN(_mnvda_ptr) \
->>   	MLX5_GET(mnvda_reg, _mnvda_ptr, configuration_item_header.length)
->>   
->> +#define MLX5_DEFAULT_LOG_SF_BAR_SIZE 12
->> +
->>   static int mlx5_nv_param_read(struct mlx5_core_dev *dev, void *mnvda,
->>   			      size_t len)
->>   {
->> @@ -755,6 +761,115 @@ static int mlx5_devlink_total_vfs_validate(struct devlink *devlink, u32 id,
->>   	return 0;
->>   }
->>   
->> +static int mlx5_devlink_max_sfs_get(struct devlink *devlink, u32 id,
->> +				    struct devlink_param_gset_ctx *ctx,
->> +				    struct netlink_ext_ack *extack)
->> +{
->> +	struct mlx5_core_dev *dev = devlink_priv(devlink);
->> +	u32 mnvda[MLX5_ST_SZ_DW(mnvda_reg)] = {};
->> +	void *data;
->> +	int err;
->> +
->> +	err = mlx5_nv_param_read_global_pci_conf(dev, mnvda, sizeof(mnvda));
->> +	if (err) {
->> +		NL_SET_ERR_MSG_MOD(extack,
->> +				   "Failed to read global PCI configuration");
->> +		return err;
->> +	}
-> 
-> [Severity: Low]
-> 
-> Can this extack message show up as a warning on a perfectly successful
-> param dump?  mlx5_nv_param_read() maps every mlx5_core_access_reg()
-> failure to -EOPNOTSUPP:
-> 
-> 	mlx5_core_warn(dev, "Failed to read mnvda reg: ...");
-> 	return -EOPNOTSUPP;
-> 
-> and the dump path in net/devlink/param.c swallows that code without
-> clearing cb->extack:
-> 
-> devlink_nl_param_get_dump_one()
-> 	if (err == -EOPNOTSUPP) {
-> 		err = 0;
-> 	} else if (err) {
-> 		state->idx = param_id;
-> 		break;
-> 	}
-> 
-> netlink_dump_done() then attaches extack->_msg to the NLMSG_DONE even
-> when the reported error is 0, so on firmware that does not implement the
-> global PCI configuration item every "devlink dev param show" would print
-> "mlx5_core: Failed to read global PCI configuration".
-> 
-> The same applies to the "Failed to read PF configuration" message below.
-> The pre-existing mlx5_devlink_enable_sriov_get() and
-> mlx5_devlink_total_vfs_get() return the error without touching extack.
-> 
->> +
->> +	data = MLX5_ADDR_OF(mnvda_reg, mnvda, configuration_item_data);
->> +	if (!MLX5_GET(nv_global_pci_conf, data, per_pf_num_sf)) {
->> +		ctx->val.vu32 = 0;
->> +		return 0;
->> +	}
->> +
->> +	memset(mnvda, 0, sizeof(mnvda));
->> +	err = mlx5_nv_param_read_per_host_pf_conf(dev, mnvda, sizeof(mnvda));
->> +	if (err) {
->> +		NL_SET_ERR_MSG_MOD(extack, "Failed to read PF configuration");
->> +		return err;
->> +	}
->> +
->> +	data = MLX5_ADDR_OF(mnvda_reg, mnvda, configuration_item_data);
->> +	if (MLX5_GET(nv_pf_pci_conf, data, pf_total_sf_en))
->> +		ctx->val.vu32 = MLX5_GET(nv_pf_pci_conf, data, total_sf);
->> +	else
->> +		ctx->val.vu32 = 0;
->> +
->> +	return 0;
->> +}
->> +
->> +static int mlx5_devlink_max_sfs_validate(struct devlink *devlink, u32 id,
->> +					 union devlink_param_value *val,
->> +					 struct netlink_ext_ack *extack)
->> +{
->> +	if (val->vu32 > U16_MAX) {
->> +		NL_SET_ERR_MSG_FMT_MOD(extack,
->> +				       "Max SFs allowed value is %u", U16_MAX);
->> +		return -EINVAL;
->> +	}
->> +
->> +	return 0;
->> +}
-> 
-> [Severity: Low]
-> 
-> The documentation hunk in this patch states:
-> 
->       - The range is between 0 and a device-specific max.
-> 
-> but mlx5_devlink_max_sfs_validate() only rejects values above U16_MAX,
-> which is the width of nv_pf_pci_conf.total_sf[0x10] rather than any
-> device property, and neither the getter nor the setter reads
-> nv_global_pci_cap for an SF limit.  Compare
-> mlx5_devlink_total_vfs_validate(), which reports the real bound:
-> 
-> 	max = MLX5_GET(nv_global_pci_cap, data, max_vfs_per_pf);
-> 	if (val->vu16 > max) {
-> 		NL_SET_ERR_MSG_FMT_MOD(extack,
-> 				       "Max allowed by device is %u", max);
-> 
-> Relatedly, mlx5_devlink_max_sfs_set() below sets the global
-> per_pf_num_sf bit with no capability check, while
-> mlx5_devlink_total_vfs_set() and mlx5_devlink_enable_sriov_set() gate the
-> equivalent per-PF mode switch on
-> nv_global_pci_cap.per_pf_total_vf_supported and return -EOPNOTSUPP
-> otherwise.  No per_pf_num_sf_supported bit is added to
-> mlx5_ifc_nv_global_pci_cap_bits here.
-> 
-> Should a value beyond the device's actual SF maximum, or a device without
-> per-PF SF support, fail with something more specific than the generic
-> "Failed to change PF PCI configuration" that comes from the firmware
-> write?
-> 
->> +
->> +static int mlx5_devlink_max_sfs_set(struct devlink *devlink, u32 id,
->> +				    struct devlink_param_gset_ctx *ctx,
->> +				    struct netlink_ext_ack *extack)
->> +{
->> +	struct mlx5_core_dev *dev = devlink_priv(devlink);
->> +	u32 mnvda[MLX5_ST_SZ_DW(mnvda_reg)] = {};
->> +	void *data;
->> +	int err;
->> +
->> +	/* we don't explicitly disable per_pf_num_sf when max_sfs is 0 because
->> +	 * another PF may be using SFs
->> +	 */
->> +	if (ctx->val.vu32) {
->> +		err = mlx5_nv_param_read_global_pci_conf(dev, mnvda,
->> +							 sizeof(mnvda));
->> +		if (err) {
->> +			NL_SET_ERR_MSG_MOD(extack,
->> +					   "Failed to read global PCI configuration");
->> +			return err;
->> +		}
-> 
-> [Severity: Medium]
-> 
-> With value 0 this whole block is skipped, so on a device that is still in
-> global SF mode (per_pf_num_sf == 0) only the per-PF fields
-> pf_total_sf_en, total_sf and log_sf_bar_size are written.
-> 
-> mlx5_devlink_max_sfs_get() treats exactly those per-PF fields as
-> meaningless while per_pf_num_sf is clear:
-> 
-> 	if (!MLX5_GET(nv_global_pci_conf, data, per_pf_num_sf)) {
-> 		ctx->val.vu32 = 0;
-> 		return 0;
-> 	}
-> 
-> If the per-PF fields are inert in that mode, can
-> 
-> 	devlink dev param set pci/<bdf> name max_sfs value 0 cmode permanent
-> 
-> actually stop SF creation, given that the SF budget keeps coming from the
-> global configuration?
-> 
-> The call still returns 0 with the "requires a FW reset" extack, and a
-> later param show reports 0 through the same early return, so user space
-> sees the disable as successful.  The commit message says:
-> 
->      A value of 0 will effectively disable creation of new subfunction
->      devices.
-> 
-> For comparison, mlx5_devlink_total_vfs_get() reports the global
-> total_vfs value in the equivalent situation instead of 0.
-> 
->> +
->> +		data = MLX5_ADDR_OF(mnvda_reg, mnvda, configuration_item_data);
->> +		/* always enable per_pf_num_sf because another PF may use SFs */
->> +		MLX5_SET(nv_global_pci_conf, data, per_pf_num_sf, 1);
-> 
-> [Severity: Medium]
-> 
-> per_pf_num_sf lives in the device-global item, not in the per-host-PF
-> one:
-> 
-> mlx5_nv_param_read_global_pci_conf()
-> 	MLX5_SET_CFG_ITEM_TYPE(global, mnvda, type_class, 0);
-> 	MLX5_SET_CFG_ITEM_TYPE(global, mnvda, parameter_index,
-> 			       MLX5_CLASS_0_CTRL_ID_NV_GLOBAL_PCI_CONF);
-> 
-> so flipping it selects, for the whole device, whether the SF quota comes
-> from the global configuration or from each PF's own total_sf, while only
-> this PF's pf_total_sf_en/total_sf are programmed below.
-> 
-> What happens on a sibling PF whose per-PF total_sf was never programmed -
-> after the FW reset, does its SF capacity get derived from an unprogrammed
-> (zero) field and SF creation start failing there?
-> 
-> The comment above acknowledges the cross-PF coupling for the disable
-> direction; the extack at the end only warns about the FW reset and PCI
-> rescan, not about SF provisioning changing for other functions.
-> 
->> +
->> +		err = mlx5_nv_param_write(dev, mnvda, sizeof(mnvda));
->> +		if (err) {
->> +			NL_SET_ERR_MSG_MOD(extack,
->> +					   "Failed to change per_pf_num_sf global PCI configuration");
->> +			return err;
->> +		}
->> +		memset(mnvda, 0, sizeof(mnvda));
->> +	}
-> 
-> [Severity: Medium]
-> 
-> This read-modify-write touches the device-global nv_global_pci_conf item,
-> but mlx5_nv_param_register_dl_params() registers these params on each
-> PF's own devlink instance:
-> 
-> 	if (!mlx5_core_is_pf(devlink_priv(devlink)))
-> 		return 0;
-> 
-> 	return devl_params_register(devlink, mlx5_nv_param_devlink_params,
-> 				    ARRAY_SIZE(mlx5_nv_param_devlink_params));
-> 
-> so the devlink instance lock is per-PF and cannot serialize accesses to a
-> shared item.  Can two PFs of the same device lose each other's update?
-> 
-> PF0: mlx5_devlink_max_sfs_set()
->         mlx5_nv_param_read_global_pci_conf()   /* reads the shared item */
-> 
-> PF1: mlx5_devlink_total_vfs_set()
->         mlx5_nv_param_read_global_pci_conf()
->         MLX5_SET(nv_global_pci_conf, data, sriov_valid, 1);
->         MLX5_SET(nv_global_pci_conf, data, per_pf_total_vf, 1);
->         mlx5_nv_param_write()                  /* commits */
-> 
-> PF0:   MLX5_SET(nv_global_pci_conf, data, per_pf_num_sf, 1);
->         mlx5_nv_param_write()                  /* stale copy, clears the
->                                                   bits PF1 just wrote */
-> 
-> Both commands report success plus the FW-reset warning, so neither
-> administrator learns the persistent configuration is not what was asked
-> for.  The same pattern already exists for enable_sriov and total_vfs, but
-> this adds a new writer of the shared item.
-> 
->> +
->> +	err = mlx5_nv_param_read_per_host_pf_conf(dev, mnvda, sizeof(mnvda));
->> +	if (err) {
->> +		NL_SET_ERR_MSG_MOD(extack, "Failed to read PF configuration");
->> +		return err;
->> +	}
-> 
-> [Severity: Medium]
-> 
-> The two non-volatile writes are not atomic and the first one is never
-> rolled back.  If this read fails (mlx5_nv_param_read() returns
-> -EOPNOTSUPP for any mlx5_core_access_reg() failure), or the
-> mlx5_nv_param_write() below fails on a busy or restricted firmware, the
-> function returns an error to user space while per_pf_num_sf stays
-> committed in the NV configuration and this PF's
-> pf_total_sf_en/total_sf were never programmed.
-> 
-> Since that state survives reboot, is the device left in per-PF SF mode
-> with an effective budget of 0 after the FW reset even though the devlink
-> operation reported failure?
-> 
-> Would programming the per-host-PF item first, or restoring the
-> per_pf_num_sf value that was just read on the failure paths, keep the two
-> steps balanced?
-> 
->> +
->> +	data = MLX5_ADDR_OF(mnvda_reg, mnvda, configuration_item_data);
->> +	MLX5_SET(nv_pf_pci_conf, data, log_sf_bar_size,
->> +		 ctx->val.vu32 ? MLX5_DEFAULT_LOG_SF_BAR_SIZE : 0);
-> 
-> [Severity: Medium]
-> 
-> log_sf_bar_size is a separate persistent knob - the size of each SF's
-> BAR/doorbell window, the same quantity the device reports as
-> mlx5_ifc_sf_partition_bits.log_sf_bar_size - and max_sfs does not claim
-> to control it.
-> 
-> The read above preserves whatever the device is currently programmed
-> with, and this overwrites it with the hardcoded
-> MLX5_DEFAULT_LOG_SF_BAR_SIZE (12), or with 0 on the disable path.
-> 
-> Should setting max_sfs also reset the SF BAR window size?  Neither the
-> commit message nor the documentation hunk mentions it, and 12 is not
-> validated against any device capability or against the BAR space implied
-> by total_sf, which may be up to 65535.
-> 
->> +	MLX5_SET(nv_pf_pci_conf, data, pf_total_sf_en, !!ctx->val.vu32);
->> +	MLX5_SET(nv_pf_pci_conf, data, total_sf, ctx->val.vu32);
->> +
->> +	err = mlx5_nv_param_write(dev, mnvda, sizeof(mnvda));
->> +	if (err) {
->> +		NL_SET_ERR_MSG_MOD(extack,
->> +				   "Failed to change PF PCI configuration");
->> +		return err;
->> +	}
->> +	NL_SET_ERR_MSG_MOD(extack,
->> +			   "Modifying max_sfs requires a FW reset and PCI bus rescan");
->> +
->> +	return 0;
->> +}
->> +
-> 
-> [ ... ]
+-- 
+2.43.0
 
