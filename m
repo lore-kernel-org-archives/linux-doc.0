@@ -1,96 +1,98 @@
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A30C224B1E
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 13:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70496382298;
+	Tue, 11 Aug 2026 13:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786454828; cv=none; b=GDxPaWyf5a1PiUr3VJ/gDisxbLhc2Enljs0c2a79pWQYbt8nNJjUd0wkydCNSV5tgEyAbbcvmkkdVXr3+T9sMCrQlV4e4vTWiRgdq2UxSaXrJU0GZdyMqnapqyZDSWS+cFVQknVvnLuWXSrm1C5tcooMCv2dVWh8EM4IyXyhLAA=
+	t=1786455139; cv=none; b=N2pRAgHqaxYgom6v4OlxtnSFGU1bSC6Jyu3qozJFGn/Ocmcj5kfgQJZB5aOpfBVqDsEYv1g4k2Q0xGXsftbrlKwr53029n7PzZn+UT+K2vxl612GvBP/7XBBQChBZY6XFvKk1nAEgxNCV8QaJLKgVFXoYf/Yns+In6/bIs2MTOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786454828; c=relaxed/simple;
-	bh=HSS2ol7a0YjbjSr7IwadkoiUtq++DDqP02Tw9wqOwC4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=l+r+4tzWsoenxUCK824SlYTNiiDMmXrlM4QqyTFLaoP5DFzYEV47fz8UreUHrvz1JflYAQz631aZiCMm7GiM4ZmcoGt9nCE+ftZomNogyRqLeCcpllMy5tIilF9S+XjjKV5yJA9yih2mGrMDN4ansPNM/07IY3WDYJr1LUoREBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aWSvuH3+; arc=none smtp.client-ip=209.85.208.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	s=arc-20240116; t=1786455139; c=relaxed/simple;
+	bh=7oUk7vcZMZh7Kmnjr0sRE4TUfpBeeMTt+zlm+6qAkq8=;
+	h=Message-ID:Date:MIME-Version:CC:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=lf3NUTjbLURSFcNqxw0eAan+jZwuhtCyuaOMLBoaHHvfUjkFIt9KmScO/B+9J7KpjoNzTke6SVuB/1+RKPFsQVmnTFtde4JufOIW3XmdOZqoQMCqbmT2BmN8UK/u/GeUuc1419bta4c0OyyZyQf8txs7Gy9JM4bUZUK8NMTq7c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=1eWBaKqw; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aWSvuH3+"
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6a1188c8948so2962186a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 06:27:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786454825; x=1787059625; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VHer5Euf93guPyEW5SSggQ6xE9fM7y8lLNbmZzisUY0=;
-        b=aWSvuH3+7mA+n7ro+qrHnNOk0u2ma4PyI/dkh2Pitat2kGzwFMYEkuZyT0YuEGQcO5
-         oHi2q0Fng5EDiMiyvb+6mLLvSyiQJqT9mXITiT3IkcYPOkPHfz2ZSCUQd1zq6OnTxqg6
-         rA125X5oBFfdV9abSbExVWJABnVRLlT5PT/5ppvv4oqUL0snnmJAzFjeba5lpfCk3/nf
-         0zv34+XAZvQj1RaQredVziC9xZd7Wc7PklI8/lZY7MQOftLsw5O8YELLVVTbWAN0VHMJ
-         KgCqzHmqCbrCapRCtN/oup8SRCqw4j7QUMMHvK2xdaKMnt0et+r9FaQ7AVYwdDT970+M
-         bsGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786454825; x=1787059625;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VHer5Euf93guPyEW5SSggQ6xE9fM7y8lLNbmZzisUY0=;
-        b=OLx0adCRnUUrC18PICAvwxEhyDhe4Zbp/XnUi0vAYA3cB8tfldcrmMyEEb6ISIFeGR
-         NTAEu5lnfcZJ0qQ9coaCAlH6oJv91pm7UKF5LyLGsD3RZFMm98qungDNaLxGMNo1EkeC
-         XaHTnxeiPN5YwY3LcXfIe1t0yVTT6qKFwgOkzTKgw+T2NMWPL8MaD01OhGFxrhU7UPFZ
-         dcK897UM8bfYbgZitt9h1NB5rJRsp26O08goNUoATqlxpiVHISZzYFcZ6LfDpV+FiaA1
-         U74Aq9giCv4nu2ZYbcPHSPJNsxuvLB3RbKpN3rD4pGwop3k90ftJkIEbILMlW1Ni+7vl
-         0xrg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr8TS615jVsKyDjmHSnrQ4KsdzKD/Bh1JVc/celQfc5vNAi+8GWAsNBWiHDKiwDreHIJeNXS0kZ424=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpbI/QSHeDJaPwEpvYOB7xRrUwQ83+J2+Fos8ZNUYrVUYqWQEd
-	IA1ZQabiA1caKHYcqsBo2EugGBBoiS/sQumG+od4GmelugATi6hrQ+iHFmIME64WKOE1k2MNmJV
-	4NNX/U1M4lSoWEAycsw==
-X-Received: from edsu13.prod.google.com ([2002:aa7:d98d:0:b0:69c:835e:2527])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:210f:b0:6a1:b23d:e962 with SMTP id 4fb4d7f45d1cf-6a36c32a68emr218706a12.8.1786454825019;
- Tue, 11 Aug 2026 06:27:05 -0700 (PDT)
-Date: Tue, 11 Aug 2026 13:27:04 +0000
-In-Reply-To: <anpZMemVz5yC_WLo@google.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="1eWBaKqw"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=7oUk7vcZMZh7Kmnjr0sRE4TUfpBeeMTt+zlm+6qAkq8=;
+	b=1eWBaKqwvWQTJuOPnnjp6koX97ircDeqhOomYz9PRZGrQn38a3eLyzDdexfoau1XDMSz5J6Fz
+	pD7EntVYieru84JzuQ+bD0FXZZgNx9weiEXKuBMH4JiZ/jSSxBwoqAIShMwcwpky75vbO8ZWZVW
+	HV6pLlt7Sm86/Cixlkdd+Z8=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4hKC2T5jlGzcb0T;
+	Tue, 11 Aug 2026 21:21:53 +0800 (CST)
+Received: from kwepemo500018.china.huawei.com (unknown [7.202.195.199])
+	by mail.maildlp.com (Postfix) with ESMTPS id 73EB34057D;
+	Tue, 11 Aug 2026 21:31:59 +0800 (CST)
+Received: from [10.67.120.192] (10.67.120.192) by
+ kwepemo500018.china.huawei.com (7.202.195.199) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Tue, 11 Aug 2026 21:31:58 +0800
+Message-ID: <61721708-0d77-4f59-aa08-02562af282bb@huawei.com>
+Date: Tue, 11 Aug 2026 21:31:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728121138.1103610-1-tarunsahu@google.com>
- <20260728121138.1103610-3-tarunsahu@google.com> <anpZMemVz5yC_WLo@google.com>
-Message-ID: <9huzo6f8zt1z.fsf@tarunix.c.googlers.com>
-Subject: Re: [PATCH v4 02/11] KVM: Introduce kvm_create_vm_file() helper
-From: tarunsahu@google.com
-To: Sean Christopherson <seanjc@google.com>
-Cc: ackerleytng@google.com, fuad.tabba@linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, sagis@google.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
-	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
-	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
-	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
-	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
-	suzuki.poulose@arm.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+CC: <shaojijie@huawei.com>
+Subject: Re: [PATCH v5 net-next 2/2] net: hns3: fix GSO_ECN flag setting in
+ the RX path
+To: <chia-yu.chang@nokia-bell-labs.com>, <shenjian15@huawei.com>,
+	<linux-rdma@vger.kernel.org>, <eperezma@redhat.com>, <jasowang@redhat.com>,
+	<virtualization@lists.linux.dev>, <mst@redhat.com>,
+	<xuanzhuo@linux.alibaba.com>, <pabeni@redhat.com>, <edumazet@google.com>,
+	<linux-doc@vger.kernel.org>, <corbet@lwn.net>, <horms@kernel.org>,
+	<dsahern@kernel.org>, <kuniyu@google.com>, <bpf@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <dave.taht@gmail.com>, <jhs@mojatatu.com>,
+	<kuba@kernel.org>, <stephen@networkplumber.org>, <xiyou.wangcong@gmail.com>,
+	<jiri@resnulli.us>, <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
+	<donald.hunter@gmail.com>, <ast@fiberby.net>, <liuhangbin@gmail.com>,
+	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>, <ij@kernel.org>,
+	<ncardwell@google.com>, <koen.de_schepper@nokia-bell-labs.com>,
+	<g.white@cablelabs.com>, <ingemar.s.johansson@ericsson.com>,
+	<mirja.kuehlewind@ericsson.com>, <cheshire@apple.com>, <rs.ietf@gmx.at>,
+	<Jason_Livingood@comcast.com>, <vidhi_goel@apple.com>
+References: <20260804213510.673084-1-chia-yu.chang@nokia-bell-labs.com>
+ <20260804213510.673084-3-chia-yu.chang@nokia-bell-labs.com>
+From: Jijie Shao <shaojijie@huawei.com>
+In-Reply-To: <20260804213510.673084-3-chia-yu.chang@nokia-bell-labs.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemo500018.china.huawei.com (7.202.195.199)
 
-Sean Christopherson <seanjc@google.com> writes:
 
-> On Tue, Jul 28, 2026, Tarun Sahu wrote:
->> - Move ITOA_MAX_LEN to kvm_mm.h for reuse by upcoming kvm_luo code.
->> - Introduce kvm_create_vm_file() to wrap kvm_create_vm() and
->>   anon_inode_getfile(), providing a unified VM file creation API.
+on 2026/8/5 5:35, chia-yu.chang@nokia-bell-labs.com wrote:
+> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 >
-> As Ackerley pointed out, changelogs that are literally a list pretty much always
-> needs to be split.
+> Currently, the hns3 Rx path sets the SKB_GSO_TCP_ECN flag when a TCP
+> segment with the CWR flag set is received. This is incorrect because
+> the hns3 hardware GRO resets the IP ToS byte to 0 during packet
+> aggregation. Consequently, no valid ECN signals are carreid, meaning
+> that it cannot support RFC3168 ECN or Accurate ECN protocols. Setting
+> SKB_GSO_TCP_ECN or SKB_GSO_TCP_ACCECN under these conditions misleads
+> the upper network stack.
 >
-> These also need to explain *why*.  "providing a unified VM file creation API"
-> isn't sufficient justification.  In general, all of these changelogs need to
-> provide more of the "why"; I can figure out what the patches are doing easily
-> enough, but in my speed read of the series, it's hard to figure out the "why".
+> Fix this by removing the incorrect SKB_GSO_TCP_ECN flag assignment
+> in hns3_gro_complete().
 
-Okay, Will update them.
+
+Tested on hns3 HW (2x 100G, direct cable, openEuler 24.03, kernel 7.2.0-rc6).
+
+tcpdump confirms HW GRO zeroes IP ToS: aggregated (>MTU) packets carry
+tos 0x0, while non-aggregated packets keep their ToS/ECN marks — so the
+zeroing is done by HW GRO, not the sender. Before patch, CWR packets had
+SKB_GSO_TCP_ECN set (0x5 = SKB_GSO_TCPV4 | SKB_GSO_TCP_ECN). After patch,
+all GRO events gso_type=0x1 (SKB_GSO_TCPV4 only), no 0x5 observed.
+
+Tested-by: Jijie Shao <shaojijie@huawei.com>
+
+
