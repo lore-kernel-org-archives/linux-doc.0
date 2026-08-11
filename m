@@ -1,185 +1,126 @@
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F85B37F8BA
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 18:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6CF3B9D97;
+	Tue, 11 Aug 2026 18:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786473701; cv=none; b=XEKNDOm10NQYtG73vwTO9H8Rba8jicd7umJ5exwF0tU8A989VDNQG7eX0fq/PEBwGPWTKnLg5cLT3eFvqrpkcrcWgiMdwK2MmthqVbpaFaL5dq4Ck+GSl2aNJIq1PosQb3m62+czr+ZERGgbcm4ZbRBeYx2PupQ/vRBhH/E9HRk=
+	t=1786474543; cv=none; b=sJ191bnZrsMY/pE0JjPZDx9/oy2tmUW1+u7mmVtWpLTYz1JEgEEjwJJFYoNcEkMz8T57rcY42YbMJSZk8scR8eDn8SiAusgDb5CEAG9p6j3CmvBQE55bQt0yoaWs/wXK7dS9BHbaDCuFuJhblXPZeJGr8GqX92UO1ZBfddunrF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786473701; c=relaxed/simple;
-	bh=94Lt8TmaqiNs5FtCiFHbzvvHftTmibgvQkuT4qx1sEQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=QKrb4dBYGlU9QgO52cvCMPoV+boPnBLAZcWhc9OaPtaKJA909KpIczofBKFQMaV+yy6XlN5Zpa6W9QSyeqHnDJaCX+eApalUaf244ak2uYZ56tVH0yMeQ8qyFlbKrxddcjeXMv1v6xRJHImwUsP405Th+nukuqXneh1ZjSN3rPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jdib0Te2; arc=none smtp.client-ip=209.85.210.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1786474543; c=relaxed/simple;
+	bh=E4x1ScV+DSYzz83+oSX6c+KJyNyi3iiHoRxWqCTfoSA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gNr2bKkr1KfNJo965/Ufb2Sr3AdaX4RU9TP6IG3EfvGMpOuEsKB+JSQgqv5lO+2i3vLA2BnpsHoaOTINvZLKdU9/MevM8wFNIVi4ETyezt50rlS/IFMzM9UxA0gazm3Hzjk3NMp8+MQ7fxa3G9ntIGRwd3MpILriB88Di7obp2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UpctiIre; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jdib0Te2"
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8485d853b08so274456b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 11:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786473699; x=1787078499; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=fJOzqFK/vfJSw1ado9uoaagkeuADN2fLa/8s2FkuGPk=;
-        b=jdib0Te2Cm3baCHT5yBcxvk0rx7m+lSp0Gemjd24HzyFGYX/y2vtTteCsbsT6yqrZ/
-         gM5hZgaDgWBgXpvT+LIOOLxPza63VZa7YBt5RC7chDqhyvmjYh7ixTJtSWGg285tBNHC
-         pqj5MDGvbnpnwJZ+qDNodKm+P9WGUB8yWU2cK2jY5o80B3bmFc1ZndE4ZwKBpoPp1Dv1
-         eItYviMa07/cvxn9kn3pC5nJaksLQEo+aoe98Z8j7jmouTVP3Uuf29C+2gVpQg6azIXn
-         PFx0gkGRmAvTbAzh9QioDf3wUJKLLsSSGb/QqcfAgcfo1qJgmPqonMgE6onMAVNDjWes
-         2Upg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786473699; x=1787078499;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fJOzqFK/vfJSw1ado9uoaagkeuADN2fLa/8s2FkuGPk=;
-        b=VcUIFo5iZ37gTvd3fzkMtEchIScXEpw9HB/w2NBSxEtmL+rUfJwNdf4E2IcxXh93hE
-         1IirhWS6aUgnDnR1joNjV6v2JqmhbL+kXlytbDMqnk6owq7g8YWywb882yIIztQXkeIU
-         3h8Wf14ZjqsZ0bnismG334nGyl3tvnuk73oYpfwtnFt5Cw9z+QOqIWdQecNLI+PcaUDQ
-         Pk+b6tgaJ+XyHiKi9PZRRFmBa/msMiLxVuiIUp3bf8bX7rraoMCKf0IoHPcI4oPBIaOq
-         QycMJwB0MDMmBqbZWdgwwqeXPNpXpjhuPSvME2wIF5ZRKvc7OopIx1pY8cha8v6BTwzI
-         N74g==
-X-Forwarded-Encrypted: i=1; AHgh+RqahSGcvBGLnc8ZxAPI0BxsjK4DGQoirLqBa79s4lmnsgzc7mg+3dYAPvY5ubYXwC8FcHQjrHvKC6g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5AeEZNYAlNk1OV9jGrBIVrczfGpmnWO3NNbCWACjQx69NKgrA
-	wrut639rWiz/bfy03xqj4I4bofHokJn2hz+PHUlM0vsfHLqLJFeoK6hgi5LYmddQ6AX4eq0zF/G
-	FpU2xVw==
-X-Received: from pfbih2.prod.google.com ([2002:a05:6a00:8c02:b0:84e:530a:923a])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:2355:b0:848:2c6c:dfe3
- with SMTP id d2e1a72fcca58-84fa86c28d9mr5596667b3a.17.1786473699196; Tue, 11
- Aug 2026 11:41:39 -0700 (PDT)
-Date: Tue, 11 Aug 2026 11:41:37 -0700
-In-Reply-To: <6ab49538675d97f1f4bf01574b1b066aae0bc05c.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UpctiIre"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C407E1F000E9;
+	Tue, 11 Aug 2026 18:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786474541;
+	bh=u5nJfoWmHI/wV6IK8v6+KP1yBbtjszQXsbYvY+zGdl0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UpctiIreX8Twxi2Eg3/JBOZXEH1E7dz+aJfKrumvHa89kHexdFz/c/4+as7qzXNqy
+	 BtMQadXvsXSs/GNZphEZCsSSByyEZHkQBLJWEV1JGDZld6RV0GCeJ7Ewj7zHzS2rZm
+	 pCVsdQaENvlT/tLgBYpk0WHBg/flJXrqmw63bbiZmcdC+Ep0KA1x0NnZoaP74JqoLl
+	 qNVZkPLXBVFy2WArXPSHNS5jUaEuRA5mKC3wZX5jH03PV+256iw/F4EfW+eCw8rVrG
+	 CDae1gdtY2SzSj61VIwgKicQ1R5vNnqTW6twsx3q2CLmB5030LByKv1zIsGh1rnXqA
+	 gJ4DRAN5aCITA==
+Message-ID: <4968059f-5e59-4c77-a631-9a4039703645@kernel.org>
+Date: Tue, 11 Aug 2026 20:55:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
- <ano6-gIZtqMfipiD@google.com> <bb9a12cc663130eb2caa8e839d0f6ca53d722d1c.camel@infradead.org>
- <ansuqrD2KwFuLWbV@google.com> <ansywxh0VX5rtfWc@google.com>
- <e256fa4af96e916ba30019cbba501fa896025fb0.camel@infradead.org>
- <antQYJvRxJxOjtut@google.com> <f5dc701cf3319a7b3c8fd1497f26d051aa9fa3ba.camel@infradead.org>
- <antb01WqOrs-tztm@google.com> <6ab49538675d97f1f4bf01574b1b066aae0bc05c.camel@infradead.org>
-Message-ID: <ants4VjfAiblaWsl@google.com>
-Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when TSCs
- are offset from each other
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/7] mm/khugepaged: several cleanups
+To: Andrew Morton <akpm@linux-foundation.org>,
+ "Nico Pache (Red Hat)" <nico.pache@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
+ <20260811112347.aeb004e62daaeeaae98b6502@linux-foundation.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260811112347.aeb004e62daaeeaae98b6502@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 11, 2026, David Woodhouse wrote:
-> On Tue, 2026-08-11 at 10:28 -0700, Sean Christopherson wrote:
-> > On Tue, Aug 11, 2026, David Woodhouse wrote:
-> > > On Tue, 2026-08-11 at 09:40 -0700, Sean Christopherson wrote:
-> > > >=20
-> > > > >=20
-> > > > > FWIW in my local tree I've just extended the pvclock_migration_te=
-st to
-> > > > > test precisely the thing you were concerned about: three vCPUs wi=
-th
-> > > > > divergent TSC offsets, migrated by setting each vCPU's TSC and th=
-en
-> > > > > invoking KVM_SET_CLOCK_GUEST once, through vCPU0.=20
-> > > >=20
-> > > > I wasn't actually concerned about migration, I was concerned about =
-time going
-> > > > backwards from the guest's perspective.
-> > >=20
-> > > But KVM_[SG]ET_CLOCK_GUEST is *purely* for migration.=20
-> >=20
-> > Huh?=C2=A0 I raised my concern in the context of "Allow KVM master cloc=
-k mode when
-> > TSCs are offset from each other", and AFAICT, nothing ensures that won'=
-t cause
-> > problems.
-> >=20
-> > Aaah, it clears PVCLOCK_TSC_STABLE_BIT and relies on the guest to clean=
- up the
-> > mess.=C2=A0 So the guest won't see time go backwards, but it could see =
-time stop for
-> > an extended duration, or jump forward.
->=20
-> It shouldn't. Each vCPU gets its *own* pvclock structure, tailored to
-> *its* offset. They should all see *identical* results.
+On 8/11/26 20:23, Andrew Morton wrote:
+> On Tue, 11 Aug 2026 06:48:32 -0600 "Nico Pache (Red Hat)" <nico.pache@linux.dev> wrote:
+> 
+>> The following changes stem from a number of reviews during my khugepaged
+>> mTHP support series [1]. Some of these are minor code cleanups, issues or
+>> reviews that we decided to deferred to a followup series, or in the case
+>> of the more major patch of the series, changes [2] Lance Yang attempted
+>> while my series was in-flight and we decided to wait till later to try.
+> 
+> Thanks, I've updated mm.git's mm-unstable branch to this version.
+> 
+>> Changes in v4:
+>>  - Add Acks/RB tags
+>>  - [patch2] rename pte_is_referenced() to folio_pte_referenced()
+>>  - [patch2] keep cc->is_khugepaged out of the helper gate
+>>  - [patch2] simplify/clarify the helper comment
+> 
+> Here's how v4 altered mm.git:
 
-OMG, I hate this code.  After literally hours of staring at this, and even =
-typing
-up a lengthy example of why guest time would go off the rails, I finally sp=
-otted
-that l1_tsc_offset is accounted for by the call to kvm_read_l1_tsc().  FML.
+I want to review #5 before this goes upstream. Will try getting it done tomorrow.
 
-Thanks for being patient and not flaming me too much :-)
+-- 
+Cheers,
 
-> But yeah, if the guest does that then we can't set the
-> PVCLOCK_TSC_STABLE_BIT.
-> >=20
-> > > And your variant just added a dependency on wallclock time back into =
-it
-> >=20
-> > Can you elaborate?=C2=A0 I'm guessing I don't entirely understand what =
-you mean by
-> > wallclock time.
->=20
-> The system_time field? The unspecified might-be-UTC-might-have-leap-secon=
-ds one :)
-
-Ok, I think I finally understand the goal.  I got turned around by the comb=
-ination
-of the name SET_CLOCK_GUEST and the full pvclock structure being passed to =
-the
-guest.  I was expecting SET_CLOCK_GUEST to literally set the entire clock, =
-e.g.
-mul+shift, timestamp, etc.
-
-But all of that metadata is just a means to an end: the one and only goal i=
-s to
-calculate the per-VM kvmclock_offset for the "new" host's TSC+time snapshot=
-, by
-computing the nanoseconds delta for the new snapshot as if it the guest obs=
-erved
-the TSC while running on the old host.
-
-And that is done in the kernel instead of in userspace to minimize the amou=
-nt of
-slop introduced due to delay between taking the snapshot and computing the =
-offset.
-And for similar reasons, it's undesirable for userspace to redo the GET on =
-the
-target to compute the explicit offset, because there would be a massive TOC=
-TOU
-issue, e.g. if KVM took a new masterclock snapshot between GET and SET.
-
-After working through that, I feel quite strongly that we should have asymm=
-etric
-names for the GET vs. SET flows, because the actually functionality is also=
- very
-asymmetric.  And setting a field, and only that field, that's doesn't have =
-a
-direct association in the userspace payload is very surprising when the nam=
-e of
-the ioctl suggests a restoration of the entire payload.
-
-E.g. KVM_GET_REFERENCE_PVCLOCK and then KVM_SET_REFERENCE_PVCLOCK_OFFSET?  =
-Or
-maybe UPDATE, CALCULATE, REFRESH, or COMPUTE instead of SET?  I think I'd v=
-ote
-for SET even though it's convoluted, because pretty much everyone associate=
-s SET
-with the restore side of save/restore.
+David
