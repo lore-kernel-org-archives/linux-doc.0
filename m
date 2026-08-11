@@ -1,268 +1,221 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5283B14D2
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 15:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786463741; cv=none; b=G6qS8Wf1FYrIDKfeSuzFVNCbANafMH6sDa+ymltLqZjFg0dtejCLvjw3SeqxtTf801fdOGtIRE9dthgaqZdpXD4h5VyIe+mnIjgBGhkNnPwHd2KnvTjYiY/MPoe7NlEdxj90QxabuUUfmpTA4nDC6w3lFfrrSbkkydbM1oNq+v0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786463741; c=relaxed/simple;
-	bh=nT8cLL/y+y5sK54nxhdUvolR+F3zBZ6Gyj7LYc/L6ZY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=S+gNxaTChxB6SN6bzuWxt2FPphgqXOVhc78PegVo2fvdkr3L0EqP+fnzUclANXTkCZcV7mZxVWhpOQJDDr3hfacsbSz3kattpyYaiUq6V9G7TpQM4+VVn4TmlvJWYTbu0yplLlDEg+JE7Nlr+Zry0voyrWb8cnrkpCU+d3UuU4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4yCTKYd; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB892D2394;
+	Tue, 11 Aug 2026 16:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786464063; cv=fail; b=qsqWl+ihTyaSSskDKALY2VGTcAWx1bWG+ha4oFaLWAZvFGSAp1qcKphSBt2I8x1Q2Fce+jyEHzBLAYc+oT3/9Pt5+U38L0hQm/3yqhohUK549ZTKrt9ev5zXIVfVUX9QlY7bAed0lGNut54zTOnO1C3qlO7QuO2DlLwTuXHhDjg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786464063; c=relaxed/simple;
+	bh=57n605jxtzp6W2BrJR6ULTVluQRUvSxki/NXweBgez0=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=gkYjje0Iwis8aLQa0bllAs46eZvglzf313cRmjjJRyPvWgSQ+RajeQjvUfDfQKFQSGn6jFU0BQXgYjDMZ7YZTJLLuXwkIVx2TUsTZhVwzREROKG3/pF5DJfdSkeqadxW3tn9OQJNYpgMWwjxVVW0Zibib3JKFgizON0udI1Ulks=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XxAjhu7W; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4yCTKYd"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cbe827e3cb4so3559078a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 08:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786463738; x=1787068538; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZP+tJKH/tyuUNQHRDyf5Si2FoMuT24X9NWHm/gMOJtI=;
-        b=m4yCTKYdNGtXAnD0fwjhary0YvCscSgiCFDDES7VwZxJKLCmUwsIeGFHnrDAbV9Y5a
-         TijmWC800v4RgsLZ306K19nMTKNkcqeRHtShdvDJXBO+85i0v6h5IkJs9PinXya5azb/
-         SXC60PE2ZQ9PrMlykXVHFtL5N3vbWzlvjLi6up1c+pV3Z+9/tUBfY895VxiyO+vTxMkP
-         n7hfOGPZZFWCchZzVn++F11O5TLBNdCQfR/QwiaLRw72I39SpHzg0jzPJlMbeuNdOttz
-         xLvhbolLXnkh3Ice8xUUWEuC/11LCXOYY0UOck+c0gNbxUEAT4Sk4ucuD7gwcBM6HHlX
-         1+fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786463738; x=1787068538;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZP+tJKH/tyuUNQHRDyf5Si2FoMuT24X9NWHm/gMOJtI=;
-        b=RsW0hZFpBR3y8HKqwopo4UBUBP2lfnEnhvtIQz3qcSmjKhad1VyjdTSH2mXNsbDPiN
-         Ccgy8CJDe+DLjXhgwo6N7H7ajUznqlR//cyaNcfmhm2PqVTnfoFnCbfQsHSuW9xTwnEk
-         jWUFGxG7UqkhZbx2e2zPaRkdm4KJTlzjleHgiR5a61sNGWJeOImSY0YIyHS3Ug2PaZ8H
-         488ecw/6cWzVDar23EPH4+W03T/kvOYcGbdFzDkwJGDrblqCZp2uyOpsrzA4HuQU+3/1
-         Sj907J1BmURh9i23y+EIRN7/Jw3fd6SfdGtVKTPxLx/LVkz0UeIV2vk6Tw9wyCOSV4sd
-         LJVA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrdlrf1lkKb3wixbYcs8wuMJqj+uhu13Hn3GfGlG0UrLPEADJnZ8WY5l2pfwRRI0tM0pcNWjXVVSQg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo+0YRczlxzbNlxNRRJ/VFeD6+8D+zUL+0SA/BQyWz6IeoAxdr
-	YlAh6OPAQ+tEr3fCBQoFMSnazv1N7tIxedUCUKf07x3s37in8F0WGbSZ
-X-Gm-Gg: AR+sD10rmfcmJY+ucN/O0yWFHtToWA+OysAhPjDs7sQaF33YTkM4v9N9mCRzyTecaf7
-	vhUGby+UXgcfXN/l/UzKhBQaXlxvAjK9jtnwHQKvxMCfMvIVjxRc7VD2drLu38jA+LbdAmxCvDh
-	NfzlSab4jWpCsckvoGXocB4lCDboAIUQQYXiBzW+OY5vkDydXOk6GiTIhZb1OdW2cQj/NNFK2cQ
-	5LBFC8v6gVpTHZHlhK2WfJOVAHEHsmxRqDO4HL2dluON1KCArNSSA4ybRFHFssAuTw00HYZT9U6
-	ewSfi8E35R2+lqxBGrHKEExRWkbl7TPr+508ezh2kEV97zZSqVOMMtPDYdlrMqRHoQBOLZom2ht
-	/CnARWPgzJice2Y3yrs0ckai3YoBn2R9aU5q3SYPUdRnIp8ZAmE5QF+0Csk/9Al3DllQy0SPQ2o
-	93JRQL3iByFFnocOYcAC7Wc9+wNXEoVlp6RA1m7Iua2gmJFm+/fa40NQIFhYAtegVddXgDCoe6P
-	5d81v5PmOopSRj+TJnm46Rju0Y0ZDKbh6kMUw==
-X-Received: by 2002:a05:6a00:1da5:b0:84a:2c46:3fdb with SMTP id d2e1a72fcca58-84fa867cd02mr4878028b3a.5.1786463737798;
-        Tue, 11 Aug 2026 08:55:37 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fa954c125sm994954b3a.41.2026.08.11.08.55.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Aug 2026 08:55:37 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <42ac07a2-a812-4dbd-a771-70f5a16129e2@roeck-us.net>
-Date: Tue, 11 Aug 2026 08:55:35 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XxAjhu7W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786464063; x=1818000063;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=57n605jxtzp6W2BrJR6ULTVluQRUvSxki/NXweBgez0=;
+  b=XxAjhu7WDvn89Whp7yyjN6NaiRyqNyGt1gGXVpWtCaN1J+89dFksCJyl
+   WJLSqq2EtSs1E9WI1B7wi0zQAn7OFWDli7kTCdqtQOb/tQ/1qfDn2Cyga
+   sX0/AYPIq+XWTV8CSg2pt3AWo+sD0DX3HeAH/oHFhMRbZzNEVp+uRT/yg
+   /3godHAdveN+uUwLZhdsFOqSYtyIKtGIpgkW9uWBY5eY+LAcloM5VlBGb
+   +YB36y7mx66dm7e2/ldh6muS+ktoU08QydAhSNruUoYj+K0rPHv9zuuxL
+   Kk2k3VdUtu94ttr0FZPG1YIKoFlk6tFF2zADmsBdHJleAMyWu/rExgC9Y
+   g==;
+X-CSE-ConnectionGUID: 5sOWx/wvSpCN5ldrvCIfXw==
+X-CSE-MsgGUID: BEETkXiKSTGSCbVZMyXisw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="109792172"
+X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
+   d="scan'208";a="109792172"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 09:00:01 -0700
+X-CSE-ConnectionGUID: GuBdCHMiRlOTgnCNUzHong==
+X-CSE-MsgGUID: ys3ilNwgRBi2ikjS9iEttQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
+   d="scan'208";a="259530575"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 08:58:40 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Tue, 11 Aug 2026 08:58:27 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Tue, 11 Aug 2026 08:58:27 -0700
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.16) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Tue, 11 Aug 2026 08:58:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FSeLrU9RapFk7X6WWkTP4hlmyhj9UjeTPVqdMzFM6qNUAWoxm7EIqyut2WDtKaFJtJZe836XHklSIGxQ+TS6WXbMMwwet94kAtYiC344itN6eW+4ktwOvxT1d3wBMY/BuLqfz7NDieU4uPOXHOQMUA/97dNODGyX6b+DXtNftFRbzXgjSdoMSKGDNDnAAwCBudxNsM+ZkiktTKsRvwnOxb+yto+Q+/DTGqbZRNjuRAn16WolJmLQCyOOvTQAG4M7yZIrByroLWsFXRxdXPBDZrB8h3F53Kgxr6FzpDGEEvcQQxSp4BS5l/X5lAywvbOjwXC7S+vjPTvAAN6BNrFD7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SQumvgAGQzRPOvO0zyp6nlPepvPeyW7qIncw05CQbi8=;
+ b=mjupxTCc+fOM8AytRABK6cln6AoSLDwbCVxzbM4QRGWRFdnHoQKoywZEWbnoIYf93SVyq2k4c/IXJo/nIeDfmZMEPblpXii1VbT0K7v6UMBul0KKwya7altrHP3Q2QQOGZKvWVqeQh3eTzC9U42f5cu8kEW5he+frR//U5jNSzBSlK1YKejc9B0HZJjV2SPjRSd+imYpKKZQ2VXcutr2EkJi+d3Dm56tq62OUvTJpebVXvnP4HbQwx1OYc8LOT0lTpVjkd/BaBG3y0goC4+0rGYFqALNs4bCbc0qV27U7T3dIp6iiJflIe+syYPdj2NiDDL2TbZUd9YAlOZx7muKMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA1PR11MB7198.namprd11.prod.outlook.com (2603:10b6:208:419::15)
+ by DS0PR11MB7286.namprd11.prod.outlook.com (2603:10b6:8:13c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Tue, 11 Aug
+ 2026 15:58:19 +0000
+Received: from IA1PR11MB7198.namprd11.prod.outlook.com
+ ([fe80::2c4e:e92a:4fa:a456]) by IA1PR11MB7198.namprd11.prod.outlook.com
+ ([fe80::2c4e:e92a:4fa:a456%3]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
+ 15:58:19 +0000
+Message-ID: <544211a6-29c5-49ab-b9f9-543f199b9533@intel.com>
+Date: Tue, 11 Aug 2026 18:58:12 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/9] perf thread-stack: Report branch stack hw_idx as not
+ available
+To: Amir Ayupov <aaupov@fb.com>, <linux-perf-users@vger.kernel.org>,
+	<coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>, "Suzuki
+ K Poulose" <suzuki.poulose@arm.com>, James Clark <james.clark@linaro.org>,
+	"Leo Yan" <leo.yan@arm.com>, Peter Zijlstra <peterz@infradead.org>, Ingo
+ Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	"Alexander Shishkin" <alexander.shishkin@linux.intel.com>, Jiri Olsa
+	<jolsa@kernel.org>, Ian Rogers <irogers@google.com>, John Garry
+	<john.g.garry@oracle.com>, "Will Deacon" <will@kernel.org>
+CC: <linux-doc@vger.kernel.org>, Mike Leach <mike.leach@arm.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Swapnil
+ Sapkal" <swapnil.sapkal@amd.com>
+References: <20260803090640.2412336-1-aaupov@fb.com>
+ <20260803090640.2412336-2-aaupov@fb.com>
+Content-Language: en-US
+From: Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park,
+ 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 -
+ 4, Domiciled in Helsinki
+In-Reply-To: <20260803090640.2412336-2-aaupov@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DUZP191CA0050.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:4fa::23) To IA1PR11MB7198.namprd11.prod.outlook.com
+ (2603:10b6:208:419::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: (socfpga) add Agilex 5 channel mapping
-To: tze.yee.ng@altera.com,
- Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <0701aacab270fb8ca7bb35e8e72b7dd629e2cdcb.1786428156.git.tze.yee.ng@altera.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <0701aacab270fb8ca7bb35e8e72b7dd629e2cdcb.1786428156.git.tze.yee.ng@altera.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR11MB7198:EE_|DS0PR11MB7286:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c90ca1e-5bcc-4d10-60b5-08def7c15ca9
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|11063799006|4143699003|56012099006|10067099003|6133799003|3023799007|22082099003|18002099003|921020;
+X-Microsoft-Antispam-Message-Info: Rd7N7PJS1A6t2ZNUWUEqHry3XaYqpGPZyw4AyCaafO629UOBe0lItb8pPY5OLv4vlC2JIgPTT6pQuFEGMjEZdI/lqptAlQeiAWBXtLlGJIeKky1EPBylfMwjSaDgUlua3dLsGvK4icX2KJj1YCfUCduUahxs+leSy+njC7EibLxcnSVETZf+E2/OZ13fKtobYuBIDJSxRNfN17t/JfD+vwmO9VRDkU74dggHZbhoeEJqUZGu2fhurcVkU+NIxWzrWmcTqdvS51b3wlY3axEBhJgi5QLtaZ4hAzEI0SypWwNi7SZGHfDmkp/TTMGEsKHDvubraqro6uFrtV9mBzcr0bB7O3d6YbpKci+ZLtc5N3uRfRyRB3y2fn+I15tvsq7FkyFhscwTxhOmYmj2exemsgkmZCoP4iSp7ijcjqU+hrex4Th9MRX7+F6qlzpMAkV/JW4JBbgcZlkQ6XhtTLwlcgYshTznNDMbYgxp3Q7AASmIUdIHfcvr3n3yJxlCYSyg9HXNfrMLgkYd5kRe/Ndja3DJMQ68gJeJjtKhJlSDzT7zwcdpEGONy5fG6SVATAtplvxRNZzPuzjv6RyLd5oE7UkKn9qCodU4wiM/LwnFuV0LzWAAG56Tzji3qXsRTxekSF+m83kxtG26539RATsIq3MHV5xZfGFriRhLQIMbOIXXr1hkpMw2hoB0DuaooF99y+jZCtrTDwNSOeow9zL43g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7198.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(11063799006)(4143699003)(56012099006)(10067099003)(6133799003)(3023799007)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WW1hVmxPZnBFZnVTc2g4NUh2dU5JNWRmaWdhNGZmM0dPaTZWRjlaTmlRRkY1?=
+ =?utf-8?B?aFphVHQrN2JwOFRkMkZxTFhiOWFOS2huWWEyWjM1Yy9zTi9CN2ZENzZqMTRj?=
+ =?utf-8?B?c2hIUkN5Qi9ETzlqVEhPcVlzTjdRdVM4NWxiSWphaE0reHdHbFJRdk81NGQ3?=
+ =?utf-8?B?UjRBeWhiQjVldkNLampHZUZTekM2UlJTUGE5YzB3SFludHdzREhETURITTlB?=
+ =?utf-8?B?U282ZzA1Tk12aXIzODdzamxKSUJyNmtIbGlaUVI5a1NKUTREejlzMkg3Vk56?=
+ =?utf-8?B?Qm9kajlmYUUxelJaK1RFazBRRDhNbkdWTk0zcG1GWXV3aUxTMlRIRkZYYVBr?=
+ =?utf-8?B?QXBKc3ZHckwwL005UFQ0akk2eGVVUUJiSXJGeVI0TDI2eUx5d0d2dEttVlZJ?=
+ =?utf-8?B?Z2duMWphdTNtMUxTaG9QcTE1YS9CMGVsWHEvbUlrbTZCUS8vams0RU5JK0s2?=
+ =?utf-8?B?NllZeFVRQ0lsMjFzYktWS3N5dFgrc01hTmY2NXR1Y2dqd2g5cVVxWC9VclNJ?=
+ =?utf-8?B?TmdzN25yRnRaK0lpOFJEYVpVOUF4WU5XS09zMkpFUjl0K2NlaWdsRllNWG0z?=
+ =?utf-8?B?WVZScjJOZGlKUHp0TDdkcHM4Sk1mSElSL2wwamxhRDdCR1gxS0xvcWlkN0xj?=
+ =?utf-8?B?eEVtTHBCZmxGNWlKSXo3T1k2Ylcva2VpMjMreEJTWmVBczUvM2RmN0xwNm1E?=
+ =?utf-8?B?NGZPZXA3b3FDQ1NMUzRveWhSbjBiZnRxZ2lmT1JWZlRrZEpHQjdIOFJtd1Bu?=
+ =?utf-8?B?ME5VR0pkN1JrZ3JrS29IZUI2RWVpYy9aRit4cDVIaUppTWlBZ2lJZ2RxMGl6?=
+ =?utf-8?B?KytNNUdUQm82N2dxdDVpWFUyWG5LbW1NWGVVWTEyMG5YRUVYNFMrNy9BNFhI?=
+ =?utf-8?B?d09jakc2dkhoS2tYSVBVUHlOeHl1U045SDVBRFhuOWJhcXprTVdwL2pNNitq?=
+ =?utf-8?B?YTgrTWt6L1JtekZHRWRyQUp0REM4Q1JRRFRvbCtGRzNveTBxOFZpcXl0Tkpj?=
+ =?utf-8?B?Q1VkenptM1FwTUsveVJPK0J1c0VQL1FYTXFiVjU5bXRRTXVmdWdqVFRVQkFE?=
+ =?utf-8?B?c2Y4Zkt2Q2prS2tUaHVVdU1GSjFtZUhpRWZDR1ZSaGV4RWQvN1JDcU9naDNQ?=
+ =?utf-8?B?NklHK2gzVmgrZkxNS3laWjM4cXhhY202S1prZzlmMGxuRzFSSE1MK2Jnelkv?=
+ =?utf-8?B?SkFmV1hSWWVjNWFuWXl4MDFpZGdTQis3eHpuYzNrZzQxT253T3d2Vzc3UXA2?=
+ =?utf-8?B?d1pqdVY4VElwaUUrbDZwVkovcHpPQVBzNmJadVIxWER5Zng3ZGpOaG4vaXMz?=
+ =?utf-8?B?VE1xMWEyK2RocWhtYklSR1cwdUVzQ3RBVTBYeEZZT2dscUM2aXdhbnh6cElw?=
+ =?utf-8?B?Q1Z3akZBanZRMERhOHlzSVZWVzdnWUo4aGFpU3NrS0JTdU8yZS9wbVE4c2ox?=
+ =?utf-8?B?Z3N1eWd5VkdFcDdhKytMZzRQejFQQjIyMFVsd21zbEZwaDdDY0s2N3laQ0pL?=
+ =?utf-8?B?b3EveVBhM0srdkFodENyWVZTOGdUMSsrQXRqSFlVWm9QRk1Hd2FOVkxjY0sw?=
+ =?utf-8?B?Vm80Z3F0cFlIb2l6WXJpeFVEMW51RjYvMXo5NEk0Z3NDRUU5c1ZUeGZja1hu?=
+ =?utf-8?B?WjZDbTJDR3huNXJ2RmxyQkl4bUlPVHJJeTk5VXdqYVJDWG12TEg0K2FtTHNl?=
+ =?utf-8?B?bDlBVGh1cFNEYkMxMlhGY29kdFQ5djZITGRjY0ErTVRnVy9aR3B6MFlrZkoz?=
+ =?utf-8?B?N096WStZR0F3WUhOUWNFWTc0YlZiUE83Wlk1bWVmcEcvNTFpaC9sbHlSV0Jx?=
+ =?utf-8?B?bUFhYjJQb1dpWUFmU1ZnTDYrYUQxeTRYaEpkQk5CZnljSDRVOHhpY2RnZTMw?=
+ =?utf-8?B?aHFRZ3JvbVZJMVZEWWxLTTVyN1lJREJpaS9pQ1p3b3RWWklFOXQxbUNFOTVi?=
+ =?utf-8?B?VTBxTGUrM2lkSG9VWmtvazV3Y1lHU0hzc2EzMGM4eWprbE1BVndxaVJ5VmRS?=
+ =?utf-8?B?c0ZPVGRJdW5HNkZjYnljNkhXVUt6S2VUNEZrVFhkd3ZKcVhJbFg2aEkxNGtm?=
+ =?utf-8?B?R2ZmOVRseXRiUWt0eVo3b2FkWUhSV2Z5YTRKZGpzcUF5QlZFVWorWnpvTW04?=
+ =?utf-8?B?cmNkUWk2QlI0WXVRbitmYzhkY0Y4L1hNamIrSHdTditSZkN4RkowQ2Z5OEN3?=
+ =?utf-8?B?QjdMVG9YWEdOOWd1aTVyVmU5clJqUW1YcThvZ0NrZU54TEtjM1BGUHU1OGRw?=
+ =?utf-8?B?a1N1NjNTTEdKenY0Q2J6ZTAxcVpjaUJtUHEzQStGKy9FNW9STGw1bmdyWUgx?=
+ =?utf-8?B?OHpNRHk1QVRsWlpGZDdGOWR4TzV4ZkJNM21VNnppL0h4ZExCVTZRQT09?=
+X-Exchange-RoutingPolicyChecked: kz4AmrOr9kCrI7tojkaR4cEkxfhbrSZBnWYMPe20KjttNR35kNsvVsmhv1gUkXaAte4UkCwHot6prKyg8xQo1RggR2jIiquMxI9qiG9j2RrnOnQm3q29MTmgaajgV6judz0gnc5rLWujV9mpC8IFaffcxd4VrfbKlbNHaH2jO3FAXdmUifsJfQyvm9TupFXhg3cYCmrE7K25bpyk4m3oIvId1uvCB+0rl2xbve7KmQpywzQ63s8cD8pVXgHBAWrub/WBEpdC9SO5b1Sjy/6OD2U+v9aAPPUdIVLnN7hfoTc7m8mYV92WwoafmzfbvsyELjoKgSrXxQHycvUuVnSIGw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c90ca1e-5bcc-4d10-60b5-08def7c15ca9
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7198.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 15:58:19.1697
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: faEtCN1MtIReG3l54KWZS2r/sfj63BbZYIOX5qwaZfaPIsk6IkzLMpDjYAVi7plDiHUc4U3X9aKJCjg3CT1Jaw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7286
+X-OriginatorOrg: intel.com
 
-On 8/10/26 23:11, tze.yee.ng@altera.com wrote:
-> From: Tze Yee Ng <tze.yee.ng@altera.com>
+On 03/08/2026 12:06, Amir Ayupov wrote:
+> thread_stack__br_sample() and thread_stack__br_sample_late() fill a
+> caller-supplied branch_stack that is typically allocated with zalloc(),
+> leaving hw_idx as 0. Zero is a valid hardware index, so consumers that
+> honour PERF_SAMPLE_BRANCH_HW_INDEX see a reconstructed branch stack
+> claiming to start at LBR TOS entry 0.
 > 
-> Add temperature channel mapping for Agilex 5 and bind it to the
-> "intel,agilex5-svc" compatible string. Reuse the Agilex voltage channels.
-> Agilex 5 omits temperature channel 2 (top-left corner) because that
-> sensor is not present; remaining sensors keep Agilex channel numbers.
+> These branch stacks are reconstructed from instruction trace and have no
+> hardware index at all. Set hw_idx to -1ULL, which is the established way
+> to say "not available" and matches what intel-pt and cs-etm already put
+> in the branch stacks they synthesise directly.
 > 
-> Match intel,agilex5-svc before intel,agilex-svc so dual-compatible DT
-> nodes select the Agilex 5 board data.
-> 
-> Update the socfpga-hwmon documentation to list Agilex 5, the matching
-> compatible string, and the SDM temperature/voltage channel tables.
-> 
-> Signed-off-by: Tze Yee Ng <tze.yee.ng@altera.com>
+> Signed-off-by: Amir Ayupov <aaupov@fb.com>
+
+Fixes tag?
+
+Otherwise:
+
+Reviewed-by: Adrian Hunter <adrian.hunter@intel.com>
+
 > ---
->   Documentation/hwmon/socfpga-hwmon.rst | 52 +++++++++++++++++++++++++++
->   drivers/hwmon/socfpga-hwmon.c         | 27 ++++++++++++++
->   2 files changed, 79 insertions(+)
+>  tools/perf/util/thread-stack.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/hwmon/socfpga-hwmon.rst b/Documentation/hwmon/socfpga-hwmon.rst
-> index e5da42556a62..664103a38195 100644
-> --- a/Documentation/hwmon/socfpga-hwmon.rst
-> +++ b/Documentation/hwmon/socfpga-hwmon.rst
-> @@ -7,6 +7,7 @@ Supported chips:
->   
->    * Altera Stratix 10 SoC FPGA
->    * Altera Agilex SoC FPGA
-> + * Altera Agilex 5 SoC FPGA
->   
->   Authors:
->         - Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-> @@ -32,3 +33,54 @@ driver based on the service layer compatible string:
->   
->     * intel,stratix10-svc
->     * intel,agilex-svc
-> +  * intel,agilex5-svc
-> +
-> +Channel mappings are fixed in the driver (not described in DT). The tables
-> +below list the SDM page/channel encodings used for each family.
-> +
-> +Temperature channels
-> +~~~~~~~~~~~~~~~~~~~~
-> +
-> +==========  ====  =======  =================================
-> +Family      Page  Channel  Label
-> +==========  ====  =======  =================================
-> +Stratix 10  0     0        Main Die SDM
-> +Agilex      0     0        Main Die SDM
-> +Agilex      1     0        Main Die corner bottom left max
-> +Agilex      2     0        Main Die corner top left max
-> +Agilex      3     0        Main Die corner bottom right max
-> +Agilex      4     0        Main Die corner top right max
-> +Agilex 5    0     0        Main Die SDM
-> +Agilex 5    1     0        Main Die corner bottom left max
-> +Agilex 5    3     0        Main Die corner bottom right max
-> +Agilex 5    4     0        Main Die corner top right max
-> +==========  ====  =======  =================================
-> +
-> +Agilex 5 omits SDM temperature channel 2 (top-left corner on Agilex)
-> +because that sensor is not present in hardware. The remaining sensors keep
-> +the same channel numbers as Agilex.
-> +
-> +Voltage channels
-> +~~~~~~~~~~~~~~~~
-> +
-> +==========  ====  =======  =================
-> +Family      Page  Channel  Label
-> +==========  ====  =======  =================
-> +Stratix 10  0     2        0.8V VCC
-> +Stratix 10  0     3        1.8V VCCIO_SDM
-> +Stratix 10  0     6        0.9V VCCERAM
-> +Agilex      0     2        0.8V VCC
-> +Agilex      0     3        1.8V VCCIO_SDM
-> +Agilex      0     4        1.8V VCCPT
-> +Agilex      0     5        1.2V VCCCRCORE
-> +Agilex      0     6        0.9V VCCH
-> +Agilex      0     7        0.8V VCCL
-> +Agilex 5    0     2        0.8V VCC
-> +Agilex 5    0     3        1.8V VCCIO_SDM
-> +Agilex 5    0     4        1.8V VCCPT
-> +Agilex 5    0     5        1.2V VCCCRCORE
-> +Agilex 5    0     6        0.9V VCCH
-> +Agilex 5    0     7        0.8V VCCL
-> +==========  ====  =======  =================
-> +
-> +Agilex 5 reuses the Agilex voltage SDM page/channel layout and labels.
-> diff --git a/drivers/hwmon/socfpga-hwmon.c b/drivers/hwmon/socfpga-hwmon.c
-> index 5b43274d0aa2..92bffc02e309 100644
-> --- a/drivers/hwmon/socfpga-hwmon.c
-> +++ b/drivers/hwmon/socfpga-hwmon.c
-> @@ -433,6 +433,30 @@ static const struct socfpga_hwmon_board_data agilex_hwmon_board = {
->   	.num_volt = ARRAY_SIZE(agilex_hwmon_volt_channels),
->   };
->   
-> +/*
-> + * Agilex 5 exposes the SDM and three corner temperature sensors. Channel 2
-> + * (top-left corner on Agilex) is not present in hardware, so the SDM channel
-> + * numbering keeps the gap (0, 1, 3, 4) rather than renumbering.
-> + */
-> +static const struct socfpga_hwmon_channel agilex5_hwmon_temp_channels[] = {
-> +	{ SOCFPGA_HWMON_CHAN(0, 0), "Main Die SDM" },
-> +	{ SOCFPGA_HWMON_CHAN(1, 0), "Main Die corner bottom left max" },
-> +	{ SOCFPGA_HWMON_CHAN(3, 0), "Main Die corner bottom right max" },
-> +	{ SOCFPGA_HWMON_CHAN(4, 0), "Main Die corner top right max" },
-> +};
-> +
-> +/*
-> + * Agilex 5 reuses the Agilex voltage SDM page/channel encoding and labels.
-> + * Check more specific "intel,agilex5-svc" before "intel,agilex-svc" below so a
-> + * node that lists both compatibles selects this board data.
-> + */
-> +static const struct socfpga_hwmon_board_data agilex5_hwmon_board = {
-> +	.temp = agilex5_hwmon_temp_channels,
-> +	.num_temp = ARRAY_SIZE(agilex5_hwmon_temp_channels),
-> +	.volt = agilex_hwmon_volt_channels,
-> +	.num_volt = ARRAY_SIZE(agilex_hwmon_volt_channels),
-> +};
-> +
->   static const struct socfpga_hwmon_board_data *
->   socfpga_hwmon_get_board(struct device *dev)
->   {
-> @@ -443,6 +467,9 @@ socfpga_hwmon_get_board(struct device *dev)
->   
->   	if (of_device_is_compatible(np, "intel,stratix10-svc"))
->   		return &s10_hwmon_board;
-> +	/* Prefer the more specific Agilex 5 compatible over generic Agilex. */
-
-I don't think that is going to work (see Sashiko feedback). On top of that, it is
-conceptually wrong.
-
-Guenter
-
-> +	if (of_device_is_compatible(np, "intel,agilex5-svc"))
-> +		return &agilex5_hwmon_board;
->   	if (of_device_is_compatible(np, "intel,agilex-svc"))
->   		return &agilex_hwmon_board;
->   
+> diff --git a/tools/perf/util/thread-stack.c b/tools/perf/util/thread-stack.c
+> index c5ce741b07446..1a3dffa83bde2 100644
+> --- a/tools/perf/util/thread-stack.c
+> +++ b/tools/perf/util/thread-stack.c
+> @@ -624,6 +624,7 @@ void thread_stack__br_sample(struct thread *thread, int cpu,
+>  	unsigned int nr;
+>  
+>  	dst->nr = 0;
+> +	dst->hw_idx = -1ULL;
+>  
+>  	if (!ts)
+>  		return;
+> @@ -686,6 +687,7 @@ void thread_stack__br_sample_late(struct thread *thread, int cpu,
+>  	bool start = false;
+>  
+>  	dst->nr = 0;
+> +	dst->hw_idx = -1ULL;
+>  
+>  	if (!ts)
+>  		return;
 
