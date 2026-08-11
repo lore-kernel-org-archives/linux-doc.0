@@ -1,248 +1,109 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3873A43C061
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 13:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786453460; cv=pass; b=VrFoYDOjR2yHHyif0IRE0XCkmZPF/8zdPfH5mXBm6Ym3SneNmmZiXOut6+2AnW97ws1T5YszyrG2rMvB7KcVIZ0/eU8MyRD1tnAMQeVFb1v3gbblXjGX4+cEChmfn1JV2lSWCxy5yLjnpdP5rzBzji8vPhYXGDT7qKNk4Gv8Nr4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786453460; c=relaxed/simple;
-	bh=KkNNP/ARuZJlHPHioDksDLcYa8wVzfpHiW8qEwxMpjg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n4nh5stLDX6NAyH30j14tUB22ZNfMvnv4/1z6fg6N+lxdgU0ZpU/2NVIHprnYRJYDq0etkihJrUbu1DzwJ6ojGlV6hLCPfdK8/irPp9UEqljC+MPpEu5+Ckw0nUYocTLgD7mqOpZWa8H/nTrp1X+lxp+C6Wvfj3Hf0roTqeErD8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LXrsHDb2; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CC0314D06
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 13:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.70
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786454769; cv=none; b=MVU3FbMv+dgmO5bLbAP6jBMd9437Meti3sKwJGTw+884Z/H4bvePgSbJjnoKlcoPSPBBT2cmVmPgQd88PuGLha9AxSLvS/iXAsH6NKmEBkJaAONGrPg0yl+GNw24hdZf5pvnME4nemWQ03GPHxO0yVpRoitxrnc8IG/O+eIxLUc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786454769; c=relaxed/simple;
+	bh=PcviRXye7natTlINzT+MvBO3x69BTv0hYr7HauJL144=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=pJgxfK8jStFaJDjs13njRn/uwoPZjeKJ3u+XquyyTfN/e1j99mJFjeUmZekb0y8PIueY0iW1kN83qVJhxgcipzFcmBizv+n1P5CY8SpMKoBZe9C1OCNQroPrEBrPDe3DBSf0VY9oteSvcDspIrkEE3/I4TpZudmCK7GxfCOeTdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rrQwmzod; arc=none smtp.client-ip=209.85.208.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LXrsHDb2"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c05dcdf49so29116861cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 06:04:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786453458; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RqWdo/oIIFXRfxffeoyR0GbcqyLsYxJPyhxjkojfNLpn/YJF9vOTQaWndfsUkI1nrD
-         QY0dv0oCcMAdRSjCixaMYKD5TiPplkMHhmT5yXHVZ6vCjia/WXqKRcgm3ykzkrtXErfE
-         hhxkOHvnRB6Yn/1EhLg48dHR207VYBEngPAlumQu7gJ8B/nQpllG2D88gQ9E2Sbg8liA
-         72+fiwI2BNEzOrpXMo2tLH3CwEgcQhagWeqdxof+W2UzgsiEziHPvwXQK1hRrKDw9fF0
-         90nMnhWPNk5PXAGlan6UD3Asw6kCf7YMEAQdrK99JUlcf9lV/aJVIpWOwSzwC8/0qtdD
-         ExQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=phh5zXsHTFL0jsT8P1kH1ENrHAJoQcuy306DPU9TBOc=;
-        fh=GOSqjzFslXmbyIQK+hYA74VHjBEeW8hX9IeSnrk91mw=;
-        b=KmI2nsIlk0D1ZODiMQizYW/MyYbpD+82CBCg1nJhe2XQiE5paCf7QCpnRC2e2aTRxp
-         zIVV2tmDS0tS95Fiws1uDr8hzCt/NJ8AQ7V3sfWs7UusC7FNo+5nFBl2LqGvwXWRbvP4
-         WEEMEs19Q3haujDf0yXz2I6fmcxv5WmiM/E7PFtEGI0CevKScl8nbEVFuhYQ/LNAGKs0
-         LE30/gMkgmWYf9o4lbqdtHR46/o8mhyumAsfNbC9+SAt35Fp4KLmehBk25dqZ/nkk3KR
-         vlQJ8zfdHeziWjRX0Tdl8gVSa/cGy5wdBsB+ZhXyv6QPMQaRrH3GmiWumtVa7PaNL8pI
-         7cww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rrQwmzod"
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-698b899b53cso2583728a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 06:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786453458; x=1787058258; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=phh5zXsHTFL0jsT8P1kH1ENrHAJoQcuy306DPU9TBOc=;
-        b=LXrsHDb2bm3Im+4Az5LsxTUIobD028pCMLTsg/2f3si66AgaZ2LALenIL3Ij8mfNt8
-         4RoLF1zrRJ2UPqem3ZAZHACPjmMMJQ2PGKQq/WXKriFPXUXtIrr/0T6/8xABmfLca5OA
-         t7YjLnyntnOAKtv40EYDxM/ld4jzdJgQX9GgbXubJU7MfAuveowkE03i4xjLtqfLgEB4
-         O3KS9cdM7A71eC0/ni+PdpYT9rOkCrfVib0Uj+a5Vo5C/CXtmB1+RqpLhlxQIQgOMGwA
-         6yrvrUz6Jd7Li4UgX887llH+MWgiYCX5tGqTcnIsWxY5ItmEDbs8FcrQfCQP2z3ZEq1T
-         IcUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786453458; x=1787058258;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1786454766; x=1787059566; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=phh5zXsHTFL0jsT8P1kH1ENrHAJoQcuy306DPU9TBOc=;
-        b=mhol/Wh8zR9Xru5Jp5HUfeGWtdZsm3LLQBMg0i4r9x2tszXt2vqVj4dZQ/P7C7VdWE
-         qH/nqPnDWiWQTTXyVVA4m4p/xbD/2SJErKF5tS+mEVILcNloqxUVhPzD+Z3CHA6jcnRZ
-         9V/MUD+SHSQ6UhzK1zLnA7A9gz4FaHIrrW8LNeTfhRe+tY82HgYHFmu41dZmYj87B2gh
-         IgiLsI3w8yubQCGAT8h1PJ+oItTIqiFQnEnGLXa3AEQg4Rn8DcUIvvqXZEdDduSVQbRq
-         oaQ5XHR59x2EbqkBdn2rFTGjeQpMUlg9xETYzo1891gLa0NrwzDiOPgz8h9WS9Mo1OvT
-         ZSCQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpNttQwkpqVqOZUUffltmyK6pNlqeLHfPGFgbUOcJEVH9TxBIDT6luqlVlBLwVZZ9jgK1JRUysPUNM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuW2W9sMHXJ5AG2jBSj6rxA9sHzIoz/wHY8FtnBbua6B6PIFE8
-	upI4SqSACUhzAfZC32uqrsm3KDCPHBquwQlym5zGUjYP9JbAJDsu2mP/ZTsy3KAUyLmvCsCuV9V
-	LWSzQS3aVDPZT88Htd4E56ovNbjoV6DI=
-X-Gm-Gg: AR+sD12dy4zQAhbIo0nabHFEzNzOAW8iODSW3NATi0HvuEPbeJJIwN+p+Zxvh3E606K
-	U7ShHYoTZTxh40R8c5Yxj2oVn4jiaqmRSCWdWUxp3kgBmD4+Q6Ejp/tezMfloMZ6UkRqepKfDCH
-	agQz0FclcrbiQLplUhCaFBIPziYXqULJpUiRY0dTYzx4ROpT0A8y/FHVBNW1rErTkzL66pp2kdS
-	TVdC87h6biTrze3vZZlZ+AO7mbDazQx7kh9TuiizkcLeO1zGdenw0kj9P8HeaQCw7gQ0v4BolBg
-	+rqELcGUSjIMcao6UYS6OqCyN3mjqaZsBjA84NUO6Grncw==
-X-Received: by 2002:ac8:5f8d:0:b0:52d:3352:f7ac with SMTP id
- d75a77b69052e-52d585fad1fmr22451241cf.28.1786453457883; Tue, 11 Aug 2026
- 06:04:17 -0700 (PDT)
+        bh=W70NQ8qweOhk0vfOOOPEvDwhbPTM+yme1ctvOdIAjTY=;
+        b=rrQwmzod6QJCSkRxvUvvXeMEA1fDpglFPp1okxL8f045DNrihEzBjHnGd0cwLleLEz
+         I2P7427w/RkFi/Rj22f2qdUEO5xOfzg6ydUEP5VvEPRonfAC7n8rvPR4tl0oKqUiULJ2
+         ZilSuODiWGwbafuXWrLADJvMK+x3cWM21d7V7KTAjHI784aGPGxNEwaO+BYH2Vvj1g41
+         oVE1y8BS+9xEkj4+m1d6BQLzOIAXPUXqUplDmW1b6uIh3ngHUPbM+vZe6YZknKRwITqR
+         vfGNhHusExYkFtK8jcT8YaPtYZQCVK0D16EJXRWC0Y6SF2Oaz9b/wdYPw+R0SOlAkoZl
+         ME0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786454766; x=1787059566;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=W70NQ8qweOhk0vfOOOPEvDwhbPTM+yme1ctvOdIAjTY=;
+        b=W76PtOkoHsv/7MBXOAOxdFVHQvckXPqHJNLDNSnCwZ69xakRF0AseWTr7FFK14IRBp
+         WjRj9ltP8fuWu6Njq+lFQQSfDJ0P8MwcVxSD3ePwlGFXcalO6SAFqFqF+PetebB4kNiH
+         GG1PHmlTkKFhCN51ziiHqOOshMtYjTaL9SoCaoHgoCuF7gBXD9vtUuKiUww03D51yKTc
+         ff+TWCsn5VObH0nZPHpntzCSlNNPVGeXZhG80A/vArhlCH9VzHsgU97aE8w+/pYZfWbN
+         u/RcTB+16rizF/c2vlSnYv9p1O+7Rkisijv/elYo5YALzovxafwwV7yyhpGHGy4EKycS
+         P+QQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqr807IoEZeuF4DYD6sqlC8Iq3DSsLwseaXEAbOvkmTUaOpJi74Q8/9YFzK+b4K/LxSnX8JvD+pCtU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtiEM/DItf/C5Pvb8qdBa+J+TzcYPO68/Zjg6a4yJhuVW1DzDk
+	pthJ8xFlspH7UftvqizMYws2pi/gvxo7WRf50n43HHd7t5y9MxH1c2Mae414ajLjgdAyMhXc+mW
+	y4tLuu9l2iGvwRl5Hgw==
+X-Received: from edqs15.prod.google.com ([2002:aa7:d78f:0:b0:698:b78e:8827])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:158b:b0:6a1:e59c:62c6 with SMTP id 4fb4d7f45d1cf-6a364525fe5mr1952585a12.18.1786454765239;
+ Tue, 11 Aug 2026 06:26:05 -0700 (PDT)
+Date: Tue, 11 Aug 2026 13:26:04 +0000
+In-Reply-To: <anpXjM_lg_UTpl0q@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260810143311.57775-1-chenmiao.ku@gmail.com> <20260810143311.57775-4-chenmiao.ku@gmail.com>
- <20260811065113.78e304c7@foz.lan>
-In-Reply-To: <20260811065113.78e304c7@foz.lan>
-From: Chen Miao <chenmiao.ku@gmail.com>
-Date: Tue, 11 Aug 2026 21:03:41 +0800
-X-Gm-Features: AUfX_mw_S3rqUqK6KLbkxxJCVJvYG4s6pacHo7q2IoImeBRseWRI9vEeGz6-D8Y
-Message-ID: <CAKxVwgch9tzWnAJrY7M0972+B6JbULX147jGEJ9R_zk4B65=PA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] docs: sphinx-build-wrapper: prefer gmake
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev, 
-	skhan@linuxfoundation.org, dzm91@hust.edu.cn, mchehab@kernel.org, 
-	wy@wyuan.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Mime-Version: 1.0
+References: <20260728121138.1103610-1-tarunsahu@google.com>
+ <20260728121138.1103610-2-tarunsahu@google.com> <anpXjM_lg_UTpl0q@google.com>
+Message-ID: <9huzqzk4zt3n.fsf@tarunix.c.googlers.com>
+Subject: Re: [PATCH v4 01/11] liveupdate: Add LIVEUPDATE_GUEST_MEMFD config option
+From: tarunsahu@google.com
+To: Sean Christopherson <seanjc@google.com>
+Cc: ackerleytng@google.com, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =E4=BA=8E2026=E5=B9=B48=
-=E6=9C=8811=E6=97=A5=E5=91=A8=E4=BA=8C 12:51=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, 10 Aug 2026 22:33:07 +0800
-> Chen Miao <chenmiao.ku@gmail.com> wrote:
->
-> > Homebrew installs GNU Make as gmake on macOS, but the Sphinx build
-> > wrapper invokes make directly when generating Info and Rust
-> > documentation. This can make the dependency check succeed while those
-> > documentation targets still use an incompatible make implementation.
-> >
-> > Honor MAKE when it names a compatible GNU Make. Otherwise check gmake
-> > and then make, selecting the first GNU Make 4.0 or newer. This keeps th=
-e
-> > wrapper's selection consistent with sphinx-pre-install.
-> >
-> > Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
-> > ---
-> >  tools/docs/sphinx-build-wrapper | 55 ++++++++++++++++++++++++++++-----
-> >  1 file changed, 48 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-=
-wrapper
-> > index 1bb962202..aa6a297db 100755
-> > --- a/tools/docs/sphinx-build-wrapper
-> > +++ b/tools/docs/sphinx-build-wrapper
-> > @@ -71,6 +71,7 @@ from jobserver import JobserverExec         # pylint:=
- disable=3DC0413,C0411,E0401
-> >  #
-> >  VENV_DEFAULT =3D "sphinx_latest"
-> >  MIN_PYTHON_VERSION =3D PythonVersion("3.7").version
-> > +MIN_MAKE_VERSION =3D PythonVersion("4.0").version
-> >  PAPER =3D ["", "a4", "letter"]
-> >
-> >  TARGETS =3D {
-> > @@ -97,6 +98,46 @@ class SphinxBuilder:
-> >      with the Kernel.
-> >      """
-> >
-> > +    @staticmethod
-> > +    def get_make_version(cmd):
-> > +        """Return the GNU Make version, or None for another make."""
-> > +        if not cmd:
-> > +            return None
-> > +
-> > +        try:
-> > +            result =3D subprocess.run(
-> > +                [cmd, "--version"],
-> > +                stdout=3Dsubprocess.PIPE,
-> > +                stderr=3Dsubprocess.PIPE,
-> > +                text=3DTrue,
-> > +                check=3DTrue,
-> > +            )
-> > +        except (OSError, subprocess.CalledProcessError):
-> > +            return None
-> > +
-> > +        match =3D re.search(
-> > +            r"^GNU Make\s+([0-9]+(?:\.[0-9]+)*)", result.stdout, re.MU=
-LTILINE
-> > +        )
-> > +        if not match:
-> > +            return None
-> > +
-> > +        return PythonVersion.parse_version(match.group(1))
-> > +
-> > +    def get_make(self):
-> > +        """Select the first GNU Make 4.0 or newer in preference order.=
-"""
-> > +        candidates =3D [
-> > +            self.env.get("MAKE"),
-> > +            shutil.which("gmake"),
-> > +            shutil.which("make"),
-> > +        ]
-> > +
-> > +        for cmd in candidates:
-> > +            version =3D self.get_make_version(cmd)
-> > +            if version and version >=3D MIN_MAKE_VERSION:
-> > +                return cmd
-> > +
-> > +        sys.exit("GNU Make 4.0 or newer is required")
-> > +
->
-> As the code here seems to be duplicated, please add it on a library
-> to be used by both scripts, as this makes easier to maintain it.
->
-> The doc tools libraries are located under tools/lib/python/kdoc.
->
-> Both scripts are already prepared to use it. For instance:
->
->         from kdoc.python_version import PythonVersion
->
-> PythonVersion belongs to a common library.
->
-> As make is unrelated, please create something like:
->
->         tools/lib/python/kdoc/gmake_detect.py
->
-> adding the code there, and then use from/import to pick the
-> needed class or method.
->
-> Regards,
-> Mauro
->
-Indeed, sharing it in kdoc makes more sense. I'll do that in v3.
+Sean Christopherson <seanjc@google.com> writes:
 
-Thanks,
-Chen Miao
+> On Tue, Jul 28, 2026, Tarun Sahu wrote:
+>> Introduce the LIVEUPDATE_GUEST_MEMFD Kconfig option. This option
+>> enables live update support for KVM guest_memfd files, enabling
+>> guest_memfd-backed memory preservation across kernel upgrades.
+>> 
+>> Currently this support only guest_memfd files that are full-shared
+>> (INIT_SHARED and no support for private_mem).
 >
-> >      def get_path(self, path, use_cwd=3DFalse, abs_path=3DFalse):
-> >          """
-> >          Ancillary routine to handle patches the right way, as shell do=
-es.
-> > @@ -569,9 +610,10 @@ class SphinxBuilder:
-> >          texinfo directory.
-> >          """
-> >
-> > +        make =3D self.get_make()
-> >          for output_dir in output_dirs:
-> >              try:
-> > -                subprocess.run(["make", "info"], cwd=3Doutput_dir, che=
-ck=3DTrue)
-> > +                subprocess.run([make, "info"], cwd=3Doutput_dir, check=
-=3DTrue)
-> >              except subprocess.CalledProcessError as e:
-> >                  sys.exit(f"Error generating info docs: {e}")
-> >
-> > @@ -787,12 +829,11 @@ class SphinxBuilder:
-> >
-> >          if rustdoc and target in ["htmldocs", "epubdocs"]:
-> >              print("Building rust docs")
-> > -            if "MAKE" in self.env:
-> > -                cmd =3D [self.env["MAKE"]]
-> > -            else:
-> > -                cmd =3D ["make", "LLVM=3D1"]
-> > -
-> > -            cmd +=3D [ "rustdoc"]
-> > +            make =3D self.get_make()
-> > +            cmd =3D [make]
-> > +            if make !=3D self.env.get("MAKE"):
-> > +                cmd.append("LLVM=3D1")
-> > +            cmd.append("rustdoc")
-> >              if self.verbose:
-> >                  print(" ".join(cmd))
-> >
->
->
->
-> Thanks,
-> Mauro
+> Why?  Specifically, why do we need/want a separate Kconfig for guest_memfd
+> liveupdate versus KVM liveupdate?  I can _maybe_ see a KVM-wide Kconfig, but
+> even that seems like a stretch given that (AFAIK) hypervisors are the one and
+> only use-case for liveupdate.
+
+LIVEUPDATE is used in many subsystem. It is possible to enable
+liveupdate and kvm without enabling KVM_GUEST_MEMFD. So GUEST_MEMFD
+preservation must depend on CONFIG_LIVEUPDATE and KVM_GUEST_MEMFD both.
+LIVEUPDATE_GUEST_MEMFD Kconfig is wrapper on both of them. It need not
+to be visible in menu, So I can make it hidden. WDYT?
+
+Also, KVM VM_FILE preservation and GUEST_MEMFD preservation both depends
+on LIVEUPDATE_GUEST_MEMFD in this patch series. [PATCH 05/11]*
+Which is wrong. So I will update KVM VM_FILE preservation to depend only
+on CONFIG_LIVEUPDATE.
+
+*https://lore.kernel.org/all/20260728121138.1103610-6-tarunsahu@google.com/#Z31virt:kvm:Makefile.kvm
+
+~Tarun
