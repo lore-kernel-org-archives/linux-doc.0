@@ -1,129 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500BD37B41F;
-	Tue, 11 Aug 2026 18:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F85B37F8BA
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 18:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786472630; cv=none; b=hrGuf58ybl+KVsDQFaVR5SOSqL30+PUPJhft9lDh42zraxjNsvegmC1/Ert+9o+fUe0kkhixXOZkRLl9lQGGLYYqeNrKj+x/svbBFqigkBWnJn/1wj+bR3GrgwwO8XM9vsTaxIxNgoQtvfRfepZqXdK/i0u/a1KCFfnrn/62KhE=
+	t=1786473701; cv=none; b=XEKNDOm10NQYtG73vwTO9H8Rba8jicd7umJ5exwF0tU8A989VDNQG7eX0fq/PEBwGPWTKnLg5cLT3eFvqrpkcrcWgiMdwK2MmthqVbpaFaL5dq4Ck+GSl2aNJIq1PosQb3m62+czr+ZERGgbcm4ZbRBeYx2PupQ/vRBhH/E9HRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786472630; c=relaxed/simple;
-	bh=co0dpZBgX5+qHKtswp+53wV273oAyuJ2sbb1lQTgw7c=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=olBeAlFCUl2lK+zOXT0bsYiC81BJb5mHxyBoEpSPDz5UzyWrcpQNGZLfnLG9Z1Jp1HUAs2C/ZZHMu3CzFMBVz9vN2tr/tHgi5y0jkvsfLc+ah75ptlFh4XXv7BL/yhk0aPY8YVoFijW+mOaIZBbj/kfTLBrVtKmMQOoMvde3zy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=iMMsJQ/s; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786473701; c=relaxed/simple;
+	bh=94Lt8TmaqiNs5FtCiFHbzvvHftTmibgvQkuT4qx1sEQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=QKrb4dBYGlU9QgO52cvCMPoV+boPnBLAZcWhc9OaPtaKJA909KpIczofBKFQMaV+yy6XlN5Zpa6W9QSyeqHnDJaCX+eApalUaf244ak2uYZ56tVH0yMeQ8qyFlbKrxddcjeXMv1v6xRJHImwUsP405Th+nukuqXneh1ZjSN3rPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jdib0Te2; arc=none smtp.client-ip=209.85.210.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="iMMsJQ/s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 408C81F000E9;
-	Tue, 11 Aug 2026 18:23:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jdib0Te2"
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8485d853b08so274456b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 11:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1786472628;
-	bh=3TBsqf62Gp/AR2GFXLRO9hdGWAqrm6Ge9JO0CHdaHQg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=iMMsJQ/sSMP+Es94jqC3ZdHBnJ4v79SkduumOhjoUWhjn4Ej/NxcJLK93f7wccaYL
-	 IArkxdEmZWKI+LKvUBEpdPcdnVcqChtXWJzG0BKLFtgyw1zK0YPhTxrBgzbXpwg3vw
-	 bpAUFDXsqOFYMVLiCbzPF+g8nTZFJbuo7Gag8HgE=
-Date: Tue, 11 Aug 2026 11:23:47 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Nico Pache (Red Hat)" <nico.pache@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, David Hildenbrand <david@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry
- Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4 0/7] mm/khugepaged: several cleanups
-Message-Id: <20260811112347.aeb004e62daaeeaae98b6502@linux-foundation.org>
-In-Reply-To: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
-References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=google.com; s=20251104; t=1786473699; x=1787078499; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fJOzqFK/vfJSw1ado9uoaagkeuADN2fLa/8s2FkuGPk=;
+        b=jdib0Te2Cm3baCHT5yBcxvk0rx7m+lSp0Gemjd24HzyFGYX/y2vtTteCsbsT6yqrZ/
+         gM5hZgaDgWBgXpvT+LIOOLxPza63VZa7YBt5RC7chDqhyvmjYh7ixTJtSWGg285tBNHC
+         pqj5MDGvbnpnwJZ+qDNodKm+P9WGUB8yWU2cK2jY5o80B3bmFc1ZndE4ZwKBpoPp1Dv1
+         eItYviMa07/cvxn9kn3pC5nJaksLQEo+aoe98Z8j7jmouTVP3Uuf29C+2gVpQg6azIXn
+         PFx0gkGRmAvTbAzh9QioDf3wUJKLLsSSGb/QqcfAgcfo1qJgmPqonMgE6onMAVNDjWes
+         2Upg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786473699; x=1787078499;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fJOzqFK/vfJSw1ado9uoaagkeuADN2fLa/8s2FkuGPk=;
+        b=VcUIFo5iZ37gTvd3fzkMtEchIScXEpw9HB/w2NBSxEtmL+rUfJwNdf4E2IcxXh93hE
+         1IirhWS6aUgnDnR1joNjV6v2JqmhbL+kXlytbDMqnk6owq7g8YWywb882yIIztQXkeIU
+         3h8Wf14ZjqsZ0bnismG334nGyl3tvnuk73oYpfwtnFt5Cw9z+QOqIWdQecNLI+PcaUDQ
+         Pk+b6tgaJ+XyHiKi9PZRRFmBa/msMiLxVuiIUp3bf8bX7rraoMCKf0IoHPcI4oPBIaOq
+         QycMJwB0MDMmBqbZWdgwwqeXPNpXpjhuPSvME2wIF5ZRKvc7OopIx1pY8cha8v6BTwzI
+         N74g==
+X-Forwarded-Encrypted: i=1; AHgh+RqahSGcvBGLnc8ZxAPI0BxsjK4DGQoirLqBa79s4lmnsgzc7mg+3dYAPvY5ubYXwC8FcHQjrHvKC6g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5AeEZNYAlNk1OV9jGrBIVrczfGpmnWO3NNbCWACjQx69NKgrA
+	wrut639rWiz/bfy03xqj4I4bofHokJn2hz+PHUlM0vsfHLqLJFeoK6hgi5LYmddQ6AX4eq0zF/G
+	FpU2xVw==
+X-Received: from pfbih2.prod.google.com ([2002:a05:6a00:8c02:b0:84e:530a:923a])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:2355:b0:848:2c6c:dfe3
+ with SMTP id d2e1a72fcca58-84fa86c28d9mr5596667b3a.17.1786473699196; Tue, 11
+ Aug 2026 11:41:39 -0700 (PDT)
+Date: Tue, 11 Aug 2026 11:41:37 -0700
+In-Reply-To: <6ab49538675d97f1f4bf01574b1b066aae0bc05c.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
+ <ano6-gIZtqMfipiD@google.com> <bb9a12cc663130eb2caa8e839d0f6ca53d722d1c.camel@infradead.org>
+ <ansuqrD2KwFuLWbV@google.com> <ansywxh0VX5rtfWc@google.com>
+ <e256fa4af96e916ba30019cbba501fa896025fb0.camel@infradead.org>
+ <antQYJvRxJxOjtut@google.com> <f5dc701cf3319a7b3c8fd1497f26d051aa9fa3ba.camel@infradead.org>
+ <antb01WqOrs-tztm@google.com> <6ab49538675d97f1f4bf01574b1b066aae0bc05c.camel@infradead.org>
+Message-ID: <ants4VjfAiblaWsl@google.com>
+Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when TSCs
+ are offset from each other
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 11 Aug 2026 06:48:32 -0600 "Nico Pache (Red Hat)" <nico.pache@linux.dev> wrote:
+On Tue, Aug 11, 2026, David Woodhouse wrote:
+> On Tue, 2026-08-11 at 10:28 -0700, Sean Christopherson wrote:
+> > On Tue, Aug 11, 2026, David Woodhouse wrote:
+> > > On Tue, 2026-08-11 at 09:40 -0700, Sean Christopherson wrote:
+> > > >=20
+> > > > >=20
+> > > > > FWIW in my local tree I've just extended the pvclock_migration_te=
+st to
+> > > > > test precisely the thing you were concerned about: three vCPUs wi=
+th
+> > > > > divergent TSC offsets, migrated by setting each vCPU's TSC and th=
+en
+> > > > > invoking KVM_SET_CLOCK_GUEST once, through vCPU0.=20
+> > > >=20
+> > > > I wasn't actually concerned about migration, I was concerned about =
+time going
+> > > > backwards from the guest's perspective.
+> > >=20
+> > > But KVM_[SG]ET_CLOCK_GUEST is *purely* for migration.=20
+> >=20
+> > Huh?=C2=A0 I raised my concern in the context of "Allow KVM master cloc=
+k mode when
+> > TSCs are offset from each other", and AFAICT, nothing ensures that won'=
+t cause
+> > problems.
+> >=20
+> > Aaah, it clears PVCLOCK_TSC_STABLE_BIT and relies on the guest to clean=
+ up the
+> > mess.=C2=A0 So the guest won't see time go backwards, but it could see =
+time stop for
+> > an extended duration, or jump forward.
+>=20
+> It shouldn't. Each vCPU gets its *own* pvclock structure, tailored to
+> *its* offset. They should all see *identical* results.
 
-> The following changes stem from a number of reviews during my khugepaged
-> mTHP support series [1]. Some of these are minor code cleanups, issues or
-> reviews that we decided to deferred to a followup series, or in the case
-> of the more major patch of the series, changes [2] Lance Yang attempted
-> while my series was in-flight and we decided to wait till later to try.
+OMG, I hate this code.  After literally hours of staring at this, and even =
+typing
+up a lengthy example of why guest time would go off the rails, I finally sp=
+otted
+that l1_tsc_offset is accounted for by the call to kvm_read_l1_tsc().  FML.
 
-Thanks, I've updated mm.git's mm-unstable branch to this version.
+Thanks for being patient and not flaming me too much :-)
 
-> Changes in v4:
->  - Add Acks/RB tags
->  - [patch2] rename pte_is_referenced() to folio_pte_referenced()
->  - [patch2] keep cc->is_khugepaged out of the helper gate
->  - [patch2] simplify/clarify the helper comment
+> But yeah, if the guest does that then we can't set the
+> PVCLOCK_TSC_STABLE_BIT.
+> >=20
+> > > And your variant just added a dependency on wallclock time back into =
+it
+> >=20
+> > Can you elaborate?=C2=A0 I'm guessing I don't entirely understand what =
+you mean by
+> > wallclock time.
+>=20
+> The system_time field? The unspecified might-be-UTC-might-have-leap-secon=
+ds one :)
 
-Here's how v4 altered mm.git:
+Ok, I think I finally understand the goal.  I got turned around by the comb=
+ination
+of the name SET_CLOCK_GUEST and the full pvclock structure being passed to =
+the
+guest.  I was expecting SET_CLOCK_GUEST to literally set the entire clock, =
+e.g.
+mul+shift, timestamp, etc.
 
+But all of that metadata is just a means to an end: the one and only goal i=
+s to
+calculate the per-VM kvmclock_offset for the "new" host's TSC+time snapshot=
+, by
+computing the nanoseconds delta for the new snapshot as if it the guest obs=
+erved
+the TSC while running on the old host.
 
- mm/khugepaged.c |   27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+And that is done in the kernel instead of in userspace to minimize the amou=
+nt of
+slop introduced due to delay between taking the snapshot and computing the =
+offset.
+And for similar reasons, it's undesirable for userspace to redo the GET on =
+the
+target to compute the explicit offset, because there would be a massive TOC=
+TOU
+issue, e.g. if KVM took a new masterclock snapshot between GET and SET.
 
---- a/mm/khugepaged.c~b
-+++ a/mm/khugepaged.c
-@@ -693,20 +693,19 @@ static void release_pte_pages(pte_t *pte
- }
- 
- /*
-- * pte_is_referenced() - Check for enough referenced PTEs to justify collapsing
-+ * folio_pte_referenced() - Check if a folio or its PTE mapping was recently used
-  *
-- * If collapse was initiated by khugepaged, check that the page has been
-- * recently accessed (young pte) to justify collapsing the page.
-- *
-- * Return: true if the page has been recently accessed.
-+ * Return: true if recent access was observed through either the folio state
-+ * or the current PTE mapping.
-  */
--static inline bool pte_is_referenced(struct collapse_control *cc, pte_t pteval,
--	struct folio *folio, struct vm_area_struct *vma, unsigned long addr)
-+static inline bool folio_pte_referenced(struct folio *folio,
-+		struct vm_area_struct *vma, unsigned long addr, pte_t pteval)
- {
--	return cc->is_khugepaged &&
--	       (pte_young(pteval) || folio_test_young(folio) ||
--		folio_test_referenced(folio) ||
--		mmu_notifier_test_young(vma->vm_mm, addr));
-+	/* The folio was referenced previously ... */
-+	if (folio_test_young(folio) || folio_test_referenced(folio))
-+		return true;
-+	/* ... or the PTE mapping was recently used */
-+	return pte_young(pteval) || mmu_notifier_test_young(vma->vm_mm, addr);
- }
- 
- static void count_collapse_event(unsigned int order, enum vm_event_item vm_event,
-@@ -910,7 +909,8 @@ static enum scan_result __collapse_huge_
- 		if (folio_test_large(folio))
- 			list_add_tail(&folio->lru, compound_pagelist);
- next:
--		if (pte_is_referenced(cc, pteval, folio, vma, addr))
-+		if (cc->is_khugepaged &&
-+		    folio_pte_referenced(folio, vma, addr, pteval))
- 			referenced++;
- 	}
- 
-@@ -1790,7 +1790,8 @@ static enum scan_result collapse_scan_pm
- 			goto out_unmap;
- 		}
- 
--		if (pte_is_referenced(cc, pteval, folio, vma, addr))
-+		if (cc->is_khugepaged &&
-+		    folio_pte_referenced(folio, vma, addr, pteval))
- 			referenced++;
- 	}
- 	if (cc->is_khugepaged &&
-_
+After working through that, I feel quite strongly that we should have asymm=
+etric
+names for the GET vs. SET flows, because the actually functionality is also=
+ very
+asymmetric.  And setting a field, and only that field, that's doesn't have =
+a
+direct association in the userspace payload is very surprising when the nam=
+e of
+the ioctl suggests a restoration of the entire payload.
 
+E.g. KVM_GET_REFERENCE_PVCLOCK and then KVM_SET_REFERENCE_PVCLOCK_OFFSET?  =
+Or
+maybe UPDATE, CALCULATE, REFRESH, or COMPUTE instead of SET?  I think I'd v=
+ote
+for SET even though it's convoluted, because pretty much everyone associate=
+s SET
+with the restore side of save/restore.
