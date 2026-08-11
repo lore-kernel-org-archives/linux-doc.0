@@ -1,138 +1,197 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C9F455176
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 17:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786467769; cv=none; b=pGeOXS4//i81uIgHC6GJWrXsH72paO4tcinK0W6fXXkREJbjJ6k7kth9oumivLy1zWOveD794Dj2K8Nrt06+ip7Ncsc1i4UGHEMHBHMD60NRRQgvo8G++cXvSnVcETXnerZ2tiffFQ/1Ypg13j7hei4Q4sU6+u41hrO+vjX+5co=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786467769; c=relaxed/simple;
-	bh=rp1SVqNd1lWzghKHZWBSLaNSQ75mopP8yp8n71kKysM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=miqRo73HeX5z93P2FIl5ez7BK9KolaA0N9rDasg2CulFO5WzhShcaAgvVGHn+iXfk/sWILTQa+seebGTfCzYnVtt1d3gD37rsth/Yc+m+6xLw0UgdpB6fHKrLCGXW0ZhUSXDDwzREJHBAnrYFMqSdXFSa5PcepfbN2vWdKarrzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctcii1Gb; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723123358AD
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 17:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786468688; cv=pass; b=iM+UOugVsnePwLcGWxWbEI6JRYZc6iejTolcDelKN8p6Ef+1u59/21u/CfqzgIN37w1OzeKPEAOCeVwT/EVItoGbpzIA8LYn02OECs0/ABL1QaXd3uN41d8ZzxbmSW7LmPZttjn+tX9ivLzmJ46jgb/yMNeBonY14XQuhS9wwOk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786468688; c=relaxed/simple;
+	bh=mCw4EcdCBFDHSFVDpulqFfKL6PaPg9wrcOVbtLUExCM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uQ9Jjjgx2Iz4ZNL3B6+pyKbppOch+Wz0E+VYeg2TFDwsHbs3iNOo+JTuF9EGZlAlQog0QVgYCFnp3zRiegzW1UcQYedybitwFCvBRIv5FED4R8e/1ztDheudR2+eWImh3FseCXsq1r2KqBG5LRkFrOD0T/MLYgfayIT3SzXR+Ns=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2q2jRVq; arc=pass smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctcii1Gb"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cbedc9ec119so355889a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 10:02:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2q2jRVq"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so232435e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 10:18:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786468685; cv=none;
+        d=google.com; s=arc-20260327;
+        b=A3GJat0cU6CBTLoWnxMf+QgocD2HSO6EElDhVSearp+XNIUDToe95Y9j7lWxVFxf9j
+         C+E1UNPreGGqGFRmiunt+fs+kZVlvarte1QHxqLMjbnI6xuO9BWN/xxW/bP8S/2Y1KqV
+         uM7lJCM+HGg/3FjyF8OaSm1P9zuqUPJaHhLaGClLK+F1mAo3B5r6HIYB7gC8PWMcGkDm
+         aGuPh5+g75kKBc/crdBx8HD1QAW/+c6rwT+56gKVYkxMSEfn/uyRJKKj/Od+hgZZr2YC
+         fAUgsFkOA62/YZ2Syl6vwNsuuyIRpLcssPjN1GI3WY4K916vToJzpk2akN3R6AJX6Ck8
+         ZquA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=g1lMjqfyM2pcqzkOWtKU+Em6fjGGxptW037mrJGCaz8=;
+        fh=F43JAXjxEPX/iFmFJkOC0icWdXMW7iRivTuZ2UVjWR8=;
+        b=GWdAzYDahqjAcCjFxBk5jAJ8QEDAkVzHxFMl4DFRldIJ27oyv1B7DORsAuXOnGoHpe
+         kVBdJHWBchDzOOUs7V+BGIJiFWEJnOA9vaZotGIsnYfhEpke6Gk+OAndBJUp7w6Lu5Q1
+         wp8Lw84qsM9MHKXPk/1X0V7XaP57XKUs0Tmxji6ihfic6AUBhVUyqxjx/b3NYk0d5ADi
+         EEzMjOPkDxZqR2lSvecinkdfLq0tn+Txoega32fS3JpvEGo1NMQEA+aKPlIdWW7MTobW
+         +LfV9m9Ywa+atqbyuigi+UpczTcU8V2mrTviXZR8M4ezRCklCeEpY9qEjGBMpYhpFy1q
+         R5vw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786467767; x=1787072567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NkZaIE/vnqQhC836hZPxdvhdVxGgfRhensvVVjTTADc=;
-        b=ctcii1GbqsJXiFkMgUrYYTSeMsGAli6DKLMxKEHzJY6VtINh4RrSXitSlpaAd9C5k8
-         E0rj/dtSAJ1stho7xHkXOCFg7/7EGtM/dGXYR0rnb0wyNpCyvqtBIn50PSh3t5e+gYiw
-         /IKqMLYCZmAOYT49q7v0OWwRGq9rmKhdr8qa574jjfwS/QLGinxUdgNE6Aoeg/CgqrJG
-         sejAdI8+cBmFathQqFgiq4as8FN8sQUNqNbTT1RMY7uTdj/OsIkvS19Uk0ndEHSMz5zX
-         6yFnIvN2daMt/Ih+bNMn4Frsa4MwPxZQ4mfRRHAqiaAf96MHE9j2uQodsb9OJoFf4YxF
-         eStw==
+        d=gmail.com; s=20251104; t=1786468685; x=1787073485; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=g1lMjqfyM2pcqzkOWtKU+Em6fjGGxptW037mrJGCaz8=;
+        b=G2q2jRVq42dn48MrWGkGN3334xkaAh5dnLN98YznKNr4HRmHHQwQ015XyOrJswXooH
+         fJ8xDx2pkdmFayJ/C5w3+sO86xqdXIGy73A55ukY1NC5OfRqbZa5jy6AgUkG1mNruSnF
+         SyW4TdMClojdtKcN0lb9OnDACku2Exz+Zh9h6H/7TI3Bh6xtui1hbNT9oNyTQEpNv8fo
+         PcL7CJCWBaAyRUWhlSB3SjYMc9Eq6ws3TyWzFRAbx9cPZ9qt+goFV3/qOttp4cP9tG/P
+         tPplN0anwwM7JJ5eVof5wAZDpGoOVR367KoyT7m0/qyYI/4Z2vkSAhwONk1Byn2QFuzx
+         124Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786467767; x=1787072567;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NkZaIE/vnqQhC836hZPxdvhdVxGgfRhensvVVjTTADc=;
-        b=spQ6JfGLxcpRdVVRkOKjzCZANrYRCZWLSKN8Ro4UkF5MHLfJ8rTNS25ln/ChzscpVE
-         DttccMeAb1YIkT6+i7bb/fsYOAfFkXtLPREraj1EwQGoI9kmNnJpZWpp+QpdisCW/wNo
-         Ycwfte1kUt6uCXjwSSmVweyJN5uvvGtW1Xpudtmipc0i1XBjqJe4gAuQLINhd8z6LmB6
-         PPetycRu0k4jNARqauXBwJBTm066UuJc4Y1kQZeBb7ExzR98g6PzwhmQWnpwyLpNck4M
-         qsq6jXgv6BPjzmqDz7uMGZTopyH3L6Jo1gDrvdXL6S1CAI4u52hxdL0w2YyvcWr+ppW6
-         FYbg==
-X-Forwarded-Encrypted: i=1; AHgh+RpZEq2t/7BWu8IU1XlKWiOJc3nACkiZXKnt/tbFp0AfLo3EwGLX0/3te42gbU5XhRNoEub8a8wFVII=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKN4R4h5gSgJlEBaSr8smRKZl/WMt/HUihtLhkXRgqNemdHGSt
-	V52KQvY/yhq7CVoXEbB6lnWJ669n7d6DZo7gzMSG8pWp2FuJrliaBFta
-X-Gm-Gg: AR+sD13BNDlWGB5f4uiUjlDyFYL9MNOQqIa5AU3KC8S9mZktSb4ksE00JVvgnM+5nZX
-	mX3GSrXsC3l6fC7OEdi6CCJxlNx2Jcww5GgyNhr2r4Xl9MTqgEbax6h/sIvaVnlxFr7SVXG9t8w
-	3KL6P9/gNxWYReMYc1LRBUcww2L29Mg1bOmuXE3XMZvBkIiBzItfmPnHzcC7EWIKupdTloU1NMC
-	mMlCqktq7MJPDbvfWrouq6GSMewaUlC9RD7EqEHJuxu30TEgBI2qmSz/Enx47x2tZPyWKMJKGxK
-	zp/pUOHibjQHE8DzQIJsqCg6OyQVonnA2XmtCSQl0SN0jv7CDlE0dW14q6g8pKtfsisnoa6D8OQ
-	pieaLxmnVovRyRGYFMqh+l7ea8PUHD10lFQ+8Y6daK62UbYpKfMfpSK01fHvxn1t56Y7HXEso36
-	SJOF7+eC7H/n+RSKQznAgoQPGstlWca5uNYz709xNY1fTuVTYpWO4L2EtQOEeZW4U=
-X-Received: by 2002:a05:6a21:6014:b0:3c3:8d4c:6679 with SMTP id adf61e73a8af0-3cc2baf91c1mr7030040637.20.1786467767243;
-        Tue, 11 Aug 2026 10:02:47 -0700 (PDT)
-Received: from celestia ([2402:1980:85a:5c46:85a5:ec7:8aa8:72be])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14124451180sm1073882c88.1.2026.08.11.10.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 10:02:46 -0700 (PDT)
-From: Liew Rui Yan <aethernet65535@gmail.com>
-To: sj@kernel.org
-Cc: aethernet65535@gmail.com,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	damon@lists.linux.dev,
-	david@kernel.org,
-	liam@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	rppt@kernel.org,
-	skhan@linuxfoundation.org,
-	surenb@google.com,
-	vbabka@kernel.org
-Subject: Re: [PATCH 0/3] docs/mm/damon/design: add explanation of nr_snapshots
-Date: Wed, 12 Aug 2026 01:02:52 +0800
-Message-ID: <20260811170252.32705-1-aethernet65535@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260811135654.4901-1-sj@kernel.org>
-References: <20260811135654.4901-1-sj@kernel.org>
+        d=1e100.net; s=20251104; t=1786468685; x=1787073485;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=g1lMjqfyM2pcqzkOWtKU+Em6fjGGxptW037mrJGCaz8=;
+        b=DS02G2ECMWc4ph59zG7r/7iMugMQSBDjHLyd4Rvq7dFk9eK/oPTRNry2/e+jWT6O8B
+         w3lIoMyWeUMhiYYO2BUOdDw75Ak3C/41SQ+5VFpojFeuRl5jOHeieKtdbDnyaFni4j1n
+         ecVi72EcsCfBO2Vf0ug+uBid/x9wpQhciy2LjnR6RztePniBrnnXQ/c4J9Efty9nXSdK
+         tjQJWLCeURIKcndFBYkUhWBTDupJIiGEaZB3+8M8fLbAI8BdJVcRlTVb3zzii3B7AnQP
+         7Kg97jFVEI7MF0HsdM1WvipFAY4tUDSqF2A1HKytHMCV8T7j1Ua4bGgTIc+Ere3zvUGN
+         3ShA==
+X-Forwarded-Encrypted: i=1; AHgh+RrE7s6GxI5wGZL+ghzPfJCZceAx/fDNgh5uiRHVgagnAehfdejps2tTJqzzRqE6dve/IDueNREjAV8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0HyplAxvhY7U2OQ7KLyCENU+3KuP2E+h1/j3IHbbkzNwvLOLM
+	TXXUfp5NTx8d+tHK4ecU8oDLF2QZnZVPoseWcdcbPgbNisGFS7eCyniygQmG9WWh+vVie+IFr9X
+	AmQNRM0x5f7PsAyy5RxgrwneF3uJMsLA=
+X-Gm-Gg: AR+sD122RC6M+761V4t9qkoOPEp3dt3tZyM1kALmRGnrCMJie5VPqrSGOyyaudheghL
+	IUvGF0JBBLPn4YV83RvoaxP44u/6kV2nMy5qu25BGH3Z0lD4oqLHjxHpijD4KqR9fS1pt9MCT5W
+	HPVgO/0pGBax1pOK5TguVnNvSC2/j6CIonVyTybnGnWBnHDlUc+TRX5pEQKgpOb3eimAXH5od49
+	HADD6gxyhdRhnbMZ682N1fKFtQ8fM5YMlmjZucSwf0o7GayYUqPLPu/q9niPzdGHwKBtkLTK8/y
+	5agILp1P54/72ouq2kvzxm+NKeXsjfaPhuJulcRGWsBNEpaQrUE/LqLXA30SlqK9ZSdXD3hlFuI
+	2
+X-Received: by 2002:a05:600c:4593:b0:495:5858:8101 with SMTP id
+ 5b1f17b1804b1-4997846ac04mr68274895e9.15.1786468684401; Tue, 11 Aug 2026
+ 10:18:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260806184254.3790858-1-nphamcs@gmail.com> <20260806184254.3790858-11-nphamcs@gmail.com>
+ <20260806191958.44F881F000E9@smtp.kernel.org>
+In-Reply-To: <20260806191958.44F881F000E9@smtp.kernel.org>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 11 Aug 2026 10:17:51 -0700
+X-Gm-Features: AUfX_myfSmM-We7RZK14vgJtCA25PP9imNWJ2f-4bhH6ulFBjzqzSD-QM8ww2hc
+Message-ID: <CAKEwX=NB9LiX6t=MrkB7TgB31XK3FpLxFEb2_mSsY2mD-+NpFA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/11] mm, swap: defer memcg_table allocation for
+ physical swap clusters
+To: sashiko-reviews@lists.linux.dev
+Cc: mkoutny@suse.com, hannes@cmpxchg.org, tj@kernel.org, 
+	Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Meta kernel team <kernel-team@meta.com>, Nhat Pham <nphamcs@gmail.com>, 
+	linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi SJ,
+On Thu, Aug 6, 2026 at 12:19=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 
+Hmm seems like this is not sent to the list. I'll just cc the response
+to my original sent list...
 
-On Tue, 11 Aug 2026 06:56:53 -0700 SJ Park <sj@kernel.org> wrote:
-
-> Hi Liew,
-> 
-> 
-> 'hkml patch check' [1] says you forgot Cc-ing below people who are recommended
-> by get_maintainer.pl.  Please Cc all recipients who
-> get_maitnainer.pl is recommending, from the next time.  'hkml patch format' [2]
-> could also help you doing so.
-> 
-
-Thank you for reminding me! I will CC all email addresses output by
-get_maitnainer.pl from the next time.
-
-> [...]
 >
-> On Tue, 11 Aug 2026 18:18:38 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
-> 
-> > Add an explanation of nr_snapshots to avoid misunderstandings.
-> 
-> Thank you for this patch series, Liew.
-> 
-> > 
-> > Liew Rui Yan (3):
-> >   docs/mm/damon/design: accurate semantics of nr_snapshots
-> >   docs/mm/damon/design: difference between watermarks and nr_snapshots
-> >   docs/mm/damon/design: fix typo of max_nr_snapshots
-> 
-> I requested changes to patches 1 and 2 via replies.
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Critical] Deferring `memcg_table` allocation to `alloc_swap_scan_clust=
+er` under `local_lock` using `GFP_ATOMIC` causes an infinite loop under mem=
+ory pressure and violates allocation constraints.
+> --
+>
+> > +#ifdef CONFIG_MEMCG
+> > +             /*
+> > +              * Lazy-allocate memcg_table on the first direct-use slot=
+ of a
+> > +              * physical cluster.
+> > +              */
+> > +             if (IS_ENABLED(CONFIG_VSWAP) && folio &&
+> > +                 !folio_test_swapcache(folio) && !mem_cgroup_disabled(=
+) &&
+> > +                 !ci->memcg_table) {
+> > +                     ci->memcg_table =3D kzalloc_obj(*ci->memcg_table,
+> > +                                                   GFP_ATOMIC | __GFP_=
+NOWARN);
+> > +                     if (!ci->memcg_table)
+> > +                             goto out;
+> > +             }
+> > +#endif
+>
+> [Severity: Critical]
+> Does this error path create an infinite loop under memory pressure?
+>
+> If the GFP_ATOMIC allocation fails, we jump to the out label, which calls
+> relocate_cluster() and puts the unmodified cluster back on the list,
+> returning 0.
+>
+> When called via this path:
+>
+> cluster_alloc_swap_entry()
+>   alloc_swap_scan_list(..., scan_all =3D true)
+>     do {
+>         ci =3D isolate_lock_cluster(si, list);
+>         found =3D alloc_swap_scan_cluster(si, ci, ...);
+>         if (found)
+>             break;
+>     } while (scan_all);
+>
+> Won't alloc_swap_scan_list() continuously dequeue the exact same cluster
+> and fail the allocation indefinitely, since the cluster is never consumed
+> or discarded?
 
-I will make changes in the next revision:
+Oh nice catch! It's a a bit of a rare construction. You need:
 
-patch-1: "tried to be __completely applied__" -> "__completely tried__
-to be applied".
+1. Vswap enabled.
 
-patch-2: use two spaces between sentences.
+2. The physical swap clusters start out backing vswap entries.
 
-> 
-> [1] https://github.com/sjp38/hackermail/blob/master/USAGE.md#checking-patches
-> [2] https://github.com/sjp38/hackermail/blob/master/USAGE.md#formatting-patches
+3. Then we use these same cluster to directly map to PTEs, bypassing
+vswap. This usually means vswap allocation fails (rare), or is disabled
+during runtime (rare).
 
+4. The deferred memcg_table (1KB per cluster IIRC) allocation must fail.
 
-Best regards,
-Rui Yan
+Technically possible, but does not seem very likely, so I'll just do
+the minimum to not infinite-loop here: i.e if memcg_table allocation
+fails, just propagate that information up the call stack and
+short-circuit the list scan.
+
+We can add complexity (dropping the lock and retry allocation)
+if the rate of allocation failure is high enough in this case (which I
+doubt).
+
+>
+> Additionally, alloc_swap_scan_cluster() runs with preemption disabled und=
+er
+> a local_lock. Does using GFP_ATOMIC here risk lock recursion? GFP_ATOMIC
+> includes __GFP_KSWAPD_RECLAIM, which wakes kswapd and can take scheduler
+> locks while preemption is disabled.
+
+I don't think this is correct.
