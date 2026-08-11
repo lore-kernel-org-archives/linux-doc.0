@@ -1,152 +1,298 @@
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F45745A2B4
-	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 17:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3DE339381
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 17:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786469339; cv=none; b=oYxaCs9rrIUZIyW6sH8fvAJ6c3bXzoLmhlQIYuSiotC9tIxgAMWw5ce+3bCBO1pOWY+/kjGUFW7D3KHkDR4W71E7v4DC4y2h63n6EUAmld7kWDlw+XJUecWSxeCcEOlV/z4g8Vp+zScGYf466ZIyR0pfTSUZD1iyO2a9TOxYCXE=
+	t=1786469494; cv=none; b=hEblLpMIu+hROPxsOuhqL19i7D5BmwOl+HN40miC++MF/+iC4eTO6Ot+Z/jUM/tK70VxnF1VvcfI+N12zgdmvaagwvxy3q+bDcaD8TC9xvkGCE5aW5ZvB8mejRrqsGUgfRWKR/EqEq3pPL7liHV3KD/wV/ZA7d//FHZRSEz86fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786469339; c=relaxed/simple;
-	bh=gEPHLTrISbAwWv2wzSbXTZKZJ71uRtEhHNVm+uhlAPw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=oVNFi+EtDiZbOKJzPD1GcfQMAFU+3bDeqsIHgEp2DttGBBXJQz8O1vq/IQzaCqvhrSSzCbHIpQidPRjx4+6X9BsiYP6XRQ2x3Kp576dNRm1DdFDua4hVPoN/KL3/1JRdNWHd6vTgLJmQxHmDh0d3SPldBXjMREhZeacYOJ29lc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cRH3hL0u; arc=none smtp.client-ip=209.85.214.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1786469494; c=relaxed/simple;
+	bh=F6kIh5uzfd2ibRqDiHG3LBh3jaOvqHIwsL72BR7QUt0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BpwdBRvaVVwYbNwRJ77tDnwXs+a5tpS++XUoI3AR/jcruo3ZUZKbU9wioM7ZIL2i/JaREZ1W0C/jF3L3xSW0WdZRLw6JHSLfHdZa6ynVKgqvKz1iKsRrMTsmK6zQyHM2lUWAgOXzPOdSWQcMTfmyIpDhsvBhMyHSJQ5AQI4FUNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aVOcBLL2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cRH3hL0u"
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cea6a46766so2649175ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 10:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786469332; x=1787074132; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kMDt/Sj6YjXvFiWQr62Lu+RNKL1NV+pa3PqCNwc1t5I=;
-        b=cRH3hL0u7KwkHEw+Ah/fr3udLdHkRuuhpmHOOLbBJgKQWvUtMBtLW0AbkOoyuX+IEC
-         G+7Fdbl5YuqDXzmS7+FTZRa3GmQna9q8ttfkJNncc0w7hxacywXKle4qZIbG0KCidu2p
-         g6034ZQgJKBzJlqA8LXqU2vEl9XCB0/z1ldb6BOFo6EC4bByA6HUjILzyD7kU/S8MEnH
-         REWhFY3IfVYRiyCqzfEHLxzgDkGKj00Sl0Jf4V+6fmJsQQze+QeK5/zxNWYJF4sy/AIp
-         ElpU0wSDW6W38QZRpt8ivbFoZEsZ6NXlJW7QsaBfzestiq6pxaqqxzH44lvqHblIbafa
-         6qJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786469332; x=1787074132;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kMDt/Sj6YjXvFiWQr62Lu+RNKL1NV+pa3PqCNwc1t5I=;
-        b=M51XRjbGXuI5QrZDhD+t5+vZGRgVBDAPc74YznWi/XsvDdXBCCwHrROjHWe6dfTFIc
-         QRttQl8YS5eHzJCiuwnVFcKWyQW/Svlj8XcXUNq+hgjnqATRRWmrrHF2o4KJIRcvZthj
-         nfEPJEGCaJLtPqvVgBwdIEiIB6KmB1eJG/v/8qWm36i6gs4zlcZsXxKlf01RlHai0fFM
-         vA1I7X4W6AXItreBqpMU/zTikOQ1WbH8lM3t1IqqjqTMCDq9WZOKjSOWY+gsSF+g2WUL
-         Sr/vGvufIzSZrMbog7OF4WE2AGfGKLhFmBy3voicvoq6WnnEiOebM6wfvr7K1WbhMcQU
-         kz5A==
-X-Forwarded-Encrypted: i=1; AHgh+RryGCnTZLUJpebPi5ozZMmdsFSe9h0XcuWOK9hNgwzJhnZ6y869XU7GonxaDNMjzG0kagMc6t6lxoU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCdi3yZoMya4iGfvps/e+my8+O30+gG1CI+KTtw0vm8q0bdSIA
-	HGrc+sfq6uioQKvk1DocNFRk2XLSxZV/rMr2xvY7RJ2Pc9gj78MQcWwgGP50eA55UO3h8jsLv2Q
-	UFkRVsA==
-X-Received: from pleu12.prod.google.com ([2002:a17:903:41cc:b0:2cb:97d4:2e28])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:350c:b0:2c9:bf82:dd11
- with SMTP id d9443c01a7336-2d3177f6e83mr61151075ad.7.1786469331912; Tue, 11
- Aug 2026 10:28:51 -0700 (PDT)
-Date: Tue, 11 Aug 2026 10:28:51 -0700
-In-Reply-To: <f5dc701cf3319a7b3c8fd1497f26d051aa9fa3ba.camel@infradead.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aVOcBLL2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786469491;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S4s/VdzCIs7o3XxH6rlseRSuupEo7i8FWTX27LtJSzg=;
+	b=aVOcBLL2H8xLa4PpKrDSkO0IjnONYksGTqu/A4ZBzg17CX3cST9YN2gWDBIVG+nWgxrKpJ
+	2KdUPdTZ9OKkHvwE0axkvrrUsNy6RcocqAIyWy5ZC8l78Ve17nsFzT2iFcSrCk+GmHSv6t
+	e4fYsuroxGgOZd2ivviJackiXHS/lhY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-326-S_WOoHamPY674pi4XNHM4Q-1; Tue,
+ 11 Aug 2026 13:31:27 -0400
+X-MC-Unique: S_WOoHamPY674pi4XNHM4Q-1
+X-Mimecast-MFC-AGG-ID: S_WOoHamPY674pi4XNHM4Q_1786469485
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BAC3180034C;
+	Tue, 11 Aug 2026 17:31:25 +0000 (UTC)
+Received: from [10.22.65.157] (unknown [10.22.65.157])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D09ED195DF91;
+	Tue, 11 Aug 2026 17:31:22 +0000 (UTC)
+Message-ID: <e01fceb8-9333-4224-8255-67312c131066@redhat.com>
+Date: Tue, 11 Aug 2026 13:31:21 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728144954.355376-18-dwmw2@infradead.org> <anoOz2rZ02KFk1l-@google.com>
- <acd9b32617f75d188c370a464a922af0d650d4f5.camel@infradead.org>
- <ano6-gIZtqMfipiD@google.com> <bb9a12cc663130eb2caa8e839d0f6ca53d722d1c.camel@infradead.org>
- <ansuqrD2KwFuLWbV@google.com> <ansywxh0VX5rtfWc@google.com>
- <e256fa4af96e916ba30019cbba501fa896025fb0.camel@infradead.org>
- <antQYJvRxJxOjtut@google.com> <f5dc701cf3319a7b3c8fd1497f26d051aa9fa3ba.camel@infradead.org>
-Message-ID: <antb01WqOrs-tztm@google.com>
-Subject: Re: [PATCH v7 17/36] KVM: x86: Allow KVM master clock mode when TSCs
- are offset from each other
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Sascha Bischoff <Sascha.Bischoff@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, Jack Allister <jalliste@amazon.com>, 
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] cgroup/cpuset: Remove obsolete PFA_SPREAD_SLAB task
+ flag
+To: Guopeng Zhang <guopeng.zhang@linux.dev>, ridong.chen@linux.dev,
+ cgroups@vger.kernel.org
+Cc: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com,
+ peterz@infradead.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, zhangguopeng@kylinos.cn
+References: <20260811083027.140577-1-guopeng.zhang@linux.dev>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260811083027.140577-1-guopeng.zhang@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue, Aug 11, 2026, David Woodhouse wrote:
-> On Tue, 2026-08-11 at 09:40 -0700, Sean Christopherson wrote:
-> > 
-> > > 
-> > > FWIW in my local tree I've just extended the pvclock_migration_test to
-> > > test precisely the thing you were concerned about: three vCPUs with
-> > > divergent TSC offsets, migrated by setting each vCPU's TSC and then
-> > > invoking KVM_SET_CLOCK_GUEST once, through vCPU0. 
-> > 
-> > I wasn't actually concerned about migration, I was concerned about time going
-> > backwards from the guest's perspective.
-> 
-> But KVM_[SG]ET_CLOCK_GUEST is *purely* for migration. 
-
-Huh?  I raised my concern in the context of "Allow KVM master clock mode when
-TSCs are offset from each other", and AFAICT, nothing ensures that won't cause
-problems.
-
-Aaah, it clears PVCLOCK_TSC_STABLE_BIT and relies on the guest to clean up the
-mess.  So the guest won't see time go backwards, but it could see time stop for
-an extended duration, or jump forward.
-
-E.g. if tsc_timestamp is set to a per-VM value, and vCPU0's offset matches the
-effectively offset, but vCPU1's offset does not, then vCPU1 could see time that
-is either far in the past or far in the future when doing __pvclock_clocksource_read().
-If vCPU1 computes time that's in the future, the guest would see a potentially
-massive jump forward in time.
-
-And after that, or if vCPU1 computes time that's in the past, if the "future"
-vCPU stopped running, the "past" vCPU would see time stop as last_value would be
-ahead of the "past" vCPU's current time for a very long while.
-
-	if ((valid_flags & PVCLOCK_TSC_STABLE_BIT) &&
-		(flags & PVCLOCK_TSC_STABLE_BIT))
-		return ret;
-
-	/*
-	 * Assumption here is that last_value, a global accumulator, always goes
-	 * forward. If we are less than that, we should not be much smaller.
-	 * We assume there is an error margin we're inside, and then the correction
-	 * does not sacrifice accuracy.
-	 *
-	 * For reads: global may have changed between test and return,
-	 * but this means someone else updated poked the clock at a later time.
-	 * We just need to make sure we are not seeing a backwards event.
-	 *
-	 * For updates: last_value = ret is not enough, since two vcpus could be
-	 * updating at the same time, and one of them could be slightly behind,
-	 * making the assumption that last_value always go forward fail to hold.
-	 */
-	last = raw_atomic64_read(&last_value);
-	do {
-		if (ret <= last)
-			return last;
-	} while (!raw_atomic64_try_cmpxchg(&last_value, &last, ret));
-
-
-> And your variant just added a dependency on wallclock time back into it
-
-Can you elaborate?  I'm guessing I don't entirely understand what you mean by
-wallclock time.
-
-> again, where wallclock should *only* be used for setting the TSC, and even
-> then *only* for a live *migration* to a different host, not a live *update*
-> via kexec/KHO on the same host, where the TSC should be restored as an offset
-> from the host TSC.
-
+On 8/11/26 4:30 AM, Guopeng Zhang wrote:
+> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+>
+> Commit 16a1d968358a ("mm/slab: remove mm/slab.c and slab_def.h")
+> removed the SLAB allocator, the only allocator that implemented cpuset
+> slab spreading. Commit 61a182ab61a6 ("cgroup/cpuset: Remove
+> cpuset_do_slab_mem_spread()") then removed the last task_spread_slab()
+> caller. Commit 3ab67a9ce82f ("cgroup/cpuset: Mark memory_spread_slab as
+> obsolete") marked the legacy control obsolete.
+>
+> cpuset still updates PFA_SPREAD_SLAB when tasks attach to a legacy
+> cpuset and walks all tasks in a cpuset when memory_spread_slab changes.
+> Remove the unused task flag and its helpers, and make spread task
+> updates depend only on memory_spread_page.
+>
+> Keep the memory_spread_slab control and CS_SPREAD_SLAB state so legacy
+> users retain the existing write, readback and inheritance behavior.
+> Update the comments and documentation to describe only page-cache
+> spreading as functional.
+>
+> Assisted-by: LLM
+> Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+> ---
+> Changes in v2:
+> - Restore the default-value description and clarify the write semantics.
+> - Retain the generic slab allocator fallback note in the
+>    cpuset_spread_node() comment.
+>
+>   .../admin-guide/cgroup-v1/cpusets.rst         | 42 +++++++------------
+>   include/linux/sched.h                         |  5 ---
+>   kernel/cgroup/cpuset-v1.c                     | 13 ++----
+>   kernel/cgroup/cpuset.c                        | 19 ++++-----
+>   4 files changed, 27 insertions(+), 52 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> index 52a213aff04e..fb3fb6fa88cb 100644
+> --- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> +++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+> @@ -179,7 +179,7 @@ files describing that cpuset:
+>    - cpuset.mem_hardwall flag:  is memory allocation hardwalled
+>    - cpuset.memory_pressure: measure of how much paging pressure in cpuset
+>    - cpuset.memory_spread_page flag: if set, spread page cache evenly on allowed nodes
+> - - cpuset.memory_spread_slab flag: OBSOLETE. Doesn't have any function.
+> + - cpuset.memory_spread_slab flag: OBSOLETE. Has no effect on allocation behavior.
+>    - cpuset.sched_load_balance flag: if set, load balance within CPUs on that cpuset
+>    - cpuset.sched_relax_domain_level: the searching range when migrating tasks
+>   
+> @@ -318,26 +318,20 @@ times 1000.
+>   
+>   1.6 What is memory spread ?
+>   ---------------------------
+> -There are two boolean flag files per cpuset that control where the
+> -kernel allocates pages for the file system buffers and related in
+> -kernel data structures.  They are called 'cpuset.memory_spread_page' and
+> -'cpuset.memory_spread_slab'.
+> +The 'cpuset.memory_spread_page' boolean flag file controls where the kernel
+> +allocates page-cache pages.
+> +The 'cpuset.memory_spread_slab' file is obsolete and has no effect on
+> +allocation behavior, but is retained for compatibility.
+>   
+>   If the per-cpuset boolean flag file 'cpuset.memory_spread_page' is set, then
+>   the kernel will spread the file system buffers (page cache) evenly
+>   over all the nodes that the faulting task is allowed to use, instead
+>   of preferring to put those pages on the node where the task is running.
+>   
+> -If the per-cpuset boolean flag file 'cpuset.memory_spread_slab' is set,
+> -then the kernel will spread some file system related slab caches,
+> -such as for inodes and dentries evenly over all the nodes that the
+> -faulting task is allowed to use, instead of preferring to put those
+> -pages on the node where the task is running.
+> -
+> -The setting of these flags does not affect anonymous data segment or
+> +The setting of this flag does not affect anonymous data segment or
+>   stack segment pages of a task.
+>   
+> -By default, both kinds of memory spreading are off, and memory
+> +By default, page cache memory spreading is off, and memory
+>   pages are allocated on the node local to where the task is running,
+>   except perhaps as modified by the task's NUMA mempolicy or cpuset
+>   configuration, so long as sufficient free memory pages are available.
+> @@ -345,18 +339,18 @@ configuration, so long as sufficient free memory pages are available.
+>   When new cpusets are created, they inherit the memory spread settings
+>   of their parent.
+>   
+> -Setting memory spreading causes allocations for the affected page
+> -or slab caches to ignore the task's NUMA mempolicy and be spread
+> -instead.    Tasks using mbind() or set_mempolicy() calls to set NUMA
+> -mempolicies will not notice any change in these calls as a result of
+> -their containing task's memory spread settings.  If memory spreading
+> +Setting page cache memory spreading causes affected allocations to ignore the
+> +task's NUMA mempolicy and be spread instead. Tasks using mbind() or
+> +set_mempolicy() to set NUMA mempolicies will not notice any change as a
+> +result of their containing task's memory spread settings.  If memory spreading
+>   is turned off, then the currently specified NUMA mempolicy once again
+>   applies to memory page allocations.
+>   
+> -Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean flag
+> -files.  By default they contain "0", meaning that the feature is off
+> -for that cpuset.  If a "1" is written to that file, then that turns
+> -the named feature on.
+> +Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean
+> +flag files. In the root cpuset, both files initially contain "0". Writing "1"
+> +or "0" to 'cpuset.memory_spread_page' enables or disables page-cache spreading,
+> +respectively. The value of 'cpuset.memory_spread_slab' is retained, can be read
+> +back and inherited, but it does not affect allocation behavior.
+>   
+>   The implementation is simple.
+>   
+> @@ -367,10 +361,6 @@ is modified to perform an inline check for this PFA_SPREAD_PAGE task
+>   flag, and if set, a call to a new routine cpuset_mem_spread_node()
+>   returns the node to prefer for the allocation.
+>   
+> -Similarly, setting 'cpuset.memory_spread_slab' turns on the flag
+> -PFA_SPREAD_SLAB, and appropriately marked slab caches will allocate
+> -pages from the node returned by cpuset_mem_spread_node().
+> -
+>   The cpuset_mem_spread_node() routine is also simple.  It uses the
+>   value of a per-task rotor cpuset_mem_spread_rotor to select the next
+>   node in the current task's mems_allowed to prefer for the allocation.
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 499943987c1a..8b3d47a325cc 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1869,7 +1869,6 @@ static __always_inline bool is_user_task(struct task_struct *task)
+>   /* Per-process atomic flags. */
+>   #define PFA_NO_NEW_PRIVS		0	/* May not gain new privileges. */
+>   #define PFA_SPREAD_PAGE			1	/* Spread page cache over cpuset */
+> -#define PFA_SPREAD_SLAB			2	/* Spread some slab caches over cpuset */
+>   #define PFA_SPEC_SSB_DISABLE		3	/* Speculative Store Bypass disabled */
+>   #define PFA_SPEC_SSB_FORCE_DISABLE	4	/* Speculative Store Bypass force disabled*/
+>   #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
+> @@ -1895,10 +1894,6 @@ TASK_PFA_TEST(SPREAD_PAGE, spread_page)
+>   TASK_PFA_SET(SPREAD_PAGE, spread_page)
+>   TASK_PFA_CLEAR(SPREAD_PAGE, spread_page)
+>   
+> -TASK_PFA_TEST(SPREAD_SLAB, spread_slab)
+> -TASK_PFA_SET(SPREAD_SLAB, spread_slab)
+> -TASK_PFA_CLEAR(SPREAD_SLAB, spread_slab)
+> -
+>   TASK_PFA_TEST(SPEC_SSB_DISABLE, spec_ssb_disable)
+>   TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
+>   TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
+> diff --git a/kernel/cgroup/cpuset-v1.c b/kernel/cgroup/cpuset-v1.c
+> index 3e9968dd91e9..562ad35f00d0 100644
+> --- a/kernel/cgroup/cpuset-v1.c
+> +++ b/kernel/cgroup/cpuset-v1.c
+> @@ -204,7 +204,7 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+>   }
+>   
+>   /*
+> - * update task's spread flag if cpuset's page/slab spread flag is set
+> + * Update a task's spread flag if the cpuset's page spread flag is set.
+>    *
+>    * Call with callback_lock or cpuset_mutex held. The check can be skipped
+>    * if on default hierarchy.
+> @@ -219,18 +219,13 @@ void cpuset1_update_task_spread_flags(struct cpuset *cs,
+>   		task_set_spread_page(tsk);
+>   	else
+>   		task_clear_spread_page(tsk);
+> -
+> -	if (is_spread_slab(cs))
+> -		task_set_spread_slab(tsk);
+> -	else
+> -		task_clear_spread_slab(tsk);
+>   }
+>   
+>   /**
+> - * cpuset1_update_tasks_flags - update the spread flags of tasks in the cpuset.
+> - * @cs: the cpuset in which each task's spread flags needs to be changed
+> + * cpuset1_update_tasks_flags - update the page spread flag of cpuset tasks
+> + * @cs: the cpuset whose tasks need their page spread flag updated
+>    *
+> - * Iterate through each task of @cs updating its spread flags.  As this
+> + * Iterate through each task of @cs updating its page spread flag.  As this
+>    * function is called with cpuset_mutex held, cpuset membership stays
+>    * stable.
+>    */
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 0a0fffb5673c..f1dd0fa56b3b 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -2862,7 +2862,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+>   {
+>   	struct cpuset *trialcs;
+>   	int balance_flag_changed;
+> -	int spread_flag_changed;
+> +	int spread_page_changed;
+>   	int err;
+>   
+>   	trialcs = dup_or_alloc_cpuset(cs);
+> @@ -2881,8 +2881,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+>   	balance_flag_changed = (is_sched_load_balance(cs) !=
+>   				is_sched_load_balance(trialcs));
+>   
+> -	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
+> -			|| (is_spread_page(cs) != is_spread_page(trialcs)));
+> +	spread_page_changed = is_spread_page(cs) != is_spread_page(trialcs);
+>   
+>   	spin_lock_irq(&callback_lock);
+>   	cs->flags = trialcs->flags;
+> @@ -2895,7 +2894,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+>   			rebuild_sched_domains_locked();
+>   	}
+>   
+> -	if (spread_flag_changed)
+> +	if (spread_page_changed)
+>   		cpuset1_update_tasks_flags(cs);
+>   out:
+>   	free_cpuset(trialcs);
+> @@ -4484,14 +4483,10 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
+>    * cpuset_spread_node() - On which node to begin search for a page
+>    * @rotor: round robin rotor
+>    *
+> - * If a task is marked PF_SPREAD_PAGE or PF_SPREAD_SLAB (as for
+> - * tasks in a cpuset with is_spread_page or is_spread_slab set),
+> - * and if the memory allocation used cpuset_mem_spread_node()
+> - * to determine on which node to start looking, as it will for
+> - * certain page cache or slab cache pages such as used for file
+> - * system buffers and inode caches, then instead of starting on the
+> - * local node to look for a free page, rather spread the starting
+> - * node around the tasks mems_allowed nodes.
+> + * If a task is marked PFA_SPREAD_PAGE and a page cache allocation uses
+> + * cpuset_mem_spread_node() to determine where to start looking, spread the
+> + * starting node around the task's mems_allowed nodes instead of starting on
+> + * the local node.
+>    *
+>    * We don't have to worry about the returned node being offline
+>    * because "it can't happen", and even if it did, it would be ok.
+Reviewed-by: Waiman Long <longman@redhat.com
 
