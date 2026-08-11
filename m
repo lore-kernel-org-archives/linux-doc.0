@@ -1,45 +1,45 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DC92931EA;
-	Tue, 11 Aug 2026 08:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A72D353EEB
+	for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 08:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786436141; cv=none; b=p7hJywRqQsO7qGApaNPHJlUWrVJ0I3Q1lrggxPc/vzX8oXB/sYqo9Gc2QPASEZuK/c3R0NOLggtCOGt9v4d84E4ZLnBu/yuwXTtTDDZKfdR23p1Yf+4swS9yLgI6ZcLg9lleH5VULK9+71IbEwHzZHGNtx+0zA8eQ5VsfaSQHMA=
+	t=1786437098; cv=none; b=jZZDgv2B9mswF5rGGlku3RRmthPqQaLckGWD0KHDRvGB2bUb1OcSS9PpfifHSqa0hqQe7O5aMVtZRTvwDnsR/BdIM0TQa9THIgkvEhFT34FvgtzTbO6CVPSasQkEIqSbm/Ud55uH/ihs8rLCOLRV2az3C1XwPKDCsO+CwdE+AtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786436141; c=relaxed/simple;
-	bh=+aGEDxProkgtH6XCOW8v9+Y5uS/5WZiciaGXqgew5Ag=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OfJOlf/Oyg4SPHoF5UQu0qalgpE//F3U7sr6JW2AhvkzbKE8dgL+QC1tPtNggN6o+X1gQY/OhqFLK4IdG8PGt0Lscnp7ccXMk1vT6i+tuWcojVKjCTgXLKFpC/rJe/PjT+t7hs6UxZhkEsirYm2BwaDhvbINFdYgl7jEhk0SOzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=haiwei.tech; spf=pass smtp.mailfrom=haiwei.tech; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=haiwei.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=haiwei.tech
-X-QQ-mid: zesmtpgz3t1786436116t68c28f83
-X-QQ-Originating-IP: KwozMtLivmaHSdjO8icB+0MUlw25DirYX+lIRW7ju24=
-Received: from rsl ( [183.242.33.186])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 11 Aug 2026 16:15:13 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10710046789896365889
-From: JinRui <jinrui@haiwei.tech>
-To: paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
+	s=arc-20240116; t=1786437098; c=relaxed/simple;
+	bh=uMBvMqDFHkv5Dbt1COLIOPk1VgUYUW3xk1ZHUhoyiZ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fUquCXd0zVytLRuh1KFTML88ytD22xT4F3qH9xwx4imchotbDcvs9rB0qXH+XZwbUErbVFWcnst8Bfcrhgw6Fjcoy89FUGTXOmHu5MOrZua0jYpC/LppuVDGmSXZiCRQKpYsynR0ek5B8Yh/NvzoHRgt4G3plPg/Jq5ffJ3CG4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZsBBGFQm; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZsBBGFQm"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1786437084;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QSwpnUN82TaJRirbgvxNKqzW9uVPfe1inAZ+MwxZbN8=;
+	b=ZsBBGFQm8uheiLcFdFApBtmIncyZk5YuODbMikRFMMiGSXX1P5oJVihVp5RtUYzZZpfu6e
+	CDgQ+nyWjZ9jNHVw/wDuLMoDcK0vkM81qbTL3h4HfTXSWrJrQxLAzj6MkbCEtI9i/KmYHx
+	vV/wOEitLxA8/xpaQvbWKlofeG7B5z4=
+From: Guopeng Zhang <guopeng.zhang@linux.dev>
+To: longman@redhat.com,
+	ridong.chen@linux.dev,
+	cgroups@vger.kernel.org
+Cc: tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	peterz@infradead.org,
 	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	alex@ghiti.fr,
-	ajones@ventanamicro.com,
-	cleger@rivosinc.com,
-	charlie@rivosinc.com,
-	samuel.holland@sifive.com
-Subject: [PATCH] riscv: report Zfhmin/Zvfhmin when Zfh/Zvfh are present
-Date: Tue, 11 Aug 2026 08:15:13 +0000
-Message-ID: <7190E4DB338251C3+20260811081513.2849980-1-jinrui@haiwei.tech>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org,
+	zhangguopeng@kylinos.cn
+Subject: [PATCH v2] cgroup/cpuset: Remove obsolete PFA_SPREAD_SLAB task flag
+Date: Tue, 11 Aug 2026 16:30:27 +0800
+Message-ID: <20260811083027.140577-1-guopeng.zhang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,173 +47,234 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:haiwei.tech:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MTGYztYhR5ETZ3qfv/gcohGxQ7lEfCdPqmfLca176XeT52d8Vpqj4gXf
-	BvkeQFtJcowak8jnPbjYm95VygUTw6SA6Oj15riDaqFAZY3KkEdgq9yiIKJgGIAugmvxGfM
-	3HyS4SzM/q4OGJQlVOdm3s5mrIsp4dsfdOFIXfNiMidpnsU5pFtfZHlsMM4SLBF4s9+fiBd
-	07YPdyAKBhYfNawVB8L/7kyMXfOIxPYThaXnonekU+yHHmrG6odH5K4zWbe4c7vgP4vTkM1
-	H2fs0QYnzR8exX3B5zlXL3+bmPRUsUJho36stacUQL8RiYwQztVmuZ4huYqUv9FaOrHhPmb
-	WLRP/kCy7buuFnxQ4Kl7U9fYeFjC5NUdmXe+AE0XncxHUtazWmKx8KwjXAnkQGTlpXAEJzo
-	vCK2T0IybSFdu54Puz32gN0SyfZZS3Nh3CXAljbFDmuXgTB54aZJli/pzsU0f0+bhJE7800
-	jDZpkeWIUbw3PkIKMd9bU9/lxjr38teuO5hC/MVm5jRVR7Bk7dLN942fUW2lwGqvyPMTHMY
-	eSCEse6rEczh09yU8708eA4WajFhkB/XR8XeCk9j7RvRKmOGGGebyEEMGQnYP2W13WMhVAv
-	wUusICA7nL1Y3Rjc7QtLVS4GRXJYwI2/rWhVrQ/Bp0Ti5idqq1wavB6MTMkGxMNkPcFADYz
-	l8KGYxfgsZUORk/p0/IoAha+wgtbup+d+oHShlkmRDajtVkxPTXz1l6WLHXI36jsQr5+tX1
-	N/UxVAhSlFIrFOZ/UTOYEwG/dk+q+m0vq10RJKsOEznAeUZH8xzTKgK13agYPKxoGP+JNmp
-	oNWiwyAmnefeB8ZfC57HGzXnPK49jgCsmzelB9Xk63SHTG7waktEBkOzkt5YiNNqNOu8iMe
-	sXpj6aFaMmxSF8OHGWGvqg1rrbgm9/Lxns66KRH1/90vAd+brQhIR+UF6x/2pVfuTYoIn9J
-	GWaqFcmhGeMKZ5wF366UYVfhALmj6cnt2wIkxcPSrNldp74cNdwl28aqv
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+X-Migadu-Flow: FLOW_OUT
 
-The RISC-V ISA manual specifies that Zfh implies Zfhmin, a normative
-rule clarified in
-https://github.com/riscv/riscv-isa-manual/pull/3070. Zvfh likewise
-implies Zvfhmin, as stated by the vector extension specification.
+From: Guopeng Zhang <zhangguopeng@kylinos.cn>
 
-The kernel currently reports ZFH and ZFHMIN (and ZVFH and ZVFHMIN) as
-independent hwprobe bits derived only from what the device tree
-declares. Platforms that declare just "zfh" (Zfh being a superset that
-already contains all Zfhmin instructions) therefore report
-RISCV_HWPROBE_EXT_ZFHMIN=0, which breaks userspace RVA23 conformance
-checks (e.g. snapd installing core26 on riscv64).
+Commit 16a1d968358a ("mm/slab: remove mm/slab.c and slab_def.h")
+removed the SLAB allocator, the only allocator that implemented cpuset
+slab spreading. Commit 61a182ab61a6 ("cgroup/cpuset: Remove
+cpuset_do_slab_mem_spread()") then removed the last task_spread_slab()
+caller. Commit 3ab67a9ce82f ("cgroup/cpuset: Mark memory_spread_slab as
+obsolete") marked the legacy control obsolete.
 
-Use the existing superset mechanism to set the implied subset bits:
-  - zfh implies zfhmin
-  - zvfh implies zvfhmin
+cpuset still updates PFA_SPREAD_SLAB when tasks attach to a legacy
+cpuset and walks all tasks in a cpuset when memory_spread_slab changes.
+Remove the unused task flag and its helpers, and make spread task
+updates depend only on memory_spread_page.
 
-Add a hwprobe selftest asserting the implication holds and update the
-hwprobe documentation accordingly.
+Keep the memory_spread_slab control and CS_SPREAD_SLAB state so legacy
+users retain the existing write, readback and inheritance behavior.
+Update the comments and documentation to describe only page-cache
+spreading as functional.
 
-This is complementary to the rva23u64 base behavior discussion: the
-RVA23 conformance query proposed there is derived from the
-per-extension bits fixed here, so correct EXT_0 reporting is a
-prerequisite for it to work on harts whose device tree declares only
-"zfh".
-
-Tested on a RISC-V QEMU VM whose device tree only declares "zfh" and
-"zvfh": with this change both /proc/cpuinfo and the hwprobe
-RISCV_HWPROBE_KEY_IMA_EXT_0 bitmap report ZFHMIN and ZVFHMIN, and the
-hwprobe selftest (including the new implication check) passes.
-
-Link: https://lore.kernel.org/kvm-riscv/20260206002349.96740-1-andrew.jones@oss.qualcomm.com/
-
-Signed-off-by: JinRui <jinrui@haiwei.tech>
+Assisted-by: LLM
+Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
 ---
- Documentation/arch/riscv/hwprobe.rst          |  8 +++++---
- arch/riscv/kernel/cpufeature.c                | 20 +++++++++++++++++--
- .../testing/selftests/riscv/hwprobe/hwprobe.c | 20 ++++++++++++++++++-
- 3 files changed, 42 insertions(+), 6 deletions(-)
+Changes in v2:
+- Restore the default-value description and clarify the write semantics.
+- Retain the generic slab allocator fallback note in the
+  cpuset_spread_node() comment.
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index d9928641d..379c8723f 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -155,7 +155,8 @@ The following keys are defined:
-     defined in version 1.0 of the RISC-V Cryptography Extensions Volume II.
+ .../admin-guide/cgroup-v1/cpusets.rst         | 42 +++++++------------
+ include/linux/sched.h                         |  5 ---
+ kernel/cgroup/cpuset-v1.c                     | 13 ++----
+ kernel/cgroup/cpuset.c                        | 19 ++++-----
+ 4 files changed, 27 insertions(+), 52 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v1/cpusets.rst b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+index 52a213aff04e..fb3fb6fa88cb 100644
+--- a/Documentation/admin-guide/cgroup-v1/cpusets.rst
++++ b/Documentation/admin-guide/cgroup-v1/cpusets.rst
+@@ -179,7 +179,7 @@ files describing that cpuset:
+  - cpuset.mem_hardwall flag:  is memory allocation hardwalled
+  - cpuset.memory_pressure: measure of how much paging pressure in cpuset
+  - cpuset.memory_spread_page flag: if set, spread page cache evenly on allowed nodes
+- - cpuset.memory_spread_slab flag: OBSOLETE. Doesn't have any function.
++ - cpuset.memory_spread_slab flag: OBSOLETE. Has no effect on allocation behavior.
+  - cpuset.sched_load_balance flag: if set, load balance within CPUs on that cpuset
+  - cpuset.sched_relax_domain_level: the searching range when migrating tasks
  
-   * :c:macro:`RISCV_HWPROBE_EXT_ZFH`: The Zfh extension version 1.0 is supported
--    as defined in the RISC-V ISA manual.
-+       as defined in the RISC-V ISA manual. Zfh is a superset of Zfhmin, so
-+       RISCV_HWPROBE_EXT_ZFHMIN is reported whenever RISCV_HWPROBE_EXT_ZFH is.
+@@ -318,26 +318,20 @@ times 1000.
  
-   * :c:macro:`RISCV_HWPROBE_EXT_ZFHMIN`: The Zfhmin extension version 1.0 is
-     supported as defined in the RISC-V ISA manual.
-@@ -164,8 +165,9 @@ The following keys are defined:
-     is supported as defined in the RISC-V ISA manual.
+ 1.6 What is memory spread ?
+ ---------------------------
+-There are two boolean flag files per cpuset that control where the
+-kernel allocates pages for the file system buffers and related in
+-kernel data structures.  They are called 'cpuset.memory_spread_page' and
+-'cpuset.memory_spread_slab'.
++The 'cpuset.memory_spread_page' boolean flag file controls where the kernel
++allocates page-cache pages.
++The 'cpuset.memory_spread_slab' file is obsolete and has no effect on
++allocation behavior, but is retained for compatibility.
  
-   * :c:macro:`RISCV_HWPROBE_EXT_ZVFH`: The Zvfh extension is supported as
--    defined in the RISC-V Vector manual starting from commit e2ccd0548d6c
--    ("Remove draft warnings from Zvfh[min]").
-+       defined in the RISC-V Vector manual starting from commit e2ccd0548d6c
-+       ("Remove draft warnings from Zvfh[min]"). Zvfh is a superset of Zvfhmin,
-+       so RISCV_HWPROBE_EXT_ZVFHMIN is reported whenever RISCV_HWPROBE_EXT_ZVFH is.
+ If the per-cpuset boolean flag file 'cpuset.memory_spread_page' is set, then
+ the kernel will spread the file system buffers (page cache) evenly
+ over all the nodes that the faulting task is allowed to use, instead
+ of preferring to put those pages on the node where the task is running.
  
-   * :c:macro:`RISCV_HWPROBE_EXT_ZVFHMIN`: The Zvfhmin extension is supported as
-     defined in the RISC-V Vector manual starting from commit e2ccd0548d6c
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index f46aa5602..d58d3a73e 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -391,6 +391,19 @@ static const unsigned int riscv_zvbb_exts[] = {
- 	RISCV_ISA_EXT_ZVKB
- };
+-If the per-cpuset boolean flag file 'cpuset.memory_spread_slab' is set,
+-then the kernel will spread some file system related slab caches,
+-such as for inodes and dentries evenly over all the nodes that the
+-faulting task is allowed to use, instead of preferring to put those
+-pages on the node where the task is running.
+-
+-The setting of these flags does not affect anonymous data segment or
++The setting of this flag does not affect anonymous data segment or
+ stack segment pages of a task.
  
-+/*
-+ * The RISC-V ISA manual specifies that Zfh implies Zfhmin and Zvfh implies
-+ * Zvfhmin. Report the implied subset extensions whenever the supersets are
-+ * detected (see https://github.com/riscv/riscv-isa-manual/pull/3070).
-+ */
-+static const unsigned int riscv_zfh_exts[] = {
-+	RISCV_ISA_EXT_ZFHMIN
-+};
-+
-+static const unsigned int riscv_zvfh_exts[] = {
-+	RISCV_ISA_EXT_ZVFHMIN
-+};
-+
- #define RISCV_ISA_EXT_ZVE64F_IMPLY_LIST	\
- 	RISCV_ISA_EXT_ZVE64X,		\
- 	RISCV_ISA_EXT_ZVE32F,		\
-@@ -523,7 +536,8 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
- 	__RISCV_ISA_EXT_DATA(zawrs, RISCV_ISA_EXT_ZAWRS),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zfa, RISCV_ISA_EXT_ZFA, riscv_ext_f_depends),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zfbfmin, RISCV_ISA_EXT_ZFBFMIN, riscv_ext_f_depends),
--	__RISCV_ISA_EXT_DATA_VALIDATE(zfh, RISCV_ISA_EXT_ZFH, riscv_ext_f_depends),
-+	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zfh, RISCV_ISA_EXT_ZFH,
-+					  riscv_zfh_exts, riscv_ext_f_depends),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zfhmin, RISCV_ISA_EXT_ZFHMIN, riscv_ext_f_depends),
- 	__RISCV_ISA_EXT_DATA(zca, RISCV_ISA_EXT_ZCA),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zcb, RISCV_ISA_EXT_ZCB, riscv_ext_zca_depends),
-@@ -559,7 +573,9 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
- 	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zve64x, RISCV_ISA_EXT_ZVE64X, riscv_zve64x_exts, riscv_ext_vector_x_validate),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zvfbfmin, RISCV_ISA_EXT_ZVFBFMIN, riscv_vector_f_validate),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zvfbfwma, RISCV_ISA_EXT_ZVFBFWMA, riscv_ext_zvfbfwma_validate),
--	__RISCV_ISA_EXT_DATA(zvfh, RISCV_ISA_EXT_ZVFH),
-+	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zvfh, RISCV_ISA_EXT_ZVFH,
-+					  riscv_zvfh_exts,
-+					  riscv_ext_vector_float_validate),
- 	__RISCV_ISA_EXT_DATA(zvfhmin, RISCV_ISA_EXT_ZVFHMIN),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zvkb, RISCV_ISA_EXT_ZVKB, riscv_ext_vector_crypto_validate),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zvkg, RISCV_ISA_EXT_ZVKG, riscv_ext_vector_crypto_validate),
-diff --git a/tools/testing/selftests/riscv/hwprobe/hwprobe.c b/tools/testing/selftests/riscv/hwprobe/hwprobe.c
-index 54c435af9..eca4441ee 100644
---- a/tools/testing/selftests/riscv/hwprobe/hwprobe.c
-+++ b/tools/testing/selftests/riscv/hwprobe/hwprobe.c
-@@ -9,7 +9,7 @@ int main(int argc, char **argv)
- 	long out;
+-By default, both kinds of memory spreading are off, and memory
++By default, page cache memory spreading is off, and memory
+ pages are allocated on the node local to where the task is running,
+ except perhaps as modified by the task's NUMA mempolicy or cpuset
+ configuration, so long as sufficient free memory pages are available.
+@@ -345,18 +339,18 @@ configuration, so long as sufficient free memory pages are available.
+ When new cpusets are created, they inherit the memory spread settings
+ of their parent.
  
- 	ksft_print_header();
--	ksft_set_plan(5);
-+	ksft_set_plan(6);
+-Setting memory spreading causes allocations for the affected page
+-or slab caches to ignore the task's NUMA mempolicy and be spread
+-instead.    Tasks using mbind() or set_mempolicy() calls to set NUMA
+-mempolicies will not notice any change in these calls as a result of
+-their containing task's memory spread settings.  If memory spreading
++Setting page cache memory spreading causes affected allocations to ignore the
++task's NUMA mempolicy and be spread instead. Tasks using mbind() or
++set_mempolicy() to set NUMA mempolicies will not notice any change as a
++result of their containing task's memory spread settings.  If memory spreading
+ is turned off, then the currently specified NUMA mempolicy once again
+ applies to memory page allocations.
  
- 	/* Fake the CPU_SET ops. */
- 	cpus = -1;
-@@ -62,5 +62,23 @@ int main(int argc, char **argv)
- 			 pairs[1].key == 1 && pairs[1].value != 0xAAAA,
- 			 "Unknown key overwritten with -1 and doesn't block other elements\n");
+-Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean flag
+-files.  By default they contain "0", meaning that the feature is off
+-for that cpuset.  If a "1" is written to that file, then that turns
+-the named feature on.
++Both 'cpuset.memory_spread_page' and 'cpuset.memory_spread_slab' are boolean
++flag files. In the root cpuset, both files initially contain "0". Writing "1"
++or "0" to 'cpuset.memory_spread_page' enables or disables page-cache spreading,
++respectively. The value of 'cpuset.memory_spread_slab' is retained, can be read
++back and inherited, but it does not affect allocation behavior.
  
-+	pairs[0].key = RISCV_HWPROBE_KEY_IMA_EXT_0;
-+	out = riscv_hwprobe(pairs, 1, 0, 0, 0);
-+	if (out != 0)
-+		ksft_exit_fail_msg("hwprobe(IMA_EXT_0) failed with %ld\n", out);
-+
-+	/*
-+	 * The RISC-V ISA manual specifies that Zfh implies Zfhmin and Zvfh
-+	 * implies Zvfhmin, so hwprobe must report the implied subset
-+	 * extensions whenever the supersets are present.
-+	 */
-+	if ((pairs[0].value & RISCV_HWPROBE_EXT_ZFH) &&
-+	    !(pairs[0].value & RISCV_HWPROBE_EXT_ZFHMIN))
-+		ksft_exit_fail_msg("Zfh reported without implied Zfhmin\n");
-+	if ((pairs[0].value & RISCV_HWPROBE_EXT_ZVFH) &&
-+	    !(pairs[0].value & RISCV_HWPROBE_EXT_ZVFHMIN))
-+		ksft_exit_fail_msg("Zvfh reported without implied Zvfhmin\n");
-+	ksft_test_result_pass("Zfh/Zvfh imply Zfhmin/Zvfhmin\n");
-+
- 	ksft_finished();
+ The implementation is simple.
+ 
+@@ -367,10 +361,6 @@ is modified to perform an inline check for this PFA_SPREAD_PAGE task
+ flag, and if set, a call to a new routine cpuset_mem_spread_node()
+ returns the node to prefer for the allocation.
+ 
+-Similarly, setting 'cpuset.memory_spread_slab' turns on the flag
+-PFA_SPREAD_SLAB, and appropriately marked slab caches will allocate
+-pages from the node returned by cpuset_mem_spread_node().
+-
+ The cpuset_mem_spread_node() routine is also simple.  It uses the
+ value of a per-task rotor cpuset_mem_spread_rotor to select the next
+ node in the current task's mems_allowed to prefer for the allocation.
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 499943987c1a..8b3d47a325cc 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1869,7 +1869,6 @@ static __always_inline bool is_user_task(struct task_struct *task)
+ /* Per-process atomic flags. */
+ #define PFA_NO_NEW_PRIVS		0	/* May not gain new privileges. */
+ #define PFA_SPREAD_PAGE			1	/* Spread page cache over cpuset */
+-#define PFA_SPREAD_SLAB			2	/* Spread some slab caches over cpuset */
+ #define PFA_SPEC_SSB_DISABLE		3	/* Speculative Store Bypass disabled */
+ #define PFA_SPEC_SSB_FORCE_DISABLE	4	/* Speculative Store Bypass force disabled*/
+ #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
+@@ -1895,10 +1894,6 @@ TASK_PFA_TEST(SPREAD_PAGE, spread_page)
+ TASK_PFA_SET(SPREAD_PAGE, spread_page)
+ TASK_PFA_CLEAR(SPREAD_PAGE, spread_page)
+ 
+-TASK_PFA_TEST(SPREAD_SLAB, spread_slab)
+-TASK_PFA_SET(SPREAD_SLAB, spread_slab)
+-TASK_PFA_CLEAR(SPREAD_SLAB, spread_slab)
+-
+ TASK_PFA_TEST(SPEC_SSB_DISABLE, spec_ssb_disable)
+ TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
+ TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
+diff --git a/kernel/cgroup/cpuset-v1.c b/kernel/cgroup/cpuset-v1.c
+index 3e9968dd91e9..562ad35f00d0 100644
+--- a/kernel/cgroup/cpuset-v1.c
++++ b/kernel/cgroup/cpuset-v1.c
+@@ -204,7 +204,7 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
  }
+ 
+ /*
+- * update task's spread flag if cpuset's page/slab spread flag is set
++ * Update a task's spread flag if the cpuset's page spread flag is set.
+  *
+  * Call with callback_lock or cpuset_mutex held. The check can be skipped
+  * if on default hierarchy.
+@@ -219,18 +219,13 @@ void cpuset1_update_task_spread_flags(struct cpuset *cs,
+ 		task_set_spread_page(tsk);
+ 	else
+ 		task_clear_spread_page(tsk);
+-
+-	if (is_spread_slab(cs))
+-		task_set_spread_slab(tsk);
+-	else
+-		task_clear_spread_slab(tsk);
+ }
+ 
+ /**
+- * cpuset1_update_tasks_flags - update the spread flags of tasks in the cpuset.
+- * @cs: the cpuset in which each task's spread flags needs to be changed
++ * cpuset1_update_tasks_flags - update the page spread flag of cpuset tasks
++ * @cs: the cpuset whose tasks need their page spread flag updated
+  *
+- * Iterate through each task of @cs updating its spread flags.  As this
++ * Iterate through each task of @cs updating its page spread flag.  As this
+  * function is called with cpuset_mutex held, cpuset membership stays
+  * stable.
+  */
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 0a0fffb5673c..f1dd0fa56b3b 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -2862,7 +2862,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ {
+ 	struct cpuset *trialcs;
+ 	int balance_flag_changed;
+-	int spread_flag_changed;
++	int spread_page_changed;
+ 	int err;
+ 
+ 	trialcs = dup_or_alloc_cpuset(cs);
+@@ -2881,8 +2881,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ 	balance_flag_changed = (is_sched_load_balance(cs) !=
+ 				is_sched_load_balance(trialcs));
+ 
+-	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
+-			|| (is_spread_page(cs) != is_spread_page(trialcs)));
++	spread_page_changed = is_spread_page(cs) != is_spread_page(trialcs);
+ 
+ 	spin_lock_irq(&callback_lock);
+ 	cs->flags = trialcs->flags;
+@@ -2895,7 +2894,7 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ 			rebuild_sched_domains_locked();
+ 	}
+ 
+-	if (spread_flag_changed)
++	if (spread_page_changed)
+ 		cpuset1_update_tasks_flags(cs);
+ out:
+ 	free_cpuset(trialcs);
+@@ -4484,14 +4483,10 @@ void cpuset_nodes_allowed(struct cgroup *cgroup, nodemask_t *mask)
+  * cpuset_spread_node() - On which node to begin search for a page
+  * @rotor: round robin rotor
+  *
+- * If a task is marked PF_SPREAD_PAGE or PF_SPREAD_SLAB (as for
+- * tasks in a cpuset with is_spread_page or is_spread_slab set),
+- * and if the memory allocation used cpuset_mem_spread_node()
+- * to determine on which node to start looking, as it will for
+- * certain page cache or slab cache pages such as used for file
+- * system buffers and inode caches, then instead of starting on the
+- * local node to look for a free page, rather spread the starting
+- * node around the tasks mems_allowed nodes.
++ * If a task is marked PFA_SPREAD_PAGE and a page cache allocation uses
++ * cpuset_mem_spread_node() to determine where to start looking, spread the
++ * starting node around the task's mems_allowed nodes instead of starting on
++ * the local node.
+  *
+  * We don't have to worry about the returned node being offline
+  * because "it can't happen", and even if it did, it would be ok.
 -- 
-2.53.0
-
+2.43.0
