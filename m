@@ -1,97 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D503A7F47;
-	Wed, 12 Aug 2026 22:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D87A33936B;
+	Wed, 12 Aug 2026 23:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786575570; cv=none; b=Np0VHlZHuMO3+PssG+tlL21PySYk1KM7pPwnP+LaQomtN+cgti3VJRLGDAlGRVqtKnSJETn70yU5EpJD6IJkjq9VnyElSMfNt/xTrEFj5h9flz024476OchXKFzHtDPdO0sds0M2b4VhNie6KUSulHy2DSPxJybvpAlM32wmgbM=
+	t=1786576515; cv=none; b=cJMJ6nG8cGSii/thQH6TKEGArKEOEhwnVMFs7VTcceNf4aXnTC3+7on0U0TB0K8R9V+SQrzpHFfl3+7UZwgTMoLyFxe1uxbajSMdo8C8536eH7BrW8GUE7rAmADGfecT0pEDMIDund2xrlp85RaHsLB5S07gW7nikPIrIkwfDP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786575570; c=relaxed/simple;
-	bh=d4yIF0D4XhMsyOIVSO+1as0E79CeV3D97MNBMfcc3zY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oIPcDqi8n7VzM+Yh5feyZ3jJ0eYjzoJjGrR2N4TO83B1headjh28BMQK/Ivr9rXLN1k0xhQU9/CxnPyRPOLR9O5e6stLrYH3WFGzHo6Fa1tJpfD7WJTmE/R6zFe/xYeOKUQFfUb9XXsECt1it+inDZYoasHt7aXQIvuVZiJpRcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ume6A3Zq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786576515; c=relaxed/simple;
+	bh=9riEFF4pNfrUS8nXbREomHAlcpz0VMXUt2FDXJcbCnM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=BePIStLkGE686rOf8pNAUnbO4F8krQ3R9u41g+78ljqYXccsY7hB4IdWrG3QXV/pGg3jigIuaH3VyyyUmO276rY7Usf3eSP92bO9vF5HMjMMzmPOhQAxqJw+pnILdgFVx9NvqAjX+QcPIVj3Y63B437jj9da7/nuj5bqARfl+q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+2d8PF8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ume6A3Zq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 081BC1F000E9;
-	Wed, 12 Aug 2026 22:59:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+2d8PF8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0392F1F000E9;
+	Wed, 12 Aug 2026 23:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786575569;
-	bh=d4yIF0D4XhMsyOIVSO+1as0E79CeV3D97MNBMfcc3zY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Ume6A3ZqN94wI8OSB9faQU4L9XGqQT5tRxtv+hWd/6Sj5395EcPOICDqatZ4qCAFF
-	 Owv3bPabi1gW4mTuzHGtbDyfiFydHt51e3qGBZpMZ5NxJnKhY2cyKHinNfahUo/keY
-	 GnEHqA9MJBgx9QOVS39iud9N74uni1Bs5Df4n1Qr1cN202d6lqMMFHLaVl9Wn7eim3
-	 CknOHZ1YmS2etae+BdiHba8pIaosel7IBk0oxXUT28ziSnnn7ofxYj+j0wP/kxFnp0
-	 GczTa+sPK2dWmkq3htUQzWHLJIpq/RzsiMT8k+Kn+QCrm8H5jkOEWt7ZY6cgb+vPuC
-	 uWJe7Z7VI+oXg==
-Date: Wed, 12 Aug 2026 15:59:27 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: Jijie Shao <shaojijie@huawei.com>, "shenjian15@huawei.com"
- <shenjian15@huawei.com>, "linux-rdma@vger.kernel.org"
- <linux-rdma@vger.kernel.org>, "eperezma@redhat.com" <eperezma@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "mst@redhat.com" <mst@redhat.com>, "xuanzhuo@linux.alibaba.com"
- <xuanzhuo@linux.alibaba.com>, "pabeni@redhat.com" <pabeni@redhat.com>,
- "edumazet@google.com" <edumazet@google.com>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
- <dsahern@kernel.org>, "kuniyu@google.com" <kuniyu@google.com>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
- "jhs@mojatatu.com" <jhs@mojatatu.com>, "stephen@networkplumber.org"
- <stephen@networkplumber.org>, "xiyou.wangcong@gmail.com"
- <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>,
- "davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch"
- <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
- <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
- "liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
- <shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
- <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
- "ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
- <koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
- <g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
- <ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
- <mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>,
- "rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
- <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com"
- <vidhi_goel@apple.com>
-Subject: Re: [PATCH v5 net-next 2/2] net: hns3: fix GSO_ECN flag setting in
- the RX path
-Message-ID: <20260812155927.57ee295b@kernel.org>
-In-Reply-To: <PAXPR07MB79842CC27C2F5CF9BD40E007A3DC2@PAXPR07MB7984.eurprd07.prod.outlook.com>
-References: <20260804213510.673084-1-chia-yu.chang@nokia-bell-labs.com>
-	<20260804213510.673084-3-chia-yu.chang@nokia-bell-labs.com>
-	<61721708-0d77-4f59-aa08-02562af282bb@huawei.com>
-	<PAXPR07MB79842CC27C2F5CF9BD40E007A3DC2@PAXPR07MB7984.eurprd07.prod.outlook.com>
+	s=k20260515; t=1786576513;
+	bh=9riEFF4pNfrUS8nXbREomHAlcpz0VMXUt2FDXJcbCnM=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=n+2d8PF81yk7gnDknORv9sG1adGZBHQ2qvgfIQWAMizMhaVBAWBIDKPiZrUZqwKTv
+	 RhFxnP+PGPsazbZmIHtQANlYTh1sBCHrkrm0vX1rR6L0S0tChjLAfuHjD6Xp0f7Y7X
+	 J84K8qp0HyiTRpYnh4ykoicrku7kKr1aYa4NmPfe+xNedtGvY6NDAcYdf7wH3eMw4d
+	 NbGBoIfnBtGN9u91ilk23iVZLyZmr+LGggKtIPYxZ3RR5Ke0BhEkp/mzGVRe3wNkVV
+	 ULMiWPj09CeayA7IO6XdlQ78Ge7MMstzgMD7sv59xwg9WlqsiTR/WTIa90qIjxYKz0
+	 GKk9xbW9UHNHg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 13 Aug 2026 01:15:10 +0200
+Message-Id: <DKNCIMHM4AG6.145KTN1QZLFTD@kernel.org>
+Subject: Re: [PATCH 1/2] gpu: nova-core: gsp: retain the GSP-RM log buffers
+ after unbind
+Cc: "Vladislav Zaharov" <vladazaharova2018@gmail.com>,
+ <acourbot@nvidia.com>, <aliceryhl@google.com>, <ttabi@nvidia.com>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+To: "John Hubbard" <jhubbard@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260812113752.532537-1-vladazaharova2018@gmail.com>
+ <20260812113752.532537-2-vladazaharova2018@gmail.com>
+ <a72edc5b-49c0-42e0-b21c-940e71909666@nvidia.com>
+In-Reply-To: <a72edc5b-49c0-42e0-b21c-940e71909666@nvidia.com>
 
-On Wed, 12 Aug 2026 10:35:25 +0000 Chia-Yu Chang (Nokia) wrote:
-> > Tested on hns3 HW (2x 100G, direct cable, openEuler 24.03, kernel 7.2.0=
--rc6).
-> >=20
-> > tcpdump confirms HW GRO zeroes IP ToS: aggregated (>MTU) packets carry =
-tos 0x0, while non-aggregated packets keep their ToS/ECN marks =E2=80=94 so=
- the zeroing is done by HW GRO, not the sender. Before patch, CWR packets h=
-ad SKB_GSO_TCP_ECN set (0x5 =3D SKB_GSO_TCPV4 | SKB_GSO_TCP_ECN). After pat=
-ch, all GRO events gso_type=3D0x1 (SKB_GSO_TCPV4 only), no 0x5 observed.
-> >=20
-> > Tested-by: Jijie Shao <shaojijie@huawei.com> =20
->=20
-> Thanks Jijie for confirmation, I will submit to net in the next round.
+On Thu Aug 13, 2026 at 12:41 AM CEST, John Hubbard wrote:
+> I'd *much* rather use a kernel parameter: keep_gsp_logs, instead of
+> requiring a rebuild of the kernel. As you mention above, nouveau
+> arrived at the same conclusion, and yet even after mentioning it,
+> you went off in this other direction, but without explaining why.
 
-Hold on.. Sounds like hns3 zeros ToS out (?!)
+Not sure if Vladislav read that, but it might be on us; we were both talkin=
+g
+about a Kconfig in [1] back then, but meant a module param actually. :)
 
-This would be invalid and illegal for HW-GRO. If hns3 nukes crucial IP
-header fields it should probably be advertising LRO not HW-GRO in the
-first place.
+> If someone is debugging, all they need to do is reboot with that
+> parameter, in order to get the logs. That's a big improvement over
+> requiring a kernel rebuild.
+
+I think for development it doesn't make a huge difference, but a module par=
+am
+might be easier to deal with if something unexpected happens in some less
+controlled environment.
+
+So, while I'm usually not a huge fan of module params, I do agree in this c=
+ase.
+
+[1] https://lore.kernel.org/all/067c6016-ce21-449e-b0d6-86252ac483a0@nvidia=
+.com/
