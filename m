@@ -1,301 +1,212 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F126542FCBF
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 23:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786577700; cv=none; b=I9QdvF4g+0vfGhck3ldxLrm+76fB883SdZNlz5MIm3hSSEbd3eRyv5sVLxC03Dz4eOj3yNg+EMDlKEvVg31KsCNJCZHbBhxC55NOCxHqYx7IlgjAi9DN4bbpmfHjez+x3vrH0jVwrFskl+TKlBavSQiB3HPIVsN5di+6Oi4aS+4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786577700; c=relaxed/simple;
-	bh=Ra/3+L2jk7U4uMiXwJ9Zce9uuTlc+DLXBTrbeJepa0I=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=evl/vGXTdsv9Ts9tpe2DwT3j6yVtZ07COi7ydy5+itM10WqjH0DXRmxjDoc9O2GwjAG2oPBeSrUPF8G5JGDGuer4JWon5oo0bs7wOWkNLD80nKv3mj3wyWs8edHNrXNJhOSn1uj4KHloFvgJL7n4psCy9ZL9w37E6BUTdpiiT8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JOrXZ5u0; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B7XJ4RlG; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897B840BCDB;
+	Wed, 12 Aug 2026 23:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786577702; cv=fail; b=hCtvuQBWoZn4c9n96qbcm194KcbYUOG/041e5g8t5ai9w/fknWwveIutFrF/6Vs60nS72mQIaxI36YeHLqUqBoR/J+rE6RFpGRJFtiIM5E2RjjtKvP6rdUFbitIr6wd89U01zSqSwW4n9j8FSawz4eTyZmknEXD55YCe0Q15TeI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786577702; c=relaxed/simple;
+	bh=u7VgVGP0bRImIzuKkucWhHygloRQU8iN9nGXWLkCt+Y=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=l5BtxCM6a1GQHwV4O0TXaOjCQLZYLu6oqQolxyCiWRYSQxzE4Eqb+NRfuRZRxGFSUcfDYrGqDwxca76LB5DrcDS04UmCdtsbhhTzELJbZNI25rvv7E+NeBSxiN0cqnHitNsqDAADkt9ZG9tNXU6UPNPfIZj9X92h8/6yp3l4XxM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6dLOqCh; arc=fail smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JOrXZ5u0";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B7XJ4RlG"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67CNLpNu1022753
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 23:34:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=rQQQsvIekjUAhCQLM9e1Lc
-	nQBBvYngS//Y4JXycReKM=; b=JOrXZ5u0U66MgSvSjPPPblL3kVtmSR789snhmu
-	76tkC965PbIhOmUE8Wyl2DwCOkb5QqOQDeGjbSrJFXGb+YWqwYQPAkSM7Rca+pY5
-	IlfnkNGWmb6s7u7uR3nwByVjOKyKRlTCxxPbBlG4PdSHrRXFkT7+u+CIwRDcZdHG
-	PalJVcIUhB9fjnTZJhmrMvb4SLoDvE+EYGZ5TlbrPUr+1vdnxEkTvK55WVqIUyyO
-	1UdWgbAu/KefEWSHk0S4n+ZPDFehtYxTKV6/tDGNlGtGIOKqWBmZXk7VIgece4r1
-	pWWMtatI6dk5DN0GnlEoHkvFa8e20a+Sy3/wR3JImus9c6+Q==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g0y04gtd2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 23:34:57 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cca5e0a0c9so4831965ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 16:34:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786577696; x=1787182496; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=rQQQsvIekjUAhCQLM9e1LcnQBBvYngS//Y4JXycReKM=;
-        b=B7XJ4RlGWTloU+e0UXVgQSjvyWgMXv+DEapQsMDhtXMh5AiytwAncKT6iXQw8FKwN+
-         nh2pzBwAIfmqYWI2Yd+dAB1UC8IfZHSuLu1P+kK4XZX2ToYxX5v0ZqeAK/oUl/9ALfts
-         em1sMfUjO59ROLfKpdicAmxt2P/4+Y4AiDCLPddBIjsFMMOnxOqn/uZIwGOOpTbRlvIp
-         K2ZGJEfy1oiKaLEIjz0HNPsX1ITQZ/CAzfebJMAodyDoUfJBNfVoQBhVas6iyJxz2uZj
-         qBBAAHtNyRc43WUlrRkDAeW+vafTLPRqJ42eHYeq1C7kc72eyKxcJIaVoZaRT1HPfgZN
-         CAug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786577696; x=1787182496;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=rQQQsvIekjUAhCQLM9e1LcnQBBvYngS//Y4JXycReKM=;
-        b=DxKQUW7XDWs9q/QhucrmjVPwPG8xkUhCMD7CJw9Rn6fG9qJ7F0fcyKVzjmpFhvtomV
-         jXj7nDLP9ezs1BZYW3EWyiLMfcv+cLF5eM7QGrvPao4Df6ZfAwIwNPIn/dnvd48AHFqR
-         0bDlZWnA5yn4gMjX97fuwTJGyR7T/hPZJTDiEMLSa9IBWekwORR08q3wXqrQT74E8Rl9
-         jfNBGeS3SVXKkTE2babXLziDdiJYvOxWQizQdHsiwnj7uxnixPE3kIGcob4lKxkRvS2C
-         xUGbg02uGBoyXsfAl9iH+uav+XLP2yKWT86M20tWSlRbTUs7w4vzaS8rPlVSpuGwUNsE
-         PRLw==
-X-Gm-Message-State: AOJu0Yz+ZHhsuFGDV66hbQzDQmoF932/9zRerJyXy5FzG7zU13G13AhE
-	PsIA+r/y96Ii6wVfiJpDZHaui8pr449ZdcIKMFt8GuiS2x7f7qO065hXQ/UqAwwIpmM8PkyHFnC
-	4CqbaHJE/I+Kbh2WF9r3+6Tu2gz2xdvC97GuJ7fb+Zt3kLuEJnM06CXU5ovCutV4=
-X-Gm-Gg: AR+sD12S8UReK81Blsxd847AiTbzs+mD8s6SQJAJ72fwPogfOx793YoCM8wbcQvcN7o
-	9LIyOYOsxL4xVE6AtUSO466VGPmI578hB+utXLrKkZ0LxhWag8k28qPPGmiapLScMhC358WmYLG
-	ag43r4uk5wsEPjcdZ30tlPHYdj/4/YJp7LMVRjI3apIM+C9IeMHyZERdhbZxiF+egL8aflopCgx
-	77xv0CK/kPRlcKdB/i6KjnC5QJWqri0li4x1hOkg/whS0Rdr18z3NV6t7jzxO3ErH9fLOdeXMic
-	NivRgL4wCC24j+m63e2hCzIiDcaVS5nmcDyLJfJyH5esdAktu9s3SJtvfYjOaw==
-X-Received: by 2002:a17:903:1209:b0:2cc:a977:4260 with SMTP id d9443c01a7336-2d37f0d36d3mr16031885ad.21.1786577696217;
-        Wed, 12 Aug 2026 16:34:56 -0700 (PDT)
-X-Received: by 2002:a17:903:1209:b0:2cc:a977:4260 with SMTP id d9443c01a7336-2d37f0d36d3mr16031585ad.21.1786577695706;
-        Wed, 12 Aug 2026 16:34:55 -0700 (PDT)
-Received: from [127.0.1.1] ([2a12:a305:4::40fb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d37c26d0fbsm2136805ad.37.2026.08.12.16.34.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 16:34:54 -0700 (PDT)
-From: Guodong Xu <guodong.xu@oss.qualcomm.com>
-Subject: [PATCH v6 00/11] riscv: hwprobe: Expose RVA23U64 base behavior
-Date: Wed, 12 Aug 2026 19:33:46 -0400
-Message-Id: <20260812-rva23u64-hwprobe-v2-v6-0-c985af3256b8@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6dLOqCh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786577700; x=1818113700;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=u7VgVGP0bRImIzuKkucWhHygloRQU8iN9nGXWLkCt+Y=;
+  b=R6dLOqChz/+OVM9ytJERWJuky8wEqwUAoz5z5LkTfoKbv1FvjpsOX6PJ
+   AJw9YrbF7G0PohCPWNmdjEEkySt6ccgowSeBeChG+wnUrD1Cq7MkOzQZL
+   DN4JrJWhOgbo9wJP9nR1M4r7uy3O3asdn9JCitvIUILosityvYzckqkWM
+   26rBKR9k+MFg9bYdWILrVGDsoJxlzVygIAjHtDWoMf90gx9usjJMqSQ36
+   2aUy5nxlW7HHv/7vul37Tb9psYXn08NcO+p+aU9Kxih3/hscVZYuSiBET
+   JoMcYgzTay3N167pOu9lNmrGavfGcaEdnB7VPyg97mZEcvfAFFl7pmICA
+   Q==;
+X-CSE-ConnectionGUID: FET3u87XRJOGKio0TU2IKA==
+X-CSE-MsgGUID: 99/ED1CVSBywHMf6BTKVQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="87026672"
+X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
+   d="scan'208";a="87026672"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 16:34:58 -0700
+X-CSE-ConnectionGUID: r5UejfyCR8iMBg4TFyRj8Q==
+X-CSE-MsgGUID: rB1OJfIvRnGMoVwwFaGnGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
+   d="scan'208";a="268956578"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 16:34:57 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 12 Aug 2026 16:34:57 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Wed, 12 Aug 2026 16:34:57 -0700
+Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.62) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 12 Aug 2026 16:34:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jw4JCP7qJE9BxWeK5WB2cf1e3z8FPP/ZmDZdANOmwZXdvSomgC+PuqU0cOIxjm0afoWcEaC45cyNiLbtJRMmrLF+ddsxCVzLOWjU61xWMF8SscvFVdYcvDut4mrl3rpyKfXw6xRostS2fIoA9y91E5qFB2KMJwhgymiDzBJ2A0/HVYHb+rzAC8nrTl1hoxq4A+jUCjrW00zVzw9y4bzt2Yo27nEmXZlUWN7izQMpwQN+zMlzJQcj5o0mic33Y43sRIpGxgVY4Liedj/HYUSiSesY883dS/zysf+daN8zxd1YnHBiXtEO04XdKp40WAb6v50asJRYyveaKnLE4jF5IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EyRXn0mVUQiJ+MDC45TxMexLQ3Rd7QyGZu0VzX7ak+Q=;
+ b=F+io1tJfgl5cat6ADsHqPh5xINItl6ENDGQlhsmyUn4KqvCW8P1saQ2GRPdSFCiE5bERFxZyv3bYaNiZuZjhxJc1j7V95yMaspFK5FhSBOS6SsuOVxrBnGQa8D1Tiw1BO3gGB37sPqc3FgT9mazDUMWdWOFOZ+ll5+hsQWHIsbR1xeyKmXDGJ9gXi23rk7cseI3YdXefUW6/MQFRfHuhf9GR11GTLh2PXmXICaEhY5en6+8H1uokwq1WHkGX/j/emwrZpN9vzZq7nEe7kDhua+1yi6Njc3si6Ew2qDlVAWTF+ThQRJ7gdIHLDnhKyhCkJlvFaiDB7AdK4iqfF3Q7og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA0PR11MB8379.namprd11.prod.outlook.com (2603:10b6:208:488::20)
+ by MN6PR11MB8244.namprd11.prod.outlook.com (2603:10b6:208:470::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Wed, 12 Aug
+ 2026 23:34:54 +0000
+Received: from IA0PR11MB8379.namprd11.prod.outlook.com
+ ([fe80::549f:e4b3:e10d:aaa6]) by IA0PR11MB8379.namprd11.prod.outlook.com
+ ([fe80::549f:e4b3:e10d:aaa6%6]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
+ 23:34:53 +0000
+Message-ID: <99d40aab-2428-4f17-8398-2fec92a2ca44@intel.com>
+Date: Wed, 12 Aug 2026 16:34:47 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v4 05/15] x86,fs/resctrl: Introduce architecture
+ hooks to program kernel-mode
+To: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	<corbet@lwn.net>, <tony.luck@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <tglx@kernel.org>, <bp@alien8.de>,
+	<ben.horgan@arm.com>, <fenghuay@nvidia.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <mingo@redhat.com>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rdunlap@infradead.org>, <peterz@infradead.org>,
+	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
+	<elver@google.com>, <enelsonmoore@gmail.com>, <kuba@kernel.org>,
+	<ebiggers@kernel.org>, <lirongqing@baidu.com>, <seanjc@google.com>,
+	<nikunj@amd.com>, <xin@zytor.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<tiala@microsoft.com>, <chang.seok.bae@intel.com>, <kprateek.nayak@amd.com>,
+	<prathyushi.nangia@amd.com>, <kim.phillips@amd.com>, <naveen@kernel.org>,
+	<darwi@linutronix.de>, <elena.reshetova@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<thomas.lendacky@amd.com>, <eranian@google.com>, <peternewman@google.com>,
+	<qinyuntan@linux.alibaba.com>
+References: <cover.1783461016.git.babu.moger@amd.com>
+ <34a5119a28e102b8d6a0d0cfc3623fb0813a11f7.1783461016.git.babu.moger@amd.com>
+ <0764a430-f64a-4655-a44f-5c2ff15f2ed7@intel.com>
+ <d0a0ffd1-c759-4c3d-be09-f1d49ead29e5@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <d0a0ffd1-c759-4c3d-be09-f1d49ead29e5@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0289.namprd03.prod.outlook.com
+ (2603:10b6:303:b5::24) To IA0PR11MB8379.namprd11.prod.outlook.com
+ (2603:10b6:208:488::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANoCfWoC/3XPwWoDIRAG4FcJnmvRcXS1p7xH6UFdN2tpskE3N
- iHsu1fTwoaSwFx+GL9/vJIcUgyZvG2uJIUSc5wONaiXDfGjPewCjX3NBBgoJpmmqVgQJ4V0/D6
- myQVagPIeWCeMd04HUl8eUxji+aa+f/zmfHKfwc+NahtjzPOULrfaAm3vr4Hzhw11GAXupZWIA
- +/9NsXs82zTq5/2pJUUsTKKiceMqIyUYGznQAuN293exq/VwDvj2SlYDTEwbgHRoNb/DbkaHXt
- iyPYdr/hg0Coj7b2xLMsPC7Q1LJcBAAA=
-X-Change-ID: 20260508-rva23u64-hwprobe-v2-1d20739cbb8e
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
-        Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
-        Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org,
-        spacemit@lists.linux.dev, sophgo@lists.linux.dev,
-        linux-kselftest@vger.kernel.org,
-        Guodong Xu <guodong.xu@oss.qualcomm.com>,
-        Andrew Jones <andrew.jones@oss.qualcomm.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Qingwei Hu <qingwei.hu@bytedance.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7265;
- i=guodong.xu@oss.qualcomm.com; s=default; h=from:subject:message-id;
- bh=Ra/3+L2jk7U4uMiXwJ9Zce9uuTlc+DLXBTrbeJepa0I=;
- b=owGbwMvMwCXWtEl1Z3CGpCDjabUkhqxaZk7Vi43XPISfdsgu9fnKaOvq6ta0pijLO1/7gJuWt
- 8Kz9NCOUhYGMS4GWTFFlsNHW7K3vvKJ9n3O+QNmDisTyBAGLk4BmMjE9wx/uBKPMYatVvn7tu+a
- 6jLxzOqtv/bIcS55fy1TrG16qFroXUaGfYLyzDd2Fol8Zr72SXldirr8HvPb3fUzJ9Y3PndJt//
- KBAA=
-X-Developer-Key: i=guodong.xu@oss.qualcomm.com; a=openpgp;
- fpr=90B1DC3DF0BD10FD1227BD6344F254AF42F143EE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDE5MCBTYWx0ZWRfXw5RkYbtrf6TG
- gDfwmG/epl1ZUrEgyiPvjVov4+M2wt7yf4x1uy0RW2itnIi6/2i+R+YUq0OASB5llda5NkLSzze
- phjOqhGPAENHz8eUvC4zgfwaAuLoXMcLoiUG7cfT0CAUnMahAN35pfo9EMA1PgnfgECxCY4037H
- 09ZUMRPgZF1+oTE4tBh9lJtkY1QmiG7jyEmWUDMIFw5WTg3I0xrWl9VqOW7+jnPwG7FMayvhe3G
- xDgLX3bpJ/1DkE8bgLijBTVTxgVbM4nBwcHDgXHZ8taDms4GkJEiWhJFdiyxW7SeUpxt3izNh+Z
- H6bM1CTmnKOFPGskhKq+HHhakAWfwi969sHhf7S1uHkbGy1f57j4qcG5FSHJ393iqYF/F+jVBbQ
- I8DVRccddBMJZkGS/lKXj3N5PTt505CIVkQqmhj0vXT/YW7zxrpCLVW5K5yZB9x3hUjmDPvrYkR
- Lk2vPt7+MdtTCSxObyQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDE5MCBTYWx0ZWRfX+HlsrXHrTcHC
- LxQoFQBPhzG51vk/LEzq50kK0QIXOBWNYVv4rH9Grfp95L6HWVsIOH8BxIvfF0fEnbZJqJ8WMDq
- KVlUHcmDauGBTFsG4BSlSiKLiDFjxAY=
-X-Proofpoint-ORIG-GUID: 0gXagk-VUQhT7SF-gGXIa2Qz_5kPxdtV
-X-Authority-Analysis: v=2.4 cv=X5Vi7mTe c=1 sm=1 tr=0 ts=6a7d0321 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=NEAV23lmAAAA:8 a=bC-a23v3AAAA:8 a=pGLkceISAAAA:8
- a=ee_2aqc6AAAA:8 a=A54KYWeCNih9maOHq1sA:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=FO4_E8m0qiDe52t0p3_H:22 a=VOpmJXOdbJOWo2YY3GeN:22
-X-Proofpoint-GUID: 0gXagk-VUQhT7SF-gGXIa2Qz_5kPxdtV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-12_07,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1011 impostorscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 malwarescore=0 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608120190
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR11MB8379:EE_|MN6PR11MB8244:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7c58acf-0a59-488a-08aa-08def8ca4f9f
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|921020|22082099003|18002099003|11063799006|4143699003|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info: eHkYzdgwkuolQkJ8l+3+1a0G2JfblAamEXJ8boIhkjl5YcdEv9TQutc7KVAExTNq3VXuP4U2EqzSGB1h088cBnp/eWiYDtQHUwI6a+s5IaMXmDROhmSqjsTqGfjm2JGiN9Xm6xL4f3hEP82bVqrJwGXFkruc1Rz4naoi2ftkK1L71HB7tGGlkReY3kjcM8R20QyRzjq3KMXf0zCrhXPI3o0+rQPrnAJaZzdQIJ2VibvlJkso95crNqVPJRFPLnt2lmeeFWYdn8h4AVsInAP177YObAk/L0xcELunXwiA2ogPdMrAQGMwW4ONeJfeng7qQk1tng6E2FJz9ZydU9qmnDGVZybc1NOjJdo+rV2MWh7NM9dsGGNTAGB0mcJCCUp7H/wCYtQNxemE881QfzxCwBPaFfH80kW1sc4omIDELEzBSjBBeiqKwlXueBYvnXlrs2ZCrAKKAAzUWXgqUXFfPoRA6f8YDFCobbZfL1AybvdLgv8IKKl+SilvjSkrGMIk2XkPhoGEBW3yOuXsW+rb+VF6URgZB26chOlVeyJZ/oCk03ep3ecxR0YMYxxDkg8RHVVb7/Gw54K3vvSzwOocRR0UFnR3ML5IqyV+mVLE8JGPTb9MEKrFL7nxP3S6giiTkSPoviY01inlYkdxQZU33wkZkk6IU8FROMldCiz0vvfnfjAzER/gfMiSkXYEd+IpLKNuiZoxSAFra0+jF2AyYw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB8379.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(921020)(22082099003)(18002099003)(11063799006)(4143699003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0pUQ0kzREthdEYvdUVSekxtV2k2UGgvOEdQa1Nma05sSVFNTXpLRjVmMlhC?=
+ =?utf-8?B?WmZUMkcza2VnZVUrdXU5cnFRT2ZnZ0pETWVUR0FLaktmK21tNFJuZkVmdlJJ?=
+ =?utf-8?B?V0VWZFQ5MjFHdW95RTliS1o1TWYrek9kQUdzVjBkZzEwYjhHNnZ2WkJsUW5Q?=
+ =?utf-8?B?bERiYXB2UytuTEJ3YUNhQ0xxR2lvV1EraWxkV1BLelpvZEY2SXY3OENoTTd4?=
+ =?utf-8?B?K05EMkR2VWpIOUpBUlhLTHN5SDRkcGVaL2huc2JBaEdZeUs1WEVQOGpHNVQw?=
+ =?utf-8?B?WE16OGxES0JsbHI0WHNyNDlNZmZYQXk5NG1mL3RTbUovNU5KTTMzYXN2QjZK?=
+ =?utf-8?B?a3FFMnlsNWRPTUVMT0dydVN1RUc0RGZjMXB3Q0RBbjFBNnQ5bUZrdzNBMUVU?=
+ =?utf-8?B?ckNxL1pBU1ZSUXdsaG1LZUMvK0dDTE1ySkkvS3hOR2J4MVYxanVEMnBWYUlV?=
+ =?utf-8?B?OWV0dkZ1VXJCNXBZL0ZXdlMycnJ1SUgyaU9SQ2VNK0pqQVJEeXB5TnN3WFh5?=
+ =?utf-8?B?QldDOGNrcng3MERXQysvb0REYXlDbW1EKzRTZlNJcUxTZEZncFByK0NaaEtB?=
+ =?utf-8?B?V0E3MmhBNUYra3pIQ1JOR2JZUzhsNG1IZURxbEVURmVLSGVxTUFPdDhlQTNk?=
+ =?utf-8?B?RWZOS2hhN2l1aDltNGc2VTZGNlZNVjkwREFyckNqMzY4U3M5SVVndWZjTklu?=
+ =?utf-8?B?NVJKbzRhaDd3bi9iY3lIbHlRbXU3MVMyc0RtWG9nUkpGYnMxRm9NbXNQOElz?=
+ =?utf-8?B?L1p3N3NTdis2NjRxM2Z5a3JrRndtcWp2WjlyNkxnNjNjbkFnVVB1S2RVOTVK?=
+ =?utf-8?B?aUplRFZPSUhnc1FicVg5WDU2OGh2Z1E3ZmN5OUtyaU5WLytLUTQrS1hLV01T?=
+ =?utf-8?B?Ym1XcmVwYzMxOXduTWhXM0RYdHNuNkJvOHJhWVdVZUtLa0k2ZzVYdHZNdW1k?=
+ =?utf-8?B?WWQ1VW03MnV5SzQwK0lRZ3hrQUFubGdFaHhzVmU5dmd3Q2FLREpFVFBTWGh1?=
+ =?utf-8?B?KzBJZ05HQjJHMWJVV2h1QjlERUpjZEVEVUhENEN2LzFneEZDRkJ4TVpEc2di?=
+ =?utf-8?B?WEZLaGh6SVdScVJmWGN6Z3ZIbm5COW1ISFBpdG9qR1N2cnB4clRjYVRML2s1?=
+ =?utf-8?B?YWREMG9qWTZua0Zvd2tzemJwNEhYMWJLdytJZ3Y4Ti9NQmtmUGUvVXJnRXNU?=
+ =?utf-8?B?Mzl1UzFQL2d3MFJmRkpvaXNFM0JrVURTdlhuV285c1JNWlB4TDRnN3QvZnJR?=
+ =?utf-8?B?YjFqZWlXUTB5eHRCMEdjbW1sUllVRUhsU2lUaGljclJqbm56VXR4OFVyUkNO?=
+ =?utf-8?B?Q2lXaS9DYmxhVEs2dVFUelFRVjBGQUxZRTRtQm55OXI1cEQ2cEdZakp6Unlm?=
+ =?utf-8?B?Zlh6VmRSYVdEcko0cHcxbDFETWRJT3BUV004b2JEcnoxVC93Z2tLUFY1QXRt?=
+ =?utf-8?B?Ky9LT2JpRks2QmI0NDdTVzdEWVZMcmwzVWRvZVRybDYwdUFDbStuSjBFbFl6?=
+ =?utf-8?B?MjltRitVV2dCajFMT1FEb05pNWo5bEhmUkxmWkdlZUJJMEsrcmM3VFE2Z21R?=
+ =?utf-8?B?amdEUU16NXVCdzZQZy9tSGplS0kwREpUVHpkaFR0T0JKbVR0cTdoNkw1cCsv?=
+ =?utf-8?B?T1hWQkNTSWlQY1lIU1FKSmFyTjY0ZTFwMXhBbTNyNDEyOWtuSUl4aVVhdXZY?=
+ =?utf-8?B?a1BScXBqcVhub1BNYXM5MWkwd3I4S0hLd1dRVGtNV0xNQjBFM0N3YzRtNHV4?=
+ =?utf-8?B?WWp6bURhK2p5SlRpamJiSU9leW9uWmF5ekFDRE40cWZMa0dweitja2ZrdWZI?=
+ =?utf-8?B?eTEybFRTdjl4V0lITGdpajVnRU9rQjJ3YnVybTMwL0ZVb0MvQjhYdUlHY0FR?=
+ =?utf-8?B?Yms2QU50ampWWlcwMVNsWDFpeGdSMWN5emEzVUJmamZxOGE5cUVUQUFOZFhp?=
+ =?utf-8?B?UUhWbnJ6Smk3Qlg4WnM5Vlc5NGpXU2VvSXo2R1p6Rm1PQkNWTHRmbmdBdHZr?=
+ =?utf-8?B?WDFONFNZZ1dsaDU3QXlCSExUYXNkOEFibUMxbGJiNFM5ODJVcnBoQndqeVlv?=
+ =?utf-8?B?bUFDSzBIN3BNOHlZVHV0UlZ4ZkdQY3A5b0dxTzhFQ2xSdENkd0pHZWV6dXRM?=
+ =?utf-8?B?bWFyMzNEV0k2YmNRWUsrT3prWWZhNUYzT09xU3puWWgvaXFmU2lTd2NUdnc2?=
+ =?utf-8?B?a2NvdnVYLzQ2U3gyeFdUUkhhR0tSeEpHenVNbElFaDI5aXVsMXgwak5vSEtr?=
+ =?utf-8?B?QzVGWSt5NVVSNU94UGtzNHZzMnYwLzM5enhjc2JZVjlZTG9NMXpnWGp1SzZn?=
+ =?utf-8?B?aWh6cUYwSUZaVEJLdE5UYkZXTG5lR1hhc01Vd3ZrOVBsTXZDVmlwSHpoZmdX?=
+ =?utf-8?Q?laraVyXQPxi+5ToE=3D?=
+X-Exchange-RoutingPolicyChecked: ka7dxQl5/XpxrU/hfS7dyX/8P/rTVu4SszJOYKo36y8cNBPznl/Gx0bwAIwiJ+le2WvcZk4SYu0RJY00WMn/uU9HeBboYg8NrTJhELkmseeJpud2H1bk8YcUfLS+Lx0kzsEIrG72G2KMuHLqoY2o5+uPl28wGk5Zasjzv4tJdazBpvZKzzbinzirn+wsnXw+XwOgydAPsYpPq4/xw3B8NkMMGx2cWPjhzvkomamYrvf/vUFYngS3H/o8qF8jyHw9Cq2Ku5NTt/WbMK191sbNlYIyxmyRzkGNgsZPItNUA5609AbRX0Fq0US5aECgTs+49jpAaTy/1fEctWpE9MlQ6A==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7c58acf-0a59-488a-08aa-08def8ca4f9f
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB8379.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 23:34:53.8348
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: faIdUiLlgioXTMVgNY5cKnRztjtVz2LNpgnMk1azrSx2W5o2+zq8glunTiDvift5IG2P9cPRh/IsQ1zVTj7itDWGuESZVHC4G+RL1krA4oo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8244
+X-OriginatorOrg: intel.com
 
-This series builds on Andrew Jones's earlier RFC [1]. It lets userspace
-check for RVA23U64 conformance in one call, instead of walking hwprobe +
-prctl across every mandatory extension.
+Hi Babu,
 
-The series adds a small framework that resolves profile-class bases (IMA
-and RVA23U64) from the kernel's ISA extension bitmap at init time, and
-surfaces the result through both /proc/cpuinfo and hwprobe. Later patches
-can add RVA23S64, and backward RVA22 / RVA20 detection, to
-riscv_set_isa_bases() without changes to the surrounding code.
+On 8/12/26 3:11 PM, Moger, Babu wrote:
+> Hi Reinette,
+> 
+> On 8/10/2026 10:14 PM, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 7/7/26 2:50 PM, Babu Moger wrote:
+>>> Kernel-mode policies defined by enum resctrl_kernel_mode must be applied to
+>>
+>> "Kernel-mode policies" -> "Kernel modes"?
+> 
+> Ack.
+>>
+>>> each affected CPU whenever a policy is selected or its scope changes.
+>>
+>> What is an "affected CPU"?
+>>
+> 
+> Kernel mode policies defined by enum resctrl_kernel_mode must be
+> applied to each CPU whenever user space changes the kernel mode or
+> modifies the CPUs associated with the active kernel mode.
 
-Note: starting with v6, this series is sent from my Qualcomm address,
-guodong.xu@oss.qualcomm.com. Earlier versions came from my personal
-docular.xu@gmail.com (v3-v5).
+ok, could this thus just be "each CPU"? I find a lot of text in this series use
+unnecessary adjectives and then makes it worse by using inconsistent adjectives.
+This makes the text difficult to follow since it is never obvious if the text refers
+to the same thing as before. Please remove unnecessary words so that the writing
+becomes concise and easier to follow.
 
-Patches 1-6 of v5 have been applied by Paul Walmsley (1-3 through
-riscv/fixes for v7.2-rc, 4-6 queued in riscv/for-next for v7.3), so v6
-carries the remaining 11 patches, rebased onto riscv/for-next.
-
-Series outline (v6):
-
-  Per-extension cpufeature parsing + hwprobe export:
-   1.  B (the Zba/Zbb/Zbs set).
-
-  Zic64b (new first-class extension):
-   2.  dt-bindings: require a cbom/cbop/cboz block-size property whenever
-       the matching Zicbom/Zicbop/Zicboz is present.
-   3.  Zic64b dt-binding, with a schema check.
-   4.  Zic64b cpufeature parsing + hwprobe export.
-   5-7. dts: declare zic64b in the SpacemiT K3, SpacemiT K1, and Sophgo
-        SG2044 device trees.
-
-  RVA23U64 base detection and exposure:
-   8.  riscv_have_user_pmlen(): accessor for user pointer-masking PMLEN
-       support.
-   9.  cpufeature: per-hart and host-wide isa_bases bitmaps; IMA and
-       RVA23U64 detection lives here.
-  10.  /proc/cpuinfo: print "isa bases:" and "hart isa bases:", e.g.
-       rva23u64.
-  11.  hwprobe: expose RVA23U64.
-
-A follow-up series exposing these extensions to KVM guests (extending
-the KVM ISA extension ONE_REG interface) will be prepared on top of
-this one and will be posted separately.
-
-Tested on QEMU: with -cpu rva23s64,sv39=on, /proc/cpuinfo reports
-"isa bases : rv64ima rva23u64" on both the aggregated and per-hart
-lines, and hwprobe RISCV_HWPROBE_KEY_BASE_BEHAVIOR returns
-BASE_BEHAVIOR_IMA | BASE_BEHAVIOR_RVA23U64.
-
-A branch is available for all patches in the series: [2].
-
-Link: https://lore.kernel.org/linux-riscv/20260206002349.96740-1-andrew.jones@oss.qualcomm.com/ [1]
-Link: https://github.com/docularxu/linux/commits/b4/rva23u64-hwprobe-v6/ [2]
-
-Changes in v6:
-- Rebased onto riscv/for-next; dropped patches 1-6 of v5, which have been
-  applied by Paul.
-- dt-bindings block-size: only match nodes that have
-  riscv,isa-extensions (fix suggested by Conor, breakage reported by
-  Rob's bot).
-- Zic64b dt-binding: guard the zic64b rule the same way (same defect
-  class, found while fixing the above).
-- Follow the _BITULL() style of commit 8da45c93dfa9 ("RISC-V: hwprobe:
-  Use BIT macro to avoid warnings") for the new hwprobe bits (EXT_B,
-  EXT_ZIC64B, BASE_BEHAVIOR_RVA23U64).
-- Zic64b: RISCV_ISA_EXT_ZIC64B renumbered 110 to 116 after upstream
-  additions took 106-111.
-- Link to v5: https://patch.msgid.link/20260701-rva23u64-hwprobe-v2-v5-0-2c61f94a695a@gmail.com
-
-Changes in v5:
-- Rebased onto v7.2-rc1.
-- New patch: make riscv,cbom/cbop/cboz-block-size required whenever the
-  matching Zicbom/Zicbop/Zicboz extension is present (Conor).
-- Ziccamoa/Za64rs: drop the Zaamo/Zalrsc validate callbacks (Conor).
-- Zic64b dt-binding: fix a double space in the commit message (Conor).
-- Collected Reviewed-by and Acked-by tags in v4.
-- Link to v4: https://patch.msgid.link/20260611-rva23u64-hwprobe-v2-v4-0-3f01a2449488@gmail.com
-
-Changes in v4:
-- New patch: sort the multi-letter Z extensions alphanumerically in the
-  dt-binding (Conor), and place zic64b at its sorted position.
-- Zic64b cpufeature: validate only the CBO block sizes that are present;
-  overlaps Qingwei Hu's earlier patch, so it is now authored by Qingwei.
-- Document EXT_ZICFISS / EXT_ZICFILP: cite the riscv-cfi v1.0 tag commit.
-- Picked up Inochi Amaoto's Acked-by (SG2044 dts) and Andrew Jones's
-  Reviewed-by (documentation patch).
-- Link to v3: https://patch.msgid.link/20260603-rva23u64-hwprobe-v2-v3-0-5529a7b28384@gmail.com
-
-Changes in v3:
-- Add Zic64b as a first-class ISA extension: dt-binding, cpufeature
-  parsing with a validate check, hwprobe export, and device-tree
-  declarations for K3/K1/SG2044.
-- Patch 1 is now a clean up of hwprobe.rst indentation.
-- Document RISCV_HWPROBE_EXT_ZICFILP alongside ZICFISS.
-- Move the Zicclsm hwprobe.rst entry to the IMA_EXT_1 section to match
-  its bit allocation.
-- Collect Anup Patel's Acked-by/Reviewed-by on Patch 3, the capitalization.
-- In cpufeature.c, set the local ext_mask with __set_bit().
-- Update Guodong Xu's email to docular.xu@gmail.com.
-- Link to v2: https://patch.msgid.link/20260511-rva23u64-hwprobe-v2-v2-0-21c5a544f1dc@riscstar.com
-
-Changes in v2 (since Andrew's RFC v1):
-- Rebased onto v7.1-rc2.
-- Reworked rva23u64 detection into per-hart and host isa_bases bitmaps,
-  shared by /proc/cpuinfo and hwprobe.
-- Scoped to IMA and RVA23U64 (RVA23S64, RVA20/RVA22 cpuinfo output deferred).
-- Link to v1:  https://lore.kernel.org/linux-riscv/20260206002349.96740-1-andrew.jones@oss.qualcomm.com
-
-Signed-off-by: Guodong Xu <guodong.xu@oss.qualcomm.com>
----
-Andrew Jones (2):
-      riscv: Add B to hwcap and hwprobe
-      riscv: Add a getter for user PMLEN support
-
-Guodong Xu (8):
-      dt-bindings: riscv: Require block-size for Zicbom, Zicbop, and Zicboz
-      dt-bindings: riscv: Add Zic64b extension description
-      riscv: dts: spacemit: k3: Add Zic64b ISA extension
-      riscv: dts: spacemit: k1: Add Zic64b ISA extension
-      riscv: dts: sophgo: sg2044: Add Zic64b ISA extension
-      riscv: cpufeature: Introduce ISA bases bitmap and rva23u64 detection
-      riscv: cpu: Output isa bases lines in cpuinfo
-      riscv: hwprobe: Introduce rva23u64 base behavior
-
-Qingwei Hu (1):
-      riscv: Add Zic64b to cpufeature and hwprobe
-
- Documentation/arch/riscv/hwprobe.rst               |  16 +++
- .../devicetree/bindings/riscv/extensions.yaml      |  54 +++++++++
- arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi        | 128 ++++++++++-----------
- arch/riscv/boot/dts/spacemit/k1.dtsi               |  80 ++++++-------
- arch/riscv/boot/dts/spacemit/k3.dtsi               |  48 ++++----
- arch/riscv/include/asm/cpufeature.h                |  14 +++
- arch/riscv/include/asm/hwcap.h                     |   2 +
- arch/riscv/include/asm/processor.h                 |   4 +
- arch/riscv/include/uapi/asm/hwcap.h                |   1 +
- arch/riscv/include/uapi/asm/hwprobe.h              |   5 +-
- arch/riscv/kernel/cpu.c                            |  26 +++++
- arch/riscv/kernel/cpufeature.c                     | 117 +++++++++++++++++++
- arch/riscv/kernel/process.c                        |  12 ++
- arch/riscv/kernel/sys_hwprobe.c                    |  25 ++--
- tools/testing/selftests/riscv/hwprobe/which-cpus.c |   2 +-
- 15 files changed, 397 insertions(+), 137 deletions(-)
----
-base-commit: acf3fcb5e9199cc96ca033ec3c7570b6564c2e9e
-change-id: 20260508-rva23u64-hwprobe-v2-1d20739cbb8e
-
-Best regards,
---  
-Guodong Xu <guodong.xu@oss.qualcomm.com>
-
+Reinette
