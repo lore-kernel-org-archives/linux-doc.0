@@ -1,64 +1,64 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939AE41B8CE
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 10:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DC5418346
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 10:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786529094; cv=none; b=UNSXnLxE8J99MYKXTPq8/iqX7bePZegHsF+4qz6Vob/HIpafJ6YF5kY25Skv8xtLQvBLZHJZoWuwLYzVnd43DdNfznoIALw6vIX2Lqo9CHtAuguTz6d/R7lzDF7CBNyKidgzDoOH+Hr9/h1RPDQOVzFaFICp/AthGkrf2rdxq4w=
+	t=1786529100; cv=none; b=YUbCbS6e5jYdUMkvTlZ6JXTwb8g7l1KFm2e0txjx4W2COjSGtY6NqsBEu8V2K21z8ERKXEkm38cpsw3WrE7WOiSujHvMz2ECXY6GkTz/QLPlhyTPuVJ8HglOZhBT43slPZ9fbjoOm6/mBsjx7LTo5/uu/Xxq9/SfWHKBtK+A9m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786529094; c=relaxed/simple;
-	bh=FgV0EIRlXS2pNv/yLefwn1IDpSp+NZbkwedGH5rjvzA=;
+	s=arc-20240116; t=1786529100; c=relaxed/simple;
+	bh=EHmNb5OrnnC4mKZ2Bjz94rRJJr1n/ZIhoUobvZIv6hk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tVmRGRFBxZVWGcMzP3mu9hanGsi1QmD2UxYNEdu6MH26YuV/9M2PmHF8x/yYe7cTvV9rY2D4v4TulMOFn6YpIxRqI0yot+YAr0yBDjbrMlkX+oreNWoOAwFtNhraLnx3+vDjuigdwG3shpNseQh4X7557BZ5EzCSqYA618HLJ+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BlFbs+aj; arc=none smtp.client-ip=209.85.215.176
+	 MIME-Version; b=n2vCsMQCazPVhhj7UwOVRebFM91NBAn8JTmxVnbW9ndghpou6OOujcUl8T08oGbTptN67WXjmzGYfMoJre/Gm7anuQsVcD1ozhMdUIYJa7JlQXcxXGerFCnSlKKxNv+js1fZQEf5juYBCOt2lMVgbHTwdBihlrVHADN/fg5V4wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WCCPBqP+; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BlFbs+aj"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cbedda4c154so452403a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 03:04:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WCCPBqP+"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38e08baf860so922037a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 03:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786529093; x=1787133893; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786529098; x=1787133898; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JxZo8B7n4c14lfP0ZG1amHyFP5yaEQUN0LvXnBt5yBg=;
-        b=BlFbs+ajbfDxVSy8XDqUOZTror6FP/RY+YB4scEP8UHoi5QMQOzdBj5z/x230anfg5
-         nE+7DP8jbbhVBizsu/n8fGK7BssT+WNErO/TPPpruGEIy0nwt/JFBi8b0QVNUkIzm7Pc
-         7L/meSZdIZJzoi9t83LLhKjRdemEJAlTU70Q9xXXn+aLJCv8+xqmw+UHFwQGKir2vp/n
-         9KP5YRlFsMBwWWleEeKqatCAnLRBL04E7vv1u10jIdgIeblckObuE89HCevldgZIHYWT
-         thWRnlVofBkprrcb22/bA/XPg6f3RUVgbGCEozOybM2RHps9BN6HmIozZe96CBktnthV
-         qeRA==
+        bh=5rY136w+JpL/ylEjfYfCsqSvAnSrsJPi+k0wPlzk9EU=;
+        b=WCCPBqP+J7EnXbTsypWpY+YqbLj8FK90wm+nj1hAseE01qM/j1p4Xm7Wo/SHOj7sOU
+         NDNn9d0y2osuKCRqappYaq+6g66IyoTFZKa7ZdmAh7f6NQW8sOSeDTp4g1Z5eSaJt6z5
+         jsife/3ZjEE7Bs4tBSlg/OHRoguEsNWNrTAo0FKGje/13rTNGcmYNyu9/zLRNPZN7hRb
+         F5kcuPOcgLnsJ48ZM6MEqPbHx74DaCLWZCZ0rz3pUBldG6FNcRPS/OXGvUGWCyJkEoP1
+         UtMQ0FsEJMwzGH5GvisALoHaSokfTGm/L0Hi04A5AFu9nj0NS7Ren8l3euAqY2mBjbJv
+         JsZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786529093; x=1787133893;
+        d=1e100.net; s=20251104; t=1786529098; x=1787133898;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JxZo8B7n4c14lfP0ZG1amHyFP5yaEQUN0LvXnBt5yBg=;
-        b=bI6TN1G1wF4CWqkM89GE+TiJrwD8Iue/NPEna+WFMQ6vgdvlPoOe654vOMAsM7YkX9
-         pObD4rhVwJY7j4j2ln1x61YNYuSmkaNGLB61oYvwT2mAYS9X3jFnePAWpjFeQj3znfr5
-         1nRK1+rodOwcPw3ake+yD8LjU/R2y6i1cVjLXPf+B9IkZIYw0d4TYRWFigz+P5mjGQ2b
-         kgMqdLKc3Fep1caOImAzJn/52YgTa2phw3fEiaY+AsokgcJYe8L+rvRQgWZErJvsfLA6
-         Twrhi4lAZz8cFr6kJTyw7jJnA22vwWPW2OR034IpSE9fn6VQFhAFfdf8vI+PipWVpvnh
-         Y4vQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpQg4SahYXZlXt52LWnW+AR/viV4DsY3jBgxr0uZitKNm4feJaZlY8lpP7UbEU556xhnNsecmkRbME=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR2sCUjd7nsNZtoVbPOGoDY0qEDLT8CprSHqDoOhoDp2jrdg+i
-	DxG8NcwkUbnpPVnr5f5a5QS/xXkcv7DAZXGc0/ZHddm/airIrpBNJrzx
-X-Gm-Gg: AR+sD13z4E6HgQJAWIKDyQp26FLiV+NSEqW4BDQngFpBAf4yoeqnq74JmRBB05fVWQh
-	cPIHjQ+HxxFo19MpnT4gfdh+icFedsUA2sCxN0HVb94WhSAGTwDWGeI3vNOULiqWDKZaplfq34e
-	SUHjO+MBEMymMF9AatEfJqbCCqatTNjEVjFYrmxycmx7iS6wx/VUYz/2n6U6c1kjiEhZZI+q+6z
-	r8U9IupEHcc2KAhiiNEBEFCH6Ncr8IAc7nZoU+may/4xZlwEi565X087vvlGzPAfpEg62uVfNEy
-	ls13M9DYQo5g6pEWB1/lZ5CiOGnoJIAQTDu2EWbs59z2q194kR+WkXJD4Yyj5u0kuVD0OYl0pXU
-	ZRRJDiZO/cdlcTN0pnEzriKvmP0CwAIeQxb2RSV2ZQxHp1T0AZ6rl+RIwvHJ6x1L98vaEre7NlB
-	4BtmB44xMfoPv/i+ImFUG8P5JjU59lDhI37JqO4u9Pzi/LZ1sFc5aTm3kbYhv05+5rseyAuS5Xv
-	hTcl9WXFe8tYY0=
-X-Received: by 2002:a05:6a21:4d07:b0:3c3:a20f:f729 with SMTP id adf61e73a8af0-3cc3f51e8camr4663363637.7.1786529092842;
-        Wed, 12 Aug 2026 03:04:52 -0700 (PDT)
+        bh=5rY136w+JpL/ylEjfYfCsqSvAnSrsJPi+k0wPlzk9EU=;
+        b=XN79QZs61qfvrAXg6AluIir4Co/fP49qS1EpnDlfasp3Mw5s/h1JNq8wdYf317smsG
+         2H6pbjuXPBXXm4ZkUl1NEBJSq5fJHQaSwtkU+0V2numef4nwDT+2zz8pTjWly9g0eBYi
+         YI+VbpvSdL0yxjrnEl6YDWlN1wcmzgaZJYMuspxKIpTHatfBGGV/nNszKfEfpYB7ViXv
+         kQKorukluTgB4U4OQm4tsC+T+BvrOkIBsKrux/SZY759ZuxhC41Rc1J5F2gLyAqMXEyt
+         TNF1Op+en1LLvqHYZaOL00TMtVe+Nge59oP+aN3Zhx1ZcRPFKuc6S+WWuerb975AyHEH
+         SeLQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp54lOfg8DrxlVZpDsHh969y9qaPX5pFYhnCfAhJ9zepM9I01/7AXVT8TAjzbqVsrcmLqzcmQuEiSg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCEEQKsOLcqRjkq+aoaaejRYZwAonGSqpMfA9wzqr/xZvLvnZB
+	rJ8skDcgktHs8L8zYupdsMav8YE1QGGTLsjsmpmfm9b3KBNKro1o0LrQ
+X-Gm-Gg: AR+sD13yu0+qQB5fKW16mfx3LZycJ4UawC6gAowRyZ18KH1w4E6B547WR3u7o1pUA/p
+	v8Ba19AOTeasX8e5wO/JtpDAGoqDCm8kOs+1VbUD18uGmCujfRbDTtw2CzdXStESvbVQq50VXrz
+	24FXJR0Plfu4dEbYOgN2PR0cbAqzqYkvdL06aTjvJNoq2cED63zVXc28dnXEgIpE6oVWxHgaih0
+	7sQyVL6fKyFGauH4z/9gOzpwK6MmuGr4I6nZ1c3+fPlmQVoK5EZ0n0ouDJlI5hXVTXBv7KeDEt8
+	8BClBvxmUUnHOyX7cx+0PzrleySqQ6tMRJ+3lGjRb/V1Er9bMnDQv2lPexlA2aV0kQl9kkdHgjd
+	g+G8jt1wlpSA8upVN8KnKkKNCRMZBEnu7DOLBeDv0Lk7a9yALv/wZN65wEbcsk6/WSkkDEgB3oc
+	90ujJ99V/A6PD1rmqslQ5SCF7+U4Z+26hAWkIslDSGFihPNiEhL/GMb03pldWCi+CDuCnFFDwak
+	WaFfQS4+rZMd28=
+X-Received: by 2002:a17:90b:1a8b:b0:38e:fea2:df53 with SMTP id 98e67ed59e1d1-39301253b3bmr3943475a91.4.1786529098246;
+        Wed, 12 Aug 2026 03:04:58 -0700 (PDT)
 Received: from celestia.taila51cc2.ts.net ([2402:1980:85a:5c46:85a5:ec7:8aa8:72be])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14124454d3csm8821247c88.2.2026.08.12.03.04.48
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14124454d3csm8821247c88.2.2026.08.12.03.04.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 03:04:52 -0700 (PDT)
+        Wed, 12 Aug 2026 03:04:57 -0700 (PDT)
 From: Liew Rui Yan <aethernet65535@gmail.com>
 To: SJ Park <sj@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -76,9 +76,9 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Liew Rui Yan <aethernet65535@gmail.com>
-Subject: [PATCH 2/3] docs/mm/damon/design: difference between watermarks and nr_snapshots
-Date: Wed, 12 Aug 2026 18:04:32 +0800
-Message-ID: <20260812100433.6288-3-aethernet65535@gmail.com>
+Subject: [PATCH 3/3] docs/mm/damon/design: fix typo of max_nr_snapshots
+Date: Wed, 12 Aug 2026 18:04:33 +0800
+Message-ID: <20260812100433.6288-4-aethernet65535@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260812100433.6288-1-aethernet65535@gmail.com>
 References: <20260812100433.6288-1-aethernet65535@gmail.com>
@@ -90,28 +90,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Explain the difference between nr_snapshots reaches max_nr_snapshots and
-watermarks.
+Fixes a typo (nr_snapshots -> max_nr_snapshots) and corrects a grammar
+error.
 
 Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
+Reviewed-by: SJ Park <sj@kernel.org>
 ---
- Documentation/mm/damon/design.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/mm/damon/design.rst | 4 ++--
+ include/linux/damon.h             | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 939298f2a9b9..1fcf0b8c044b 100644
+index 1fcf0b8c044b..62ba6cc2e999 100644
 --- a/Documentation/mm/damon/design.rst
 +++ b/Documentation/mm/damon/design.rst
-@@ -872,7 +872,8 @@ the action to the region will fail.
+@@ -871,8 +871,8 @@ action is ``pageout`` while all pages of the region are unreclaimable, applying
+ the action to the region will fail.
  
  Unlike normal stats, ``max_nr_snapshots`` is set by users.  If it is set as
- non-zero and ``nr_snapshots`` be same to or greater than ``nr_snapshots``, the
--scheme is deactivated.
-+scheme is deactivated.  Note that, unlike watermarks, even if a scheme's
-+``nr_snapshots`` reaches ``max_nr_snapshots``, monitoring will not stop.
+-non-zero and ``nr_snapshots`` be same to or greater than ``nr_snapshots``, the
+-scheme is deactivated. Note that, unlike watermarks, even if a scheme's
++non-zero and ``nr_snapshots`` equals or is greater than ``max_nr_snapshots``,
++the scheme is deactivated. Note that, unlike watermarks, even if a scheme's
+ ``nr_snapshots`` reaches ``max_nr_snapshots``, monitoring will not stop.
  
  To know how user-space can read the stats via :ref:`DAMON sysfs interface
- <sysfs_interface>`, refer to :ref:s`stats <sysfs_stats>` part of the
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index d642ce4fc83c..75ece3d03be2 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -549,7 +549,7 @@ struct damos_migrate_dests {
+  *
+  * After applying the &action to each region, &stat is updated.
+  *
+- * If &max_nr_snapshots is set as non-zero and &stat.nr_snapshots be same to or
++ * If &max_nr_snapshots is set as non-zero and &stat.nr_snapshots equals or is
+  * greater than it, the scheme is deactivated.
+  */
+ struct damos {
 -- 
 2.55.0
 
