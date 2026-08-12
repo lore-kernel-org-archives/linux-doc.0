@@ -1,64 +1,66 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBB6399375
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 06:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCED02E738D
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 06:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786517967; cv=none; b=Ay0Ew2YBV48bX/gV2Oci2Xc4QgvitL7PIYHWcmFfoPmo4tGYyqW45kC754uJvpwTKSje39Q9eT+Q6CnWKxVMY7E2UyAZsYDPCodTfh0ss5Xw0mDCP4xHw/s09650o5yF8LpJ9L233L8omwLvbkhdCQDsBezaFscOg/7MsGNDeUk=
+	t=1786517971; cv=none; b=ThZ9vkm5eMWURQ2aB734nKuU6GMFnLD7IEiE3TXS6pJvR+Y2bmHF8XLek+8VuC02e/pyrxDdkqKrgVn+n8YYUTrT+gdwvXMevNqOv5xoM/goHGkbdM5AbkK0QeC/Yu3GaLHfPmQSVSwTaZodsnceyAIDm/+nCpmsSYGqLfzveXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786517967; c=relaxed/simple;
-	bh=WIAuDm5KWKeCXbUA7qblf7Ti3VLEdPQOqG/N3pB7uF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=js0cO/SEJqr1RcmcIcgTKlaUuuMTELRZO2g6pdFLVYW6RoCgtmwnkzKSsu4euIOXr0UQ+rFIM5jsJjj6grf9EtOEwVTm9UumrRp1350hEhei7KzaSs30GfQ6VgVvhh1/oGRMZI2wPjQEMx929xVt5e/nZv43Bk8hN5YVSeU9qEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cWAH5P43; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1786517971; c=relaxed/simple;
+	bh=B3epYLxfoVoXfinQU6yOnyaTqA1uv7xJ3fU2PNRA69A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a20ipnCUKMkG/hg2YGSBJxqFzd0kB/fOWcbrA6m0iFL/K0GGHPpSHHKYmt567HKeMdz6YokJS66DnqPgzJ2lf6CKWDVdXqBV0wbX2VYcB/YSdvQ7m/SWJPTXMW5M9S3yG4DbBRkrI6pI0S3Mr+WtSChV0PeRx1a54NHYDGKBOE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oaWCQZm5; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cWAH5P43"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4956d1d9fb2so189845e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 23:59:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oaWCQZm5"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47f611b3af9so70385f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 23:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786517963; x=1787122763; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jYLC+//as5WkDB9Cfqs3UoupJV7njGedAREDeXd0kB8=;
-        b=cWAH5P43KYkdS76Gfj/Izwf9Jr5TVV2+gxPH8SiehA2TEs4BUUa52SVYtHGjPb12lk
-         GLoXEEVDizefKlq4dXuc9mmiszB/DX16CsfVK+nI04XIFG69IG48efITgahM+Y163vLX
-         Cixl39Mcf1HrSThYpvsL5O5awmkbD16s42WmoKMg73ZR9zWm61VnJu/d2vRYHKP+gClP
-         76yF95+7vjLSz+46EUxqmPxzjp+GrGANn3wrBJn32zcKN80ZIke62lBqfq2MzViKkvoL
-         AOwlw+hpkeo9UCDvr0R0EDQsPSZgDXREw6prPRU9F3J+Gj4pZtPPatfcaWwdavLMa7x5
-         B3qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786517963; x=1787122763;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1786517968; x=1787122768; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=jYLC+//as5WkDB9Cfqs3UoupJV7njGedAREDeXd0kB8=;
-        b=T0ktBUvK31V/7fGY/zuWFhDgiKtHwInQm0FcZpdb7awsA7bS92lQHTHCDd+sQK2epm
-         KZ3THwqSJi1Ici1OjcDDKZG/CwM4OQaXXdrn/3Q7VjufVvXZNLIh8TLbjPZvcs1aHU9B
-         WQrAHQWhLCArQylXYyaXp2y7zK1PqVkPay7CbrS1Khc/n/AgFFmvuqPVXhU1UKX8riPy
-         ZXA9zcXFC32Lj9kt16TWNF8/WoNQr05q+ShZhXIe5NDX2tHhOeQcGr/wHzjSEyS86nNj
-         BMTTwHZPffeUWYiwCfoOuHfEGe+Zf5/0lQj0Wg9+hnnK1XmqMK8DVLoVbBqA8gLqTKiv
-         hhgw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1+hPfgg2TwbZfYO9WMpICQZF/hwqN0Qc78WkYbHS/IGC+KXIvBavtvZimJQwaX/iP2J9QFJfBMQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwA8Kbebz85oeT5EIBH+Uj8PhPP8IEnLJvvE3G6rZl/aRlS3/vE
-	JX988Xqnm2/2Ut/RxBsmiOOlSWwQJBfGreprPFLTTGDQ4xlmebPskGp6q2jBdAhv
-X-Gm-Gg: AR+sD139xURCidtJJyzupsfxyjxeaGXke+k9svC2fS/NsW/Ew80gJRfC896hM2kMyKd
-	Y9FP4duvBcEfRdlotne2DaxiW2LTsEMRmi9y9gwQV3NVthRXeosKSCj70l5prIOZSKF97b29WC+
-	S1gKIwEAImQMWXf23l5dIgjPhODc6ga2HeED/lJk6hA7/a52zjXTy7AiqFEsidzTSen/GA1Jqcs
-	9jK00h7i7arAckRZo/oAXmYg38LfdsvJs5sYblT3GBaqjphaSFAyDriN5g5NrrEn/H+f3RafQCV
-	9lSlarUj8QqpjMe8TADjpp6Q8CMekhXsx/hweEESnl/oe6YR26yuQ7EtzSvyVkCKlv2073kl4+z
-	1qOL9+sXDgzC6eBbdsxPxetAwZ/K8krQDwsjXIwUtp4DjffllmyjjkDlvNC2cn5wYZs5cKMImPt
-	MLyuHBWd9tw1KEkLOEVG2qQYhbHm0cPDAgC7O6SnS1uef5Nny/7YkyN7aCqa/q6b3a015eut9VX
-	zKxGPtSHXDxSQsDulQmdNxQLVSk8Zq0S45WrRue3js4ivsczX/NITOKxI/vs7K3f/f92R+aAHW8
-	xU7i6vzNWzxViuF1LBbbf2Jzr89SdwSmucIUSFQaG+hN4A==
-X-Received: by 2002:a05:600c:1f82:b0:496:bbce:ef with SMTP id 5b1f17b1804b1-4997c15bc31mr16199015e9.3.1786517963083;
-        Tue, 11 Aug 2026 23:59:23 -0700 (PDT)
+        bh=zz4SgHtAmy0qQncUtL+GMZmlzcvWPiSx3o95/DRT6g4=;
+        b=oaWCQZm5PFaFgqJeXPhLgkDOwkSu5whQf8y8rj+LzmXsPppatQBFj9wGdD8m/oZK2/
+         ptfkOtRWdxSOcxtr6JLIAs78KOTm5CmRDhJoGwavvWRYKPS3oc4s43tQcDaiaPE4LQ6X
+         8abKmJf1S5M5usI0OUCTmrYqETMQwQikiyF4zNPQW58JXQ0qNf43oGh55eQQpe/8+T7K
+         co1Whbe6je+5vaIGjUmcAlyB6f6lysH1RcdGMT8EAS8mGmGKFmmSEZZJ9nd3PAir8RL4
+         ln1t/ium+uBPVt3ABV1zKG7y5BlBdevgm3k7lv9Mij9EmmZ2fMnGdJf7fZseVJyUXvQB
+         ONQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786517968; x=1787122768;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zz4SgHtAmy0qQncUtL+GMZmlzcvWPiSx3o95/DRT6g4=;
+        b=jj2lSgRauajxIOgd7YiD6zhW/rHKyKcI5lBodobCCQB7xWjmODk31q6nLTQCJJ8FC4
+         Lz/yqEBvUZ0dlV6RpmWcM3YD1bEhdBJKNHNZSA/tra9SesrEtPmw18+fR83ysY43R2Ek
+         TlrfzlQGXMrjdXusw6m/CPtioiR5yBVhHMYylVi8uP2yZGDL1iNIPO4YnoHwxlt50Yg3
+         miWDZFDfyCDHQS2oznjpv4hH+9yFngobXxnTTYh1rs3fX+1YrI3uxf5xkXhS/7tNKt9o
+         hx8iGdcs7/jUR+haevCBiNf3r/Pvs+TP24LIrTRCdohjvRVoBDfSVJo3ICSiO35aovwZ
+         Qkdg==
+X-Forwarded-Encrypted: i=1; AHgh+RrKV2fmbSeCjj+RXJzOn1af9kzvxh2lzAsta12tjp2378h0keGtK56s1Za8l98vHEhPMvq46tW7aSI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPiBrLrhaIbp5sKg9K0ZQrDoUa9yPGSrx4nI0zMKOyV8eIinxx
+	s15vcqaetf6mqW7+vLSiEWueZ1u6DQl/EjtRUU6lKdiKoYBb3KHtmKO/NVbC3PQx
+X-Gm-Gg: AR+sD116Cf12Zf+ocKSN86IBApEmyfmJnXyPbX70RmUEM0yvhre9yvvdvgR9m+XmwE2
+	5YMQLIyoR+awZJtn36boUfm5EM3PkL7dNDh09aFR1Q5dq0Wo4S/1htCXvYhG4FYDgvH5wRuBa7q
+	uk+aEwLgs6uXq/EJVYly5h5x/HzKaUDclB/LsbojE2kbD8p3JaaS6AdKRvBDI/OaZpb4NTgOw9A
+	9JmMrAvF6H8Mztgdi6rYlyNXTGJX9CUz7UQgklcl/t+22L8QXWAYSNEOBt43k4FPbbRr0Y1NAXD
+	oI9ukMDSgkDQlYaZp9h/GpRRSQzUcaNdyx3Dbsx0RxhycuHssaDUy9Imh1gcpf/ceuMgbOWMOo4
+	M6BrxD7Hz4bpJY8a20efVguuj7b3JlktovJGyis1fm91Z0uuIuCd/d0+PbzzfDvpctfUSn3gxFy
+	rt+PRxc8wo0TmFrzA4fgL3H9cMF5InHuPHm3DjvGR+Z+sr7wAr6cyVxZHZqAiPZsGy1Kg9jTvNA
+	FxL4X+ZFNr5ElyECDYfcdiATwfmcfCKWEY1TTJgwLw+wbqIkK5ir7cvJqcMEqkHBR3HPEdFXA89
+	lRMPy4GR0jc5wc6Bo/VJNlQTjcxm0RrSdG5G/44Nz3s9jA==
+X-Received: by 2002:a05:600c:1c25:b0:498:1371:660c with SMTP id 5b1f17b1804b1-4997bf8879dmr16236365e9.0.1786517967920;
+        Tue, 11 Aug 2026 23:59:27 -0700 (PDT)
 Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997b15b807sm73628005e9.7.2026.08.11.23.59.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997b15b807sm73628005e9.7.2026.08.11.23.59.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 23:59:22 -0700 (PDT)
+        Tue, 11 Aug 2026 23:59:27 -0700 (PDT)
 From: Doehyun Baek <doehyunbaek@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Yanteng Si <si.yanteng@linux.dev>
@@ -71,10 +73,12 @@ Cc: Doehyun Baek <doehyunbaek@gmail.com>,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 0/7] docs/zh_CN: update DAMON documentation translation
-Date: Wed, 12 Aug 2026 06:59:04 +0000
-Message-ID: <20260812065914.3071433-1-doehyunbaek@gmail.com>
+Subject: [PATCH v7 2/7] docs/zh_CN: add DAMON_STAT usage translation
+Date: Wed, 12 Aug 2026 06:59:06 +0000
+Message-ID: <20260812065914.3071433-3-doehyunbaek@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260812065914.3071433-1-doehyunbaek@gmail.com>
+References: <20260812065914.3071433-1-doehyunbaek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,41 +88,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Bring the Chinese DAMON documentation translations up to date.  Update the
-DAMON design and administration-guide translations, and add the DAMON_STAT
-usage translation.
+Translate .../admin-guide/mm/damon/stat.rst into Chinese.
 
-Changes from v6:
-- Clarify the DAMOS quota goal descriptions for the optional ``nid`` and
-  ``path`` parameters.
-- Improve the translation of "offload" and fix the duplicated character in
-  the non-access-pattern filter description.
-- Consistently translate "tracepoint" as "跟踪点" throughout the series.
-- Consistently use "监测上下文" and "聚集间隔" for DAMON terms.
+Update the translation through commit c9380cdd949d
+("Docs/{admin-guide,mm}/damon: fix DAMON documentation details").
 
-The changes were suggested and clarified by Dongliang Mu.
-
-Doehyun Baek (7):
-  docs/zh_CN: update DAMON design translation
-  docs/zh_CN: add DAMON_STAT usage translation
-  docs/zh_CN: update DAMON index translation
-  docs/zh_CN: update DAMON start translation
-  docs/zh_CN: update DAMON usage translation
-  docs/zh_CN: update DAMON reclaim translation
-  docs/zh_CN: update DAMON LRU sort translation
-
- .../zh_CN/admin-guide/mm/damon/index.rst      |  15 +-
- .../zh_CN/admin-guide/mm/damon/lru_sort.rst   |  68 +-
- .../zh_CN/admin-guide/mm/damon/reclaim.rst    |  82 ++-
- .../zh_CN/admin-guide/mm/damon/start.rst      |  63 +-
- .../zh_CN/admin-guide/mm/damon/stat.rst       |  94 +++
- .../zh_CN/admin-guide/mm/damon/usage.rst      | 523 +++++++++++---
- .../translations/zh_CN/mm/damon/design.rst    | 667 +++++++++++++++++-
- 7 files changed, 1346 insertions(+), 166 deletions(-)
+Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+---
+ .../zh_CN/admin-guide/mm/damon/stat.rst       | 94 +++++++++++++++++++
+ 1 file changed, 94 insertions(+)
  create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst
 
-
-base-commit: db6ed2a3d31068ca5577466591b2521dee0508ca
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst
+new file mode 100644
+index 000000000000..129748a5ea1f
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst
+@@ -0,0 +1,94 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/mm/damon/stat.rst
++
++:翻译:
++
++ Doehyun Baek <doehyunbaek@gmail.com>
++
++====================
++数据访问监测结果统计
++====================
++
++数据访问监测结果统计（DAMON_STAT）是一个静态内核模块，旨在用于简单的
++访问模式监测。它使用 DAMON 监测系统整个物理内存上的访问，并提供简化的
++访问监测结果统计，即空闲时间百分位数和估计的内存带宽。
++
++.. _damon_stat_monitoring_accuracy_overhead_zh_CN:
++
++监测精度和开销
++==============
++
++DAMON_STAT 使用监测间隔
++:ref:`自动调优 <damon_design_monitoring_intervals_autotuning_zh_CN>` 来提高
++精度并最小化开销。它会自动调优间隔，目标是在每个快照中捕获 4 % 的
++可观测访问事件，同时将得到的采样间隔限制在最小 5 毫秒、最大 10 秒。
++在少数生产服务器系统上，它的结果是只消耗 0.x % 的单个 CPU 时间，同时
++捕获质量合理的访问模式。调优得到的间隔可以通过
++``aggr_interval_us`` :ref:`参数 <damon_stat_aggr_interval_us_zh_CN>` 获取。
++
++接口：模块参数
++==============
++
++要使用这个功能，首先应确保你的系统运行在构建时启用了
++``CONFIG_DAMON_STAT=y`` 的内核上。通过将
++``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` 设置为 true，可以在构建时默认
++启用该功能。
++
++为了让系统管理员在启动时和/或运行时启用或禁用它，并读取监测结果，
++DAMON_STAT 提供了模块参数。下面的章节描述这些参数。
++
++enabled
++-------
++
++启用或禁用 DAMON_STAT。
++
++你可以将该参数的值设置为 ``Y`` 来启用 DAMON_STAT。设置为 ``N`` 会
++禁用 DAMON_STAT。默认值由 ``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` 构建
++配置选项设置。
++
++请注意，该模块（damon_stat）不能与其他基于 DAMON 的专用模块同时运行。
++更多细节请参考 :ref:`DAMON 设计文档的专用模块互斥性 <damon_design_special_purpose_modules_exclusivity_zh_CN>`。
++
++.. _damon_stat_aggr_interval_us_zh_CN:
++
++aggr_interval_us
++----------------
++
++自动调优后的聚集时间间隔，单位是微秒。
++
++用户可以读取 DAMON_STAT 使用的 DAMON 实例的聚集间隔。它会被
++:ref:`自动调优 <damon_stat_monitoring_accuracy_overhead_zh_CN>`，因此该值
++会动态变化。
++
++estimated_memory_bandwidth
++--------------------------
++
++系统的估计内存带宽消耗（字节/秒）。
++
++DAMON_STAT 读取当前 DAMON 结果快照上的观测访问事件，并将其转换为以
++字节/秒为单位的内存带宽消耗估计。得到的指标通过这个只读参数向用户
++公开。由于 DAMON 使用采样，所以这只是访问强度的估计，而不是精确的
++内存带宽。
++
++memory_idle_ms_percentiles
++--------------------------
++
++系统的逐字节空闲时间（毫秒）百分位数。
++
++DAMON_STAT 基于当前 DAMON 结果快照，计算内存中每个字节到现在为止未被
++访问的时间（空闲时间）。对于访问频率（nr_accesses）大于零的区域，当前
++访问频率水平保持的时间乘以 ``-1``，就是该区域每个字节的空闲时间。如果
++某个区域的访问频率（nr_accesses）为零，则该区域保持零访问频率的时间
++（age）就是该区域每个字节的空闲时间。然后，DAMON_STAT 通过这个只读参数
++公开空闲时间值的百分位数。读取该参数会返回 101 个以毫秒为单位、用逗号
++分隔的空闲时间值。每个值分别表示第 0、第 1、第 2、第 3、……、第 99 和
++第 100 百分位的空闲时间。
++
++kdamond_pid
++-----------
++
++DAMON 线程的 PID。
++
++如果 DAMON_STAT 已启用，这将成为工作线程的 PID。否则为 -1。
 -- 
 2.43.0
 
