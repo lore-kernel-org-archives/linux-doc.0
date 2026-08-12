@@ -1,468 +1,201 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A9143FD09
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 16:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786552297; cv=pass; b=H6HGV2sJuYi/JTJXEe0J0lxmrLy97FVsm21wlFuyZSlI1tm3x5rYV8643k+JyBld6AvEia7kWq25bopPIcYUUy1ARpOF8te+UOzEnPpB0yjp0soHv9rivA1s79eFR20+BqQVLitMQmG2WUxW9gv0xrG7oCEBoHruXayzxvZMpYI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786552297; c=relaxed/simple;
-	bh=USwbS+94VV2LWF6tT0TB0lFWUzt26MH1nbm9QtmZb9I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FMlM+V3cC48ROIZuHvq1YynhUApT3dkzLCQmVPhjn1/DexktuiAJbCIYovZCt56mawyhxsA4v2RMZ8EaQ24ixqHyb7/8lEAeUUsoLSOKK7pAtqrUBpkCh/tx6MsLc2iZIwYvnG/aHUVS7GYzkKWlPK59G6X+zY6HCrQgsygFNuA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFXKmMyN; arc=pass smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35D2335081;
+	Wed, 12 Aug 2026 17:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786555660; cv=none; b=gxSUbbtRSb8CDJw+KKtoqXpSqfgu9mGqgC/axhCMJyz20BJfi5pFIYLfuVepPP28wm1RoYbFeqmuSA+z9hMx2TWnmSBVAISzbdlFQExP2pIId5vf4zih+QyXaCfUp0PveBnwSiFbYdZntijQDR5cX3Xtt8ofg2J0A/Al4Md0jKo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786555660; c=relaxed/simple;
+	bh=WJPLHXt8itB/Cw880Ar8NhbyTTeEUpwQxfJvdcAm5iw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aQLbsfilyYZC0e2GXaHUA/kOpqQ5DOi25CmNiRT5VYWMuyZ9izBUbuviAelx7dcZMBkjU1pRFgGw6Nebs+xOkm4oNRJr/gszpFeZq2KhFRSnZYWaZ64GsIpui8Q+Y0xJLpDYXsDxH4xNq7r4d4ODVNzN8oUcZfItC5NTmK1imuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jwSvUCMl; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFXKmMyN"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47f71156e1aso538277f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 09:31:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786552292; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OUoB2+ibEEKDY7GuiTuv2GXT1RBxptAxIv6fm21s0bfVfPNph3p4ONLyRi6sxgPSTg
-         9i5KcDcd4CQP34NLp8QWbTRehDfZCGPXmFAnDMm8w5maMoMepWfjTnoMX5Yo04DVlXf3
-         Hzf4uTDqWTneRcmUtyIPJ+KyYVeNde9dqeUAguyptGRqPQ0USvLgXJASY9DX1tstKJTG
-         fMF6UyUq6pelFNxGvU4twB5veczBCZv2oW//n/DJMt82Y6v9L+wTvBsw7eHzkdvkQd7A
-         hQeqC6GcaqqOnxOfSy2HVblR4WbWeHaAt+oADPjEsbazs/cftV+Q32IVQYPmA3Md5M7T
-         P/PQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=28gd3J2v+Z0sZUbhsqqZbC9VAYrt+YqzWhI5/85OLmw=;
-        fh=KsVzcD6CqnGLGq1U8rk/hwGTlz8Kfdnkxjhk++qkatI=;
-        b=swDbEs2EO2VbotEHHkV4Gl+je9rhzLpbtChKUhqYDMdS7eWTLmFyz3TSZzMHtByR5L
-         9InqB3CWJ1CQUTz18SHt1tWUAPYSIySb7UKNIuVLaewJgf6Pm4ZmOyJN+gnBJEg5zMcG
-         hRs6oRKUqNIGvd7WDD04qsrj3QgUCSzTPGULvwkyA8lb2NvJ+5KV1Pfke+l3wcdWVBkP
-         AFde54aTDEab3tBMTU0rDV6mXA5Q37SoKYmygwQhaLCG7EgJC55MC+KUzgHJXWbaO1XS
-         pZwHhSu3itmg/KYH/dOSP9N4qoMx3bX0SZ6GL4Ls6FyjLQpZhkQ6zLf9wQoy1ElRFHbB
-         GV6w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786552292; x=1787157092; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=28gd3J2v+Z0sZUbhsqqZbC9VAYrt+YqzWhI5/85OLmw=;
-        b=VFXKmMyNDtNtCYO10HHMn6vN+q3yTPMw7IjI1pkr6aH9YzQq7FHD95Dfwlri1/ZqCf
-         psT5GMDK4gceiCqLsksdkrhIrbSMMKr/rmRRyOe1FO23+YcyiYmP3TQNktmGJW4+gwu/
-         6z4hPVP6AzzT10JZnzBaOZsgVdK2oxopzsZiLmHAy4NCMYF3TveyIEonnQuBFm29q/5Q
-         JWWWYnARDAgzzIvsfDPEJjEKLMVdNb1YQZp+I73y56huLdWjwC+RUW1JkQfEupIcbUTJ
-         MS2rL0GNq+HCyAJfYO2ShSCBRUMtWzorSgdUOrksKcWqAdChyf2MVz+sFU2PPbDauUKz
-         P2YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786552292; x=1787157092;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=28gd3J2v+Z0sZUbhsqqZbC9VAYrt+YqzWhI5/85OLmw=;
-        b=Ka5khUH6SLbroh7vsk2iKayWETRHiifHCqwVMC+IM+hoGs7R/bDkQNO3ko79c7AX3p
-         XICmze90GBan0rEHkVqVblBEQfPDbJwHsgjEdoZBjHv7wqnCFYPtiuM103vVyCZt3ez7
-         Nb+pOuSTBBVn0bJPCVjb4H+/m5Fq8a4LHXmLoA3L3LKWlYzSDIoJvPbsL0clPNnvo7oX
-         zkSRn8i6+jgwjZVOujZHGNoTQzBh5RDgeNKBbyBoSFt2Qb2ulDRBrnOxCOfAXKRXP6BU
-         jPpO1D+9fEiND9t6rLMO4dZdwuNRePMUNaxw0nIFI55NExEkZMKCwg2Qq0CiGDigY2LO
-         8GSQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqTQ0u1gkzbMYEgcpaYz0znnnWKojEUw66yfKIeGYHfA5UqDeyxPeLuorzKB0B2uTAckgCQv2yQYJk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR6KxonM3j2g78wi1RdO6mVllyzSR5hv65G/J6F0AUl9EtKAhr
-	UMOqntguf+LfBCnwaPMXMsO0AOYEQ8INUmtTJnrE4mJuhGWDL3A39FfwsySJuOdaLnEmVgonjub
-	MjUgWSpEHUB4CredyKcY+RjbtnL16URY=
-X-Gm-Gg: AR+sD11qe3xGssryfICBCj2Jb5/Xvo9sVdkBISQfWE3SKn2orC5aEeSVGdj25rP1o4m
-	Ou9caB76xuqjllhFDguWUQ/+lrPaWyGg/LjD+kgcxkAvJOtqmVaK5ZTdYMEQZLkc00f8eg3xefR
-	k6iGm9iqHYhE3kVFfg9iMCtNlVRFnJ2NUH1JvkiAgcmpJeXJf5Dg6HGDSHugKsnErxjGAOZz+Ll
-	CEKDF+KhO5QEoS/aMXvV7EZXYxx+3Nw0e95ZjiXQij3RTirTc2W5vN+89Fb022l8VcdMjCIfZCY
-	cv3KBt+mwpxIBo0Je7jYDQFf5U3x3kA3uysQTuaaPk8KaLeAwSy6qFH7xD/Oeh5qPdDR9AHQ8Kn
-	c
-X-Received: by 2002:a05:6000:470b:b0:481:5657:5299 with SMTP id
- ffacd0b85a97d-481565752a7mr6852007f8f.0.1786552292251; Wed, 12 Aug 2026
- 09:31:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jwSvUCMl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786555659; x=1818091659;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WJPLHXt8itB/Cw880Ar8NhbyTTeEUpwQxfJvdcAm5iw=;
+  b=jwSvUCMlc5rI50YMMFht4yNKyz9ajttHHpXEoFQOMPE4k48kCMtzqw90
+   VR7vDM1q37HJvMkkJiiaHds5/++lu2VhNe95kF8vpjjFLWKc+ZFDDBVN7
+   hyhqACzDxM9XnD5qozg5VUHOcmSc0tjmka12CWrmKWlXkKN5VXo2DYxO+
+   xm5+M/chtEhX+jkovg4pWRyPVgUMct49Wa+jf2qF9W+08FA80/KL3Ypw4
+   AUK5achkseH0292SvcjE+YfOa9x/+OlWKVM24nzNLp6bPxaEteVyFvkLH
+   vU4rgLTMe/yuCzWPZaXbbz6XfDrxo4Cmka7iEB8/oI636XlRjaKUd4pQ8
+   A==;
+X-CSE-ConnectionGUID: ruaDc2OURxK5B2R1YDNySw==
+X-CSE-MsgGUID: EJ5pb0DUTROI4ndXYoRCkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="90996220"
+X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
+   d="scan'208";a="90996220"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 10:27:38 -0700
+X-CSE-ConnectionGUID: e4SWaOEVTd+gRiS5EYjQbg==
+X-CSE-MsgGUID: Auz9Ud84QUGgNeZ3b4NBoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
+   d="scan'208";a="261936541"
+Received: from soc-cp83kr3.clients.intel.com (HELO [10.122.185.5]) ([10.122.185.5])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 10:27:36 -0700
+Message-ID: <16296d40-67f3-4e50-923c-5b26fc122121@intel.com>
+Date: Wed, 12 Aug 2026 12:27:35 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806184254.3790858-1-nphamcs@gmail.com> <CACePvbX+3tO91BmRwaLqf3Xia32GCemt3W8tayErG81BYLgrzA@mail.gmail.com>
-In-Reply-To: <CACePvbX+3tO91BmRwaLqf3Xia32GCemt3W8tayErG81BYLgrzA@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 12 Aug 2026 09:31:20 -0700
-X-Gm-Features: AUfX_myNxWLKbey6UqnimGgaytWlmCtyk7j5TdlPuoAnbTv6EzNqg0hpri4e0do
-Message-ID: <CAKEwX=NNVshitZv+zp6ONVDku4JWcwGgZ2-hSirsKfa-fs6D9w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/11] Virtual Swap Space (Swap Table Edition)
-To: Chris Li <chrisl@kernel.org>
-Cc: akpm@linux-foundation.org, kasong@tencent.com, hannes@cmpxchg.org, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
-	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev, 
-	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org, 
-	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	qi.zheng@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
-	weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
-	haowenchao22@gmail.com, corbet@lwn.net, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Aug 7, 2026 at 2:07=E2=80=AFAM Chris Li <chrisl@kernel.org> wrote:
->
-> Hi Nhat,
->
-> First of all, thank you very much for addressing the feedback
-> regarding the swap metadata size concern and for stopping the
-> punishment of zram usage. I'm unsure how to proceed with your earlier
-> VS series (before swap table version V2), given the previous concerns.
->
-> I was a bit nervous when you reverted the swap table and replaced it
-> with something that performed worse in earlier series. I'm not
-> attached to the swap table. The performance regression for existing
-> use cases simply doesn't make sense to me. Thanks again that is no
-> longer the case.
-
-Eh, I'm open minded. I try lots of stuff - I tried the swap table
-direction twice actually.
-
->
-> On Thu, Aug 6, 2026 at 11:43=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> >
-> > Changelog:
-> > * v2 [v2] -> v3:
-> >     * Rebased onto current mm-unstable.
-> >     * Add a runtime vm.vswap_enabled sysctl and CONFIG_VSWAP_DEFAULT_ON
-> >       to gate vswap allocation.
-> >     * More cleanups and small bug fixes.
-> >     * Split THP swapin enablement into its own patch (patch 5).
-> >     * Add production workload benchmark results, and drop RFC tag.
-> > * v1 [v1] -> v2:
-> >     * Rebased to a newer mm-unstable tip.
-> >     * Fix a bunch of assorted issues (incorrect zswap store failure
-> >       rollback, vswap_init() failure handling, rmap-encoding collision,
-> >       etc.) and clean up the code (rename a bunch of functions to
-> >       more closely follow existing patterns, etc.).
-> >     * Some more code clean up and simplification: some renamings to mor=
-e
-> >       closely follow existing patterns, move vswap backing check to
-> >       __swap_cache_add_check, store zero state in the swap_table for
-> >       vswap entries, etc.. Many of these are proposed by Kairui Song
-> >       in [1].
-> >     * Defer memcg_table allocation on physical clusters until the first
-> >       vswap-backing slot installs. Saves ~512 bytes per physical cluste=
-r
-> >       that only serves vswap-backing slots (this is the new patch 8).
-> >     * Widen swap_info_struct->max and ->pages (and the swapoff unuse-pa=
-th
-> >       index) so vswap supports ~8 PB of swap space (this is the new
-> >       patch 9).
-> >     * Split the physical-swap-backend patch into three for reviewabilit=
-y:
-> >       the core backend (patch 3), zswap writeback to physical swap
-> >       (patch 4), and reclaim of cache-only physical slots (patch 5). No
-> >       functional change.
-> >     * Add kerneldoc for the vswap API.
-> >     * Add some benchmark numbers for zswap case.
-> >
-> >
-> > I. Context and Motivation
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >
-> > Currently, when an anon page is swapped out, a slot in a backing swap
-> > device is allocated and stored in the page table entries that refer to
-> > the original page. This slot is also used as the "key" to find the
-> > swapped out content, as well as the index to swap data structures, such
-> > as the swap cache, or the swap cgroup mapping. Tying a swap entry to it=
-s
-> > backing slot in this way is performant and efficient when swap is purel=
-y
-> > just disk space, and swapoff is rare.
-> >
-> > However, the advent of many swap optimizations has exposed major
-> > drawbacks of this design. The first problem is that we occupy a physica=
-l
-> > slot in the swap space, even for pages that are NEVER expected to hit
-> > the disk: pages compressed and stored in the zswap pool, zero-filled
-> > pages, or pages rejected by both of these optimizations when zswap
-> > writeback is disabled. This is arguably the central shortcoming of
-> > zswap:
-> > * Resource-wise, it is hugely wasteful in terms of disk usage. At Meta,
-> >   we size swapfile in the order of 25-50% of host RAM, depending on fla=
-sh
-> >   availaiblity. This is a lot of flash for a fleet of our size, and
-> >   with universal zswap enablement, most of this is wasted for zswap
-> >   entries.
-> >
-> > * In deployments when no disk space can be afforded for swap (such as
-> >   mobile and embedded devices), users cannot adopt zswap, and are force=
-d
-> >   to use zram. This is confusing for users, and creates extra burdens
-> >   for developers, having to develop and maintain similar features for
-> >   two separate swap backends (writeback, cgroup charging, THP support,
-> >   etc.). For instance, see the discussion in [2].
-> >
-> > * Tying zswap (and more generally, other in-memory swap backends) to
-> >   the current physical swapfile infrastructure makes zswap implicitly
-> >   statically sized. This does not make sense, as unlike disk swap, in
-> >   which we consume a limited resource (disk space or swapfile space) to
-> >   save another resource (memory), zswap consumes the same resource it i=
-s
-> >   saving (memory). The more we zswap, the more memory we have available=
-,
-> >   not less. We are not rationing a limited resource when we limit
-> >   the size of the zswap pool, but rather we are capping the resource
-> >   (memory) saving potential of zswap. Under memory pressure, using
-> >   more zswap is almost always better than the alternative (disk IOs, or
-> >   even worse, OOMs), and dynamically sizing the zswap pool on demand
-> >   allows the system to flexibly respond to these precarious scenarios.
-> >
-> > * Operationally, static provisioning the swapfile for zswap poses
-> >   significant challenges, because the sysadmin has to prescribe how
-> >   much swap is needed a priori, for each combination of
-> >   (memory size x disk space x workload usage). It is even more
-> >   complicated when we take into account the variance of memory
-> >   compression, which changes the reclaim dynamics (and as a result,
-> >   swap space size requirement). The problem is further exacerbated for
-> >   users who rely on swap utilization (and exhaustion) as an OOM signal.
-> >
-> >   All of these factors make it very difficult to configure the swapfile
-> >   for zswap: too small of a swapfile and we risk preventable OOMs and
-> >   limit the memory saving potentials of zswap; too big of a swapfile
-> >   and we waste disk space and memory due to swap metadata overhead.
-> >   This dilemma becomes more drastic in high memory systems, which can
-> >   have up to TBs worth of memory.
-> >
-> > Swap virtualization is the answer to these issues, with three propertie=
-s:
-> >
-> > 1. Decoupled backends. For zswap in particular, this means we eliminate
-> >    the unused storage space, and allows zswap to be used in systems tha=
-t
-> >    do not have enough storage capacity for physical swap (without havin=
-g
-> >    to resort to silly hacks). Zero-filled swap pages and swap-cache-onl=
-y
-> >    folios also benefit here.
-> >
-> > 2. Dynamic swap space. Since virtual swap is not tied to any physical
-> >    resource, we can make it infinite and dynamically grow it on demand.
-> >    This massively simplifies operational provisioning, and increases th=
-e
-> >    utilization of compressed swap backends (zswap). Dynamicity also
-> >    reduces overhead on unused swap capacity.
-> >
-> > 3. Efficient backend transfer. The virtualization scheme should not
-> >    introduce PTE/rmap walking overhead for backend transfer. This
-> >    is crucial for systems that want to support multiple swap backends
-> >    in a tiering fashion (for e.g zswap -> disk swap).
-> >
-> > For more historical contexts and references, please take a look at
-> > the cover letter of the older vswap submissions ([3] and [v2]).
-> >
-> > II. Design
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > When we compile kernel with CONFIG_VSWAP, a special vswap device is
->
-> Does the CONFIG_VSWAP only make sense for zswap right now? No other
-> swap usage can benifit from CONFIG_VSWAP.
-
-Good point, yeah.
-
-Maybe have CONFIG_VSWAP depends on CONFIG_ZSWAP, until another use
-case comes (I was thinking of discontig physical swapping, but this
-damn patch series is long.)
-
->
-> > allocated at boot time, and all swapped out pages try to allocate from
-> > this device first, falling back to a physical swap device on failure.
->
-> Does it create a new user visible behavior change where users don't
-> need to swapon and can start using VSWAP for zswap?
-> That is a user-visible behavior change and we need to be more cautious ab=
-out it.
-
-Userspace behavior change *is* the whole point here though. I want the
-users to not having to specify a static capacity :)
-
-Furthermore, the implication of not breaking existing users'
-deployment is that if users want this new feature, they have to change
-their existing config. It's just about where it makes the most sense
-(a compile time config? boot time config? runtime config? some
-combinations of these?)
-
-However, I absolutely agree with you about being cautious with the
-exact API. I'm still evaluating the best way to bring about this
-(perhaps a boot time parameters is better than this runtime knob, but
-let me prototype and test things).
-
->
-> I think a system should not use zswap or any type of swap if no device
-> is swapped on.
-
-Why not? If we don't specify the size, and just want on/off knob (say
-at boot time), seems like an overkill to use this interface. But maybe
-I'm missing something.
-
->
-> Have vm.vswap_enabled is no the answer to address the new API change
-> because existing distro that use fstab to control swap will need to
-> jump through hooks.
-> Previously, using fstab to control was at least consistent for all swap t=
-ypes.
->
-> > Routing can also be turned off at runtime with the vm.vswap_enabled
-> > sysctl, which defaults to 0 unless CONFIG_VSWAP_DEFAULT_ON=3Dy. It is
-> > allocation-only: new swapouts go straight to physical swap, while
-> > entries already backed by vswap keep being served and drain as they
-> > are faulted back in or freed.
-> >
-> > These swap entries can subsequently acquire backend on-demand, such as
->
-> What do "These" refer to? Are they entries already backed by vswap?
-
-Yep. Vswap entries
-
->
-> > a zswap entry, or a slot on a physical swap device.
-> >
-> > We repurpose much of the existing swap_table infrastructure and
-> > swapfile allocator for this new vswap device, with two notable
-> > differences:
-> > * Clusters are dynamically allocated on demand and managed through
-> >   an xarray. This in turn allows us to avoid static provisioning and
-> >   let swap space grow dynamically.
-> >
-> > * Each cluster of this new vswap device has a virtual_table that stores
-> >   the backend information of the entries in the cluster (see below).
-> >
-> > Diagrams:
-> >
-> >   Case 1: vswap entry (virtualized)
-> >
-> >   PTE                  swap_cluster_info_dynamic
-> >   vswap_entry          +---------------------------------+
-> >   (swp_entry_t) ------>| swap_cluster_info (ci)          |
-> >                        | +----------------------------+  |
-> >                        | | swap_table                 |  |
-> >                        | |   PFN / Shadow             |  |
-> >                        | | memcg_table                |  |
-> >                        | | count,flags,order          |  |
-> >                        | | lock, list                 |  |
-> >                        | +----------------------------+  |
-> >                        |                                 |
-> >                        | virtual_table                   |
-> >                        | +----------------------------+  |
-> >                        | | NONE                       |  |
-> >                        | | SWAPFILE(swp_entry_t)      |  |
-> >                        | | ZSWAP(struct zswap_entry*) |  |
-> >                        | +----------------------------+  |
-> >                        +---------------------------------+
-> >                               |
-> >                               | SWAPFILE resolves to
-> >                               v
-> >                        PHYSICAL CLUSTER (swap_cluster_info)
-> >                        +--------------------------+
-> >                        | swap_table per-slot:     |
-> >                        |   NULL   - free          |
-> >                        |   PFN    - cached folio  |
-> >                        |   Shadow - swapped out   |
-> >                        |   Pointer- vswap rmap    |
-> >                        |   Bad    - unusable      |
-> >                        |                          |
-> >                        | Vswap-backing slot:      |
-> >                        |   Pointer(C|swp_entry_t) |
-> >                        |     rmap back to vswap   |
-> >                        +--------------------------+
-> >
-> >   Case 2: direct-mapped physical entry (no vswap)
-> >
-> >   PTE                  PHYSICAL CLUSTER (swap_cluster_info)
-> >   phys_entry           +--------------------------+
-> >   (swp_entry_t) ------>| swap_table per-slot:     |
-> >                        |   NULL   - free          |
-> >                        |   PFN    - cached folio  |
-> >                        |   Shadow - swapped out   |
-> >                        |   Bad    - unusable      |
-> >                        +--------------------------+
-> >
-> > struct swap_cluster_info_dynamic {
-> >     struct swap_cluster_info ci;       /* swap_table, lock, etc. */
-> >     unsigned int index;                /* position in xarray */
-> >     struct rcu_head rcu;               /* kfree_rcu deferred free */
-> >     atomic_long_t *virtual_table;      /* backend info, 8 B/slot */
-> > };
->
-> No a big fan of this two personality data structure thing depending on
-> whether it is VS or not.
-> If ci is the common part, I prefer to keep it separate and leave it alone=
-.
-
-I don't get what you meant. It is separate, and alone, no?
-
-Originally Baoquan and I were thinking of shoving the virtual table
-into "struct swap_cluster_info". I tried prototyping that one out, but
-it looks uglier than I anticipated, so I dropped that approach.
-
->
-> Also the extension is too vswap specific, it does not apply to other
-> swap device types that might need their own private extension.
-> You can take the VFS layer as an example. There is a VFS layer generic
-> inode, which is common and shared by all file systems. And then you
-> have filesystem-specific inodes as extensions, e.g. ext4_inode. The
-> ext4_inode does not contain VFS inode. You don't see VFS having a code
-> path like: if it is ext4, get the inode this way, else if f2fs, get
-> the inode that way.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 14/21] KVM: arm64: Apply dynamic guest counter
+ reservations
+To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
+Cc: Alexandru Elisei <alexandru.elisei@arm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+ <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+ James Clark <james.clark@linaro.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20260612192909.1153907-1-coltonlewis@google.com>
+ <20260612192909.1153907-15-coltonlewis@google.com>
+Content-Language: en-US
+From: "Chen, Zide" <zide.chen@intel.com>
+In-Reply-To: <20260612192909.1153907-15-coltonlewis@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-Hmmm, I'm not an FS expert. But struct ext4_inode_info does contain a
-generic vfs inode field ("struct inode vfs_inode"), no? That is
-actually more analogous than I would think: we have a vswap-specific
-cluster struct (struct swap_cluster_info_dynamic) that wraps the
-generic, shared metadata struct (struct swap_cluster_info).
 
-I also never claim to re-implement vfs for swap. We take inspirations
-where appropriate, but we're just writing our own thing at this point
-:)
+On 6/12/2026 2:29 PM, Colton Lewis wrote:
+> Apply dynamic guest counter reservations by checking if the requested
+> guest mask collides with any events the host has scheduled and calling
+> pmu_perf_resched_update() with a hook that updates the mask of
+> available counters in between schedule out and schedule in.
+> 
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> ---
+>  arch/arm64/kvm/pmu-direct.c  | 69 +++++++++++++++++++++++++++++++++++-
+>  include/linux/perf/arm_pmu.h |  1 +
+>  2 files changed, 69 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
+> index 49f1feb5d280c..044f011c9c84b 100644
+> --- a/arch/arm64/kvm/pmu-direct.c
+> +++ b/arch/arm64/kvm/pmu-direct.c
+> @@ -87,6 +87,73 @@ u64 kvm_pmu_direct_pmcr_read(struct kvm_vcpu *vcpu)
+>  		ARMV8_PMU_PMCR_N);
+>  }
+>  
+> +/* Callback to update counter mask between perf scheduling */
+> +static void kvm_pmu_update_mask(struct pmu *pmu, void *data)
+> +{
+> +	struct arm_pmu *arm_pmu = to_arm_pmu(pmu);
+> +	unsigned long *new_mask = data;
+> +
+> +	bitmap_copy(arm_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
+> +}
+> +
+> +/**
+> + * kvm_pmu_set_guest_counters() - Handle dynamic counter reservations
+> + * @cpu_pmu: struct arm_pmu to potentially modify
+> + * @guest_mask: new guest mask for the pmu
+> + *
+> + * Check if guest counters will interfere with current host events and
+> + * call into perf_pmu_resched_update if a reschedule is required.
+> + */
+> +static void kvm_pmu_set_guest_counters(struct arm_pmu *cpu_pmu, u64 guest_mask)
+> +{
+> +	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
+> +	DECLARE_BITMAP(guest_bitmap, ARMPMU_MAX_HWEVENTS);
+> +	DECLARE_BITMAP(new_mask, ARMPMU_MAX_HWEVENTS);
+> +	bool need_resched = false;
+> +
+> +	bitmap_from_arr64(guest_bitmap, &guest_mask, ARMPMU_MAX_HWEVENTS);
+> +	bitmap_copy(new_mask, cpu_pmu->hw_cntr_impl, ARMPMU_MAX_HWEVENTS);
+> +
+> +	if (guest_mask) {
+> +		/* Subtract guest counters from available host mask */
+> +		bitmap_andnot(new_mask, new_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS);
+> +
+> +		/* Did we collide with an active host event? */
+> +		if (bitmap_intersects(cpuc->used_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS)) {
+> +			int idx;
+> +
+> +			need_resched = true;
+> +			cpuc->host_squeezed = true;
+> +
+> +			/* Look for pinned events that are about to be preempted */
+> +			for_each_set_bit(idx, guest_bitmap, ARMPMU_MAX_HWEVENTS) {
+> +				if (test_bit(idx, cpuc->used_mask) && cpuc->events[idx] &&
+> +				    cpuc->events[idx]->attr.pinned) {
+> +					pr_warn_once("perf: Pinned host event squeezed out by KVM guest PMU partition\n");
+> +					break;
+> +				}
+> +			}
+> +		}
+> +	} else {
+> +		/*
+> +		 * Restoring to hw_cntr_impl.
+> +		 * Only resched if we previously squeezed an event.
+> +		 */
+> +		if (cpuc->host_squeezed) {
+> +			need_resched = true;
+> +			cpuc->host_squeezed = false;
+> +		}
+> +	}
+> +
+> +	if (need_resched) {
+> +		/* Collision: run full perf reschedule */
+> +		perf_pmu_resched_update(&cpu_pmu->pmu, kvm_pmu_update_mask, new_mask);
+> +	} else {
+> +		/* Host was never using guest counters anyway */
+> +		bitmap_copy(cpu_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
+> +	}
+> +}
+> +
+>  /**
+>   * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
+>   * @pmu: Pointer to arm_pmu struct
+> @@ -209,6 +276,7 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
+>  
+>  	pmu = vcpu->kvm->arch.arm_pmu;
+>  	guest_counters = kvm_pmu_guest_counter_mask(pmu);
+> +	kvm_pmu_set_guest_counters(pmu, guest_counters);
+>  	kvm_pmu_apply_event_filter(vcpu);
+>  
+>  	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
+> @@ -317,7 +385,6 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
+>  	/* Stop guest counters and disable interrupts in hardware. */
+>  	write_sysreg(mask, pmcntenclr_el0);
+>  	write_sysreg(mask, pmintenclr_el1);
+> -
+>  	kvm_pmu_set_guest_counters(pmu, 0);
 
->
-> In the first swap abstraction LPC talk, where I co-hosted with Yosry,
-> I talked about the alternative approach: "VFS-like swap layers". That
-> is exactly what I have in mind. We are getting very close to
-> fulfilling that promise via swap ops and xswap extension interfaces.
+I must have missed something.
 
-I remember that talk. I don't remember how backend transfer would be
-implemented in that proposal.
+Here, vcpu->kvm->arch.arm_pmu->cntr_mask is restored to cntr_mask_impl.
+Is this same struct shared with the perf driver
+(to_arm_pmu(event->pmu)), and shared across other vCPUs as well?
 
->
-> I think implementing the generic interface first is simpler than
-> implementing the non-generic vswap interface, ripping it out to
-> replace it with a generic interface, and then putting back the generic
-> modified version of vswap.
-> If the two personality vswap xarray lookup gets in first, it will
-> ultimately take more work to achieve the desired VFS-like extendable
-> swap operations.
->
-> I am happy to spend some time working with you to discuss the generic
-> adopted version of vswap, if you are open to it. Or if you don't want
-> to waste time on it. I can have someone else or myself come up with
-> the generic adopted version of vswap for you to review, which I prefer
-> less.
+If so, if another pCPU still has a PMU-partition-enabled vcpu loaded
+with guest-owned counters (MDCR_EL2.HPMN is set), could a host event be
+scheduled onto one of those guest-owned counters, conflicting with the
+guest?
 
-I would love to hear more about it, but so far I haven't quite
-understood how it's going to achieve all of the requirements vswap is
-trying to solve.
+>  	preempt_enable();
+>  }
 
->
-> Another piece of feedback is to please come up with a plan to submit
-> your vswap changes piecemeal rather than as one long series. There is
-> a lot of change like swap charging, that deserves a separate
-> discussion before it gets merged. Look, the swap table changes took
-> four phases. Each phase achieved a smaller milestone, with four of
-> them ultimately reaching the finish line. I wish vswap had a similar
-> piecemeal plan.
 
-Lemme think about this a bit more. But in the meantime, could you at
-least take a look at the general directions? For your use case (zswap
-as the terminal swap level), I think the first two patches are the
-most relevant, but the rest is crucial too for a generic use case.
