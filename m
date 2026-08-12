@@ -1,115 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B0F2FFF8B;
-	Wed, 12 Aug 2026 03:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A2D345ECD;
+	Wed, 12 Aug 2026 03:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786504063; cv=none; b=skRw4cBdSjI41lN9bmAvLVTM8Raz8yOfckYlb0L4DZp9RlyKeDV3vQKxD01paOl7YsbsI7taUR7UXICxjQ9VNgINxPm2xh1F96OAN/9AKAXKy21FbD8MvA9zAPBaPc85l1xGpBW5uFja1rmVmP/POvEBenLwO2jXken6AXgHHFU=
+	t=1786504153; cv=none; b=i76RIIRJJZQiOnWKA+tx341B6ww7Ydksr/rBIOD6VGWl9D3FM4xTFZ+/gIkLV0ofE0htk3GOCIU8iANC9QDv8VZtGD8mAwwSzS7crrUNc3wEbKh/EUAfUVzlYcFkKX5uKb1Edl8CnxAevsC225R7tHxWXPyVJWtGATifLoxaa9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786504063; c=relaxed/simple;
-	bh=XpB+TXMpKQKjG+vXtskddblr3q1MOV03pLLvnPYtorw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ECf4Z0QkR8lgRhtK+2IRZnYEPlnHJd/6lXfhQLVO2huirBY9ycgFnYNWH9yUaYRlnAixhnxC6m6qfQBfZvi/NB7J3Re2wDwJTfjJjbA5U/ahPHF2R+Nvq0o7LPTN9PeIHVjCPPbf31cHr7JKdyH820j8+53rZCRpnHirJuJ9/mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YpztcKOV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786504153; c=relaxed/simple;
+	bh=36CUSExhNmUNV45CdFvF7jAP2tEN5nFaZut6iMJQSiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XH9JvDmrruffr7ZeyRHTA8rOjS8YeWSVSyRm2ArO2ohcSG/vniQtBm80PLzfk4G/Ogrf8k/WGhfl/MCO8gs+FsxM6NlvcM0o+NKcNazsrRy6HWSK4m1eE/jdRjl08xfzzkRpS4jUL4cKBLMXrIqi82P+ttWor0GpAbGnIS1I4rI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UI0oQMOq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YpztcKOV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81AD91F000E9;
-	Wed, 12 Aug 2026 03:07:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UI0oQMOq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392BB1F000E9;
+	Wed, 12 Aug 2026 03:09:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786504062;
-	bh=pJkuoHatQ+SArs9G28f8aRqkTwBhTBoxrzbmBbZkkvQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YpztcKOVjRom60I76BQWeohbn/0zBZyukjnb3kaH6nCXUminVx9EEEcvQrZ8uRCpb
-	 Ba7pff9vTGbo34dPmNrGj1L+ub/VeQHFxyXu9p502xxysPfBVmiSKpvBSghKlI729w
-	 RW++PavfS4RszBXHLNieQNTbuX+YtjQdxgthY/ljsPbPKvTiKnB3cLWcSsiq9vXz8y
-	 c1WNvndAFNkIVtbB9HfDYo2NQbDDWFgdDCGb0dgFYLbXzI6gAt4kifeBqYCjh99PPb
-	 CYr2a5W4vol6kVaur3Brp4lRIm0Sasrd8goPdeX6KyXfd2PwTqla2SyopB3YNsZJrx
-	 lSWyRIcQ7Hseg==
-From: SJ Park <sj@kernel.org>
-To: Liew Rui Yan <aethernet65535@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	damon@lists.linux.dev,
-	david@kernel.org,
-	liam@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	rppt@kernel.org,
-	skhan@linuxfoundation.org,
-	surenb@google.com,
-	vbabka@kernel.org
-Subject: Re: [PATCH 0/3] docs/mm/damon/design: add explanation of nr_snapshots
-Date: Tue, 11 Aug 2026 20:07:32 -0700
-Message-ID: <20260812030733.8996-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260811170252.32705-1-aethernet65535@gmail.com>
-References: 
+	s=k20260515; t=1786504151;
+	bh=Wq84iKL6ygCiqJNdxYyZKwxW2cAVvh8TSQKqYwcZIsA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UI0oQMOq8J4lT7ZxYWnt7iJe8XtrPaGn69ki5MObrDpjOySp1gDePDUSqdTgCKfF8
+	 LB4gqrSoEu/QbEIV9iCIZwfkXqPDB4cMjjvxzMNezNAlhX8ZYAgxQkLLuR+p8vokrr
+	 jGl/J2xJV0+RpNKeBgYzqacUtmvoogvvRptTZNo4LzmWHXK1bFLraCLRbmRhZzGdRj
+	 IIk08qPZ+jbYf+Eg6eI79EF6HRDhNiFg0H3VGuehuSBTkPhgFc7BVFs2M5BIerb+EQ
+	 EXlBAwVGAIQy3yq2IpEcNvJMukBZHAGVJPnO0ujbTBkAlw0ZhATobsNDy+obRjMwXU
+	 3JYbK9XJEr3qA==
+Date: Tue, 11 Aug 2026 22:09:10 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Suraj Gupta <suraj.gupta2@amd.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Brian Masney <bmasney@redhat.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Michal Simek <michal.simek@amd.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	driver-core@lists.linux.dev,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"David S . Miller" <davem@davemloft.net>
+Subject: Re: [PATCH net-next v2 3/7] dt-bindings: net: xlnx,xxv-ethernet: Add
+ Xilinx XXV 10G/25G Ethernet
+Message-ID: <178650415010.657438.15353116551924864643.robh@kernel.org>
+References: <20260723123838.125145-1-suraj.gupta2@amd.com>
+ <20260806181153.1213996-1-suraj.gupta2@amd.com>
+ <20260806181153.1213996-4-suraj.gupta2@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-On Wed, 12 Aug 2026 01:02:52 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
-
-> Hi SJ,
-> 
-> 
-> On Tue, 11 Aug 2026 06:56:53 -0700 SJ Park <sj@kernel.org> wrote:
-> 
-> > Hi Liew,
-> > 
-> > 
-> > 'hkml patch check' [1] says you forgot Cc-ing below people who are recommended
-> > by get_maintainer.pl.  Please Cc all recipients who
-> > get_maitnainer.pl is recommending, from the next time.  'hkml patch format' [2]
-> > could also help you doing so.
-> > 
-> 
-> Thank you for reminding me! I will CC all email addresses output by
-> get_maitnainer.pl from the next time.
-> 
-> > [...]
-> >
-> > On Tue, 11 Aug 2026 18:18:38 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
-> > 
-> > > Add an explanation of nr_snapshots to avoid misunderstandings.
-> > 
-> > Thank you for this patch series, Liew.
-> > 
-> > > 
-> > > Liew Rui Yan (3):
-> > >   docs/mm/damon/design: accurate semantics of nr_snapshots
-> > >   docs/mm/damon/design: difference between watermarks and nr_snapshots
-> > >   docs/mm/damon/design: fix typo of max_nr_snapshots
-> > 
-> > I requested changes to patches 1 and 2 via replies.
-> 
-> I will make changes in the next revision:
-> 
-> patch-1: "tried to be __completely applied__" -> "__completely tried__
-> to be applied".
-> 
-> patch-2: use two spaces between sentences.
-
-Sounds good!
-
-> 
-> > 
-> > [1] https://github.com/sjp38/hackermail/blob/master/USAGE.md#checking-patches
-> > [2] https://github.com/sjp38/hackermail/blob/master/USAGE.md#formatting-patches
-> 
-> 
-> Best regards,
-> Rui Yan
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806181153.1213996-4-suraj.gupta2@amd.com>
 
 
-Thanks,
-SJ
+On Thu, 06 Aug 2026 23:41:49 +0530, Suraj Gupta wrote:
+> The XXV Ethernet IP integrates a 10G/25G Ethernet MAC with an in-core
+> PCS/PMA driving a high-speed serial transceiver. Its payload is moved by
+> an external AXI DMA (or multichannel DMA) controller referenced through
+> the dmas/dma-names properties. Document the IP in a dedicated schema
+> file.
+> 
+> Add the "xlnx,xxv-ethernet-1.0" compatible with the 10gbase-r and
+> 25gbase-r phy-modes, the rx_core/drp/s_axi clocks and the AXI DMA
+> channel properties.
+> 
+> Signed-off-by: Suraj Gupta <suraj.gupta2@amd.com>
+> ---
+>  .../bindings/net/xlnx,xxv-ethernet.yaml       | 107 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 108 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/xlnx,xxv-ethernet.yaml
+> 
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
