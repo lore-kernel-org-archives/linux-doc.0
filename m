@@ -1,66 +1,66 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598B445A28C
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 14:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720F33655ED
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 14:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786543986; cv=none; b=qZ2F7aqN9Op1g6zvpPtA+IOs04z73scQdSOsqk+CImv6AH1Fe5cYxw86KJwlJoskMPs4yuitpPrf4QrbhthlNiuTKzRYq7Afu6siDhjW6yoghjlwhfA7qt2zacAvFzvMt4Kj7/zPxLmqd+jFyp0NRUHmSEtMLiKJoHKA1B2tzV8=
+	t=1786544128; cv=none; b=ond8Uo8CtJA5LysR9iocVnz9J+EAGgVpUmrHo1cZW1QeU8ovhKClaeLd5AT9+JBSM+1OjRmWiwACJsHIUkGTChKzAOgF+fTOo+HzO+u7A6HfVKDOVOsSR5ipfrN8dcbEJMua+V2EARNpMccmCDNTYTi8ZBGkVh8fTczcfwsGPdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786543986; c=relaxed/simple;
-	bh=t93zc7wRAwk7gcxTblnzRhaj58qkxLCyz5VKMOdtESA=;
+	s=arc-20240116; t=1786544128; c=relaxed/simple;
+	bh=60YKVSV/wRwrfG2iI7sMmT2CPegYFp4aQIsg/p7KJIk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k+xMO9iBlwCncNPpzM3Htw1IrE885KQtlwHZ1CXFnq1/t2Ov6E0tbrzOw1EnQba/WWUzCcz7U3AT/3FlDaQ9GVL1Tjn0YfuROy2wkGWYb0Qsku+U32rNRuce3eSSA32OpuA+0UbmhqKleUIzXMD0R7MyGCrz76wUmRRqITG7jGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p8qY35qU; arc=none smtp.client-ip=209.85.128.42
+	 In-Reply-To:Content-Type; b=N1T38TMx10QNrSrUE37LqeQcuG05NGH9s/MvRneRzZkxEFNSpBB40rTQeKIcNtw7WLJnlHfXmXiQmOw89A26/dfR/aWW8/4GzDFL0cynUaXaF3FGGI28i4pRVno1xHdiwsLf5wE2+yROZy8moprAsR8FQDOregzS8Q+QvDyKoL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yyVRs8Bl; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p8qY35qU"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49954b88fffso11207095e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 07:13:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yyVRs8Bl"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47362928f65so791618f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 07:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1786543982; x=1787148782; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1786544126; x=1787148926; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ns5dOofzDARA0sfK6n3RJfzysxVv/8KNU5zRqXQ1YpM=;
-        b=p8qY35qUkXG235pM+QLza1cEWqol0PAh+P1QUkcd4+nB1ESzLyGNAS6ggS8xMsFyej
-         NiOZCsOelieUAx8w+DdweWhUvgfnKj9j5L0c14WQ/1mGhJ36hkln54YOYq+lVLDZMSxI
-         8EBfmTsu4wJ8LQRyZXwq70X2fvcG358wGK4AHewh1VA+meSKjQDck1b11JRSagOAcUdV
-         Zk92Ohni0D58qriBGDKJftcvqA11ZMz4gmQmJ/KYGvFzYbpx9JdHMYr+1u+yL4XtJV9Y
-         mBFMaYuH/LGThrmbDHbqkzphFcthxScE2qfjZdQptdXMAJudgxj4nQV/uNNdI78N+OjC
-         LfSg==
+        bh=HpEHIdjrgsJVHjWro/18EmwhZ9NM+fW368nfv0gWPro=;
+        b=yyVRs8BlgWVZwL/Rcblk2Ri3klvBYUg/tJH3dZsIzkBT2vKqdSV3NZfdpKo8Xp5N0M
+         a4KPqZtKvuM1wbQ31wo/xAHFvolprGdqSf4XuczV0JLGU6FA15VbvT8Qug/x2qCcBbJO
+         GHhAeSlxIHU5KqnsNjVD/gIWnvn88v07mt+ZxriBOl1ZuPMJBoLQN77zbVYldh0o0UTY
+         nFThUeM6hZJOqAJ4bGpxSHvvV9h03eaW+CLm9Dk9ljgzjd5Q2FrHVxMSD6RNNnCcQYRw
+         LybL7gS4wm4w8OiI5w+10Ew+bUNj+kK3IjFfzEaNiLeCBCf7rjuNYB3U6tCgDviOi16q
+         Tgng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786543982; x=1787148782;
+        d=1e100.net; s=20251104; t=1786544126; x=1787148926;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ns5dOofzDARA0sfK6n3RJfzysxVv/8KNU5zRqXQ1YpM=;
-        b=e8qpn1MbOEdZOCj+RgDJ+DBj95DqYn3vVqGQy/ks6sU+uF0jBPnY1fXB+sFeRZdAMV
-         p+JXEtj7TQmsGW9aa62ghah3pmjJhSSgt7tIWs29AjWIjjEBfhM6n/slAI723m2Dr4RK
-         zeOxnsvIhgDpiBqbaQHUiBSFO9vH2MbYdQcsLrlRqSECWzxSl86GHmq3aGwDRANH7pvN
-         mtzN+vqAOFwT0qUeyF65izqmbA61GMmoOZ8nszQWP4/l5Hxsx7ctMb8bYw+XP2OyLpqN
-         qCko5m+TEWfk7lkwnLJ0rUlyipHMsPHRMw6vUteAjiqvydxHBDfifj9/39D7933K+gz0
-         P32Q==
-X-Gm-Message-State: AOJu0Yw85Hyom8DbG3B0YAvV43LvDi3JPo8cKxdhg8BO1w7lsmRWpKGF
-	cUrjBNhRoIAL55nKyFYevX7VDCSxqF1qpQ+wEOXuipT5j5gufQTcJCW+G1UMWgpBhRc=
-X-Gm-Gg: AR+sD12D2jIW/q4ikwV2w/AcBpCUeTKEz43eriqgExO6dFkXQNvhgjqtaMo3p8chv9m
-	l1do67UFgektKbEKBDEt7SCe6TdA0fYaj04TEu2nHZIjoffillnBHLTlyNaj6SE2dPKGo/YV/q8
-	Y05Pgcg71fIm7IpPsQ3YohZ8m/hQYGUqcycWvJUBnDbJNLENHrxyxbDURPZUx2UZUFRL2UK6DGz
-	ZQgDm740FlBWVYbVaPB6jrQiFOzcON5zScY3Jija4rRKk+tWmyWw+cWA0xYgI7x69Na8q4npjGq
-	Ilq3JQu2jTW3ImfqL1fD+7gyr1lv3n9Y9v9J9ZsA5CMDJivTk2itYRfB9sxC5xZffpOfh5HasOo
-	avV2sIwKIQN+IpvA6zVomSuMMUAnVwiLLt8LFSNjwHq74BLqADAEbCxFaQFiXC+G+cFId4qbGzQ
-	kYq2H+OM7PBLv7MZM1uAFSVoG4mALxnweqPEVQp5LeYi4ZLCAA2H7oFCCnJNsXOInWhA==
-X-Received: by 2002:a05:600c:1394:b0:495:7888:281c with SMTP id 5b1f17b1804b1-4997bf6d93dmr63995455e9.0.1786543982524;
-        Wed, 12 Aug 2026 07:13:02 -0700 (PDT)
+        bh=HpEHIdjrgsJVHjWro/18EmwhZ9NM+fW368nfv0gWPro=;
+        b=Sb6ZDxpP7ghKDfZYPUCcVB6BBe4VFYw9KW8ldgQgO1LN5BEykr3evHcz2tFx4iNNfY
+         Q9B7JTLluciuN3ddf8TFlIoytvx9xShAuA/GEQJt9xXowJipft94bWQJJU+hqOAjbGAq
+         WsgQBNbh0XP96IyGBWl01a9o69scSQj12vSudYAxqzViDPXP2DWTCdFk0/qQmcS+1vS1
+         bSBUorHBJtNOfBj8l/s7cNzFmkiN6l24E36Z5IoIm35Gicw8YKjHTXXCM4yHapuwfcBj
+         NtuPOUSvywuPeJFcjQvw20YPtZbB+VwAznMz6opSp4Em3GxrdR1fQTCEQ1T+v6V8S+/X
+         6u7w==
+X-Gm-Message-State: AOJu0Yz9a2fRbcl3H98FBTq+n88q2aTdoAf5pyC3nhB230Yn1PSEPmsd
+	SyFW9oRTaIUCeHW3yknc5l4k8Az9sbPO/PL3mT+U4TCAHQV0FfEUGUuQW3tDUEj/Rfg=
+X-Gm-Gg: AR+sD12RESB+9lIfCgTo9eGoNFNGFIo8vUm8IYPQICEQH9LyZ4D3zdvrR/pc5NhbYfv
+	o/8pFIw6tVkW5mVYfoYeooqf8CEH/ACpca+kme7aZkq+anIQm9FRe2ew8TDiXMQuz8g70DXY+0S
+	F1aQ3n78IsaoipT0KFECK73OOVJHOqhfb7Hl0V4+z8KzMN3mzp6xP4rY8gUIUHnkzldRnhNARFI
+	m4Bp0B9qgimK9tbB2FPdkm5ongyrRg5CdrNnXYzvapeFQBQ/b0ZNLeBSKCmFlaZbB/CI5/itfFn
+	Gt5OZAqL5DDdaOXQYLilBpIGjkdPBtja7NCZBlw1My4/aX9AgpOove80gXF7eKrAPUJzGr14Ykj
+	zbsbkpDN/KMET1PcQBNC7z5flwsNtyQ9jG5PP6UoKTOcNloc1cWDppUref8R6cgDo4RF7FnJKtr
+	HJpCHxBnwt6mQ4I48ZUx/G1b8QuuNg19v00I+0HDkN8CQQ2sncRzx0b8UI3IbBJKiRDQ==
+X-Received: by 2002:a05:6000:606:b0:47d:ee9d:90c8 with SMTP id ffacd0b85a97d-481528ad9cbmr8183311f8f.3.1786544125695;
+        Wed, 12 Aug 2026 07:15:25 -0700 (PDT)
 Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997b33e038sm43548665e9.4.2026.08.12.07.13.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48150d72232sm7848055f8f.37.2026.08.12.07.15.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2026 07:13:02 -0700 (PDT)
-Message-ID: <e7418175-3421-4cd1-be80-993ff076c9b3@linaro.org>
-Date: Wed, 12 Aug 2026 15:13:00 +0100
+        Wed, 12 Aug 2026 07:15:25 -0700 (PDT)
+Message-ID: <80a801e9-5c95-46f6-8ee0-f07a17cfd287@linaro.org>
+Date: Wed, 12 Aug 2026 15:15:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -113,202 +113,18 @@ On 03/08/2026 10:06, Amir Ayupov wrote:
 >   1 file changed, 175 insertions(+)
 >   create mode 100755 tools/perf/tests/shell/coresight/add_last_branch.sh
 > 
-> diff --git a/tools/perf/tests/shell/coresight/add_last_branch.sh b/tools/perf/tests/shell/coresight/add_last_branch.sh
-> new file mode 100755
-> index 0000000000000..4654069ad651f
-> --- /dev/null
-> +++ b/tools/perf/tests/shell/coresight/add_last_branch.sh
-> @@ -0,0 +1,175 @@
-> +#!/bin/bash -e
-> +# SPDX-License-Identifier: GPL-2.0
-> +# CoreSight branch history on existing samples (exclusive)
-> +
-> +perf list pmu | grep -q 'cs_etm//' || exit 2
-> +
-> +if [ "$(id -u)" != 0 ]; then
-> +	echo "[Skip] No root permission"
-> +	exit 2
-> +fi
 
-Is this so you can use -C 0? It's not completely obvious what that has 
-to do with the test. Can you not drop the -C option or use --per-thread 
-mode with a simpler non-forking workload?
+[...]
 
-I don't mind keeping it for some variety in the tests, but it should be 
-documented.
-
-> +
-> +tmpdir=$(mktemp -d /tmp/perf-cs-add-last-branch.XXXXX)
-> +
-> +cleanup()
-> +{
-> +	rm -rf "$tmpdir"
-> +	trap - EXIT TERM INT
-> +}
-> +
-> +# shellcheck disable=SC2317 # Called through trap.
-> +trap_cleanup()
-> +{
-> +	cleanup
-> +	exit 1
-> +}
-> +trap trap_cleanup EXIT TERM INT
-> +
-> +record_data()
-> +{
-> +	if perf record -T -o "$tmpdir/data" -C 0 \
-> +		-e cs_etm/aux-action=start-paused,timestamp/u \
-
-Timestamp needs a value on newer kernels or Perf returns an error. But 
-do you need to provide the option at all? It's on by default for per-CPU 
-mode.
-
-> +		-e cycles/aux-action=resume,period=550019/u \
-> +		-e cycles/aux-action=pause,period=100003,call-graph=fp/u -- \
-> +		taskset --cpu-list 0 perf test -w context_switch_loop 100000 \
-
-The other Coresight tests use --workload-ctl to record less data and 
-save some decode time. I think this test might benefit from it too.
-
-> +		>/dev/null 2>"$tmpdir/stderr"; then
-> +		return 0
-> +	fi
-> +
-> +	echo "Failed to record ETM trace with AUX pause/resume" >&2
-> +	cat "$tmpdir/stderr" >&2
-> +	return 1
-> +}
-> +
-> +decode()
-> +{
-> +	local size=$1
-> +	local output=$2
-> +
-> +	if perf script -i "$tmpdir/data" --itrace="L$size" \
-> +		-F comm,pid,tid,event,ip,brstack >"$output" \
-> +		2>"$tmpdir/stderr"; then
-> +		return 0
-> +	fi
-> +
-> +	if grep -q "itrace=L requires virtual timestamped trace" \
-> +		"$tmpdir/stderr"; then
-> +		echo "[Skip] Virtual CoreSight timestamps are not available"
-> +		cleanup
-> +		exit 2
-> +	fi
-> +
-> +	cat "$tmpdir/stderr" >&2
-> +	return 1
-> +}
-> +
-> +check_process_samples()
-> +{
-> +	local output=$1
-> +	local comm
-> +
-> +	for comm in proc1 proc2; do
-> +		awk -v comm="$comm" '
-> +			$1 == comm && /cycles\/aux-action=pause/ {
-> +				in_sample = 1
-> +				next
-> +			}
-> +			!NF {
-> +				in_sample = 0
-> +				next
-> +			}
-> +			in_sample && /0x[[:xdigit:]]+\/0x[[:xdigit:]]+\// {
-> +				found = 1
-> +			}
-> +			END { exit !found }
-> +		' "$output" || {
-> +			echo "No pause-event branch stack found for $comm" >&2
-> +			return 1
-> +		}
-> +	done
-> +}
-> +
-> +check_callchains()
-> +{
-> +	local output="$tmpdir/script-callchain"
-> +
-> +	perf script -i "$tmpdir/data" -F comm,event,ip >"$output" 2>/dev/null
-> +
-> +	awk '
-> +		/cycles\/aux-action=pause/ {
-> +			in_sample = 1
-> +			frames = 0
-> +			next
-> +		}
-> +		!NF {
-> +			if (in_sample && frames >= 2)
-> +				found = 1
-> +			in_sample = 0
-> +			next
-> +		}
-> +		in_sample && /^[[:space:]]+[[:xdigit:]]+([[:space:]]|$)/ {
-> +			frames++
-> +		}
-> +		END {
-> +			if (in_sample && frames >= 2)
-> +				found = 1
-> +			exit !found
-> +		}
-> +	' "$output" || {
-> +		echo "No multi-frame pause-event callchain found" >&2
-> +		return 1
-> +	}
-
-Can you add some example output in the test saying what these awks are 
-looking for. It failed for me but I wasn't sure why. I've attached my 
-script-callchain file if that helps.
-
-
-> +}
-> +
-> +check_branch_stacks()
-> +{
-> +	local output=$1
-> +	local max_entries=$2
-> +
-> +	local ret
-> +
-> +	if awk -v max="$max_entries" '
-> +		/0x[[:xdigit:]]+\/0x[[:xdigit:]]+\// {
-> +			entries = 0
-> +			for (i = 1; i <= NF; i++)
-> +				if ($i ~ /^0x[[:xdigit:]]+\/0x[[:xdigit:]]+\//)
-> +					entries++
-> +			if (entries)
-> +				found = 1
-> +			if (entries > max) {
-> +				status = 2
-> +				exit
-> +			}
-> +		}
-> +		END {
-> +			if (status)
-> +				exit status
-> +			if (!found)
-> +				exit 1
-> +		}
-> +	' "$output"; then
-> +		return 0
-> +	else
-> +		ret=$?
-> +	fi
-> +
-> +	case $ret in
-> +	1) echo "No ETM branch stacks found" >&2 ;;
-> +	2) echo "Branch stack exceeds requested L$max_entries depth" >&2 ;;
-> +	esac
-> +	return 1
-> +}
 > +
 > +record_data
 > +check_callchains
 > +
 > +decode 4 "$tmpdir/script-l4"
 > +check_process_samples "$tmpdir/script-l4"
+
+Minor nit, but these should be capital L. l is a different option.
+
 > +check_branch_stacks "$tmpdir/script-l4" 4
 > +
 > +decode 64 "$tmpdir/script-l64"
