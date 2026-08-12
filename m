@@ -1,268 +1,308 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011062.outbound.protection.outlook.com [52.101.62.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3570337883C
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 19:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786563989; cv=none; b=BUjYgO1FeeGjwJOSpUogpBvW9LQUmjq89e1FmYBBRg+0H3UatRmYhHaMGzHoRhJgn63vBi/7UnN9Xd4hropximk/jg6OhW55Y1D8UiIGnLRx9d6NuFHyXkUc1PTEDWrmeg73aRhdGLC+he+EBWMJ/USeiNzaE7CBnqrEe6Bri1U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786563989; c=relaxed/simple;
-	bh=YVpLfl8usuaq3cbL1FayKckeCMbzA+TBG36k8GLBuXs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NDFPwE53o5KLLaKWkxcLcVpwGpr7E8gjKURbQK43Q2/p/Muil/v/EVlyrIBS/zFvhwrpqVrLUk6EULZ72mSwvqPh5sTnJhjwcNlM39n6CxBlVoZ8Rcqwuybrvi4Bqm8KgoGGY9AlFzfPb/lPS9LhWiXkvJnysYg3PKEKjf0gO00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cViKHPUt; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4D038DC4F;
+	Wed, 12 Aug 2026 19:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786564751; cv=fail; b=IXrFrsTO/OoekYZAZTHC6BtZQdDkfCNx99nKCYpC0FjB5HEHA0rQODNZmufZ7o8OTpt1zxhfRbXVd8C8iLNV4gIPD6kmcg+ggIgTSnkBPzPT/QpFQ8LkWYtdCPfXXxWEZEqOTKwzU0U6CM1yLW5zXXlEYAItnxGTWWsLd4wnkOE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786564751; c=relaxed/simple;
+	bh=JcFwUSJzrh3wYoiYtqNzEP20fKPeC/jlufb8nFyeLDU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=WlzJGNQ2TvPjLbaZX6wUGtC5+b2yoDsTgehQ8R4QQSNppbS7hBvGLyXHmndHMV/Q2SxHsmWLeDyWE3AH32y75BIBh0+qf6KndP7OLB8na8ZMDHAMKgXs9yW0GKgsvEUuT0ph/8GtIbhbnux9X5E5EO70vLsxSfXJ5wvb9X1OgAE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GC8llU59; arc=fail smtp.client-ip=52.101.62.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cViKHPUt"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4953de5be0aso9618735e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 12:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786563985; x=1787168785; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=t5PKN0PuFVSn1FX4G/ZJetvpgZ6kYCSRAO6y3JMI5iE=;
-        b=cViKHPUt5diuJOEQNpLnj7eIYvIAsm/XDJr4MtXk3sRSi1gpr/pTA8KJkSePZ/Nrh7
-         tTqCyPXmJa28MRPIoPcYY5SB3iFlJtZkxnBoLfS1Mj3lPy10NuhRIWrJAuFWfv6VTGpk
-         jeqC/bztX/wZku4mkd8p1+//WNcoI4kBOGA9n5FLU7/KGYR0JgPPr+rWK7haqp+l1Hem
-         t6HnpkxM118KyR8CuN9dLlUGFHrN6DIjEzfaMZmoQ423jKvtpvgnCmL11U/22OTxncr9
-         VUj4u2J/rWhMAiGQvbDyFseqjlySCvS67iYPlrBs8STY9EIoJV5aMgPM//CJvmcaOWqS
-         0DzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786563985; x=1787168785;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t5PKN0PuFVSn1FX4G/ZJetvpgZ6kYCSRAO6y3JMI5iE=;
-        b=qycoxJXkibdrT+CqcgFtut1GaZXs58RswKx7+mGDS2OXghXcgTh6jwli8aFdj3TWqt
-         NC2bO6p4JHlHq//L7Husen4v/WCr3JkaYPQU00zQ11NLrMaMJpTR6+zCBtkEGSYE7zwc
-         qnvebhit45ikmLBJZ/DaKSzMRIw7VtlIY5czNd9J8FY/VqweHJMyznwl3t4f7KX27ACP
-         DvpmNKE1RgJlPPxT/uemcWSVkp4hlBzLSG9/bhaBLg9N0LBiD2aVWE2iw7RVLW3use2D
-         M3ZKCzZ7q0sEZVGW9CmSSbVaoW21ynVmH/HFXTjpcl2iiYqucVGDhsrA1LSaPzOLSLq7
-         T1yg==
-X-Forwarded-Encrypted: i=1; AHgh+RqOoA7RJo6swZLI2pzPU/h4QRHEKd6Uh69y5HX7jN1GXr0KKTlR/g1tKJ7JQqQH628ndwyRwwx9Aas=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6XLcuibFyfHkbbPUcZkhCMPA0hQjRhtJ81QPwaBUp4OGu/Azl
-	aixamuFQ/flUOg4V1J6XFUoRcWIib7gJq3y1+cIxEDtRxvESU+7EO2W3
-X-Gm-Gg: AR+sD11+YltNpqCJSfTMXrqye4cpmDkAA5X40XcPjs/X95WlPxK0N+xM7RltI4Q6TcN
-	VQqnYjwwXnzhFfAcesOIDekjTeyGXKhtai/XaW22kqe0JhcrQrPyKjZUYBgKSll2YmlnpDPJ6X7
-	OzKS3F/r6quqsMRikprXspI5CrD8SgGic8u449PEHK0Hp7mpX6EZwP0q9WhRXHa453SdidrepA+
-	eXcMPSPOmsShLgg0ASnRCItFMUkLvLbg4UQIfDHN72zL6dhX80pU800uP6ALbrmLf1QQflJDZXh
-	Xn/C6GeE4h/vKVrKvWYgHfyjkimm1TAoHKz4agmEcA1ORczwhi5UAgG6ULmrl0WUIhwc0/2Vs6J
-	PE4WMbpShjRrfl3EwfaOnTIYgPUFhXJ+KRAq4WRPCePRx83DIjWH4MpAVc7zxzsdXBDfw9mlHpO
-	/LM96J8HV1w5JYy1tTPTzQh/vOr5wjLEVSO3jKrL7q/jeslgdy8nCfjtf5I6JrnsqM9zjN4avkW
-	r8h4xkh27IGutQY
-X-Received: by 2002:a05:600c:19c7:b0:499:5a50:b022 with SMTP id 5b1f17b1804b1-4998215a936mr2089045e9.3.1786563985255;
-        Wed, 12 Aug 2026 12:46:25 -0700 (PDT)
-Received: from ionutnechita-arz2022.local ([2a02:2f07:610c:8500:26e8:bb37:a2f5:aa03])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49981b1063esm14654465e9.6.2026.08.12.12.46.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 12:46:24 -0700 (PDT)
-From: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: arighi@nvidia.com,
-	chleroy@kernel.org,
-	christian.loehle@arm.com,
-	corbet@lwn.net,
-	dietmar.eggemann@arm.com,
-	frederic@kernel.org,
-	gregkh@linuxfoundation.org,
-	hdanton@sina.com,
-	huschle@linux.ibm.com,
-	iii@linux.ibm.com,
-	jgross@suse.com,
-	juri.lelli@redhat.com,
-	kernellwp@gmail.com,
-	kprateek.nayak@amd.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	maddy@linux.ibm.com,
-	maz@kernel.org,
-	meted@linux.ibm.com,
-	mingo@kernel.org,
-	pauld@redhat.com,
-	pbonzini@redhat.com,
-	peterz@infradead.org,
-	rafael@kernel.org,
-	rdunlap@infradead.org,
-	rostedt@goodmis.org,
-	seanjc@google.com,
-	srikar@linux.ibm.com,
-	tglx@kernel.org,
-	tj@kernel.org,
-	tommaso.cucinotta@gmail.com,
-	vincent.guittot@linaro.org,
-	vineeth@bitbyteword.org,
-	virtualization@lists.linux.dev,
-	vschneid@redhat.com,
-	ynorov@nvidia.com,
-	yury.norov@gmail.com
-Subject: [PATCH] Re: [PATCH v10 00/12] sched, steal_governor: Introduce preferred CPUs and steal-driven vCPU backoff
-Date: Wed, 12 Aug 2026 22:45:56 +0300
-Message-ID: <20260812194600.52516-1-sunlightlinux@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260812054033.95658-1-sshegde@linux.ibm.com>
-References: <20260812054033.95658-1-sshegde@linux.ibm.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GC8llU59"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DeKan96X1qdD5i2Cc4N6iB+ns76LJ5XWVGZYeX8lCf5lb9EYrKzkoPuQhN1alSb8ggKXS5611ar7vzUXNJteG1TOa8FhNFkcljUCSSydtcWI205QgQcOqNRDO7I/3L5cpSXW3VnpbM6avXRFXOHz6lzDQMNyVt97bNVyVBO9E8hwDljDILj/EBb5PQf2FOtJMZXZd8qiOGOcz30vBZoyYY/z7t/O545+l7VvqmmBEqIQMF5E9bqd33vs7qWK691SmcB29kCu4aD9my/BjhPH+VzGCBmm5qDaF1oY8yIfB3arw2/dHRyiJGvFy281uY9j6DNCVPnzOEom2LF8f9AZSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gmq07TnSUHP3V+FWtggFVI38i/Jfgm/s2wAOcGc8pAU=;
+ b=wLFifgoILsrI2ECgF0/lgV9W4Os8u5rlROFijD8IF7cEa9fG9F8gNxwtHMhSKkvZAZ0qBFD7ndIAxhUrqrQ/5XpUgdYMvKSwwPLg1OuGbd8/dk7vE9q+E/LJAihtmYM5agTY3wGTJx2yGSalK554RThT0M3KGzw3J1dhW6RyyDnNkRM+c/ac9CFKvEOjT5rQeTnn7953cxVmJ2r2muOXSGS9LEbKF9Mcg0OPwgbGX1vB7ZfXkLKRPXMCnpiOdBCA2gOCQV2vlpTPIPZNK0PdqlZ9o0eoskm57hi1n8bRwpBZmd2aL8zXILkq1G6UbuG98zoq5zxR1WOlONBXKEj+SQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gmq07TnSUHP3V+FWtggFVI38i/Jfgm/s2wAOcGc8pAU=;
+ b=GC8llU59yUANvdq0/EI3DJXq/xbvEpm1R5hDA5zDPZ36AlPJKxlCMccunDCXxG6Lr6OLeWeNcs09ROp5Qsj//YfOPc6F9gyI3rPQzkbhL3kBBozKku8OTfbSMPp/Tu9FPZOeV75n281izdwPJ3y+hOJq0QCivLufmFlSWVxAtkg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by IA0PR12MB7698.namprd12.prod.outlook.com (2603:10b6:208:432::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Wed, 12 Aug
+ 2026 19:59:02 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
+ 19:59:02 +0000
+Message-ID: <5fad6e01-1052-4c1f-82f5-02c650ae1ffe@amd.com>
+Date: Wed, 12 Aug 2026 14:58:57 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v4 04/15] fs/resctrl: Introduce kernel mode (kmode)
+ data structures
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, bp@alien8.de,
+ ben.horgan@arm.com, fenghuay@nvidia.com
+Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, akpm@linux-foundation.org,
+ rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com,
+ dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
+ kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com,
+ seanjc@google.com, nikunj@amd.com, xin@zytor.com,
+ pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
+ chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
+ kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
+ elena.reshetova@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
+ peternewman@google.com, qinyuntan@linux.alibaba.com
+References: <cover.1783461016.git.babu.moger@amd.com>
+ <7191fbc2a339c830e7768d7fe5e7fa0f7d65da9f.1783461016.git.babu.moger@amd.com>
+ <b84e5f4a-9743-41d8-b70f-e826d5afe4fe@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <b84e5f4a-9743-41d8-b70f-e826d5afe4fe@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0115.namprd11.prod.outlook.com
+ (2603:10b6:806:d1::30) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA0PR12MB7698:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ede6b5b-5066-45a0-ddf8-08def8ac2802
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|23010399003|1800799024|11063799006|4143699003|56012099006|10067099003|6133799003|921020|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	AgfO8dPVBxKpZy5E3Hy3fOzmAdUNtvEKlf6SI71dUn4vGrKSJKB67RTwagQU1GK/4GHLv8E/adIMaDtljeVvJkfaQTntMdCDJsJiRiHEmJODKyZ35BQBDbCiDQCgxApMGnUULIDL0PLeBxO0XW2t/4T69hCKgi+fsXh2zSwWVwWpV+76N6GCj3te1zheAO/ui2JTV/kJbFq/irLbtLghtECY1EE9+VGAvjUVb+YY1NOsiyXrBEZgVFvbrh8f/MpiyXTP8FYvcQjI1yMsJygn94mUapScfN6ptfXhdupq0p6sECFKLSAfJ3OISi3t/bFnv3h3+FusPwTBx+dX24D8CGW7FSGTfKwqh3GWVVQmk5TCGXHiTHf7Vgw3H4lo0e657/8IgIOUabxXE7KcvExFvBKG2RGkynHr9+DGxaTp6MWcuz+QGbCsVaPAVd8W8D60QTOGdl/dzllvxgWvbsu8Va1TOxZ0nqCSIBpxSO2d6d85138gSIpc1L5WOnHhDgBnucd+1dfOzlhy1avlMAg3RFml5S/aqj3WHCk47zvlbNQ9JAu2A+W5zTLPNB0IFimeetot63RRmEb1DFqXnUuS1QeBXw+ARTRTgCdU1uiEEp+i4Xhv6wtBQ3aGA25OQpjeYylKo9qjK7NWrFllpshJUlUeoHVB9xN897u/Qu1rgnzyEVc1F2KcE+FaFuICVUZ6AdQge1Mtm4W8bpu5WrV1iw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(23010399003)(1800799024)(11063799006)(4143699003)(56012099006)(10067099003)(6133799003)(921020)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SmJoRm9kTGEzR25KNTl3TWgxSmhrY0ZzdG9ON1NaeTJBWEpPSndsM3hBWjBE?=
+ =?utf-8?B?K3o1TmpBVGoyRnNTUFoxeGN1ZEo4TVJhQ3IweVYySFNNbFNYUmlDWGMyL2Zk?=
+ =?utf-8?B?U3gzQ2Z0WHJGd0M2R0dxV0hhSW85emdyVEhzY3l5TFZSS1UrSGpYelQyMzNj?=
+ =?utf-8?B?S2p6aXM0d3FETlFvQWZQSzFRbFI3MmFmUm1WOHhOQnBSOEVqOEFlUjdXTzFG?=
+ =?utf-8?B?WUxvM1J0dkJXbVFkL3Q0dkI4TmlvUWpBWG8yb2pSUGk3MTk3YjE4QWpMcXJM?=
+ =?utf-8?B?MFpBWUJBV2twbnZhcWlZa1hSSGxMUStQaExmVVF0MmU1ZU1Gd29Jc1Axemhq?=
+ =?utf-8?B?c0Zud09KK1owbjI1MFF4d2xiaFQvejFJeFNQSVNTREwvT0VlUWNnNXE4ODJ3?=
+ =?utf-8?B?ZStpODBFS2lSMGRPNEF5T2czWVpucHJudUNZeHFNby9GRno2djdKL3VkQnFF?=
+ =?utf-8?B?KzVSSTJmaGJFRVJHclFjdHhxWjRyeUk2d0FsU1JuS1JwRXJuQ1ZCeXNMNytG?=
+ =?utf-8?B?Lzl2UVowcTBnZU5zQmlpMEVKeE04Mi92V3VjTUVOKzdvU3h1S1pIZDF2dEpl?=
+ =?utf-8?B?bVhlekExSnBISlA5N0REWDE1cm0rNWFPVi9rLytKSkIvTTRwRERFWjA5amQ0?=
+ =?utf-8?B?WEErdjJTdFZONnZyZkZSQVltOXZFMVlkRHdISExOMkxldDBBWWwvVSs3QUR1?=
+ =?utf-8?B?UGxvUnl3ekdDYmRtYzRVV0d5ZXpZK2xSbHpMOGR6V0Mza3pSUERzV0t3TFdq?=
+ =?utf-8?B?TFJYRTRTRGdBMllPcWcyN1FQbkFBOVFTaEgyT1FnODhKdTRCR2k2REpzeHNo?=
+ =?utf-8?B?MHMzNjlPaG83emN3c3BWakJOc1AxemFaelBaVENYZkd5cHlFNVluQ3ZlOGRW?=
+ =?utf-8?B?YmtXdmFzdWNnNGpWV25HbUtDS2JHMm50VHBGRVdvV3hVSGVhZzI0UFcvbGY1?=
+ =?utf-8?B?NFRMNnBTV05VS3dqTHZIT28vajVmOW5UMStVL0VvMGdqOGprMmdNakk3YWFY?=
+ =?utf-8?B?QzdpREYxeXFnVEVmZG8rbTVwdHhVV3JDc3lZZmpDV3E2YWl2N3NmbmhWUkl6?=
+ =?utf-8?B?RlpYL0YzbDNMeTIxeTJwcngwMVVkRTRlODh4M0hlSU5ZK2pSZUNxYnhna0cy?=
+ =?utf-8?B?Mk9YSS8vaTBycnNrWkhIUXo3M0dmQWJvRE5TWEhCRzhpRVF1VE15dkhiL042?=
+ =?utf-8?B?ajFzQ214Ui9zdDdJT3BJNzNMcnNkZXhvR1RXL0VhNHVIVUZERFo0YUN6L29v?=
+ =?utf-8?B?a2xiYU8vTHpDY3MyVVUvTENaQmtGYlBOaGNrSytVUnk5YkV3SFZuUE93OGF5?=
+ =?utf-8?B?T2VIRllNdzY4Zmxld1pIZERiN1piaG9QQlUyM2NKRG4vTEFXR3NqMlB5eGFv?=
+ =?utf-8?B?bHNWNkJOejVYVW0yUVRSV2VvditTR29nTlFkVVZNZGNyeG5tZHRaTmpzb1p4?=
+ =?utf-8?B?K0RweDhTcWhTampnajhsMlFuNzlEZnZPMVZGc1hKMUFEUlJ2K2J0UVBCSTNy?=
+ =?utf-8?B?MTg2TVlPWW1tZkIxTU1VVzBZdnhhRnN1dHk2YzF1RUJWVW1paytvZXljTHcx?=
+ =?utf-8?B?SGc4N05RVlRuMStKMUtTN3NPWkNEa2tqRGdaZHRVOGdRQVVmcStaYitobzVZ?=
+ =?utf-8?B?R05zMXhTUkRYODFMTUszYTF6WjJIS0laZ3VHZWt1eGRPT3RuNFJIVUlFVDhL?=
+ =?utf-8?B?Tk5NYmEyYjkvd09yOW1NVCtlOEFERzM4T2RpeVNSUnFpaVBuQmdyemRpZmRm?=
+ =?utf-8?B?bXRwc05pQVdPdE1VQnBJZ0pibGJPd3hYaDZzOExPWHRWZ2Y3N0lCMkdCR2ky?=
+ =?utf-8?B?ckVnRHFCNWtWcDhkTHNhNGJTTWRlbnkyL3JGS1J0MWQ4NURCSkFSVkh3K3Nz?=
+ =?utf-8?B?elA0WEc2QW8wQ2w3RXpGQk5FUzZlZjFhcWM1NE9JdDBwQXYzMkQ3Z0hBRUo2?=
+ =?utf-8?B?dTVhK0tMZkhpM2t4a0phdjE3Y05maWFqUlpqNnpNaTU1dEZSQUIvYmVZSTF5?=
+ =?utf-8?B?UFluOHI1WTU3WXdJTEptdFdSVGRPdHVTT2dBR0dOS0FQRkZoSkxSQ3psWjB2?=
+ =?utf-8?B?S2xuZVdOUzVNRitWMGpFWUgzbXMxcW4xemJ2TFRTbTZpcVd0eG5ublRQY29S?=
+ =?utf-8?B?TzkvRnlSYXZkVTkzSXorOTRteWZobUxpZVRld1Z1dldxcXFXTjZYMWNleGJS?=
+ =?utf-8?B?bENtV2ZSVkQ1TjlFNGZiZG1BUEJDUWRyN1Q5VXB5UDVqbjdvdHVSS3JsaTNN?=
+ =?utf-8?B?M1pycEpwNDZaSjlNR1k5elFWUm1ET05LYUpNY3V5SFpIQUNwMWtXeUQyUEZV?=
+ =?utf-8?Q?LBRta0ziSDUsJ4zpnS?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ede6b5b-5066-45a0-ddf8-08def8ac2802
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 19:59:02.5932
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hLLM1laSE0NXOiKmT/LXX9ozmCdIpG/+LeUVksBvebuqA464OjII77NA27m03tXc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7698
 
-On Wed, Aug 12, 2026 at 11:10:21AM +0530, Shrikanth Hegde wrote:
-> This patch series represents the result of multiple iterations,
-> redesigns and community feedback.
+Hi Reinette,
 
-Nice work, and thanks for the very readable cover letter.
+On 8/10/2026 10:03 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/7/26 2:50 PM, Babu Moger wrote:
+>> Kernel-mode traffic can use a different allocation and monitoring context
+>> than the originating user task. On x86, Privilege Level Zero Association
+>> (PLZA) enables the kernel to switch to a different CLOSID (and optionally
+>> RMID) when entering kernel mode.
+>>
+>> Architectures need a common way to name kernel-mode policies before resctrl
+> 
+> Please pick one term and stick with it. While reading through this series I
+> have come across "kernel-mode policies", "kernel-mode binding", "kernel-mode
+> configuration", and "kernel-mode association". Is the distinction even needed?
+> Could all of these just instead be: "kernel mode"?
 
-I looked at this from the KVM and Xen guest angle rather than from
-PowerVM, since that is what I run.  Three observations below.  All of
-them are from code inspection only -- I have not measured any of this,
-so please treat the numbers as arithmetic rather than as results.
+Sure.
 
-Code references are against next-20260812, which already carries your
-base commit f2c2ba7219e5, so the series applies there directly.
+> 
+>> can report what is active or what the platform supports.
+>>
+>> Introduce enum resctrl_kernel_mode:
+>>    - INHERIT_CTRL_AND_MON: Kernel work inherits allocation and monitoring
+>>      from the user task (current behavior).
+> 
+> The issue with this "combination" mode becomes obvious in patch 7. I also
+> see that sashiko hinted at this issue but I am not able to see from your response
+> what the plan is to address this. As highlighted by patch 7 and sashiko the
+> "allocation" and "monitoring" features of a system are independent - a system
+> need not support/enable both. This should be easy to reproduce by, for example,
+> booting a system with needed rdt= options disabling allocation or monitoring
+> features.
+> 
+> I think it will be unexpected to a user on an allocation-only system to
+> see interface like:
+> 
+>   # cat info/kernel_mode
+>    [inherit_ctrl_and_mon]
+>    global_assign_ctrl_inherit_mon_per_cpu:group=uninitialized
+>    global_assign_ctrl_assign_mon_per_cpu:group=uninitialized
+> 
+> Should it not rather be, for example:
+>   # cat info/kernel_mode
+>    [inherit_ctrl]
+>    global_assign_ctrl_per_cpu:group=uninitialized
+> 
+> Similarly the user input would not need to provide a monitor group when system
+> only supports allocation.
 
-
-1) Default thresholds are unreachable on common QEMU command lines
-==================================================================
-
-get_system_cpus() returns num_possible_cpus(), and steal_governor_loop()
-divides by it:
-
-	delta_ns = max_t(u64, div_u64(delta_ns * get_system_cpus(), 10000), 1);
-	steal_ratio = div64_u64(delta_steal, delta_ns);
-
-On x86 the possible map is sized by topology_init_possible_cpus()
-(arch/x86/kernel/cpu/topology.c) from assigned + disabled CPUs, where
-"disabled" is incremented by topo_register_apic() for every APIC that is
-registered but not present.
-
-QEMU emits exactly such MADT entries for the range [smp, maxcpus), and
-acpi_is_processor_usable() in arch/x86/kernel/acpi/boot.c documents that
-this is deliberate:
-
-	/*
-	 * QEMU expects legacy "Enabled=0" LAPIC entries to be counted as
-	 * usable in order to support CPU hotplug in guests.
-	 */
-
-So those vCPUs are registered as usable, land in nr_disabled_cpus, and
-end up in the possible map.  A guest started with
-
-	-smp 4,maxcpus=32
-
-has num_possible_cpus() == 32 while only 4 vCPUs ever run.  The steal
-ratio is then diluted 8x, and the default thresholds of 5% / 2% become
-40% / 16% of the steal that is actually observable.  The governor never
-leaves the "do nothing" window, and the only symptom is that nothing
-happens.
-
-Xen PV guests are affected in the same way, and often more strongly,
-because the possible map there tends to be sized for vCPU hotplug.
-
-I understand from the v9 changelog why possible CPUs were chosen -- it
-keeps the accumulated steal monotonic across hotplug, which is a real
-property worth having.  The documentation does describe the effect and
-gives a worked example for recomputing the thresholds by hand.  But for
-a mechanism whose whole premise is that every VM on the host opts in
-with the same policy, requiring each operator to first derive their own
-thresholds seems likely to translate into low real-world adoption.
-
-Some options, roughly in increasing order of intrusiveness:
-
-  - emit a pr_info() (or pr_warn()) at module init when
-    num_possible_cpus() significantly exceeds num_online_cpus(), naming
-    the ratio and the effective thresholds.  Cheap, and turns a silent
-    no-op into something diagnosable.
-
-  - scale the thresholds by num_possible_cpus() / num_online_cpus() at
-    init, so the documented defaults keep their intended meaning.
-
-  - keep summing steal over the possible mask, as today, but divide by
-    the online count, and handle the hotplug discontinuity by resetting
-    the sg_ctx.steal baseline from a hotplug notifier.
-
-I do not have a strong preference among these, and the first one alone
-would already be a large improvement.
-
-
-2) Nothing stops the driver from folding Xen dom0
-=================================================
-
-dom0 accounts steal time like any other domain -- xen_time_setup_guest()
-in arch/x86/xen/time.c wires up pv_steal_clock unconditionally, with no
-feature negotiation and no privileged-domain exemption.
-
-So loading steal_governor in dom0 makes it shrink its own preferred mask
-under contention.  That is precisely when the blkback and netback
-threads serving every other guest need CPU, and the driver has no notion
-that this domain is different from the ones it is trying to be polite
-towards.  The effect would be host-wide, not confined to the domain that
-loaded the module.
-
-Given that Kconfig carries "default m", the module is built on any
-distro kernel with PARAVIRT=y, which includes dom0 kernels.  It is one
-modprobe away from being loaded there, quite plausibly by someone who
-read the documentation's advice to enable it uniformly across all VMs.
-
-A xen_initial_domain() check that refuses to load, or at minimum a loud
-warning, seems worth having.  More generally it may be worth stating in
-the documentation that the driver is meant for guests only -- the same
-argument applies to a KVM host that is itself running nested guests.
-
-Juergen and the virtualization list are already on Cc -- I would value
-their view on this one in particular.
-
-
-3) Core granularity degenerates to single vCPUs on KVM and Xen
-==============================================================
-
-decrease_preferred_cpus() and increase_preferred_cpus() step by
-topology_sibling_cpumask(), which matches PowerVM, where the hypervisor
-schedules whole cores.
-
-On Xen PV that mask is always the CPU itself, by design.  The header
-comment of arch/x86/xen/smp_pv.c is explicit about both the behaviour
-and the reason for it:
-
-	/*
-	 * Because virtual CPUs can be scheduled onto any real CPU, there's
-	 * no useful topology information for the kernel to make use of.  As
-	 * a result, all CPUs are treated as if they're single-core and
-	 * single-threaded.
-	 */
-
-A plain "-smp N" under QEMU gives one thread per core and one core per
-socket, with the same result.  So on both hypervisors the step size is
-one vCPU, and convergence to a folded state takes proportionally longer
-than the PowerVM numbers would suggest.
-
-I do not think this is a correctness problem -- per-vCPU is arguably the
-right granularity there, for exactly the reason the Xen comment gives.
-The case that does not work as intended is the opposite one: a guest
-given a synthetic topology such as
-
-	-smp 16,sockets=1,cores=8,threads=2
-
-will fold what it believes is a core, but those two vCPU threads need
-not be co-located on any host core, so nothing in particular is freed.
-
-So mainly a documentation request: a sentence in
-Documentation/driver-api/steal-governor.rst noting that the core-level
-step assumes the guest topology reflects host scheduling granularity,
-and that on KVM and Xen it commonly does not.  It would also explain to
-readers why convergence looks slower there than in your PowerVM numbers.
+Ok. Yea. We need to separate control and monitor separately.
 
 
---
+How about something like this?
 
-I would be happy to run this on x86 KVM and on Xen PV guests if that is
-useful -- the series has no Xen coverage that I can see, and points 1
-and 3 above would both show up there first.
+  # cat info/kernel_mode
+    [ctrl=inherit,mon=inherit]
+    ctrl=assign,mon=inherit:group=uninitialized
+    ctrl=assign,mon=assign:group=uninitialized
+    ctrl=inherit,mon=assign:group=uninitialized
 
-Thanks,
-Ionut
+If allocation(ctrl) is only supported.
+
+  # cat info/kernel_mode
+    [ctrl=inherit]
+    ctrl=assign:group=uninitialized
+
+If monitor (mon) is only supported.
+
+  # cat info/kernel_mode
+    [mon=inherit]
+    mon=assign:group=uninitialized
+
+
+
+> 
+>>    - GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU: Assign allocation for kernel
+>>      work; inherit monitoring from the user task.
+> 
+> I am not able to parse "Assign allocation for kernel work"
+
+Will change it. Explaining in control and monitor groups terms will be 
+better.
+
+> 
+> 
+>>    - GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU: Assign a dedicated allocation
+>>      and monitoring for kernel work.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+> 
+>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+>> index 73ff522448a0..c7abed51cd5f 100644
+>> --- a/include/linux/resctrl.h
+>> +++ b/include/linux/resctrl.h
+>> @@ -703,6 +703,37 @@ int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable);
+>>    */
+>>   bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r);
+>>   
+>> +/**
+>> + * enum resctrl_kernel_mode - Kernel-mode control and monitor association
+>> + *			      policy.
+>> + *
+>> + * @INHERIT_CTRL_AND_MON:
+>> + *	Kernel work inherits the allocation and monitoring from the user space
+> 
+> "inherits the allocation and monitoring" is very vague. I think it will help to
+> make things clear if this is described as the control and monitor groups being
+> assigned.
+> 
+
+Sure.
+
+>> + *	task. On x86 this means that kernel work shares the same CLOSID and
+>> + *	RMID as the user space task. This matches today's resctrl behavior.
+> 
+> "This matches today's resctrl behavior." - This cannot be expected to age well and can
+> be dropped.
+
+Will change.
+
+> 
+>> + *
+>> + * @GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU:
+>> + *	Kernel work uses a globally assigned allocation while monitoring is
+>> + *	inherited from the user space task. On x86 this means a CLOSID is
+> 
+> (same comment as above)
+
+ack.
+
+> 
+>> + *	assigned for kernel work and the RMID is inherited from the user space
+>> + *	task. Default scope is all online CPUs; a subset may be selected via
+>> + *	the resctrl group interface. A CTRL_MON group is bound to this mode.
+>> + *
+>> + * @GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU:
+>> + *	Kernel work uses globally assigned allocation and monitoring. On x86
+> 
+> (same comment as above)
+
+Ack.
+> 
+>> + *	this means both CLOSID and RMID are assigned for kernel work. Default
+>> + *	scope is all online CPUs; a subset may be selected via the resctrl
+>> + *	group interface. A CTRL_MON or MON group is bound to this mode.
+>> + */
+>> +enum resctrl_kernel_mode {
+>> +	INHERIT_CTRL_AND_MON,
+>> +	GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU,
+>> +	GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU,
+>> +	RESCTRL_KMODE_LAST = GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU,
+> 
+> Please drop comma on a terminator line.
+
+Sure.
+
+Thanks
+Babu
