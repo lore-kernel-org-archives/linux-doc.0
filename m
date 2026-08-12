@@ -1,84 +1,288 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C043450410;
-	Wed, 12 Aug 2026 13:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786541862; cv=none; b=K1DjRzVSucr5/Z7O52HR4z+fl1WAaN6E8bIZTxKY7F6FSkUHiC5bBB+xzxuzYYuBRq9nR8Zj+LiYzFWMSkc8st6cq7A0F157MdbH9DWUg6Dm7rInyFJf+kiDdIsihgcA2BmhLPOA2MwPt03dH4tL6p7JO0VP3UtxMzd2Hh0bXcI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786541862; c=relaxed/simple;
-	bh=FTWKwiAqVWZbcD1niHla92oH0No24Son7x8TwrdUA1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QXgHr7GOxuCe2rbfjHizq76qz8A6S0ts69sPNUUigj+KUHP+jx6oqS3ML3utl4KlfkwdCuMI6WyD2UbU9pDIMRUvzC/hMeBVm6StqMpHUIgS8tj0XWHwr6/GHEX5kmmRlE0CkN3RC4i1mXddPgwFRn2RxNPsPfvhIIxcVAhG9iM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C1mlH5ct; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F4B4519A8
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 13:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786541882; cv=pass; b=nbaB9vYAh0OnCJ8Q1JS6JAciJ3BtLbmEvasLtWlLNrEr5Du2W5vzR1EW2AeMNiX66pX6NBsU8tbOSSvSF6GFukEokFyb1NOCw9l8HZD98zIhL5dmdf74gAAhxXzT+w7uEr1uPoucCh2kx58LWLiPyFMTmnRVSKQ2bLCer7SIn94=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786541882; c=relaxed/simple;
+	bh=ogjpgBBuRJDVsJoOgismEb1l1STFPRdqrmOGMgUrh1M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XDKnTI9FcKgpnKJSF1MaFL57PVC5xssm23yv6bdHeJjGaW8DY2ymvAIj0oVFzp/apmQSKPPgK+aWtq9tX+/lylqnbmXuiz9KMgPVpFWl3scPdUeAHn6bXp1iZ/qXlZHrkj23BKguGkyNEa7QWLDO11pg3jwe8dPfnnPCLdk11WU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V8VOpEqz; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C1mlH5ct"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95C561F00A3A;
-	Wed, 12 Aug 2026 13:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786541852;
-	bh=nktaYrQMsX9kCJcq1vQI5eLxnBANn2ueYfqaIw7xb3M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=C1mlH5ctSn73LCSAInu+IRpXfrDqwbM/4k8vU847fCi6v1vkrFR5Qjm8jZaO9ITmq
-	 cme7uuNedl71OCBETtRJ9QZKgikZ63PJOJTiYObTRhTN54rHrjSxXXgCPMTVLlCrzQ
-	 HbdI9YPYNHhljYNvELunQBiHL252/BUkkQ4UaK8j+jaimjbuwXzhSiB/hoSzK+Ds4B
-	 CFros/O6uQNIuf89zKJGFXbh0w9CrAP1ktPpxXZEDTbkTuwkP7yFTwe8MSqHjGON0V
-	 MFL9rS9VTVXbpZ/t3d0r7whm+D9PbP8BFocLfuehi0cqDqnqC+0Irt29ZJuJCFwRQX
-	 kTksztgFqC/aA==
-From: SJ Park <sj@kernel.org>
-To: Liew Rui Yan <aethernet65535@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] docs/mm/damon/design: add explanation of nr_snapshots
-Date: Wed, 12 Aug 2026 06:37:22 -0700
-Message-ID: <20260812133723.60261-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260812104002.15225-1-aethernet65535@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V8VOpEqz"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51c10e86e52so230401cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 06:37:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786541865; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IM3WxGo+jFRWywOwlXF5aodPmGPdn0jKhT46UGnzvl2zd/4AUjkPAySaDFNRfQcBpZ
+         OEgunxBaZh8bRGGSeAt4kCdusRIr3UyGOi0X1PmNVSeVCXkIiKe2ZONHSJ30uPFCxqP5
+         l9NCMloxYftKwMn7/+7J1m0EEDP84M2bXEnZ+P4WphirC9AuUODMVA+bwuEpvyzk3fcW
+         NafiodwFryvNSzpNMgiaPGVeKRiT79lZoV7QUBAL8yWWO1YwuPNReTNsYu56yX5mWeXB
+         0X5epgmnavfue4p7i9aAwvEHxjIRDGViOsQWjcEL9Dfply/fjPO81W0IvTybZCEcEK/I
+         iAog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=S2/eW8js8WPIEzN4muuCXfZ23ENIccFKrP1Pa44pPgE=;
+        fh=nHYIMFLKUzHeMf7pRTpS2DvZ4A8M3nRRh4d8KJ64hDQ=;
+        b=AYsPe76wZxbxOEQlHZG3FoK3XcTKOcriJbzSXguD1roezpPrbfTMrmUOGkcvZRFwTK
+         etMf7hE32zTovhL3VFIbu7Tsq1h8Ex1V0Pqid3yxZKp7lIO+G15Li5SxAYJkBaRM4taM
+         AzZpJVGw1xvrG2zWpBtcKq6lG+i5heDSpoQuFW3V0y6SxsuyiaYizCdyO3+fIlE5/+A7
+         UffnPFaSRh6F/l5DPbj8W1x7nioxHgSLH1sqN1JRlCrItZ7V77vuaxiK0+tljThZI0ma
+         TpmrRijr8luppBHSOsYxnZQycimLO113cXYbPkCpDxuCR9ByDGlfJLFEoeuy20+FaEMV
+         tO2A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786541865; x=1787146665; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S2/eW8js8WPIEzN4muuCXfZ23ENIccFKrP1Pa44pPgE=;
+        b=V8VOpEqz3osEnlzMrKdYwW/3jAtfaObPRoI1vUytjSzWtECYEFWQKBFAijoPGrxXJd
+         ZZkdgrYeGrcJEDW6VvycXq6FvMVh48kDNSaCJiQLh7unhvG0PzW9GkiAeY5oA5K1yf3s
+         azCh6vjGEyS2qcdzvzkWtYvF59uHSjWYSRFavJegrGrCEsM2g+rim/UGYbx8G2hFyzsc
+         6JHKZgccoQAE7epjcNg0EA/rMTjL6WYBNhZ14Drt+FohEuyKlNMT/3w6ERWaZM7aQ0FY
+         8QS3TAl88GGQYSFv2dX1xMGWtHy449OPlidlaNif7thiR8bspio9IWtHPMly8Ncc5fHX
+         DWDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786541865; x=1787146665;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=S2/eW8js8WPIEzN4muuCXfZ23ENIccFKrP1Pa44pPgE=;
+        b=WK2WYImcN1Q9RONu0B7mjX+2h53tX6JLB8f3H44qwzMUsXtjXfmZfyD1cNX83hnf0B
+         va/92+CjApEtZIKOPr1hMQKz7NNW0EuvMmRywHyk1Qu4GS/pYLpYlmCigdMybFSfhA1q
+         DhQfwrDAcXd1uICAh5TUogzlHx82OAtO7d8wzhm+ck3ZSwesjWL0ERwxohAZXf/SNKnA
+         vCPsIngRP2rSSDOgVyCGxdueejKDkOt130D9LYjmBJeL8epkGdefANYv88ihDGo3i95C
+         eMBiYxxWAAf1y4UL7zjPY8dbIgsIgfwnGpm2ebTv7cF/fBXYJ0mcMKt+tSBvkEyTmfPZ
+         76rA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp0p3LB0YVmhk0raOA1z6JzLaNRd5FhoT1hCTzu8hU0rKrfzV+pnhMsM8PKPpR2nUkaJi8OclRG3FM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGwUA5KlMHwGvYFaeiClSr7xC5Awsts3yltQnbLCbC/QrbCzDV
+	oclwNG9O32tvaJL86A7AEoEcUWdhLlornjWsIJ6dxpEQZfk0Q99j6GRWMHc4oLgEixlJs71npzN
+	TI7pzGqZ+1ASZR+v9RWrtRFqZBU2xJL0+mdcoWOWt
+X-Gm-Gg: AR+sD13N9XYjgRnBYK0feQ2ytbUl6JAZw5NnJuraoDvAS4ouLRXiI957M/36dUv8GBp
+	sv22yftlMHK/zKDWNpWgjtBIV0DqCwAGV0srPTZLgB0hUUt+fp7ANFSmRlKNh23+yUqsa7L9Xe7
+	i83yGwgKdrw6c1hNN/h685ZAzw6Mid8FFo8dQqc2N9NgtvcPWMnVwHIB4+TcFHbpzRMAisFQP7t
+	iHqqlzmx9Tmm/fEclSduno/MlhgfHKJMJ6DIMPSnK/LAckfyAAfAi5Tuyf7P+QfAeuNgIu2Z6lb
+	RyKXE9enwfzkTQmneSbWGZRzS9Qa8XRvQ5WuhaER5WMGTg==
+X-Received: by 2002:ac8:5716:0:b0:51c:ca9:3d17 with SMTP id
+ d75a77b69052e-52d61f7a0e7mr18935971cf.12.1786541863881; Wed, 12 Aug 2026
+ 06:37:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com> <20260807-gmem-inplace-conversion-v10-14-2fc18ee6d3ba@google.com>
+In-Reply-To: <20260807-gmem-inplace-conversion-v10-14-2fc18ee6d3ba@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Wed, 12 Aug 2026 15:37:06 +0200
+X-Gm-Features: AUfX_mzUD6PeEtmKkDfteoyWkYyMiizOHZtVOuf49kBLBevxhRMZd8gNAqxz5ac
+Message-ID: <CA+EHjTy83rq0m5=QyPKmxPfFkc+kHzzuY4mV9nThdguW41Ws6A@mail.gmail.com>
+Subject: Re: [PATCH v10 14/41] mm/gup: factor out LRU cache draining for folio
+ into lru_cache_drain_for_folio()
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
+	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 12 Aug 2026 18:39:59 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
+On Fri, 7 Aug 2026 at 23:52, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
+>
+> From: "David Hildenbrand (Arm)" <david@kernel.org>
+>
+> KVM with guest_memfd wants to remove any folio references due to LRU
+> caches, as it really must only allow to convert folios from shared to
+> private when there are no unexpected folio references (e.g., from GUP
+> references).
+>
+> So, to drive the refcount down, it needs a way to flush the LRU caches.
+> Let's factor out what we have in lru_cache_drain_for_folio(). Document
+> it, and also mention that concurrent folio (un)mapping might, in theory,
+> miss detecting LRU cache references. Keep obtaining the expected refcount
+> twice to minimize the possibility. For the current and future user that
+> should work, and we don't really have a better alternative: we could
+> detect if the mapcount changed, but it would still be racy and add more
+> complexity with questionable benefit.
+>
+> Maybe there is a chance to avoid the draining entirely in the future,
+> by avoiding extra references from the LRU cache: Hugh thinks there might
+> be a way. But for the time being, this handling is unfortunately
+> required.
+>
+> Make folio_may_be_lru_cached() accept a const pointer so
+> lru_cache_drain_for_folio() can accept a const pointer as well.
+>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-> Add an explanation of nr_snapshots to avoid misunderstandings.
+Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
 
-Thank you for this series.
+Cheers,
+/fuad
 
-For the series:
-
-Reviewed-by: SJ Park <sj@kernel.org>
-
-I applied  this series to damon/next [1] tree.  We are now quite close to next
-merge window.  We (mm community) want to focus on making mm.git more stabilized
-and therefore ready for the next merge window, rather than adding more changes
-that are not really urgent.  I understand this series is not really urgent.
-Hence, Andrew might not add this patch until next -rc1 release.  In the case, I
-will request adding this to mm.git after next -rc1 release.  So, no action from
-your side is needed for now.  Let me know if you think this is really  urgent.
-
-[1] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
-
-
-Thanks,
-SJ
-
-[...]
+> ---
+>  include/linux/swap.h | 11 ++++++++++-
+>  mm/gup.c             | 15 ++-------------
+>  mm/swap.c            | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 58 insertions(+), 14 deletions(-)
+>
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index 8f0f68e245baa..e625d64c9e13d 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -317,7 +317,7 @@ void folio_add_lru_vma(struct folio *, struct vm_area_struct *);
+>  void mark_page_accessed(struct page *);
+>  void folio_mark_accessed(struct folio *);
+>
+> -static inline bool folio_may_be_lru_cached(struct folio *folio)
+> +static inline bool folio_may_be_lru_cached(const struct folio *folio)
+>  {
+>         /*
+>          * Holding PMD-sized folios in per-CPU LRU cache unbalances accounting.
+> @@ -344,6 +344,15 @@ extern void lru_add_drain(void);
+>  extern void lru_add_drain_cpu(int cpu);
+>  extern void lru_add_drain_cpu_zone(struct zone *zone);
+>  extern void lru_add_drain_all(void);
+> +
+> +enum lru_cache_drained {
+> +       LRU_CACHE_NOT_DRAINED,
+> +       LRU_CACHE_DRAINED,
+> +       LRU_CACHE_DRAINED_ALL,
+> +};
+> +void lru_cache_drain_for_folio(const struct folio *folio,
+> +               unsigned int extra_refs, enum lru_cache_drained *drained);
+> +
+>  void folio_deactivate(struct folio *folio);
+>  void folio_mark_lazyfree(struct folio *folio);
+>  extern void swap_setup(void);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index bde05664fe9a9..1bd8915517196 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -2266,9 +2266,9 @@ static unsigned long collect_longterm_unpinnable_folios(
+>                 struct list_head *movable_folio_list,
+>                 struct pages_or_folios *pofs)
+>  {
+> +       enum lru_cache_drained drained = LRU_CACHE_NOT_DRAINED;
+>         unsigned long collected = 0;
+>         struct folio *folio;
+> -       int drained = 0;
+>         long i = 0;
+>
+>         for (folio = pofs_get_folio(pofs, i); folio;
+> @@ -2293,18 +2293,7 @@ static unsigned long collect_longterm_unpinnable_folios(
+>                  * but also to remove any other folio references from LRU
+>                  * caches.
+>                  */
+> -               if (drained == 0 && folio_may_be_lru_cached(folio) &&
+> -                               folio_ref_count(folio) !=
+> -                               folio_expected_ref_count(folio) + pin_refs) {
+> -                       lru_add_drain();
+> -                       drained = 1;
+> -               }
+> -               if (drained == 1 && folio_may_be_lru_cached(folio) &&
+> -                               folio_ref_count(folio) !=
+> -                               folio_expected_ref_count(folio) + pin_refs) {
+> -                       lru_add_drain_all();
+> -                       drained = 2;
+> -               }
+> +               lru_cache_drain_for_folio(folio, pin_refs, &drained);
+>
+>                 if (!folio_isolate_lru(folio))
+>                         continue;
+> diff --git a/mm/swap.c b/mm/swap.c
+> index 588f50d8f1a8c..8e965c8ce9aa9 100644
+> --- a/mm/swap.c
+> +++ b/mm/swap.c
+> @@ -950,6 +950,52 @@ void lru_add_drain_all(void)
+>  }
+>  #endif /* CONFIG_SMP */
+>
+> +/**
+> + * lru_cache_drain_for_folio() - drain LRU caches if the caches might hold
+> + *                              folio references
+> + * @folio: The folio.
+> + * @extra_refs: Extra folio references held by the caller.
+> + * @drained: Drain status for batch folio processing.
+> + *
+> + * Drain LRU caches if the caches might hold folio references. Start
+> + * with a local LRU cache drain, to then drain LRU caches on all CPUs if
+> + * local draining was insufficient.
+> + *
+> + * This function detects LRU cache references by comparing the folio refcount
+> + * with the sum of the expected folio refcount + extra references held by the
+> + * caller. Note that we cannot rely on PG_lru to reliably detect all LRU
+> + * cache references, and there are rare scenarios (concurrent folio (un)mapping)
+> + * where this function might miss detecting LRU cache references.
+> + *
+> + * If @drained is not NULL, the function will avoid re-draining LRU caches
+> + * when processing multiple folios in a row. In that case, the variable
+> + * @drained points at must be initialized to LRU_CACHE_NOT_DRAINED before
+> + * the first invocation by the caller.
+> + */
+> +void lru_cache_drain_for_folio(const struct folio *folio,
+> +               unsigned int extra_refs, enum lru_cache_drained *drained)
+> +{
+> +       if (!folio_may_be_lru_cached(folio))
+> +               return;
+> +
+> +       if (!drained || *drained == LRU_CACHE_NOT_DRAINED) {
+> +               if (folio_ref_count(folio) ==
+> +                   folio_expected_ref_count(folio) + extra_refs)
+> +                       return;
+> +               lru_add_drain();
+> +               if (drained)
+> +                       *drained = LRU_CACHE_DRAINED;
+> +       }
+> +       if (!drained || *drained == LRU_CACHE_DRAINED) {
+> +               if (folio_ref_count(folio) ==
+> +                   folio_expected_ref_count(folio) + extra_refs)
+> +                       return;
+> +               lru_add_drain_all();
+> +               if (drained)
+> +                       *drained = LRU_CACHE_DRAINED_ALL;
+> +       }
+> +}
+> +
+>  atomic_t lru_disable_count = ATOMIC_INIT(0);
+>
+>  /*
+>
+> --
+> 2.55.0.654.g21b8a5bc05-goog
+>
+>
