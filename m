@@ -1,201 +1,285 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35D2335081;
-	Wed, 12 Aug 2026 17:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7821547010D
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 18:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786555660; cv=none; b=gxSUbbtRSb8CDJw+KKtoqXpSqfgu9mGqgC/axhCMJyz20BJfi5pFIYLfuVepPP28wm1RoYbFeqmuSA+z9hMx2TWnmSBVAISzbdlFQExP2pIId5vf4zih+QyXaCfUp0PveBnwSiFbYdZntijQDR5cX3Xtt8ofg2J0A/Al4Md0jKo=
+	t=1786558403; cv=none; b=GzqfOJMu1v/YyDgjrd2c7Dy5QMd1tE8deeqIXno5ehiTBvc/Fo/zobeQ8bTXuKYrbEwXfrIOrBV8lzNtwbaSYQOClEh1Ge67ilvZSmnDcQCPurxxoPGMPvbOvJaKIsqW+9pFkSXhW49ggxOPyJwmjpc6HDuhTqany5VxCSG1Bq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786555660; c=relaxed/simple;
-	bh=WJPLHXt8itB/Cw880Ar8NhbyTTeEUpwQxfJvdcAm5iw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aQLbsfilyYZC0e2GXaHUA/kOpqQ5DOi25CmNiRT5VYWMuyZ9izBUbuviAelx7dcZMBkjU1pRFgGw6Nebs+xOkm4oNRJr/gszpFeZq2KhFRSnZYWaZ64GsIpui8Q+Y0xJLpDYXsDxH4xNq7r4d4ODVNzN8oUcZfItC5NTmK1imuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jwSvUCMl; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786558403; c=relaxed/simple;
+	bh=AYhq66HOyIUMlCvsokJ8hQlh1oUCBjabz9MUQC8yx/c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ocTtS3JqUskybCAHkVOv9HCfW7ZNs/Uz5TdZBxAsR8Ot5R5igQ9aUvIkPA/6Tc6hRrdIGde3YgKEkUqQ8AyO1tFVuZPgDdoLDM68MopjkaePPorYSuQIXPPWz8ljYG0NJOqECncH6KbcJZHS4z2bOAvpFj4tQIGaeTqZcpl9yM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c33zKE8g; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jwSvUCMl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786555659; x=1818091659;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=WJPLHXt8itB/Cw880Ar8NhbyTTeEUpwQxfJvdcAm5iw=;
-  b=jwSvUCMlc5rI50YMMFht4yNKyz9ajttHHpXEoFQOMPE4k48kCMtzqw90
-   VR7vDM1q37HJvMkkJiiaHds5/++lu2VhNe95kF8vpjjFLWKc+ZFDDBVN7
-   hyhqACzDxM9XnD5qozg5VUHOcmSc0tjmka12CWrmKWlXkKN5VXo2DYxO+
-   xm5+M/chtEhX+jkovg4pWRyPVgUMct49Wa+jf2qF9W+08FA80/KL3Ypw4
-   AUK5achkseH0292SvcjE+YfOa9x/+OlWKVM24nzNLp6bPxaEteVyFvkLH
-   vU4rgLTMe/yuCzWPZaXbbz6XfDrxo4Cmka7iEB8/oI636XlRjaKUd4pQ8
-   A==;
-X-CSE-ConnectionGUID: ruaDc2OURxK5B2R1YDNySw==
-X-CSE-MsgGUID: EJ5pb0DUTROI4ndXYoRCkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="90996220"
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="90996220"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 10:27:38 -0700
-X-CSE-ConnectionGUID: e4SWaOEVTd+gRiS5EYjQbg==
-X-CSE-MsgGUID: Auz9Ud84QUGgNeZ3b4NBoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="261936541"
-Received: from soc-cp83kr3.clients.intel.com (HELO [10.122.185.5]) ([10.122.185.5])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 10:27:36 -0700
-Message-ID: <16296d40-67f3-4e50-923c-5b26fc122121@intel.com>
-Date: Wed, 12 Aug 2026 12:27:35 -0500
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c33zKE8g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786558400;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/s54xIz6tpD/x1mCQ2HkaTIJX+XULmmjWVywO144yMg=;
+	b=c33zKE8gIPwVgHbeJ+aRPTh4xorcO7PHhdSi7JJQefib1S4Xft1SLaL+ZhebE7OtFQ59Fw
+	7ba5LiJc8XyG2hJ7rDGLmrsyXGu68wtZrTb9jO3L61LNg88U33EFLqZub94PE+aOgtlSP8
+	5L9kxUsD2hyYJ/+TXNM1EvD5xy8AEJQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-609--gcgToVBPpiDQpX9qzIJww-1; Wed,
+ 12 Aug 2026 14:13:14 -0400
+X-MC-Unique: -gcgToVBPpiDQpX9qzIJww-1
+X-Mimecast-MFC-AGG-ID: -gcgToVBPpiDQpX9qzIJww_1786558389
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B248B1800614;
+	Wed, 12 Aug 2026 18:13:08 +0000 (UTC)
+Received: from jtaubepe-thinkpadx1carbongen12.ibmlowe.csb (unknown [10.22.88.181])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D3642180034C;
+	Wed, 12 Aug 2026 18:13:01 +0000 (UTC)
+From: Jesse Taube <jtaubepe@redhat.com>
+To: linux-scsi@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Hannes Reinecke <hare@suse.de>,
+	Jesse Taube <jtaubepe@redhat.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	John Meneghini <jmeneghi@redhat.com>,
+	Bryan Gurney <bgurney@redhat.com>,
+	Chris Leech <cleech@redhat.com>,
+	"Ewan D . Milne" <emilne@redhat.com>,
+	shinichiro.kawasaki@wdc.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: [PATCH 00/13] nvme-fc: FPIN link integrity handling
+Date: Wed, 12 Aug 2026 14:12:47 -0400
+Message-ID: <20260812181300.3712426-1-jtaubepe@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/21] KVM: arm64: Apply dynamic guest counter
- reservations
-To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
-Cc: Alexandru Elisei <alexandru.elisei@arm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
- Shuah Khan <shuah@kernel.org>,
- Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
- James Clark <james.clark@linaro.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20260612192909.1153907-1-coltonlewis@google.com>
- <20260612192909.1153907-15-coltonlewis@google.com>
-Content-Language: en-US
-From: "Chen, Zide" <zide.chen@intel.com>
-In-Reply-To: <20260612192909.1153907-15-coltonlewis@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+
+FPIN LI (link integrity) messages are received when the attached fabric
+detects hardware errors. In response to these messages I/O should be
+directed away from the affected ports, and only used as a last resort.
+This patch adds a new controller flag 'NVME_CTRL_MARGINAL' which will be
+checked during multipath path selection, causing the path to be skipped
+when checking for paths. If no other paths are available the 'marginal'
+paths are considered for path selection.
+
+The testing for this patch set was performed by Bryan Gurney, using the
+process outlined by John Meneghini's presentation at LSFMM 2024, where
+the fibre channel switch sends an FPIN notification on a specific switch
+port, and the following is checked on the initiator:
+
+1. The controllers corresponding to the paths on the port that has
+received the notification are showing a set NVME_CTRL_MARGINAL flag.
+
+   \
+    +- nvme4 fc traddr=c,host_traddr=e live optimized
+    +- nvme5 fc traddr=8,host_traddr=e live non-optimized
+    +- nvme8 fc traddr=e,host_traddr=f marginal optimized
+    +- nvme9 fc traddr=a,host_traddr=f marginal non-optimized
+
+2. The I/O statistics of the test namespace show no I/O activity on the
+controllers with NVME_CTRL_MARGINAL set.
+
+   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+   nvme4c4n1         0.00         0.00         0.00         0.00
+   nvme4c5n1     25001.00         0.00        97.66         0.00
+   nvme4c9n1     25000.00         0.00        97.66         0.00
+   nvme4n1       50011.00         0.00       195.36         0.00
 
 
+   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+   nvme4c4n1         0.00         0.00         0.00         0.00
+   nvme4c5n1     48360.00         0.00       188.91         0.00
+   nvme4c9n1      1642.00         0.00         6.41         0.00
+   nvme4n1       49981.00         0.00       195.24         0.00
 
-On 6/12/2026 2:29 PM, Colton Lewis wrote:
-> Apply dynamic guest counter reservations by checking if the requested
-> guest mask collides with any events the host has scheduled and calling
-> pmu_perf_resched_update() with a hook that updates the mask of
-> available counters in between schedule out and schedule in.
-> 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->  arch/arm64/kvm/pmu-direct.c  | 69 +++++++++++++++++++++++++++++++++++-
->  include/linux/perf/arm_pmu.h |  1 +
->  2 files changed, 69 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
-> index 49f1feb5d280c..044f011c9c84b 100644
-> --- a/arch/arm64/kvm/pmu-direct.c
-> +++ b/arch/arm64/kvm/pmu-direct.c
-> @@ -87,6 +87,73 @@ u64 kvm_pmu_direct_pmcr_read(struct kvm_vcpu *vcpu)
->  		ARMV8_PMU_PMCR_N);
->  }
->  
-> +/* Callback to update counter mask between perf scheduling */
-> +static void kvm_pmu_update_mask(struct pmu *pmu, void *data)
-> +{
-> +	struct arm_pmu *arm_pmu = to_arm_pmu(pmu);
-> +	unsigned long *new_mask = data;
-> +
-> +	bitmap_copy(arm_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
-> +}
-> +
-> +/**
-> + * kvm_pmu_set_guest_counters() - Handle dynamic counter reservations
-> + * @cpu_pmu: struct arm_pmu to potentially modify
-> + * @guest_mask: new guest mask for the pmu
-> + *
-> + * Check if guest counters will interfere with current host events and
-> + * call into perf_pmu_resched_update if a reschedule is required.
-> + */
-> +static void kvm_pmu_set_guest_counters(struct arm_pmu *cpu_pmu, u64 guest_mask)
-> +{
-> +	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
-> +	DECLARE_BITMAP(guest_bitmap, ARMPMU_MAX_HWEVENTS);
-> +	DECLARE_BITMAP(new_mask, ARMPMU_MAX_HWEVENTS);
-> +	bool need_resched = false;
-> +
-> +	bitmap_from_arr64(guest_bitmap, &guest_mask, ARMPMU_MAX_HWEVENTS);
-> +	bitmap_copy(new_mask, cpu_pmu->hw_cntr_impl, ARMPMU_MAX_HWEVENTS);
-> +
-> +	if (guest_mask) {
-> +		/* Subtract guest counters from available host mask */
-> +		bitmap_andnot(new_mask, new_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS);
-> +
-> +		/* Did we collide with an active host event? */
-> +		if (bitmap_intersects(cpuc->used_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS)) {
-> +			int idx;
-> +
-> +			need_resched = true;
-> +			cpuc->host_squeezed = true;
-> +
-> +			/* Look for pinned events that are about to be preempted */
-> +			for_each_set_bit(idx, guest_bitmap, ARMPMU_MAX_HWEVENTS) {
-> +				if (test_bit(idx, cpuc->used_mask) && cpuc->events[idx] &&
-> +				    cpuc->events[idx]->attr.pinned) {
-> +					pr_warn_once("perf: Pinned host event squeezed out by KVM guest PMU partition\n");
-> +					break;
-> +				}
-> +			}
-> +		}
-> +	} else {
-> +		/*
-> +		 * Restoring to hw_cntr_impl.
-> +		 * Only resched if we previously squeezed an event.
-> +		 */
-> +		if (cpuc->host_squeezed) {
-> +			need_resched = true;
-> +			cpuc->host_squeezed = false;
-> +		}
-> +	}
-> +
-> +	if (need_resched) {
-> +		/* Collision: run full perf reschedule */
-> +		perf_pmu_resched_update(&cpu_pmu->pmu, kvm_pmu_update_mask, new_mask);
-> +	} else {
-> +		/* Host was never using guest counters anyway */
-> +		bitmap_copy(cpu_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
-> +	}
-> +}
-> +
->  /**
->   * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
->   * @pmu: Pointer to arm_pmu struct
-> @@ -209,6 +276,7 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
->  
->  	pmu = vcpu->kvm->arch.arm_pmu;
->  	guest_counters = kvm_pmu_guest_counter_mask(pmu);
-> +	kvm_pmu_set_guest_counters(pmu, guest_counters);
->  	kvm_pmu_apply_event_filter(vcpu);
->  
->  	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
-> @@ -317,7 +385,6 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
->  	/* Stop guest counters and disable interrupts in hardware. */
->  	write_sysreg(mask, pmcntenclr_el0);
->  	write_sysreg(mask, pmintenclr_el1);
-> -
->  	kvm_pmu_set_guest_counters(pmu, 0);
 
-I must have missed something.
+   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+   nvme4c4n1         0.00         0.00         0.00         0.00
+   nvme4c5n1     50001.00         0.00       195.32         0.00
+   nvme4c9n1         0.00         0.00         0.00         0.00
+   nvme4n1       50016.00         0.00       195.38         0.00
 
-Here, vcpu->kvm->arch.arm_pmu->cntr_mask is restored to cntr_mask_impl.
-Is this same struct shared with the perf driver
-(to_arm_pmu(event->pmu)), and shared across other vCPUs as well?
+Link: https://people.redhat.com/jmeneghi/LSFMM_2024/LSFMM_2024_NVMe_Cancel_and_FPIN.pdf
 
-If so, if another pCPU still has a PMU-partition-enabled vcpu loaded
-with guest-owned counters (MDCR_EL2.HPMN is set), could a host event be
-scheduled onto one of those guest-owned counters, conflicting with the
-guest?
+Testing has been performed by sending all FPIN LI ELS messages from the
+switch to the Host and verifying the proper nvme multi-pathing behavior
+is effected with each of the eight different FPIN link integrity events.
+Results were verified with iostat and with the nvme list-subsys command.
 
->  	preempt_enable();
->  }
+These tests were run with all scenarios including where there were only
+non-optimized paths available, and where all paths were
+marginal/degraded. All multi-path io-policies were tested including:
+numa, round-robin and queue-depth. When all paths on the host are
+marginal/degraded, I/O continues on the optimized path that was most
+recently non-marginal.  If both of the optimized paths are down, I/O
+properly continues on one of the marginal/degraded non-optimized paths.
 
+Testing has been complete with both Broadcom (lpfc) and Marvell (qla2xx)
+32GB HBAs.  Both HBAs successfully complete all tests.
+
+For a complete description of the tests that were run, please see
+bugzilla 220329.
+
+To test the path handeling use:
+https://github.com/linux-blktests/blktests/pull/264
+or
+https://lore.kernel.org/linux-nvme/20260812174503.3705830-1-jtaubepe@redhat.com/
+
+To test the full set including FPIN decoding use:
+https://github.com/johnmeneghini/fpin_li_tests
+
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220329
+
+New refactored implementation enables administrators to manually control
+port marginal states via sysfs. For example:
+
+# Set remote port to marginal state
+echo "Marginal" > /sys/class/fc_remote_ports/rport-4:0-1/port_state
+
+# Clear marginal state (set to online)
+echo "Online" > /sys/class/fc_remote_ports/rport-4:0-1/port_state
+
+Changes to the original submission:
+- Changed flag name to 'marginal'
+- Do not block marginal path; influence path selection instead
+  to de-prioritize marginal paths
+
+Changes to v2:
+- Split off driver-specific modifications
+- Introduce 'union fc_tlv_desc' to avoid casts
+
+Changes to v3:
+- Include reviews from Justin Tee
+- Split marginal path handling patch
+
+Changes to v4:
+- Change 'u8' to '__u8' on fc_tlv_desc to fix a failure to build
+- Print 'marginal' instead of 'live' in the state of controllers
+  when they are marginal
+
+Changes to v5:
+- Minor spelling corrections to patch descriptions
+
+Changes to v6:
+- No code changes; added note about additional testing
+
+Changes to v7:
+- Split nvme core marginal flag addition into its own patch
+- Add patch for queue_depth marginal path support
+
+Changes to v8:
+- Rebased patch series to nvme-6.17.
+- Added patch from Gustavo Silva, "scsi: qla2xxx: Fix memcpy field-spanning
+  write issue", which resolves the field-spanning write issue
+- We decided to leave the "marginal" state as is, because the transport
+  driver uses the term "marginal".
+
+Changes to v9:
+- Rebased patch series to nvme-6.18.
+- Refactor and fix a patch from Gustavo Silva, "scsi: qla2xxx: Fix 2 memcpy
+  field-spanning write issue", which resolves the field-spanning write
+  issue.
+  This new version of Gustavo's patch fixes a bug found in testing.
+- Refactored original implementation
+  New functions added:
+    nvme_fc_lport_from_wwpn() - Find local port by WWPN
+    nvme_fc_fpin_set_state() - Set marginal state on controllers
+    nvme_fc_modify_rport_fpin_state() - Main API function
+  Functions removed:
+    nvme_fc_fpin_li_lport_update() - FPIN processing logic
+    nvme_fc_fpin_rcv() - Direct FPIN message processing
+  Functions modified:
+    fc_rport_set_marginal_state - allows administrative control
+
+Changes to v10:
+ - Rebase onto 7.2-rc1
+ - Add marginal support to fcloop driver (new patch)
+ - Rewrite multipath handeling ("nvme-fc: marginal path handling") and
+     ("nvme-multipath: queue-depth support for marginal paths") replacing
+     them with ("nvme-multipath: round-robin...")
+     ("nvme-fc: marginal path handling...") and
+     ("nvme-multipath: queue-depth support")
+ - New patch ("scsi: scsi_transport_fc: Add set_rport_marginal to ")
+     replaces ("scsi: scsi_transport_fc: add fc_host_fpin_set_nvme").
+     Uses existing function template to add a new callback for setting
+     the marginal state on a remote port, similar to the existing
+     set_rport_dev_loss_tmo() callback.
+ - Replace `nvme_fc_modify_rport_fpin_state` with
+     `nvme_fc_set_remoteport_fpin` which takes
+     `struct nvme_fc_remote_port` insead of wwpn and wwnn
+ - Rewrite the "enable FPIN notification for NVMe" patches
+      to use the new callback methods.
+
+This patch series is based upon 7.3/scsi-staging at
+Commit 376a3960e5ef ("scsi: fnic: Fix built-in NVMe/FC build")
+
+https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=7.3/scsi-staging&id=376a3960e5efe85ff765abfb5b5b7e4655ad6aed
+
+Bryan Gurney (2):
+  nvme: add NVME_CTRL_MARGINAL flag
+  nvme: sysfs: emit the marginal path state in show_state()
+
+Hannes Reinecke (1):
+  fc_els: use 'union fc_tlv_desc'
+
+Jesse Taube (8):
+  nvme-multipath: numa support for marginal paths
+  nvme-multipath: round-robin support for marginal paths
+  scsi: scsi_transport_fc: Add set_rport_marginal to
+    fc_function_template
+  nvme-fc: add nvme_fc_set_remoteport_fpin()
+  scsi: qla2xxx: enable FPIN notification for NVMe
+  scsi: lpfc: enable FPIN notification for NVMe
+  nvme: fcloop: Add set_rport_marginal to sysfs
+  docs: nvme-multipath: Add FC-NVMe marginal state
+
+John Meneghini (2):
+  nvme-multipath: queue-depth support for marginal paths
+  scsi: scsi_transport_fc: user support for clearing NVME_CTRL_MARGINAL
+
+ Documentation/admin-guide/nvme-multipath.rst |  17 ++
+ drivers/nvme/host/core.c                     |   1 +
+ drivers/nvme/host/fc.c                       |  20 +++
+ drivers/nvme/host/multipath.c                | 122 +++++++++++--
+ drivers/nvme/host/nvme.h                     |   6 +
+ drivers/nvme/host/sysfs.c                    |   4 +-
+ drivers/nvme/target/fcloop.c                 |  41 +++++
+ drivers/scsi/lpfc/lpfc_attr.c                |  28 +++
+ drivers/scsi/lpfc/lpfc_els.c                 |  77 ++++----
+ drivers/scsi/lpfc/lpfc_hw4.h                 |  12 +-
+ drivers/scsi/qla2xxx/qla_attr.c              |  13 ++
+ drivers/scsi/scsi_transport_fc.c             |  89 +++++++---
+ include/linux/nvme-fc-driver.h               |   2 +
+ include/scsi/scsi_transport_fc.h             |   1 +
+ include/uapi/scsi/fc/fc_els.h                | 174 ++++++++++---------
+ 15 files changed, 441 insertions(+), 166 deletions(-)
+
+-- 
+2.54.0
 
