@@ -1,63 +1,65 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5040E3043DB
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 10:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715454248D2
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 10:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786530939; cv=none; b=iHp6IYHcochh3dCWGVaxn17tGkZdZViIHUMagyCj2bqnvtFEtcwHmMnN43qt6DOMaRufajIBEOKpo80gqNL6IUrqTuhfMk6Wm+q2Uv9hzzteC7hBRtfUN3w/U+ZKdmvQSYAZHqp3tpzZMhxRCf0sdDdcm+R40LoPmW7OJtZZqsk=
+	t=1786530943; cv=none; b=QhyZOI16MCoUFqtYboAjWpBTZQ/XLTM1B0vbFqc7bnDuQof8zb8q5aTGpsHZBhOrQI/CWqH1uRxldIigwQD2j9oiKhhub+HmidlMq2wIIFqctpI2BNMjTz1/m9j8KMeNI9ArJKeS29NnlOWO+Eza+q6EZ3gkz13/PFrebmVz0sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786530939; c=relaxed/simple;
-	bh=fDm5OgbTBl5iPXEnSa7Ard5SQYNJ2RbUB/zwyucZOnM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I1gKAZZ97kYwzuISzFLl8L3aZ0T6vBvx2xOJOU6eEzf5UjlC197/1lwAIYrM3iy3yaevYiEVkT/oQyjORQTA6WTL8kOQVrJNDxGMtFtk9cwxtRR4IaWaefqLMyum7PzJfM/OBjJjeT+IE8gHyoOLq2V43fMqOf+kxzN5sU8ZhWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arimil.com; spf=pass smtp.mailfrom=arimil.com; dkim=pass (2048-bit key) header.d=arimil.com header.i=@arimil.com header.b=LFLEWxKD; arc=none smtp.client-ip=209.85.219.41
+	s=arc-20240116; t=1786530943; c=relaxed/simple;
+	bh=GlzdpYnRslH/TnObZGBK0rnYo0AfyckpQ81/QlcSZoY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rW0ldUhlseB3iAzBKBEC5DWuaMrJ1jQzyLTasHT4+Nk1X+QaN6XUsFkOhwWaXZsnTc3MXi6mpsp6GnkS5zcE7pWb/0lVaNJ6ZHckP2BFqVFY/GWT4Pymc09ePG7zIA4LzJxs1hLRv0pJRl9C6o6lMEq8BRdY32iXHxNc4HvL3ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arimil.com; spf=pass smtp.mailfrom=arimil.com; dkim=pass (2048-bit key) header.d=arimil.com header.i=@arimil.com header.b=nP2P1Hso; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arimil.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arimil.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arimil.com header.i=@arimil.com header.b="LFLEWxKD"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8eeb4508f29so5775696d6.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 03:35:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=arimil.com header.i=@arimil.com header.b="nP2P1Hso"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c4436d02cso5253591cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 03:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arimil.com; s=google; t=1786530937; x=1787135737; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oKIsJHjgPoQf+kbiTogFfPswRclgUU+W7sLet0609EM=;
-        b=LFLEWxKD4LbNFnP7Tip/5ntXaLxq6Xtn1+qP7I8/H4LRcQA5Pu0LHpScKKeIWILX/F
-         OMWW3PZ9kkg5HjhTjl8JQkXHO4MhVCo9KzTXqR5q5TJ+rKu0nLVrcDrk2cJvw8qx1+rK
-         hUm3l24QPg76sfSV7a5m0vRxiOHbtuqGtOs8d1t9WpRZ15vBuzCNwRQbJxZIbNReH+aV
-         Dgla2U8gdZ1Tm5FMnWI9WFDEeG2429FVGWtVJa1lOhz10vQcCU5cGF3qin6J05wg66dE
-         iZw0LI90tXxHpyqdK7rXqMqSBxZZ6ej0eTBrddG2iDXxkefPCoAJENxyPPs9ZPJ4UOpO
-         2nPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786530937; x=1787135737;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=arimil.com; s=google; t=1786530940; x=1787135740; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oKIsJHjgPoQf+kbiTogFfPswRclgUU+W7sLet0609EM=;
-        b=dG+wdFJUybWkAp+D0HjYkBT3cwhLQ+HdjF6vDZRCOHgX0iulmI60lALNlP30EFW69N
-         j2I1LZvduM0GzfvJgBvcbGQev/3m5ZLH/XjpJafdAglGf53AkLxZDFLEBy28IJbevGw4
-         gI/09iM4AafkRO3NYmXKnmV4u/wUnaWju9bkFYMQ0tRrsH2m9svBp4Cgo+foj8qJzbwA
-         Cus63TEumk/NmqGXrCiAHLUGOVx7YioQhQ5d2lJHKIcnBtESrYyH3EuaqA2tOnreqAJJ
-         Q5Pn/NiMC3eXrP2//1q+6EyGfYAu+1OIcFWBiYfSAOMAG4OMVp3X7entANwljqO7xuq9
-         w9Xg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr9vNkEucbXebURU3AZis5pwsns8d5FybQNT3qsuQ4zzKK7JdC3hho191M2mhhLP2wVWQf1cWs7L/4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8oCtiGGRyj81zCbwjKUaX6ZyFgbNG9LLp2n2ut5O2bYJP/dnO
-	d/Na7sWoSgCH1+dyD0++UGLcRHY4S7DuiLOaGRYROoOSBKZkH1GIZjY/+IGQWmR1cOaShYrI8PT
-	DfDie7azY9Q==
-X-Gm-Gg: AR+sD10ZA9u8rNtiiBr5rQZWN/lYIhmlIAIkRI09n09PBM1D3psZ7sTA9rNPwVqajef
-	QsQBo+VXPO0EDJGsFh40gonGhBEjRrH5F1b6m55Q+rRIAQVQYGs9bs8aI8XnIxsVW+x7e7YekW3
-	pLt7y+zICLindW5+8vkPKG47x1B4noFih65+nFF84Tm9QierRwQ0F+AgANyReeoku6glvLz4u2g
-	mWhkiNhyAiJroD19Xud8Y5SFsFxCtoiNRhe3mxYRpPEM56RfPGzGvV/af0rX1SBg2ZwC1lPN57d
-	FW3GhyFO2jOD2zBsACGxiVaC8C6bf7KXldEZNT+/0xr38bdUKkC9Z6+A46gdt7bhYLl1VYRVv7B
-	ftm1o4fBeOxPXVzvdX59C4JuQM8y0G50hzM41nFgwrWzuJODjY9XgaTbVHWnAaZpEsJ07hvyntt
-	j2v+akGR7xo8nyoWtNQbw2LXF/fIpHDaF8W+G8iqg8diF0+tyV1YBwInRvB6mcC26IUKAFLeBpe
-	38rTiOXbYlTuPlGFsWZ4QorH8cowiwjeXTlq4kQpXig
-X-Received: by 2002:a05:6214:212a:b0:8f2:1d56:3e8c with SMTP id 6a1803df08f44-90a700268e3mr35084676d6.29.1786530937041;
-        Wed, 12 Aug 2026 03:35:37 -0700 (PDT)
+        bh=YqDexmwCkxK5cGoRgv9/ZOTLVH+NFOtiGbbUjmtnvFQ=;
+        b=nP2P1HsoC8UV98rHPT3R5vzuOFRR3MVIPS1i1RUWG70bot0JxdpmgnTMHbrlkIiqOm
+         53sk08nS/rvz9bZAfm1mWdL92Yz6LH+uRa1zEOC+HNwSdvofkT9PKYiMNgbD6DdepFOI
+         QbisPbuW8YX8rFsrIHcPsbQwEEBm+WP2vdhaOHHOvk6CMzPIeWyoRAlMoe2pbdCrSi+9
+         12Q7DFm29yv0Q5GANOo3IwcDN/TmsLhEgPfD2jI777Y3m7TI2y4mi4nROSNMBRFY+QwY
+         hlLxnMSAyVBjNvaDfCyGBFyn8Ft02GksThidEO2lQjT4qQkCrpbZA2EOgGmTJHvbNrB5
+         1dVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786530940; x=1787135740;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YqDexmwCkxK5cGoRgv9/ZOTLVH+NFOtiGbbUjmtnvFQ=;
+        b=orNq2oBwdhVnFYNr3RySwUZGtHMEjusVEUBXAYU54RP/ef9T5jh4rgS1ncCr3xGdbG
+         z/ikPvvf8F0Ydh/VH0Yzj7ezdXoDbcXyJmURaIWADuYmDhrF5ybdyxE4XnUr+GbsUn4O
+         0n2me+B925PMdqRWPUCiR4PUQMNNOmkvLZ1iTRrBCSw4pUo9VHKL6oDLBL6qx9GPHOfa
+         t4cEMPOHJAmEqz9jIuhBzzlEcCI6WqDZ79J1aPzzS1JEBQFYk/lJzfQzQVGwXz0I+S+A
+         uid7do6ezmVwC8++6jLrZDkk3D6xg6n1wdWDSKzGnX1IQkxBpKipBhfBRdAeV+g/YSZk
+         XKQA==
+X-Forwarded-Encrypted: i=1; AHgh+RrYO9fr8igLwT04iGEzsB44wqC32YopEZHvK4Ia/+vau65KkPOQ3KEEawxiPSAowKUE5fjVUH4g/yI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8aor8zJXkyrXnZdYPHLrgpobLwIG5zIkUDiCrwbmhBGIva2sJ
+	FY377GlqYwvMsmuFW+aXZCkcUOB43s3jOpUvuCPPYgEFX0StOvZyL7LrUZZIxXIDSRwlNOHpwca
+	mhJfjYsJDAg==
+X-Gm-Gg: AR+sD11BZ7Lpjaz4/q118qF8H2yZMGY25U4ExaRqn+ks4WJJJsg0Xj9/gdlzJInUrAD
+	lNrfRQ0bPCneCOi1hvcqmS1qNlZltj6on8oV1/1xkZleZMvjeP1AptGQLmhVrwQNR2bMVJSr/7f
+	aOWvv+PB3GBuu//D5nNM5jLgsRZPynNRHgyRs6lzppg66/n5vUbPb8u3MwpE1Hu8ZQsvSAkSQuj
+	6QTUa5FhYL6n+ARyJCLdAyFlXBZ9zEMnUUYUm4JdkkIxaTfqQi5pp7Jk0kzfhc2/mLmfYTADai1
+	Gjwihu5yu5PbLDp/b1MCmRIZH5rHZ06GULWyB0hO3Fa+rldkHIGu8i49DbpkY60vpB9ko7svQZd
+	OMLtVJim0WN6i9H+5U57g/PJw3oEefnyvZIu6WUy1wTFesip/2dyL9d7YTgXB5V8NmCXQCq6zwg
+	sttjjaTOmbGlN6Mjb/oBQyTKiH+pAtlddKH+14rsJr4KsuO3GPlZl9M6Ziz6jrw2QLuipDn2dZW
+	0ASBK6vBuc/4+NKVT007Gbu94wkqc6vMw==
+X-Received: by 2002:a05:622a:305:b0:51c:1ec5:d0f with SMTP id d75a77b69052e-52d6482ea3emr27523201cf.40.1786530940278;
+        Wed, 12 Aug 2026 03:35:40 -0700 (PDT)
 Received: from camelot.arimil.com (24.229.171.193.res-cmts.sm3.ptd.net. [24.229.171.193])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a6c29e942sm18718386d6.12.2026.08.12.03.35.35
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a6c29e942sm18718386d6.12.2026.08.12.03.35.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 03:35:36 -0700 (PDT)
+        Wed, 12 Aug 2026 03:35:38 -0700 (PDT)
 From: Arie Miller <renari@arimil.com>
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: Aleksa Savic <savicaleksa83@gmail.com>,
@@ -68,10 +70,12 @@ Cc: Aleksa Savic <savicaleksa83@gmail.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Arie Miller <renari@arimil.com>
-Subject: [PATCH v3 0/3] hwmon: Add ASUS ROG Ryujin III support
-Date: Wed, 12 Aug 2026 06:35:29 -0400
-Message-ID: <20260812103532.395049-1-renari@arimil.com>
+Subject: [PATCH v3 1/3] hwmon: (asus_rog_ryujin) Add per-device configuration
+Date: Wed, 12 Aug 2026 06:35:30 -0400
+Message-ID: <20260812103532.395049-2-renari@arimil.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260812103532.395049-1-renari@arimil.com>
+References: <20260812103532.395049-1-renari@arimil.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,86 +84,185 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add hardware monitoring support for ASUS ROG Ryujin III coolers.
+Move model-specific report offsets and capabilities into a device
+information structure. This prepares the driver for coolers which use
+a different report layout or do not include the external fan
+controller, while preserving the existing Ryujin II 360 behavior.
 
-Compared with the Ryujin II, the Ryujin III uses different offsets in
-its status reports and a different cooler-duty channel. It also does not
-expose the Ryujin II's external fan-controller channels. The first patch
-moves those details into per-device configuration and rejects HID devices
-without that configuration before it is dereferenced. The second patch
-adds the Extreme and EVA Edition variants. The third patch, authored by
-Will Smith, adds the White Edition USB ID. Will confirmed his authorship
-sign-off and tested that variant on his hardware.
+Handles an issue reported by Sashiko where an id could
+be missing driver_data.
 
-The Ryujin III implementation and White Edition were tested through the
-linked project pull requests. The EVA Edition hardware was tested by me.
+Link: https://lore.kernel.org/r/5a817284-a9f4-48b2-9f0f-802c5dc6963c@roeck-us.net
+Assisted-by: Codex:gpt-5.6-sol sparse
+Signed-off-by: Arie Miller <renari@arimil.com>
+---
+ drivers/hwmon/asus_rog_ryujin.c | 75 +++++++++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 23 deletions(-)
 
-Codex using gpt-5.6-sol assisted with porting the changes to the current
-hwmon tree, organizing the patch series, updating documentation and
-commit messages, and running build, checkpatch, Sparse, and Sphinx
-validation. I reviewed and tested the resulting changes on ROG Ryujin
-III EVA Edition hardware.
-
-The v3 series passes git diff --check and checkpatch --strict. Its final
-tree is identical to v2, for which the driver object compiled in-tree
-with W=1 in both built-in and module configurations, and Sparse reported
-no findings for either configuration. The range-diff confirms that
-patches 2 and 3 are unchanged and that patch 4 was folded into patch 1.
-
-Changes in v3:
-- Fold the missing driver_data check from patch 4 into patch 1, as
-  requested by Guenter Roeck.
-- No source changes from v2.
-
-v2: https://lore.kernel.org/r/20260811233943.319729-1-renari@arimil.com
-v1: https://lore.kernel.org/r/20260807000107.1786892-1-renari@arimil.com
-
-
-Arie Miller (2):
-  hwmon: (asus_rog_ryujin) Add per-device configuration
-  hwmon: (asus_rog_ryujin) Add ROG Ryujin III support
-
-Will Smith (1):
-  hwmon: (asus_rog_ryujin) Add ROG Ryujin III White Edition
-
- Documentation/hwmon/asus_rog_ryujin.rst | 25 ++++---
- drivers/hwmon/Kconfig                   |  4 +-
- drivers/hwmon/asus_rog_ryujin.c         | 96 ++++++++++++++++++-------
- 3 files changed, 87 insertions(+), 38 deletions(-)
-
-Range-diff against v2:
-1:  686fd2251bea ! 1:  35b53d4b4085 hwmon: (asus_rog_ryujin) Add per-device configuration
-    @@ Commit message
-         a different report layout or do not include the external fan
-         controller, while preserving the existing Ryujin II 360 behavior.
-     
-    +    Handles an issue reported by Sashiko where an id could
-    +    be missing driver_data.
-    +
-    +    Link: https://lore.kernel.org/r/5a817284-a9f4-48b2-9f0f-802c5dc6963c@roeck-us.net
-         Assisted-by: Codex:gpt-5.6-sol sparse
-         Signed-off-by: Arie Miller <renari@arimil.com>
-     
-    @@ drivers/hwmon/asus_rog_ryujin.c: static int rog_ryujin_raw_event(struct hid_devi
-      		if (!completion_done(&priv->cooler_status_received))
-      			complete_all(&priv->cooler_status_received);
-     @@ drivers/hwmon/asus_rog_ryujin.c: static int rog_ryujin_probe(struct hid_device *hdev, const struct hid_device_id
-    + 	struct rog_ryujin_data *priv;
-    + 	int ret;
-    + 
-    ++	if (!id->driver_data)
-    ++		return -EINVAL;
-    ++
-    + 	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-    + 	if (!priv)
-      		return -ENOMEM;
-      
-      	priv->hdev = hdev;
-2:  68d87330a2f7 = 2:  ce2e2c681daf hwmon: (asus_rog_ryujin) Add ROG Ryujin III support
-3:  c3d95809f962 = 3:  2dca57c91535 hwmon: (asus_rog_ryujin) Add ROG Ryujin III White Edition
-4:  e9558b907537 < -:  ------------ hwmon: (asus_rog_ryujin) Handle missing driver data
-
-base-commit: 54743b5ab981d686b885c3da639d4ed6cc995e8b
+diff --git a/drivers/hwmon/asus_rog_ryujin.c b/drivers/hwmon/asus_rog_ryujin.c
+index 10a1f5aca988..80563ce38519 100644
+--- a/drivers/hwmon/asus_rog_ryujin.c
++++ b/drivers/hwmon/asus_rog_ryujin.c
+@@ -18,15 +18,25 @@
+ #define USB_VENDOR_ID_ASUS_ROG		0x0b05
+ #define USB_PRODUCT_ID_RYUJIN_AIO	0x1988	/* ASUS ROG RYUJIN II 360 */
+ 
++struct rog_ryujin_device_info {
++	u8 temp_offset;
++	u8 pump_speed_offset;
++	u8 fan_speed_offset;
++	u8 duty_channel;
++	bool has_controller;
++};
++
++static const struct rog_ryujin_device_info rog_ryujin_ii_360_info = {
++	.temp_offset = 3,
++	.pump_speed_offset = 5,
++	.fan_speed_offset = 7,
++	.duty_channel = 0,
++	.has_controller = true,
++};
++
+ #define STATUS_VALIDITY		1500	/* ms */
+ #define MAX_REPORT_LENGTH	65
+ 
+-/* Cooler status report offsets */
+-#define RYUJIN_TEMP_SENSOR_1		3
+-#define RYUJIN_TEMP_SENSOR_2		4
+-#define RYUJIN_PUMP_SPEED		5
+-#define RYUJIN_INTERNAL_FAN_SPEED	7
+-
+ /* Cooler duty report offsets */
+ #define RYUJIN_PUMP_DUTY		4
+ #define RYUJIN_INTERNAL_FAN_DUTY	5
+@@ -81,6 +91,7 @@ static const char *const rog_ryujin_speed_label[] = {
+ struct rog_ryujin_data {
+ 	struct hid_device *hdev;
+ 	struct device *hwmon_dev;
++	const struct rog_ryujin_device_info *info;
+ 	/* For reinitializing the completions below */
+ 	spinlock_t status_report_request_lock;
+ 	struct completion cooler_status_received;
+@@ -112,6 +123,8 @@ static int rog_ryujin_pwm_to_percent(long val)
+ static umode_t rog_ryujin_is_visible(const void *data,
+ 				     enum hwmon_sensor_types type, u32 attr, int channel)
+ {
++	const struct rog_ryujin_data *priv = data;
++
+ 	switch (type) {
+ 	case hwmon_temp:
+ 		switch (attr) {
+@@ -123,6 +136,8 @@ static umode_t rog_ryujin_is_visible(const void *data,
+ 		}
+ 		break;
+ 	case hwmon_fan:
++		if (channel >= 2 && !priv->info->has_controller)
++			return 0;
+ 		switch (attr) {
+ 		case hwmon_fan_label:
+ 		case hwmon_fan_input:
+@@ -132,6 +147,8 @@ static umode_t rog_ryujin_is_visible(const void *data,
+ 		}
+ 		break;
+ 	case hwmon_pwm:
++		if (channel >= 2 && !priv->info->has_controller)
++			return 0;
+ 		switch (attr) {
+ 		case hwmon_pwm_input:
+ 			return 0644;
+@@ -198,12 +215,14 @@ static int rog_ryujin_get_status(struct rog_ryujin_data *priv)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	/* Retrieve controller status (speeds) */
+-	ret =
+-	    rog_ryujin_execute_cmd(priv, get_controller_speed_cmd, GET_CMD_LENGTH,
+-				   &priv->controller_status_received);
+-	if (ret < 0)
+-		return ret;
++	if (priv->info->has_controller) {
++		/* Retrieve controller status (speeds) */
++		ret = rog_ryujin_execute_cmd(priv, get_controller_speed_cmd,
++					     GET_CMD_LENGTH,
++					     &priv->controller_status_received);
++		if (ret < 0)
++			return ret;
++	}
+ 
+ 	/* Retrieve cooler duty */
+ 	ret =
+@@ -212,12 +231,14 @@ static int rog_ryujin_get_status(struct rog_ryujin_data *priv)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	/* Retrieve controller duty */
+-	ret =
+-	    rog_ryujin_execute_cmd(priv, get_controller_duty_cmd, GET_CMD_LENGTH,
+-				   &priv->controller_duty_received);
+-	if (ret < 0)
+-		return ret;
++	if (priv->info->has_controller) {
++		/* Retrieve controller duty */
++		ret = rog_ryujin_execute_cmd(priv, get_controller_duty_cmd,
++					     GET_CMD_LENGTH,
++					     &priv->controller_duty_received);
++		if (ret < 0)
++			return ret;
++	}
+ 
+ 	priv->updated = jiffies;
+ 	return 0;
+@@ -289,6 +310,7 @@ static int rog_ryujin_write_fixed_duty(struct rog_ryujin_data *priv, int channel
+ 			return ret;
+ 
+ 		memcpy(set_cmd, set_cooler_duty_cmd, SET_CMD_LENGTH);
++		set_cmd[2] = priv->info->duty_channel;
+ 
+ 		/* Cooler duties are set as 0-100% */
+ 		val = rog_ryujin_pwm_to_percent(val);
+@@ -394,10 +416,12 @@ static int rog_ryujin_raw_event(struct hid_device *hdev, struct hid_report *repo
+ 
+ 	if (data[1] == RYUJIN_GET_COOLER_STATUS_CMD_RESPONSE) {
+ 		/* Received coolant temp and speeds of pump and internal fan */
+-		priv->temp_input[0] =
+-		    data[RYUJIN_TEMP_SENSOR_1] * 1000 + data[RYUJIN_TEMP_SENSOR_2] * 100;
+-		priv->speed_input[0] = get_unaligned_le16(data + RYUJIN_PUMP_SPEED);
+-		priv->speed_input[1] = get_unaligned_le16(data + RYUJIN_INTERNAL_FAN_SPEED);
++		priv->temp_input[0] = data[priv->info->temp_offset] * 1000 +
++			data[priv->info->temp_offset + 1] * 100;
++		priv->speed_input[0] =
++			get_unaligned_le16(data + priv->info->pump_speed_offset);
++		priv->speed_input[1] =
++			get_unaligned_le16(data + priv->info->fan_speed_offset);
+ 
+ 		if (!completion_done(&priv->cooler_status_received))
+ 			complete_all(&priv->cooler_status_received);
+@@ -471,11 +495,15 @@ static int rog_ryujin_probe(struct hid_device *hdev, const struct hid_device_id
+ 	struct rog_ryujin_data *priv;
+ 	int ret;
+ 
++	if (!id->driver_data)
++		return -EINVAL;
++
+ 	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+ 	priv->hdev = hdev;
++	priv->info = (const struct rog_ryujin_device_info *)id->driver_data;
+ 	hid_set_drvdata(hdev, priv);
+ 
+ 	/*
+@@ -546,7 +574,8 @@ static void rog_ryujin_remove(struct hid_device *hdev)
+ }
+ 
+ static const struct hid_device_id rog_ryujin_table[] = {
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_AIO) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_AIO),
++	  .driver_data = (kernel_ulong_t)&rog_ryujin_ii_360_info },
+ 	{ }
+ };
+ 
 -- 
 2.55.0
 
