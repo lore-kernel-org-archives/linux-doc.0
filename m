@@ -1,123 +1,133 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FC63AEF4E;
-	Wed, 12 Aug 2026 08:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4BD36B935;
+	Wed, 12 Aug 2026 08:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786521876; cv=none; b=ErxOCFadf9cugY3yi0HxtROHgjy2dJ5WgTrNf1fRbKzSE13JSJAu06ZEYyYb1zBJ2D0TKFdbVcE54xBYZjzZeBiCs6o+5KSWbv3WFnHdKTjbf4DtjIxpDBsHIOK8o1YJU9I/4N9cwijrXm4BGRFvFYY57yG16qlX/nxUoyh7M2g=
+	t=1786522605; cv=none; b=QnX1vWZA0fTIOWlt3aYEk81tcIL9pHikh7rdp43Vqs56sqDDpjhgWWyFB17PM8HO3HXdRpJzJbRROn71mmHA8P27a+tG/fpYfQZiHpB5yHmS44mL1AbPt0bUwLz7asUf7mH4523/3BwEzbiaNBctpbU22Bqoage8nUnQ+0yRdnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786521876; c=relaxed/simple;
-	bh=tDOlBreQlwuXeKWp8KQ2AXqqUKnJCje8Swzl5xhNDd8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WV893uIY/EuMji5j73YQ4UVrgdSmOs2z5HL2EXx8HBxn1aHAxr/cgNZ7LRiI7f0JV6pZ9rl/mRolljl4qqMoyWo8zf+CK3tSLKoWas/Q/DkiBqwgleWoNfIdd/4vf2tWLL5V0MpHl6NOEvuIcM/WUmAY0cVrlIQGIvVBGZR95g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 6f30d654962411f1aa26b74ffac11d73-20260812
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR, SRC_UNFAMILIAR
-	DN_TRUSTED, SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
-	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
-	CIE_GOOD_SPF, CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
-	AMN_GOOD
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:805cb2e1-2a05-4900-82e9-39d0179a355c,IP:10,
-	URL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-10
-X-CID-INFO: VERSION:1.3.12,REQID:805cb2e1-2a05-4900-82e9-39d0179a355c,IP:10,UR
-	L:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:EDM_GE969F26,ACTIO
-	N:release,TS:-10
-X-CID-META: VersionHash:e7bac3a,CLOUDID:8a5fe3aa4b666b997e91bda91c6aa5d7,BulkI
-	D:260812160428G7BWOWO4,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|81|82|10
-	2|127|865|898,TC:nil,Content:0|15|50,EDM:1|-100,IP:-2,URL:0,File:nil,RT:ni
-	l,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,
-	BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_SNR,TF_CID_SPAM_AEC,TF_CID_SPAM_FAS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 6f30d654962411f1aa26b74ffac11d73-20260812
-X-User: husong@kylinos.cn
-Received: from ctao-book.. [(111.162.215.50)] by mailgw.kylinos.cn
-	(envelope-from <husong@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1613457883; Wed, 12 Aug 2026 16:04:25 +0800
-From: Song Hu <husong@kylinos.cn>
-To: linux-mm@kvack.org,
-	akpm@linux-foundation.org
-Cc: david@kernel.org,
-	ljs@kernel.org,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Song Hu <husong@kylinos.cn>
-Subject: [PATCH 2/2] Docs/mm: fix THP policy counts in transhuge
-Date: Wed, 12 Aug 2026 16:03:13 +0800
-Message-ID: <20260812080313.330413-3-husong@kylinos.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260812080313.330413-1-husong@kylinos.cn>
-References: <20260812080313.330413-1-husong@kylinos.cn>
+	s=arc-20240116; t=1786522605; c=relaxed/simple;
+	bh=JSuQnVhQTnRB2r+8uupOQXcxSlYbUTdL6DRqoze9JUU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dnnrsyo+ho0+ssf3E5hgB4Jv13dFUvtTT+4d7308i5lfhgdBku4+plc0J/Gq3xYAuSxqAHlvzF1wKIbuIwpOp9N7ENOsdDiFdzL1i/1JDRPmS3F0XBs5rHdhC7VA2FajHTYs8eynpH+b/nxB5Aj4WIC81Y2sOiNLrtL6mnwbqSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKSh2SIs; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKSh2SIs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786522604; x=1818058604;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=JSuQnVhQTnRB2r+8uupOQXcxSlYbUTdL6DRqoze9JUU=;
+  b=nKSh2SIs8qW8afsCqKJT+tvZA77i0d11BdiUKgC2jbTeaIwfmBsmTn4f
+   p9JOkQdl87Ycsc+g171QlKSNhitSY7ARVoRlb2nt/CQ60sC9c5+XBQtsb
+   BxzXLcX0Vc8XDAMs3LDTPcn4o379R4L1gEENkqLup+913SgJVLm+KfE4R
+   QYPXyvUZD3aAq9/8c7US/1i75JIMd/2yBwtKM6Hz9uK65JttOa0UjfKqy
+   6OlaNlT4+RUI0CK9ZgsGUiiGcIsjC3jm4PLjNSToTDWSK8sn/rS6Syd1a
+   7XCnIb/5O+Iz4YwMpI/p1TlGGKMjGf5pOvrseXOSNspHxJmWo3LRJEuh1
+   g==;
+X-CSE-ConnectionGUID: mIQFyaG8RFyO4UGqUX8i9A==
+X-CSE-MsgGUID: CM7e6rWAS2WomG6Z57ucFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="97414132"
+X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
+   d="scan'208";a="97414132"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 01:16:43 -0700
+X-CSE-ConnectionGUID: BL1IvoWBSoi/4zQSJDcW7A==
+X-CSE-MsgGUID: BLvW57sVSIqi8lRVaUvP2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
+   d="scan'208";a="257378842"
+Received: from unknown (HELO [10.238.208.98]) ([10.238.208.98])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 01:16:30 -0700
+Message-ID: <84ad91f5-1006-410b-94a4-01e7dcc6fcbd@intel.com>
+Date: Wed, 12 Aug 2026 16:16:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 01/41] KVM: guest_memfd: Use kvm_mem_is_private() when
+ populating guest_memfd memory
+To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ david@kernel.org, jmattson@google.com, jthoughton@google.com,
+ michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
+ qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
+ shivankg@amd.com, steven.price@arm.com, tabba@google.com,
+ willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
+ forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
+ aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
+ Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-1-2fc18ee6d3ba@google.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20260807-gmem-inplace-conversion-v10-1-2fc18ee6d3ba@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-transhuge.rst claims seven policies for transparent_hugepage_shmem= and
-four for transparent_hugepage_tmpfs=.  Both boot parameters are parsed by
-shmem_parse_huge(), which accepts six: always, within_size, advise, never,
-deny and force.  The "four" applies only to the per-mount huge= option
-(shmem_param_enums_huge).  Fix both counts to six.
+On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
+> From: Sean Christopherson <seanjc@google.com>
+> 
+> Using kvm_mem_is_private() when populating guest_memfd instead of using an
+> open coded equivalent.  In addition to simplifying the populate code *now*,
+> this avoids the need to provide a range-based gmem lookup API in the future
+> as well.
+> 
+> No functional change intended.
+> 
+> Suggested-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-Signed-off-by: Song Hu <husong@kylinos.cn>
----
- Documentation/admin-guide/mm/transhuge.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index b187d618452f..72e944f49da5 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -389,14 +389,14 @@ is not defined within a valid ``thp_anon``, its policy will default to
- Similarly to ``transparent_hugepage``, you can control the hugepage
- allocation policy for the internal shmem mount by using the kernel parameter
- ``transparent_hugepage_shmem=<policy>``, where ``<policy>`` is one of the
--seven valid policies for shmem (``always``, ``within_size``, ``advise``,
-+six valid policies for shmem (``always``, ``within_size``, ``advise``,
- ``never``, ``deny``, and ``force``).
- 
- Similarly to ``transparent_hugepage_shmem``, you can control the default
- hugepage allocation policy for the tmpfs mount by using the kernel parameter
- ``transparent_hugepage_tmpfs=<policy>``, where ``<policy>`` is one of the
--four valid policies for tmpfs (``always``, ``within_size``, ``advise``,
--``never``). The tmpfs mount default policy is ``never``.
-+six valid policies for tmpfs (``always``, ``within_size``, ``advise``,
-+``never``, ``deny``, and ``force``). The tmpfs mount default policy is ``never``.
- 
- Additionally, Kconfig options are available to set the default hugepage
- policies for shmem (``CONFIG_TRANSPARENT_HUGEPAGE_SHMEM_HUGE_*``) and tmpfs
--- 
-2.43.0
+> ---
+>   virt/kvm/guest_memfd.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index b596486d184ca..a11cf6dc785da 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -811,9 +811,7 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
+>   
+>   	folio_unlock(folio);
+>   
+> -	if (!kvm_range_has_memory_attributes(kvm, gfn, gfn + 1,
+> -					     KVM_MEMORY_ATTRIBUTE_PRIVATE,
+> -					     KVM_MEMORY_ATTRIBUTE_PRIVATE)) {
+> +	if (!kvm_mem_is_private(kvm, gfn)) {
+>   		ret = -EINVAL;
+>   		goto out_put_folio;
+>   	}
+> 
 
