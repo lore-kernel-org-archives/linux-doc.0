@@ -1,165 +1,271 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45104657F2
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 14:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC03470426
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 15:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786546496; cv=none; b=oZEVFJokUUlwf8+NMpHtSKj/v2OSPuHXjtPLwPM3bZ5mPUU1Syr6XTJ/SyoHfGNCT3wLO32E7G4rarcQUfrWesmBjEj9DdB8ImTiMSh3+Bc3+RlWtX+25OYC9/8qgvj3n2PbmGtt+2QecUd5ucqQ9qiUTP1qtCisSQhMjwiuH58=
+	t=1786547824; cv=none; b=qmurM98WrS3LnYvt4IAEJUFrvuo+3gXsfOMeDk/u/821gsomolP/VpOGc2cH0L59tomrl4sJaA2BkM7oO6rLt87wYj35XqznUfqrBZ/BJSY8yKbI79e3iZAQyEBTpv8TWf5bIVSbM9b8ch1zrbJr7gV/Lv76hkVl+tEIeWzgq6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786546496; c=relaxed/simple;
-	bh=ggZWb/rBiqtP7g2mRVkG7zh3PqK153hqDL94sI8DK4g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hF09oznD3NLL0AeMOhxMukkC/+0p2xBSHjCtS3usum2daMcW/TfjlLJVuqkN7RhYuF/m+PfWb/nuZL9bOaGr9FPC5j9bKawYXLO8OmeWSpVWB+Aax08XrCsGGC1jZ8wQa/B7YnIo0jim7eGHsA4V6yv8aRZt/szXkKACT2bu2Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktYDDo+s; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786547824; c=relaxed/simple;
+	bh=J01m2VjqnZE9DK85EfK7dUjiX+YGBCOKhqiUW+HEEmc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Nm2iA8pIs6Kd7blm4uVUDNwDQOBIy6HropnX8pTtlYYT8XyCJJNUKVuvndFzQERva6fu+rXrWypSYoVIyIOJAqW32jPmS5aE5t1KbF1a55tr58OX0SQt/CEHkHbti0uUDoS5XHmwwumgSEAQNprg/MUt2WQVqx0ripDYlSFmEFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GlZmTtor; arc=none smtp.client-ip=209.85.210.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktYDDo+s"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so1379171a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 07:54:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GlZmTtor"
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8485d853b08so1510130b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 08:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786546486; x=1787151286; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QyYu/EtrXs6+w7joY9KRy5CcVEubQhW0BF1ueyFLgVE=;
-        b=ktYDDo+sE5NBjy5adEWnV5XHGQ6uYJ1ThDPWGN4+7Smz9dC/9ZcbBe8GVCEN3m5wWX
-         +GpgmaU58bQVXs7V9ml6nNnrxNN22hxsNoq+V//gKgslrPzyenZSV2CTN8jPONcLtYE/
-         hYHpMw5FVgBsw4DLhCBgWQkgY48dpjTaf6TQuae+5Xb4tDj1nVr8jUs/LXO9q0ACQN9p
-         gRn/A5S3JigKmRcZb8E3CEhWviFsZWBdqFMx8RQl/1oMEfxG8mSkJxgY/SW/+hUNGo83
-         uUM9cB4O+cbFUTFD2NihoaoqxM533mduzcmaOzJFBpxObuPHYzKpxg9tPUAJnyPolKrq
-         HXZA==
+        d=google.com; s=20251104; t=1786547821; x=1787152621; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=97wksvVZ+thl5LcpXUGbBxNzodsfrcBWwlOTdvF+br0=;
+        b=GlZmTtorR6e8dnmytw/daxUMz1yJk9HIqtRQ1mgtpKjiEFb7j9tiWFQlDvTqmlkx2b
+         WALPETfdbh5/7ldVIOc3uSSpZDIX47NXDflC10OlLXpcDUd9yoE1OikJ67y0T4XCl6uK
+         1AAYhql58BW7YEE3msQhfgNeW0cKWEiMyj0RecfnEOrsURW1rrvy/81sfAyn7qIp3k9x
+         IGh7gjmX06T8nMI8r3QcA5vWX4yiQutLllW/R81RX7JL7EdhFipR1z/AFqXBCe5XVvo9
+         HmDS1NQ3SzjFajI+rSmSwaKXrxUMIF+CDi0yeXRLpIu3o7M2g4XlB3TClHfsLpC0kC7k
+         F1jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786546486; x=1787151286;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QyYu/EtrXs6+w7joY9KRy5CcVEubQhW0BF1ueyFLgVE=;
-        b=seBpLVh7RyC8kJI6KMORDwiTnZpDDj+v6IVY5mXhjv3OpT8gABxOfxRJTnnb/RKPCS
-         gLxdc2JefoC39sAoMIEPLR2db6oauSakb2/bIuBs2mYClCwH+qbpL8uqxvfzuRMR24wR
-         EqTHomw+WSGGTIaegoOcenZAYyMIh2J+Py6TO3xfQx22Rp/LXXFmj8oU3pRHSYBbQFl4
-         L3g5HXIzucbSyJVVhwArTA4O6ejEY2Nk9c8WxMqyC88uRfE4Mnzs4wKw46/iyR5RSDDJ
-         vas8r8nOmZNqdLb4rcJCd5jNs6VbYHENqR0XukaX3fQzTL+iFUfnKTeKtpzW1ec9k2BW
-         nsWA==
-X-Forwarded-Encrypted: i=1; AHgh+RrQdJ4l3BIMkpfGb0Ao9TUA9XdocKOQRtDowWmEahcamwxM1wLYM+D9KB/au8Tmtig5p2PRw6XL47s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOLzjjqcdmXWOGsAAACkzS3YtLmstKqcGiAxKdjGVlYRxhFmMo
-	NzdWetH7Pbd+D8yZHOMS8b8LJS1/LYauaXW0f5PV7v+fzuGL4txq1zNP
-X-Gm-Gg: AR+sD13eQz9L7meWelO1oAORw1QL86ladvG9TB5q8E8w8x6hAtL4kogdCzMIn8mFSpj
-	djm6t5Hg77NdPiKQbfzSzFsamW4paDOlPV/BAMZz+f2Ym5LXW93OgJPxaPQeNXNA4pophWvOKaA
-	xn22kypm/f8YoO3LTj03JtmAwJOkhJcuG8ykW9v2Qz4Doh77mDQBV0/QH6NQ/hNpNgoS14KlFiU
-	JDL0DVGvZfwJOyjbc+Xd9SvR94p8P9AQ3MxWD/TUA4sSGC6/nWKBuO5vK46qImjy6G4gSJsRdq1
-	Ity7xLagaRULYc28TTzRYbv//R81ZpfxAV/CFu226wFVb9oGplzaYkBrnio1jif8PoBI4XjOIuQ
-	wd95vJeETDIR0Xa4s1wF8AwQ1oZZWB47g456Ou68l8klkDdGLXXT0XyPETi8UJ1Oy8yr+Lfhgr8
-	mAALKhimoFVNhc3Rfa4hwbHLfSGwuYYXYCVpUjVw9mOE/+d/G0tX5hW3Eker+m2bePoSKJxFdL8
-	A==
-X-Received: by 2002:a17:90b:288b:b0:38e:f6eb:2b38 with SMTP id 98e67ed59e1d1-393014944a5mr6567009a91.17.1786546486135;
-        Wed, 12 Aug 2026 07:54:46 -0700 (PDT)
-Received: from localhost ([220.196.228.78])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392fe4b1659sm1334683a91.3.2026.08.12.07.54.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 07:54:45 -0700 (PDT)
-From: Liang Hao <haohlliang@gmail.com>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Liang Hao <haohlliang@gmail.com>
-Subject: [PATCH v2] docs: timers: hrtimers: clarify expiry modes and ktimersd on PREEMPT_RT
-Date: Wed, 12 Aug 2026 22:54:40 +0800
-Message-ID: <20260812145440.23528-1-haohlliang@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260807161929.49913-1-haohlliang@gmail.com>
-References: <20260807161929.49913-1-haohlliang@gmail.com>
+        d=1e100.net; s=20251104; t=1786547821; x=1787152621;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=97wksvVZ+thl5LcpXUGbBxNzodsfrcBWwlOTdvF+br0=;
+        b=e8uxI6F5h6J7kQfdjo3KBFBGQMwU2JIkVzTnDdYpDZJxhgzJ1SluGk0wzelNJQTBmo
+         REPYsUufMFi4Cd5bPHzDz5N5iOeKxBsvliWBYCLussa9eHtXUqXoMzgc0wlf4Tipp/i7
+         ZtMFWxLpIgjzcJ/jC43vlMqu8UdsYOtCHfmHbLRxWN++UYL0LR0aP5RBVszEBAmA32Jo
+         84bWq8deZld3bG5FaXLw1VUh/1qqmKVHzLL32tjHMakXs/FCNPK7/5VSO9snVReUgckA
+         Xn2riJj8+jrqqlTPCzmYE0l8XPgxGYlgItSksWG5RHaTX3DjjPN8rbzZoG2weuKsgEI0
+         V9uQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqXPMAAXyTcGSKkrwjSP1xtGN+TiJpNLcEOp+ph/4w5gffU0VSGP0lmvRlw8XnDBN3mBkM1aKKvBMA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6BvXRK7ZnI68RBd4T58+fwtpLLAo2+fgF5dsFHkr+ntncSeju
+	ajTs7e1N5NI76dSToUUUEET5k1UKi/c90GDpj+tpK4yiIuhBXNruk9qEXR6lEyMRrNI6fiFwuXE
+	83H+6nQ==
+X-Received: from pfbcv13.prod.google.com ([2002:a05:6a00:44cd:b0:847:7f5d:6b90])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4fc5:b0:845:4cb5:2343
+ with SMTP id d2e1a72fcca58-84fb551821bmr6172462b3a.19.1786547821109; Wed, 12
+ Aug 2026 08:17:01 -0700 (PDT)
+Date: Wed, 12 Aug 2026 08:17:00 -0700
+In-Reply-To: <2vxzik5f311e.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260728121138.1103610-1-tarunsahu@google.com>
+ <20260728121138.1103610-6-tarunsahu@google.com> <anphyjFv3FhF61iB@google.com>
+ <2vxzpkzo51wg.fsf@kernel.org> <anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
+Message-ID: <anyObKiZIhfok5mk@google.com>
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
+From: Sean Christopherson <seanjc@google.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>, ackerleytng@google.com, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
+Content-Type: text/plain; charset="us-ascii"
 
-Documentation/timers/hrtimers.rst did not cover the PREEMPT_RT
-expiry-mode semantics.  On a PREEMPT_RT kernel a timer that is not
-explicitly marked HRTIMER_MODE_HARD is forced into softirq expiry and
-its callback runs on the per-CPU ktimers/%u thread at the lowest
-SCHED_FIFO priority (sched_set_fifo_low), regardless of the priority of
-the task that armed it -- a SCHED_FIFO task running at priority 99 that
-starts an unmarked timer still expires on ktimers/%u (lowest SCHED_FIFO
-priority), not at priority 99.
+On Wed, Aug 12, 2026, Pratyush Yadav wrote:
+> On Tue, Aug 11 2026, Sean Christopherson wrote:
+> 
+> > On Tue, Aug 11, 2026, Pratyush Yadav wrote:
+> >> On Mon, Aug 10 2026, Sean Christopherson wrote:
+> >> 
+> >> > On Tue, Jul 28, 2026, Tarun Sahu wrote:
+> >> >> Register a Live Update Orchestrator (LUO) file handler for KVM VM files
+> >> >> to serialize and deserialize VM state across kexec live updates.
+> >> >> 
+> >> >> Currently, Only VM type (e.g. arch.vm_type on x86) is preserved as part
+> >> >> of VM preservation.
+> >> >
+> >> > Why?
+> >> >
+> >> >> On retrieval, kvm_luo_retrieve() recreates the KVM VM file via
+> >> >> kvm_create_vm_file() and use an atomically incremented ID for the internal
+> >> >> fdname, as the final fdname assigned by userspace is not yet known during
+> >> >> retrieval. As this fdname is only used in debugfs infra, This will not break
+> >> >> any UAPI.
+> >> >> 
+> >> >> This infrastructure establishes the foundation for preserving guest_memfd
+> >> >> instances across live updates, and can be expanded in the future to
+> >> >> preserve additional VM state.
+> >> >
+> >> > Uh, why guest_memfd?  As much as I want to push guest_memfd adoption, it seems
+> >> > guest_memfd should be the _last_ thing we support, not the first.  As evidenced
+> >> > by the last two decades, it's very doable to have KVM VMs without guest_memfd,
+> >> > but it's rather hard to have VMs without vCPUs.
+> >> 
+> >> You _can_ preserve vCPUs today using KVM_{GET,SET}_REGS, they just won't
+> >> run in the background during the reboot.
+> >
+> > What about x86 CoCo VMs?  Which are quite literally _the_ reason guest_memfd was
+> > created in the first place.  
+> 
+> I don't know much about the history but I thought these days guest_memfd
+> is used for more than just encrypted memory. I have seen talk of it
+> being used for non-confidential VMs. For example these patches [0][1][2].
 
-Add an "Expiry modes and PREEMPT_RT" section that, rather than
-duplicating the default-context description in
-Documentation/core-api/real-time/differences.rst (Timers),
-cross-references it and focuses on what that document does not spell
-out:
+It's getting there, but it's all still very nascent.
 
- - the callback does not inherit the arming task's priority, and
-   priority inheritance on PREEMPT_RT is used for the cancel handshake,
-   not the arming path (the "Spin until ready" section of the same
-   document);
- - the sleeper exception: hrtimer_setup_sleeper() marks RT/DL-armed
-   timers HRTIMER_MODE_HARD, so their wakeups do not go through
-   ktimers/%u.
+> The CoCo parts can follow, but IIUC guest_memfd is being used to back
+> guest memory on non-CoCo VMs too.
 
-Documentation only; no code or behaviour change.
+Not using upstream code, though there are most definitely folks using guest_memfd
+in production with out-of-tree patches.
 
-Signed-off-by: Liang Hao <haohlliang@gmail.com>
----
-v1 -> v2:
-- shorten the RT overview; link to real-time/differences
-- state the arming-path priority consequence (priority not inherited;
-  PI is for the cancel handshake)
-- drop the hrtimer_start trace debugging section
-- use the ktimers/%u thread name, with ktimersd as its doc alias
+But that's all beside the point.  What I'm saying is that SNP and TDX *must* use
+guest_memfd, whereas guest_memfd is optional for all other VM types.  And so adding
+LUO support for guest_memfd without even sketching out a plan for CoCo VMs feels
+backwards.
 
- Documentation/timers/hrtimers.rst | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+I'm not necessarily opposed to gradual guest_memfd support, but there needs to be
+a clear plan of how all of this is going to fit together.  It doesn't need to be
+perfect, and I'm sure we'll make mistakes along the way, but I want to at least
+try not to paint ourselves into a corner, especially with respect to the ABI.
 
-diff --git a/Documentation/timers/hrtimers.rst b/Documentation/timers/hrtimers.rst
-index f88ff8bae89c..fae191550c5d 100644
---- a/Documentation/timers/hrtimers.rst
-+++ b/Documentation/timers/hrtimers.rst
-@@ -171,3 +171,31 @@ hrtimers-based high-resolution clock implementation, so the hrtimers
- code got a healthy amount of testing and use in practice.
- 
- 	Thomas Gleixner, Ingo Molnar
-+
-+
-+Expiry modes and PREEMPT_RT
-+---------------------------
-+
-+The default expiry context on PREEMPT_RT and the role of the ktimersd
-+thread are documented in :doc:`/core-api/real-time/differences`
-+(Timers).  Those details are not repeated here.
-+
-+The per-CPU ``ktimers/%u`` thread (referred to as ktimersd in that
-+document) runs at the lowest ``SCHED_FIFO`` priority via
-+``sched_set_fifo_low()``.  That priority is fixed: the callback does
-+not inherit the priority of the task that armed the timer.  A
-+``SCHED_FIFO`` task running at priority 99 that starts an unmarked
-+timer still expires on ``ktimers/%u`` (lowest ``SCHED_FIFO`` priority),
-+not at priority 99.
-+Priority inheritance on PREEMPT_RT is used for the cancel handshake,
-+not for the arming path; see the "Spin until ready" section of the same
-+document.
-+
-+``hrtimer_setup_sleeper()`` (used by ``clock_nanosleep()`` and similar)
-+is an exception: when armed by an RT or DEADLINE task it is marked
-+``HRTIMER_MODE_HARD``, so the wakeup runs in hardirq context and does
-+not go through ``ktimers/%u``.
-+
-+If callback work must run at the owning task's RT priority, either
-+mark the timer ``HRTIMER_MODE_HARD`` (and keep the callback
-+hardirq-safe) or wake a dedicated kthread from the callback.
--- 
-2.50.1 (Apple Git-155)
+> >> > E.g. the LUO APIs seem pretty straightforward; I assume the bulk of the complexity
+> >> > is going to be in knowing what to save/restore, and how, which is much more about
+> >> > KVM than it is about liveupdate.
+> >> 
+> >> I think it is fine if you want to take these changes through the KVM
+> >> tree, but I would like live update maintainers to be listed as reviewers
+> >> at least.
+> >
+> > Why not simply add a file pattern match to the LIVE UPDATE entry?
+> >
+> > diff --git MAINTAINERS MAINTAINERS
+> > index 8014b9f8253e..2eb57b22c37f 100644
+> > --- MAINTAINERS
+> > +++ MAINTAINERS
+> > @@ -15052,8 +15052,8 @@ F:      include/linux/liveupdate.h
+> >  F:     include/uapi/linux/liveupdate.h
+> >  F:     kernel/liveupdate/
+> >  F:     lib/tests/liveupdate.c
+> > -F:     mm/memfd_luo.c
+> >  F:     tools/testing/selftests/liveupdate/
+> > +N:     [^a-z]luo
+> >  
+> >  LLC (802.2)
+> >  L:     netdev@vger.kernel.org
+> 
+> This would list us as maintainers of kvm_luo.c and the tree as liveupdate.git, 
 
+It would list both "LIVE UPDATE" and "KERNEL VIRTUAL MACHINE (KVM)", as KVM would
+still cover the files via "F:	virt/kvm/*".  And my read of MAINTAINERS is that
+N: and K: entries are "secondary" if the files/scope is covered by an F: entry.
+
+E.g. arch/x86/kvm/vmx/tdx.c is covered by "KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)"
+via "F:	arch/x86/kvm/*/", and also by "X86 TRUST DOMAIN EXTENSIONS (TDX)" via
+"N:	tdx" (or maybe "K:	\b(tdx)"?  I haven't bothered to check which one
+triggers).  And while I don't think there was ever any formal discussion, AFAIK
+everyone reads the situation as KVM still being the primary maintainer/tree for
+that code.
+
+> both of which is something you're saying you _don't_ want.
+
+No, what I don't want is a dedicated "KVM LIVE UPDATE" entry, because I think most
+people would read "F:     virt/kvm/kvm_luo.c" and "F:     virt/kvm/guest_memfd_luo.c"
+as being more precise than KVM's "F:   virt/kvm/*" and thus would read things as
+"KVM LIVE UPDATE" being the primary maintainer.
+
+In other words, I'm more than ok with LUO being looped in on KVM LUO changes and
+having the authority to object to problematic changes, but I'm not ok with LUO
+taking primary ownership of KVM code.
+
+I realize there's more than a bit of nuance in my interpretation of N: and K:,
+but again my experience with TDX is that so long as the maintainers are aligned
+on expectations, it's a non-issue in practice.
+
+> >> At the same time, I also keep being (pleasantly)
+> >> surprised at preservation being relatively simple. For example, the code
+> >> to preserve a shmem file (via memfd) is roughly 600 lines, a big chunk
+> >> of which is comments. The code of course has some limitations, but it is
+> >> good enough for use in production.
+> >> 
+> >> For one, we care about ABI breakages and versioning. 
+> >
+> > Which is amusing to me because that implies KVM does not, and I would hazard to
+> 
+> No, it doesn't. What I'm saying is I care about changes to the _live
+> update ABI_. Just like you probably care about changes to KVM ABI but
+> not so much about BPF for example.
+> 
+> > guess that KVM has the biggest ABI surface of any subsystem in the kernel by a
+> > country mile (though I'm probably wildly underestimating the effective ABI surface
+> > of filesystems).
+> >
+> >> The serialized state is a part of live update ABI and changes to it should be
+> >> ACKed by us. 
+> >
+> > Meh, "Don't break userspace" is a universal rule in the kernel, I genuinely don't
+> > see why liveupdate needs special treatment.
+> 
+> Ironically enough, you miss my point. I'm not talking about userspace
+> ABI. We all know not to break that. I am talking about live update
+> _serialization ABI_. See the stuff under include/linux/kho/abi. This
+> series also adds things there.
+
+No, I understand exactly what ABI you're talking about.
+
+> This is ABI between kernels. It needs to be stable-ish so you can move
+> from one kernel version to another. At the same time, unlike userspace
+> ABI, it can change.
+
+Uh, yeah, so KVM has been managing such immutable ABI for practically its entire
+existence.  KVM's save/restore uAPI has exactly what you're describing: serialization
+ABI that needs to be backwards and forwards compatible between different kernels
+in order to support both upgrade and rollback scenarios via live migration.
+
+KVM also has immutable ABI between itself and guest kernels, including implicit
+"ABI" in the form of not changing guest-visible behavior.
+
+> Today we don't have any rules and let you change things freely as long as you
+> do a version bump. But at a later point, the plan is to add some stability
+> requirements to the ABI so you can actually upgrade the kernel across major
+> versions.
+> 
+> So at least for ABI changes, there should be an explicit ACK from the
+> live update group.
+
+I don't entirely agree.  I get where you're coming from, and I 100% agree that
+the more eyeballs on changes that may affect ABI, the better.
+
+Where I have problems with the above is that it doesn't account for the nuances
+of save/restore across different kernels.  The literal format of the serialized
+data is the most obvious form of ABI, but it's absolutely possible to change ABI
+without changing the data format.
+
+E.g. say there's a flags field in some serialization structure, and flags X and Y
+are mutually exclusive in current kernels.  If a future kernel relaxes that
+restriction for whatever reason, then the effective ABI has been broken because
+state created and saved on new kernels can't be restored on old kernels.  And
+this is not a theoretical concern, KVM has run afoul of this a few times (though
+thankfully very rarely).
+
+I don't think it's reasonable to expect LUO maintainers to gain enough expertise
+in each subsystem to be able to ensure changes are forwards and backwards
+compatible.  The only way I see LUO being successful in the long term is to get
+subsystem maintainers/contributors to understand *and buy-in* to the LUO model
+and rules, so that each subsystem can largely be self-sustatining.  I.e. setting
+yourselves up as literal gatekeepers will help prevent blatant breakage, but it's
+less likely to help guard against more subtle breakage, and in my experience,
+subtle breakage is by far harder to detect and more painful to deal with.
+
+Somewhat of a side topic: in my experience, using monotonically increasing version
+numbers is a horrible way to enumerate features/content.  So for me, allowing
+KVM's LUO ABI to change with a verson bump is probably a non-starter.  I.e.
+whatever gets merged needs to be more future-proof than "we'll deal with it later".
