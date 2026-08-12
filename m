@@ -1,50 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC97E3B14C2;
-	Wed, 12 Aug 2026 08:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5927B35F172;
+	Wed, 12 Aug 2026 08:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786523036; cv=none; b=sNuzP5zVIlnIu3lP6IWyR+/dH4PwcwTCz58SM1Bmm+gG0F1HbzQ9JP6CwAgJ3ihdF00QrNTv2N//ga1a5SqovSM7rcrl5wLDhhvMQ8w/y9Rf1+FQlGy1lc8cFBQ/D0yeH0/wDQMgzq1SY/MyHLPbiDdzZ80WrNsH+oJVWw6d1F4=
+	t=1786524016; cv=none; b=d2UWD/0wJplxFuIeDh6UOPexTfipSVVnwo/9NM2fkPsoUz7waKQfJGdz1LZyVuSKYHIz361ICEM8NknOcWjHdhbldT137YJYkoAfEkfcn26I92jRrEtxApTy0Uo79g/Wb/31dAvSEHonOup/PNNh1u4Et07WlmbQv3HbJDpGwmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786523036; c=relaxed/simple;
-	bh=W+jcq+2Wzamwh76nz0OcGlGI0ou5c5gwJ2B1PP/p9zc=;
+	s=arc-20240116; t=1786524016; c=relaxed/simple;
+	bh=oYZ23vgI2m3U6RT37owoAP8fW4pr++0GFHWMnxg5WDY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TirvHX9G45P1K+ny1Xl+XasBe/95vN9znAsCuxImeHOO8rSqSQB658p2L/70850kIFt5Bhou6tfCW/wdD7f+PjyJ8ePB+Mbd7Azv9zTZJO4UsnrKzQLtEU5VGSl8SrjpEGrSTP/4UcUGmTzujoksBupcY34QvA0ANaTBYIooGpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iwAyO77L; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=Xmd0fZf0LB8uUyKTTr94oNyjAsuKdOuJS/+QiWtzXuWvF5thynDK5y9nL3VrU7KD4eDdPKcyWiAkICC4YA83uebz2lRRs1yay5KrkCWGezGIGuGmH9hYIR8nclskGWiCXnnW9J/Db9bU8Sm/Z1MBLoewv5RJm/egue+D0EFqOLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l+rN+Ppi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwAyO77L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786523034; x=1818059034;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=W+jcq+2Wzamwh76nz0OcGlGI0ou5c5gwJ2B1PP/p9zc=;
-  b=iwAyO77Lo6lBb6+g4b2tI7LUg2VT6cotOs2bWrp4VmWDIAASSOMBrT5U
-   qIIRuv+/SQNvzUU4ihHx+QN4SjUC/jm9ZCNtdtCB2tA5/yFTdJVeiGZyh
-   xC48v+DpXl2gAZ3fEM0goc2rFtVeSyyY9rV0zci2ydjsglRLjtdaTnSNj
-   HLK7z3qVSICsRWxGL25m5oZN0eZ2LWj2ifw3CIeV2IfwiXX6zwPYIVcqS
-   ussQYa9GvThMdSsKLsPJNvthSMhyDMan40zsS1b4ijc6EEerosC0hNyoQ
-   42bMXuxtOzhcmIH6ZWnKlE4KRMoM/s66C9oL+c9QD7TX8P95O4do4R5Zq
-   w==;
-X-CSE-ConnectionGUID: ZueSlsXgTXap1rgwctY1NA==
-X-CSE-MsgGUID: nNxRgY5aSEeJgWHFQEABVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="97414832"
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="97414832"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 01:23:53 -0700
-X-CSE-ConnectionGUID: BVDpwXjLQ5mrX6YTBE6jjA==
-X-CSE-MsgGUID: wd0espIgTjCF/EZNhS5SlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,219,1779174000"; 
-   d="scan'208";a="257380624"
-Received: from unknown (HELO [10.238.208.98]) ([10.238.208.98])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 01:23:34 -0700
-Message-ID: <2f68b143-f3e1-48b7-8666-52072249e0be@intel.com>
-Date: Wed, 12 Aug 2026 16:23:31 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l+rN+Ppi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5411F00A3D;
+	Wed, 12 Aug 2026 08:40:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786524015;
+	bh=mq3ymkIrw8Hhrm/UKi/Wu+q1hg69GV95D/do+h8U2ek=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=l+rN+PpiSAL7Scb3iToPKaF33/sDthF1jRfK85YWdfsTzy56BQJEWIvNxTXtPca23
+	 aTYGH2iblyr1eGkIL5V6F9IgS6dqro6sBVLtkTwLX5ZUm+i/RqJyPr7p1IsDzMsgD3
+	 nJ3G7uUOCRtHfHTT/tEi2ry02XDGpLc9D80KLty77pZDPhkwCnFRYo0o7noym3PH8O
+	 u66nlvIdRxMAAZWYWdIacjzDpSjtLaTqgjyr4phRv5L9u2RfZYh3a8DYGBqi/mq4jM
+	 AbLS8NIriiZr6ZEAG6M7PEaAMLU2DViqgB3b4vsuO6kvwVVrcLXifm5ciRI04iBPty
+	 R1fl5dyp67e9A==
+Message-ID: <f1371b4d-6e98-4699-8c1b-7612f6d70f02@kernel.org>
+Date: Wed, 12 Aug 2026 10:40:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,111 +35,262 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 04/41] KVM: Enumerate support for PRIVATE memory iff
- kvm_arch_has_private_mem is defined
-To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- david@kernel.org, jmattson@google.com, jthoughton@google.com,
- michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
- qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
- shivankg@amd.com, steven.price@arm.com, tabba@google.com,
- willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
- forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
- aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
- Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-4-2fc18ee6d3ba@google.com>
+Subject: Re: [PATCH v4 5/7] mm/khugepaged: Refactor the PTE state checks into
+ a helper
+To: "Nico Pache (Red Hat)" <nico.pache@linux.dev>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
+ <20260811-khugepaged_pte_refactor-v4-5-ddac39d61c4a@linux.dev>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20260807-gmem-inplace-conversion-v10-4-2fc18ee6d3ba@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20260811-khugepaged_pte_refactor-v4-5-ddac39d61c4a@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
-> From: Sean Christopherson <seanjc@google.com>
+On 8/11/26 14:48, Nico Pache (Red Hat) wrote:
+> For anonymous collapse, the collapse_scan_pmd() and
+> __collapse_huge_page_isolate() functions share a large portion of their
+> logic. These functions both check the state of the PTEs and verify the
+> following:
+> 	- max_pte_* values are not exceeded
+> 	- uffd is not active
+> 	- lazyfree properties
+> 	- non-anonymous
 > 
-> Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE based
-> on kvm_arch_has_private_mem being #defined in anticipation of tracking
-> PRIVATE vs. SHARED state per-guest_memfd, not per-VM (to allow in-place
-> conversion).
+> Merge these checks into a helper collapse_check_pte() to reduce code
+> duplication. We also add a helper struct for this function called
+> pte_check_context which allows us to pass the required parameters in a
+> clean and elegant manner.
 > 
-> guest_memfd support for memory attributes is expected to be unconditional
-> to avoid yet more macros (all architectures that support guest_memfd are
-> expected to use per-gmem attributes at some point), at which point
-> enumerating support KVM_MEMORY_ATTRIBUTE_PRIVATE based solely on memory
-> attributes being supported by KVM at-large would result in a system-scope
-> check (NULL @kvm) over-reporting support on arm64.
+> A helper function is also introduced pte_check_fail() to provide a clean
+> interface to set the pte_check_context failure results and return
+> PTE_CHECK_FAIL state. This helps reduce code duplications across the new
+> collapse_check_pte function.
 > 
-> Give architectures full control over overriding the default definition of
-> kvm_arch_has_private_mem() by removing the coupling with
-> CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+> Two slight modifications are done to the original functionality. We now
+> warn (instead of crash) if the anon test fails, and we leverage the
+> vm_normal_folio function instead of page->folio, this should be
+> functionally equivalent.
 > 
-> In a later patch, kvm_arch_has_private_mem() will be defined based on
-> whether architectural features are compiled in, and made orthogonal to
-> CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
+> No other functional changes intended.
 > 
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-> Tested-by: Shivank Garg <shivankg@amd.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> This patch is heavily based off work done by Lance Yang, but modified to
+> deal with conflicts and feedback received during the review cycle [1].
+> 
 
-Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+TL;DR, I think this patch here needs some more work, and we should not fast
+track it at this point.
 
+@Andrew, can we delay this patch here for this merge window? Removing it from
+mm-unstable shouldn't conflict with any other patch in this series.
+
+
+> [1] https://lore.kernel.org/linux-mm/20251008043748.45554-1-lance.yang@linux.dev/
+> Suggested-by: David Hildenbrand <david@kernel.org>
+> Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
 > ---
->   include/linux/kvm_host.h | 2 +-
->   virt/kvm/kvm_main.c      | 2 ++
->   2 files changed, 3 insertions(+), 1 deletion(-)
+>  mm/khugepaged.c | 298 +++++++++++++++++++++++++++++---------------------------
+>  1 file changed, 157 insertions(+), 141 deletions(-)
 > 
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 3e86cdd00e59b..e3666d0b40b74 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -722,7 +722,7 @@ static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
->   }
->   #endif
->   
-> -#ifndef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-> +#ifndef kvm_arch_has_private_mem
->   static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
->   {
->   	return false;
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index e3a77d1e6d8ae..560ff05e95959 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -2422,8 +2422,10 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
->   #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
->   static u64 kvm_supported_mem_attributes(struct kvm *kvm)
->   {
-> +#ifdef kvm_arch_has_private_mem
->   	if (!kvm || kvm_arch_has_private_mem(kvm))
->   		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
-> +#endif
->   
->   	return 0;
->   }
-> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 90d6e595d282..b7372aba4417 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -65,6 +65,12 @@ enum scan_result {
+>  	SCAN_PAGE_DIRTY_OR_WRITEBACK,
+>  };
+>  
+> +enum pte_check_result {
+> +	PTE_CHECK_SUCCEED,
+> +	PTE_CHECK_FAIL,
+> +	PTE_CHECK_CONTINUE,
+> +};
 
+I don't love this. "pte_check_result" is a bit too generic for my taste. What is
+the difference between "success" and "continue"? Unclear.
+
+Likely, "continue" should actually be something like "skip". But it sounds like
+we are mixing two things that shouldn't be mixed (a check that can do more than
+just succeed or fail).
+
+Not sure if this was suggested during earlier review, the cover letter doesn't
+spell it out. Ideally we'd avoid this completely and just rely on existing error
+codes. Like scan_result.
+
+
+> +
+>  #define CREATE_TRACE_POINTS
+>  #include <trace/events/huge_memory.h>
+>  
+> @@ -119,6 +125,20 @@ struct collapse_control {
+>  	DECLARE_BITMAP(mthp_present_ptes, MAX_PTRS_PER_PTE);
+>  };
+>  
+> +struct pte_check_context {
+> +	struct collapse_control *cc;
+> +	struct vm_area_struct *vma;
+> +	unsigned int order;
+> +	struct folio *folio;
+> +	int none_or_zero;
+> +	int shared;
+> +	int unmapped;
+> +	enum scan_result result;
+> +	unsigned int max_ptes_none;
+> +	unsigned int max_ptes_swap;
+> +	unsigned int max_ptes_shared;
+> +};
+> +
+>  /**
+>   * struct khugepaged_scan - cursor for scanning
+>   * @mm_head: the head of the mm list to scan
+> @@ -696,74 +716,131 @@ static void count_collapse_event(unsigned int order, enum vm_event_item vm_event
+>  	count_mthp_stat(order, mthp_event);
+>  }
+>  
+> +/*
+> + * pte_check_fail() - A simple helper to set the pte_check_context result and
+> + * return PTE_CHECK_FAIL.
+> + */
+> +static enum pte_check_result pte_check_fail(struct pte_check_context *ctx,
+> +		enum scan_result result)
+> +{
+> +	ctx->result = result;
+> +	return PTE_CHECK_FAIL;
+> +}
+
+Looks a bit over-engineered and the function doc is just unnecessary.
+
+> +
+> +/*
+> + * collapse_check_pte() - Check if a PTE is suitable for collapse
+> + *
+> + * Check if a PTE is suitable for collapse based on the following criteria:
+> + * - max_pte_* values are not exceeded
+> + * - uffd is not active
+> + * - lazyfree properties are not present
+> + * - only anonymous pages are present
+> + *
+> + * a helper struct pte_check_context is used to pass and store relevant
+> + * information between the collapse_check_pte() function and the caller.
+> + *
+> + * Return: PTE_CHECK_SUCCEED if the PTE is suitable for collapse,
+> + *         PTE_CHECK_FAIL if the PTE is not suitable for collapse,
+> + *         PTE_CHECK_CONTINUE if the scan should continue to check the next PTE.
+> + */
+
+Why is this doc required?
+
+> +static enum pte_check_result collapse_check_pte(pte_t pteval,
+> +		unsigned long addr, struct pte_check_context *ctx)
+> +{
+> +	if (pte_none_or_zero(pteval)) {
+> +		if (++ctx->none_or_zero > ctx->max_ptes_none) {
+> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_NONE_PTE,
+> +					     MTHP_STAT_COLLAPSE_EXCEED_NONE);
+> +			return pte_check_fail(ctx, SCAN_EXCEED_NONE_PTE);
+> +		}
+> +		return PTE_CHECK_CONTINUE;
+> +	}
+> +	if (!pte_present(pteval)) {
+> +		if (ctx->unmapped == -1)
+> +			return pte_check_fail(ctx, SCAN_PTE_NON_PRESENT);
+> +		if (++ctx->unmapped > ctx->max_ptes_swap) {
+> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_SWAP_PTE,
+> +					     MTHP_STAT_COLLAPSE_EXCEED_SWAP);
+> +			return pte_check_fail(ctx, SCAN_EXCEED_SWAP_PTE);
+> +		}
+> +		if (pte_swp_uffd_any(pteval))
+> +			return pte_check_fail(ctx, SCAN_PTE_UFFD);
+> +		return PTE_CHECK_CONTINUE;
+> +	}
+> +	/*
+> +	 * Don't collapse if any of the small PTEs are armed with uffd
+> +	 * write protection. Marking the new huge pmd as write protected
+> +	 * could bring userfault messages that fall outside of the
+> +	 * registered range.
+> +	 */
+> +	if (pte_uffd(pteval))
+> +		return pte_check_fail(ctx, SCAN_PTE_UFFD);
+> +
+> +	ctx->folio = vm_normal_folio(ctx->vma, addr, pteval);
+> +	if (unlikely(!ctx->folio) || unlikely(folio_is_zone_device(ctx->folio)))
+> +		return pte_check_fail(ctx, SCAN_PAGE_NULL);
+> +
+> +	/*
+> +	 * If the vma has the VM_DROPPABLE flag, the collapse will
+> +	 * preserve the lazyfree property without needing to skip.
+> +	 */
+> +	if (ctx->cc->is_khugepaged && !(ctx->vma->vm_flags & VM_DROPPABLE) &&
+> +	    folio_test_lazyfree(ctx->folio) && !pte_dirty(pteval))
+> +		return pte_check_fail(ctx, SCAN_PAGE_LAZYFREE);
+> +
+> +	if (!folio_test_anon(ctx->folio)) {
+> +		VM_WARN_ON_FOLIO(!folio_test_anon(ctx->folio), ctx->folio);
+
+Huh, that looks odd.
+
+That should just be a VM_WARN_ON_FOLIO(true, ..) or sth like that.
+
+But in collapse_scan_pmd() that warning never existed? So this raises eyebrows.
+
+[...]
+
+I'll play with it to see if we can do better and will reply here later.
+
+-- 
+Cheers,
+
+David
