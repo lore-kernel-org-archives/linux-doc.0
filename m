@@ -1,102 +1,268 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B57D379C55;
-	Wed, 12 Aug 2026 19:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3570337883C
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 19:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786563602; cv=none; b=uLzkEcmBfEEL7kHZK4gpWmkzx57oFH+7UHNu1cnPcrtI3axo8BysO1Q/Xs33z1qWTNKAf0YG0PuOn1Z2D40rBZsZhkUuuhzwGDPqZzYZnno6SVTp63y1E0SNcpbgoCeG4IAgK0F0fwfBSaCs3LJ+gwvZWwTVXrJnbMQguN8c808=
+	t=1786563989; cv=none; b=BUjYgO1FeeGjwJOSpUogpBvW9LQUmjq89e1FmYBBRg+0H3UatRmYhHaMGzHoRhJgn63vBi/7UnN9Xd4hropximk/jg6OhW55Y1D8UiIGnLRx9d6NuFHyXkUc1PTEDWrmeg73aRhdGLC+he+EBWMJ/USeiNzaE7CBnqrEe6Bri1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786563602; c=relaxed/simple;
-	bh=FTHAe+5GNibfE2sRWIC9oI01fsGHQ9AKF3/QqGdXlvs=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Rnwo7xHuZe377/vLS59Vp4yuMA5ToqpXTCNNxNL4iVnCaCeguHq904gzGML6Y5omaN2b1nHZCxP/WmGYkyfeH0CyjpjmuXhZq2XsoHIqSoiYcJ8rU1UKT2dOMhcMuhD1b1kg/O/EZ1OOfo9Mud1ec53l0WLC7KcjTqD09pQDxYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=grY6uH5B; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786563989; c=relaxed/simple;
+	bh=YVpLfl8usuaq3cbL1FayKckeCMbzA+TBG36k8GLBuXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NDFPwE53o5KLLaKWkxcLcVpwGpr7E8gjKURbQK43Q2/p/Muil/v/EVlyrIBS/zFvhwrpqVrLUk6EULZ72mSwvqPh5sTnJhjwcNlM39n6CxBlVoZ8Rcqwuybrvi4Bqm8KgoGGY9AlFzfPb/lPS9LhWiXkvJnysYg3PKEKjf0gO00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cViKHPUt; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="grY6uH5B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D94D61F000E9;
-	Wed, 12 Aug 2026 19:39:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cViKHPUt"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4953de5be0aso9618735e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 12:46:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1786563600;
-	bh=+V5LRdd/R0h7cXLztn08lUOOQg5FGK1eTSy1m6UYH7U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=grY6uH5B5e7oU07jxKUcXRUTvgah3znWUvLf/RPTAQ79zlaNVQQXG6MjeAD/xOE2P
-	 WpFg6jk41ydmKaN6fruJLpLygB6f9qaTPylVu9zqffvl5udMPOQVWywIA5d8drCxQi
-	 YDFel4GnlHOgYngShUjJiUWjsxiKDv1LcfAiAA6Q=
-Date: Wed, 12 Aug 2026 12:39:59 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Nico Pache (Red Hat)" <nico.pache@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Lorenzo Stoakes
- <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry
- Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4 5/7] mm/khugepaged: Refactor the PTE state checks
- into a helper
-Message-Id: <20260812123959.d4e31d68e8db85b9fd3981eb@linux-foundation.org>
-In-Reply-To: <f1371b4d-6e98-4699-8c1b-7612f6d70f02@kernel.org>
-References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
-	<20260811-khugepaged_pte_refactor-v4-5-ddac39d61c4a@linux.dev>
-	<f1371b4d-6e98-4699-8c1b-7612f6d70f02@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=gmail.com; s=20251104; t=1786563985; x=1787168785; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t5PKN0PuFVSn1FX4G/ZJetvpgZ6kYCSRAO6y3JMI5iE=;
+        b=cViKHPUt5diuJOEQNpLnj7eIYvIAsm/XDJr4MtXk3sRSi1gpr/pTA8KJkSePZ/Nrh7
+         tTqCyPXmJa28MRPIoPcYY5SB3iFlJtZkxnBoLfS1Mj3lPy10NuhRIWrJAuFWfv6VTGpk
+         jeqC/bztX/wZku4mkd8p1+//WNcoI4kBOGA9n5FLU7/KGYR0JgPPr+rWK7haqp+l1Hem
+         t6HnpkxM118KyR8CuN9dLlUGFHrN6DIjEzfaMZmoQ423jKvtpvgnCmL11U/22OTxncr9
+         VUj4u2J/rWhMAiGQvbDyFseqjlySCvS67iYPlrBs8STY9EIoJV5aMgPM//CJvmcaOWqS
+         0DzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786563985; x=1787168785;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t5PKN0PuFVSn1FX4G/ZJetvpgZ6kYCSRAO6y3JMI5iE=;
+        b=qycoxJXkibdrT+CqcgFtut1GaZXs58RswKx7+mGDS2OXghXcgTh6jwli8aFdj3TWqt
+         NC2bO6p4JHlHq//L7Husen4v/WCr3JkaYPQU00zQ11NLrMaMJpTR6+zCBtkEGSYE7zwc
+         qnvebhit45ikmLBJZ/DaKSzMRIw7VtlIY5czNd9J8FY/VqweHJMyznwl3t4f7KX27ACP
+         DvpmNKE1RgJlPPxT/uemcWSVkp4hlBzLSG9/bhaBLg9N0LBiD2aVWE2iw7RVLW3use2D
+         M3ZKCzZ7q0sEZVGW9CmSSbVaoW21ynVmH/HFXTjpcl2iiYqucVGDhsrA1LSaPzOLSLq7
+         T1yg==
+X-Forwarded-Encrypted: i=1; AHgh+RqOoA7RJo6swZLI2pzPU/h4QRHEKd6Uh69y5HX7jN1GXr0KKTlR/g1tKJ7JQqQH628ndwyRwwx9Aas=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6XLcuibFyfHkbbPUcZkhCMPA0hQjRhtJ81QPwaBUp4OGu/Azl
+	aixamuFQ/flUOg4V1J6XFUoRcWIib7gJq3y1+cIxEDtRxvESU+7EO2W3
+X-Gm-Gg: AR+sD11+YltNpqCJSfTMXrqye4cpmDkAA5X40XcPjs/X95WlPxK0N+xM7RltI4Q6TcN
+	VQqnYjwwXnzhFfAcesOIDekjTeyGXKhtai/XaW22kqe0JhcrQrPyKjZUYBgKSll2YmlnpDPJ6X7
+	OzKS3F/r6quqsMRikprXspI5CrD8SgGic8u449PEHK0Hp7mpX6EZwP0q9WhRXHa453SdidrepA+
+	eXcMPSPOmsShLgg0ASnRCItFMUkLvLbg4UQIfDHN72zL6dhX80pU800uP6ALbrmLf1QQflJDZXh
+	Xn/C6GeE4h/vKVrKvWYgHfyjkimm1TAoHKz4agmEcA1ORczwhi5UAgG6ULmrl0WUIhwc0/2Vs6J
+	PE4WMbpShjRrfl3EwfaOnTIYgPUFhXJ+KRAq4WRPCePRx83DIjWH4MpAVc7zxzsdXBDfw9mlHpO
+	/LM96J8HV1w5JYy1tTPTzQh/vOr5wjLEVSO3jKrL7q/jeslgdy8nCfjtf5I6JrnsqM9zjN4avkW
+	r8h4xkh27IGutQY
+X-Received: by 2002:a05:600c:19c7:b0:499:5a50:b022 with SMTP id 5b1f17b1804b1-4998215a936mr2089045e9.3.1786563985255;
+        Wed, 12 Aug 2026 12:46:25 -0700 (PDT)
+Received: from ionutnechita-arz2022.local ([2a02:2f07:610c:8500:26e8:bb37:a2f5:aa03])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49981b1063esm14654465e9.6.2026.08.12.12.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 12:46:24 -0700 (PDT)
+From: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: arighi@nvidia.com,
+	chleroy@kernel.org,
+	christian.loehle@arm.com,
+	corbet@lwn.net,
+	dietmar.eggemann@arm.com,
+	frederic@kernel.org,
+	gregkh@linuxfoundation.org,
+	hdanton@sina.com,
+	huschle@linux.ibm.com,
+	iii@linux.ibm.com,
+	jgross@suse.com,
+	juri.lelli@redhat.com,
+	kernellwp@gmail.com,
+	kprateek.nayak@amd.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	maddy@linux.ibm.com,
+	maz@kernel.org,
+	meted@linux.ibm.com,
+	mingo@kernel.org,
+	pauld@redhat.com,
+	pbonzini@redhat.com,
+	peterz@infradead.org,
+	rafael@kernel.org,
+	rdunlap@infradead.org,
+	rostedt@goodmis.org,
+	seanjc@google.com,
+	srikar@linux.ibm.com,
+	tglx@kernel.org,
+	tj@kernel.org,
+	tommaso.cucinotta@gmail.com,
+	vincent.guittot@linaro.org,
+	vineeth@bitbyteword.org,
+	virtualization@lists.linux.dev,
+	vschneid@redhat.com,
+	ynorov@nvidia.com,
+	yury.norov@gmail.com
+Subject: [PATCH] Re: [PATCH v10 00/12] sched, steal_governor: Introduce preferred CPUs and steal-driven vCPU backoff
+Date: Wed, 12 Aug 2026 22:45:56 +0300
+Message-ID: <20260812194600.52516-1-sunlightlinux@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260812054033.95658-1-sshegde@linux.ibm.com>
+References: <20260812054033.95658-1-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Aug 2026 10:40:08 +0200 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
+On Wed, Aug 12, 2026 at 11:10:21AM +0530, Shrikanth Hegde wrote:
+> This patch series represents the result of multiple iterations,
+> redesigns and community feedback.
 
-> On 8/11/26 14:48, Nico Pache (Red Hat) wrote:
-> > For anonymous collapse, the collapse_scan_pmd() and
-> > __collapse_huge_page_isolate() functions share a large portion of their
-> > logic. These functions both check the state of the PTEs and verify the
-> > following:
-> > 	- max_pte_* values are not exceeded
-> > 	- uffd is not active
-> > 	- lazyfree properties
-> > 	- non-anonymous
-> > 
-> > Merge these checks into a helper collapse_check_pte() to reduce code
-> > duplication. We also add a helper struct for this function called
-> > pte_check_context which allows us to pass the required parameters in a
-> > clean and elegant manner.
-> > 
-> > A helper function is also introduced pte_check_fail() to provide a clean
-> > interface to set the pte_check_context failure results and return
-> > PTE_CHECK_FAIL state. This helps reduce code duplications across the new
-> > collapse_check_pte function.
-> > 
-> > Two slight modifications are done to the original functionality. We now
-> > warn (instead of crash) if the anon test fails, and we leverage the
-> > vm_normal_folio function instead of page->folio, this should be
-> > functionally equivalent.
-> > 
-> > No other functional changes intended.
-> > 
-> > This patch is heavily based off work done by Lance Yang, but modified to
-> > deal with conflicts and feedback received during the review cycle [1].
-> > 
-> 
-> TL;DR, I think this patch here needs some more work, and we should not fast
-> track it at this point.
+Nice work, and thanks for the very readable cover letter.
 
-This has been floating around since July 6, so it's never been
-fast-tracked!
+I looked at this from the KVM and Xen guest angle rather than from
+PowerVM, since that is what I run.  Three observations below.  All of
+them are from code inspection only -- I have not measured any of this,
+so please treat the numbers as arithmetic rather than as results.
 
-> @Andrew, can we delay this patch here for this merge window? Removing it from
-> mm-unstable shouldn't conflict with any other patch in this series.
+Code references are against next-20260812, which already carries your
+base commit f2c2ba7219e5, so the series applies there directly.
 
-np.  "cleanups" aren't high priority.
 
-I'll move the entire series into mm-new (and hence out of linux-next)
-and shall await developments.
+1) Default thresholds are unreachable on common QEMU command lines
+==================================================================
 
+get_system_cpus() returns num_possible_cpus(), and steal_governor_loop()
+divides by it:
+
+	delta_ns = max_t(u64, div_u64(delta_ns * get_system_cpus(), 10000), 1);
+	steal_ratio = div64_u64(delta_steal, delta_ns);
+
+On x86 the possible map is sized by topology_init_possible_cpus()
+(arch/x86/kernel/cpu/topology.c) from assigned + disabled CPUs, where
+"disabled" is incremented by topo_register_apic() for every APIC that is
+registered but not present.
+
+QEMU emits exactly such MADT entries for the range [smp, maxcpus), and
+acpi_is_processor_usable() in arch/x86/kernel/acpi/boot.c documents that
+this is deliberate:
+
+	/*
+	 * QEMU expects legacy "Enabled=0" LAPIC entries to be counted as
+	 * usable in order to support CPU hotplug in guests.
+	 */
+
+So those vCPUs are registered as usable, land in nr_disabled_cpus, and
+end up in the possible map.  A guest started with
+
+	-smp 4,maxcpus=32
+
+has num_possible_cpus() == 32 while only 4 vCPUs ever run.  The steal
+ratio is then diluted 8x, and the default thresholds of 5% / 2% become
+40% / 16% of the steal that is actually observable.  The governor never
+leaves the "do nothing" window, and the only symptom is that nothing
+happens.
+
+Xen PV guests are affected in the same way, and often more strongly,
+because the possible map there tends to be sized for vCPU hotplug.
+
+I understand from the v9 changelog why possible CPUs were chosen -- it
+keeps the accumulated steal monotonic across hotplug, which is a real
+property worth having.  The documentation does describe the effect and
+gives a worked example for recomputing the thresholds by hand.  But for
+a mechanism whose whole premise is that every VM on the host opts in
+with the same policy, requiring each operator to first derive their own
+thresholds seems likely to translate into low real-world adoption.
+
+Some options, roughly in increasing order of intrusiveness:
+
+  - emit a pr_info() (or pr_warn()) at module init when
+    num_possible_cpus() significantly exceeds num_online_cpus(), naming
+    the ratio and the effective thresholds.  Cheap, and turns a silent
+    no-op into something diagnosable.
+
+  - scale the thresholds by num_possible_cpus() / num_online_cpus() at
+    init, so the documented defaults keep their intended meaning.
+
+  - keep summing steal over the possible mask, as today, but divide by
+    the online count, and handle the hotplug discontinuity by resetting
+    the sg_ctx.steal baseline from a hotplug notifier.
+
+I do not have a strong preference among these, and the first one alone
+would already be a large improvement.
+
+
+2) Nothing stops the driver from folding Xen dom0
+=================================================
+
+dom0 accounts steal time like any other domain -- xen_time_setup_guest()
+in arch/x86/xen/time.c wires up pv_steal_clock unconditionally, with no
+feature negotiation and no privileged-domain exemption.
+
+So loading steal_governor in dom0 makes it shrink its own preferred mask
+under contention.  That is precisely when the blkback and netback
+threads serving every other guest need CPU, and the driver has no notion
+that this domain is different from the ones it is trying to be polite
+towards.  The effect would be host-wide, not confined to the domain that
+loaded the module.
+
+Given that Kconfig carries "default m", the module is built on any
+distro kernel with PARAVIRT=y, which includes dom0 kernels.  It is one
+modprobe away from being loaded there, quite plausibly by someone who
+read the documentation's advice to enable it uniformly across all VMs.
+
+A xen_initial_domain() check that refuses to load, or at minimum a loud
+warning, seems worth having.  More generally it may be worth stating in
+the documentation that the driver is meant for guests only -- the same
+argument applies to a KVM host that is itself running nested guests.
+
+Juergen and the virtualization list are already on Cc -- I would value
+their view on this one in particular.
+
+
+3) Core granularity degenerates to single vCPUs on KVM and Xen
+==============================================================
+
+decrease_preferred_cpus() and increase_preferred_cpus() step by
+topology_sibling_cpumask(), which matches PowerVM, where the hypervisor
+schedules whole cores.
+
+On Xen PV that mask is always the CPU itself, by design.  The header
+comment of arch/x86/xen/smp_pv.c is explicit about both the behaviour
+and the reason for it:
+
+	/*
+	 * Because virtual CPUs can be scheduled onto any real CPU, there's
+	 * no useful topology information for the kernel to make use of.  As
+	 * a result, all CPUs are treated as if they're single-core and
+	 * single-threaded.
+	 */
+
+A plain "-smp N" under QEMU gives one thread per core and one core per
+socket, with the same result.  So on both hypervisors the step size is
+one vCPU, and convergence to a folded state takes proportionally longer
+than the PowerVM numbers would suggest.
+
+I do not think this is a correctness problem -- per-vCPU is arguably the
+right granularity there, for exactly the reason the Xen comment gives.
+The case that does not work as intended is the opposite one: a guest
+given a synthetic topology such as
+
+	-smp 16,sockets=1,cores=8,threads=2
+
+will fold what it believes is a core, but those two vCPU threads need
+not be co-located on any host core, so nothing in particular is freed.
+
+So mainly a documentation request: a sentence in
+Documentation/driver-api/steal-governor.rst noting that the core-level
+step assumes the guest topology reflects host scheduling granularity,
+and that on KVM and Xen it commonly does not.  It would also explain to
+readers why convergence looks slower there than in your PowerVM numbers.
+
+
+--
+
+I would be happy to run this on x86 KVM and on Xen PV guests if that is
+useful -- the series has no Xen coverage that I can see, and points 1
+and 3 above would both show up there first.
+
+Thanks,
+Ionut
