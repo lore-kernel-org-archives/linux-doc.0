@@ -1,78 +1,84 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011062.outbound.protection.outlook.com [52.101.62.62])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010034.outbound.protection.outlook.com [40.93.198.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4D038DC4F;
-	Wed, 12 Aug 2026 19:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73DF7404E;
+	Wed, 12 Aug 2026 20:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.34
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786564751; cv=fail; b=IXrFrsTO/OoekYZAZTHC6BtZQdDkfCNx99nKCYpC0FjB5HEHA0rQODNZmufZ7o8OTpt1zxhfRbXVd8C8iLNV4gIPD6kmcg+ggIgTSnkBPzPT/QpFQ8LkWYtdCPfXXxWEZEqOTKwzU0U6CM1yLW5zXXlEYAItnxGTWWsLd4wnkOE=
+	t=1786565423; cv=fail; b=TcvdvdorpuiHbSU9dkUUc5VcL6YeNwHYZoHwY5omxNlWT20icLvGA58yg47QKXAp9ouCV9gqmF4et5cZHvh4cYo8T8vJuPljcdBr+lHg2by8mOmU9dHgPDHKvS4rM3OzZF6uPof8wjRLxSAsmOCtm4P7YOP0qPIkuyMf5+86q0U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786564751; c=relaxed/simple;
-	bh=JcFwUSJzrh3wYoiYtqNzEP20fKPeC/jlufb8nFyeLDU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=WlzJGNQ2TvPjLbaZX6wUGtC5+b2yoDsTgehQ8R4QQSNppbS7hBvGLyXHmndHMV/Q2SxHsmWLeDyWE3AH32y75BIBh0+qf6KndP7OLB8na8ZMDHAMKgXs9yW0GKgsvEUuT0ph/8GtIbhbnux9X5E5EO70vLsxSfXJ5wvb9X1OgAE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GC8llU59; arc=fail smtp.client-ip=52.101.62.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1786565423; c=relaxed/simple;
+	bh=WBgyZTGiR5tvvWxzHT1MOuyjKqpHqNKsXjJOEfe6Qz4=;
+	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
+	 In-Reply-To:MIME-Version; b=nckeLmCHbDr2aZVPXld0X1lO1ZIpd7dm/ZZce1wtBQtyAoqxA+HrAS3XJTHKEXuZ9NYcIfIaFtKBwbMAeZFmjQHZMEZIf7Yd3BMzgxXHzLUj8nOAVpKimZXLhc8EdlikTsE6n9d2g5BZNmO6k1o48N+jGROSxFa7olgaSu4dmTQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FhVJE3Q1; arc=fail smtp.client-ip=40.93.198.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GC8llU59"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FhVJE3Q1"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DeKan96X1qdD5i2Cc4N6iB+ns76LJ5XWVGZYeX8lCf5lb9EYrKzkoPuQhN1alSb8ggKXS5611ar7vzUXNJteG1TOa8FhNFkcljUCSSydtcWI205QgQcOqNRDO7I/3L5cpSXW3VnpbM6avXRFXOHz6lzDQMNyVt97bNVyVBO9E8hwDljDILj/EBb5PQf2FOtJMZXZd8qiOGOcz30vBZoyYY/z7t/O545+l7VvqmmBEqIQMF5E9bqd33vs7qWK691SmcB29kCu4aD9my/BjhPH+VzGCBmm5qDaF1oY8yIfB3arw2/dHRyiJGvFy281uY9j6DNCVPnzOEom2LF8f9AZSw==
+ b=TsP/+0M0h6NRa7aOA3UCpwIkq96msGvKkZ72DaisxPUSsRp9ktRW8FpJeMa9wrHP5jykSTOo9YcTd96Jg3tt3t6ouWyxH3CpQVirLtQTVxzWkPnPATj2mnQ3PPjojFPvSg6QIuAI9ulIT4pxBJ81WuQE1jWUuNonG9K5GZ6O5UbMYA8gTliXHNB8f4CK4Q2aGQPABt/dZfGwjWAbm51GWkQ04XPN6W9ArOAWhTR45C4HVhku4CULLz9txbUJSYjHP0pE94eEb33ZrmNG+N4b6WY4XyHHM3cjeUlZDno6fxxN6c+Nuf+OqvZfzXGYY9oeJZVlKYOQTdJIk1POFhRZ3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gmq07TnSUHP3V+FWtggFVI38i/Jfgm/s2wAOcGc8pAU=;
- b=wLFifgoILsrI2ECgF0/lgV9W4Os8u5rlROFijD8IF7cEa9fG9F8gNxwtHMhSKkvZAZ0qBFD7ndIAxhUrqrQ/5XpUgdYMvKSwwPLg1OuGbd8/dk7vE9q+E/LJAihtmYM5agTY3wGTJx2yGSalK554RThT0M3KGzw3J1dhW6RyyDnNkRM+c/ac9CFKvEOjT5rQeTnn7953cxVmJ2r2muOXSGS9LEbKF9Mcg0OPwgbGX1vB7ZfXkLKRPXMCnpiOdBCA2gOCQV2vlpTPIPZNK0PdqlZ9o0eoskm57hi1n8bRwpBZmd2aL8zXILkq1G6UbuG98zoq5zxR1WOlONBXKEj+SQ==
+ bh=Yt5nLK9TZwZlfK5MrUus1dOU6QWg8+fs2SaJmfVJKpQ=;
+ b=FovmcblcltvirXWhyk/h+WBv0hJCf/6ssYAnkRnFy6dKnbebrzG3H4Z47lMVcTvl0LRbcQ4WG+I9iRJPCU3sj2gCi/SG+fbvJgcKMZUmHt7G9MhDb3iIiTShtWX0zdvtQO0Fu0Vucv0dCD/AZB2/SB+vekmcfA5/q9AEDHR/luN5xgJkWHR/OvOIOzhq6QnzlB8v8rJCleZpOIhoG0fR2DGxPN/EoYx82GI4vuBLuGZUsyeHs4B90eaccc8b3jADPizZdlyAgrJDgI62+slDlrog3OD3fXa20ugt28BZb/kgkXJJ1F1y6o8auB+Hl4wLz0YKuEuCzSYtYtvTsSfq6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmq07TnSUHP3V+FWtggFVI38i/Jfgm/s2wAOcGc8pAU=;
- b=GC8llU59yUANvdq0/EI3DJXq/xbvEpm1R5hDA5zDPZ36AlPJKxlCMccunDCXxG6Lr6OLeWeNcs09ROp5Qsj//YfOPc6F9gyI3rPQzkbhL3kBBozKku8OTfbSMPp/Tu9FPZOeV75n281izdwPJ3y+hOJq0QCivLufmFlSWVxAtkg=
+ bh=Yt5nLK9TZwZlfK5MrUus1dOU6QWg8+fs2SaJmfVJKpQ=;
+ b=FhVJE3Q1eewe07t2UOcj0b3KIEHiX5NgT35pzvilAx/BakT2vxhcGBpMNj39mrNYm99st1L4s6uExRABH/JkU4LGD3olYa+hC26eg+JqCLmimq8VuZw2ygtIUF3De7yhDWBA7YxJMqUf41gah+dyJClCJXq6tMI3GVIlrIhedziLLxXK9UeGaceGqXdHd+5p88w7KhYDkKIf7XNdrDZM1lFgsvZVPqDmRi45dLc4bDn38ZBqECP4BCF+RmF1wEH/Ghco9wzkJBNiJ/O+EulyH9LDoszVlRouIyE26VA8cUnf3BfffnEmLkfl2cSdQ+kJsme5NCqVqVkutqZdMIbtXg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by IA0PR12MB7698.namprd12.prod.outlook.com (2603:10b6:208:432::19) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by MW4PR12MB7264.namprd12.prod.outlook.com (2603:10b6:303:22e::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Wed, 12 Aug
- 2026 19:59:02 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
- 19:59:02 +0000
-Message-ID: <5fad6e01-1052-4c1f-82f5-02c650ae1ffe@amd.com>
-Date: Wed, 12 Aug 2026 14:58:57 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v4 04/15] fs/resctrl: Introduce kernel mode (kmode)
- data structures
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, bp@alien8.de,
- ben.horgan@arm.com, fenghuay@nvidia.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, akpm@linux-foundation.org,
- rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
- kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com,
- seanjc@google.com, nikunj@amd.com, xin@zytor.com,
- pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
- kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
- elena.reshetova@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
- peternewman@google.com, qinyuntan@linux.alibaba.com
-References: <cover.1783461016.git.babu.moger@amd.com>
- <7191fbc2a339c830e7768d7fe5e7fa0f7d65da9f.1783461016.git.babu.moger@amd.com>
- <b84e5f4a-9743-41d8-b70f-e826d5afe4fe@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <b84e5f4a-9743-41d8-b70f-e826d5afe4fe@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0115.namprd11.prod.outlook.com
- (2603:10b6:806:d1::30) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Wed, 12 Aug
+ 2026 20:10:11 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0315.014; Wed, 12 Aug 2026
+ 20:10:11 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Aug 2026 16:10:07 -0400
+Message-Id: <DKN8KXM1XAWF.2N62FWNIBYMQU@nvidia.com>
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>, "Zi Yan"
+ <ziy@nvidia.com>, "Baoquan He" <baoquan.he@linux.dev>, "Pasha Tatashin"
+ <pasha.tatashin@soleen.com>, "Pratyush Yadav" <pratyush@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Jan Kara" <jack@suse.cz>, "Steven
+ Rostedt" <rostedt@goodmis.org>, "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Dave Young" <ruirui.yang@linux.dev>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Mathieu Desnoyers"
+ <mathieu.desnoyers@efficios.com>, <kexec@lists.infradead.org>,
+ <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-trace-kernel@vger.kernel.org>
+To: "David Hildenbrand" <david@kernel.org>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Muchun
+ Song" <muchun.song@linux.dev>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R.
+ Howlett" <liam@infradead.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Mike
+ Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>,
+ "Michal Hocko" <mhocko@suse.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
+ Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>, "Gregory Price" <gourry@gourry.net>, "Ying
+ Huang" <ying.huang@linux.alibaba.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng"
+ <qi.zheng@linux.dev>, "Shakeel Butt" <shakeel.butt@linux.dev>, "Kairui
+ Song" <kasong@tencent.com>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH RFC 14/14] mm/page-flags: remove PG_private
+X-Mailer: aerc 0.21.0
+References: <20260731-remove-pg_private-v1-0-142c97ba3562@nvidia.com>
+ <20260731-remove-pg_private-v1-14-142c97ba3562@nvidia.com>
+In-Reply-To: <20260731-remove-pg_private-v1-14-142c97ba3562@nvidia.com>
+X-ClientProxiedBy: CH0PR13CA0036.namprd13.prod.outlook.com
+ (2603:10b6:610:b2::11) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,229 +86,218 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA0PR12MB7698:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ede6b5b-5066-45a0-ddf8-08def8ac2802
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|MW4PR12MB7264:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57d4e04f-3b14-4192-10bb-08def8adb6c3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|23010399003|1800799024|11063799006|4143699003|56012099006|10067099003|6133799003|921020|22082099003|18002099003;
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|22082099003|18002099003|4143699003|11063799006|56012099006|6133799003|10067099003|921020;
 X-Microsoft-Antispam-Message-Info:
-	AgfO8dPVBxKpZy5E3Hy3fOzmAdUNtvEKlf6SI71dUn4vGrKSJKB67RTwagQU1GK/4GHLv8E/adIMaDtljeVvJkfaQTntMdCDJsJiRiHEmJODKyZ35BQBDbCiDQCgxApMGnUULIDL0PLeBxO0XW2t/4T69hCKgi+fsXh2zSwWVwWpV+76N6GCj3te1zheAO/ui2JTV/kJbFq/irLbtLghtECY1EE9+VGAvjUVb+YY1NOsiyXrBEZgVFvbrh8f/MpiyXTP8FYvcQjI1yMsJygn94mUapScfN6ptfXhdupq0p6sECFKLSAfJ3OISi3t/bFnv3h3+FusPwTBx+dX24D8CGW7FSGTfKwqh3GWVVQmk5TCGXHiTHf7Vgw3H4lo0e657/8IgIOUabxXE7KcvExFvBKG2RGkynHr9+DGxaTp6MWcuz+QGbCsVaPAVd8W8D60QTOGdl/dzllvxgWvbsu8Va1TOxZ0nqCSIBpxSO2d6d85138gSIpc1L5WOnHhDgBnucd+1dfOzlhy1avlMAg3RFml5S/aqj3WHCk47zvlbNQ9JAu2A+W5zTLPNB0IFimeetot63RRmEb1DFqXnUuS1QeBXw+ARTRTgCdU1uiEEp+i4Xhv6wtBQ3aGA25OQpjeYylKo9qjK7NWrFllpshJUlUeoHVB9xN897u/Qu1rgnzyEVc1F2KcE+FaFuICVUZ6AdQge1Mtm4W8bpu5WrV1iw==
+	N2A8ol8XyrTdjQ+xpCQYUfg0h2EkaVKPzkZsKU39aGrwKpMaCeAuPtzyIhk/LRo+c+W8w48Cc8dshifaff9AN0XM0meZJIh8RQNlhpU6FSlqm5n6S6UVO54D4p8g4x4ofXHrZecF2sAg4/WgyT7j8nyuE1FcjhA2iTvsQKUHlC80NmIJDN2Kn7SgVR5FWkeUNO143eHo7ItwHsul5oYBOKYCREkK3x6kKyV5VTq5fyGwJCd0Hef0ALhz6vsaCEDNgOCgEPk1MxnAo6LFtp4x9lHjoV2/heSuylpxJ/j0oDX6r4BX/64qWVHZiZFf5zGcUqpqJLbERrngNQBUB34kbcg9xAXegh7G1CDfmwIifTTPQuyvHgiIu2kTsKFZ0EU4ErC0wR9u3c4DZ1R7aQEh9M6h70DOjaytXbhYJxI0kHdtMltR+JCf3J/1sfRgbEi9pfNr8ZRobS09RpdaxcpLqVVFo3qNX7nppbPfctVuzS5axnbefM1Cyi6GzXvhAkLmfv2a/KSZKVbKt8ZQ4Qw2irmbmD5DJxVagzKXasJ23h6bs/6NHp39UyqvbyzppJryhEuLf+q6vO7mV2By8VEKU4l3UPExrttiWVMfUygv8hzZMAE4srXFhW70G4yu54aHCn/lrXeK+g5TMWK/OxWwIAYuJLYUFE3jAE0Pnd1jGgF+T3SLLPu1y3ZW5yQdeU8PsJDxcMOZv0DOzla8R0pYjg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(23010399003)(1800799024)(11063799006)(4143699003)(56012099006)(10067099003)(6133799003)(921020)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(6133799003)(10067099003)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SmJoRm9kTGEzR25KNTl3TWgxSmhrY0ZzdG9ON1NaeTJBWEpPSndsM3hBWjBE?=
- =?utf-8?B?K3o1TmpBVGoyRnNTUFoxeGN1ZEo4TVJhQ3IweVYySFNNbFNYUmlDWGMyL2Zk?=
- =?utf-8?B?U3gzQ2Z0WHJGd0M2R0dxV0hhSW85emdyVEhzY3l5TFZSS1UrSGpYelQyMzNj?=
- =?utf-8?B?S2p6aXM0d3FETlFvQWZQSzFRbFI3MmFmUm1WOHhOQnBSOEVqOEFlUjdXTzFG?=
- =?utf-8?B?WUxvM1J0dkJXbVFkL3Q0dkI4TmlvUWpBWG8yb2pSUGk3MTk3YjE4QWpMcXJM?=
- =?utf-8?B?MFpBWUJBV2twbnZhcWlZa1hSSGxMUStQaExmVVF0MmU1ZU1Gd29Jc1Axemhq?=
- =?utf-8?B?c0Zud09KK1owbjI1MFF4d2xiaFQvejFJeFNQSVNTREwvT0VlUWNnNXE4ODJ3?=
- =?utf-8?B?ZStpODBFS2lSMGRPNEF5T2czWVpucHJudUNZeHFNby9GRno2djdKL3VkQnFF?=
- =?utf-8?B?KzVSSTJmaGJFRVJHclFjdHhxWjRyeUk2d0FsU1JuS1JwRXJuQ1ZCeXNMNytG?=
- =?utf-8?B?Lzl2UVowcTBnZU5zQmlpMEVKeE04Mi92V3VjTUVOKzdvU3h1S1pIZDF2dEpl?=
- =?utf-8?B?bVhlekExSnBISlA5N0REWDE1cm0rNWFPVi9rLytKSkIvTTRwRERFWjA5amQ0?=
- =?utf-8?B?WEErdjJTdFZONnZyZkZSQVltOXZFMVlkRHdISExOMkxldDBBWWwvVSs3QUR1?=
- =?utf-8?B?UGxvUnl3ekdDYmRtYzRVV0d5ZXpZK2xSbHpMOGR6V0Mza3pSUERzV0t3TFdq?=
- =?utf-8?B?TFJYRTRTRGdBMllPcWcyN1FQbkFBOVFTaEgyT1FnODhKdTRCR2k2REpzeHNo?=
- =?utf-8?B?MHMzNjlPaG83emN3c3BWakJOc1AxemFaelBaVENYZkd5cHlFNVluQ3ZlOGRW?=
- =?utf-8?B?YmtXdmFzdWNnNGpWV25HbUtDS2JHMm50VHBGRVdvV3hVSGVhZzI0UFcvbGY1?=
- =?utf-8?B?NFRMNnBTV05VS3dqTHZIT28vajVmOW5UMStVL0VvMGdqOGprMmdNakk3YWFY?=
- =?utf-8?B?QzdpREYxeXFnVEVmZG8rbTVwdHhVV3JDc3lZZmpDV3E2YWl2N3NmbmhWUkl6?=
- =?utf-8?B?RlpYL0YzbDNMeTIxeTJwcngwMVVkRTRlODh4M0hlSU5ZK2pSZUNxYnhna0cy?=
- =?utf-8?B?Mk9YSS8vaTBycnNrWkhIUXo3M0dmQWJvRE5TWEhCRzhpRVF1VE15dkhiL042?=
- =?utf-8?B?ajFzQ214Ui9zdDdJT3BJNzNMcnNkZXhvR1RXL0VhNHVIVUZERFo0YUN6L29v?=
- =?utf-8?B?a2xiYU8vTHpDY3MyVVUvTENaQmtGYlBOaGNrSytVUnk5YkV3SFZuUE93OGF5?=
- =?utf-8?B?T2VIRllNdzY4Zmxld1pIZERiN1piaG9QQlUyM2NKRG4vTEFXR3NqMlB5eGFv?=
- =?utf-8?B?bHNWNkJOejVYVW0yUVRSV2VvditTR29nTlFkVVZNZGNyeG5tZHRaTmpzb1p4?=
- =?utf-8?B?K0RweDhTcWhTampnajhsMlFuNzlEZnZPMVZGc1hKMUFEUlJ2K2J0UVBCSTNy?=
- =?utf-8?B?MTg2TVlPWW1tZkIxTU1VVzBZdnhhRnN1dHk2YzF1RUJWVW1paytvZXljTHcx?=
- =?utf-8?B?SGc4N05RVlRuMStKMUtTN3NPWkNEa2tqRGdaZHRVOGdRQVVmcStaYitobzVZ?=
- =?utf-8?B?R05zMXhTUkRYODFMTUszYTF6WjJIS0laZ3VHZWt1eGRPT3RuNFJIVUlFVDhL?=
- =?utf-8?B?Tk5NYmEyYjkvd09yOW1NVCtlOEFERzM4T2RpeVNSUnFpaVBuQmdyemRpZmRm?=
- =?utf-8?B?bXRwc05pQVdPdE1VQnBJZ0pibGJPd3hYaDZzOExPWHRWZ2Y3N0lCMkdCR2ky?=
- =?utf-8?B?ckVnRHFCNWtWcDhkTHNhNGJTTWRlbnkyL3JGS1J0MWQ4NURCSkFSVkh3K3Nz?=
- =?utf-8?B?elA0WEc2QW8wQ2w3RXpGQk5FUzZlZjFhcWM1NE9JdDBwQXYzMkQ3Z0hBRUo2?=
- =?utf-8?B?dTVhK0tMZkhpM2t4a0phdjE3Y05maWFqUlpqNnpNaTU1dEZSQUIvYmVZSTF5?=
- =?utf-8?B?UFluOHI1WTU3WXdJTEptdFdSVGRPdHVTT2dBR0dOS0FQRkZoSkxSQ3psWjB2?=
- =?utf-8?B?S2xuZVdOUzVNRitWMGpFWUgzbXMxcW4xemJ2TFRTbTZpcVd0eG5ublRQY29S?=
- =?utf-8?B?TzkvRnlSYXZkVTkzSXorOTRteWZobUxpZVRld1Z1dldxcXFXTjZYMWNleGJS?=
- =?utf-8?B?bENtV2ZSVkQ1TjlFNGZiZG1BUEJDUWRyN1Q5VXB5UDVqbjdvdHVSS3JsaTNN?=
- =?utf-8?B?M1pycEpwNDZaSjlNR1k5elFWUm1ET05LYUpNY3V5SFpIQUNwMWtXeUQyUEZV?=
- =?utf-8?Q?LBRta0ziSDUsJ4zpnS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ede6b5b-5066-45a0-ddf8-08def8ac2802
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+	=?utf-8?B?U01BcWtNSUgrQ1A5clF2akNjTXRRdFU2RU5IWUxiVnFYK216T01PWjYwREli?=
+ =?utf-8?B?bDJ2dWNyWEYzbGdGTVdvdnNIRnZJVDl2azNUR3c1MDhYNmZ5djlxWkZQeHlF?=
+ =?utf-8?B?MzB0TVVVMTVBbE1oUVNySUlFQ3grY1AydG5hdDVDZ3k5cG4yWk52TitzSzI1?=
+ =?utf-8?B?ZEVJTzc0Y0NGK0t1SGZ1aU1CTFFvNEJWUXpYRnJDdmlXN3RlUHV1cFBlWG1Y?=
+ =?utf-8?B?VDRjUTUwendzL1J0eGY5VXgya2gwZ2dnekpmNndRYUxXajRnU3pmMnkwQnpL?=
+ =?utf-8?B?aGg3OS9QTGx1NGRrVmE2K0svV0dUZ3hKK3VlRXlQMWJ0Qzg0bXJwN0dEcFRR?=
+ =?utf-8?B?dFErREltL0haSlV5NTVvZ1E4cU5kdUpnRkdwY04rUVFYZUh6elluSEJUZS9s?=
+ =?utf-8?B?VWIzNHJ3ZFB2andIenptaEpzc1VjaEVxWVV4WnN4TTBkNk5wS0pwWWdsUzJk?=
+ =?utf-8?B?L0RweFhRUFE0ek1pYUdIVlNXdjg0aFR6VzhIUk1IVm5Eb0FjVldVc2hMTjRK?=
+ =?utf-8?B?SGVPMUxGWGFqNm81NkRJY0Ezck5KaGoyUDJTZE9kU2NnSGpFVFNWL0NndktY?=
+ =?utf-8?B?Yi85ZmxQdkN1eTI5ZDVPcklNT1Z1bklWRGdhQmJLQmlhNlZHek9wbEJSazc2?=
+ =?utf-8?B?d1FwVmZXQ1RxR0FST1A1MU5iSkFUQzlSUXg5WUlhT3RLWnVnTDlLazV1bW1B?=
+ =?utf-8?B?dXZkVUJVMDR4eGJvVEF5d0o3N29NL0hwZTJDMzVKTXh6NytDaDNFUm1tS0Vw?=
+ =?utf-8?B?S1NDYy82ZDBWNFlBMXMyVitaWHhOT0Z3Rmt1QUhpZHVHcEUwSlFSR2xEdytY?=
+ =?utf-8?B?VS9hclpNREo4dTRwRVQxZ3U4YWFCeWZhazZTRk8rMnVCcmRqMm9tenY0QWR6?=
+ =?utf-8?B?b1p1b2c3NTdlb295UDJXdlh0RGIvWTMzdzBTU0hZenVPYk5PSUp4QmdJeW5O?=
+ =?utf-8?B?WTJZdUoxL1JTQlBSbmlIampnVkhXNVJXbVZzVkxJUWl3VTZVSXRZdEIzYVhN?=
+ =?utf-8?B?SFpHMExpZVN0R25PMWc0MlVNN0lmSi8zZUc1Nk9GdUZLTkE5TXJ4aFl0VElS?=
+ =?utf-8?B?dnoydkdsNzRZN0pzNS9wb25HUy9rcU80LzRxSWJVZjJmSEFLU1RMT0dvS3hI?=
+ =?utf-8?B?K2R5VUIzbDlEUDhoNEFib2R0dkJHUXd0UmtWa3BHSm82Wm1TNCtBbDd5ejNH?=
+ =?utf-8?B?S2M1RENMMjRTK1AzUG9OZ3RMVGVKRE9aWmtBVWZyUDBTK0RXdFlzdzZtMnlh?=
+ =?utf-8?B?VkRDcmNHN1BsT24xL0lqZHJJVTg0UGR3VDJ6bzMzQkhqdjRMY1FGWFJScHQw?=
+ =?utf-8?B?M0dxUjArUjRtT2trQm5YUFRWQjVnL3Rpb0JsYkJ5bFpmSkJzd0RiWVFrelZl?=
+ =?utf-8?B?bzlaSHVQVXdtOHFUK2hLOEs4NGNPMFhRZW1RZkN3NzA4Qk0rVVQvb3hVdElF?=
+ =?utf-8?B?Q05NakdheEhJY2FzdVB0N1ZEelZ6WnJ3US91Uis3ejBzdFJ5akc2L0lNWWtm?=
+ =?utf-8?B?MlNPaGJ4NjNhY2Z1ekFONFBVd1NqcW5xa1QxYnNhZmhVQUtPaXZMNjI5R084?=
+ =?utf-8?B?UXBaUzlxTXk2SGVXSjNOaThkN0xTaFhRbHNMbXJHRkk3UTM4b0pnUnByY3gv?=
+ =?utf-8?B?dDBMZ0hTRkVDUnhwVStSekhTUDJEdXpkd0FhQ1FocFJuUmE2VVZ2ckNTV2xv?=
+ =?utf-8?B?MnE4SFZRL0VaS0tXdkdydkRCZC95VmpTaVpwVHNBeU90blZwbEFvY01JeWV4?=
+ =?utf-8?B?VmNnWmFJcko3a0F4UGFtd1I0U2hQakFPZUx6Nm84dWh1eWxZQ25LQ1h4cHZD?=
+ =?utf-8?B?TWYwRU5VUVlWQ3NrbkFzQytmbGxJcGJMZjR6L3ltNkw4eDRhOUFxT3BNV08r?=
+ =?utf-8?B?OGxuSiszMDFIbGRWMlpIUnphdld4cFdqN2VGNlF6MElzZytqWStRRElyRytQ?=
+ =?utf-8?B?TWNyTGxQZ2c3UWY3eUZ6UU1WOVV1UHNEdzZxd0NLRFBYUExnRkZQYVQvd3hP?=
+ =?utf-8?B?VnlqWUt6bUZOSVhpc3I2NDZ0QUJPZFRaUkR2OEJyaE12T3cwaEhibERyYzk4?=
+ =?utf-8?B?eXAwaE5ZcGpPMWZhVmlaWmpXZml4S2RKR0EzOFNzY1RMN1pXb3o4WnZzbEFa?=
+ =?utf-8?B?UVhaRk80Njh5bUl5RjBNTmZCOW1KejJYdWI2ckU1clZ3MmVqRHlmanhrdzNJ?=
+ =?utf-8?B?Wi9tZkJFZmRtRWRDa29RT1B2R0ZUZzFhZnAxUnRpRXcyOWVja3FBY0ZWMEoz?=
+ =?utf-8?B?QUtZNkdKMnZrMTV1Q0RwU2EvbWFmVFFWRnZWdXpCM09HZlFxay9FWTZlQWdj?=
+ =?utf-8?Q?n+k4MpVd23+QaZsuOp?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57d4e04f-3b14-4192-10bb-08def8adb6c3
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 19:59:02.5932
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 20:10:11.3976
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hLLM1laSE0NXOiKmT/LXX9ozmCdIpG/+LeUVksBvebuqA464OjII77NA27m03tXc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7698
+X-MS-Exchange-CrossTenant-UserPrincipalName: ESrlsx0jfYAy2v/p3CLd/+I9g7kWMZSqYZNXD5/yEDLcS48YtMXl4W7xbGzLF76b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7264
 
-Hi Reinette,
+On Fri Jul 31, 2026 at 10:13 PM EDT, Zi Yan wrote:
+> folio->private !=3D NULL indicates a folio carries private data, replacin=
+g
+> PG_private. All PG_private users are converted. Remove PG_private and
+> reserve the space as __PG_folio for future use.
+>
+> Also update files in Documentation. hugetlbfs_reserv.rst is outdated and
+> left unchanged. It should be rewritten.
+>
+> Assisted-by: Claude:claude-opus-4-8
+> Assisted-by: Codex:gpt-5
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> To: Andrew Morton <akpm@linux-foundation.org>
+> To: Baoquan He <baoquan.he@linux.dev>
+> To: Mike Rapoport <rppt@kernel.org>
+> To: Pasha Tatashin <pasha.tatashin@soleen.com>
+> To: Pratyush Yadav <pratyush@kernel.org>
+> To: Jonathan Corbet <corbet@lwn.net>
+> To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> To: Jan Kara <jack@suse.cz>
+> To: David Hildenbrand <david@kernel.org>
+> To: Steven Rostedt <rostedt@goodmis.org>
+> To: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Dave Young <ruirui.yang@linux.dev>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: "Liam R. Howlett" <liam@infradead.org>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: kexec@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-mm@kvack.org
+> Cc: linux-trace-kernel@vger.kernel.org
+> ---
+>  Documentation/admin-guide/kdump/vmcoreinfo.rst |  2 +-
+>  Documentation/filesystems/vfs.rst              |  6 +++---
+>  include/linux/page-flags.h                     | 19 ++-----------------
+>  include/trace/events/mmflags.h                 |  2 +-
+>  kernel/vmcore_info.c                           |  1 -
+>  5 files changed, 7 insertions(+), 23 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentati=
+on/admin-guide/kdump/vmcoreinfo.rst
+> index 7663c610fe901..5f1df6d080508 100644
+> --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
+> +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+> @@ -325,7 +325,7 @@ NR_FREE_PAGES
+>  On linux-2.6.21 or later, the number of free pages is in
+>  vm_stat[NR_FREE_PAGES]. Used to get the number of free pages.
+> =20
+> -PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_hwpoison|PG_head_mask
+> +PG_lru|PG_swapcache|PG_swapbacked|PG_hwpoison|PG_head_mask
+>  ------------------------------------------------------------------------=
+--
+> =20
+>  Page attributes. These flags are used to filter various unnecessary for
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystem=
+s/vfs.rst
+> index e7677423a20f7..5cc07f82fe371 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -649,8 +649,8 @@ Writeback.
+> =20
+>  The first can be used independently to the others.  The VM can try to
+>  release clean pages in order to reuse them.  To do this it can call
+> -->release_folio on clean folios with the private
+> -flag set.  Clean pages without PagePrivate and with no external referenc=
+es
+> +->release_folio on clean folios with folio->private set. Clean pages
+> +without folio->private set and with no external references
+>  will be released without notice being given to the address_space.
+> =20
+>  To achieve this functionality, pages need to be placed on an LRU with
+> @@ -674,7 +674,7 @@ filemap_fdatawait_range, to wait for all writeback to=
+ complete.
+> =20
+>  An address_space handler may attach extra information to a page,
+>  typically using the 'private' field in the 'struct page'.  If such
+> -information is attached, the PG_Private flag should be set.  This will
+> +information is attached, non-NULL 'private' field will
+>  cause various VM routines to make extra calls into the address_space
+>  handler to deal with that data.
+> =20
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 0e3628ea080c4..eb2961ed61018 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -44,10 +44,6 @@
+>   * Consequently, PG_reserved for a page mapped into user space can indic=
+ate
+>   * the zero page, the vDSO, MMIO pages or device memory.
+>   *
+> - * The PG_private bitflag is set on pagecache pages if they contain file=
+system
+> - * specific data (which is normally at page->private). It can be used by
+> - * private allocations for its own usage.
+> - *
+>   * During initiation of disk I/O, PG_locked is set. This bit is set befo=
+re I/O
+>   * and cleared when writeback _starts_ or when read _completes_. PG_writ=
+eback
+>   * is set before writeback starts and cleared when it finishes.
+> @@ -105,7 +101,7 @@ enum pageflags {
+>  	PG_owner_2,		/* Owner use. If pagecache, fs may use */
+>  	PG_arch_1,
+>  	PG_reserved,
+> -	PG_private,		/* If pagecache, has fs-private data */
+> +	__PG_folio,		/* Do not use: reserved for folio identification */
 
-On 8/10/2026 10:03 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/7/26 2:50 PM, Babu Moger wrote:
->> Kernel-mode traffic can use a different allocation and monitoring context
->> than the originating user task. On x86, Privilege Level Zero Association
->> (PLZA) enables the kernel to switch to a different CLOSID (and optionally
->> RMID) when entering kernel mode.
->>
->> Architectures need a common way to name kernel-mode policies before resctrl
-> 
-> Please pick one term and stick with it. While reading through this series I
-> have come across "kernel-mode policies", "kernel-mode binding", "kernel-mode
-> configuration", and "kernel-mode association". Is the distinction even needed?
-> Could all of these just instead be: "kernel mode"?
+Sashiko asked how to detect leaked filesystem private data during page
+free time after PG_private is removed.
 
-Sure.
+Answer:
 
-> 
->> can report what is active or what the platform supports.
->>
->> Introduce enum resctrl_kernel_mode:
->>    - INHERIT_CTRL_AND_MON: Kernel work inherits allocation and monitoring
->>      from the user task (current behavior).
-> 
-> The issue with this "combination" mode becomes obvious in patch 7. I also
-> see that sashiko hinted at this issue but I am not able to see from your response
-> what the plan is to address this. As highlighted by patch 7 and sashiko the
-> "allocation" and "monitoring" features of a system are independent - a system
-> need not support/enable both. This should be easy to reproduce by, for example,
-> booting a system with needed rdt= options disabling allocation or monitoring
-> features.
-> 
-> I think it will be unexpected to a user on an allocation-only system to
-> see interface like:
-> 
->   # cat info/kernel_mode
->    [inherit_ctrl_and_mon]
->    global_assign_ctrl_inherit_mon_per_cpu:group=uninitialized
->    global_assign_ctrl_assign_mon_per_cpu:group=uninitialized
-> 
-> Should it not rather be, for example:
->   # cat info/kernel_mode
->    [inherit_ctrl]
->    global_assign_ctrl_per_cpu:group=uninitialized
-> 
-> Similarly the user input would not need to provide a monitor group when system
-> only supports allocation.
+After the conversion, folio/page should have an elevated refcount whenever
+->private is set. That would help detect leaked private data. I tried to
+enforce ->private needs to be NULL at page free time[1], but that might
+cause trouble for certain use cases.
 
-Ok. Yea. We need to separate control and monitor separately.
+[1] https://lore.kernel.org/all/20260223032641.1859381-1-ziy@nvidia.com/
+
+<snip>
+
+> diff --git a/kernel/vmcore_info.c b/kernel/vmcore_info.c
+> index 8614430ca212a..5a417f8a922ab 100644
+> --- a/kernel/vmcore_info.c
+> +++ b/kernel/vmcore_info.c
+> @@ -216,7 +216,6 @@ static int __init crash_save_vmcoreinfo_init(void)
+>  	VMCOREINFO_LENGTH(free_area.free_list, MIGRATE_TYPES);
+>  	VMCOREINFO_NUMBER(NR_FREE_PAGES);
+>  	VMCOREINFO_NUMBER(PG_lru);
+> -	VMCOREINFO_NUMBER(PG_private);
+>  	VMCOREINFO_NUMBER(PG_swapcache);
+>  	VMCOREINFO_NUMBER(PG_swapbacked);
+>  #define PAGE_SLAB_MAPCOUNT_VALUE	(PGTY_slab << 24)
+
+Sashiko asked if removing PG_private from vmcoreinfo breaks back
+compatiblity for related userspace tools.
+
+Answer:
+
+Userspace tools will adapt to the changes.
 
 
-How about something like this?
+--=20
+Best Regards,
+Yan, Zi
 
-  # cat info/kernel_mode
-    [ctrl=inherit,mon=inherit]
-    ctrl=assign,mon=inherit:group=uninitialized
-    ctrl=assign,mon=assign:group=uninitialized
-    ctrl=inherit,mon=assign:group=uninitialized
-
-If allocation(ctrl) is only supported.
-
-  # cat info/kernel_mode
-    [ctrl=inherit]
-    ctrl=assign:group=uninitialized
-
-If monitor (mon) is only supported.
-
-  # cat info/kernel_mode
-    [mon=inherit]
-    mon=assign:group=uninitialized
-
-
-
-> 
->>    - GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU: Assign allocation for kernel
->>      work; inherit monitoring from the user task.
-> 
-> I am not able to parse "Assign allocation for kernel work"
-
-Will change it. Explaining in control and monitor groups terms will be 
-better.
-
-> 
-> 
->>    - GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU: Assign a dedicated allocation
->>      and monitoring for kernel work.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> ...
-> 
->> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
->> index 73ff522448a0..c7abed51cd5f 100644
->> --- a/include/linux/resctrl.h
->> +++ b/include/linux/resctrl.h
->> @@ -703,6 +703,37 @@ int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable);
->>    */
->>   bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r);
->>   
->> +/**
->> + * enum resctrl_kernel_mode - Kernel-mode control and monitor association
->> + *			      policy.
->> + *
->> + * @INHERIT_CTRL_AND_MON:
->> + *	Kernel work inherits the allocation and monitoring from the user space
-> 
-> "inherits the allocation and monitoring" is very vague. I think it will help to
-> make things clear if this is described as the control and monitor groups being
-> assigned.
-> 
-
-Sure.
-
->> + *	task. On x86 this means that kernel work shares the same CLOSID and
->> + *	RMID as the user space task. This matches today's resctrl behavior.
-> 
-> "This matches today's resctrl behavior." - This cannot be expected to age well and can
-> be dropped.
-
-Will change.
-
-> 
->> + *
->> + * @GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU:
->> + *	Kernel work uses a globally assigned allocation while monitoring is
->> + *	inherited from the user space task. On x86 this means a CLOSID is
-> 
-> (same comment as above)
-
-ack.
-
-> 
->> + *	assigned for kernel work and the RMID is inherited from the user space
->> + *	task. Default scope is all online CPUs; a subset may be selected via
->> + *	the resctrl group interface. A CTRL_MON group is bound to this mode.
->> + *
->> + * @GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU:
->> + *	Kernel work uses globally assigned allocation and monitoring. On x86
-> 
-> (same comment as above)
-
-Ack.
-> 
->> + *	this means both CLOSID and RMID are assigned for kernel work. Default
->> + *	scope is all online CPUs; a subset may be selected via the resctrl
->> + *	group interface. A CTRL_MON or MON group is bound to this mode.
->> + */
->> +enum resctrl_kernel_mode {
->> +	INHERIT_CTRL_AND_MON,
->> +	GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU,
->> +	GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU,
->> +	RESCTRL_KMODE_LAST = GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU,
-> 
-> Please drop comma on a terminator line.
-
-Sure.
-
-Thanks
-Babu
