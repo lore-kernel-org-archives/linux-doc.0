@@ -1,79 +1,124 @@
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AC331282F;
-	Wed, 12 Aug 2026 06:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBB6399375
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 06:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786517009; cv=none; b=e1LqXxic2zL9rwZVTy2OUNHEhtb+apORFKB2szQEz8OJza/+CmTWqGER9QLgOo5V8RSgr179YHjjY/FPrnn3KktnUWpjrAG53DxJOfkvo+IoPVgHiHwVv4hSGC/39gbLBZt/zleBbOkAepIrKXi9xyOiVXyYXyPdSurH4TRQBh0=
+	t=1786517967; cv=none; b=Ay0Ew2YBV48bX/gV2Oci2Xc4QgvitL7PIYHWcmFfoPmo4tGYyqW45kC754uJvpwTKSje39Q9eT+Q6CnWKxVMY7E2UyAZsYDPCodTfh0ss5Xw0mDCP4xHw/s09650o5yF8LpJ9L233L8omwLvbkhdCQDsBezaFscOg/7MsGNDeUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786517009; c=relaxed/simple;
-	bh=l9kYW2cjifORa7furRmTiAaP9Rqs4SHR94tXkJbx490=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=M5OkF3hKM8Z+ufk8prMDPKKUsrCTaFdcZ5/9SVsxjg2TYzJQkq1CHMYSYh7Zlp2XmNicmpBUMMWq/FqL7Gf1zpyo0utmXAporcw8a04poURixE5oxMHJWxmwM4QDWLYnB8rfFuCt6Iakfg0TBsMWTwNxdHIQE/4JlVwwy7mchJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=walle.cc; arc=none smtp.client-ip=159.69.201.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
-Received: from localhost (unknown [IPv6:2a02:810b:4320:1000:4685:ff:fe12:5967])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id 81E42141;
-	Wed, 12 Aug 2026 08:43:20 +0200 (CEST)
+	s=arc-20240116; t=1786517967; c=relaxed/simple;
+	bh=WIAuDm5KWKeCXbUA7qblf7Ti3VLEdPQOqG/N3pB7uF4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=js0cO/SEJqr1RcmcIcgTKlaUuuMTELRZO2g6pdFLVYW6RoCgtmwnkzKSsu4euIOXr0UQ+rFIM5jsJjj6grf9EtOEwVTm9UumrRp1350hEhei7KzaSs30GfQ6VgVvhh1/oGRMZI2wPjQEMx929xVt5e/nZv43Bk8hN5YVSeU9qEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cWAH5P43; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cWAH5P43"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4956d1d9fb2so189845e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Aug 2026 23:59:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786517963; x=1787122763; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jYLC+//as5WkDB9Cfqs3UoupJV7njGedAREDeXd0kB8=;
+        b=cWAH5P43KYkdS76Gfj/Izwf9Jr5TVV2+gxPH8SiehA2TEs4BUUa52SVYtHGjPb12lk
+         GLoXEEVDizefKlq4dXuc9mmiszB/DX16CsfVK+nI04XIFG69IG48efITgahM+Y163vLX
+         Cixl39Mcf1HrSThYpvsL5O5awmkbD16s42WmoKMg73ZR9zWm61VnJu/d2vRYHKP+gClP
+         76yF95+7vjLSz+46EUxqmPxzjp+GrGANn3wrBJn32zcKN80ZIke62lBqfq2MzViKkvoL
+         AOwlw+hpkeo9UCDvr0R0EDQsPSZgDXREw6prPRU9F3J+Gj4pZtPPatfcaWwdavLMa7x5
+         B3qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786517963; x=1787122763;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jYLC+//as5WkDB9Cfqs3UoupJV7njGedAREDeXd0kB8=;
+        b=T0ktBUvK31V/7fGY/zuWFhDgiKtHwInQm0FcZpdb7awsA7bS92lQHTHCDd+sQK2epm
+         KZ3THwqSJi1Ici1OjcDDKZG/CwM4OQaXXdrn/3Q7VjufVvXZNLIh8TLbjPZvcs1aHU9B
+         WQrAHQWhLCArQylXYyaXp2y7zK1PqVkPay7CbrS1Khc/n/AgFFmvuqPVXhU1UKX8riPy
+         ZXA9zcXFC32Lj9kt16TWNF8/WoNQr05q+ShZhXIe5NDX2tHhOeQcGr/wHzjSEyS86nNj
+         BMTTwHZPffeUWYiwCfoOuHfEGe+Zf5/0lQj0Wg9+hnnK1XmqMK8DVLoVbBqA8gLqTKiv
+         hhgw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1+hPfgg2TwbZfYO9WMpICQZF/hwqN0Qc78WkYbHS/IGC+KXIvBavtvZimJQwaX/iP2J9QFJfBMQQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwA8Kbebz85oeT5EIBH+Uj8PhPP8IEnLJvvE3G6rZl/aRlS3/vE
+	JX988Xqnm2/2Ut/RxBsmiOOlSWwQJBfGreprPFLTTGDQ4xlmebPskGp6q2jBdAhv
+X-Gm-Gg: AR+sD139xURCidtJJyzupsfxyjxeaGXke+k9svC2fS/NsW/Ew80gJRfC896hM2kMyKd
+	Y9FP4duvBcEfRdlotne2DaxiW2LTsEMRmi9y9gwQV3NVthRXeosKSCj70l5prIOZSKF97b29WC+
+	S1gKIwEAImQMWXf23l5dIgjPhODc6ga2HeED/lJk6hA7/a52zjXTy7AiqFEsidzTSen/GA1Jqcs
+	9jK00h7i7arAckRZo/oAXmYg38LfdsvJs5sYblT3GBaqjphaSFAyDriN5g5NrrEn/H+f3RafQCV
+	9lSlarUj8QqpjMe8TADjpp6Q8CMekhXsx/hweEESnl/oe6YR26yuQ7EtzSvyVkCKlv2073kl4+z
+	1qOL9+sXDgzC6eBbdsxPxetAwZ/K8krQDwsjXIwUtp4DjffllmyjjkDlvNC2cn5wYZs5cKMImPt
+	MLyuHBWd9tw1KEkLOEVG2qQYhbHm0cPDAgC7O6SnS1uef5Nny/7YkyN7aCqa/q6b3a015eut9VX
+	zKxGPtSHXDxSQsDulQmdNxQLVSk8Zq0S45WrRue3js4ivsczX/NITOKxI/vs7K3f/f92R+aAHW8
+	xU7i6vzNWzxViuF1LBbbf2Jzr89SdwSmucIUSFQaG+hN4A==
+X-Received: by 2002:a05:600c:1f82:b0:496:bbce:ef with SMTP id 5b1f17b1804b1-4997c15bc31mr16199015e9.3.1786517963083;
+        Tue, 11 Aug 2026 23:59:23 -0700 (PDT)
+Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997b15b807sm73628005e9.7.2026.08.11.23.59.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2026 23:59:22 -0700 (PDT)
+From: Doehyun Baek <doehyunbaek@gmail.com>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>
+Cc: Doehyun Baek <doehyunbaek@gmail.com>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	SJ Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/7] docs/zh_CN: update DAMON documentation translation
+Date: Wed, 12 Aug 2026 06:59:04 +0000
+Message-ID: <20260812065914.3071433-1-doehyunbaek@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Aug 2026 08:43:20 +0200
-Message-Id: <DKMRF7SNHX5L.263MVTD0EZHD3@kernel.org>
-Subject: Re: [PATCH v2 5/7] gpio: regmap: Add runtime PM and
- read_output_reg_set support
-Cc: <linux@analog.com>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <jananisunil.dev@gmail.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Janani Sunil" <janani.sunil@analog.com>, =?utf-8?q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, "Michael Hennerich" <Michael.Hennerich@analog.com>,
- "Jonathan Cameron" <jic23@kernel.org>, "David Lechner"
- <dlechner@baylibre.com>, "Andy Shevchenko" <andy@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Olivier Moysan"
- <olivier.moysan@foss.st.com>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Linus Walleij" <linusw@kernel.org>, "Bartosz Golaszewski"
- <brgl@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>
-X-Mailer: aerc 0.20.0
-References: <20260806-ad7768-driver-v2-0-027ac5e2a641@analog.com>
- <20260806-ad7768-driver-v2-5-027ac5e2a641@analog.com>
-In-Reply-To: <20260806-ad7768-driver-v2-5-027ac5e2a641@analog.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu Aug 6, 2026 at 5:41 PM CEST, Janani Sunil wrote:
-> The new pm_dev field in gpio_regmap_config allows a driver to supply a
-> device for runtime PM. All operations call pm_runtime_resume_and_get()
-> before accessing the regmap and pm_runtime_put_autosuspend() on return.
->
-> The new read_output_reg_set flag when set, gpio_regmap_get() checks the
-> pin direction first and reads from reg_set_base instead of reg_dat_base
-> for output pins. Requires both reg_dat_base and reg_set_base to be
-> configured.
+Bring the Chinese DAMON documentation translations up to date.  Update the
+DAMON design and administration-guide translations, and add the DAMON_STAT
+usage translation.
 
-As already mentioned. please split it into two patches. Also, could
-you add some context where/why this is used/useful?
+Changes from v6:
+- Clarify the DAMOS quota goal descriptions for the optional ``nid`` and
+  ``path`` parameters.
+- Improve the translation of "offload" and fix the duplicated character in
+  the non-access-pattern filter description.
+- Consistently translate "tracepoint" as "跟踪点" throughout the series.
+- Consistently use "监测上下文" and "聚集间隔" for DAMON terms.
 
-So, if the direction is output, then you just read back the set
-value (instead of the actual line state). Is that correct? Why can't
-you read the input buffer in that case? Input buffer deactivated?
-(NB. you can never get the real line state in that case, which is
-sometimes useful for debugging.)
+The changes were suggested and clarified by Dongliang Mu.
 
-Anyway, you should be able to achieve the same with the
-reg_mask_xlate(), no? Check if the pin is in output mode, then
-change the &reg.
+Doehyun Baek (7):
+  docs/zh_CN: update DAMON design translation
+  docs/zh_CN: add DAMON_STAT usage translation
+  docs/zh_CN: update DAMON index translation
+  docs/zh_CN: update DAMON start translation
+  docs/zh_CN: update DAMON usage translation
+  docs/zh_CN: update DAMON reclaim translation
+  docs/zh_CN: update DAMON LRU sort translation
 
--michael
+ .../zh_CN/admin-guide/mm/damon/index.rst      |  15 +-
+ .../zh_CN/admin-guide/mm/damon/lru_sort.rst   |  68 +-
+ .../zh_CN/admin-guide/mm/damon/reclaim.rst    |  82 ++-
+ .../zh_CN/admin-guide/mm/damon/start.rst      |  63 +-
+ .../zh_CN/admin-guide/mm/damon/stat.rst       |  94 +++
+ .../zh_CN/admin-guide/mm/damon/usage.rst      | 523 +++++++++++---
+ .../translations/zh_CN/mm/damon/design.rst    | 667 +++++++++++++++++-
+ 7 files changed, 1346 insertions(+), 166 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst
+
+
+base-commit: db6ed2a3d31068ca5577466591b2521dee0508ca
+-- 
+2.43.0
+
