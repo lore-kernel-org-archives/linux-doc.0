@@ -1,99 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-190.mta1.migadu.com [95.215.58.190])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFBC403144;
-	Wed, 12 Aug 2026 09:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B817E40D59C
+	for <linux-doc@vger.kernel.org>; Wed, 12 Aug 2026 09:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786526844; cv=none; b=H5bBieTF64xW9kIQpLD+z2kOwj8B5tk9a+8G9k0f5+RUaO6sQJcCLEwfJ/IxmGmTHdrwRGSok/XWMqjrkEglYGF72ZSCpuCSPWNW8V3NlJ66bDuxYsAXRWHVO8G7Vjo5CmTAA1xNPj6FgFcNDgJLbsVuVLewczEUOVF88cE8Yxc=
+	t=1786527025; cv=none; b=SJMS0c5JlPro2trwtohiquEfFtoAtItfakFqsQKX5Xi+CJhVbRdGuvFPAGUgFlLsI2vWWEHSwabdHuKphMROPhbq2UzGGpu+wcCK9XmwkQ9uubxGCb7E5KBVdBhU/SGNnfxl6t1TVKu3YrnDYOezEARxk5cFLD2JV6WsYC2nKgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786526844; c=relaxed/simple;
-	bh=VkX3ojfZMav6LDkcHZveiMa+VRLZqeIjIeOqXksHGps=;
+	s=arc-20240116; t=1786527025; c=relaxed/simple;
+	bh=5Hb81DX76S8IAtLPuaQ2fxU+mq3IGFWwbuaXDXn7mzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vz3I4LFXu7mbx0wWLAS2BDjgZRAf7gK9l2B0bFUgwg5pej+fUauHRxExek5qC/Kil82MAAw3q4rkJKwU/KKoBGstDh7HTvIbD1+pRYjs20IiCF2bPAVTWowJwOMnWmVgT3ueZE1y757er5m0CWzH3KkqyccXhvKIVpsL4zktIzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FosPnie2; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XMMeTXZtVYBi/cENPMF6aX7P1devNE1slNqX4/oGeXSoFAkh18afbIwHyd2cUmTxC3jRaOn5x7msF+rL4IZWnVxkCtrr3JEkOuMYVywkM4W1a00Y2lYPVS84jCVyvClQevxbXrseVOmQwDTDRJlC69pLYN70Y8FWoDDeK9dBP2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=K+KKG6z9; arc=none smtp.client-ip=95.215.58.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FosPnie2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB231F000E9;
-	Wed, 12 Aug 2026 09:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786526842;
-	bh=IUd4xsss48nguk+w9o+2Ozog63PCl0EQm/3UWwY4hHk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FosPnie2TVYnhXl9SP4H2dqQBZdxucBIRXspPC/8qNjS7GEcpRXuQGCe5mrBI921T
-	 yXvENGLsQknuxZFKHVxnoABpxW2XXIdj87tdQ4q/Fd/XLqCRNdLWyJYQiQDmwrRXSV
-	 /vORARhOXd5KHeRvnB6WuGqcpVz9cVogeviZ4VQO1mf74lf9D/m8vPEOCA7PSRpTev
-	 Mwyd62ydRAxj1hAtwu9Vfcheglzz/r98SpVLcBJ5/+xoLg/DmPjA+OxTba4oyj6PUj
-	 1UttBdDYn330bgQWaX07GeRCj+w75GxoBXkmxoR2v0XY9voW4PJGNTR+WdyVGHDlKF
-	 M5FQ8SO3IV8Cg==
-Date: Wed, 12 Aug 2026 10:27:02 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Song Hu <husong@kylinos.cn>
-Cc: linux-mm@kvack.org, akpm@linux-foundation.org, david@kernel.org, 
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com, liam@infradead.org, 
-	nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, 
-	lance.yang@linux.dev, usama.arif@linux.dev, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Docs/mm: fix THP policy counts in transhuge
-Message-ID: <anw8ASKdPWW9v86d@lucifer>
-References: <20260812080313.330413-1-husong@kylinos.cn>
- <20260812080313.330413-3-husong@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="K+KKG6z9"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=5Hb81DX76S8IAtLPuaQ2fxU+mq3IGFWwbuaXDXn7mzM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1786527020; v=1; x=1787131820;
+ b=K+KKG6z9cIX9FtV4SGWxRFZtkclJ4Ip7BFSWS0p9EXL4lcbba2/pLfi2aZfUuk+5r3CDEm1j
+ W6szvLRQ6EhL+a+giwTbBdWM3A40Qo2tyt/eFA104x0TxZSuEnJxPhsqGTe5Au2rrkD2koxtgFK
+ /EtO5qN45kjk2sssO05EjFmU=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from localhost (3.112.29.171)
+	by mta11.migadu.com with ESMTPS id 5cf300efea8cce09;
+	Wed, 12 Aug 2026 09:30:20 +0000
+X-Migadu-Scanner: mta11.migadu.com
+Authentication-Results: mta11.migadu.com;
+	none
+Date: Wed, 12 Aug 2026 17:30:08 +0800
+From: Baoquan He <baoquan.he@linux.dev>
+To: Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Lukas Wunner <lukas@wunner.de>, Ignat Korchagin <ignat@linux.win>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-afs@lists.infradead.org, netdev@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	dm-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
+ before kdump
+Message-ID: <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
+References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
+ <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260812080313.330413-3-husong@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
 
-On Wed, Aug 12, 2026 at 04:03:13PM +0800, Song Hu wrote:
-> transhuge.rst claims seven policies for transparent_hugepage_shmem= and
-> four for transparent_hugepage_tmpfs=.  Both boot parameters are parsed by
-> shmem_parse_huge(), which accepts six: always, within_size, advise, never,
-> deny and force.  The "four" applies only to the per-mount huge= option
-> (shmem_param_enums_huge).  Fix both counts to six.
->
-> Signed-off-by: Song Hu <husong@kylinos.cn>
-> ---
->  Documentation/admin-guide/mm/transhuge.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index b187d618452f..72e944f49da5 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -389,14 +389,14 @@ is not defined within a valid ``thp_anon``, its policy will default to
->  Similarly to ``transparent_hugepage``, you can control the hugepage
->  allocation policy for the internal shmem mount by using the kernel parameter
->  ``transparent_hugepage_shmem=<policy>``, where ``<policy>`` is one of the
-> -seven valid policies for shmem (``always``, ``within_size``, ``advise``,
-> +six valid policies for shmem (``always``, ``within_size``, ``advise``,
->  ``never``, ``deny``, and ``force``).
+On 08/11/26 at 07:52pm, Jan Sebastian Götte wrote:
+.....snip...
+> @@ -142,6 +170,7 @@ void __noclone __crash_kexec(struct pt_regs *regs)
+>  			crash_save_vmcoreinfo();
+>  			machine_crash_shutdown(&fixed_regs);
+>  			crash_cma_clear_pending_dma();
+> +			crash_wipe_secrets();
 
-I'm not sure we really want to advertise 'special' testing modes like this,
-sorry. These are not modes anybody should be using in practice especially at
-kernel boot. We should probably stop people doing that...!
+I remember when crash_cma added this, we argued a lot about the risk,
+finally it's added in with an added note to tell it's an opt-in feature
+and risky. I don't know if it opens a Pandora box, I think anything
+wanted being here need prove anything else has been tried, and the thing
+is very very important. If we don't guard the door well, one day one guy
+cold come and said I need ask Oracle database to do some transactions
+before juming into kdump kernel because the actions will save billions
+of dollar. 
 
->
->  Similarly to ``transparent_hugepage_shmem``, you can control the default
->  hugepage allocation policy for the tmpfs mount by using the kernel parameter
->  ``transparent_hugepage_tmpfs=<policy>``, where ``<policy>`` is one of the
-> -four valid policies for tmpfs (``always``, ``within_size``, ``advise``,
-> -``never``). The tmpfs mount default policy is ``never``.
-> +six valid policies for tmpfs (``always``, ``within_size``, ``advise``,
-> +``never``, ``deny``, and ``force``). The tmpfs mount default policy is ``never``.
->
+And what does security people say about this wiping? Is it very
+important information and wiping is mandotary? There's no any other way
+to wipe it or pollute it, no way in kdump kernel? I noticed it's
+happening on en embedded target, is it possible you do this on your
+embedded kernel tree, but not mainline tree?
 
-Similarly here.
+Anyone who wants to do thing like this, please prepare answers for them,
+and be ready to accept failure.
 
->  Additionally, Kconfig options are available to set the default hugepage
->  policies for shmem (``CONFIG_TRANSPARENT_HUGEPAGE_SHMEM_HUGE_*``) and tmpfs
-> --
-> 2.43.0
->
+Thanks
+Baoquan
 
---
-Cheers, Lorenzo
+>  			machine_kexec(kexec_crash_image);
+>  		}
+>  		kexec_unlock();
+> 
+> -- 
+> 2.53.0
+> 
