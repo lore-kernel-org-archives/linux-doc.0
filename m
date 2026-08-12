@@ -1,45 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDA03F484B;
-	Wed, 12 Aug 2026 08:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5FA38655D;
+	Wed, 12 Aug 2026 09:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786525135; cv=none; b=clXTGJb4CGqjCjRyWEi4teL2QfjwF9gzc9kY4khaUw8kyYKgyhblD1bkzyEiXwYC+q0OjrFuSBNFdHAgH4im8HTB50rq1bPdxtUSyTvJ3HlM6OKOkZHGu3i3PfGNvyX20UGDnyqsZh/+tlbqkImtHzqLqd5eLnRFxx2RxM3SDh0=
+	t=1786525798; cv=none; b=n6R4kKKFQoro+o+pWAECdDlceNSDhrZbzVYoofvASW6z0YiSpT4rPk23+FlgM3UN8geW3nCKDS2Niqphm2oHE5Yb2hoq95R3ZoMazqpVPovYxmz7BdTrtvBtdUIQ1wfhYsN3NnuKzA+QGuPwC00i3f/VdJIKw2EC7xyKQ6Ti8ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786525135; c=relaxed/simple;
-	bh=Wh0KA3Ab43Gft7XkMtU2UVjIfzcxtWxFpaBBvXzBFmo=;
+	s=arc-20240116; t=1786525798; c=relaxed/simple;
+	bh=LX8Nh4wdVXX5g3het+SjjqM7M/nDJ5ubrty1R5Hixk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AAPjNp3SID6aC25echqOWhGhGc7N8k1wTBYGtoKzHeefIithnnEpNJGtl4jV2mY/wo5iVIDojjLfPuMl1C3zkOxv2CdZvPsBEY5omO1ROAG+HgM8sCe7HnuImt1MqHMd7Itrw5gGOExqOWNq2tPw78jqKVBJMFvE414Fx3n7CM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oaAm6ZoL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtoeclxHB/1wDrznF2HYXf+3WSgyOUD3bx71TKNLvEXn9iLCNpM+M5dpW3eDyAMw43OxvRgk2VyJf6ElrmXKfhSx5kQs1TapFdzduzPJYE3f75VYF6AC8Lk063jJarirJtw9SuSe7bMO9YmGeXD7RT/nD/aiSsxWuX9gOF/gc7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jxqYMvlB; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oaAm6ZoL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45FF41F000E9;
-	Wed, 12 Aug 2026 08:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786525134;
-	bh=Lv+2Z/1Wduwhy5AzrXisK5gs2st/FQotGoYG6sp0EPg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oaAm6ZoL0bGjZNnnDPIJ7BXckZpQ3BmpgPnW5gWbYQfp7gpAkJNt7lLc+JWkrobJn
-	 brbcqfuvNBIv9dWGRsvq7NaFzyKYSvtcA2/8a94AHmaMA2JWt+y0hwvPw24TtPQBoC
-	 hLPYaqBg2GMJg7oJ5SWcWjj7huO84D6OKabzAxEKGI6uFbYT7oCrAkt1d+FuRG6KhG
-	 SDUGkoKUPa8OQhqp3rSW2FAQ8h/H0FGSWNdL/F+eP00BJ6sfSLNVvY3PjdpC9phucQ
-	 MX8Bbtq0Ra45++zyGyAZpYMm7RwgR/q+Ve4aMEGj65gnhNnCoCe4f9D6z+txZcM+nU
-	 TeJQCS0LT9DXQ==
-Date: Wed, 12 Aug 2026 09:58:33 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Song Hu <husong@kylinos.cn>
-Cc: linux-mm@kvack.org, akpm@linux-foundation.org, david@kernel.org, 
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com, liam@infradead.org, 
-	nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, 
-	lance.yang@linux.dev, usama.arif@linux.dev, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] Docs/ABI: document
- transparent_hugepage/shrink_underused
-Message-ID: <anw0mM2YVPRRM2Ff@lucifer>
-References: <20260812080313.330413-1-husong@kylinos.cn>
- <20260812080313.330413-2-husong@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jxqYMvlB"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 584BC1596;
+	Wed, 12 Aug 2026 02:09:52 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 24BBF3F673;
+	Wed, 12 Aug 2026 02:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786525796; bh=LX8Nh4wdVXX5g3het+SjjqM7M/nDJ5ubrty1R5Hixk4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jxqYMvlBkL3ncKNzC5/Wt3s+N1Vc7pWerEEOg8PZJaipFROgrZRoMpbWvDpofPFLR
+	 s0vjhD4OwtyjE/rLqRP4hXsO8POma4XhGEff6gnzOby5sUW28kyUEgw/5h0WazM7Vw
+	 bJLPpIq8eAfXlMyZoOK1JErGVSa4CgFUY/ujiZ2w=
+Date: Wed, 12 Aug 2026 10:09:51 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 3/4] mm: kmemleak: factor leak confirmation into a helper
+Message-ID: <anw4X4mkepgo2-p3@arm.com>
+References: <20260713-catalin_pto-v1-0-5b93b1131089@debian.org>
+ <20260713-catalin_pto-v1-3-5b93b1131089@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,65 +54,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260812080313.330413-2-husong@kylinos.cn>
+In-Reply-To: <20260713-catalin_pto-v1-3-5b93b1131089@debian.org>
 
-Please don't send patch series like this - we really require a cover letter if
-patch count > 1, and every patch should reply to the cover letter.
+On Mon, Jul 13, 2026 at 04:48:06AM -0700, Breno Leitao wrote:
+> The reporting loop in kmemleak_scan() decided whether to tag an object as
+> a reported leak with a four-term compound condition whose last operand
+> also had a side effect (++object->unref_scans). Mixing the candidate
+> tests with the counter update made the check hard to read.
+> 
+> Move the state transition into confirm_leak(): it returns true when a
+> still-unreferenced suspect crosses min_unref_scans consecutive scans and
+> is newly flagged OBJECT_REPORTED, leaving only the reporting bookkeeping
+> in the caller. No functional change.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-On Wed, Aug 12, 2026 at 04:03:12PM +0800, Song Hu wrote:
-> The shrink_underused knob was added in commit 81d3ff3c6f76 ("mm: add
-> sysfs entry to disable splitting underused THPs") but is missing from
-> Documentation/ABI/testing/sysfs-kernel-mm-transparent-hugepage, although
-> transhuge.rst already documents it.  Add the ABI entry.
-
-Hmm what even is this file? :) What is the contract on this file?
-
->
-> Signed-off-by: Song Hu <husong@kylinos.cn>
-> ---
->  .../ABI/testing/sysfs-kernel-mm-transparent-hugepage   | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-transparent-hugepage b/Documentation/ABI/testing/sysfs-kernel-mm-transparent-hugepage
-> index 7bfbb9cc2c11..bbdfae2c0caa 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-mm-transparent-hugepage
-> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-transparent-hugepage
-> @@ -10,9 +10,19 @@ Description:
->  			- hpage_pmd_size
->  			- khugepaged
->  			- shmem_enabled
-> +			- shrink_underused
-
-I mean I guess fine for consistency.
-
->  			- use_zero_page
->  			- subdirectories of the form hugepages-<size>kB, where <size>
->  			  is the page size of the hugepages supported by the kernel/CPU
->  			  combination.
-
-But we already handwave literally everything else here....
-
-
->
->  		See Documentation/admin-guide/mm/transhuge.rst for details.
-> +
-> +What:		/sys/kernel/mm/transparent_hugepage/shrink_underused
-> +Date:		Sep 2024
-> +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
-> +Description:	Reading and writing this file controls whether khugepaged
-> +		splits underused transparent huge pages (THPs) under memory
-> +		pressure.  A THP is considered underused when its number of
-> +		zero-filled pages is above max_ptes_none.  Enabled by default;
-> +		writing 0 disables the splitting and 1 enables it.
-
-Nothing else is documented in this file so why is this getting special
-treatment? And why is it backdated to Sep 2024?...
-
-Drop it please.
-
-> --
-> 2.43.0
->
-
---
-Cheers, Lorenzo
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
