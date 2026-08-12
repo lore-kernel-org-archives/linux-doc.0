@@ -1,156 +1,379 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEA93B813C;
-	Wed, 12 Aug 2026 20:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9841B48D880;
+	Wed, 12 Aug 2026 21:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786568235; cv=none; b=VsnuBvpsiRe98NTPZ27mUtoBGmYv8mEregJir26NTeMC9iFpB7dhzZt1ZuJcBqJwWwqrmXTMtCib/Gw/AoaF5PI8Wl8vXqODBob59aeGxLzlzFIp7+Rx5x4q+dn+5AFpnfZ85Qmg0PPUw7eZm+qUFacBdOzU9ziz3IIBeagP2GI=
+	t=1786569954; cv=none; b=fFlhxEcRihLuGaQvPfK95NMXfPaY2JM7U7QM/ZKNgVB7htEUXptyUi50aUSL1w0GL01iZf2qq6M5TAry54j0eIilp5VwSKzsKo34KDAR5UGDBnpZVGHYoUa033zDbnXNOhHwyXQm0ASgp3iw+hj/y0e/YZWWd68Y6YReBLzMNMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786568235; c=relaxed/simple;
-	bh=yKuY2TwNwj2j8NwlsmUhLcwVu0K3Ga4EP1+pczyX6gg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rZAZ9tJIrOKCl39Snm6dPkq3EFJDe6aL9elRBfgwBpbXd+ObzzbDfDZdxvPpDOfc2EAxA2s3QOcmv6W5XJhuc+9OrSN0aMKFgYn2J8J0ycqds2TEUQw2gMByC1ZAjQrDXJ0shmbQ7huAXEs/ubP59xJsN7qIV3TYTKJLp398/YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xn/nWXs9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786569954; c=relaxed/simple;
+	bh=JFDCqJOZSoyt4Y6mIu0+YzpFj56Vnibd4HPzYkX3pL4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LdDhdiEDpZC6EfFKA3gZUsxDMxl2SrKHEguwktTePqB/KABSoSmFjMGp2W9V8Bow/Bt4ycjhTq4MHOJqS3f6KpZG/xZ90vOhNjmi3nztXtVI1zoIbzl8JxrudGaU1lNMh2QE14ClZhYtnEvFLSoUqsyL3LUA+XHSYDGbZpPRtgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfDSrz17; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xn/nWXs9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9811F000E9;
-	Wed, 12 Aug 2026 20:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786568225;
-	bh=+9ZFW+aVhLGxLPkKWmi/fbYeB5bvrDK0sOMD6gIL560=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Xn/nWXs9fsprt8KNuxsmV8ASDeOoIb3H3jnEU2ohhQbqJ73DTBSViJ0gACuAYdMFf
-	 8AYLdX6yGr0XjrF7kyelORCUS+rYx2YsRBihiqVl8NHcWy8N0OxBfiJWM/dKJzp3rj
-	 lFx3pM5Klp+xoVyTg4BXchWQX6gAilvkxFX0dxFU6F4uKkEHyxbwAPsdWgPSg27tn/
-	 mnUjvY/HbvB7u3HqUtvWlSgeCxfL6+XJpKmrOqq9TmuXIazyq2O/u+AaHEBow3wgTN
-	 MaexoowVWFZ1Ki80w/4QblpRus3K81F5jMobOkqylzN/FAHQtoOkgPzRfhFU7IQN3p
-	 wX7k1G1joi4Mw==
-Message-ID: <3dd59ad8-2f00-4332-91f8-7871e8d60b02@kernel.org>
-Date: Wed, 12 Aug 2026 22:56:56 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfDSrz17"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786569943; x=1818105943;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JFDCqJOZSoyt4Y6mIu0+YzpFj56Vnibd4HPzYkX3pL4=;
+  b=cfDSrz17GO+al0+QzCI+/A+hiu+yLPiARvgDpa8wr3hu7cELSTnS+8TH
+   f4Wym+kA10+zW/yRvzgK+5H6UcAVSC/rCTHxxM8WxN1EWqpqNByKrqzul
+   r7qXliEDdwRQLJpdmt48eLOQMWSuOyGQm+Y41o8lJQQO5C9il18QdExvv
+   G/UKKTnUTD+W7SFfUx8amPHB7XODarrYX0QMIXfxLvhxlte78cbO7GhK9
+   2txOJgAL0Ha9ehz7Ny+moKx7R3QMfl2ULdymAGAyWLE1lKR7caaTfmiwP
+   +pRi+jSKPd/E6FWUt+8PqPY8wSigCFWOWx7bTzRZLXH0maJRDPgsf2KXq
+   w==;
+X-CSE-ConnectionGUID: WNI1pkNhS1WmSTmXquGwUw==
+X-CSE-MsgGUID: 9+ItU8nuSZWbSEmIFNWATw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="97485495"
+X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
+   d="scan'208";a="97485495"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 14:25:36 -0700
+X-CSE-ConnectionGUID: 8UGViNWWQlKY1ufvCKpxlQ==
+X-CSE-MsgGUID: V8CdW8mNRdSddXNVfjzhbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
+   d="scan'208";a="257546226"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by fmviesa009.fm.intel.com with ESMTP; 12 Aug 2026 14:25:35 -0700
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	larysa.zaremba@intel.com,
+	przemyslaw.kitszel@intel.com,
+	aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	michal.swiatkowski@linux.intel.com,
+	maciej.fijalkowski@intel.com,
+	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
+	joshua.a.hay@intel.com,
+	jacob.e.keller@intel.com,
+	jayaprakash.shanmugam@intel.com,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	corbet@lwn.net,
+	richardcochran@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v8 00/15][pull request] Introduce iXD driver
+Date: Wed, 12 Aug 2026 14:25:14 -0700
+Message-ID: <20260812212532.905873-1-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/7] mm/khugepaged: Refactor the PTE state checks into
- a helper
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Nico Pache (Red Hat)" <nico.pache@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
- <20260811-khugepaged_pte_refactor-v4-5-ddac39d61c4a@linux.dev>
- <f1371b4d-6e98-4699-8c1b-7612f6d70f02@kernel.org>
- <20260812123959.d4e31d68e8db85b9fd3981eb@linux-foundation.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260812123959.d4e31d68e8db85b9fd3981eb@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/12/26 21:39, Andrew Morton wrote:
-> On Wed, 12 Aug 2026 10:40:08 +0200 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
-> 
->> On 8/11/26 14:48, Nico Pache (Red Hat) wrote:
->>> For anonymous collapse, the collapse_scan_pmd() and
->>> __collapse_huge_page_isolate() functions share a large portion of their
->>> logic. These functions both check the state of the PTEs and verify the
->>> following:
->>> 	- max_pte_* values are not exceeded
->>> 	- uffd is not active
->>> 	- lazyfree properties
->>> 	- non-anonymous
->>>
->>> Merge these checks into a helper collapse_check_pte() to reduce code
->>> duplication. We also add a helper struct for this function called
->>> pte_check_context which allows us to pass the required parameters in a
->>> clean and elegant manner.
->>>
->>> A helper function is also introduced pte_check_fail() to provide a clean
->>> interface to set the pte_check_context failure results and return
->>> PTE_CHECK_FAIL state. This helps reduce code duplications across the new
->>> collapse_check_pte function.
->>>
->>> Two slight modifications are done to the original functionality. We now
->>> warn (instead of crash) if the anon test fails, and we leverage the
->>> vm_normal_folio function instead of page->folio, this should be
->>> functionally equivalent.
->>>
->>> No other functional changes intended.
->>>
->>> This patch is heavily based off work done by Lance Yang, but modified to
->>> deal with conflicts and feedback received during the review cycle [1].
->>>
->>
->> TL;DR, I think this patch here needs some more work, and we should not fast
->> track it at this point.
-> 
-> This has been floating around since July 6, so it's never been
-> fast-tracked!
+Larysa Zaremba says:
 
-That's not what I mean. Stuff must be reviewed. Review capacity is limited. Some
-stuff gets de-prioritized and reviewed later.
+This patch series adds the iXD driver, which supports the Intel(R)
+Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+exposed by the same card. The reason for the separation is to be able
+to offload the control plane to the host different from where the data
+plane is running.
 
-I managed to review it now, but concluded that it needs more work.
+This is the first phase in the release of this driver where we implement the
+initialization of the core PCI driver. Subsequent phases will implement
+advanced features like usage of idpf ethernet aux device, link management,
+NVM update via devlink, switchdev port representors, data and exception path,
+flow rule programming, etc.
 
-Instead of reworking the patch now to squeeze it in just before the merge
-window, better to resend this single patch for the next cycle.
+The first phase entails the following aspects:
+
+1. Additional libie functionalities:
+Patches 1-5 introduce additional common library API for drivers to
+communicate with the control plane through mailbox communication.
+A control queue is a hardware interface which is used by the driver
+to interact with other subsystems (like firmware). The library APIs
+allow the driver to setup and configure the control queues to send and
+receive virtchnl messages. The library has an internal bookkeeping
+(XN API) mechanism to keep track of the send messages. It supports both
+synchronous as well as asynchronous way of handling the messages. The
+library also handles the timeout internally for synchronous messages
+using events. This reduces the driver's overhead in handling the timeout
+error cases.
+
+The current patch series supports only APIs that are needed for device
+initialization. These include APIs in the libie_pci module:
+* Allocating/freeing the DMA memory and mapping the MMIO regions for
+  BAR0, read/write APIs for drivers to access the MMIO memory
+
+and libie_cp module:
+* Control queue initialization and configuration
+* Transport initialization for bookkeeping
+* Blocking and asynchronous mailbox transactions
+
+Once the mailbox is initialized, the drivers can send and receive virtchnl
+messages to/from the control plane.
+
+The modules above are not supposed to be linked with the main libie library,
+but do share the folder with it.
+
+2. idpf:
+Patches 6-11 refactor the idpf driver to use the libie APIs for control
+queue configuration, virtchnl transaction, device initialization
+and reset and adjust related code accordingly.
+
+3. ixd:
+Patches 12-15 add the ixd driver and implement multiple pieces of the
+initialization flow as follows:
+* Add the ability to load
+* A reset is issued to ensure a clean device state, followed by
+  initialization of the mailbox
+* Device capabilities:
+  As part of initialization, the driver has to determine what the device is
+  capable of (ex. max queues, vports, etc). This information is obtained from
+  the firmware and stored by the driver.
+* Enable initial support for the devlink interface
+---
+v8:
+* validate BAR index against PCI_STD_NUM_BARS instead of PCI_NUM_RESOURCES.
+* log BAR index and offset in the unmapped-MMIO WARN_ONCE().
+* unlink before unmapping in libie_pci_unmap_fltr_regs()/libie_pci_unmap_all_mmio_regions().
+* document variadic BAR-index arg on __libie_pci_map_mmio_region()/__libie_pci_get_mmio_addr().
+* return real error from libie_ctlq_alloc_queue_res() instead of always -ENOMEM.
+* add lockdep_assert_held() to libie_ctlq_send_desc_avail()/libie_ctlq_send().
+* use atomic set_bit()/clear_bit() on xnm->free_xns_bm.
+* skip reusing an Xn slot whose small-DMA buffer may still be in-flight; track
+  it via new xn->tx_msg.
+* drop unused write-only xn->ctlq field.
+* fix __free()-goto mixing in idpf_send_get_rx_ptype_msg()
+* use libie_find_ctlq() in ixd_adapter_fill_dflt_ctlqs() instead of open-coding
+* name the 300ms/500ms delays as IXD_CTLQ_RX_TASK_DELAY_JIFFIES/IXD_INIT_TASK_DELAY_JIFFIES.
+* expand kdoc for struct ixd_adapter's init_task/vc_ver fields.
+* rename "virtchnl" info version to generic fw.mgmt.api in code and ixd.rst.
+* sort ixd before ixgbe in devlink/index.rst.
+
+v7: https://lore.kernel.org/netdev/20260804031638.1531994-1-anthony.l.nguyen@intel.com/
+* alphabetize ixd entry in Ethernet driver docs (moved before ixgbe)
+* remove redundant bool mapped = false initialization (idpf)
+* remove unused adapter parameter from idpf_mb_clean() (idpf)
+* add idpf_send_mb_msg_stack() macro with static_assert() to enforce on-stack
+  buffer size limits (idpf)
+* update kdocs for idpf_cfg_lan_memory_regions() and idpf_map_remaining_mmio_regs()
+* remove premature LIBETH Kconfig dependency (ixd)
+* remove untriggerable WARN_ON(ent->device != IXD_DEV_ID_CPF) check
+* switch from system_unbound_wq to system_dfl_wq
+* add error classification for retry logic: fail immediately on non-transient
+  errors
+* use LARGEST_ALIGN() instead of hardcoded 4K alignment for descriptor ring
+* add !qinfo->len validation check, return -EINVAL for length errors
+* clear TX tail register in libie_ctlq_init_regs() per spec
+* clear DD bit after receiving messages, to reduce dependency on correct refills
+* add new libie_ctlq_send_clean() API and refactor xn cleanup
+* use dma_pool for small buffers instead of individual DMA allocations
+* store small DMA memory directly in xn entry (small_dma_mem) instead of separate
+  allocation
+* use per-slot cookie increment instead of global counter
+* use kvzalloc_obj()/kvfree() for xn manager allocation (large)
+* add bar_idx bounds validation (< PCI_NUM_RESOURCES, >= 0)
+* add pci_resource_is_mem() check
+* improve libie kdoc
+* add WARN_ONCE() when accessing unmapped MMIO regions
+* move libie_cp_dma_mem.direction to an earlier commit
+* adjust commit messages
+
+v6: https://lore.kernel.org/netdev/20260729204505.3373950-1-anthony.l.nguyen@intel.com/
+* use idpf_mmio_region_non_static() in idpf_idc_init_aux_core_dev() to avoid
+  code duplication
+* change LIBIE_CTLQ_TYPE_TX/RX from macros to enum libie_ctlq_type
+* pull libie_ctlq_xn_shutdown() out of libie_ctlq_xn_deinit() for consistency
+  and to avoid unlikely races with send queue force-cleaning
+* remove unused send_ctx field from struct libie_ctlq_xn_clean_params
+* add missing dma_wmb() before tail register update in libie_ctlq_post_rx_buffs()
+* initialize mem->direction in libie_cp_alloc_dma_mem (purely cosmetic)
+* remove unnecessary dma_mb() for coherent DMA in libie_ctlq_xn_send_clean()
+* removed redundant list-init check
+* fixed whitespaces not flagged by checkpatch
+* improved documentation
+
+v5: https://lore.kernel.org/netdev/20260715180042.1972010-1-anthony.l.nguyen@intel.com/
+* Add length validation to libie_ctlq_add()
+* Add memory barrier before writing tail in libie_ctlq_send()
+* Reduce larger then needed size allocation in libie_ctlq_xn_init_dma()
+* Clarify error message on dev init failure in idpf_probe()
+* Nullify adapter->asq and adapter->arq on failure in idpf_init_dflt_mbx()
+* Correct virtchnl version compatibility checks in ixd_handle_vc_ver()
+* Misc documentation fixes
+
+v4: https://lore.kernel.org/netdev/0a3ceda1-a29b-4784-975b-d8c89f145d10@intel.com/
+* use check_add_overflow() for MMIO offset+size bounds check in libie_pci
+* replace iounmap() with pci_iounmap() for MMIO regions in libie_pci
+* fix missing rx_buf->offset when constructing ctlq Rx message address
+* always zero Rx descriptor before reallocation
+* do not call complete() inside spinlock, theoretical use-after-free
+* reset async xn state to IDLE before freeing in libie_ctlq_xn_shutdown()
+* zero control queue Tx descriptor before freeing memory
+* remove unused ctx field from struct libie_ctlq_xn_clean_params
+* roll back merging of idpf_deinit_dflt_mbx() and xnm shutdown,
+  those calls are separate again (so idpf refactoring becomes more trivial)
+* introduce idpf_send_vf_reset_msg() for one-way VF reset message bypassing
+  XN manager, which is shut down by now
+* guard libie_ctlq_xn_shutdown() against NULL xnm in idpf_vc_event_task(),
+  this is needed if reset fails and reschedules
+* validate response sizes in idpf more
+* fix MAINTAINERS glob pattern for include/linux/net/intel/
+* roll back linux/{net/intel -> intel}/* change (1st patch)
+* use pci_iomap_range() to map regions in libie_pci
+* improve libie_pci commit message
+* remove broken dead code for getting RSS from idpf (new patch!)
+* use maximum alignment for control queue stack buffer in ixd
+* fix ixd_ctlq_clean_sq() usage
+* do not register ixd devlink prematurely
+* improve receive buffer size validation in idpf
+
+v3: https://lore.kernel.org/netdev/20260515224443.2772147-1-anthony.l.nguyen@intel.com/
+- lock libie ctlq transaction earlier on Rx path
+- improve ctlq Rx buffer size validation both in idpf and libie
+- fix RSS LUT buf size (will also go to stable separately)
+- improve xnm shutdown handling
+- skip zero-sized BAR regions instread of returning error in idpf
+- unify treatment of initialized and uninitialized ctlq messages
+
+v2: https://lore.kernel.org/netdev/20260403194938.3577011-1-anthony.l.nguyen@intel.com/
+- improved failure handling and input validation
+- removed cp version from devlink in ixd
+
+v1: https://lore.kernel.org/netdev/20260317230905.847744-1-anthony.l.nguyen@intel.com/
+
+The following are changes since commit ac155a26750a595703e7dadff84735456d75a479:
+  Merge branch 'mptcp-out-of-order-queue-pruning'
+and are available in the git repository at:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue 200GbE
+
+Amritha Nambiar (1):
+  ixd: add devlink support
+
+Larysa Zaremba (6):
+  idpf: remove unused code for getting RSS info from device
+  idpf: make mbx_task queueing and cancelling more consistent
+  idpf: print a debug message and bail in case of non-event ctlq message
+  ixd: add basic driver framework for Intel(R) Control Plane Function
+  ixd: add reset checks and initialize the mailbox
+  ixd: add the core initialization
+
+Pavan Kumar Linga (4):
+  libeth: allow to create fill queues without NAPI
+  idpf: remove 'vport_params_reqd' field
+  idpf: refactor idpf to use libie_pci APIs
+  idpf: refactor idpf to use libie control queues
+
+Phani R Burra (3):
+  libie: add PCI device initialization helpers to libie
+  libie: add control queue support
+  libie: add bookkeeping support for control queue messages
+
+Victor Raj (1):
+  virtchnl: move virtchnl and virtchnl2 headers to
+    'include/linux/net/intel'
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../device_drivers/ethernet/intel/ixd.rst     |   39 +
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/ixd.rst      |   30 +
+ MAINTAINERS                                   |    3 +-
+ drivers/net/ethernet/intel/Kconfig            |    2 +
+ drivers/net/ethernet/intel/Makefile           |    1 +
+ drivers/net/ethernet/intel/i40e/i40e.h        |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |    2 +-
+ .../net/ethernet/intel/i40e/i40e_prototype.h  |    2 +-
+ .../ethernet/intel/i40e/i40e_virtchnl_pf.h    |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |    2 +-
+ .../net/ethernet/intel/iavf/iavf_prototype.h  |    3 +-
+ drivers/net/ethernet/intel/iavf/iavf_types.h  |    4 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    2 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_vf_lib.h   |    2 +-
+ .../net/ethernet/intel/ice/virt/virtchnl.h    |    2 +-
+ drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+ drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+ drivers/net/ethernet/intel/idpf/idpf.h        |   99 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.c   |  621 ------
+ .../net/ethernet/intel/idpf/idpf_controlq.h   |  144 --
+ .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+ .../ethernet/intel/idpf/idpf_controlq_setup.c |  169 --
+ drivers/net/ethernet/intel/idpf/idpf_dev.c    |  101 +-
+ .../net/ethernet/intel/idpf/idpf_ethtool.c    |   28 +-
+ drivers/net/ethernet/intel/idpf/idpf_idc.c    |   32 +-
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |   69 +-
+ drivers/net/ethernet/intel/idpf/idpf_main.c   |  115 +-
+ drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   96 +-
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1901 +++++++----------
+ .../net/ethernet/intel/idpf/idpf_virtchnl.h   |  127 +-
+ .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  310 ++-
+ drivers/net/ethernet/intel/ixd/Kconfig        |   14 +
+ drivers/net/ethernet/intel/ixd/Makefile       |   13 +
+ drivers/net/ethernet/intel/ixd/ixd.h          |   67 +
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.c     |  141 ++
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.h     |   34 +
+ drivers/net/ethernet/intel/ixd/ixd_dev.c      |   89 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.c  |   99 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.h  |   50 +
+ drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |   68 +
+ drivers/net/ethernet/intel/ixd/ixd_lib.c      |  173 ++
+ drivers/net/ethernet/intel/ixd/ixd_main.c     |  144 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.c |  190 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.h |   12 +
+ drivers/net/ethernet/intel/libeth/rx.c        |   12 +-
+ drivers/net/ethernet/intel/libie/Kconfig      |   14 +
+ drivers/net/ethernet/intel/libie/Makefile     |    8 +
+ drivers/net/ethernet/intel/libie/controlq.c   | 1295 +++++++++++
+ drivers/net/ethernet/intel/libie/pci.c        |  229 ++
+ include/linux/net/intel/libie/controlq.h      |  436 ++++
+ include/linux/net/intel/libie/pci.h           |   56 +
+ include/linux/{avf => net/intel}/virtchnl.h   |    0
+ .../linux/net/intel}/virtchnl2.h              |    0
+ .../linux/net/intel}/virtchnl2_lan_desc.h     |    0
+ include/net/libeth/rx.h                       |    4 +-
+ 62 files changed, 4366 insertions(+), 2906 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/intel/ixd.rst
+ create mode 100644 Documentation/networking/devlink/ixd.rst
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/Kconfig
+ create mode 100644 drivers/net/ethernet/intel/ixd/Makefile
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_main.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.h
+ create mode 100644 drivers/net/ethernet/intel/libie/controlq.c
+ create mode 100644 drivers/net/ethernet/intel/libie/pci.c
+ create mode 100644 include/linux/net/intel/libie/controlq.h
+ create mode 100644 include/linux/net/intel/libie/pci.h
+ rename include/linux/{avf => net/intel}/virtchnl.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/net/intel}/virtchnl2.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/net/intel}/virtchnl2_lan_desc.h (100%)
 
 -- 
-Cheers,
+2.47.1
 
-David
