@@ -1,169 +1,164 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EE639656E;
-	Thu, 13 Aug 2026 14:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202EE39656E
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 14:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786631476; cv=none; b=adYDwI5PAf+BwFxHlACkbrqmV88QnUXMWnrCsopnxVeJmnEvsqXpgMVELMIQO31JdXoffGFHYnPCMeuPciLWHMywcxLc2jfkJ/ZUbgXWtT5SsBVO06iBWb+Wxn/vfxyb9GNiEJPRmgLLtE0A7k/PqvmlLIOdyZ0IKKvdrMEwB84=
+	t=1786631545; cv=none; b=mjKa3F1EUfgn14whGAkA8Zz24myJyU2+JSvpjiBkQeEUjmVqiSCUbFgM5Els3GnR8zscXeOoXxvQZa7OkhXlFdXf/027zY5XvM3hHRWc3DnFM5IWLMIB6pbf9NFxp6g/BnTR+CDCbpBEiTerVIRS1ZZdXyFb04TyLPIuJDtdBLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786631476; c=relaxed/simple;
-	bh=AaqukwTvvcsBWypfN+zPK9grkVcaWN4UuvP4kQ2j4Lg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MV3pHtrK6R6UTu3YsFIMrlIli0WHa0IJUTM1pay+ehW/sX//mwwfhskHLRRVMFQ4DiEJqcbHY9NLGWhfjWQmmNzBI7fLvxdYDpOu0tLSTCa3nazbLqO6WiDHt4luXNGffrCNBIgqzOqZQrwxdS8YdkGsGwoSIlWYUS0WeGlYeGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hRMpNajt; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1786631545; c=relaxed/simple;
+	bh=pH5/HZ0/MqKAe/RgecoCvn5pOUsFTPLIQ5c47mKfrGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YTK2czQPDMyKL/s0ZKs26JSJv9wgRCEoTJj6W1maysdQWBHtsd9UWZgY95b5rNs3NeXGihv76LsRr/eROEuN5pj7qypvgrvgOPNTHnu72ACXNUtOf/LtmBlSwBzlcj3V2hy77KvugvB/yUwxp97kDksHP/oH92YiyYWFc7jSDq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cIpq61fY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hRMpNajt"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hLSTT2Z2Zz8vDZ;
-	Thu, 13 Aug 2026 16:31:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1786631469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7Sn1VIZwryE8kW4E+Ahizg6Crjnd5KmSy/koYSfKmlM=;
-	b=hRMpNajtw9mBHGzZzq8BbGvaDC/55rEhJ83uvvcW9dE/DsmaaMCeD3RgGdt2s/8SsIa7v3
-	r8F+i+Z2wE1ZaV3ly6CntKCD98WhaTFUHFHq62l6/6BW+4VNvBKhh3AiMwAUfig1dzLFpw
-	xX5+9tBZEw09msdskTPZanV/S0AuXmxaXvrmEb0lMi3CpJjCTg6C86ntSfSO0zlwmVAOQ+
-	TzSTX+NsyOvRsP2F8LqVtNvJ96ccCOH7NdftBFZRuuEMccGdkS6Qltf0vN5z1S+GVRNAXK
-	4H6XJIWWPXoi0XT/EgcStYvWybmkq1Qcg3dGQjQ47PpI1Oda+sRBAWtZIyYQLQ==
-Message-ID: <1e2d501f4da31fe945b839e648044de3501230fe.camel@mailbox.org>
-Subject: Re: [PATCH 5/5] Docs: software-requirements.rst replace optional
- tag with footnotes
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir
- Duberstein <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Nathan Chancellor	
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Date: Thu, 13 Aug 2026 16:30:55 +0200
-In-Reply-To: <87tsoyi2k5.fsf@trenco.lwn.net>
-References: <20260812120805.1631430-3-manuelebnerli@mailbox.org>
-	 <20260812122426.1636227-2-manuelebnerli@mailbox.org>
-	 <87tsoyi2k5.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cIpq61fY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 239041F000E9;
+	Thu, 13 Aug 2026 14:32:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786631544;
+	bh=IG593WwPZHkjAHpEh+qnkEZ5lNUNcA7qjwLsO5uxs1Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cIpq61fYzk1dxWEdXEUCp16LoxTYoW+i9fW+HkgxV8mPgI1kWmiKvAvbhqO7rege8
+	 D4WBjRsiJBmYFZ4x/ANT8VYdzB4jja+mx0CeeeAAZtDQK0u0gfKAmFXuj0NIl2rhjJ
+	 g1Y4G/QIsHK9yryXNKb8Xw7oc6L2te2z/OrPxkketN/hBBA2lTD996Hs+poYAD7kOa
+	 skFHZVF6659buG0et6UnjqRrB3ll7cdhZ8UMjlmrOnnlrSs34J7NkFplvnOsBuYoej
+	 ENPENjuAw4Rwwzc1rxRSRB6CA0/fmMvtIplA5k4YCuiGnWDgEqHu4qDnXDeXf+dvbU
+	 BFmcha80bjpHw==
+Date: Thu, 13 Aug 2026 15:32:03 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Jinjiang Tu <tujinjiang@huawei.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, xu.xin16@zte.com.cn, 
+	chengming.zhou@linux.dev, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	shr@devkernel.io, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	wangkefeng.wang@huawei.com, sunnanyong@huawei.com
+Subject: Re: [PATCH v2 2/2] mm/ksm: fix advisor_min_pages_to_scan description
+Message-ID: <an3RcQgDuhmcAb37@lucifer>
+References: <20260813031722.569983-1-tujinjiang@huawei.com>
+ <20260813031722.569983-3-tujinjiang@huawei.com>
+ <an2g39TIN9v87enG@lucifer>
+ <b35d14b5-65d8-4b8e-8754-de35f03d4b2d@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: wqb37wku7584xmf1hqihzq1iwwxcrzag
-X-MBO-RS-ID: aed8cf22841651194df
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b35d14b5-65d8-4b8e-8754-de35f03d4b2d@huawei.com>
 
-On Thu, 2026-08-13 at 07:15 -0600, Jonathan Corbet wrote:
-> Manuel Ebner <manuelebnerli@mailbox.org> writes:
->=20
-> > The optional tag isn't obvious nor defined. Therefore replace with foot=
-notes
-> > like the one of Sphinx.
-> >=20
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > ---
-> > =C2=A0.../process/software-requirements.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 22 ++++++++++++-------
-> > =C2=A01 file changed, 14 insertions(+), 8 deletions(-)
->=20
-> Explaining the optionals seems like a fine idea.=C2=A0 I'm a bit less
-> convinced about the mess of footnotes.
+Please show me the common courtesy of responding to _all_ the review given,
+not only the one point you want to respond to.
 
-Maybe footnotes can be reused when adding more to the list like this:
+I'm not happy with this patch, sorry, for the reasons stated that you chose
+to ignore.
 
-> bash [#f1]_            4.2              bash --version
-> bc [#f1]_              1.06.95          bc --version
-> bindgen [#f1]_         0.71.1           bindgen --version
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
->=20
-> .. [#f1] This tool is needed to [example use]
+On Thu, Aug 13, 2026 at 07:17:05PM +0800, Jinjiang Tu wrote:
+>
+> 在 2026/8/13 18:56, Lorenzo Stoakes (ARM) 写道:
+> > On Thu, Aug 13, 2026 at 11:17:22AM +0800, Jinjiang Tu wrote:
+> > > Both Documentation/admin-guide/mm/ksm.rst and the comment next to the
+> > > variable definition in mm/ksm.c describe advisor_min_pages_to_scan as a
+> > > lower limit of the pages_to_scan parameter, but that is not how the
+> > > scan-time advisor actually uses it. commit 4e5fa4f5eff6 ("mm/ksm: add ksm
+> > > advisor") only uses it to initialize ksm_thread_pages_to_scan when the
+> > > scan-time advisor is enabled. This will mislead the users.
+> > >
+> > > The semantics of advisor_min_pages_to_scan was updated in the v2 patchset
+> > > [1], but the documentation wasn't updated.
+> > >
+> > > Update the documentation and comment to match the semantics of
+> > > advisor_min_pages_to_scan.
+> > Umm, firstly if this were wrong you'd need to change the name of the variable
+> > too instad of documenting it as something completely distinct.
+> >
+> > But secondly AFAICT the logic in scan_time_advisor() suggests that it truly does
+> > act as a minimum bound as well as being the initial value for
+> > ksm_thread_pages_to_scan.
+>
+> As the cover letter[1] said, 'The initial value and the max value for the pages_to_scan parameter can
+> be limited with:', ksm_advisor_min_pages is used as the initial value, not the min value of pages_to_scan.
 
-Or they can be avoided altogether with (optional) tags and with requirement=
-s
-in the paragraphs below. bindgen is already like this.
-For me that's the fallback option.
+(Wrap your lines properly please, it's a common courtesy to learn how to
+send mail according to community conventions.)
 
-> Especially since many of the entries that are *not* marked as optional
-> really are.=C2=A0 You only need e2fsprogs if you're using ext4.=C2=A0 gdb=
- only if
-> you're wanting to run a debugger.=C2=A0 jfsutils seems truly optional, et=
-c.
-> Even GCC is optional if you're using Clang.
+One of the part of my review you ignored:
 
-I came up with the idea today to limit optional:
->     ...
->  you probably do not need to concern yourself with pcmciautils.
-> =20
-> +Tool(sets) with only a few required uses have a footnote mentioning
-> +theese. Tools with more uses are elevatet to general requirements.
-> +
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
->         Program        Minimal version       Command to check the version
->     ...
+	But in any case, you are making a claim here yet have provided no
+	evidence for it. 'It is just the initial assignment' means nothing
+	- if the logic can then only increase it up to the maximum value
+	then it still acts as a minimum.
 
+>
+> The v1 patchset[2] uses ksm_advisor_min_pages as the min value of pages_to_scan, but as David suggested, the
+> author changed the semantics of advisor_min_pages_to_scan in v2, but forgot to update the comments and variable names.
+>
+> [2] https://lore.kernel.org/all/20231004190249.829015-1-shr@devkernel.io/
+>
+> >
+> > So this patch just looks wrong to me.
+> >
+> > But in any case, you are making a claim here yet have provided no evidence for
+> > it. 'It is just the initial assignment' means nothing - if the logic can then
+> > only increase it up to the maximum value then it still acts as a minimum.
+> >
+> > A brief look at the logic suggests so.
+> >
+> > But in any case - the onus is on _you_ to prove that that's not happening.
+> >
+> > And even if you could do that, since it is _intended to be a lower bound_, the
+> > fix wouldn't be alterting comments or documentation, it would be to re-establish
+> > the minimum as a minimum.
+> >
+> > > Link: https://lore.kernel.org/linux-mm/20231028000945.2428830-2-shr@devkernel.io/ [1]
+> > This patch repeatedly states that it is the minimum time. You have failed to
+> > provide any analysis to suggest otherwise.
+> >
+> > > Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+> > Assisted-by: ?
+> >
+> > > ---
+> > >   Documentation/admin-guide/mm/ksm.rst | 4 ++--
+> > >   mm/ksm.c                             | 2 +-
+> > >   2 files changed, 3 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+> > > index c9f533b10f6f..c329ca747b8c 100644
+> > > --- a/Documentation/admin-guide/mm/ksm.rst
+> > > +++ b/Documentation/admin-guide/mm/ksm.rst
+> > > @@ -183,8 +183,8 @@ advisor_target_scan_time
+> > >           pages. The default value is 200 seconds.
+> > >
+> > >   advisor_min_pages_to_scan
+> > > -        specifies the lower limit of the ``pages_to_scan`` parameter of the
+> > > -        scan time advisor. The default is 500.
+> > > +        specifies the initial value of the ``pages_to_scan`` parameter of
+> > > +        the scan time advisor. The default is 500.
+> > >
+> > >   advisor_max_pages_to_scan
+> > >           specifies the upper limit of the ``pages_to_scan`` parameter of the
+> > > diff --git a/mm/ksm.c b/mm/ksm.c
+> > > index 7d5b76478f0b..4a6cf8cf5d60 100644
+> > > --- a/mm/ksm.c
+> > > +++ b/mm/ksm.c
+> > > @@ -342,7 +342,7 @@ static enum ksm_advisor_type ksm_advisor;
+> > >    * Only called through the sysfs control interface:
+> > >    */
+> > >
+> > > -/* At least scan this many pages per batch. */
+> > > +/* Initial number of pages to scan per batch. */
+> > >   static unsigned long ksm_advisor_min_pages_to_scan = 500;
+> > >
+> > >   static void set_advisor_defaults(void)
+> > > --
+> > > 2.43.0
+> > >
+> > --
+> > Cheers, Lorenzo
 
-> I'm not sure what would be best...perhaps replace the --version field
-> (which people can figure out) with an explanation of when each
-> dependency would be needed?
-
-This could work out, it's the widest field.
-
-An initial idea was to add a row and keys like this:
->  ...
->  you probably do not need to concern yourself with pcmciautils.
->=20
-> +The Required for row states which type of interaction with the kernel ne=
-eds
-> +the software. Multiple entries in one field are possible. If the field i=
-s empty
-> +this means it is to complicated to describe with this key and you should=
- get the
-> +software just in case.
-> +
-> +Key
-> +---
-> +Ch change code     Do documentation    Co compile          I  install
-> +Bo boot            Bu bug hunting      A  analyze          M  misc
-> +De debugging       U  use beyond boot
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +   Program       Required for       Version       Command to check the v=
-ersion
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +bash           I, M                  4.2              bash --version
-
-I ditched this idea because the table would have been to cluttered and it's=
- a lot
-of work to choose keys for each tools.
-
-> jon
-
-Thanks and please advice
- Manuel
+--
+Cheers, Lorenzo
