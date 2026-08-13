@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF433644DB;
-	Thu, 13 Aug 2026 16:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD6D483BEA;
+	Thu, 13 Aug 2026 16:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786637585; cv=none; b=bcEDaQlq7nbdjNbn2vhwTws6nbRKfRIcdIHS0Zl66kdfxKb/xUg2Ta0UXAj1NkZqHXCIAAh5H6oIM1aMbRDS9F2wp8m5p9Jehr9/xHAe+665lRqYG40LqmoyK3hVGEqtq+QDi9d4YfiEBj4V8rUXo+VAsnLWACx4l0YWC9OkS3Y=
+	t=1786637710; cv=none; b=jiF1yAG6Z7VWzqHBAHves+viJORrYobhmQ8+cOzih6NBjzyqXfu0B0SdqGe2O7kkHgkD6TkQONfu41xP/83FJXMTgK35EniIAMoIx2/3cnZnkhCyXTpxdVNDXHl9HF0EQR4qLIloYGIM6ZPQSP48vwthQqv2gvWqBzGacTmLz2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786637585; c=relaxed/simple;
-	bh=1ff+wG+sa6Xy4dzpGLnrxgFQcPwOCiE3zi7n1C8cTPk=;
+	s=arc-20240116; t=1786637710; c=relaxed/simple;
+	bh=/b8dj4WPBJ/BF07nUnl5sh2fz/fbPpitkJRQ3E6aV9Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VCvpibJTLkW7EB3vYDkgJByyxnJ5oeWsdaQEjXKpOrLYsbwQkIDNLdGm2UKW7PIhZtC8JLwQTM6xBb7UXuxPQ2YMT5ptt1u+4l75JkG5DMDrKIgiJjHLDOwJuZlqTXbi1h62J+cmJRCm0qewXKQoH1AyAioJKNBNW4XiImSkpQ0=
+	 MIME-Version; b=dHY7CbTEhQ3q4/wJ71O4l5HR0rMV88hrVmaIwsyNU7h3d03odB9OEjcaeM/sbNj4RPcDqus/bAVSfh3ck7ZOZ8+E3XyJSmxDedinRJLsg94l2nnPP+FYsas+goG0kth3pyh4xaC8GjxrR5h4d5LJK10F0YstJ7FWQgTn3WB4RFs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowACnffH87H1qu6l7BQ--.41802S2;
-	Fri, 14 Aug 2026 00:12:45 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowACHWe187X1qrr17BQ--.55428S2;
+	Fri, 14 Aug 2026 00:14:52 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Vlastimil Babka <vbabka@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -37,9 +37,9 @@ Cc: Harry Yoo <harry@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v2 2/4] mm/slub: preserve one previous object lifetime
-Date: Fri, 14 Aug 2026 00:12:44 +0800
-Message-ID: <20260813161244.74476-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH v2 3/4] mm/slub: test previous lifetime tracking
+Date: Fri, 14 Aug 2026 00:14:52 +0800
+Message-ID: <20260813161452.75035-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260813160825.73031-1-pengpeng@iscas.ac.cn>
 References: <20260813160825.73031-1-pengpeng@iscas.ac.cn>
@@ -50,11 +50,11 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACnffH87H1qu6l7BQ--.41802S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF4fCryrKw1kAFW5JryUAwb_yoWrtryDpF
-	W3G3W7JFWjqr47AFZxJ3ykCr1fA395A343AFWagayruFyYqw1kJFZ7tryjvFWUAryvvasr
-	Aws09r1FkF42vaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9a14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:qwCowACHWe187X1qrr17BQ--.55428S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFy7Xw47Xw4kKr1fCrWxWFg_yoWrWw13pF
+	ZakF15Kr4UXF17XrZxCFn2kr1SvF4ktw17ArW2qrWkZr4Yqw1kAF4vkryjqFs7urWkua1a
+	vasrt3WfGr4UZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9S14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
 	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
@@ -65,128 +65,133 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxAF4fCryrKw1kAFW5JryUAwb_yoWrtryDpF
 	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
 	MI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCV
 	W8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_
-	Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8Jr
-	UvcSsGvfC2KfnxnUUI43ZEXa7sRiKsUtUUUUU==
+	Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr
+	1UYxBIdaVFxhVjvjDU0xZFpf9x0pRLIDwUUUUU=
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-SLAB_STORE_USER replaces the allocation track when an object is reused.  A
-later stale free can then replace the free track as well, leaving the
-report without the completed lifetime that created the stale reference.
+Add KUnit coverage for the SLAB_STORE_USER reuse transition.  The test
+creates a non-mergeable cache, pins the task against migration, verifies
+that a fresh object has no previous lifetime, then frees and immediately
+reallocates the object and verifies that the completed pair was retained.
 
-Store one additional alloc/free pair.  Before recording a new allocation,
-copy the current pair to the previous slots only when both records exist.
-Keep the current free track intact to preserve existing SLAB_STORE_USER
-behavior during the reuse window.
-
-Print the previous pair when available.  These records are diagnostic
-history and do not infer semantic ownership.
+Exclude KASAN configurations because quarantine can intentionally prevent
+immediate reuse.
 
 Assisted-by: Codex:gpt-5
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- mm/slub.c | 45 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 36 insertions(+), 9 deletions(-)
+ lib/tests/slub_kunit.c | 35 +++++++++++++++++++++++++++++++++++
+ mm/slab.h              |  4 ++++
+ mm/slub.c              | 10 ++++++++++
+ 3 files changed, 49 insertions(+)
 
+diff --git a/lib/tests/slub_kunit.c b/lib/tests/slub_kunit.c
+index fa6d31dbca16..62d0f5e64268 100644
+--- a/lib/tests/slub_kunit.c
++++ b/lib/tests/slub_kunit.c
+@@ -6,6 +6,7 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/rcupdate.h>
++#include <linux/sched.h>
+ #include <linux/delay.h>
+ #include <linux/perf_event.h>
+ #include "../mm/slab.h"
+@@ -106,6 +107,38 @@ static void test_first_word(struct kunit *test)
+ 	kmem_cache_destroy(s);
+ }
+ 
++static void test_store_user_previous_lifetime(struct kunit *test)
++{
++	struct kmem_cache *s;
++	void *p;
++	void *q;
++
++	s = test_kmem_cache_create("TestSlub_prev_lifetime", 64,
++				   SLAB_STORE_USER | SLAB_NO_MERGE);
++	migrate_disable();
++	p = kmem_cache_alloc(s, GFP_KERNEL);
++	if (!p) {
++		KUNIT_FAIL(test, "failed to allocate the first object");
++		goto out_enable;
++	}
++	KUNIT_EXPECT_FALSE(test, slab_test_has_previous_lifetime(s, p));
++
++	kmem_cache_free(s, p);
++	q = kmem_cache_alloc(s, GFP_KERNEL);
++	if (q != p) {
++		KUNIT_FAIL(test, "freed object was not immediately reused");
++		if (q)
++			kmem_cache_free(s, q);
++		goto out_enable;
++	}
++	KUNIT_EXPECT_TRUE(test, slab_test_has_previous_lifetime(s, q));
++
++	kmem_cache_free(s, q);
++out_enable:
++	migrate_enable();
++	kmem_cache_destroy(s);
++}
++
+ static void test_clobber_50th_byte(struct kunit *test)
+ {
+ 	struct kmem_cache *s = test_kmem_cache_create("TestSlub_50th_word_free",
+@@ -395,6 +428,7 @@ static struct kunit_case test_cases[] = {
+ #ifndef CONFIG_KASAN
+ 	KUNIT_CASE(test_next_pointer),
+ 	KUNIT_CASE(test_first_word),
++	KUNIT_CASE(test_store_user_previous_lifetime),
+ 	KUNIT_CASE(test_clobber_50th_byte),
+ #endif
+ 
+@@ -419,3 +453,4 @@ kunit_test_suite(test_suite);
+ 
+ MODULE_DESCRIPTION("Kunit tests for slub allocator");
+ MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+diff --git a/mm/slab.h b/mm/slab.h
+index f5e336b6b6b0..15634d9603f8 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -518,6 +518,10 @@ bool slab_in_kunit_test(void);
+ static inline bool slab_in_kunit_test(void) { return false; }
+ #endif
+ 
++#if IS_ENABLED(CONFIG_SLUB_KUNIT_TEST)
++bool slab_test_has_previous_lifetime(struct kmem_cache *s, void *object);
++#endif
++
+ /*
+  * slub is about to manipulate internal object metadata.  This memory lies
+  * outside the range of the allocated object, so accessing it would normally
 diff --git a/mm/slub.c b/mm/slub.c
-index 0653def0fe36..355fbffb981f 100644
+index 355fbffb981f..d6b7487fb300 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -329,7 +329,13 @@ struct track {
- 	unsigned long when;	/* When did the operation occur */
- };
- 
--enum track_item { TRACK_ALLOC, TRACK_FREE, TRACK_NR };
-+enum track_item {
-+	TRACK_ALLOC,
-+	TRACK_FREE,
-+	TRACK_PREV_ALLOC,
-+	TRACK_PREV_FREE,
-+	TRACK_NR,
-+};
- 
- #ifdef SLAB_SUPPORTS_SYSFS
- static int sysfs_slab_add(struct kmem_cache *);
-@@ -1074,12 +1080,23 @@ static void set_track_update(struct kmem_cache *s, void *object,
- 	p->when = jiffies;
+@@ -46,6 +46,7 @@
+ #include <linux/prandom.h>
+ #include <kunit/test.h>
+ #include <kunit/test-bug.h>
++#include <kunit/visibility.h>
+ #include <linux/sort.h>
+ #include <linux/irq_work.h>
+ #include <linux/kprobes.h>
+@@ -1148,6 +1149,15 @@ void print_tracking(struct kmem_cache *s, void *object)
+ 	print_track("Freed", get_track(s, object, TRACK_PREV_FREE), pr_time);
  }
  
--static __always_inline void set_track(struct kmem_cache *s, void *object,
--				      enum track_item alloc, unsigned long addr, gfp_t gfp_flags)
-+static __always_inline void set_alloc_track(struct kmem_cache *s, void *object,
-+					    unsigned long addr, gfp_t gfp_flags)
- {
- 	depot_stack_handle_t handle = set_track_prepare(gfp_flags);
-+	struct track *alloc = get_track(s, object, TRACK_ALLOC);
-+	struct track *free = get_track(s, object, TRACK_FREE);
-+	struct track *prev_alloc;
-+	struct track *prev_free;
++#if IS_ENABLED(CONFIG_SLUB_KUNIT_TEST)
++bool slab_test_has_previous_lifetime(struct kmem_cache *s, void *object)
++{
++	return get_track(s, object, TRACK_PREV_ALLOC)->addr &&
++	       get_track(s, object, TRACK_PREV_FREE)->addr;
++}
++EXPORT_SYMBOL_IF_KUNIT(slab_test_has_previous_lifetime);
++#endif
 +
-+	if (alloc->addr && free->addr) {
-+		prev_alloc = get_track(s, object, TRACK_PREV_ALLOC);
-+		prev_free = get_track(s, object, TRACK_PREV_FREE);
-+		*prev_alloc = *alloc;
-+		*prev_free = *free;
-+	}
- 
--	set_track_update(s, object, alloc, addr, handle);
-+	set_track_update(s, object, TRACK_ALLOC, addr, handle);
- }
- 
- static void init_tracking(struct kmem_cache *s, void *object)
-@@ -1113,12 +1130,22 @@ static void print_track(const char *s, struct track *t, unsigned long pr_time)
- 
- void print_tracking(struct kmem_cache *s, void *object)
- {
-+	struct track *prev_alloc;
- 	unsigned long pr_time = jiffies;
-+
- 	if (!(s->flags & SLAB_STORE_USER))
- 		return;
- 
- 	print_track("Allocated", get_track(s, object, TRACK_ALLOC), pr_time);
- 	print_track("Freed", get_track(s, object, TRACK_FREE), pr_time);
-+
-+	prev_alloc = get_track(s, object, TRACK_PREV_ALLOC);
-+	if (!prev_alloc->addr)
-+		return;
-+
-+	pr_err("Previous object lifetime:\n");
-+	print_track("Allocated", prev_alloc, pr_time);
-+	print_track("Freed", get_track(s, object, TRACK_PREV_FREE), pr_time);
- }
- 
  static void print_slab_info(const struct slab *slab)
-@@ -1366,8 +1393,8 @@ check_bytes_and_report(struct kmem_cache *s, struct slab *slab,
-  *
-  * [Metadata starts at object + s->inuse]
-  *   - A. freelist pointer (if freeptr_outside_object)
-- *   - B. alloc tracking (SLAB_STORE_USER)
-- *   - C. free tracking (SLAB_STORE_USER)
-+ *   - B. current alloc/free tracking (SLAB_STORE_USER)
-+ *   - C. previous alloc/free tracking (SLAB_STORE_USER)
-  *   - D. original request size (SLAB_KMALLOC && SLAB_STORE_USER)
-  *   - E. KASAN metadata (if enabled)
-  *
-@@ -2024,8 +2051,8 @@ static inline void slab_pad_check(struct kmem_cache *s, struct slab *slab) {}
- static inline int check_object(struct kmem_cache *s, struct slab *slab,
- 			void *object, u8 val) { return 1; }
- static inline depot_stack_handle_t set_track_prepare(gfp_t gfp_flags) { return 0; }
--static inline void set_track(struct kmem_cache *s, void *object,
--			     enum track_item alloc, unsigned long addr, gfp_t gfp_flags) {}
-+static inline void set_alloc_track(struct kmem_cache *s, void *object,
-+				   unsigned long addr, gfp_t gfp_flags) {}
- static inline void add_full(struct kmem_cache *s, struct kmem_cache_node *n,
- 					struct slab *slab) {}
- static inline void remove_full(struct kmem_cache *s, struct kmem_cache_node *n,
-@@ -4493,7 +4520,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 
- success:
- 	if (kmem_cache_debug_flags(s, SLAB_STORE_USER))
--		set_track(s, object, TRACK_ALLOC, ac->caller_addr, gfpflags);
-+		set_alloc_track(s, object, ac->caller_addr, gfpflags);
- 
- 	return object;
- }
+ {
+ 	pr_err("Slab 0x%p objects=%u used=%u fp=0x%p flags=%pGp\n",
 -- 
 2.50.1 (Apple Git-155)
 
