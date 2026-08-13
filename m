@@ -1,98 +1,82 @@
-Received: from mta1.migadu.com (out-216.mta1.migadu.com [95.215.58.216])
+Received: from mta1.migadu.com (out-9.mta1.migadu.com [95.215.58.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A24395D9F
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 22:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E22E32E151
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 23:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786661553; cv=none; b=AdRQ7x3WdRSnQngvNR4EwGrGks8NITIamyPZAv9S74YmIUP869UhqWsS4cN5TC5mHvzyulEnRBsBtyuJzjdmd5mlk5m6Yge2gFT3wdm8SvGYez6VOK/VlUOjxgu+SH5qe7GjCHIu9cuCQz8BR3LclcEStwNdRoVgWs4Bi/ZHubA=
+	t=1786662101; cv=none; b=DrTeOGzRUTl8ZE8cyIyAhoGTR3mquVXTecCbG2IW+a4iETOb7wc7sNF2phpUIVV/qRLXXuQPR941wqqVABzVufeVT0o9yF7Q2EjNYnXjCJSpQ43cPy6bmOM+JOM+TH76V1knqnEVAYZygXZhY3piGaJSh5boC+sekDKmEdxndJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786661553; c=relaxed/simple;
-	bh=re9+XxLw1TkeBInlOnI7QiXrhpgAnrA1aQ0J6jxleZc=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=O1dKfDUtxR6iHP7uMzOty38Qma09aPRzVuih9mqSKw9L4l/BYCZKkRamqDz8QAZkyqw/aRfZtc3hWqA4mQANKe5dXhswy1yjUHUGqQaSOjAGrSMY20kCgkNhnMT3K+41WMFgDn75+OfCeFM4Z2lwWfAJMmA8QOIHR7iDqUqYpwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QIrkGpOZ; arc=none smtp.client-ip=95.215.58.216
+	s=arc-20240116; t=1786662101; c=relaxed/simple;
+	bh=FlhAF0gqqWInieus6TVHgqrVVU/G7GLQqP/e8QxO/SA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UwBQVN92xq75Mpady50FU0VDc2CDY4O//afz520Wt8PDDWAeZ26+m41v8XTZjKQbG4caFdHF85Qa/N7kZKGhx2BSyt/Cj9Ady7bOe6Mw3Za9UlBwjh+7glNrnCzJOXH1gJx40T+sEmG8yxaA4rsWYd5Ii7xfnU9/40enqeBBRBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=i3TrSMYJ; arc=none smtp.client-ip=95.215.58.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QIrkGpOZ"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="i3TrSMYJ"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=re9+XxLw1TkeBInlOnI7QiXrhpgAnrA1aQ0J6jxleZc=;
+DKIM-Signature: a=rsa-sha256; bh=FlhAF0gqqWInieus6TVHgqrVVU/G7GLQqP/e8QxO/SA=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786661549; v=1; x=1787266349;
- b=QIrkGpOZp18slea+Gno071DxQPWBlyycSVTn2BjdlPyJhx3rNFodVi2cDJOMFe7GObTGD3Aj
- cMLRvFskMvY9Dw+xdOJB5Ruv4C4irIPP0WZVI55FkiAhQQ2CKxRraenOK+0UuxNQWPk7Igx+mQL
- BA5PpIZKwblzaUK7vLSPtDmc=
+ t=1786662098; v=1; x=1787266898;
+ b=i3TrSMYJx5Xa6cioVR3NrqB5SeaaaORDjNSagIWEKuF+9oPNuRhuzsCEWqm2NUTfLaSALFxL
+ oDJlcOHZ94E+U0Z8wPNXJ8bFAXmaT8gRXqCYQlcZU4MUfmCSP+0M651UGLAmo/fVnJFmP7xpdN6
+ f/aKPJhEnnPjOQAwIl1f5LCM=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: from [192.168.1.116] (111.162.215.50)
-	by smtp.migadu.com with ESMTPS id 97929fad141b3a25;
-	Thu, 13 Aug 2026 22:52:29 +0000
+Received: from ctao-book.. (111.162.215.50)
+	by smtp.migadu.com with ESMTPS id d2441ef27e3ea186;
+	Thu, 13 Aug 2026 23:01:38 +0000
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <2a12e8f3-e954-4e1a-b12f-667dcdb8c011@linux.dev>
-Date: Fri, 14 Aug 2026 06:52:23 +0800
+From: Tao Cui <cui.tao@linux.dev>
+To: tj@kernel.org,
+	corbet@lwn.net
+Cc: rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	arighi@nvidia.com,
+	yphbchou0911@gmail.com,
+	jpiecuch@google.com,
+	ihor.solodrai@linux.dev,
+	suzhidao@xiaomi.com,
+	luoliang@kylinos.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	cui.tao@linux.dev,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH v2 0/2] sched_ext: minor doc and comment fixes
+Date: Fri, 14 Aug 2026 07:01:21 +0800
+Message-ID: <20260813230123.2069719-1-cui.tao@linux.dev>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: cui.tao@linux.dev, corbet@lwn.net, rdunlap@infradead.org,
- skhan@linuxfoundation.org, arighi@nvidia.com, yphbchou0911@gmail.com,
- jpiecuch@google.com, ihor.solodrai@linux.dev, suzhidao@xiaomi.com,
- luoliang@kylinos.cn, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, cuitao@kylinos.cn
-Subject: Re: [PATCH 2/2] sched_ext: fix stale references in doc comments
-To: Tejun Heo <tj@kernel.org>
-References: <20260811073801.342165-1-cui.tao@linux.dev>
- <20260811073801.342165-3-cui.tao@linux.dev>
- <7496accfcf61b49e8fe5675a3d941c48@kernel.org>
-From: Tao Cui <cui.tao@linux.dev>
-In-Reply-To: <7496accfcf61b49e8fe5675a3d941c48@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello, Tejun.
+From: Tao Cui <cuitao@kylinos.cn>
 
-在 2026/8/13 02:38, Tejun Heo 写道:
-> Hello, Tao.
-> 
-> On Tue, Aug 11, 2026 at 03:38:01PM +0800, Tao Cui wrote:
->> - * One user of this function is scx_bpf_dispatch() which can be called
->> + * One user of this function is scx_bpf_dsq_insert() which can be called
->>   * recursively as sub-sched dispatches nest. Always inline to reduce stack usage
->>   * from the call frame.
-> 
-> This one isn't a leftover of the scx_bpf_dispatch() rename.
-> scx_bpf_dsq_insert() doesn't call scx_dispatch_sched() and can't nest.
-> The comment is a typo for scx_bpf_sub_dispatch(), which a parent's
-> ops.dispatch() calls to trigger dispatching on a child scheduler, so the
-> calls nest as sub-scheds do. Please use scx_bpf_sub_dispatch() instead.
-Ah, I wrongly assumed it was a rename leftover, thanks for the
-explanation. scx_bpf_sub_dispatch() makes sense given the nesting. Will
-fix these up and send a v2 rebased on sched_ext/for-7.3.
-> 
->> 	 * - sleeping (%SCX_DEQ_SLEEP)
->> 	 * - being moved to another CPU
->> 	 * - being temporarily taken off the queue for an attribute change
->> -	 *   (%SCX_DEQ_SAVE)
-> 
-> SCX_DEQ_SAVE was never defined, but these dequeues are flagged with
-> %SCX_DEQ_SCHED_CHANGE which ops.quiescent() does receive. Please replace
-> the reference instead of dropping it.
-> 
->> +	 * '_' and '.' chars. Exposed via
->> +	 * /sys/kernel/sched_ext/root/ops while the BPF scheduler is enabled.
-> 
-> @name applies to sub-schedulers too and they show it the same way under
-> their own directories. Maybe something like "Exposed via the ops file in
-> the scheduler's sysfs directory, /sys/kernel/sched_ext/root/ops for the
-> root scheduler, while the BPF scheduler is enabled."
-> 
-> The first hunk no longer applies to sched_ext/for-7.3. Please base v2 on
-> that branch.
-> 
-> Thanks.
-> 
+Two small doc and comment fixes noticed while
+reading the code. No functional changes.
+
+Changes in v2 (per Tejun's review):
+- show_state example: aborting prints as False (drgn bools)
+- inlines.h: use scx_bpf_sub_dispatch(), not scx_bpf_dsq_insert()
+- internal.h: name %SCX_DEQ_SCHED_CHANGE instead of dropping the
+  never-defined %SCX_DEQ_SAVE
+- internal.h: reword @name to cover sub-schedulers
+- rebase onto sched_ext/for-7.3
+
+Tao Cui (2):
+  Documentation: sched_ext: fix events sysfs path and show_state example
+  sched_ext: fix stale references in doc comments
+
+ Documentation/scheduler/sched-ext.rst | 9 +++++----
+ kernel/sched/ext/inlines.h            | 2 +-
+ kernel/sched/ext/internal.h           | 7 ++++---
+ 3 files changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+2.43.0
 
