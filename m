@@ -1,292 +1,225 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010050.outbound.protection.outlook.com [52.101.85.50])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70FF46AA7B;
-	Thu, 13 Aug 2026 15:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786634282; cv=fail; b=OXQjHIE/IIHN8EK1ZLPI91LBWidy5yErHmvqNok1gQZF06Cgf9TwYZnmFMvDfDs/X5mRuY8rfJUyWLYtN3JQMPL8s9ymmoRbTYA31y/xAzjq2TwKOA0BkhFebaLzAtkzlbrTrSYqO9dh59kP+YSfhmVCYVdLBCSOAMRDl4kpalY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786634282; c=relaxed/simple;
-	bh=Uqa1tBlSudylop7WEs8pyXr2wXrHASTueFrJ8Nb/gvY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=KhtKWNtAzOtIgBCZF7KW3HZA/1apwZ3aBU1dKZs0rOStzd/Prq/4cJefqfH7RUGqZMMUXEUSgkX3C0z48RPuyFKI9Mi/+y2lZfReb6mGOk3++XcV1EQI2GUdnZhTxbPl4bRBp0xJNry6V34cQJGJxPYo8nYwparvTArBA7e5CI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UTU3QnXM; arc=fail smtp.client-ip=52.101.85.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E35468C2A;
+	Thu, 13 Aug 2026 15:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786634368; cv=none; b=uo0hTgLGhRPWAnmD4f0doUB42iybdqAjv9/S41KFr9hmwIKJB7e6fS+EP0V5HgBEkJ+a1N2+aG6LWwz3AXrCz0NCPIWWH6uJeVDvbL8IaWp/+3cNSy+T4OiwRP9b0+ElySf/bQIg7DSXKjJP7JSA5Y4bbjT8WsPnOUsUwt04bCM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786634368; c=relaxed/simple;
+	bh=hQCh243CzeE7OlkXWD+eu63lmLPFuhabgz3yPKuFcys=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=b1Bw7u3KEe8B0saLmVixWz0C95E0m7kYwiCb/qMIq4Jj1jlWNsfVIVDfzEGBO42Vwi6GCfPsx04nxKsOWooYvjKEdwnluKpIRaznQ8HY6zfmbZvGeXZLSyZI3XHYAGAncIC7JiglvjcPjUaPlZ9KaqfWh1QD/9Y/QTRTln0iyhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=E63Cm4gB; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UTU3QnXM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AXaTYRUmby/7degF2RT91u0CDYSqcHr38ueRyrqLq88tU1GB2qvhWPkgGUCRLzUm8yp1JoQIYJ+h6bmYa7Hx+L7gg6WVyKpj21IQmYEu788k2XfIsROqrQiS6mGMU+I+x7l6PS0lzKTwFEMTx+cBoVYMNIqTNz0ldEe7VkY5WYqARI+9pI0aBJ7q7qLBB2IwHN/bFlq3h5sBkHXHsHZTV4zDaOVItyL7pASkR5eKoA3bSrGmLmKViMfZyCXBa3Hm/Q2Z2vRWTEXevcMVE0oyBYd1qHByduyUXXm/VdApoHyDwUJ9f53OkrErv/U/FwZeqzPon9b1gRlynfmaMMQ8FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7XKJmKbRg+5j1tAJkOUQT3Wjd4geKZm9UrPI1Nxt6Xs=;
- b=K8I1KsZNKi6TvNKedY+CK3p9iWclGdRWmkrtNIhgmo/5viNoji79tsPwo6e4ydKFvYkksAb8JaXkfv9nrw+W3hnnngboqRZAgnpxruzRQg01YxaKrLKzmAgXEV/MJkGNCAlg1msQ8Ck1aFMbOBhAm1sKzIC2GgXBMuCfBCxvYj7BY7D77uWb3b8p96491BUGglE8myhxpor+9rtl+baxxeDx7rf4w1uTW+pwO5x+MfHXlPygvz0DMsOIDOEJw/TTH4i70UTRdXFWlvvlFLVSVbLkGRAArv5gMJNshIhmA5JVtCKlRpwNm35lqgpdIDYElkaGRPQO2nEtGqx2CQ9GJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7XKJmKbRg+5j1tAJkOUQT3Wjd4geKZm9UrPI1Nxt6Xs=;
- b=UTU3QnXMlgOhkwxwF26Y9flIRXAkGdG/3l1VmJ68jWUZbaA3hp7GRx1TPnQithA4i0M/V+UGEQNfV1Src3KiQLL6/kqGi1nE7OAYNGKz92w0E11qtoNkfKnCa5DkWZgo7o7yg/yoXSQqKb+zAnYYT5gO/7w45/dwdXezFP0inEg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by DS3PR12MB999242.namprd12.prod.outlook.com (2603:10b6:8:38d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.21; Thu, 13 Aug
- 2026 15:17:56 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0315.012; Thu, 13 Aug 2026
- 15:17:56 +0000
-Message-ID: <9a53023a-9d6f-434f-96d3-188a176a6cc2@amd.com>
-Date: Thu, 13 Aug 2026 10:17:52 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v4 04/15] fs/resctrl: Introduce kernel mode (kmode)
- data structures
-To: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
- <bmoger@amd.com>, corbet@lwn.net, tony.luck@intel.com, Dave.Martin@arm.com,
- james.morse@arm.com, tglx@kernel.org, bp@alien8.de, ben.horgan@arm.com,
- fenghuay@nvidia.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, akpm@linux-foundation.org,
- rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
- kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com,
- seanjc@google.com, nikunj@amd.com, xin@zytor.com,
- pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
- kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
- elena.reshetova@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
- peternewman@google.com, qinyuntan@linux.alibaba.com
-References: <cover.1783461016.git.babu.moger@amd.com>
- <7191fbc2a339c830e7768d7fe5e7fa0f7d65da9f.1783461016.git.babu.moger@amd.com>
- <b84e5f4a-9743-41d8-b70f-e826d5afe4fe@intel.com>
- <5fad6e01-1052-4c1f-82f5-02c650ae1ffe@amd.com>
- <e4c95002-ae8a-48d0-bedd-772db58b937e@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <e4c95002-ae8a-48d0-bedd-772db58b937e@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH3P221CA0005.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:610:1e7::29) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="E63Cm4gB"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id DD9D44E41208;
+	Thu, 13 Aug 2026 15:19:22 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AFA3E602B8;
+	Thu, 13 Aug 2026 15:19:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 99E6311C4E06F;
+	Thu, 13 Aug 2026 17:19:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786634357; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=YLDqk/bqSDIAyWjdkMIjNYxbTc6b188ttsVKaz3CO/g=;
+	b=E63Cm4gB4Wk9EQG+s8wh+7Vf9rLMbIpHCVNevklBRMc3Tb4UBIkkPMbCssXFAswJhzlNxs
+	xGOv+pFpcT0nXlI34ermOKx97+v59knWv/7kPS8T5vX4sR/sfl7lrRtXELx/sBMgMTBb40
+	+CAxRdkRp+frvCuEAk2Qx6MKKeccqGSrtA4EVQWoJbZyhtomAm6kxj9esREqwEDoc3x+IC
+	Kmu+wp3vk0KyMVvxSTY0ZKqJdZQPxhz2WyOzfAvGyFp2zblvWIbihg2HdHb/ja70d92dim
+	W/JN/B0vdSiwVbrNyVsc4JSOwiOkVb+a2Q2iwtlDb9oaHv/BlLSYVKWVba647Q==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v3 00/23] mtd: spi-nor: QE handling cleanup + fixup reworks
+ + Winbond RV chips addition
+Date: Thu, 13 Aug 2026 17:19:00 +0200
+Message-Id: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|DS3PR12MB999242:EE_
-X-MS-Office365-Filtering-Correlation-Id: 595fafc5-0938-48f9-7271-08def94e0d5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|56012099006|10067099003|11063799006|6133799003|4143699003|22082099003|921020|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	BahEh6azaB34c/bS4IgrwI3wGs6UhcvhBStacw8NqVfPjgyUfMgsJXbSzmxqxmnTZPBpA5CanLl6Iubzpev0YfM7ejA6SighjO6oO1xqvZQQZkOADNSN3mdgRKfNG9k+/vvxfDR2lqfCPOhxdjQc398nNYFqm3CIzuzZkns7dREpyiik1jHWbOKZyQtZ3Ud3nMMFBbepgQkWiBn1p96gD1Kzjf/XuaiWLEYLwiuN6vrZreliVXh8nz5zb9pbEz7HkJGthR7EmCdrE2e41Evv639mbdacE7iJn2xRYz9N0NGYx/1PBXXqDsJ6Yb0Czn2HBWdtrY3uTNsKU78J4bKV2uw3VNswy0RW9aA/bdeBgxfVqQn84RP7u3wUcrc5/ZgeoS9thu92Gofpz/OLIp8MdCoQGFeMNUJ11KS2dGTWiBmloxEoT/0WXQMlt2IQqH1Jsb/BrFSKMD/hf00G1rjnQ5pG59EqrIjN8LwJeKZPpKs6dDIZhw/9e+FZYZ1kK+OYtMgr2DMzy75T/DqC39mCV/tTckuT1UMMahOTvIsUc/xi3gMw6iMCXC8Nz3QpAaPDRQplGYpzt3GvLQ1FM3EsT0XU96xvGm1rSwCmb0lynzG9u+BfXR4fZl0QSd0q3xiQuTvjOwsZLssn4BMGfv3Ixaj0B7IiUowwXelcBTeGYvRSSGXp2uDCO9Aeo1m69m1ZLjdlTZU323iCGRYRpXYkfg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(56012099006)(10067099003)(11063799006)(6133799003)(4143699003)(22082099003)(921020)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NkZGNUF0UFl4THp6clhidFh6Y0RFcURqNTQzOWRzTnhGVUNmQU5tT3l5K1Fj?=
- =?utf-8?B?Z1FnUUJMRWJSa2xCcUNNdWVMeHN5TFFLcnpxK3dQN09lVnBnTjB5R3V3MFJy?=
- =?utf-8?B?ektDd2ROYmZRT1hKRm1lN1ZIU1VJSnN6a3FHYTRoSjRXaE9oQ0tpbjdPZ3ZS?=
- =?utf-8?B?d0JweXZWVU1kZHhTUktVVkgzM2lMQlBsNVlSTXM2RzNEYkpnVzVUUXVsN3hk?=
- =?utf-8?B?bFVNZm1acjRWSzFlMkQwSmo4bDN1VE85KzBidnpEZWUzazVpM2hxaXFLWlli?=
- =?utf-8?B?Q3NqNEwxcy9tdnZXSFhLVXc4VGdyMGNIbUxLY0dPeDBCVUpkVmFXbXlwc0E4?=
- =?utf-8?B?UmJBWmlsdW5ON01wTXBkdkVCWVorOVZXSjdZcEIxcUVFcVpYOXBaRWEwZ1lM?=
- =?utf-8?B?MjlDa1FPZUZuVDVORzlzSjk4eU5uWjFaY1dlbDZ0blh5NDQ1M1RwTXp5dThQ?=
- =?utf-8?B?RGtKWHRmZEUwZm03amhwRGo2OHVPYThtNWVRZmIxazJsSExobTQwRE5kTVNB?=
- =?utf-8?B?THhiY2JEaXFLbzYyaTV5ZzdhNEVibWFydGxwTlJ2MElqeGtuT2UrcHdWam5X?=
- =?utf-8?B?bVRoMjllVWdXU2VyTk0rUGdQbjR2VTJLWUVYT0pVZjRpQm8vWE9Wdml1TWwv?=
- =?utf-8?B?Q1FHcFUxbFRmYlNMY1JJanlzQlNpVXg0Z01udTAwcDJYam5GZlNEcFMzcC9q?=
- =?utf-8?B?M295a3Eyb1hwTWJYL3c3Q3NDbUxwN2VMT3VnOXpTb1dFbnByV1M5blVndFE3?=
- =?utf-8?B?Y2t1QW9hNnR6Z05CelQyNlBldDBBVDJYNzF6VnFpTUdtaEZVS016MGpqWnN4?=
- =?utf-8?B?czVPQ21GeWkwL29JcS8yQ3B6VVk5Q0orbmxyQXNBbHJlQXY2M3VhbUxKTGhX?=
- =?utf-8?B?bjJTcnZPNkVFY0hJV0R4WGF0MmszK0VMaHlwc2huYVpZQUNXQWdLQUV3c2lT?=
- =?utf-8?B?WVZWSHcvOVNpazE2NTNSSnpWT2d3L1N4WllpMkJ2bVZnVXBuV2o2dW1vcjRV?=
- =?utf-8?B?S3ZZb0poYXdyRWs1cVg1ek5XN0RXelBzWStRdG9xQnhRampMZ2hNZ2habTlV?=
- =?utf-8?B?L0Z4MWcxQmtHV0NUNDIzVExpM3JHNDY1cFU1VksreGVmOFAvUW1VWEJhR2VP?=
- =?utf-8?B?TFNadWdKaEpBa3JsWnc0dHRxbmNTWmdrNkhFWjh1WXJQZzR5SE1NV21rV0RP?=
- =?utf-8?B?aHlGZ2xiZ2o0dzJrOEFGNVBLUW9QMEFrcHFoVUs2OWs2Wm1Yd1R0VEJHUXB1?=
- =?utf-8?B?UmlZMnJTcUk2THM0ZysvYjNKL2lnbGZIdGtXSWhqQ0hIVzNSQm5rTkxDS3lQ?=
- =?utf-8?B?MHYzYmt3OWJWOWtWZzVLbGcvcTdCYWVyY3BraFdIZDdDbTBmMzJFd0NoejdY?=
- =?utf-8?B?czE4WDFPN3I2WUdTQk9PYzllUUJPZDc1QURkSHB3TFdsb245S2hNK3AwYlo3?=
- =?utf-8?B?S0VjeUV2Nld3dnQyUDVGWmRvUndEek00VC9GUWNHVDQ0UlRJeWhzTjVLNGdQ?=
- =?utf-8?B?OGlLbnpKKzZWYmNKWDB3aiszZ1ZJTzdyWnZPSFZuRGR4d295MzhRTmRqSk1I?=
- =?utf-8?B?TGloc0oybWpuVE01WVcrNWYzYnZuYmtkYWJsQ0V1OFFyUXprTUVWbURrUDZM?=
- =?utf-8?B?UTBZNEFPOVFoQjdmUFBwK21oZStBYkNmbFYrWGZvTEpqWWdqZ291WnpGTitv?=
- =?utf-8?B?TG1MMDU0dHgvdzJuMGVXS3FTZHdZcDdrSWtlM0pQb20yb1VDOVBSNmgwcHFR?=
- =?utf-8?B?Tlh5MVNldnpsZzQ1cnR2SWIzYWRrNWQ5Yy8rRnZVbGJ1YVB5MjB0cjkrZTNK?=
- =?utf-8?B?Z2pUMEVBVEsyK1hYZmxrQTNaaVRIdFNzRVcrNWE5MEYzOGtmWFNQNWRMWTlN?=
- =?utf-8?B?ZERuSnhqckNoTnF3YmplYzNlWms3QXVFUE5pUlpnMnZMMWdMTlJncjJtcTVN?=
- =?utf-8?B?RmFUVDVxa3hJUUtRTjNoeVhtTHRMR014MmNFblNoQWh4WWdoMEhQSXFVNkUx?=
- =?utf-8?B?NmNwS3VQVzdZYndRRlpZeXZhaW9TMDJHWDFuZGxFcWxMZ2lIWXh2aXBzK3Rz?=
- =?utf-8?B?WXFRRktmdnV4OTB3TFRSdm9JRmVGaFRjVHo4NjMzUUpyZVZlTmg0K0UrNDBB?=
- =?utf-8?B?UGJmNlcvamExdFBNUXJNK0ZiMXYxdEhVb21RSlBGVndPYndma3AybWQ0R2NG?=
- =?utf-8?B?eEFuTlIzbDMwbkY4U2xzQjN5RlNLRmFPUGFXYVVKMzlVVnQ5QnF2dDhnUm9z?=
- =?utf-8?B?d0lNNlorRjB2U1M5aDV1WlpoM09OMzdzQzlQejZicXZOMVkwcTFJNFdRT3M5?=
- =?utf-8?Q?+qz84j/sdWBV5EgtXN?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 595fafc5-0938-48f9-7271-08def94e0d5d
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 15:17:56.2255
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 39JJp47LgRuQ18KbAhGVkdQA5yZyx6bQQi8TnD2bLnZacIxq3GzSswV1Ybio9LIe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS3PR12MB999242
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42PQW7DIBBFr2Kx7kSATSBWVOUeURcYxg1VDC44t
+ FXku5eQRVupiyz/SPPe/1eSMDpMpG+uJGJ2yQVfQvvUEHPS/hXB2ZIJp3xLBd/Bh/ND8BayBAZ
+ pduBDhJhBW+uW8gwGNR/ZyIQakBTMHHF0n1VxfLnniO+XYlruRzJhSrqa+mZfRYqK/0VvGcwZt
+ b/MkAVQUJK3CoWUctcdhhCWs/MbE6bnm3nQCaGEyS19k+WGQzSM3DqcXFpC/KqrM6slHh+YWRG
+ PrUamBOVW6N/iis/8B6mofADJC7JskNuO29F09C9yXddvmh7BnKkBAAA=
+X-Change-ID: 20260529-winbond-v7-1-spi-nor-rv-addition-cea2f1f158be
+To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Steam Lin <STLin2@winbond.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Reinette,
+Hello,
 
-On 8/12/26 18:28, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 8/12/26 12:58 PM, Moger, Babu wrote:
->> On 8/10/2026 10:03 PM, Reinette Chatre wrote:
->>> On 7/7/26 2:50 PM, Babu Moger wrote:
-> 
->>>> can report what is active or what the platform supports.
->>>>
->>>> Introduce enum resctrl_kernel_mode:
->>>>     - INHERIT_CTRL_AND_MON: Kernel work inherits allocation and monitoring
->>>>       from the user task (current behavior).
->>>
->>> The issue with this "combination" mode becomes obvious in patch 7. I also
->>> see that sashiko hinted at this issue but I am not able to see from your response
->>> what the plan is to address this. As highlighted by patch 7 and sashiko the
->>> "allocation" and "monitoring" features of a system are independent - a system
->>> need not support/enable both. This should be easy to reproduce by, for example,
->>> booting a system with needed rdt= options disabling allocation or monitoring
->>> features.
->>>
->>> I think it will be unexpected to a user on an allocation-only system to
->>> see interface like:
->>>
->>>    # cat info/kernel_mode
->>>     [inherit_ctrl_and_mon]
->>>     global_assign_ctrl_inherit_mon_per_cpu:group=uninitialized
->>>     global_assign_ctrl_assign_mon_per_cpu:group=uninitialized
->>>
->>> Should it not rather be, for example:
->>>    # cat info/kernel_mode
->>>     [inherit_ctrl]
->>>     global_assign_ctrl_per_cpu:group=uninitialized
->>>
->>> Similarly the user input would not need to provide a monitor group when system
->>> only supports allocation.
->>
->> Ok. Yea. We need to separate control and monitor separately.
->>
->>
->> How about something like this?
->>
->>   # cat info/kernel_mode
->>     [ctrl=inherit,mon=inherit]
->>     ctrl=assign,mon=inherit:group=uninitialized
->>     ctrl=assign,mon=assign:group=uninitialized
->>     ctrl=inherit,mon=assign:group=uninitialized
->>
->> If allocation(ctrl) is only supported.
->>
->>   # cat info/kernel_mode
->>     [ctrl=inherit]
->>     ctrl=assign:group=uninitialized
->>
->> If monitor (mon) is only supported.
->>
->>   # cat info/kernel_mode
->>     [mon=inherit]
->>     mon=assign:group=uninitialized
->>
->>
-> 
-> Please always keep in mind all the requirements and use cases we learned about
-> during and after RFC v1 of this work.
-> 
-> For example, we already know that "per group" assignment is something resctrl
-> needs to be ready for. Consider the example in
-> https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
-> 
-> There may even be "per task" assignment in the future.
+Following my "software protection" enhancement series, there were
+several comments about the need to simplify and reorganize the handling
+of the QE bits, which is strongly impacted by the various read/write
+status register capabilities.
 
-Yes. That is correct.
+The third patch is all about this. It is a massive cleanup, everything
+is explained inside, the how and the why. This is a commit that must be
+tested, so if you have a SPI NOR chip with one of the not yet tested
+SFDP QER configuration, please consider applying that patch (just patch
+1 is enough) and boot. If your chip is recognized, it's probably all
+good.
 
-> 
-> Constraining this feature to PLZA will make it harder to enable the capabilities
-> that we know resctrl need to support in the future.
-> 
-> This is how we originally landed on the "global" assignment distinction
-> (https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/)
-> "global assignment" should be kept or replaced with a solution that continues to
-> prepare resctrl for these other capabilities.
+Since it was pointed that the legacy .name fields were part of the ABI,
+my previous deletion was no longer possible, so I now propose a
+(writable) indirection for accessing this field, which will allow
+developers to hide that name using fixups.
 
-Yes. Makes sense.
+Talking about fixups, I continued with another rework that has been
+asked for: changing the way fixups are listed. I am now creating a table
+of fixups, which can be matched by ID and/or with a match function, as
+per Michael Walle's suggestion. This cleans quite a bit the fixup lists
+in the winbond driver, especially because of the new name hiding fixup,
+so thanks for the suggestion!
 
-> 
-> I am not able to see how resctrl could support "per group" assignment with the
-> interface you propose above. If I am missing this, please highlight the solution.
-> 
-> resctrl may need to explicitly split kernel mode from kernel mode properties. For
-> example, below shows an "assign_global_enable_per_cpu" as the kernel mode, now with three
-> properties:
-> - "ctrl" - could be "assign" or "inherit"
-> - "mon" - could be "assign" or "inherit"
-> - "group" - required if "ctrl" or "mon" is set to "assign"
+Then I add support for JESD216 revision F and its new QER field.
 
-ok.
+Finally, I rework a bit the fixups in the Winbond driver, which allows
+a clean addition of the new Winbond RV chips.
 
+All chips I will ever be able to test are now listed and proof of
+testing is below the commit message.
 
-> 
->     # cat info/kernel_mode
->     [inherit]
->     assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=uninitialized
+Thanks,
+Miquèl
 
-Shouldn't this be like below when default is inherit?
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+Changes in v3:
+- Added support for two new chips that I could test (W25Q51RV-M and
+  W25Q02RV-Q/N). Edited the last commit which is now only adding the
+  256M-bit densities without the possibility to test, since I will not
+  receive any of these any time soon.
+- Reworked completely the way fixups are now being applied.
+- Re-instated the legacy .names, created a way to overwrite them and
+  enabled a fixup for that.
+- Link to v2: https://lore.kernel.org/r/20260807-winbond-v7-1-spi-nor-rv-addition-v2-0-7797642dfc40@bootlin.com
 
-# cat info/kernel_mode
-[inherit]
-assign_global_enable_per_cpu
+Changes in v2:
+- Added support for more chips that I received and could test. The main
+  logic in the first patches is completely untouched.
+- Fixed the name of a parameter (s/sr2/srs/) in the low level read status
+  registers helper.
+- Decided that there was no specific handling of the WP pin being
+  strapped wrt the read check over the SR content. This would be new,
+  and I don't think it is wide to handle it in the verify helper, but
+  instead this should be let to the caller to decide whether it needs
+  to hard fail or just degrade into single mode (typically if the QE
+  bit has not been written). But this would require an extra DT
+  property indicating the WP strap state which cannot be read back by
+  software.
+- Created a structure to store the flash specific opcodes.
+- Proposed a rename of BFPT_DWORD15_QER_SR2_BIT1_BUGGY in favour of
+  the _NO_1B_WR suffix.
+- After checking, decided that the .name field is legacy and not part
+  of any stable API, thus it can be removed. So added back a commit
+  for that, removing the names for the whole JV family.
+- Exposed all opcodes through debugfs, including the QE bit position.
+- OTP and SWP writes are now read back like before.
+- 2 known deviations are now explicitely stated in the commit log.
+- I changed a little bit the QER field parsing in the sfdp.c driver, to
+  limit deviations, as much as my understanding would allow me.
+- Link to v1: https://lore.kernel.org/r/20260529-winbond-v7-1-spi-nor-rv-addition-v1-0-f3ae18502d5a@bootlin.com
 
+---
+Miquel Raynal (23):
+      mtd: spi-nor: Rename BFPT_DWORD15_QER_SR2_BIT1_BUGGY
+      mtd: spi-nor: Create a structure containing the flash opcodes
+      mtd: spi-nor: Refactor Read Status/Write Status support
+      mtd: spi-nor: Add support for the new JESD216 rev F QER field
+      mtd: spi-nor: Create the concept of fixup table with match function
+      mtd: spi-nor: Create an indirection on the part name
+      mtd: spi-nor: Move the SFDP header structure to a C header
+      mtd: spi-nor: winbond: Prepare introduction of W25QxxRV-Q/N parts
+      mtd: spi-nor: winbond: Add support for W25Q32RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q64RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q12RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q51RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q01RV-Q/N
+      mtd: spi-nor: winbond: Add support for W25Q02RV-Q/N
+      mtd: spi-nor: winbond: Prepare introduction of W25QxxRV-M parts
+      mtd: spi-nor: winbond: Add support for W25Q32RV-M
+      mtd: spi-nor: winbond: Add support for W25Q64RV-M
+      mtd: spi-nor: winbond: Add support for W25Q12RV-M
+      mtd: spi-nor: winbond: Add support for W25Q51RV-M
+      mtd: spi-nor: winbond: Add support for W25Q01RV-M
+      mtd: spi-nor: winbond: Add support for W25Q02RV-M
+      mtd: spi-nor: winbond: Add support for W25Q51RV-Q/N/M
+      mtd: spi-nor: debugfs: Expose SR opcodes and QE mask
 
-When the default changes to assign_global_enable_per_cpu:
+ Documentation/driver-api/mtd/spi-nor.rst |   2 +-
+ drivers/mtd/spi-nor/atmel.c              |  75 ++-
+ drivers/mtd/spi-nor/core.c               | 875 ++++++++++++-------------------
+ drivers/mtd/spi-nor/core.h               |  94 ++--
+ drivers/mtd/spi-nor/debugfs.c            |  22 +-
+ drivers/mtd/spi-nor/everspin.c           |   7 +-
+ drivers/mtd/spi-nor/gigadevice.c         |  13 +-
+ drivers/mtd/spi-nor/issi.c               |  25 +-
+ drivers/mtd/spi-nor/macronix.c           |  35 +-
+ drivers/mtd/spi-nor/micron-st.c          |  51 +-
+ drivers/mtd/spi-nor/otp.c                |  16 +-
+ drivers/mtd/spi-nor/sfdp.c               | 114 ++--
+ drivers/mtd/spi-nor/sfdp.h               |  21 +-
+ drivers/mtd/spi-nor/spansion.c           |  61 ++-
+ drivers/mtd/spi-nor/sst.c                |  16 +-
+ drivers/mtd/spi-nor/swp.c                |  58 +-
+ drivers/mtd/spi-nor/sysfs.c              |   4 +-
+ drivers/mtd/spi-nor/winbond.c            | 106 +++-
+ include/linux/mtd/spi-nor.h              |   6 +-
+ 19 files changed, 802 insertions(+), 799 deletions(-)
+---
+base-commit: 728e68a889bcf257b1e67298b12c360e5c3a13e0
+change-id: 20260529-winbond-v7-1-spi-nor-rv-addition-cea2f1f158be
+prerequisite-message-id: <20260805-winbond-v7-1-spi-nor-jv-cleanup-v5-0-87238e577794@bootlin.com>
+prerequisite-patch-id: b4c64eddd0cbb8a67a3ceb3d5a8fb7118ee8bbd3
+prerequisite-patch-id: ea4fe4b14c3613b81a14c7af7ef5b7783c8cc633
+prerequisite-patch-id: 4386d6ade3a3cd161669fec71550a9ccd96313f1
+prerequisite-patch-id: c8a25a85853dc662591c1099350a37ff842d072b
+prerequisite-patch-id: 74656376c96b96fc1b3cdc7074de6b3cb87d9ca7
+prerequisite-patch-id: 90271b7e055db3079d3897546c3480a285b740c8
+prerequisite-patch-id: 600c72d0a18dc003917f774209625f24c37d11d5
+prerequisite-patch-id: e4543f8bf8f0fc69ce6dffc1b18858cf9ba6c04c
+prerequisite-patch-id: 260a5ff56d2e5fc5583b875e0e0eca14786f23c6
+prerequisite-patch-id: 2895240e7ee5b7d3f0792e7c964be474c583a4c6
+prerequisite-patch-id: d429c7951d6bc134fb9f8990d72ff678b55e39d2
+prerequisite-patch-id: 4733bf85a0015bf832f46909518c5c3b291824ff
+prerequisite-patch-id: 876879d9ca584afcfda5ea388a39f71ba5e88847
+prerequisite-patch-id: 849e3782c7a6263bce97a359f1e8521dc2b2ec77
+prerequisite-patch-id: a4d9ceb8d99e527d9b9b184cbb1923c99e15fe1a
+prerequisite-patch-id: 8c9246e1485d06429b1caaae7a1efb7af5122723
+prerequisite-patch-id: 66880ad35a1681b724b51cb40e591270a65429ce
+prerequisite-patch-id: a750eb3c350e1a88aef8749506332663fb44e007
+prerequisite-patch-id: 6e9d4b20e02afb09defda703c74d56ea222d10c1
+prerequisite-patch-id: 808ce773f9ecb493ba9362e088453638ee93b222
+prerequisite-patch-id: 462a6751e3e9074102e8d31b23bf06140f6ee6e6
+prerequisite-patch-id: 309ee450a2ac8eb24516c6839b944bc5f36a6db6
+prerequisite-patch-id: 07059d14bb516ba19fc0a678a96b3224f91caf24
+prerequisite-patch-id: 1e221a9bbfb1fc53982beaf75bccf48baaba491f
+prerequisite-patch-id: 20ce5105adc4c7f8ebc6c779b107fd54def4f1f8
+prerequisite-patch-id: cd8fddc6d97316419b52997207a198037b41b32d
+prerequisite-patch-id: 759f747940c26df6ec85fecb4779fd54e0ea3735
+prerequisite-patch-id: eaeebc9df5221bab68a6cabc64a97e9c2608899b
 
-# cat info/kernel_mode
-inherit 
-[assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=ctrl_mon1//]
-
-Display the second mode with properties only when group is associated 
-with it?
-
-# cat info/kernel_mode
-inherit
-[assign_global_enable_per_cpu:mon=assign;group=ctrl1/mon1/]
-
-
-> 
-> When resctrl needs to support "per-group" assignment "kernel_mode" could contain
-> below with supporting documentation noting which per-resource group files will
-> appear when "assign_per_group" is selected that user space can use to manage
-> the assignments.
-> 
->     # cat info/kernel_mode
->     [inherit]
->     assign_per_group
-> 
-
-I know it is future. What could be difference between 
-assign_global_enable_per_cpu and assign_per_group?
-
-Thanks
-
-Babu
-
+Best regards,
+-- 
+Miquel Raynal <miquel.raynal@bootlin.com>
 
