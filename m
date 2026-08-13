@@ -1,110 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E32B47CA82;
-	Thu, 13 Aug 2026 12:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745C43B9922;
+	Thu, 13 Aug 2026 13:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786625482; cv=none; b=dz1VmQYkhmBVAGJA3gLbSEcNTxAPFpdzwGyXrlAtY76ODBoF9ZPLmodQXExdjcTjvJtNO8sGsnp5ftrZZzgiFpDGXmauCRHCQ1eJhj0kkmVgjGulfAVeO+RGVhSTzEFDATO7tuVy62aVXPALEnK0/a0noMQZ9Hm0hmXd7ksAYu8=
+	t=1786626962; cv=none; b=rFDEWUeFXIGFZ6WHRMfubB0bJxztEJ8l7AeRlB911gRyYGfKVgYiv1kUgI9o6M7L1S1IpArm09HnsQBqYOluxd7inpOlBmSX4ev1TS/qaZ8F626Ytw3mfvEP3Z4CsmU48K/plGGfDmJAxHQzABBwrDhzVfD7hiCYLa75Vd7ZcDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786625482; c=relaxed/simple;
-	bh=COYw+m4edrtvnTr47kSjz/5KjVYwr6GZaP9Wh8wq+Uo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lpriHP/TpTZRiJWVui0FsQ/CtsrEm0VpC3HjnmZgrGMmw/zwcP8gEE2lAaUMqKSCHt4jujiALRbuz5SJA19VxmgDC7z/b1/NkESCOjglX6nK80zKblH8ciEL6kJF1XRLmpCCVISVKSq6wgsScwIV0ce6QK8CnUt4x27zlB5UU3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfMA+qDx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786626962; c=relaxed/simple;
+	bh=JuVUoKayiiL7qIdW39da2OcshqPAHX5dg6xMBzLZVqs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=OxhuGenI1vme0Fr787/27SDPnpUqBjgpty3e9y8XJj5fzEqVyFr00jwMbEaBjsd5tTKZfwWrXVGjoVeCxVyCf92Qi4ev2b3sGKkMTl++ye4MCETwlER4hxF0LCUjWEgw4y1Vu4yViEjCRzfbcJRJfwcbqa1PZHlHllifVlJ/KBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gz59xaAc; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfMA+qDx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC51A1F000E9;
-	Thu, 13 Aug 2026 12:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786625471;
-	bh=3O+x1tQC4io2ZPnXiOKe372dKcdRSTco449QzH4pctE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IfMA+qDxwJIjxNDooNSAbWLXIu6+pzV2RL5cvh7SCcaMIMT8s8IQwtAv0bD5Z1FUi
-	 NRYNCyWgjFUWI7giKh3zg45izpsm6ZSuR4VlH/oV8Ibo5w99RFw3HfLfprhbR44llJ
-	 AEtGU2NFuETMOU1TUt/orCQrEWGUlB0YW7fVff8u4BknzFqBCiHbIJVLKRwdsj1BVF
-	 aAd9kWXUxauNEIZKUlcZGmanqYlvlXrjobRHSCw7+I8oItWWuu55wPbwMtL5kYXHiU
-	 4KC+lP7jkSk6TDNVLl1LxJXC78JAlgyqlip8cHd9IvFwkZdAR/s2cOq6b6vr6UUwoP
-	 65C+lu/cj88Ig==
-Date: Thu, 13 Aug 2026 14:50:59 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Koichiro Den <den@valinux.co.jp>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Vinod Koul <vkoul@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Damien Le Moal <dlemoal@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dmaengine@vger.kernel.org
-Subject: Re: [PATCH v7 00/10] PCI: endpoint: Add PCI DMA endpoint function
-Message-ID: <zoed4wtc4oxiyni4o5qpj3li3cmlyy5kfutp4r5g4d63u52625@j6rvbbehjgov>
-References: <20260813063757.3131865-1-den@valinux.co.jp>
- <an2uf5mXzGq1Q7cj@ryzen>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gz59xaAc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CE883408EE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1786626955; bh=CJOUmOrM8iHXXIY7dV6uC8aAvdcDOoC5XB9mKJMan54=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gz59xaAcRdVhw6JA+IdG6B1Lu1eFLylxKVmFbhY8bh12+/zIO/+/J7nFYCXWNYUWI
+	 dOOeQA+plFt5cSuCVQW+kR4Yk+JUlDV9xw4/jrRPpZ0C620V/sR5MnTKy7+t+jIaN/
+	 buZu01a03a0B7vV01EbqvmdoE2JA2kyWl2qjrQhc4WuUh/PEmHGrwIkLDG9Yepy7Ae
+	 C5csBRmGb3GU0OpWXdvP721Uo5xZU4v7D2E2m88DApUBMSwu8vQB/QMfR8AUv1iUYl
+	 udqrWewaJsnXGuJsmNum6qdSJ5kWrRzHXmu2M+aVHJ76bEnTXhro+fxmR/ylHZ7oa5
+	 RM5Vn8ZNxov4w==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CE883408EE;
+	Thu, 13 Aug 2026 13:15:54 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
+ Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein
+ <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, Onur
+ =?utf-8?Q?=C3=96zkan?=
+ <work@onurozkan.dev>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 5/5] Docs: software-requirements.rst replace optional
+ tag with footnotes
+In-Reply-To: <20260812122426.1636227-2-manuelebnerli@mailbox.org>
+References: <20260812120805.1631430-3-manuelebnerli@mailbox.org>
+ <20260812122426.1636227-2-manuelebnerli@mailbox.org>
+Date: Thu, 13 Aug 2026 07:15:54 -0600
+Message-ID: <87tsoyi2k5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <an2uf5mXzGq1Q7cj@ryzen>
+Content-Type: text/plain
 
-On Thu, Aug 13, 2026 at 01:46:07PM +0200, Niklas Cassel wrote:
-> Hello Koichiro,
-> 
-> On Thu, Aug 13, 2026 at 03:37:47PM +0900, Koichiro Den wrote:
-> > This is v7, the remaining patch set for PCI endpoint DMA.
-> > Parts 2 and 3 were merged per Frank's suggestion.
-> 
-> (snip)
-> 
-> > One open question is how to support endpoint controllers with only one
-> > PF. Keeping DMA in a separate EPF requires multi-function endpoint
-> > support. Folding it into vNTB would work on single-function
-> > controllers, but would also couple the two implementations. This series
-> > keeps the separate EPF model.
-> 
-> I see all the work you are putting in and I admire the effort.
-> 
-> This is now v7. I think it is time that we close the open question by
-> waiting for a reply from the PCI endpoint maintainers' opinion on the
-> design before continuing. (I am not a PCI endpoint maintainer.)
-> 
-> I understand that you want a common DMA abstraction, that can represent
-> different (embedded) DMA controllers on the endpoint side.
-> 
-> But if vNTB is the only consumer of this, then why not simply embed this
-> DMA abstraction in some BAR exposed by the vNTB EPF?
-> 
-> Looking at the host side driver that goes with the (v)NTB driver:
-> drivers/ntb/hw/epf/ntb_hw_epf.c
-> 
-> The BAR layouts are hard coded, and it only supports three different
-> layouts. Would it not be possible to add a fourth layout that has the
-> DMA abstraction somewhere in one of the BARs? ('BAR_DMA' ?)
-> 
-> 
-> Right now, I wonder if it is not a bit premature optimization to create a
-> DMA EPF, if vNTB will be the only (ever?) user.
-> 
+Manuel Ebner <manuelebnerli@mailbox.org> writes:
 
-Yeah, I feel the same. I haven't seen an usecase to program the DMA controller
-from the host outside of vNTB. This feature is supported mostly because it
-exists in hardware and someone wants to tick the checkbox.
+> The optional tag isn't obvious nor defined. Therefore replace with footnotes
+> like the one of Sphinx.
+>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+>  .../process/software-requirements.rst         | 22 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
 
-Though, I'm not against doing it within vNTB as Niklas suggested, but
-generalising it in the form of a new EPF driver just for the sake of a single
-driver sounds like an overkill and maintenance burden.
+Explaining the optionals seems like a fine idea.  I'm a bit less
+convinced about the mess of footnotes.
 
-Sorry for saying this in v7. I've been meaning to say it, but somehow ended up
-procrastinating too much.
+Especially since many of the entries that are *not* marked as optional
+really are.  You only need e2fsprogs if you're using ext4.  gdb only if
+you're wanting to run a debugger.  jfsutils seems truly optional, etc.
+Even GCC is optional if you're using Clang.
 
-- Mani
+I'm not sure what would be best...perhaps replace the --version field
+(which people can figure out) with an explanation of when each
+dependency would be needed?
 
--- 
-மணிவண்ணன் சதாசிவம்
+jon
