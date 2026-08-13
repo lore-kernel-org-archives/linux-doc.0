@@ -1,164 +1,157 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012025.outbound.protection.outlook.com [40.93.195.25])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88812F7F1F;
-	Thu, 13 Aug 2026 00:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786579220; cv=fail; b=glfxOb6Ccy1RI2jFppFZFzGSm2xnEKO0iLjG5ujCfZW9tfgZGFm0CeCuJkne2BAEo18BrXorMOsG0+XGSVa/SGZmFtGhnjo70fcudxYoNr9e3jwJCtMX9DtR+JxEdX+OOEND367cFZf5bjg9ZrX89sO7xBECoOh5eI4+g9a/zxM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786579220; c=relaxed/simple;
-	bh=+nAeE/sbcNafodsPBruLntqZHnFIZpIoAIRVY6W5bzc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=N9iaXWuES53feDqxUtmt1GHG7jptRtETQNfRzQwOdOMWNiJs42SKiNILlO5FN6a/Jqb6iUXjs1K38jjJNSYcg4dzQFo+WnchohklNFLfMmUbqPof4FGj4jKvX+/YoGVNNwCsagPVfQm4mnL98RI9NFx9OQaWc0d6LJ6fVyDT5sk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fRN9MYtp; arc=fail smtp.client-ip=40.93.195.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B5F171B1;
+	Thu, 13 Aug 2026 00:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786579394; cv=none; b=YxR9Xi6a5fLIpaI7uHcZHMUiciXbCnvGs1M/3EqswboKBHV5Svt0N2snbEy/W7QwTJt6DFk/Jfdo4RwL0xjd5hsmzvcHTzVlFYO1FuHa7ACOOIAKdjqFsgJMabeEilbuvTZ0XS/51vf3B9pMufv/2QeDjvFwWfy2h0FJUU6gz50=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786579394; c=relaxed/simple;
+	bh=Nw4IP/ihXtEetVmgAgrZNRKY/RwVNKbR3nM5JlJYolI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NQXJn50u2hZw1iRykUZ2tQIny+YwhCR59xoNC8MToAJpGoQFlGP1XN9xIZHrl7vx6sAORa7oRdz2JSR+0OYuNmu4FBkGT+qcRZaCkUTm+x+eR0taEP3c68Wj/63DQ7teVco7skFRKUON86OswLWcN0jN7F21tM4TD/71XmSJwt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=e9rphySl; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fRN9MYtp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mSbLw8dgqat3SI/7Urq3eSceBAmsKO+zqH2en4NyxKMww7t0ZitiN9D8I/DmtO8kLvheI2uWvszT3DsJUNCRB6xSQZUH9HAGz0g75v1uVp7IXQ2N93ldcLxV/iJ9BslkVaEbXAb7GhbXxsjBLOkV8zn/Ml23Ex/TySthOqr1Ou3l4PqEAKc4QTP4wsdFflmNwv0eMEjGFb5qijS9PTXbPuMK0ZU4CIWsvphGCm+XozSaX268DFFzbv1wAWkA/dhcrzyrwaxHKbtAWRYndfmZXe4XadDmXJstkKliPPPDlMUcC07qfWN1m8jH3RgPUFy1TQAl57HQ3AzSTpD0oLVKUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E5y/9E8wG7/OOSboQbomFqugeOn9q+A3Rk1PAdouObs=;
- b=ixN0IKwftKM0leVRQTo9Vxy3/+H+cS40ety8V94VTRnA2ouzvCiNdYfsqiEiYv9Sn8ghbVbv/7vwYtdghcg8qE0MbvCXv7LgTtQLEh05CfrpjvtmyEXim9vSngAKjmiPuuWBpUvQ+NAqga2ivqr7Z4EKoRafyZnZo0KBrNDWSMzU7ckPpx/UwTh1Jz1+6RyHERCYxOMEz0c1wouIGtNYQCZVkSiXkkFnUJaf8csUnqICcDQAGo3zEvFa+M1GaPcPYIbqgi1bRkTUweft9KTK5RsjytCtgtyFpz4BZbJ+QV1SxzcVE4rtnmP7NpFYdF9tSYebT1gpz8hRe1jz3GGuRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E5y/9E8wG7/OOSboQbomFqugeOn9q+A3Rk1PAdouObs=;
- b=fRN9MYtpbFCNbjJTBR43eza4RVhxJ+Mo3ZhJvqiLByt4yWRc7nvcsQGoaQJ7P08Fa0GCgerIRvNnoLVo/QJ0/c+zPImmotZ/8svUzcj7Ed34zlwdUMgySiZzCpHtdizgqQcDnXU8w75rFSh9AEvEKsbzH/BTanWWbLiELaEtlOLnwzmVdrzXmP0AR774d8+d4cYW3ze+XThZ0LtDoOzcKwFy5t9iEgwfZk0mMSqQkjUUXLMLcbh02SvPNHuppQ/8e9jFM17R5VjZ99YJ+zlt8R3rGX6KI5m+9l2URu/yiBHbZpKtQ3rZOlm4RyLBlHR90QpH0FM5t8Hy2aaa1KtVdA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- CY5PR12MB6321.namprd12.prod.outlook.com (2603:10b6:930:22::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.12; Thu, 13 Aug 2026 00:00:14 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%4]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 00:00:14 +0000
-Message-ID: <97d29d64-1efb-44de-b0f9-f4e4e956d454@nvidia.com>
-Date: Wed, 12 Aug 2026 17:00:12 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] gpu: nova-core: gsp: retain the GSP-RM log buffers
- after unbind
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Vladislav Zaharov <vladazaharova2018@gmail.com>, acourbot@nvidia.com,
- aliceryhl@google.com, ttabi@nvidia.com, nova-gpu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260812113752.532537-1-vladazaharova2018@gmail.com>
- <20260812113752.532537-2-vladazaharova2018@gmail.com>
- <a72edc5b-49c0-42e0-b21c-940e71909666@nvidia.com>
- <DKNCIMHM4AG6.145KTN1QZLFTD@kernel.org>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <DKNCIMHM4AG6.145KTN1QZLFTD@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0025.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::30) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="e9rphySl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=N3MHtg8IYqPOe/jtnOOj2nPC3S2Ixh8R0wm+at1M4gg=; b=e9rphySlQlTSngYZg9iCPbe7tz
+	5g9heth7UUZaHKP+ym3GXPwsnh6gYyfozfHzNEUGHPt+4UU6InJEXxhogbROqkBzUpqbjJKGCb7Uh
+	yBMMSJ/Lh497M5QfhzOhqKnKVs91vr/8Norjm6gOUoiOMoKup9tOOS2gcD97kFCr5rnXZd0TU5P+/
+	FmwByYh1dV503sgAIK51Zw6bNU+ZDONB5LcfZa30VHNELCtTIiV3aArgR+EkrktNhzMmM/TYir9c9
+	I1d/o3uNkawK6wu1TIGmeA4l0wVf/XUVX/hNYWseoKapRCZJP7Wuc9PkjjCAI5gqd3FMT9j7qA3zk
+	CFBY5wrw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wuIuP-0000000HBMq-09QO;
+	Thu, 13 Aug 2026 00:02:57 +0000
+Message-ID: <da510a49-d570-452a-9fda-84e4915573f4@infradead.org>
+Date: Wed, 12 Aug 2026 17:02:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|CY5PR12MB6321:EE_
-X-MS-Office365-Filtering-Correlation-Id: d92d1352-3f00-43f6-3396-08def8cdda09
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|11063799006|10067099003|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	lX0X77Q3geAG4It2NC3lp2CnMtLPgEtG+8JVFAzyXR0tujJTHQGsSV3xXIV//Kq7QysHpgOJ13+vDe6eti8Q8eZSBbMrR7PGQyE+aD70EaJTvS6X5oIghoIL1biw4crcrIl/XxWUK4tqRkAw96SFU4WXSrtfsn6rMKJ2HI6P6vn9NfuOWEfzShUtBSh7N23juS15N05eaqIDsSaaLqbooBwd4dBoMUoxeBnWlTMX0X+g74oqHTWn7H6DiyS74aCKOU2z1QJ9Mq1YjLACgxaQyHPjgfY1QQ3fEqEMfeBamVeOrMFZTFcv7EXcRoXVeXubBjbW8W6QJy/nh36pqMti4YRO3r+4/TGTH4bQUoXA9OuedL3pn6aVdBmG3Rl4R6DbwI0fykiUt+8KIWawi5wVDJe1E7kTKiX1PbHJc+9EVdI7OnddwGfA90qRr0y0U/x20uTfwPD6UlqyuSJAyJgGrbxiX+GdAcI7nEDSil49vOnFPdcgWrWLPNpankpHk9KujYlEvxTA0t+6/ZVKMg4HGwgA+tn3IF7dAnhuHfP5aEb10EUy+mbWRoCerXezgFuLcAfYFDQ45ZkOxlK61g5fmaJlz+IgMaYC4pMlTpun6zCxCGliWLi5jVpSiplqc+CpAKLjLiv640ItHlLtUe94Hb/Nxl2wVZC0KszcY92J0bE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(11063799006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?LzczckR6MllSSVV1K2Z6MUlRRUloQUx5R3NPejE3YkJsSnREV3E1aUlUMDd0?=
- =?utf-8?B?Wlh5bWJvMDZPU0RvRkFtcEc0K0hJN1pMQ3JDNW9leEFrcHJiYW1hcUROQ2Vo?=
- =?utf-8?B?K3dMbnRhOWhINEtJZVA4U0x6emlGN0h1SkhHRWQ0UUVCNXUvT0NZNUJ0QjRH?=
- =?utf-8?B?YW1SL0tVNGozZ0UvNXRNbmhna05ITUtMY0g2YllZY2thMjRaOUo4Y2Y2bXpF?=
- =?utf-8?B?QU5tanlPNm9QUzl1WEJTNGtqdWdkY2p6VFYraFEyYjdjdGFaNmk4U1JJR0wz?=
- =?utf-8?B?ZXBjZ0lzOWpQV29ncGx1NXhCd3pvWjhmK2pDbWFLMUhBTkJKZ2xPRkxtU1R2?=
- =?utf-8?B?bHlteG5yZjRwL05wSUpaUXllNEpQUnc4cGRvZVZKbWVpS1hLOVRKdUlYRUxJ?=
- =?utf-8?B?dElUSW05cCttZWY0R1BMMFp4R0RkNFJYUUxPcEZFdG5PSHV3Y1duaEhZWFc3?=
- =?utf-8?B?UWc4bWZOdFJtVytRYUNDVTllRHByTWxaK2FSd0hLS1QzcVJxK2l2b1h1WEZI?=
- =?utf-8?B?ZEJHTjBYdWIwWFFXd2RlTkV1SENhOHFDZzA5UmwxT0t5eFRrM0FHS09oWkZa?=
- =?utf-8?B?OXp0UC9TaHY3SzFWWTJpSFh2YU1ZTStlcVpEdnZoV3NocVZkajkyVTVuZ2JS?=
- =?utf-8?B?aE5NdVY5QVBvMUZnTGRaa2lidW02aFgvZEhZQ2VZZ2FEUmVxZmM0OEN5YXZz?=
- =?utf-8?B?QlFMN0FyOFlPWVowMTF1aFFOd1Nuekg1TUJ3OFBSckp4cHNqczN2czZ4SzhX?=
- =?utf-8?B?OHVpNUt5MkJQcWZiUlozbGlNalNyV3paNWJsbWU0aVg1d1huVm52M2FxazFX?=
- =?utf-8?B?WE1MK2hKQWt5bzYwUTNTcGNCV1pjZVpQUUM4RHBkYlRidnZQRy8rYXd6NkNS?=
- =?utf-8?B?QWhkaUlnTCt3R1p5ZFkxK1p6bm9TRkpKTWN3Y09ja1FpbSswSjJ6NjMxY2Zn?=
- =?utf-8?B?WDFMMi9aUW93eUtFSVhuRWUvZlh6NTh3dzZJQ0tjcXJxdnVubW9Md1A0Q3Mr?=
- =?utf-8?B?bERlc0JRTVcweUM5Z1poaDJaZmFYeXhiSXc1WGY0bUh0RU5tZFRSVlBTZDZH?=
- =?utf-8?B?dkpvWmowbG1TMm1mL015NUp6T3ErZm1hZTlQeEEwbG4wUVdnSW95V0FFQjNm?=
- =?utf-8?B?anQ5SUp2Z2EvbnB1OTRyNjk2TnlJUDR0LzRFdHBQMXFMWlNIOEdLN1VvYkFP?=
- =?utf-8?B?SnRZYmJaVzB1VGFqMFdDQ0JyT3lPNTJMclh0cEoraWQremlBenE1OTk2cHJG?=
- =?utf-8?B?ZllBcDNYZVYrYWs3UVA3RnlVNW0wUmo4ck5iV0tqT0wzNDRvVkRTWTQwbW5R?=
- =?utf-8?B?USs1Tkk3YXBNWndUb3p5ZVlydTYrVlJEUXJ6aHMvN2E2RFk0TWJhVndVOXBj?=
- =?utf-8?B?UW9PbHlSL3lKeTErWnBUejhGYzVIME4zT2tsWHlhTkFETVF2WkI0ckFwZkwz?=
- =?utf-8?B?d3VmbFo5cVFhdUgzRGhaeTBCYUVKR3AzV2lWWUg2Q3lTbktZSDJ6N1JFUE9m?=
- =?utf-8?B?eHZOVmE1N3pMT29adlgwY04xWnJodTJYdUkyZFBheHllZ2JlQnVpRUt4Rlhv?=
- =?utf-8?B?SzlEWmswUWhYS08vTzFPWG1FZ3ZFOVh3Vml2UnJrRVpyelVqQ09yak1zNkhR?=
- =?utf-8?B?czczWC8wTWppYTBNSzEzbG9CYTE5M3VXNUhGZGRJV2hmSWFVaXF4NUY0TCtR?=
- =?utf-8?B?MWhrbUxNRUYzOTRKLzVEZWNPajJNKy9XTEdML0JFaHpzRVFscFRuSXpSdVIv?=
- =?utf-8?B?SVNvQmY0Tmd0a3FTSWJpbnA1eVo1bTlvMEp2QlhXV0F3cUM4WGUyMVFmajRr?=
- =?utf-8?B?MEZ2aFgvN1ExMDgxbkRrWFpXVXpFQTE2cmdiM0hzcERJaXlWRHFpbGVxWmlu?=
- =?utf-8?B?WWtCRGVuSHRmTVBLcEdHN3JEeG9yM1pBeFlId05TQ2o4SGgxY3U0Z3lhdGpG?=
- =?utf-8?B?ckhBQVNDaTFPZ2d0a1orandLV3RGalFBYm8yZjRMODQrMWJLZXBsQWcvVkdD?=
- =?utf-8?B?M1JUZGI3dXF2cVRZTlFiWFJqZzE2ZEY4cWk5ZDlZMzV4N0NENUdHaEFtU0Qv?=
- =?utf-8?B?ck9KU29wemNQd293ZjhDRVdWMFIrNWI3Njd4WU9qQWd1SWRwNHBESU1qTEVr?=
- =?utf-8?B?aXMwamVpTTZINThhSlRRTWE0dnJxSTc4Yk5uOU1QcmhobDc0VmRXNzNsd21r?=
- =?utf-8?B?b2VENUNpcnNUYmlmM0JCVXNtZW1SRzZHQ1ZkWVY3ekM2WldycmZncTdCRmdD?=
- =?utf-8?B?SDRIeFhWdW56SjFncUVoQnhnRHNGQ3NLOW9BY3FMNFF6YmxVcEEzbjN6R3E4?=
- =?utf-8?B?Y3NLbklvcTBtQzNsazB3bU96bExubHR6ZTNwYWRYVldtU1c5ZGwxUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d92d1352-3f00-43f6-3396-08def8cdda09
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 00:00:14.5663
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yOMbpXC4RvM4ruD75kj+AnA6mTWSpQsojxVJjXyIlAtF5mD1edEAk4mQk9FheXBd+dgN/TzyKeudjeNycCT9Jw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6321
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] Docs: software-requirements.rst replace optional tag
+ with footnotes
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20260812120805.1631430-3-manuelebnerli@mailbox.org>
+ <20260812122426.1636227-2-manuelebnerli@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260812122426.1636227-2-manuelebnerli@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 8/12/26 4:15 PM, Danilo Krummrich wrote:
-> On Thu Aug 13, 2026 at 12:41 AM CEST, John Hubbard wrote:
->> I'd *much* rather use a kernel parameter: keep_gsp_logs, instead of
->> requiring a rebuild of the kernel. As you mention above, nouveau
->> arrived at the same conclusion, and yet even after mentioning it,
->> you went off in this other direction, but without explaining why.
-> 
-> Not sure if Vladislav read that, but it might be on us; we were both talking
-> about a Kconfig in [1] back then, but meant a module param actually. :)
 
-Yes, it's less clear from those threads, that's true. :)
 
+On 8/12/26 5:24 AM, Manuel Ebner wrote:
+> The optional tag isn't obvious nor defined. Therefore replace with footnotes
+> like the one of Sphinx.
 > 
->> If someone is debugging, all they need to do is reboot with that
->> parameter, in order to get the logs. That's a big improvement over
->> requiring a kernel rebuild.
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+>  .../process/software-requirements.rst         | 22 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
 > 
-> I think for development it doesn't make a huge difference, but a module param
-> might be easier to deal with if something unexpected happens in some less
-> controlled environment.
-> 
-> So, while I'm usually not a huge fan of module params, I do agree in this case.
-> 
-> [1] https://lore.kernel.org/all/067c6016-ce21-449e-b0d6-86252ac483a0@nvidia.com/
+> diff --git a/Documentation/process/software-requirements.rst b/Documentation/process/software-requirements.rst
+> index 5fdfcf6a0c01..a31e0ae20498 100644
+> --- a/Documentation/process/software-requirements.rst
+> +++ b/Documentation/process/software-requirements.rst
+> @@ -33,20 +33,20 @@ you probably do not need to concern yourself with pcmciautils.
+>  ====================== ===============  ========================================
+>  bash                   4.2              bash --version
+>  bc                     1.06.95          bc --version
+> -bindgen (optional)     0.71.1           bindgen --version
+> +bindgen [#f1]_         0.71.1           bindgen --version
+>  binutils               2.30             ld -v
+>  bison                  2.0              bison --version
+>  btrfs-progs            0.18             btrfs --version
+> -Clang/LLVM (optional)  17.0.1           clang --version
+> +Clang/LLVM [#f2]_      17.0.1           clang --version
+>  e2fsprogs              1.41.4           e2fsck -V
+>  flex                   2.5.35           flex --version
+>  gdb                    7.2              gdb --version
+> -GNU awk (optional)     5.1.0            gawk --version
+> +GNU awk [#f3]_         5.1.0            gawk --version
+>  GNU C                  8.1              gcc --version
+>  GNU make               4.0              make --version
+>  GNU tar                1.28             tar --version
+>  GRUB                   0.93             grub --version || grub-install --version
+> -gtags (optional)       6.6.5            gtags --version
+> +gtags [#f4]_           6.6.5            gtags --version
+>  ip-route2              6.14.0           ip -V
+>  iptables               1.4.2            iptables -V
+>  jfsutils               1.1.3            fsck.jfs -V
+> @@ -54,7 +54,7 @@ kmod                   13               kmod -V
+>  liblzma                5.8.1            lzma -V
+>  lzop                   1.04             lzop -V
+>  mcelog                 0.6              mcelog --version
+> -mkimage (optional)     2017.01          mkimage --version
+> +mkimage [#f5]_         2017.01          mkimage --version
+>  nfs-utils              1.0.5            showmount --version
+>  openssl & libcrypto    1.0.0            openssl version
+>  pahole                 1.26             pahole --version
+> @@ -63,8 +63,8 @@ PPP                    2.4.0            pppd --version
+>  procps                 3.2.0            ps --version
+>  Python                 3.9.x            python3 --version
+>  quota-tools            3.09             quota -V
+> -Rust (optional)        1.85.0           rustc --version
+> -Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+> +Rust [#f6]_            1.85.0           rustc --version
+> +Sphinx\ [#f7]_         3.4.3            sphinx-build --version
+>  squashfs-tools         4.0              mksquashfs -version
+>  udev                   081              udevadm --version
+>  util-linux             2.10o            mount --version
+> @@ -72,7 +72,13 @@ xfsprogs               2.6.0            xfs_db -V
+>  xz                     5.8.1            xz -V
+>  ====================== ===============  ========================================
+>  
+> -.. [#f1] Sphinx is needed only to build the Kernel documentation
+> +.. [#f1] bindgen is needed to generate Rust bindings
+> +.. [#f2] Clang/LLVM is an alternative to GNU C (gcc)
+> +.. [#f3] awk is needed with CONFIG_BUILTIN_MODULE_RANGES set
 
-thanks,
+or if CONFIG_SYSTEM_BLACKLIST_HASH_LIST is set.
+or if objtool is being used with ARCH=x86.
+
+> +.. [#f4] gtags is there to generate tag files through ``make gtags``
+> +.. [#f5] mkimage is used when building a Flat Image Tree (FIT)
+
+or to create a U-Boot image (ARCH=arc, ARCH=arm, or ARCH=powerpc).
+
+> +.. [#f6] Rust is only required when enabled
+> +.. [#f7] Sphinx is needed only to build the Kernel documentation
+>  
+>  Kernel compilation
+>  ******************
+
+I probably missed a few since I didn't spend lots of time on this.
+
+But I do like this approach instead of just saying (optional).
+
 -- 
-John Hubbard
+~Randy
 
