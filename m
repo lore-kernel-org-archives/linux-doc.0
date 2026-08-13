@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A0A48A8C5;
-	Thu, 13 Aug 2026 16:11:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF433644DB;
+	Thu, 13 Aug 2026 16:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786637479; cv=none; b=dJ1is3qQhgS5lpuyanS2OzfVCzsQUkD3d38tjTwrRLlBg7m1O/0dbPDSU2580+CUo5/r+x2McGSvCBQ9pEbOtymGJv8yxtozsdqVxMApUlF93Cq+TinE8NATEn34IADDQY9Q9i5K4AWUtUs9JsGcxJYgFbZkcJSOwwMstLsJzxc=
+	t=1786637585; cv=none; b=bcEDaQlq7nbdjNbn2vhwTws6nbRKfRIcdIHS0Zl66kdfxKb/xUg2Ta0UXAj1NkZqHXCIAAh5H6oIM1aMbRDS9F2wp8m5p9Jehr9/xHAe+665lRqYG40LqmoyK3hVGEqtq+QDi9d4YfiEBj4V8rUXo+VAsnLWACx4l0YWC9OkS3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786637479; c=relaxed/simple;
-	bh=5iP7CzUJV1m049+wHStjX4JH34xKMGU8R2P0Aj+GgQ4=;
+	s=arc-20240116; t=1786637585; c=relaxed/simple;
+	bh=1ff+wG+sa6Xy4dzpGLnrxgFQcPwOCiE3zi7n1C8cTPk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Lhvqntg4P7CJVjQdbbNY2t1D2blGfeX8GRMp/XMFmUhldgSFVhiC2PZoxXAHmKCFuQ1qkm8BnO+eIVMcYqMspVSQj/caEwcYqgfMhKOZofYNr1HbsCHXG1W4kVKzp6esfSEBSQYR+kHY4PbS7jC0A8eE6egYpn5Pcm5nJtLxT5Q=
+	 MIME-Version; b=VCvpibJTLkW7EB3vYDkgJByyxnJ5oeWsdaQEjXKpOrLYsbwQkIDNLdGm2UKW7PIhZtC8JLwQTM6xBb7UXuxPQ2YMT5ptt1u+4l75JkG5DMDrKIgiJjHLDOwJuZlqTXbi1h62J+cmJRCm0qewXKQoH1AyAioJKNBNW4XiImSkpQ0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowAC3i++T7H1qyZF7BQ--.23471S2;
-	Fri, 14 Aug 2026 00:11:00 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowACnffH87H1qu6l7BQ--.41802S2;
+	Fri, 14 Aug 2026 00:12:45 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Vlastimil Babka <vbabka@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -37,9 +37,9 @@ Cc: Harry Yoo <harry@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v2 1/4] mm/slub: use a track count for user metadata sizing
-Date: Fri, 14 Aug 2026 00:10:59 +0800
-Message-ID: <20260813161059.73855-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH v2 2/4] mm/slub: preserve one previous object lifetime
+Date: Fri, 14 Aug 2026 00:12:44 +0800
+Message-ID: <20260813161244.74476-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260813160825.73031-1-pengpeng@iscas.ac.cn>
 References: <20260813160825.73031-1-pengpeng@iscas.ac.cn>
@@ -50,115 +50,143 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAC3i++T7H1qyZF7BQ--.23471S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAryrKw4rWF18Jw47uFW3Wrg_yoW5CF18pF
-	W8K3WUAFWDJrW2gws5J397uryfArZakF47JrWIg34Fvr98t3W5XFWjy3yjyFW5Ar97u3Wf
-	AFs5t3WjvrnFyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9I14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:qwCowACnffH87H1qu6l7BQ--.41802S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAF4fCryrKw1kAFW5JryUAwb_yoWrtryDpF
+	W3G3W7JFWjqr47AFZxJ3ykCr1fA395A343AFWagayruFyYqw1kJFZ7tryjvFWUAryvvasr
+	Aws09r1FkF42vaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9a14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
 	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-	0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-	8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
-	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
-	x4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r
-	4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWU
-	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
-	IYCTnIWIevJa73UjIFyTuYvjTRMv31DUUUU
+	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+	628vn2kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4
+	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
+	MI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCV
+	W8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_
+	Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8Jr
+	UvcSsGvfC2KfnxnUUI43ZEXa7sRiKsUtUUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-SLAB_STORE_USER metadata consists of allocation and free tracks, but the
-object-layout calculations repeat the literal count at each offset site.
+SLAB_STORE_USER replaces the allocation track when an object is reused.  A
+later stale free can then replace the free track as well, leaving the
+report without the completed lifetime that created the stale reference.
 
-Add TRACK_NR to the existing track-item enum and use it for metadata
-initialization, original-size placement, object-extension offsets, padding
-checks and cache sizing.  This is a behavior-preserving preparation for
-extending the tracked history.
+Store one additional alloc/free pair.  Before recording a new allocation,
+copy the current pair to the previous slots only when both records exist.
+Keep the current free track intact to preserve existing SLAB_STORE_USER
+behavior during the reuse window.
+
+Print the previous pair when available.  These records are diagnostic
+history and do not infer semantic ownership.
 
 Assisted-by: Codex:gpt-5
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- mm/slub.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ mm/slub.c | 45 ++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 36 insertions(+), 9 deletions(-)
 
 diff --git a/mm/slub.c b/mm/slub.c
-index 0337e60db5ac..0653def0fe36 100644
+index 0653def0fe36..355fbffb981f 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -329,7 +329,7 @@ struct track {
+@@ -329,7 +329,13 @@ struct track {
  	unsigned long when;	/* When did the operation occur */
  };
  
--enum track_item { TRACK_ALLOC, TRACK_FREE };
-+enum track_item { TRACK_ALLOC, TRACK_FREE, TRACK_NR };
+-enum track_item { TRACK_ALLOC, TRACK_FREE, TRACK_NR };
++enum track_item {
++	TRACK_ALLOC,
++	TRACK_FREE,
++	TRACK_PREV_ALLOC,
++	TRACK_PREV_FREE,
++	TRACK_NR,
++};
  
  #ifdef SLAB_SUPPORTS_SYSFS
  static int sysfs_slab_add(struct kmem_cache *);
-@@ -753,7 +753,7 @@ static inline void set_orig_size(struct kmem_cache *s,
+@@ -1074,12 +1080,23 @@ static void set_track_update(struct kmem_cache *s, void *object,
+ 	p->when = jiffies;
+ }
+ 
+-static __always_inline void set_track(struct kmem_cache *s, void *object,
+-				      enum track_item alloc, unsigned long addr, gfp_t gfp_flags)
++static __always_inline void set_alloc_track(struct kmem_cache *s, void *object,
++					    unsigned long addr, gfp_t gfp_flags)
+ {
+ 	depot_stack_handle_t handle = set_track_prepare(gfp_flags);
++	struct track *alloc = get_track(s, object, TRACK_ALLOC);
++	struct track *free = get_track(s, object, TRACK_FREE);
++	struct track *prev_alloc;
++	struct track *prev_free;
++
++	if (alloc->addr && free->addr) {
++		prev_alloc = get_track(s, object, TRACK_PREV_ALLOC);
++		prev_free = get_track(s, object, TRACK_PREV_FREE);
++		*prev_alloc = *alloc;
++		*prev_free = *free;
++	}
+ 
+-	set_track_update(s, object, alloc, addr, handle);
++	set_track_update(s, object, TRACK_ALLOC, addr, handle);
+ }
+ 
+ static void init_tracking(struct kmem_cache *s, void *object)
+@@ -1113,12 +1130,22 @@ static void print_track(const char *s, struct track *t, unsigned long pr_time)
+ 
+ void print_tracking(struct kmem_cache *s, void *object)
+ {
++	struct track *prev_alloc;
+ 	unsigned long pr_time = jiffies;
++
+ 	if (!(s->flags & SLAB_STORE_USER))
  		return;
  
- 	p += get_info_end(s);
--	p += sizeof(struct track) * 2;
-+	p += sizeof(struct track) * TRACK_NR;
- 
- 	*(unsigned long *)p = orig_size;
+ 	print_track("Allocated", get_track(s, object, TRACK_ALLOC), pr_time);
+ 	print_track("Freed", get_track(s, object, TRACK_FREE), pr_time);
++
++	prev_alloc = get_track(s, object, TRACK_PREV_ALLOC);
++	if (!prev_alloc->addr)
++		return;
++
++	pr_err("Previous object lifetime:\n");
++	print_track("Allocated", prev_alloc, pr_time);
++	print_track("Freed", get_track(s, object, TRACK_PREV_FREE), pr_time);
  }
-@@ -769,7 +769,7 @@ static inline unsigned long get_orig_size(struct kmem_cache *s, void *object)
- 		return s->object_size;
  
- 	p += get_info_end(s);
--	p += sizeof(struct track) * 2;
-+	p += sizeof(struct track) * TRACK_NR;
+ static void print_slab_info(const struct slab *slab)
+@@ -1366,8 +1393,8 @@ check_bytes_and_report(struct kmem_cache *s, struct slab *slab,
+  *
+  * [Metadata starts at object + s->inuse]
+  *   - A. freelist pointer (if freeptr_outside_object)
+- *   - B. alloc tracking (SLAB_STORE_USER)
+- *   - C. free tracking (SLAB_STORE_USER)
++ *   - B. current alloc/free tracking (SLAB_STORE_USER)
++ *   - C. previous alloc/free tracking (SLAB_STORE_USER)
+  *   - D. original request size (SLAB_KMALLOC && SLAB_STORE_USER)
+  *   - E. KASAN metadata (if enabled)
+  *
+@@ -2024,8 +2051,8 @@ static inline void slab_pad_check(struct kmem_cache *s, struct slab *slab) {}
+ static inline int check_object(struct kmem_cache *s, struct slab *slab,
+ 			void *object, u8 val) { return 1; }
+ static inline depot_stack_handle_t set_track_prepare(gfp_t gfp_flags) { return 0; }
+-static inline void set_track(struct kmem_cache *s, void *object,
+-			     enum track_item alloc, unsigned long addr, gfp_t gfp_flags) {}
++static inline void set_alloc_track(struct kmem_cache *s, void *object,
++				   unsigned long addr, gfp_t gfp_flags) {}
+ static inline void add_full(struct kmem_cache *s, struct kmem_cache_node *n,
+ 					struct slab *slab) {}
+ static inline void remove_full(struct kmem_cache *s, struct kmem_cache_node *n,
+@@ -4493,7 +4520,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
  
- 	return *(unsigned long *)p;
- }
-@@ -887,7 +887,7 @@ static unsigned int obj_exts_offset_in_object(struct kmem_cache *s)
- 	unsigned int offset = get_info_end(s);
- 
+ success:
  	if (kmem_cache_debug_flags(s, SLAB_STORE_USER))
--		offset += sizeof(struct track) * 2;
-+		offset += sizeof(struct track) * TRACK_NR;
+-		set_track(s, object, TRACK_ALLOC, ac->caller_addr, gfpflags);
++		set_alloc_track(s, object, ac->caller_addr, gfpflags);
  
- 	if (slub_debug_orig_size(s))
- 		offset += sizeof(unsigned long);
-@@ -1090,7 +1090,7 @@ static void init_tracking(struct kmem_cache *s, void *object)
- 		return;
- 
- 	p = get_track(s, object, TRACK_ALLOC);
--	memset(p, 0, 2*sizeof(struct track));
-+	memset(p, 0, sizeof(struct track) * TRACK_NR);
+ 	return object;
  }
- 
- static void print_track(const char *s, struct track *t, unsigned long pr_time)
-@@ -1199,7 +1199,7 @@ static void print_trailer(struct kmem_cache *s, struct slab *slab, u8 *p)
- 	off = get_info_end(s);
- 
- 	if (s->flags & SLAB_STORE_USER)
--		off += 2 * sizeof(struct track);
-+		off += sizeof(struct track) * TRACK_NR;
- 
- 	if (slub_debug_orig_size(s))
- 		off += sizeof(unsigned long);
-@@ -1403,7 +1403,7 @@ static int check_pad_bytes(struct kmem_cache *s, struct slab *slab, u8 *p)
- 
- 	if (s->flags & SLAB_STORE_USER) {
- 		/* We also have user information there */
--		off += 2 * sizeof(struct track);
-+		off += sizeof(struct track) * TRACK_NR;
- 
- 		if (s->flags & SLAB_KMALLOC)
- 			off += sizeof(unsigned long);
-@@ -7895,7 +7895,7 @@ static int calculate_sizes(struct kmem_cache_args *args, struct kmem_cache *s)
- 		 * Need to store information about allocs and frees after
- 		 * the object.
- 		 */
--		size += 2 * sizeof(struct track);
-+		size += sizeof(struct track) * TRACK_NR;
- 
- 		/* Save the original kmalloc request size */
- 		if (flags & SLAB_KMALLOC)
 -- 
 2.50.1 (Apple Git-155)
 
