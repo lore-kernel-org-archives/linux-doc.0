@@ -1,509 +1,325 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994023DD525;
-	Thu, 13 Aug 2026 18:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786644854; cv=none; b=oNRiuiAYmpRj099l+NhHV0OnTAGRlNra8U/5SV68XCgdlF+qavRD1V9wRMunZXxFTyWH8JJE8gvihG3mLq3Aq8VHwHx5t33L6DwI/zLXOBAjnh0UrNKTIIngBaFWzqd1kkG9LVIR2uqQqmMYQt9SedZHDg5tj3OpQ0fKXDnLQNY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786644854; c=relaxed/simple;
-	bh=n+ixg0gEj//vEve/eI8OzR4nRqMJ7Zk3ybRGgHQdE7k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nFbhepbB43Q8f2THESKHUPypOqQs/spYdLSInBXT/FMKWZ7Ipjr9n5yC7RYWDzWlZr0vqO3XZuUZpk/ZkScjIaLKBYofxSiy2Cn2KkTmqoa9zTtqMwThSWNiSG/vbsG5VserJLeUKGKxrIF6/b1jd4BYRJzfbLLfDGhvEgYcE7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jJrVZnor; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3113515DC;
+	Thu, 13 Aug 2026 18:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786645101; cv=fail; b=M9Gy38U7KpWQqwe0NgHC/0ImQizUmrw9kIGxElfZ5TYihLsFcZ5Xo3DwFBmRpxHJV8l7aGJGObIHE84VEhPlseZHBlh5+DEEHuaXCjnJZdwuUXRaot/TZV4rrFQOAAvVLhwbHK/RcQZ1Of7R0mDtCjIVvjxgw1uLFRLe01MArO4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786645101; c=relaxed/simple;
+	bh=yY3PUXz2flAqmFloucYOxiYBhiuHgKmam+BC6Mrcj+4=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZORDuG2AbhHCU6seQq54WkFW8A3xUB66KY6agsX9Vx/E4aUOJCrdnBOtAH6xsvmOFnTcJDYxen/OQHnOIMoq8RFizWEWF0ZnuDbAeOyjidNLyIi/gqlXK/V/jUkuCsVFr1k1UPXT29E8YBrJFPOJdFE3IKoihq1Hzyn/JrnUqNo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2N9Il4X; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jJrVZnor"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09CDE1AC1;
-	Thu, 13 Aug 2026 11:14:08 -0700 (PDT)
-Received: from a081061.arm.com (unknown [10.163.171.218])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0C2773F66F;
-	Thu, 13 Aug 2026 11:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786644852; bh=n+ixg0gEj//vEve/eI8OzR4nRqMJ7Zk3ybRGgHQdE7k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jJrVZnorjSUcZxYwmrwz3LukTsVym4B5KakTFsxeWc20gf8VMfL7WoJyz08YnzGIF
-	 RH2XI5OU1XdNRG593ijuC6xT7TiDxiyrT2J8KmSNs63OCKEM8VvlW/8qyvXATBI3+z
-	 jsAd7l/rnhvfOBZhmxweTIkmhNUVa3+uxUPkYPSA=
-From: Sarthak Sharma <sarthak.sharma@arm.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <npache@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sarthak Sharma <sarthak.sharma@arm.com>
-Subject: [PATCH v7 6/6] selftests/mm: add a GUP selftest
-Date: Thu, 13 Aug 2026 23:42:30 +0530
-Message-ID: <20260813181230.483746-7-sarthak.sharma@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260813181230.483746-1-sarthak.sharma@arm.com>
-References: <20260813181230.483746-1-sarthak.sharma@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2N9Il4X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786645099; x=1818181099;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=yY3PUXz2flAqmFloucYOxiYBhiuHgKmam+BC6Mrcj+4=;
+  b=O2N9Il4X/Xnkb+49Q/jin0UQ2gLwQKNOjRR4raLonegJLDddta7OA8u6
+   YK2pDr5lpz+z/E2yUuRmfCHi5zlp/H44VefF5xhSDuagaBM/C61edT8O3
+   lnhqAZ1dNF2aRjKrYH4nQiJnxX8wX+yVaytYM39CWmD4v88sfjPrrB5Fd
+   wuYZpZ8KyC48Rs6mueil7iaJsVQRa2GpV2PCF4gH9TStcLjQjEFQOA4rn
+   g5hVLkixQyLdko5TrQErnRxg1+e6B7IgJBCAp2whOM8MMCgxoi4zaxVH8
+   olWCugkDFKwmKm2bFQkV5J36Pu57ZlWgWZPSlMBBZEmBr94+icuMLs6UK
+   Q==;
+X-CSE-ConnectionGUID: WbQ+E3C8TbmD6AHa7OT9yQ==
+X-CSE-MsgGUID: zT1aBGJGQKG143YkZK1EUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87252065"
+X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
+   d="scan'208";a="87252065"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 11:18:16 -0700
+X-CSE-ConnectionGUID: /MyLIdISQLqkWv8+Tpv/BQ==
+X-CSE-MsgGUID: R7D5CAU8TvqMNaD8mq5kMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
+   d="scan'208";a="259768877"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 11:18:16 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 13 Aug 2026 11:18:16 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Thu, 13 Aug 2026 11:18:16 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.42) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 13 Aug 2026 11:18:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oK7nwAsb0F0jP22hdXP5JPPRTbGTto4Iif9Db9StAP6iFnjYvEofqynrNOLGPuXduxGJT722ifszH/FnGudLWBdfDwLYzvmIie1+V6YlBGJGACRS21TqZHl7Ty4n23L+qtwLt/ZHnjIMv7qc2MVsjYGoV3Z4dEklHc/FPty26npQ7J4P8uLTymbxMz/Qg/JAvEesQ5y9k2fYTlx+Gwf+8htIPP3+TNJ2DdJmFtpMfuGgON0ka7W1hEuN7ygk+8/srJ0y2ymCoO0RI/D0r+S/FWyiGtWgAsdNsHD/YAyaD2J9bKuS2fymFzkKmtcc8TSGIwiuvHDTZyQ4NOX7nBipLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VLyxzUSPcelxcGSF1Nz+Ck1Ll4yOsUF35BOXqPDnJjY=;
+ b=aneD8786OiS703Dvlm0RlTDf2MfMgl63v/ouIYfnMqPEzwYhjM7m99DydIAB1UjT8nfRB7IAF5/V5XMQ6wgNxMzH4Rw9kh5um/VbMHP9D5WImwM6esOexT+N8TzlX0G8O7K9wlMEvN25Fq+3RH4PRflF4QTUp7Hr3L7rQZt2PWLQ4D3t7sdSxyQ+HC3+S706lvA8WRWdgX984MkIPjDXAZKLwPpheHQNbd2YgVF/pw0m7AmKb63dW8k/tZoDNtBTe5h8Z0g0qEIkmvwVh9C8O1c4IVdoonMkSx+DibX6UHIJ5gigHN+/8hkHRZI2ccDaUp7wFnICcRNoxIghBBtHBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by BY1PR11MB7982.namprd11.prod.outlook.com (2603:10b6:a03:530::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Thu, 13 Aug
+ 2026 18:18:10 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
+ 18:18:10 +0000
+Message-ID: <b4606050-277c-4a3f-9630-5453fa94df10@intel.com>
+Date: Thu, 13 Aug 2026 11:18:06 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v4 04/15] fs/resctrl: Introduce kernel mode (kmode)
+ data structures
+To: Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
+	<corbet@lwn.net>, <tony.luck@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <tglx@kernel.org>, <bp@alien8.de>,
+	<ben.horgan@arm.com>, <fenghuay@nvidia.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <mingo@redhat.com>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rdunlap@infradead.org>, <peterz@infradead.org>,
+	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
+	<elver@google.com>, <enelsonmoore@gmail.com>, <kuba@kernel.org>,
+	<ebiggers@kernel.org>, <lirongqing@baidu.com>, <seanjc@google.com>,
+	<nikunj@amd.com>, <xin@zytor.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<tiala@microsoft.com>, <chang.seok.bae@intel.com>, <kprateek.nayak@amd.com>,
+	<prathyushi.nangia@amd.com>, <kim.phillips@amd.com>, <naveen@kernel.org>,
+	<darwi@linutronix.de>, <elena.reshetova@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<thomas.lendacky@amd.com>, <eranian@google.com>, <peternewman@google.com>,
+	<qinyuntan@linux.alibaba.com>
+References: <cover.1783461016.git.babu.moger@amd.com>
+ <7191fbc2a339c830e7768d7fe5e7fa0f7d65da9f.1783461016.git.babu.moger@amd.com>
+ <b84e5f4a-9743-41d8-b70f-e826d5afe4fe@intel.com>
+ <5fad6e01-1052-4c1f-82f5-02c650ae1ffe@amd.com>
+ <e4c95002-ae8a-48d0-bedd-772db58b937e@intel.com>
+ <9a53023a-9d6f-434f-96d3-188a176a6cc2@amd.com>
+ <0c4e5b4e-4846-45fb-bba9-ae4127393f0a@intel.com>
+ <fdc8b919-bd3a-4794-bb3c-06ba3882e02f@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <fdc8b919-bd3a-4794-bb3c-06ba3882e02f@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR03CA0207.namprd03.prod.outlook.com
+ (2603:10b6:303:b8::32) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|BY1PR11MB7982:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74ec2018-bad2-4eaf-8e8b-08def9673b2d
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|23010399003|376014|366016|11063799006|921020|6133799003|10067099003|56012099006|4143699003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: xgNLgyjcygxGjtp3vw4audj3BoZlVODtmFXmwLZ/puTGD0g2ZOoYMNCyGRPTsmYK1oOWBm9S2sUxO/QH40dct/HTiyWQubeK+19lwgIMMe8753IKr2gsAtBoUlHpTwFtrvyorV9d+FFa113zlYDu+4AZbAVhG0Z+b41hRXNJJq1It+YnrOeqrZgV9fzvC0q1mXYj4i6WcwzG/ePwSdu3rUMbRHdt5mWFlVI1tmrpF/Rp5ZX26K6dC9/DOQHBtylFOvaBJIH6Pvqb3R1uzbzpJc3MzfFSAC0/rBg6iuNhGTgailzZ40iZ38Z1zNiAMtMVSThpjHWYnC4a6WM1mfjZGGhlmowThTDCBOT+rrhHgDXnMzoEQEzM0WnwnbioLuLWD0ExmqT2YRjdwe90go35F/luqciMMvRsLUa+ckL+YfsBKUsiYVmn2BsnmCgRnmm56aIi2Z0S/AxXpyUNdEuTqXN5ltp+09ckAbXjOs+FIdXAp2rX5uP4+dW25ZtZSxy0wSHF7P4EMOpeRzIvgLytUSDvgHuYidPpVb25rCh5SG7z2ZcokKAE1Gn9aA5dxe0JQwV+1MUI9PoU6JUc6raRckISx20u2F6x5zl7EKflLEml5UoUn6q+Tt0GoRLndNx+3veP9/mM75h1t4eI2iV6xODK79CK71sYO57/kYZiF4GnsgSutFR1NUE6aVKpIbtQLhjeucD/bDChQi666rQePQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(23010399003)(376014)(366016)(11063799006)(921020)(6133799003)(10067099003)(56012099006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SXN6WThweDluYjM5QjlOUEVnOWN3dHRyYU1TSEtHMUE5K2h2WXNjZFRLNS9n?=
+ =?utf-8?B?eStTNUZROHU4ajMvMHFObVlyS01Wdml2cjBRelZ3alNmK3BwUXBjaDU1WmFG?=
+ =?utf-8?B?NHFSckZRb01YN1ZqbGtkbnZiOGQxSFFmSmhCVThpc2NtMVpKMXF2MjQyRlFB?=
+ =?utf-8?B?SldYb3lsQVBXSktKcXB2eWFvUVFlWTBCVWJyeWdvbE1tNkE4YW9COVVFV201?=
+ =?utf-8?B?S0pha3J6Y2xnaUYrc0lMMDk4YnNkU1pYRm81ZzFqeXJNOXByaVpaRXlwMG5r?=
+ =?utf-8?B?bWxoSnQzUjJySDZWZkZLWXR0RkNXQ2RjaUtzN0V0SmQrb1JXbVRoSDhzc0Y0?=
+ =?utf-8?B?MUIvUjArdXdSbUZWeTBUVFhoOTBSVldGdlpkZ0tyU3FHYytZNGlITlhQaEZx?=
+ =?utf-8?B?NU5RczU5NllNRS9sUzJHVGZUVTA4WEdEbk9VWnZYNHlKT0hzWENjaDZKODhY?=
+ =?utf-8?B?NVMxVGhXTkZaa0RuSjJzd2dMUjJ3cENQMWdzckUyb3Flcm1XYWZ5UURjSUdi?=
+ =?utf-8?B?d0dCbXM4aWhzS3RrbzB6aC8xZzVqWDBJQXBVZVprTVFJcEkxOFR1TlZlRXAr?=
+ =?utf-8?B?cUtIc2o3enJrNTNqclJSZUFldVBUZGtMK2dKOVZQZm92aTFkdGxJVHlRYlIz?=
+ =?utf-8?B?bEJEWWVsQVF2L2Y4MGdlRThsVUQ0RnpQZTd5UjA3WDU0L2tMRk1JakFqRTBX?=
+ =?utf-8?B?S202eU5JcUNwZS9LTXZCZXZmTU8rOVpEL2REZXhvZXhsdmFhMjlJdHVERnY2?=
+ =?utf-8?B?bm5LVFJvQ0pMc0xWTUREVlhLUi8rUWMzbnlsZXJIVXZCSzBSaGlzYXFPdnpl?=
+ =?utf-8?B?R2VwVEZWK2dhczhRU1BOWW1lTGZqNVE1OFJVR3ljajNZZjFQQUdtT0N3dXN5?=
+ =?utf-8?B?aUR5Ukp6WjlFSzM0bnQ5U1hTdDNoaGVHNFV6ejhGaUNhNnl1bTF1c0o2a2Fv?=
+ =?utf-8?B?T1Z6Z3FhNTFuMlZmUlFXOXBIa2VzdkJiS0ZlbGRCNnA3S0llckplODNtVnlP?=
+ =?utf-8?B?UmRhcEVIb1FycnJEZENmL3BrWCs4WEJGTEVLVThsVGNsNnBBSGkybG5HRHI3?=
+ =?utf-8?B?OWFLZFB6dlZDL3BmNStISzlMVlZqcVluTi84L3pFRGN3YUpiTEw5TWxrQ2o4?=
+ =?utf-8?B?R25Icy8rQ01ZVlpxRytTdWlFWlUrQkZqeFptZE1UMnBadjZiNThERS9KODlr?=
+ =?utf-8?B?YldHdHhFVGtSemdTbHVXTTFOcUU3Q01qSkN3RUxsUXplUnkzL25mWlBZSkMz?=
+ =?utf-8?B?TzlmSHMzb1VYSHk1VWMwc1NtKzd5R3hVaFp0d2hBSDIyYi9JS20yTmNNTENz?=
+ =?utf-8?B?RHJvdUNDanphUnI5MWIyMVdiQnF0QVVhR1FjelMrQjlJRTZQWm51NmZaQkp0?=
+ =?utf-8?B?VjRZQnpVUW9tTEhoeFZqVGw3UzEycXNQMWdlZGd2enZETzEzUHIwT3VaUS9o?=
+ =?utf-8?B?U1M4cUxEVFE2Q3Y5dEdVQ2xSdjBVL0xBRHdBUFE4WnNjV1dUMmhrUVkyYTBR?=
+ =?utf-8?B?RVcxZy9OeHpBbENManhXMHV1NmlXRUhCZGtvK3dueThKeGxxWS9sTmpLd1py?=
+ =?utf-8?B?RG1yRnZhUHZuN2doeE1YRFNrcWxJdzFvcWZROXFMcC9MVjhwVEFZTzhFUkpW?=
+ =?utf-8?B?TmRzZWNKV0wzK2NINzRHMW13QkxaZEMyQ1d4NWcrV2dhcGJWN0FhZXF3S0M1?=
+ =?utf-8?B?bkJaZEhhVHRaYlVwRlJuR0Y5QmdGcUJhRXBFWklGU3VTOFg4bUkvYVg3T2Np?=
+ =?utf-8?B?dzVqV2VmTjJXNGdwbzY3Vm9TUTFLdDlHendlNUdqMEx2MEo1N3BQUGlmRWQr?=
+ =?utf-8?B?akJzKzBxSTBPTzhJcEdPcUdYaFpWN0xRdUVGY0V5YkFLQ0MveHJVTi9YWXoz?=
+ =?utf-8?B?T0RWL0hFV2tWdys2VUNiQ3FmOURvay82RWVvREdBbVBZU1BIdE5SRkFiajlw?=
+ =?utf-8?B?ek1SUlY3Z0p1QS8wWWF6dnlrZ2N1QnJweis4R1YxUUZoQXRBQVU3SUFDRm9x?=
+ =?utf-8?B?WmFvc0pZM21admY5dnZFQjJKQklkNTRnWDV0UXhqRDl3c1Bpa3hSS2xESFRk?=
+ =?utf-8?B?L1ROSEVId1Z1U3k5YWQzUFhYWUVhVVg4UGtxemVXYjkvcEVjN0ZrMUFsalNq?=
+ =?utf-8?B?eTNNem03QUo1WmlRcXYxeU5uVHk1dWFkYkZ5OHh6WGJxV2JPSHVCK3d4bThp?=
+ =?utf-8?B?NzN1eU9Qc0VFVTBQbXlaOE03YjM2YnFmRm0zM2tBaXpmV2s5Tm9McCtjelZo?=
+ =?utf-8?B?dkpWT3g4VElhcXh3d2NEUW10SnF2M3V4NmpVYkdhUTcwRVZ4MENLZGZ5ektL?=
+ =?utf-8?B?aGN3UFN3WUp1QXRiMm9YR3p0amhoYm1FYnlFNXhnS0FjNm45OSt5MjRKd01i?=
+ =?utf-8?Q?nweEpCAFIjfBehic=3D?=
+X-Exchange-RoutingPolicyChecked: fS0WQ6CpT4ycFnq2e1UHY21LWBsZOjEYpttErmmITMDbmk0XQM7n637q8y+rzVv+g8nJBjeygoUUvUy35HbXWvnHfmfYs5PYpykgeuqm/xPIR7LG6nRf2VE7VHZMniEbQhUPK3Cog5zArM6zHwNiwqG+Ys2g6LTjrZUTon+g7YQIWm5mupb5M8w1Kaw1zqSWvFrK2buepX8pUM045U/XW+aRJgFa/WzcdN8R7felmADkckNLP9j941WiFHmT2QVhDmdGUQtLWGoPM8l/iFfsU6In6zlEjMj34IgiuEMVvfrr+CyqdEAtVndOUQetN6JYdT7suR8WAB9afNjcc96/kQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74ec2018-bad2-4eaf-8e8b-08def9673b2d
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 18:18:10.4867
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WqBqSQ4tTKaqhV3a0t3KgCAQY5QZ9fp9GWzzShnp5124Ncl+GN1wikZjgYYfvNjwpqBVcJ2dKNS8b13onzzNookIaNdnkW1BxZ1IortAM2A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB7982
+X-OriginatorOrg: intel.com
 
-Add a new GUP selftest which uses kselftest_harness.h. Cover
-12 mapping configurations: THP enabled, THP disabled and
-HugeTLB, each across private/shared mappings and with/without
-FOLL_WRITE. Run 7 test cases for every variant: get_user_pages,
-get_user_pages_fast, pin_user_pages, pin_user_pages_fast,
-pin_user_pages_longterm, and DUMP_USER_PAGES_TEST using both
-get and pin.
+Hi Babu,
 
-Set up 128 default-sized HugeTLB pages once for the HugeTLB variants
-and derive their mapping size from the default huge-page size.
+On 8/13/26 10:12 AM, Babu Moger wrote:
+> Hi Reinette,
+> 
+> On 8/13/26 10:55, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 8/13/26 8:17 AM, Babu Moger wrote:
+>>> On 8/12/26 18:28, Reinette Chatre wrote:
+>>
+>>>> Please always keep in mind all the requirements and use cases we learned about
+>>>> during and after RFC v1 of this work.
+>>>>
+>>>> For example, we already know that "per group" assignment is something resctrl
+>>>> needs to be ready for. Consider the example in
+>>>> https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
+>>>>
+>>>> There may even be "per task" assignment in the future.
+>>>
+>>> Yes. That is correct.
+>>>
+>>>>
+>>>> Constraining this feature to PLZA will make it harder to enable the capabilities
+>>>> that we know resctrl need to support in the future.
+>>>>
+>>>> This is how we originally landed on the "global" assignment distinction
+>>>> (https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/)
+>>>> "global assignment" should be kept or replaced with a solution that continues to
+>>>> prepare resctrl for these other capabilities.
+>>>
+>>> Yes. Makes sense.
+>>>
+>>>>
+>>>> I am not able to see how resctrl could support "per group" assignment with the
+>>>> interface you propose above. If I am missing this, please highlight the solution.
+>>>>
+>>>> resctrl may need to explicitly split kernel mode from kernel mode properties. For
+>>>> example, below shows an "assign_global_enable_per_cpu" as the kernel mode, now with three
+>>>> properties:
+>>>> - "ctrl" - could be "assign" or "inherit"
+>>>> - "mon" - could be "assign" or "inherit"
+>>>> - "group" - required if "ctrl" or "mon" is set to "assign"
+>>>
+>>> ok.
+>>>
+>>>
+>>>>
+>>>>      # cat info/kernel_mode
+>>>>      [inherit]
+>>>>      assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=uninitialized
+>>>
+>>> Shouldn't this be like below when default is inherit?
+>>>
+>>> # cat info/kernel_mode
+>>> [inherit]
+>>> assign_global_enable_per_cpu
+>>>
+>>
+>> I think it will be useful to let the interface:
+>>   (a) show to user space which properties are available for each supported mode, and
+>>   (b) show user space what the default value of those properties will be if they
+>>       are not set when the associated mode is enabled.
+> 
+> The "inherit" is the default property if it is not explicitly set. Right?
 
-Sweep four nr_pages_per_call values for each test: 1, 512, 123 and
-all pages. This preserves the coverage previously provided by
-run_gup_matrix(): 12 mapping combinations x 5 GUP/PUP operations x 4
-batch sizes, for 240 ioctl calls. The two dump modes add another 96
-calls.
+"property" is different from "kernel mode"
 
-Preserve the previous sparse dump coverage with a standalone test for
-pages 0, 19 and 0x1000. In total the selftest reports 85 TAP
-cases and issues 337 ioctls.
+Each "kernel mode" can have zero or more properties.
+"inherit" is the default "kernel mode", but it could have a better/more descriptive name.
+For example, "inherit_from_user" or ...?
 
-Add the new gup binary to the selftests/mm build, run_vmtests.sh and
-MAINTAINERS. Update Documentation/core-api/pin_user_pages.rst for the
-new test.
+> 
+> # cat info/kernel_mode
+> [inherit]
+> assign_global_enable_per_cpu:ctrl=inherit;mon=inherit;group=uninitialized
+> 
+> 
+> If the intention is to display all supported values for each
+> property, then we should do so consistently for all properties. For
+> example:
 
-Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
----
- Documentation/core-api/pin_user_pages.rst |  14 +-
- MAINTAINERS                               |   1 +
- tools/testing/selftests/mm/Makefile       |   1 +
- tools/testing/selftests/mm/gup.c          | 329 ++++++++++++++++++++++
- tools/testing/selftests/mm/run_vmtests.sh |   1 +
- 5 files changed, 342 insertions(+), 4 deletions(-)
- create mode 100644 tools/testing/selftests/mm/gup.c
+No. The intention is not to display all supported values for properties of the
+different kernel modes. Just display which properties are supported and what value resctrl
+would use if the user enables that mode without providing a value for a particular
+property. There may be properties that could have values for which it will
+be difficult to provide all supported values.
 
-diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
-index c16ca163b55e..1564b16994ad 100644
---- a/Documentation/core-api/pin_user_pages.rst
-+++ b/Documentation/core-api/pin_user_pages.rst
-@@ -228,12 +228,18 @@ Unit testing
- ============
- This file::
- 
-- tools/testing/selftests/mm/gup_test.c
-+ tools/testing/selftests/mm/gup.c
- 
--has the following new calls to exercise the new pin*() wrapper functions:
-+contains the following test cases to exercise pin_user_pages*():
- 
--* PIN_FAST_BENCHMARK (./gup_test -a)
--* PIN_BASIC_TEST (./gup_test -b)
-+* pin_user_pages via PIN_BASIC_TEST
-+* pin_user_pages_fast via PIN_FAST_BENCHMARK
-+* pin_user_pages_longterm via PIN_LONGTERM_BENCHMARK
-+
-+Run with::
-+
-+  make -C tools/testing/selftests/mm
-+  ./tools/testing/selftests/mm/gup
- 
- You can monitor how many total dma-pinned pages have been acquired and released
- since the system was booted, via two new /proc/vmstat entries: ::
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ed9a8549ae31..861504fa2e31 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17032,6 +17032,7 @@ F:	mm/gup.c
- F:	mm/gup_test.c
- F:	mm/gup_test.h
- F:	tools/mm/gup_bench.c
-+F:	tools/testing/selftests/mm/gup.c
- F:	tools/testing/selftests/mm/gup_longterm.c
- 
- MEMORY MANAGEMENT - KSM (Kernel Samepage Merging)
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index 11ca9b11fef1..9c03624fd293 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -58,6 +58,7 @@ endif
- 
- TEST_GEN_FILES = cow
- TEST_GEN_FILES += compaction_test
-+TEST_GEN_FILES += gup
- TEST_GEN_FILES += gup_longterm
- TEST_GEN_FILES += hmm-tests
- TEST_GEN_FILES += hugetlb-madvise
-diff --git a/tools/testing/selftests/mm/gup.c b/tools/testing/selftests/mm/gup.c
-new file mode 100644
-index 000000000000..4c9e14dbb434
---- /dev/null
-+++ b/tools/testing/selftests/mm/gup.c
-@@ -0,0 +1,329 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define __SANE_USERSPACE_TYPES__ // Use ll64
-+#include <fcntl.h>
-+#include <errno.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <dirent.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <mm/gup_test.h>
-+#include "vm_util.h"
-+#include "kselftest_harness.h"
-+
-+#define MB (1UL << 20)
-+
-+/* Just the flags we need, copied from the kernel internals. */
-+#define FOLL_WRITE	0x01	/* check pte is writable */
-+
-+/* Page counts exercising single, THP-batch, partial, and full-mapping GUP. */
-+static const int nr_pages_list[] = { 1, 512, 123, -1 };
-+
-+#define GUP_TEST_FILE "/sys/kernel/debug/gup_test"
-+#define NR_HUGE_PAGES 128
-+
-+HUGETLB_SETUP_DEFAULT_PAGES(NR_HUGE_PAGES)
-+
-+FIXTURE(gup_test)
-+{
-+	int gup_fd;
-+	char *addr;
-+	unsigned long size;
-+};
-+
-+FIXTURE_VARIANT(gup_test)
-+{
-+	bool thp;
-+	bool hugetlb;
-+	bool write;
-+	bool shared;
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_write_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = true,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, private_read_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = false,
-+	.shared = false,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read)
-+{
-+	.thp = false,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read_thp)
-+{
-+	.thp = true,
-+	.hugetlb = false,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_write_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = true,
-+	.shared = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(gup_test, shared_read_hugetlb)
-+{
-+	.thp = false,
-+	.hugetlb = true,
-+	.write = false,
-+	.shared = true,
-+};
-+
-+FIXTURE_SETUP(gup_test)
-+{
-+	int mmap_flags = MAP_PRIVATE;
-+	int zero_fd;
-+	char *p;
-+
-+	self->size = 128 * MB;
-+
-+	if (variant->hugetlb) {
-+		unsigned long hp_size = default_huge_page_size();
-+
-+		if (!hp_size)
-+			SKIP(return, "HugeTLB not available\n");
-+
-+		if (hugetlb_free_default_pages() < NR_HUGE_PAGES)
-+			SKIP(return, "Not enough huge pages\n");
-+
-+		self->size = NR_HUGE_PAGES * hp_size;
-+		mmap_flags |= (MAP_HUGETLB | MAP_ANONYMOUS);
-+	}
-+
-+	if (variant->shared)
-+		mmap_flags = (mmap_flags & ~MAP_PRIVATE) | MAP_SHARED;
-+
-+	/* zero_fd has to be >= 0. Already checked in main() */
-+	zero_fd = open("/dev/zero", O_RDWR);
-+	ASSERT_GE(zero_fd, 0);
-+
-+	/* gup_fd has to be >= 0. Already checked in main() */
-+	self->gup_fd = open(GUP_TEST_FILE, O_RDWR);
-+	ASSERT_GE(self->gup_fd, 0);
-+
-+	self->addr = mmap(NULL, self->size, PROT_READ | PROT_WRITE,
-+			  mmap_flags, zero_fd, 0);
-+
-+	ASSERT_NE(self->addr, MAP_FAILED) {
-+		int err = errno;
-+
-+		close(zero_fd);
-+		close(self->gup_fd);
-+		TH_LOG("mmap failed: %s", strerror(err));
-+	}
-+	close(zero_fd);
-+
-+	if (variant->thp)
-+		madvise(self->addr, self->size, MADV_HUGEPAGE);
-+	else if (!variant->hugetlb)
-+		madvise(self->addr, self->size, MADV_NOHUGEPAGE);
-+
-+	for (p = self->addr; (unsigned long)p < (unsigned long)self->addr
-+			+ self->size; p += psize())
-+		p[0] = 0;
-+}
-+
-+FIXTURE_TEARDOWN(gup_test)
-+{
-+	munmap(self->addr, self->size);
-+	close(self->gup_fd);
-+}
-+
-+static void run_gup_cmd(struct __test_metadata *_metadata,
-+			 FIXTURE_DATA(gup_test) *self,
-+			 const FIXTURE_VARIANT(gup_test) *variant,
-+			 unsigned long command,
-+			 unsigned int test_flags,
-+			 unsigned int which_page)
-+{
-+	int i;
-+
-+	for (i = 0; i < (int)ARRAY_SIZE(nr_pages_list); i++) {
-+		struct gup_test gup = {
-+			.addr = (unsigned long)self->addr,
-+			.size = self->size,
-+			.nr_pages_per_call = nr_pages_list[i] < 0 ?
-+				self->size / psize() : nr_pages_list[i],
-+			.gup_flags = variant->write ? FOLL_WRITE : 0,
-+			.test_flags = test_flags,
-+			.which_pages = { which_page },
-+		};
-+
-+		TH_LOG("nr_pages_per_call=%u", gup.nr_pages_per_call);
-+		ASSERT_EQ(ioctl(self->gup_fd, command, &gup), 0);
-+	}
-+}
-+
-+TEST_F(gup_test, get_user_pages)
-+{
-+	run_gup_cmd(_metadata, self, variant, GUP_BASIC_TEST, 0, 0);
-+}
-+
-+TEST_F(gup_test, pin_user_pages)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_BASIC_TEST, 0, 0);
-+}
-+
-+TEST_F(gup_test, dump_user_pages_with_get)
-+{
-+	run_gup_cmd(_metadata, self, variant, DUMP_USER_PAGES_TEST, 0, 1);
-+}
-+
-+TEST_F(gup_test, dump_user_pages_with_pin)
-+{
-+	run_gup_cmd(_metadata, self, variant, DUMP_USER_PAGES_TEST,
-+		    GUP_TEST_FLAG_DUMP_PAGES_USE_PIN, 1);
-+}
-+
-+TEST_F(gup_test, get_user_pages_fast)
-+{
-+	run_gup_cmd(_metadata, self, variant, GUP_FAST_BENCHMARK, 0, 0);
-+}
-+
-+TEST_F(gup_test, pin_user_pages_fast)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_FAST_BENCHMARK, 0, 0);
-+}
-+
-+TEST_F(gup_test, pin_user_pages_longterm)
-+{
-+	run_gup_cmd(_metadata, self, variant, PIN_LONGTERM_BENCHMARK, 0, 0);
-+}
-+
-+TEST(dump_user_pages_sparse_indices)
-+{
-+	struct gup_test gup = { 0 };
-+	unsigned long size = 128 * MB;
-+	int zero_fd, gup_fd;
-+	char *addr, *p;
-+
-+	zero_fd = open("/dev/zero", O_RDWR);
-+	ASSERT_GE(zero_fd, 0);
-+
-+	gup_fd = open(GUP_TEST_FILE, O_RDWR);
-+	ASSERT_GE(gup_fd, 0);
-+
-+	addr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE, zero_fd, 0);
-+	close(zero_fd);
-+	ASSERT_NE(addr, MAP_FAILED);
-+
-+	madvise(addr, size, MADV_HUGEPAGE);
-+
-+	for (p = addr; (unsigned long)p < (unsigned long)addr + size;
-+	     p += psize())
-+		p[0] = 0;
-+
-+	gup.addr = (unsigned long)addr;
-+	gup.size = size;
-+	gup.nr_pages_per_call = size / psize();
-+	gup.gup_flags = FOLL_WRITE;
-+	gup.which_pages[0] = 1;
-+	gup.which_pages[1] = 20;
-+	gup.which_pages[2] = 0x1001;
-+
-+	ASSERT_EQ(ioctl(gup_fd, DUMP_USER_PAGES_TEST, &gup), 0);
-+
-+	munmap(addr, size);
-+	close(gup_fd);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int fd;
-+	char *file = "/dev/zero";
-+
-+	fd = open(file, O_RDWR);
-+	if (fd < 0) {
-+		ksft_print_header();
-+		ksft_exit_fail_msg("Unable to open %s: %s\n", file, strerror(errno));
-+	}
-+	close(fd);
-+
-+	fd = open(GUP_TEST_FILE, O_RDWR);
-+	if (fd == -1) {
-+		ksft_print_header();
-+		if (errno == EACCES)
-+			ksft_exit_skip("Please run this test as root\n");
-+		if (errno == ENOENT) {
-+			DIR *debugfs = opendir("/sys/kernel/debug");
-+
-+			if (!debugfs) {
-+				ksft_exit_skip("Mount debugfs at /sys/kernel/debug\n");
-+			} else {
-+				closedir(debugfs);
-+				ksft_exit_skip("Check CONFIG_GUP_TEST in kernel config\n");
-+			}
-+		}
-+		ksft_exit_fail_msg("Failed to open %s: %s\n", GUP_TEST_FILE, strerror(errno));
-+	}
-+	close(fd);
-+
-+	return test_harness_run(argc, argv);
-+}
-diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
-index 8f1e828e4f39..ae0ab5efabae 100755
---- a/tools/testing/selftests/mm/run_vmtests.sh
-+++ b/tools/testing/selftests/mm/run_vmtests.sh
-@@ -251,6 +251,7 @@ fi
- 
- CATEGORY="mmap" run_test ./map_fixed_noreplace
- 
-+CATEGORY="gup_test" run_test ./gup
- CATEGORY="gup_test" run_test ./gup_longterm
- 
- CATEGORY="userfaultfd" run_test ./uffd-unit-tests
--- 
-2.39.5
+For example, if "kernel_mode" contains:
+      # cat info/kernel_mode
+      [inherit]
+      assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=//
 
+Then user space knows that if they enable "assign_global_enable_per_cpu" kernel mode
+without providing any properties then all kernel work will use the default resource
+group's allocation and monitoring. If that is not what user space wants then they
+can change the value of only the properties they need to change.
+
+
+> 
+> # cat info/kernel_mode
+> [inherit]
+> assign_global_enable_per_cpu:ctrl=inherit,assign;mon=inherit,assign;group=uninitialized
+> 
+> 
+>>
+>> To (b), since the default resource group is used as default when the group
+>> is not provided it may be better to use "//" (or just "/", depending on system
+>> supporting just one of allocation or monitoring) instead of "uninitialized".
+>>
+> 
+> To me, showing the default group would be confusing. It could give
+> the impression that only the default group is associated with the
+> [inherit] mode, even when multiple resource groups exist.
+
+I do not see how default group is associated with the "inherit" mode since inherit mode
+does not have a "group" property?
+
+> 
+> 
+>>>
+>>> When the default changes to assign_global_enable_per_cpu:
+>>>
+>>> # cat info/kernel_mode
+>>> inherit [assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=ctrl_mon1//]
+>>>
+>>> Display the second mode with properties only when group is associated with it?
+>>
+>> Please consider this from user space side. The user needs to enable the mode.
+>> How will the user know which properties are available and what the defaults are?
+> 
+> To me, this may not be necessary. This interface is primarily
+> intended for administrators, who are expected to understand the
+> feature and its configuration. The documentation already covers the
+> available modes and their behavior.
+
+This can only be true for a static interface of a feature that will never gain more
+capabilities. We never have that luxury.
+
+Reinette
