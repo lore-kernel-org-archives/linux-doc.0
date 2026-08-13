@@ -1,169 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012025.outbound.protection.outlook.com [40.93.195.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F198B430CCA;
-	Wed, 12 Aug 2026 23:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786578244; cv=none; b=Y9NgFH8wpgryxT8OrKq57yYGHykV758779l9SzYn+bno64ew9gPWUdKz50vKgLV5gjVWEOn+7mjpQBgOALcAku8YfnwN/fml6qkWT7hZciKoCsmzH7OztX5QmP8t0Jgc3UHpeCa1W9vQan5tu7JeUORjO/hpKx8fO/h9CTSDxbI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786578244; c=relaxed/simple;
-	bh=bNYLaLg1bl/qgsNoelBcYQl/YypqE0xlSRIpA4YBJ6Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Q5Oqa2vtGwnSysTy03cbgi3baEEXc41C8udByUwgOIwsm6477dwRdo0NdfW+bkiiUrrOO/UQnOtCa0gyByNHNvxLpWqyCUaNMBKq4m3AGjxPe2m4YhQXO1NfFAEDn1UbhOXSMMnmO7wlgVOqgRKb5+WGCgDvxHBRRpPjNtMPiBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTRaB0u8; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88812F7F1F;
+	Thu, 13 Aug 2026 00:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786579220; cv=fail; b=glfxOb6Ccy1RI2jFppFZFzGSm2xnEKO0iLjG5ujCfZW9tfgZGFm0CeCuJkne2BAEo18BrXorMOsG0+XGSVa/SGZmFtGhnjo70fcudxYoNr9e3jwJCtMX9DtR+JxEdX+OOEND367cFZf5bjg9ZrX89sO7xBECoOh5eI4+g9a/zxM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786579220; c=relaxed/simple;
+	bh=+nAeE/sbcNafodsPBruLntqZHnFIZpIoAIRVY6W5bzc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=N9iaXWuES53feDqxUtmt1GHG7jptRtETQNfRzQwOdOMWNiJs42SKiNILlO5FN6a/Jqb6iUXjs1K38jjJNSYcg4dzQFo+WnchohklNFLfMmUbqPof4FGj4jKvX+/YoGVNNwCsagPVfQm4mnL98RI9NFx9OQaWc0d6LJ6fVyDT5sk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fRN9MYtp; arc=fail smtp.client-ip=40.93.195.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTRaB0u8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1AB31F000E9;
-	Wed, 12 Aug 2026 23:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786578242;
-	bh=qN1nHzHYc9IBamgWW2yAn7hhH8RW5Ex2R8ZyORav0sg=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=cTRaB0u8/UBL3SSClUBBNIBqRw4pXYvnih8umtI2tBUEqCiQFvlO/DDZwf4qGHBn6
-	 Jh2PrV0WgItWD1B4SRDk0Nbci6O5qzF6Alu+ocJDwubjZRttmhiuh1/MrKNAxM2E1N
-	 Fot/pGW/5Xkd47UuhaN8kv+E+ATiXVvwCDZafgPT4XsumeTmUGucmWWhbhGg35qW9g
-	 wCTK6dH4g0cHJfSDiQ70Apyk8kKZc0aclQoEEzJUvj46resDEOtmK+vyOFcJVZeYvz
-	 fx6Ph5WHG/ewhsPf+BwCB7WpCwicuBB99NDDmdIBJD+CM7E17vldh+xKbWxf7dp8Jb
-	 /ZXWkDK7V0n1g==
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fRN9MYtp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mSbLw8dgqat3SI/7Urq3eSceBAmsKO+zqH2en4NyxKMww7t0ZitiN9D8I/DmtO8kLvheI2uWvszT3DsJUNCRB6xSQZUH9HAGz0g75v1uVp7IXQ2N93ldcLxV/iJ9BslkVaEbXAb7GhbXxsjBLOkV8zn/Ml23Ex/TySthOqr1Ou3l4PqEAKc4QTP4wsdFflmNwv0eMEjGFb5qijS9PTXbPuMK0ZU4CIWsvphGCm+XozSaX268DFFzbv1wAWkA/dhcrzyrwaxHKbtAWRYndfmZXe4XadDmXJstkKliPPPDlMUcC07qfWN1m8jH3RgPUFy1TQAl57HQ3AzSTpD0oLVKUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E5y/9E8wG7/OOSboQbomFqugeOn9q+A3Rk1PAdouObs=;
+ b=ixN0IKwftKM0leVRQTo9Vxy3/+H+cS40ety8V94VTRnA2ouzvCiNdYfsqiEiYv9Sn8ghbVbv/7vwYtdghcg8qE0MbvCXv7LgTtQLEh05CfrpjvtmyEXim9vSngAKjmiPuuWBpUvQ+NAqga2ivqr7Z4EKoRafyZnZo0KBrNDWSMzU7ckPpx/UwTh1Jz1+6RyHERCYxOMEz0c1wouIGtNYQCZVkSiXkkFnUJaf8csUnqICcDQAGo3zEvFa+M1GaPcPYIbqgi1bRkTUweft9KTK5RsjytCtgtyFpz4BZbJ+QV1SxzcVE4rtnmP7NpFYdF9tSYebT1gpz8hRe1jz3GGuRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E5y/9E8wG7/OOSboQbomFqugeOn9q+A3Rk1PAdouObs=;
+ b=fRN9MYtpbFCNbjJTBR43eza4RVhxJ+Mo3ZhJvqiLByt4yWRc7nvcsQGoaQJ7P08Fa0GCgerIRvNnoLVo/QJ0/c+zPImmotZ/8svUzcj7Ed34zlwdUMgySiZzCpHtdizgqQcDnXU8w75rFSh9AEvEKsbzH/BTanWWbLiELaEtlOLnwzmVdrzXmP0AR774d8+d4cYW3ze+XThZ0LtDoOzcKwFy5t9iEgwfZk0mMSqQkjUUXLMLcbh02SvPNHuppQ/8e9jFM17R5VjZ99YJ+zlt8R3rGX6KI5m+9l2URu/yiBHbZpKtQ3rZOlm4RyLBlHR90QpH0FM5t8Hy2aaa1KtVdA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ CY5PR12MB6321.namprd12.prod.outlook.com (2603:10b6:930:22::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.315.12; Thu, 13 Aug 2026 00:00:14 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%4]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
+ 00:00:14 +0000
+Message-ID: <97d29d64-1efb-44de-b0f9-f4e4e956d454@nvidia.com>
+Date: Wed, 12 Aug 2026 17:00:12 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] gpu: nova-core: gsp: retain the GSP-RM log buffers
+ after unbind
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Vladislav Zaharov <vladazaharova2018@gmail.com>, acourbot@nvidia.com,
+ aliceryhl@google.com, ttabi@nvidia.com, nova-gpu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260812113752.532537-1-vladazaharova2018@gmail.com>
+ <20260812113752.532537-2-vladazaharova2018@gmail.com>
+ <a72edc5b-49c0-42e0-b21c-940e71909666@nvidia.com>
+ <DKNCIMHM4AG6.145KTN1QZLFTD@kernel.org>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <DKNCIMHM4AG6.145KTN1QZLFTD@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0025.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::30) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 13 Aug 2026 01:43:59 +0200
-Message-Id: <DKND4OSMTWUQ.27FAHZ1JSUKYJ@kernel.org>
-Subject: Re: [PATCH 1/2] gpu: nova-core: gsp: retain the GSP-RM log buffers
- after unbind
-Cc: <acourbot@nvidia.com>, <aliceryhl@google.com>, <ttabi@nvidia.com>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Vladislav Zaharov" <vladazaharova2018@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260812113752.532537-1-vladazaharova2018@gmail.com>
- <20260812113752.532537-2-vladazaharova2018@gmail.com>
-In-Reply-To: <20260812113752.532537-2-vladazaharova2018@gmail.com>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|CY5PR12MB6321:EE_
+X-MS-Office365-Filtering-Correlation-Id: d92d1352-3f00-43f6-3396-08def8cdda09
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|11063799006|10067099003|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	lX0X77Q3geAG4It2NC3lp2CnMtLPgEtG+8JVFAzyXR0tujJTHQGsSV3xXIV//Kq7QysHpgOJ13+vDe6eti8Q8eZSBbMrR7PGQyE+aD70EaJTvS6X5oIghoIL1biw4crcrIl/XxWUK4tqRkAw96SFU4WXSrtfsn6rMKJ2HI6P6vn9NfuOWEfzShUtBSh7N23juS15N05eaqIDsSaaLqbooBwd4dBoMUoxeBnWlTMX0X+g74oqHTWn7H6DiyS74aCKOU2z1QJ9Mq1YjLACgxaQyHPjgfY1QQ3fEqEMfeBamVeOrMFZTFcv7EXcRoXVeXubBjbW8W6QJy/nh36pqMti4YRO3r+4/TGTH4bQUoXA9OuedL3pn6aVdBmG3Rl4R6DbwI0fykiUt+8KIWawi5wVDJe1E7kTKiX1PbHJc+9EVdI7OnddwGfA90qRr0y0U/x20uTfwPD6UlqyuSJAyJgGrbxiX+GdAcI7nEDSil49vOnFPdcgWrWLPNpankpHk9KujYlEvxTA0t+6/ZVKMg4HGwgA+tn3IF7dAnhuHfP5aEb10EUy+mbWRoCerXezgFuLcAfYFDQ45ZkOxlK61g5fmaJlz+IgMaYC4pMlTpun6zCxCGliWLi5jVpSiplqc+CpAKLjLiv640ItHlLtUe94Hb/Nxl2wVZC0KszcY92J0bE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(11063799006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?LzczckR6MllSSVV1K2Z6MUlRRUloQUx5R3NPejE3YkJsSnREV3E1aUlUMDd0?=
+ =?utf-8?B?Wlh5bWJvMDZPU0RvRkFtcEc0K0hJN1pMQ3JDNW9leEFrcHJiYW1hcUROQ2Vo?=
+ =?utf-8?B?K3dMbnRhOWhINEtJZVA4U0x6emlGN0h1SkhHRWQ0UUVCNXUvT0NZNUJ0QjRH?=
+ =?utf-8?B?YW1SL0tVNGozZ0UvNXRNbmhna05ITUtMY0g2YllZY2thMjRaOUo4Y2Y2bXpF?=
+ =?utf-8?B?QU5tanlPNm9QUzl1WEJTNGtqdWdkY2p6VFYraFEyYjdjdGFaNmk4U1JJR0wz?=
+ =?utf-8?B?ZXBjZ0lzOWpQV29ncGx1NXhCd3pvWjhmK2pDbWFLMUhBTkJKZ2xPRkxtU1R2?=
+ =?utf-8?B?bHlteG5yZjRwL05wSUpaUXllNEpQUnc4cGRvZVZKbWVpS1hLOVRKdUlYRUxJ?=
+ =?utf-8?B?dElUSW05cCttZWY0R1BMMFp4R0RkNFJYUUxPcEZFdG5PSHV3Y1duaEhZWFc3?=
+ =?utf-8?B?UWc4bWZOdFJtVytRYUNDVTllRHByTWxaK2FSd0hLS1QzcVJxK2l2b1h1WEZI?=
+ =?utf-8?B?ZEJHTjBYdWIwWFFXd2RlTkV1SENhOHFDZzA5UmwxT0t5eFRrM0FHS09oWkZa?=
+ =?utf-8?B?OXp0UC9TaHY3SzFWWTJpSFh2YU1ZTStlcVpEdnZoV3NocVZkajkyVTVuZ2JS?=
+ =?utf-8?B?aE5NdVY5QVBvMUZnTGRaa2lidW02aFgvZEhZQ2VZZ2FEUmVxZmM0OEN5YXZz?=
+ =?utf-8?B?QlFMN0FyOFlPWVowMTF1aFFOd1Nuekg1TUJ3OFBSckp4cHNqczN2czZ4SzhX?=
+ =?utf-8?B?OHVpNUt5MkJQcWZiUlozbGlNalNyV3paNWJsbWU0aVg1d1huVm52M2FxazFX?=
+ =?utf-8?B?WE1MK2hKQWt5bzYwUTNTcGNCV1pjZVpQUUM4RHBkYlRidnZQRy8rYXd6NkNS?=
+ =?utf-8?B?QWhkaUlnTCt3R1p5ZFkxK1p6bm9TRkpKTWN3Y09ja1FpbSswSjJ6NjMxY2Zn?=
+ =?utf-8?B?WDFMMi9aUW93eUtFSVhuRWUvZlh6NTh3dzZJQ0tjcXJxdnVubW9Md1A0Q3Mr?=
+ =?utf-8?B?bERlc0JRTVcweUM5Z1poaDJaZmFYeXhiSXc1WGY0bUh0RU5tZFRSVlBTZDZH?=
+ =?utf-8?B?dkpvWmowbG1TMm1mL015NUp6T3ErZm1hZTlQeEEwbG4wUVdnSW95V0FFQjNm?=
+ =?utf-8?B?anQ5SUp2Z2EvbnB1OTRyNjk2TnlJUDR0LzRFdHBQMXFMWlNIOEdLN1VvYkFP?=
+ =?utf-8?B?SnRZYmJaVzB1VGFqMFdDQ0JyT3lPNTJMclh0cEoraWQremlBenE1OTk2cHJG?=
+ =?utf-8?B?ZllBcDNYZVYrYWs3UVA3RnlVNW0wUmo4ck5iV0tqT0wzNDRvVkRTWTQwbW5R?=
+ =?utf-8?B?USs1Tkk3YXBNWndUb3p5ZVlydTYrVlJEUXJ6aHMvN2E2RFk0TWJhVndVOXBj?=
+ =?utf-8?B?UW9PbHlSL3lKeTErWnBUejhGYzVIME4zT2tsWHlhTkFETVF2WkI0ckFwZkwz?=
+ =?utf-8?B?d3VmbFo5cVFhdUgzRGhaeTBCYUVKR3AzV2lWWUg2Q3lTbktZSDJ6N1JFUE9m?=
+ =?utf-8?B?eHZOVmE1N3pMT29adlgwY04xWnJodTJYdUkyZFBheHllZ2JlQnVpRUt4Rlhv?=
+ =?utf-8?B?SzlEWmswUWhYS08vTzFPWG1FZ3ZFOVh3Vml2UnJrRVpyelVqQ09yak1zNkhR?=
+ =?utf-8?B?czczWC8wTWppYTBNSzEzbG9CYTE5M3VXNUhGZGRJV2hmSWFVaXF4NUY0TCtR?=
+ =?utf-8?B?MWhrbUxNRUYzOTRKLzVEZWNPajJNKy9XTEdML0JFaHpzRVFscFRuSXpSdVIv?=
+ =?utf-8?B?SVNvQmY0Tmd0a3FTSWJpbnA1eVo1bTlvMEp2QlhXV0F3cUM4WGUyMVFmajRr?=
+ =?utf-8?B?MEZ2aFgvN1ExMDgxbkRrWFpXVXpFQTE2cmdiM0hzcERJaXlWRHFpbGVxWmlu?=
+ =?utf-8?B?WWtCRGVuSHRmTVBLcEdHN3JEeG9yM1pBeFlId05TQ2o4SGgxY3U0Z3lhdGpG?=
+ =?utf-8?B?ckhBQVNDaTFPZ2d0a1orandLV3RGalFBYm8yZjRMODQrMWJLZXBsQWcvVkdD?=
+ =?utf-8?B?M1JUZGI3dXF2cVRZTlFiWFJqZzE2ZEY4cWk5ZDlZMzV4N0NENUdHaEFtU0Qv?=
+ =?utf-8?B?ck9KU29wemNQd293ZjhDRVdWMFIrNWI3Njd4WU9qQWd1SWRwNHBESU1qTEVr?=
+ =?utf-8?B?aXMwamVpTTZINThhSlRRTWE0dnJxSTc4Yk5uOU1QcmhobDc0VmRXNzNsd21r?=
+ =?utf-8?B?b2VENUNpcnNUYmlmM0JCVXNtZW1SRzZHQ1ZkWVY3ekM2WldycmZncTdCRmdD?=
+ =?utf-8?B?SDRIeFhWdW56SjFncUVoQnhnRHNGQ3NLOW9BY3FMNFF6YmxVcEEzbjN6R3E4?=
+ =?utf-8?B?Y3NLbklvcTBtQzNsazB3bU96bExubHR6ZTNwYWRYVldtU1c5ZGwxUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d92d1352-3f00-43f6-3396-08def8cdda09
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 00:00:14.5663
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yOMbpXC4RvM4ruD75kj+AnA6mTWSpQsojxVJjXyIlAtF5mD1edEAk4mQk9FheXBd+dgN/TzyKeudjeNycCT9Jw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6321
 
-On Wed Aug 12, 2026 at 1:37 PM CEST, Vladislav Zaharov wrote:
->  struct LogBuffers {
-> +    /// Device the buffers belong to. Also names their debugfs directory=
-.
-> +    #[cfg(CONFIG_NOVA_CORE_KEEP_GSP_LOGS)]
-> +    dev: ARef<device::Device>,
->      /// Init log buffer.
->      loginit: LogBuffer,
->      /// Interrupts log buffer.
-> @@ -144,6 +167,127 @@ struct LogBuffers {
->      logrm: LogBuffer,
->  }
-> =20
-> +/// Copies of the log buffers of a GPU that is no longer around.
-> +#[cfg(CONFIG_NOVA_CORE_KEEP_GSP_LOGS)]
-> +struct RetainedLogBuffers {
-> +    /// Device the buffers came from.
-> +    dev: ARef<device::Device>,
-> +    /// Contents of the init log buffer, empty if it was never written t=
-o.
-> +    loginit: KVec<u8>,
-> +    /// Contents of the interrupts log buffer, empty if it was never wri=
-tten to.
-> +    logintr: KVec<u8>,
-> +    /// Contents of the RM log buffer, empty if it was never written to.
-> +    logrm: KVec<u8>,
+On 8/12/26 4:15 PM, Danilo Krummrich wrote:
+> On Thu Aug 13, 2026 at 12:41 AM CEST, John Hubbard wrote:
+>> I'd *much* rather use a kernel parameter: keep_gsp_logs, instead of
+>> requiring a rebuild of the kernel. As you mention above, nouveau
+>> arrived at the same conclusion, and yet even after mentioning it,
+>> you went off in this other direction, but without explaining why.
+> 
+> Not sure if Vladislav read that, but it might be on us; we were both talking
+> about a Kconfig in [1] back then, but meant a module param actually. :)
 
-I think those should use VVec.
+Yes, it's less clear from those threads, that's true. :)
 
-> +}
+> 
+>> If someone is debugging, all they need to do is reboot with that
+>> parameter, in order to get the logs. That's a big improvement over
+>> requiring a kernel rebuild.
+> 
+> I think for development it doesn't make a huge difference, but a module param
+> might be easier to deal with if something unexpected happens in some less
+> controlled environment.
+> 
+> So, while I'm usually not a huge fan of module params, I do agree in this case.
+> 
+> [1] https://lore.kernel.org/all/067c6016-ce21-449e-b0d6-86252ac483a0@nvidia.com/
 
-Let's move all the LogBuffer code into gsp/logbuffer.rs to keep gsp.rs clea=
-n.
+thanks,
+-- 
+John Hubbard
 
-> +#[cfg(CONFIG_NOVA_CORE_KEEP_GSP_LOGS)]
-> +impl LogBuffers {
-> +    /// Preserves whatever the GSP logged, so it can still be read once =
-the GPU is gone.
-> +    ///
-> +    /// The buffers are DMA allocations of the device and cannot outlive=
- it, so their contents are
-> +    /// copied into memory owned by the module and exposed through fresh=
- debugfs entries. Those
-> +    /// live until the module is unloaded.
-> +    fn retain(&self) -> Result {
-> +        let logs =3D RetainedLogBuffers {
-> +            dev: self.dev.clone(),
-> +            loginit: self.loginit.snapshot()?,
-> +            logintr: self.logintr.snapshot()?,
-> +            logrm: self.logrm.snapshot()?,
-> +        };
-> +
-> +        if logs.loginit.is_empty() && logs.logintr.is_empty() && logs.lo=
-grm.is_empty() {
-> +            return Ok(());
-> +        }
-> +
-> +        let mut retained =3D crate::RETAINED_LOGS.lock();
-> +
-> +        // An earlier run of the same device may have left a copy behind=
-. Its directory carries
-> +        // the name about to be used again, and its logs are the older o=
-nes, so drop it first.
-> +        retained
-> +            .gpus
-> +            .retain(|gpu| gpu.dev.name() !=3D self.dev.name());
-> +
-> +        let dir =3D match retained.dir.clone() {
-> +            Some(dir) =3D> dir,
-> +            None =3D> {
-> +                #[allow(static_mut_refs)]
-> +                // SAFETY: `DEBUGFS_ROOT` is set before driver registrat=
-ion and cleared after
-> +                // driver unregistration. This runs while a device is st=
-ill bound, or on the way
-> +                // out of a failed probe, so the driver is registered an=
-d nothing can be modifying
-> +                // it.
-> +                let root: &debugfs::Dir =3D unsafe { crate::DEBUGFS_ROOT=
-.as_ref() }.ok_or(ENODEV)?;
-
-I think we can avoid this additional unsafe if we just create the retained =
-dir
-right away in module_init().
-
-> +
-> +                let dir =3D root.subdir(c"retained");
-> +                retained.dir =3D Some(dir.clone());
-> +
-> +                dir
-> +            }
-> +        };
-> +
-> +        let scope =3D KBox::pin_init(
-> +            dir.scope(logs, self.dev.name(), |logs, dir| {
-> +                if !logs.loginit.is_empty() {
-> +                    dir.read_binary_file(c"loginit", &logs.loginit);
-> +                }
-> +                if !logs.logintr.is_empty() {
-> +                    dir.read_binary_file(c"logintr", &logs.logintr);
-> +                }
-> +                if !logs.logrm.is_empty() {
-> +                    dir.read_binary_file(c"logrm", &logs.logrm);
-> +                }
-> +            }),
-> +            GFP_KERNEL,
-> +        )?;
-> +
-> +        retained.gpus.push(scope, GFP_KERNEL)?;
-> +
-> +        dev_info!(
-
-dev_dbg!() should be good enough.
-
-> +            self.dev,
-> +            "GSP-RM log buffers retained until the module is unloaded\n"
-> +        );
-> +
-> +        Ok(())
-> +    }
