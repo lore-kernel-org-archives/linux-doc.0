@@ -1,102 +1,178 @@
-Received: from mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0C036605D
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 15:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81945374A02
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 15:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786636005; cv=none; b=Mg/vaQStxMQvXTRAxpEu1QPmoqeoKuSlV0AFSncRMevy917FsCCuuy37I4/rH/YyIWx1iSkNqCIYD6iFKpi27vITx5NIRTx8rsSFkFgrP90odS1cHL0x5QokMl7Ih1JrYtnluE+L711YLu2eYdhDpvwp9U6GlE0+j7r7ybdcwkE=
+	t=1786636521; cv=none; b=dy5xdIUKHTa3IPvPKZLjLcdG55tS1pKDiEJRDYfkLqUNgUOXTqkyMMHqv3zpoB9RoqxJQ8Hf8g2f0ALDh+QKQlEN4p0xhpb0sgoU4AJnMxalSPQBjtupbncEeH1sPMNXG1N4C/Y2YN0sYxwKlDv0Xx2bMs/XXil4MGKdN13lZ8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786636005; c=relaxed/simple;
-	bh=3AaV6yDkVusNOtmocxOEL86UfXP8VtFp7I2nK4osGp0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJ+fL5wtotmh04X6Pox15t7GJtkYRbkBr+txVkSDKJ2PJZsXQd1BIDLUjy4AlxWPNEg/+NO2mdc5L1LP0NFWXsYskvF+pvi9aGijt3pBtMJn4rk89es3ewrknf82Y4X+RbehaMjO276USxoKyO02TSHl0ytEOgfCJ+K4DxurjTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=EIIvph4b; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1786636521; c=relaxed/simple;
+	bh=KjvD0FYtibQe8DPB7+KaUJitoRzCPmTVRI1ZUYReScM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=kaql/oiyDxsgBrlFEsOPqn7JhEe0qgMXAxc1xcYg5RHcJ7suZFRE8y0zJkAUdDtuHbNQIySqIaHWeQu/ZW4BiMMnnUMeyn/x/DxFPXaUcWJsFhQg/Xgfq9rAVP3Fl5v6+IsSkiwDiKd7fa2dwjI0E3uN4EVgwC6cUqyKnthayYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HcNZfx6v; arc=none smtp.client-ip=209.85.216.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="EIIvph4b"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=3AaV6yDkVusNOtmocxOEL86UfXP8VtFp7I2nK4osGp0=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786635997; v=1; x=1787240797;
- b=EIIvph4b/6O6b63CJUdqT7xKP6IyGjVdmv/3t7uYzAu5h/X48jY+fbt1OQMrwL6JWa/NghsC
- uhUqoNsQDWUrekBaSKMGqmZe6ra/WYlKUX7j0i9Fq1pfkq6EsDOHZSVICKOaXxzFwSAZbiLf/Jv
- WKBNdqFEYMcaQVMk3xh/+Q1LT9wB60r3XkrfmYgmLr46lKOvGWI5Qfh1gmu4a4E1xAmYjW76i4i
- hsvNubGAY9TbHAb/57zYJUfzoJKDF6zrOFB5OjikUdbkBGFOFfyvFXRVDyy/9N9RopQhWTfOsIQ
- d2D8ab9oo2E/y+flvlXtfUnc2k88D1EbZDfKeToL0geZg==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from localhost (117.176.242.163)
-	by smtp.migadu.com with ESMTPS id 0ec660fca0567486;
-	Thu, 13 Aug 2026 15:46:37 +0000
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 13 Aug 2026 23:46:34 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen Miao <chenmiao.ku@gmail.com>
-Cc: corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
-	skhan@linuxfoundation.org, dzm91@hust.edu.cn, mchehab@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] docs/zh_CN: how-to: document case-sensitive APFS
- setup
-Message-ID: <an3m2mN3Wq-OSGKv@wyuan.org>
-References: <20260812182327.53694-1-chenmiao.ku@gmail.com>
- <20260812182327.53694-7-chenmiao.ku@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HcNZfx6v"
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38ea32e57e2so1614433a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 08:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786636515; x=1787241315; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=NWd+efJbNRhMQi4tFuFF6oho5IzekPVE1UiVHSpD6zk=;
+        b=HcNZfx6vLVC9BEDC8pXA2hcsv1hw1DlxI8tikd0v/Vo9/mx/VfXMUd77bFcBKP9q+m
+         dfHxlzZ6qZ2Nck2sQdH4hN+EwNi3vHEUVF4XsK9AEDm9hlSToITJ56mHWxhopD39isb+
+         RawwSZUj7w65cysAh7SIYq+F2CSM9zJqI97fIchtzcIpG9ezxz9PDQ4Ta266yFHlU3Tg
+         JVetymie04n7vw2meuI/o9dyatD/0p0LHk9FMUi4RN8eLF5rsdLyvncUg3xuxqJK1V7I
+         ecuUQ1PGX5WvTDb3Y7wFXusJ/cJYPgf0CHQmqBF6xDq5r27hlL9DEgnfeGudigfVR9mH
+         SmYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786636515; x=1787241315;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NWd+efJbNRhMQi4tFuFF6oho5IzekPVE1UiVHSpD6zk=;
+        b=JDMlS2plMA7eA+LjNa7c+jvkoyGHzbS3+6B5XTPo8wYvRs5MNNyL1Gt3RSw/Ho+if1
+         Tl8M1iHxGW+iVzYCqNjP0DHsU5tgtQTs0Q/QxmbcsGkn5+Q26tPnDkg2hsSJhqUcfQzO
+         s5a8z9IcTGMc1TLw/tVM3ODK7YhfMJT4A3pDhbM1yZ3PkzkZd6/OUxcJlfljY/YkLwEn
+         ARp/wCtuVcp6BbEqTT1Pph1S0IJdCxUj3ErI9PlcSu0mHcYAOubm0AkYXId4RThNzc+g
+         F8aobsy28OmzP+FO57zVCGG/EVTgBuDFOlQPPmmng2e7CzAs0TCDbcLBCexuN7xf9oW4
+         rx8A==
+X-Forwarded-Encrypted: i=1; AHgh+RouAPgqSFUo/gbrnPfk7W/skHV1kZUc6WXP2xDVUsKzoLnj9LA6xmlkqWpNnfItkaVshh3cf0FkqjU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxV/Tl3e9kl24VunZX0+5s/r01dkZciVGiyVjR/SGE2NNiJOb34
+	4Ih3sY1huRcnLu02U7jPlo4YtMqD0kLwQGQ+cZo98LQeWm8mhTlQWt/tqzvKIsi1BbxP37dRe7d
+	ZRQoFpw==
+X-Received: from pjbmr22.prod.google.com ([2002:a17:90b:2396:b0:381:1d7f:b8db])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4a8d:b0:36a:8240:2477
+ with SMTP id 98e67ed59e1d1-3931e31a6f4mr7349226a91.19.1786636514937; Thu, 13
+ Aug 2026 08:55:14 -0700 (PDT)
+Date: Thu, 13 Aug 2026 08:55:14 -0700
+In-Reply-To: <1ec08cd8-3072-4753-ad5e-cd34956647f8@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260812182327.53694-7-chenmiao.ku@gmail.com>
+Mime-Version: 1.0
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-12-2fc18ee6d3ba@google.com> <1ec08cd8-3072-4753-ad5e-cd34956647f8@linux.intel.com>
+Message-ID: <an3o4h-E8mj6CUaM@google.com>
+Subject: Re: [PATCH v10 12/41] KVM: guest_memfd: Call arch make_shared
+ callback for to-shared conversion
+From: Sean Christopherson <seanjc@google.com>
+To: Binbin Wu <binbin.wu@linux.intel.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev, Fuad Tabba <fuad.tabba@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 13, 2026 at 02:23:23AM +0800, Chen Miao wrote:
-> The APFS volume used by macOS is case-insensitive by default, while the
-> kernel tree contains file names that differ only in case. Document the
-> diskutil commands needed to identify the APFS container and add a
-> case-sensitive volume before cloning the tree.
-> 
-> Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
+On Thu, Aug 13, 2026, Binbin Wu wrote:
+> On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
+> > +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
+> > +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, p=
+goff_t end)
+> > +{
+> > +	struct folio_batch fbatch;
+> > +	pgoff_t next =3D start;
+> > +	int i;
+> > +
+> > +	folio_batch_init(&fbatch);
+> > +	while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch))=
+ {
+> > +		for (i =3D 0; i < folio_batch_count(&fbatch); ++i) {
+> > +			struct folio *folio =3D fbatch.folios[i];
+> > +			pgoff_t start_index, end_index;
+> > +			kvm_pfn_t start_pfn;
+> > +			kvm_pfn_t nr_pages;
+> > +
+> > +			start_index =3D max(start, folio->index);
+> > +			end_index =3D min(end, folio_next_index(folio));
+> > +			/*
+> > +			 * end_index is either in folio or points to
+> > +			 * the first page of the next folio. Hence,
+> > +			 * all pages in range [start_index, end_index)
+> > +			 * are contiguous.
+> > +			 */
+> > +			start_pfn =3D folio_file_pfn(folio, start_index);
+> > +			nr_pages =3D end_index - start_index;
+> > +
+> > +			kvm_arch_gmem_make_shared(start_pfn, nr_pages);
+> > +		}
+> > +
+> > +		folio_batch_release(&fbatch);
+> > +		cond_resched();
+> > +	}
+> > +}
+> > +#else
+> > +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, p=
+goff_t end) {}
+> > +#endif
+> > +
+> >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t star=
+t,
+> >  				     size_t nr_pages, uint64_t attrs,
+> >  				     pgoff_t *err_index)
+> > @@ -599,7 +636,12 @@ static int __kvm_gmem_set_attributes(struct inode =
+*inode, pgoff_t start,
+> > =20
+> >  	filter =3D to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
+> >  	kvm_gmem_invalidate_start(inode, start, end, filter);
+> > +
+> > +	if (!to_private)
+> > +		kvm_gmem_make_shared(inode, start, end);
+>=20
+> If both KVM_AMD_SEV and KVM_INTEL_TDX are enabled, HAVE_KVM_ARCH_GMEM_CON=
+VERT
+> will be enabled and the logic in kvm_gmem_make_shared() introduces unnece=
+ssary
+> overhead for TDX.
+> Not sure about CSPs, but in a standard distribution kernel, it's very lik=
+ely
+> that both are enabled, right=EF=BC=9F
 
-Acked-by: Weijie Yuan <wy@wyuan.org>
+Yep.
 
-> ---
->  Documentation/translations/zh_CN/how-to.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-> index 9ec2384e1..e1d3d2b8b 100644
-> --- a/Documentation/translations/zh_CN/how-to.rst
-> +++ b/Documentation/translations/zh_CN/how-to.rst
-> @@ -102,6 +102,14 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
->  开头的命令。**请注意**，最新版本 Sphinx 的文档编译速度有极大提升，强烈建议
->  您通过 pip/pypi 安装最新版本 Sphinx。
->  
-> +macOS 默认使用不区分文件名大小写的 APFS 卷，而内核源码树中存在仅大小写
-> +不同的文件。在执行 ``git clone`` 前，可在现有 APFS 容器中创建一个额外的大小写
-> +敏感卷（先用 ``diskutil apfs list`` 找到容器标识符，并将下面的 ``diskX`` 替换为该标识符）::
-> +
-> +	diskutil apfs addVolume diskX APFSX Linux
-> +
-> +然后将内核源码克隆到新卷中。
-> +
->  如果您处于一个多用户环境中，为了避免对其他人造成影响，建议您配置单用户
->  sphinx 虚拟环境，即只需要执行::
+> Should kvm_gmem_make_shared() do some optimization or the overhead is rel=
+ative
+> small in the conversion to shared path so that the optimization is not wo=
+rth it?
 
-Nit: In the subsequent content of this article, all commands use "make",
-not "gmake". So, is it necessary to mention the content of the patch
-[5/6] here? (Use gmake from Homebrew instead of make from Apple), like a
-cross-reference, to lead the macOS users to get more detailed info.
-
-But I'm fine with currunt wordings. Because if you try to use 'make',
-you'll get 
-
-  Makefile:15: *** GNU Make >= 4.0 is required. Your Make version is 3.81.  Stop.
-
-then, you should realize that Homebrew had told you that you should run
-'gmake' instead of 'make'.
-
-Thanks.
+I assume it's relatively small, but it's probably a good idea to gets numbe=
+rs so
+that we can make a semi-informed decision.  E.g. if processing 1GiB work of=
+ 4KiB
+folios is <100 cycles, I think we generally don't care.  But if it's more l=
+ike
+tens of microseconds, then I think we do care enough to optimize the walkin=
+g for
+TDX.
