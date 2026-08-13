@@ -1,223 +1,157 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013019.outbound.protection.outlook.com [40.93.201.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5585944CACA
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 09:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFBD4446F7;
+	Thu, 13 Aug 2026 09:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786613979; cv=pass; b=bb7XE2PWB9ojHaS+ch79gq9p1dpVmk7wAhYFomP4GnuN3IVD7Jg0FMZIArlk13UVMcPcauSzNgE8AC6pYLV/KMFV0h2uiVfV1C7iVbJ6mqeZcyKcu667X3rFYRObQ3sULVCQDIW/vg+3b9e7DeBZ/dUl4QCcumhzSkUKfw5TUDY=
+	t=1786613987; cv=fail; b=Y7vyApXcXa/iObbggIbYHUJS8cNMD7XjA8j4hPdbtaNDUBpweCznYKF0n0iucU2+AtZQ6k0bAegyAw77CPVuXCeTkqxO4efVNutvTS+auXQ+WeKtyYMyqfweERHXJZW9WwH/v12PLkskETfnDng93DCadYAMgapPWr5KthaSTkY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786613979; c=relaxed/simple;
-	bh=Hi+iT7wr5AKIrlbJr6hsodmWWKtvkqpa+TDF/208NC4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uU49hw4Y+JadaIBKsZAf+Od75BdT3fqysvLsItjsHwfOq50H+gU8V12K7vAJnsr59Vps/vpryOGlsnRzIQq15qPvOhyYxtqWTBa4rM/D3oxUZnHkXGxZf8PP+EQYKqO09NoQy7wZ8WdWdxJ+lPwMyQd3FTKyYASqqe87LnWxBww=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jABgIZ5W; arc=pass smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786613987; c=relaxed/simple;
+	bh=D6akNIkGUSbIux95uT0+SHTdNmxuWzKOciXJolnT2rw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cLEntMmw1bjgulTw3vKt9EbdMjfDRy2V1GZaFKMaxXye5/Tt9B9qO/FojNwtTUinSGu1lcxMnQnTZLgdB/T0GlwFaMu6KBeahdFMNfBcajSPGKgUvOqSdJftgmSppxpSSU9PObCkKhLPq0AIW2cgTh0e0xqQh4wtw0xpx9ZZnx0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MxxkMP2O; arc=fail smtp.client-ip=40.93.201.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jABgIZ5W"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-934a3d14924so190187285a.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 02:39:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786613977; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aVCR/40FAq9h/MKyhFPG31Bhzki6rsxP8qE/N8tP+JAHCdMOWgI5eWZefSOk8xRY/3
-         SEXwApyQKItdMvznL3hWsmTR92+Qt2wlmJJO95qcoM4wJSwiT0B9YsP8ffI467noo+MN
-         C50t3JrpG8ZyStdyYcBx1epj4SQOwRhKaLSq1ADhHHW7pCPo5YaxUd4ET2I8lshsa9gA
-         w4sqPZO5/yxUmuhf5NIiUhRK4mGldroTEv1HO0Z+tye6ACEgEubXBv6ISszcBjWqJdeL
-         /E8e9tIbKhSlWV/Dz1UnmFEOOPu75AS/qlv6mlf75yMLxa4xL9oAk2LjjK5xXD63nxE/
-         zWmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bG1UDM2V8Sn1y8qQxTMsi/U5GSyN9th5GWi21+Vtx1c=;
-        fh=qzFueOJGQcOqXhUJ5UJd3623Y1WEJQzvK6biTG5jo2A=;
-        b=m+NXW7KJ2uWXj3wq3psdtCjTdab1M7hkQ6daP9P15Q7Rb0ifcKacA7lPvmb6N1ktO1
-         M/TjeaHar5K3jUkEwTLEU6b/TcHFdRjB1fn9pAEyizTNyErKB0KGQ6Ut5bCsrbCiSTYz
-         EeR7TuEhdq4RIYZpFn0BM6HDJCqYJkOvIpqp/bvr6vS9gHAokYasdbir5M4Dr7VRWem2
-         WS/NTlLRMTcI//iIlUZyNnlYfbZQwHMTQ0FB7WPbZjAGWRoocgIVC40QE+Cpm2hWmrlY
-         Yz9fvV9IrL0rdXahmpq7YxjsWq1KZV6ztCBKwhVMyywRdXIIsQpbSajLE9lptp0oNzYM
-         WHYA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786613977; x=1787218777; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bG1UDM2V8Sn1y8qQxTMsi/U5GSyN9th5GWi21+Vtx1c=;
-        b=jABgIZ5WEvN8OgVVcEtfk8AD+uNEEaLvHVoD7veubUOnNP14ef0ljA6qlkpu8EHt//
-         NYbks4yW5NTmYjGVXe2YfjT3YglwRYbGtKDipMkllZs6CA9iuQb7ZKHiELyY2AWs3l+d
-         FSDVcSw0EdyDkQ3Fetvn28dKmGYNMvBLeJAxSR1CcdmUhwm6Yaf0TNnYdVGP7Mhxu1Ij
-         eGZaGOZAFzqVSNSk0Sguc6Ujxic0yWIBBv79/PTJ2K6pg5i4xO1zIGUpMwgfdmqZGxof
-         XPu38hYC9ieF2YntHhPY3zxJsrn963pOwfuAZgt1YvJPJVTIm4DwppWRT0eMW1SvMjYZ
-         YCHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786613977; x=1787218777;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bG1UDM2V8Sn1y8qQxTMsi/U5GSyN9th5GWi21+Vtx1c=;
-        b=JzFu5h0gYVnCEJZmC/PxpieKTQRiSC3c5fVlxQ1EtOOgNNhHBZZbYgtBBDIqA6lv8M
-         JqblGMC/zYfFwE/4jVE2ciY+NKcWa4nQLXg47JitLTQjYNwlmqFHTmfaLVqBblymUqYk
-         L56brZb2juXcmb3da0Aenc+ZeOEXSTcPdJWQ4NSP2cWin+TISV3yAzVA9h1i0h1CXMEj
-         PaMM2nH6I5nCPsFbEL68Y7Qr/1IHVKT5uB1IiXf9rlr0ccq5Re6ZNJVvTLBfHOJn65/q
-         OizbBPVWTAVLHeoCjSGNuaUOFwYfpPZiV4iHAcoqJ3wv2lrtoPu3umFWxMew9iUv6t4x
-         qDFg==
-X-Forwarded-Encrypted: i=1; AHgh+RpW3y3nSb1s743Wc3VS/Oxb5GJ5Zz2nP2NCxzMflK1xb7M1f+5Xt1zJydRCEX30BUILVcY1jDKkisY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUxt2321T321K9s6p8mYTs1wb7IRjo+YdVVhQFbsoExJeai8KR
-	iXo7F8h7T8ddlf7t1gK2yD8CP7njed5FqWZA/cZkgL9cUJS4vHFwDk1nU5luYpcfCZ7j4Qc0cTe
-	f1YpZZR7hMXbWHOmLdlc4Lcpa4h7+2lQaT3RzzCGUCvIF
-X-Gm-Gg: AR+sD108DrtSEGvnZRKnHJCHIts9vQtFVJOgpr8/cS7gnFTecJ1NPeKjkU0ZIGHbrKl
-	9fL018w82cAQpKEDkw8FEfQPNEIYZi14zEXkwX1RaF+2d3Ub2vdBpQcx124dCLc05+/7WIgMBPL
-	jid7DfSBEf41kk7Y3JDohf3cbdHwDtZny6Cm8TQn4EC3Pf6MlBgJAZNk+r35iqWvKcvNkAPxAIm
-	A+o133JmWZZJTz/P32NDJ4mXG2YA8Q8MMqtj9am+QuBZbukchUP4l3jK3tspME3nkCN8UVVmlfr
-	rNTPUOBWIkQJZZRy+Z6TbPGdsthoxZFrJBoM8F1OL1tERg==
-X-Received: by 2002:a05:620a:262a:b0:92e:e7e0:ea45 with SMTP id
- af79cd13be357-936bfb0cb09mr435039285a.47.1786613977106; Thu, 13 Aug 2026
- 02:39:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MxxkMP2O"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A+sChqy/lF6vzK0MNnoUngYcLS07TbIZqPH5MAadZW0adCU4WNbDMdYV9x9mhtniv913rxVk6uQ3xAjZ+PIkXgHkJ1fz0Y2l1H13ieuQgiaoIcCgacD1vjfyXnObpxR+PaA2h8PHfOZF7N9Sx6+8ITN5mLu1WlEpMIh+dEIMq2RmkO0LICTPU6i+tkkZkmSqTjoQcAWjs/lDwsox74wYZdpeRju3gvAAQUFTbprTq+0pIoxtKfeYQtCcz4H3JZmZf9XxD+rlN16a183dlWnzSnRGYE097V7yZJ8pb8dFigb3RDu2lHHnwsaKUEynOtrYXBu4Zh92KF6mZoZPLYMxvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B5BXKy+4XmUzqCsdpysaudrRS4yHrdCktJ3+pEDxt+0=;
+ b=uu+A5HGw+p25RHjy5FNyd95lrkRO8NoDCPXfpdJW/943Md0ngPGSBN6FQRrceocKLRMTgeVzHPYZpLhdIZvYn9teqSygQSK6tA1ZRfanFjw+sf27N8E2Rdd1Q4G3XPbp0Z6kgLWZwbPXm+IOMC5tigYitUvP5TCc8lERm8/3HIAbRoi26z9Zv4Ri3digfDLTqfMhDpK53FLvAWiYUfgMg3m93jehGVMBVJ7kWZp8+eKTmqTRFD+wZqsn4b961aUy4ByyjynoZTCLdemgOpBIQvy+HMODZlN9NlxtWh67OIj7l6QNuEyvH/uabO09c2xkN4undhF14zggVnrlxHNocA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=shazbot.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B5BXKy+4XmUzqCsdpysaudrRS4yHrdCktJ3+pEDxt+0=;
+ b=MxxkMP2OkqyjRQNlt1TI1kDGO0xcCzIoWlBXhrmFNg/py2myGr5nbI+Nu902/4ce65gvTCK4s58stF1O4evNjAHo76S6VPdkQ6V3nvfn2SBHER7STmzUL1l4/SAp5p3B+PM3wEBa7+AsS/vxeHf1+jf/R1EDSn9w3ALqhazIBPSwL/Q65RPy9q63QzEcmdMy2GdZsbmUPCVE9JkSe0jocPjxEG0NyYioGcXHSTtD5m7kE/QOTTAIBuch7qjP1m+U6hDqhNmBDIZCcvw6yNcopJ5ZzE3pw11pF2Nwe8OPUgb7izBOuZZVapR0PLvNDWWNZJvV93AW1d6ZXUrshJy8OQ==
+Received: from BN9PR03CA0875.namprd03.prod.outlook.com (2603:10b6:408:13c::10)
+ by IA0PR12MB8838.namprd12.prod.outlook.com (2603:10b6:208:483::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Thu, 13 Aug
+ 2026 09:39:40 +0000
+Received: from BN1PEPF00004687.namprd05.prod.outlook.com
+ (2603:10b6:408:13c:cafe::41) by BN9PR03CA0875.outlook.office365.com
+ (2603:10b6:408:13c::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.12 via Frontend Transport; Thu,
+ 13 Aug 2026 09:39:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN1PEPF00004687.mail.protection.outlook.com (10.167.243.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.3 via Frontend Transport; Thu, 13 Aug 2026 09:39:40 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 13 Aug
+ 2026 02:39:24 -0700
+Received: from nvidia-4028GR-scsim.nvidia.com (10.126.230.37) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Thu, 13 Aug 2026 02:39:15 -0700
+From: <mhonap@nvidia.com>
+To: <alex@shazbot.org>, <jgg@ziepe.ca>, <ankita@nvidia.com>,
+	<jic23@kernel.org>, <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
+	<smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+	<dave@stgolabs.net>, <alison.schofield@intel.com>,
+	<vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
+	<yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
+	<bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
+	<gustavoars@kernel.org>
+CC: <cjia@nvidia.com>, <kjaju@nvidia.com>, <vsethi@nvidia.com>,
+	<zhiw@nvidia.com>, <mhonap@nvidia.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>
+Subject: [PATCH v4 14/27] vfio: Add CXL region type for the HDM region
+Date: Thu, 13 Aug 2026 15:06:18 +0530
+Message-ID: <20260813093631.2288172-15-mhonap@nvidia.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260813093631.2288172-1-mhonap@nvidia.com>
+References: <20260813093631.2288172-1-mhonap@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260812182327.53694-1-chenmiao.ku@gmail.com> <20260812182327.53694-5-chenmiao.ku@gmail.com>
- <20260812222309.19b39299@foz.lan>
-In-Reply-To: <20260812222309.19b39299@foz.lan>
-From: Chen Miao <chenmiao.ku@gmail.com>
-Date: Thu, 13 Aug 2026 17:38:59 +0800
-X-Gm-Features: AUfX_mxpJis7lpCZgr0sUjzcpILx8NOjE0_JLnHZXOA2sXIMG3nFeKV6efxTFbQ
-Message-ID: <CAKxVwgeqTn=hAaGWOh1TBSqz122fPOQ=SrYQubAtpXPCiF9b=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] docs: sphinx-build-wrapper: prefer gmake
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev, 
-	skhan@linuxfoundation.org, dzm91@hust.edu.cn, mchehab@kernel.org, 
-	wy@wyuan.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004687:EE_|IA0PR12MB8838:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf6f523e-152d-4c22-a590-08def91ecc79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700016|23010399003|82310400026|7416014|376014|56012099006|11063799006|10067099003|6133799003|18002099003|22082099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	KjPBzQ3M/NVPltqDhYf31n9tK21BnFbBD+24zXwgITd7SoQ1pomC1x1H3sei7xjOXLlzfNqadutr/wnK8bjkjoeAln/at/8xBkAZhAYWg+k3QURVSqWol4ZzP4imSnw9YprlghSXSMeYP6qJITq3PRjN6qsIb8g+WDHRiUDita4U2fNT1iFppqP2WnIuguiRq556nkZwUfsRkkJzO2aqoz+UVGLZ6lTzAy8KC3Fh0fezjZlt1UiJALGximlqosJ8CfUZ1ur6dUoJ2kTE6z2BgFYGV8rVWHnjrYzaRu8GLPFHLP/1eNl/ywa4HMHKSL77HSeeGt7TKTZQe/1hL0Jm65slevaxwhBw11v4sLl2m4OgnD6aXf0XHFxCeKW1WPw9EvJEK+dyKE8yp84sYHyYBVycGRzCzISyERpaDntWhYXOy9xdOsZzTD5YM6URxl8X9hbFIEbub0uw70vhn6SRr9N3dM1PAbkKlVzD10xstZfknaZwLiwPkl0DLCfEBNkt95FojEXPwtWVQxYgCm7g/rOS1UbJshrD/uvFdje3wbkoPkkZ225RY6XBu7G/O2y+d5zh5f8ezPax1B3pntm+9uhLhklClWwk5uRua/6ubR//aklqpHkZRLdd464kTwTV7X6/t2VZW0NRHTVZySe9XaB+sgcpxJQZheRvvtu/kmNojdOB6K3U2FXnG/rW97eQm+G6XwolD3wOlSiteql0ZLLSTMRfDu9i/B6UWAIbWdFPufxwUkR7SciroOgH+hC8
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(23010399003)(82310400026)(7416014)(376014)(56012099006)(11063799006)(10067099003)(6133799003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	5ROnWtlZcV/GIAgd7CDgRz+MzLgQ0lXYCc+yYZ2dVIDUac5I7V3328qxcxVDWvZtZ2QVAcfFqRyGdK1/nBQCXHCcesGPNOkiwOoMwS1YLt/BxfBPn37iD0ziHcGPq5jPpx6wymEK4cNXCPpVwruydjvKfLWaRx8wX+h/dl7X2DHXdzvA35apH6Gp1PoeYxs+h6Wc+YD/UVLY6JZckZLcTtdNi6pLW/II+m/H9ld8nmNvTCPpDl4XfjDKCRdhix1/x8eSHCKFpTeGd2lW7P+pclOH13FzeXVe4BGRy3fN+Er5g+yYh4ElmrjfDbiW6uBMw12nqI5OJXxK8RRw2v3/hSIAtf90hTDYHKh6WAHbcKQXgrwGckKzxa51rSsUuufdWKqINhUKKhuiWHEP3rt8LWvatN9CG0DGWUGL6nrVSiVDqHXQ4T1SmDVXcXgGyLw2
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 09:39:40.6271
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf6f523e-152d-4c22-a590-08def91ecc79
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00004687.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8838
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =E4=BA=8E2026=E5=B9=B48=
-=E6=9C=8813=E6=97=A5=E5=91=A8=E5=9B=9B 04:23=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, 13 Aug 2026 02:23:21 +0800
-> Chen Miao <chenmiao.ku@gmail.com> wrote:
->
-> > Homebrew installs GNU Make as gmake on macOS, but the Sphinx build
-> > wrapper invokes make directly when generating Info and Rust
-> > documentation. This can make the dependency check succeed while those
-> > documentation targets still use an incompatible make implementation.
-> >
-> > Honor MAKE when it names a compatible GNU Make. Otherwise check gmake a=
-nd
-> > then make, selecting the first GNU Make 4.0 or newer. Use the common kd=
-oc
-> > detector to keep this selection consistent with sphinx-pre-install.
-> >
-> > Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
-> > ---
-> >  tools/docs/sphinx-build-wrapper | 23 ++++++++++++++++-------
-> >  1 file changed, 16 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-=
-wrapper
-> > index 1bb962202..15c7e0938 100755
-> > --- a/tools/docs/sphinx-build-wrapper
-> > +++ b/tools/docs/sphinx-build-wrapper
-> > @@ -63,6 +63,7 @@ SRC_DIR =3D os.path.dirname(os.path.realpath(__file__=
-))
-> >  sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
-> >
-> >  from kdoc.python_version import PythonVersion
-> > +from kdoc.gmake_detect import find_gmake
-> >  from kdoc.latex_fonts import LatexFontChecker
-> >  from jobserver import JobserverExec         # pylint: disable=3DC0413,=
-C0411,E0401
-> >
-> > @@ -97,6 +98,14 @@ class SphinxBuilder:
-> >      with the Kernel.
-> >      """
-> >
-> > +    def get_make(self):
-> > +        """Select the first GNU Make 4.0 or newer in preference order.=
-"""
-> > +        make =3D find_gmake(self.env.get("MAKE"))
-> > +        if make:
-> > +            return make
-> > +
-> > +        sys.exit("GNU Make 4.0 or newer is required")
-> > +
-> >      def get_path(self, path, use_cwd=3DFalse, abs_path=3DFalse):
-> >          """
-> >          Ancillary routine to handle patches the right way, as shell do=
-es.
-> > @@ -569,9 +578,10 @@ class SphinxBuilder:
-> >          texinfo directory.
-> >          """
-> >
-> > +        make =3D self.get_make()
-> >          for output_dir in output_dirs:
-> >              try:
-> > -                subprocess.run(["make", "info"], cwd=3Doutput_dir, che=
-ck=3DTrue)
-> > +                subprocess.run([make, "info"], cwd=3Doutput_dir, check=
-=3DTrue)
-> >              except subprocess.CalledProcessError as e:
-> >                  sys.exit(f"Error generating info docs: {e}")
-> >
-> > @@ -787,12 +797,11 @@ class SphinxBuilder:
-> >
-> >          if rustdoc and target in ["htmldocs", "epubdocs"]:
-> >              print("Building rust docs")
-> > -            if "MAKE" in self.env:
-> > -                cmd =3D [self.env["MAKE"]]
-> > -            else:
-> > -                cmd =3D ["make", "LLVM=3D1"]
-> > -
-> > -            cmd +=3D [ "rustdoc"]
-> > +            make =3D self.get_make()
-> > +            cmd =3D [make]
-> > +            if make !=3D self.env.get("MAKE"):
-> > +                cmd.append("LLVM=3D1")
->
-> Did you test bulding documentation with CONFIG_RUST=3Dy?
->
-> AFAIKT, building rust docs only work with LLVM, as GCC doesn't build
-> Rust code yet(*). When the time comes and gcc starts supporting it,
-> the code would likely need to check for gcc version as well.
->
-> (*) There is an experimental Rust support on gcc under development.
->     No idea about its current status. According with:
->
->         https://docs.kernel.org/rust/quick-start.html
->
->     "GCC also works for some configurations, but it is
->      very experimental".
->
-> Thanks,
-> Mauro
->
-Yes, I tested it on macOS with CONFIG_RUST=3Dy using:
+From: Manish Honap <mhonap@nvidia.com>
 
-    make LLVM=3D1 SPHINXDIRS=3Drust htmldocs
+A CXL Type-2 device exposes its HDM memory to the guest as a dedicated
+VFIO region rather than a PCI BAR. Add a CXL region type and a memory
+sub-type for it; vfio-cxl registers the window under these so userspace
+can discover and map it.
 
-The Rust documentation path was selected and the wrapper invoked rustdoc wi=
-th
-the LLVM build configuration.
+Signed-off-by: Manish Honap <mhonap@nvidia.com>
+---
+ include/uapi/linux/vfio.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-The initial build exposed a few macOS host-build portability issues unrelat=
-ed
-to this series, including the lack of ELF headers required by host tools an=
-d
-GNU sed-specific uses in Rust-related build rules. After fixing those issue=
-s
-locally, the rustdoc build and the Sphinx HTML documentation build complete=
-d
-successfully.
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index 5de618a3a5ee..540e62312671 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -345,6 +345,7 @@ struct vfio_region_info_cap_type {
+ #define VFIO_REGION_TYPE_GFX                    (1)
+ #define VFIO_REGION_TYPE_CCW			(2)
+ #define VFIO_REGION_TYPE_MIGRATION_DEPRECATED   (3)
++#define VFIO_REGION_TYPE_CXL			(4)
+ 
+ /* sub-types for VFIO_REGION_TYPE_PCI_* */
+ 
+@@ -373,6 +374,10 @@ struct vfio_region_info_cap_type {
+ /* sub-types for VFIO_REGION_TYPE_GFX */
+ #define VFIO_REGION_SUBTYPE_GFX_EDID            (1)
+ 
++/* sub-types for VFIO_REGION_TYPE_CXL */
++/* CXL.mem HDM region of a Type-2 device, mmap-able */
++#define VFIO_REGION_SUBTYPE_CXL_MEM		(1)
++
+ /**
+  * struct vfio_region_gfx_edid - EDID region layout.
+  *
+-- 
+2.25.1
 
-Those fixes are outside the scope of this series. If macOS host-build suppo=
-rt
-is useful, I can send them as a separate patch series.
-
-Thanks,
-Chen Miao
