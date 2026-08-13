@@ -1,296 +1,96 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011025.outbound.protection.outlook.com [52.101.52.25])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955822DB7B8;
-	Thu, 13 Aug 2026 02:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786587294; cv=fail; b=RofOGKrBHbYMrFS7t9jXsnc9Lia684qc+SdYuVCHToW+uhGglkrYGJ/T8jxTScB3PzbPRzyUasdJjBtZOm9I5FnKzN7dBB3IAU6gMgK+u23JX0SClFME8RxYslAwAU5Fmb0iA6gjAn4SY8N0oNCyO9EyUzkkk6PEYJAJeO9QBxw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786587294; c=relaxed/simple;
-	bh=8Kae5pocnkaT65y8TcMPt7RVKk1RQeozCi16mvbv6Ns=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=nEvWohOQoaM+/UAkbIx3UIybe3RcJiygWx4c24f/sjDI9QDNdPqA1r8RkuqVpNoYR1VEMoIhZPOav05EjqrHukuravXp3dYQe4tWGaOHGZmAWzOvzU2RAB883kTFysUYqyXvzqqBlpjxUsOH3G7dv54/kgMEro93r28GwjtTRho=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=bA7Fb6g4; arc=fail smtp.client-ip=52.101.52.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD57C344D9B
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 03:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786592635; cv=none; b=hGiHmlPwwwQkRAl8X14ppbiX+u7PixPhPNcQkNf8LBY4H/dyi6akKOmeLMlZ9SmetaWgGbqULnFduc0vuS9lbq3EfIr89QG4q9/ScHEPS5QFI5X4Ydn2ROBfV9sibZl9R36Ey9KlRzppkfkUzwbIMf1/7Gwsz0lGqptyWOO4L34=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786592635; c=relaxed/simple;
+	bh=FFyspYGe+IPz1uaDWQQDBbyeOVHZy7zwYyOnK2Xos7c=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VYc/Wp1FzCUBvK7mqJU66ofBqpwJJpHYdEMGTNBewS44hEXLpKQ4JPaFSfPKsmRvldPDhnrtF7yzJnVommfgs3yYobSix/EXrP5eCHcCuxBCsgSdqlAHwVbw63TRBlsP3y3jEFiwxaaDclwacd3CptqZq97mCRe1E06nJOKm3wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=YAoNliWy; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="bA7Fb6g4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NtY0Sa5BOr/WkJtixQVQpK/LFodxVCZQ5bKhhfygPUe5Mxf4/dCRwP1e/kUwoouVWbjpknXIA7qdT8Uvbbx4HWrhKiiyrtuyx4/pl77NqcS+PapHEwIW9UjxvCUybSzCpoKuXWymdTJB9Ob6X9NrQcdzuOjA+UE/24jUzIfyj7mm3CXX4k9F8jNsiEOMrugyMTrX7/YzXH1tMnml0+LAlYYTCZZKSb08dS9IDdzQjvdyoJGLEDE7dLHfUg9MD5F13G2yJ8VuW2Vh/L2Np8dKhrCeIeXMqI97nIuXoNyjNPVe+ixi/RANCfgc/U8j0T/EWWUCbsIr9gmmwZkYBiU7cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9PyQB4wCg5aCi5g77Qi+BZ314qUF0gDklMTrqzEnfZU=;
- b=cCqxyOH3k7vpoU08Yd3ewFcBpVeoj7Vwbdq6XW35mCOkTD5vc820idPJkUOftunmbgrB7AQ2rgemLD0gjC/1uHWmXcm7mep9hKRNJUk0hVC3DseeN5CE/Kuv14scFg9ujcCsa74BHVp3qcX/mD5TUhg2KGMNOAzud3g73LDgFlKxAZRe1+6qZFAnoG6fTvWPnAC4mgIDN33Fmhim8/TUtyCEuQmPJkQqbQjRHRMAXBMo5qQJVwiEVXXxde9YwBprNPt6fKXDuSRTT9LEMCS3bVmExosG5m68BmgUmWfPwCnO4HALgrB/mignMJkVv1sLMXHvkUW4e2Obg9lCnQxOqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9PyQB4wCg5aCi5g77Qi+BZ314qUF0gDklMTrqzEnfZU=;
- b=bA7Fb6g49bTblcxc5mGfFu13P1Plwi/gUjAHutOTENiuIB3FVxDyI0RUYKmUYkJbbX6z3pbEgcJIkzhRRa3RwGFyim+dU2tiyCmhHRXFuAfvdLDqVTleiM2Hv6id9jhMQWFTi5y+YZCQtkjm1hZproXG2qkcPlcJ50CjQRQvJWWxnHKOFnWaNddJJQgXZCCRZnBBwy5W/QcbazZ1ADysJXIjniiUsrPLBS4nf8afkjYjPYT2LAryyqsmrnsBEpcCIy2tjHShAAbyAXV7v6yJCemFKvrnQ5iuY8myR0taVAvgOn+HDN0IY3sUyt9qz/tXAwXUXyy05mwhfjS4lolC/w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by IA1PR12MB6210.namprd12.prod.outlook.com (2603:10b6:208:3e6::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Thu, 13 Aug
- 2026 02:14:47 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 02:14:47 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Aug 2026 22:14:46 -0400
-Message-Id: <DKNGC4X9V83D.268DMWU0WIILG@nvidia.com>
-Subject: Re: [PATCH v4 5/7] mm/khugepaged: Refactor the PTE state checks
- into a helper
-Cc: "Andrew Morton" <akpm@linux-foundation.org>, "Lorenzo Stoakes"
- <ljs@kernel.org>, "Baolin Wang" <baolin.wang@linux.alibaba.com>, "Liam R.
- Howlett" <liam@infradead.org>, "Ryan Roberts" <ryan.roberts@arm.com>, "Dev
- Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>, "Lance Yang"
- <lance.yang@linux.dev>, "Usama Arif" <usama.arif@linux.dev>, "Vlastimil
- Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "Nico Pache (Red Hat)"
- <nico.pache@linux.dev>, <linux-mm@kvack.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.21.0
-References: <20260811-khugepaged_pte_refactor-v4-0-ddac39d61c4a@linux.dev>
- <20260811-khugepaged_pte_refactor-v4-5-ddac39d61c4a@linux.dev>
- <f1371b4d-6e98-4699-8c1b-7612f6d70f02@kernel.org>
- <753cb38f-66b4-4bd0-8b53-7480efe30ec3@kernel.org>
-In-Reply-To: <753cb38f-66b4-4bd0-8b53-7480efe30ec3@kernel.org>
-X-ClientProxiedBy: MN2PR20CA0060.namprd20.prod.outlook.com
- (2603:10b6:208:235::29) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="YAoNliWy"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Q0WP5JdN/AIOBXWgf2qmOXq0QvCni7ganoj4mKN1n6I=;
+	b=YAoNliWyelz+I/5Dr28odx6ViEOy7u5pUiMvI06de7lcxVV6oOrV0NhvYlT4dzmwRe1qMJ4/B
+	qMugIzjQzMSZRzr2luYhY5OU/xUmtmvmWWrzJJOElES7rESHZMmW2WE2uUoZcN9+ytJMkM9a6pL
+	cpml4UW/fn7R9dkZgCt28h0=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hL9tG6LQfzmVX8;
+	Thu, 13 Aug 2026 11:33:10 +0800 (CST)
+Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
+	by mail.maildlp.com (Postfix) with ESMTPS id 67CBE402AB;
+	Thu, 13 Aug 2026 11:43:48 +0800 (CST)
+Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
+ (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 13 Aug
+ 2026 11:43:47 +0800
+From: Jinjiang Tu <tujinjiang@huawei.com>
+To: <akpm@linux-foundation.org>, <david@kernel.org>, <xu.xin16@zte.com.cn>,
+	<chengming.zhou@linux.dev>, <ljs@kernel.org>, <liam@infradead.org>,
+	<vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
+	<mhocko@suse.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+	<shr@devkernel.io>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
+CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
+	<tujinjiang@huawei.com>
+Subject: [PATCH v2 1/2] docs: ksm: fix typos in sysfs knob names
+Date: Thu, 13 Aug 2026 11:17:21 +0800
+Message-ID: <20260813031722.569983-2-tujinjiang@huawei.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260813031722.569983-1-tujinjiang@huawei.com>
+References: <20260813031722.569983-1-tujinjiang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|IA1PR12MB6210:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf5022a7-6f18-46e1-2a08-08def8e0a5f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|18002099003|22082099003|56012099006|4143699003|11063799006|6133799003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	JpZQQuMIspgtaJj65geJAc2VMcQGr2QPR2Rzfnl6+OKgUA6zQxjgNebuLjVOgXGK+JlwiaB9y+wjKPOL4vIiKUmi/jgG7Nvl/ISTB4oeRDYb3mh/92Hbf93HFS9FYx54azJnmBiFRBxuGDA46C8aKBa2zeqE6hNr7IVgm+FKbXjNFW7/efkdwTGDOQBiu1ZZK/KkeMXJMWmKhFzLqc4ojJCklSWmXmiowsOqAuW0rTG5R5pcW4ggrN8E3KaqbYkMWojK5einopSi6hzHYUBiXdYoihN3y5c4MVsKfszuyqNo4DM4lcIT8Ptf2JLGq7F/ggF2r4VAbkvCENqTTeZSzJvk9OeBHOvP1DtFq+I057iLT0pOrxgVlppEKJesYrKOE1C2c9DX4PhIVCdM2+3p0X2EHIVi3qQFylTAJVr8AUdSwT34k0zK5ngy6Mnf3D/zU+HCGHxkvy1ZlwDyGj+O1ZUuSp2lS+N/fFb8XRXXquXoWf8IFT7pubCpeKTzWYWudgpdfcU7iqh8R8Vlh1cr/DrOhVOdefQBHVCCOPg69ujKto/jV8oampo5p471BvebyKlPIoADbO13JJkKVafaBwDKFZOUalsZyBzkbAX2lUA5Jn//jXDyTQjdp4pyMWLwkOyAy+lei1cJl01WQXblwzQBpWcXyQ6txOIXU2DtaXM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(6133799003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?clhvVG1VNDgwZXkvTHcwbExvUzJrTjh3MDlITnRHSlloQjZ0TG9JWHkzWkRF?=
- =?utf-8?B?Wm05bklMdStYcnA3WWJ5UFovaEk3RWhUZGlDa1FTUmYvR2dFR1RxN1R3U1Zi?=
- =?utf-8?B?RzByN3FKWjBlOVYxZUZwQ0haSC9iNnRlN3pEdWFyNGx1Qy8rZU80VGFOODN0?=
- =?utf-8?B?S1FiczNXdDFpT1o1OEVFSVZwSkJoU2pXa2hlZmZYcjBJN0diZ2E2Y0tiNFRW?=
- =?utf-8?B?MkZaY1VYMmR3ZzlWR3YzY0NzaWdOMHZIZ3NLN1RCclBhbS90TTlWaWJaWUFW?=
- =?utf-8?B?Tlc3WWdYTFBaM3FOZTJ2SkdsdlBCZzhLUlFyTjRDTXprV2hXY1ZPL0RvZmhQ?=
- =?utf-8?B?SHhXNEo1c3V6eWJFWmRENTZ6cGtrdkJpRGJyQzFPckoyRG44VGNma256Ymdw?=
- =?utf-8?B?S0xnMFdaWmcrcnY2UGJ5NDNPbGF1a3dXMmFJVnp0M0lod0pSdE4zck9XUFRL?=
- =?utf-8?B?NDZoY0hrNHBZVU1hcHovaG5uNzZGd3h6c2liM04vSGhEcFNmdkRCQkhBcUhZ?=
- =?utf-8?B?Vy92dENFWmxoVGp1aEQxckx0Qy9FMHZSandFNTM1NHQ4SlAwWUdOQ0p6Z1F6?=
- =?utf-8?B?c21rUWZWRHNHS3M2SmduTmVmSWgrdStGWUVtT1JlQkRjZ2JXTUo1dk5tTnFF?=
- =?utf-8?B?em9QY1BiZm1FVDgyTEM2V0g0WTdsUEQ5ZzlvVWxHQzdBZENiRllJbS9xRVlN?=
- =?utf-8?B?ZExGSVBVbkRVaVFvZGpGci9OYjQ1RGZpQWwra2M0NDQ0RElUNTBKNXhQMGlQ?=
- =?utf-8?B?ZCtJZHlzMmJTc2RBbENTQTY2dkJ4cCtUSHBVRVFuVEdnM2podnhqK0dKR3o2?=
- =?utf-8?B?N3Rhcy9FNDk4YmxGOHU2ZXBNTVlKclpTd2RvSnYrVXhHMGVtQ0JXYlJrNkVF?=
- =?utf-8?B?emlvYmdXMnZNOG1rdVBtQXg4eUxDWFhpRXQ3OGFUdHp6UHNMaDB4RVVBN3Zr?=
- =?utf-8?B?a3FxWWpGNmsyaEtnQXlwZkhKM3VteWZLOWJqSUd3TWpwOXlzb1VzUzNJRVNT?=
- =?utf-8?B?bVhzMjVFU01BQVJCNC80MENsVXJzVlV5UGRkT0svNG5OM0VBdGYxSUZEUDFW?=
- =?utf-8?B?cEcxM05UTWNyYzgzNVBTT2dVT2hma1R0K0MyN1VucWJQY3Y3dWtidDU5OTZ2?=
- =?utf-8?B?YUFtdHFYMlZNdkVJdzBvdXl3Q1RnRHR1WlNyRzVhUkZhTWJGQzJRUnpVVlZF?=
- =?utf-8?B?WlF3YnNub0wrcGY2UE9meDdMQWhjbHVNMm1hSnRSeFRTajhMeCtCU3VRTXFp?=
- =?utf-8?B?M0NwbktuZGZlNTBqOGx3aTRwd1pqK1QvenB1dUdEYXYrUFpYVlhDamtkL25Z?=
- =?utf-8?B?ZDlNYkg4QVY5SHZTbDE2cTFGSFJLM3ZXZWNmVG5HZFV2Ymc2MVIzL0RFYVJ0?=
- =?utf-8?B?aGhQQitqb2hPSFI0VjJhbXI3V2JqRUovZHNqR0UrM2R1eHZRVjVIUHZzeUpM?=
- =?utf-8?B?T21CSk93UjhPTW4wZjFjV2NVTk1seEFoQmZGNFlkM3FLdmdWVUwxT2FjNVl6?=
- =?utf-8?B?cnlBeUI0RC9CZGZPN05xdm1sblpUL3lobW8wWFdCRlEzRjlsSUlmbFJEd2M1?=
- =?utf-8?B?QTZtNWRSUlY0dnRSRDZLVERZUkl3cXFOc25ZcUluREVQZmFkSk5HNG81RlJS?=
- =?utf-8?B?dVRzbUM3U245ZXEzK3VIS2VGRHlPbkU1cmRXU0QrdUJlM09kTVAzRk1hd01x?=
- =?utf-8?B?ZjdYY3ltWEFWVGpKMC9pajcrMC9IblJEWlZud2cycW8xM3FxK3U0VWx2azJH?=
- =?utf-8?B?UW8vd0dQVHhlcXZ6T3NJRjVNVGYxRm5QemI3OGtGeEFKcGNOZ1JzNFlZRTdC?=
- =?utf-8?B?UHNUdytia1VtOUxmdDJLNXpuRGZQeEJDZ3VPWE5HUVFxSS9UR1JDbzdGakRP?=
- =?utf-8?B?NXVNWHpGREJaa3J4ci9HMy9pcVZXVTRkODdhRGNoU3hESUt4R0oxL0dtNzRK?=
- =?utf-8?B?eUM0WlRiVmVnUXltUGJQL3VhdndkVHZkNDJub1ZWMU1Jcmw5KzZJbXJTaWZj?=
- =?utf-8?B?SnB3ekRVMGVId3ZjdGhZWXc1WnJ2VjFFYTY5elJWdDZ3SStoeHhOSmxaWGox?=
- =?utf-8?B?SWVlZk13azlIQzRuTlJVaHFiekR5cndBWHBHREVuZENqaCszekhld3NnTlVR?=
- =?utf-8?B?VzdtckZkNmRnN1Q4SGtKSlU1VWljVUJsaGJ1MDBGbWRKT2NZTExoSmpaNU4v?=
- =?utf-8?B?VEpzWmZLVWpHRWEvRUYvNzBKVVFIT2w0NktIb0o1T3BKN1c1U0FwQkpRbEll?=
- =?utf-8?B?NDNkNkl6TWNGMGJUaTk2dkpSNTJxcDQ2Z0p6d2dYV3pTSDFLQi9kY0s0Sndu?=
- =?utf-8?Q?86JBDZR9AKzS5B9P0W?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf5022a7-6f18-46e1-2a08-08def8e0a5f2
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 02:14:47.5243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9GLLQvi4mGlgb8WvYRpNaQvuAkRvsaJ95It/gQArYf4ER/RbI6gnLRKsN/KbYn7M
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6210
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemr500001.china.huawei.com (7.202.194.229)
 
-On Wed Aug 12, 2026 at 5:51 AM EDT, David Hildenbrand (Arm) wrote:
->> Huh, that looks odd.
->>=20
->> That should just be a VM_WARN_ON_FOLIO(true, ..) or sth like that.
->>=20
->> But in collapse_scan_pmd() that warning never existed? So this raises ey=
-ebrows.
->>=20
->> [...]
->>=20
->> I'll play with it to see if we can do better and will reply here later.
->
->
-> Okay, I think below is what we should do.
->
-> There is one behavioral change: we now longer trace the last folio, which=
- is the right
-> thing to do IMHO.
->
-> And I think there is one fix we should pull out and evaluate first: A zer=
-opage with a
-> uffd-wp marker is not checked properly, IIUC.
->
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 5a06e3942e889..8a223659fce2d 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -119,6 +119,18 @@ struct collapse_control {
->  	DECLARE_BITMAP(mthp_present_ptes, MAX_PTRS_PER_PTE);
->  };
-> =20
-> +struct collapse_anon_pte_check_ctx {
-> +	struct collapse_control *cc;
-> +	struct vm_area_struct *vma;
-> +	unsigned int order;
-> +	int none_or_zero_ptes;
-> +	int nonpresent_ptes;
-> +	int shared_ptes;
-> +	unsigned int max_ptes_none;
-> +	int max_ptes_swap;
-> +	unsigned int max_ptes_shared;
-> +};
-> +
->  /**
->   * struct khugepaged_scan - cursor for scanning
->   * @mm_head: the head of the mm list to scan
-> @@ -696,74 +708,104 @@ static void count_collapse_event(unsigned int orde=
-r, enum vm_event_item vm_event
->  	count_mthp_stat(order, mthp_event);
->  }
-> =20
-> +static enum scan_result collapse_anon_pte_check(pte_t pteval,
-> +		unsigned long addr, struct collapse_anon_pte_check_ctx *ctx,
-> +		struct folio **foliop)
-> +{
-> +	*foliop =3D NULL;
-> +
-> +	/*
-> +	 * Don't collapse if any of the small PTEs are armed with uffd
-> +	 * write protection. Marking the new huge pmd as write protected
-> +	 * could bring userfault messages that fall outside of the
-> +	 * registered range.
-> +	 */
-> +	if ((pte_present(pteval) && pte_uffd(pteval)) ||
-> +	    (!pte_present(pteval) && pte_swp_uffd_any(pteval)))
-> +		return SCAN_PTE_UFFD;
-> +
-> +	if (pte_none_or_zero(pteval)) {
-> +		if (++ctx->none_or_zero_ptes > ctx->max_ptes_none) {
-> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_NONE_PTE,
-> +					     MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> +			return SCAN_EXCEED_NONE_PTE;
-> +		}
-> +		return SCAN_SUCCEED;
-> +	}
-> +	if (!pte_present(pteval)) {
-> +		if (ctx->max_ptes_swap < 0)
-> +			return SCAN_PTE_NON_PRESENT;
-> +		if (++ctx->nonpresent_ptes > ctx->max_ptes_swap) {
+The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
+"advisor_max_pages_to_scan", but the ksm.rst documentation spelled
+both as "adivsor_*", fix the two typos.
 
-So max_ptes_swap is actually max_ptes_nonpresent. But due to
-khugepaged's max_ptes_swap config name, we just keep the variable and
-related function names that way?
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+---
+ Documentation/admin-guide/mm/ksm.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_SWAP_PTE,
-> +					     MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> +			return SCAN_EXCEED_SWAP_PTE;
-> +		}
-> +		return SCAN_SUCCEED;
-> +	}
-> +
-> +	*foliop =3D vm_normal_folio(ctx->vma, addr, pteval);
-> +	if (unlikely(!*foliop) || unlikely(folio_is_zone_device(*foliop)))
-> +		return SCAN_PAGE_NULL;
-> +
-> +	/*
-> +	 * If the vma has the VM_DROPPABLE flag, the collapse will
-> +	 * preserve the lazyfree property without needing to skip.
-> +	 */
-> +	if (ctx->cc->is_khugepaged && !(ctx->vma->vm_flags & VM_DROPPABLE) &&
-> +	    folio_test_lazyfree(*foliop) && !pte_dirty(pteval))
-> +		return SCAN_PAGE_LAZYFREE;
-> +
-> +	if (!folio_test_anon(*foliop))
-> +		return SCAN_PAGE_ANON;
-> +
-> +	if (folio_maybe_mapped_shared(*foliop)) {
-> +		/*
-> +		 * TODO: Support shared pages without leading to further
-> +		 * mTHP collapses. Currently bringing in new pages via
-> +		 * shared may cause a future higher order collapse on a
-> +		 * rescan of the same range.
-> +		 */
-> +		if (++ctx->shared_ptes > ctx->max_ptes_shared) {
-> +			count_collapse_event(ctx->order, THP_SCAN_EXCEED_SHARED_PTE,
-> +					     MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> +			return SCAN_EXCEED_SHARED_PTE;
-> +		}
-> +	}
-> +
-> +	return SCAN_SUCCEED;
-> +}
-> +
->  static enum scan_result __collapse_huge_page_isolate(struct vm_area_stru=
-ct *vma,
->  		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
->  		unsigned int order, struct list_head *compound_pagelist)
->  {
-
-<snip>
-
-> +		result =3D collapse_anon_pte_check(pteval, addr, &ctx, &folio);
-> +		if (result !=3D SCAN_SUCCEED) {
-> +			VM_WARN_ON_ONCE(result =3D=3D SCAN_PAGE_ANON);
->  			goto out;
->  		}
-> +		if (!folio)
-> +			continue;
-
-SCAN_SUCCEED + folio !=3D NULL means to proceed with the pte, while
-SCAN_SUCCEED + folio =3D=3D NULL means to skip the pte.
-
-collapse_anon_pte_check() probably needs to document this? Yes, it is
-straightforward at the call sites, since without a folio the following
-code cannot be executed. Or you think that is self-documented.
-
-
-
---=20
-Best Regards,
-Yan, Zi
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+index ad8e7a41f3b5..c9f533b10f6f 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -174,7 +174,7 @@ advisor_mode
+         The section about ``advisor`` explains in detail how the scan time
+         advisor works.
+ 
+-adivsor_max_cpu
++advisor_max_cpu
+         specifies the upper limit of the cpu percent usage of the ksmd
+         background thread. The default is 70.
+ 
+@@ -186,7 +186,7 @@ advisor_min_pages_to_scan
+         specifies the lower limit of the ``pages_to_scan`` parameter of the
+         scan time advisor. The default is 500.
+ 
+-adivsor_max_pages_to_scan
++advisor_max_pages_to_scan
+         specifies the upper limit of the ``pages_to_scan`` parameter of the
+         scan time advisor. The default is 30000.
+ 
+-- 
+2.43.0
 
