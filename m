@@ -1,76 +1,52 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E52468C37
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 11:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80CD13B5B3;
+	Thu, 13 Aug 2026 11:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786621370; cv=none; b=SmPu7oxNDuA/e9PYN+FriLBhK5qdHhvjpw4D2o+uJMvWlw/TMbYRmXw9FyqUzfR/hg+ev0L3fGANhVmjX3yZOHNvNdCIrNBfC4QHcK8H0Mz72nKRApMG+IGBkR6TM/6U4qm4ba/ebwDJkTh4+0mUST4lCZm6rwRgj7yvN5QhvDU=
+	t=1786621575; cv=none; b=ARLu1e/lrwXRCJvFRRkqVrRw6Hvh1ogQ6S2PrJpEfUvjF+gG/9MAsUKrr5vP0uvzuH7vYXNpPgvF4fLfZa9/GQnxbrX2HDLAgIB5er1/TwJTcNG41i0cEcognSDrRyGTVHXg9vpF5GhF2O3dHg3YNJcYKhA3yKLw6vMQ8flHIew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786621370; c=relaxed/simple;
-	bh=I2n4qjhhhXqOV6Mw3XAqQ4bd0fYcs3KsEhWb2f3luH8=;
+	s=arc-20240116; t=1786621575; c=relaxed/simple;
+	bh=ejCu1aTC2wcFIfrCGz4OYhU+SLf8uyUQhr3ScQ5NJKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xs+NGUyc2LWuESiNRupGMcGhRwg0vZsGs+gmuea/8lIC6OY2ghFr+Bz/+fTSjzhTd9KaA5IQ6D28C9kZqb0iIG69WJQKywM4gNDazM3YmNdgno6b3NyrTG9B6Hjq+mKknQVYR6IGBysw5Hg0OAuNFJtSqmHgTThQ9NwKKSaWF48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gX/26Mw/; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oi5AEq4s8Z8MHtsKA4YUe94OwNUNTcJCBVEIXAX52Ynj2YTssHoyX7OABlgphgKTCnzBTHNdgb1F5UJ+kJbcbkGBLuOk8ZoMMjoQjMKDdF2GAheBuzjeDtRf2xBIrzx6+Y9zsU9dw3rPLlad7GkMrF4KwpDU67vDYYBrr6rKLVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8z91kM8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gX/26Mw/"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-ca00f126b7eso483339a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 04:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786621368; x=1787226168; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=UOMzmZ6AkX0Pofy8pg2nfdTClH+/W4B3MQMVnCijhO4=;
-        b=gX/26Mw/QY1VqODNDa3jCWLzNJXkqIO6IAYIhs4aRj3penMFibzlYb6RZBcQXG6S72
-         HV8ToQvUOv/x6/dseG1ihWyydywhDLS3LdjPjCDJj/Y71iNzUDIe8e0yuZyKEQ2n6rkb
-         UNBaCM2lk1zX+DoFIXctUfF8XQ4QGZJAXDje5+WDXjDSIYJy0bdBXGCwrWvHn427u1/Y
-         tkmcq5UpfVwXcF0bphI3xoNomjXl+4kDf7Em6FrosrvVvnzB6Tc6nf47YKPEZiAzbkP9
-         ArU77fZzX2wRrgdcPt34RBbo2Qgyzc7cCNS0+ERI/TEZ8OOCg/LjK2EEJiG7q9TOF1g7
-         K0Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786621368; x=1787226168;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UOMzmZ6AkX0Pofy8pg2nfdTClH+/W4B3MQMVnCijhO4=;
-        b=UpvNzUOaei9bSJE352JyHY9VClCsmTNdJfd9vx2XxdkVnt+NMe/TaTY3lIhu9TAmpk
-         GPlaidlafIP2lJ2bHQt4RrJ2/lKAwy1WUcbGl+ypxMbk/bdk8t6rAvtlFPcQj4+k0ru6
-         aSV0z0BuzolzUnFPVyp7ZuSH+h0u/4h0hUShIDPRiBvVkQHEeuhJ8ev5pLW6jsuUOAQA
-         31bccTkQikwXV5B/USjWUxvDVB80nf+9+gbcKwh+QUvdFQXGmjp5kk/V+uF1NDUmXlDV
-         WDlYdQNOf4UyvYOKQtkrsjmE8vlEv4qhsEMfu7W23F4SvPMZp3yjSfQvwrb/BPu32K3x
-         Ei0A==
-X-Forwarded-Encrypted: i=1; AHgh+RqPOkFY9eQm8bNuni+2x2HchXy/5Pary8iADXONFcUOZZT+c2etWzwDRsPbDlh0rNPgwsuz5DWFUYU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy66htU1xkcAzkyhTeE5GXHoSPDb9Jo3q7eTLdWbFKOGBl3xbql
-	h0QvAikNChKmGYCVwMtmWzwJonuP1ZjngI7k73MQr8Xoc38g+uSkFmy7
-X-Gm-Gg: AR+sD11xH9AU7UjJB5vcfV846lVU+8vLjL58ebjb/FmkIozuIwdLFQAfuB/+jc+g0+H
-	OJlXdJ0oInXNGqEh4jh9zKO/WQiHOesWXLiUsYotthkdle9NK/bgUWbonCaP8u3MmwSxid/SkXK
-	F85Y37rhtMsfilpGBHAUpIrzmgrccKAuQFpggHHErgG/e/T5BYw1hF6AjTvCr5g+yqhLVHyiyCt
-	822ZgeztDFcFZcuFS5jGTUueyKIqONQ+gyHRCe++QyOWfCoGntcB1yUtaFoskxIs9IqgCA+4uyl
-	e9yCnsDXTfc0neNExMbbTvkJi2dOcmcD/gmTyiycQ6ifKjk1dA3s202zFdC27VmKWRfBSEp9wax
-	VnEOnZn+/0EW49vTK+LGnxwQ7+vlANq0ShztcJUff4V4plu+SsqRi3kZlJTPzUsocKyZ39s122y
-	AKqRDXX2Yr42gqqb5JfglG1I485c1ipaXyhF8TQRAW/+zSVXTxf3UF7+eEnROsJBKCj/h935Gk9
-	w==
-X-Received: by 2002:a05:6a00:21c8:b0:847:99a7:c751 with SMTP id d2e1a72fcca58-84fc6e290f8mr4868282b3a.25.1786621368311;
-        Thu, 13 Aug 2026 04:42:48 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbef5cc4c9dsm919388a12.0.2026.08.13.04.42.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 04:42:47 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 13 Aug 2026 04:42:46 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Marius Cristea <marius.cristea@microchip.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: temperature: (EMC1403) fix hysteresis for low
- limit temperature
-Message-ID: <01a08417-3846-4842-a539-3ed0c1f7d6d0@roeck-us.net>
-References: <20260813-emc1403_remove_min_hyst-v1-1-43a0d05d9f49@microchip.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8z91kM8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1C11F000E9;
+	Thu, 13 Aug 2026 11:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786621574;
+	bh=ejCu1aTC2wcFIfrCGz4OYhU+SLf8uyUQhr3ScQ5NJKs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=T8z91kM8Vi62PkPE28D7Fyo9z16LHW1xkoX0JNwyTnDH/4JVRIIwJQAtwqCjK8T8l
+	 z0kmLaxf1UifYq4mognRvz49YYceHW2U/UQC1qEfKaPLXsunemvzX20HwWRVobNv4n
+	 9ieV1kCbxWun8wTU3BbmLleeV91VnMWmUVUmnPaykcMydMoSwcjYmzTj0CJGD8qFUv
+	 TvQKEhJrGxcO0/l6JzfW3+3BdPGcUh5S/wnJga1jL2lgOzkoKBlAgDQMjTjP47Tpxv
+	 rdled9kLROdBtfv5OCprIoZmqRdOHXUz7XcMg1oS/50N8+Zhz5/J2P+Q7aRukLZtok
+	 uioX7qFrZh6/g==
+Date: Thu, 13 Aug 2026 13:46:07 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Vinod Koul <vkoul@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, Damien Le Moal <dlemoal@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
+Subject: Re: [PATCH v7 00/10] PCI: endpoint: Add PCI DMA endpoint function
+Message-ID: <an2uf5mXzGq1Q7cj@ryzen>
+References: <20260813063757.3131865-1-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,19 +55,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260813-emc1403_remove_min_hyst-v1-1-43a0d05d9f49@microchip.com>
+In-Reply-To: <20260813063757.3131865-1-den@valinux.co.jp>
 
-On Thu, Aug 13, 2026 at 11:40:07AM +0300, Marius Cristea wrote:
-> Remove the hysteresis for low temperature limit, in hardware
-> the hysteresis is applied only to the maxim limit and the
-> critical limit temperature.
-> 
-> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+Hello Koichiro,
 
-Applied.
+On Thu, Aug 13, 2026 at 03:37:47PM +0900, Koichiro Den wrote:
+> This is v7, the remaining patch set for PCI endpoint DMA.
+> Parts 2 and 3 were merged per Frank's suggestion.
 
-Please use "hwmon: (emc1403) or similar (depending on the chip)
-as subject prefix next time.
+(snip)
 
-Thanks,
-Guenter
+> One open question is how to support endpoint controllers with only one
+> PF. Keeping DMA in a separate EPF requires multi-function endpoint
+> support. Folding it into vNTB would work on single-function
+> controllers, but would also couple the two implementations. This series
+> keeps the separate EPF model.
+
+I see all the work you are putting in and I admire the effort.
+
+This is now v7. I think it is time that we close the open question by
+waiting for a reply from the PCI endpoint maintainers' opinion on the
+design before continuing. (I am not a PCI endpoint maintainer.)
+
+I understand that you want a common DMA abstraction, that can represent
+different (embedded) DMA controllers on the endpoint side.
+
+But if vNTB is the only consumer of this, then why not simply embed this
+DMA abstraction in some BAR exposed by the vNTB EPF?
+
+Looking at the host side driver that goes with the (v)NTB driver:
+drivers/ntb/hw/epf/ntb_hw_epf.c
+
+The BAR layouts are hard coded, and it only supports three different
+layouts. Would it not be possible to add a fourth layout that has the
+DMA abstraction somewhere in one of the BARs? ('BAR_DMA' ?)
+
+
+Right now, I wonder if it is not a bit premature optimization to create a
+DMA EPF, if vNTB will be the only (ever?) user.
+
+I didn't follow all the details, but I know that you want to control the
+DMA controller on the endpoint from the host side. Is this really a
+normal use case outside of vNTB? I would imagine that most endpoints
+will read some ring buffer of descriptors, perform some validation on
+those descriptors, and then decide if it will do DMA to/from the host.
+
+
+If the host side driver want to make use of your "generic DMA registers",
+then you are basically creating another DMA controller? Shouldn't you
+then create a new host side driver specifically for this "generic DMA
+controller"? It would be nice if you could explain a bit better why you are
+bothering to create a "generic DMA layout", but then you are reusing the
+dw-edma-pcie driver. This seems a bit weird to me.
+
+Right now you seem to "unpack" the "generic DMA layout" in a dw-edma specific
+function: dw_edma_pcie_validate_ep_dma_metadata().
+
+If you want this encapsulation, shouldn't the de-encapsulation be done by a
+host side "DMA EPF" driver, and then this generic driver will then call
+e.g. dw_edma_probe(). (Seems wrong to add de-encapsulation code in dw-edma
+for your own made up format. And then all DMA drivers would need to do this
+same de-encapsulation.)
+
+
+Currently, I know R-Car 4 has an EPC controller that supports multi-function,
+but I personally don't know any other. If you could embed your DMA abstraction
+somewhere in one of the vNTB BARs, that would avoid the multi-function problem,
+so your solution would not be limited to EPC controllers that only supports
+multi-function.
+
+
+Kind regards,
+Niklas
