@@ -1,227 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C862C36B921;
-	Thu, 13 Aug 2026 18:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAEB44E65F
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 18:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786645447; cv=fail; b=duL52vttihdntqmzRSr0MkTasaqJlt9VRRbvXv3sBOcylagPTK/MrfEgqCvfoloSY98kdhnOSsnaEaPa8gaXiRXQzKOPdf+Pw81XCmp02YxY7+niUpZ2PB3q65IZCSnItSsrHW8TTp93qYdfeFYwoRyFfq+GRVDV9MwM+JQ0JiI=
+	t=1786645808; cv=pass; b=r6RV5Cf2bSR1GuEZBF8YzR5nN2ZKgC9a87gsW5rlLVpndij0wbl33vfdhVmR7PasyWIGBMnx6URn1sYILzFLM/sQ/sY2P1SI5/osPo2e/KiaRtEqpZpLEO5yDXLcHZVrZdgNfyWFxHdYK3mRo8RUGaoFw0+c/zAcCTQxhYmPnio=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786645447; c=relaxed/simple;
-	bh=R2HBlM3zQoBYjO7p92aCb4rOhe5vRu8O4aHAGdAiSXg=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ln5Q/plzLj4qdNP6ChabnFNa9iixvdrsu5j1Apm2zZC8HDdEJa0WdL7U+HSnZM/THx3qHY/4BP439j3b1AxESCwTP3k03b7HFLuv0qNobkU0ANfewnTEmM6pc3RwfusO9mR7jcbjiZ1q6o2QIcxDzqoXgWRVOZDIQcMbiNYFZk0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TL2ykwlX; arc=fail smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786645808; c=relaxed/simple;
+	bh=Ska3VU67p+Zg8LuYPgjyex6VZBA8Ya8GmJinliOkbPU=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AHL2Vl8WOGypXvTf7QXP8H9EjvS/f7dev93lfSL/S/gIWpEZq9mWFkWlEtcHC87koZzsjTyndErmmS0KOot5neZymFo2yfegAs/vVbOB0H771hYTywaxtto16SApGR5vM2Hmq9GEByZEr3Tze53gW2aGRqbwSGAWCl+xclBGgfw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FxSeiGNo; arc=pass smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TL2ykwlX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786645445; x=1818181445;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=R2HBlM3zQoBYjO7p92aCb4rOhe5vRu8O4aHAGdAiSXg=;
-  b=TL2ykwlX1z0pDm4efAG3Nr6vEveGBUWNukTf+X1Srkh9NSmfX/y+Yjfu
-   vHnD3cP5gxaWZhAG4EfCTpx0+LtAqzTpM9xpI88qCrSZ02M++dP0VDt7v
-   Ndz8YvYsjbNTQ6l+ADXUJ1eI2eXiKewZpdeH0kn8pMLv7vcrBsK3NTJ1q
-   s62hyJ6vPbJY4720VLET83+u7Jgvjq+c73qN/dorMuxM9DJ70dq4Kf1Y/
-   jVE6TgW8h0fDdXC35KB1GAS/5UzPreNeqPTLdiMNzqTkt20bBaG+sIzUf
-   enCUKYqe7CUAmTXLl2cinzNtlvdkzWI2AbcT7ECYzc7lPCRky5lY78sC2
-   Q==;
-X-CSE-ConnectionGUID: l195cJ5cTH6g8Q3gZgGtqA==
-X-CSE-MsgGUID: Qq0NEElbRzySTWwEiroUXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87444354"
-X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="87444354"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 11:24:04 -0700
-X-CSE-ConnectionGUID: D+j5BRT+QeKuWZPMLcaaAQ==
-X-CSE-MsgGUID: 22yh2OPtSSat503frvHxeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,221,1779174000"; 
-   d="scan'208";a="264042237"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 11:24:03 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 13 Aug 2026 11:24:03 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Thu, 13 Aug 2026 11:24:03 -0700
-Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.46) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 13 Aug 2026 11:24:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OWLuW06MX7gtKZ3RnMaDxfuCdeKcsn3tiXXPsQ7GlxU/p8CA0ne+5jIM7P0pMKZs7bfnM9b+Cx4SUQ2zij0Q5RLQ4Z6TXYDbARkYvYCNJC0UcrmBfAq9nsO4nRKFsfwjlTBlLMSh41z/JF2BBkd3+aNj4yeBvGK53z+eDWCko82oz70VuQCux6xqBkHuvilcd8gfKOgS2JXQgTotkA+daEjQKzuH69BFntgvyI70cZwZvp9cVzJCrIizrg6hbSHCu2vqtDyjd/86y6K8zTiMg59knnnSxddL7PPtghXbJnUdomUOFzm7cBlMh9o8IdNg2JuB/rNaSvs20DYaOS05xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jnuxba/h6oZZwY4SLD/vFCQwuo5aTb2qGVkNbep7xZs=;
- b=xQrm+Kqxmh3oMR/NAM1zn9L9KR7Vu/QZh4Lo/RwEldHr6OU7spyuPDeGh3P8f6jDkefCMNL5lo0ojl7nP4W8BTugT3DAS701CvEvtVe34IPLuTfcksm8yYjJQHWEvLNFTQbEbuuJonZfold+hD3VdMX7dIg07+n3zMH9ujWep0VRZW7B5jTF+mDGMQ11soFC/Q42Vvm5UwHabnHExo/KMJYSyX7SjIHQugVCC/MX0+RMeDD9ZFbBWxxBjDP2yuWqIr2LYipQjzos5hceP7095uSGPqa5Ve/sVGuDgxKbkO2hla1aoE53nJWCTe/KIxWf33+619K/VIfev2ujgM+y5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by MN2PR11MB4584.namprd11.prod.outlook.com (2603:10b6:208:264::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Thu, 13 Aug
- 2026 18:23:59 +0000
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 18:23:58 +0000
-Message-ID: <2d467216-db52-47a0-baaa-b6d4f9c99268@intel.com>
-Date: Thu, 13 Aug 2026 11:23:55 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v4 08/15] fs/resctrl: Add interface to display
- supported and active kernel-mode policy
-To: Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
-	<corbet@lwn.net>, <tony.luck@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <tglx@kernel.org>, <bp@alien8.de>,
-	<ben.horgan@arm.com>, <fenghuay@nvidia.com>
-CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <mingo@redhat.com>,
-	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
-	<rdunlap@infradead.org>, <peterz@infradead.org>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<elver@google.com>, <enelsonmoore@gmail.com>, <kuba@kernel.org>,
-	<ebiggers@kernel.org>, <lirongqing@baidu.com>, <seanjc@google.com>,
-	<nikunj@amd.com>, <xin@zytor.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<tiala@microsoft.com>, <chang.seok.bae@intel.com>, <kprateek.nayak@amd.com>,
-	<prathyushi.nangia@amd.com>, <kim.phillips@amd.com>, <naveen@kernel.org>,
-	<darwi@linutronix.de>, <elena.reshetova@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<thomas.lendacky@amd.com>, <eranian@google.com>, <peternewman@google.com>,
-	<qinyuntan@linux.alibaba.com>
-References: <cover.1783461016.git.babu.moger@amd.com>
- <c86c7a64f25171b773077ec47a20850b44f73ada.1783461016.git.babu.moger@amd.com>
- <328e237e-3d26-47c0-8167-8ffe5d765daf@intel.com>
- <924aedc6-c2dc-4c09-84d5-2bdf1370ab36@amd.com>
- <24adc700-2062-44d1-92f3-4bc18d134b8d@intel.com>
- <f85e440c-8de5-444d-a7aa-8f9c2a58bcff@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <f85e440c-8de5-444d-a7aa-8f9c2a58bcff@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0378.namprd04.prod.outlook.com
- (2603:10b6:303:81::23) To SJ2PR11MB8370.namprd11.prod.outlook.com
- (2603:10b6:a03:540::20)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FxSeiGNo"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cbedd5aece4so1022569a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 11:30:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786645806; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gxaIPaxtmtLYJLAHMmo3wXXhTZzE59oealgmp+/UlqTFYq4XH0Sutc33krsBtuUE4h
+         KHQ5yyytXDuGR5WXxX/KkmVB7qfpbtRCzn4vfgWgV5F74QKA23MBCZSK7dW13tB5qUTj
+         hBMUTxN+4s1Xs1GVpyrT9acflXyER8rTWsPw3r3onMVqqUoPfT+IPlUwEO4OlnS6wH12
+         b9rpHYH0+J4VclJ+2clYPgoIDagkea1bG13OGVFI5XotYyehV6Ry3GOoGlUHZb3xtja+
+         MGmW3+1qZRzwxTgY7iVkGKvDL6OkpMRlar0LpqnTfVkcWPDr43hG6WSyJfHEHXE8xd6a
+         7XCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=trV1VhVsvTuMN0KspJ0QoTvh0FqK6gua+XSXYlaI3MU=;
+        fh=4fWx7iRhhHSB5T1sWxvPewo3g1SARM/QU+mb5CH9iME=;
+        b=kNJZzlr4kaqok9R6j5LxGgexq+q7s1xGNqSuakZfOiRm1HLaRsv9BMuU0TXHFr1yXz
+         VUXdW2g950YVwimJLq+rrz/Xa34hp+7fyqkDtkCl9kTHWOEY2KquDNWqzBJmeXt0awB0
+         7nbTg56W8s0TY4yJj+8sVSF57ZyCFCpVoAI4eSwSt1zdVnrjhfOf8vl+rspDDxYPrwEc
+         g/3PuJvYPs0Nvqgw0H54/uvDtCooIRzTqndD7nOb5NrLSMKgC9VeKfjjQ0OJZfuw9O7F
+         o0u9TKGuFaPzCnFiBomYYjBTIegYURSPyO7hUQWhnt0NvQ0ow5AL/4cPx6HQFbjLT1es
+         5R7w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786645806; x=1787250606; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=trV1VhVsvTuMN0KspJ0QoTvh0FqK6gua+XSXYlaI3MU=;
+        b=FxSeiGNoTbDkQ5btiixJQf6+qIPgn3wjc/zjD7iSumTCzWzYCGiQxPJYKAsQ2wQzYa
+         wup4t3QdhSIa7XDAsMw9t3AR745AQjJSWPdOfo3BLCJtz5kZdEm8K5l4MeaNdjmzNLQX
+         O6A8uUVHT7GJzd3p9ZdTNhYUG+M7E8Zt658Z0+fxNzEVb6tz2eeMal02dalzeiZuU2Sp
+         /PCSQeFi3PO3X8FBJUQaLpZc5RvAO5TLNtg9ujVJwhiH1Yt684UULON+yFrPVqWQAs+K
+         CxlaMl0Dm0zdYykzqs0RY6zXglWnNRTq3lc2BElABhkjiktcKj7RE4Pa0Og6jhT8PwHe
+         k/dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786645806; x=1787250606;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=trV1VhVsvTuMN0KspJ0QoTvh0FqK6gua+XSXYlaI3MU=;
+        b=F5W2TBc/wC3NFStUl7C6uaLwNpHb8QFUgatOlr9yD5OQeRI4G89qT4god9hS3PYF8z
+         S2E9tqD7vy5BD4v4j6g7+YqVWMggIdY4UoCj6Kch9HvJXK9PsrijIM5347kGLG9c2Wz7
+         yFcWdis6614yT9Fu4NxIHOF4Tuc57iBI4LazwgEww19DSRRx4mljjdadlXn+25yom3ha
+         OQAzhndzTu+CqEGN0kZSrDgYrJPYjPZFyViE/x5mUOGtvnanRPA17UzbbLat+8c3qxXY
+         X/fhnBa4hSA5QabUWdYRKTqcthNICsfmHm0dTnzF6Lj6EzMZ9qs0vb6IXZawIWs9O7MN
+         YD8g==
+X-Forwarded-Encrypted: i=1; AHgh+RqH8JB0nFboC8O3H+wSnk1HltDGilCFtsz8H5pwv54spgnpSQ2BCVrhVySH9+GAyUaAnIzQP2Vt+yc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwioS1kq6Rlo0zycsZz41Z/q6sb1DhQPUH+Zj6HhW1a8BVMSmbn
+	Uc5uaJ43cMuo0yzJXaULfoyx6Aex/ya3n5u2uFDYs1vBoJvQeR90PmGd7jUtjZR7OLlpVrDkEzP
+	xFlSrxnT3m7E1yy7PZrIa6PExlAqJ1rp5b4chX52M
+X-Gm-Gg: AR+sD112SZU1wx4fWj9npliYLj/Mve418pxwT/O7fycDwOrqYUO8aOJCfSLvP3OgXBl
+	IUp4N22ZoM82AxGaCSgcEqlizAK2eEANUIhVNQF+crKO8/mNCK+FxfUOxE97GZTKvcaTfZzWGLX
+	Yev1tDz4Sv3Em7I0EZOX8x9hkSMiSq1FNkikLf31nSm7Xz1Q5PKGgPKEveoTnNEcxm07vCZ3fMR
+	/wNokh52vHrWLfDOHVK0g12PBkfQEv2g97mHK5CXkk600HXO1PDYLQzxFfQI6T/m0uv/2ARbcK3
+	1dIQ+Y0JXI5QNpyanELqYJyrOKdlvJb2MOciaETnBo3m3w4jKW/yrxE8nYoAkONaQYk849UTJep
+	tlOPV7mz7P9L737mma6w9cjkx6W6Tog8=
+X-Received: by 2002:a05:6a20:3949:b0:3b3:3506:cf3f with SMTP id
+ adf61e73a8af0-3cc572e1e2emr8851350637.1.1786645805191; Thu, 13 Aug 2026
+ 11:30:05 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 13 Aug 2026 11:30:04 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 13 Aug 2026 11:30:04 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <anzm_YLft-J7pxiy@google.com>
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-7-2fc18ee6d3ba@google.com>
+ <ed483d25-d908-4248-b8c7-862dd35dc6d4@kernel.org> <annnrGR1noVuBkCc@google.com>
+ <69c86172-9175-46cc-895e-9ecd449332cd@kernel.org> <anzm_YLft-J7pxiy@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|MN2PR11MB4584:EE_
-X-MS-Office365-Filtering-Correlation-Id: 843ec447-9615-4ecb-7a22-08def9680acc
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|921020|10067099003|56012099006|11063799006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: BSNfrnknCtfFYmKY051rEBegzDDPrDk/PEmA/5TcAmorxARW4bSIwEpwdsk4LRa1JUFkxX/hKXoarA0vZoLn5E25w1CKOB0ft75/+KYfDXKnJnVZyu+tJiGRnYWcLKt7KWqwlEfd5S+vKWwIsaobAY4feGf7BC3h5TM0e0zQWe0ZTe2cirKoMN9JnReDoX6LWcnLnqiHUS12y4FWNAC3nuFkBJFlujgKJWEMfoDOTOqeo79esy61I8yBcDJnPURpAW4UL41sTiJpECFBk/xB/ojr8akh+p8dtj5Mg4jBXP55HztT19s/K6o8uSutxLNz4pdMCfkuJDn6lAB7R9x8g9vcSQXzYcjLEIoeUMsgXQNhpZAzLqVenrfYg3Wp7jHz8d5AmIeyy+ML3aSOuYhvsI1W1ugi14jaBJxx3ZMAZhh0ORR8HZ0fstQsdQuwzU3UCgLXy58S1aiLfcWi9+hgtctkgfhmqi5qstY4TuqiEk5p4Gy0dMoQKq863U4/Uc4lmF/AA+XCFPOpV70NyA9RJboqOFke9yK3TrZCSAPaZtktPFklhXXFR3b4mXNE2OJmpVV6ZhWx1AxdvgLmqaJBtDfw5sT1wYAGd9VURnz/pIROe5h04YUirPxuat94Lh78PogPwvZh2LvoSeWTtkqlHTOVyQnu8Tx7Q5yBX/RYAN/xMcoVsSmUXNUQrw7Rpa/4xe3CTDBnofmo23IxB8pFfQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(921020)(10067099003)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZnBiaC9TYXlNUGZORVJhcWttUWZVSVR6NGpzQTNHcGRwU3U5eXNSMjdLdDlX?=
- =?utf-8?B?UUk4NVRGYkxaODU0UEQ0ZmdGaktRMEZZMmJoQ3dkTjRidkFnOEo5a3U1R0JS?=
- =?utf-8?B?d09VUytHclZuaC9TeHo3U3lHYjU1anZUeXZjNW05NHRNaTY5S3d6bjUyTWZD?=
- =?utf-8?B?N3hGa00vL05RdXJFUXppWWx4RjMwTUV0Q1ZYa3V2R2JyQ0pBYldXTVdYaE5K?=
- =?utf-8?B?cWViVDU1ODJod1lVM2VtYVhxMm5LOWhGbFEyNnNHd1BrSDBhSjBHKzQxRVJi?=
- =?utf-8?B?ZHFUTG9wSXNFQXdIWFgzL3NERUZrNDB5aXZ4VE1ZZXB0VjQrTnVZY3BacW1V?=
- =?utf-8?B?NS9TdDhpRVlXSHFmLzkxMVR3TDNsU0o3d3Q5Wjdta1dDMXUyMmF5ajNGeWI2?=
- =?utf-8?B?eHcwWmdYQXlOWm9CajVxU1NVTHNIM2NRUXVGVTZrZlNKMHRVNlVwanVRdVdF?=
- =?utf-8?B?MVZ4OGdhZUVUeFFNU0RmWGEzbk8vVXM1SmdjSE4rRWxONWt5TnhzbThWTldM?=
- =?utf-8?B?OSs0K2txVFdOYkVwL3cwcnc0YXlSVXBYdlk3NUYzeEQ1KzROQ1ZqdHNDVHdX?=
- =?utf-8?B?YzhRZHVtS3R2MWYzeUpudmxMdXJ1eEw0NHR5cjZRSlRuakFIMjNSaWFmc0Ji?=
- =?utf-8?B?VVZ5MUdxeEgzNCs5cjVPL3JzS1Q4YnNPYmJlbS9KcDUwODlYM1lqdWpMR3NK?=
- =?utf-8?B?Um4vRFRHVno3M01rV2lhZEZMK1hjVU9yemxFTnpjNUpIaTlvSlNsQ2ptTm5y?=
- =?utf-8?B?SU1LdUVxcm1jSE5PTVhJOU83bGpWdDJ6RGYyYVFoVmlJYVhHVlg4bkRPN3hW?=
- =?utf-8?B?Vjk0Sm5kc3BtdlBRMm4zUmZyMHI4TjVFRjF2dG5ERXNrcllPTGdRK1VOL2dJ?=
- =?utf-8?B?WEp6MmNQUjVPUUZTdVlnSzUySktIRnFtSmFjN0xRTm5iZWtEWWJiSzZneFRt?=
- =?utf-8?B?SDVpY05sL2diY0VsVzJQOC9Kek9JUnJqRE5nL2NLaHhOZGRVZ3NJamV1ZU1s?=
- =?utf-8?B?MDlUKzRreEZGcjVNU1dpMUFOTnRmeGp1ZW83ejJ5UGtwbnRRMFk2ZzBnUFlk?=
- =?utf-8?B?RGNqYmhXL05nRXY4RC9tNzNOeUpzVjE3YzgwWTU1L042LzduaWtlMmdUY1V6?=
- =?utf-8?B?TkVaWXh4MG15clgrSFlXSG9SUTVkQkg2VGlMckVZVFVmcUpPdS82eHF6Q3Yv?=
- =?utf-8?B?dmxURS9PeXUzUitHWWV5UGhidmtIRGMzVFhRendnTXVsQlNmMzdEendPYVdW?=
- =?utf-8?B?ZzJjWWtZUWtyU29FelhiU1VRZGlMNW9zNzNYdzBFSUdaQjJBc1NKZTN3WWFN?=
- =?utf-8?B?RnY5b0RjVk1MWnFGNmdGSEh5eG1SclcrZkhYeVN3c25ZdUdvMCtsM0Mvc3dE?=
- =?utf-8?B?dUN2cEJPZ09waWE0RER1a0dpR0I1UmxnSDhUZWk4akhPdmJ0QzV1eUJTN3VH?=
- =?utf-8?B?OVhVaG0rclI2OHIwWElaN0R5bnl3Zk5iK0RGVW9Hay9EMjdwMmFyVytNeEFN?=
- =?utf-8?B?bUhrb1N6TnlWalBuLzRoUVo2aHliTVYyNkhVZGpwR0tZUlNUUDVtZHcyK1pF?=
- =?utf-8?B?UjJpbFJ5dzBLdXFJdEsrYVlnbzZ0V21USFdwd2FjUllidnJoWnMzUHZYWVFx?=
- =?utf-8?B?Y3RwdWw1UnhMZVlwYWxyaUZmei81bXNoaTd5ekkvZUxjeU1uQlVDM08weE0y?=
- =?utf-8?B?Y2Q3S1BDZHZKQzIrWm1Ed3ppdnZYUTNZaU56RldYajVzRG5US2RPdTJobGRZ?=
- =?utf-8?B?OFc2RzRJRlA1SnNreEpTK0JEZFlrcCs0OFRjcktvdjBObTRQT0x0MHBSdjYy?=
- =?utf-8?B?c1pQSTFiTUMyVk80Vko1Q2UvOVduenFnMEdwWXBZbVNTSjY4WFRxemhwQkhJ?=
- =?utf-8?B?d0lpN1VzZmZ5TEE1eVBqNXZ0U3dLRHlnMHJzNWkzR0VJcmJqS3dZL01wVUFy?=
- =?utf-8?B?REpGb0ZmMXBYZzQ5YmhOMWo0cU1GWVJUcU5JL1EyWXl2UnR4Z01sWWc0R3lH?=
- =?utf-8?B?aVlzcDNubTRUWklveDhSVHpVSlBGdzc0Sy9HczYzaEtWZnI0TlhvU0U2OU1T?=
- =?utf-8?B?NDBGTi8xSWl3ei9jTExhMXduRWxIMTN3RkFlV1FDa1Y3czB6RzY2WWI3cU02?=
- =?utf-8?B?c0drMlQySVhEbmdVZHVKWWxMazcvZ2I3Y0g4bnhiOXBNdkpqd2I3bDRidGxM?=
- =?utf-8?B?MzdKZHFCZjM5Vmk2MGN2MEpWUW5pSGoreTRWTGhaZFltWjZId2xNL3RTN2w3?=
- =?utf-8?B?WjRSKzl1NFpubCtXSkRhWWZneWI3VDN3b2ZvK0hLRFh5K3RoRmNOYmxoSnAy?=
- =?utf-8?B?bTc5Y3MzZHhZVzJQK3VCdG1ESlN5RXNaZC9odUVscmkyRTc3N2hZVC9GK011?=
- =?utf-8?Q?yj/tPEyjncVdVUzU=3D?=
-X-Exchange-RoutingPolicyChecked: CtDABr57vsZAcSK9LBr3GZpQ+ni+Nqtr3XndS178oiIK9b2GO0ey/i+O5B1xVK/DFLs5DDhrsfBJwWVETzEKbSru8ntnT5EwsJamoLcc4VN0EqDqTSp4WtproT98F5Qrlv5c10/aa1yx2RN5y4XSDS94kcvaEwQZy92vFbQnRDRetRgl1Pic5Feu9AZsyv9WsBongDzXOUIHrusQQ/SzWAixJLry7wgbKptFoC1IhTuYnggTFkOOV0PAk/xA45CP/YVwlQdGr0raMd7o2PxwtM97/kcQ4ux2qf8Zlafpq84THssLvSHKbEcWlT8dgM79D3c2D7mJpj6BsvmJh8VrpA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 843ec447-9615-4ecb-7a22-08def9680acc
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 18:23:58.8199
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2zhjccCogTqPVebiiUxykbfHMy2FRfMtbe9stKp9fan/AxhzgBpKEKw64narHOdhPLNMFmyuSOjWv2D2XUEwh1plMDHu7sms+FGDNfOEutM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4584
-X-OriginatorOrg: intel.com
+Date: Thu, 13 Aug 2026 11:30:04 -0700
+X-Gm-Features: AUfX_myERGap35A1bA3IvemF8mP2h9L2MeL4s3gAw6GC_Dq7e6Qb6MukNKA94AI
+Message-ID: <CAEvNRgFGt2Unre=iuXhdg+ZFjWQcewObA54h-R4mBcpfksXdKQ@mail.gmail.com>
+Subject: Re: [PATCH v10 07/41] KVM: guest_memfd: Stub in ability to enable
+ in-place shared<=>private conversion
+To: Sean Christopherson <seanjc@google.com>, "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, jmattson@google.com, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev, Xiaoyao Li <xiaoyao.li@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Babu,
+Sean Christopherson <seanjc@google.com> writes:
 
-On 8/13/26 9:04 AM, Babu Moger wrote:
-> Hi Reinette,
-> 
-> On 8/12/26 18:38, Reinette Chatre wrote:
->> Hi Babu,
+> On Wed, Aug 12, 2026, David Hildenbrand (Arm) wrote:
+>> On 8/10/26 17:01, Sean Christopherson wrote:
+>> > On Mon, Aug 10, 2026, David Hildenbrand (Arm) wrote:
+>> >> On 8/7/26 23:52, Ackerley Tng via B4 Relay wrote:
+>> >>> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+>> >>> index 65fbce46b63f4..9477ecebbbced 100644
+>> >>> --- a/include/linux/kvm_host.h
+>> >>> +++ b/include/linux/kvm_host.h
+>> >>> @@ -2580,6 +2580,8 @@ static inline bool kvm_vm_mem_is_private(struct kvm *kvm, gfn_t gfn)
+>> >>>  #endif  /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
+>> >>>
+>> >>>  #ifdef kvm_arch_has_private_mem
+>> >>> +extern bool gmem_in_place_conversion;
+>> >>
+>> >> Is there a "supports/has/enable" in there? And should we call it "kvm_gmem" for
+>> >> completeness?
+>> >
+>> > It's kinda stupid and definitely more than a bit inconsistent, but overall I think
+>> > I actually like "gmem_in_place_conversion" the best.
+>> >
+>> > gmem_has_in_place_conversion and gmem_supports_in_place_conversion are misleading
+>> > because it's not just that guest_memfd has/supports in-place conversion, it's that
+>> > that KVM is tracking PRIVATE in guest_memfd and so in-place conversion is the only
+>> > option.
+>> >
+>> > On the other hand, while gmem_in_place_conversion_enabled is better, it's not
+>> > quite accurate either because userspace isn't strictly required to do in-place
+>> > conversion.
+>> >
+>> > As for a kvm_ prefix, IMO gmem_ is sufficient for a namespace, and not having kvm_
+>> > is consistent with most module params in KVM.
 >>
->> On 8/12/26 3:57 PM, Moger, Babu wrote:
->>> On 8/10/2026 10:18 PM, Reinette Chatre wrote:
->>>> On 7/7/26 2:50 PM, Babu Moger wrote:
+>> Maybe we should have a helper function instead of accessing the module parameter
+>> directly, then the gmem_in_place_conversion could just stay file-local and
+>> kvm_gmem_in_place_conversion() would be used by other code that wants to obtain
+>> the value.
 >>
->> ...
+>> Instead of the
 >>
->>>>> +         */
->>>>> +        rdtgrp = resctrl_kcfg.k_rdtgrp;
->>>>> +        if (!rdtgrp) {
->>>>> +            ret = -ENOENT;
->>>>> +            goto out_unlock;
->>>>
->>>> If this fails there needs to be content in last_cmd_status. Otherwise this
->>>> fails and then last_cmd_status reads "ok" or worse .. an old failure message.
->>>
->>> if (WARN_ON(!rdtgrp)) {
->>>      rdt_last_cmd_puts("Invalid kernel mode group\n");
->>>      ret = -ENOENT;
->>>      goto out_unlock;
->>> }
->> It is not clear to me why the WARN_ON() was added. Is the resource group not being
->> associated with kernel mode not a legitimate scenario if the kernel mode group was
->> re-assigned while the reader of this file was blocked on the mutex?
+>> #define mem_in_place_conversion false
 >>
-> A valid group is required whenever any global mode is enabled.
-> Reaching this condition without one is unexpected and should be
-> treated as a bug.
-> 
-> To help catch this, I added a WARN_ON() to log the issue. I think
-> updating last_cmd_status is reasonable as well and should provide
-> the necessary user-visible error indication.
+>> We'd have
+>>
+>> #define kvm_gmem_in_place_conversion()	false
+>>
+>> just a thought ...
+>
+> FWIW, I'd rather prefix kvm_ than add a wrapper to get a boolean.
 
-ah - thanks. I misread this snippet as an interaction with a resource group's
-files.
+Could you elaborate on the rationale for a wrapper? I don't really see a
+reason to encapsulate this boolean since this flag should be global to
+KVM, it toggles between tracking shared/private status at the VM or
+guest_memfd level. Since KVM is a module I guess it's already global
+just to KVM?
 
-Reinette
+On the naming, Sashiko did point out somewhere that
+gmem_in_place_conversion as a global might end up shadowing or being
+shadowed by something else.
+
+Prefixing kvm_ was one of Sashiko's suggestions too.
+
+I don't really have a strong opinion on this but I'd like to know what
+to put in v11.
+
+Will using
+
+  module_param_named(gmem_in_place_conversion,
+kvm_gmem_in_place_conversion, bool, 0444);
+
+help? The module param doesn't have the kvm prefix but the variable
+does.
