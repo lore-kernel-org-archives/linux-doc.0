@@ -1,89 +1,247 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745C43B9922;
-	Thu, 13 Aug 2026 13:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD93477E2A
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 13:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786626962; cv=none; b=rFDEWUeFXIGFZ6WHRMfubB0bJxztEJ8l7AeRlB911gRyYGfKVgYiv1kUgI9o6M7L1S1IpArm09HnsQBqYOluxd7inpOlBmSX4ev1TS/qaZ8F626Ytw3mfvEP3Z4CsmU48K/plGGfDmJAxHQzABBwrDhzVfD7hiCYLa75Vd7ZcDo=
+	t=1786628870; cv=none; b=ZI3MZNLIFVlKPwMEy5m+ip9vzHXETaYKBzXNslEP+myI5vymPXRXYxEjTwXQ8PAzaI3zLCc+/l/uWl8cT1e/X8cCn/f8GHWZIs27OvGQXshGJ/Hc6nUuIDkLNmamTdRCLkMWw94kXTih+sM9KzVg3eWOOG8Wzr0jTap2feXs2Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786626962; c=relaxed/simple;
-	bh=JuVUoKayiiL7qIdW39da2OcshqPAHX5dg6xMBzLZVqs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OxhuGenI1vme0Fr787/27SDPnpUqBjgpty3e9y8XJj5fzEqVyFr00jwMbEaBjsd5tTKZfwWrXVGjoVeCxVyCf92Qi4ev2b3sGKkMTl++ye4MCETwlER4hxF0LCUjWEgw4y1Vu4yViEjCRzfbcJRJfwcbqa1PZHlHllifVlJ/KBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gz59xaAc; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1786628870; c=relaxed/simple;
+	bh=UZrb7VRvySDBHKqzjQDIKFdGUTi5b65jUTXLTKusWuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BuU+dVZFT++Op+hBRLcLlcX3tZdhHTJVso3gzvYfLGjCbC9EWpBl4jujouOzw5OiMiuNGChZZONUMsxdaB6drdzTfmfFGxCZxy6OQc7YPwua7xYDq79ZzY3fuliR0k8FShTeRHvHE1wysfPj2EF7ILV0phFvNoRBHK49uPx/kpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sh+DvyWS; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gz59xaAc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CE883408EE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1786626955; bh=CJOUmOrM8iHXXIY7dV6uC8aAvdcDOoC5XB9mKJMan54=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gz59xaAcRdVhw6JA+IdG6B1Lu1eFLylxKVmFbhY8bh12+/zIO/+/J7nFYCXWNYUWI
-	 dOOeQA+plFt5cSuCVQW+kR4Yk+JUlDV9xw4/jrRPpZ0C620V/sR5MnTKy7+t+jIaN/
-	 buZu01a03a0B7vV01EbqvmdoE2JA2kyWl2qjrQhc4WuUh/PEmHGrwIkLDG9Yepy7Ae
-	 C5csBRmGb3GU0OpWXdvP721Uo5xZU4v7D2E2m88DApUBMSwu8vQB/QMfR8AUv1iUYl
-	 udqrWewaJsnXGuJsmNum6qdSJ5kWrRzHXmu2M+aVHJ76bEnTXhro+fxmR/ylHZ7oa5
-	 RM5Vn8ZNxov4w==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CE883408EE;
-	Thu, 13 Aug 2026 13:15:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein
- <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, Onur
- =?utf-8?Q?=C3=96zkan?=
- <work@onurozkan.dev>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 5/5] Docs: software-requirements.rst replace optional
- tag with footnotes
-In-Reply-To: <20260812122426.1636227-2-manuelebnerli@mailbox.org>
-References: <20260812120805.1631430-3-manuelebnerli@mailbox.org>
- <20260812122426.1636227-2-manuelebnerli@mailbox.org>
-Date: Thu, 13 Aug 2026 07:15:54 -0600
-Message-ID: <87tsoyi2k5.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sh+DvyWS"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cbe827e3cb4so2289754a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 06:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786628868; x=1787233668; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dRo6rWR/N8SaaRIjDum9BhWzE5GlfAM9ECHVjvqDwOE=;
+        b=Sh+DvyWSQ7lXO8HdYkVgvw0KHvHPiHogLlsPXKTxEQnU2Ah6Bf/0Gax5oeVXm0YiWH
+         aLA2D0EUwSdLM2b1PowMdoBpddQuHf3MWnf/jMAxbsmVneJhGZglyJROXSl4nxydY5JM
+         EqatOfR3EuYk3wMURqGNNSpXE+ARssp/BMiL/ehmGh4/VeiEpaOTvUOMbDgkkDiP5Sok
+         SqGR7NMdZngFWf/1Uv1/AO6oEQtdqq13dOgg/VnLVxH4LMqVLXPq/9eWzf2EioWyjMoT
+         OGz78yaHrybjmDuMJAi5ngBjs9wr9ZoFBIK1Ty/o5CBljD8zTqjPWDF7Lsp1SgfO4tjS
+         kCEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786628868; x=1787233668;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dRo6rWR/N8SaaRIjDum9BhWzE5GlfAM9ECHVjvqDwOE=;
+        b=Ijl+g4RZ3sGWZPmpMvmSJwUXjqcCPIjeOY7MWlwy4lM3pC9Cmc1T3P9iKR0y5GvkSi
+         k5kBA+ypFtamJSE2jLJcM3fkrUjVmnX5M1yokX9bwegFlDdiskFr9S3cq3HU77EVUU3a
+         rVbkIMEbmBKI1jStAVxc4AzSKgOsgi+7v3HYACPuqKqsXHlFC1TNEokekxsEHOloJO6B
+         DmcwNXSvjcvxIfPKtPzxxyDRXfSrgjfhBzq7mjuhSpsFmL2YO1S+xAHWlk7b0UnKrWCu
+         6JDt2xUyvgj2Wo5LUB1QWiK1AHS+y5D2U+pCKm7rQjsAfD1qyDZrk3ho3xn8/CrPUY3g
+         gpgA==
+X-Gm-Message-State: AOJu0YxFFwhfBO1lj2g2+MyThMRhbNJGgJ8AzpSzcJ1r1GvFN6sm922Y
+	FjQjseH0sdBIPnLmVOVJ64l4sy1KAZLZ8unja3IYl0ndfVmdjxoAfeSI
+X-Gm-Gg: AR+sD10rW6X8xCcP9NsjJNPW0EjYBSv4XxeearozTcpCe1LyX/4kheb2jJDLndDA3ED
+	sbrz5UEq/pAB3pqNgnC7ySvOclAEkt3QJ2j0RB55w7Ny6INmMvDqV2DDCvu+mzCJfBbAULfq1jO
+	T4+Gn+Fwo/iO/AVMPS4Zt8Rkx7C+hz4TCdF8zSuq2WLFXFg0r4VRJiMfL6/hy0jOLDU/XxXG676
+	awdjT/fcHQmSIixTfh+0g+w5lYLxlJQIGLBjT4ZGdfPKAZ5qnNaC4z47n1NCRQZqH//1aOhWy6S
+	LigFWaLdS4FUJhUh+iM2nH9F3gSATgIoOqfKq0LJknYvUUtlJNC8jENMXx6c7Sw8wqjxmgAwUSJ
+	6uKl3Zljtf4xm2P+0bixpTukBVX9G5O7UM19bTaJPVWb9VcavtB8hZa1FHcEUyWijgxWaJ03Wi8
+	WsOJMELeFtcZEAYqr3NwqpZ/EppBq3tuL/qPan13bIjJMHukCWmbPZ8p1WfrB46U4OgoZ5Ydm/n
+	qcbMt3hI5nCCvcQi21zTaecjYV4pmp0OpmQY2+Bypf9jNjJ7mlUUkr+bGs9xE3z/5/RWLE6Dy9h
+	5+EyPq6hE+ayGtK0Ow0=
+X-Received: by 2002:a05:6a21:10a:b0:3c3:7ac4:dac0 with SMTP id adf61e73a8af0-3cc55044176mr8986748637.13.1786628868181;
+        Thu, 13 Aug 2026 06:47:48 -0700 (PDT)
+Received: from localhost.localdomain ([200.218.229.14])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1412d8bd946sm9687887c88.5.2026.08.13.06.47.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 06:47:47 -0700 (PDT)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH] docs: pt_BR: Reorganize process/index.rst to follow english structure
+Date: Thu, 13 Aug 2026 10:47:39 -0300
+Message-ID: <20260813134741.11025-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
-Manuel Ebner <manuelebnerli@mailbox.org> writes:
+The main index.rst file for the pt_BR translation was grouping all
+translated process documents directly in its toctree, which frequently
+caused patch collisions among contributors.
 
-> The optional tag isn't obvious nor defined. Therefore replace with footnotes
-> like the one of Sphinx.
->
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
->  .../process/software-requirements.rst         | 22 ++++++++++++-------
->  1 file changed, 14 insertions(+), 8 deletions(-)
+Following Jonathan Corbet's suggestion, this patch introduces a new
+pt_BR/process/index.rst that mirrors the subsection structure of the
+English Documentation/process/index.rst. The translated documents are
+now organized into their respective categories, rather than a single
+flat list.
 
-Explaining the optionals seems like a fine idea.  I'm a bit less
-convinced about the mess of footnotes.
+The root pt_BR/index.rst now simply references process/index.
 
-Especially since many of the entries that are *not* marked as optional
-really are.  You only need e2fsprogs if you're using ext4.  gdb only if
-you're wanting to run a debugger.  jfsutils seems truly optional, etc.
-Even GCC is optional if you're using Clang.
+This matches the upstream categorization and significantly reduces
+merge conflicts for future pt_BR translations.
 
-I'm not sure what would be best...perhaps replace the --version field
-(which people can figure out) with an explanation of when each
-dependency would be needed?
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |  27 +----
+ .../translations/pt_BR/process/index.rst      | 104 ++++++++++++++++++
+ 2 files changed, 105 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/translations/pt_BR/process/index.rst
 
-jon
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index 1462b62d8..462267e92 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -66,29 +66,4 @@ kernel e sobre como ver seu trabalho integrado.
+ .. toctree::
+    :maxdepth: 1
+ 
+-   Introdução <process/1.Intro>
+-   Guia do Processo de Desenvolvimento <process/development-process>
+-   Como aplicar patches <process/applying-patches>
+-   Backporting e resolução de conflitos <process/backporting>
+-   Como não Deixar as ioctls malfeitas <process/botching-up-ioctls>
+-   Index de documentos do Kernel <process/kernel-docs>
+-   Regras de licenciamento <process/license-rules>
+-   Como começar <process/howto>
+-   Requisitos mínimos <process/changes>
+-   CVEs <process/cve>
+-   Conclave (Continuidade do projeto) <process/conclave>
+-   Informações sobre clientes de email para Linux <process/email-clients>
+-   Modelos de Maturidade para Contribuição no Kernel Linux <process/contribution-maturity-model.rst>
+-   Manuais dos mantenedores <process/maintainer-handbooks>
+-   Processo do subsistema de rede (netdev) <process/maintainer-netdev>
+-   Processo do subsistema SoC <process/maintainer-soc>
+-   Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
+-   Estilo de gerenciamento do kernel Linux <process/management-style>
+-   Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
+-   Adicionando uma nova chamada de Sistema <process/adding-syscalls>
+-   Declaração sobre Drivers do Kernel <process/kernel-driver-statement>
+-   Lista de verificação para submissão de patches do kernel Linux <process/submit-checklist>
+-   Interpretação do Código de Conduta do Kernel Linux <process/code-of-conduct-interpretation>
+-   Código de Conduta de Compromisso do Colaborador <process/code-of-conduct>
+-   Interfaces, recursos de linguagem, atributos e convenções obsoletos <process/deprecated>
+-   Falhas de segurança <process/security-bugs>
++   process/index
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+new file mode 100644
+index 000000000..5cecc0300
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -0,0 +1,104 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. raw:: latex
++
++	\renewcommand\thesection*
++	\renewcommand\thesubsection*
++
++.. _process_index_pt_BR:
++
++===============================================
++Trabalhando com a comunidade de desenvolvimento
++===============================================
++
++Então você quer ser um desenvolvedor do kernel Linux? Bem-vindo! Embora haja
++muito a aprender sobre o kernel em um sentido técnico, também é importante
++aprender como nossa comunidade funciona. A leitura desses documentos tornará
++muito mais fácil para você ter suas alterações integradas com um mínimo de
++problemas.
++
++Uma introdução sobre como funciona o desenvolvimento do kernel
++--------------------------------------------------------------
++
++Leia estes documentos primeiro: entender este material facilitará
++sua entrada na comunidade do kernel.
++
++.. toctree::
++   :maxdepth: 1
++
++   Como começar <howto>
++   Guia do Processo de Desenvolvimento <development-process>
++   Lista de verificação para submissão de patches do kernel Linux <submit-checklist>
++
++Ferramentas e guias técnicos para desenvolvedores do kernel
++-----------------------------------------------------------
++
++Esta é uma coleção de material com o qual os desenvolvedores do kernel
++devem estar familiarizados.
++
++.. toctree::
++   :maxdepth: 1
++
++   Requisitos mínimos <changes>
++   Informações sobre clientes de email para Linux <email-clients>
++   Como aplicar patches <applying-patches>
++   Backporting e resolução de conflitos <backporting>
++   Adicionando uma nova chamada de Sistema <adding-syscalls>
++   Como não Deixar as ioctls malfeitas <botching-up-ioctls>
++
++Guias de políticas e declarações de desenvolvedores
++---------------------------------------------------
++
++Estas são as regras pelas quais tentamos viver na comunidade do kernel
++(e além).
++
++.. toctree::
++   :maxdepth: 1
++
++   Regras de licenciamento <license-rules>
++   Código de Conduta de Compromisso do Colaborador <code-of-conduct>
++   Interpretação do Código de Conduta do Kernel Linux <code-of-conduct-interpretation>
++   Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
++   Declaração sobre Drivers do Kernel <kernel-driver-statement>
++   Estilo de gerenciamento do kernel Linux <management-style>
++   Conclave (Continuidade do projeto) <conclave>
++
++Lidando com bugs
++----------------
++
++Bugs são uma realidade; é importante lidarmos com eles de forma correta.
++Os documentos abaixo detalham políticas e conselhos em relação ao
++gerenciamento de bugs e vulnerabilidades.
++
++.. toctree::
++   :maxdepth: 1
++
++   Falhas de segurança <security-bugs>
++   CVEs <cve>
++
++Informações para mantenedores
++-----------------------------
++
++Como encontrar as pessoas que aceitarão seus patches e manuais úteis para os
++mantenedores de subsistemas.
++
++.. toctree::
++   :maxdepth: 1
++
++   Manuais dos mantenedores <maintainer-handbooks>
++   Processo do subsistema de rede (netdev) <maintainer-netdev>
++   Processo do subsistema SoC <maintainer-soc>
++   Conformidade de DTS para SoC <maintainer-soc-clean-dts>
++   Processo do subsistema KVM x86 <maintainer-kvm-x86>
++
++Outros materiais
++----------------
++
++Aqui estão alguns outros guias para a comunidade que são de interesse para
++a maioria dos desenvolvedores:
++
++.. toctree::
++   :maxdepth: 1
++
++   Index de documentos do Kernel <kernel-docs>
++   Interfaces, recursos de linguagem, atributos e convenções obsoletos <deprecated>
+-- 
+2.52.0
+
