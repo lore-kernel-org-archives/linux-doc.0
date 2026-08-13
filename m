@@ -1,42 +1,42 @@
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395BF3B71A4;
-	Thu, 13 Aug 2026 15:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318223B71A4
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 15:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786634440; cv=none; b=ntaiUq1R//0OJ96rdTpvqXH/38OCGZk+Cxn1WeIipCfnTsuj4neBih7yxQD0P6HqHbQ8HBjCathDHD3s+nXyh84AAHf3soDF1cGmn6V/dNXV+zkZWYemLV8cbSYQphLDuTGVmKLI0tS0lkZHMG48zXeZl9Z4dj+eS5Jg2e40oH4=
+	t=1786634447; cv=none; b=GqAuXvlCzfLqayTzsq4SnE7e62ach0L7BxteQT7/uKLXotCLBeuXELb/34OiZFDawaR+W+Foe8qo28amdLxec3rG0RTPAIrtw3Eppt1BnhndH4miq/sx2KGr16tNqXHHYKT2R/q4fVmnij5Sog3OwUBoHWwG/X0Ag1IoV2buRso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786634440; c=relaxed/simple;
-	bh=3LjfeFmebGzPCxcUNdU2DyE7kGDUu2IbgZVUL3vLCt8=;
+	s=arc-20240116; t=1786634447; c=relaxed/simple;
+	bh=chNKKq+u+KX8PaA7zCeD63YB8ChkIEsmyZbOaFOthBk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KSpCbtBTeGGgtMiYi2718QMVwcMiR5CyOC9io+YAOt8Nh/lUJog61deqJJztUhAgC2OM98XbACrPtpgbgLp2xW7NcwqEe/xZe/NTjdxAPtblZqdbXevbSUHe9SfSPR56fIcUKhqHvuQEC4NBZTuF3s4kphSulZL09iHM3aGy5gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=k4U6uur7; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=ZwPIxkKT4ZMzyBC2oWF5eSil+8AHvk4xkWnO/21E8iSFe7PXt74UzXU9HJFlkIuH94/IDEs2J5R2voCXcYl/K6XQgPZMaa4iwg1kyjR9mXocYZzcBgjWfyvBAlpD3OQdejjG/snCw6nEfy7TroC30xK+i1tDAuyqR8uI03TkOX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZkdQCn4V; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="k4U6uur7"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZkdQCn4V"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id B2E4C1A15E8;
-	Thu, 13 Aug 2026 15:20:37 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B22C91A15E8;
+	Thu, 13 Aug 2026 15:20:43 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 87166602B8;
-	Thu, 13 Aug 2026 15:20:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CBD8411C4E076;
-	Thu, 13 Aug 2026 17:20:30 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 86206602B8;
+	Thu, 13 Aug 2026 15:20:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 15D7511C4E074;
+	Thu, 13 Aug 2026 17:20:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786634432; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1786634438; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Lq84wOrb0DwbbexggSQrb5Hy+0Y6vjOJj/bzqMRZ1A0=;
-	b=k4U6uur7kEOq6SWzuo3MqiQAUwsgUjYcNxaR2iHELgXM/duS5LqFWnluXI4OTvH/UsntXA
-	ZLeiieNiQ9DTypN4MTpCdhxtAipmvwtH3P4cpYhrAOpErmASsw/6pIc0wE0i9Bipvmp+fr
-	fFAmnP80gUj1xwwa37OnvKSy3LLI2IEUddT51R/5tLTahN/EYjYJxDaMmv5Ia/V8WJidso
-	TvmWX1+YZqf4a3+m1pDpS+BsNQt0/cLBIdyyOUDqf60V+bU4riC2r+To6pkm/rbmGyGsWv
-	Hlyq+hqSJa9/W3CeznOJqsHX8hELKTMuLzHSJRtYO2WyVq+x/5tvUpB57fj6+Q==
+	bh=lYWdwpogwMkX70OdAlE9cD8p+EsgGjygnAtXsWu6Dpo=;
+	b=ZkdQCn4Vx25majkxB42K8nj+XzRos6/hWHfPnIFeF1xUrscX6+8vtMyqd1V6qwhrq3RyN4
+	KrUOSUXFNlNP5ANtvfC2S0u8DzB+eJE3tuODF/tkPCAnj8lskd6PsPmh5lhydZ8TbCOoZU
+	WdX+t6bEmgcITWMbPw1qqKzdaarXWyj9HAWFv+COKEV40p4KEeDi0+qVHLQgZzaSpDIuQ0
+	h4y7Mk8bwsiB0Tj4TVtPrxaK/JO0gT6V5ch+GI6YtYA4TtnRN+6XZ2QS5eYB/zy4pq6LSB
+	8Gv6xLaCvgpVtlhs4ZSZf8Eb91lmARVwdzvUuCjiDKtX21cZCnmJ8mXZvkXlcQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Thu, 13 Aug 2026 17:19:12 +0200
-Subject: [PATCH v3 12/23] mtd: spi-nor: winbond: Add support for
- W25Q51RV-Q/N
+Date: Thu, 13 Aug 2026 17:19:13 +0200
+Subject: [PATCH v3 13/23] mtd: spi-nor: winbond: Add support for
+ W25Q01RV-Q/N
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-12-b637cf120d5c@bootlin.com>
+Message-Id: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-13-b637cf120d5c@bootlin.com>
 References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com>
 In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com>
 To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
@@ -156,7 +156,6 @@ locked sectors
  ------------------+----------+---------
  00000000-03ffffff | unlocked | 1024
 + dd 'if=/dev/urandom' 'of=./spi_test' 'bs=1M' 'count=2'
-[   25.427347] random: crng init done
 2+0 records in
 2+0 records out
 + mtd_debug erase /dev/mtd0 0 2097152
@@ -174,15 +173,15 @@ Copied 2097152 bytes from spi_test to address 0x00000000 in flash
 + mtd_debug read /dev/mtd0 0 2097152 spi_read
 Copied 2097152 bytes from address 0x00000000 in flash to spi_read
 + sha256sum spi_read spi_test
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_read
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_test
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_read
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_test
 + mtd_debug erase /dev/mtd0 0 2097152
 Erased 2097152 bytes from address 0x00000000 in flash
 + mtd_debug read /dev/mtd0 0 2097152 spi_read
 Copied 2097152 bytes from address 0x00000000 in flash to spi_read
 + sha256sum spi_read spi_test
 4bda3a28f4ffe603c0ec1258c0034d65a1a0d35ab7bd523a834608adabf03cc5  spi_read
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_test
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_test
 + mtd_debug info /dev/mtd0
 mtd.type = MTD_NORFLASH
 mtd.flags = MTD_CAP_NORFLASH
@@ -207,8 +206,8 @@ Copied 2097152 bytes from spi_test to address 0x00000000 in flash
 + mtd_debug read /dev/mtd0 0 2097152 spi_read
 Copied 2097152 bytes from address 0x00000000 in flash to spi_read
 + sha256sum spi_read spi_test
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_read
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_test
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_read
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_test
 + grep -A4 'locked sectors' /sys/kernel/debug/spi-nor/spi0.0/params
 locked sectors
  region (in hex)   | status   | #sectors
@@ -226,8 +225,8 @@ Erased 2097152 bytes from address 0x00000000 in flash
 + mtd_debug read /dev/mtd0 0 2097152 spi_read
 Copied 2097152 bytes from address 0x00000000 in flash to spi_read
 + sha256sum spi_read spi_test
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_read
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_test
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_read
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_test
 + dd 'if=/dev/urandom' 'of=./spi_test2' 'bs=1M' 'count=2'
 2+0 records in
 2+0 records out
@@ -236,10 +235,10 @@ Copied 2097152 bytes from spi_test2 to address 0x00000000 in flash
 + mtd_debug read /dev/mtd0 0 2097152 spi_read2
 Copied 2097152 bytes from address 0x00000000 in flash to spi_read2
 + sha256sum spi_read spi_read2 spi_test spi_test2
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_read
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_read2
-cd699acc82353b7769b98547efed68d5300854ed0bbc84bf831b07937bf941a5  spi_test
-f506020804f91fb750e8250e091fb2f732319221a645ed575e1b6ed3553d584c  spi_test2
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_read
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_read2
+950cbc701e7f6ed69837b30bbf4145fe776e6c07a7bc5b8f346d42242bdd7a63  spi_test
+643412dbe0f46c2780ec8d4f609d369923829945f4bc3d7842138b2fbbc86046  spi_test2
 + grep -A4 'locked sectors' /sys/kernel/debug/spi-nor/spi0.0/params
 locked sectors
  region (in hex)   | status   | #sectors
@@ -329,18 +328,18 @@ locked sectors
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-index 568dc05d3c25..47a5c2cf71de 100644
+index 47a5c2cf71de..1c67a652ddcd 100644
 --- a/drivers/mtd/spi-nor/winbond.c
 +++ b/drivers/mtd/spi-nor/winbond.c
-@@ -273,7 +273,7 @@ static const struct flash_info winbond_nor_parts[] = {
- 		.flags = SPI_NOR_QUAD_PP | SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB |
- 			 SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+@@ -281,7 +281,7 @@ static const struct flash_info winbond_nor_parts[] = {
+ 		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
+ 			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
  	}, {
--		/* W25Q512JV-Q/N */
-+		/* W25Q512JV-Q/N, W25Q51RV-Q/N */
- 		.id = SNOR_ID(0xef, 0x40, 0x20),
- 		.name = "w25q512jvq",
- 		.size = SZ_64M,
+-		/* W25Q01JV-Q/N */
++		/* W25Q01JV-Q/N, W25Q01RV-Q/N */
+ 		.id = SNOR_ID(0xef, 0x40, 0x21),
+ 		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
+ 			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
 
 -- 
 2.54.0
