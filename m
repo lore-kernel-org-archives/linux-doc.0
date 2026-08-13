@@ -1,92 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBE130569F;
-	Thu, 13 Aug 2026 12:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E32B47CA82;
+	Thu, 13 Aug 2026 12:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786625338; cv=none; b=iFuPp2strOrahcTSXoGQXi+IdA+mpK32YE6STlpZqe0GEGjYkggd4bqSh8lSeBzR72wIb3+hRW8Zt1Z44XHO2XUFTVBbpJN86Aa6VKWfx72CKEXThdhphBGEUKcDqQ2zIt9WhZuslx0X+8LhHs67Z3QHpS+sNmh63TFgemLVw6Q=
+	t=1786625482; cv=none; b=dz1VmQYkhmBVAGJA3gLbSEcNTxAPFpdzwGyXrlAtY76ODBoF9ZPLmodQXExdjcTjvJtNO8sGsnp5ftrZZzgiFpDGXmauCRHCQ1eJhj0kkmVgjGulfAVeO+RGVhSTzEFDATO7tuVy62aVXPALEnK0/a0noMQZ9Hm0hmXd7ksAYu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786625338; c=relaxed/simple;
-	bh=1/bPw3W0cpITOAMWwJsZ/TTY/cOu/aksY5Eu79SxH+s=;
+	s=arc-20240116; t=1786625482; c=relaxed/simple;
+	bh=COYw+m4edrtvnTr47kSjz/5KjVYwr6GZaP9Wh8wq+Uo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CFyU1v1pyb4BGmOTjc5jjUuEAlj/0JATLSvL+C86Qae+/9Jl8tQnonL3J8zBaqsMSycCTkfKfUh8J7rLhA0cvOgCtecH0fCly7mjBwZqCcOpnKHbzwCSMtS7cnpq5JwSZYDcOvR4UuOk73A+nZhpptbwuiQmoNfXRYMxVFtB03s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SxYAsBQi; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=lpriHP/TpTZRiJWVui0FsQ/CtsrEm0VpC3HjnmZgrGMmw/zwcP8gEE2lAaUMqKSCHt4jujiALRbuz5SJA19VxmgDC7z/b1/NkESCOjglX6nK80zKblH8ciEL6kJF1XRLmpCCVISVKSq6wgsScwIV0ce6QK8CnUt4x27zlB5UU3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IfMA+qDx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SxYAsBQi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 471931F000E9;
-	Thu, 13 Aug 2026 12:48:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IfMA+qDx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC51A1F000E9;
+	Thu, 13 Aug 2026 12:51:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786625336;
-	bh=XyfRPEPlqeXNRCr9zPbmFcASiinf6awaGaFpaTojyyY=;
+	s=k20260515; t=1786625471;
+	bh=3O+x1tQC4io2ZPnXiOKe372dKcdRSTco449QzH4pctE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SxYAsBQi8YFfTMjareRgIQmm5u7JA3S4q4/HpP19hbiK08fiX1TMOD7fo4JGuBBzn
-	 4WW868kvhqkFDiFz3D3T2Zoiut7BF2oMYBqzNTdsg7WqyoyEJaTAM03fEMhEabjgwZ
-	 cy//esWaQQtHMnDffrhJCGvSlxLz870wq0WN4VTFJEFETM4tCdB05VvfBVRXEK8BP0
-	 VOiBGZc8OvRfNONIvNWIUUm/fmAMkkfk/MMVxkVK4WjeKSrUEv6sjrrAbbCYKjFCP8
-	 46U5KxJBwqw7KLeCOZzD3mvL4B1PePLhelWb7N1o71LSmjpl7xa7h/Ne4cfgUopl22
-	 FNb8ZpkHmcZkg==
-Date: Thu, 13 Aug 2026 13:48:50 +0100
-From: Simon Horman <horms@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Teng Peisen <tengpeisen@huawei.com>, Wu Di <wudi234@huawei.com>,
-	netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Larysa Zaremba <larysa.zaremba@intel.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Chen Anwen <chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>,
-	Zhang Min <zhangmin548@huawei.com>, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>,
-	Wu Like <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>
-Subject: Re: [PATCH net v04] hinic3: Fix skb linearization mismatch and drop
- skb when skb_checksum_help() failed
-Message-ID: <20260813124850.GD196815@horms.kernel.org>
-References: <78d8c61cab588240948eaddcb437d59add9f77ae.1786448013.git.tengpeisen@huawei.com>
+	b=IfMA+qDxwJIjxNDooNSAbWLXIu6+pzV2RL5cvh7SCcaMIMT8s8IQwtAv0bD5Z1FUi
+	 NRYNCyWgjFUWI7giKh3zg45izpsm6ZSuR4VlH/oV8Ibo5w99RFw3HfLfprhbR44llJ
+	 AEtGU2NFuETMOU1TUt/orCQrEWGUlB0YW7fVff8u4BknzFqBCiHbIJVLKRwdsj1BVF
+	 aAd9kWXUxauNEIZKUlcZGmanqYlvlXrjobRHSCw7+I8oItWWuu55wPbwMtL5kYXHiU
+	 4KC+lP7jkSk6TDNVLl1LxJXC78JAlgyqlip8cHd9IvFwkZdAR/s2cOq6b6vr6UUwoP
+	 65C+lu/cj88Ig==
+Date: Thu, 13 Aug 2026 14:50:59 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Koichiro Den <den@valinux.co.jp>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Vinod Koul <vkoul@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dmaengine@vger.kernel.org
+Subject: Re: [PATCH v7 00/10] PCI: endpoint: Add PCI DMA endpoint function
+Message-ID: <zoed4wtc4oxiyni4o5qpj3li3cmlyy5kfutp4r5g4d63u52625@j6rvbbehjgov>
+References: <20260813063757.3131865-1-den@valinux.co.jp>
+ <an2uf5mXzGq1Q7cj@ryzen>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <78d8c61cab588240948eaddcb437d59add9f77ae.1786448013.git.tengpeisen@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <an2uf5mXzGq1Q7cj@ryzen>
 
-On Tue, Aug 11, 2026 at 07:43:59PM +0800, Fan Gong wrote:
-> Previously, hinic3_send_one_skb() cached the skb fragment count before
-> calling hinic3_tx_offload(). If hinic3_tx_csum() falls back to
-> skb_checksum_help() for unsupported tunnel packets, the skb may be
-> linearized. Continuing to build the TX descriptor with the stale
-> fragment count leads to a descriptor mismatch, which can trigger
-> out-of-bounds DMA reads or IOMMU faults.
+On Thu, Aug 13, 2026 at 01:46:07PM +0200, Niklas Cassel wrote:
+> Hello Koichiro,
 > 
-> Furthermore, the old code ignored the return value of skb_checksum_help(),
-> transmitting corrupted packets with incomplete checksums upon failure.
+> On Thu, Aug 13, 2026 at 03:37:47PM +0900, Koichiro Den wrote:
+> > This is v7, the remaining patch set for PCI endpoint DMA.
+> > Parts 2 and 3 were merged per Frank's suggestion.
 > 
-> Fix this by:
-> 1. Moving the hinic3_tx_offload() call before calculating 'num_sge' to
->    ensure the correct fragment count is used if the SKB is linearized.
-> 2. Propagating skb_checksum_help() errors and returning
->    HINIC3_TX_OFFLOAD_INVALID to properly drop the skb.
+> (snip)
 > 
-> Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
-> Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-> Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-> Co-developed-by: Wu Di <wudi234@huawei.com>
-> Signed-off-by: Wu Di <wudi234@huawei.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> > One open question is how to support endpoint controllers with only one
+> > PF. Keeping DMA in a separate EPF requires multi-function endpoint
+> > support. Folding it into vNTB would work on single-function
+> > controllers, but would also couple the two implementations. This series
+> > keeps the separate EPF model.
+> 
+> I see all the work you are putting in and I admire the effort.
+> 
+> This is now v7. I think it is time that we close the open question by
+> waiting for a reply from the PCI endpoint maintainers' opinion on the
+> design before continuing. (I am not a PCI endpoint maintainer.)
+> 
+> I understand that you want a common DMA abstraction, that can represent
+> different (embedded) DMA controllers on the endpoint side.
+> 
+> But if vNTB is the only consumer of this, then why not simply embed this
+> DMA abstraction in some BAR exposed by the vNTB EPF?
+> 
+> Looking at the host side driver that goes with the (v)NTB driver:
+> drivers/ntb/hw/epf/ntb_hw_epf.c
+> 
+> The BAR layouts are hard coded, and it only supports three different
+> layouts. Would it not be possible to add a fourth layout that has the
+> DMA abstraction somewhere in one of the BARs? ('BAR_DMA' ?)
+> 
+> 
+> Right now, I wonder if it is not a bit premature optimization to create a
+> DMA EPF, if vNTB will be the only (ever?) user.
+> 
 
-Thanks,
+Yeah, I feel the same. I haven't seen an usecase to program the DMA controller
+from the host outside of vNTB. This feature is supported mostly because it
+exists in hardware and someone wants to tick the checkbox.
 
-I do think this change is fine as it addresses the issue described.
+Though, I'm not against doing it within vNTB as Niklas suggested, but
+generalising it in the form of a new EPF driver just for the sake of a single
+driver sounds like an overkill and maintenance burden.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Sorry for saying this in v7. I've been meaning to say it, but somehow ended up
+procrastinating too much.
 
-But you may want to consider some follow-up based on the AI-generated
-review of v1 that was forwarded by Jakub:
+- Mani
 
-https://lore.kernel.org/netdev/20260806162138.2749871-1-kuba@kernel.org/
-
-...
+-- 
+மணிவண்ணன் சதாசிவம்
