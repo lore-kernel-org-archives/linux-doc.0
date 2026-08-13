@@ -1,33 +1,33 @@
-Received: from mta1.migadu.com (out-13.mta1.migadu.com [95.215.58.13])
+Received: from mta1.migadu.com (out-16.mta1.migadu.com [95.215.58.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B953435C6BD
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 23:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9CA3C063A
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 23:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786662112; cv=none; b=N+1vc6rnaVC+pcxwMZr1LIMGa0rzsa9Jz/+OntXuRBkT9pxYWMQMUGzhoYtnrYcVGWkC5XjZe13JLNuincPBqFNfKGu1yQzw3UcmV9oRaz1C5cxSTsiX/6Njds/U33uYYrG28riVi8pxTgu1OUtZG5BQfJCeILcP7gtuffDOq28=
+	t=1786662122; cv=none; b=uQlk7QEHGw8S+CsC+xAlzA9UB+w07k3Hr5K+Nzrvis246LIvh91TWQqSEncWl/SYMCUBFOMiaD2mtkR+9+93k5paK1oXK5K4ps3JLl3bWSivDUf3g1fNDvpotJg6HGmzBvBABM6Iewgzhh9M4dGaprz6Nrk7mUVaJReHW7nj/p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786662112; c=relaxed/simple;
-	bh=86Ku6rMPPzoffm7BdqHJ23UuUftGpHlUvJrV5uLx5Ho=;
+	s=arc-20240116; t=1786662122; c=relaxed/simple;
+	bh=aW4IoisfK+/HMB8ocJHrcS4JosOvB4zVKSMKy4qrqDE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LrK7hw2xxC8ipBNYA6nia3KJyiCU20L8oMl1SOmI2JzgujZ6N0BM8tpCscT2pG2b7Yj21fRI0tKW1XWHXaIl3mTXTroB0J6U89TxqL37Gn5OHVOMu00PMGsxclRog89IL7Qk5DOjtiaBfbo1jJt9qlpCr32u7kQZZfOOxEsCZiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L7+Juwit; arc=none smtp.client-ip=95.215.58.13
+	 MIME-Version; b=OdPMQTKaIaxKEDVytcJiQi/JYNvjIcoxYAI2LcM6A9Bx/4h8gQ/Tle7Rg4vAOwuvt6vdX4Rv4ngUUSnNVPblrvbW6aRPJGbSNCUiFhv3vh6M3xRDJOWz0+CQrwpYuUK3BYAjPpu1T6BI96OcEO7guyJD20J8Z7ErqIBKYgLd6CI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BeA5tMsy; arc=none smtp.client-ip=95.215.58.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L7+Juwit"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BeA5tMsy"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=86Ku6rMPPzoffm7BdqHJ23UuUftGpHlUvJrV5uLx5Ho=;
+DKIM-Signature: a=rsa-sha256; bh=aW4IoisfK+/HMB8ocJHrcS4JosOvB4zVKSMKy4qrqDE=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786662108; v=1; x=1787266908;
- b=L7+Juwitr6/CBX64rUn+q9+jempK52Ch0gnr+hAy+/Q7Yik0FtmiUXD0jtJGq3yiJZLzJqWN
- Mut82bnZfgrrvbhuyaxqg4KOWLMAztO1mHq6BspacpcSsUVEEEdDPm3rwDvL2UBZIsPMJkmx9iA
- OyxlFZY5PQvUqXLOKrMVejUY=
+ t=1786662118; v=1; x=1787266918;
+ b=BeA5tMsyn27l/tVn09gMhUS28LGQNEF6EIzG0mHJl1AFLJMYc4hlcEqggiDmdzMMZ93O9jKg
+ RVDxlxfubgXIrvGTem/AugVgLtrhRoA/xK7Zw1Mx1wbWYNNfUHci9gco1Eiq+z7qldS3YBQhmo/
+ HuJLTOQXvTFw2JufzvaArK4U=
 X-Envelope-To: linux-doc@vger.kernel.org
 Received: from ctao-book.. (111.162.215.50)
-	by smtp.migadu.com with ESMTPS id bb7d3cc60806c1ee;
-	Thu, 13 Aug 2026 23:01:48 +0000
+	by smtp.migadu.com with ESMTPS id 2196ede5a1ef122e;
+	Thu, 13 Aug 2026 23:01:58 +0000
 X-Migadu-Flow: FLOW_OUT
 From: Tao Cui <cui.tao@linux.dev>
 To: tj@kernel.org,
@@ -44,9 +44,9 @@ Cc: rdunlap@infradead.org,
 	linux-kernel@vger.kernel.org,
 	cui.tao@linux.dev,
 	Tao Cui <cuitao@kylinos.cn>
-Subject: [PATCH v2 1/2] Documentation: sched_ext: fix events sysfs path and show_state example
-Date: Fri, 14 Aug 2026 07:01:22 +0800
-Message-ID: <20260813230123.2069719-2-cui.tao@linux.dev>
+Subject: [PATCH v2 2/2] sched_ext: fix stale references in doc comments
+Date: Fri, 14 Aug 2026 07:01:23 +0800
+Message-ID: <20260813230123.2069719-3-cui.tao@linux.dev>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260813230123.2069719-1-cui.tao@linux.dev>
 References: <20260813230123.2069719-1-cui.tao@linux.dev>
@@ -60,46 +60,57 @@ Content-Transfer-Encoding: 8bit
 
 From: Tao Cui <cuitao@kylinos.cn>
 
-The events file is under the scheduler's sysfs kobject
-(/sys/kernel/sched_ext/root/events for the root scheduler), not the
-nonexistent "<scheduler-name>/events" path. Also add the missing "aborting"
-line to the scx_show_state.py example.
+- inlines.h: scx_bpf_dispatch() doesn't exist; the comment means
+  scx_bpf_sub_dispatch()
+- internal.h: name %SCX_DEQ_SCHED_CHANGE instead of the never-defined
+  %SCX_DEQ_SAVE
+- internal.h: @name shows up in the ops file in the scheduler's sysfs
+  directory, not a "kernel.sched_ext_ops" sysctl
 
 Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 ---
- Documentation/scheduler/sched-ext.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ kernel/sched/ext/inlines.h  | 2 +-
+ kernel/sched/ext/internal.h | 7 ++++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/scheduler/sched-ext.rst b/Documentation/scheduler/sched-ext.rst
-index ad2fff3..0e97fd0 100644
---- a/Documentation/scheduler/sched-ext.rst
-+++ b/Documentation/scheduler/sched-ext.rst
-@@ -93,13 +93,13 @@ scheduler has been loaded):
-     # cat /sys/kernel/sched_ext/enable_seq
-     1
+diff --git a/kernel/sched/ext/inlines.h b/kernel/sched/ext/inlines.h
+index 72d5ccd..8f3be59 100644
+--- a/kernel/sched/ext/inlines.h
++++ b/kernel/sched/ext/inlines.h
+@@ -22,7 +22,7 @@ enum scx_dsp_verdict {
+ };
  
--Each running scheduler also exposes a per-scheduler ``events`` file under
--``/sys/kernel/sched_ext/<scheduler-name>/events`` that tracks diagnostic
--counters. Each counter occupies one ``name value`` line:
-+Each running scheduler exposes an ``events`` file under its sysfs kobject
-+(``/sys/kernel/sched_ext/root/events`` for the root scheduler) that tracks
-+diagnostic counters. Each counter occupies one ``name value`` line:
+ /*
+- * One user of this function is scx_bpf_dispatch() which can be called
++ * One user of this function is scx_bpf_sub_dispatch() which can be called
+  * recursively as sub-sched dispatches nest. Always inline to reduce stack usage
+  * from the call frame.
+  */
+diff --git a/kernel/sched/ext/internal.h b/kernel/sched/ext/internal.h
+index b699e7c..c91296c 100644
+--- a/kernel/sched/ext/internal.h
++++ b/kernel/sched/ext/internal.h
+@@ -485,7 +485,7 @@ struct sched_ext_ops {
+ 	 * - sleeping (%SCX_DEQ_SLEEP)
+ 	 * - being moved to another CPU
+ 	 * - being temporarily taken off the queue for an attribute change
+-	 *   (%SCX_DEQ_SAVE)
++	 *   (%SCX_DEQ_SCHED_CHANGE)
+ 	 *
+ 	 * This and ->dequeue() are related but not coupled. This operation
+ 	 * notifies @p's state transition and may not be preceded by ->dequeue()
+@@ -966,8 +966,9 @@ struct sched_ext_ops {
+ 	 * @name: BPF scheduler's name
+ 	 *
+ 	 * Must be a non-zero valid BPF object name including only isalnum(),
+-	 * '_' and '.' chars. Shows up in kernel.sched_ext_ops sysctl while the
+-	 * BPF scheduler is enabled.
++	 * '_' and '.' chars. Exposed via the ops file in the scheduler's sysfs
++	 * directory, /sys/kernel/sched_ext/root/ops for the root scheduler,
++	 * while the BPF scheduler is enabled.
+ 	 */
+ 	char name[SCX_OPS_NAME_LEN];
  
- .. code-block:: none
- 
--    # cat /sys/kernel/sched_ext/simple/events
-+    # cat /sys/kernel/sched_ext/root/events
-     SCX_EV_SELECT_CPU_FALLBACK 0
-     SCX_EV_DISPATCH_LOCAL_DSQ_OFFLINE 0
-     SCX_EV_DISPATCH_KEEP_LAST 123
-@@ -153,6 +153,7 @@ detailed information:
-     switching_all : 1
-     switched_all  : 1
-     enable_state  : enabled (2)
-+    aborting      : False
-     bypass_depth  : 0
-     nr_rejected   : 0
-     enable_seq    : 1
 -- 
 2.43.0
 
