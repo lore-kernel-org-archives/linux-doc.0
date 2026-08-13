@@ -1,84 +1,76 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012067.outbound.protection.outlook.com [40.93.195.67])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013018.outbound.protection.outlook.com [40.107.162.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1B23F0A8C;
-	Thu, 13 Aug 2026 19:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D61B3BCD17;
+	Thu, 13 Aug 2026 19:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786648289; cv=fail; b=FXQJsAh89Q5nygd7CvgrsoMg7T7IPHHTeEluU68EOs1ovIZFrcLvE8C53zDBOXPy4D8Y7U7lC3QGLqNrnp5QJJ2nMgl9QArNKHfXlP2ABgXldn4GJufDAmgSlUHkR+XbSQbeicFjR440l/7Zb3Sewq/8NTeSgdJwNjrjxqb7dM0=
+	t=1786648320; cv=fail; b=K57/iz2yexPXzdSdzyOn1mRKhNO3VCwoVANi+ZLTp1YLUXV2FzCET6uE7rpJua0UJZ8Ez2gFp1pl2hGCMdfsiRaVGiZPkA+61iqistwiSA4K4Gf26Nso0MaZlCXMOKX2PQgxP/HZ9qnmdypx0fdvktHaa9Hn2ti8nRtVML2aLxE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786648289; c=relaxed/simple;
-	bh=7wHAuijfOsxxw587P15AYcarJOSkwJzDU7NMyKu4TY4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=K4mamVBQrSaDMu0O630sos/BwZabkcJFrzxSHB2BgNfNu8vCoev40qg9iMiO82J52YT8+LU5PwcTDZx51vSp+T4DMkb/BGvrwNQPNgeMhKv4SLUk51UHj59Bdgoekrce23ncyW7R4BxGmALgBX2pA/DhWajVOpaI7FMUtHf1hgg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=JJZFp1cj; arc=fail smtp.client-ip=40.93.195.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1786648320; c=relaxed/simple;
+	bh=99hArorSLEpfNXfZRZ9ayysTggS+fSb7V0PvMDSYwCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=e/Fxk56TZVt6UxBY7tGHNkOPwmhV/a+5eYwHCojw3qZKZirCQ3vp1WfwG8lbZ9nI4tFhikwIaD1xf5POcKLvx4coB55jncT23u+u/mu+LykzFbhfcKXJWDe1bcQ2eIvyXXRNKkWfNnhUe60YpWkJqrbp84B6GnrEXMBgfbHhDKw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=IHhRa5cy; arc=fail smtp.client-ip=40.107.162.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="JJZFp1cj"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="IHhRa5cy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VbtbTdg50V8wFIk8j1EqGrKtn4d6QlTpQ7DxqM8BcWLRp5kK3ZFgIbjT3HYvpMpPCK07hJ6cxNzK59mblBgPk7SleJ5Q4+5SvqkLXXTc1tEWOQx+6y065dh3sbXnOvaupYIsdBvefspoXaWNbdbH1XthCQSm3AmUujn1aQsq9idP3tD2AaP7dRWxLiU2NBmhpc6DSvcDRaTOU3bhRZWkhW7Sg3FePl1lYkd83fQcz8eUrg2ZkDKmLYhkMhoNH7Vzy0ELQVSi2dzy3xrYI22+Hrsi5/OBtAF2VuU7sdfuWkazZtZ+T8LZkbXRRSsnHH7BgvHyEF7FwwQ9MYr2S9mxDg==
+ b=YKLg/8vRzUjEwuhEZyBCY0h/DaIQ9HNx0wzMqI4s31WhQFREp5Clu6aGcU1nvxOaYwJCzkNrejidG3v85J7kG6C6xtTGjaQOVzKskbG3pWEY13Jz1sViL4rpozTeZuiUFb9XI2wu4+HaVP9WfGyjkb9z7FYBHpDSDLDfwVOQcPojZFYDhxZxqb41zDjlxpCeh7A3/y9T5fvgXtXHAu3v/tf5Xk64i5nb739MDdq/QKeDK5QWa5fjmL6zUlpO359g/23fPhOR+v3yI5BYD//0vOAXgPGGd7Skyuu8+frC/edzf4bgRTlxElkfGv8Fgtkn0KdFQUHrQF9PZCnQNJEIwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4E4bLoxvr7s+TKpACXKHy7OkOil0ptaYr+CiPBQGHkg=;
- b=Hfs3QrXrtyFlBOV30OHoiSAQMpRr2dnFs7vWPg2ydl2GlnPq1TKKlyxOV3LEOaBGVHsyZZY0iaaf5ffSbWvY6zQOJeEv9A32yHY8kMC1Gfkhdk32uGYOSPMRZVkhm9lTPvhdBrg4sDS0jeBRTEoPb71aa9CwsQqQ4rhzwlQ7MmwqBv2IQF/EChn/4k5bqgjLPwDEb+abpQIOjUztZgUlnk/xrBj6wlvkzNxgN2BlL9qpQTgVM5oIiSHl/5PonVxCGmxd7XtDAO03PAiWRbL+QNDLPaglC6XOYIkeeLkybDkrYy+RK6UZh77tHzYLqyrztV0cKbKL7NYQ+vKng0my3Q==
+ bh=VnEs0PKL4DN9+yfczOT4c+bV7Ey7PI+rydKf2XiCF1I=;
+ b=RGHHaNUYh9BbpL1k2JayUwoJHCXB+KXlPVH52ndSN9KHxQH9+QAClcBK+3Bp53LoN/pXH264yfZ/eO5U2gkWYD+OFm6WjgN8RAtG6rL3G8Qb9zU2UH1GY+LM+M+HThTzbqxKh1Gp5tIH4iRo3efAwrQ4sb7GIgEHgITsy3PgyAT+aQATwY7ukC4iLRry8+jk7FoNWPlU9ySvfW1sJdQZrfpqBuAqe6t8ca3gJrLZfqT0X0bnAB1Gx3/SIoIjQ38HlciRlaA2165+15rt7RwXvKoohMSTdi1Vye0zMK1ulc+0DCeHqm3T87hT89+BvYayRGleqB2pOOyH6kUvoyC0eA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4E4bLoxvr7s+TKpACXKHy7OkOil0ptaYr+CiPBQGHkg=;
- b=JJZFp1cjfprxvdICnpLewgMGLZ9QCoTr5tMYQpAyCj83kjGA17kIGB7GVop9pmQfEhSpp0gTcVV9JO/w08MbSNgt8mzUEtvzn1zSkxRrgG8/Q7/CcVMiUVtMNa15iG4yipqbnwmBVT9pdmvPTL/cWE2LhFly7HAh3cxlgox/7lc=
+ bh=VnEs0PKL4DN9+yfczOT4c+bV7Ey7PI+rydKf2XiCF1I=;
+ b=IHhRa5cyPYhp98szJgHJK6Rb5btt3QOEfqf3y5ZRs2jzdzHnu7VhKulC6EOt3puDj0ZZ/cim97c3rbyFzBXiIfZpQbvG6LqWutTutEmBuMGR7PdR4bMIMFn0v3mkyAGYI4D+RWGQyAb2OknGQ6P+6uAe2nGfXERHtEEtw/jcsVVICtKKCIqZ5SthkvaXuWMgjfbIRsm2MFgTD5CZO+uR54uTi2m6xQ8qg1il17ikCkN0y5F1ALZSV1vL1IBCu3L4McKveXagmBV0S9y8aCzdMiye3HtQMvr58NsQmHLDt2oHt59LE8OhWx9POagI4Gqa9/raIQsXdoKXOaI5DVQqbg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by SN7PR12MB8002.namprd12.prod.outlook.com (2603:10b6:806:34b::10) with
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by AS8PR04MB8326.eurprd04.prod.outlook.com (2603:10a6:20b:3ff::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Thu, 13 Aug
- 2026 19:11:24 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0315.012; Thu, 13 Aug 2026
- 19:11:24 +0000
-Message-ID: <08d27ac3-c5a8-4926-8a60-f7e24d9c1564@amd.com>
-Date: Thu, 13 Aug 2026 14:11:20 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v4 04/15] fs/resctrl: Introduce kernel mode (kmode)
- data structures
-To: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
- <bmoger@amd.com>, corbet@lwn.net, tony.luck@intel.com, Dave.Martin@arm.com,
- james.morse@arm.com, tglx@kernel.org, bp@alien8.de, ben.horgan@arm.com,
- fenghuay@nvidia.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, akpm@linux-foundation.org,
- rdunlap@infradead.org, peterz@infradead.org, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
- kuba@kernel.org, ebiggers@kernel.org, lirongqing@baidu.com,
- seanjc@google.com, nikunj@amd.com, xin@zytor.com,
- pawan.kumar.gupta@linux.intel.com, tiala@microsoft.com,
- chang.seok.bae@intel.com, kprateek.nayak@amd.com, prathyushi.nangia@amd.com,
- kim.phillips@amd.com, naveen@kernel.org, darwi@linutronix.de,
- elena.reshetova@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.lendacky@amd.com, eranian@google.com,
- peternewman@google.com, qinyuntan@linux.alibaba.com
-References: <cover.1783461016.git.babu.moger@amd.com>
- <7191fbc2a339c830e7768d7fe5e7fa0f7d65da9f.1783461016.git.babu.moger@amd.com>
- <b84e5f4a-9743-41d8-b70f-e826d5afe4fe@intel.com>
- <5fad6e01-1052-4c1f-82f5-02c650ae1ffe@amd.com>
- <e4c95002-ae8a-48d0-bedd-772db58b937e@intel.com>
- <9a53023a-9d6f-434f-96d3-188a176a6cc2@amd.com>
- <0c4e5b4e-4846-45fb-bba9-ae4127393f0a@intel.com>
- <fdc8b919-bd3a-4794-bb3c-06ba3882e02f@amd.com>
- <b4606050-277c-4a3f-9630-5453fa94df10@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <b4606050-277c-4a3f-9630-5453fa94df10@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR03CA0025.namprd03.prod.outlook.com
- (2603:10b6:610:59::35) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.15; Thu, 13 Aug
+ 2026 19:11:55 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
+ 19:11:55 +0000
+Date: Thu, 13 Aug 2026 14:11:46 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Vinod Koul <vkoul@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
+Subject: Re: [PATCH v7 05/10] dmaengine: dw-edma: Add channel delegation
+ helpers
+Message-ID: <an4W8hK3ZONZsVER@SMW015318>
+References: <20260813063757.3131865-1-den@valinux.co.jp>
+ <20260813063757.3131865-6-den@valinux.co.jp>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260813063757.3131865-6-den@valinux.co.jp>
+X-ClientProxiedBy: SA1P222CA0070.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:2c1::26) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,203 +78,168 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|SN7PR12MB8002:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf48d08f-15a4-462a-c28e-08def96eaac8
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AS8PR04MB8326:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe032dc6-a1e7-4506-c0bb-08def96ebd40
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|23010399003|1800799024|11063799006|4143699003|56012099006|10067099003|6133799003|921020|22082099003|18002099003;
+	BCL:0;ARA:13230040|19092799006|7416014|376014|1800799024|23010399003|366016|6133799003|56012099006|11063799006|10067099003|4143699003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	irDeSpzwYo9BMylc6NvGwqPP9qL14jobW8e4wHn69bQkc5J17uJuVIJk5EghI0DQ39mPO/J4Ug7gP3LZTvsa7uUs4kLiNHi26JmFLgAbgRE3Frb/jI6XeyrA2MC5lZw2rRUMNnDksk1Ozs4VCIdSBIzRgz/Qo8OUnckqct5Vek+9EPVPx19kO4LxuZ5HOtGkjb3NGQ10UHmeSKPaEIQMm7SAPrFVQIGUfhN11Ls6amCMKe9TKxljcksh72pb00afwyty8v/7/WfrSaqyIG8o6fSLDKgw15rjQZvsRzKCv9J0UbuiXKwRWZhe0S+2MmKnWNvcWZD+b87eGQ668Spvh1IVPXN1qpfcXmQe7FGgfTfc3eBpxhxGXKzNmlzAtCh05yhw/sLqsMUPVpGlFShnyfk7eZghivG8Lt1VuDtTFuiFcMealdTMaxgyQoZsKQDATilxgv2/p84li5wFqjkbopd79ckIGTyqscCTYuwJiiG+6Nz2tO7LQWLwTLh0cb7JKkJ90yDJTEz3oFVP1M6YeUh74BTcWOvVBOD2zQSlsUy92fFNKqzrdVEoWiY6pHRqCMyRW9mIhmgKeF51zl8aq/Bx+EXbqI8Pw25evnMEnyHdIzo4qq8gfI+Dd4VjRSIJnHe4zjqdYDVATp8jPdJWljS8RwMKRG6CE6nfQYy+UAYyIv3/RPLv9wpJrxn/51GUCqiDrqr2bzkNziCRj41+/w==
+	1+ZCAXPGzd5uMqb5jLnafIZvIvjDjHtGg7gCwX1k/KdNBrNq2Pj/QU2M3GGx33XH5dayVH/Kqv08KdwUSJNH8Wj73Czqu0yrOLwkoAzOQMc3OtJx4VDR2r7qkEbg4v4r9IeSTV+MFMOwigiItogt0foUl1+5/T9ltH6o3E5wBe0yaOqpifk5ecKteRCM/SWTNeuKMTgFu72OKp4mtvZLVlt4BLv/SsjEP6Bdw1X+PWmANzYNEafZV155y+U3LEyBNTuMiUH26U8nHb/emwFcl8DBdoxrZ2YHIW1WNWrlCbD5E9N1i0IPV82uQcQeOI1cU2FrATSwJv1JGCAVjH2kJgYBAIHz2aU7P1BZaQRNyW4x8ww6/qchKLJUsMz5g5oL79i2Nf2pQ+Pueys2Fu6fHRvkQqXg0a53GwD94xXccy4Zjj6MrU9R72lpiflIFkevYG0DHTIiTeK+hiAf4O+Cv71lAcSWbfJ7oSVzhDEW8iFvCbUxdXN2I8azIBXYn2txAFCwjkVq1ABa1fQVtRpldib/UbgkRkBZSvq93GK9+IgTHvQr/6HHNdNG9kvjcOXSdG5CZPrQmDIxId0tseI6qm6NNqaI9yW7+RsgwZvHmJ0jwBxtsADJC0I8X6PhLvtV7/t2jge3oAXSbF/whEH7HHOZNbCClS9Xa4QDNzvQknE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(23010399003)(1800799024)(11063799006)(4143699003)(56012099006)(10067099003)(6133799003)(921020)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(7416014)(376014)(1800799024)(23010399003)(366016)(6133799003)(56012099006)(11063799006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?czZoa0RaajlMWTZ1SUdtanFpSlRNSU5DVmp0RXUxOGxWcmxtUVRJdUxTcmkw?=
- =?utf-8?B?L241bVUwWEVWc1NkaXZ0bXM1cERZU09xVmVNMjcya2NoaHduN0RZNW5VaWZ6?=
- =?utf-8?B?eGpMUGJWSjZTSytNWHBiZXZKQy9CNzBWdmZhSlZoa0xkdzBMZU1Qa2RBQjZJ?=
- =?utf-8?B?d3FmcDNlY2xVRWp1cjNnRGhXUUFVYlliLzFCWCtic0tVVEtFQTg2WnBQMUEz?=
- =?utf-8?B?MlI1eEtKcUpyTmFDb1d1dlcxL0JSdEhNZ1VNQ1NqMUJveEdMYmVTK2ZzRFlW?=
- =?utf-8?B?M0d5SWZ4UzZkdCtHL1RheExpVHZoMGdZemFaemc5VGF1UXp0M0tpMXFBNVNB?=
- =?utf-8?B?WkdYc24zT2c1anJwa1JDdG5BS0R4UVYvdm8xZEI4RGlkWE55YXNjejhTb29v?=
- =?utf-8?B?SS9hR0JmZEloTHVMcDdXL0krN0hkamdrZ2RUeDkydmFTNmp6ZmRRMXpaQWM4?=
- =?utf-8?B?NldoYjkrNXJ3V2FpbXI3a05rVmU2WGhKWGE2ZDVOS2tONjIyc3FLWFdiN043?=
- =?utf-8?B?djJPODVWMWxEL2hMUHNCVWw3K1lnbUNZaUJUejBmUWszeW00RlZLWStqaG1Q?=
- =?utf-8?B?NTEvWEdvbFdaV0lLMFdaOVZuNktqeEF6TmxWWXJ1Rld3Ui8zN3h3ZWg1em1G?=
- =?utf-8?B?aUV0ZVBSUm1jQ21YR2RwR3kxdkxmVy9DRmFndHJoNFR6VTFmSXZhaUN0MVA1?=
- =?utf-8?B?S3poUmZOcXlzaTdkeHFtNjNSa2xCa1FLRDU4N0JmM0xvczJ6a1k0TlJFUFI5?=
- =?utf-8?B?WXZOYzhiNnp3QVZ1RTFpajc2NDFJT0pyVWtVUnpQd29WbmZHQ01SejJJUFNi?=
- =?utf-8?B?enhzMHNVdzdKUHRvVlhURVF0Z0YxcHNJbFErTlRJb2pxdGo5aUI4UUQzTnlt?=
- =?utf-8?B?bDJ2aFpCeGtoQjh3eEQrejlnNS8xaGRNQStBdExURTFkYXE1SEJZWjA3QkVH?=
- =?utf-8?B?QkZlZ1BmYlYyN2UzQ21xb3ZYZXZlN2I4ZS9ENWQybTczQXl2cUZsWFVTWU5s?=
- =?utf-8?B?UWRvVlNmeVVmbFlWeERNV3lNckRpa2RtdUZMNlVNejlPYWgwa1o0NTV0N2d2?=
- =?utf-8?B?ajlSUGI0YnhZY0N3RWNzcTJ6Tnp0VWRiRUFiY0YrdllYYW1UcFNJOFpOTVNk?=
- =?utf-8?B?bmVxeHR5aUdZcnIzME9vWWRJT1BPN3MyNndVa2FESVg1U1JHTkhlRkNOeFEr?=
- =?utf-8?B?aExkYjJsZHczZnFqNkhCdlhHRm5BakgxTmJ0VUxYMkVFajZPaDBodVpFdGVD?=
- =?utf-8?B?SUtCWW1hVm9pWTRCWW5sbHh1S05ZeU91UUxFamhjL2NRR2xIbUZZMmw4OG9K?=
- =?utf-8?B?TDhKTDNXNHg5UTIvcE5ZOE1CSWY1YWI1QXdkRkNTaDlTRFJMbm51KzAvekdO?=
- =?utf-8?B?QXlpQUhadE5OZklRZzRyTXFibnVXbThoc0t4dCtWWTFXRytNb1EwRStSYWxF?=
- =?utf-8?B?Y0NXUXp6YjFjd2IrdUpISHlBNVFxMCs1dnlwYUZSUzlsM09zc2hNV2hTNFZT?=
- =?utf-8?B?cFhRRENBQXFXUEV0UU5ickRydWppVkU5aC9aWGxCcURpSWhqUUZydDN6dVJT?=
- =?utf-8?B?dGNMQmtXc2NzL3RQTzl5T1UvYUpraXR0QXVVNkxXb0d4Z09xNFdSZktZZ0NX?=
- =?utf-8?B?bXBPS2VVK2l0QjJ3cWxPRlBjdHE2MU42Vm1SdERLcDkvZlZsVW9ZeGlPTkpU?=
- =?utf-8?B?R3lBQmZIWFhacTg3R1B6OTlPbk1tZnVpTVY1ays1UjdLMlA4dEt3QytzMjdY?=
- =?utf-8?B?ditSNG1KQU1yQ1ZyeklrMnB3b283SXczVDhLdEZtYlVEUTMwdHZGcFVTN3Bi?=
- =?utf-8?B?eHZHeG9zWW9XUXJ5SXVhK1ZLaWdTNzJLbVFaRlZhODNMMFp2QnhqNW45ZGFL?=
- =?utf-8?B?dlkrTi93UEFTT1pUNEE1eVdIV1RiS1phK29CNGkwbmpSNlArSFN0MDNEQmJJ?=
- =?utf-8?B?NGo3Yi9zMzhRemErV1E4S0xiZlpMdldielJ6bk5tVnpFVStZbUgya0xCVi9H?=
- =?utf-8?B?c1Rua05XOEhnNzFIK1pqcUN1NTduUGRFWXM4emtJK0lXY3VrOVdORFBaYVpK?=
- =?utf-8?B?Qk5FSnd2TDhlczUrWWpGRUpqMjJkclRpcmVBY2JRSXI5WkFlZUt6WkZzQkVa?=
- =?utf-8?B?Z1JsUzNYS3FpNkRiNUJobXJtOWNDbTlMUkN4RWM5UjJnTnVXUmtwYXVQZFMy?=
- =?utf-8?B?UlorOWdNUjNFSVJWanFlUk9USklNSFJiUDEvOHlTa09uZDlJa1A4UGpFSVJr?=
- =?utf-8?B?eEM0TkJKOUxnRHJmcmozeGN2NDhKaFdUdFNzYiswRTI5YWlJaHFEQ0piRmRv?=
- =?utf-8?Q?RsAUMG8pOzskMxCXoZ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf48d08f-15a4-462a-c28e-08def96eaac8
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+	=?us-ascii?Q?lRpX45P+cvvilvK+B6O9Iu9YOLrHjqgwb2f+U/hX6iw+543l5MA//zuOPloU?=
+ =?us-ascii?Q?Bwngln/VCRAIC0JksVsThCQo9Xtjb2Gmk4ySNxYRaK+pXR636ZmvvMv0MeYT?=
+ =?us-ascii?Q?YZeEXeqSanlkVQaVOXZ0LFe8G37EFoWGdpWZq81xmUNKyttyX3Yn9Xt3fZTM?=
+ =?us-ascii?Q?9AnNQcC5Glwd5qm1kiNjKgcoh6/2iZjwRGnpX8+NT/olhruuhJxWZtAsZZBi?=
+ =?us-ascii?Q?GBuG+nPiiCkuAGdbl9qoyQ3NG13tFdi1InxalGDV80yNF6Z8jl8vDA2N82tK?=
+ =?us-ascii?Q?sC9J0KqHAMG5G4ZQ61D1XCj5EVCJY3/iYUhZFTGBgKTjiqxYMjfiWbOJDELf?=
+ =?us-ascii?Q?o0NZ+VjnuXD38DKKGVBZU+GWmswRlvN2NGAh++8mQYSpkCRLfcJmNcthyA8n?=
+ =?us-ascii?Q?hkhz0TnoxBEHmFPv2zpIJ4EykWx/Db4utto8mBXjAP6PueSbncFQcw2uf7pp?=
+ =?us-ascii?Q?cqqULpIDf7OvZVKCS8ib5sI/ANoKZxKmqTUZMmpOEsHkeRG55daKbfSXl+JU?=
+ =?us-ascii?Q?OeyzE+dEYw8jKSnWyYfPZb67uQH1Jq2AygUWWthSxDdzZLBG/jaaFpMMHGXy?=
+ =?us-ascii?Q?sGg5vRn4Vd4lNQU2wCGBhhDo8LOaPQceuIb3i5GqQ2txgJQkefCSwYau/Rf3?=
+ =?us-ascii?Q?ou8nlQjZOn1yJ7W+werTE+ZLxyFdr9rgyjSHtgYgkzi8N6vdWjtZdTXwhrJZ?=
+ =?us-ascii?Q?SY/C9mvYvbMcssJ1cjlARs1dacNXuUnIDceiitIXN1c4h7BCQ922eEV4Ep4T?=
+ =?us-ascii?Q?ah/rbOvdfeRh/0Kd1x6U/fXm/7YzH4ebUdOcC2JgGrCcGEtvoadRMahNgfYr?=
+ =?us-ascii?Q?23AcaIIq/xBqiD5XGQDiWExcMj5lOkYS/YkMfTepcme3MtnxuZatV7GZW5gE?=
+ =?us-ascii?Q?QD9MpgM7W61afL8oPv4+v7qjhLAiy651owevHKooHvjIEGlIckfYYsmqxEts?=
+ =?us-ascii?Q?atWifWgLBJ6DQPj5Juxepa3rMViG+Icfb8iIMlzvCUJyjzataksb+ntpYvWU?=
+ =?us-ascii?Q?kT4KmAnBtlOasEWDaikHo3GojWODQBriT/96k7wpcv9s8+chiJGb1pBLtxa/?=
+ =?us-ascii?Q?/qGmfD7yc1DckYFZH1rVqVeUIYeRGzY1Uqdj4dgvWSxfJnK3uyLk7nGWcrb8?=
+ =?us-ascii?Q?Qthq9kcRSxRk0Il8wwvV445HiJb7GLiPK1Qg5dwWf5VZwwN7qDuuxNM241Hc?=
+ =?us-ascii?Q?C2gHWvAaLX0jKIA/XrkFhvbzBz26Mq2eSWa60H9mC29fENzxVl2/OpyQWCFa?=
+ =?us-ascii?Q?uhhD6l93ljwGheuxCv+ADVrdqOku7hOQf1+QjeYUJT2IHyxqVHKGrutKA39i?=
+ =?us-ascii?Q?C3879wzQdb/Za/XY/lbyqrUwFZyXs1anC1LhKgqp0/obnOkq1EaqeqfICKbn?=
+ =?us-ascii?Q?ZjQcrRrhGYncijFfTPZ4IN/UOAj4r0JIYQKEVfXETvtutHLAAB/CJdSHvjTs?=
+ =?us-ascii?Q?V90/5PHTVSNq4kGf28UG5aZL4H2T37xsJpH3w1/WFlmToehDbxlon5gqtsTG?=
+ =?us-ascii?Q?myjFq42qKW+YURGq1hqD1RPeY+YwCg1I//Y4xbTqvhaUzxIBAGYLhetqn7Sr?=
+ =?us-ascii?Q?Ga6q8z6bvd6GW694oGX4zHfSnp+Tb2mSfHqB70D+0jEjOdvMPb86V3wDd6xb?=
+ =?us-ascii?Q?asyZbRhPishxP2mtbOUhiDfpzTr0PBFKxk9YB4VhXlLliayPkoSFkYG+ZR1y?=
+ =?us-ascii?Q?XP2cQMmN38BXD0bxZeBnT8vLFVA9w3UxmWzm1fhCbk9uUpZsrfMwtFYTGtug?=
+ =?us-ascii?Q?v+yMd2XdmSoqzrcfOHKY4d3Zf5w2sii6m9VTRypBfNzQ46Rm1QH5?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe032dc6-a1e7-4506-c0bb-08def96ebd40
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 19:11:24.1804
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 19:11:55.2682
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gEOpSH3EE4Sz09X/ZG3QSgZkazENMzTVqkKaCOgHjlAiXBkukpRbaFhotCVe1rie
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8002
+X-MS-Exchange-CrossTenant-UserPrincipalName: dzD1Qg1W9nJQpHyEocsbG+r5wuNR3sDVu7EXq54R/VVSWYRHR2ynv9bzNQUtmyk07FmmFq2eAVONA563O6oNt2ZIlBg6aXY19r16318UnvY20xIimxMY7FPzjXYrfcS4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8326
 
-Hi Reinette,
+On Thu, Aug 13, 2026 at 03:37:52PM +0900, Koichiro Den wrote:
+> Endpoint functions that expose endpoint-local DesignWare eDMA channels
+> to a remote host need to reserve exact hardware channels and hand
+> interrupt ownership to the remote side before publishing the channels.
+>
+> Add DW eDMA-specific helpers that validate an idle, already reserved
+> channel and switch it to remote interrupt routing. The matching reclaim
+> helper can quiesce the channel while it is still remote-routed, then
+> restores the channel's default routing. The dmaengine channel reservation
+> remains with the caller.
+>
+> Reclaim is best-effort because its callers cannot abort teardown. Report
+> a quiesce failure locally, but always restore the default routing.
+>
+> Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> ---
+> Changes in v7:
+>   - Leave dmaengine channel selection and lifetime management to the
+>     endpoint function, per discussion with Frank on v6 patch 4.
+>
+>  drivers/dma/dw-edma/dw-edma-core.c | 39 ++++++++++++++++++++++++++++++
+>  include/linux/dma/edma.h           | 11 +++++++++
+>  2 files changed, 50 insertions(+)
 
-On 8/13/26 13:18, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 8/13/26 10:12 AM, Babu Moger wrote:
->> Hi Reinette,
->>
->> On 8/13/26 10:55, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 8/13/26 8:17 AM, Babu Moger wrote:
->>>> On 8/12/26 18:28, Reinette Chatre wrote:
->>>
->>>>> Please always keep in mind all the requirements and use cases we learned about
->>>>> during and after RFC v1 of this work.
->>>>>
->>>>> For example, we already know that "per group" assignment is something resctrl
->>>>> needs to be ready for. Consider the example in
->>>>> https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
->>>>>
->>>>> There may even be "per task" assignment in the future.
->>>>
->>>> Yes. That is correct.
->>>>
->>>>>
->>>>> Constraining this feature to PLZA will make it harder to enable the capabilities
->>>>> that we know resctrl need to support in the future.
->>>>>
->>>>> This is how we originally landed on the "global" assignment distinction
->>>>> (https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/)
->>>>> "global assignment" should be kept or replaced with a solution that continues to
->>>>> prepare resctrl for these other capabilities.
->>>>
->>>> Yes. Makes sense.
->>>>
->>>>>
->>>>> I am not able to see how resctrl could support "per group" assignment with the
->>>>> interface you propose above. If I am missing this, please highlight the solution.
->>>>>
->>>>> resctrl may need to explicitly split kernel mode from kernel mode properties. For
->>>>> example, below shows an "assign_global_enable_per_cpu" as the kernel mode, now with three
->>>>> properties:
->>>>> - "ctrl" - could be "assign" or "inherit"
->>>>> - "mon" - could be "assign" or "inherit"
->>>>> - "group" - required if "ctrl" or "mon" is set to "assign"
->>>>
->>>> ok.
->>>>
->>>>
->>>>>
->>>>>       # cat info/kernel_mode
->>>>>       [inherit]
->>>>>       assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=uninitialized
->>>>
->>>> Shouldn't this be like below when default is inherit?
->>>>
->>>> # cat info/kernel_mode
->>>> [inherit]
->>>> assign_global_enable_per_cpu
->>>>
->>>
->>> I think it will be useful to let the interface:
->>>    (a) show to user space which properties are available for each supported mode, and
->>>    (b) show user space what the default value of those properties will be if they
->>>        are not set when the associated mode is enabled.
->>
->> The "inherit" is the default property if it is not explicitly set. Right?
-> 
-> "property" is different from "kernel mode"
-> 
-> Each "kernel mode" can have zero or more properties.
-> "inherit" is the default "kernel mode", but it could have a better/more descriptive name.
-> For example, "inherit_from_user" or ...?
+After change to static id, needn't these private API. You can get expected
+channel and use dma_slave_config to config use DW_EDMA_CH_IRQ_REMOTE
 
-Or "user_inherit_kernel" ?
+Frank
 
-> 
->>
->> # cat info/kernel_mode
->> [inherit]
->> assign_global_enable_per_cpu:ctrl=inherit;mon=inherit;group=uninitialized
->>
->>
->> If the intention is to display all supported values for each
->> property, then we should do so consistently for all properties. For
->> example:
-> 
-> No. The intention is not to display all supported values for properties of the
-> different kernel modes. Just display which properties are supported and what value resctrl
-> would use if the user enables that mode without providing a value for a particular
-> property. There may be properties that could have values for which it will
-> be difficult to provide all supported values.
-> 
-> For example, if "kernel_mode" contains:
->        # cat info/kernel_mode
->        [inherit]
->        assign_global_enable_per_cpu:ctrl=assign;mon=assign;group=//
-> 
-> Then user space knows that if they enable "assign_global_enable_per_cpu" kernel mode
-> without providing any properties then all kernel work will use the default resource
-> group's allocation and monitoring. If that is not what user space wants then they
-> can change the value of only the properties they need to change.
-
-That sounds reasonable.
-
-When the group is bound to the global mode,
-
-# cat info/kernel_mode
-   inherit
-   [assign_global_enable_per_cpu:ctrl=assign;group=ctrl1//]
-
-> 
-> 
->>
->> # cat info/kernel_mode
->> [inherit]
->> assign_global_enable_per_cpu:ctrl=inherit,assign;mon=inherit,assign;group=uninitialized
->>
->>
->>>
->>> To (b), since the default resource group is used as default when the group
->>> is not provided it may be better to use "//" (or just "/", depending on system
->>> supporting just one of allocation or monitoring) instead of "uninitialized".
->>>
->>
->> To me, showing the default group would be confusing. It could give
->> the impression that only the default group is associated with the
->> [inherit] mode, even when multiple resource groups exist.
-> 
-> I do not see how default group is associated with the "inherit" mode since inherit mode
-> does not have a "group" property?
-
-Yes. Got it.
-
-Thanks,
-Babu
+> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
+> index d214df55da3c..1582ecfc2965 100644
+> --- a/drivers/dma/dw-edma/dw-edma-core.c
+> +++ b/drivers/dma/dw-edma/dw-edma-core.c
+> @@ -1303,6 +1303,45 @@ int dw_edma_remove(struct dw_edma_chip *chip)
+>  }
+>  EXPORT_SYMBOL_GPL(dw_edma_remove);
+>
+> +int dw_edma_delegate_chan(struct dma_chan *dchan)
+> +{
+> +	struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
+> +	int ret = 0;
+> +
+> +	if (!(chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL))
+> +		return -EINVAL;
+> +
+> +	guard(spinlock_irqsave)(&chan->vc.lock);
+> +
+> +	if (chan->configured || chan->status != EDMA_ST_IDLE ||
+> +	    chan->request != EDMA_REQ_NONE)
+> +		ret = -EBUSY;
+> +	else
+> +		chan->irq_mode = DW_EDMA_CH_IRQ_REMOTE;
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(dw_edma_delegate_chan);
+> +
+> +void dw_edma_reclaim_chan(struct dma_chan *dchan, bool quiesce)
+> +{
+> +	struct dw_edma_chan *chan;
+> +
+> +	if (!dchan)
+> +		return;
+> +
+> +	chan = dchan2dw_edma_chan(dchan);
+> +	if (quiesce && dw_edma_core_ch_quiesce(chan))
+> +		dev_warn(chan->dw->chip->dev,
+> +			 "failed to quiesce delegated %s channel %u\n",
+> +			 chan->dir == EDMA_DIR_WRITE ? "write" : "read",
+> +			 chan->id);
+> +
+> +	scoped_guard(spinlock_irqsave, &chan->vc.lock)
+> +		chan->irq_mode = dw_edma_get_default_irq_mode(chan);
+> +}
+> +EXPORT_SYMBOL_GPL(dw_edma_reclaim_chan);
+> +
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_DESCRIPTION("Synopsys DesignWare eDMA controller core driver");
+>  MODULE_AUTHOR("Gustavo Pimentel <gustavo.pimentel@synopsys.com>");
+> diff --git a/include/linux/dma/edma.h b/include/linux/dma/edma.h
+> index 3c8e2ef9dee0..61ebb808981e 100644
+> --- a/include/linux/dma/edma.h
+> +++ b/include/linux/dma/edma.h
+> @@ -153,6 +153,8 @@ struct dw_edma_chip {
+>  #if IS_REACHABLE(CONFIG_DW_EDMA)
+>  int dw_edma_probe(struct dw_edma_chip *chip);
+>  int dw_edma_remove(struct dw_edma_chip *chip);
+> +int dw_edma_delegate_chan(struct dma_chan *chan);
+> +void dw_edma_reclaim_chan(struct dma_chan *chan, bool quiesce);
+>  #else
+>  static inline int dw_edma_probe(struct dw_edma_chip *chip)
+>  {
+> @@ -163,6 +165,15 @@ static inline int dw_edma_remove(struct dw_edma_chip *chip)
+>  {
+>  	return 0;
+>  }
+> +
+> +static inline int dw_edma_delegate_chan(struct dma_chan *chan)
+> +{
+> +	return -ENODEV;
+> +}
+> +
+> +static inline void dw_edma_reclaim_chan(struct dma_chan *chan, bool quiesce)
+> +{
+> +}
+>  #endif /* CONFIG_DW_EDMA */
+>
+>  #endif /* _DW_EDMA_H */
+> --
+> 2.51.0
+>
