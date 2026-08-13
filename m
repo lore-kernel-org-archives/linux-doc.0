@@ -1,60 +1,50 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0B1381AE5;
-	Thu, 13 Aug 2026 06:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1922642F702;
+	Thu, 13 Aug 2026 06:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786603878; cv=none; b=rOGrnRo5VaEaVkqfqSkR4paNG4HwNA5XrCq4v/oN8NiwbomnAdJPcvXja/cNPMUuTY45i4cSXJ8zZPdJKFuy5zhL/uiWBkfd1NW/S1yoaPrlDzdprg7C0Ob25u494LGG5918OMOpiFbJ/EndqzDuqiad0PSSpIusAy1h6VWNMfk=
+	t=1786604191; cv=none; b=UPfU/keSsThGkaShUdtA294MKFnxuhjvECinhjk/FZCVNm3Be1n22zFl819MWKAefMNzq073MgXBJQ3FP3k7VXMhfeD3NEUHMwnLxZWJml3m0wt+HlSR+LZ5VEVzZFgqtqGVyvGN4Pmx9CrGr5aMcFgNK6DPino9m13WsSv602w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786603878; c=relaxed/simple;
-	bh=x75rfk3/xcVtDXBNa8u/YzzObGZuj8q0jI1mJ67Lbss=;
+	s=arc-20240116; t=1786604191; c=relaxed/simple;
+	bh=EiRUT7eibLcdH0tOQiOYhPqjIQxyxShzLvniKf9KyN0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B5ldVrWUZMxMk8viUpcfrURqU2fwdfi5IybrWmbI0ANE84DBH1POxSywsEY7e/Bq5wcSrdl869UvxJlAdQYuxyWvkqkwNeqCs5zY+fAedfNzFPqVpIU9/hKEbrVZASN8zi33lwMXNE5i5IZvFEOK1AhnyUMp8qwRr0d09SN/T6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LzhNYloX; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=lrErwSUz+inmbBN7aQytfeOC/+3GPPHFB4vW7spnYexe3qCCZNp9P8sWI4CmYXU0XX4eS/w3htRCyXuqLMMUn4bDgyeSxccMO9Gq7F8x5wPkIi+vPpT5VqC2EQQDzCfJoQ75g1WjmOnP7pu2dPUo57NtN/bsbIkrAPYMOJ0Ia8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DcUSMufw; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LzhNYloX"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67D61nMQ1430735;
-	Thu, 13 Aug 2026 06:50:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=aBqLCs
-	TQ7rFTSJJarqDaEDm6W1gTw6QjhWITYjimLPo=; b=LzhNYloXpWrrZ5WXbBQyBl
-	kjRQBNbL5khVgr4OOBrgQ1k0oQfOuorj9IhD20b6wzHqW/6ixwuyyQgR5wBrAfNg
-	W7Ta3SvAVrA32l8zHV6lMdO2+yAP4M8OGJSAMNrvrPPDneKV07elir2a3C7IEOqr
-	xFmLr8qBAdZPaa5rOdfRd/Qrytpu8FuBOOBbxodN45sAIj+1/UAkRnkuqJrWJj7x
-	sNUXBn7P4VSe7BMXLQG2fmbC2bsV5+ZPTZZACltLD5DhfqVhCAduIXL06c979mS/
-	ccc7QQrzzPRVvRDivLP15d7P3FcS95GzxyIaox5QdCcOUpQ6/bfdyWeiDpzRSjOg
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvp35p3p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Aug 2026 06:50:49 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67D6fWud030960;
-	Thu, 13 Aug 2026 06:50:49 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxfsk1w8e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Aug 2026 06:50:49 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67D6oipw41156884
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 13 Aug 2026 06:50:45 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CAA3D20049;
-	Thu, 13 Aug 2026 06:50:44 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 46EA920040;
-	Thu, 13 Aug 2026 06:50:44 +0000 (GMT)
-Received: from [9.224.76.67] (unknown [9.224.76.67])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 13 Aug 2026 06:50:44 +0000 (GMT)
-Message-ID: <a4478425-1914-47d1-b5ec-5e11dba048dd@linux.ibm.com>
-Date: Thu, 13 Aug 2026 08:50:43 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DcUSMufw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786604190; x=1818140190;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EiRUT7eibLcdH0tOQiOYhPqjIQxyxShzLvniKf9KyN0=;
+  b=DcUSMufwNz+PqSYYqon6wSY5/VjfeChHGQXmwYoKYBh8Gq/gJ7yjtmBu
+   Rv4sdZFiAz4zJSUdftQx8GwX1aqM/GDbvtgp8x4f+vf4pMLn2MQoGj6ng
+   WzQtELWbFYyhH23sAENDUh8rbBMidu3fV61vuFCmqKsdG2OLrOKZ0EUSy
+   R2HYLu3xF01GugRrqv/sW17Xg23h5lrNiJLY0L4WdeQx8rK2twPXv5WFg
+   eKDFQXY0EnLBL3TrIFKQiZiX8Yl1xhVzLjMrtyLrapazUXwo2TXx5moZy
+   R9U/KyitPKRoWuXYZevkGtx9g1TF0/zsF3GPmrz/FvD7Fwwa6vLnxyLaz
+   A==;
+X-CSE-ConnectionGUID: GhMaEBwOTG+85KdnOVhNkw==
+X-CSE-MsgGUID: YMbghMO9ShyDNeycten64g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11873"; a="86290007"
+X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
+   d="scan'208";a="86290007"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 23:56:28 -0700
+X-CSE-ConnectionGUID: G3H/IDqNR/ShOWEVvKkhtw==
+X-CSE-MsgGUID: hHyHwXdWQJSEvzpnZYeIQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,220,1779174000"; 
+   d="scan'208";a="265841672"
+Received: from unknown (HELO [10.238.2.33]) ([10.238.2.33])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2026 23:56:14 -0700
+Message-ID: <1ec08cd8-3072-4753-ad5e-cd34956647f8@linux.intel.com>
+Date: Thu, 13 Aug 2026 14:56:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,87 +52,142 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Re: [PATCH v10 00/12] sched, steal_governor: Introduce
- preferred CPUs and steal-driven vCPU backoff
-To: Yury Norov <ynorov@nvidia.com>,
-        "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
-Cc: Shrikanth Hegde <sshegde@linux.ibm.com>, arighi@nvidia.com,
-        chleroy@kernel.org, christian.loehle@arm.com, corbet@lwn.net,
-        dietmar.eggemann@arm.com, frederic@kernel.org,
-        gregkh@linuxfoundation.org, hdanton@sina.com, huschle@linux.ibm.com,
-        iii@linux.ibm.com, jgross@suse.com, juri.lelli@redhat.com,
-        kernellwp@gmail.com, kprateek.nayak@amd.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maddy@linux.ibm.com, maz@kernel.org,
-        mingo@kernel.org, pauld@redhat.com, pbonzini@redhat.com,
-        peterz@infradead.org, rafael@kernel.org, rdunlap@infradead.org,
-        rostedt@goodmis.org, seanjc@google.com, tglx@kernel.org, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, vincent.guittot@linaro.org,
-        vineeth@bitbyteword.org, virtualization@lists.linux.dev,
-        vschneid@redhat.com, yury.norov@gmail.com
-References: <20260812054033.95658-1-sshegde@linux.ibm.com>
- <20260812194600.52516-1-sunlightlinux@gmail.com> <an0MMNBkyeeZEa8f@yury>
+Subject: Re: [PATCH v10 12/41] KVM: guest_memfd: Call arch make_shared
+ callback for to-shared conversion
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org,
+ chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
+ jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
+ pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
+ rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
+ tabba@google.com, willy@infradead.org, wyihan@google.com,
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
+ suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
+ Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-coco@lists.linux.dev,
+ Fuad Tabba <fuad.tabba@linux.dev>
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-12-2fc18ee6d3ba@google.com>
 Content-Language: en-US
-From: Mete Durlu <meted@linux.ibm.com>
-In-Reply-To: <an0MMNBkyeeZEa8f@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=AMtp2X5w c=1 sm=1 tr=0 ts=6a7d694a cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=ytvUXjNDRGHaUZttXtEA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: no_RzowkTuFFWN43HBrYVKw0wweS2OeI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEzMDA0NCBTYWx0ZWRfX7kmkn7sBut12
- mAYZIy4OUVv6XC2KDQIUVliN9/u5sGqSPE/wckOsHUCCzK6arq914B+LkJh0ls8w0Kz+AJbnzgb
- DVxS0tyMSeEij++a1oKCrddG16kgEzAMgvTpIKruJ5/hqH1WrUadjDQ/GeO2t1SxhdRqkENXgj0
- 1NsFNTxzU783vqz5yxa+zJsiIYq7KtE374n1fHejPzc6FVcRMf055tRHz0mD6xyXNnx3PsMwsNt
- WCvql6rOcCuzE6EE/101zbweMmb2OUm6FiBM01vg69USxcJ1GYX/eUqNXC2qEROm7srk95N1vFl
- 4afGXdrj4zSASG6MAmgKBhgcoGhqXGXFaZFScRmjfNLUBqQu1/CLgd3V8vliRofb2LI2W1dFjyZ
- h7oAwmu+KmXuUWaJSdlqvRqLr2fOmHPFZ2Okh7F8+ibWmdSyCTCYcL8//TObJeWSLaFCL6F/tYK
- HWI+evlQngFKactSBWg==
-X-Proofpoint-ORIG-GUID: 2fE5d4xrKH3ReufcYIxjdH0yP9eBmjIU
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEzMDA0NCBTYWx0ZWRfX8x7U8lZAJsRm
- nyQMikEHXeCeYnbrHa1q5+ow0mF0kVw30XJ6nHIE6wF197WqqWaPqpgk2+NOarkiT7Ca0+/OknA
- SZkI8WPGHVZDcP8MJd5w4pdq3FvlQq0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-13_02,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 bulkscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608130044
+From: Binbin Wu <binbin.wu@linux.intel.com>
+In-Reply-To: <20260807-gmem-inplace-conversion-v10-12-2fc18ee6d3ba@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
+> From: Ackerley Tng <ackerleytng@google.com>
+> 
+> When memory in guest_memfd is converted from private to shared, the
+> platform-specific state associated with the guest-private pages must be
+> invalidated or cleaned up.
+> 
+> Iterate over the folios in the affected range and call the
+> kvm_arch_gmem_make_shared() hook for each PFN range. This allows
+> architectures to update hardware metadata or encryption states to
+> transition pages to the shared state.
+> 
+> Invoke this helper after indicating to KVM's mmu code that an invalidation
+> is in progress to stop in-flight page faults from succeeding.
+> 
+> Omit support for calling the arch hook to make private, since SNP, the only
+> implementer of the arch make-private hook today, would actually prefer
+> making private only just before faulting memory into the NPTs.
+> 
+> Calling the make-private arch hook would require iterating both bindings
+> and the filemap to find the intersection of bindings and allocated
+> folios. On top of that, SNP would need to figure out whether to actually
+> make private based on whether the memory is about the be faulted, or
+                                                     ^
+the -> to?
 
-All of the points raised by Ionut are about governor lacking
-certain logic for a specific arch. Considering what Shrikanth
-mentions under "Future Work";
+> whether it is a conversion.
+> 
 
-"""
-Known Limitations & Future Work
-===============================
-...
-- Arch specific hints and framework for it as been deferred to
-   the future.
-...
-"""
+[...]
 
-I think all of these points can be addressed better if
-Xen used said framework and implemented their own governor
-module. That way we wouldn't see an overinflated single
-steal_governor but instead nicely separated arch/platform
-specific ones, that are tailored best for their needs.
-The current implementation could be the fallback option
-if platform does not implement their own and would also
-serve as an example.
+>  
+> +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
+> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
+> +{
+> +	struct folio_batch fbatch;
+> +	pgoff_t next = start;
+> +	int i;
+> +
+> +	folio_batch_init(&fbatch);
+> +	while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
+> +		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+> +			struct folio *folio = fbatch.folios[i];
+> +			pgoff_t start_index, end_index;
+> +			kvm_pfn_t start_pfn;
+> +			kvm_pfn_t nr_pages;
+> +
+> +			start_index = max(start, folio->index);
+> +			end_index = min(end, folio_next_index(folio));
+> +			/*
+> +			 * end_index is either in folio or points to
+> +			 * the first page of the next folio. Hence,
+> +			 * all pages in range [start_index, end_index)
+> +			 * are contiguous.
+> +			 */
+> +			start_pfn = folio_file_pfn(folio, start_index);
+> +			nr_pages = end_index - start_index;
+> +
+> +			kvm_arch_gmem_make_shared(start_pfn, nr_pages);
+> +		}
+> +
+> +		folio_batch_release(&fbatch);
+> +		cond_resched();
+> +	}
+> +}
+> +#else
+> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end) {}
+> +#endif
+> +
+>  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+>  				     size_t nr_pages, uint64_t attrs,
+>  				     pgoff_t *err_index)
+> @@ -599,7 +636,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+>  
+>  	filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
+>  	kvm_gmem_invalidate_start(inode, start, end, filter);
+> +
+> +	if (!to_private)
+> +		kvm_gmem_make_shared(inode, start, end);
 
-I really think we should follow the example of cpuidle
-drivers and how their framework brings together so many
-platforms under a single roof.
+If both KVM_AMD_SEV and KVM_INTEL_TDX are enabled, HAVE_KVM_ARCH_GMEM_CONVERT
+will be enabled and the logic in kvm_gmem_make_shared() introduces unnecessary
+overhead for TDX.
+Not sure about CSPs, but in a standard distribution kernel, it's very likely
+that both are enabled, right？ Should kvm_gmem_make_shared() do some
+optimization or the overhead is relative small in the conversion to shared
+path so that the optimization is not worth it? 
 
-Thanks!
--Mete
+
+> +
+>  	mas_store_prealloc(&mas, xa_mk_value(attrs));
+> +
+>  	kvm_gmem_invalidate_end(inode, start, end);
+>  out:
+>  	filemap_invalidate_unlock(mapping);
+> 
+
