@@ -1,106 +1,77 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA3D48A8C5
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 15:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9980848550D;
+	Thu, 13 Aug 2026 15:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786634714; cv=none; b=YQvq98IaVX8mCTkK7qG4lSkIpPE3B3URRFzDZtp8YeI27IrKxyNJDUrA0tvAsU/J5r83oezsEBe81VYgNJCagZagFHDw1eAuvPJ/wMXkUTN3IM7HEZ/O72uCOb9GvvXwkGhjzhln0UC4zvJGKJXu1tNwQsF+p44uxlnyf89Sxj0=
+	t=1786634891; cv=none; b=BVcp+sw/rhBBE76exWlPMoiRvTs7eutZZIXvgTsoGDS5UVKvxt8ki0OWpGs6hogWRV9vrbgZovXabLwHlDyy4ZPrZOtBs+9QkW+nWPI1V0wmcklc4HZLCAKlMmuXQmGtDGyzwLl2Z6o3SPN+p0wECWn6y5KpD6KKOdkrh36vegQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786634714; c=relaxed/simple;
-	bh=131LzxrJdR4vZbgRYXa2xZw+weamyZRXIT5gEcstZ10=;
+	s=arc-20240116; t=1786634891; c=relaxed/simple;
+	bh=7Ye05oEwq0rBP+SO1zNSVW8GqrXzisGSDp2hg4zer9I=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WlOz8ENcYY975PiJMBnQBMCSbf/orT5tQnUeyhl0Ht653SsdPDLTQG4pqu75H7ogRu+BG9fP+Flm5AZZmgkdmq084Y3FjqC6MGm248oXrzk02VXCyXoJ5HrDq5CT5va1uB09xFEsHd3Yk+Li7sg+9FWcllCNGPVDVnD7Ap/Qr2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nCkmXrZ9; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=gfgePVUdOZchDYYBThmd4Vxs0Oy1bGdabWwDSE7Ub4suuzVhT3gqn5Q98bjHG+DM8G4aGFLAQqG6QnZU2Ra5UM8aTlUv88rFbTM4GOhpXbyhaFjStz6LgKpy2fAUWcA434PPX4uhwagsz2TE6e/lxbjEceGPLcw4ttdxGZWrYdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=heQUmYoM; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nCkmXrZ9"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0609F408D9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="heQUmYoM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC835408D9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1786634712; bh=WR+KrVo7jJb/mUB8+aRayO+z/F2gxZl7xZWtoi//a5A=;
+	t=1786634889; bh=qVRpckEi8M3RGXpcyKaTknYqIEBsqHrZyu1cIn1LCaA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nCkmXrZ96bKXDKsLH/lZzMtZFt+y/+ifuqWH4nz33e7WuMfp610RjyIQQ9mw2LZEi
-	 qnCO5YYCzn1bm6qIvA4V/g6UBap3kPV8qBuuW1hZ3M4StUumQ8L3A/uTOj5rLQPiZ1
-	 11mEbNDIcCiZLq8RGVjAUmVTnWownC/FFLiEfDiyH4BI3P8gVXwU7665F3YPBTrZYa
-	 qKHHCpXM2znZw/Saw6bayFie95RDG+KK7pz240VxGGZdpgqz7/m8xhHqYOYp1OtH0z
-	 K1tTiaz2nE9UFwPc9r2Hwj7LxujFocu8mKMsAn7JKr4UXS7c73X8W9TbukKxiZap0F
-	 dmbVyui3gAf8g==
+	b=heQUmYoMt4jWOg5Zq2KdxS19awWIgQUdZDMEj9GZfv2zFthlp2WDGhcW38kwXCuqm
+	 wVI5RP5mlRkxDkO3vpSf3ufjDfhaXPIN/0cdI8yEDZiS2OHDKn/J8fSM4IkxkSGUAi
+	 VlWssZj5Q9VYWSu5v+f5iy/Ybmh9FD1YD1uyxXCvByU0eMy/Iw6WyRaMPzC99PsKUY
+	 qBmSu/DnfmeCbBWuXAjXnEfG3ZekZxDTVK4+6AXlPws8S0WDlm8dot7zksAKXvatSn
+	 aKq0RmQmUPncuC6Ml0+hXHQvvoUsfZkaKZjNyv4SJhaiqN/vLBVXfcU/ypp+43jYdx
+	 IEuy3DKkH5fNw==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0609F408D9;
-	Thu, 13 Aug 2026 15:25:11 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BC835408D9;
+	Thu, 13 Aug 2026 15:28:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
-Subject: Re: [PATCH] docs: pt_BR: Reorganize process/index.rst to follow
- english structure
-In-Reply-To: <20260813134741.11025-1-danielmaraboo@gmail.com>
-References: <20260813134741.11025-1-danielmaraboo@gmail.com>
-Date: Thu, 13 Aug 2026 09:25:11 -0600
-Message-ID: <87ldaahwko.fsf@trenco.lwn.net>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-efi@vger.kernel.org
+Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>, "jenswi@kernel.org"
+ <jenswi@kernel.org>, op-tee@lists.trustedfirmware.org, Ard Biesheuvel
+ <ardb@kernel.org>, Clark Williams <clrkwllms@kernel.org>, Jan Kiszka
+ <jan.kiszka@siemens.com>, Shuah Khan <skhan@linuxfoundation.org>, Steven
+ Rostedt <rostedt@goodmis.org>, John Ogness <john.ogness@linutronix.de>
+Subject: Re: [PATCH v2] Documentation: Extend the real-time hardware bits
+ with some firmware bits
+In-Reply-To: <20260813082400.h3MRgRPg@linutronix.de>
+References: <20260718175041.QXn9iOFK@linutronix.de>
+ <20260813082400.h3MRgRPg@linutronix.de>
+Date: Thu, 13 Aug 2026 09:28:08 -0600
+Message-ID: <87h5kyhwfr.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
 
-> The main index.rst file for the pt_BR translation was grouping all
-> translated process documents directly in its toctree, which frequently
-> caused patch collisions among contributors.
+> A gentle ping.
 >
-> Following Jonathan Corbet's suggestion, this patch introduces a new
-> pt_BR/process/index.rst that mirrors the subsection structure of the
-> English Documentation/process/index.rst. The translated documents are
-> now organized into their respective categories, rather than a single
-> flat list.
->
-> The root pt_BR/index.rst now simply references process/index.
->
-> This matches the upstream categorization and significantly reduces
-> merge conflicts for future pt_BR translations.
->
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
-> ---
->  Documentation/translations/pt_BR/index.rst    |  27 +----
->  .../translations/pt_BR/process/index.rst      | 104 ++++++++++++++++++
->  2 files changed, 105 insertions(+), 26 deletions(-)
->  create mode 100644 Documentation/translations/pt_BR/process/index.rst
+> On 2026-07-18 19:50:41 [+0200], To linux-rt-devel@lists.linux.dev wrote:
+>> I have been reviewing how OP=E2=80=91TEE is implemented and how secure=
+=E2=80=91world
+>> invocations behave. The goal was to determine whether an OP=E2=80=91TEE =
+call can
+>> delay the Linux side and introduce latency depending on the time spent
+>> in the secure world.
 
-OK, this is what I wanted to see.  One complaint:
-
-[...]
-
-> diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-> new file mode 100644
-> index 000000000..5cecc0300
-> --- /dev/null
-> +++ b/Documentation/translations/pt_BR/process/index.rst
-> @@ -0,0 +1,104 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. raw:: latex
-> +
-> +	\renewcommand\thesection*
-> +	\renewcommand\thesubsection*
-> +
-> +.. _process_index_pt_BR:
-
-I continue my hopeless quest of trying to convince people not to add
-these useless top-of-file labels; all they do is add clutter to the
-text.
-
-I have gone ahead and applied the patch so that people working on
-translations have the new base to work on for 7.4.  But I took out that
-label.
-
-(I have doubts about the LaTeX boilerplate too, but left it there).
+With RT stuff, I never know when something is deemed ready, or whether I
+should be the one to pick it up...  I have gone ahead and applied this
+one, hopefully that was the right thing to do :)
 
 Thanks,
 
