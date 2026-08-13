@@ -1,151 +1,339 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FAC47426B
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 16:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545864749E8
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 16:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786638268; cv=pass; b=qztHxaewc8Qh/+TyyGZQwIXSXf8KCGiq1UO3hNxeB9p5r6afSq3TjimjL5R/Z+sM1H6Gd92T6+ny16adxMZHwczwvbpr4DhTXR9Tazj1bd2acjkr6K9qp+2FrW4crcFrQ2G8j/yxHtLho5WrDeMBjljoaKEe2671/9e9CN9vDng=
+	t=1786638304; cv=pass; b=eC6dT/+e8gLSdPCMXHqKE8GEmHJYYjQP6w6AJ4FNgffLX+jO9Hi5W9ofbD7AzoUhE0QWxDmyM/N3ziOr6wt2ViVkebzwdeB/wtkqtRZ6Kw87bZDehsP+hy0Oz6QmevaTmterP+2jYDIZD1hH8wVxbpj+gVs6YNyAalKdnCCnIl8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786638268; c=relaxed/simple;
-	bh=u8Er/mx8btaW6zLkdA0MNBOh/GWkoU54anU6EZGhaQA=;
+	s=arc-20240116; t=1786638304; c=relaxed/simple;
+	bh=U2gO8HXUYu7UNRdDeVwuXqd4PSnS6zEV3nJs86kjuJ4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HbaAmjNoSJp76QIjTKcNM5FtZ3DMfPfErpWAiIljGRGEVAz996FrjSxasioIO1xAYo2Obmfm5sQ8SyzfKfgXiAUDpREiM4BlE9XB0G1YuJzqOpeozk7ykXXyZgPVTR3LspMW/6S0at2EAyyEPTppvhNIHSIjtGhW19wXIqCyMpI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QDLTb0SD; arc=pass smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=gMixFGcTLHsjN0ytYigqRp8BN4X3AFrp5Pu7NZcPOsqA7/v7wKbpD+0Mm9AWk77Edz7iCayxHwwbEC7irZ53fH0n4xIaMClI9p18YPCVzuQvAq3qt+TvOafzNvfUSpInb/ds2uvdEh9KHNnduGwhYkqLfrSFoo6KwmpHcTmtur0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PW4cE+Hs; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=XnYBfDw9; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QDLTb0SD"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c207cb16cf5so16935066b.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 09:24:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786638265; cv=none;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PW4cE+Hs";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="XnYBfDw9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786638300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xDjRetmtu85IwRz4yKH8gCl8QTGFcjeWkycVMxdyxng=;
+	b=PW4cE+Hsvl1XQ6sUouW3PFnx0N2x28IaFAtz8b1ITwSqGJ8rW8XJh3xkSmHJNKaq98iH4w
+	t4Q3SDyy5tlabLDTUi9Uc6Dze9TNbcCv1uJNwq/+DisVfFqO7HbMvhXJaFF3sZdlFEOw5Q
+	i6U5+X3AVI/HnvLKOvQMbONm3Td6eEw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-344-hnb96LGyMRStKRr0TNqXsQ-1; Thu, 13 Aug 2026 12:24:58 -0400
+X-MC-Unique: hnb96LGyMRStKRr0TNqXsQ-1
+X-Mimecast-MFC-AGG-ID: hnb96LGyMRStKRr0TNqXsQ_1786638297
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-495529a93f9so856365e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 09:24:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786638297; cv=none;
         d=google.com; s=arc-20260327;
-        b=Ba/zFLuV+Wb5v/+F3wwrE3s4dhIZgjSbnp/28TzEbtzJ7myNnpvuAjU9P7tRO3zVdL
-         dCQpBonLItc1fO7SF9N5JLN7uSVnEXyvXB3sKf8A4pEtj47lRSE4zEeCLBbAqe+doM/Y
-         XOVuLKBEK+cgoaM3XKkqwKi4eGC39BvjoMfmiLFT9wsk0QtmZ765plj854nWwEnpNeYo
-         RrjFH2q62W/iUu/eSRa3ijjbM9rtlxysa4XemZ4en9JngQXaYjkBPMjPQho7CjDjLsO6
-         vUGCe9ucoTxT/zx1G9Dnfucig3O5gJvdaSEfVuTk21erm366Hr2OB+JTYQb8snq9ajsl
-         Cp2g==
+        b=XyS89oJL9TMUxqJ94VTVCypV81AFAdUvxEKIUDZpX4i1zfn1H4rzrGiRX475MpOcQ2
+         4ONKWlxHQMgSWtRz1OYo1+pGj12YcBROZUReaVxWs16f+eAnMz6Tngq4YjiABihUzEdd
+         SXjkMDuVAtkePrAyEw5GjvT4LRE3Vk/gHrpwRWXxoyBS8kC4gdXSgf307OEpj7eeUsL+
+         0cpTt7KX6YXoSlExkyeHaWntsPt2fB6qnaVLiedIy+UrAnK4leNCMvpxtPN8FN9hdSmT
+         T65YbKDwwPJZ/yWVyQmeiPdTXtFF2CKzJ0fu2Jxpf3ucI1lwRB20uSr8bFHa1a1D70z7
+         EPIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=u8Er/mx8btaW6zLkdA0MNBOh/GWkoU54anU6EZGhaQA=;
-        fh=Qy+1UZHIclNQtLKl26RKPeXTIirRXwyNMi3tWi2T+mg=;
-        b=hIlTgvz2Xsvov8w7jSTzjo97GALp2VZ1FOs7qFIBgMjJtjDehs4EEXveFmwez1PuHr
-         r2m8Kdy9N4zDwAPbteQNGdyyiBqPVUj9qLxs7BstIlYqo0Jfi+DOPf4dd8AI/cWCuvzS
-         8jFnlsKOpUkOa8VAD2lodJvttMLF1rche5AP5gU03metNeuuCbafnNjEmcT+vbtyX4LR
-         i3SoBWISNkMVpAATPHBIDSbOD83C/aTUWAqHDac2XU81zm0oG6aK1lAMoD0DuR9L+8g5
-         koKJUgK3CkSjJB1EJ+k05PRuVAgCCEJCYKQ9BIsQVMX2hnn4nOlJeLvxn55nuCkQOD5k
-         8FRQ==;
+        bh=xDjRetmtu85IwRz4yKH8gCl8QTGFcjeWkycVMxdyxng=;
+        fh=4VBP8+AqE7YhnZ37vJt3onlffKJcvD37+uNEUNYDhok=;
+        b=lyKgNpRMcxOMTxS/RoEg4poAmdQTtDgobuuJfnCn1LWP/hUDOXzwyqEyx0vCzs1eM4
+         lu/7qi+AjPznpRDIMroG6KHoyKk1vnByiwFqPomwWEshq3YEFiLcepzxtx/eLd9c8ech
+         bcfzbIvewNqiZqRE2w3sJmUBnlcx26DgqwsrdY+b7v7ZLXuZH0daD4oCPb1kmfnl5eHk
+         mhfBdia4/nsAaXek3ULHe1l2KLfgcA1snvsYr8+ftXhTv0hw4Hm0dWRNdLxOV4oWyjyW
+         rxKhOuYLHmZss4tOTZ/p0AllwRfm0nTfkdbnvmn7E8sjGZqbHYLZx9bHglahWW9upf0l
+         Ri1Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786638265; x=1787243065; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1786638297; x=1787243097; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=u8Er/mx8btaW6zLkdA0MNBOh/GWkoU54anU6EZGhaQA=;
-        b=QDLTb0SDtl/MMKySJ/vH/FsN7n4Ui/GZmisblmn+wxU1yuAuus9KMU2wzoPIccjsLC
-         yb3/cklfgtfOi9WN+2J0KAeYX1rSRVEwa6rX8MBu5jHIgXx7bH/saGeOj/NVNcyYrBRF
-         oJkRMYW3hu731spNrMOVhEtU93ABCfxFB96Ea9Uy1vBnrMKUXjFaoMRSmdzTUOsJ4B50
-         Bs4gUSBwLJ8vCxMyM1knjezMo9nW1DKGgOC585KdKX0xMS0fXGQ5nC3I2R+v0HIJisIM
-         xuLjG/qUfQwsK6GGQrzWb+TgwOzV2yCw7lMAHPreUbHAmw8JG1mHR1y8NYjIgWAz7Kd1
-         5s8w==
+        bh=xDjRetmtu85IwRz4yKH8gCl8QTGFcjeWkycVMxdyxng=;
+        b=XnYBfDw9XUqnBjt9mLo05gFmxUxDVGQ9W9joyfagSLq68iBuItjlLCBnp2lQIwWINw
+         GTMjiSVO0tmcQzfIUpqP+lofJGQ7vqQmPZTn1mA47CfcyVKvlJKFw59gXCUJv54EHEuq
+         aTKqXQ96XMekmJV5sqVuWa0S2YEIQ3WxpCWsc/6We4wDTW2qE41Ck/vyrpUxOutp/qJ2
+         uwRfUiFaeO+5v8PeQvi9MO01myxS4v3vnayOk8BxbAPmj5QfaM+zBMtGHuRHbijlDq+K
+         IwMKwhAeu5tEM6v/V+wi35f6TTiwzr5GZmXHlyOD2YStKjzWGLvWfI3Ra7Xu1cZKUjmT
+         k0mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786638265; x=1787243065;
+        d=1e100.net; s=20251104; t=1786638297; x=1787243097;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=u8Er/mx8btaW6zLkdA0MNBOh/GWkoU54anU6EZGhaQA=;
-        b=J5ZA49jv8+20s4iDc2beKuYmSPUM0pxao9M4ejiyu0mDDzWZSC6xOFEjP/KyTvzaZy
-         x/9TkRnEayOqG1WczDSLxKNnPHXmUjA4Q7xGNCfrAU/21d5/DSgRhvX+6WGsKfQbSY9i
-         HSbuZWv6mkC/Gug4dk2kFtXNg3XVy8AR6hhG8ef2sA0RnrXgXS+4th3ozWW62xU6/m/d
-         tPec2UrW/pMor7E+9/+ACiQ4eTsRPY8la92ghZsI2UTg4p8Tw05uMENt8TOWA6lmnYDO
-         T8QETfb3VvI+Sdpe3B1ju1LbG/2XFZ0cCif3Gh4JoMQt98iG+lrgybRmI2DFgnp0RN4F
-         kzSA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5w4uM1f8y1TF9d1VnMVrR4ef6QwD2B32MvzT/tRUmwct2WuJtQmeLphwFo2tGmuh/UUIoaxhfTMo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnjNXMJk+D2zBr3d9r/1VT4ghgZGhQuw3LvqtB1xJiabreYIVP
-	HKS3STiSzHZifNWFeCx5Z0ZEMUt2TY0U5lfG24iT97Cq+qGP/REChdsHUMNFiFbpUcpGSVx8P8v
-	Qc7uaZJXJvUAmpgR0vVyXUYOmuKNid5s=
-X-Gm-Gg: AR+sD12f2rBAi88Iupt9n5TLgkv7T8qupFzQ9DtLOKP2j0rW3gSjiiBEEuZBgQ0njai
-	YPRzSmVA7RFj8dtcDUppW9WmNpVc58Fd8XgLVtEADMvhWcEB402xOOSdzW6JfCXwqp8B7BV57aQ
-	eByBN47yXHM1uw9DgHCKf/YRMt3tBKh41ua/WWzyy7094C9ZIs8B823//MaMnH3DB3heROmm4Qa
-	SR8k2WU9XSBTQ9+igdi+9ABDk9YJ5630+hUvY+HfECIsgus5g+CP2XlGs/YEZeABR+Uz6zzsRzF
-	7Ks6UWtH/UQ3DVvZ7br5zSaDmckgZs/eE1lgqheZqzClXA==
-X-Received: by 2002:a17:906:9fcf:b0:c20:ff26:336e with SMTP id
- a640c23a62f3a-c2108e91d4emr409349866b.14.1786638265066; Thu, 13 Aug 2026
- 09:24:25 -0700 (PDT)
+        bh=xDjRetmtu85IwRz4yKH8gCl8QTGFcjeWkycVMxdyxng=;
+        b=Z9AsYe4WBqJ2rd8v52h/0pbJIZ4h8iGREcLQogE4RepiNeFxnPrIyFHi79zlc+jhQY
+         0wa7UgtXxKrV8mJ+Kg7lvyr4OwfCdurY3aJPR5Xw07IOJpKW57/2Cscp+eFJ1d2qppiL
+         qlVOiLCJBxXR0R9dU4J/1Hsz/MAJfzynmd4GFjiZ4hr0G/Ecr/dOu+cUu40svNh8lsfm
+         yvSyzsaMRz+ZH0abmNzoXYyqhw7kG2UKiWB8Yd3dDAGGiHcu8P8muPT74mCtcbKy2M6L
+         iMd0WLQ4AOy9tEB1EF01M6SH2CFg10adOv8tWvCuoA3IUGRDAuJPbzY695OlSXHPenL8
+         7E+w==
+X-Forwarded-Encrypted: i=1; AHgh+RqA3NbBZLku7w0WgDff830QJlOiO37Bxa6sfwyiROFMitWkuRev9QJ0FY9Tj+R/zKMp4ZPhv6u/YIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3/x6hHlNFZkXT+0Q33UCHUxcRlwnT9Ckd5u7PD1T9rC841uk7
+	qY4AZwr//3flIe8Rc+f0yRvuOhc8B48GLTsZ7MXeMiViDmP0gJkMdxdFnhg7NsrR3ULQatUm9wz
+	YyRL25A7MvcrYIJeBwWNoz1psK13PtLHEq3Rsl1vyP63oukOjSTRh0JS/1r+Hn+QWwEzCJSf3+F
+	6iiO1GgqpW91UXVFCkQ0rY53tosY/m0m6Z/Yiu
+X-Gm-Gg: AR+sD13m4CjQvfjh92JkxkHJj9SW0tQAw4fvjEhqxzYjcAdKigVUjtajOjhopQ6PC5l
+	ujX0DT099qBSFiShtNiGPmBs5Awi5JOxwLXkclKh6Zlb5ay42Q9mg7BHcvJMPndYVvkDniGmTtt
+	CwDIrY5do/P/QK9eLwWBSJuuO6m6eMgZmEiz0Cdp1/XC39GJHhswkhNaB4t6ozdFW10q7NJ9kkK
+	lwCOrV3Nazp3TxLBQ==
+X-Received: by 2002:a05:600c:4692:b0:499:781e:25fc with SMTP id 5b1f17b1804b1-499821c5a55mr85647615e9.3.1786638296954;
+        Thu, 13 Aug 2026 09:24:56 -0700 (PDT)
+X-Received: by 2002:a05:600c:4692:b0:499:781e:25fc with SMTP id
+ 5b1f17b1804b1-499821c5a55mr85646715e9.3.1786638296566; Thu, 13 Aug 2026
+ 09:24:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260812182327.53694-1-chenmiao.ku@gmail.com> <20260812182327.53694-7-chenmiao.ku@gmail.com>
- <an3m2mN3Wq-OSGKv@wyuan.org>
-In-Reply-To: <an3m2mN3Wq-OSGKv@wyuan.org>
-From: Chen Miao <chenmiao.ku@gmail.com>
-Date: Fri, 14 Aug 2026 00:23:46 +0800
-X-Gm-Features: AUfX_mzraF2YxIKSfNGVEcduJXsP6DZwOoh_7L360eh-sR0LLgsmLqu0cObvGoQ
-Message-ID: <CAKxVwgcgS-ynf8Dsex_XA8Px85e8-cmMuMXABorQ_qWHmm+xRA@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] docs/zh_CN: how-to: document case-sensitive APFS setup
-To: Weijie Yuan <wy@wyuan.org>
-Cc: corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev, 
-	skhan@linuxfoundation.org, dzm91@hust.edu.cn, mchehab@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260812181300.3712426-1-jtaubepe@redhat.com> <CO6PR18MB450084465A542D9DF1E46C51AFDB2@CO6PR18MB4500.namprd18.prod.outlook.com>
+In-Reply-To: <CO6PR18MB450084465A542D9DF1E46C51AFDB2@CO6PR18MB4500.namprd18.prod.outlook.com>
+From: Jesse Taube <jtaubepe@redhat.com>
+Date: Thu, 13 Aug 2026 12:24:45 -0400
+X-Gm-Features: AUfX_mxnzn0QQGs-cPHrzMNrM17HgyUB_gFx1iWfyyxeIkP3fWyqO39kLk3cHho
+Message-ID: <CADRr4bceLLuu4KRf7X+P6aNyBtK+TGrBDKd4T5Uuw5DaM-9gXg@mail.gmail.com>
+Subject: Re: [EXTERNAL] [PATCH 00/13] nvme-fc: FPIN link integrity handling
+To: Nilesh Javali <njavali@marvell.com>
+Cc: "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, 
+	"GR-QLogic-Storage-Upstream@marvell.com" <GR-QLogic-Storage-Upstream@marvell.com>, Hannes Reinecke <hare@suse.de>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, John Meneghini <jmeneghi@redhat.com>, 
+	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>, 
+	"Ewan D . Milne" <emilne@redhat.com>, 
+	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-V2VpamllIFl1YW4gPHd5QHd5dWFuLm9yZz4g5LqOMjAyNuW5tDjmnIgxM+aXpeWRqOWbmyAyMzo0
-NuWGmemBk++8mg0KPg0KPiBPbiBUaHUsIEF1ZyAxMywgMjAyNiBhdCAwMjoyMzoyM0FNICswODAw
-LCBDaGVuIE1pYW8gd3JvdGU6DQo+ID4gVGhlIEFQRlMgdm9sdW1lIHVzZWQgYnkgbWFjT1MgaXMg
-Y2FzZS1pbnNlbnNpdGl2ZSBieSBkZWZhdWx0LCB3aGlsZSB0aGUNCj4gPiBrZXJuZWwgdHJlZSBj
-b250YWlucyBmaWxlIG5hbWVzIHRoYXQgZGlmZmVyIG9ubHkgaW4gY2FzZS4gRG9jdW1lbnQgdGhl
-DQo+ID4gZGlza3V0aWwgY29tbWFuZHMgbmVlZGVkIHRvIGlkZW50aWZ5IHRoZSBBUEZTIGNvbnRh
-aW5lciBhbmQgYWRkIGENCj4gPiBjYXNlLXNlbnNpdGl2ZSB2b2x1bWUgYmVmb3JlIGNsb25pbmcg
-dGhlIHRyZWUuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBDaGVuIE1pYW8gPGNoZW5taWFvLmt1
-QGdtYWlsLmNvbT4NCj4NCj4gQWNrZWQtYnk6IFdlaWppZSBZdWFuIDx3eUB3eXVhbi5vcmc+DQo+
-DQo+ID4gLS0tDQo+ID4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5y
-c3QgfCA4ICsrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKykNCj4g
-Pg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9ob3ct
-dG8ucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaG93LXRvLnJzdA0KPiA+
-IGluZGV4IDllYzIzODRlMS4uZTFkM2QyYjhiIDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5yc3QNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy96aF9DTi9ob3ctdG8ucnN0DQo+ID4gQEAgLTEwMiw2ICsxMDIsMTQgQEAg
-TGludXgg5Y+R6KGM54mI5ZKM566A5Y2V5Zyw5L2/55SoIExpbnV4IOWRveS7pOihjO+8jOmCo+S5
-iOWPr+S7pei/hemAn+W8gOWni+S6hg0KPiA+ICDlvIDlpLTnmoTlkb3ku6TjgIIqKuivt+azqOaE
-jyoq77yM5pyA5paw54mI5pysIFNwaGlueCDnmoTmlofmoaPnvJbor5HpgJ/luqbmnInmnoHlpKfm
-j5DljYfvvIzlvLrng4jlu7rorq4NCj4gPiAg5oKo6YCa6L+HIHBpcC9weXBpIOWuieijheacgOaW
-sOeJiOacrCBTcGhpbnjjgIINCj4gPg0KPiA+ICttYWNPUyDpu5jorqTkvb/nlKjkuI3ljLrliIbm
-lofku7blkI3lpKflsI/lhpnnmoQgQVBGUyDljbfvvIzogIzlhoXmoLjmupDnoIHmoJHkuK3lrZjl
-nKjku4XlpKflsI/lhpkNCj4gPiAr5LiN5ZCM55qE5paH5Lu244CC5Zyo5omn6KGMIGBgZ2l0IGNs
-b25lYGAg5YmN77yM5Y+v5Zyo546w5pyJIEFQRlMg5a655Zmo5Lit5Yib5bu65LiA5Liq6aKd5aSW
-55qE5aSn5bCP5YaZDQo+ID4gK+aVj+aEn+WNt++8iOWFiOeUqCBgYGRpc2t1dGlsIGFwZnMgbGlz
-dGBgIOaJvuWIsOWuueWZqOagh+ivhuespu+8jOW5tuWwhuS4i+mdoueahCBgYGRpc2tYYGAg5pu/
-5o2i5Li66K+l5qCH6K+G56ym77yJOjoNCj4gPiArDQo+ID4gKyAgICAgZGlza3V0aWwgYXBmcyBh
-ZGRWb2x1bWUgZGlza1ggQVBGU1ggTGludXgNCj4gPiArDQo+ID4gK+eEtuWQjuWwhuWGheaguOa6
-kOeggeWFi+mahuWIsOaWsOWNt+S4reOAgg0KPiA+ICsNCj4gPiAg5aaC5p6c5oKo5aSE5LqO5LiA
-5Liq5aSa55So5oi3546v5aKD5Lit77yM5Li65LqG6YG/5YWN5a+55YW25LuW5Lq66YCg5oiQ5b2x
-5ZON77yM5bu66K6u5oKo6YWN572u5Y2V55So5oi3DQo+ID4gIHNwaGlueCDomZrmi5/njq/looPv
-vIzljbPlj6rpnIDopoHmiafooYw6Og0KPg0KPiBOaXQ6IEluIHRoZSBzdWJzZXF1ZW50IGNvbnRl
-bnQgb2YgdGhpcyBhcnRpY2xlLCBhbGwgY29tbWFuZHMgdXNlICJtYWtlIiwNCj4gbm90ICJnbWFr
-ZSIuIFNvLCBpcyBpdCBuZWNlc3NhcnkgdG8gbWVudGlvbiB0aGUgY29udGVudCBvZiB0aGUgcGF0
-Y2gNCj4gWzUvNl0gaGVyZT8gKFVzZSBnbWFrZSBmcm9tIEhvbWVicmV3IGluc3RlYWQgb2YgbWFr
-ZSBmcm9tIEFwcGxlKSwgbGlrZSBhDQo+IGNyb3NzLXJlZmVyZW5jZSwgdG8gbGVhZCB0aGUgbWFj
-T1MgdXNlcnMgdG8gZ2V0IG1vcmUgZGV0YWlsZWQgaW5mby4NCj4NCj4gQnV0IEknbSBmaW5lIHdp
-dGggY3VycnVudCB3b3JkaW5ncy4gQmVjYXVzZSBpZiB5b3UgdHJ5IHRvIHVzZSAnbWFrZScsDQo+
-IHlvdSdsbCBnZXQNCj4NCj4gICBNYWtlZmlsZToxNTogKioqIEdOVSBNYWtlID49IDQuMCBpcyBy
-ZXF1aXJlZC4gWW91ciBNYWtlIHZlcnNpb24gaXMgMy44MS4gIFN0b3AuDQo+DQo+IHRoZW4sIHlv
-dSBzaG91bGQgcmVhbGl6ZSB0aGF0IEhvbWVicmV3IGhhZCB0b2xkIHlvdSB0aGF0IHlvdSBzaG91
-bGQgcnVuDQo+ICdnbWFrZScgaW5zdGVhZCBvZiAnbWFrZScuDQo+DQo+IFRoYW5rcy4NCj4NCkkg
-ZG9uJ3QgdGhpbmsgYW4gYWRkaXRpb25hbCBjcm9zcy1yZWZlcmVuY2UgaXMgbmVjZXNzYXJ5IGhl
-cmUuIElmIHVzZXJzDQpydW4gaW50byBBcHBsZSdzIG9sZGVyIGBtYWtlYCwgdGhlIGVycm9yIG1l
-c3NhZ2UgY2xlYXJseSBzdGF0ZXMgdGhhdCBHTlUNCk1ha2UgPj0gNC4wIGlzIHJlcXVpcmVkLiBJ
-biBhZGRpdGlvbiwgSG9tZWJyZXcncyBgbWFrZWAgZm9ybXVsYSBhbHJlYWR5DQpleHBsYWlucyB0
-aGF0IEdOVSBNYWtlIGlzIGluc3RhbGxlZCBhcyBgZ21ha2VgOg0KDQogICAgJCBicmV3IGluc3Rh
-bGwgbWFrZQ0KICAgID09PiBXb3VsZCByZWluc3RhbGwgMSBmb3JtdWxhOg0KICAgIG1ha2UNCiAg
-ICAuLi4NCiAgICBHTlUgIm1ha2UiIGhhcyBiZWVuIGluc3RhbGxlZCBhcyAiZ21ha2UiLg0KDQpV
-c2VycyBjYW4gdGhlbiByZXRyeSB0aGUgY29tbWFuZCB3aXRoIGBnbWFrZWAsIHNvIEkgdGhpbmsg
-dGhlIGN1cnJlbnQNCndvcmRpbmcgaXMgc3VmZmljaWVudC4NCg0KVGhhbmtzLA0KQ2hlbiBNaWFv
-DQo=
+On Thu, Aug 13, 2026 at 12:54=E2=80=AFAM Nilesh Javali <njavali@marvell.com=
+> wrote:
+>
+>
+> From: Jesse Taube <jtaubepe@redhat.com>
+> Sent: Wednesday, August 12, 2026 11:43 PM
+> To: linux-scsi@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>; Shuah Khan <skhan@linuxfoundation.o=
+rg>; Keith Busch <kbusch@kernel.org>; Jens Axboe <axboe@kernel.dk>; Christo=
+ph Hellwig <hch@lst.de>; Sagi Grimberg <sagi@grimberg.me>; Justin Tee <just=
+in.tee@broadcom.com>; Naresh Gottumukkala <nareshgottumukkala83@gmail.com>;=
+ Paul Ely <paul.ely@broadcom.com>; Chaitanya Kulkarni <kch@nvidia.com>; Jam=
+es E.J. Bottomley <James.Bottomley@HansenPartnership.com>; Martin K. Peters=
+en <martin.petersen@oracle.com>; Nilesh Javali <njavali@marvell.com>; GR-QL=
+ogic-Storage-Upstream@marvell.com; Hannes Reinecke <hare@suse.de>; Jesse Ta=
+ube <jtaubepe@redhat.com>; Gustavo A. R. Silva <gustavoars@kernel.org>; Joh=
+n Meneghini <jmeneghi@redhat.com>; Bryan Gurney <bgurney@redhat.com>; Chris=
+ Leech <cleech@redhat.com>; Ewan D . Milne <emilne@redhat.com>; shinichiro.=
+kawasaki@wdc.com; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; =
+linux-nvme@lists.infradead.org; linux-block@vger.kernel.org
+> Subject: [EXTERNAL] [PATCH 00/13] nvme-fc: FPIN link integrity handling
+>
+> FPIN LI (link integrity) messages are received when the attached fabric d=
+etects hardware errors. In response to these messages I/O should be directe=
+d away from the affected ports, and only used as a last resort. This patch =
+adds a new controller
+> ZjQcmQRYFpfptBannerStart
+> Prioritize security for external emails:
+> Confirm sender and content safety before clicking links or opening attach=
+ments
+>   https://us-phishalarm-ewt.proofpoint.com/EWT/v1/CRVmXkqW!te3Z1f8UYnTa1E=
+-duf06bvZlnS-1FrR2Jkcx8WQcjCWqN2c_NKqyKXnJoJcD4hWMKkUnua_-glfm3m67hWRah9Kf0=
+UTKp-APm3w$  =E2=80=8C
+>
+>
+> ZjQcmQRYFpfptBannerEnd
+> FPIN LI (link integrity) messages are received when the attached fabric
+> detects hardware errors. In response to these messages I/O should be
+> directed away from the affected ports, and only used as a last resort.
+> This patch adds a new controller flag 'NVME_CTRL_MARGINAL' which will be
+> checked during multipath path selection, causing the path to be skipped
+> when checking for paths. If no other paths are available the 'marginal'
+> paths are considered for path selection.
+>
+> The testing for this patch set was performed by Bryan Gurney, using the
+> process outlined by John Meneghini's presentation at LSFMM 2024, where
+> the fibre channel switch sends an FPIN notification on a specific switch
+> port, and the following is checked on the initiator:
+>
+> 1. The controllers corresponding to the paths on the port that has
+> received the notification are showing a set NVME_CTRL_MARGINAL flag.
+>
+>    \
+>     +- nvme4 fc traddr=3Dc,host_traddr=3De live optimized
+>     +- nvme5 fc traddr=3D8,host_traddr=3De live non-optimized
+>     +- nvme8 fc traddr=3De,host_traddr=3Df marginal optimized
+>     +- nvme9 fc traddr=3Da,host_traddr=3Df marginal non-optimized
+>
+> 2. The I/O statistics of the test namespace show no I/O activity on the
+> controllers with NVME_CTRL_MARGINAL set.
+>
+>    Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+>    nvme4c4n1         0.00         0.00         0.00         0.00
+>    nvme4c5n1     25001.00         0.00        97.66         0.00
+>    nvme4c9n1     25000.00         0.00        97.66         0.00
+>    nvme4n1       50011.00         0.00       195.36         0.00
+>
+>
+>    Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+>    nvme4c4n1         0.00         0.00         0.00         0.00
+>    nvme4c5n1     48360.00         0.00       188.91         0.00
+>    nvme4c9n1      1642.00         0.00         6.41         0.00
+>    nvme4n1       49981.00         0.00       195.24         0.00
+>
+>
+>    Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+>    nvme4c4n1         0.00         0.00         0.00         0.00
+>    nvme4c5n1     50001.00         0.00       195.32         0.00
+>    nvme4c9n1         0.00         0.00         0.00         0.00
+>    nvme4n1       50016.00         0.00       195.38         0.00
+>
+> Link: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__people.redha=
+t.com_jmeneghi_LSFMM-5F2024_LSFMM-5F2024-5FNVMe-5FCancel-5Fand-5FFPIN.pdf&d=
+=3DDwIDAg&c=3DnKjWec2b6R0mOyPaz7xtfQ&r=3D7My57sfPbDDcMFJyBD6G2keJbhsQZV7WIf=
+8SjB-450c&m=3DViZhyiiF6nkaVXOE1PpaKWe2JBe94gTGHA24wKzPP99uuwXoNoSYqcE55NQRq=
+t6_&s=3D0jhQeJW2swbeXGSnNtXSHqXkNX1eVjXmU7QSm6m2IpU&e=3D
+>
+> Testing has been performed by sending all FPIN LI ELS messages from the
+> switch to the Host and verifying the proper nvme multi-pathing behavior
+> is effected with each of the eight different FPIN link integrity events.
+> Results were verified with iostat and with the nvme list-subsys command.
+>
+> These tests were run with all scenarios including where there were only
+> non-optimized paths available, and where all paths were
+> marginal/degraded. All multi-path io-policies were tested including:
+> numa, round-robin and queue-depth. When all paths on the host are
+> marginal/degraded, I/O continues on the optimized path that was most
+> recently non-marginal.  If both of the optimized paths are down, I/O
+> properly continues on one of the marginal/degraded non-optimized paths.
+>
+> Testing has been complete with both Broadcom (lpfc) and Marvell (qla2xx)
+> 32GB HBAs.  Both HBAs successfully complete all tests.
+>
+> For a complete description of the tests that were run, please see
+> bugzilla 220329.
+>
+> To test the path handeling use:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__github.com_linux-2=
+Dblktests_blktests_pull_264&d=3DDwIDAg&c=3DnKjWec2b6R0mOyPaz7xtfQ&r=3D7My57=
+sfPbDDcMFJyBD6G2keJbhsQZV7WIf8SjB-450c&m=3DViZhyiiF6nkaVXOE1PpaKWe2JBe94gTG=
+HA24wKzPP99uuwXoNoSYqcE55NQRqt6_&s=3DXKJyyaOO9_UGG6uH5fv88U7bAke7X9H5Xz0qa3=
+9qubs&e=3D
+> or
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lore.kernel.org_li=
+nux-2Dnvme_20260812174503.3705830-2D1-2Djtaubepe-40redhat.com_&d=3DDwIDAg&c=
+=3DnKjWec2b6R0mOyPaz7xtfQ&r=3D7My57sfPbDDcMFJyBD6G2keJbhsQZV7WIf8SjB-450c&m=
+=3DViZhyiiF6nkaVXOE1PpaKWe2JBe94gTGHA24wKzPP99uuwXoNoSYqcE55NQRqt6_&s=3DqPf=
+emamvpsdH9yAG-9CRAILRyvMrzEaa_xjIaJTo1Ds&e=3D
+>
+> To test the full set including FPIN decoding use:
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__github.com_johnmen=
+eghini_fpin-5Fli-5Ftests&d=3DDwIDAg&c=3DnKjWec2b6R0mOyPaz7xtfQ&r=3D7My57sfP=
+bDDcMFJyBD6G2keJbhsQZV7WIf8SjB-450c&m=3DViZhyiiF6nkaVXOE1PpaKWe2JBe94gTGHA2=
+4wKzPP99uuwXoNoSYqcE55NQRqt6_&s=3DSzJUICtyPkmr7xYyCu6_gZb5itPn8MZRQm4z0Zoew=
+ak&e=3D
+>
+> Closes: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bugzilla.k=
+ernel.org_show-5Fbug.cgi-3Fid-3D220329&d=3DDwIDAg&c=3DnKjWec2b6R0mOyPaz7xtf=
+Q&r=3D7My57sfPbDDcMFJyBD6G2keJbhsQZV7WIf8SjB-450c&m=3DViZhyiiF6nkaVXOE1PpaK=
+We2JBe94gTGHA24wKzPP99uuwXoNoSYqcE55NQRqt6_&s=3DYbu1spaO4qBWAVWu7hq8KHIP73x=
+HRmGPfJCrZVoqacY&e=3D
+>
+> New refactored implementation enables administrators to manually control
+> port marginal states via sysfs. For example:
+>
+> # Set remote port to marginal state
+> echo "Marginal" > /sys/class/fc_remote_ports/rport-4:0-1/port_state
+>
+> # Clear marginal state (set to online)
+> echo "Online" > /sys/class/fc_remote_ports/rport-4:0-1/port_state
+>
+> Changes to the original submission:
+> - Changed flag name to 'marginal'
+> - Do not block marginal path; influence path selection instead
+>   to de-prioritize marginal paths
+>
+> Changes to v2:
+> - Split off driver-specific modifications
+> - Introduce 'union fc_tlv_desc' to avoid casts
+>
+> Changes to v3:
+> - Include reviews from Justin Tee
+> - Split marginal path handling patch
+>
+> Changes to v4:
+> - Change 'u8' to '__u8' on fc_tlv_desc to fix a failure to build
+> - Print 'marginal' instead of 'live' in the state of controllers
+>   when they are marginal
+>
+> Changes to v5:
+> - Minor spelling corrections to patch descriptions
+>
+> Changes to v6:
+> - No code changes; added note about additional testing
+>
+> Changes to v7:
+> - Split nvme core marginal flag addition into its own patch
+> - Add patch for queue_depth marginal path support
+>
+> Changes to v8:
+> - Rebased patch series to nvme-6.17.
+> - Added patch from Gustavo Silva, "scsi: qla2xxx: Fix memcpy field-spanni=
+ng
+>   write issue", which resolves the field-spanning write issue
+> - We decided to leave the "marginal" state as is, because the transport
+>   driver uses the term "marginal".
+>
+> Changes to v9:
+> - Rebased patch series to nvme-6.18.
+> - Refactor and fix a patch from Gustavo Silva, "scsi: qla2xxx: Fix 2 memc=
+py
+>   field-spanning write issue", which resolves the field-spanning write
+>   issue.
+>   This new version of Gustavo's patch fixes a bug found in testing.
+>
+> [NJ:] I could not find this qla2xxx fix in this series. Am I missing some=
+thing.
+> This fix is certainly required to avoid few call traces reported, as disc=
+ussed here,
+> https://lore.kernel.org/linux-nvme/97526d45-ec7d-48a0-bdc6-659f75839f53@e=
+mbeddedor.com/#t
+
+You fix:
+Commit 7db93e3c580d ("scsi: qla2xxx: Enhance purex_entry handling for
+29xx series")
+fixes the issue.
+
+I forgot to mention it in the change log for V11. i will include it in
+the change log for V12.
+
+Thanks,
+Jesse Taube
+
+>
+> Thanks,
+> Nilesh
+>
+
