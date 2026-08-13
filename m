@@ -1,38 +1,38 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD57C344D9B
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 03:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B31346AE1
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 03:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786592635; cv=none; b=hGiHmlPwwwQkRAl8X14ppbiX+u7PixPhPNcQkNf8LBY4H/dyi6akKOmeLMlZ9SmetaWgGbqULnFduc0vuS9lbq3EfIr89QG4q9/ScHEPS5QFI5X4Ydn2ROBfV9sibZl9R36Ey9KlRzppkfkUzwbIMf1/7Gwsz0lGqptyWOO4L34=
+	t=1786592637; cv=none; b=g+sA0pod4tG+W+m9PkwcXeDk7vrmMNzLLWJquF3XwOUGSPVeyRUL5porzK+nDNEx7zuz0V+8uvDWm0YkCE8nhBjbaoH0NH7cPbZOUv7RsU5PHZeT0Zyno6tlvAOypCIq/x/fJYMPUeNC/AhppSNAbSk6ZcbNefApvMZzJH9HLb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786592635; c=relaxed/simple;
-	bh=FFyspYGe+IPz1uaDWQQDBbyeOVHZy7zwYyOnK2Xos7c=;
+	s=arc-20240116; t=1786592637; c=relaxed/simple;
+	bh=0xJ4WUz/5eJ1I7Mh943MEl2K30KB9pSa1nAzaNbggyE=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VYc/Wp1FzCUBvK7mqJU66ofBqpwJJpHYdEMGTNBewS44hEXLpKQ4JPaFSfPKsmRvldPDhnrtF7yzJnVommfgs3yYobSix/EXrP5eCHcCuxBCsgSdqlAHwVbw63TRBlsP3y3jEFiwxaaDclwacd3CptqZq97mCRe1E06nJOKm3wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=YAoNliWy; arc=none smtp.client-ip=113.46.200.223
+	 MIME-Version:Content-Type; b=LRCuy1fjfN/LmH2xkqiDEUEPqZ9IWHs21MbalrBgLOoQqZ2HFZu9gWkjjuaGpEreCmqf3MENAAz/6Uzp7xrnB628UphCDs1orQTB6Id1w3rSa6vdrAy9MXni6TEuHuVoN0FWEK/p/Lxs4nchGPqKJLoBn/5pMhNPfmoHOrRWyZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=LX4wVwMe; arc=none smtp.client-ip=113.46.200.216
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="YAoNliWy"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="LX4wVwMe"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=Q0WP5JdN/AIOBXWgf2qmOXq0QvCni7ganoj4mKN1n6I=;
-	b=YAoNliWyelz+I/5Dr28odx6ViEOy7u5pUiMvI06de7lcxVV6oOrV0NhvYlT4dzmwRe1qMJ4/B
-	qMugIzjQzMSZRzr2luYhY5OU/xUmtmvmWWrzJJOElES7rESHZMmW2WE2uUoZcN9+ytJMkM9a6pL
-	cpml4UW/fn7R9dkZgCt28h0=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hL9tG6LQfzmVX8;
-	Thu, 13 Aug 2026 11:33:10 +0800 (CST)
+	bh=jjBzaVi/IBnAB+6E2zKl2/5vb4yZbYCndoVA24pa6UE=;
+	b=LX4wVwMeZgkz+qMnt97vEkblyz3yQOrKqcdK/aNq6s8mE/A6b7Dzbc0Kz4SZ/YsBdPtC/OQOK
+	c/5L937ERZx/tly9nHckstPsOSV44z797WTwJMnl4lzF8s//Hnhl1N6wF+feS71f7eJopKsX2Yw
+	SezLjl6oK2ITvBzVw1BiZ5s=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4hL9v94M8Mz1T4Fq;
+	Thu, 13 Aug 2026 11:33:57 +0800 (CST)
 Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id 67CBE402AB;
-	Thu, 13 Aug 2026 11:43:48 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 16F1A4057F;
+	Thu, 13 Aug 2026 11:43:49 +0800 (CST)
 Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
  (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 13 Aug
- 2026 11:43:47 +0800
+ 2026 11:43:48 +0800
 From: Jinjiang Tu <tujinjiang@huawei.com>
 To: <akpm@linux-foundation.org>, <david@kernel.org>, <xu.xin16@zte.com.cn>,
 	<chengming.zhou@linux.dev>, <ljs@kernel.org>, <liam@infradead.org>,
@@ -41,9 +41,9 @@ To: <akpm@linux-foundation.org>, <david@kernel.org>, <xu.xin16@zte.com.cn>,
 	<shr@devkernel.io>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
 CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
 	<tujinjiang@huawei.com>
-Subject: [PATCH v2 1/2] docs: ksm: fix typos in sysfs knob names
-Date: Thu, 13 Aug 2026 11:17:21 +0800
-Message-ID: <20260813031722.569983-2-tujinjiang@huawei.com>
+Subject: [PATCH v2 2/2] mm/ksm: fix advisor_min_pages_to_scan description
+Date: Thu, 13 Aug 2026 11:17:22 +0800
+Message-ID: <20260813031722.569983-3-tujinjiang@huawei.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260813031722.569983-1-tujinjiang@huawei.com>
 References: <20260813031722.569983-1-tujinjiang@huawei.com>
@@ -58,39 +58,54 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
  kwepemr500001.china.huawei.com (7.202.194.229)
 
-The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
-"advisor_max_pages_to_scan", but the ksm.rst documentation spelled
-both as "adivsor_*", fix the two typos.
+Both Documentation/admin-guide/mm/ksm.rst and the comment next to the
+variable definition in mm/ksm.c describe advisor_min_pages_to_scan as a
+lower limit of the pages_to_scan parameter, but that is not how the
+scan-time advisor actually uses it. commit 4e5fa4f5eff6 ("mm/ksm: add ksm
+advisor") only uses it to initialize ksm_thread_pages_to_scan when the
+scan-time advisor is enabled. This will mislead the users.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+The semantics of advisor_min_pages_to_scan was updated in the v2 patchset
+[1], but the documentation wasn't updated.
+
+Update the documentation and comment to match the semantics of
+advisor_min_pages_to_scan.
+
+Link: https://lore.kernel.org/linux-mm/20231028000945.2428830-2-shr@devkernel.io/ [1]
 Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
 ---
  Documentation/admin-guide/mm/ksm.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ mm/ksm.c                             | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index ad8e7a41f3b5..c9f533b10f6f 100644
+index c9f533b10f6f..c329ca747b8c 100644
 --- a/Documentation/admin-guide/mm/ksm.rst
 +++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -174,7 +174,7 @@ advisor_mode
-         The section about ``advisor`` explains in detail how the scan time
-         advisor works.
+@@ -183,8 +183,8 @@ advisor_target_scan_time
+         pages. The default value is 200 seconds.
  
--adivsor_max_cpu
-+advisor_max_cpu
-         specifies the upper limit of the cpu percent usage of the ksmd
-         background thread. The default is 70.
+ advisor_min_pages_to_scan
+-        specifies the lower limit of the ``pages_to_scan`` parameter of the
+-        scan time advisor. The default is 500.
++        specifies the initial value of the ``pages_to_scan`` parameter of
++        the scan time advisor. The default is 500.
  
-@@ -186,7 +186,7 @@ advisor_min_pages_to_scan
-         specifies the lower limit of the ``pages_to_scan`` parameter of the
-         scan time advisor. The default is 500.
- 
--adivsor_max_pages_to_scan
-+advisor_max_pages_to_scan
+ advisor_max_pages_to_scan
          specifies the upper limit of the ``pages_to_scan`` parameter of the
-         scan time advisor. The default is 30000.
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 7d5b76478f0b..4a6cf8cf5d60 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -342,7 +342,7 @@ static enum ksm_advisor_type ksm_advisor;
+  * Only called through the sysfs control interface:
+  */
  
+-/* At least scan this many pages per batch. */
++/* Initial number of pages to scan per batch. */
+ static unsigned long ksm_advisor_min_pages_to_scan = 500;
+ 
+ static void set_advisor_defaults(void)
 -- 
 2.43.0
 
