@@ -1,75 +1,100 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCED344D9B
-	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 03:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D61B31B828
+	for <linux-doc@vger.kernel.org>; Thu, 13 Aug 2026 04:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786592638; cv=none; b=ZDZhoLPyiDUfLOK57qiGbKxF7kvpw0InVHBMjsCpvfRETws/MPOaGHCvuXuy1tm+F4m9q4lEwHG/+3S20BKXwsxM7hBqcvtX7n6BoOmTAnpoDQaUqlWqYXUvryZMCv89uPH1BrA+O1Ftdy1Sd/XUU0OIa74uoN8y7iw2FLnjwkM=
+	t=1786596488; cv=none; b=j8Aza0q5BzirZGe9Jr+urP0E63/dLObqLSiu/G3xcx2fQgFOij2vT6h0tFdoCClMPTfuxF+XA2BFTfQty2SGxNRsV1htn6U2SrMgTJ7V3o53zUAjhFYg3j72K8HixCljB8H8l36urL10lwqI5PWBW9bw3AmPFcAlGJm5+DllKjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786592638; c=relaxed/simple;
-	bh=YIJrD6SxIGVJ7cQ8C2Vw70w1jx4IHuWgBHmhxYe5pKA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JgSYjg5j3pASWF+AtRCBa9cjdsPs5CGshwo49CaBqzMxGhhWT/PM+wjAfMzwrE5NXsfvjyZ6NR/st1QqNgjx5H4L3rfftTsvhciH6TiE11Lvc+H7TDrI2B5hvAu8Moz3mL1Z/NNZ7+DAW09KGTQPpTtqTYwweh5ukE/05Tkf1pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=fVqV4ht5; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1786596488; c=relaxed/simple;
+	bh=JU4ZI0javA5XMVC2tlfmrhDbqzSmi1wC5e4woZdS2Sc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ILkjnbJRjir7R0WhbrXuoUiGNJydD5nQXjn3EZq1wAO819VYgnFMgGegmbGDr+4wDziIXkwymZy9tjLl+8W6JspNSd4s/N8gKjCqICcevRWV0/0xlegVwi/Cc2eOSJpef1rxJTJ4YIz4cB/zNugcxVyCAq5fW0bMweVYPqdXsl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aPVQTkzV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="fVqV4ht5"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=nfcGx0YSMLP1yfpj8Odjxu7UM2DMjOzTVUn/eVe9GgU=;
-	b=fVqV4ht53hJl1keWSbKGqRqm/hOB8jbkpkwlzEQiaY5hFeoa2S/l+ZcmcyHbPofGkp7Xs88dG
-	RdFBZAuYySQ1r7ZXvcfrP0SeIW4fVkhonDEA0HjlZhkhCUTWnD6ZoW16NGUv9MVmk8cnZTyvRvd
-	Jw4QKIqLpMES5zI1PKyzq5Y=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4hL9t65bSLzpT0F;
-	Thu, 13 Aug 2026 11:33:02 +0800 (CST)
-Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id B637340537;
-	Thu, 13 Aug 2026 11:43:47 +0800 (CST)
-Received: from huawei.com (10.50.85.135) by kwepemr500001.china.huawei.com
- (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 13 Aug
- 2026 11:43:46 +0800
-From: Jinjiang Tu <tujinjiang@huawei.com>
-To: <akpm@linux-foundation.org>, <david@kernel.org>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <ljs@kernel.org>, <liam@infradead.org>,
-	<vbabka@kernel.org>, <rppt@kernel.org>, <surenb@google.com>,
-	<mhocko@suse.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<shr@devkernel.io>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-CC: <wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>,
-	<tujinjiang@huawei.com>
-Subject: [PATCH v2 0/2] docs/ksm: fix advisor documentation and comment
-Date: Thu, 13 Aug 2026 11:17:20 +0800
-Message-ID: <20260813031722.569983-1-tujinjiang@huawei.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aPVQTkzV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=X47MPVqgH2j7yjBZtNKgYko3YnkfVy3n7gkaPS/96cQ=; b=aPVQTkzVS7E6M9/5/2lfJV4m2q
+	Gu0rh6frlDfMcSnfCfzfJxPlCvhCnRWvytHDe2MvJV7aFy+/iw78mYWkbRuj0Et2uLkVfWNPYwFjt
+	7MX4olLDVkLGSALLckY3nBCfH9OxyK7Cgp14IvTP+QFhviqU5fHrHvo4CYWuSswAiCwkQx7foVSfn
+	2M5vihwXhFVUwLWmAMHdQUkgWdxxNoRdwVhBfarGenWyUvDVeDBQc/izhD8SJBQA+ZuNSOKxmI/x2
+	GSsJ96EoPM2xk5+HFi42U+OetuCC8wjGZhsk0yXIgpTvkIFp7XNFipP1fQV5qUFfa6M5+VJvi0IYz
+	kBu/GUrg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wuNMB-0000000HNTC-3HH2;
+	Thu, 13 Aug 2026 04:47:55 +0000
+Message-ID: <892cc7cb-20ea-4d63-80ab-043538fdd7fa@infradead.org>
+Date: Wed, 12 Aug 2026 21:47:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemr500001.china.huawei.com (7.202.194.229)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] docs: ksm: fix typos in sysfs knob names
+To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
+ david@kernel.org, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
+ ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, shr@devkernel.io, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+Cc: wangkefeng.wang@huawei.com, sunnanyong@huawei.com
+References: <20260813031722.569983-1-tujinjiang@huawei.com>
+ <20260813031722.569983-2-tujinjiang@huawei.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260813031722.569983-2-tujinjiang@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix typos and misleading description of advisor_min_pages_to_scan.
 
-Changes since v1:
- * remove fix tags for both patches
- * update commit message and comment for patch2
- * collect Acked-by for patch1
 
-Jinjiang Tu (2):
-  docs: ksm: fix typos in sysfs knob names
-  mm/ksm: fix advisor_min_pages_to_scan description
+On 8/12/26 8:17 PM, Jinjiang Tu wrote:
+> The sysfs knob names in mm/ksm.c are "advisor_max_cpu" and
+> "advisor_max_pages_to_scan", but the ksm.rst documentation spelled
+> both as "adivsor_*", fix the two typos.
+> 
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
 
- Documentation/admin-guide/mm/ksm.rst | 8 ++++----
- mm/ksm.c                             | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  Documentation/admin-guide/mm/ksm.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+> index ad8e7a41f3b5..c9f533b10f6f 100644
+> --- a/Documentation/admin-guide/mm/ksm.rst
+> +++ b/Documentation/admin-guide/mm/ksm.rst
+> @@ -174,7 +174,7 @@ advisor_mode
+>          The section about ``advisor`` explains in detail how the scan time
+>          advisor works.
+>  
+> -adivsor_max_cpu
+> +advisor_max_cpu
+>          specifies the upper limit of the cpu percent usage of the ksmd
+>          background thread. The default is 70.
+>  
+> @@ -186,7 +186,7 @@ advisor_min_pages_to_scan
+>          specifies the lower limit of the ``pages_to_scan`` parameter of the
+>          scan time advisor. The default is 500.
+>  
+> -adivsor_max_pages_to_scan
+> +advisor_max_pages_to_scan
+>          specifies the upper limit of the ``pages_to_scan`` parameter of the
+>          scan time advisor. The default is 30000.
+>  
 
 -- 
-2.43.0
-
+~Randy
