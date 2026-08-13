@@ -1,76 +1,116 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013002.outbound.protection.outlook.com [52.101.83.2])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401F836CDF3;
-	Thu, 13 Aug 2026 20:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDC4383C96;
+	Thu, 13 Aug 2026 20:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786653164; cv=fail; b=B9w+HuP5zUZnJexUeKtxFKpkkm8HZqCQ7bwkiw7FeH2rzQCrBSDA+Ub6z+4HgCglm2EA6pTotDoZ7z/Md3P+bYaUr0iHvg3UPlCRwiU8XY+B0ilJsdLOkt2636mj1GLUngQedaSLBTIo+Eh784uvpvHEc4H9oSdheLGFfGiLvIM=
+	t=1786654183; cv=fail; b=bVLDHPdbxsUBAGCaGcDx+n272bu/oUKw4kS610kqOCnDeVElj0dWTDFT6YM/kVRYIbN38czy7AGglZfa94bSTnq1/0pNSgkazNGbaqaf1H1JTsmNUy9pdXRfxox6nIF+uS4PCl8kz+RV0VDnClIuEBSTP55jzIEaS0XBqTdn5tY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786653164; c=relaxed/simple;
-	bh=7DE0qUEsM64GgwBTImcjup6V5F1kC/PkL+Xr1ewQhc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=obEOD5HfWy3pQt5zLSwUUqvsXXGmsBODiRVp8eY7iSynzCVqLedScBJGjeinKnIAbv06n1DtJSW12NYaC+okNy5jIDCkNcwq+Dztk7k/u/nf/oJ0/sRSywL9mzV7dlG+mvbySoLvjDc/wJfN1PzUF2IjoEtFkk+QICpdDv2MnsE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=hBzzwDtk; arc=fail smtp.client-ip=52.101.83.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1786654183; c=relaxed/simple;
+	bh=gtMhqHNmOHxQSMXH3jtNUcu54eBCBfGOlHKA1BvMvEI=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=eQ9GpxhZid/wYcsm7oVRLKW6F1ctmnugvM7Tm+IKI+WeMrGLimUJuqkNu4mmSBfmDbgWzP8eHCz9srDOFUusKRSic/E+IO3Cck1mYbhBbET+D50wSRlj7ZhayWxK0OmVbtgpsZojaTm2OpST5fNsOIEJ3XrT4PM6gvlbCkxVJ9E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Txf9FZ/b; arc=fail smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="hBzzwDtk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Txf9FZ/b"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786654182; x=1818190182;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=gtMhqHNmOHxQSMXH3jtNUcu54eBCBfGOlHKA1BvMvEI=;
+  b=Txf9FZ/bhEmDSyEATTYw4Gk4Yu1YPyjbBpQR0FzqZRXaiYHa8rEB7FEw
+   DZK78UqzmQw1xjI/sNcZb/bWZBa20RLdzr/gfFKzBqheTdKzJJfCCMrhy
+   YSl0v6RFFFFDd5rSt7VuAZCHjHQ/Cd8zRDwUlUtmXlBqvHmQ8H2muUkrF
+   jlVtBLjLVOznb60FeqSEUlttqZbl8G+P63Mas3GPDaXQZzmqPw++9sjb6
+   w/oR0j9LMsCXlAU5mlaE4ZuC7r2RvwJS+B68zZp+OX2udahkNAhtCxTXI
+   QRUrFjIxGSon2clrYyahbVyhZ/BvSscw3Z5IyWG4iuC08PJmOwCOs04Xn
+   w==;
+X-CSE-ConnectionGUID: 1xaFinNkQ32DR9VJlInc5w==
+X-CSE-MsgGUID: uYzG9L/6Q8SJUjDynK8pUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87100747"
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="87100747"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 13:49:41 -0700
+X-CSE-ConnectionGUID: LoMAQDQ9T2GTEKjAsF9HEg==
+X-CSE-MsgGUID: QaZI90R8TA+9Z02dg40whQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="262305324"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 13:49:41 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 13 Aug 2026 13:49:40 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Thu, 13 Aug 2026 13:49:40 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.30) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 13 Aug 2026 13:49:39 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=E+g8MLuoFmV4BNS8ULAc+gURkUvl0ISnpvCDsL8o9VDrXpoOA15Rqohu2U14j2jQuvWLPGGnency2fSMFKcjQfVPIAYKMeH84nngoiIlpq2j2Vs5Plom9UwwJBFAi1rFHQ5Ys8MKejXH1ZA6/AkohgnTaieE3pWLe+f1fjdErgjz+o1ctDO41/nWaZg7st/C30S/5e/7ZR1J7z8Ap/+1akbDi6e26WGvtmWIK6XZPmL+6hwn5va5XJ8tBLA54Jlhgn3go2RBalQSIgHC4Jc33tKGMgJ/lMqPySUnAqfVwO+OJYV2yvavn42RHyVgNy++d3QlmcdDUZOUoW/FP/z4tg==
+ b=ZpTuBMDr80Anc7qojXrJseBLzHbHifiE7iGwbT0qUF6NY7gf5yPf8CY6jUFd0IjzEhml9QuwnRzgY/Fs2jpKVu8pQD2liMDyAIBsLVRhWxC9JmM+KG5oEcA7xKPWSbqTPghaIBQEUfNEMKYs5dY3p0lc9APskkquiyLaykE/a9x7C4kOn0evYedtbNENMygN1trVyc8mHrsHVpwPB1hOyMNgVHfAr5mE0/j4PYE/uLqHIG2qYRkrl2xZNdhtmYzBbDe4o7rDnqbW2cI++GiI9F9+mqs90D/J+q4OKx3Px8513d9GA61CSG50xEZVmlclcZS/vMmR55MpsC2xr3PMbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IkbAita2qOKZ7jKjxoa2BV1QSGeDqunJ37P1KFsIWpQ=;
- b=CZzpdcOawlpcmThzOeVkkusl4bfeCopzHTGQuy/bGgZvbVKqZsSi2pG9TNA5FEto1Syyhpm3bCQQDLmVBjfFWd+TZjOUHDtWbg+IVTmDaQi0Iv9kst+8pdpb7AdZyqExZCArHEz2kkvqbLr/BgkNpKVCndxKdqtHK63rgys4tDlFzNwgouiDsshmCnOg0nip0T/McU7yG4ytd4SKZm7iOwSS+/0LvteoZNaeJE0K3NX1YzUyUeU0MguwmGPbjfh+zxUwrJR2/QInxF2ixEP7C6P/9pBn7Zaw3lSuXD6VoEZwWPBPnqK+jMM3Mlx8H58Y+hmUi8KjDm4ufyUirr58mA==
+ bh=ba3ctPy2Ta+pSlraApFZiEiTy4PWj9NQBvG6PNhUMl8=;
+ b=iYqOOfqwxukULiIJ3mdUNvDNl52pXNApqazNzBkWCzga+1eO125emj0qKlliCkdU2BIvWz+B/i7tBFcdrkPGkhtXPNTNkf/xT8nKUQRKJyqR+hoRy/XOVdhZEBQNmP8iIJBNHoUunt5nW5USQc6X7y2T6ZQL+ePLppzMFmnSe6xCd2XNv4iWPmt+pVemMtxOs2N4IAzqGlGN1vQ7ws0H8+yiaKvRi4h2m+k6fABCT4gY2A+OqVdISenM1uYdz01JXIDnhC6+h9c2PjuyGP2HstJOLSzCl1iwWTbkBWsnCfEl/Ke1H0WEkWsiRZ+x86F1mHlNGbyxSFskIbME/+v3Ag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IkbAita2qOKZ7jKjxoa2BV1QSGeDqunJ37P1KFsIWpQ=;
- b=hBzzwDtkkZ++G6ltPYmR+OGeC9j5TkgiYxDIpmTm3G9bC40fiZLnVAXCjzpm++yGRvjl/vYfNCNFYi3ZFNaSPZqqHSb4vqbVIfVsl8IkWHSGIAxatCjiMWvDOp4CHOlPUpNfklNcHPutKmCJbGih9S3BA57/Xe6STL3ex3lDV4lbEjMYYr4O3UD33yCgS1zWIHLjwgSzYejcq0kKKGgVF1+jPRIKpLCPqwXT3LxDa7R5i2D2iQG5H1zoc4kLw/n4rIJ+OC5rqg/nAAuLpFQ5kjNDTtsdhKwdKXdlEibNMmww2DPOE4ZLN1Q2V+XbZKy5V4yZ8ksDdJWwjjDkY7BJjg==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by VI0PR04MB12303.eurprd04.prod.outlook.com (2603:10a6:800:326::19) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by LVTPR11MB9912.namprd11.prod.outlook.com (2603:10b6:408:3c6::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Thu, 13 Aug
- 2026 20:32:37 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 20:32:37 +0000
-Date: Thu, 13 Aug 2026 15:32:27 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Vinod Koul <vkoul@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Niklas Cassel <cassel@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
-Subject: Re: [PATCH v7 02/10] PCI: endpoint: Define endpoint DMA BAR metadata
- format
-Message-ID: <an4p20Akfc_4y4gq@SMW015318>
-References: <20260813063757.3131865-1-den@valinux.co.jp>
- <20260813063757.3131865-3-den@valinux.co.jp>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260813063757.3131865-3-den@valinux.co.jp>
-X-ClientProxiedBy: SA1PR02CA0003.namprd02.prod.outlook.com
- (2603:10b6:806:2cf::9) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.14; Thu, 13 Aug
+ 2026 20:49:35 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%5]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
+ 20:49:35 +0000
+Message-ID: <bc0e0864-d1e6-45e5-b24c-c073f9cb3fc1@intel.com>
+Date: Thu, 13 Aug 2026 13:49:31 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v4 09/15] fs/resctrl: Introduce
+ kmode_cpus/kmode_cpus_list per rdtgroup
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
+	<bp@alien8.de>, <ben.horgan@arm.com>, <fenghuay@nvidia.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <mingo@redhat.com>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rdunlap@infradead.org>, <peterz@infradead.org>,
+	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
+	<elver@google.com>, <enelsonmoore@gmail.com>, <kuba@kernel.org>,
+	<ebiggers@kernel.org>, <lirongqing@baidu.com>, <seanjc@google.com>,
+	<nikunj@amd.com>, <xin@zytor.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<tiala@microsoft.com>, <chang.seok.bae@intel.com>, <kprateek.nayak@amd.com>,
+	<prathyushi.nangia@amd.com>, <kim.phillips@amd.com>, <naveen@kernel.org>,
+	<darwi@linutronix.de>, <elena.reshetova@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<thomas.lendacky@amd.com>, <eranian@google.com>, <peternewman@google.com>,
+	<qinyuntan@linux.alibaba.com>
+References: <cover.1783461016.git.babu.moger@amd.com>
+ <27afa5e408453c93790e5aef61fda31355d96ec9.1783461016.git.babu.moger@amd.com>
+ <13834492-22f1-4135-8c57-74052544ed17@intel.com>
+ <c4311423-cafa-4b59-8e50-189fdc241de8@amd.com>
+ <98568620-7e61-4d43-b72c-5866a7d3bca1@intel.com>
+ <de190a51-4c4b-44db-9444-5c79f75f0887@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <de190a51-4c4b-44db-9444-5c79f75f0887@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW3PR05CA0006.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::11) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,288 +118,107 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|VI0PR04MB12303:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7bbeba2-7c3d-40f0-4e09-08def97a038b
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|LVTPR11MB9912:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97151d90-501d-483d-f45d-08def97c61f7
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|19092799006|1800799024|23010399003|7416014|22082099003|18002099003|56012099006|6133799003|10067099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	t4j8MLyB2ZHNfp95gPYtRKbVbeS55oix7+OhWvK1VdAi/AFiuYKZEpEjfv8a/rp/H2BNcm5xXwbQgGCV3a5oxuOsW1Em0PEAfgExKF5fZSqCAkoitGobfu83FjdoXG/7qOUowWDHw9k3wrCrp4eiWhDaid9NEwH+mSI2CpjH+9KiIIjXMNDmbhD1rTpziZxv6dxeub+YtUPHSyEwmFMGSi9Tukr7y7kX+eHvCx1fxI3VPqfmhDCd406J9tEe9qd5vCe1Mr7nDWLRh1C69eYQGMiqYHUxlUfcxk1pCQuvtRQH38AzbSztM/lhRtv/zFrT9fiRtucHY7NtEJDVou/xaprrra6ddIqKqiPD0W3wijLb0BfDL47nfoQJll2euhezR3Qw14r+l2Xr9v8YpppQTNv+SPbvN2ff4WypljhU3fQBpGFxFPu1kRmpB924/mdorz/84KOBibaRhHfSAEHNWpEdgtoVQYi85OlaXIRkntjau3K3cdeuLaEopfj6AtXtJRQJZDy7louIiRiAjxxVOS2UzSVkEMKhw+h1oaDLt/XPrbwUkkgqwGQWMdlwyz6/gkZ4/740FzNAIJ+rh1OvFak2i4DGc3ZCAFkMlvsCtof3QxvIHSWWCtXopmuctS2w8I1IqI6kHJKRN2+gKKzR7q4SA3XyTqGRakHLWgdMWq8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(19092799006)(1800799024)(23010399003)(7416014)(22082099003)(18002099003)(56012099006)(6133799003)(10067099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|56012099006|4143699003|11063799006|5023799004|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: DuGn140fY1IWrjQ/SYXCbkihuzml8Hawz+0Enu2cgavNm4yQfGJ5Q++X+KCf3GX+15D8RqqeGTii/wNLz1tBkdxjFNYaP4uUr3khauJZntlxnwY8+BD7vD2lBfigyI/NKvhIMxyF+zraWftaA+WsdWRsRphWlqt2lCkaTWjBfBSIme6nHK+X2VvjhW9tdGIqMKd2J0W3c9S3ixy0zl8S2Fq5LZnhziSSDjRnf5gXTjulT7S3iYKzPYarQIX3/JwSJ9CcivMTD4cMZc+wpVX8rSn+E/t6jz/KPVZ1ZhxQwzaqu6nip1Ttfqa4qE/KetnwNHwVWUYEBJCdDv1jeVy+xfwlGsJZPZUKICEPwtmi57FFoG0X9QtNRLrZ1iYSf/M0qrSmG2M/oB7MY4uv0jKHLqJBBDRfHispqkYePVSuVlmgfJ2klcvUUsxRj4C35Zb6HZNeYe9TVH+7hAYY1xCfLlyHp5BV3piAwx8KE13x/lndz+gMpWgKftuhsNYB6bQ3tUAzSIgwBe0H4HLpsHqplpaB3zog4EgzeR8UEjR7JJw5qBjDPkVcoelQebn+88/KX1P30jlRbzK1Ahb3ic4m4kutDaUHa0HUlAjAQKIOE5f+Wi+AbJUIOs6C3hGvSu5Ct1Kk25tCwgowGr3IfwSLuQYDTYLdu6pMx3OYeyoN0cc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(56012099006)(4143699003)(11063799006)(5023799004)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5Nb0H/ltBdCigwfE4hgNNTxRyU9mhIe0NWuUgYi3mMc0TSFi/F122+3xplF0?=
- =?us-ascii?Q?2FeESZ621a1mjFbtG675RLNttBabDXzytc5PeD1Zjm68tPMjdtSHDHYT6HFr?=
- =?us-ascii?Q?PtE1RLnEWibCBPkWyO2oTd/9r5zRo2RL07uJjBivNUl7RX7hYRbUnKOlCsuJ?=
- =?us-ascii?Q?zOdgXtYVNQc6s4iMDVBO9lXBlkhOsd1Ai0+5kkjaxP1LuS6J32ndx01FMQ6E?=
- =?us-ascii?Q?jM1Z5YrzO5x73gKABaI3BIOXTvldACpcFrVKueKrHfecwctfr7dH5luaXBwB?=
- =?us-ascii?Q?JkePwJw5GNaPknUQzmT0kNRxedaL4DmK3XqeEkRNozQpmGK0bKFXyRSpudgu?=
- =?us-ascii?Q?Bj2JFca2n+ezPhvp0PjWTrN2ncSabZDCy813eDsOY8TskOEhQl30COOa/L6g?=
- =?us-ascii?Q?o25WU54gITboWoZ2t6wpTyN5VW0uDET4qoM87O28XoqBNc+JUY3fSpjrOjgh?=
- =?us-ascii?Q?uM5MxUWog2VH8Mlntw4GQaztLy9SRXDHKd61xjpu4nZEM2D6DuR+DB/bSIkb?=
- =?us-ascii?Q?tIri+MX3/z9QHy1vcZZCJLmvHd9gr4qYvssL5V8gwBeaw9yil9zb9kUQtkNH?=
- =?us-ascii?Q?0/SD/3C/8ZYfcidetsv2sxEdEqEEPsTv2syr4EzPyiSAvmf1X8E6urWiXCwd?=
- =?us-ascii?Q?UtQhgHV0JhxwAXCArL7lZYcn0UCvQDfwgPEOJSSlpnw++NXuy/yoDjG1qLnS?=
- =?us-ascii?Q?RfWqDrUd+NzEbw6B6ZrYIuwnC4cJWNDiP62GTzX8JW/5f+LlwU/0ue6aqhk0?=
- =?us-ascii?Q?YIBanhnOV6Gf7yxmYzwewfZCVxv6KpyowDDpSL65BJpX1jhJRRU6MScmS23V?=
- =?us-ascii?Q?s+b4N/Sfdvej4B6xO25uuMFc84zrYeGRumEqcfPDjv0u71dSFWBBKW2L74K1?=
- =?us-ascii?Q?5CGoobfcayMheyGVosWVyReAoujU6LVqlvY8EXqxNT/g7r+XsEZD/eFLV2s/?=
- =?us-ascii?Q?6FZJq5NhEuGrrYShgVK93bE4CjKQLgCAvD0YIqvwP+fO9MwMZjgNSSIbBaXz?=
- =?us-ascii?Q?FlqZ6t0PoQjv73Blat+fOG5/IpLOwhzg58FVFyds4JwV9P1mStIK5Z47Cutr?=
- =?us-ascii?Q?oQE8OnrXORb1omlUC/iKrTyEVOd0zO8aABpAnbqZAXfmyHWYeMDun1KOHh97?=
- =?us-ascii?Q?BpcwnBBeOyXpCLX0V3IoT6norkvwuE2dfHvFMj52LYDmWN2iUixhXs0wajjG?=
- =?us-ascii?Q?zgIV6mKnmtFpDF9ttNYm/OFpyrTo0jIlex1/KjIiSMLLqXM3cnAPMUWatNYk?=
- =?us-ascii?Q?YS2n/uExcIbXO73KzGbuEZ25l2ri1afm2I3+XiI2btCxJy4s4zuAGuG9Fc7/?=
- =?us-ascii?Q?hna9OTDS2vNqcGIWIi0ESw6ybkdAJt71lMSuB9Ui0e0DajX7LD1e0CkZY9WT?=
- =?us-ascii?Q?x8Cq8+oXRBrT8Z+NDVSMNdRj7Oi2g3i1zdbvlYGjtminUxt2NwaViOcRd2qI?=
- =?us-ascii?Q?k+6q0pcp615A8Hchc/BJCnGU3kCptwMCR4dCrkWbLERBrMVgu7VoCfOkxI+5?=
- =?us-ascii?Q?RWOpTj0DnAP/iPvR3KULxxlxuMsgpBAYbbRFyVEbWNFGPhKdcHfCIC3Leqdy?=
- =?us-ascii?Q?GQTPg10EtHlzjAqv789l/WQGPputDCqv15LxRWnWGNwCshzPmnxcD1coHxjh?=
- =?us-ascii?Q?xDqYQZ6XRGoXrAo5grOQLOnDe6dTwSx1QmNl8rhLYIMY5+luv2wT47xG/SHQ?=
- =?us-ascii?Q?xsO279Gq5bdAgyvW7EEs1j7CvZkoZBxefsqcX6XfKt2abik19zQh0xS1pyP0?=
- =?us-ascii?Q?dClWBaQo5YgP/8Rhzy4oh33DQpuf+XonrLMkLG23BOQd9RyH/tMy?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7bbeba2-7c3d-40f0-4e09-08def97a038b
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1QyUTBMN0pSWElkMCs2NzhVNFQ0cFBGNE5ydkVLNHMycVovVUl6TGVxMXc5?=
+ =?utf-8?B?QWcxcXVWdTNzTW5RakQ3SFk3ejM1UE81eG14dDkwVTZwaERyNE5sQkhVLzIz?=
+ =?utf-8?B?ZStKZzY3RUpXN3JORnZHc01oODdyYitqSy9EVWsyRjFsOXZ2Zml2SURiMTNr?=
+ =?utf-8?B?U2FXWVhhWTE5NWovQndmeURKbjNicHF5S2VrR0F2YTJLTm12dVc5Y1ZyZTBp?=
+ =?utf-8?B?UnZMb2huelVMRUZOYTRrRTJCSXhIc2ZvRnhQQlZ1LzZHNGJhWVVydTJDUEJX?=
+ =?utf-8?B?T0J2VzBJSUZWZzhRK3FhVExwNjlQMUdaejJjOFVPZ3hzUXV3TW45ZkVuRitV?=
+ =?utf-8?B?MGRWS0FIRTJSVTNVZEVmazJrL0RlNG5kZVViempQMGV4aktjVmNVMldwUFQ3?=
+ =?utf-8?B?ZXhGYzNMODk0NW5tclREVHl5dFZqZTVwNnpnVk8zajRIRWdIRmE3Y0EvQnA0?=
+ =?utf-8?B?OHBIOXBSTXd0Z3JyNmpWUjFVR3RmTXdnb0FNOHZnUFlSYVNmdEs5YStxVWhl?=
+ =?utf-8?B?b0tMZkR4N3hrYjAyaUtoVVRDUTRYTVcvckU1THBsbEVaSklrcm1ObEpKR0hz?=
+ =?utf-8?B?bjNCQTVvb3V6c3c5TFEwMzRDclVxMmNYNWc5ZFZnY0ZndnNVUy84ZkcwRmlw?=
+ =?utf-8?B?dllpcGplam5tdmxTSlNaK2IzTEM5TCt6WmZiMzB6bHdCWXNDZTlTSnVHbndY?=
+ =?utf-8?B?L3R3b2NnMjFBS3ZoRW9BdFRnc2JORWdnV0d6bjVoeFo4UWZ1UlY3M0xXUEc3?=
+ =?utf-8?B?eGcrMitweGhYN0Y3bWhxQ3Z0aXpLWmVkMnhQZk1Say9jWHNwdmx5MlhoU2Jv?=
+ =?utf-8?B?OVQxRUNnQlNUS2o3RFVpUTRrK1hrRUloM3RWQWh1N0E4Ym43WHlTb3JTVmJW?=
+ =?utf-8?B?NHRuZlBiTm03Kytac0dGYTNIaTQvRXN0UFhETEFTRzdWeFUrUTJDUEc4TzA1?=
+ =?utf-8?B?MXd4SkJjQVQ2R0xucGtqdzdsQmJSUTFEcmVCdGJhVmdDK2ZDT1doUDlBeUxn?=
+ =?utf-8?B?bGpzcGJybnZiMCtpN0IwbSswM0p6WkhWOFpiU2hOZ2JKMnhFL21uRnJESmt4?=
+ =?utf-8?B?emx6YXpzMHdvbHZQTFBFalgxWGpITm13bVpnazkvQXlSMzJqbGJkMCtGbTFu?=
+ =?utf-8?B?NityU1kydU5FWmdGZTcyaXJCb1I3OXo0dG9mQ2JuS0s2TVpqN3lRSUFTQjFy?=
+ =?utf-8?B?NzJNRDFjZEZudCttYWtVVW1vdVpoSURLL2ZYZjR2eTNKb1oxZ2p0c2NhTktZ?=
+ =?utf-8?B?MU1YdTUrM3Z0OGhPcGxWNzA5TisvZ3VyS0E5TldGdDdDT2E2NlRJeDlZRDRF?=
+ =?utf-8?B?NUc2M1c3MjRabmxiM1pPb0hMZkVMYVdHakZOc2E4U1B6aEo1RFd5cEFtSEFN?=
+ =?utf-8?B?cTBJS0dCa1hWWkZsWmNzUkNCU1dxdFgwZEZxMDEvZG1ZUG5SYjJkU3h0RTNQ?=
+ =?utf-8?B?K2xJNXJjSUN3Ni92ZXpkSkthdXhLM2dsdmdZWlc0RFNNWjRaQjZNTDF5V1Y5?=
+ =?utf-8?B?S205WWFBUmtQNURPMGQwOEFNS1c5Zk1tSVlGdUp4VjB2VGh6QlpJVEtwNWJD?=
+ =?utf-8?B?QkJOWkg0cnNWaUpiS2UwUTUxemJ4SStRd20xOWx6ZThyYzRvWEJ6a25KSUlv?=
+ =?utf-8?B?ZWdzeTh1bXhxbFArUndWWEprQVRyYlBheG9HSGJCYjVLU3l3VytIU21hTFBz?=
+ =?utf-8?B?ZzVjOHY3L1hmMUNLemxvdEZjMURzakRCcTlCY3FyMzU5Ri9YaTRXSGVNSDI2?=
+ =?utf-8?B?UWlWOVV2Mmw0MXo1T2xqUndtUTNyeWh0K2wrdS9zSHVrVDBzOThoSVpyeWN0?=
+ =?utf-8?B?bnF6cVc4dEllV0tNb25YOWFCT3JuRmZsZ25NSUNRUjB6ZGhaMy80SUMvY0tk?=
+ =?utf-8?B?ZU53R0tWL0ZiWVVOTm81Sk1sOWFZWi9XR3B6L2JrV1Y4dVF5QkY3TnpqRksy?=
+ =?utf-8?B?SkJ6WkJVMjh3L1REam9SUEhWYlYwKzN1ZFJoTlo3MkJNNzUxQUVvemVnMWFw?=
+ =?utf-8?B?QjdkbkljOVNnMW9TL0N5QVdudGtlcHJMclI2RFZxUVBNUEhzQkxaOTRTTnFZ?=
+ =?utf-8?B?QXpQSVE5cG13WHMvelB5cjh5KzBUaFhtMkJzOHVVVGk2QXoyMHVaU2VPZ2JJ?=
+ =?utf-8?B?ZTlGbUJNQUdtQ1pjNXo4YXVpTHhtWEwxVGdUQzI3eUhCL3NkUmZTNEw0eEZH?=
+ =?utf-8?B?SWhFS29FZXpwczIrcmdQVUpiekVvRURwSFZYV0VaYU1jbGdGSzJGeWVTeVBW?=
+ =?utf-8?B?ajYrc3Y0U0UrMEM4a3RKRjlzZWpNMTY4QkhhdUJva2hPb1h1azVraE9LcTRL?=
+ =?utf-8?B?RkNPQThBV013TFI2dTVmaGZWQkd6b0dLWHc3QXBuVzdlcTluNXRsS2UybzdC?=
+ =?utf-8?Q?RmyDuPDWz/kuEtIk=3D?=
+X-Exchange-RoutingPolicyChecked: NI6L8WrGBF7cXX6K391Z8umZMQQ1sm3/URLi8YZxP8H8SnpUTblOmo0ySPrxar/xpPtq2yqCSeqCBIkD1VFIUW8cOFeIgR9T5FamxaRznWOWOvCK42wF7e0Jho/kITQ9dw04tI18JqWUT/IskRQmbn9A9PH3HHg/qoetU+h4Ap4rnlQKyEU/SjmXE9IXUQW0pHO6QtMbql6Tkvnh9kbaq4vbEzmYibiurb2TiWQRPMnjTsJXxFjelfeqvLry1CYRHtdDm6VmNLUnih0jEXJEmEJZ6t+WZBJpgSCEmrkEWPZBGo+lhGIuEFsiFODLimL4+zr6FdxID/L9/Fev61krVg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97151d90-501d-483d-f45d-08def97c61f7
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 20:32:37.6036
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 20:49:34.9916
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pUwVzljex0Pz4EfeVcw1giHESKDcMqReMf+bsB/PaTC2+c1ALkxVuyl+WKVOYNbhTxxC7TprlfbCI0C9Gk+bZPZIWw4vqKKPD9XI3E6uqEjrnB6CK6fcqvx4GXIme6DB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB12303
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1I8s5lAtDVQTkOJ1OjcaNMHyt7coj12eg4diGARSOibe51vQ7eCEHbaP5831ldRIwpvZS1BIc6JABg3xHhK5UlDwt/DlF2XnRquXzhPiC80=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVTPR11MB9912
+X-OriginatorOrg: intel.com
 
-On Thu, Aug 13, 2026 at 03:37:49PM +0900, Koichiro Den wrote:
-> Define the BAR-resident metadata format used by endpoint functions that
-> expose an endpoint-integrated DMA controller to the host.
->
-> A VSEC-based discovery scheme would be a natural fit, and existing
-> dw-edma-pcie providers such as Synopsys EDDA and AMD (Xilinx) MDB/CPM6
-> already use VSECs for DMA discovery. However, some endpoint controllers
-> cannot provide enough writable configuration-space storage for a
-> complete, controller-defined payload. Keep the extensible metadata in a
-> BAR instead, where the endpoint function controls the layout and size.
->
-> The format describes the DMA register window, exported channel counts,
-> descriptor windows, optional auxiliary windows, endpoint-local descriptor
-> and auxiliary DMA addresses, and a ready bit that tells the host when the
-> described BAR windows are usable. Channel entries keep the auxiliary
-> window optional so layouts that need a separate data or auxiliary aperture
-> can describe it without a format bump.
->
-> Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> ---
-> Changes in v7:
->   - Move HOST_REQ to a separate 32-bit word. (Frank)
->   - Increase the metadata header length to 0x20 accordingly.
->
->  MAINTAINERS                |   1 +
->  include/linux/pci-ep-dma.h | 175 +++++++++++++++++++++++++++++++++++++
->  2 files changed, 176 insertions(+)
->  create mode 100644 include/linux/pci-ep-dma.h
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 15c7dc516f7c..d330178ac1f7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20990,6 +20990,7 @@ F:	Documentation/PCI/endpoint/*
->  F:	Documentation/misc-devices/pci-endpoint-test.rst
->  F:	drivers/misc/pci_endpoint_test.c
->  F:	drivers/pci/endpoint/
-> +F:	include/linux/pci-ep-dma.h
->  F:	tools/testing/selftests/pci_endpoint/
->
->  PCI ENHANCED ERROR HANDLING (EEH) FOR POWERPC
-> diff --git a/include/linux/pci-ep-dma.h b/include/linux/pci-ep-dma.h
-> new file mode 100644
-> index 000000000000..03b48ee7669e
-> --- /dev/null
-> +++ b/include/linux/pci-ep-dma.h
-> @@ -0,0 +1,175 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __LINUX_PCI_EP_DMA_H
-> +#define __LINUX_PCI_EP_DMA_H
-> +
-> +#include <linux/bits.h>
-> +
-> +/*
-> + * BAR metadata format used by PCI endpoint functions that expose an
-> + * endpoint-integrated DMA controller to a PCI host.
-> + *
-> + * Offsets are relative to the beginning of the metadata blob. Multi-byte
-> + * fields are little-endian. The blob is normally placed at offset 0 of a
-> + * function BAR selected by the endpoint function and discovered by the host
-> + * driver using device-specific policy. Other data in the same BAR, such as a
-> + * standard MSI-X table or PBA, is outside this metadata format.
-> + *
-> + *          31                                                             0
-> + *          +---------------------------------------------------------------+
-> + * +0x000   | metadata magic                                                |
-> + *          +---------------------------------------------------------------+
-> + *          31                            16 15            8 7             0
-> + *          +-------------------------------+---------------+---------------+
-> + * +0x004   | metadata length               | reserved      | revision      |
-> + *          +-------------------------------+---------------+---------------+
-> + *          31 30         27 26          19 18          11 10          3 2 0
-> + *          +--+------------+--------------+--------------+-------------+---+
-> + * +0x008   |R | reserved   | ch entry size| RD count     | WR count    |BAR|
-> + *          +--+------------+--------------+--------------+-------------+---+
-> + * +0x00c   | register window offset[31:0]                                  |
-> + *          +---------------------------------------------------------------+
-> + * +0x010   | register window offset[63:32]                                 |
-> + *          +---------------------------------------------------------------+
-> + *          31                            16 15            8 7              0
-> + *          +-------------------------------+---------------+---------------+
-> + * +0x014   | reserved                      | layout data   | layout        |
-> + *          +-------------------------------+---------------+---------------+
-> + * +0x018   | register window size                                          |
-> + *          +---------------------------------------------------------------+
-> + *          31                                                           1 0
-> + *          +-------------------------------------------------------------+-+
-> + * +0x01c   | reserved                                                    |H|
-> + *          +-------------------------------------------------------------+-+
-> + * +0x020   | write table                                                   |
-> + *          | ( channel table entries #0 ~ #N )                             |
-> + *          +---------------------------------------------------------------+
-> + *          | read table                                                    |
-> + *          | ( channel table entries #0 ~ #N )                             |
-> + *          +---------------------------------------------------------------+
-> + *
-> + *          metadata magic: PCI_EP_DMA_METADATA_MAGIC.
-> + *          metadata length: byte size of the whole metadata blob. The value
-> + *                           must fit in PCI_EP_DMA_METADATA_HDR_LEN_FIELD and
-> + *                           in the BAR allocation that contains the metadata.
-> + *          revision: metadata format revision.
-> + *          R: ready bit. Set only by the endpoint after all fields and BAR
-> + *             windows described by this metadata have been programmed and can
-> + *             be used by the host. The host must not consume the windows
-> + *             before observing this bit.
-> + *          H: host-request bit. Set only by the host driver after it has found
-> + *             this metadata. The endpoint may use this as the trigger to
-> + *             program DMA window BAR subrange mappings, and may clear it while
-> + *             revoking R during teardown or reinitialization.
+Hi Babu,
 
-EPF driver should known which DMA channel will export to host. So data
-structure should be embeded into bar0 as Niklas's suggestion.
+On 8/13/26 12:27 PM, Babu Moger wrote:
+> On 8/13/26 13:19, Reinette Chatre wrote:
+>> On 8/13/26 10:57 AM, Babu Moger wrote:
+>>> Hi Reinette,
+>>>
+>>> On 8/10/26 22:20, Reinette Chatre wrote:
+>>>> Hi Babu,
+>>>>
+>>>> On 7/7/26 2:50 PM, Babu Moger wrote:
+>>>>> Kernel-mode resctrl policies allow kernel work to be associated with a
+>>>>> specific rdtgroup, optionally restricted to a subset of online CPUs.
+>>>>>
+>>>>> While user space can query the active kernel-mode policy and its associated
+>>>>> rdtgroup through info/kernel_mode, it currently lacks visibility into the
+>>>>> CPU scope of that binding.
+>>>>>
+>>>>> Introduce read-only kmode_cpus and kmode_cpus_list files for each rdtgroup.
+>>>>
+>>>> I think it will be easier to follow if this is deferred to not create these
+>>>> files in all resource groups by default. Instead, at the time they are
+>>>> created it should be obvious that they will only be visible in resource group
+>>>> associated with the active kernel mode.
+>>>
+>>> I am not clear on this comment. Do you mean create these files when user associates the group to kernel mode? (during rdtgroup_config_kmode)
+>>
+>> No. As this changelog states it creates these files in all resource groups. This
+>> is a confusing thing to do at this point in the series since these files are not
+>> expected to be present/visible in all resource groups, only in a resource group that
+>> is assigned to the "global" kernel mode. This commit mentions nothing about this
+>> usage and thus from reader perspective does not seem like the right thing to do here.
+> 
+> Ok. Got it. Commit message is not clear.
 
-Frank
+This is not just about the commit message being unclear. This commit adds functionality
+that patches that follow undo. I find this strategy unnecessary even if the commit message
+is changed to reflect this. I find having the functionality as intended from the
+beginning easier to follow.
 
-> + *          ch entry size: byte stride between consecutive channel table
-> + *                         entries. Revision 1 requires at least
-> + *                         PCI_EP_DMA_METADATA_CH_ENTRY_SIZE bytes.
-> + *          RD count: number of exposed RC-to-endpoint DMA read channels and
-> + *                    read channel-table entries.
-> + *          WR count: number of exposed endpoint-to-RC DMA write channels and
-> + *                    write channel-table entries.
-> + *          BAR: BAR that contains the DMA controller register window.
-> + *          register window offset: BAR-local byte offset of the DMA controller
-> + *                                  register window in BAR.
-> + *          register window size: DMA controller register window size in bytes.
-> + *          layout: DMA controller register layout identifier.
-> + *          layout data: layout-specific data. For
-> + *                       PCI_EP_DMA_METADATA_REG_LAYOUT_DW_EDMA this is the
-> + *                       DesignWare eDMA/HDMA map format.
-> + *          write table: starts at PCI_EP_DMA_METADATA_HDR_LEN if write channel
-> + *                       count is non-zero.
-> + *          read table: starts at PCI_EP_DMA_METADATA_HDR_LEN plus the write
-> + *                      table size if read channel count is non-zero.
-> + *          reserved fields and bits: write zero and ignore on read.
-> + *
-> + *
-> + * Channel table entry:
-> + *
-> + *          31                 17 16 15 14   12 11 10     8 7              0
-> + *          +--------------------+--+--+-------+--+--------+----------------+
-> + * +0x000   | reserved           |A |rs|aux BAR|rs|desc BAR|hardware channel|
-> + *          +--------------------+--+--+-------+--+--------+----------------+
-> + * +0x004   | descriptor window BAR offset[31:0]                            |
-> + *          +---------------------------------------------------------------+
-> + * +0x008   | descriptor window BAR offset[63:32]                           |
-> + *          +---------------------------------------------------------------+
-> + * +0x00c   | descriptor window size                                        |
-> + *          +---------------------------------------------------------------+
-> + * +0x010   | descriptor DMA address[31:0]                                  |
-> + *          +---------------------------------------------------------------+
-> + * +0x014   | descriptor DMA address[63:32]                                 |
-> + *          +---------------------------------------------------------------+
-> + * +0x018   | auxiliary window BAR offset[31:0]                             |
-> + *          +---------------------------------------------------------------+
-> + * +0x01c   | auxiliary window BAR offset[63:32]                            |
-> + *          +---------------------------------------------------------------+
-> + * +0x020   | auxiliary window size                                         |
-> + *          +---------------------------------------------------------------+
-> + * +0x024   | auxiliary DMA address[31:0]                                   |
-> + *          +---------------------------------------------------------------+
-> + * +0x028   | auxiliary DMA address[63:32]                                  |
-> + *          +---------------------------------------------------------------+
-> + *
-> + *          A: auxiliary-window-valid bit. If clear, aux BAR and auxiliary
-> + *             window fields are ignored.
-> + *          aux BAR: BAR that contains the optional auxiliary window.
-> + *          desc BAR: BAR that contains the descriptor window.
-> + *          hardware channel: DMA controller's hardware channel number.
-> + *                            Revision 1 entries are currently consumed in dense
-> + *                            0-based order.
-> + *          descriptor window BAR offset: BAR-local byte offset of the
-> + *                                        descriptor window in desc BAR.
-> + *          descriptor window size: descriptor window size in bytes.
-> + *          descriptor DMA address: endpoint-local address used by the DMA
-> + *                                  controller to fetch descriptors.
-> + *          auxiliary window BAR offset: BAR-local byte offset of the auxiliary
-> + *                                       window in aux BAR.
-> + *          auxiliary window size: auxiliary window size in bytes.
-> + *          auxiliary DMA address: endpoint-local address corresponding to the
-> + *                                 auxiliary window.
-> + *          reserved fields and bits: write zero and ignore on read.
-> + */
-> +#define PCI_EP_DMA_METADATA_MAGIC		0x4d444550 /* "PEDM" */
-> +#define PCI_EP_DMA_METADATA_REV			0x1
-> +
-> +#define PCI_EP_DMA_METADATA_HDR_LEN		0x20
-> +
-> +#define PCI_EP_DMA_METADATA_HDR			0x04
-> +#define  PCI_EP_DMA_METADATA_HDR_REV		GENMASK(7, 0)
-> +#define  PCI_EP_DMA_METADATA_HDR_LEN_FIELD	GENMASK(31, 16)
-> +
-> +#define PCI_EP_DMA_METADATA_CTRL		0x08
-> +#define  PCI_EP_DMA_METADATA_CTRL_REG_BAR	GENMASK(2, 0)
-> +#define  PCI_EP_DMA_METADATA_CTRL_WR_CH_COUNT	GENMASK(10, 3)
-> +#define  PCI_EP_DMA_METADATA_CTRL_RD_CH_COUNT	GENMASK(18, 11)
-> +#define  PCI_EP_DMA_METADATA_CTRL_CH_ENTRY_SIZE	GENMASK(26, 19)
-> +#define  PCI_EP_DMA_METADATA_CTRL_READY		BIT(31)
-> +
-> +#define PCI_EP_DMA_METADATA_REG_OFF_LO		0x0c
-> +#define PCI_EP_DMA_METADATA_REG_OFF_HI		0x10
-> +#define PCI_EP_DMA_METADATA_REG_LAYOUT		0x14
-> +#define  PCI_EP_DMA_METADATA_REG_LAYOUT_ID	GENMASK(7, 0)
-> +#define  PCI_EP_DMA_METADATA_REG_LAYOUT_DATA	GENMASK(15, 8)
-> +#define PCI_EP_DMA_METADATA_REG_SIZE		0x18
-> +#define PCI_EP_DMA_METADATA_HOST_CTRL		0x1c
-> +#define  PCI_EP_DMA_METADATA_HOST_CTRL_REQ	BIT(0)
-> +
-> +#define PCI_EP_DMA_METADATA_REG_LAYOUT_DW_EDMA	0x1
-> +
-> +#define PCI_EP_DMA_METADATA_CH_ENTRY_SIZE	0x2c
-> +#define PCI_EP_DMA_METADATA_CH_CTRL		0x00
-> +#define  PCI_EP_DMA_METADATA_CH_CTRL_HW_CH	GENMASK(7, 0)
-> +#define  PCI_EP_DMA_METADATA_CH_CTRL_DESC_BAR	GENMASK(10, 8)
-> +#define  PCI_EP_DMA_METADATA_CH_CTRL_AUX_BAR	GENMASK(14, 12)
-> +#define  PCI_EP_DMA_METADATA_CH_CTRL_AUX_VALID	BIT(16)
-> +#define PCI_EP_DMA_METADATA_CH_DESC_OFF_LO	0x04
-> +#define PCI_EP_DMA_METADATA_CH_DESC_OFF_HI	0x08
-> +#define PCI_EP_DMA_METADATA_CH_DESC_SIZE	0x0c
-> +#define PCI_EP_DMA_METADATA_CH_DESC_ADDR_LO	0x10
-> +#define PCI_EP_DMA_METADATA_CH_DESC_ADDR_HI	0x14
-> +#define PCI_EP_DMA_METADATA_CH_AUX_OFF_LO	0x18
-> +#define PCI_EP_DMA_METADATA_CH_AUX_OFF_HI	0x1c
-> +#define PCI_EP_DMA_METADATA_CH_AUX_SIZE		0x20
-> +#define PCI_EP_DMA_METADATA_CH_AUX_ADDR_LO	0x24
-> +#define PCI_EP_DMA_METADATA_CH_AUX_ADDR_HI	0x28
-> +
-> +#endif /* __LINUX_PCI_EP_DMA_H */
-> --
-> 2.51.0
->
+Reinette
+
