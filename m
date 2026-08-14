@@ -1,68 +1,68 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D4048D87E
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 17:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452DC352014
+	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 17:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786728873; cv=none; b=WD/QCleEla3Uf03UvGAOXPo+puPqBhaReLOvIfLIq36zip4nLZqk4s+jPfCnJlf38v1zmZdl4i4yIDXNAEHXJw9xUtnu1G5SQ8ZAe6udS0bwufZEZUHWKwhPM/IaZOXKYMiOUavvu1dTFlL/CexSEw3X+ZxdbhPePaR0S8R9pyw=
+	t=1786728937; cv=none; b=cTivh+1R37HKGNb1P1wmmhbpi71Xor4TwP0RpAD6VC4to7+sHxm2ZqaIRhjYSQ4t6zv8CAsKB9oma3YcG8QFVRhMsKzwsfvXksADI3fJwV7pGbIvz0jCeMKyLN5mnbRwGfIVdaDnSeHyfgLV0zPWQrX8v/Y72SwTfPX4E92PHsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786728873; c=relaxed/simple;
-	bh=jod5R2rzftcafJwiv09+Q38USj1FrwR73vMq9DkHyyg=;
+	s=arc-20240116; t=1786728937; c=relaxed/simple;
+	bh=ZSp8kcuPa4zSJOjijpCyKWPre2cCkNQIezmEiP1Rb5s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gNVMZ910qYhfE/FPfvCOXj9dglfIYBqSXfazymvv8cf9HaKrOsT8AE/3CVrJgrgJJpowmn/iV8pTk/HSI5lpHYE34guEtlOtSqeqdSM2nWXx2d6sNjBnlCzDh/3hJQgI32znkwlK/87Sw90NoT14+t1sdlfUh/zWwdmubKXWq8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=akKePMlb; arc=none smtp.client-ip=209.85.221.54
+	 In-Reply-To:Content-Type; b=j6F4cUfO+Xj0ed/P67hslEjOP6PxZs/zgVP1htIM5HAvUkkA8t9YkSu0UUSNiiLX4cT3ML0htkhZWqzd31q0g+s8enxMSDYJ/VbVm1MGnflbJLPyQFT5gZpD+VQaDcr92mvwnj3The1mi0i8HEaCvIBWkcnausT0N700toJVdi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfI8pVnT; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="akKePMlb"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4815b8781c7so595401f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 10:34:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MfI8pVnT"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4980fe6b3beso16969755e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 10:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786728870; x=1787333670; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786728934; x=1787333734; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8TSdNv+mMjSZzf1Ktp1L1v1OUzioZX6gSzEiDVYbmWc=;
-        b=akKePMlbq1d47etT0YVzI4NYkKb/8W3Zsn67/3icYN4wkpwk/oIrkGJoUKoNhIPgwX
-         zkwoOaopII6pSTy+2rEEvmmNiHi+mtYbEdJXy5H6kg0MGn68MkVVGXBCgfifMuN7SRrq
-         Ki9xnhpZigOu4z18Uscz3Yy7HXyCBEU+IH3GUi5fm8NfkCW3vPH1w0tlcBqQ1lzhBmLG
-         nUW4mluQJCyhXD/ATiyGxzRrVoXCzFigZvqm1X9wzCIP7X91FUsw29sID1f5tPLRaUlE
-         ODuqS3lg3aWYe3xxFTNABG+lKJ3lW6H+3QlVZd/pqzQYafoFiWlzsSbJxO95PF0PaxDC
-         D8Dw==
+        bh=a40VMlhH/9VccjXZglrfB7wRIR2LPsxaN+/Gt+UtGkc=;
+        b=MfI8pVnTDHs5Onin3iffbiqNjykl0rRapSSwi+pTsdZ/sR+ApcbimmyToNCWGP7mVx
+         3AF8ZB/eF1/nO4F3A5mtgNVwqVcynbUYL4kKBqHpj6YxujG9reyrqM+HQQfZUfZe2OyS
+         gO6ff1PwRafOJFS7+hYxJSanBY0IE7maiv+jmG+ZHZiUH31lijhKVsmcpIe6ZIyFlNUS
+         pKE2Zue8pVB2XLzPI+98TAI/VkJesrYxcEYRJ7RLcF4YJ+lL5Dp9fXRNLyumMzxe/PSq
+         Uqo42XeoCLMAY+qJf47QBnrhbEm0Hv8jCfp5qmt9/lf0hAr9MFF9H/PqTwkmru0yg/uJ
+         nJ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786728870; x=1787333670;
+        d=1e100.net; s=20251104; t=1786728934; x=1787333734;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8TSdNv+mMjSZzf1Ktp1L1v1OUzioZX6gSzEiDVYbmWc=;
-        b=DaDJKnwuJJWI/CHItkvPaUWykP6G9tcsdD3pOecJnazkZ4i1uH4LgA/dN+q2waZ1+K
-         Qvb6R/Q4MzpoCTDKyUKMV7Mm7OHlgbKuvWwQqzBVRiagtYwQKk+9u2qcjhRvr4835hOM
-         2TNXBxhhCN3uFicqcjAlfQCCV6+dfsb0Vm0jGaVBQpbrZcc2//duuuY5qt5iwtXvcFny
-         j3xdm1vdyZHo8TV1Rqsd2QAapE3Pcc12kR2vRYVloqjqoOlXtfnwczC3REaocQDxIneP
-         z+Fy/dtfE4Ttm6iAqo47Foxsla62bhlx0+R+IQleJvbft45HZ/frQedh+X0nSPdtKwAQ
-         u6vg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqd69+fCBUIWAltJhUfVOOn3l/JfwEZmyxRsVSJQWG7NvDNPHv1dCVfdPuaa7sKyXoqPlFjolsoRrk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywcr9OYm1nH7J4/Gbu8Rp/ecBPwi1JwC2KQRzeTx5Dal3yXVM35
-	OCWgzZJWvj5NwwKhDb0SbfQbx6wqkZBSjV66nYlImsSy4EaF4L7RdX4XMVE52mhRJ1E=
-X-Gm-Gg: AR+sD11ZCB1m/srqMn7tKlE8tj4EfaigoXwOtI9dYJMHoavU9bsuTaxQo7Awp7ud8VA
-	PS6i6E8cyRzY+0S+/GsbkJcI7hOarf1+dd/sAhfG9aE2hPePVeO/94PuEGiPZgWmMb+/dDIl0hc
-	S06OZ18MHgcdiBMmrNagiSCPK2Tadr/1+eC8fHO3MqkKNU5UW6x3YYrah8fz2lavz17lSTI5PW/
-	P07nBjbTD9eKTZtkQSa+VKpgz4iSGPfoSUqGXm1FBfbqQiNEuhbM+zxFo/AJlbP7oJLQb3gsbpB
-	3hh7OIxUwi/XRbag52JxtmwL7A65la9/ayTSf8EalfpCdyvbuPEc3rhdmz2+VJbiTQNiCGF3dPy
-	ot7eEC+wC2MGjZz+KTQXt1LPt11wHrv8JjtFeR7fAqvM9r6SEFL7XjFbWyfkQbngX7SXv2uyam3
-	QHQTBwpSOd1lCZ2Q/OHik50+XsROTBOg/9vpLyOgJ5c0N4n7pPY/i0XD7Z6zjL7EOaUeN7rB4YS
-	vQ3LGDqqwdqTq48rP74XY0pGdalWH5PRC8QNrOjgHQ7
-X-Received: by 2002:a05:6000:4310:b0:47f:fe22:c141 with SMTP id ffacd0b85a97d-4816076d956mr10260342f8f.30.1786728869662;
-        Fri, 14 Aug 2026 10:34:29 -0700 (PDT)
+        bh=a40VMlhH/9VccjXZglrfB7wRIR2LPsxaN+/Gt+UtGkc=;
+        b=KG+hf/xiV5r/cXAjNcJVedQFxZtBP2foISdeTBTqSPjGtEvcEmIBaoTHExHuMBYQvI
+         AOpo1zAulvw4cKn1IpeXt27KlrzIV1H3fcUo6VYjHVoJ751xDg0lFH/U2poEVZ5vWKFt
+         QfxU3Wz7hHKltnCpnhB1aF5x79R5xclyQ9U1QhZ+quDAY4dASuWNEjB/TX3ed2GOq8IV
+         PBccjI1+qHh2p0ne9IPCmU0xycd/PKEUioZMJ3EivGy/Gituh7/KbIlthZrGW/80wfc7
+         bwx4NRmvQtoHcsbgrYxZOZzEuUc9lf6VXstDjUIE+cI2eTX+Y0Jd073i6xMhpmRcythb
+         KiDQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqRnqES/l8aXO3Dtx5uJwJKsJ9TvpsQiK7olI59f4SSAtNbncbehcG5rZrW0zLFPUPXXiisLTzU0sg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa9dpjZGf/uwj4ObdFF43cm12Z5+vjGDEEE2t3WSNXW+EiWk7g
+	+8vwaxdILcs2LUtygNVLQpT0jsA8r03zgK9GcDrgxZC/3SZ1L8bCt+rH
+X-Gm-Gg: AR+sD13vhzfsZuWc9CqYupwyI92zibSuAE1dOUNb2by2K+ykOUWnRi44cJnZIULegMP
+	PFhXt62+tnx22ZJGIUzAhxHBCS1UcXNQjztG/ZqGx10pJWQFA/p6FpaGiOYPKDc0Bhxrozmm3xg
+	GCMBAMZdC/4k6PhXVzDKTrmhlZ0lehdQEpPgICMz5lmYHG+4wE/Fa3o+NQR+G7nxqYnl1cmmaUm
+	/e/Ip07p/jwV11Tq7k2HPy0+b+EIag4k7UIcxMGYstE6ahM1LLr08SXyoiGvd30Xt/92IZogrzg
+	1mRr2ow+I3GeftZoQqO+5L/Q9x8oPpwEPakUM/7CN4HPt76GiE4aDqQkuQPSbhgb9wInRWK+fvo
+	FVq3MoaCtG/rAMEFavensLc1Sh6WW/3nxjchSbyYx+CWzRbu3kN2nHp1vZI74LjOAXMImAC3X0N
+	lUhfPIIY+Jl0zDKF8GvJWv+HlNEaJqPx5ezAJ5ItF1AWxEr4CGoNYwvwnoURufwHbsXOwa7h9pC
+	1+zvOBynQpXODifx34s12tND13l6Wd50w==
+X-Received: by 2002:a05:600d:117:b0:499:5f80:83ac with SMTP id 5b1f17b1804b1-49987ab4e1bmr68329775e9.7.1786728934527;
+        Fri, 14 Aug 2026 10:35:34 -0700 (PDT)
 Received: from [192.168.0.32] (cable-178-148-247-5.dynamic.sbb.rs. [178.148.247.5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2b27bfsm9942694f8f.23.2026.08.14.10.34.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b25ad8sm56586045e9.2.2026.08.14.10.35.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Aug 2026 10:34:29 -0700 (PDT)
-Message-ID: <0e81cb71-bd88-432c-aa73-d5770cd81569@gmail.com>
-Date: Fri, 14 Aug 2026 19:34:27 +0200
+        Fri, 14 Aug 2026 10:35:34 -0700 (PDT)
+Message-ID: <e640aa47-a879-46db-b10c-8ccce0ccd032@gmail.com>
+Date: Fri, 14 Aug 2026 19:35:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,34 +70,72 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] hwmon: (asus_rog_ryujin) Add ROG Ryujin III
- support
+Subject: Re: [PATCH v3 3/3] hwmon: (asus_rog_ryujin) Add ROG Ryujin III White
+ Edition
 To: Arie Miller <renari@arimil.com>, Guenter Roeck <linux@roeck-us.net>
 Cc: Will Smith <github@notthatwillsmith.com>, Jonathan Corbet
  <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260812103532.395049-1-renari@arimil.com>
- <20260812103532.395049-3-renari@arimil.com>
+ <20260812103532.395049-4-renari@arimil.com>
 Content-Language: en-US
 From: Aleksa Savic <savicaleksa83@gmail.com>
-In-Reply-To: <20260812103532.395049-3-renari@arimil.com>
+In-Reply-To: <20260812103532.395049-4-renari@arimil.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 8/12/26 12:35 PM, Arie Miller wrote:
-> The ROG Ryujin III uses different report offsets and a different
-> cooler-duty channel from the Ryujin II. It also lacks the separate
-> external fan controller supplied with the older model.
+> From: Will Smith <github@notthatwillsmith.com>
 > 
-> Add model data and USB IDs for the Extreme and EVA Edition variants.
-> Skip controller commands and hide the unavailable controller hwmon
-> channels for these devices. Update the driver documentation, Kconfig
-> text, and module description accordingly.
+> The ROG Ryujin III White Edition uses the same report layout as the
+> other supported Ryujin III variants. Add its USB device ID and list it
+> in the driver documentation.
 > 
-> Link: https://github.com/aleksamagicka/asus_rog_ryujin-hwmon/pull/9
+> The device was tested with the driver on the author's hardware.
+> 
+> Link: https://github.com/aleksamagicka/asus_rog_ryujin-hwmon/pull/10
+> Signed-off-by: Will Smith <github@notthatwillsmith.com>
 > Assisted-by: Codex:gpt-5.6-sol sparse
 > Signed-off-by: Arie Miller <renari@arimil.com>
+> ---
+>   Documentation/hwmon/asus_rog_ryujin.rst | 1 +
+>   drivers/hwmon/asus_rog_ryujin.c         | 3 +++
+>   2 files changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/asus_rog_ryujin.rst b/Documentation/hwmon/asus_rog_ryujin.rst
+> index cfdfe3712f19..b0d7ce8dd921 100644
+> --- a/Documentation/hwmon/asus_rog_ryujin.rst
+> +++ b/Documentation/hwmon/asus_rog_ryujin.rst
+> @@ -8,6 +8,7 @@ Supported devices:
+>   * ASUS ROG RYUJIN II 360
+>   * ASUS ROG RYUJIN III EXTREME
+>   * ASUS ROG RYUJIN III EVA EDITION
+> +* ASUS ROG RYUJIN III WHITE EDITION
+>   
+>   Author: Aleksa Savic
+>   
+> diff --git a/drivers/hwmon/asus_rog_ryujin.c b/drivers/hwmon/asus_rog_ryujin.c
+> index 79e5b6d6dae0..702edb831394 100644
+> --- a/drivers/hwmon/asus_rog_ryujin.c
+> +++ b/drivers/hwmon/asus_rog_ryujin.c
+> @@ -19,6 +19,7 @@
+>   #define USB_PRODUCT_ID_RYUJIN_AIO	0x1988	/* ASUS ROG RYUJIN II 360 */
+>   #define USB_PRODUCT_ID_RYUJIN_III_EXTREME	0x1bcb
+>   #define USB_PRODUCT_ID_RYUJIN_III_EVA		0x1ade
+> +#define USB_PRODUCT_ID_RYUJIN_III_WHITE		0x1ada
+>   
+>   struct rog_ryujin_device_info {
+>   	u8 temp_offset;
+> @@ -590,6 +591,8 @@ static const struct hid_device_id rog_ryujin_table[] = {
+>   	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
+>   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III_EVA),
+>   	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUS_ROG, USB_PRODUCT_ID_RYUJIN_III_WHITE),
+> +	  .driver_data = (kernel_ulong_t)&rog_ryujin_iii_info },
+>   	{ }
+>   };
+>   
 
 Reviewed-by: Aleksa Savic <savicaleksa83@gmail.com>
 
