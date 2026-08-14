@@ -1,89 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BB23D647E
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 07:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0073515D7;
+	Fri, 14 Aug 2026 07:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786691273; cv=none; b=ElQnMoqOMnwyCDHaJn9Q/rCngr8HHB6B6I160oI5VcKPzjm+vpvVlyK82IdHECo8je4td1bvdZ2gb8LRCWZBVNHKetuTtjX+09xRWy0CyL8Vw5JXDkITUHDS3rAodXtu/ZVVLHcO4X0EHY577xljsrSUjH3roXxLnWtttJKyepw=
+	t=1786691560; cv=none; b=NEdkA2egtGl1H763Zy1zI9U4TVFwwA9lvuvOvdmQFK/gbc/bFMXb/Mvpg8ZtBT3NrkNMR30+hattTU9TxhiYVgyr2uMqVmMSL+awv7VWLQKH/5BkLa3Ln3E3FKj130o7mwjFzAckasYg1vFLvmrAA68j8v80T4H4asNryDLhGl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786691273; c=relaxed/simple;
-	bh=f6CmMWijGsHe15z5qznB0gE26Z01y8zcvOoaRGn9bk0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PbFEFMQ8yi/MmpJoBvDtpG5p9YE/pgyAU/nXFZqcx0OwXvW5Ecsx/VuTlMKJROGzeQXScl7+eAYZCWnAmRt8YoVUObtu2adKs5tIiO/sNzzgWEAFtv6R04lMpKKxpcqt7+75omUGtIumoAAIqTgf/GWvIVxNU1hQltj+lHNW/cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPqz7i6S; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPqz7i6S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEDFD1F0155D
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 07:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786691271;
-	bh=f6CmMWijGsHe15z5qznB0gE26Z01y8zcvOoaRGn9bk0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=SPqz7i6SIbV0clmYONQJ57ES/0mFDpCMNjaKeqlQNL1dazFKgXul2eRaHFsNrSMlC
-	 E2xefUMurqYgvjNB26B2ZO38gMUiL3Zdub2Vtuj0CjVzff8ysNT6EvBA4xfAdJe+U4
-	 m5xG6+3orXw3zMeWEPDFbKoYCCoikJjulkQ8hIPPSG1zcR4HbWYb9W1/yYkzKT5TMN
-	 WaCHtBxDFOoSSoM4S0rDbwvESJrmYqAnUKo2U91aM6ceTQwsYmi07BN/6XUe/PrOSv
-	 FQv8anc7r3uu6UAzEzwcOjfIHBfXs0pM+u/8GbFB1wWwHQS65dMjIRL1K+XT5GNCCH
-	 yjH638Yy6uhbA==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeb98460c6so518653e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 00:07:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrq1doQWY8NoM1NVMQmaWFp9HCuCL6rWavz5vhRZ93p3sYM3RhPnszsKPAjjsMMFORwCTgmLgXAGOE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9K651tCP+nfPaNowglBO3aByOFp0izZsVXJRC1U1NTbvCU0nO
-	UhJ9GjVLO/knEeg1UrB8uGqeG4gP019ALrdGjC5vTpeIsGE0b4WEZbSOIpg0s2JaK35tSSNgJjU
-	dZ1BOckrXgD0ab73s8duqUbCEDv7NWzs=
-X-Received: by 2002:ac2:4c50:0:b0:5b2:a6e6:8d83 with SMTP id
- 2adb3069b0e04-5b45916c878mr571026e87.23.1786691270612; Fri, 14 Aug 2026
- 00:07:50 -0700 (PDT)
+	s=arc-20240116; t=1786691560; c=relaxed/simple;
+	bh=0R+rICBzr6spcVLpl5QzFLJOOJfP8i+kZaOnS9Vxi2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ue0w6Lvn5Bc+ignD4Kh4+1C3Q9Nbsk9Ph/pF/OZpBfLxS3LIfZMvqv/RuvnqJPrtLmgObU89htbIMvQ8vlgecI9Ii4/RseXzZ4kOdO9ezxa15QjrJIDd0oj73iOXwwBSTVHaEu/3FpwMruRTWxf3DtsL3HVGZ8Ky0tViRGZ2IS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id D93C568B05; Fri, 14 Aug 2026 09:12:32 +0200 (CEST)
+Date: Fri, 14 Aug 2026 09:12:32 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Yu Kuai <yukuai@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Yu Kuai <yukuai@fygo.io>, Christoph Hellwig <hch@lst.de>,
+	Tao Cui <cui.tao@linux.dev>, Jan Kara <jack@suse.cz>,
+	Ming Lei <ming.lei@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+	nvdimm@lists.linux.dev, virtualization@lists.linux.dev,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 2/4] blk-cgroup: use a request_queue rhashtable
+ for blkg lookup
+Message-ID: <20260814071232.GA9784@lst.de>
+References: <20260811064744.1139446-1-yukuai@kernel.org> <20260811064744.1139446-3-yukuai@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260813-ad7768-driver-v3-0-cb554399ad26@analog.com> <20260813-ad7768-driver-v3-12-cb554399ad26@analog.com>
-In-Reply-To: <20260813-ad7768-driver-v3-12-cb554399ad26@analog.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 14 Aug 2026 09:07:35 +0200
-X-Gmail-Original-Message-ID: <CAD++jLnz8vcK06AfvbipscDDBvbUPA+bcXc+kDE1ZV7eozDviw@mail.gmail.com>
-X-Gm-Features: AcwNN1UTDcDtxZ3Y793tIOH5s58hI_BjN29iCZCUfXKdr-ZoWTYxol2qFk8yM8o
-Message-ID: <CAD++jLnz8vcK06AfvbipscDDBvbUPA+bcXc+kDE1ZV7eozDviw@mail.gmail.com>
-Subject: Re: [PATCH v3 12/14] gpio: regmap: Add optional runtime PM support
-To: Janani Sunil <janani.sunil@analog.com>, Bartosz Golaszewski <brgl@kernel.org>
-Cc: =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Olivier Moysan <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Michael Walle <mwalle@kernel.org>, linux@analog.com, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	jananisunil.dev@gmail.com, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260811064744.1139446-3-yukuai@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, Aug 13, 2026 at 3:58=E2=80=AFPM Janani Sunil <janani.sunil@analog.c=
-om> wrote:
+On Tue, Aug 11, 2026 at 02:47:42PM +0800, Yu Kuai wrote:
+> Keep q->blkg_list for ordered policy and scheduler walks. Initialize and
+> destroy the hash with request_queue, and remove the radix-tree preload
+> paths which are no longer needed.
 
-> Some gpio-regmap consumers share their regmap with a parent device that
-> may be runtime suspended. GPIO register accesses must resume that device
-> first.
->
-> Add an optional pm_dev field and acquire it before register translation
-> or access. Release it using runtime autosuspend after each operation.
-> Keep the device active across the complete direction-output sequence and
-> propagate failure when setting the initial output value.
->
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+Are these fast path operations?  Otherwise we can walk all rhashtable
+entries without an extra list, but it might be slower.
 
-I like it.
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+> @@ -191,10 +198,15 @@ static void blkg_release(struct percpu_ref *ref)
+>  {
+>  	struct blkcg_gq *blkg = container_of(ref, struct blkcg_gq, refcnt);
+>  	struct blkcg *blkcg = blkg->blkcg;
+>  	int cpu;
+>  
+> +	if (!list_empty(&blkg->q_node))
+> +		WARN_ON_ONCE(rhashtable_remove_fast(&blkg->q->blkg_hash,
+> +						    &blkg->q_hash_node,
+> +						    blkg_hash_params));
+> +
 
-This also looks like it could be merged orthogonally to the GPIO
-tree though I see there are runtime dependencies. What about
-Bartosz queue the two GPIO patches on an immutable branch
-for Jonathan to pick?
+The list_empty case is for initialization failure?  Or can we end up
+with that by other means?
 
-Yours,
-Linus Walleij
+> + * Lookup a blkg for the @blkcg - @q pair, whether it is online or dying.
+> + *
+> + * Must be called in a RCU critical section.
+> + */
+
+Please add must_hold and/or lockdep annotations for this instead of just
+a comment.
+
+Also maybe mention that this does not acquire a reference and the caller
+must already hold one?
+
