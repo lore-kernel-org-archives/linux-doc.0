@@ -1,179 +1,150 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AC637F33C
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 19:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786734911; cv=pass; b=IDKxT9yeFjqbfS3y8eHSRwPtKfvvOMdSo1guVHBGdWOL3Q5dVaKfWqybcjlXvNGKnzmdRo79AiSHl4OVahhu0npYNU96/Qmot5Co4K7/KvNMMqRrxHR2O1BbELZ2HCr9dfXY3gkSIyuDHGAFnJv31XY/ML/Z+/hrZDkCsaunOOQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786734911; c=relaxed/simple;
-	bh=YARhzzSQQ1PYu0fWMrgI/uEX5C0qrr5INxA7sSEl8ig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BYv+Jcux24UEwxSR0RAlNPinATVO4wiUSSIDyOTt5SJk0ypnqIELcox2fp+f/uV56MQucVm5TaO3yY36wtscc/L0meXT2SmcQzyR6t/a1OWBr+A9sKczLAu974aJoynIpE2+QbPVdwnbMTE1IbL2vYaKZekHTLtvupOJW5TNQX4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KYQ/nw7u; arc=pass smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7A93B27E1
+	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 19:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786735766; cv=none; b=FVdhy5GKkLLdEEEMrzNuUC14+cox7umJY096W+3xEGrr+cotvvOinv6dPk8jJp53UW4qaBQ6Nk+kyqqiNr17+jlc4RIofuWkUyGO81S3SIgKZUGnFyuq2BeSHOdqbZs4YWfeGGQZQWd0c9mGjw5bIvGMP7+XaIvHDTcCBriejPw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786735766; c=relaxed/simple;
+	bh=m5tbPv6LpSZGHmkaPFL1jRgwk6r2tud+3d5dO64aO+I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=axCaKYb46BzPDxNWAJLoFQFB7iwe/jt7dK53hutdP1w89do+BKYrlaGOtiokOAsWxTCwVE0fXJ9RPw/cdhtnLFJn8CijTZHIBg5ZzXB+rLPlzeJEkt2UUfpHqWQiQy40UG0LLJxswzwlcECFfwgn349I876Sf2/2rLjV+ryn+Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VWufDzBe; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KYQ/nw7u"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-66c67a73eb7so2500187d50.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 12:15:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786734908; cv=none;
-        d=google.com; s=arc-20260327;
-        b=L4IqU7gFVJblfdRQi7gChTDODQdo+TeZLP2cn/ffzBFQOhjlNPK41zu6+mdufK00l7
-         fj7RiElIGhAQ4djeG0COQ/Oe6sUW7LS1I4FfAspkSCBjGvK6yj4bnMrXsTX+3scjqsN7
-         99Qi5/hBWK8kJuBLAOaO7CHoLj0zF6vW90dMMk4gIb1IlyjNGRXWClSglO3rq0uJgH9C
-         8FM5Rf0kJwThlw/K2I2dXg0dgXbeBqmhd9CSfW6xSZuFs2hFmQLMoW0CS7vsYDkKQse7
-         KixdaTy5+zHuLiMMuP+P7AFevos1+8DmmM//6ZUfQXJSg8P9QGh0iudZNVWfYya3v2t6
-         KupQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=krO17/bagVVmRXbK81DAUeMmTF89gRNsvTsVM9hl/s8=;
-        fh=SK1DpEfAIIwKO95WxnwPEIItoHWPRf/h5G1h7WARtmc=;
-        b=P2iCLlQqCoWynLnunaxlWlrcIwNPDCVks92ESxgVTP6ywckF3Hloj74E/lzd9fqcuV
-         lrw0Gx5htL3XguXeLRNkv4Z1bIv0809uKm+/AoyAr2l/dXtCWVxcAzvbTk2CQ1Eqm2u9
-         52LyzBVXrv4JkPt/kIjKLGJdnf9/fTiUaLmmeVn+CT4hDCC3K3imFbeSY3hckpZ9UqmZ
-         x4bkWDkSesXO4pUfNkkVqX/DsxV3dTB7H2pKWuZUgWMbuj3hw+ppnhN8iRzWchBL26ol
-         f3A45lzVvFEbwDmYVw0IMW01XyCF3+G84jMj7gDOEH6gJ2TXmAt03o0sxlwZY9xj7bm2
-         a+pA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VWufDzBe"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4957799b92fso1936265e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 12:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786734908; x=1787339708; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=krO17/bagVVmRXbK81DAUeMmTF89gRNsvTsVM9hl/s8=;
-        b=KYQ/nw7u3tV0TExnGT+kd0AY6B8/6BK+QfWLRP/6E4dlPlPZz1LjL8JhAJk+dBX+6w
-         sblw4YbI6vQcbyROFtTvoxUEp7GvqM4YlGJonR16otVkwHGhkYgLS5HqOJQ2C+POypbu
-         fTg9mPpzjVG1vy+EwpPg2/NNng118TQwedSvAwOTFyU0bX8sasEcM21H1lNUb57/hXOb
-         PQJIkXuhhcw159yLRuQYcuIhk7/AeADb4t2d28HLXcH/QZWiw3jbR22ZauT4PoIJ2izm
-         0mjHu1/pT0/fudQazr0Ra9taP5SbUPkRm3vmKuIZcHS/DfYBk5sBXpODtIGIOK4RxW/S
-         cLCg==
+        d=gmail.com; s=20251104; t=1786735761; x=1787340561; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5ZIulDc3FDXajLexDfl9mzhE1tVfIc5tA/5mXkm+iXc=;
+        b=VWufDzBet/Y7zXutjM3zcuz3JY93uaDJu25nsLGvmZRLXiFbOotrP4H5ZpQ6NfGKwy
+         YBhnVXY4HSlOsAU5d5oIvL67PX/el116GHUvuL13/kmveZerErsZiukbhCTFjDclMKBs
+         A3EBQuOq89R1POnWkUWKQXnBFRSteYiqh/u4GOFGb8wgGLW8ZBoD6DmZSaJqkupNafYK
+         XGtOepBztXxQiIOFxfM3a+O8OayOxWamIApU2LhjhcDDsl3n5r9BWj9LAtKjma4KVPsL
+         KC8ELe7KCqpgzX1+oltoMP8rz4fRmEb3nAu5H3gYvJngDRhyOzBKcbFqEv8aXx2bLvoW
+         yRRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786734908; x=1787339708;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=krO17/bagVVmRXbK81DAUeMmTF89gRNsvTsVM9hl/s8=;
-        b=Ue7X3IknIj7lHbLmVwqMS0nhc8ssNzqdOfKR08RZY3zMm6NhCdg9FgDO6m0Me9dq8c
-         DEDHs9vsewEDJ2y0kNBXVqishU80xhFdUpI/YR23mGaA26xUYACY3Qe5ppI6DBjEJi7V
-         7YuxCmSjBLBZYjpqIi1UHlZfKuuXuU/qKcswIHBMfuwhOh5phPcg9R56fOY0LCPEexIy
-         SN4SeFnFTNq6zO1scRsqbatld0r92HSYlKkUsNOwSD8cRUQg+bPrNAwOHM36w2Tg0GRW
-         CSQmZD3SyMX6Caq7YvbQj8yAUIVuUUEmm0a9+TOX74vbr54jJ6edaksuJqePoSBqnIfY
-         I7Qw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpa6AO9ZYZY2W8vPCa5v0Pu3imiBTs3dH3MndPXD2OB4ZbmCTPv1zSyPFXjSCPbRX+t5EpVQrkwn2o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBlLseKGMvdmGmgKm0hH1PTeSetKeoodpcdhdCGCv2ed1NcAw1
-	QNG0kAXggViaVo3jrrtthV4nkHXy4LYx6XUXLo/hlnVatiDcayKO8Pde/nRHF83Nq6/J0QqPEiF
-	xK5IkNvhiTjk1Jmx4pW5Comt6M/wgpUo=
-X-Gm-Gg: AR+sD10lULflqhffGH6yReSudBU1rL6j7xW167/jcb3tER1aZISWzRw+EJXImK2KU6h
-	G54Vg9US0+vPA9qU1T2T6JYOEuDOfTqriRXznljYqc3iYF5pKbZvDUy1xuQ1bWOGpzoV2Fzx+LP
-	3B1a6a4B7XCfZiHT8BWTCLHH73ifs3LuuecASFLhY7GGIHJu3hgdMxr+JQHzLqGrt1cEOHDbebS
-	LTJIaDfsDrrp+M3NnRAf6tuR7Lv99ozPlrJkabG0jiQ2+Y2AH2Wn24jqnQbjyZD6IGw2WlMoJ1h
-	YdDsWMKjeVbonvv6W7B33w7TlKiQeNFKkxb70thEN2AozOd8n6jpbLnpsheOKWmJ3l6fQQm0vA3
-	sig==
-X-Received: by 2002:a53:dd0a:0:b0:668:894a:f534 with SMTP id
- 956f58d0204a3-66c54cc5fcfmr4473139d50.25.1786734907868; Fri, 14 Aug 2026
- 12:15:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786735761; x=1787340561;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5ZIulDc3FDXajLexDfl9mzhE1tVfIc5tA/5mXkm+iXc=;
+        b=kNobnJsW5wsRdn44ZzQaKNmEO0iT7KlcX9xeZDi/6PzedRHfkOgEjK41Frq1nL8XWD
+         pDpYjr77V9AlmPFfmzsREq17G3FUCsT0yXffNCK1LZnaPr2F0tNLa/OweLa/LgKR6+cu
+         RyKF5d9sWtEt42n/2n5kBVJoPVRgaDsbicJLLiIttKiW/Fhg6Pehf/6fRKBQTyJhiCnp
+         7qWzVlc/RlbQEr0C4XayZl4JWVRHvahOfalcuee2uV7VKU5ORuZWUqNSxxolR+0GXfiJ
+         k5VDO1G23aKnOsZeHoXSZOhnYYdVKrk9leyzJ6KSE1T0cvjeRaWxrTjxZkvQhZAvq20Q
+         kqrQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoGUyN79SodoizaKCbBqu2nAOQBooLhUl1GEsYXN+pvDZLP5FSusINq2cFggUnRavWstic3FxNsc0U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkhuZmRNdAktc/AHEj9IGvwzLyXgUOnKWm6l0cQdDL81cF7VNH
+	jEXFhP5pI6Yuggb6eCX1b2apjPwLoiIGY/BQKXlKHKMfcwq3TludO9fizs3w/gQ2Jd6fdg==
+X-Gm-Gg: AR+sD11RcfvUoaK+/noN43rUnrmWiTsk0DpvsT9FmMQ/JAmTbafrNISzltVG5pF/7E4
+	FoDQNLAkhKQBY8XgrmcXJ/B3bTW8Q8NjlgrJHHX5vj33p5xiE+iK09PFUkHbzYOySyYMEjmKfZz
+	tkeqJwIwwmEqy4b/zKygEu8VCLCBCAqoFL4hEqci4kseHPMx1mB/4LvjYYNassIAlAbPsYCEiSK
+	7s2ZBhJR5+tMdGF2i1Cq+kYc4xThsa9N1h9DmsFju696WA4dXyXVW5La68JWBOtRo5ELUqz/o53
+	2YxoMLk2rzv87GQv1wyp3+ZaNpwOsuV1OY4xlAx6W2jyj9EyRSMt4YMBomLoHTxnptYhJGx8zg/
+	OqCWunXNSet5LVljP7pafVTGoWMhxrkicv8ovapobp5+cRGvf0KOOv+Ue9vanEKaE7ruz3+A1WC
+	6NkIEt+vmXiLcyb0AKCGZq4hdTzPbi6SM3JedU1aAjyFE=
+X-Received: by 2002:a05:600c:8b57:b0:499:8411:9e8d with SMTP id 5b1f17b1804b1-499878cb099mr58618525e9.0.1786735760728;
+        Fri, 14 Aug 2026 12:29:20 -0700 (PDT)
+Received: from localhost ([2620:10d:c092:500::4:391e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49989ae14f7sm50624785e9.10.2026.08.14.12.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 12:29:20 -0700 (PDT)
+From: Gustavo Luiz Duarte <gustavold@gmail.com>
+Subject: [PATCH net-next v3 0/7] netconsole: validate a target's IP address
+ configuration
+Date: Fri, 14 Aug 2026 20:28:51 +0100
+Message-Id: <20260814-netcons_ipv6-v3-0-bc0915e8c75f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260804213510.673084-1-chia-yu.chang@nokia-bell-labs.com>
- <20260804213510.673084-2-chia-yu.chang@nokia-bell-labs.com>
- <20260811173017.3d18dfdc@kernel.org> <PAXPR07MB79849A3F1724DBB2DA8EA20AA3DC2@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <20260812155430.6ec81eec@kernel.org> <PAXPR07MB7984E3E73868BF8966821C27A3DB2@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <CAF=yD-LQbndjPZiXcfA6fMp6msza_+YdzqqwyeUDVTdOCOHhDw@mail.gmail.com>
- <47BE8A8A-F80C-4C30-BC95-C85FEBFFB606@ericsson.com> <PAXPR07MB7984ED42ED0849D3A9AB8C19A3DA2@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <willemdebruijn.kernel.c248a28f9c86@gmail.com> <20260814120121.50e61d01@kernel.org>
-In-Reply-To: <20260814120121.50e61d01@kernel.org>
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date: Fri, 14 Aug 2026 15:14:30 -0400
-X-Gm-Features: AUfX_mzfpoxQCDCly02kzT0GRl9rBucQ1xz8t4L_tqiifrYvAjnLnYkwChvD3sw
-Message-ID: <CAF=yD-L1-Sxz9uyP_4WqtNRJHnwTVMhQba_KF-=Eiy=d9Jf-qA@mail.gmail.com>
-Subject: Re: [PATCH v5 net-next 1/2] net: update comments for SKB_GSO_TCP_ECN
- and SKB_GSO_TCP_ACCECN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12Oyw6CMBBFf4V0bU0fDqWu/A9jTGkL1MgjFBsM4
+ d8tdYMub+ace2dB3o7OenTOFjTa4Lzruxj4IUO6UV1tsTMxI0ZYTgQnuLOT7jt/d0PIMeRgACo
+ AwSSKyjDays2p7ooiGel5Qrfvxb/Kh9XT1raxjfNTP77TcqDJSCMFgd+RQDHBVBDFoZTMKHqpW
+ +WeR923qTqwnUz/PgwsytycKi0LoSSp9vK6rh9hLimOAQEAAA==
+X-Change-ID: 20260730-netcons_ipv6-565d55f55729
+To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Gustavo Luiz Duarte <gustavold@gmail.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.15.2
+
+This series adds two validations to the target configuration when the
+user tries to enable it: first whether remote_ip was set, and second
+whether local_ip and remote_ip address families match. Refuse to enable
+the target if any of those validations fail.
+
+These validations are already done for the target passed on the
+command-line, so this aligns dynamic targets with the command-line
+behavior.
+
+The first two patches replace the per-target 'ipv6' flag with a
+per-address 'family' field, which makes it easier to detect these error
+conditions. Patches 3 and 4 implement the actual validations.
+
+Patches 5-7 are follow-ups from previous reviews: move inet_addr from
+netpoll.h into netconsole.c, show an unset address as an empty string
+rather than "0.0.0.0", document local_ip auto-selection.
+
+Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
+---
+Changes in v3:
+- Document local_ip auto-selection
+- Link to v2: https://patch.msgid.link/20260810-netcons_ipv6-v2-0-3d4fc987a90f@gmail.com
+
+Changes in v2:
+- Show empty string in configfs for an unset IP address
+- Moved inet_addr definition from netpoll.h to netconsole.c
+- Moved address checks out of rtnl_lock()
+- Link to v1: https://patch.msgid.link/20260805-netcons_ipv6-v1-0-170a35b92da1@gmail.com
+
+To: Breno Leitao <leitao@debian.org>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: "David S. Miller" <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
 To: Jakub Kicinski <kuba@kernel.org>
-Cc: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>, 
-	Mirja Kuehlewind <mirja.kuehlewind@ericsson.com>, 
-	"shaojijie@huawei.com" <shaojijie@huawei.com>, "shenjian15@huawei.com" <shenjian15@huawei.com>, 
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, "eperezma@redhat.com" <eperezma@redhat.com>, 
-	"jasowang@redhat.com" <jasowang@redhat.com>, 
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>, "mst@redhat.com" <mst@redhat.com>, 
-	"xuanzhuo@linux.alibaba.com" <xuanzhuo@linux.alibaba.com>, "pabeni@redhat.com" <pabeni@redhat.com>, 
-	"edumazet@google.com" <edumazet@google.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org" <dsahern@kernel.org>, 
-	"kuniyu@google.com" <kuniyu@google.com>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>, 
-	"jhs@mojatatu.com" <jhs@mojatatu.com>, 
-	"stephen@networkplumber.org" <stephen@networkplumber.org>, 
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>, 
-	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>, 
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>, 
-	"ncardwell@google.com" <ncardwell@google.com>, 
-	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
-	"g.white@cablelabs.com" <g.white@cablelabs.com>, 
-	Ingemar Johansson S <ingemar.s.johansson@ericsson.com>, 
-	"cheshire@apple.com" <cheshire@apple.com>, "rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
-	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>, 
-	Parav Pandit <parav@nvidia.com>, Willem de Bruijn <willemb@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Paolo Abeni <pabeni@redhat.com>
+To: Simon Horman <horms@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
 
-On Fri, Aug 14, 2026 at 3:01=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Fri, 14 Aug 2026 09:34:01 -0400 Willem de Bruijn wrote:
-> > > Current SW GRO sets SKB_GSO_TCP_ACCECN when the flushed skb carries C=
-WR in tcp_gro_complete():
-> > > if (th->cwr)
-> > >     shinfo->gso_type |=3D SKB_GSO_TCP_ACCECN;
-> >
-> > And I suppose it follows correct AccECN rules for coalescing.
-> >
-> > That is a performance regression from RFC 3168 ECN, as it allows for
-> > less effective coalescing. I have no intuition how much it will
-> > differ in practice.
-> >
-> > > For HW GRO of a legacy device that implementing RFC3168 semantics, se=
-tting SKB_GSO_TCP_ECN seems reasonable.
-> > > However, such a device would not be able to preserve ACCECN signaling=
- across the GRO/GSO.
-> > > In that case, if preserving AccECN signaling is required, disabling H=
-W GRO may indeed be necessary.
-> >
-> > Right.
->
-> I'm still not following.. Maybe Willem can ELI5 what the problem is.
->
-> _SW_ GRO follows only the AccECN rules.
-> But if HW GRO follows RFC 3168 and we mark the aggregate as
-> SKB_GSO_TCP_ECN - TSO will also abide, and segmented output
-> will be identical to pre-GRO input.
+---
+Gustavo Luiz Duarte (7):
+      netconsole: add an address family to struct inet_addr
+      netconsole: use the address family instead of the ipv6 flag
+      netconsole: reject enabling a target with no remote IP address
+      netconsole: reject a target mixing IPv4 and IPv6 addresses
+      netconsole: show empty string for an unset IP address
+      netconsole: move struct inet_addr into netconsole.c
+      docs: netconsole: document local_ip auto-selection
 
-+1
+ Documentation/networking/netconsole.rst |   5 ++
+ drivers/net/netconsole.c                | 132 ++++++++++++++++----------------
+ include/linux/netpoll.h                 |   5 --
+ 3 files changed, 70 insertions(+), 72 deletions(-)
+---
+base-commit: 4f93b12cf7b25fbf8e73d222722805b049f0a6d3
+change-id: 20260730-netcons_ipv6-565d55f55729
 
-> Are we trying to ban RFC 3168 behavior in HW purely to match SW?
+Best regards,
+--  
+Gustavo Luiz Duarte <gustavold@gmail.com>
 
-I think that's the intent here?
-
->
-> > And there currently is no kernel API to disable only ECN
-> > coalescing. NETIF_F_GRO_HW enables or disables HW-GRO entirely.
-> > Or even to signal whether a HW-GRO implementation is AccECN
-> > capable.
-> >
-> > Disabling HW-GRO can be a huge efficiency regression. I suspect
-> > many users will prioritize the efficiency over preserving the AccECN
-> > signal.
-> >
-> > That said, some devices may have other ways to configure such
-> > finer details of their HW-GRO, even though not available through
-> > Ethtool.
