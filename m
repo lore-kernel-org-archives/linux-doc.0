@@ -1,67 +1,68 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7A93B27E1
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 19:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C04F3ADBB4
+	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 19:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786735766; cv=none; b=FVdhy5GKkLLdEEEMrzNuUC14+cox7umJY096W+3xEGrr+cotvvOinv6dPk8jJp53UW4qaBQ6Nk+kyqqiNr17+jlc4RIofuWkUyGO81S3SIgKZUGnFyuq2BeSHOdqbZs4YWfeGGQZQWd0c9mGjw5bIvGMP7+XaIvHDTcCBriejPw=
+	t=1786735767; cv=none; b=Qsz5pQj18kfztOmH6hHVM5qteF7fFEEk/QmI6amq/Nqm1tT468vUIvEHjJUEGmp7gTQcXftzNhCnE2xbIsBezEKynrgn0JH7udYp9upSQNzagiY+RDYi4Lbu/H+k/JNSdrnnhCyPvD/f9ia3uBGXQk72ARQyKPlN271Ljb5pSCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786735766; c=relaxed/simple;
-	bh=m5tbPv6LpSZGHmkaPFL1jRgwk6r2tud+3d5dO64aO+I=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=axCaKYb46BzPDxNWAJLoFQFB7iwe/jt7dK53hutdP1w89do+BKYrlaGOtiokOAsWxTCwVE0fXJ9RPw/cdhtnLFJn8CijTZHIBg5ZzXB+rLPlzeJEkt2UUfpHqWQiQy40UG0LLJxswzwlcECFfwgn349I876Sf2/2rLjV+ryn+Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VWufDzBe; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1786735767; c=relaxed/simple;
+	bh=rtw1I6+ZQwIhsJ1KAJ7coYMuQ5TqGSxTCkqUoPJfohw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=narjmO/S3LSp5s3tKPJfm/y3dWtYlkXzz3RMq0M+wGjYeyKO9Jf7IKwtALN0d1hO5jLLvTJtJGcT5CoczidXgSm3MZ8jZ/GR4HyttcNmsHkSyseJnUJBcYLWxaYqOWTwq2XkkFDB/Z0ivSEe6jG6cgASUKKTCRRTHzhqsjAjMfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h7xeKATe; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VWufDzBe"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4957799b92fso1936265e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 12:29:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7xeKATe"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954b3c5cbeso897155e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 12:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786735761; x=1787340561; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5ZIulDc3FDXajLexDfl9mzhE1tVfIc5tA/5mXkm+iXc=;
-        b=VWufDzBet/Y7zXutjM3zcuz3JY93uaDJu25nsLGvmZRLXiFbOotrP4H5ZpQ6NfGKwy
-         YBhnVXY4HSlOsAU5d5oIvL67PX/el116GHUvuL13/kmveZerErsZiukbhCTFjDclMKBs
-         A3EBQuOq89R1POnWkUWKQXnBFRSteYiqh/u4GOFGb8wgGLW8ZBoD6DmZSaJqkupNafYK
-         XGtOepBztXxQiIOFxfM3a+O8OayOxWamIApU2LhjhcDDsl3n5r9BWj9LAtKjma4KVPsL
-         KC8ELe7KCqpgzX1+oltoMP8rz4fRmEb3nAu5H3gYvJngDRhyOzBKcbFqEv8aXx2bLvoW
-         yRRg==
+        d=gmail.com; s=20251104; t=1786735762; x=1787340562; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pPlwGzMzreFTOH2oIaycDj0Xnl8STIJ81ul4wFBoks0=;
+        b=h7xeKATeduxjxa8W2gweEPuq3pMFlG9BxUDMfX0sUlvjmDtNFCN18BsIoA72bX8kKw
+         pM8wDLMk7wwCtXYWEL9BU5Z9YQ0Ka2oP64jUSGaggt/7AxZClS/KdD5R3NyPR9h6Y9LQ
+         My0KQWuP9RGHXiqQGlkqsBF0uZdCgmIJm7ahHFgXsVDmrG5LxXBAunl4DFbRkcWWSBXp
+         AKcssnYaEYpXNkVtDOdpmdyLqV8ta8q4lpMo5RMW5c+UjXMeE0KTZY6mmdpJX7ucYbcE
+         q4Nwde21YOkGHzFBrGGchSTgK/0Xj/wvkE8ORUUbADmyV2CNRHdWPCvK/QQYpzAlopv0
+         WV/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786735761; x=1787340561;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5ZIulDc3FDXajLexDfl9mzhE1tVfIc5tA/5mXkm+iXc=;
-        b=kNobnJsW5wsRdn44ZzQaKNmEO0iT7KlcX9xeZDi/6PzedRHfkOgEjK41Frq1nL8XWD
-         pDpYjr77V9AlmPFfmzsREq17G3FUCsT0yXffNCK1LZnaPr2F0tNLa/OweLa/LgKR6+cu
-         RyKF5d9sWtEt42n/2n5kBVJoPVRgaDsbicJLLiIttKiW/Fhg6Pehf/6fRKBQTyJhiCnp
-         7qWzVlc/RlbQEr0C4XayZl4JWVRHvahOfalcuee2uV7VKU5ORuZWUqNSxxolR+0GXfiJ
-         k5VDO1G23aKnOsZeHoXSZOhnYYdVKrk9leyzJ6KSE1T0cvjeRaWxrTjxZkvQhZAvq20Q
-         kqrQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoGUyN79SodoizaKCbBqu2nAOQBooLhUl1GEsYXN+pvDZLP5FSusINq2cFggUnRavWstic3FxNsc0U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkhuZmRNdAktc/AHEj9IGvwzLyXgUOnKWm6l0cQdDL81cF7VNH
-	jEXFhP5pI6Yuggb6eCX1b2apjPwLoiIGY/BQKXlKHKMfcwq3TludO9fizs3w/gQ2Jd6fdg==
-X-Gm-Gg: AR+sD11RcfvUoaK+/noN43rUnrmWiTsk0DpvsT9FmMQ/JAmTbafrNISzltVG5pF/7E4
-	FoDQNLAkhKQBY8XgrmcXJ/B3bTW8Q8NjlgrJHHX5vj33p5xiE+iK09PFUkHbzYOySyYMEjmKfZz
-	tkeqJwIwwmEqy4b/zKygEu8VCLCBCAqoFL4hEqci4kseHPMx1mB/4LvjYYNassIAlAbPsYCEiSK
-	7s2ZBhJR5+tMdGF2i1Cq+kYc4xThsa9N1h9DmsFju696WA4dXyXVW5La68JWBOtRo5ELUqz/o53
-	2YxoMLk2rzv87GQv1wyp3+ZaNpwOsuV1OY4xlAx6W2jyj9EyRSMt4YMBomLoHTxnptYhJGx8zg/
-	OqCWunXNSet5LVljP7pafVTGoWMhxrkicv8ovapobp5+cRGvf0KOOv+Ue9vanEKaE7ruz3+A1WC
-	6NkIEt+vmXiLcyb0AKCGZq4hdTzPbi6SM3JedU1aAjyFE=
-X-Received: by 2002:a05:600c:8b57:b0:499:8411:9e8d with SMTP id 5b1f17b1804b1-499878cb099mr58618525e9.0.1786735760728;
-        Fri, 14 Aug 2026 12:29:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786735762; x=1787340562;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pPlwGzMzreFTOH2oIaycDj0Xnl8STIJ81ul4wFBoks0=;
+        b=J9LN2pTWQmH91phkyFA1lgGEStKWwlySbfgnWQzmaYtUAQJWgYGV2+tuF4MbnbyZYj
+         vBQoaKLxzrmAbAEIj7lb24KAH0anH/U2R0iT6j8S+WwKQBHsICKa1JjNOWmh8DsjUWMZ
+         SheYQch/LEXrOyU7kViAZBf091Tot6UF52jlLd7R7EkRCcCgEc3brWt8/h2hXprrrri+
+         YM/lQamk06WUv+9XLSyy6K/PN+MPbkRRZ2NCQ34hxKj00WZM85x0Rcojot3RLhA144Tm
+         52BudY22aVMzQ1OxfesmOAarx68TNyfBpTTyBa5WbwZR9uQ5I1tlwmBm7dRPx9ynTjN/
+         nDNQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq896m053Z3QFs7OXUEwsKOTM3ebSpHy7oPIAxSo3H/bXBphK13aCVUPfui11W4JLS26Lyuix2sZNM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yygm5Fw/FTqjFBHp89csn/79IMDA2gixjA2feoYLoJpHLwmiWVa
+	W7qoG8lArjt3K3aS7P4VxhNwQxKkIOmXdy4ofFIZcikDTA7+Rv50WA9Ft62HzOx1rVr4RQ==
+X-Gm-Gg: AR+sD12XuGJx71aESA2SPCeUND+myeCrpHShi8zgtvjqSql7mGIoA1Ayip+eVhzItp1
+	CUi4xtnodfLSfHj1gscxeWqJx9bi036MzZD4UhFhiGMY/dH9VBqREfnlEalPlPIRx4quDBS/tHu
+	TWgSCo7dcUu0IUix/S9BLDo431iML7r4z7Gsd8cXOprYBmG6bjtt8R0PdnLFNqwiCtd1XFx8+Rx
+	P+DcZwd3ee7Q0kyPg7ktDG5rzC21JlBwVhVH0Me6o4vitPBn1JuSyRmvA0b8D5QCMGBDErjE6Df
+	rsJOSxHyX8FOS8CCwy24j9yhfvHvlNF6BD1ZGTiLK73lNUn5Og4756752Yd5lvH5dGVjQdaWbne
+	cGTYyCr9InYsfzOtEWO9qn0cDXV3jX3on8Ftjq1RSs4eRoj+bCsj7uVKB6dl2a+OQc0CguxgFsY
+	4WTTedl0ttjjyp2mLJgo4a9aqEjJ4qaHUKcgD3l4h/NNK/PkgO090gSQ==
+X-Received: by 2002:a05:600c:1395:b0:499:77de:78ba with SMTP id 5b1f17b1804b1-499879826b2mr57167795e9.2.1786735761874;
+        Fri, 14 Aug 2026 12:29:21 -0700 (PDT)
 Received: from localhost ([2620:10d:c092:500::4:391e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49989ae14f7sm50624785e9.10.2026.08.14.12.29.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49988b2a87dsm67293475e9.15.2026.08.14.12.29.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 12:29:20 -0700 (PDT)
+        Fri, 14 Aug 2026 12:29:21 -0700 (PDT)
 From: Gustavo Luiz Duarte <gustavold@gmail.com>
-Subject: [PATCH net-next v3 0/7] netconsole: validate a target's IP address
- configuration
-Date: Fri, 14 Aug 2026 20:28:51 +0100
-Message-Id: <20260814-netcons_ipv6-v3-0-bc0915e8c75f@gmail.com>
+Date: Fri, 14 Aug 2026 20:28:52 +0100
+Subject: [PATCH net-next v3 1/7] netconsole: add an address family to
+ struct inet_addr
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,11 +71,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12Oyw6CMBBFf4V0bU0fDqWu/A9jTGkL1MgjFBsM4
- d8tdYMub+ace2dB3o7OenTOFjTa4Lzruxj4IUO6UV1tsTMxI0ZYTgQnuLOT7jt/d0PIMeRgACo
- AwSSKyjDays2p7ooiGel5Qrfvxb/Kh9XT1raxjfNTP77TcqDJSCMFgd+RQDHBVBDFoZTMKHqpW
- +WeR923qTqwnUz/PgwsytycKi0LoSSp9vK6rh9hLimOAQEAAA==
-X-Change-ID: 20260730-netcons_ipv6-565d55f55729
+Message-Id: <20260814-netcons_ipv6-v3-1-bc0915e8c75f@gmail.com>
+References: <20260814-netcons_ipv6-v3-0-bc0915e8c75f@gmail.com>
+In-Reply-To: <20260814-netcons_ipv6-v3-0-bc0915e8c75f@gmail.com>
 To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
@@ -84,67 +83,128 @@ Cc: Gustavo Luiz Duarte <gustavold@gmail.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-This series adds two validations to the target configuration when the
-user tries to enable it: first whether remote_ip was set, and second
-whether local_ip and remote_ip address families match. Refuse to enable
-the target if any of those validations fail.
+netconsole_target stores a single 'bool ipv6' to denote the target's
+address family. This makes it hard to detect conditions like "no address
+set" or ipv4/ipv6 mixup between local_ip and remote_ip.
 
-These validations are already done for the target passed on the
-command-line, so this aligns dynamic targets with the command-line
-behavior.
+Add a 'family' field to inet_addr so each address stores its own address
+family: AF_UNSPEC while unset, else AF_INET or AF_INET6.
 
-The first two patches replace the per-target 'ipv6' flag with a
-per-address 'family' field, which makes it easier to detect these error
-conditions. Patches 3 and 4 implement the actual validations.
+Nothing reads the new field yet. The next patch switches the users over
+and removes the bool. No functional change.
 
-Patches 5-7 are follow-ups from previous reviews: move inet_addr from
-netpoll.h into netconsole.c, show an unset address as an empty string
-rather than "0.0.0.0", document local_ip auto-selection.
-
+Reviewed-by: Breno Leitao <leitao@debian.org>
 Signed-off-by: Gustavo Luiz Duarte <gustavold@gmail.com>
 ---
-Changes in v3:
-- Document local_ip auto-selection
-- Link to v2: https://patch.msgid.link/20260810-netcons_ipv6-v2-0-3d4fc987a90f@gmail.com
+ drivers/net/netconsole.c | 24 +++++++++++++++---------
+ include/linux/netpoll.h  | 10 +++++++---
+ 2 files changed, 22 insertions(+), 12 deletions(-)
 
-Changes in v2:
-- Show empty string in configfs for an unset IP address
-- Moved inet_addr definition from netpoll.h to netconsole.c
-- Moved address checks out of rtnl_lock()
-- Link to v1: https://patch.msgid.link/20260805-netcons_ipv6-v1-0-170a35b92da1@gmail.com
+diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+index b358e5c36735..432b66cf111a 100644
+--- a/drivers/net/netconsole.c
++++ b/drivers/net/netconsole.c
+@@ -225,7 +225,7 @@ struct netconsole_target {
+ 	bool			extended;
+ 	bool			release;
+ 	struct netpoll		np;
+-	union inet_addr		local_ip, remote_ip;
++	struct inet_addr	local_ip, remote_ip;
+ 	bool			ipv6;
+ 	u16			local_port, remote_port;
+ 	u8			remote_mac[ETH_ALEN];
+@@ -428,6 +428,7 @@ static int netcons_take_ipv6(struct netconsole_target *nt,
+ 				continue;
+ 			/* Got the IP, let's return */
+ 			nt->local_ip.in6 = ifp->addr;
++			nt->local_ip.family = AF_INET6;
+ 			err = 0;
+ 			break;
+ 		}
+@@ -469,6 +470,7 @@ static int netcons_take_ipv4(struct netconsole_target *nt,
+ 	}
+ 
+ 	nt->local_ip.ip = ifa->ifa_local;
++	nt->local_ip.family = AF_INET;
+ 	np_info(np, "local IP %pI4\n", &nt->local_ip.ip);
+ 
+ 	return 0;
+@@ -741,10 +743,10 @@ static void netconsole_print_banner(struct netconsole_target *nt)
+ 	np_info(np, "remote ethernet address %pM\n", nt->remote_mac);
+ }
+ 
+-/* Parse the string and populate the `inet_addr` union. Return 0 if IPv4 is
++/* Parse the string and populate the `inet_addr` struct. Return 0 if IPv4 is
+  * populated, 1 if IPv6 is populated, and -1 upon failure.
+  */
+-static int netpoll_parse_ip_addr(const char *str, union inet_addr *addr)
++static int netpoll_parse_ip_addr(const char *str, struct inet_addr *addr)
+ {
+ 	const char *end = NULL;
+ 	int len;
+@@ -756,14 +758,18 @@ static int netpoll_parse_ip_addr(const char *str, union inet_addr *addr)
+ 	if (str[len - 1] == '\n')
+ 		len -= 1;
+ 
+-	if (in4_pton(str, len, (void *)addr, -1, &end) > 0 &&
+-	    (!end || *end == 0 || *end == '\n'))
++	if (in4_pton(str, len, (void *)&addr->ip, -1, &end) > 0 &&
++	    (!end || *end == 0 || *end == '\n')) {
++		addr->family = AF_INET;
+ 		return 0;
++	}
+ 
+ 	if (IS_ENABLED(CONFIG_IPV6) &&
+-	    in6_pton(str, len, (void *)addr, -1, &end) > 0 &&
+-	    (!end || *end == 0 || *end == '\n'))
++	    in6_pton(str, len, (void *)&addr->in6, -1, &end) > 0 &&
++	    (!end || *end == 0 || *end == '\n')) {
++		addr->family = AF_INET6;
+ 		return 1;
++	}
+ 
+ 	return -1;
+ }
+@@ -871,7 +877,7 @@ static ssize_t local_ip_show(struct config_item *item, char *buf)
+ 	if (nt->ipv6)
+ 		return sysfs_emit(buf, "%pI6c\n", &nt->local_ip.in6);
+ 	else
+-		return sysfs_emit(buf, "%pI4\n", &nt->local_ip);
++		return sysfs_emit(buf, "%pI4\n", &nt->local_ip.ip);
+ }
+ 
+ static ssize_t remote_ip_show(struct config_item *item, char *buf)
+@@ -881,7 +887,7 @@ static ssize_t remote_ip_show(struct config_item *item, char *buf)
+ 	if (nt->ipv6)
+ 		return sysfs_emit(buf, "%pI6c\n", &nt->remote_ip.in6);
+ 	else
+-		return sysfs_emit(buf, "%pI4\n", &nt->remote_ip);
++		return sysfs_emit(buf, "%pI4\n", &nt->remote_ip.ip);
+ }
+ 
+ static ssize_t local_mac_show(struct config_item *item, char *buf)
+diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
+index 1c6b1eec5efd..de97f001a0f9 100644
+--- a/include/linux/netpoll.h
++++ b/include/linux/netpoll.h
+@@ -16,9 +16,13 @@
+ #include <linux/ip.h>
+ #include <linux/udp.h>
+ 
+-union inet_addr {
+-	__be32		ip;
+-	struct in6_addr	in6;
++struct inet_addr {
++	/* Address family: AF_UNSPEC when unset, else AF_INET or AF_INET6 */
++	u8			family;
++	union {
++		__be32		ip;
++		struct in6_addr	in6;
++	};
+ };
+ 
+ struct netpoll {
 
-To: Breno Leitao <leitao@debian.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>
-To: "David S. Miller" <davem@davemloft.net>
-To: Eric Dumazet <edumazet@google.com>
-To: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-To: Simon Horman <horms@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-
----
-Gustavo Luiz Duarte (7):
-      netconsole: add an address family to struct inet_addr
-      netconsole: use the address family instead of the ipv6 flag
-      netconsole: reject enabling a target with no remote IP address
-      netconsole: reject a target mixing IPv4 and IPv6 addresses
-      netconsole: show empty string for an unset IP address
-      netconsole: move struct inet_addr into netconsole.c
-      docs: netconsole: document local_ip auto-selection
-
- Documentation/networking/netconsole.rst |   5 ++
- drivers/net/netconsole.c                | 132 ++++++++++++++++----------------
- include/linux/netpoll.h                 |   5 --
- 3 files changed, 70 insertions(+), 72 deletions(-)
----
-base-commit: 4f93b12cf7b25fbf8e73d222722805b049f0a6d3
-change-id: 20260730-netcons_ipv6-565d55f55729
-
-Best regards,
---  
-Gustavo Luiz Duarte <gustavold@gmail.com>
+-- 
+2.55.0
 
