@@ -1,141 +1,99 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8366A48BD39
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 16:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA58440E8D7;
+	Fri, 14 Aug 2026 16:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786723971; cv=none; b=F6CEZQiXZrxc9ZEmo7ceT+q1kyLr7GOL9Qfdu701pavW3XTDMNqR68g+t9wJxKXnLYBOhyxqOOlFv2AYCRu5epUIeIfW4yysTwWMa675n/bYPThzd/NSTeJQdk6ADRftM4G+dV+PL9LUjQOIetsxfsb/Qyx8r9ZwWCgcZQJfZZw=
+	t=1786725074; cv=none; b=D7LFdFXYoH5JHzAeRKaOcoVyR1sJ/k5TmqR0zFKOdTvR4aGrP1iGp11uj6Ya1IHTnj1+8CCCMIwYkkSA0EFchDxfkPuC3AHWOLB9Cq+N42lMd/OUF589SVNdawy7QfWe8lOqNPxh8dIkXragseuKCFF0nc7BMwrePweckon3vQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786723971; c=relaxed/simple;
-	bh=hBoTlJskC3yTAUQrqdc/RwBmCeeh3r4SPWGRRWjMR10=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TedTW9gs4jc+qBbdlA5NR1A383J3MU3Fin+uZjqj6IM+jN7kZnz0kMOm0jfus7iPPkBy80NyGoATWpj/wbst+LAPz6UPMyMHMKccwoZCQfXRQQVzep6rv8fBzVVssoZ0Ma3Bo2QmohhP682lskcJsIg3dZEX6wuEK+4WS8xBzgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYu4gekV; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786725074; c=relaxed/simple;
+	bh=DVL7ZzrpnrrAxip2XhrmailnHChqwU7CfuhvQbctTqk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=b/9fRwAgbfbQ3C7nt0Dabnz4FUbLzpj+8OhrsbeO0UVT5lFFnl4uwWi9L+RMiBPlWW1Di5upbIqRFA7WmyOHLmlvwjTIBfdlLdbJ97Dihh4vKJfTcMoiJzBHtGvblGrsoA5wtRunxDKjbZnOvEvvwo4a3poZLVjJxzhPogRn6Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHzu5LRA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYu4gekV"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2caed617615so16924895ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 09:12:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786723967; x=1787328767; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AntyT1xcB6lPLO8SgF8lHn/f8LIO7sUmv8TB1AYj/jE=;
-        b=ZYu4gekVzXPzLbhju2z4FnWiKK0uXFo4KIFT2DI8Ef3VE7f6k/2XBir4Xgic0Pisq/
-         IUNzluF998fD40upsAjvRzKe7W6tsJxkGGweRFLNRqyvoaOlNPJGBaOvWAy7lYow8rvf
-         EWDwEQSXq2HlM1ELVQ0oQe/4mQ9Aqnsq9vR7p64vFtTtc/U6l0oxoUr6HoONyF6bsJCJ
-         4LP6OpfJGdvAuNwbv0nmhqaHIX83KRgToRI3FPkE3mIHI8gG0lNNBBGBwiS8ZMhidDBO
-         lOCW2VbBc4SX0b0smnIhXG23/zXXTF4I2oGmTLuU5xOrp0EcZtwQg8u3jYRlxAjm1xZb
-         LSCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786723967; x=1787328767;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AntyT1xcB6lPLO8SgF8lHn/f8LIO7sUmv8TB1AYj/jE=;
-        b=DLe8dtFrTaUbLF6DXetgnu6WDgkdUnO4oCC52PtOMKAlSgAvY8zftQBrCH3it/kB/v
-         9Gd/gz8u8KROxd3uhsE3nW/RPNv5bqw2iAzwJWmWUCzFQzzzMurQyjqdyaF9vKMfzWXy
-         a4jQglypNPw4foqAoMom3J89erRx+wUzdDE09ANfEj/Hi5ufSqt1MiTH4mte1Gf2Gko/
-         oyzzf66VUkhs9/BVnftxPEG2cfOIjEMSI2+eFNLJV/yPCxvs6qSncYZyB2NJBrDkYyA0
-         /2LDCnR/YUB0/GjXqAYZBXc9X4QjMTOoWAi69zy6P9QW7HxNAaFKh2GotzicRoWfRnYg
-         k32g==
-X-Forwarded-Encrypted: i=1; AHgh+RpAbmUH0Dp76BgaxYwAXLBMbztzPK4OwKRHBWSnNO7WOL24bON7UnnW7h+JZASAwxJw7SoAveN0Uyc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMSKw5zMyMDPs5zWzVUuEmvPRczHpTofALEdfk9xQ223AWEyEe
-	8IjGjU962Q2ED8xN/IjmxMQRVb8sAY/fDlAgPuvvIJuxBZ9bCf0vnbTu
-X-Gm-Gg: AR+sD11zI68N4mcl+LPTyjdKaFMaBGkbngE49AXdXKuNMM4RsxDzbDv4u/gcy+fb4uV
-	Pm+IK4Zk+DF/gA0U3pf9GHnOFabRSKhLNogAqT+ZRStFHw+odRT923lrOzx0h/w3HnjNpOHw8ao
-	fZe6Eqd3SLPRTSZkTRbeEfMPh8UUsC0EZuPFcelzElfYLaFwwLputoSArbCXgbxUatrPCivd6Y4
-	OTXgXZay2czb+Ed87D+mKslsGjQLBnM8KOo+rn3vldzyRpGCA5MwZ+pfDuvlo9ihs+VRB7tml13
-	aXm0tvyIxNTAW3EfpN77HSzTk0KsHdeiaLbYz9V+k12kQIsqkZlGqOmg4v+XOhjG/yIwChK714d
-	1Ga9oSnVatgUe9zw4jZNulCExcrIOZ0bEGWOHs4SAnPDsLDPaCJXKdUFwopdxbr/UsnDamHHjgd
-	4ARtxDEVkteE7YNpZfAeiSotUjq4Q0Rrqo2odjM7wSB/eK6ARyvBneszE1Pgps8cIu/pouv9Mug
-	VF1knY=
-X-Received: by 2002:a17:903:2c0f:b0:2c7:ebfb:618f with SMTP id d9443c01a7336-2d3b0eec2f6mr92007415ad.14.1786723966514;
-        Fri, 14 Aug 2026 09:12:46 -0700 (PDT)
-Received: from localhost ([220.196.228.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d3aeb887aasm12260415ad.61.2026.08.14.09.12.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 09:12:46 -0700 (PDT)
-From: Liang Hao <haohlliang@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Liang Hao <haohlliang@gmail.com>
-Subject: [PATCH v4] docs: real-time: mention the hrtimer sleeper HARD path
-Date: Sat, 15 Aug 2026 00:12:40 +0800
-Message-ID: <20260814161240.33774-1-haohlliang@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260814094910.akPMAqd4@linutronix.de>
-References: <20260814094910.akPMAqd4@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHzu5LRA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA6F81F000E9;
+	Fri, 14 Aug 2026 16:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786725073;
+	bh=cz+8+QfXTRWB2zTZxpPa9N3lwTNQQc46772tlyHE1QI=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=MHzu5LRAt8CTv5US3qELMe1fvuLgyZlIkGhN4EoKJTFsW4lGhSgyZtNHcVocWPO0P
+	 dyOY2eoApFxtwR15NG9g3/2oCTsafOV9GlM1Ze4xQ008nOWcO5vuWuQKHD0s2ZWwjI
+	 9Wn/ifBcsnxXb1LWREyNwptbLLvOmdaRcZ256RsZya2eP11MvoYSwaJ9yAMCA4xhfc
+	 0e7PDUExp7s3GaQTeRh/RGq4sEG3pXlNwxq++c4g7jytoI437mGhvGtngrjoxvLdaY
+	 0VSFr1GmahLQPg9I8EonTJALz1exH7A5tr5D4lGQGrsOdMWK78+P0xq/TzwxDt/kdw
+	 y+Sjuq+5B9TRQ==
+Message-ID: <f91a011f-5bab-466c-80f5-28efb6e0197a@kernel.org>
+Date: Fri, 14 Aug 2026 11:31:08 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] Doc: admin-guide: pm: Remove unnecessary backticks and
+ fix a spell
+Content-Language: en-US
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Bhaskar Chowdhury <unixbhaskar@gmail.com>, ray.huang@amd.com,
+ perry.yuan@amd.com, kprateek.nayak@amd.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260814095716.2905589-1-unixbhaskar@gmail.com>
+ <29265449-4438-4765-aac9-42e97cdfbd27@infradead.org>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <29265449-4438-4765-aac9-42e97cdfbd27@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The Timers section of Documentation/core-api/real-time/differences.rst
-describes the PREEMPT_RT default (softirq / ktimers) and HRTIMER_MODE_HARD,
-but not the sleeper helper: hrtimer_setup_sleeper_on_stack() marks the
-timer HRTIMER_MODE_HARD when the current task is RT or DEADLINE and
-HRTIMER_MODE_SOFT was not requested, so the wakeup runs in hard interrupt
-context.
 
-Document that behaviour. Also rename "ktimersd" to "ktimers/%u" to match
-the per-CPU thread name.
 
-No code or behaviour change.
+On 8/14/26 07:58, Randy Dunlap wrote:
+> 
+> 
+> On 8/14/26 2:51 AM, Bhaskar Chowdhury wrote:
+>> One,
+>> Removed the superfluous backticks in the sentence.
+>>
+>> And second,
+>>
+>> s/peferred/preferred/
+>>
+>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Thanks.
+Acked-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-Signed-off-by: Liang Hao <haohlliang@gmail.com>
----
-v3 -> v4:
-- drop the Documentation/timers/hrtimers.rst section; extend differences.rst
-  instead, per review
-- add only the sleeper HARD wording and the ktimers/%u rename
-- do not restate lowest-priority / cancel-PI points already covered elsewhere
-- avoid vague "and similar" caller lists
+Since this is pure docs should it go through docs tree?  If not I'm fine 
+to take it through amd-pstate next cycle.
 
- Documentation/core-api/real-time/differences.rst | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
-index a129570dab5a..c8acfba051eb 100644
---- a/Documentation/core-api/real-time/differences.rst
-+++ b/Documentation/core-api/real-time/differences.rst
-@@ -119,12 +119,17 @@ timers initialized with the HRTIMER_MODE_SOFT flag, which are executed in
- softirq context.
- 
- On a PREEMPT_RT kernel, this behavior is reversed: hrtimers are executed in
--softirq context by default, typically within the ktimersd thread. This thread
--runs at the lowest real-time priority, ensuring it executes before any
--SCHED_OTHER tasks but does not interfere with higher-priority real-time
-+softirq context by default, typically within the per-CPU ktimers/%u thread.
-+This thread runs at the lowest real-time priority, ensuring it executes before
-+any SCHED_OTHER tasks but does not interfere with higher-priority real-time
- threads. To explicitly request execution in hard interrupt context on
- PREEMPT_RT, the timer must be marked with the HRTIMER_MODE_HARD flag.
- 
-+hrtimer_setup_sleeper_on_stack() marks the sleeper HRTIMER_MODE_HARD when the
-+current task is in a real-time or deadline scheduling class and
-+HRTIMER_MODE_SOFT was not requested, so the wakeup runs in hard interrupt
-+context rather than on ktimers/%u.
-+
- Memory allocation
- -----------------
- 
--- 
-2.50.1 (Apple Git-155)
+> 
+>> ---
+>>   V2 changes from V1:
+>>   Randy caught a spelling mistake in the same sentence,so fixed
+>>   Documentation/admin-guide/pm/amd-pstate.rst | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+>> index c7bf7cc2db87..6fd72ba52df2 100644
+>> --- a/Documentation/admin-guide/pm/amd-pstate.rst
+>> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
+>> @@ -471,7 +471,7 @@ update the core ranking and set the cpu's priority.
+>>   Kernel Parameters
+>>   -----------------
+>>
+>> -``amd-pstate`` peferred core`` has two states: enable and disable.
+>> +``amd-pstate`` preferred core has two states: enable and disable.
+>>   Enable/disable states can be chosen by different kernel parameters.
+>>   Default enable ``amd-pstate`` preferred core.
+>>
+>> --
+>> 2.54.0
+>>
+> 
 
