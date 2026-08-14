@@ -1,172 +1,1161 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3813370AE3;
-	Fri, 14 Aug 2026 09:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8B3468C2E;
+	Fri, 14 Aug 2026 09:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786699414; cv=none; b=CYUGvaAjGtvC2B+uucoxk5TZ2hhJhcvOiodSHAPJLSFKRAPNd3xHTn8KSGPazC1w46AiqaoASPQtXGbgOLJ6yhmZ2d8W12mnXdwilj3LLOq28xOUqEIsV7NvxkV6X8JzO8Cc96P4+S0v0HJZ6ifaUmU+9MckK5iEgD7SUmU0roY=
+	t=1786700439; cv=none; b=miqx6Ba8ip5EKJY7/9OCEdh7bVrpMND1e+JCqwnCZNCphwtyYWaTaWh9OQSNuruveIsPkEgkHXF6KeuDYt6bryIoARhjq5BM124lpt86wuCS+7C92mu45T5bvduIapMHHhc3cfW6G/5u8Mj0XSsd6FMr4bv3Y+mDo643PrpGJJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786699414; c=relaxed/simple;
-	bh=3YU1+xVRfKx5qBRIcphqt7A1+Xw00RyfTPyo5Z3oZ0I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aFnwH/X3mrz9mGMjm7Wb35bISPhW2jNX0novaN6Hp28IL7JxpB+2Mm22ayw1eT2WIY6lCSEzrZLkhfvOuiBU5Ycjwv0IbGw+fqS1XFA2UMA8jzsbivzwL+/rGOqKv2VkEhYIkTfREhNkcfnpDimKo6jadOC8SPFJv/TGanzE7AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=O9pkMVva; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1786700439; c=relaxed/simple;
+	bh=2E37+kY6DiDQLvl+i1qxXwDuYar8ftNjq4OmAZZDqFI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=U1sFUNzExjuvW2wclLKeqDqorLpvkkNi7SAHjSrd7RORb8GJwHLDWp+Fr13evaeOmHeM4KQsSVF25b+X5nmqAF8tkaJG6GZZA2m7PgbjolzPPNms2WqC/7+aFiUwRc9H0g2lkPPtHeecFced0Cl3MLsuKTqxukPPZ5zyQ/kyAl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FgCxmsQx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="O9pkMVva"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E81cCX3666516;
-	Fri, 14 Aug 2026 09:23:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=5S4LWf
-	ZTljW0+6S8xXzRv4HO9XntKLgDkWOhhWJKADU=; b=O9pkMVvaulDiTm9mA/YcHb
-	c5dGpdlAJeODI/wtrw+uNnny4K8Qydk3/CWS4GUxSYiZIUN8KD/03wUNMcHWpyok
-	+Su4T8cgDb/29/+Aa05TpkswdBfyQTORXdxb+dabkiZAtsEm/zbFQ+GOZSB1o+tE
-	gKSivSL6Ghh5rEaBKUW01JgGxlmarVfcGy+qaB6FKS4lj6dMVLpqS6XVyt8c+Zru
-	f2IZX/oB7o3WoQtBw/NPz90AcIDz7giC+SCRaM3MPf3gSvZwI5CJYXYPAcZGQkRA
-	quk4IqM0sRjBUm8RvXIM+ppuJLP6ZNYqrBLbrZLHp4fycqlsqHX9PjsDvXSMZrzw
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fyb244at4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Aug 2026 09:23:00 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67E9BUHB006650;
-	Fri, 14 Aug 2026 09:22:59 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g1rpv9ex4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Aug 2026 09:22:59 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67E9MtUk42402254
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 14 Aug 2026 09:22:55 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4F9C120040;
-	Fri, 14 Aug 2026 09:22:55 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4683D20043;
-	Fri, 14 Aug 2026 09:22:54 +0000 (GMT)
-Received: from [9.87.144.6] (unknown [9.87.144.6])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 14 Aug 2026 09:22:54 +0000 (GMT)
-Message-ID: <3668e964-4605-43e6-b528-07aa74dc231e@linux.ibm.com>
-Date: Fri, 14 Aug 2026 11:22:53 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FgCxmsQx"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B3BC61F000E9;
+	Fri, 14 Aug 2026 09:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786700425;
+	bh=dQzi4uw4ljTLEnoLMXwhop8N+1TMdnou+Ut3pXkQFQA=;
+	h=Date:Subject:Cc:From:To:References:In-Reply-To;
+	b=FgCxmsQx2rfRAj98RJSid4/FmXNuoblmC2kcZ0TNiKCXD+fYYV+nKNfegPm2NWiwO
+	 Q7+7Re4TCQ+H2aKCP8+Zl6O9VWIzIbtP1RaF33spzp9s3JDBLkp9cCHFuoea9rAHMj
+	 sfKXEzIdXLD/Jd2nIVxtWbgeJJnj4/TfITM3Gl8C6RxLLdZxrs7L7qupZGp67owZR7
+	 hbX/BR1NWSK0WCWlHXzPTudoRJyXPV3Rpt5dXwDdxNaESwN5JFNZYOLjk9xizviZgE
+	 O0LCUleY3qqqj0+z02WUpMjDnkFz0alZnws5nD7ZjIonwqaEQQYun2Fp7Azm1fkV+d
+	 sCxQs/JEw8F6w==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Re: [PATCH v10 00/12] sched, steal_governor: Introduce
- preferred CPUs and steal-driven vCPU backoff
-To: Shrikanth Hegde <sshegde@linux.ibm.com>, Yury Norov <ynorov@nvidia.com>,
-        "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>,
-        frederic@kernel.org
-Cc: arighi@nvidia.com, chleroy@kernel.org, christian.loehle@arm.com,
-        corbet@lwn.net, dietmar.eggemann@arm.com, gregkh@linuxfoundation.org,
-        hdanton@sina.com, huschle@linux.ibm.com, iii@linux.ibm.com,
-        jgross@suse.com, juri.lelli@redhat.com, kernellwp@gmail.com,
-        kprateek.nayak@amd.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maddy@linux.ibm.com, maz@kernel.org,
-        mingo@kernel.org, pauld@redhat.com, pbonzini@redhat.com,
-        peterz@infradead.org, rafael@kernel.org, rdunlap@infradead.org,
-        rostedt@goodmis.org, seanjc@google.com, tglx@kernel.org, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, vincent.guittot@linaro.org,
-        vineeth@bitbyteword.org, virtualization@lists.linux.dev,
-        vschneid@redhat.com, yury.norov@gmail.com
-References: <20260812054033.95658-1-sshegde@linux.ibm.com>
- <20260812194600.52516-1-sunlightlinux@gmail.com> <an0MMNBkyeeZEa8f@yury>
- <a4478425-1914-47d1-b5ec-5e11dba048dd@linux.ibm.com>
- <20aa609c-6b11-41a1-875e-3aaba2809883@linux.ibm.com>
-Content-Language: en-US
-From: Mete Durlu <meted@linux.ibm.com>
-In-Reply-To: <20aa609c-6b11-41a1-875e-3aaba2809883@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=XqfK/1F9 c=1 sm=1 tr=0 ts=6a7ede75 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=LadJ6kx9KbSmSrQeYN8A:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDA2OCBTYWx0ZWRfX3I0IpsQCL+Rq
- wIN1DDX3LUgQ8E/FeCFdcHZyYNjonWdXY9VKcCmeqj7dkqIYADl0sBMH3WOCaqdjM8txSjU9JYk
- b+8Zowd0NCpHrZLYEpSArWYVjaPQcmQdtRHyHG2M3aHLC74N3482sXcWg2Lz/ciPVMQVvpqvLYN
- EAKoBeX3oIRFbKB8N7Lxrcitw8FEbSv6aQPDSSnw+H9J9tRMPqk9d7yvQj7xndBkIdm6RYRgeYs
- 72Kl+CN+KFX9A2+8FvpYefXOekMaSqVvww4EriRezX+tC+hBpcqvNkYdzuX8Sou7haalE+X+LJN
- WhznXOwQyr0EfjwQBUbApmC2mawxxnfKzcqVQBgR4QnjRWPjbuwSdaUjKurP1YLYYNlLOAd7PZu
- jll/oLMssS3C5PxSQUBDIQum4XHgqGvEyIG5d68SrOURcih85FY0lRYvd/CDgOttj6qwGnfovTZ
- N/+rmQZ0LDcMFZW0AcQ==
-X-Proofpoint-ORIG-GUID: OSaUYcjHR2WmtNLQ5HhOmOKecKIbLBzd
-X-Proofpoint-GUID: EHV-i2egFJe0awM3-d7NKMToDbWtAdK0
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDA2OCBTYWx0ZWRfXyfuVV8UXODpN
- lyFOfvwT3Zwq2DgGDr0KYPPt1wIrPJYToWL14kyHLiRxb/h52YgGpM8j24+qSs+OR249J5bIgfH
- diOKvT/1/YzXpq71lWKErPEpBAuAD8U=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-14_03,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1015
- suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140068
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=295fba22dfa326321d815668ca00fad395fba4775ca2fbae89cebd9b5daa;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Fri, 14 Aug 2026 11:40:21 +0200
+Message-Id: <DKOKFU8AD2U6.151AX0VOBX67H@kernel.org>
+Subject: Re: [PATCH v3 05/23] mtd: spi-nor: Create the concept of fixup
+ table with match function
+Cc: "Steam Lin" <STLin2@winbond.com>, "Hsin-Yi Wang" <hsinyi@chromium.org>,
+ "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+ <linux-mtd@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Miquel Raynal" <miquel.raynal@bootlin.com>, "Pratyush Yadav"
+ <pratyush@kernel.org>, "Takahiro Kuwano" <takahiro.kuwano@infineon.com>,
+ "Richard Weinberger" <richard@nod.at>, "Vignesh Raghavendra"
+ <vigneshr@ti.com>, "Nicolas Ferre" <nicolas.ferre@microchip.com>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
+ <claudiu.beznea@tuxon.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>
+X-Mailer: aerc 0.20.0
+References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com> <20260813-winbond-v7-1-spi-nor-rv-addition-v3-5-b637cf120d5c@bootlin.com>
+In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-5-b637cf120d5c@bootlin.com>
 
-On 13/08/2026 13:12, Shrikanth Hegde wrote:
-> Hi Mete, Thanks for going through the patches/discussions.
-> 
-> On 8/13/26 12:20 PM, Mete Durlu wrote:
+--295fba22dfa326321d815668ca00fad395fba4775ca2fbae89cebd9b5daa
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-...
+On Thu Aug 13, 2026 at 5:19 PM CEST, Miquel Raynal wrote:
+> Manufacturer ID tables increase and fixup() hooks proliferate. Having
+> one possible structure per chip was fine until the fixups started being
+> more and more common and needed, to some extend due to ID reuses. Mixing
+> fixups and chips becomes hard and requires extra helpers to sort which
+> ones are needed for a given chip, which every time this happens requires
+> a lot of rework.
 
->>
->> I think all of these points can be addressed better if
->> Xen used said framework and implemented their own governor
->> module. That way we wouldn't see an overinflated single
->> steal_governor but instead nicely separated arch/platform
->> specific ones, that are tailored best for their needs.
->> The current implementation could be the fallback option
->> if platform does not implement their own and would also
->> serve as an example.
-> 
-> For now, I prefer adding a defensive check for dom0
-> and keep the driver simple.
+Thanks, this patch looks really promising!
 
-Fair enough.
+> Replace the two-level fixup association (a manufacturer wide hook and a
+> per flash_info hook) with a per-manufacturer list of fixups that can be
+> looked up by flash ID and/or match function.
+>
+> The match logic works as follows:
+> - If there is an ID, it must match
+> - If there is a match function, it must match (cumulative)
+> - If there is no identifier (no ID nor any match function), it's a
+>   catch-all entry typically used for flagging manufacturer fixups.
 
-...
-> I prefer we defer the arch specific hooks for now, until there is a need 
-> for one. If you guys insist it should be done, then i can start looking 
-> at cpuidle framework. But it will be a bigger rework.
+This mimics, how it's currently handled. But since the fixups are
+now treated as a separate list, i.e. it has it's own SNOR_ID, we
+shall move away from this manufacturer thingy too. IMHO that really
+clutters the code. As a fun fact, spi_nor_match_id() will have the
+unexpected side effect of setting nor->manufacturer.
 
-s390 plans to adopt and start using the preferred CPU approach along
-with the governor. The concern is that there are some enhancements
-planned which would not really fit into the current governor.
+So here's how I'd do it:=20
+(1) remove spi_nor_manufacturer.
+(2) have a list of initcalls in the core to call into the individual
+    vendor modules (that could later be replaced by something more
+    sophiticated)
+(3) that initcall will then call spi_nor_register_parts(const struct
+    flash_info *parts, int nparts)
+(4) (optionally) calls spi_nor_register_fixups(const struct
+    spi_nor_fixup *fixups, int nfixups)
 
-Later on, s390 will probably introduce its own governor module and
-for that I was hoping that there would be a framework similar to
-cpuidle drivers.
+Also both could be a macro, then we can get rid of the size
+argument.
 
-What I mean essentially is a common infrastructure to initialize
-the basics required for the preferred CPUs management and maybe
-the update loop mechanism. That should ideally leave just the
-decision making part to the individual arch/platform to implement.
-I imagine the whole thing being much more simpler than cpuidle
-drivers as it had a lot more moving parts involved.
+The current manufacturer fixups gets registered with a
+"SNOR_ID(vendor)".=20
 
-...
+That leaves us with the manufacturer name, which should be set by
+that vendor catch all fixup.
 
-> If the driver eventually outgrows a single file, we can work on a 
-> modular framework post-merge. But for now, let's keep it simple and get 
-> the simple version upstream.
+Btw, I'm fine with deprecating the name as well as the manufacturer
+sysfs entry, but it shouldn't be as in "it just goes away". There
+should be a transition period. Although I'm not sure, how a user
+could be notified, that this property will go away soon, honestly.
+Print a warning on the kernel buffer? Not sure someone actually
+notice that. Put it behind a Kconfig option which is "default y"
+then after some time, that default is dropped and eventually removed
+altogether? Looks like quite some churn and distros might just
+enable it in their config. Any other ideas?
 
-I understand the concern and I think it's the right approach to keep
-it simple initially.
+> Suggested-by: Michael Walle <mwalle@kernel.org>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>  drivers/mtd/spi-nor/atmel.c      | 23 ++++++-----
+>  drivers/mtd/spi-nor/core.c       | 82 ++++++++++++++++++++++++++++------=
+------
+>  drivers/mtd/spi-nor/core.h       | 23 +++++++++--
+>  drivers/mtd/spi-nor/everspin.c   |  7 +++-
+>  drivers/mtd/spi-nor/gigadevice.c |  7 +++-
+>  drivers/mtd/spi-nor/issi.c       | 22 ++++++++---
+>  drivers/mtd/spi-nor/macronix.c   | 23 ++++++-----
+>  drivers/mtd/spi-nor/micron-st.c  | 43 +++++++++++++++------
+>  drivers/mtd/spi-nor/sfdp.c       | 56 ++++++++++++++++++---------
+>  drivers/mtd/spi-nor/spansion.c   | 41 +++++++++++---------
+>  drivers/mtd/spi-nor/sst.c        | 11 ++++--
+>  drivers/mtd/spi-nor/winbond.c    | 17 ++++++---
+>  12 files changed, 247 insertions(+), 108 deletions(-)
+>
+> diff --git a/drivers/mtd/spi-nor/atmel.c b/drivers/mtd/spi-nor/atmel.c
+> index 8741c0bda497..bccc702a2c4a 100644
+> --- a/drivers/mtd/spi-nor/atmel.c
+> +++ b/drivers/mtd/spi-nor/atmel.c
+> @@ -194,47 +194,40 @@ static const struct flash_info atmel_nor_parts[] =
+=3D {
+>  		.size =3D SZ_512K,
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &atmel_nor_global_protection_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x45, 0x01),
+>  		.name =3D "at26df081a",
+>  		.size =3D SZ_1M,
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &atmel_nor_global_protection_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x46, 0x01),
+>  		.name =3D "at26df161a",
+>  		.size =3D SZ_2M,
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &atmel_nor_global_protection_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x47, 0x00),
+>  		.name =3D "at25df321",
+>  		.size =3D SZ_4M,
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &atmel_nor_global_protection_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x47, 0x01),
+>  		.name =3D "at25df321a",
+>  		.size =3D SZ_4M,
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &atmel_nor_global_protection_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x47, 0x08),
+>  		.name =3D "at25ff321a",
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+> -		.fixups =3D &atmel_nor_global_protection_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x48, 0x00),
+>  		.name =3D "at25df641",
+>  		.size =3D SZ_8M,
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &atmel_nor_global_protection_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x66, 0x01),
+>  		.name =3D "at25fs010",
+> @@ -242,14 +235,12 @@ static const struct flash_info atmel_nor_parts[] =
+=3D {
+>  		.size =3D SZ_128K,
+>  		.flags =3D SPI_NOR_HAS_LOCK,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &at25fs_nor_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x66, 0x04),
+>  		.name =3D "at25fs040",
+>  		.size =3D SZ_512K,
+>  		.flags =3D SPI_NOR_HAS_LOCK,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &at25fs_nor_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x1f, 0x87, 0x01),
+>  		.size =3D SZ_4M,
+> @@ -257,8 +248,22 @@ static const struct flash_info atmel_nor_parts[] =3D=
+ {
+>  	},
+>  };
+> =20
+> +static const struct spi_nor_fixup atmel_fixups[] =3D {
+> +	{ .id =3D SNOR_ID(0x1f, 0x44, 0x01), .fixups =3D &atmel_nor_global_prot=
+ection_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x45, 0x01), .fixups =3D &atmel_nor_global_prot=
+ection_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x46, 0x01), .fixups =3D &atmel_nor_global_prot=
+ection_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x47, 0x00), .fixups =3D &atmel_nor_global_prot=
+ection_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x47, 0x01), .fixups =3D &atmel_nor_global_prot=
+ection_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x47, 0x08), .fixups =3D &atmel_nor_global_prot=
+ection_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x48, 0x00), .fixups =3D &atmel_nor_global_prot=
+ection_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x66, 0x01), .fixups =3D &at25fs_nor_fixups },
+> +	{ .id =3D SNOR_ID(0x1f, 0x66, 0x04), .fixups =3D &at25fs_nor_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_atmel =3D {
+>  	.name =3D "atmel",
+>  	.parts =3D atmel_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(atmel_nor_parts),
+> +	.fixups =3D atmel_fixups,
+> +	.nfixups =3D ARRAY_SIZE(atmel_fixups),
+>  };
+> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+> index ac7812562047..3a611283a9e6 100644
+> --- a/drivers/mtd/spi-nor/core.c
+> +++ b/drivers/mtd/spi-nor/core.c
+> @@ -2367,19 +2367,24 @@ int spi_nor_post_bfpt_fixups(struct spi_nor *nor,
+>  			     const struct sfdp_parameter_header *bfpt_header,
+>  			     const struct sfdp_bfpt *bfpt)
+>  {
+> +	const struct spi_nor_fixup *fixups;
+>  	int ret;
+> +	unsigned int i;
+> =20
+> -	if (nor->manufacturer && nor->manufacturer->fixups &&
+> -	    nor->manufacturer->fixups->post_bfpt) {
+> -		ret =3D nor->manufacturer->fixups->post_bfpt(nor, bfpt_header,
+> -							   bfpt);
+> -		if (ret)
+> -			return ret;
+> +	if (!nor->manufacturer || !nor->manufacturer->fixups)
+> +		return 0;
+> +
+> +	fixups =3D nor->manufacturer->fixups;
+> +
+> +	for (i =3D 0; i < nor->manufacturer->nfixups; i++) {
+> +		if (fixups[i].fixups->post_bfpt &&
+> +		    spi_nor_fixup_match(nor, &fixups[i])) {
+> +			ret =3D fixups[i].fixups->post_bfpt(nor, bfpt_header, bfpt);
+> +			if (ret)
+> +				return ret;
+> +		}
 
-Thank you!
+This is repeated several times, can we have something like
 
+spi_nor_apply_fixups(struct spi_nor *nor, int (*fixup_fn), void *fixup_args=
+);
+
+int spi_nor_post_bfpt_fixup(struct spi_nor *nor, const struct spi_nor_fixup=
+ *fixup, void *_args)
+{
+	struct post_bfpt_fixup_args *args =3D _args;
+
+	if (!fixup->post_bfpt)
+		return 0;
+
+	return fixup->post_bfpt(nor, args->bfpt_header, args->bfpt);
+}
+
+which then will be called with
+spi_nor_apply_fixups(nor, spi_nor_post_bfpt_fixup, args);
+
+> +	for (i =3D 0; i < nor->manufacturer->nfixups; i++) {
+> +		if (fixups[i].fixups->post_bfpt &&
+> +		    spi_nor_fixup_match(nor, &fixups[i])) {
+> +			ret =3D fixups[i].fixups->post_bfpt(nor, bfpt_header, bfpt);
+> +			if (ret)
+> +				return ret;
+>  	}
+> =20
+> -	if (nor->info->fixups && nor->info->fixups->post_bfpt)
+> -		return nor->info->fixups->post_bfpt(nor, bfpt_header, bfpt);
+> -
+>  	return 0;
+>  }
+> =20
+> @@ -2636,6 +2641,26 @@ static int spi_nor_setup(struct spi_nor *nor,
+>  	return spi_nor_set_addr_nbytes(nor);
+>  }
+> =20
+> +bool spi_nor_fixup_match(const struct spi_nor *nor,
+> +			 const struct spi_nor_fixup *fixup)
+> +{
+> +	const struct spi_nor_id *id =3D nor->info ? nor->info->id : NULL;
+> +
+> +	/* Filter by ID first, if available */
+> +	if (fixup->id) {
+> +		if (!id || fixup->id->len > id->len ||
+> +		    memcmp(id->bytes, fixup->id->bytes, fixup->id->len))
+> +			return false;
+> +	}
+> +
+> +	/* Further filter with the match callback, if provided */
+> +	if (fixup->match)
+> +		return fixup->match(nor);
+> +
+> +	/* Either there was an ID and it matched, or it is a catch-all entry */
+> +	return true;
+> +}
+> +
+>  /**
+>   * spi_nor_manufacturer_init_params() - Initialize the flash's parameter=
+s and
+>   * settings based on MFR register and ->default_init() hook.
+> @@ -2643,12 +2668,19 @@ static int spi_nor_setup(struct spi_nor *nor,
+>   */
+>  static void spi_nor_manufacturer_init_params(struct spi_nor *nor)
+>  {
+> -	if (nor->manufacturer && nor->manufacturer->fixups &&
+> -	    nor->manufacturer->fixups->default_init)
+> -		nor->manufacturer->fixups->default_init(nor);
+> +	const struct spi_nor_fixup *fixups;
+> +	unsigned int i;
+> =20
+> -	if (nor->info->fixups && nor->info->fixups->default_init)
+> -		nor->info->fixups->default_init(nor);
+> +	if (!nor->manufacturer || !nor->manufacturer->fixups)
+> +		return;
+> +
+> +	fixups =3D nor->manufacturer->fixups;
+> +
+> +	for (i =3D 0; i < nor->manufacturer->nfixups; i++) {
+> +		if (fixups[i].fixups->default_init &&
+> +		    spi_nor_fixup_match(nor, &fixups[i]))
+> +			fixups[i].fixups->default_init(nor);
+> +	}
+>  }
+> =20
+>  /**
+> @@ -2797,22 +2829,24 @@ static void spi_nor_init_fixup_flags(struct spi_n=
+or *nor)
+>  static int spi_nor_late_init_params(struct spi_nor *nor)
+>  {
+>  	struct spi_nor_flash_parameter *params =3D nor->params;
+> +	const struct spi_nor_fixup *fixups;
+> +	unsigned int i;
+>  	int ret;
+> =20
+>  	/* Needed by some late_init hooks */
+>  	spi_nor_init_flags(nor);
+> =20
+> -	if (nor->manufacturer && nor->manufacturer->fixups &&
+> -	    nor->manufacturer->fixups->late_init) {
+> -		ret =3D nor->manufacturer->fixups->late_init(nor);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	if (nor->manufacturer && nor->manufacturer->fixups) {
+> +		fixups =3D nor->manufacturer->fixups;
+> =20
+> -	if (nor->info->fixups && nor->info->fixups->late_init) {
+> -		ret =3D nor->info->fixups->late_init(nor);
+> -		if (ret)
+> -			return ret;
+> +		for (i =3D 0; i < nor->manufacturer->nfixups; i++) {
+> +			if (fixups[i].fixups->late_init &&
+> +			    spi_nor_fixup_match(nor, &fixups[i])) {
+> +				ret =3D fixups[i].fixups->late_init(nor);
+> +				if (ret)
+> +					return ret;
+> +			}
+> +		}
+>  	}
+> =20
+>  	if (!nor->params->opcodes.die_erase)
+> diff --git a/drivers/mtd/spi-nor/core.h b/drivers/mtd/spi-nor/core.h
+> index 7d43d3ba47ee..b650778a10de 100644
+> --- a/drivers/mtd/spi-nor/core.h
+> +++ b/drivers/mtd/spi-nor/core.h
+> @@ -445,6 +445,19 @@ struct spi_nor_fixups {
+>  	int (*late_init)(struct spi_nor *nor);
+>  };
+> =20
+> +/**
+> + * struct spi_nor_fixup - SPI NOR fixup registration.
+> + * @id:		(optional) flash ID this fixup applies to, may only match the
+> + *		ID prefix, eg. just the first few bytes to match a whole family
+> + * @match:	(optional) custom match function (can be used together with @=
+id)
+> + * @fixups:	the fixup hooks to apply when this entry matches
+> + */
+> +struct spi_nor_fixup {
+> +	const struct spi_nor_id *id;
+> +	bool (*match)(const struct spi_nor *nor);
+> +	const struct spi_nor_fixups *fixups;
+> +};
+> +
+>  /**
+>   * struct spi_nor_id - SPI NOR flash ID.
+>   *
+> @@ -560,7 +573,6 @@ struct flash_info {
+>  	u8 mfr_flags;
+> =20
+>  	const struct spi_nor_otp_organization *otp;
+> -	const struct spi_nor_fixups *fixups;
+>  };
+> =20
+>  #define SNOR_ID(...)							\
+> @@ -582,13 +594,16 @@ struct flash_info {
+>   * @name: manufacturer name
+>   * @parts: array of parts supported by this manufacturer
+>   * @nparts: number of entries in the parts array
+> - * @fixups: hooks called at various points in time during spi_nor_scan()
+> + * @fixups: list of fixups, each matched by ID (or a custom match functi=
+on),
+> + *          applied to any part of this manufacturer.
+> + * @nfixups: number of entries in the fixups array
+>   */
+>  struct spi_nor_manufacturer {
+>  	const char *name;
+>  	const struct flash_info *parts;
+>  	unsigned int nparts;
+> -	const struct spi_nor_fixups *fixups;
+> +	const struct spi_nor_fixup *fixups;
+> +	unsigned int nfixups;
+>  };
+> =20
+>  /**
+> @@ -619,6 +634,8 @@ extern const struct spi_nor_manufacturer spi_nor_xmc;
+> =20
+>  extern const struct attribute_group *spi_nor_sysfs_groups[];
+> =20
+> +bool spi_nor_fixup_match(const struct spi_nor *nor,
+> +			 const struct spi_nor_fixup *fixup);
+>  void spi_nor_spimem_setup_op(const struct spi_nor *nor,
+>  			     struct spi_mem_op *op,
+>  			     const enum spi_nor_protocol proto);
+> diff --git a/drivers/mtd/spi-nor/everspin.c b/drivers/mtd/spi-nor/everspi=
+n.c
+> index add37104d673..864dffba0e9c 100644
+> --- a/drivers/mtd/spi-nor/everspin.c
+> +++ b/drivers/mtd/spi-nor/everspin.c
+> @@ -44,9 +44,14 @@ static const struct spi_nor_fixups everspin_nor_fixups=
+ =3D {
+>  	.default_init =3D everspin_nor_default_init,
+>  };
+> =20
+> +static const struct spi_nor_fixup everspin_fixups[] =3D {
+> +	{ .fixups =3D &everspin_nor_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_everspin =3D {
+>  	.name =3D "everspin",
+>  	.parts =3D everspin_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(everspin_nor_parts),
+> -	.fixups =3D &everspin_nor_fixups,
+> +	.fixups =3D everspin_fixups,
+> +	.nfixups =3D ARRAY_SIZE(everspin_fixups),
+>  };
+> diff --git a/drivers/mtd/spi-nor/gigadevice.c b/drivers/mtd/spi-nor/gigad=
+evice.c
+> index 4070a692e968..f76fd0dedd0a 100644
+> --- a/drivers/mtd/spi-nor/gigadevice.c
+> +++ b/drivers/mtd/spi-nor/gigadevice.c
+> @@ -64,7 +64,6 @@ static const struct flash_info gigadevice_nor_parts[] =
+=3D {
+>  		.id =3D SNOR_ID(0xc8, 0x40, 0x19),
+>  		.name =3D "gd25q256",
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6,
+> -		.fixups =3D &gd25q256_fixups,
+>  		.fixup_flags =3D SPI_NOR_4B_OPCODES,
+
+The fixup_flags should also go into the fixups list.
+
+>  	}, {
+>  		.id =3D SNOR_ID(0xc8, 0x60, 0x16),
+> @@ -87,8 +86,14 @@ static const struct flash_info gigadevice_nor_parts[] =
+=3D {
+>  	},
+>  };
+> =20
+> +static const struct spi_nor_fixup gigadevice_fixups[] =3D {
+> +	{ .id =3D SNOR_ID(0xc8, 0x40, 0x19), .fixups =3D &gd25q256_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_gigadevice =3D {
+>  	.name =3D "gigadevice",
+>  	.parts =3D gigadevice_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(gigadevice_nor_parts),
+> +	.fixups =3D gigadevice_fixups,
+> +	.nfixups =3D ARRAY_SIZE(gigadevice_fixups),
+>  };
+> diff --git a/drivers/mtd/spi-nor/issi.c b/drivers/mtd/spi-nor/issi.c
+> index 04db42b5141e..4842f8acd074 100644
+> --- a/drivers/mtd/spi-nor/issi.c
+> +++ b/drivers/mtd/spi-nor/issi.c
+> @@ -52,13 +52,11 @@ static const struct flash_info issi_nor_parts[] =3D {
+>  		.sector_size =3D SZ_32K,
+>  		.size =3D SZ_64K,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &pm25lv_nor_fixups
+>  	}, {
+>  		.name =3D "pm25lv010",
+>  		.sector_size =3D SZ_32K,
+>  		.size =3D SZ_128K,
+>  		.no_sfdp_flags =3D SECT_4K,
+> -		.fixups =3D &pm25lv_nor_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x7f, 0x9d, 0x20),
+>  		.name =3D "is25cd512",
+> @@ -103,7 +101,6 @@ static const struct flash_info issi_nor_parts[] =3D {
+>  	}, {
+>  		.id =3D SNOR_ID(0x9d, 0x60, 0x19),
+>  		.name =3D "is25lp256",
+> -		.fixups =3D &is25lp256_fixups,
+>  		.fixup_flags =3D SPI_NOR_4B_OPCODES,
+>  	}, {
+>  		.id =3D SNOR_ID(0x9d, 0x70, 0x16),
+> @@ -124,7 +121,6 @@ static const struct flash_info issi_nor_parts[] =3D {
+>  		.id =3D SNOR_ID(0x9d, 0x70, 0x19),
+>  		.name =3D "is25wp256",
+>  		.flags =3D SPI_NOR_QUAD_PP,
+> -		.fixups =3D &is25lp256_fixups,
+>  		.fixup_flags =3D SPI_NOR_4B_OPCODES,
+>  	}
+>  };
+> @@ -139,9 +135,25 @@ static const struct spi_nor_fixups issi_fixups =3D {
+>  	.default_init =3D issi_nor_default_init,
+>  };
+> =20
+> +/* PM25LV parts have no JEDEC ID and are likely matched by name */
+> +static bool issi_pm25lv_match(const struct spi_nor *nor)
+> +{
+> +	const char *name =3D nor->info ? nor->info->name : NULL;
+> +
+> +	return name && !strncmp(name, "pm25lv", 6);
+
+Won't just strcmp("pm25lv", name) do it? Both arguments are
+guaranteed to be NUL terminated. The above would also match
+"pm25lvextrabytes", no, and we get rid of that redundant size
+argument.
+
+> +}
+> +
+> +static const struct spi_nor_fixup issi_fixup_list[] =3D {
+> +	{ .fixups =3D &issi_fixups },
+> +	{ .match =3D issi_pm25lv_match, .fixups =3D &pm25lv_nor_fixups },
+> +	{ .id =3D SNOR_ID(0x9d, 0x60, 0x19), .fixups =3D &is25lp256_fixups },
+> +	{ .id =3D SNOR_ID(0x9d, 0x70, 0x19), .fixups =3D &is25lp256_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_issi =3D {
+>  	.name =3D "issi",
+>  	.parts =3D issi_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(issi_nor_parts),
+> -	.fixups =3D &issi_fixups,
+> +	.fixups =3D issi_fixup_list,
+> +	.nfixups =3D ARRAY_SIZE(issi_fixup_list),
+>  };
+> diff --git a/drivers/mtd/spi-nor/macronix.c b/drivers/mtd/spi-nor/macroni=
+x.c
+> index 55612237c1ef..04b431bf5f13 100644
+> --- a/drivers/mtd/spi-nor/macronix.c
+> +++ b/drivers/mtd/spi-nor/macronix.c
+> @@ -137,20 +137,16 @@ static const struct flash_info macronix_nor_parts[]=
+ =3D {
+>  	}, {
+>  		/* MX25L25635E, MX25L25645G */
+>  		.id =3D SNOR_ID(0xc2, 0x20, 0x19),
+> -		.fixups =3D &mx25l25635_fixups
+>  	}, {
+>  		/* MX66L51235F */
+>  		.id =3D SNOR_ID(0xc2, 0x20, 0x1a),
+>  		.fixup_flags =3D SPI_NOR_4B_OPCODES,
+> -		.fixups =3D &macronix_qpp4b_fixups,
+>  	}, {
+>  		/* MX66L1G45G */
+>  		.id =3D SNOR_ID(0xc2, 0x20, 0x1b),
+> -		.fixups =3D &macronix_qpp4b_fixups,
+>  	}, {
+>  		/* MX66L2G45G */
+>  		.id =3D SNOR_ID(0xc2, 0x20, 0x1c),
+> -		.fixups =3D &macronix_qpp4b_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0xc2, 0x23, 0x14),
+>  		.name =3D "mx25v8035f",
+> @@ -189,15 +185,12 @@ static const struct flash_info macronix_nor_parts[]=
+ =3D {
+>  	}, {
+>  		/* MX25U51245G */
+>  		.id =3D SNOR_ID(0xc2, 0x25, 0x3a),
+> -		.fixups =3D &macronix_qpp4b_fixups,
+>  	}, {
+>  		/* MX66U1G45G */
+>  		.id =3D SNOR_ID(0xc2, 0x25, 0x3b),
+> -		.fixups =3D &macronix_qpp4b_fixups,
+>  	}, {
+>  		/* MX66U2G45G */
+>  		.id =3D SNOR_ID(0xc2, 0x25, 0x3c),
+> -		.fixups =3D &macronix_qpp4b_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0xc2, 0x26, 0x18),
+>  		.name =3D "mx25l12855e",
+> @@ -229,7 +222,6 @@ static const struct flash_info macronix_nor_parts[] =
+=3D {
+>  	}, {
+>  		/* MX25L3255E */
+>  		.id =3D SNOR_ID(0xc2, 0x9e, 0x16),
+> -		.fixups =3D &mx25l3255e_fixups,
+>  	},
+>  	/*
+>  	 * This spares us of adding new flash entries for flashes that can be
+> @@ -333,9 +325,22 @@ static const struct spi_nor_fixups macronix_nor_fixu=
+ps =3D {
+>  	.late_init =3D macronix_nor_late_init,
+>  };
+> =20
+> +static const struct spi_nor_fixup macronix_fixups[] =3D {
+> +	{ .fixups =3D &macronix_nor_fixups },
+> +	{ .id =3D SNOR_ID(0xc2, 0x20, 0x19), .fixups =3D &mx25l25635_fixups },
+> +	{ .id =3D SNOR_ID(0xc2, 0x20, 0x1a), .fixups =3D &macronix_qpp4b_fixups=
+ },
+> +	{ .id =3D SNOR_ID(0xc2, 0x20, 0x1b), .fixups =3D &macronix_qpp4b_fixups=
+ },
+> +	{ .id =3D SNOR_ID(0xc2, 0x20, 0x1c), .fixups =3D &macronix_qpp4b_fixups=
+ },
+> +	{ .id =3D SNOR_ID(0xc2, 0x25, 0x3a), .fixups =3D &macronix_qpp4b_fixups=
+ },
+> +	{ .id =3D SNOR_ID(0xc2, 0x25, 0x3b), .fixups =3D &macronix_qpp4b_fixups=
+ },
+> +	{ .id =3D SNOR_ID(0xc2, 0x25, 0x3c), .fixups =3D &macronix_qpp4b_fixups=
+ },
+> +	{ .id =3D SNOR_ID(0xc2, 0x9e, 0x16), .fixups =3D &mx25l3255e_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_macronix =3D {
+>  	.name =3D "macronix",
+>  	.parts =3D macronix_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(macronix_nor_parts),
+> -	.fixups =3D &macronix_nor_fixups,
+> +	.fixups =3D macronix_fixups,
+> +	.nfixups =3D ARRAY_SIZE(macronix_fixups),
+>  };
+> diff --git a/drivers/mtd/spi-nor/micron-st.c b/drivers/mtd/spi-nor/micron=
+-st.c
+> index 344539d2a36a..2aabd6d487ba 100644
+> --- a/drivers/mtd/spi-nor/micron-st.c
+> +++ b/drivers/mtd/spi-nor/micron-st.c
+> @@ -206,13 +206,11 @@ static const struct flash_info micron_nor_parts[] =
+=3D {
+>  		.id =3D SNOR_ID(0x2c, 0x5b, 0x1a),
+>  		.mfr_flags =3D USE_FSR,
+>  		.fixup_flags =3D SPI_NOR_IO_MODE_EN_VOLATILE,
+> -		.fixups =3D &mt35xu512aba_fixups,
+>  	}, {
+>  		/* MT35XU01GBBA */
+>  		.id =3D SNOR_ID(0x2c, 0x5b, 0x1b),
+>  		.mfr_flags =3D USE_FSR,
+>  		.fixup_flags =3D SPI_NOR_IO_MODE_EN_VOLATILE,
+> -		.fixups =3D &mt35_two_die_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x2c, 0x5b, 0x1c),
+>  		.name =3D "mt35xu02g",
+> @@ -221,7 +219,6 @@ static const struct flash_info micron_nor_parts[] =3D=
+ {
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_OCTAL_READ,
+>  		.mfr_flags =3D USE_FSR,
+>  		.fixup_flags =3D SPI_NOR_4B_OPCODES | SPI_NOR_IO_MODE_EN_VOLATILE,
+> -		.fixups =3D &mt35_two_die_fixups,
+>  	},
+>  };
+> =20
+> @@ -233,6 +230,17 @@ static int mt25qu512a_post_bfpt_fixup(struct spi_nor=
+ *nor,
+>  	return 0;
+>  }
+> =20
+> +/*
+> + * n25q00a parts share the first same 3 ID bytes with mt25qu01g.
+> + * In order to not mix the fixups, further filter out using the part nam=
+e.
+
+How would that work? The part name is also set by the duplicated ID,
+so the first one wins, no?
+
+-michael
+
+> + */
+> +static bool n25q00a_match(const struct spi_nor *nor)
+> +{
+> +	const char *name =3D nor->info ? nor->info->name : NULL;
+> +
+> +	return name && !strncmp(name, "n25q00a", 7);
+> +}
+> +
+>  static const struct spi_nor_fixups mt25qu512a_fixups =3D {
+>  	.post_bfpt =3D mt25qu512a_post_bfpt_fixup,
+>  };
+> @@ -426,14 +434,12 @@ static const struct flash_info st_nor_parts[] =3D {
+>  			 SPI_NOR_BP3_SR_BIT6,
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_QUAD_READ,
+>  		.mfr_flags =3D USE_FSR,
+> -		.fixups =3D &n25q00_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x20, 0xba, 0x22),
+>  		.name =3D "mt25ql02g",
+>  		.size =3D SZ_256M,
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_QUAD_READ,
+>  		.mfr_flags =3D USE_FSR,
+> -		.fixups =3D &mt25q02_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x20, 0xbb, 0x15),
+>  		.name =3D "n25q016a",
+> @@ -480,7 +486,6 @@ static const struct flash_info st_nor_parts[] =3D {
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
+>  			 SPI_NOR_BP3_SR_BIT6,
+>  		.mfr_flags =3D USE_FSR,
+> -		.fixups =3D &mt25qu512a_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x20, 0xbb, 0x20),
+>  		.name =3D "n25q512a",
+> @@ -493,21 +498,18 @@ static const struct flash_info st_nor_parts[] =3D {
+>  		.id =3D SNOR_ID(0x20, 0xbb, 0x21, 0x10, 0x44, 0x00),
+>  		.name =3D "mt25qu01g",
+>  		.mfr_flags =3D USE_FSR,
+> -		.fixups =3D &mt25q01_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x20, 0xbb, 0x21),
+>  		.name =3D "n25q00a",
+>  		.size =3D SZ_128M,
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_QUAD_READ,
+>  		.mfr_flags =3D USE_FSR,
+> -		.fixups =3D &n25q00_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x20, 0xbb, 0x22),
+>  		.name =3D "mt25qu02g",
+>  		.size =3D SZ_256M,
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
+>  		.mfr_flags =3D USE_FSR,
+> -		.fixups =3D &mt25q02_fixups,
+>  	}
+>  };
+> =20
+> @@ -657,16 +659,35 @@ static const struct spi_nor_fixups micron_st_nor_fi=
+xups =3D {
+>  	.late_init =3D micron_st_nor_late_init,
+>  };
+> =20
+> +static const struct spi_nor_fixup micron_fixups[] =3D {
+> +	{ .fixups =3D &micron_st_nor_fixups },
+> +	{ .id =3D SNOR_ID(0x2c, 0x5b, 0x1a), .fixups =3D &mt35xu512aba_fixups }=
+,
+> +	{ .id =3D SNOR_ID(0x2c, 0x5b, 0x1b), .fixups =3D &mt35_two_die_fixups }=
+,
+> +	{ .id =3D SNOR_ID(0x2c, 0x5b, 0x1c), .fixups =3D &mt35_two_die_fixups }=
+,
+> +};
+> +
+> +static const struct spi_nor_fixup st_fixups[] =3D {
+> +	{ .fixups =3D &micron_st_nor_fixups },
+> +	{ .id =3D SNOR_ID(0x20, 0xba, 0x21), .fixups =3D &n25q00_fixups },
+> +	{ .id =3D SNOR_ID(0x20, 0xba, 0x22), .fixups =3D &mt25q02_fixups },
+> +	{ .id =3D SNOR_ID(0x20, 0xbb, 0x20, 0x10, 0x44, 0x00), .fixups =3D &mt2=
+5qu512a_fixups },
+> +	{ .id =3D SNOR_ID(0x20, 0xbb, 0x21, 0x10, 0x44, 0x00), .fixups =3D &mt2=
+5q01_fixups },
+> +	{ .id =3D SNOR_ID(0x20, 0xbb, 0x21), .match =3D n25q00a_match, .fixups =
+=3D &n25q00_fixups },
+> +	{ .id =3D SNOR_ID(0x20, 0xbb, 0x22), .fixups =3D &mt25q02_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_micron =3D {
+>  	.name =3D "micron",
+>  	.parts =3D micron_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(micron_nor_parts),
+> -	.fixups =3D &micron_st_nor_fixups,
+> +	.fixups =3D micron_fixups,
+> +	.nfixups =3D ARRAY_SIZE(micron_fixups),
+>  };
+> =20
+>  const struct spi_nor_manufacturer spi_nor_st =3D {
+>  	.name =3D "st",
+>  	.parts =3D st_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(st_nor_parts),
+> -	.fixups =3D &micron_st_nor_fixups,
+> +	.fixups =3D st_fixups,
+> +	.nfixups =3D ARRAY_SIZE(st_fixups),
+>  };
+> diff --git a/drivers/mtd/spi-nor/sfdp.c b/drivers/mtd/spi-nor/sfdp.c
+> index 285ac781fba8..39cb8ac3a037 100644
+> --- a/drivers/mtd/spi-nor/sfdp.c
+> +++ b/drivers/mtd/spi-nor/sfdp.c
+> @@ -727,12 +727,19 @@ static u8 spi_nor_smpt_addr_nbytes(const struct spi=
+_nor *nor, const u32 settings
+>  static void spi_nor_smpt_read_dummy_fixups(const struct spi_nor *nor,
+>  					   u8 *read_dummy)
+>  {
+> -	if (nor->manufacturer && nor->manufacturer->fixups &&
+> -	    nor->manufacturer->fixups->smpt_read_dummy)
+> -		nor->manufacturer->fixups->smpt_read_dummy(nor, read_dummy);
+> +	const struct spi_nor_fixup *fixups;
+> +	unsigned int i;
+> =20
+> -	if (nor->info->fixups && nor->info->fixups->smpt_read_dummy)
+> -		nor->info->fixups->smpt_read_dummy(nor, read_dummy);
+> +	if (!nor->manufacturer || !nor->manufacturer->fixups)
+> +		return;
+> +
+> +	fixups =3D nor->manufacturer->fixups;
+> +
+> +	for (i =3D 0; i < nor->manufacturer->nfixups; i++) {
+> +		if (fixups[i].fixups->smpt_read_dummy &&
+> +		    spi_nor_fixup_match(nor, &fixups[i]))
+> +			fixups[i].fixups->smpt_read_dummy(nor, read_dummy);
+> +	}
+>  }
+> =20
+>  /**
+> @@ -757,12 +764,19 @@ static u8 spi_nor_smpt_read_dummy(const struct spi_=
+nor *nor, const u32 settings)
+> =20
+>  static void spi_nor_smpt_map_id_fixups(const struct spi_nor *nor, u8 *ma=
+p_id)
+>  {
+> -	if (nor->manufacturer && nor->manufacturer->fixups &&
+> -	    nor->manufacturer->fixups->smpt_map_id)
+> -		nor->manufacturer->fixups->smpt_map_id(nor, map_id);
+> +	const struct spi_nor_fixup *fixups;
+> +	unsigned int i;
+> =20
+> -	if (nor->info->fixups && nor->info->fixups->smpt_map_id)
+> -		nor->info->fixups->smpt_map_id(nor, map_id);
+> +	if (!nor->manufacturer || !nor->manufacturer->fixups)
+> +		return;
+> +
+> +	fixups =3D nor->manufacturer->fixups;
+> +
+> +	for (i =3D 0; i < nor->manufacturer->nfixups; i++) {
+> +		if (fixups[i].fixups->smpt_map_id &&
+> +		    spi_nor_fixup_match(nor, &fixups[i]))
+> +			fixups[i].fixups->smpt_map_id(nor, map_id);
+> +	}
+>  }
+> =20
+>  /**
+> @@ -1406,17 +1420,23 @@ static int spi_nor_parse_sccr_mc(struct spi_nor *=
+nor,
+>   */
+>  static int spi_nor_post_sfdp_fixups(struct spi_nor *nor)
+>  {
+> +	const struct spi_nor_fixup *fixups;
+> +	unsigned int i;
+>  	int ret;
+> =20
+> -	if (nor->manufacturer && nor->manufacturer->fixups &&
+> -	    nor->manufacturer->fixups->post_sfdp) {
+> -		ret =3D nor->manufacturer->fixups->post_sfdp(nor);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	if (!nor->manufacturer || !nor->manufacturer->fixups)
+> +		return 0;
+> =20
+> -	if (nor->info->fixups && nor->info->fixups->post_sfdp)
+> -		return nor->info->fixups->post_sfdp(nor);
+> +	fixups =3D nor->manufacturer->fixups;
+> +
+> +	for (i =3D 0; i < nor->manufacturer->nfixups; i++) {
+> +		if (fixups[i].fixups->post_sfdp &&
+> +		    spi_nor_fixup_match(nor, &fixups[i])) {
+> +			ret =3D fixups[i].fixups->post_sfdp(nor);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +	}
+> =20
+>  	return 0;
+>  }
+> diff --git a/drivers/mtd/spi-nor/spansion.c b/drivers/mtd/spi-nor/spansio=
+n.c
+> index ca2703a5a338..f3862eb1a23a 100644
+> --- a/drivers/mtd/spi-nor/spansion.c
+> +++ b/drivers/mtd/spi-nor/spansion.c
+> @@ -905,7 +905,6 @@ static const struct flash_info spansion_nor_parts[] =
+=3D {
+>  		.sector_size =3D SZ_256K,
+>  		.no_sfdp_flags =3D SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
+>  		.mfr_flags =3D USE_CLSR,
+> -		.fixups =3D &s25fs_s_nor_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x01, 0x20, 0x18, 0x03, 0x00),
+>  		.name =3D "s25sl12800",
+> @@ -941,7 +940,6 @@ static const struct flash_info spansion_nor_parts[] =
+=3D {
+>  		.size =3D SZ_16M,
+>  		.no_sfdp_flags =3D SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
+>  		.mfr_flags =3D USE_CLSR,
+> -		.fixups =3D &s25fs_s_nor_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x01, 0x20, 0x18, 0x4d, 0x01),
+>  		.name =3D "s25fl129p1",
+> @@ -1001,76 +999,61 @@ static const struct flash_info spansion_nor_parts[=
+] =3D {
+>  		.id =3D SNOR_ID(0x34, 0x2a, 0x1a, 0x0f, 0x03, 0x90),
+>  		.name =3D "s25hl512t",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s25hx_t_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x2a, 0x1b, 0x0f, 0x03, 0x90),
+>  		.name =3D "s25hl01gt",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s25hx_t_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x2a, 0x1c, 0x0f, 0x00, 0x90),
+>  		.name =3D "s25hl02gt",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s25hx_t_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x2b, 0x19, 0x0f, 0x08, 0x90),
+>  		.name =3D "s25fs256t",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s25fs256t_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x2b, 0x1a, 0x0f, 0x03, 0x90),
+>  		.name =3D "s25hs512t",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s25hx_t_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x2b, 0x1b, 0x0f, 0x03, 0x90),
+>  		.name =3D "s25hs01gt",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s25hx_t_fixups
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x2b, 0x1c, 0x0f, 0x00, 0x90),
+>  		.name =3D "s25hs02gt",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s25hx_t_fixups
+>  	}, {
+>  		/* S28HL256T */
+>  		.id =3D SNOR_ID(0x34, 0x5a, 0x19),
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x5a, 0x1a),
+>  		.name =3D "s28hl512t",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x5a, 0x1b),
+>  		.name =3D "s28hl01gt",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		/* S28HL02GT */
+>  		.id =3D SNOR_ID(0x34, 0x5a, 0x1c),
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x5b, 0x19),
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x5b, 0x1a),
+>  		.name =3D "s28hs512t",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x5b, 0x1b),
+>  		.name =3D "s28hs01gt",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0x34, 0x5b, 0x1c),
+>  		.name =3D "s28hs02gt",
+>  		.mfr_flags =3D USE_CLPEF,
+> -		.fixups =3D &s28hx_t_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0xef, 0x40, 0x13),
+>  		.name =3D "s25fl004k",
+> @@ -1170,9 +1153,31 @@ static const struct spi_nor_fixups spansion_nor_fi=
+xups =3D {
+>  	.late_init =3D spansion_nor_late_init,
+>  };
+> =20
+> +static const struct spi_nor_fixup spansion_fixups[] =3D {
+> +	{ .fixups =3D &spansion_nor_fixups },
+> +	{ .id =3D SNOR_ID(0x01, 0x02, 0x20, 0x4d, 0x00, 0x81), .fixups =3D &s25=
+fs_s_nor_fixups },
+> +	{ .id =3D SNOR_ID(0x01, 0x20, 0x18, 0x4d, 0x01, 0x81), .fixups =3D &s25=
+fs_s_nor_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x2a, 0x1a, 0x0f, 0x03, 0x90), .fixups =3D &s25=
+hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x2a, 0x1b, 0x0f, 0x03, 0x90), .fixups =3D &s25=
+hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x2a, 0x1c, 0x0f, 0x00, 0x90), .fixups =3D &s25=
+hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x2b, 0x19, 0x0f, 0x08, 0x90), .fixups =3D &s25=
+fs256t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x2b, 0x1a, 0x0f, 0x03, 0x90), .fixups =3D &s25=
+hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x2b, 0x1b, 0x0f, 0x03, 0x90), .fixups =3D &s25=
+hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x2b, 0x1c, 0x0f, 0x00, 0x90), .fixups =3D &s25=
+hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5a, 0x19), .fixups =3D &s28hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5a, 0x1a), .fixups =3D &s28hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5a, 0x1b), .fixups =3D &s28hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5a, 0x1c), .fixups =3D &s28hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5b, 0x19), .fixups =3D &s28hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5b, 0x1a), .fixups =3D &s28hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5b, 0x1b), .fixups =3D &s28hx_t_fixups },
+> +	{ .id =3D SNOR_ID(0x34, 0x5b, 0x1c), .fixups =3D &s28hx_t_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_spansion =3D {
+>  	.name =3D "spansion",
+>  	.parts =3D spansion_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(spansion_nor_parts),
+> -	.fixups =3D &spansion_nor_fixups,
+> +	.fixups =3D spansion_fixups,
+> +	.nfixups =3D ARRAY_SIZE(spansion_fixups),
+>  };
+> diff --git a/drivers/mtd/spi-nor/sst.c b/drivers/mtd/spi-nor/sst.c
+> index 77a0bc41d4e5..c460803b278b 100644
+> --- a/drivers/mtd/spi-nor/sst.c
+> +++ b/drivers/mtd/spi-nor/sst.c
+> @@ -152,14 +152,12 @@ static const struct flash_info sst_nor_parts[] =3D =
+{
+>  		.id =3D SNOR_ID(0xbf, 0x26, 0x42),
+>  		.name =3D "sst26vf032b",
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+> -		.fixups =3D &sst26vf_nor_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0xbf, 0x26, 0x43),
+>  		.name =3D "sst26vf064b",
+>  		.size =3D SZ_8M,
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_SWP_IS_VOLATILE,
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
+> -		.fixups =3D &sst26vf_nor_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0xbf, 0x26, 0x51),
+>  		.name =3D "sst26wf016b",
+> @@ -278,9 +276,16 @@ static const struct spi_nor_fixups sst_nor_fixups =
+=3D {
+>  	.late_init =3D sst_nor_late_init,
+>  };
+> =20
+> +static const struct spi_nor_fixup sst_fixups[] =3D {
+> +	{ .fixups =3D &sst_nor_fixups },
+> +	{ .id =3D SNOR_ID(0xbf, 0x26, 0x42), .fixups =3D &sst26vf_nor_fixups },
+> +	{ .id =3D SNOR_ID(0xbf, 0x26, 0x43), .fixups =3D &sst26vf_nor_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_sst =3D {
+>  	.name =3D "sst",
+>  	.parts =3D sst_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(sst_nor_parts),
+> -	.fixups =3D &sst_nor_fixups,
+> +	.fixups =3D sst_fixups,
+> +	.nfixups =3D ARRAY_SIZE(sst_fixups),
+>  };
+> diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.=
+c
+> index 01a693033448..583b1669270f 100644
+> --- a/drivers/mtd/spi-nor/winbond.c
+> +++ b/drivers/mtd/spi-nor/winbond.c
+> @@ -219,7 +219,6 @@ static const struct flash_info winbond_nor_parts[] =
+=3D {
+>  		.size =3D SZ_16M,
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
+>  		.flags =3D SPI_NOR_QUAD_PP | SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_N=
+OR_HAS_CMP,
+> -		.fixups =3D &w25q128_fixups,
+>  	}, {
+>  		/* W25Q256JV-Q/N */
+>  		.id =3D SNOR_ID(0xef, 0x40, 0x19),
+> @@ -228,7 +227,6 @@ static const struct flash_info winbond_nor_parts[] =
+=3D {
+>  		.no_sfdp_flags =3D SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
+>  		.flags =3D SPI_NOR_QUAD_PP | SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB |
+>  			 SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+> -		.fixups =3D &w25q256_fixups,
+>  	}, {
+>  		/* W25Q512JV-Q/N */
+>  		.id =3D SNOR_ID(0xef, 0x40, 0x20),
+> @@ -242,7 +240,6 @@ static const struct flash_info winbond_nor_parts[] =
+=3D {
+>  		.id =3D SNOR_ID(0xef, 0x40, 0x21),
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
+>  			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+> -		.fixups =3D &winbond_nor_multi_die_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0xef, 0x50, 0x12),
+>  		.name =3D "w25q20bw",
+> @@ -345,13 +342,11 @@ static const struct flash_info winbond_nor_parts[] =
+=3D {
+>  		.id =3D SNOR_ID(0xef, 0x70, 0x21),
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
+>  			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+> -		.fixups =3D &winbond_nor_multi_die_fixups,
+>  	}, {
+>  		/* W25Q02JV-M */
+>  		.id =3D SNOR_ID(0xef, 0x70, 0x22),
+>  		.flags =3D SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
+>  			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+> -		.fixups =3D &winbond_nor_multi_die_fixups,
+>  	}, {
+>  		.id =3D SNOR_ID(0xef, 0x71, 0x19),
+>  		.name =3D "w25m512jv",
+> @@ -553,9 +548,19 @@ static const struct spi_nor_fixups winbond_nor_fixup=
+s =3D {
+>  	.late_init =3D winbond_nor_late_init,
+>  };
+> =20
+> +static const struct spi_nor_fixup winbond_fixups[] =3D {
+> +	{ .fixups =3D &winbond_nor_fixups },
+> +	{ .id =3D SNOR_ID(0xef, 0x40, 0x18), .fixups =3D &w25q128_fixups },
+> +	{ .id =3D SNOR_ID(0xef, 0x40, 0x19), .fixups =3D &w25q256_fixups },
+> +	{ .id =3D SNOR_ID(0xef, 0x40, 0x21), .fixups =3D &winbond_nor_multi_die=
+_fixups },
+> +	{ .id =3D SNOR_ID(0xef, 0x70, 0x21), .fixups =3D &winbond_nor_multi_die=
+_fixups },
+> +	{ .id =3D SNOR_ID(0xef, 0x70, 0x22), .fixups =3D &winbond_nor_multi_die=
+_fixups },
+> +};
+> +
+>  const struct spi_nor_manufacturer spi_nor_winbond =3D {
+>  	.name =3D "winbond",
+>  	.parts =3D winbond_nor_parts,
+>  	.nparts =3D ARRAY_SIZE(winbond_nor_parts),
+> -	.fixups =3D &winbond_nor_fixups,
+> +	.fixups =3D winbond_fixups,
+> +	.nfixups =3D ARRAY_SIZE(winbond_fixups),
+>  };
+
+
+--295fba22dfa326321d815668ca00fad395fba4775ca2fbae89cebd9b5daa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCan7ihRIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/hWXgF/fmvxoAnWsWrb4s4lIUJSNKdPAhtIrJXr
+42AkwLdavpx3RnCP0d0Pd9aDx9o1RgX8AX94vGU43H/8I/UKoOI+KtTe4jiqxnKK
+USI+p+9tqJHCqwbu8kPUxszljKPcaW6ZI3M=
+=In0l
+-----END PGP SIGNATURE-----
+
+--295fba22dfa326321d815668ca00fad395fba4775ca2fbae89cebd9b5daa--
