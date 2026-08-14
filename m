@@ -1,377 +1,320 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013009.outbound.protection.outlook.com [40.93.196.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A5A47042D
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 13:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786714451; cv=none; b=ugN9ypQnHI28wxEgq8LJx5DVWDj99km/InbRSZV/Vnmkmj2Vx577fc7RHR27d1TA2ceA5DyRXQ0JRxRILuy2R/OQifGdtPIMUsfsK+iVWc9VlIbC7PAStCfGkVl/trrVafoS5Y8hlNkMBP/dgU0c5ABd75gvMv7m0Acmss9dNAk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786714451; c=relaxed/simple;
-	bh=KLPBe7MmMT+rRxR0SQnKlMKqxOvfblXjnlpnb8WUCTE=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=QFKRn4OwGsdwMedR6y/OnlYhD36HC/eyytOwrsmA+5O0GmU8W2PcZnXnVoVXiNJLbibzAxjPSiKpGWbE4Gjo8XD3tiOZkaJNDrDGzhRf6fStu5zYNcTN92KrxTjj3e7x+eURyIHiqOyNCkLWN5+t9DcQObKizZpuuaThKGB+vMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lqg5pwzs; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA5D25524C;
+	Fri, 14 Aug 2026 13:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786715168; cv=fail; b=bSV+RRzbMyOcTrrnGgj4z5LqZRK151HuWyOSe7qX9bRma+7vFkpkgMyEIP+2UkTaJAQRG8rT0JAT6ATcaUWZJefDv8D5zJ0jjh7nhUJaCu2doGUczp2A4EgWN+gWwKYH28jyPI53t1pZal/iFsOLqe3bW0gUoIp0dcP8SxVer2g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786715168; c=relaxed/simple;
+	bh=UBfwQPQM2vDYdr+dQg3M5/SZi+I3K5j9Twepk5FkVFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=UUgUqda0FXdXiqigizpE1z3dXecqaCF8ue26riT0yj2yT0NZwngMckutza6hkcvWtP1hP7LIMoXNJ/JuriQGbjZ7BW3N10W+LAzSsr9OOG0ab3Bw/RuPuDheM2T/hTAXMQVGFNRuo+0d4905xW/LW/PadHVKBdR/AmJ33DreDCI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=KOaHMbyP; arc=fail smtp.client-ip=40.93.196.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lqg5pwzs"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-836cd7310f4so14561447b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 06:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786714443; x=1787319243; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=OJqvMkGymJf5lK4k8ANoduG6M5FSqz82g4dX9Jup2y4=;
-        b=Lqg5pwzsnZxn34CloqKJwtpoirBRewCQGo/8tFN+WA+typhxYaqTk2xPT8X28ibUJS
-         vUxYV/EDjLLvcixo+2JX4VeoLk6GBuJTm7XjiVusDKbMcmlesVepCSKRl2r/NaEuJHPr
-         zPsuqVG2/3J4CWxEsJItAnewoc9FzI1daKgN1F5ILSaROVO2GsrrNxD64aQ6TUmwwXQA
-         Xalr/IufIdrsaR9IQ01ucF5iIwAd3BiVpLSBnhdOBZczAjvOJXSn7TuGZN0M8lLCoQCk
-         G3QYoFSltpJR1CxuE7z+lRxhElKbterjtISdT0eQ3c3WPwEVnpeQFfRliNCtuq0ae82s
-         zQuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786714443; x=1787319243;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OJqvMkGymJf5lK4k8ANoduG6M5FSqz82g4dX9Jup2y4=;
-        b=J40YjiwlI9SRU+28KVnlBouQjxadu33xhexLW5lo/TGAWdTo3d6fd904/r82OlnuEV
-         fuUDOnqsknY8YGcSvd3uREjs/I0jJf99s999mBcy07jxX+E6CwV7I+fSAOgAdkMO2Plh
-         7n8TddyqzWFa/L3skPIjiAPdDmHwrR4xDUsd5Y756isoLK0gCB247HbOW5g/tkImUVJA
-         wQ0JVb7V/cOCsLl0qXxIemTwr7n1+I4XoKnE8ai8SslsiCMN319SCr973hB2D2wGZMti
-         o+2EyEQdp713Dv8nIJGlWpbp6/VWJ3Fs241YdOmf/ZysszlHAQ/pU8EdyuVjYbGMUIgT
-         cd2Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpbtEhv6qYQqVairpgVfi5p3y8IC6AyJjzM9fiFMDJMqVbfCFah1Z/trkts+5yDr4vUsrRk+qDy16E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKPz5o15V9d8I0m+rKkkIPmtQbL4ONESQXHdPDbF9KirRbL2kD
-	PivfaBPVliU8eKq6kw+wa/vsa853WD/6bHd41c7kxU5EV+NeBmxN9aGg
-X-Gm-Gg: AR+sD102vzT5iSrRRsFLMNT7e1ZGP9T3MNSlshZPzd4+uWiXwMkqj0bHxYqgxQqQr/A
-	LVOR8IOOoYYLfpDrY774BsCizy4v2WkkHkd7D9cQ1aQtqlDob/bPT0/Wr3seUs4709Ty4448Y3U
-	jA9glpP8pBqlwqLiYU4o7sX0ved3HOvqG8PGuALywpjrNXRaN2dhQqgfyT0HSBoKblhEMYcc9yG
-	SIb2Ldv+UM/202vlKg9zYRAZWBYUsiXY4+oUw2AGO/bwiW4df4joxi3yjicRuJwmlA46r6Fx5Ka
-	byCugB1aZGvtWqLP8U0tzcwDOL40gjOwKK619xbvX1JTf77T4miAR0MKdxpKhtGk2OHQXYIjJEs
-	rnubNyKbNnk1PuXSzQ4cBphtGGgxSPWBGNr7k+G7Mwe5IXUq4quBqZ5SlImxGAivuXxk5x1OtRX
-	Ozt20rU/zJ4yA3r+XGPA5z+EnpkE1RtKbE8/KJrDxxjBXPfbqKOUE7Jefd1QdXNTEOOwmJVtKqX
-	k1YEY03Grt5t/QekPhDQ0+FktWZy+seLjaY
-X-Received: by 2002:a05:690c:a6cc:b0:80b:9f4e:a70 with SMTP id 00721157ae682-837124de3b4mr18643737b3.26.1786714442899;
-        Fri, 14 Aug 2026 06:34:02 -0700 (PDT)
-Received: from gmail.com (250.4.48.34.bc.googleusercontent.com. [34.48.4.250])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-836bc689e3asm12934997b3.17.2026.08.14.06.34.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 06:34:01 -0700 (PDT)
-Date: Fri, 14 Aug 2026 09:34:01 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>, 
- Mirja Kuehlewind <mirja.kuehlewind@ericsson.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, 
- "shaojijie@huawei.com" <shaojijie@huawei.com>, 
- "shenjian15@huawei.com" <shenjian15@huawei.com>, 
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, 
- "eperezma@redhat.com" <eperezma@redhat.com>, 
- "jasowang@redhat.com" <jasowang@redhat.com>, 
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>, 
- "mst@redhat.com" <mst@redhat.com>, 
- "xuanzhuo@linux.alibaba.com" <xuanzhuo@linux.alibaba.com>, 
- "pabeni@redhat.com" <pabeni@redhat.com>, 
- "edumazet@google.com" <edumazet@google.com>, 
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
- "corbet@lwn.net" <corbet@lwn.net>, 
- "horms@kernel.org" <horms@kernel.org>, 
- "dsahern@kernel.org" <dsahern@kernel.org>, 
- "kuniyu@google.com" <kuniyu@google.com>, 
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
- "dave.taht@gmail.com" <dave.taht@gmail.com>, 
- "jhs@mojatatu.com" <jhs@mojatatu.com>, 
- "stephen@networkplumber.org" <stephen@networkplumber.org>, 
- "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, 
- "jiri@resnulli.us" <jiri@resnulli.us>, 
- "davem@davemloft.net" <davem@davemloft.net>, 
- "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
- "donald.hunter@gmail.com" <donald.hunter@gmail.com>, 
- "ast@fiberby.net" <ast@fiberby.net>, 
- "liuhangbin@gmail.com" <liuhangbin@gmail.com>, 
- "shuah@kernel.org" <shuah@kernel.org>, 
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
- "ij@kernel.org" <ij@kernel.org>, 
- "ncardwell@google.com" <ncardwell@google.com>, 
- "Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
- "g.white@cablelabs.com" <g.white@cablelabs.com>, 
- Ingemar Johansson S <ingemar.s.johansson@ericsson.com>, 
- "cheshire@apple.com" <cheshire@apple.com>, 
- "rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
- "Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, 
- "vidhi_goel@apple.com" <vidhi_goel@apple.com>, 
- Parav Pandit <parav@nvidia.com>, 
- Willem de Bruijn <willemb@google.com>
-Message-ID: <willemdebruijn.kernel.c248a28f9c86@gmail.com>
-In-Reply-To: <PAXPR07MB7984ED42ED0849D3A9AB8C19A3DA2@PAXPR07MB7984.eurprd07.prod.outlook.com>
-References: <20260804213510.673084-1-chia-yu.chang@nokia-bell-labs.com>
- <20260804213510.673084-2-chia-yu.chang@nokia-bell-labs.com>
- <20260811173017.3d18dfdc@kernel.org>
- <PAXPR07MB79849A3F1724DBB2DA8EA20AA3DC2@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <20260812155430.6ec81eec@kernel.org>
- <PAXPR07MB7984E3E73868BF8966821C27A3DB2@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <CAF=yD-LQbndjPZiXcfA6fMp6msza_+YdzqqwyeUDVTdOCOHhDw@mail.gmail.com>
- <47BE8A8A-F80C-4C30-BC95-C85FEBFFB606@ericsson.com>
- <PAXPR07MB7984ED42ED0849D3A9AB8C19A3DA2@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Subject: RE: [PATCH v5 net-next 1/2] net: update comments for SKB_GSO_TCP_ECN
- and SKB_GSO_TCP_ACCECN
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="KOaHMbyP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tYlgRg9N/5WYh7k0rEm8jSWjkB5fQkNXQ3CTPBQ+Rn8xEyjbvIAlnC+6vUVsssz1X/V0BtzdXlLDKUju4dxftDpNaXBQ7G+BjEfqfT85bIygtySC5qkrDV/WSi+E1xwjMfX9DonatMTuSW186gI+g+uqzrf6o8cpbURyQleO7j1Xx2ui800BZkShz/1ZKYX79siUd0IBlLUfhXaFIegnyKkFNqvjlJTL2MpGnKa/qUsPgn35F/6sZ+bbNvH49Jq25lqQj8wCFqURBXzm8Xs/76fkQhm/NI43rDlx21h3epe1r17j/zfzTRVrq5kABthdDiJ7AtGZHp21GmtiM0t/1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PtcSz3chhQdPZGpI7eiyfsNsWkDKe7s6BXi9QhA/EYQ=;
+ b=JKd9WiJj+juVUmQRCkFPbzbiUc/wcDWRCAJFf42dmx2IndS+yNsh31zs+Pe64cTPi7g6jDq8m7S4j3aPEh6YlcMs6bi3GyG5bq0U0MF3jAj+CxTAe511yf5UcdC+teqymAwM3yot75crcs/oSjrdpgOS9M9sn3RC0QKmmlNRLur64ZMA04X9OSjKVHULTpUVHNtyh0a4EOtXF7osp/KGME3z+Js8YxyOqrzefkVAlUOojBJgxzPWIIX5hr0RfIDBJkUz1sqh/8jik3+uXPZ9Bah15BJzqYUbrRt7Jf8fAGCEWdxolfZ8tpTSNZue1k/gl75XCzt5e2DvX3kOvYWKwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PtcSz3chhQdPZGpI7eiyfsNsWkDKe7s6BXi9QhA/EYQ=;
+ b=KOaHMbyPcftpNXc61Rm+bwb61B0wHMOb2lAfRxXdowLa/rtDwC3M4gfglUNVD5mluZJ+5K6vW4MQmWUhiXl3BCuydasE16Gb1AFthXfPwefJFkP4Emf99ueKfIbNVUpMxGHTxyJETvYmRjhvapQpDM/X9FT/5um9ZVCT0cJoFXasjk4WSMX1jyBop2I8EWYdQfT57sw9I4T+x3PAPrzuoU642ucZ6ZVKn4dxWc4fX27wQ3ToSbvihzQ+ibYyp69glNiSXKLiCpFOeAZe47V2EtTKgZSNndINNpbcbdi4NuxytiRhjagl3TxFy1EECYofMPuKuBwofOmksetlKHqCzQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PPF002462CFE.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bc4) by SA3PR12MB9177.namprd12.prod.outlook.com
+ (2603:10b6:806:39d::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.15; Fri, 14 Aug
+ 2026 13:46:02 +0000
+Received: from IA0PPF002462CFE.namprd12.prod.outlook.com
+ ([fe80::ac1b:b687:4211:aaa1]) by IA0PPF002462CFE.namprd12.prod.outlook.com
+ ([fe80::ac1b:b687:4211:aaa1%7]) with mapi id 15.21.0315.014; Fri, 14 Aug 2026
+ 13:46:02 +0000
+From: Kai-Heng Feng <kaihengf@nvidia.com>
+To: bhelgaas@google.com
+Cc: mochs@nvidia.com,
+	Kai-Heng Feng <kaihengf@nvidia.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: [PATCH] PCI: pcie_bus_perf: Allow MRRS above MPS when completions are safe
+Date: Fri, 14 Aug 2026 21:45:46 +0800
+Message-ID: <20260814134547.23148-1-kaihengf@nvidia.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: KU3P306CA0007.MYSP306.PROD.OUTLOOK.COM
+ (2603:1096:d10:15::6) To BN7PPF0D2C72F0D.namprd12.prod.outlook.com
+ (2603:10b6:40f:fc02::6c6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF002462CFE:EE_|SA3PR12MB9177:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0cf74720-3181-4f6b-2fb4-08defa0a60d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|18002099003|6133799003|11063799006|5023799004|3023799007|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	XQhBiG26kp6W5et+6cxJig3IJyCQB3iidAzE4dcRNzBNwm3+Tu5SAQFX5SmIjpcYRGLSsErx2i05K/0/GyUPk+VQHLi7ZnUNcR2b2WYaLTGtYzXxAzpkGOuYngIH276BQF8st0JormvtOmzF5PdD4j/ibdNm524PAiE28eRwB8FoST1YXqnVtne+UyzpxmUXNtkVAxQYQOB+Xq8qyhz+l874C6hpdfWBwR6hZr4tmxZgE/FbRDxzZFeY3QqJjxgCZ5Pgvz5aXX8sd+OKmTFhnQ9yP0KFzhA+xsGhJ7tFKGtkiJBgX1nc1jZBLMKOEXER4alc/5Z030VYAfCh3tBBjIan7gNjt4onHeVaHhwA977iu5MeWo55gxVk467Ma0VRbS8CQsPHuurX8eSUZjGPHfhKYmPsXbfcSzsGFc2OvMmIc/Nj+HdISGe5Z4u/Yb7Uf1OY52vWVcvD19WXLpB2JVUrYT3kIvi9L2h1Ox3+5zGxwtatpJJevr/y1vUtQLMeOmiiqOrYp9RfzElbTfoCSLNAzrg/Uijc717LQRlReMWxpcnNBwAIx6cPo9/qkWJFmZGzUnk7+n80zAnm8JsTSJVAcb0qRX3iLeJ3pdPk6tkIYaSIDLPwKKmcPxVcRsoiq2Rt3wFrL4WZBBv+TquQShk06V+CmiH5oTNVNEu91YE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF002462CFE.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(18002099003)(6133799003)(11063799006)(5023799004)(3023799007)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/VBWclMrw1+cvtLRajN2ALywrO5o5ktb7wVhGNfkJ44YaUBQiH+XzezPfTco?=
+ =?us-ascii?Q?xSNtnAvekMZgCQjLoF8WXV8JJoJPin4dCIi/0AbVCPSDWnhrsYHRg0vBcWtf?=
+ =?us-ascii?Q?nuQuCHww5J7iPH2YUBMC3cVDCigXK+1ay57Z0zFlbccZRgQZt/bXTpZb4fxb?=
+ =?us-ascii?Q?az5fyl/9CUPdtyeOfJSbqBKg9FesNgCyJ+xmMMBA9Dft0YyZioG9DBadQ5W2?=
+ =?us-ascii?Q?+cJOKyDTcgFY5GQ3j3MK3CnOGAqKTHp1WzH3L82vCUf9+EFkOetZK0Rgl1qy?=
+ =?us-ascii?Q?8OqWCJpQSwrpt4NDY7Ty+CknJfK98pOsKaqXuXF1QMEOFjZpkhwn6xvq906E?=
+ =?us-ascii?Q?Ei6tcNZWpUJZ5K8NwP0ZqsWKHac7HeBTQN5+ABDfG2RsScrD8Om++wVSpL2T?=
+ =?us-ascii?Q?sd40Q/nfFnGx8dVq8qUAzwZq71UNu/MMdW9fZQ5dVPS35peGBjsKJNaMubgO?=
+ =?us-ascii?Q?kGzdNnp4cugsDYAubUFKSa07NqILsK1BV68GKksSCl5yTV3NVGlw7edx5uOD?=
+ =?us-ascii?Q?Jr8nCmX1aJ010I5V/QOKDBWnVdII+b8D5QrPI8eCNNJHH0pUSR7s2V6jAJ4c?=
+ =?us-ascii?Q?HJ8JDZwzNnHB6OIugYU5nEH1KrgulZKxKjXBFiRNMR+JqQftkx8WaGp8dEQM?=
+ =?us-ascii?Q?peClN+1aKrZ77rSSwmyrjNGNpx0MrLzCs/4yRGA0OqGXeLEasXjHbH6sfief?=
+ =?us-ascii?Q?SxWeHPdZ5qomKztWVtlmlu/CNwo/Wer5I7nCoILvBR1HEyVZBd+wk5oy43P8?=
+ =?us-ascii?Q?6HU2GQNP3ZbgEWPuqh5D1MoobKI2bbSv0/AEmvR+LQTG4KZX+TX1vUbkweZ4?=
+ =?us-ascii?Q?FypkAPps19OtEZtVDt2UR2GwsUko63DhgeXuYSOqoL1QphZu3/euLw818eDm?=
+ =?us-ascii?Q?q5p0422/aK050RAESQiCol6ITfj9pMwtEHKz8JUXISp7RGxY1o9KhRtYu0YP?=
+ =?us-ascii?Q?gu9fPDaATUyoXcZeW01OQvyOjavdANxqrFlH1JsTW9SZurDeA+m2U0DHP9te?=
+ =?us-ascii?Q?/N4j94oh44hnT/3OgO+u4oaBwK+MN/+ZIR3Eoo5QiGPmc6mvM2JL2UBFsXi+?=
+ =?us-ascii?Q?On1CFKI5QK4mq2RCCRVWHgA/+hPJnpiyAC5LjRfOKHZZ3XoVqndngV8TcvTA?=
+ =?us-ascii?Q?t0UGqs/g140qMGTKbX/ckmRTc4XNJbqqfdvZVTHGYZGr2PLsky82JXYjY1tE?=
+ =?us-ascii?Q?7ZGKIJTDP+JehLMH2Uc68H8kk6JM6sNtffCL02+vI3hEt/LyxVHKd6ERBaRi?=
+ =?us-ascii?Q?xbygzizVgMwFqXtya19mUTzMm+cTx1MtE+qZuTwfJzkw5LPxOcWqDrRQkuR0?=
+ =?us-ascii?Q?Vzy1LH8pi92jzHCk8qFVrZdGmvPrjZA6YwSgy557/hEPgyIedAGy/+pxjNFA?=
+ =?us-ascii?Q?1zufrMnBsdUHpKK5ZrSNzUr2wKUvLm22eN2S1f1St/pgX28qTO53RlJAbVPr?=
+ =?us-ascii?Q?UUf4GL8Fh50SeKVa+8enQV8fh2mC3IRYn9D7AKFfsGW25yi72Hype8tzSyBC?=
+ =?us-ascii?Q?D25xX6jC5F+8/XJ/RY9vqYGpKsJUwlBHGRFh+rqzeHAmO0ZbQNEK0wVNiP9I?=
+ =?us-ascii?Q?qfnZ6PAZRntZ3dykOf4NyvQ4wPNO7RAJdyESPkMsQ7Mym+0OlJu4hE9MWG80?=
+ =?us-ascii?Q?OsHimwlWBKiuHcq98vuuHJD8DJ0FUUhlQZGhDB8pJqqxYBzsgaSswGF/00o4?=
+ =?us-ascii?Q?faDjD0K5DhHLIDUg5IEBjvFlD7IQHvuL7hoTNfr4ONZSk0sxcWGMnvLhQfoE?=
+ =?us-ascii?Q?6GY/zIK1+w=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cf74720-3181-4f6b-2fb4-08defa0a60d1
+X-MS-Exchange-CrossTenant-AuthSource: BN7PPF0D2C72F0D.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 13:46:02.3526
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aJHuVfucm+FKVI/11ZSDSbzcTNdAv+Fixbfjte9aYgyuBYRRQ5veuQ+pgT0oeU8GU8CJFEFhHnBttXub99Vevw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9177
 
-Chia-Yu Chang (Nokia) wrote:
-> > From: Mirja Kuehlewind <mirja.kuehlewind@ericsson.com> =
+In PCIE_BUS_PERFORMANCE mode, pcie_write_mrrs() sets MRRS equal to MPS
+for all endpoints. This is overly conservative when completions from the
+root complex cannot exceed what every receiver on the path can accept.
 
-> > Sent: Friday, August 14, 2026 10:57 AM
-> > To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>; Chia-Yu Chang=
- (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-> > Cc: Jakub Kicinski <kuba@kernel.org>; shaojijie@huawei.com; shenjian1=
-5@huawei.com; linux-rdma@vger.kernel.org; eperezma@redhat.com; jasowang@r=
-edhat.com; virtualization@lists.linux.dev; mst@redhat.com; xuanzhuo@linux=
-.alibaba.com; pabeni@redhat.com; edumazet@google.com; linux-doc@vger.kern=
-el.org; corbet@lwn.net; horms@kernel.org; dsahern@kernel.org; kuniyu@goog=
-le.com; bpf@vger.kernel.org; netdev@vger.kernel.org; dave.taht@gmail.com;=
- jhs@mojatatu.com; stephen@networkplumber.org; xiyou.wangcong@gmail.com; =
-jiri@resnulli.us; davem@davemloft.net; andrew+netdev@lunn.ch; donald.hunt=
-er@gmail.com; ast@fiberby.net; liuhangbin@gmail.com; shuah@kernel.org; li=
-nux-kselftest@vger.kernel.org; ij@kernel.org; ncardwell@google.com; Koen =
-De Schepper (Nokia) <koen.de_schepper@nokia-bell-labs.com>; g.white@cable=
-labs.com; Ingemar Johansson S <ingemar.s.johansson@ericsson.com>; cheshir=
-e@apple.com; rs.ietf@gmx.at; Jason_Livingood@comcast.com; vidhi_goel@appl=
-e.com; Parav Pandit <parav@nvidia.com>; Willem de Bruijn <willemb@google.=
-com>
-> > Subject: Re: [PATCH v5 net-next 1/2] net: update comments for SKB_GSO=
-_TCP_ECN and SKB_GSO_TCP_ACCECN
-> > =
+Completions are sized by the completer up to the root port's MPS. Cap
+MRRS when an intermediate bridge or the requester itself has lower MPS
+than the root port (e.g. root MPS=512, endpoint MPS=256). Otherwise set
+MRRS from pcie_mpss (clamped to 4096), which raises MRRS above MPS on
+paths such as Grace where root MPS is 256 and the endpoint MPSS is
+larger.
 
-> > Hi Willem,
-> > =
+Comparing only ancestor bridge MPS to the endpoint's MPS is not enough:
+under top-down MPS configuration every ancestor already has MPS >= the
+endpoint, so that check never triggers. Also keep the pcie_set_readrq()
+clamp topology-aware; dropping it unconditionally would let drivers
+request completions larger than the endpoint can receive on direct-attach
+paths. Fail closed for non-PCIe or unidentifiable roots.
 
-> > The current function of is SKB_GSO_TCP_ECN wrong. Fixing this causes =
-the regression.
-> > =
+Update the pcie_bus_perf description in kernel-parameters.txt to match.
 
-> > Mirja
-> > =
+Tested-on: NVIDIA Grace GH200 (lego-cg1-qct-055) with pci=pcie_bus_perf
+  ConnectX-7: MPS=256 MPSS=512  MRRS 256 -> 512
+  SAS HBA:    MPS=256 MPSS=1024 MRRS 256 -> 1024
+  Without pci=pcie_bus_perf: no change vs stock defaults
 
-> > =
+Link: https://lore.kernel.org/linux-pci/20180123174821.GF5317@bhelgaas-glaptop.roam.corp.google.com/T/
+Signed-off-by: Kai-Heng Feng <kaihengf@nvidia.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  9 +-
+ drivers/pci/pci.c                             |  8 +-
+ drivers/pci/pci.h                             |  1 +
+ drivers/pci/probe.c                           | 87 +++++++++++++++++--
+ 4 files changed, 93 insertions(+), 12 deletions(-)
 
-> > =
-
-> > From: Willem de Bruijn <mailto:willemdebruijn.kernel@gmail.com>
-> > Subject: Re: [PATCH v5 net-next 1/2] net: update comments for SKB_GSO=
-_TCP_ECN and SKB_GSO_TCP_ACCECN
-> > =
-
-> > On Thu, Aug 13, 2026 at 6:33=E2=80=AFAM Chia-Yu Chang (Nokia)
-> > <mailto:chia-yu.chang@nokia-bell-labs.com> wrote:
-> > =
-
-> > > On Wed, 12 Aug 2026 10:33:19 +0000 Chia-Yu Chang (Nokia) wrote:
-> > > > > > -     /* This indicates the tcp segment has CWR set. */
-> > > > > > +     /* For TX, this indicates that the first TCP segment ha=
-s CWR set, and
-> > > > > > +      * any subsequent segment in the same skb has CWR clear=
-ed. This flag
-> > > > > > +      * must not be used in RX, because the connection to wh=
-ich the segment
-> > > > > > +      * belongs is not tracked to use RFC3168 or AccECN. Usi=
-ng RFC3168 ECN
-> > > > > > +      * offload may clear CWR and corrupt ACE signal (CWR is=
- part of it).
-> > > > > > +      * Instead, SKB_GSO_TCP_ACCECN shall be used to avoid C=
-WR corruption.
-> > > > > > +      */
-> > > > >
-> > > > > I still can't wrap my head around this TBH.
-> > > > >
-> > > > > SKB_GSO_TCP_ECN means RFC3168
-> > > > > SKB_GSO_TCP_ACCECN means AccECN
-> > > > >
-> > > > > If the HW can correctly detect cwr on first frame and then no c=
-wr and report that as ECN/RFC3168 - what's the problem? TSO will produce =
-the exact expected segment sequence.
-> > > > >
-> > > > > Is the program that if we re-GRO that frame in SW we end up wit=
-h
-> > > > > ECN+ACCECN on the same skb?
-> > > >
-> > > > Yes, this is the problem.
-> > > > The HW does not know whether the received packets belong to an RF=
-C3168 ECN flow or an AccECN flow on the RX path.
-> > > > For example, HW GRO may set SKB_GSO_TCP_ECN after observing that =
-the first packet has CWR=3D1:
-> > > >
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> > > > |     Packet id     | CWR flag |       Flag      | Flushed as SKB=
- |
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> > > > |         0         |     1    | SKB_GSO_TCP_ECN |        0      =
- |
-> > > > |         1         |     0    |         -       |        0      =
- |
-> > > > |         2         |     1    |         -       |        0      =
- |
-> > > > |         3         |     1    |         -       |        1      =
- |
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> > > >
-> > > > If the aggregated skb is forwarded through a device using GSO, e.=
-g.,
-> > > > HW RX (GRO) -> veth TX (GSO), the SKB_GSO_TCP_ECN applies RFC3168=
-
-> > > > semantics. This means that only the 1st segment keeps the CWR fla=
-g
-> > > > while all subsequent segments have CWR cleared:
-> > > >
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+
-> > > > |     Packet id     | CWR flag |
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+
-> > > > |         0         |     1    |
-> > > > |         1         |     0    |
-> > > > |         2         |     0    |
-> > > > |         3         |     0    |
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D+
-> > > >
-> > > > This behavior is ok for RFC3168, since CWR is expected to appear =
-only
-> > > > once. However, for AccECN, CWR is part of the ACE signal and must=
- be
-> > > > preserved across all segments.
-> > >
-> > > But this would be obviously a buggy HW-GRO implementation.
-> > > The rules for HW-GRO RFC3168 are -- ignore CWR on first segment (ho=
-st responsible for populating SKB_GSO_TCP_ECN), and CWR _must be 0_ for a=
-ll subsequent segments.
-> > >
-> > > > In the example above, the original CWR sequence was 1,0,1,1.
-> > > > But after re-segmentation it becomes: 1,0,0,0.
-> > > > This is why SKB_GSO_TCP_ECN should not be used in RX/GRO paths.
-> > >
-> > > We have extensive gro tests under
-> > > tools/testing/selftests/drivers/net/gro.py
-> > >
-> > > If you want to catch bad devices - add appropriate test cases there=
-.
-> > >
-> > =
-
-> > I added a test case in patch 6f74bc8b6e8d related to the CWR flag.
-> > In that case, there are 5 packets with CWR values of 0, 1, 1, 0, and =
-0, and packets are flushed after the 1st, 3rd, and 5th packets.
-> > The gro.py uses this case in tools/testing/selftests/net/lib/gro.c to=
- verify CWR behavior.
-> > But indeed, that does not cover whether SKB_GSO_TCP_ECN or SKB_GSO_TC=
-P_ACCECN shall be set during the GRO.
-> > So, a test might be added to verify the SKB_GSO_TCP_ECN or SKB_GSO_TC=
-P_ACCECN flags (if there is another suggested way, please let me know)?
-> > =
-
-> > > The comment as stated seems to be misleading - there's nothing wron=
-g with using the flag if the device follows the RFC3168 semantics correct=
-ly.
-> > >
-> > > And of course, adding a comment and hoping people will find it is m=
-uch weaker than adding tests.
-> > >
-> > > Again, maybe I'm missing what _actually_ doesn't work here.
-> > =
-
-> > Before adding an extra test, we need to clarify the definition and us=
-ages of these flags.
-> > At the TX path, in tcp_gso_segment() of net/ipv4/tcp_offload.c, the S=
-KB_GSO_TCP_ACCECN flag is used to preserve the CWR flags for AccECN flows=
-.
-> > Otherwise, when without SKB_GSO_TCP_ACCECN (RFC3168 ECN or Non-ECN fl=
-ows), cwr will be cleared from the following packets.
-> > =
-
-> > For the RX path, unfortunately I do not find a clear rule of when SKB=
-_GSO_TCP_ECN shall be set except in include/linux/skbuff.h.
-> > Plus, the device usually does not track packets belonging to RFC3168 =
-ECN or ACCECN flows.
-> > So, my previous thought is to always use SKB_GSO_TCP_ACCECN in the RX=
- path to avoid any potential CWR bleaching.
-> > =
-
-> > This would be a case where AccECN support causes a regression for
-> > regular ECN handling, if that is no longer allowed to be coalesced.
-> > =
-
-> > Most HW-GRO hardware out there today likely only supports ECN. In
-> > which case they can set SKB_GSO_TCP_ECN fine.
-> > =
-
-> > If AccECN flows cannot be differentiated from ECN flows, on such
-> > devices, does the admin have to disable HW-GRO with ECN if they care
-> > about preserving AccECN signals?
-> > =
-
-> > What does SW GRO do here?
-> =
-
-> Hi Willem,
-> =
-
-> Current SW GRO sets SKB_GSO_TCP_ACCECN when the flushed skb carries CWR=
- in tcp_gro_complete():
-> if (th->cwr)
->     shinfo->gso_type |=3D SKB_GSO_TCP_ACCECN;
-
-And I suppose it follows correct AccECN rules for coalescing.
-
-That is a performance regression from RFC 3168 ECN, as it allows for
-less effective coalescing. I have no intuition how much it will
-differ in practice.
-
-> =
-
-> For HW GRO of a legacy device that implementing RFC3168 semantics, sett=
-ing SKB_GSO_TCP_ECN seems reasonable.
-> However, such a device would not be able to preserve ACCECN signaling a=
-cross the GRO/GSO.
-> In that case, if preserving AccECN signaling is required, disabling HW =
-GRO may indeed be necessary.
-
-Right. And there currently is no kernel API to disable only ECN
-coalescing. NETIF_F_GRO_HW enables or disables HW-GRO entirely.
-Or even to signal whether a HW-GRO implementation is AccECN
-capable.
-
-Disabling HW-GRO can be a huge efficiency regression. I suspect
-many users will prioritize the efficiency over preserving the AccECN
-signal.
-
-That said, some devices may have other ways to configure such
-finer details of their HW-GRO, even though not available through
-Ethtool.
-
-> And I still think the SKB_GSO_TCP_ECN comment could be clarified.
-> For example, by stating that "RX GRO implementations which need to pres=
-erve CWR information across re-segmentation should use SKB_GSO_TCP_ACCECN=
-."?
-> =
-
-> Thanks!
-> Chia-Yu
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3d35270dddef..902bc631b98b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5150,9 +5150,12 @@ Kernel parameters
+ 				supported by all devices below the root complex.
+ 		pcie_bus_perf	Set device MPS to the largest allowable MPS
+ 				based on its parent bus. Also set MRRS (Max
+-				Read Request Size) to the largest supported
+-				value (no larger than the MPS that the device
+-				or bus can support) for best performance.
++				Read Request Size) appropriately for best
++				performance: raise it above the device MPS when
++				completions from the root complex cannot exceed
++				what every bridge and the device on the path can
++				accept; otherwise keep MRRS capped to the
++				device MPS.
+ 		pcie_bus_peer2peer	Set every device's MPS to 128B, which
+ 				every device is guaranteed to support. This
+ 				configuration allows peer-to-peer DMA between
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 77b17b13ee61..3e17594e181d 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -5845,14 +5845,14 @@ int pcie_set_readrq(struct pci_dev *dev, int rq)
+ 		return -EINVAL;
+ 
+ 	/*
+-	 * If using the "performance" PCIe config, we clamp the read rq
+-	 * size to the max packet size to keep the host bridge from
+-	 * generating requests larger than we can cope with.
++	 * If using the "performance" PCIe config, clamp the read rq size when
++	 * the path cannot safely accept root-sized completions (intermediate
++	 * bridge or this device has lower MPS than the root port).
+ 	 */
+ 	if (pcie_bus_config == PCIE_BUS_PERFORMANCE) {
+ 		int mps = pcie_get_mps(dev);
+ 
+-		if (mps < rq)
++		if (pcie_path_needs_mrrs_cap(dev) && mps < rq)
+ 			rq = mps;
+ 	}
+ 
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 4469e1a77f3c..48572fd5b62d 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -118,6 +118,7 @@ extern struct mutex pci_rescan_remove_lock;
+ bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
+ bool pcie_cap_has_lnkctl2(const struct pci_dev *dev);
+ bool pcie_cap_has_rtctl(const struct pci_dev *dev);
++bool pcie_path_needs_mrrs_cap(struct pci_dev *dev);
+ 
+ /* Standard Capability finder */
+ /**
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index dd0abbc63e18..7ab2bd66f3a5 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -2961,6 +2961,76 @@ static void pcie_write_mps(struct pci_dev *dev, int mps)
+ 		pci_err(dev, "Failed attempting to set the MPS\n");
+ }
+ 
++/*
++ * Check whether MRRS must be capped to the device's MPS.
++ *
++ * In PCIE_BUS_PERFORMANCE mode, MPS is configured top-down. Completions are
++ * sized by the completer (root complex) up to the root port's MPS. Every
++ * receiver on the path -- each intermediate bridge and the requester itself --
++ * must accept that completion size, so MRRS must be capped whenever
++ * MPS(root port) exceeds MPS of any of those receivers.
++ *
++ * Comparing only ancestor bridge MPS to the endpoint's MPS is not enough:
++ * under top-down configuration every ancestor already has MPS >= the
++ * endpoint, so that check never triggers. Required checks are:
++ *   - intermediate bridge MPS < root port MPS, and
++ *   - requester MPS < root port MPS (needed by pcie_set_readrq() callers
++ *     that request values larger than MPS on direct-attach paths).
++ *
++ * When the path cannot be characterised (unknown root, non-PCIe bridge),
++ * fail closed and keep the cap.
++ *
++ * Note: this assumes no peer-to-peer DMA, which is the standing assumption for
++ * PCIE_BUS_PERFORMANCE mode.
++ */
++bool pcie_path_needs_mrrs_cap(struct pci_dev *dev)
++{
++	struct pci_bus *bus = dev->bus;
++	int root_mps = -1;
++	int min_inter_mps = -1;
++
++	while (bus->parent) {
++		struct pci_dev *bridge = bus->self;
++
++		if (bridge) {
++			int mps;
++
++			if (!pci_is_pcie(bridge))
++				return true;	/* unknown; keep the cap */
++
++			mps = pcie_get_mps(bridge);
++
++			/*
++			 * The bridge directly above the root bus is treated as
++			 * the root port. Everything between the device and
++			 * that bridge must forward completion TLPs.
++			 */
++			if (bus->parent->parent) {
++				if (min_inter_mps < 0 || mps < min_inter_mps)
++					min_inter_mps = mps;
++			} else {
++				root_mps = mps;
++			}
++		}
++		bus = bus->parent;
++	}
++
++	/* No identifiable root port MPS: keep the conservative cap. */
++	if (root_mps < 0)
++		return true;
++
++	if (min_inter_mps >= 0 && min_inter_mps < root_mps)
++		return true;
++
++	/*
++	 * Direct-attach and uniform-vs-root paths still need a cap when this
++	 * device's own MPS is below the root port's -- otherwise drivers
++	 * calling pcie_set_readrq() with a large value can request completions
++	 * larger than the requester can receive.
++	 */
++	return pcie_get_mps(dev) < root_mps;
++}
++
+ static void pcie_write_mrrs(struct pci_dev *dev)
+ {
+ 	int rc, mrrs;
+@@ -2973,12 +3043,19 @@ static void pcie_write_mrrs(struct pci_dev *dev)
+ 		return;
+ 
+ 	/*
+-	 * For max performance, the MRRS must be set to the largest supported
+-	 * value.  However, it cannot be configured larger than the MPS the
+-	 * device or the bus can support.  This should already be properly
+-	 * configured by a prior call to pcie_write_mps().
++	 * Prefer a larger MRRS when completions from the root complex cannot
++	 * exceed what every receiver on the path (bridges and this device)
++	 * can accept. Otherwise cap to the device's MPS.
++	 *
++	 * There is no Max_Read_Request_Size capability field; pcie_mpss is
++	 * used as a conservative upper bound (clamped to the architectural
++	 * 4096B MRRS maximum). Hardware that rejects the value is handled by
++	 * the shrink loop below.
+ 	 */
+-	mrrs = pcie_get_mps(dev);
++	if (pcie_path_needs_mrrs_cap(dev))
++		mrrs = pcie_get_mps(dev);
++	else
++		mrrs = min(128 << dev->pcie_mpss, 4096);
+ 
+ 	/*
+ 	 * MRRS is a R/W register.  Invalid values can be written, but a
+-- 
+2.50.1 (Apple Git-155)
 
