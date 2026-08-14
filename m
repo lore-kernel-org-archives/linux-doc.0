@@ -1,88 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-16.ptr.blmpb.com (va-2-16.ptr.blmpb.com [209.127.231.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3173CB559;
-	Fri, 14 Aug 2026 07:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3361A41DEDD
+	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 07:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786692677; cv=none; b=Tfi+O7Rc7WLVJGCYbkW2whz2/RpDp68K0Q1s8y5N/7WRsRuUGWiqnPo+gD4cz98s8gu5U1kRJpKWt051O1CPRJBDdrJ3+g8+i4XwDvdL3ccSmT/Bui5BQz/n340ISiVkCxSZDfQLOkHFei1dg98YqYN7nEFsgkDW2WBZXpnWrb4=
+	t=1786693828; cv=none; b=K/s19OOHkF2bH6ez4FAACFZNVu84sZbguBvYeH/7EoVvvPscx6r5LTE+ZLzIIpwG5yPOv94itE8PmUaZ4/Eun2MSQ+u9aCogs2/wODo9fdlZ6b4ogKcfY/lvRqJ5Wfdjm5R0ZintRtmOX2V1mgu7lWs7Po9ffBFei8gZFs4USpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786692677; c=relaxed/simple;
-	bh=0zo9sxbBLmwRt2AyGVz8Dgdllov4byoOwzEtt6rHrTk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=gy2puqm+C/egKugPt+Lk91rfGRf99a/m+l8qpQI+0xMUcB65r7LNqCW6MNB2oIeXpzIR2BAl7WNoQcH0Dg/fvMhhu5WDWAUVw37KkTUWwyjUkxd6D7xJwSvIgVX4zI6PW+O5OpOWFkQI+n4JTXGyGc0sLCEDyNuFPdz0g5EkZsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X12yDsDi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786693828; c=relaxed/simple;
+	bh=Y2jZkZG5IdEinfxaABKa1bNtQfxrrDOJa1w7kxN9I5Y=;
+	h=Content-Type:References:In-Reply-To:To:Message-Id:Mime-Version:Cc:
+	 From:Subject:Date; b=pSxWFQ4YE6UrpkA+6YXQ6ktqbc+UH28xLwIHFIGMlObx8ZfTSPGgzPwwOVqKB2I0y7W+rnHaak5fw0B3ohGiV5WI+4G+cyZN+ure8FGESpY03sLiH/vaDlwHE3Q3mKIoaNP9P6ixu1NPTJKWF3pfvD0yIXpNMJe8/RiTTJuQAx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=pass smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=L7/Sqr2Y; arc=none smtp.client-ip=209.127.231.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fnnas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X12yDsDi"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 19E4A1F000E9;
-	Fri, 14 Aug 2026 07:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786692670;
-	bh=0zo9sxbBLmwRt2AyGVz8Dgdllov4byoOwzEtt6rHrTk=;
-	h=Date:Subject:Cc:From:To:References:In-Reply-To;
-	b=X12yDsDiMbHtt/bGkdH7XJbOzteI/GIR+Iphjvc/5cc1RT2hOIdu2YtPDYIIuUG54
-	 9Jl8eBRWsRXt8FDcncFIAWD8XFoQaJDpuW9zOBEKaZV+AP7rc+OTS99/pyL9fkvr4S
-	 ZVgrJ/NW0Qo94bRE7XOQ3yRq8i46lUHUl7h/UBu68dVT2Qq9Nc0bLnG2qUq9nZP5FR
-	 8IjKCd4aayIgB1ovqwm1DZAuRGVDfZIVMl6vxZy6K+MMkDHTQc6xUUvfulQJZW08+J
-	 kiROBAk20PClPRt283tjTFruK0No25mgiWjTKedxJt4b+qrwsevJ1dIDSoFmLb4vfq
-	 FQzRMHChb6KpA==
+	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="L7/Sqr2Y"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1786693811;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=JbnLgklqOUcOfZtgfE8qoZAa4WQi1t4pHM8VNSJ95PY=;
+ b=L7/Sqr2YloWcCd+CLuHsctvb17T7wRA1u8EeyL71rexTLznirImCcRNGShoamsifvNP838
+ CY/EyFMwObsNum1JoF8LIjq/RFrSC8vStettKoF6i51yLAW07hcudtN3mivQCrsafYgAl4
+ KkT7BYhMbbM5oNRcU+Nh6x34Y1KgWh9in+oxdMjmqF45CRc0eLxrise6z06fzJ7uQc/NuN
+ 0y1mz0aUe8jnT/KsiQ+e1V3qFagpdJUZGm3swFRJLfIImlS3w1nJI9e2LTDiiVEW9uIaYp
+ UatwlhWuY5fbRtuq6gNXTOQ7brg2wieqFZPdJEkCgsBRf04R6+onPRRTelpNfw==
+Reply-To: yukuai@fygo.io
+User-Agent: Mozilla Thunderbird
+Received: from [192.168.1.104] ([39.182.0.156]) by smtp.feishu.cn with ESMTPS; Fri, 14 Aug 2026 15:50:07 +0800
+X-Lms-Return-Path: <lba+26a7ec8b1+cb17c5+vger.kernel.org+yukuai@fnnas.com>
+Content-Type: text/plain; charset=UTF-8
+References: <20260811064744.1139446-1-yukuai@kernel.org> <20260811064744.1139446-3-yukuai@kernel.org> <20260814071232.GA9784@lst.de>
+In-Reply-To: <20260814071232.GA9784@lst.de>
+Content-Transfer-Encoding: quoted-printable
+To: "Christoph Hellwig" <hch@lst.de>, "yu kuai" <yukuai@fygo.io>
+Message-Id: <f7350050-062a-4ced-9396-05ac33ac3e60@fnnas.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=946133623287925df966d0c0119e3cb2093c8911f76f7be5842b18227371;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Fri, 14 Aug 2026 09:31:06 +0200
-Message-Id: <DKOHOVZ9UJ41.2FS5JYPQ2WBTU@kernel.org>
-Subject: Re: [PATCH v3 02/23] mtd: spi-nor: Create a structure containing
- the flash opcodes
-Cc: "Steam Lin" <STLin2@winbond.com>, "Hsin-Yi Wang" <hsinyi@chromium.org>,
- "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- <linux-mtd@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Miquel Raynal" <miquel.raynal@bootlin.com>, "Pratyush Yadav"
- <pratyush@kernel.org>, "Takahiro Kuwano" <takahiro.kuwano@infineon.com>,
- "Richard Weinberger" <richard@nod.at>, "Vignesh Raghavendra"
- <vigneshr@ti.com>, "Nicolas Ferre" <nicolas.ferre@microchip.com>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
- <claudiu.beznea@tuxon.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>
-X-Mailer: aerc 0.20.0
-References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com> <20260813-winbond-v7-1-spi-nor-rv-addition-v3-2-b637cf120d5c@bootlin.com>
-In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-2-b637cf120d5c@bootlin.com>
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+Cc: "Jens Axboe" <axboe@kernel.dk>, "Tejun Heo" <tj@kernel.org>, 
+	"Josef Bacik" <josef@toxicpanda.com>, 
+	"Johannes Weiner" <hannes@cmpxchg.org>, 
+	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	"Yu Kuai" <yukuai@fygo.io>, "Tao Cui" <cui.tao@linux.dev>, 
+	"Jan Kara" <jack@suse.cz>, "Ming Lei" <ming.lei@redhat.com>, 
+	"Jonathan Corbet" <corbet@lwn.net>, 
+	"Shuah Khan" <skhan@linuxfoundation.org>, "Coly Li" <colyli@fygo.io>, 
+	"Kent Overstreet" <kent.overstreet@linux.dev>, 
+	"Alasdair Kergon" <agk@redhat.com>, "Mike Snitzer" <snitzer@kernel.org>, 
+	"Mikulas Patocka" <mpatocka@redhat.com>, 
+	"Benjamin Marzinski" <bmarzins@redhat.com>, "Song Liu" <song@kernel.org>, 
+	"Li Nan" <magiclinan@didiglobal.com>, "Xiao Ni" <xiao@kernel.org>, 
+	"Pankaj Gupta" <pankaj.gupta.linux@gmail.com>, 
+	"Dan Williams" <djbw@kernel.org>, 
+	"Vishal Verma" <vishal.l.verma@intel.com>, 
+	"Dave Jiang" <dave.jiang@intel.com>, 
+	"Alison Schofield" <alison.schofield@intel.com>, 
+	"Ira Weiny" <iweiny@kernel.org>, 
+	"Andreas Gruenbacher" <agruenba@redhat.com>, 
+	"Matthew Wilcox" <willy@infradead.org>, 
+	"Andrew Morton" <akpm@linux-foundation.org>, 
+	"Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, 
+	"Kemeng Shi" <shikemeng@huaweicloud.com>, 
+	"Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>, 
+	"Barry Song" <baohua@kernel.org>, 
+	"Youngjun Park" <youngjun.park@lge.com>, <cgroups@vger.kernel.org>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-block@vger.kernel.org>, <linux-bcache@vger.kernel.org>, 
+	<dm-devel@lists.linux.dev>, <linux-raid@vger.kernel.org>, 
+	<nvdimm@lists.linux.dev>, <virtualization@lists.linux.dev>, 
+	<gfs2@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>, 
+	<linux-mm@kvack.org>
+From: "Yu Kuai" <yukuai@fnnas.com>
+Subject: Re: [RFC PATCH v2 2/4] blk-cgroup: use a request_queue rhashtable for blkg lookup
+Date: Fri, 14 Aug 2026 15:50:04 +0800
 
---946133623287925df966d0c0119e3cb2093c8911f76f7be5842b18227371
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hi=EF=BC=8C
 
-On Thu Aug 13, 2026 at 5:19 PM CEST, Miquel Raynal wrote:
-> Create a structure named opcodes in the flash parameters structures to
-> store all the flash specific opcodes. They are typically discovered
-> dynamically through SFDP parsing. Move the die_erase opcode
-> inside. Later on we will add new fields there, like the supported
-> opcodes for accessing the status registers, which are almost vendor
-> specific.
+=E5=9C=A8 2026/8/14 15:12, Christoph Hellwig =E5=86=99=E9=81=93:
+> On Tue, Aug 11, 2026 at 02:47:42PM +0800, Yu Kuai wrote:
+>> Keep q->blkg_list for ordered policy and scheduler walks. Initialize and
+>> destroy the hash with request_queue, and remove the radix-tree preload
+>> paths which are no longer needed.
+> Are these fast path operations?  Otherwise we can walk all rhashtable
+> entries without an extra list, but it might be slower.
+
+All users are from sysfs/cgroupfs API, I think they can be considered slow =
+path,
+however currently spinlock is held in these procedures, I think it's better=
+ to
+convert them to blkg_lookup based iterate after spinlock is converted to th=
+e
+blkcg_mutex.
+
 >
-> No fonctional change.
+>> @@ -191,10 +198,15 @@ static void blkg_release(struct percpu_ref *ref)
+>>   {
+>>   	struct blkcg_gq *blkg =3D container_of(ref, struct blkcg_gq, refcnt);
+>>   	struct blkcg *blkcg =3D blkg->blkcg;
+>>   	int cpu;
+>>  =20
+>> +	if (!list_empty(&blkg->q_node))
+>> +		WARN_ON_ONCE(rhashtable_remove_fast(&blkg->q->blkg_hash,
+>> +						    &blkg->q_hash_node,
+>> +						    blkg_hash_params));
+>> +
+> The list_empty case is for initialization failure?  Or can we end up
+> with that by other means?
+
+Yes, this is for initialization failure, blkg_alloc() failure after percpu_=
+ref_init(),
+or blkg_create() failure before rhashtable_insert succeed.
+
 >
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+>> + * Lookup a blkg for the @blkcg - @q pair, whether it is online or dyin=
+g.
+>> + *
+>> + * Must be called in a RCU critical section.
+>> + */
+> Please add must_hold and/or lockdep annotations for this instead of just
+> a comment.
+>
+> Also maybe mention that this does not acquire a reference and the caller
+> must already hold one?
 
-Reviewed-by: Michael Walle <mwalle@kernel.org>
+Perhaps it's more accurate that the blkg is pinned by IO or caller already
+hold one?
 
---946133623287925df966d0c0119e3cb2093c8911f76f7be5842b18227371
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCan7EOxIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/iv9AF/ei4fT00bM+8IDv0p1cB10M3pfUjHCZXi
-Me21vMHQevWnoKPF0AzJwAPkSJX6wafWAYCdNi+JduCcouDow6Sv/VLow6gV401L
-Vxa7jGZI+EUS2H30EglWavMyaqa5pHsJyHw=
-=xrLA
------END PGP SIGNATURE-----
-
---946133623287925df966d0c0119e3cb2093c8911f76f7be5842b18227371--
+>
+>
+--=20
+Thanks,
+Kuai
