@@ -1,120 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00087472F94;
-	Fri, 14 Aug 2026 17:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053AD4921BB
+	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 17:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786727651; cv=none; b=TWJQHtad7PwE5gUsPCzyT/pEo7xtTq9NBKxjUwl1Da/0PCE15SEEqVc/H9zjs3fh9J9NIFIPeXSopewY9slGTK6VxOnRviBHlvoDS/bMp8QPDgA7fJYbNOAE48mCBo1cH17CHb9ygabL0dWzT8cCvagNgSowygnqMnVwt5+HqVE=
+	t=1786728644; cv=none; b=ryWRpW1rN2R/2yTKPRDnbx7k7oOgUmjJ0qxwpdjlCJPQzpaVvHh9x6cN9JZv2sPGXJpY+SsAeSUg7VOsPlfxizaOEQfwOQbcwtiwNmnwR+t0JHwTJkV9iDUGihaugBA2skcuGwx5BzxM1+o1ew4P2E92Yi0US+DT7Eg5k/ceDrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786727651; c=relaxed/simple;
-	bh=hfmNAPaB0xgScPVWi2h9ylSfp2F+jC/4yNmMJ3GCt9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hau9Qeex/zp/COLCRtI8u2WwGEuf8zkXAGvKXPKptbn+zHaKeVvGJih25gFSENIiy93feNrkm1c1wODi8EFcOtHAVCSEKyICpIz7dvKksCxES5PT2gZQ1Dob/vkkAGhg5nLnNhv0IkKoYR8fDucP3kqA2PVVZ6RlnppWIsJaTNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hnZ648if; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786728644; c=relaxed/simple;
+	bh=ZMmE6HnybGXuW/OUMPqOr4Ds53IAGZtGSGwj9udzJOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iXVsM97VtYdenHcYWQRXLDCCve1WW21o0V5Zz6CcvyV/87toP1AIzJmJKCzVs9F+YbnIb7GHF8C8owSNPz3fApJ4XOajubBlZWISRrDg/ru0VSUPlsYvz6L5u29hydBoB+rgVzqp+TpG+8HJqa3QHR/NBnyL/XsjnSI5A4D7+78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f97oTlWG; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hnZ648if"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A1A41F000E9;
-	Fri, 14 Aug 2026 17:14:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786727649;
-	bh=QRfZt8uE7TxCfJc5bF3gpVJpBSTZcFh7gXpTwb9Mc0U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=hnZ648if5i/hMwtSIEt3ApkaMatOXcFmCK/whRi+8z33iJ/AddOPdu2i1tSSZNk6T
-	 iCwkIJ4fU//3ms5UZ3xCxuxNpGVjKEpGmiRu3ctpt9vndZj43/oLKHKTjXWjr6kAH6
-	 e2jP0prYJ5pDjXDjAvffaeD5bycw3/g3bgelYE4xJorKrV0PB+yazNzOj/HJbe2yE8
-	 uetBfFI2DCEq2TNTjh1TrR92dtj26AvuX+BFPjox0WXkyJaRDL9b6oaXsUtCJpHwlS
-	 7Mcq3ACEEGgEduiOaGQ/fN91y0isSqORrKASCvOfqg0FbKQLmhgKcBJfUtDe1yBQFl
-	 IFLoX2pKllu9w==
-Date: Fri, 14 Aug 2026 10:14:08 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] net_shaper: fix net_shaper_ops kernel-doc
-Message-ID: <20260814101408.13bc8cc2@kernel.org>
-In-Reply-To: <20260813192131.21254-1-kmehltretter@gmail.com>
-References: <20260813192131.21254-1-kmehltretter@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f97oTlWG"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4980dc26022so13913815e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 10:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786728638; x=1787333438; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QubrOEDi3lm/FL4BqCrGlULbQHcdMBDdc4OsupKoh8o=;
+        b=f97oTlWGt/D+Der2gC92NOdtUO++OWllQA+3K6wVTZQ1PZZe236REgtNvGSxf+TVke
+         cGA+CJnXRUIr9rUDMIe5GHq06YlmnBAE7edkcJP9Nj2A7VMonNXMtfea8PYL/Y3JnESL
+         bCAO0NtWGBHU3wuY4PIV1ysTnKv6Tgg76ZQZ11v31n6SEkXs/Wwo91Xgm8vD4QrtHiEe
+         cj8VukDkVPQOIu/fQMARFD8NPHuLRCezVrKAtNPQz91toSQNIhOqp1CPm7G6NmZJQDgY
+         2ozfcqKr0mh289P7wbD+0I7ryyw0e6fMGSGZ/AeoLpwC6Ir37VEuxqG86JepbTA5yjAC
+         3ffQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786728638; x=1787333438;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QubrOEDi3lm/FL4BqCrGlULbQHcdMBDdc4OsupKoh8o=;
+        b=hkhxOTA4zQnSHJjje4o9bu4MYzC0h12kZZtFFnWhZVjewHERyy2rYNMpdZxbRsTFRK
+         gh9MlBZS6uxx9MI75FLcH7Kf3ZT3rQeSuRZZK+ONVRT9CJGp+yLN/K/YJpeSQfc6TdbK
+         2Z/oHzrWXGwyo0NYNOcfHy1EBIQ5mLDYeNTyqj2VifBAQcaTwKOJ+Onk1EIfF0K1zpsP
+         0JVu7UTkEANiXE+1r3DBXl5VrrjbAaHNGXf4ZwFluLo2YsNMFBHW7HyYWt6aUCRmn8Co
+         26HGlmwt/7Q1dcy6QX+wQCeN5tgVFbz+l9Yn52/4k7PZetbMEecFOf3ubBe2qcNyiSj+
+         HUHg==
+X-Forwarded-Encrypted: i=1; AHgh+RpUqudkip7kmNHXa02hX5/3JAC+qjdkwVNsnT5qX6ERrOHNSHZvmOgUAzVYKzNEHLFnCUHdqL9sE78=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtFuDzXrqXGnHXxeaT8UJYjr6KKTxwccrNdFuMN6Qcp8qfMLx9
+	2uy/TVPyrrbwLwtaaucbRZLoRToJhsIXOO6GIqEQiKdBBzJ+h3tWjmGE
+X-Gm-Gg: AR+sD113k1hq28ga7rGC/jOOkLl1m9VfIlLOnJrFSNlBOZADuDFXRHxtlBj/wBhdTnv
+	4QrbkOhFM0rB/eNc+CKbJACiJi7/ZGLZgJUbqD7sjyjzBDe0cN+7Yu12wX21GMzdWU7+qEqpDLZ
+	GCVgmASB3gIwOfyWNOBbI/tuXI/Y773V3KJ7Ssic1f0q73X4ue7hRQe1ofq5g2crq8Tecd1Hr+n
+	dqPDfW3sWywO/P3xusC58WOaCJol0V9DpZCBPwx5Zujin1rMvlo9lDFBZmuqtiCxvze19AMSlGq
+	+CVRzYaXDn5Roci32LOtmDwdGgfRy2yzMSAWVuGgY8rYfx/hda5MqNE7iFbYBjx5+FYqFN4wAdD
+	2s3HjQQK2ajsVYR9Gm7Xhjazv/dPTsClqFsoaimb8+Tt+bGydF4wTZwhQ/ClW9D3ouqFwp2IfLO
+	tO/DEFI0msXCa6JYcRv0XYHSShv7XXJ2iVmuMcqbU5QHoGeJgDrDS2tDpfXm0emZ3k8sf9pS/1E
+	vd6XqxM9tkwR36+Gc61/MQQfu4uhJtr1Xw=
+X-Received: by 2002:a05:600c:3f06:b0:499:484a:81d0 with SMTP id 5b1f17b1804b1-49987961c32mr113672865e9.9.1786728637436;
+        Fri, 14 Aug 2026 10:30:37 -0700 (PDT)
+Received: from [192.168.0.32] (cable-178-148-247-5.dynamic.sbb.rs. [178.148.247.5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49989ae96c1sm43136255e9.12.2026.08.14.10.30.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Aug 2026 10:30:36 -0700 (PDT)
+Message-ID: <1dd8a04b-4627-4a3d-b432-ff4c5589bfca@gmail.com>
+Date: Fri, 14 Aug 2026 19:30:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] hwmon: (asus_rog_ryujin) Add per-device
+ configuration
+To: Arie Miller <renari@arimil.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: Will Smith <github@notthatwillsmith.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260812103532.395049-1-renari@arimil.com>
+ <20260812103532.395049-2-renari@arimil.com>
+Content-Language: en-US
+From: Aleksa Savic <savicaleksa83@gmail.com>
+In-Reply-To: <20260812103532.395049-2-renari@arimil.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Adding the missing CC of linux-doc
-
-On Thu, 13 Aug 2026 21:21:31 +0200 Karl Mehltretter wrote:
-> Everything from the "Driver ops vs uAPI" heading onward is dropped from
-> the rendered net_shaper_ops documentation. Older Docutils versions do so
-> silently, while Docutils 0.22 reports the nested headings and adjacent
-> list as invalid.
-
-Isn't this a problem in kernel-doc extraction / how we embed it for
-rendering? Heading are quite useful and IMHO far more natural to use.
-My understanding was that kdoc should be able to use basic ReST
-formatting.
-
-Ack on the list indent fix
-
-> Use bold labels and correct the list indentation.
+On 8/12/26 12:35 PM, Arie Miller wrote:
+> Move model-specific report offsets and capabilities into a device
+> information structure. This prepares the driver for coolers which use
+> a different report layout or do not include the external fan
+> controller, while preserving the existing Ryujin II 360 behavior.
 > 
-> Fixes: 16812d9674d4 ("net_shaper: remove incorrect comment about group leaves")
-> Fixes: 26bc4cfb1737 ("net_shaper: clarify the kernel API / comments")
+> Handles an issue reported by Sashiko where an id could
+> be missing driver_data.
+> 
+> Link: https://lore.kernel.org/r/5a817284-a9f4-48b2-9f0f-802c5dc6963c@roeck-us.net
+> Assisted-by: Codex:gpt-5.6-sol sparse
+> Signed-off-by: Arie Miller <renari@arimil.com>
 
-This is a doc patch, please don't sprinkle Fixes tag on patches which
-don't fix bugs.
+Reviewed-by: Aleksa Savic <savicaleksa83@gmail.com>
 
-> Assisted-by: Codex:gpt-5.6-sol
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
-> The omission is visible in the current linux-next generated documentation:
-> https://www.kernel.org/doc/html/next/networking/kapi.html#c.net_shaper_ops
-> 
-> Tested with Sphinx 9.1.0 and Docutils 0.22.4:
->   make SPHINXDIRS=networking htmldocs
-> 
->  include/net/net_shaper.h | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/net/net_shaper.h b/include/net/net_shaper.h
-> index 05cb625b0fe54..a2eb616a19fd0 100644
-> --- a/include/net/net_shaper.h
-> +++ b/include/net/net_shaper.h
-> @@ -73,20 +73,21 @@ struct net_shaper {
->   * Each shaper is uniquely identified within the device with a 'handle'
->   * comprising the shaper scope and a scope-specific id.
->   *
-> - * Driver ops vs uAPI
-> - * ------------------
-> + * **Driver ops vs uAPI**
-> + *
->   * Members of the driver ops mirror the Netlink uAPI but driver calls do not
->   * map 1:1 to user calls. Drivers need to be careful when assuming that calls
->   * disallowed at the uAPI level will never be made at the driver level.
->   * The shaper core performs automatic reparenting and cleanup, generating
->   * additional calls. Notably:
-> - *  - @group calls in the driver facing API may have nodes as leaves (user is
-> - *    only allowed to construct groups with queues as leaves)
-> - *  - @group calls may update leaf's parent if the parent is about
-> - *    to be removed (re-parenting nodes explicitly is not supported in the uAPI)
->   *
-> - * Implicit creation
-> - * -----------------
-> + * - @group calls in the driver facing API may have nodes as leaves (user is
-> + *   only allowed to construct groups with queues as leaves)
-> + * - @group calls may update leaf's parent if the parent is about
-> + *   to be removed (re-parenting nodes explicitly is not supported in the uAPI)
-> + *
-> + * **Implicit creation**
-> + *
->   * Shapers are created implicitly, meaning that @set and @group operations
->   * are called both for existing and new shapers. The driver has to infer
->   * whether the operation is an update or a creation by tracking the handles.
-> 
-> base-commit: 3205699d79f262412c1be7fc1c04066610d3cd52
-
+Thanks,
+Aleksa
