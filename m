@@ -1,243 +1,179 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020084.outbound.protection.outlook.com [52.101.228.84])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD2825B098;
-	Fri, 14 Aug 2026 05:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786687039; cv=fail; b=rG7/955PnAiJiqZzwxTQ8DrNz+ngF9RDku+lXzObudYdvGMW7hIkMwEQAe6GuUrBSye0vMw+nVB4zeolVR9tQINJlBmhPgHQNyAeoY45O4tFTTRXRZwwIWoCUlhKhZs/2jH5U8jb4iweSnRsK0ItgYb8GV0jot91E1hteIDhDGw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786687039; c=relaxed/simple;
-	bh=AqxRTmK3CSLQsm9tSjFZM5emeuQmXTW25RI11PcUrL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RJsHqUY84zppjO3qwsPKelQFULWlZozJR9LrfYtWFkoU+PNw/CrtnxPME8hV/YC3GiAqANUkRenSEv9C5YleKNjfjc4Wl9j54bt0v6F21GLQKSCb56uXP7UzcdQkBdI+N191CW3Buq/5kQnkik9O7NHZGWbkbcQwyF8NFkLq8C4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=NSK0C4Bv; arc=fail smtp.client-ip=52.101.228.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD3D355819;
+	Fri, 14 Aug 2026 05:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786687095; cv=none; b=pssd0pjfm4ULOXFyuSv5T43h+BaMS129UoAjvxuS2Ek43Bo3IqJg2njrSpfbZDo4z2KhJxsx6byD6GHqfIoX40LZpDNndFiwQFg4IOi5QK/SClzze3ptIsxHteNK6kt5zJW+WS68XRS8OkOFxQjQpIRGXO0A8QDjSoyx/HoREnk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786687095; c=relaxed/simple;
+	bh=QC5S96Wlg2aYg9zmHkHBo/+oJKFdCtwv78fz5ZqTCcY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Kc/M5KtXHgjRGmN5++aEtEjBsHeY6B1OXZDgl52n5T+gQRMs0tr8ZGG+CU6ba7C4Y4uEk7JzJW1+VuF91HZ1jHkSfDupdEPilXtB6aVfZ4EG/SkQUElsy5U05dTL8zR09hD6SdLjIfSN0IX6YI2vNAwp0n2pOn8rRUZD0VTzU70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Enqwr2mb; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="NSK0C4Bv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pXuI3sNYAgoaOJ1asdm4Ve5ssnGMwMD4FiqEL4nzFo3RdEF9UUQ+DCFaW93kbSIMWoktt8KB03woPzxDdj8t6+va7nyJDlKadaQwb4Keo2FT84j+Dz9ubala8vbR5+aJd21ZgagAvZeQjEo3y6YwqXp4iZrcpVD0zlqixed2qYw1uWRr53yrFUGL8xyRoGATNK4noJZJ1niFroFajnZxYeLnWfBaPtNXeKjSfqC4sXbXUA+n4c+pm1rYpvB98kNW0LsSGKb8Pv9oP6GNgGqFqC3nwyokNxm3IXMz7BxgyfsPvQrCGJFu34HexPczyGxfWT/YTP46vuea5vtCDJC84Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O2JubYtpK05PMKwGZHyHylxZWaNsYwx+OHyb3uSMNVo=;
- b=i4S/jTELwfI1iUFhNx2ngPLxR5BSnec0xCQzUHEim1Mv4dewiFj2rtqHKifkuID3O7UL9//PQHWCHDc+y5naEgQcvlwdGYaZDd65TPUYaDGhHBOpIIubAY0Ak5D6SffsojfjcKyVwdbIu+9H3YydpJB1z+Ob4R8gFTIiRFDJIVoUSfw0dZolmn6krZfvGIFD8aPFQBD4KfPFROTrw8oimRvqIVdYPpSz3CQBdMhEwTOZfVqsL6v+YAnEqpGtsyDHWmCm/CypwDce1wNnaMXcAA2kwV4tpAN6ebYVDgQYFfTaB8fJl5dqqPVrtjxtxni9+1lYx/qwxesPzjUz9yYqTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O2JubYtpK05PMKwGZHyHylxZWaNsYwx+OHyb3uSMNVo=;
- b=NSK0C4BvvJEtwwBSryLT5Jtz4ZuC4OtSnzstMo5hUQ4oZIfj20KflA8Hp8ctiMp93cf6jE+gPEt3lNipA71aXM+n+js9b1MMbRLEZseI0Ao2VhEL80De6VLiPPkubTsIUAwVig8ErK0RVVEV2Zi+HCDDX1NIMKgrbVQzPjZ7BDw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by OSOP286MB8011.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:476::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.15; Fri, 14 Aug
- 2026 05:57:14 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%3]) with mapi id 15.21.0315.011; Fri, 14 Aug 2026
- 05:57:14 +0000
-Date: Fri, 14 Aug 2026 14:57:12 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Frank Li <Frank.li@oss.nxp.com>, Niklas Cassel <cassel@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Vinod Koul <vkoul@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Damien Le Moal <dlemoal@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dmaengine@vger.kernel.org
-Subject: Re: [PATCH v7 00/10] PCI: endpoint: Add PCI DMA endpoint function
-Message-ID: <fg7cma2ccvdgjgcref7qa4q7ocvvume5dteekedikszebkq7rd@uhrjfp3nmmwh>
-References: <20260813063757.3131865-1-den@valinux.co.jp>
- <an2uf5mXzGq1Q7cj@ryzen>
- <zoed4wtc4oxiyni4o5qpj3li3cmlyy5kfutp4r5g4d63u52625@j6rvbbehjgov>
- <ztn47y23ctbjrbkmgyyhc6d5x3i2lzz5txotpgtbjtcsvbsvf4@fzadsvt5fl4d>
- <an3p_j-F10e9x0vM@SMW015318>
- <7kzvkrbc6w7yojufwekzjubndgg4ao2o65gnla6mjwhwn5ji2d@vhrj4kg6uia2>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7kzvkrbc6w7yojufwekzjubndgg4ao2o65gnla6mjwhwn5ji2d@vhrj4kg6uia2>
-X-ClientProxiedBy: TYCP301CA0027.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:381::9) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Enqwr2mb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786687093; x=1818223093;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QC5S96Wlg2aYg9zmHkHBo/+oJKFdCtwv78fz5ZqTCcY=;
+  b=Enqwr2mb+vwBnJVgQ1LZlMqBXuJrqRMDp4UjsMCmfGT1q6Nn9U/+QzdN
+   EMrn2ABiS7Ky2W3aXUnOghAL4W3Abykx98zTBzsU0dcts2W5of6F5LOG9
+   wylASDkjULYU/YTLTRk4XqZzMtVuIpBvyGshQ4ILYpuQ7t8Bhs1+VCuIC
+   4rBVxST3Xjc+F2x2DplMpMBabVuU+QA33EEjgeWIoJpv56ccfdtVi7OYF
+   DRonHhLoV0eEWsINh2Hur6ZO9oGyh5XsYSgtXfpj5OnKYJCCQS3v19IbM
+   FY6BdD2G68TVKl4h74AUiO0IGe0fizKodGwb4i9ipLscdXNF1Q5Ax+H3w
+   Q==;
+X-CSE-ConnectionGUID: 3kFp1zt0RNWpkeU/gpF5Zg==
+X-CSE-MsgGUID: pWqUt+P3R9KUsHZjupKW3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="110053713"
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="110053713"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 22:58:11 -0700
+X-CSE-ConnectionGUID: cUW8aUaXR5u17W+d+k7SFQ==
+X-CSE-MsgGUID: D9N+GuVcQ1SFu1yh9D48qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
+   d="scan'208";a="257921021"
+Received: from binbinwu-mobl.ccr.corp.intel.com (HELO [10.124.245.162]) ([10.124.245.162])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 22:57:57 -0700
+Message-ID: <36baf0ec-0b7c-4ffd-9a1e-dfe9617e057d@linux.intel.com>
+Date: Fri, 14 Aug 2026 13:57:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OSOP286MB8011:EE_
-X-MS-Office365-Filtering-Correlation-Id: 558d4553-e941-40a8-7474-08def9c8e397
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024|23010399003|6133799003|22082099003|18002099003|4143699003|10067099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	FT6D9RJnisjV1+Gl5nIbLl6XKAtdC/MmHblRy7e0gTSoJ9/W6obe3FI5h0haNSCkdr1a2PDiPObH1jrsYlSR+ku768CrnI0DvlpMeU2vzfoUddb5LaIfbrgVpf5gMfh0zcUEjZBRaMRCtiA1Dec5idBqNpB605JBfo3vh16ZK1C/MIavZsr/lL8epLtPxLOVR/Kn4UrjGARiqrdSCaOTQnmO3xO2kLdZSnGBAGA0MjrfJbbPL+VQx9g32kEpIquMzjg774r/AaUXJ8OLohXodiIs9ZSAdfUGgWMeemzkX5htc2yiguoTbM6gLDp4sZ9gB8/AhGXWkdF4F6dcd1nqbcQJiYuxzlrqsUQ2JvBos5ksRhoQp/T1PslQ3J4KdmQhjiVCkHE0eXGOFygetoeGU3cDHGpHNrXcU8kbzppErcdo5eik+h/J2P1qc+nrYT4T9FVhq84huOKtZzC9fm1KSHsnKzpC2eBzGmxHRmkcJEoM5FRwZpU64zU6l6WsIf5cYBoxPUp2c9Cf3jDjmUANoRsEIvwtMAQqPLefQVkdqndmsj4kqXu4ktB1hkUXgmNswdOCWVpgygndNNuEa1IVTWQL3q1OY+TThjbLMCqYYE647PD1pHImC8c81qeqvzKPk4RS9IK/f+RFv1NzRolz34F9RP0JaOuauGi8LgGHZzc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024)(23010399003)(6133799003)(22082099003)(18002099003)(4143699003)(10067099003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z0s3dHAxRXVOV0pPYi9OMkRhRDZRbnUzNktXTGtNYnJGU1NyZDcwcEZ6UEpT?=
- =?utf-8?B?cWxVamRGbXFJTTdRcTJIaU1zZWpZZGUxdXlJc1NLcm4wOG1ydHNzNEord0V6?=
- =?utf-8?B?WS9WeWV0SnREMGpRTFRhbTF6Mjd0c05SaGxZSHlRSnRTTmFqR0JFZmZYK1FX?=
- =?utf-8?B?V2RCbkZVdUNaL1djcG9Kd25zMHRZK1ROdXA4YkRPOFRlTmJjUmFjMm53TEZv?=
- =?utf-8?B?Rm5oRWpCTmNDR3N0cURJemhxQlIrdlhkYmxhdlUwTmU2dGs2UEVtUXVuV01J?=
- =?utf-8?B?VUFCQTdzcmEzNDhBd0JXQjRzOFpaNm9TYzJtanZFaUlSZHZTR2hRS3BGQ01O?=
- =?utf-8?B?eHJoZFBRa0RGOGNCY1VuWUN6TzhQSGZZQUpJdnAvd0p1SUF4cHg2eVgzY0ll?=
- =?utf-8?B?T0crT09JTEs5M0hFSDRyNnNyWDFORXo2UncrT1pSSy9TbkJXVnZ2NGpiblg1?=
- =?utf-8?B?YWdsN3hKMzJPcWJxWjN2dEdoYUluaUxhUWx3MWtGSzY2NzRDVjFxQlNZUHlI?=
- =?utf-8?B?QkFxS1pMR0ZxUld5T0FSdmE2MzIrMzg1UUlXUkUzWkRIdExjRDNBV0FoU0Zt?=
- =?utf-8?B?WWpWcHhhS1JIRWhneGIxUmRpMXBxRWtCdVIyWE9aSmdCOHRpSUc0TW5HdHZv?=
- =?utf-8?B?Zi9QSXV6ekZyRFJjNEMzUFkrNFp4d3Y0aklaeXQ5N3BtdmtCblJjRmNYdXFi?=
- =?utf-8?B?VktETUt6V21KQmJVRHRza1JFTVo2SlhTKzJFQXphVHhUejBIOU9HKzNjS0FN?=
- =?utf-8?B?dTZsK3lFQjZWV0xuaVNvNlRjZVFaQ3hYYWlpclZrcEw2eEswOEo4S09UQVNO?=
- =?utf-8?B?anpRbWVZQ0VNRi9TZm4zU0E1Mi9Ua25pNTdtZXQ2cTBRaVBJU0NXUm1QbGNC?=
- =?utf-8?B?V2pLZmtJenBMTEprMlF0Tys4VnJ5MlpxOGZIZG4zUjdJMWRicWJicTBoWHI3?=
- =?utf-8?B?WUJ0N2V6My9jZ09qVTdEY0hYRGJSNzZPZDNGVy9VK2pDMzJaeThUSVNkUnIv?=
- =?utf-8?B?ZUEyd3B0Z2NKREZJZGtlQkxQbDlLelhUY0Z3UjA0eThHK2xwVnVFUGF4WWc1?=
- =?utf-8?B?YlNsamFCN1dSSkRMc1JRbk9DMTJIK2pWQW92VXhwcE9DZ2NwcGsyQmlyN0tR?=
- =?utf-8?B?RWlWRmtFd3ExY1FzZTJPY2liQ0JjcTJoM3RmTHZobHc2OHlySFZGWUh1eWNS?=
- =?utf-8?B?Yk8xdzJ5WlVPN0YxWmtKWm1RZy9aOVpsNFh6b0ZrOUM3cmpncGIzUy90Wkpu?=
- =?utf-8?B?aHVvdGJLdEkrUWdSQUpJY3dBUlJSd3M0am81QUhkVldFUGV2MkJscVF3Nk10?=
- =?utf-8?B?Q0UxSHdOd1RRZkZkNHU4SDQvVGxSUUw4RnFQazRZRnBTVzZXVWx1NnNUaTNu?=
- =?utf-8?B?V25SU1pIS1JCNk02d2xMNkZyRWNqdDNFRGl2MTZWYnhydjdFM2ppTC9jUUtp?=
- =?utf-8?B?SGI4elIweDdXZzYraTZPSnVhZjI1blgway9zemw5cHgzcE5IV3JyVmUzY1Uv?=
- =?utf-8?B?ZWttSGFpU0JWeVJIeDJjeTFIQlVaSEMzVnZGbnBQaDcxZHU5UTgrNGlaRzR6?=
- =?utf-8?B?WVVCK2x1UHVGamNFZklmVFZOaENRMFlDR2VFci9FdkNGOTBkay9QWjNYWnhi?=
- =?utf-8?B?ZC84dEFXczk3dUxsU3hsVzQwWElmZWN4NmhsYmtDWkNodnNvWHdPYmkzWGFZ?=
- =?utf-8?B?dmpBU05teDYzeDM1QldtdDd0aXVWVy9FUzVONFFIMlExSGFMTW9UZGpmYVVq?=
- =?utf-8?B?VHpiQ2c5ME44bk5YU3hmdndJdE80QkpieEtyMFpJUFB1TW1TUlVadWtSUnhu?=
- =?utf-8?B?M1JCcHFFR3kyZTVrUThuZWQ0YUMzSzEycExmQTBIeVRYWHF6WUtPRmMxeHc3?=
- =?utf-8?B?cDFabDJBMVRTaGNvaUlpZWdsVHQyVzlndkxqdUFLbzlkZm1TVHZGaE9nVkRW?=
- =?utf-8?B?Q0hNR3ZwSHRRRDI4SkVsWEw3TFhmRHV2RkMwVVNxbUxlY2k3UFFlb1h6dTNp?=
- =?utf-8?B?UVFuaHVBRTZnNzZURWJuYVA5TUJSWVpWZWNWbUJ5Q1ZqNFpjeHlsR0tUdmF4?=
- =?utf-8?B?SWNRUDE4M1BQczZ4MmdjanYwTWM5UnB1cWg1NE13UTQ4WHBmZTl3ZDZZaktP?=
- =?utf-8?B?eGQwblFTZSsxd2V0bHArQ3VXQ3BXTTVicnVJUVFXcFN4ZVNaWDRnVW80MjBm?=
- =?utf-8?B?a1QvZzdva2pDVVppdXJSWFlXbGtyQ01NeHphWVNidkhHdjBzK1Nob1hHd1B1?=
- =?utf-8?B?VUlmb2xEOFRpYjlXbTlTN2ZvSEpiZkh3T0lJdXFSa2U1TE5kWFlKWW1SczBo?=
- =?utf-8?B?cUc5RXVTM0R5MGg4ZzYwazk4cmZvUG1VcXcwQ0pBSEEvVkN0c2oySUcvSmpo?=
- =?utf-8?Q?e5i13RcFfPzzWFXCfff4Q/taejLYjNsvW28Xo?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 558d4553-e941-40a8-7474-08def9c8e397
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 05:57:14.1483
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OzxwmxCN5yMPDvuc293uNPe+oSSUb8vAx4xAhJEFhCHWPDKB95ViB2vOnPGEPOm9SeG/snmzShoPfQg4971fwA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSOP286MB8011
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 18/41] KVM: TDX: Make source page optional for
+ KVM_TDX_INIT_MEM_REGION
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org,
+ chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
+ jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
+ pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
+ rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
+ tabba@google.com, willy@infradead.org, wyihan@google.com,
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
+ suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
+ Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-coco@lists.linux.dev
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-18-2fc18ee6d3ba@google.com>
+Content-Language: en-US
+From: Binbin Wu <binbin.wu@linux.intel.com>
+In-Reply-To: <20260807-gmem-inplace-conversion-v10-18-2fc18ee6d3ba@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 14, 2026 at 07:27:10AM +0200, Manivannan Sadhasivam wrote:
-> On Thu, Aug 13, 2026 at 10:59:58AM -0500, Frank Li wrote:
-> > On Thu, Aug 13, 2026 at 11:15:31PM +0900, Koichiro Den wrote:
-> > > On Thu, Aug 13, 2026 at 02:50:59PM +0200, Manivannan Sadhasivam wrote:
-> > > > On Thu, Aug 13, 2026 at 01:46:07PM +0200, Niklas Cassel wrote:
-> > > > > Hello Koichiro,
-> > > > >
-> > > > > On Thu, Aug 13, 2026 at 03:37:47PM +0900, Koichiro Den wrote:
-> > > > > > This is v7, the remaining patch set for PCI endpoint DMA.
-> > > > > > Parts 2 and 3 were merged per Frank's suggestion.
-> > > > >
-> > > > > (snip)
-> > > > >
-> > > > > > One open question is how to support endpoint controllers with only one
-> > > > > > PF. Keeping DMA in a separate EPF requires multi-function endpoint
-> > > > > > support. Folding it into vNTB would work on single-function
-> > > > > > controllers, but would also couple the two implementations. This series
-> > > > > > keeps the separate EPF model.
-> > > > >
-> > > > > I see all the work you are putting in and I admire the effort.
-> > > > >
-> > > > > This is now v7. I think it is time that we close the open question by
-> > > > > waiting for a reply from the PCI endpoint maintainers' opinion on the
-> > > > > design before continuing. (I am not a PCI endpoint maintainer.)
-> > > > >
-> > > > > I understand that you want a common DMA abstraction, that can represent
-> > > > > different (embedded) DMA controllers on the endpoint side.
-> > > > >
-> > > > > But if vNTB is the only consumer of this, then why not simply embed this
-> > > > > DMA abstraction in some BAR exposed by the vNTB EPF?
-> > > > >
-> > > > > Looking at the host side driver that goes with the (v)NTB driver:
-> > > > > drivers/ntb/hw/epf/ntb_hw_epf.c
-> > > > >
-> > > > > The BAR layouts are hard coded, and it only supports three different
-> > > > > layouts. Would it not be possible to add a fourth layout that has the
-> > > > > DMA abstraction somewhere in one of the BARs? ('BAR_DMA' ?)
-> > > > >
-> > > > >
-> > > > > Right now, I wonder if it is not a bit premature optimization to create a
-> > > > > DMA EPF, if vNTB will be the only (ever?) user.
-> > > > >
-> > > >
-> > > > Yeah, I feel the same. I haven't seen an usecase to program the DMA controller
-> > > > from the host outside of vNTB. This feature is supported mostly because it
-> > > > exists in hardware and someone wants to tick the checkbox.
-> > > >
-> > > > Though, I'm not against doing it within vNTB as Niklas suggested, but
-> > > > generalising it in the form of a new EPF driver just for the sake of a single
-> > > > driver sounds like an overkill and maintenance burden.
-> > > >
-> > > > Sorry for saying this in v7. I've been meaning to say it, but somehow ended up
-> > > > procrastinating too much.
-> > >
-> > > No bother. Since Frank has given a lot of feedback on this series, I'd also like
-> > > to hear his view.
-> > >
-> > > I'm fine with either direction, and can revisit the earlier vNTB-embedded
-> > > approach:
-> > > https://lore.kernel.org/r/sn67hi7kljh7cgmgodatb3naz2astlaklqfobdbxyyzgoohxqb@4nnetbhqwba4/
-> > 
-> > One of the important value is test dw-edma-pcie.c, which generally depend
-> > on some fpga hardware. If there are epf driver work as fpga hardware, it
-> > will help cover edma remote user case. So more user can test it.
-> > 
+On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
+> From: Ackerley Tng <ackerleytng@google.com>
 > 
-> Testing is one thing, but using is what matters. Are there any products or
-> use case based on remote eDMA? Or even dw-edma-pcie.c?
-
-My end goal for this work is this series:
-
-https://lore.kernel.org/r/20260810165136.2292436-1-den@valinux.co.jp/
-
-It now depends on the PCI DMA EPF. The host side controls the endpoint eDMA
-through dw-edma-pcie for one direction. This is for an industrial use case, not
-just testing.
-
-The resulting ntb_netdev/ntb_transport improvement is substantial:
-
-  (unit: Gbps) (UL=EP->RC, DL=RC->EP)
-
-          UL UDP  DL UDP   UL TCP  DL TCP
-  ------- ------  -------  ------  ------
-  Before  ~0.6     ~0.6     ~0.6     ~0.6
-  After   ~19.5    ~17.3    ~12.3    ~10.8
-
-  (On R-Car S4, PCIe Gen4 x2, controller IP v5.20a, eDMA)
-
-Best regards,
-Koichiro
-
+> Update tdx_gmem_post_populate() to handle cases where userspace requests
+> "no source page". To handle "no source page", populate (perform
+> TDH.MEM.PAGE.ADD) using memory in-place at the target PFN.
 > 
-> Most of the time, dw-edma-pcie.c driver feels like a dead code to me which no
-> one actively uses or tests. So unless a real justification is put forward, I
-> don't want to add a whole new EPF driver for it.
+> Allow "no source page" only when gmem_in_place_conversion is enabled,
+> because retroactively adding support for out-of-place conversion would mean
+> requiring a userspace update for a feature that's being deprecated.
 > 
-> - Mani
+> Also, KVM supporting "no source page" without in-place conversion would
+> effectively be an obscure zero-page optimization that relies on the page
+> being zeroed when it is allocated by guest_memfd.
 > 
-> -- 
-> மணிவண்ணன் சதாசிவம்
+> Rejecting "no source page" without in-place conversion scenario is valuable
+> for KVM developers since it helps newcomers understand what exactly is and
+> isn't possible.
+> 
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+
+Nit:
+Is Sean's SoB intentional here?
+
+> Tested-by: Shivank Garg <shivankg@amd.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+
+Reviewed-by:Binbin Wu <binbin.wu@linux.intel.com>
+
+> ---
+>  Documentation/virt/kvm/x86/intel-tdx.rst | 4 ++++
+>  arch/x86/kvm/vmx/tdx.c                   | 8 +++++---
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/x86/intel-tdx.rst b/Documentation/virt/kvm/x86/intel-tdx.rst
+> index 6a222e9d09541..d8d9409120e61 100644
+> --- a/Documentation/virt/kvm/x86/intel-tdx.rst
+> +++ b/Documentation/virt/kvm/x86/intel-tdx.rst
+> @@ -158,6 +158,10 @@ KVM_TDX_INIT_MEM_REGION
+>  Initialize @nr_pages TDX guest private memory starting from @gpa with userspace
+>  provided data from @source_addr. @source_addr must be PAGE_SIZE-aligned.
+>  
+> +If guest_memfd in-place conversion is enabled, pass 0 for @source_addr
+> +to represent "no source page". A source page is required if in-place
+> +conversion is not enabled or not supported.
+> +
+>  Note, before calling this sub command, memory attribute of the range
+>  [gpa, gpa + nr_pages] needs to be private.  Userspace can use
+>  KVM_SET_MEMORY_ATTRIBUTES to set the attribute.
+> diff --git a/arch/x86/kvm/vmx/tdx.c b/arch/x86/kvm/vmx/tdx.c
+> index b272c20586a74..7654a9f5fa128 100644
+> --- a/arch/x86/kvm/vmx/tdx.c
+> +++ b/arch/x86/kvm/vmx/tdx.c
+> @@ -3189,7 +3189,7 @@ static int tdx_gmem_post_populate(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
+>  	if (KVM_BUG_ON(kvm_tdx->page_add_src, kvm))
+>  		return -EIO;
+>  
+> -	kvm_tdx->page_add_src = src_page;
+> +	kvm_tdx->page_add_src = src_page ?: pfn_to_page(pfn);
+>  	ret = kvm_tdp_mmu_map_private_pfn(arg->vcpu, gfn, pfn);
+>  	kvm_tdx->page_add_src = NULL;
+>  
+> @@ -3235,7 +3235,8 @@ static int tdx_vcpu_init_mem_region(struct kvm_vcpu *vcpu, struct kvm_tdx_cmd *c
+>  	if (copy_from_user(&region, u64_to_user_ptr(cmd->data), sizeof(region)))
+>  		return -EFAULT;
+>  
+> -	if (!PAGE_ALIGNED(region.source_addr) || !region.source_addr ||
+> +	if (!PAGE_ALIGNED(region.source_addr) ||
+> +	    (!gmem_in_place_conversion && !region.source_addr) ||
+>  	    !PAGE_ALIGNED(region.gpa) || !region.nr_pages ||
+>  	    region.gpa + (region.nr_pages << PAGE_SHIFT) <= region.gpa ||
+>  	    !vt_is_tdx_private_gpa(kvm, region.gpa) ||
+> @@ -3266,7 +3267,8 @@ static int tdx_vcpu_init_mem_region(struct kvm_vcpu *vcpu, struct kvm_tdx_cmd *c
+>  			break;
+>  		}
+>  
+> -		region.source_addr += PAGE_SIZE;
+> +		if (region.source_addr)
+> +			region.source_addr += PAGE_SIZE;
+>  		region.gpa += PAGE_SIZE;
+>  		region.nr_pages--;
+>  
+> 
+
