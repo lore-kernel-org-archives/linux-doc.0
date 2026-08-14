@@ -1,228 +1,172 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A8241DDE5
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 09:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3813370AE3;
+	Fri, 14 Aug 2026 09:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786699200; cv=none; b=jPz4yvcpE8nzjnf1LtODWYS3ur/QDPuLqqp0WC7hv06Kjtl5phMEICPA6MA0CWCwYyWqh0nZA141hZFEbxPilQ9OGJ84PA1sD8YdwECywnRCk2xQ5ih7epWtC96lnAuynfnX/XPOaQ+k79XzCYEJ++DNVKg8iBWtCG3udDl8Fbg=
+	t=1786699414; cv=none; b=CYUGvaAjGtvC2B+uucoxk5TZ2hhJhcvOiodSHAPJLSFKRAPNd3xHTn8KSGPazC1w46AiqaoASPQtXGbgOLJ6yhmZ2d8W12mnXdwilj3LLOq28xOUqEIsV7NvxkV6X8JzO8Cc96P4+S0v0HJZ6ifaUmU+9MckK5iEgD7SUmU0roY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786699200; c=relaxed/simple;
-	bh=2sNSyeHwlo1iJxAfsdit9RrWvURm4tpiXcynTe0rlZI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FDokIyoB5Xl/ju7OppeucAmOIrg9eaBBR6BA39xNJpPEpiAzBgozv9/Wd9k1JshixJMvfsu8CjHXmJzX6BMV7wkPSV4NbT7WUhGcqdQcpijzfBTuSAsgpQR2s4spPkij+gLU0wZjE/h0vy+XbdK24Csy33+FHwH+YI+PKsxbWZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=I6MviUYU; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1786699414; c=relaxed/simple;
+	bh=3YU1+xVRfKx5qBRIcphqt7A1+Xw00RyfTPyo5Z3oZ0I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aFnwH/X3mrz9mGMjm7Wb35bISPhW2jNX0novaN6Hp28IL7JxpB+2Mm22ayw1eT2WIY6lCSEzrZLkhfvOuiBU5Ycjwv0IbGw+fqS1XFA2UMA8jzsbivzwL+/rGOqKv2VkEhYIkTfREhNkcfnpDimKo6jadOC8SPFJv/TGanzE7AY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=O9pkMVva; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="I6MviUYU"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47f904e80eeso748237f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 02:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1786699197; x=1787303997; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DtoSRUtagmG4idUbZhP76t47NSwZbUeuCRMUScCpafc=;
-        b=I6MviUYUxv0bpz2qHs7q+NgYqPfW0atSOJqn9rSI14rytPPDDHQZZGMoCCFzjMlxe4
-         T9yyZ5id58O1Y9DidVVVdVzcgwFtIHHARQy57yQ9t9N7zXSCTZlnpaD9k37I/C1zd7KK
-         EBhQiSCj0g08KzlRTMjv+KmliXqMRb/TaSsARdCWdDpjDX8XrLbVdsQiQHNZmyAU80FL
-         tzHVF5vyZz5ycS/7aQX/XYJ5wdasC7gRiHsZjzmZvVpDq3KmNV/snwr3YOslZL6JlFMK
-         w4Q1n9CkeQBEiT4BqcgqEaSWoQuJpZeBWUD9wcax3umsJG37lhdzKc32bcaDTyRF1GsM
-         I72g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786699197; x=1787303997;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DtoSRUtagmG4idUbZhP76t47NSwZbUeuCRMUScCpafc=;
-        b=r7+yPKVLzvlRQzjRjJH1q7OHKcYCzSXg81p2ROdMJFvO9g7wIjejCJDo06Zc1m1uhd
-         oRmKXVkDXTMVEoLCm4YDkKRUakEh8A28qzxfPSs1pF60ESZYWdcKPzRG0X7gWrOnQia1
-         Z2vjXusHUArvtot4eGYw8pAJsvMZI+hqslNhhv/MubunatuTgvq13mxSwahmEcFp45JW
-         pce8Aqk3iS4aHUXHyO6Jq6GJr6EEPeCw4tFwFqqiH/CZqN1/28EYynbZ/TXFHbUBET6Z
-         pEDlbOOmzLnJs8DYNRMqpacL28BBCDy8VIjN2mU5l3JbyhnODXyV6TRBqZMhhoR8gNES
-         1Jtw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpf7cy+J2RhRTlOK914G9lMpg3x+MM2PLdAbpm10LVD7mDj1w1Sua60WptoRYDYszS95+jNFaas/bs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8kOw54J0tyTzcc4RKiw0DyIeSpnQxKJZAmPVfUHijl0DCL3jk
-	seFV54T5sZW1xsMtNIBytJTczVJ5dgwRL2+xIhpnbSijVe1NfLwvJESxZXWVdBKC4Ho=
-X-Gm-Gg: AR+sD11rh4K/a5nFF7t3sGaENMqS72ftfXyvWorbi73KLKfc4frsSt6vX2tzjd3hNY0
-	VlOaGCPHeVPxq6Vk84FTR4QDrSJIBXjcJ3vXZWbwfv9iNuenUcxKl+WnfgsiYRGlZQiSY63+gHY
-	stcL0+0KVUwlNqxTgxipmfcqj9cveTDai/bB8jLnA46scoh3/ZltUl+r0N61TC2rvsFLgQmhHWJ
-	ZSAbklGPLjancgZDWGUM6GaV9eOiZr1JSW22i0eKCFVPCRVeSeMjUoLc0nSzk7ErW9rQP4uioPp
-	7drmxOlHGWUfTJXowhfv74TThaWKX6O6ubH3c3bXlVYj0mFpkgDFMrr9jVe4f2IvtmjSLHdal8v
-	wXnGx6EXX/aUqa9+KNmS3Ybea5SUti+PRtqlhl0EHZxSYweAMvhOp7smgONvV9zH05UXouczKRj
-	XFfUxYOSwgd41vAqYA4dtJ2iXU1WthdMe8VYvhzQRtTFUa2VWo3VEnPTTmor0V8l+UISGMISIP5
-	jYx2slCky84E4Q0rsTdFxn34pJ/qcs8S5zJGHexw8k5TI7kTBmcl/YoIsbH7K8=
-X-Received: by 2002:a05:600c:364a:b0:499:8156:cd3f with SMTP id 5b1f17b1804b1-499879533dcmr42065965e9.8.1786699196972;
-        Fri, 14 Aug 2026 02:19:56 -0700 (PDT)
-Received: from localhost (p200300f65f017104e65cfeae4f257a65.dip0.t-ipconnect.de. [2003:f6:5f01:7104:e65c:feae:4f25:7a65])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-499899afae3sm14329385e9.3.2026.08.14.02.19.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 02:19:56 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Crescent Hsieh <crescentcy.hsieh@moxa.com>,
-	Fushuai Wang <wangfushuai@baidu.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v3 3/7] serial: 8250: Make uart_match_port() a 8250 specific function
-Date: Fri, 14 Aug 2026 11:19:29 +0200
-Message-ID:  <be86d77ed317b0e77249c9a2f4d68780c1f60f90.1786697789.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
-In-Reply-To: <cover.1786697789.git.u.kleine-koenig@baylibre.com>
-References: <cover.1786697789.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="O9pkMVva"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E81cCX3666516;
+	Fri, 14 Aug 2026 09:23:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=5S4LWf
+	ZTljW0+6S8xXzRv4HO9XntKLgDkWOhhWJKADU=; b=O9pkMVvaulDiTm9mA/YcHb
+	c5dGpdlAJeODI/wtrw+uNnny4K8Qydk3/CWS4GUxSYiZIUN8KD/03wUNMcHWpyok
+	+Su4T8cgDb/29/+Aa05TpkswdBfyQTORXdxb+dabkiZAtsEm/zbFQ+GOZSB1o+tE
+	gKSivSL6Ghh5rEaBKUW01JgGxlmarVfcGy+qaB6FKS4lj6dMVLpqS6XVyt8c+Zru
+	f2IZX/oB7o3WoQtBw/NPz90AcIDz7giC+SCRaM3MPf3gSvZwI5CJYXYPAcZGQkRA
+	quk4IqM0sRjBUm8RvXIM+ppuJLP6ZNYqrBLbrZLHp4fycqlsqHX9PjsDvXSMZrzw
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fyb244at4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Aug 2026 09:23:00 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67E9BUHB006650;
+	Fri, 14 Aug 2026 09:22:59 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4g1rpv9ex4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Aug 2026 09:22:59 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67E9MtUk42402254
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 14 Aug 2026 09:22:55 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4F9C120040;
+	Fri, 14 Aug 2026 09:22:55 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4683D20043;
+	Fri, 14 Aug 2026 09:22:54 +0000 (GMT)
+Received: from [9.87.144.6] (unknown [9.87.144.6])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 14 Aug 2026 09:22:54 +0000 (GMT)
+Message-ID: <3668e964-4605-43e6-b528-07aa74dc231e@linux.ibm.com>
+Date: Fri, 14 Aug 2026 11:22:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5044; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=2sNSyeHwlo1iJxAfsdit9RrWvURm4tpiXcynTe0rlZI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqft2nVTAW4cKsaw0QBBZvU9e91i3V/p3V0GC55 arZnOgna3GJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCan7dpwAKCRCPgPtYfRL+ Thj7B/9R0tQWGSjjBZByxpMi7NiBJSakjzGXj4jea+eqhNG7C3opAdsLL+b+2UicscEZci0jEGv kKNTV6WaaH2156OkJ8keS7g50MnygGTz1fpV5Db+BrMbmZCTQp94x/PVJ3G5g5MZdwh5LeU1cU8 lSm34dZgHneMekiwcCjOs5oinRgmwxqzVuEykxi+7VhNk/30FWnZ7arQ3qrE3+t8vR6gT8Y7v2i tplP3N/VTdkdR0goRnD+nQAMxKPJBVhv3I02B9+WX4faCWOE+tRJa8vdOiAVHlIS+cbH/WRuxaH GcUyRU7j6rBLubwtXUC26AvEDCPlkv4dWYJ4C5jHz2Ci/VGu
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Re: [PATCH v10 00/12] sched, steal_governor: Introduce
+ preferred CPUs and steal-driven vCPU backoff
+To: Shrikanth Hegde <sshegde@linux.ibm.com>, Yury Norov <ynorov@nvidia.com>,
+        "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>,
+        frederic@kernel.org
+Cc: arighi@nvidia.com, chleroy@kernel.org, christian.loehle@arm.com,
+        corbet@lwn.net, dietmar.eggemann@arm.com, gregkh@linuxfoundation.org,
+        hdanton@sina.com, huschle@linux.ibm.com, iii@linux.ibm.com,
+        jgross@suse.com, juri.lelli@redhat.com, kernellwp@gmail.com,
+        kprateek.nayak@amd.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, maddy@linux.ibm.com, maz@kernel.org,
+        mingo@kernel.org, pauld@redhat.com, pbonzini@redhat.com,
+        peterz@infradead.org, rafael@kernel.org, rdunlap@infradead.org,
+        rostedt@goodmis.org, seanjc@google.com, tglx@kernel.org, tj@kernel.org,
+        tommaso.cucinotta@gmail.com, vincent.guittot@linaro.org,
+        vineeth@bitbyteword.org, virtualization@lists.linux.dev,
+        vschneid@redhat.com, yury.norov@gmail.com
+References: <20260812054033.95658-1-sshegde@linux.ibm.com>
+ <20260812194600.52516-1-sunlightlinux@gmail.com> <an0MMNBkyeeZEa8f@yury>
+ <a4478425-1914-47d1-b5ec-5e11dba048dd@linux.ibm.com>
+ <20aa609c-6b11-41a1-875e-3aaba2809883@linux.ibm.com>
+Content-Language: en-US
+From: Mete Durlu <meted@linux.ibm.com>
+In-Reply-To: <20aa609c-6b11-41a1-875e-3aaba2809883@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=XqfK/1F9 c=1 sm=1 tr=0 ts=6a7ede75 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=LadJ6kx9KbSmSrQeYN8A:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDA2OCBTYWx0ZWRfX3I0IpsQCL+Rq
+ wIN1DDX3LUgQ8E/FeCFdcHZyYNjonWdXY9VKcCmeqj7dkqIYADl0sBMH3WOCaqdjM8txSjU9JYk
+ b+8Zowd0NCpHrZLYEpSArWYVjaPQcmQdtRHyHG2M3aHLC74N3482sXcWg2Lz/ciPVMQVvpqvLYN
+ EAKoBeX3oIRFbKB8N7Lxrcitw8FEbSv6aQPDSSnw+H9J9tRMPqk9d7yvQj7xndBkIdm6RYRgeYs
+ 72Kl+CN+KFX9A2+8FvpYefXOekMaSqVvww4EriRezX+tC+hBpcqvNkYdzuX8Sou7haalE+X+LJN
+ WhznXOwQyr0EfjwQBUbApmC2mawxxnfKzcqVQBgR4QnjRWPjbuwSdaUjKurP1YLYYNlLOAd7PZu
+ jll/oLMssS3C5PxSQUBDIQum4XHgqGvEyIG5d68SrOURcih85FY0lRYvd/CDgOttj6qwGnfovTZ
+ N/+rmQZ0LDcMFZW0AcQ==
+X-Proofpoint-ORIG-GUID: OSaUYcjHR2WmtNLQ5HhOmOKecKIbLBzd
+X-Proofpoint-GUID: EHV-i2egFJe0awM3-d7NKMToDbWtAdK0
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDA2OCBTYWx0ZWRfXyfuVV8UXODpN
+ lyFOfvwT3Zwq2DgGDr0KYPPt1wIrPJYToWL14kyHLiRxb/h52YgGpM8j24+qSs+OR249J5bIgfH
+ diOKvT/1/YzXpq71lWKErPEpBAuAD8U=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-14_03,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140068
 
-The 8250 driver conglomerate is the only user of uart_match_port() and
-in fact it already is 8250 specific as it uses hub6_match_port() which
-is defined in drivers/tty/serial/8250/8250_hub6.c unless the dummy
-implementation is in use.
+On 13/08/2026 13:12, Shrikanth Hegde wrote:
+> Hi Mete, Thanks for going through the patches/discussions.
+> 
+> On 8/13/26 12:20 PM, Mete Durlu wrote:
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- Documentation/driver-api/serial/driver.rst |  2 +-
- drivers/tty/serial/8250/8250_core.c        | 27 +++++++++++++++++++++-
- drivers/tty/serial/serial_core.c           | 27 ----------------------
- include/linux/serial_core.h                |  2 --
- 4 files changed, 27 insertions(+), 31 deletions(-)
+...
 
-diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
-index c1db6a1a67c4..975b0ba53e98 100644
---- a/Documentation/driver-api/serial/driver.rst
-+++ b/Documentation/driver-api/serial/driver.rst
-@@ -70,7 +70,7 @@ Other functions
- 
- .. kernel-doc:: drivers/tty/serial/serial_core.c
-    :identifiers: uart_update_timeout uart_get_baud_rate uart_get_divisor
--           uart_match_port uart_write_wakeup uart_register_driver
-+           uart_write_wakeup uart_register_driver
-            uart_unregister_driver uart_suspend_port uart_resume_port
-            uart_add_one_port uart_remove_one_port uart_console_write
-            uart_parse_earlycon uart_parse_options uart_set_options
-diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
-index b875d394796f..d8199c583830 100644
---- a/drivers/tty/serial/8250/8250_core.c
-+++ b/drivers/tty/serial/8250/8250_core.c
-@@ -673,6 +673,31 @@ EXPORT_SYMBOL(serial8250_resume_port);
-  */
- static DEFINE_MUTEX(serial_mutex);
- 
-+/**
-+ * serial8250_match_port - are the two ports equivalent?
-+ * @port1: first port
-+ * @port2: second port
-+ *
-+ * This utility function can be used to determine whether two uart_port
-+ * structures describe the same port.
-+ */
-+static bool serial8250_match_port(const struct uart_port *port1,
-+				  const struct uart_port *port2)
-+{
-+	if (port1->iotype != port2->iotype)
-+		return false;
-+	else if (port1->iotype == UPIO_PORT)
-+		return port1->iobase == port2->iobase;
-+	else if (port1->iotype == UPIO_HUB6)
-+		return hub6_match_port(port1, port2);
-+	else if (uart_iotype_mmio(port1->iotype))
-+		return port1->mapbase == port2->mapbase;
-+	else if (port1->iotype == UPIO_BUS)
-+		return true;
-+	else
-+		return false;
-+}
-+
- static struct uart_8250_port *serial8250_find_match_or_unused(const struct uart_port *port)
- {
- 	int i;
-@@ -681,7 +706,7 @@ static struct uart_8250_port *serial8250_find_match_or_unused(const struct uart_
- 	 * First, find a port entry which matches.
- 	 */
- 	for (i = 0; i < nr_uarts; i++)
--		if (uart_match_port(&serial8250_ports[i].port, port))
-+		if (serial8250_match_port(&serial8250_ports[i].port, port))
- 			return &serial8250_ports[i];
- 
- 	/* try line number first if still available */
-diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
-index 95774b0f1484..ee75f53979bd 100644
---- a/drivers/tty/serial/serial_core.c
-+++ b/drivers/tty/serial/serial_core.c
-@@ -33,7 +33,6 @@
- #include <linux/uaccess.h>
- 
- #include "serial_base.h"
--#include "8250/8250.h" /* For hub6_match_port() */
- 
- /*
-  * This is used to lock changes in serial line configuration.
-@@ -3233,32 +3232,6 @@ static void serial_core_remove_one_port(struct uart_driver *drv,
- 	state->uart_port = NULL;
- }
- 
--/**
-- * uart_match_port - are the two ports equivalent?
-- * @port1: first port
-- * @port2: second port
-- *
-- * This utility function can be used to determine whether two uart_port
-- * structures describe the same port.
-- */
--bool uart_match_port(const struct uart_port *port1,
--		const struct uart_port *port2)
--{
--	if (port1->iotype != port2->iotype)
--		return false;
--	else if (port1->iotype == UPIO_PORT)
--		return port1->iobase == port2->iobase;
--	else if (port1->iotype == UPIO_HUB6)
--		return hub6_match_port(port1, port2);
--	else if (uart_iotype_mmio(port1->iotype))
--		return port1->mapbase == port2->mapbase;
--	else if (port1->iotype == UPIO_BUS)
--		return true;
--	else
--		return false;
--}
--EXPORT_SYMBOL(uart_match_port);
--
- static struct serial_ctrl_device *
- serial_core_get_ctrl_dev(struct serial_port_device *port_dev)
- {
-diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
-index 904760876ca8..4eeb8253752a 100644
---- a/include/linux/serial_core.h
-+++ b/include/linux/serial_core.h
-@@ -1140,8 +1140,6 @@ int uart_add_one_port(struct uart_driver *reg, struct uart_port *port);
- void uart_remove_one_port(struct uart_driver *reg, struct uart_port *port);
- int uart_read_port_properties(struct uart_port *port);
- int uart_read_and_validate_port_properties(struct uart_port *port);
--bool uart_match_port(const struct uart_port *port1,
--		const struct uart_port *port2);
- 
- /*
-  * Power Management
--- 
-2.55.0.11.g153666a7d9bb
+>>
+>> I think all of these points can be addressed better if
+>> Xen used said framework and implemented their own governor
+>> module. That way we wouldn't see an overinflated single
+>> steal_governor but instead nicely separated arch/platform
+>> specific ones, that are tailored best for their needs.
+>> The current implementation could be the fallback option
+>> if platform does not implement their own and would also
+>> serve as an example.
+> 
+> For now, I prefer adding a defensive check for dom0
+> and keep the driver simple.
+
+Fair enough.
+
+...
+> I prefer we defer the arch specific hooks for now, until there is a need 
+> for one. If you guys insist it should be done, then i can start looking 
+> at cpuidle framework. But it will be a bigger rework.
+
+s390 plans to adopt and start using the preferred CPU approach along
+with the governor. The concern is that there are some enhancements
+planned which would not really fit into the current governor.
+
+Later on, s390 will probably introduce its own governor module and
+for that I was hoping that there would be a framework similar to
+cpuidle drivers.
+
+What I mean essentially is a common infrastructure to initialize
+the basics required for the preferred CPUs management and maybe
+the update loop mechanism. That should ideally leave just the
+decision making part to the individual arch/platform to implement.
+I imagine the whole thing being much more simpler than cpuidle
+drivers as it had a lot more moving parts involved.
+
+...
+
+> If the driver eventually outgrows a single file, we can work on a 
+> modular framework post-merge. But for now, let's keep it simple and get 
+> the simple version upstream.
+
+I understand the concern and I think it's the right approach to keep
+it simple initially.
+
+Thank you!
 
