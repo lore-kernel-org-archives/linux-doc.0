@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74BA2BEFE8;
-	Fri, 14 Aug 2026 19:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C003CBE79;
+	Fri, 14 Aug 2026 19:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786736309; cv=none; b=Ad7R+MgU7hKoYVa2ZTYkgTkdPle8zyrGq4MJEQK2OL1KEJaBc7xdFrgUY2JH1LQkFoaMSpphdcOl36tJszdGZdWKkRpx9hj83g3q1ZiuXQsjnXq84gkc989Xm5yQM4SVF1HIKqg45HZ6DOitoiLFeAEnWhe6xhYMQSP6OPcs/x8=
+	t=1786736721; cv=none; b=qfUs0ewhduNWniy3PEGB923Ez5DWRO1+BOg4L+S4dzhIEdKOfOGAxxHZJ/aZDjGt/S3/oPrin3EN9k0MJAUtoALsec3vb7838bMdxfmq92cPxQo4qnCbJRx3feBkTBLPggnCFDRjol06ZIzxhDoq1iEhuTbzT2kbmm6IJU4UgzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786736309; c=relaxed/simple;
-	bh=fTZRH1jYJ5jimrnKepQj5HDws9oqXx6c3lOJbM+yvDE=;
+	s=arc-20240116; t=1786736721; c=relaxed/simple;
+	bh=Um924p4SN4TNjdu/6vLQuTgs3rQdyzW6dMu7n/xUFE4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TFy0E1omJJGAfKJv1ksDIqMrS/HNyGQjExaEONSSWqUQGY/QAh/j2Coa4i8MePtex0c3YjguviaM0pPxPqsWUnsu/WnjGfzvI0P1mcaKOOunHApx2kELkLicxjFYdjwDfkSRnlIVPV/hIrwOWl40Ywbh2v2bAWOmi/9LAzAaB0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oW3ULMl6; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=qNe7+isinmSLZ1CA5xPn3/lOf1LKchxpY2PwgyLOH5fDxyN6swwqlZJWq/bPTrZNqkZznTdZOLywNW8PAfErDCizEjelCvUqKAGCm2P77tpDrw/J88Wt182pvGQ3U0rtLW+GZtM84tZidKHgFYMbO/B5TNaQnpmN/8eQkgD9jcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIZyZpFV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oW3ULMl6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6271F000E9;
-	Fri, 14 Aug 2026 19:38:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIZyZpFV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D711F000E9;
+	Fri, 14 Aug 2026 19:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786736307;
-	bh=L7gpos0zTj8w4mctBovTY/zqJO6eOYoX/n4xPLEt/Go=;
+	s=k20260515; t=1786736720;
+	bh=PegFeUG5l+yQlkSyzsnT2lnIIaiPORGQayirTpvI0LI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=oW3ULMl6Yi9MsQy3ZIbpGnaCzPSbyR2jgoHUmlYKYtuHXw7Bdc0edUE5IwFfOzHhc
-	 +49GBPbplsJEEkCnS4/D5VYlQB6KuwaNtFDNRyLzmgTPdUXFXuSUnzzQVUB14jL1z+
-	 T2AFwrcUedM34yqopMmY28CM71AB+6d4H3E0TvCUL3m8obOWMGJaku4EZOoyBb7IfN
-	 Uoo777ZUACO9zy8hcW6WV7+vkpoDcyn/P+6GPtw82KHEqYiKysh3KiuGgsxO30EsKq
-	 qpSPWW6epkhib2mBnFD2rv1Yo3xPjl6RiiddgD88SP5X9BHtRd4U3lUejP7maEWXAP
-	 e2ywBdBH2+lTA==
+	b=WIZyZpFV8vvq3fEd+BJ/e5SjNKapKJ5dRz3G4zqv9rLCFUMZYr0Dgi2J54MzZkzBZ
+	 gkPmM72AnSPh5nKY60DMGyHDelQpXq4lL1ByqXpDeUrzhYgG+Jl5onFx9EyRG4tyvv
+	 ut+rU5HCS3h+u2J/YYXRSL0zwjUnnFytSnrPfTkyLB6z3DtePXlfnDxlfmrODe6UI1
+	 Wxgh9Js9zFhp6NaC8W15Bz9jaIuca60QOczM/t9zyxnKYWoNCdlFdKRKcisNkNHd8F
+	 koG1asN3owr9axa4Ym3YaQQpRov6N4yKoc+FXF/MWEB5Z+QfL9n/MoVEAxNQaZABLS
+	 OjUfKiPcCD2hQ==
 From: Jakub Kicinski <kuba@kernel.org>
 To: illusion.wang@nebula-matrix.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -45,12 +45,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	skhan@linuxfoundation.org,
 	hkallweit1@gmail.com,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v24 net-next 04/11] net/nebula-matrix: add channel layer
-Date: Fri, 14 Aug 2026 12:38:25 -0700
-Message-ID: <20260814193825.3197607-1-kuba@kernel.org>
+Subject: Re: [PATCH v24 net-next 08/11] net/nebula-matrix: dispatch: add control-level routing core infrastructure
+Date: Fri, 14 Aug 2026 12:45:18 -0700
+Message-ID: <20260814194518.3200065-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260807044422.2356-5-illusion.wang@nebula-matrix.com>
-References: <20260807044422.2356-5-illusion.wang@nebula-matrix.com>
+In-Reply-To: <20260807044422.2356-9-illusion.wang@nebula-matrix.com>
+References: <20260807044422.2356-9-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,379 +62,271 @@ Content-Transfer-Encoding: 8bit
 This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 ---
-net/nebula-matrix: add channel layer
+net/nebula-matrix: dispatch: add control-level routing core infrastructure
 
-This adds a mailbox based channel layer for the nbl driver, with message
-registration through a hash table, synchronous send-with-ack and
-fire-and-forget send, and TX/RX ring setup and teardown backed by devm
-and dmam allocations.  A leonis hardware operations table is added for
-mailbox queue configuration and doorbell updates.
+This adds the nbl dispatch layer: a dispatch mgt struct, an ops table
+allocated with devm_kzalloc(), a ctrl_lvl bitmask, and local wrappers for
+the resource layer init_module/deinit_module calls.  nbl_disp_init() is
+wired into nbl_core_init() and nbl_disp_remove() into nbl_core_remove().
 
-A few questions on the locking, barriers and teardown ordering below.
+A few questions about the changelog and the new code below.
+
+> Add base dispatch layer infrastructure for control-level routing:
+> 1. Dispatch management & ops table structures allocation
+> 2. X-macro op table template for uniform dispatch entry registration
+> 3. Control PF / regular PF routing logic via ctrl_lvl bitmask
+> 4. Local chip init/deinit dispatch wrappers (no channel dependency)
+>
+> Document constraint: init_module/deinit_module only valid
+> on Control PF, caller must guard with has_ctrl to avoid NULL deref.
+
+[Severity: Medium]
+Do bullets 2 and 3 and the "Document constraint" paragraph match what the
+patch contains?
+
+For bullet 2, there is no X-macro anywhere in the patch.  The only related
+artifact is the identity macro added to nbl_include.h:
+
+    /* Used for macros to pass checkpatch */
+    #define NBL_NAME(x)                                     x
+
+and the two ops that do get registered are registered by plain pointer
+assignment in nbl_disp_setup_ctrl_lvl():
+
+    disp_ops->init_module = nbl_disp_init_module;
+    disp_ops->deinit_module = nbl_disp_deinit_module;
+
+A grep for NBL_NAME( under drivers/net/ethernet/nebula-matrix/ returns a
+single hit, the definition itself, both at this commit and at the end of
+the series, so no X-macro registration table is introduced later either.
+
+For bullet 3, only the control PF direction is installed here:
+
+    if (common->has_ctrl)
+            nbl_disp_setup_ctrl_lvl(disp_mgt, NBL_DISP_CTRL_LVL_MGT);
+
+NBL_DISP_CTRL_LVL_NET matches only its own enum declaration at this
+commit, and the non-ctrl route appears later in "net/nebula-matrix:
+dispatch: add channel RPC framework & shared hw ops mutex".  Could the
+bullet be deferred to that patch?
+
+For the "Document constraint" paragraph, no comment describing the
+has_ctrl requirement appears in nbl_dispatch.c, nbl_dispatch.h or
+nbl_def_dispatch.h.  Would it make sense to put that constraint next to
+the init_module/deinit_module declarations in struct nbl_dispatch_ops so a
+future caller can see it?
+
+> This patch only provides core routing skeleton, no channel message
+> handling or resource locking logic.
+
+[Severity: Low]
+This statement seems to conflict with the nbl_channel.c and
+nbl_def_channel.h hunks below: the patch adds a new on-wire response code
+enum (NBL_CHAN_RESP_OK/ERR/UNIMPLEMENTED), four mailbox payload layouts,
+and four BUILD_BUG_ON() assertions inside nbl_chan_init_common().  Could
+the changelog mention that this patch establishes a peer/firmware facing
+wire contract?
 
 > diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> new file mode 100644
-> index 000000000000..3eb795199217
-> --- /dev/null
+> index 3eb795199217..9e0f9b6c4c3a 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
 > +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> @@ -0,0 +1,1068 @@
-
-[ ... ]
-
-> +static int nbl_chan_teardown_queue(struct nbl_channel_mgt *chan_mgt,
-> +				   u8 chan_type)
-> +{
-> +	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
-> +	struct nbl_chan_waitqueue_head *wait_head;
-> +	unsigned long wait_start, wait_timeout;
-> +	int ret = 0;
-> +	u16 i;
-> +
-> +	/* Step 1: Mark shutdown flag, reject all new send requests */
-> +	WRITE_ONCE(chan_info->shutdown, true);
-
-[ ... ]
-
-> +	/* Stop hardware queues */
-> +	nbl_chan_stop_queue(chan_mgt);
-> +
-> +	/*
-> +	 * Step 2: Wait all in-flight send_msg threads exit FIRST.
-> +	 * Guarantee no further queue_work() can be triggered during cleanup.
-> +	 * Add timeout to avoid permanent blocking.
-> +	 */
-> +	wait_start = jiffies;
-> +	wait_timeout = msecs_to_jiffies(5000);
-> +	while (atomic_read(&chan_info->inflight_tx_cnt) != 0) {
+> @@ -1030,6 +1030,10 @@ int nbl_chan_init_common(struct nbl_adapter *adap)
+>  	struct nbl_channel_mgt *chan_mgt;
+>  	int ret;
+>  
+> +	BUILD_BUG_ON(sizeof(struct nbl_chan_param_cfg_msix_map) != 8);
+> +	BUILD_BUG_ON(sizeof(struct nbl_chan_param_set_mailbox_irq) != 4);
+> +	BUILD_BUG_ON(sizeof(struct nbl_chan_param_get_vsi_id) != 4);
+> +	BUILD_BUG_ON(sizeof(struct nbl_chan_param_get_eth_id) != 8);
 
 [Severity: Low]
-The comment says "Step 2: Wait all in-flight send_msg threads exit FIRST",
-but nbl_chan_stop_queue() runs before the inflight_tx_cnt drain loop.  Is
-that ordering intended?
+The four sizes are numerically correct (2+2+2+2, 2+1+1, 2+2 and
+2+1+1+1+3), so there is no functional problem here.
 
-nbl_chan_stop_queue() -> nbl_hw_stop_mailbox_txq()/rxq() asserts
-NBL_MAILBOX_QINFO_CFG_QUEUE_RST_MASK and clears QUEUE_EN, so a sender that
-already passed the early shutdown check can still publish a descriptor and
-ring the doorbell into a queue that is held in reset:
+These are dispatch layer message structs though, and the assertions are
+placed in the channel layer's runtime init function.  Would static_assert()
+next to each struct definition in nbl_def_channel.h keep the wire format
+check with the format it describes?
 
-nbl_chan_send_msg()
-  nbl_chan_update_txqueue()   /* no shutdown check at all */
-     tx_desc->flags = cpu_to_le16(BIT(NBL_CHAN_TX_DESC_AVAIL));
-     txq->tail_ptr++;
-  nbl_chan_kick_tx_ring()
-     nbl_chan_update_tail_ptr(...)   /* doorbell, before the shutdown re-check */
+>  	chan_mgt = nbl_chan_setup_chan_mgt(adap);
+>  	if (IS_ERR(chan_mgt)) {
+>  		ret = PTR_ERR(chan_mgt);
 
-Would draining inflight_tx_cnt before nbl_chan_stop_queue() avoid the driver
-tail pointer diverging from the device consumer pointer?
+[ ... ]
 
-> +		if (time_after(jiffies, wait_start + wait_timeout)) {
-> +			dev_warn(chan_mgt->common->dev,
-> +				 "teardown: wait inflight_tx_cnt timeout, force continue\n");
-> +			ret = -ETIMEDOUT;
-> +			break;
-> +		}
-> +		cpu_relax();
-> +		usleep_range(1000, 2000);
-> +	}
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+> new file mode 100644
+> index 000000000000..9358651cbf7e
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+> @@ -0,0 +1,112 @@
+
+[ ... ]
+
+> +static void nbl_disp_deinit_module(struct nbl_dispatch_mgt *disp_mgt)
+> +{
+> +	struct nbl_resource_ops *res_ops = disp_mgt->res_ops_tbl->ops;
+> +	struct nbl_resource_mgt *p = disp_mgt->res_ops_tbl->priv;
 > +
-> +	/* Step3: All send paths drained, safely cancel cleanup work */
-> +	if (chan_info->clean_task) {
-> +		cancel_work_sync(chan_info->clean_task);
-> +		chan_info->clean_task = NULL;
-> +	}
-> +	return ret;
+> +	if (res_ops->deinit_module)
+> +		res_ops->deinit_module(p);
 > +}
 > +
-> +static int nbl_chan_setup_queue(struct nbl_channel_mgt *chan_mgt, u8 chan_type)
+> +static int nbl_disp_init_module(struct nbl_dispatch_mgt *disp_mgt)
 > +{
-> +	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
-> +	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
-> +	struct nbl_common_info *common = chan_mgt->common;
-> +	struct nbl_chan_ring *rxq = &chan_info->rxq;
-> +	int err;
+> +	struct nbl_resource_ops *res_ops = disp_mgt->res_ops_tbl->ops;
+> +	struct nbl_resource_mgt *p = disp_mgt->res_ops_tbl->priv;
 > +
-> +	if (READ_ONCE(chan_info->init_done))
-> +		return 0;
+> +	if (res_ops->init_module)
+> +		return res_ops->init_module(p);
+> +	return -EOPNOTSUPP;
+> +}
 
 [Severity: Low]
-Are .setup_queue and .teardown_queue meant to be a symmetric pair?
+Can these NULL tests ever be false, and can -EOPNOTSUPP ever be returned?
 
-nbl_chan_teardown_queue() leaves chan_info->init_done true and
-chan_info->shutdown true, and does not reset txq/rxq next_to_use,
-next_to_clean or tail_ptr.  With the init_done early return above, a
-setup_queue() after a teardown_queue() returns 0 without re-running
-nbl_chan_config_queue() (the only code that deasserts QUEUE_RST and sets
-QUEUE_EN), without re-ringing the RX doorbell, and without clearing
-shutdown, since only nbl_chan_init_queue_param() does that and it sits
-behind the guard:
+nbl_res_setup_ops() already refuses to publish an incomplete table:
 
-	if (READ_ONCE(chan_info->init_done))
-		return 0;
-	...
-	nbl_chan_init_queue_param(chan_info, ...);   /* clears shutdown */
+    if (!res_ops.get_vsi_id || !res_ops.get_eth_id  ||
+        !res_ops.cfg_msix_map || !res_ops.destroy_msix_map ||
+        !res_ops.set_mailbox_irq || !res_ops.init_module ||
+        !res_ops.deinit_module)
+            return ERR_PTR(-EINVAL);
 
-Today both ops are only reached from probe and remove with a freshly
-devm_kzalloc'ed chan_info, so nothing hits this.  Should teardown clear
-init_done and the ring indices so a later stop/restart cycle (device reset,
-PF down/up) does not silently succeed on a channel whose queues are still in
-reset?
+and nbl_core_init() -> nbl_res_init_leonis() propagates that failure, so
+nbl_disp_init() only runs with both pointers set.
 
-[ ... ]
-
-> +static int nbl_chan_update_txqueue(struct nbl_channel_mgt *chan_mgt,
-> +				   struct nbl_chan_info *chan_info,
-> +				   struct nbl_chan_tx_param *param)
-> +{
-[ ... ]
-> +	tx_desc->dstid = cpu_to_le16(param->dstid);
-> +	tx_desc->msg_type = cpu_to_le16(param->msg_type);
-> +	tx_desc->msgid = cpu_to_le16(param->msgid);
-
-[Severity: Low]
-Who writes tx_desc->srcid?  This is the only producer of the descriptor and
-it sets dstid, msg_type, msgid, the data/buf fields and flags, but never
-assigns or clears srcid, while both receive paths consume it:
-
-nbl_chan_recv_msg()
-	srcid = le16_to_cpu(READ_ONCE(tx_desc->srcid));
-	...
-	msg_handler->func(msg_handler->priv, srcid, msgid, payload, payload_len);
-
-nbl_chan_recv_ack_msg()
-	if (srcid != READ_ONCE(wait_head->dstid)) {
-		... "ACK srcid=%u != dstid=%u, rejecting"
-
-If the mailbox engine populates srcid in the copy delivered to the peer,
-could a comment say so?  Otherwise the field is whatever the reused ring
-slot held.
-
-[ ... ]
-
-> +static int nbl_chan_send_msg(struct nbl_channel_mgt *chan_mgt,
-> +			     struct nbl_chan_send_info *chan_send)
-> +{
-[ ... ]
-> +	atomic_inc(&chan_info->inflight_tx_cnt);
-> +	inflight_inc = true;
-> +	/*
-> +	 * Ensure reading chan_info->shutdown happens
-> +	 * strictly after inflight_tx_cnt increment above on this CPU.
-> +	 * Prevent compiler/cpu reordering: read shutdown before incrementing
-> +	 * inflight counter, which would cause missing shutdown check and leak
-> +	 * tx inflight count.
-> +	 */
-> +	smp_rmb();
-> +	if (READ_ONCE(chan_info->shutdown)) {
-> +		atomic_dec(&chan_info->inflight_tx_cnt);
-> +		return -ESHUTDOWN;
-> +	}
-
-[Severity: Medium]
-Does smp_rmb() give the ordering the comment claims here?  This is a store
-followed by a load, and smp_rmb() only orders load-load pairs; the
-non-value-returning atomic_inc() provides no ordering of its own.
-
-The peer half in nbl_chan_teardown_queue() uses a full barrier and so
-depends on the sender mirroring it:
-
-CPU0 nbl_chan_send_msg()             CPU1 nbl_chan_teardown_queue()
-  atomic_inc(&inflight_tx_cnt);        WRITE_ONCE(shutdown, true);
-  smp_rmb();                           smp_mb();
-  load shutdown  -> false              atomic_read(&inflight_tx_cnt) -> 0
-
-Can the shutdown load be satisfied before the increment is visible, so that
-teardown concludes the drain, calls nbl_chan_stop_queue() and
-cancel_work_sync() and returns while CPU0 goes on to take txq_lock, write a
-descriptor and ring the doorbell?  Since teardown_queue() is the last thing
-guarding the rings before devres releases the dmam_alloc_coherent()
-descriptor rings and the devm_kcalloc() wait array, would smp_mb() (or
-atomic_fetch_inc()) be the right primitive here?
+That makes the guards and the -EOPNOTSUPP path unreachable while
+advertising a return value a caller may try to handle.  This is still the
+case at the end of the series.  Would it be cleaner to keep the validation
+in one layer only?
 
 > +
-> +	mutex_lock(&chan_info->txq_lock);
-> +	if (test_bit(NBL_CHAN_ABNORMAL, chan_info->state)) {
-> +		ret = -EIO;
-> +		goto unlock_out;
-> +	}
-
-[Severity: Low]
-Is anything expected to set NBL_CHAN_ABNORMAL?  This test_bit() is its only
-user in the tree; the only writer would be nbl_chan_set_queue_state(), and
-its callers pass NBL_CHAN_INTERRUPT_READY, so this branch cannot be taken.
-
-Related, the patch defines NBL_MAILBOX_QINFO_CFG_DIF_ERR_MASK and
-NBL_MAILBOX_QINFO_CFG_PTR_ERR_MASK in nbl_hw_leonis.h, but the qinfo cfg
-table is only ever written (nbl_hw_write_mbx_regs has no read-back
-counterpart), so those status bits are never sampled.  With no reader, a
-queue the hardware has flagged as errored is never detected, and
-nbl_chan_kick_tx_ring() just logs and advances next_to_clean:
-
-	dev_err_ratelimited(dev, "chan send msg type: %d timeout\n", msg_type);
-	txq->next_to_clean = txq->next_to_use;
-	return -ETIMEDOUT;
-
-Is the error-bit sampling and queue reconfigure planned for a follow-up?
-
-[ ... ]
-
-> +	ret = nbl_chan_kick_tx_ring(chan_mgt, chan_info);
-> +	if (ret) {
-[ ... ]
-> +		goto unlock_out;
-> +	}
-> +	mutex_unlock(&chan_info->txq_lock);
-> +	if (!chan_send->ack) {
-> +		tmp = FIELD_GET(NBL_CHAN_MSGID_LOC_MASK, msgid);
-> +		wait_head = &chan_info->wait[tmp];
-> +		spin_lock_irq(&wait_head->status_lock);
-> +		WRITE_ONCE(wait_head->status, NBL_MBX_STATUS_IDLE);
-> +		spin_unlock_irq(&wait_head->status_lock);
-> +		atomic_dec(&chan_info->inflight_tx_cnt);
-> +		return 0;
-> +	}
-
-[Severity: Medium]
-Can this write to a slot the caller no longer owns?  txq_lock is what
-serializes TX slot ownership, and it is dropped just above.  The slot was
-already set to IDLE inside the earlier status_lock block:
-
-	WRITE_ONCE(wait_head->status, chan_send->ack ?
-		   NBL_MBX_STATUS_WAITING : NBL_MBX_STATUS_IDLE);
-
-so this second write looks redundant.  In the gap, another sender can be
-handed the same slot, and nbl_chan_get_msg_id() starts its search exactly
-there because wait_head_index was just pointed at it:
-
-	int search_loc = chan_info->wait_head_index, i;
-	...
-		if (status == NBL_MBX_STATUS_IDLE ||
-		    status == NBL_MBX_STATUS_TIMEOUT) {
-	...
-		WRITE_ONCE(chan_info->wait_head_index, search_loc);
-
-Sender B then arms the slot WAITING and blocks, sender A forces it back to
-IDLE, and the ACK is dropped:
-
-nbl_chan_recv_ack_msg()
-	if (READ_ONCE(wait_head->status) != NBL_MBX_STATUS_WAITING) {
-		spin_unlock_irq(&wait_head->status_lock);
-		dev_err_ratelimited(dev, "Skip ack with invalid status, ...");
-
-B then fails with -ETIMEDOUT after NBL_CHAN_ACK_WAIT_TIME.  The interrupt
-mode timeout path only cleans up when it still sees NBL_MBX_STATUS_WAITING,
-so it can instead clobber a third sender's freshly armed slot, setting it to
-TIMEOUT and NULLing its ack_data while that sender waits.  Note
-nbl_chan_send_ack() is exactly a chan_send->ack == 0 sender, so both
-participants are the workqueue ACK sender and a synchronous RPC.  Can this
-write simply be dropped?
-
-[ ... ]
-
-> +static int nbl_chan_send_ack(struct nbl_channel_mgt *chan_mgt,
-> +			     struct nbl_chan_ack_info *chan_ack)
+> +static void nbl_disp_setup_ctrl_lvl(struct nbl_dispatch_mgt *disp_mgt, u32 lvl)
 > +{
+> +	struct nbl_dispatch_ops *disp_ops = disp_mgt->disp_ops_tbl->ops;
+> +
+> +	set_bit(lvl, disp_mgt->ctrl_lvl);
+> +
+> +	if (test_bit(NBL_DISP_CTRL_LVL_MGT, disp_mgt->ctrl_lvl)) {
+> +		disp_ops->init_module = nbl_disp_init_module;
+> +		disp_ops->deinit_module = nbl_disp_deinit_module;
+> +	}
+> +}
+
 [ ... ]
-> +	len = head_len + data_len;
-> +	tmp = kzalloc(len, GFP_ATOMIC);
-> +	if (!tmp)
-> +		return -ENOMEM;
+
+> +static struct nbl_dispatch_ops_tbl *
+> +nbl_disp_setup_ops(struct device *dev, struct nbl_dispatch_mgt *disp_mgt)
+> +{
+> +	struct nbl_dispatch_ops_tbl *disp_ops_tbl;
+> +	struct nbl_dispatch_ops *disp_ops;
+> +
+> +	disp_ops_tbl = devm_kzalloc(dev, sizeof(*disp_ops_tbl), GFP_KERNEL);
+> +	if (!disp_ops_tbl)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	disp_ops = devm_kzalloc(dev, sizeof(*disp_ops), GFP_KERNEL);
+> +	if (!disp_ops)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	disp_ops_tbl->ops = disp_ops;
+> +	disp_ops_tbl->priv = disp_mgt;
 
 [Severity: Low]
-Is GFP_ATOMIC needed here?  This path cannot be atomic: nbl_chan_send_msg()
-below takes mutex_lock(&chan_info->txq_lock) and nbl_chan_kick_tx_ring()
-calls usleep_range().  The only caller chain is the clean_task work item
-(the mailbox IRQ handler just schedules work), so GFP_KERNEL would match the
-actual context, and the GFP_ATOMIC here documents a contract the code cannot
-honour.
+This publishes a zeroed struct nbl_dispatch_ops through
+adapter->intf.dispatch_ops_tbl, and at this commit only init_module and
+deinit_module are ever filled, and only when common->has_ctrl is set.  The
+other five declared ops (cfg_msix_map, destroy_msix_map, set_mailbox_irq,
+get_vsi_id, get_eth_id) stay NULL for every PF.
+
+Unlike the sibling constructors nbl_res_setup_ops() and nbl_hw_setup_ops(),
+which return ERR_PTR(-EINVAL) when any op is NULL, the dispatch layer never
+validates the table it hands out.
+
+To be clear about reachability: I could not find a consumer that would hit
+a NULL op.  By the end of the series nbl_disp_setup_ctrl_lvl() fills the
+remaining five ops in both the MGT branch and the new else branch, and the
+only call sites of init_module/deinit_module, nbl_dev_setup_ctrl_dev() and
+nbl_dev_remove_ctrl_dev(), are reached only under if (common->has_ctrl) in
+nbl_dev_init()/nbl_dev_remove().
+
+Would adding the same completeness check the resource and hw layers use,
+and documenting the has_ctrl-only validity of init_module/deinit_module in
+the header, be worth doing here?
+
+> +
+> +	return disp_ops_tbl;
+> +}
 
 [ ... ]
 
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+> index b5a7b069d834..23bdd453ee73 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+> @@ -13,6 +13,12 @@ struct nbl_adapter;
+>  
+>  typedef void (*nbl_chan_resp)(void *, u16, u16, void *, u32);
+>  
+> +enum {
+> +	NBL_CHAN_RESP_OK = 0,
+> +	NBL_CHAN_RESP_ERR = 1,
+> +	NBL_CHAN_RESP_UNIMPLEMENTED = 2,
+> +};
+> +
+
+[Severity: Low]
+These response codes and the four nbl_chan_param_* layouts below have no
+producer or consumer at this commit; they gain users in the following patch
+"net/nebula-matrix: dispatch: add channel RPC framework & shared hw ops
+mutex", which is fine for a staged series.  The point is only that the
+changelog says this patch has no channel message handling while it defines
+the channel response ABI.
+
+[ ... ]
+
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
 > new file mode 100644
-> index 000000000000..92db39e1b05e
+> index 000000000000..b26425e0112b
 > --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
-> @@ -0,0 +1,170 @@
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+> @@ -0,0 +1,42 @@
 
 [ ... ]
 
-> +	/*
-> +	 * Spinlock protecting all fields.
-> +	 * Must be held when reading/writing: status, acked, ack_err,
-> +	 * ack_data_len, etc.
-> +	 * The lock ensures atomic updates of these fields and
-> +	 * proper memory ordering with smp_wmb()/smp_rmb().
-> +	 */
-> +	spinlock_t status_lock;
+> +enum {
+> +	NBL_DISP_CTRL_LVL_NEVER = 0,
+> +	NBL_DISP_CTRL_LVL_MGT,
+> +	NBL_DISP_CTRL_LVL_NET,
+> +	NBL_DISP_CTRL_LVL_MAX,
+> +};
 
-[Severity: Low]
-Does this comment match the code?  Two readers of acked run with
-status_lock dropped:
-
-nbl_chan_send_msg()
-		ret = wait_event_timeout(wait_head->wait_queue,
-					 READ_ONCE(wait_head->acked) || ...
-
-nbl_chan_recv_ack_msg()
-	spin_unlock_irq(&wait_head->status_lock);
-	if (READ_ONCE(wait_head->acked))
-		wake_up(&wait_head->wait_queue);
-
-There is also no smp_wmb() anywhere in the driver, so the documented barrier
-pairing does not exist.  Could the comment be narrowed to the fields the
-lock actually serializes?
-
-[ ... ]
-
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
-> new file mode 100644
-> index 000000000000..fc9b489ca02c
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
-> @@ -0,0 +1,166 @@
-
-[ ... ]
-
-> +/*
-> + * Allocate a hash node and add to the hash table.
-> + *
-> + * Note: The hash table is protected by the caller's mutex (txq_lock),
-> + * not lock-free. The "single context" comment refers to: this function
-> + * is only called during init from nbl_chan_init_msg_handler, so there
-> + * is no concurrent mutation during init.
-> + * After init, the table is read-only (no unregister API), so no lock is needed
-> + * for lookups either.
-
-[Severity: Low]
-Both claims in this note look inaccurate.
-
-nbl_chan_init_msg_handler() only creates the table via
-nbl_common_init_hash_table(); the caller of this function is
-nbl_chan_add_msg_handler() reached through the exported op:
-
-static int nbl_chan_register_msg(struct nbl_channel_mgt *chan_mgt, u16 msg_type,
-				 nbl_chan_resp func, void *callback)
-{
-	return nbl_chan_add_msg_handler(chan_mgt, msg_type, func, callback);
-}
-
-and chan_info->txq_lock is taken only by nbl_chan_send_msg(), never on the
-registration path.  Insertion is a plain hlist_add_head() plus a non-atomic
-node_num++, while nbl_common_get_hash_node() traverses with the non-RCU
-hlist_for_each_entry() from the clean_task work item.
-
-Today all registrations complete before the RX queue is programmed, so
-nothing races.  Could the note instead state that requirement, since the
-current wording points at a mutex that is not involved?
-
-[ ... ]
-
-Cross-instance finding from sashiko-gemini (b71ef5b11f4458a07533fdf4c44ce80b1dc5c6eaa0b8f201e2c68859763e947e):
 [Severity: Medium]
-The code implements the `clean_task` requeue optimization, directly contradicting the commit message.
+NBL_DISP_CTRL_LVL_NET is declared here but never set or tested at this
+commit, which is the enumerator the changelog's "Control PF / regular PF
+routing logic via ctrl_lvl bitmask" would rely on.
 
-Cross-instance finding from sashiko-gemini (f61ba5020ca4df734e90e4522b80858df46b2e1c1ebb7645f42be89a01ba9a4a):
-[Severity: Critical]
-Wait slot leak and stack corruption when interrupts are not ready in nbl_chan_send_msg.
--- 
-pw-bot: cr
+[ ... ]
+
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> index 3f35982cb02a..5f33a5de908d 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> @@ -15,6 +15,8 @@
+>  
+>  #define NBL_MAX_FUNC					520
+>  #define NBL_MAX_ETHERNET				4
+> +/* Used for macros to pass checkpatch */
+> +#define NBL_NAME(x)					x
+
+[Severity: Low]
+This identity macro has no users.  A grep for NBL_NAME( under
+drivers/net/ethernet/nebula-matrix/ returns only this definition, both at
+this commit and at the end of the series, and the X-macro table given as
+its justification is never added.
+
+Also, what exactly does checkpatch object to?  The comment says the macro
+exists so later constructs pass checkpatch rather than to address the
+underlying complaint.  Could this define be dropped?
