@@ -1,173 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865F8346A04;
-	Fri, 14 Aug 2026 05:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE47353A80;
+	Fri, 14 Aug 2026 05:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786684717; cv=none; b=omiDrswumaSrjXLBoPBlQKC1QQyFg9LFdHv9DxmfjneJwHH8Pt/SLpFWV/hpDW2phLDa/oFgT7fRKorrg5wKTszsT5ItHEIvzVqx3EB1+i3LNBmLdMjlVhwTYaBZIrAzKid3KW+APknNK5K3QPmNXwJl8G5O56xBud1R87ZPA8c=
+	t=1786685242; cv=none; b=ewgVcI1p1Ii3pm+s7bFAt+cSzcD1Pz1D/B4eQTjYySZEfrU4ZHZM9h5kp54xL8EkLSj6ZraVtxvRytt9pjVwbkmZI6PaqjryuTz8bWn6PKtcMuVQPzdDWEEAe73jAnOgNLPg6EDPTc3k1vkEj9UmdLt06AqIwH6TLDXw/bBCrRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786684717; c=relaxed/simple;
-	bh=+MUxfRWOkqREAuoekA780+CfxxKTEqlm5E/NKiwihFE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EqP04Dc8rKKALwPXMed/HPrSR7MmaRdN86c/QccuQzeEm1MUCYdh2vxkSvmP4mq2PxKAyUGIxW/q2oifs1teLhlEp2Hjwtf/ENHoeuD+T9JxA67e9cuJSoA7AcEEbP3bc0Nn8oXkp+LNXf4DCXRk09M4zbrEHGRKJ8f8tV/cXKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1kHph+z; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786685242; c=relaxed/simple;
+	bh=NK1m/1D6M3jTBQ5nmDeHBnnlRlutP5/R8we9pihbVw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=azanEUdI7kUM1C5iJrOvniIVdOCOsxGtSNitfABnQro4UXWCl0MXuqBZY++OtflyrGPTn9rHngbWSBRjPO11kw/2MIymm6v/SDp1dx90ndLK2rApyMkbWqCHWK6Suy+SAE3rM1oBzSxwCTaE4O0T8j/zSjzzdvp3//iyo6ympnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jLrlbxeJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1kHph+z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786684715; x=1818220715;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=+MUxfRWOkqREAuoekA780+CfxxKTEqlm5E/NKiwihFE=;
-  b=P1kHph+zrCFpTLxg8CIkAkdkjhiuKSHXRCYAK7lTE1/8HU0mB3OVubg1
-   2BAytgo0YmAoX+4n5xlaij/qwnDx4IryD0Ek9UF0G6KWfHYT+H8IjLDPH
-   FKjUzluaZ5kbA9cMujrKMwoZQ2P/yv8t7Y+28wvFaYI+VwOIPX5GZxkwI
-   gW4+53d/MqJCRuTXV4B7yjUGbFvhDXz3rRoiLYoPtmuse4JjeTqRzRoOG
-   4mOGkwwf0/SD65ZExxbTNOr2+q9UtUlXrdxHPLg9VpxJWXWp8iIRv6Aof
-   /cSEp+j909mfj7JlnI7TIUJDAKbK8BRMn4mir1HlY4+BLfs21mAUs1W5I
-   w==;
-X-CSE-ConnectionGUID: Z3Veuck/TZeR6EpD4DSAaw==
-X-CSE-MsgGUID: 5M++MCpnSomnIdFo8yQZsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="87481113"
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="87481113"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 22:18:34 -0700
-X-CSE-ConnectionGUID: IN/b0L//SVCz/TGsloL3PQ==
-X-CSE-MsgGUID: VWlRvfb+T1OqDKsfu60fhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="266117899"
-Received: from binbinwu-mobl.ccr.corp.intel.com (HELO [10.124.245.162]) ([10.124.245.162])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2026 22:18:20 -0700
-Message-ID: <645af2bd-2791-473a-9441-40db01f58913@linux.intel.com>
-Date: Fri, 14 Aug 2026 13:18:17 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jLrlbxeJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA7741F000E9;
+	Fri, 14 Aug 2026 05:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786685241;
+	bh=Jf4qaFJl5b1RUI0wYv6hr0/sFhbHSCSEjQXks3a/Nmw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jLrlbxeJb5NiD3FSgZ3yWUtjrXZZwHWaqk0QFZpLzuZhsURouAxHs+iURFcjt/smV
+	 c7H1xveeY3DORgBZqoKgjOM/SQXJ22ojaZo3pMrPqxMKVtrBbl2MWP/rsGOKkmLO4T
+	 VDR35FAFQeyyfYcks5ByGVTBxOLRsoV+ZmbNO7jDRYn/MurRTpncH1U+fLfrWP7kgo
+	 YIV7vDh6QSJqq7/7LwjKWUaiHYJnwA8+ywImESocLGIt9p6fJtyE6P+FaR1qnulM2+
+	 tVvx5/NGB0N5AN9wHJ8IqyKOtLVH2LhDzhgOTuwM2KG+TrLxZCGccgjvwafMvmcZ94
+	 gtfFLXvyecOPg==
+Date: Fri, 14 Aug 2026 07:27:10 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Frank Li <Frank.Li@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Vinod Koul <vkoul@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dmaengine@vger.kernel.org
+Subject: Re: [PATCH v7 00/10] PCI: endpoint: Add PCI DMA endpoint function
+Message-ID: <7kzvkrbc6w7yojufwekzjubndgg4ao2o65gnla6mjwhwn5ji2d@vhrj4kg6uia2>
+References: <20260813063757.3131865-1-den@valinux.co.jp>
+ <an2uf5mXzGq1Q7cj@ryzen>
+ <zoed4wtc4oxiyni4o5qpj3li3cmlyy5kfutp4r5g4d63u52625@j6rvbbehjgov>
+ <ztn47y23ctbjrbkmgyyhc6d5x3i2lzz5txotpgtbjtcsvbsvf4@fzadsvt5fl4d>
+ <an3p_j-F10e9x0vM@SMW015318>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 16/41] KVM: guest_memfd: Zero page while getting pfn
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org,
- chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
- jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
- pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
- rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
- tabba@google.com, willy@infradead.org, wyihan@google.com,
- yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
- suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
- Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, linux-coco@lists.linux.dev,
- Xiaoyao Li <xiaoyao.li@intel.com>
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-16-2fc18ee6d3ba@google.com>
-Content-Language: en-US
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <20260807-gmem-inplace-conversion-v10-16-2fc18ee6d3ba@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <an3p_j-F10e9x0vM@SMW015318>
 
-On 8/8/2026 5:52 AM, Ackerley Tng via B4 Relay wrote:
-> From: Ackerley Tng <ackerleytng@google.com>
+On Thu, Aug 13, 2026 at 10:59:58AM -0500, Frank Li wrote:
+> On Thu, Aug 13, 2026 at 11:15:31PM +0900, Koichiro Den wrote:
+> > On Thu, Aug 13, 2026 at 02:50:59PM +0200, Manivannan Sadhasivam wrote:
+> > > On Thu, Aug 13, 2026 at 01:46:07PM +0200, Niklas Cassel wrote:
+> > > > Hello Koichiro,
+> > > >
+> > > > On Thu, Aug 13, 2026 at 03:37:47PM +0900, Koichiro Den wrote:
+> > > > > This is v7, the remaining patch set for PCI endpoint DMA.
+> > > > > Parts 2 and 3 were merged per Frank's suggestion.
+> > > >
+> > > > (snip)
+> > > >
+> > > > > One open question is how to support endpoint controllers with only one
+> > > > > PF. Keeping DMA in a separate EPF requires multi-function endpoint
+> > > > > support. Folding it into vNTB would work on single-function
+> > > > > controllers, but would also couple the two implementations. This series
+> > > > > keeps the separate EPF model.
+> > > >
+> > > > I see all the work you are putting in and I admire the effort.
+> > > >
+> > > > This is now v7. I think it is time that we close the open question by
+> > > > waiting for a reply from the PCI endpoint maintainers' opinion on the
+> > > > design before continuing. (I am not a PCI endpoint maintainer.)
+> > > >
+> > > > I understand that you want a common DMA abstraction, that can represent
+> > > > different (embedded) DMA controllers on the endpoint side.
+> > > >
+> > > > But if vNTB is the only consumer of this, then why not simply embed this
+> > > > DMA abstraction in some BAR exposed by the vNTB EPF?
+> > > >
+> > > > Looking at the host side driver that goes with the (v)NTB driver:
+> > > > drivers/ntb/hw/epf/ntb_hw_epf.c
+> > > >
+> > > > The BAR layouts are hard coded, and it only supports three different
+> > > > layouts. Would it not be possible to add a fourth layout that has the
+> > > > DMA abstraction somewhere in one of the BARs? ('BAR_DMA' ?)
+> > > >
+> > > >
+> > > > Right now, I wonder if it is not a bit premature optimization to create a
+> > > > DMA EPF, if vNTB will be the only (ever?) user.
+> > > >
+> > >
+> > > Yeah, I feel the same. I haven't seen an usecase to program the DMA controller
+> > > from the host outside of vNTB. This feature is supported mostly because it
+> > > exists in hardware and someone wants to tick the checkbox.
+> > >
+> > > Though, I'm not against doing it within vNTB as Niklas suggested, but
+> > > generalising it in the form of a new EPF driver just for the sake of a single
+> > > driver sounds like an overkill and maintenance burden.
+> > >
+> > > Sorry for saying this in v7. I've been meaning to say it, but somehow ended up
+> > > procrastinating too much.
+> >
+> > No bother. Since Frank has given a lot of feedback on this series, I'd also like
+> > to hear his view.
+> >
+> > I'm fine with either direction, and can revisit the earlier vNTB-embedded
+> > approach:
+> > https://lore.kernel.org/r/sn67hi7kljh7cgmgodatb3naz2astlaklqfobdbxyyzgoohxqb@4nnetbhqwba4/
 > 
-> Move the folio initialization logic from kvm_gmem_get_pfn() into
-> __kvm_gmem_get_pfn() to also zero pages if the page is to be used in
-> kvm_gmem_populate().
-> 
-> With in-place conversion, the existing data in a guest_memfd page can be
-> populated into guest memory through platform-specific ioctls.
-> 
-> Without first zeroing the page obtained using __kvm_gmem_get_pfn(), it
-> might contain uninitialized host memory, which would leak to the guest if
-> the populate completes.
-> 
-> guest_memfd pages are zeroed at most once in the page's entire lifetime
-> with guest_memfd, and that is tracked using the uptodate flag.
-> 
-> Zeroing the page in __kvm_gmem_get_pfn() is chosen over zeroing in
-> kvm_gmem_get_folio() since other flows, such as a future write() syscall,
-> can get a page, write to the page and then set page uptodate without
-> zeroing.
-> 
-> This aligns with the concept of zeroing before first use - the other place
-> where zeroing happens is in kvm_gmem_fault_user_mapping().
-> 
-> Don't mark the page uptodate again after populating, since the page would
-> already be marked uptodate before the post_populate() call.
-> 
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Tested-by: Shivank Garg <shivankg@amd.com>
-> Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-
-> ---
->  virt/kvm/guest_memfd.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
-> 
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 030af0855f8b0..41950c8105b5d 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -1079,6 +1079,11 @@ static struct folio *__kvm_gmem_get_pfn(struct file *file,
->  		return ERR_PTR(-EHWPOISON);
->  	}
->  
-> +	if (!folio_test_uptodate(folio)) {
-> +		clear_highpage(folio_page(folio, 0));
-> +		folio_mark_uptodate(folio);
-> +	}
-> +
->  	*pfn = folio_file_pfn(folio, index);
->  	if (max_order)
->  		*max_order = 0;
-> @@ -1108,11 +1113,6 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
->  		goto out;
->  	}
->  
-> -	if (!folio_test_uptodate(folio)) {
-> -		clear_highpage(folio_page(folio, 0));
-> -		folio_mark_uptodate(folio);
-> -	}
-> -
->  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
->  	if (kvm_gmem_is_private_mem(file_inode(file), index))
->  		r = kvm_arch_gmem_make_private(kvm, gfn, *pfn,
-> @@ -1159,8 +1159,6 @@ static long __kvm_gmem_populate(struct kvm *kvm, struct kvm_memory_slot *slot,
->  	}
->  
->  	ret = post_populate(kvm, gfn, pfn, src_page, opaque);
-> -	if (!ret)
-> -		folio_mark_uptodate(folio);
->  
->  out_put_folio:
->  	folio_put(folio);
+> One of the important value is test dw-edma-pcie.c, which generally depend
+> on some fpga hardware. If there are epf driver work as fpga hardware, it
+> will help cover edma remote user case. So more user can test it.
 > 
 
+Testing is one thing, but using is what matters. Are there any products or
+use case based on remote eDMA? Or even dw-edma-pcie.c?
+
+Most of the time, dw-edma-pcie.c driver feels like a dead code to me which no
+one actively uses or tests. So unless a real justification is put forward, I
+don't want to add a whole new EPF driver for it.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
