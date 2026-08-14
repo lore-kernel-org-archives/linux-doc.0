@@ -1,64 +1,64 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C453EB7F4
-	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 21:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7CB3EC6B2
+	for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 21:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786743884; cv=none; b=ti4yEEU/B9IFXoqEzaHaLtwVf2W82W3VoGcwGFtvlzQVH4SsocC1W6BpQj3dSoeF9M/jPLplMSzaR4SjkJ/fee+Wtur9/LQ8dmPR9Qybw8yBkcntPtc+XZ1R7pJSoI+g3qaePUgnoQym7XdEbu0bVIr5QVH9d7p8P4ALT8TXh/E=
+	t=1786743889; cv=none; b=FcUH24NiKWsYVlxtush/3p0Tb5W3TDm2VH7AbFq0mg6GILQ8zQHvoDb7iRj9S6t7CgT+AMglIiug9jng6b7M07qLbByj68D70XnLIpaMvKW+seLPGGhc8T9ZJO1VGxkHtRxEb8U/Km91iDt/3yyG0thjZ0dGCW8dXOEeVuqawCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786743884; c=relaxed/simple;
-	bh=Hhb4cef1MAEpu4PLBU4LkZ2I1C8LkMuNPL4aX8GslHk=;
+	s=arc-20240116; t=1786743889; c=relaxed/simple;
+	bh=enQ1phiqyNZfnRKkkwTpsu1ywn5VcWK5YpQmBDqD2ao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GSOBsr6bQp2WZrCNiL/7rGrETepDKs4+AWAlfuJYoXcrf/guI/jsZ4drGsB+t7sxFapFuJRkTcMK3vGnf4o7AXn1QS7eHxad3JPGYgtGF/qgXf+yjxtQMjXvX8B1yBLAfkG1t3lOWQZSEzA7EbvN3WgDFkqcOVzaraMY8QFT0qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JS8PGTTu; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version:Content-Type; b=W2NyuVpO2Y6OpFt7T7lXKHkLFKIc4SAbm8xsw0VDIL/fzJTGjR66/sKTTpHPMA//iC6d+dxFIvjAZkPQcM8QWiUinJBe8x9vVlOW/xZ1jTFk6onksWCoEPaOiJ9ty0EZq5z7qDCkTGexBxYJYMqG9OD0DJnMVvTzUXetxV+rCvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cB3aN48o; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JS8PGTTu"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cace91f112so18982115ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 14:44:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cB3aN48o"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d049069377so16418825ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 14:44:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786743882; x=1787348682; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786743885; x=1787348685; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=V6GZvfEAijGaqhtKPQUOnz0gSt4IZk38gRWPOnznvfc=;
-        b=JS8PGTTucFlURb+Ts7KhpMEDCvdHioKbIyx9nSKpCGYlih95IuCBv8CON4K55gvccb
-         V1phV4+Lj5abaevKSAi8zvw8sy0TWPvfpsJh7GsKLjOEFRzfbm9O+W9ygxb3Y/Z6eJ5r
-         AtdVOe4V1MU4AhfkSTcqeyr6AnCrH63j5lk7PxYkkhad3nhHe0rsRUhMNlBZLaB2hDo8
-         vXdiWjeZJ1ise3jRQVlGDyuHThf9RpVDOEuov+d/MMKogjcVrAF7o+5JpWf8FtU7Eh4I
-         VCwkbHDNRGWKlCBsc6ZT/BCtcCxJCtOgetTF5J0t2Ue6fvLah5ON2J4IvHXuEkTZuLpL
-         +x7g==
+        bh=oEv+Se2gHn9GJtitJ1A6lizvRqVoiP8jcMPlwHRZirs=;
+        b=cB3aN48ow6EvJ7B29ua3cHNA/a5Kr7zEyewrvdU+CgymqiXri0er7TN4dYCkcqQnFu
+         rbGakpoZkAMxn929SftU1rk58vaMFiOhAxLsxs9Mc7mT4uVZYjnS3PPoc6Pg2PJCnSG2
+         WZ1ZltqzrludgW9TRE/rBJ+mCfhC0FKQ6WiskXnHrPGwfBXiRzqduSlgHsMEQVLdSGMZ
+         ttxZpAwNBu7UuuBC57ZQiaQligfverSCGeC6/YSHN+2wDiYDenqsvucPVLrKLZJFsqB5
+         D5f3rYgJnZf0ZyIpR3TIK7o9NA3VwLr3NrawCEI91E6Qq2UzUFbLgG5rnKQD3vLlgu8M
+         CrUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786743882; x=1787348682;
+        d=1e100.net; s=20251104; t=1786743885; x=1787348685;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=V6GZvfEAijGaqhtKPQUOnz0gSt4IZk38gRWPOnznvfc=;
-        b=iCVZISBABR2aqb+xzbl7jVS/td1MrbGYpJlqAuYHCKtNt/TSkTDnrQnaHPaZAjYHov
-         20acN2NTsg5xpR8YBDywHW2JIfjlw06/06hWJOordD/KmRnGj8c3EmMNFf/LkzpRqzL3
-         gRpQ0xwGbUa4NBxPrnlAxOLLMSMdjV3b10rJI0WEkRlPzwyZTqJqQxRl7W4jfeLGeGJP
-         ehbTnwBJgEZjXH6UzwBndVUPYRiIfxQ+vAGscK7BNWdaNuG7E5ljeXIlJ1jXH9qm6nqX
-         D231/5KPC5oA8RzqWsoGAR7OGNbpSTNm8vJZSK1nmIWk1VGxpzw4i0tCVbV7tPWkXxJB
-         0HOw==
-X-Gm-Message-State: AOJu0YyflO45GDocidlwaTyk61z07cEAVcbM6S93YYSCfXKuuYM+wxET
-	Pu0trTjfgAIdOcBe3js4aAJ7x4Y3ys2EZdYI/tac/CUX1obYJaCKTLj0
-X-Gm-Gg: AR+sD1353TrFRw+tVICM2vL6767HTFEs71cmn//Qxr2vJPySvAtsXZZ7jTqLeuRvBRS
-	vJwrETSdVeBw78vVAu5iaWUzOSAbIxOTlk6d+UtjvqsobenJmbJfiT9xwqPrW7JsHGCxQfW61bu
-	Jf3n1srgyVJ/5p7OVFeqIDX/Nr2Fn3X3MCviApJdaIr6LyeCsCIz0M4P5JbUgSVxFO8o1rmR4N/
-	/iSCuLKI3N+oAovs3QzD2Tk7o3kbBr5o4P6pLvIsIUx3JWJdEQQFdDfyVoXzmlCXJNyhuKFFSBg
-	6Goaf1udNmfvreifXYL5wMh6nuSjEX3VqjHokfcdrwgy1w6C6in535HvHshzvI+QMqwDczFUbXY
-	L3p6kolhULHP5rFLm4ITUapNmtoDyMAAatW6752qXHVcG9C1xoKncXmkkvOfEDgkMLyR95M36Z7
-	WUoJAYfc1OkTikDUf1KNaXUu05X2hR8BEXLZoOu2oqvznhRdpEJjimZ7kyg42JNR3sgbJEbrTiA
-	YA=
-X-Received: by 2002:a17:903:4b50:b0:2c9:a5e9:c26e with SMTP id d9443c01a7336-2d3b0eec2e4mr109964725ad.13.1786743882137;
-        Fri, 14 Aug 2026 14:44:42 -0700 (PDT)
+        bh=oEv+Se2gHn9GJtitJ1A6lizvRqVoiP8jcMPlwHRZirs=;
+        b=RdBu0kxK2b8eHuQjk1cWDucF8kj5ltajbjd0WeS++6BPoZEyxUIH9yk1QGbFTZ4dAB
+         UIZ6cau6MFIotZArqt7tmDRRWlrRdJqZZZBYTOqg6hBfLiit+mzRGpqHFRvdaReOYm4C
+         p/spQF23Lw1HQlhgt7f26RQBiW20hl5x3wFlICTbRoxoHOTKwiG8JqJ3tAWOTWRRfXxk
+         DdzgC6VXmpxZ6Qv6YXW0mkKbDsXNBlCM6XmBgbV0eVNLzXBj2qIk9je2FZAI2Z6VxJWG
+         V5fHbM4QrI4rrMXCZrW5euOnzqBjYxj1255ppZnpngIt3iFFKOUSim2VVae4H1MfnLHl
+         SANw==
+X-Gm-Message-State: AOJu0YzVkQVLUyqC6J0MtlN3RlCwY1ScxS7iCa0Ox4waxr7rTwRXHnNG
+	vvvjTmTEw5uu/e96M14cEVh7Hjl/cHSzNJolw9uEdRJdSVpBnwy9FfWk
+X-Gm-Gg: AR+sD12U07hMwKeFLUY8flgn1oKjVb9nzlXyZGQrVEVWdljCNFXeSTa13KPwmATSMER
+	DqG+mytsDj8Jkx6fffX5Ov0ZnuIceW4VsOykS+qxfkArsaljpnrVrUafmz6HpYITpfAG+xnykpj
+	Q2PMaIUaGSIDiCaqgKA2V09Pb2vshOFrcxQFmJ0hNYiUn1lnxCpGi/sOt9ALGOUY0vMy1ixc3gM
+	3/rA1YJNjn7kVo9MdHBgnmJxyfgaEmOl7Mz5v3bX6QN+G+Glju6OBOtA9yqPMC8uYFr+hNcp/2k
+	VNgL4Ez+QzVjQhidFjQtjniAmSA5Mp0NEZDq9Fl9+4cVNhPaDsAhHpi9xApwO5WhPdhNr46RNmC
+	+D9RCRqNo2HnDw3ZIR9fnVlQe4S8sgwh2eQKQpJRPIBpMJSFhzynmR36sDWbPUWxPymH1MkHWSQ
+	PDX4CytOcy+akpzdjEnhWwqN9i/w+RFvTPwfuwD0uZM3JmUemSU+HaJYPj8uxOr7vAmhMIdhI6b
+	lk=
+X-Received: by 2002:a05:6a21:10e:b0:3bf:7994:ddca with SMTP id adf61e73a8af0-3cc71d5074cmr10967453637.29.1786743884911;
+        Fri, 14 Aug 2026 14:44:44 -0700 (PDT)
 Received: from localhost.localdomain ([64.186.250.142])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-320d5bd918fsm8083617eec.2.2026.08.14.14.44.39
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-320d5bd918fsm8083617eec.2.2026.08.14.14.44.42
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Aug 2026 14:44:41 -0700 (PDT)
+        Fri, 14 Aug 2026 14:44:44 -0700 (PDT)
 From: Chen Miao <chenmiao.ku@gmail.com>
 To: corbet@lwn.net,
 	alexs@kernel.org,
@@ -70,9 +70,9 @@ To: corbet@lwn.net,
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen Miao <chenmiao.ku@gmail.com>
-Subject: [PATCH v4 5/6] docs/zh_CN: doc-guide: document macOS Sphinx setup
-Date: Sat, 15 Aug 2026 05:44:17 +0800
-Message-ID: <20260814214419.49925-6-chenmiao.ku@gmail.com>
+Subject: [PATCH v4 6/6] docs/zh_CN: how-to: document case-sensitive APFS setup
+Date: Sat, 15 Aug 2026 05:44:18 +0800
+Message-ID: <20260814214419.49925-7-chenmiao.ku@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260814214419.49925-1-chenmiao.ku@gmail.com>
 References: <20260814214419.49925-1-chenmiao.ku@gmail.com>
@@ -85,48 +85,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate the macOS Sphinx dependency setup added to the English
-documentation. Keep the translation in a separate patch so translation
-status tooling can track the source change correctly.
+The APFS volume used by macOS is case-insensitive by default, while the
+kernel tree contains file names that differ only in case. Document the
+diskutil commands needed to identify the APFS container and add a
+case-sensitive volume before cloning the tree.
 
 Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
 Acked-by: Weijie Yuan <wy@wyuan.org>
 ---
- .../translations/zh_CN/doc-guide/sphinx.rst     | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ Documentation/translations/zh_CN/how-to.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-index 3375c6f3a..e6d42d970 100644
---- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-@@ -110,6 +110,22 @@ PDF和LaTeX构建
- 
- 	使用Sphinx的系统打包，而不是Python虚拟环境。
+diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
+index 9ec2384e1..e1d3d2b8b 100644
+--- a/Documentation/translations/zh_CN/how-to.rst
++++ b/Documentation/translations/zh_CN/how-to.rst
+@@ -102,6 +102,14 @@ Linux 发行版和简单地使用 Linux 命令行，那么可以迅速开始了
+ 开头的命令。**请注意**，最新版本 Sphinx 的文档编译速度有极大提升，强烈建议
+ 您通过 pip/pypi 安装最新版本 Sphinx。
  
 +macOS 默认使用不区分文件名大小写的 APFS 卷，而内核源码树中存在仅大小写
-+不同的文件。克隆源码前，请用 ``diskutil apfs list`` 找到 APFS 容器标识符，
-+将下面的 ``diskX`` 替换为该标识符，并创建一个额外的大小写敏感卷::
++不同的文件。在执行 ``git clone`` 前，可在现有 APFS 容器中创建一个额外的大小写
++敏感卷（先用 ``diskutil apfs list`` 找到容器标识符，并将下面的 ``diskX`` 替换为该标识符）::
 +
 +	diskutil apfs addVolume diskX APFSX Linux
 +
-+在 macOS 上，该脚本使用 Homebrew 安装系统依赖，输出的 Homebrew 命令不需要
-+``sudo``。PDF 工具链由 ``mactex-no-gui`` cask 提供，所需的 DejaVu 和 Noto CJK
-+字体则通过 Homebrew font cask 安装；如果只构建 HTML 文档，请使用 ``--no-pdf``。
-+安装 MacTeX 后，请重新启动终端，或运行
-+``eval "$(/usr/libexec/path_helper)"`` 使命令行工具可见。macOS 用户建议使用
-+默认的 Python 虚拟环境，因为 PyYAML 会从
-+``Documentation/sphinx/requirements.txt`` 安装，而不是通过 Homebrew 安装。
-+该脚本还会检查 GNU Make 4.0 或更高版本；如果 Homebrew 将其安装为
-+``gmake``，请使用 ``gmake htmldocs``，而不是 ``make htmldocs``。
++然后将内核源码克隆到新卷中。
 +
- Sphinx构建
- ==========
+ 如果您处于一个多用户环境中，为了避免对其他人造成影响，建议您配置单用户
+ sphinx 虚拟环境，即只需要执行::
  
-@@ -409,4 +425,3 @@ Documentation/doc-guide/kernel-doc.rst 。
-    <line x1="180" y1="370" x2="500" y2="50" stroke="black" stroke-width="15px"/>
-    <polygon points="585 0 525 25 585 50" transform="rotate(135 525 25)"/>
-    </svg>
--
 -- 
 2.50.1 (Apple Git-155)
 
