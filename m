@@ -1,87 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3628C3AF677;
-	Fri, 14 Aug 2026 09:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5393515CA;
+	Fri, 14 Aug 2026 09:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786700898; cv=none; b=iRWez1iRDC64YPuijf4RXdvqA9DuE5idpZJ4i9bAOIrpAzRgJrtF+xMtqVBb2QCyPiM1e17L4oyP3xFm/64eaJX7aln6NeiuK5sIqfPAKnRzT3mVWmaha8A/oVXmoAkzA4CTElYJBeRmhMIjWM71y8rKTIEBBBZaK1gBYEAjgHU=
+	t=1786700958; cv=none; b=W2N9Ck0EdA3iFxZAAKJ17EXCfnYCJhxz9C41LFhRASy9ZX63SoVxtCBUnU3zFB6VMn3DWAj76xc8A6O0MfnPmyiq4w+zLcdJgmaHqJBV51yDquwIeXBVC5qs3RCIFRfvACr4KR69ekVI1DNmsz7yYoysuwn0+dezicim4bcFMCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786700898; c=relaxed/simple;
-	bh=VWz+imdVnkbTu/11eqAcvWDbo6t8+5/hRTqaRkt03Xs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=Y9ZVpZlknRvjBMw/7Y4pjqKhCwm52wxBAkU90gq6FbB4puaLoCAWjmg0KbxRaPjdp7B3dRDmVpHCdIuH324vmxVyhfx0r1pCi73LY68CWYkF0u0tMpJR91pZUla9pCbGQazVf9wl63GgnCY+m2+zHZEn2BWEutOSPHBBhEvmq3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j+CZuGTf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786700958; c=relaxed/simple;
+	bh=gWzin9wfOINNBvmpTDDtuNaWDRNMnVMGnqukN63vv1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oXXYxF+2Zl5wfeZTlqMFIFgtjhY7lW2c9oHtcF8qsImF3TOGNeL4mYxv3wKwgb8M19uHKqh7NNuNrFBCaZrzY4SfJZgetWtyNnebr04b6NensNI4+zUeXPsnLeo40hGS9/iWgv+OMI7Sqnmi1zWlJ+Nof36yuZoxKvG9BgIHRDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YiXuDCtA; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HrDb0Ckv; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j+CZuGTf"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 882321F000E9;
-	Fri, 14 Aug 2026 09:48:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786700897;
-	bh=VWz+imdVnkbTu/11eqAcvWDbo6t8+5/hRTqaRkt03Xs=;
-	h=Date:Subject:Cc:From:To:References:In-Reply-To;
-	b=j+CZuGTflKvu56ukvMb6j8Fh+26sB80WXDPMEntQM3wu/RuEBFzds8N75ixmPI/qS
-	 Se9GfVWqoD0rf+YnVRU8H7/gjG3Ol4tSFOXVPmeQEr6lwm456bNl82MiajfBD7YrlW
-	 EbheSu4PvWYo3PiyKAXvdpSubjc6YlNuA5Yh5ZBAYBa70Ubd0808T7b73/nWq/l50a
-	 8MYMhft7FrKPOuR7QszdOVuNwwZLgg5gs/NrFRVUSA/k7WWqhpvAysMKo+2lB6i2u6
-	 /1TT+Ghd/SRgv6uwb5uwvf9juRIY5f6z+hbCd46HgGZ0WaRltPeXaQdrAVuRfXKjLT
-	 BkfvTvW9x5IkA==
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YiXuDCtA";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HrDb0Ckv"
+Date: Fri, 14 Aug 2026 11:49:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1786700951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fTiP7FWyTqJGmNFqRB+XUaEeim2Ak2m+qKESeUYSbR8=;
+	b=YiXuDCtAst5zubxsGQCRNFp2MKZQMFMSHGggT5dcEGKC9ZFjJsK+ogkRY/q36a491ETSad
+	jQ2nGUTvmPJVQDi94NHawjKk3VD+F9166F5iiL7DV7b1FL/Th4Xfi2zPYSyu9npamY2dGM
+	GqH/RXyYed5J7APW3S5RXGvBiSV5SelrPKlEvFTDyFMfvCTNEsZ2eNi2IppWFYHAgdpfZa
+	ZMEZE7bVqXecUSJ84Ikar5GMFNG5Ih1hQLLGNH2ndqtFGyvCfif+LBrxCAxQdtLsCXSTPm
+	tDqNXvf/cUXv0W7PwYHbPb1QFIhXHqrwdXs0WUOuP76/xKJ+tXbHkc1rGTvigQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1786700951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fTiP7FWyTqJGmNFqRB+XUaEeim2Ak2m+qKESeUYSbR8=;
+	b=HrDb0Ckvhx2HTPOMSBQb5fJgRVT0if/XrZ18C8dQTD0hB+zv1y9IHhT3H7rGiH0i8LsAWe
+	KCUMWrYDnOR8QyDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Liang Hao <haohlliang@gmail.com>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v3] docs: timers: hrtimers: clarify expiry modes and
+ ktimersd on PREEMPT_RT
+Message-ID: <20260814094910.akPMAqd4@linutronix.de>
+References: <20260812145440.23528-1-haohlliang@gmail.com>
+ <20260813145746.26612-1-haohlliang@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=2256f4b7726d14d8b4ae61d3083ca8c3ffa66a7a0da8dc2b2cef6042dfd8;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Fri, 14 Aug 2026 11:48:13 +0200
-Message-Id: <DKOKLV5T1BNI.2CW9UBFLOD83Q@kernel.org>
-Subject: Re: [PATCH v3 14/23] mtd: spi-nor: winbond: Add support for
- W25Q02RV-Q/N
-Cc: "Steam Lin" <STLin2@winbond.com>, "Hsin-Yi Wang" <hsinyi@chromium.org>,
- "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- <linux-mtd@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Miquel Raynal" <miquel.raynal@bootlin.com>, "Pratyush Yadav"
- <pratyush@kernel.org>, "Takahiro Kuwano" <takahiro.kuwano@infineon.com>,
- "Richard Weinberger" <richard@nod.at>, "Vignesh Raghavendra"
- <vigneshr@ti.com>, "Nicolas Ferre" <nicolas.ferre@microchip.com>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
- <claudiu.beznea@tuxon.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>
-X-Mailer: aerc 0.20.0
-References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com> <20260813-winbond-v7-1-spi-nor-rv-addition-v3-14-b637cf120d5c@bootlin.com>
-In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-14-b637cf120d5c@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260813145746.26612-1-haohlliang@gmail.com>
 
---2256f4b7726d14d8b4ae61d3083ca8c3ffa66a7a0da8dc2b2cef6042dfd8
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On 2026-08-13 22:57:46 [+0800], Liang Hao wrote:
+> --- a/Documentation/timers/hrtimers.rst
+> +++ b/Documentation/timers/hrtimers.rst
+> @@ -171,3 +171,31 @@ hrtimers-based high-resolution clock implementation, so the hrtimers
+>  code got a healthy amount of testing and use in practice.
+>  
+>  	Thomas Gleixner, Ingo Molnar
+> +
+> +
+> +Expiry modes and PREEMPT_RT
+> +---------------------------
+> +
+> +The default expiry context on PREEMPT_RT and the role of the ktimersd
+> +thread are documented in :doc:`/core-api/real-time/differences`
+> +(Timers).  Those details are not repeated here.
 
-On Thu Aug 13, 2026 at 5:19 PM CEST, Miquel Raynal wrote:
-> There is an ID collision with the chip of same density from the JV
-> family. Both chips are very similar in practice, it is mostly a matter
-> of electrical differences (mostly power consumption being lower).
->
-> As a significant difference, RV chips identify themselves as supporting
-> the new SFDP (rev F) field which forces an alternate write SR2
-> opcode (0x31).
->
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Interesting to say.
 
-Reviewed-by: Michael Walle <mwalle@kernel.org>
+> +The per-CPU ``ktimers/%u`` thread (referred to as ktimersd in that
 
---2256f4b7726d14d8b4ae61d3083ca8c3ffa66a7a0da8dc2b2cef6042dfd8
-Content-Type: application/pgp-signature; name="signature.asc"
+Maybe the other document could be updated so it ktimers everywhere.
 
------BEGIN PGP SIGNATURE-----
+> +document) runs at the lowest ``SCHED_FIFO`` priority via
+> +``sched_set_fifo_low()``.  That priority is fixed: the callback does
+> +not inherit the priority of the task that armed the timer.  A
+> +``SCHED_FIFO`` task running at priority 99 that starts an unmarked
+> +timer still expires on ``ktimers/%u`` (lowest ``SCHED_FIFO`` priority),
+> +not at priority 99.
 
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCan7kXRIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/hWeQF9HWW8qaN8GBeNIv0SV2a0iTZpTSXMHutL
-r3X5Y3AGtyacF1H9OcDzkxzubK+HQGOhAXwOSnUC1b12XjeRxcD9coh+bU1WVSpC
-Iq9jvbkbTwFJfJ/cwJvxETi0KcUArg8uxMk=
-=xmBz
------END PGP SIGNATURE-----
+Right. Why would one expect that to happen?
 
---2256f4b7726d14d8b4ae61d3083ca8c3ffa66a7a0da8dc2b2cef6042dfd8--
+> +Priority inheritance on PREEMPT_RT is used for the cancel handshake,
+> +not for the arming path; see the "Spin until ready" section of the same
+> +document.
+> +
+> +``hrtimer_setup_sleeper_on_stack()`` (used by ``clock_nanosleep()`` and similar)
+
+I wouldn't say similar because what is similar? Does the timeout passed
+to select() count as similar? Any of the POSIX timers?
+
+> +is an exception: when armed by an RT or DEADLINE task it is marked
+> +``HRTIMER_MODE_HARD``, so the wakeup runs in hardirq context and does
+> +not go through ``ktimers/%u``.
+> +
+> +If callback work must run at the owning task's RT priority, either
+> +mark the timer ``HRTIMER_MODE_HARD`` (and keep the callback
+> +hardirq-safe) or wake a dedicated kthread from the callback.
+
+I don't think this belongs here. Anything that general hrtimer related
+could be added here. The flags parameters such as HRTIMER_MODE_REL,
+HRTIMER_MODE_HARD, HRTIMER_MODE_SOFT are only documented in their
+kernel-doc of the hrtimer_mode. 
+
+This document does not cover where or in which context the timer
+expires. This is also true for timer_list timers. Those are not affected
+by this and expire always via ktimers/.
+
+I would suggest that you extend the existing document that you refer to
+instead adding RT bits here and refer to the other document. If there is
+a need to mention the default context, hrtimer_mode would be the place.
+
+> -- 
+> 2.50.1 (Apple Git-155)
+
+Sebastian
