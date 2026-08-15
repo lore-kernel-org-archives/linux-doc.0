@@ -1,236 +1,289 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8AA3290B0
-	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 10:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786789048; cv=pass; b=otHFOBDM8/jIZ3PIEOUTv29TS73bNMhnNGJTKEfgF4c9V/1PiBP4tW8b+zTGnj5LLEPwm0M/psoVJScZ3MCgK/5JaOYxXFzUlsmZx443+TGPCROOIuZMsvwbPrfzU5GbefdyJSm6G12PScpVZTsUzOXVBRew9tM03dMuJCchH4g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786789048; c=relaxed/simple;
-	bh=yCvQn7y8i3SKV38U3bVtnwil81VzoYgg5TA6kVlc6/E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vm1RWh5o02V564B+26CMyA9fY9yc7o44siNDdD9vpM2peH6Hu/oQ1HHBqpabNGHYviZP1xD1P2nvYnNaTOixSj9yR2pzIX3zM3YY8Y0MrVQMkjjMecfnxsxEZbF9Afc9+Xt6V3+XlC60Q3kwFt1RIuTus4YT+iOic0NEh1hRxd0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dFcNFtrW; arc=pass smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1097032F76D;
+	Sat, 15 Aug 2026 10:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786790645; cv=none; b=h80jnSMO4LK84V05f1i2TY2bsCtDG2kW/ZJ8Dgebk4myi85eqvyCh1uiVxQoVBv+ZQrDJLYeq+sL4BpBnj1p6r+1AYL3wp+UZHVn2yG/kapYnhskjV/ClWoNKEyUxhkGqS+0HQCmVa/w0pPfjOoqhCGNRrIxpMiN99UeEBnLgKM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786790645; c=relaxed/simple;
+	bh=nQZrTvfC6EO03hbr3kZVz+TiErP5GDAhGHqxIztZ+F4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=acQUANAnaCf/H3FU/G+hhHgAuSWWqUpRZV9StdyciiQsysZ4bUpzLkzGA9kChZ8xvUBsXH6DQosauvlbCwVBzjPlWouO+lrot6F4xrf8aq6RxjCcsNxwrdzZOt9gHxWsQEiYMV6bP/4x6dpt5qBcd6xDX69MPpBtE828uybni5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kr/Tf5ck; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dFcNFtrW"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aeb906d6c6so224700e87.2
-        for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 03:17:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786789045; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pe9t5r4cy2SJoITkrdMvhKjcCytKHCCU+LRqP59PelH7xFwQT3ImTSPt+y15iLQbS3
-         MiGjWDF8oxGrIRpZnbXKZcn4RngGEbOAjfKsX+w98ltC6CDS57xV2CJJ7QV2ZWMzJkSc
-         Q3DyYYAjsrBT2cZMixLxr7YtWhOkZJgkYh35fw2EPy4EbsTF69VUPFp+rCpA99sY2eUZ
-         Y8TWeSnYq9WOsFfkN9ZP0JMIQLf4FgIwqQqAEHCgFPUc/zPeuxXUNa0eFNc/nmP39nxr
-         W2CYIiDlA/RC0dA2xNNFj9I1+hWBhXplz5nF/C5eZjJ5Z/fs1oQ2If42NukRHjjDGtS5
-         A+KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=j6xhLNb/nQdBYnxsQBiqsDPTYOc63Q0FWRpJd2WXAwQ=;
-        fh=c1IIhfjJQY3AovkZ5qRMLmxqAcQ/YL0/CPbe2C9FQM4=;
-        b=g+BSeXoCV5Ubv/F4lV+Rxt3ZSrnBl2USdIbA5kp8xSUEXvAQsBX+QszwD4i9zRQDnk
-         7UhAGkX0jOk8mYsGn4e1OQgaj5Otivym6OB8hZmz7N5Efa+m+TCy/C3ulJlYHCU1QJi5
-         rmGj5pAjDH8QQZ2lZQjhK77WyECgXC1tkWkZdvIRoZNowS5n7fp1GhzY+s3Mz54zdbcp
-         RqLR9bgQ2sgegHHkaj3qm5Rw4aUVJUmo6RUYMvHEoFoo4gUkmj4e6qysHyMEKs3YBX3I
-         ICp1TOGJ77Z5UOeDmqtzE58ziy1sccVuOyQipI7c+ERvAJBcXkxLuaFtA/akEqZ190kq
-         wM7g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786789045; x=1787393845; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=j6xhLNb/nQdBYnxsQBiqsDPTYOc63Q0FWRpJd2WXAwQ=;
-        b=dFcNFtrWWQqbsat9Sp4QNdxdpnR3jxUF0Xj1Sb+72O0ZUMt1HO6b35HFCREoL6k6U7
-         bgFliEHgr6Zt8DKHqnPl4ynhxpda8mkHW1c1Vr+Iu1nr62I0mc9mn6YBanmKS6FPCFPg
-         1w0xuO2rwbyGcirFTVZCoNk+ZZgdmDNJ+1bd71bZd1dZv1u4MQvCeFpEJZ4tcjVnkxGD
-         mkx0Pj5TzEfbTmkWhLLMO1jdpjHQmJXoi7duVFfzhSfEhjkgU6Jl33IfEoLQEMm1YtjP
-         9YDQjZlaY5NtkgjHePFrF41V9cSe57Hs3PXeCuXZ8EkIm10zmeEjZ4vynuImHP4GmmYo
-         KCeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786789045; x=1787393845;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=j6xhLNb/nQdBYnxsQBiqsDPTYOc63Q0FWRpJd2WXAwQ=;
-        b=hz+y8vRqfRHwqtczHzQ8bjx7JslkQgCl9GUtsenbwsPDpuhNgZKLEUD1prCUc0sRkv
-         QwI5bHfgvzWfFMnY1V2Qxs7778rhSxz9PXR6cienL4StwCSYkKg8g5THF03yRGm/Cbne
-         i1ufa01V3JGaAKJZ1//JUgHos/7A3naV7QCDIqmpDV+pH97Zd1WUCemW9mQeb5imIHHp
-         o4ny66417PUrMyTLio+O0NQ17GFP1E+Umrxr+4CIz9r63Iuy9Tgif2ySmcolqHqRT3wo
-         hVJesz61Isi/u63GLVOG1wAuPxDl72oHiUB1hzm9Ds6Gzx9Rp85T/oWr0EMufHLlG0pm
-         lSiw==
-X-Forwarded-Encrypted: i=1; AHgh+RqrFs4wVY/UvJrUta6xeMbzzP6XbjO2wqYZmVTrg+jRKlyV0aJZWHGki6i4d+GQ01Gen6YBXRHTJPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yym+sND77GG4uDcLluKd4d33GdQCNHVYbsbjhqCtl6ZJMcDkgH7
-	eCigtAkIqj61ZGHNnGrzIQUcUjZywmLcZQeUcX0wTvCFwQ+Agi6b2a3df1XFTbrBAxtXpf/arai
-	9q5rCqrpN7uFZDJOKMK7LU2vjC8cEzh4=
-X-Gm-Gg: AR+sD115c+hX5vGqnEXZkYArUXcnMHrmGelCsz9X9Ng1Za2j3PlmLZp7QGAu6OBJ/Ge
-	l5v6EikAJiqUkR+lkPxmnaPRLWksfCx1fsnsLhW0msgUXl/h4dg65nsOnPk6MDbw0SJnG+aPQjH
-	SPo2PZQOxsq1c5yGAN6UItkTtHxaY/Fk9HnTcFm8L1i+nDlLY/BBHKzB3NHTo5j5huYEwypkDPk
-	PiaUtKW5XS82qdnkra+LvALvHgJQLfxcbaBF0yD9bd1w3opCJKYszQACf+Ls25T3ADsFUQ7wp3u
-	Gu1hf1q3NO5EJeV2ET6A31qTytkFrP3e4TYTBiFkkduwSZ5uAGjSYFWi//veIIdHBhFhiRB1utH
-	38fWWsOT83wy8iJbAP9vNisYHob8=
-X-Received: by 2002:a05:651c:1b84:b0:396:7fd1:f574 with SMTP id
- 38308e7fff4ca-3a1328207c5mr10690221fa.3.1786789044414; Sat, 15 Aug 2026
- 03:17:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kr/Tf5ck"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D271F000E9;
+	Sat, 15 Aug 2026 10:43:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786790643;
+	bh=EHN97m9JW2ZgHxLPFLcOKL8ZOHela7pDZzqoNJfQP5E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=kr/Tf5ckh5K3hOdAtZRNaMYJfcRPbGlwjMHHlS0bf7W+6jLe5uTUgjrP9S+5f/IC/
+	 Ka/suzsag9pVo5MAFE5sUh0OdSOq15rVwKacT8p8g/2vLXGvNF6wyqDL/oQEHFwKNE
+	 uW0VRb45EN4jcoJ7gWykJKxHTXlr/mPQcjZ/7sibTUOtZlTPD7FkwaCSvI56oP4lze
+	 WYAMKxEpRdAEdaOxik7UE4xE+40VQZc/EdlggdhzMRACQMooZmNlts0xGE/K0+tEkl
+	 Xm1O4rjqoZBEa8az6uvNKeelMuWGoGXGMg4E4Z8cRr209WzF2prepZEjHbJND/nln1
+	 63kwlbLLevOoQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Tarun Sahu
+ <tarunsahu@google.com>,  ackerleytng@google.com,  fuad.tabba@linux.dev,
+  Andrew Morton <akpm@linux-foundation.org>,  dmatlack@google.com,  Shuah
+ Khan <skhan@linuxfoundation.org>,  Jonathan Corbet <corbet@lwn.net>,
+  david@redhat.com,  Pasha Tatashin <pasha.tatashin@soleen.com>,
+  sagis@google.com,  Paolo Bonzini <pbonzini@redhat.com>,  Mike Rapoport
+ <rppt@kernel.org>,  Alexander Graf <graf@amazon.com>,
+  linux-kselftest@vger.kernel.org,  andre.przywara@arm.com,
+  michael.roth@amd.com,  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
+  will@kernel.org,  vannapurve@google.com,  maz@kernel.org,
+  fvdl@google.com,  kvm@vger.kernel.org,  oliver.upton@linux.dev,
+  kvmarm@lists.linux.dev,  alexandru.elisei@arm.com,  skhawaja@google.com,
+  aneesh.kumar@kernel.org,  linux-doc@vger.kernel.org,  David Hildenbrand
+ <david@kernel.org>,  yan.y.zhao@intel.com,  kexec@lists.infradead.org,
+  suzuki.poulose@arm.com
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live
+ updates
+In-Reply-To: <anyObKiZIhfok5mk@google.com> (Sean Christopherson's message of
+	"Wed, 12 Aug 2026 08:17:00 -0700")
+References: <20260728121138.1103610-1-tarunsahu@google.com>
+	<20260728121138.1103610-6-tarunsahu@google.com>
+	<anphyjFv3FhF61iB@google.com> <2vxzpkzo51wg.fsf@kernel.org>
+	<anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
+	<anyObKiZIhfok5mk@google.com>
+Date: Sat, 15 Aug 2026 12:43:56 +0200
+Message-ID: <2vxzqzjz1x5f.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806181949.65648-1-chenyou910331@gmail.com> <anx4SPAL0Yx13xk5@wyuan.org>
-In-Reply-To: <anx4SPAL0Yx13xk5@wyuan.org>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Sat, 15 Aug 2026 18:17:12 +0800
-X-Gm-Features: AUfX_mxJNZscDWbWHbnCaObLFBmnjb678ec8TRcb6KHXhxCUwz7mupkRu8u50Jk
-Message-ID: <CAKspUhKM6mBpy7hZD=8ZnwrAy81O1sYC_g7QdCA3qVDUcLV6dw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] docs/zh_TW: localize terminology and sync
- process/ documents
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Aug 12, 2026 at 09:42:32PM +0800, Weijie Yuan wrote:
-> I have no more comments for version 3 as all my issues in v2 have been
-> resolved.
+On Wed, Aug 12 2026, Sean Christopherson wrote:
 
-Thanks for working through all sixteen of them -- the series is
-noticeably better for it.
-
-> And Dongliang's comments seem to be non-blocking, which may belong to
-> another series later.
-
-Agreed. Dongliang, if you are happy with that, I will send the
-=E9=87=8F=E5=8C=96/=E5=95=9F=E7=99=BC=E5=BC=8F corrections as a separate pa=
-tch covering both zh_CN and
-zh_TW once this lands, as you suggested.
-
-> If so, which tree would you prefer this series to go through, assuming
-> there are no issues with it?
-
-Either works for me. Since the series only touches zh_TW and the review
-is done, taking it directly through the docs tree would save a hop --
-but Alex kindly offered to route zh_TW patches through his tree earlier,
-so I am equally happy to go that way if that is the established path.
-
-Jon, Alex: whichever is less work for you.
-
-Chen-Yu
-
-Weijie Yuan <wy@wyuan.org> =E6=96=BC 2026=E5=B9=B48=E6=9C=8812=E6=97=A5=E9=
-=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=889:42=E5=AF=AB=E9=81=93=EF=BC=9A
+> On Wed, Aug 12, 2026, Pratyush Yadav wrote:
+>> On Tue, Aug 11 2026, Sean Christopherson wrote:
+[...]
+> But that's all beside the point.  What I'm saying is that SNP and TDX *must* use
+> guest_memfd, whereas guest_memfd is optional for all other VM types.  And so adding
+> LUO support for guest_memfd without even sketching out a plan for CoCo VMs feels
+> backwards.
 >
-> On Fri, Aug 07, 2026 at 02:19:33AM +0800, Chen-Yu Yeh wrote:
-> > The zh_TW (Traditional Chinese) translations were originally converted
-> > from the zh_CN tree, so they still use mainland Chinese terminology
-> > (e.g. =E5=85=A7=E6=A0=B8, =E8=BB=9F=E4=BB=B6, =E6=8E=A5=E5=8F=A3) that =
-reads unnatural to Taiwanese readers, and
-> > most of the process/ documents have fallen behind their English
-> > originals.
-> >
-> > This series localizes the terminology of the existing zh_TW process/
-> > documents to Taiwanese Mandarin and, in the same pass, syncs each
-> > document with its current English original, so that the "update to
-> > commit" markers stay honest for tools/docs/checktransupdate.py.
-> >
-> > Each patch covers one document and does both the terminology
-> > localization and the content sync for it. Notable content syncs
-> > include:
-> >
-> >   - code-of-conduct-interpretation: new "Enforcement for Unacceptable
-> >     Behavior" section and updated TAB voting language
-> >   - stable-kernel-rules: retranslated from the heavily restructured
-> >     English text (three submission options, stable tag variants)
-> >   - submitting-patches: interleaved-reply etiquette, reworked Acked-by
-> >     semantics, tagging-people permission rules, Assisted-by:, canonical
-> >     patch format subsections and the b4 tooling section
-> >   - embargoed-hardware-issues: "Early access" section and the current
-> >     ambassadors list
-> >   - index: mirrors the reworked English process index layout
-> >   - programming-language: Rust is no longer experimental
-> >
-> > The final patch adds Documentation/translations/zh_TW/glossary.rst,
-> > which documents the terminology mapping used across the series (with
-> > zh_CN equivalents for cross-reference) so that reviewers can check the
-> > replacements against a single reference, and future translations can
-> > stay consistent.
-> >
-> > A short summary of the main mappings (English / zh_TW / old zh_CN-style=
-):
-> >
-> >   kernel      =E6=A0=B8=E5=BF=83   (=E5=85=A7=E6=A0=B8)      software  =
-  =E8=BB=9F=E9=AB=94   (=E8=BB=9F=E4=BB=B6)
-> >   interface   =E4=BB=8B=E9=9D=A2   (=E6=8E=A5=E5=8F=A3)      memory    =
-  =E8=A8=98=E6=86=B6=E9=AB=94 (=E5=85=A7=E5=AD=98)
-> >   process     =E8=A1=8C=E7=A8=8B   (=E9=80=B2=E7=A8=8B)      queue     =
-  =E4=BD=87=E5=88=97   (=E9=9A=8A=E5=88=97)
-> >   network     =E7=B6=B2=E8=B7=AF   (=E7=B6=B2=E7=B5=A1)      server    =
-  =E4=BC=BA=E6=9C=8D=E5=99=A8 (=E6=9C=8D=E5=8B=99=E5=99=A8)
-> >   default     =E9=A0=90=E8=A8=AD   (=E9=BB=98=E8=AA=8D)      user      =
-  =E4=BD=BF=E7=94=A8=E8=80=85 (=E7=94=A8=E6=88=B6)
-> >   code        =E7=A8=8B=E5=BC=8F=E7=A2=BC (=E4=BB=A3=E7=A2=BC)      fil=
-e        =E6=AA=94=E6=A1=88   (=E6=96=87=E4=BB=B6)
-> >   community   =E7=A4=BE=E7=BE=A4   (=E7=A4=BE=E5=8D=80)      documentat=
-ion =E6=96=87=E4=BB=B6 (=E6=96=87=E6=AA=94)
-> >
-> > On tooling: this series was prepared with LLM assistance -- an
-> > assistant drafted the initial localization of each document and the
-> > glossary, and I then reviewed every line by hand, checking each
-> > terminology choice as a native speaker, verifying the "update to
-> > commit" baselines against git log, and building the docs. That review
-> > is where the substantive fixes came from, including the two glossary
-> > corrections below. The patches carry Assisted-by: trailers
-> > accordingly.
-> >
-> > Two items are deliberately left for after this series, as noted by
-> > Weijie during review: a legal disclaimer for the DCO translation
-> > (which affects all locales), and the rendering of "Linux Foundation
-> > Fellow".
-> >
-> > Changes since v2:
-> >   - Collected review tags; every patch except 2.Process now carries
-> >     Weijie Yuan's Reviewed-by or Acked-by. The tag for 2.Process has
-> >     simply not arrived yet.
-> >   - Added an Assisted-by: trailer to every patch, per
-> >     Documentation/process/coding-assistants.rst.
-> >   - glossary: corrected two entries in the zh_CN reference column
-> >     (=E5=BB=BA=E7=BD=AE -> =E6=9E=84=E5=BB=BA, =E8=B4=A6=E6=88=B7 -> =
-=E5=B8=90=E6=88=B7) after checking every term against
-> >     Documentation/translations/zh_CN/ by occurrence count, and added a
-> >     note recording that provenance (Alex Shi).
-> >   - glossary: documented the CJK/ASCII spacing convention.
-> >   - code-of-conduct-interpretation: two wording improvements in the
-> >     "Enforcement for Unacceptable Behavior" section (=E5=8A=A0=E4=BB=A5=
-=E7=B3=BE=E6=AD=A3 instead of
-> >     =E4=BD=9C=E5=87=BA=E5=BD=8C=E8=A3=9C, and =E5=B0=8D=E9=80=99=E9=A1=
-=9E=E5=A0=B1=E5=91=8A=E9=80=B2=E8=A1=8C=E8=AA=BF=E6=9F=A5=E4=B8=A6=E4=BA=88=
-=E4=BB=A5=E8=99=95=E7=90=86 instead of =E8=AA=BF=E6=9F=A5=E4=B8=A6=E8=A7=A3=
-=E6=B1=BA
-> >     =E9=80=99=E4=BA=9B=E5=A0=B1=E5=91=8A) (Weijie Yuan).
-> >   - 2.Process: dropped the space in =E7=B6=AD=E8=AD=B7 staging=E6=A8=B9=
-, following the
-> >     CJK/ASCII spacing rule now documented in the glossary. The zh_TW
-> >     tree is 2581 occurrences without a space to 721 with (Weijie Yuan).
+> I'm not necessarily opposed to gradual guest_memfd support, but there needs to be
+> a clear plan of how all of this is going to fit together.  It doesn't need to be
+> perfect, and I'm sure we'll make mistakes along the way, but I want to at least
+> try not to paint ourselves into a corner, especially with respect to the ABI.
+
+Right. I think landing shared guest_memfd is the first step. It is
+simple enough and doesn't need to preserve the more complicated
+architecture specific things like secure EPT, etc. The CoCo support
+can build on top of this.
+
+There is work underway already for an RFC of TDX live update, but Tarun
+knows the details better than me so I'll let him fill in the details for
+the next version of this series.
+
 >
+>> >> > E.g. the LUO APIs seem pretty straightforward; I assume the bulk of the complexity
+>> >> > is going to be in knowing what to save/restore, and how, which is much more about
+>> >> > KVM than it is about liveupdate.
+>> >> 
+>> >> I think it is fine if you want to take these changes through the KVM
+>> >> tree, but I would like live update maintainers to be listed as reviewers
+>> >> at least.
+>> >
+>> > Why not simply add a file pattern match to the LIVE UPDATE entry?
+>> >
+>> > diff --git MAINTAINERS MAINTAINERS
+>> > index 8014b9f8253e..2eb57b22c37f 100644
+>> > --- MAINTAINERS
+>> > +++ MAINTAINERS
+>> > @@ -15052,8 +15052,8 @@ F:      include/linux/liveupdate.h
+>> >  F:     include/uapi/linux/liveupdate.h
+>> >  F:     kernel/liveupdate/
+>> >  F:     lib/tests/liveupdate.c
+>> > -F:     mm/memfd_luo.c
+>> >  F:     tools/testing/selftests/liveupdate/
+>> > +N:     [^a-z]luo
+>> >  
+>> >  LLC (802.2)
+>> >  L:     netdev@vger.kernel.org
+>> 
+>> This would list us as maintainers of kvm_luo.c and the tree as liveupdate.git, 
 >
-> I have no more comments for version 3 as all my issues in v2 have been
-> resolved.
+> It would list both "LIVE UPDATE" and "KERNEL VIRTUAL MACHINE (KVM)", as KVM would
+> still cover the files via "F:	virt/kvm/*".  And my read of MAINTAINERS is that
+> N: and K: entries are "secondary" if the files/scope is covered by an F: entry.
 >
-> And Dongliang's comments seem to be non-blocking, which may belong to
-> another series later.
+> E.g. arch/x86/kvm/vmx/tdx.c is covered by "KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)"
+> via "F:	arch/x86/kvm/*/", and also by "X86 TRUST DOMAIN EXTENSIONS (TDX)" via
+> "N:	tdx" (or maybe "K:	\b(tdx)"?  I haven't bothered to check which one
+> triggers).  And while I don't think there was ever any formal discussion, AFAIK
+> everyone reads the situation as KVM still being the primary maintainer/tree for
+> that code.
 >
-> If everyone is happy with v3, can we declare victory for this series?
+>> both of which is something you're saying you _don't_ want.
 >
-> If so, which tree would you prefer this series to go through, assuming th=
-ere
-> are no issues with it?
+> No, what I don't want is a dedicated "KVM LIVE UPDATE" entry, because I think most
+> people would read "F:     virt/kvm/kvm_luo.c" and "F:     virt/kvm/guest_memfd_luo.c"
+> as being more precise than KVM's "F:   virt/kvm/*" and thus would read things as
+> "KVM LIVE UPDATE" being the primary maintainer.
 >
-> Thanks.
+> In other words, I'm more than ok with LUO being looped in on KVM LUO changes and
+> having the authority to object to problematic changes, but I'm not ok with LUO
+> taking primary ownership of KVM code.
+
+Sure, that sounds good to me.
+
+>
+> I realize there's more than a bit of nuance in my interpretation of N: and K:,
+> but again my experience with TDX is that so long as the maintainers are aligned
+> on expectations, it's a non-issue in practice.
+
+Yep, as long as we agree among ourselves I don't think the red tape
+around which entry has higher priority matters much.
+
+>
+>> >> At the same time, I also keep being (pleasantly)
+>> >> surprised at preservation being relatively simple. For example, the code
+>> >> to preserve a shmem file (via memfd) is roughly 600 lines, a big chunk
+>> >> of which is comments. The code of course has some limitations, but it is
+>> >> good enough for use in production.
+>> >> 
+>> >> For one, we care about ABI breakages and versioning. 
+>> >
+>> > Which is amusing to me because that implies KVM does not, and I would hazard to
+>> 
+>> No, it doesn't. What I'm saying is I care about changes to the _live
+>> update ABI_. Just like you probably care about changes to KVM ABI but
+>> not so much about BPF for example.
+>> 
+>> > guess that KVM has the biggest ABI surface of any subsystem in the kernel by a
+>> > country mile (though I'm probably wildly underestimating the effective ABI surface
+>> > of filesystems).
+>> >
+>> >> The serialized state is a part of live update ABI and changes to it should be
+>> >> ACKed by us. 
+>> >
+>> > Meh, "Don't break userspace" is a universal rule in the kernel, I genuinely don't
+>> > see why liveupdate needs special treatment.
+>> 
+>> Ironically enough, you miss my point. I'm not talking about userspace
+>> ABI. We all know not to break that. I am talking about live update
+>> _serialization ABI_. See the stuff under include/linux/kho/abi. This
+>> series also adds things there.
+>
+> No, I understand exactly what ABI you're talking about.
+>
+>> This is ABI between kernels. It needs to be stable-ish so you can move
+>> from one kernel version to another. At the same time, unlike userspace
+>> ABI, it can change.
+>
+> Uh, yeah, so KVM has been managing such immutable ABI for practically its entire
+> existence.  KVM's save/restore uAPI has exactly what you're describing: serialization
+> ABI that needs to be backwards and forwards compatible between different kernels
+> in order to support both upgrade and rollback scenarios via live migration.
+
+I think there is a slight difference between KVM's save/resture uAPI and
+live update's ABI. With KVM's uAPI, you need to maintain strict
+backwards compatibility because userspace reads what you output. So if
+you change the layout, userspace will interpret it wrong and might
+break.
+
+With live update, the ABI never gets to userspace. It is used to talk
+between kernels directly. So if you do break that, your userspace keeps
+working fine, you just might not be able to live update to the
+incompatible kernel.
+
+So with live update, we don't need to keep backwards compatibility in
+the ABI forever. Of course, it is good to minimize changes, but we have
+more freedom to change it.
+
+The current idea is we change the ABI whenever needed. This is because
+live update is still in development so we are likely to see a lot more
+changes before we settle down into something that mostly works. At some
+point, we want to start being more strict between incompatible ABI
+changes. The current idea is that we would like to keep backwards
+compatibility across LTS kernels. But none of that is set in stone yet.
+
+That's why I would like to have an explicit ACK from the live update
+group for ABI changes. I would like to enforce these compatibility
+windows.
+
+>
+> KVM also has immutable ABI between itself and guest kernels, including implicit
+> "ABI" in the form of not changing guest-visible behavior.
+>
+>> Today we don't have any rules and let you change things freely as long as you
+>> do a version bump. But at a later point, the plan is to add some stability
+>> requirements to the ABI so you can actually upgrade the kernel across major
+>> versions.
+>> 
+>> So at least for ABI changes, there should be an explicit ACK from the
+>> live update group.
+>
+> I don't entirely agree.  I get where you're coming from, and I 100% agree that
+> the more eyeballs on changes that may affect ABI, the better.
+>
+> Where I have problems with the above is that it doesn't account for the nuances
+> of save/restore across different kernels.  The literal format of the serialized
+> data is the most obvious form of ABI, but it's absolutely possible to change ABI
+> without changing the data format.
+>
+> E.g. say there's a flags field in some serialization structure, and flags X and Y
+> are mutually exclusive in current kernels.  If a future kernel relaxes that
+> restriction for whatever reason, then the effective ABI has been broken because
+> state created and saved on new kernels can't be restored on old kernels.  And
+> this is not a theoretical concern, KVM has run afoul of this a few times (though
+> thankfully very rarely).
+
+That's a bug, and should be fixed.
+
+I am talking here about intentional ABI changes. As I mentioned above we
+_can_ change the ABI, we just need to be careful about it.
+
+>
+> I don't think it's reasonable to expect LUO maintainers to gain enough expertise
+> in each subsystem to be able to ensure changes are forwards and backwards
+> compatible.  The only way I see LUO being successful in the long term is to get
+> subsystem maintainers/contributors to understand *and buy-in* to the LUO model
+> and rules, so that each subsystem can largely be self-sustatining.  I.e. setting
+> yourselves up as literal gatekeepers will help prevent blatant breakage, but it's
+> less likely to help guard against more subtle breakage, and in my experience,
+> subtle breakage is by far harder to detect and more painful to deal with.
+
+Outside of enforcing the ABI compatibility windows, I think this makes
+sense.
+
+In principle at least, though from my experience the maintainer appetite
+to care about live update varies. The feeling I've got from MM for
+example is more along the lines of "you break it, you buy it". Which is
+also a valid model IMO. The person who wrote the live update code for a
+subsystem is well equipped to understand these nuances.
+
+>
+> Somewhat of a side topic: in my experience, using monotonically increasing version
+> numbers is a horrible way to enumerate features/content.  So for me, allowing
+> KVM's LUO ABI to change with a verson bump is probably a non-starter.  I.e.
+> whatever gets merged needs to be more future-proof than "we'll deal with it later".
+
+As I wrote above, the compatibility model for live update allows
+breaking ABI with version bumps. Userspace keeps working fine, it only
+restricts the set of kernels that you can go to. So the "we'll deal with
+it later" is not as harmful because our choices here are not permanent.
+
+Also, there is work underway to allow transitions between versions [0].
+
+But still, I am not opposed to a more flexible guest_memfd ABI. I think
+we can reserve some space for feature flags to let us add things in the
+future.
+
+[0] https://lore.kernel.org/kexec/20260731215224.831696-1-loganodell@google.com/
+
+-- 
+Regards,
+Pratyush Yadav
