@@ -1,65 +1,66 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5911E5207
-	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 01:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007CB259C9C
+	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 01:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786757587; cv=none; b=dYhuZ6JS1KUKNHy57dUdkOS5nxSDIUW9UWYEoMya91p9B8bgeMguQwyQMH23Lf/gnQeWsbDhd7bd/L5DmhWnXAUpSkztXGTWt0L48WroV3Dzw0A/N+SbDojhTXNXIzlnw4oB5fF4FjswJMzLKkvs+s8QqSh/Mv+1nFbUJp2AQU8=
+	t=1786757592; cv=none; b=GasX2d1MWIGfFbkfgwOMewg/AEN6YOZQgrLU2voK3dGFdm+08EpsWHAP3JPMQk/m2XZghOm5aASCweO0mdFQG3B1WxIPjf45OIeh6UYZHy9ApKWPz+uPVMvuXYEYEYnotBoVogBcFBLweWvM4/8yjcxwlznaRZD1+T/jHNn+WEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786757587; c=relaxed/simple;
-	bh=k5v9YMbjNbSDDOOGUT/GdP8HfTxzzdlrDdwtaQ4IVr0=;
+	s=arc-20240116; t=1786757592; c=relaxed/simple;
+	bh=jyYxlbBrAQnAZZN04ajlnh1MSAFrHtyTd0FqLUs6XWo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tqymKb7MEztSR7PA+dXopbX6y2SsKb7Ik/x7BbtKyxk1jSgvg4Cc+U7kQEIE4qVj9l6l/QQncRNmjMeeSeXm9iAE7ZATsBKf+Vj7NO9uXPygSC1sEEftt/5T1rZ5GU/AAH25AidVraU/n22R2dXho7hlJuCrY3XZDluEHVKxWow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knRa3gu4; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=MC73xqdfcMEDS0ES27WKP8xrs+vzJxz5ecS76c6J+Kop3Wie5mKmaVHm1+sMOK9EyYCv372ZMCmX0rKlEr4S9cUaLuD9fBoQsQt+64p/BgGAP0IC3aPJmUL8aHd7XUVJxctljFrN2P5RXwIXfdLDtddfy8Pk8foysyqdz/DhwEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ve38/Vv6; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knRa3gu4"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso19452935e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 18:33:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ve38/Vv6"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49557167508so14839575e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 18:33:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786757584; x=1787362384; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786757589; x=1787362389; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SIGYB4s+r27dzXsvVBxWuaiKhOOlGAnsc8iJP12SM18=;
-        b=knRa3gu4IJLqvEV49+J/h2US2KsqLW68pQepMRpFuoL2Fz+9QI0FxWl0uBxIzIEzZ6
-         9S/eH3KfZrYTxjW8vO99ieK4D7J+0xj4e9PlZgawwOtsM+i7QbWD37z92cVJ06DiGpwQ
-         hDrntog23N/4o/51/LEqRArElEKfCou5316daAS8yDD0MoA30heWyO0swlz4SiqWGCoa
-         +HLBaKTwfxa4qe79Ns4aBS3bt9AtaOl+hmXuaAYQRa/7zOqI40bUS7nYmjWbWCbooPbV
-         MIvpfFD8+ZJqt3jVzX3QIy/CX2JrgX0WdnYT+K3OEKQngrMUy2w3CK8BP5/rELyd526/
-         h3bg==
+        bh=P6hUXHl/XBMGrttNYvWX7RrvTYp0xlm1Orl1JfPmVXo=;
+        b=Ve38/Vv6z0vdVwFjMw4XZ/ku43aAffw/dwkJlQ/JuVcQeJAc7WY0nfMrk5kZmwS94c
+         RFcIQd+iQ7nEh4Um9bAsdvHe+7S1sznMjb1RbB0sMBWRgwV5WMlsAFWppkNUVrHF28ku
+         6QkSsBCHTh7VuHPtrHDgTiioNM8de+tOalesxRMPz/YyAeGwJHK3oTfazftR2pB4h9RI
+         EMNcU+t2GC8qNO9jCrHO6r91ICWsrBEsrXjOi1s/IVINZNMVAll1cejSJgB+mAC8QSbC
+         cmdwM+aIXIfQlh5EpfvKMELcHR1W7Dni9UYBqFRJhuhbXMteH67wKEGTJehI7Y0sby6a
+         LShA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786757584; x=1787362384;
+        d=1e100.net; s=20251104; t=1786757589; x=1787362389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SIGYB4s+r27dzXsvVBxWuaiKhOOlGAnsc8iJP12SM18=;
-        b=siZCU2zycbS7tyFrFqwpEUUvg6sd9Va0qeKBqwjy1IHEOeivmVOPR/GJJn0GENh/0p
-         kLnPvasSIKqMVnrnLUlsuzdJ8MBPEvpzijc4yRpOXD+5Kw4QmLmIAYEd22nM94SmEW9A
-         Vi8J1gZXc+eh4wSkw0mcxNqrXJhPiPX0v9LXFFekT8NXLicro8AJG7PW0ReK4GvnW8kF
-         J8fA6CkQb5k4NyL9Hbl+0tmcB6PCtKGH1WMu7sMtHe8hFoKJ3unGMCsZOavxe0G3oK9V
-         3O2w2stfPHJsA2fnT+IP5bosipCzkst6n29JhkDpxKXP5lRjeV9QHx6k40clFa9FcE73
-         155A==
-X-Forwarded-Encrypted: i=1; AHgh+RpUvUwD0k3d8bPI/tFu0KBlw2+rCS0TjuvseG4D/Bgt060wDEDuCjbFrPiUKdQA/wsN5CCCmLYO9yI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuR84VWSkXaYjOp8J0ECvoHhUomik8riXR1gYqldanFhQVOIYt
-	YmbpJxegcIYxUfb4nP/bdM8k8JpU5rBRJxjzRiIR9Hd1H6ktPDPf1ov9
-X-Gm-Gg: AR+sD10tPZFZcMtWZHrguHc76sW7Cdhb1DCPKjUP7SRjKu1pRwsQyVvcZoHs9BY1oxI
-	RVvGf9Bdr4CAiMWZnyx4+AdzZuU5iwKq77m+c1uzPmA8FNZBzKrURlR9ZH3NpZjH4Gxc69Izf+i
-	Ef4GhnNTSnCtMqXtcEfGGF88qCy+DWIj2J0V7ebfbtsJ4ehj8jyAlHRzSNmamzQe1ngdUdPXE7A
-	MDXk5TiRxki5cutAUlj4GdnHbM7E2WjT3/Aw5ej0AOi1i4U1YtJJ9Aua3kh4lOlXvMPjWHfCsaN
-	zS9kaXVE4eT6E/Nfod9jDz2ApZySVOakxdyFPiU93xctJ0RZHGiPzvwXBm9It+dneoHrl1ZRYEd
-	L2HVFeZGyqzx7xB14N+YZGKnu5yZVCP3SpYit2iUf8WmAzkBl1KUhGHbi6Wq0NcSf87JEURaP24
-	9yu3SWyNlpDGfOvndrMGtUpfYT7Z7ogNjDNLDyDiLAc4ixvgXOd7V8qX2m5lTeaR1CitzP4t6ws
-	A69SLFzU54wrfTejAFrpcFNE9mPIRpsnFFVyQNt68DLVvGJO1d1X9zA9oc1zPYK5Gchqv6y5LRn
-	uVDGOIOeJQIMxgrpefB0vzXTYn6MFex5qvF57PisS0gjAcHtY06fydyIGPibt4FXR3Tg
-X-Received: by 2002:a05:600c:b99:b0:496:c379:b2a1 with SMTP id 5b1f17b1804b1-49987929903mr135321985e9.2.1786757584407;
-        Fri, 14 Aug 2026 18:33:04 -0700 (PDT)
+        bh=P6hUXHl/XBMGrttNYvWX7RrvTYp0xlm1Orl1JfPmVXo=;
+        b=Zfp1nO+2u3QBllddrnVcWKYhFrwtF7nxdr/vCwNCzRZ0UYcNmEmwai1DcgWj2I4qG5
+         GRQw69FC9xi1XywEYIzcKCx3O3nPJTYSTrCKJgj06Ct12bGFbxaU+9kWBlEXsyXoCk+V
+         nx3ovVTlBo+wRhbZzBsCR3tNlvuW3abs9mlUxoaWoJiwyfeivrJn2p1jZKoM9/QRwZO3
+         cRpyYsCBEwmhNHKjnsFoq4/UrEMwyeUmhAMkpAwAwH/4A0CmSABxXrwkrJ7xqUByIEEa
+         AXW7IOq/XMtrXJLt+tI+519rrLC7uTYEGt/FOyywv0fxfXbVjpoP/GXZVMokCAZydOTw
+         O+YQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0eUtRBOnmBGB62Hu5NWycUt5X3h+k8seZgvRJSVYEwzzxkG+k3Rg+trxZXn/k8hSxPl7XfP8uGaA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKNy/2B0pU3xPKe/a5oKHMuKdFglynmzGNdgQIfvtuWMzfrWW2
+	pLC4kE9bqAp/xhfTcl9O1cvK2rlOzc5Ux0Wfs8yZIku7X7v52nIWJM8r
+X-Gm-Gg: AR+sD1372Fh6RjxPj5XX4lBgCYMTnJ3kFSzggrUdMToQ7xidO76d280PyFkVMWKJe/c
+	Goe2KRiavvscKSF3jUWkZP8eVjwGUhyJsvDjjg8cKHZu+lNPdnmeOjtJ5/S34+DT4rKA3zGqAb6
+	6khN03PBvZ5TtOdHUvzwu24I/0SJT8S3yDdZmN7o1etpLrIl868UnvHk7/bzvIQFdrbDUmoNY+A
+	wKhxR5BX3ZMAGpodXV+6QzBILuvDpXOy3RMGg5RcfRXSblk0SaH6eNzuoW3F19IT94O4EcoNgMJ
+	oXzVIFHp+Ol16eJMWB4xC48uKcy7ZyCSrgr4zMcRjGW4PwMy9PsfdpP/iktOhO3PIX2EXqMqVah
+	nYh4ypw3DQK8NCS2QW5y0fStsmc+rzZhSeFoIC25plf6Ps7cEHThDcqLFHvJqZaHj7CL1mxHwrF
+	d7+wlcF3sDADnxGXNkmmJknaRWXiYodj4Zx1o0yH+f3m4mPCDNxhpdc1Pw9FWnYAcrbSYNphcbo
+	cOjwdwBBoAzvdG1Klj2kzQlQ5v6S55MStgfPsgH/xQUIPLMFDASWCpKx5UWMO7breNXD2vWyl7H
+	l3FsMinPs9xjlsGz1LDQllVEud8nxMuyEBhEri77hEuGHFRz6ZGdJQ9IOpkNeLAxtCRH0VyhFJx
+	KGsHe
+X-Received: by 2002:a7b:c013:0:b0:499:51b8:d649 with SMTP id 5b1f17b1804b1-49987941a3fmr93722545e9.3.1786757588989;
+        Fri, 14 Aug 2026 18:33:08 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-9d7d-f301-9495-44ec-73e6-1be7.310.pool.telefonica.de. [2a02:3100:9d7d:f301:9495:44ec:73e6:1be7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b1a31esm110672885e9.2.2026.08.14.18.33.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b1a31esm110672885e9.2.2026.08.14.18.33.06
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Aug 2026 18:33:03 -0700 (PDT)
+        Fri, 14 Aug 2026 18:33:07 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -74,9 +75,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 1/2] net_shaper: fix kernel-doc list indentation
-Date: Sat, 15 Aug 2026 03:32:28 +0200
-Message-Id: <64f428350ec1450adcd0607f54f30d27a42f129c.1786751700.git.kmehltretter@gmail.com>
+Subject: [PATCH net-next v2 2/2] docs: kerneldoc.py: preserve headings in kernel-doc output
+Date: Sat, 15 Aug 2026 03:32:29 +0200
+Message-Id: <335fec1cd5a3449687f8b1ee8cd46a0f3e455aa5.1786751700.git.kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <cover.1786751700.git.kmehltretter@gmail.com>
 References: <cover.1786751700.git.kmehltretter@gmail.com>
@@ -88,39 +89,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Docutils 0.22.4 reports:
+kerneldoc.py parses extracted ReST into a detached section node while
+retaining the surrounding title hierarchy. Docutils 0.21.2 silently drops
+affected sections; 0.22.4 reports:
 
   Documentation/networking/kapi:107:
-  ../include/net/net_shaper.h:82:
-  ERROR: Unexpected indentation.
+  ../include/net/net_shaper.h:75:
+  ERROR: A level 3 section cannot be used here.
 
-Add the required blank line and correct the list indentation.
+The same issue drops three Xe DRM RAS headings already in mainline.
 
+Use nested_parse_with_titles() to give kernel-doc output an independent
+title hierarchy.
+
+Fixes: 2404dad1f67f ("doc: Cope with the deprecation of AutoReporter")
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- include/net/net_shaper.h | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ Documentation/sphinx/kerneldoc.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/net/net_shaper.h b/include/net/net_shaper.h
-index 05cb625b0fe54..330517a1cb5c2 100644
---- a/include/net/net_shaper.h
-+++ b/include/net/net_shaper.h
-@@ -80,10 +80,11 @@ struct net_shaper {
-  * disallowed at the uAPI level will never be made at the driver level.
-  * The shaper core performs automatic reparenting and cleanup, generating
-  * additional calls. Notably:
-- *  - @group calls in the driver facing API may have nodes as leaves (user is
-- *    only allowed to construct groups with queues as leaves)
-- *  - @group calls may update leaf's parent if the parent is about
-- *    to be removed (re-parenting nodes explicitly is not supported in the uAPI)
-+ *
-+ * - @group calls in the driver facing API may have nodes as leaves (user is
-+ *   only allowed to construct groups with queues as leaves)
-+ * - @group calls may update leaf's parent if the parent is about
-+ *   to be removed (re-parenting nodes explicitly is not supported in the uAPI)
-  *
-  * Implicit creation
-  * -----------------
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index c1cadb4eb0997..9986df33e37ea 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -38,6 +38,7 @@ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+ import sphinx
+ from sphinx.util.docutils import switch_source_input
++from sphinx.util.nodes import nested_parse_with_titles
+ from sphinx.util import logging
+ from pprint import pformat
+ 
+@@ -252,7 +253,7 @@ class KernelDocDirective(Directive):
+ 
+     def do_parse(self, result, node):
+         with switch_source_input(self.state, result):
+-            self.state.nested_parse(result, 0, node, match_titles=1)
++            nested_parse_with_titles(self.state, result, node)
+ 
+ def setup_kfiles(app):
+     global kfiles
 -- 
 2.53.0
