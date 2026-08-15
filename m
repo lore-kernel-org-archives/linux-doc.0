@@ -1,62 +1,63 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B584242D62
-	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 05:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F9D27467F
+	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 05:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786770514; cv=none; b=XDE4fnFq2bFkj3et3a2C4dQTQ9wuw9fLPdV5A3Qvyhwl9g8yus/99JL96aHxQS17iS4RwHMU0Iy9825B/hF0AD6F+FbIQ4mAfGfXRLquQ2gF+VT4We1ymOEGSvG+CPYMw+cU0+elzu+WhXmX/WEuzwQJslcISWZPtwWJXNLdJrQ=
+	t=1786770515; cv=none; b=pkhn5AfS7Pr4n/EDhStTckT11BNBWUZZyU+sxqrdWCn2mB1Y2mYB3+Dys/YLz7TiebqN5tSbCHVeMjXpU0uIF5UFltr0ALa0AaK57uD2+XiooivL3bl9VUK5fZ6NxTqYR7XDNN6NBGh+gE8i6OQopW704IFvpRiYJrnbBB0l/7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786770514; c=relaxed/simple;
-	bh=3gtU+cy0ZJ+hiolSfLE6IUY68+TSR11bm8MWfskBrmI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LfOPImHYqbPCcK12ITN6lLGnKDVFJZ5OEug50EPvLKxwk/N2P8In2QYlFlcEv/smThN1at88aX8MjokyQELd5TCwMNVq3vgDv8x+HJpMeVYaETEOqo1Txe1EUw7DIJ2A3Q+8G9ZznmWiBFfziRxNhSHAP4+n0DhxgUUhFikCeGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MbDBlmbF; arc=none smtp.client-ip=209.85.208.171
+	s=arc-20240116; t=1786770515; c=relaxed/simple;
+	bh=RNy0Oc1b5YVJpZS5AO65ioCXwPG1K+v8mTvUlX+rTyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KzgDOvAu+0aRQWoTp51ItWGpcklNYr7OEzqEmqFLTwDevEVOlqG8YfYL6U8yuJZqP8IH1QnVJm5MgaRKZmsxFdEiVlaTfZVZ8OfBw331aCZef2gFKdYcavHrAO3usZ5TzoA6ow78LbYfqfuTjDcA0TBbm/x3EE07NocvvsSC34o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BsRDisr7; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbDBlmbF"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c953950dfso14075111fa.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 22:08:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BsRDisr7"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b01910b499so1530153e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 22:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786770509; x=1787375309; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+Ki1f29ZNNzrhAw8g31VS5wgylnUVVZbopDUMwHeVLM=;
-        b=MbDBlmbF5fP0amJLjpzN6XcEsW+E1bOgyPjuXrtlZK3SWmIFWVmEanMgVwV4JWBWGB
-         lo2fDn5JslbnaaROhchm31PC7b0cUcf2seQFUeXDk0+9tiChO0KvXx/dJF0zdGeBRS45
-         84/HLDTPyRGFNtv8yM/rL77uLtiMKdlr3JraAMRyf/o/wOKeSzbCwlz/pGhOTfU18udp
-         eL4tfpaDdMdWzBWV3fq8vRXlQrKKcD+/pRTvPIQt6FtdOlF8kviX3VrRFq3S95xflauf
-         giJ4MlsqDh24zzAmW0gNx++TqavRg+Y9CspQkzD1lKf4R/RhvfqnXqvcV6xFfEV/boh9
-         xskg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786770509; x=1787375309;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1786770512; x=1787375312; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+Ki1f29ZNNzrhAw8g31VS5wgylnUVVZbopDUMwHeVLM=;
-        b=LlEuvp3Kri1I0P2cW9bu6dj9V4Ti9Zdkv7nU2oudbtF2GR0HyuzxTIQD3n1vrNR2+z
-         ZyHWKD0oGhpxOGnW2OOSLa4hTalgT0T9DmvAGmwHWglR0xcM+/o0l9uPlz/os5iE71L6
-         6YQ7SChGZW0VchlOooXTX9YwGxir60S83mta58zc+SkSeDZPLpheQfX71r6OVUT1i5De
-         8veE/TUU563GFbka2sVaO+va/nK2+HJdJ88ZHCD/1hGOS+G6YTB/759ypas66QbBc6Ho
-         cNygegvVAyaGh7+OfLMu4jZHdPopWq+7ktOK5jbjZio5Acwps3KQ+H8jHtHXRZSdGoRO
-         ojpw==
-X-Forwarded-Encrypted: i=1; AHgh+RoIZb9cz4ER7dialV+DU8GcLfGKGO1SPqFQ0zzgEvqV/+zKuPFLkGbzdh9xjp+jMXP2iTSgoehZJTA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXF9KbBuaz15ofgxDN6JBBrrt7XAafyPTW3eWZrBormLCTTg75
-	P09iY7Yp79ygJdmhuR3uB6Zi1rtF6KAW+wMcSeXHEfzWnpqipubgrtt7
-X-Gm-Gg: AR+sD13IT9JJ9Yf0K/3exTljVg4MUEILTymWEvkAOuURJY4qOAw1puMfbjkXz51XF/I
-	JKb2v7ycLSmI3rbm6ziRYYJRB7JNKU0Rm4HLSQGyiSgIAkcamIk723jNNtq4oT/lFxldRrRWDyH
-	oMiQO1NFTO1/jnTJ9LjENnNYL/b10z4fN8aTK3SGpjtmSi2aGVR03SzRZd2jbpVfUpvrWAhoD6K
-	tvVAQ5UJ9woMpzNlSQ7y7PXM/4J87NCXj73aNKrMReCDwrKyiQ3jOf/9aflZ/wR4ejOEvY5JUuw
-	xPR3+FyKdjB4rzKPlpRkt+WiLIi6xMrZJBjqjRyYOeRvCqKMaMsrf7Kp/J521i9JY5u9eCdlk+R
-	CWhZ/UGRjqjSX4ADwrlfz6t9TWlVMB3OZynD+vFmLtE5d+HBPIc+wNcETOpj5HBM3s/QAjvePis
-	ZdO8Ns26j8DUkgxp3tnNb4xhqWxvOFkQgod29EcnezEWX6PELrjij+3UQTYmnIiDkkD6NpqQPk2
-	U+qaQ==
-X-Received: by 2002:a05:6512:3da4:b0:5b0:1879:1b9d with SMTP id 2adb3069b0e04-5b45913b940mr1711971e87.26.1786770508996;
-        Fri, 14 Aug 2026 22:08:28 -0700 (PDT)
+        bh=NgkFZajAQJmzi//1l9aIpRfIFvgCaKKT8i3Z0CDYaWs=;
+        b=BsRDisr7X573Z13shKNL3Hmc0qYzP/gS8Zc+twBo+D/giYqckTW9MXO/HwC687ObKK
+         6pLdIrVWtJNZLSOPXjzo/m+VudFPyrShUVwdryeLkJAfxqMgG1zH4oHWqYndGXOhVKsC
+         y+BANMkCZq9kdLt32cyEOEiqk8ZTFlQUuQ4m9TQygZAfmVXHOtmTz8ob9z5JIXro7725
+         kOe+Tmbu7tqRt8govU/axrum+4bd7M3uddC/FbGBUTdqzJrDLH8FaYI6ZWkJ5TmTo3Tm
+         Lx23lDSv3JkYGtg4e1/j/+0kmACub49Hd4C21r1Fzlf3BW6g2MQDpoenE+AH1boAk6Zc
+         E8bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786770512; x=1787375312;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NgkFZajAQJmzi//1l9aIpRfIFvgCaKKT8i3Z0CDYaWs=;
+        b=Yegey/u6t/fzterer/5BSg75eTI9OzqK1gd/fAtxWwlGbPGslSzpI79gNvja813xJS
+         EBHvokCF6bGmn0goG8BrQXlEIj2bcZ+ey4R3nI/hjiMXufGJfjEEpJyjDlPceHIn4QDP
+         YoLYA7HugKAnxCQqA/wUYATo3n1qElJ+KqoV6okQnSkBsI8cmtUBPotdbHf87qup1ctr
+         2NLwGT9m5MPbwJBoLSnrYpDKPxYOevI8QecLOuusAuphua7jcz5739Z0PZ11yjfjlgCZ
+         JmcNt/LtAZx7qv0eTZHWC3CoMbS6F99jCcpNIQ3EkDyMm5NdjHlu4FT3ocFsJDz2Q1D9
+         H24g==
+X-Forwarded-Encrypted: i=1; AHgh+RqccxyIr/f9OV+4WrpLEa1vTla8orJ95Moa6p7FI2UlPQ1aYQSiW+09CAZLKtGxm1nfk4ZynpJb/0o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZx7yKex/gCBx/xa7s0iqIIZh5q0LQPb8wIybxmof4mHesliON
+	IwdBUDf6xSi6r5otggXCcqXuoZNvvd2ZZjMsPOTMjkZ2Kj36eqqwk+G5zJPyao24Av5T6w==
+X-Gm-Gg: AR+sD11s8jYkXH0kB1QIhAZOkMUDx2x77o/bwoWuDklhqPcB19g9k34/TIB6oWUI0xD
+	c9U/9ZC9LMMsnNIi/mz3kFq65oFU6Vtb4/bwLDV0ARUMkDVXfcFqvRrogoRdJdabw/+yJXWTWTI
+	BzTiW+g1vJaF2JDuyY9SoWtddm3plVsNGQtFoeaVYM8QP9+0WmocYaIa9lSyYbN2Q2NuQloP/ro
+	v3lSQyUvNg2gJgRM8aw082oQVo697KDNzaYLNuzyY15mQzwFsFocZI7cBSBOU+2XIn0eTaVNkWR
+	OxY0HHEL5TVq1hF3ZM+WKAyTQFXOMWRVbTT8vDIGYw1dYwV9KTX7YnAIwpkU7U01Fa+1crdHtCa
+	SsJZZAmSeXN5tPdM8P4FXHuIHgjBDfxzwvzaIHO+7ODydhD30dJb9aKGTYy1Onrypyl93vnSCjk
+	JWsMCYOhvPkXcII+Uyp6lmRJHbvTQuxAnMOKSpjFv+CSvObUv/FiIJqnhBnbdYM50zyio=
+X-Received: by 2002:a05:6512:150e:20b0:5ad:68aa:8a78 with SMTP id 2adb3069b0e04-5b453b9adeemr2672003e87.5.1786770511539;
+        Fri, 14 Aug 2026 22:08:31 -0700 (PDT)
 Received: from localhost ([95.190.110.153])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458b9a9a7sm932354e87.13.2026.08.14.22.08.27
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458b9a9a7sm932354e87.13.2026.08.14.22.08.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 22:08:28 -0700 (PDT)
+        Fri, 14 Aug 2026 22:08:31 -0700 (PDT)
 From: Vladislav Zaharov <vladazaharova2018@gmail.com>
 To: dakr@kernel.org,
 	jhubbard@nvidia.com
@@ -69,10 +70,12 @@ Cc: acourbot@nvidia.com,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Vladislav Zaharov <vladazaharova2018@gmail.com>
-Subject: [PATCH v2 0/2] gpu: nova-core: retain the GSP-RM log buffers
-Date: Sat, 15 Aug 2026 12:08:24 +0700
-Message-ID: <20260815050826.306717-1-vladazaharova2018@gmail.com>
+Subject: [PATCH v2 2/2] Documentation: nova: remove completed GSP log buffer task
+Date: Sat, 15 Aug 2026 12:08:26 +0700
+Message-ID: <20260815050826.306717-3-vladazaharova2018@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260815050826.306717-1-vladazaharova2018@gmail.com>
+References: <20260815050826.306717-1-vladazaharova2018@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,75 +84,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The GSP-RM log buffers are exposed through debugfs, but the entries are
-owned by the Gpu that probe() builds, and the buffers themselves are DMA
-allocations that cannot outlive the device. They are therefore gone as
-soon as the GPU is unbound, and in particular as soon as probe() fails -
-which is the case todo.rst singled out, and the one where a GSP log is
-worth having.
+Exposing the GSP-RM log buffers through debugfs is implemented, and with
+the gsp_keep_logs module parameter they now also survive a failed probe,
+which was the part of the task that was still missing.
 
-Patch 1 adds a gsp_keep_logs module parameter: when it is set, whatever
-the GSP wrote is copied into memory owned by the module and exposed
-under a "retained" directory until the module is unloaded. Patch 2 drops
-the now completed task from todo.rst.
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Vladislav Zaharov <vladazaharova2018@gmail.com>
+---
+ Documentation/gpu/nova/core/todo.rst | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-Changes since v1:
- - use a gsp_keep_logs module parameter instead of a Kconfig option, so
-   that no kernel rebuild is needed
- - use VVec rather than KVec for the copies
- - move the log buffer code into gsp/logbuffer.rs
- - create the "retained" directory in module_init(), which removes the
-   additional unsafe block from the teardown path
- - dev_dbg!() instead of dev_info!()
- - take every allocation that can fail before dropping a previous copy
-   of the same device, so that running out of memory cannot leave that
-   device with no logs at all
-
-Two things did not make it into this revision:
-
-The parameter is a u8 taking 0 or 1 rather than a bool. bool is not
-available in this tree: the macro fails with "Unsupported parameter type
-bool", as rust/kernel/module_param.rs only instantiates param ops for
-i8..u64, isize and usize. There is a TODO in the code to switch over
-once it arrives.
-
-The dma_rmb() discussed on v1 is likewise not here yet, as the barrier
-abstractions are still making their way in via the tip tree. I will send
-it as a separate patch once the backmerge has happened.
-
-Testing was done on top of drm-rust-next with the TLV firmware images
-installed, which also settles the question left open on v1 about the
-older base. On a GB203:
-
-  - with gsp_keep_logs unset, no "retained" directory is created and the
-    entries disappear on unbind, as before;
-  - with gsp_keep_logs=1, retained/<BDF>/{loginit,logintr,logrm} hold
-    the contents the live entries had, all 64 KiB of each readable;
-  - binding the GPU again recreates the live entries without disturbing
-    the copies, and unbinding it a second time replaces them, leaving
-    exactly one set behind;
-  - with a failure injected after the GSP has booted, probe() fails with
-    -EINVAL, the driver stays unbound, and the logs of that attempt are
-    still readable;
-  - the copies are released on module unload, and three load/unload
-    cycles leave nothing behind.
-
-No warnings, oopses or refcount complaints in dmesg throughout. Built
-and checked with CLIPPY=1 and rustfmtcheck. checkpatch --strict is clean
-apart from the MAINTAINERS note for the new file, which is already
-covered by the existing "F: drivers/gpu/nova-core/" pattern.
-
-Vladislav Zaharov (2):
-  gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
-  Documentation: nova: remove completed GSP log buffer task
-
- Documentation/gpu/nova/core/todo.rst   |  12 --
- drivers/gpu/nova-core/gsp.rs           | 100 ++---------
- drivers/gpu/nova-core/gsp/logbuffer.rs | 235 +++++++++++++++++++++++++
- drivers/gpu/nova-core/nova_core.rs     |  28 +++
- 4 files changed, 282 insertions(+), 93 deletions(-)
- create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
-
+diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
+index d5130b2b08fb..cae0578d32f1 100644
+--- a/Documentation/gpu/nova/core/todo.rst
++++ b/Documentation/gpu/nova/core/todo.rst
+@@ -141,18 +141,6 @@ Implement support for instmem (bar2) used to store page tables.
+ GPU System Processor (GSP)
+ ==========================
+ 
+-Export GSP log buffers
+-----------------------
+-
+-Recent patches from Timur Tabi [1] added support to expose GSP-RM log buffers
+-(even after failure to probe the driver) through debugfs.
+-
+-This is also an interesting feature for nova-core, especially in the early days.
+-
+-| Link: https://lore.kernel.org/nouveau/20241030202952.694055-2-ttabi@nvidia.com/ [1]
+-| Reference: Debugfs abstractions
+-| Complexity: Intermediate
+-
+ GSP firmware abstraction
+ ------------------------
+ 
 -- 
 2.55.0
 
