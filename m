@@ -1,574 +1,492 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mta0.migadu.com (out-209.mta0.migadu.com [91.218.175.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B832F1FEC
-	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 05:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0B6326D55
+	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 06:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786770515; cv=none; b=PhzD1VLV68pWj9iu5ReWLFPd50mRyggN+zCFMntevjZ3QvMg7BbrIhejoL/JItBa5yiI/A36DzEfrbzKeehPZYwWyWCJ6TLe38Y/PF7UrNFdkGzYC0ibWZTC6ETZMtFdqDxwkDqS4P4v0CAqVYcBjEidRXYu4h2AA6D/8+Q3KB0=
+	t=1786773610; cv=none; b=AxPPM8UCUk0ir1aQvPnLGM5lu9XchZWmA88adqnP3UV3QUyZ6iBquYb65ODnAIM0NUJME5x2O3skLBSk1seUnW87KTimaStQbo2gVd436cOSs+XtLoqfni5Z7xTHTVjo3lA/jwpfM4Yr3B/K2zLAi45Zudgxcg+lzb0lXKokEk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786770515; c=relaxed/simple;
-	bh=x/hwKM8ZjjTyX8V3Z5jrI8tGMrC3skshKBk+D9MC3fk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l5JiAW3UZZJ5EKI0o6qx1ikcE5TWcIQBX2feOFG0dUnC7mTeaZnXmAWwDSpbKHryE68Hz6ASifUm+Ydvq4kGc43TRXJyhTD4LTJxjn8rHxkI6rwikMkipot3aloHxcEidBePflQYwI3qAIqPTXKhbH7aWabHKHWaiKKT3VRZb2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cq82jSWu; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786773610; c=relaxed/simple;
+	bh=FVQ0KwZrz3waNenPVw94AFdb24X2VvdkvoUUTCwKGdI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=p2OJBf5swgAtdQBo5MRcSPNgcwSPZsO6Gb+0HiVq9cPotc5GCVLaOAJgYilx3t2Rkt0aHvGBFjcG+/ZsMD+3jkvSjm0Co0v4piH+per1B62SoQnfXDSWwNMwjLT6W5sYKfBfO+RL7I/aOLaO/Tx9hbxlgVssp6NzIwmN2XTiuVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=N+Fthfg8; arc=none smtp.client-ip=91.218.175.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cq82jSWu"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39c74c469e8so11085771fa.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 22:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786770511; x=1787375311; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Rh9k5ls4P7h2XTEAea6XCmlOeGaVyD2hBG03bRb/WIs=;
-        b=cq82jSWukFtIZR8zx3sN73h30AaA7xsVrUscOIk2a/KTCwpGBIX7g9c7uGHumPxK6+
-         BRystKB3QSgw5jRNbjuzZMcoAoHzppxNW5xDze9hbqXiqG+UAia9nYtMuPhFXkacxIYH
-         uSzDkBTAfMkz/C25mscymUiiq/b7Txgmn3QbTQmGFQKzMVErRsxXYVo1NL98AF4PY/s+
-         Dh8uMPA6dfRjN2YQn25xQY1rV9976IdGMELIArLWvLzDv1bA+kLlQ6xL+qzz2KkM84yM
-         GDG1qRCv8uymXuFa8VCjv36SSzCHwLQ5l29CviA9LITIMfiiqEauYDgkP0TgecpxJlJ5
-         SPSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786770511; x=1787375311;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Rh9k5ls4P7h2XTEAea6XCmlOeGaVyD2hBG03bRb/WIs=;
-        b=rMsFwLqbCppHhNjkWb4mujEQJAi/zBV7kBgZyLNAsP06uFao7gOtZYlAUJT58XvMHX
-         GH7b/d2XrNfU0IdSQEOsHlEbC3RvoCPgaqiYg9P0G75ugXA84p3XjIV2D3eETlQLyR0k
-         J3qJeH4vZ+VEYo6ehc9RlXADzFZiZj9O/G1ip4Aqvb+IQEyWEMn6LsFF1woPFiQc8y8F
-         ZO4VQJZNoeaJNdsXCRIDMKIhxtlq50IYW50TZWdLsgTmmJcItbvX3AgwWa1nRVkp2WxA
-         XM1Dp01lF0Hc9mI4A/JyKU4Lg9W3qLfRNT0vp8rtL6gM5huGRykmPxvXdxjm4CWTcen/
-         3F6w==
-X-Forwarded-Encrypted: i=1; AHgh+RocBanqhmgapZApyTvk5QY73cDce6AaYRUwyhluDWrArwimEnLsxY9tWHxxrMXasUcUXSDAhlHKwHU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdtNOyST4zeKsQy44jHubgCfo1C1VvNYJtMrKgzCVz1rZU1Qg3
-	KJmuDOHoXMlCQ2BCjDERsyD/x/k1Y12831t4bfSGhQmyaTomCsO8DAm/
-X-Gm-Gg: AR+sD10GFVJULAF6xSyvTEIRrprFcc9mCiz5hDUJiOAZU5So/Hu542u8R4Z2JLYYMTk
-	oi9JJ18zv0PH15zVSpTVxLEYxoOUh3+dA4mjobJoCsMDfYE7a9T81EPgnLGNixJCmjiyvp+vKVW
-	ZtvVXrsiZ4LwumA4Xj1OEZI/mMCHa2wu442Vmc182iAdWnmAxlDbxe/R6TCPV9rLEti5Y6Xvifi
-	U705ayIaSccSq8Yoa95JtPVEccxgHbznkXl6ksDyjOrdjAYIGo5A5EBzB4CKhOdvdE4lVKroOqr
-	bfO4FCeA5PCKHedHUJa4M1k5LCFlfJn7uvvHNJqxk+xMI7Je8lT1gPprakzCaGVVJl1uWX6JIsy
-	VDe28+dg9W7Q9wO65FtHZ1A/XFWvyDSi1JGlbT7I+UFLPUI7Z3125OuEpbFR74jP7qQKJou0iFs
-	6ev49IiqU2AUwtMBoG/zdcT/vFAZoEQ8gIAhQgUHwkRArWdFnrLLZk0mZ7a2KBf4tqHyM=
-X-Received: by 2002:a05:6512:1151:b0:5b0:1df9:2ae5 with SMTP id 2adb3069b0e04-5b45910e5aamr1653610e87.14.1786770510343;
-        Fri, 14 Aug 2026 22:08:30 -0700 (PDT)
-Received: from localhost ([95.190.110.153])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458b9a9a7sm932354e87.13.2026.08.14.22.08.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 22:08:30 -0700 (PDT)
-From: Vladislav Zaharov <vladazaharova2018@gmail.com>
-To: dakr@kernel.org,
-	jhubbard@nvidia.com
-Cc: acourbot@nvidia.com,
-	aliceryhl@google.com,
-	ttabi@nvidia.com,
-	gary@garyguo.net,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Vladislav Zaharov <vladazaharova2018@gmail.com>
-Subject: [PATCH v2 1/2] gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
-Date: Sat, 15 Aug 2026 12:08:25 +0700
-Message-ID: <20260815050826.306717-2-vladazaharova2018@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260815050826.306717-1-vladazaharova2018@gmail.com>
-References: <20260815050826.306717-1-vladazaharova2018@gmail.com>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="N+Fthfg8"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=FVQ0KwZrz3waNenPVw94AFdb24X2VvdkvoUUTCwKGdI=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1786773604; v=1; x=1787378404;
+ b=N+Fthfg8sygPwhrbnX8cLugjbCPIeeMGXkJKVjEMj3/nCZSnBdWnfdZrhM0erJZRbdDkks77
+ LKWARZufQ9jM0nS3xeRWkKjzaMPxX3d96rpDQa5gejen2OqGnyugKecwUEq6cYjOhzJ4lqjvgY0
+ KFpVV+avvyklyTSWYGaL/6DpyGVOZPfiz5YQZFixTB9MVmzgFLk1xRmAOjb1l5w+LpAK9KW6iU8
+ /B22GCxVeqB1CMVmV8IUNybCh889PBdNgj+y2nmfACGPltLU046aoEGb4qDHvgsYTVTNXBIXjNv
+ ko8heYWXA5teQMjqOXf1T7iHFpzl8Ozj8bFxhdzfsgnAQ==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from yuanweijie-macmini-2058.local (117.176.242.163)
+	by smtp.migadu.com with ESMTPS id dcc1a207b0d82978;
+	Sat, 15 Aug 2026 06:00:03 +0000
+X-Migadu-Flow: FLOW_OUT
+From: Weijie Yuan <wy@wyuan.org>
+Date: Sat, 15 Aug 2026 13:59:34 +0800
+Subject: [PATCH v2 1/2] docs/zh_CN: add process/applying-patches Chinese
+ translation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260815-apply-patches-v2-1-3fdd873d31cc@wyuan.org>
+References: <20260815-apply-patches-v2-0-3fdd873d31cc@wyuan.org>
+In-Reply-To: <20260815-apply-patches-v2-0-3fdd873d31cc@wyuan.org>
+To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+ Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=18117; i=wy@wyuan.org;
+ h=from:subject:message-id; bh=FVQ0KwZrz3waNenPVw94AFdb24X2VvdkvoUUTCwKGdI=;
+ b=owGbwMvMwCWmYiA08XxmoirjabUkhqwGBp9+a/HK+jcPz7QvNJj+7s/jKvG1t6+1rrOPSLub9
+ GJegV1qx0QWBjEuBksxRRbFvOcXuNwD9k5bEXEeZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNIx0DFm4OIUgKm+ocjIcE9i6VeWo/6PYjTmL/PzYJ7wwabrn+bHU07nH5+r15XVPMDw31F/Uug
+ kRo/8nQdEL84KM5GtuTlLI/GnpFKl2tzfh5dF8QAA
+X-Developer-Key: i=wy@wyuan.org; a=openpgp;
+ fpr=216EE7D00A4750BD96A858CF24301291CF696125
 
-The GSP-RM log buffers are exposed through debugfs, but the Scope that
-owns them lives in Gsp, inside GspResources, inside the Gpu built by
-probe(). They are DMA allocations of the device and cannot outlive it,
-so the entries go away as soon as the GPU is unbound - and, more to the
-point, as soon as probe() fails, which is exactly when the log of a GSP
-that did not come up is the thing one wants to read.
+Translate process/applying-patches.rst into Chinese, and update
+the toctree.
 
-Add a gsp_keep_logs module parameter. When it is set, dropping the log
-buffers copies whatever the GSP wrote into memory owned by the module
-and exposes the copies until the module is unloaded. A buffer whose
-"put" pointer is still zero was never written to and is skipped.
+Update the translation through commit fa04150b8ef7
+("Documentation: describe how to apply incremental stable patches")
 
-The copies live in a "retained" directory, created during module init
-rather than on first use, which keeps the teardown path from having to
-reach for DEBUGFS_ROOT. Keeping them out of the directory used by bound
-GPUs also means a device coming back does not find its debugfs name
-taken by its own history; nouveau, which recreates the entries under the
-name of the GPU that just went away, has that problem.
-
-The parameter is a u8 taking 0 or 1 rather than a bool, as the module
-parameter abstraction has no bool in this tree yet.
-
-While at it, move the log buffer code out of gsp.rs into gsp/logbuffer.rs.
-
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Vladislav Zaharov <vladazaharova2018@gmail.com>
+Signed-off-by: Weijie Yuan <wy@wyuan.org>
 ---
- drivers/gpu/nova-core/gsp.rs           | 100 ++---------
- drivers/gpu/nova-core/gsp/logbuffer.rs | 235 +++++++++++++++++++++++++
- drivers/gpu/nova-core/nova_core.rs     |  28 +++
- 3 files changed, 282 insertions(+), 81 deletions(-)
- create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
+ .../zh_CN/process/applying-patches.rst             | 390 +++++++++++++++++++++
+ Documentation/translations/zh_CN/process/index.rst |   2 +-
+ 2 files changed, 391 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 13f361406a6c..1e697c859a2f 100644
---- a/drivers/gpu/nova-core/gsp.rs
-+++ b/drivers/gpu/nova-core/gsp.rs
-@@ -12,11 +12,7 @@
-         CoherentView,
-         DmaAddress, //
-     },
--    io::{
--        io_project,
--        io_write,
--        Io, //
--    },
-+    io::io_write,
-     pci,
-     prelude::*, //
- };
-@@ -24,9 +20,13 @@
- pub(crate) mod cmdq;
- pub(crate) mod commands;
- mod fw;
-+mod logbuffer;
- mod regs;
- mod sequencer;
- 
-+use logbuffer::LogBuffers;
-+pub(crate) use logbuffer::RetainedLogs;
-+
- pub(crate) use fw::{
-     GspFmcBootParams,
-     GspFwWprMeta,
-@@ -77,10 +77,6 @@ pub(crate) fn dev(&self) -> &'gpu device::Device<device::Bound> {
-     }
- }
- 
--/// Number of GSP pages to use in a RM log buffer.
--const RM_LOG_BUFFER_NUM_PAGES: usize = 0x10;
--const LOG_BUFFER_SIZE: usize = RM_LOG_BUFFER_NUM_PAGES * GSP_PAGE_SIZE;
--
- /// Array of page table entries, as understood by the GSP bootloader.
- #[repr(C)]
- #[derive(FromBytes, IntoBytes)]
-@@ -101,49 +97,6 @@ fn init(view: CoherentView<'_, Self>, start: DmaAddress) -> Result<()> {
-     }
- }
- 
--/// The logging buffers are byte queues that contain encoded printf-like
--/// messages from GSP-RM.  They need to be decoded by a special application
--/// that can parse the buffers.
--///
--/// The 'loginit' buffer contains logs from early GSP-RM init and
--/// exception dumps.  The 'logrm' buffer contains the subsequent logs. Both are
--/// written to directly by GSP-RM and can be any multiple of GSP_PAGE_SIZE.
--///
--/// The physical address map for the log buffer is stored in the buffer
--/// itself, starting with offset 1. Offset 0 contains the "put" pointer (pp).
--/// Initially, pp is equal to 0. If the buffer has valid logging data in it,
--/// then pp points to index into the buffer where the next logging entry will
--/// be written. Therefore, the logging data is valid if:
--///   1 <= pp < sizeof(buffer)/sizeof(u64)
--struct LogBuffer(Coherent<[u8; LOG_BUFFER_SIZE]>);
--
--impl LogBuffer {
--    /// Creates a new `LogBuffer` mapped on `dev`.
--    fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
--        let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
--
--        let start_addr = obj.0.dma_address();
--
--        let pte_view = io_project!(
--            obj.0,
--            [build: size_of::<u64>()..][build: ..RM_LOG_BUFFER_NUM_PAGES * size_of::<u64>()]
--        )
--        .try_cast::<PteArray<RM_LOG_BUFFER_NUM_PAGES>>()?;
--        PteArray::init(pte_view, start_addr)?;
--
--        Ok(obj)
--    }
--}
--
--struct LogBuffers {
--    /// Init log buffer.
--    loginit: LogBuffer,
--    /// Interrupts log buffer.
--    logintr: LogBuffer,
--    /// RM log buffer.
--    logrm: LogBuffer,
--}
--
- /// GSP runtime data.
- #[pin_data]
- pub(crate) struct Gsp {
-@@ -165,9 +118,7 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> impl PinInit<Self, Error
-         pin_init::pin_init_scope(move || {
-             let dev = pdev.as_ref();
- 
--            let loginit = LogBuffer::new(dev)?;
--            let logintr = LogBuffer::new(dev)?;
--            let logrm = LogBuffer::new(dev)?;
-+            let log_buffers = LogBuffers::new(dev)?;
- 
-             // Initialise the logging structures. The OpenRM equivalents are in:
-             // _kgspInitLibosLoggingStructures (allocates memory for buffers)
-@@ -182,36 +133,23 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> impl PinInit<Self, Error
-                         GFP_KERNEL,
-                     )?;
- 
--                    libos.init_at(0, LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0))?;
--                    libos.init_at(1, LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0))?;
--                    libos.init_at(2, LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
-+                    libos.init_at(
-+                        0,
-+                        LibosMemoryRegionInitArgument::new("LOGINIT", &log_buffers.loginit.0),
-+                    )?;
-+                    libos.init_at(
-+                        1,
-+                        LibosMemoryRegionInitArgument::new("LOGINTR", &log_buffers.logintr.0),
-+                    )?;
-+                    libos.init_at(
-+                        2,
-+                        LibosMemoryRegionInitArgument::new("LOGRM", &log_buffers.logrm.0),
-+                    )?;
-                     libos.init_at(3, LibosMemoryRegionInitArgument::new("RMARGS", rmargs))?;
- 
-                     libos.into()
-                 },
--                logs <- {
--                    let log_buffers = LogBuffers {
--                        loginit,
--                        logintr,
--                        logrm,
--                    };
--
--                    #[allow(static_mut_refs)]
--                    // SAFETY: `DEBUGFS_ROOT` is created before driver registration and cleared
--                    // after driver unregistration, so no probe() can race with its modification.
--                    //
--                    // PANIC: `DEBUGFS_ROOT` cannot be `None` here.  It is set before driver
--                    // registration and cleared after driver unregistration, so it is always
--                    // `Some` for the entire lifetime that probe() can be called.
--                    let log_parent: &debugfs::Dir = unsafe { crate::DEBUGFS_ROOT.as_ref() }
--                        .expect("DEBUGFS_ROOT not initialized");
--
--                    log_parent.scope(log_buffers, dev.name(), |logs, dir| {
--                        dir.read_binary_file(c"loginit", &logs.loginit.0);
--                        dir.read_binary_file(c"logintr", &logs.logintr.0);
--                        dir.read_binary_file(c"logrm", &logs.logrm.0);
--                    })
--                },
-+                logs <- log_buffers.scope(dev),
-             }))
-         })
-     }
-diff --git a/drivers/gpu/nova-core/gsp/logbuffer.rs b/drivers/gpu/nova-core/gsp/logbuffer.rs
+diff --git a/Documentation/translations/zh_CN/process/applying-patches.rst b/Documentation/translations/zh_CN/process/applying-patches.rst
 new file mode 100644
-index 000000000000..a6639f0f75c8
+index 000000000000..c056b241b0cd
 --- /dev/null
-+++ b/drivers/gpu/nova-core/gsp/logbuffer.rs
-@@ -0,0 +1,235 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/translations/zh_CN/process/applying-patches.rst
+@@ -0,0 +1,390 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+//! GSP-RM log buffers, and the debugfs entries exposing them.
++.. include:: ../disclaimer-zh_CN.rst
 +
-+use core::convert::Infallible;
++:Original: Documentation/process/applying-patches.rst
 +
-+use kernel::{
-+    debugfs,
-+    device,
-+    dma::Coherent,
-+    io::{
-+        io_project,
-+        Io, //
-+    },
-+    prelude::*,
-+    sync::aref::ARef, //
-+};
++:翻译:
 +
-+use crate::gsp::{
-+    PteArray,
-+    GSP_PAGE_SIZE, //
-+};
++ 袁维杰 Weijie Yuan <wy@wyuan.org>
 +
-+/// Number of GSP pages to use in a RM log buffer.
-+const RM_LOG_BUFFER_NUM_PAGES: usize = 0x10;
-+const LOG_BUFFER_SIZE: usize = RM_LOG_BUFFER_NUM_PAGES * GSP_PAGE_SIZE;
++将补丁应用到 Linux 内核
+++++++++++++++++++++++++
 +
-+/// The logging buffers are byte queues that contain encoded printf-like
-+/// messages from GSP-RM.  They need to be decoded by a special application
-+/// that can parse the buffers.
-+///
-+/// The 'loginit' buffer contains logs from early GSP-RM init and
-+/// exception dumps.  The 'logrm' buffer contains the subsequent logs. Both are
-+/// written to directly by GSP-RM and can be any multiple of GSP_PAGE_SIZE.
-+///
-+/// The physical address map for the log buffer is stored in the buffer
-+/// itself, starting with offset 1. Offset 0 contains the "put" pointer (pp).
-+/// Initially, pp is equal to 0. If the buffer has valid logging data in it,
-+/// then pp points to index into the buffer where the next logging entry will
-+/// be written. Therefore, the logging data is valid if:
-+///   1 <= pp < sizeof(buffer)/sizeof(u64)
-+pub(super) struct LogBuffer(pub(super) Coherent<[u8; LOG_BUFFER_SIZE]>);
++原文作者：
++	Jesper Juhl，2005 年 8 月
 +
-+impl LogBuffer {
-+    /// Creates a new `LogBuffer` mapped on `dev`.
-+    fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-+        let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
++.. note::
 +
-+        let start_addr = obj.0.dma_address();
++   本文档已经过时。绝大多数情况下，你几乎肯定应该考虑使用 Git，而不是
++   手工运行 ``patch``。
 +
-+        let pte_view = io_project!(
-+            obj.0,
-+            [build: size_of::<u64>()..][build: ..RM_LOG_BUFFER_NUM_PAGES * size_of::<u64>()]
-+        )
-+        .try_cast::<PteArray<RM_LOG_BUFFER_NUM_PAGES>>()?;
-+        PteArray::init(pte_view, start_addr)?;
++Linux 内核邮件列表中经常有人询问如何给内核打补丁；更确切地说，为众多
++内核树或分支之一制作的补丁，应当以哪个版本的内核为基础来应用。希望本文
++能够解答这些问题。
 +
-+        Ok(obj)
-+    }
++除了说明如何应用和撤销补丁，本文还会简要介绍不同的内核树，并举例说明
++如何应用各个内核树特有的补丁。
 +
-+    /// Copies the contents of this buffer into memory that does not belong to the device.
-+    ///
-+    /// A buffer the GSP never wrote to yields an empty vector, as it holds nothing worth keeping.
-+    fn snapshot(&self) -> Result<VVec<u8>> {
-+        // Offset 0 holds the "put" pointer, which the GSP advances as it appends entries. It is
-+        // still zero if nothing was ever logged.
-+        let put = io_project!(self.0, [build: ..size_of::<u64>()]).try_cast::<u64>()?;
-+        if put.read_val() == 0 {
-+            return Ok(VVec::new());
-+        }
 +
-+        let mut snapshot = VVec::zeroed(LOG_BUFFER_SIZE, GFP_KERNEL)?;
-+        io_project!(self.0, [build: ..]).copy_to_slice(&mut snapshot);
++什么是补丁？
++============
 +
-+        Ok(snapshot)
-+    }
-+}
++补丁是一份短小的文本文档，其中记录了源码树两个不同版本之间的改动。
++补丁由 ``diff`` 程序生成。
 +
-+/// The log buffers of a GPU, for as long as it is bound to the driver.
-+pub(super) struct LogBuffers {
-+    /// Device the buffers belong to. Also names their debugfs directory.
-+    dev: ARef<device::Device>,
-+    /// Init log buffer.
-+    pub(super) loginit: LogBuffer,
-+    /// Interrupts log buffer.
-+    pub(super) logintr: LogBuffer,
-+    /// RM log buffer.
-+    pub(super) logrm: LogBuffer,
-+}
++要正确应用补丁，你必须知道它是基于哪个版本生成的，又会把源码树更新成
++哪个版本。这两项信息应当记录在补丁文件的元数据中，或者能够根据文件名
++推断出来。
 +
-+impl LogBuffers {
-+    /// Allocates the three log buffers of `dev`.
-+    pub(super) fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-+        Ok(Self {
-+            dev: dev.into(),
-+            loginit: LogBuffer::new(dev)?,
-+            logintr: LogBuffer::new(dev)?,
-+            logrm: LogBuffer::new(dev)?,
-+        })
-+    }
 +
-+    /// Creates an initializer exposing these buffers under a directory named after `dev`.
-+    pub(super) fn scope<'a>(
-+        self,
-+        dev: &'a device::Device<device::Bound>,
-+    ) -> impl PinInit<debugfs::Scope<Self>, Infallible> + 'a {
-+        #[allow(static_mut_refs)]
-+        // SAFETY: `DEBUGFS_ROOT` is created before driver registration and cleared
-+        // after driver unregistration, so no probe() can race with its modification.
-+        //
-+        // PANIC: `DEBUGFS_ROOT` cannot be `None` here.  It is set before driver
-+        // registration and cleared after driver unregistration, so it is always
-+        // `Some` for the entire lifetime that probe() can be called.
-+        let log_parent: &debugfs::Dir =
-+            unsafe { crate::DEBUGFS_ROOT.as_ref() }.expect("DEBUGFS_ROOT not initialized");
++如何应用或撤销补丁？
++====================
 +
-+        log_parent.scope(self, dev.name(), |logs, dir| {
-+            dir.read_binary_file(c"loginit", &logs.loginit.0);
-+            dir.read_binary_file(c"logintr", &logs.logintr.0);
-+            dir.read_binary_file(c"logrm", &logs.logrm.0);
-+        })
-+    }
++使用 ``patch`` 程序应用补丁。patch 程序读取 diff 文件（也称补丁
++文件），再按照文件中的描述修改源码树。
 +
-+    /// Preserves whatever the GSP logged, so it can still be read once the GPU is gone.
-+    ///
-+    /// The buffers are DMA allocations of the device and cannot outlive it, so their contents are
-+    /// copied into memory owned by the module and exposed through fresh debugfs entries. Those
-+    /// live until the module is unloaded.
-+    ///
-+    /// Does nothing if `gsp_keep_logs` was not set when the module was loaded, as there is then
-+    /// no directory to put the copies in.
-+    fn retain(&self) -> Result {
-+        let mut retained = crate::RETAINED_LOGS.lock();
++Linux 内核补丁以存放内核源码目录的父目录为基准生成。
 +
-+        let Some(dir) = retained.dir.clone() else {
-+            return Ok(());
-+        };
++因此，补丁文件中的路径会带有生成补丁时所用的内核源码目录名（也可能是
++“a/”和“b/”之类的其他目录名）。
 +
-+        let logs = RetainedLogBuffers {
-+            dev: self.dev.clone(),
-+            loginit: self.loginit.snapshot()?,
-+            logintr: self.logintr.snapshot()?,
-+            logrm: self.logrm.snapshot()?,
-+        };
++这个目录名一般不会恰好与本机的内核源码目录名相同（不过，它往往有助于
++判断未注明版本的补丁是基于哪个版本生成的）。应用补丁时，应先进入内核
++源码目录，再去掉补丁文件所列路径中的第一个组成部分（``patch`` 的
++``-p1`` 参数正是用于此目的）。
 +
-+        // Nothing was ever logged, so there is nothing to keep. A copy from an earlier run of
-+        // this device is deliberately left alone: logs from a run that failed are worth more
-+        // than the silence of one that did not.
-+        if logs.loginit.is_empty() && logs.logintr.is_empty() && logs.logrm.is_empty() {
-+            return Ok(());
-+        }
++要撤销先前应用的补丁，请给 patch 加上 -R 参数。也就是说，如果应用
++补丁时执行的是::
 +
-+        // Take every allocation that can fail before the previous copy of this device is
-+        // dropped, so that running out of memory here cannot leave it with no logs at all.
-+        let scope = KBox::<debugfs::Scope<RetainedLogBuffers>>::new_uninit(GFP_KERNEL)?;
-+        retained.gpus.reserve(1, GFP_KERNEL)?;
++	patch -p1 < ../patch-x.y.z
 +
-+        // An earlier run of the same device may have left a copy behind, and its directory
-+        // carries the name about to be used again, so it has to go first. Nothing below can
-+        // fail, so the replacement is guaranteed to take its place.
-+        retained
-+            .gpus
-+            .retain(|gpu| gpu.dev.name() != self.dev.name());
++那么可以这样撤销它::
 +
-+        let scope = scope.write_pin_init(dir.scope(logs, self.dev.name(), |logs, dir| {
-+            if !logs.loginit.is_empty() {
-+                dir.read_binary_file(c"loginit", &logs.loginit);
-+            }
-+            if !logs.logintr.is_empty() {
-+                dir.read_binary_file(c"logintr", &logs.logintr);
-+            }
-+            if !logs.logrm.is_empty() {
-+                dir.read_binary_file(c"logrm", &logs.logrm);
-+            }
-+        }))?;
++	patch -R -p1 < ../patch-x.y.z
 +
-+        retained.gpus.push(scope, GFP_KERNEL)?;
 +
-+        dev_dbg!(self.dev, "GSP-RM log buffers retained\n");
++如何把补丁或 diff 文件交给 ``patch``？
++======================================
 +
-+        Ok(())
-+    }
-+}
++和 Linux 及其他类 UNIX 操作系统中的许多操作一样，这件事也有好几种
++做法。
 +
-+impl Drop for LogBuffers {
-+    fn drop(&mut self) {
-+        if let Err(e) = self.retain() {
-+            dev_warn!(self.dev, "failed to retain GSP-RM log buffers: {:?}\n", e);
-+        }
-+    }
-+}
++下文的所有示例都使用如下语法，通过标准输入（stdin）把未压缩的文件
++交给 patch::
 +
-+/// Copies of the log buffers of a GPU that is no longer around.
-+struct RetainedLogBuffers {
-+    /// Device the buffers came from.
-+    dev: ARef<device::Device>,
-+    /// Contents of the init log buffer, empty if it was never written to.
-+    loginit: VVec<u8>,
-+    /// Contents of the interrupts log buffer, empty if it was never written to.
-+    logintr: VVec<u8>,
-+    /// Contents of the RM log buffer, empty if it was never written to.
-+    logrm: VVec<u8>,
-+}
++	patch -p1 < path/to/patch-x.y.z
 +
-+/// Log buffers of GPUs that are gone, and the debugfs entries exposing them.
-+///
-+/// The copies live under a `retained` directory of their own instead of next to the entries of
-+/// the GPUs that are actually bound, so that a device coming back does not find its name taken.
-+pub(crate) struct RetainedLogs {
-+    /// Parent directory of all copies. `None` unless retaining was asked for.
-+    dir: Option<debugfs::Dir>,
-+    /// One entry per GPU.
-+    gpus: KVec<Pin<KBox<debugfs::Scope<RetainedLogBuffers>>>>,
-+}
++如果你只想照着下文的示例操作，无意了解 patch 的其他用法，那么读到
++这里就可以跳过本节余下的内容。
 +
-+impl RetainedLogs {
-+    /// Creates an empty set of retained log buffers, retaining disabled.
-+    pub(crate) const fn new() -> Self {
-+        Self {
-+            dir: None,
-+            gpus: KVec::new(),
-+        }
-+    }
++patch 也能通过 -i 参数取得待处理文件的名称，例如::
 +
-+    /// Creates the directory the copies will live in, enabling retaining.
-+    pub(crate) fn enable(&mut self, parent: &debugfs::Dir) {
-+        self.dir = Some(parent.subdir(c"retained"));
-+    }
++	patch -p1 -i path/to/patch-x.y.z
 +
-+    /// Releases every copy and the directory holding them.
-+    pub(crate) fn clear(&mut self) {
-+        self.gpus.clear();
-+        self.dir = None;
-+    }
-+}
-diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-index 35a8b1214b0e..fedb9f0f5275 100644
---- a/drivers/gpu/nova-core/nova_core.rs
-+++ b/drivers/gpu/nova-core/nova_core.rs
-@@ -30,11 +30,21 @@
- // TODO: Move this into per-module data once that exists.
- static mut DEBUGFS_ROOT: Option<debugfs::Dir> = None;
++如果补丁文件以 gzip 或 xz 格式压缩，而你不想先解压再应用，可以这样
++把它交给 patch::
++
++	xzcat path/to/patch-x.y.z.xz | patch -p1
++	bzcat path/to/patch-x.y.z.gz | patch -p1
++
++如果想在应用前手工解压补丁文件（下文的示例均假定你已经这样做了），
++只需对文件运行 gunzip 或 xz，例如::
++
++	gunzip patch-x.y.z.gz
++	xz -d patch-x.y.z.xz
++
++执行后会留下一个纯文本的 patch-x.y.z 文件。你可以按自己的喜好，
++通过标准输入或 ``-i`` 参数把它交给 patch。
++
++patch 还有几个很实用的参数：``-s`` 会让 patch 除错误外不输出任何
++信息，以免错误信息很快滚出屏幕；``--dry-run`` 只列出将会发生的事情，
++并不实际修改文件；最后，``--verbose`` 会让 patch 输出更详细的处理
++信息。
++
++
++应用补丁时的常见错误
++====================
++
++应用补丁文件时，patch 会用多种方式检查文件是否合理。
++
++例如，patch 会检查文件是否像一个有效的补丁文件，也会检查待修改代码
++周围的内容是否与补丁提供的上下文相符。这只是它所做的两项基本检查。
++
++如果遇到不太对劲的地方，patch 有两种选择：拒绝应用改动并中止，或者
++稍作调整，设法把补丁应用上去。
++
++patch 会尝试调整的一种情况是：上下文和待修改的行全都匹配，只有行号
++不同。例如，补丁要修改文件中部的内容，但文件开头附近由于某种原因增删
++了几行，就会出现这种情况。此时所有内容其实都能对上，只是整体向前或
++向后移动了一些，patch 通常会相应调整行号并应用补丁。
++
++每当 patch 必须略作调整才能匹配时，它会提示补丁是在经过模糊匹配
++（**fuzz**）后应用的。你应当谨慎对待这样的改动：patch 很可能处理
++正确，但它并不保证每次都能正确处理，有时会得到错误的结果。
++
++如果某项改动无法通过模糊匹配调整，patch 会直接拒绝这项改动，并留下
++一个扩展名为 ``.rej`` 的文件（拒绝文件）。你可以阅读这个文件，准确
++了解哪项改动未能应用，再视需要手工处理。
++
++假如内核源码中没有第三方补丁，只有来自 kernel.org 的补丁，而且补丁
++应用顺序正确，源码文件也没有经过自行修改，那么 patch 绝不应报告模糊
++匹配或拒绝应用。如果还是看到这类信息，你的本地源码树或补丁文件很可能
++已经损坏。此时应先尝试重新下载补丁；如果问题依旧，建议从 kernel.org
++重新下载完整的全新源码树，从头再来。
++
++下面进一步看看 patch 可能输出的几种信息。
++
++如果 patch 停下来并显示 ``File to patch:`` 提示，说明它找不到待修改
++的文件。最可能的原因是你忘记指定 -p1，或者当前目录不对。偶尔也会
++遇到必须用 ``-p0`` 而不是 ``-p1`` 应用的补丁（查看补丁文件便能判断
++是否如此；如果确实如此，是补丁制作者犯了错，但并不致命）。
++
++如果看到 ``Hunk #2 succeeded at 1887 with fuzz 2 (offset 7 lines).``
++或类似信息，说明 patch 必须调整改动的位置才能应用；在这个例子中，
++实际改动位置必须与预期位置相差 7 行才能匹配。
++
++最终得到的文件可能正确，也可能不正确，取决于文件为何与预期不符。
++
++尝试应用一个基于其他内核版本生成的补丁时，经常会出现这种情况。
++
++如果看到 ``Hunk #3 FAILED at 2387.`` 之类的信息，说明补丁未能正确
++应用，patch 程序也无法通过模糊匹配完成应用。此时会生成一个 ``.rej``
++文件，其中包含导致应用失败的改动；还会生成一个 ``.orig`` 文件，其中
++是未能修改的原始内容。
++
++如果看到 ``Reversed (or previously applied) patch detected!  Assume
++-R? [n]``，说明 patch 检测到补丁中的改动似乎已经存在。
++
++如果你确实已经应用过这个补丁，只是不慎又应用了一次，请回答 [n]o 并
++中止应用。如果先前应用过补丁，现在本来就想撤销它，只是忘了指定 -R，
++则可以在这里回答 [**y**]es，让 patch 替你撤销。
++
++如果补丁制作者在生成补丁时颠倒了源目录和目标目录，也会出现这条信息；
++在这种情况下，撤销补丁实际上才是在应用补丁。
++
++``patch: **** unexpected end of file in patch`` 或 ``patch unexpectedly
++ends in middle of line`` 之类的信息，表示 patch 无法理解收到的文件。
++可能是文件下载不完整，可能是你没有先解压便把压缩补丁交给了 patch，
++也可能是补丁文件在途经某个邮件客户端或邮件传输代理时遭到破坏，例如
++一行过长的内容被拆成了两行。这类警告通常很容易处理，只需把被拆开的
++两行重新连接（拼接）起来即可。
++
++如前所述，如果把 kernel.org 提供的补丁应用到版本正确、未经修改的
++源码树上，这些错误绝不应出现。因此，如果应用 kernel.org 的补丁时
++遇到这些错误，应当认为补丁文件或源码树已经损坏；建议重新下载完整的
++内核源码树和要应用的补丁，从头再来。
++
++
++除了 ``patch``，还有其他选择吗？
++================================
++
++有。
++
++可以使用 ``interdiff`` 程序（http://cyberelk.net/tim/patchutils/），
++为两个补丁之间的差异生成一个补丁，然后应用生成的补丁。
++
++这样便能一步从 5.7.2 更新到 5.7.3。interdiff 的 -z 参数甚至允许
++直接传入以 gzip 或 bzip2 格式压缩的补丁，无需使用 zcat、bzcat，也
++无需手工解压。
++
++下面是一步从 5.7.2 更新到 5.7.3 的方法::
++
++	interdiff -z ../patch-5.7.2.gz ../patch-5.7.3.gz | patch -p1
++
++尽管 interdiff 能省去一两个步骤，一般仍建议按常规方法多执行这些步骤，
++因为 interdiff 在某些情况下可能产生错误结果。
++
++另一个选择是 ``ketchup``。它是一个自动下载并应用补丁的 Python 脚本
++（https://www.selenic.com/ketchup/）。
++
++其他好用的工具还有：diffstat，用于显示补丁改动的摘要；lsdiff，用于
++简要列出补丁文件影响的文件，还可以选择同时显示各段补丁的起始行号；
++grepdiff，用于在补丁中查找与指定正则表达式匹配的内容，并列出这些内容
++所在的文件。
++
++
++可以从哪里下载补丁？
++====================
++
++补丁可从 https://kernel.org/ 获取。网站首页提供了最新补丁的链接，
++各类补丁也有各自固定的存放位置。
++
++5.x.y（-stable）补丁和 5.x 补丁位于
++
++	https://www.kernel.org/pub/linux/kernel/v5.x/
++
++5.x.y 增量补丁位于
++
++	https://www.kernel.org/pub/linux/kernel/v5.x/incr/
++
++-rc 补丁并不存放在 Web 服务器上，而是根据下面这样的 git 标签按需
++生成
++
++	https://git.kernel.org/torvalds/p/v5.1-rc1/v5.0
++
++稳定版的 -rc 补丁位于
++
++	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/
++
++
++5.x 内核
++========
++
++这些是 Linus 发布的基础稳定版本，其中版本号最大者最新。
++
++如果发现回归或其他严重缺陷，会在这个基础版本之上发布 -stable 修复
++补丁（见下文）。每当新的 5.x 基础内核发布时，还会提供一个补丁，用来
++表示上一个 5.x 内核与新内核之间的差异。
++
++要应用从 5.6 更新到 5.7 的补丁，可以按下面的步骤操作。请注意，这类
++补丁**不能**应用到 5.x.y 内核之上，只能应用到基础 5.x 内核之上；
++如果要从 5.x.y 更新到 5.x+1，必须先撤销 5.x.y 补丁。
++
++下面是两个示例::
++
++	# 从 5.6 更新到 5.7
++
++	$ cd ~/linux-5.6		# 进入内核源码目录
++	$ patch -p1 < ../patch-5.7	# 应用 5.7 补丁
++	$ cd ..
++	$ mv linux-5.6 linux-5.7	# 重命名源码目录
++
++	# 从 5.6.1 更新到 5.7
++
++	$ cd ~/linux-5.6.1		# 进入内核源码目录
++	$ patch -p1 -R < ../patch-5.6.1	# 撤销 5.6.1 补丁
++					# 源码目录现在是 5.6
++	$ patch -p1 < ../patch-5.7	# 应用新的 5.7 补丁
++	$ cd ..
++	$ mv linux-5.6.1 linux-5.7	# 重命名源码目录
++
++
++5.x.y 内核
++==========
++
++版本号由三段数字组成的是 -stable 内核。它们包含规模较小但至关重要的
++修复，用于解决某个 5.x 内核中发现的安全问题或严重回归。
++
++对于想使用最新的稳定内核，又无意帮助测试开发版或实验版的用户，推荐
++选择这个分支。
++
++如果没有 5.x.y 内核可用，则版本号最大的 5.x 内核就是当前稳定内核。
++
++-stable 团队既提供普通补丁，也提供增量补丁。下面说明如何应用这两类
++补丁。
++
++普通补丁
++~~~~~~~~
++
++这类补丁不是增量补丁。例如，5.7.3 补丁不能应用到 5.7.2 内核源码
++之上，而应应用到基础 5.7 内核源码之上。
++
++因此，要把 5.7.3 补丁应用到现有的 5.7.2 内核源码，必须先撤销
++5.7.2 补丁（回到基础 5.7 内核源码），再应用新的 5.7.3 补丁。
++
++下面是一个简单的示例::
++
++	$ cd ~/linux-5.7.2		# 进入内核源码目录
++	$ patch -p1 -R < ../patch-5.7.2	# 撤销 5.7.2 补丁
++	$ patch -p1 < ../patch-5.7.3	# 应用新的 5.7.3 补丁
++	$ cd ..
++	$ mv linux-5.7.2 linux-5.7.3	# 重命名内核源码目录
++
++增量补丁
++~~~~~~~~
++
++增量补丁则不同：它们不应用到基础 5.x 内核之上，而应用到前一个稳定版
++内核（5.x.y-1）之上。
++
++下面是应用增量补丁的示例::
++
++	$ cd ~/linux-5.7.2		# 进入内核源码目录
++	$ patch -p1 < ../patch-5.7.2-3	# 应用新的 5.7.3 补丁
++	$ cd ..
++	$ mv linux-5.7.2 linux-5.7.3	# 重命名内核源码目录
++
++
++-rc 内核
++========
++
++这些是候选发布版内核。每当 Linus 认为当前的 git 树（git 是内核的
++源码管理工具）处于相当合理、足以测试的状态时，就会发布这样的开发版内核。
++
++这些内核并不稳定；如果打算运行，就要预料到它们偶尔会出故障。不过，
++在几个主要开发分支中，这是最稳定的一个，而且它最终会成为下一个稳定版
++内核，所以让尽可能多的人参与测试十分重要。
++
++如果你想帮助测试开发版内核，但不想运行真正具有实验性的内容，这个分支
++很合适（有关真正实验性的内容，请参阅下文介绍 -next 和 -mm 内核的
++章节）。
++
++-rc 补丁不是增量补丁；与上文介绍的 5.x.y 补丁一样，它们应用到基础
++5.x 内核之上。-rcN 后缀前面的内核版本号，表示这个 -rc 内核最终会
++成为哪个版本。
++
++因此，5.8-rc5 表示它是 5.8 内核的第五个候选发布版，这个补丁应当
++应用到 5.7 内核源码之上。
++
++下面是三个应用这类补丁的示例::
++
++	# 第一个示例：从 5.7 更新到 5.8-rc3
++
++	$ cd ~/linux-5.7			# 进入 5.7 源码目录
++	$ patch -p1 < ../patch-5.8-rc3		# 应用 5.8-rc3 补丁
++	$ cd ..
++	$ mv linux-5.7 linux-5.8-rc3		# 重命名源码目录
++
++	# 接着从 5.8-rc3 更新到 5.8-rc5
++
++	$ cd ~/linux-5.8-rc3			# 进入 5.8-rc3 目录
++	$ patch -p1 -R < ../patch-5.8-rc3	# 撤销 5.8-rc3 补丁
++	$ patch -p1 < ../patch-5.8-rc5		# 应用新的 5.8-rc5 补丁
++	$ cd ..
++	$ mv linux-5.8-rc3 linux-5.8-rc5	# 重命名源码目录
++
++	# 最后尝试从 5.7.3 更新到 5.8-rc5
++
++	$ cd ~/linux-5.7.3			# 进入内核源码目录
++	$ patch -p1 -R < ../patch-5.7.3		# 撤销 5.7.3 补丁
++	$ patch -p1 < ../patch-5.8-rc5		# 应用新的 5.8-rc5 补丁
++	$ cd ..
++	$ mv linux-5.7.3 linux-5.8-rc5		# 重命名源码目录
++
++
++-mm 补丁与 linux-next 树
++========================
++
++-mm 补丁是 Andrew Morton 发布的实验性补丁。
++
++过去，-mm 树还用于测试子系统补丁；现在这项工作由
++`linux-next` （https://www.kernel.org/doc/man-pages/linux-next.html）
++树承担。子系统维护者先把补丁推送到 linux-next，再在合并窗口期间直接
++发送给 Linus。
++
++-mm 补丁是新功能和其他实验性补丁的试验场，这些补丁并未通过子系统树
++合并。一旦这类补丁在 -mm 中经受一段时间的检验并证明自身价值，Andrew
++就会将其提交给 Linus，以纳入主线。
++
++linux-next 树每天更新，其中包括 -mm 补丁。二者始终处于变化之中，
++含有许多实验性功能、大量不适合主线的调试补丁等，是本文所述各分支中
++实验性最强的。
++
++这些补丁不适合用在必须保持稳定的系统上，运行它们的风险高于其他任何
++分支（务必备有最新的备份；运行任何实验性内核都应如此，运行 -mm 补丁
++或 linux-next 树中的内核时尤其如此）。
++
++我们非常欢迎大家测试 -mm 补丁和 linux-next，因为测试的意义就是在改动
++合入更稳定的 Linus 主线树之前，排查并消除回归、崩溃、数据损坏缺陷、
++构建失败以及其他各种缺陷。
++
++不过，-mm 和 linux-next 的测试者必须明白，这些树发生故障的频率高于
++其他任何内核树。
++
++
++至此，各种内核树已经介绍完毕。希望你现在已经清楚如何应用各类补丁，
++并能帮助测试内核。
++
++感谢 Randy Dunlap、Rolf Eike Beer、Linus Torvalds、Bodo Eggert、
++Johannes Stezenbach、Grant Coady、Pavel Machek，以及其他可能被我
++遗漏的人，感谢他们对本文档的审阅和贡献。
+diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
+index 3bcb3bdaf533..3a36ca7d9333 100644
+--- a/Documentation/translations/zh_CN/process/index.rst
++++ b/Documentation/translations/zh_CN/process/index.rst
+@@ -82,13 +82,13 @@ TODOLIST:
+    :maxdepth: 1
  
-+kernel::sync::global_lock! {
-+    /// Log buffers of GPUs that are gone, kept around until the module is unloaded.
-+    // TODO: Move this into per-module data once that exists.
-+    unsafe(uninit) static RETAINED_LOGS: Mutex<gsp::RetainedLogs> = gsp::RetainedLogs::new();
-+}
-+
- /// Guard that clears `DEBUGFS_ROOT` when dropped.
- struct DebugfsRootGuard;
+    magic-number
++   applying-patches
+    volatile-considered-harmful
+    ../arch/riscv/patch-acceptance
+    ../core-api/unaligned-memory-access
  
- impl Drop for DebugfsRootGuard {
-     fn drop(&mut self) {
-+        // Retained log buffers own debugfs entries below `DEBUGFS_ROOT`, so they have to go away
-+        // before it does.
-+        RETAINED_LOGS.lock().clear();
-+
-         // SAFETY: This guard is dropped after `_driver` (due to field order),
-         // so the driver is unregistered and no probe() can be running.
-         unsafe { DEBUGFS_ROOT = None };
-@@ -54,6 +64,16 @@ impl InPlaceModule for NovaCoreModule {
-     fn init(module: &'static kernel::ThisModule) -> impl PinInit<Self, Error> {
-         let dir = debugfs::Dir::new(c"nova-core");
+ TODOLIST:
  
-+        // SAFETY: Module initialization runs exactly once, and before the driver is registered,
-+        // so no probe can have touched `RETAINED_LOGS` yet.
-+        unsafe { RETAINED_LOGS.init() };
-+
-+        // Creating the directory up front is what makes retaining possible without reaching for
-+        // `DEBUGFS_ROOT` later, from the teardown path of a device.
-+        if *module_parameters::gsp_keep_logs.value() != 0 {
-+            RETAINED_LOGS.lock().enable(&dir);
-+        }
-+
-         // SAFETY: We are the only driver code running during init, so there
-         // cannot be any concurrent access to `DEBUGFS_ROOT`.
-         unsafe { DEBUGFS_ROOT = Some(dir) };
-@@ -72,6 +92,14 @@ fn init(module: &'static kernel::ThisModule) -> impl PinInit<Self, Error> {
-     description: "Nova Core GPU driver",
-     license: "GPL v2",
-     firmware: [],
-+    params: {
-+        // TODO: Use `bool` once the module parameter abstraction supports it; until then this
-+        // takes 0 or 1.
-+        gsp_keep_logs: u8 {
-+            default: 0,
-+            description: "Keep the GSP-RM log buffers in debugfs after their GPU is gone (0|1)",
-+        },
-+    },
- }
- 
- kernel::module_firmware!(firmware::ModInfoBuilder);
+-* applying-patches
+ * backporting
+ * adding-syscalls
+ * botching-up-ioctls
+
 -- 
-2.55.0
+2.55.0.717.g61afef3e37
 
