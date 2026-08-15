@@ -1,86 +1,78 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007CB259C9C
-	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 01:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B584242D62
+	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 05:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786757592; cv=none; b=GasX2d1MWIGfFbkfgwOMewg/AEN6YOZQgrLU2voK3dGFdm+08EpsWHAP3JPMQk/m2XZghOm5aASCweO0mdFQG3B1WxIPjf45OIeh6UYZHy9ApKWPz+uPVMvuXYEYEYnotBoVogBcFBLweWvM4/8yjcxwlznaRZD1+T/jHNn+WEw=
+	t=1786770514; cv=none; b=XDE4fnFq2bFkj3et3a2C4dQTQ9wuw9fLPdV5A3Qvyhwl9g8yus/99JL96aHxQS17iS4RwHMU0Iy9825B/hF0AD6F+FbIQ4mAfGfXRLquQ2gF+VT4We1ymOEGSvG+CPYMw+cU0+elzu+WhXmX/WEuzwQJslcISWZPtwWJXNLdJrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786757592; c=relaxed/simple;
-	bh=jyYxlbBrAQnAZZN04ajlnh1MSAFrHtyTd0FqLUs6XWo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MC73xqdfcMEDS0ES27WKP8xrs+vzJxz5ecS76c6J+Kop3Wie5mKmaVHm1+sMOK9EyYCv372ZMCmX0rKlEr4S9cUaLuD9fBoQsQt+64p/BgGAP0IC3aPJmUL8aHd7XUVJxctljFrN2P5RXwIXfdLDtddfy8Pk8foysyqdz/DhwEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ve38/Vv6; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1786770514; c=relaxed/simple;
+	bh=3gtU+cy0ZJ+hiolSfLE6IUY68+TSR11bm8MWfskBrmI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LfOPImHYqbPCcK12ITN6lLGnKDVFJZ5OEug50EPvLKxwk/N2P8In2QYlFlcEv/smThN1at88aX8MjokyQELd5TCwMNVq3vgDv8x+HJpMeVYaETEOqo1Txe1EUw7DIJ2A3Q+8G9ZznmWiBFfziRxNhSHAP4+n0DhxgUUhFikCeGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MbDBlmbF; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ve38/Vv6"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49557167508so14839575e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 18:33:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbDBlmbF"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c953950dfso14075111fa.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 22:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786757589; x=1787362389; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P6hUXHl/XBMGrttNYvWX7RrvTYp0xlm1Orl1JfPmVXo=;
-        b=Ve38/Vv6z0vdVwFjMw4XZ/ku43aAffw/dwkJlQ/JuVcQeJAc7WY0nfMrk5kZmwS94c
-         RFcIQd+iQ7nEh4Um9bAsdvHe+7S1sznMjb1RbB0sMBWRgwV5WMlsAFWppkNUVrHF28ku
-         6QkSsBCHTh7VuHPtrHDgTiioNM8de+tOalesxRMPz/YyAeGwJHK3oTfazftR2pB4h9RI
-         EMNcU+t2GC8qNO9jCrHO6r91ICWsrBEsrXjOi1s/IVINZNMVAll1cejSJgB+mAC8QSbC
-         cmdwM+aIXIfQlh5EpfvKMELcHR1W7Dni9UYBqFRJhuhbXMteH67wKEGTJehI7Y0sby6a
-         LShA==
+        d=gmail.com; s=20251104; t=1786770509; x=1787375309; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+Ki1f29ZNNzrhAw8g31VS5wgylnUVVZbopDUMwHeVLM=;
+        b=MbDBlmbF5fP0amJLjpzN6XcEsW+E1bOgyPjuXrtlZK3SWmIFWVmEanMgVwV4JWBWGB
+         lo2fDn5JslbnaaROhchm31PC7b0cUcf2seQFUeXDk0+9tiChO0KvXx/dJF0zdGeBRS45
+         84/HLDTPyRGFNtv8yM/rL77uLtiMKdlr3JraAMRyf/o/wOKeSzbCwlz/pGhOTfU18udp
+         eL4tfpaDdMdWzBWV3fq8vRXlQrKKcD+/pRTvPIQt6FtdOlF8kviX3VrRFq3S95xflauf
+         giJ4MlsqDh24zzAmW0gNx++TqavRg+Y9CspQkzD1lKf4R/RhvfqnXqvcV6xFfEV/boh9
+         xskg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786757589; x=1787362389;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P6hUXHl/XBMGrttNYvWX7RrvTYp0xlm1Orl1JfPmVXo=;
-        b=Zfp1nO+2u3QBllddrnVcWKYhFrwtF7nxdr/vCwNCzRZ0UYcNmEmwai1DcgWj2I4qG5
-         GRQw69FC9xi1XywEYIzcKCx3O3nPJTYSTrCKJgj06Ct12bGFbxaU+9kWBlEXsyXoCk+V
-         nx3ovVTlBo+wRhbZzBsCR3tNlvuW3abs9mlUxoaWoJiwyfeivrJn2p1jZKoM9/QRwZO3
-         cRpyYsCBEwmhNHKjnsFoq4/UrEMwyeUmhAMkpAwAwH/4A0CmSABxXrwkrJ7xqUByIEEa
-         AXW7IOq/XMtrXJLt+tI+519rrLC7uTYEGt/FOyywv0fxfXbVjpoP/GXZVMokCAZydOTw
-         O+YQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr0eUtRBOnmBGB62Hu5NWycUt5X3h+k8seZgvRJSVYEwzzxkG+k3Rg+trxZXn/k8hSxPl7XfP8uGaA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKNy/2B0pU3xPKe/a5oKHMuKdFglynmzGNdgQIfvtuWMzfrWW2
-	pLC4kE9bqAp/xhfTcl9O1cvK2rlOzc5Ux0Wfs8yZIku7X7v52nIWJM8r
-X-Gm-Gg: AR+sD1372Fh6RjxPj5XX4lBgCYMTnJ3kFSzggrUdMToQ7xidO76d280PyFkVMWKJe/c
-	Goe2KRiavvscKSF3jUWkZP8eVjwGUhyJsvDjjg8cKHZu+lNPdnmeOjtJ5/S34+DT4rKA3zGqAb6
-	6khN03PBvZ5TtOdHUvzwu24I/0SJT8S3yDdZmN7o1etpLrIl868UnvHk7/bzvIQFdrbDUmoNY+A
-	wKhxR5BX3ZMAGpodXV+6QzBILuvDpXOy3RMGg5RcfRXSblk0SaH6eNzuoW3F19IT94O4EcoNgMJ
-	oXzVIFHp+Ol16eJMWB4xC48uKcy7ZyCSrgr4zMcRjGW4PwMy9PsfdpP/iktOhO3PIX2EXqMqVah
-	nYh4ypw3DQK8NCS2QW5y0fStsmc+rzZhSeFoIC25plf6Ps7cEHThDcqLFHvJqZaHj7CL1mxHwrF
-	d7+wlcF3sDADnxGXNkmmJknaRWXiYodj4Zx1o0yH+f3m4mPCDNxhpdc1Pw9FWnYAcrbSYNphcbo
-	cOjwdwBBoAzvdG1Klj2kzQlQ5v6S55MStgfPsgH/xQUIPLMFDASWCpKx5UWMO7breNXD2vWyl7H
-	l3FsMinPs9xjlsGz1LDQllVEud8nxMuyEBhEri77hEuGHFRz6ZGdJQ9IOpkNeLAxtCRH0VyhFJx
-	KGsHe
-X-Received: by 2002:a7b:c013:0:b0:499:51b8:d649 with SMTP id 5b1f17b1804b1-49987941a3fmr93722545e9.3.1786757588989;
-        Fri, 14 Aug 2026 18:33:08 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-9d7d-f301-9495-44ec-73e6-1be7.310.pool.telefonica.de. [2a02:3100:9d7d:f301:9495:44ec:73e6:1be7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b1a31esm110672885e9.2.2026.08.14.18.33.06
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Aug 2026 18:33:07 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	netdev@vger.kernel.org,
+        d=1e100.net; s=20251104; t=1786770509; x=1787375309;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+Ki1f29ZNNzrhAw8g31VS5wgylnUVVZbopDUMwHeVLM=;
+        b=LlEuvp3Kri1I0P2cW9bu6dj9V4Ti9Zdkv7nU2oudbtF2GR0HyuzxTIQD3n1vrNR2+z
+         ZyHWKD0oGhpxOGnW2OOSLa4hTalgT0T9DmvAGmwHWglR0xcM+/o0l9uPlz/os5iE71L6
+         6YQ7SChGZW0VchlOooXTX9YwGxir60S83mta58zc+SkSeDZPLpheQfX71r6OVUT1i5De
+         8veE/TUU563GFbka2sVaO+va/nK2+HJdJ88ZHCD/1hGOS+G6YTB/759ypas66QbBc6Ho
+         cNygegvVAyaGh7+OfLMu4jZHdPopWq+7ktOK5jbjZio5Acwps3KQ+H8jHtHXRZSdGoRO
+         ojpw==
+X-Forwarded-Encrypted: i=1; AHgh+RoIZb9cz4ER7dialV+DU8GcLfGKGO1SPqFQ0zzgEvqV/+zKuPFLkGbzdh9xjp+jMXP2iTSgoehZJTA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXF9KbBuaz15ofgxDN6JBBrrt7XAafyPTW3eWZrBormLCTTg75
+	P09iY7Yp79ygJdmhuR3uB6Zi1rtF6KAW+wMcSeXHEfzWnpqipubgrtt7
+X-Gm-Gg: AR+sD13IT9JJ9Yf0K/3exTljVg4MUEILTymWEvkAOuURJY4qOAw1puMfbjkXz51XF/I
+	JKb2v7ycLSmI3rbm6ziRYYJRB7JNKU0Rm4HLSQGyiSgIAkcamIk723jNNtq4oT/lFxldRrRWDyH
+	oMiQO1NFTO1/jnTJ9LjENnNYL/b10z4fN8aTK3SGpjtmSi2aGVR03SzRZd2jbpVfUpvrWAhoD6K
+	tvVAQ5UJ9woMpzNlSQ7y7PXM/4J87NCXj73aNKrMReCDwrKyiQ3jOf/9aflZ/wR4ejOEvY5JUuw
+	xPR3+FyKdjB4rzKPlpRkt+WiLIi6xMrZJBjqjRyYOeRvCqKMaMsrf7Kp/J521i9JY5u9eCdlk+R
+	CWhZ/UGRjqjSX4ADwrlfz6t9TWlVMB3OZynD+vFmLtE5d+HBPIc+wNcETOpj5HBM3s/QAjvePis
+	ZdO8Ns26j8DUkgxp3tnNb4xhqWxvOFkQgod29EcnezEWX6PELrjij+3UQTYmnIiDkkD6NpqQPk2
+	U+qaQ==
+X-Received: by 2002:a05:6512:3da4:b0:5b0:1879:1b9d with SMTP id 2adb3069b0e04-5b45913b940mr1711971e87.26.1786770508996;
+        Fri, 14 Aug 2026 22:08:28 -0700 (PDT)
+Received: from localhost ([95.190.110.153])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458b9a9a7sm932354e87.13.2026.08.14.22.08.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 22:08:28 -0700 (PDT)
+From: Vladislav Zaharov <vladazaharova2018@gmail.com>
+To: dakr@kernel.org,
+	jhubbard@nvidia.com
+Cc: acourbot@nvidia.com,
+	aliceryhl@google.com,
+	ttabi@nvidia.com,
+	gary@garyguo.net,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 2/2] docs: kerneldoc.py: preserve headings in kernel-doc output
-Date: Sat, 15 Aug 2026 03:32:29 +0200
-Message-Id: <335fec1cd5a3449687f8b1ee8cd46a0f3e455aa5.1786751700.git.kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <cover.1786751700.git.kmehltretter@gmail.com>
-References: <cover.1786751700.git.kmehltretter@gmail.com>
+	Vladislav Zaharov <vladazaharova2018@gmail.com>
+Subject: [PATCH v2 0/2] gpu: nova-core: retain the GSP-RM log buffers
+Date: Sat, 15 Aug 2026 12:08:24 +0700
+Message-ID: <20260815050826.306717-1-vladazaharova2018@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,46 +81,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kerneldoc.py parses extracted ReST into a detached section node while
-retaining the surrounding title hierarchy. Docutils 0.21.2 silently drops
-affected sections; 0.22.4 reports:
+The GSP-RM log buffers are exposed through debugfs, but the entries are
+owned by the Gpu that probe() builds, and the buffers themselves are DMA
+allocations that cannot outlive the device. They are therefore gone as
+soon as the GPU is unbound, and in particular as soon as probe() fails -
+which is the case todo.rst singled out, and the one where a GSP log is
+worth having.
 
-  Documentation/networking/kapi:107:
-  ../include/net/net_shaper.h:75:
-  ERROR: A level 3 section cannot be used here.
+Patch 1 adds a gsp_keep_logs module parameter: when it is set, whatever
+the GSP wrote is copied into memory owned by the module and exposed
+under a "retained" directory until the module is unloaded. Patch 2 drops
+the now completed task from todo.rst.
 
-The same issue drops three Xe DRM RAS headings already in mainline.
+Changes since v1:
+ - use a gsp_keep_logs module parameter instead of a Kconfig option, so
+   that no kernel rebuild is needed
+ - use VVec rather than KVec for the copies
+ - move the log buffer code into gsp/logbuffer.rs
+ - create the "retained" directory in module_init(), which removes the
+   additional unsafe block from the teardown path
+ - dev_dbg!() instead of dev_info!()
+ - take every allocation that can fail before dropping a previous copy
+   of the same device, so that running out of memory cannot leave that
+   device with no logs at all
 
-Use nested_parse_with_titles() to give kernel-doc output an independent
-title hierarchy.
+Two things did not make it into this revision:
 
-Fixes: 2404dad1f67f ("doc: Cope with the deprecation of AutoReporter")
-Assisted-by: Codex:gpt-5.6-sol
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- Documentation/sphinx/kerneldoc.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The parameter is a u8 taking 0 or 1 rather than a bool. bool is not
+available in this tree: the macro fails with "Unsupported parameter type
+bool", as rust/kernel/module_param.rs only instantiates param ops for
+i8..u64, isize and usize. There is a TODO in the code to switch over
+once it arrives.
 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index c1cadb4eb0997..9986df33e37ea 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -38,6 +38,7 @@ from docutils.statemachine import ViewList
- from docutils.parsers.rst import directives, Directive
- import sphinx
- from sphinx.util.docutils import switch_source_input
-+from sphinx.util.nodes import nested_parse_with_titles
- from sphinx.util import logging
- from pprint import pformat
- 
-@@ -252,7 +253,7 @@ class KernelDocDirective(Directive):
- 
-     def do_parse(self, result, node):
-         with switch_source_input(self.state, result):
--            self.state.nested_parse(result, 0, node, match_titles=1)
-+            nested_parse_with_titles(self.state, result, node)
- 
- def setup_kfiles(app):
-     global kfiles
+The dma_rmb() discussed on v1 is likewise not here yet, as the barrier
+abstractions are still making their way in via the tip tree. I will send
+it as a separate patch once the backmerge has happened.
+
+Testing was done on top of drm-rust-next with the TLV firmware images
+installed, which also settles the question left open on v1 about the
+older base. On a GB203:
+
+  - with gsp_keep_logs unset, no "retained" directory is created and the
+    entries disappear on unbind, as before;
+  - with gsp_keep_logs=1, retained/<BDF>/{loginit,logintr,logrm} hold
+    the contents the live entries had, all 64 KiB of each readable;
+  - binding the GPU again recreates the live entries without disturbing
+    the copies, and unbinding it a second time replaces them, leaving
+    exactly one set behind;
+  - with a failure injected after the GSP has booted, probe() fails with
+    -EINVAL, the driver stays unbound, and the logs of that attempt are
+    still readable;
+  - the copies are released on module unload, and three load/unload
+    cycles leave nothing behind.
+
+No warnings, oopses or refcount complaints in dmesg throughout. Built
+and checked with CLIPPY=1 and rustfmtcheck. checkpatch --strict is clean
+apart from the MAINTAINERS note for the new file, which is already
+covered by the existing "F: drivers/gpu/nova-core/" pattern.
+
+Vladislav Zaharov (2):
+  gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
+  Documentation: nova: remove completed GSP log buffer task
+
+ Documentation/gpu/nova/core/todo.rst   |  12 --
+ drivers/gpu/nova-core/gsp.rs           | 100 ++---------
+ drivers/gpu/nova-core/gsp/logbuffer.rs | 235 +++++++++++++++++++++++++
+ drivers/gpu/nova-core/nova_core.rs     |  28 +++
+ 4 files changed, 282 insertions(+), 93 deletions(-)
+ create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
+
 -- 
-2.53.0
+2.55.0
+
