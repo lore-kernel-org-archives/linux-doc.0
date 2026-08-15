@@ -1,135 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC70C3264CB;
-	Sat, 15 Aug 2026 10:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24513EE1D4
+	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 13:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786791449; cv=none; b=owzAZarTxMkRSdDFkvdOZ+iLAKqH6/OPHRtAzCRY0gqtgzlLEuU65+jlc/A71v8VZlLjxNDrr/ezfAtEPEQt512/uE+Ui0cZL6UhNcx28VQwrOz6SFQyt1BAEq/m6x9604gWDnGWY7kk0rhAkAQ2ocFuukYnzQ+07j7DUHw8QqU=
+	t=1786799265; cv=none; b=NSy9IicNK+egua6Pm8P0CTs2QPAV79WMoVgh1itSxQ5dcWkF9gOlYi3P4NCovlI71j8/DUuk0hsORS7vtkddq2s7tRDjzLpSkt0x/XSR/an5VqfxZxRp/DZP9s6UfoL8DK62hBB+4IcI85X3r8QUQijvRbzMQx5+igB6RKZZUzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786791449; c=relaxed/simple;
-	bh=9ZZsIPJvQ4oTXZDcdbVq0S3Y1eoSAmQvOSgmSSPlqsE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fD0Nlz5qSkyZ5DZficMomuQQGnAtLke3srRv384sic/bRjyYtSTbiY5PYeDrqKl/NYrC2wpaYznQ1FvTSGhuR9qKemQQ2ynHAvzgJqgLwGEr/cSbcFx1ksjtLPjx4f5vK/N7YX/VGYwFmZ1tG2cAPACF7tUWSsX1FbjDu/y3KzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IiqZEHXO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786799265; c=relaxed/simple;
+	bh=0jndbey5Pvjf3v9MX03JkuXQsBTNP/XZ6T3cuUpF9wc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SNrDrDsOukWZx15naJ58SxYm3qQyirpTjfZ8qDmYO7bJEFVcJt1+mwRNisZI1zUMJSsbBOO3460YtzmaV4U64x+TQ0fAiscEXD33qgL5S96l/Ibk1rz0Me/MFdOBAlXVjNMVczLX8sH9ynBdeTHXggJ3hi61m8wQ0I7hA1TuinA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3Ei5dp4; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IiqZEHXO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 897FC1F000E9;
-	Sat, 15 Aug 2026 10:57:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786791447;
-	bh=UzMEI1MTAOXlmFMkVLNj5lVlgOkP81/6CiG3vw2PuIk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=IiqZEHXOLZffGOcgY5ayZvce6UcpLb5BMTb4EJj6LZM/b2JNIuTSmYtGiJ5Vo0k3j
-	 sXNQ3l2VbvP1QhYZ6iHDANq1++B4KIZRXCMMp98o3AuBTaLvGaYauV7GOQtAd0+XN0
-	 Klf8oiLC1az4AqgAlXbx/Lp9BXbntA/fkN2p/46332ZigCTTKnENJ5didJl7A6IWWc
-	 aMp32dzUw2rgy2yz3tO8tLAvXW0FMdwCFw/ERCs+E40KmFxZQHbBABqQlewnT35By0
-	 8u0qq1+qzZCc0qLiRVYsFhvj2VFq9x/U9jr1NnXPwX807pUqGcS0Bb6sHVAz8jCvlc
-	 kjYPJVcW0s9BA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wvC4r-0000000FseR-0emI;
-	Sat, 15 Aug 2026 10:57:25 +0000
-Date: Sat, 15 Aug 2026 11:57:24 +0100
-Message-ID: <86wltrzm5n.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Sascha Bischoff <sascha.bischoff@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Timothy Hayes <timothy.hayes@arm.com>,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3Ei5dp4"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4956242332dso19940805e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 06:07:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786799262; x=1787404062; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2daFPoDS4/53WEkckbjnmN8AXIA4cD/WTxo7tO7xRQI=;
+        b=V3Ei5dp4UCIdByixQtEwEXOY2t2tcdfLjXiWv36qTY8Gj0p2MEM+E50ookIpB+AJC0
+         E5HevSVLjjHehj02hG6aKvHTx4tIXZytAJwI/SNeaZkFD60r+7YNQnXrhAR9rLN9XFgl
+         OqKG0IxJQZURxWp3a9xplLXkiCZsABGPR0uTnJJWJ0YvxqxJJR3t2E3xjx/UGDrZC0l/
+         RpSruO4E8n5O6e3HIrSTHiAU6sve/yOxEjH84FuMFMGqR3uS0ss12yIzIN2WigsNhTpr
+         reU7HCld2o8EToQswS52Br4lZbjnH0SZq2BNtl3DorODbngo0nNjvfHRdx0uKqaYS2dC
+         By1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786799262; x=1787404062;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2daFPoDS4/53WEkckbjnmN8AXIA4cD/WTxo7tO7xRQI=;
+        b=LAiN+n3qB7Yth0nNJDF7Mt6Ohw0RVfvv9rykhEsPUmA+EXp+xgTnxJHDE7Fw1Dktlf
+         kkRXEQiScyqOXluZGWEc3N82lHwo49TX6nfpgPSc9sI9QfMkZRLc/uqYEygfE7AYUbZA
+         4huW23pl667kawUnkuFl2Rx1QtdCaTwu78G3nJrkNbH40joWui5sbFLFS3cp6yg7MMnr
+         GfY9AXgCiAWE1C1ljFpbc7gtiw/z3n/BAAIWD0rKTRJP6outlb+VF1xqw0g/ztmRnRr7
+         hzlRhlWrRcnK/xfche9/yiaN7Oohb7laGn1YcbV2W0lgmVf1zl+/Cp3a8ee4RCwhWHYg
+         NrSQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoLmirQFCi9PilVJxWFZIAasoIxDV+fdq7Ku9hxTAPpnEOQn8g29QNi2164ZyGiVSFLtRmTWbiy9m8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzk9GSoTZJNuHUDr5SX/nMcZphSWLVtZ/FInMW4DWhKIiCq1U0v
+	ZLhhh9bSwvpwTfRHVKuwKIP5SdHjRL8Zl/VKjoF4LxqI/z3ATfl1WjVU
+X-Gm-Gg: AR+sD12ZjGeEsB/r1dtBrqQGMcFM4olmW8Tqnuo/ECLaOXp0xgLbJv6j6ktU1O7ZR/4
+	7mSeo3p0cReAVNYeqrE3kLIrZ8eC0zdL1MZs6bpLgdSlA1NlhbKWiQi/6Hkcaqu5FueHBvCZ5Mg
+	3shBla6MT22VxJv+hW6xt6JCCR2KxVanFWwyFqsxaDTKq99OtAvyUIOn7nNG0cgpdVunNmj71AA
+	90wXIu+0NnG5UZWhTBjzmerSN2MUrXkVZwzBn5O+UxxCluaqSnBgPYcQht5J0EmbgqygD0jkln2
+	Zkm9dDlzvJegeddg7u+OoSVQqE1CUNe9jqpQJiZGXXsfWPpXpjrrrQmGgMPdKwCRp+hKRZ+zyCO
+	xLeH0eY+vrBhkWhCr6jD3wGJ7xcyqlLkr35bg6Rd9+p+NZUHjJ5JYiLgpj97cWIZIYVhe9GW7RO
+	VveLDRekfp6JydrjwFhXzINKL2fj9XEsXwrCeXkUeV1030ZletnaqrVwFp3m8fgRIWkoMAapyaJ
+	cSAvx5hb4yTrB5D1rt9sGOxifbKMnSqikvDxjvjQWbU08Hr4+b/dQE9KPrVfcpDo14KSh+fxuvO
+	sSLepUShfueXl5oRSjUbATO6fpHZWU7IDDhfO6gypIs5zKbe9qDOgU3TZkwYfydGzg==
+X-Received: by 2002:a05:600c:3b8f:b0:495:4491:b8c2 with SMTP id 5b1f17b1804b1-499906ce446mr55403245e9.3.1786799261853;
+        Sat, 15 Aug 2026 06:07:41 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-aecb-d601-fc34-eb31-14a1-3704.310.pool.telefonica.de. [2a02:3100:aecb:d601:fc34:eb31:14a1:3704])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49988b1d33asm146700145e9.10.2026.08.15.06.07.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2026 06:07:40 -0700 (PDT)
+Date: Sat, 15 Aug 2026 15:07:38 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oupton@kernel.org>, 
+	Sascha Bischoff <sascha.bischoff@arm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Cameron <jic23@kernel.org>, Timothy Hayes <timothy.hayes@arm.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: KVM: Fix the GICv5 KVM_IRQ_LINE PPI range
-In-Reply-To: <20260815092537.31737-1-kmehltretter@gmail.com>
+Message-ID: <aoBhU6XIarXxeQYB@gmail.com>
 References: <20260815092537.31737-1-kmehltretter@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+ <86wltrzm5n.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: kmehltretter@gmail.com, oupton@kernel.org, sascha.bischoff@arm.com, pbonzini@redhat.com, corbet@lwn.net, skhan@linuxfoundation.org, jic23@kernel.org, timothy.hayes@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86wltrzm5n.wl-maz@kernel.org>
 
-On Sat, 15 Aug 2026 10:25:37 +0100,
-Karl Mehltretter <kmehltretter@gmail.com> wrote:
+On Sat, Aug 15, 2026 at 11:57:24AM +0100, Marc Zyngier wrote:
+> > +	       in-kernel GICv5: PPI, irq_id between 0 and 63 (incl.), and
 > 
-> KVM rejects GICv5 PPI irq_id values above 63, while the documented
-> range extends to 127. KVM also rejects PPIs not present in the
+> No. Please understand the difference between *implementation* and
+> *architecture*.
 
-This is on purpose, and that's not a bug.
+Got it. That distinction could perhaps be clearer in api.rst, but 0-127
+is intentional, not a missed doc update.
 
-> KVM_DEV_ARM_VGIC_USERSPACE_PPIS mask. That mask is populated by
-> KVM_DEV_ARM_VGIC_CTRL_INIT; reading it beforehand currently succeeds
-> but returns all zeroes.
+> > +      Userspace must query this attribute after initializing the VGIC with
+> > +      KVM_DEV_ARM_VGIC_CTRL_INIT.
+> > +
 > 
-> Correct the range, document the mask restriction, and require the mask
-> to be queried after VGIC initialization.
-> 
-> Fixes: b88d05a893cb ("KVM: arm64: gic-v5: Support GICv5 interrupts with KVM_IRQ_LINE")
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  Documentation/virt/kvm/api.rst                  | 4 +++-
->  Documentation/virt/kvm/devices/arm-vgic-v5.rst | 3 +++
->  2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index e3003a241d5b0..6d8fd74174492 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -912,7 +912,9 @@ The irq_type field has the following values:
->  	       in-kernel GICv5: SPI, irq_id between 0 and 65535 (incl.)
->  - KVM_ARM_IRQ_TYPE_PPI:
->  	       in-kernel GICv2/GICv3: PPI, irq_id between 16 and 31 (incl.)
-> -	       in-kernel GICv5: PPI, irq_id between 0 and 127 (incl.)
-> +	       in-kernel GICv5: PPI, irq_id between 0 and 63 (incl.), and
+> Must? Why? Userspace can perfectly live with ever querying this.
 
-No. Please understand the difference between *implementation* and
-*architecture*.
+Hah, yes. I meant "if you query this, you must do so after init
+to get anything other than zero"
 
-Also, the GICv5 architecture mandates which PPI is used for which
-device for the range 0-63. This is not a carbon copy of the previous
-versions.
+Please consider this patch withdrawn.
 
-> +	       only if present in the mask returned by the
-> +	       KVM_DEV_ARM_VGIC_USERSPACE_PPIS attribute
-
-Which, if you look carefully enough, returns a 128bit mask, as per the
-architecture.
-
->  
->  (The irq_id field thus corresponds nicely to the IRQ ID in the ARM GIC specs)
->  
-> diff --git a/Documentation/virt/kvm/devices/arm-vgic-v5.rst b/Documentation/virt/kvm/devices/arm-vgic-v5.rst
-> index d328cf1e22c1f..e24aed0c4afcd 100644
-> --- a/Documentation/virt/kvm/devices/arm-vgic-v5.rst
-> +++ b/Documentation/virt/kvm/devices/arm-vgic-v5.rst
-> @@ -35,6 +35,9 @@ Groups:
->        populated with the userspace PPI mask. The lower __u64 contains the mask
->        for the lower 64 PPIS, with the remaining 64 being in the second __u64.
->  
-> +      Userspace must query this attribute after initializing the VGIC with
-> +      KVM_DEV_ARM_VGIC_CTRL_INIT.
-> +
-
-Must? Why? Userspace can perfectly live with ever querying this.
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Thanks,
+Karl
