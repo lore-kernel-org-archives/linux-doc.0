@@ -1,64 +1,65 @@
 Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B5E140E5F
-	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 01:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5911E5207
+	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 01:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786757581; cv=none; b=t/MJadbBKlcncPb80bVexV12dZv4q/4Wsviay33B1ce3nvtZ4Vw3MoLGM8/N2xNLUh741UDNyw8xvpdvpJqfKjRjN7BLMrieSA+x9SQhfFyaDFquccRrTXITmIdxDu1pYj7vPf5O0/SjAq77chrS0K5UJBWFGH/vxx74SNzP/mw=
+	t=1786757587; cv=none; b=dYhuZ6JS1KUKNHy57dUdkOS5nxSDIUW9UWYEoMya91p9B8bgeMguQwyQMH23Lf/gnQeWsbDhd7bd/L5DmhWnXAUpSkztXGTWt0L48WroV3Dzw0A/N+SbDojhTXNXIzlnw4oB5fF4FjswJMzLKkvs+s8QqSh/Mv+1nFbUJp2AQU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786757581; c=relaxed/simple;
-	bh=mDgAsKs6meo//NBXXLbI4OKPjgjud9Wvq+usYByvNDk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fo95zuv+LCO6rCxX43V0My5IFV3+Cg1AvJcveDJ9Tk+Vl0tSdEh8YPBjT7g6SM6tn4cl6qdCGt1PXm+nrBro3pxCKC3Vx/PqKpd+S7hgIbGaZ9x34r+CeK8FVlngjjZMC6abvDI1uIYj+41BCOlZ1FHEh/wph/W5WFbRnPFklxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K5a5Jwzw; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1786757587; c=relaxed/simple;
+	bh=k5v9YMbjNbSDDOOGUT/GdP8HfTxzzdlrDdwtaQ4IVr0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=tqymKb7MEztSR7PA+dXopbX6y2SsKb7Ik/x7BbtKyxk1jSgvg4Cc+U7kQEIE4qVj9l6l/QQncRNmjMeeSeXm9iAE7ZATsBKf+Vj7NO9uXPygSC1sEEftt/5T1rZ5GU/AAH25AidVraU/n22R2dXho7hlJuCrY3XZDluEHVKxWow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knRa3gu4; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K5a5Jwzw"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so14078095e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 18:33:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knRa3gu4"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso19452935e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 18:33:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786757578; x=1787362378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b+EBtOS3yArt80y5oN+qnjKWVwEXEBrwucchm/mxHIo=;
-        b=K5a5Jwzw3tm37oBhTUkKHQMR82eb1IGEfsZ1l18+RcsHFlgC+4on6OooCAZmQF+vJl
-         B7lojnRhXV852EbJyAamAR3NTRkuz5hRWJbQ50mWLtC6oZtQDdRKErgXaWtd+rjEk7iM
-         Gq6wJkCZHvkBg22ZfaUilig+7Y3lWXKMKmDO/uGdyq4/P1/pUM7ccYS4DRUKnQDozMRK
-         OU5OTyPtgMTtJDcF/CdbMU218X4kcQ2HgGlTfy/Z7e7srxjecaZ5oxuUcfNmuqVFTxi/
-         rS1Cga+rSS/oKfWwJFwTfvFXBMBoX/IpUT7h2u7fqBOaXhiyHIVck3i3RQgs7y1mfjRA
-         W0+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786757578; x=1787362378;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1786757584; x=1787362384; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b+EBtOS3yArt80y5oN+qnjKWVwEXEBrwucchm/mxHIo=;
-        b=kNAwVVJ1TRmHjH6FKKVZk5jm1OdHMcPiWZWM7qPekym88J7Fl1dRvRCbWKTAJF6nIU
-         uqO/uhpNdgAIpbtlRdRul0V/SnMHL0EWVipJeTrGQI5XzdpTHfL3TKe+JkKf4n0QNquK
-         f5/9v1s+9lfHEzoOUqGEBpTDG2Nnsu+XU2ryZ8YQJyCzw9elSZ8QevQByHiV/mftuamN
-         gRND/VDRo/IhaQacugHnoTlCExzaBzFLkHYcZ1DsbePpCLqZmHQhWZ51NRhM9IBRzp4J
-         6DhDHG/zmQO/3WtYzTCC80DDzTIeB+FGv4/t6WPHyj3Okj9n1imzxKQvr2BOZJ9RjV5f
-         Iljw==
-X-Forwarded-Encrypted: i=1; AHgh+Roipa/qt8QKP5aVbq7qsZc4zTjIIWtRe+C/0my01VfMHsimo/4NOnV3BENv2d+ZyyegYsz/+yMJlcw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnwMVrhkIY2uYSh99UIAr+8kXtyHyWrihr7ZoHFavEEW/24JMM
-	T+uXvkMkgxdp75LPs0Pgf5Bwidat5go/oRJbe7oxn0lgaZMTj6gpWFRS
-X-Gm-Gg: AR+sD12KtRD0/F2KIPQOkgpKl/yqa9VK7uKvJxF/wPgwvKf71Hj8ZO4X1yDYKJsRhn0
-	yZuITBVpETqGuCk2knUyhMQmOwhdrhE6qkCAzenuILvpKtqn7hMrbGhMC+HkVYQwQPgxMbzT96V
-	R633aXGi6J8Ljpxa/6ffToMBor+O/6wa19Z6coJB2Xk69BbASdv4P9RRppZyje2CZwYCHpXDnDm
-	ft+K7by6jixLx6yS+vnGQBUPa8RDmtoaWKhfzqQrt9UOHNZNa+18tSfIdiPQMqoKateGCTmCyW2
-	v5dlW0JxuHQnfH4oEgdaOgfFbhn6zbEiRHAdvwWuD0mIJ1WUUs3MMDKIDCH88UTja8e4ECCHMe2
-	d99s+KV4ArxoCA038eA2Ujz9WFg+LfZCL96GlB+vyvbVAetwOv/x1qMy3YNUipEokf6oN6awXDI
-	VfJHWOsmUiV85MkoxGHG45rCcS8KSipKMN6hmpegiy5CzspySBIML/s2xAanciFB3ZUqroaokKc
-	ppI0ESuI62V+pReUvVwiYAoVPsVEcQwTU6A8cxaZPNlr/VjRxBLgXuzeLTG+6ASUbpnc2R7keZ5
-	BS79TxIyQKln9EQCUTVs0iDPU3A2BdZzPoYUfVDacLoGD2ExeKc+JbrgS6mKPzebF9GiEhIXlqz
-	d+7I=
-X-Received: by 2002:a05:600c:3491:b0:498:952:e276 with SMTP id 5b1f17b1804b1-499879653bbmr149398885e9.8.1786757578369;
-        Fri, 14 Aug 2026 18:32:58 -0700 (PDT)
+        bh=SIGYB4s+r27dzXsvVBxWuaiKhOOlGAnsc8iJP12SM18=;
+        b=knRa3gu4IJLqvEV49+J/h2US2KsqLW68pQepMRpFuoL2Fz+9QI0FxWl0uBxIzIEzZ6
+         9S/eH3KfZrYTxjW8vO99ieK4D7J+0xj4e9PlZgawwOtsM+i7QbWD37z92cVJ06DiGpwQ
+         hDrntog23N/4o/51/LEqRArElEKfCou5316daAS8yDD0MoA30heWyO0swlz4SiqWGCoa
+         +HLBaKTwfxa4qe79Ns4aBS3bt9AtaOl+hmXuaAYQRa/7zOqI40bUS7nYmjWbWCbooPbV
+         MIvpfFD8+ZJqt3jVzX3QIy/CX2JrgX0WdnYT+K3OEKQngrMUy2w3CK8BP5/rELyd526/
+         h3bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786757584; x=1787362384;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SIGYB4s+r27dzXsvVBxWuaiKhOOlGAnsc8iJP12SM18=;
+        b=siZCU2zycbS7tyFrFqwpEUUvg6sd9Va0qeKBqwjy1IHEOeivmVOPR/GJJn0GENh/0p
+         kLnPvasSIKqMVnrnLUlsuzdJ8MBPEvpzijc4yRpOXD+5Kw4QmLmIAYEd22nM94SmEW9A
+         Vi8J1gZXc+eh4wSkw0mcxNqrXJhPiPX0v9LXFFekT8NXLicro8AJG7PW0ReK4GvnW8kF
+         J8fA6CkQb5k4NyL9Hbl+0tmcB6PCtKGH1WMu7sMtHe8hFoKJ3unGMCsZOavxe0G3oK9V
+         3O2w2stfPHJsA2fnT+IP5bosipCzkst6n29JhkDpxKXP5lRjeV9QHx6k40clFa9FcE73
+         155A==
+X-Forwarded-Encrypted: i=1; AHgh+RpUvUwD0k3d8bPI/tFu0KBlw2+rCS0TjuvseG4D/Bgt060wDEDuCjbFrPiUKdQA/wsN5CCCmLYO9yI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuR84VWSkXaYjOp8J0ECvoHhUomik8riXR1gYqldanFhQVOIYt
+	YmbpJxegcIYxUfb4nP/bdM8k8JpU5rBRJxjzRiIR9Hd1H6ktPDPf1ov9
+X-Gm-Gg: AR+sD10tPZFZcMtWZHrguHc76sW7Cdhb1DCPKjUP7SRjKu1pRwsQyVvcZoHs9BY1oxI
+	RVvGf9Bdr4CAiMWZnyx4+AdzZuU5iwKq77m+c1uzPmA8FNZBzKrURlR9ZH3NpZjH4Gxc69Izf+i
+	Ef4GhnNTSnCtMqXtcEfGGF88qCy+DWIj2J0V7ebfbtsJ4ehj8jyAlHRzSNmamzQe1ngdUdPXE7A
+	MDXk5TiRxki5cutAUlj4GdnHbM7E2WjT3/Aw5ej0AOi1i4U1YtJJ9Aua3kh4lOlXvMPjWHfCsaN
+	zS9kaXVE4eT6E/Nfod9jDz2ApZySVOakxdyFPiU93xctJ0RZHGiPzvwXBm9It+dneoHrl1ZRYEd
+	L2HVFeZGyqzx7xB14N+YZGKnu5yZVCP3SpYit2iUf8WmAzkBl1KUhGHbi6Wq0NcSf87JEURaP24
+	9yu3SWyNlpDGfOvndrMGtUpfYT7Z7ogNjDNLDyDiLAc4ixvgXOd7V8qX2m5lTeaR1CitzP4t6ws
+	A69SLFzU54wrfTejAFrpcFNE9mPIRpsnFFVyQNt68DLVvGJO1d1X9zA9oc1zPYK5Gchqv6y5LRn
+	uVDGOIOeJQIMxgrpefB0vzXTYn6MFex5qvF57PisS0gjAcHtY06fydyIGPibt4FXR3Tg
+X-Received: by 2002:a05:600c:b99:b0:496:c379:b2a1 with SMTP id 5b1f17b1804b1-49987929903mr135321985e9.2.1786757584407;
+        Fri, 14 Aug 2026 18:33:04 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-9d7d-f301-9495-44ec-73e6-1be7.310.pool.telefonica.de. [2a02:3100:9d7d:f301:9495:44ec:73e6:1be7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b1a31esm110672885e9.2.2026.08.14.18.32.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b1a31esm110672885e9.2.2026.08.14.18.33.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Aug 2026 18:32:57 -0700 (PDT)
+        Fri, 14 Aug 2026 18:33:03 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -73,10 +74,12 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 0/2] net_shaper: fix kernel-doc rendering
-Date: Sat, 15 Aug 2026 03:32:27 +0200
-Message-Id: <cover.1786751700.git.kmehltretter@gmail.com>
+Subject: [PATCH net-next v2 1/2] net_shaper: fix kernel-doc list indentation
+Date: Sat, 15 Aug 2026 03:32:28 +0200
+Message-Id: <64f428350ec1450adcd0607f54f30d27a42f129c.1786751700.git.kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <cover.1786751700.git.kmehltretter@gmail.com>
+References: <cover.1786751700.git.kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,38 +88,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The net_shaper_ops documentation contains a malformed ReST list and
-exposes a kerneldoc.py title-context bug which drops valid headings.
-Fix the list first because the parser correction makes it visible. The
-parser fix also restores three Xe DRM RAS headings already in mainline.
+Docutils 0.22.4 reports:
 
-Tested with Sphinx 9.1.0:
+  Documentation/networking/kapi:107:
+  ../include/net/net_shaper.h:82:
+  ERROR: Unexpected indentation.
 
-  Docutils 0.21.2 and 0.22.4:
-    make SPHINXDIRS=networking htmldocs
+Add the required blank line and correct the list indentation.
 
-  Docutils 0.22.4:
-    make htmldocs
+Assisted-by: Codex:gpt-5.6-sol
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+ include/net/net_shaper.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-The full output differed only in the intended net_shaper and Xe rendering
-and checkout-path-dependent build artifacts.
-
-Changes from v1:
-- fix heading parsing instead of replacing headings with bold labels
-- split the list and parser fixes
-- add diagnostics and point the Fixes tag at the kerneldoc.py regression
-
-v1: https://lore.kernel.org/netdev/20260813192131.21254-1-kmehltretter@gmail.com/
-
-Karl Mehltretter (2):
-  net_shaper: fix kernel-doc list indentation
-  docs: kerneldoc.py: preserve headings in kernel-doc output
-
- Documentation/sphinx/kerneldoc.py | 3 ++-
- include/net/net_shaper.h          | 9 +++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
-
-base-commit: 3205699d79f262412c1be7fc1c04066610d3cd52
+diff --git a/include/net/net_shaper.h b/include/net/net_shaper.h
+index 05cb625b0fe54..330517a1cb5c2 100644
+--- a/include/net/net_shaper.h
++++ b/include/net/net_shaper.h
+@@ -80,10 +80,11 @@ struct net_shaper {
+  * disallowed at the uAPI level will never be made at the driver level.
+  * The shaper core performs automatic reparenting and cleanup, generating
+  * additional calls. Notably:
+- *  - @group calls in the driver facing API may have nodes as leaves (user is
+- *    only allowed to construct groups with queues as leaves)
+- *  - @group calls may update leaf's parent if the parent is about
+- *    to be removed (re-parenting nodes explicitly is not supported in the uAPI)
++ *
++ * - @group calls in the driver facing API may have nodes as leaves (user is
++ *   only allowed to construct groups with queues as leaves)
++ * - @group calls may update leaf's parent if the parent is about
++ *   to be removed (re-parenting nodes explicitly is not supported in the uAPI)
+  *
+  * Implicit creation
+  * -----------------
 -- 
 2.53.0
