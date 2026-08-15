@@ -1,99 +1,122 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35DC3B8D75;
-	Fri, 14 Aug 2026 22:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B5E140E5F
+	for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 01:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786748202; cv=none; b=RZ/JyLnzHdq13TC91OMGUWgR6Q0oRP+gRhiqtVJqK+HshKWn57lnwkMoaJiZlc660CozzRHCX4trBGNkhuKlA3GLI+GUck0uzlpn+puKcES4nchaDIoIlk3CVLJ3VLiMt35t0jLmVq8PMDBbhlGJ3kQlM48me8tAxJY3tR77aGo=
+	t=1786757581; cv=none; b=t/MJadbBKlcncPb80bVexV12dZv4q/4Wsviay33B1ce3nvtZ4Vw3MoLGM8/N2xNLUh741UDNyw8xvpdvpJqfKjRjN7BLMrieSA+x9SQhfFyaDFquccRrTXITmIdxDu1pYj7vPf5O0/SjAq77chrS0K5UJBWFGH/vxx74SNzP/mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786748202; c=relaxed/simple;
-	bh=Dr0sxwTILYFz6f2PUInpf/nod16F/yTP+TE5nAkzaBQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JUnZpbVGzg+NFw7WeEAyzeZWfzj+Uk7Wj+AimcaMNbSbbaJiGCvUr9TkuWpCzhQXxHT8hDuvAcuH0Z5SzaW98KI6rJGf3QF86UzMZSg/gFmMGy1C/cN/oq12BAmkKblvA7vYJ2/3lNPYPcTk2WR92qXevQ/wDbDJ0xTyU3obrvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ea5s+v9A; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1786757581; c=relaxed/simple;
+	bh=mDgAsKs6meo//NBXXLbI4OKPjgjud9Wvq+usYByvNDk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fo95zuv+LCO6rCxX43V0My5IFV3+Cg1AvJcveDJ9Tk+Vl0tSdEh8YPBjT7g6SM6tn4cl6qdCGt1PXm+nrBro3pxCKC3Vx/PqKpd+S7hgIbGaZ9x34r+CeK8FVlngjjZMC6abvDI1uIYj+41BCOlZ1FHEh/wph/W5WFbRnPFklxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K5a5Jwzw; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ea5s+v9A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=tpV7TjA5NxUkOWKtQkMobLldwiPfnra+K0egCk9VvfU=; b=ea5s+v9AZDmZXhb1EOUiDsX/T6
-	eQsZ0xhkx5dSVXBMmprOd8nXuXYaVHPxNvGFhStGMOBYhqtK87rXMPIu7Qf5klIr7AlO0gd5jwZAL
-	LlHLgN8btradOyfnYiS6DW/kDuXtUc8drkBJ8kblOqHQYMVDf/rGP2bIMN/KAHeBQ7oTT1OX4/eC0
-	or/udf+2hZjtGSMqHd44QfAufT8ZsUGI7kgWl3zmeFPxGqbWHEwK87U1jrmXFb90MDGPLkVuwBKFe
-	GZvPIGteJqtdaqyRt+U3goubTPQfRyvq0EC5vcM5X7BNcIi8BYsF2/wHzayzfEFyEbRwqKsE4BIyj
-	cXS121Eg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wv0pK-00000003Ha7-0K8s;
-	Fri, 14 Aug 2026 22:56:38 +0000
-Message-ID: <b428b0d8-5e5e-4e37-aef7-be0c2d0f76f0@infradead.org>
-Date: Fri, 14 Aug 2026 15:56:37 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K5a5Jwzw"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so14078095e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Aug 2026 18:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786757578; x=1787362378; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b+EBtOS3yArt80y5oN+qnjKWVwEXEBrwucchm/mxHIo=;
+        b=K5a5Jwzw3tm37oBhTUkKHQMR82eb1IGEfsZ1l18+RcsHFlgC+4on6OooCAZmQF+vJl
+         B7lojnRhXV852EbJyAamAR3NTRkuz5hRWJbQ50mWLtC6oZtQDdRKErgXaWtd+rjEk7iM
+         Gq6wJkCZHvkBg22ZfaUilig+7Y3lWXKMKmDO/uGdyq4/P1/pUM7ccYS4DRUKnQDozMRK
+         OU5OTyPtgMTtJDcF/CdbMU218X4kcQ2HgGlTfy/Z7e7srxjecaZ5oxuUcfNmuqVFTxi/
+         rS1Cga+rSS/oKfWwJFwTfvFXBMBoX/IpUT7h2u7fqBOaXhiyHIVck3i3RQgs7y1mfjRA
+         W0+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786757578; x=1787362378;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=b+EBtOS3yArt80y5oN+qnjKWVwEXEBrwucchm/mxHIo=;
+        b=kNAwVVJ1TRmHjH6FKKVZk5jm1OdHMcPiWZWM7qPekym88J7Fl1dRvRCbWKTAJF6nIU
+         uqO/uhpNdgAIpbtlRdRul0V/SnMHL0EWVipJeTrGQI5XzdpTHfL3TKe+JkKf4n0QNquK
+         f5/9v1s+9lfHEzoOUqGEBpTDG2Nnsu+XU2ryZ8YQJyCzw9elSZ8QevQByHiV/mftuamN
+         gRND/VDRo/IhaQacugHnoTlCExzaBzFLkHYcZ1DsbePpCLqZmHQhWZ51NRhM9IBRzp4J
+         6DhDHG/zmQO/3WtYzTCC80DDzTIeB+FGv4/t6WPHyj3Okj9n1imzxKQvr2BOZJ9RjV5f
+         Iljw==
+X-Forwarded-Encrypted: i=1; AHgh+Roipa/qt8QKP5aVbq7qsZc4zTjIIWtRe+C/0my01VfMHsimo/4NOnV3BENv2d+ZyyegYsz/+yMJlcw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnwMVrhkIY2uYSh99UIAr+8kXtyHyWrihr7ZoHFavEEW/24JMM
+	T+uXvkMkgxdp75LPs0Pgf5Bwidat5go/oRJbe7oxn0lgaZMTj6gpWFRS
+X-Gm-Gg: AR+sD12KtRD0/F2KIPQOkgpKl/yqa9VK7uKvJxF/wPgwvKf71Hj8ZO4X1yDYKJsRhn0
+	yZuITBVpETqGuCk2knUyhMQmOwhdrhE6qkCAzenuILvpKtqn7hMrbGhMC+HkVYQwQPgxMbzT96V
+	R633aXGi6J8Ljpxa/6ffToMBor+O/6wa19Z6coJB2Xk69BbASdv4P9RRppZyje2CZwYCHpXDnDm
+	ft+K7by6jixLx6yS+vnGQBUPa8RDmtoaWKhfzqQrt9UOHNZNa+18tSfIdiPQMqoKateGCTmCyW2
+	v5dlW0JxuHQnfH4oEgdaOgfFbhn6zbEiRHAdvwWuD0mIJ1WUUs3MMDKIDCH88UTja8e4ECCHMe2
+	d99s+KV4ArxoCA038eA2Ujz9WFg+LfZCL96GlB+vyvbVAetwOv/x1qMy3YNUipEokf6oN6awXDI
+	VfJHWOsmUiV85MkoxGHG45rCcS8KSipKMN6hmpegiy5CzspySBIML/s2xAanciFB3ZUqroaokKc
+	ppI0ESuI62V+pReUvVwiYAoVPsVEcQwTU6A8cxaZPNlr/VjRxBLgXuzeLTG+6ASUbpnc2R7keZ5
+	BS79TxIyQKln9EQCUTVs0iDPU3A2BdZzPoYUfVDacLoGD2ExeKc+JbrgS6mKPzebF9GiEhIXlqz
+	d+7I=
+X-Received: by 2002:a05:600c:3491:b0:498:952:e276 with SMTP id 5b1f17b1804b1-499879653bbmr149398885e9.8.1786757578369;
+        Fri, 14 Aug 2026 18:32:58 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-9d7d-f301-9495-44ec-73e6-1be7.310.pool.telefonica.de. [2a02:3100:9d7d:f301:9495:44ec:73e6:1be7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b1a31esm110672885e9.2.2026.08.14.18.32.56
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 14 Aug 2026 18:32:57 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v2 0/2] net_shaper: fix kernel-doc rendering
+Date: Sat, 15 Aug 2026 03:32:27 +0200
+Message-Id: <cover.1786751700.git.kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] net_shaper: fix net_shaper_ops kernel-doc
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <20260813192131.21254-1-kmehltretter@gmail.com>
- <20260814101408.13bc8cc2@kernel.org>
- <984e036c-0d90-435f-a56b-ea39a2adf923@infradead.org>
- <an-ZnZWVWtDemvSv@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <an-ZnZWVWtDemvSv@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+The net_shaper_ops documentation contains a malformed ReST list and
+exposes a kerneldoc.py title-context bug which drops valid headings.
+Fix the list first because the parser correction makes it visible. The
+parser fix also restores three Xe DRM RAS headings already in mainline.
+
+Tested with Sphinx 9.1.0:
+
+  Docutils 0.21.2 and 0.22.4:
+    make SPHINXDIRS=networking htmldocs
+
+  Docutils 0.22.4:
+    make htmldocs
+
+The full output differed only in the intended net_shaper and Xe rendering
+and checkout-path-dependent build artifacts.
+
+Changes from v1:
+- fix heading parsing instead of replacing headings with bold labels
+- split the list and parser fixes
+- add diagnostics and point the Fixes tag at the kerneldoc.py regression
+
+v1: https://lore.kernel.org/netdev/20260813192131.21254-1-kmehltretter@gmail.com/
+
+Karl Mehltretter (2):
+  net_shaper: fix kernel-doc list indentation
+  docs: kerneldoc.py: preserve headings in kernel-doc output
+
+ Documentation/sphinx/kerneldoc.py | 3 ++-
+ include/net/net_shaper.h          | 9 +++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
 
-
-On 8/14/26 3:49 PM, Karl Mehltretter wrote:
-> On Fri, Aug 14, 2026 at 12:04:05PM +0100, Randy Dunlap wrote:
->> On 8/14/26 10:14 AM, Jakub Kicinski wrote:
->>>
->>> Isn't this a problem in kernel-doc extraction / how we embed it for
->>> rendering? Heading are quite useful and IMHO far more natural to use.
->>> My understanding was that kdoc should be able to use basic ReST
->>> formatting.
->>>
->>> Ack on the list indent fix
->>>
->>
->> I don't know of another reasonable solution for this (although I'm no expert
->> on ReST), so
->>
-> 
-> Yes, this is a problem in how Documentation/sphinx/kerneldoc.py embeds
-> kernel-doc output. It parses generated content into a detached node while
-> retaining the surrounding title hierarchy.
-> 
-> The key kerneldoc.py change is replacing the parser call:
-> 
-> -            self.state.nested_parse(result, 0, node, match_titles=1)
-> +            nested_parse_with_titles(self.state, result, node)
-> 
-> This preserves the headings.
-> 
-> I tested the networking documentation with Sphinx 9.1.0 and Docutils
-> 0.21.2 and 0.22.4, and a full htmldocs build with Docutils 0.22.4. The
-> full build produced only unrelated existing warnings.
-> 
-> I can send this as a two-patch v2, with the list correction first.
-
-Please do so.
-Thanks.
-
+base-commit: 3205699d79f262412c1be7fc1c04066610d3cd52
 -- 
-~Randy
-
+2.53.0
