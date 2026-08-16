@@ -1,115 +1,155 @@
-Received: from mta1.migadu.com (out-212.mta1.migadu.com [95.215.58.212])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D0A224B13
-	for <linux-doc@vger.kernel.org>; Sun, 16 Aug 2026 05:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E90E31F98B
+	for <linux-doc@vger.kernel.org>; Sun, 16 Aug 2026 05:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786856858; cv=none; b=qeznTImJdXK5PxeYHeZImPLkiDaGI4o7Ejb/vi3J/RCdHVqO1CvuUHgYNTglRbiZg/O8LLVxx3bUcRz+yQHH8/Kd1aD6TZLH/WAG9g/RAHo8CLorb4PYGcAOp4TwFY5UopaJo1prju/vMLkw7NcFaP9xvwzZSpSGpscKrj3iFLU=
+	t=1786856905; cv=none; b=W5jfOcCxcGCuzamtv5XHwoG6LeLRFmGaCY4feop96i6NwSWXmXBZnT3uVAt7ynu6zjVXwkIyjwhuh3AahksFFUVBrhoe6HnhFxYCFHsT6pYIinbLPYR9GPwS1QkvVO+atIrlr5GUEoylO0aV8dvuul20Us3ghkC5R/JpTnlba/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786856858; c=relaxed/simple;
-	bh=usNBf716QSUaNU8G219MN3HVeA/Kq24lxCj2hAKjrpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SB2XVo0MmfclqSwsmm7jJ35odBA/0MPHwWGflIWBoec1DXAqs0dfiHWfHkJGMQ9NYYUFaDANC2spygB0N1zNQBMzDj4qzansBTLnFEs5tIIPqpICWA/H3FbIW91tsepKk+W6BuPJJJp6k2hOHm4+I7UdJ/0Fu4lAJCsf0TFglhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=XZUE/1+L; arc=none smtp.client-ip=95.215.58.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1786856905; c=relaxed/simple;
+	bh=K1+6ZfM3X7b1ZXo4/aHurUoKhIdCkiaITB6aDZA59gM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:MIME-Version:
+	 Content-Type; b=F/jDwAn3XVylWWZbyrR2lxD+3FPR43tKcYctZcwschupvxl8jw8CtVbo83m3AsKHuhujEXf/0os+cLVGFIYv6CLbAFTFFe0F43MR98sHj9RFnxoYxJaicQjRe7KyLhIB2/M4nE8Tn9nmAkfj7QF3wKHcL4jKJRkDWtMeD7DLJIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MwOOpWC0; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="XZUE/1+L"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=usNBf716QSUaNU8G219MN3HVeA/Kq24lxCj2hAKjrpg=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786856853; v=1; x=1787461653;
- b=XZUE/1+LqAK0eVdL3DH23srNzNdw6xZFFA0674AighkdmeHkz51c7jrpYZg5snCzZzYET6lu
- xq9/gubqD3J0z56tNcMBxGif7mj9PeZJw3czyAFd6rVIkluLF07AOCO1lA4pLAHoTQ4LZA/M8M4
- wNiznkAP2ZPedzjF1s7JVIsaFadtWJEGpTa4m7QXWxZsrRkML92BCe5QYrk5mAuYzvh7Mytigll
- Fpaw8vyRhToZGm4djaK+Hrj5SrZfqVYB9pjBYonESDZqEsmqsJWRAPhIRXdLJbL04VX3q2OhfhV
- qJbvh0qNCKjSvBeEhO1wi/C5cysmR1LZgacHHbH6t9LrA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from localhost (117.176.242.163)
-	by smtp.migadu.com with ESMTPS id 29bf43ac55638bac;
-	Sun, 16 Aug 2026 05:07:23 +0000
-X-Migadu-Flow: FLOW_OUT
-Date: Sun, 16 Aug 2026 13:07:16 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Chen Miao <chenmiao.ku@gmail.com>, corbet@lwn.net, alexs@kernel.org,
-	si.yanteng@linux.dev, skhan@linuxfoundation.org, mchehab@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] docs/zh_CN: doc-guide: document macOS Sphinx setup
-Message-ID: <aoFFhGeMzQNvt0i3@wyuan.org>
-References: <20260814214419.49925-1-chenmiao.ku@gmail.com>
- <20260814214419.49925-6-chenmiao.ku@gmail.com>
- <e63fa3eb-7387-461e-9215-0974213a577e@hust.edu.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MwOOpWC0"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-69f7fa1c548so3700576a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 22:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786856902; x=1787461702; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=S3EGv/bCwZGVn5e0LnVQX15hxgKZ01RYRO4qrI6Efvk=;
+        b=MwOOpWC0Go75EC4WJgPeqetZgu0/tHAyJuIzkOdMuHbfqsxP994NGYsfPclztgOTZn
+         vvbyOoxudHpsxlVb3KvrFW2EIRp5Mxwop11xz1rkC3gTexh/78UY8k+XDn+z2bMHQIHg
+         pVXGyf9qrgtO4/pQfQmYXzmpnxqPy4N7hVtKWTzksuEz9gKAJWTbYocXK7qTxNfrrSEx
+         IZIlFPLMG9WMDTkrsN4Xqj8YVllJ36/8rZW7Ords0NT7r6VZQ44+gqaZH4cW+KA2J+tB
+         /U60rGFR87Mbs4VeNINetfxHXRPZWnwlu+aXKnUo66cfbs5JYHEHdG1lDeMrZh/VJvA4
+         ML6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786856902; x=1787461702;
+        h=content-transfer-encoding:content-type:mime-version:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=S3EGv/bCwZGVn5e0LnVQX15hxgKZ01RYRO4qrI6Efvk=;
+        b=ee4rHiUlWtgCP1lAAM2Jj6vGW0SqvQLSSmUlzvr9eMZRAmppEtZsiXHkF+id+kieZt
+         dSS9OG6aK2IUvFP8UQ+LX5SoXDCtMpz+rsT6EqsBk7e/g9XmNn2Ieg3WH2vzG8U5Mbvx
+         VPSyZ/i8sj2TFbpYlPc6O4IqzEfXFZCOvYXINFJopw2Uki7BEgdC2gq/urM+02e+9gsU
+         n+KVxvkc8a55zxgx4les5bOC106S3etPBwD+A5e/RHlHUXA2x1u5GigBrxg5JyT7ogNL
+         amBCE8NUTpTYVIVAdFpdBjVMXKCnA4VVIgj28AM388PTKCpNYhQ5Zpx4xQa6IYxi3jVq
+         TCog==
+X-Forwarded-Encrypted: i=1; AHgh+RqemdZoCaoexrENEZxss0n1l7tJ+1LX/qtvlQo1QPwKvXAcBpnoqZau5M9YMxjCUY4FROqu/5zlhQ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkFEb/JJo4Uj0dWSJVergBE9IMLHBw81Q8KiAhG3KsDT+hmCcl
+	tQqkwv5o/fCOSJrF4ivy0g/Bmmjn2s+EWAP+/9D883wogtnWap+YwjNt
+X-Gm-Gg: AR+sD13eVnzyzU9XiC5OPV/JYysIJAZzJrLVw8eGSSHH1VxTuB/f5ZSXyh8I4xEGsvY
+	RPdh2iGhPJIDNe4sKfuaRLMucv+k9VyVCb+gOx9Tt/C82uMkSG+t8285SKhmvyFdPnCMDDChwBJ
+	AdVCuxE1NK3gO3vh2ReOEFjQmbX/Z/eRD31ZNUg14zzTFfQlWYZjNtC/I7w5gUK203Zqp4NwxqD
+	f6BrcNOHssdp26yGhe4OtVBH3544gljp1QcpA/S+LvMk910+5/acKH8qQHMPoc7ed/x6uJRLnl+
+	/fL+3FfHp7u+/967Dq6Ar33V2CywtKj4fGMlF8lP0ipNbP806JnmjUS/XlBryEJ1fOX1CG31t0v
+	KO5h7p/zj4wZQHvAohLHXN2+ws7Ip1xrvbXpfvmeA0EtSQkTYkLOzYn/htvxny1J0rb8JOSyhEi
+	CXYi1+lcVMHinqhvRMrHGyq4sgVHg7pTQhsQkolyAQQDIWYba4GdzQb3nxYPIy2QRllfo=
+X-Received: by 2002:a17:907:ea93:b0:c20:f871:1018 with SMTP id a640c23a62f3a-c212a127aebmr838653266b.21.1786856901726;
+        Sat, 15 Aug 2026 22:08:21 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c21238700aesm296472666b.63.2026.08.15.22.08.18
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 15 Aug 2026 22:08:20 -0700 (PDT)
+Date: Sun, 16 Aug 2026 07:10:44 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: frank.li@nxp.com
+Cc: corbet@lwn.net, dmaengine@vger.kernel.org, hch@infradead.org,
+ imx@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ lizhijian@fujitsu.com, mst@redhat.com, rdunlap@infradead.org
+Subject: Re: [PATCH v2 1/1] docs: dma: correct dma_set_mask() sample code
+Message-ID: <20260816071044.331a2c51.michal.pecio@gmail.com>
+In-Reply-To: <20240401174159.642998-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e63fa3eb-7387-461e-9215-0974213a577e@hust.edu.cn>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 16, 2026 at 12:52:10PM +0800, Dongliang Mu wrote:
+Hi,
+
+> There are bunch of codes in driver like
+>
+>        if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
+>                dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32))
+>
+> Actually it is wrong because if dma_set_mask_and_coherent(64) fails,
+> dma_set_mask_and_coherent(32) will fail for the same reason.
+
+I encountered similar driver code and found it similarly suspicious.
+I arrived here searching for reasons to convince myself (and relevant
+maintainers) that removing this is indeed the right thing to do.
+
+But I have a few remaining questions and remarks.
+
+> And dma_set_mask_and_coherent(64) never returns failure.
+
+No realistic chance of the dev->dma_mask check (below) giving -EIO?
+
+> According to the definition of dma_set_mask(), it indicates the width
+> of address that device DMA can access. If it can access 64-bit
+> address, it must access 32-bit address inherently. So only need set
+> biggest address width.
+>
+> See below code fragment:
+>
+> dma_set_mask(mask)
+> {
+> 	mask = (dma_addr_t)mask;
 > 
-> On 8/15/26 5:44 AM, Chen Miao wrote:
-> > Translate the macOS Sphinx dependency setup added to the English
-> > documentation. Keep the translation in a separate patch so translation
-> > status tooling can track the source change correctly.
-> > 
-> > Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
-> > Acked-by: Weijie Yuan <wy@wyuan.org>
-> > ---
-> >   .../translations/zh_CN/doc-guide/sphinx.rst     | 17 ++++++++++++++++-
-> >   1 file changed, 16 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-> > index 3375c6f3a..e6d42d970 100644
-> > --- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-> > +++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-> > @@ -110,6 +110,22 @@ PDF和LaTeX构建
-> >   	使用Sphinx的系统打包，而不是Python虚拟环境。
-> > +macOS 默认使用不区分文件名大小写的 APFS 卷，而内核源码树中存在仅大小写
-> > +不同的文件。克隆源码前，请用 ``diskutil apfs list`` 找到 APFS 容器标识符，
-> > +将下面的 ``diskX`` 替换为该标识符，并创建一个额外的大小写敏感卷::
-> > +
-> > +	diskutil apfs addVolume diskX APFSX Linux
-> > +
-> > +在 macOS 上，该脚本使用 Homebrew 安装系统依赖，输出的 Homebrew 命令不需要
-> > +``sudo``。PDF 工具链由 ``mactex-no-gui`` cask 提供，所需的 DejaVu 和 Noto CJK
-> > +字体则通过 Homebrew font cask 安装；如果只构建 HTML 文档，请使用 ``--no-pdf``。
-> > +安装 MacTeX 后，请重新启动终端，或运行
-> > +``eval "$(/usr/libexec/path_helper)"`` 使命令行工具可见。macOS 用户建议使用
-> > +默认的 Python 虚拟环境，因为 PyYAML 会从
-> > +``Documentation/sphinx/requirements.txt`` 安装，而不是通过 Homebrew 安装。
-> > +该脚本还会检查 GNU Make 4.0 或更高版本；如果 Homebrew 将其安装为
-> > +``gmake``，请使用 ``gmake htmldocs``，而不是 ``make htmldocs``。
-> > +
+> 	if (!dev->dma_mask || !dma_supported(dev, mask))
+> 		return -EIO;
 > 
-> Hi Chen Miao,
-> 
-> The zh_CN only keeps the translations, therefore, you should first put this
-> part into the english documenation.
-> 
-> Of course, you can extend this patch into one with English and zh_CN
-> changes.
+> 	arch_dma_set_mask(dev, mask);
+> 	*dev->dma_mask = mask;
+> 	return 0;
+> }
+>
+> dma_supported() will call dma_direct_supported or iommux's
+> dma_supported call back function.
 
-The English Documentation for this is in [PATCH v4 2/6], so you mean
-it's better to wait until the English part is merged, then we can apply
-the Chinese translation part, I guess.
+Aapparently, it may also use some 'dma_map_ops' and there is a bunch
+of those spread over drivers/ and arch/. But I gather they are expected
+to behave similarly as the functions named above?
 
-If so, let's add a 'Update xxx through...' in the commit message then.
+> --- a/Documentation/core-api/dma-api-howto.rst
+> +++ b/Documentation/core-api/dma-api-howto.rst
+>
+> +The standard 64-bit addressing device would do something like this::
+> +
+> +	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64))
+> +
+> +dma_set_mask_and_coherent() never return fail when DMA_BIT_MASK(64). Typical
+> +error code like::
+> +
+> +	/* Wrong code */
+> +	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
+> +		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32))
+> +
+> +dma_set_mask_and_coherent() will never return failure when bigger then 32.
+> +So typical code like::
+> +
+> +	/* Recommended code */
+> +	if (support_64bit)
+> +		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+> +	else
+> +		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
+> +
 
-But wait..:
+This text is unclear. Two sentences begin with "Typical error code",
+then some code is quoted, and the sentences are cut abruptly without
+actually making any statement about the code in question.
 
-+该脚本还会检查 GNU Make 4.0 或更高版本；如果 Homebrew 将其安装为
-+``gmake``，请使用 ``gmake htmldocs``，而不是 ``make htmldocs``。
-
-Now I find that this part above is not in the original patch for English
-Docs, did you miss it on purpose? Sorry I didn't notice this in last
-rerolls.
-
-Thanks.
+Thanks,
+Michal
