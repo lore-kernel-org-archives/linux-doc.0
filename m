@@ -1,54 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9B11F2B88;
-	Sun, 16 Aug 2026 18:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5710D34751F;
+	Sun, 16 Aug 2026 18:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786905203; cv=none; b=PpaEDkB1/9XIxw1+NheMlkOE8m9SNyGRwonBchauGy+H2nRrhb1a0IDTdCj6GXtoIkEBwVe1wZtApMpjmOr4azdvCRVoXeGQv5QEPGVlBPfTzJedd/Ra4JlsLbm7t2e/g7jkibea5hGMgeozyQiWzjSsbY0y/0rrMgLj70DnD1Y=
+	t=1786906378; cv=none; b=Re9wlzzCe0CHYOt69WMPyXLnMgAVsT19qGCdt/RhD0AiYgHbfSSfUREG12qkpfbXayU8xS711Q47wkRQOxgWtq8sTcV3vf8OSVjjEf9NRHlc6VfrE6HBytaum5laThJkCp2VmHAuEqr9kBpDk66wJ/0GZFubC+GzblycVjidWmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786905203; c=relaxed/simple;
-	bh=PK83bxPW0YYqlAdOhrRSsbzmxCSGTG8H6eqS7tb18G0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DPbxcRa/dm624/sT9BiVIOrt8kTYTcM5Eg/bsEIwLvswfmPu04Mfd6WNFabZBnUNX8j7f9I1nP3vBvai91fy5XMqKJ6XAKyHNUm45/wwm+az1/JduefXwTEKNqG17UadcQ4vxjIP69twONw79t65WPNlCquoGscSmpphXZdhKo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L0UZHizD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786906378; c=relaxed/simple;
+	bh=K4BJlteTHRXkKM7ZCE7ROh993plnZh6zChPcVsEDTBk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ubdXVwXjroEZhTw3SZbswcmZ7xIaeK5Am0/jfw9BLa633LqsMOHAMaK80lUz82XkgHnVBhdlkYMaHxw8iSmjMmefain8G2aCQmSKLB2YJ/cMeSjHL5/kIxzhlJ5hy7EAPR5nL8bdQ9gcPhKpJMbf/aQJn/2eEfhgcSVXkoNOi34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=DrR+icXJ; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0UZHizD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 396791F000E9;
-	Sun, 16 Aug 2026 18:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786905201;
-	bh=lckXmM2GFofMXJ16w+21lc1Yne8DWen4iQpDoMufy6E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=L0UZHizDRYZWwMaK/yybWtebomrbcLi2mAWXBcjSW2fBP2Aqt59yJYPpSMG5ZXeAk
-	 flGRFjU+F6MfZP7NAxklIa2DL0zca1wFcGysmQdkQihjeEWgj2/HjvaoLCqZnlLA3S
-	 GxRI/K+loFqyJQHknEnSTEeWVAN3BUpHxkCsPVR9NoS5C4SF52SLo38B6iiZJ2mP+w
-	 b5LhrjaxfNY2Pg1779Cfj622CKf3GnFClNpUqrhArfiIo2QuGkMdIqcCcZxMI2l0os
-	 jwm2pvsEVDkBCSptFqcaPNLzULuRPU1r6kwUtPvom1R9UWVsYnevMkFbH5wWdhjDd0
-	 4WJ3V2yZlOKRw==
-Date: Sun, 16 Aug 2026 19:33:16 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Olivier
- Moysan <olivier.moysan@foss.st.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
- <linux@analog.com>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <jananisunil.dev@gmail.com>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v3 02/14] iio: backend: Add support for CRC
-Message-ID: <20260816193316.3ba3697b@jic23-huawei>
-In-Reply-To: <20260816192725.672c0a83@jic23-huawei>
-References: <20260813-ad7768-driver-v3-0-cb554399ad26@analog.com>
-	<20260813-ad7768-driver-v3-2-cb554399ad26@analog.com>
-	<20260816192725.672c0a83@jic23-huawei>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="DrR+icXJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=rogr93xEBCwuiAzKlLpwDJRo4Ap18TiIfPxr3bQ3Gb0=;
+  b=DrR+icXJjD9DvXx9pPeQXPpa4E7e4yy0Na8HuhppenJY4JvIdl310EW/
+   WXpVOKUEtCIz3jjtPDE3vEGpfIIMVMjgDOt6iolAFXt7DcAtMslpYwxnc
+   hOFNCQVG29K+ef6L0kULlHJ4YNjbibhTRB4mxAyrax3LllgwMuxkPRXp4
+   A=;
+X-CSE-ConnectionGUID: wVRgbFu8RtCSiN88Q/8iAQ==
+X-CSE-MsgGUID: TmkET2/mQGqULuPbm3w4TQ==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.25,227,1779141600"; 
+   d="scan'208";a="290305522"
+Received: from 88-188-149-159.subs.proxad.net (HELO hadrien.home) ([88.188.149.159])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 20:52:51 +0200
+Date: Sun, 16 Aug 2026 20:52:51 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+    Nicolas Palix <nicolas.palix@imag.fr>, 
+    =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>, 
+    Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, cocci@inria.fr
+Subject: Re: [PATCH 02/21] HID: add documentation and Coccinelle script for
+ FF registration race
+In-Reply-To: <20260803-hid-ff-input-configured-v1-2-1dc9bbacd88c@gmail.com>
+Message-ID: <5e96c91-164f-9ec5-43e4-474189e2a337@inria.fr>
+References: <20260803-hid-ff-input-configured-v1-0-1dc9bbacd88c@gmail.com> <20260803-hid-ff-input-configured-v1-2-1dc9bbacd88c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,119 +53,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Sun, 16 Aug 2026 19:27:25 +0100
-Jonathan Cameron <jic23@kernel.org> wrote:
+> diff --git a/scripts/coccinelle/hid/ff_race.cocci b/scripts/coccinelle/hid/ff_race.cocci
+> new file mode 100644
+> index 000000000000..479f5d1e3184
+> --- /dev/null
+> +++ b/scripts/coccinelle/hid/ff_race.cocci
+> @@ -0,0 +1,34 @@
+> +/// Detect HID drivers that initialize force-feedback after hid_hw_start()
+> +/// when HID_CONNECT_HIDINPUT is used. This is a lifecycle violation as
+> +/// the input device is already registered.
+> +//
+> +// Confidence: High
+> +// Copyright: (C) 2026 Gemini. GPLv2.
+> +
+> +virtual report
+> +
+> +@r@
+> +identifier probe_fn;
+> +expression hdev, flags;
+> +position p1, p2;
+> +@@
+> +
+> +probe_fn(struct hid_device *hdev, ...) {
+> +  <...
+> +  hid_hw_start@p1(hdev, flags)
+> +  ...
+> +  \(input_ff_create\|input_ff_create_memless\)@p2(...)
+> +  ...>
+> +}
 
-> On Thu, 13 Aug 2026 15:56:55 +0200
-> Janani Sunil <janani.sunil@analog.com> wrote:
-> 
-> > Add a backend operation to enable or disable Cyclic Redundancy Check
-> > processing for data integrity verification. When enabled, the backend
-> > will generate, verify, or process CRC information for data samples
-> > transmitted over the interface, allowing the host to detect corrupted
-> > samples.  
-> 
-> The backend is generating them?  That seems odd. In my head at least
-> backend is representing the host end of the data pipe.  So what this is
-> enabling is the front end (the ADC itself) generating the CRC and
-> the backend either just passing it on, or potentially checking it
-> for us (the verification part).  So I think I'm either misunderstanding
-> what this is, or it needs a rewrite.
-> 
 
-Ah.  It occurred to me what is going on here. You've written it to
-allow for DAC usage as well.  Rather than clumping in and out in one
-statement can we have separate sentences to say what it enables
-in each direction.
+This seems unnecessarily costly.  The pattern can be just:
 
-> Jonathan
-> 
-> 
-> > 
-> > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > ---
-> >  drivers/iio/industrialio-backend.c | 33 +++++++++++++++++++++++++++++++++
-> >  include/linux/iio/backend.h        |  6 ++++++
-> >  2 files changed, 39 insertions(+)
-> > 
-> > diff --git a/drivers/iio/industrialio-backend.c b/drivers/iio/industrialio-backend.c
-> > index f7a4be8ec320..792c2333b057 100644
-> > --- a/drivers/iio/industrialio-backend.c
-> > +++ b/drivers/iio/industrialio-backend.c
-> > @@ -886,6 +886,39 @@ int iio_backend_num_lanes_set(struct iio_backend *back, unsigned int num_lanes)
-> >  }
-> >  EXPORT_SYMBOL_NS_GPL(iio_backend_num_lanes_set, "IIO_BACKEND");
-> >  
-> > +/**
-> > + * iio_backend_crc_enable - Enable the CRC generation.
-> > + * @back: Backend device
-> > + *
-> > + * Enable Cyclic Redundancy Check processing for data integrity verification.
-> > + * When enabled, the backend will generate, verify, or process CRC information
-> > + * for data samples transmitted over the interface.
-> > + *
-> > + * RETURNS:
-> > + * 0 on success, negative error number on failure.
-> > + */
-> > +int iio_backend_crc_enable(struct iio_backend *back)
-> > +{
-> > +	return iio_backend_op_call(back, crc_enable);
-> > +}
-> > +EXPORT_SYMBOL_NS_GPL(iio_backend_crc_enable, "IIO_BACKEND");
-> > +
-> > +/**
-> > + * iio_backend_crc_disable - Disable the CRC generation.
-> > + * @back: Backend device
-> > + *
-> > + * Disable Cyclic Redundancy Check processing. When disabled, the backend will
-> > + * stop generating, verifying, or processing CRC information for data samples.
-> > + *
-> > + * RETURNS:
-> > + * 0 on success, negative error number on failure.
-> > + */
-> > +int iio_backend_crc_disable(struct iio_backend *back)
-> > +{
-> > +	return iio_backend_op_call(back, crc_disable);
-> > +}
-> > +EXPORT_SYMBOL_NS_GPL(iio_backend_crc_disable, "IIO_BACKEND");
-> > +
-> >  /**
-> >   * iio_backend_ddr_enable - Enable interface DDR (Double Data Rate) mode
-> >   * @back: Backend device
-> > diff --git a/include/linux/iio/backend.h b/include/linux/iio/backend.h
-> > index 3f95ed1fdf9e..eddaddb47bea 100644
-> > --- a/include/linux/iio/backend.h
-> > +++ b/include/linux/iio/backend.h
-> > @@ -133,6 +133,8 @@ enum iio_backend_capabilities {
-> >   * @filter_type_set: Set filter type.
-> >   * @interface_data_align: Perform the data alignment process.
-> >   * @num_lanes_set: Set the number of lanes enabled.
-> > + * @crc_enable: Enable CRC generation and verification.
-> > + * @crc_disable: Disable CRC generation and verification.
-> >   * @ddr_enable: Enable interface DDR (Double Data Rate) mode.
-> >   * @ddr_disable: Disable interface DDR (Double Data Rate) mode.
-> >   * @data_stream_enable: Enable data stream.
-> > @@ -189,6 +191,8 @@ struct iio_backend_ops {
-> >  			       enum iio_backend_filter_type type);
-> >  	int (*interface_data_align)(struct iio_backend *back, u32 timeout_us);
-> >  	int (*num_lanes_set)(struct iio_backend *back, unsigned int num_lanes);
-> > +	int (*crc_enable)(struct iio_backend *back);
-> > +	int (*crc_disable)(struct iio_backend *back);
-> >  	int (*ddr_enable)(struct iio_backend *back);
-> >  	int (*ddr_disable)(struct iio_backend *back);
-> >  	int (*data_stream_enable)(struct iio_backend *back);
-> > @@ -237,6 +241,8 @@ int iio_backend_filter_type_set(struct iio_backend *back,
-> >  				enum iio_backend_filter_type type);
-> >  int iio_backend_interface_data_align(struct iio_backend *back, u32 timeout_us);
-> >  int iio_backend_num_lanes_set(struct iio_backend *back, unsigned int num_lanes);
-> > +int iio_backend_crc_enable(struct iio_backend *back);
-> > +int iio_backend_crc_disable(struct iio_backend *back);
-> >  int iio_backend_ddr_enable(struct iio_backend *back);
-> >  int iio_backend_ddr_disable(struct iio_backend *back);
-> >  int iio_backend_data_stream_enable(struct iio_backend *back);
-> >   
-> 
-> 
+hid_hw_start@p1(hdev, flags)
+...
+\(input_ff_create\|input_ff_create_memless\)@p2(...)
 
+Or does it matter that struct hid_device *hdev is the first parameter
+of the enclosing function?
+
+julia
+
+> +
+> +@script:python depends on report@
+> +p1 << r.p1;
+> +p2 << r.p2;
+> +flags << r.flags;
+> +@@
+> +
+> +# Check if flags include HID_CONNECT_HIDINPUT (0x01) or HID_CONNECT_DEFAULT (0x0f)
+> +# Note: HID_CONNECT_DEFAULT is 0x0f, HID_CONNECT_HIDINPUT is 0x01
+> +if "HID_CONNECT_HIDINPUT" in flags or "HID_CONNECT_DEFAULT" in flags:
+> +    msg = "WARNING: force-feedback initialized after hid_hw_start() with HID_CONNECT_HIDINPUT. Input device is already registered at this point. Use .input_configured() instead."
+> +    coccilib.report.print_report(p2[0], msg)
+>
+> --
+> 2.55.0.629.g250fe7f194-goog
+>
+>
