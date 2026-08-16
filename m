@@ -1,125 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD3E33938A;
-	Sun, 16 Aug 2026 17:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920033B27F3;
+	Sun, 16 Aug 2026 18:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786903197; cv=none; b=gblZ0xbdQulusi2ymiyJZOBtAR7XQCcFBi0XSZUEu4XxkvIuDU32EEoB3A3HgTiHuGkALrfcIhcUZqVM/z6/cunV3TFZAYtsNsx8rleGIzLKBa6hL3I6gl80l2hIChVJMPW9wvk/ZMJ9rlosqeA6Cdw9kt6yXRbML2XF3fdjw2k=
+	t=1786903512; cv=none; b=fo5voPVx9Xevc3wvH+z/1h9fcQKTkZyhbka7xHlxOYE+LuY9HFp3LHipdainVc3dBuNoamnUasJfdAwS++aJPAPR3zM6gVkLFtaEQh6FLmn5zLbCa67pChmrqS7qImKzWEFyyNx8kQ4WvfZegfPPu4atWVzbK7CGSZxOQyncm84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786903197; c=relaxed/simple;
-	bh=m+AHVyA4Fms6veJKynJ2Z9l5iklw6d82MDzPacYWLVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f/dPIc4W/BJrcns78F+yIUWwBwLVHlhsiaa5vChOEbHrVWXVRX3IphgQOAuXZHLxNQnBV2c0y48eC+OzpSc5mc9RmKsduqo/i1AGpQ0PWzmp9A1hNnkgnEMN0/5uS5AR6woEKKVA7tPH+kgqznB/l4Rz36PECFKf3K/KpTji+uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F/fqgBsf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786903512; c=relaxed/simple;
+	bh=YoaHAtI1P5uqfMWXJPyh9RG4+3aZIz+Qq7xTSr/BK+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nb6GArLuJpJiYUVHjrT4zQ6CNUFaLaE32IcMgbSJNKF5fhBqxi+MeRXTD9za2WWkdY9RB06MqdHszNrYaXWp+DhvC7SJxgvcE64Mrcj4xEpqO0lQNPs7kqp2f6t/LlhQ57ehIp9RXhXqc8gq7YCWJEldzPoncWAyTxfZpmfnmN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=oKhWxXet; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F/fqgBsf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAF211F000E9;
-	Sun, 16 Aug 2026 17:59:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786903195;
-	bh=ZeUQpdKTHvnxZxC1r+AH+HSymZUPMRMYHOUDemRgIsQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=F/fqgBsf8C8ahaHBhqfp9dSCSNtxQ0y1AECXGKd/OK3xPjZWcXfwtjvOJAEKRR5Jd
-	 25RAjIm8VtccI9AD3r6L+yGJvjA51dyGM7d+ZeXS181hgErEc8atGijTFQW1U1DnFj
-	 kSkREGZu6n6uNzJsfjsPlXSYg9kk11145w+r1uT08nVYc4reI51zbKdAtU0v7+L3Am
-	 NLkXg6b17ab2su9lXnXQ3PRJr+NWrJSQWMudjTyZz/xxjWOSD8gnFmpNW0QU+7VmNt
-	 P1cKbYbg4n4fbumrvHF7bcEr6JkXZ3gwvows0wsyb2j+EZeFfJ/8Bkpn2Bp+AdA1+2
-	 86JjCOGUsae5g==
-Date: Sun, 16 Aug 2026 18:59:49 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Janani Sunil <janani.sunil@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
- Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Michael Walle <mwalle@kernel.org>, linux@analog.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org, jananisunil.dev@gmail.com, Uwe =?UTF-8?B?S2xl?=
- =?UTF-8?B?aW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v3 12/14] gpio: regmap: Add optional runtime PM support
-Message-ID: <20260816185949.4205b507@jic23-huawei>
-In-Reply-To: <an7TBThRam_n7hKg@ashevche-desk.local>
-References: <20260813-ad7768-driver-v3-0-cb554399ad26@analog.com>
-	<20260813-ad7768-driver-v3-12-cb554399ad26@analog.com>
-	<an7TBThRam_n7hKg@ashevche-desk.local>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oKhWxXet"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=MrdQvMzpmfvvWZMk8sDz4wRVjl0xR0eyFndsgHqjcK4=; b=oKhWxXetXkfX+85TPubUbqebZK
+	Ky2jQPZhG7Gi67eF+7IC9lOEOaAJuLr3SKHZQC63/1OBfeWKFGSkDXUTsYKzekEB3UZFWcAPGO1lJ
+	HVhYq+4ZDv3MifvO3qygFUe6vYxjC9Zp7GpRIWBNMNZ7k4F+2YYuq1RtvpgoclOA7D2bAQp6/4wKB
+	XFNuz72vjsGZxUcBCM54GG45OYhUQ+nqsHAmwYRjXpJlZIwMWr98KOR+ZBJrZgDKcxFDFXLGVasGJ
+	qI4O6cj2OdHoTOCiAn4mqWqaAxPOWrELUCmHdcAfSxGPMHECz191TxOQKCdxA+6QUHQ8EpSWuqwMY
+	Yem4V6Gg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wvfEI-00000004yTY-49sH;
+	Sun, 16 Aug 2026 18:05:07 +0000
+Message-ID: <db2fca9b-eb16-41ce-b980-151a463c52af@infradead.org>
+Date: Sun, 16 Aug 2026 11:05:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kdoc_output: only use out_tail when the identfier
+ is shown
+To: linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
+References: <20260816054826.3988516-1-rdunlap@infradead.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260816054826.3988516-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 14 Aug 2026 11:34:13 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+I think that I just found a problem with this.
+I'll post an update when I have one.
 
-> On Thu, Aug 13, 2026 at 03:57:05PM +0200, Janani Sunil wrote:
-> > Some gpio-regmap consumers share their regmap with a parent device that
-> > may be runtime suspended. GPIO register accesses must resume that device
-> > first.
-> > 
-> > Add an optional pm_dev field and acquire it before register translation
-> > or access. Release it using runtime autosuspend after each operation.
-> > Keep the device active across the complete direction-output sequence and
-> > propagate failure when setting the initial output value.  
+On 8/15/26 10:48 PM, Randy Dunlap wrote:
+> In -man mode, scripts/kernel-doc prints the "out_tail" information for
+> all symbols that are found (without the symbol info), whether the
+> symbols match the output selection criteria or not.
 > 
-> ...
+> This can cause quite a lot of extraneous output in -man mode for the
+> symbols that are not in the selection criteria.
 > 
-> >  static int gpio_regmap_get(struct gpio_chip *chip, unsigned int offset)
-> >  {
-> >  	struct gpio_regmap *gpio = gpiochip_get_data(chip);  
+> Modify kdoc_output.py so that it only calls out_tail() for symbols that
+> are being shown according to the selection criteria.
 > 
-> >  
-> > -	ret = gpio->reg_mask_xlate(gpio, base, offset, &reg, &mask);
-> > +	ret = gpio_regmap_runtime_get(gpio);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	ret = gpio->reg_mask_xlate(gpio, base, offset, &reg, &mask);
-> > +	if (ret)
-> > +		goto out_pm_put;
-> > +
-> >  	/* ensure we don't spoil any register cache with pin input values */
-> >  	if (gpio->reg_dat_base == gpio->reg_set_base) {
-> >  		ret = regmap_read_bypassed(gpio->regmap, reg, &val);
-> >  		if (ret)
-> > -			return ret;
-> > +			goto out_pm_put;
-> >  
-> > -		return !!(val & mask);
-> > +		ret = !!(val & mask);
-> > +	} else {
-> > +		ret = regmap_test_bits(gpio->regmap, reg, mask);
-> >  	}
-> >  
-> > -	return regmap_test_bits(gpio->regmap, reg, mask);
-> > +out_pm_put:
-> > +	gpio_regmap_runtime_put(gpio);
-> > +	return ret;
-> >  }  
+> Closes: https://lore.kernel.org/all/fc7978bb-a71f-456d-84bb-670c8f0426ed@infradead.org/
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-doc@vger.kernel.org
 > 
-> Instead of adding ugly goto:s, I would rather define the guard and acquire and
-> use in the same way as other PM_RUNTIME_ACQUIRE*() work.
+>  tools/lib/python/kdoc/kdoc_output.py |    6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-Excellent point Andy.
+> --- linux-next-20260814.orig/tools/lib/python/kdoc/kdoc_output.py
+> +++ linux-next-20260814/tools/lib/python/kdoc/kdoc_output.py
+> @@ -198,22 +198,27 @@ class OutputFormat:
+>  
+>          if dtype == "function":
+>              self.out_function(fname, name, args)
+> +            self.out_tail(fname, name, args)
+>              return self.data
+>  
+>          if dtype == "enum":
+>              self.out_enum(fname, name, args)
+> +            self.out_tail(fname, name, args)
+>              return self.data
+>  
+>          if dtype == "var":
+>              self.out_var(fname, name, args)
+> +            self.out_tail(fname, name, args)
+>              return self.data
+>  
+>          if dtype == "typedef":
+>              self.out_typedef(fname, name, args)
+> +            self.out_tail(fname, name, args)
+>              return self.data
+>  
+>          if dtype in ["struct", "union"]:
+>              self.out_struct(fname, name, args)
+> +            self.out_tail(fname, name, args)
+>              return self.data
+>  
+>          # Warn if some type requires an output logic
+> @@ -763,7 +768,6 @@ class ManFormat(OutputFormat):
+>          Add a tail at the end of man pages output.
+>          """
+>          super().msg(fname, name, args)
+> -        self.out_tail(fname, name, args)
+>  
+>          return self.data
+>  
 
-I was thinking exactly this when looking at v2 just now (and feeling guilty for
-being late to the discussion!)
+-- 
+~Randy
 
-Would need a local GPIO specific variant but that is easy to do - just copy
-the way PM_RUNTIME_ACQUIRE*() works.
-
-Given how much it will reduce the code churn + result in a more elegant result
-for me this is a necessary change rather than a nice to have.
-
-Thanks,
-
-Jonathan
