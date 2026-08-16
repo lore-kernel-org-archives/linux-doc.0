@@ -1,146 +1,117 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78E82165EA
-	for <linux-doc@vger.kernel.org>; Sun, 16 Aug 2026 00:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786841049; cv=pass; b=pYgPppaaAJzTGlZbusT19BPUfMGs+NlBf3oEFtXj+FTRfYin5/WuaaIPXA0ZzEiM+OVHpsqGGVVszb1cU4HUJ12PgFBDwFf7L1Ez8i+mnLKdvcb0XudMhMkQGy0un3xfSIDs8l6zrbEB/pG0D/XF2qp2gu3y4J4yM4A9ga9kf+I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786841049; c=relaxed/simple;
-	bh=TLm3DlieNyZ+YZQmLXjzsHNdTqbNaOr1k1Q22XpWOWk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ak0Zt/3AXc+fSarFywCGjiVgbqjmbYZAxj3i3m1/wyLzuR5HsNPYQQhgMA99gLtEMw9r8NwWCs3QnWXIL5Ow6iZc9yFXSFybnBzBUYzdG0tSFD8Gmspb91H88IZVPD08PUuV7L4RmLL8pLql6zN0naRIsBE6SCm/LsUvXartDTE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dndlf+Bo; arc=pass smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dndlf+Bo"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49557167508so21998795e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 15 Aug 2026 17:44:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786841046; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dZT7p5u8QWiErT3VXbQIxk260iC1b49n8cQbPrCy1Szs84v3XoSRfMfAxHvIjY+mqZ
-         JT3l09dT0MhPoejeswz4YD/d+jghHm4H5GciusnSArI5CjML2raXBI/x3owLWTwkQJpG
-         J0t/aN8ZyMKk7AqNkaiyzH3zb/cg2+jLm/U3S06dx1eu0+w7FjDmpw/CYwsouVuV5eM0
-         7W3OGyeHrwlgWRv7qMg4392Rl1vMJp/CEbtlLWzYjDrkm2eewqBSLhyeMs6qEtNn0vcV
-         4kX1+q/i/Wll5t+A/t+dpOiepQ8/qcaZ25xc64Vcqbs5kxzSF31ln5zs92rR5HMV7e6l
-         78Ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z6iaB4PCz9gZx05Kn+SlYN40/DtxMK6Wv5kNuPofiZY=;
-        fh=JBAcfZMf81tvUZtRux0z3JPLrU3WMMi431W3aCTlgb8=;
-        b=ansVfgrdEo1oO/Ud9HWq/MWvMFEOxHgQLzZKUQoOp0NfeK0Xxibslf1KxbDTTfdm8D
-         pEYMB0maD3BlAhE6q64/Xo08ndMdZyDPn78GFrqkkY+C8cp6eMGSAGAUzcQGwUeiOFHJ
-         sMS1UDuMByhkm2h9lsrpVjdZDz1mG/CLLbNsxUqK5u4oeeHDRdX6RwqZZSyeLPsJmSNP
-         VkYExk5n1TjiG9r7C1BYbooAUyhfDbLAZon4yd1eFE47TbezhqvN6UWJm4SlbRLiYGV/
-         O+V0uOXJUNIxS3LP+8OKInV9qEaKcV33r4Z4c8/EHID2WOe8S4GnbZSn+VWAwGXNyOVL
-         ZaGg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786841046; x=1787445846; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Z6iaB4PCz9gZx05Kn+SlYN40/DtxMK6Wv5kNuPofiZY=;
-        b=dndlf+Bogz1E9bSDLvplLJdOxI9Uo2TWVhE3wUqGYAzyW8Y/E1scNsK7cMzHUZ08H2
-         UtAw/chPqdqtdde3mXGynGjucChrD8g/9Ftx11LZgqP2V6vrOISWcmSe1J9/kD5xd58g
-         NhkP6zs/DfhPNsXuUtX6NKHRadiQ/ADG+hHC+sT3oelCwUu24Gz+UkQyUbbfTbxr++fA
-         vqiRh6yWThhj77Zqa80y8IxQ3caFeLRjM+rIrSNK74uWQuFKe8aIwq0A+rvvma5cawQg
-         I/ApJrj5WRdqe2QUj7Y9O0GGcPoRbbWPLm0A4qdYyzZy2KwS2NkMfwfNAXxNxwi0GdCW
-         vQ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786841046; x=1787445846;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Z6iaB4PCz9gZx05Kn+SlYN40/DtxMK6Wv5kNuPofiZY=;
-        b=jK/vaMMw4mDfIdHkd0gSprhw7pZTjVbwm4k6LItq9C0Zzziwnom6asNAi9VN3/XzDw
-         xuJH1Axcv449X4u31Lu/bJ24Ywc/lgB3mzyz6Piv7tVuVKAfmGNjDiSLTu7xaKpDc6tJ
-         0v8vnwFIrYIeih8UBjpppwvj5r85Jaq1zwz4zHLR3aB4e5alz3rrHBhUOd2Hh1GikoES
-         xNefRg1H4YkEjiwuKeugoi/9k1n+4OSB3YjpjyLpTjEea+zh9UTVu5yGP30c5W9N1SAB
-         x9qsX6v9Ea6G3gF57oR7Pm0prLvT4toDMXALe2Zvb8I52K2f9iMFnDZE4MODvOvw/3q6
-         dUCg==
-X-Forwarded-Encrypted: i=1; AHgh+RoNtCK2ZH9BK9DV2g2kzWT5th/KCZIdsLcpbg/LScJiOPVdnE8ODRyRihsTKi/thhg/fst3yO+xQM0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXqgc8TPHIAB4Fhf8vbmBu1lXrVhJFoOiSRDvtS0c4YwfbbPdL
-	6jpLD08TrCgJTERWRV+Xud76hMd82ZMIvNJGGrUykjRCLHuHi7zBj8OsoeYcEcnZMtFEaoOeCDu
-	FxXHhXK9prG8Hh0On5n47mttbfBtVGE4=
-X-Gm-Gg: AR+sD10H/8gwxclX8bXYCCaSffNO9zu8QWTvcHXbDBjtCuWmi75fYLcQkRk6RtGCrN5
-	CJxUsLybcC+/dEslAT3oEFsHR0794z5cj1vAF3TmqPdRY6iRFdMFV49siNJ9jhpIaq4hyb+r7K6
-	Yf62+nnnokLbgEIWzkgi+rBw4Z5xjvxO2v4O5gwFulC998R9NjQph80EIm69s2pN/34D/UgLeWv
-	xEPPUu+UBFFZKwBniq3xGV1nhOmVuuXg8uwnRhQluQj9PcbTZC2gx1bXKViaj9Y/BsyFl8hf0Wt
-	LYLuwgwMPNK/tB8Bh2SVlkeRNSgF5UBF3nIUactudLj4YUXQ+EJ0g39UrA3zfYn2s01JRy+hWRg
-	s5+ndIfxpyw==
-X-Received: by 2002:a5d:5f8b:0:b0:481:4761:45dc with SMTP id
- ffacd0b85a97d-48160715e78mr24767349f8f.13.1786841045770; Sat, 15 Aug 2026
- 17:44:05 -0700 (PDT)
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67B120125F;
+	Sun, 16 Aug 2026 04:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.78.106
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786855999; cv=none; b=IoIs2lsALfmCfN1I4PZspvLcLE8aWZDaXn5RPfADJbmd45Ry1xFhXJzIGiDkhyEc1dzKPAZpFRhewAX7zXDYi7tBkdqesynrop8abOyr9LLXpGYzzwSeFdU19iixBcqKrpYLN/q0I4LFzM562eqlHWvcf74LOKORwSNUpcN12N0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786855999; c=relaxed/simple;
+	bh=Tm148oDMR4B1R+OP4yVmqlGP2YnTwN2NPc0OtuMxDZM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nj7+z3F7lk2JnTNadFOfXEIvuPWuPcSHPV38EMKWWHeImCDzmw70ibe21y2BS1yotNYdPEK4G1mLg0QSImPjqMT0PqK5soLyUOmR0tos4aDXRiYdwUJc5D6bWEYYF+QOTo3/hLeZTkcmd5hw5DCUol6fdVnT7efh7g1ol/GoQX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.76.78.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrADXmjb9QYFqCXmxAA--.50967S2;
+	Sun, 16 Aug 2026 12:52:13 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wDXsVb6QYFqErtZAA--.3978S2;
+	Sun, 16 Aug 2026 12:52:11 +0800 (CST)
+Message-ID: <e63fa3eb-7387-461e-9215-0974213a577e@hust.edu.cn>
+Date: Sun, 16 Aug 2026 12:52:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806184254.3790858-1-nphamcs@gmail.com> <20260806184254.3790858-3-nphamcs@gmail.com>
- <an85AJ8auvXQ3+nk@yjaykim-PowerEdge-T330>
-In-Reply-To: <an85AJ8auvXQ3+nk@yjaykim-PowerEdge-T330>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Sat, 15 Aug 2026 17:43:54 -0700
-X-Gm-Features: AcwNN1U63Z-1-cQDWvCFzi6HzhQd1KBrn1HsOOVGYJ0ezMThDvyr09qu6TnkhIk
-Message-ID: <CAKEwX=Mrdk+6WF0s6gz-5N8rNPzz3gEgUF9SeTB4O78zXQcEKg@mail.gmail.com>
-Subject: Re: [PATCH v3 02/11] mm, swap: support zswap and zeroswap as vswap backends
-To: Youngjun Park <youngjun.park@lge.com>
-Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com, 
-	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, yosry@kernel.org, david@kernel.org, 
-	muchun.song@linux.dev, shikemeng@huaweicloud.com, baoquan.he@linux.dev, 
-	baohua@kernel.org, chengming.zhou@linux.dev, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	qi.zheng@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
-	weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
-	haowenchao22@gmail.com, corbet@lwn.net, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/6] docs/zh_CN: doc-guide: document macOS Sphinx setup
+To: Chen Miao <chenmiao.ku@gmail.com>, corbet@lwn.net, alexs@kernel.org,
+ si.yanteng@linux.dev, skhan@linuxfoundation.org, mchehab@kernel.org,
+ wy@wyuan.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260814214419.49925-1-chenmiao.ku@gmail.com>
+ <20260814214419.49925-6-chenmiao.ku@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260814214419.49925-6-chenmiao.ku@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrADXmjb9QYFqCXmxAA--.50967S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxCrWkKw17AF13tFyfXFykGrg_yoW5Gw1rpF
+	4vgas3KFn7tr90kFySgrWjyr1xCF48uF43Grs3KFnxKrn5tryqqrW7KFy0gr97WryxZFyY
+	va12qrWrC3yUZFDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQ0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
+	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
+	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
+	xVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUVZ2-DUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Fri, Aug 14, 2026 at 8:49=E2=80=AFAM Youngjun Park <youngjun.park@lge.co=
-m> wrote:
->
-> On Thu, Aug 06, 2026 at 11:42:45AM -0700, Nhat Pham wrote:
->
->
-> > @@ -537,7 +562,12 @@ swap_cluster_populate(struct swap_info_struct *si,
-> >        * Only cluster isolation from the allocator does table allocatio=
-n.
-> >        * Swap allocator uses percpu clusters and holds the local lock.
-> >        */
-> > -     lockdep_assert_held(&this_cpu_ptr(&percpu_swap_cluster)->lock);
-> > +#ifdef CONFIG_VSWAP
-> > +     if (swap_is_vswap(si))
-> > +             lockdep_assert_held(&this_cpu_ptr(&percpu_vswap_cluster)-=
->lock);
-> > +#endif
-> > +     if (!swap_is_vswap(si))
-> Hello Nhat
->
-> Does vswap actually come in at populate time?
-> For free clusters (dynamic ci),
-> isn't the cluster freed immediately rather than going through this path?
->
-> If it is right, then just validation seems good enough. (assure vswap doe=
-s not come in)
 
-Acked. You're right I think. This got me staring at the code along
-this direction, and I discovered another code path where I provisioned
-for vswap's sake unnecessarily (cluster_reclaim_range()) - will fix
-this in the next version.
-
-Thanks for the review, Youngjun!
-
+On 8/15/26 5:44 AM, Chen Miao wrote:
+> Translate the macOS Sphinx dependency setup added to the English
+> documentation. Keep the translation in a separate patch so translation
+> status tooling can track the source change correctly.
 >
-> Thanks
-> Youngjun
+> Signed-off-by: Chen Miao <chenmiao.ku@gmail.com>
+> Acked-by: Weijie Yuan <wy@wyuan.org>
+> ---
+>   .../translations/zh_CN/doc-guide/sphinx.rst     | 17 ++++++++++++++++-
+>   1 file changed, 16 insertions(+), 1 deletion(-)
 >
+> diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> index 3375c6f3a..e6d42d970 100644
+> --- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> +++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> @@ -110,6 +110,22 @@ PDF和LaTeX构建
+>   
+>   	使用Sphinx的系统打包，而不是Python虚拟环境。
+>   
+> +macOS 默认使用不区分文件名大小写的 APFS 卷，而内核源码树中存在仅大小写
+> +不同的文件。克隆源码前，请用 ``diskutil apfs list`` 找到 APFS 容器标识符，
+> +将下面的 ``diskX`` 替换为该标识符，并创建一个额外的大小写敏感卷::
+> +
+> +	diskutil apfs addVolume diskX APFSX Linux
+> +
+> +在 macOS 上，该脚本使用 Homebrew 安装系统依赖，输出的 Homebrew 命令不需要
+> +``sudo``。PDF 工具链由 ``mactex-no-gui`` cask 提供，所需的 DejaVu 和 Noto CJK
+> +字体则通过 Homebrew font cask 安装；如果只构建 HTML 文档，请使用 ``--no-pdf``。
+> +安装 MacTeX 后，请重新启动终端，或运行
+> +``eval "$(/usr/libexec/path_helper)"`` 使命令行工具可见。macOS 用户建议使用
+> +默认的 Python 虚拟环境，因为 PyYAML 会从
+> +``Documentation/sphinx/requirements.txt`` 安装，而不是通过 Homebrew 安装。
+> +该脚本还会检查 GNU Make 4.0 或更高版本；如果 Homebrew 将其安装为
+> +``gmake``，请使用 ``gmake htmldocs``，而不是 ``make htmldocs``。
+> +
+
+Hi Chen Miao,
+
+The zh_CN only keeps the translations, therefore, you should first put 
+this part into the english documenation.
+
+Of course, you can extend this patch into one with English and zh_CN 
+changes.
+
+Dongliang Mu
+
+>   Sphinx构建
+>   ==========
+>   
+> @@ -409,4 +425,3 @@ Documentation/doc-guide/kernel-doc.rst 。
+>      <line x1="180" y1="370" x2="500" y2="50" stroke="black" stroke-width="15px"/>
+>      <polygon points="585 0 525 25 585 50" transform="rotate(135 525 25)"/>
+>      </svg>
+> -
+
