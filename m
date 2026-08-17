@@ -1,159 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B7A24EA90;
-	Mon, 17 Aug 2026 14:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D0E2F7F02
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 14:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786976580; cv=none; b=uwfjsvM97B84wcjxz36Zr67QhPv5DzVUwvzsIfoqGaVs6g2cjWgAhrOI46L6kQBePnhx2xcFFBVGJhd8MOt5xGKsdCYHKTp+jOwIEb8/w9+GjSSb6TF01FhfaWMUU87qYYewHvKzsIqIt+SKhlVyh/rlJg4bRuHSK6y0nuRGfJ8=
+	t=1786977455; cv=none; b=mkZM4XvYM/Maq6U1kfx92aUIQ0f0hyG/Ii4qxXboYN/86R+5c0N/cuxlh5xPNUgInW8Mow/au5pF5Dvo936AXJeP0C1zISY1t3liEK/1MUe4LIqMqEr5cmp4mtT6QWJ/pjQijhwe9WLyUXp/Yrs/3erEXI8qgXJgyLYBymJfJUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786976580; c=relaxed/simple;
-	bh=tVwYrZW+83aKWpITKVCrcOSz0k8atosxeWNFXFit7ig=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TxQ24Uv4EOlzUsvFi3FvtYs8MpjkkXqwEam+AvG9m/rO5KOuz4qNEtjVNrndaOShP7FrVa4rShu6aioEgvHmk02Jlh5UIvVNKJ+KP1j+Fv/MH1oLj7WpwV3zR3xMrJndwu744DEUFYWB2M0/1sZQxsMhNc8rms5lhXvr9jzdDJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C8igj4eB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m6GAxPib; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lEcuvX5a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wvEt8B0O; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786977455; c=relaxed/simple;
+	bh=lerb0gKuqV7hyiHwD7tAixcPyrYjaXEE+RDGLUvUXEo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=fU5LCLJyPH/HWkXuL65X32Ey/8CQOUv56FgVfILeCbqjYRwWWEsA474I+qRejC7qtzaN0262Hu3TRSdPpA3qso8itZsdlDotD4ly8CqL1Y/nF76RHjVHrIkqPCKcX6KKHd6+RxoWn1JyxCfZnWNtg2av5OMqqEb8h0rqpZaTS6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ts+1GB3A; arc=none smtp.client-ip=209.85.214.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C8igj4eB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m6GAxPib";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lEcuvX5a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wvEt8B0O"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 965773E2C;
-	Mon, 17 Aug 2026 14:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786976494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqN144Qk9xekEU8TJ5C9ywf+NWP64jj8YzZZYxUss8Y=;
-	b=C8igj4eBup/GWPN8+VJ7AW8lQph+qnFFllJX6K/f7YMj+7dxba2AIkYXRgD0rephsK0f3Q
-	DkNm180KmLCDUhRianbkSB3tbo7mDSfrtKcGfMpddkqkMtYtnv0nEWDUnmAZrbmnMU6Ri0
-	DICITD3tYVTNsP+e+tEf21lb8UMTsrY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786976494;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqN144Qk9xekEU8TJ5C9ywf+NWP64jj8YzZZYxUss8Y=;
-	b=m6GAxPibWJ4zZuZH0fuAPTSdSdQpkhI8lAXiO4122b32CYgp82VPzbvTvnQJyP/Mpc4eSd
-	oy8mHgQQLmm7onAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lEcuvX5a;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wvEt8B0O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786976490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqN144Qk9xekEU8TJ5C9ywf+NWP64jj8YzZZYxUss8Y=;
-	b=lEcuvX5ahkymjCjk1AY8WQXwyLFdsrUpKkAzQU9cgmYGAnOct0LYR2ztUu56kqjPKzBiio
-	687WHwVz+iD5y9kL9x/zzfH+Vt47RKCpmTifWtmDGgovh0ZJHCQrr2Li2dVwrrKP9pGCJz
-	10y4FSNI3Z8Pz0Q/l89yphnWFBl9498=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786976490;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqN144Qk9xekEU8TJ5C9ywf+NWP64jj8YzZZYxUss8Y=;
-	b=wvEt8B0OMJ2e1rxEAjLT+zGINHtPIL0UhO3R3G9V349PfXBJzWDGjCaZ7mgUhMuRP/Y2zd
-	6mua1LDtOL9wzeCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 40BE8794EA;
-	Mon, 17 Aug 2026 14:21:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id l+6cDuoYg2pTeQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Aug 2026 14:21:30 +0000
-Date: Mon, 17 Aug 2026 16:21:29 +0200
-Message-ID: <87y0e4rfo6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ninad Naik <ninadnaik07@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rhys@tumelty.co.uk,
-	rdunlap@infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	me@brighamcampbell.com
-Subject: Re: [PATCH] ALSA: docs: fix dead link to Intel HD-audio spec
-In-Reply-To: <de38a940-9973-40d2-a4d1-d9e8f43e6439@gmail.com>
-References: <20260321140212.5026-1-ninadnaik07@gmail.com>
-	<87mrztsjnu.wl-tiwai@suse.de>
-	<de38a940-9973-40d2-a4d1-d9e8f43e6439@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ts+1GB3A"
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cf7dd9fd91so39559805ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 07:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786977451; x=1787582251; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xbnAp7y/AgCt9+7CBSjoILDuat4y2Kbyd9OVnJGDiZs=;
+        b=ts+1GB3AGdgTNHtaG3eA7hS1Dy7WztPkLYICC+LAGAIhZAIWlkhcVYSptrESkFnBQR
+         aJVlcIdgRkFxM5f82E1Vq0PU9ceXSOtWn7NxQdN9Fvg9dnV1eZx1gFUDhSrfVKZIxviE
+         5tHEQCX8jnAv/PSg1grT3rb3CbiMVQOlXJtiTONQMT3W7XJhW6/1037x8REPOFtOknqR
+         IVu4P5c/BvAy984Ureu8X/GxP//iEei384gFFSsH4/oimp6MtM9WQrJoFW66e2NmR3Bv
+         LvAXjdZxXnMy7j+GZC0Cch8+DmOWf1+oZlZvxQ+gMmNmMTJ3+KHLVcOd+LNjbtI/GFux
+         xcdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786977451; x=1787582251;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xbnAp7y/AgCt9+7CBSjoILDuat4y2Kbyd9OVnJGDiZs=;
+        b=ReFKHkeLSggb1KoBGrPWGKtMpSbJhFY9vi992IiwttSEpX1RNaZDGp7lOhmr6QQej2
+         NDhczSPG7itUba1hjBNBfOHxPMGrW31aY1AoWHh2GItmCo2Vi84+5jHBTMhooGhSlUJM
+         ytrgiPoBtpEAM+A6/kO+Hvl3neacqjdjpbSV7vjrA0UPkCfZ9PBsNlohpNOwEOO5vd4g
+         A1mvLnHZ36ZTED+yyQ3SrhpEzUtIv7l4XEDovZzslW6xWIEZtBO/bVL9kCRFI4JlxSNt
+         3c7jma+VD4wBRe1d4AOWYiih9kmNlNhOJNt8k7sRu/mwod/lnuzyjOio4LLAG4F+P0Hf
+         V89w==
+X-Forwarded-Encrypted: i=1; AHgh+Rp5F4kuYJ+YW30U1sZxh/7fkvmAqOUaWN8bYZqGjUvRO3XLXHLXxXyknMZ8OYZwQL6XCrKnSO5+Z9k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTB3xyMxZaKHrpBsdBT4Mc1WcSITw+Vp+hHedTEMZLPNCDK5HZ
+	b95BoD2zFjXhmooeIrMJArnA7Z7WnCrWWZy2/WbRFgG123Hbc9wuH9LkISj/J/FL3g0GuZME2Lg
+	D9SNCpA==
+X-Received: from plbmo3.prod.google.com ([2002:a17:903:a83:b0:2c7:702a:36a4])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:b0b:b0:2cf:9347:f445
+ with SMTP id d9443c01a7336-2d3b0c7ae46mr283430775ad.10.1786977451095; Mon, 17
+ Aug 2026 07:37:31 -0700 (PDT)
+Date: Mon, 17 Aug 2026 07:37:30 -0700
+In-Reply-To: <2vxzqzjz1x5f.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 965773E2C
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+Mime-Version: 1.0
+References: <20260728121138.1103610-1-tarunsahu@google.com>
+ <20260728121138.1103610-6-tarunsahu@google.com> <anphyjFv3FhF61iB@google.com>
+ <2vxzpkzo51wg.fsf@kernel.org> <anssOQFNZ2LfihbU@google.com>
+ <2vxzik5f311e.fsf@kernel.org> <anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
+Message-ID: <aoMcqp0gr06YXAPU@google.com>
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
+From: Sean Christopherson <seanjc@google.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>, ackerleytng@google.com, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 17 Aug 2026 16:14:26 +0200,
-Ninad Naik wrote:
+On Sat, Aug 15, 2026, Pratyush Yadav wrote:
+> On Wed, Aug 12 2026, Sean Christopherson wrote:
+> > On Wed, Aug 12, 2026, Pratyush Yadav wrote:
+> >> This is ABI between kernels. It needs to be stable-ish so you can move
+> >> from one kernel version to another. At the same time, unlike userspace
+> >> ABI, it can change.
+> >
+> > Uh, yeah, so KVM has been managing such immutable ABI for practically its entire
+> > existence.  KVM's save/restore uAPI has exactly what you're describing: serialization
+> > ABI that needs to be backwards and forwards compatible between different kernels
+> > in order to support both upgrade and rollback scenarios via live migration.
 > 
+> I think there is a slight difference between KVM's save/resture uAPI and
+> live update's ABI. With KVM's uAPI, you need to maintain strict
+> backwards compatibility because userspace reads what you output. So if
+> you change the layout, userspace will interpret it wrong and might
+> break.
 > 
-> On 27/03/26 3:01 pm, Takashi Iwai wrote:
-> > On Sat, 21 Mar 2026 15:02:11 +0100,
-> > Ninad Naik wrote:
-> >> The existing link redirects to a generic page. Update the link to the
-> >> specification document.
-> >> 
-> >> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
-> > Applied to for-next branch now.
+> With live update, the ABI never gets to userspace. It is used to talk
+> between kernels directly. So if you do break that, your userspace keeps
+> working fine, you just might not be able to live update to the
+> incompatible kernel.
 > 
-> Hi Takashi,
-> 
-> Thank you for accepting my patch. I'm not able to find the commit in
-> linux-next or the mainline tree yet. Could you please let me know if
-> the patch is still expected to be merged, or if there is anything I
-> need to do from my side?
+> So with live update, we don't need to keep backwards compatibility in
+> the ABI forever. Of course, it is good to minimize changes, but we have
+> more freedom to change it.
 
-My bad, it was applied to a wrong branch that never went out.
-Now applied again, to be included in 7.3-rc1.
+Ah.  So this is the heart of the disconnect.  I very strongly disagree with the
+statement that live update doesn't need to support backwards compatibility.  I
+can totally believe that the folks working on live update are ok breaking backwards
+compatibility because their use cases are "fine" with such breakage.  And I can
+also believe live update as an upstream kernel feature being developed by those
+same folks is also ok with breaking backwards compatibility.
 
+But with my upstream KVM maintainer hat on, I am not ok with that.  I did not agree
+to support a world where KVM is allowed to break backwards compatibility, so long
+as it's done "carefully" or whatever.  If y'all want to deal with the resulting
+complexity, that's fine by me, but you'll be doing it without KVM.
 
-thanks,
+I totally understand that exploratory work and initial development is best done
+in private and/or in a small working groups.  But decisions that will significantly
+impact multiple subsystems need to be made *with* those subystems.  I mean,
+obviously it's possible to make a decision in a small group and then "publish"
+the result later, but then as is happening here, the community and subsystem
+maintainers like me may refuse to play ball if they disagree.
 
-Takashi
+To be very clear, for any KVM live update support that doesn't guarantee backwards
+compatibility (allowing that bugs happen), a very firm:
+
+NAK
