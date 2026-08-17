@@ -1,82 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD538190462;
-	Mon, 17 Aug 2026 20:47:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBF6448B97;
+	Mon, 17 Aug 2026 21:00:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786999650; cv=none; b=nnAfeXbq9AGYUI978bxZM9AdnBCMwjS0izEZosNXq+/y9GABorBBrCtDF1m5ahTjvwZu+f2shhHcDlnEmx5rSW++1vtTAdGfvSYqprYhtaG0MYUEPhyiz+xsnNAi1zkc5Pfq6FFA9L5p1JiP4y8eU7z+mlloXDEwzClMHLf7xHM=
+	t=1787000459; cv=none; b=m562W80kHC6d4o52IoL0vEwmMj9/1wLUa62nFGTfgiWABHtkiI2eBf5Wi0MF42AfQ8hhY/f82s6OHekqDgwO2tVjLXJFd9S4cShsDmgRjZWNOf9tH2yMBEq6P010DuZBcDu0vzjqOmg35PR+0ai9W1Mxp6TNB1pvdD+EjQbC2+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786999650; c=relaxed/simple;
-	bh=wmSs3CCifD0QB0lPTo8IT3YQIqPTm8qL1DRJOY126R0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pZlKKVXF4vnHF/o8tNiLPHOblge6MhzYZJshdx8NXTN0YpPaCHS4mepbKB40k8u4tVMCwSgiwsoMFrlTNvH3BMbkoojgbKjqm3u8e+aiU467OiHbie8CRjA2QDlvq9ifNvhfn8pHvaRfr4j/8ADQvZ3hPRIXAh2RucVJRUoiuAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FL0z2pUn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787000459; c=relaxed/simple;
+	bh=OA6GMVtFT272Gv+UVJgvIHpbCc39V3Bsm0g/aesdLUo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=eB44rXFukZQgBvX9aJ+xcVVf8aSYB8w3amZc/dHj5Gx1D8VWl663BlDGWIftAXu8VeEuJGv2PpTKOQ3+K/x5QmAna4DoBRsFN9bnrFqSODEDYD+fxptXiPiMcNc1p2gxybWxPbct3PKiNCmP8gXCkOdGpDSDgAwCxgXfFnUNZio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TDELkkQL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FL0z2pUn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910901F000E9;
-	Mon, 17 Aug 2026 20:47:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TDELkkQL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 450BA1F000E9;
+	Mon, 17 Aug 2026 21:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786999649;
-	bh=111cZwE+fIsihcrOn87KAVC+gmNsgNFaiu9bx9gzA6c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=FL0z2pUnciX4/Rv9iwWhFcb2vERfUR1zoJ8VQv1oWRemL7hekh9TWUinYS67I7TqN
-	 RlQRH3t/1/0njxFN0sL0e0S56NAmnj6JwcipGbfE5sv9zWwxQyWA0SH/mEbb4fuqmh
-	 7Xz1AHU6cYORwQULXlq+2x8bMt0eo3YqTDPn7I19Ajg+DgwB19B0L8E3TbP3m2szIH
-	 1l7+129bQJNtPWJGJOUinh9MHY2jp0u6cX5f/wp2ubcd0jT63meYaz6iz/efakqDRU
-	 +/Dxc38W25cd6Jy2JNSTQGv3kZbaXagWuC2ThDnwjwBBo7eDIrgdhs6+AFkrcsfBuj
-	 7j7a6isGz0/0Q==
-Date: Mon, 17 Aug 2026 13:47:27 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Lorenzo Bianconi
- <lorenzo@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH v14 00/12] net: pcs: Introduce support for fwnode PCS
-Message-ID: <20260817134727.1f76d6dd@kernel.org>
-In-Reply-To: <20260813083536.970196-1-ansuelsmth@gmail.com>
-References: <20260813083536.970196-1-ansuelsmth@gmail.com>
+	s=k20260515; t=1787000458;
+	bh=wuBmgzoNnBPVCJeDcaOjrJiXQuBClCzl+tztUYTJssk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=TDELkkQL+8Ob0+YHTWJObacmMj9m2PCp3fNOr5tpLIh1B5+EDC4Lgch4MpCo76K47
+	 IiCTFtBeZWTwB/KI9mDqIIW9IFPClm3ETuNHst6W3HtzFUBkJjC4sUx8S1oW2nbaQe
+	 amQ/dhxgw2Cgmos1YW2T0XxskWBexwXzQA2ooGHccMrluR8+BKhE3ubcSPE85Pb1Vt
+	 k7sWPmXIMJvdPNl7ZKVvPqYY6JkmAC8jLPJWqTom0MW0J5LIH4O0hjv/C5BTVf62qY
+	 hy5fNMztSoixCd1MY6YIR087K+TJKKrYSC3fzX+/P0IOUfpigYvOZlWHVFNBs5UQKo
+	 0dd/nIkaZTToA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93A2E3926265;
+	Mon, 17 Aug 2026 21:00:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/2] net_shaper: fix kernel-doc rendering
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178700041013.1735578.3422132046076853057.git-patchwork-notify@kernel.org>
+Date: Mon, 17 Aug 2026 21:00:10 +0000
+References: <cover.1786751700.git.kmehltretter@gmail.com>
+In-Reply-To: <cover.1786751700.git.kmehltretter@gmail.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, mchehab@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, horms@kernel.org, rdunlap@infradead.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-On Thu, 13 Aug 2026 10:35:05 +0200 Christian Marangi wrote:
-> This series introduce a most awaited feature that is correctly
-> provide PCS with fwnode without having to use specific export symbol
-> and additional handling of PCS in phylink.
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Sat, 15 Aug 2026 03:32:27 +0200 you wrote:
+> The net_shaper_ops documentation contains a malformed ReST list and
+> exposes a kerneldoc.py title-context bug which drops valid headings.
+> Fix the list first because the parser correction makes it visible. The
+> parser fix also restores three Xe DRM RAS headings already in mainline.
 > 
-> At times there were 2 different implementation (this and the one
-> from Sean) but Sean agreed that this can be picked and used in favor
-> of his implementation as long as his case with race condition is
-> correctly handled.
+> Tested with Sphinx 9.1.0:
+> 
+> [...]
 
-Coccicheck says:
+Here is the summary with links:
+  - [net-next,v2,1/2] net_shaper: fix kernel-doc list indentation
+    https://git.kernel.org/netdev/net-next/c/09b7c00d55a8
+  - [net-next,v2,2/2] docs: kerneldoc.py: preserve headings in kernel-doc output
+    (no matching commit)
 
-  drivers/net/phy/phylink.c:1039:31-34:
-    ERROR: invalid reference to the index variable of the iterator on line 1028
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-  drivers/net/phy/phylink.c:1364:26-29:
-    ERROR: invalid reference to the index variable of the iterator on line 1346
 
-  drivers/net/phy/phylink.c:582:7-10:
-    ERROR: invalid reference to the index variable of the iterator on line 569
-
-I vaguely recall that you're supposed to make a copy of the pointer,
-not just add a "found" boolean. Dunno if it ever happened but Linus
-was trying to make the list iterators override the pointer on exit.
