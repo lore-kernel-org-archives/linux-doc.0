@@ -1,43 +1,97 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D093E3160;
-	Sun, 16 Aug 2026 23:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAC81A6823
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 00:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786922670; cv=none; b=RJat/9lP5EnzLZPEpCK47vTSxzgxLzrS7AXJfEH/C4BZNz4OvIoohPUTRjBdYvjlewDuEPCVjV5qTepMbzr4uLJ3/JQfuAPb2L2kx5KYzaw4QrgFUG192/Lm3xX+Wvh1eS5YQW0U1+7c5z6vxWcCutdPhOQ+SG1TQd+7lGk7ZSM=
+	t=1786927771; cv=none; b=EJ86Tpp1EmwShBOtNq9TAEKv8z0twj5AwoXUMwz91PHRj1p3D57yacR5heYgoDfZg0hcMnKL79+q/Y3db2ModRMXhsBMJ3Q2qmYn5tKEUBTmr5JMNvC27pLBBSPqUTGb5n4Npk7zYNCwytBvL3jBmUBw8fbzyGugr5PDnXbvkts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786922670; c=relaxed/simple;
-	bh=Ki3gJTth/7XuqzyRUxIY4ZYouYLxSVyqMJNFBgT0NBQ=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NQwScGN1XrY7v+uY3CYOZWtRESyGf3ENoUotMKsvCp+yBNZgAbXDfc4dSe6PBdyBdvDtiCmyOCL4sFsoEgCyfLKaAWLzWQ6Hh9nlek+J/PtRoVJnRTfCrER/E5Wvu8AAN3HJFTd6XEjg76+aTL3Zq3uAEiW98VZmIJtNMyL5M64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.99)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1wvkDH-000000005Ai-3Pyl;
-	Sun, 16 Aug 2026 23:24:23 +0000
-Date: Mon, 17 Aug 2026 00:24:20 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH net-next v12 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <1a28ab5fce48beba6efc69e2ea08f3c9541d0566.1786922210.git.daniel@makrotopia.org>
-References: <cover.1786922210.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1786927771; c=relaxed/simple;
+	bh=Q2AJHfOQlhxmo4d6xkSdfftND9W8OwOWU4sIuscydGg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FzylUBLN2TVoXFt6colx0ZfRro7zm7y8vVACSqtXSiprl6JSkrvHwLkEImPKxcxyfp9QZEp5ySRL5l/KvgF1COWYkvUo+IxKyclfAkzsz5jsQhYn6EPyKR5R8cfFK6YcLab81TJod/tXxZngJKge0LOS3eNM79PBeano5Udjb64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ckMtfNP/; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ckMtfNP/"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51a868b6962so29100221cf.2
+        for <linux-doc@vger.kernel.org>; Sun, 16 Aug 2026 17:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1786927768; x=1787532568; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FcQdr0dRPL3xWk5ZJ+WEqnlvhAK6C+Y9UAGkoGf2Ky8=;
+        b=ckMtfNP/26mDYWEYvnUuKZj+OlJs4rtBqOCTkvgUC2mso3L1qBV4UevATxAcuXcr59
+         t3iNEjatomJQrmfd0qmVsl3BjaW6RqJLwsIjj72/eWYrRlfTWeZnYquwPe7qoSJdQ3uw
+         g88uZqv47V0VT2fcXb9InChXDCkM8CDWy83shOxcv+0xTEFY14jjWUHpeLQyJn/Eu1+C
+         4ygQiiuxj/3pUiyIOY1sjivSzmhc0YEFbIZMcRYKoMzp9C0LbmrFDK4Fu4Uo2z3EnsYd
+         hX7wjASGY+5NqmkbdDYqrOgM1h4IrDlgQi9GwqxPZvEyT20eWdaV+AZ8i2avJDfhnijE
+         oOMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786927768; x=1787532568;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FcQdr0dRPL3xWk5ZJ+WEqnlvhAK6C+Y9UAGkoGf2Ky8=;
+        b=KTRvjuK0zRf0YhknCyKUBe3jo0po0XDutvaiF76w1OiYCggDDt57Q0W9GcXARzGofy
+         GxeiR0oQm7UVgam0cFxCrXh9lvkvf9VDRRHVESY4Nao1nWYLmfykh3pLKfXNfnEUOqYI
+         KwJb7Lz5GErF+n4hZIXShS9F+VS4zjiPNHcx1KBHJ3ouj2vCOm/BXcYAUdSNGsnraGcX
+         UV0hsIMedkx8JaNi3u2FsSRa0z8L5efB7ilwA0SJ2KpV8vvAIivQbplzKj9IHwPzfIby
+         TowyzmAHw9P5fx4UVVJlDZ0Fqmld130vP7AJh56GB7c/KGe1E2fwvCWZkm3+t8Tw1f5v
+         INyg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqp0h4vz0yVARqg6ybKB9hd5UDmnYpuyuu+OB0kcaVZeMKJbmcZrkly3/7zkjuPd/Uo/zQPoSfvyDw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmXR4FltIo/WEV7xa+3PpHwPZctDBZrCqnB7HxfyDx5CfJBEcJ
+	SmSNoE0M/e4GFonuGpsNpMmETypmo766UqeXaVb6/bh8GbbV4cH0csxvIA4nc98vqy4=
+X-Gm-Gg: AR+sD12ZUSXWIlAzGsKNtzw/+KBPDP6noROvwxchH2Rv3q4gByvsAG3dONBON2BAs75
+	7+wMigmSarC8L27dW1n3EvbTkl2x4E1h27te3E/rz4y9jEtCQXUX+XD38RtJ7NwKXD+ozmSbrJ/
+	x+PGTb6Sjr7gTNT5TK5kx8Ly8ikFOu93ujv51krFncH7XmnMcqw5S4h7wtz7w9tGPoC3m6nMbXb
+	rbQhA2LgmDILHCCxS94pwQN8dUtDVFzv0ChsDAWUl7kZjK3MEFKD4IQShoJyso1TphO5/bR2Y7C
+	RRxjd6u5CYFAoS7j/mqy8r+uhNhLRnoZLOSlaLnvUh7J3tk4OwWu6uAl7sswBoVEQ4b/80HmZA9
+	wFclNY6hq9nNtKBCIrzId5UhYBENMGmZkcbbfyR6l7hgdJ68uR6x5UlpBKoRPiMvaZAiZtJlAaq
+	KxdETkvgg48dXnV4h2DoUfl5OnrjozcIJjHuGf/bTds9U78VncNxuGcvGYykFiYImYf+aghExb2
+	QDndWyhhedij034SjwX+1CZb0BPSh86/oZmQGe+sY9v
+X-Received: by 2002:a05:622a:2b4b:b0:52d:a151:10f5 with SMTP id d75a77b69052e-52da15111admr97787241cf.22.1786927767788;
+        Sun, 16 Aug 2026 17:49:27 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52db62764f2sm1152051cf.30.2026.08.16.17.49.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2026 17:49:27 -0700 (PDT)
+Date: Sun, 16 Aug 2026 20:49:24 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Qiqi Li <liqiqi23@huawei.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
+	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
+ node hotplug
+Message-ID: <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-26-gourry@gourry.net>
+ <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,144 +100,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1786922210.git.daniel@makrotopia.org>
+In-Reply-To: <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+On Thu, Aug 06, 2026 at 11:30:08AM +0800, Qiqi Li wrote:
+> Hi Gregory,
+> 
+> On 7/21/2026 3:34 AM, Gregory Price wrote:
+> 
+> > Add add_private_memory_driver_managed() to let modules hotplug
+> > memory onto an N_MEMORY_PRIVATE node they control.
+> 
+> I am trying to understand how the nid passed to
+> add_private_memory_driver_managed() is expected to be provisioned.
+> 
+> From what I can see, both node_private_register() and
+> __add_memory_resource() require the nid to already be present in
+> node_possible_map. My understanding is therefore that this patch
+> supports hotplugging private memory onto an existing possible node,
+> rather than creating a new possible node ID at runtime.
+> 
+> For example, in the use case I am looking at, the device's private
+> node is not described by firmware. Would its nid need to be reserved
+> during early NUMA initialization, or is there another mechanism that
+> I may have missed?
+> 
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+It would need to be reserved, and you could use numa emulation but
+that's clunky.  I have an RFC for exactly this issue - though i haven't
+pushed it further yet.
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 4745148fecf4..058999d0dc56 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -94,6 +94,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..5b24d8cb57bc
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version read from the same register word, so it is
-+       omitted whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the recovery fails, the loader needs a power cycle: ``devlink dev
-+flash`` then returns ``-EIO`` and says so in its extack message. The
-+driver only re-examines the switch when it binds, so on a board where
-+the switch can be power cycled on its own, unbind and rebind the driver
-+afterwards to have the recovered switch recognised.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 991460050da7..e3f7ded569bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16106,6 +16106,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+> Also, could you please Cc me on future revisions of this series?
+> I would appreciate it and would be happy to follow the work:)
+> 
+> Thanks,
+> Qiqi
