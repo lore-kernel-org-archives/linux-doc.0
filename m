@@ -1,117 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DD941B354
-	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 16:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464B4468C0F
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 17:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786985755; cv=none; b=OTNeKswZllH7dTOF9tCr59MRm2h9aQOn2iMaPgjvepSPYYWcGThNF7fiesQbnYz+ZyCUi+5rloIXgRXEuclOMmIPajZiPgN51g+08KbZElAPYRnbBipXAz4olbaVRbAdmi2hKrRB2AJEl161dYmsIibk5tVql7NWvE4q7BfgT8I=
+	t=1786986976; cv=none; b=RZdbAhyacFRR9oIb4MdYlEa669nLSMXnMSpuKVyxIoeC2JultUKIs4FjtyWidC8sAguol8GabmbIWpvixAO//exKSC/gHAGu//DU40mVnIngK0JMHf4Oz7jVZ3CSyjiHSZkEGCE1BTbj/hKD2zcKk44oFeZkkf0iPx1yfduCxXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786985755; c=relaxed/simple;
-	bh=IsAA0YPS5Cn1G1UJfs/kaqGc9Sde6OhYkqRAKlkYVxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjxZTny3VjJUHw5V+Nhxgr+589Qra2f02xtWws0uSJg7MDCVtt81qCWmumoBicsA7EDxQGHX0dY9eZ6LQLfsXkRO5kUUPn7UWtX/6p4PxEub5iwBcXx5WRGXpuhOByn5s8TIf52hePGStjqso6filuYjEZ9EQsScEGBP1wTgzGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gvWJIxWK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786986976; c=relaxed/simple;
+	bh=dU/hih0hnP3rkicxnLGzGzbvz5NWJvf7JF/NG7uN72w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dX5kKpRFNaqfumduDOWSPQIoV4tz8L70lbxSRWa7tFxAifDIIHnMqAAu7N2ep/X+lqHPiQ5PndIBoX+/7mw+FdxdbKPeXKqBzEH4kLXXQG8ZaLyk/vKOpjdsoxvQm7NFekjRHzp+DwUTTtpHEO9I3clGzTGqFeLbHS8d5VvG/Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h+YgIFNg; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gvWJIxWK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E6711F000E9;
-	Mon, 17 Aug 2026 16:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786985743;
-	bh=xTXizeJAPN4W1pOJCZ7S/BTb0ROM//QBXQ2YriiHtoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gvWJIxWKGZQArcmY6QS85E/A1O8ewuvUfJKRBan0w4Gono2Yrk7XlDXvs96RWzejn
-	 5VUHdR8hhSnoXJ9efGtKC2fgjVXBQJfyyykIJQltThPF/xDaRWzUpCPt7CSwVPmClA
-	 svxI1wBISMLxjmObdB4asMKk0V71IRJD5sqIddfZoB57Ra2jFKhxtXGSHPmRzTDhdJ
-	 J2gRRuJlPpIa7gTD/RuB31vhspwuiT4izxJNRLLUKNCVQ6zWb97umAv6karC9sLbW0
-	 NvRHudMrg0pTjU3qwdDdpcKGrH4xyz+2K0Cchn8VFy9ASkJbLbi1jNA7ohe2xBTPCc
-	 eNfeZ/EfkHgKA==
-Date: Mon, 17 Aug 2026 17:55:23 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Jinjiang Tu <tujinjiang@huawei.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, xu.xin16@zte.com.cn, 
-	chengming.zhou@linux.dev, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	shr@devkernel.io, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	wangkefeng.wang@huawei.com, sunnanyong@huawei.com
-Subject: Re: [PATCH v2 2/2] mm/ksm: fix advisor_min_pages_to_scan description
-Message-ID: <aoM8bbWNeuEbfCdy@lucifer>
-References: <20260813031722.569983-1-tujinjiang@huawei.com>
- <20260813031722.569983-3-tujinjiang@huawei.com>
- <an2g39TIN9v87enG@lucifer>
- <b35d14b5-65d8-4b8e-8754-de35f03d4b2d@huawei.com>
- <an3RcQgDuhmcAb37@lucifer>
- <238c66fa-8144-4cad-b90c-e7992b14ee6f@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h+YgIFNg"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47fe377a217so2511364f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 10:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786986973; x=1787591773; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7vHVmK2OakVdQp/KOqM3ZoyU6wCsebXeGNivr98rrpc=;
+        b=h+YgIFNgmLvUPawGDcpX/VQjV8o3Yt2E2k/+GEbAVjy1f6f+LgDPihx+bHXKs/71+/
+         JOFKCGeqW6m+2BqIC9P/r7xS1YsFvY8g7sDQDBEVRev355OvMgFTSP3zLCmGMREcTz9M
+         j9TlTTmDojGAdq1KDdexOZnGGM5LBYESzZrqynJI0NROj6Sj34sIpa5TXGvF5WLHdfTI
+         DZLdFf1L2dKW4Z1YBjcaWUIcSI/j5ZMeH09kxmYle5QbyLWNX3jK8r70QtETJdNt7L+q
+         g2x4BlX6MMf8u7mDRzOOWee8aLMf+NFN5YM1L1Q3kTiqJ4iwdXg/boZ3AaF+0iEkB8T0
+         PWZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786986973; x=1787591773;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7vHVmK2OakVdQp/KOqM3ZoyU6wCsebXeGNivr98rrpc=;
+        b=UWxOmDBcudfpTBmJbcNoDhnjqLxhmhCIPYYr27MkZIb/jCua6e3mlXsiPXS9a7q59/
+         6FyJHa8RpaLBt75+vYA8rp9KM7p/crB/tXTohEj4ZSLlL3Ukujv96EPjV4uaSDe33fYP
+         AH8ogLmi7mGS4l9weOyBHi8h/HZavJSW6We9tgGXLvbWAmmLJoqb2Amfbv+PjxJYjuq7
+         X1LO4KY3icguLN+yYCaqCpc2dmdILkl4eBs3YcZhijldxKhs4eyU3Rb68tgYk56Ej6/J
+         efv+AhPil9yjO5UrF9bkRbW0bwa43DWPABCkuB/nqM92sfO6Qp+A+wXdf31kY09UA6ny
+         damg==
+X-Forwarded-Encrypted: i=1; AHgh+RrGi5cByZS6VBDK5F1cqUkun5cNEXiVRfqj/tHHpKgmMwqLc0kYnrxS15lbqSOlMmKzDYwXGjmkjM4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeVT6FwcPyy4oo41/CmdTkh0UUb1FoWXyavdI5IblbL9vceivo
+	OGh3V1l4bSWCsGFviBJbT7CKN+FNTgJdBWTxmIeQFmf/YXt6cL1i3V50
+X-Gm-Gg: AR+sD11MhfYDBWv3EGBGzdffCZnYq3GAgnyNAQHUCe+dbcE+sWIiCcg3JBajniXfAUg
+	d43ziSMaMphVb4qm3FJNy1fAotNMBhw1o+yTMckEfTZv5EmvxPF/E4/RNoXdRh42VpnUR/YrLIs
+	q1GcsmrAFNlbGMsr8bNB+yRZeksgzEnk2NLNeWNowMiPTXGyzOzZwg5dIh7MFwc8AjgRKq/InZ3
+	KGh5VSVrooa8ut94p2fhtvRdzN7JF2I7Ldfi3BY9qtckDayR9i2zBq8TDiUbfsDvPuOjPmq+LEJ
+	Kagd5F1LQ1q+FONlJKd9QRGAj0c3azbIix8ebMCVpn/hS/+8OOXN+nhtL1A8Wj3AFrdUI1DTGCF
+	KXnEiSbBGzj5XPgCjhmKaJZ7Q+AXrL/ZzkH3ZVHYNrQP1CuEA6EcMbl8QV/CS9gBKW5oDWY1kg1
+	jnuOMPxxvIJ5ZgxpsoqDdc80DrF/OdA/5NIHrjLMBeiFBiPFfm54AGzepTyeFTmuq+LtI=
+X-Received: by 2002:a05:6000:46d7:b0:47f:9aef:5515 with SMTP id ffacd0b85a97d-482a9002c0cmr2267004f8f.13.1786986973156;
+        Mon, 17 Aug 2026 10:16:13 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482a5b783d1sm5445518f8f.25.2026.08.17.10.16.11
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 17 Aug 2026 10:16:12 -0700 (PDT)
+Date: Mon, 17 Aug 2026 19:17:31 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: frank.li@nxp.com, corbet@lwn.net, dmaengine@vger.kernel.org,
+ hch@infradead.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ lizhijian@fujitsu.com, mst@redhat.com, rdunlap@infradead.org
+Subject: Re: [PATCH v2 1/1] docs: dma: correct dma_set_mask() sample code
+Message-ID: <20260817191731.104171a3.michal.pecio@gmail.com>
+In-Reply-To: <aoMty9Dvt2bnWm74@SMW015318>
+References: <20240401174159.642998-1-Frank.Li@nxp.com>
+	<20260816071044.331a2c51.michal.pecio@gmail.com>
+	<aoMty9Dvt2bnWm74@SMW015318>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <238c66fa-8144-4cad-b90c-e7992b14ee6f@huawei.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 17, 2026 at 10:54:52AM +0800, Jinjiang Tu wrote:
+On Mon, 17 Aug 2026 10:50:35 -0500, Frank Li wrote:
+> On Sun, Aug 16, 2026 at 07:10:44AM +0200, Michal Pecio wrote:
+> > No realistic chance of the dev->dma_mask check (below) giving -EIO?  
+> 
+> dma_mask is pointer, which already initilized by bus driver before
+> call to probe.
+> 
+> For example
+> 
+> https://elixir.bootlin.com/linux/v7.1.8/source/drivers/base/platform.c#L634
+> 
+> If you find one, which bus driver have not init it, please high light
+> it.
 >
-> 在 2026/8/13 22:32, Lorenzo Stoakes (ARM) 写道:
-> > Please show me the common courtesy of responding to _all_ the review given,
-> > not only the one point you want to respond to.
+> > > dma_supported() will call dma_direct_supported or iommux's
+> > > dma_supported call back function.  
 > >
-> > I'm not happy with this patch, sorry, for the reasons stated that you chose
-> > to ignore.
-> >
-> > On Thu, Aug 13, 2026 at 07:17:05PM +0800, Jinjiang Tu wrote:
-> > > 在 2026/8/13 18:56, Lorenzo Stoakes (ARM) 写道:
-> > > > On Thu, Aug 13, 2026 at 11:17:22AM +0800, Jinjiang Tu wrote:
-> > > > > Both Documentation/admin-guide/mm/ksm.rst and the comment next to the
-> > > > > variable definition in mm/ksm.c describe advisor_min_pages_to_scan as a
-> > > > > lower limit of the pages_to_scan parameter, but that is not how the
-> > > > > scan-time advisor actually uses it. commit 4e5fa4f5eff6 ("mm/ksm: add ksm
-> > > > > advisor") only uses it to initialize ksm_thread_pages_to_scan when the
-> > > > > scan-time advisor is enabled. This will mislead the users.
-> > > > >
-> > > > > The semantics of advisor_min_pages_to_scan was updated in the v2 patchset
-> > > > > [1], but the documentation wasn't updated.
-> > > > >
-> > > > > Update the documentation and comment to match the semantics of
-> > > > > advisor_min_pages_to_scan.
-> > > > Umm, firstly if this were wrong you'd need to change the name of the variable
-> > > > too instad of documenting it as something completely distinct.
-> > > >
-> > > > But secondly AFAICT the logic in scan_time_advisor() suggests that it truly does
-> > > > act as a minimum bound as well as being the initial value for
-> > > > ksm_thread_pages_to_scan.
-> > > As the cover letter[1] said, 'The initial value and the max value for the pages_to_scan parameter can
-> > > be limited with:', ksm_advisor_min_pages is used as the initial value, not the min value of pages_to_scan.
-> > (Wrap your lines properly please, it's a common courtesy to learn how to
-> > send mail according to community conventions.)
->
-> Thanks for the reminder, I will follow this in the future.
->
-> > One of the part of my review you ignored:
-> >
-> > 	But in any case, you are making a claim here yet have provided no
-> > 	evidence for it. 'It is just the initial assignment' means nothing
-> > 	- if the logic can then only increase it up to the maximum value
-> > 	then it still acts as a minimum.
->
-> ksm_thread_pages_to_scan is adjusted by scan_time_advisor() after a full
-> scan finishes. ksm_thread_pages_to_scan could increase or decrease depend
-> on the real scan time is longer or shorter than the target scan time.
-> The min value of ksm_thread_pages_to_scan is only limited by
-> KSM_ADVISOR_MIN_CPU, so ksm_thread_pages_to_scan could be smaller
-> than ksm_advisor_min_pages_to_scan.
+> > Aapparently, it may also use some 'dma_map_ops' and there is a bunch
+> > of those spread over drivers/ and arch/. But I gather they are
+> > expected to behave similarly as the functions named above?  
+> 
+> I grep it and checked at that time, all return 1 when >= 32. Now more
+> powerfull check tools avaible, you can double check it.
 
-OK thanks :)
+Thank you. Sounds like it should work then, though I think that
+checking return status won't harm, just to cover unusual cases like
+regression in some obscure arch or people with buggy out of tree
+patches (which they "forget" to mention they are using).
 
-With this explanation put in the commit msg somewhere on respin then we should
-be good.
-
-Probably we want to rename the variable too but can save that for another change
-since the attr is called min still (ugh).
-
-
---
-Cheers, Lorenzo
+Regards,
+Michal
