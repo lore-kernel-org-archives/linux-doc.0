@@ -1,150 +1,261 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65ED47126B
-	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 21:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787001140; cv=none; b=skOjKN03iXNyg/cSP7ec/3paRMkCp5Ub+NgFTsUS+zMoqrw0Jbr8a29g81kwgRCNJfjAqkO+AQqZ45vIuV5HAZFjaINHn0ahaC2PntkFGEYdCyRZUYjm87BNquXiDzCGw9ICwS79ndV7LSbe+GSjY/Dq1xJLnOEnYIyH3IHU+4E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787001140; c=relaxed/simple;
-	bh=feYyRrzAVrbwe6Q6bLDQHGa2NlKsylvjthlQKxO/EoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s6VbGkWyIM18yBp6t51J/30lRIaZMJFAYIJwD+z+N5cesBG9JDuVDdxhg4AFSo4DcZD6F34ofVfQCCTFIJNYgG6+RkDOFPmAdG39O0xH5DdsS2MaUhLImwDmw/d1Lm5BZb6FMkdzzqTcuIjT1iK24rPP2MaXHszk1i32ZoEO9Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pJPP0kCJ; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C293AB5DA
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 21:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787003243; cv=pass; b=LTuAgj2j0n1WcmAYoEcELroIeqf2mpnROdfoFUgJMKSPFjGFb+6hgmE5Erhp3XMuyOySSK/EvVnV+NGTyVIPE0Lk2un0hApAZZMxU9f/rNE2ZjFxIqrqevDBaZIcplgMFImgXw0MJtX3nPu0TXQqzqiHNYlfetgiyuPM6tduLR4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787003243; c=relaxed/simple;
+	bh=j6Qa8uIPND6iLrLwjaLqK1ckynXO6fLL8sTaD5Q9NIQ=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZwEjuNRPZSw4UWBn63ygcJ1h7r50Voh3J2mFpavMXk4TnaoazL5fhv6+KIhLsDI0xtSFWE2vJoAl0hSPOyM7hyehY8zan/Fjp9pTtar+kYQClU88B6OdkhZyNSjtNUgSUHM6V6IJchz5i8yrTWE0jnHKdiN2iuL5lkYb3F6QU84=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Cr04oULF; arc=pass smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pJPP0kCJ"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d3b440b97aso15285ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 14:12:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Cr04oULF"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-383cb94f742so4831003a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 14:47:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787003240; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ij3b1SIxQh6qjkxCl+Fiqjg2wnCLcsePo+Pqlaw99hR9/9hd9auXxav8G+rkReVp4q
+         2JXEg5sI+81NvoJej96Is5lvCs/r2x6TFJx5uDjMum5ErkMVE11WfZJpyCMVpaYh1q2w
+         57QOx7DYPjTqBeOxUvr5LeoFlrn+2UfECoiAXXsud8TxyrUi2KyL3gUryXSOYzGLOcXy
+         l/bfqC7quk/vKUw6LJEfeUMAJvoZRPEZVS4NQ3UPc5SrMKIsZjhHqPJQCOnFfjOvj8vh
+         sGXON6A4X41ywgV2FI3oVlPUcnb+12Z1DTqxd6skFEcX5pKS8cpy9CUJTbavPDgRzD7l
+         /afw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=DxYBvhey30XUfJ4ax9nYh/jGztjdRvDgSMhAvB0aQsU=;
+        fh=RV6miTpQJhb4050tbbP9oIgIO3PcAYVG8QH4aPzDM5c=;
+        b=keQ5O9+adV2P3kcQVYJL6ZRlNG54F7TuvWT9GytIhOGLXQJHKG7kE9SbYrkaDIL8vI
+         V6KYvlXyg9RricufaiqfX1iFkSQllaKxtPtdtjKuAQngLZ4oA7djCfnHJ9Y37AN2QuP5
+         oIdR0O0K8/8JzzS4ox/8rc+TGiUVDbkdIOMZQ1PGWpQ8x/gKyElPAgCbYKS3vItk3eGE
+         QMtMvTpiuMZJLf9zXWHrlA//oF2Sp/12mZ59ATdi4BiFlWnmWJcvOtF4bBi9zrXxJD08
+         p1Yq8hxFP67GV0mEMz45TqH8Fn9TzzKlCijn4PeuIJq69impFjIvXwB6O9IMALnNpbog
+         n7uQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787001138; x=1787605938; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oma5+/tlfa1RRzhj7JpkkV8zgHZVnZM8SsuwDuMX0+U=;
-        b=pJPP0kCJfa9QrYBixCoeq2+YRoTfFkLjFn/ZVuqA2Z5PrunHn/mB/x4LgER6IWJeB6
-         /aWw5JOELEvrtTlJfUPzqnla7hYeDenlaNegMooYKpy9yagxRqA+8p6xkkBAbQQfCBdQ
-         5gB8cm89oaw4xww7n7GFetCevia10JU5DhrNN+JEQZs4kekerVFflBoIK4n0/WnWgw7M
-         r/PsVcFODAaheGrcn/kJWtcWhvS4DOoeFXANPA/eGGt6Au5x1fIyONsQqgJ8Om3PKIzr
-         tFNKq8Ascwdj+Oy3kRHbzQbK1DqcIEfPf+gbjHc3it3XvoEaKWgpKzCqK6bpH+4Jyq6E
-         lygQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787001138; x=1787605938;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1787003240; x=1787608040; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oma5+/tlfa1RRzhj7JpkkV8zgHZVnZM8SsuwDuMX0+U=;
-        b=QwV3TWpiHnnYWxsEMJ4icIgda9AAWgD3B70qSaxo4unP2cKxHSm/k84T9VOb1yQxZn
-         r+Q7/X4HeawnFnoZBWYPU3np7IfQ9sZU53hFXr6a2aORNIteH5kJF+nEHylAeVgiMDEG
-         JVZ3EpcRWEl9MZpkiZlI3oiB84W01+W/g1MXgxEdA/WDUVIRsbHhWCn4L7mcOW2KvjJB
-         S0zsQERwVUQawWRxYdykNEhUUuNSl+QHOAExFI2Us3P6l9cnalK2kISzylVCUY/nHSkJ
-         W6ukufmV4mnwn4i4ZmSje9V1GuYkLYjMTfyP7USyEE2mtAaRUmzx22i3m8Zt6psHKwjw
-         rMrQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrfczFiJGVhqazD05DKI0kdwLluHkzuxXXzip5zSjabnibF8MZct3y0vdCE8OmLLDpaSqAtBqvToy4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBRjQ+WveVZFcaEIc1lAl4/nRAGAQUn3hCbD2sWhdnTJF7fGvM
-	pzmLBcv50vFEUZ4drQEw99DYGZ4/Fn1TyB7Qw+1JT1ycQIPBoLSfWHp6lGwhflm9iQ==
-X-Gm-Gg: AR+sD12xHJbb2m7XDZ7Z4MQbYBrbBVo7R96jV3GK0DgVpZkwRU3OZNMr6RG2d3hONtF
-	2jpGowoNUi0iZ8O+SwdQKxfZ5hmJwo9+EzxFLhlZ1MsMaTDzgsI2BFpDGThpANudf2c2NZVHAK0
-	itcd3OPWDy4rSvsBNGCmNITXCgAE/Zgc60iR1QoWhlovbJ1uXAD/VNqLnfVKlB18CH5GuvSLdN2
-	TmB8FgR7Uj0wvr+b82xXB9NDYaIN9PMLlOqwF0gcNUGEC4PBpKgKlHpOuXXtVh4575Kf/JdePZR
-	7v9Zzd0uhKLwnK53EnZrr0To/oeQKzrIKyoJ7YImMeMWeTPg5QoNZJkAAF/cilAoWRS61rVd6Eh
-	dZGt/JDcSAqxlzOan5o6rF6sK0xggaIoNS+4UNgvdvr6hAce4Piy6KgXO3Nt58dVFk/5P2SOMyD
-	ZNgHNdWEbXN0k25OZrxGNTswhCBBAnii1V0CBKMrzpGBZVQ5UiMd/iw2TJV4BAQga9HwOUjiKSx
-	YfeIrLbUknxwvN0ylice7yM/QJD0j+TzHEYTHm+GupagN1fzD+px83e92Ws+Mk+snSjGA==
-X-Received: by 2002:a17:903:1b6c:b0:2c9:d89f:fd98 with SMTP id d9443c01a7336-2d5ccb2615emr3070545ad.1.1787001137341;
-        Mon, 17 Aug 2026 14:12:17 -0700 (PDT)
-Received: from google.com (210.87.127.34.bc.googleusercontent.com. [34.127.87.210])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5c1e528b3sm7631765ad.46.2026.08.17.14.12.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 14:12:15 -0700 (PDT)
-Date: Mon, 17 Aug 2026 21:12:12 +0000
-From: Samiullah Khawaja <skhawaja@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v8 01/12] PCI: liveupdate: Set up FLB handler for the PCI
- core
-Message-ID: <aoN4YxRo1TEcVuaP@google.com>
-References: <20260728221007.2098560-1-dmatlack@google.com>
- <20260728221007.2098560-2-dmatlack@google.com>
+        bh=DxYBvhey30XUfJ4ax9nYh/jGztjdRvDgSMhAvB0aQsU=;
+        b=Cr04oULFAfy7blelK3JLlSkbEF8OCyB+21N3qbrSWGyWxu/INwo0tWauue5OOVUUvh
+         mrzuC+v2h5WeiEyVnxRe46tT2DY9zhxQ3ieYRDoT8pv95OrLlqrr3igIKpod7cH3jGJN
+         VdpMxW2O5or8BultgqnjORT4Y9Wwn8OdverkSdXory3lAKsjT6KDR2LRzE78W0csz43/
+         v+ANYb5ujnXb7pIP9pHBfsXKC5DFlm4vNSqXYSos7DDJY5pUppluaNvcY656yvdTG8jY
+         ndKhr10hDXdOJUpgQ+/FoTvziV+575YQCTujjK6YjDt4GBOPlTqP69gdqriLHGEbS9g5
+         u/EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787003240; x=1787608040;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DxYBvhey30XUfJ4ax9nYh/jGztjdRvDgSMhAvB0aQsU=;
+        b=i5Dr72yKEMLE43h3LCZcaOwX0/ng+iHF+nRPIBgJVoLgHW/qMgl2lhem9OwgLnzgPy
+         3YfTG9dx6HDqQFhpDDggvW/Akmk34LPk04Yfz2u3pfLAF7WdiAZKiHvoLKIv0efvQoRZ
+         nks+B3yswjI1xV4MXayP+QcdBuwdsVXEVyca0ChvmUlgNemz5FsTeKjwOve4FHEnysZ8
+         AubXcCQy+Dsn7UmLWXJm1eCyLj3bZBR/aqymvsF4Its7TVmuw+HoV+Ev7C2GrRkYVu2M
+         kRrnIRBRpsLzmuVM3iqvEph3AIgTf9IFElZiUobb7jG/pTrZL9vbJzktV9Oa5vqL9ePL
+         em0g==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3h9zKfXyT2evCWWGVY/9CMXRYfPAEwAAqAkc/MPcpwIvUCDJPe6mvOnKhBXuXOsNOTKUXuyXsIiU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yywd6Phu8lL2pcUHvNmnNayjXA8XJpGJRpvrxkio/B4XgF7Wxmz
+	HWZWQboWR8Ny50AmrIvRZbaIFMi0jI5BY6UYrfZ8BKTvQtPGL1PWz/93BZLnI9E7T6KlbZF0FcS
+	qGN0q6tM1M8eXaNjGS78Ci4EfDcr1RI/EiB3bKCB7
+X-Gm-Gg: AR+sD11Ia6rim67cRKvG9VSZtSPF9h9qPbwQW83DLQKj/smpDij7d44mLipsbdnyrGQ
+	dpEU2vs2Jchrq3euqodvAWN36Djf4WAUDlp1cOZVQGN17EsMnzp36mb2lUk3DldssVE+AQGO8bL
+	WwL5cYvEWeKrMaUYSTNBMVTvZMrxbaOSHPafuGtggjQwGrRI4q1D4gGDPsYmn8Nne+5EILtHh41
+	GDgDxLXp9L9oMzrwYhG4QuBOhCfWu5L3MMj2uGZW1ZSHlkw+yMJH60N+FhNxJeMyQfyggJuGh5C
+	jtkZcaKYfFUHDDGGD63vwMhDrYXvVkUo8VQvW3VdjUL6B9XiWgubvrXQqGv4fjubDFVTohmXquv
+	Mvzy/fDVRtpB7
+X-Received: by 2002:a17:90b:4cc1:b0:37f:be6c:f3f2 with SMTP id
+ 98e67ed59e1d1-3933bd0dd0fmr33755002a91.2.1787003239624; Mon, 17 Aug 2026
+ 14:47:19 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 17 Aug 2026 14:47:17 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 17 Aug 2026 14:47:17 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <aoNrFX9yLfsM7KQI@google.com>
+References: <CAEvNRgFzRj_=GVy8T4P8ehhQjYomYxkngzwtKBF0iEL0Cv6fuQ@mail.gmail.com>
+ <anp1I64K0KeyQuyo@yzhao56-desk.sh.intel.com> <CAEvNRgFWcndQKJE_q+ZATFZEMYd=6uRLygozLvg7L77bPX0cEQ@mail.gmail.com>
+ <anqqKH6kuwpvuwp9@yzhao56-desk.sh.intel.com> <CAEvNRgGWDY_fxbyBM-5sMdYMevMe0HzVP9kbC1cCGLE_dV=_Gw@mail.gmail.com>
+ <a71d4fccdffd1f6a12332ddd18fa812542ea2118.camel@intel.com>
+ <CAEvNRgHxda6XK_XqWaqqVnA7oW=Fhp_C5gF4vNcL+-HfwfXMqQ@mail.gmail.com>
+ <0c80b9b0e13e3ab2cbe4f9eaf4a02ebba25a7001.camel@intel.com>
+ <an5RJYTwlYeym--O@google.com> <aoKnmW9St5zCoTD3@yzhao56-desk.sh.intel.com> <aoNrFX9yLfsM7KQI@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260728221007.2098560-2-dmatlack@google.com>
+Date: Mon, 17 Aug 2026 14:47:17 -0700
+X-Gm-Features: AcwNN1VpUAMbtXtdgh721uPhtQzbHJAxofv-9Na5pJ24kSfJuEcCQlHEnwy5G0c
+Message-ID: <CAEvNRgH_=8YqKHb_OJfT583ZJ346cceRimd9YJ762Vv08uJGHQ@mail.gmail.com>
+Subject: Re: [PATCH v10 11/41] KVM: guest_memfd: Ensure pages are not in use
+ before conversion
+To: Sean Christopherson <seanjc@google.com>, Yan Zhao <yan.y.zhao@intel.com>
+Cc: Rick P Edgecombe <rick.p.edgecombe@intel.com>, "david@kernel.org" <david@kernel.org>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "steven.price@arm.com" <steven.price@arm.com>, 
+	"peterx@redhat.com" <peterx@redhat.com>, "forkloop@google.com" <forkloop@google.com>, 
+	"tabba@google.com" <tabba@google.com>, 
+	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	Vishal Annapurve <vannapurve@google.com>, "willy@infradead.org" <willy@infradead.org>, 
+	"tglx@kernel.org" <tglx@kernel.org>, "wyihan@google.com" <wyihan@google.com>, 
+	"pratyush@kernel.org" <pratyush@kernel.org>, "aik@amd.com" <aik@amd.com>, 
+	"jmattson@google.com" <jmattson@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+	"binbin.wu@linux.intel.com" <binbin.wu@linux.intel.com>, "rientjes@google.com" <rientjes@google.com>, 
+	"andrew.jones@linux.dev" <andrew.jones@linux.dev>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "chrisl@kernel.org" <chrisl@kernel.org>, 
+	"shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
+	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"mhiramat@kernel.org" <mhiramat@kernel.org>, "baohua@kernel.org" <baohua@kernel.org>, 
+	"tarunsahu@google.com" <tarunsahu@google.com>, 
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
+	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jthoughton@google.com" <jthoughton@google.com>, 
+	"yuanchu@google.com" <yuanchu@google.com>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"shikemeng@huaweicloud.com" <shikemeng@huaweicloud.com>, "nphamcs@gmail.com" <nphamcs@gmail.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "shivankg@amd.com" <shivankg@amd.com>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "youngjun.park@lge.com" <youngjun.park@lge.com>, 
+	"kasong@tencent.com" <kasong@tencent.com>, "pankaj.gupta@amd.com" <pankaj.gupta@amd.com>, 
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
+	"vbabka@kernel.org" <vbabka@kernel.org>, "weixugc@google.com" <weixugc@google.com>, 
+	"michael.roth@amd.com" <michael.roth@amd.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "qperret@google.com" <qperret@google.com>, 
+	"brauner@kernel.org" <brauner@kernel.org>, "bp@alien8.de" <bp@alien8.de>, 
+	"baoquan.he@linux.dev" <baoquan.he@linux.dev>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "liam@infradead.org" <liam@infradead.org>, 
+	"axelrasmussen@google.com" <axelrasmussen@google.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"qi.zheng@linux.dev" <qi.zheng@linux.dev>, "linux-mm@kvack.org" <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 28, 2026 at 10:09:55PM +0000, David Matlack wrote:
->Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to enable
->it to participate in the preservation of PCI devices across Live Update.
->Essentially, this commit enables the PCI core to allocate a struct
->(struct pci_ser) and preserve it across a Live Update whenever at least
->one device is preserved.
+Sean Christopherson <seanjc@google.com> writes:
+
+> On Mon, Aug 17, 2026, Yan Zhao wrote:
+>> On Thu, Aug 13, 2026 at 04:20:05PM -0700, Sean Christopherson wrote:
+>> > On Thu, Aug 13, 2026, Rick P Edgecombe wrote:
+>> > > > > nicely so we actually just run an old branch's TDX selftests against newer
+>> > > > > kernels. So the branch is a bit of a pile, and not really suitable for sharing.
+>> > > > > We plan to clean it and upstream it when the path clears. So it would really
+>> > > > > help to get those basic ones upstream. We remain happy to help, so please let us
+>> > > > > know.
+>> > > >
+>> > > > I guess at this point I'm hoping y'all and Sean are okay that this
+>> > > > conversions series merges, and we let this stress test failure be
+>> > > > handled later. I'll be around to fix things :)
+>> > > >
+>> > > > I'd say the line of sight to fixing this would be when the KVM MMU only
+>> > > > gets PFNs (and no pages at all) from guest_memfd.
+>> > >
+>> > > Hmm, I think we shouldn't upstream a uABI that we don't have line of sight to
+>> > > making robust. So it would be good to settle this thread at least.
+>> >
+>> > This isn't uABI.  You're talking about hitting a race condition between one task
+>> Hmm. Perhaps it is not a uABI issue, since users are allowed to retry. However,
+>> it is hard to convince me that it makes sense to require users to retry a
+>> private-to-shared conversion before a GFN has ever been mapped, given that a
+>> retry is not required when the GFN is currently in use by the guest.
+>>
+>> > converting a page and another faulting in the same page.  An NMI, SMI, or IRQ at
+>> > just the right/wrong time, especially on a preemptible kernel, could lead to the
+>> > same test failures, even if KVM drops the refcount "immediately".
+>> Could you elaborate on how an NMI, SMI, or IRQ at just the right/wrong time
+>> could lead to the same test failures?
 >
->Preserving PCI devices across Live Update is built on top of the Live
->Update Orchestrator's (LUO) support for file preservation. Drivers are
->expected to expose a file to userspace to represent a single PCI device
->and support preservation of that file. This is intended primarily to
->support preservation of PCI devices bound to VFIO drivers.
+> Ah, sorry, my bad.  I was speed reading and missed that the key to your suggested
+> "*page = NULL" change was that the reference was put _before_
+> filemap_invalidate_unlock_shared(), i.e. before dropping
+> the invalidate lock and thus before __kvm_gmem_set_attributes() will walk the
+> folios to look for outstanding references.  I was thinking that putting the
+> reference right away was just shrinking the timing window, but putting the
+> reference while still holding the invalidate lock closes the window entirely.
 >
->This commit enables drivers to register their liveupdate_file_handler
->with the PCI core so that the PCI core can do its own tracking and
->enforcement of which devices are preserved.
->
->  pci_liveupdate_register_flb(driver_file_handler);
->  pci_liveupdate_unregister_flb(driver_file_handler);
->
->When the first file (with a handler registered with the PCI core) is
->preserved, the PCI core will be notified to allocate its tracking struct
->(pci_ser). When the last file is unpreserved (i.e. preservation
->cancelled) the PCI core will be notified to free struct pci_ser.
->
->This struct is preserved across a Live Update using KHO and can be
->fetched by the PCI core during early boot (e.g. during device
->enumeration) so that it knows which devices were preserved.
->
->Note: This commit only allocates struct pci_ser and preserves it across
->Live Update. A subsequent commit will add an API for drivers to tell the
->PCI core exactly which devices are being preserved.
->
->Note: There is no reason to check for kho_is_enabled() since it can be
->assumed to return true. If KHO was not enabled then Live Update would
->not be enabled and these routines would never run.
->
->Reviewed-by: Pranjal Shrivastava <praan@google.com>
->Signed-off-by: David Matlack <dmatlack@google.com>
->---
-> Documentation/core-api/liveupdate.rst |   4 +
-> MAINTAINERS                           |  13 +++
-> drivers/pci/Kconfig                   |  15 +++
-> drivers/pci/Makefile                  |   1 +
-> drivers/pci/liveupdate.c              | 158 ++++++++++++++++++++++++++
-> include/linux/kho/abi/pci.h           |  63 ++++++++++
-> include/linux/pci.h                   |   1 +
-> include/linux/pci_liveupdate.h        |  30 +++++
-> 8 files changed, 285 insertions(+)
-> create mode 100644 drivers/pci/liveupdate.c
-> create mode 100644 include/linux/kho/abi/pci.h
-> create mode 100644 include/linux/pci_liveupdate.h
+> So, I take back what I said about this not being ABI, and about this not blocking
+> in-place conversion.  It most definitely affects ABI, and so needs to be addressed
+> before merging in-place conversion.
+
+I thought back then when David suggested that conversion can return
+-EAGAIN, one of the core ABI benefits is that this leaves the door open
+for things to gradually improve. If we can improve stuff within the
+kernel, then the the kernel would just return fewer errors. This retains
+backward compatibility, since extra userspace code that handles errors
+can continue to exist, it just won't be used.
+
+> The only question is if we want to commit to
+> guaranteeing that conversion will succeed in this scenario, or if we want to take
+> the easy way out and formally document that conversion can fail with EAGAIN at any
+> time, even if userspace has never mmap()'d the memory in question.
 >
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
+I don't really think there's a need to commit to this, IIUC in
+principle, ignoring that on many paths of those guest_memfd may be
+excluded, refcounts can be taken even if there are no host userspace
+mappings. For one, memory failure handling doesn't care if there are
+mappings, the refcount will be taken for a short while and could cause
+this conversion failure.
 
-Thanks,
-Sami
+Here's the relevant part of the documentation added for conversions:
+
+  If this ioctl returns -EAGAIN, the offset of the page with unexpected
+  refcounts will be returned in `error_offset`. This can occur if there
+  are transient refcounts on the pages, taken by other parts of the
+  kernel.
+
+  Userspace is expected to figure out how to remove all known refcounts
+  on the shared pages, such as refcounts taken by get_user_pages(), and
+  try the ioctl again. A possible source of these long term refcounts is
+  if the guest_memfd memory was pinned in IOMMU page tables.
+
+> I'm leaning pretty strongly towards guaranteeing conversion will succeed.  We'll
+> still need to document the EAGAIN behavior, but IMO there's a massive difference
+> between conversion failing if there's a lingering reference acquired via a VMA,
+> conversion failing because a vCPU page fault raced with conversion.  E.g. being
+> able to assert success in a very curated test, as the stress test presumably does,
+> would be extremely valuable for helping detect/prevent edge case bugs.
+>
+> The argument against guaranteeing success is that we might make our future lives
+> harder, e.g. if it turns out there are legitimate, hard-to-solve edge cases.  But
+> I'm ok with that risk, as it seems highly unlikely to be problematic in practice,
+> and there is real benefit to guaranteeing success.
+>
+
+Is there really a need to commit to anything? This is already documented
+as "can fail", and it's orthogonal to whether the memory was mapped. The
+transient nature of refcounts on pages in general makes it hard to
+guarantee, and this stretches outside of KVM. I mean, anything could
+take a refcount on a page in future and we can't be auditing the entire
+kernel for no refcounts on guest_memfd pages ever.
+
+>> > As for in-place conversion, this is not a blocker.
+>> Sorry. I didn't intend to block in-place conversion.
+>
+> LOL, what we intend and what happens aren't always the same. :-)
+>
+
+I don't think we're ready to guarantee conversion success when
+guest_memfd pages are not mapped to userspace without dragging this out
+way further.
+
+I'm all for KVM not taking any references on guest_memfd, but I think
+eliminating KVM itself as a source of transient refcounts can be a
+series in itself. KVM not taking any references on guest_memfd memory is
+definitely welcome, it'll pave the way to using non-struct-page memory
+in guest_memfd.
+
+It'll come, can we not block on this please? If we find a way to
+strengthen the guarantee, wouldn't that be an iterative improvement?
+
+>> I encountered this issue during testing, so reported it.
+>
+> Thanks for doing so!  I'd *much* rather sort these issues out *before* merging
+> code, even if it means delaying the merge by a bit.
