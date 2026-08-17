@@ -1,237 +1,185 @@
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B743D955F
-	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 22:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65F12D9EFF;
+	Mon, 17 Aug 2026 22:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787005258; cv=none; b=j6MzmOTCEAk99meGIAZ7TahI6o612y8I/8nHctKwLK7g4syXIc28daAML1te7yLYu+QNmkfBrAZclCijj074wjfznPHB7SzNIzoxTenh4IRSS6t35Ar8JH2PvLMJ3fkyRp0mUKSiNzDqmasITrjPny+vLZiWwo/+F5QaZmy1O5M=
+	t=1787005376; cv=none; b=NSBDhw3u5lT5c++CBU6dRZ3Rp/DkustiatVXItB6Kf/f/pVauAPbEvoupEjty+LU/X5RR5vjjMSZN52rl3q8oA+0HDTAJWDiRyiih53rESp++1AlXWmxlk7uwVPXT0CuaJ9A9vIxTRCJpyUH+Zq5EyTQBSd8Kf+aB74XqUKxRFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787005258; c=relaxed/simple;
-	bh=HVO2gWIaxzA+bK6MQldJkeSZrAesQZSo8QAWoKoMJBg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=n20ngnFn8IMiKdAHnadutktc++ht6S19CjTRTvuuXmcQupTG7HXn+FkhDR9trpmOmG/cd6EKksjXo+rdP1bJIvQ1pEdg6lAV+czymJCMqXrsJQwXp5pSHQ7ItVgjkELEwX2rKFRzIFKgUz9m13u8B2kWl6tSaHSjCe2j5iWvF6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Agy9gbGf; arc=none smtp.client-ip=209.85.210.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1787005376; c=relaxed/simple;
+	bh=QETZxygJiVaVczGTUmxrvvzHpl3GQGlrCvPV97zh9X0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CjVWd+q2jsTARRVR1g4zCHuOIL+oj/NL4kaaO2Xwp39dtXeqJjMBGUFXv1PbLP5D/0WHFoNwz/E5R9cQeEZThNNxFWwBSxPpmNAi1KCKXFgiZP4glx/6KnsMuLrM+8QqPmVLp75bS0Z/cRrt6ihlpaHAPiKJ+QQiyXlXP6d5oCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=S3tumvlC; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Agy9gbGf"
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-84a3514f912so6773285b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 15:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787005256; x=1787610056; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4QnMwcUHFkDNVo8ywONCXuoDqyMfQDcpXyu7v/SbVys=;
-        b=Agy9gbGfbCqaYdum/88WaBXR701ZG6wE3VoLdV+R0te4hPKhEzLN+mzvw3XGJFcF9M
-         5UMFU8S80FJizxl3OxHbvP1q0B09OL4KI7b6VF8lGVYREgZrwMXcltAD0tD528kfHWKI
-         eC5ROWe8WJJ4Yyu8oGeguwhyA3O+Ce8Mv05Oi9J+1WUa2XaZfNbSlHmesthDerGJXFih
-         5ZJFt7awxaYvWvxeX6KJDVczUgTgTY7WVn4PEXOjWnwmDqhVq8mnnrtY6/81KDV+UCf3
-         b/RjawCiqCjO61ctEPhtVnBoSC7NSN4wJRoujN0FYuIHx2lhOUuzZhOqk6nX9eGKmRKY
-         MfHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787005256; x=1787610056;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4QnMwcUHFkDNVo8ywONCXuoDqyMfQDcpXyu7v/SbVys=;
-        b=JB1rnOWJ+KOJ3Wn07kUKS4Cj0hsyJTrorBcsJdCi8RPdKI6V6E2KlPk9y1EExcC421
-         qIfSuFAtlrT2DBeURS1zt6uWE5GThxwKQPRUQdqtHZNA9K8G9Vn769jlIub1QM85bGcj
-         5ekszjwMDP/x+0V+58Wm3B4526O2q9c5IjqboHsel3RZ5knyaFXkPhwc3pf+hjwMjStT
-         vI3lDXWezp6y9G4uJV5l+n51hFoCdZ79+XTm2WTB/HKrT837Y0qwbC7uqrOozohFT7jW
-         ULc6pAlgMTc517QZdj/tO+mjmt+QUTLJ5hGzmx+OYaFflCnLMW+GcVSi/kd7nmWIFRfY
-         FKog==
-X-Forwarded-Encrypted: i=1; AHgh+RqqNDUN4HpbZ+vXde9q5HHO0kbRl33gYjL3yASlWd2Apymi8jF5c6YmpNt4vLIEo/LFnDpCEkekSdM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydBLnq80vbe4NwfCpGm/qrqElh4k1UUt//hz/mfDvz+Sz8axYf
-	PJdGuzl0lKsxLzkXaUVyxIe7m84CVLQMNXXfzDITCqu6yTFAA3C8cQFLb4XcZJkGfxfnBFAWSDc
-	I4fJHaQ==
-X-Received: from pfbfq10.prod.google.com ([2002:a05:6a00:60ca:b0:84a:3bc9:3bcd])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1149:b0:847:7ffd:ce35
- with SMTP id d2e1a72fcca58-851b87eaa83mr3450412b3a.8.1787005255291; Mon, 17
- Aug 2026 15:20:55 -0700 (PDT)
-Date: Mon, 17 Aug 2026 15:20:54 -0700
-In-Reply-To: <CAEvNRgH_=8YqKHb_OJfT583ZJ346cceRimd9YJ762Vv08uJGHQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="S3tumvlC"
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67HLo6JW1568585;
+	Mon, 17 Aug 2026 15:22:25 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=QA3sfzUpR36V83Sktub5Y8E5Bqm2HmxtE56t6
+	ViakSo=; b=S3tumvlCcRJM9mRtBsAbdgm9S3Iq+Rm9NHqh9GYrAMAvg8fiLyRt1
+	1BM66TZ19TWiY3sr14Twa6BQJfOwEuRxEai6EnyDzGtTNcfD7rMIs8MQ1tCJDgEe
+	emEzbQWgFDONdUPrQWPgnqJG4zeMKd+VTULYeHW5YIp9aDAV2wP/SnR7VdNu/TF7
+	H5FcNy9ighxK7D0jnl8dcWEZr+a9ZhmUFWDjxHH/5zPm4EKpZfAQL4nS3F0wNjCv
+	Nm5Nh2b8QG5SpVNMJVWV+JCmrhKQTTl/YUuoCmfEST5WPFkpsGNZYti+3l8aZ1LE
+	Bij5ko/ZGXT1jQ13NB66ATo67qm+Krviw==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4g2m516h9c-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 17 Aug 2026 15:22:25 -0700 (PDT)
+Received: from localhost (2620:10d:c085:108::150d) by mail.thefacebook.com
+ (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.45; Mon, 17 Aug
+ 2026 22:22:24 +0000
+From: Amir Ayupov <aaupov@fb.com>
+To: <linux-perf-users@vger.kernel.org>, <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Suzuki K Poulose
+	<suzuki.poulose@arm.com>,
+        James Clark <james.clark@linaro.org>, Leo Yan
+	<leo.yan@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
+	<mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Namhyung Kim
+	<namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>
+CC: <linux-doc@vger.kernel.org>, Mike Leach <mike.leach@arm.com>,
+        Jonathan
+ Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Swapnil
+ Sapkal <swapnil.sapkal@amd.com>
+Subject: [PATCH v2 5/5] Documentation: coresight: Document context-sensitive PGO workflow
+Date: Mon, 17 Aug 2026 15:22:20 -0700
+Message-ID: <9c4b59cac4a2cb21ab552398e3deda9e5067fe32.1787005265.git.aaupov@fb.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1787005265.git.aaupov@fb.com>
+References: <cover.1787005265.git.aaupov@fb.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <CAEvNRgFWcndQKJE_q+ZATFZEMYd=6uRLygozLvg7L77bPX0cEQ@mail.gmail.com>
- <anqqKH6kuwpvuwp9@yzhao56-desk.sh.intel.com> <CAEvNRgGWDY_fxbyBM-5sMdYMevMe0HzVP9kbC1cCGLE_dV=_Gw@mail.gmail.com>
- <a71d4fccdffd1f6a12332ddd18fa812542ea2118.camel@intel.com>
- <CAEvNRgHxda6XK_XqWaqqVnA7oW=Fhp_C5gF4vNcL+-HfwfXMqQ@mail.gmail.com>
- <0c80b9b0e13e3ab2cbe4f9eaf4a02ebba25a7001.camel@intel.com>
- <an5RJYTwlYeym--O@google.com> <aoKnmW9St5zCoTD3@yzhao56-desk.sh.intel.com>
- <aoNrFX9yLfsM7KQI@google.com> <CAEvNRgH_=8YqKHb_OJfT583ZJ346cceRimd9YJ762Vv08uJGHQ@mail.gmail.com>
-Message-ID: <aoOJRk5SXBzzT24K@google.com>
-Subject: Re: [PATCH v10 11/41] KVM: guest_memfd: Ensure pages are not in use
- before conversion
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Yan Zhao <yan.y.zhao@intel.com>, Rick P Edgecombe <rick.p.edgecombe@intel.com>, 
-	"david@kernel.org" <david@kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"steven.price@arm.com" <steven.price@arm.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"forkloop@google.com" <forkloop@google.com>, "tabba@google.com" <tabba@google.com>, 
-	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	Vishal Annapurve <vannapurve@google.com>, "willy@infradead.org" <willy@infradead.org>, 
-	"tglx@kernel.org" <tglx@kernel.org>, "wyihan@google.com" <wyihan@google.com>, 
-	"pratyush@kernel.org" <pratyush@kernel.org>, "aik@amd.com" <aik@amd.com>, 
-	"jmattson@google.com" <jmattson@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
-	"binbin.wu@linux.intel.com" <binbin.wu@linux.intel.com>, "rientjes@google.com" <rientjes@google.com>, 
-	"andrew.jones@linux.dev" <andrew.jones@linux.dev>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "chrisl@kernel.org" <chrisl@kernel.org>, 
-	"shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "oupton@kernel.org" <oupton@kernel.org>, 
-	"mhiramat@kernel.org" <mhiramat@kernel.org>, "baohua@kernel.org" <baohua@kernel.org>, 
-	"tarunsahu@google.com" <tarunsahu@google.com>, 
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
-	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jthoughton@google.com" <jthoughton@google.com>, 
-	"yuanchu@google.com" <yuanchu@google.com>, "hpa@zytor.com" <hpa@zytor.com>, 
-	"shikemeng@huaweicloud.com" <shikemeng@huaweicloud.com>, "nphamcs@gmail.com" <nphamcs@gmail.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "shivankg@amd.com" <shivankg@amd.com>, 
-	"shuah@kernel.org" <shuah@kernel.org>, "youngjun.park@lge.com" <youngjun.park@lge.com>, 
-	"kasong@tencent.com" <kasong@tencent.com>, "pankaj.gupta@amd.com" <pankaj.gupta@amd.com>, 
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
-	"chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
-	"vbabka@kernel.org" <vbabka@kernel.org>, "weixugc@google.com" <weixugc@google.com>, 
-	"michael.roth@amd.com" <michael.roth@amd.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "qperret@google.com" <qperret@google.com>, 
-	"brauner@kernel.org" <brauner@kernel.org>, "bp@alien8.de" <bp@alien8.de>, 
-	"baoquan.he@linux.dev" <baoquan.he@linux.dev>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "liam@infradead.org" <liam@infradead.org>, 
-	"axelrasmussen@google.com" <axelrasmussen@google.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"qi.zheng@linux.dev" <qi.zheng@linux.dev>, "linux-mm@kvack.org" <linux-mm@kvack.org>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDE3MSBTYWx0ZWRfX86pegc5PAdDS
+ oWEyRoxq7fivVx5qZIwUz0sRmNAqBcSoF4RCDS5J2GcXf1RYNcFMtlhyy9fkQvHP3WuxQ4c+8t0
+ WgUE4RGDtzwhYWzElzmGqntKNd8eQt4=
+X-Authority-Analysis: v=2.4 cv=W9cIkxWk c=1 sm=1 tr=0 ts=6a8389a1 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=tpM8CJlwf7uhpglF1g9U:22 a=FOH2dFAWAAAA:8 a=QDGUGMRHXpoeSueRYaEA:9
+X-Proofpoint-GUID: fTOAckTrz00MqZBg9mhMlcohR2Y3XDRT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDE3MSBTYWx0ZWRfX8/GrdqnvpG2x
+ AiuyLYuERMlADDlBReLE46quACr8JAFy8iL9RbdISgn3ph+gfPuN15d7pv4K++6QfZHlgPDs3I7
+ 4n4FLVPm97LrZwUgIyYuPL9EdOcusAHH9BZ+YbWudOKG1bhU67X2EaaV8K0dv7IF0Bdx0r/mRhI
+ muPpGgvDPEXbClEzAOznouw1mMWevk/k0KXISBVCFYZoG1Up/XxUFOjHfbMzfLTc3/x298Dzjhs
+ Uox60eX3lDKfWge5Wqts9Ey4dSAJBv1jngRuJUoHmORCx9zg73TDNSVZFxlk1bjWrpEQgrH8l+y
+ GMBlz6U1f3t+xLHbzIbw8+j79vMDE077PDrWrSiBl39Q3Ne3eH4WS6l/Dl4tQe26tLpvGiUVLcm
+ ezX+o++X9274EolkeQbn4umZDzxrLjz7b48a8qj3VuetcuQ3h4cJ7vYqH2+tMLsG64irBKv1ySX
+ n+fnNgL6EtrN2PMQgsA==
+X-Proofpoint-ORIG-GUID: fTOAckTrz00MqZBg9mhMlcohR2Y3XDRT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-17_04,2026-08-12_01,2025-10-01_01
 
-On Mon, Aug 17, 2026, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> > On Mon, Aug 17, 2026, Yan Zhao wrote:
-> >> > converting a page and another faulting in the same page.  An NMI, SMI, or IRQ at
-> >> > just the right/wrong time, especially on a preemptible kernel, could lead to the
-> >> > same test failures, even if KVM drops the refcount "immediately".
-> >> Could you elaborate on how an NMI, SMI, or IRQ at just the right/wrong time
-> >> could lead to the same test failures?
-> >
-> > Ah, sorry, my bad.  I was speed reading and missed that the key to your suggested
-> > "*page = NULL" change was that the reference was put _before_
-> > filemap_invalidate_unlock_shared(), i.e. before dropping
-> > the invalidate lock and thus before __kvm_gmem_set_attributes() will walk the
-> > folios to look for outstanding references.  I was thinking that putting the
-> > reference right away was just shrinking the timing window, but putting the
-> > reference while still holding the invalidate lock closes the window entirely.
-> >
-> > So, I take back what I said about this not being ABI, and about this not blocking
-> > in-place conversion.  It most definitely affects ABI, and so needs to be addressed
-> > before merging in-place conversion.
-> 
-> I thought back then when David suggested that conversion can return
-> -EAGAIN, one of the core ABI benefits is that this leaves the door open
-> for things to gradually improve. If we can improve stuff within the
-> kernel, then the the kernel would just return fewer errors. This retains
-> backward compatibility, since extra userspace code that handles errors
-> can continue to exist, it just won't be used.
+Document combining callchain-bearing AUX pause samples with the ETM
+branch history that precedes them, which is the pairing that
+context-sensitive PGO tools consume, and the --itrace=L64 decode with the
+non-empty branch-stack dlfilter.
 
-Ya, that's definitely one of my hesitations to trying to guarantee success in
-the kernel.
+Assisted-by: Devmate:GPT-5.6
+Signed-off-by: Amir Ayupov <aaupov@fb.com>
+---
+ .../trace/coresight/coresight-perf.rst        | 62 +++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-> > The only question is if we want to commit to
-> > guaranteeing that conversion will succeed in this scenario, or if we want to take
-> > the easy way out and formally document that conversion can fail with EAGAIN at any
-> > time, even if userspace has never mmap()'d the memory in question.
-> 
-> I don't really think there's a need to commit to this, IIUC in principle,
-> ignoring that on many paths of those guest_memfd may be excluded, refcounts
-> can be taken even if there are no host userspace mappings. For one, memory
-> failure handling doesn't care if there are mappings, the refcount will be
-> taken for a short while and could cause this conversion failure.
-> 
-> Here's the relevant part of the documentation added for conversions:
-> 
->   If this ioctl returns -EAGAIN, the offset of the page with unexpected
->   refcounts will be returned in `error_offset`. This can occur if there
->   are transient refcounts on the pages, taken by other parts of the
->   kernel.
-> 
->   Userspace is expected to figure out how to remove all known refcounts
->   on the shared pages, such as refcounts taken by get_user_pages(), and
->   try the ioctl again. A possible source of these long term refcounts is
->   if the guest_memfd memory was pinned in IOMMU page tables.
->
-> > I'm leaning pretty strongly towards guaranteeing conversion will succeed.  We'll
-> > still need to document the EAGAIN behavior, but IMO there's a massive difference
-> > between conversion failing if there's a lingering reference acquired via a VMA,
-> > conversion failing because a vCPU page fault raced with conversion.  E.g. being
-> > able to assert success in a very curated test, as the stress test presumably does,
-> > would be extremely valuable for helping detect/prevent edge case bugs.
-> >
-> > The argument against guaranteeing success is that we might make our future lives
-> > harder, e.g. if it turns out there are legitimate, hard-to-solve edge cases.  But
-> > I'm ok with that risk, as it seems highly unlikely to be problematic in practice,
-> > and there is real benefit to guaranteeing success.
-> >
-> 
-> Is there really a need to commit to anything? This is already documented
-> as "can fail", and it's orthogonal to whether the memory was mapped.
+diff --git a/Documentation/trace/coresight/coresight-perf.rst b/Documentation/trace/coresight/coresight-perf.rst
+index 0a77741a431ef..c0c82b3d26ea8 100644
+--- a/Documentation/trace/coresight/coresight-perf.rst
++++ b/Documentation/trace/coresight/coresight-perf.rst
+@@ -109,6 +109,68 @@ Example for triggering AUX pause and resume with PMU event::
+         -e cycles/aux-action=pause,period=10000000/ \
+         -e cycles/aux-action=resume,period=1050000/ -- sleep 1
+ 
++Context-sensitive sampled PGO (CSSPGO) profiling
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++A callchain-bearing pause event can be combined with the branch history from
++its preceding ETM trace window. This provides the synchronized callchain and
++branch stack consumed by context-sensitive PGO tools without continuously
++recording ETM trace for a long-running process.
++
++For example, record user-space ETM trace, resume it periodically, and pause it
++with a cycle event that also captures a frame-pointer callchain::
++
++  perf record -T \
++        -e cs_etm/aux-action=start-paused,timestamp/u \
++        -e cycles/aux-action=resume,period=8350251/u \
++        -e cycles/aux-action=pause,period=100003,call-graph=fp/u \
++        -- ./workload
++
++The two cycle events count independently. With pause period ``P`` and resume
++period ``R``, each trace window is approximately 0 to ``P`` cycles long, so the
++average duty cycle is ``P / (2 * R)``. The periods above give about 0.6% duty.
++
++Do not make ``R`` an integer multiple of ``P``: coincident pause and resume
++interrupts can produce zero-length windows. Choosing ``R`` near
++``(k + 1/2) * P``, as above, moves the resume phase across the pause interval.
++Pause events that fire while ETM is already paused have no branch history; the
++dlfilter below removes those samples.
++
++The ``-T`` option timestamps the pause samples, while ``timestamp`` enables
++ETM timestamp packets. Both are required to correlate the sample with ETM
++trace. This mode also requires virtual ETM timestamps correlated to perf time
++and a callchain on the pause event. Use ``call-graph=dwarf`` instead of
++``call-graph=fp`` when the workload does not preserve frame pointers.
++
++Tuning duty cycle
++^^^^^^^^^^^^^^^^^
++
++The example above favors low recording overhead for fleet collection. With
++independent counters, ``P / R`` is the nominal window ratio while
++``P / (2 * R)`` is the expected average ETM-on duty. For ``P = 100003``, two
++measured Neoverse V2 operating points are:
++
++- Fleet collection: ``R = 8350251``, 1.2% nominal ratio and 0.6% average duty.
++- Targeted profiling: ``R = 1050031``, 9.5% nominal ratio and 4.8% average duty.
++
++AUX buffer size must also scale with trace volume. A 128 KiB AUX buffer worked
++at 0.6% duty but was unstable at some higher-duty points, where it increased
++output size or overran and reduced useful-sample yield. Use 4 MiB as a
++conservative starting point around ``R/P = 6.7`` to ``12.5``. These values are
++workload and platform dependent; verify useful samples per MiB and lost AUX
++records when tuning another system.
++
++Add up to 64 decoded ETM branches to each existing pause sample and emit the
++hybrid samples in the regular perf-script format::
++
++  perf script -i perf.data --itrace=L64 \
++        --dlfilter=dlfilter-nonempty-brstack.so > perf.script
++
++The ``dlfilter-nonempty-brstack.so`` filter drops samples that ended up with
++no branch history at all, for example samples from a thread that was never
++traced, or samples recorded before the first or after the last trace window.
++It is built and installed with perf's other dlfilters.
++
+ Perf test - Verify kernel and userspace perf CoreSight work
+ -----------------------------------------------------------
+ 
+-- 
+2.52.0
 
-Yes, but the above docs also say "it's userspace's problem".  Which I generally
-agree with, but that's not a very good story when it comes to KVM itself taking
-transient references, because then the answer becomes "Stop running all vCPUs",
-which I don't like.  E.g. in a very pathological scenario, it's theoretically
-possible that conversion may never succeed.  That's what gives me pause.
-
-> The transient nature of refcounts on pages in general makes it hard to
-> guarantee, and this stretches outside of KVM. I mean, anything could take a
-> refcount on a page in future and we can't be auditing the entire kernel for
-> no refcounts on guest_memfd pages ever.
-
-True, but at the same time, if there were never any VMAs then I would expect there
-to never be transient refcounts, modulo memory failure.  And it'd be easy enough
-to document the memory failure angle.
-
-> >> > As for in-place conversion, this is not a blocker.
-> >> Sorry. I didn't intend to block in-place conversion.
-> >
-> > LOL, what we intend and what happens aren't always the same. :-)
-> 
-> I don't think we're ready to guarantee conversion success when guest_memfd
-> pages are not mapped to userspace 
-
-Yeah, that was too strong of wording on my part.  The needle I was trying to
-thread was "conversion for this specific scenario, in a controlled environment,
-is guaranteed to succeed".
-
-> without dragging this out way further.
->
-> I'm all for KVM not taking any references on guest_memfd, but I think
-> eliminating KVM itself as a source of transient refcounts can be a
-> series in itself.
-
-Yes, it would definitely be a separate mini-series.
-
-> KVM not taking any references on guest_memfd memory is definitely welcome,
-> it'll pave the way to using non-struct-page memory in guest_memfd.
-> 
-> It'll come, can we not block on this please?
-
-FWIW, it doesn't have to block initial merge, just the final release.  E.g. even
-if we decide that this is a blocking issue, we can still land the in-place
-conversion series, so long as it's not exposed to userspace in the final release
-of 7.4 (or whatever kernel) without fixing the transient refcount issue.
-
-> If we find a way to strengthen the guarantee, wouldn't that be an iterative
-> improvement?
-
-Yes, but we do need to draw a line in the sand.  E.g. if conversion failed 99%
-of the time because KVM was taking spurious references, I think we'd all agree
-that needs to be fixed before the code is released.
-
-I'm still leaning towards saying this one has to be fixed, because it would give
-us a solid baseline from which to start, and a way to enforce it going forward
-(Yan's stress test).  I could certinaly be convinced otherwise, though dropping
-the transiest reference seems straightforward enough that hopefully it's a moot
-point, i.e. we land both in 7.4 and don't actually have to make a decision.
