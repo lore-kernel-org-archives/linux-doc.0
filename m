@@ -1,245 +1,598 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010023.outbound.protection.outlook.com [52.101.46.23])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEF628690;
-	Mon, 17 Aug 2026 06:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786946451; cv=fail; b=ObMpD1HkRF7hZzMxa3RrV6aF/c325qx6E8MCBO4SPqIDqf8TE6q7TylUsZO/37kNNMW27a19tQ/Ojl/krS/+w4Iid89YUUR3vjRNLqQ1L8l2dds6AoA7HDsPIms1k4M0QDFcI645XCz2yxdg4aI0HXehRL60hG6DlIg6AAbfkfY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786946451; c=relaxed/simple;
-	bh=5WpPSrdKsLcftvzLWcqLRmF+cWVqzBHfK4QecC4N1sQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=t0WWJtNSYcye8SQZVUZOmy25U5OVpQBGgpIvHYTEbrg4Ga7O+fODaw/9Ac3knK9P5gYBzvCZLCy5uxCukUJQm3jCQ3CtPwHEyQ5d7YZZOl5dH/3IObS4/kzFuXHonnh+1jBS/1FgPvBe58RBnz7fjkvRl3tkg8oavMjXQsCm+YU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eTHWE4U7; arc=fail smtp.client-ip=52.101.46.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE36A3B4EB2
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 06:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786949564; cv=none; b=uOd/hf7fLz3z/B12Sen53sn3zGftbdSqNrHj+pB2sWzU9oc/UgIrvWa8cEVXbtSe+y3h7KOGpomstnKXkUJhUvajZ9NY3BsTGkzOf8XXYDjBv3LgoOaEaiA8gqd7WLeqaM1uNE4cXuOf1T/2jtxHkv/Q2RK4vCKqE0gjGA//jAg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786949564; c=relaxed/simple;
+	bh=yIVHWpmpue7JH9fPpIClnmCzbb9QXKZYSOjH+vcWCJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LcrDpjzT7mExopj+E6l4FS30/x6rPbkctMLf2OSVJuOfdBXCyvxWApNHbpLLMe8u7z/NJQXMRonBnTLQT50Aq7O2mlybHac0y556TSEpIAKDgnNB5kNfZn7hyDyW8ty7SL37epuyUytuUf9hNqf6VYRSubKftgefIRwwbskyt2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VyvxB4hm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MOzAX7Uj; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eTHWE4U7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AyaMGfASFHu6DRvXTtH4arKndHD/IGR53RvwTLFmkXlG8invJ6BDIkTwmJeURzk4EpSz/6NTlREJconw0VzM2OQlMGpcCPC0l848EVLUnd6hsNt+G0AjD2kS9IRJt3JKsqO0gRzxLMff4K+4Kav2qlv3VZ0oSWZz3Vbq6IMkY77CzpzRrqyVd4vTOVNP4zbksGJjFn73zyRUTq/CSMCwFC/t2SkFe0MTlkBzL5JQfjihxfsjgZ3CP2CJMxbbDwNbOu7QBB6ypw5mGyMfmJzVu1kO+859BpNIZf19q3h8Gow3gvUpJTwoDSrL8tTEyd3iyeq+Wenocy9Yn4NQMP3NuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s+3X26aSBY/vkTPA8xeYChNqrkJa0dDJy5I9N9pJCII=;
- b=XshkJFT3/y6uJlk16IRbZjFy9QmR/HLLD1i9X2/TJOjogxlNPRUDks0mtI1+RL099VLIe9tbOIPLHfJq/R5bHvEGP3s35vwRlLxECe1gKtMlnZyhJTSlIt/xmmcF7aywX/VyH3qsQxpmfP5yLLBe+Bh8JkeDmySLeq77r8GUuUkJmqN/UMH/bGs2YgVb6oeZb20o/w8tk898VAE6ZsIR0SuYrpHi/dQDj8iGl/6LYsy2nODFFyGMzS0CU7qthnkmSDymIwm/SLPv7jxV5iVjx+PjgdGyn3C/I00z1SGBOo+MnmKkZK5IRf5dmMkExk15nx5XHJF8IQuHOM9NNg0KoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s+3X26aSBY/vkTPA8xeYChNqrkJa0dDJy5I9N9pJCII=;
- b=eTHWE4U7V5cvMaouKAzmHXE/mBWGfVVD5HQ9Zl4dA9qurRSyOwdR8Nbz1i7uSNrjWnvzqGjLxw7sy2t2Qwh1SXhHIhdejn6IE3w4Jxdia2INjuUDYwXLxr0mISrBgxUOZce/Pbz4TeDAeUT7oIV1mTP4ml78rqRTJQqKIQKUplJ0h+MipWRFXPmWWxPhTXtIpZqxzenURpKQ8up2l/mRNFVHFdgoyooNORfwvGLgpldpI1JhGMuXmls1H7ufLFqu1bG1fFz0K5oRZM7ZGaDwAS5gq+hQgHSJMu/oBHISl+sTZMP42+y2FCK1ZMbTr0wzbI383fEqQXKyCAQQYeJp5A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- IA1PR12MB6458.namprd12.prod.outlook.com (2603:10b6:208:3aa::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
- 2026 06:00:43 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0%4]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 06:00:43 +0000
-Date: Mon, 17 Aug 2026 16:00:37 +1000
-From: Alistair Popple <apopple@nvidia.com>
-To: Eliot Courtney <ecourtney@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, 
-	Yury Norov <yury.norov@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Timur Tabi <ttabi@nvidia.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Joel Fernandes <joelagnelf@nvidia.com>
-Subject: Re: [PATCH v2 04/12] gpu: nova-core: mm: Add VramAddress type
-Message-ID: <aoKfPchpfmTVguQf@nvdebian.thelocal>
-References: <20260810-pramin-split-v2-0-65a00b3c7309@nvidia.com>
- <20260810-pramin-split-v2-4-65a00b3c7309@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260810-pramin-split-v2-4-65a00b3c7309@nvidia.com>
-X-ClientProxiedBy: SY6PR01CA0085.ausprd01.prod.outlook.com
- (2603:10c6:10:110::18) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VyvxB4hm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MOzAX7Uj"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67GLCwAb3304842
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 06:52:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Ka8mIyw8X4rRBycNGAQC25Zs
+	LU2GjsEt1aqcnQAe8a0=; b=VyvxB4hmXqtUmFbsCK9Tk+LlKIpR+TImY2YHgoDL
+	Y5BVDzO7KOP2RoQ4x0q7pBl+jd250b05a5QFvjv6BmqaiwwssZp+e78JGd3E8mYA
+	Eu3CE77STRlv+T0dA3h3S30SSar14jSKh00WUKtco4Jui2QGlmhtuNCXoh+d/Sy7
+	TWGbVxkTT93VyhJqWHnWeQi6ewHtmURyS26zzun06+wfSvuQA7/B+ntc4b5YmQti
+	4HVwDbWCaRb23RDxar8NkRxxP2DLjjHrBckzrNhkBhs+w9P3qnoBa6ysoH6Zzg3S
+	lExRcPYnjB06Nqq1SxmKwtYYU3lNBu8v6k4qUtu1t7Zyog==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g2ghq5m4a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 06:52:39 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92ef13b61bcso444155485a.1
+        for <linux-doc@vger.kernel.org>; Sun, 16 Aug 2026 23:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1786949559; x=1787554359; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Ka8mIyw8X4rRBycNGAQC25ZsLU2GjsEt1aqcnQAe8a0=;
+        b=MOzAX7UjUL7mdP0MRz140FGlgEzqTcEs6obotYEH8/hbX5erBr4SsDmMvm76aYbEx4
+         6pvKk1n4QlUZNmfaujGM7X4L9Vjn/SKRHy4qvragMXS0TDwPwWAcJ+BaZ53mq1LEmr+l
+         riq2sN4IxUQqgBtO5niBGMtlyHPzv3zVLg60rSQ6itfwYV96tN4bqfhkG28TIHxvtaqE
+         x0DnWS4aZSX4oGN3m5C1gVhSUq8sW93294kauP2fFmR/7AwGHbQsi464/mdCoaRYSRYo
+         NSTFpnxWYmHkYbvUS7nyCw+o9WVb+zfX5k79vWIh9Iq30SM8QRHmA690gu8Ks4YeGekD
+         qO0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786949559; x=1787554359;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ka8mIyw8X4rRBycNGAQC25ZsLU2GjsEt1aqcnQAe8a0=;
+        b=H6veUGYueAFLoN4FJgoCI4rqo+qKtBfD30xdWHJrOLAUl/DaxuG6+Or1ChS+e2Iwso
+         aOdfSLh0ZDINv/OLUdbO4I2mAXaE+OD0FXVzi5PfWeZvAStHbD+7QJMvp4rJEUfFkBB1
+         VAOEL31aoVFl3sx7Rp22RilIUeKqCgHSmKNg0XOrXWJTbzTnfNXz/56KF3kj3q0qEhPj
+         e6YRRKjrXUBUAw984C+NeEDAYIsililXhsm3MjjjZJfG6Y5HdSOeN06TtZg2sQ7Bz0Hi
+         tM8ZvUZ2CcggMlzpY0uC8Yzl/iRhZc+eJZY0qed7GTWdAsU6UFj5ot10/ADFe1tR5FB0
+         nexA==
+X-Forwarded-Encrypted: i=1; AHgh+RqJj/e2baE9qB3wTiRtsuBqbT5vAs5OcZ6TC/RWqSiRzjHQkkh0YaEb7rWPivrryHTvb36S7UyAkOw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy078Lf8DDVcvmbUTA+nx+hVAbgqWY1TIimGe6oUv1XyPNcS5EO
+	bkYCo4H16WLfYr3258qcT43vTyzcEbwfrmlY0Cz253Z25Ye3JVrke+07RFFsclVmieGxZMEU2lp
+	OPEcJ5tAN5Flei7RyZnUQJfbU6/Jcyc+Ctb/aAa+rhu47LjQvr7XszQrwfErG09I=
+X-Gm-Gg: AR+sD10gNLRojDTGQ7B1ZnJOqETSscrBIFDJ3R4yJuPNOJLW+W8IpYMW1GPoezy1YX/
+	LFSSUjLrVvxeZnbiFKMWp+ilWCgyGjZD0IFQRTQ5mb8oY3gV194Zj8LWQXre0rA78S/c73coWwR
+	iKWh1MpGffBytfxGqH10DBcReT2IhijelOW685QzX1o9QewRjwzm4GefdtGFREOkOo27lIzg8ik
+	2zrvz9poQTM2rhgHBE8yiGfNLjo2NIb/7+gF4kCeEyuFaUUa/mu+bDKNL8r2jj4BMymm2m6lVuC
+	zPDLI3kvqZPorDwsi2T/hwU6bhEiNxFKw+oHPbCijVIhyqmvzcYbNhvOfhsMbaupRe4VOlUHosi
+	lr+x49W3/GYh6CDs20nGBjDk4SRHJpCtyxRN+M9jo6itYOOR7w7LBizP6HKNMpPjEtX8cO61ziz
+	q3BGg1JEFvA4H6
+X-Received: by 2002:a05:620a:8215:b0:934:a2f0:33c1 with SMTP id af79cd13be357-936d235d4e0mr1735226685a.33.1786949558660;
+        Sun, 16 Aug 2026 23:52:38 -0700 (PDT)
+X-Received: by 2002:a05:620a:8215:b0:934:a2f0:33c1 with SMTP id af79cd13be357-936d235d4e0mr1735223185a.33.1786949558027;
+        Sun, 16 Aug 2026 23:52:38 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a16b1f23dbsm1912601fa.39.2026.08.16.23.52.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2026 23:52:36 -0700 (PDT)
+Date: Mon, 17 Aug 2026 09:52:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 07/15] accel/qda: Add memory manager for CB devices
+Message-ID: <wt2pdo3m3nlhvyofuvbsqnvggywx75ucs65vjt3dzrxkrpgztz@xwwlhq2iuiun>
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-7-69a02e9090d4@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|IA1PR12MB6458:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a01f37e-df40-4de4-7062-08defc24df1d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|56012099006|10067099003|3023799007|6133799003|18002099003|22082099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	0Tkk20boQhgNbqRPILXyyWaQ1ASR7FJa2Gbt7N9GZw2uZRBkwNQ+OdQ3yIAhriFwhINs/kfZFIjy5itmSAwlKtgJ7XE3zxK3jcjJH7V+bRzPzfRELSqWWZUgcsw6GIHO59tdZ0ZNCADLFfJ2A01fDqun2BvK+7BMRtPZYG18S04oSdMIsT4o7tQtkIeYQhNq+VoXRF+tJr4SBpXboo/A2mZzoGbzOO4ZBm/EUMmp6K1bKU9fWQtgSQGNMYxOUthFb6zcdWld9+V1IJFYt1afCWd4bHUNc8cdVQqR22lompooKNdPNKlmy1l+wbfIfG56eO47JhA+ysbGpgHuiFk3SOWWOZYFyemDl6te88YjHEQBqc5+Q0dDwwJNc+VZkHdb8dhr7nT3ZejiAnR0yXYNOpZyskRFBdi5Kab4hpp5zZg570XHnmHTg8LLhF2ijWqH0IahyL4PgwtCCgfGtA67M2Zu3Na7TnjvJqwnR+va5vt+CRwUqZ/jcWKSamw/B73zqZtzvg3ORex+enA4Mlagdy2Pv9WxOjJo0XS0EEhQJdoPxem9DFU5s3jAMZ5jmW+uNE/QwYv8f83JnmbNBD6T+FG2XZ/9KZ98tZnC047RlDxE21G9h7GEJIIW2QEgFXcvoUqG7UWW9hBpHyiBFyemc6yXgLS9xS2KyAwbQTupQo0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(56012099006)(10067099003)(3023799007)(6133799003)(18002099003)(22082099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VSZraR13LbVwm5XhR2ajbK/qXchEGj61+seYOvyZarjEAVX8QKsqWY8lT8KS?=
- =?us-ascii?Q?gWEqn6lNZF6TnnMTGGygjXM/B0bvZdoNGwGLx/hTvcdz48UP+M/s4GD+V8jj?=
- =?us-ascii?Q?EE0zDaUDThhCNQG+qazrBNKCjmElWiN7uLTUTvQcBvfE7QnwY7Zc0yxut/Wf?=
- =?us-ascii?Q?WxSUZFduFi3TAUFi+fmpzb03YHAOAFZiQZ2J2NMd+SXclENw6l5Q6qwC6cen?=
- =?us-ascii?Q?BIahcDc5gHFrUvRdBkGX8MdopAuTYs5uZsOnC+ghFktavPy+fVm9HAIOdE1s?=
- =?us-ascii?Q?ts1Afr7RzWlNIuyPopnfOceYKt2IsubS7TpuRvQij6z9iVBv+Iomy30CIzfW?=
- =?us-ascii?Q?j2en6+0iwj1MOdBiODDP17bJSKMFv32jfBXZW1EYTvT86QKmapgKY3BLv3SW?=
- =?us-ascii?Q?WAXLUR7LT2bTtwv9uc+0seQn7KdakSCsWy7Brt560xyOoBGjD52dGKWsqHQ9?=
- =?us-ascii?Q?hB6q0TaS46x+vr5aV9M+wJ06QNLJQsjni+tRJwJ91bJ+aNN2DRd4K97biayY?=
- =?us-ascii?Q?fUsKO1ntmxdIR7c0Ul+003metsPk8ahvZr8p6gRhKaw2qd1cBvxtAnSwUA0/?=
- =?us-ascii?Q?A4ChMe03DDWgq9sbtgvRMozpv/C8o9e2oN2zV07znTWpMUwQ7dxWL5UupHRd?=
- =?us-ascii?Q?PWjo8ADp5H+tkifcYFQGonK1IoIzpwF5zU2fznAIU7c7Hpnm3F2AXTnPcQQg?=
- =?us-ascii?Q?VXMnfCzmJ/gl5Ui3BRmND1A1uQIzyR0tKp2fJDsM0O5TOsSmJJQl2MVD5JjM?=
- =?us-ascii?Q?fx2IcCKl+dPH0h42xg7Nxylp2ZvsUnHtb76lV9mS9kVNrQAFHIkq9WzU48DE?=
- =?us-ascii?Q?CRoGrCv0HUcZijZu3f9PuKvA3eqcJDR2PbQIqHCTJgJuJw+d56WiG3ya5hS1?=
- =?us-ascii?Q?E73dfgDcYdR+I/yxI0km0Zu43VfX5dPuC93OMhZeAeBxat8TO+t/+dBti5A4?=
- =?us-ascii?Q?D5KqVpWiRsyQVl/5uLo822stAeYK4S1J9ZgJdpPIhV6ZnrQAxTPRS9M3Soun?=
- =?us-ascii?Q?CCPWNFZApgajK/1Sam2sUHay/lzy8HjLrP6sK/n9umGKKagPnjSEPtD/AA3w?=
- =?us-ascii?Q?r2fj6Ur7GTfhFbkMMDCkfznqKZ7AqgQpib35BNwww55kdQHLm5XJLvFt34Vw?=
- =?us-ascii?Q?szYGXvzwT0ZejeSUXy5maulvF3hEge2quXN52gX0bPGvnZko+hcY8HMGbNzZ?=
- =?us-ascii?Q?JUawgvJDNT1dOzhZUS9TfUt5AM8u/QXCp53yQoxNIpOrMqrnng6+45/3jW/7?=
- =?us-ascii?Q?+y/ON+0Y0SMvi61mQ8Av8Iuvf632meXSVWecB3pTcTXEaN4UKcIIrCxGLFQW?=
- =?us-ascii?Q?7GRL7+rB3D/eifJB4F33eP7wEq57QGUjFzqGQsvsKB6PAD57KS825lQ7w/W4?=
- =?us-ascii?Q?2PAkZtOMKo+sr6XodrD1htudy0jIe2vIw86b2Uex/zUru8NR6oMxRB/42dCX?=
- =?us-ascii?Q?3EmeUa9UTBUMqVQQ1Tetg+idjbTUYISif4TSDDyyZUNF1j+choxUSrOhfnoN?=
- =?us-ascii?Q?aLzlwvlBqv6EjwD6Skix7ipAnGBb2+qNdVrFKlsVsPQLZon33dRhdzmt5rZE?=
- =?us-ascii?Q?8hWaMDxzDrdp8wS8xiuOUwymu3A1/OFYEfxGbqOZdatMWm+oFzuuKSVHq4pC?=
- =?us-ascii?Q?NWE6H8ePfpja9Olp5ca1LoR2L51clJ4yU0HlTZ13xQ7yQlOSU4zRR4nFT+m1?=
- =?us-ascii?Q?CvsKkunZYKx5DzanKtlIuV5nZ3YRFxr3D5xbtq5Rqq1ESmAFOYtBuOAbChFr?=
- =?us-ascii?Q?cNJwd3mBDA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a01f37e-df40-4de4-7062-08defc24df1d
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 06:00:42.9390
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /7ey6w6Nk4OWxyTF1N6UccCXl3FlINX6M8Avh93rr/mZjw9Agp4+Q+Ob0ogxVHQ2ICSGFRDJBpy7NNpzJePZ6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6458
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260817-qda-v2-v2-7-69a02e9090d4@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDA1MCBTYWx0ZWRfXzT7sLjUDLRyQ
+ 06EMeBjKjGsPK4Y1Gpv28fjR4BXK9twMRMKcqEAoUZ37qKgjrOKHtgFL3nH94IMUja8rvoReyUW
+ lv0zh6b07wptMdszR4Fi52Rwo9t+/PUQYH+6h7yxv8NpjHGUM1RmyHBlx5Hbs2hbuZXzx1b5wWG
+ BH6Ij+kkSq7Rj608ZgTwCqWJGKD0HmCwsMfwsion6+SwVDRYTFRif8ZX5Km7dODUQ2qA+8aTWgU
+ yv82DNck5sB3J1MgVjBGiuCEFCl3P30YwesI5Qiy6py87bNRJI5i3z8N6UwIUX8yyvUSXeQ5ay7
+ JiWhGtM8H9E67Ly1KWRhrS1SwX8wG0jUse9zLVl9MZvx4LDCPS4ng0GOyj6Miv25Q1u3/nbcz8M
+ TZOh1dv6RXEsP70wSdYyihy8V//AY12ZIJDpdTIOBlyeT0Bm9WiRz0m2eqpLLDSutjhBjzllBrg
+ gl4ipJbiOJibHdRJekQ==
+X-Proofpoint-ORIG-GUID: sf6UWkxfl7V7VoNW5NKp7bHe8gVggkLi
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDA1MCBTYWx0ZWRfX5yWosoHsQVZ2
+ cG8yR3cQOzNnLCzVhBJn8DHaCiJIOwnRBa/MqlaGOvdJkAC8dhO3n0w8Acqb9B8o8KeZ6KHCCt4
+ MV14qvzN3sWkCn9561yHvEdrikBN00s=
+X-Proofpoint-GUID: sf6UWkxfl7V7VoNW5NKp7bHe8gVggkLi
+X-Authority-Analysis: v=2.4 cv=dvHrzVg4 c=1 sm=1 tr=0 ts=6a82afb7 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=k3pNtizIBdZJHqWcwIQA:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-16_06,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608170050
 
-On 2026-08-10 at 23:55 +1000, Eliot Courtney <ecourtney@nvidia.com> wrote...
-> From: Joel Fernandes <joelagnelf@nvidia.com>
+On Mon, Aug 17, 2026 at 10:17:42AM +0530, Ekansh Gupta wrote:
+> Introduce the QDA memory manager (qda_memory_manager) to track the
+> IOMMU devices that back each compute context bank (CB).
 > 
-> Add the `VramAddress` type representing a physical address in VRAM. Also
-> add an arithmetic helper, comparison, and operator overloads which are
-> required in later patches for address arithmetic.
+> Each CB device registered on the qda-compute-cb bus is wrapped in a
+> qda_iommu_device descriptor recording the device pointer and its stream
+> ID, and stored in the memory manager's registry. Later patches use this
+> registry to resolve the IOMMU device a session should allocate from.
 > 
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> [ecourtney: create mm.rs here, squashing in the arithmetic patch]
-> [ecourtney: splice the two commit bodies]
-> [ecourtney: drop the Pfn fields, open-coding what bitfield! generated]
-> [ecourtney: drop align_down and the IntoVramOffset/IntoVramRange traits]
-> [ecourtney: make checked_add() const over a plain u64, derive the ordering]
-> [ecourtney: doc wording, header, import, and signature cleanups]
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+> The registry is a plain array sized to the number of
+> "qcom,fastrpc-compute-cb" nodes present in the device tree: the RPMsg
+> probe counts those nodes and passes the count to qda_init_device(),
+> which allocates the array in qda_memory_manager_init(). The memory
+> manager is created before CB devices are populated and destroyed after
+> they are torn down, so no dangling descriptors remain.
+> 
+> qda_cb_setup_device() is called immediately after a CB device is
+> registered on the bus: it allocates the descriptor, registers it with
+> the memory manager, and stores it as the CB device's driver data so
+> that qda_destroy_cb_device() can unregister and free it during teardown.
+> 
+> Assisted-by: Claude:claude-sonnet-5
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > ---
->  drivers/gpu/nova-core/mm.rs        | 60 ++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/nova-core/nova_core.rs |  1 +
->  2 files changed, 61 insertions(+)
+> Changes in v2:
+> - Replace the XArray with a plain array sized to the device tree's CB
+>   node count instead of a fixed 16-entry table (Dmitry Baryshkov)
+> - Fold the init_memory_manager()/cleanup_memory_manager() wrappers into
+>   qda_init_device()/qda_deinit_device() (Dmitry Baryshkov)
+> - Drop the pr_debug() calls (Dmitry Baryshkov)
+> - Use goto labels to unwind probe failures instead of open-coding the
+>   cleanup at each error site (Dmitry Baryshkov)
+> ---
+>  drivers/accel/qda/Makefile             |  1 +
+>  drivers/accel/qda/qda_cb.c             | 39 ++++++++++++++
+>  drivers/accel/qda/qda_drv.c            | 26 +++++++++
+>  drivers/accel/qda/qda_drv.h            |  5 ++
+>  drivers/accel/qda/qda_memory_manager.c | 98 ++++++++++++++++++++++++++++++++++
+>  drivers/accel/qda/qda_memory_manager.h | 55 +++++++++++++++++++
+>  drivers/accel/qda/qda_rpmsg.c          | 23 +++++++-
+>  7 files changed, 246 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/nova-core/mm.rs b/drivers/gpu/nova-core/mm.rs
+> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
+> index 143c9e4e789e..701fad5ffb50 100644
+> --- a/drivers/accel/qda/Makefile
+> +++ b/drivers/accel/qda/Makefile
+> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
+>  qda-y := \
+>  	qda_cb.o \
+>  	qda_drv.o \
+> +	qda_memory_manager.o \
+>  	qda_rpmsg.o
+>  
+>  obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
+> diff --git a/drivers/accel/qda/qda_cb.c b/drivers/accel/qda/qda_cb.c
+> index 9c5ef32f351e..cd32d6df6318 100644
+> --- a/drivers/accel/qda/qda_cb.c
+> +++ b/drivers/accel/qda/qda_cb.c
+> @@ -8,13 +8,40 @@
+>  #include <linux/slab.h>
+>  #include <drm/drm_print.h>
+>  #include "qda_drv.h"
+> +#include "qda_memory_manager.h"
+>  #include "qda_cb.h"
+>  
+> +static int qda_cb_setup_device(struct qda_dev *qdev, struct device *cb_dev, u32 sid)
+> +{
+> +	struct qda_iommu_device *iommu_dev;
+> +	int ret;
+> +
+> +	iommu_dev = kzalloc_obj(*iommu_dev);
+> +	if (!iommu_dev)
+> +		return -ENOMEM;
+> +
+> +	iommu_dev->dev = cb_dev;
+> +	iommu_dev->qdev = qdev;
+> +	iommu_dev->sid = sid;
+> +
+> +	ret = qda_memory_manager_register_device(qdev->iommu_mgr, iommu_dev);
+> +	if (ret) {
+> +		drm_err(&qdev->drm_dev, "Failed to register IOMMU device: %d\n", ret);
+> +		kfree(iommu_dev);
+> +		return ret;
+> +	}
+> +
+> +	dev_set_drvdata(cb_dev, iommu_dev);
+> +
+> +	return 0;
+> +}
+> +
+>  int qda_create_cb_device(struct qda_dev *qdev, struct device_node *cb_node)
+>  {
+>  	struct qda_cb_dev *entry;
+>  	struct device *cb_dev;
+>  	u32 sid = 0;
+> +	int ret;
+>  
+>  	if (of_property_read_u32(cb_node, "reg", &sid))
+>  		drm_info(&qdev->drm_dev, "No stream ID in DT node %pOFn, using 0\n", cb_node);
+> @@ -27,6 +54,12 @@ int qda_create_cb_device(struct qda_dev *qdev, struct device_node *cb_node)
+>  		return PTR_ERR(cb_dev);
+>  	}
+>  
+> +	ret = qda_cb_setup_device(qdev, cb_dev, sid);
+> +	if (ret) {
+> +		device_unregister(cb_dev);
+> +		return ret;
+> +	}
+> +
+>  	entry = kzalloc_obj(*entry);
+>  	if (!entry) {
+>  		qda_destroy_cb_device(cb_dev);
+> @@ -74,8 +107,14 @@ int qda_cb_populate(struct qda_dev *qdev, struct device_node *parent_node)
+>  
+>  void qda_destroy_cb_device(struct device *cb_dev)
+>  {
+> +	struct qda_iommu_device *iommu_dev;
+>  	struct iommu_group *group;
+>  
+> +	iommu_dev = dev_get_drvdata(cb_dev);
+> +	if (iommu_dev && iommu_dev->qdev->iommu_mgr)
+
+Can either of them be NULL?
+
+> +		qda_memory_manager_unregister_device(iommu_dev->qdev->iommu_mgr,
+> +						     iommu_dev);
+> +
+>  	group = iommu_group_get(cb_dev);
+>  	if (group) {
+>  		iommu_group_remove_device(cb_dev);
+> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
+> index 09b6d5ac390b..fdc909facd95 100644
+> --- a/drivers/accel/qda/qda_drv.c
+> +++ b/drivers/accel/qda/qda_drv.c
+> @@ -56,6 +56,32 @@ struct qda_dev *qda_alloc_device(struct device *dev)
+>  	return qdev;
+>  }
+>  
+> +void qda_deinit_device(struct qda_dev *qdev)
+> +{
+> +	if (qdev->iommu_mgr) {
+
+Why?
+
+> +		qda_memory_manager_exit(qdev->iommu_mgr);
+> +		kfree(qdev->iommu_mgr);
+> +		qdev->iommu_mgr = NULL;
+
+What for? If it's a teardown path, qdev will be destroyed soon.
+
+> +	}
+> +}
+> +
+> +int qda_init_device(struct qda_dev *qdev, int num_cbs)
+> +{
+> +	int ret;
+> +
+> +	qdev->iommu_mgr = kzalloc_obj(*qdev->iommu_mgr);
+
+devm_kzalloc_obj()?
+
+> +	if (!qdev->iommu_mgr)
+> +		return -ENOMEM;
+> +	ret = qda_memory_manager_init(qdev->iommu_mgr, num_cbs);
+> +	if (ret) {
+> +		drm_err(&qdev->drm_dev, "Failed to initialize memory manager: %d\n", ret);
+> +		kfree(qdev->iommu_mgr);
+> +		qdev->iommu_mgr = NULL;
+
+And what is going to read this NULL?
+
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  int qda_register_device(struct qda_dev *qdev)
+>  {
+>  	int ret;
+> diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
+> index 3bd41b9593fa..690a833d732b 100644
+> --- a/drivers/accel/qda/qda_drv.h
+> +++ b/drivers/accel/qda/qda_drv.h
+> @@ -13,6 +13,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> +#include "qda_memory_manager.h"
+>  
+>  /* Driver identification */
+>  #define QDA_DRIVER_NAME "qda"
+> @@ -40,6 +41,8 @@ struct qda_dev {
+>  	struct device *dev;
+>  	/** @cb_devs: Compute context-bank (CB) child devices */
+>  	struct list_head cb_devs;
+> +	/** @iommu_mgr: IOMMU/memory manager instance */
+> +	struct qda_memory_manager *iommu_mgr;
+>  	/** @dsp_name: Name of the DSP domain (e.g. "cdsp", "adsp") */
+>  	const char *dsp_name;
+>  };
+> @@ -59,6 +62,8 @@ static inline struct qda_dev *qda_dev_from_drm(struct drm_device *dev)
+>  struct qda_dev *qda_alloc_device(struct device *dev);
+>  
+>  /* Core device lifecycle */
+> +int qda_init_device(struct qda_dev *qdev, int num_cbs);
+> +void qda_deinit_device(struct qda_dev *qdev);
+>  int qda_register_device(struct qda_dev *qdev);
+>  
+>  #endif /* __QDA_DRV_H__ */
+> diff --git a/drivers/accel/qda/qda_memory_manager.c b/drivers/accel/qda/qda_memory_manager.c
 > new file mode 100644
-> index 000000000000..dcd5e5e919bf
+> index 000000000000..b1a80ee77c35
 > --- /dev/null
-> +++ b/drivers/gpu/nova-core/mm.rs
-> @@ -0,0 +1,60 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+> +++ b/drivers/accel/qda/qda_memory_manager.c
+> @@ -0,0 +1,98 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 > +
-> +//! Memory management subsystems.
+> +#include <linux/slab.h>
+> +#include "qda_drv.h"
+> +#include "qda_memory_manager.h"
 > +
-> +#![expect(dead_code)]
+> +static void cleanup_all_memory_devices(struct qda_memory_manager *mem_mgr)
+> +{
+> +	int i;
 > +
-> +use core::{
-> +    fmt::LowerHex,
-> +    ops, //
+> +	for (i = 0; i < mem_mgr->num_devices; i++) {
+> +		struct qda_iommu_device *iommu_dev = mem_mgr->devices[i];
+> +
+> +		if (!iommu_dev)
+> +			continue;
+> +
+> +		mem_mgr->devices[i] = NULL;
+> +		kfree(iommu_dev);
+> +	}
+> +	mem_mgr->num_devices = 0;
+
+What for?
+
+> +}
+> +
+> +/**
+> + * qda_memory_manager_register_device() - Register an IOMMU device
+> + * @mem_mgr: Pointer to memory manager
+> + * @iommu_dev: Pointer to IOMMU device to register
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +int qda_memory_manager_register_device(struct qda_memory_manager *mem_mgr,
+> +				       struct qda_iommu_device *iommu_dev)
+> +{
+> +	if (mem_mgr->num_devices >= mem_mgr->max_devices)
+> +		return -ENOSPC;
+> +
+> +	iommu_dev->id = mem_mgr->num_devices;
+> +	mem_mgr->devices[mem_mgr->num_devices++] = iommu_dev;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * qda_memory_manager_unregister_device() - Unregister an IOMMU device
+> + * @mem_mgr: Pointer to memory manager
+> + * @iommu_dev: Pointer to IOMMU device to unregister
+> + *
+> + * Removes the device from the registry and frees it.
+> + */
+> +void qda_memory_manager_unregister_device(struct qda_memory_manager *mem_mgr,
+> +					  struct qda_iommu_device *iommu_dev)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < mem_mgr->num_devices; i++) {
+> +		if (mem_mgr->devices[i] == iommu_dev) {
+> +			mem_mgr->devices[i] = NULL;
+> +			break;
+> +		}
+> +	}
+> +
+> +	kfree(iommu_dev);
+> +}
+> +
+> +/**
+> + * qda_memory_manager_init() - Initialize the memory manager
+> + * @mem_mgr: Pointer to memory manager structure to initialize
+> + * @max_devices: Number of IOMMU context bank devices to make room for
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +int qda_memory_manager_init(struct qda_memory_manager *mem_mgr, int max_devices)
+> +{
+> +	if (max_devices <= 0)
+> +		return -EINVAL;
+> +
+> +	mem_mgr->devices = kcalloc(max_devices, sizeof(*mem_mgr->devices), GFP_KERNEL);
+> +	if (!mem_mgr->devices)
+> +		return -ENOMEM;
+> +
+> +	mem_mgr->num_devices = 0;
+> +	mem_mgr->max_devices = max_devices;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * qda_memory_manager_exit() - Clean up the memory manager
+> + * @mem_mgr: Pointer to memory manager structure to clean up
+> + */
+> +void qda_memory_manager_exit(struct qda_memory_manager *mem_mgr)
+> +{
+> +	cleanup_all_memory_devices(mem_mgr);
+> +
+> +	kfree(mem_mgr->devices);
+> +	mem_mgr->devices = NULL;
+> +	mem_mgr->max_devices = 0;
+> +}
+> diff --git a/drivers/accel/qda/qda_memory_manager.h b/drivers/accel/qda/qda_memory_manager.h
+> new file mode 100644
+> index 000000000000..7e38c8a18284
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_memory_manager.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef __QDA_MEMORY_MANAGER_H__
+> +#define __QDA_MEMORY_MANAGER_H__
+> +
+> +#include <linux/device.h>
+> +
+> +/* Forward declarations */
+> +struct qda_dev;
+> +
+> +/**
+> + * struct qda_iommu_device - IOMMU device instance for memory management
+> + *
+> + * Represents a single IOMMU-enabled device managed by the memory manager.
+> + * Each device can be assigned to a specific process session.
+> + */
+> +struct qda_iommu_device {
+> +	/** @dev: Pointer to the underlying device */
+> +	struct device *dev;
+> +	/** @qdev: Back-pointer to the parent QDA device */
+> +	struct qda_dev *qdev;
+> +	/** @id: Unique identifier assigned by the memory manager */
+> +	u32 id;
+
+What kind of identifier? What is going to use it? I don't see any
+readers in this patch, please don't add useless data.
+
+> +	/** @sid: Stream ID for IOMMU transactions */
+> +	u32 sid;
+
+Do you need to store it?
+
 > +};
 > +
-> +use kernel::fmt;
-> +
-> +/// Physical VRAM address in GPU video memory.
-> +#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-> +#[repr(transparent)]
-> +pub(crate) struct VramAddress(u64);
+> +/**
+> + * struct qda_memory_manager - Central memory management coordinator
+> + *
+> + * Coordinates memory management across multiple IOMMU devices. Maintains
+> + * a registry of devices in an array sized to the number of context banks
+> + * described in the device tree.
+> + */
+> +struct qda_memory_manager {
+> +	/** @devices: Array storing registered IOMMU devices */
+> +	struct qda_iommu_device **devices;
+> +	/** @num_devices: Number of registered IOMMU devices */
+> +	int num_devices;
 
-Is this the best type here, or should this be bounded via runtime checking to
-ensure it refers to a valid address?
+What for? Is devices array to be looped up to num_devices or
+max_devices?
 
-I was going to ask if it should be bounded to reflect the physical addressing
-capabilities of the GPU in question, but that would actually need to be a
-different type as GPU physical addresses might not even refer to local vidmem.
-
-Although I think that's a concern for future series - AFAIK PRAMIN can only
-access local VRAM.
-
+> +	/** @max_devices: Capacity of the @devices array */
+> +	int max_devices;
+> +};
 > +
-> +impl VramAddress {
-> +    /// Creates an address from a raw value.
-> +    pub(crate) const fn from_raw(addr: u64) -> Self {
-> +        Self(addr)
-> +    }
+> +int qda_memory_manager_init(struct qda_memory_manager *mem_mgr, int max_devices);
+> +void qda_memory_manager_exit(struct qda_memory_manager *mem_mgr);
 > +
-> +    /// Returns the address as a raw value.
-> +    pub(crate) const fn into_raw(self) -> u64 {
-> +        self.0
-> +    }
+> +int qda_memory_manager_register_device(struct qda_memory_manager *mem_mgr,
+> +				       struct qda_iommu_device *iommu_dev);
+> +void qda_memory_manager_unregister_device(struct qda_memory_manager *mem_mgr,
+> +					  struct qda_iommu_device *iommu_dev);
 > +
-> +    /// Adds `rhs` to this address, returning [`None`] on overflow.
-> +    pub(crate) const fn checked_add(self, rhs: u64) -> Option<Self> {
-> +        match self.into_raw().checked_add(rhs) {
-> +            Some(addr) => Some(Self::from_raw(addr)),
-> +            None => None,
-> +        }
-> +    }
+> +#endif /* __QDA_MEMORY_MANAGER_H__ */
+> diff --git a/drivers/accel/qda/qda_rpmsg.c b/drivers/accel/qda/qda_rpmsg.c
+> index 723b3e61bf0a..64bf503106d9 100644
+> --- a/drivers/accel/qda/qda_rpmsg.c
+> +++ b/drivers/accel/qda/qda_rpmsg.c
+> @@ -42,11 +42,25 @@ static void qda_rpmsg_remove(struct rpmsg_device *rpdev)
+>  	drm_dev_unplug(&qdev->drm_dev);
+>  	qdev->rpdev = NULL;
+>  	qda_cb_unpopulate(qdev);
+> +	qda_deinit_device(qdev);
 > +}
 > +
-> +impl LowerHex for VramAddress {
-> +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-> +        LowerHex::fmt(&self.into_raw(), f)
-> +    }
-> +}
+> +static int qda_count_cb_nodes(struct device_node *parent_node)
+> +{
+> +	struct device_node *child;
+> +	int count = 0;
 > +
-> +impl ops::Add<u64> for VramAddress {
-> +    type Output = Self;
+> +	for_each_child_of_node(parent_node, child)
+> +		if (of_device_is_compatible(child, "qcom,fastrpc-compute-cb"))
+> +			count++;
 > +
-> +    fn add(self, rhs: u64) -> Self::Output {
-> +        Self::from_raw(self.into_raw() + rhs)
-> +    }
-> +}
+> +	return count;
+>  }
+>  
+>  static int qda_rpmsg_probe(struct rpmsg_device *rpdev)
+>  {
+>  	struct qda_dev *qdev;
+> +	int num_cbs;
+>  	int ret;
+>  
+>  	qdev = qda_rpmsg_alloc_and_init_qdev(rpdev);
+> @@ -59,10 +73,15 @@ static int qda_rpmsg_probe(struct rpmsg_device *rpdev)
+>  		return ret;
+>  	}
+>  
+> -	ret = qda_cb_populate(qdev, rpdev->dev.of_node);
+> +	num_cbs = qda_count_cb_nodes(rpdev->dev.of_node);
+> +	ret = qda_init_device(qdev, num_cbs);
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = qda_cb_populate(qdev, rpdev->dev.of_node);
+> +	if (ret)
+> +		goto err_deinit;
 > +
-> +impl ops::Sub for VramAddress {
-> +    type Output = u64;
-> +
-> +    fn sub(self, rhs: Self) -> Self::Output {
-> +        self.into_raw() - rhs.into_raw()
-> +    }
-> +}
-> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-> index 35a8b1214b0e..8f59cfa97017 100644
-> --- a/drivers/gpu/nova-core/nova_core.rs
-> +++ b/drivers/gpu/nova-core/nova_core.rs
-> @@ -18,6 +18,7 @@
->  mod gpu;
->  mod gsp;
->  mod mctp;
-> +mod mm;
->  #[macro_use]
->  mod num;
->  mod regs;
+>  	ret = qda_register_device(qdev);
+>  	if (ret)
+>  		goto err_unpopulate;
+> @@ -71,6 +90,8 @@ static int qda_rpmsg_probe(struct rpmsg_device *rpdev)
+>  
+>  err_unpopulate:
+>  	qda_cb_unpopulate(qdev);
+> +err_deinit:
+> +	qda_deinit_device(qdev);
+>  	return ret;
+>  }
+>  
 > 
 > -- 
-> 2.55.0
+> 2.34.1
 > 
+
+-- 
+With best wishes
+Dmitry
