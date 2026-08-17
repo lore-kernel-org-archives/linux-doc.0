@@ -1,163 +1,273 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011029.outbound.protection.outlook.com [40.107.130.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1625837DE99;
-	Mon, 17 Aug 2026 18:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786992196; cv=fail; b=p+l5Ky39gwOKv2QNubkLbDa7cVwHvNvlxtRUU50A26dcoLd+JF44vaAeQcvCO0GUt/xBujQrt4o1z3z06XpXwVojTLS4qn+m1oB+sD2L5Wk/hI92oMo9fHUEZg2higzQRfENjxfBHkFH0h2HwWKeLLyaKg0mmhZBAMpNkL94zMQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786992196; c=relaxed/simple;
-	bh=VQ2U3MrisDg0LzZJsBHyY3JWKz0GKgcU1TJnhR3qjvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=S6JXQ/XB1XYZQvnY02uBL9TvyH/qI1+qIBOa8mQpRoN+QWg+5/BLS0/7W4UlHC1UjSXt8DeSx7s4TQAZSR3/p9tmDyeKRzzlTtOV8wMWyy4zm82KUyG6lpoYEQqW7BKvdNP+YFaHyoU566RGtpbY+vTHF4fq/yXU9pcefu/TKAE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=SRYDRWKC; arc=fail smtp.client-ip=40.107.130.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25CE3A7F68
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 19:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786996073; cv=none; b=GvS/LYGMvj0IHd7I43eQSjGsd2Yv3s2CEu0r6xIaKG0oTEjc4U+IK3eILxOfQfMB7lE9rJMzn+zxhCI5+00OdJUswTasnnvWg8rqJ4y+FILXrgntYpit015/NmZIc1z9zUbxqQh398+N2k+fDHwuOwqMUNKd37c/IlSFHoSjOFI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786996073; c=relaxed/simple;
+	bh=Sq4thMMJReze4/rJZCBTgoxk8esIF6+Ewcd2Tnn+VUQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=W3D/5U2LSnbofDvQAiPaP0szbWzAQFTYxbvQkkplqaFUq03qvNxbjpE0xJ0oiPiz+CYwQEy4kC3ga2v1w3k2PBemKmZXwjkn1oXHhkeqN9ERY3Q6q0oB1XykI8qn1Aab5t3DSuTE6kNOyqctUyqjQiqTMCH9Teog+Pm74auMpKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oso7wUSn; arc=none smtp.client-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="SRYDRWKC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m/pOIkGx4MHOYC4mXQLFrmO2iQVpscZ2nd5loEtKbQ4MnFbQe0gJHXrSQSlbkR5rxV/gBQpJ8WI7Uj+mSpXpz/mIJpUSeVhH1QdqG3z0EkqUjQBZRfw67lubSXIwufJbjPTGH4j3cwBaQ6gg5kJqC/Guo121188TobM4QvlDGdqcsJqArE+LEvxpZou30jJU4oIpTN72da8aBwl55U+rJShVaUolUzudZE4fsGA2BMqwxYOeYxMRYfXRe+QYKFQLHqdeHwCkfXEKm5wGgGzk3s4illoe7kGf/UjtyGsp2TETuJl4qVen/J2g4qg6doP51zz0bGYBlm4UTyk9/4rFGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VQ2U3MrisDg0LzZJsBHyY3JWKz0GKgcU1TJnhR3qjvM=;
- b=Mcs9cI6BhFCIG3PGN1v146dRYneQ/se4vm6EQhl/GgF8/11m9R0qoHLYXP1Kx3Fi+8kjdugI9olVpxe8BDNXxkfiBlvqELyZOiEib8iw/ckkzj+bUiblpFfS9AX170aycMOToBBwDg13UI/Y3BgmjcguwNQp2MOoWIicH8dc6OqWldAyNFNxIDvyj+z9sLZFvEdQUtqiFuooBXimsNYEJd2Kr05TWr3Ay92wZk2GYbl97wF4HC7bewHpzahaL/epJrNbKlCJ2gJow1eIntaKFG+6hW75RkDhH2VWx8GatwuxcHEaJ1Wpv9XgQNzwaRyiwRKS8w7UlVA7bKyXkabpYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQ2U3MrisDg0LzZJsBHyY3JWKz0GKgcU1TJnhR3qjvM=;
- b=SRYDRWKCNG7il1dv9qUe8IdAseO8LjfPfQM4CCwFS5vQbPLuBMZUq+lVSHp9rNbQKEHwwMADyUYNtcIwq8giwj1H1HR2A/fe+htbG3XYsRSSB+SkUb83rrhXXcuTw6pq2n691tIJHOlfbMxsH1EqL2M0gFUsAZ8OgR+pt7RSQR2eKnzdToN3sfvOLZQ86eAFUKuW1lm3PG5rbRNUnTEQDeHbfFDIZxJGoLo6A501pjrKQ5MnMDbnACKxRpbqnh7F165o1WVWXgWcPg6Ahw3q858f267Y46r8UA4Ht42uwr2KnprGEII4+yx23PSIf87Unm41KM2AVkebhVCRYI4FFQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by PAXPR04MB8559.eurprd04.prod.outlook.com (2603:10a6:102:216::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
- 2026 18:43:12 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 18:43:12 +0000
-Date: Mon, 17 Aug 2026 13:43:02 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: frank.li@nxp.com, corbet@lwn.net, dmaengine@vger.kernel.org,
-	hch@infradead.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	lizhijian@fujitsu.com, mst@redhat.com, rdunlap@infradead.org
-Subject: Re: [PATCH v2 1/1] docs: dma: correct dma_set_mask() sample code
-Message-ID: <aoNWNkAhUZi6_pgH@SMW015318>
-References: <20240401174159.642998-1-Frank.Li@nxp.com>
- <20260816071044.331a2c51.michal.pecio@gmail.com>
- <aoMty9Dvt2bnWm74@SMW015318>
- <20260817191731.104171a3.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260817191731.104171a3.michal.pecio@gmail.com>
-X-ClientProxiedBy: SA9PR03CA0003.namprd03.prod.outlook.com
- (2603:10b6:806:20::8) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oso7wUSn"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cacf17c7e0so56644135ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 12:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786996070; x=1787600870; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dSPjnzAw394pFm0pKxy4emVVRo23Qn3Hi8qinnpBAHg=;
+        b=oso7wUSnVdr5UwP5WQAiINjJUmjyObw0fCXsPxH0ziyP0lUKWgH3TDN18Hp+03W8oL
+         6vA+nGoIf4rAKDztkgc1Pujuxpi6A/1/SpynGvMyKrCVsAsC1TAc5LtT4pOAuhfT9RRO
+         URUXfu9R2EtnfjzPHU7mJi2BY0+DUlf+2wPHjan4ob32VzwfnL3SvGnB2781NsNH81Ur
+         gDzJZhLtDXrJoVrIo4y+Px3XvZmvFS2FvVCKH3oRb/pmtFeufwwoqWVkap8K5llYZgFq
+         ml740n4LqN7T0A2IMDlg6+5Grw4VnV63/PH/j9qKq9+nwRNN2CUH2PfF6i2Izpw1zovc
+         xSvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786996070; x=1787600870;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dSPjnzAw394pFm0pKxy4emVVRo23Qn3Hi8qinnpBAHg=;
+        b=iTFspFT67RbDUIt0ep6UnYTn377grpKJ9In4/wvSUHMGe3iMDvyg5EQNBDxr4qyBHA
+         tCp9NX1ixPtQG/aD+THg5OafGtfkZ9xe76tb/73wMoZHPrp5kB3Rr63UEyF5C0wY9HI1
+         plGDEeOfmPuM4zCQ1tqoTIj1uD1KjDMl8+x/rPy2oj+VInks+/a8mkD0TeTuFU03qOJx
+         zHlGD+gA4Xq5AG/TLjDawAjW2anEKDL3T7i251cNGGfi7YuYZDK5nZumqg9G+0C9xD3D
+         i48dDHXTJAzgxq0WKIonIF3L4S4pKfvYoWuPq00Pdkhg8bsrR9yuouMZTdUssunaMuZo
+         rAOA==
+X-Forwarded-Encrypted: i=1; AHgh+RqH3d+xBz+yrP6gbemI0hkcnDQ8rPnZGt0jMjdc5A2kV85KCvqWhG2RmqjARKCpwFlK5mUD/CE3RHY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBTRwfAjahzm7qcnxRIy0IB1xYPmxCPHb0zY9JtCbFZIF1Jktp
+	U0oAXaUQocXUrYspC5Mb7CFPAYqEUNXEDAUF2abXiBgsP5aJh0UZsnNOkUyAxDLPaCUXi07obWu
+	/cufL0Q==
+X-Received: from plpo1.prod.google.com ([2002:a17:903:3e01:b0:2d3:c2e:bf01])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:b0b:b0:2cf:9347:f445
+ with SMTP id d9443c01a7336-2d3b0c7ae46mr300300005ad.10.1786996069910; Mon, 17
+ Aug 2026 12:47:49 -0700 (PDT)
+Date: Mon, 17 Aug 2026 12:47:49 -0700
+In-Reply-To: <CAEvNRgFNCDDSeuvbwj7pD_d18o1TBXo4TNR2dXHxpm18KPfR5A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PAXPR04MB8559:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a4143c1-02a2-420c-8b66-08defc8f63b6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|19092799006|1800799024|366016|18002099003|22082099003|56012099006|6133799003|4143699003|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	nPE4nhnMH9khzJ1XRcIzxhzcVxs67IPgazVsR/EYM0eDxJQ6VOrZAfe8EdWaC4Nn9VXJU15TS61xPBSp3D508i09SHG+Mp/KtVgt+9ECrcmg0dfD79A5JMj0WaV6ryMqiUvAXlTqleH2RAf/DBpABUZINEyc4TG5UN1JQX/bfCd1MpigrR+2K00KVW2HX9qfc5DJ0VocPlGn92IlnDQw4+nH+20QYdweWI14Xr7M7C86CEuH4w9L6yeLeCSM7H1ILdZo/WgHNsSOBvvb7ssXl1zLn/6NGVWhv+svZwyNU1CPWDwo+in+2gB70X04em/33SCvUelKQL8NUb5ju+rfP6Y1hpp6l8iWeeEowMHZgCR4BE2tvemUY9NqJJrXcXXFW6ZpUu280n28nSsvMV21s8mHRopmSlBZwK6DAknj7YPe49DC4tcqh9KIJLxH7r1xVrVoUKn6EMDtDGQ8sGZQ1T0bGWPazfWFokf568Z0oyddOWE/h/+shdUwz0WG9tozvDXHzgBF+M59X3jV17pGJdFgYZCqIrJ3QkGhOcjGfKyzlTWZoT8A9gyONVpN1Mpm+9YULVTpjg7ySAD+J9RoZnN17ytjPtjIlLYoqp9ajWTjkn/iSmiLR2A6Pn/AHvvi
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(19092799006)(1800799024)(366016)(18002099003)(22082099003)(56012099006)(6133799003)(4143699003)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?206vU/xD1Jq6804UHoGg7MEV0JcWEBQ2hMgHWUneOmJG7D2Pa6Frreu1ZOSM?=
- =?us-ascii?Q?JNokDA9/leYYZzaFyBkInT7gfWSPBXBvtrnVxv1fqsAbAo9tNSU+mtjwplJG?=
- =?us-ascii?Q?lZ9tJOy9F3vjvyXMOMDMmgyNWh4BEWzIIWXzgJc9EOKL2BFVVtFqoOYwLwYz?=
- =?us-ascii?Q?z0AVF40kViaI4ClqneeF97VOz+Wg+ovZP5xgrc45ECU7LNfISorGiplOGi4o?=
- =?us-ascii?Q?OluSIx3RauuOReQ85f0cslGA/EsOMYRPBFUxqwd0kAK1DpKL4Aa66JnRMfSv?=
- =?us-ascii?Q?HN5slQda7Gp1UKZp2FOnhfp0c7eLTsCGdYO0cgC+eujTy4Ity6TKSMj0paFu?=
- =?us-ascii?Q?DvUxqouyUxpCqjyxjXpHR1OfsoTTem/RjH1+FLSnvmwEey8Clin4YXPTlwsj?=
- =?us-ascii?Q?aZWXtM8s/wyO8Au2WvHxEQn/MnAM+ImAcJWLKe7Fqy5hDjPKXODs7UpHKGTM?=
- =?us-ascii?Q?VUROvWK23um64HMX5fyV4RKoZ9GAaXrE/WXH80Q5Jh/HyUkEZZIIrXop0MFR?=
- =?us-ascii?Q?+OXhDJ7PxnnAKm9ORvbZn+jtJHTdrnuJBiDNSwYxRChLnpRmrWm5VkjLY96F?=
- =?us-ascii?Q?G5Z1Yxhn8m4ZxZ5B6RC09RjFTQ1B8OfK/w0oPkyBi3G0XnbyXqEtELjLcZuc?=
- =?us-ascii?Q?agPfv5olI2MsjA5xn5xVGor/ssFqNH5zErtxIOt0Yu+UE/CDWH/cfrcJ+BeZ?=
- =?us-ascii?Q?8FhW0smE3I8lElwhEu9INfa/UnEVDcm/m+BgGkJR2612SD2cNJgIE6i5IWyE?=
- =?us-ascii?Q?KoSCbKgu/wOM6u1766yEdCP74PVJ3iMsWwg9bxxYsXPfs26SfiDuj5QjX1/J?=
- =?us-ascii?Q?PmvT/gXolS8u/EM+rpqvl0OxMVRJ2W/WyXQ9/4MI4dQenlZUvdZmtDZoSNJi?=
- =?us-ascii?Q?0SB3W7hOPE2mTuj9KvdLKbGcv1rFo+sdibWGIGO1SJ5p8Mq6l4j0VgFYJrh1?=
- =?us-ascii?Q?Y7wgNenco6nQUt74Yesvav6xQksNaQMAGG1V/omJX/lGT4TQ3ae6fGnwASxc?=
- =?us-ascii?Q?JYFCE8zTrHX73IPTvc1Q7BiqFsr63ao2XBM60wpZEox5Xh7oiyWKGoEl7jv5?=
- =?us-ascii?Q?oLl0wVTLbFWFmIi1I0I3ekxWlkMt7AzyXOA7Ix1mo8Ch33wLlSaoWCLRKtSZ?=
- =?us-ascii?Q?Jb0m3y0RlVCiXXx9LpsmgVnX5753pb2wvghoefcWoTfsWGlW3xg4UIQPXwns?=
- =?us-ascii?Q?ZPftV1dOAlTP+lG1QJ07EZJJdV3E5A+dARH4ivIzvFaQI3LKrfSEFqjflvZW?=
- =?us-ascii?Q?hPQP2twRtRqiJyGj5/VTRHm6bKWQCzg+pOuuuX9tJuah51h6mx3HROGxvr4D?=
- =?us-ascii?Q?mudKqxaYVE4lALYDKbee+MQHsEVCbO0NWk+rVYRC2eqkGO05itaP70FI/DHY?=
- =?us-ascii?Q?fgsLks27HvPW/TRCbdokdZ+Tq9RuhjF8j60JEDx5zbXrloAI6+3h9qtJUnjU?=
- =?us-ascii?Q?wPvcRDxf51x100c4hCU+kZ2h11jlXLYVHiyz4XWd76Gv4q6YpSfAT40wBdY/?=
- =?us-ascii?Q?H8qSmkJ115RDph/bia4XpsHON5G4xTp5Ppv+qVPQGtoTqsMW2i8S/XK83o6G?=
- =?us-ascii?Q?0aM9peE8DJ6Waoaxced0UUpqYykvR2CLKUEDQ4WmHsT7d5D+M7xyOpBvbdOU?=
- =?us-ascii?Q?urXI8ptkqSua2vtQP0COvt30cq1m279PF4ed9hp8Swi52iJ1059bayP5crqG?=
- =?us-ascii?Q?5w+sd5Vrc2zRtcHCtl6LH39/un8Rg1k1YydZF9V8naOWYUakXXZTWplMapVd?=
- =?us-ascii?Q?bN+D34WQCfs3aIe26TSCYPBP6RNXE2fLVqzL9kES4X0IpivtaeaH?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a4143c1-02a2-420c-8b66-08defc8f63b6
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 18:43:11.9201
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CZt0gS0lHMrx237hY5CI8qvHohqH+c2KpKJD4B7D87YH1JAV4Fc126T12nefz8sMyqvoXrkc9578td8FwXMt6WwXx5luInAzTcuHTFbBend0+rXkRGxJEAWxEr6LjE38
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8559
+Mime-Version: 1.0
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-12-2fc18ee6d3ba@google.com>
+ <1ec08cd8-3072-4753-ad5e-cd34956647f8@linux.intel.com> <an3o4h-E8mj6CUaM@google.com>
+ <CAEvNRgGpCVCGVjc9jCt9Yr+XypF=71h6eBahkXNkrXhfrtGY+g@mail.gmail.com>
+ <an5AcEG9mqDgnBYk@google.com> <CAEvNRgE+05c9U8C=Zkm1S9hLw3Lw6YMmijZhEe7J4rYQAuNyEw@mail.gmail.com>
+ <an8umm0qisEidt4n@google.com> <CAEvNRgFNCDDSeuvbwj7pD_d18o1TBXo4TNR2dXHxpm18KPfR5A@mail.gmail.com>
+Message-ID: <aoNlZRb5SV7hyNuk@google.com>
+Subject: Re: [PATCH v10 12/41] KVM: guest_memfd: Call arch make_shared
+ callback for to-shared conversion
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Binbin Wu <binbin.wu@linux.intel.com>, aik@amd.com, andrew.jones@linux.dev, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev, Fuad Tabba <fuad.tabba@linux.dev>
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Aug 17, 2026 at 07:17:31PM +0200, Michal Pecio wrote:
-> [You don't often get email from michal.pecio@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> On Mon, 17 Aug 2026 10:50:35 -0500, Frank Li wrote:
-> > On Sun, Aug 16, 2026 at 07:10:44AM +0200, Michal Pecio wrote:
-> > > No realistic chance of the dev->dma_mask check (below) giving -EIO?
+On Sun, Aug 16, 2026, Ackerley Tng wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> 
+> > On Thu, Aug 13, 2026, Ackerley Tng wrote:
+> >> Sean Christopherson <seanjc@google.com> writes:
+> >> > That's why I think it's worth analyzing the cost: if it's in the
+> >> > noise, leave it alone.  If it's meaningful, figure out a not-too-gross way to skip
+> >> > the entire thing if kvm_arch_gmem_make_shared() is a glorified nop in the end.
+> >>
+> >> Is noise defined relative to the entire conversion process? Would this
+> >> benchmark look like
+> >>
+> >> 1. Convert 4G to shared on TDX with CONFIG_AMD_SEV defined
+> >> 2. Convert 4G to shared on TDX without CONFIG_AMD_SEV defined
+> >>
+> >> and then compare the difference in time taken?
 > >
-> > dma_mask is pointer, which already initilized by bus driver before
-> > call to probe.
-> >
-> > For example
-> >
-> > https://elixir.bootlin.com/linux/v7.1.8/source/drivers/base/platform.c#L634
-> >
-> > If you find one, which bus driver have not init it, please high light
-> > it.
-> >
-> > > > dma_supported() will call dma_direct_supported or iommux's
-> > > > dma_supported call back function.
-> > >
-> > > Aapparently, it may also use some 'dma_map_ops' and there is a bunch
-> > > of those spread over drivers/ and arch/. But I gather they are
-> > > expected to behave similarly as the functions named above?
-> >
-> > I grep it and checked at that time, all return 1 when >= 32. Now more
-> > powerfull check tools avaible, you can double check it.
->
-> Thank you. Sounds like it should work then, though I think that
-> checking return status won't harm, just to cover unusual cases like
-> regression in some obscure arch or people with buggy out of tree
-> patches (which they "forget" to mention they are using).
+> > That'd work, though I was envisioning something even simpler: use rdtsc() to
+> > count the cycles it takes to iterate over various ranges of memory.  Do whatever
+> > is easiest for you though.
+> 
+> I made some changes to add rdtsc() for the conversion process as Sean
+> suggested [1], and exercised conversion like this [2]:
+> 
+> 1. Initialize some memory as private
+> 2. Get the guest to fault them into Secure EPTs
+> 3. Converts the memory to shared <<== this is being benchmarked
+> 4. Converts memory back to private
+> 
+> I made it build the VM once and convert 5 times:
+> 
+> ./gmem_benchmark_tdx_convert --iterations=5 --size=1g
 
-Now, prefer don't check when >= 32 to keep code clean.
+...
 
-Frank
+> And here's the above, tabulated:
+> 
+>   nr_pages      make_shared            total    percentage
+> ----------  ---------------  ---------------  ------------
+>          1              930            39278       2.3677%
+>          1              252            28060       0.8981%
+>          1              176            26952       0.6530%
+>          1              176            27038       0.6509%
+>          1              176            26980       0.6523%
+>          1             1072            37236       2.8789%
+>          1              316            28338       1.1151%
+>          1              176            27182       0.6475%
+>          1              176            26972       0.6525%
+>          1              176            26886       0.6546%
+>     262144         15041018       6616067680       0.2273%
+>     262144         14937462       6608542680       0.2260%
+>     262144         15138858       6599494898       0.2294%
+>     262144         15721972       6610219850       0.2378%
+>     262144         15000406       6615114540       0.2268%
+>    1048576         61902982      26400884028       0.2345%
+>    1048576         61746114      26401170984       0.2339%
+>    1048576         61096794      26404409058       0.2314%
+>    1048576         61446290      26447461896       0.2323%
+>    1048576         61774646      26444608360       0.2336%
+> 
+> Looks to me it is within noise.
+> 
+> I also actually tried measuring the conversion time from userspace with
+> CONFIG_AMD_SEV enabled and disabled. Converting a 1G-sized TD was faster
+> by 0.2%, which is in line with the above table. Interestingly, when
+> converting a 4G-sized TD, skipping kvm_gmem_make_shared() was _slower_
+> over 2 runs. I don't have an explanation for that.
 
->
-> Regards,
-> Michal
+Might be some cache/memory locality benefits?  Though with a conversion that big,
+it could also be nothing more than bad luck.
+
+> I think the code was correct. (If it makes a difference, I skipped
+> kvm_gmem_make_shared() using a custom guest_memfd creation time flag and
+> skipped make_shared if the flag was set on the inode.)
+> 
+> I thought adding a kvm_arch_has_gmem_make_shared(), defaulting it to
+
+I would do kvm_arch_has_gmem_convert() for consistency with the Kconfigs, and
+because the cost of the reclaim invocation is a non-issue.
+
+> false for all archs and having x86 override with
+> !!kvm_x86_ops.gmem_make_shared is not too bad either:
+> + doesn't leak anything, since the function being called is
+>   kvm_arch_gmem_make_shared and the accompanying function is
+>   kvm_arch_has_gmem_make_shared. Or maybe just a little, since all the
+>   other ops don't have the accompanying _has_ function
+> + it's a kernel-internal thing
+> + not too many lines of code, not too complex
+
+It also provides a good excuse to kill off the #idfefs in guest_memfd.c.
+Compile tested only, but I'm thinking this?
+
+From: Sean Christopherson <seanjc@google.com>
+Date: Mon, 17 Aug 2026 12:31:50 -0700
+Subject: [PATCH] KVM: guest_memfd: Optimize away conversion overheads via
+ dead-code elimination
+
+Add and use kvm_arch_has_gmem_convert() to guard guest_memfd's invocation
+of arch hooks related to converting memory between private and shared, as
+only one half of the x86 CoCo duo needs the runtime hooks (any pre-work is
+pure overhead for TDX).  At this exact moment, the overhead is negligible,
+but that will change when in-place conversion comes along, at which point
+to-shared conversions will "need" to find all affected folios prior to
+calling into arch code.  In quotes because very technically that work could
+be pushed to arch code, but that would bleed guest_memfd details into arch
+code and would be far worse than adding yet another kvm_arch_has... hook.
+
+Opportunistically provide the kvm_arch_gmem_make_private() declaration, and
+rely on dead-code elimination to eliminate the call to non-existent code
+when CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT=n.
+
+Reported-by: Binbin Wu <binbin.wu@linux.intel.com>
+Closes: https://lore.kernel.org/all/1ec08cd8-3072-4753-ad5e-cd34956647f8@linux.intel.com
+Suggested-by: Ackerley Tng <ackerleytng@google.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/include/asm/kvm_host.h | 3 +++
+ include/linux/kvm_host.h        | 3 ++-
+ virt/kvm/guest_memfd.c          | 5 ++---
+ 3 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 283847619ff8..5d5a7723abb6 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1854,6 +1854,9 @@ enum kvm_intr_type {
+ #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+ #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.has_private_mem)
+ #endif
++#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
++#define kvm_arch_has_gmem_convert() (!!kvm_x86_ops.gmem_make_private)
++#endif
+ 
+ #define kvm_arch_has_readonly_mem(kvm) (!(kvm)->arch.has_protected_state)
+ 
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 03bfc92864b6..e824ba59c60c 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -2599,9 +2599,10 @@ static inline int kvm_gmem_get_pfn(struct kvm *kvm,
+ }
+ #endif /* CONFIG_KVM_GUEST_MEMFD */
+ 
+-#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
+ int kvm_arch_gmem_make_private(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
+ 			       kvm_pfn_t nr_pages);
++#ifndef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
++#define kvm_arch_has_gmem_convert() false
+ #endif
+ 
+ #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index b596486d184c..39d94938b5f6 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -773,11 +773,10 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 		folio_mark_uptodate(folio);
+ 	}
+ 
+-#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
+-	if (kvm_gmem_is_private_mem(file_inode(file), index))
++	if (kvm_arch_has_gmem_convert() &&
++	    kvm_gmem_is_private_mem(file_inode(file), index))
+ 		r = kvm_arch_gmem_make_private(kvm, gfn, *pfn,
+ 					       (kvm_pfn_t)1 << *max_order);
+-#endif
+ 
+ 	folio_unlock(folio);
+ 
+
+base-commit: 1b731e5ded480bd1e5546aed35584238661ce72e
+-- 
+
