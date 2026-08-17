@@ -1,33 +1,33 @@
-Received: from mta0.migadu.com (out-69.mta0.migadu.com [91.218.175.69])
+Received: from mta1.migadu.com (out-48.mta1.migadu.com [95.215.58.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533C626296
-	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 04:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C590826296
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 04:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786941648; cv=none; b=P7HM0XoEM06l7NdWWtUf2W9t+/Y4B2HCBkmFSXIyxLBZA0c2SlCHmA4ELFbJK+ts8MzvO1389U5PAr4BKNHjG7FuBWZ1xOFRK9FBvcL/bv3Hndva3k3/DdOAB9uWdvfnNfJKVKoQVXO1DrAwl1tuCl5ESkhNulvkbgzycL3Ol/g=
+	t=1786941691; cv=none; b=ktMF0bKA5NXwyHNU7DjZI6+PmhLqcL2w8MCCb6yE5pgPmwtT5cnL7q5KUOunV9Kf7eIGWdZCQ3mgJonmsa83JHNAY5AjFuKKkmrQHsNZB9WEyEjiEeEGc1Ti9GYf+cJTjhoTQWGA4LsdvgAX+h8SnDNurpydhbtDGEk8Y/LTrGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786941648; c=relaxed/simple;
-	bh=Sig0AIK+CTyDREqz+/6gNORlYF2lEzPEEGGXx1ld/m4=;
+	s=arc-20240116; t=1786941691; c=relaxed/simple;
+	bh=pGSo1Cfu6sLAcXoqpPoreSz60pwDzvhB8EVdtBx16UE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Im3L46v8eVWyA3NItR7Nc5Xeg655ewM5eWY++30SqnQv1H0iPeR/RLMwpwxyX2ehs9gwz9mpgoTrO88YRNBT9hBbM+CA3ng1AYh7gIpM8XTTyYyrox8GmphFlZJZ/Mx5pasbLkyh7IsULPvfKQOsbIbMoDSVrr5Fh24Tw6MIvNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dMK9o+Jr; arc=none smtp.client-ip=91.218.175.69
+	 MIME-Version:Content-Type; b=TyHlFUr81p2xKjNzfWuIRq+ZTEJqOoVtAkCnWQTOpJt5A0kMcn6SiNMg4YBra/L6Vnew9W3VbtKuz8PQCzZsci5vHye/ZSuANdTJ45pZj/s4jzinZk0BO1U7i+viENoGk6lIC1YRGXx4EYlKYOYlTrZlMbqajsWDAavcsrvOor8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AnoyqEqH; arc=none smtp.client-ip=95.215.58.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dMK9o+Jr"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AnoyqEqH"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Sig0AIK+CTyDREqz+/6gNORlYF2lEzPEEGGXx1ld/m4=;
+DKIM-Signature: a=rsa-sha256; bh=pGSo1Cfu6sLAcXoqpPoreSz60pwDzvhB8EVdtBx16UE=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786941645; v=1; x=1787546445;
- b=dMK9o+JrgYkBBQFORz/x1H6fIOlz7GAJeyZcXqQZPE+mue6SBqtpD8+BXmpwfl4xU21c5WwF
- TOozHPmNRBzpBSUEh4mEViOPOurcnLpFH8EZvHgdJkjoR2+xiujETf7MB3K3CZDmOxNeFNf2peA
- 0LWHLkElAWzOYaSxeAcuap20=
+ t=1786941686; v=1; x=1787546486;
+ b=AnoyqEqHofWVEm2rFglZDqDkqc+0a+UFU6FSJW3k94xbfoK9HbFjis8PFbiBRwSHeH1D4e7J
+ IywKwp+mBHZcQ5U3+QHKVJYvsiSKAs3j5HDxc8NEqUUSqrdtMWMz54cpq4Wh878oLAjPfl+rPha
+ WuwN5sCaweeSPjmw9DQnnEHA=
 X-Envelope-To: linux-doc@vger.kernel.org
 Received: from localhost (2602:fce1:44f:115e::)
-	by smtp.migadu.com with ESMTPS id 2bebd8705dd01731;
-	Mon, 17 Aug 2026 04:40:45 +0000
+	by smtp.migadu.com with ESMTPS id 2dcc283464ad7e50;
+	Mon, 17 Aug 2026 04:41:26 +0000
 X-Migadu-Flow: FLOW_OUT
 From: Lance Yang <lance.yang@linux.dev>
 To: nico.pache@linux.dev
@@ -51,12 +51,12 @@ Cc: linux-mm@kvack.org,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
 	Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH v4 6/7] mm/khugepaged: unmap pte before releasing vma write lock
-Date: Mon, 17 Aug 2026 12:40:34 +0800
-Message-Id: <20260817044034.85870-1-lance.yang@linux.dev>
+Subject: Re: [PATCH v4 7/7] mm: Documentation: clarify where the mTHP stats live
+Date: Mon, 17 Aug 2026 12:41:18 +0800
+Message-Id: <20260817044118.86344-1-lance.yang@linux.dev>
 X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20260811-khugepaged_pte_refactor-v4-6-ddac39d61c4a@linux.dev>
-References: <20260811-khugepaged_pte_refactor-v4-6-ddac39d61c4a@linux.dev>
+In-Reply-To: <20260811-khugepaged_pte_refactor-v4-7-ddac39d61c4a@linux.dev>
+References: <20260811-khugepaged_pte_refactor-v4-7-ddac39d61c4a@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,12 +67,16 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
-On Tue, Aug 11, 2026 at 06:48:38AM -0600, Nico Pache (Red Hat) wrote:
->We are currently dropping the anon_vma write lock before unmapping the
->PTE. Although this is safe, due to us still holding the mmap_write_lock,
->its safer and less confusing to switch the order of these two operations.
+On Tue, Aug 11, 2026 at 06:48:39AM -0600, Nico Pache (Red Hat) wrote:
+>The note about khugepaged counters references /proc/vmstat for the PMD
+>case, but never mentions where the mTHPs stats can be found
+>(i.e.: /sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/stats/)
+>Add a small addition to this section for clarity.
 >
->Suggested-by: David Hildenbrand <david@kernel.org>
+>Also fix a missing period while we are at it.
+>
+>Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>Suggested-by: Lorenzo Stoakes <ljs@kernel.org>
 >Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 >Signed-off-by: Nico Pache (Red Hat) <nico.pache@linux.dev>
 >---
