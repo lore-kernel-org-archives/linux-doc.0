@@ -1,138 +1,104 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAC81A6823
-	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 00:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065634B049B;
+	Mon, 17 Aug 2026 01:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786927771; cv=none; b=EJ86Tpp1EmwShBOtNq9TAEKv8z0twj5AwoXUMwz91PHRj1p3D57yacR5heYgoDfZg0hcMnKL79+q/Y3db2ModRMXhsBMJ3Q2qmYn5tKEUBTmr5JMNvC27pLBBSPqUTGb5n4Npk7zYNCwytBvL3jBmUBw8fbzyGugr5PDnXbvkts=
+	t=1786929109; cv=none; b=E+bZsdIL7hycNSmt1PcGnCVFp2SJTWBp9Y+tDrzQtGJELMfaq+8wc+rp/OqVVaLfN9KLZQCA1RmLrX7Ccv4+0ViQih789YHVWrAwP7/KSLf11D295J7Sl0IGvWoAE8fLMBIRtpBSLNYYR4v2ZsJDws41LcPXWP9L3UfYH0xDfyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786927771; c=relaxed/simple;
-	bh=Q2AJHfOQlhxmo4d6xkSdfftND9W8OwOWU4sIuscydGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FzylUBLN2TVoXFt6colx0ZfRro7zm7y8vVACSqtXSiprl6JSkrvHwLkEImPKxcxyfp9QZEp5ySRL5l/KvgF1COWYkvUo+IxKyclfAkzsz5jsQhYn6EPyKR5R8cfFK6YcLab81TJod/tXxZngJKge0LOS3eNM79PBeano5Udjb64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ckMtfNP/; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1786929109; c=relaxed/simple;
+	bh=ryy6QSPygN1w4Y3Y2aGYJKkbkYmDDTADOLmjDbbilm0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OMzPluvUesYt3f0xmONCig5hrO5QuXdTk1dRniIWhEuaqh+rYtvvXucNJz81Xb8xNxtd0r9gU0evPQSE7IqkpA++c18IXysEIZXkgqrpWTryBt2IPoRYQgyx8C3CIHwfDmtpiu/XOFVqi68rnDVOfLCXgXlWgwkIQca95twKLOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anka1.top; spf=pass smtp.mailfrom=anka1.top; dkim=pass (1024-bit key) header.d=anka1.top header.i=@anka1.top header.b=s8PLLyil; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anka1.top
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anka1.top
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ckMtfNP/"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51a868b6962so29100221cf.2
-        for <linux-doc@vger.kernel.org>; Sun, 16 Aug 2026 17:49:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1786927768; x=1787532568; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FcQdr0dRPL3xWk5ZJ+WEqnlvhAK6C+Y9UAGkoGf2Ky8=;
-        b=ckMtfNP/26mDYWEYvnUuKZj+OlJs4rtBqOCTkvgUC2mso3L1qBV4UevATxAcuXcr59
-         t3iNEjatomJQrmfd0qmVsl3BjaW6RqJLwsIjj72/eWYrRlfTWeZnYquwPe7qoSJdQ3uw
-         g88uZqv47V0VT2fcXb9InChXDCkM8CDWy83shOxcv+0xTEFY14jjWUHpeLQyJn/Eu1+C
-         4ygQiiuxj/3pUiyIOY1sjivSzmhc0YEFbIZMcRYKoMzp9C0LbmrFDK4Fu4Uo2z3EnsYd
-         hX7wjASGY+5NqmkbdDYqrOgM1h4IrDlgQi9GwqxPZvEyT20eWdaV+AZ8i2avJDfhnijE
-         oOMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786927768; x=1787532568;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FcQdr0dRPL3xWk5ZJ+WEqnlvhAK6C+Y9UAGkoGf2Ky8=;
-        b=KTRvjuK0zRf0YhknCyKUBe3jo0po0XDutvaiF76w1OiYCggDDt57Q0W9GcXARzGofy
-         GxeiR0oQm7UVgam0cFxCrXh9lvkvf9VDRRHVESY4Nao1nWYLmfykh3pLKfXNfnEUOqYI
-         KwJb7Lz5GErF+n4hZIXShS9F+VS4zjiPNHcx1KBHJ3ouj2vCOm/BXcYAUdSNGsnraGcX
-         UV0hsIMedkx8JaNi3u2FsSRa0z8L5efB7ilwA0SJ2KpV8vvAIivQbplzKj9IHwPzfIby
-         TowyzmAHw9P5fx4UVVJlDZ0Fqmld130vP7AJh56GB7c/KGe1E2fwvCWZkm3+t8Tw1f5v
-         INyg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqp0h4vz0yVARqg6ybKB9hd5UDmnYpuyuu+OB0kcaVZeMKJbmcZrkly3/7zkjuPd/Uo/zQPoSfvyDw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmXR4FltIo/WEV7xa+3PpHwPZctDBZrCqnB7HxfyDx5CfJBEcJ
-	SmSNoE0M/e4GFonuGpsNpMmETypmo766UqeXaVb6/bh8GbbV4cH0csxvIA4nc98vqy4=
-X-Gm-Gg: AR+sD12ZUSXWIlAzGsKNtzw/+KBPDP6noROvwxchH2Rv3q4gByvsAG3dONBON2BAs75
-	7+wMigmSarC8L27dW1n3EvbTkl2x4E1h27te3E/rz4y9jEtCQXUX+XD38RtJ7NwKXD+ozmSbrJ/
-	x+PGTb6Sjr7gTNT5TK5kx8Ly8ikFOu93ujv51krFncH7XmnMcqw5S4h7wtz7w9tGPoC3m6nMbXb
-	rbQhA2LgmDILHCCxS94pwQN8dUtDVFzv0ChsDAWUl7kZjK3MEFKD4IQShoJyso1TphO5/bR2Y7C
-	RRxjd6u5CYFAoS7j/mqy8r+uhNhLRnoZLOSlaLnvUh7J3tk4OwWu6uAl7sswBoVEQ4b/80HmZA9
-	wFclNY6hq9nNtKBCIrzId5UhYBENMGmZkcbbfyR6l7hgdJ68uR6x5UlpBKoRPiMvaZAiZtJlAaq
-	KxdETkvgg48dXnV4h2DoUfl5OnrjozcIJjHuGf/bTds9U78VncNxuGcvGYykFiYImYf+aghExb2
-	QDndWyhhedij034SjwX+1CZb0BPSh86/oZmQGe+sY9v
-X-Received: by 2002:a05:622a:2b4b:b0:52d:a151:10f5 with SMTP id d75a77b69052e-52da15111admr97787241cf.22.1786927767788;
-        Sun, 16 Aug 2026 17:49:27 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52db62764f2sm1152051cf.30.2026.08.16.17.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 17:49:27 -0700 (PDT)
-Date: Sun, 16 Aug 2026 20:49:24 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Qiqi Li <liqiqi23@huawei.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
- node hotplug
-Message-ID: <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-26-gourry@gourry.net>
- <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
+	dkim=pass (1024-bit key) header.d=anka1.top header.i=@anka1.top header.b="s8PLLyil"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anka1.top;
+	s=fpjh2607; t=1786929059;
+	bh=NuPasqQOkFmznF3FAZUzzq02R+umP7Beu4l0GiAaqSM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=s8PLLyilOJ9Y33JKI90lm5w5IYdCcz6m+1sAIrqx06nyZE+o0MTmdl4xKzo4ZRb2R
+	 Y4oSr96y7xgpPcwS+eBWjoIAi3ofQ9TzA4M/GNZWH1Mpzp/mfJ7fxeZ1cJ/l6e5Lmv
+	 lX2yIPkViZ+FzKDaWfNnxtV7fseukzjGwxTP8sjg=
+X-QQ-mid: esmtpsz17t1786929057ted6cc589
+X-QQ-Originating-IP: WZi8o6ppZFQbQYVyFpiEwFZyuqpG6GbHn+OIZizUcXc=
+Received: from anka-20eya00ycd.localnet ( [182.139.166.85])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 17 Aug 2026 09:10:54 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 10172548954044152815
+From: Siwei Chen <businiaoanka@anka1.top>
+To: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net,
+ skhan@linuxfoundation.org, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wy@wyuan.org
+Subject:
+ Re: [PATCH v3 0/5] docs/zh_CN: Add Chinese translations for five networking
+ documents
+Date: Mon, 17 Aug 2026 09:10:52 +0800
+Message-ID: <379027B83813F552+12954951.O9o76ZdvQC@anka-20eya00ycd>
+In-Reply-To: <463fc2dd-4d79-434d-b138-f4baea93bc40@hust.edu.cn>
+References:
+ <20260811071200.54062-1-anka@stu.cdut.edu.cn>
+ <463fc2dd-4d79-434d-b138-f4baea93bc40@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:anka1.top:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: NUTz4BkILuKLb6kOKvEZbvROjaQQlQKFNgkv8GF5XSwFMkRgu4j0F6m/
+	YlAseTgfKCjJo3lykHiQDOGqTo29Bf1gOx4ANtfE6pyps8ULZX8qbkQcN2lrbWBzk0SZqvt
+	YwkA9MTOX4HkcZcRQ7XBQDNWO6VENBYKOxiB2cH2IBj6pxDSq/7THBcVv+mXVBCLulyfjBS
+	xFDrRfj6HcmrTeh61ajND3ZellKKr6g7CpUxjviCyni8pDbUagpF+v+4mGci8NAzCUN/aUx
+	DpZVXOT2zSsha1jxwFy+p1i5FC1YB6++9QTj4IiL2tubpeHo5ck2QNy8DqwDgzG6SyBVJDO
+	nDL4+LdDW5Jphgdhkz0o2dOSM9JzAjTASoH1TSVmQhxcfmTe2xlpKtLeyTiRXsveetY4Fdv
+	NslWbsbdNayTNKeE82AEIt1Scy3ktVULa6ORscwJ5uG574GtkdMWkQKHMHAtwGVnbW7F9MX
+	bNQGzlfMksjWuaYEGxTOC0ubwrvkiEjrCocTs/AB2Jvd8OIr1K69EfnDw236seXXuaVRgNZ
+	rVnyqvbvPj2pcTmv4K6ZY+NwBt6fc4BO29HcJWD8cw6Qqv8zfnkDMPfL8zVEtc5V/d81mC1
+	gbDtAAza+0+mFmbZHIOWxISEqJCVgxQ+NHin55tzlfXnSeSvU3siYSArqaA+kudjUzPOy4V
+	cUoRzYjQs3ICUOUbT/q3DeNdmMyhA8HuiSiLp/c9pugraIW/JWO+Rqzr86vVmetlJkQjBXq
+	v9rmxHyr4F14bIm9DCm+JsJMsOumjWgF1Juv0/L/bgiz1YSGBKURwXTyy2wPuaVUmhCkAvZ
+	Mgul7KvpzytZaqPizVO3veLMxjPSveBP4t0GyzRerDypYbVEnzSo5dSdiemp+r6zo9mRPvR
+	p7kMEcAb+sUBQLXUND38HoE0/yqc4CXlOtg1jGzlKMrsusIr1n5G9MYx8YHgVG1+a23YArI
+	pCNz+nZBveyZWPSC5ONt6dIiNaAMzmp8V2QGAMiR3gf02pQ==
+X-QQ-XMRINFO: NI4Ajvh11aEjMcdZLWux7YEoJQGtlH95XA==
+X-QQ-RECHKSPAM: 0
 
-On Thu, Aug 06, 2026 at 11:30:08AM +0800, Qiqi Li wrote:
-> Hi Gregory,
-> 
-> On 7/21/2026 3:34 AM, Gregory Price wrote:
-> 
-> > Add add_private_memory_driver_managed() to let modules hotplug
-> > memory onto an N_MEMORY_PRIVATE node they control.
-> 
-> I am trying to understand how the nid passed to
-> add_private_memory_driver_managed() is expected to be provisioned.
-> 
-> From what I can see, both node_private_register() and
-> __add_memory_resource() require the nid to already be present in
-> node_possible_map. My understanding is therefore that this patch
-> supports hotplugging private memory onto an existing possible node,
-> rather than creating a new possible node ID at runtime.
-> 
-> For example, in the use case I am looking at, the device's private
-> node is not described by firmware. Would its nid need to be reserved
-> during early NUMA initialization, or is there another mechanism that
-> I may have missed?
-> 
+=E5=9C=A8 2026=E5=B9=B48=E6=9C=8816=E6=97=A5=E6=98=9F=E6=9C=9F=E6=97=A5 =E4=
+=B8=AD=E5=9B=BD=E6=A0=87=E5=87=86=E6=97=B6=E9=97=B4 17:41:33=EF=BC=8CDongli=
+ang Mu =E5=86=99=E9=81=93=EF=BC=9A
+> On 8/11/26 3:11 PM, Siwei Chen wrote:
+> > From: Siwei Chen <businiaoanka@anka1.top>
+> >=20
+> > This series adds Simplified Chinese translations for five documents
+> >=20
+> > under Documentation/networking/:
+> >    - team.rst: Team devices driven from userspace via libteam
+> >    - sriov.rst: NIC SR-IOV APIs (switchdev model and legacy API)
+> >    - driver.rst: Softnet driver issues (probing, close/stop,
+> >   =20
+> >      transmit path guidelines, and extack error reporting)
+> >   =20
+> >    - ipv6.rst: ipv6 module parameters (disable, autoconf,
+> >   =20
+> >      disable_ipv6)
+> >   =20
+> >    - secid.rst: LSM/SELinux secid usage in the flowi structure
+>=20
+> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+>=20
+> Please remember to two small minor issues.
+>=20
 
-It would need to be reserved, and you could use numa emulation but
-that's clunky.  I have an RFC for exactly this issue - though i haven't
-pushed it further yet.
+Thank you for the review. I'll fix the issues in v4.
 
-https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
 
-> Also, could you please Cc me on future revisions of this series?
-> I would appreciate it and would be happy to follow the work:)
-> 
-> Thanks,
-> Qiqi
+
