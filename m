@@ -1,104 +1,91 @@
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065634B049B;
-	Mon, 17 Aug 2026 01:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7B85C613
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 01:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786929109; cv=none; b=E+bZsdIL7hycNSmt1PcGnCVFp2SJTWBp9Y+tDrzQtGJELMfaq+8wc+rp/OqVVaLfN9KLZQCA1RmLrX7Ccv4+0ViQih789YHVWrAwP7/KSLf11D295J7Sl0IGvWoAE8fLMBIRtpBSLNYYR4v2ZsJDws41LcPXWP9L3UfYH0xDfyA=
+	t=1786931206; cv=none; b=X8I53GFuUwwNq5ptITvb9Zcm/U3ybBNjzaIi+AT3yewDydS84FvUAuNoKAzEhqgeq6hnBBxLtlk7W6EDZcFEYE6pWCBBHwiD406dXmf7IaUZLm1IiCX4p7ownqhHRntbVHCrCAlA+6zDAfEU51qulazXT7Zg8h87qb81m3gDDkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786929109; c=relaxed/simple;
-	bh=ryy6QSPygN1w4Y3Y2aGYJKkbkYmDDTADOLmjDbbilm0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OMzPluvUesYt3f0xmONCig5hrO5QuXdTk1dRniIWhEuaqh+rYtvvXucNJz81Xb8xNxtd0r9gU0evPQSE7IqkpA++c18IXysEIZXkgqrpWTryBt2IPoRYQgyx8C3CIHwfDmtpiu/XOFVqi68rnDVOfLCXgXlWgwkIQca95twKLOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anka1.top; spf=pass smtp.mailfrom=anka1.top; dkim=pass (1024-bit key) header.d=anka1.top header.i=@anka1.top header.b=s8PLLyil; arc=none smtp.client-ip=54.92.39.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anka1.top
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anka1.top
+	s=arc-20240116; t=1786931206; c=relaxed/simple;
+	bh=FdYdcvMAvKoxYda7qe9wL5Fnn9ct9HzoHGS66ROiQvo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZtAiYLCekSVAOL2Fv5zgq54k5mAuXrKoUrCos0WLYrDVoKVm6d8PLv73pGOFIoQVnuWPUgIdDboH12neoawMAbqt6fbyUPeNefOv5maIFmp9zHc6YWComxDKzKcvlwNiD3nOGSnzJ5UburQDKOhuQSTr00Lja1BOkkSgmKIyWUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dpxitP6T; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=anka1.top header.i=@anka1.top header.b="s8PLLyil"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anka1.top;
-	s=fpjh2607; t=1786929059;
-	bh=NuPasqQOkFmznF3FAZUzzq02R+umP7Beu4l0GiAaqSM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=s8PLLyilOJ9Y33JKI90lm5w5IYdCcz6m+1sAIrqx06nyZE+o0MTmdl4xKzo4ZRb2R
-	 Y4oSr96y7xgpPcwS+eBWjoIAi3ofQ9TzA4M/GNZWH1Mpzp/mfJ7fxeZ1cJ/l6e5Lmv
-	 lX2yIPkViZ+FzKDaWfNnxtV7fseukzjGwxTP8sjg=
-X-QQ-mid: esmtpsz17t1786929057ted6cc589
-X-QQ-Originating-IP: WZi8o6ppZFQbQYVyFpiEwFZyuqpG6GbHn+OIZizUcXc=
-Received: from anka-20eya00ycd.localnet ( [182.139.166.85])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 17 Aug 2026 09:10:54 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10172548954044152815
-From: Siwei Chen <businiaoanka@anka1.top>
-To: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net,
- skhan@linuxfoundation.org, Dongliang Mu <dzm91@hust.edu.cn>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wy@wyuan.org
-Subject:
- Re: [PATCH v3 0/5] docs/zh_CN: Add Chinese translations for five networking
- documents
-Date: Mon, 17 Aug 2026 09:10:52 +0800
-Message-ID: <379027B83813F552+12954951.O9o76ZdvQC@anka-20eya00ycd>
-In-Reply-To: <463fc2dd-4d79-434d-b138-f4baea93bc40@hust.edu.cn>
-References:
- <20260811071200.54062-1-anka@stu.cdut.edu.cn>
- <463fc2dd-4d79-434d-b138-f4baea93bc40@hust.edu.cn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dpxitP6T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786931205; x=1818467205;
+  h=date:from:to:cc:subject:message-id;
+  bh=FdYdcvMAvKoxYda7qe9wL5Fnn9ct9HzoHGS66ROiQvo=;
+  b=dpxitP6TSL9rBxZBpXp1mQeXJ0ENitRCcx6pneebkeuhIM44v+B2jB+h
+   9noPtRDSgAYRt2Shcc3ja5v15VIpm6CBPQY7LsX/4C1H0gRm0PZqx5fs5
+   hIrQSwHwfaj9Da1WsGI76hl3xMmRvxPG2Tl34AtLzxi4zJUa8ejhqRMq+
+   R0hutuNnrcG06QfiYYliLHm6pxaNCJ6OLU5+89PXODvVDj+yURhPx62FM
+   Noe+BpyDPSq6b46WS/uFm/8eS9iqSli0yqw1kiCi3fsBlmHlc4LVxam/p
+   b/KLGq1BCIZoHq7N7E+jGaWVOzOBFUs7pM5hfOefhFOpXLGdKs3BP1df3
+   Q==;
+X-CSE-ConnectionGUID: RPAWBey9SIG2LdcQnM498A==
+X-CSE-MsgGUID: RWgegBQjTLqbSlbRxjkQCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98065568"
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="98065568"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 18:46:44 -0700
+X-CSE-ConnectionGUID: 8esR0oB5RLSIAQtCcpncbQ==
+X-CSE-MsgGUID: VXAP7rfEQY+Aa3zA6NmE1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="261502446"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Aug 2026 18:46:28 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wvmQj-000000006jd-1kPb;
+	Mon, 17 Aug 2026 01:46:25 +0000
+Date: Mon, 17 Aug 2026 03:46:07 +0200
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/gpu/drm-kms-helpers:197:
+ ./drivers/gpu/drm/drm_bridge.c:1459: WARNING: Block quote ends without a
+ blank line; unexpected unindent. [docutils]
+Message-ID: <202608170332.x9tuWw3X-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:anka1.top:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: NUTz4BkILuKLb6kOKvEZbvROjaQQlQKFNgkv8GF5XSwFMkRgu4j0F6m/
-	YlAseTgfKCjJo3lykHiQDOGqTo29Bf1gOx4ANtfE6pyps8ULZX8qbkQcN2lrbWBzk0SZqvt
-	YwkA9MTOX4HkcZcRQ7XBQDNWO6VENBYKOxiB2cH2IBj6pxDSq/7THBcVv+mXVBCLulyfjBS
-	xFDrRfj6HcmrTeh61ajND3ZellKKr6g7CpUxjviCyni8pDbUagpF+v+4mGci8NAzCUN/aUx
-	DpZVXOT2zSsha1jxwFy+p1i5FC1YB6++9QTj4IiL2tubpeHo5ck2QNy8DqwDgzG6SyBVJDO
-	nDL4+LdDW5Jphgdhkz0o2dOSM9JzAjTASoH1TSVmQhxcfmTe2xlpKtLeyTiRXsveetY4Fdv
-	NslWbsbdNayTNKeE82AEIt1Scy3ktVULa6ORscwJ5uG574GtkdMWkQKHMHAtwGVnbW7F9MX
-	bNQGzlfMksjWuaYEGxTOC0ubwrvkiEjrCocTs/AB2Jvd8OIr1K69EfnDw236seXXuaVRgNZ
-	rVnyqvbvPj2pcTmv4K6ZY+NwBt6fc4BO29HcJWD8cw6Qqv8zfnkDMPfL8zVEtc5V/d81mC1
-	gbDtAAza+0+mFmbZHIOWxISEqJCVgxQ+NHin55tzlfXnSeSvU3siYSArqaA+kudjUzPOy4V
-	cUoRzYjQs3ICUOUbT/q3DeNdmMyhA8HuiSiLp/c9pugraIW/JWO+Rqzr86vVmetlJkQjBXq
-	v9rmxHyr4F14bIm9DCm+JsJMsOumjWgF1Juv0/L/bgiz1YSGBKURwXTyy2wPuaVUmhCkAvZ
-	Mgul7KvpzytZaqPizVO3veLMxjPSveBP4t0GyzRerDypYbVEnzSo5dSdiemp+r6zo9mRPvR
-	p7kMEcAb+sUBQLXUND38HoE0/yqc4CXlOtg1jGzlKMrsusIr1n5G9MYx8YHgVG1+a23YArI
-	pCNz+nZBveyZWPSC5ONt6dIiNaAMzmp8V2QGAMiR3gf02pQ==
-X-QQ-XMRINFO: NI4Ajvh11aEjMcdZLWux7YEoJQGtlH95XA==
-X-QQ-RECHKSPAM: 0
 
-=E5=9C=A8 2026=E5=B9=B48=E6=9C=8816=E6=97=A5=E6=98=9F=E6=9C=9F=E6=97=A5 =E4=
-=B8=AD=E5=9B=BD=E6=A0=87=E5=87=86=E6=97=B6=E9=97=B4 17:41:33=EF=BC=8CDongli=
-ang Mu =E5=86=99=E9=81=93=EF=BC=9A
-> On 8/11/26 3:11 PM, Siwei Chen wrote:
-> > From: Siwei Chen <businiaoanka@anka1.top>
-> >=20
-> > This series adds Simplified Chinese translations for five documents
-> >=20
-> > under Documentation/networking/:
-> >    - team.rst: Team devices driven from userspace via libteam
-> >    - sriov.rst: NIC SR-IOV APIs (switchdev model and legacy API)
-> >    - driver.rst: Softnet driver issues (probing, close/stop,
-> >   =20
-> >      transmit path guidelines, and extack error reporting)
-> >   =20
-> >    - ipv6.rst: ipv6 module parameters (disable, autoconf,
-> >   =20
-> >      disable_ipv6)
-> >   =20
-> >    - secid.rst: LSM/SELinux secid usage in the flowi structure
->=20
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->=20
-> Please remember to two small minor issues.
->=20
+tree:   https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-bridge-add-of_drm_get_bridge/20260810-013143
+head:   cdf2e81b1c4767c693eccefda68bf527752f2994
+commit: 387975ede9e288d8f8b8b22361c7efee1ecba8a7 drm/bridge: deprecate of_drm_find_bridge()
+date:   7 days ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260817/202608170332.x9tuWw3X-lkp@intel.com/reproduce)
 
-Thank you for the review. I'll fix the issues in v4.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170332.x9tuWw3X-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
 
+   Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:397: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
+   Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms:491: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
+   Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1457: ERROR: Unexpected indentation. [docutils]
+>> Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1459: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/drm-uapi:607: ./drivers/gpu/drm/drm_ioctl.c:923: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
+   Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'. [duplicate_declaration.c]
+   Documentation/gpu/xe/xe_firmware:31: ./drivers/gpu/drm/xe/xe_guc_pc.c:76: ERROR: A level 2 section cannot be used here.
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
