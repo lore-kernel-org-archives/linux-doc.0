@@ -1,115 +1,107 @@
-Received: from mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4E643E4A1
-	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 14:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB96743E9CB
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 14:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786975867; cv=none; b=V09r9L3RzCXaByTDk019d0bNFZonLNZa0fRB8lRimT1kcVGFqkmZRZwT11gzh6+H/BRCNqTQ+WVeDq/oK35TbSTgYF7jUjOQ4/s1V6qlEIXZ/vFDBAeoy2omO81b0WbrrwJFGc8n1zTlqc9YZYeqjXFTB508hy5MdyJ9ICsLTxQ=
+	t=1786976074; cv=none; b=mh+ZvUZWHCsaRTRkl8jm/r4qmjoe4qb6EE+3JRRsu4P/Uhz9YknB1aQ8J1uZIc/svff4ByajGDaJecE8J8KTFcLLNwsl1tDA0/Jnf9qX0BO0wmgI59VwzZne2xDA6A0HsOB1wmLieq/moo2aKqI70+hn8fBQf7/4gs7C59tje38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786975867; c=relaxed/simple;
-	bh=2nsRKq+MZMB/fcm4FS98S6MC32XeeYuTRlO8wiSCnhQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fOhUya/nj9Dktv+BjkhBsymf8YS0V2jcW0z1/drx3Rs83TpECzqAS7VPG/WESr2LQ5RN7T0xB/bVDyn44DToB8TNQfiVwddddbFMj5JNJTQxrrZLBHmQBK6UpPdtvRq3QVA/jXwzCn/4nQfSkzIa+3tg/gXgV/iLoRh0fKofWa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=Wfsv9c9c; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1786976074; c=relaxed/simple;
+	bh=lEPbhkAEccg/+UNfVGbkEMpzyY0mRkY78hs0YVYZs6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MyU7ZSwWyzyloXH984VUSTlbG3kpyNVa8JnFMTNJLWzCYKyR+I9EMh/4QxIS9K2jv+W70XtdPg+x73kek/GSdGzQvNhHhsj9ABPlw12eSBDcjYlN+WF1Rksx1rRPXUiQNcTDo3SCMzyIuAI5yxBykdRkyrnpJ21SkFlMB5Acwnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBzl3ulL; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="Wfsv9c9c"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=2nsRKq+MZMB/fcm4FS98S6MC32XeeYuTRlO8wiSCnhQ=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786975863; v=1; x=1787580663;
- b=Wfsv9c9cyd3/dVdCbHrhVPUYlKbmnyCb/EKXjhuu79DBhCDHsNS+wRuIHZSxyqXXF5Id9XJq
- FCVH5FB2OqvaVvzqEWoj6L4s2gCXHxFTm6SGpaghP1VGu2wNPVr0exM+IaufqqQB2NZMzmYY4vi
- wc7dzP46sL7qYPAnuDVmWXRW/In+g6Rq5IcVelRE2giGmjAuro1VKtM0b+bYiE81CZWQoDJbHf5
- LhHfTGHKOjOzJxuP8skKzt+VZufRflxkmw2y+DoECAUhujv2QxycYB769kRaEzXEeqezjokNqoF
- jq3vu5Bq2V00TMHBFRt/iOUtdO6oYqQfEJ36i7ORtAnNQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from 1.0.0.127.in-addr.arpa (117.176.242.163)
-	by smtp.migadu.com with ESMTPS id 3054c1980ab72533;
-	Mon, 17 Aug 2026 14:11:03 +0000
-X-Migadu-Flow: FLOW_OUT
-From: Weijie Yuan <wy@wyuan.org>
-Date: Mon, 17 Aug 2026 22:09:58 +0800
-Subject: [PATCH 2/2] docs/zh_TW: link to Traditional Chinese
- applying-patches translation
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBzl3ulL"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso2621198a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 07:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786976072; x=1787580872; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CVX3vWywMBNgDR8AdiqyF4jrABflZKPn3lQ44d4b6Us=;
+        b=BBzl3ulLRgzgmOdCw6+ZacQbQc2/DSR1uRJYRQoHoLdBzXdLSzcWnWv0Olr+l3oWvq
+         0zPY+vMNJIK0uXsktqs63Zrcq3UQ/7EBqUJSH++hn3iycbW9bwf8z8u+RH9TYgeI5Gzj
+         l/UNfDLDQhWT355n8j6LT0R+V8I9UQTLuNyvpvTFZ2kKIuNb0cE5ZzGFldCvXKyOjSAN
+         1vvjkgET07k8dRaXL2P1Aaj0iwFb210zJO8kUG/CUfaiP3KR1zHEYNkskX6efEB9hCpA
+         pHNENxRjtIux5L6gmGmGxE7n09QsKtc7UziQD9V1eMy02UaizA9zx4DtOVzwYaEYUj0p
+         NyFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786976072; x=1787580872;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CVX3vWywMBNgDR8AdiqyF4jrABflZKPn3lQ44d4b6Us=;
+        b=YAgSpu9+R7tX38hp2ThlTFFPXH0XWJpqEHAzrlqiacWeJUwLEYfVSKNsbtavtqbBbX
+         JYRcDee1V/KAPqda2zlBrRNdfov9p6rac3koQxyCbL2vnyrGon9WkgJBCYSLF22Uq+mh
+         B+49KXQAMHnlhRevt0vsN39Gd3m6JxsoqQ4eNX34xSyf3eyFPyVYLCHWqnzEWNdugpPW
+         C9CyNQs7T+7PP/yHS0GtZYE70QuKGtTH2i12ohrxVgufJ15IhuWdTc6szKRrF6/cgUtQ
+         RWneHsiuN3hCv8TC1lKHXu5y/IsJ/K2PbrpmYvuwLarTJC9Fp0uPAWKx8TQWuwN6g/oP
+         SK9A==
+X-Forwarded-Encrypted: i=1; AHgh+RrEgwC4w9uwrVE85NNurs8I/AgGZwOXB5HkXnRR9yWWdqvV1wjEfQxvh2H/icnJqicYheSq6Wngx2Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM9FEWI8195anFPibUJleXimj4hw+PK+mQLDmAo9Httb7VxeLW
+	JTZ1lYuDZFyMqz7M4leklG+rXkEXrnKu6yK7FSEsqNgQBBPgQRK0PQtG
+X-Gm-Gg: AR+sD10Xh2Wa5zJbng7Ofhy34zsNUV00X0uSqA6FJKqiPmVQoCIZkuS8H7OleYZjG/D
+	ELj660mTa/1QQlTECrkdHnBRj7znGf+9a7SJGnvQID2mPHgD6EctfstxBy5o37V6ArHgYt6Lv91
+	BjQVPKtsBbo/m182lyF4NztBo86Pi+QiScntunQGOrUAeicdAd06D2lXpw4atWSAaJ1MvkJqxQQ
+	xTrQg0P00nd0ehKtxE8JlQAzfyFUiaW+XFcfm78CJI2k62OoYfc+hCMp3cIhGroktJDSvEiOiuk
+	mEhPPetN173VhuH3yhaM2CwcGz0pF99H0Uda1R+9fmPlEi0z8ncivo04S4MD3DTT51Gs7gsWrcS
+	8mLfkbOK+T3mfmfpVF7gCGEXL3l+wXYYV/4M4/Be05Gu1kyjlf6jlhWxb0czSWle9sfQdNO3sHA
+	2mSOYhpMcSdJvwknjTZQ8Ou79jwVJmSIx7IM+7JqZi5BWUjNuPwovXV9EjbkkWZEkztEULICO2H
+	Jk51k6dUTc59PC/Zkb3Cs5rU3osh/gEmb6A7nc+eNTkJbs+/NstwPsD4EaDftMI00BUaui2YhmR
+	FIkkpgtv0WLLnA2TG48HQvyungo=
+X-Received: by 2002:a17:90b:28ce:b0:383:f52b:d616 with SMTP id 98e67ed59e1d1-3933b891cc4mr27074305a91.10.1786976072079;
+        Mon, 17 Aug 2026 07:14:32 -0700 (PDT)
+Received: from [192.168.0.104] ([202.179.95.46])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3954d2b8080sm2483192a91.4.2026.08.17.07.14.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 07:14:31 -0700 (PDT)
+Message-ID: <de38a940-9973-40d2-a4d1-d9e8f43e6439@gmail.com>
+Date: Mon, 17 Aug 2026 19:44:26 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260817-apply-patches-tw-v1-2-c182c1c425ba@wyuan.org>
-References: <20260817-apply-patches-tw-v1-0-c182c1c425ba@wyuan.org>
-In-Reply-To: <20260817-apply-patches-tw-v1-0-c182c1c425ba@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2965; i=wy@wyuan.org;
- h=from:subject:message-id; bh=2nsRKq+MZMB/fcm4FS98S6MC32XeeYuTRlO8wiSCnhQ=;
- b=owGbwMvMwCWmYiA08XxmoirjabUkhqxmsSiGBm6hPS7tjFtLHFtepXYoTtTXT52w9fRvruV5z
- f75qe4dE1kYxLgYLMUUWRTznl/gcg/YO21FxHmYOaxMIEOkRRoYgICFgS83Ma/USMdIz1TbUM/Q
- SMdAx5iBi1MApnpyAsP/SuXfKtPWdp+6Jza7QfCT0bInyo7fXsndqOGvW6yao7YxjOGfzr0ah7N
- yd71Vc3eyn7gV47+8uzhiqp7UvWUzLt6eXpzFCwA=
-X-Developer-Key: i=wy@wyuan.org; a=openpgp;
- fpr=216EE7D00A4750BD96A858CF24301291CF696125
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: docs: fix dead link to Intel HD-audio spec
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, rhys@tumelty.co.uk, rdunlap@infradead.org,
+ linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com
+References: <20260321140212.5026-1-ninadnaik07@gmail.com>
+ <87mrztsjnu.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Ninad Naik <ninadnaik07@gmail.com>
+In-Reply-To: <87mrztsjnu.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Now that process/applying-patches.rst has been translated into
-Traditional Chinese, update the references in zh_TW howto.rst and
-admin-guide/README.rst to point to the Traditional Chinese
-translation instead of the English original.
 
-Signed-off-by: Weijie Yuan <wy@wyuan.org>
----
- Documentation/translations/zh_TW/admin-guide/README.rst | 3 +--
- Documentation/translations/zh_TW/process/howto.rst      | 5 ++---
- 2 files changed, 3 insertions(+), 5 deletions(-)
+On 27/03/26 3:01 pm, Takashi Iwai wrote:
+> On Sat, 21 Mar 2026 15:02:11 +0100,
+> Ninad Naik wrote:
+>> The existing link redirects to a generic page. Update the link to the
+>> specification document.
+>>
+>> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+> Applied to for-next branch now.
 
-diff --git a/Documentation/translations/zh_TW/admin-guide/README.rst b/Documentation/translations/zh_TW/admin-guide/README.rst
-index 9be4915ae420..d32964f2c307 100644
---- a/Documentation/translations/zh_TW/admin-guide/README.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/README.rst
-@@ -86,7 +86,7 @@ Linux內核6.x版本 <http://kernel.org/>
-    補丁，則不應先應用6.0.1和6.0.2的補丁。類似地，如果您運行的是6.0.2內核，
-    並且希望跳轉到6.0.3，那麼在應用6.0.3補丁之前，必須首先撤銷6.0.2補丁
-    （即patch -R）。更多關於這方面的內容，請閱讀
--   :ref:`Documentation/process/applying-patches.rst <applying_patches>` 。
-+   Documentation/translations/zh_TW/process/applying-patches.rst 。
- 
-    或者，腳本 patch-kernel 可以用來自動化這個過程。它能確定當前內核版本並
-    應用找到的所有補丁::
-@@ -292,4 +292,3 @@ Documentation/translations/zh_CN/admin-guide/bug-hunting.rst 。
- 更多用GDB調試內核的信息，請參閱：
- Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
- 和 Documentation/process/debugging/kgdb.rst 。
--
-diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
-index 8466f6af96cc..176506c52402 100644
---- a/Documentation/translations/zh_TW/process/howto.rst
-+++ b/Documentation/translations/zh_TW/process/howto.rst
-@@ -146,8 +146,8 @@ Linux核心程式碼中包含有大量的文件。這些文件對於學習如何
-     有助於核心開發的外部文件列表。如果你在核心自帶的文件中沒有找到你想找
-     的內容，可以查看這些文件。
- 
--  :ref:`Documentation/process/applying-patches.rst <applying_patches>`
--    關於補丁是什麼以及如何將它打在不同核心開發分支上的好介紹
-+  :doc:`Documentation/translations/zh_TW/process/applying-patches.rst <applying-patches>`
-+    說明何謂修補程式，以及如何將它套用至不同核心開發分支的實用介紹
- 
- 核心還擁有大量從程式碼自動產生或者從 ReStructuredText(ReST) 標記產生的文件，
- 比如這個文件，它包含核心內部API的全面介紹以及如何妥善處理加鎖的規則。所有
-@@ -498,4 +498,3 @@ Kerrisk和Alex Shepard的評審、建議和貢獻。沒有他們的幫助，這
- 
- 
- 英文版維護者： Greg Kroah-Hartman <greg@kroah.com>
--
+Hi Takashi,
 
--- 
-2.55.0.717.g61afef3e37
+Thank you for accepting my patch. I'm not able to find the commit in 
+linux-next or the mainline tree yet. Could you please let me know if the 
+patch is still expected to be merged, or if there is anything I need to 
+do from my side?
+
+Thanks,
+Ninad Naik
 
