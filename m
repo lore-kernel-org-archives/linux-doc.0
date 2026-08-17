@@ -1,281 +1,310 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011034.outbound.protection.outlook.com [52.101.52.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB2A403EAD;
-	Mon, 17 Aug 2026 11:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786966912; cv=fail; b=o/jyYJNNqrc+SfLMjW1OjtDwxoz6Vd0LitYQ5w3j9Wn1wfkduYZ+yqyIuSFZWjEf3OxFZKw5/0d+CkHJj/SmCx7ub6gUb7+35mDXhckvH2hig5prT5iwYDqJ7EjfpC2hrxKr8fFp7sQdzxhS9/HhUtuoKpFqh8bcqe1NHxIpB6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786966912; c=relaxed/simple;
-	bh=UQk4QfBatjtEfsFGvI932H4hE6g+8i2aeM3WpWY6yZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ImSfl15rNCAII0f8Uc5D8tt794Qc9h3dB2WhC1tUId82szcmg7aJh0DImnp8WzfdMDocX/BDaf1WwCpICZwswcWIPk2AxpgePV3XDxav4gTnoPhVgoBmDZJJ38V1IgbO14o6LuWGmuNoCAdiR/jkp7I3lMnglUkiOzEoMoS6eds=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GyOq1L8d; arc=fail smtp.client-ip=52.101.52.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38253E63AA
+	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 11:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786967496; cv=none; b=ut+THSvFSK0z0RI6BxnPNai8P/BgaPXaxvhjK+txqxjZUz9Ru38o+WfKZaGrMgzFOWQQAj+srH56J0ODvPshHuMjoLCbGlMxhdyUHWH57X6GBMyPtfZ+MPHZJzYbwHG330gOuyzfaOtRnPJZqtXqNESmhE7jRW6YhjfjBF8/yrs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786967496; c=relaxed/simple;
+	bh=JW/OUHm0+iHvEZgreUAX7GG5l6sE3x+M8wliXF9FvFw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jcFZ5rdtRUoGtEOAJT3KQIZQibV5mB0J/N27PEjkD2o2fIf8wRQOf2xhccW9KlRX3TCMqQUtUImRWW8fAwXQZmeoFAMeEscK8Lej7ji7G3aVCIH830PBMjV9SsyjGpdOmp32LDtkeaA9Yt/q7A2AcOa7qFopP7vcDWXIFsJm6Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8CKmQT5; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GyOq1L8d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ezav2Zqre/bNo/8cxSqf0CuUV9N+W4Reg31yP4RnmOQ6sMY8k9T8Y/55l6+8T/FPekA2WsZVG35q0SnGXP9+vyH6la0rcJrPWUS8plEd8terPgPPalpmXlXepb1DW/xLKcOykQsm7CBc9Afw+gsfDVV8TewRNQ3iSRGGFVdu/R9wCjHcYnytrokJyf7rxMfP4R9Y9q0aShEY7nDXB6vQg2M/vINc0iyf8blL3pgGG8S3dgg3dkHVEeR2zfKLDcBNv7pSsn1+1hp1eN7vIbIGy7e67cXXNvn1kKxoLYftgeAbe50sRVIY/CxLQ/rDopVx27pEKrg16FnHdqZehu8mEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JI1SIZqkmxEiWe6gMNKkxii7AynElJeFBwZwekDt4Uo=;
- b=KF/8+MFqrBATAQfNkd1MigGJbCag/hTyr1cbh7RZDgXAZzuhyir0jxkKFDtAgIlF0KCVBmTChUq0D4+GAcmAGHYKXpKNji7jGtglRHWwxL27s/UMwtZ5OCt35PQd0yiYdzWLVNP0M6Q2BXEtGwio7KYkTjMLX0b81NLT0N9JoR+qn/RCyrigD5VjbzqM+t7J2uWwK8AXz//XiDguzw+rP3qRB1L8dC/7Z5NDSHTid4qi3+v07A8iQOB8QffBCefrqhhTdKrx7BJQvznlF8Kvx+Cuz9tVFINgidbIHPJ89J42h3H9YG7tnEPzUb/Qnse80W683gnO0RzrnXiP3H5Ftg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JI1SIZqkmxEiWe6gMNKkxii7AynElJeFBwZwekDt4Uo=;
- b=GyOq1L8dmEl4WBl4PrODi9nfmfEuK+h3/Et0GyYDiIEkFlQxQQkqNr/lOgp5GLvJgb9yuOxSxo2tYXZWUrCC5W1BeJA14rh1vhx/1PcC6x9uHOnUNDHqAatZYTGL8W0TRqKZuZjvKfdoHS7SUhKdpymrhOstYF6VqRD+RTDzgMNcCUV572HIKRSn5qQ3Cj2cyY3vxf9eO87A95gjbWbH1bJDT3U+d9ssM/Cv9cpJTylQdaax/oo3/zIV02Ex77ZgaepyybIJlRBLlif/fSiB25bICr3t91l81fy4gAE/1Y1e7H+db/XxuV64AhrRC6jLh28YLeBQrDp9OVP6/jmLAQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- BL3PR12MB6618.namprd12.prod.outlook.com (2603:10b6:208:38d::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
- 2026 11:41:45 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0%4]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 11:41:45 +0000
-Date: Mon, 17 Aug 2026 21:41:39 +1000
-From: Alistair Popple <apopple@nvidia.com>
-To: Eliot Courtney <ecourtney@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, 
-	Yury Norov <yury.norov@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Timur Tabi <ttabi@nvidia.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Joel Fernandes <joelagnelf@nvidia.com>, dri-devel <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v2 04/12] gpu: nova-core: mm: Add VramAddress type
-Message-ID: <aoLxGqKx8h54MtES@nvdebian.thelocal>
-References: <20260810-pramin-split-v2-0-65a00b3c7309@nvidia.com>
- <20260810-pramin-split-v2-4-65a00b3c7309@nvidia.com>
- <aoKfPchpfmTVguQf@nvdebian.thelocal>
- <DKR2MD987IX1.11I18NM3UNVQO@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DKR2MD987IX1.11I18NM3UNVQO@nvidia.com>
-X-ClientProxiedBy: SY5P282CA0060.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:20a::20) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8CKmQT5"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6ae3faeb9c3so1810447eaf.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 04:51:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786967492; x=1787572292; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DVdBgZgiFXGDjbJpuNlt9gLYnAgItSA9haLa1Vijdyg=;
+        b=j8CKmQT5ymAs/w2KaE9/fLu43OGrrZiIdhNC7n4fuoBiyM2KMAYsj4Ggo4OU2WxO10
+         bRO9hTEdv/c5bOn4AvTx2abw97xMOeobpa209OyeBEKPTt/iVQLVpEjmR1rAxFjdePwE
+         mUqluDWOSpKT7LbS+zBaLiAKJkvgfpauIZZe3BvVpkMH84QFv+EvE4qLP/0aS64jnS2Y
+         PMu2WVeziEUPOB7b7fx0DdUClnKgFMZpVYu9foosKhq5QJPblIDwCQ2N1wiTmJnFq08P
+         0OL09sbfoAmotZOjOGi6owWe9LH1fq7RM/d5wZDegt5K0BESkKR0H0CwU8BXXv3yURnz
+         5I7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786967492; x=1787572292;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DVdBgZgiFXGDjbJpuNlt9gLYnAgItSA9haLa1Vijdyg=;
+        b=q2JwGzb23RhO2tMQBBQR0+VbhTtdMko0VhwvbKuBHc5sXTuaGxotZaOY7dtEysStg0
+         6LjfyUcGElFypT8PtbQYxbgCFoR+rU02sFQLmLn9ZH4+xn0RGLA/Hj44sJOGcpmvs4Ap
+         8Ez6Qb5HUbDtg7/J3r0dQO8Oj6Pcf9tJgwfF/eRuxz6xJ8W4bWuwZaQApIHMAfQ4X42H
+         PZSjsbXdAPOKwMzliv2AIUE+122DFnZbDUf/iJsrceJY0C/Jdw2yzOuB6huMhF7Fks1L
+         hET01Unt8totEQixdCWR4wULEXFMkzH80amIvEKYi3lkV5Hbl9+XyG+5bKJb5FNUr+Rb
+         qhNA==
+X-Forwarded-Encrypted: i=1; AHgh+RpVViUAKfBmrgR0pSo8mo1pMo3IYUmbhvaaxbW7Bgf5To9InFoICIwN4IGwno9BoNiO4xxMCrMC/3Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxgSFdoU+SbX47xWjiPB0eh2sQmHQnolTIeAvquW4vaH3oTU87
+	0gOWqu+Pf6BLg/8TSgXgNzacadoV2t8rw07xCEqQJ+65sPiA4MSnU9NW
+X-Gm-Gg: AR+sD11jXQgi0AQJoGs4SCkyn3g/TBtam+OUk0N6iHwVDUycdyed6ngZKrqgaepYeAP
+	cwgL1pXzKIamYis1qs6Q4HheDoIqItYGrW7O05FDd+HQLt4BNkvcsOGf4vcfdGmeBvupvM9pBWS
+	YR6/XwO9O5slqaXyHTRIbinCxc22BziiSRbzdRp9Fd0be0rYPdKjtSXm7mO9yb3g4bIkiXVI4qf
+	V2PH0MBX0kg8OgqloE3+cAR7lQkUU3DSDjL79tK2CkcmAzcgIjvFNScdyEMFH4KIZ1CedUem0HS
+	AClvp+NAR8KOiTmvLMbNdZlMUXZl6zXgU0t3BuAevj75f8LtpzH+POUIzGO+/bxOfl9f7yxiQxf
+	BnI7SfkfobLHizSQi928o+aNUj7BgbojJzrG0tefIpKm+i9f6tZgf7zu+hHUbYyczo1GqJ8xUFO
+	aevvoUmVstrxYKEb9/i1qmqB3f8gLqiXNVxtiAMpyDYQgPmf9iqdXTkckWcOYNnA==
+X-Received: by 2002:a4a:edc9:0:b0:6a3:7af2:90ef with SMTP id 006d021491bc7-6b0d5fdc3a6mr23600155eaf.6.1786967491410;
+        Mon, 17 Aug 2026 04:51:31 -0700 (PDT)
+Received: from [127.0.0.1] ([144.24.58.22])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-45f22d73a34sm881100fac.9.2026.08.17.04.51.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 04:51:30 -0700 (PDT)
+Message-ID: <77a90576-7142-4537-9e24-6fcefb0c6dde@gmail.com>
+Date: Mon, 17 Aug 2026 19:51:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|BL3PR12MB6618:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03330090-290f-4d7f-7c93-08defc548384
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|23010399003|6133799003|3023799007|56012099006|10067099003|4143699003|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	jwDJ72bqSx51JUJHRcJEVkF/58KIprhjKMzw5qaCHa+69fsnp3LAGV3Jp7qYC7RjpxLEzoFz7Pe9L6RdgDO0aNntKB6bgrH6hBPiwvs8brEjAr1JHElYuZXbWkTdeGwz42hAJLW8lnUV3+J5U9moL9Ll3iZKml03llg81lOgYGyQUuHzuwaGTJU+4FFrVOaASU2potN7eH4JFqykHwdZjuAAR9CFd9DLzRfah8K5+Pb/eANdetNO4OMEataJS+7u7vIi8vvSTnrZalSS/OTccbvrQwbdnlOfUr2HYqrtiZ1Hh35CV/ZY3MOOc6rIXdaHnWRlO54gMoldGJ03MQ3EwCOtkOoCihBDhV2a5lafyyXObo8je5Zc4yp85lrvkxzG9jJr2MhZ4bLHIkfkfxF5zgdS1AVaCgfvicp+pZgTpRgnCQuPtJps4kuvi7QBCvtYGd93ykIWuWSGnboe0qtZgip44+iMW+f3sRWC46/257Ri6dDjXXL0D5r0pdM9VgasK2GMXtT99O0qOLmk+fTEbO9+KSyOxJI05QQIgSxgcXqGD3gjjjWWU0EKJJuB4DEFd54ttt2G47s8Q7+YGDF9NhSPB2/C6TvDVtSmuE3I7rOReDK0FobOoWxJwfReCWSVtSW2VyimEcTiWCVnEBQ8Um6Yr2MyR3OA/6mXfqYCZ8g=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(23010399003)(6133799003)(3023799007)(56012099006)(10067099003)(4143699003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VbkB9c435tL5qR/vuyJUJk1GAXydo0fUeP4JyIxR72scUvBrJp169xPmjO/u?=
- =?us-ascii?Q?WW+2BebYkopx1Gd+eC2ld7aG3H4w7BfGwSgm3FgG9Uaz7mm7ttzCUXbXJGof?=
- =?us-ascii?Q?vbJAUGbCkTNto3PMQTxPtTn6QgYEOubZ639poFMTQluMhvQStH9QiPejHZi5?=
- =?us-ascii?Q?CP36VH5NhNxDndTuwyU0ynCDQUphjU7kYUBNnuGnYHf95yhJ4kpz8xAtsCfM?=
- =?us-ascii?Q?dvqjyHa3Xozop3WrKwsBwbl0GIe4PEtg92hu31qo9tO1UsuB0EHu1DnOIfY2?=
- =?us-ascii?Q?y39yuFwi9UQ0RyaIy/vWlbuw3HfU7Tie7IenCcd7IyriCn0ZT2EaMUVvWJPA?=
- =?us-ascii?Q?SGrgeF7mShe4BaoYGtydZlqHZ4PeOTnHT21yelUcu5Vs47u0pNFuFB3EGqQS?=
- =?us-ascii?Q?Vz6r1gQa7xTorYTRkHHvYg929qittJcbhjObFNLIO3/0vfrTqhj3qev9VAFS?=
- =?us-ascii?Q?mhi3A4LwdnEuuomMo51oqkMeYCx8neZwOAT1S2tGLmXqnk9l6+9KpAzygXWm?=
- =?us-ascii?Q?HepcbkNpE5bsRZVbEbvtwyzy/tVp5SS4rZ3aqYAaxRuGlhso8SQYI8iJhZo7?=
- =?us-ascii?Q?QE2QuwGh2NnD03rw0zkWRRnNkvUxzG+DaaaBmaciwSXtBdESp1g3R3uslFRg?=
- =?us-ascii?Q?m04sifZnvYFQvt4zGFhZ7fg7N1QKlNCWgXBs4HQh2Dq+Stbmkf/j9AGSarMu?=
- =?us-ascii?Q?ZSQtEIGplyotacoa9RMr9FJKV5Likw86tJmmBwLovYdnXZEF4lEfu9igOyhV?=
- =?us-ascii?Q?jAegxYSPUhotrww6z4ksG+vrgv3kW8AU1UPIams7b06H58zhg6iN2jeGY+Dc?=
- =?us-ascii?Q?lIg4t6lZqipoJzDjSl9Y6wWT9n05tW4em3qNbb1SB94adpn5ETjIYq1L4EWL?=
- =?us-ascii?Q?1f00pEvA9LoJUrr3KZF805O1WqyHCAl3xcvn5LCk6MbTDdPM5+qhzdjYs4vW?=
- =?us-ascii?Q?TFUvdg5ahLtA6u0v9qPE0ip0+pxqZWDlRLFIvThKwFsYFUVoHnZEbF4h9MiF?=
- =?us-ascii?Q?l+drTMpYvE+vipLME4E5RpKVR51Nl+ILqRhojsl4Qzqa3pKBywENaFUd6tA1?=
- =?us-ascii?Q?xPVvC+wybcA4rKvSXYg41QWH+O/be268Q8Ry+oqIOQRO8438LMamM7tATwV6?=
- =?us-ascii?Q?f+X9n1BSNuy24hZSgl0Hfcz/5JBZY1FiqUyWmnPVtz1RTFW0c0pVCVVXPj6r?=
- =?us-ascii?Q?XA1AanV8vTyPoqx7Y3iUY8dB027yAZulnR/gaWmzUsv1xNEz9iApjnhW2tP3?=
- =?us-ascii?Q?hmPZVVbrOG/a7IiZiFXCLE4jP+eNArkdghYYqlZoLUHLvP7cvmFzcMTxdkv2?=
- =?us-ascii?Q?R0VdhzKvKvqw8m9E2T9SsdOk7R2hDYXHxk2ZdzxDBcfDLxOeTT+OnpB+J79z?=
- =?us-ascii?Q?Sori3FJQgvo0mIv3uh6LS74WSDnX4BuZOhEMBDOuWBTqplLCxla2A+B69rRL?=
- =?us-ascii?Q?uoFm026IMr2nKm/DWgpgWZegZ6VEs7Tz+CGeCzpenDNoFAyLA0wbdQ9ut1uj?=
- =?us-ascii?Q?nQmXHLFzgIW5FwI5p6VKziPJc7B+pT9Im+ilqWC1zHc94U1zqS71KLt2+eqE?=
- =?us-ascii?Q?wgobvH6cef/+d9dzj7TxPeF9XO8OVMZkgbZXm3rUUWLw/Cgn+CO+BVofQNRE?=
- =?us-ascii?Q?yx90qS1oHcJyy4Tt4clFwWFEpFcTY6Q/hyzQe9pcHpCYvRv+mY6X7pdyNIFq?=
- =?us-ascii?Q?QTkP3TfBEIKjwfZoA1X1wkCi7kcst+RdLm+ru9RhJeg6eBv1WVizygHbjR2t?=
- =?us-ascii?Q?MqS6uOgdSQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03330090-290f-4d7f-7c93-08defc548384
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 11:41:45.0473
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gCYgnU42pErbxwzBnBvfkAOqVn7g4TgeahzNqIy1wAikJNqa1QC8Xm18jwbikhnsVvEAUDVnBNWkq7PBFAwutg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6618
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 04/11] tracing/wprobe: Add wprobe (watchpoint probe)
+ trace event support
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@kernel.org>, x86@kernel.org
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-perf-users@vger.kernel.org
+References: <178611679753.237811.10190793347982785419.stgit@devnote2>
+ <178611684231.237811.7919346786503289720.stgit@devnote2>
+Content-Language: en-US
+From: Jinchao Wang <wangjinchao600@gmail.com>
+In-Reply-To: <178611684231.237811.7919346786503289720.stgit@devnote2>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-08-17 at 18:20 +1000, Eliot Courtney <ecourtney@nvidia.com> wrote...
-> On Mon Aug 17, 2026 at 3:00 PM JST, Alistair Popple wrote:
-> > On 2026-08-10 at 23:55 +1000, Eliot Courtney <ecourtney@nvidia.com> wrote...
-> >> From: Joel Fernandes <joelagnelf@nvidia.com>
-> >> 
-> >> Add the `VramAddress` type representing a physical address in VRAM. Also
-> >> add an arithmetic helper, comparison, and operator overloads which are
-> >> required in later patches for address arithmetic.
-> >> 
-> >> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> >> [ecourtney: create mm.rs here, squashing in the arithmetic patch]
-> >> [ecourtney: splice the two commit bodies]
-> >> [ecourtney: drop the Pfn fields, open-coding what bitfield! generated]
-> >> [ecourtney: drop align_down and the IntoVramOffset/IntoVramRange traits]
-> >> [ecourtney: make checked_add() const over a plain u64, derive the ordering]
-> >> [ecourtney: doc wording, header, import, and signature cleanups]
-> >> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
-> >> ---
-> >>  drivers/gpu/nova-core/mm.rs        | 60 ++++++++++++++++++++++++++++++++++++++
-> >>  drivers/gpu/nova-core/nova_core.rs |  1 +
-> >>  2 files changed, 61 insertions(+)
-> >> 
-> >> diff --git a/drivers/gpu/nova-core/mm.rs b/drivers/gpu/nova-core/mm.rs
-> >> new file mode 100644
-> >> index 000000000000..dcd5e5e919bf
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/nova-core/mm.rs
-> >> @@ -0,0 +1,60 @@
-> >> +// SPDX-License-Identifier: GPL-2.0
-> >> +// SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-> >> +
-> >> +//! Memory management subsystems.
-> >> +
-> >> +#![expect(dead_code)]
-> >> +
-> >> +use core::{
-> >> +    fmt::LowerHex,
-> >> +    ops, //
-> >> +};
-> >> +
-> >> +use kernel::fmt;
-> >> +
-> >> +/// Physical VRAM address in GPU video memory.
-> >> +#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-> >> +#[repr(transparent)]
-> >> +pub(crate) struct VramAddress(u64);
-> >
-> > Is this the best type here, or should this be bounded via runtime checking to
-> > ensure it refers to a valid address?
-> >
-> > I was going to ask if it should be bounded to reflect the physical addressing
-> > capabilities of the GPU in question, but that would actually need to be a
-> > different type as GPU physical addresses might not even refer to local vidmem.
-> >
-> > Although I think that's a concern for future series - AFAIK PRAMIN can only
-> > access local VRAM.
+On 8/7/2026 11:34 PM, Masami Hiramatsu (Google) wrote:
+> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 > 
-> Yeah good question. I am looking at memory management stuff after this,
-> and e.g. how many bits the hardware actually accept for physical
-> addresses (e.g. page table structures) is different depending on the
-> hardware. So it's not trivial to determine if the address is valid
-> without a bunch of extra info.
+> Add hardware-breakpoint-based dynamic trace event support (wprobe).
+> Wprobe creates a dynamic event on data read/write accesses using
+> hardware breakpoints and logs the access context and fetchargs.
 > 
-> So the approach here IMO is just to tag it as a general VRAM address at
-> the type level and gradually apply runtime checks to narrow the type
-> into code that is more specific. Since our HALs use dynamic dispatch
-> based on the chipid we can't avoid some kind of runtime checks here
-> anyway.
+> Link: https://lore.kernel.org/all/59637b96946653393a7ad3c7de094094796b39c2.1785067572.git.wangjinchao600@gmail.com/
 > 
-> I think it makes sense to say VramAddress is a local vidmem address, and
-> later we could e.g. add an enum to distinguish local vidmem, sysmem,
-> peer memory etc. This appears to be essentially what UVM does
-> (uvm_gpu_phys_address_t), AFAICT. What do you think?
+> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> ---
+> Changes in v12:
+>  - Fix syntax comment typo ('b' to 'w') and remove dead 'ret = 0'
+>    initialization in __trace_wprobe_create().
+>  - Fix documentation notation to SYMBOL[[+|-]OFFS].
+> Changes in v11:
+>  - Add trace_wprobe_is_busy() to prevent releasing busy events.
+> Changes in v9:
+>  - Use kzalloc_flex for alloc_trace_wprobe.
+> ---
+>  Documentation/trace/index.rst       |    1 
+>  Documentation/trace/wprobetrace.rst |   70 +++
+>  include/linux/trace_events.h        |    2 
+>  kernel/trace/Kconfig                |   13 +
+>  kernel/trace/Makefile               |    1 
+>  kernel/trace/trace.c                |    9 
+>  kernel/trace/trace.h                |    5 
+>  kernel/trace/trace_probe.c          |   21 +
+>  kernel/trace/trace_probe.h          |   10 
+>  kernel/trace/trace_wprobe.c         |  765 +++++++++++++++++++++++++++++++++++
+>  10 files changed, 893 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/trace/wprobetrace.rst
+>  create mode 100644 kernel/trace/trace_wprobe.c
+> 
+> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+> index 5d9bf4694d5d..2f04f32001ed 100644
+> --- a/Documentation/trace/index.rst
+> +++ b/Documentation/trace/index.rst
+> @@ -36,6 +36,7 @@ the Linux kernel.
+>     kprobes
+>     kprobetrace
+>     fprobetrace
+> +   wprobetrace
+>     eprobetrace
+>     fprobe
+>     ring-buffer-design
+> diff --git a/Documentation/trace/wprobetrace.rst b/Documentation/trace/wprobetrace.rst
+> new file mode 100644
+> index 000000000000..ad5f089b5ef5
+> --- /dev/null
+> +++ b/Documentation/trace/wprobetrace.rst
+> @@ -0,0 +1,70 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=======================================
+> +Watchpoint probe (wprobe) Event Tracing
+> +=======================================
+> +
+> +.. Author: Masami Hiramatsu <mhiramat@kernel.org>
+> +
+> +Overview
+> +--------
+> +
+> +Wprobe event is a dynamic event based on the hardware breakpoint, which is
+> +similar to other probe events, but it is for watching data access. It allows
+> +you to trace which code accesses a specified data.
+> +
+> +As same as other dynamic events, wprobe events are defined via
+> +`dynamic_events` interface file on tracefs.
+> +
+> +Synopsis of wprobe-events
+> +-------------------------
+> +::
+> +
+> +  w:[GRP/][EVENT] SPEC [FETCHARGS]                       : Probe on data access
+> +
+> + GRP            : Group name for wprobe. If omitted, use "wprobes" for it.
+> + EVENT          : Event name for wprobe. If omitted, an event name is
+> +                  generated based on the address or symbol.
+> + SPEC           : Breakpoint specification.
+> +                  [r|w|rw]@<ADDRESS|SYMBOL[[+|-]OFFS]>[:LENGTH]
+> +
+> +   r|w|rw       : Access type, r for read, w for write, and rw for both.
+> +                  Default is rw if omitted.
+> +   ADDRESS      : Address to trace (hexadecimal). MUST be in kernel space.
+> +   SYMBOL       : Symbol name to trace.
+> +   LENGTH       : Length of the data to trace in bytes. (1, 2, 4, or 8)
 
-Yeah, after reading the rest of the series I think this is where I landed as
-well - VramAddress as a local vidmem address that we use as one component when
-building up the more complicated physical address. As much as anything though
-just wanted to check we weren't accidentally conflating this with physical
-addressing which is more complicated than just VramAddress.
+Should it show default value 4?
+> +
+> +  FETCHARGS      : Arguments. Each probe can have up to 128 args.
+> +   $addr         : Fetch the accessing address.
+> +   $value        : Fetch the memory value at the accessing address (same as +0($addr)).
+> +   @ADDR         : Fetch memory at ADDR (ADDR should be in kernel)
+> +  @SYM[+|-offs] : Fetch memory at SYM +|- offs (SYM should be a data symbol)
+> +  +|-[u]OFFS(FETCHARG) : Fetch memory at FETCHARG +|- OFFS address.(\*1)(\*2)
+> +  \IMM          : Store an immediate value to the argument.
+> +  NAME=FETCHARG : Set NAME as the argument name of FETCHARG.
+> +  FETCHARG:TYPE : Set TYPE as the type of FETCHARG. Currently, basic types
+> +                  (u8/u16/u32/u64/s8/s16/s32/s64), hexadecimal types
+> +                  (x8/x16/x32/x64), "char", "string", "ustring", "symbol", "symstr"
+> +                  and bitfield are supported.
 
-Also seeing as you've obviously been looking at UVM source it's worth noting
-that UVM's physical address type is not exhaustive either as it currently only
-deals with some aspects of physical memory addressing and leaves the rest to RM.
+FETCHARGS block is not aligned.
 
-> And yeah I believe PRAMIN can only access local VRAM and sysmem (on pre
-> hopper).
-> 
-> >
-> >> +
-> >> +impl VramAddress {
-> >> +    /// Creates an address from a raw value.
-> >> +    pub(crate) const fn from_raw(addr: u64) -> Self {
-> >> +        Self(addr)
-> >> +    }
-> >> +
-> >> +    /// Returns the address as a raw value.
-> >> +    pub(crate) const fn into_raw(self) -> u64 {
-> >> +        self.0
-> >> +    }
-> >> +
-> >> +    /// Adds `rhs` to this address, returning [`None`] on overflow.
-> >> +    pub(crate) const fn checked_add(self, rhs: u64) -> Option<Self> {
-> >> +        match self.into_raw().checked_add(rhs) {
-> >> +            Some(addr) => Some(Self::from_raw(addr)),
-> >> +            None => None,
-> >> +        }
-> >> +    }
-> >> +}
-> >> +
-> >> +impl LowerHex for VramAddress {
-> >> +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-> >> +        LowerHex::fmt(&self.into_raw(), f)
-> >> +    }
-> >> +}
-> >> +
-> >> +impl ops::Add<u64> for VramAddress {
-> >> +    type Output = Self;
-> >> +
-> >> +    fn add(self, rhs: u64) -> Self::Output {
-> >> +        Self::from_raw(self.into_raw() + rhs)
-> >> +    }
-> >> +}
-> >> +
-> >> +impl ops::Sub for VramAddress {
-> >> +    type Output = u64;
-> >> +
-> >> +    fn sub(self, rhs: Self) -> Self::Output {
-> >> +        self.into_raw() - rhs.into_raw()
-> >> +    }
-> >> +}
-> >> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-> >> index 35a8b1214b0e..8f59cfa97017 100644
-> >> --- a/drivers/gpu/nova-core/nova_core.rs
-> >> +++ b/drivers/gpu/nova-core/nova_core.rs
-> >> @@ -18,6 +18,7 @@
-> >>  mod gpu;
-> >>  mod gsp;
-> >>  mod mctp;
-> >> +mod mm;
-> >>  #[macro_use]
-> >>  mod num;
-> >>  mod regs;
-> >> 
-> >> -- 
-> >> 2.55.0
-> >> 
-> 
+> +
+> +  (\*1) this is useful for fetching a field of data structures.
+> +  (\*2) "u" means user-space dereference.
+> +
+> +For the details of TYPE, see :ref:`kprobetrace documentation <kprobetrace_types>`.
+> +
+> +Usage examples
+> +--------------
+> +Here is an example to add a wprobe event on a variable `jiffies`.
+> +::
+> +
+> +  # echo 'w:my_jiffies w@jiffies' >> dynamic_events
+> +  # cat dynamic_events
+> +  w:wprobes/my_jiffies w@jiffies
+> +  # echo 1 > events/wprobes/enable
+> +  # cat trace | head
+> +  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> +  #              | |         |   |||||     |         |
+> +           <idle>-0       [000] d.Z1.  717.026259: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+> +           <idle>-0       [000] d.Z1.  717.026373: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+> +
+> +You can see the code which writes to `jiffies` is `tick_do_update_jiffies64()`.
+> diff --git a/include/linux/trace_events.h b/include/linux/trace_events.h
+> index 5cbd09c8be8d..43ffd9a76d88 100644
+> --- a/include/linux/trace_events.h
+> +++ b/include/linux/trace_events.h
+> @@ -337,6 +337,7 @@ enum {
+>  	TRACE_EVENT_FL_UPROBE_BIT,
+>  	TRACE_EVENT_FL_EPROBE_BIT,
+>  	TRACE_EVENT_FL_FPROBE_BIT,
+> +	TRACE_EVENT_FL_WPROBE_BIT,
+>  	TRACE_EVENT_FL_CUSTOM_BIT,
+>  	TRACE_EVENT_FL_TEST_STR_BIT,
+>  };
+> @@ -367,6 +368,7 @@ enum {
+>  	TRACE_EVENT_FL_UPROBE		= (1 << TRACE_EVENT_FL_UPROBE_BIT),
+>  	TRACE_EVENT_FL_EPROBE		= (1 << TRACE_EVENT_FL_EPROBE_BIT),
+>  	TRACE_EVENT_FL_FPROBE		= (1 << TRACE_EVENT_FL_FPROBE_BIT),
+> +	TRACE_EVENT_FL_WPROBE		= (1 << TRACE_EVENT_FL_WPROBE_BIT),
+>  	TRACE_EVENT_FL_CUSTOM		= (1 << TRACE_EVENT_FL_CUSTOM_BIT),
+>  	TRACE_EVENT_FL_TEST_STR		= (1 << TRACE_EVENT_FL_TEST_STR_BIT),
+>  };
+> diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+> index 0ab5916575a9..b58c2565024f 100644
+> --- a/kernel/trace/Kconfig
+> +++ b/kernel/trace/Kconfig
+> @@ -862,6 +862,19 @@ config EPROBE_EVENTS
+>  	  convert the type of an event field. For example, turn an
+>  	  address into a string.
+>  
+> +config WPROBE_EVENTS
+> +	bool "Enable wprobe-based dynamic events"
+> +	depends on TRACING
+> +	depends on HAVE_HW_BREAKPOINT
+> +	select PROBE_EVENTS
+> +	select DYNAMIC_EVENTS
+> +	help
+> +	  This allows the user to add watchpoint tracing events based on
+> +	  hardware breakpoints on the fly via the ftrace interface.
+> +
+> +	  Those events can be inserted wherever hardware breakpoints can be
+> +	  set, and record accessed memory address and values.
+> +
+>  config BPF_EVENTS
+>  	depends on BPF_SYSCALL
+>  	depends on (KPROBE_EVENTS || UPROBE_EVENTS) && PERF_EVENTS
+> diff --git a/kernel/trace/Makefile b/kernel/trace/Makefile
+> index f934ff586bd4..141c8323de20 100644
+> --- a/kernel/trace/Makefile
+> +++ b/kernel/trace/Makefile
+> @@ -126,6 +126,7 @@ obj-$(CONFIG_FTRACE_RECORD_RECURSION) += trace_recursion_record.o
+>  obj-$(CONFIG_FPROBE) += fprobe.o
+>  obj-$(CONFIG_RETHOOK) += rethook.o
+>  obj-$(CONFIG_FPROBE_EVENTS) += trace_fprobe.o
+> +obj-$(CONFIG_WPROBE_EVENTS) += trace_wprobe.o
+>  
+>  obj-$(CONFIG_TRACEPOINT_BENCHMARK) += trace_benchmark.o
+>  obj-$(CONFIG_RV) += rv/
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index 19cc07360005..4ebece96d8b7 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -4294,8 +4294,12 @@ static const char readme_msg[] =
+>  	"  uprobe_events\t\t- Create/append/remove/show the userspace dynamic events\n"
+>  	"\t\t\t  Write into this file to define/undefine new trace events.\n"
+>  #endif
+> +#ifdef CONFIG_WPROBE_EVENTS
+> +	"  wprobe_events\t\t- Create/append/remove/show the hardware breakpoint dynamic events\n"
+> +	"\t\t\t  Write into this file to define/undefine new trace events.\n"
+> +#endif
+>  #if defined(CONFIG_KPROBE_EVENTS) || defined(CONFIG_UPROBE_EVENTS) || \
+> -    defined(CONFIG_FPROBE_EVENTS)
+> +    defined(CONFIG_FPROBE_EVENTS) || defined(CONFIG_WPROBE_EVENTS)
+>  	"\t  accepts: event-definitions (one definition per line)\n"
+>  #if defined(CONFIG_KPROBE_EVENTS) || defined(CONFIG_UPROBE_EVENTS)
+>  	"\t   Format: p[:[<group>/][<event>]] <place> [<args>]\n"
+> @@ -4305,6 +4309,9 @@ static const char readme_msg[] =
+>  	"\t           f[:[<group>/][<event>]] <func-name>[%return] [<args>]\n"
+>  	"\t           t[:[<group>/][<event>]] <tracepoint> [<args>]\n"
+>  #endif
+> +#ifdef CONFIG_WPROBE_EVENTS
+> +	"\t           w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]\n"
+
+missing [<args>]
+
+> +#endif
+>  #ifdef CONFIG_HIST_TRIGGERS
+>  	"\t           s:[synthetic/]<event> <field> [<field>]\n"
+>  #endif
+
+Thanks,
+Jinchao
+
+
