@@ -1,115 +1,116 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7543557C9F;
-	Mon, 17 Aug 2026 02:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92E47233958;
+	Mon, 17 Aug 2026 02:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786932288; cv=none; b=sGNqCIez6TJ3vF6oOqpQkEqFmNrxdUOhVZbcS6kbZvjxKBO78q4Dl1h1hoL5UoGZU9V2fGnBQH4x8YLIdQvC3EkVbh0pUzTaN3ITNyoXTDy24q16JM6HY4Ol40ghToTSrSQfr7fFfdUEly5UKCpbBrdYa7bfEcB55CxN3TqeK3Y=
+	t=1786932876; cv=none; b=lkJTerEp6sD9klf4b/i+MT3Nx49VtmQOFQR6yVFonM8ZcPYXnEyZ1nwyi+t7CHcMsqEpe5YBHT1mxxY5nJPgpNlcrSIKadf5tBe4hXMbtEt17heH0xs5y9Zw4/QLbAv6adphml7TV6HJNXCD7sgsU07n5Yqo2zk6Ksg43smmYr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786932288; c=relaxed/simple;
-	bh=N2ZXMLX30Z4mxn+wsdekdIKFOTr4tZhs8nbu6i5rm34=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uf/1KIzmf2HmCQFFk5wak5yIeDwZVJD7OQZ78+BEtYJHQFbLdvSbEBz4F9Rmx7TQS94rdrrGsgq9OXjcaeU4P7uUKnPKaVSs9xODPkNi7lVg3faTjmpUp7GN01iEaE310MvvjC5GPqdbLjtuMb3lbjKhN3BCg9+EJqNEUR3faiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=1MqI3LEm; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1786932876; c=relaxed/simple;
+	bh=GK9At5MbxilRxyf5HHgFWOEXyhe6u/7Obv+VMKzfkM8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OMEEdSbN8LqIpoJIlSzNgtwEeE2+pjDCvmw5t0f+UaDCuNa64T/2I7VN1h7Oald+C8bROWnvnnLJAMGtsm8hSeaYDFmeUCzetj+M+sv9pYxmn90HXitnWIk5c8vTcu42RkfGw4GNksS7dkLmwYFH6dalen2BIRP+qaf8+TWCT3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn; spf=none smtp.mailfrom=stu.cdut.edu.cn; dkim=fail (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b=w8bKzlXp reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=stu.cdut.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=stu.cdut.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="1MqI3LEm"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=49tzuzhfAo2epbciTB/mccS2DapHrAmAXWk7pTYbPMA=;
-	b=1MqI3LEmv/p6/WKcEFDbb/kQwqvYMDxrElTU84JTymvSYEW9rqLDZgb5VNAN0GO6p/KT3ZhgS
-	IZT+u55VLI/lu4hTbc/7iMV8lrtienKowUCKfRjIi7anGjufCjMSI1g5q/PJkBqovwt7dUa8iVU
-	2HiYjYKQvWE187VAYCFclKc=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4hNbVm433Kz1T4JN;
-	Mon, 17 Aug 2026 09:54:40 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9CBB54058C;
-	Mon, 17 Aug 2026 10:04:37 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Mon, 17 Aug 2026 10:04:36 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>, Teng Peisen
-	<tengpeisen@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei
-	<ioana.ciornei@nxp.com>, Mohsin Bashir <mohsin.bashr@gmail.com>, Dimitri
- Daskalakis <dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
-	<hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chen Anwen
-	<chenanwen@huawei.com>, He Wei <august.hewei@huawei.com>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
- Chevallier <maxime.chevallier@bootlin.com>
-Subject: [PATCH net-next v13 3/3] hinic3: Remove unneeded coalesce parameters
-Date: Mon, 17 Aug 2026 10:04:02 +0800
-Message-ID: <7aa7c46128cf62e9a95d88944983b4ec0d9a5060.1786774752.git.tengpeisen@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <cover.1786774752.git.tengpeisen@huawei.com>
-References: <cover.1786774752.git.tengpeisen@huawei.com>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.cdut.edu.cn header.i=@stu.cdut.edu.cn header.b="w8bKzlXp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.cdut.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=qtqSR/KJD1rgN3sSVES8IaqhKbdYtnO6SHbjYGi//IY=; b=w8bKzlXpMH5b9
+	lgLRCMlxcEaCYP28j53JyoZ4JGo3M1R5/ueMwRYq3NgSRrIZtwDVr5K/6h/wruq4
+	d22DI0unqJdsdqSfwOy3nlvtIyPfax6+r6f8znELAGO0cag4zeHdqFmlSIwY3OWr
+	NiPCKjqSnVqUIdktUhPPYBSiyaKpxY=
+Received: from anka-20eya00ycd (unknown [182.139.166.85])
+	by hzbj-edu-front-4.icoremail.net (Coremail) with SMTP id BrQMCkBmycR2boJq_v1jAA--.23758S2;
+	Mon, 17 Aug 2026 10:14:15 +0800 (CST)
+From: Siwei Chen <anka@stu.cdut.edu.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wy@wyuan.org,
+	Siwei Chen <businiaoanka@anka1.top>
+Subject: [PATCH v4 0/5] docs/zh_CN: Add Chinese translations for five networking documents
+Date: Mon, 17 Aug 2026 10:13:34 +0800
+Message-ID: <20260817021340.17318-1-anka@stu.cdut.edu.cn>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+X-CM-TRANSID:BrQMCkBmycR2boJq_v1jAA--.23758S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFy8Zw47GFy5Jr4DZw1UWrg_yoW8Kr1xpa
+	15KrWfJ3W7CF17tws7Ga17AF1rG3WfG39xGw17Xwnaqrs0yFyrtrsFyr9I9asxtrW0qFyY
+	qF4SkFy5uFyjyrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv2b7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl
+	c2xSY4AK67AK6r4UMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+	7IU8oUDPUUUUU==
+X-CM-SenderInfo: ysqsjiqyqsiiiqr623vxofv3vwohv3gofq/1tbiAgUICWqB-hMt-AACsT
 
-  Remove unneeded coalesce parameters in irq handling.
+From: Siwei Chen <businiaoanka@anka1.top>
 
-Co-developed-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Wu Di <wudi234@huawei.com>
-Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_irq.c | 6 +-----
- drivers/net/ethernet/huawei/hinic3/hinic3_rx.h  | 3 ---
- 2 files changed, 1 insertion(+), 8 deletions(-)
+This series adds Simplified Chinese translations for five documents
+under Documentation/networking/:
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-index b4e58d4c8ba8..f6645385c552 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-@@ -148,13 +148,9 @@ static int hinic3_set_interrupt_moder(struct net_device *netdev, u16 q_id,
- 		nic_dev->intr_coalesce[q_id].resend_timer_cfg;
- 
- 	err = hinic3_set_interrupt_cfg(nic_dev->hwdev, info);
--	if (err) {
-+	if (err)
- 		netdev_err(netdev,
- 			   "Failed to modify moderation for Queue: %u\n", q_id);
--	} else {
--		nic_dev->rxqs[q_id].last_coalesc_timer_cfg = coalesc_timer_cfg;
--		nic_dev->rxqs[q_id].last_pending_limit = pending_limit;
--	}
- 
- 	return err;
- }
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-index c11d080408a7..2ab691ed11a9 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-@@ -111,9 +111,6 @@ struct hinic3_rxq {
- 	dma_addr_t             cqe_start_paddr;
- 
- 	struct dim             dim;
--
--	u8                     last_coalesc_timer_cfg;
--	u8                     last_pending_limit;
- } ____cacheline_aligned;
- 
- struct hinic3_dyna_rxq_res {
+  - team.rst: Team devices driven from userspace via libteam
+  - sriov.rst: NIC SR-IOV APIs (switchdev model and legacy API)
+  - driver.rst: Softnet driver issues (probing, close/stop,
+    transmit path guidelines, and extack error reporting)
+  - ipv6.rst: ipv6 module parameters (disable, autoconf,
+    disable_ipv6)
+  - secid.rst: LSM/SeLinux secid usage in the flowi structure
+
+Changes in v4:
+  - Fix two minor issues in the translation of "ipv6.rst" and "secid.rst".
+  - Link to v3: https://lore.kernel.org/linux-doc/20260811071200.54062-1-anka@stu.cdut.edu.cn/
+
+Changes in v3:
+  - Remove spaces before and after "（".
+  - Add a missing space after "IPv6".
+  - Update the translation of "secid".
+  - Link to v2: https://lore.kernel.org/linux-doc/20260727073538.56951-1-anka@stu.cdut.edu.cn/
+
+Changes in v2:
+  - Add translated documents to corresponding index file.
+  - Link to v1: https://lore.kernel.org/linux-doc/cover.1784866896.git.businiaoanka@anka1.top/
+
+Siwei Chen (5):
+  docs/zh_CN: Add networking team documentation Chinese translation
+  docs/zh_CN: Add NIC SR-IOV APIs Chinese translation
+  docs/zh_CN: Add Softnet Driver Issues Chinese translation
+  docs/zh_CN: Add ipv6 Chinese translation
+  docs/zh_CN: Add LSM/SeLinux secid Chinese translation
+
+ .../translations/zh_CN/networking/driver.rst  | 138 ++++++++++++++++++
+ .../translations/zh_CN/networking/index.rst   |  10 +-
+ .../translations/zh_CN/networking/ipv6.rst    |  76 ++++++++++
+ .../translations/zh_CN/networking/secid.rst   |  24 +++
+ .../translations/zh_CN/networking/sriov.rst   |  31 ++++
+ .../translations/zh_CN/networking/team.rst    |  16 ++
+ 6 files changed, 290 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/networking/driver.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/ipv6.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/secid.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/sriov.rst
+ create mode 100644 Documentation/translations/zh_CN/networking/team.rst
+
 -- 
-2.54.0
+2.53.0
 
