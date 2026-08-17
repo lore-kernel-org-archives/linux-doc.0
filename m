@@ -1,225 +1,182 @@
-Received: from mta1.migadu.com (out-125.mta1.migadu.com [95.215.58.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011048.outbound.protection.outlook.com [52.101.57.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC873C3C07
-	for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 10:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.125
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786963006; cv=none; b=u7Y9FysicYIOzRQy6uNEtK+0gxRcuzm9OS+mKXfDzWd11+yoX9Gu1Cg3CodIXAkoURNkD+rq3QQz0RE7Md93ynsUmyYlBDD/zDZ7Hh8yAwB0ZbM5IfzOWPObFZ2zZJYgTwYpsDxZcW2I83sIMwpXc0stS675lzbRimMV707chvc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786963006; c=relaxed/simple;
-	bh=TboSaKyP449rmtFzGUevULzWv0D95fXaDBJsgPFHDmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n1byGF32SzzpjLJZH++94ge5+Tmv1afpU433Of4OsrXsCJHxie3h8+Fe0VpRiPzzOxw9C1tv0uAmWAgSvxQesVA4z9wbywocMTUcht13csvW6ME3mcEpUMcGi3wMYyu9gHF89nYzARZqrdCN180jpcBm8ohp8oHbgk1V7rUuUKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=UQtMoW4H; arc=none smtp.client-ip=95.215.58.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7593090C1;
+	Mon, 17 Aug 2026 10:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786964253; cv=fail; b=DOeUqRvNGNHi4zomqaRBxHTW0FIzxEzGRqG7mp+NOhEvez20riEpnkG+5aYmUwvRiDJohr3Otg8wJb9I5V6jpQcmeFErACIMwsrnn/EjVVkNb72bYKvOSFYD2rjisiQ+c1GG1LZiI/rnFlX75vMj4HndHj19Q25nPmMq7eR9BHI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786964253; c=relaxed/simple;
+	bh=4/pYOPDRMqP1XW6sEPRkKPFxe070hGKo7NcQwSEocMo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CFlF8EqhnFnTZ54ZsgUrtz1gu3ghTAEBZs9/7kg7JlW8eA9EQIZCMe7ixU8tQFaFJSbCMMBebkwPol6gXk/EOhfx3k5rieylGtsZNXQiKOHTfwBKjMd7tqAGyeJ+G/VL/FMhhBJwLKX/LMbh5ydkVjzcP+tM7pbjhB/BHFfU4hU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WvbasTiO; arc=fail smtp.client-ip=52.101.57.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="UQtMoW4H"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=TboSaKyP449rmtFzGUevULzWv0D95fXaDBJsgPFHDmI=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786963001; v=1; x=1787567801;
- b=UQtMoW4HJicNP0djZcP6PkYvXQa/XBHadofT9OvdIJk9Tr35ZougJnP5Kn/8D5hg+Vp9kAtJ
- rkaAMeP8+4sgKJ6a+Bj5xAEJmeaBAXZW4ZLsdEWaUgcIgYDSr+eg5rQUZEUX3t2hMVXdTD7Nk6g
- 1fF22U6D/mYXRdooR7j2f/oEFmF56M1uWRXU3Fc0vDJPkJwGvuEarOY3S5i7abhGk0D6aFDuB7d
- qpK/OMVBQ6P5BSGprgiVaag54GelYmDiEZzv0rMxxg9OJ7m7hhPgIyk0p935tAHClCc1tW78uom
- ogvK5kBwwttnSUdmS+GVtTZCct6FAxbYgXa6/ABLzaAzA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from localhost (117.176.242.163)
-	by smtp.migadu.com with ESMTPS id 0cb1bea5c4b934ff;
-	Mon, 17 Aug 2026 10:36:41 +0000
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 17 Aug 2026 18:36:32 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: What's cooking in Chinese docs (Aug 2026, #01)
-Message-ID: <aoLkMBQszbzqYowy@wyuan.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WvbasTiO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vBb8u9f/sPkFU43EXCFy55bzF12Ut8xZ9SzfYTPrOtt0sMQOSFc1wMq54H7ZqPQenykZA25ww2wL+C0NO2/xKus6moxaiQERNAegyOoi75HDh8Gn2GHlwEGTRuDs3OHdQOn2fBlvzyy6RBoXwxmzF8XijBWK1NIesAqwJBoeDrDBsDrVv/qB55Op578Yk5zWGOeV/bt2SHAEf2DQ5uObs0XXT5Jyz483hv9lIdEmnFN7SYvC5DkRJHH4mNJit8DdrOSHwCuP9hXTZR92RLBonIHit8XmOvFRhnLSQPQPaKQcfhSAUD6z2qtt+GwFrD7AlHdXYK14+p05KV/Ab4iKyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AKordBliv2zhM9/2Ze2Go4qpXSBRxuJ9g807t6kOW08=;
+ b=CQCan7WfC7qt2meOOdtzujDs3xPKHwGCnaOS+TGGmRtPysA2T3J7Qbr0lZQdUdnQenLcJ3Lq1Gv7SXi3olfnA9T8NmV40PiK28Otl1QbdYzZ2MQwOku2J+I2n3TbKNjFv04DzRkIa779yyQBFt9WIB4LksNdumJDVICrg2gaZJAOS7FvULeFTRjg1Jg4IPQXTezYAD6WQ8UYbKhMiEkerSm3mkjweCsstFntsrv/qgeFIEc1/xS2YtAnqtjGo+eP+qy3jLLtUlUV4xxP2ISR+MmYXQwj7v1Kcr1lpEz5Ty6Y9CX/426OZntc5PIaj0JLP6rmaPll630cZ7vLIvRqgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AKordBliv2zhM9/2Ze2Go4qpXSBRxuJ9g807t6kOW08=;
+ b=WvbasTiOIoSx8/BLAehFI/u+ylEC/XIMDuU86Bmmd9iINrYWoDLAF/kaXb7mcTqZJ5+j3SlJNQXXTX00MVxmJ17AxM9X43PBN3wzIFbysNKO908sy32aRahHlGvC7vbWQgEIZlJpJWKYRaWovzNeHqXWlkbNkzENwcsBgnDthlo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB9733.namprd12.prod.outlook.com (2603:10b6:8:225::13)
+ by BL1PR12MB5946.namprd12.prod.outlook.com (2603:10b6:208:399::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
+ 2026 10:57:22 +0000
+Received: from DM4PR12MB9733.namprd12.prod.outlook.com
+ ([fe80::aeaa:23b5:1d59:602c]) by DM4PR12MB9733.namprd12.prod.outlook.com
+ ([fe80::aeaa:23b5:1d59:602c%3]) with mapi id 15.21.0315.014; Mon, 17 Aug 2026
+ 10:57:22 +0000
+Message-ID: <9311cc44-f56c-4a96-a55f-d9e7f35937af@amd.com>
+Date: Mon, 17 Aug 2026 16:27:14 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/4] espi: add core bus framework
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+ broonie@kernel.org, linux-spi@vger.kernel.org, akshata.mukundshetty@amd.com,
+ bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
+ corbet@lwn.net, linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+ andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org
+References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
+ <20260804115259.4065638-2-krishnamoorthi.m@amd.com>
+ <anSGjRK8spayFnKw@monoceros> <0f7469b8-8275-4061-b336-97cbce41ff82@amd.com>
+ <anye28kId4k8pxBv@monoceros>
+Content-Language: en-US
+From: "M, Krishnamoorthi" <krishnamoorthi.m@amd.com>
+In-Reply-To: <anye28kId4k8pxBv@monoceros>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5P287CA0170.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1af::7) To DM4PR12MB9733.namprd12.prod.outlook.com
+ (2603:10b6:8:225::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9733:EE_|BL1PR12MB5946:EE_
+X-MS-Office365-Filtering-Correlation-Id: 061cbcd5-a138-41dc-f6c2-08defc4e508f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|10067099003|4143699003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	dR1GDY+AfDmeAjl/Wqr5+5cyyV9U4jz+zavvEksJfQ/UHiX1dahR+/yFK8mXuunae/hfciB0xZpYD3uZKwUoLxzHVj5HjBpbmJGQRyL4W1ygMNQ8ixFLEuv6U7ah4g478EYw9/rzFz8B0IGVfjjylUhEZDtSi+tD8iJuSIeiDTa7eezydpl/+my30iVw85iwPErQivNqzeB4DSHDGUAZgtZiDne64W2SNaA2VupT031iYMtUT6fXUGQYoc6RUXNb26Umic3S7zvAKkApEXitkFdKSaxInzAu7z39XHwfKi276ZoUnwoK2fmtQVgy7+/IjCYgiULAJkTyvkYI6lUA8tcpBv/HCJm7tJDrEuZTc0NVqhHz31fS9GI0Qmncdmj8Iok7N7mVsFKgAII0o2JWM/v6GriMP6A272Y0FhD5tiP2J/oeTLKbZEP1bYnH5jn0N4hsvMZmX/Zdxx5RqfU0H9xACvMXaHz7XNOvcBI8L7IxfK/M6Ucf4y63unwbzDrbGjSXiA7LRFTfLlhPb9kRHpzcI4MYHS/lZPa538HBNBULZEZyIh12dYqCPVhJgT13RywDaVTOdq4Mkz9eYqVP9PRSNRyguEE/f+EaUF7w/Jvg5Zw9Z+CNS3UnUUJLWjRoCorZuZRB+SdWFMx4vQxePhcBR/UGddzxFFEgorrZPWc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB9733.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(10067099003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cGJPdCtMWTJFMHk4Z01YdVdTTHRsSFFoWGttbHBqRXFvaHRsT3lVaVJoMWRM?=
+ =?utf-8?B?SUtzYXNab0xMVTl5Q1RLUjVXeGpGOE1JR09PaWk2ZUFUZmVXNTBDY0R3RWpn?=
+ =?utf-8?B?cEUxYUdtQ1FnM296N1Y1UGZwM1ZwOWF3Zk1aSlRDV2ZZaUZvUEJnU3RDaVhQ?=
+ =?utf-8?B?Zi9ZcGRqdW1yanVTUmIvYThuQlB3OG9kaFZsSGlselhQNDRYUXZMVXJUV3NG?=
+ =?utf-8?B?YUxGWjZmdUcrTTZaY2NMMWdMbkYyMWpQTnEwZXMyQlBaS3l6ZVU5aktZZkI4?=
+ =?utf-8?B?V29sdlNIT0VmdFdNWENMZHc4dTRDdHRQUWxUWVoxZFgxaWEyTFIvejMvcUVk?=
+ =?utf-8?B?cmQ4UVVCUnBiQ0kyNkFmbmpRcStTS0ZpVlF6Ym43RUdEejdQeFNJTzg4VWxS?=
+ =?utf-8?B?NzBGWXRnN3EvT0xiaUFkTENYVWNtTkVvSzlEczcvbTJXOFVHak9mdUxyRTFD?=
+ =?utf-8?B?Tm9hQWgvUks5cENPaExjSDVRMWtkaVVUbkpyald4d3NTclpLdGQ2ZlI5blR3?=
+ =?utf-8?B?N1VFaHlZN2t6ZWdoR2ZrOU9Fd2UwRGJxdTVOYk5wY3hpaTIrK2V3TE5ZZTF6?=
+ =?utf-8?B?K20rT3FsdmVzRGVST3lsQTBOUU1pTUZub2d0NFpxbk54MGs3U2lzemdiSGl0?=
+ =?utf-8?B?eGNCbkpFdTZrOHM0WjZnbWRJZXRLZTNwZGl0RncwY2RvMnlqbytIb0ErcnpY?=
+ =?utf-8?B?d0dSR0FidEIramM0ZTBOZmtqenVPSHhFT2F1Qkp6MGpoa2VSY0k2V1pzMFJY?=
+ =?utf-8?B?RUg5aS9yMkMxTThiWUd4R3plMnNLRHNibjFRUXRnbEJwYlZtanpnL1A5Sm9a?=
+ =?utf-8?B?RkZ1RGN0Ymsrd2M4YUNqcWtEMHN2TGRYLzRYYlE5elMycFdPZVdyWHZTNzdw?=
+ =?utf-8?B?clMxVG5OdE5zekJ1VWxaRXhZNG1oS09WbUVlR1lvYTFmOEZGRUt1NWdmSW4x?=
+ =?utf-8?B?WHJ3cnhqQ21GUGtrNzA0eVN5eVZveDM2NkwyUWx2QXowVkZ4MjJQVEo4SXJU?=
+ =?utf-8?B?ZGVkZllFT0pRckJ3bVljUHZvRTJuR0U5MmlTcHhTSkFwcjQrdktmejVzTHk2?=
+ =?utf-8?B?Vng4SjVFSXZDOUlVc1hMK3Fqc1pRejBlVFlJeGpIbzdwcFl2MWNkOUR0cEdO?=
+ =?utf-8?B?TXZReFl6L0tucExwc2RSTnJlOTNoYzU2ZVZ3WFEzWFVxUjltM1p1a2ZsMWZT?=
+ =?utf-8?B?TkFmdTVxcDd5a3JEZFVSL0E2QXVmbVFqN2swYzhRL3gwNTJ1WUlTa1N6OFV1?=
+ =?utf-8?B?T0dNTEpZMktLMTRHV3VGakZZOEZwaW5OeGc0bHRxQ1ltZTRQMEJUTmI1d1hB?=
+ =?utf-8?B?L2U5Z0d6dW1wbUNnMU41c3M0TTRNbHkwZzM3Y0dFTndaaFZOdEJuYUE2ckgz?=
+ =?utf-8?B?M1laTWh5UmNTMHJ4MzlxQ3ZUUTVRZDQvUC82R0RJZ0U0eTVNZDJyOTlQRkZU?=
+ =?utf-8?B?ZGFpNFlhaFpnWE4rUHJ3cWRzdVFoc0N3aWV0bEZlV1R5Z1hnQWxsbVJvWTkv?=
+ =?utf-8?B?V25FOXZtaWRYb1FWbThVM3pMR0VpR3V0dFVFTTlaai9SR2ZsNGhYUTJiNkdJ?=
+ =?utf-8?B?K2oxbkc5M0FPVno3OEIrQTlBeW5aaFBYbFh2UDJxY3c1NVRJdk9VdWR1R012?=
+ =?utf-8?B?SmZaK2JKd2U5ZmI3SmJ4MmxzMWVWVE9RTkg4TllNa0RlTHZsS2JEcWFoQ3Zz?=
+ =?utf-8?B?TlJqWGpteEttSzZUem9UY1BkK1h1cWVyUjBQMXhUQ3U3NHc0ODJWM3JtUHNh?=
+ =?utf-8?B?Q2lQZDUvRUhoTGFOOHE5UTJIeThYcVhQOVF1QUxFM3lkd2Q3Vmw5aTZUVjNo?=
+ =?utf-8?B?YkNWazZ1TFhIT0NVeVFxbHFzV0VEV0JNNEIyTTBQdmhtNFMycE16aDU5R2Nw?=
+ =?utf-8?B?amlZUmVXOEZMTUI4RjdocDI5cE1zNzdJVFJtTWZSZGJGck53a29TMUE4Nnpr?=
+ =?utf-8?B?dlZ2S3NaSC9FNmpyeVhaYnNYN0VCZVpSVnMrZUYzRzJxbG9XZHE3N0cxOTlE?=
+ =?utf-8?B?M0Y0MlJVcXNBOGluUjE1SkwrU2xEcW9rRm9kMmJSTVR0aWJmK1Z5a1V1MExF?=
+ =?utf-8?B?eERYSVdhcXZSUGNjRjVTSWZ3OFVqUk0zVnRwMGh5QkdZOE1HdmlsMGw3cE1K?=
+ =?utf-8?B?aStua2pZY3U0N1RqSXRSdEgwUkxoQ0hUa1EyUStwNGVXVjFqb0tPUmZaaDNz?=
+ =?utf-8?B?Y3p0c0JXZ0gwb1dRa0NpcXl2V3F0L1J5bHBpZForQy9ZU2l2R01NWWlWM013?=
+ =?utf-8?B?alV4TkZxak9hZFlqQ0t2Zkw4eTdKcTI1SGdUbkNUVmNIK2FMY0lPMWpTWVVx?=
+ =?utf-8?B?RUdkMUQvMWJJbXFLMFNEV3ZQTHZmeTIxVkd2cVVqMWZaVkZWMCsxZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 061cbcd5-a138-41dc-f6c2-08defc4e508f
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9733.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 10:57:22.5653
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Njy6dno6nHlWsbQnuAmf0dKmqnhIKH/Y+cKgoJ7s3sHY8KhWiRhwpEiITCfKWNfkO19RUlLqF7WV7OuNXM2N2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5946
 
-Here are the topics waiting to be merged.
-
-Sorry for the late update.
-
-Last time, a contributor mentioned that he did not want to be copied, so
-this time I will only send it to the maintainer. Meanwhile, I am looking
-forward to the emergence of an automated system for our work. ;-)
-
-
-Copies of the source code to Chinese documentation development tree live
-in here:
-
-    git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs linux.git
-
-Mirrors:
-
-    https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
-    https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
-
-Please report any mirror instability to linux-doc@vger.kernel.org
-
------------------------------------------------------------------------
-
-[Cooking]
-
-* Siwei Chen 2026-08-17 5 commits
-  [PATCH v4 1/5] docs/zh_CN: Add networking team documentation Chinese translation
-  [PATCH v4 2/5] docs/zh_CN: Add NIC SR-IOV APIs Chinese translation
-  [PATCH v4 3/5] docs/zh_CN: Add Softnet Driver Issues Chinese translation
-  [PATCH v4 4/5] docs/zh_CN: Add ipv6 Chinese translation
-  [PATCH v4 5/5] docs/zh_CN: Add LSM/SeLinux secid Chinese translation
-
-  Needs review & final round?
-
-  source: https://lore.kernel.org/linux-doc/20260817021340.17318-1-anka@stu.cdut.edu.cn/
-
-
-* Weijie Yuan 2026-08-16 3 commits
-  [PATCH v3 0/2] docs/zh_CN: translate process/applying-patches.rst into Chinese
-  [PATCH v3 1/2] docs/zh_CN: add process/applying-patches Chinese translation
-  [PATCH v3 2/2] docs/zh_CN: link to Chinese applying-patches translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260817-apply-patches-v3-0-45e3bd2b1ccc@wyuan.org/
-
-
-* Chen Miao 2026-08-14 2 commits
-  [PATCH v4 5/6] docs/zh_CN: doc-guide: document macOS Sphinx setup
-  [PATCH v4 6/6] docs/zh_CN: how-to: document case-sensitive APFS setup
-
-  Waiting for a separated translation series, as suggested by Dongliang.
-
-  comment: https://lore.kernel.org/linux-doc/b233295b-64c0-4d50-a0fd-516e4795eb96@hust.edu.cn/
-  source: https://lore.kernel.org/linux-doc/b233295b-64c0-4d50-a0fd-516e4795eb96@hust.edu.cn/ (PATCH 5/6)
-  source: https://lore.kernel.org/linux-doc/20260814214419.49925-6-chenmiao.ku@gmail.com/ (PATCH 6/6)
-
-
-* Doehyun Baek 2026-08-12 7 commits
-  [PATCH v7 0/7] docs/zh_CN: update DAMON translations
-  [PATCH v7 1/7] docs/zh_CN: update DAMON design translation
-  [PATCH v7 2/7] docs/zh_CN: add DAMON_STAT usage translation
-  [PATCH v7 3/7] docs/zh_CN: update DAMON index translation
-  [PATCH v7 4/7] docs/zh_CN: update DAMON start translation
-  [PATCH v7 5/7] docs/zh_CN: update DAMON usage translation
-  [PATCH v7 6/7] docs/zh_CN: update DAMON reclaim translation
-  [PATCH v7 7/7] docs/zh_CN: update DAMON LRU sort translation
-
-  Waiting for response.
-
-  comment: https://lore.kernel.org/linux-doc/b408e294-2768-4be8-a6d8-81acff90c556@hust.edu.cn/
-  source: https://lore.kernel.org/linux-doc/20260812065914.3071433-1-doehyunbaek@gmail.com/
+Hi,
 
 
-* Chen-Yu Yeh 2026-08-07 16 commits (zh_TW)
-  [PATCH v3 00/16] docs/zh_TW: localize terminology and sync process/ documents
-  [PATCH v3 01/16] docs/zh_TW: process: localize terminology in 7.AdvancedTopics.rst
-  [PATCH v3 02/16] docs/zh_TW: process: localize terminology in 1.Intro.rst
-  [PATCH v3 03/16] docs/zh_TW: process: localize terminology in code-of-conduct-interpretation.rst
-  [PATCH v3 04/16] docs/zh_TW: process: localize terminology in license-rules.rst
-  [PATCH v3 05/16] docs/zh_TW: process: localize terminology in email-clients.rst
-  [PATCH v3 06/16] docs/zh_TW: process: localize terminology in programming-language.rst
-  [PATCH v3 07/16] docs/zh_TW: process: localize terminology in coding-style.rst
-  [PATCH v3 08/16] docs/zh_TW: process: localize terminology in stable-kernel-rules.rst
-  [PATCH v3 09/16] docs/zh_TW: process: localize terminology in 5.Posting.rst
-  [PATCH v3 10/16] docs/zh_TW: process: localize terminology in 2.Process.rst
-  [PATCH v3 11/16] docs/zh_TW: process: localize terminology in howto.rst
-  [PATCH v3 12/16] docs/zh_TW: process: localize terminology in embargoed-hardware-issues.rst
-  [PATCH v3 13/16] docs/zh_TW: process: localize terminology in submitting-patches.rst
-  [PATCH v3 14/16] docs/zh_TW: process: localize terminology in 8.Conclusion.rst
-  [PATCH v3 15/16] docs/zh_TW: process: localize terminology in index.rst
-  [PATCH v3 16/16] docs/zh_TW: Add a glossary for Traditional Chinese translations
+On 8/12/2026 10:00 PM, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Wed, Aug 12, 2026 at 06:20:29PM +0530, M, Krishnamoorthi wrote:
+>> On 8/6/2026 7:01 PM, Uwe Kleine-König wrote:
+>>> On Tue, Aug 04, 2026 at 05:22:56PM +0530, Krishnamoorthi M wrote:
+>>>> [...]
+>>>> +const struct bus_type espi_bus_type = {
+>>>> +	.name	= "espi",
+>>>> +	.match	= espi_bus_match,
+>>>> +	.uevent	= espi_bus_uevent,
+>>>> +	.probe	= espi_bus_probe,
+>>>> +	.remove	= espi_bus_remove,
+>>>> +};
+>>>> +EXPORT_SYMBOL_GPL(espi_bus_type);
+>>>
+>>> Do you really need this exported?
+>>
+>> Yes, it is required. Controller and slave drivers built as modules reference
+>> espi_bus_type directly when registering devices. Without the export they
+>> fail to link.
+> 
+> I would have expected that
+> 
+> 	drv->driver.bus = &espi_bus_type;
+> 
+> in __espi_register_driver() is enough for drivers to not have to use
+> that symbol directly?
+>
 
-  Ready to be merged?
+You're right. __espi_register_driver() already sets
+	
+	drv->driver.bus = &espi_bus_type,
 
-  comment: https://lore.kernel.org/linux-doc/anx4SPAL0Yx13xk5@wyuan.org/
-  comment: https://lore.kernel.org/linux-doc/CAKspUhKM6mBpy7hZD=8ZnwrAy81O1sYC_g7QdCA3qVDUcLV6dw@mail.gmail.com/
-  source: https://lore.kernel.org/linux-doc/20260806181949.65648-1-chenyou910331@gmail.com/
+and controllers register via espi_controller_register(), so no driver 
+module references the symbol. I will drop the EXPORT_SYMBOL_GPL.
 
+Thanks,
+Krishna
 
-* Ye Liu 2026-08-06 1 commit
-  [PATCH v2] docs/zh_CN: sync page_table_check.rst translation
+> Best regards
+> Uwe
 
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260806013055.2690464-1-ye.liu@linux.dev/
-
-
-* Cui Shuang 2026-07-22 1 commit
-  [PATCH v3] docs/zh_CN: Add configurable error injection translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260722123240.22979-1-imcusg@gmail.com/
-
-
-* Jiandong Qiu (2026-07-06) 2 commits
-  [PATCH v3 0/2] docs/zh_CN: update translation of doc-guide/sphinx.rst
-  [PATCH v3 1/2] docs/zh_CN: add process/changes.rst translation
-  [PATCH v3 2/2] docs/zh_CN: update sphinx.rst translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260706151358.2103703-1-qiujiandong1998@gmail.com/
-
-
-* Yan Zhu (2026-06-12) 10 commits
-  [not found] <cover.1781105672.git.zhuyan2015@qq.com>
-  [PATCH 01/10] docs/zh_CN: add LSM/index Chinese translation
-  [PATCH 02/10] docs/zh_CN: add LSM/apparmor Chinese translation
-  [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-  [PATCH 04/10] docs/zh_CN: add LSM/SELinux Chinese translation
-  [PATCH 05/10] docs/zh_CN: add LSM/Smack Chinese translation
-  [PATCH 06/10] docs/zh_CN: add LSM/tomoyo Chinese translation
-  [PATCH 07/10] docs/zh_CN: add LSM/Yama Chinese translation
-  [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
-  [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
-  [PATCH 10/10] docs/zh_CN: add LSM/landlock Chinese translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/tencent_7080BF6BB8F05936649DDC091FFD8C45210A@qq.com/
-
-  ps. I suspect the reason why cover letter was missing is that the user was
-  using QQ mail or Tencent Enterprise Email, which would break the message-ID
-  of cover letter. Hence the cover letter is somewhere else on the lore
-  archive.
-
-
-* Kefan Bai 2026-06-01 1 commit
-  [PATCH v4] docs/zh_CN: usb: refine translated wording and formatting
-
-  Needs review.
-
-  (Looks like the other 8 commits in the same thread have been merged into
-  mainline through Greg KH's tree)
-
-  source: https://lore.kernel.org/linux-doc/20260601082652.650303-1-baikefan@leap-io-kernel.com/
-
------------------------------------------------------------------------
-
-[Stalled]
-
-* Haoyang Liu (2026-03-05) 1 commit
-  [PATCH] docs/zh_CN: fix an inconsistent statement in dev-tools/testing-overview
-
-  No response for too long, will discard.
-
-  comment: https://lore.kernel.org/linux-doc/29bd0dbc-c6f9-43ce-b95f-4e787e3fe9c3@gmail.com/
-  source: https://lore.kernel.org/linux-doc/20260305192048.16405-1-tttturtleruss@gmail.com/
-
-
-Thanks.
