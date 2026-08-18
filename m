@@ -1,132 +1,214 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A131F16B
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 02:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E913B47D0
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 03:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787020121; cv=none; b=jNiYClZyMS8zNq47WUVf3YQ4KQb3/jRRma1893v/NK5Tzhjk89TzPkqAcwxN0T13FTKUyVsAf/F7yY33H2XLI6URTl2yu9FyCpj01ax4xQAc2xPbRMOvEZFVQiZl7HdW2/GH+NG2Cv6jEYc8tOF2wiZOxFBh+UAoZ67bxX2TjEE=
+	t=1787024547; cv=none; b=upEuACfB2tfF4gqfbI/KUSzr8dWN5FMdkFIZgndOCba0oLBfkXPHstQgr713/pJKogzEy/fkrVxGgoBhtMqfq83HdjC2XPij2fUrUgtKGZRtIp5+oXoR2cQ0hB8okuuAx9NdxCB0SCjih80+r574aahESYzflarkyX1PVaUgM4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787020121; c=relaxed/simple;
-	bh=oET+iZnpFVhp2AUTy/ysmzH1x1ySwOna3XVvUgsYxY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dUnTletKNCqG2FoTP+wPzgOXQ0IhUb38RiRjmyHMT0s0pHOcEmbtohhKcQfSI2fMzpolAe3Nbd9CbACqr95TwTHaPWZJAP+lDPcVRRymwjAuHRFQ2Y29UwU5E8Am6Vvf2Xbsda/LkwpC/uY58ybUJqi2rCjFk0uK6IQZvohiOyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=RP+HWovR; arc=none smtp.client-ip=113.46.200.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1787024547; c=relaxed/simple;
+	bh=og0nH85CYCCGni0xB/xCMYW1Oun84u73xVvU8oPwK0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q6kycXOVO1TJwCJypQEgtWDklaegEXlgpg1QsA0QrGXnD+KMSPXXrQJY4gHAosre59lG7gRar+pYl1dyet3eUF1im4/RePNJIJqrA2KfHaoto+VtZoc0Prirj24FENXzNbR0pGZkE741K2FaxYwW35W8iwCEq0yw3nZ008PPPfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=R1GwYAHq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KIC8qF15; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="RP+HWovR"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=BwG3+/eW1U2Q5NmRKM3Ulxh9NPgPJjBj/aoaDVhJaoE=;
-	b=RP+HWovRAZtuANBcKD7Gh61ix9TlZPCtDw5HwDs4/k54BGKo4OWAWedZY0PLmIWUW6T2q6KWr
-	NfHmB/uA3n0a2Lmd0ea5azAf/u1iIKRP5WvJcHfoyu8oUkv0VYB3HApHBU8oMLG/fPfTyoJTiWs
-	FzTDe+QvTgEQfs6G2yX8Ea4=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hPCyz2yZkz1K96b;
-	Tue, 18 Aug 2026 10:17:47 +0800 (CST)
-Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
-	by mail.maildlp.com (Postfix) with ESMTPS id 077084055B;
-	Tue, 18 Aug 2026 10:28:28 +0800 (CST)
-Received: from [10.174.178.9] (10.174.178.9) by kwepemr500001.china.huawei.com
- (7.202.194.229) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 18 Aug
- 2026 10:28:26 +0800
-Message-ID: <9dcc2527-21c5-4092-8ad1-d0755e787931@huawei.com>
-Date: Tue, 18 Aug 2026 10:28:25 +0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="R1GwYAHq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KIC8qF15"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I33v0A3298683
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 03:42:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=MaABp0/faTANtVcerTDacDQd
+	lb7pXZWcETU4q2gt11c=; b=R1GwYAHqL8EDVwyhfRXBq4LeLrPDpen8Be1zsRaX
+	XWcXJhOYiY3/auiFO2HbPN7yF4/QJ1KCGEOCw2iLndJ8FVKA+nADhGeo6qst9tCw
+	P3bFDv8C6VafbPcV0gPjV9IFpHGN3JqVvHk9x+IhhVNlqKzMiJIBVw+35KXmZDnc
+	/Wx9GiURAGiOU2T/DDfWSEXxjbRe/D0ZLTE7nOlkauAXfJpsBi0ykiRwhQ94ayEF
+	2sh/eLmcHZLqo1qTPNCjzDlHIoNoiHOgAFOVi/ywV0oMHnIaeQnoNg1nOZr/gTEb
+	NLwXlJSaHoGkw7VVmcznRBUBZ1IazoywpwY9OO42hEllTg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4f5pr3ue-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 03:42:24 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51c0408254aso7677521cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 20:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787024543; x=1787629343; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MaABp0/faTANtVcerTDacDQdlb7pXZWcETU4q2gt11c=;
+        b=KIC8qF15MIxxZIw9q9iBol6oFzTNq3PVmSDcMlxrxi4ray1UNTG0g1aLG4OZyjzTwK
+         X00q99C1eis7sddKPpHiedaS11CcAhJfJs7lxsfIKrcWFiY04ik29MysYsx30fx5H/NU
+         f3VghiJN/AARBu6dvZnlsIY6rFWTKNlfUlLIgSnpFCt2pfEabv7Gavfg0TGDJY1oaeqn
+         SpBbuUG8vhEqbGhdWFLEtjEfpg76ktNKIVkAsp1Ja/YVjmh8cs8IMrcvAXLG0LkiJ152
+         kOECx857D+jHcVOjqgFM9YARgl0qpVTPwln+p3icA3qmbAtACxLWghb5r+IMjWScqFSG
+         GGEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787024543; x=1787629343;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MaABp0/faTANtVcerTDacDQdlb7pXZWcETU4q2gt11c=;
+        b=CSzySaf8WXot2WMeuGTZIUvqeCzWxjN+WLbTIDjncbY4PZ5+q3qs8N3X+8lKBpiJiX
+         wMpKkdcd0Q/qxgLfJgA+p2Y4DQGwzotwk/D1UA1c2Ue8bIdVoeqGVLl3fzhomQzFJlbZ
+         iJVvA0vKHFuwPiSpliETdpXFCsRxOAh9N8rfaMNUZWd7SKt+tOd6lvhpsHv3qdQtenSw
+         88pnN/+XY4dZLYSiLQdzw94YF2GDeuWcowfS/2sxo0IuDCfxtT3Dsz1EmOcjH/PSeXVP
+         K7KqJU8Fj84GnflsPWMbENlIfdju/88OePZBUPEYdsUZ8bEDOcDw4jMjZJ47Eaisl41s
+         +maw==
+X-Forwarded-Encrypted: i=1; AHgh+Rqq7zZMihlkJ5hDBck6OiaH009otXCFGF9m0dmvvj52ITJGmbMK16a0MWtdc1I164VBBHtFTqtzr8M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzM/QWvYq72BxFWALUbvSs4L7XjaET3MYoQtOfa/MxtR6eB8eu8
+	Z6rIg0SwEiQxGzB6JoOQbzpiENXWXgv+tXx0/pSaNdb3WHNylf0Lgw9suCoRNfi16KaXPDQfbBX
+	lYAzS078ucqaGSSlyAJMH4MepSQEmCTlYIan6tfq1pp+knmTvw54olYDaRA6zpNc=
+X-Gm-Gg: AR+sD13M2lMABoSR7F3q1sPZ8dKor4HeR3up0IzegI6Vm8C9QIldWHH3WgjgCDnTrHd
+	rqz1aXWDpEWJwmBns6ZW/0Q5/3vVV5AW+Ynx3NZ8MLAfbQTL8H0jzhHj6+VeyVjLw+s0VLO13QR
+	on+m2lldj6e/5xjzDpCWZZOwupCPVDJxwmO9J2MOKdhV+GiUxVdUrxENpz6koMJcz/yxHzRPkPi
+	ZNlAuwi3WJKiZbJnuCU5cOFVjkPjm5zmRYU5JKSnC92WcTQYu2lGVWbFrDMPA/m9J/Le/gI2kvs
+	sKUWCiMRoFQzTghJZhfSawK3fRovV5+0pTlhGwPf13BbrqaYTPn3TOdykCC7gygM28YWbBIsKI5
+	s3peXeL1cV9ewpkj/j1ZNi+GpoMjDRZ2Pb6LxOefLsecxbIyep2/b3WWrb3T5kM2JN5S5VtzvS2
+	bk18j9rP8H/gBI
+X-Received: by 2002:a05:622a:5592:b0:528:ce0:e9f8 with SMTP id d75a77b69052e-52dbecc2fbcmr42318951cf.3.1787024543133;
+        Mon, 17 Aug 2026 20:42:23 -0700 (PDT)
+X-Received: by 2002:a05:622a:5592:b0:528:ce0:e9f8 with SMTP id d75a77b69052e-52dbecc2fbcmr42318371cf.3.1787024542626;
+        Mon, 17 Aug 2026 20:42:22 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b46cfa1811sm866041e87.30.2026.08.17.20.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 20:42:21 -0700 (PDT)
+Date: Tue, 18 Aug 2026 06:42:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 09/15] accel/qda: Add DMA-backed GEM objects and
+ memory manager integration
+Message-ID: <g3dkltejtlzrrelv77kjteqbkny6vhedyuet7d6b2p7yfix3ys@sop7vjvpdvzb>
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] mm/ksm: fix advisor_min_pages_to_scan description
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-CC: <akpm@linux-foundation.org>, <david@kernel.org>, <xu.xin16@zte.com.cn>,
-	<chengming.zhou@linux.dev>, <liam@infradead.org>, <vbabka@kernel.org>,
-	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <shr@devkernel.io>, <linux-mm@kvack.org>,
-	<linux-doc@vger.kernel.org>, <wangkefeng.wang@huawei.com>,
-	<sunnanyong@huawei.com>
-References: <20260813031722.569983-1-tujinjiang@huawei.com>
- <20260813031722.569983-3-tujinjiang@huawei.com> <an2g39TIN9v87enG@lucifer>
- <b35d14b5-65d8-4b8e-8754-de35f03d4b2d@huawei.com> <an3RcQgDuhmcAb37@lucifer>
- <238c66fa-8144-4cad-b90c-e7992b14ee6f@huawei.com> <aoM8bbWNeuEbfCdy@lucifer>
-From: Jinjiang Tu <tujinjiang@huawei.com>
-In-Reply-To: <aoM8bbWNeuEbfCdy@lucifer>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemr500001.china.huawei.com (7.202.194.229)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260817-qda-v2-v2-9-69a02e9090d4@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=S+/pBosP c=1 sm=1 tr=0 ts=6a83d4a0 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
+ a=BBVwHIhhcn0rA1_HgMAA:9 a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: T90QQKRQHs34CRa8b5mn3QPT90UCu7WN
+X-Proofpoint-ORIG-GUID: T90QQKRQHs34CRa8b5mn3QPT90UCu7WN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDAyNCBTYWx0ZWRfX9FGdaahz35wC
+ qu6vNBJg4s23N1tlZOECDHwShIxbhToGBg40smzzUeUf41ORKTWr2TubvbHfDy3ct5Ehw6xXzkh
+ seIKJsWzB4E0TI0GPsDaZ+QKkAr6a11FS+YM5Pl8O13DY63puQfZDUaCGw5P38MPVaVm+2hXNuU
+ fA3KIStlCiTATi7rpPIpQHhzpoWLMJzco/mCfhGt+p6wfN35EuZFsVjU7A0w+uzIIqldysmCxT4
+ FGIv15bOy/JQcMuJ78RpWeI8U1kOK8rzAZNjaGhshk2jyn+i8GnFb+1mvEht1vo0pftPgz//rqD
+ WMqo2wkmZVMcIPRH45qrCrSeYZHdQ5+TLBYTQNaFA5Q1lGA3Lvdg9+v+4PM0jrPPjuJINovzl9l
+ 6ojIX/ctrOOi/GV2DkZEbxsYvi1WCXB5NM+RJsxNzgOgZLA4TG2/IgDR5KuFOUmgkmgpeZxAkeE
+ rSicGV2D72UbnSq232g==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDAyNCBTYWx0ZWRfX+ZEOV+pqYCX3
+ tibmAqCXp7AhWAjnYoWHjCWpHfueZtlBl5uK/VR8sOVxKrQ51SjQ3FsL42+NaQ4V0w2Bt3biu/W
+ T5BBY7h+D2FyLctRcIOqu0cQ4E44ldw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-17_04,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608180024
 
+On Mon, Aug 17, 2026 at 10:17:44AM +0530, Ekansh Gupta wrote:
+> Introduce DMA-coherent buffer management for the QDA driver, wiring
+> together the GEM subsystem, the IOMMU memory manager, and a DMA
+> allocation backend.
+> 
+> qda_gem.c / qda_gem.h
+>   Implements the GEM object lifecycle for QDA buffers. Each buffer is
+>   represented by a qda_gem_obj which embeds a drm_gem_object and
+>   carries the kernel virtual address, DMA address, and a pointer to
+>   the IOMMU device that performed the allocation. The .free callback
+>   delegates to the memory manager, and the .mmap callback uses
+>   dma_mmap_coherent() via the DMA backend.
+> 
+> qda_memory_dma.c / qda_memory_dma.h
+>   DMA coherent allocation backend. qda_dma_alloc() calls
+>   dma_alloc_coherent() on the CB device and encodes the stream ID
+>   (SID) in the upper 32 bits of the returned DMA address, following
+>   the Qualcomm FastRPC convention for IOMMU address space tagging.
+>   qda_dma_free() strips the SID prefix before calling
+>   dma_free_coherent().
+> 
+> qda_memory_manager.c
+>   Adds process-to-device assignment: each DRM file (process) is
+>   assigned one IOMMU context bank device for the lifetime of the
+>   session. qda_memory_manager_assign_device() first checks whether
+>   the process already has a device (reusing it with a refcount
+>   increment), then falls back to claiming an unassigned device.
+>   qda_memory_manager_alloc() and qda_memory_manager_free() delegate
+>   to the DMA backend after resolving the correct CB device for the
+>   calling process.
+> 
+> qda_drv.c / qda_drv.h
+>   qda_file_priv gains an assigned_iommu_dev pointer and a pid field.
+>   The .postclose callback decrements the IOMMU device refcount and
+>   clears the process assignment when the last reference is dropped.
 
-在 2026/8/18 0:55, Lorenzo Stoakes (ARM) 写道:
-> On Mon, Aug 17, 2026 at 10:54:52AM +0800, Jinjiang Tu wrote:
->> 在 2026/8/13 22:32, Lorenzo Stoakes (ARM) 写道:
->>> Please show me the common courtesy of responding to _all_ the review given,
->>> not only the one point you want to respond to.
->>>
->>> I'm not happy with this patch, sorry, for the reasons stated that you chose
->>> to ignore.
->>>
->>> On Thu, Aug 13, 2026 at 07:17:05PM +0800, Jinjiang Tu wrote:
->>>> 在 2026/8/13 18:56, Lorenzo Stoakes (ARM) 写道:
->>>>> On Thu, Aug 13, 2026 at 11:17:22AM +0800, Jinjiang Tu wrote:
->>>>>> Both Documentation/admin-guide/mm/ksm.rst and the comment next to the
->>>>>> variable definition in mm/ksm.c describe advisor_min_pages_to_scan as a
->>>>>> lower limit of the pages_to_scan parameter, but that is not how the
->>>>>> scan-time advisor actually uses it. commit 4e5fa4f5eff6 ("mm/ksm: add ksm
->>>>>> advisor") only uses it to initialize ksm_thread_pages_to_scan when the
->>>>>> scan-time advisor is enabled. This will mislead the users.
->>>>>>
->>>>>> The semantics of advisor_min_pages_to_scan was updated in the v2 patchset
->>>>>> [1], but the documentation wasn't updated.
->>>>>>
->>>>>> Update the documentation and comment to match the semantics of
->>>>>> advisor_min_pages_to_scan.
->>>>> Umm, firstly if this were wrong you'd need to change the name of the variable
->>>>> too instad of documenting it as something completely distinct.
->>>>>
->>>>> But secondly AFAICT the logic in scan_time_advisor() suggests that it truly does
->>>>> act as a minimum bound as well as being the initial value for
->>>>> ksm_thread_pages_to_scan.
->>>> As the cover letter[1] said, 'The initial value and the max value for the pages_to_scan parameter can
->>>> be limited with:', ksm_advisor_min_pages is used as the initial value, not the min value of pages_to_scan.
->>> (Wrap your lines properly please, it's a common courtesy to learn how to
->>> send mail according to community conventions.)
->> Thanks for the reminder, I will follow this in the future.
->>
->>> One of the part of my review you ignored:
->>>
->>> 	But in any case, you are making a claim here yet have provided no
->>> 	evidence for it. 'It is just the initial assignment' means nothing
->>> 	- if the logic can then only increase it up to the maximum value
->>> 	then it still acts as a minimum.
->> ksm_thread_pages_to_scan is adjusted by scan_time_advisor() after a full
->> scan finishes. ksm_thread_pages_to_scan could increase or decrease depend
->> on the real scan time is longer or shorter than the target scan time.
->> The min value of ksm_thread_pages_to_scan is only limited by
->> KSM_ADVISOR_MIN_CPU, so ksm_thread_pages_to_scan could be smaller
->> than ksm_advisor_min_pages_to_scan.
-> OK thanks :)
->
-> With this explanation put in the commit msg somewhere on respin then we should
-> be good.
+This provides a nice summary of the patch, which is pretty useless.
+Please teach your AI instead to describe the reasons and the design
+decisions instead of just assessing what the code does. Why do you need
+memory manager? Why can't you use existing GEM helpers?
 
-I will update the commit message in v3.
+> 
+> Assisted-by: Claude:claude-sonnet-5
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Adapt to the dynamically-sized device array introduced in patch 07
+>   (kcalloc'd from DT node count, replaces fixed QDA_IOMMU_DEVICES_MAX)
+> - Protect register/unregister with the process_assignment_lock mutex so
+>   the device-assignment and device-registration paths are serialised
+> - No functional changes requested by reviewers on this patch
+> ---
+>  drivers/accel/qda/Makefile             |   2 +
+>  drivers/accel/qda/qda_drv.c            |   4 +
+>  drivers/accel/qda/qda_drv.h            |   4 +
+>  drivers/accel/qda/qda_gem.c            | 134 ++++++++++++++++++
+>  drivers/accel/qda/qda_gem.h            |  52 +++++++
+>  drivers/accel/qda/qda_memory_dma.c     |  82 +++++++++++
+>  drivers/accel/qda/qda_memory_dma.h     |  17 +++
+>  drivers/accel/qda/qda_memory_manager.c | 239 ++++++++++++++++++++++++++++++++-
+>  drivers/accel/qda/qda_memory_manager.h |  30 +++++
+>  9 files changed, 559 insertions(+), 5 deletions(-)
+> 
 
->
-> Probably we want to rename the variable too but can save that for another change
-> since the attr is called min still (ugh).
-
-Yes, I have considered to rename the variable, but the sysfs knob name is
-advisor_min_pages_to_scan and couldn't be renamed to keep compatibility IIUC.
-so I keep the variable name unchanged too, to keep the variable name and sysfs
-knob name consistent.
-
->
->
-> --
-> Cheers, Lorenzo
+-- 
+With best wishes
+Dmitry
