@@ -1,406 +1,436 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010024.outbound.protection.outlook.com [52.101.56.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF7D4734C6;
-	Tue, 18 Aug 2026 15:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787066620; cv=fail; b=U8kM5kniHyrsJFu4U4BxzcUUl+QDGciiaggyHzcOAwdynIJ+OMfxPm8mTbQ9KPEo4rposXWIFoQEuhEs9z9HKuDEsm1p0oeiB0E8u7NtYweeDrAYS/VZ7FVU/Hi2BHep++fQ5VoP3E6H24IN48fPGQ/FpvhOkDVeyhIlNg8laOI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787066620; c=relaxed/simple;
-	bh=khKV1XIP1Rhj+6e9JUu9GvedBfGn+7x9oJhXO0KJtgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Kjt7udK7PkNUz8XNFEGD9QOXmQCOIquq1hEWqF42IwMDRsFQfJFtigdi1wXNRIscEDceiGIAW/O/ORT2XV8LqYnycUX8lEM4DLliXIdQQcedEO2+G3NhDjJxAKBzrxMmCAK9uf0vkNyI6xIW3SaoUWodoUlt0Pqs7331ueoD3DI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Jwcq9eB0; arc=fail smtp.client-ip=52.101.56.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B61471CE4
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 15:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.69
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787066940; cv=none; b=o8qauAo1ocACL8HvzVs4VDTWKceIAVixZlsxxU1p+4E+KrTqwJI5Abukr2N7qOxYLyWNv9SVYCMfeozP5RLpO0p/QTgCKmecRF2Gz0h1sIwUOwZ3ZmLK9p4H7ue1CwsA4jTdAAzR8VRA/GV1S+IqUAXBQOOe0/l4MIFyUhDFJfc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787066940; c=relaxed/simple;
+	bh=WpotjfIgWZsgcEPpZdpCYdJlrUAim1GcgkLdwoPRpjo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Cy51ZQk/GZaMy6w8KAiN2UkPNtlD7gqixIk005qFAs5wO678uNiPbvqGvSIxeutefGmQpUkqEnGrVKwF5qajNUKi1Sd9U3yOe8SuBg1Jc4b6iW7tGB5Ax5sN/moIvm6eGOv3LSoixr24vWcfP6ke25zg9T/35LiiNUPjZ04NGIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c+sYsxYm; arc=none smtp.client-ip=209.85.208.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Jwcq9eB0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f9Hg12e7d6kBtryfbw7kqbvkLS/utLOJPQspd7e8RafYs6X9YYd19F3tIwkaHizdmMrcNHMSk1eI8gqxRgerSA9g7+IWh/EzHLBToQ5w7VFGKznMxdc8J85Ojq493zI+bGr0wJJ5JrdZGmTeQPRIkjS9G3cB8shKADXfQFxO9PaGXMhWeWOvfwbZrggCJi6mHFLcY41huY5217ECh1RFIoBzhSVd9Z7aT41eemLPZ7Oyf/nuIg8NxrWKCvlHP8s2pnPlMUEq5udA26laUwSjocfoOM7Zu2O8cQNchRwWOwsp/IkgYupPfoIvIh4eBudmdybIbhc8gHKnEcvWVLlfHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V8s9SGzPqT3qBC80MuSQOZJGWd6x6ahQKeuz9iRPNzE=;
- b=GIu/2zTnSFShrlsqAuTAOr5TBcpLjjJQ3LkEbssIrhHcEcK41ZtRJQ0zTQTQVban06yWY1H4xkV89jzx62ZaduwLxFRRRPrDqxOwF7J6X/b8WyHwdvYhym4/sEGVJ7Iq+3CO+dcOPEYfEVrI3OV5ZV9a+dXJj9qmMpvG3uDcL1RXwol4cMfyNLD7HahX8zA8mAMnQsQ2lQcJnyK7dEIJlnK5yDLpD2xS9kfapT/C9KCQgcjMDu8rbmyO9G8JWxgnY5G3/CjVH2Ftiya8ZfE33eI93LhzoIwfIxeemT2wQjtRNu+RViSWy10QNgY+VHNlFQBsOmb5M1g6TKbqwtbeNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V8s9SGzPqT3qBC80MuSQOZJGWd6x6ahQKeuz9iRPNzE=;
- b=Jwcq9eB0hdnEUVI34VbW/0nXCytqh4cYxR6GIwawq+4D5XnnCMQAiH3q4VxWOzYuIg5uAy+6psKPTnskiiBWdczjkW9Xas4Y/DgtksO4Jp8SfjZCIDsUquo/t6FEU9LPKBa8G3K078iCUAaAz4dM/vSROoPx42q+Gn2Gr33+ZRSSnGOkr9X6Q8C8gg0wJv0nrgsyJBXiT4+LT/A0k0Y0Lzc8PZktkypkxnHlU4oa64w2qst4yWa+2c4Kii05Kx/TDt4jWvZO3p6/EhTkvdVIqcPFoh8GHK9xsRon77KEb+rVyDYvyQeLHIEzwsY1AvyjoJ3GAdbxBfT2ILVMDQUvZA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by IA1PR12MB7661.namprd12.prod.outlook.com (2603:10b6:208:426::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Tue, 18 Aug
- 2026 15:23:30 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0315.016; Tue, 18 Aug 2026
- 15:23:30 +0000
-From: Yury Norov <ynorov@nvidia.com>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	rust-for-linux@vger.kernel.org,
-	nova-gpu@lists.linux.dev
-Cc: Yury Norov <ynorov@nvidia.com>,
-	Gary Guo <gary@garyguo.net>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Burak Emir <burak.emir@gmail.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>,
-	Rae Moar <raemoar63@gmail.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] rust: kunit: move test configuration gating into macro
-Date: Tue, 18 Aug 2026 11:23:24 -0400
-Message-ID: <20260818152324.587932-3-ynorov@nvidia.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260818152324.587932-1-ynorov@nvidia.com>
-References: <20260818152324.587932-1-ynorov@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN1PR14CA0022.namprd14.prod.outlook.com
- (2603:10b6:408:e3::27) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c+sYsxYm"
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-6a125f5b317so4989552a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 08:28:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787066937; x=1787671737; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MCqv9FjqzX9J6sE+mm4dR8DQFjLQZx0WW3HAG/YPlNE=;
+        b=c+sYsxYm5/SMBus8gOUlNc0oPSm4KMBnziG89nD2u6a7SzNaJSaElR/089JI4fDh3O
+         YKfaHKaOnFQhiEssIHYcu/kk+ig3tcFM752jJ2+07FtOggUAVW/YPsjynyMIA0tgF7gk
+         WYmOpQrCcYJA7vl+YJFP5yvY+fCjxs8EztU+HSjOqigi8iMiJyvfOpbcjE+cB0xBljjE
+         2ANd9zDOKV26jqCvDybiMgwXVbJowiJGkhOfxP2Yqq/sGjufpvF+DBA2KWoF334ggSp5
+         dZYsMJ6bcz3D4cpKKPfY6S3KMn7nSEFmusIaC8wSsaBCHzM+9Pxfq1WyKsAn8FHSP5CW
+         7/RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787066937; x=1787671737;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MCqv9FjqzX9J6sE+mm4dR8DQFjLQZx0WW3HAG/YPlNE=;
+        b=Qj3DWcXDlwkXOK1Z4keEUZLwvHgvBVqdJeCJQCBmtLTDqYrjsMH0HYol2OXZeeZiS0
+         ho5NMcfcLuQGJTwd6TaNvEkfw2aIgjiMV9VmjeGI6b2zGeJnvpjbO98zlp1/ZSnzZ1n3
+         1dnnbzVkla5ctvTk3Gk0ja12k4TPMgsPcbmEZXNIjxW4YymIkqIIDsUUvZrWEx/0jQOM
+         NDDKZRaIxCAO15/2gaOZMM2oO3OHpwobEXcKxqfboHo1+diCnDlnC2OLBQWQYwwJUGJq
+         Acz+56y22xXpG16IyYpCfuXIRqXkLP41KldOOcYdOfLqcZ9wsr8w2KmDGMtbNZ1SPGyn
+         rCjg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro6lP9xl7Z7D1qZVYrBb0pj7PZ5cUsI1nAA5HJHcc55Gn/a/h5Mh37l6eTSOAJLrDalMjs9vYqPb/A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1G3RRMLMk3sfXCCXMuXcngj7SPRw+gFk3x09gWafDIRAJMAWu
+	Z9IIRRt0Px6s56jORDwQxAnV4aB543zaDl4P3HO3XjIokLymHEuxcgV6c+J+WZOfUAKUJSnPZw+
+	qsA/b3LVFuGc1GGxRmg==
+X-Received: from edru23.prod.google.com ([2002:aa7:d557:0:b0:6a1:f3cf:4285])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:c1d6:b0:6a3:9e00:8ed2 with SMTP id 4fb4d7f45d1cf-6a39e008fb0mr9583691a12.16.1787066936333;
+ Tue, 18 Aug 2026 08:28:56 -0700 (PDT)
+Date: Tue, 18 Aug 2026 15:28:55 +0000
+In-Reply-To: <2vxzqzjz1x5f.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|IA1PR12MB7661:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4417dbbd-c3eb-40f7-d021-08defd3ca897
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|7416014|10067099003|56012099006|6133799003|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	bUa8JJ1I3nHkZAUQHMATwaBkLra6YG3mJHuaDZk2HtQekyCjnvP1ZnHUHzGasjZcwvu4ExRGaTBt/pcZUV447nt5B3bmeZokdsqktA4rNFyYOzIC9S5g8ymBhiitFaXyNVLqLAuNNM7UcE72F3QdXfajS6Z7m6pkA+xPujY07C0xLhc72eVSysVV2UWZlnwy+9vCSUDbYdjqqSw8Y1YTPz7XVSdRjqH0mGF0IdPXE7FyY6oB72LdnLngq7HsrQqN1OOoYX4/Uhok8kOD27gPE0FUwNOwtLxxfemoGnnp8hfK7KIw4To4oOIM+kNImX5kjLgXBDTuwdRjoNP/IFopYAjKTRMMUazh9z1U/vCp50SU8TW0LiCtWg4md11pvazV+FEa1pRjMm0QzH520qx8cNciym2RlB6er71NJmF0o8OxJ28NvINRXLFKY0h4OlX84vNNeSCZU6V+0oNtly6ToGIYOWC3ODkGwZVIZtDxRmW2X2F+XHksWVSbm/cp36hp9MGyR0yxGEdunN/jiAQC2VX1CQ3t/6zZqzHPjZPTAhPMvxu7eDo0aOgHKZMSMF7eNK+s4+irlWbLEAZW1W/R6ytamiamAh9XhfhOKgOsTXCR/QFnaH72Ph8zmLLK1kCSZYQ+bPapygkdykjkSxEoK/nWOZuzeOxh8g6JZzzIOIk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(7416014)(10067099003)(56012099006)(6133799003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LJMXbLjA1Ms1w+dthCCQtgy5t5zbpIXBX+i7h2ZKc+8wl1VINkHclNLiKg7g?=
- =?us-ascii?Q?pA/HMPRKOz5Pfdv3dSHCzA3QAMopfBu7Z8Hvcf4T17UdG0p3EZx+uQOzk77t?=
- =?us-ascii?Q?NseuMd6vdyLf0BWWFVcV4azOB9yV52Rpj/4uG4+R6SdkTWELw/n1b76XwLvz?=
- =?us-ascii?Q?FPp1PbJUurgiRAsglE399CVkg9s/DtAa2mhdIX4uDRlh0C5TBEQJVpdruh7l?=
- =?us-ascii?Q?b1AVLOI912Q1d00hmMQNKEYMIexqr6KUXd8/fWlZUG1O2pjkTTDleDOhJAat?=
- =?us-ascii?Q?WYhZZkTItALS3drraZ5WJyAf4GUe8yFLUPVM2LwKnCLBzOL99oNP8LWeIGMz?=
- =?us-ascii?Q?7eLYOFJRsc9l9WP9PVpVqAIWl7rqNAFZG7A3pGv5lcCrfknEAeGBXGleTiUb?=
- =?us-ascii?Q?SKtRWpiwZEVD1nbNrR5i5romIe5e5rUb0D1OZMQW5EoK3qIDvjDYvSrIAZZi?=
- =?us-ascii?Q?vJgXEhP20MFcJuWoBpowdKvzwN3+hI1KkZkT1HScKF8ff+GEQC2QDegQUl2f?=
- =?us-ascii?Q?r8TEisoa2WDYOZJcQaS+4gpKBvL8UtUT0ihHPlvoOfnkjGV5ipmgtY3p78Xd?=
- =?us-ascii?Q?Vk23pOaYzuH9Oj/ymOu4lKFlLpYIq7IQYorArIsKO5I0OEDaInQR8ksL3KGg?=
- =?us-ascii?Q?PdK/bQ/SQTwYjMZCRlI+RmgVen5gpp0Ywxik+cHlKIREtBwMiVy8RrfmFXFw?=
- =?us-ascii?Q?g5WuLzEfkqBfkJnfO7HfnDvimuffJGU13d04MqaRWnd7tTeKLN6PoRweGDkq?=
- =?us-ascii?Q?VesF6qXrZ/3ofOTtKg02GWXvCPehX4Cm9rJFX0Y3WK9gzoWZTCQcoXi20wxG?=
- =?us-ascii?Q?OW+8k0LzRwuJMBrLZ3kOA3U3U5rqmT/nAbVZyPeZeeSbINeye4x7nmYGMFkb?=
- =?us-ascii?Q?iMeX4TWm+O1kFiWRv+3W8R81DvU5Zv0TyPnWWOc0ggwFX3jtt2CtgaS2gWrm?=
- =?us-ascii?Q?6lKXYbjKRGO/bAeKTm0iJWXqOo9W+/C9oqXDEYskouIVWs8yics1NAXbFIJ3?=
- =?us-ascii?Q?Fd09QlIWtTb4HBLgywnMOpSusUZMSJ3Pdprs8H1UkUxZsgH0e5oIBYFhF2c4?=
- =?us-ascii?Q?a7IvFDYHyoZoMydcA8h5CZSIYgLBCXlmmtM4uDckzMiWavwP9xAvvlWzmw7m?=
- =?us-ascii?Q?7Xp0S8zdc1qUl+LSDUJaF03CKNrApSXvPncJCLAW1hPk8gVCfXNpVSJkAB8g?=
- =?us-ascii?Q?7luIdt2nlRjecw+ow9RIaH/cikFjBVa5RHXMV4ljPoBBTQEVu1WODHTyrQ02?=
- =?us-ascii?Q?EcFWcoanFvY7Ksg5qgrFqaqwPTLQjEu3jsaVJ6tiokTph663Zs1JuWalycoe?=
- =?us-ascii?Q?mq2pPQSS/dGfBWkW4XB7gyUgmctXcInoaLC1cPXzMVcbZxU9qwLDecHlCUL7?=
- =?us-ascii?Q?aEKf6A2RMU2yuduoDZOQ02ZgZw4SUgl6KBsM7vcZ+8xQ9x0RqjT97eaAREkX?=
- =?us-ascii?Q?aCswWlPZGTyT/26kLGZew1JAFZn/Wi2FWiztik1A3bc3zzEnNeTmX7h1TlNH?=
- =?us-ascii?Q?hvJGJuGvOySHJYkWEmdTE8Xv8nPl9gcaqCguyeqEXYEMIP7jK4cr/e4KgYIN?=
- =?us-ascii?Q?+Ee4SNSwPbJR34X27ZbIEr5Xfo1FVwNAtIl9Ha2+3QfsVs2K/x+qWI5PbRbi?=
- =?us-ascii?Q?uxoamw7bZlD9UGjqkVLh3e7Afe3Rk8P4HqQe7OA4fDQEHFTAbINnR9X7G67Y?=
- =?us-ascii?Q?QLPZbRZ7M2a2bPwvswgwEWVS+9fy1WDLEUdr5O5SbubewQDm?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4417dbbd-c3eb-40f7-d021-08defd3ca897
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2026 15:23:30.4731
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tURl2vHipvi3qRtfCYxBgW1rVzdkrPcdarQAQnVdYzimSH4Q2Ybb3KX4eqBQ2IlXa39Xa4LBzzlfJ2kt4nHhFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7661
+Mime-Version: 1.0
+References: <20260728121138.1103610-1-tarunsahu@google.com>
+ <20260728121138.1103610-6-tarunsahu@google.com> <anphyjFv3FhF61iB@google.com>
+ <2vxzpkzo51wg.fsf@kernel.org> <anssOQFNZ2LfihbU@google.com>
+ <2vxzik5f311e.fsf@kernel.org> <anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
+Message-ID: <9huzv797v45k.fsf@tarunix.c.googlers.com>
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
+From: tarunsahu@google.com
+To: Pratyush Yadav <pratyush@kernel.org>, Sean Christopherson <seanjc@google.com>, loganodell@google.com
+Cc: Pratyush Yadav <pratyush@kernel.org>, ackerleytng@google.com, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
-KUnit test modules currently need a separate cfg attribute in addition to
-the kunit_tests attribute. This makes every test suite repeat the same
-two-attribute pattern.
+Pratyush Yadav <pratyush@kernel.org> writes:
 
-Declaring a KUnit test without a preceding `#[cfg]` attribute is also
-possible, causing it to be built whenever KUnit and its containing code are
-enabled.
+> On Wed, Aug 12 2026, Sean Christopherson wrote:
+>
+>> On Wed, Aug 12, 2026, Pratyush Yadav wrote:
+>>> On Tue, Aug 11 2026, Sean Christopherson wrote:
+> [...]
+>> But that's all beside the point.  What I'm saying is that SNP and TDX *must* use
+>> guest_memfd, whereas guest_memfd is optional for all other VM types.  And so adding
+>> LUO support for guest_memfd without even sketching out a plan for CoCo VMs feels
+>> backwards.
+>>
+>> I'm not necessarily opposed to gradual guest_memfd support, but there needs to be
+>> a clear plan of how all of this is going to fit together.  It doesn't need to be
+>> perfect, and I'm sure we'll make mistakes along the way, but I want to at least
+>> try not to paint ourselves into a corner, especially with respect to the ABI.
+>
+> Right. I think landing shared guest_memfd is the first step. It is
+> simple enough and doesn't need to preserve the more complicated
+> architecture specific things like secure EPT, etc. The CoCo support
+> can build on top of this.
+>
+> There is work underway already for an RFC of TDX live update, but Tarun
+> knows the details better than me so I'll let him fill in the details for
+> the next version of this series.
 
-Require the controlling Kconfig symbol as the second kunit_tests argument
-and have the macro emit the cfg attribute itself. Update all existing users
-to the new form.
+Right, I am keeping things minimal for this version just addressing the
+non-cocovm guest_memfd to be preserved. On top of it, We will buidl
+support for the cocoVM preservation. And Sagi (sagis@google.com) is
+already working on it.
 
-Assisted-by: Codex:gpt-5.6-sol
-Signed-off-by: Yury Norov <ynorov@nvidia.com>
----
- Documentation/rust/testing.rst                | 11 ++++---
- .../gpu/nova-core/gsp/cmdq/continuation.rs    |  3 +-
- rust/kernel/alloc/allocator.rs                |  3 +-
- rust/kernel/alloc/kvec.rs                     |  3 +-
- rust/kernel/bitfield.rs                       |  3 +-
- rust/kernel/bitmap.rs                         |  3 +-
- rust/kernel/kunit.rs                          |  3 +-
- rust/kernel/str.rs                            |  3 +-
- rust/kernel/sync/atomic/predefine.rs          |  3 +-
- rust/macros/kunit.rs                          | 30 +++++++++++++++++--
- rust/macros/lib.rs                            |  6 ++--
- 11 files changed, 43 insertions(+), 28 deletions(-)
+Why not implement both in the same series:
+1. This series focus on finalizing the design, How guest_memfd will be
+preserved, So Any user (Not now) but in future will use guest_memfd in
+non cocoVM case, This alone feature will be used.
 
-diff --git a/Documentation/rust/testing.rst b/Documentation/rust/testing.rst
-index e3943aceceb9..767b111afd41 100644
---- a/Documentation/rust/testing.rst
-+++ b/Documentation/rust/testing.rst
-@@ -138,9 +138,10 @@ these are also fairly similar to what you would expect from userspace, and they
- are also mapped to KUnit.
- 
- These tests are introduced by the ``kunit_tests`` procedural macro, which takes
--the name of the test suite as an argument.
-+the name of the test suite and its controlling Kconfig option as arguments. The
-+Kconfig option is required, and the macro uses it to guard the test suite.
- 
--Each test suite should be guarded by a Kconfig option in
-+Each test suite should have a Kconfig option, typically in
- ``rust/kernel/Kconfig.test``.
- 
- For instance, assume we want to test the function ``f`` from the documentation
-@@ -148,8 +149,7 @@ tests section. We could write, in the same file where we have our function:
- 
- .. code-block:: rust
- 
--	#[cfg(CONFIG_RUST_MYMOD_KUNIT_TEST)]
--	#[kunit_tests(rust_kernel_mymod)]
-+	#[kunit_tests(rust_kernel_mymod, CONFIG_RUST_MYMOD_KUNIT_TEST)]
- 	mod tests {
- 	    use super::*;
- 
-@@ -177,8 +177,7 @@ the unit type ``()``) or ``Result`` (i.e. any ``Result<T, E>``). For instance:
- 
- .. code-block:: rust
- 
--	#[cfg(CONFIG_RUST_MYMOD_KUNIT_TEST)]
--	#[kunit_tests(rust_kernel_mymod)]
-+	#[kunit_tests(rust_kernel_mymod, CONFIG_RUST_MYMOD_KUNIT_TEST)]
- 	mod tests {
- 	    use super::*;
- 
-diff --git a/drivers/gpu/nova-core/gsp/cmdq/continuation.rs b/drivers/gpu/nova-core/gsp/cmdq/continuation.rs
-index c0aa16c8fbf4..2e4b21f2002f 100644
---- a/drivers/gpu/nova-core/gsp/cmdq/continuation.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq/continuation.rs
-@@ -167,8 +167,7 @@ fn init_variable_payload(
-     }
- }
- 
--#[cfg(CONFIG_NOVA_CORE_KUNIT_TEST)]
--#[kunit_tests(nova_core_gsp_continuation)]
-+#[kunit_tests(nova_core_gsp_continuation, CONFIG_NOVA_CORE_KUNIT_TEST)]
- mod tests {
-     use super::*;
- 
-diff --git a/rust/kernel/alloc/allocator.rs b/rust/kernel/alloc/allocator.rs
-index cd4203f27aed..b2c235801a3f 100644
---- a/rust/kernel/alloc/allocator.rs
-+++ b/rust/kernel/alloc/allocator.rs
-@@ -265,8 +265,7 @@ unsafe fn realloc(
-     }
- }
- 
--#[cfg(CONFIG_RUST_ALLOCATOR_KUNIT_TEST)]
--#[macros::kunit_tests(rust_allocator)]
-+#[macros::kunit_tests(rust_allocator, CONFIG_RUST_ALLOCATOR_KUNIT_TEST)]
- mod tests {
-     use super::*;
-     use core::mem::MaybeUninit;
-diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
-index f7af62835aa8..4b77425950d3 100644
---- a/rust/kernel/alloc/kvec.rs
-+++ b/rust/kernel/alloc/kvec.rs
-@@ -1508,8 +1508,7 @@ fn drop(&mut self) {
-     }
- }
- 
--#[cfg(CONFIG_RUST_KVEC_KUNIT_TEST)]
--#[macros::kunit_tests(rust_kvec)]
-+#[macros::kunit_tests(rust_kvec, CONFIG_RUST_KVEC_KUNIT_TEST)]
- mod tests {
-     use super::*;
-     use crate::prelude::*;
-diff --git a/rust/kernel/bitfield.rs b/rust/kernel/bitfield.rs
-index 35ede53f2b8e..8b329b6e4f8d 100644
---- a/rust/kernel/bitfield.rs
-+++ b/rust/kernel/bitfield.rs
-@@ -548,8 +548,7 @@ fn fmt(&self, f: &mut ::kernel::fmt::Formatter<'_>) -> ::kernel::fmt::Result {
-     };
- }
- 
--#[cfg(CONFIG_RUST_BITFIELD_KUNIT_TEST)]
--#[::kernel::macros::kunit_tests(rust_kernel_bitfield)]
-+#[::kernel::macros::kunit_tests(rust_kernel_bitfield, CONFIG_RUST_BITFIELD_KUNIT_TEST)]
- mod tests {
-     use core::convert::TryFrom;
- 
-diff --git a/rust/kernel/bitmap.rs b/rust/kernel/bitmap.rs
-index b27e0ec80d64..c4195e00d895 100644
---- a/rust/kernel/bitmap.rs
-+++ b/rust/kernel/bitmap.rs
-@@ -499,8 +499,7 @@ pub fn next_zero_bit(&self, start: usize) -> Option<usize> {
-     }
- }
- 
--#[cfg(CONFIG_RUST_BITMAP_KUNIT_TEST)]
--#[macros::kunit_tests(rust_kernel_bitmap)]
-+#[macros::kunit_tests(rust_kernel_bitmap, CONFIG_RUST_BITMAP_KUNIT_TEST)]
- mod tests {
-     use super::*;
-     use kernel::alloc::flags::GFP_KERNEL;
-diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs
-index 91eaff8c186a..52f2ccbfba49 100644
---- a/rust/kernel/kunit.rs
-+++ b/rust/kernel/kunit.rs
-@@ -330,8 +330,7 @@ pub fn in_kunit_test() -> bool {
-     !unsafe { bindings::kunit_get_current_test() }.is_null()
- }
- 
--#[cfg(CONFIG_RUST_KUNIT_SELFTEST)]
--#[kunit_tests(rust_kernel_kunit)]
-+#[kunit_tests(rust_kernel_kunit, CONFIG_RUST_KUNIT_SELFTEST)]
- mod tests {
-     use super::*;
- 
-diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-index b3caa9a1c898..404418504c13 100644
---- a/rust/kernel/str.rs
-+++ b/rust/kernel/str.rs
-@@ -428,8 +428,7 @@ macro_rules! c_str {
-     }};
- }
- 
--#[cfg(CONFIG_RUST_STR_KUNIT_TEST)]
--#[kunit_tests(rust_kernel_str)]
-+#[kunit_tests(rust_kernel_str, CONFIG_RUST_STR_KUNIT_TEST)]
- mod tests {
-     use super::*;
- 
-diff --git a/rust/kernel/sync/atomic/predefine.rs b/rust/kernel/sync/atomic/predefine.rs
-index 3d63f40791fa..e92194b37de8 100644
---- a/rust/kernel/sync/atomic/predefine.rs
-+++ b/rust/kernel/sync/atomic/predefine.rs
-@@ -152,8 +152,7 @@ fn rhs_into_delta(rhs: usize) -> isize_atomic_repr {
-     }
- }
- 
--#[cfg(CONFIG_RUST_ATOMICS_KUNIT_TEST)]
--#[macros::kunit_tests(rust_atomics)]
-+#[macros::kunit_tests(rust_atomics, CONFIG_RUST_ATOMICS_KUNIT_TEST)]
- mod tests {
-     use super::super::*;
- 
-diff --git a/rust/macros/kunit.rs b/rust/macros/kunit.rs
-index ae20ed6768f1..7c7ba30f58c0 100644
---- a/rust/macros/kunit.rs
-+++ b/rust/macros/kunit.rs
-@@ -13,6 +13,10 @@
-     ToTokens, //
- };
- use syn::{
-+    parse::{
-+        Parse,
-+        ParseStream, //
-+    },
-     parse_quote,
-     Error,
-     Ident,
-@@ -20,9 +24,28 @@
-     ItemMod,
-     LitCStr,
-     Result, //
-+    Token,
- };
- 
--pub(crate) fn kunit_tests(test_suite: Ident, mut module: ItemMod) -> Result<TokenStream> {
-+pub(crate) struct KunitTestArgs {
-+    test_suite: Ident,
-+    config: Ident,
-+}
-+
-+impl Parse for KunitTestArgs {
-+    fn parse(input: ParseStream<'_>) -> Result<Self> {
-+        let test_suite = input.parse()?;
-+        input.parse::<Token![,]>()?;
-+        let config = input.parse()?;
-+
-+        Ok(Self { test_suite, config })
-+    }
-+}
-+
-+pub(crate) fn kunit_tests(
-+    KunitTestArgs { test_suite, config }: KunitTestArgs,
-+    mut module: ItemMod,
-+) -> Result<TokenStream> {
-     if test_suite.to_string().len() > 255 {
-         return Err(Error::new_spanned(
-             test_suite,
-@@ -34,7 +57,7 @@ pub(crate) fn kunit_tests(test_suite: Ident, mut module: ItemMod) -> Result<Toke
-     let Some((module_brace, module_items)) = module.content.take() else {
-         Err(Error::new_spanned(
-             module,
--            "`#[kunit_tests(test_name)]` attribute should only be applied to inline modules",
-+            "`#[kunit_tests(test_name, CONFIG_KUNIT_TEST)]` attribute should only be applied to inline modules",
-         ))?
-     };
- 
-@@ -42,6 +65,7 @@ pub(crate) fn kunit_tests(test_suite: Ident, mut module: ItemMod) -> Result<Toke
-     module
-         .attrs
-         .insert(0, parse_quote!(#[cfg(CONFIG_KUNIT="y")]));
-+    module.attrs.insert(0, parse_quote!(#[cfg(#config)]));
- 
-     let mut processed_items = Vec::new();
-     let mut test_cases = Vec::new();
-@@ -51,7 +75,7 @@ pub(crate) fn kunit_tests(test_suite: Ident, mut module: ItemMod) -> Result<Toke
-     // The code generated for the following test module:
-     //
-     // ```
--    // #[kunit_tests(kunit_test_suit_name)]
-+    // #[kunit_tests(kunit_test_suite_name, CONFIG_KUNIT_TEST)]
-     // mod tests {
-     //     #[test]
-     //     fn foo() {
-diff --git a/rust/macros/lib.rs b/rust/macros/lib.rs
-index 4a48fabbc268..a660296d5dbd 100644
---- a/rust/macros/lib.rs
-+++ b/rust/macros/lib.rs
-@@ -464,14 +464,14 @@ pub fn paste(input: TokenStream) -> TokenStream {
- 
- /// Registers a KUnit test suite and its test cases using a user-space like syntax.
- ///
--/// This macro should be used on modules. If `CONFIG_KUNIT` (in `.config`) is `n`, the target module
--/// is ignored.
-+/// This macro should be used on modules. The second argument is the Kconfig symbol that controls
-+/// the test suite. If it or `CONFIG_KUNIT` (in `.config`) is `n`, the target module is ignored.
- ///
- /// # Examples
- ///
- /// ```ignore
- /// # use kernel::prelude::*;
--/// #[kunit_tests(kunit_test_suit_name)]
-+/// #[kunit_tests(kunit_test_suite_name, CONFIG_KUNIT_TEST)]
- /// mod tests {
- ///     #[test]
- ///     fn foo() {
--- 
-2.53.0
+2. guest_memfd cocoVM preservation support will be built on top of
+in-place conversion series and I preferred not to complicate two topics
+in single series, Instead to develop gradually.
+
+I agree to your answer for have Borader Roadmap. I tried to answer in
+Cover-letter. Which I am re-stating it here:
+
+This series support guest_memfd preservation for non-COCOVM only. cocoVM
+Support will be built on top of that. Which includes the following
+stages.
+non cocoVM guest_memfd preservation -> TDX preservation -> in-place
+convertable private guest_memfd preservation -> in-place convertable
+private guest_memfd preservation backed by hugetlb.
+
+End Goal is to support guest_memfd preservation on cocoVM backed by
+hugetlb.
+
+The question remains:
+Why we are preserving KVM and only vm_type there.
+
+I will try to answer this on the thread of VM preservation to not loose
+the context.
+
+>
+>>
+>>> >> > E.g. the LUO APIs seem pretty straightforward; I assume the bulk of the complexity
+>>> >> > is going to be in knowing what to save/restore, and how, which is much more about
+>>> >> > KVM than it is about liveupdate.
+>>> >> 
+>>> >> I think it is fine if you want to take these changes through the KVM
+>>> >> tree, but I would like live update maintainers to be listed as reviewers
+>>> >> at least.
+>>> >
+>>> > Why not simply add a file pattern match to the LIVE UPDATE entry?
+>>> >
+>>> > diff --git MAINTAINERS MAINTAINERS
+>>> > index 8014b9f8253e..2eb57b22c37f 100644
+>>> > --- MAINTAINERS
+>>> > +++ MAINTAINERS
+>>> > @@ -15052,8 +15052,8 @@ F:      include/linux/liveupdate.h
+>>> >  F:     include/uapi/linux/liveupdate.h
+>>> >  F:     kernel/liveupdate/
+>>> >  F:     lib/tests/liveupdate.c
+>>> > -F:     mm/memfd_luo.c
+>>> >  F:     tools/testing/selftests/liveupdate/
+>>> > +N:     [^a-z]luo
+>>> >  
+>>> >  LLC (802.2)
+>>> >  L:     netdev@vger.kernel.org
+>>> 
+>>> This would list us as maintainers of kvm_luo.c and the tree as liveupdate.git, 
+>>
+>> It would list both "LIVE UPDATE" and "KERNEL VIRTUAL MACHINE (KVM)", as KVM would
+>> still cover the files via "F:	virt/kvm/*".  And my read of MAINTAINERS is that
+>> N: and K: entries are "secondary" if the files/scope is covered by an F: entry.
+>>
+>> E.g. arch/x86/kvm/vmx/tdx.c is covered by "KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)"
+>> via "F:	arch/x86/kvm/*/", and also by "X86 TRUST DOMAIN EXTENSIONS (TDX)" via
+>> "N:	tdx" (or maybe "K:	\b(tdx)"?  I haven't bothered to check which one
+>> triggers).  And while I don't think there was ever any formal discussion, AFAIK
+>> everyone reads the situation as KVM still being the primary maintainer/tree for
+>> that code.
+>>
+>>> both of which is something you're saying you _don't_ want.
+>>
+>> No, what I don't want is a dedicated "KVM LIVE UPDATE" entry, because I think most
+>> people would read "F:     virt/kvm/kvm_luo.c" and "F:     virt/kvm/guest_memfd_luo.c"
+>> as being more precise than KVM's "F:   virt/kvm/*" and thus would read things as
+>> "KVM LIVE UPDATE" being the primary maintainer.
+>>
+>> In other words, I'm more than ok with LUO being looped in on KVM LUO changes and
+>> having the authority to object to problematic changes, but I'm not ok with LUO
+>> taking primary ownership of KVM code.
+>
+> Sure, that sounds good to me.
+>
+>>
+>> I realize there's more than a bit of nuance in my interpretation of N: and K:,
+>> but again my experience with TDX is that so long as the maintainers are aligned
+>> on expectations, it's a non-issue in practice.
+>
+> Yep, as long as we agree among ourselves I don't think the red tape
+> around which entry has higher priority matters much.
+
+Agree!
+>
+>>
+>>> >> At the same time, I also keep being (pleasantly)
+>>> >> surprised at preservation being relatively simple. For example, the code
+>>> >> to preserve a shmem file (via memfd) is roughly 600 lines, a big chunk
+>>> >> of which is comments. The code of course has some limitations, but it is
+>>> >> good enough for use in production.
+>>> >> 
+>>> >> For one, we care about ABI breakages and versioning. 
+>>> >
+>>> > Which is amusing to me because that implies KVM does not, and I would hazard to
+>>> 
+>>> No, it doesn't. What I'm saying is I care about changes to the _live
+>>> update ABI_. Just like you probably care about changes to KVM ABI but
+>>> not so much about BPF for example.
+>>> 
+>>> > guess that KVM has the biggest ABI surface of any subsystem in the kernel by a
+>>> > country mile (though I'm probably wildly underestimating the effective ABI surface
+>>> > of filesystems).
+>>> >
+>>> >> The serialized state is a part of live update ABI and changes to it should be
+>>> >> ACKed by us. 
+>>> >
+>>> > Meh, "Don't break userspace" is a universal rule in the kernel, I genuinely don't
+>>> > see why liveupdate needs special treatment.
+>>> 
+>>> Ironically enough, you miss my point. I'm not talking about userspace
+>>> ABI. We all know not to break that. I am talking about live update
+>>> _serialization ABI_. See the stuff under include/linux/kho/abi. This
+>>> series also adds things there.
+>>
+>> No, I understand exactly what ABI you're talking about.
+>>
+>>> This is ABI between kernels. It needs to be stable-ish so you can move
+>>> from one kernel version to another. At the same time, unlike userspace
+>>> ABI, it can change.
+>>
+>> Uh, yeah, so KVM has been managing such immutable ABI for practically its entire
+>> existence.  KVM's save/restore uAPI has exactly what you're describing: serialization
+>> ABI that needs to be backwards and forwards compatible between different kernels
+>> in order to support both upgrade and rollback scenarios via live migration.
+>
+> I think there is a slight difference between KVM's save/resture uAPI and
+> live update's ABI. With KVM's uAPI, you need to maintain strict
+> backwards compatibility because userspace reads what you output. So if
+> you change the layout, userspace will interpret it wrong and might
+> break.
+>
+> With live update, the ABI never gets to userspace. It is used to talk
+> between kernels directly. So if you do break that, your userspace keeps
+> working fine, you just might not be able to live update to the
+> incompatible kernel.
+>
+> So with live update, we don't need to keep backwards compatibility in
+> the ABI forever. Of course, it is good to minimize changes, but we have
+> more freedom to change it.
+>
+> The current idea is we change the ABI whenever needed. This is because
+> live update is still in development so we are likely to see a lot more
+> changes before we settle down into something that mostly works. At some
+> point, we want to start being more strict between incompatible ABI
+> changes. The current idea is that we would like to keep backwards
+> compatibility across LTS kernels. But none of that is set in stone yet.
+>
+
+True, I also understand Sean's Concern. I will try to explain why
+bacward compatibility with padding does not solve the problem here.
+
+Kernel V1                        -> Kernel V2
+guest_memfd_luo ABI v1           -> guest_memfd_luo ABI v2
+
+(No Userspace involvement here: userspace only determine if the upcoming
+kernel V2 can support the V1 preserved files, if return true: liveupdate()
+elif: no_liveupdate())
+
+When Kernel V1, preserve the data, it has preserved based on ABI v1.
+then serializes it to make it transferable to next kernel via fdt.
+
+Now Kernel V2 boots up, and it needs to deserialize the data and restore
+the file which was preserved before. But this kernel V2 expect guest_memfd
+preservation ABI V2. These ABI V2 might be because of multiple reasons,
+for e.g.
+1. A new feature in guest_memfd_luo (preserving more flags, or the
+private/shared state of folios etc)
+
+2. A new feature in guest_memfd itself, guest_memfd kernel APIs
+(guest_memfd_create(..., new_args) or a new init call for guest_memfd after
+guest_memfd_create(), or an older field/flog is dropped). So new kernel
+should be able to retrieve old guest_memfd and populate in new
+guest_memfd for backward compatibility.
+
+Now, What will happen to these new fields or arguments that are needed,
+Kernel V2->guest_memfd_luo V2 will take care of setting them to default.
+
+Is setting them to default acceptable? Not always? So that is where the
+negotiation comes in picture:  Kernel V2 should know if it can support
+retrieving kernel V1 or otherwise userspace must not transition to V2 using
+liveupdate if V2 does not have compatibility with V1.
+
+Now to support this backward compatibility, the retrieval APIs and
+deserialization APIs in V2 kernel should be able to provide the
+deserialization/retrieval for V1 preserved data.
+
+Kernel V1 -> serialize data ---kexec ----> kernel V2 -> deserialization -> retrieve
+
+Now deserialization/retrival is aware of V1/V2 comptatibility then it
+can set the new fields, parse the preserved data of V1 into V2 (or
+directly give it to guest_memfd APIs with setting any new expected
+fields to default.)
+
+Now having a padding fields in kernel guest_memfd_luo ABIs does not help
+here. As support for deserialization and parsing from V1-> V2 in kernel
+V2 will determine if kernel V2 is backward compatible with V1. which can
+also take care of setting the extra needed fields in V2 to default
+value or remove the unwanted flags/fields not needed in kernel V2.
+
+
+Now Questions is, if there isa  need for rollback to previous kernel
+(V2 -> V1)?
+
+There are two options,
+1. kernel V2 is aware that it is going to get kexec to V1. then
+serialization function on preservation will serialize the
+data in guest_memfd_luo ABIs V1 compatible format.
+
+2. kernel V1 guest_memfd_luo ABIs had the padding in their ABIs
+structures which even if kernel V2 will set those field, will be ignored
+by kernel V1. This will not require saperate
+deserialization/preservation mechanism for guest_memfd_luo V1 in kernel
+V2. This will not work in every case, As there might be different
+parsers are in guest_memfd_luo V2 and V1. then serialized data preserved
+by guest_memfd_luo V2 can not be parsed by guest_memfd_luo V1 after kexec.
+
+So,
+
+Kernel V2 _must have_ to support backward compatibility with kernel V1:
+1. guest_memfd_luo V1 context aware deserialization/retrieval mechanism
+2. guest_memfd_luo V1 context aware serialization/preservation mechanism
+
+Kernel V1/V2 may have:
+1. padding (hard to determine, can have heuristically) to ease the job
+of deserialization/retrieval/serialization/preservation apis. But does
+not solve backward compatibility alone.
+
+
+Once we will keep updating the host, There will be a point when we are at
+V15 but we dont want V1 backward compatiblity anymore, So we drop the
+deserialization/retrieval/serialization/preservation for V1 from V15.
+
+Would love to hear your thoughts?
+
+Looping Logan (loganodell@google.com) for his insights on this as well.
+
+~Tarun
+
+
+> That's why I would like to have an explicit ACK from the live update
+> group for ABI changes. I would like to enforce these compatibility
+> windows.
+>
+>>
+>> KVM also has immutable ABI between itself and guest kernels, including implicit
+>> "ABI" in the form of not changing guest-visible behavior.
+>>
+>>> Today we don't have any rules and let you change things freely as long as you
+>>> do a version bump. But at a later point, the plan is to add some stability
+>>> requirements to the ABI so you can actually upgrade the kernel across major
+>>> versions.
+>>> 
+>>> So at least for ABI changes, there should be an explicit ACK from the
+>>> live update group.
+>>
+>> I don't entirely agree.  I get where you're coming from, and I 100% agree that
+>> the more eyeballs on changes that may affect ABI, the better.
+>>
+>> Where I have problems with the above is that it doesn't account for the nuances
+>> of save/restore across different kernels.  The literal format of the serialized
+>> data is the most obvious form of ABI, but it's absolutely possible to change ABI
+>> without changing the data format.
+>>
+>> E.g. say there's a flags field in some serialization structure, and flags X and Y
+>> are mutually exclusive in current kernels.  If a future kernel relaxes that
+>> restriction for whatever reason, then the effective ABI has been broken because
+>> state created and saved on new kernels can't be restored on old kernels.  And
+>> this is not a theoretical concern, KVM has run afoul of this a few times (though
+>> thankfully very rarely).
+>
+> That's a bug, and should be fixed.
+>
+> I am talking here about intentional ABI changes. As I mentioned above we
+> _can_ change the ABI, we just need to be careful about it.
+>
+>>
+>> I don't think it's reasonable to expect LUO maintainers to gain enough expertise
+>> in each subsystem to be able to ensure changes are forwards and backwards
+>> compatible.  The only way I see LUO being successful in the long term is to get
+>> subsystem maintainers/contributors to understand *and buy-in* to the LUO model
+>> and rules, so that each subsystem can largely be self-sustatining.  I.e. setting
+>> yourselves up as literal gatekeepers will help prevent blatant breakage, but it's
+>> less likely to help guard against more subtle breakage, and in my experience,
+>> subtle breakage is by far harder to detect and more painful to deal with.
+>
+> Outside of enforcing the ABI compatibility windows, I think this makes
+> sense.
+>
+> In principle at least, though from my experience the maintainer appetite
+> to care about live update varies. The feeling I've got from MM for
+> example is more along the lines of "you break it, you buy it". Which is
+> also a valid model IMO. The person who wrote the live update code for a
+> subsystem is well equipped to understand these nuances.
+>
+>>
+>> Somewhat of a side topic: in my experience, using monotonically increasing version
+>> numbers is a horrible way to enumerate features/content.  So for me, allowing
+>> KVM's LUO ABI to change with a verson bump is probably a non-starter.  I.e.
+>> whatever gets merged needs to be more future-proof than "we'll deal with it later".
+>
+> As I wrote above, the compatibility model for live update allows
+> breaking ABI with version bumps. Userspace keeps working fine, it only
+> restricts the set of kernels that you can go to. So the "we'll deal with
+> it later" is not as harmful because our choices here are not permanent.
+>
+> Also, there is work underway to allow transitions between versions [0].
+>
+> But still, I am not opposed to a more flexible guest_memfd ABI. I think
+> we can reserve some space for feature flags to let us add things in the
+> future.
+>
+> [0] https://lore.kernel.org/kexec/20260731215224.831696-1-loganodell@google.com/
+>
+> -- 
+> Regards,
+> Pratyush Yadav
