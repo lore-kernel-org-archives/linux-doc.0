@@ -1,75 +1,67 @@
-Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2533B9D95;
-	Tue, 18 Aug 2026 09:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EFB43846B
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 09:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787043814; cv=none; b=RQp1z+84goryEOkNPklXK/X3aThlt5joJjTroNTIdFFbXayTc/fRFRzqzuIAfFavz0VMKbxN9NEcqgUVr18mPND7MYAJpKT6BUmGouymDeD9wpplnh6jrM9W/3BiHSLL609leErehN+Lsn/0FXLHTPiHPJ9wjY9D6gG+1EkZY+w=
+	t=1787044960; cv=none; b=fRRFlpjhO3VfXfQUm5Jgr8FIjEGTeCyl8mo62zSB+hWtxhJW9ODnlfAh/xdLM9RlKrIn+Z8kbEZrKG26AuGW2OyRckaL9iPDZQ4i5/obqrqfc9OXIPjFxcY82mIRqb1uz3jgWqjtEhtkT8tR0YijU3sO32no3qxAVhlTxRUzCGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787043814; c=relaxed/simple;
-	bh=WO3NGxY4syeZ2ZD3BmzUXP3M7Bt0QwU8LVneEp3Vn2Q=;
+	s=arc-20240116; t=1787044960; c=relaxed/simple;
+	bh=rWGvV6RH4tfNJQkB60DUu3/OAoscpTL4+4KSJdvssmk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cz+F5X1e+4l3SWhl6sK/5X+hcxIza7yu0U35SROpWcS5TbbOrJPsQwsre52fnk/yUALu3VcQQfvt4d9MZEGu2pw0eRlVlVNRPzY/ixCoApLAyPv2N7b6o8syx2i5tzaRhI39sJaoMZkXFGwdZ/YZSyzb+BolexK8CQXknUMsKkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de; spf=pass smtp.mailfrom=jaseg.de; dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b=WPZZoKGM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NYaRi+TS; arc=none smtp.client-ip=103.168.172.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jaseg.de
+	 In-Reply-To:Content-Type; b=jWN+DvkKcLouHyO9+fLARFbC64WVFxuWkQa4G5i/ZlXV9fcDU//cS3I7nnNcHT89wcdlmzTfg5Sy0hSnzNsh5AgeftYV0RW/OkhTwaYJBClP5CIInAUNviV2TYXEOEEJ5pdcPdhp182vJzSIHQYKsQNvWBII62Tc7qmg7W3Tv5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAbMqWiZ; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b="WPZZoKGM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NYaRi+TS"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id 5C82F1380244;
-	Tue, 18 Aug 2026 05:03:31 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Tue, 18 Aug 2026 05:03:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1787043811;
-	 x=1787051011; bh=ZX1CnQZZsg94K1w9ifnkc6/NmgcRySaktgXNfBgb7AQ=; b=
-	WPZZoKGM/D3I5ywu6hWxeUzIxxVJ8JaogWauiMKsZIA9L+2KD8F1opSZimhHAVKL
-	5a0sb6E7AE1N+ZTNYCeJQBZ+m2FEM4CV7GMsqbHBUWfOHXeEjAaQ1OAiBbBbW59J
-	b1PhzIsGrQ2x+2Dni2rvrHfHUrqMx08mPCwM/2bfa9SldiuOZjcpcWOlGE1HpOcd
-	G0YIdXoV0HVGd4L+mxlNmNNDIhof5BifyFVcHuhiep66N7ofIvUZTm6prDYrlyWK
-	zAEmkzqJ+outKDKC0CHUxyq53gCJ6k58wqWemTPbG92+4A3wfTcxtWmA675wMRHC
-	QYOZU0KDnVhgr69AP0V0Bg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787043811; x=
-	1787051011; bh=ZX1CnQZZsg94K1w9ifnkc6/NmgcRySaktgXNfBgb7AQ=; b=N
-	YaRi+TSIddvpqgRTVgxa6VkeBfERJbKBvbyZhIzfXNJys/mMTEU1csXrJL5DGzbN
-	PCKZKgL431iiunzQQDBvFuzWW69BqYCSsFA5vAr0RhpoL1B1z9aPTFCNw7/QA19A
-	saZ0S0t62u9ilibZlZt1i/7WvU/qVXs+q65oY7JWrtfuouhLYcwOK4sxpw9so70V
-	0/BgQw+DhldDFVQAVyvQgDYSDnmVHgBz/o60QfvZIbIrNu09JczWI0nsBqGFZNEN
-	5UPYGIzCosYhlot0IWvFxAqjKXNQIIe5Nc3jckxMBZ736pOuOvMzIar47qPI4WKI
-	FVKhOCCNDBW0c2jXhd1ZA==
-X-ME-Sender: <xms:4B-EauM8Y-WoFhcHV7CDKlTqAXtB-K4KRmaH8Ji1IGVdeubq9ketyQ>
-    <xme:4B-Ealztkx_kES_mWsN78pZXU9JB54Mew-argE8U363HXR6ZZcMDZrZ1r7KLZayGA
-    VUMOnw_bfE8_HFBnwIY6yzIzSIEfLRM4kpRnIw3jK-F75RiMw1zRw>
-X-ME-Received: <xmr:4B-Ear2lM4JA7KsBrcTQX5tTYYYgKvP9cy4R-UIHarqqQ6wJIAuSBmfYB-cMSSdOV5yu6OXNk-afOhj4igKm>
-X-ME-Proxy-Cause: dmFkZTFpA2CAQ9HsB/cHX0jgjtdDSxrlNaH1N5XdMBpyCH9Ywi6Hdh5ucTA96FWQa4HkQJ
-    FvEd7sRFuzES1QTCCXc72OlhgrTRDpI/mv/2h44E6mQB5bIPt7uKTuP2q0GgZRoIvFIf7T
-    TMZ3/nzGVeOohp8c3ZE54qSC9/YJNe9f6CUcVKmuTPT1A2+XUIsIivDdrhAHumwFv6AQfa
-    NNzoFOD5IVmP3t/+TNxvkur2XMEg96QOc5X07R9jGlcw1D3FBObbnwVn6TapmMDjTj8mel
-    XF3EW9HqD7I9ZDaJuBDS4ARPRSLFsySvU1MjYl98Znh+hLcqka5PZ2lKMDy4GytU3qjXHP
-    98DJem6QpOGqfB3BYBGJDTFsCAtPWcw71a1t0bx+yVXLzQg/zX2eANVIW+Pof9QleQxvN9
-    P/N2zoRmGcsxnzVAX9yilz5Hf18JYw9RDeTkD0e4hVVYoyZ9d7hMxsqFj8qpAc09VhOuqd
-    r9AoF++WkVV8iSPyIp43mJ0TdeQR0JQhCzxLX9LtVsEaNESQdPbIT8kPTvzqYUZ7lqGq/k
-    PEaZa2BEeR2Eln3RH9rkvTn6MqyAurRLUbA+ihdv70Bc4xu6lg5mm9xC/+Pb5HPANA2dOd
-    Ytxl5ozIB8gbREK41rFGTIGGQ9URIpBxDMvfEg9AUeTxj19lPYQvx6jTJGSQ
-X-ME-Proxy: <xmx:4B-EasH0JHdfdUJp3cw75hmN4JbAktp9qP7MbFjC7JV7n6UctIxhEg>
-    <xmx:4B-EagKH8JC384TlH3cR7ulRAHL02wkXnaDo1V9ztrqMfX9MoWhZwg>
-    <xmx:4B-EarwND5OYC8e2x_4D5dXRVAx5TKWwG_rdZqfJdmokI7UUzMRH2Q>
-    <xmx:4B-Eai1Yt3SDtzatr_bnVyQU5MFRORQZ930EDB5uwIJ17WKuX-K8FQ>
-    <xmx:4x-EahEHf5VCv1VRvxU22t6K4tWi1wKnPfuGOHSqlSCXyfMxLQLJcyjV>
-Feedback-ID: i60a14417:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Aug 2026 05:03:21 -0400 (EDT)
-Message-ID: <9071e03b-a633-43e4-ac77-3b05291c1f66@jaseg.de>
-Date: Tue, 18 Aug 2026 11:03:19 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAbMqWiZ"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7e9f1f24cbcso727722a34.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 02:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787044956; x=1787649756; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v7Kv1tYbrkVXERJ81NQKIW3So0Xg9hhEFLDYBfxt8VI=;
+        b=lAbMqWiZlZWdl6s+h1My32N0OFhPhqqhLMIaUvt7+JKCi969z/CwB9RXuIrP/wkjfS
+         d+PpFcafmigtE2McakHHYnkO0bg8hEhXQEfYMt21hgLiu3yaCeDLWQMkR9HiG+YypJUU
+         bykoBQUTNO5WVJG/N1+A2N6pV/ko9abG6IIQ6aThF9wQEwvjy2Q/qNNPyDj4cyXoYAmL
+         CBNpOYyZsQ2AZ9z1p4PjqncjH+sFF7G6AadVwhqi0m4cu3m3v38eRC7dkjTUM2U27jdT
+         CbvCmiJbOSRbiD8SeHgBPmrQhB0KhZRaGbp9XBN0DbZ5A1y/5vRAcxTES+1P+aMU+iB7
+         s08w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787044956; x=1787649756;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v7Kv1tYbrkVXERJ81NQKIW3So0Xg9hhEFLDYBfxt8VI=;
+        b=o7j6Ixu3p7kM5POAJu1+IyYGME4zISlBcp3F90du/VAelevhtiA31qdZIioYrZf7bu
+         5DNNm0Zo5FiMXtjHxfvQZlBdfCnIr2t15On3m+Fq8gNuUus6RCtKZskVv6d1ImeTLVbD
+         y1zjWatp8R5yQTjifR8jF8Q962o9djLsQq9A3U59Y1Y4Hai+CZVpJp3D7NMmolZwsin8
+         UHssyt3+3ewJJwm6LsXP1Qb9S6lo5om4ABtTfakyZ4sKZ4VHHIqEvjcrgNxq4kbHwsvP
+         7FrAYBrTOxGPfBlFqF1psydECgUJF8FOkswJkgGL4vQKMvnykSwIujBRnmu07eqDfaV5
+         s0Og==
+X-Forwarded-Encrypted: i=1; AHgh+Ro/LIxMWrzlaSOXJyu+LXU/B8vH0sZDLp6/6DgStLCRz0GTiKJhUJKEZ89haMnHpIJo+vybgqOGcq8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSBet2dZ8262oQE59Mr2WtnJ/plk4Xrz+UAOfPd8UWG6Jo2yP/
+	eLXR7Sjbu8eUxZRyPb6tZQcO7Q5NDl+DUcSPyXm6WaRAk+BqOyg3AxnU
+X-Gm-Gg: AR+sD12Kfnhh4+DYsyWEkuhRVGU0mIC2Nb/7fypYIxdPEWLUBf7euB4BIU8htFqo1O1
+	23n2YKhMQHGOGzq6yyF5738Sd6mtGsnSW19D6Q/Qyae6YMb04RSMvYUzvrO41ZBEJ/d0Vu10Liz
+	Nk9wtMwxtvuPT4d8x2Hb/lJCY0M4jfS1obGzX/mKSmDk+5T4MEDkWNpT9WhmsOJ/g2l9ar5vAPK
+	xUsniMvqyWLF5KPKQphISpaAum67eeuKCCFRVmVaVzVCvpq3BWLI0MxGBp90oYNO2EirnNOoHUs
+	rwLupld2ivV9gW8UsDJhefZ7/4FYAukpIcldFY2znlFETVnKEVk3GhLcsc1/JDkpDVJdIK1pfle
+	ocJCzAWdwT2oFc1xBF4/7cvtmvDffo4TTDzUWAyeMGdLiFm+Hz4Mrj0KmycvTk4MQW6yoKBhqYg
+	eRtasj8t+VIfCjtKGnzovxTOx2Yy5p/RBmX9Djtr86/0W6GUJcAkVWT1m4lYQFOhKk4E0MJqI6
+X-Received: by 2002:a05:6830:3897:b0:7e7:24f9:55c8 with SMTP id 46e09a7af769-7f4290949a9mr2972823a34.5.1787044956325;
+        Tue, 18 Aug 2026 02:22:36 -0700 (PDT)
+Received: from [127.0.0.1] ([144.24.58.22])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f41c12b683sm3958040a34.26.2026.08.18.02.22.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2026 02:22:35 -0700 (PDT)
+Message-ID: <d833b191-ced9-4cf6-ac37-fc593d06191b@gmail.com>
+Date: Tue, 18 Aug 2026 17:22:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,103 +69,246 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/13] kexec: add CRASH_WIPE_SECRETS to wipe secrets
- before kdump
-To: Baoquan He <baoquan.he@linux.dev>, Lukas Wunner <lukas@wunner.de>
-Cc: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Rapoport <rppt@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Ignat Korchagin <ignat@linux.win>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Trond Myklebust <trondmy@kernel.org>,
- Anna Schumaker <anna@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Marc Dionne <marc.dionne@auristor.com>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Jaegeuk Kim <jaegeuk@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mm@kvack.org, keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-afs@lists.infradead.org,
- netdev@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, dm-devel@lists.linux.dev
-References: <20260811-crash-zeroize-rework-v2-0-9561d13c2340@jaseg.de>
- <20260811-crash-zeroize-rework-v2-1-9561d13c2340@jaseg.de>
- <anw9ILJiO5xIjP4f@MiWiFi-R3L-srv>
- <9765f7ea-36bb-4c7b-a19b-7facec97b762@jaseg.de> <aoGpcczo5GkBsPwt@wunner.de>
- <aoK6jXA-tF9qfKOZ@MiWiFi-R3L-srv> <aoLFai0gzzH2bGgy@MiWiFi-R3L-srv>
+Subject: Re: [PATCH v12 08/11] tracing/wprobe: Add set_wprobe and clear_wprobe
+ event triggers
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@kernel.org>, x86@kernel.org
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-perf-users@vger.kernel.org
+References: <178611679753.237811.10190793347982785419.stgit@devnote2>
+ <178611688737.237811.17143803996766057381.stgit@devnote2>
 Content-Language: en-US
-From: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <contact@jaseg.de>
-In-Reply-To: <aoLFai0gzzH2bGgy@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Jinchao Wang <wangjinchao600@gmail.com>
+In-Reply-To: <178611688737.237811.17143803996766057381.stgit@devnote2>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 8/17/26 10:25, Baoquan He wrote:
-> On 08/17/26 at 03:38pm, Baoquan He wrote:
->> On 08/16/26 at 02:13pm, Lukas Wunner wrote:
->>> On Wed, Aug 12, 2026 at 12:08:39PM +0200, Jan Sebastian Götte wrote:
->>>> I can imagine one alternative way to approach this, tell me what you think:
->>>> Instead of registering wipe handlers that memzero places on panic, I could
->>>> put an optional registry of (addr, len) descriptors into crashkernel memory
->>>> that the original kernel populates with the PAs of buffers to clear ahead of
->>>> time. Then the kdump kernel could do the actual memzero. This would remove
->>>> all code from the actual kdump path here. The registry could be made
->>>> per-core to avoid locks.
+On 8/7/2026 11:34 PM, Masami Hiramatsu (Google) wrote:
+> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 > 
-> If this has to be done in kernel, your (addr, len) registry idea is a
-> better direction, and we can make it a bit more general.
+> Add set_wprobe and clear_wprobe event triggers to dynamically attach
+> and detach hardware breakpoint address monitoring based on event field
+> contents.
 > 
-> Instead of a secrets-only wipe registry, consider a small "crash memory
-> region" table with an action per entry:
-> 
-> enum crash_region_action {
->      CRASH_REG_WIPE,   /* memzero, then dump normally (leave zeros) */
->      CRASH_REG_SKIP,   /* do not include in the vmcore at all */
-> };
-> 
-> struct crash_region {
->      phys_addr_t addr;
->      size_t      len;
->      enum crash_region_action action;
-> };
-> 
-> void crash_reg_add(phys_addr_t addr, size_t len,
->                     enum crash_region_action action);
-> void crash_reg_del(phys_addr_t addr, size_t len);
-> 
-> Two actions because the use cases differ:
-> 
-> - WIPE is what you need: zero the secret,
-> - SKIP covers things people do not want in the dump at all
->     — Registering as SKIP reduce dump size. I have been considering how
->       to shrink vmcore size on some big system with huge memory, the
->       vmcore size usually is several or tens of GB.
-> 
-> If this is OK to you, you can start a regiestry table
-> infrastructure with wiping secrets, we can add SKIP later and plus some
-> driver used memory.
-> 
-> I am not sure if it's satisfactory, but you can give it a shot to show
-> what it looks like.
-I think that's a good idea. I'll post a patch adding that registry this 
-or next week.
 
-Thanks,
-Jan
+This patch does not build with wprobe enabled.
+
+> Link: https://lore.kernel.org/all/59637b96946653393a7ad3c7de094094796b39c2.1785067572.git.wangjinchao600@gmail.com/
+> 
+> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> ---
+> Changes in v12:
+>  - Decrement trigger data->count only when watchpoint state is actually changed.
+>  - Remove dyn_event_ops_mutex to fix lockdep circular dependency deadlock.
+>  - Add event_trigger_init() call to prevent premature freeing of trigger_data.
+>  - Use WRITE_ONCE() when modifying tw->addr to pair with READ_ONCE().
+>  - Add missing braces to else-block in wprobe_trigger_print().
+>  - Initialize tw->addr only after trace_event_enable_disable() succeeds.
+>  - Counter counts only if the trigger is actually working.
+> Changes in v11:
+>  - Soft-enable (register) wprobe event on WPROBE_DEFAULT_CLEAR_ADDRESS.
+>  - Add work_pending check before updating tw->addr.
+> ---
+>  Documentation/trace/wprobetrace.rst |   98 +++++++
+>  include/linux/trace_events.h        |    1 
+>  kernel/trace/Kconfig                |   10 +
+>  kernel/trace/trace.h                |    1 
+>  kernel/trace/trace_dynevent.h       |    1 
+>  kernel/trace/trace_events_trigger.c |    2 
+>  kernel/trace/trace_probe.c          |    2 
+>  kernel/trace/trace_probe.h          |    9 +
+>  kernel/trace/trace_wprobe.c         |  527 +++++++++++++++++++++++++++++++++++
+>  9 files changed, 648 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/trace/wprobetrace.rst b/Documentation/trace/wprobetrace.rst
+> index ad5f089b5ef5..a579347735d2 100644
+> --- a/Documentation/trace/wprobetrace.rst
+> +++ b/Documentation/trace/wprobetrace.rst
+> @@ -68,3 +68,101 @@ Here is an example to add a wprobe event on a variable `jiffies`.
+>             <idle>-0       [000] d.Z1.  717.026373: my_jiffies: (tick_do_update_jiffies64+0xbe/0x130)
+>  
+>  You can see the code which writes to `jiffies` is `tick_do_update_jiffies64()`.
+> +
+> +Combination with trigger action
+> +-------------------------------
+> +The event trigger action can extend the utilization of this wprobe.
+> +
+> +- set_wprobe:WPEVENT:FIELD[+|-ADJUST]
+> +- clear_wprobe:WPEVENT[:FIELD[+|-]ADJUST]
+
+Both forms accept an optional [:COUNT] which is not documented here.
+
+> +
+> +Set these triggers to the target event, then the WPROBE event will be
+> +setup to trace the memory access at FIELD[+|-ADJUST] address.
+> +When clear_wprobe is hit, if FIELD is NOT specified, the WPEVENT is
+> +forcibly cleared. If FIELD[[+|-]ADJUST] is set, it clears WPEVENT only
+> +if its watching address is the same as the FIELD[[+|-]ADJUST] value.
+
+Two forms of adjust:
+[+|-ADJUST]
+[+|-]ADJUST
+
+
+> +
+> +Notes:
+> +The set_wprobe trigger does not change the type and length, these
+> +must be set when creating a new wprobe.
+> +
+> +The WPROBE event must be disabled when setting the new trigger
+> +and it will be busy afterwards. Recommended usage is to add a new
+> +wprobe at NULL address and keep disabled.
+> +
+
+> diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+> index d9b6fa5c35d9..5fd8ed63c516 100644
+> --- a/kernel/trace/Kconfig
+> +++ b/kernel/trace/Kconfig
+> @@ -876,6 +876,16 @@ config WPROBE_EVENTS
+>  	  Those events can be inserted wherever hardware breakpoints can be
+>  	  set, and record accessed memory address and values.
+>  
+> +config WPROBE_TRIGGERS
+> +	depends on WPROBE_EVENTS
+> +	depends on HAVE_MODIFY_LOCAL_HW_BREAKPOINT_ADDR
+> +	bool
+> +	default y
+> +	help
+> +	  This adds an event trigger which will set the wprobe on a specific
+> +	  field of an event. This allows user to trace the memory access of
+> +	  an address pointed by the event field.
+> +
+>  config BPF_EVENTS
+>  	depends on BPF_SYSCALL
+>  	depends on (KPROBE_EVENTS || UPROBE_EVENTS) && PERF_EVENTS
+> diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+> index 64851a8d021f..a789a722bc8b 100644
+> --- a/kernel/trace/trace.h
+> +++ b/kernel/trace/trace.h
+> @@ -1983,6 +1983,7 @@ trigger_data_alloc(struct event_command *cmd_ops, char *cmd, char *param,
+>  		   void *private_data);
+>  extern void trigger_data_free(struct event_trigger_data *data);
+>  extern int event_trigger_init(struct event_trigger_data *data);
+> +extern void event_trigger_free(struct event_trigger_data *data);
+>  extern int trace_event_trigger_enable_disable(struct trace_event_file *file,
+>  					      int trigger_enable);
+>  extern void update_cond_flag(struct trace_event_file *file);
+> diff --git a/kernel/trace/trace_dynevent.h b/kernel/trace/trace_dynevent.h
+> index beee3f8d7544..77c2c84dcdb5 100644
+> --- a/kernel/trace/trace_dynevent.h
+> +++ b/kernel/trace/trace_dynevent.h
+> @@ -64,6 +64,7 @@ struct dyn_event {
+>  };
+>  
+>  extern struct list_head dyn_event_list;
+> +extern struct mutex dyn_event_ops_mutex;
+
+dyn_event_ops_mutex is not needed anymore.
+
+>  
+>  static inline
+>  int dyn_event_init(struct dyn_event *ev, struct dyn_event_operations *ops)
+> diff --git a/kernel/trace/trace_events_trigger.c b/kernel/trace/trace_events_trigger.c
+> index ad83419cb420..fa409ebd73c2 100644
+> --- a/kernel/trace/trace_events_trigger.c
+> +++ b/kernel/trace/trace_events_trigger.c
+> @@ -589,7 +589,7 @@ int event_trigger_init(struct event_trigger_data *data)
+>   * Usually used directly as the @free method in event trigger
+>   * implementations.
+>   */
+> -static void
+> +void
+>  event_trigger_free(struct event_trigger_data *data)
+>  {
+>  	if (WARN_ON_ONCE(data->ref <= 0))
+> diff --git a/kernel/trace/trace_probe.c b/kernel/trace/trace_probe.c
+> index 9f4cad18977a..36e07275a04d 100644
+> --- a/kernel/trace/trace_probe.c
+> +++ b/kernel/trace/trace_probe.c
+> @@ -20,7 +20,7 @@
+>  #undef C
+>  #define C(a, b)		b
+>  
+> -static const char *trace_probe_err_text[] = { ERRORS };
+> +const char *trace_probe_err_text[] = { ERRORS };
+>  
+>  static const char *reserved_field_names[] = {
+>  	"common_type",
+> diff --git a/kernel/trace/trace_probe.h b/kernel/trace/trace_probe.h
+> index 6543d4c2cda5..e08f17c99138 100644
+> --- a/kernel/trace/trace_probe.h
+> +++ b/kernel/trace/trace_probe.h
+> @@ -634,7 +634,12 @@ extern int traceprobe_define_arg_fields(struct trace_event_call *event_call,
+>  	C(TYPECAST_SYM_OFFSET,	"@SYM+/-OFFSET with typecast needs parentheses"),	\
+>  	C(USED_ARG_NAME,	"This argument name is already used"),		\
+>  	C(WPROBE_NO_MAXACT,	"Watchpoint probe does not support maxactive"),	\
+> -	C(WPROBE_NO_SIBLING,	"Watchpoint probe does not support sibling probes"),
+> +	C(WPROBE_NO_SIBLING,	"Watchpoint probe does not support sibling probes"), \
+> +	C(WPROBE_ON_KPROBE,	"Wprobe trigger is not supported on kprobe event"), \
+> +	C(WPROBE_NOT_FOUND,	"Target wprobe event is not found"),		\
+> +	C(WPROBE_BUSY,		"Target wprobe event is already enabled"),	\
+> +	C(WPROBE_NEED_FIELD,	"Wprobe trigger requires a target field"),	\
+> +	C(WPROBE_BAD_FIELD,	"Target field must be pointer size"),
+>  
+>  #undef C
+>  #define C(a, b)		TP_ERR_##a
+> @@ -658,6 +663,8 @@ void __trace_probe_log_err(int offset, int err);
+>  
+>  DEFINE_FREE(trace_probe_log_clear, const char *, if (_T) trace_probe_log_clear())
+>  
+> +extern const char *trace_probe_err_text[];
+> +
+>  #define trace_probe_log_err(offs, err)	\
+>  	__trace_probe_log_err(offs, TP_ERR_##err)
+>  
+> diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
+> index df592d9280a4..c64bbdc90a40 100644
+> --- a/kernel/trace/trace_wprobe.c
+> +++ b/kernel/trace/trace_wprobe.c
+> @@ -6,7 +6,9 @@
+>   */
+>  #define pr_fmt(fmt)	"trace_wprobe: " fmt
+>  
+> +#include <linux/atomic.h>
+>  #include <linux/compiler.h>
+> +#include <linux/errno.h>
+>  #include <linux/hw_breakpoint.h>
+>  #include <linux/kallsyms.h>
+>  #include <linux/list.h>
+> @@ -15,11 +17,16 @@
+>  #include <linux/perf_event.h>
+>  #include <linux/rculist.h>
+>  #include <linux/security.h>
+> +#include <linux/spinlock.h>
+>  #include <linux/tracepoint.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/irq_work.h>
+> +#include <linux/preempt.h>
+>  
+>  #include <asm/ptrace.h>
+>  
+> +#include "trace.h"
+>  #include "trace_dynevent.h"
+>  #include "trace_probe.h"
+>  #include "trace_probe_kernel.h"
+> @@ -50,6 +57,17 @@ struct trace_wprobe {
+>  	int			len;
+>  	int			type;
+>  	const char		*symbol;
+> +	raw_spinlock_t		lock;
+> +	struct irq_work		irq_work;
+> +	struct work_struct	work;
+> +	atomic_t		missed;
+
+Is `missed`  read somewhere?
+I searched this file, only found set and inc.
+
+
 
