@@ -1,92 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04F027FB1C
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 07:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A89738888F
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 07:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787037531; cv=none; b=d5pEUm2EyZyA5CLzPljKJp1czMKbsQKh0e6SS5N7MlqSpwYovvrf1FmZ7AptFdDUlTGjVuUYEgFMg3ertmA78Kptj86SsJZPiG05X4NFryGpMxluPrn+EOVRC4tFj1R2cfMNECcjCydlTZuOx7Edebl/x4RbdwsBb4+g5y0GR/4=
+	t=1787038188; cv=none; b=g6eOvPPeAl7iAkzfMxs2XN6/kZlKes9tkNp9cEYSWumJJ588dkpv6UqzIcz8yZah9549ZoN7cxsf7sQ2eEgBT+CbLREqHP2ttk8rctSg2RhB86SEl7z5v0oJro0NsAGpX+Fa4Pji/90lYu5+YigjwQRnSfY5qMN1Z7uzvc9s2Yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787037531; c=relaxed/simple;
-	bh=CehRAJfIUTP3jjhVhVTxA0h7C6E3ohORC33qPUPN8xI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DEqe5FECWIfnht1KocrlJGNepHlZBcPKjk/esFV/Vym8MZCDSg76cu+b2CV2zu8SJEKBrie6O4KOSgRv79jbdeTI/Ph86sphWGEKPULFyuRES8bVbYEMnehuaZuDgwk1lyrulKUouxzDE9TRwLB84Re9u0s3y/TCArAhHJSYEew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eaadnMEc; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787038188; c=relaxed/simple;
+	bh=60jt1hm+Obv8HqD7krRcltxiUWF/V74E0KG9DuRNr/c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZalYLGvpbZYZVQvRaMouJex2VeTeWd8qmTAuEAbWA/1uf6xrk+d3Daisc5Es6S1ABLp67CGSUIQl1h+w5POBEfY8k8vdVmyNXi70WIyUiK+I5CCRblZaQocm0lThvPFaNy0vUrvQNiKJAexxBiCKDch/nuyHBD6tRsS0FnXogu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ONjLXRo+; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eaadnMEc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787037529; x=1818573529;
-  h=date:from:to:cc:subject:message-id;
-  bh=CehRAJfIUTP3jjhVhVTxA0h7C6E3ohORC33qPUPN8xI=;
-  b=eaadnMEcpjeDIwSBJOtRNvLj/fLEhGXABAEJLKSPr8YqgI0aZRvGhc/M
-   mCDTZpi1fYO7nQP4L9Sq8yBnEBXQPcQqsUqcATCBwviXfV4wn1PoJZWOs
-   HC5r3FZhozK2wxjEa46Nxc2Lv4W5+dDVDg/OGvYWQ1SqsP+nD0Jw1rJbe
-   ZMJ9JN5TIJhS6jAoa8R31jRYLuIfitC5gSjlI6Ys2E/BWWwZyeaD43RKm
-   iHCoUdDe0m+EnKEKx54mUTCEl1Q+jQoFt9Hq9gNUwcoCT+WEgS0as2unZ
-   81SbaVPt4/qN+NRMN5sOgkjlnqxBe0Vr2TTHq6M+nDxWv9J4Mud2pWRjG
-   g==;
-X-CSE-ConnectionGUID: QpwIYSZ5SieiqccSMkjIIQ==
-X-CSE-MsgGUID: wXLObK2lQaKfPmPS/vOHBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="91334340"
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="91334340"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 00:18:48 -0700
-X-CSE-ConnectionGUID: DhUyfDqFQhWrnzDgMkFZMA==
-X-CSE-MsgGUID: zCKZHMqcTeqj0fVrQjMn7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="269448172"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 18 Aug 2026 00:18:47 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wwE5s-0000000073d-27Wj;
-	Tue, 18 Aug 2026 07:18:44 +0000
-Date: Tue, 18 Aug 2026 09:18:09 +0200
-From: kernel test robot <lkp@intel.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [linuxsecuritymodule:main 1/1] htmldocs: Warning: README.md
- references a file that doesn't exist: Documentation/API/obsolete
-Message-ID: <202608180938.hj2kI6pr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ONjLXRo+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787038186;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+x8pfgxpAdfeffVvBTclc7h7taQeubCUNT1m9PIdpe4=;
+	b=ONjLXRo+X0cJ2ErBkMlMXu8UVBefyq7fbc5OaDp5y2pGTOjw/yMXZbTWMnq0r7BACBMaIQ
+	FUuYOMms0Q0HuuD5oKqInFcNcmykqZs0xwNxtuuwezobtQ3fVf7s8sYmB1BgLqsHySyGe7
+	rIg2lBK8TeyxmcMHsZJJjTmcCmY4Fhk=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-107-x644BuzUObC3_jznpDetjw-1; Tue,
+ 18 Aug 2026 03:29:42 -0400
+X-MC-Unique: x644BuzUObC3_jznpDetjw-1
+X-Mimecast-MFC-AGG-ID: x644BuzUObC3_jznpDetjw_1787038179
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 26812180034C;
+	Tue, 18 Aug 2026 07:29:37 +0000 (UTC)
+Received: from fweimer-oldenburg.csb.redhat.com (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A7315180034C;
+	Tue, 18 Aug 2026 07:29:28 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Peter Bergner <bergner@oss.tenstorrent.com>
+Cc: Andy Chiu <tchiu@tenstorrent.com>,  Jonathan Corbet <corbet@lwn.net>,
+  Shuah Khan <skhan@linuxfoundation.org>,  Paul Walmsley <pjw@kernel.org>,
+  Palmer Dabbelt <palmer@dabbelt.com>,  Albert Ou <aou@eecs.berkeley.edu>,
+  Alexandre Ghiti <alex@ghiti.fr>,  linux-doc@vger.kernel.org,
+  linux-riscv@lists.infradead.org,  kito.cheng@sifive.com,
+  dfustini@oss.tenstorrent.com,  greentime.hu@sifive.com,  Andrew Jones
+ <andrew.jones@oss.qualcomm.com>,  Nutty Liu <nutty.liu@hotmail.com>,
+  Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>,  Yao Zihong
+ <zihong.plct@isrc.iscas.ac.cn>,  Xu Lu <luxu.kernel@bytedance.com>,
+  Aleksa Paunovic <aleksa.paunovic@htecgroup.com>,  Jingwei Wang
+ <wangjingwei@iscas.ac.cn>,  Zong Li <zong.li@sifive.com>,  Deepak Gupta
+ <debug@rivosinc.com>,  =?utf-8?Q?Cl=C3=A9ment_L=C3=A9ger?=
+ <cleger@rivosinc.com>,
+  linux-api@vger.kernel.org,  Jeffrey Law <jeffrey.law@oss.qualcomm.com>
+Subject: Re: [PATCH 1/2] riscv: hwprobe: export the availability of vector
+ to user
+In-Reply-To: <d889d09d-951e-4414-95bb-625bcab7af9b@oss.tenstorrent.com> (Peter
+	Bergner's message of "Thu, 6 Aug 2026 12:09:00 -0500")
+References: <20260723222109.2229089-1-tchiu@tenstorrent.com>
+	<20260723222109.2229089-2-tchiu@tenstorrent.com>
+	<87bjbwk0q5.fsf@oldenburg.str.redhat.com>
+	<cc671848-f954-41bf-b7a9-ba34c29593ec@oss.tenstorrent.com>
+	<lhuik5n4v57.fsf@oldenburg.str.redhat.com>
+	<d889d09d-951e-4414-95bb-625bcab7af9b@oss.tenstorrent.com>
+Date: Tue, 18 Aug 2026 09:29:26 +0200
+Message-ID: <lhuzeyjanu1.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-tree:   https://github.com/LinuxSecurityModule/kernel main
-head:   0b9bc2a3c36b742f372ce72d6bd3049841a48dc1
-commit: 0b9bc2a3c36b742f372ce72d6bd3049841a48dc1 [1/1] lsm: add a LSM specific README.md and SECURITY.md
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260818/202608180938.hj2kI6pr-lkp@intel.com/reproduce)
+* Peter Bergner:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608180938.hj2kI6pr-lkp@intel.com/
+> On 8/6/26 1:31 AM, Florian Weimer wrote:
+>> 
+>> And if RISCV_HWPROBE_KEY_IMA_EXT_0 comes back at -1, we'd turn on V
+>> unconditionally?
+>
+> No.  The unknown key (RISCV_HWPROBE_KEY_IMA_EXT_0 in this case) field would
+> be reset to -1, but the value field (which is what we test for the presence
+> of V and other extensions in the resolver) is set to 0, so we would not enable
+> any ifuncs in that case.
 
-All warnings (new ones prefixed by >>):
+I assumed, but didn't write, that there would be a separate probe for
+the V extension.
 
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
->> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
->> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
->> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+> For kernels that know about RISCV_HWPROBE_KEY_IMA_EXT_0, but not the
+> new key RISCV_HWPROBE_KEY_EXT_ENABLED, the key field holding
+> RISCV_HWPROBE_KEY_EXT_ENABLED will be reset to -1 and its value field
+> set to 0, while the value field associated with
+> RISCV_HWPROBE_KEY_IMA_EXT_0 will be set to the "extension is present"
+> value.  This still suffers from the (already existing) we'll enable V
+> ifuncs issue you mentioned if prctl was used to disable V, but as you
+> say, it will be fixed with a kernel upgrade.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Okay, that's fair.  I'm happy if there's no difficult-to-test prctl path
+that we need to maintain indefinitely.
+
+Thanks,
+Florian
+
