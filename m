@@ -1,142 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6833438BC;
-	Tue, 18 Aug 2026 19:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787080975; cv=none; b=kVvDmoWWuI1x3xAV+FMWnef4bm0Gk848pXZFHJzCHUna15uMBpubhgnzdiHyTpytRofugVUFfEtsC2uxD31Gz5/ymB86umEryZQntM2blDSafm0KhrcEtISvBezXvyL86JiKfFVsyCENeGnIC2cyWZbyXCm+hht1HEBSLLKeKYw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787080975; c=relaxed/simple;
-	bh=wdRa0jr39GgkiE2cpSZ2IjIlYn0EPPa1DFxSiy4IhaE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K3aIg7DXI6L6edpdyEy6tycmHggdDeDAwZ6UJ74ExcdB9Gr4zO93yAYFhiQ0J6HQ6P3+UxM2pviAK42Hn5wFNZk7FLsi9mfnLFKusg55USCDrH53e5ZsMj8sH/LAjjaKCjsh3TkVQyh39IuPkwTGR9EguNRL3QiBGSsNepdwydc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cozlw0Qf; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940D537EFE7
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 20:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787085860; cv=pass; b=kIDweod5J4C0l1rf8i7ODCboea1+lfsJpws7/MlOYSrG7vD/A1cRhqA7PHlnLSgQyaF4xESySfKVnvkmor7D6cSvNmqmxrKnMLdI1uC0FLu59HG7wfrt2805vygslLbIo11sOMfI/kOAJnjXbh64H0gTZpDdYfz1QEqZVQ7Agb0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787085860; c=relaxed/simple;
+	bh=WBqcv7AREfC9nwVVa7mDdGWlnH2FctvtQBiP7rgCnV8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uUBjLgMpf2qL6JKSIWFz5xqmAPhdvRlszCOYkvPCgJ7TpVDaDIgS7anEHC2A+AQskdHDZiLksZX35RGy1LRXbIqBemXo60PNRtRI6wy0It7qNr+ciI3cuNPhkrddwFGNErt7SupPXg+rKyqiIZYDjcW5ljPH6H8pmupL2aQx5mg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TiSnCx9i; arc=pass smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cozlw0Qf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05E761F00A3A;
-	Tue, 18 Aug 2026 19:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787080974;
-	bh=Rzk1GGwEpF9d61XcbipzC6FveqTGcP36U1flWmeEvl0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Cozlw0QfOS4w4VIjC0kGzKw7aT5aQnToUMMdhbm/Dwllvc8RWmeAkpkLOIFQ7LJiI
-	 Dr+WfADNY8sa9c6Udq2hK9opX38A3rj0dd1S0iAbHOuYuyOISwn+pUbm/fUUzArdgL
-	 tqrC0KgRl9O7O/FCNayx9JL1bdO80ZD99XLmoh4867/W5R8O8BDgPjZ3LekU63gwje
-	 SDpfFgfKMYRL3TZPLf+x4f3PH9Zs38I0fTI9EXln/5c9ITcltgFIyyuR5eEcFOdNok
-	 U4+Dv3zeb1vXTcANuTm5PEr9Udx1M/rxfWMj4v6WTTNzjdHgUdFI6XO9MrXiylP7St
-	 Lxntvp2Ae1IFQ==
-Message-ID: <cc43a545-20a1-4f15-a7b9-ca48842bffca@kernel.org>
-Date: Tue, 18 Aug 2026 21:22:40 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TiSnCx9i"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cf49dc28ccso425925ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 13:44:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787085858; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RrtJb/jOHZVl9c8N7OT8mwrBvoAMRgt860bvjPTFfGAoy3q8YTs/AEs2aRuIhUuHq3
+         Uu3f2uK+AUjLeDcekMermZJxKpcICJZkhV1KrQNnHFUT49JcaPaPpib4Utex9c6qLSYh
+         vd08Uj75+8EUPEzqXUTGA8ZIeCXekHZh92fHSsOcfOaxwr9lj/WX21oE1hzFSSul1OsM
+         PgIx/s//u8E6Av5vSwPS8NgyV7BvO5UIxyiiWvhNyjyHSfgmKbXAhoo/uuHcdS/ZvIlP
+         moZjtiV4Xt8oB3lLXlLLkEu/KJR7Kkze+vbq4PCPZB/GAwOFRSWt2G/TZorvFBurcLmf
+         VZ1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WBqcv7AREfC9nwVVa7mDdGWlnH2FctvtQBiP7rgCnV8=;
+        fh=5cgiEtCMNh1ZnCbiDfs5NhWLax7Hr40b/X34+lNmNKI=;
+        b=ecKfz2V85eFt6O63bOLOcC8DEv51ACnl22Lx/lvPstjdg/O4uDYaStdBC/CTvMlFcQ
+         50ZdJ1KV3828JPIMYxzdj/4rnQCo0xff/ZybB0HvdUifXcHXOh3jO95rOahEjWl5YkR5
+         UGNqrE6uZFlsHRQkPMHkdow+9BoyCZ4UO9GvARpOd9hX4hopgNp13WKKcdCXTHeOviPk
+         RuRLRU5ETFzPAAk6xzadPMcoa14cvNgBXxi6MtlXIfiNr+i2A2aHcD8WNOcdB0y0kcQC
+         f7aIZkKUMAaOHecz949PTbOXNbXZynbQNyQiIUp4okz7ZXwenTcApM9pq9Vszn2LSe7e
+         5Mcg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787085858; x=1787690658; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WBqcv7AREfC9nwVVa7mDdGWlnH2FctvtQBiP7rgCnV8=;
+        b=TiSnCx9iAH+ZfAHEl3wMOsgjNgiGLv1iHt7TQM2L69mMIqOJS2RhYu9LXHIs+mf7fJ
+         FCpjnNfhq7bb0X4M9cdmKTgUw0dRbG9uZ4j7mQO2H6FPmLBbnkLLhS+fftmOOyVqJBmH
+         BQVs7ZWxSVENeLBdZJbYC7K8x+8AAdBoAM44HPFi8TkLwLzXgYwi5ZZoOmj/ZoxiYL3x
+         Os7tGScy0cgJ5T2UCI5lANJDUlGoLFlQC1/HfL8DgqD47vzmN+UrOxE5y7ZewRhPAIVP
+         shq7ljEda7DVejFUMZ/0h9BFxBWNpPGVI2HrkCK0z8G2ANUGgL0jv5XjYmvY7rY44Tlq
+         gW+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787085858; x=1787690658;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WBqcv7AREfC9nwVVa7mDdGWlnH2FctvtQBiP7rgCnV8=;
+        b=KAblvjNwFLPgpXCiACYdT4777Nb0zrJl7bbVw92TcQsXbM+OabKLGayaCdCh622Sqy
+         j17DoMKDlrY5DXXFdL302kJqi+X+m/dzvZhfDurA10N7XzWGj+DEiwXEn+UhdUVI8BJE
+         Iq0GMuRq2/Xag+5sbt/KCl/vgVyJjoT3nbjCJ11x5+585gvIsH37ATfFN+eymSma8IgI
+         v+AhwuVWMZ2oLTFzfrPu14cVgusBR5U+Jt53yOXsljXwrNKsWBmMotlQ+vDEBNirGQ2x
+         BN1Pl5t9fOvpp0xIBdPu6EiaKU7EGjDnW2JrC1TPIN5Qpz5HnnJ0bXuv/Q7e8oyRenqh
+         xssA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpb6IKESzY6WOCRp/RVSSjXT4JLC0mN8sSqKGmqLVB2eQEA2JgxLHqYWiJ+vew3JfimIRKvM/TwlqY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMQnhJPy9h+WayeBmiGPEoXQgltqjIYzEfhg9Rx6PDog5gSIH/
+	l08hWzXJodTgHF1GoVZgYNrcj/8Xie6sUSjW5h/Dp54uN+xlyVVT2lKJdJXGds/uavl9TE4hqcB
+	7o61KZaw8nOaLf4p9LEUw5SC59OgtiO8=
+X-Gm-Gg: AR+sD12voH7pFu9C++NltIVh3mfuK3DrpZrg443fHOMK3xdo31SpsN/0fv0JeifSVTB
+	A53R/CUUR3/1CkfGL/DETBzHCVg29JBCd1Ht9VOiCGZmyUoU8MgQtAwKBP7VYE5f9qIayVFpWdg
+	nnRbiws8hC/B0UihzuM+1sSkv6OcA2Zph5RdF1nxh+xUcFAPW2LcUTkvmW9sodJ5Qzbo7lRmWm9
+	V6urCS/dGkj2zA5iVYHGz0D2C7HTVfJQjy8JwUIlHrXIV9Rz0ntDr87YgQZvzQ4gJNvtiE2OLyG
+	Nd1ahbF08rg9LGAsBzeVqcDgAHv+0ygnVBb211nurukKgsB1KXsZP9nr3xJ9fLh/piWf3GGL53M
+	ToqWJPt/xd1kavAATW2Ame5Hl5jDkmKKC7WnXbvck1o4Ctcmac3jbKAFfA7Y7ju4WghlXzQTdde
+	c2rDHmhLU=
+X-Received: by 2002:a17:902:f64c:b0:2c4:397:dd7a with SMTP id
+ d9443c01a7336-2d5f6c048bamr4365605ad.4.1787085857837; Tue, 18 Aug 2026
+ 13:44:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/15] MAINTAINERS: Add entry for Qualcomm DSP
- Accelerator (QDA) driver
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- srinivas.kandagatla@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- llvm@lists.linux.dev, iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
- <20260817-qda-v2-v2-1-69a02e9090d4@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260817-qda-v2-v2-1-69a02e9090d4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260818152324.587932-1-ynorov@nvidia.com>
+In-Reply-To: <20260818152324.587932-1-ynorov@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 18 Aug 2026 22:44:05 +0200
+X-Gm-Features: AcwNN1XULaAA1GXIK7uBimPVbF7p5caYY_9Jijf1I6x_dsAVvxaRtE4L1JXqhyk
+Message-ID: <CANiq72m2M5Csh_9qQYa8MRmJZtciU3d4S3ht5FG-K+YwR4iAwQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] rust: kunit: enforce test configurability
+To: Yury Norov <ynorov@nvidia.com>, David Gow <david@davidgow.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, rust-for-linux@vger.kernel.org, 
+	nova-gpu@lists.linux.dev, Gary Guo <gary@garyguo.net>, 
+	John Hubbard <jhubbard@nvidia.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Burak Emir <burak.emir@gmail.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Rae Moar <raemoar63@gmail.com>, Yury Norov <yury.norov@gmail.com>, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 17/08/2026 06:47, Ekansh Gupta wrote:
-> Add a MAINTAINERS entry for the Qualcomm DSP Accelerator (QDA) driver,
-> covering the driver source under drivers/accel/qda, documentation under
-> Documentation/accel/qda, and the UAPI header
-> include/uapi/drm/qda_accel.h. The linux-arm-msm and dri-devel mailing
-> lists are listed as the relevant review lists.
-> 
-> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> ---
->  MAINTAINERS | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 912837dd4640..75fa90c137c7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22388,6 +22388,17 @@ S:	Supported
->  F:	Documentation/devicetree/bindings/crypto/qcom-qce.yaml
->  F:	drivers/crypto/qce/
->  
-> +QUALCOMM DSP ACCELERATOR (QDA) DRIVER
-> +M:	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> +L:	linux-arm-msm@vger.kernel.org
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Supported
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/accel/qda/
+On Tue, Aug 18, 2026 at 5:23=E2=80=AFPM Yury Norov <ynorov@nvidia.com> wrot=
+e:
+>
+> Make every Rust KUnit test suite require the Kconfig option that controls
+> it, and let the `kunit_tests` macro apply the corresponding `#[cfg]`
+> attribute.
 
-There is no such directory.
+If we are sure we always want at least one `cfg` guarding them, then
+yeah, this makes sense (we could ask to write the `cfg` bit inside,
+for "greppability", and for clarity / less ambiguity later on).
 
-Best regards,
-Krzysztof
+David: are there cases on KUnit where you would recommend/prefer
+something different?
+
+For instance, I could imagine a Rust `mod` for testing purposes
+already gated by a `cfg` that is meant to contain many tests, and then
+different suites inside that for control (possibly with extra `cfg`s,
+but maybe none too for some).
+
+Cheers,
+Miguel
