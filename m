@@ -1,153 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C8B3033FB;
-	Tue, 18 Aug 2026 07:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04F027FB1C
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 07:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787037318; cv=none; b=ipLJBgZzGffFMm/kh26sgCf+kk0DfJmkDDGe4TcaAJpQ6xPHbjjTFGbrErct/MW7X1C1Lcko8Iq8KdBx11xUHkmJMCSGA6n+i+1xGzFDLZOK6lAzsKqrgjYIyn6J0QG2hjXiDIcGtG3CrlN66owWqSDEo2CtEllxvAXMUyRpZjk=
+	t=1787037531; cv=none; b=d5pEUm2EyZyA5CLzPljKJp1czMKbsQKh0e6SS5N7MlqSpwYovvrf1FmZ7AptFdDUlTGjVuUYEgFMg3ertmA78Kptj86SsJZPiG05X4NFryGpMxluPrn+EOVRC4tFj1R2cfMNECcjCydlTZuOx7Edebl/x4RbdwsBb4+g5y0GR/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787037318; c=relaxed/simple;
-	bh=MGaCb2b5SaoM0qVdDeVL0y3QV9RpA+lwoSEDpssw9JA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i56o4vbvodhw/Ks00N/uglUOJkH9xf00SEa8HZUqJt3ReINDMpscCSUSOmyRD/e0H46EvUVatcI9HQAFXbfKYjQ8oToXCNH35PbrLkAVOwsjx3o4i5DfG+09yky7PwUoeyzFcim6fTg57rYkUlius4pCmrk/5BjJVjKN0I1HrHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TcliKUO4; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787037531; c=relaxed/simple;
+	bh=CehRAJfIUTP3jjhVhVTxA0h7C6E3ohORC33qPUPN8xI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DEqe5FECWIfnht1KocrlJGNepHlZBcPKjk/esFV/Vym8MZCDSg76cu+b2CV2zu8SJEKBrie6O4KOSgRv79jbdeTI/Ph86sphWGEKPULFyuRES8bVbYEMnehuaZuDgwk1lyrulKUouxzDE9TRwLB84Re9u0s3y/TCArAhHJSYEew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eaadnMEc; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TcliKUO4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eaadnMEc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787037315; x=1818573315;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MGaCb2b5SaoM0qVdDeVL0y3QV9RpA+lwoSEDpssw9JA=;
-  b=TcliKUO4TDSRQJA198fdNddLVZxci6UYc1RmRa8o/5UkoWQPMPSYaIWv
-   OvxxIDKYfaOzAFu7tStdmLXMBBpROvDEvKEVsm3alt20dH2Xm8Uzn5WmG
-   6HsOVnU/9Cp/5SSGaesQBAvIlLZBfCPGIetAKDiJS2r6FtoBHTfhmFyhf
-   WAsffl/+Jd4n1BZCvOTLb9TtR/DxbTVDqqIc9wjfoiOr4tZLIOybQXvtf
-   0Nh/ElLYK7WgZovKOgm5pW4RRLGAjIlYliPsu20HOqUPWRFow2ToLLbGK
-   CPR1atu5Bvp+ek8hxbWybCKXaLdEO3JJDuAIK39MywewGYQEQbAHGAdOL
-   A==;
-X-CSE-ConnectionGUID: xMCDLghgSMm64oXahP99uQ==
-X-CSE-MsgGUID: 9ADgX8VhReieCLtwPM4oqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="98675523"
+  t=1787037529; x=1818573529;
+  h=date:from:to:cc:subject:message-id;
+  bh=CehRAJfIUTP3jjhVhVTxA0h7C6E3ohORC33qPUPN8xI=;
+  b=eaadnMEcpjeDIwSBJOtRNvLj/fLEhGXABAEJLKSPr8YqgI0aZRvGhc/M
+   mCDTZpi1fYO7nQP4L9Sq8yBnEBXQPcQqsUqcATCBwviXfV4wn1PoJZWOs
+   HC5r3FZhozK2wxjEa46Nxc2Lv4W5+dDVDg/OGvYWQ1SqsP+nD0Jw1rJbe
+   ZMJ9JN5TIJhS6jAoa8R31jRYLuIfitC5gSjlI6Ys2E/BWWwZyeaD43RKm
+   iHCoUdDe0m+EnKEKx54mUTCEl1Q+jQoFt9Hq9gNUwcoCT+WEgS0as2unZ
+   81SbaVPt4/qN+NRMN5sOgkjlnqxBe0Vr2TTHq6M+nDxWv9J4Mud2pWRjG
+   g==;
+X-CSE-ConnectionGUID: QpwIYSZ5SieiqccSMkjIIQ==
+X-CSE-MsgGUID: wXLObK2lQaKfPmPS/vOHBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="91334340"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="98675523"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 00:15:15 -0700
-X-CSE-ConnectionGUID: CsapwNuUSoiHldl7q94VWA==
-X-CSE-MsgGUID: eU3dG3LcTuuLOqChKKAh9w==
+   d="scan'208";a="91334340"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 00:18:48 -0700
+X-CSE-ConnectionGUID: DhUyfDqFQhWrnzDgMkFZMA==
+X-CSE-MsgGUID: zCKZHMqcTeqj0fVrQjMn7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="262516853"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 00:15:09 -0700
-Date: Tue, 18 Aug 2026 10:15:06 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-acpi@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v3 0/4] driver core, net: handle fw_devlink for
- class devices and PHY packages
-Message-ID: <aoQGeg0VGcNZXqXX@ashevche-desk.local>
-References: <20260818-submit-phy-package-fwdevlink-v1-v3-0-40a905ea16b6@gmail.com>
+   d="scan'208";a="269448172"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 18 Aug 2026 00:18:47 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wwE5s-0000000073d-27Wj;
+	Tue, 18 Aug 2026 07:18:44 +0000
+Date: Tue, 18 Aug 2026 09:18:09 +0200
+From: kernel test robot <lkp@intel.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [linuxsecuritymodule:main 1/1] htmldocs: Warning: README.md
+ references a file that doesn't exist: Documentation/API/obsolete
+Message-ID: <202608180938.hj2kI6pr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260818-submit-phy-package-fwdevlink-v1-v3-0-40a905ea16b6@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Aug 18, 2026 at 12:58:56AM -0600, James Hilliard wrote:
-> Managed device links normally advance through probe and removal alongside
-> a device driver. Driverless class devices are added directly, so their
-> links do not currently receive equivalent transitions. A class supplier
-> can leave its consumers dormant, while sync-state-only links from a class
-> consumer can indefinitely prevent suppliers from receiving sync_state().
-> Removal also does not unbind consumers of a class supplier.
-> 
-> Ethernet PHY packages expose both sides of this problem. A package node
-> describes resources shared by member PHYs, but is a container rather than
-> a device. fw_devlink preserves that topology and temporarily represents
-> those dependencies through the closest device, which for OF MDIO is the
-> driverless MDIO bus class device. Its proxy links previously remained
-> after the real PHY had probed and kept the package suppliers from reaching
-> sync_state().
-> 
-> Handle the generic class-device lifecycle in the driver core. Put
-> driverless class devices into the probing state while device_add()
-> publishes them, complete their incoming and outgoing managed links after
-> class interfaces run, and apply the corresponding unbind and cleanup
-> transitions during device_del(). This supports class devices as either
-> suppliers or consumers and keeps descendant firmware links available for
-> devices created later. Keep inferred links to probing and registered class
-> suppliers out of no-driver fallback paths, and recognize class-backed
-> nodes when refreshing dependencies after firmware-tree overlays.
-> 
-> Keep generic firmware parsing faithful to the described topology. Add a
-> helper through which a subsystem can copy a container node's direct
-> supplier links onto the firmware node for a real child device, then use it
-> from PHY registration before device_add(). The ordinary fw_devlink path
-> consequently creates each managed PHY link at the normal
-> device-registration stage.
-> 
-> Finally, defer supplier sync-state callbacks across OF MDIO bus
-> registration and child population. This closes the interval between
-> completion of the bus class device and installation of the member PHY
-> links without adding an MDIO-specific device-link state transition.
-> 
-> This was found while validating an X-Powers AC300 package whose input
-> clock is supplied by PWM. Before the fix, the PWM driver reported that
-> sync_state() was pending due to stmmac-0 after the PHY had probed.
-> 
-> The complete series was tested on an Allwinner H616 board with an X-Powers
-> AC300 PHY package. All five package-derived supplier links targeted the
-> member PHY and no proxy link remained on the driverless MDIO bus. The PWM
-> supplier reached state_synced while continuing to generate the PHY clock.
-> These properties remained true after unbinding and rebinding the MAC, and
-> the PHY renegotiated a 100 Mbps full-duplex link. Both before and after
-> that lifecycle test, 8 MiB transfers in each direction compared correctly
-> and 100 consecutive pings completed without loss.
-> 
-> Validation also included:
-> 
->   - a full arm64 defconfig Image and modules build with W=1;
->   - KUnit tests for class supplier/consumer transitions, inferred-link
->     preservation, and fwnode supplier copying and device-link conversion;
->     and
->   - strict per-patch checkpatch and whitespace checks.
-> 
-> Assisted-by: Codex:gpt-5.6-sol
+tree:   https://github.com/LinuxSecurityModule/kernel main
+head:   0b9bc2a3c36b742f372ce72d6bd3049841a48dc1
+commit: 0b9bc2a3c36b742f372ce72d6bd3049841a48dc1 [1/1] lsm: add a LSM specific README.md and SECURITY.md
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260818/202608180938.hj2kI6pr-lkp@intel.com/reproduce)
 
-Seems the commit messages are also copy'n'pasted from AI. Please, make sure
-that it's clear, straight to the point and not a saga with unneeded details
-and obvious explanations.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608180938.hj2kI6pr-lkp@intel.com/
 
--- 
-With Best Regards,
-Andy Shevchenko
+All warnings (new ones prefixed by >>):
 
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
+>> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
+>> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
