@@ -1,175 +1,177 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656ED45FFAC
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 13:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035B225A2A2;
+	Tue, 18 Aug 2026 14:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787061385; cv=none; b=R1jHEoaXFZObRe+ft0KmSbV+6WjV/luXlKAkgTS5lWbTUfsO0nRLq7019mxh0xiuK8k3CDC5pC9yb6Uj3N+T2v6NP0DCEbOFlDc9MR3zLRWdsizfeALq1D5TWzqJ8KwN2pPzTakSbA9wOTSVrIr7nA184cRM34yK7hPG6tDatPE=
+	t=1787061629; cv=none; b=cL7GPpVsGSgiG404fWlbKhE6IJr6jvXySIzK4ro4fpFx7Vi951hq7ZVu4YUDjxSjbsXxV11gA4/YhD35CXk8uZhofEM+miLkrH2Rj532ls/1vVqiHoLFTdvpbixwej8IlnS497ec/NdT00wxNSEdrJ0r471XRBXCAmBTlimFMEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787061385; c=relaxed/simple;
-	bh=UAFW1DzG8QNfOFMxCJEWJworEouQUSKkS4nGttLn4hw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lOgDUc+TMBTr6/yhyld2JyCukMBoiTptDq2R6XGdqvy5HdygP9vdxDwDZxgG2COeCVuku9VN+IC+mIPLyqqnRMRfN8V/opUa7U3dfG6kEDBn0fxfzqN4sYfN+lRXnhhub/uzfVx3M6FVy7vDpwM9jWtBCe6yI3lQIS19+43Iy7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S8P7NRlZ; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1787061629; c=relaxed/simple;
+	bh=5Eese8aMawmoJK+Jg+WZU3PtLP1Ptwez+8ZEIInXQQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DYpJA5boBvRUcwzkrtvLmOi7EpoKjFD1xT6AnrsGtYvPKcc2o90hBjXFPUJGoN/cpcGFXqE/2NApNp2yBw8Tq5vLU8wk4Cnwg4oG+xqleLfPQ9Cc9shrFPxpEnOrgz3t9QBhrIG1Il7a+PxOTS7i8zXJD+oUTyNKF2PmayiM5X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=imoTvYU3; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S8P7NRlZ"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c197e7e4e94so795055566b.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 06:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1787061381; x=1787666181; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BfVwBRBTF0jPp/yG8QTZc+4bKOm0do5X3TsF0PgtG70=;
-        b=S8P7NRlZZocDiLDMPUD56qQuDj5hZQBhbTjcqoWGiNNeAejYcolQEIoxCxEBRei/nP
-         Xq2d8cTTjeKdsu5Uy6zGFD+vdhpaRhhzG3ksBuZCzztxwKIt9VDdQnxWUOGPSQRWrvmF
-         tbAAtVpy8vCgQquS0XwqWIKJvnmXsA6B8de4ddCqHcyOIA5Digi1A9DmVa6v4rQL1hQu
-         I9z7kpLsMcY8/eJr7H1fn0ZwTHFeolabLz6s7y5ZK736yw3L9dVrXMlhmBBdjXVAgB7K
-         7inPz6ySX4G+eHIDAWhHZzarv8HK7MygcT9ZdSuFGvGx61YAyWUhiG2mZzoWnnV+nluG
-         cOKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787061381; x=1787666181;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BfVwBRBTF0jPp/yG8QTZc+4bKOm0do5X3TsF0PgtG70=;
-        b=njeQzG24uoJW34RWbRkSZSVJ7cbJEE8ELnpkgCv/qNFMaRcZXqiP9QFOOqEGkPkaPm
-         bkuKBAbEcVFu6lzIbs9vkPn1Qaz0fL+Vv/7+tva2O8iSnpv8v/dtLU4IdectCuT9nGMk
-         1fRPrYS5k/y1MwDVbw02ClNt5X+fm6Hav0UbriiaPf20bPAsJQjylIAGjnwK+nKco1a5
-         gI8WGCi11Rz7pguTJOUPpqBmMdVI3eBDJNq0/l1AZrywedJlQj6u0gfsb1rsrM+P3GGH
-         KmuOdBHS4LneWFFiQP56hdKiOtd8HEJkYc11dPSZ7rqDkVeyk5u++t5k4ZH7kIA8hAkS
-         Q2OA==
-X-Gm-Message-State: AOJu0Yx7nTLN2TNwjb1f0dSbNHk6uCzETJyAnZTTqirj8f0r48WTx6pO
-	3HQoI3S55JNpCEjyD6brrk1nOXffHJslPd91JDgY3GIr40HcKdVH+UHkLSkel6Dc0z0=
-X-Gm-Gg: AR+sD12d+EA0b/fxU31jY3VVtzyJ6RuTjWhIBskqfgmBHMteIdjiV9RJhSckqnIMtfx
-	q1HtxTIFL3sI5r8CkTR5NZOXCRPhDKq/vJD6XzOjzQ4GbXu+t/ZMaRiom6UXsTPiHl1aNuRtYuu
-	GBw/Ui1l48WHquAz+dwmVMNceT5m4Abatpfv1zGVavk86oREb5mZ3VaXWbpDQmvNuGQKy/L0w54
-	juVsl7Gy1Aa1zfdesCh0iSta9q48tqqUhgy88QdU7OYwVIRg6WvaFq/NSIGghv16SwdZxVo9j3U
-	uF6PzdF7tJ71q+I7zIrt3oF3RDqfbPb/OikJl+hOk8sivDCtWHJI/8NVCuIOYMx/bOwdxcPejhX
-	k3VwfSHnvDEFp1OuSVxXOpdrkBrHaTFD/hq3ysmT20MhZIicCJ5E2S1wVE2w1k71Dpqrxcp7Y3t
-	1NzXUCNIrBIOS7A3VmlPLgdBcZ1YINOn+Ve741A2N7guFOa43KFYUFum25EAYAE8183w==
-X-Received: by 2002:a17:907:3cc2:b0:c12:3059:4071 with SMTP id a640c23a62f3a-c212a2b2dd8mr1933707366b.15.1787061381408;
-        Tue, 18 Aug 2026 06:56:21 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2185bc66bdsm163356166b.58.2026.08.18.06.56.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2026 06:56:20 -0700 (PDT)
-Message-ID: <eecfa618-6bc8-451f-ac9e-9ae5b08e865b@linaro.org>
-Date: Tue, 18 Aug 2026 14:56:19 +0100
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="imoTvYU3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1787061606; x=1787666406; i=wahrenst@gmx.net;
+	bh=5Eese8aMawmoJK+Jg+WZU3PtLP1Ptwez+8ZEIInXQQc=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=imoTvYU3KGgWEGFgBwF7vTPQnJQ+02E/w46OwQEteUXg2OLYigWGk4Fy14u+PPpr
+	 832q2/EXzLIXQt/GhcXPII5WgYRkTRRkhluemBq5kA+sQrmYuokjPVT5GJmk7NPyi
+	 c87WFlue8k31DbsuIdErCvxP/hyU0DAIEWGe+CZUEbCyC1kadZmpVRk93OC12qzBE
+	 fAavcT/EzllJfbyVCRKI9O1ipF+mL2R9k1GskjYRQJ1DDAvYEfOT4qb1+JnLh4EIO
+	 GAzEOlE9e7Wpu65Z7ox7b15lXm7eW0wfyRYIRf69s0bWCr8mFfVH6lSQFeu/dEZSf
+	 +JAWk61ZBiwFin0H8A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M7K3Y-1x1qfq1TuW-0095Yt; Tue, 18
+ Aug 2026 16:00:06 +0200
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH] docs: oa-tc6-framework: Fix link to specification
+Date: Tue, 18 Aug 2026 15:59:58 +0200
+Message-ID: <20260818135958.17311-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] perf: Add CoreSight branch history to existing
- samples
-To: Amir Ayupov <aaupov@fb.com>
-Cc: linux-doc@vger.kernel.org, Mike Leach <mike.leach@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Swapnil Sapkal <swapnil.sapkal@amd.com>, linux-perf-users@vger.kernel.org,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Leo Yan <leo.yan@arm.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, John Garry
- <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>
-References: <cover.1787005265.git.aaupov@fb.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <cover.1787005265.git.aaupov@fb.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Vw97Xg+rYRsRYpasYuyICLUUWwZnAyx2l7LaYHiFJC4k/TAGNDV
+ AAZIeaoegpUmBPx0hWXSPw1OsmRCmze2iyOa+/5G2FS00PtgShvls7/xFjR9s2bAV2Qyi7b
+ BSCDVR2xBudd6N/QDvGPq7IJGQuM6lCkVyH4pJreFacTOsN0hHkyGEjfxP+qYcdk8NG8Zas
+ 6V5tQ/jMp8d8F4/KnYAvg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uv/OysOQTyw=;3tm78nVokZhNfQRugDC0obnDBIS
+ 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
+ xZEuu3KeJRBFd5DPyaYPobC1UfAc=
 
+Current link for 10BASE-T1x MAC-PHY Serial Interface Specification
+doesn't work - it returns 404. Update the link to the working one.
 
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ Documentation/networking/oa-tc6-framework.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 17/08/2026 23:22, Amir Ayupov wrote:
-> CoreSight ETM can synthesize branch samples from an instruction trace, but
-> context-sensitive PGO needs the branch history leading to an existing PMU
-> sample together with that sample's event identity and callchain. This series
-> implements that mode as --itrace=L, following the corresponding Intel PT
-> behavior.
-> 
-> The series first separates timestamped queue setup and teardown from the ETM
-> decode loop so decoding can stop at an existing sample's timestamp. It then
-> reconstructs branch history in the thread stack and attaches it to eligible
-> samples without replacing their IP, event, or callchain. The attached history
-> is consumed after use so a later sample cannot reuse an earlier trace window.
-> 
-> This enables a context-sensitive PGO workflow where a cycles event supplies a
-> frame-pointer callchain while duty-cycled ETM supplies the path leading to the
-> sample. A dlfilter removes samples for which no ETM history was available, and
-> the documentation describes the complete recording and decoding workflow.
-> 
-> Changes since v1:
-> 
->    - Rebased onto perf-tools-next at d17c5b770972.
->    - Dropped the HEADER_GROUP_DESC reader workaround. The issue is in the writer
->      and should be fixed separately.
-
-Doesn't it still need to be part of this patchset regardless of where 
-the issue is? Running the new test is blocked on this. Also is this a 
-regression? I noticed there was no fixes: tag on V1 for this commit.
-
->    - Dropped the branch-stack hw_idx patch after review established that zero is
->      appropriate for age-ordered CoreSight branch stacks.
-
-This doesn't seem to match what happened. The original patch initialized 
-all branch stacks to hw_idx = -1, which I think was a good fix so 
-shouldn't have been dropped.
-
-Coresight still sets -1 which I said should be changed to 0, but there 
-doesn't seem to be a change for that in V2. So now we're missing both 
-changes.
-
->    - Dropped the local wrapped branch-stack copy fix in favor of upstream commit
->      ab9c84d1cd59 ("perf thread-stack: Fix heap buffer overflow on branch stack
->      wrap copy").
->    - Added James Clark's Reviewed-by tag to the dlfilter patch.
-
->    - Consume branch history after attaching it so samples with no newly decoded
->      trace cannot reuse a window from before an untraced AUX pause interval.
->    - Flush all trace-ID frontend thread stacks when their physical ETM queue is
->      exhausted, preventing stale history from surviving a trace gap.
->    - Check every matching CoreSight event when deciding whether kernel trace is
->      enabled.
-
-Were these changes due to my comment about the test not working? Might 
-be worth some discussion about what the issue was on the V1 thread so 
-it's easier to follow along with why these changes were made to V2.
-
->    - Reworked the shell test to use FIFO recording control, removed the invalid
->      bare timestamp option, reduced the workload to 10000 iterations, and check
->      proc1 and proc2 callchains independently with bounded failure diagnostics.
->    - Renamed decoded test outputs to script-L4 and script-L64.
-> 
-> Amir Ayupov (5):
->    perf dlfilter: Add non-empty branch stack filter
->    perf cs-etm: Split up cs_etm__process_timestamped_queues()
->    perf cs-etm: Add branch history to existing samples
->    perf test cs-etm: Test branch history on existing samples
->    Documentation: coresight: Document context-sensitive PGO workflow
-> 
->   .../trace/coresight/coresight-perf.rst        |  62 +++++
->   tools/perf/Makefile.perf                      |   1 +
->   .../dlfilters/dlfilter-nonempty-brstack.c     |  26 ++
->   .../tests/shell/coresight/add_last_branch.sh  | 203 ++++++++++++++
->   tools/perf/util/cs-etm.c                      | 252 ++++++++++++++++--
->   tools/perf/util/thread-stack.c                |  17 ++
->   tools/perf/util/thread-stack.h                |   1 +
->   7 files changed, 546 insertions(+), 16 deletions(-)
->   create mode 100644 tools/perf/dlfilters/dlfilter-nonempty-brstack.c
->   create mode 100755 tools/perf/tests/shell/coresight/add_last_branch.sh
-> 
-> 
-> base-commit: d17c5b770972854a4fe4cf5cc22e17eb21cdc787
+diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation=
+/networking/oa-tc6-framework.rst
+index 013824078cea..0feda2f9d840 100644
+=2D-- a/Documentation/networking/oa-tc6-framework.rst
++++ b/Documentation/networking/oa-tc6-framework.rst
+@@ -77,7 +77,7 @@ Reference
+=20
+ 10BASE-T1x MAC-PHY Serial Interface Specification,
+=20
+-Link: https://opensig.org/download/document/OPEN_Alliance_10BASET1x_MAC-P=
+HY_Serial_Interface_V1.1.pdf
++Link: https://opensig.org/wp-content/uploads/2023/12/OPEN_Alliance_10BASE=
+T1x_MAC-PHY_Serial_Interface_V1.1.pdf
+=20
+ Hardware Architecture
+ ---------------------
+=2D-=20
+2.43.0
 
