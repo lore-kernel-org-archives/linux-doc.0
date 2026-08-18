@@ -1,87 +1,87 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F0A27FD74
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 05:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52676332EBD
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 06:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787032457; cv=none; b=qGRX8Q7TIjU0TmwB5S91rOtzQ9nhJYq/hQNrqnQzEqAZPIL+KARFHGSSCPekY7kYql6k/F+SX+pF+pbiaQOKBAGarGkB9bFD/oZ6KT8EZ1EqXQTE7hdYhWhu4ROtecJX5KrDhUch7hCc/C1x88zoBLUR4bguzGAJDrReCfWI+68=
+	t=1787034365; cv=none; b=GK+arw7mMO8D5qqLHyFqNFusB5o8ucGU9jN4YUl+ppdH202G15Jy7T+/EB0FfvtEufnz7R9UYVwvY5I12Pof9qZ74qEpFuZdIFcEq9VxLYOBvQLzbHT6f8gVE6ms1TMGkPS7NdJCG5ixETrne8dDoAoIlfNK5ldS0a7mav6+TPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787032457; c=relaxed/simple;
-	bh=GosCLyy1/VLuOxPlTGn0Ls10HQdPNBqTDEuKCEOC9lI=;
+	s=arc-20240116; t=1787034365; c=relaxed/simple;
+	bh=2mrRYBUZB6QXqcc/lWECjrJo8ItcqmQvUwDzXzT2cek=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UoN1TcpGIgMDj3TA8MpMVIZ//mhAcMkFaY5bxohgIa/h43QrBKG0nce1mdfygCzqL7T1mtIBmW71INJLCzHh/Zel69/ki61qFsUX1jn9FOCEpkkCp+kfQbkZoY8xEaX+qsEuKYrx933N5nVDwZA6gbA0wKdPM9Tb+dRwli+CTf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nrbmFUAA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=btr4bPQT; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=p0WaHKkVvJWHH3inQUinupSYCR78P1/8ZGhlpStr+pJr05flZynUBPtT9Do4iB/GS77OxdaeZ9GTNfZgNmhMP6djR6q1iCqBis3/bEGTwYwctYxmfSX+OFiUFo7jlW6HceDoCEow5B9GNTHE3Pj/rhzkVqyyJiyXwZs/ep9pToA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=f2sYxbLV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MrXxIv99; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nrbmFUAA";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="btr4bPQT"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I52GAC3464543
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 05:54:14 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="f2sYxbLV";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MrXxIv99"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I25AYT3603497
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 06:26:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TbCaoRP4jgmLhzxgTcurQvCQNdUxxOfgWCAkLYtazKo=; b=nrbmFUAASt8pesrB
-	u6WXz3wMqamtjyeAym9VEQ30v6hrhOpqNHLRXUYW1z69xos7AnS5/aaIr4VCSczG
-	2hUyBz7eu41USoVjZRxHSV1xEdUrpHXsUMerp0kOsHW3MKOd8F7PuiLIRmdfdFMF
-	tEzdmZDbZOx/GPAPsRbBnqRa+7Ju90vC2pfkQfnj76wXlM+/ZF4vXSCDIcFsbfVu
-	ruQQdsAJ8IFCQ5EA450ikk6EUspdIKiobXhzSvQCBGFerd0bZfdwoHz4Hb6k+3mK
-	2JmbjRf6C8qC9vAorkSv/A42ODwkMaZRZWjXqkTjUwHinLZysyNdsyl0lxFjjXSi
-	MwL3vQ==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4611ayqb-1
+	QpMSnfPhODIl1ejhgbQgYJBMEXQkyaJTdofbzdBjnW8=; b=f2sYxbLVVxHHE8ah
+	BLL2hEOs11e8uGfhMGoJwcmplrDhvwX33dAV0qiWRM2gDpjxJVPos/JU02gMW9FC
+	LXwzVEPGU7rJi5TIK5da9CVzvzkcJVuj6EHpmZzzxojPfowe4uWJw1vE56Kh38vH
+	PpjZDe3+yq0qUA2tUIqzPDgLNB+qvDT0CvDtc8kuiXB875zbfvrZ0HBTaer95ILn
+	iFiq1bXLOsrZHIspu9HOdT/hDYdagYLCnHuJc6s7BLHeQiteNQ8b7Dv4wzHpIzVF
+	NbRytfgkQu+PFQ5J28BanMviMap2OBU3khIdZ3UoRxyndp/8zj7rcQHuopvzHk/C
+	giU5Xw==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4ea2h172-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 05:54:14 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc11b5dd54dso7435044a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 22:54:14 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 06:26:02 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38ecc48b3c2so7044385a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Aug 2026 23:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787032454; x=1787637254; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1787034361; x=1787639161; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TbCaoRP4jgmLhzxgTcurQvCQNdUxxOfgWCAkLYtazKo=;
-        b=btr4bPQTW7WbWGuVR+uOoJLisz1ii7/DxIOSeHNWtvPVUAp57ce717PTTnvDn5nBUn
-         yXdmEe0aaSo5l4VTuHqT2rDLlAa7kh6iHKk+ZpsJiiM2iCAEc6VYIj+7UDClJjm798QC
-         NzR5jaaFqTkYP4X1VDHWQpyEz1ygLr4Utp+6Kui1CuU9QkJx+1cQPM1dh9S41L+t6UwI
-         hAtH/jwRMAERtKIb/LCV0yQ7tQ2pHbHgtmiSm6L8jkGVyfLy1vOvoBSd00kfE/xqiy8B
-         zxphmQzYC4DkLFtxuzKqp55lydUybkLJF2soGjuQ1YXAQ4nX6qTn6caw6HXRQNeDSIY/
-         gltg==
+        bh=QpMSnfPhODIl1ejhgbQgYJBMEXQkyaJTdofbzdBjnW8=;
+        b=MrXxIv99Vlkx4Zm0qnD4HQnXfajJ9ridaND6kJXxtlurhWLxVwNcrgg7nFkiKTg9Sh
+         7GGz/S0OytBorj2XKjNsrelGzWDX1sWH8qa6hbC02zD/V7T29rujeESQDK7qA8pa6v2Y
+         APh/IsPMyoapKxDh0w6zM13XWvpd95GklunEHEZghhhHe945lZ3xoxtt7rwoYypaESKo
+         XdH4fizfi+jexRR1avc0NYYOdY3r5UKJiAAc+lnoE4XYzHm1MHyVTpwJc7qwZimNu3bP
+         kTUk+e3IqQbRmPVNC1xVdLBuBGI27Wo+WPzrI8IvsZMsfViTcNhefjbCt0WRN0VGVC06
+         6a4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787032454; x=1787637254;
+        d=1e100.net; s=20251104; t=1787034361; x=1787639161;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TbCaoRP4jgmLhzxgTcurQvCQNdUxxOfgWCAkLYtazKo=;
-        b=RbFGnNlEVg/P3yWgEkNBfK9mu+ginMNhv3tJsd5iXddjeDPq783V4Fj91i19h4pKSj
-         dJ5EYYLtYWxf8EYUGiUD/MtuKlkI5WGXLrShNuRv8O6w7egSXiHn5ptrioCau/RsGC2h
-         v3tM6E7JRE+IDvxWsFLu4C/4GZPxLFsMm29+7d1ErNUyB2orYnZ1BFYnBLx0laHVYQ+a
-         /xPb6FMQjfRDJZMomGOJrQ2lVCPbMtB7gdb5EknR949m409h9CuO6WgmlXAYvARLuw1C
-         lH2U7H+HqOGh42XKQ3iyMfd249R5cSEOUYotiNvbzIfBNLO8Vcxv4IWMXmfT9EBmaH+H
-         kjBw==
-X-Forwarded-Encrypted: i=1; AHgh+RqhmX/whIGXEqKDVaWnj81ZoKZbxgImrPnBo03UB093K9fV3M62YQyex2D8dl3UH+/UMbzmK2pBCuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaoVVSX3oDnZV9ptVEHh/EJxAkt+TAN86AQuXCpFXJy11lr43q
-	GLSHaxykDsG9McTKtZpgd8rKX2UddK1aGVjS+ZJGPNJ/s88KjXF5n+8dvQwslEmp3XgT1fnKBHT
-	vHCASnuB3uKQRn7Meb82ha5PBAgZ4Ge6tLQdsfdggeouQRpkb9AIgzZ4y+fOWhAQ=
-X-Gm-Gg: AR+sD12QyP/BjI712x5fkx9n369azuiLBOU5a8CzJ3J7JZ7c6ucU5LCDa6DVVDT6dtp
-	Yom9iqYpDy8+LiPOnJ4yMQXNLFhtFviF/HO2NeDScNTEOrpGATgin1fkaaJY4TG3A5vPVJx7woJ
-	MOiiLT5haBs0XrSLBUEF7L3sEdoSQhHYBJlnZzkNRgCXAW7XhaX2BlVJu4RoRPze1LHcgwwr5/g
-	6LFE+qT+01HNCP8UmAE42PeQNdR7d7JYmN1Faif0d5WBGK6RmCn2fgLgM3F60O4bsnfuRaN8K5s
-	0eDyIP33KS7wPz6iyYlYIashx5RldPwO/MDIwZ6ZPUSRc6k26c29/rHk6v1xXWfOTYANzTSF1ZI
-	DyT2ZM6EztGBw/peSXWTEZ41HZd47Hw==
-X-Received: by 2002:a05:6300:141:b0:3c8:e10b:7a9b with SMTP id adf61e73a8af0-3cc71b19c7emr37663912637.16.1787032453945;
-        Mon, 17 Aug 2026 22:54:13 -0700 (PDT)
-X-Received: by 2002:a05:6300:141:b0:3c8:e10b:7a9b with SMTP id adf61e73a8af0-3cc71b19c7emr37663839637.16.1787032453547;
-        Mon, 17 Aug 2026 22:54:13 -0700 (PDT)
+        bh=QpMSnfPhODIl1ejhgbQgYJBMEXQkyaJTdofbzdBjnW8=;
+        b=aBvzurHxCkUFu94X2ejEzry5xe44o4g1wIGFaKr809dlQmhv5ZOWEY2sC2a4yokhUF
+         BYr5LkSBv+XGNaHksVst3EUqcCSE5yH+mT3rmmxm4Q4S3sneNBRX8bIgG+Xrkv1c0fgY
+         eiz53bwaMZrjeCh2xNw/hTGv18B1xJL167BI8KOqnCuwJuw2S4kIRVgXhUSxRQdoxN3T
+         MYtVEVdjwFq6U+QZudV7r/wrNJHrXVKRjzC7d99EZQdo1SAa2ROyaaNEdjEsc09NCf6A
+         WOWK4YEudJnGGFdxMmzL7QgqsAg2qxKDRS4XkMRc8Pv18rPs6aKzLpCdcLsF1QOX69VH
+         kHJQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrsteX//KgtodDYVgURxQvtjb0K2hFpKLeOv/PhuXBC+bWbF5iTJSbjQD92mZ4LMng/PM8gPg0solY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1xK9Fq5RouPQPs0/zY8I42gXbyqYnvcgy9n0WcL1ZM/ylujdr
+	6db2ggYhyiQW1GC3UXEr9waiLCrrYsPquKAdnBwqZ9xqLiKP0JqWG8FA/JDp9VJu53NvmcMIbSX
+	Vc5sDsvvxTSXMNF+d7CZ72CcCX9ugSek5cDe17mDh/OYKnZIy/4V0BBcHeclwy/o=
+X-Gm-Gg: AR+sD11dNuT0gi4B3FgxtXpM3r0AhYlYCxnMUs8ZQeGnAmgOdQaOjVIXk2KPRQ+m6to
+	QQ+0AJ7zWn2Te9RPCv3rMXwZEYG7UoJRrl4PY8e+Nl72NXXJYJnJX7nlXiOJqvm2U5IamTnsX6/
+	9WAyTtm8WNRTplBxE3bVN7OeQfCrF/xjou6Z0QfBT7KYMR9jFPzigdFhykahKOPd8qIO2PmXCcX
+	Tpg9+mEFXK0z5dcHmKdbYWYCkuk6hvDTzKqDlkWDPGzmJqvH0KoyXFitMww2Cr7b7lmymsN6CBN
+	U4dJ92W+kIrxrXi0KsoAYiW8uYQgdpEuZWgSuqlf4pKAEYwFsbTSYbmItW0YjB4nfzT6uROxUjO
+	uaXTletKdlqHBS9j/AY3jX5+0KrQ9WQ==
+X-Received: by 2002:a17:90b:48c1:b0:38e:2517:5d1f with SMTP id 98e67ed59e1d1-3933b792c20mr35951576a91.9.1787034361276;
+        Mon, 17 Aug 2026 23:26:01 -0700 (PDT)
+X-Received: by 2002:a17:90b:48c1:b0:38e:2517:5d1f with SMTP id 98e67ed59e1d1-3933b792c20mr35951459a91.9.1787034360780;
+        Mon, 17 Aug 2026 23:26:00 -0700 (PDT)
 Received: from [10.219.56.166] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc13bf26a0esm1592712a12.8.2026.08.17.22.54.05
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39531ff679fsm7486482a91.14.2026.08.17.23.25.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2026 22:54:13 -0700 (PDT)
-Message-ID: <376e0fa0-c863-45ae-a8f8-6d4b74ef0b8b@oss.qualcomm.com>
-Date: Tue, 18 Aug 2026 11:24:03 +0530
+        Mon, 17 Aug 2026 23:26:00 -0700 (PDT)
+Message-ID: <c1da4243-36d1-4b65-a5da-f660ab8c63b3@oss.qualcomm.com>
+Date: Tue, 18 Aug 2026 11:55:50 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,8 +89,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/15] accel/qda: Add GEM_CREATE and GEM_MMAP_OFFSET
- IOCTLs
+Subject: Re: [PATCH v2 11/15] accel/qda: Add PRIME DMA-BUF import support
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Shuah Khan <skhan@linuxfoundation.org>,
@@ -117,71 +116,136 @@ Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         iommu@lists.linux.dev, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
 References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
- <20260817-qda-v2-v2-10-69a02e9090d4@oss.qualcomm.com>
- <tjfcsz62is33iphcwtensnoiohhpfk2zh43qfe7ijd4b2324pk@v3piffq646ac>
+ <20260817-qda-v2-v2-11-69a02e9090d4@oss.qualcomm.com>
+ <l7gt2mr3rrnzmkc46ntqw5e5sirdimavv5do4wmdf6jktryp7g@772ovv3qlgcv>
 Content-Language: en-US
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <tjfcsz62is33iphcwtensnoiohhpfk2zh43qfe7ijd4b2324pk@v3piffq646ac>
+In-Reply-To: <l7gt2mr3rrnzmkc46ntqw5e5sirdimavv5do4wmdf6jktryp7g@772ovv3qlgcv>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: iCaID2Yu7wP1OvKhiOyhOtgHPb90JtNx
-X-Proofpoint-ORIG-GUID: iCaID2Yu7wP1OvKhiOyhOtgHPb90JtNx
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA0MiBTYWx0ZWRfX8SHSF//pth05
- BY8tSYjUfeLzZqWZoD+QNtwuYeEoPinLQZMovgciNpL7jiq1n6gts86DDkIGm9FkL2wLq5VGRG5
- /sRg08/kl6nlLhVbOHf90NbJBYMrGAc=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA0MiBTYWx0ZWRfX3TJKfreicVZo
- Lmc0xm4OTrUZscBGjozqOxOR1xv8pnQl03XiCSAEh4O1W+PlqbZABCiDPFHx2RG8vYmM1brCg3E
- GAvYEACx4kg//Fko2c2P4g8N1xLCyjvfi7hg1Dn7Pw23FGDlgL1ongf/5i823qlCMq9KNt1zhUi
- oXzMYsNB5y9bL9pwvMZh9APe4M7/73CVKQTovoFoIbui1XgF+ANBSzkZpVNKHDvEP+7sXloKpFa
- 8mJB5f1IjMlhb4wR39SIi/AFnuBB4bvRIW01Xivppx8mM6GGFa88QflOj5ks4QST7uOUvP3b1mn
- mibXZ+DhDsVWYI1PsOJWGxyHvDqZM5llBWH6F+J/dWueBWvQwvwOeiXDyxw5Ag6ymRxECBXC+Ps
- eJitXiPFIXd9aIe0gWsAw2Gv+8csCQdtaHwbWsMAM8iXVGMUCnjuqXrd0OCktYT1fJWultt3sZc
- 7UXnpLK1mP4/iCE9WpA==
-X-Authority-Analysis: v=2.4 cv=UslT8ewB c=1 sm=1 tr=0 ts=6a83f386 cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA0NiBTYWx0ZWRfX8tXK/GLGzKRi
+ bmncnDzgQ+FJLVo6B1NT304JvB/7H3EhGC9mbTBh8ZXyv+55pGSdcU3w1qtXC5C3JqWvQNiip0/
+ lqvzznZaTbWh4Guco9C8Q4LjGm9H63jvVJv5mhrN4PRrO/Xb3Qrj3TWJqqtiEwWaECkrufZM6Ud
+ vIc1W/0JiRt+B/M3F4u4ho2zn+Qn1qAGAtAi8p+TBNiMsvMftfoSU+0/4Li/avugz2iQl21bw2/
+ +Mp1MbJ0zFV9T74Rld88NfOMWBw+yroSZjo1+/+T1+OWMv1EdxOTjm+qxgBwyNOiOOA1cIzKyub
+ gc2zc59S1TO9iQhbNgTR4EQYe6139AWleRLekrsAKFpGVFncFQzOAKCcp5aXA9l+ZId3Ga+njAZ
+ dWZh2hLNcCmO+Ow5tl2+daGwwPVj2Tu/pG6+/L3Wg7//rL7YHqB8F0AuoQlLUsezeBJM2eFLkwA
+ zUl8UcR+Vu/aYL/n3qA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA0NiBTYWx0ZWRfX5Duth248sITk
+ 6oZzB+HDYfgbl9AMIP7oyPNIZ2MdHLoZD/h0CbDWv1OUBPi95xMbcOneYkYWdmhtjlc0GI1Fq49
+ PSvpvxVNGwfcKKwf/ECJBlsbV8IDOD8=
+X-Authority-Analysis: v=2.4 cv=XtfK/1F9 c=1 sm=1 tr=0 ts=6a83fafa cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
  a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=cA8Zc-eO91vsJqbwH70A:9 a=QEXdDO2ut3YA:10
- a=_Vgx9l1VpLgwpw_dHYaR:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=BHqhARD1X7WWxJJUoOYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-ORIG-GUID: ph_kvOk8I_AGg1hA4YOd2R78ZfR4JJCy
+X-Proofpoint-GUID: ph_kvOk8I_AGg1hA4YOd2R78ZfR4JJCy
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-17_04,2026-08-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 suspectscore=0 phishscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 spamscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
+ phishscore=0 clxscore=1015 suspectscore=0 malwarescore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608180042
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608180046
 
-On 18-08-2026 09:19, Dmitry Baryshkov wrote:
-> On Mon, Aug 17, 2026 at 10:17:45AM +0530, Ekansh Gupta wrote:
->> Expose two new DRM IOCTLs that allow user-space to allocate DMA-backed
->> GEM buffer objects and retrieve their mmap offsets.
+On 18-08-2026 09:25, Dmitry Baryshkov wrote:
+> On Mon, Aug 17, 2026 at 10:17:46AM +0530, Ekansh Gupta wrote:
+>> Allow user-space to import DMA-BUF file descriptors from other
+>> subsystems (GPU, camera, video) into the QDA driver via the standard
+>> DRM PRIME interface.
 >>
->> DRM_IOCTL_QDA_GEM_CREATE (drm_qda_gem_create)
->>   Allocates a DMA-coherent GEM buffer of the requested size. The
->>   memory manager assigns an IOMMU context bank to the calling process
->>   on first use and performs the DMA allocation against that bank.
->>   Returns a GEM handle that identifies the buffer for subsequent
->>   operations.
+>> qda_prime.c
+>>   Implements qda_gem_prime_import(), which is set as the driver's
+>>   .gem_prime_import callback. On import it:
+>>   1. Short-circuits self-import: if the dma_buf was exported by this
+>>      device and is not itself an import, the existing GEM object is
+>>      returned with an incremented reference count.
+>>   2. Attaches to the dma_buf and maps it with DMA_BIDIRECTIONAL via
+>>      dma_buf_map_attachment_unlocked(), obtaining an sg_table whose
+>>      DMA addresses are IOMMU virtual addresses in the CB device's
+>>      address space.
+>>   3. Calls qda_memory_manager_alloc() to record the mapping and encode
+>>      the SID in the upper bits of the DMA address, matching the
+>>      convention used for natively allocated buffers.
 >>
->> DRM_IOCTL_QDA_GEM_MMAP_OFFSET (drm_qda_gem_mmap_offset)
->>   Returns the mmap offset for an existing GEM handle. The offset can
->>   be passed directly to mmap() to map the buffer into user-space.
->>   Imported DMA-BUF objects are rejected by drm_gem_dumb_map_offset().
+>>   qda_prime_fd_to_handle() wraps drm_gem_prime_fd_to_handle() under
+>>   qdev->import_lock, storing the calling file_priv in
+> 
+> Why do you need a separate lock?
+Will add details in commit message,
+The lock serialises the `fd_to_handle → gem_prime_import` call so that
+`current_import_file_priv` is valid for the duration of the import.
+Without it, two concurrent imports could race and each see the other's
+`file_priv`.
+> 
+>>   qdev->current_import_file_priv so that qda_gem_prime_import() can
+>>   retrieve it (the .gem_prime_import callback does not receive
+>>   file_priv directly, but the context bank to attach to is per-process).
 >>
->> DRIVER_GEM is added to driver_features now that GEM IOCTLs are
->> present.
+>> qda_gem.c
+>>   qda_gem_free_object() is extended to handle the imported-buffer
+>>   teardown path: unmap the sg_table, detach from the dma_buf, and
+>>   release the dma_buf reference.
+>>   qda_gem_mmap_obj() rejects mmap requests on imported objects, which
+>>   must be mapped through the exporter instead.
+>>
+>> qda_memory_manager.c
+>>   The DSP is given a single base address per buffer, so only buffers
+>>   that are mapped as one contiguous range can be described to it.
+> 
+> Is there no IOMMU in front of the DSP? Can we remap the buffer to a
+> linear are inside the DSP map?
+The DSP firmware's buffer descriptor format carries a single
+{base_address, size} pair per buffer and it does not support
+scatter-gather or multi-entry page tables on its side. This is a
+firmware interface constraint that we cannot change from the kernel. So
+imported buffers must present as one contiguous IOVA range, and
+non-contiguous ones are rejected.
+
+Will add this information in commit message and during the check.>
+>>   qda_memory_manager_map_imported() therefore walks the imported
+>>   buffer's scatterlist and rejects any buffer whose entries are not
+>>   contiguous; contiguous imports (for example from the CMA DMA-buf
+>>   heap) are accepted. Whether an exporter or IOMMU coalesces a buffer
+>>   into a single range is not guaranteed, so this is verified rather
+>>   than assumed.
+>>   qda_memory_manager_free() skips the DMA free path for imported
+>>   buffers since the memory is owned by the exporter.
 >>
 >> Assisted-by: Claude:claude-sonnet-5
 >> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 >> ---
->>  drivers/accel/qda/qda_drv.c   |  4 +++-
->>  drivers/accel/qda/qda_ioctl.c | 50 +++++++++++++++++++++++++++++++++++++++++++
->>  drivers/accel/qda/qda_ioctl.h |  2 ++
->>  include/uapi/drm/qda_accel.h  | 36 +++++++++++++++++++++++++++++++
->>  4 files changed, 91 insertions(+), 1 deletion(-)
->>
+>> Changes in v2:
+>> - Do not assume the exporter or IOMMU maps an imported buffer as a
+>>   single contiguous range; walk the scatterlist and cleanly reject
+>>   non-contiguous imports instead (Christian König)
+>> - Document that only contiguous imports (e.g. CMA DMA-buf heap) are
+>>   supported
+>> - Return -EBUSY rather than -ENODEV when no context bank is available
+>> ---
+>>  drivers/accel/qda/Makefile             |   1 +
+>>  }
+>>  
+>> +static int qda_memory_manager_map_imported(struct qda_gem_obj *gem_obj,
+>> +					   struct qda_iommu_device *iommu_dev)
+>> +{
+>> +	dma_addr_t dma_addr, expected_addr = 0;
+>> +	struct scatterlist *sg, *s;
+>> +	int i;
+>> +
+>> +	sg = gem_obj->sgt->sgl;
+>> +
+>> +	/*
+>> +	 * Verify that the imported DMA-BUF is contiguous. While some platforms
 > 
-> The patch LGTM. THe commit messages needs a rewrite
-will fix to commit message, thanks.>
+> Which "some platforms"?
+I'll rewrite the comment to be precise.>
+>> +	 * or IOMMUs might map buffers as a single range, we must not silently
+>> +	 * assume this is always the case. We loop through the scatterlist
+>> +	 * entries and reject any that are non-contiguous.
+>> +	 */
+> 
 
