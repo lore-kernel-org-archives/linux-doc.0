@@ -1,189 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9638A468C11;
-	Tue, 18 Aug 2026 13:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656ED45FFAC
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 13:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787060605; cv=none; b=LoxG+QNvCmJFjOij4giamvzJV0CZSV7djSz762M8jvM22KTMvFdY4SWuzsMp3d1OjYIbYviRff4c+HlZcpvzny5RUp2YusXYD9dj8ppwQdZ7StgC436Xv8rJ4ANbHhjL2C7EyDLO5vhvto8VPirj4ordz2myTmM4paO4dkr4894=
+	t=1787061385; cv=none; b=R1jHEoaXFZObRe+ft0KmSbV+6WjV/luXlKAkgTS5lWbTUfsO0nRLq7019mxh0xiuK8k3CDC5pC9yb6Uj3N+T2v6NP0DCEbOFlDc9MR3zLRWdsizfeALq1D5TWzqJ8KwN2pPzTakSbA9wOTSVrIr7nA184cRM34yK7hPG6tDatPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787060605; c=relaxed/simple;
-	bh=uY2e62TGWkZpxEzYpDvfnnHcFMOjTOKr3KB9V/QxwgM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VKsQSshb9GVvdYreelxnmSdHHleeGiBNpA07rM0O5jXRiRHgaK0wTc5u/HBcjkZaKMq6LrKOudw4TCvcH7D5ECwR6Tmaysh93/GL2BRbL0wgghsGOEV56uZII/zHj/PAr2ebk2EMfdZXtaeMU20vJhSb1iV1+ESoDpcJra2IAmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNqkvMTJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787061385; c=relaxed/simple;
+	bh=UAFW1DzG8QNfOFMxCJEWJworEouQUSKkS4nGttLn4hw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lOgDUc+TMBTr6/yhyld2JyCukMBoiTptDq2R6XGdqvy5HdygP9vdxDwDZxgG2COeCVuku9VN+IC+mIPLyqqnRMRfN8V/opUa7U3dfG6kEDBn0fxfzqN4sYfN+lRXnhhub/uzfVx3M6FVy7vDpwM9jWtBCe6yI3lQIS19+43Iy7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S8P7NRlZ; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNqkvMTJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0CB1F000E9;
-	Tue, 18 Aug 2026 13:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787060604;
-	bh=nCaPyvw2iFSAtJp+/S0lPXfdeu+F7EyJ6au4lKiWYEc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=CNqkvMTJLXNXiEeYKsDcJ5vMCl9APuMbVQIu0B3nogx96ycdVcxhEfA8Y935rOFQB
-	 DwbNjFOYTMnBcvSeBREzeVOMYq7oUx9+JWYNVQm4Q0PKS+TKPkUhGIwiw2tE5w+5Ve
-	 LAEdg6oApkQLyaWE+1c4QN377ZwYbBFYC0UH/Ok81z64U3FaYuILqh5ogSr2NI8qW5
-	 Ege/V5Ma8jQasI6rRqF3rtGgJBIUlCgSKy5x8PZPaKbx9kzGG3jWEalwW+u9kH3QZa
-	 hA+6ZSEFatqG59DQNkEy9P9hX2+kEigKQsIcMrgm1kYnd9bXj74pxxwXASSs+5JduV
-	 qiO3xv/HZavsA==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Tarun Sahu
- <tarunsahu@google.com>,  ackerleytng@google.com,  fuad.tabba@linux.dev,
-  Andrew Morton <akpm@linux-foundation.org>,  dmatlack@google.com,  Shuah
- Khan <skhan@linuxfoundation.org>,  Jonathan Corbet <corbet@lwn.net>,
-  david@redhat.com,  Pasha Tatashin <pasha.tatashin@soleen.com>,
-  sagis@google.com,  Paolo Bonzini <pbonzini@redhat.com>,  Mike Rapoport
- <rppt@kernel.org>,  Alexander Graf <graf@amazon.com>,
-  linux-kselftest@vger.kernel.org,  andre.przywara@arm.com,
-  michael.roth@amd.com,  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
-  will@kernel.org,  vannapurve@google.com,  maz@kernel.org,
-  fvdl@google.com,  kvm@vger.kernel.org,  oliver.upton@linux.dev,
-  kvmarm@lists.linux.dev,  alexandru.elisei@arm.com,  skhawaja@google.com,
-  aneesh.kumar@kernel.org,  linux-doc@vger.kernel.org,  David Hildenbrand
- <david@kernel.org>,  yan.y.zhao@intel.com,  kexec@lists.infradead.org,
-  suzuki.poulose@arm.com
-Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live
- updates
-In-Reply-To: <aoMcqp0gr06YXAPU@google.com> (Sean Christopherson's message of
-	"Mon, 17 Aug 2026 07:37:30 -0700")
-References: <20260728121138.1103610-1-tarunsahu@google.com>
-	<20260728121138.1103610-6-tarunsahu@google.com>
-	<anphyjFv3FhF61iB@google.com> <2vxzpkzo51wg.fsf@kernel.org>
-	<anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
-	<anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
-	<aoMcqp0gr06YXAPU@google.com>
-Date: Tue, 18 Aug 2026 15:43:16 +0200
-Message-ID: <2vxzy0e3zgqz.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S8P7NRlZ"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c197e7e4e94so795055566b.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 06:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1787061381; x=1787666181; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BfVwBRBTF0jPp/yG8QTZc+4bKOm0do5X3TsF0PgtG70=;
+        b=S8P7NRlZZocDiLDMPUD56qQuDj5hZQBhbTjcqoWGiNNeAejYcolQEIoxCxEBRei/nP
+         Xq2d8cTTjeKdsu5Uy6zGFD+vdhpaRhhzG3ksBuZCzztxwKIt9VDdQnxWUOGPSQRWrvmF
+         tbAAtVpy8vCgQquS0XwqWIKJvnmXsA6B8de4ddCqHcyOIA5Digi1A9DmVa6v4rQL1hQu
+         I9z7kpLsMcY8/eJr7H1fn0ZwTHFeolabLz6s7y5ZK736yw3L9dVrXMlhmBBdjXVAgB7K
+         7inPz6ySX4G+eHIDAWhHZzarv8HK7MygcT9ZdSuFGvGx61YAyWUhiG2mZzoWnnV+nluG
+         cOKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787061381; x=1787666181;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BfVwBRBTF0jPp/yG8QTZc+4bKOm0do5X3TsF0PgtG70=;
+        b=njeQzG24uoJW34RWbRkSZSVJ7cbJEE8ELnpkgCv/qNFMaRcZXqiP9QFOOqEGkPkaPm
+         bkuKBAbEcVFu6lzIbs9vkPn1Qaz0fL+Vv/7+tva2O8iSnpv8v/dtLU4IdectCuT9nGMk
+         1fRPrYS5k/y1MwDVbw02ClNt5X+fm6Hav0UbriiaPf20bPAsJQjylIAGjnwK+nKco1a5
+         gI8WGCi11Rz7pguTJOUPpqBmMdVI3eBDJNq0/l1AZrywedJlQj6u0gfsb1rsrM+P3GGH
+         KmuOdBHS4LneWFFiQP56hdKiOtd8HEJkYc11dPSZ7rqDkVeyk5u++t5k4ZH7kIA8hAkS
+         Q2OA==
+X-Gm-Message-State: AOJu0Yx7nTLN2TNwjb1f0dSbNHk6uCzETJyAnZTTqirj8f0r48WTx6pO
+	3HQoI3S55JNpCEjyD6brrk1nOXffHJslPd91JDgY3GIr40HcKdVH+UHkLSkel6Dc0z0=
+X-Gm-Gg: AR+sD12d+EA0b/fxU31jY3VVtzyJ6RuTjWhIBskqfgmBHMteIdjiV9RJhSckqnIMtfx
+	q1HtxTIFL3sI5r8CkTR5NZOXCRPhDKq/vJD6XzOjzQ4GbXu+t/ZMaRiom6UXsTPiHl1aNuRtYuu
+	GBw/Ui1l48WHquAz+dwmVMNceT5m4Abatpfv1zGVavk86oREb5mZ3VaXWbpDQmvNuGQKy/L0w54
+	juVsl7Gy1Aa1zfdesCh0iSta9q48tqqUhgy88QdU7OYwVIRg6WvaFq/NSIGghv16SwdZxVo9j3U
+	uF6PzdF7tJ71q+I7zIrt3oF3RDqfbPb/OikJl+hOk8sivDCtWHJI/8NVCuIOYMx/bOwdxcPejhX
+	k3VwfSHnvDEFp1OuSVxXOpdrkBrHaTFD/hq3ysmT20MhZIicCJ5E2S1wVE2w1k71Dpqrxcp7Y3t
+	1NzXUCNIrBIOS7A3VmlPLgdBcZ1YINOn+Ve741A2N7guFOa43KFYUFum25EAYAE8183w==
+X-Received: by 2002:a17:907:3cc2:b0:c12:3059:4071 with SMTP id a640c23a62f3a-c212a2b2dd8mr1933707366b.15.1787061381408;
+        Tue, 18 Aug 2026 06:56:21 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2185bc66bdsm163356166b.58.2026.08.18.06.56.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2026 06:56:20 -0700 (PDT)
+Message-ID: <eecfa618-6bc8-451f-ac9e-9ae5b08e865b@linaro.org>
+Date: Tue, 18 Aug 2026 14:56:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] perf: Add CoreSight branch history to existing
+ samples
+To: Amir Ayupov <aaupov@fb.com>
+Cc: linux-doc@vger.kernel.org, Mike Leach <mike.leach@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Swapnil Sapkal <swapnil.sapkal@amd.com>, linux-perf-users@vger.kernel.org,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Leo Yan <leo.yan@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, John Garry
+ <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>
+References: <cover.1787005265.git.aaupov@fb.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <cover.1787005265.git.aaupov@fb.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sean,
 
-On Mon, Aug 17 2026, Sean Christopherson wrote:
 
-> On Sat, Aug 15, 2026, Pratyush Yadav wrote:
->> On Wed, Aug 12 2026, Sean Christopherson wrote:
->> > On Wed, Aug 12, 2026, Pratyush Yadav wrote:
->> >> This is ABI between kernels. It needs to be stable-ish so you can move
->> >> from one kernel version to another. At the same time, unlike userspace
->> >> ABI, it can change.
->> >
->> > Uh, yeah, so KVM has been managing such immutable ABI for practically its entire
->> > existence.  KVM's save/restore uAPI has exactly what you're describing: serialization
->> > ABI that needs to be backwards and forwards compatible between different kernels
->> > in order to support both upgrade and rollback scenarios via live migration.
->> 
->> I think there is a slight difference between KVM's save/resture uAPI and
->> live update's ABI. With KVM's uAPI, you need to maintain strict
->> backwards compatibility because userspace reads what you output. So if
->> you change the layout, userspace will interpret it wrong and might
->> break.
->> 
->> With live update, the ABI never gets to userspace. It is used to talk
->> between kernels directly. So if you do break that, your userspace keeps
->> working fine, you just might not be able to live update to the
->> incompatible kernel.
->> 
->> So with live update, we don't need to keep backwards compatibility in
->> the ABI forever. Of course, it is good to minimize changes, but we have
->> more freedom to change it.
->
-> Ah.  So this is the heart of the disconnect.  I very strongly disagree with the
-> statement that live update doesn't need to support backwards compatibility.  I
-> can totally believe that the folks working on live update are ok breaking backwards
-> compatibility because their use cases are "fine" with such breakage.  And I can
-> also believe live update as an upstream kernel feature being developed by those
-> same folks is also ok with breaking backwards compatibility.
->
-> But with my upstream KVM maintainer hat on, I am not ok with that.  I did not agree
-> to support a world where KVM is allowed to break backwards compatibility, so long
-> as it's done "carefully" or whatever.  If y'all want to deal with the resulting
-> complexity, that's fine by me, but you'll be doing it without KVM.
+On 17/08/2026 23:22, Amir Ayupov wrote:
+> CoreSight ETM can synthesize branch samples from an instruction trace, but
+> context-sensitive PGO needs the branch history leading to an existing PMU
+> sample together with that sample's event identity and callchain. This series
+> implements that mode as --itrace=L, following the corresponding Intel PT
+> behavior.
+> 
+> The series first separates timestamped queue setup and teardown from the ETM
+> decode loop so decoding can stop at an existing sample's timestamp. It then
+> reconstructs branch history in the thread stack and attaches it to eligible
+> samples without replacing their IP, event, or callchain. The attached history
+> is consumed after use so a later sample cannot reuse an earlier trace window.
+> 
+> This enables a context-sensitive PGO workflow where a cycles event supplies a
+> frame-pointer callchain while duty-cycled ETM supplies the path leading to the
+> sample. A dlfilter removes samples for which no ETM history was available, and
+> the documentation describes the complete recording and decoding workflow.
+> 
+> Changes since v1:
+> 
+>    - Rebased onto perf-tools-next at d17c5b770972.
+>    - Dropped the HEADER_GROUP_DESC reader workaround. The issue is in the writer
+>      and should be fixed separately.
 
-Let's step back a bit. I don't think backwards compatibility in the
-_ABI_ is all that important in live update's context. What is important
-is that our users are able to live update from kernel version X to Y.
-The line format the kernel uses to describe its state is an
-implementation detail. Our users never see it.
+Doesn't it still need to be part of this patchset regardless of where 
+the issue is? Running the new test is blocked on this. Also is this a 
+regression? I noticed there was no fixes: tag on V1 for this commit.
 
-The high level idea is that when you need to make a change to the ABI so
-the kernel can better describe the objects/resources/files it is
-passing, you create a new version of the ABI and allow transitions from
-older versions.
+>    - Dropped the branch-stack hw_idx patch after review established that zero is
+>      appropriate for age-ordered CoreSight branch stacks.
 
-Say you make some changes and need an ABI version v5. You don't get rid
-of v4. You keep it around. LUO core will facilitate picking the right
-version for the next kernel. So it will be possible to seamlessly
-upgrade your kernel that speaks v4 to a new kernel that speaks v4 and
-v5. Now this kernel can start speaking v5 if its successor speaks v5
-too. And so on for going to v6 and v7, etc.
+This doesn't seem to match what happened. The original patch initialized 
+all branch stacks to hw_idx = -1, which I think was a good fix so 
+shouldn't have been dropped.
 
-After a "reasonable" time given for upgrades, you deprecate v4. v4 has
-been around long enough and our users have had a chance to go to kernels
-speaking newer versions. That's when you remove the code for v4 from the
-kernel.
+Coresight still sets -1 which I said should be changed to 0, but there 
+doesn't seem to be a change for that in V2. So now we're missing both 
+changes.
 
-We can argue what "reasonable" means, but the core idea stays. 
+>    - Dropped the local wrapped branch-stack copy fix in favor of upstream commit
+>      ab9c84d1cd59 ("perf thread-stack: Fix heap buffer overflow on branch stack
+>      wrap copy").
+>    - Added James Clark's Reviewed-by tag to the dlfilter patch.
 
-It will still be possible to go back to v4 or earlier, but you'd need an
-extra stop along the way. And of course, vendors can keep a wider
-support matrix downstream if they see the need for it.
+>    - Consume branch history after attaching it so samples with no newly decoded
+>      trace cannot reuse a window from before an untraced AUX pause interval.
+>    - Flush all trace-ID frontend thread stacks when their physical ETM queue is
+>      exhausted, preventing stale history from surviving a trace gap.
+>    - Check every matching CoreSight event when deciding whether kernel trace is
+>      enabled.
 
-Does this idea of "backwards compatibility" sound acceptable to you, at
-least at a high level?
+Were these changes due to my comment about the test not working? Might 
+be worth some discussion about what the issue was on the V1 thread so 
+it's easier to follow along with why these changes were made to V2.
 
-Now coming back to today's reality. We don't yet support this version
-transition. I proposed the idea at LPC 2025 [0]. Logan Odell has taken
-over the work since I have other things on my plate, but it is something
-being actively developed. Logan recently sent some RFCs [1] for this
-too, though TBH I haven't yet gotten to those patches. We also have
-proposed a talk about this at LPC 2026, it would be great if you could
-attend (if the talk gets accepted).
+>    - Reworked the shell test to use FIFO recording control, removed the invalid
+>      bare timestamp option, reduced the workload to 10000 iterations, and check
+>      proc1 and proc2 callchains independently with bounded failure diagnostics.
+>    - Renamed decoded test outputs to script-L4 and script-L64.
+> 
+> Amir Ayupov (5):
+>    perf dlfilter: Add non-empty branch stack filter
+>    perf cs-etm: Split up cs_etm__process_timestamped_queues()
+>    perf cs-etm: Add branch history to existing samples
+>    perf test cs-etm: Test branch history on existing samples
+>    Documentation: coresight: Document context-sensitive PGO workflow
+> 
+>   .../trace/coresight/coresight-perf.rst        |  62 +++++
+>   tools/perf/Makefile.perf                      |   1 +
+>   .../dlfilters/dlfilter-nonempty-brstack.c     |  26 ++
+>   .../tests/shell/coresight/add_last_branch.sh  | 203 ++++++++++++++
+>   tools/perf/util/cs-etm.c                      | 252 ++++++++++++++++--
+>   tools/perf/util/thread-stack.c                |  17 ++
+>   tools/perf/util/thread-stack.h                |   1 +
+>   7 files changed, 546 insertions(+), 16 deletions(-)
+>   create mode 100644 tools/perf/dlfilters/dlfilter-nonempty-brstack.c
+>   create mode 100755 tools/perf/tests/shell/coresight/add_last_branch.sh
+> 
+> 
+> base-commit: d17c5b770972854a4fe4cf5cc22e17eb21cdc787
 
-If you say that we should figure this version transition out and land it
-upstream before we land the KVM code, I think that's a fair ask. I can
-work with that.
-
-But I think we first need to agree on the principles of the
-compatibility model I described above.
-
-[0] https://lpc.events/event/19/contributions/2049/
-[1] https://lore.kernel.org/kexec/20260731215224.831696-1-loganodell@google.com/T/#u
-
->
-> I totally understand that exploratory work and initial development is best done
-> in private and/or in a small working groups.  But decisions that will significantly
-> impact multiple subsystems need to be made *with* those subystems.  I mean,
-> obviously it's possible to make a decision in a small group and then "publish"
-> the result later, but then as is happening here, the community and subsystem
-> maintainers like me may refuse to play ball if they disagree.
-
-The design of live update was discussed and agreed upon in the open.
-David Rientjes (and now Pasha) has been hosting the live update
-biweeklies [2] from the very start of the project. The series is open to
-everyone and notes shared for those who couldn't join. This meeting was
-attended by a lot of people from different companies and different
-subsystem backgrounds.
-
-There have also been a microconference at LPC 2025 where topics around
-live update in PCI, MM, VFIO, IOMMU, etc. were discussed, along with
-presentations at subsystem tracks in other conferences.
-
-Of course, it is impossible to get all maintainers of all subsystems to
-attend these sessions or conferences. That's fine.
-
-But I think it is quite unfair to say that live update is developed in
-private or in small groups.
-
-[2] https://lore.kernel.org/all/?q=s%3A%22%5BHypervisor+Live+Update%5D%22
-
--- 
-Regards,
-Pratyush Yadav
