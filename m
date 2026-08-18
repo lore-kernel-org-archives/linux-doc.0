@@ -1,67 +1,67 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6276A29B78B
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 14:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8961F37FF70
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 14:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787063048; cv=none; b=jz4jl4dSXthKJvPDwT/2VTzsQ3XTX/f3N+kC85rtBws4BJf4lzWQlV4P5DJ8/RtApBSHXf9bc+LT0XzWqUB6BkEAtKqHlBXaVngqIBiEz71DL04or71jrJTPl/4qDvJ7MgcnC7inehF8JNekcD32voqI9ih3VFUKk+UMLxQ0Qvc=
+	t=1787063891; cv=none; b=dIx1F6K9CtLDt/Zb6JFiPmfI4lU5c5FG8CWtmkYs/1UJb2JbWiBW6SoFq8slyP+3USTYDzVUODfJRoH32Ef2JPsjcbHCSZAyyP+MnS/8/26kvJGgs6XFGxb5Nqx1KxTT/vtIvfgeysQtlpp/HukzWUnNRJPbhBdxVNjB0V5MBtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787063048; c=relaxed/simple;
-	bh=kpdBVoNDXUGawFhZX7sdwTPfiopLKCZkkb64hq2SvrE=;
+	s=arc-20240116; t=1787063891; c=relaxed/simple;
+	bh=tjL8BaWm1gTid39qOTqJeyEPgMwXjFccZqsIrZYvl94=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fH7PkgZvO37zUjMYKpvC4l+baMShy3zaGt/Y9SXAtDCMDov+Unn4x3mXPwT/VJETY9zgR6hArTlFXEa7ywvuJz1D1qsQUA6hwdRpUHB4K/8MoDFpmc/EE6Hx1B0DZgo2Z9ppLQwWJPlT0sH9QeEwM6EhOd2AajYqlLwMOdgsY3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SFcOCXfX; arc=none smtp.client-ip=209.85.128.54
+	 In-Reply-To:Content-Type; b=D8FkPMyfjFwY9wSO7UaslZ+q76Q4guIyoNwZsApU58G2NNalHwl2+CzXMPY9if7RE+Yh3B90Ir5RS03XvoXLr61BfcrmoSdXFbFVkxkE6YD3MlRApH2aUqmhLpa02TT97ZXXavZPmEbD5tKfeZPp9RYv1fV6B8/MwAtNZp5tAIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gJnv39BZ; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SFcOCXfX"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-496bb7cdf51so58294655e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 07:24:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gJnv39BZ"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so52636645e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 07:38:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1787063045; x=1787667845; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1787063888; x=1787668688; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=s/o2uYaPaSasZ8MEDQ2eIcDiLGsa5Fqsp2iOXFF4vDM=;
-        b=SFcOCXfX+hQu8TK05g1o1IJL7TAFQwzOy0cf/UlVe23pQceykMVTgWuGZYDkMVMBu0
-         LPBtGBzmyqEegXleqCmwUK/jAxpXVwrRisiX9OzrHVdvunMzmkl0nNIoYKE8vgpbsHVk
-         Jk1BY7hzc/lm8i930sFih9Xvi5HhIEcplf9xlcymgsqf3sAzgf06j3abioTFZ3w67TXt
-         QqgVStfKiKs7WTFYg5kJWjQYRolWR24pWa34614Y+dzWZkmjpLqWH6ShXjWJguGrSw7Y
-         8jYCEuzM/39ccPN97Px1GtlQLWedM88X6siSUusIgMsNLpIyLeD/kSM4WkQ9tTMnUojf
-         dAMw==
+        bh=lK/sGdx2GchoWjuY7/UAUK1Wnr5nxXmBgtlEaIgFQCk=;
+        b=gJnv39BZKIb9OEctta35VIJoP7biLzyvF4xrl9ND87ajpSQuLO3S6smGK3/y6HDXkp
+         JHC1SSjxBsGNHvKtAq62yFLkYbV1Khw0Db/yx2WOYdg0k897feNDFGdl3UHtNlKzyqEE
+         vPHXk2pbWTHnKbY14XklwNHPux3o487zvnUUTl2l41w6E7z1R6iOQ6EWFZj7gD9hVAAc
+         QxwVeu6hvl/UCgcxAzgpyRtgGZPhfPX1CQQ/Wn7n4TgMM3luyChMiLRZ/ndpd/OHC/ws
+         2HWf5szq5Rptx0g1L2rDlN4EQkIrkKHQJcUj1FDbxzw8YKYDHkXLs/G7rDUI3oT4FMas
+         cY3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787063045; x=1787667845;
+        d=1e100.net; s=20251104; t=1787063888; x=1787668688;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=s/o2uYaPaSasZ8MEDQ2eIcDiLGsa5Fqsp2iOXFF4vDM=;
-        b=DvHxnsO2FmR4C1l4XraqVoovEq+TmqZw/VSoq0cpZB0HW4UP4vvSdvmlcT5vFoxVef
-         R33mqowQA5pEpCSsAmWxD5TSCIG11YV4neBi9W87QAzmOW9gtMvAWoZIvN2VpgHAgPIl
-         CrIW1rryNZUk5WPm3q9/8dNmbxhNaYf8GFQgVgQl3YqsifyNmis7FUhB4oCYWFNGcuNR
-         NjtWoV9wWKd0vSlADAVsZAXX0ul9PIxhIP88ggYqgr5SR7AZ5J2DhwhCLoYqhms9MuWf
-         GO99zBCzx4CAAiWK7sA0P+g8wXbx1Sd7OM5Acrs1zRpJzDI8aXrfVKkB8DOLWHfIN5Zf
-         IH6A==
-X-Gm-Message-State: AOJu0YxmuRxfRua6dLZwjVNJ3m4TQPz3XEbvxbCiwPkkdnv3A0gzdaYN
-	R4o47PtZO3eHHNDD5bm76gfJAo//zqKuJ7J01dq/MGvHee5ZMPMGhqeBm1bsSvJT1/I=
-X-Gm-Gg: AR+sD13fm732No4gqq2sM3iDVFdVRDr2AQJyPKAzE4WXnzEjQVEk4JOtmm5ufkijbcj
-	lAQwg7WXJuQA1ULSa5Ruip2W49TzDFR6+SzgKhqxioYKaK3kxSYmzMKYSxhemvs43NgHmcruV4Z
-	p9HWK8EbsucumwI7o2p7jllJQ/JuIK/GQEB+xDBFAb5xjpMk4nMY2cHZpfMnP7QlYKVYLf9LETe
-	Gb8e7IFuqhvaROSQy1qVeV+E2Lf4PhfdrM8mzw1aq8dSkX/Jo3cjnre6d8aiIkKAP6AnV7E+Apd
-	4didmigqt5wjU5kHKFqVjy5YRkyGpVLOnYqZjRY2U2Va2RSgOR9jhhkfNsKRegrLRKpU+XqJX6R
-	RowDl7BJa9TFDlU3ERxeRf7UT8P1eDV2oxtSmlI7U1P1EnzPs787cXux8uYPy/HyNRqdia5IyY8
-	4yFna0c9iKbKay+MoJV4FI4S1V5xqKZ+rjeKCehHExiemcBufS4j0pdkpp6gHzr03Yj1Xq4YaHK
-	2as
-X-Received: by 2002:a05:600c:468c:b0:495:52a5:8829 with SMTP id 5b1f17b1804b1-4999fb6d4d8mr126865575e9.11.1787063044086;
-        Tue, 18 Aug 2026 07:24:04 -0700 (PDT)
+        bh=lK/sGdx2GchoWjuY7/UAUK1Wnr5nxXmBgtlEaIgFQCk=;
+        b=Mg5sLN/i3GskCi/gXbVj5gjUfYD/klvgPzSv+lElIp/qKJx2nqsDxoYV3sAatkjiA8
+         UgmEMT6guD8X+ZRuqhGyX5SuN7+dWCyB6OwegiGkoyYZ1ySu4AXT5QG1hu3kKnkzKnzA
+         bW59TIGnwAGiTZCF+4R9zO1ZobgYFfeHN6eUMMaLRnqc0vpkMuGzlxDtGn/kpkKjRApC
+         zNwhKRlnnJBxmeV4AjxytGx7TtBWYgi9kYWGIcHOjjSnv3MuZpvAlznwPZQxRa9uSVGr
+         qK/I1UsTP2/SwaUBjaInt22byIwE+PP2d+IFRFpB7N5JqrjJggxffZfGIU0+9qRCBGB8
+         a0Wg==
+X-Gm-Message-State: AOJu0YzGTo6FyFGZqYJc58nQ+jEpfalJexDoCX+EL+Hg66CmcZr89yX7
+	Hnp1lEkvyLBqdDvjjASEpvuDjsycMSSwcNKPGnZy13LVsZHh9K3led55zEciUIxzRx0=
+X-Gm-Gg: AR+sD13Lr7O5fTpTWO+3cEBq3plwd5sznIr0buEQXTc4efGHCL76aP9l+438tg4PcAr
+	CxQfKLxMZzY0LBca+uk+W2NQsm5bFlfMweM19uNi4ySfY7nK4t/glRaMu3Q3mp5B2ll1tf7aCPe
+	Uz0cX9lVhG/CNtlD4fTt/vFaAfR4ZFRuFH1tRuhKx0wEinHk5jbdNyrVCmUrqGQJxKCmPdV9iiZ
+	A2Q7zBPv4hDuwmW/Dlt9RmoAjffBvgh+NwVe47DhtF06jSgUPNonveRsR1ymtU1/r9NtCWA7C80
+	JAWl/CB8Xf+hrLXNaRR4eHOdj5QPwoznVU5gggqJHff+BAmxJSaMh92MfcQLjbJuUrWhC+qLMpF
+	uzzjqh5RImVMrrTmzD/VfRJ1rG0Yn+xyefZae+PQ32cVCjUDnoRjkLPHNGh/6Wt5yEiSLyXCQ4g
+	LhtqpOsyf+D4vclLDEAGsTP3qiYnLxkdFDk1NiEPdWVTZjpGI5FqukWd6JQMBWEToRSVJDDuXB5
+	iWM
+X-Received: by 2002:a05:600c:8714:b0:499:8704:242c with SMTP id 5b1f17b1804b1-499878ca13bmr616077415e9.0.1787063887786;
+        Tue, 18 Aug 2026 07:38:07 -0700 (PDT)
 Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4999d0fb867sm156785215e9.10.2026.08.18.07.24.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499960988c6sm264146625e9.0.2026.08.18.07.38.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2026 07:24:03 -0700 (PDT)
-Message-ID: <a96a5b96-707f-4a98-bd84-1aa919b9bccb@linaro.org>
-Date: Tue, 18 Aug 2026 15:24:02 +0100
+        Tue, 18 Aug 2026 07:38:07 -0700 (PDT)
+Message-ID: <18a23572-5383-4b21-ba7c-ebafa8d0f08c@linaro.org>
+Date: Tue, 18 Aug 2026 15:38:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,8 +69,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] perf test cs-etm: Test branch history on existing
- samples
+Subject: Re: [PATCH v2 2/5] perf cs-etm: Split up
+ cs_etm__process_timestamped_queues()
 To: Amir Ayupov <aaupov@fb.com>
 Cc: linux-doc@vger.kernel.org, Mike Leach <mike.leach@arm.com>,
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
@@ -85,284 +85,196 @@ Cc: linux-doc@vger.kernel.org, Mike Leach <mike.leach@arm.com>,
  Adrian Hunter <adrian.hunter@intel.com>, John Garry
  <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>
 References: <cover.1787005265.git.aaupov@fb.com>
- <70f7ccb31e81282212161177124dfc3beff24ad9.1787005265.git.aaupov@fb.com>
+ <ac33d12949419373516ca02f2972c7e0af01c069.1787005265.git.aaupov@fb.com>
 Content-Language: en-US
 From: James Clark <james.clark@linaro.org>
-In-Reply-To: <70f7ccb31e81282212161177124dfc3beff24ad9.1787005265.git.aaupov@fb.com>
+In-Reply-To: <ac33d12949419373516ca02f2972c7e0af01c069.1787005265.git.aaupov@fb.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 17/08/2026 23:22, Amir Ayupov wrote:
-> Add a CoreSight shell test for --itrace=L. Record timestamped ETM trace
-> with explicit -T sample timestamps and AUX pause/resume events, then
-> check that the pause samples carry both a multi-frame callchain and a
-> non-empty branch stack for each of the workload's two processes.
+> cs_etm__process_timestamped_queues() currently does three things: it seeds
+> the auxtrace heap with one entry per queue, it decodes until the heap is
+> empty, and it then walks every traceID queue to flush whatever is left in
+> the branch stacks. That is fine while the only caller is
+> cs_etm__flush_events(), which runs once, but it does not survive the
+> function being called repeatedly.
 > 
-> Decode the same recording with L4 and L64 and reject any branch stack
-> deeper than the requested depth.
+> Seeding cannot be repeated because a queue that still holds a heap slot
+> would be seeded again, adding duplicate entries and growing the heap
+> without bound. Flushing cannot be repeated either, because ending a block
+> finalises state that later trace still needs.
 > 
-> The test skips when cs_etm is absent, when not run as root, or when the
-> recording turns out to lack virtual timestamps. It exercises the
-> timestamp-gated path and the requested-depth bound; it does not attempt
-> to verify that the attached history is correlated to the sample.
+> Move both out. Seeding becomes cs_etm__update_queues(), gated on
+> queues.new_data so it only runs when new AUX data has been queued, with
+> etmq->on_heap tracking whether a queue currently occupies a heap slot;
+> this mirrors intel_pt_update_queues() and intel_pt_queue::on_heap.
+> Flushing becomes cs_etm__flush_timestamped_queues(). What remains is the
+> decode loop on its own, which a later patch can then drive incrementally.
+> 
+> No functional change: the sole caller performs the same three steps in the
+> same order.
 > 
 > Assisted-by: Devmate:GPT-5.6
 > Signed-off-by: Amir Ayupov <aaupov@fb.com>
+
+LGTM but I'd still like to run the test.
+
 > ---
->   .../tests/shell/coresight/add_last_branch.sh  | 203 ++++++++++++++++++
->   1 file changed, 203 insertions(+)
->   create mode 100755 tools/perf/tests/shell/coresight/add_last_branch.sh
+>   tools/perf/util/cs-etm.c | 71 ++++++++++++++++++++++++++++++++++------
+>   1 file changed, 61 insertions(+), 10 deletions(-)
 > 
-> diff --git a/tools/perf/tests/shell/coresight/add_last_branch.sh b/tools/perf/tests/shell/coresight/add_last_branch.sh
-> new file mode 100755
-> index 0000000000000..6f09e720abe80
-> --- /dev/null
-> +++ b/tools/perf/tests/shell/coresight/add_last_branch.sh
-> @@ -0,0 +1,203 @@
-> +#!/bin/bash -e
-> +# SPDX-License-Identifier: GPL-2.0
-> +# CoreSight branch history on existing samples (exclusive)
+> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+> index 114b3cd2da495..4d895f11deb7f 100644
+> --- a/tools/perf/util/cs-etm.c
+> +++ b/tools/perf/util/cs-etm.c
+> @@ -136,9 +136,13 @@ struct cs_etm_queue {
+>   	 */
+>   	struct intlist *own_traceid_list;
+>   	u32 sink_id;
+> +	/* Whether this queue currently occupies a slot in etm->heap */
+> +	bool on_heap;
+>   };
+>   
+> +static int cs_etm__update_queues(struct cs_etm_auxtrace *etm);
+>   static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm);
+> +static int cs_etm__flush_timestamped_queues(struct cs_etm_auxtrace *etm);
+>   static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,
+>   					   pid_t tid);
+>   static int cs_etm__get_data_block(struct cs_etm_queue *etmq);
+> @@ -939,6 +943,8 @@ static int cs_etm__flush_events(struct perf_session *session,
+>   	struct cs_etm_auxtrace *etm = container_of(session->auxtrace,
+>   						   struct cs_etm_auxtrace,
+>   						   auxtrace);
+> +	int ret;
 > +
-> +perf list pmu | grep -q 'cs_etm//' || exit 2
+>   	if (dump_trace)
+>   		return 0;
+>   
+> @@ -953,7 +959,15 @@ static int cs_etm__flush_events(struct perf_session *session,
+>   		return cs_etm__process_timeless_queues(etm, -1);
+>   	}
+>   
+> -	return cs_etm__process_timestamped_queues(etm);
+> +	ret = cs_etm__update_queues(etm);
+> +	if (ret)
+> +		return ret;
 > +
-> +if [ "$(id -u)" != 0 ]; then
-> +	echo "[Skip] No root permission"
-> +	exit 2
-> +fi
+> +	ret = cs_etm__process_timestamped_queues(etm);
+> +	if (ret)
+> +		return ret;
 > +
-> +tmpdir=$(mktemp -d /tmp/perf-cs-add-last-branch.XXXXX)
+> +	return cs_etm__flush_timestamped_queues(etm);
+>   }
+>   
+>   static void cs_etm__free_traceid_queues(struct cs_etm_queue *etmq)
+> @@ -1330,6 +1344,8 @@ static int cs_etm__queue_first_cs_timestamp(struct cs_etm_auxtrace *etm,
+>   	 */
+>   	cs_queue_nr = TO_CS_QUEUE_NR(queue_nr, trace_chan_id);
+>   	ret = auxtrace_heap__add(&etm->heap, cs_queue_nr, cs_timestamp);
+> +	if (!ret)
+> +		etmq->on_heap = true;
+>   out:
+>   	return ret;
+>   }
+> @@ -2767,23 +2783,30 @@ static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,
+>   	return 0;
+>   }
+>   
+> -static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+> +/*
+> + * Seed the heap with one entry from each queue that is not already
+> + * represented in it, so that decoding proceeds in time order across all
+> + * queues. Only queues that have newly queued data need to be considered.
+> + */
+> +static int cs_etm__update_queues(struct cs_etm_auxtrace *etm)
+>   {
+>   	int ret = 0;
+> -	unsigned int cs_queue_nr, queue_nr, i;
+> -	u8 trace_chan_id;
+> -	u64 cs_timestamp;
+> -	struct auxtrace_queue *queue;
+> +	unsigned int i;
+>   	struct cs_etm_queue *etmq;
+> -	struct cs_etm_traceid_queue *tidq;
 > +
-> +cleanup()
-> +{
-> +	rm -rf "$tmpdir"
-> +	trap - EXIT TERM INT
+> +	if (!etm->queues.new_data)
+> +		return 0;
+> +
+> +	etm->queues.new_data = false;
+>   
+>   	/*
+>   	 * Pre-populate the heap with one entry from each queue so that we can
+> -	 * start processing in time order across all queues.
+> +	 * start processing in time order across all queues. Skip queues that
+> +	 * already occupy a heap slot, otherwise they would be added twice.
+>   	 */
+>   	for (i = 0; i < etm->queues.nr_queues; i++) {
+>   		etmq = etm->queues.queue_array[i].priv;
+> -		if (!etmq)
+> +		if (!etmq || etmq->on_heap)
+>   			continue;
+>   
+>   		ret = cs_etm__queue_first_cs_timestamp(etm, etmq, i);
+> @@ -2791,6 +2814,19 @@ static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+>   			return ret;
+>   	}
+>   
+> +	return ret;
 > +}
 > +
-> +# shellcheck disable=SC2317 # Called through trap.
-> +trap_cleanup()
+> +static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
 > +{
-> +	cleanup
-> +	exit 1
-> +}
-> +trap trap_cleanup EXIT TERM INT
+> +	int ret = 0;
+> +	unsigned int cs_queue_nr, queue_nr;
+> +	u8 trace_chan_id;
+> +	u64 cs_timestamp;
+> +	struct auxtrace_queue *queue;
+> +	struct cs_etm_queue *etmq;
+> +	struct cs_etm_traceid_queue *tidq;
 > +
-> +record_data()
-> +{
-> +	local cf="$tmpdir/ctl"
-> +	local af="$tmpdir/ack"
-> +
-> +	mkfifo "$cf" "$af"
-> +
-> +	# Pin to one CPU so proc1 and proc2 alternate in one per-CPU trace
-> +	# buffer. Start disabled and use the control FIFO to record only the
-> +	# workload, not perf test setup and teardown.
-
-This is more of a what comment than a why. I got that we were doing 
-that, but the reason I left the comment on V1 was because I couldn't see 
-why context switching is related to branch history. Doesn't the test 
-still test the same thing if you record a single process without -C?
-
-It's a bit hard to see what behavior the test is exercising. I see it 
-also adds call-graph=fp, but it doesn't look for symbol names. How is 
-testing for any non zero callchain related to coresight unless we also 
-check the coresight branch stack matches it exactly via symbol names? 
-Seems like it's just testing some other part of Perf here.
-
-I would expect some references to the named symbols 
-"context_switch_loop_proc2" from the workload, but I don't see them. It 
-also seems to be very interested in timestamps as per the commit 
-message. But how do you know it's not attaching the branch stack from 
-proc1 to proc2 because it gets the timestamps wrong?
-
-If it's easier to add a new workload with a deterministic branch history 
-written in asm after a deterministic call chain we can do that. Then the 
-test can test if a fragment of the branch history appears after an end 
-fragment of the callchain.
-
-> +	if perf record -T -o "$tmpdir/data" -C 0 -D -1 \
-> +		--control fifo:"$cf","$af" \
-> +		-e cs_etm/aux-action=start-paused/u \
-> +		-e cycles/aux-action=resume,period=550019/u \
-> +		-e cycles/aux-action=pause,period=100003,call-graph=fp/u -- \
-> +		taskset --cpu-list 0 perf test --record-ctl fifo:"$cf","$af" \
-> +		-w context_switch_loop 10000 \
-> +		>/dev/null 2>"$tmpdir/stderr"; then
-> +		return 0
-> +	fi
-> +
-> +	echo "Failed to record ETM trace with AUX pause/resume" >&2
-> +	cat "$tmpdir/stderr" >&2
-> +	return 1
+>   	while (1) {
+>   		if (!etm->heap.heap_cnt)
+>   			break;
+> @@ -2807,6 +2843,7 @@ static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+>   		 * to process it.
+>   		 */
+>   		auxtrace_heap__pop(&etm->heap);
+> +		etmq->on_heap = false;
+>   
+>   		tidq  = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
+>   		if (!tidq) {
+> @@ -2874,7 +2911,21 @@ static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+>   		 */
+>   		cs_queue_nr = TO_CS_QUEUE_NR(queue_nr, trace_chan_id);
+>   		ret = auxtrace_heap__add(&etm->heap, cs_queue_nr, cs_timestamp);
+> +		if (ret)
+> +			goto out;
+> +		etmq->on_heap = true;
+>   	}
+> +out:
+> +	return ret;
 > +}
 > +
-> +decode()
+> +/* Flush any branch stack entries left over once all trace is decoded */
+> +static int cs_etm__flush_timestamped_queues(struct cs_etm_auxtrace *etm)
 > +{
-> +	local size=$1
-> +	local output=$2
+> +	int ret = 0;
+> +	unsigned int i;
+> +	struct cs_etm_queue *etmq;
+> +	struct cs_etm_traceid_queue *tidq;
+>   
+>   	for (i = 0; i < etm->queues.nr_queues; i++) {
+>   		struct int_node *inode;
+> @@ -2893,7 +2944,7 @@ static int cs_etm__process_timestamped_queues(struct cs_etm_auxtrace *etm)
+>   				return ret;
+>   		}
+>   	}
+> -out:
 > +
-> +	if perf script -i "$tmpdir/data" --itrace="L$size" \
-> +		-F comm,pid,tid,event,ip,brstack >"$output" \
-> +		2>"$tmpdir/stderr"; then
-> +		return 0
-> +	fi
-> +
-> +	if grep -q "itrace=L requires virtual timestamped trace" \
-> +		"$tmpdir/stderr"; then
-> +		echo "[Skip] Virtual CoreSight timestamps are not available"
-> +		cleanup
-> +		exit 2
-> +	fi
-> +
-> +	cat "$tmpdir/stderr" >&2
-> +	return 1
-> +}
-> +
-> +check_process_samples()
-> +{
-> +	local output=$1
-> +	local comm
-> +
-> +	# Expect each process to have a pause-event sample followed by at least
-> +	# one branch entry in 0xFROM/0xTO/... form.
-
-Can we have an exact copy paste of the output instead of the text 
-description? I still can't tell if what I'm seeing is expected based on 
-this.
-
-For example I get this, which you could paste verbatim into the test:
-
-   proc2 
-armv8_pmuv3_0/cycles,aux-action=pause,period=100003,call-graph=fp/u:
-	ffff800080021440
-	ffff8000813a6a04
-
-(This is output from V1, I couldn't run V2 because of the invalid group 
-desc issue)
-
-> +	for comm in proc1 proc2; do
-> +		awk -v comm="$comm" '
-> +			$1 == comm && /cycles\/aux-action=pause/ {
-> +				in_sample = 1
-> +				next
-> +			}
-> +			!NF {
-> +				in_sample = 0
-> +				next
-> +			}
-> +			in_sample && /0x[[:xdigit:]]+\/0x[[:xdigit:]]+\// {
-> +				found = 1
-> +			}
-> +			END { exit !found }
-> +		' "$output" || {
-> +			echo "No pause-event branch stack found for $comm" >&2
-> +			grep -A 4 "^$comm .*cycles/aux-action=pause" "$output" \
-> +				| head -n 20 >&2 || true
-> +			return 1
-> +		}
-> +	done
-> +}
-> +
-> +check_callchains()
-> +{
-> +	local output="$tmpdir/script-callchain"
-> +	local comm
-> +
-> +	if ! perf script -i "$tmpdir/data" -F comm,event,ip >"$output" \
-> +		2>"$tmpdir/stderr"; then
-> +		echo "Failed to dump pause-event callchains" >&2
-> +		cat "$tmpdir/stderr" >&2
-> +		return 1
-> +	fi
-> +
-> +	# Expect a pause-event header for each process followed by at least two
-> +	# indented instruction-pointer frames.
-
-Ditto
-
-> +	for comm in proc1 proc2; do
-> +		awk -v comm="$comm" '
-> +			$1 == comm && /cycles\/aux-action=pause/ {
-> +				in_sample = 1
-> +				frames = 0
-> +				next
-> +			}
-> +			!NF {
-> +				if (in_sample && frames >= 2)
-> +					found = 1
-> +				in_sample = 0
-> +				next
-> +			}
-> +			in_sample && /^[[:space:]]+[[:xdigit:]]+([[:space:]]|$)/ {
-> +				frames++
-> +			}
-> +			END {
-> +				if (in_sample && frames >= 2)
-> +					found = 1
-> +				exit !found
-> +			}
-> +		' "$output" || {
-> +			echo "No multi-frame pause-event callchain found for $comm" >&2
-> +			grep -A 8 "^$comm .*cycles/aux-action=pause" "$output" \
-> +				| head -n 40 >&2 || true
-> +			return 1
-> +		}
-> +	done
-> +}
-> +
-> +check_branch_stacks()
-> +{
-> +	local output=$1
-> +	local max_entries=$2
-> +
-> +	local ret
-> +
-> +	if awk -v max="$max_entries" '
-> +		/0x[[:xdigit:]]+\/0x[[:xdigit:]]+\// {
-> +			entries = 0
-> +			for (i = 1; i <= NF; i++)
-> +				if ($i ~ /^0x[[:xdigit:]]+\/0x[[:xdigit:]]+\//)
-> +					entries++
-> +			if (entries)
-> +				found = 1
-> +			if (entries > max) {
-> +				status = 2
-> +				exit
-> +			}
-> +		}
-> +		END {
-> +			if (status)
-> +				exit status
-> +			if (!found)
-> +				exit 1
-> +		}
-> +	' "$output"; then
-> +		return 0
-> +	else
-> +		ret=$?
-> +	fi
-> +
-> +	case $ret in
-> +	1) echo "No ETM branch stacks found" >&2 ;;
-> +	2) echo "Branch stack exceeds requested L$max_entries depth" >&2 ;;
-> +	esac
-> +	# Expected decoded pause-event lines contain at most L<n> branch entries.
-> +	grep 'cycles/aux-action=pause' "$output" | head -n 5 >&2 || true
-> +	return 1
-> +}
-> +
-> +record_data
-> +check_callchains
-> +
-> +decode 4 "$tmpdir/script-L4"
-> +check_process_samples "$tmpdir/script-L4"
-> +check_branch_stacks "$tmpdir/script-L4" 4
-> +
-> +decode 64 "$tmpdir/script-L64"
-> +check_process_samples "$tmpdir/script-L64"
-> +check_branch_stacks "$tmpdir/script-L64" 64
-> +
-> +cleanup
-> +exit 0
+>   	return ret;
+>   }
+>   
 
