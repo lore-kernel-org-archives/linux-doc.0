@@ -1,258 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DEB4749C0;
-	Tue, 18 Aug 2026 12:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A499B47607B
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 13:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787057719; cv=none; b=gNOVfwi54VMzhHAQQif+LGDnpuzRoa696/+PmpoSy9t9E4YmtwPIePXP8U0UdQTJWxi8Uj4LZRb3ZAIMhGX39CBcgxP2Ep+b3hqz/E7kg0LkBy3efpi6MR3uSaKVHxYcvZUOwR9+YErhzsByxgQgcXUnfoQiywbYCDjJYCuvYo8=
+	t=1787058003; cv=none; b=Kx+eJWAymW7YwXL351AcBK0ZZJ3VIaKoRu52ffmu27wUtsYc6UidlexwVbn1KzFz9hCuOkTh1Ypjh89zyAzUkky2KsDe7zKJCDwTo6UrbseDlUAr7QdkYjdcS17YlBPjSiPMYHZu9mVZhKaYRI+6WSfPOdJ9Pme6g0kS30pD7/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787057719; c=relaxed/simple;
-	bh=QL0X6pTTavKTFei5lSC5sB2J1NhdSdOGYGzTaL3tIwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HaVPYhpqQAmMaiz8REtuhAcJmNknC8s4bLhcTkhDLIqKDGCmzQ7JgIYz0s+FVKAkDpdobh5nJ7GgwQ13Bm47gIfUd+K26pvDnhQ+tDS10HXZqigrwfBTDpaS9ndu3tzDw8ZlTTSxIj+rCauUMlT0BodVDvhn8mc9KreRoGl9WAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z88GztwC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0A1c5aPM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bnvWNKN3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UEgg4hEl; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1787058003; c=relaxed/simple;
+	bh=LvNfSK8pg0K/+mDojw7aH+VyzTbWSAq378RBV3TsZO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uQxCnqjbc7ZZw+BHVcVTe5Py3gg8QLq3PrdOZuziFt2It5dQia60pCTJT+vE5wioXzP5lBkVB5U9axTlbbEL3y09x9KSQl7aMkDEiLC/0og5sczEg1AVBboUOWKLTKYtlccmSVCS8uibGwqUu9+iWCWOC6SbNvyd996p5/qfqWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=t2WLE4sO; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z88GztwC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0A1c5aPM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bnvWNKN3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UEgg4hEl"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 82F8C3EBD;
-	Tue, 18 Aug 2026 12:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787057427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H+bcWc4T/rU3VJYnflqTO5mpTU63URyw7VznDPWHcA0=;
-	b=Z88GztwCCatW/H/uskajNcA46j7QOQcPqEU8P20avJdJy2CXcGyyRYDwE5CAYFDKfLc86B
-	FyQFPjmqhjtyXuwo8l3P6gK225jif20wFcvlJtyrWL3x3imHQAfFoXrwZRitDlGSN0jkvc
-	UqWjML9tMqvfq6jkYsy7nmE772IVCFc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787057427;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H+bcWc4T/rU3VJYnflqTO5mpTU63URyw7VznDPWHcA0=;
-	b=0A1c5aPMTnHHEJ6rIXyy/+peCcZQ4ykHjlRriaEYQJ0Dc4YZ/NQ0K7GF/GrO0xsc7KPpwh
-	g2c6xZkRgOJi57CA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787057423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H+bcWc4T/rU3VJYnflqTO5mpTU63URyw7VznDPWHcA0=;
-	b=bnvWNKN3izrmYsYYhi2y/HstSlabK46I1lmloa4ucnshsOeH1Jv+ZIbBJwvbnG+YQXR2+3
-	mZuRKWk9Wm0TmR5GPR6Br8wJ0g2VgTe+6hNVyHTCA/hAQXGTMMhDYCxY0gvy4u2Oh1nzCY
-	MX/BgqaTSjQdtWjD283xUc87+W6LoaQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787057423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H+bcWc4T/rU3VJYnflqTO5mpTU63URyw7VznDPWHcA0=;
-	b=UEgg4hEljsD5umpamNvvTFD9Rohmv/TNMp3RHFalLPZNYh0eWj0BY8P0N6FZwh5cF7RVOB
-	ehRyK6Vsen6pjKDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 475D6367E;
-	Tue, 18 Aug 2026 12:50:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sG9SEA1VhGojIAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 18 Aug 2026 12:50:21 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com,
-	javierm@redhat.com,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	nouveau@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	sashiko-reviews@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 08/12] drm/panic: Split draw_panic_plane()
-Date: Tue, 18 Aug 2026 14:28:06 +0200
-Message-ID: <20260818125012.468092-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260818125012.468092-1-tzimmermann@suse.de>
-References: <20260818125012.468092-1-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="t2WLE4sO"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-936c02e58dfso293800285a.3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 06:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1787058000; x=1787662800; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wmgOUbj8BHDXCzIhBSspWfV30kk7RcENm70SlJA8E7U=;
+        b=t2WLE4sOpoenct34gRpdtiZclR9xG30lSngO+niAHYZTDmgzsUo/WsJqcVMjLWypym
+         cvbS0GxKG9XRzUTZPhVCK986KZs2poZE+oJOHrzReebYFZRwU42l7TKvDMg+64dsgEx/
+         16b3JAiOIOWbmtVhDjUOpEJV80Ujr0oTA0a//OcGM04nuUuX9ckXxZD+QuJJbQGa0h9v
+         d2ikHHRxatqfAtckPmvB9Jkxy5T2sjviMlLOiT/H0BcdamcHERMJonH+MiXrukYvpCbS
+         N3h8ou++8cAHdaNSpmXK7r4p0lC71ImcBHoPZUvLbyYfJzNWs/OPxrArhTC6IWwAS7uw
+         0+/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787058000; x=1787662800;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wmgOUbj8BHDXCzIhBSspWfV30kk7RcENm70SlJA8E7U=;
+        b=VEH5ERqhRXBKQsfZnSoXCJIqa9HdJ9dxyPq44tiIaLjM9fZjREMxzAjbC07yzLkRcm
+         9ke7kCJKUi0R1dTehSBhN3AH4bNz52m+RFJXWnQAfJwjkumwEGjNzG/fdR6iPSUtNjnk
+         Y/Rzg8qL120eEKWgJ+A/luw/jnn4eSgLTt2MSWQELxNxFQWhvlBQOlDhkIjqgY+p3UrE
+         drBWFlaLyWeqPiIo2t1IwI6hB7J6QA94dh9Qwm3URPaM/0+kP2msRgq4whuW5ooGlONx
+         jBvctIINoCzM57mvxoRH0YLd88zoYIsU7Dqti9NhblCfEzQrxWZNHHBKY0B30eeAFVk9
+         y3og==
+X-Forwarded-Encrypted: i=1; AHgh+RoH+xpgIkdMZ/M5uwTMeZ22iGtDMUfrzKNfhhj0aGIliqU+r2LhhpXzRnY0nKMXL2AnUVAYHl2g0CA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxst5K/DdzkNIsv1WvF9bBDEOjNF8rH3rkkeryw3uvToNjELYi3
+	U8f1omL/11EKEoPq49ctxaJ2q5I0CVIJ8QB7UAcRQl2zhkgoIU1KosBwojhK+Z3RC5Q=
+X-Gm-Gg: AR+sD11Ng9iqSJimczTiPRzwUD95+M2TcE516PYgqbJPjN7nhmbZuU8eB7X4OFDXEgW
+	IfKhTuQy+o8IXVsddu817GLdkEKq9Pgetka+atvjEd3WpB2Js62Vbvjii4YndOeHIRi05YXN2Q5
+	Ky9uc3kRkNCM/Rn+g4IG8wWq4JmeofZjG3sSlSBykcrbdlhOj/wOGK6mYUOvgzjtlTCAKwn+3X/
+	XD0rFbbNQsLeOOT1b0aowIj8635HU6c7LB0AkAansgSgaIajMsOrqMVxQmkh99nbnAVvtqxhpWV
+	17veWYH7Zd/jKAU1x3aET8XM/Ir+kmj0idxs0mggDWMZqW5hTeDa84EwlYLXCOCikmug6FejT1s
+	LF7KLJqqsYzUr3XHmNBIVq5VPkPL2AkLw7SAUEyg20pf9NzkRLtgjVwNTqvKbUO05661U1Xc35K
+	df+7Q4RlHwiePaipj52C8mh6Ll5Zuuc67I+e7fhJk1XkpNojryp9gLPloJ0ggtZ7DK3DXOYau36
+	nViJldI05Bi4DHQyGfDO8kA/9/mdOnbD8L8VIOXabSvxhMiDt5k9VQ=
+X-Received: by 2002:a05:620a:22e9:b0:92e:6637:d98 with SMTP id af79cd13be357-936d2286961mr2640903285a.18.1787058000487;
+        Tue, 18 Aug 2026 06:00:00 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93703432242sm286024285a.46.2026.08.18.05.59.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2026 06:00:00 -0700 (PDT)
+Date: Tue, 18 Aug 2026 08:59:58 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Mike Rapoport <rppt@kernel.org>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Alexander Graf <graf@amazon.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Baoquan He <baoquan.he@linux.dev>, 
+	x86@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-mm@kvack.org, linux-efi@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH 0/4] kho: rename "scratch" to "bootmem"
+Message-ID: <aoRV7vF3v8DqGoyv@gourry-fedora-PF4VCD3F>
+References: <20260811162642.3504565-1-pratyush@kernel.org>
+ <aoMdJ7hpr1GonLz8@gourry-fedora-PF4VCD3F>
+ <20260817145231.GA579285-robh@kernel.org>
+ <2vxz4igr1yq8.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[redhat.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLqirfcw6gnbcr9a9yhi49fhi6)];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2vxz4igr1yq8.fsf@kernel.org>
 
-Move locking and parameters from draw_panic_plane() into the new
-helper drm_panic_display_panic_screen(). Call draw_panic_plane() from
-there.
+On Tue, Aug 18, 2026 at 12:58:55PM +0200, Pratyush Yadav wrote:
+> On Mon, Aug 17 2026, Rob Herring wrote:
+> 
+> For patch 3, I am honestly surprised at how large it ended up being. But
+> I am in principle opposed to the idea that we should not do any
+> housekeeping because it might cause "churn". So I think if the end
+> result is better then churn shouldn't stop us.
+>
 
-The new helper drm_panic_display_panic_screen() is now the DRM core's
-interface for displaying a panic screen. The code remaining in
-draw_panic_plane() still does all the heavy lifting. It will become a
-plane helper for DRM drivers.
+Not really concerned about churn itself, just that I didn't fully see
+the value in moving from Scratch to NoPreserve - these things sort of
+read the same to me.  The additional context you've provided is
+reasonable, thank you for helping me understand better.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_panic.c | 60 ++++++++++++++++++++-----------------
- 1 file changed, 33 insertions(+), 27 deletions(-)
+> 
+> I renamed the commandline option because similar things have been done
+> in the past for other options too.
+> 
+> See commit c5bfece2d612 ("nohz: Switch from "extended nohz" to "full
+> nohz" based naming") for example. It renamed "nohz_extended" to
+> "nohz_full" because it is "a bit opaque and vague".
+>
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 0960750bfce2..2263a11efdf6 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -940,38 +940,21 @@ static void drm_panic_clear_description(void)
- 	desc_line->txt = NULL;
- }
- 
--static void draw_panic_plane(struct drm_plane *plane, const char *description)
-+static void draw_panic_plane(struct drm_plane *plane, const char *description,
-+			     enum drm_panic_type panic_type, u32 fg_color, u32 bg_color,
-+			     unsigned int qr_version)
- {
- 	struct drm_scanout_buffer sb = { };
- 	int ret;
--	unsigned long flags;
--#if defined(CONFIG_DRM_PANIC_FOREGROUND_COLOR)
--	u32 fg_color = CONFIG_DRM_PANIC_FOREGROUND_COLOR;
--#else
--	u32 fg_color = 0x00ffffff;
--#endif
--#if defined(CONFIG_DRM_PANIC_BACKGROUND_COLOR)
--	u32 bg_color = CONFIG_DRM_PANIC_BACKGROUND_COLOR;
--#else
--	u32 bg_color = 0x00000000;
--#endif
--#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
--	unsigned int qr_version = panic_qr_version;
--#else
--	unsigned int qr_version = 0;
--#endif
--
--	if (!drm_panic_trylock(plane->dev, flags))
--		return;
- 
- 	ret = plane->helper_private->get_scanout_buffer(plane, &sb);
- 
- 	if (ret || !drm_panic_is_format_supported(sb.format))
--		goto unlock;
-+		return;
- 
- 	/* One of these should be set, or it can't draw pixels */
- 	if (!sb.set_pixel && !sb.pages && iosys_map_is_null(&sb.map[0]))
--		goto unlock;
-+		return;
- 
- 	drm_panic_set_description(description);
- 
-@@ -986,9 +969,33 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
- 	}
- 
- 	drm_panic_clear_description();
-+}
- 
--unlock:
--	drm_panic_unlock(plane->dev, flags);
-+static void drm_panic_display_panic_screen(struct drm_plane *plane, const char *description)
-+{
-+#if defined(CONFIG_DRM_PANIC_FOREGROUND_COLOR)
-+	u32 fg_color = CONFIG_DRM_PANIC_FOREGROUND_COLOR;
-+#else
-+	u32 fg_color = 0x00ffffff;
-+#endif
-+#if defined(CONFIG_DRM_PANIC_BACKGROUND_COLOR)
-+	u32 bg_color = CONFIG_DRM_PANIC_BACKGROUND_COLOR;
-+#else
-+	u32 bg_color = 0x00000000;
-+#endif
-+#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-+	unsigned int qr_version = panic_qr_version;
-+#else
-+	unsigned int qr_version = 0;
-+#endif
-+	struct drm_device *dev = plane->dev;
-+	unsigned long flags;
-+
-+	if (drm_panic_trylock(dev, flags)) {
-+		draw_panic_plane(plane, description, drm_panic_type,
-+				 fg_color, bg_color, qr_version);
-+		drm_panic_unlock(dev, flags);
-+	}
- }
- 
- static struct drm_plane *to_drm_plane(struct kmsg_dumper *kd)
-@@ -1001,10 +1008,9 @@ static void drm_panic(struct kmsg_dumper *dumper, struct kmsg_dump_detail *detai
- 	struct drm_plane *plane = to_drm_plane(dumper);
- 
- 	if (detail->reason == KMSG_DUMP_PANIC)
--		draw_panic_plane(plane, detail->description);
-+		drm_panic_display_panic_screen(plane, detail->description);
- }
- 
--
- /*
-  * DEBUG FS, This is currently unsafe.
-  * Create one file per plane, so it's possible to debug one plane at a time.
-@@ -1021,7 +1027,7 @@ static ssize_t debugfs_trigger_write(struct file *file, const char __user *user_
- 	if (kstrtobool_from_user(user_buf, count, &run) == 0 && run) {
- 		struct drm_plane *plane = file->private_data;
- 
--		draw_panic_plane(plane, "Test from debugfs");
-+		drm_panic_display_panic_screen(plane, "Test from debugfs");
- 	}
- 	return count;
- }
--- 
-2.55.0
+Also not opposed to the rename, just worth the question since it will
+break existing users. I know boot args don't have ABI guarantees, but
+some are used more than others :].
 
+>
+> That said, I am not opposed to keeping backwards compatibility if
+> someone _does_ complain.
+> 
+
+I think you've made the case well enough here, I appreciate the help in
+understanding.
+
+~Gregory
