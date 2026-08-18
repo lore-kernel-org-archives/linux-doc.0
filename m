@@ -1,436 +1,171 @@
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay14.grserver.gr (relay14.grserver.gr [157.180.73.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B61471CE4
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 15:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB113A48D5
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 15:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.180.73.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787066940; cv=none; b=o8qauAo1ocACL8HvzVs4VDTWKceIAVixZlsxxU1p+4E+KrTqwJI5Abukr2N7qOxYLyWNv9SVYCMfeozP5RLpO0p/QTgCKmecRF2Gz0h1sIwUOwZ3ZmLK9p4H7ue1CwsA4jTdAAzR8VRA/GV1S+IqUAXBQOOe0/l4MIFyUhDFJfc=
+	t=1787067248; cv=none; b=Tx2Z0ZBvOLvzdVBSqdcVtHRnbdAcKQpRkAzNa75/JgrWC4G2HooMnnumGW/gEXX0C4xR49v5jvZ0bQcS7DPpb2TznKT0FOVz6VT71eu+kfOOGL8/PMIjMTHjeSuhkESu4LBrzP2Q7D+i+aB9LCvXKop1rwmou+UWHkR8RBPHR9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787066940; c=relaxed/simple;
-	bh=WpotjfIgWZsgcEPpZdpCYdJlrUAim1GcgkLdwoPRpjo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Cy51ZQk/GZaMy6w8KAiN2UkPNtlD7gqixIk005qFAs5wO678uNiPbvqGvSIxeutefGmQpUkqEnGrVKwF5qajNUKi1Sd9U3yOe8SuBg1Jc4b6iW7tGB5Ax5sN/moIvm6eGOv3LSoixr24vWcfP6ke25zg9T/35LiiNUPjZ04NGIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c+sYsxYm; arc=none smtp.client-ip=209.85.208.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	s=arc-20240116; t=1787067248; c=relaxed/simple;
+	bh=6HnqJVNnO8fbVCbtUOQtItNQMwwlBtU8Xk8AKwaY/R8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dxhu/3LFeA4201kz6rvQ/9+/Z4/17yqqbJLzYU0QgvIXvwS/C5v64MFo0iX/59wmNGinNlB13Fs2ophSLkCgxYvP8+wBFvqmyO5vXQUVwPTo7chRiTKLFbA7sEi/IqoINwI0bW9ZXWsSHesqkuAtN8ioHgbiq2Vxbg3om/wxp1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=G1sPNRbR; arc=none smtp.client-ip=157.180.73.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c+sYsxYm"
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-6a125f5b317so4989552a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 08:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787066937; x=1787671737; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MCqv9FjqzX9J6sE+mm4dR8DQFjLQZx0WW3HAG/YPlNE=;
-        b=c+sYsxYm5/SMBus8gOUlNc0oPSm4KMBnziG89nD2u6a7SzNaJSaElR/089JI4fDh3O
-         YKfaHKaOnFQhiEssIHYcu/kk+ig3tcFM752jJ2+07FtOggUAVW/YPsjynyMIA0tgF7gk
-         WYmOpQrCcYJA7vl+YJFP5yvY+fCjxs8EztU+HSjOqigi8iMiJyvfOpbcjE+cB0xBljjE
-         2ANd9zDOKV26jqCvDybiMgwXVbJowiJGkhOfxP2Yqq/sGjufpvF+DBA2KWoF334ggSp5
-         dZYsMJ6bcz3D4cpKKPfY6S3KMn7nSEFmusIaC8wSsaBCHzM+9Pxfq1WyKsAn8FHSP5CW
-         7/RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787066937; x=1787671737;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MCqv9FjqzX9J6sE+mm4dR8DQFjLQZx0WW3HAG/YPlNE=;
-        b=Qj3DWcXDlwkXOK1Z4keEUZLwvHgvBVqdJeCJQCBmtLTDqYrjsMH0HYol2OXZeeZiS0
-         ho5NMcfcLuQGJTwd6TaNvEkfw2aIgjiMV9VmjeGI6b2zGeJnvpjbO98zlp1/ZSnzZ1n3
-         1dnnbzVkla5ctvTk3Gk0ja12k4TPMgsPcbmEZXNIjxW4YymIkqIIDsUUvZrWEx/0jQOM
-         NDDKZRaIxCAO15/2gaOZMM2oO3OHpwobEXcKxqfboHo1+diCnDlnC2OLBQWQYwwJUGJq
-         Acz+56y22xXpG16IyYpCfuXIRqXkLP41KldOOcYdOfLqcZ9wsr8w2KmDGMtbNZ1SPGyn
-         rCjg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro6lP9xl7Z7D1qZVYrBb0pj7PZ5cUsI1nAA5HJHcc55Gn/a/h5Mh37l6eTSOAJLrDalMjs9vYqPb/A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1G3RRMLMk3sfXCCXMuXcngj7SPRw+gFk3x09gWafDIRAJMAWu
-	Z9IIRRt0Px6s56jORDwQxAnV4aB543zaDl4P3HO3XjIokLymHEuxcgV6c+J+WZOfUAKUJSnPZw+
-	qsA/b3LVFuGc1GGxRmg==
-X-Received: from edru23.prod.google.com ([2002:aa7:d557:0:b0:6a1:f3cf:4285])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:c1d6:b0:6a3:9e00:8ed2 with SMTP id 4fb4d7f45d1cf-6a39e008fb0mr9583691a12.16.1787066936333;
- Tue, 18 Aug 2026 08:28:56 -0700 (PDT)
-Date: Tue, 18 Aug 2026 15:28:55 +0000
-In-Reply-To: <2vxzqzjz1x5f.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="G1sPNRbR"
+Received: from relay14 (localhost [127.0.0.1])
+	by relay14.grserver.gr (Proxmox) with ESMTP id BB6AD3FE01
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 15:26:45 +0000 (UTC)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay14.grserver.gr (Proxmox) with ESMTPS id 13F0E3FE05
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 15:26:44 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id F170A1FF9AE
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 18:26:42 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1787066803;
+	bh=aOuj/+W84x2+rIHLSDGB0H4BsSYWB02IXh4muXkVl4o=;
+	h=Received:From:Subject:To;
+	b=G1sPNRbR39gOCr7i76uRkrPxfSlwzq0bprxbDHGLNA2/Mn5Av5QMcse7omiFpuhIg
+	 uUCxPKAzGP81xIdkmtR42vmHq4V54pU0XhLF1KC7Ag4fP3U6jwAoXkh5HaPePvd52N
+	 gdWJykOea9jrWbyAGv42aSmHVnT+ATQyF5tmr2KobNiBlZVn98mw+DJY/ZVPDBmBvF
+	 ipjiZqsts1GSUPeeHzNWFnpfrS+Qki9RS1+MWG1/Wgh3vnKFXSw9T2e0KYcvuWRNDn
+	 JP2JheAyn0Lz8ZRhfW4cXdqvWp1SPc85b9XU1FbSG+RPQ9y1IUy6B0V1pHFRpagEu5
+	 GZ/NsLLggwq/w==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 209.85.210.174) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pf1-f174.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-8487214ad2bso91058b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 08:26:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AHgh+RpjkqIk8SZwgORa9yZO0wfIFczPoi52xsNMlfMQwzSSSG+SGai222RcFxL0NASxcK0vsXDu2TuObgQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgQ4B+hPzFhLSi+reTQjj5BG1dJYY2ygdO301t4Erh4AxKK7qA
+	8Ke9PtsUfSvOzDE8qqkgLQU1Ttm30g0nqIKea1zAwazHJUJYE3btOOA84C7s0nzFa48TIynsT+e
+	8Pv/yqSRS1r+0I9Q17y/9J25eF9lyHOc=
+X-Received: by 2002:a05:6a21:2d4b:b0:3b2:a809:ffe with SMTP id
+ adf61e73a8af0-3cc71a2d522mr45452060637.14.1787066801283; Tue, 18 Aug 2026
+ 08:26:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260728121138.1103610-1-tarunsahu@google.com>
- <20260728121138.1103610-6-tarunsahu@google.com> <anphyjFv3FhF61iB@google.com>
- <2vxzpkzo51wg.fsf@kernel.org> <anssOQFNZ2LfihbU@google.com>
- <2vxzik5f311e.fsf@kernel.org> <anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
-Message-ID: <9huzv797v45k.fsf@tarunix.c.googlers.com>
-Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
-From: tarunsahu@google.com
-To: Pratyush Yadav <pratyush@kernel.org>, Sean Christopherson <seanjc@google.com>, loganodell@google.com
-Cc: Pratyush Yadav <pratyush@kernel.org>, ackerleytng@google.com, fuad.tabba@linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
-	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
-	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
-	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
-	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
-	suzuki.poulose@arm.com
+MIME-Version: 1.0
+References: <20250511204427.327558-1-lkml@antheas.dev>
+ <20260803221614.59324-1-derekjohn.clark@gmail.com>
+ <20260803221614.59324-2-derekjohn.clark@gmail.com>
+ <f8b2c85a-2800-c9a3-4e56-7af4c53823e5@linux.intel.com>
+ <58a9c644-98c2-47ee-b083-0d5b19fa5053@roeck-us.net>
+In-Reply-To: <58a9c644-98c2-47ee-b083-0d5b19fa5053@roeck-us.net>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Tue, 18 Aug 2026 17:26:29 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwGdwhE6Sm6oa2uxx_sHfFNQ6fHYnAhYHkEPQcp_Yb=Z6w@mail.gmail.com>
+X-Gm-Features: AcwNN1UhVCaNOkZFdVfL73RRF7zncaDflReojJs4T1XIHAhKKPfu3HJk5Tqo7yM
+Message-ID: 
+ <CAGwozwGdwhE6Sm6oa2uxx_sHfFNQ6fHYnAhYHkEPQcp_Yb=Z6w@mail.gmail.com>
+Subject: Re: [PATCH 1/6] platform/x86: msi-wmi-platform: Move guard out of
+ switch in platform_write()
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>, W_Armin@gmx.de, corbet@lwn.net,
+	hdegoede@redhat.com, jdelvare@suse.com, kuurtb@gmail.com,
+	linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-PPP-Message-ID: 
+ <178706680342.724246.14270643568292836452@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-Pratyush Yadav <pratyush@kernel.org> writes:
+On Tue, 18 Aug 2026 at 16:42, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On 8/18/26 07:12, Ilpo J=C3=A4rvinen wrote:
+> > On Mon, 3 Aug 2026, Derek J. Clark wrote:
+> >
+> >> The ML patch set uses a guard within a switch case that violates clean=
+up
+> >> rules. Move the guard outside the switch so all return paths are cover=
+ed.
+> >>
+> >> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> >> ---
+> >>   drivers/platform/x86/msi-wmi-platform.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/platform/x86/msi-wmi-platform.c b/drivers/platfor=
+m/x86/msi-wmi-platform.c
+> >> index dfb65ac8fbf6..33acd448f674 100644
+> >> --- a/drivers/platform/x86/msi-wmi-platform.c
+> >> +++ b/drivers/platform/x86/msi-wmi-platform.c
+> >> @@ -675,11 +675,11 @@ static int msi_wmi_platform_write(struct device =
+*dev, enum hwmon_sensor_types ty
+> >>      u8 buffer[32] =3D { };
+> >>      int ret;
+> >>
+> >> +    guard(mutex)(&data->wmi_lock);
+> >>      switch (type) {
+> >>      case hwmon_pwm:
+> >>              switch (attr) {
+> >>              case hwmon_pwm_enable:
+> >> -                    guard(mutex)(&data->wmi_lock);
+> >
+> > While I cannot see the code easily, one could also add braces to inside
+> > the case to avoid this problem.
+> >
+>
+> I don't see the code either, but wouldn't this be a use case for
+> scoped_guard() ?
 
-> On Wed, Aug 12 2026, Sean Christopherson wrote:
->
->> On Wed, Aug 12, 2026, Pratyush Yadav wrote:
->>> On Tue, Aug 11 2026, Sean Christopherson wrote:
-> [...]
->> But that's all beside the point.  What I'm saying is that SNP and TDX *must* use
->> guest_memfd, whereas guest_memfd is optional for all other VM types.  And so adding
->> LUO support for guest_memfd without even sketching out a plan for CoCo VMs feels
->> backwards.
->>
->> I'm not necessarily opposed to gradual guest_memfd support, but there needs to be
->> a clear plan of how all of this is going to fit together.  It doesn't need to be
->> perfect, and I'm sure we'll make mistakes along the way, but I want to at least
->> try not to paint ourselves into a corner, especially with respect to the ABI.
->
-> Right. I think landing shared guest_memfd is the first step. It is
-> simple enough and doesn't need to preserve the more complicated
-> architecture specific things like secure EPT, etc. The CoCo support
-> can build on top of this.
->
-> There is work underway already for an RFC of TDX live update, but Tarun
-> knows the details better than me so I'll let him fill in the details for
-> the next version of this series.
+Hi, not explicitly stated in the cover letter, but this is essentially
+a series on top of the series I sent last year but I did not clean up
+due to a variety of issues with MSI firmware that would have made the
+driver unsuitable for upstreaming (to my standards at least). These
+issues span Intel driver problems, HID controller instability, and
+varying WMI implementations esp. in regards to PLx setting between AMD
+/ Intel variants, shift mode behavior not acting correctly, and fan
+curve application / resetting being weird (the fan curve on off bit
+does not seem to change whether an automatic curve is used but how
+close the device alings to the set curve? requiring us to back up and
+restore the original curve? half of the devices keep the curve during
+sleep and half don't? but if the fan curve is so finicky do we really
+want a resume handler for it? Perhaps we can kick the timing quirks to
+userspace)
 
-Right, I am keeping things minimal for this version just addressing the
-non-cocovm guest_memfd to be preserved. On top of it, We will buidl
-support for the cocoVM preservation. And Sagi (sagis@google.com) is
-already working on it.
+For this reason, I focused on other manufacturers such as Ayaneo and
+OneXPlayer. I will revisit this series per request from Derek as he
+seems to want this for steamos and hid-msi is already queued for 7.3?
+Although, to be honest, compared to the controller firmware issues,
+the WMI implementation is pristine.
 
-Why not implement both in the same series:
-1. This series focus on finalizing the design, How guest_memfd will be
-preserved, So Any user (Not now) but in future will use guest_memfd in
-non cocoVM case, This alone feature will be used.
+So I will need to go through these issues 1 by 1 and see which can be
+fixed and either drop certain features in the beginning.
 
-2. guest_memfd cocoVM preservation support will be built on top of
-in-place conversion series and I preferred not to complicate two topics
-in single series, Instead to develop gradually.
+Particularly for the fan curves, if we say that resume handlers are
+required to be in the kernel moving forward, I do not know how
+realistic it is to make those reliable for this WMI device family.
 
-I agree to your answer for have Borader Roadmap. I tried to answer in
-Cover-letter. Which I am re-stating it here:
+Best,
+Antheas
 
-This series support guest_memfd preservation for non-COCOVM only. cocoVM
-Support will be built on top of that. Which includes the following
-stages.
-non cocoVM guest_memfd preservation -> TDX preservation -> in-place
-convertable private guest_memfd preservation -> in-place convertable
-private guest_memfd preservation backed by hugetlb.
 
-End Goal is to support guest_memfd preservation on cocoVM backed by
-hugetlb.
-
-The question remains:
-Why we are preserving KVM and only vm_type there.
-
-I will try to answer this on the thread of VM preservation to not loose
-the context.
-
+> Guenter
 >
->>
->>> >> > E.g. the LUO APIs seem pretty straightforward; I assume the bulk of the complexity
->>> >> > is going to be in knowing what to save/restore, and how, which is much more about
->>> >> > KVM than it is about liveupdate.
->>> >> 
->>> >> I think it is fine if you want to take these changes through the KVM
->>> >> tree, but I would like live update maintainers to be listed as reviewers
->>> >> at least.
->>> >
->>> > Why not simply add a file pattern match to the LIVE UPDATE entry?
->>> >
->>> > diff --git MAINTAINERS MAINTAINERS
->>> > index 8014b9f8253e..2eb57b22c37f 100644
->>> > --- MAINTAINERS
->>> > +++ MAINTAINERS
->>> > @@ -15052,8 +15052,8 @@ F:      include/linux/liveupdate.h
->>> >  F:     include/uapi/linux/liveupdate.h
->>> >  F:     kernel/liveupdate/
->>> >  F:     lib/tests/liveupdate.c
->>> > -F:     mm/memfd_luo.c
->>> >  F:     tools/testing/selftests/liveupdate/
->>> > +N:     [^a-z]luo
->>> >  
->>> >  LLC (802.2)
->>> >  L:     netdev@vger.kernel.org
->>> 
->>> This would list us as maintainers of kvm_luo.c and the tree as liveupdate.git, 
->>
->> It would list both "LIVE UPDATE" and "KERNEL VIRTUAL MACHINE (KVM)", as KVM would
->> still cover the files via "F:	virt/kvm/*".  And my read of MAINTAINERS is that
->> N: and K: entries are "secondary" if the files/scope is covered by an F: entry.
->>
->> E.g. arch/x86/kvm/vmx/tdx.c is covered by "KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)"
->> via "F:	arch/x86/kvm/*/", and also by "X86 TRUST DOMAIN EXTENSIONS (TDX)" via
->> "N:	tdx" (or maybe "K:	\b(tdx)"?  I haven't bothered to check which one
->> triggers).  And while I don't think there was ever any formal discussion, AFAIK
->> everyone reads the situation as KVM still being the primary maintainer/tree for
->> that code.
->>
->>> both of which is something you're saying you _don't_ want.
->>
->> No, what I don't want is a dedicated "KVM LIVE UPDATE" entry, because I think most
->> people would read "F:     virt/kvm/kvm_luo.c" and "F:     virt/kvm/guest_memfd_luo.c"
->> as being more precise than KVM's "F:   virt/kvm/*" and thus would read things as
->> "KVM LIVE UPDATE" being the primary maintainer.
->>
->> In other words, I'm more than ok with LUO being looped in on KVM LUO changes and
->> having the authority to object to problematic changes, but I'm not ok with LUO
->> taking primary ownership of KVM code.
+> >>
+> >>                      buffer[0] =3D MSI_PLATFORM_AP_SUBFEATURE_FAN_MODE=
+;
+> >>                      ret =3D msi_wmi_platform_query_unlocked(
+> >>
+> >
 >
-> Sure, that sounds good to me.
->
->>
->> I realize there's more than a bit of nuance in my interpretation of N: and K:,
->> but again my experience with TDX is that so long as the maintainers are aligned
->> on expectations, it's a non-issue in practice.
->
-> Yep, as long as we agree among ourselves I don't think the red tape
-> around which entry has higher priority matters much.
-
-Agree!
->
->>
->>> >> At the same time, I also keep being (pleasantly)
->>> >> surprised at preservation being relatively simple. For example, the code
->>> >> to preserve a shmem file (via memfd) is roughly 600 lines, a big chunk
->>> >> of which is comments. The code of course has some limitations, but it is
->>> >> good enough for use in production.
->>> >> 
->>> >> For one, we care about ABI breakages and versioning. 
->>> >
->>> > Which is amusing to me because that implies KVM does not, and I would hazard to
->>> 
->>> No, it doesn't. What I'm saying is I care about changes to the _live
->>> update ABI_. Just like you probably care about changes to KVM ABI but
->>> not so much about BPF for example.
->>> 
->>> > guess that KVM has the biggest ABI surface of any subsystem in the kernel by a
->>> > country mile (though I'm probably wildly underestimating the effective ABI surface
->>> > of filesystems).
->>> >
->>> >> The serialized state is a part of live update ABI and changes to it should be
->>> >> ACKed by us. 
->>> >
->>> > Meh, "Don't break userspace" is a universal rule in the kernel, I genuinely don't
->>> > see why liveupdate needs special treatment.
->>> 
->>> Ironically enough, you miss my point. I'm not talking about userspace
->>> ABI. We all know not to break that. I am talking about live update
->>> _serialization ABI_. See the stuff under include/linux/kho/abi. This
->>> series also adds things there.
->>
->> No, I understand exactly what ABI you're talking about.
->>
->>> This is ABI between kernels. It needs to be stable-ish so you can move
->>> from one kernel version to another. At the same time, unlike userspace
->>> ABI, it can change.
->>
->> Uh, yeah, so KVM has been managing such immutable ABI for practically its entire
->> existence.  KVM's save/restore uAPI has exactly what you're describing: serialization
->> ABI that needs to be backwards and forwards compatible between different kernels
->> in order to support both upgrade and rollback scenarios via live migration.
->
-> I think there is a slight difference between KVM's save/resture uAPI and
-> live update's ABI. With KVM's uAPI, you need to maintain strict
-> backwards compatibility because userspace reads what you output. So if
-> you change the layout, userspace will interpret it wrong and might
-> break.
->
-> With live update, the ABI never gets to userspace. It is used to talk
-> between kernels directly. So if you do break that, your userspace keeps
-> working fine, you just might not be able to live update to the
-> incompatible kernel.
->
-> So with live update, we don't need to keep backwards compatibility in
-> the ABI forever. Of course, it is good to minimize changes, but we have
-> more freedom to change it.
->
-> The current idea is we change the ABI whenever needed. This is because
-> live update is still in development so we are likely to see a lot more
-> changes before we settle down into something that mostly works. At some
-> point, we want to start being more strict between incompatible ABI
-> changes. The current idea is that we would like to keep backwards
-> compatibility across LTS kernels. But none of that is set in stone yet.
 >
 
-True, I also understand Sean's Concern. I will try to explain why
-bacward compatibility with padding does not solve the problem here.
-
-Kernel V1                        -> Kernel V2
-guest_memfd_luo ABI v1           -> guest_memfd_luo ABI v2
-
-(No Userspace involvement here: userspace only determine if the upcoming
-kernel V2 can support the V1 preserved files, if return true: liveupdate()
-elif: no_liveupdate())
-
-When Kernel V1, preserve the data, it has preserved based on ABI v1.
-then serializes it to make it transferable to next kernel via fdt.
-
-Now Kernel V2 boots up, and it needs to deserialize the data and restore
-the file which was preserved before. But this kernel V2 expect guest_memfd
-preservation ABI V2. These ABI V2 might be because of multiple reasons,
-for e.g.
-1. A new feature in guest_memfd_luo (preserving more flags, or the
-private/shared state of folios etc)
-
-2. A new feature in guest_memfd itself, guest_memfd kernel APIs
-(guest_memfd_create(..., new_args) or a new init call for guest_memfd after
-guest_memfd_create(), or an older field/flog is dropped). So new kernel
-should be able to retrieve old guest_memfd and populate in new
-guest_memfd for backward compatibility.
-
-Now, What will happen to these new fields or arguments that are needed,
-Kernel V2->guest_memfd_luo V2 will take care of setting them to default.
-
-Is setting them to default acceptable? Not always? So that is where the
-negotiation comes in picture:  Kernel V2 should know if it can support
-retrieving kernel V1 or otherwise userspace must not transition to V2 using
-liveupdate if V2 does not have compatibility with V1.
-
-Now to support this backward compatibility, the retrieval APIs and
-deserialization APIs in V2 kernel should be able to provide the
-deserialization/retrieval for V1 preserved data.
-
-Kernel V1 -> serialize data ---kexec ----> kernel V2 -> deserialization -> retrieve
-
-Now deserialization/retrival is aware of V1/V2 comptatibility then it
-can set the new fields, parse the preserved data of V1 into V2 (or
-directly give it to guest_memfd APIs with setting any new expected
-fields to default.)
-
-Now having a padding fields in kernel guest_memfd_luo ABIs does not help
-here. As support for deserialization and parsing from V1-> V2 in kernel
-V2 will determine if kernel V2 is backward compatible with V1. which can
-also take care of setting the extra needed fields in V2 to default
-value or remove the unwanted flags/fields not needed in kernel V2.
-
-
-Now Questions is, if there isa  need for rollback to previous kernel
-(V2 -> V1)?
-
-There are two options,
-1. kernel V2 is aware that it is going to get kexec to V1. then
-serialization function on preservation will serialize the
-data in guest_memfd_luo ABIs V1 compatible format.
-
-2. kernel V1 guest_memfd_luo ABIs had the padding in their ABIs
-structures which even if kernel V2 will set those field, will be ignored
-by kernel V1. This will not require saperate
-deserialization/preservation mechanism for guest_memfd_luo V1 in kernel
-V2. This will not work in every case, As there might be different
-parsers are in guest_memfd_luo V2 and V1. then serialized data preserved
-by guest_memfd_luo V2 can not be parsed by guest_memfd_luo V1 after kexec.
-
-So,
-
-Kernel V2 _must have_ to support backward compatibility with kernel V1:
-1. guest_memfd_luo V1 context aware deserialization/retrieval mechanism
-2. guest_memfd_luo V1 context aware serialization/preservation mechanism
-
-Kernel V1/V2 may have:
-1. padding (hard to determine, can have heuristically) to ease the job
-of deserialization/retrieval/serialization/preservation apis. But does
-not solve backward compatibility alone.
-
-
-Once we will keep updating the host, There will be a point when we are at
-V15 but we dont want V1 backward compatiblity anymore, So we drop the
-deserialization/retrieval/serialization/preservation for V1 from V15.
-
-Would love to hear your thoughts?
-
-Looping Logan (loganodell@google.com) for his insights on this as well.
-
-~Tarun
-
-
-> That's why I would like to have an explicit ACK from the live update
-> group for ABI changes. I would like to enforce these compatibility
-> windows.
->
->>
->> KVM also has immutable ABI between itself and guest kernels, including implicit
->> "ABI" in the form of not changing guest-visible behavior.
->>
->>> Today we don't have any rules and let you change things freely as long as you
->>> do a version bump. But at a later point, the plan is to add some stability
->>> requirements to the ABI so you can actually upgrade the kernel across major
->>> versions.
->>> 
->>> So at least for ABI changes, there should be an explicit ACK from the
->>> live update group.
->>
->> I don't entirely agree.  I get where you're coming from, and I 100% agree that
->> the more eyeballs on changes that may affect ABI, the better.
->>
->> Where I have problems with the above is that it doesn't account for the nuances
->> of save/restore across different kernels.  The literal format of the serialized
->> data is the most obvious form of ABI, but it's absolutely possible to change ABI
->> without changing the data format.
->>
->> E.g. say there's a flags field in some serialization structure, and flags X and Y
->> are mutually exclusive in current kernels.  If a future kernel relaxes that
->> restriction for whatever reason, then the effective ABI has been broken because
->> state created and saved on new kernels can't be restored on old kernels.  And
->> this is not a theoretical concern, KVM has run afoul of this a few times (though
->> thankfully very rarely).
->
-> That's a bug, and should be fixed.
->
-> I am talking here about intentional ABI changes. As I mentioned above we
-> _can_ change the ABI, we just need to be careful about it.
->
->>
->> I don't think it's reasonable to expect LUO maintainers to gain enough expertise
->> in each subsystem to be able to ensure changes are forwards and backwards
->> compatible.  The only way I see LUO being successful in the long term is to get
->> subsystem maintainers/contributors to understand *and buy-in* to the LUO model
->> and rules, so that each subsystem can largely be self-sustatining.  I.e. setting
->> yourselves up as literal gatekeepers will help prevent blatant breakage, but it's
->> less likely to help guard against more subtle breakage, and in my experience,
->> subtle breakage is by far harder to detect and more painful to deal with.
->
-> Outside of enforcing the ABI compatibility windows, I think this makes
-> sense.
->
-> In principle at least, though from my experience the maintainer appetite
-> to care about live update varies. The feeling I've got from MM for
-> example is more along the lines of "you break it, you buy it". Which is
-> also a valid model IMO. The person who wrote the live update code for a
-> subsystem is well equipped to understand these nuances.
->
->>
->> Somewhat of a side topic: in my experience, using monotonically increasing version
->> numbers is a horrible way to enumerate features/content.  So for me, allowing
->> KVM's LUO ABI to change with a verson bump is probably a non-starter.  I.e.
->> whatever gets merged needs to be more future-proof than "we'll deal with it later".
->
-> As I wrote above, the compatibility model for live update allows
-> breaking ABI with version bumps. Userspace keeps working fine, it only
-> restricts the set of kernels that you can go to. So the "we'll deal with
-> it later" is not as harmful because our choices here are not permanent.
->
-> Also, there is work underway to allow transitions between versions [0].
->
-> But still, I am not opposed to a more flexible guest_memfd ABI. I think
-> we can reserve some space for feature flags to let us add things in the
-> future.
->
-> [0] https://lore.kernel.org/kexec/20260731215224.831696-1-loganodell@google.com/
->
-> -- 
-> Regards,
-> Pratyush Yadav
