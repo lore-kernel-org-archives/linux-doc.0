@@ -1,40 +1,33 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCAB3EC69A;
-	Tue, 18 Aug 2026 18:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA773A7F41;
+	Tue, 18 Aug 2026 19:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787078663; cv=none; b=l8V4avxc8Prkl6p+fjul0ftvZQGYNjExj6utIcAllvznlegWTrIB9PnU79ufhq/q+z2fGjveSS6C0snZAl2yr9+rs9IU2EbogpIT2LbjS01ZzKAqXeViljUeYnaeK20V1oVf3JFwz32zHzuwJZwispAMatricMkCN0B3Iq6KhUs=
+	t=1787080224; cv=none; b=fFmRgFCfEcyra6wNv6d1TYJWWEM5hggeg196GFAcXLi3iVyDqWRc5VCJRTnvdMqSaK9HwxH80k+pYRnW/IJDu+/uVGLpZ7D10+cXt3/XKzKZyWmld9ViAoZuTJSqUaqcMbONGreCnp6+s3l21Dh+0VwsgrX65Am7FuasJNlSIjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787078663; c=relaxed/simple;
-	bh=cVmvvrAhLxK8LpETFFWCDtl4kYegphODIL5+5nWPt+o=;
+	s=arc-20240116; t=1787080224; c=relaxed/simple;
+	bh=KkGpZv19l7/mQL1nA7bQelciZaQ0JZlWXwDFMEl3ELQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b8ZRPa9P+iRo9T4T15sf+UIkzKbkY1+KkuBzY5fvYxly6Fp6riG97+3aRqRXZmUzfXzX9r6ZPVvcrhCfl2GcNdAWlm/YpifnDITGCLxavPTwVnW6oATa/ghd0ofJMRFmDoNTlSFKqEUJySVS5gFpZWCEeV+kBVAu9LCiYRIiomw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FgLXHQ5m; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 In-Reply-To:Content-Type; b=NBJG3XmcGLWk2zIzjwhxLRe/Ezb6A+lM8flD0lGB/ZYL703ZF3gyTISWuQPecA6yvLcW9rUGranSUbAm4rUHECv/9qTQzBgMFneF7h6TMm0/4xbFbp3nZEapgzeN/tobYNVpY6CemnRApMGkl1ua3timi1HP4I/BaryvuFDTPnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iW5D/etU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FgLXHQ5m"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7319A4E412B1;
-	Tue, 18 Aug 2026 18:44:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 43EC560355;
-	Tue, 18 Aug 2026 18:44:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EB77211C74E6F;
-	Tue, 18 Aug 2026 20:44:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787078654; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=/8GvVSs8iI9IF9gyksrUqRLSI+MEzqcRDCycP7bwOuA=;
-	b=FgLXHQ5mpW4mfNWV5N9/0Ibk3HSxH/O6/bV/NlS8l8GJqZTL0kBHpD8+GzSjZY2drpKKuj
-	kD6++OWekVsfltY3ZzYg4nQZZQZ8VkrOsmODfbaLVBl3dKWyBvWxoqJVqh4IoBJfLG/vbR
-	1KCGQCy7dyrS+Xh00FWLPInaWETGfzAXX02Rv8/7CxBOXWhc5OMDT5yIIHz5FDALgPuDDJ
-	F2l3gqr2E6+EZM59PIwybLvgjogkyJ1U5ctEsgDxMzvxHJI2ELmWU8rD9e4/xTAWiJi/P5
-	ztFWw6Jr1whwZTqeNUcQcCDzhX+w7dR2j3FH/PDMIvwigNvrksDesgcy4jz7tw==
-Message-ID: <e3450128-f189-42a2-87cc-07d3d240fda6@bootlin.com>
-Date: Tue, 18 Aug 2026 20:44:06 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iW5D/etU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800931F000E9;
+	Tue, 18 Aug 2026 19:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787080223;
+	bh=ccFMWOxNKjDpDqqKY61JHW3XQyzuiNVYIrLOTJN7zxI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=iW5D/etUOoeVF5co6vfjmeIuhqx0O1t53qDNyrHrV/3PZ5ZidYUpcfUBM366CIGxY
+	 WYIY+0xzkOxRu0TN5hz+qn9kdorqXWeaRGZcsv6cKGXZc7d6eaAPzx2O/RrvBV5zB8
+	 wQ+4j1gBBLKS8XrbV7agOAOCIuyHz0UAJpzs8DSVbZ1KdP8VHm02H2xUEvFtkdPMYa
+	 Nq1sfrN4A3Xfa78wKk8Vs8KeBs+0fz+LT3aDJeYwcAA/Q38WB2SmMrwVSB138zC4Ho
+	 j1UrBUqSdyJX/Lq43IOIRKtSH7Ztek63Ot7aA1oxpEn45b+ieMxgfgJN1YtfSWgrMy
+	 7AjTe0uWDHo2Q==
+Message-ID: <81708487-89ce-4cd5-b39a-2989bdce6088@kernel.org>
+Date: Tue, 18 Aug 2026 21:10:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,231 +35,157 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next] selftests/net: Introduce a selftest for
- ethtool flow control
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Heiner Kallweit <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260731162812.4118413-1-maxime.chevallier@bootlin.com>
- <68f569df-fa57-4f94-962e-f3eea20ab7ba@lunn.ch>
+Subject: Re: [PATCH v2 03/15] accel/qda: Add initial QDA DRM accelerator
+ driver
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>,
+ srinivas.kandagatla@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ llvm@lists.linux.dev, iommu@lists.linux.dev, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-3-69a02e9090d4@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <68f569df-fa57-4f94-962e-f3eea20ab7ba@lunn.ch>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
+ /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
+ s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
+ EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
+ rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
+ DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
+ IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
+ vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
+ oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
+ sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
+ vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
+ Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
+ BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
+ 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
+ f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
+ WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
+ XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
+ IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
+ YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
+ p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
+ GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
+ YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
+ vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
+ ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
+ QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
+ +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
+ wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
+ c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
+ K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
+ n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
+ qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
+In-Reply-To: <20260817-qda-v2-v2-3-69a02e9090d4@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Andrew,
+On 17/08/2026 06:47, Ekansh Gupta wrote:
+> Add the skeleton of the Qualcomm DSP Accelerator (QDA) driver, a DRM
+> accel driver for the Hexagon DSPs found on Qualcomm SoCs.
+> 
+> This patch registers a DRM accel device, exposing a /dev/accel/accelN
+> character device node, and binds it to the RPMsg channel used to reach
+> the DSP. Buffer management, IOMMU context banks and the FastRPC
+> protocol are added by later patches in this series.
+> 
+> qda_drv.c / qda_drv.h define the drm_driver ops table, the per-file
+> private state (qda_file_priv) and the main device structure (qda_dev),
+> which embeds drm_device so that it can be recovered with container_of().
+> 
+> qda_rpmsg.c binds to the "qcom,fastrpc" compatible via
+> module_rpmsg_driver(), reads the DSP domain name from the "label"
+> device-tree property, and registers the DRM device.
+> 
+> Assisted-by: Claude:claude-sonnet-5
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Use module_rpmsg_driver() and drop the qda_rpmsg_register()/
+>   _unregister() wrappers, module_init()/module_exit() and
+>   qda_rpmsg.h entirely (Dmitry Baryshkov)
+> - Read the "label" property directly into qdev->dsp_name (Dmitry Baryshkov)
+> - Drop the probe/remove/init log messages (Dmitry Baryshkov)
+> - Return the result of qda_register_device() directly (Dmitry Baryshkov)
+> - Clarify the Kconfig help text (Dmitry Baryshkov)
+> ---
+>  drivers/accel/Kconfig         |  1 +
+>  drivers/accel/Makefile        |  1 +
+>  drivers/accel/qda/Kconfig     | 30 ++++++++++++++++
+>  drivers/accel/qda/Makefile    | 10 ++++++
+>  drivers/accel/qda/qda_drv.c   | 71 ++++++++++++++++++++++++++++++++++++++
+>  drivers/accel/qda/qda_drv.h   | 61 +++++++++++++++++++++++++++++++++
+>  drivers/accel/qda/qda_rpmsg.c | 79 +++++++++++++++++++++++++++++++++++++++++++
+>  7 files changed, 253 insertions(+)
+> 
+> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+> index bdf48ccafcf2..74ac0f71bc9d 100644
+> --- a/drivers/accel/Kconfig
+> +++ b/drivers/accel/Kconfig
+> @@ -29,6 +29,7 @@ source "drivers/accel/ethosu/Kconfig"
+>  source "drivers/accel/habanalabs/Kconfig"
+>  source "drivers/accel/ivpu/Kconfig"
+>  source "drivers/accel/qaic/Kconfig"
+> +source "drivers/accel/qda/Kconfig"
+>  source "drivers/accel/rocket/Kconfig"
+>  
+>  endif
+> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+> index 1d3a7251b950..58c08dd5f389 100644
+> --- a/drivers/accel/Makefile
+> +++ b/drivers/accel/Makefile
+> @@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
+>  obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
+>  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
+>  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
+> +obj-$(CONFIG_DRM_ACCEL_QDA)		+= qda/
+>  obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
+> \ No newline at end of file
 
-On 8/9/26 18:45, Andrew Lunn wrote:
-> On Fri, Jul 31, 2026 at 06:28:11PM +0200, Maxime Chevallier (Netdev Foundation) wrote:
->> From: Maxime Chevallier <maxime.chevallier@bootlin.com>
->>
->> As part of work started by the Netdev Foundation, introduce a skeleton
->> of a selftest to stress the ethtool pause APIs. The goal is to catch
->> common mistakes done in drivers by allowing these tests to be run on
->> real hardware, and derive potential implementation issues from the
->> behaviour observed at the userspace level.
->>
->> This is just the skeleton of the tests, most implementation details are
->> stubbed, the goal is to validate the test definitions, flow and results
->> here.
->>
->> A separate documentation such as the one written by Oleksij will be sent
->> as a complement for the next iterations.
->>
->> Signed-off-by: Maxime Chevallier (Netdev Foundation) <maxime.chevallier@bootlin.com>
+You have trivial patch errors.
 
-Thanks for the review ! Sorry for the delay, I took 2 weeks off
-expecting to be able to be somewhat active on netdev, but I ended-up
-not being very present. Back to work now :)
+...
 
-[...]
+> +}
+> +
+> +static const struct of_device_id qda_rpmsg_id_table[] = {
+> +	{ .compatible = "qcom,fastrpc" },
+> +	{},
 
->> +def pause_to_linkmodes(rx, tx) -> list[str]:
->> +    """ Convert rx/tx pauseparams to the corresponding linkmodes
->> +    """
->> +    if rx:
->> +        if tx:
->> +            return pauseparams_to_linkmodes[3]["linkmodes"]
->> +        else:
->> +            return pauseparams_to_linkmodes[2]["linkmodes"]
->> +    elif tx:
->> +        return pauseparams_to_linkmodes[1]["linkmodes"]
->> +    else:
->> +        return pauseparams_to_linkmodes[0]["linkmodes"]
-> 
-> I don't want to get into the weeds, but if you have nested dict, you
-> should be able to do
-> 
-> 	return pauseparams_to_linkmodes[rx][tx]["linkmodes"]
+Device node with this compatible is already populated, so this looks
+simply wrong or you are adding a duplicated driver.
 
-True, that's a better idea yes :)
+That's a no-go, you are supposed to work with existing drivers and grow
+them.
 
-> 
-> but then you cannot reuse the pauseparams_to_linkmodes as a list of
-> test variants.
-> 
->> +def get_peer_lp_advertising(cfg) -> tuple[int, list[str]]:
->> +    """ get the lp_advertised linkmodes on the link partner
->> +
->> +    Raise an error if the return is not 0 or EOPNOTSUPP
->> +    returns ENODEV if there's no LP
->> +    Prints a warning if LP is present but doesn't report lp_advertising
->> +
->> +    :param cfg: test config
->> +    :returns: tuple containing :
->> +              - return code of the ethtool command
->> +              - list of linkmodes
->> +    """
->> +    #TODO
->> +    raise KsftSkipEx("Not implemented")
->> +
->> +def wait_for_link(cfg) -> bool:
->> +    """ Wait for both ends of the link to be up.
->> +
->> +    :param cfg: test config
->> +    :returns: True if link is UP, False if timeout
->> +    """
->> +    #TODO
->> +    raise KsftSkipEx("Not implemented")
-> 
-> When we are considering this as Documentation of what tests we want to
-> implement, this is fine. But when it comes to the real implementation,
-> i think many of these methods can be put into a library, since they
-> will be used for EEE testing, and hopefully other classes of tests in
-> the future.
 
-Absolutely, I agree with that, I'll put these into a shared lib
-
-> 
->> +def pause_test_support(cfg, pauseparams) -> None:
->> +    """ Verify that the supported linkmodes Pause and Asym_Pause match the
->> +        ability to configure the rx and tx pauseparams.
->> +
->> +    Drivers are expected to reject pauseparams they don't support, and
->> +    accept the ones they support. The supported modes are exposed by
->> +    the MAC to the PHY layer through phylink mac_capabilities MAC_SYM_PAUSE
->> +    and MAC_ASYM_PAUSE, or through phylib directly with the
->> +    phy_support_sym_pause() and phy_support_asym_pause() helpers.
->> +
->> +    The expectation is for drivers to refuse setting pauseparams that don't
->> +    match the Pause and Asym_Pause bits in the supported linkmodes with a
->> +    -EOPNOTSUPP return value. Unsupported pause params must be rejected.
->> +
->> +    Failing this test likely means the MAC driver doesn't implement the
->> +    set/get_pauseparam, but still sets flow control as supported through
->> +    phylink mac_capabilities or phylib's pause API. Conversely, the MAC driver
->> +    may have omitted to indicate its supported Pause modes. Finally, the PHY
->> +    driver may incorrectly override the Pause and Asym_Pause bits in its supported
->> +    fields.
->> +    """
->> +
->> +    rx = "on" if pauseparams["rx"] else "off"
->> +    tx = "on" if pauseparams["tx"] else "off"
->> +    linkmodes = pauseparams["linkmodes"]
->> +
->> +    # Run ethtool {cfg.ifname} and extract the "Supported pause frame use"
->> +    # Run ethtool -A {cfg.ifname} rx {rx} tx {tx} autoneg off, store the return code
-> 
-> The autoneg off is buried in this text. On first reading, i did not
-> notice this was testing forced pause configuration. I would mention
-> that in the method documentation, and maybe the method name.
-> 
-> Should we be being this twice, once with ethtool -s autoneg on, and
-> then with ethtool -s autoneg off? Maybe that is covered in a later
-> test i've not got to yet...
-
-Ah true yes
-
-> 
->> +def pause_advertising_test(cfg, pauseparams) -> None:
-> 
-> ...
-> 
->> +    # Wait for link parameters to re-negotiate and link to come back up. It must
->> +    # come back up, otherwise that means changing pauseparams can bring the
->> +    # link down.
->> +    ret = wait_for_link(cfg)
->> +    ksft_true(ret, "Link din't come back up after setting pauseparams")
-> 
-> typo: didn't
-> 
->> +
->> +    _, linkmodes = get_local_advertising(cfg)
->> +    for mode in adv:
->> +        ksft_in(mode, linkmodes, f"rx {rx} tx {tx} must advertise {adv}")
->> +
->> +    for mode in not_adv:
->> +        ksft_not_in(mode, linkmodes, f"rx {rx} tx {tx} must not advertise {not_adv}")
->> +
->> +    # It's better to double-check on the LP that we are indeed correctly
->> +    # advertising these modes, but if we don't have a controllable LP let's
->> +    # just rely on what we say we're advertising
->> +    returncode, remote_linkmodes = get_peer_lp_advertising(cfg)
->> +    if returncode == errno.ENODEV:
->> +        return
-> 
-> I think we should be suggesting to vendors to implement returning the
-> LP values. And i _guess_ most vendors with use a pair of their own
-> devices, rather than a 3rd party device. So printing a warning here
-> that LP is not supported would be a good hint it should be.
-> 
-> I think the level of details is good now. We can start the
-> implementation.
-
-Great, next round will be something we can actually run then :)
-
-> 
->> +def main() -> None:
->> +    with NetDrvEpEnv(__file__) as cfg:
->> +        cfg.ethnl = EthtoolFamily()
->> +        ksft_run([pause_test_support,
->> +                  pause_advertising_test,
->> +                  pause_aneg_resolution,
->> +                  pause_autoneg_state_adv,
->> +                  pause_autoneg_state_params,
->> +                  pause_autoneg_off_while_link_autoneg_on,
->> +                  pause_autoneg_link_autoneg,
->> +                  ],
->> +                 args=(cfg, ))
->> +    ksft_exit()
->> +
->> +if __name__ == "__main__":
->> +    main()
-> 
-> An implementation detail: How robust is the test framework, getting
-> the device back into a working state? The test is turning autoneg off
-> and on, we might loose link. If we fail a test, throw an exception, is
-> there cleanup to get the device back into a known good state?
-> 
-> Maybe before we run the test, we check we have link. If there is no
-> link, fail the test, basic requirements are not met. Then make a note
-> of the current configuration. At the end of the test, even if it
-> fails, or throws an exception restore that configuration. We have to
-> be careful of systems like automotive which often don't support
-> autoneg. So our cleanup cannot be as simple as turn autoneg on.
-
-From my initial tests, we definitely have to deal with recovery. We can
-lose link, get the whole interface completely stuck (crash/stall requiring
-a reboot), etc.
-
-It's more of an infrastructure thing here, people running the selftests
-while developping a driver will be able to manually recover, but for NIPA
-or other setups, usually reboot is the safe way.
-
-Maxime
-
-Pause isn't the wo
-
-> 
-> 	 Andrew
-
+Best regards,
+Krzysztof
