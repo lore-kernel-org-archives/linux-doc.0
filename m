@@ -1,217 +1,189 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51D9472F7C;
-	Tue, 18 Aug 2026 13:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9638A468C11;
+	Tue, 18 Aug 2026 13:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787059958; cv=none; b=VZhlRe21OzKTaSXVOzqKJM7XlNuizr4tHVn5AeEOgKtlG/BrLqo3k2TxNCbOk07F1dlPWtSiHr9nRVPs+/PaVsOSl7USh8xd46wI1Qv1B3melqMYCqEfaifuBu9TLctGL766LVkoxXpqavyZEqFVAui1o1WJF4zTPA42Mok3SBo=
+	t=1787060605; cv=none; b=LoxG+QNvCmJFjOij4giamvzJV0CZSV7djSz762M8jvM22KTMvFdY4SWuzsMp3d1OjYIbYviRff4c+HlZcpvzny5RUp2YusXYD9dj8ppwQdZ7StgC436Xv8rJ4ANbHhjL2C7EyDLO5vhvto8VPirj4ordz2myTmM4paO4dkr4894=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787059958; c=relaxed/simple;
-	bh=zODo0YxaK8EvQyzyub97afGLMRh9681+5f+JksrYehQ=;
-	h=Message-ID:Date:MIME-Version:CC:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=YPC2aVXTYUIXYxI6FlMjKYsVDi6WFijHrrSYTdaN7/EFEL+E8FPt9s37H9kmTIYrzgZnum/wtsXcXMHcCVzD03hB7KOOTTnX54JFK60eiAVl9R0Y9CfpbEbaS9hEsfeWXiBleL4dw9xlLNwxX/GvSRGCp/z+tRffGRHbGivXAfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=loEDKz/q; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1787060605; c=relaxed/simple;
+	bh=uY2e62TGWkZpxEzYpDvfnnHcFMOjTOKr3KB9V/QxwgM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VKsQSshb9GVvdYreelxnmSdHHleeGiBNpA07rM0O5jXRiRHgaK0wTc5u/HBcjkZaKMq6LrKOudw4TCvcH7D5ECwR6Tmaysh93/GL2BRbL0wgghsGOEV56uZII/zHj/PAr2ebk2EMfdZXtaeMU20vJhSb1iV1+ESoDpcJra2IAmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNqkvMTJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="loEDKz/q"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=5Ao0mjFbvVNW/izzO3jvpj6rQ9rGRmC29qURkFZh6ME=;
-	b=loEDKz/qrpzbvC0Lh9UjT1BLiZqEz5h3Fgx0xNC6h/0utCONZfj9gJxFUI9wWKVaZTuJfmffK
-	7S3eS70EYvMPfFus94IwKTMYKXd5JQ8EdS5aR1dCPT/BmpIjoY3aJyPJvE1YRIqSzH+47+68a+4
-	LQhcHzRcKKboSqyIuM0NyTU=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hPVj20XhbzLlTg;
-	Tue, 18 Aug 2026 21:21:42 +0800 (CST)
-Received: from kwepemo500018.china.huawei.com (unknown [7.202.195.199])
-	by mail.maildlp.com (Postfix) with ESMTPS id C5D2A4056C;
-	Tue, 18 Aug 2026 21:32:22 +0800 (CST)
-Received: from [10.67.120.192] (10.67.120.192) by
- kwepemo500018.china.huawei.com (7.202.195.199) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 18 Aug 2026 21:32:21 +0800
-Message-ID: <dd817755-eb4d-4ac2-b282-ac06f847270d@huawei.com>
-Date: Tue, 18 Aug 2026 21:32:20 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNqkvMTJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0CB1F000E9;
+	Tue, 18 Aug 2026 13:43:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787060604;
+	bh=nCaPyvw2iFSAtJp+/S0lPXfdeu+F7EyJ6au4lKiWYEc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=CNqkvMTJLXNXiEeYKsDcJ5vMCl9APuMbVQIu0B3nogx96ycdVcxhEfA8Y935rOFQB
+	 DwbNjFOYTMnBcvSeBREzeVOMYq7oUx9+JWYNVQm4Q0PKS+TKPkUhGIwiw2tE5w+5Ve
+	 LAEdg6oApkQLyaWE+1c4QN377ZwYbBFYC0UH/Ok81z64U3FaYuILqh5ogSr2NI8qW5
+	 Ege/V5Ma8jQasI6rRqF3rtGgJBIUlCgSKy5x8PZPaKbx9kzGG3jWEalwW+u9kH3QZa
+	 hA+6ZSEFatqG59DQNkEy9P9hX2+kEigKQsIcMrgm1kYnd9bXj74pxxwXASSs+5JduV
+	 qiO3xv/HZavsA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Tarun Sahu
+ <tarunsahu@google.com>,  ackerleytng@google.com,  fuad.tabba@linux.dev,
+  Andrew Morton <akpm@linux-foundation.org>,  dmatlack@google.com,  Shuah
+ Khan <skhan@linuxfoundation.org>,  Jonathan Corbet <corbet@lwn.net>,
+  david@redhat.com,  Pasha Tatashin <pasha.tatashin@soleen.com>,
+  sagis@google.com,  Paolo Bonzini <pbonzini@redhat.com>,  Mike Rapoport
+ <rppt@kernel.org>,  Alexander Graf <graf@amazon.com>,
+  linux-kselftest@vger.kernel.org,  andre.przywara@arm.com,
+  michael.roth@amd.com,  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
+  will@kernel.org,  vannapurve@google.com,  maz@kernel.org,
+  fvdl@google.com,  kvm@vger.kernel.org,  oliver.upton@linux.dev,
+  kvmarm@lists.linux.dev,  alexandru.elisei@arm.com,  skhawaja@google.com,
+  aneesh.kumar@kernel.org,  linux-doc@vger.kernel.org,  David Hildenbrand
+ <david@kernel.org>,  yan.y.zhao@intel.com,  kexec@lists.infradead.org,
+  suzuki.poulose@arm.com
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live
+ updates
+In-Reply-To: <aoMcqp0gr06YXAPU@google.com> (Sean Christopherson's message of
+	"Mon, 17 Aug 2026 07:37:30 -0700")
+References: <20260728121138.1103610-1-tarunsahu@google.com>
+	<20260728121138.1103610-6-tarunsahu@google.com>
+	<anphyjFv3FhF61iB@google.com> <2vxzpkzo51wg.fsf@kernel.org>
+	<anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
+	<anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
+	<aoMcqp0gr06YXAPU@google.com>
+Date: Tue, 18 Aug 2026 15:43:16 +0200
+Message-ID: <2vxzy0e3zgqz.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-CC: <shaojijie@huawei.com>
-Subject: Re: [PATCH v5 net-next 2/2] net: hns3: fix GSO_ECN flag setting in
- the RX path
-To: <chia-yu.chang@nokia-bell-labs.com>, <shenjian15@huawei.com>,
-	<linux-rdma@vger.kernel.org>, <eperezma@redhat.com>, <jasowang@redhat.com>,
-	<virtualization@lists.linux.dev>, <mst@redhat.com>,
-	<xuanzhuo@linux.alibaba.com>, <pabeni@redhat.com>, <edumazet@google.com>,
-	<linux-doc@vger.kernel.org>, <corbet@lwn.net>, <horms@kernel.org>,
-	<dsahern@kernel.org>, <kuniyu@google.com>, <bpf@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <dave.taht@gmail.com>, <jhs@mojatatu.com>,
-	<kuba@kernel.org>, <stephen@networkplumber.org>, <xiyou.wangcong@gmail.com>,
-	<jiri@resnulli.us>, <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
-	<donald.hunter@gmail.com>, <ast@fiberby.net>, <liuhangbin@gmail.com>,
-	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>, <ij@kernel.org>,
-	<ncardwell@google.com>, <koen.de_schepper@nokia-bell-labs.com>,
-	<g.white@cablelabs.com>, <ingemar.s.johansson@ericsson.com>,
-	<mirja.kuehlewind@ericsson.com>, <cheshire@apple.com>, <rs.ietf@gmx.at>,
-	<Jason_Livingood@comcast.com>, <vidhi_goel@apple.com>
-References: <20260804213510.673084-1-chia-yu.chang@nokia-bell-labs.com>
- <20260804213510.673084-3-chia-yu.chang@nokia-bell-labs.com>
- <61721708-0d77-4f59-aa08-02562af282bb@huawei.com>
-From: Jijie Shao <shaojijie@huawei.com>
-In-Reply-To: <61721708-0d77-4f59-aa08-02562af282bb@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemo500018.china.huawei.com (7.202.195.199)
+Content-Type: text/plain
 
+Hi Sean,
 
-on 2026/8/11 21:31, Jijie Shao wrote:
+On Mon, Aug 17 2026, Sean Christopherson wrote:
+
+> On Sat, Aug 15, 2026, Pratyush Yadav wrote:
+>> On Wed, Aug 12 2026, Sean Christopherson wrote:
+>> > On Wed, Aug 12, 2026, Pratyush Yadav wrote:
+>> >> This is ABI between kernels. It needs to be stable-ish so you can move
+>> >> from one kernel version to another. At the same time, unlike userspace
+>> >> ABI, it can change.
+>> >
+>> > Uh, yeah, so KVM has been managing such immutable ABI for practically its entire
+>> > existence.  KVM's save/restore uAPI has exactly what you're describing: serialization
+>> > ABI that needs to be backwards and forwards compatible between different kernels
+>> > in order to support both upgrade and rollback scenarios via live migration.
+>> 
+>> I think there is a slight difference between KVM's save/resture uAPI and
+>> live update's ABI. With KVM's uAPI, you need to maintain strict
+>> backwards compatibility because userspace reads what you output. So if
+>> you change the layout, userspace will interpret it wrong and might
+>> break.
+>> 
+>> With live update, the ABI never gets to userspace. It is used to talk
+>> between kernels directly. So if you do break that, your userspace keeps
+>> working fine, you just might not be able to live update to the
+>> incompatible kernel.
+>> 
+>> So with live update, we don't need to keep backwards compatibility in
+>> the ABI forever. Of course, it is good to minimize changes, but we have
+>> more freedom to change it.
 >
-> on 2026/8/5 5:35, chia-yu.chang@nokia-bell-labs.com wrote:
->> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
->>
->> Currently, the hns3 Rx path sets the SKB_GSO_TCP_ECN flag when a TCP
->> segment with the CWR flag set is received. This is incorrect because
->> the hns3 hardware GRO resets the IP ToS byte to 0 during packet
->> aggregation. Consequently, no valid ECN signals are carreid, meaning
->> that it cannot support RFC3168 ECN or Accurate ECN protocols. Setting
->> SKB_GSO_TCP_ECN or SKB_GSO_TCP_ACCECN under these conditions misleads
->> the upper network stack.
->>
->> Fix this by removing the incorrect SKB_GSO_TCP_ECN flag assignment
->> in hns3_gro_complete().
+> Ah.  So this is the heart of the disconnect.  I very strongly disagree with the
+> statement that live update doesn't need to support backwards compatibility.  I
+> can totally believe that the folks working on live update are ok breaking backwards
+> compatibility because their use cases are "fine" with such breakage.  And I can
+> also believe live update as an upstream kernel feature being developed by those
+> same folks is also ok with breaking backwards compatibility.
 >
+> But with my upstream KVM maintainer hat on, I am not ok with that.  I did not agree
+> to support a world where KVM is allowed to break backwards compatibility, so long
+> as it's done "carefully" or whatever.  If y'all want to deal with the resulting
+> complexity, that's fine by me, but you'll be doing it without KVM.
+
+Let's step back a bit. I don't think backwards compatibility in the
+_ABI_ is all that important in live update's context. What is important
+is that our users are able to live update from kernel version X to Y.
+The line format the kernel uses to describe its state is an
+implementation detail. Our users never see it.
+
+The high level idea is that when you need to make a change to the ABI so
+the kernel can better describe the objects/resources/files it is
+passing, you create a new version of the ABI and allow transitions from
+older versions.
+
+Say you make some changes and need an ABI version v5. You don't get rid
+of v4. You keep it around. LUO core will facilitate picking the right
+version for the next kernel. So it will be possible to seamlessly
+upgrade your kernel that speaks v4 to a new kernel that speaks v4 and
+v5. Now this kernel can start speaking v5 if its successor speaks v5
+too. And so on for going to v6 and v7, etc.
+
+After a "reasonable" time given for upgrades, you deprecate v4. v4 has
+been around long enough and our users have had a chance to go to kernels
+speaking newer versions. That's when you remove the code for v4 from the
+kernel.
+
+We can argue what "reasonable" means, but the core idea stays. 
+
+It will still be possible to go back to v4 or earlier, but you'd need an
+extra stop along the way. And of course, vendors can keep a wider
+support matrix downstream if they see the need for it.
+
+Does this idea of "backwards compatibility" sound acceptable to you, at
+least at a high level?
+
+Now coming back to today's reality. We don't yet support this version
+transition. I proposed the idea at LPC 2025 [0]. Logan Odell has taken
+over the work since I have other things on my plate, but it is something
+being actively developed. Logan recently sent some RFCs [1] for this
+too, though TBH I haven't yet gotten to those patches. We also have
+proposed a talk about this at LPC 2026, it would be great if you could
+attend (if the talk gets accepted).
+
+If you say that we should figure this version transition out and land it
+upstream before we land the KVM code, I think that's a fair ask. I can
+work with that.
+
+But I think we first need to agree on the principles of the
+compatibility model I described above.
+
+[0] https://lpc.events/event/19/contributions/2049/
+[1] https://lore.kernel.org/kexec/20260731215224.831696-1-loganodell@google.com/T/#u
+
 >
-> Tested on hns3 HW (2x 100G, direct cable, openEuler 24.03, kernel 
-> 7.2.0-rc6).
->
-> tcpdump confirms HW GRO zeroes IP ToS: aggregated (>MTU) packets carry
-> tos 0x0, while non-aggregated packets keep their ToS/ECN marks — so the
-> zeroing is done by HW GRO, not the sender. Before patch, CWR packets had
-> SKB_GSO_TCP_ECN set (0x5 = SKB_GSO_TCPV4 | SKB_GSO_TCP_ECN). After patch,
-> all GRO events gso_type=0x1 (SKB_GSO_TCPV4 only), no 0x5 observed.
->
-> Tested-by: Jijie Shao <shaojijie@huawei.com>
+> I totally understand that exploratory work and initial development is best done
+> in private and/or in a small working groups.  But decisions that will significantly
+> impact multiple subsystems need to be made *with* those subystems.  I mean,
+> obviously it's possible to make a decision in a small group and then "publish"
+> the result later, but then as is happening here, the community and subsystem
+> maintainers like me may refuse to play ball if they disagree.
 
+The design of live update was discussed and agreed upon in the open.
+David Rientjes (and now Pasha) has been hosting the live update
+biweeklies [2] from the very start of the project. The series is open to
+everyone and notes shared for those who couldn't join. This meeting was
+attended by a lot of people from different companies and different
+subsystem backgrounds.
 
-I need to correct my earlier test report where I stated:
+There have also been a microconference at LPC 2025 where topics around
+live update in PCI, MM, VFIO, IOMMU, etc. were discussed, along with
+presentations at subsystem tracks in other conferences.
 
-   "tcpdump confirms HW GRO zeroes IP ToS: aggregated (>MTU) packets
-    carry tos 0x0, while non-aggregated packets keep their ToS/ECN
-    marks — so the zeroing is done by HW GRO, not the sender"
+Of course, it is impossible to get all maintainers of all subsystems to
+attend these sessions or conferences. That's fine.
 
-This conclusion was wrong. I am withdrawing that Tested-by tag.
+But I think it is quite unfair to say that live update is developed in
+private or in small groups.
 
-Root cause of the error
-========================
+[2] https://lore.kernel.org/all/?q=s%3A%22%5BHypervisor+Live+Update%5D%22
 
-I mixed two test tools with different sender-side paths and incorrectly
-compared their results:
-
-1. The observation that "non-aggregated packets keep their ToS/ECN
-    marks" came from a Python script (scapy). Scapy constructs L2/L3
-    packets directly, bypassing the kernel TCP stack, so the ToS value
-    on the wire is exactly what the script sets — this says nothing
-    about whether a kernel-stack sender would clear ToS or not.
-
-2. The observation that "aggregated packets carry tos 0x0" came from
-    iperf3 with --tos. iperf3 goes through the kernel TCP stack, and I
-    did not set net.ipv4.tcp_ecn=1, so the kernel cleared the ECN bits
-    (low 2 bits of ToS) before the packets hit the wire. The tos=0x0 on
-    aggregated packets was already tos=0x0 on the wire at the sender
-    side — it was a TX-side kernel behavior, not HW GRO zeroing.
-
-I mistakenly used the scapy observation ("non-aggregated packets keep
-ToS") as evidence that "the sender didn't clear ToS", then concluded
-that iperf3's tos=0x0 must be caused by HW GRO. But these two
-observations came from different sender paths and cannot be compared
-this way. I only captured at the receiver side with no sender-side
-wire capture to compare against, so I wrongly attributed the TX-side
-clearing to HW GRO.
-
-New test with tesgine (direct packet construction)
-===================================================
-
-To eliminate the kernel TCP stack interference, I retested using
-tesgine, a packet generator that constructs TCP segments directly at
-L2/L3 with full control over the IP ToS byte. This bypasses the kernel
-TCP ECN state machine entirely, so the ToS value on the wire is exactly
-what was configured.
-
-Test setup:
-   - hns3 NIC, HW GRO on, software GRO off (ethtool -K <dev> gro off)
-   - tesgine sends 1460-byte TCP segments with controlled ToS values
-   - Capture at receiver post-GRO
-
-Four test cases were run, each verifying a different ToS boundary:
-
-Test 1: Non-ECT <-> ECT(0)
-   Sent:  4x tos=0x00 + 1x tos=0x02 + 4x tos=0x00 + 2x tos=0x02 + 1x tos=0x00
-   Got:   4 aggregated (tos=0x00) | 1 single (tos=0x02)
-        | 4 aggregated (tos=0x00) | 2 aggregated (tos=0x02)
-        | 1 single (tos=0x00)
-   => GRO segments at every ToS change, each group keeps its ToS.
-
-Test 2: ECT(0) <-> CE
-   Sent:  4x tos=0x02 + 1x tos=0x03 (CE) + 4x tos=0x02
-   Got:   4 aggregated (tos=0x02) | 1 single (tos=0x03 CE)
-        | 4 aggregated (tos=0x02)
-   => CE packet is delivered independently, CE mark preserved.
-
-Test 3: Non-ECT <-> CE
-   Sent:  4x tos=0x00 + 1x tos=0x03 (CE)
-   Got:   4 aggregated (tos=0x00) | 1 single (tos=0x03 CE)
-   => Same behavior: CE is segmented out, ToS preserved.
-
-Test 4: Pure DSCP change (ECN bits identical)
-   Sent:  4x tos=0x10 (DSCP4) + 4x tos=0xB8 (DSCP46)
-   Got:   4 aggregated (tos=0x10) | 4 aggregated (tos=0xB8)
-   => Even pure DSCP change (no ECN bit change) triggers segmentation.
-
-Conclusions from tesgine testing
-================================
-
-   1. HW GRO does NOT zero IP ToS. Each aggregate group retains the
-      head packet's ToS value (verified with 0x00/0x02/0x03/0x10/0xB8).
-
-   2. HW GRO segments flows by ToS boundaries. Any ToS change — whether
-      DSCP (bits 0-5) or ECN (bits 6-7) — terminates the current
-      aggregate group and starts a new one.
-
-   3. ECN signals are preserved: CE packets (tos=0x03) are delivered
-      independently with the CE mark intact, not merged into non-CE
-      aggregates.
-
-Impact on this patch
-====================
-
-The commit message states:
-
-   "the hns3 hardware GRO resets the IP ToS byte to 0 during packet
-    aggregation. Consequently, no valid ECN signals are carried"
-
-This factual claim is incorrect per the tesgine test results above.
-HW GRO preserves ToS and segments by ToS boundaries, so ECN signals
-are not lost during aggregation.
-
-The code change itself (removing the SKB_GSO_TCP_ECN assignment in
-hns3_gro_complete) may still be correct, but the justification should
-be based on the RX-path semantic argument from patch 1/2 (SKB_GSO_TCP_ECN
-is a TX-path flag; using it in RX can corrupt the ACE signal in AccECN
-forwarding scenarios), not on the ToS-zeroing claim. Or change to AccECN.
-
-I will re-verify and provide a new Tested-by once the commit message is
-updated. Sorry for the confusion caused by my earlier report.
-
-Test captures and methodology details available on request.
-
+-- 
 Regards,
-Jijie Shao
-
-
+Pratyush Yadav
