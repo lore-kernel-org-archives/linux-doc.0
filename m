@@ -1,149 +1,132 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BBA472783
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 13:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D7A476680;
+	Tue, 18 Aug 2026 13:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787058449; cv=none; b=T9/hFvNO4x3x+fbGgGo3soFz/INYInruZPZmf1rQh3RwXz1x3pXJJH6NXX1hlpbXgYeqqeGyiFgIKPOm3vYdyYnUwIBgUgz+N6WXM7I1qkAbexUY7mEzw4eod9AduqwIsKiRG5NNwHkNQF0XXJ/IaMwxSLYYjqt1aai/LoRAM2E=
+	t=1787059534; cv=none; b=tTOg6v+5iM4D7rs78oMQYQ6uY6XQn6UdiLdEsvAbT4VpHh/SWg/lIR3FZCSRUBbx5dLjb97ygaRP2RO5cCo6vvLQJMr9eHC0MUbQw7d8VhOtFZNcMjOfBZf0r4Mvg5sMuNbPBMRgUV8c91vxYKjNicSpEMljxaQ9snpz2P6snF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787058449; c=relaxed/simple;
-	bh=aU2VtRXj8vmLbAKszI/rzjIGfSjXrWM/1EcRNLc+2zY=;
+	s=arc-20240116; t=1787059534; c=relaxed/simple;
+	bh=OJp14S+iPt1BXD5wTtSCszOJNvf4u0MI/zwVRUKoPrQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ldiITj/utclcTDl1RgTghGnR52X/YWNnwLY/z3gfuc6bT2wjXBUOh/zTADqIGhyw+Bq4RBguiQ7uxaqxdfQjZKh4KV8mXEqg4NgUpAbmw3zTQHkmzlzNuFr0tiZqCk7Drk4UpsfG3w2XdVGw9iE8u+WK7gzrNXnDk2jKlgRUBf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=IMXjsW3Q; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=ML47INoD92xU7GQUonRBk3Zzhcvchl+sjwBmxWQo/zWvuiCSE5EcvHFYZfc8T1qk1SdrSc2wG3c/Z/aQH4ahdLiHB0y5F2yzQ3ICIzVw+bn/u5sK5B2GQrNHKT8iI54puBgREmMiPs3JNYO3eeTCM8JjZUIXNPflsBc2lTV3fac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=BckAIkpT; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="IMXjsW3Q"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92e99ef0902so227959585a.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 06:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1787058446; x=1787663246; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=k6wSKG5ykq4Q6C1KtG/SKHUImq95NPkNyQJpM3ppYMA=;
-        b=IMXjsW3QZBuzmHSSfwoteRgKE8pXOM/DA7B4luXxKrXXjnwiHBFndm3cY42TgMqRxx
-         KujU0k5lFeIIFd9c+/JD7t0bJXZYVitv18HnmwTsFK5KtA+1DJdVUFXoejfBlgkVbJ9c
-         cKhCSEYO6LZ2VixXf8mJCoFhmTsWTXERJcu1rGWAckAGl9Te3+auHs1mfP6etHb2+GrL
-         HJOaknnaFfoP0InWsK5H299Ndev3wwK0gAOnaCMtuaBp5RIBpro8il3J1Kejnwjl6gTm
-         UjSiGZbRyzCNiVP+j9V4xfxCZ6EnW2BVERyKQh8dxAtSS5SlgttqlBfgfKsfdqNTB92y
-         XsvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787058446; x=1787663246;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=k6wSKG5ykq4Q6C1KtG/SKHUImq95NPkNyQJpM3ppYMA=;
-        b=Kh3/TSMfg6CLMAi6otbwQ4XbfEzboQ0HzOE1LhG4QY3zaDWOtO5CabBUHQq4+ZkuD7
-         tjiu2AL8ldijxqrmD0uGakzc9nXyR6u0iQIUuuFJFTRMZ9jl7n4t2yty3vhIhdB4wmqA
-         LSvS4FIzNrbcyL6tcyTqWilPBbfatesqkD/bipNOXALYerJYV6HdlWii6DmCDYF9LK8i
-         IptslVFmeYsFK8cqbtDjrTsvZ4xa1tRoAHHMLJ0OJUfZGhwiBz0OPCsfKm3W3k5GW5LT
-         jcUVB3cKAVZHLAs+OnsuWbhkp8ieg0jk5CwFVVn7UtwljKDslckHgNnuFa4TQo8e4eQX
-         DWtQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoeFvghJFAFbR1ZbWCdBIdRvKxrCdvCVT3CTy+3+QLM0PFA/r2Ps9iLw1AAflMc9iDy7H0GjkryISM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+rNSHs8nxs5N1Du6H/9l7wmlEFdNcJcG0DE0yyBtzYyMkJ+U3
-	1m5xNWS0camTp2uCHSJiamZ4s8uHbtPCl/iSznsgY7A4y1VLomLLW2nKOMgd0txuyqE=
-X-Gm-Gg: AR+sD10SJs6bGPjgY0L8hQR3mbAK3DCZvEAZIlunrfm7KsOuvb+TElwN/svKgto3RoC
-	69kz+ENDq7SIpsNovS/kDYng3GF6cJnlvYCmbMks+rKkHrQDr9eKQOPO/Fi6zMuslkpKrkg9J8S
-	77+S+8D/vGtD7EQUDEAWezWbRGqATA49c5yESTLUGy7cePprC24SnkoN46BB5cwTMu34NgL/G5n
-	pKL1N2Yio+20Ov1XyRdrpNnVe6xqYPMPDanc5q1LJ8Vw7rPFOUDBCXfY2ErnaKjuLXDJYLb2TBI
-	zFsy/0l3T/jIHs84LrBurRFQFAjfa/KnwM3AuPxkDmZ6wr6dnukBejqMOGI+CNownOT6pbDbCPC
-	tUNfAVu1keggKmDMg+B4xecq4xl3jlR3+SBhQlGTDZG8LG+4HCQmQwr4wl0vSBIU+o+O3j/W22M
-	DAPcybDb6Aq6RM1unf8mep6PivwpzsDkbJrgGfcDNtAbXBcXmonFdZ/yEvG6BadqrX8SQvQHU5B
-	jNEXYzyC61cxmNFw+gvl8ii4ixwj0YLQMVyl81v8yco4A==
-X-Received: by 2002:a05:620a:4624:b0:934:aa56:45df with SMTP id af79cd13be357-93704af041cmr767327285a.11.1787058445831;
-        Tue, 18 Aug 2026 06:07:25 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9370342b3b4sm281378685a.44.2026.08.18.06.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 06:07:25 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wwJXI-000000001zD-16ZT;
-	Tue, 18 Aug 2026 10:07:24 -0300
-Date: Tue, 18 Aug 2026 10:07:24 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Bharath Kumar <quic_bkumar@quicinc.com>,
-	Chenna Kesava Raju <quic_chennak@quicinc.com>,
-	srinivas.kandagatla@oss.qualcomm.com,
-	dmitry.baryshkov@oss.qualcomm.com, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
-	iommu@lists.linux.dev, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 05/15] iommu: Add QDA compute context bank bus to
- iommu_buses
-Message-ID: <20260818130724.GA5482@ziepe.ca>
-References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
- <20260817-qda-v2-v2-5-69a02e9090d4@oss.qualcomm.com>
- <20260817134416.GA1415075@ziepe.ca>
- <89ec74da-15ed-4278-b651-5c753fa4f146@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="BckAIkpT"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F1D91516;
+	Tue, 18 Aug 2026 06:25:26 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B134A3F673;
+	Tue, 18 Aug 2026 06:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787059530; bh=OJp14S+iPt1BXD5wTtSCszOJNvf4u0MI/zwVRUKoPrQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BckAIkpTAjNcNf38AZcEvNZ++T3jG+At4QE+uMC7m/JRIClYis3jW2DSQTU8iq/qy
+	 AXC98h6oCLGhELY2BDzcjM0+gleldOBKyaM1TEYkSLeV3HXd1FBdzrfkEW75l7ChsW
+	 XRd56DO9Cx0LVQKr+JzQzTCdX7UfMmac2Nc0Mjvg=
+Date: Tue, 18 Aug 2026 14:25:19 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"d-gole@ti.com" <d-gole@ti.com>,
+	"david@kernel.org" <david@kernel.org>,
+	Elif Topuz <Elif.Topuz@arm.com>,
+	"etienne.carriere@st.com" <etienne.carriere@st.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>,
+	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
+	Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>,
+	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
+	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+	"usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v7 11/23] firmware: arm_scmi: Add Telemetry notification
+ support
+Message-ID: <aoRdP1u5lhUCclbU@pluto>
+References: <20260802145618.1952804-12-cristian.marussi@arm.com>
+ <53688831-E76D-48AB-99E7-4CE7C456620B@contoso.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <89ec74da-15ed-4278-b651-5c753fa4f146@oss.qualcomm.com>
+In-Reply-To: <53688831-E76D-48AB-99E7-4CE7C456620B@contoso.com>
 
-On Tue, Aug 18, 2026 at 10:40:25AM +0530, Ekansh Gupta wrote:
+On Mon, Aug 03, 2026 at 11:55:02PM +0100, Fayssal Benmlih wrote:
+> Hi Cristian,
+> 
 
-> The CB child nodes are not separate addressable hardware — they are SMMU
-> stream-ID assignments described as sub-resources of the parent DSP
-> interface. 
+Hi,
 
-So this is exactly the same thing.
+> A couple of notification payload sizing issues inline.
+> 
+> > 	/* At least sized as an empty notification */
+> > 	if (payld_sz < sizeof(*p))
+> > 		return NULL;
+> >
+> > 	r->timestamp = timestamp;
+> > 	r->agent_id = le32_to_cpu(p->agent_id);
+> > 	r->status = le32_to_cpu(p->status);
+> > 	r->num_dwords = le32_to_cpu(p->num_dwords);
+> >
+> > 	if (r->num_dwords * sizeof(r->dwords[0]) > payld_sz)
+> > 		return NULL;
+> 
+> payld_sz includes the fixed wire header containing agent_id, status and
+> num_dwords. The array length is compared against that full size instead of
+> the bytes remaining after sizeof(*p).
+> 
+> This can accept num_dwords values whose array extends beyond the received
+> payload. The multiplication can also wrap before the comparison.
+> 
+> Please validate num_dwords using division after accounting for the fixed
+> header, for example against:
+> 
+> 	(payld_sz - sizeof(*p)) / sizeof(p->array[0])
+> 
+> after first checking payld_sz >= sizeof(*p).
+>
 
-Read my remarks here:
-https://lore.kernel.org/linux-iommu/20260618151745.GD231643@ziepe.ca/
+All of this has been revised in v10 accounting for the header and for
+any possible 32bit wraparound...
 
-The DT modeling for devices that have multiple stream-IDs is to list
-them all in iommus list.
+> > static const struct scmi_event tlm_events[] = {
+> > 	{
+> > 		.id = SCMI_EVENT_TELEMETRY_UPDATE,
+> > 		.max_payld_sz = 0,
+> > 		.max_report_sz = 0,
+> > 	},
+> > };
+> 
+> With max_report_sz set to zero, the generic notification code allocates
+> max_msg_sz bytes for the decoded report.
+> 
+> The decoded scmi_telemetry_update_report has a larger fixed header than
+> the wire payload because it also includes ktime_t. Consequently, a
+> maximum-sized valid wire payload requires more than max_msg_sz bytes after
+> conversion and can overflow the report buffer.
+> 
+> Please provide or calculate enough space for the decoded report header
+> plus the maximum dword array, or constrain the number of copied dwords to
+> the actual report-buffer capacity.
 
-If you don't like that DT modeling then you need to start out by
-explaining why not very clearly.
+Indeed, I will have to review this sizing...
 
-There is undeniably a Linux gap where it forces all streams in the
-iommus property to share a translation. This is a *linux* problem in
-the iommu subsystem and DMA API. In an ideal world it should not be
-fixed by hacking up new busses or mangling the DT.
-
-But of the easy options I think hacking in new busses is the worst
-option and has already been basically NAK'd for the hamoa project so
-please don't use it here for a diferent qualcomm IP.
-
-Given several qualcomm chips now have this same issue I strongly
-suggest qualcomm consider trying to fix the root cause and provide
-some way for a Linux driver to progmatically "unbundle" the multiple
-streams.
-
-It would be much easier if the HW properly supported actual sub
-streams as we do already have a programming model for PASID. Maybe
-some kind of driver thing to reconstruct the iommus so that each entry
-is exposed as a PASID in the API instead of an alias or something like
-that would be an easy direction.
-
-Jason
+Thanks,
+Cristian
