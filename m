@@ -1,136 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0423DDB02;
-	Tue, 18 Aug 2026 07:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADDE41D4D0;
+	Tue, 18 Aug 2026 08:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787039323; cv=none; b=pQzMVQz4W1QWjmdnw5BmSOGtYiI436y0mGTuEl3l4b0tB0uM7peEnsg0L5+SlzS2srgJxnkICV/vMNltHWciR+vDyp85BIWbYSqECei4enstcMEtkDYT9Ul2vkUSkbQ0l7dh1SWhWMMMLccqaTYnPjPAa55W/aAQNePpYV+WXMo=
+	t=1787040558; cv=none; b=PWB4cDForYeeAyTN1Tl2h693lL/LB50SYFbQFmODVcQ2QKcnr+ks35+AJWqa04zsZmRj0mwsAgGbhn9eJ+wvHkx5AWJVSWwn/iyuRyBZrFVhQ4RvI2Nxbx54N3/z16t7GXp1zBbLuVtoBF9bWwmlMXYl+yJuMfMA3676VUSTYsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787039323; c=relaxed/simple;
-	bh=lNpM1FUAkwHHr4KU4DnJgDoG+TryyRfmHE2fyV2mtLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Up21nNDktEF7abYskJmE05+7XynOT8tN6cbr66k2N8qiU6qoAlWu+OiTtAG/qJfcuV3rsy7ddwygP7WC7H8L2zEcW3HtsBYbcryJodjE5lG2HTVn69yMBpWhjG17Y1YmEurBFjpFPjmZANkL51XVMwKKELKGJXQGZhfIR5e46+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PX4wEix9; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787040558; c=relaxed/simple;
+	bh=dluwEERvUmom1mlzUsP46XKkZ/Yul6nAzebqb2Z84yo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hFzW++Ad3vjyKanq0ggUeBniwuED8tmx5/04zepiZo4vH8qtRbVQ2rxEZmRom9dTD2f+B0w9zFeFXzFGiXuivmP8N3ThGwQB7PrKLzTdBebxyH4EHc05iRv+kwhmmgiO9O25nv6aRkE087agkKcDEriqiQhx4DUciJdB0OCW9Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=uLqKTbtS; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PX4wEix9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787039322; x=1818575322;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lNpM1FUAkwHHr4KU4DnJgDoG+TryyRfmHE2fyV2mtLQ=;
-  b=PX4wEix9fVrkNRb3wpjPVSFEI8+MDP8X6OLlOQNACA+0iKfirQoKelgR
-   dhVWBqrGtGGEpXDStq3PQzmP5C1x2LYaAIVEh3RG2gIQL9D03oY9L8593
-   Q5+sVJ79F/VNk0J7sVkZIHsPnnw/nX4XAQcB0/C0tBgQqC1rqMhcOXbI4
-   CeJ8D81RaHVYM1tm2e/MAo8SjmnuUeKJ4HmJ7qkPALzwUmiNdOj4PjhzC
-   lL2fEKiaXB9Tb5JGR6XQfSzQBV5Swjw1f2LuA7j7thwDomw2zU6SUKtvV
-   HDNx0PERiAfeHrr6c/Y5DnYBbAEpByqGTVyzxQxxbLIdbrVpBEE7/kgpa
-   Q==;
-X-CSE-ConnectionGUID: 99UEIWdVTearBUym7Vx/bA==
-X-CSE-MsgGUID: mlIL3EEYQe+MevVUmHFCWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="98886822"
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="98886822"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 00:48:40 -0700
-X-CSE-ConnectionGUID: U8HBBO6VSuOZkGT3bjOyHw==
-X-CSE-MsgGUID: /rpXRdVEROaxsr0e5kpsyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="265760633"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2026 00:48:33 -0700
-Date: Tue, 18 Aug 2026 10:48:31 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-acpi@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v3 4/4] driver core: handle managed links for
- class devices
-Message-ID: <aoQOT1B7AeBdmYnL@ashevche-desk.local>
-References: <20260818-submit-phy-package-fwdevlink-v1-v3-0-40a905ea16b6@gmail.com>
- <20260818-submit-phy-package-fwdevlink-v1-v3-4-40a905ea16b6@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="uLqKTbtS"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 6E43F1A16F6;
+	Tue, 18 Aug 2026 08:09:07 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3A4AB60355;
+	Tue, 18 Aug 2026 08:09:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0DDCD11C7496C;
+	Tue, 18 Aug 2026 10:09:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1787040546; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=ImhzSx8fF0JQgZ85qGQ+X8Einl0vzCiqKScWhMcTbTc=;
+	b=uLqKTbtSOg0MVf4EVxIrMPVyLwNdd8cEsgdOprKywizKbB44WYpiyUnchJFftkipaDJ1yO
+	QsErhdG7nKnIGaIApFdy2LjnUFa14CBogE9xRMEgtNIFtEnFXVn/unKJeJ5cYMrtBn/eov
+	vQhYDUeo1X7gzPiUjl9YqOlQI7cZeTlx6vx3/N8GbVabGu3Rxg0dsy2dXO6CegFSk1YaZD
+	nTwLIwKYfWKnOJz6Lwl0cx+1JARerpH5+CrzD0Vdx8dtGS+CGlOWVxNf8OaFDHGA5f0Ymi
+	I1vrFi8KHtJK8t4pE6qDCp0BLgWw7VJlSiqNSCggFGM/cfB5FEgDFK1ScFYVXQ==
+From: Antonin Godard <antonin.godard@bootlin.com>
+Date: Tue, 18 Aug 2026 10:08:40 +0200
+Subject: [PATCH v2] Documentation: hwmon: replace full-width colon by a
+ standard ASCII colon
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260818-submit-phy-package-fwdevlink-v1-v3-4-40a905ea16b6@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260818-doc-hwmon-remove-confusable-v2-1-c1dff1ec01cd@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NSw6CMBQAr0K69pm2AUFX3sOw6OchNdBHWqgaw
+ t0FjFuXk0xmZhYxOIzsks0sYHLRkV9BHjJmWuXvCM6uzCSXJ14JCZYMtM+ePATsKSEY8s0Ule4
+ QLOZFmUuOhku2FoaAjXvt9Vv95TjpB5pxS25G6+JI4b3vk9i836n8e0oCBFjdaKUqPBcSr5po7
+ Jw/GupZvSzLB8CHcEfaAAAA
+X-Change-ID: 20260812-doc-hwmon-remove-confusable-de457420ec02
+To: Cryolitia PukNgae <cryolitia@uniontech.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Antonin Godard <antonin.godard@bootlin.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1708;
+ i=antonin.godard@bootlin.com; h=from:subject:message-id;
+ bh=dluwEERvUmom1mlzUsP46XKkZ/Yul6nAzebqb2Z84yo=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqhBMeCWiCqJQstkZZvVUrjrMNQxm7d4pwZ32SJ
+ DrNWh5I0h6JAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCaoQTHgAKCRDRgEFAKaOo
+ Nt+aD/0Uci4pZxxy7ORH4R9kVAloGfzYTGv66Jgj58MeczocJbGbIvqJqjhY+UD4F30qeVFSLt4
+ RA4NlLPlFAYjZ9itA55vcGjn8lNyTtUWbRNQpgvQs9NAt0P/ZgIZ2QvBeStopDh/XK2HjwTRRWH
+ 97jsX3xtH94MRAywt3YQB4/KY7dwB6Cf7QYJ/l08nc1SDtzujMIiUbtZ+SYe//GripK7iVcb9r8
+ JB91OoYbWZMRvxpc20Vdldw/HmAa0WWJZZRwOb0K4apt8fvQSytUr5zxSy0qhcf7WcdK33RDdpy
+ tFAy+n3tmP8jl7duoeR5WDiQwEW4rY7/8/1JcUYobUOLHgNpiQmvOSpOLCUWUYYjnanDEa3TaIF
+ WUuMB+Cz7olkkYW8Uu7Rw+Ktz9TXYr3QNNQ2zdQAhKZoIhgVb/mdBd/Z9rGCRaJm2FRMl08hmET
+ ZSiZADvoxqv1dhyIUbkvu1XeAWoh20w7AcwCqIoOr3uqqshRLsyOxmUMHOHkzgiuX1qSbzwrLJH
+ 1r8c6fTNLy4BVgH6KY0dr4juxZjn7rgJucX0lTaZx6RCJ/crdWluZRptnrvw/6hCfciDteun58a
+ RaUcnRw7X2k/n72AZ3yD3os+bXw+bv38NNbfWKYkTj+vgJbplyPBvc/Vs7hebzm7ztS85maqlqV
+ hyvxVVN9pu3tsvg==
+X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
+ fpr=8648725188DD401BB9A0D3FFD180414029A3A836
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Aug 18, 2026 at 12:59:00AM -0600, James Hilliard wrote:
-> fw_devlink deliberately lets the nearest device pick up dependencies below
-> class-backed firmware nodes because driverless class devices do not
-> currently progress through managed device-link states. This can leave
-> consumers of class suppliers dormant, while sync-state-only links from
-> class consumers never reach the successful-probe cleanup.
-> 
-> Track class-only devices through equivalent registration and removal
-> transitions. Mark them probing before device_add() publishes them, complete
-> their incoming and outgoing links after class interfaces run, and enter the
-> unbind and no-driver states during device_del(). Preserve firmware links
-> below class-backed nodes so later-created descendants can acquire their own
-> links.
-> 
-> Include class registration in wait_for_device_probe() so supplier unbind
-> cannot race a class consumer that is still being published. Transition
-> managed links which existed before device_add(), remove stale
-> waiting_for_supplier attributes and do not revive a link whose supplier has
-> already started unbinding.
-> 
-> During supplier teardown, wait for class registration to finish, but move
-> an already registered class consumer directly to the unbinding link state
-> because it has no driver to release. Keep consumer-autoremove links valid
-> until class consumer removal without triggering driver-only cleanup
-> warnings.
-> 
-> Factor the supplier-bound, consumer-bound and cleanup transitions shared
-> with driver-backed devices. Activate late links involving an already
-> functional class endpoint instead of trying to reprobe it, and let
-> sync-state-only links retire without forcing consumer unbind. Ordinary
-> supplier links cannot defer class registration, so they must not be the
-> only mechanism on which a class consumer relies for functionality.
-> 
-> Class devices do not match drivers, so distinguish a genuinely unavailable
-> supplier from a probing or registered class endpoint before relaxing
-> inferred links. Preserve normal probe and runtime-PM ordering for those
-> links. Also recognize class-backed nodes when refreshing dependencies after
-> firmware-tree overlays.
-> 
-> Exclude the internal device-link class because device-link objects are
-> registered while the device-links lock is held. Document the class-device
-> state transitions and add KUnit coverage for supplier and consumer links,
-> pre-existing links, inferred-link preservation, registration waiters and a
-> concurrent supplier unbind.
+It prevented the pdfdocs target to complete, prompting the following
+error:
 
-This is enormous change, can it be split to several logically isolated patches?
+  Latexmk: ====Problematic refs and citations with line #s in .tex file:
+  Missing character: There is no ： (U+FF1A) in font DejaVu Serif/OT:script=latn;l
 
--- 
-With Best Regards,
-Andy Shevchenko
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+---
+Changes in v2:
+- Adjust commit title and body as suggested by Guenter Roeck
+- Link to v1: https://patch.msgid.link/20260817-doc-hwmon-remove-confusable-v1-1-dbfbaa8e952e@bootlin.com
 
+To: Cryolitia PukNgae <cryolitia@uniontech.com>
+To: Guenter Roeck <linux@roeck-us.net>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: linux-hwmon@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/hwmon/gpd-fan.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/hwmon/gpd-fan.rst b/Documentation/hwmon/gpd-fan.rst
+index 29527a77fe88..b27657d33056 100644
+--- a/Documentation/hwmon/gpd-fan.rst
++++ b/Documentation/hwmon/gpd-fan.rst
+@@ -67,7 +67,7 @@ pwm1_enable
+   at full speed. Write "1" to set to manual, write "2" to let the EC control
+   decide fan speed. Read this attribute to see current status.
+ 
+-  NB：In consideration of the safety of the device, when setting to manual mode,
++  NB: In consideration of the safety of the device, when setting to manual mode,
+   the pwm speed will be set to the maximum value (255) by default. You can set
+   a different value by writing pwm1 later.
+ 
+
+---
+base-commit: 248951ddc14de84de3910f9b13f51491a8cd91df
+change-id: 20260812-doc-hwmon-remove-confusable-de457420ec02
 
