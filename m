@@ -1,125 +1,210 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDFC417BC3
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 08:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD3937F32F;
+	Tue, 18 Aug 2026 08:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787041652; cv=none; b=IGHSQqKGnA2lMGrzULlXeXxDnPxxGLWr8PozGYwO93Cc7z1gz2Niy4AXBYgCd+US5GD38BSou+tmU3Fn5kfxbE0+fkkjd5aLdsizxs5m9wCvAPM6UahxwdePQmSW0bVoL4KVhIGtpNhGHJL84ZoD1E/jfHyp6yicUmE92E17XF8=
+	t=1787042140; cv=none; b=o97hctBijbQwM0DcGr5SN8pVX6OZyU8YiZXD1ouNfK5+aA7hvU3m6rDpuSgu8jZ5hOWp3VR0xwEmYHXp2TvwmVGPZPyMp8tDRO7VpgfZm+xjwocVf/jIMI78cuGSr/Pn+gH6yidb7cahbd0j0NvF8vr1pmxQgUDzimeW4VAqahE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787041652; c=relaxed/simple;
-	bh=JDzjZcLP71KCvagkMKD84MYXhOgKomjguCW9GMyB0bI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pw7XyV1cluhPVDCbJL5JDbXb8uFiDQLvJXoWkuh6VHpG1tMq93yFCik5a0MQjAB2fV4hANi4Iqwx/d7lcEPgYg1VPcyBTZ3Blj114OCxVfCoY6EfixL7BlcUlwHx6vydpWulPdP4iU7N70V8DIEh6ogHwJQJafkQ7o2YqnjILJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rjz7IUyF; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787042140; c=relaxed/simple;
+	bh=wCOoDTsOjVsg+29ZjA7I9UhZxUbzBdI4AcVTwMMKQqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qUzrP5l/c2HyJSUxT6aLlwO/b57/t+f/i1PZNeVUh4EKNUodxR2FN6S/a8yaA8jEleq8aPNDRZHMEWvVsQM6Msy3bNpu+bOu1WDrpe51mGySDeFEAxIgp6guWq7ZbQultQo5AI9xjOjqqKWx9Q/f50IlzuNjpOa0deCfOjNz9FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yp97zbuZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rjz7IUyF"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so4363924f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 01:27:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787041649; x=1787646449; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uuK5mDxMiFBjBjKQm/Fiu5kzFGUEM5srIwSUyEqNmyc=;
-        b=rjz7IUyFe10YkUwvNbaJibLuM/n/edgAhlGlK7mAklD2GLJyMyksM0Rl8ZatP4sJCM
-         fbOXoj1hyejD7L+u9KX9607IO5foOZ4+1/rGIuv9pDmNG7dL0XvYBgBFsq1AGJ3DE+VA
-         e3i+Cc3EybrdP4wcrbb1ck1h998kyNxCyPtUn97XIhXiDDUM3CuoI7wCennaDu2IveTU
-         KBbf5025J+uU8aRH8EiWLlJB1mMdODlwwVxcGA0lLChDGdxhblYbfOYBKJ1Xhg2iLS8Y
-         6cw+kfgSRKMumnbm6BkxOJG+YtSKJzE9IuXwABB6syRr9cPIPsozu/9ii3aphEa7QRtu
-         17aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787041649; x=1787646449;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uuK5mDxMiFBjBjKQm/Fiu5kzFGUEM5srIwSUyEqNmyc=;
-        b=YZsqq9jKqv4qA2eEKk64VY9gxcif13Rwo/uoRpdQxnUTPBy8Duw6+p2oV2UFqdYGwl
-         TBrT4Vqht5EftZhC2LXwxEg0MP0T/XAxZz93/1lZNW1OsTvGpfecaJiU8qRieO4Cl53w
-         lfwciLNla7Xf/HiYBX7rzq9mgGLxFy4pi8sfONw4ufganVJSBSV92aYa4/hXDTBwvKrP
-         q+r8C219ehrATVYPZhqKz0VmtC2sz4WE2CCVQCZqs5sP7czQmVhQXTUbcC3PC9/eLOUf
-         mzqk3LzZQY1yQ9CKlyL7iaZ7AjT2HxcUdDEaswPDk8KHLPNK7A4krB5yTh3DimJFBjJ1
-         p0Ow==
-X-Forwarded-Encrypted: i=1; AHgh+RoOxt4n6X49efRhOfv6B8ZQbdwmv7YDDwECcOyUdRukvPS8tNfM77wCNsW5p4Tn29pvdjs6kYb+3rc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk8UyTbuHOcUkWKJ1KBOlwbLTlQwAlz8I5iU6x08c6rqfMX/8r
-	DWfEY8NgouNHM8ZxD19n39LYySLowkh6OL9q9GNG9EPPIiH7dN88CM3O
-X-Gm-Gg: AR+sD11LSj308+4MP06hMLrryyHn3dAHbRRGOQfjrjsGURvECSjGH6t/FTp08SYsFjJ
-	EjnkYAltYgoGenqMUqh5knU/fkqroijNaXWQ6n7h3d4Y2c7JzeVZUa/h+nwvufkpCk4LB6IA7vX
-	8TNOpI9t444usiKKagN3fIQPXKbXQtCLoaJt2J/7+LILA7ijO5MIQnArdbcKQg4i/WyI5+OPnyz
-	bTO+txKb9AtecYWSexq/e4LYeQn6genNIiEg9MzpsudZIPgh6C1dPeTLFe6S8GA8cJdUk1UvIBK
-	GqIwJYSN88ZV1vMswlGBKMv4mSeL79pP21B/YaTsQCQuwMg+sRwT0KQFuWmwRPaItwLgbiGfQ8N
-	YldziPRbFO84d/84jwvDGmIvINzW6Qw91eBJJKeaLr/Jb0fF5NaVZEusQmS1vWkVYZak+H3SLy9
-	uBCu6ZeN8OTY6Xc8heEpG4IsR7Yium+gkLj7l+eguqkdotY144B0LXGndY4gt+ODxRIR2cuylq0
-	bX1zhrJZ7QhkWn8LpjbbcodI4Z5wFQemDGKCC2tSHfEFxpYL2Gzo61kfiXkWtnUaUc=
-X-Received: by 2002:a5d:5e85:0:b0:47f:91eb:342 with SMTP id ffacd0b85a97d-4816071addfmr48543973f8f.13.1787041648823;
-        Tue, 18 Aug 2026 01:27:28 -0700 (PDT)
-Received: from [172.24.138.145] (ipservice-092-208-247-184.092.208.pools.vodafone-ip.de. [92.208.247.184])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482a5a3b51asm10172929f8f.11.2026.08.18.01.27.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2026 01:27:28 -0700 (PDT)
-Message-ID: <6f2b715e-f62b-4b6e-9605-23d6978b6cbb@gmail.com>
-Date: Tue, 18 Aug 2026 10:27:26 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yp97zbuZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBA841F000E9;
+	Tue, 18 Aug 2026 08:35:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787042138;
+	bh=Nvv67+nY9bOme+CUnDrcPTxP3FOFSO5YtozCzjeuylQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Yp97zbuZZS70iACQAUh0Z2Jq7Fp4hcK/X3RGNBYE3wAh/E6fLPBIVtul2/ay1P1Kl
+	 i2LsvRGLMHAzTevl+0fhsOaSlnszB/faxDY9qNObaDrH3GRHQFUea822sCV1u61pJa
+	 V0EHpr47am8Lp00j1mE38bmwPXnyuxPLXpdMyyhuBIanRaR1mKrSwdfj/VeBtgl8xn
+	 lDAHhDufvrl7vNDxdO+vYaOt6srXFGQwMdTJr5bJJb+TeNhRT0/oGZLBlU+pepbH5C
+	 t2ufeqMp2zojC+Bj/Zy8SM1GTi+35F+d9EAraVUjDZtv1myVv7dj78RGxw3OxlLLS0
+	 l4hsDb4t6s+rA==
+Date: Tue, 18 Aug 2026 11:35:32 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Logan Gunthorpe <logang@deltatee.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Matt Evans <matt@ozlabs.org>
+Subject: Re: [PATCH v3 00/17] PCI/P2PDMA: Fix ACS egress control handling
+Message-ID: <20260818083532.GE66924@unreal>
+References: <20260811-fix-p2p-acs-v3-0-efc488ee7c03@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/14] dt-bindings: iio: adc: Add AD7768
-To: Jonathan Cameron <jic23@kernel.org>,
- Janani Sunil <janani.sunil@analog.com>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Michael Walle <mwalle@kernel.org>,
- linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>
-References: <20260813-ad7768-driver-v3-0-cb554399ad26@analog.com>
- <20260813-ad7768-driver-v3-1-cb554399ad26@analog.com>
- <20260816192409.145df670@jic23-huawei>
-Content-Language: en-US
-From: Janani Sunil <jananisunil.dev@gmail.com>
-In-Reply-To: <20260816192409.145df670@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260811-fix-p2p-acs-v3-0-efc488ee7c03@nvidia.com>
+
+On Tue, Aug 11, 2026 at 12:30:42PM +0300, Leon Romanovsky wrote:
+> PCI P2PDMA treats any enabled ACS P2P Egress Control bit as an upstream
+> redirect. PCIe r7.0, sec 6.12.3, table 6-11 says the Egress Control
+> Vector bit for the target port decides instead: a clear bit routes a peer
+> request directly, regardless of P2P Request Redirect. Firmware can
+> therefore enable Egress Control with a permissive vector while Linux
+> incorrectly rejects a valid direct P2P path.
+> 
+> Table 6-11, where E is ACS P2P Egress Control Enable, R is ACS P2P
+> Request Redirect Enable and V the Egress Control Vector bit for the
+> target port:
+> 
+>   E  R  V  Required Handling for Peer-to-Peer Requests
+>   -  -  -  ------------------------------------------
+>   0  0  x  Route directly to peer-to-peer target
+>   0  1  x  Redirect Upstream
+>   1  0  1  Handle as an ACS Violation
+>   1  0  0  Route directly to peer-to-peer target
+>   1  1  1  Redirect Upstream
+>   1  1  0  Route directly to peer-to-peer target
+> 
+> P2P Completion Redirect lies outside this table and also forces
+> host-bridge routing.
+> 
+> The same interaction affects target-independent ACS isolation checks.
+> Request Redirect does not guarantee that peer requests are forwarded
+> upstream while Egress Control is enabled because a clear vector bit
+> overrides it. Such checks cannot identify every potential target, so
+> treat Request Redirect as ineffective while Egress Control is enabled,
+> which merges the affected devices into one IOMMU group.
+> 
+> ACS Direct Translated P2P routes a Request carrying a Translated address
+> to the peer regardless of Request Redirect and Egress Control, so it
+> voids the same guarantee unless Translation Blocking rejects the Request
+> first.
+> 
+> That last rule holds only for a caller that needs Request Redirect to
+> isolate peers. pci_enable_pasid() asks for it so that a Request carrying
+> a PASID reaches the translation agent (sec 2.2.10.4), and a Translated
+> Request already carries an address the agent produced for that PASID
+> (sec 10.1.3). pci_acs_enabled() and pci_acs_path_enabled() therefore
+> take a scope, and Direct Translated P2P applies only to
+> PCI_ACS_SCOPE_ALL.
+> 
+> A pre-existing gap comes first. The routing analysis covers only Requests
+> carrying an Untranslated address; ACS Direct Translated P2P overrides
+> those controls, so that scope is now written down rather than implied.
+> 
+> It is nearly impossible to test all possible combinations due to limited
+> hardware availability, so I added KUnit coverage for ACS routing
+> decisions, isolation checks, Egress Control Vector lookups, and
+> provider-to-client path traversal over a fabricated PCIe fabric.
+> 
+> Disclaimer:
+> All patches were prepared with AI assistance, with a significant
+> difference between the code changes and the KUnit tests. The code
+> changes were thoroughly reviewed and rewritten.
+> 
+> In contrast, the KUnit patches were produced entirely by AI with
+> minimal human interaction, and multiple AI tools (Claude, Codex,
+> and Gemini) with frontier models were used to verify that the tests
+> comply with the PCI specification.
+> 
+> Thanks
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+> Changes in v3:
+> - Fixed pci_p2pdma_add_resource() error unwinding
+> - Made pdev->p2pdma teardown wait unconditionally for RCU readers
+> - Restricted pci_p2pmem_find_many() to pool-backed providers
+> - Documented the pdev->p2pdma lifetime and RCU rules
+> - Fixed calc_map_type_and_dist() handling of the verbose argument
+> - Required the ACS port and target to share a bus before indexing the
+>   Egress Control Vector
+> - Gave pci_acs_enabled() and pci_acs_path_enabled() a scope, so the ACS
+>   Direct Translated P2P rule no longer stops pci_enable_pasid() from
+>   enabling PASID
+> - Dropped "Report ACS ports when the paths share no upstream bridge":
+>   the mapping type cannot change without a shared upstream bridge, so
+>   the pci=disable_acs_redir= hint was not actionable there and the ACS
+>   walk only cost config space reads
+> - Folded the Request Redirect rule into pci_acs_rr_ineffective(), so
+>   pci_acs_flags_enabled() and the Intel SPT PCH quirk share one copy
+> - Renamed pci_acs_egress_ctrl_set() to pci_acs_egress_ctrl_is_set(), it
+>   reads the bit rather than setting it
+> - Reworded the blocked-path warning: ACS may also leave the direct route
+>   indeterminate rather than blocked
+> - Added KUnit coverage for the shared-bus guard, a device with no ACS
+>   capability and an unreadable ACS Control register
+> - Added the missing Fixes: tags, a second one on the
+>   pci_p2pdma_add_resource() unwinding fix (the dangling devres action
+>   dates to f58ef9d1d135) and one on the Egress Control isolation change
+> - Link to v2: https://patch.msgid.link/20260806-fix-p2p-acs-v2-0-0cec14812965@nvidia.com
+> 
+> Changes in v2:
+> - Added Logan's ROB tags
+> - Added commas in Documentation patch
+> - Link to v1: https://patch.msgid.link/20260802-fix-p2p-acs-v1-0-a7c5eb64fff6@nvidia.com
+> 
+> ---
+> Leon Romanovsky (17):
+>       PCI/P2PDMA: Do not tear down the allocate attribute on registration failure
+>       PCI/P2PDMA: Wait for RCU readers before freeing state
+>       PCI/P2PDMA: Restrict the p2pmem search to pool backed providers
+>       PCI/P2PDMA: Safely terminate ACS redirect lists
+>       PCI/P2PDMA: Document the pdev->p2pdma lifetime and RCU rules
+>       PCI/P2PDMA: Gate the host bridge whitelist warning on verbose
+>       PCI/P2PDMA: Document the Address Type assumption
+>       PCI: Account for Direct Translated P2P in ACS isolation checks
+>       PCI: Add ACS egress control vector accessor
+>       PCI: Account for ACS egress control in isolation checks
+>       PCI/P2PDMA: Derive peer-to-peer routing from ACS control bits
+>       PCI/P2PDMA: Honor ACS egress control vectors
+>       PCI/P2PDMA: Document ACS egress control handling
+>       PCI/P2PDMA: Extract pure ACS routing decision helpers
+>       PCI/P2PDMA: Add KUnit tests for ACS routing decisions
+>       PCI/P2PDMA: Add KUnit coverage for the ACS P2P routing walk
+>       PCI: Add KUnit coverage for ACS isolation checks
+> 
+>  Documentation/admin-guide/kernel-parameters.txt |   9 +-
+>  Documentation/driver-api/pci/p2pdma.rst         |  15 +
+>  drivers/iommu/iommu.c                           |   8 +-
+>  drivers/pci/Kconfig                             |  15 +
+>  drivers/pci/Makefile                            |   1 +
+>  drivers/pci/ats.c                               |  11 +-
+>  drivers/pci/p2pdma.c                            | 218 +++++--
+>  drivers/pci/pci.c                               | 115 +++-
+>  drivers/pci/pci.h                               |  63 +-
+>  drivers/pci/pci_acs_test.c                      | 801 ++++++++++++++++++++++++
+>  drivers/pci/quirks.c                            |  62 +-
+>  include/linux/pci.h                             |  30 +-
+>  12 files changed, 1259 insertions(+), 89 deletions(-)
+
+Bjorn,
+
+Is there anything you need from me to merge this series after the
+merge window closes?
+
+If so, I would prefer to spend these two weeks fixing or reworking the
+code.
+
+Thanks,
 
 
-On 8/16/26 20:24, Jonathan Cameron wrote:
-> On Thu, 13 Aug 2026 15:56:54 +0200
-> Janani Sunil <janani.sunil@analog.com> wrote:
->
->> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8 channel)
->> simultaneous sampling ADCs.
->>
->> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->> ---
->>   .../devicetree/bindings/iio/adc/adi,ad7768.yaml    | 338 +++++++++++++++++++++
->>   MAINTAINERS                                        |   7 +
->>   2 files changed, 345 insertions(+)
->>
-...
->> +  adi,data-lines-number:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [1, 2, 4, 8]
->> +    description:
->> +      Number of DOUTx lines used for the high-speed data output interface
->> +      (distinct from the SPI control interface). AD7768 supports 1, 2, or 8
->> +      lines; AD7768-4 supports 1 or 4 lines. Defaults to the maximum number
->> +      of lines for the selected variant if omitted.
-> The default statement is a bit hidden and I'm not sure useful as it's not
-> an obvious default.  Maybe drop that and make this a required property?
-
-This property was required in v1. It was changed to optional in v2 following a suggestion to use the highest number of data lines as the default.
-
+> ---
+> base-commit: 43598807f71ac1c9164f26004acf2496d4038daf
+> change-id: 20260713-fix-p2p-acs-725f8dd7b0e8
+> 
+> Best regards,
+> --  
+> Leon Romanovsky <leonro@nvidia.com>
+> 
+> 
