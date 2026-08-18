@@ -1,102 +1,165 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84A73CF1FD;
-	Tue, 18 Aug 2026 15:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A168442364
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 16:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787068524; cv=none; b=c9Rtw9W2l4ZJg7ivSNKHw9+0wZNRN4lW5zYEVfb/kJc3TZHL4u8FTIP3rN7ePSJ4aeQ8VCPAf3uxEWHAgYWJ51WMCPouS1Fq0WwALmCq8c/F0LQpl1KdBXuWFk6DAb55mpJRpwgDtRUj4AoLewEDbt/sa++2fcsnew02u++zvPg=
+	t=1787068940; cv=none; b=XY88XTMuCBitdH6JWFp8Ry5Hzcs1LRiyZmPXOZlKU5YK9A4oMYeQ1Z8WYz4vcj1AFcX6H/1STGtKZHTlne0adpfAlvShX0xfCbWy7vUTkobM4YmQsQBy5LXwh2wmGtWwy9m+84f/QNPH39G8nYP8xn7FpD2C8YvYTX8xCULUR2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787068524; c=relaxed/simple;
-	bh=yBB5Ah18TwalqEmv2x0ZGwuCUI1Tc8gkXWpKPtytP4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I3zsbNc6w0XOKnbiU3FRMIIJOAvezv5UyihMi+pscw2M4s7gFC2ytWnRKPN99HM/xNhNeqAq/MCGpQpfuOTjOiMCB/rVbvfTAYzpPM3KKykAy1+ZyePXSxb98PTZAsZmB9DXmi1+AP4LBLukXvbo2QGA07kegHcuz85inFpybOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ui5KdUDl; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787068940; c=relaxed/simple;
+	bh=+Wcc8wz6m0+2T4ZtMRQJqeP7DGPsFLUeJ6j0YPPSbaw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=SbjnyPhO5u3it4b/vBQgkMDbm6KHmeartprqwhpueIS14U+Ll0aZ6dugTQ4Aza8YT0DAqljSjmpzhBlrFAH9gyjG1JXgkAEl8T2m53PAIasEngkIQ/aMymX8Rly3GV4lUQi3WhZ1ULD0/jOxYoXnh7WOofQae9bFWsXimLmxPks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SRqZDkia; arc=none smtp.client-ip=209.85.215.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ui5KdUDl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Oib1sAGemzHmu6ROtRkEHyhCtwDTicVNKskycatCaao=; b=Ui5KdUDlipNO9Vm4nINkg/+v4R
-	bOUqu7BxrFpPjJPyyxL5/SQNc4/JySqtBdMrb5CyEz/IRILpW8+YnFuGzsaYbvWJv+9e0YtT8uwx/
-	eE0eXe6fRPjm1sfCVSmOReeGwtH7/zEHlNxdnu5tpHNRyMiy4cejksDu81kvbeMEFRTaItbMt/IGi
-	Q61CWpoF2IThZoi159FSHVf/TCVp1AzMzc9ZSRaQVSMkGFqvkSEm1dUtgG8Qvp88FNz5jkcBhNEOs
-	ACjeQ2XWgqHevHSOffjhKrvnRBjt4Y+4cNGXzMxdf7NzZpsvk2bac1B5a/UMTuKt7keKswSiklY2c
-	JG0mN6zA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwM9g-00000008JC7-1PPo;
-	Tue, 18 Aug 2026 15:55:12 +0000
-Message-ID: <916c4bd5-c73f-466e-8e9b-aee9d4d7d742@infradead.org>
-Date: Tue, 18 Aug 2026 08:55:11 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SRqZDkia"
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cb7049fa552so4398651a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 09:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787068938; x=1787673738; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hTu8rIIeaYeWexH+JKqzOvDmozZVoZIeVfoU7C4RXZA=;
+        b=SRqZDkiau703a3jeXK20i0TOINrAXQR/fFlqDyhj4bFwiqtPQaAMBojacmB1eUq7Ew
+         OL87mGDOXKx64X5VLeJ5xEP99Zvz5XVOyTMHVC2JGvJZ8owjUBvEBzADZrcEIWEh1bo9
+         KNBzylZhDVXqPbMuIeJvXGW98p0avh10A9/pUQzHEFazaFrTXqj0riHjZ2ZUhc8zSHPD
+         yatCpZfmG81JKGHqL3kOEeZObWR85WobCuOxhTh1iHg9xoUww+uuRg3Ps8FV5mlWG0OU
+         pWU6LoMKoiUfabs8+qzJF6JXC39G5LCl5GNN44O/CFXdJsK/ZXwTGOUuuYLhCXAt9nlx
+         JjGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787068938; x=1787673738;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hTu8rIIeaYeWexH+JKqzOvDmozZVoZIeVfoU7C4RXZA=;
+        b=cm0lBKUpnKT/AxCuBr/S3OmbuLQTAddBpD8f/ccrP27PzxBjh2kzEof0dkUakN0bPu
+         44obhZZVvA6I+8YWeEXZm4FqXDsWoYrjsoGW+BK6mkFBJK/bBuYS5OHIjLabjoKpADJb
+         0qsCdTVpsojKTkGztSTlzA6u7TYt9G2BwR+pcJt5wpuGnSFJzkxuyZY3lQX+f4c/NqNC
+         NtG/fEr/2g1+Gs7aB9ITl6XCoDPsQLGzKuKeJ3GE+E8sr/10Co+idWXsgpfzKkANL0t2
+         CgMvUR8pRgqEQNKXsV9wV4uWtuBtmTUaShb1ygvjh5sU6NTd5r8Odlu8x+FrzJEbkCSm
+         AfNA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1pGcToqqWcsILkp8vtr4P3ZyvKqVmqbpeMp22Km4qmJEmsuQVZxYM6MLS3c5iORKcK/tVUSPw0TA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkUF8oYGJn+hx8M46VesOHENkgCd1EJTaKX+0CIw/9Y6iUN/0L
+	ZVWjvd8WT9Xbv32lvdpK/IS5Lif5A362TizK0fh0QX/3OjOtjdmlAb8iYhOz282AFaowgZGe15r
+	palVYGA==
+X-Received: from pgvc22.prod.google.com ([2002:a65:6196:0:b0:cbf:d9a:2fcf])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7f99:b0:3c3:9df0:2d66
+ with SMTP id adf61e73a8af0-3cc719fe453mr37508125637.6.1787068937949; Tue, 18
+ Aug 2026 09:02:17 -0700 (PDT)
+Date: Tue, 18 Aug 2026 09:02:17 -0700
+In-Reply-To: <2vxzy0e3zgqz.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/12] drm/panic: Move panic display code into helper
- library
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev,
- sashiko-reviews@lists.linux.dev
-References: <20260818125012.468092-1-tzimmermann@suse.de>
- <20260818125012.468092-12-tzimmermann@suse.de>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260818125012.468092-12-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260728121138.1103610-1-tarunsahu@google.com>
+ <20260728121138.1103610-6-tarunsahu@google.com> <anphyjFv3FhF61iB@google.com>
+ <2vxzpkzo51wg.fsf@kernel.org> <anssOQFNZ2LfihbU@google.com>
+ <2vxzik5f311e.fsf@kernel.org> <anyObKiZIhfok5mk@google.com>
+ <2vxzqzjz1x5f.fsf@kernel.org> <aoMcqp0gr06YXAPU@google.com> <2vxzy0e3zgqz.fsf@kernel.org>
+Message-ID: <aoSCCTTBn9D5hqzk@google.com>
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
+From: Sean Christopherson <seanjc@google.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>, ackerleytng@google.com, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
+Content-Type: text/plain; charset="us-ascii"
 
-Hi,
+On Tue, Aug 18, 2026, Pratyush Yadav wrote:
+> Hi Sean,
+> 
+> On Mon, Aug 17 2026, Sean Christopherson wrote:
+> 
+> > On Sat, Aug 15, 2026, Pratyush Yadav wrote:
+> >> On Wed, Aug 12 2026, Sean Christopherson wrote:
+> >> > On Wed, Aug 12, 2026, Pratyush Yadav wrote:
+> >> So with live update, we don't need to keep backwards compatibility in
+> >> the ABI forever. Of course, it is good to minimize changes, but we have
+> >> more freedom to change it.
+> >
+> > Ah.  So this is the heart of the disconnect.  I very strongly disagree with the
+> > statement that live update doesn't need to support backwards compatibility.  I
+> > can totally believe that the folks working on live update are ok breaking backwards
+> > compatibility because their use cases are "fine" with such breakage.  And I can
+> > also believe live update as an upstream kernel feature being developed by those
+> > same folks is also ok with breaking backwards compatibility.
+> >
+> > But with my upstream KVM maintainer hat on, I am not ok with that.  I did not agree
+> > to support a world where KVM is allowed to break backwards compatibility, so long
+> > as it's done "carefully" or whatever.  If y'all want to deal with the resulting
+> > complexity, that's fine by me, but you'll be doing it without KVM.
+> 
+> Let's step back a bit. I don't think backwards compatibility in the
+> _ABI_ is all that important in live update's context. What is important
+> is that our users are able to live update from kernel version X to Y.
+> The line format the kernel uses to describe its state is an
+> implementation detail. Our users never see it.
 
-On 8/18/26 5:28 AM, Thomas Zimmermann wrote:
->  M:	Hans de Goede <hansg@kernel.org>
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 323422861e8f..cdfd72d9a9c5 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -45,6 +45,7 @@ config DRM_MIPI_DSI
->  config DRM_KMS_HELPER
->  	tristate
->  	depends on DRM
-> +	select DRM_PANIC_HELPER if DRM_PANIC
+The rule is thou shalt not break userspace.  Whether or not the breakage is the
+result of an explicit ABI change is irrelevant.
 
-but DRM_PANIC_HELPER depends on DRM_TTM so
-DRM_KMS_HELPER should also depend on DRM_TTM. Otherwise:
+> The high level idea is that when you need to make a change to the ABI so
+> the kernel can better describe the objects/resources/files it is
+> passing, you create a new version of the ABI and allow transitions from
+> older versions.
+> 
+> Say you make some changes and need an ABI version v5. You don't get rid
+> of v4. You keep it around. LUO core will facilitate picking the right
+> version for the next kernel. So it will be possible to seamlessly
+> upgrade your kernel that speaks v4 to a new kernel that speaks v4 and
+> v5. Now this kernel can start speaking v5 if its successor speaks v5
+> too. And so on for going to v6 and v7, etc.
+> 
+> After a "reasonable" time given for upgrades, you deprecate v4. v4 has
+> been around long enough and our users have had a chance to go to kernels
+> speaking newer versions. That's when you remove the code for v4 from the
+> kernel.
+> 
+> We can argue what "reasonable" means, but the core idea stays. 
+> 
+> It will still be possible to go back to v4 or earlier, but you'd need an
+> extra stop along the way. And of course, vendors can keep a wider
+> support matrix downstream if they see the need for it.
+> 
+> Does this idea of "backwards compatibility" sound acceptable to you, at
+> least at a high level?
 
-WARNING: unmet direct dependencies detected for DRM_PANIC_HELPER
-  Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_TTM [=n]
-  Selected by [y]:
-  - DRM_KMS_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANIC [=y]
+No.
 
+It's probably fine for Google and other large companies that tightly control their
+kernels and use cases, and have the resources to juggle the resulting complexity,
+e.g. have kernel engineers on staff to track feature and dependencies, coordinate
+and plan kernel upgrades, etc.
 
->  	select FB_CORE if DRM_FBDEV_EMULATION
->  	help
->  	  CRTC helpers for KMS drivers.
-> @@ -130,6 +131,10 @@ config DRM_PANIC_SCREEN_QR_VERSION
->  	  Smaller QR code are easier to read, but will contain less debugging
->  	  data. Default is 40.
->  
-> +config DRM_PANIC_HELPER
-> +	bool
-> +	depends on DRM_TTM
-> +
->  config DRM_RAS
->  	bool "DRM RAS support"
->  	depends on DRM
+It's not acceptable for upstream, where downstream consumers often run a distro
+kernel, have much more varied use cases, and don't always have a horde of kernel
+engineers on staff to help them thread the needle you describe above.  And if
+supporting live update as a general feature for all users of the kernel isn't
+being factored into design considerations, then that needs to change, otherwise
+this is all dead in the water.
 
--- 
-~Randy
-
+I also don't see the point.  Maintaining a rigid save/restore ABI is annoying,
+but it's not _hard_ (or at least, not _that_ hard), especially if there's a set
+of well-documented best known practices that subsystems can follow, e.g. so that
+individual subsystems don't need to learn painful lessons first-hand.  I genuinely
+believe that maintaining the version hell you describe above would be more costly
+in the long run than simply committing to full backwards compatibility within a
+given subsystem.  I can imagine that enumerating what subsystems' information is
+in the payload will require a different scheme, but for a given subsystem, I don't
+see any reason to aim for anything less than full backwards compatibility.
