@@ -1,101 +1,148 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202C333CEA8
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 23:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787096357; cv=none; b=P8DOglctoatfl/uOTC6HtkbwoC8qfBYn5QTRSeDVt7sgHvwoPR44k6MlRGT8qeA1w6gEHbsF1wujz49mWtPkq/kPYTLwhoGCaXdaGPr9v9DPl+P9NlMbDQLwUrMvTaBXrhodDO9y3yNTvPclBjn6Ca7QPIw6lwWmw8pu9XvGK6Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787096357; c=relaxed/simple;
-	bh=IlNVBIx4H6PkgD7zXgoekELCW5mFwid6ryMfcRReOq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usBVMWRkS7q6WvOoBJHiy8GV1Mt5RqQwwqTkxpRJUJrTD6qVG7db5HDuaHQU94B9vDaBgWB+pxEJ9AOWHiiksfKCz6+dGQJDiXAcnhHNiu/wMoaxylAS1BHnET3wJnDU2IKCOpeyr/3Ahlu7IfaX7hKabqxz2iNzcWJg6814dac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXZgnG2o; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0D03515D5
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 23:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787096964; cv=pass; b=NQ39lnbakctdK2YvbSh0cZkgI6euoJXzByNzlYFi8Jjh40hmAmZlzSnvhr86Cci80fhbzkM5bnRipwTZ3WxaOPYS+TKihsfRZAMzZ2+eTvh0APdK0i9Li9JK+tjrD1kGP0O/RZDGZxgJ0SQptUJyPSczX9Snkbxt7vncnUFvUJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787096964; c=relaxed/simple;
+	bh=mSZWWilzYpTVs7ITY+iihKXbAs3mgU9i5QVnV/i4kYU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lDPsBAEfJ8jZPVxizlpgHGTXmmXCM+IH1M151Ckv4YwAF0kjkvrt8w6CtFOHnSp2Z+179fvNvdd4SMhMjhtgk+ixb+BWzxgUL9BtdiAdo3SoW9dcJvK0EwKLxiJU2pTBnrxdzfMseY/SXPc+dtsrjtV0JbbWp0y+MC5SMV40P7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZT2x83FR; arc=pass smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXZgnG2o"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cbe6295f05bso1140665a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 16:39:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZT2x83FR"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aeb36c46bbso50854e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 16:49:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787096960; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gLbFNC2yLlFp0K0FA73+u8jldU02wm/SCArlpgajVqd3rTIsaLDJ/RYy2Esy7DxJH5
+         tQNWAU6fMbfYU800x+XRb9uJIPhqZILUJJg2yD+ObzOZUnVh3cDhBaPJrwvh4Z/5bRjL
+         wgi5Ipayw4uR67tS1uo/cV9/0Z/FSAIxsc+qic9odipWxUOJmQsxxt0xkvWikmsEqld/
+         UoHCdibD3YXOgD7Xg5EO3QRWn7PRZFhgjJvcZCnwktINBMYjll9hFOVbulV4Xtv6I3LQ
+         TRBVgVemvhGyG3uyZ+kA1xbvbplX6QX4kIkwdxQK3qf3Brt/vCRDS0YEmL4zGAshJkgd
+         ppOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mSZWWilzYpTVs7ITY+iihKXbAs3mgU9i5QVnV/i4kYU=;
+        fh=xC5/rC0OnQlcvgDx4Ku7vKUQCxUsPOa72vSCwuz9ruI=;
+        b=IXDgx40Ty/rp+e/NiBaDUfSrlIVHsbYUmm87QDdAnpb9/1WaZnIgV+ZXhz10v/MGlI
+         es1WE3avIycaPQ7SWFz2e+saEo1sQUvGvOA1dk3p0Al9UWyUjP5yxqeYisHahSelknHW
+         qbCQMaW//33HhNm7DCnk1l100KEd1SuoM64hxVdM/aiTJ6wyhezWOZoYayKBpgyJ2NZD
+         A1gAtYTN0mEo94BxA6pTpH5UU0Srb5pHx7k6wtoJaowTiYLPSYJTMcPSzzgsdRNlv1o3
+         pT0LwepEJ3VlmdFX4UKJrqWm3kGEImTTchBsGWkQYDrITbcGPVC9i7Sluh6ncty6bE/V
+         Codw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787096355; x=1787701155; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aXe+DqGRO+U+o5USvhMVUyhu9ixk5r/8S43UJAXzTP4=;
-        b=aXZgnG2oQoemKz9kr0peXnlUtIm4Q+VKAvh9z5/e+HvtjA6DmAH2BUfk/T2UUrl02B
-         9v3s7VAeG43Jy1A4UDN2OpCr4tIa8t4U6vk3Obn6sH54SyZJyMDYlt35puR8pmT/0K8s
-         5xrX0CpeIykOAFv36xu48kMFXkJeFah/qnf0ZzNFzpBTY5FR5BqVHrty25POZnQELt79
-         PDP+Zm1dIfmuHt/hX2TW5oa1Ro2fgBdxaahVcvgvmQlmD/4A0PnxRHjLj6uMkSoiENaj
-         mM/BqGEekdcG4yXjdxoce8n3ykQCNAnJnBF3MYDFVDq4ov2LRPlTEc4GY0pEX0hqnfY6
-         IeUw==
+        d=gmail.com; s=20251104; t=1787096960; x=1787701760; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mSZWWilzYpTVs7ITY+iihKXbAs3mgU9i5QVnV/i4kYU=;
+        b=ZT2x83FRp8XeVgI/X9EmOA1Ew8JjyaYhox8S4lnvW6U7RqeGQCJlGyS5tMhzR3bHm8
+         96Hv3bnZ7EnUfT21OJMQ9lneNWUXnbLIWYF5ncH5K1+rkCKHIe3c6yQSionqqXcdlSs3
+         DCLwFz/+UaKDYAeuJ3pRxt9vLhy/AQBzXTa1Pi3IfWsu8kdATYyzOrrsPIw0MUY75bzs
+         fzRIq3ZX7RI1tw4HOox3pMnxUqf5AWac/f6g1BvTpXXaMOxKevtE4syKA3sd84iPNDyX
+         TsW1bjzb6Kx1a42W+EqKbswE0uusvAYfnEh8d07MVNvW7fGuv20VLXAqDdTSBiL/w1pz
+         hk1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787096355; x=1787701155;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aXe+DqGRO+U+o5USvhMVUyhu9ixk5r/8S43UJAXzTP4=;
-        b=Ox4ddzFGbqanI7lcbw5jlKiWXOGSQpsR49BWwDuZYKtrkVDBljeSFerp3NX+wDHmEZ
-         JpkjIO/EvIkBfN08R0kRJWIkHZufli72ThvCebNWnY43DlIi3PvwokRlJgRBBe83luDZ
-         FqoWhoptRvWciFgl2AhO6CIHs+tjt5Hha/nSkt3ctay4VnRzy7Sox/wVblbScrTQSC4j
-         lKlTrLFabnty3eRyc2kLFF/Fx4xl/ihcBy9tzsQsml2qYnookAcW7sH8Q7pXqzYXMZyC
-         ixrCAGDk8PSIfqiRcor/8m0u9N+RsYvqm0ka3WsLRmvoOWRZ0HN7xvK74+IIEsC2VseX
-         NgBA==
-X-Forwarded-Encrypted: i=1; AHgh+RojCLZCbNABMEY0lCqFhX9OPLmwor2muUyx5LRg6nEE5mdrMmyEGQEST5ZVUqAmt8weXaODsW3yx88=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwegiqSnxt9YgcTvDXY18LTDMPflyk/8V01T9o5CANVC4LWWPiV
-	7rboK/jufIssg+QKI1PWsYStVErDwE2wm3TvomozL2KNWoLVuRjkO4QwWuRtSQ==
-X-Gm-Gg: AR+sD10L3ZeDRXCjVPFBUgZCLOroZyWJ//t/cVFuwqs9XLbWN7tA35IjQ0ld6hPbZde
-	moLYLGGxRiiHuu3ngG1buv+US7XRxnvahO/iv+OdcbRfNuUUOxqcsqemOKIVqSW6c4SUwgZnpFE
-	wGIJHRBcJbAUk7xiOjMvBCqGXj7rNrlM3eU3sikh5jH2rXzayR+4e7RqqyY/A18DJi0LLDflir3
-	kzCzfHc+6OFcjo4fDXVEyUoSq34WamYwy8McpEk8sZG4QtMQyFh7R6a//+TFMLFoDxdPbtJLMXr
-	7oqvhQ/VpBXzPzNx6Gjakr0R2vhHavWpibTlIUlmkNO/QcvSKOVVtZRUPaNsDy7uVJw5hnVI/B9
-	lR/Sq3FF38j2LWQTHhBHf8kbX4ZMHzptrQ8LHzzndHaLkGO72w7erYayoDUco5MZ7zTS7dRAbbT
-	u8EktZwBnSgh3gJe8mtQa3U2jh4+YhQfgO2+n1bn8fLxhv6ays+75msWHksYt3qlrnf1P0cvcG1
-	ozklk0i3JjdRA==
-X-Received: by 2002:a17:90b:37d0:b0:36b:de66:92c3 with SMTP id 98e67ed59e1d1-3957f989f59mr1093695a91.10.1787096355080;
-        Tue, 18 Aug 2026 16:39:15 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bf10ca5csm552871eec.17.2026.08.18.16.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 16:39:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 18 Aug 2026 16:39:13 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Antonin Godard <antonin.godard@bootlin.com>
-Cc: Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: hwmon: replace full-width colon by a
- standard ASCII colon
-Message-ID: <075ee43e-633f-4bd0-b752-58f2fc7ab862@roeck-us.net>
-References: <20260818-doc-hwmon-remove-confusable-v2-1-c1dff1ec01cd@bootlin.com>
+        d=1e100.net; s=20251104; t=1787096960; x=1787701760;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mSZWWilzYpTVs7ITY+iihKXbAs3mgU9i5QVnV/i4kYU=;
+        b=HjLeqomAisOyaq3zgOpmlon+RTyJ68CQjxIhbLloFDa74WigSCtJuTRgvteeF44QRl
+         plGAuKaBB2sHpywvAn135MYzaYa7j4ZK0pgKy8L/2l788kXVO/S6iKJKdhab5XEw8i0c
+         9xK9oCky6N2S9SloJDCs5rTdAS+0Kkf01BBoCV/VUeQKatmKL8NmQZAWr5vBNkqlAllo
+         rTnavBXsslB9q7M/bN49++3wAkqT7uZwVTdQ4TON5J3sQE0NjAWw+h8DfO/wSoim61ob
+         zA+Rrg/VMDiMwa1T7KWagRfnMX+OQ/q2bcaTgyvhj1xZI6q5n8ws/P39FE1Ru48yqbP+
+         zPEA==
+X-Forwarded-Encrypted: i=1; AHgh+RparN343684GLb8v/fyAHqRALtMFIa73ojAhRLzzbm34NgkwWfyR+OTvM6z43+9HsbL2nnr2oUlwyo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJJl8hZKzuAXm+fTGtellznrxChGZpn18FxLSPzqt67XMejENf
+	szgaRai/++Fsl6Tij8gMa10lxi8lgMJBbLhecCIwjmNt0sUO8N9fdCwsk3Mi5TcRa4cBd5mxDEo
+	WbrmEZ8da0TevXyrd0lGAO7ldHrbg+EI=
+X-Gm-Gg: AR+sD12GkhRUc4zmhcXGhIYW00GSatzJcd8aYojTa+MgSMom7JKjh9gyyDH3Q610BWd
+	TSQpvd+LwZjb9Ih2QeKWOdaiaPTnsaOZ+Lfw4nEpp0xuCORCSw8m13J6ug8FMyBGZhFBqSoQNr0
+	CoWwRDTMz52A+IhRfJuJCWdMgamguVRMXsj1NZbC4cALC4OwKnBQfO1w+atNxbtxOsaKarIwS4F
+	2wM1d/5aAWNpjuQ7qLX2xLkx9O2sSVLyVyyLPCpkoYbhhJx1vQyAjsxyjYfxks7VOmYFEIQP2Js
+	kMKyZecSaB7WVL7Rr4VW1TeUELKMnBQni9dTdAizuJzovX7azJH0lIb5I5L1ODsHX3jgZstc19D
+	o7J3XIblkd5hOo8IdnNAyh2YG5ZRMGN7nMDayxhPK0HeSHVJUP6gokdLAQ0fI
+X-Received: by 2002:a05:6512:3409:b0:5b4:740d:6daa with SMTP id
+ 2adb3069b0e04-5b478b82ec3mr66034e87.1.1787096960202; Tue, 18 Aug 2026
+ 16:49:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260818-doc-hwmon-remove-confusable-v2-1-c1dff1ec01cd@bootlin.com>
+References: <20260818152324.587932-1-ynorov@nvidia.com> <CANiq72m2M5Csh_9qQYa8MRmJZtciU3d4S3ht5FG-K+YwR4iAwQ@mail.gmail.com>
+ <DKSDWO1NQKF3.25QCXPPUM27J4@garyguo.net> <aoTjHtiSHJAuDQ7B@yury>
+In-Reply-To: <aoTjHtiSHJAuDQ7B@yury>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 19 Aug 2026 01:49:05 +0200
+X-Gm-Features: AcwNN1WRSakbfVQ8U0riTSPzb9OJF0aufUcbMY-OEMi-rmUv3-QMTzisl7KpfDU
+Message-ID: <CANiq72=9X_WmkkRrrBKvLKBatgOnmAO2L=LbijzwzTv_Xoc5Hw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] rust: kunit: enforce test configurability
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Gary Guo <gary@garyguo.net>, David Gow <david@davidgow.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, rust-for-linux@vger.kernel.org, 
+	nova-gpu@lists.linux.dev, John Hubbard <jhubbard@nvidia.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Burak Emir <burak.emir@gmail.com>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>, 
+	Yury Norov <yury.norov@gmail.com>, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 18, 2026 at 10:08:40AM +0200, Antonin Godard wrote:
-> It prevented the pdfdocs target to complete, prompting the following
-> error:
-> 
->   Latexmk: ====Problematic refs and citations with line #s in .tex file:
->   Missing character: There is no ： (U+FF1A) in font DejaVu Serif/OT:script=latn;l
-> 
-> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+On Wed, Aug 19, 2026 at 12:56=E2=80=AFAM Yury Norov <ynorov@nvidia.com> wro=
+te:
+>
+> If there's something more complicated... Let's wait for at least one
+> real test like that, and not speculate on non-existing cases.
 
-Queued for 7.4.
+I asked because the issue is that this enforces a policy early on,
+i.e. if a user happens to need it, then they will have to dive into
+the implementation to change it or, likely, work around it or assume
+they shouldn't do that.
 
-Thanks,
-Guenter
+In other words, there is a cost to enforce something too early on.
+
+So it is a balance, depending on what we expect, which is why I asked
+David about his experience here.
+
+> This series begins with "enforce", so it's not about being nice. The
+> generic kernel tries to save every single bit of memory and nanosecond
+> of runtime. That's a secret of Linux success IMO.
+
+It is great to save bits and nanoseconds, but KUnit is explicitly not
+meant for production.
+
+> pay for the functionality they don't need. In Rust, before e74b7a3f5a
+> there was no way to throw the tests out. And even after that, we still
+> have such tests.
+
+False, you could disable KUnit (or make it `m`) -- which is what you
+are supposed to do in production.
+
+So, no, we were not bloating every Rust-enabled kernel out there with tests=
+.
+
+> This is not a coding style, it's a factual error. So it should be
+> caught at compile time as an explicit error.
+
+Klint and lints in general are not just for coding style.
+
+And lints are also compile-time, and they can stop the build too.
+
+Cheers,
+Miguel
