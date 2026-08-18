@@ -1,768 +1,523 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42237485514
-	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 18:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787076851; cv=none; b=tIVZ+G2Ne33poW6zn1zeAjnRPl83HT9SzCzEUf+Z34hVKFy60YHTGRhXTPzMiunRWhb+hxBX7eyO8muIFHWdMievETtclJs8FdZc7u6t+o2D4WjoQE5As9KSr0B/7acJCkxC1wDzXwVv/G8x9JrVkw53DHAt27YKdHKBsvuq74Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787076851; c=relaxed/simple;
-	bh=16u8kUeddFjxPCp6RWsHhLpyyUX9+aAtKCPo7pLJeQk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JEQwP75OyuSiRow5iUudl8gcDefulWLHbQFciGz5371uz2ye2p+oUOdhRVcG+f/lUAAATZVtptJazPuo/XCCwQAU0JjIW3mYotgzX3e0gahcIzkp7Vjqc412UX3HLDQVy1H/w5ogooK0XdcuoIf53tbOFdZfeF0ALx3yhvTKEI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kq1iTEDd; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDA03E49C1
+	for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 18:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787078501; cv=pass; b=XeOsSCaSKx/N0E2IwCKcgpG+0z01HIk9ZtUzb82DyP7Ud3lyHU2qlIsy+FzYQPGtcyNvSJ2fSbNsYiNzg80VT8r0lvD5TihYpd6GhZeHJhJJ223+Zaa2kZllyN+DJ+ZBdrLW68S4qnMTYBVOyhUtq4SDr9t9Dzl2qGnA06DO4X4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787078501; c=relaxed/simple;
+	bh=M+nQKGWiSiXZf9Z0hBM+vKqHXKxgftoOF/UpihBrVDE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aB8WNPkfim7QIhWDzaDNnIpEo33d0BiuR20ZTt9SnOc+HpXgwKu7dkYfN4YVI7S2a66v51aE2pNf7Xltj6Lml3xRTooJj8CcfI1jyW6tPUzuyOCkQxCpD9f+inmEyYaaKySvG1Uf/BHnyp1pYG5J7/1n0S4K+QCzKUbs0Lx5iTY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XXMgK3Oa; arc=pass smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kq1iTEDd"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-75e2905c09aso48736137.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 11:14:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XXMgK3Oa"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47c2b362ee2so102848f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Aug 2026 11:41:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787078498; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RajusebJsXMnLK76qW7O1zZcaFNA6OCNC1sEPZ0v+tMwyXL/t2lUKN1GBl8+mq9UXB
+         yxJq4J2nV4bMMkljmufttHXcsnvaIYVINPy+nnCse3fN9awaBAeIyxWhjkrqd2tMq7MR
+         //cYwnHgBDYLShO7WTCesUk7SC9cz6qgpfBWYc7iDI2og/HaYpJvtf8IJPja/KmQDvJ/
+         iMueC+ccY1CcBfUMIR9m6Qq1FHQuvuw5jgj707u2CxnIhSbFYs4G5cjsX08krlAGfahn
+         QJB4ACKIUzfEEXtMij5S79qkLF0P056viG9GOMCN6EYJDActuAvjEXP7uxYpTi4gC/VM
+         h3Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6pyYJI0TNCEOKN/gsnOgTV5eL5yphEPrCvzUhCQngc4=;
+        fh=6cnWf0mZA0HrHZORYRvrZ9xR45Cw9j0HxUqrGe2c+KE=;
+        b=iJJJE3Uwllg08Xe4U5oTx6pNvFXpvWU7NUn0HDPQNm1o1lDx1TJI6PZLNh/pzGUomW
+         q9tpjU2G6/Tn/p2Zgt+7cP9OWvswxj3h92PezpARQ08j5iYlpUTr2el7+cTtaz9WPgFb
+         yevTy/VuFUha8A46mStkjE2EUrMeV6a23otaNfdjlCPJgZx9WgjtskvmLLlQI4yRKcgs
+         IWYjvGSKfWpdKCSUvTOqJCYplt1zT1OozhSpZ8X3GzwBM1yQHwaOb4g28wSz0pgd98uB
+         SudYzoYPKJNiVdh/WBBrwU4diGjPaHK+jEWLaOmI3aiSBy9v0epU9jYYiUS43Zaq7pZF
+         SJ4g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787076848; x=1787681648; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787078498; x=1787683298; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=lTDXhMOkGXGQ42AGKzIeyKiNS7Ms5CrmsIFxdND5deU=;
-        b=Kq1iTEDd03M2i3XaPOSPq6Mn03x/mVeZLF88CkRO/8iLYcPYuMJxbLNjJedmGuOhQF
-         QotNZ5mFu+9PL++ATT5BHYxCcklQp/5cfdJvfTAKsw14u0agViAkQHSDgOQFPo1AKQbg
-         dB4LThcXTyMeiWsRaSOdDz+hVvh54cHUeWI02iiLBB/91S5wCfYAn8dTqs4kLox7ieS1
-         V5ElSmvSlw2xYXDgRqH6FdRenBucSYOt7fbfXQ+HVU/EnUCKXRAt4zQ5AUxgoEYDEBDi
-         Auzn3f5YgjRp25Tw33PepgBHFLw704TM/46VqJ36Uh9gfJywMQimHe8kWk3jbHJPAOtp
-         iKpA==
+        bh=6pyYJI0TNCEOKN/gsnOgTV5eL5yphEPrCvzUhCQngc4=;
+        b=XXMgK3OaP5UAN9ZYfGO+hgdvW9zAhzhnzn9/KhGH81a5xHV63t78z/mlRBsbqrAB/8
+         NFG6FkqRTKWlkRYkc+g0L4oKCo5GQ/PUG3F6ytvMZJJRONI8qIndSOQHN1lRCpQn3zlB
+         YY7zqjPo9iXUkTJr+ioaXUsgXA6H1Ld6o+dWT+Y01MtClPli4Nu3IRsg4cVbSFYV472z
+         +wwdhi/Car0d9JcmXsdYRVx9vAN6wXOUKVAaS9OCOOxsN/Ot6Tr1kt/PtGvsMtjNhHCH
+         8yf6k9dmZO5GJygDK3uewXsfYWhNJO7wgwN5w2cS1yWV+zyMRRTFb3Iu0E2Fw2+4UiS9
+         gQiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787076848; x=1787681648;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1787078498; x=1787683298;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lTDXhMOkGXGQ42AGKzIeyKiNS7Ms5CrmsIFxdND5deU=;
-        b=BFHFmJlj1OyjKpCJH8DjQcpCsij3xepWYmb3IE5CeHrXBwx0pjv2RpZ1TRgwsS7p5S
-         AhWjyTt6/NeYbvkVHLRLytbFGAQYLZ0QRzG0lqTDtk378fbFRNVA4iQ9ojoszi0/4VDA
-         GtDGiaMjq1hvOkWON9pYxgejWLd9DJspM9AkwK1h/8NwPcbE2rMwCaghusgLN+NIXYpt
-         8LwKMD5mO2f0c5KdSdZILGWcjcNZGrtpCPQ+TCntf841zwDelkypmPXZNBZS2BIBtrd4
-         fawJX5FN+kGC1i6184ya5DC7y92v26hGKyREv1TAU7UV7ovx2FG7Zr/cVkBj2PF4VAD/
-         Beww==
-X-Forwarded-Encrypted: i=1; AHgh+Ro3mb5QZPLSOjAf4lQPoKuHlAQ0l6Q6MDtI8FiDHxHUaXejdxf5EqFxqdny4eIdBFheV5QEzA/IqZU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4TTlcTkADJCnjHXeBiVRuTmHp81eLoftspDdCvoblvNREuo27
-	f2DeGrXFiFIZ+qabtHN3p7N06ocxITXr9j3BcdDu6EcCGK/vH89KmuxIE8WD7p9GE4k=
-X-Gm-Gg: AR+sD11/vRqNdh+pS8WGDgm8HdDGfHemM3YkeujRbdsY+IXTy8yTdkjJ+ManJ2+FSBp
-	YQ5FvADwEojPktd5wlLLEvfA7d5eMUXAQbtTUzfiEQdCJMzvJiuY6GqiNVUmPBynzJ6raoxfTiP
-	H5HHNkQBaeJGf0anUYq9n96yS/ULaKbXwqlaEJxSCjIv/qfQ2Svb5ZOolG4WnIF93FeAwmNECqp
-	tNk4AIkZ5zeJVnptMlIg/kIPKrkgZQUFkjtrobFtOZUn+iZaowX9AoBQjv1izpJxCxsFZJv1YVe
-	vnuGxmYv0g8We/owFNKQrvHEHzC6k4KEW+zQ5gUd1S2Yhgh7MO5VxnCvSu/By74vJTFAp1TzWdA
-	Gg+CEji2L1Shqdens87YMJAxofkiQPK+gJDV71W81msUPxq3n/CCiTGTpv+h7txazuFTgvsz7ib
-	dZ4iGMfkZPUiVL0TzF1W/+WFXnE9513ISOszLDDHyvofMLU4GfdR/88p5ZmadrprP+
-X-Received: by 2002:a05:6102:5689:b0:777:5640:942e with SMTP id ada2fe7eead31-7775640947emr912325137.11.1787076848040;
-        Tue, 18 Aug 2026 11:14:08 -0700 (PDT)
-Received: from nixos-minipc ([2803:9810:b675:f600:6f62:ea1f:22cc:4407])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97c4533ef8dsm1496530241.1.2026.08.18.11.14.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 11:14:07 -0700 (PDT)
-From: =?UTF-8?q?Sebasti=C3=A1n=20Peyrott?= <speyrott@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] hwmon: Add Minisforum UM780 XTX EC monitoring and fan control
-Date: Tue, 18 Aug 2026 15:13:45 -0300
-Message-ID: <20260818181345.203295-2-speyrott@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260818181345.203295-1-speyrott@gmail.com>
-References: <20260818181345.203295-1-speyrott@gmail.com>
+        bh=6pyYJI0TNCEOKN/gsnOgTV5eL5yphEPrCvzUhCQngc4=;
+        b=D9ZMqS8YN1uxtlQ1ujmVixaBP40AJ//RSHRPMeH4QYPA2Ui0OFThhSlG7STvkgEYWY
+         tKahhY49zlx9RctjZl6dZZVLtrJf4LGfsCm1XVOakJ2RHr6FRwIBQb/fwbovNYHoG6WE
+         N3pzbPYZypJoJZweK1lv66N52Wdv5Y0x7HT4/Tra97bV15Wb0UvXHW7pbMphf/tiRCZh
+         VdMEH7zUEQrFb11hqldqx9gVrGn1cFaDFMtUmWZvckeqIiR9Iz3q6WjckChv2Fy61NxT
+         KsS/7Dg8PrW1WrnX0auStU3iGDjJfULO9jSEVP/InlDJHZqEYJNUcAe9tsmpMypPxfCz
+         +4Ng==
+X-Forwarded-Encrypted: i=1; AHgh+RodsR5xRgaHTwTwzwxFf6Vhro02OUPWtbob/pY0BNr3Ar2Jf0CocbLxGEszKg+B2aoAEPcIATiPqRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyridY09kgtp/lxScMz3tHhMJgF0rDO+JkyJium2Ox0ti6Omwhy
+	ZWr7MAuiIQudTzUuyacrVMkmhEV77UVTZYu0XDEr+F+71PUZRB0qzu34ndoqQWaqhHAkIRvBj9P
+	Smp69FRAppaBRARNlOdKFzSLZxlvdu0w=
+X-Gm-Gg: AR+sD12X70vBmGkzQLqIA0AiA5z9ViFY3rq4d1DrP9ksqSC0XGPjsIjMdZEEgbDUU0o
+	HJZiA0Vwq8qfOto+vwFt5TWEYiL37yH4Q1ybljZglKDem1/c1lhSTwsILLLrLeyxsTN0VTiTSz6
+	L0KmGyGr6IMRi1nsAzREUZJUmr/SN/DyHpqOasaOClTpR7JQeeBVnLcZvtfpWmTbZfQ9bDhYuE5
+	ft1MENACS+57uumXMtUBOOWdDyKjCuiCYzzNifDKChs1MksLDE7+E2xCb/wMCl/lZ1DGIG1EhE5
+	a+UgcHUECOStgCmjyWD2IVYtgVTMcfNCfP/lmtlk+052A5Kg8uD3NNjn8Osw/8Siejf8fm1NjLb
+	z
+X-Received: by 2002:a5d:5d86:0:b0:481:5f3c:39d4 with SMTP id
+ ffacd0b85a97d-482b07d03e4mr120191f8f.1.1787078497580; Tue, 18 Aug 2026
+ 11:41:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260806184254.3790858-1-nphamcs@gmail.com> <20260806184254.3790858-2-nphamcs@gmail.com>
+ <anX-ga41DMNWF6-2@cmpxchg.org>
+In-Reply-To: <anX-ga41DMNWF6-2@cmpxchg.org>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 18 Aug 2026 11:41:25 -0700
+X-Gm-Features: AcwNN1VHimYofVoIsN8UQymuxDsdfQrRmhj9S6ClyvLCQWRkK5fYio35kYdGPrc
+Message-ID: <CAKEwX=MmqyWdqfrp8kxeuucNFhU2e6Hk2TdANUGhNFHhvtSPwg@mail.gmail.com>
+Subject: Re: [PATCH v3 01/11] mm, swap: add virtual swap device infrastructure
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
+	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev, 
+	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org, 
+	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	qi.zheng@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
+	weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
+	haowenchao22@gmail.com, corbet@lwn.net, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a DMI-gated hwmon driver for the embedded controller used by the
-Minisforum UM780 XTX with board revision 1.1 and BIOS 1.06.
+On Fri, Aug 7, 2026 at 8:49=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org>=
+ wrote:
 
-Expose the CPU and system fan control temperatures and tachometers. The
-tachometer protocol returns one byte per OEM command, so serialize
-transactions and use high-low-high sampling to reject torn values.
+Hi Johannes,
 
-Allow selecting either complete OEM CPU fan profile through pwm1_enable and
-changing the two validated system fan transition temperatures through
-standard automatic-curve attributes. Cache coherent settings and restore
-them after the firmware reloads defaults following resume.
+My apologies for the delayed response. I saw and read your email, but
+I wanted to stew on it, code things out, and stare at things before
+responding.
 
-Signed-off-by: Sebastián Peyrott <speyrott@gmail.com>
----
- Documentation/hwmon/index.rst               |   1 +
- Documentation/hwmon/minisforum-um780xtx.rst |  68 +++
- MAINTAINERS                                 |   7 +
- drivers/hwmon/Kconfig                       |  16 +
- drivers/hwmon/Makefile                      |   1 +
- drivers/hwmon/minisforum-um780xtx.c         | 509 ++++++++++++++++++++
- 6 files changed, 602 insertions(+)
- create mode 100644 Documentation/hwmon/minisforum-um780xtx.rst
- create mode 100644 drivers/hwmon/minisforum-um780xtx.c
+I think most of our suggestions here make sense. I coded most of them
+out already, and I'm stress testing them - will report back if there
+are surprises.
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index d979e6d6e9f2..c98cad395455 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -186,6 +186,7 @@ Hardware Monitoring Kernel Drivers
-    mcp3021
-    mcp9982
-    menf21bmc
-+   minisforum-um780xtx
-    mlxreg-fan
-    mp2856
-    mp2869
-diff --git a/Documentation/hwmon/minisforum-um780xtx.rst b/Documentation/hwmon/minisforum-um780xtx.rst
-new file mode 100644
-index 000000000000..ff8d1b2322e1
---- /dev/null
-+++ b/Documentation/hwmon/minisforum-um780xtx.rst
-@@ -0,0 +1,68 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+====================================
-+Kernel driver minisforum-um780xtx
-+====================================
-+
-+Supported systems:
-+
-+  * Minisforum UM780 XTX
-+
-+    * DMI product name: ``Venus series``
-+    * Mainboard: ``F7BSD``, revision ``1.1``
-+    * BIOS version: ``1.06``
-+
-+Author: Sebastián Peyrott <speyrott@gmail.com>
-+
-+Description
-+-----------
-+
-+This driver exposes hardware monitoring and fan-control data cached by the
-+IT5571E embedded controller. It uses the ACPI EC transport and only binds to
-+the exact system and firmware identity listed above.
-+
-+The two temperature channels are the values used by the EC's fan-control
-+loops. Their physical sensor placement is not known. The CPU channel is the
-+filtered AMD SB-TSI temperature, while the system channel is an external
-+thermistor input.
-+
-+The fan tachometers are read through OEM EC commands. Since each byte is
-+returned by a separate command, the driver uses a high-low-high sequence and
-+retries if the high byte changes.
-+
-+Sysfs entries
-+-------------
-+
-+==========================  ==============================================
-+``temp1_input``             CPU-fan control temperature
-+``temp2_input``             System-fan control temperature
-+``fan1_input``              CPU fan speed in RPM
-+``fan2_input``              System fan speed in RPM
-+``pwm1_enable``             CPU profile: 2 is OEM B1, 3 is OEM B2
-+``pwm2_auto_point1_temp``   Off-to-low system-fan transition temperature
-+``pwm2_auto_point2_temp``   Low-to-high system-fan transition temperature
-+==========================  ==============================================
-+
-+CPU fan profiles
-+----------------
-+
-+Values 2 and 3 of ``pwm1_enable`` select the two complete automatic profiles
-+implemented by the firmware. Writing either value reloads the whole CPU fan
-+curve, including firmware state which is not visible through the ACPI EC
-+window. Other values are rejected.
-+
-+System fan thresholds
-+---------------------
-+
-+The two writable system-fan temperatures are rounded to whole degrees Celsius
-+and clamped to preserve strict ordering between both visible thresholds and
-+the firmware's internal third threshold. The third threshold does not select
-+a new PWM target and is therefore not exposed as another auto point.
-+
-+Resume state preservation
-+-------------------------
-+
-+Fan settings are held in EC RAM. On the supported firmware, initialization
-+during s2idle resume reloads the factory system-fan curve. The driver saves the
-+coherent CPU profile and system-fan thresholds at suspend and restores them
-+synchronously at resume.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6156e48e1816..f60ea9c6cfe7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18012,6 +18012,13 @@ F:	include/linux/min_heap.h
- F:	lib/min_heap.c
- F:	lib/tests/min_heap_kunit.c
- 
-+MINISFORUM UM780 XTX EC HARDWARE MONITOR DRIVER
-+M:	Sebastián Peyrott <speyrott@gmail.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/minisforum-um780xtx.rst
-+F:	drivers/hwmon/minisforum-um780xtx.c
-+
- MIPI CCS, SMIA AND SMIA++ IMAGE SENSOR DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 81a9a1d40eec..45ac04c89b23 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1490,6 +1490,22 @@ config SENSORS_MENF21BMC_HWMON
- 	  This driver can also be built as a module. If so the module
- 	  will be called menf21bmc_hwmon.
- 
-+config SENSORS_MINISFORUM_UM780XTX
-+	tristate "Minisforum UM780 XTX EC hardware monitoring"
-+	depends on ACPI && DMI && X86
-+	help
-+	  If you say yes here you get support for the hardware monitoring
-+	  features of the embedded controller in the Minisforum UM780 XTX.
-+	  This includes CPU and system fan speeds, their control temperatures,
-+	  two CPU fan profiles, system fan temperature thresholds, and
-+	  preservation of the selected settings across suspend and resume.
-+
-+	  This driver only binds to explicitly supported board and firmware
-+	  versions.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called minisforum-um780xtx.
-+
- config SENSORS_MR75203
- 	tristate "Moortec Semiconductor MR75203 PVT Controller"
- 	select REGMAP_MMIO
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 0cad7e21634c..a690f5f97ffc 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -180,6 +180,7 @@ obj-$(CONFIG_SENSORS_TC654)	+= tc654.o
- obj-$(CONFIG_SENSORS_TPS23861)	+= tps23861.o
- obj-$(CONFIG_SENSORS_MLXREG_FAN) += mlxreg-fan.o
- obj-$(CONFIG_SENSORS_MENF21BMC_HWMON) += menf21bmc_hwmon.o
-+obj-$(CONFIG_SENSORS_MINISFORUM_UM780XTX) += minisforum-um780xtx.o
- obj-$(CONFIG_SENSORS_MR75203)	+= mr75203.o
- obj-$(CONFIG_SENSORS_NCT6683)	+= nct6683.o
- obj-$(CONFIG_SENSORS_NCT6694)	+= nct6694-hwmon.o
-diff --git a/drivers/hwmon/minisforum-um780xtx.c b/drivers/hwmon/minisforum-um780xtx.c
-new file mode 100644
-index 000000000000..102ce067d164
---- /dev/null
-+++ b/drivers/hwmon/minisforum-um780xtx.c
-@@ -0,0 +1,509 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Minisforum UM780 XTX (F7BSD) embedded-controller hwmon driver.
-+ *
-+ * Copyright (C) 2026 Sebastián Peyrott <speyrott@gmail.com>
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/cleanup.h>
-+#include <linux/dmi.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/pm.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+
-+#define UM780XTX_EC_TEMP_SYS	0x05
-+#define UM780XTX_EC_TEMP_CPU	0x09
-+#define UM780XTX_EC_CPU_PROFILE	0x2f
-+#define UM780XTX_EC_SYS_POINT1	0x31
-+#define UM780XTX_EC_SYS_POINT2	0x34
-+#define UM780XTX_EC_SYS_POINT3	0x37
-+
-+#define UM780XTX_EC_PROFILE_B1	0xb1
-+#define UM780XTX_EC_PROFILE_B2	0xb2
-+
-+#define UM780XTX_EC_FAN1_LO	0xb6
-+#define UM780XTX_EC_FAN1_HI	0xb7
-+#define UM780XTX_EC_FAN2_LO	0xb9
-+#define UM780XTX_EC_FAN2_HI	0xba
-+
-+#define UM780XTX_EC_MAX_RPM	9000
-+#define UM780XTX_EC_RPM_RETRIES	3
-+
-+static struct platform_device *um780xtx_pdev;
-+
-+struct um780xtx_data {
-+	struct device *hwmon_dev;
-+	u8 cached_profile;
-+	u8 cached_sys_point1;
-+	u8 cached_sys_point2;
-+	u8 sys_point3;
-+};
-+
-+static const struct dmi_system_id um780xtx_dmi_table[] = {
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR,
-+					"Micro Computer (HK) Tech Limited"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Venus series"),
-+			DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
-+					"Shenzhen Meigao Electronic Equipment Co.,Ltd"),
-+			DMI_EXACT_MATCH(DMI_BOARD_NAME, "F7BSD"),
-+		},
-+	},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(dmi, um780xtx_dmi_table);
-+
-+static bool um780xtx_firmware_match(void)
-+{
-+	const char *board_version = dmi_get_system_info(DMI_BOARD_VERSION);
-+	const char *bios_version = dmi_get_system_info(DMI_BIOS_VERSION);
-+
-+	return board_version && bios_version &&
-+		!strcmp(board_version, "1.1") && !strcmp(bios_version, "1.06");
-+}
-+
-+static int um780xtx_oem_read(u8 command, u8 *value)
-+{
-+	return ec_transaction(command, NULL, 0, value, 1);
-+}
-+
-+static int um780xtx_read_rpm(u8 command_hi, u8 command_lo, long *rpm)
-+{
-+	u8 hi_before;
-+	u8 hi_after;
-+	u8 lo;
-+	unsigned int value;
-+	int attempt;
-+	int ret;
-+
-+	for (attempt = 0; attempt < UM780XTX_EC_RPM_RETRIES; attempt++) {
-+		ret = um780xtx_oem_read(command_hi, &hi_before);
-+		if (ret)
-+			return ret;
-+		ret = um780xtx_oem_read(command_lo, &lo);
-+		if (ret)
-+			return ret;
-+		ret = um780xtx_oem_read(command_hi, &hi_after);
-+		if (ret)
-+			return ret;
-+		if (hi_before != hi_after)
-+			continue;
-+
-+		value = (hi_after << 8) | lo;
-+		if (value > UM780XTX_EC_MAX_RPM)
-+			continue;
-+
-+		*rpm = value;
-+		return 0;
-+	}
-+
-+	return -EAGAIN;
-+}
-+
-+static int um780xtx_read_profile(long *mode)
-+{
-+	u8 profile;
-+	int ret;
-+
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-+	if (ret)
-+		return ret;
-+	if (profile == UM780XTX_EC_PROFILE_B1) {
-+		*mode = 2;
-+		return 0;
-+	}
-+	if (profile == UM780XTX_EC_PROFILE_B2) {
-+		*mode = 3;
-+		return 0;
-+	}
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static int um780xtx_write_profile(struct um780xtx_data *data, long mode)
-+{
-+	u8 expected;
-+	u8 profile;
-+	int ret;
-+
-+	if (mode != 2 && mode != 3)
-+		return -EINVAL;
-+	expected = mode == 2 ? UM780XTX_EC_PROFILE_B1 : UM780XTX_EC_PROFILE_B2;
-+
-+	ret = ec_transaction(expected, NULL, 0, NULL, 0);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-+	if (ret)
-+		return ret;
-+	if (profile != expected)
-+		return -EIO;
-+
-+	data->cached_profile = profile;
-+	return 0;
-+}
-+
-+static const u8 um780xtx_sys_point_offsets[] = {
-+	UM780XTX_EC_SYS_POINT1,
-+	UM780XTX_EC_SYS_POINT2,
-+};
-+
-+static ssize_t um780xtx_sys_point_temp_show(struct device *dev,
-+					    struct device_attribute *attr,
-+					    char *buf)
-+{
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-+	u8 value;
-+	int ret;
-+
-+	guard(hwmon_lock)(dev);
-+	ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &value);
-+	if (ret)
-+		return ret;
-+
-+	return sysfs_emit(buf, "%u\n", value * 1000);
-+}
-+
-+static ssize_t um780xtx_sys_point_temp_store(struct device *dev,
-+					     struct device_attribute *attr,
-+					     const char *buf, size_t count)
-+{
-+	struct um780xtx_data *data = dev_get_drvdata(dev);
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
-+	u8 points[2];
-+	u8 readback;
-+	long value;
-+	int ret;
-+
-+	ret = kstrtol(buf, 10, &value);
-+	if (ret)
-+		return ret;
-+
-+	guard(hwmon_lock)(dev);
-+	ret = ec_read(UM780XTX_EC_SYS_POINT1, &points[0]);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_SYS_POINT2, &points[1]);
-+	if (ret)
-+		return ret;
-+	if (points[0] >= points[1] || points[1] >= data->sys_point3)
-+		return -EIO;
-+
-+	value = DIV_ROUND_CLOSEST(value, 1000);
-+	if (!sattr->index)
-+		value = clamp_val(value, 0, points[1] - 1);
-+	else
-+		value = clamp_val(value, points[0] + 1,
-+				  data->sys_point3 - 1);
-+	points[sattr->index] = value;
-+
-+	ret = ec_write(um780xtx_sys_point_offsets[sattr->index],
-+		       points[sattr->index]);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(um780xtx_sys_point_offsets[sattr->index], &readback);
-+	if (ret)
-+		return ret;
-+	if (readback != points[sattr->index])
-+		return -EIO;
-+
-+	data->cached_sys_point1 = points[0];
-+	data->cached_sys_point2 = points[1];
-+	return count;
-+}
-+
-+static SENSOR_DEVICE_ATTR_RW(pwm2_auto_point1_temp,
-+			     um780xtx_sys_point_temp, 0);
-+static SENSOR_DEVICE_ATTR_RW(pwm2_auto_point2_temp,
-+			     um780xtx_sys_point_temp, 1);
-+
-+static struct attribute *um780xtx_extra_attrs[] = {
-+	&sensor_dev_attr_pwm2_auto_point1_temp.dev_attr.attr,
-+	&sensor_dev_attr_pwm2_auto_point2_temp.dev_attr.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group um780xtx_extra_group = {
-+	.attrs = um780xtx_extra_attrs,
-+};
-+
-+static const struct attribute_group *um780xtx_extra_groups[] = {
-+	&um780xtx_extra_group,
-+	NULL
-+};
-+
-+static umode_t um780xtx_is_visible(const void *data,
-+				   enum hwmon_sensor_types type,
-+				   u32 attr, int channel)
-+{
-+	if (type == hwmon_temp || type == hwmon_fan)
-+		return 0444;
-+	if (type == hwmon_pwm && attr == hwmon_pwm_enable)
-+		return 0644;
-+	return 0;
-+}
-+
-+static int um780xtx_read(struct device *dev, enum hwmon_sensor_types type,
-+			 u32 attr, int channel, long *value)
-+{
-+	u8 raw;
-+	int ret;
-+
-+	if (type == hwmon_temp) {
-+		ret = ec_read(channel ? UM780XTX_EC_TEMP_SYS :
-+			      UM780XTX_EC_TEMP_CPU, &raw);
-+		if (ret)
-+			return ret;
-+		*value = raw * 1000L;
-+		return 0;
-+	}
-+	if (type == hwmon_fan) {
-+		if (!channel)
-+			ret = um780xtx_read_rpm(UM780XTX_EC_FAN1_HI,
-+						UM780XTX_EC_FAN1_LO, value);
-+		else
-+			ret = um780xtx_read_rpm(UM780XTX_EC_FAN2_HI,
-+						UM780XTX_EC_FAN2_LO, value);
-+		return ret;
-+	}
-+	if (type == hwmon_pwm)
-+		return um780xtx_read_profile(value);
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static int um780xtx_write(struct device *dev, enum hwmon_sensor_types type,
-+			  u32 attr, int channel, long value)
-+{
-+	struct um780xtx_data *data = dev_get_drvdata(dev);
-+
-+	if (type == hwmon_pwm && attr == hwmon_pwm_enable)
-+		return um780xtx_write_profile(data, value);
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static int um780xtx_read_string(struct device *dev,
-+				enum hwmon_sensor_types type,
-+				u32 attr, int channel, const char **str)
-+{
-+	static const char * const labels[] = { "CPU", "SYS" };
-+
-+	if (type == hwmon_temp && attr == hwmon_temp_label)
-+		*str = labels[channel];
-+	else if (type == hwmon_fan && attr == hwmon_fan_label)
-+		*str = labels[channel];
-+	else
-+		return -EOPNOTSUPP;
-+	return 0;
-+}
-+
-+static const struct hwmon_ops um780xtx_hwmon_ops = {
-+	.is_visible = um780xtx_is_visible,
-+	.read = um780xtx_read,
-+	.write = um780xtx_write,
-+	.read_string = um780xtx_read_string,
-+};
-+
-+static const struct hwmon_channel_info * const um780xtx_info[] = {
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL),
-+	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL),
-+	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_ENABLE),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info um780xtx_chip_info = {
-+	.ops = &um780xtx_hwmon_ops,
-+	.info = um780xtx_info,
-+};
-+
-+static int um780xtx_write_sys_point(u8 offset, u8 value)
-+{
-+	u8 readback;
-+	int ret;
-+
-+	ret = ec_write(offset, value);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(offset, &readback);
-+	if (ret)
-+		return ret;
-+
-+	return readback == value ? 0 : -EIO;
-+}
-+
-+static int um780xtx_restore_sys_points(struct um780xtx_data *data,
-+				       u8 current_point2)
-+{
-+	u8 point1 = data->cached_sys_point1;
-+	u8 point2 = data->cached_sys_point2;
-+	int ret;
-+
-+	/* Keep strict ordering valid after each individual EC write. */
-+	if (point1 >= current_point2) {
-+		ret = um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT2, point2);
-+		if (ret)
-+			return ret;
-+		return um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT1,
-+						 point1);
-+	}
-+
-+	ret = um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT1, point1);
-+	if (ret)
-+		return ret;
-+	return um780xtx_write_sys_point(UM780XTX_EC_SYS_POINT2, point2);
-+}
-+
-+static int um780xtx_cache_state(struct um780xtx_data *data)
-+{
-+	u8 profile;
-+	u8 point1;
-+	u8 point2;
-+	int ret;
-+
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &profile);
-+	if (ret)
-+		return ret;
-+	if (profile != UM780XTX_EC_PROFILE_B1 &&
-+	    profile != UM780XTX_EC_PROFILE_B2)
-+		return -EINVAL;
-+
-+	ret = ec_read(UM780XTX_EC_SYS_POINT1, &point1);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_SYS_POINT2, &point2);
-+	if (ret)
-+		return ret;
-+	if (point1 >= point2 || point2 >= data->sys_point3)
-+		return -EINVAL;
-+
-+	data->cached_profile = profile;
-+	data->cached_sys_point1 = point1;
-+	data->cached_sys_point2 = point2;
-+	return 0;
-+}
-+
-+static int um780xtx_restore_state(struct um780xtx_data *data)
-+{
-+	u8 readback;
-+	u8 point2;
-+	int ret;
-+
-+	ret = ec_transaction(data->cached_profile, NULL, 0, NULL, 0);
-+	if (ret)
-+		return ret;
-+	ret = ec_read(UM780XTX_EC_CPU_PROFILE, &readback);
-+	if (ret)
-+		return ret;
-+	if (readback != data->cached_profile)
-+		return -EIO;
-+
-+	ret = ec_read(UM780XTX_EC_SYS_POINT2, &point2);
-+	if (ret)
-+		return ret;
-+
-+	return um780xtx_restore_sys_points(data, point2);
-+}
-+
-+static int um780xtx_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct um780xtx_data *data;
-+	struct device *hwmon;
-+	int ret;
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+	platform_set_drvdata(pdev, data);
-+
-+	ret = ec_read(UM780XTX_EC_SYS_POINT3, &data->sys_point3);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to read system fan limit\n");
-+	ret = um780xtx_cache_state(data);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to read initial fan settings\n");
-+
-+	hwmon = devm_hwmon_device_register_with_info(dev, "um780xtx_ec", data,
-+						     &um780xtx_chip_info,
-+						     um780xtx_extra_groups);
-+	if (IS_ERR(hwmon))
-+		return PTR_ERR(hwmon);
-+	data->hwmon_dev = hwmon;
-+
-+	return 0;
-+}
-+
-+static int um780xtx_suspend(struct device *dev)
-+{
-+	struct um780xtx_data *data = dev_get_drvdata(dev);
-+
-+	guard(hwmon_lock)(data->hwmon_dev);
-+	return um780xtx_cache_state(data);
-+}
-+
-+static int um780xtx_resume(struct device *dev)
-+{
-+	struct um780xtx_data *data = dev_get_drvdata(dev);
-+
-+	guard(hwmon_lock)(data->hwmon_dev);
-+	return um780xtx_restore_state(data);
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(um780xtx_pm_ops, um780xtx_suspend,
-+				um780xtx_resume);
-+
-+static struct platform_driver um780xtx_driver = {
-+	.driver = {
-+		.name = "um780xtx-ec-hwmon",
-+		.pm = pm_sleep_ptr(&um780xtx_pm_ops),
-+	},
-+	.probe = um780xtx_probe,
-+};
-+
-+static int __init um780xtx_init(void)
-+{
-+	int ret;
-+
-+	if (!dmi_check_system(um780xtx_dmi_table) ||
-+	    !um780xtx_firmware_match() || !ec_get_handle())
-+		return -ENODEV;
-+	ret = platform_driver_register(&um780xtx_driver);
-+	if (ret)
-+		return ret;
-+
-+	um780xtx_pdev = platform_device_register_simple("um780xtx-ec-hwmon",
-+							PLATFORM_DEVID_NONE,
-+						       NULL, 0);
-+	if (IS_ERR(um780xtx_pdev)) {
-+		ret = PTR_ERR(um780xtx_pdev);
-+		platform_driver_unregister(&um780xtx_driver);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static void __exit um780xtx_exit(void)
-+{
-+	platform_device_unregister(um780xtx_pdev);
-+	platform_driver_unregister(&um780xtx_driver);
-+}
-+
-+module_init(um780xtx_init);
-+module_exit(um780xtx_exit);
-+
-+MODULE_AUTHOR("Sebastián Peyrott <speyrott@gmail.com>");
-+MODULE_DESCRIPTION("Minisforum UM780 XTX EC hwmon driver");
-+MODULE_LICENSE("GPL");
--- 
-2.54.0
+>
+> Hello Nhat,
+>
+> This looks pretty clean to me overall. Nice. A few comments inline:
+>
+> On Thu, Aug 06, 2026 at 11:42:44AM -0700, Nhat Pham wrote:
+> > @@ -276,8 +277,21 @@ struct swap_info_struct {
+> >       struct list_head discard_clusters; /* discard clusters list */
+> >       struct plist_node avail_list;   /* entry in swap_avail_head */
+> >       const struct swap_ops *ops;
+> > +     struct xarray cluster_info_pool; /* Xarray for vswap dynamic clus=
+ter info */
+> >  };
+> >
+> > +#ifdef CONFIG_VSWAP
+> > +static inline bool swap_is_vswap(struct swap_info_struct *si)
+> > +{
+> > +     return si->flags & SWP_VSWAP;
+> > +}
+> > +#else
+>
+> I think what could make sense is have
+>
+> - CONFIG_VSWAP
+> - CONFIG_VSWAP_DEFAULT_ENABLED
+> - a boot flag that's =3D CONFIG_VSWAP_DEFAULT_ENABLED
+>
+> Then you can use jump labels to cut runtime overhead to 0 if it isn't
+> enabled at boot.
+>
+> This way distributions can ship it with no overhead out of the box,
+> while allowing users to opt in for early testing.
+>
+> IMO this is more valuable than a runtime toggle.
+>
+> It should be part of this patch if you add it.
 
+I've been thinking about this and your other suggestions regarding
+removing CONFIG_VSWAP. I've coded them out - it does indeed look
+cleaner :)
+
+Let me test things first to make sure I did not introduce some weird
+bugs, but to recap:
+
+1. CONFIG_VSWAP gone (along with most of the !CONFIG_VSWAP stubs,
+saving 100 LoCs or so).
+
+2. Runtime param gone, replaced by a boot param.
+
+3. CONFIG_VSWAP_DEFAULT_ENABLED only decides the default value of the
+boot param (still gated by 64bit config).
+
+4. If we detect that the system is 32 bit, we ignore bootparam
+selection by users (with a small warn).
+
+If the boot param is false (either because of user selection, the
+build config, or because the system is 32 bit), we don't allocate the
+vswap device, and bypass all vswap code paths. There should be
+negligible overhead here.
+
+>
+> > +static inline bool swap_is_vswap(struct swap_info_struct *si)
+> > +{
+> > +     return false;
+> > +}
+> > +#endif
+> > +
+> >  static inline swp_entry_t page_swap_entry(struct page *page)
+> >  {
+> >       struct folio *folio =3D page_folio(page);
+> > @@ -402,6 +416,8 @@ void swap_free_hibernation_slot(swp_entry_t entry);
+> >
+> >  static inline void put_swap_device(struct swap_info_struct *si)
+> >  {
+> > +     if (swap_is_vswap(si))
+> > +             return;
+> >       percpu_ref_put(&si->users);
+> >  }
+> >
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 331daf7fcfab..32d38b552845 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -19,6 +19,16 @@ menuconfig SWAP
+> >         used to provide more virtual memory than the actual RAM present
+> >         in your computer.  If unsure say Y.
+> >
+> > +config VSWAP
+> > +     bool "Virtual swap device"
+> > +     depends on SWAP && 64BIT
+> > +     help
+> > +       Adds a virtual swap layer that decouples swap entries in page
+> > +       tables from physical backing storage. Swap entries are allocate=
+d
+> > +       from a virtual swap device and can be backed by zswap, a physic=
+al
+> > +       swapfile, or kept in memory - with the backing changeable at
+> > +       runtime without invalidating page table entries.
+>
+> IMO this is difficult for a user to decide.
+>
+> If we want to make this as a config, then IMO the help text should be
+> about not requiring a swapfile to use zswap, zerofill pages etc.
+>
+> From where I'm standing, though, this code is no longer a separate
+> vswap.c feature like it used to be. It's pretty integrated into the
+> swapcode, and it looks like a good chunk of the core datastructures
+> aren't conditional either.
+>
+> At that point, the usefulness of the config option is limited. If you
+> go with the jump label and there is no runtime overhead, it might make
+> sense to just keep the option on what the JL should default to.
+>
+> > @@ -143,9 +150,19 @@ static inline struct swap_info_struct *__swap_entr=
+y_to_info(swp_entry_t entry)
+> >  static inline struct swap_cluster_info *__swap_offset_to_cluster(
+> >               struct swap_info_struct *si, pgoff_t offset)
+> >  {
+> > +     unsigned int cluster_idx =3D offset / SWAPFILE_CLUSTER;
+> > +
+> >       VM_WARN_ON_ONCE(percpu_ref_is_zero(&si->users)); /* race with swa=
+poff */
+> >       VM_WARN_ON_ONCE(offset >=3D roundup(si->max, SWAPFILE_CLUSTER));
+> > -     return &si->cluster_info[offset / SWAPFILE_CLUSTER];
+> > +
+> > +     if (swap_is_vswap(si)) {
+> > +             struct swap_cluster_info_dynamic *ci_dyn;
+> > +
+> > +             ci_dyn =3D xa_load(&si->cluster_info_pool, cluster_idx);
+> > +             return ci_dyn ? &ci_dyn->ci : NULL;
+> > +     }
+> > +
+> > +     return &si->cluster_info[cluster_idx];
+> >  }
+>
+> This now requires rcu. IMO a kdoc explaining that would be good.
+
+Good point yeah.
+
+>
+> > @@ -733,6 +765,11 @@ static void free_cluster(struct swap_info_struct *=
+si, struct swap_cluster_info *
+> >               return;
+> >       }
+> >
+> > +     if (swap_is_vswap(si)) {
+> > +             vswap_free_cluster(si, ci);
+> > +             return;
+> > +     }
+> > +
+> >       __free_cluster(si, ci);
+>
+> Should this be part of __free_cluster() instead?
+>
+> - swap_cluster_assert_empty() seems useful.
+> - move_cluster() handles the list linkage and could do the list_del().
+> - swap_cluster_free_table() is the same.
+>
+> The other caller is the discard path. That one isn't relevant, but it
+> shouldn't hurt. The layering would still be a bit cleaner this way.
+
+I think this should work.
+
+>
+> > @@ -835,14 +872,21 @@ static int swap_cluster_setup_bad_slot(struct swa=
+p_info_struct *si,
+> >   * stolen by a lower order). @usable will be set to false if that happ=
+ens.
+> >   */
+> >  static bool cluster_reclaim_range(struct swap_info_struct *si,
+> > -                               struct swap_cluster_info *ci,
+> > +                               struct swap_cluster_info **pcip,
+> >                                 unsigned long start, unsigned int order=
+,
+> >                                 bool *usable)
+> >  {
+> > +     struct swap_cluster_info *ci =3D *pcip;
+> >       unsigned int nr_pages =3D 1 << order;
+> >       unsigned long offset =3D start, end =3D start + nr_pages;
+> >       unsigned long swp_tb;
+> >
+> > +     /*
+> > +      * Take RCU read lock before releasing the cluster lock to keep c=
+i
+> > +      * alive - for vswap dynamic clusters, ci is freed via kfree_rcu
+> > +      * and the grace period could otherwise elapse in the window.
+> > +      */
+> > +     rcu_read_lock();
+> >       spin_unlock(&ci->lock);
+>
+> Since you replace the naked spin_lock() below with
+> swap_cluster_lock(), change this to swap_cluster_unlock() as well?
+
+Good point in the renaming, yeah.
+
+On a related note, I'm thinking of just removing this piece of code in
+cluster_reclaim_range(). We have no signal to trigger
+cluster_reclaim_range() (i.e swap-cache-only reclamation) for vswap
+clusters, and vswap (similar to swap-sync-io devices such as zram)
+already try to free swap slots (and swap cache) when the last PTE
+reference of the swap entry is dropped. I don't think this code path
+is triggered at all in my benchmarks.
+
+Let's keep cluster_reclaim_range() for phys swap device only.
+
+
+>
+> >       do {
+> >               swp_tb =3D swap_table_get(ci, offset % SWAPFILE_CLUSTER);
+> > @@ -852,7 +896,15 @@ static bool cluster_reclaim_range(struct swap_info=
+_struct *si,
+> >                       if (__try_to_reclaim_swap(si, offset, TTRS_ANYWAY=
+) < 0)
+> >                               break;
+> >       } while (++offset < end);
+> > -     spin_lock(&ci->lock);
+> > +     rcu_read_unlock();
+> > +
+> > +     /* Re-lookup: dynamic cluster may have been freed while lock was =
+dropped */
+> > +     ci =3D swap_cluster_lock(si, start);
+> > +     *pcip =3D ci;
+> > +     if (!ci) {
+> > +             *usable =3D false;
+> > +             return false;
+> > +     }
+> >
+> >       /*
+> >        * We just dropped ci->lock so cluster could be used by another
+>
+> > @@ -1146,6 +1239,12 @@ static unsigned long cluster_alloc_swap_entry(st=
+ruct swap_info_struct *si,
+> >                       goto done;
+> >       }
+> >
+> > +     if (swap_is_vswap(si)) {
+> > +             found =3D alloc_swap_scan_dynamic(si, folio);
+> > +             if (found)
+> > +                     goto done;
+> > +     }
+>
+> The name and the composability look off to me.
+>
+> Can you make this a pure allocation function - vswap_alloc_cluster()
+> or something - that links it to &si->free_clusters, then jump back and
+> use the existing alloc_swap_scan_list() sites?
+
+That name was vestigial from Kairui's RFC, but yeah I agree
+vswap_alloc_cluster sounds better.
+
+Regarding the linkage of the newly allocated cluster to the free list
+- I'm a bit hesitant to introduce new surface for these clusters,
+mostly because I'm afraid I might mess up the handling of these
+clusters (when I unlink them from the free list), but I can give it a
+shot.
+
+>
+> There is a new_cluster: label upstream you could use for the retry.
+>
+> > +
+> >       if (!(si->flags & SWP_PAGE_DISCARD)) {
+> >               found =3D alloc_swap_scan_list(si, &si->free_clusters, fo=
+lio, false);
+> >               if (found)
+> > @@ -1264,6 +1363,13 @@ static void add_to_avail_list(struct swap_info_s=
+truct *si, bool swapon)
+> >                       goto skip;
+> >       }
+> >
+> > +     /*
+> > +      * Keep vswap off the avail list - it is not allocated from by
+> > +      * the physical swap allocator (swap_alloc_fast/slow).
+> > +      */
+> > +     if (swap_is_vswap(si))
+> > +             goto skip;
+>
+> This is describing what the code does, followed by a why not.
+>
+> Describe the why: Vswap space is only allocated through [...], not [...]
+>
+> > @@ -3528,10 +3668,43 @@ static int setup_swap_clusters_info(struct swap=
+_info_struct *si,
+> >                                   unsigned long maxpages)
+> >  {
+> >       unsigned long nr_clusters =3D DIV_ROUND_UP(maxpages, SWAPFILE_CLU=
+STER);
+> > -     struct swap_cluster_info *cluster_info;
+> > +     struct swap_cluster_info *cluster_info =3D NULL;
+> > +     struct swap_cluster_info_dynamic *ci_dyn;
+> >       int err =3D -ENOMEM;
+> >       unsigned long i;
+> >
+> > +     /* For SWP_VSWAP files, initialize Xarray pool instead of static =
+array */
+> > +     if (swap_is_vswap(si)) {
+> > +             /*
+> > +              * Pre-allocate cluster 0 and mark slot 0 (header page)
+> > +              * as bad so the allocator never hands out page offset 0.
+> > +              */
+> > +             ci_dyn =3D kzalloc_obj(*ci_dyn, GFP_KERNEL);
+> > +             if (!ci_dyn)
+> > +                     goto err;
+> > +             spin_lock_init(&ci_dyn->ci.lock);
+> > +             INIT_LIST_HEAD(&ci_dyn->ci.list);
+> > +
+> > +             nr_clusters =3D 0;
+>
+> But it's one, not zero. And only the first slot is bad. Why is the
+> rest not usable and the cluster on the nonfull_clusters list?
+>
+> I think you can make the integration a bit more organic in general:
+>
+> Don't do the DIV_ROUND_UP per default only to overwrite it here again
+> e.g.
+>
+> If you come out of this branch with cluster_info =3D=3D &ci_dyn->ci, you
+> should be able to reuse the existing swap_cluster_setup_bad_slot(0).
+>
+> swap_header && i < swap_header->info.nr_badpages should skip that loop
+> as well.
+>
+> Your maxpages is SWAPFILE_CLUSTER aligned, so that
+>
+>         for (i =3D maxpages; i < round_up(maxpages, SWAPFILE_CLUSTER); i+=
++) {
+>
+> loop is skipped as well.
+>
+> > +             xa_init_flags(&si->cluster_info_pool, XA_FLAGS_ALLOC);
+> > +             err =3D xa_insert(&si->cluster_info_pool, 0, ci_dyn, GFP_=
+KERNEL);
+> > +             if (err) {
+> > +                     kfree(ci_dyn);
+> > +                     goto err;
+> > +             }
+> > +
+> > +             err =3D swap_cluster_setup_bad_slot(si, &ci_dyn->ci, 0, f=
+alse);
+> > +             if (err) {
+> > +                     xa_erase(&si->cluster_info_pool, 0);
+> > +                     swap_cluster_free_table(&ci_dyn->ci);
+> > +                     kfree(ci_dyn);
+>
+> IMO it would be nicer to make this part of free_swap_cluster_info()
+> instead of duplicating it.
+>
+> > +                     xa_destroy(&si->cluster_info_pool);
+>
+> That one probably doesn't matter. If these allocations fail at boot,
+> the system is in trouble.
+>
+> > +                     goto err;
+> > +             }
+> > +
+> > +             goto setup_cluster_info;
+> > +     }
+> > +
+> >       cluster_info =3D kvzalloc_objs(*cluster_info, nr_clusters);
+> >       if (!cluster_info)
+> >               goto err;
+> > @@ -3556,6 +3729,10 @@ static int setup_swap_clusters_info(struct swap_=
+info_struct *si,
+> >       err =3D swap_cluster_setup_bad_slot(si, cluster_info, 0, false);
+> >       if (err)
+> >               goto err;
+> > +
+> > +     if (!swap_header)
+> > +             goto setup_cluster_info;
+>
+> Is this reachable?
+>
+> > @@ -3949,3 +4127,51 @@ static int __init swapfile_init(void)
+> >       return 0;
+> >  }
+> >  subsys_initcall(swapfile_init);
+> > +
+> > +#ifdef CONFIG_VSWAP
+> > +struct swap_info_struct *vswap_si;
+> > +
+> > +/* vswap does no IO on its own. */
+> > +static const struct swap_ops vswap_ops =3D { };
+> > +
+> > +static int __init vswap_init(void)
+> > +{
+> > +     struct swap_info_struct *si;
+> > +     unsigned long maxpages;
+> > +     int err;
+> > +
+> > +     si =3D alloc_swap_info();
+> > +     if (IS_ERR(si))
+> > +             return PTR_ERR(si);
+> > +
+> > +     maxpages =3D min(swapfile_maximum_size,
+> > +                    ALIGN_DOWN((unsigned long)UINT_MAX, SWAPFILE_CLUST=
+ER));
+> > +     si->flags |=3D SWP_VSWAP | SWP_SOLIDSTATE | SWP_WRITEOK;
+>
+> Please add a comment on the flag choices besides SWP_VSWAP.
+
+Will do yeah. I tend to forget them myself too :) SWP_SOLIDSTATE is
+mostly to opt-in to the cluster-based allocaiton algo. SWP_WRITEOK is
+checked in a couple of places to allow allocation.
