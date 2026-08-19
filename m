@@ -1,179 +1,164 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBED48C3F2
-	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 16:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787157993; cv=pass; b=WnHtnT/Lk1e7/U3emkzZqz0e9CUYUK+KfCvCqX82dDplIMy9tq/4MgFqw+pQBDw2wsm0EShAgnbBvU86HKVBMytn7sdNulNUtzv+7T8mBCcK6oFMmDMC1rpPFoQtyBEnJajffubzNbiBWIyxy6liyHdYY4eqA2hrUTY9bdygHEI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787157993; c=relaxed/simple;
-	bh=bm4ASoBKtUmJHUk2zSNZG8bG7KON1caZaOXDl2aDwUM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZUsrlT18o9gYVQdjHO81ofs/4yN2pKN1kvR433q/M+3UdzP73fAuXwyZjdSWwbfGLK8seWIW+QC6p6SCCT5LTv5jqnDKjLKjdg9tkXitRi4ee4pjfLaHFctykrl7bFtoe7BvAvxSbJWQq7IU74rhHYaFKgsWYForHOQZwQcc0/4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sVPozzVe; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2DE4908DD
+	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 17:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787159940; cv=none; b=CJm4RVsrtnFFEih/+W9BtrBtg2sBBEeAZrgVYSclrqsNJiD3Ad4sdhk1O+5ettn6I8NEnE7Bt+wM2Qa5qgb0ArsqMpy2vz1XNNTnhVlLERyHGiVIpxZxiSotdCYTu65N2H6hUeSgps4BwPXgOs6xGnC40pJiegUTvZKl3iJU8SY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787159940; c=relaxed/simple;
+	bh=FCBlr1qC7aVSJ28aoEa1fp/PJENuotGbz2x+c+V4f9I=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=krgviyTSWUsW7hYEQMqjB5Dgek8cltZ84rMd8ldbLn+CfCFIkjB7j97GE9eNGC5r2/iohogmUrjc+77rxgTdS7YTGT/554mFrU3sNAL9mnEwb37i8GZ01iLs5/29mbNzb48be80JhZQF/cKn13zGsySi1qkCSgrSRy7A3QIO+lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=dyAYbZYn; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sVPozzVe"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47de0093c42so1144247f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 09:46:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787157990; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Gxf1EROyWJP9lLcwZI1e+ATJYTw7w64SOpEeCtL6LwiYdpPjisSJUWRMlOsY1+Mvfr
-         qXFky5p5d3dWtxvk5fAsoLyB1ox9KwB0+nGmRGoDBB0O7vNkCzD698jBd6vlos5mZYRo
-         Lqo6ArUNgF/schQg2YpjMgY3ixbVDg+mR58bKSsqIeLuBRQh60NTBx0LlbE77ejIW14F
-         O+OXeHcmkuTkmuzOetjjmbaXtK8xLWIqct6oKt8BXFtShRQVktKROYKHmFPVgFQ48pXq
-         tle77lADy4Wd/1jRn4XwVY1S+/LMz1EvjJkY3sP95oDyV7fEb3SHynA+Vhj7lwAXB/Zb
-         LFyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KGaMY+nZBc9mwPhVBSJIQVYoXkNeMf257X9LmQBSnFU=;
-        fh=lcgZIr9jes4Bwt5lhxAQRY6A7Zg/Mr9wLDUQNZ7IPKY=;
-        b=Xj9z+uNhQUyEhANcd53YrjYq/p+/ONBDuoSVGv4jFKeg0bz2hqaGqtJyxIoR/zT+6m
-         pl95SZfeasqAIG9cRHombs94sCb0pdEoYslLDDFZrJvipgbVJcKRXbzbX/0NGlj6+oEm
-         VQMMtahvg2BfkQeObwcWtxCLQ1vVbAAuxsk/RCCDhQGUTBuc/IHRP1oxD0xc2uY29ENH
-         D1AIwMg9l+2JliW7ttmLRnaARueLdcFG+A6ELrq7ShNYfA6VjjQ8R/eL7d3I04iFeKw8
-         Jb0VoVbhHJa8pazoJcraCXTdM/w3Chg7qM/Fc4rMVLmYDXhzGSs1V0cD8vrsm4S0xBez
-         BzGg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787157990; x=1787762790; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KGaMY+nZBc9mwPhVBSJIQVYoXkNeMf257X9LmQBSnFU=;
-        b=sVPozzVecTITBkKuvfayI7txQF8rWRsy+IU0J9m6uVV6YM4NSyAk3JFUGU9RhHrhyQ
-         j0qfyDK/dvFmpvOpr0JlSNW8V0soQobuxS1JdQDhqONJKKWLm5NanByKEEzMlkML8Ar9
-         fh57Gdi9Ykqu+X8w/+S4tGQ7dce/26nb3IU1ZiD7m3l5suZZGePlatkK1+e9R6XWpQ0F
-         7nST1oNClGH+PHQ27wGfXeqzfbw6fEPY5LKo2srlLWjvz5QitF5yAF27shqF19VXRf/a
-         +kRGfWjTodZml167noIrOrbP64RuX6Mkl9tl8MAZZGJqSoFsn71LOyesB8kKqAXjG9cz
-         hKww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787157990; x=1787762790;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KGaMY+nZBc9mwPhVBSJIQVYoXkNeMf257X9LmQBSnFU=;
-        b=iTGZxGvsi20bD76s99oubCfOb3Kcb2i6DfMaisz40xU5Ff/LV0QOm2SoskXmMyEegh
-         +21ce8umtt+3xcVhRjNHg16M3NByptcY5kCdDrqvlsc97aXvAZwx7ifqw//Y/ZCDjLQf
-         SveFWOluTfHSBad1+SW02yiuGHGzAMft+Mi/cSHx56ycnFz19dEJvTkLTofHS6FTh3wz
-         sRE7a9PZ2qE33++B0TO3w8Xl68Bo/MR3hvZFXfxZzi88XxaWuxhe6tE8rGnwEZB4AqaT
-         qy08lT2iYgXyez0/77DZC2+TLeGoP32CC5UjQ2tDhXlevvs7CFCiXfmXBdNAxIdbTeLY
-         cNKw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2roIDQU8ACrInT7wnpcAnriAmeRxSPa8Ie+tgg92GPMrCiqaxq7xeb9xkKc8nwKFn/OLllcoDrps=@vger.kernel.org
-X-Gm-Message-State: AFuF++km0UpOiis06FgKtvNza8JWGogunmyA/2P9fS/qW38Bz7C4R0Z2
-	oaz5ILLXFiC0B9uIhHZlEJIg55yswWGF7WFimiG9Ou7nzP8Sws1FiR+Vr0Vuna9ugDXzL9Pfnhc
-	LqL3KExxat2K9h/ObMOIiGQF3bB4rV/Y=
-X-Gm-Gg: AR+sD11qGPOTGiKaE6V1TtZzwcp6v63nBUC2uvswr+aX8gYwNIZ1XYToNT0N0Tb9w4k
-	IyQwxXR+074zJZZMPK95oDf/mYNsAxKfFq7kOA7j0rwm8ZQeHe+2DTe3xUMX9zi5JQJEd2IOKNi
-	f2ns54ScwMsvHBmpX6dixk0qMG5Ntpea9HiOfluS+Pvk8husjzysjsPiE2obAJcO/iLvaof/2Zo
-	dxXj6A8boQPYlhDKDEb3+l9xGqmSV+oQlJMV61kv3WcTg/Sg/uNxsodhlkDPjdFNs4LGIk+PWrb
-	1ZMk2kO6IFnXGol7LVAeTn7pqJ9OwJVGtpdf0Sf79Qzkn5VEx1AoPXRg4hTfVOk94ZfjYTmsojJ
-	E
-X-Received: by 2002:a05:6000:25f3:b0:47f:8ac0:ccb4 with SMTP id
- ffacd0b85a97d-482b1e9df5fmr12803729f8f.10.1787157989811; Wed, 19 Aug 2026
- 09:46:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="dyAYbZYn"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=FCBlr1qC7aVSJ28aoEa1fp/PJENuotGbz2x+c+V4f9I=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787159898; v=1; x=1787764698;
+ b=dyAYbZYnSb0X0uW2uRlefbIqjtYPKscFCaH1DdoXkC49PDnmugRanHB5sPcDDJVysE931SsU
+ DEIj8YtATOhj7yAqB4kBe6ioNnWq8XFtm47N6OQ3VIBSy0ESLClE0VP+R4P9Cefo9r/TOlHL6ih
+ 3Fkrea9+ahZacgjXQ9226F8kn+sfnArZoQR9aqcpRd0bc9FWaoUDGBHOFeFKKsnP1DAnnrld72X
+ E1D4+IiwuvF6rasB+Ux9hd1qhAmRIYqXIXF4al3auKDjlN2SWnzNclwoBd17YmX/aUPpG0fNtLX
+ 3gw25Pb+4Aw9DHixETv346IgrHz8teN0pEGS7ojRSGAdA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from yuanweijie-macmini-2058.local (117.176.242.187)
+	by smtp.migadu.com with ESMTPS id ca268152c08f691d;
+	Wed, 19 Aug 2026 17:18:08 +0000
+X-Mizu-Trace-ID: ca268152c08f691d
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260806184254.3790858-1-nphamcs@gmail.com> <20260806184254.3790858-2-nphamcs@gmail.com>
- <anX-ga41DMNWF6-2@cmpxchg.org> <CAKEwX=MmqyWdqfrp8kxeuucNFhU2e6Hk2TdANUGhNFHhvtSPwg@mail.gmail.com>
-In-Reply-To: <CAKEwX=MmqyWdqfrp8kxeuucNFhU2e6Hk2TdANUGhNFHhvtSPwg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 19 Aug 2026 09:46:17 -0700
-X-Gm-Features: AcwNN1VW1IFOK11rd1UcYSUArFyDXGImTjTFPjh0sY0B1rB0YRzMpSnPt4Jbiig
-Message-ID: <CAKEwX=PjvsAOv8rvp+mz_aPqDLm6iRy6URRW2EMFvFrgD2HEgA@mail.gmail.com>
-Subject: Re: [PATCH v3 01/11] mm, swap: add virtual swap device infrastructure
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
-	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev, 
-	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org, 
-	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	qi.zheng@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
-	weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
-	haowenchao22@gmail.com, corbet@lwn.net, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 7/7] docs/zh_TW: remove the last maintainer contact
+ references
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
+ Dongliang Mu <dzm91@hust.edu.cn>, Weijie Yuan <wy@wyuan.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <srcres258@furdevs.cn>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260819145808.291567-8-chenyou910331@gmail.com>
+References: <20260819145808.291567-1-chenyou910331@gmail.com>
+ <20260819145808.291567-8-chenyou910331@gmail.com>
+Date: Thu, 20 Aug 2026 01:17:34 +0800
+Message-Id: <178715985494.54895.2755625001946358260.b4-review@b4>
+X-Mailer: b4 0.17-dev
 
-On Tue, Aug 18, 2026 at 11:41=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
->
-> >
-> > Can you make this a pure allocation function - vswap_alloc_cluster()
-> > or something - that links it to &si->free_clusters, then jump back and
-> > use the existing alloc_swap_scan_list() sites?
->
-> That name was vestigial from Kairui's RFC, but yeah I agree
-> vswap_alloc_cluster sounds better.
->
-> Regarding the linkage of the newly allocated cluster to the free list
-> - I'm a bit hesitant to introduce new surface for these clusters,
-> mostly because I'm afraid I might mess up the handling of these
-> clusters (when I unlink them from the free list), but I can give it a
-> shot.
->
-> >
-> > There is a new_cluster: label upstream you could use for the retry.
+> diff --git a/Documentation/translations/zh_TW/IRQ.txt b/Documentation/translations/zh_TW/IRQ.txt
+> index 8115a7618307..b9a3e18495d2 100644
+> --- a/Documentation/translations/zh_TW/IRQ.txt
+> +++ b/Documentation/translations/zh_TW/IRQ.txt
+> @@ -6,8 +6,6 @@ communicating in English you can also ask the Chinese maintainer for
+>  help.  Contact the Chinese maintainer if this translation is outdated
+>  or if there is a problem with the translation.
+>  
+> -Maintainer: Eric W. Biederman <ebiederman@xmission.com>
+> -Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
+>  ---------------------------------------------------------------------
+>  Documentation/core-api/irq/index.rst 的繁體中文翻譯
+>  
+> @@ -15,12 +13,6 @@ Documentation/core-api/irq/index.rst 的繁體中文翻譯
+>  交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
+>  者翻譯存在問題，請聯繫繁體中文版維護者。
+>  
+> -英文版維護者： Eric W. Biederman <ebiederman@xmission.com>
+> -繁體中文版維護者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+> -繁體中文版翻譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+> -繁體中文版校譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+> -
+> -
+>  以下爲正文
+>  ---------------------------------------------------------------------
+>  何爲 IRQ?
 
-Actually, I stared at it a bit more. I don't think we should jump to
-new_cluster here - it's not what physical swap allocator does in the
-first place (we never do any backward jump to retry).
+I actually suggest deleting this file (IRQ.txt) directly.
 
-So basically, this is the old code:
+I don't see it in English Original Documentation folder. I guess it has
+been removed already?
 
-new_cluster:
-if (discard)
-    alloc_swap_scan_list(free list);  /* not taken by vswap */
+> diff --git a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
+> index 28b734c223b6..b65cffabd696 100644
+> --- a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
+> +++ b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
+> @@ -3,9 +3,10 @@
+>  .. warning::
+>       此文件的目的是爲讓中文讀者更容易閱讀和理解，而不是作爲一個分支。因此，
+>       如果您對此文件有任何意見或改動，請先嘗試更新原始英文文件。如果要更改或
+> -     修正某處翻譯文件，請將意見或補丁發送給維護者（聯繫方式見下）。
+> +     修正某處翻譯文件，請將意見或補丁發送給繁體中文文件的維護者（見
+> +     MAINTAINERS 檔案）。
+>  
+>  .. note::
+> -     如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請聯繫該文件的譯者，
+> -     或者發送電子郵件給胡皓文以獲取幫助：<2023002089@link.tyut.edu.cn>。
+> +     如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請發建議或者補丁給
+> +     繁體中文文件的維護者和審閱者（見 MAINTAINERS 檔案）。
+>  
+> diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
+> index 660a74d2023c..e72f86e37f2d 100644
+> --- a/Documentation/translations/zh_TW/index.rst
+> +++ b/Documentation/translations/zh_TW/index.rst
+> @@ -15,7 +15,7 @@
+>  
+>  .. note::
+>     內核文檔繁體中文版的翻譯工作正在進行中。如果您願意並且有時間參與這項工
+> -   作，歡迎提交補丁給胡皓文 <2023002089@link.tyut.edu.cn>。
+> +   作，歡迎將補丁提交給繁體中文文件的維護者（見 MAINTAINERS 檔案）。
+>  
+>  與Linux 內核社區一起工作
+>  ------------------------
+> diff --git a/Documentation/translations/zh_TW/io_ordering.txt b/Documentation/translations/zh_TW/io_ordering.txt
+> index 00b374092d7e..8ced3f08e69d 100644
+> --- a/Documentation/translations/zh_TW/io_ordering.txt
+> +++ b/Documentation/translations/zh_TW/io_ordering.txt
 
-if (alloc_swap_scan_list(nonfull)) return;
+I'm actually quite curious about why this file is at the top level of
+zh_TW/, I see this file originally is at Documentation/driver-api/io_ordering.rst
 
-/*
- * Added by me. vswap (almost) always succeeds here
- */
-if (alloc_swap_scan_dynamic()) return;
+I suggest directly removing this file entirely.
 
-/*
- * not taken by vswap, because we succeeds above
- * and free list is always empty.
- */
-if (not discard)
-    alloc_swap_scan_list(free list);
+> @@ -6,7 +6,6 @@ communicating in English you can also ask the Chinese maintainer for
+>  help.  Contact the Chinese maintainer if this translation is outdated
+>  or if there is a problem with the translation.
+>  
+> -Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
+>  ---------------------------------------------------------------------
+>  Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
+>  
+> @@ -14,11 +13,6 @@ Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
+>  交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
+>  者翻譯存在問題，請聯繫繁體中文版維護者。
+>  
+> -繁體中文版維護者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+> -繁體中文版翻譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+> -繁體中文版校譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
 
-/* if free list scan fail, keep going */
+I have to agree to remove these lines though. As a newcomer, I obviously
+have no idea what historical reasons compelled us to write these three
+lines.
 
-etc. etc.
+For English speakers, these 3 lines means:
 
-The new code becomes:
+Traditional Chinese (version) maintainer:
+Traditional Chinese (version) translator:
+Traditional Chinese (version) proofreader:
 
-new_cluster:
-if (discard)
-    alloc_swap_scan_list(free list) /* still not taken by vswap */
+If you happen to know the reason for writing it this way, please feel
+free to let me know. Thank you.
 
-if (alloc_swap_scan_list(nonfull)) return;
+(Reply with b4 review tui ;-))
+Comments continue...
 
-/* vswap puts new cluster into free list, then falls through */
-if (si is vswap)
-    vswap_cluster_alloc();
-
-/* vswap now scans free list to get the cluster it just allocated */
-if (not discard)
-    alloc_swap_scan_list(free list)
-
-/* if free list scan fail, keep going */
-
-This works, but I'm not sure if putting the new cluster on free list
-buy us much other than more lock contention points (we need si->lock
-to scan free list) :/
-
-I'll just rename alloc_swap_scan_dynamic to vswap_cluster_alloc(), for now?
+-- 
+Weijie Yuan <wy@wyuan.org>
