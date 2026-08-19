@@ -1,119 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487023A83AC;
-	Wed, 19 Aug 2026 16:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787157967; cv=none; b=bHLfZMVoJj5W6iHpztwjMWk40Id41L6udnh855kQM/eDMwOGa1B/7/hR8NTZE3fdsiDWoOe1HsgIPZ8cBFECHSA6WgJm3CmHiHOdUaFF55VBhVVWZ+E/owlzpW0xW18bLIkspsS1SYl4hrSsW+Hbgs1hT/dQn0/PdasfuM8PsaI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787157967; c=relaxed/simple;
-	bh=IUmhn09vg1A+FjwptisXhPlfmzytaS0bRtSkorh0bqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LSLStfPEY8vhra5mjL+QMMgGMretPSls/mkR/OMF0v2IxdQrvpYCHhcYgJ0RJYFXjLclG+dwNsY7OarBGRHtlri8BBXnqubp4J0lDp30OPoS/KOVfs4ivpe/nCi9sjIgXyOFPbeQF+SjAaMLZROv9bTmi8tHGBz0cO8Zn6hrKkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K6XU6SjJ; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBED48C3F2
+	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 16:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787157993; cv=pass; b=WnHtnT/Lk1e7/U3emkzZqz0e9CUYUK+KfCvCqX82dDplIMy9tq/4MgFqw+pQBDw2wsm0EShAgnbBvU86HKVBMytn7sdNulNUtzv+7T8mBCcK6oFMmDMC1rpPFoQtyBEnJajffubzNbiBWIyxy6liyHdYY4eqA2hrUTY9bdygHEI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787157993; c=relaxed/simple;
+	bh=bm4ASoBKtUmJHUk2zSNZG8bG7KON1caZaOXDl2aDwUM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZUsrlT18o9gYVQdjHO81ofs/4yN2pKN1kvR433q/M+3UdzP73fAuXwyZjdSWwbfGLK8seWIW+QC6p6SCCT5LTv5jqnDKjLKjdg9tkXitRi4ee4pjfLaHFctykrl7bFtoe7BvAvxSbJWQq7IU74rhHYaFKgsWYForHOQZwQcc0/4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sVPozzVe; arc=pass smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6XU6SjJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E283D1F000E9;
-	Wed, 19 Aug 2026 16:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787157965;
-	bh=CTifcNr4LKctsAM4SMxsssPmhWjX8dsPgZMHxI2Vljc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K6XU6SjJEqZOn++A5CEJP1XEh70wIlhZncBG9/McLETQ44Tp/E87sg1NJeN8LIcKh
-	 9LeizfBbjQ8zIKz7RKZV11UFQCHHoO4HacbQizZKCuSMEKVGpbd8v0A00V3kN6lK0f
-	 abv2c69ZnzZJEKfi12TnYolNjiIST3Ufh01WpBqZMJMgyecK7g7ptBtjsfBwrtEv7x
-	 AI6dWb9WT5+1oAHiGSPHhzjRTCma4bd9chUUw7JHaixQ+9cBc/RlFHUnMfMepcz+4O
-	 r6OfY27+KR2uHulOubDC1tSeSl4C64mOaFrMd3OElL7t3llZjsnd53Lj8fTG8men/j
-	 i6eLfj0PLchMA==
-Date: Wed, 19 Aug 2026 17:46:00 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Leonardo Bras <leo.bras@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v19 03/14] KVM: arm64: Manage GCS access and registers
- for guests
-Message-ID: <48be9e5d-357a-4863-8682-8b3f34c69723@sirena.org.uk>
-References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org>
- <20260812-arm64-gcs-v19-3-9105afd828ac@kernel.org>
- <aoXamcdKoMynTkpX@LeoBrasDK>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sVPozzVe"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47de0093c42so1144247f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 09:46:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787157990; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Gxf1EROyWJP9lLcwZI1e+ATJYTw7w64SOpEeCtL6LwiYdpPjisSJUWRMlOsY1+Mvfr
+         qXFky5p5d3dWtxvk5fAsoLyB1ox9KwB0+nGmRGoDBB0O7vNkCzD698jBd6vlos5mZYRo
+         Lqo6ArUNgF/schQg2YpjMgY3ixbVDg+mR58bKSsqIeLuBRQh60NTBx0LlbE77ejIW14F
+         O+OXeHcmkuTkmuzOetjjmbaXtK8xLWIqct6oKt8BXFtShRQVktKROYKHmFPVgFQ48pXq
+         tle77lADy4Wd/1jRn4XwVY1S+/LMz1EvjJkY3sP95oDyV7fEb3SHynA+Vhj7lwAXB/Zb
+         LFyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KGaMY+nZBc9mwPhVBSJIQVYoXkNeMf257X9LmQBSnFU=;
+        fh=lcgZIr9jes4Bwt5lhxAQRY6A7Zg/Mr9wLDUQNZ7IPKY=;
+        b=Xj9z+uNhQUyEhANcd53YrjYq/p+/ONBDuoSVGv4jFKeg0bz2hqaGqtJyxIoR/zT+6m
+         pl95SZfeasqAIG9cRHombs94sCb0pdEoYslLDDFZrJvipgbVJcKRXbzbX/0NGlj6+oEm
+         VQMMtahvg2BfkQeObwcWtxCLQ1vVbAAuxsk/RCCDhQGUTBuc/IHRP1oxD0xc2uY29ENH
+         D1AIwMg9l+2JliW7ttmLRnaARueLdcFG+A6ELrq7ShNYfA6VjjQ8R/eL7d3I04iFeKw8
+         Jb0VoVbhHJa8pazoJcraCXTdM/w3Chg7qM/Fc4rMVLmYDXhzGSs1V0cD8vrsm4S0xBez
+         BzGg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787157990; x=1787762790; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KGaMY+nZBc9mwPhVBSJIQVYoXkNeMf257X9LmQBSnFU=;
+        b=sVPozzVecTITBkKuvfayI7txQF8rWRsy+IU0J9m6uVV6YM4NSyAk3JFUGU9RhHrhyQ
+         j0qfyDK/dvFmpvOpr0JlSNW8V0soQobuxS1JdQDhqONJKKWLm5NanByKEEzMlkML8Ar9
+         fh57Gdi9Ykqu+X8w/+S4tGQ7dce/26nb3IU1ZiD7m3l5suZZGePlatkK1+e9R6XWpQ0F
+         7nST1oNClGH+PHQ27wGfXeqzfbw6fEPY5LKo2srlLWjvz5QitF5yAF27shqF19VXRf/a
+         +kRGfWjTodZml167noIrOrbP64RuX6Mkl9tl8MAZZGJqSoFsn71LOyesB8kKqAXjG9cz
+         hKww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787157990; x=1787762790;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KGaMY+nZBc9mwPhVBSJIQVYoXkNeMf257X9LmQBSnFU=;
+        b=iTGZxGvsi20bD76s99oubCfOb3Kcb2i6DfMaisz40xU5Ff/LV0QOm2SoskXmMyEegh
+         +21ce8umtt+3xcVhRjNHg16M3NByptcY5kCdDrqvlsc97aXvAZwx7ifqw//Y/ZCDjLQf
+         SveFWOluTfHSBad1+SW02yiuGHGzAMft+Mi/cSHx56ycnFz19dEJvTkLTofHS6FTh3wz
+         sRE7a9PZ2qE33++B0TO3w8Xl68Bo/MR3hvZFXfxZzi88XxaWuxhe6tE8rGnwEZB4AqaT
+         qy08lT2iYgXyez0/77DZC2+TLeGoP32CC5UjQ2tDhXlevvs7CFCiXfmXBdNAxIdbTeLY
+         cNKw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr2roIDQU8ACrInT7wnpcAnriAmeRxSPa8Ie+tgg92GPMrCiqaxq7xeb9xkKc8nwKFn/OLllcoDrps=@vger.kernel.org
+X-Gm-Message-State: AFuF++km0UpOiis06FgKtvNza8JWGogunmyA/2P9fS/qW38Bz7C4R0Z2
+	oaz5ILLXFiC0B9uIhHZlEJIg55yswWGF7WFimiG9Ou7nzP8Sws1FiR+Vr0Vuna9ugDXzL9Pfnhc
+	LqL3KExxat2K9h/ObMOIiGQF3bB4rV/Y=
+X-Gm-Gg: AR+sD11qGPOTGiKaE6V1TtZzwcp6v63nBUC2uvswr+aX8gYwNIZ1XYToNT0N0Tb9w4k
+	IyQwxXR+074zJZZMPK95oDf/mYNsAxKfFq7kOA7j0rwm8ZQeHe+2DTe3xUMX9zi5JQJEd2IOKNi
+	f2ns54ScwMsvHBmpX6dixk0qMG5Ntpea9HiOfluS+Pvk8husjzysjsPiE2obAJcO/iLvaof/2Zo
+	dxXj6A8boQPYlhDKDEb3+l9xGqmSV+oQlJMV61kv3WcTg/Sg/uNxsodhlkDPjdFNs4LGIk+PWrb
+	1ZMk2kO6IFnXGol7LVAeTn7pqJ9OwJVGtpdf0Sf79Qzkn5VEx1AoPXRg4hTfVOk94ZfjYTmsojJ
+	E
+X-Received: by 2002:a05:6000:25f3:b0:47f:8ac0:ccb4 with SMTP id
+ ffacd0b85a97d-482b1e9df5fmr12803729f8f.10.1787157989811; Wed, 19 Aug 2026
+ 09:46:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bWH43D23LJDpXW5I"
-Content-Disposition: inline
-In-Reply-To: <aoXamcdKoMynTkpX@LeoBrasDK>
-X-Cookie: Allow 6 to 8 weeks for delivery.
-
-
---bWH43D23LJDpXW5I
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260806184254.3790858-1-nphamcs@gmail.com> <20260806184254.3790858-2-nphamcs@gmail.com>
+ <anX-ga41DMNWF6-2@cmpxchg.org> <CAKEwX=MmqyWdqfrp8kxeuucNFhU2e6Hk2TdANUGhNFHhvtSPwg@mail.gmail.com>
+In-Reply-To: <CAKEwX=MmqyWdqfrp8kxeuucNFhU2e6Hk2TdANUGhNFHhvtSPwg@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Wed, 19 Aug 2026 09:46:17 -0700
+X-Gm-Features: AcwNN1VW1IFOK11rd1UcYSUArFyDXGImTjTFPjh0sY0B1rB0YRzMpSnPt4Jbiig
+Message-ID: <CAKEwX=PjvsAOv8rvp+mz_aPqDLm6iRy6URRW2EMFvFrgD2HEgA@mail.gmail.com>
+Subject: Re: [PATCH v3 01/11] mm, swap: add virtual swap device infrastructure
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
+	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev, 
+	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org, 
+	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	qi.zheng@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
+	weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
+	haowenchao22@gmail.com, corbet@lwn.net, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 19, 2026 at 05:32:25PM +0100, Leonardo Bras wrote:
-> On Wed, Aug 12, 2026 at 08:12:02PM +0100, Mark Brown wrote:
+On Tue, Aug 18, 2026 at 11:41=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
+>
+> >
+> > Can you make this a pure allocation function - vswap_alloc_cluster()
+> > or something - that links it to &si->free_clusters, then jump back and
+> > use the existing alloc_swap_scan_list() sites?
+>
+> That name was vestigial from Kairui's RFC, but yeah I agree
+> vswap_alloc_cluster sounds better.
+>
+> Regarding the linkage of the newly allocated cluster to the free list
+> - I'm a bit hesitant to introduce new surface for these clusters,
+> mostly because I'm afraid I might mess up the handling of these
+> clusters (when I unlink them from the free list), but I can give it a
+> shot.
+>
+> >
+> > There is a new_cluster: label upstream you could use for the retry.
 
-> > In order to allow guests to use GCS we also need to configure
-> > HCRX_EL2.GCSEn, if this is not set GCS instructions will be noops and
-> > CHKFEAT will report GCS as disabled.
+Actually, I stared at it a bit more. I don't think we should jump to
+new_cluster here - it's not what physical swap allocator does in the
+first place (we never do any backward jump to retry).
 
-> It is zero on reset, and keeping it in zero disables GCS in EL0&EL1, so=
-=20
-> unless we are in EL2&0 (HCR_EL2.{E2H, TGE} is {1, 1}), we need to enable =
-it=20
-> so EL1&0 (guests) can have access to it.
+So basically, this is the old code:
 
-Right.
+new_cluster:
+if (discard)
+    alloc_swap_scan_list(free list);  /* not taken by vswap */
 
-> > @@ -77,6 +80,8 @@ static void __sysreg_save_vel2_state(struct kvm_vcpu =
-*vcpu)
-> >  	__vcpu_assign_sys_reg(vcpu, SP_EL2,	 read_sysreg(sp_el1));
-> >  	__vcpu_assign_sys_reg(vcpu, ELR_EL2,	 read_sysreg_el1(SYS_ELR));
-> >  	__vcpu_assign_sys_reg(vcpu, SPSR_EL2,	 read_sysreg_el1(SYS_SPSR));
-> > +	if (ctxt_has_gcs(&vcpu->arch.ctxt))
-> > +		__vcpu_assign_sys_reg(vcpu, GCSPR_EL2, read_sysreg_el1(SYS_GCSPR));
+if (alloc_swap_scan_list(nonfull)) return;
 
-> Out of curiosity here,
-> Why does the saving of GCSCR_EL2 depends on ctxt_has_tcrx() (and E2H set)=
-,=20
-> and saving SYS_GCSPR does not? ...
+/*
+ * Added by me. vswap (almost) always succeeds here
+ */
+if (alloc_swap_scan_dynamic()) return;
 
-This is just because there isn't a preexisting ctxt_has_tcrx() check
-already there, FEAT_GCS architecturally depends on FEAT_TCRX and there
-was a request to make this explicit in the code to try to optimise
-things a bit.  The compiler should skip over both blocks at once if TCRX
-isn't there rather than having two separate tests or static branches.  I
-didn't add new checks where there were none since I expect that to be
-unhelpful for code generation, you'd get the reverse situation and emit
-two checks.
+/*
+ * not taken by vswap, because we succeeds above
+ * and free list is always empty.
+ */
+if (not discard)
+    alloc_swap_scan_list(free list);
 
---bWH43D23LJDpXW5I
-Content-Type: application/pgp-signature; name="signature.asc"
+/* if free list scan fail, keep going */
 
------BEGIN PGP SIGNATURE-----
+etc. etc.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqF3ccACgkQJNaLcl1U
-h9CcQQf+IxvaF1y9eqa1wPv0kD6ec4r4UKmxZU1Sj6EfStbT+DJpeDDZmbR5wLHi
-UIbnCP1BlGVPGIw8QfCpH7x1W3Vk397dUmfHNuEv/HACcnIe7J+3TMA3I0bSD49i
-eY7wVTezjJGRBNMtLzFVT9Ed1mK7iZ3xeD2oU7ii0abLeBMmEwuQyvroT6nLqa6I
-hmtlWxH5Ps5ol3qaxoD+w12M6YlkXLucm5OgMZ+gpQM0JuQaxOb2UUxBb64PhcH2
-0cdjq7xLFg2kz8kdcitYNVmbE34x/2ZJfg4RSV0AT4B5D6Mst3zXJLI8gVcWjO7e
-hZdv8j5JdWYVkbXUdOYTVL0HppvTgw==
-=FnPL
------END PGP SIGNATURE-----
+The new code becomes:
 
---bWH43D23LJDpXW5I--
+new_cluster:
+if (discard)
+    alloc_swap_scan_list(free list) /* still not taken by vswap */
+
+if (alloc_swap_scan_list(nonfull)) return;
+
+/* vswap puts new cluster into free list, then falls through */
+if (si is vswap)
+    vswap_cluster_alloc();
+
+/* vswap now scans free list to get the cluster it just allocated */
+if (not discard)
+    alloc_swap_scan_list(free list)
+
+/* if free list scan fail, keep going */
+
+This works, but I'm not sure if putting the new cluster on free list
+buy us much other than more lock contention points (we need si->lock
+to scan free list) :/
+
+I'll just rename alloc_swap_scan_dynamic to vswap_cluster_alloc(), for now?
