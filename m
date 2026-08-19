@@ -1,74 +1,320 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C6B3CEBA9;
-	Wed, 19 Aug 2026 06:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787122642; cv=none; b=dNqkgvP9bIj92LHIxQ7AyYfPboV2ZQwlOxzIdzzTdMUzTvCla0Ae/Y+rCa/7y0/ACKa42VtAlT3xbfKP9sU6OrUi1wdSrLfNrvMBVLVVHCTjWtK4w7umP1sjQBcCM6wrlszv/rk1tNfKmKzxoUt3N41e+J6MQSWOX+++SYCvdE4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787122642; c=relaxed/simple;
-	bh=BnaDMAZ8Jop9I4TDtKW7q6HkVz6RaPPE9fxgxbNDaAI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C1Nr06fXLL4Cv2KfL/h3mqH5Df+axeuz8vZuOtwgR4BbtraIWIpe8VZTDHaFGWO76sA9qHFMYhm2nThS3GALYXqzXWPaP+sWxAv+3OsKhkQdcSfC4QzPhEqEeFO1kzI6P1cOXcFYOKzEZ2/O0+QcM9lZ6Zru5PIG2f/VNZ7tuVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f3H1WtXX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F713E2740
+	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 07:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787125311; cv=pass; b=AQ8nnZgNQOQcxbMYgukYr8dVyyl4qX6/NyCzp8lqn3e48PR9nJqrDZIyqEbqHE/vbqzalYMlFVqAqP0Ky3W2XHbA/klle3JuHiUS5eQfPxlLvN/AeETtBWL5/S3kVwV9Y2O6JY4WAyDnmpNSbf2DQl5WVfvCQInlnKqnBlfLSjk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787125311; c=relaxed/simple;
+	bh=i8g1kh5bGRn9T0dWTjOgak9HjdcyEv47iojLtZJK1TM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cin0RNBFY09KCECPF28leCMKOrW0FmMhTXmqKaTQameDZ68DG5EOLbZd0rMf4DHWCbz6DI0Ef5hm502jkHxRjyXkS94W837CuAiSDP3/g3wFYqHNgjwp033hKXgYDvQbPcQblgsoeHvsPSE2zlGA+FgXwp9SKoXfwXOjScdQR3M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KpJ+Wkqg; arc=pass smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f3H1WtXX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Q0IdqFnVkqkF5q9pk5IoXLZATdgqmwUq+XC4q3t22bs=; b=f3H1WtXXpW3AKBooPYiQgk+IWC
-	SO8y8uXhKiPyf/6BN28IuNcQJ9yBfHrNh0nx09zpU7JuOCuhTfBp9iQUPSIKNDxQuQHfBXiHrt/u+
-	0YB584pQNd0b3FAWIctBx+iVjmx+jAz7m7iqhkPz5CZxEB5I3OhC/fdl0hjRg5c5A5ZYH5H95kw6b
-	JXPUG7YoN4qdrQZFmJydSjB9ZyrqsE70Eh/JQY1ttyAPCcdYsY0C8w79qPtLjVyMK0T4h6YNUKFzE
-	mCp8Dpvrsn3WzypJSqFxBr3TkRuKPTYILZUTiXRdjtNTUcGEtjwOQvEUDJvsoDXrUVzbTtaeInYJD
-	4R8WdgUw==;
-Received: from 2a02-8389-2301-9f00-b711-947d-6c5b-1af5.cable.dynamic.v6.surfer.at ([2a02:8389:2301:9f00:b711:947d:6c5b:1af5] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwaEg-000000098qY-2lF7;
-	Wed, 19 Aug 2026 06:57:19 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: willy@infradead.org,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] XArray: document that tags persist after storing new elements
-Date: Wed, 19 Aug 2026 08:57:14 +0200
-Message-ID: <20260819065714.1358822-1-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KpJ+Wkqg"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c15c42a45adso274968866b.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 00:41:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787125305; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FK8UcgFe80HhAE6Vt80C9chqvPcMby6OuEMd/y28BOn9GeDjtwmIVFQafKED1LB5CO
+         tR7t7cTwT1hQcMnShWODb6lPFNN4DKj7mIDB/rpp9NUuD3UkGG+FZ4KFmeEB8lq+67EU
+         kuCaGD5xKGvOkbHMP23OFlvViaxR5ld3qP7a8YhS2txIAMhB8zRPD+YCT/OIInDW94Tv
+         3T4k9YGz7UD8AceEM6V/b+kI5fGN7K8ZNoQ2K8AjHLoDOgYG4A0ytmvcMaY4L3+bNz30
+         m6qc9iVPP+UwTRIuUVkXxQFXpOedDmNiXI7mTsIrHoxnyZ7ksrJeimvT+PZfhZy+9VSQ
+         aR5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2XM8VjGIfz5XNFSi41BuHFpvUKE6C2ApVU9tTkW8ke8=;
+        fh=c5qoc34t19aZN7+9XIh+HsS+M+QVugy7oEciyTE5EAY=;
+        b=qE468Q3sfSTjX0jjKuJygk/5tmQe9qHdPyy90Pb5d5WLgAU9JNETELuie9EIXg13aD
+         dIbLkR+e7cqRIiAg+2KdnY3XabBkBhtYMxENSn36TIUYqzhwqrMpNCzEJ1xAYJPK6vRr
+         4JL8rAKzkLBgNLTrzH1XUrn7rhnX+TF+oQOtNp9xCUCJLAtMUoS1qd/r86OZv1z7tAKi
+         7mdX+vG+wu+gXiuwAfBRRPRyFdOkxzTW8BBPheZwA1KcSuT1A/XC5ICws4KBLF4iORar
+         Vie1otzlaldxuc0BL22uUws+Z7k046BJWGPeE+91Fdye1blCZMqCZt0kMQBfoGyR2h2J
+         Uayg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787125305; x=1787730105; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2XM8VjGIfz5XNFSi41BuHFpvUKE6C2ApVU9tTkW8ke8=;
+        b=KpJ+WkqgIYnJD6I7LAaemSa2VxMM5QcGLwCqP9p4ETHZcSmc8B/CYU3rlmEph/n+Qz
+         MrlRbJXuYC7u5VmIANHBrT1MTGEaTZMkDJHi2Hc08jF1iozJ9EYdeCUVj4Cu9TSNT1SD
+         1C1MmLLxGoxyo+CAsGq7ZzFVq4l9Dz3BYQSqAwqhx0yn/+81hvpeSWhvkMs9v4ldU1GT
+         KrBMIFxkWfKaNvfnG55Azd1tmydnUWQUySPEZKMjnAyNj2waXMyCVfENItClkepIGzxh
+         h3lBnQZ7J45+AB58Q1o96lKNvg0x6FQEtV8IWAv0O2u0OWy4uxjGj+WFaGTngpqZtGhr
+         7G8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787125305; x=1787730105;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2XM8VjGIfz5XNFSi41BuHFpvUKE6C2ApVU9tTkW8ke8=;
+        b=PjciPRo0rVADN9NkYeCUZMO57wYw1/OurwxPsa8sfl8J9scepDYS4RkrsPBurZiE07
+         oGc4SpsrJgYPHP6jsOihjjN/b+AhPELYXYV9dvAbnudxSANW9u+RdlCeFCU4z6PJJWds
+         k8SS49VwSOFzrb2QZvmdAbsvB2WlXJpkBe+jbf0n8OP6iZfPQytTZzbd0nco2RComV65
+         pX2DhtI781FBXR20hwjkiO/aY+iyWTSV5pdZ59xinRC1HSdGx1YU6PS+cEkuxQ3yzszX
+         LOBxTFMklub/gR13oUIQqSzXy6QZtUU+e4s8Td+7qL9c7n0ysfN9aZEeKMKM4qDbSJv5
+         kOwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrVUq+U3FJUqucmgFkKoX5Iwn9dNy8AgQRTSsAXYbU2dUC9iM0dZCGSiYcUEwC8n3sEN5ItZqAzSME=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvGYtXfoUS/EPaoaeqXBEfKgMF7TLJpMc+4W60DSGHbFFT7JDM
+	3IKZ9SEDFyj1zsvptrL5YldPXZhzyfD+oMC8HruFlq/ha11U5/hytucQIo/c+Rw3KvFhiUQOO4r
+	O195SKUCFYwb6eTHCFPNS63fZ8zI8us4=
+X-Gm-Gg: AR+sD13JhX5Mn++eevUfr3rsTKCfkOgWD6vWGJtcW35lkdfO+i+RuCVAERNdvaxmsnc
+	Ki+GTv3/cpLkOpF3KZaHlJ2AiDeOnb65/jwZw7i75H0eSo/9QvDET5n8AY3bV6TUa+hABnUmxe4
+	tssaarcz/a5m8Guc5gf0iCaENjixwMR8w8szBjHiAWd2+Ar98xJooYiMzUbt0AQF+eTWJzlxnIo
+	0f+GZK5d5B5Qpv84iQpT5ZltCL45cWIOBHuVbnP690VlHgKcNI1B+8PG0wyrC0QXd7pcYp5rcd9
+	qSXGA9raiSJcR5Jhegp+H94Cof+PA6uEuQatXXyUo2K2d57Q/tLyAPG/ng==
+X-Received: by 2002:a17:907:1ca1:b0:c21:7c98:d9ec with SMTP id
+ a640c23a62f3a-c237e153a0cmr174800166b.5.1787125304729; Wed, 19 Aug 2026
+ 00:41:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe>
+In-Reply-To: <20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe>
+From: Ike Panhc <ikepanhc@gmail.com>
+Date: Wed, 19 Aug 2026 15:41:33 +0800
+X-Gm-Features: AcwNN1XvW54R3BtlIAEO0ZYWyRgIsnsmisrbLic33f3L9pxDYLLAY4SdpzDzLc8
+Message-ID: <CADwxbCUVY7OP-BgBW-xd-AZCn_Msh8TPmiRX0__F2f-SHw2O-w@mail.gmail.com>
+Subject: Re: [PATCH v4 00/12] leds: Add support for hardware-initiated
+ hardware control trigger transition
+To: Rong Zhang <i@rong.moe>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	=?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
+	Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, linux-leds@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is a very useful feature, document it.
+On Sun, Aug 2, 2026 at 1:27=E2=80=AFAM Rong Zhang <i@rong.moe> wrote:
+>
+> Some laptops can tune their keyboard backlight according to ambient
+> light sensors (auto mode). This capability is essentially a hardware
+> control trigger. Meanwhile, such laptops also offer a shrotcut for
+> cycling through brightness levels and auto mode. For example, on
+> ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
+> levels in the following sequence:
+>
+>   1 =3D> 2 =3D> 0 =3D> auto =3D> 1 ...
+>
+> Recent ThinkPad models should have similar sequence too.
+>
+> However, there are some issues preventing us from using a private
+> hardware control trigger:
+>
+> 1. We want a mechanism to tell userspace which trigger is the hardware
+>    control one, so that userspace can determine if auto mode is on/off,
+>    as well as turing it on/off programmatically without obtaining the
+>    trigger's name via other channels
+> 2. Writing brightness has the side effect of disabling hardware control,
+>    but the hardware control trigger remains active, resulting in the
+>    software and hardware being out of sync. Most LED drivers that
+>    supports hardware control also suffer from the same issue
+> 3. Turing on/off auto mode via the shortcut cannot activate/deactivate
+>    the corresponding hardware control trigger, making the software state
+>    out of sync
+> 4. Even with #3 solved, deactivating the hardware control trigger has
+>    the side effect of emitting LED_OFF, breaking the shortcut cycle,
+>    especially "auto =3D> 1"
+>
+> This series tries to demonstrate a path on solving these issues:
+>
+> - Introduce an attribute "trigger_may_offload", so that userspace can
+>   determine:
+>   - if the LED device supports hardware control (supported =3D> visible)
+>   - which trigger is the hardware control trigger selected by the LED
+>     device
+>   - if the trigger is selected ("<foo_trigger>")
+>   - if the trigger is offloaded ("[foo_trigger]")
+>     - A callback offloaded() is added so that LED triggers can report
+>       their hardware control state
+> - Remove hardware control trigger when writing brightness
+> - Add led_trigger_notify_hw_control_changed() interface, so that LED
+>   drivers can notify the LED core about hardware-initiated hardware
+>   control transitions. The LED core will then determine if the
+>   transition is allowed and switching between "none" (i.e., no trigger)
+>   and the device's private trigger accordingly
+>   - This capability is restricted to the device's private trigger. If
+>     the current trigger is neither the private trigger nor "none", no
+>     transition will be made
+>   - This interface is gated behind Kconfig LEDS_TRIGGERS_HW_CHANGED and
+>     LED device flag LED_TRIG_HW_CHANGED
+> - Tune the logic of trigger deactivation so that it won't emit LED_OFF
+>   when the deactivation is triggered by hardware
+>
+> The last three patches are included in the series to demonstrate how
+> these interfaces are supposed to be utilized, so that ideapad-laptop
+> can expose the auto mode of ThinkBook's keyboard backlight. They can be
+> submitted separately once the dust settles, if preferred.
+>
+> The last patch in the series depends on commit 5029bff09e79
+> ("platform/x86: ideapad-laptop: Fix driver unregistration order") from
+> platform-drivers-x86/for-next.
+>
+> [ Summary of other approaches ]
+>
+> < custom attribute >
+>
+> Pros:
+> - simplicity, KISS
+> - no need to touch the LED core
+> - extensible as long as it has a sensor-neutral name
+>   - a sensor-related name could potentially lead to a mess if a future
+>     device implements auto mode based on multiple different sensors
+>
+> Cons:
+> - must have zero influence on brightness_set[_blocking] callbacks
+>   in order not to break triggers
+>   - potential interference with triggers and the brightness attribute,
+>     can't solve #2
+> - weird semantic (an attribute other than "brightness" and "trigger"
+>   changes the brightness)
+>
+> < private hardware control trigger (this series) >
+>
+> Pros:
+> - mutually exclusive with other triggers and the brightness attribute
+>   (hence less chaos)
+> - semantic correctness
+> - acts as an aggregate switch to turn on/off auto mode even a future
+>   device implements auto mode based on multiple different sensors
+>   - extensibility (through trigger attributes)
+>
+> Cons:
+> - complexity
+>
+> [ Previous discussion threads ]
+>
+> https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastma=
+il.com
+> https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@=
+rong.moe
+>
+> Signed-off-by: Rong Zhang <i@rong.moe>
+> ---
+> Changes in v4:
+> - Drop the RFC prefix
+> - Add a new patch in the series to address a concern from Sashiko
+>   - [PATCH v4 08/12] leds: trigger: Do not attach trigger to a removing L=
+ED
+>   - Without it, following patches will expose a race condition
+>   - https://sashiko.dev/#/patchset/20260719-leds-trigger-hw-changed-v3-0-=
+5fb55722e36e@rong.moe
+> - Address other concerns from Sashiko
+>   - Reject insane hardware brightness
+>   - Do not notify the LED trigger core when the registration of the
+>     private trigger has failed
+> - Enable LEDS_TRIGGERS_HW_CHANGED by default when
+>   LEDS_BRIGHTNESS_HW_CHANGED is enabled
+> - Add missing #include (Thanks Ilpo J=C3=A4rvinen)
+> - Remove needless #include (ditto)
+> - Remove needless code alignment (ditto)
+> - Link to v3: https://patch.msgid.link/20260719-leds-trigger-hw-changed-v=
+3-0-5fb55722e36e@rong.moe
+>
+> Changes in v3:
+> - Integrate https://lore.kernel.org/all/20260712-leds-hw-control-brightne=
+ss-set-v1-1-1de593b09d26@rong.moe/
+>   into the series
+>   - Adopt __led_trigger_is_hw_controlled() in the rest of the series
+> - Rearrange the series so that the code using the offloaded() callback is
+>   introduced before the driver implementation (thanks Thomas Wei=C3=9Fsch=
+uh)
+> - Reword documentations and commit messages (ditto)
+> - Adopt guard() and lockdep (ditto)
+> - Address concerns from Sashiko
+>   - Fix a race condition in ideapad_kbd_bl_led_cdev_brightness_set()
+>   - Fix trigger re-registration of ideapad_kbd_bl_auto_trigger
+>   - https://sashiko.dev/#/patchset/20260618-leds-trigger-hw-changed-v2-0-=
+c28c44053cf3%40rong.moe
+> - Make registration failures of ideapad_kbd_bl_auto_trigger non-fatal
+> - Link to v2: https://patch.msgid.link/20260618-leds-trigger-hw-changed-v=
+2-0-c28c44053cf3@rong.moe
+>
+> Changes in v2:
+> - Restrict the led_trigger_notify_hw_control_changed() interface to
+>   private triggers only
+>   - Drop PATCH v1 1/9 ("leds: Load trigger modules on-demand if used as
+>     hw control trigger"), not relavant any more
+> - Gate the led_trigger_notify_hw_control_changed() interface behind
+>   Kconfig LEDS_TRIGGERS_HW_CHANGED and LED device flag
+>   LED_TRIG_HW_CHANGED
+> - Fix lock ordering inversion
+> - ideapad-laptop:
+>   - Only call led_trigger_notify_hw_control_changed() when needed
+>   - Serialize keyboard backlight notifications
+> - Reword commit messages and documentations
+> - Link to v1: https://patch.msgid.link/20260227190617.271388-1-i@rong.moe
+>
+> ---
+> Rong Zhang (12):
+>       leds: Move led_trigger_is_hw_controlled() to the right place
+>       leds: class: Remove hardware control trigger when writing brightnes=
+s
+>       leds: trigger: Add offloaded() callback and provide trigger_may_off=
+load attribute
+>       leds: cros_ec: Implement offloaded() trigger callback
+>       leds: turris-omnia: Implement offloaded() trigger callback and decl=
+are hw_control_trigger
+>       leds: trigger: netdev: Implement offloaded() callback
+>       leds: trigger: Enforce strict checks in led_trigger_is_hw_controlle=
+d()
+>       leds: trigger: Do not attach trigger to a removing LED
+>       leds: trigger: Add led_trigger_notify_hw_control_changed() interfac=
+e
+>       platform/x86: ideapad-laptop: Decouple hardware & classdev brightne=
+ss for keyboard backlight
+>       platform/x86: ideapad-laptop: Serialize keyboard backlight notifica=
+tions
+>       platform/x86: ideapad-laptop: Fully support auto keyboard backlight
+>
+>  Documentation/ABI/testing/sysfs-class-led          |  25 ++
+>  .../ABI/testing/sysfs-class-led-trigger-netdev     |   3 +
+>  Documentation/leds/leds-class.rst                  |  72 ++++++
+>  drivers/leds/led-class.c                           |  39 ++-
+>  drivers/leds/led-triggers.c                        | 150 +++++++++++-
+>  drivers/leds/leds-cros_ec.c                        |   6 +
+>  drivers/leds/leds-turris-omnia.c                   |   7 +
+>  drivers/leds/leds.h                                |   2 +
+>  drivers/leds/trigger/Kconfig                       |  10 +
+>  drivers/leds/trigger/ledtrig-netdev.c              |   8 +
+>  drivers/platform/x86/lenovo/Kconfig                |   1 +
+>  drivers/platform/x86/lenovo/ideapad-laptop.c       | 270 +++++++++++++++=
+++----
+>  include/linux/leds.h                               |  19 ++
+>  13 files changed, 546 insertions(+), 66 deletions(-)
+> ---
+> base-commit: c7acedb2db001160b1ec41cdcc759dd664150666
+> change-id: 20260506-leds-trigger-hw-changed-96a62188cbdf
+>
+> Thanks,
+> Rong
+>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- Documentation/core-api/xarray.rst | 2 ++
- 1 file changed, 2 insertions(+)
+Review and test on my ideapads. Though I don't have ambient light
+sensor on my machines,
+Everything looks good from my side.
 
-diff --git a/Documentation/core-api/xarray.rst b/Documentation/core-api/xarray.rst
-index c6c91cbd0c3c..9a0d930a8c79 100644
---- a/Documentation/core-api/xarray.rst
-+++ b/Documentation/core-api/xarray.rst
-@@ -127,6 +127,8 @@ by using xa_set_mark() and remove the mark from an entry by calling
- xa_clear_mark().  You can ask whether any entry in the XArray has a
- particular mark set by calling xa_marked().  Erasing an entry from the
- XArray causes all marks associated with that entry to be cleared.
-+Storing a new entry that replaces an existing entry keeps the marks
-+associated with the index intact.
- 
- Setting or clearing a mark on any index of a multi-index entry will
- affect all indices covered by that entry.  Querying the mark on any
--- 
-2.53.0
+Acked-by: Ike Panhc <ikepanhc@gmail.com>
 
+Many thanks,
+Ike
