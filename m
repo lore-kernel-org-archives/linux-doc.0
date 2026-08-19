@@ -1,158 +1,109 @@
-Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-84.mta0.migadu.com [91.218.175.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF976367B90;
-	Wed, 19 Aug 2026 01:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787102147; cv=pass; b=qj8VgG0xH0UwjR4uB5pYgObcb3qKQSqEWa5yjV1q+lZA/8v8sL+nMDDeQzu8Co7NDlom3xJtLOrgqxXTuo96XQBTAqEZ8wrEH8YBaP1jqesTOV/EnHSw81JJUA2Ci/IxH34VCJilRunTsztCNUynhmvgYyBCwzG3jvkzyOLhgHI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787102147; c=relaxed/simple;
-	bh=iWF4sj6xmzNEKIMaQBKku5GRthkNL3Wi6iteaBUvH2g=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=qvN7VhPbTnovA9hkY1eOjuvGJ0yJfIIJRQF7FDtOZwL8iuAF0CqL2cE0Vdbipe5YeM//12fD0I9xtzXRFIHzros4wF/TOI/s1iknoqJ29Dt5C4jlnU5zfKLoZwu5c4GVSgj7ZNdFE5QnxNO8K4mNEyO18W6PRIB5gJUiQg/JEsQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=iq64qdYC; arc=pass smtp.client-ip=165.173.182.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C93282F3A
+	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 02:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.84
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787105781; cv=none; b=ZQGrxWQGCSHS1bVCVlR9UwGZ77NB4/UD7DX5csuO4lJhjBsqV84RQgyEcgqNTNWEmm9xt5NPbyAjPdvf1jzDAV8SIXpwDdmbeZ891xvzQkxc63dnjrt3y5OLlpLMN9VVJMKEHRpkCJ9CPRIiFBNN7A9iNmtXliChUTmrTs+3v98=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787105781; c=relaxed/simple;
+	bh=4q4HADBiida0K9D2Blnlucj+RLJw1l5XMARr9t3DAZU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m2YKw3edy7xFMNNkwoC8l8VIFBIxxTdoZu/LcF6oUuOoSlf7TimnSByVFMR01wL1xX0qfIIP1BJquQdBOBgJM5TtR8GG2Hv7Dj8gE/T0uZR9qwnmjmC7LLsZiRzyfLogc3jsx3Hxv80a2YPVA3ywdJC4NhOLJDrIZcWwR0533Z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bWa4bjk/; arc=none smtp.client-ip=91.218.175.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="iq64qdYC"
-ARC-Seal: i=1; a=rsa-sha256; t=1787102084; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Vb7w8BxrWfF9lHwWUjEbzRIx6KBRsUigHB1BIq5oHipa4Sd5jus0nZuCNwSMN16h13U89lzH6ju4G911GghpembRCVMf6Yw1CT8w/E/crZljRwsXmE/Li+OUqGXnCiffP8k9tD//Lp24NVcZUbhP1N5p4BakadY5nnGnGkrKlP8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1787102084; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Q+1yMs/TAg44PdtgHr4whUenCDXTlH65MGNSP0QkUgg=; 
-	b=WzWWhEtFLhl2pB77v6E9NVuvONhpfr1iSWuWwttJmBuNvgr+2o5q3xLfDp00t9v7wxA6TtHtnvNzvU8dXWIOvWkefjmVNqix8VmBZHLHfLyjsAfPFlptN+Qb3+HpTwx+l+7OFJPjiKQdWKN6Hk7kagCTpAvX98Wc1+Uk45k0X3w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787102084;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Q+1yMs/TAg44PdtgHr4whUenCDXTlH65MGNSP0QkUgg=;
-	b=iq64qdYCSRkOo6W1o0SCny2QBrEIZAAUw+Q6FRFTCwzUHg5s0qfJmEOfHSz1ivlZ
-	DnhE8UtxYhGyGliZxovvaGRIYEAuZhGP9XmhynpPXodH7YfeM+jsfwNR5IstCYJqeee
-	qfOU1FA7TEkwqMY9QjgL3LcezQkk/TXcXATx/tvM=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1787102084308142.55088526691668; Tue, 18 Aug 2026 18:14:44 -0700 (PDT)
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1787102081175753.1506133241837; Tue, 18 Aug 2026 18:14:41 -0700 (PDT)
-Date: Wed, 19 Aug 2026 09:14:41 +0800
-From: Li Chen <me@linux.beauty>
-To: "Justin Suess" <utilityemal77@gmail.com>
-Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
-	"Gabriel Krisman Bertazi" <krisman@kernel.org>,
-	"Josh Triplett" <josh@joshtriplett.org>,
-	"Mateusz Guzik" <mjguzik@gmail.com>,
-	"Andy Lutomirski" <luto@kernel.org>,
-	"John Ericson" <mail@johnericson.me>,
-	"Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>,
-	"Arnd Bergmann" <arnd@arndb.de>, "Oleg Nesterov" <oleg@redhat.com>,
-	"Andrew Morton" <akpm@linux-foundation.org>,
-	"Paul Moore" <paul@paul-moore.com>, "Eric Paris" <eparis@redhat.com>,
-	=?UTF-8?Q?=22Micka=C3=ABl_Sala=C3=BCn=22?= <mic@digikod.net>,
-	=?UTF-8?Q?=22G=C3=BCnther_Noack=22?= <gnoack@google.com>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"Jan Kara" <jack@suse.cz>, "linux-api" <linux-api@vger.kernel.org>,
-	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
-	"linux-doc" <linux-doc@vger.kernel.org>,
-	"audit" <audit@vger.kernel.org>,
-	"linux-security-module" <linux-security-module@vger.kernel.org>,
-	"linux-arch" <linux-arch@vger.kernel.org>,
-	"linux-mm" <linux-mm@kvack.org>
-Message-ID: <1a01795b07a.1f456216580426.3401229391386650127@linux.beauty>
-In-Reply-To: <anJE8SfBLtkh6QSa@zenbox>
-References: <cover.1784204592.git.me@linux.beauty> <anJE8SfBLtkh6QSa@zenbox>
-Subject: Re: [RFC PATCH 00/24] pidfd: add a minimal process spawn builder
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bWa4bjk/"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=4q4HADBiida0K9D2Blnlucj+RLJw1l5XMARr9t3DAZU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787105776; v=1; x=1787710576;
+ b=bWa4bjk/uOt9QiFh4ZzoKKReRAGqww0LbgDjGZRAj+z9uiQbx0ldc/1sR+XHgSs2UU2I65m7
+ yZOXciBQkKFBMHrYdvAmd04OUpgF4CgBU1/PswjVSFE7JNTYhd2C4XD+0Wo533bLBE0sQo94iRz
+ fIKjZfUtTYdNBPo7kol7B0KE=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from localhost.localdomain (223.70.159.239)
+	by smtp.migadu.com with ESMTPS id 817f9be3478d872c;
+	Wed, 19 Aug 2026 02:16:16 +0000
+X-Migadu-Flow: FLOW_OUT
+From: Ye Liu <ye.liu@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] tools/mm/page_owner_sort: fix --sort, add module filter, improve usage
+Date: Wed, 19 Aug 2026 10:16:08 +0800
+Message-Id: <20260819021611.2910835-1-ye.liu@linux.dev>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
-Hi Justin,
+From: Ye Liu <liuye@kylinos.cn>
 
- ---- On Wed, 05 Aug 2026 04:25:25 +0800  Justin Suess <utilityemal77@gmail=
-.com> wrote ---=20
- > On Thu, Jul 16, 2026 at 10:31:26PM +0800, Li Chen wrote:
- > > Hi,
- > >=20
- > > This RFC follows feedback on my earlier spawn_template RFC [1]. That
- > > proposal made caching the primary interface; this one starts with gene=
-ral
- > > process construction. Christian suggested a pidfd/pidfs exec builder
- > > modeled after fsconfig(), with enough semantics for userspace to imple=
-ment
- > > posix_spawn() [2], and Kees agreed [3].
- > >=20
- > > This RFC is based on linux-next next-20260710 and depends on two pidfs
- > > fixes that I sent separately:
- > >=20
- > >   * pidfs: preserve thread pidfds reopened by file handle
- > >     https://lore.kernel.org/all/20260716052726.1032092-1-me@linux.beau=
-ty/
- > >   * pidfs: handle FS_IOC32_GETVERSION in compat ioctl
- > >     https://lore.kernel.org/all/20260716052822.1034228-1-me@linux.beau=
-ty/
- > >=20
- > > The initial implementation is source-based. The executable path can be
- > > provided with the final run request:
- > >=20
- > >     struct pidfd_spawn_run_args run =3D {
- > >         .path =3D (unsigned long)"/usr/bin/rg",
- > This should probably be an FD for the path.
- >=20
- > This way it prevents race conditions over multiple configuration steps.
+This series improves the page_owner_sort tool with a bug fix, a new
+module-name feature, and better usage text.
 
-Thanks, that makes sense. Using an fd avoids the pathname race and pins
-the executable we actually want to run.
+Patch 1 fixes a long-standing bug where --sort was silently ignored
+when used without a short option (-a, -m, -p, etc.).  The COMP_NO_FLAG
+case fell through to COMP_NUM and overwrote the sort conditions
+configured by parse_sort_args().
 
- > >         .argv =3D (unsigned long)argv,
- > >         .envp =3D (unsigned long)envp,
- > >     };
- > >=20
- > >     fd =3D pidfd_open(0, PIDFD_EMPTY);
- > >     pidfd_spawn_run(fd, &run, sizeof(run));
- > >=20
- > > Alternatively, the path can be staged before the final run step:
- > >=20
- > >     struct pidfd_spawn_run_args run =3D {
- > >         .argv =3D (unsigned long)argv,
- > >         .envp =3D (unsigned long)envp,
- > >     };
- > >=20
- > >     fd =3D pidfd_open(0, PIDFD_EMPTY);
- > >     pidfd_config(fd, PIDFD_CONFIG_SET_STRING,
- > >                  PIDFD_CONFIG_KEY_PATH, "/usr/bin/rg", 0);
- > Same here. Should probably be an FD to the binary instead.
- >=20
- > >     pidfd_spawn_run(fd, &run, sizeof(run));
- > I'm worried this pidfd_spawn_run just adds another varient to the existi=
-ng
- > myriad of exec* syscalls we already have. Would it be better to just hav=
-e this
- > work through execveat(fd, "", argv, envp, AT_EMPTY_PATH) instead?
- >=20
- > (i.e have execveat take a pidfd directly).
- >=20
- > Then you can get rid of pidfd_spawn_run which looks almost structurally
- > identical to execveat (with the argv and envp collapsed).
+Patch 2 adds kernel module name support for sort, cull, and filter
+operations.  Page owner stack traces already contain module names in
+the "function+0xNN/0xNN [module]" format produced by %pS, but
+page_owner_sort had no way to use them.  Records without module frames
+are assigned "vmlinux".
 
-Thanks, but I'm less sure about using execveat() as the run operation, sinc=
-e it
-normally replaces the caller while the builder creates a new child and
-returns. A separate run operation still seems clearer to me.
+  # Aggregate page usage per module
+  ./page_owner_sort input.txt output.txt --cull=mod
 
-Regards,
-Li=E2=80=8B
+  # Filter to records from xfs module only
+  ./page_owner_sort input.txt output.txt --module xfs
 
+  # Sort by module name, then by pid descending
+  ./page_owner_sort input.txt output.txt --sort=mod,-pid
+
+Patch 3 lists all available sort keys with abbreviations and examples
+directly in the --sort help section so users no longer need to read
+the source to discover valid keys.
+
+Ye Liu (3):                                                            
+  tools/mm/page_owner_sort: fix --sort option being silently ignored
+  tools/mm/page_owner_sort: add module name sort/cull/filter support
+  tools/mm/page_owner_sort: show available sort keys in usage text
+
+ Documentation/mm/page_owner.rst |   8 +-
+ tools/mm/page_owner_sort.c      | 134 +++++++++++++++++++++++++++-----
+ 2 files changed, 122 insertions(+), 20 deletions(-)
+---
+v3:
+ - Patch 1: Use fallthrough to COMP_NUM per David's review.
+ - Link:https://lore.kernel.org/all/20260803062056.1518070-1-ye.liu@linux.dev/
+v2:
+ - Patch 2: use regexec() directly in get_module() instead of search_pattern()
+   to avoid excessive debug spam for the common vmlinux case when debug_on is true
+ - Patch 2: anchor module regex to stack trace format "+0xNN/0xNN [module]" to
+   prevent false matches on kernel thread comm names like [khugepaged]
+ - Patch 2: add '-' to regex character class to support modules with hyphens
+   (e.g. aa-bb-cc)
+ - Link:https://lore.kernel.org/all/20260722023726.600200-1-ye.liu@linux.dev/
+-- 
+2.25.1
 
