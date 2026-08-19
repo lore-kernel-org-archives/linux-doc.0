@@ -1,202 +1,152 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5A94432FE
-	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 10:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787134337; cv=none; b=rGp+q9qsmRBfJpC7lYZA9KPkbhsMfvS6k278NuY3vgrctDaaXXd/fFVHkFAJv5LUKLklTdM9yVoX7VmkkKwv3+z76o/xE9wt+91xcO6z/52n4XiH4SsNxBGDcDjW2Mc6OUVunZL3cJIOoPNZPaQZ0z33f/oWlytAmvQkRqDHolI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787134337; c=relaxed/simple;
-	bh=cPSYJUVx8noNo3D+Be39E5vaehGVuxy3YTv/wUoDNfA=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HI+L+lLGPSmuPNg7x1UGDBH8jM6+kX9hEYoapdKGHjKslA2BqkbJ77bBhvXgGqZzUKGHFwQr5ViTZBhnuZeoSYPXoh02EjSh0cGfpzRww2lCRz55/49WUQXzgqGlunxWoptYyIB9R+dEqyTUfhiW8vO+NHSslcWnOJrRMGCmEbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YfUfjoEp; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652AA43C7DF;
+	Wed, 19 Aug 2026 10:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787134843; cv=pass; b=euvGaCWwxCcZlsfIkmUuh0AFnlRVi8Pzr4nKZJpru/RocvQFfJcmmeqLvloOdtjHU4fDR7ULPogcWODqBY5kdkjHuOYsiY2tTp9YXII9b9VxLFwDzWu24mAQXcrTokJDw4yJBLpWDAwlJ4namqCRCAOXIvyD4//W4/FZCbrkcas=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787134843; c=relaxed/simple;
+	bh=UOlxkwCk3cH02PciWDMJUzXhehTpUXfUZwTZLjpkAtM=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=e2GEbt43CTvZlz5P4BHMW0dekwCOW77Mg42BT+G8WgBdz3WKFxuVhEslD+ky7GUjtToIthipRDAlpsLlgx7C7bWmWIbB81OYq+8fVkwtJMqJyXZg9SsxGCyyI7qML8xPpruF7fISADOMZZUS23lvpwsrieeTx1i2XMcX9NaxdJo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=Ip3l/sK0; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfUfjoEp"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38f0f132f56so1485291a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 03:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787134336; x=1787739136; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:date
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nYw354gvkQJ8jmQ1k/6yhNWm33Mvtpn0ssaQx3WcD2A=;
-        b=YfUfjoEpT77y9oST3D/0i60h3W6+QfXE9JlGFCrPpaUsh+tMHMijNH3aDNMyEVIgrc
-         FmoXLwWi03lWqO1ZWFNu4tJLpv1JkyZYllOtuSLApRZZNfs+xWhsaS2maOUxQVnCSKeM
-         t1fLWWaDu7I/seUxCjVR/S2JadY1PgTtuhzdjsbfYNCUVuC+pLGkPsEgUmntamIKDBRe
-         xB1kDyKtkf64pwrLyXi8RdeLbW9umYJC7kuUMZRx0yf2IFvRxfdbYsXhToENtSs1d3Va
-         3yFenov5v936t+HGexRCJTKlwCa/LyVOnnSbCAaksJUejrTlq2ZOHbSGI3c/W8OWNqwH
-         28pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787134336; x=1787739136;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:date
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=nYw354gvkQJ8jmQ1k/6yhNWm33Mvtpn0ssaQx3WcD2A=;
-        b=cYYuBiG+XgtF+qNmfJGfzLp/70qjkxC/3sZY/trhXCGQwQEGpw0x2KbWpvmejAdKeJ
-         syqgL4ZvTbHIMmiqlGPq0tv/Xk1cODNKshgcYddzXCG6mj4yMyOAw6lyf6Jak5CUIn2J
-         dLeFfHQHJZfIJ9MTbr73ADEzaOwwF+nv2Vh64bqUeyEBJlri7EB0F9KacAMuH46Rbl8Z
-         +jY3hAnxFCaGHQ8EiZyv5ANffV8AHpnFpNNa5q096iLgFRpU5mDgYM79tCYdbhwDm7Dj
-         P/8JtjUV3p8xrtodN/x6aO6SBUg2wCt3MPJfanyg92snQSR8rxsUUWN487bqY/eN9Nkl
-         Ur5A==
-X-Forwarded-Encrypted: i=1; AHgh+RpkqjB/7zMR/b5SyQW+3bGUsqx6rd8K3ImyP49iwGdWiIO6ScivBPo43HPvWcPV/z46u87J6S9fwho=@vger.kernel.org
-X-Gm-Message-State: AFuF++lV2PQ6K+x+kfAmcw3vSAEWiszujSJ/CzW9hZtDiuBDtu52aXuh
-	3UVUx9tbQg0X/Ze3KbqCedPU7ZDRrkGasLJtjzl66y9qugRBbewfvUuT
-X-Gm-Gg: AR+sD10+N0qA9uQWIqbLcttVP1mDSVeVg0dQdF3bWD0hCrstG7MSOGvEmQFtnPDFWm9
-	1txxc2ucvuFfqo+Z0V4DVdW9b9oGPQDdEKMXdLhnRfcsN+OQQ7EZCOEGiPLu/bQtp43pjen6fdm
-	PAfTYWGBTuW2Ug0gaVNhTH44vuFK4oQioqcmXBS37IsZZWF1ndBFI7i+fK8Ifl1f4yPc3m17XdU
-	E2OKrvq+XJFuvWEd3NplsTjghWSXNpB+Y4aO7MD52IW8H1g0ESCnovcLOtbWFMEw1ojGT5lHTOq
-	XnmumaN47av3CStHL4X6KkRVnLZ7u6pRf0euPrFg5MNFjj4Y4ihV6tmjloPajJrCDjAnlLKi769
-	UVMpuAANmIMduW8kT+GYy/KyF0ae71wZOW4Qvi1nJi3xri0subSndOzAurpVSsnHD4ZXMDZep0m
-	t64E8I0/jdVWJwLC4gB0Qn+jDUUrcAdn+0FcTB8JCCs0lsaW4WSTnWAIEY7YzC
-X-Received: by 2002:a17:90b:5630:b0:38e:42f5:d096 with SMTP id 98e67ed59e1d1-3957f68f7bdmr869671a91.0.1787134335601;
-        Wed, 19 Aug 2026 03:12:15 -0700 (PDT)
-Received: from localhost ([2400:ac40:62f:3ae5:75e6:e4f4:4401:4289])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3957f96ca41sm2089556a91.4.2026.08.19.03.12.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 03:12:15 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Wed, 19 Aug 2026 18:09:52 +0800
-To: Sourabh Jain <sourabhjain@linux.ibm.com>
-Cc: kexec@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Dave Young <ruirui.yang@linux.dev>, 
-	Pratyush Yadav <pratyush@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Coiby Xu <coxu@redhat.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 09/10] crash_dump: Disallow
- configfs/crash_dm_crypt_key/reuse if crash hotplug supported
-Message-ID: <aoV8HkBNGRclxMPl@Rk>
-References: <20260729033654.311541-1-coiby.xu@gmail.com>
- <20260729033654.311541-10-coiby.xu@gmail.com>
- <96a78b35-94f7-4b63-97d3-d0841681e2b4@linux.ibm.com>
- <anQb8aIXKXYzKqAR@Rk>
- <8d857834-e014-44d9-a112-d7fc8482d7c3@linux.ibm.com>
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="Ip3l/sK0"
+ARC-Seal: i=1; a=rsa-sha256; t=1787134793; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=WNX19sQNfm9NLQmLvSi+kOC6ZCmTbJJ7WAVY89yP7PTkGWzI48mF+DZEo/5SsPfs5tlb4yuNiWbI8whaohcLtGM2LqnZrmG767uXf79yXwmVAB7O77r7oXZGIBJwqMB8isAop3UQDm++jthDlgiG547f9WvjtvGPheZBrO0zZIM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1787134793; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=xVE/TCa3FajtK4vZ9pzEwtCdg70Sj2GwjXUwN4Rwvtg=; 
+	b=m1yDPOiyrtBnVbwlCc4yAMvn9OuMq60JTYwKYRz96dPuRsHkh9JWEw9jRJLH3KzrYFhz6ZsgmyU4Ktd4Fnar6xtmdHKBdg+FLg6+i/yGf57NH2YOrjMvHpBZ61cXZLwpIjQKTgbmlC7P0LNCnVBro/Xy32P4nrAZOB7taA09dKM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787134793;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=xVE/TCa3FajtK4vZ9pzEwtCdg70Sj2GwjXUwN4Rwvtg=;
+	b=Ip3l/sK0bMz2+Y8wX+yCZDGEhK2CXsJvKXXR7Xd+ofltThaYy/FvuKj3spwT7Ap1
+	weE5M/KPPWjWCyFh68NS7xH94NEyG9FJ4Pjo5kahcKAJNReqm9UeS4NZJjb8BVFjZgq
+	VGFBd45ONz+KGEc8vertMQ4mjLlGQRozXLe/zm3w=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1787134793322567.9703421532414; Wed, 19 Aug 2026 03:19:53 -0700 (PDT)
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1787134791630896.7239743078507; Wed, 19 Aug 2026 03:19:51 -0700 (PDT)
+Date: Wed, 19 Aug 2026 18:19:51 +0800
+From: Li Chen <me@linux.beauty>
+To: "Andy Lutomirski" <luto@kernel.org>
+Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
+	"Gabriel Krisman Bertazi" <krisman@kernel.org>,
+	"Josh Triplett" <josh@joshtriplett.org>,
+	"Mateusz Guzik" <mjguzik@gmail.com>,
+	"John Ericson" <mail@johnericson.me>,
+	"Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>,
+	"Arnd Bergmann" <arnd@arndb.de>, "Oleg Nesterov" <oleg@redhat.com>,
+	"Andrew Morton" <akpm@linux-foundation.org>,
+	"Paul Moore" <paul@paul-moore.com>, "Eric Paris" <eparis@redhat.com>,
+	=?UTF-8?Q?=22Micka=C3=ABl_Sala=C3=BCn=22?= <mic@digikod.net>,
+	=?UTF-8?Q?=22G=C3=BCnther_Noack=22?= <gnoack@google.com>,
+	"Alexander Viro" <viro@zeniv.linux.org.uk>,
+	"Jan Kara" <jack@suse.cz>, "linux-api" <linux-api@vger.kernel.org>,
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
+	"linux-doc" <linux-doc@vger.kernel.org>,
+	"audit" <audit@vger.kernel.org>,
+	"linux-security-module" <linux-security-module@vger.kernel.org>,
+	"linux-arch" <linux-arch@vger.kernel.org>,
+	"linux-mm" <linux-mm@kvack.org>
+Message-ID: <1a01988cfb7.7f8bf9df842660.5856426206659756785@linux.beauty>
+In-Reply-To: <CALCETrU2sCf_Ab2oDcUuJV53mhaDHTtf7QNqPJuFxV_ESHkbtg@mail.gmail.com>
+References: <cover.1784204592.git.me@linux.beauty> <538e494dd8fcc677da24ec985c6e90dde554e7f3.1784204592.git.me@linux.beauty> <CALCETrU2sCf_Ab2oDcUuJV53mhaDHTtf7QNqPJuFxV_ESHkbtg@mail.gmail.com>
+Subject: Re: [RFC PATCH 12/24] fork: let kernel callers create embryonic
+ tasks
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8d857834-e014-44d9-a112-d7fc8482d7c3@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On Sun, Aug 09, 2026 at 05:36:50PM +0530, Sourabh Jain wrote:
->
->
->On 06/08/26 11:03, Coiby Xu wrote:
->>On Wed, Aug 05, 2026 at 05:39:28PM +0530, Sourabh Jain wrote:
->>>
->>>
->>>On 29/07/26 09:06, Coiby Xu wrote:
->>>>If crash hotplug is supported, dm-crypt keys saved to reserved memory
->>>>will be taken care of automatically. Thus it doesn't make sense to use
->>>>configfs/crash_dm_crypt_key/reuse. Reserving image->dm_crypt_keys_addr
->>>>is also unnecessary. Currently x86_64 and ppc64le have implemented
->>>>crash hotplug feature.
->>>>
->>>>Also update the doc accordingly. Note two doc issues are fixed as well.
->>>>
->>>>Fixes: 9ebfa8dcaea7 ("crash_dump: reuse saved dm crypt keys for 
->>>>CPU/memory hot-plugging")
->>>>Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
->>>>---
->>>> Documentation/admin-guide/kdump/kdump.rst | 16 ++++++++++------
->>>> kernel/crash_dump_dm_crypt.c              | 23 ++++++++++++++++++++---
->>>> 2 files changed, 30 insertions(+), 9 deletions(-)
->>>>
->>>>diff --git a/Documentation/admin-guide/kdump/kdump.rst 
->>>>b/Documentation/admin-guide/kdump/kdump.rst
->>>>index 7587caadbae1..0bf2eb100a05 100644
->>>>--- a/Documentation/admin-guide/kdump/kdump.rst
->>>>+++ b/Documentation/admin-guide/kdump/kdump.rst
->>>>@@ -577,9 +577,10 @@ with /sys/kernel/config/crash_dm_crypt_keys 
->>>>for setup,
->>>> 1. Tell the first kernel what logon keys are needed to unlock 
->>>>the disk volumes,
->>>>     # Add key #1
->>>>-    mkdir /sys/kernel/config/crash_dm_crypt_keys/7d26b7b4-e342-4d2d-b660-7426b0996720
->>>>+    VOL1_UUID=7d26b7b4-e342-4d2d-b660-7426b0996720
->>>>+    mkdir /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID
->>>>     # Add key #1's description
->>>>-    echo cryptsetup:7d26b7b4-e342-4d2d-b660-7426b0996720 > 
->>>>/sys/kernel/config/crash_dm_crypt_keys/description
->>>>+    echo cryptsetup:$VOL1_UUID > 
->>>>/sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID/description
->>>>     # how many keys do we have now?
->>>>     cat /sys/kernel/config/crash_dm_crypt_keys/count
->>>>@@ -591,15 +592,18 @@ with 
->>>>/sys/kernel/config/crash_dm_crypt_keys for setup,
->>>>     cat /sys/kernel/config/crash_dm_crypt_keys/count
->>>>     2
->>>>-    # To support CPU/memory hot-plugging, reuse keys already 
->>>>saved to reserved
->>>>-    # memory
->>>>-    echo true > /sys/kernel/config/crash_dm_crypt_key/reuse
->>>>-
->>>> 2. Load the dump-capture kernel
->>>> 3. After the dump-capture kerne get booted, restore the keys to 
->>>>user keyring
->>>>    echo yes > /sys/kernel/crash_dm_crypt_keys/restore
->>>>+For CPU/memory hot-plugging, you can reuse keys already saved 
->>>>to reserved
->>>>+memory before reloading the kdump image,
->>>>+    echo true > /sys/kernel/config/crash_dm_crypt_keys/reuse
->>>>+
->>>>+Note if crash hotplug is supported, this API is totally 
->>>>unnecessary thus will
->>>>+be disabled automatically.
->>>>+
->>>> Contact
->>>> =======
->>>>diff --git a/kernel/crash_dump_dm_crypt.c 
->>>>b/kernel/crash_dump_dm_crypt.c
->>>>index b5b78656cf06..46d6b31c3ca4 100644
->>>>--- a/kernel/crash_dump_dm_crypt.c
->>>>+++ b/kernel/crash_dump_dm_crypt.c
->>>>@@ -310,6 +310,15 @@ static ssize_t 
->>>>config_keys_reuse_show(struct config_item *item, char *page)
->>>>     return sysfs_emit(page, "%d\n", is_dm_key_reused);
->>>> }
->>>>+static bool crash_hotplug_support(struct kimage *image)
->>>>+{
->>>>+#ifdef CONFIG_CRASH_HOTPLUG
->>>>+    return image->hotplug_support;
->>>
->>>I don't think it is good idea to access kexec_crash_image 
->>>properties without
->>>holding the kexec lock.
->>
->>Thanks for raising the concern! Let's discuss this issue in [PATCH 
->>v3 03/10].
->>
->>>
->>>Also, would it make sense to move this API somewhere else?
->>
->>Can you help me understand why to move this API? Is it because using
->>ifdef in .c file is discouraged?
->
->This API is used to verify crash hotplug support, which is not 
->directly related to crash_dm_crypt_keys.
->It also seems to be generally useful.
->
->- Sourabh Jain
+Hi Andy,
 
-Thanks for the clarification! After trying to make use of existing
-crash_check_hotplug_support API in kernel/crash_core.c, I realize there
-is no need to explicitly disallow configfs/crash_dm_crypt_key/reuse.
-Because image->dm_crypt_keys_addr will be set to 0 when crash hotplug is
-supported. Thus in fact the reuse API has already been implicitly
-disallowed. So I will drop the unnecessary crash_hotplug_support
-function in next version.
+ ---- On Thu, 16 Jul 2026 23:57:58 +0800  Andy Lutomirski <luto@kernel.org>=
+ wrote ---=20
+ > On Thu, Jul 16, 2026 at 8:52=E2=80=AFAM Li Chen <me@linux.beauty> wrote:
+ > >
+ > > A kernel-created task can become visible before it has installed a new
+ > > executable image or a valid userspace register frame. Exposing such a =
+task
+ > > through ptrace can disclose kernel setup state.
+ > >
+ > > Add a task-local embryonic flag and an internal clone argument for cal=
+lers
+ > > that need this lifecycle. Reject ptrace access until the creator clear=
+s the
+ > > flag. Clear it with release ordering and observe it with acquire order=
+ing.
+ > > This orders visibility of the completed exec state with the transition=
+.
+ > >
+ > > Existing fork, vfork, clone, and kernel-thread callers leave the argum=
+ent
+ > > unset and retain their current behavior.
+ > >
+ >=20
+ > > --- a/kernel/ptrace.c
+ > > +++ b/kernel/ptrace.c
+ > > @@ -56,6 +56,8 @@ bool ptracer_access_allowed(struct task_struct *tsk)
+ > >         guard(rcu)();
+ > >         if (ptrace_parent(tsk) !=3D current)
+ > >                 return false;
+ > > +       if (task_is_embryonic_exec(tsk))
+ > > +               return false;
+ > >         es =3D task_exec_state_rcu(tsk);
+ > >         return READ_ONCE(es->dumpable) =3D=3D TASK_DUMPABLE_OWNER ||
+ > >                ptracer_capable(tsk, es->user_ns);
+ > > @@ -312,6 +314,8 @@ static int __ptrace_may_access(struct task_struct =
+*task, unsigned int mode)
+ > >                 WARN(1, "denying ptrace access check without PTRACE_MO=
+DE_*CREDS\n");
+ > >                 return -EPERM;
+ > >         }
+ > > +       if (task_is_embryonic_exec(task))
+ > > +               return -EPERM;
+ >=20
+ > Would it be better to use a different error code?  -ECONNREFUSED?
+ > After all, this isn't a permission failure per se.
 
--- 
-Best regards,
-Coiby
+Good point. I'm not sure ECONNREFUSED fits outside connection setup,
+though. ESRCH may make more sense if the task is meant to appear hidden.
+I'll think about this some more.
+ =20
+ > There's a not-locally-obvious gotcha here: reading other process
+ > attributes prior to calling task_is_embryonic_exec may result in
+ > (security-relevant!) data races.  This should at least be documented
+ > -- it's critical to check task_is_embryonic_exec *before* trying to
+ > read credentials.  Also, I think /proc and many pidfd APIs have the
+ > same issue.
+
+Agreed. Patch 15 later in the series already applies this ordering to procf=
+s,
+including cached dentry revalidation, and to PIDFD_GET_INFO.
+
+The ordering requirement still needs to be made more explicit. I'll
+document it, move the check ahead of ptrace_parent() in
+ptracer_access_allowed(), and audit the remaining pidfd users before the
+next version.
+
+Regards,
+Li=E2=80=8B
+
