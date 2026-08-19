@@ -1,131 +1,94 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-39.mta0.migadu.com [91.218.175.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EBC275870;
-	Wed, 19 Aug 2026 02:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED5B3BFE24
+	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 02:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787107911; cv=none; b=gMVMrTFyp0YPTurXZukz3rRp6l9N1MhQSdTELcwcv2Mzx/3i4q2E29D/B/nyuzAbOLUUrib3ilmIMVMO0Qojfiylgq2Zj231GQMXDRznH2jWxYwPJLyTFiejzY8kTVqNEwUyx/9tXoBhIQXwSxWBW7Wv4MwUfs/ya0FijYYRc0A=
+	t=1787108154; cv=none; b=PKLgvuet5Xj3aAatoFfEDdb7pDO7ugkovzVaCgLs+5+mc+j+zyalhG1zKgrD/t0WFEelTpTfVdwnn5kGg3pTsV4LMyYa2f1FVfzkNcjk+CIvWFBguj8WUaULn7RwWZL3ZJQoHJ4uCBkoJXLn6MKggEbcZbmFDvzmBE08pFTP850=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787107911; c=relaxed/simple;
-	bh=/806s9Z6FPuQkp69sO+d1jlqaLHZbcjzztrS7iCpl9o=;
-	h=Message-ID:Date:MIME-Version:CC:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ZgYIoAN9xAaJXoXE8vw1WL3eSVDf6kqeRHfz10O8FNBqAsoDESfuzVGLxqtaF9UMao2tm04pDm1+y/E5nhevkN2Ix+wIdlmidOciseOvPkvd5VqGhPnfgkqGdznMnJg/VnD5DpAHWHb3wK/dsjQw8+LS+vHQekSKevSAe6ZD+2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=XHNqjnFw; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1787108154; c=relaxed/simple;
+	bh=zxWjcb4X1Iw9tXimIVoDts6LOLbhiIXv7ohDFx0fCa8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=flEEi4j8UTTuEFbD8vi3MxjABa1IG0YHnsSNgBDXsu3ai3BLPb34P/wPADdMzTcPBT06zDsNBUh/7KoyAj95F/HFTEfjvPPWIselZBv4Fk/d1ig7LFGtHazppVXGAZI8vByevp0GnaBSaymYbTDC/FhPXkHFr4XZobS/Piji1J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SDIKdXl2; arc=none smtp.client-ip=91.218.175.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="XHNqjnFw"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=xhtZRXjoCnMWn9mFXaTj7fZKbM8NqbXiis/kR/upGLo=;
-	b=XHNqjnFwQ8sme/7g89G8PlcjwNXIUE9tyH0qII8KGgLBvvQ7VkPstRJuLBOLan4VKem0teuBz
-	xa3eejrWZwF10E9W+MyaHv0o1xvI8uel43bsbfnuifTMSwXU0OPBADf7ys0t2Y8CNUnwFb8QQZH
-	rd0/aVbjTzJWr4vmM8HQHx0=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4hPrQv5CwkzpSvB;
-	Wed, 19 Aug 2026 10:40:39 +0800 (CST)
-Received: from kwepemo500018.china.huawei.com (unknown [7.202.195.199])
-	by mail.maildlp.com (Postfix) with ESMTPS id 35A5F40561;
-	Wed, 19 Aug 2026 10:51:35 +0800 (CST)
-Received: from [10.67.120.192] (10.67.120.192) by
- kwepemo500018.china.huawei.com (7.202.195.199) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 19 Aug 2026 10:51:33 +0800
-Message-ID: <b1aa6136-3dc1-4190-beaa-32bee88b7091@huawei.com>
-Date: Wed, 19 Aug 2026 10:51:33 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SDIKdXl2"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=zxWjcb4X1Iw9tXimIVoDts6LOLbhiIXv7ohDFx0fCa8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787108149; v=1; x=1787712949;
+ b=SDIKdXl2fq8ANlBBFAtxxJbeUU+i1rqia9kd5WHla/+tRVi7j1/Q6eKxVV7lw4QTFH8T9spu
+ MkVV1qUjWGVe1CHFoNs5SzDXgFDWM03L/ScfaATb9bo0RW0Np8AQnYs054MOQoSF4Ry2FaPbA5w
+ Gh+6dFLJuqewr/O4mYxLJPJw=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from localhost.localdomain (223.70.160.239)
+	by smtp.migadu.com with ESMTPS id 3fd91cf08250d7bf;
+	Wed, 19 Aug 2026 02:55:49 +0000
+X-Migadu-Flow: FLOW_OUT
+From: Ye Liu <ye.liu@linux.dev>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v2] docs/zh_CN: sync page_table_check.rst translation
+Date: Wed, 19 Aug 2026 10:55:35 +0800
+Message-Id: <20260819025535.2967566-1-ye.liu@linux.dev>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-CC: <shaojijie@huawei.com>, "shenjian15@huawei.com" <shenjian15@huawei.com>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"eperezma@redhat.com" <eperezma@redhat.com>, "jasowang@redhat.com"
-	<jasowang@redhat.com>, "virtualization@lists.linux.dev"
-	<virtualization@lists.linux.dev>, "mst@redhat.com" <mst@redhat.com>,
-	"xuanzhuo@linux.alibaba.com" <xuanzhuo@linux.alibaba.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "edumazet@google.com"
-	<edumazet@google.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
-	<dsahern@kernel.org>, "kuniyu@google.com" <kuniyu@google.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
-	"jhs@mojatatu.com" <jhs@mojatatu.com>, "stephen@networkplumber.org"
-	<stephen@networkplumber.org>, "xiyou.wangcong@gmail.com"
-	<xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>,
-	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch"
-	<andrew+netdev@lunn.ch>, "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
-	"ast@fiberby.net" <ast@fiberby.net>, "liuhangbin@gmail.com"
-	<liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"ij@kernel.org" <ij@kernel.org>, "ncardwell@google.com"
-	<ncardwell@google.com>, "Koen De Schepper (Nokia)"
-	<koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
-	<g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
-	<ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
-	<mirja.kuehlewind@ericsson.com>, "cheshire@apple.com" <cheshire@apple.com>,
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
-	<Jason_Livingood@comcast.com>, "vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Subject: Re: [PATCH v5 net-next 2/2] net: hns3: fix GSO_ECN flag setting in
- the RX path
-To: Jakub Kicinski <kuba@kernel.org>, "Chia-Yu Chang (Nokia)"
-	<chia-yu.chang@nokia-bell-labs.com>
-References: <20260804213510.673084-1-chia-yu.chang@nokia-bell-labs.com>
- <20260804213510.673084-3-chia-yu.chang@nokia-bell-labs.com>
- <61721708-0d77-4f59-aa08-02562af282bb@huawei.com>
- <PAXPR07MB79842CC27C2F5CF9BD40E007A3DC2@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <20260812155927.57ee295b@kernel.org>
-From: Jijie Shao <shaojijie@huawei.com>
-In-Reply-To: <20260812155927.57ee295b@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemo500018.china.huawei.com (7.202.195.199)
 
+From: Ye Liu <liuye@kylinos.cn>
 
-on 2026/8/13 6:59, Jakub Kicinski wrote:
-> On Wed, 12 Aug 2026 10:35:25 +0000 Chia-Yu Chang (Nokia) wrote:
->>> Tested on hns3 HW (2x 100G, direct cable, openEuler 24.03, kernel 7.2.0-rc6).
->>>
->>> tcpdump confirms HW GRO zeroes IP ToS: aggregated (>MTU) packets carry tos 0x0, while non-aggregated packets keep their ToS/ECN marks — so the zeroing is done by HW GRO, not the sender. Before patch, CWR packets had SKB_GSO_TCP_ECN set (0x5 = SKB_GSO_TCPV4 | SKB_GSO_TCP_ECN). After patch, all GRO events gso_type=0x1 (SKB_GSO_TCPV4 only), no 0x5 observed.
->>>
->>> Tested-by: Jijie Shao <shaojijie@huawei.com>
->> Thanks Jijie for confirmation, I will submit to net in the next round.
-> Hold on.. Sounds like hns3 zeros ToS out (?!)
->
-> This would be invalid and illegal for HW-GRO. If hns3 nukes crucial IP
-> header fields it should probably be advertising LRO not HW-GRO in the
-> first place.
+Update the translation of page_table_check.rst to reflect changes in
+the English original, including the clarification on corruption
+detection and the new paragraph about userfaultfd wr-protect
+verification.
 
-Your assessment is correct — HW GRO on hns3 does NOT zero IP ToS.
+Update the translation through commit 8430557fc584
+("mm/page_table_check: support userfault wr-protect entries")
 
-My earlier Tested-by claiming "HW GRO zeroes IP ToS" was wrong. The
-tos=0x0 I observed was caused by a test methodology error: I used
-iperf3 with --tos but did not set net.ipv4.tcp_ecn=1, so the sender's
-kernel TCP stack cleared the ECN bits before the packets hit the wire.
-I mistakenly attributed this TX-side clearing to HW GRO.
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
+---
+v2:
+ - Update the commit message.
 
-I have retested with tesgine (direct packet construction, bypassing
-the kernel TCP stack) and confirmed:
-   - HW GRO preserves IP ToS — each aggregate group retains the head
-     packet's ToS value (verified with 0x00/0x02/0x03/0x10/0xB8)
-   - HW GRO segments flows by ToS boundaries — any ToS change (DSCP or
-     ECN bits) terminates the current aggregate group
-   - ECN signals are intact — CE packets (tos=0x03) are delivered
-     independently with the CE mark preserved
-     
-hns3 HW GRO is behaving correctly. Sorry for the confusion caused by
-my earlier report.
+ .../translations/zh_CN/mm/page_table_check.rst         | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Full test details in my correction reply to the patch 2/2 thread:
-https://lore.kernel.org/all/dd817755-eb4d-4ac2-b282-ac06f847270d@huawei.com/
-
-Regards,
-Jijie Shao
-
+diff --git a/Documentation/translations/zh_CN/mm/page_table_check.rst b/Documentation/translations/zh_CN/mm/page_table_check.rst
+index dc34570dceff..7ba5a39db487 100644
+--- a/Documentation/translations/zh_CN/mm/page_table_check.rst
++++ b/Documentation/translations/zh_CN/mm/page_table_check.rst
+@@ -21,9 +21,13 @@
+ 当新的页面可以从用户空间访问时，页表检查通过将它们的页表项（PTEs PMD等）添加到页表中来执行额外
+ 的验证。
+ 
+-在检测到损坏的情况下，内核会被崩溃。页表检查有一个小的性能和内存开销。因此，它在默认情况下是禁用
+-的，但是在额外的加固超过性能成本的系统上，可以选择启用。另外，由于页表检查是同步的，它可以帮助调
+-试双映射内存损坏问题，在错误的映射发生时崩溃内核，而不是在内存损坏错误发生后内核崩溃。
++在检测到大多数类型的损坏时，内核会崩溃。页表检查有一个小的性能和内存开销。因此，它在默认情况下是
++禁用的，但是在额外的加固超过性能成本的系统上，可以选择启用。另外，由于页表检查是同步的，它可以帮
++助调试双映射内存损坏问题，在错误的映射发生时崩溃内核，而不是在内存损坏错误发生后内核崩溃。
++
++页表检查还可用于对各种标志进行页表项检查，在检测到非法的标志组合时输出警告。目前，userfaultfd 是
++唯一的使用者，用于对 wr-protect 位与任何可写标志进行一致性检查。在这种情况下，非法的标志组合不会
++立即直接导致数据损坏，但会使只读数据变为可写，从而在后续修改页面内容时导致损坏。
+ 
+ 双重映射检测逻辑
+ ================
+-- 
+2.25.1
 
