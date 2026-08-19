@@ -1,144 +1,202 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97503B47F3
-	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 09:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5A94432FE
+	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 10:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787132352; cv=none; b=YD5HGVG0z6SHU+m/7i5mIyMES1tBKFuqYdfzty1lLU8V+pVAK4E7gZqDwBKRwQYV4gtCITgrQnPJatua/06n0+EZIB8iKphjd2rFrkNb1jsF4OffJGdl1Hpo0glEHl/ISV/RZp3ki30VwQhLNPjTJnT5RdJPti5HFAVKHCmXesM=
+	t=1787134337; cv=none; b=rGp+q9qsmRBfJpC7lYZA9KPkbhsMfvS6k278NuY3vgrctDaaXXd/fFVHkFAJv5LUKLklTdM9yVoX7VmkkKwv3+z76o/xE9wt+91xcO6z/52n4XiH4SsNxBGDcDjW2Mc6OUVunZL3cJIOoPNZPaQZ0z33f/oWlytAmvQkRqDHolI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787132352; c=relaxed/simple;
-	bh=zlErMMR25SYOsUd3S/0AwpVYnof7u7gBjzWgLBfix9I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AdXuSCPNeQW58cJP4fZ073UW4DYaqE7Kwl6t4TlYt8JGBQcRsUwpIqiFCVHvuvD+lXG8Lje2o/a9cpwRk1lQDLHAwJiml9JmMWXx5S6C+waIgVbSj/poJc/FqSmwpiBcvrzEFz6XURLkCdzKZJHAgSAGwSMvVD0s0/OkgKx4z5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1787134337; c=relaxed/simple;
+	bh=cPSYJUVx8noNo3D+Be39E5vaehGVuxy3YTv/wUoDNfA=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HI+L+lLGPSmuPNg7x1UGDBH8jM6+kX9hEYoapdKGHjKslA2BqkbJ77bBhvXgGqZzUKGHFwQr5ViTZBhnuZeoSYPXoh02EjSh0cGfpzRww2lCRz55/49WUQXzgqGlunxWoptYyIB9R+dEqyTUfhiW8vO+NHSslcWnOJrRMGCmEbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YfUfjoEp; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-969524c1aefso245950241.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 02:39:09 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfUfjoEp"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38f0f132f56so1485291a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 03:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787134336; x=1787739136; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nYw354gvkQJ8jmQ1k/6yhNWm33Mvtpn0ssaQx3WcD2A=;
+        b=YfUfjoEpT77y9oST3D/0i60h3W6+QfXE9JlGFCrPpaUsh+tMHMijNH3aDNMyEVIgrc
+         FmoXLwWi03lWqO1ZWFNu4tJLpv1JkyZYllOtuSLApRZZNfs+xWhsaS2maOUxQVnCSKeM
+         t1fLWWaDu7I/seUxCjVR/S2JadY1PgTtuhzdjsbfYNCUVuC+pLGkPsEgUmntamIKDBRe
+         xB1kDyKtkf64pwrLyXi8RdeLbW9umYJC7kuUMZRx0yf2IFvRxfdbYsXhToENtSs1d3Va
+         3yFenov5v936t+HGexRCJTKlwCa/LyVOnnSbCAaksJUejrTlq2ZOHbSGI3c/W8OWNqwH
+         28pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787132348; x=1787737148;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=dIMgKn9ssmwMdJVgg9MfbDylpozJGdyvq0xNOf3CW1Q=;
-        b=e9kXgBCYekh9mR1slCNxLBBDGifrUIbfqViXHEjlXDxilU2BDZ9QR6C0tfnUyJiRJD
-         fRkoJ8SO9l+cFulHUMOJybKphzDz/r8TcI2uHBtWK308OG2Nda2ivGdSy6xo2KPc/J0p
-         ql78rUGj4VlYYshtRSVhxvQAysUOnoSh5VidvLQ2sip2bGbnDMoCfQidr2p45HoYbXY4
-         m9Ib1E1TGrnZgA14mglCvvFismt7Wj2f+Pqf03kqFFXtBupR2QaFg6NATxtSj+2gAKGF
-         13j3oy2G4F+7ZiA8uSExZ0+MlnatGYRP+6etq6NnFx4XpzK6EaNI1SUzbDm33UYMfttL
-         YoDQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrWc3UMCkpm2E/pHM7GPcAIsKkbqY6QjmLg2UIZmSzPSsoiOgaoNt7OSYf34AqSD/fY4Ygq2NgzXBI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8qtL2oqXrQmOiz/szAIGiLLbmh3TNa6vUw7v2tFv4KgOe1Sgr
-	3xvOCBrk6B3zqPgVwZqdRFseOdy1fA3Xq/tDirMITP9jgKiL0s5FO2jdHOpPxdYU8Fs=
-X-Gm-Gg: AR+sD12plWCQI7Ew6nlX/l6BggTEFKdwPosmhMJ31dplU+bbkMaKEG0ECP5smdV/+XK
-	EuYJWV8ISERI+EovQm4I7fLwphoe4RZQ7bJZMhO6OE+ENb6z9Lj1YAnUQ0Pk+KSNzB9Ko1g/n/Y
-	EvachGIIi6rVwgliEW8uxREbPH89qo/rLM/rhwcHmK/P+/vkQuNZxpIYU3JqV6CC1ao8npv9WtO
-	nYqw+o/tUXCT1+Fh+txib/3QneoqaqXEnA8k2XptV9ANVnRBUxYxJWqczQqYbNFJ3hLpk9WVu6r
-	zWO7bS69B7xje2Stxs5P9joMhXxqhVKLQJVhdVaNyWLdiZ693hnJTaztCAPdbC/Am0zabX+B1f5
-	UkJAWYOSvKofPWzCEpZqgftL+zw288gBigABGQj/v8d/pCKvPnRYkPaCotzfAIUk5V/gfn8UnfF
-	t7kS3Jcoi0AscFZD/5KKIMTrT3JompoJFycQUfoLVW4gBaeNnF8lHz9SATebFeea99SIDeZAH6l
-	quWnSiqNLwb6TRviZAljZK14w==
-X-Received: by 2002:a05:6102:8086:b0:738:d6c:7104 with SMTP id ada2fe7eead31-777f5a51c97mr981929137.0.1787132347929;
-        Wed, 19 Aug 2026 02:39:07 -0700 (PDT)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97c4e981584sm1516863241.13.2026.08.19.02.39.06
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2026 02:39:06 -0700 (PDT)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-969524c1aefso245941241.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 02:39:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoxwDaNvwWU25WFoQgZcScKYY4+7DmRzUpRuLu5Ts9A93n1wF3bOWTqASR/o/PaltrRPTSGCIgvHUY=@vger.kernel.org
-X-Received: by 2002:a67:e04e:0:b0:777:ffe0:a10b with SMTP id
- ada2fe7eead31-777ffe0a6b7mr539021137.4.1787132346344; Wed, 19 Aug 2026
- 02:39:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787134336; x=1787739136;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nYw354gvkQJ8jmQ1k/6yhNWm33Mvtpn0ssaQx3WcD2A=;
+        b=cYYuBiG+XgtF+qNmfJGfzLp/70qjkxC/3sZY/trhXCGQwQEGpw0x2KbWpvmejAdKeJ
+         syqgL4ZvTbHIMmiqlGPq0tv/Xk1cODNKshgcYddzXCG6mj4yMyOAw6lyf6Jak5CUIn2J
+         dLeFfHQHJZfIJ9MTbr73ADEzaOwwF+nv2Vh64bqUeyEBJlri7EB0F9KacAMuH46Rbl8Z
+         +jY3hAnxFCaGHQ8EiZyv5ANffV8AHpnFpNNa5q096iLgFRpU5mDgYM79tCYdbhwDm7Dj
+         P/8JtjUV3p8xrtodN/x6aO6SBUg2wCt3MPJfanyg92snQSR8rxsUUWN487bqY/eN9Nkl
+         Ur5A==
+X-Forwarded-Encrypted: i=1; AHgh+RpkqjB/7zMR/b5SyQW+3bGUsqx6rd8K3ImyP49iwGdWiIO6ScivBPo43HPvWcPV/z46u87J6S9fwho=@vger.kernel.org
+X-Gm-Message-State: AFuF++lV2PQ6K+x+kfAmcw3vSAEWiszujSJ/CzW9hZtDiuBDtu52aXuh
+	3UVUx9tbQg0X/Ze3KbqCedPU7ZDRrkGasLJtjzl66y9qugRBbewfvUuT
+X-Gm-Gg: AR+sD10+N0qA9uQWIqbLcttVP1mDSVeVg0dQdF3bWD0hCrstG7MSOGvEmQFtnPDFWm9
+	1txxc2ucvuFfqo+Z0V4DVdW9b9oGPQDdEKMXdLhnRfcsN+OQQ7EZCOEGiPLu/bQtp43pjen6fdm
+	PAfTYWGBTuW2Ug0gaVNhTH44vuFK4oQioqcmXBS37IsZZWF1ndBFI7i+fK8Ifl1f4yPc3m17XdU
+	E2OKrvq+XJFuvWEd3NplsTjghWSXNpB+Y4aO7MD52IW8H1g0ESCnovcLOtbWFMEw1ojGT5lHTOq
+	XnmumaN47av3CStHL4X6KkRVnLZ7u6pRf0euPrFg5MNFjj4Y4ihV6tmjloPajJrCDjAnlLKi769
+	UVMpuAANmIMduW8kT+GYy/KyF0ae71wZOW4Qvi1nJi3xri0subSndOzAurpVSsnHD4ZXMDZep0m
+	t64E8I0/jdVWJwLC4gB0Qn+jDUUrcAdn+0FcTB8JCCs0lsaW4WSTnWAIEY7YzC
+X-Received: by 2002:a17:90b:5630:b0:38e:42f5:d096 with SMTP id 98e67ed59e1d1-3957f68f7bdmr869671a91.0.1787134335601;
+        Wed, 19 Aug 2026 03:12:15 -0700 (PDT)
+Received: from localhost ([2400:ac40:62f:3ae5:75e6:e4f4:4401:4289])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3957f96ca41sm2089556a91.4.2026.08.19.03.12.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2026 03:12:15 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Wed, 19 Aug 2026 18:09:52 +0800
+To: Sourabh Jain <sourabhjain@linux.ibm.com>
+Cc: kexec@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Dave Young <ruirui.yang@linux.dev>, 
+	Pratyush Yadav <pratyush@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Coiby Xu <coxu@redhat.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 09/10] crash_dump: Disallow
+ configfs/crash_dm_crypt_key/reuse if crash hotplug supported
+Message-ID: <aoV8HkBNGRclxMPl@Rk>
+References: <20260729033654.311541-1-coiby.xu@gmail.com>
+ <20260729033654.311541-10-coiby.xu@gmail.com>
+ <96a78b35-94f7-4b63-97d3-d0841681e2b4@linux.ibm.com>
+ <anQb8aIXKXYzKqAR@Rk>
+ <8d857834-e014-44d9-a112-d7fc8482d7c3@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260818125012.468092-1-tzimmermann@suse.de> <20260818125012.468092-2-tzimmermann@suse.de>
-In-Reply-To: <20260818125012.468092-2-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 19 Aug 2026 11:38:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWYVjvGM2pOzWoDq8LUSrkFtzOQwdmosHYQuBLnSn3D-Q@mail.gmail.com>
-X-Gm-Features: AcwNN1Uwr-MWNK1wEAyEr8Z9JNVhxk4jrnSNE7dazUpWIvLo30uHHQJP967oerw
-Message-ID: <CAMuHMdWYVjvGM2pOzWoDq8LUSrkFtzOQwdmosHYQuBLnSn3D-Q@mail.gmail.com>
-Subject: Re: [PATCH 01/12] drm/panic: Allocate QR-code buffers statically
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: jfalempe@redhat.com, javierm@redhat.com, airlied@gmail.com, 
-	simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev, 
-	sashiko-reviews@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8d857834-e014-44d9-a112-d7fc8482d7c3@linux.ibm.com>
 
-Hi Thomas,
-
-On Tue, 18 Aug 2026 at 15:00, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Declare qrbuf1 and qrbuf2 as static arrays so that the module loader
-> allocates them for us. Avoids the kmalloc later on. Also allows for
-> using sizeof() to get the number of bytes in each array. Access the
-> arrays once with memset, so that the physical pages are available on
-> a panic.
+On Sun, Aug 09, 2026 at 05:36:50PM +0530, Sourabh Jain wrote:
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thanks for your patch!
-
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -628,24 +628,23 @@ MODULE_PARM_DESC(panic_qr_version, "maximum version (size) of the QR code");
->  #define WINDOW_BITS 12
->  #define MEM_LEVEL 4
 >
-> -static char *qrbuf1;
-> -static char *qrbuf2;
-> +static u8 qrbuf1[QR_BUFFER1_SIZE];
-> +static u8 qrbuf2[QR_BUFFER2_SIZE];
-
-I am not a big fan of increasing kernel size like this.
-You may run (faster) into boot loader limitations.
-
->  static struct z_stream_s stream;
+>On 06/08/26 11:03, Coiby Xu wrote:
+>>On Wed, Aug 05, 2026 at 05:39:28PM +0530, Sourabh Jain wrote:
+>>>
+>>>
+>>>On 29/07/26 09:06, Coiby Xu wrote:
+>>>>If crash hotplug is supported, dm-crypt keys saved to reserved memory
+>>>>will be taken care of automatically. Thus it doesn't make sense to use
+>>>>configfs/crash_dm_crypt_key/reuse. Reserving image->dm_crypt_keys_addr
+>>>>is also unnecessary. Currently x86_64 and ppc64le have implemented
+>>>>crash hotplug feature.
+>>>>
+>>>>Also update the doc accordingly. Note two doc issues are fixed as well.
+>>>>
+>>>>Fixes: 9ebfa8dcaea7 ("crash_dump: reuse saved dm crypt keys for 
+>>>>CPU/memory hot-plugging")
+>>>>Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+>>>>---
+>>>> Documentation/admin-guide/kdump/kdump.rst | 16 ++++++++++------
+>>>> kernel/crash_dump_dm_crypt.c              | 23 ++++++++++++++++++++---
+>>>> 2 files changed, 30 insertions(+), 9 deletions(-)
+>>>>
+>>>>diff --git a/Documentation/admin-guide/kdump/kdump.rst 
+>>>>b/Documentation/admin-guide/kdump/kdump.rst
+>>>>index 7587caadbae1..0bf2eb100a05 100644
+>>>>--- a/Documentation/admin-guide/kdump/kdump.rst
+>>>>+++ b/Documentation/admin-guide/kdump/kdump.rst
+>>>>@@ -577,9 +577,10 @@ with /sys/kernel/config/crash_dm_crypt_keys 
+>>>>for setup,
+>>>> 1. Tell the first kernel what logon keys are needed to unlock 
+>>>>the disk volumes,
+>>>>     # Add key #1
+>>>>-    mkdir /sys/kernel/config/crash_dm_crypt_keys/7d26b7b4-e342-4d2d-b660-7426b0996720
+>>>>+    VOL1_UUID=7d26b7b4-e342-4d2d-b660-7426b0996720
+>>>>+    mkdir /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID
+>>>>     # Add key #1's description
+>>>>-    echo cryptsetup:7d26b7b4-e342-4d2d-b660-7426b0996720 > 
+>>>>/sys/kernel/config/crash_dm_crypt_keys/description
+>>>>+    echo cryptsetup:$VOL1_UUID > 
+>>>>/sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID/description
+>>>>     # how many keys do we have now?
+>>>>     cat /sys/kernel/config/crash_dm_crypt_keys/count
+>>>>@@ -591,15 +592,18 @@ with 
+>>>>/sys/kernel/config/crash_dm_crypt_keys for setup,
+>>>>     cat /sys/kernel/config/crash_dm_crypt_keys/count
+>>>>     2
+>>>>-    # To support CPU/memory hot-plugging, reuse keys already 
+>>>>saved to reserved
+>>>>-    # memory
+>>>>-    echo true > /sys/kernel/config/crash_dm_crypt_key/reuse
+>>>>-
+>>>> 2. Load the dump-capture kernel
+>>>> 3. After the dump-capture kerne get booted, restore the keys to 
+>>>>user keyring
+>>>>    echo yes > /sys/kernel/crash_dm_crypt_keys/restore
+>>>>+For CPU/memory hot-plugging, you can reuse keys already saved 
+>>>>to reserved
+>>>>+memory before reloading the kdump image,
+>>>>+    echo true > /sys/kernel/config/crash_dm_crypt_keys/reuse
+>>>>+
+>>>>+Note if crash hotplug is supported, this API is totally 
+>>>>unnecessary thus will
+>>>>+be disabled automatically.
+>>>>+
+>>>> Contact
+>>>> =======
+>>>>diff --git a/kernel/crash_dump_dm_crypt.c 
+>>>>b/kernel/crash_dump_dm_crypt.c
+>>>>index b5b78656cf06..46d6b31c3ca4 100644
+>>>>--- a/kernel/crash_dump_dm_crypt.c
+>>>>+++ b/kernel/crash_dump_dm_crypt.c
+>>>>@@ -310,6 +310,15 @@ static ssize_t 
+>>>>config_keys_reuse_show(struct config_item *item, char *page)
+>>>>     return sysfs_emit(page, "%d\n", is_dm_key_reused);
+>>>> }
+>>>>+static bool crash_hotplug_support(struct kimage *image)
+>>>>+{
+>>>>+#ifdef CONFIG_CRASH_HOTPLUG
+>>>>+    return image->hotplug_support;
+>>>
+>>>I don't think it is good idea to access kexec_crash_image 
+>>>properties without
+>>>holding the kexec lock.
+>>
+>>Thanks for raising the concern! Let's discuss this issue in [PATCH 
+>>v3 03/10].
+>>
+>>>
+>>>Also, would it make sense to move this API somewhere else?
+>>
+>>Can you help me understand why to move this API? Is it because using
+>>ifdef in .c file is discouraged?
 >
->  static void __init drm_panic_qr_init(void)
->  {
-> -       qrbuf1 = kmalloc(QR_BUFFER1_SIZE, GFP_KERNEL);
-> -       qrbuf2 = kmalloc(QR_BUFFER2_SIZE, GFP_KERNEL);
-> +       /* best-effort allocation; can be NULL */
->         stream.workspace = kmalloc(zlib_deflate_workspacesize(WINDOW_BITS, MEM_LEVEL),
->                                    GFP_KERNEL);
+>This API is used to verify crash hotplug support, which is not 
+>directly related to crash_dm_crypt_keys.
+>It also seems to be generally useful.
+>
+>- Sourabh Jain
 
-<ironic>Why not use a static array for this, too?</ironic>
-
-> +
-> +       /* touch memory so that pages are there in the case of a panic */
-> +       memset(qrbuf1, 0, sizeof(qrbuf1));
-> +       memset(qrbuf2, 0, sizeof(qrbuf2));
-
-Please clarify "there"?
-In cache? Not all systems have sufficient data cache, so it may be
-evicted at any time.
-In RAM? AFAIK kernel and module memory is not demand-paged.
-In TLB? Like cache, it may be evicted at any time.
-
-So IMHO this is futile.
-
->  }
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Thanks for the clarification! After trying to make use of existing
+crash_check_hotplug_support API in kernel/crash_core.c, I realize there
+is no need to explicitly disallow configfs/crash_dm_crypt_key/reuse.
+Because image->dm_crypt_keys_addr will be set to 0 when crash hotplug is
+supported. Thus in fact the reuse API has already been implicitly
+disallowed. So I will drop the unnecessary crash_hotplug_support
+function in next version.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Coiby
