@@ -1,257 +1,110 @@
-Received: from tpecef21.compal.com (exmail3.compal.com [59.120.207.196])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E71B39A801;
-	Wed, 19 Aug 2026 08:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD2A422E2E;
+	Wed, 19 Aug 2026 08:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787127020; cv=none; b=rtbpsi+O04EIctf6Sd44VVRuUV279i47itDn4gw7LABicj1scnbpXOXF4pL48tFehw1G6kqwl4sbJDxbRjsQw4/2uMN1iJmHZseH0eaYXfg0Ws88KOczMOMWiR4albpDJoXbXhXGSMfv4FAMEXmQejmBSTjwquusMty71XcrKfE=
+	t=1787129865; cv=none; b=OfqZHSLCIqO6ys7alhxCme1L6Lfvaon+EKGg9zzMgZYa78oUJ/JFbSA0527mSn2dKeh97CoDfmy9DV+Kd2AAE3oNIyCf0GfhRBw2g6eU3WgjyZMMPJvGVIqWhAqhSa7C/bWqV1sL6VRvJlBDax7NZMCO67IL3RSIL8V5XSEmtkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787127020; c=relaxed/simple;
-	bh=fy/+ghagyOvGZgcyDbTZpIqgphY+ahepKGI3FiNcL6I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=say/B1QaE5f4RkIKtMoygP8MzcfpburyfSSf4yBL7gBS2JkmUTWSoDQ7dGJJ0f+Kx0j49nPE5QAhL82alm/pOmo46xi2GPhto2Y8MeN5YSwlV5gZz+7ETRPysOl8/BYZCUWMMnInPF3u3OwsUyNpXFTVw+eTvkFWyAbX6lMqvhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
-X-UUID: 6488861c9ba511f1b2470fb4f881575f-20260819
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:c965ba9a-9002-42cb-a6f0-7638e760216a,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7f1ae54,CLOUDID:b3aaa1e2-71f1-405e-92eb-6802d6af74fd,B
-	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
-	Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:n
-	il,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 6488861c9ba511f1b2470fb4f881575f-20260819
-Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef21.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1096576977; Wed, 19 Aug 2026 16:10:08 +0800
-X-UUID: 60555f209ba511f1b328fd8a884f4420-20260819
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:3778128e-307d-4f03-9221-1102df18254e,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:6baaa1e2-71f1-405e-92eb-6802d6af74fd,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
-	898,TC:-5,Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS
-	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
-	RC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 60555f209ba511f1b328fd8a884f4420-20260819
-Received: from sdbmbx13.tpe.compalcomm.com [(10.113.2.137)] by sdmg11.sdbg.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
-	with ESMTP id 859547931; Wed, 19 Aug 2026 16:10:01 +0800
-Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
- SDBMBX13.tpe.compalcomm.com (10.113.2.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Wed, 19 Aug 2026 16:09:59 +0800
-Received: from SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86]) by
- SDBMBX13.tpe.compalcomm.com ([fe80::2b98:6c2c:37df:2a86%11]) with mapi id
- 15.02.2562.043; Wed, 19 Aug 2026 16:09:59 +0800
-From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: "loic.poulain@oss.qualcomm.com" <loic.poulain@oss.qualcomm.com>,
-	"ryazanov.s.a@gmail.com" <ryazanov.s.a@gmail.com>,
-	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "wen-zhi.huang@mediatek.com"
-	<wen-zhi.huang@mediatek.com>, "shi-wei.yeh@mediatek.com"
-	<shi-wei.yeh@mediatek.com>, "Minano.tseng@mediatek.com"
-	<Minano.tseng@mediatek.com>, "matthias.bgg@gmail.com"
-	<matthias.bgg@gmail.com>, "angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>, "horms@kernel.org"
-	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "Yu. Robert (GSM)"
-	<robert_yu@compal.com>, "Chang. Jeff (GSM)" <Jeff_Chang@compal.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v6 5/7] net: wwan: t9xx: Add FSM thread
-Thread-Topic: [PATCH v6 5/7] net: wwan: t9xx: Add FSM thread
-Thread-Index: AQHdL7IhxfLW56jB1kOMKbd5bNxHZw==
-Date: Wed, 19 Aug 2026 08:09:59 +0000
-Message-ID: <0ce2325ddab34fd184a17c8642eeaaa4@compal.com>
-References: <20260811-t9xx_driver_v1-v6-5-2c969fad57c6@compal.com>,<20260817223657.3688752-1-kuba@kernel.org>
-In-Reply-To: <20260817223657.3688752-1-kuba@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30142.005
-x-tm-as-result: No-10--25.832600-8.000000
-x-tmase-matchedrid: 09s+V7Sm0eYuv++HU7VXryRFbfQbCufdN0X64jGy2dbsEpKlvft9qjRG
-	JnoK3ysiHe/Upp/4ecQGzC6W4eU7padZnKvYE01aRYNhzuZZjRCexJFd1f8r+3dQ4v0lwwqOiuC
-	k5hLMQvOZlqCQ5FwWsnWXmUmgmzu2MVt5Tx9CnOZch/PYekr/BGStUhdkd3nYBqVPF4xn+jueaz
-	35t4EMrZBAN42gBDl1tfN7+T8pv/bbBiuX+mNviH6eJTKwzTtE8kOnQJj3cxIP297fVsRwtm/qA
-	wDeSRgS9Ld8An3grPM5f96fOyzSwY/6AcNY+NOa/PXwFN0tv9sKzfE0xibHNLvzLx7/HKiJcFn9
-	ofXeAxMe67A3WrjNy+xSna6EbrJru1LH8MuEXdb2D3OQzR++YjvVoqXLV+0NN4/zKvbrQA32WyR
-	QHdVANsGYcuaKGLCv+Rzbr6DWJf/EGKxIubI4tJ4p07KVSE/ZU0GxF3CGqPyJtDhSJg4tWtJ7Co
-	YPDdZiSrMVaniCpX7D0AeJHVtUk/iFk/NrxEcNFKyc1Cps9nVV3UPo3CFacACzms1s1Ir1qX5W6
-	G0komTyLcBbgS7OQwLA9QaTJfjVS82e8FoHSZC5kTI8BpRqchyqoGG6T9ocMB2PGqODnYr0AAR5
-	j7kyFbFYpsOLGALeQei2Mg9ZPtbBevz7GEvBzaF4nhfuztKaCNLxQtZwZZ77IVAMQ86ePewSe69
-	Ybb4PHSekcE0TJHfKirc8BsLlDCGY3ptY2xCKUlO0zoIcpU5vDkVqf46rCngwJo5QMsV9Kcgh7P
-	MeGbOG7HSz4lMsRBPCuMWmhjo/NAtAcL1vqNC+ta5wRAKZOaODSWu0oxbKa1P8Ik1zBcXCWXLd4
-	w2EwNvIAMT/07OiB73xunbyKrpX9HM7P8GE6Q==
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--25.832600-8.000000
-x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30142.005
-x-tm-snts-smtp: 18072F467839B0DC6294AF6DFF0E55558AB164B94293FB0E214E85B82D4D47FC2000:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1787129865; c=relaxed/simple;
+	bh=0pke4ue5ZnXMUycpgpAZZFwNMU7Mqv2qQAGK/9npows=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gl6+eC1Y4t0XsdC8wfkkP+Xs/xJGBkDr3ZvTkeba2tvAPVGMl12l46993p26qx1IKlgNYO5xNhbNlzzL9EbQ803dROzWqQ5F0a0YWc0ciB+BR1QbW3BtfJr09b35BMZzFLFh0z1QNPJJBITE+JnrewHua2/B5zjhTJqyj2NyIYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id 924861EA9A5; Wed, 19 Aug 2026 16:57:33 +0800 (AWST)
+X-Spam-Level: 
+Received: from [IPV6:2001:8003:8802:7000::9c4] (unknown [IPv6:2001:8003:8802:7000::9c4])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 4F9BD1EA998;
+	Wed, 19 Aug 2026 16:57:29 +0800 (AWST)
+Message-ID: <1f19d1ca-bd49-402f-b5e7-7b87681cc42a@davidgow.net>
+Date: Wed, 19 Aug 2026 16:57:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] gpu: nova-core: add a KUnit test configuration option
+To: Yury Norov <ynorov@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ rust-for-linux@vger.kernel.org, nova-gpu@lists.linux.dev
+Cc: Gary Guo <gary@garyguo.net>, John Hubbard <jhubbard@nvidia.com>,
+ Alice Ryhl <aliceryhl@google.com>, Burak Emir <burak.emir@gmail.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>,
+ Yury Norov <yury.norov@gmail.com>, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260818152324.587932-1-ynorov@nvidia.com>
+ <20260818152324.587932-2-ynorov@nvidia.com>
+From: David Gow <david@davidgow.net>
+Content-Language: fr
+In-Reply-To: <20260818152324.587932-2-ynorov@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-T24gTW9uLCAxNyBBdWcgMjAyNiBhdCAyMjozNiwgSmFrdWIgS2ljaW5za2kgPGt1YmFAa2VybmVs
-Lm9yZz4gd3JvdGU6DQo+IFtTZXZlcml0eTogTG93XQ0KPiBEb2VzIHRoZSBjb2RlIG1hdGNoIHRo
-aXMgZGVzY3JpcHRpb24/ICBlbnVtIG10a19mc21fc3RhdGUgaW4gdGhlIG5ldw0KPiBtdGtfZnNt
-LmggZGVmaW5lcyBmaXZlIHN0YXRlczoNCi4uLg0KPiBUaGVyZSBpcyBhbHNvIG5vIHN1Yi1zdGF0
-ZSBhbnl3aGVyZTogc3RydWN0IG10a19tZF9mc20gYW5kDQouLi4NCj4gb25seSBldmVyIGFzc2ln
-bnMgZnNtLT5zdGF0ZS4gIFNob3VsZCB0aGUgY291bnQgYW5kIHRoZSBzdWItc3RhdGUNCj4gc2Vu
-dGVuY2UgYmUgdXBkYXRlZD8NCg0KV2lsbCBmaXggaW4gdjcuIFdpbGwgdXBkYXRlIGNvbW1pdCBt
-ZXNzYWdlIHRvIHNheSAiRml2ZSBGU00gc3RhdGVzIg0KYW5kIHJlbW92ZSB0aGUgc3ViLXN0YXRl
-IHNlbnRlbmNlLg0KDQo+IFtTZXZlcml0eTogTG93XQ0KPiBUaGUgY2hhbmdlbG9nIG9ubHkgbWVu
-dGlvbnMgdGhlIEZTTSB0aHJlYWQsIGJ1dCB0aGUgcGF0Y2ggY2FycmllcyBzZXZlcmFsDQo+IG90
-aGVyIGZ1bmN0aW9uYWwgY2hhbmdlcy4gIFdvdWxkIGl0IGhlbHAgcmV2aWV3ZXJzIHRvIHNwbGl0
-IHRoZW0gb3V0IG9yIGF0DQo+IGxlYXN0IG1lbnRpb24gdGhlbT8NCg0KV2lsbCBmaXggaW4gdjcu
-IFdpbGwgZXhwYW5kIHRoZSBjb21taXQgbWVzc2FnZSB0byBtZW50aW9uIHRoZSBIUzEvSFMyL0hT
-Mw0KaGFuZHNoYWtlIHByb3RvY29sLCBDTERNQSBkZXZpY2UgaW5pdC9leGl0IHdpcmluZywgYW5k
-IENMRE1BNCByZW1vdmFsLg0KDQo+IFtTZXZlcml0eTogSGlnaF0NCj4gQ2FuIGEgZmFpbGluZyBv
-cHMtPmluaXQoKSBoZXJlIGxlYWQgdG8gYSBOVUxMIGRlcmVmZXJlbmNlIG9uIHJlbW92YWw/DQou
-Li4NCj4gYW5kIG10a19jdHJsX3RyYl9zcnZfZXhpdCgpIGRvZXM6DQouLi4NCj4gd2l0aCBubyBO
-VUxMIGNoZWNrLg0KDQpXaWxsIGZpeCBpbiB2Ny4gV2lsbCBjaGVjayBvcHMtPmluaXQoKSByZXR1
-cm4gdmFsdWUgaW4NCm10a19jdHJsX3RyYW5zX2ZzbV9zdGF0ZV9oYW5kbGVyKCkgYW5kIGFkZCBO
-VUxMIGNoZWNrIGZvciBzcnYgaW4NCm10a19jdHJsX3RyYl9zcnZfZXhpdCgpIGFzIGRlZmVuc2l2
-ZSBoYXJkZW5pbmcuDQoNCj4gW1NldmVyaXR5OiBIaWdoXQ0KPiBDYW4gdHdvIEhTMiBtZXNzYWdl
-cyByYWNlIG9uIHRoZSBzaW5nbGUgaHNfaW5mby0+cnRfZGF0YSBzbG90Pw0KLi4uDQo+IHNrYjEg
-aXMgbGVha2VkLCBza2IyIGlzIGZyZWVkIGVhcmx5LCBhbmQgZXZlbnQgQiB0aGVuIHJlYWNoZXM6
-DQouLi4NCj4gb24gYSBOVUxMIHBvaW50ZXIuDQoNCldpbGwgZml4IGluIHY3LiBXaWxsIGFkZCBh
-IGd1YXJkIGluIHRoZSBjdHJsX21zZ19oYW5kbGVycyB0byByZWplY3QNCmEgZHVwbGljYXRlIEhT
-MiBpZiBoc19pbmZvLT5ydF9kYXRhIGlzIGFscmVhZHkgc2V0LCBkcm9wcGluZyB0aGUNCmR1cGxp
-Y2F0ZSB3aXRoIGRldl93YXJuLg0KDQo+IFtTZXZlcml0eTogSGlnaF0NCj4gV2hhdCBwcm90ZWN0
-cyB0aGVzZSB0d28gbGlzdCB3YWxrcyBhZ2FpbnN0IGNvbmN1cnJlbnQgdW5yZWdpc3RyYXRpb24/
-DQouLi4NCj4ga2ZyZWUoKSBmcm9tIG90aGVyIHRocmVhZHMuICBUaGVyZSBpcyBubyBtdXRleCwg
-bm8gX3JjdSBsaXN0IHZhcmlhbnQsIG5vDQo+IHN5bmNocm9uaXplX3JjdSgpIGJlZm9yZSB0aGUg
-a2ZyZWUsIGFuZCBubyBiYXJyaWVyLg0KDQpXaWxsIGZpeCBpbiB2Ny4gV2lsbCBhZGQgYSBtdXRl
-eCAoZnNtLT5ub3RpZmllcl9sb2NrKSB0byBwcm90ZWN0IHRoZQ0Kbm90aWZpZXIgbGlzdHMgaW4g
-c3dpdGNoX3N0YXRlLCByZWdpc3RlciwgdW5yZWdpc3RlciwgYW5kIGNsZWFudXAuDQoNCj4gW1Nl
-dmVyaXR5OiBIaWdoXQ0KPiBDYW4gZnNtLT5mc21faGFuZGxlciBiZSBOVUxMIGF0IHRoaXMgd2Fr
-ZV91cF9wcm9jZXNzKCk/DQouLi4NCj4gT24gdGhlIHByb2JlIGVycm9yIHBhdGggKG10a19wY2lf
-ZGV2X2luaXQoKSAtPiBnb3RvIGZyZWVfZnNtDQo+IC0+IG10a19mc21fZXhpdCgpKSBubyBERVZf
-Uk0gaXMgZXZlciBzdWJtaXR0ZWQsIHNvIHRoZSBnYXRlIGlzIG9wZW4sIGFuZA0KLi4uDQo+IG10
-a19mc21fZXhpdCgpIGFsc28gbmV2ZXIgY2xlYXJzIG1kZXYtPmZzbSwgc28gdGhlIHRvcm4tZG93
-biAoZGV2bS1mcmVlZCkNCj4gZnNtIHN0YXlzIHJlYWNoYWJsZSBmcm9tIHRob3NlIGNhbGxiYWNr
-cy4NCg0KV2lsbCBmaXggaW4gdjcuIFdpbGwgbW92ZSB3YWtlX3VwX3Byb2Nlc3MoKSBpbnNpZGUg
-dGhlIGV2dHFfbG9jaw0KY3JpdGljYWwgc2VjdGlvbiB3aXRoIGEgTlVMTCBjaGVjaywgc2V0IEVW
-VF9URl9HQVRFQ0xPU0VEIGluDQptdGtfZnNtX2V4aXQoKSBiZWZvcmUgTlVMTGluZyBmc21faGFu
-ZGxlciwgYW5kIGNsZWFyIG1kZXYtPmZzbS4NCg0KPiBbU2V2ZXJpdHk6IE1lZGl1bV0NCj4gQ2Fu
-IHRoZSBGU00gcmVhY2ggRlNNX1NUQVRFX1JFQURZIHdoZW4gSFMzIHdhcyBuZXZlciBkZWxpdmVy
-ZWQ/DQouLi4NCj4gaHNfZXJyIGV4aXQgZG9lcyBub3QgY2xlYXIgdGhlIGFscmVhZHktY29tbWl0
-dGVkIEZTTV9GXypfSFMyX0RPTkUgYml0Lg0KDQpXaWxsIGZpeCBpbiB2Ny4gV2lsbCBtb3ZlIG10
-a19mc21fc3dpdGNoX3N0YXRlKCkgKHdoaWNoIGNvbW1pdHMNCnRoZSBIUzJfRE9ORSBmbGFnKSB0
-byBhZnRlciBtdGtfZnNtX3NlbmRfaHMzX21zZygpIHN1Y2NlZWRzLg0KDQo+IFtTZXZlcml0eTog
-TWVkaXVtXQ0KPiBJcyB0aGVyZSBhIHdheSBiYWNrIGlmIHRoZSBxdWV1ZWQgc3RhcnR1cCBhY3Rp
-b24gbGF0ZXIgZmFpbHM/DQouLi4NCj4gcGF0aCBvbmx5IGxvZ3M7IHRoZSBjaGFubmVsIHN0YXlz
-IG1hc2tlZCBhbmQgbm8gcmV0cnkgaXMgc2NoZWR1bGVkLCBzbyB0aGUNCj4gRlNNIHN0YXlzIGlu
-IEZTTV9TVEFURV9CT09UVVAuDQoNCldpbGwgZml4IGluIHY3LiBXaWxsIHVubWFzayB0aGUgaGFu
-ZHNoYWtlIGNoYW5uZWxzIGluIHRoZSBoc19lcnINCnBhdGggc28gdGhlIG1vZGVtIGNhbiByZS10
-cmlnZ2VyIEhTMS4NCg0KPiBbU2V2ZXJpdHk6IE1lZGl1bV0NCj4gV2hhdCBoYXBwZW5zIHRvIHRo
-ZSBRVUVVRV9FUlJPUiBiaXRzIHRoYXQgZ2V0IG1hc2tlZCBidXQgbmV2ZXIgaGFuZGxlZD8NCi4u
-Lg0KPiBTbyB0aGUgZmlyc3QgcXVldWUgZXJyb3IgcGVybWFuZW50bHkgZGlzYXJtcyBlcnJvciBy
-ZXBvcnRpbmcsIGxlYXZlcyB0aGUNCj4gYml0IGxhdGNoZWQgaW4gTDJUSVNBUjAvTDJSSVNBUjAs
-IGFuZCBsZWF2ZXMgdGhlIGhhbHRlZCBxdWV1ZSB3aXRoIG5vIGxvZywNCj4gbm8gcXVldWUgcmVz
-ZXQgYW5kIG5vIEdQRC9IV08gcmVjb3ZlcnkuDQoNCldpbGwgZml4IGluIHY3LiBXaWxsIGV4dHJh
-Y3QgYW5kIGhhbmRsZSBRVUVVRV9FUlJPUiBiaXRzIGluDQptdGtfY2xkbWFfaXNyKCk6IGxvZyBk
-ZXZfZXJyLCBjbGVhciB0aGUgZXJyb3IgYml0cywgYW5kIHJlLXVubWFzay4NCkZ1bGwgcXVldWUg
-cmVjb3Zlcnkgd2lsbCBiZSBhIGZvbGxvdy11cCBpZiBuZWVkZWQuDQoNCj4gW1NldmVyaXR5OiBI
-aWdoXQ0KPiBJcyB0aGUgaW5pdGlhbCBtYXNrIHBsdXMgc3luY2hyb25pemVfaXJxKCkgZW5vdWdo
-IHRvIGtlZXAgdGhlIElTUiBhd2F5DQo+IGZyb20gdGhlIGZyZWVkIGRydl9pbmZvPw0KLi4uDQo+
-IHNvIGFuIElTUiB0aGF0IHdhcyBhbHJlYWR5IHJ1bm5pbmcgd2hlbiB0aGUgdmVjdG9yIHdhcyBt
-YXNrZWQgdW5tYXNrcyBpdA0KPiBhZ2FpbiBiZWZvcmUgcmV0dXJuaW5nLCBhbmQgc3luY2hyb25p
-emVfaXJxKCkgb25seSB3YWl0cyBmb3IgdGhhdCBJU1IgdG8NCj4gZmluaXNoLg0KDQpXaWxsIGZp
-eCBpbiB2Ny4gV2lsbCByZW9yZGVyIG10a19jbGRtYV9kZXZfZXhpdCgpIHRvIHVucmVnaXN0ZXIg
-dGhlDQpJUlEgY2FsbGJhY2sgZmlyc3QsIHRoZW4gbWFzayArIHN5bmNocm9uaXplX2lycSwgdGhl
-biBmcmVlIHJlc291cmNlcy4NCldpbGwgYWxzbyBhZGQgYSBOVUxMIGNhbGxiYWNrIGNoZWNrIGlu
-IG10a19wY2lfaXJxX2hhbmRsZXIoKS4NCg0KPiBbU2V2ZXJpdHk6IEhpZ2hdDQo+IEFyZSB0aGUg
-VFJCIHNlcnZpY2UgdGhyZWFkcyBndWFyYW50ZWVkIHRvIGJlIHN0b3BwZWQgYmVmb3JlIHRoaXMg
-cnVucz8NCi4uLg0KPiBJbiBtdGtfY3RybF90cmFuc19mc21fc3RhdGVfaGFuZGxlcigpLCB0aGUg
-RlNNX1NUQVRFX09GRiBhcm0gY2FsbHMNCj4gZnNtX2luZGljYXRpb24oKSAod2hpY2ggbGFuZHMg
-aGVyZSBhbmQgdGVhcnMgZG93biBldmVyeSBDTERNQSBoaWYpDQo+IGJlZm9yZSBvcHMtPmV4aXQo
-KSwgYW5kIGl0IGlzIG9wcy0+ZXhpdCgpIC0+IG10a19wY2llX2hpZl9leGl0KCkgdGhhdA0KPiBj
-bGVhcnMgdHJhbnMtPmF2YWlsYWJsZSBhbmQgc3RvcHMgdGhlIFRSQiBrdGhyZWFkcy4NCg0KV2ls
-bCBmaXggaW4gdjcuIFdpbGwgc3dhcCB0aGUgb3JkZXJpbmcgaW4gRlNNX1NUQVRFX09GRjogY2Fs
-bA0Kb3BzLT5leGl0KCkgKHN0b3AgVFJCIHRocmVhZHMpIGJlZm9yZSBmc21faW5kaWNhdGlvbigp
-IChmcmVlIENMRE1BKS4NCldpbGwgYWxzbyBzd2FwIGtmcmVlL05VTEwgYXNzaWdubWVudCBvcmRl
-ciBpbiBtdGtfY2xkbWFfZGV2X2V4aXQoKS4NCg0KPiBbU2V2ZXJpdHk6IEhpZ2hdDQo+IFdoYXQg
-aGFwcGVucyBoZXJlIHdoZW4gdGhlIGJsb2NraW5nIHJlbW92YWwgZXZlbnQgZG9lcyBub3QgY29t
-cGxldGU/DQouLi4NCj4gdGhlIHJlc3VsdCBpcyBkaXNjYXJkZWQuICBJbiB0aGF0IGNhc2UgdGhl
-IEZTTV9TVEFURV9PRkYgbm90aWZpZXIgY2hhaW4NCj4gbmV2ZXIgcnVucywgc28gY3RybF9ibGst
-Pm9wcy0+ZXhpdCgpID0gbXRrX3BjaWVfaGlmX2V4aXQoKSBpcyBuZXZlcg0KPiBjYWxsZWQ6IHRo
-ZSBDTERNQSBJUlEgY2FsbGJhY2sgc3RheXMgcmVnaXN0ZXJlZCwgdGhlIENMRE1BIHdvcmtxdWV1
-ZSBhbmQNCj4gRE1BIHBvb2xzIHN0YXkgYWxpdmUsIHRoZSBUUkIgc2VydmljZSBrdGhyZWFkcyBr
-ZWVwIHJ1bm5pbmcgYW5kDQo+IHRyYW5zLT5hdmFpbGFibGUgc3RheXMgMS4NCg0KV2lsbCBmaXgg
-aW4gdjcuIFdpbGwgY2hlY2sgREVWX1JNIHJldHVybiB2YWx1ZSBpbiBtdGtfcGNpX2Rldl9leGl0
-KCkuDQpPbiBmYWlsdXJlIChremFsbG9jIGZhaWwgb3IgdGltZW91dCksIGZhbGwgYmFjayB0byBk
-aXJlY3QgY2xlYW51cA0Kb2YgSElGIHJlc291cmNlcyBiZWZvcmUgcHJvY2VlZGluZyB3aXRoIHRl
-YXJkb3duLg0KDQo+IFtTZXZlcml0eTogTWVkaXVtXQ0KPiBTaG91bGQgdGhlc2UgdHdvIHJldHVy
-biB2YWx1ZXMgYmUgcHJvcGFnYXRlZD8gIG10a19wY2lfZGV2X3N0YXJ0KCkgaXMNCi4uLg0KPiBi
-dXQgYm90aCBjYWxscyBhcmUgZGlzY2FyZGVkIGFuZCAwIGlzIHJldHVybmVkIHVuY29uZGl0aW9u
-YWxseS4NCg0KV2lsbCBmaXggaW4gdjcuIFdpbGwgcHJvcGFnYXRlIHJldHVybiB2YWx1ZXMgb2Yg
-bXRrX2ZzbV9ldnRfc3VibWl0KCkNCmFuZCBtdGtfZnNtX3N0YXJ0KCkgZnJvbSBtdGtfcGNpX2Rl
-dl9zdGFydCgpLg0KDQo+IFtTZXZlcml0eTogTWVkaXVtXQ0KPiBTaG91bGQgdGhlc2UgcmVnaXN0
-cmF0aW9ucyBiZSBjaGVja2VkPyAgbXRrX2Rldl9yZWdpc3Rlcl9kZXZfZXZ0KCkgcmVhY2hlcw0K
-Li4uDQo+IEhlcmUgdGhlIHJldHVybiB2YWx1ZSBpcyBkcm9wcGVkLCBhbmQgdGhlIHR3byBwZXIt
-aGFuZHNoYWtlLWNoYW5uZWwNCj4gcmVnaXN0cmF0aW9ucyBpbnNpZGUgdGhlIHZvaWQgbXRrX2Zz
-bV9oc19pbmZvX2luaXQoKSBjYW5ub3QgcmVwb3J0IGZhaWx1cmUNCj4gYXQgYWxsLg0KDQpXaWxs
-IGZpeCBpbiB2Ny4gV2lsbCBjaGVjayByZXR1cm4gdmFsdWVzIG9mIG10a19kZXZfcmVnaXN0ZXJf
-ZGV2X2V2dCgpDQppbiBtdGtfZnNtX2luaXQoKSBhbmQgbWFrZSBtdGtfZnNtX2hzX2luZm9faW5p
-dCgpIHJldHVybiBpbnQgc28gaXQNCmNhbiBwcm9wYWdhdGUgcmVnaXN0cmF0aW9uIGZhaWx1cmVz
-Lg0KDQo+IFtTZXZlcml0eTogTG93XQ0KPiBTaG91bGQgdGhpcyBsb29wIGtleSBvZmYgcnRmdF9l
-bnRyeS0+ZmVhdHVyZV9pZCBpbnN0ZWFkIG9mIHRoZSBsb29wIGluZGV4Pw0KLi4uDQo+IEhlcmUg
-dGhlIHJlY2VpdmVkIGVudHJ5J3MgZmVhdHVyZV9pZCBpcyBuZXZlciByZWFkLCBzbyB0aGUgcGFy
-c2VyIGFzc3VtZXMNCj4gdGhlIGRldmljZSByZXR1cm5zIGV4YWN0bHkgRkVBVFVSRV9DTlQgZW50
-cmllcyBpbiBkZW5zZSBhc2NlbmRpbmcgb3JkZXIuDQoNClRoZSBsb29wIGludGVudGlvbmFsbHkg
-dXNlcyB0aGUgaW5kZXggcmF0aGVyIHRoYW4gcnRmdF9lbnRyeS0+ZmVhdHVyZV9pZA0KZm9yIGRp
-c3BhdGNoLiBUaGUgcHJvdG9jb2wgY29udHJhY3QgcmVxdWlyZXMgdGhlIGRldmljZSB0byByZXR1
-cm4gZXhhY3RseQ0KRkVBVFVSRV9DTlQgZW50cmllcyBpbiBkZW5zZSBhc2NlbmRpbmcgb3JkZXIs
-IGVuZm9yY2VkIGJ5IHRoZSBjaGVjayBhZnRlcg0KdGhlIGxvb3A6DQoNCiAgaWYgKGZ0X2lkICE9
-IEZFQVRVUkVfQ05UKSB7DQogICAgICBkZXZfZXJyKC4uLiwgIlVuYWJsZSB0byBoYW5kbGUgbWlz
-dGFrZSBoczIgbXNnLCBmdF9pZD0lZFxuIiwgZnRfaWQpOw0KICAgICAgcmV0dXJuIC1FUFJPVE87
-DQogIH0NCg0KVGhlIHJlYXNvbiB0aGlzIGNoZWNrIGNhbm5vdCBiZSBtb3ZlZCBiZWZvcmUgdGhl
-IGxvb3AgaXMgdGhhdA0KcnVudGltZV9mZWF0dXJlX2VudHJ5IGlzIHZhcmlhYmxlLWxlbmd0aCCh
-WCBlYWNoIGVudHJ5IGNhcnJpZXMgYSBkYXRhX2xlbg0KZmllbGQgZm9sbG93ZWQgYnkgYW4gaW5s
-aW5lIHBheWxvYWQsIHNvIHRoZSBudW1iZXIgb2YgZW50cmllcyBjYW4gb25seSBiZQ0KZGV0ZXJt
-aW5lZCBieSB0cmF2ZXJzaW5nIHRoZSBidWZmZXIuIElmIHRoZSBkZXZpY2Ugb21pdHMgb3IgcmVv
-cmRlcnMNCmVudHJpZXMsIGZ0X2lkIHdpbGwgZmFsbCBzaG9ydCBvZiBGRUFUVVJFX0NOVCBhbmQg
-dGhlIGVudGlyZSBIUzIgaXMNCnJlamVjdGVkIGFzIGEgaGFyZCBwcm90b2NvbCBlcnJvci4gVGhl
-cmUgaXMgbm8gcGFydGlhbC1tYXRjaCBwYXRoLiBUaGUNCmZlYXR1cmVfaWQgZmllbGQgZXhpc3Rz
-IGluIHRoZSB3aXJlIHN0cnVjdCBhcyBhIG1hcmtlciBidXQgaXMgbm90IHVzZWQgYXMNCmEgZGlz
-cGF0Y2gga2V5IGJ5IGRlc2lnbiwgdG8gcHJldmVudCBhIG1pc2JlaGF2aW5nIGRldmljZSBmcm9t
-DQpyZWRpcmVjdGluZyBpdHMgcmVzcG9uc2UgdG8gYW4gdW5pbnRlbmRlZCBoYW5kbGVyLg0KDQo+
-IFtTZXZlcml0eTogTWVkaXVtXQ0KPiBJcyBhIG1pbmltdW0gbGVuZ3RoIGNoZWNrIG1pc3Npbmcg
-aGVyZT8gIE9ubHkgYW4gdXBwZXIgYm91bmQgb24gZGF0YV9sZW4NCj4gaXMgYXBwbGllZCwgc28g
-ZGF0YV9sZW4gPT0gMCBpcyBhY2NlcHRlZCBhbmQgcGFzc2VkIHRvDQo+IG10a19wb3J0X3N0YXR1
-c191cGRhdGUoKSwgd2hpY2ggZGVyZWZlcmVuY2VzIHRoZSAxMi1ieXRlDQo+IHN0cnVjdCBtdGtf
-cG9ydF9lbnVtX21zZyBoZWFkZXIgYmVmb3JlIHZhbGlkYXRpbmcgdGhlIGxlbmd0aDoNCg0KV2ls
-bCBmaXggaW4gdjcuIFdpbGwgYWRkIGEgZGF0YV9sZW4gPT0gMCBjaGVjayBiZWZvcmUgY2FsbGlu
-ZyB0aGUNCmhhbmRsZXIsIGFuZCBtb3ZlIHRoZSBzaXplb2YoKm1zZykgbGVuZ3RoIGNoZWNrIGlu
-DQptdGtfcG9ydF9zdGF0dXNfdXBkYXRlKCkgYmVmb3JlIHRoZSBoZWFkZXIgZGVyZWZlcmVuY2Uu
-DQoNClRoYW5rcy4NCi0tDQpKYWNr
+Le 18/08/2026 à 11:23 PM, Yury Norov a écrit :
+> The continuation-record KUnit tests are currently built whenever both
+> Nova Core and KUnit are enabled, providing no way to select the tests
+> independently.
+> 
+> Add CONFIG_NOVA_CORE_KUNIT_TEST and use it to guard the test suite.
+> Follow the usual KUnit convention of enabling the option through
+> CONFIG_KUNIT_ALL_TESTS.
+> 
+> Assisted-by: Codex:gpt-5.6-sol
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> ---
+
+
+Thanks. I imagine this should go in via drm, rather than the KUnit tree.
+I'm not totally convinced by patch #2, but let's get this patch in
+regardless. Maybe it even should have a Fixes tag:
+
+Fixes: 0499a3826c2f ("gpu: nova-core: gsp: add tests for continuation records")
+Acked-by: David Gow <david@davidgow.net>
+
+Cheers,
+-- David
+
+>  drivers/gpu/nova-core/Kconfig                  | 12 ++++++++++++
+>  drivers/gpu/nova-core/gsp/cmdq/continuation.rs |  1 +
+>  2 files changed, 13 insertions(+)
+> 
+> diff --git a/drivers/gpu/nova-core/Kconfig b/drivers/gpu/nova-core/Kconfig
+> index f918f69e0599..d05c2c1d46d9 100644
+> --- a/drivers/gpu/nova-core/Kconfig
+> +++ b/drivers/gpu/nova-core/Kconfig
+> @@ -15,3 +15,15 @@ config NOVA_CORE
+>  	  This driver is work in progress and may not be functional.
+>  
+>  	  If M is selected, the module will be called nova-core.
+> +
+> +config NOVA_CORE_KUNIT_TEST
+> +	bool "KUnit tests for Nova Core" if !KUNIT_ALL_TESTS
+> +	depends on NOVA_CORE && KUNIT
+> +	default KUNIT_ALL_TESTS
+> +	help
+> +	  This option enables KUnit tests for internal components of the Nova
+> +	  Core driver. The tests currently do not require GPU hardware. These
+> +	  are only for development and testing, not for regular kernel use
+> +	  cases.
+> +
+> +	  If unsure, say N.
+> diff --git a/drivers/gpu/nova-core/gsp/cmdq/continuation.rs b/drivers/gpu/nova-core/gsp/cmdq/continuation.rs
+> index 05e904f18097..c0aa16c8fbf4 100644
+> --- a/drivers/gpu/nova-core/gsp/cmdq/continuation.rs
+> +++ b/drivers/gpu/nova-core/gsp/cmdq/continuation.rs
+> @@ -167,6 +167,7 @@ fn init_variable_payload(
+>      }
+>  }
+>  
+> +#[cfg(CONFIG_NOVA_CORE_KUNIT_TEST)]
+>  #[kunit_tests(nova_core_gsp_continuation)]
+>  mod tests {
+>      use super::*;
+
