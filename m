@@ -1,144 +1,200 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA4E47AF5C
-	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 15:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787154966; cv=pass; b=G7bq08bht7R9ABnqCiQRz3iIBZrsXMsXAoj0Jln96+Bjevp9xAVOiUShLtdl5aOD8HcANN/aIXahEe1ozZxpahFJaTQ/ed2D7/zYbxuaF4gK665+tAxihpXwujFyzH9hiOhE/Ob0voqQaXjbraf4clQHjyTjZoFxzbdEjw0LM7s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787154966; c=relaxed/simple;
-	bh=QCNVGM6JXF/7JnLS+3lu6Q1utffymbytyo9HJaN2nbo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m3pQkRCiNepEBxJSY9fYcU5tTSvB9cYPWQr5gVZjXHqyCxx/wH4SiGHFCkFd23tncc+MT4qmHOQFIiDaNRJbbvUo6mnPMdfECa6ioK3TRC58T1U54sH83mGz0K8aJBvdsRCg53kebKODtXo6/YeAQQ3jrCX/9fR05buDTUZX6ys=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kUpvuDWU; arc=pass smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8476A483803;
+	Wed, 19 Aug 2026 16:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787155737; cv=none; b=YnjhvfT8yj7dg77tui1l3Up2+txsOtg5Ofaq1r+JErMKyfWNyNxMte2F/Kt/mbcigbNiG53375E+TgkwfHfyNAPDurD0bveeJuzCEbKXrGC3DB6bTMLSLvOblRyTTAqMxLxey6tmc5HkinOH888PERuUsrelettm/5hK4RI9jFY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787155737; c=relaxed/simple;
+	bh=XG84UH3RQZg2UeE7vWMtQSQJ/dku9/H6In5UidNXvys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UlfVgzZ/o11mKrqC3iJA1RQJ1O1g/XK6l5yv1PtkvggU7TMd6BEbH4ebEbRQUbesHgn2UNok9QulYvXN1F4LCZwxnRtKMYlufpGO+7roLoLvfPPjd1PDxL/DOBi8DOupj8WJmazAoPcnmJoI2GLV7PkrAClR5Z4E0EHPLGtZsmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=EFXKvPu9; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kUpvuDWU"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8f0e5e36912so8919226d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 08:56:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787154964; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XljqLFKsa3l/j3gIqXGLNAYoQiW5r4snPC97bML+Wo+wdtluZp9YdnkqfijbBMe6V9
-         BCHd1PI9EHrBKFmBuXrGtfHqjGqGnu7lW5LlNGUxcTLyfBtfK7ZourAmQ+5L8kLbR/9A
-         +7OV9LXK8Jvq8Donf0lE6oKafN1jp1PAHq0jlOrvLczogmEhtwlWM3ou84LlW0j8nZaA
-         RrGPGyiWxqCw73R2GngRSZ9pUdC8QmZjgAEbXQhXGjrrDmko+KjOlPTq01k8XbH/edi2
-         GOqXT8goYGB1VO67M92x1ipaOErkJlfPe1bLlXd9Rd7CNBggwjc/GX6/F1hJrG1yWun2
-         IFXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=luqgKeY9BCSFP8cqU5Wk0SA2ZSLwx1JOWvC8sMgRww4=;
-        fh=4eGu01zDmUP2ZHFPuMquR8KZGwu2vG3Xen4X/zUS73U=;
-        b=f/dWtGKIfGkKlVrKnmGsRIA5ntHC3Hao1Mk1sVcGpCFUK5FTW+RkQKkI4+ZlVTBcB7
-         Q3NjNuPxBUf9GoNIQhnvK0j7UsR8DHeeQVlto8B6hVHa5z1zDWDftODPXvg9HeKU1UK+
-         2ehHuTXaYWypOcDDoaExXQKv4E+jmvPROtcxUzqZn9C2Dof9sFR79/3WhqJii72QV7jP
-         mocJHWWc9qkwvDpVVMbWXkDVOMrSYlacDon86VF1zBazaN/EbKUVcQVxFsFryT7vqltv
-         0EHwDegfRUMUV5D/MV6OKKBYEyOyImB7eaaMpXmznlPnqgGcDZm4jeYBTJ3eUNZcwzM5
-         +sZw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787154963; x=1787759763; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=luqgKeY9BCSFP8cqU5Wk0SA2ZSLwx1JOWvC8sMgRww4=;
-        b=kUpvuDWUN0iSWls7wvdw7a7lHp0AnzVBhPNYeNHhDagm7ncoLv+n5f54AEsAhkpdee
-         TjzP4D3PtncpL3oG4gL6vyh5IBuE9P4kMG58txhd/UsYJGblhoFU1PdsM1K2SKloxo61
-         hjpG8t9LnKBN0O+9HWFTTxRCoAqJJz1dz8gUBYkZUtF3W3d65MweQXwh2+uDjCzWjK7K
-         K2Bf6icGRk3GqzkMO6JtLnt4suuOpSdbjVZDzDSD4z80+WVzCtVPZ+l+lgnLytRELCBj
-         MTpGe91tiQY0B/CDFkRUCFBLUF1+nrAzFhyPzgNBMrZXeTQwPMQNdX/K/UFRTi1e7jsI
-         X+eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787154964; x=1787759764;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=luqgKeY9BCSFP8cqU5Wk0SA2ZSLwx1JOWvC8sMgRww4=;
-        b=BFCEmIp1Rs2f9UJpk5HwxUbqjqHYWm2vdQXVHoFX0xQK2NFCnf+8SpCIdk9yP0edC9
-         gFIeIsW1wyhzXxTYH+uOH1YNbBUYGIPfeP0Oi2iccST422VQ7REaRERAUUpZA2XTO4Ba
-         lOjWqi3ZwfW0NsLPRMP316zBIBfmx4BcGpFDdleF1hc45xUbJU+4IlUxXvKGbMF6JSu4
-         Hf1zXjHN0x9Pb9jUts0XnRnmFVlzO3qiOLkkK6gTdVq6WjHmpQsR99iqZGTY41p9GtoG
-         Sj261e/uwLvMaQWQYoPA3Z0VGKJEmOZUA422KJizVNy5KDvXL+GDA4iI7AO5XMTRMVd4
-         7D5Q==
-X-Forwarded-Encrypted: i=1; AHgh+RokqjS985pPafSt6sKKrpPJoA7ahdJIXq5IQoz1vYEPpnTacu/0ze+x3JDOQ2kabiBEYCLpfUl3+dw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lJUqmwXjTq4uiv+C/qzXXdXiodP4k/iwrIbvkKtxrneLE5Bj7J
-	IhnVsAVMWrId8ZntqwAMbAY8KZURNXZy2d3doVtNEiZBMjHb8h10oMTm7p2/7bPiwhpvDQcF6wt
-	wUo096DYCzRFnukr9jcZ7Tnqks7qIaHQ=
-X-Gm-Gg: AR+sD11ZiR9DuW1XDIhyWElJxKKnGF/Ka7ztBINj+hCzq0vxIXzizzdVYOLE2NDV9e9
-	urZYBZ/gZWduj810mvi+KZbmrRbi6jW8oKIcLIOGnYvNNWx/QsqFqAKmTkQx8LwstIPvcINbPKT
-	0z+IbUrCR64AMwzZoUc00h9RNznwE5w8cBhHLUKaLMzirSlW+aeFFE8Dl5aZDFxRCRSgNFgqqmC
-	bGvBlZwmyefYRYaQ0s8o/18rmlLxs9dgg0Kre8oAkdDMZUuPgsDZm/IVRPetTNYWLr0H8W6CLcp
-	UW/43FobUBt95u2EwqiNotwTHuPoyEuAX4OdGEY2bA==
-X-Received: by 2002:a05:6214:dc5:b0:8e7:8d53:2417 with SMTP id
- 6a1803df08f44-90c5eac9942mr52592116d6.27.1787154963571; Wed, 19 Aug 2026
- 08:56:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="EFXKvPu9"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AE5E14BF;
+	Wed, 19 Aug 2026 09:08:50 -0700 (PDT)
+Received: from [10.1.35.171] (XHFQ2J9959-5.cambridge.arm.com [10.1.35.171])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C2F113F85F;
+	Wed, 19 Aug 2026 09:08:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787155734; bh=XG84UH3RQZg2UeE7vWMtQSQJ/dku9/H6In5UidNXvys=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EFXKvPu9vzhvy58CEvgMafkir9tK66WaEt8NNFK31KYSSvTNl4wx9U0iRKwi2RrLW
+	 +PfvmX/S9+RS5GhiHpWi/nvCR5GemEBm2415+KKDRrbuA0E+FyFRDC+kPZUso6bKQN
+	 VnwKQR1UCyO4prPGm16MC3MqjWqB06FKn+45R8gg=
+Message-ID: <eb9507c6-dcac-4135-83b3-445414b94345@arm.com>
+Date: Wed, 19 Aug 2026 17:08:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260813083536.970196-1-ansuelsmth@gmail.com> <20260817134727.1f76d6dd@kernel.org>
- <6a8376ef.be1895d6.92f57.c9dd@mx.google.com>
-In-Reply-To: <6a8376ef.be1895d6.92f57.c9dd@mx.google.com>
-From: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>
-Date: Wed, 19 Aug 2026 17:55:51 +0200
-X-Gm-Features: AcwNN1WR7Zj_IFCR5YdVpGhfxkJspgU8SJdxW5GIgyyCDjlcNc7jn8kiW6V-vUc
-Message-ID: <CA+_ehUyRKtuCtak5XD_1LUMEmLTn4JfeSDapsAEwo304uxyVqA@mail.gmail.com>
-Subject: Re: [PATCH v14 00/12] net: pcs: Introduce support for fwnode PCS
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 8/8] misc/arm-cla: Add userspace interface
+Content-Language: en-GB
+To: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Jean-Philippe Brucker <jpb@kernel.org>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20260717104759.123203-1-ryan.roberts@arm.com>
+ <20260717104759.123203-9-ryan.roberts@arm.com>
+ <404d2c6d-4a18-40c2-9da9-fb030c39536f@app.fastmail.com>
+ <5012970d-a0f0-461c-b0b6-61823e0aab2d@arm.com>
+ <59d0c4d5-af53-410d-9bf8-8dd2ba17f697@app.fastmail.com>
+ <2a69d96e-d37e-4e3d-8eaa-3ea31caf3893@arm.com>
+ <ec998612-c527-4294-837b-5aa375b81cc1@app.fastmail.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <ec998612-c527-4294-837b-5aa375b81cc1@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Il giorno lun 17 ago 2026 alle ore 23:02 Christian Marangi
-<ansuelsmth@gmail.com> ha scritto:
->
-> On Mon, Aug 17, 2026 at 01:47:27PM -0700, Jakub Kicinski wrote:
-> > On Thu, 13 Aug 2026 10:35:05 +0200 Christian Marangi wrote:
-> > > This series introduce a most awaited feature that is correctly
-> > > provide PCS with fwnode without having to use specific export symbol
-> > > and additional handling of PCS in phylink.
-> > >
-> > > At times there were 2 different implementation (this and the one
-> > > from Sean) but Sean agreed that this can be picked and used in favor
-> > > of his implementation as long as his case with race condition is
-> > > correctly handled.
-> >
-> > Coccicheck says:
-> >
-> >   drivers/net/phy/phylink.c:1039:31-34:
-> >     ERROR: invalid reference to the index variable of the iterator on line 1028
-> >
-> >   drivers/net/phy/phylink.c:1364:26-29:
-> >     ERROR: invalid reference to the index variable of the iterator on line 1346
-> >
-> >   drivers/net/phy/phylink.c:582:7-10:
-> >     ERROR: invalid reference to the index variable of the iterator on line 569
-> >
-> > I vaguely recall that you're supposed to make a copy of the pointer,
-> > not just add a "found" boolean. Dunno if it ever happened but Linus
-> > was trying to make the list iterators override the pointer on exit.
->
-> Oh! I wasn't aware of this intention... I have seen lots of pattern where
-> the last value of the iterator was directly used (if detected valid)
->
-> It's and easy fix... I can send a new revision right away if you want,
-> I'm already on it fixing this in the meantime.
->
+Hi Arnd,
 
-Sooo should I post a v15 with the fix? It would be great to have this for 7.3.
+Sorry for the delayed response here - I thought I had replied to everything then
+went off for holiday. Now I'm back and I noticed I missed this...
+
+
+On 17/07/2026 21:11, Arnd Bergmann wrote:
+> On Fri, Jul 17, 2026, at 18:21, Ryan Roberts wrote:
+>> On 17/07/2026 16:31, Arnd Bergmann wrote:
+>>>
+>>> Without concrete implementation examples, I find it hard to imagine
+>>> how granular the CLA and accelerator blocks are. What I'm interested
+>>> in is separating things into special character devices when they
+>>> refer to units that you want to manage separately in userspace.
+>>>
+>>> If you have e.g. one accelerator for tensor operations and one for
+>>> handling gzip, I would very much want to see those have a separate
+>>> chardev nodes so a local administrator can give permissions to each
+>>> one separately, and have device names that are sensible to the
+>>> functionality underneath.
+>>
+>> Unfortunately this doesn't map well to the HW: the MMIO is for the
+>> CLA interface (each CPU has 1 CLA).
+> 
+> I'm sure you mentioned it in the documentation, but I missed that
+> there are never multiple CLA instances.
+> 
+> If the CLA is defined only in terms of its MMIO/DMA interface
+> and listening to TLB broadcast operations, is having a single
+> instance actually required by the design, or just an implementation
+> choice?
+
+The CLA spec states that there is 1 CLA per CPU. But there is nothing inherrent
+about the design that would prevent it from being extended to support multiple
+CLAs per CPU AFAICT. The approach I've taken in the RFC would naturally work
+under this (unlikely) possibility.
+
+> 
+>> Once you have access to that interface, you can
+>> communicate with all of the accelerators that are connected to the CLA. We could
+>> potentially use the availability masking control to only expose a single
+>> accelerator for a given context (which would be chosen based on which file you
+>> opened), but it wouldn't be possible for (e.g.) 2 different processes to access
+>> the different accelerators concurrently - they would have to be subject to the
+>> time slice model.
+> 
+> Right, that sounds a bit awkward. It sounds like this would also get
+> simpler with a model that ensures the current CLA ttbr0 matches the
+> CPU ttbr0 and the iotlb_mm setting, since you would never have concurrent
+> uses of a single CLA from multipel tasks. On the other hand, that
+> model would make it harder to use multiple accelerators from a
+> single task, if they have to go through multiple file descriptors
+> but could be accessed on a single mapping.
+> 
+>>> If you have separate accelerators for AES encryption and decryption,
+>>> or a large set of identical accelerators that can run concurrently,
+>>> those would of course get managed as a single device file.
+>>>
+>>> Most importantly, I don't think a global /dev/cla device node
+>>> is a sensible interface from a management perspective as that
+>>> would give unprivileged userspace direct control to something
+>>> that is essentially arbitrary (or buggy) vendor firmware
+>>> with DMA permissions.
+>>
+>> OK I see your point.
+>>
+>> While the interface supports up to 8 connected accelerators, we anticpate there
+>> only being a single compute accelerator in practice. We decided to keep the
+>> driver interface generic given the CLA spec, but perhaps it would be more
+>> straightforward to limit the driver implementation to only permitting a single
+>> accelerator?
+> 
+> Probably, yes. From a kernel perspective, I think we're a bit better
+> off with an abstraction like
+> 
+> - One CLA MMIO range per /type/ of accelerator on a given CPU
+> - One firmware node per CLA, possibly spanning multiple CPUs
+>   if the accelerators behind them are shared.
+> - One character device per firmware node, named according to the
+>   type of CLA
+> - Possibly multiple CLA nodes on a given CPU if multiple
+>   unrelated accelerators are present
+> - optionally multiple related accelerators on the eight ports of
+>   a CLA, if that makes sense for that device type
+> 
+> Not sure how far that is off from what you currently have in
+> the hardware design.
+
+I've spent some time thinking about this today with Jean-Philippe and I believe
+we have a proposal that addresses your concerns, (although I confess I haven't
+understood exactly what you mean in all of your above bullets).
+
+I think the aim is to allow a sysadmin to disable a class of accelerators
+without having to disable any other class of accelerators?
+
+Let's start with an example topology:
+- System has 3 CLAs:
+   - CLA1 has 2 accelerators:
+      - ACC1: type=compute
+      - ACC2: type=aes
+   - CLA2 has 2 accelerators:
+      - ACC3: type=compute
+      - ACC4: type=compute
+   - CLA3 has 1 accelerator:
+      - ACC5: type=compute
+
+We have 1 char device per accelerator type; so in this case, 2 files:
+- compute
+- aes
+
+When "compute" is mmap'ed, it will contain 3 CLAs; CLA1, CLA2, CLA3. When
+queried, it will report that CLA1 has 1 accelerator (ACC1), CLA2 has 2
+accelerators (ACC3, ACC4) and CLA3 has 1 accelerator (ACC5). When CLA1, CLA2 and
+CLA3 are assigned to the process via this context, their availability masks will
+be set so that ACC2 can't be accessed.
+
+When "aes" is mmap'ed, it will contain 1 CLA; CLA1. When queried, it will report
+that CLA1 has 1 accelerator (ACC2). When CLA1 is assigned to the process via
+this context, its availability mask will be set so that ACC1 can't be accessed.
+
+This scheme wouldn't allow different accelerator types to occupy the same
+context, but that could be addressed in future by adding an operation to allow
+the user to move an accelerator into a shared context. I don't see a need for
+this right now though.
+
+In practice, the kernel driver would infer the accelerator type from it's IIDR
+(and possibly DEVARCH and REVIDR) register(s) and group them based on that.
+
+For a system that only has 1 type of accelerator (the expected common case) we
+end up with something very similar to what we have in the RFC (a single device
+file). But for the case where we have multiple accelerator types, a sysadmin can
+easily disable a specific class of accelerators if found to be buggy.
+
+What do you think?
+
+Thanks,
+Ryan
+
+
+> 
+>        Arnd
+
