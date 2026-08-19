@@ -1,193 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051D73ACF18;
-	Wed, 19 Aug 2026 14:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14817479873;
+	Wed, 19 Aug 2026 14:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787151208; cv=none; b=o/WaRn7u8OZwr4cPcm3vnis6MF0N79TDPka1I94AiorRAzo8HEkc75EfrlCjiKtAEfQq3hiVntQbcBzWZRZ44f9E1qbaP1t2FHGsq+eSdZ8trVZSoMDj/xGV2mmUF4STZCb1EREX2MlEfiriQR300vCjzrkzkQPUIza6fN4JAnI=
+	t=1787151477; cv=none; b=pSmq16yBPkHVvfap1p5ivFtwtXaUWKwobyHcUK4Dv82lF9Tm7vH6foMy4qAldU/EF7b5br8QsLxGHdEkWCUTRWASdDgZTNR7W3mYgNNzfTU/Iut65HYXTsAt/bjxnIkHVYYh7BFaot4CfqGWJuX3rKBDuM1T5UmnkZUxAHiKl88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787151208; c=relaxed/simple;
-	bh=QVcVWBaHPP43ECVAhtIVq7+L2mpEbVXEeS+wYVsb4A4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uITbxNY+mMaEBcvg9toq8bhs0cPtZp/tfJUgD7Mo0FRzrXm1KUr1YlOsly2pZQK1KFrkv6rVuR5r4FUFYGeCXH6fU6q8bgGw0C7xJk8a5kCQpi0EVUP8qMMKa/gnmDa9sc2AKZc07S4l4hGY2zdNGE88AaFzc08OWYffRaNrMWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U1UBIQu0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787151477; c=relaxed/simple;
+	bh=Du4jOJSatLbjlA9GA6HlpramHmsokxRlIUKixfcF9gQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Duv72+1dz324+7b9TgdUpLJ5GUR0qEg8R7ScF8IU00K2UPccpjnbLmu79Xe5je0gONINY6oRxKdyKtUswMygaJ93wM2hpA5ukI+bIaawJHAxwI2s7/UMZxm/Q1o9bA9b2pDc6BUshb5TugfYUixS+j3k1fTzrnvkKA1jb62yv/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=WwpFPVto; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U1UBIQu0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62D581F000E9;
-	Wed, 19 Aug 2026 14:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787151199;
-	bh=W2EIvkv9Nq32WWVSfwklxxGLToFHgsoCABwz/s4TkD8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=U1UBIQu0ssOyvURDZkHuUnjZuEGlsrJqH+xUIcNmnFhrxDmytdrcG/vlRO8tYBLj6
-	 aqTHL0o5ITTMnnX594JQNTXv+MufvSl1yUMQrjWHne9GuXU9iVu9mxGGsArKKzb176
-	 nAV9kSrU/uady8iPq9hruXqEGPaRFHL7Ta14QTBRSZqPni/Sg3luPYTUbmCXZB+rlw
-	 /dh+tWIKxtq9QR6Luk3IP16uffZVs1aNM0vuSO5LRXlDTRZd6Pjsq8cnoPDJV8KUx7
-	 qfPIRTYx2/XJaAmyplVAgid4AuAcJTuixmTA+GbD3MsD1+TVXrNnxCqOZc7IybUIEf
-	 eXzQ6wjkVY1Ig==
-Message-ID: <e7b4eceb-cb3a-49ea-bed9-728c958594b0@kernel.org>
-Date: Wed, 19 Aug 2026 16:53:05 +0200
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="WwpFPVto"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=dEhJftvJQJCTjrtFDW5w8o2vq636XhPrQnmBVoSdDG8=; b=WwpFPVtoi3/FrP852Z+KBYbFfS
+	9/xiP6ovuQfbLqkz+VfujWELcMItOyYmXjn9x9njjNS1Rb3aeAgkjiRYOHJMC1KUehzDAuKoLUNWd
+	NXIeaRpVcv2vJzhI/jvRgfSAUMHgP6F5vALMRoZ50lILH7aqh0D0lf5Olw6gSECtB2SVfOHsBEyws
+	1b5ET+c7xgUf3NohcAiBPTqpZ6RpLwv2QnWXe34W/3f0GFo59KbLAHTyZn02/MvR3VBS09yltU2bn
+	9Um7gT9SDDuk+SxTWspbvudVbENVgEJXrqV2xEjl8K6dYc8iB891cWhPGlwkd24x9WBYJWj/KYhDN
+	zGvu5EDQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wwhjU-009s14-2W;
+	Wed, 19 Aug 2026 14:57:37 +0000
+Date: Wed, 19 Aug 2026 07:57:31 -0700
+From: Breno Leitao <leitao@debian.org>
+To: KobaK <kobak@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Fenghua Yu <fenghuay@nvidia.com>, Tushar Dave <tdave@nvidia.com>, 
+	Kai-Heng Feng <kaihengf@nvidia.com>, rupakr@nvidia.com, mohammedk@nvidia.com
+Subject: Re: [RFC PATCH 1/3] arm64: add CPU prefetch and cache modulation
+ sysfs interface
+Message-ID: <aoXEBXXvTDBimnHi@gmail.com>
+References: <20260817022335.3-1-kobak@nvidia.com>
+ <20260817022335.3-2-kobak@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] accel/qda: Qualcomm DSP Accelerator driver
-To: rob.clark@oss.qualcomm.com
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- srinivas.kandagatla@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- llvm@lists.linux.dev, iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
- <3322b42b-3755-45ec-ad55-345125f0d488@kernel.org>
- <10349e29-b583-403f-a89a-9a00c73666bc@oss.qualcomm.com>
- <87dca76c-851e-4cc3-ab91-68949d283b79@kernel.org>
- <CACSVV01eYr6FyA6XBG0xw0yv2dydvTEhcY-WUy07mxM8WwkZcg@mail.gmail.com>
- <318f14c2-0e87-4e07-8173-1511dca67d78@kernel.org>
- <CACSVV01T=ytVJKM7NRoBTAJm7vH+JPJNT9Tftu5X9YskGXerwg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <CACSVV01T=ytVJKM7NRoBTAJm7vH+JPJNT9Tftu5X9YskGXerwg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260817022335.3-2-kobak@nvidia.com>
+X-Debian-User: leitao
 
-On 19/08/2026 16:49, Rob Clark wrote:
-> On Wed, Aug 19, 2026 at 7:43 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>
->> On 19/08/2026 16:38, Rob Clark wrote:
->>> On Wed, Aug 19, 2026 at 7:21 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>
->>>> On 19/08/2026 15:26, Ekansh Gupta wrote:
->>>>> On 19-08-2026 00:43, Krzysztof Kozlowski wrote:
->>>>>> On 17/08/2026 06:47, Ekansh Gupta wrote:
->>>>>>> This patch series introduces the Qualcomm DSP Accelerator (QDA) driver,
->>>>>>> a DRM-based accelerator driver for Qualcomm DSPs. The driver provides a
->>>>>>> standardized interface for offloading computational tasks to DSPs found
->>>>>>> on Qualcomm SoCs, supporting all DSP domains.
->>>>>>>
->>>>>>> The QDA driver implements the FastRPC protocol over the DRM accel
->>>>>>> subsystem. It uses the same device-tree node structure as the existing
->>>>>>> fastrpc driver in drivers/misc/. The approach for binding the QDA driver
->>>>>>> to device-tree nodes while coexisting with the fastrpc driver is an open
->>>>>>> item described below.
->>>>>>
->>>>>> No. Grow/replace/improve existing driver instead of coming with a duplicate.
->>>>>>
->>>>>> That's a standard upstream requirement, basically given on every
->>>>>> upstreaming guide.
->>>>>>
->>>>>> Please watch old talk from Greg - "I Don’t Want Your Code!".
->>>>> Posted discussion threads here[1]. Would seek comments from Dmitry,
->>>>> Srini as well.
->>>>>
->>>>> [1]
->>>>> https://lore.kernel.org/all/3476b5c3-7983-4994-a901-3d7d8bd75255@oss.qualcomm.com/
->>>>
->>>> The rest of the comments is still valid even if you did not acknowledge
->>>> them.
->>>>
->>>> Anyway, regarding above - again, watch the talk from Greg.
->>>>
->>>> You have ONE driver. Not two.
->>>
->>> Long term, moving to the common driver framework (which did not exist
->>> when fastrpc was first created) seems like a good thing.  But does
->>> that not allow for some transition period?  How can we get from here
->>> to there without otherwise breaking userspace?  Is there some other
->>> precedent elsewhere in other driver subsystems?
->>
->> Yes, Iris and Venus where we agreed for an exception (two drivers) as
->> long as new driver supports old hardware / features.
->>
->> This is not the case here, right?
->>
->>>
->>> I suppose drm exposing legacy fbdev on top of drm drivers is _sort of_
->>> a precedent if you squint a bit?  I'm not really familiar enough to
->>> say if that would be reasonable/possible in this case.
->>
->> Growing old driver does not look complicated itself. The only a bit
->> tricky thing is to present somehow exclusive interface to user-space,
->> like usage of one disables the second etc. Depending on actual
->> differences in that interface.
->>
->> But having a duplicated driver is a clear no go and it is well known
->> upstream requirement. Nothing new here.
+On Mon, Aug 17, 2026 at 10:23:33AM +0800, KobaK wrote:
+> From: Koba Ko <kobak@nvidia.com>
 > 
-> Would it be acceptable as a first step to, by default (ie. when no
-> cmdline override/etc) for the new driver to bind to new compatibles
+> Performance characterization on arm64 systems sometimes needs a way to
+> inspect and bracket selected implementation-defined prefetch and cache
+> controls without exposing raw register contents. Add an RFC-only arm64
+> cpumod interface that presents a small set of named, range-checked
+> per-CPU sysfs attributes under each CPU device.
+> 
+> Establish the Kconfig and Makefile plumbing, CPU profile detection for
+> Grace and Vera from the target CPU's MIDR, register-field descriptors,
+> per-CPU kobject and attribute helpers, locking, and target-CPU read/write
+> callbacks. Common attributes are exposed for all supported profiles,
+> while Grace- and Vera-specific fields are exposed only for the matching
+> profile. Place the option at the end of the top-level Kernel Features
+> menu because these implementation controls are not tied to an Arm
+> architecture revision.
+> 
+> Per-CPU cpumod sysfs state follows the CPU lifecycle. Module
+> initialization populates subtrees for every online CPU while holding
+> cpus_read_lock(), so initial enumeration and CPU hotplug state
+> registration are serialized against concurrent topology changes. Offline
+> CPUs are intentionally skipped during initial setup because target-CPU
+> MIDR detection requires an IPI-capable online CPU; a later online callback
+> creates their subtree.
+> 
+> Profile detection reads MIDR through a synchronous callback on the CPU
+> owning the sysfs subtree and returns nonzero only when that dispatch
+> fails, so no IPI error can be hidden. After a successful read, retain
+> CPUMOD_PROFILE_UNKNOWN as the unsupported-profile sentinel. Subtree
+> creation skips that profile during both initial online enumeration and
+> later CPUHP online callbacks without blocking module load or CPU hotplug.
+> Object and sysfs setup failures remain fatal and are propagated.
+> 
+> Keep the dynamically allocated kobject state in a private per-CPU pointer
+> instead of the CPU device's generic driver-data slot. The online callback
+> is idempotent when that pointer already records a subtree. The offline
+> callback clears the private pointer before dropping the kobject reference,
+> allowing the release callback to retain ownership of the final free.
+> 
+> Register the dynamic CPUHP state with
+> cpuhp_setup_state_nocalls_cpuslocked(). The nocalls form avoids replaying
+> startup callbacks for CPUs already initialized by the explicit online
+> enumeration. On init failure, release the CPU read lock, destroy all
+> subtrees created so far, and return the error. Module exit removes the
+> CPUHP state with the matching nocalls helper and tears down all remaining
+> per-CPU state across possible CPUs.
+> 
+> Reviewed-by: Fenghua Yu <fenghuay@nvidia.com>
+> Reviewed-by: Tushar Dave <tdave@nvidia.com>
+> Reviewed-by: Kai-Heng Feng <kaihengf@nvidia.com>
+> Signed-off-by: Koba Ko <kobak@nvidia.com>
 
-You have one compatible.
-
-> and the existing driver to old?  Ie. have both drivers but only one
-> binds on a given platform?
-
-I don't see how is it possible to write such DTS, because - repeating my
-question - how many hardware blocks is there? I believe only one per
-given DSP, so how could you have two device nodes?
+Tested-by: Breno Leitao <leitao@debian.org>
 
 
-Best regards,
-Krzysztof
+> +static struct cpumod_attr _name##_attr = {				\
+> +	.kattr = __ATTR(_name, 0644, cpumod_attr_show, cpumod_attr_store), \
+> +	.value_offset = offsetof(struct cpumod_subsys, _field),	\
+> +	.reg = _reg,						\
+> +	.shift = _shift,					\
+> +	.field_mask = _field_mask,				\
+> +	.max_value = _max_value,				\
+> +	.debug_name = _debug_name,				\
+> +	.visible_profiles = _visible_profiles,			\
+> +}
+
+0644 makes every one of these world-readable, and cpumod_attr_show()
+is not a cheap read: it takes subsys->lock and then does a synchronous
+smp_call_function_single() to the target CPU, whose callback executes
+an implementation-defined mrs.
+
+So any unprivileged user can pick a CPU and hold it under a steady
+stream of IPIs just by reading the file in a loop. On a Grace box
+running this series:
+
+  # su -s /bin/sh nobody -c 'cat /sys/devices/system/cpu/cpu0/cpumod/pf_dis'
+  0
