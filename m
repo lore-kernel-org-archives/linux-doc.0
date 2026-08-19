@@ -1,114 +1,77 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 209B83B841C;
-	Wed, 19 Aug 2026 13:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E419437846;
+	Wed, 19 Aug 2026 13:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787146890; cv=none; b=LmVjhvpeFylSuA2X1JHZUNvm0GFriMEm1XTF84n1ISKdauzxzLc995eJz2vQ2vO/EotPb4El5ftwBFjnTh3mnS1YD+59KpwYFV21v1UKzD/4bXPZNOrEi8lNIVxlHvWNPV9ksRPUgnqXA1szyqU6jESAeNCxVeid4VPI8vUjIKs=
+	t=1787146892; cv=none; b=iqXMopUoihD0PR3tEgAxR8DS3uFk8C/SCYPZ+vOp9vClMXMhAlolsjD/mG9BXoBdjoFlYQHTDW4fJ1V/VhnDm0ncFCzMGptD5Mjdh/iVf2mmobhfEWo+95JGqlYxAVcyKZzzqZMgGReVk39E7ZE+bGl78+wA0cD2KHT3VNqcQuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787146890; c=relaxed/simple;
-	bh=5zZhTKxCzKM4mOTcYyTygUsinMLtPISXJYiMB3dpemQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=sBzX7Vpa3OLx7UMvGF85cKPNAVFLUyAfkE3EXpShFRdHfl0KNV7834HlQR0brF6G/QJ/i9PxiH5etyj45SenmyW4dN/b/Cx0al587A7HNxP314hvXvbeROqKMDi/ZhXbIaLuLINHimIu+FfdeKOTKaUehIso2tb4u/2yu2brzFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pm1ISSmU; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1787146892; c=relaxed/simple;
+	bh=GVNIfzOWjURxXcaf/H66mujwIAWitdrkhZ5E2Iz8sYU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ts/eoCS87vDsR95uuzofzqU2004SSNshn1Wgd701WAr5GPP1+0Ld3Rmvmh3e6CoFglcv7o7KNsE+Eb3L2WgiLbXBYlI4zew5isAjBbhqyewF4MsTvHlC9sL678DW8yR4EbxBA//+S2l+P6YkYP2VxskgJlqbxcJtehAEg4OwkPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PC447qCr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pm1ISSmU"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A702814BF;
-	Wed, 19 Aug 2026 06:41:22 -0700 (PDT)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67AB33F763;
-	Wed, 19 Aug 2026 06:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787146886; bh=5zZhTKxCzKM4mOTcYyTygUsinMLtPISXJYiMB3dpemQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pm1ISSmUxwi6hQfB/vEfIpFGQITFK4bY2I5SUuTQlrnb/Mel5xpsYmWxDrYT67diI
-	 IFg3h56TnXcrXw7IB5PrUI1pntS0CNdmpyGB9NkPAvB15n4H4CohGyldFleAyz9OhJ
-	 B85n3+AOP/8vRpt74YuK/EqoLpjcd3yoFBJVykno=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Fuad Tabba <tabba@google.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PC447qCr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16F221F00A3A;
+	Wed, 19 Aug 2026 13:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787146889;
+	bh=eO8Z6DIyi7LTcl+hgovHauXM4WisvfWUCh9I38Nciw0=;
+	h=From:To:Cc:Subject:Date;
+	b=PC447qCrxnsW+J5yEMe3y17TNx8fuWUF9xZ8+yo81alttRqHtLIb6fij68mJzVHsY
+	 B9QzOrjqhgXQE1LRZ2YkVjw6mu1GbAj6oORykMt0dDxHZ4KPo3MbgjFdOj2+hUlCJs
+	 WKkfJsHhccS82gyQ9lB85vUA9eQCoa73sJ2N+wbWdobqS8FJzUQdr4Wi7O5ELCa9q/
+	 sLVa+00ICEL40JtIORHTk3u9qqQEyeh1wfTxnOVal/Msp9h8f4D+widSYEcoEbRgz6
+	 9ICGKdczCpfm9gM23FITKEqSQOU+jQuc4brsz0F4ysZnRP+0C+PxXak2XOSOJo5PwA
+	 1kb74v9Mprgwg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wwgXn-00000001Cch-00pN;
+	Wed, 19 Aug 2026 15:41:27 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Willy Tarreau <w@1wt.eu>,
+	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v19 01/14] arm64/gcs: Ensure FGTs for EL1 GCS instructions are disabled
-Date: Wed, 19 Aug 2026 14:41:13 +0100
-Message-ID: <aoWyeTx8lYGfiwYc@LeoBrasDK>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260812-arm64-gcs-v19-1-9105afd828ac@kernel.org>
-References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org> <20260812-arm64-gcs-v19-1-9105afd828ac@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH] docs: threat-model: fix /dev/kmsg reference
+Date: Wed, 19 Aug 2026 15:40:39 +0200
+Message-ID: <20260819134039.286793-1-johan@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Hi Mark, 
+Fix a '/dev/kmsg' reference which got replaced with '/proc/kmsg' (which
+is not accessible to regular users).
 
-I will try my best to review this series, but I am new to this subject and 
-have just finished reading the Arm ARM chapter about this, so please be 
-patient with questions that may sound dumb or things that I got wrong.
+Fixes: a03ef333fbd6 ("Documentation: security-bugs: explain what is and is not a security bug")
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ Documentation/process/threat-model.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, Aug 12, 2026 at 08:12:00PM +0100, Mark Brown wrote:
-> The initial EL2 setup for GCS did not include disabling of EL1 usage of
-> GCS instructions, also disable these traps.
-> 
-> Fixes: ff5181d8a2a8 ("arm64/gcs: Provide basic EL2 setup to allow GCS usage at EL0 and EL1")
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/el2_setup.h | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-> index aa8ec9df8024..d308c6e6757d 100644
-> --- a/arch/arm64/include/asm/el2_setup.h
-> +++ b/arch/arm64/include/asm/el2_setup.h
-> @@ -393,6 +393,11 @@
->  	orr	x0, x0, #HFGRTR_EL2_nGCS_EL1_MASK
->  	orr	x0, x0, #HFGRTR_EL2_nGCS_EL0_MASK
->  
-> +	/* Disable traps of GCS instructions at EL1 */
-> +	orr	x2, x2, #HFGITR_EL2_nGCSEPP_MASK
-> +	orr	x2, x2, #HFGITR_EL2_nGCSSTR_EL1_MASK
-> +	orr	x2, x2, #HFGITR_EL2_nGCSPUSHM_EL1_MASK
-> +
-
-In the Arm ARM M.c, D24.2.70, we have that by setting the above bits we 
-will _not_ trap the following instructions to EL2:
-- GCSPUSHX, 
-- GCSPOPCX, 
-- GCSPUSHM, 
-- GCSSTR, 
-- GCSSTTR (when PSTATE.UAO=1 or HCSR_EL2.{NV,NV1} = {1,1}.)
-
-Which I understand to be the way of us saying that EL2 will not interfere 
-on nor manage those instructions that let software change the entries of 
-GCS. Is that correct?
-
-As for the asm routine, x2 at this point have nBRBIALL and nBRBINJ already 
-set, and will be loaded to SYS_HFGITR_EL2 in the next block of 
-instructions.
-
-Did I get it right? Is there any missing detail here?
-
-Thanks!
-Leo
-
+diff --git a/Documentation/process/threat-model.rst b/Documentation/process/threat-model.rst
+index a68be888ce8e..04e5df6a6f78 100644
+--- a/Documentation/process/threat-model.rst
++++ b/Documentation/process/threat-model.rst
+@@ -84,7 +84,7 @@ possibilities of user namespaces are not covered in this document.
+ The kernel also offers a lot of troubleshooting and debugging facilities, which
+ can constitute attack vectors when placed in wrong hands. While some of them
+ are designed to be accessible to regular local users with a low risk (e.g.
+-kernel logs via ``/proc/kmsg``), some would expose enough information to
++kernel logs via ``/dev/kmsg``), some would expose enough information to
+ represent a risk in most places and the decision to expose them is under the
+ administrator's responsibility (perf events, traces), and others are not
+ designed to be accessed by non-privileged users (e.g. debugfs). Access to these
+-- 
+2.54.0
 
