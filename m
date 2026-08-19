@@ -1,293 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249CF3F65E7;
-	Wed, 19 Aug 2026 14:19:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28613B95F9;
+	Wed, 19 Aug 2026 14:21:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787149200; cv=none; b=GzZEF7ttUo+J4aHqoYXotYbssM2pLDF0SGDEBlzBLCLU9AgvS3D4F5fI4q/pnLv9qBMctjP339RzQYVTWPeoHa1NLKImT5NJFTVJTrCATtct7hM9JfOGpfuzH7gBp1ZnWHAEVdH8tU1AvUK+QbAGM2Bv4ET3k3Ewadd//J3f1xI=
+	t=1787149299; cv=none; b=oMyK8pgD7+t0Ld5LCEcB5odU+7AN/XoIr/oSFnTMc4k6NpjRETLaY8Ey4+kseqmswGnD0uEWffuS8MOMs8v5ZroDlwhMI9ciIIcwkZ6PoFBNqNi+tjHACx8+Ly9w3KBNAoaQTyjc2VcRlJjtarmYy0fj8vn0GOV+fhPFuJ56jdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787149200; c=relaxed/simple;
-	bh=Qntx+DICTwYYOR7kmGD1FqDralBSYil8UX+NQG0zbs0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G3io6rNsLvpRDO6RR/Hv3dJYdANvbsQMDXC/nNeON3E8ujSjxvIZEujpxHgJo2EJ9+IW5BQYvNdz6DCR6kMEGo6AeOW9mMtVioA+73HbCjj7WTe3AsGDATAA5wglDtdVKsfjIw2qhe0nkpH3TtiWGXgwp46NY6eDTKDlKFeUoyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5WSjRl9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787149299; c=relaxed/simple;
+	bh=rhf197F+BiirB2/yG03+JJ4YBW52Y4RN03qbnq1bpEc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JCvHg47/VcgW54Y9pUlGp51ge2gy+Qw6vw82KrysyUCvsViQzHkeUg+b1uzUk3TzIKOaOZZpw1QuFNlN1e4GQZEKqiAjaKK1zoXKXlSBB5W6UH0RL9Ua8tNWT2qtfOCv4+IEcJ+/EYILgjafEmOpYRekFzHNfbkGIMU8l/Yy50Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKohbjQt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5WSjRl9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 507FC1F00A3A;
-	Wed, 19 Aug 2026 14:19:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKohbjQt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690E41F00A3A;
+	Wed, 19 Aug 2026 14:21:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787149198;
-	bh=CSiaMruoRBtV9sjxtyni0VM6A7qy7GPlv2ijASfOuMw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=A5WSjRl9XMcme2a0xUSy5MvwdhbuLcF8R1/D8Kkekyg3WyPraeUcxcoUKNfjsNTBV
-	 JeqC1r+yzIwHiFTmbv38fs01SRXY+685er1w3yBpMrtJYAPRix+YidLCBFTf8pBnXn
-	 E1V5xvwSlLs4rVNpwpawlpJd7CAV5DbGGuGWCeLF3N4cOGCP8gZzJFud9U0iKLmTWW
-	 0xcZ+OETeZwsfD87wWZG+SzmkXT/Rqxzyz9LoyTc759In7U4xG3avGeL3WWEJxSBVM
-	 GEGP2x4FB8LFfvfhwdiMVcaBYVCv9Zb5yhml6f5RXF+yMMglUXt4qGlIp1wh/Nj4Zc
-	 gwasf2BCLJERQ==
-Message-ID: <d447e010-218f-4e62-8afa-87feb558c105@kernel.org>
-Date: Wed, 19 Aug 2026 16:19:45 +0200
+	s=k20260515; t=1787149297;
+	bh=B7S1oNZ0d0Ppxea6fIUZHSrjDvjafdvBHWU+BL8Rgkg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VKohbjQtxpEmZPWdiGLLB53jtRq3gLpCe0pPm4oD94Sua26B3Kglmb6SVxKA6OG0f
+	 778AOfOYD+EQhg5rwoTH/Mh2Nr9oYXU2aUIo+9oCFZPbbhYMbmrKEG3seFXbcjFxPu
+	 n6x/OfeD3l9zX+ymmwzEuAau991rDSSAPuWarsTfX465Z+aQUOZkRYYDNejsSDq4IG
+	 1GtOYdTBOTmjNvmGcMllJnFhsmrM/hXjzjYnxj7beNukeo+njCDm03/PwRpWovpB/H
+	 huvDR/cmMtK4Wco3Hdy8DRXEjllzhs5g34Vlbder9j2EHOuiR+xEWNC8nJmUTyINFD
+	 8TmGj9ssUkynA==
+Date: Wed, 19 Aug 2026 15:21:31 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Leonardo Bras <leo.bras@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Yao Yuan <yaoyuan@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v19 01/14] arm64/gcs: Ensure FGTs for EL1 GCS
+ instructions are disabled
+Message-ID: <a6fe8050-18f1-4013-8d6f-38ecc754c7e7@sirena.org.uk>
+References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org>
+ <20260812-arm64-gcs-v19-1-9105afd828ac@kernel.org>
+ <aoWyeTx8lYGfiwYc@LeoBrasDK>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] accel/qda: Qualcomm DSP Accelerator driver
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- srinivas.kandagatla@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- llvm@lists.linux.dev, iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
- <3322b42b-3755-45ec-ad55-345125f0d488@kernel.org>
- <3b235b4c-0c1c-400a-b081-0df881cab06d@kernel.org>
- <4000bb8b-20a7-4ab0-9330-49395022e78f@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <4000bb8b-20a7-4ab0-9330-49395022e78f@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-On 19/08/2026 15:32, Ekansh Gupta wrote:
-> On 19-08-2026 00:51, Krzysztof Kozlowski wrote:
->> On 18/08/2026 21:13, Krzysztof Kozlowski wrote:
->>> On 17/08/2026 06:47, Ekansh Gupta wrote:
->>>> This patch series introduces the Qualcomm DSP Accelerator (QDA) driver,
->>>> a DRM-based accelerator driver for Qualcomm DSPs. The driver provides a
->>>> standardized interface for offloading computational tasks to DSPs found
->>>> on Qualcomm SoCs, supporting all DSP domains.
->>>>
->>>> The QDA driver implements the FastRPC protocol over the DRM accel
->>>> subsystem. It uses the same device-tree node structure as the existing
->>>> fastrpc driver in drivers/misc/. The approach for binding the QDA driver
->>>> to device-tree nodes while coexisting with the fastrpc driver is an open
->>>> item described below.
->>>
->>> No. Grow/replace/improve existing driver instead of coming with a duplicate.
->>>
->>> That's a standard upstream requirement, basically given on every
->>> upstreaming guide.
->>>
->>> Please watch old talk from Greg - "I Don’t Want Your Code!".
->>>
->>>>
->>>> v1: https://lore.kernel.org/all/20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com/
->>>> RFC: https://lore.kernel.org/dri-devel/20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com/T/
->>>>
->>>> Changes since v1
->>>> ================
->>>>
->>>> The v1 review raised two architectural objections and one correctness
->>>> issue; all three are resolved in v2:
->>>>
->>>> * Christian König (dma-buf maintainer) pointed out that the imported-
->>>>   buffer path silently assumed the IOMMU maps every buffer as a single
->>>>   contiguous range, which is not guaranteed. v2 walks the scatterlist
->>>>   and cleanly rejects non-contiguous imports; contiguous imports (e.g.
->>>>   CMA DMA-buf heap) are accepted. (patch 11)
->>>>
->>>> * Dmitry Baryshkov objected to three different buffer-passing formats
->>>>   in the invoke IOCTL (DMA-BUF fd, direct/inline, DMA handle). v2
->>>>   passes only GEM handles; userspace imports any fd to a GEM handle
->>>>   with DRM_IOCTL_PRIME_FD_TO_HANDLE before invoking. Packing and
->>>>   overlap handling are left to userspace. (patch 12)
->>>>
->>>> * The memory manager (patch 07) used a fixed 16-entry array without
->>>>   justification and leaked the device descriptor on teardown. v2
->>>>   allocates the array from the DT context-bank count (as Dmitry
->>>>   suggested) and frees it correctly.
->>>>
->>>> User-space staging branch
->>>> =========================
->>>> https://github.com/qualcomm/fastrpc/tree/accel/staging
->>>>
->>>> Key Features
->>>> ============
->>>>
->>>> * Standard DRM accelerator interface via /dev/accel/accelN
->>>> * GEM-based buffer management with DMA-BUF import (PRIME)
->>>> * IOMMU-based memory isolation using per-process context banks
->>>> * FastRPC protocol implementation for DSP communication
->>>> * RPMsg transport layer for reliable message passing
->>>> * Support for all DSP domains (ADSP, CDSP, SDSP, GDSP)
->>>> * DRM IOCTL interface for DSP session management, buffer allocation,
->>>>   and remote procedure invocation
->>>>
->>>> Architecture
->>>> ============
->>>>
->>>> 1. DRM Accelerator Framework Integration
->>>>    The driver registers as a DRM accel device, exposing a standard
->>>>    /dev/accel/accelN character device node. This provides established
->>>>    DRM infrastructure for device management, file operations, and
->>>>    IOCTL dispatch.
->>>>
->>>> 2. Memory Management
->>>>    Buffers are managed as GEM objects with PRIME support for DMA-BUF
->>>>    import. This enables buffer sharing with other DRM drivers (GPU,
->>>>    camera, video) using standard kernel mechanisms. Only contiguous
->>>>    imports are accepted; the driver verifies contiguity at import time
->>>>    rather than assuming it.
->>>>
->>>> 3. IOMMU Context Bank Management
->>>>    IOMMU context banks (CBs) are represented as proper struct device
->>>>    instances on a custom virtual bus (qda-compute-cb). Each CB device
->>>>    is registered with the IOMMU subsystem and receives its own IOMMU
->>>>    domain, enabling per-session address space isolation. The custom
->>>>    bus was introduced because IOMMU context banks are synthetic
->>>>    constructs — not real platform devices — and to ensure CB device
->>>>    lifetime is strictly subordinate to the parent QDA device.
->>>>    See also: https://lore.kernel.org/all/245d602f-3037-4ae3-9af9-d98f37258aae@oss.qualcomm.com/
->>>>
->>>> 4. Memory Manager Architecture
->>>>    The memory manager maintains a registry of IOMMU devices in an
->>>>    array sized to the number of context banks described in the device
->>>>    tree, and coordinates per-process device assignment with reference-
->>>>    counted lifetime management. The DMA-coherent backend allocates
->>>>    buffers with SID-prefixed DMA addresses for DSP firmware
->>>>    compatibility.
->>>>
->>>> 5. Transport Layer
->>>>    RPMsg communication is handled in a dedicated transport layer
->>>>    (qda_rpmsg.c), separate from the core DRM driver logic.
->>>>
->>>> 6. Code Organization
->>>>    The driver is organized across multiple files (~4800 lines total):
->>>>    * qda_drv.c:            Core driver and DRM integration
->>>>    * qda_rpmsg.c:          RPMsg transport layer
->>>>    * qda_cb.c:             Context bank device management
->>>>    * qda_compute_bus.c:    Custom virtual bus for CB devices
->>>>    * qda_gem.c:            GEM object management
->>>>    * qda_prime.c:          DMA-BUF import (PRIME)
->>>>    * qda_memory_manager.c: IOMMU device registry and allocation
->>>>    * qda_memory_dma.c:     DMA-coherent allocation backend
->>>>    * qda_fastrpc.c:        FastRPC protocol implementation
->>>>    * qda_ioctl.c:          IOCTL dispatch
->>>>
->>>> 7. UAPI Design
->>>>    The driver exposes DRM-style IOCTLs defined in
->>>>    include/uapi/drm/qda_accel.h, following DRM UAPI conventions
->>>>    (__u32/__u64 types, C++ guard, GPL-2.0-only WITH Linux-syscall-note).
->>>>    Buffer arguments are identified by GEM handles; the driver never
->>>>    accepts DMA-BUF fds directly in any IOCTL.
->>>>
->>>> Patch Series Organization
->>>> ==========================
->>>>
->>>> Patch 01:      MAINTAINERS entry
->>>> Patch 02:      Driver documentation (Documentation/accel/qda/)
->>>> Patches 03-04: Core driver skeleton and compute bus
->>>> Patch 05:      iommu: Register qda-compute-cb bus with IOMMU subsystem
->>>> Patches 06-07: CB device enumeration and memory manager
->>>> Patch 08:      QUERY IOCTL and UAPI header
->>>> Patches 09-11: GEM buffer management and PRIME import
->>>> Patches 12-15: FastRPC protocol (invoke, session create/release,
->>>>                map/unmap)
->>>>
->>>> Open Items
->>>> ===========
->>>>
->>>> 1. Device-Tree Compatible String
->>>>    The QDA driver uses the same device-tree node structure and
->>>>    properties as the existing fastrpc driver in drivers/misc/. A
->>>>    mechanism is needed to allow the QDA driver to bind to its device
->>>>    node independently of the fastrpc driver.
->>>>
->>>>    The intended coexistence model is: platforms that require the
->>>>    complete fastrpc feature set continue to use "qcom,fastrpc"; new
->>>>    platforms where QDA's feature set is sufficient use a QDA-specific
->>>>    compatible string. New feature development is directed toward QDA.
->>>>
->>>>    The options under consideration are:
->>>>
->>>>    a) Add a new "qcom,qda" compatible string to the existing
->>>>       qcom,fastrpc.yaml binding, since the DT node structure and
->>>>       properties are identical.
->>> No
->>>
->>>>
->>>>    b) Introduce a separate qcom,qda.yaml binding that references or
->>>>       inherits the fastrpc binding properties.
->>>
->>> No
->>>
->>>>
->>>>    Seeking guidance from DT binding maintainers on the preferred
->>>>    approach.
->>>
->>> Grow existing driver. You do not get new driver, you do not get new
->>> bindings.
->>>
->>
->> And this was already questioned at v1 (the true v1, not v1+1) but you
->> ignored the comment.
-> The discussion were around compat layers in v1 patch (which is not yet
-> concluded) and on whether this driver is going to be an alternative or a
-
-No, you got comment, from Trilok I think, asking what is the plan in
-respect of existing fastrpc driver.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EpiKBYt0FrKwqKPC"
+Content-Disposition: inline
+In-Reply-To: <aoWyeTx8lYGfiwYc@LeoBrasDK>
+X-Cookie: Allow 6 to 8 weeks for delivery.
 
 
-Best regards,
-Krzysztof
+--EpiKBYt0FrKwqKPC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 19, 2026 at 02:41:13PM +0100, Leonardo Bras wrote:
+> On Wed, Aug 12, 2026 at 08:12:00PM +0100, Mark Brown wrote:
+
+> > +	/* Disable traps of GCS instructions at EL1 */
+> > +	orr	x2, x2, #HFGITR_EL2_nGCSEPP_MASK
+> > +	orr	x2, x2, #HFGITR_EL2_nGCSSTR_EL1_MASK
+> > +	orr	x2, x2, #HFGITR_EL2_nGCSPUSHM_EL1_MASK
+
+> Which I understand to be the way of us saying that EL2 will not interfere=
+=20
+> on nor manage those instructions that let software change the entries of=
+=20
+> GCS. Is that correct?
+
+Yes, the goal is to allow EL1 to manage things how it wants (there are
+controls for store and push in GCSCR_EL1 too).
+
+> As for the asm routine, x2 at this point have nBRBIALL and nBRBINJ alread=
+y=20
+> set, and will be loaded to SYS_HFGITR_EL2 in the next block of=20
+> instructions.
+
+> Did I get it right? Is there any missing detail here?
+
+That's the idea.
+
+--EpiKBYt0FrKwqKPC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqFu+sACgkQJNaLcl1U
+h9AZpQf+M2xlXf78cJhC8qd3kd3TCTXSK7OPaRFzCzopuFWugQZnO8gta1cvLRQm
+hu7hPMPgHfsLHkw07V5RQBBFC7hdozSVwrGK61A7mB9I+Qy36CoYWDiKWXZZW08s
+e5u09U7j1iikPNTOQlKmgWHyjo8HwS6CWHe2qBsGGfoIiOPE5TDj0cioyIsF4I0H
+hCaXKaxmqB5S+1dIkeVTNbJIt5uSG9DCdA5vMANOK3LFFnENrQqoT0D4aiXB4Et0
+/rigSzS3c/ubrD7/I6IFoiV6WoduU0gWqCG473s4ghVaY/3eWC+s7tQlXFDizf4q
+8GbMdi6CGWTzUEA8Gfls55jI8SWUag==
+=vEYu
+-----END PGP SIGNATURE-----
+
+--EpiKBYt0FrKwqKPC--
