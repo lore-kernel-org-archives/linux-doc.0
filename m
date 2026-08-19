@@ -1,145 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC0A3385B6;
-	Wed, 19 Aug 2026 14:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787149310; cv=none; b=L4oQlzUwlLtXzQyuWyY0tw/jx7SPM1Y/nCA0U/mgXDOLHXIJDGe1ay+/otTAiYI3y9YvDqW5c5gWD0xOxLdsVxCTpLPRJA/IcxL6UrE9DijQFI9aolpMHndREkNoZH35Rlpwzbvys9rl/Us3SKylwBxNViHfpRzMO0X/HrQkez8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787149310; c=relaxed/simple;
-	bh=yPOcsnAihIa5hn6PyyIXNr5YkR6IJCISGjHoN53e1Do=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fVoPac6/qMOu0AqwbliJ6k0Mm73XiNrsDoNbG6DI8YkBjj2l34dG+Gbq7D1ESjgMIkPjbLe3k8f3K/oM7N3a1nIRPAMjVPwAobePNi6q2R/ZwkZqqaQ7qA0B7PRiEWt3EMLcrv8SfTfMaGPAtSpVxXwi5AUtaTAmka+dBBKGZmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8DftzjX; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3600C353A98
+	for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 14:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787149582; cv=pass; b=R7Pg2VSxI2l5Qf/4rJa0XCAfV0TL++WiWCgHTT6juNZxDMqYZZpVt/V7YuSp39FaGJE638iCzdqEq9sEHf2TmQitafyr3XUINPvfGWNHwRZkIDkUEw2CmJP64qp14WIyH9lwwXwKesUIxRxtYp3c/VlwHsr/wf0FgP7gOOf3de4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787149582; c=relaxed/simple;
+	bh=mtLHmPpOiePeRFfAyGUsz76wlHeLqchwFt029X15pLE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PGDQ0jMOwUkpJSCyaoitC/MGjvCqadsDi1wNiIKmQITYkVnZ4hf5THP/rlxrwVP9csUMmAvW3uwWdpWk3aSnp+pwKYWxa1n/9gU+2WJaNA925R8HLBWs4LeBouxTO+5d6+YXemfOw0aBLvb6GXs25mwTxyjG8XrbCLCmAHfrGXw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gl2AX37l; arc=pass smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8DftzjX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7931D1F00A3E;
-	Wed, 19 Aug 2026 14:21:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787149309;
-	bh=tiviOBz2XytTrmnvyI4vTkEYSgWaCxRH/2i0ntobOSg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=S8DftzjXr9/P1tJMhs0fJXxqYEaIACKWi0Ml1F/JESft2074YXyrK6pfhuaOjaTkW
-	 OZNgjym5BDOw8c0AqJn/m3/oiFgQzb1tTXt1MV6JICz0tH1Ds9A/QsSqG7xtq8enTJ
-	 rYvYAD/owx3FzqTlFU+dr+OzGygYFi3gsc/aWzy93L4iIIOdmQeSFa3ert8vAWQ1di
-	 L/mlQuBQeqmbzdsnBhVuSRwOl7SbI/dGDWX2h5++Ljqz4Qf02y7N4RJ6gEXxpio4TJ
-	 G4PeHVxGDpx3IWMJNfniHMd/uZjmDEUzIHNTXzvP9SNs0XX4dXREuIgIZtC+MgS7dD
-	 9TI2MTt3GFtIA==
-Message-ID: <87dca76c-851e-4cc3-ab91-68949d283b79@kernel.org>
-Date: Wed, 19 Aug 2026 16:21:35 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gl2AX37l"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7f4351e4a12so140174a34.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 07:26:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787149573; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CsL7FXBdbR/kGhvQTxk4MXnLfvlIahdSIFrcK016b4oZMWyT/jzhEIV6pymdir2kHv
+         nkl9YL6a7Y2KiZVWU6d5nT9p2I4fcTkh7YWbmb+QD02NQcDrjU+sZ5w3VmsQUSkgP0Ri
+         DePhWSM9t8SC1YkDi7IrQi0yG/6iW8wIwcNSmt5cCoYMKlaM0eu6XDEq/lAfVXj+gje9
+         F6iBTq7ysQQHag4P3iotdsW3YziMi9bMqjYSR9afA2HLcA/liwvtHO+uiutQWf1jvdCm
+         E04mEKNVOKg2K0DA2GtrmH/aCNg5Kz0ZZYh/UdlJGE4OTLr5L08/Q/4MOYp+TuhL3HBD
+         UnPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mtLHmPpOiePeRFfAyGUsz76wlHeLqchwFt029X15pLE=;
+        fh=bN9XrV817z+oz0g59/oi0KopX8DkRzeBkc0TgJ1fzuw=;
+        b=PxWetxSaP3d+psURLlDdN1J1niKGvMcMLZNJj/Vqsl9A7NiQLSa7ITGHYdlpke2ynR
+         owQexU5jW6bpCyRhI7JCRkgvMSc9Q0VmJeg1HxFO3YoqdHpVvQ1didQ6q3a5QM/FtUC5
+         O+rCCsSHQxCpw6EQeaRotK7QcRcRaGoPQTSHmp3rKRJsEjOjV4Ix5X65exM6fW74DR7J
+         hKyB5VAkXtNyR+tzW9NnQGlSwoOsyWxAv0EfHkwA8ARnSy8S6jy9RNPDQjaL1caGKBlj
+         B+cOvG3PtFukJHd/aif1ACPE/x+MuFlhYrqrLj046rGPgM4oL5PbYfczD9NqHapUS6Ia
+         nWDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787149573; x=1787754373; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mtLHmPpOiePeRFfAyGUsz76wlHeLqchwFt029X15pLE=;
+        b=gl2AX37lK5/bpSpoABYA4jl9JrAnrb71JDrAxNLuqB7NC53x8BNZJ9yZpga/Kg/LPX
+         eSwi60UKCJk8JJg5cUYDLKr0gemVlQa5BMs7iNsJS/6sPMUmgvQzLLOusvDANcwi8WCq
+         lair9RIv2lwYsrsV5kzw3cITRFUlED+d7pClXb8EVf1WfeSTn6iMCs0svNsZ2repBF48
+         p5U87gBnbvT56gPXaZ3W7Eod4fODK4DvWmT8W9RgIqS0daFeSjQhET1f79VjttWG/w1Q
+         +4uH4UhQ0nj519TNPkNU7a4THLQo/bBDbYgHLook9paV7YQvYWH5Sr4i7dgqd3rsvqY9
+         TxDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787149573; x=1787754373;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mtLHmPpOiePeRFfAyGUsz76wlHeLqchwFt029X15pLE=;
+        b=QEfSfrFtMpm7luyUe/dctXUajtL80xhkMQzb3kjNHd1PuxU87ei/bDlbbi47KkHl15
+         kxNC3+i9zCs0+Fgl8tdYEXTEyNCM4xRs8hZEiBIQ8yC9e5WVAzoEByIVbOmK6aTV1Fio
+         ixDWtIw2HDmQAT64swiZfi55T1sHrVGpligORbal1dUHvvyJvLnJ0ybF2ELllHsXP6uT
+         DBCsVrqzRL7KONSf1OUTYHra/S/mb0XaE3pwPVLe1/1GVm/xYXGu+0VM/G1sAZIZ+l56
+         APMpyK4hLhCD8qmKJXI+omU3AWfa/PIPcypt0WkH6NWlLP8Wk3cZQoh8Pf/mEOmx8vAq
+         5jyQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrEjhTfiUwxurRCREkj/cGfO36lGU7U66NgBH3WjTyagE/HsaUGEdvlm2yVejPWCCEdZ1aYSx3UqH4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtFqXjlYWc1sgyJQjfBquLtkQcEcBs3PVZ3eiBq7JyKTktrseZ
+	zWlrJc6woGCiqybG/38i4+ru5HJi9wwl7bfRDOXf/AEbK4n6l3baX85/Xi4rbrF9HDyzbmd6Tpd
+	S0bBcdPU/muSLO4/SPHex8BntNUtT1pU=
+X-Gm-Gg: AR+sD11QZYGG0ow0iqFR9vJRpGFesODNNw8M8Fv1JTX6qTF0dkXTf3jhgWYlT54Fx5w
+	7igcnp31v3ggpMoQg/7SOIrtMzvSfNuFb5EN8GeOFaLbuZQmr3TdX6n58xxS4wFXr/MAv1expFt
+	n1p2CucdmdG896uxk9cz7bbiB0KEm5Vhf5CTEfCkbS/E7fOWXlqB3pmS8z/7/51Mk5JsbRWN2yL
+	hwOvAJyTOg9qeDvTlQBCA7ZgysnXstB1ous/pNSHEOje8D+JOuQQKww5vW1494QPYe+A2JOOZ5U
+	SDah6iuCl/Uk7T9Nc2fYj2uZY2v+iki9o46kdFAD6L5MBdYKBLauQOqGWogLnjBhgw==
+X-Received: by 2002:a05:6808:4fce:b0:4a3:f036:f3bf with SMTP id
+ 5614622812f47-4b2bc8c1bdcmr2756929b6e.1.1787149572686; Wed, 19 Aug 2026
+ 07:26:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] accel/qda: Qualcomm DSP Accelerator driver
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- srinivas.kandagatla@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- llvm@lists.linux.dev, iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
- <3322b42b-3755-45ec-ad55-345125f0d488@kernel.org>
- <10349e29-b583-403f-a89a-9a00c73666bc@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <10349e29-b583-403f-a89a-9a00c73666bc@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260814-netcons_ipv6-v3-0-bc0915e8c75f@gmail.com> <20260818095103.7a7f4c51@kernel.org>
+In-Reply-To: <20260818095103.7a7f4c51@kernel.org>
+From: Gustavo Luiz Duarte <gustavold@gmail.com>
+Date: Wed, 19 Aug 2026 15:26:00 +0100
+X-Gm-Features: AcwNN1WvWAT473hyfFIV9m1jLgdW_32ZW6vRQrZ00niDYYx8NpT_8AvwknomriA
+Message-ID: <CAGSyskXAivuJ3=+3HgZeN_EUH1gw4A6+K=uLdr8Vc2q8swhW7A@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 0/7] netconsole: validate a target's IP
+ address configuration
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 19/08/2026 15:26, Ekansh Gupta wrote:
-> On 19-08-2026 00:43, Krzysztof Kozlowski wrote:
->> On 17/08/2026 06:47, Ekansh Gupta wrote:
->>> This patch series introduces the Qualcomm DSP Accelerator (QDA) driver,
->>> a DRM-based accelerator driver for Qualcomm DSPs. The driver provides a
->>> standardized interface for offloading computational tasks to DSPs found
->>> on Qualcomm SoCs, supporting all DSP domains.
->>>
->>> The QDA driver implements the FastRPC protocol over the DRM accel
->>> subsystem. It uses the same device-tree node structure as the existing
->>> fastrpc driver in drivers/misc/. The approach for binding the QDA driver
->>> to device-tree nodes while coexisting with the fastrpc driver is an open
->>> item described below.
->>
->> No. Grow/replace/improve existing driver instead of coming with a duplicate.
->>
->> That's a standard upstream requirement, basically given on every
->> upstreaming guide.
->>
->> Please watch old talk from Greg - "I Don’t Want Your Code!".
-> Posted discussion threads here[1]. Would seek comments from Dmitry,
-> Srini as well.
-> 
-> [1]
-> https://lore.kernel.org/all/3476b5c3-7983-4994-a901-3d7d8bd75255@oss.qualcomm.com/
+On Tue, Aug 18, 2026 at 5:51=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Fri, 14 Aug 2026 20:28:51 +0100 Gustavo Luiz Duarte wrote:
+> > This series adds two validations to the target configuration when the
+> > user tries to enable it: first whether remote_ip was set, and second
+> > whether local_ip and remote_ip address families match. Refuse to enable
+> > the target if any of those validations fail.
+> >
+> > These validations are already done for the target passed on the
+> > command-line, so this aligns dynamic targets with the command-line
+> > behavior.
+> >
+> > The first two patches replace the per-target 'ipv6' flag with a
+> > per-address 'family' field, which makes it easier to detect these error
+> > conditions. Patches 3 and 4 implement the actual validations.
+> >
+> > Patches 5-7 are follow-ups from previous reviews: move inet_addr from
+> > netpoll.h into netconsole.c, show an unset address as an empty string
+> > rather than "0.0.0.0", document local_ip auto-selection.
+>
+> LGTM, but feels to risky to merge during the merge window.
+> Since we're changing semantics we should let this sit in linux-next
+> for at least a week. Please repost in Sept.
 
-The rest of the comments is still valid even if you did not acknowledge
-them.
+Sounds good.
 
-Anyway, regarding above - again, watch the talk from Greg.
+>
+> BTW please carefully review clashiko feedback:
+> https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260814-netcons_ipv6=
+-v3-7-bc0915e8c75f@gmail.com
+> It marked as preexisting the problem of IP versions diverging but
+> I think it's relevant (patch 2)?
 
-You have ONE driver. Not two.
+The issue of IP versions diverging is indeed a preexisting bug and it
+is fixed by patch 4/7.
+I deliberately kept the fix separate from the refactoring for clarity.
 
-Best regards,
-Krzysztof
+Another preexisting bug that sashiko called out (patch 5) is the lack
+of locking on local_ip_show / remote_ip_show, which can lead to
+printing a partially updated address.
+But worse than that is local_mac_show (sashiko missed this one), which
+can lead to UAF if the user reads local_mac concurrently with target
+teardown.
+I will send a separate patch set to fix these *_show callbacks with
+proper locking.
