@@ -1,63 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51982208D0;
-	Wed, 19 Aug 2026 03:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF15C3C3432;
+	Wed, 19 Aug 2026 06:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787109427; cv=none; b=ewLw2jzmdMXueoSQEDkJeHVZd0v5P/KgzjU+P9EJTEUfYU0rH8fkBz0w6nKhLovRPdr7y8LcR6nVdOdd1khgqw9I/YKQRMbxfh4kB1Vb/Bh95PzNTvSAS76vSqRBvtYT+JgdoSGWTJsLWwCl5AQ7QHVc/nqE8ZLXVyBlZc6Xjes=
+	t=1787119895; cv=none; b=juc2Ffu3nOxc9z6F4KLqsPD6ofz31nct49D1JkngNzu+9Oj3ffSUfs5VVpabudx4iz0npI9XiHWgi+fABJtF6fmM3pHxdLW39Aq7kQK9AoFN2n2PSxuRhciO66KBEF/H+7EQ9kJam7l2xlMHK+fhdEf7IJBvTCgv0jyZ0ti/mWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787109427; c=relaxed/simple;
-	bh=1K+w/6UEW9xjBidBmP57Lfaq4MfoNGJmBubl5BfmEBU=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=bOYVQ/YS9WbquVhnrrSKyvMNJ+n/2/hHUbks6TJwkC6B1dc9uTCgVMe1QYBwqyzaJR7iOL6OdWQPsFcgUbxPmhOWPxvILp+H7OksJNjYGviu27oyj0GM/ezdB3TuYcozEYj0WIhm4rL/KBt+6QP4DV1ge8jQ3lBibYsszAEgSYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=W3HBMWD0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787119895; c=relaxed/simple;
+	bh=WweNHDHiElH8o82jk8npSceeFRcm3zMBKegXgf5E3CE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ufwpcWJcjggY79AwL8eevGHyoPk2AR+EFpzGNbZL03cwOf6jvT6mxixD6N8a16NmvL/TyJl4Qy6ehgUma76PnXn4hXwdwr36lsGyZgSYxlZwnJErgH7MIUpLNXnc066WifDgFZe5Q7zExmNtFGl67P0oeWUbtQEjA5Gc/6ekLpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVIy1RM1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="W3HBMWD0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E4261F000E9;
-	Wed, 19 Aug 2026 03:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1787109426;
-	bh=aJlpKyqUKzat34dlX1t84ExmqJi5Z0mvjSOZBisUEqc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=W3HBMWD0Q9VSIhbqG4DPn2GUiZMNe6rN9/BjyNlsenWV4WggdD/iMUOhpD5LhcznH
-	 2QCR4dnt6UY+HVYpvNHV7tAM1Isg5qOfqkGVgsxx2Y88IEbfnM7SUO9z51v8djVNIN
-	 2ndvAEzrSqZUzveXa3T43akZ2qc0A0KgGMukBWyE=
-Date: Tue, 18 Aug 2026 20:17:04 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Ye Liu <ye.liu@linux.dev>
-Cc: Ye Liu <liuye@kylinos.cn>, David Hildenbrand <david@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil
- Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] tools/mm/page_owner_sort: fix --sort, add module
- filter, improve usage
-Message-Id: <20260818201704.26f48cb26420ad8ec00fd226@linux-foundation.org>
-In-Reply-To: <20260819021611.2910835-1-ye.liu@linux.dev>
-References: <20260819021611.2910835-1-ye.liu@linux.dev>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVIy1RM1"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3D5DC2BCFB;
+	Wed, 19 Aug 2026 06:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787119895;
+	bh=WweNHDHiElH8o82jk8npSceeFRcm3zMBKegXgf5E3CE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=aVIy1RM1OBR6MFWeETHto62cXBghFE/wnVLErWiQT7WKr0ylf1hUjHMyhlTz9GBxH
+	 RdrK+ir9cUvxl7eM8qew/VjaGyd38vlcL9m23LaGXA+AFCQPY6aClct6blzBAbAF4v
+	 B43lBJ7PpWnBB50Fp4Hu4EyJRA/76gc12Zr/iFQufVlYmPjDvpO5HTXR8Ptlvx+2Fa
+	 kekP7LDoa6KR6XrCNNr4cKxHjJgF3l/fRWmAhGNufiSTW7GPwmXZa8/TtL3JIG6ZUs
+	 J68B91fcIveXDqr34GLyobWFeSo57o+GgNXAy3nvYJ1NYO9i+k5idRJLthxsPgs5ff
+	 Q9f12dCUP2tpg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 879C1C5DF6D;
+	Wed, 19 Aug 2026 06:11:35 +0000 (UTC)
+From: Pankaj Gupta via B4 Relay <devnull+pankaj.gupta.nxp.com@kernel.org>
+Date: Wed, 19 Aug 2026 17:12:08 +0530
+Subject: [PATCH v37 2/7] dt-bindings: arm: fsl: add imx-se-fw binding doc
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260819-imx-se-if-v37-2-5ef5de9ff1dc@nxp.com>
+References: <20260819-imx-se-if-v37-0-5ef5de9ff1dc@nxp.com>
+In-Reply-To: <20260819-imx-se-if-v37-0-5ef5de9ff1dc@nxp.com>
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787139727; l=3245;
+ i=pankaj.gupta@nxp.com; s=20260817; h=from:subject:message-id;
+ bh=T+yyPOpdxzPdIuNJ+imfCdmSEVDwuOuBb/dhiIQRNpY=;
+ b=w5FJgpsTJqBwljS9WIPZ+2esbLHjtrRS2tCm0dNMS6sSN+LNKzD2PyRZDAvxZdqJ67XRyELAm
+ jO5gzPUrXleBZGx8ZmQSz96EWmM4r2S01axs2mjKooq0ZeBSupeXDZ5
+X-Developer-Key: i=pankaj.gupta@nxp.com; a=ed25519;
+ pk=g4ZgzIWbpXnSxRsoH+l6PWLP78a+Mzpl8e6RQe74d5Y=
+X-Endpoint-Received: by B4 Relay for pankaj.gupta@nxp.com/20260817 with
+ auth_id=962
+X-Original-From: Pankaj Gupta <pankaj.gupta@nxp.com>
+Reply-To: pankaj.gupta@nxp.com
 
-On Wed, 19 Aug 2026 10:16:08 +0800 Ye Liu <ye.liu@linux.dev> wrote:
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
 
-> This series improves the page_owner_sort tool with a bug fix, a new
-> module-name feature, and better usage text.
+The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X etc.,
+creates an embedded secure enclave within the SoC boundary to enable
+features like:
+- HSM
+- SHE
+- V2X
 
-Cool, thanks.  I remain mystified about the recent flurry of work on
-page_owner.  But I'm glad that people are obviously finding it useful!
+Secure-Enclave(s) communication interface are typically via message
+unit, i.e., based on mailbox linux kernel driver. This driver enables
+communication ensuring well defined message sequence protocol between
+Application Core and enclave's firmware.
 
-I'll stash your series away for consideration after 7.3-rc1.
+Driver configures multiple misc-device on the MU, for multiple
+user-space applications, to be able to communicate over single MU.
 
-Sashiko claims to have found something rather obscure, but it's
-probably worth cleaning that up:
+It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
 
-	https://sashiko.dev/#/patchset/20260819021611.2910835-1-ye.liu@linux.dev
+Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+ .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 91 ++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+new file mode 100644
+index 000000000000..fa81adbf9b80
+--- /dev/null
++++ b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+@@ -0,0 +1,91 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/firmware/fsl,imx-se.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NXP i.MX HW Secure Enclave(s) EdgeLock Enclave
++
++maintainers:
++  - Pankaj Gupta <pankaj.gupta@nxp.com>
++
++description: |
++  NXP's SoC may contain one or multiple embedded secure-enclave HW
++  IP(s) like i.MX EdgeLock Enclave, V2X etc. These NXP's HW IP(s)
++  enables features like
++    - Hardware Security Module (HSM),
++    - Security Hardware Extension (SHE), and
++    - Vehicular to Anything (V2X)
++
++  Communication interface to the secure-enclaves(se) is based on the
++  messaging unit(s).
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8ulp-se-ele-hsm
++      - fsl,imx93-se-ele-hsm
++      - fsl,imx95-se-ele-hsm
++
++  mboxes:
++    items:
++      - description: mailbox phandle to send message to se firmware
++      - description: mailbox phandle to receive message from se firmware
++
++  mbox-names:
++    items:
++      - const: tx
++      - const: rx
++
++  memory-region:
++    maxItems: 1
++
++  sram:
++    maxItems: 1
++
++required:
++  - compatible
++  - mboxes
++  - mbox-names
++
++allOf:
++  # memory-region
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx8ulp-se-ele-hsm
++              - fsl,imx93-se-ele-hsm
++    then:
++      required:
++        - memory-region
++    else:
++      properties:
++        memory-region: false
++
++  # sram
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx8ulp-se-ele-hsm
++    then:
++      required:
++        - sram
++
++    else:
++      properties:
++        sram: false
++
++additionalProperties: false
++
++examples:
++  - |
++    secure-enclave {
++      compatible = "fsl,imx95-se-ele-hsm";
++      mboxes = <&ele_mu0 0 0>, <&ele_mu0 1 0>;
++      mbox-names = "tx", "rx";
++    };
++...
+
+-- 
+2.43.0
+
+
