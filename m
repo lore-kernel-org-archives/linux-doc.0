@@ -1,106 +1,153 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB4E925C804;
-	Wed, 19 Aug 2026 13:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7019A1F91F6;
+	Wed, 19 Aug 2026 14:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787147731; cv=none; b=X38RKGfO0l+MIFVj6g51r0adRzjD4EXjtM3eym52cng7+2Y/qY8AZ7ftLuf2Rr29N4ngQleRBhtsyfyQalezdFomM6dItPSm7tkM8wf4ZJVGZoonBJ/yMKFeP9Vc12QeFAC+LGTcX6jd7Nke7ee9evhbcgPrYyDUkVLVD+87kqw=
+	t=1787149007; cv=none; b=Q5aVisyyQf2aTNlLee53kGcC/sDF7aoC9CBlMWQYmayiK3Amj7yh5LGL2yJpy5GqLeqwHoXwjU+24Zy2aWCpsU5+T7xdRUPvmkDHCpP7/RhjGKy0z+o3qLlkVrgCm8eNA099LybbLerXRJfAB40CMbaEPYJM0SpCJw0h7AOBuVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787147731; c=relaxed/simple;
-	bh=UuEKHUn7xr7WabqbuM3/XgJTz2Viqf/N0nxnnC3djV4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=jf9JHUcWLTAXRbU5gBAcSNNJYtgAVvHZEiup5v2u2Duggybhg3XSHRLzQJFAkoKCe+KgVeIdHv8c2IDdHCL9/9uQiQ18lr4qjY9qDNeRq9dXj+UDsiHAjofe5yFh6vHev/JG2s4ic4AkrHr6zQTY28Bw+xiDthyjLWzvUJWo0BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WEii9Sm6; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1787149007; c=relaxed/simple;
+	bh=PteIHbiH275kWZIIBEYXQkHgPHnGqNFTyF6O3hS2y3Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=INi0qIoUioK0flCoa1eT9xzU9IRFqWp+/UWvZVYr/LwHWll+ntaj3ttVdS6S0jLmNiTYcSinSTUWrVz+DsXjNPM/7LOAAEZz95KGJ0eTz+53eby+8NSHLNsEqJ02SgJAwfsvrQttofewqOSy2Xj/0uquBdqy/r4rC5mk4aDpYzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fte8kch2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WEii9Sm6"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19A4F14BF;
-	Wed, 19 Aug 2026 06:55:24 -0700 (PDT)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFD673F763;
-	Wed, 19 Aug 2026 06:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787147727; bh=UuEKHUn7xr7WabqbuM3/XgJTz2Viqf/N0nxnnC3djV4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WEii9Sm6ptsXldQBo3H7icR9c5y/Ww/U0WGgnltI09o1uRCn/3MaKwh+KBr83JDBe
-	 4xl5gYp+vubiL6q55Aaaajcsk/pGksWdp5Ca73IFFbI8/akhxPDnD8EbX9g+JhHfPu
-	 u+/pVIcUI2guZhZCGmbS1oDlEgMHk9q09jsSuMR4=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Fuad Tabba <tabba@google.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v19 02/14] KVM: arm64: Fix FGT mapping for HFGITR_EL2.nGCSEPP
-Date: Wed, 19 Aug 2026 14:55:23 +0100
-Message-ID: <aoW1ywZGCvJaYQqN@LeoBrasDK>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260812-arm64-gcs-v19-2-9105afd828ac@kernel.org>
-References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org> <20260812-arm64-gcs-v19-2-9105afd828ac@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fte8kch2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30021F000E9;
+	Wed, 19 Aug 2026 14:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787149006;
+	bh=ApQOqCZQLr0MTo6mhElvZDVb/nXI7NAnILp4nsBA4I4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Fte8kch2HiC9PJciq1otNh8p9WvrdmUsaTL77/1zZMT/uWpRqSAUGBmOcL5tbxdfu
+	 IhciPVYiA74tZwV6zYy+wUBkygUNDgVy/YGdmYjSdw1B3kh8zbfoBwdCbLC1KLGi1v
+	 Zi7yie4ABlx+P1ePz9p1F0Etzh2NWvHtxKOgwVU8RqUFgizMk7+1Jn+eZBQjcBI/MJ
+	 PGcWMNg75MUGucRd+EVW09G2IJIBE+3nZqBo5DtPKckeTFUNEczOSGcvtTtBY6XoPN
+	 /A1ToBUfZJGtw8moKNEVMI0zsE1emOMIr+EIDQ/UHLseqIMJrKzryj7Da0ZVrt2LeD
+	 KB29IM6qNlV8w==
+Message-ID: <f725955b-27aa-4b20-8a4b-84906782b921@kernel.org>
+Date: Wed, 19 Aug 2026 16:16:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/15] MAINTAINERS: Add entry for Qualcomm DSP
+ Accelerator (QDA) driver
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>,
+ srinivas.kandagatla@oss.qualcomm.com, dmitry.baryshkov@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ llvm@lists.linux.dev, iommu@lists.linux.dev, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-1-69a02e9090d4@oss.qualcomm.com>
+ <cc43a545-20a1-4f15-a7b9-ca48842bffca@kernel.org>
+ <e0a25f11-5c7c-406f-a223-da29bf6e1401@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <e0a25f11-5c7c-406f-a223-da29bf6e1401@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 12, 2026 at 08:12:01PM +0100, Mark Brown wrote:
-> The encoding to trap mapping currently maps a FGT on OP_GCSPOPX to
-> HFGITR_EL2.nGCSEPP but as per DDI0601 2026-06 this FGT controls trapping
-> of GCSPUSHX and GCSPOPCX, and not the separate GCSPOPX instruction.
-> Update the mapping to reflect the architecture.
-
-That information seems to match the one in Arm ARM version M.c.
-nGCSEPP, bit [59]
-	When FEAT_GCS is implemented:
-	Trap execution of any of the following AArch64 instructions at EL1 to EL2:
-		• GCSPUSHX.
-		• GCSPOPCX.
-
-It looks like GCSPOPX can fault if the record is not a valid entry, but 
-there seems to be no trap register bit for that.
-
-Thanks!
-Leo, 
-
-
+On 19/08/2026 15:05, Ekansh Gupta wrote:
+> On 19-08-2026 00:52, Krzysztof Kozlowski wrote:
+>> On 17/08/2026 06:47, Ekansh Gupta wrote:
+>>> Add a MAINTAINERS entry for the Qualcomm DSP Accelerator (QDA) driver,
+>>> covering the driver source under drivers/accel/qda, documentation under
+>>> Documentation/accel/qda, and the UAPI header
+>>> include/uapi/drm/qda_accel.h. The linux-arm-msm and dri-devel mailing
+>>> lists are listed as the relevant review lists.
+>>>
+>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>>> ---
+>>>  MAINTAINERS | 11 +++++++++++
+>>>  1 file changed, 11 insertions(+)
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 912837dd4640..75fa90c137c7 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -22388,6 +22388,17 @@ S:	Supported
+>>>  F:	Documentation/devicetree/bindings/crypto/qcom-qce.yaml
+>>>  F:	drivers/crypto/qce/
+>>>  
+>>> +QUALCOMM DSP ACCELERATOR (QDA) DRIVER
+>>> +M:	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>>> +L:	linux-arm-msm@vger.kernel.org
+>>> +L:	dri-devel@lists.freedesktop.org
+>>> +S:	Supported
+>>> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>>> +F:	Documentation/accel/qda/
+>>
+>> There is no such directory.
+> the directory got added in a later patch, added this patch at the start
+> following the comment here[1].
 > 
-> Fixes: 863ac38984a82 ("KVM: arm64: Add missing HFGITR_EL2 FGT entries to nested virt")
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/kvm/emulate-nested.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
-> index 3c82f392845d..b32742d9dd73 100644
-> --- a/arch/arm64/kvm/emulate-nested.c
-> +++ b/arch/arm64/kvm/emulate-nested.c
-> @@ -1432,7 +1432,7 @@ static const struct encoding_to_trap_config encoding_to_fgt[] __initconst = {
->  	SR_FGT(OP_AT_S1E1A, 		HFGITR, ATS1E1A, 1),
->  	SR_FGT(OP_COSP_RCTX, 		HFGITR, COSPRCTX, 1),
->  	SR_FGT(OP_GCSPUSHX, 		HFGITR, nGCSEPP, 0),
-> -	SR_FGT(OP_GCSPOPX, 		HFGITR, nGCSEPP, 0),
-> +	SR_FGT(OP_GCSPOPCX, 		HFGITR, nGCSEPP, 0),
->  	SR_FGT(OP_GCSPUSHM, 		HFGITR, nGCSPUSHM_EL1, 0),
->  	SR_FGT(OP_BRB_IALL, 		HFGITR, nBRBIALL, 0),
->  	SR_FGT(OP_BRB_INJ, 		HFGITR, nBRBINJ, 0),
-> 
-> -- 
-> 2.47.3
-> 
+
+This comment did not tell you to make it non-bisectable. This comment
+asked you to add that parts in your first patch. Why did you move
+patches instead of adding this into the first one?
+
+Best regards,
+Krzysztof
