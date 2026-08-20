@@ -1,116 +1,230 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 768C54119ED;
-	Thu, 20 Aug 2026 10:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF763F8ECD
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 10:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787221042; cv=none; b=mIzZWtMJTpRi3rRNYJ6cf0RAghZaepCiSPGoWWHWI9K36aawdd8oLAj0rQNhfLwO0KqDt4Wva7JrOwOnqS+iWOH7se12ncfZI9gOnHGuaMNmtYSVAhbugudwGm57CBM/Q3sOsMGwk+ynrMeAqTKto0v+8DWsqSS3E9oI5qQ8SkI=
+	t=1787221318; cv=none; b=h0QJBacfVKf++UcOJl6OBl7buNHVkmje+jJbjpdlsm5Hn9Y5ynKv2YsliPcTdL4C+0upe1jkk2JmyDC9Pd+7GmKu0Qg4WFcqvGb8IWWJ3Q+r7rYckoYwqIKvMce7Ej/pkI2aJk9/3krquWvS/gvXK6EHgjNZeZJzh1iCzWIxfTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787221042; c=relaxed/simple;
-	bh=+7Rmuor6yXuOnxCcupVMz2jDFYfkI0A5Czu3oK9FVYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=SfMa9ETZQrjLemCxZ94VovA95xqy5IU/05PfoC1nthSGDiACH/gtjFk25vr8g6MqjAcnbSslKrmLrlMbDOzd7MKB/fa9tcpzMvAZHznbjmksA+rZqynUaUHh2cn5i33M/Kk0u6lL2hSiQhzZdmeA06kj1ky6NIy01O69CIktWjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XD6tLs3/; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1787221318; c=relaxed/simple;
+	bh=dtyn2f9q1T02OJEVPhn7CJgfFYWg+JUYQ2izpiRepkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GFmKuD7Td/HqrTbDEOhzuKALEXgCM0nXNx21mPhYkeWUjZsmNNaXhb08LFuZNgQFJ5OxIPtmyMfVHeU5WghwqOKnXi9FDuMbXtZhSbveGsggWPuMxOvIrI+5I+arFaGOIPf7TdMcb1HfCvDaOlxGgeV//6AyFXXOokgzwFtfmu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=I9m9cNuV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=K6/q7oYO; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XD6tLs3/"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 56DED14BF;
-	Thu, 20 Aug 2026 03:17:06 -0700 (PDT)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFEF23F66F;
-	Thu, 20 Aug 2026 03:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787221030; bh=+7Rmuor6yXuOnxCcupVMz2jDFYfkI0A5Czu3oK9FVYc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XD6tLs3/X7CDnMBm6Imqu8tx5lVQFY+S7OnbaDHQ1Or87h9W5tjb5+JvyI1wvWFj7
-	 BPAWPekKQcovoaTpdRukZSwxKw9epksB57CaQwwdwAeXYQOp+8rPB0gzIsv1y1Ng8M
-	 zFuRGVBbNYqOFafJlJH9wA4RMmBY5Zb3CT1+TBgQ=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Fuad Tabba <tabba@google.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v19 03/14] KVM: arm64: Manage GCS access and registers for guests
-Date: Thu, 20 Aug 2026 11:16:59 +0100
-Message-ID: <aobUGyq8nInJYkdA@LeoBrasDK>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <48be9e5d-357a-4863-8682-8b3f34c69723@sirena.org.uk>
-References: <aoXamcdKoMynTkpX@LeoBrasDK> <48be9e5d-357a-4863-8682-8b3f34c69723@sirena.org.uk>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="I9m9cNuV";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="K6/q7oYO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787221315;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kLhRMr0ihKkmZGJvmMW+HBNQZqg+Qarr5omZgdvkv30=;
+	b=I9m9cNuVhbrR6UcV16XGURS3mzhCvvW4KY1M3Mrpu2z6R3hnIY+EmKLcMiMH8K+D6tPMV6
+	XkD0m7PxXpCq5e45jDegSlMXb5TH464tM2H91wMXT/f4IqoIhEEVgrMY4tCRq2BEnKXyVt
+	UjOT8YL491mXiCZe4Dr5cTU3oEd/gew=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-307-Wo1DAn1fMxaxCtFL7RTZew-1; Thu, 20 Aug 2026 06:21:53 -0400
+X-MC-Unique: Wo1DAn1fMxaxCtFL7RTZew-1
+X-Mimecast-MFC-AGG-ID: Wo1DAn1fMxaxCtFL7RTZew_1787221312
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49554715277so20287785e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 03:21:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1787221312; x=1787826112; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kLhRMr0ihKkmZGJvmMW+HBNQZqg+Qarr5omZgdvkv30=;
+        b=K6/q7oYOgZszAP5gCDXYCc2UAZnEw/kZ0ObgupjryKAVtQh9uIeeK+oZf5l7m0OZM/
+         wnDiD3LevxtJ4Xr66wboJfHay0ghKbTZJR1h+3QDJuCqHsqAxrUz3lnEqBLTlCvnujtW
+         bAcbQKheloWROFdEn6QXL8ldbG1mPvQdLjzLV5H2P2Mj2joYxetvvpmb451IEMIVdsyI
+         jh3O439DWSEL+EDotvr5M68wrSS6hWUGb1F+7K4J/UbvGC/g2jyl7M7XtGt0Cmytzzoh
+         +eXsfTm7uXPHqMSI3be67NkxN8vRovr31WYkYAQlNvcETTfPfNjXVSQZaxbrNjaBq/+l
+         lR+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787221312; x=1787826112;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kLhRMr0ihKkmZGJvmMW+HBNQZqg+Qarr5omZgdvkv30=;
+        b=g3ycTikXO1EmjpOb8B9WtgXNGZZKl9efOhpgu28fd+pMVJC6NXJebtkye+8SMhhbax
+         mC+Rg8dX69jqbYYokboYAwB5fbrsPJDtYNGBalpX2ukEDTIlLXPP/+F1BqOQHSWfj+Tb
+         zgRX7Tkt853emd/BX5pD/ceKuorM7m6SspwRYs+FghLaSSraI9zSauxqOYaa0I1HXz6X
+         tR3r6PuxtqXosEjgCkPRhNlreEgdkwAyJIVGoJCzsbuo4reO9kJNc0zoC1nJZ9ehkxzj
+         clNhorl3mCiVtNS6dY/vv212oUdxsLqIalSfBZhlwhuma+JCXNO5QbcqmC9tFfjHjb0q
+         fd6g==
+X-Forwarded-Encrypted: i=1; AHgh+RqwdeXStYa6X10ABphaEkrGnTDk/TrFtb7F9892d8HCwR+U+3+Hx6t6btYtK/p6Svcicdil8re8j3c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAKaRNyzOKdW9iUFSAfsWuSCRccxoh75JVfRdUWU8jIf0h3FeG
+	MruObupg3uZkhrwMrw6vESNOB5Ts9wSM8oiFYp1PoB/2tpDguJDu6au1vv2gIpj9voC7iSBIUMH
+	avWjaNHguXXFNhi+tuFyZXolIfAGgnrr7hMevx6wPxMD+D4scBsKqIrkx6UOyFw==
+X-Gm-Gg: AR+sD10e4AcTO/Bux9PRAMQeX9YbwK53agAy1TCEAUXW4EISiqG8wuSEG91DmoqpvLG
+	aTU/pwdsVXZ5Fz5iwcIGJYw36Jnppr+mvlj/HQULiKDRhBqSPWquboRd1OmkmBOEUA/pjA1RDx1
+	J+N17eIO0LV0ppSagiIWAx61K/+4t9SeVfXyLq7sljn8yTGNB8TANYTD8Tuq8nzNJ/HQhzbY0EQ
+	YNgT+SM5k6eAoGCzgtY0fadgwmaSu7KhtikNuJ8zTkFk9tlyBlNVifKjYFvYfY7eNtf2/Sc79hU
+	Za+hEkO0S9IvpPzSRMK3qISSmLTspP8RDHYbzY11UoqJLrz00GlW/ydPMPT+J3+LwqaDgSuaSOv
+	gLej0Mz4Y0HkwvsL26PJi3EpgI29PBj7L70KYVBvQ+qOZZeu4nMWn6XZM+Bkdxwwswrpb/xOMwW
+	M=
+X-Received: by 2002:a05:600c:6749:b0:495:6274:56c2 with SMTP id 5b1f17b1804b1-499aa1896f1mr212174465e9.2.1787221312288;
+        Thu, 20 Aug 2026 03:21:52 -0700 (PDT)
+X-Received: by 2002:a05:600c:6749:b0:495:6274:56c2 with SMTP id 5b1f17b1804b1-499aa1896f1mr212173445e9.2.1787221311791;
+        Thu, 20 Aug 2026 03:21:51 -0700 (PDT)
+Received: from [192.168.188.103] (ip239-44-231-195.pool-bba.aruba.it. [195.231.44.239])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499b2269ba6sm30627135e9.1.2026.08.20.03.21.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2026 03:21:51 -0700 (PDT)
+Message-ID: <9ab7df63-dcbd-496c-a997-4218e2ab272b@redhat.com>
+Date: Thu, 20 Aug 2026 12:21:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v5 1/1] tcp: bound SYN-ACK timers to reqsk timeout
+ range
+To: Zhiling Zou <zhilinz@nebusec.ai>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ ncardwell@google.com, kuniyu@google.com, chia-yu.chang@nokia-bell-labs.com,
+ ij@kernel.org, fmancera@suse.de, bronzed_45_vested@icloud.com,
+ idosch@nvidia.com, yuuchihsu@gmail.com, vega@nebusec.ai
+References: <cover.1786540242.git.zhilinz@nebusec.ai>
+ <9ec8921d81d6218946e07e8542b1ac41b6e2d205.1786540242.git.zhilinz@nebusec.ai>
+From: Paolo Abeni <pabeni@redhat.com>
+Content-Language: en-US
+In-Reply-To: <9ec8921d81d6218946e07e8542b1ac41b6e2d205.1786540242.git.zhilinz@nebusec.ai>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 19, 2026 at 05:46:00PM +0100, Mark Brown wrote:
-> On Wed, Aug 19, 2026 at 05:32:25PM +0100, Leonardo Bras wrote:
-> > On Wed, Aug 12, 2026 at 08:12:02PM +0100, Mark Brown wrote:
+On 8/12/26 3:38 PM, Zhiling Zou wrote:
+> request_sock::num_timeout is a 7-bit counter. Commit e6c022a4fa2d
+> ("tcp: better retrans tracking for defer-accept") split this counter
+> out of an 8-bit field, but tcp_synack_retries still accepts an 8-bit
+> value and TCP_DEFER_ACCEPT can still derive a retry count up to 255.
 > 
-> > > In order to allow guests to use GCS we also need to configure
-> > > HCRX_EL2.GCSEn, if this is not set GCS instructions will be noops and
-> > > CHKFEAT will report GCS as disabled.
+> If these settings exceed 127, the regular request timer cannot reach
+> its expiration threshold and num_timeout wraps to zero. After the wrap,
+> the request can keep timing out instead of expiring, and the next
+> zero-to-one transition repeats the young-queue accounting decrement.
 > 
-> > It is zero on reset, and keeping it in zero disables GCS in EL0&EL1, so 
-> > unless we are in EL2&0 (HCR_EL2.{E2H, TGE} is {1, 1}), we need to enable it 
-> > so EL1&0 (guests) can have access to it.
+> Both request timer paths can also shift req->timeout by 64 or more while
+> calculating the next RTO. UBSAN reports that invalid shift, and systems
+> with panic_on_warn=1 panic before the later cap can take effect.
 > 
-> Right.
+> Limit tcp_synack_retries and the TCP_DEFER_ACCEPT conversion to the
+> range represented by num_timeout, preserving the same defer-accept value
+> for its timer and bare-ACK consumers. Saturate RTO calculation before
+> the shift, and cap the Fast Open extra retry to the same range.
 > 
-> > > @@ -77,6 +80,8 @@ static void __sysreg_save_vel2_state(struct kvm_vcpu *vcpu)
-> > >  	__vcpu_assign_sys_reg(vcpu, SP_EL2,	 read_sysreg(sp_el1));
-> > >  	__vcpu_assign_sys_reg(vcpu, ELR_EL2,	 read_sysreg_el1(SYS_ELR));
-> > >  	__vcpu_assign_sys_reg(vcpu, SPSR_EL2,	 read_sysreg_el1(SYS_SPSR));
-> > > +	if (ctxt_has_gcs(&vcpu->arch.ctxt))
-> > > +		__vcpu_assign_sys_reg(vcpu, GCSPR_EL2, read_sysreg_el1(SYS_GCSPR));
+> Fixes: e6c022a4fa2d ("tcp: better retrans tracking for defer-accept")
+> Cc: stable@vger.kernel.org
+> Reported-by: Vega <vega@nebusec.ai>
+> Signed-off-by: Zhiling Zou <zhilinz@nebusec.ai>
+> ---
+> changes in v5:
+> - Limit tcp_synack_retries and TCP_DEFER_ACCEPT at their configuration
+>   paths, so all users of each value see the same 7-bit range.
+> - Use 127, matching request_sock::num_timeout, instead of the previous
+>   runtime limit of 63, and document the sysctl limit.
+> - Spell out the 7-bit range mismatch, the repeated young-queue accounting,
+>   and the UBSAN panic_on_warn failure mode in the commit message.
+> - Keep the timeout calculation saturating before either SYN-ACK timer
+>   shifts it.
+> - Drop a no-op reqsk_timer_handler() formatting hunk.
+> - Correct the Fixes tag and update the reporter and sign-off trailers.
+> - v4 Link: https://lore.kernel.org/all/891a220c362e3266efdf6b1aa9dc3e52f6825c00.1784735392.git.zhilinz@nebusec.ai/
 > 
-> > Out of curiosity here,
-> > Why does the saving of GCSCR_EL2 depends on ctxt_has_tcrx() (and E2H set), 
-> > and saving SYS_GCSPR does not? ... 
+> Changes in v4:
+>   - Drop the tcp_synack_retries sysctl maximum to preserve existing
+>     user-space behavior, and keep the runtime clamps at the timer usage
+>     sites.
+>   - v3 Link: https://lore.kernel.org/all/20260702095324.2995243-1-n05ec@lzu.edu.cn/
 > 
-> This is just because there isn't a preexisting ctxt_has_tcrx() check
-> already there, FEAT_GCS architecturally depends on FEAT_TCRX and there
-> was a request to make this explicit in the code to try to optimise
-> things a bit.  The compiler should skip over both blocks at once if TCRX
-> isn't there rather than having two separate tests or static branches.  I
-> didn't add new checks where there were none since I expect that to be
-> unhelpful for code generation, you'd get the reverse situation and emit
-> two checks.
+> Changes in v3:
+>   - Order local variables in tcp_reqsk_timeout_sk() by reverse Christmas
+>     tree.
+>   - v2 Link: https://lore.kernel.org/all/20260630035009.55201-1-n05ec@lzu.edu.cn/
+> 
+> Changes in v2:
+>   - Keep the existing max_retries calculation in
+>     tcp_fastopen_synack_timer() and only add the clamp, avoiding code
+>     churn.
+>   - v1 Link: https://lore.kernel.org/all/02e24eb83639e9d7ecc623f000c60254bb5c40a5.1782643946.git.roxy520tt@gmail.com/
+> 
+>  Documentation/networking/ip-sysctl.rst |  2 +-
+>  include/net/tcp.h                      | 20 ++++++++++++++++----
+>  net/ipv4/sysctl_net_ipv4.c             |  2 ++
+>  net/ipv4/tcp.c                         |  2 +-
+>  net/ipv4/tcp_timer.c                   |  6 ++++--
+>  5 files changed, 24 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> index 208f46967ee59..fd5038b6cab9f 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -954,7 +954,7 @@ tcp_stdurg - BOOLEAN
+>  
+>  tcp_synack_retries - INTEGER
+>  	Number of times SYNACKs for a passive TCP connection attempt will
+> -	be retransmitted. Should not be higher than 255. Default value
+> +	be retransmitted. Should not be higher than 127. Default value
+>  	is 5, which corresponds to 31seconds till the last retransmission
+>  	with the current initial RTO of 1second. With this the final timeout
+>  	for a passive TCP connection will happen after 63seconds.
+> diff --git a/include/net/tcp.h b/include/net/tcp.h
+> index 2c5b889530b55..8ab2fd368ed3b 100644
+> --- a/include/net/tcp.h
+> +++ b/include/net/tcp.h
+> @@ -183,6 +183,8 @@ static_assert((1 << ATO_BITS) > TCP_DELACK_MAX);
+>  #define MAX_TCP_KEEPINTVL	32767
+>  #define MAX_TCP_KEEPCNT		127
+>  #define MAX_TCP_SYNCNT		127
+> +/* request_sock::num_timeout is a 7-bit field. */
+> +#define MAX_TCP_SYNACK_RETRIES	127
+>  
+>  /* Ensure that TCP PAWS checks are relaxed after ~2147 seconds
+>   * to avoid overflows. This assumes a clock smaller than 1 Mhz.
+> @@ -882,12 +884,22 @@ static inline u32 __tcp_set_rto(const struct tcp_sock *tp)
+>  	return usecs_to_jiffies((tp->srtt_us >> 3) + tp->rttvar_us);
+>  }
+>  
+> -static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
+> +static inline unsigned long tcp_reqsk_timeout_sk(const struct sock *sk,
+> +						 struct request_sock *req)
+>  {
+> -	u64 timeout = (u64)req->timeout << req->num_timeout;
+> +	u32 rto_max = tcp_rto_max(sk);
+> +	u64 timeout = req->timeout;
+> +
+> +	if (req->num_timeout >= BITS_PER_TYPE(timeout) ||
+> +	    timeout > U64_MAX >> req->num_timeout)
+> +		return rto_max;
 
-Humm, but then why saving GCSPR_EL2 does not depend on TCRX/E2H? Or maybe a 
-better question, why are not GCSPR_EL2 and GCSCR_EL2 saved in the same 'if' 
-clause under ctxt_has_tcrx() (and E2H set), if they are restored in the 
-same 'if' clause?
+Sashiko notes the above is racy, and basically makes this patch not
+effective:
 
-As you mentioned, GCS depends on TCRX, so it should be fine, but just by 
-reading the code I see:
-- GCSCR_EL2 :
-	Save if 	GCS=1, TCRX=1, E2H=1
-	Restore if 	GCS=1, TCRX=1
-- GCSPR_EL2 :
-	Save if 	GCS=1,
-	Restore if	GCS=1, TCRX=1
+https://netdev-ai.bots.linux.dev/sashiko/#/patchset/9ec8921d81d6218946e07e8542b1ac41b6e2d205.1786540242.git.zhilinz%40nebusec.ai
 
-Which looks kind of confusing for the as a first time reader.
+note that the solution provided there does not even compile, you
+will need something slightly different.
 
-Does it make sense?
+> @@ -1034,6 +1035,7 @@ static struct ctl_table ipv4_net_table[] = {
+>  		.maxlen		= sizeof(u8),
+>  		.mode		= 0644,
+>  		.proc_handler	= proc_dou8vec_minmax,
+> +		.extra2		= &tcp_synack_retries_max,
 
-Thanks!
-Leo
+I explicitly asked to avoid this in v3. Sashiko suggested updating the
+doc. Why do you add this back?
+
+/P
+
