@@ -1,160 +1,137 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16E01F5821
-	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 00:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42310222580;
+	Thu, 20 Aug 2026 00:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787187056; cv=none; b=e0laMZfUlMsaeKe8BFJ/SqEPO+tnkgI2pfL9BW8eOIA98rDD7iZNu8zoLI/IaQ/BIidumy9pqlXCZMXy3HtumzTzzZv86CdLVIqK/76dFToFJhCxyBAtCEJ9EYNuxHt7RXEK9n3oghYmjGy1NTRCuli//wGoWexTKSueRpa5v9M=
+	t=1787187478; cv=none; b=boezAXzy0MveS0yqKpT2KWOIpNjwxoHzT5lysVt5d5T7wP8V6uftQH8pSomsdMRnjL8ZbWw/hg9OwBEBHUghlm4qEzkiveEwAS5HUhDC+emn77/OdOhWR4UpWPQlF6ABYeNP3dLbj8naWr2stGnZCKQD1XS2BQQcAFE1ysoi/2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787187056; c=relaxed/simple;
-	bh=TE/HKcGQjHB6nV6Ri5aq4h/uJG1E970OIzgK0+7AObE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=J/O94aXzZV9PimK+mGk/ZnJgk+7o7qqRdY1Ek83GGT14ELwQuKDuaxfeiqPjI1lah5T6EfJBDxUX+jAFnPULO2QPisDISN9QLvOeAmGPwN44iO7S8QlxmvUPF8rSerlLicunGFDuqWp+o2iIVb5HbKZjO35vxnQVtyVeA6ZRhdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OkVdO9uY; arc=none smtp.client-ip=209.85.214.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1787187478; c=relaxed/simple;
+	bh=iTsBM+zhifhEVy/t0k8fQnDrJ8UkQPci75ZvDiDEHog=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aQwOpwMP+K8RNXqP3eK9GHNPHQXN5hn5WYFpJl5/QNyxIPjccsHjLNnGehkUgmj4rlXLkvWyD59ttXIwn/X/8MtbVhdUYWbyjhLiyWR60atiBr/2Q+Uwt4fJJzc/k2E3EVoaaod3PkhM7ld0NZZa3NH0NTiWEro3Mp94BM/PyMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofqoOZxY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OkVdO9uY"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2cea6a46766so24704365ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 17:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787187054; x=1787791854; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WeiRdUabSD1784CoNk4W8kzu7y18u8HhbtUkTWVxO9k=;
-        b=OkVdO9uYnJB7WXn0GhsabkN5WWxIjhNz/cfyOALTaHD5jKWWOsg6CdTjzydtCNi6KK
-         OELLqjLttpnqXzjUikkhvn89klKceHcH2dRrknRN4/SLkivGMmeVZp7DkVKoyFZiW/8d
-         rlyfaIrGap4aY1GiJwumWw8m5ytQq6+fgrAukZUrcnHSJ5hWvsCnrNqRucw4onzjSMLV
-         lWRxVKO9+Y3sS4YCf6M9yf58Vb6vyExsG+AEMC0qUl28MbpdQNH9c/0mYcV3DpHxp2wU
-         dpMH4J04Kkxx7kutefnz2RI7wFdPkpo6Ft1Gcxd1d7YwbusypAayZmgNh2aJss2+/Un7
-         hgnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787187054; x=1787791854;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WeiRdUabSD1784CoNk4W8kzu7y18u8HhbtUkTWVxO9k=;
-        b=cmE/DcXWX265jHFOTpDjQPfl4+bCzP89rhIkDniOygaErSjiRzBDu31FxvV/bDY/vA
-         KlQr+2GsGVGcodYm8ZaGTkB2JngQtVRotZfCmzLef8wUhEdWGCu6A5mMQIm3QLRuq5xl
-         Q+lu+L+gWikSqrUzbjRPj3vRcujpBA2YU6Eb7lweYwgU3NVpDf3I2oylJbzkLPLkGCcA
-         LLoIE2Od6fHPBjzbNFaJEiTABg+0zuLkGNvFR/UOOLxzfbpXaNi1EPzdA7MhV+I2eCPQ
-         At1lKuEK93MctxEqM+lDy6gX42UG6cL825VZyJHn2nGT0K5IR0hhkB3gkvSvfPHGz/HY
-         P0Dw==
-X-Forwarded-Encrypted: i=1; AHgh+Roh/BLrywAsY2IwN+U6tA9vdZcBJsz8RWNrkVRfPMa/uqs648g7Ec8sNqytLmaHOMfkL13a94sDaMU=@vger.kernel.org
-X-Gm-Message-State: AFuF++m3WBQ5UFeumG182ruzWdnCDg3brl8cgHFe361XRtSJ0KwE0PRP
-	R4dZgNR/BdNNk0kb+ZWjRlnBqIRV7K/s7lIdOm1mAMyfIVOHdRLwGaxupmqoQwUTSLoJe7G9dva
-	HuJEPYw==
-X-Received: from plbke14.prod.google.com ([2002:a17:903:340e:b0:2d0:de7f:1ccb])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f687:b0:2d3:2e86:647a
- with SMTP id d9443c01a7336-2d5fd6b24camr145291955ad.5.1787187053833; Wed, 19
- Aug 2026 17:50:53 -0700 (PDT)
-Date: Wed, 19 Aug 2026 17:50:53 -0700
-In-Reply-To: <CAEvNRgFd-6-QxR7w8SxPRa0UU+AAF7pDupLP8cPbQ9y3m=2QVw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofqoOZxY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B5F1F000E9;
+	Thu, 20 Aug 2026 00:57:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787187476;
+	bh=kM+T5YFvyzkuB+A5pR6vF4uBLMNV4q+o0hL9s8uGv3Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ofqoOZxYl/yJsfKnHokgkeX/MUBBZ9ajy+sguL3jaYm57T/dsYfO/jueRn7X/FOq5
+	 SrIkwOe41UVGfOptOdPxC/IQXsW0WoCNzRYD7FC+W7jj0hpUmFcNZkYeflEzoLGc8M
+	 pVzSG5U7CedgtouGuc2Hfhnm5Bm5ds3wJ3IpMJk7UpbVLf9jtfLl4UEwP0qwe4KZqB
+	 Q71ZsOSpyhcGtML7e9GnCubdoPNIdJmL/bblzeLRaL5CuQIX78x/Zb6MGtUbMxGOUZ
+	 YLREmwHcQrkSnERdUHld+n2XFK4xv4Xw81u31BpfaKB6N4XFOepfHWZ9+WNNjoklMv
+	 ckdSrAt1d2LFA==
+Date: Thu, 20 Aug 2026 01:57:53 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <jananisunil.dev@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Janani Sunil
+ <janani.sunil@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Andy Shevchenko
+ <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
+ Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: Add AD7768
+Message-ID: <20260820015753.4faee677@jic23-huawei>
+In-Reply-To: <9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
+References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
+	<20260709-ad7768-driver-v1-1-44e1194fd96a@analog.com>
+	<36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
+	<9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-7-2fc18ee6d3ba@google.com>
- <ed483d25-d908-4248-b8c7-862dd35dc6d4@kernel.org> <annnrGR1noVuBkCc@google.com>
- <cc44c9d7-a6cd-40a5-9f68-4822fb9c9d0c@intel.com> <CAEvNRgFd-6-QxR7w8SxPRa0UU+AAF7pDupLP8cPbQ9y3m=2QVw@mail.gmail.com>
-Message-ID: <aoZPbZZx2UVGZ-D1@google.com>
-Subject: Re: [PATCH v10 07/41] KVM: guest_memfd: Stub in ability to enable
- in-place shared<=>private conversion
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, "David Hildenbrand (Arm)" <david@kernel.org>, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 13, 2026, Ackerley Tng wrote:
-> Xiaoyao Li <xiaoyao.li@intel.com> writes:
-> 
-> > On 8/10/2026 11:01 PM, Sean Christopherson wrote:
-> >>> As mentioned in v9, the name is confusing.
-> >>>
-> >>> 	kvm_gmem_mem_is_private
-> >>>
-> >>> ?
-> >> Ya, +1 to kvm_gmem_mem_is_private.
+On Mon, 20 Jul 2026 16:00:26 +0200
+Janani Sunil <jananisunil.dev@gmail.com> wrote:
+
+> On 7/9/26 17:43, David Lechner wrote:
+> > On 7/9/26 3:50 AM, Janani Sunil wrote:  
+> >> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8 channel)
+> >> simultaneous sampling ADC
+> >>
+> >> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> >> ---
+> >>   
+> >>
+> >> +
+> >> +  adi,power-mode:
+> >> +    $ref: /schemas/types.yaml#/definitions/string
+> >> +    enum:
+> >> +      - low
+> >> +      - median
+> >> +      - fast
+> >> +    description:
+> >> +      Power mode selection.  
+> > Unless there are pins that control this, it seems like it should be
+> > left up to the driver to decide how to set this.
 > >
-> > So kvm_gmem_mem_is_private() calls kvm_gmem_is_private_mem()
-> > internallly. Ummmm.
+> > In this case, it looks like the power mode also influences sample rate
+> > which is normally something controlled at runtime.  
 > 
-> How about
+> Hi David,
 > 
->   kvm_gmem_mem_is_private(kvm, gfn)
->   __gmem_mem_is_private(inode, index)  <== this is a static function
->                                            anyway, though it calls
->                                            kvm_gmem_get_attributes(inode, entry)
-
-Hmm, what if we do:
-
-	kvm_gmem_is_private_gfn(kvm, gfn)
-	kvm_gmem_is_private_mem(inode, index)
-	
-And then to be consistent with the non-gmem code, slot in the rename you suggest
-below:
-
-  KVM: Rename memory attribute APIs to prepare for in-place gmem conversion
-  <rename kvm_mem_is_private() => kvm_is_private_gfn()>
-  KVM: Provide generic interface for checking memory private/shared status
-
-I would also be a-ok with:
-
-	kvm_gmem_is_private_mem(kvm, gfn)
-	__kvm_gmem_is_private_mem(inode, index);
-
-along with a kvm_mem_is_private() => kvm_is_private_mem() rename, though the more
-I look at this, the more I prefer scoping the external API to a gfn.  Especially
-for the guest_memfd code, where KVM needs to query shared vs. private without a
-gfn.
-
-I don't love kvm_gmem_mem_is_private(), it looks like a typo (though as above, I
-do like it more than kvm_gmem_is_private()).
-
-> or
+> The reason we'd like to retain power mode control is that certain ODRs 
+> are supported across all three power modes (low/median/fast), and the 
+> RMS noise and power consumption differ significantly between them at the 
+> same ODR.
 > 
->   kvm_gmem_gfn_is_private(kvm, gfn)
->   kvm_gmem_is_private_mem(inode, index)
+> The higher the power mode, the better the noise performance, but power 
+> consumption nearly doubles for every ~3 dB improvement in dynamic range. 
+> Silently selecting one power mode in the driver would remove a 
+> meaningful hardware tradeoff from the user.
 > 
->   (rename the vm stuff with the suffix gfn_is_private())
+> We'd like to propose the following instead:
+> - Remove adi,power-mode from the DT as suggested.
+> - Expose power mode as a per-device sysfs attribute.
+> - in_voltage<N>_sampling_frequency_available dynamically reflects only 
+> the ODRs valid for the currently selected power mode.
 > 
-> or (current, it is actually weird)
+> This keeps the DT clean while still giving the user explicit control 
+> over the noise versus power trade off. Would this approach be acceptable?
 > 
->   kvm_gmem_mem_is_private(kvm, gfn)
->   kvm_gmem_is_private_mem(inode, index)
+
+The challenge here is simple: How does userspace know what a power mode
+means?  Everyone wants low power and low noise and the trade of between
+the two tends to be invisible.  If we add a control it also becomes
+hard to do a best effort - give them something sensible - control based
+on what they want. Users understand the ability to sample at different max
+frequencies for example. There are ways to do this like always requiring
+'auto' as an option for a power control but they are also rather nasty.
+
+Whilst I see that it is reasonably complex to move from 'low / medium / high'
+we need to try really hard to map that to something numeric and well defined.
+I think it came up earlier in the discussion - there is a clearly stated
+set of recommendations for a  mapping from fmod to power mode. I lost
+track of whether we had reasons to not try and build an interface
+around that.  Even though modulator frequency is a little obscure, if it
+is consistently defined across manufacturers and parts and the trade offs
+around how it is chosen are well understood that might be something that
+would make a better ABI?
+
+Jonathan
+
+
+
+
+> Thanks,
+> Jan
 > 
-> or
 > 
->   kvm_gmem_mem_is_private(kvm, gfn)
->   kvm_gmem_index_is_private(inode, index)
+> 
+
