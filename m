@@ -1,71 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C70038D6A2;
-	Thu, 20 Aug 2026 18:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7580638E8A8;
+	Thu, 20 Aug 2026 18:34:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787249223; cv=none; b=AGL1xeiNYM6yVWVeHHfNv46dnSK/vEftRLKN3sUi/E4aV2SthhaZd5HRXZwN0SBlZmlw10iUPYAt1SmRAKdZPKNIZM50NHS9TmlGjN8py7hg9dgDG9ZVBoj4xbsp2o40yrHaYcvfpLObWCDr9aOmTF87s2z+/UTfSm5a6TGN0Mk=
+	t=1787250890; cv=none; b=c12hTgBeEkoy6UvMWAWOu0NucJlPY5tWmyFqLrbW9MA6mFKGJGawZENkJzJ9ck7tY7m5DeDdsggcw5Buq0TjyMqfYqyg7WUYnS3/zhrLdLhfdqsJdrLOrCbasy6u5EADFuXrR5v25asmBLXfBypV7Yq4l4/SlnDgY0vFDJraWhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787249223; c=relaxed/simple;
-	bh=yEt/MSt66XflYTO3c+NmhmzTagb9kQ7nI5a7D6Yx6/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oy5RQR2dLhkbalfx/GfXk0GxulkDUMq9ECbKuJD5x/lMs8Lyya4+EYXnsmoCHdMg41AMVAfSe5euch8Ie1F0Z6eRvAM07h73aPNrupucmTu0m7nlsgeSpBHBDdJO3SW0MzyjTuVDBkpGBwXvu4D57hsTOWSqHnHASgtJ3QmEEtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZbvA/5eB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787250890; c=relaxed/simple;
+	bh=UXTJ8eA2WEwss1n11iRncg/i8FBrtFkO7m27V3f7nWQ=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Ws4EJf8Q1q9cIWm3NuJVf/zA8I81+pN94zLo9NxdTm6pWUOUv/ZRhry22D4MzFPpYW1RQgv/OG4KMaHStdH9X9i+GLKYdPYXbgNahiI6S8E0cwHTPe3vwQyKgs9V71rG+1vkI3XtclCj2iEgrpoviDHMIpXa5+8y5RgN9Crh1nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lpFpnIlL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZbvA/5eB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2643F1F000E9;
-	Thu, 20 Aug 2026 18:06:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lpFpnIlL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7EB1F000E9;
+	Thu, 20 Aug 2026 18:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787249222;
-	bh=yEt/MSt66XflYTO3c+NmhmzTagb9kQ7nI5a7D6Yx6/w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZbvA/5eBJwjbJuYUHtJ7hcQ4axqj6nE1UH06+fY/4oGyb4qz9mad6WV9m1QOTnQYv
-	 34isni2kwgMQeQIQySm4NRZem2vfZKHSnGIeZ3vTff8vWcCKfRMeeuuVDo1bmGdMK/
-	 u4drNHqHKR4MkvI6/ff89K6cabrnjITZCudZr5yU/MvV6oA8P00+6QvBuv0Rgndz9S
-	 Ovd6BwcXIqneAD75NzAwF9wPlGAdmyd92U61PCR3IZvKcGK8miDM7VATUBiInq+Yvx
-	 23EDDq1QqO18r+wcqwl8wcVL2M0j16vDcj5JMPf3u7FfTmwTzxNdVlORNKYqEQJAlN
-	 OJOeJMdVT3mcg==
-Date: Thu, 20 Aug 2026 19:06:58 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alessandro Zini <alessandro.zini@siemens.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: trivial-devices: Add Sensirion STS4x
- series
-Message-ID: <20260820-covenant-stench-e75f8bb4d7d0@spud>
-References: <20260820145946.35468-1-alessandro.zini@siemens.com>
- <20260820145946.35468-2-alessandro.zini@siemens.com>
+	s=k20260515; t=1787250889;
+	bh=1gRvOp1yqtwUK3tfuN1xFoE/py2OjiezgV0sAnw9GQ8=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=lpFpnIlLtVYeC2MFR2l4+/WT2OuyuFx/wBA/GwWbUp8SQdoYWKD9PoBONrCNthNBV
+	 iilNTeAHoVWo/wAQWhxBBmj5JJ+9F6/y0FO4jtTQ4IOcIBHkfvMipS8fwcGxwmaTaO
+	 1qEO3nC7gKU9naz9bmuCQYI0UhFzuVBDy53qMr/3Q9eN5can0WcXkx/jIlumGspC9/
+	 65HtC6xOYahPb5iCQ0Cg/0do2zepaMhKswOHAbdrQqJZXA120SrYrP2RTBMtmgRojH
+	 D/+SvvNqUlTqih1STtUtUZw+b42+JR1msSziFYowlbVtVCAmb3PtbyxyRAm+nVxrmj
+	 Z+nHrLBRxbvjw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0B553822D60;
+	Thu, 20 Aug 2026 18:34:00 +0000 (UTC)
+Subject: Re: [GIT PULL] Documentation for 7.3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87v798bx34.fsf@trenco.lwn.net>
+References: <87v798bx34.fsf@trenco.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87v798bx34.fsf@trenco.lwn.net>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git tags/docs-7.3
+X-PR-Tracked-Commit-Id: 791e420360669d55b7f90ca0c6d61b10e4992aec
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 72fdff1416e280e2baaa3cca69574defb998437e
+Message-Id: <178725083937.422553.11081759644422218647.pr-tracker-bot@kernel.org>
+Date: Thu, 20 Aug 2026 18:33:59 +0000
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VC8ahYzfL7LASOuO"
-Content-Disposition: inline
-In-Reply-To: <20260820145946.35468-2-alessandro.zini@siemens.com>
 
---VC8ahYzfL7LASOuO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The pull request you sent on Mon, 17 Aug 2026 09:11:59 -0600:
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+> git://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git tags/docs-7.3
 
---VC8ahYzfL7LASOuO
-Content-Type: application/pgp-signature; name=signature.asc
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/72fdff1416e280e2baaa3cca69574defb998437e
 
------BEGIN PGP SIGNATURE-----
+Thank you!
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaodCQgAKCRB4tDGHoIJi
-0k1CAP9CBCAI3ygGinbmcgDs/wcbWm1HNZFPYsg7nOa/XrOWsgD+IzPWydwfOkMf
-9GOhXpcqoAllNY3jfZ+zcG4NKJMKiQQ=
-=7yx8
------END PGP SIGNATURE-----
-
---VC8ahYzfL7LASOuO--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
