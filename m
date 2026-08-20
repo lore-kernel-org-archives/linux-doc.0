@@ -1,110 +1,276 @@
-Received: from gw.d.sender-sib.com (gw.d.sender-sib.com [77.32.148.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365D1361974
-	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 08:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.32.148.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2323D667F
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 08:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787215082; cv=none; b=nh09ngEXbyKEU4tGLoluPrwfUW5qQlU9Z0SOIdTpxe3lcl15LnhVJM4UMtsgLjkr1SaMip+EByggAU1bkZvuDbTOYjtyZv4xJ8nEluXwn0+sJZ4luV6nXO5ykvPI91VVy5ASCQxUP0IU0z3OxpFY2V23sIM3LCdwS9o/1BUJTCI=
+	t=1787215969; cv=none; b=QRQuEMzBpxcNmC4takCcErcw6yalOYuniclsJQwziAlxddc7HRHVLd9QfJqINlBCQFw29dlJ9ZKtUE9NxWQ3Q6jmG7CAwIM/twj6vam8qcZml8XXdIVBuz15uFy0UXPeGFZII9Qw3QJSe0331tFXtl4BXjJbYn6u45MPzv8hMWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787215082; c=relaxed/simple;
-	bh=WkWCfdofhBa/xyWGidhvVSgREVFol2bfvzmw4/hCVKY=;
-	h=Message-Id:Subject:From:To:Date:Cc:Mime-Version; b=c3RbeCxw0XLN282i194yY9NJbVGe+ceaH1AmAj5k79PzUX2BycQoIz/lldXEJnW5nuNDUq/9+Pxta3dxOayAG2A8tvSFHGbiWr9UoKCSu9Lqa5gbwDCSk9WDDBUPEMx1CGGulqeuTSQnOn8dyzhNMsiGw2Z3/uWPqYDJc45FPcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=outlook.com.au; spf=pass smtp.mailfrom=gw.d.sender-sib.com; dkim=pass (1024-bit key) header.d=brevosend.com header.i=@brevosend.com header.b=ktOIy3PP; arc=none smtp.client-ip=77.32.148.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=outlook.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gw.d.sender-sib.com
+	s=arc-20240116; t=1787215969; c=relaxed/simple;
+	bh=KdclxYicdgGKKKzq6eHwxzoyn3BI9i4HM24fxOvF8As=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=exuXuX4qR8TBcW1LNVjrM8b8lBzM3jZjNrzwLVdGyFH4bdwqUPRHvUrUxl3RerpwIlvO0yVRYuU50YBVwLfSgJDeGDgy3Cp+oqy09IRctwZe5CuVauPigI6uI49nAGmVGwVHmXoGM5UmnGwv0qtBb3DjI5BnNTN4RwtE2YSXdWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lMXsYwoh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eym8o1c4; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=brevosend.com header.i=@brevosend.com header.b="ktOIy3PP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=brevosend.com;
- q=dns/txt; s=mail; bh=kn7srHoXkaZsxngVEFiL/AUftNzcyOW4mWabfcraxfs=;
- h=from:subject:date:to:cc:mime-version:content-transfer-encoding:list-unsubscribe:x-csa-complaints:list-unsubscribe-post:message-id:x-sib-id:feedback-id;
-        b=ktOIy3PPJpDJZEngJwCRm96sBzDOPUDknj1dHjiMOxdqAz9M56J5/C2TlVEnnrqUiGFMPCP2CGuR
-        ukNZDHXde3r1BERrNw6GtE9ebHzpfrN2K6MKK2wpkF+Lso9U8EJ91fW0j8iDV3KQkdDYlh/QoXec
-        Lajup69mraIJ6T7EGJk=
-Message-Id: <20260820083646.11383-1-nicholas.johnson-opensource@outlook.com.au>
-Origin-messageId: <20260820083646.11383-1-nicholas.johnson-opensource@outlook.com.au>
-Feedback-ID: 77.32.148.23:11519862_-1:11519862:Sendinblue
-X-Mailin-EID: NDgxMTkzNjAyfmxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmd%2BPDIwMjYwODIwMDgzNjQ2LjExMzgzLTEtbmljaG9sYXMuam9obnNvbi1vcGVuc291cmNlQG91dGxvb2suY29tLmF1Pn5ndy5kLnNlbmRlci1zaWIuY29t
-Subject: [RFC PATCH 0/1] ALSA: add PreSonus Quantum PCI driver
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-From: "Nicholas Johnson" <nicholas.johnson-opensource@outlook.com.au>
-X-CSA-Complaints: csa-complaints@eco.de
-To: "Jaroslav Kysela" <perex@perex.cz>,"Takashi Iwai" <tiwai@suse.com>
-Date: Thu, 20 Aug 2026 16:36:45 +0800
-X-sib-id: HpfoOkg4-GhoysC595l1UUolnoGE1WGaoCOLehz6jyJgK2ATT_b3e-5OPH2EaCPwPs4TLnv7SfBIujAiCMY1iWo5heiLxcaTRyaMtKor-3ZkwP_a-44F-YsDUQAjJWiPyhr0AmIXDmOKRLASdZ30st-MN5l18K2rP4AhP4yzgMS19n34t5vazQ
-Cc: "Jonathan Corbet" <corbet@lwn.net>,  "Shuah Khan" <skhan@linuxfoundation.org>,  <linux-sound@vger.kernel.org>,  <linux-doc@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,  "Nicholas Johnson" <nicholas.johnson-opensource@outlook.com.au>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lMXsYwoh";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eym8o1c4"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67K8jd2b2529506
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 08:52:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=7pRjGAagJWUGoFGnU1ugBrwj
+	EF+1RslNAkeOCCC3woY=; b=lMXsYwohJXoOFUUz5vHVF+7qKIlqg27ZPHNA/k6q
+	25rddxQ4uXOwlg/AFrE+U3y4wmB+zuEgcpDb3jQow30Tbez0TR7xGVRWiJiBx87A
+	rxUTyAbmtBuKY7tYJSVCGJvXEVE15QXhCVmBftVGYpEPMWc9zoy9F2MZ9/8tlbJB
+	VmPcYZ6pjL87JylMozbeEEginNKkKRq0k2yRzFp6SvnJ2GNTflAadUfYwUW3Lhf+
+	3niYZhSKi+1AgExLjabS7z5hyEsqz01HyhqByCcWdEa+Y8OpcGBQMv/uyUktnObA
+	kt0Z1u6ppLwN7VTkcLh9epL9ev2MTq8KJdibui/Io5Kyhg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g5xbv80sh-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 08:52:46 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93494cce712so256638285a.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 01:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787215966; x=1787820766; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7pRjGAagJWUGoFGnU1ugBrwjEF+1RslNAkeOCCC3woY=;
+        b=eym8o1c4GR/H/ExLtwFnn56AKDvla8RN2ghU/zwtRL0Tah7LQWwdnyGeQ9uAqi4Cy5
+         nukuIZKmKh/VkZ4MCD8sNQPidV0NwxSZTYsyugSX5m4Norwtn4/P/o7i4bAoZP0yaxu1
+         phwTZ7RFyiStlNiSQqQlcDLgT+sDup2qJiThfIA+FUyVnw4YR4Qb50r+7O/Ll69VYWDn
+         OkLjjEYuu3hVfjkl2hG46WBWT+NL160rRgnroRDAu5b9976PZTKOzlOvjEvMd4Q6wSzo
+         Dv8GxaGVlOohrtRql8f1bDkhvUWThkh8TM6MKrb6lW1PpuVNPCXI7KbIpoDfn/c2twcF
+         /y8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787215966; x=1787820766;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7pRjGAagJWUGoFGnU1ugBrwjEF+1RslNAkeOCCC3woY=;
+        b=gWJRfT9VFBLqLmIp82musvW+5YAc9LXpa2WIBMFbiftkQ54Wz5akaUvrPtqBlv5aaC
+         jYZrZgiXOErybnR/S+zT66D8qO0vXmHThFi7KzNJYj9Uio/9aGVeiahTDjLlZqJzur5O
+         eIJrLNDjXSz7I4gb1zDlFDktIclP3Z5z1BXN1WYkXfWMKo6B9qYNXpyrUfF7tH7+8q5K
+         BL31ZgFIsfbii/Q/XWEEQPoCn0I4Ok4UTEoUKzCeZKogRPW2odUBUd+jhRkiqhA9S6+s
+         sfvYzKAMbTBM6Ypr9G9qjivfnrxfpy8cAW3FMQWO5fP/uXsLprb9gddLrdaFQjRU+nTW
+         X0wg==
+X-Forwarded-Encrypted: i=1; AHgh+RqZ57QrPjNBmjkybzTLzu+hHUyK0Cr8lWP6zf3UJOFio0mmfoBl3aJDyQYO1YQfLNQm/bLj3OUyqVY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywoquv/N03IpRj9sY0nlxKKjj0Z3CpPttinIhXfaYK+UzVoOua6
+	cJcbVL8Qsfqmoyzmld354jSsyMXYU6dQ5rfU0ETDGOoauHKn2Jz/QPv0Anaw0ufWPnoGTei5TtV
+	7wE48+rff1o3DRgPDap676Izc9VNgS5lwNT9utBeEyvy2Ak46K7V8JiE/QaQhxKM=
+X-Gm-Gg: AR+sD12m3NSerfBoqmv1EuRw0W4pdZSd9IDYyChaR5BR4TW7V9mQB8Kd8x28rP/zRt1
+	lU8ThQKDTInnMap3NPj0rgRcGgQ9rgJJ8/T8+TvMpAmLagSgY7l8btNPYArefms5kSVuylmJyzu
+	7bPh6DfspFUT3u7m8Pj+OBG1krfhYdZYSxrA1mPTwhRqpbHeY/hglrnfjjNUqPe2h+mZ/jV7aLW
+	64ldC7WgWFiQNmXQ337zDeF6B+2ZzL+I6/6pVuGesqQ4e2HSw5Nw8uu0w2qkIj9eNG6z9V0ab5i
+	iwGRRMLKMb/aja3JgEG7ggc93tM51DEFI6CzXTufCtOg/cuaSlsxcTAnGgjOFo0B/+OO5v86fBP
+	qfMRyp4doOE0xcq5o1pcMslAajifYu/faEhANCgh8m0we//cVWWsG/qrgrs+8LtvbqgBwBhCqI8
+	P38vCIQcjfnaYD
+X-Received: by 2002:a05:620a:4505:b0:936:883d:89c6 with SMTP id af79cd13be357-9371e2ff241mr1009577585a.28.1787215965450;
+        Thu, 20 Aug 2026 01:52:45 -0700 (PDT)
+X-Received: by 2002:a05:620a:4505:b0:936:883d:89c6 with SMTP id af79cd13be357-9371e2ff241mr1009575385a.28.1787215964943;
+        Thu, 20 Aug 2026 01:52:44 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b4788d9223sm1121021e87.46.2026.08.20.01.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2026 01:52:43 -0700 (PDT)
+Date: Thu, 20 Aug 2026 11:52:41 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 03/15] accel/qda: Add initial QDA DRM accelerator
+ driver
+Message-ID: <g5orcvzjbwww27vwcsxl3ehrek6lvznxptd7jutifoiuicjnm6@iqq2pus6omsl>
+References: <20260817-qda-v2-v2-0-69a02e9090d4@oss.qualcomm.com>
+ <20260817-qda-v2-v2-3-69a02e9090d4@oss.qualcomm.com>
+ <81708487-89ce-4cd5-b39a-2989bdce6088@kernel.org>
+ <3476b5c3-7983-4994-a901-3d7d8bd75255@oss.qualcomm.com>
+ <4ef74e14-8433-4619-ac97-62868c8799d1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4ef74e14-8433-4619-ac97-62868c8799d1@kernel.org>
+X-Authority-Analysis: v=2.4 cv=AMKAkK6n c=1 sm=1 tr=0 ts=6a86c05e cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=D19gQVrFAAAA:8
+ a=EUspDBNiAAAA:8 a=qpzGY3gMejqFJFcM8zUA:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=W4TVW4IDbPiebHqcZpNg:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDA2NCBTYWx0ZWRfXwUAJkNfdRnut
+ JcyZGRDd+lZQbKwqS+8Tr6vpHW6JlO4tbGpDWBZtkzmbVfqbAdhwTE/eUSCdGUyGhZcv2yElgGl
+ m0cKwAs8p1fgtSqeNHLB7qaRex67PsFZlDV3fDvgu+blrXF+H6G+D2DOTQkG5fs7ybx7ikCp9Ya
+ 5ezVgssszqz6LsWSFsi/YIv9dw4mZlT78ufODNAcmO0MTbDVxBwkPS+iG01CzUZ59UffI9w/e6y
+ qf9yikjbK22F82kObDVk0yZM8JKdYqaZDSFzkRMWppRNOCavr5K0h8X6IOACkAula8GSPOfgfAo
+ r9MBQmGYSa9u+uAL2pwLiHWtuS7V2GxZQAZ/5mOLwBnZ0VUU8t+beXjYdDx6dmUlN1310NFWhcy
+ z+Ptpp+qTH+eV/kBuyTq91aOtmgxDWmpyBPVk4VpIPqeuITD4NGZy3UQ5ZwcATMpiYAFoHgxpTY
+ N0PYEHl02QpeuIkNj+w==
+X-Proofpoint-GUID: QCgmC3sQi87dhg2US5kbMxkMUx042ZTD
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDA2NCBTYWx0ZWRfXwye81nqsrIKK
+ /0w8cM7qJNxOQ7lx84MPQMks+aBeivadHmMp54GIey98clNVf3pRW1M+50yQLj1dgsuNBApQS4N
+ RBrflxfiNZ0ZGHA4svqiOZr6cQ9kw6s=
+X-Proofpoint-ORIG-GUID: QCgmC3sQi87dhg2US5kbMxkMUx042ZTD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_06,2026-08-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608200064
 
+On Wed, Aug 19, 2026 at 04:18:51PM +0200, Krzysztof Kozlowski wrote:
+> On 19/08/2026 15:17, Ekansh Gupta wrote:
+> > On 19-08-2026 00:40, Krzysztof Kozlowski wrote:
+> >> On 17/08/2026 06:47, Ekansh Gupta wrote:
+> >>> Add the skeleton of the Qualcomm DSP Accelerator (QDA) driver, a DRM
+> >>> accel driver for the Hexagon DSPs found on Qualcomm SoCs.
+> >>>
+> >>> This patch registers a DRM accel device, exposing a /dev/accel/accelN
+> >>> character device node, and binds it to the RPMsg channel used to reach
+> >>> the DSP. Buffer management, IOMMU context banks and the FastRPC
+> >>> protocol are added by later patches in this series.
+> >>>
+> >>> qda_drv.c / qda_drv.h define the drm_driver ops table, the per-file
+> >>> private state (qda_file_priv) and the main device structure (qda_dev),
+> >>> which embeds drm_device so that it can be recovered with container_of().
+> >>>
+> >>> qda_rpmsg.c binds to the "qcom,fastrpc" compatible via
+> >>> module_rpmsg_driver(), reads the DSP domain name from the "label"
+> >>> device-tree property, and registers the DRM device.
+> >>>
+> >>> Assisted-by: Claude:claude-sonnet-5
+> >>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> >>> ---
+> >>> Changes in v2:
+> >>> - Use module_rpmsg_driver() and drop the qda_rpmsg_register()/
+> >>>   _unregister() wrappers, module_init()/module_exit() and
+> >>>   qda_rpmsg.h entirely (Dmitry Baryshkov)
+> >>> - Read the "label" property directly into qdev->dsp_name (Dmitry Baryshkov)
+> >>> - Drop the probe/remove/init log messages (Dmitry Baryshkov)
+> >>> - Return the result of qda_register_device() directly (Dmitry Baryshkov)
+> >>> - Clarify the Kconfig help text (Dmitry Baryshkov)
+> >>> ---
+> >>>  drivers/accel/Kconfig         |  1 +
+> >>>  drivers/accel/Makefile        |  1 +
+> >>>  drivers/accel/qda/Kconfig     | 30 ++++++++++++++++
+> >>>  drivers/accel/qda/Makefile    | 10 ++++++
+> >>>  drivers/accel/qda/qda_drv.c   | 71 ++++++++++++++++++++++++++++++++++++++
+> >>>  drivers/accel/qda/qda_drv.h   | 61 +++++++++++++++++++++++++++++++++
+> >>>  drivers/accel/qda/qda_rpmsg.c | 79 +++++++++++++++++++++++++++++++++++++++++++
+> >>>  7 files changed, 253 insertions(+)
+> >>>
+> >>> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+> >>> index bdf48ccafcf2..74ac0f71bc9d 100644
+> >>> --- a/drivers/accel/Kconfig
+> >>> +++ b/drivers/accel/Kconfig
+> >>> @@ -29,6 +29,7 @@ source "drivers/accel/ethosu/Kconfig"
+> >>>  source "drivers/accel/habanalabs/Kconfig"
+> >>>  source "drivers/accel/ivpu/Kconfig"
+> >>>  source "drivers/accel/qaic/Kconfig"
+> >>> +source "drivers/accel/qda/Kconfig"
+> >>>  source "drivers/accel/rocket/Kconfig"
+> >>>  
+> >>>  endif
+> >>> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+> >>> index 1d3a7251b950..58c08dd5f389 100644
+> >>> --- a/drivers/accel/Makefile
+> >>> +++ b/drivers/accel/Makefile
+> >>> @@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
+> >>>  obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
+> >>>  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
+> >>>  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
+> >>> +obj-$(CONFIG_DRM_ACCEL_QDA)		+= qda/
+> >>>  obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
+> >>> \ No newline at end of file
+> >>
+> >> You have trivial patch errors.
+> > newline problem was already there, wasn't introduced as part of this
+> > patch series, so I wasn't sure to fix it here. I can fix this in v3.>
+> >> ...
+> >>
+> >>> +}
+> >>> +
+> >>> +static const struct of_device_id qda_rpmsg_id_table[] = {
+> >>> +	{ .compatible = "qcom,fastrpc" },
+> >>> +	{},
+> >>
+> >> Device node with this compatible is already populated, so this looks
+> >> simply wrong or you are adding a duplicated driver.
+> >>
+> >> That's a no-go, you are supposed to work with existing drivers and grow
+> >> them.
+> > I'll bring the discussion again here, there was a discussion to move the
+> > driver to accel subsystem if we want to support new features/uAPI
+> > changes. Please read [1],[2] threads. The intention is to replace
+> > fastrpc driver with QDA eventually.
+> 
+> None of them address the problem. You want to grow fastrpc into user of
+> dmabuf? So you move it from misc to here.
 
-Hi all,
+It's not as easy and nice, so I think in this case it's better to repeat
+what we did for the venus/iris migration or what happened already
+several times in the kernel history (for example the AIC7xxx SCSI host
+drivers were migrated by introducing the second driver and then removing
+the first one after the grace period). The backwards compatibility is a
+separate topic, but it will be addressed before the driver can be
+merged.
 
-This RFC series adds an ALSA PCI driver for PreSonus Quantum PCIe/Thunderbo=
-lt
-audio interfaces.
+> 
+> Again: you have one driver.
+> 
+> > 
+> > Do you suggest adding a different compatible, say "qcom,qda" for this
+> > driver?
+> 
+> How would that even work? How much (or many?) hardware do you have in
+> your SoC?
 
-This project is independent and is not affiliated with PreSonus or Fender.
+No, it's the same compat. In the end, changing the driver doesn't change
+the hardware.
 
-The driver provides playback, capture, raw MIDI, sample-rate control,
-clock-source control, XRUN reporting, and surprise-removal handling. It
-targets the Quantum PCI family and currently has verified support for the
-Quantum 2626.
+> 
+> > 
+> > Let me know if you have a better suggestion to proceed here.
+> > 
+> > [1] https://lkml.org/lkml/2024/6/24/479
+> > [2] https://lkml.org/lkml/2024/6/21/1252>
+> 
+> 
+> Please do not ever reference lkml.org, it's long time deprecated and
+> barely working. Use lore.
 
-The implementation keeps the hardware path direct and multichannel, with
-the aim of being small, reviewable, and suitable for eventual upstreaming.
-
-I want to thank my best friend, Ju Ern, for lending me the machine used to
-develop the driver, and the Asahi Linux project for m1n1 and the tooling
-that made the hardware tracing and analysis possible.
-
-Only the verified 2626 device ID is matched by the driver at present.
-
-I am sending this as RFC to gather review and testing before asking for
-merge. I would especially appreciate feedback on ALSA integration, device
-enumeration, runtime PM/latency handling, and upstream expectations for the
-driver.
-
-Thanks,
-Nicholas Johnson
-
-Nicholas Johnson (1):
-  ALSA: pci: add PreSonus Quantum PCI driver
-
- Documentation/sound/cards/index.rst           |    1 +
- .../sound/cards/presonus-quantum.rst          |  120 ++
- MAINTAINERS                                   |    6 +
- sound/pci/Kconfig                             |    2 +
- sound/pci/Makefile                            |    1 +
- sound/pci/quantum/Kconfig                     |   19 +
- sound/pci/quantum/Makefile                    |    6 +
- sound/pci/quantum/quantum.h                   |  394 ++++++
- sound/pci/quantum/quantum_dma.c               |  853 ++++++++++++
- sound/pci/quantum/quantum_main.c              | 1148 +++++++++++++++++
- sound/pci/quantum/quantum_midi.c              |  180 +++
- sound/pci/quantum/quantum_mixer.c             |  214 +++
- sound/pci/quantum/quantum_pcm.c               |  609 +++++++++
- sound/pci/quantum/quantum_regs.h              |   52 +
- sound/pci/quantum/quantum_tci.c               |  486 +++++++
- 15 files changed, 4091 insertions(+)
- create mode 100644 Documentation/sound/cards/presonus-quantum.rst
- create mode 100644 sound/pci/quantum/Kconfig
- create mode 100644 sound/pci/quantum/Makefile
- create mode 100644 sound/pci/quantum/quantum.h
- create mode 100644 sound/pci/quantum/quantum_dma.c
- create mode 100644 sound/pci/quantum/quantum_main.c
- create mode 100644 sound/pci/quantum/quantum_midi.c
- create mode 100644 sound/pci/quantum/quantum_mixer.c
- create mode 100644 sound/pci/quantum/quantum_pcm.c
- create mode 100644 sound/pci/quantum/quantum_regs.h
- create mode 100644 sound/pci/quantum/quantum_tci.c
-
---=20
-2.50.1 (Apple Git-155)
-
-
+-- 
+With best wishes
+Dmitry
