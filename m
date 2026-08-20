@@ -1,361 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DFD442FB9;
-	Thu, 20 Aug 2026 12:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67A4445AD8
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 13:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787229440; cv=none; b=GHDzJaZBrd7yiRc0RAXaHf5Hi9/5rx6OVoog+AhwtKbrtEdI1nwZWlrZ6DVeO93XCWnx2RcJH+mFKxqvg4bJSQW+BzObra3xEnfCIWEQBYc8z4zWubkBveAXKkuRDkvks4eo88jmMIp+OFZUf56vYU7CuDYeXPCZKOJeSp5nupY=
+	t=1787231165; cv=none; b=qf4BfpbMFI4WogFEIBHzg3nv6E3pAf2s8bCpFuI6vv5U4LDKx1RfgFAcvYHmcJxEVCZlEzTy4tNQTZlY7JWhlK3a1qHlu2mSEx7/HI1u+T6TBUzCzGrwbyKjtBcO+6TtSFzmYfppbM0K3Ab2BWebKBs0IzfeXtTkCj5FTg83odU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787229440; c=relaxed/simple;
-	bh=Xo5H0uKvYwj+XAKUm2yiMtUKonkVDS/xrj/m6w9z0SI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sw+ig+79zZrv3UHBOt7V8zF6yvuaSWCB+zR34keP2kcZbVrx085TN2z/vqreRq+oImLagUQZ5ooSoZHRCqcpGvzJR7ezLN2fkRYRDSYDhDZIp5v6ER3SvCfqMZJmz0N1ti/o80yDsxZuCWF59ULjEkYhqIQduHm39MdtYqFXvd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUbHW4aL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787231165; c=relaxed/simple;
+	bh=/MvLGjCq9P+3TJQdi9yv+SMKwpIqRwp5tDl+T95B12k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lF0pnj5H75167IpaSUK87vrsTmpIXbLIwZ8Xq7WUGB1y1rnsm5RSlRaiRUE9iryxgPIhaDMv1HKCyD0ScMp4B1uCwaL9QqmCpubQuLre3F/dkHkZJeTXYpsjjI+Hpf/hLMH+Jbl4jqcp5tQrstGYNu3r7iXCS2jQxWGAfA/ZiJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jwaV4z2T; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kVKOMRdd; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUbHW4aL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE1E1F000E9;
-	Thu, 20 Aug 2026 12:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787229438;
-	bh=OQpLOvB54LuGw8DzYe60oPZGDZAiKE8dvH2B4xQo3I4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=GUbHW4aLYVRspV94M1rzQdL4joanhEC4j6cAyaqhy870zFoAEh4BFZg9S1XTqvfRu
-	 8liJ9S9xzTOo5vwTTbIw90lgo5WfXD8Zrvyme19y1dz8VPKnn9g8+pGzopSQGdD9zN
-	 34ZQI35a9gEE6ZkGxGJnmGQUCfDYGmrFJ9Y8/cTPE5wD3xn1tz30hDr9qvJ/ySNCiw
-	 6boTc+/NT3GWrA9R1UhE9aAAj05ZBzVB5AXNQ6viYu8+c2U9oraZRNk+QoVqXwMsKq
-	 Nug+g1AmtNKOCmqzlsJ+g09AAGTZ7bDOi0ODQCq4yGjYzG3UMysKtegJuO0x7i4Qug
-	 CdDy4CAwUCO9g==
-Message-ID: <1f218de3db5bb7a89e56bb100fd4a4b87e5dc536.camel@kernel.org>
-Subject: Re: [PATCH v13 00/12] famfs: the Fabric-Attached Memory File System
- (standalone)
-From: Jeff Layton <jlayton@kernel.org>
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>, Miklos
- Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, Bernd Schubert
- <bschubert@ddn.com>,  Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake
- Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma	
- <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Matthew
- Wilcox	 <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro	
- <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, Christian
- Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Randy
- Dunlap	 <rdunlap@infradead.org>, Amir Goldstein <amir73il@gmail.com>,
- Jonathan Cameron	 <jic23@kernel.org>, Stefan Hajnoczi
- <shajnocz@redhat.com>, Joanne Koong	 <joannelkoong@gmail.com>, Josef Bacik
- <josef@toxicpanda.com>, Bagas Sanjaya	 <bagasdotme@gmail.com>, Chen Linxuan
- <chenlinxuan@uniontech.com>, James Morse	 <james.morse@arm.com>, Fuad Tabba
- <tabba@google.com>, Sean Christopherson	 <seanjc@google.com>, Shivank Garg
- <shivankg@amd.com>, Ackerley Tng	 <ackerleytng@google.com>, Gregory Price
- <gourry@gourry.net>, Andrew Morton	 <akpm@linux-foundation.org>, Namjae
- Jeon <linkinjeon@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Ira Weiny	 <iweiny@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Haren Myneni	
- <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, Giovanni
- Cabiddu	 <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham
- <gabewhigham@gmail.com>, Aravind Ramesh	 <arramesh@micron.com>, Ajay Joshi
- <ajayjoshi@micron.com>,  "venkataravis@micron.com"	
- <venkataravis@micron.com>, "linux-doc@vger.kernel.org"	
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"	
- <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"	
- <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"	
- <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"	
- <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev"	
- <fuse-devel@lists.linux.dev>
-Date: Thu, 20 Aug 2026 08:37:13 -0400
-In-Reply-To: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
-References: <20260810202325.96202-1-john@jagalactic.com>
-	 <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jwaV4z2T";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kVKOMRdd"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67K7LCjV2753042
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 13:06:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	AieFSNSsSUo34uQSMJ/dNEJ/DOfK3/fGsi4sE8iI73Y=; b=jwaV4z2TzGHiIR6o
+	jRjasUFvEdE3hZE4YOADkjaSjyq+fcG4SjuMiuZVqbaXpQo4fXaIGY24SYwIat5Y
+	xEHhlCuMnmrr/SJYHxUbGJ+FCUVgQRxIlibWMy7b/sBOaiRz0+BwV58KjdvUWos0
+	MymhkSBlK9tfmtpyUhUVKJsUFs7C/x9lF8qpNUMfawb2xETI4YbvdSb/Fm3cQMvp
+	wpXyQIuiglhtbRGv11uPR8LPyT8bF0b6C169b+Ox9GnAJLwwDeqD8AZtXLm3YYqq
+	gt/e/bKxwCGZ8iFBBe16qImQzjIyszZalA0J2/MKSZVYh0FOA7HSdLy82KtShU+Q
+	AQ3oYw==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g5w49997c-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 13:06:00 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38f57e31b6eso2168884a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 06:06:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787231159; x=1787835959; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AieFSNSsSUo34uQSMJ/dNEJ/DOfK3/fGsi4sE8iI73Y=;
+        b=kVKOMRdd78nLxwu4IeGKctaQ+4txEocIZ0x6iAsBNJIr/cVVVd1eZua2NMHDr4v2Lk
+         S60xwPXBn/PqSctuiZNHNdcxlS43FvhHaSz+IvkACMlBNzjKQvxY/XrJtd0IlPRJbTSF
+         pMnrDSQ3B0tS2FTcjbS6dJ85kp0CmK/F5yuQMkNy79YEyaN0WoTCd6BqYrmTbS53r7Kh
+         itppL8DG9fCKjrYrQrOl3LJo9gSws1NYkqgYLUAJq//Ir3LPa202NAajI5K39tFPjC51
+         yx25dslNrfQMXT9x7msJE0IzlYI8BKMtlldH5FHQs5wdaDvDI3wrHliEAsHEJKuoknpE
+         Om+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787231159; x=1787835959;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AieFSNSsSUo34uQSMJ/dNEJ/DOfK3/fGsi4sE8iI73Y=;
+        b=WKV65etqO7W1PeS36OsOfUADWpQtPOzXYBYuCWyphaiaXQLc7f0jnEv4DZKnc4yRaj
+         PtrCQzgIHuixRLhciyD13ArSeyrb6gRFpH4WiPYdPbR6Ld18ZtmqkGBKACN0CttxsLbV
+         5y8XasFfM2/oHlMSbU/YPa24TbDSwYNs4mVScZGac4FZ8i90ZL7L4DR/+axViU0DddOn
+         wz4fLOogXW3cQe7xqyZxEal3CIjaO4VRkQV7eIEWsZ9Zalyk4/WIYNwNb5eq22Z73Ir1
+         g0P7O2N6cPNEa3cS7W5VRNoWZd/j7uKW3ZLG5xwyrq4mYIbvjPlXmu26v/+bwx5uX5Od
+         4RJA==
+X-Forwarded-Encrypted: i=1; AHgh+RqfseKkntvSOdd+IakrRAVldto9vZliLdG7KZhQ36h2RKMKGih6vUnMQJTkbFs4AOapwbyx2u0qP8s=@vger.kernel.org
+X-Gm-Message-State: AFuF++n2VyBtqMll33WzIKcJgPCkVDdXjZSIiaS3bJpHZSFqDTY+svqK
+	2pjnsizS36zQ6Thf74zy5wKXHh14Ogkmef+18oaJYaZUlHmzJNDZk5gO54pCHtAMjDzw4VoHsyj
+	lZ/sxC5vvAtkO8OOgpGXMIZFiyBD1xVM6wdrGPt+70hy/7BSaloZeif+hAPmPJdA=
+X-Gm-Gg: AR+sD10BuSRsByzg0lzTkm5Yjb4mCqwl5OdAq9YRqfjdHNMsnQkuUm0lVtgzHc7iBuX
+	tRo9IZQL6f1UrvEK+guc/yDCvFIrQNflrkGeiUAcImcWR0LIIQXgYIVq8sGE7hc3B9FXpAO0Nft
+	sglQRiHTAMoqc8Qam0ref+HnzU8QF6YqJKoZkKD0KrErB+Sakf5ogbMNefer/cuBa2vubZjuZ7G
+	XF/fUdXSuJyEW1FiW0CgHO09yU/okz0UYMwnm3zLygo9WgpgYVtc5I2mcNfMLtENGZLV4PU3Bis
+	1Wo/qH/91FsH+/vBM8iNfmgRFVi/t7ZkpFRifg5/6fPiPdcMMFx8GyKe4Zcf8fKU5fe07BXxLaK
+	N5AesVnckDxINYh8+D8A/tsfZfsWN5w==
+X-Received: by 2002:a17:90b:4d82:b0:395:4de4:92c7 with SMTP id 98e67ed59e1d1-39580ed143bmr23044542a91.3.1787231157807;
+        Thu, 20 Aug 2026 06:05:57 -0700 (PDT)
+X-Received: by 2002:a17:90b:4d82:b0:395:4de4:92c7 with SMTP id 98e67ed59e1d1-39580ed143bmr23044231a91.3.1787231156489;
+        Thu, 20 Aug 2026 06:05:56 -0700 (PDT)
+Received: from [10.219.56.166] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3957fb12145sm6574171a91.4.2026.08.20.06.05.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2026 06:05:49 -0700 (PDT)
+Message-ID: <eb05740b-8683-41ea-83ec-8a4a484881e9@oss.qualcomm.com>
+Date: Thu, 20 Aug 2026 18:35:40 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/15] accel/qda: Add remote memory unmap from DSP
+ address space
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling
+ <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        srinivas.kandagatla@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20260817-qda-v2-v2-0-757ab8ed2f64@oss.qualcomm.com>
+ <20260817-qda-v2-v2-15-757ab8ed2f64@oss.qualcomm.com>
+ <6k6ogbosxx4z5bh7uriu4fnj24ycuakylq6g2gnuwsbckl2zww@e66jgj5xo52o>
+Content-Language: en-US
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <6k6ogbosxx4z5bh7uriu4fnj24ycuakylq6g2gnuwsbckl2zww@e66jgj5xo52o>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODIwMDA5NyBTYWx0ZWRfXxOUdwvILN9xn
+ HOXkJJ5CUWJGOkNZ7y30Pe79sz1iF/k5YWt1zsgqjgVtfoLzx4Hz1vhXsB3jwGQq8vaxoPG9CFx
+ y/EuVnPDtOaHnvlciLWkfsff+gfYBCk=
+X-Authority-Analysis: v=2.4 cv=YP+vDxGx c=1 sm=1 tr=0 ts=6a86fbb8 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=EUspDBNiAAAA:8 a=rYwYc2LNA-xZppdo0x8A:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-ORIG-GUID: VU1aNSFyqlo5ImLHwXvnlavuyWq3YMiU
+X-Proofpoint-GUID: VU1aNSFyqlo5ImLHwXvnlavuyWq3YMiU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODIwMDA5NyBTYWx0ZWRfX0ksrEsMsAf+o
+ GIlOcp938lb01QLdjw1hqsX/DlSv0ObakxoauarA8px+qB1t9zEJa/xga9f50GXLqCvVmrOU7IT
+ ahPhIUb/tdkNV6vfvFf7CN69Ryqc+ltSrCtDgpl5E+Pr6ww38QodeXeOefYm7ypeo9IDdQtI7R8
+ NU01UKtkUHjCHQJnZCj+gALSO1FFpgJOR6ddLn5VKpLBd3x2r761w3SGaj2LkCGfK8uVFY3J6jP
+ JqKblWePu4XVTxkKHdVO1519yzgQjtHqoh1FChDtT3+3zKEJjKbPCn+cFQje6TxU9TlJgjOjsZY
+ RuUTbOUwvR2oJw05FY+HwtQa30s7HrPvR6BUVy29CjNKobeYRimHHgHRLA0HjmKc4JxZfXEO9Jz
+ vfC1F+rFkHqP8l8Llb+DvUnk/IImQZ8I0shntopLQTUoJB58J35otF3QKa08Ftx1NRT5jDe/Lcx
+ K1uAofWXxxeB504mLsA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-19_06,2026-08-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 clxscore=1015
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608200097
 
-On Mon, 2026-08-10 at 20:23 +0000, John Groves wrote:
-> From: John Groves <john@groves.net>
->=20
-> This is v13 of famfs, as a standalone file system. v12 is at [7].
->=20
-> Most of this cover letter repeats v12. If you have read it, skip to "Chan=
-ges
-> since v12" below and to the per-patch changelogs under the "---" line of =
-each
-> patch. The history goes back to 2023, and is briefly covered in the v12
-> cover.
->=20
-> The most important thing to know about famfs is that it CANNOT be used as=
- a
-> general purpose file system. It is for enabling file-based byte-level acc=
-ess
-> (including direct mmap) to very large (e.g. 100TB) shared/disaggregated
-> memory appliances - which have become available during this long process,
-> and which are in need of Linux support.
->=20
-> So famfs cannot be used by anybody who doesn't know why they need it. Mak=
-ing
-> famfs standalone means it can't affect users who don't use it. Micron, as
-> well as other memory companies, need it, and do not intend to abandon it =
--
-> but imagine if we did: fs/famfs/ should be removed if the memory companie=
-s
-> can't be bothered to maintain it.
->=20
-> This code base has been in active CI and used globally by early adopters =
-and
-> testers of disaggregated memory since 2024. I believe it is solid.
->=20
-> Why standalone (short version)
->=20
-> famfs was introduced at LPC 2023 and LSFMM 2024 [1] as a standalone file
-> system, then spent close to a year being ported to fuse/libfuse. After
-> maintaining famfs in both forms, I have concluded it makes more sense as =
-a
-> standalone file system: fuse adds complexity to famfs (more complex, less
-> adaptable, less performant - and famfs files are memory, so access must r=
-un
-> at memory speed), while famfs adds complexity to fuse that is unlikely to=
- see
-> constructive re-use. The full history and argument are in the v12 cover
-> letter [7].
->=20
-> Changes since v12
-> -----------------
->=20
-> - Patch 01 split, per Alison Schofield: the removal of the now-unused
->   dax_dev_get() export is a standalone DAX cleanup that goes via the DAX =
-tree
->   and is posted separately [8]. Patch 01 of this series is reduced to add=
-ing
->   the non-allocating lookup helper dax_dev_find().
->=20
-> - Darrick Wong's review comments are addressed across the series: the
->   kill_*_super() rationale in the mount patch, the page_mkwrite/pfn_mkwri=
-te
->   write-fault comment, dropping the operation flags from iomap->flags in =
-the
->   resolver, and more.
->=20
-> - A number of findings from the Sashiko review bot are fixed:
->     * mprotect() could bypass the FAMFS_OPT_WRITE gate (the check looked =
-at
->       VM_WRITE only, not VM_MAYWRITE);
->     * rename() over an existing target bypassed the FAMFS_OPT_UNLINK /
->       FAMFS_OPT_RMDIR policy that unlink()/rmdir() enforce;
->     * splice()/sendfile() returned zeroes on these DAX files
->       (filemap_splice_read -> copy_splice_read);
->     * create/mkdir/mknod updated the child inode's timestamps instead of =
-the
->       parent directory's;
->     * .map_pages (filemap_map_pages) was a no-op on DAX and is removed;
->     * mount-parameter and module-namespace hygiene (reject unknown mount
->       options; prefix the non-static lookup_daxdev()).
->   A few Sashiko findings were considered and declined with rationale - fo=
-r
->   example generic_write_sync(), which is inert for a filesystem with no p=
-age
->   cache, no writeback, and a noop_fsync ->fsync. Those are noted under th=
-e
->   relevant patch.
->=20
-> - famfs now accepts 4 KiB extent alignment in addition to 2 MiB: the
->   allocation unit may be 4 KiB or 2 MiB. 2 MiB-aligned extents still map =
-with
->   huge pages; 4 KiB-granular extents map with PTEs (the DAX fault path al=
-ready
->   falls back PMD -> PTE).
->=20
-> - MAP_SYNC is now supported (FOP_MMAP_SYNC). famfs fmap metadata is immut=
-able
->   after MAP_CREATE, so the MAP_SYNC durability guarantee is met with no
->   metadata sync required.
->=20
-> - famfs is explicitly 64-bit only now (depends on 64BIT); it targets
->   CXL/fabric-attached memory, which does not exist on 32-bit systems.
->=20
-> Famfs Overview
->=20
-> Famfs exposes sharable disaggregated memory as a file system. Famfs consu=
-mes
-> shared memory from [usually shared memory] dax devices, and provides
-> memory-mappable files that map directly to the memory - no page cache
-> involvement. Famfs differs from conventional file systems in fs-dax mode,
-> in that it handles in-memory metadata in a sharable way (which begins wit=
-h
-> never caching dirty shared metadata). So a famfs file system can be mount=
-ed
-> from multiple nodes, provided they have access to the memory.
->=20
-> The key performance requirement is that famfs must resolve mapping faults
-> with minimal overhead. This is achieved by fully caching the file-to-devd=
-ax
-> metadata for all active files.
->=20
-> Famfs remains the first fs-dax file system that is backed by devdax rathe=
-r
-> than pmem in fs-dax mode (hence the need for the new dax mode).
->=20
-> Famfs depends on the 'fsdev' dax mode which landed in 7.1 - it will only =
-run
-> with an fsdev-mode (aka famfs-mode) daxdev as its backing device(s).
->=20
-> The famfs user space can be found at [6].
->=20
-> [1] https://lwn.net/Articles/983105/ (Famfs at LSFMM 2024)
-> [2] https://lwn.net/Articles/1020170/ (Famfs at LSFMM 2025, with patch li=
-nk)
-> [3] https://lwn.net/Articles/1068686/ (LWN coverage of the patch thread)
-> [4] https://lwn.net/Articles/1082687/ (Famfs at LSFMM 2026)
-> [5] https://lore.kernel.org/linux-fsdevel/0100019f7d9fbe81-6cb16662-2522-=
-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com/#b
-> [6] https://famfs.org
-> [7] https://lore.kernel.org/linux-fsdevel/20260806053409.GL3560084@frogsf=
-rogsfrogs/T/#t (v12)
-> [8] https://lore.kernel.org/linux-cxl/0100019fd478eb93-a6bd48e4-b5f1-4871=
--93d4-582802956e6c-000000@email.amazonses.com/T/#u (Partial dax patch)
->=20
->=20
-> John Groves (12):
->   dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
->   famfs: Module operations, fs_context, and mount
->   famfs: Add daxdev table and dax notify_failure support
->   famfs: Introduce inode_operations and super_operations
->   famfs: Introduce file_operations read/write
->   famfs: Introduce mmap and VM fault handling
->   famfs: MAP_CREATE ioctl and fmap ingest (ABI 44)
->   famfs: iomap_begin and file-to-dax offset resolution
->   famfs: Register secondary daxdevs by path (FAMFSIOC_DAXDEV_OPEN)
->   famfs: Add runtime operation-permission (opts) framework
->   famfs: Report device capacity via statfs so df works
->   famfs: Add documentation
->=20
->  Documentation/filesystems/famfs.rst           |  142 +++
->  Documentation/filesystems/index.rst           |    1 +
->  .../userspace-api/ioctl/ioctl-number.rst      |    1 +
->  MAINTAINERS                                   |    8 +
->  drivers/dax/fsdev.c                           |   19 +
->  drivers/dax/super.c                           |   38 +-
->  fs/Kconfig                                    |    2 +
->  fs/Makefile                                   |    1 +
->  fs/famfs/Kconfig                              |   12 +
->  fs/famfs/Makefile                             |    5 +
->  fs/famfs/famfs_file.c                         | 1007 +++++++++++++++++
->  fs/famfs/famfs_inode.c                        |  869 ++++++++++++++
->  fs/famfs/famfs_internal.h                     |  162 +++
->  fs/namei.c                                    |    1 +
->  fs/super.c                                    |    7 +
->  include/linux/dax.h                           |    7 +-
->  include/linux/fs.h                            |    1 +
->  include/uapi/linux/famfs_ioctl.h              |  160 +++
->  include/uapi/linux/magic.h                    |    1 +
->  19 files changed, 2441 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/filesystems/famfs.rst
->  create mode 100644 fs/famfs/Kconfig
->  create mode 100644 fs/famfs/Makefile
->  create mode 100644 fs/famfs/famfs_file.c
->  create mode 100644 fs/famfs/famfs_inode.c
->  create mode 100644 fs/famfs/famfs_internal.h
->  create mode 100644 include/uapi/linux/famfs_ioctl.h
->=20
-> --=20
-> 2.53.0
->=20
+On 17-08-2026 11:14, Dmitry Baryshkov wrote:
+> On Mon, Aug 17, 2026 at 10:38:45AM +0530, Ekansh Gupta wrote:
+>> Add DRM_IOCTL_QDA_REMOTE_MUNMAP, which removes a mapping previously
+>> established with DRM_IOCTL_QDA_REMOTE_MAP from the DSP address space of
+>> the calling process.
+>>
+>> Mirroring the map path, the DSP exposes two unmap operations, both
+>> reachable through this IOCTL and selected by the request field of
+>> struct drm_qda_mem_unmap:
+>>
+>>   QDA_REQUEST_MUNMAP unmaps a region by the DSP address that the
+>>   corresponding map call returned. It uses the vaddrout and size fields.
+>>
+>>   QDA_REQUEST_MEM_UNMAP unmaps a region by buffer identity, using the
+>>   GEM handle, the DSP virtual address and the size.
+> 
+> Why do we need two different operations? Can you just pass the GEM
+> handle to the IOCTL?
+QDA_REQUEST_MUNMAP (RMID 5): The DSP locates the mapping by the DSP
+virtual address that was returned by the corresponding MMAP call. This
+is the older protocol message that only needs {address, size} to
+identify the region in the DSP's page table.
 
-I looked over the series and while I don't have the greatest grasp of
-DAX/CXL, the fs bits all look fairly self-contained and reasonable to
-me. The changes outside of fs/famfs are extremely minimal, so I'm not
-worried much about this breaking anything unrelated.
+QDA_REQUEST_MEM_UNMAP (RMID 11): The DSP locates the mapping by its
+internal handle association. This is the newer protocol message that is
+not supported on older platforms.
 
-At this point, I think just taking this as a standalone fs is the right
-thing to do. This already has field deployments, so it's fairly well
-tested. If it turns out that the FUSE approach becomes more palatable
-later, we can just move to deprecate the standalone version then.
+> 
+> Also, what happens if the buffer is still in use on the DSP side? Will
+> the DSP crash? Will the whole board crash?
+The access from DSP after unmap will trigger an SMMU context fault on
+the context bank device. The fault does not bring down the board but
+might trigger remoteproc to restart(I'm not exactly sure about the iommu
+side handling of such faults).
 
-You and Richard discussed some (minimal) changes in patch #7. Assuming
-you resolve those, you can add:
+Thanks for reviewing the patches.
 
-    Reviewed-by: Jeff Layton <jlayton@kernel.org>
+//Ekansh
 
-(but figure that's mostly for the fs and not mm parts).
+> 
+> 
+>>
+>> Each request type has its own argument builder in qda_fastrpc.c,
+>> documented with the packed argument layout the DSP expects. Unknown
+>> request types are rejected with -EINVAL.
+>>
+>> Assisted-by: Claude:claude-sonnet-5
+>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>> ---
+>>  drivers/accel/qda/qda_drv.c     |   1 +
+>>  drivers/accel/qda/qda_fastrpc.c | 119 ++++++++++++++++++++++++++++++++++++++++
+>>  drivers/accel/qda/qda_fastrpc.h |  34 ++++++++++++
+>>  drivers/accel/qda/qda_ioctl.c   |  22 ++++++++
+>>  drivers/accel/qda/qda_ioctl.h   |   1 +
+>>  include/uapi/drm/qda_accel.h    |  39 ++++++++++++-
+>>  6 files changed, 215 insertions(+), 1 deletion(-)
+>>
+>>
+> 
 
-It's a little late for v7.3 given that the merge window is open now.
-Should we aim to get this into v7.4? That would give this a full cycle
-in linux-next too.
