@@ -1,50 +1,50 @@
-Received: from smtp14.infineon.com (smtp14.infineon.com [217.10.52.160])
+Received: from smtp11.infineon.com (smtp11.infineon.com [217.10.52.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DE23AB5DE;
-	Thu, 20 Aug 2026 05:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.52.160
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AED440637;
+	Thu, 20 Aug 2026 05:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.52.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787205129; cv=none; b=SsYA2Pa8WO3u3pKTQyc9KNMuqruxv3cMnNzg3PHEoct/41KOd/rCDbPdvTWdYSwiFrNdBzJxqCWYy0qLaXLcNQa4TysYeHh8jSYhnORfpm0jSO6xc5WqDJJa33xhe72zVD6kEsrvFwa4cbPgzDpWjmg2dpLpTfDTlOzn0d3E3vA=
+	t=1787205201; cv=none; b=JkLvPCV+hkaPCzTMhenD7ShoBPe7GoozcIc6evP/M+Kx54rr649UYOf2/KXqmrtKjnHc5lP7NKoUmzLMCddnq8VuYODQZs9eAF0Wc3t5a4vDotIsEAszvQc9XTL8dsbhv4ZSnSi+c0ahJLHJ5ivHiGc1ZaJvZhuVQ5jsNOucYiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787205129; c=relaxed/simple;
-	bh=ahpxrhIzwwIAbwOr+R2KucV63JvnpiADURbuUKzU5hc=;
+	s=arc-20240116; t=1787205201; c=relaxed/simple;
+	bh=37ZW8YOnm60ojTL8ISRSzVGScSuVacERLLcfcy5t1XI=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GT9uKT1hLYc2YjOf/+ORtZXYiIxyUmd1YX5OWyhob46njXQY5x3to0fLUy5mHgyZLIkWDyTJkOi6vAUIxQ1R1+KZPqmYG4AB7eemVD9N1jCYIQn8RdvHB5lB0NrR+7U6NWMQzV1XKhHIJkwBXKzRf1+pmyo0lceba7VslNyTDHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=infineon.com; spf=pass smtp.mailfrom=infineon.com; dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b=Tzv9vdFP; arc=none smtp.client-ip=217.10.52.160
+	 Content-Type:MIME-Version; b=HZya7zDunV5VGS+VhZCp8UzMdRIpuwDZ+hnllpM2TLm80itPvEfXn8n8jrLUUUjsFW7wCxqniSyzJcOeMUKovJshUsBWpRfaOMToRgIAGLa7shaAEBj1LQlc6f6MVJDjU24SV/HKI1OmIwlKBRLT258hCXat0j+H2byqBslOc38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=infineon.com; spf=pass smtp.mailfrom=infineon.com; dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b=hilC+Npt; arc=none smtp.client-ip=217.10.52.105
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=infineon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infineon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b="Tzv9vdFP"
+	dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b="hilC+Npt"
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=infineon.com; i=@infineon.com; q=dns/txt; s=IFXMAIL;
-  t=1787205128; x=1818741128;
+  t=1787205199; x=1818741199;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=ahpxrhIzwwIAbwOr+R2KucV63JvnpiADURbuUKzU5hc=;
-  b=Tzv9vdFPehmsFaB1UR8sVXb8UQv91fEcYIwdpw0paSV94ia0VgnG+Kp9
-   z5bfkLORGj8I0AFoKji8WU5JpZ/DTsQSknwQZNO/1DtGvzzwZulw1zKj2
-   1iYGFHDtkLkn+hhbnf5mjlTguecoQ7Z3CiD3rT2DnuEP1sc2hXUMshjBH
-   k=;
-X-CSE-ConnectionGUID: 7zVRjOo+R9WeBIwxbZHEBA==
-X-CSE-MsgGUID: kFU9UMleT+aI19KSF7xBOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="142730413"
+  bh=37ZW8YOnm60ojTL8ISRSzVGScSuVacERLLcfcy5t1XI=;
+  b=hilC+NptxnmSngSfwl65uFJzxcGMJKMtQDfdLqkrvhlunyEbpwzRvlUb
+   RnbuONJBFemSRb8bGiyltptMpJ0StUvEga74XviROcRQn7VX1oEBK/YIU
+   ZVoYRT1xfSD7F03BbE5Af+1EILB4Ni7u+mNeQzG2nyADwWTZU6aOLurE8
+   M=;
+X-CSE-ConnectionGUID: wStoZyi0SLOQcxFSTJKt3w==
+X-CSE-MsgGUID: SVZ2c4O8Svmn710HkLRf7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="156701291"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779141600"; 
-   d="scan'208";a="142730413"
+   d="scan'208";a="156701291"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO MUCSE803.infineon.com) ([172.23.29.29])
-  by smtp14.infineon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 07:50:56 +0200
-Received: from MUCSE817.infineon.com (172.23.29.43) by MUCSE803.infineon.com
+  by smtp11.infineon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 07:53:16 +0200
+Received: from MUCSE818.infineon.com (172.23.29.44) by MUCSE803.infineon.com
  (172.23.29.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 20 Aug
- 2026 07:50:56 +0200
-Received: from MUCSE815.infineon.com (172.23.29.41) by MUCSE817.infineon.com
- (172.23.29.43) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 07:53:17 +0200
+Received: from MUCSE815.infineon.com (172.23.29.41) by MUCSE818.infineon.com
+ (172.23.29.44) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 20 Aug
- 2026 07:50:55 +0200
+ 2026 07:53:16 +0200
 Received: from MUCSE815.infineon.com ([fe80::ed10:a720:3031:ca14]) by
  MUCSE815.infineon.com ([fe80::ed10:a720:3031:ca14%12]) with mapi id
- 15.02.2562.045; Thu, 20 Aug 2026 07:50:55 +0200
+ 15.02.2562.045; Thu, 20 Aug 2026 07:53:16 +0200
 From: <Takahiro.Kuwano@infineon.com>
 To: <miquel.raynal@bootlin.com>, <pratyush@kernel.org>, <mwalle@kernel.org>,
 	<richard@nod.at>, <vigneshr@ti.com>, <nicolas.ferre@microchip.com>,
@@ -54,16 +54,16 @@ CC: <STLin2@winbond.com>, <hsinyi@chromium.org>,
 	<thomas.petazzoni@bootlin.com>, <linux-mtd@lists.infradead.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
 	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v3 01/23] mtd: spi-nor: Rename
- BFPT_DWORD15_QER_SR2_BIT1_BUGGY
-Thread-Topic: [PATCH v3 01/23] mtd: spi-nor: Rename
- BFPT_DWORD15_QER_SR2_BIT1_BUGGY
-Thread-Index: AQHdKzcjyw4WlRlF90aItjoNCif4ULameOMQ
-Date: Thu, 20 Aug 2026 05:50:55 +0000
-Message-ID: <c7e7f557f17647b1b7134facaa1cefc1@infineon.com>
+Subject: RE: [PATCH v3 04/23] mtd: spi-nor: Add support for the new JESD216
+ rev F QER field
+Thread-Topic: [PATCH v3 04/23] mtd: spi-nor: Add support for the new JESD216
+ rev F QER field
+Thread-Index: AQHdKzcucGwXu1ZOE066BGny6n0Soramedtw
+Date: Thu, 20 Aug 2026 05:53:16 +0000
+Message-ID: <c209ecaf857b40519b921e4d73ae29b6@infineon.com>
 References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com>
- <20260813-winbond-v7-1-spi-nor-rv-addition-v3-1-b637cf120d5c@bootlin.com>
-In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-1-b637cf120d5c@bootlin.com>
+ <20260813-winbond-v7-1-spi-nor-rv-addition-v3-4-b637cf120d5c@bootlin.com>
+In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-4-b637cf120d5c@bootlin.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -77,15 +77,14 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-PiBUaGUgX0JVR0dZIHN1ZmZpeCBpcyBub3Qgc3VwZXIgYWNjdXJhdGUuIFRoZXJlIGlzIGEgYmVo
-YXZpb3IgdGhhdCBpbmRlZWQNCj4gc2VlbXMgc3RyYW5nZSwgYnV0IGl0IGlzIHNvbWV3aGF0IGRv
-Y3VtZW50ZWQuIFRoZSBmYWN0IGlzLCB3aXRoIHRoaXMgUUVSDQo+IGZpZWxkIHRoZSBzdGF0dXMg
-cmVnaXN0ZXIgaXMgY29uc2lkZXJlZCAxNi1iaXQgd2lkZSBhbmQgaWYgb25lIHdyaXRlcw0KPiB0
-aGUgZmlyc3QgOCBiaXRzIChTUjEpIHdpdGhvdXQgdGhlIG5leHQgOCBiaXRzIChTUjIpIHRoZW4g
-dGhlIGNvbnRlbnQgb2YNCj4gU1IyIHdpbGwgYmUgYXNzdW1lZCB0byBiZSAweDAwIGFuZCB3aWxs
-IGJlIGNsZWFyZWQuDQo+IA0KPiBSZW5hbWUgaXQgQkZQVF9EV09SRDE1X1FFUl9TUjJfQklUMV9O
-T18xQl9XUiB0byBhbGlnbiB3aXRoIHRoZSBvdGhlcg0KPiBuYW1pbmdzIChfTk9fUkQpIGFuZCBj
-bGFyaWZ5IHRoZSBtZWFuaW5nIG9mIHRoaXMgZmllbGQuDQo+IA0KPiBObyBmdW5jdGlvbmFsIGNo
-YW5nZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1pcXVlbCBSYXluYWwgPG1pcXVlbC5yYXluYWxA
-Ym9vdGxpbi5jb20+DQoNClJldmlld2VkLWJ5OiBUYWthaGlybyBLdXdhbm8gPHRha2FoaXJvLmt1
-d2Fub0BpbmZpbmVvbi5jb20+DQoNCg==
+PiBSZXZpc2lvbiBGIG9mIHRoZSBKRURFQyBKRVNEMjE2IHN0YW5kYXJkIGluY2x1ZGVzIHlldCBh
+bm90aGVyDQo+IHN1cHBvcnRlZCBzZXR0aW5nIGluIHRoZSBRRVIgMy1iaXQgYml0ZmllbGQ6IDEx
+MGIuDQo+IA0KPiBUaGlzIHNldHRpbmcgaW1wbGllcyB0aGF0IHRoZSBRRSBiaXQgaXMgYml0IDEg
+b2YgU1IyICh3aGljaCBpcyBhbg0KPiBhbHJlYWR5IHN1cHBvcnRlZCBjYXNlKSBidXQgdGhpcyB0
+aW1lIGl0IG1ha2VzIGl0IHZlcnkgY2xlYXIgdGhhdCBib3RoDQo+IHJlYWRpbmcgYW5kIHdyaXRp
+bmcgdG8gU1IyIGlzIHN1cHBvcnRlZCwgYnV0IG5vdCB3aXRoIHRoZSB1c3VhbA0KPiBvcGNvZGVz
+LiBUaGUgd3JpdGUgb3BlcmF0aW9uIHVzZXMgYW4gYWx0ZXJuYXRlIFdSU1IyIG9wY29kZToNCj4g
+MHgzMSAoaW5zdGVhZCBvZiAweDNFKSBhbmQgYm90aCB0aGUgcmVhZHMgYW5kIHdyaXRlcyBtYW5p
+cHVsYXRlIGEgc2luZ2xlDQo+IHJlZ2lzdGVyIGF0IGEgdGltZS4NCj4gDQo+IFNpZ25lZC1vZmYt
+Ynk6IE1pcXVlbCBSYXluYWwgPG1pcXVlbC5yYXluYWxAYm9vdGxpbi5jb20+DQoNClJldmlld2Vk
+LWJ5OiBUYWthaGlybyBLdXdhbm8gPHRha2FoaXJvLmt1d2Fub0BpbmZpbmVvbi5jb20+DQoNCg==
