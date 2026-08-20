@@ -1,185 +1,100 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-52.mta0.migadu.com [91.218.175.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4A0476CED
-	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 17:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACD047CA74
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 17:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787245966; cv=none; b=cV8q4LdmUIhA2p0LHba922HzoZdILd9KM1GAceGVQu/g0AUTAorAny6bEttcTsfrvEppEKvViIZPWNlLKkFT9rrZGmT5VbktLw2qDFiY8ZJmjuHpoCGEE+Ip0yQSf8THA7NFVOzY8mIpJtgF/xZUgqmg2UXtGEzmHxBKBof/Jr4=
+	t=1787246029; cv=none; b=ofbhbIwA9cyxVcRgIRoIhDZM7RwfGmTbrh168t5F2B3PgwsqfNekh+qj8SucPZpdvmFwGVs9+/Hn6tDs85eiDND7L7vOVQAWGlscZVTi/HjjtTU8vd3kZ93RR9zT68RU1qreZbETHNWON07n78kHyJ2RXUJAIacgzqthlivDrMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787245966; c=relaxed/simple;
-	bh=9tk8Sl/tU+k06lyjB+gI117CsAuIPPkNt46ArevX/WA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YsQJ8Q2+XXDXc0QGIFRSTP0s+rZXzN1YPlpkkBKb7IGw6+ZFjRf+F7Amcgpbr64nsdo35Z3lLJOywaInTVzs7hQlLfaeqhgAMKc3OTLOlwtWVIZSfGVt0ZXoEFTRlTf0S/4f/Z4xczrpdQxGlz3rJmqveGB+bWutPa/H3xmhOas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MB95tA0k; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BXwkczWD; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787246029; c=relaxed/simple;
+	bh=FmaaeFj19gNFUBzKxBnQmldMdUaWaNiKclImki509lc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DnXN/F7+56VRXBW9PlNjBtMKKVsTqczpIHrwf0qWVHC4qzFTuB+nj8m2jt/8v4un3yYRwemHztYf1+iF8z4rMAQzkzZG9aJVg9sF8n1ZnO03PI9I6QT9mm9jyDC4ithkSdQ93hneDvPJ5ysl65CqP+Nqx1EooXmzh3pnwby0jL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=HIon+nKq; arc=none smtp.client-ip=91.218.175.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MB95tA0k";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BXwkczWD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787245964;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EM5PkmngzWPW5YVaOcE4doFSUi3DdsSPp8p0edYyrwQ=;
-	b=MB95tA0kSm/DzqgLDbcjacsn/i2D4iPtbg3PFM2VLK9WSAP4Ajxo+Cy8MYgkAsfJwZEJ52
-	MX5QK0J/SjdCgQShzWcaO6IbVSuxndH1P2ZV/eEEUVEqHqkTDMq+R8IoZvPsdavpjWpR3y
-	kETTKZ4McQrkv+W35O6eGcdga+wZ2rg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-580-lP66NU5UNii5clMnuVDBOg-1; Thu, 20 Aug 2026 13:12:42 -0400
-X-MC-Unique: lP66NU5UNii5clMnuVDBOg-1
-X-Mimecast-MFC-AGG-ID: lP66NU5UNii5clMnuVDBOg_1787245962
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-482bf4da3d5so90558f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 10:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787245961; x=1787850761; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EM5PkmngzWPW5YVaOcE4doFSUi3DdsSPp8p0edYyrwQ=;
-        b=BXwkczWDAhtueLvgnBOZVuuRhnXIRn3cDd69KEI87tWgak+pm3VEKgkDxRHFswU5Y9
-         L11Z6xL2YodS1EF027j0a7+M8x/x0y/PcQ2O+SPifel4YximoOAlyU5K83TgybbfGNQS
-         KC2Y4jZfNLOXnOsMkD2DKwNw4XIRNG8l07M7tK+3O/Exg10tu76cDs4lYfIAoscY3vNX
-         CeE0a6JQ/edt3gADJRe3fK3cyOW3Awe8eIxKNo99e1WQBBTQH4eqB1VCRHcLCaWA0C9o
-         j5KbQpCw76XcrkWZqHcjf9MOVSx+osCsKmQLcti/MAKr3RHqitTwCcmOa742l295JMFz
-         fERg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787245961; x=1787850761;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EM5PkmngzWPW5YVaOcE4doFSUi3DdsSPp8p0edYyrwQ=;
-        b=DQU+FZO4/34G2w654xlMqZgtXYmjEFeRQWyOfTDBJ1ur4VMDjEk4br0/jCvLLp5j7/
-         Ibz9p34sf2n45TsWTVGKGzcVtzr3Yh8gbSbUHX7F6WoYGGtxoRHgMjVyNQg4FdxA0km0
-         nSAzEsTtosLfT0Gmw0/GOBJVAyoCrjKgqUBiaeppUTjltdYIi16P7L8RWfLIRZNONsAu
-         olerGC1aY00X5B5KoUiWRDDHKZNR6PfkeEz1rwt+3MQs82m6/1MYXMr7MXdkD5hc3H+k
-         TcPcIL3kSD2mfd5lf9fdWog30HVAaGeTJ7YqTGYCte17rfAcQ9Disiu0bQi+5euK918d
-         AOxA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro9f0bkjmv8xVOMatqtW5PESOYjiJYUIhnlLtQ7sTJR30q5yodzq4ywIL6UIzjyBilbtUslw9Z+iWg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz90dlWe4rUUdtYJqwx2JY9Bd30NC03Nq6jR+/b5Qq4SRpubqv9
-	ePkCXpGlfVlj+Gy+2uHQNaHejdFi0bv5vcX2aAi92okgL3smsz2UDaDzcxHD4fHwLFU5Is0yugB
-	wYnPHOpudaiwbF/nlV0loXhxEF/BQFzoPqHETJqVwsdgvyHGKWsHzo2Y3gvTgLg==
-X-Gm-Gg: AR+sD10wTddV7F6KoW+SxNY0wawSzXBLKQIDcDZM5V6VUR6MJKUpObYZ2ELtqCw6HRQ
-	oE8D84m/66v/TgiQ0IWTazAt9IrOKN6JZteXabXqIRcfU1zQAlgfFfYn8mpwZugRSoZ1PLNc6Lk
-	82s0vdj3JrH3YV1mIIRgpUWAPiSn9Mfb/kk8DjD6gD46gDoyrTBuc6cvGJ99e/L40+xCHwcunPk
-	J+tW0xsI+OawmPO4BLEAJJ0gpvp9FIQ/rjgYyfINSMVGKuznXAtdQC/5iug8xIdL8Zj6zmKbbvI
-	vUiMeTPfvVFPdVgj/flOXb2DhD/qX6rNlk2+kyVFXNzxmViBPi0zQ3u+CwinT9GWuuIHwMV4faZ
-	qB0Biw9OUfSNwoX7US+MtN6YU+Y/NIe+SS1lzdUxRj1AqAA==
-X-Received: by 2002:a05:600c:8819:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-499b8301c54mr7853305e9.14.1787245961743;
-        Thu, 20 Aug 2026 10:12:41 -0700 (PDT)
-X-Received: by 2002:a05:600c:8819:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-499b8301c54mr7852145e9.14.1787245961316;
-        Thu, 20 Aug 2026 10:12:41 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:11aa:87f0:935:4f8e:b423:64eb? ([2a01:e0a:11aa:87f0:935:4f8e:b423:64eb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa17fc80sm168153685e9.14.2026.08.20.10.12.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2026 10:12:40 -0700 (PDT)
-Message-ID: <b332e4f1-30a8-40b1-bdd5-f0c3f816c229@redhat.com>
-Date: Thu, 20 Aug 2026 19:12:37 +0200
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="HIon+nKq"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=FmaaeFj19gNFUBzKxBnQmldMdUaWaNiKclImki509lc=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787246024; v=1; x=1787850824;
+ b=HIon+nKqC2+2KqnliRDEDCxaEt5iCNeyCY0kO0iM7ElJF0fCVb550rV845i5mGIh4kuBdUim
+ kg8k6WXf4M5KrCIS9OBOaWVMAxQPkjZanbzaZK8X3gaqCHY8PSYvnNc2YDi6r79P/BXTHMHT8Tz
+ zj/KTxIU2z6hcp1huZo6b1fBNYRTsOJ8MSydUhbVYChyHSCfEr2oc/U49o7jhWnRLbxqSjasX3w
+ GiTqk3DWx5Tkwf3QaMk6IQRj7XvyQ0ABOe0gITjDrH0W0uxqkp1IDpHt/4GZs/h+dB6gktPDMhg
+ 97tJuSr9bUM0ECCt764G3G2wqNscS9V0oobGhQP/QSV7g==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from yuanweijie-macmini-2058.local (117.176.242.187)
+	by smtp.migadu.com with ESMTPS id 2f40f9169aff251c;
+	Thu, 20 Aug 2026 17:13:43 +0000
+X-Mizu-Trace-ID: 2f40f9169aff251c
+X-Migadu-Flow: FLOW_OUT
+From: Weijie Yuan <wy@wyuan.org>
+Subject: [PATCH 0/4] Update maintainer-pgp-guide.rst Chinese translation
+Date: Fri, 21 Aug 2026 01:13:19 +0800
+Message-Id: <20260821-maintainer-pgp-guide-v1-0-08e5e3602c04@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/12] drm/panic: Retry in dispatch function if panic
- output fails
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev,
- sashiko-reviews@lists.linux.dev
-References: <20260818125012.468092-1-tzimmermann@suse.de>
- <20260818125012.468092-8-tzimmermann@suse.de>
-Content-Language: en-US, fr
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20260818125012.468092-8-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6DIBCF4auQWTsJEEOqVzEuKA44TYoEsDEx3
+ r3ULt7iW7z/hEKZqcAoTsj04cJbbFCdALfaGAh5aQYttZEPLfFtOdY2yphCwrDzQuiVH4wyvfP
+ WQrumTJ6POzvNf5f9+SJXfy24ri8bB9sheAAAAA==
+X-Change-ID: 20260820-maintainer-pgp-guide-f1f96164cfaa
+To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+ Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1709; i=wy@wyuan.org;
+ h=from:subject:message-id; bh=FmaaeFj19gNFUBzKxBnQmldMdUaWaNiKclImki509lc=;
+ b=owGbwMvMwCWmYiA08XxmoirjabUkhqx20z3H/K5sMTHN2VYqtPlMu446a3yC54yJM6/nnZSYL
+ X+mf8OtjoksDGJcDJZiiiyKec8vcLkH7J22IuI8zBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
+ aKRjoGPMwMUpAFP9VJ/hF9NJq9x17rZHxLfcej37Tuz7tK/HWM6yV5fM971yZ7J3xSqGfyrV3y+
+ 8+fk+WMO0K11tiY3jw4aVLVqce6ub5reEJHy+xgMA
+X-Developer-Key: i=wy@wyuan.org; a=openpgp;
+ fpr=216EE7D00A4750BD96A858CF24301291CF696125
 
-On 18/08/2026 14:28, Thomas Zimmermann wrote:
-> On failed output of QR codes and kmsg buffers, fall back to a user
-> message. QR-code output already did this internally, but now formally
-> support it in drm_panic_dispatch(). Streamlines the existing logic.
-> 
-> Also pass module parameter drm_panic_type as a parameter to
-> drm_panic_dispatch(). This simpifies the implementation. It will later
-> allow for moving the function into a helper library.
+The script says:
 
-Thanks, it looks good to me.
+$ tools/docs/checktransupdate.py Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+[1787244823.341547] Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+[1787244823.630509] commit 54857c52452a ("docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign")
+[1787244823.680849] commit 6c5c07bc8589 ("docs: process: maintainer-pgp-guide: update kernel.org docs link")
+[1787244823.730027] commit 273aa250f138 ("Documentation: Improve wording on requirements for a free Nitrokey")
+[1787244823.779408] commit f44a29784f68 ("Documentation: update maintainer-pgp-guide for latest best practices")
+[1787244823.779522] 4 commits needs resolving in total
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/drm_panic.c | 24 ++++++++++++------------
->   1 file changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 12c39217cbcb..0960750bfce2 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -746,9 +746,9 @@ static int drm_panic_get_qr_code(u8 **qr_image, unsigned int qr_version)
->   /*
->    * Draw the panic message at the center of the screen, with a QR Code
->    */
-> -static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
-> -				      u32 fg_color, u32 bg_color,
-> -				      unsigned int qr_version)
-> +static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
-> +				     u32 fg_color, u32 bg_color,
-> +				     unsigned int qr_version)
->   {
->   	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
->   	struct drm_rect r_screen, r_logo, r_msg, r_qr, r_qr_canvas;
-> @@ -816,15 +816,6 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
->   	drm_panic_blit(sb, &r_qr, qr_image, qr_pitch, scale, fg_color);
->   	return 0;
->   }
-> -
-> -static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
-> -				     u32 fg_color, u32 bg_color,
-> -				     unsigned int qr_version)
-> -{
-> -	if (_draw_panic_screen_qr_code(sb, fg_color, bg_color, qr_version))
-> -		draw_panic_screen_user(sb, fg_color, bg_color);
-> -	return 0;
-> -}
->   #else
->   static void drm_panic_qr_init(void) {};
->   static void drm_panic_qr_exit(void) {};
-> @@ -899,13 +890,22 @@ static int draw_panic_dispatch(struct drm_scanout_buffer *sb, enum drm_panic_typ
->   {
->   	int ret;
->   
-> +retry:
->   	switch (panic_type) {
->   	case DRM_PANIC_TYPE_KMSG:
->   		ret = draw_panic_screen_kmsg(sb, fg_color, bg_color);
-> +		if (ret) {
-> +			panic_type = DRM_PANIC_TYPE_USER;
-> +			goto retry;
-> +		}
->   		break;
->   #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
->   	case DRM_PANIC_TYPE_QR:
->   		ret = draw_panic_screen_qr_code(sb, fg_color, bg_color, qr_version);
-> +		if (ret) {
-> +			panic_type = DRM_PANIC_TYPE_USER;
-> +			goto retry;
-> +		}
->   		break;
->   #endif
->   	case DRM_PANIC_TYPE_USER:
+So I updated this document in chronological order, created four patches
+based on these four outdated commits to make it easier for you to
+review. Hence, you can freely squash them when applying them.
+
+Tested with make htmldocs, no warning or error made by these patches.
+
+ps. Jon, I have a little confusion regarding the license identifier.
+Maybe you could take a look at it. Thanks. But that's not a big deal.
+
+[+To: Konstantin, as he is the original author, thanks.]
+
+---
+Weijie Yuan (4):
+      docs/zh_CN: update maintainer-pgp-guide translation
+      docs/zh_CN: clarify free Nitrokey requirements
+      docs/zh_CN: update maintainer-pgp-guide kernel.org link
+      docs/zh_CN: add kernel.org trust repository reference
+
+ .../zh_CN/process/maintainer-pgp-guide.rst         | 140 ++++++++++-----------
+ 1 file changed, 67 insertions(+), 73 deletions(-)
+
+
+---
+base-commit: ba839bfe38d0ac2d8cbdc1272e2408dc35dafa6a
+change-id: 20260820-maintainer-pgp-guide-f1f96164cfaa
 
