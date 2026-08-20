@@ -1,36 +1,36 @@
-Received: from mta1.migadu.com (out-106.mta1.migadu.com [95.215.58.106])
+Received: from mta0.migadu.com (out-71.mta0.migadu.com [91.218.175.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593D0385D96
-	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 04:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18C7387345
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 04:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787201046; cv=none; b=B97fid661ywhVm657TZ0ZD2H/68ryz3yVZYvP/7RvhrNLRBp+Y8r8Ap/aRjlbGc3ZgFM+PrLEO94QcqPF/gXZ+0gsn57diFKcZ0ub2AC9R4rYVsP9QCMBdj0EeYYlEnNoojhezJorLA1oO8E26rErbPW/p60tpSc/hpvuCXxRKc=
+	t=1787201048; cv=none; b=aekrKyrqtoBURVJlKlb99Uw8rxGzxaJQqOV37AvFcOW2BARlZ7K1h/0isz+yXnBFJIF4IoQtBC2Qc1OiyBIXxLCP9JLsz5XYl26/76/YB9Vt9Gf26i4mdEntOik9dQcfsaoONQqrNJ1kvZizqPbSBid1UESSQF59OixzzDThqbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787201046; c=relaxed/simple;
-	bh=dcrQmnFzca1cnV5S3GygLHCt7jlvEv+STK+ALb/4KU0=;
+	s=arc-20240116; t=1787201048; c=relaxed/simple;
+	bh=4hQqCC5P2x82rrO8Ud91ac4zwsZPqoxzCq8LChveOQo=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=bY5Q3uIecj9RD+nrkjyIFqHVVBKslN9xevHfuVgsbeQakap5Y/q9zZLttQ5Kw2z0mFFUea1AfJULMCpek2oesF06EXBakwIqTKVE3bnNcItiyfguEz7ps81evfBRLoTt8/2ZE0Pn1ul6Bs3oat1NFJiN/aZAkiXejZugk5TyrQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=lf5qIeBD; arc=none smtp.client-ip=95.215.58.106
+	 References:Date:Message-Id; b=Hd+0FTD4L2PVQ2/a+a62AqztiIUjkNyZBHBGpV7+5Vz+3uLdibAjFCjedKA4GbZS7cEtpVHyGbfVetpEVovB0/QPvhIZsk7SOTfw1j0YnVOhhGGQQVo9Z7tSzuPMvwaZpVZliCGqgQhCB6otp6+2Bt6P+nHgNKXnVGtOS0b/9yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=BytLBtFR; arc=none smtp.client-ip=91.218.175.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="lf5qIeBD"
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="BytLBtFR"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=dcrQmnFzca1cnV5S3GygLHCt7jlvEv+STK+ALb/4KU0=;
+DKIM-Signature: a=rsa-sha256; bh=4hQqCC5P2x82rrO8Ud91ac4zwsZPqoxzCq8LChveOQo=;
  c=simple/simple; d=wyuan.org;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787201041; v=1; x=1787805841;
- b=lf5qIeBD08AQpDv3MHNK8hlrbhbcecrDtL4KK2n2J/UAmp0WRKIrjDj1pLT09SUGtetV1mkH
- 7LG1LnRehkidqkBic+hN3TOvl4Gr3tY0MGilyN7fnMyTDNGVZ91gSKJCIXuwIfMuZdC/OTqKZ8X
- hAzADJLnzjLWKCtKC7gJaUNW1Em51lNOkQx7mavaYxYpHz1bPJFGYScTARbp4e8yBgeMn15eHLD
- 7rzOyZgZuNYIVrMZMFYrgIU6YisOqdKosgAuccpW9CpDkLZNFJMxE97oICtJ5/GC9pQM0S8BQnS
- ZunPo6oqXaW9ijFMzrO6SMb/GP48XBDkx1fC4K/tMoiKw==
+ t=1787201044; v=1; x=1787805844;
+ b=BytLBtFRbgeGOkMMTM7nC1SZxvqRL4F29M1quRt98GB+u/Nq92Z+o1IUWUITo4PGzrdXAx+p
+ X3RSGS3MaHC08Yl+eIAZfjVCuwPMA4HTSA6mOXD4k4gvbZ/boAgprrMRkvJfNQybOWeU8Ju8XKN
+ Vxiu6qqyT5I8eADKHBqSH0/ekTvmEJpIPJkc5wIxidPj8zP0LzWikGYdHdPaV0boFWSAlVlUczG
+ 75RFSBeOm0X7XEwhG9G2csIwM6RI/CkHdk+f3zOozrt8jtBkINC5XMbXSMnn9FKp+EWOeKdWwOa
+ Me9I8AN2SSR/kmlPSOxE25lWn1ub+hcWr3St33v8pJYxQ==
 X-Envelope-To: linux-doc@vger.kernel.org
 Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa (117.176.242.187)
-	by smtp.migadu.com with ESMTPS id b7165f5237e3f84f;
-	Thu, 20 Aug 2026 04:44:00 +0000
-X-Mizu-Trace-ID: b7165f5237e3f84f
+	by smtp.migadu.com with ESMTPS id 885c47e57a3a9fcc;
+	Thu, 20 Aug 2026 04:44:04 +0000
+X-Mizu-Trace-ID: 885c47e57a3a9fcc
 X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -39,8 +39,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/7] docs/zh_TW: remove duplicated maintainer contact
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 3/7] docs/zh_TW: arch: remove maintainer contact
  information
 From: Weijie Yuan <wy@wyuan.org>
 To: Chen-Yu Yeh <chenyou910331@gmail.com>
@@ -48,67 +48,18 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
  Dongliang Mu <dzm91@hust.edu.cn>, Weijie Yuan <wy@wyuan.org>, 
  Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <srcres258@furdevs.cn>, 
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260819145808.291567-1-chenyou910331@gmail.com>
+In-Reply-To: <20260819145808.291567-4-chenyou910331@gmail.com>
 References: <20260819145808.291567-1-chenyou910331@gmail.com>
+ <20260819145808.291567-4-chenyou910331@gmail.com>
 Date: Thu, 20 Aug 2026 12:43:39 +0800
-Message-Id: <178720101976.15514.2188001271058942676.b4-review@b4>
+Message-Id: <178720101976.15514.17524044147551392316.b4-review@b4>
 X-Mailer: b4 0.17-dev
 
-> MAINTAINERS already records who to contact about the zh_TW
-> translations, yet every zh_TW file repeats that information in a
-> per-file contact block.  The duplication has a concrete cost: the
-> listed zh_TW maintainer address appears in 58 files and there have now
-> been three separate attempts to rewrite it across the tree.  In the
-> MAINTAINERS discussion Jon Corbet's conclusion was that, rather than
-> churning all of those addresses once more, the best thing is simply to
-> remove them.
+So like what I said in other patches, many of the translations in this
+subdirectory are outdated and lack sufficient coverage. So I remain
+neutral on this change.
 
-I hope we didn't get Jon's idea wrong.
-
-> There is a second reason.  The zh_TW tree was produced by converting
-> zh_CN, and the credit blocks came across with the text: nearly every
-> address removed here also appears in
-> Documentation/translations/zh_CN/, several in more than a hundred
-> files.  They credit the simplified-Chinese translation rather than
-> zh_TW work, so keeping them would leave the wrong attribution in place.
-
-By the way, this is something that occurred to me as well: for articles
-that were converted directly from Simplified Chinese, do we really have
-grounds to say that the original authors should be responsible for the
-Traditional Chinese versions? I tend to think not.
-
-Of course, one could argue that some translation issues are not specific
-to either Simplified or Traditional Chinese, but are issues with the
-Chinese text more generally. Even so, I do not think the original
-authors have a moral obligation to take responsibility for the converted
-Traditional Chinese text. Perhaps it would have been better to say
-something like, “The author of the Simplified Chinese original is xxx,”
-but there is little point in discussing that now.
-
-Putting those contributors in the "blame" line because of such converted
-texts therefore seems somewhat unfair to me. So for articles converted
-from Simplified Chinese, I agree with removing those statements.
-
-> Chen-Yu Yeh (7):
->   docs/zh_TW: process: remove maintainer contact information
->   docs/zh_TW: admin-guide: remove maintainer contact information
->   docs/zh_TW: arch: remove maintainer contact information
->   docs/zh_TW: dev-tools: remove maintainer contact information
->   docs/zh_TW: filesystems: remove maintainer contact information
->   docs/zh_TW: cpu-freq: remove maintainer contact information
->   docs/zh_TW: remove the last maintainer contact references
-
-Has anyone objected to multiple commits in this series sharing almost
-the same commit message?  Just a thought.
-
-> This series conflicts with the pending zh_TW process/ series [1], which
-> adds a translator entry to the same blocks in fifteen of these files.
-> Please apply that one first; I will respin this on top if it lands in a
-> different shape.
->
-> [1] https://lore.kernel.org/linux-doc/20260806181949.65648-1-chenyou910331@gmail.com/
-
-b4 automatically find a clean base for me: linus/master.
+And also, just as you said, hope there are no omissions. ;-)
 
 Thanks.
 
