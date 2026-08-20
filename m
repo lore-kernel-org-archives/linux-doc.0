@@ -1,46 +1,50 @@
-Received: from smtp9.infineon.com (smtp9.infineon.com [217.10.52.204])
+Received: from smtp11.infineon.com (smtp11.infineon.com [217.10.52.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F20A389E05;
-	Thu, 20 Aug 2026 06:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.52.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89C63AE191;
+	Thu, 20 Aug 2026 06:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.10.52.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787205855; cv=none; b=SybP0H/+KlpQI57ZCdkB88B5mN8QwLYCm09SSA7wc8NAYoTlMNDxBc77WV3oSL/djwvAMikqIK3Amwej7Yd4dHZtvLV3P6u3FoMjkUemyigKm3cfc6M6flFREInB6F2TOd/kvoyqhFLH+qu3L2VbroFalj/5CJlvXAtjJc2nDf8=
+	t=1787205870; cv=none; b=rmE1ZRws1H2HBMs8JTDZhN5qjtaWzIa93McCu8b93l59MrA+frYvjnHPJh8eJZqDXFIV3vq0wn+eJl1bLsmZjL2v6Rwccb8Lgt9jMdC4w1k4aLYR83FXkZ7QALuJuSwpf81x+14SfP8LM1D9KPsQp7h8lSsnp/o6B6PqxCtgCAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787205855; c=relaxed/simple;
+	s=arc-20240116; t=1787205870; c=relaxed/simple;
 	bh=u6nnStvPEFbyY7Htslo0ENX4rktquD6YXC5DcbylmnQ=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=vCkxIDSWf+aibON8B0NVPiNKrXEScqW2/1tUrqHu2JoTj+zO9UMYOLPUhqzLKbrNRjaW4iu1AoMcJCmtrJ/8i4viG3pluwXCvxTqwRHO4QvbURMoP1sVRX/1y0iY6kmzpcWTBdd3sSJT8np0eQpwdd7PfVHyOAFwtLV1NkYEQqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=infineon.com; spf=pass smtp.mailfrom=infineon.com; dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b=ZQDvSPEj; arc=none smtp.client-ip=217.10.52.204
+	 Content-Type:MIME-Version; b=k3eb2iV0bpXhpf//8Ta+RwX2E/UOPh5okF89j40ZfshTklbugYtU4O9FhS1tl34EftHlWlYHqYNvjO30HHjY4gA1I+mtKbCrtyHfKAsBFl7YmUFAXNiNymEzCLAOI2FwLT2MRerumwF8KP08XO6KHzWJO5hhmQUzqrhBp4gjq70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=infineon.com; spf=pass smtp.mailfrom=infineon.com; dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b=jQgD8fKS; arc=none smtp.client-ip=217.10.52.105
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=infineon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infineon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b="ZQDvSPEj"
+	dkim=pass (1024-bit key) header.d=infineon.com header.i=@infineon.com header.b="jQgD8fKS"
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=infineon.com; i=@infineon.com; q=dns/txt; s=IFXMAIL;
-  t=1787205854; x=1818741854;
+  t=1787205869; x=1818741869;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-transfer-encoding:mime-version;
   bh=u6nnStvPEFbyY7Htslo0ENX4rktquD6YXC5DcbylmnQ=;
-  b=ZQDvSPEjQ4LYzUlMnA/LOpTuAXFygWwppoKE6mCMIoJSa+M9V6GSVkrI
-   BaP5iZzEX7RKuNDSV77e3urI5/4klyznM11mVPI77Mk++nQFKY13r+fHy
-   qC9QHL3lkhUuKEJ7pRJaoUK4hyLjWuP71L2oLMwm/oxDRs2K0YVBREBMC
-   8=;
-X-CSE-ConnectionGUID: bReYDedRRoWRB8kInbFdAg==
-X-CSE-MsgGUID: H62G2pimStinys5SXy3Y5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="105418331"
+  b=jQgD8fKS4pwDqtoLApSYHLLye40IRYrKA8YP5ysNf2OfsvUpfOCJARzi
+   3xhTN9TI1c92yySmShfPvCMQ+p2gcHKqAnnnHPWLIRS1HkofkvDZS6TOj
+   Q5q0x7d93dl6ocYiheMt91l7nXjWYY1RZOFmNqL4E+W1lrcIEp7FM6NVd
+   k=;
+X-CSE-ConnectionGUID: VdNJ1033QtCpvYH9LSyp9g==
+X-CSE-MsgGUID: IvKWu1wnSsimmlz7DGl8DA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11880"; a="156704490"
 X-IronPort-AV: E=Sophos;i="6.25,232,1779141600"; 
-   d="scan'208";a="105418331"
+   d="scan'208";a="156704490"
 X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO MUCSE814.infineon.com) ([172.23.29.40])
-  by smtp9.infineon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 08:03:52 +0200
-Received: from MUCSE815.infineon.com (172.23.29.41) by MUCSE814.infineon.com
- (172.23.29.40) with Microsoft SMTP Server (version=TLS1_2,
+Received: from unknown (HELO MUCSE819.infineon.com) ([172.23.29.45])
+  by smtp11.infineon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 08:04:26 +0200
+Received: from MUCSE817.infineon.com (172.23.29.43) by MUCSE819.infineon.com
+ (172.23.29.45) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 20 Aug
- 2026 08:03:51 +0200
+ 2026 08:04:26 +0200
+Received: from MUCSE815.infineon.com (172.23.29.41) by MUCSE817.infineon.com
+ (172.23.29.43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 20 Aug
+ 2026 08:04:25 +0200
 Received: from MUCSE815.infineon.com ([fe80::ed10:a720:3031:ca14]) by
  MUCSE815.infineon.com ([fe80::ed10:a720:3031:ca14%12]) with mapi id
- 15.02.2562.045; Thu, 20 Aug 2026 08:03:51 +0200
+ 15.02.2562.045; Thu, 20 Aug 2026 08:04:25 +0200
 From: <Takahiro.Kuwano@infineon.com>
 To: <miquel.raynal@bootlin.com>, <pratyush@kernel.org>, <mwalle@kernel.org>,
 	<richard@nod.at>, <vigneshr@ti.com>, <nicolas.ferre@microchip.com>,
@@ -50,16 +54,16 @@ CC: <STLin2@winbond.com>, <hsinyi@chromium.org>,
 	<thomas.petazzoni@bootlin.com>, <linux-mtd@lists.infradead.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
 	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v3 10/23] mtd: spi-nor: winbond: Add support for
- W25Q64RV-Q/N
-Thread-Topic: [PATCH v3 10/23] mtd: spi-nor: winbond: Add support for
- W25Q64RV-Q/N
-Thread-Index: AQHdKzdFbZaaaDmxmEagAmRtxzCY87amfMDQ
-Date: Thu, 20 Aug 2026 06:03:51 +0000
-Message-ID: <5d1cbf4b2a414b15be60832fc4be6025@infineon.com>
+Subject: RE: [PATCH v3 11/23] mtd: spi-nor: winbond: Add support for
+ W25Q12RV-Q/N
+Thread-Topic: [PATCH v3 11/23] mtd: spi-nor: winbond: Add support for
+ W25Q12RV-Q/N
+Thread-Index: AQHdKzdIpVH7yibg9keh3oZJFvnnIbamfO+g
+Date: Thu, 20 Aug 2026 06:04:25 +0000
+Message-ID: <4679ea5e945a4f6c8e743d3543e000b5@infineon.com>
 References: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-0-b637cf120d5c@bootlin.com>
- <20260813-winbond-v7-1-spi-nor-rv-addition-v3-10-b637cf120d5c@bootlin.com>
-In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-10-b637cf120d5c@bootlin.com>
+ <20260813-winbond-v7-1-spi-nor-rv-addition-v3-11-b637cf120d5c@bootlin.com>
+In-Reply-To: <20260813-winbond-v7-1-spi-nor-rv-addition-v3-11-b637cf120d5c@bootlin.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
