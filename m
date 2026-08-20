@@ -1,57 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5897F3DDAF0;
-	Thu, 20 Aug 2026 10:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E3341A571;
+	Thu, 20 Aug 2026 11:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787222778; cv=none; b=p8L5jHZP+NwkeH2GzTMoJtPZJOgdR/ZC9j1BLTr8+CKnFdELwN7u1hpcMIyqVT+OUHXwxD8mJg3sc3wQHl1d7BxkWlJGvcT+bhQ6JODWHZ+EcwgWgTe9EaQuCWYeEt0R6dsJvNdkRRywFMsoKJQjLTyT+OKTAvceyCtdO0xT+s4=
+	t=1787225411; cv=none; b=hr5b6jg4LAMuAHYd6TSu4XcsMUI5xjAz3QM5usxRzeLSvT6BxyymkhebX/2euuSvNhQoWLOewrrpgrvA3WhQwDs/BmA+3PD6qr1I6ENmK/TqzHo0Fg6yv8HEIuADJ5xaUHQGGWw7JZ58v6z+UQ0j2Rsr4m1jDg+ZrnPyUxOxYLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787222778; c=relaxed/simple;
-	bh=dB4Sn+g5+8EXto3KTgmB6+U3sXk6A1AUH07jcEFRxwI=;
+	s=arc-20240116; t=1787225411; c=relaxed/simple;
+	bh=x/DK1djQrP4aArL2cm7yHVkhGnuwCsxaQs4emL4I4fk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ws4qMfuRremIOAi1hv/a9806ZKWWIeQRFUtvfXwqyuRVIxpA7SOeoLDW9BeRxQp9AmjORQx+14DRnnPDxVI6J5V0FoK4Y+neLu77+UGHP+MUMIAgon8Q7HDvhgWk0V4zEQQlHiVbdk+U/UuMdvCL5G+2fzeXVbQqo8KN+qiZfm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UL1xMM+O; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=M0XGFn7P2BzZqH14jbcBZzMuczCAOwFZk4QY/75v/HfjEZJy8bUx2+3MVFxadO6KNU/uw2l3ZgjJBunHQ77AOlBc44olLR2LEr5c9+GiqzimfM5GsIYYwa5sGBU/z7MxePTZebISAUEzkRuD3waFIN+2gvtIBE+BJijMDKetXUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Alv0Uksx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UL1xMM+O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2464D1F000E9;
-	Thu, 20 Aug 2026 10:46:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Alv0Uksx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E48F1F00A3D;
+	Thu, 20 Aug 2026 11:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787222777;
-	bh=fGWPN53+LtuQxuiYMSRiXpBjH0T44ztBiCq6/Ef14To=;
+	s=k20260515; t=1787225410;
+	bh=yxMhTRLdavM3BDMahtX3m4KRGa90dfWMFnclmxcH/Kc=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=UL1xMM+O7C1EUZ2FmctdeuCuuw05mogST/CcUm50lr1DQLSNj2ZmC8ph5CjpjJTkm
-	 brAFa3FBlRIC+CdZ5iTT30RjubMcFThNW7uICT+3VKdg+3E3lsO6oTLPbe58VJXCYf
-	 ifSLuoV+kIM+jwVymE9+U1V1PnghbcG8LYSw6asjE98vwhdPLG+U0rHrUTCgm8ae3R
-	 85Z3vhuPsFUWiNibHfK5Ze5w5YfMIcY1uF07wOppayH/ipMUy4LZ+TPLfb3hmHB4+q
-	 l63vQZD0mi+za///e4tBH7fvPWeogEwOCarALfj8vN6vtITXTZmjA/WZgRgCc5BSb+
-	 aM2mFrjcaJgWQ==
+	b=Alv0UksxLwqA1XA9KRzroRLJVP9RPkvI9b/GgKz8BqbAjhySnF/bFcPCihvnMghLL
+	 0aoeQMch6YxbIKM4dy/oVd0WKACWE/BE+50wazKP/MqO++M1rEDuyg2aHupZXprcBl
+	 OsaIwXZioOb5hiVLOoXu3xsoG8Ys+MOHzH7RwlSxYM206gEIGvr/f3MwQ5Ez7YbyCM
+	 HJw0Souj6735YZ/3knzR8wKA7HRgHmF9NmD0b4Sj434T9fSG9/mIajTdEUP+P7TeNo
+	 kjtBB11Z5n+E6zp6t0v0uSD7KC7A0ml2vYbB861QNnnNiJZBUQ3qgO6UfxBepzoe0U
+	 vWMyish1q5x/A==
 Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
 	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <maz@kernel.org>)
-	id 1wx0Hn-0000000HG2v-0Ngr;
-	Thu, 20 Aug 2026 10:46:15 +0000
-Date: Thu, 20 Aug 2026 11:48:46 +0100
-Message-ID: <87zeyhnk35.wl-maz@kernel.org>
+	id 1wx0yG-0000000HGwR-10ar;
+	Thu, 20 Aug 2026 11:30:08 +0000
+Date: Thu, 20 Aug 2026 12:32:39 +0100
+Message-ID: <87y0e1ni20.wl-maz@kernel.org>
 From: Marc Zyngier <maz@kernel.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Sascha Bischoff <sascha.bischoff@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Timothy Hayes <timothy.hayes@arm.com>,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
+To: Mark Brown <broonie@kernel.org>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Fuad Tabba <tabba@google.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Yao Yuan <yaoyuan@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: KVM: Fix the GICv5 KVM_IRQ_LINE PPI range
-In-Reply-To: <aoBhU6XIarXxeQYB@gmail.com>
-References: <20260815092537.31737-1-kmehltretter@gmail.com>
-	<86wltrzm5n.wl-maz@kernel.org>
-	<aoBhU6XIarXxeQYB@gmail.com>
+Subject: Re: [PATCH v19 04/14] KVM: arm64: Ensure GCS memory effects are visible
+In-Reply-To: <3cc4cccd-1a4a-487e-8ac6-9bbbc9713e58@sirena.org.uk>
+References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org>
+	<20260812-arm64-gcs-v19-4-9105afd828ac@kernel.org>
+	<aoXmfz5pPwRYRKTO@LeoBrasDK>
+	<3cc4cccd-1a4a-487e-8ac6-9bbbc9713e58@sirena.org.uk>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
  (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -62,38 +67,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: kmehltretter@gmail.com, oupton@kernel.org, sascha.bischoff@arm.com, pbonzini@redhat.com, corbet@lwn.net, skhan@linuxfoundation.org, jic23@kernel.org, timothy.hayes@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Rcpt-To: broonie@kernel.org, leo.bras@arm.com, catalin.marinas@arm.com, will@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, tabba@google.com, oupton@kernel.org, peter.maydell@linaro.org, yaoyuan@linux.alibaba.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
 X-SA-Exim-Mail-From: maz@kernel.org
 X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Sat, 15 Aug 2026 14:07:38 +0100,
-Karl Mehltretter <kmehltretter@gmail.com> wrote:
-> 
-> On Sat, Aug 15, 2026 at 11:57:24AM +0100, Marc Zyngier wrote:
-> > > +	       in-kernel GICv5: PPI, irq_id between 0 and 63 (incl.), and
-> > 
-> > No. Please understand the difference between *implementation* and
-> > *architecture*.
-> 
-> Got it. That distinction could perhaps be clearer in api.rst, but 0-127
-> is intentional, not a missed doc update.
+On Wed, 19 Aug 2026 19:08:01 +0100,
+Mark Brown <broonie@kernel.org> wrote:
+>=20
+> On Wed, Aug 19, 2026 at 06:23:11PM +0100, Leonardo Bras wrote:
+>=20
+> > You state that we do _not_ use GCS in the hypervisor, nor in the host.
+> > I understand that we GCSB() when we exit the vcpu context, but why woul=
+d we=20
+> > need to GCSB() before getting back in?
+>=20
+> > If cpus will GCSB() on guest_exit, and host/hyp does not use GCS, there=
+=20
+> > should be no GCS pending operation at the entry point.
+>=20
+> That's there to ensure that updates written by another PE are seen,
+> following the same pattern as DDI0487 M.c K10.6.5 example K10-8 (or the
+> prior migration between PEs example, that has barriers due to the stack
+> switch operations rather than as distinct instructions).
 
-This is on purpose.
+This makes no sense at all. The guest itself is in charge of its own
+coherency.
 
-We are not going to go and update the documentation each time
-something change in KVM (such as a new interrupt being controllable
-from the VMM). So by describing everything in architectural terms and
-giving the interfaces for userspace to introspect the implementation,
-we avoid having to disclose all the decisions that we make when
-implementing the hypervisor.
+=46rom the PoV of the hypervisor, this only needs to be guaranteed when
+a vcpu is migrated from one physical CPU to another, as this is
+invisible to the guest.
 
-This is valid for the whole of KVM/arm64, not just the GIC, and
-represent the intent of the ARM architecture.
+Given that this can only happen on in the interval between vcpu_put()
+and vcpu_load(), the sole location where this could make any sense is
+at vcpu_put() time. And even that can be relaxed in the NV case, where
+we transition between ELs rather than CPUs.
 
-Thanks,
+Hammering things in the run loop is both expensive and pointless.
 
 	M.
 
--- 
+--=20
 Jazz isn't dead. It just smells funny.
