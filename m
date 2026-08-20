@@ -1,137 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42310222580;
-	Thu, 20 Aug 2026 00:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC032BEC34
+	for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 01:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787187478; cv=none; b=boezAXzy0MveS0yqKpT2KWOIpNjwxoHzT5lysVt5d5T7wP8V6uftQH8pSomsdMRnjL8ZbWw/hg9OwBEBHUghlm4qEzkiveEwAS5HUhDC+emn77/OdOhWR4UpWPQlF6ABYeNP3dLbj8naWr2stGnZCKQD1XS2BQQcAFE1ysoi/2Y=
+	t=1787189570; cv=none; b=bA480PpMQKIDaoZWsxXHczQoMfEqr9+BmqTWqr06S89UnNvUFNlF7tCOu8G4jioJImObxN91eOr+/lqhxc3BiIQmgjSiMt7dQeuFmpFq+GL4DjEq7vH3utkJnNEyjgMGkiod1KbYr5QhEeP93I//T1lNnXLdeTf0zsPRMIr3nt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787187478; c=relaxed/simple;
-	bh=iTsBM+zhifhEVy/t0k8fQnDrJ8UkQPci75ZvDiDEHog=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aQwOpwMP+K8RNXqP3eK9GHNPHQXN5hn5WYFpJl5/QNyxIPjccsHjLNnGehkUgmj4rlXLkvWyD59ttXIwn/X/8MtbVhdUYWbyjhLiyWR60atiBr/2Q+Uwt4fJJzc/k2E3EVoaaod3PkhM7ld0NZZa3NH0NTiWEro3Mp94BM/PyMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofqoOZxY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787189570; c=relaxed/simple;
+	bh=lKjf4Q4UMlUt5C3CIEUOsn+abatNb3k1w/wRQQtVAQY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=GwY9szz56+Er+t3iui/nZjzXK84Hoq6kmu8ziOcfE9ZUPkd4Sa1MarUkuFGC7kdf4Szsc9vURWB2OQqXKDUubrf0tOyzQT9FoJQRVqlMD6uL2JdwKJDg9Q1Tta90iKsBvnUMJmtKkF39nbLuGx5yUOLXKYlrds+x4w2E4UYOq+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v34TVm5H; arc=none smtp.client-ip=209.85.214.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofqoOZxY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B5F1F000E9;
-	Thu, 20 Aug 2026 00:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787187476;
-	bh=kM+T5YFvyzkuB+A5pR6vF4uBLMNV4q+o0hL9s8uGv3Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ofqoOZxYl/yJsfKnHokgkeX/MUBBZ9ajy+sguL3jaYm57T/dsYfO/jueRn7X/FOq5
-	 SrIkwOe41UVGfOptOdPxC/IQXsW0WoCNzRYD7FC+W7jj0hpUmFcNZkYeflEzoLGc8M
-	 pVzSG5U7CedgtouGuc2Hfhnm5Bm5ds3wJ3IpMJk7UpbVLf9jtfLl4UEwP0qwe4KZqB
-	 Q71ZsOSpyhcGtML7e9GnCubdoPNIdJmL/bblzeLRaL5CuQIX78x/Zb6MGtUbMxGOUZ
-	 YLREmwHcQrkSnERdUHld+n2XFK4xv4Xw81u31BpfaKB6N4XFOepfHWZ9+WNNjoklMv
-	 ckdSrAt1d2LFA==
-Date: Thu, 20 Aug 2026 01:57:53 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <jananisunil.dev@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Janani Sunil
- <janani.sunil@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Andy Shevchenko
- <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
- Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux@analog.com, linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: iio: adc: Add AD7768
-Message-ID: <20260820015753.4faee677@jic23-huawei>
-In-Reply-To: <9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
-References: <20260709-ad7768-driver-v1-0-44e1194fd96a@analog.com>
-	<20260709-ad7768-driver-v1-1-44e1194fd96a@analog.com>
-	<36df7c4f-82ea-4ed5-a4f9-3a29c75dc99a@baylibre.com>
-	<9dd16bb5-7a30-4024-88a7-4a4bf47c35e8@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v34TVm5H"
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2ce8a76df2dso32908085ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Aug 2026 18:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787189555; x=1787794355; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PQeRam/aXC557IkHfkSAK7ZCCBwHdULqaqUlyhncFbY=;
+        b=v34TVm5HF0Jku7xlwiw5Fgkt+MayOXPP8rvKzItaMGSQpKc+fAywrQiq1SHjlSkJ8p
+         r63Y43pXAJ3L3W4uLHbJj4+m6OZTraR65hCtr+kB6NR/i7gVfYp88+fDKU0MQ52yPXNY
+         2PUKFNgOgR+6pIks8d3oODCB0+cew/l0p2ECDbU76zW0b0FuR9Xj5cnfJkTI7uTb9QCT
+         /0SOVyEh9MyonAt4dlmuxtBrV3dcPRgK0h+DJq1wGvuGwZ/K6RJTVzJCPLh9qUQP5ESv
+         denMDT8rBl2zX7SKEYm9aFcIyWj2h7ne+EWIK8GOsL3DeCvPcIh3f+tn7slHT3UdDsCa
+         GCQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787189555; x=1787794355;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PQeRam/aXC557IkHfkSAK7ZCCBwHdULqaqUlyhncFbY=;
+        b=O6SzOFxlgeCnd1H5tP66rcccFt/24mNiOu5YKX0Gjz+WwGe46e+60K2LzMVEgO5QnU
+         vN2rA5uk+3U3z0n8/eZJkdHrDD8rDY0Pi6seG6ZmSNTcZwPyP22hyc3n/S/7mgWXH7WR
+         0+/BBJRw0rLZzDJ0EtnfeSkbBCDc/r8Lnu2WhFrEgFs3LDYJByp4tIyw9yOa4cDm4+FS
+         scW69e5/x2wMTzsbb3ZA7OM19j8Bn0EzpnTLdpCpq8rBlx7pP4UwlzGQ+rQ/GqnprVd2
+         ut/jzNqbXqfMzVOsTBSGw+56XvBf/XKMGnptsa2OYogBghEHehx/c4WVzL8qoWdk7ylG
+         Apag==
+X-Forwarded-Encrypted: i=1; AHgh+RoPdtLmQNTabhdgPZ9PeF9YvktniSg/vbjE6ACQmqG11JDySBxwV6dzh60E8w1vsbkuU8Pws5DEK5M=@vger.kernel.org
+X-Gm-Message-State: AFuF++mlUjQjZTAVrOKHck8+pjDNak+855BfDsSoJHzTmNqOHMFB/rGE
+	SjJg5XAypAiXB7mhOoHRxYhu8HhcNIleg14vYjxBGXPdlOuBL5fW82lMhgfxE/0L9kG+sXhy2S9
+	+e3iQRw==
+X-Received: from plbi9.prod.google.com ([2002:a17:903:20c9:b0:2d5:ca58:37e1])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:40c9:b0:2c9:b396:1a55
+ with SMTP id d9443c01a7336-2d60197c4c5mr178024025ad.12.1787189554412; Wed, 19
+ Aug 2026 18:32:34 -0700 (PDT)
+Date: Wed, 19 Aug 2026 18:32:33 -0700
+In-Reply-To: <CAEvNRgGOyQHnF_b8dk8E0d7_=CcwXtYUdU3ko7Qbep+_O7UC0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-9-2fc18ee6d3ba@google.com>
+ <13ca60c6-e154-4397-8092-09f861e90fe0@kernel.org> <cbf5f7ca-a960-4fb8-a760-2d2794eb6864@arm.com>
+ <CAEvNRgGOyQHnF_b8dk8E0d7_=CcwXtYUdU3ko7Qbep+_O7UC0Q@mail.gmail.com>
+Message-ID: <aoZZMQ3Uc8yQWPNA@google.com>
+Subject: Re: [PATCH v10 09/41] KVM: guest_memfd: Filter both shared and
+ private when invalidating
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, "David Hildenbrand (Arm)" <david@kernel.org>, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 20 Jul 2026 16:00:26 +0200
-Janani Sunil <jananisunil.dev@gmail.com> wrote:
+On Mon, Aug 10, 2026, Ackerley Tng wrote:
+> Sean, do you know if looking up attributes in gmem to feed the KVM MMU
+> the smallest set of pages to zap will improve performance significantly?
+> Or if there's any other reason to do this lookup (more complexity in
+> gmem)?
 
-> On 7/9/26 17:43, David Lechner wrote:
-> > On 7/9/26 3:50 AM, Janani Sunil wrote:  
-> >> Devicetree Bindings for AD7768-4 (4 channel) and AD7768 (8 channel)
-> >> simultaneous sampling ADC
-> >>
-> >> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> >> ---
-> >>   
-> >>
-> >> +
-> >> +  adi,power-mode:
-> >> +    $ref: /schemas/types.yaml#/definitions/string
-> >> +    enum:
-> >> +      - low
-> >> +      - median
-> >> +      - fast
-> >> +    description:
-> >> +      Power mode selection.  
-> > Unless there are pins that control this, it seems like it should be
-> > left up to the driver to decide how to set this.
-> >
-> > In this case, it looks like the power mode also influences sample rate
-> > which is normally something controlled at runtime.  
-> 
-> Hi David,
-> 
-> The reason we'd like to retain power mode control is that certain ODRs 
-> are supported across all three power modes (low/median/fast), and the 
-> RMS noise and power consumption differ significantly between them at the 
-> same ODR.
-> 
-> The higher the power mode, the better the noise performance, but power 
-> consumption nearly doubles for every ~3 dB improvement in dynamic range. 
-> Silently selecting one power mode in the driver would remove a 
-> meaningful hardware tradeoff from the user.
-> 
-> We'd like to propose the following instead:
-> - Remove adi,power-mode from the DT as suggested.
-> - Expose power mode as a per-device sysfs attribute.
-> - in_voltage<N>_sampling_frequency_available dynamically reflects only 
-> the ODRs valid for the currently selected power mode.
-> 
-> This keeps the DT clean while still giving the user explicit control 
-> over the noise versus power trade off. Would this approach be acceptable?
-> 
+While working through this with Ackerley, I realized this patch is buggy.  When
+in-place conversion is NOT supported, then as evidenced by the current code,
+invalidations are guaranteed to only affect one of SHARED vs. PRIVATE.  And if
+we change that to zap both, we risk overzapping.  I.e. it's not just the cost of
+the extra MMU walk, it could also be a functional bug.
 
-The challenge here is simple: How does userspace know what a power mode
-means?  Everyone wants low power and low noise and the trade of between
-the two tends to be invisible.  If we add a control it also becomes
-hard to do a best effort - give them something sensible - control based
-on what they want. Users understand the ability to sample at different max
-frequencies for example. There are ways to do this like always requiring
-'auto' as an option for a power control but they are also rather nasty.
+Specifically, if KVM zaps both when SHARED vs. PRIVATE is tracked per-VM, then a
+PUNCH_HOLE operation on a PRIVATE guest_memfd will incorrectly zap SHARED mappings
+that have nothing to do with that gmem instance (because they're mapped via a VMA,
+not a gmem fd).  And vice versa, a PUNCH_HOLE on a SHARED gmem (if userspace is
+using an INIT_SHARED gmem for the shared branch of a memslot) could invalidate the
+PRIVATE mappings (of a different gmem instance).
 
-Whilst I see that it is reasonably complex to move from 'low / medium / high'
-we need to try really hard to map that to something numeric and well defined.
-I think it came up earlier in the discussion - there is a clearly stated
-set of recommendations for a  mapping from fmod to power mode. I lost
-track of whether we had reasons to not try and build an interface
-around that.  Even though modulator frequency is a little obscure, if it
-is consistently defined across manufacturers and parts and the trade offs
-around how it is chosen are well understood that might be something that
-would make a better ABI?
+That latter case in particular would be a functional bug, as spuriously zapping
+PRIVATE SPTEs is fatal to TDX (destroys the memory contents).
 
-Jonathan
+So, for the initial change, we want this (full patch below):
 
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index 75979c885e03..8ff2ec148614 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -138,6 +138,9 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+ 
+ static enum kvm_gfn_range_filter kvm_gmem_get_invalidate_filter(struct inode *inode)
+ {
++	if (gmem_in_place_conversion)
++		return KVM_FILTER_SHARED | KVM_FILTER_PRIVATE;
++
+ 	if (GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED)
+ 		return KVM_FILTER_SHARED;
+ 
 
+And then in the main in-place conversion patch, have the conversion flow to only
+zap tap the "previous" types (with prep work as needed).  Ideally, that would be
+done *after* the main conversion patch, i.e. as an optimization, so that we get a
+nice bisection point if it's somehow buggy.  However, Ackerley pointed out that the
+conversion flow invalidates the entire range if the attributes of any gfn within
+the range is changing.  Addressing that would be rather annoying, e.g. there would
+need to be multiple invalidation ranges to deal with interpolated conversions,
+so going straight to a "zap only the previous" is probably the least awful option.
 
+---
+From: Sean Christopherson <seanjc@google.com>
+Date: Wed, 19 Aug 2026 18:06:38 -0700
+Subject: [PATCH] KVM: guest_memfd: Invalidate both SHARED and PRIVATE mappings
+ for in-place conversions
 
-> Thanks,
-> Jan
-> 
-> 
-> 
+When removing one or more folios from a guest_memfd instance, invalidate
+both SHARED and PRIVATE mappings if in-place conversion is enabled, because
+stating the obvious, KVM needs to ensure that all mappings to the folio(s)
+are dropped.
 
+Opportunistically rename the helper to capture that it returns the a filter
+for all gfns in anticipation of zapping only the previous mapping types on
+conversion.  I.e. when doing in-place conversion to PRIVATE, only SHARED
+mappings need to be zapped (ignoring that KVM would ideally not invalidate
+ranges whose attributes aren't changing in the first place).
+
+Note, precisely zapping only the possible mapping types when in-place
+conversion is disabled is important for functional correctness, not just
+for performance.  Specifically, if KVM zaps both when SHARED vs. PRIVATE is
+tracked per-VM, then a PUNCH_HOLE operation on a PRIVATE guest_memfd will
+incorrectly zap SHARED mappings that have nothing to do with that gmem
+instance (because they're mapped via a VMA, not a gmem fd).  And vice versa,
+a PUNCH_HOLE on a SHARED gmem (if userspace is using an INIT_SHARED gmem
+for the shared branch of a memslot) could invalidate the PRIVATE mappings
+of a different gmem instance.  The latter case in particular would be a
+functional bug, as spuriously zapping PRIVATE SPTEs is fatal to TDX, as
+doing so destroys the contents of the memory.
+
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ virt/kvm/guest_memfd.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index 75979c885e03..7ae05ce3cd14 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -136,8 +136,11 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+ 	return folio;
+ }
+ 
+-static enum kvm_gfn_range_filter kvm_gmem_get_invalidate_filter(struct inode *inode)
++static enum kvm_gfn_range_filter kvm_gmem_get_all_gfns_filter(struct inode *inode)
+ {
++	if (gmem_in_place_conversion)
++		return KVM_FILTER_SHARED | KVM_FILTER_PRIVATE;
++
+ 	if (GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED)
+ 		return KVM_FILTER_SHARED;
+ 
+@@ -188,11 +191,9 @@ static void __kvm_gmem_invalidate_start(struct gmem_file *f, pgoff_t start,
+ static void kvm_gmem_invalidate_start(struct inode *inode, pgoff_t start,
+ 				      pgoff_t end)
+ {
+-	enum kvm_gfn_range_filter attr_filter;
++	enum kvm_gfn_range_filter attr_filter  = kvm_gmem_get_all_gfns_filter(inode);
+ 	struct gmem_file *f;
+ 
+-	attr_filter = kvm_gmem_get_invalidate_filter(inode);
+-
+ 	kvm_gmem_for_each_file(f, inode)
+ 		__kvm_gmem_invalidate_start(f, start, end, attr_filter);
+ }
+@@ -344,7 +345,7 @@ static int kvm_gmem_release(struct inode *inode, struct file *file)
+ 	 * memory, as its lifetime is associated with the inode, not the file.
+ 	 */
+ 	__kvm_gmem_invalidate_start(f, 0, -1ul,
+-				    kvm_gmem_get_invalidate_filter(inode));
++				    kvm_gmem_get_all_gfns_filter(inode));
+ 	__kvm_gmem_invalidate_end(f, 0, -1ul);
+ 
+ 	list_del(&f->entry);
+
+base-commit: 620f8362aaec3848ee8f465949a0701175fe0896
+--
