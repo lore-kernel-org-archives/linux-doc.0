@@ -1,137 +1,149 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B0548F857;
-	Fri, 21 Aug 2026 13:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from mta1.migadu.com (out-27.mta1.migadu.com [95.215.58.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2503AF64F
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 13:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787317930; cv=none; b=GeWgUf8tvVGipmIWLrLoUvB7H5y8u8J8Rhovez50Cj6igE4sjMxqocNsq8bczh0u46iKoBSCdKRtDosmmxeuKlZIQk7c7xOLSh965+h2Ps/8NVV2ZY7V+STT0v5sD2O1ObPSYgwggsHK7C+xZw+ZEBBKl7f5O2f8rvSYeFi1JUQ=
+	t=1787317933; cv=none; b=lw+Jt8f4Uv277oa+q8E+Oi5uNbioq6RqaHHQUKE7fXvXj91k/nTY+JDanijnR71vLGRIMIAnk+iJaf80l+pIIPLwB5pHAnvbsxawhpQUIfffsaXmk1sikR7tE+ZSSRgFCGGNmZTUHUaqRdWCFi/mZ1fJUBSFrLuMOCMHfNgPigA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787317930; c=relaxed/simple;
-	bh=mKwDdHWcFToRLduX/OKfIScf3vG0laxaPd/KDNTptoU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ntPOS2vsgQ7dAVFh4kEpbb/fYqwP+rQ/UorJ5rDvy+2DTE4XfdFKIQ0cSwLkREiLZRe2zSB0uQmx0JBQe81U4O+Jd3yri0UaxkSgsAebqOF4I35RP0J99LacyRSlwtINmiYo95Jws2pXu4XdJCu05ULew8XhxOomX5WfQfvry1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrACHj7NfTohqIva9AA--.13671S2;
-	Fri, 21 Aug 2026 21:10:55 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wAn5tBcTohquPECAA--.3383S2;
-	Fri, 21 Aug 2026 21:10:54 +0800 (CST)
-Message-ID: <48580a29-4c47-4b3c-9f90-e5be30b5fccf@hust.edu.cn>
-Date: Fri, 21 Aug 2026 21:10:52 +0800
+	s=arc-20240116; t=1787317933; c=relaxed/simple;
+	bh=CdQNugJKEYmxnAoz+nzLCPKFAwif5HJoUpmaDJJsK4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pLSmQzGjl7RVdT4/qyGJRA9o8p7PPmzEBE8I+zcSoUoz9l2k/LetI4QNUihNJGkPTcbpI+HUb2FmD/9sZ42T0mFecOr11CAXqhBh+Ha67VpSPRCnZ6PeLgEJA3h4dcc2Drs8sxssyq1ZV8y6f7w2tJbsHovhC/RU4RLCxT3HqOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=EuFFBUfu; arc=none smtp.client-ip=95.215.58.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="EuFFBUfu"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=CdQNugJKEYmxnAoz+nzLCPKFAwif5HJoUpmaDJJsK4g=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787317918; v=1; x=1787922718;
+ b=EuFFBUfuwqCT83uTLnbJlfILGmUFmuaD8fGKOX9L3ZRNCBGom1X2XmBjB6nQAvkHQdagS0DA
+ Pk2z9uSzEbVKKCOgC55PGgD/GOTGKYDXKKKqjMn0Mjsa75HSD57jUWTbTQbFhUlIXTd7uIIwZxj
+ 7PD0KmYAofbBtU7RuP9l7df8wewApXdBkgf1lC0ZKEsThCXzww2RpL4kfZXr9MgyByD6GkCDCAA
+ vhxi07yIp8imjEuxKGscmlubfRFH21BDg0y1RNcBlpvrmKR9Ih+HBF6d35LGbL018hOKPcLYAqD
+ sgVeokB9hkQEWSsLKg1X8GogP3mGnhfP81rF0c/V1uydw==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from localhost (117.176.242.187)
+	by smtp.migadu.com with ESMTPS id e287a48326585d31;
+	Fri, 21 Aug 2026 13:11:48 +0000
+X-Mizu-Trace-ID: e287a48326585d31
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 21 Aug 2026 21:11:37 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Update maintainer-pgp-guide.rst Chinese translation
+Message-ID: <aohOiXppk2Px7SXx@wyuan.org>
+References: <20260821-maintainer-pgp-guide-v1-0-08e5e3602c04@wyuan.org>
+ <5b107aad-2826-4bf6-97aa-14592131b6a8@hust.edu.cn>
+ <aof8rCuuwzHUNtka@wyuan.org>
+ <7232a999-0bb8-45fa-8d33-a11efc661012@hust.edu.cn>
+ <aog87UzDIz20XzU_@wyuan.org>
+ <0e437b53-5a44-406f-a482-518a6c09f7e2@hust.edu.cn>
+ <aohJLNK5Cqv1iMLd@wyuan.org>
+ <771c1b11-f7d3-4a1b-a26a-b20187eeae59@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/5] docs/zh_CN: Add NIC SR-IOV APIs Chinese
- translation
-To: Siwei Chen <anka@stu.cdut.edu.cn>, alexs@kernel.org,
- si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wy@wyuan.org,
- Siwei Chen <businiaoanka@anka1.top>
-References: <20260817021340.17318-1-anka@stu.cdut.edu.cn>
- <20260817021340.17318-3-anka@stu.cdut.edu.cn>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20260817021340.17318-3-anka@stu.cdut.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrACHj7NfTohqIva9AA--.13671S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxGrW8uw4xurWDGry8uFy3Arb_yoW5Gry5pF
-	WkKFyIkF4xG34Utws3GF1UGr1UGF1xuw4DWr1Sq3ZYqrs5JF4DKr47tr9xt3yxWrWFvFyr
-	ZFsa9rWY9rWjk3DanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jfvtZUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+In-Reply-To: <771c1b11-f7d3-4a1b-a26a-b20187eeae59@hust.edu.cn>
 
+On Fri, Aug 21, 2026 at 08:57:46PM +0800, Dongliang Mu wrote:
+> 
+> On 8/21/26 8:48 PM, Weijie Yuan wrote:
+> > On Fri, Aug 21, 2026 at 08:17:06PM +0800, Dongliang Mu wrote:
+> > [...]
+> > > > (I definitely won't admit that the log file annoyed me a few times
+> > > > because I accidentally included it with 'git add .' and then had to 'git
+> > > > commit --amend' right after) ;-)
+> > > My experience is to not use 'git add .'. In Linux, hidden files are not
+> > > listed by default.
+> > Yes, I was being lazy to type the full pach/full file name, oops.
+> > 
+> > While hidden files are not listed by default on Linux, thankfully the
+> > kernel source tree ignores .* via .gitignore. But 'git add .' is indeed
+> > a bad habit.
+> > 
+> > Btw, git commit -v, or setting commit.verbose = true, can really save
+> > one at the last minute. (as mentioned in our how-to doc) And sadly I
+> > actually happened to use another computer to write patches last night,
+> > which I hadn't configured it. XD
+> 
+> Actually these labor-tensive works should be done by LLM. This is one of the
+> right directions of LLM usage.
+> 
+> You can write a simple skill to help you complete these works.
 
-On 8/17/26 10:13 AM, Siwei Chen wrote:
-> From: Siwei Chen <businiaoanka@anka1.top>
->
-> Translate .../networking/sriov.rst into Chinese.
->
-> Update the translation through commit 4558645d139c
-> ("docs: net: document guidance of implementing the SR-IOV NDOs")
->
-> Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->   .../translations/zh_CN/networking/index.rst   |  2 +-
->   .../translations/zh_CN/networking/sriov.rst   | 31 +++++++++++++++++++
->   2 files changed, 32 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/networking/sriov.rst
->
-> diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-> index fcb8dc8f2c72..ae374c4cb144 100644
-> --- a/Documentation/translations/zh_CN/networking/index.rst
-> +++ b/Documentation/translations/zh_CN/networking/index.rst
-> @@ -29,6 +29,7 @@
->      alias
->      mptcp-sysctl
->      generic-hdlc
-> +   sriov
->      team
->      timestamping
->   
-> @@ -128,7 +129,6 @@ Todolist:
->   *   secid
->   *   seg6-sysctl
->   *   smc-sysctl
-> -*   sriov
->   *   statistics
->   *   strparser
->   *   switchdev
-> diff --git a/Documentation/translations/zh_CN/networking/sriov.rst b/Documentation/translations/zh_CN/networking/sriov.rst
-> new file mode 100644
-> index 000000000000..bf37e68f0534
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/networking/sriov.rst
-> @@ -0,0 +1,31 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/networking/sriov.rst
-> +
-> +:翻译:
-> +
-> +	陈思为 Siwei Chen <businiaoanka@anka1.top>
-> +
-> +===============
-> +网卡 SR-IOV API
-> +===============
-> +
-> +强烈建议现代网卡专注于实现 ``switchdev`` 模型（参见 :ref:`switchdev`）
-> +来配置 SR-IOV 功能的转发与安全。
-> +
-> +传统 API
-> +========
-> +
-> +旧的 SR-IOV API 在 ``rtnetlink`` Netlink 协议族中实现，是 ``RTM_GETLINK`` 和
-> +``RTM_SETLINK`` 命令的一部分。在驱动侧，它由若干 ``ndo_set_vf_*`` 和
-> +``ndo_get_vf_*`` 回调组成。
-> +
-> +由于传统 API 与协议栈其余部分集成不佳，该 API 被视为已冻结；不再接受任何新功能或扩展。
-> +新驱动不应实现那些不常用的回调；
-> +即以下回调禁止使用：
-> +
-> + - ``ndo_get_vf_port``
-> + - ``ndo_set_vf_port``
-> + - ``ndo_set_vf_rss_query_en``
+That makes sense. I'll give it a try. Still, given that the kernel
+community tends to be a bit conservative, I've generally tried to do
+things myself. Of course, the most important thing is that we supervise
+what the LLM is doing and make sure it follows our actual intent rather
+than hallucinating.
 
+> > > > > > Btw I've been trying to know more about Sphinx and kernel-docs, hope my
+> > > > > > mistake won't happen again.
+> > > > > That change can fix problem. The underlying problem is RST syntax. Maybe you
+> > > > > can have a look at this or query it in the LLM.
+> > > > Absolutely. I did have relatively little experience writing rst before.
+> > > > But that's definitely no excuse - I'll try to pick it up quickly.
+> > > LLM is really useful to capture some syntax and semantics issues. Therefore,
+> > > before submitting patch, use LLM to scan problem in this issue.
+> > Got it, thanks.
+> > 
+> > > I am writing a draft skill for reviewing patches of kernel Chinese
+> > > documentation.
+> > Nice! I've been trying "b4 review tui" these days and I also made some
+> > modifications to its pre-configured prompt to fit our specific
+> > workflows:
+> > 
+> >    https://git.kernel.org/pub/scm/utils/b4/b4.git/tree/misc/agent-reviewer.md
+> > 
+> > b4 review tui 'agents' - AI-assisted review:
+> > 
+> >    https://b4.docs.kernel.org/en/latest/reviewer/getting-started.html#ai-assisted-review
+> > 
+> > Sometimes my agent makes false alarms, but at other times it does manage
+> > to identify the issues that we have overlooked. This is probably also
+> > one of the reasons why the community is gradually becoming more
+> > accepting of LLMs.
+> 
+> Ah, this is interesting.
+> 
+> My skill is to use LLM to search the patch name, use b4 to apply patches and
+> finally ask LLM to refer to how-to.rst and review the patch or patchset.
+
+As Chen-Yu mentioned before, I�ve basically trained myself to find
+almost any email in the lore archives manually. ;-)
+
+And yes, every time before I send a patch, I have an LLM check whether
+it follows the instructions in the how-to.rst.
+
+> And I think we could try to add our subsystem to sashiko. What we need to do
+> is to write some subsystem-related prompts.
+
+I was thinking about this a few days ago. I'd actually planned to talk
+to the Sashiko maintainer about it first, but I haven�t gotten around
+to it yet. As far as I know, though, Sashiko can currently only be
+enabled based on mailing lists; it can't filter or match patches
+specifically for the Chinese translation subsystem.
+
+Overall, though, I�m in favor of enabling Sashiko for us. Having an
+extra pair of automated eyes certainly doesn't hurt. That said, some
+settings may be worth discussing - for example, whether the Sashiko bot
+should be allowed to send review comments directly to the original patch
+thread.
+
+Thanks!
