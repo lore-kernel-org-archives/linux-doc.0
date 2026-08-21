@@ -1,223 +1,272 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013069.outbound.protection.outlook.com [40.107.162.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCBD4908B5;
-	Fri, 21 Aug 2026 13:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35E148AE06
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 13:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787317762; cv=fail; b=RlAao13jVmAK4atHmAj8zp5P4zYgoJ9Uk3Q1BdKyujAAqfi/iH3xSGVcIVhQyxq/rsyt54M96i83NsYRkeq4LqRS7j9rMp21haW+bnzBCQwTZp8kMZMYJ013NnTNmmC82zJb3PhM+e09xrxc/wnbSN0DDJCbBNb7gvGs1Ohu5Cc=
+	t=1787317769; cv=pass; b=ot8AtMwTwIQhcr8qkZkYvjUHMgljNEUFpJA3V3yFmgUNQO6wdrIXZ/0+EvVqR/vTn2+VzrN6jH3j0pJBMG0X0CCyIIod6hL0WwOwlZrh/HPIDXErCtWFKB6eUCinuX3Xzbj7d2CL+AvcaytaBYEi52zSHuooZm75YgZvFDW37RI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787317762; c=relaxed/simple;
-	bh=oZQvScyA1zqJV4CC6foAQh/CAQe4pGeAga38F8pulH4=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=BdpcqcVaNNPlCCMvM6zDoWPul0qhpeNz1Y6rM6G4SbULT35uGgJcglRXGKd5wzakPnz0LmX2PDY6wZei+oR+J3WhR3odkjqwqoKAKwKEMrd21n6oBDlFPeB4rqwcZgef1vpXi//qv+cmREYlBT2jvlIm0FspUDXfaaxRKOURlnk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=iKiXbNYw; arc=fail smtp.client-ip=40.107.162.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1787317769; c=relaxed/simple;
+	bh=+0F6PcToW+m2E+AaF8BNx864QnUp7MiVAjmxOVsJ7UA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ngth/y5ychQpjRN0jGEo9E0wsaSPtVaNsNLLsq2gJOiI5O3UVxrran1EocqSDdcp+MVUgCgMJqCD8w5rcvPmcIhwF2xdKYs9iPnqCRV4GL5vxsVgf6LcDnD0zaASBUyvlKSEHsxM9eJi30by/GGR6jslVLr7cn6A6yfWQK7mg+k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai; spf=pass smtp.mailfrom=nebusec.ai; dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b=bBSstUyA; arc=pass smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="iKiXbNYw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dvt4VONrHuWercTqgDK1UPQenLUMejP1cZJcIjcLPeYWN7AubRfsSB8nGb+1wJijJak5G/A9WmcJjTflnq7+yPbzZO2L0sHwGFYn60mWq+7aHZggM4D/32HmEIC4y+REYNVFxVXe2AH/Hx69JIE/eH1KtHQvBCaHanFOTk2724rRwZLVb3kfVcAh9KKL7yrazu3ivKZslAONdUBftSC8YuFj1tCjYHXYZEpN4L/44P9tHmsElwdabDDXkKJdinLEAamYYDiqsxop8t4Y65/ig13jqn4kXcum/K9XLhSGvut/AOGXO+pSIIqyhk4JKwYT20w8l2ZNiKMUrVITOVF8Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/T28Dv7KzFFE9nxv/81pMJDpMBM2QOQ+wFzcBBIp92M=;
- b=NHoikT6MXjkF5hY0932pXKVHhERaaPIS5xXgdFugojbF6Byl8IkhI7oUVDq3BOPrSgFES4OP9v/ebi6bbgqbFX9GOS75efLQKkZbOpW7pftqDTxtALFUf6QR+q4OtmKTpruxrMJXMZxRZfwZw6IuAxtF4c2UQtu3NWfSN+7s5hAF10hlhABwfqVXa226yXZJYJK45rbFs+1uMByvOSlvVM6Ds7B60Wbyr6vuRPplDntmbhAihE1/a8PUXRQJ+uBtUgJFXm/+Ioeh5jFDhUzeRooQfNvkgZwLPRjmRv1ZfBCAmoCuYyWxBI4sYRxlNOlYBhH0uVwd/Rdh1O0dR835oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/T28Dv7KzFFE9nxv/81pMJDpMBM2QOQ+wFzcBBIp92M=;
- b=iKiXbNYw0zrpukZTIV5RcNuOZ6120WMg633eMphhaevIN9/2DFQjrRT8OFcOdinhDUQTc42VuL4UwrslLEo5gUugqhswRK/pmNcbIh2M0RNUxGj1sQfkJvy1SY6CBjPaQxayOujVnmQMzVzb4jLbE02y5uh4sSYIiDME27c37bh0hBdnWx/K5yCrgg1hZJ5RnC8Xj3efVGyOWbWBYPajgBUIvyMpU42eESzRar5C1tFh8Ldr2lPZq1Y2mZ9goanoBzgsDqvrEH5h0E7298NE0AaX40W1cJ/8c1y2I6OqABcxR1PflVrW2xw2hQ6/fViziHbMqPRSroATfU8IIq4AQQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com (2603:10a6:20b:414::15)
- by AMZPR04MB191951.eurprd04.prod.outlook.com (2603:10a6:20b:7c5::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
- 2026 13:08:16 +0000
-Received: from AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c]) by AM9PR04MB8469.eurprd04.prod.outlook.com
- ([fe80::1f31:d3d0:6150:b49c%3]) with mapi id 15.21.0339.010; Fri, 21 Aug 2026
- 13:08:16 +0000
-From: pankaj.gupta@oss.nxp.com
-Date: Sat, 22 Aug 2026 00:06:14 +0530
-Subject: [PATCH v40 7/7] arm64: dts: imx8ulp: add reserved memory for
- EdgeLock Enclave
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260822-imx-se-if-v40-7-74fbce2f2f95@nxp.com>
-References: <20260822-imx-se-if-v40-0-74fbce2f2f95@nxp.com>
-In-Reply-To: <20260822-imx-se-if-v40-0-74fbce2f2f95@nxp.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787337485; l=2461;
- i=pankaj.gupta@nxp.com; s=20260817; h=from:subject:message-id;
- bh=8LTJ7dQk+ZmHVQUVQ7z2QFEU98qQ6ZendsUWTwEehrU=;
- b=P2p5qBfhcatMvNMB24Ia+I3YSqLnIrzeL0xYc0wPUqvGKODX+4TWCmrqKtL+HYlQUmoCWk0xM
- +jKIF2aPd/aCxvQizAZDzgYlJkcRqk41/miVDWNZcSEUG/i6gbOuh0M
-X-Developer-Key: i=pankaj.gupta@nxp.com; a=ed25519;
- pk=g4ZgzIWbpXnSxRsoH+l6PWLP78a+Mzpl8e6RQe74d5Y=
-X-ClientProxiedBy: SI1PR02CA0038.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::15) To AM9PR04MB8469.eurprd04.prod.outlook.com
- (2603:10a6:20b:414::15)
+	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b="bBSstUyA"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39c95395230so9747351fa.2
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 06:09:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787317734; cv=none;
+        d=google.com; s=arc-20260327;
+        b=idNfcRcSNVQrKzYku5CKL2taCqx24p8ewxbfAaiJlysBSqgezwIGSmN1JHW1yoGdC9
+         ZSW4brWstQEFj83mYJOgTfaCH6u79r3EKW85pEL7rLnjWiUPxjQtLEMAeZzV4BTywcas
+         9Y5n0xmGoyqr55DdgkeqPQsHdhyXRu1WTt5Kgye5MxrCYrrJGahcQp32dqPSAdWQMRRC
+         8e4GKb13YP2KeP2PfPbgnVHHb0ruOr8/Ji0k1GcmWF57UAYMHDC25QIn2kz3atCE0T5o
+         tJMKS9HNkJKKWj6pgt3qH883IrV/WW+7fLwAfQM27ZePnhRmjSXDzRoOrclhAhQOdoj8
+         FWDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6WDYpc/SUiaxFp6adq0YxxeUgPMzlxAaQA3nJ2sZyP0=;
+        fh=h4J9iEIlK6psKGHg7zpkEYu8mDyIOpudxQHfJmRulkg=;
+        b=Bgu2Y6K4B4ZXBzW6xWbdFf6EPJyZevP3rzvrC+HV/Zd3JCTiuOXAumKGcPNfEtgQRf
+         q2Pc2rgBcY61sX+MFpGaS8vdDI7joB/vL3jsVm5tX4ve+YN4SED4MAsu/gmcuv0NVirf
+         TUOkoNoRE3JvaQf8FFv5hbFnlKqy6419IiHlfqoQLZAwpbNBmJ8DB6NZosRWbee7I24q
+         aY8YDe7pA2nQwMjKm/YweAnriOvAm5sN1TxhctUXKI688RyJ8ioaf8+O7WOG1Ubegg/a
+         rdh0J6Ib7KYN8btLoHqM5zgwIwhA/1eVhT/nXBISzfM7oPYAZIKYN/0YA3HCXheIi/qa
+         9Mrw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nebusec.ai; s=google; t=1787317734; x=1787922534; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6WDYpc/SUiaxFp6adq0YxxeUgPMzlxAaQA3nJ2sZyP0=;
+        b=bBSstUyAzyU8eY//I9X+Cqr7BJqT3AlN0sBjDvtnHQyBThaJB7cJXqxwBB5r2uaW8M
+         ALxwD3R9jJBbC7+wNlNevEjCZKtZfCpf4Andb0BFxkCRNppG9rJpYcdTyMM/ZGiF3syr
+         Ulfjx2B681c+z0b2LW+qg6G/uNNO+VDPkIu+zer4mcx+HBgzLhJk3EC3pZrRcMThmz/V
+         vI2KpJcES2I8dL9ftdTbs8pp88iRJ3h+xHVBS38OglyG0k/KKira02rMg4mDygB4eI94
+         hDNX1n/M3hH6rOondkNb6p6LD8l7LchHC4bt0xDd1BtV+aBItWjZUDPL7juDLF9gjAG9
+         A23Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787317734; x=1787922534;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6WDYpc/SUiaxFp6adq0YxxeUgPMzlxAaQA3nJ2sZyP0=;
+        b=YRSxnZJToE3R5+yD9s/1Pj5jI5eBEjxb1cUJe6nW8bAsA2JhxFds0IuFxbkzLDwqLT
+         x5FpzYKdTPdFeZru7S9KwvtN1BgjkFUoovnHrpvselDCwKSWOJR/zc0T7wgkae4CHJoD
+         hrHVLQgaF0YBlBIJtQDc1w/kXxBna1sPuBLghBsh6xeVbycTFHeyKyx1ZnXvOfrAYOjI
+         HOLmQO+ebEUQv82XiNtOFtASHKAdJFYH41O9l7QkVPpThAWo0HSBqscvFAFpdE0lubDC
+         TDFFylI4KJrQABSm0zG2NtCivSzAeSMGbQ+FiHozYANaa96rbL4VLIVsHmYL22aNjT0j
+         fF6A==
+X-Forwarded-Encrypted: i=1; AHgh+RoDP6y3K/RV1abNGvxNjJwczMUnFV2vEo8Oi38D6gI0a+/FksCAfCRIBeSR6RzqMnjlL/Wk7GXe2lA=@vger.kernel.org
+X-Gm-Message-State: AFuF++n1DtbhiYgTdWEdbij7XikuMjo1prrIGr+dJCCUoit+VMNgADYR
+	vCBpaGaShC2ig7MlTLRgW5VvTuVzUVjZNJhSaZBvvlVhp2UZSzHhGcJa3SHO3b84QtTMYXGbCGO
+	Opf4/njGltK9HVbE7o7vJCIPKLtBvgIqEQlvLOVNT9LU=
+X-Gm-Gg: AR+sD13qGPAu6iOocuyRL6JHG8H+Fm+fIrEUVgKdnilzajyXFoJX0OF/C9YSGz62eym
+	JH4R691fpiVH7gCAfKTTgYGRdu6/aUZO9r9tr+Ve8cPXZ2cEobHGe8fqba6aqcZduWGF+gLAD+s
+	kyq4riEXXEDPUE0wwA9kuhZtsqmgwQ19w9Y1zvJdCB2vD42YRqe6Mjb0PFWxoQUE91Fq2e7hrJe
+	MDXRoGH0w+td+NrZG3l5YA4tZGo28aIhxhoWgyQogD2bm19gPsfK+LrLTVuqZ8j44Rv7991EGyX
+	xKV7R7EsHYbq7c6uk1QPXcZpmea3z5xKoyGUKdZ0NzKc1hnQyHMxA893gw==
+X-Received: by 2002:a05:651c:556:b0:399:9436:15c8 with SMTP id
+ 38308e7fff4ca-3a1aeb79b97mr13416671fa.2.1787317733747; Fri, 21 Aug 2026
+ 06:08:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8469:EE_|AMZPR04MB191951:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f4bd3af-369a-4ba1-372d-08deff8543b0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|23010399003|366016|376014|7416014|1800799024|10067099003|56012099006|11063799006|22082099003|921020|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	CFHCW0YiLsbyf/iNcdJ/hZvChgawoIxnCd8VR11TPQNNzxY/t4YDWtwfBOCenKUU/JglQKzvS7M08FkA5LO5RkBMDApDAAhxxhkvUFx5ySEPi3ks/38qHXt1Wq1+159J4MVS9fHYgsX6W+lElwe49XS5xf+/XndSUVgfE+KsM7iIpa/JVisg/Uk3a1GRa3g8M7QbUtvBn7mP0ZzLThVwP+dwhnPmTRxtCan9bfQC+2pmN1aU9Th63s/Ri10yP2lTxiwnQtVvRmTpLXVuIf3fuPfbdqkVS7jYfJXK6/oxaPuA8u/Y+DBu/P2NNTqN8U30/d2frqdno0MyzzmfkdIz+p3/bAbn6ufaTiPdXVvztTjO6EYSRa8knNaMff5CN34UZC7GsQwHiqv+SUkW4yUpNSyZphXvgKv5T7hwJlzyjOkLFnsqmH9ADhg5MZcL5gL4wfIcg+2o6FGyPS8vLJ6YlWrBNjxCCnXTtdKgfOInyvjN2FvMyA+7l+y1FFj7wCwPJgU475G1VbyUZmq6Z/p7nowNXopex0ve70tjd7La1NOBsAI+U9ZXF/sKsZjcGJ3yWawnzkGabPGeHdnYxn141bim5U14rAOh1/G4P/jInqfiVtY5yYZ4oDHRPBEzJlcobR9DaJS/k53JDiYHMJ5FFSMJ26qNCpo/Duk/snxA3bQqSOwKic4Gf30dqZr+r4HOzC0eiKgwppdA1qqsqHqzYQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8469.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(23010399003)(366016)(376014)(7416014)(1800799024)(10067099003)(56012099006)(11063799006)(22082099003)(921020)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YVczV0JaTThFcG83WjAvbzZtN2RPVllrd2NTVGx2dGVoNlI1eGkvbDhaNVNY?=
- =?utf-8?B?QUgyMzdOd1lxWjRaSW93TG5WQUhmRkxyTGRUdlFJTVFDZGVTU1FZQVNzeXpI?=
- =?utf-8?B?U1c3cENCS3gvR1o2LzR3WjdHTUN1aUNGSzRQNDNwaVlpVUd1NnNtNFNTaGFh?=
- =?utf-8?B?QnpwZ2dLeDhqT1NBUlhESG5IQkpDMDl2ZHcwa0JZNG5COFE0UVFvWUJQeEJs?=
- =?utf-8?B?U3RIQ0dxUFJOQUVDM1BNVFA5b2tQNUUvZktrSXhXTXE0MWdlNFRIL0ZyQUNB?=
- =?utf-8?B?dkxReWR4dmNGdnhoSXlIMVZ0bFdXdTE5c1pqZW4zYTkvTWpRclQzN0Y1SHBr?=
- =?utf-8?B?K2Y5a2hBcmVCZlE1U1huWWNsMUdWQzJoZTRySUI0aEkxdDU2NTU2bllEL21V?=
- =?utf-8?B?R0xsWGMyM055KzZ6WUJUNTNaamNMakhuNGR3cDhEVkFiOFVpSXJXb0FCS3pk?=
- =?utf-8?B?RGhpVCt0MGZCL0tvLzVRSzQxVzlZdHFTdjVwZEt2b2FpMllrOEhTMjdtd3Nx?=
- =?utf-8?B?T294SDQrMmYxRGhDT0oreTZXUmVZMU4vQVZHbUkzcGJEL0ZueEMxbjVNZzA0?=
- =?utf-8?B?bzAyK0FrUnpqbEZ6bnVTNW05Q1p6RFBhellMVms4ZUx2R3lQMXpzT0Fmdk40?=
- =?utf-8?B?NHROR0x1OFYrUWJKalJoVGZ4UHBCbUZKZDkwclpyRnpiM0thVmk2OEFMTWNu?=
- =?utf-8?B?NmpLbk1mK2ZEbm9nKzBLb282eVpEejlHZFdKWXNmL21NMDJzdmZQeGNFbTRu?=
- =?utf-8?B?QlZad0hkck5QbmJvUDM0Z0hJU2FGRnJONUJkcVQ2b0VjNTU3eisrNmVHYmU3?=
- =?utf-8?B?MktQeVQ2VlUwM3c2NVNZRC9wb3p2bDhNSGxGdlRJMFhSdlFRQ0hya2tKR2ZL?=
- =?utf-8?B?T1V5bm9vTXdYWGNFUWVIS2dCbDBEa0JEWVk2U00zVVlGQlJZZU0yL1ZZc2FE?=
- =?utf-8?B?TXczRGkyYUJvSzZhdm50TzFSNjdWckx0aVNiRGE2dVJjV3lnYndLblBvTjcw?=
- =?utf-8?B?ODBxSlZraks4bWh6K0psZkppMEdXNGdib0JmWDZsQUV4dlE2ZFZhQkY2aEZ4?=
- =?utf-8?B?aVlLa2FDTWFVWTNhdlphdk5pUzQxR0VTbmo4L202eHJDblppMGczZDRtdkJN?=
- =?utf-8?B?aTJpSDFOU09Na0lIZGMxRjdoWVNNRXJmTGthVHFISU43b3lIL3JVS1ZlaEVh?=
- =?utf-8?B?aWNyR1VkajRYWkFhNEQ4Y2p2WWRYN2tjL05LakY3NmJPdUhjUTdVazBYVFB3?=
- =?utf-8?B?VGFvaGNkdGRMRmNKVEdYaGhoWElZOTEyeElPKzlvdlB3YmdRWmZzd1dMZk4x?=
- =?utf-8?B?ZmNrMzlKTzFkakhkeVgvTlNMUlZDZTlCeUdxOU9RK1BLMW1tYmQ1c0VpQ2tr?=
- =?utf-8?B?QWZLb2VhOWZSTjZxanhxMklkWEJtSUVzbDU1bi9qdkVYbVJiKzk3RkJyR3Qv?=
- =?utf-8?B?VkRmbDZPbjYzQ3lzNC9hVFJObFVMTklYV2lTM2NxL2FRa1E1QmZ4TDZ6SWNS?=
- =?utf-8?B?VnMvdDZjRnlDbHdzS2EvRHBrN3BXMUk1NFNYVllwdlNsckJraTBGeFlDdWdv?=
- =?utf-8?B?R2ZmTGZaRkcyRTRKL3FvUkRFb0RmRi9MRkhtRzlDM3JZbmhFSjRZa05ld0V0?=
- =?utf-8?B?d1F4aW5DaHdQTUhlRXB6OFp2NXdLWXdvMW40MTJHYlFHcmdHUWdzcXM0WW5v?=
- =?utf-8?B?enF5empNR1ZHdElRWFA3cEFUOUFKRzV3SFhQdkJwY0I1NmtWRit0QmFvVVFa?=
- =?utf-8?B?eEZPb1FJazkwYWdZYjhhSkpkWWNucGdEQWFiMGZEWFNCTkxPRWxuY05OelF2?=
- =?utf-8?B?NEdaeUlST0M0TzN1Y0QvdDA1REd1U3J4QzU2eFpCUDlGVGJ3RnJha3RLTUV3?=
- =?utf-8?B?bi9ZQy9xWnFHcGJvSXAvcS8vS25DU2tSaFdFR3ZieUcxeWpNTndzQ3dOYXFS?=
- =?utf-8?B?L3pSZ3ZhV0x1Y2R2WXFrNmVtMXdPaWZDMXpUUk9XTS9aUTYvUEJiaEpDcGtS?=
- =?utf-8?B?N3NKSWF4RTdKQ3lJMFdsOGc1WFpvRDFUZmVJZXJUOWtVSUtadkVOekpUKzN6?=
- =?utf-8?B?c0xqTWFyS2UrVElnUmtTenY5UWk3NTB6eEV5S1FyY3ZPdTJZd3hoUnlIMFUr?=
- =?utf-8?B?TnpKdHhOUDR0ak9wcDdNbVBJNU9TclJCMXBFZnJaSlNXT3FTSGJkSnE3Z3pC?=
- =?utf-8?B?UHRUUXNUSTcvZTdVVnZPY0c4U09KQk5WamgzWlFOcCtvbkgzL3BkbHczL3d4?=
- =?utf-8?B?Q1Bxb3E2K01MTk0xbE5YdFM1bjdFZ2FvNG9mTUdSL09nbjg3bmlqeG9TRmFr?=
- =?utf-8?B?NlRxeTJhYjdTWnhOekwvb2NEMkYvL0gvSjN4Y3BlMWpRdjkvR1JiOExMMzJ1?=
- =?utf-8?Q?vMU5FfuAWmTmN9C0TuQKZMs4iTp8K1155Z5GE?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f4bd3af-369a-4ba1-372d-08deff8543b0
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8469.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 13:08:16.7334
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mQOvjSKqRpn8fltGjbDKAhaZT/+DZgcYQeYOPmqbk+DjeWMekIqmREb69yozp7Vk9RMhDGhbqU90wchQE+Hf2xDjQMPn2h+dy6CHfkwvD4u0lpHWGOnK5hvnrDjel1Qy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMZPR04MB191951
+References: <cover.1786540242.git.zhilinz@nebusec.ai> <9ec8921d81d6218946e07e8542b1ac41b6e2d205.1786540242.git.zhilinz@nebusec.ai>
+ <9ab7df63-dcbd-496c-a997-4218e2ab272b@redhat.com>
+In-Reply-To: <9ab7df63-dcbd-496c-a997-4218e2ab272b@redhat.com>
+From: zhilin zou <zhilinz@nebusec.ai>
+Date: Fri, 21 Aug 2026 21:08:39 +0800
+X-Gm-Features: AcwNN1XZm-E_jW0MDxFtqQnE6hWPtXlUcnb0_nhE79y2ObVKSDXNqW6OafLIJmc
+Message-ID: <CANB6i5xLD1HRGkUmoXuSmf9CGrnPwhbWv5w76Uw1_5jhFv05AA@mail.gmail.com>
+Subject: Re: [PATCH net v5 1/1] tcp: bound SYN-ACK timers to reqsk timeout range
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, horms@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, ncardwell@google.com, kuniyu@google.com, 
+	chia-yu.chang@nokia-bell-labs.com, ij@kernel.org, fmancera@suse.de, 
+	bronzed_45_vested@icloud.com, idosch@nvidia.com, yuuchihsu@gmail.com, 
+	vega@nebusec.ai
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
+On Thu, Aug 20, 2026 at 6:21=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wro=
+te:
+>
+> On 8/12/26 3:38 PM, Zhiling Zou wrote:
+> > request_sock::num_timeout is a 7-bit counter. Commit e6c022a4fa2d
+> > ("tcp: better retrans tracking for defer-accept") split this counter
+> > out of an 8-bit field, but tcp_synack_retries still accepts an 8-bit
+> > value and TCP_DEFER_ACCEPT can still derive a retry count up to 255.
+> >
+> > If these settings exceed 127, the regular request timer cannot reach
+> > its expiration threshold and num_timeout wraps to zero. After the wrap,
+> > the request can keep timing out instead of expiring, and the next
+> > zero-to-one transition repeats the young-queue accounting decrement.
+> >
+> > Both request timer paths can also shift req->timeout by 64 or more whil=
+e
+> > calculating the next RTO. UBSAN reports that invalid shift, and systems
+> > with panic_on_warn=3D1 panic before the later cap can take effect.
+> >
+> > Limit tcp_synack_retries and the TCP_DEFER_ACCEPT conversion to the
+> > range represented by num_timeout, preserving the same defer-accept valu=
+e
+> > for its timer and bare-ACK consumers. Saturate RTO calculation before
+> > the shift, and cap the Fast Open extra retry to the same range.
+> >
+> > Fixes: e6c022a4fa2d ("tcp: better retrans tracking for defer-accept")
+> > Cc: stable@vger.kernel.org
+> > Reported-by: Vega <vega@nebusec.ai>
+> > Signed-off-by: Zhiling Zou <zhilinz@nebusec.ai>
+> > ---
+> > changes in v5:
+> > - Limit tcp_synack_retries and TCP_DEFER_ACCEPT at their configuration
+> >   paths, so all users of each value see the same 7-bit range.
+> > - Use 127, matching request_sock::num_timeout, instead of the previous
+> >   runtime limit of 63, and document the sysctl limit.
+> > - Spell out the 7-bit range mismatch, the repeated young-queue accounti=
+ng,
+> >   and the UBSAN panic_on_warn failure mode in the commit message.
+> > - Keep the timeout calculation saturating before either SYN-ACK timer
+> >   shifts it.
+> > - Drop a no-op reqsk_timer_handler() formatting hunk.
+> > - Correct the Fixes tag and update the reporter and sign-off trailers.
+> > - v4 Link: https://lore.kernel.org/all/891a220c362e3266efdf6b1aa9dc3e52=
+f6825c00.1784735392.git.zhilinz@nebusec.ai/
+> >
+> > Changes in v4:
+> >   - Drop the tcp_synack_retries sysctl maximum to preserve existing
+> >     user-space behavior, and keep the runtime clamps at the timer usage
+> >     sites.
+> >   - v3 Link: https://lore.kernel.org/all/20260702095324.2995243-1-n05ec=
+@lzu.edu.cn/
+> >
+> > Changes in v3:
+> >   - Order local variables in tcp_reqsk_timeout_sk() by reverse Christma=
+s
+> >     tree.
+> >   - v2 Link: https://lore.kernel.org/all/20260630035009.55201-1-n05ec@l=
+zu.edu.cn/
+> >
+> > Changes in v2:
+> >   - Keep the existing max_retries calculation in
+> >     tcp_fastopen_synack_timer() and only add the clamp, avoiding code
+> >     churn.
+> >   - v1 Link: https://lore.kernel.org/all/02e24eb83639e9d7ecc623f000c602=
+54bb5c40a5.1782643946.git.roxy520tt@gmail.com/
+> >
+> >  Documentation/networking/ip-sysctl.rst |  2 +-
+> >  include/net/tcp.h                      | 20 ++++++++++++++++----
+> >  net/ipv4/sysctl_net_ipv4.c             |  2 ++
+> >  net/ipv4/tcp.c                         |  2 +-
+> >  net/ipv4/tcp_timer.c                   |  6 ++++--
+> >  5 files changed, 24 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/net=
+working/ip-sysctl.rst
+> > index 208f46967ee59..fd5038b6cab9f 100644
+> > --- a/Documentation/networking/ip-sysctl.rst
+> > +++ b/Documentation/networking/ip-sysctl.rst
+> > @@ -954,7 +954,7 @@ tcp_stdurg - BOOLEAN
+> >
+> >  tcp_synack_retries - INTEGER
+> >       Number of times SYNACKs for a passive TCP connection attempt will
+> > -     be retransmitted. Should not be higher than 255. Default value
+> > +     be retransmitted. Should not be higher than 127. Default value
+> >       is 5, which corresponds to 31seconds till the last retransmission
+> >       with the current initial RTO of 1second. With this the final time=
+out
+> >       for a passive TCP connection will happen after 63seconds.
+> > diff --git a/include/net/tcp.h b/include/net/tcp.h
+> > index 2c5b889530b55..8ab2fd368ed3b 100644
+> > --- a/include/net/tcp.h
+> > +++ b/include/net/tcp.h
+> > @@ -183,6 +183,8 @@ static_assert((1 << ATO_BITS) > TCP_DELACK_MAX);
+> >  #define MAX_TCP_KEEPINTVL    32767
+> >  #define MAX_TCP_KEEPCNT              127
+> >  #define MAX_TCP_SYNCNT               127
+> > +/* request_sock::num_timeout is a 7-bit field. */
+> > +#define MAX_TCP_SYNACK_RETRIES       127
+> >
+> >  /* Ensure that TCP PAWS checks are relaxed after ~2147 seconds
+> >   * to avoid overflows. This assumes a clock smaller than 1 Mhz.
+> > @@ -882,12 +884,22 @@ static inline u32 __tcp_set_rto(const struct tcp_=
+sock *tp)
+> >       return usecs_to_jiffies((tp->srtt_us >> 3) + tp->rttvar_us);
+> >  }
+> >
+> > -static inline unsigned long tcp_reqsk_timeout(struct request_sock *req=
+)
+> > +static inline unsigned long tcp_reqsk_timeout_sk(const struct sock *sk=
+,
+> > +                                              struct request_sock *req=
+)
+> >  {
+> > -     u64 timeout =3D (u64)req->timeout << req->num_timeout;
+> > +     u32 rto_max =3D tcp_rto_max(sk);
+> > +     u64 timeout =3D req->timeout;
+> > +
+> > +     if (req->num_timeout >=3D BITS_PER_TYPE(timeout) ||
+> > +         timeout > U64_MAX >> req->num_timeout)
+> > +             return rto_max;
+>
+> Sashiko notes the above is racy, and basically makes this patch not
+> effective:
+>
+> https://netdev-ai.bots.linux.dev/sashiko/#/patchset/9ec8921d81d6218946e07=
+e8542b1ac41b6e2d205.1786540242.git.zhilinz%40nebusec.ai
+>
+> note that the solution provided there does not even compile, you
+> will need something slightly different.
+>
+> > @@ -1034,6 +1035,7 @@ static struct ctl_table ipv4_net_table[] =3D {
+> >               .maxlen         =3D sizeof(u8),
+> >               .mode           =3D 0644,
+> >               .proc_handler   =3D proc_dou8vec_minmax,
+> > +             .extra2         =3D &tcp_synack_retries_max,
+>
+> I explicitly asked to avoid this in v3. Sashiko suggested updating the
+> doc. Why do you add this back?
+>
 
-Reserve 1MB of DDR for the EdgeLock Enclave. The enclave hardware can only
-access DDR in the 0x80000000 - 0xafffffff window, so constrain the pool to
-that range with alloc-ranges and let the kernel choose the placement rather
-than hardcoding an address.
+Hi Paolo,
 
-Provide this as a shared imx8ulp-firmware.dtsi that also enables the hsm0
-node and wires up its memory-region, so every i.MX8ULP board can bring up
-the enclave with a single include instead of duplicating the reserved
-memory node. Include it from imx8ulp-evk.
+Thanks for the review and for pointing me to the Sashiko report.
 
-Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
- arch/arm64/boot/dts/freescale/imx8ulp-evk.dts      |  3 ++-
- .../arm64/boot/dts/freescale/imx8ulp-firmware.dtsi | 31 ++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 1 deletion(-)
+I agree that the check/use race in tcp_reqsk_timeout_sk() is valid.
+req->num_timeout is a 7-bit bitfield and may be updated by
+reqsk_timer_handler() while the receive path is reading it. I will
+take a single snapshot of the field and use that value for both the
+bounds check and the shift. I will not use READ_ONCE() directly on the
+bitfield, since that does not compile; I will use a compile-safe
+equivalent and verify it with a build.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-index 5dea66c1e7aa..885242fd07ce 100644
---- a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
-@@ -1,11 +1,12 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-- * Copyright 2021 NXP
-+ * Copyright 2021, 2025 NXP
-  */
- 
- /dts-v1/;
- 
- #include "imx8ulp.dtsi"
-+#include "imx8ulp-firmware.dtsi"
- 
- / {
- 	model = "NXP i.MX8ULP EVK";
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi b/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi
-new file mode 100644
-index 000000000000..e4bc352f68af
---- /dev/null
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp-firmware.dtsi
-@@ -0,0 +1,31 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright 2025 NXP
-+ *
-+ * Default reserved memory and EdgeLock Enclave (ELE) enablement shared by
-+ * i.MX8ULP boards. Include this from a board dts to bring up the secure
-+ * enclave without having to duplicate the reserved-memory node. The ELE
-+ * hardware can only access DDR in the 0x80000000 - 0xafffffff window, so the
-+ * pool is constrained to that range with alloc-ranges and the kernel is left
-+ * to place the 1 MiB region.
-+ */
-+
-+/ {
-+	reserved-memory {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		ele_reserved: ele-reserved {
-+			compatible = "shared-dma-pool";
-+			alloc-ranges = <0 0x80000000 0 0x30000000>;
-+			size = <0 0x100000>;
-+			no-map;
-+		};
-+	};
-+};
-+
-+&hsm0 {
-+	memory-region = <&ele_reserved>;
-+	status = "okay";
-+};
+I also agree that adding .extra2 changes the accepted sysctl range and
+goes against your earlier v3 feedback. I will remove
+tcp_synack_retries_max and the .extra2 assignment. The 127 limit will
+instead be enforced at the regular and Fast Open SYN-ACK timer use
+sites, preserving the existing sysctl behavior.
 
--- 
-2.43.0
+I will keep the TCP_DEFER_ACCEPT conversion capped at 127, since
+rskq_defer_accept is consumed by both the timer and bare-ACK paths and
+must have the same representable range.
 
+I will send a v6 with these changes and update the commit message according=
+ly.
+
+Thanks,
+Zhiling
+
+> /P
+>
