@@ -1,86 +1,87 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A06A3E00A6
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310A43E0093
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787338703; cv=none; b=SR3ce3aiS4Xqj701i1BugRbH+oUGZs3fTbOv+xQrEQK9HnC98HUTB1SDUDFIMh6dHUKtiWqTXS5RkMXq4eEyJWFPU8CetlDAhYUoLjMoi8gNz2nfSAqo49hzlJtvptfQzpEkHRLTJJ1EqjXV9L/DzNCbBqN5objxfa1q27bt2Ro=
+	t=1787338704; cv=none; b=fGoUQJU4Ry4jVK/WGgZIk6zHEUBGVprG3hatibuJvC35N3YjT4IOiInV8/mN7D+DwSST5GRpat8Io0VYITv8Cz3uDM1rpwPmhdXYsXtmkPY0jQUjS4OAtK+RUPAtnDj49ZLJfUvnPckRBmPXSUGkOAJB58zNslIAv/5gfnD7ONg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787338703; c=relaxed/simple;
-	bh=orQNNaUZmojI+/cs8egxOMQvuXgFqATETxJY+MjSr8w=;
+	s=arc-20240116; t=1787338704; c=relaxed/simple;
+	bh=rkPzVVDgoOEfaKV2nREKbkjAXfc0pbvyd/oIWLflpYE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ep9y89pA21n3cdqckVy7YMJBwMU6l/2wBFPtpUuEM7l+Dj73ZPjazF9q8GB8iKgBHwxNIBpS8WLS0g7uxEcoHoKk0LUgcQ8M1p5GgAX9Y5gwDvOREIIoCyD4Jvo6lTHksPochToL3/QcDgPdE4V027j5PyBdUgvjwaU2qKhDjUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=elqGmklF; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=LUTohYnG; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:To:Cc; b=GB2so9m6hjAFUItVKGrT7qoXOnt+d+kmhwcJ5iN8lU8vpd0oVtbFkqeVaDoSwl+gS5XWJlsh7lKw+mdAKAFyV87OuCJcr/UBlHKncsu26ZYIWQW+NMsUHe3K/HAQfMxR9Rn0j1DGMFxM7Yo8o/j61ea8lYb2oai8jqSPBTMev6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qs0L3KOQ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=rxlCG2kq; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="elqGmklF";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="LUTohYnG"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qs0L3KOQ";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="rxlCG2kq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787338697;
+	s=mimecast20190719; t=1787338699;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=s7YiByawknR2bKXyMMS9faTlbP3TdC6Smi6Eshk/hFk=;
-	b=elqGmklF1WztNFjRxpZyVozKNkAWiI7zgQlyeZuoUUY8C6ZpZOMVaqX7lsrqDPyGhi8HdN
-	j5MJCzIeGebPFjXcVSvGa90bcnkU4b9nd0Pk/X8P2zFLYpv4blRQhTh7m1Ez4Kw7F4rpuu
-	w5SqEQgdDlrB2YwF7LsYjCsConP914c=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=/8joInrEG3wyxgyxVErJ5zORrPbi9GYjPiUJzUhqISA=;
+	b=Qs0L3KOQebDIG56XPCr9EkuLNWsfzFz2VfUJAhSPHGykHKGKWRcrHyoYrmUaKil8pD/5c0
+	ufbpHP5MOjKoDygKNTS0GdBs7+XpWwuOC32U5rr/1KZaiS0giBV1KF8GQRRU8aqK5NAh9s
+	RrXSzbJyHqqSX5m61T05dDRbHN5YY5U=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-418-JOi-goHRNTGytC5xrvM48w-1; Fri, 21 Aug 2026 14:58:16 -0400
-X-MC-Unique: JOi-goHRNTGytC5xrvM48w-1
-X-Mimecast-MFC-AGG-ID: JOi-goHRNTGytC5xrvM48w_1787338696
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8ea75996387so25541146d6.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:16 -0700 (PDT)
+ us-mta-668-IxxTqmAPPZeVji0XZTcfdA-1; Fri, 21 Aug 2026 14:58:17 -0400
+X-MC-Unique: IxxTqmAPPZeVji0XZTcfdA-1
+X-Mimecast-MFC-AGG-ID: IxxTqmAPPZeVji0XZTcfdA_1787338697
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-8eeba1d9e47so9186036d6.2
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787338696; x=1787943496; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1787338697; x=1787943497; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=s7YiByawknR2bKXyMMS9faTlbP3TdC6Smi6Eshk/hFk=;
-        b=LUTohYnGVgS0R5QUoInTii2VjCg/+5rXJisqABF9/1YrnGD85Q/ypeEsU814uU4dvf
-         0xrMkVBd02ZOz6f5jqxTqLVaJKSFY5dV5A0jzDqWAg7LwOeQEshximHrWaWQnYwujTOT
-         wPK6UC9/tOtftYm5RgUGOG9jsfr+Gxdrihfet9i1DYE2LMr8IHU6BFYDCstzUIL+P3DM
-         AtlL87lbWmGEIDHlfV+/dDaKp6GRo361CVlGFFYvsP7F4l8zzzCBcZ0iqgQHdiQDFbNt
-         oyCpepwwcpdG8UyOO7QR2ZcLzgxfXH523NmJyVbhLcc7OXBs98jlmdbw4MqsCD4XkAPb
-         v+0A==
+        bh=/8joInrEG3wyxgyxVErJ5zORrPbi9GYjPiUJzUhqISA=;
+        b=rxlCG2kqriWBMcgab2d3GVQ2Te0Knk3Gk4AHZpf0049aZuDbpX0tXN239B8k7QTrqf
+         iUaUtwvyPYN9SDqseT28lrdjCReapuR89ef8EWveh8gf+P4A4HhjwpVuuoI0jfRLcWZH
+         rYuCF/eh/pEk+Bh+a3g3VmCdp4cf7wAqOBoNF0Lae4Y765+br/2ZntD1Br8pvineUH82
+         Wvk9lHF5TCtAJYcNB6ofA4I/aukQMANFbZ0YKPY/uZ+GKlcwT4TBeJC5B5zzLyDQHF/C
+         zB/f72Q1qqGRI5/FZyI2qKM5tb98p4fOoZo2lHutQ+Q3byGFmJJQsD7JSR45gfqRa3CS
+         9yJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787338696; x=1787943496;
+        d=1e100.net; s=20251104; t=1787338697; x=1787943497;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=s7YiByawknR2bKXyMMS9faTlbP3TdC6Smi6Eshk/hFk=;
-        b=T4K66vjCdG/hobvgi3JyQKAtGDnEnM9FosG+MH83NBKTmMhkEvnmc9m6Y7osAxRpYK
-         bz8sxy42Jgmnq7MBuDi58C5H5jzOddKThZzcz3msLN0Eqw7zuTy/Ds9dj3CgIPcBgPFK
-         isjZqDb9LjnrE2+CpPN9yJbUXCdVAx9KfCe6eFxLW2Tb6ceR/V39J2RM/9ILHKUKrFn/
-         PUfZmeuVpLALZK/xFsaf2xwCx6A+8D2As/HRU7smmN3epMdmaCUNp4UtnPL58LxBnEAm
-         IRgmaiDP7D9UbCCEzfqBiuSj47RzZJrexHzRClznfLiAzb/O5pziQFw40SbKIgxJfHcj
-         mZOQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrAb8tZ8GF/rfHMAfbLJ9Yz926tcWlxSE++wfHX8jG4nlcsXDTX5U9NhMoVii0wDdTQg9OaN2ASBFs=@vger.kernel.org
-X-Gm-Message-State: AFuF++mWz4tWZ4aTR4YfHmx2DYeOg0mTbaUh24WMioLmIkLwLFWvyrDm
-	cvNwIA6gTG+tTLoRcMiWIIeSUXysFch6mSB19ed8ei9il4Lzr5XtmQagaFl7TYbzltzDray0eUp
-	UWXknV9qf9QIe5R8C5Kzl3/wxjW7/6Tr/v1I2xPl1mWxfuuOgNDe50kD+6DP+8w==
-X-Gm-Gg: AR+sD10Dt7wq8jaSWU66mY2oW8RzCI5LEjY4TRL+LwQScZ52rqyYnjw51ZUoyC9IFG5
-	NFGcNuil246+o/Gnoreh2F5aQDToe8p7Exl4lwoILNukKYOvzOkWs+1pKyk40fdCdtjY60cdcXE
-	laDKSKKdKN4y5xRJMwTzB6pXbd+MZ2/CpxIgjOB/k/9knXUjLFm7n2/kTX9hWuO40xI7oKyfybm
-	yGQUVzGv6ML6CHJ14k4S4CVZwr8yrSFxy8vSFz58Zpzgw0AUUUXGCbEIipkwGGph7JB8rom46lt
-	0ja6vN6SSCgRPMwWCr9bqAmpUszrppX6GA9vEVzg+oHxWRc2g8X7VY8JsCqycfzAAbBzUzG+4rW
-	vkpmEx8nVnxeVZYTF3u51BdVtdFWOQ+B/G/Oee8caezPy
-X-Received: by 2002:a05:6214:3114:b0:8de:25f7:98bc with SMTP id 6a1803df08f44-90c8fa2ace7mr7854526d6.22.1787338695743;
-        Fri, 21 Aug 2026 11:58:15 -0700 (PDT)
-X-Received: by 2002:a05:6214:3114:b0:8de:25f7:98bc with SMTP id 6a1803df08f44-90c8fa2ace7mr7854186d6.22.1787338695297;
-        Fri, 21 Aug 2026 11:58:15 -0700 (PDT)
+        bh=/8joInrEG3wyxgyxVErJ5zORrPbi9GYjPiUJzUhqISA=;
+        b=Yu4GiFe2aPa535j4eRoPaUq01SztOk//o4f9TFgdAbrgMjSUh4idMadxYk9jYmIVnt
+         4keBL607uEOKrBHdm1w/mqDM8/5a5c6WCYJJNAqqCJjXTUIQNSCdVhqPgsFqKcU0ApCj
+         P+hjffKe7HC4nHLYDWKa1U98HAELkIvLWMYd6UPn9Z883fsIvYJ2kXrS9yPApstYYxhb
+         YHLmAv+kmWhSBXP/ZuXvvIqMXpMR6sQakHbPF0qDFxHQRNBLRvLzsiUvhsqGZrShYxst
+         ZD5Kq8cH6H2oZoD1bSWLs3WRNvH0/Nh9W0lHpZAP+I+MhUeHB1yCn9kdw9O2ef+C+oRd
+         R4Iw==
+X-Forwarded-Encrypted: i=1; AHgh+RrFKbhJgzaG39oBnd7P3LDOuX83fQQ++PdXPVlHlKwKy6ZOSle2f+RrDNW2MyNSYIyBNr/fxP5m67U=@vger.kernel.org
+X-Gm-Message-State: AFuF++lGu69YL4RUzsv6xldnFTnKDMYpPzfelarEKNtxVxKPd5DCC25U
+	UJj47llzS7DeTDCBZbkI+ekoqKef+p5DatsawJPx9d3tVrEN2N3BQc8iiFF9DuzSURhT7t7g7Nf
+	j/7RZxTmC8/omFMOsTCcM7fOq3JEoGtBRyCrCJaILqCmJCqpXqZDn3SHsTEbZhw==
+X-Gm-Gg: AR+sD13Twq+gPCVfu4p/1PUT8Yrg2mne4l00JetgJWJWMokXNxfOf58TbDhd0ODDPqZ
+	CWQdAnAmnLipWM8ZYyY7Izy5hZJZL91xJh3hm/YXAAqOoj5JeJ+fHdseYPtwGY0NZXeV0KRUUm7
+	HXFsezV2JmV9ME0YouLlW0ApA/Pxs7QtALFPQpzAnHWAqR8+wCZK23ITsW/N69r6ieGrgh8nvhi
+	axrGmy2x7BT2xLAcVbvC48mn82mjjtCfWreq/arkBZO05pU0QoFp4/dy6oaUsuDTM/fHJGCYwqn
+	ZHJW2df0x9hzAI9Iv+0F7B8z07eafbhB8mbOhYTVYn4wDyTphHUNTeL0qTtMtGlrOe/Uhk/qtJs
+	crtyyUn4qOf2fubWcdStmUQ/8Zsb58AvfCw1b4AZzkQpI
+X-Received: by 2002:a05:6214:21cb:b0:8f3:cf36:15ca with SMTP id 6a1803df08f44-90c8098e804mr82074656d6.9.1787338697310;
+        Fri, 21 Aug 2026 11:58:17 -0700 (PDT)
+X-Received: by 2002:a05:6214:21cb:b0:8f3:cf36:15ca with SMTP id 6a1803df08f44-90c8098e804mr82074206d6.9.1787338696872;
+        Fri, 21 Aug 2026 11:58:16 -0700 (PDT)
 Received: from localhost (pool-100-17-17-231.bstnma.fios.verizon.net. [100.17.17.231])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c6b42455dsm51197756d6.37.2026.08.21.11.58.11
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c5f2905d6sm68917236d6.29.2026.08.21.11.58.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 11:58:11 -0700 (PDT)
+        Fri, 21 Aug 2026 11:58:16 -0700 (PDT)
 From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 21 Aug 2026 14:57:02 -0400
-Subject: [PATCH 10/11] selftests: cgroup: add memcg hugetlb_cma tests
+Date: Fri, 21 Aug 2026 14:57:03 -0400
+Subject: [PATCH 11/11] selftests: cgroup: amend vmtest-memcg to run the
+ hugetlb cma tests
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,7 +90,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-cma-memcg-regions-v1-10-d21b165b8440@redhat.com>
+Message-Id: <20260821-cma-memcg-regions-v1-11-d21b165b8440@redhat.com>
 References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 In-Reply-To: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -109,260 +110,39 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Albert Esteve <aesteve@redhat.com>, Eric Chanudet <echanude@redhat.com>
 X-Mailer: b4 0.14.3
 
-test_hugetlb_cma_charge gets a hugepage by incrementing nr_hugepages,
-confirms memory.cma.hugetlb0.current increased as expected, then
-releases it and checks the counter returns to its initial value.
-
-test_hugetlb_cma_limit sets memory.cma.hugetlb0.max to 0, tries to
-allocate a hugepage and verifies it fails.
+Add HUGETLBFS to the selftest configuration. Amend the vmtest script to
+pass hugetlb_cma=1G and hugetlb_cma_only=1. In order for hugepages to be
+available, ask qemu for 3G of memory so the CMA reservation succeeds.
 
 Signed-off-by: Eric Chanudet <echanude@redhat.com>
 ---
- tools/testing/selftests/cgroup/test_cma_memcg.c | 209 ++++++++++++++++++++++++
- 1 file changed, 209 insertions(+)
+ tools/testing/selftests/cgroup/config          | 1 +
+ tools/testing/selftests/cgroup/vmtest-memcg.sh | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/cgroup/test_cma_memcg.c b/tools/testing/selftests/cgroup/test_cma_memcg.c
-index b5b5ea140518..9bd41d9a6177 100644
---- a/tools/testing/selftests/cgroup/test_cma_memcg.c
-+++ b/tools/testing/selftests/cgroup/test_cma_memcg.c
-@@ -4,7 +4,9 @@
- #include <linux/limits.h>
- #include <sys/mman.h>
- #include <stdio.h>
-+#include <stdlib.h>
- #include <string.h>
-+#include <dirent.h>
- #include <fcntl.h>
- #include <linux/dma-heap.h>
- #include <sys/ioctl.h>
-@@ -15,6 +17,10 @@
- #define CMA_RESERVED_CURRENT	"memory.cma.reserved.current"
- #define CMA_RESERVED_MAX	"memory.cma.reserved.max"
+diff --git a/tools/testing/selftests/cgroup/config b/tools/testing/selftests/cgroup/config
+index c4f7df4f1b24..1c9034017682 100644
+--- a/tools/testing/selftests/cgroup/config
++++ b/tools/testing/selftests/cgroup/config
+@@ -8,3 +8,4 @@ CONFIG_CMA=y
+ CONFIG_DMA_CMA=y
+ CONFIG_DMABUF_HEAPS=y
+ CONFIG_DMABUF_HEAPS_CMA=y
++CONFIG_HUGETLBFS=y
+diff --git a/tools/testing/selftests/cgroup/vmtest-memcg.sh b/tools/testing/selftests/cgroup/vmtest-memcg.sh
+index b19b96731784..534a95ef5e07 100755
+--- a/tools/testing/selftests/cgroup/vmtest-memcg.sh
++++ b/tools/testing/selftests/cgroup/vmtest-memcg.sh
+@@ -116,7 +116,8 @@ vm_start() {
+ 		--qemu="$(command -v "$QEMU")" \
+ 		--user root \
+ 		--ssh "$SSH_GUEST_PORT" \
+-		--append "cma=64M" \
++		--memory 3G \
++		--append "cma=64M hugetlb_cma=1G hugetlb_cma_only=1" \
+ 		--rw &>"$logfile" &
  
-+#define HUGETLB_CMA_CURRENT	"memory.cma.hugetlb0.current"
-+#define HUGETLB_CMA_MAX	"memory.cma.hugetlb0.max"
-+#define HUGEPAGES_DIR		"/sys/kernel/mm/hugepages"
-+
- static int cma_heap_alloc(int heap_fd, size_t size)
- {
- 	struct dma_heap_allocation_data data = {
-@@ -145,6 +151,207 @@ static int test_cma_limit(const char *root)
- 	return rc;
- }
- 
-+static long find_largest_hugepage_size_kb(void)
-+{
-+	DIR *dir;
-+	struct dirent *entry;
-+	long max_size = 0;
-+
-+	dir = opendir(HUGEPAGES_DIR);
-+	if (!dir)
-+		return -1;
-+
-+	while ((entry = readdir(dir)) != NULL) {
-+		long size;
-+
-+		if (sscanf(entry->d_name, "hugepages-%ldkB", &size) == 1) {
-+			if (size > max_size)
-+				max_size = size;
-+		}
-+	}
-+	closedir(dir);
-+
-+	return max_size > 0 ? max_size : -1;
-+}
-+
-+static long read_sysfs_long(const char *path)
-+{
-+	FILE *f;
-+	long val = -1;
-+
-+	f = fopen(path, "r");
-+	if (!f)
-+		return -1;
-+	if (fscanf(f, "%ld", &val) != 1)
-+		val = -1;
-+	fclose(f);
-+	return val;
-+}
-+
-+static int write_sysfs_long(const char *path, long val)
-+{
-+	FILE *f;
-+	int rc;
-+
-+	f = fopen(path, "w");
-+	if (!f)
-+		return -1;
-+	rc = fprintf(f, "%ld", val);
-+	fclose(f);
-+	return rc < 0 ? -1 : 0;
-+}
-+
-+static int test_hugetlb_cma_charge(const char *root)
-+{
-+	int rc = KSFT_SKIP, in_cg = 0;
-+	long hpage_size_kb, hpage_size_bytes;
-+	long orig_nr = -1, new_nr, before, after;
-+	char nr_path[PATH_MAX];
-+	char *cg;
-+
-+	hpage_size_kb = find_largest_hugepage_size_kb();
-+	if (hpage_size_kb < 0) {
-+		ksft_print_msg("no hugepage size found\n");
-+		return KSFT_SKIP;
-+	}
-+	hpage_size_bytes = hpage_size_kb * 1024;
-+
-+	snprintf(nr_path, sizeof(nr_path),
-+		 HUGEPAGES_DIR "/hugepages-%ldkB/nr_hugepages", hpage_size_kb);
-+
-+	cg = cg_name(root, "memcg_hugetlb_cma_charge");
-+	if (!cg)
-+		goto cleanup;
-+
-+	if (cg_create(cg))
-+		goto cleanup;
-+
-+	if (cg_enter_current(cg))
-+		goto cleanup;
-+	in_cg = 1;
-+
-+	if (cg_read_long(cg, HUGETLB_CMA_CURRENT) < 0) {
-+		ksft_print_msg("hugetlb CMA counters not available\n");
-+		goto cleanup;
-+	}
-+
-+	orig_nr = read_sysfs_long(nr_path);
-+	if (orig_nr < 0) {
-+		ksft_print_msg("cannot read %s\n", nr_path);
-+		goto cleanup;
-+	}
-+
-+	before = cg_read_long(cg, HUGETLB_CMA_CURRENT);
-+
-+	if (write_sysfs_long(nr_path, orig_nr + 1)) {
-+		ksft_print_msg("cannot write %s\n", nr_path);
-+		goto cleanup;
-+	}
-+
-+	new_nr = read_sysfs_long(nr_path);
-+	if (new_nr <= orig_nr) {
-+		ksft_print_msg("failed to allocate a hugepage\n");
-+		goto cleanup;
-+	}
-+
-+	rc = KSFT_FAIL;
-+	after = cg_read_long(cg, HUGETLB_CMA_CURRENT);
-+
-+	if (after - before < hpage_size_bytes) {
-+		ksft_print_msg(
-+			"hugetlb CMA counter not charged: before=%ld after=%ld expected +%ld\n",
-+			before, after, hpage_size_bytes);
-+		goto cleanup;
-+	}
-+
-+	write_sysfs_long(nr_path, orig_nr);
-+
-+	after = cg_read_long(cg, HUGETLB_CMA_CURRENT);
-+	if (!values_close(before, after, 3)) {
-+		ksft_print_msg(
-+			"hugetlb CMA counter not uncharged: before=%ld after=%ld\n",
-+			before, after);
-+		goto cleanup;
-+	}
-+
-+	rc = KSFT_PASS;
-+
-+cleanup:
-+	if (orig_nr >= 0)
-+		write_sysfs_long(nr_path, orig_nr);
-+
-+	if (in_cg)
-+		cg_enter_current(root);
-+	cg_destroy(cg);
-+	free(cg);
-+
-+	return rc;
-+}
-+
-+static int test_hugetlb_cma_limit(const char *root)
-+{
-+	int rc = KSFT_SKIP, in_cg = 0;
-+	long hpage_size_kb;
-+	long orig_nr, new_nr;
-+	char nr_path[PATH_MAX];
-+	char *cg;
-+
-+	hpage_size_kb = find_largest_hugepage_size_kb();
-+	if (hpage_size_kb < 0) {
-+		ksft_print_msg("no hugepage size found\n");
-+		return KSFT_SKIP;
-+	}
-+
-+	snprintf(nr_path, sizeof(nr_path),
-+		 HUGEPAGES_DIR "/hugepages-%ldkB/nr_hugepages", hpage_size_kb);
-+
-+	cg = cg_name(root, "memcg_hugetlb_cma_limit");
-+	if (!cg)
-+		goto cleanup;
-+
-+	if (cg_create(cg))
-+		goto cleanup;
-+
-+	if (cg_enter_current(cg))
-+		goto cleanup;
-+	in_cg = 1;
-+
-+	if (cg_read_long(cg, HUGETLB_CMA_MAX) < 0) {
-+		ksft_print_msg("hugetlb CMA counters not available\n");
-+		goto cleanup;
-+	}
-+
-+	if (cg_write(cg, HUGETLB_CMA_MAX, "0")) {
-+		ksft_print_msg("cannot set hugetlb CMA limit\n");
-+		goto cleanup;
-+	}
-+
-+	orig_nr = read_sysfs_long(nr_path);
-+	if (orig_nr < 0) {
-+		ksft_print_msg("cannot read %s\n", nr_path);
-+		goto cleanup;
-+	}
-+
-+	write_sysfs_long(nr_path, orig_nr + 1);
-+	new_nr = read_sysfs_long(nr_path);
-+
-+	rc = KSFT_FAIL;
-+	if (new_nr > orig_nr) {
-+		ksft_print_msg("hugetlb CMA limit not enforced\n");
-+		write_sysfs_long(nr_path, orig_nr);
-+	} else {
-+		rc = KSFT_PASS;
-+	}
-+
-+cleanup:
-+	if (in_cg)
-+		cg_enter_current(root);
-+	cg_destroy(cg);
-+	free(cg);
-+
-+	return rc;
-+}
-+
- #define T(x) { x, #x }
- struct cma_memcg_tests {
- 	int (*fn)(const char *root);
-@@ -152,6 +359,8 @@ struct cma_memcg_tests {
- } tests[] = {
- 	T(test_cma_charge),
- 	T(test_cma_limit),
-+	T(test_hugetlb_cma_charge),
-+	T(test_hugetlb_cma_limit),
- };
- #undef T
- 
+ 	local vng_pid=$!
 
 -- 
 2.53.0
