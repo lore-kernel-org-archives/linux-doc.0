@@ -1,67 +1,67 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6218447253F
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 09:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3D547252E
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 09:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787305796; cv=none; b=XBMHnOBH1gMJhD8CyZz8z2/B2fsimFVfbNHeA3dq4Q2mitWQi94nXs3a4UmOkTS9O1M83Jwtys2eEUSQubzVJUZ+9toJE0gFjLBQbq3eYrccaCmahG/MeksIpH2S6ep5ps0gpTC9XSZsxjaZwZYZVALHeK/etXKEDcrS75tzxYY=
+	t=1787305798; cv=none; b=itmRnd2mpqGRAAJdITL+z/FCMf8rLFWIxLZ+ZnSYv+UAcDFJFg4zlwBYFKQthVAnUBPp6UoOPZzhCOUrmGCvgGkSqkhzT1j9JGjuI1d7jrKiCMc+ov+r0SaBNNn757STqOPL896SAhWK3msTIFEr8JGIXh2eT6b7im9D2E+QCZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787305796; c=relaxed/simple;
-	bh=rTMPj/k3Q/u75BzRf3kKvE+NUom8emDrF383KCKzh/Q=;
+	s=arc-20240116; t=1787305798; c=relaxed/simple;
+	bh=fm7817PJXD9fz4lHXUyEY4UubPN/xPMUymDFvW6lWqY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Vv2BIJz8wdgEsEdHHLTJPdXo4d1azNJMGKVuU8kpYy+tEEZIbZCGFEXAHC6HY7MQUesb6GV2YFfb/AjtsB0yvoDV1MRkWNRGJigPzjL4p/P1Y5cunTHszyKhZV2LyWMJwdUJO+pJPsB6aX9QL1vnF6T13P4FEV779Z4sJhWcCrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xPBBt1HV; arc=none smtp.client-ip=209.85.221.52
+	 In-Reply-To:To:Cc; b=Yn6RKtZkn0pnzF8/sy+siTiAyxLlrSk71VeP1Stx99DKnV2a1bSbmQHZqkP4Poscg4NfigZnXNMB/c8U6BJ2QJLoRJvxgOjttHdczczuZNy4d3YZsCgU9LmzpGYGNSFV3tRDzWKHgaUEY7ymGH6YqxlgY+wwmfrxg9Dg36RuTZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JVhcc9pq; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xPBBt1HV"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f84023916so659284f8f.3
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JVhcc9pq"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47fde295992so574196f8f.0
         for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 02:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1787305782; x=1787910582; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1787305781; x=1787910581; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8Jf25htTTjahKWtoEfo2hIZORvEQKfVJc2fvPx9rUTY=;
-        b=xPBBt1HVtSCicig+auSHVMXi1J8mXZZWwff8aEJ660lfuZBAPxM9RXgPA1dzd7PZTz
-         ByE2Qo6pEGk1zMCio/8zEJfVpxG9WT+VPPbhIqXICcs2iWF+fz7vvORgymjkULYtMkpy
-         r+J0r03K0f5sY8OHd2uZcQCWNbeBsV5vdIvXZWQ79OOZrew10CuvmoYlwYUjXVmdK1nz
-         ocKl0pBglFrOTNZaIbS6tEKKdXMDRcKIrq7A/Lp+uH2Jykue/uJUlcv9YSwAewyuFUVj
-         /UhOrZgn1zhoXejPoq9cf+6ZYRbaMQyxCNL8O+PV5zE1YY3398/GZcqhheqDCu+K82NX
-         dyZw==
+        bh=iIEqHB2kupPj+LJwStZlpRLPHkBGU+WfDNFf0olHiVQ=;
+        b=JVhcc9pqaZ0WA2wp4EnI/h8w79w81W97i0uEjWPNB7PyJgFpg+kr2ao0eBB+S9A1dE
+         r2S09lxllcMUoXC15kgeumusX4ZS4YsY8x16fxeDPa+rJXEULCj1vQS1NB8w7Crcagsw
+         T/TOwEHVdA5G7gvTxqil/rNXJ05ZHBWgRYrGWvWekw8pXoocQgSXtRV2Y0YEou2uAvj8
+         GQ7mWQLHBkR8qjeaxswGsfJtlPtowH2sas1Um+An8EEX7JAewT9uJOIwsZb9k3Gnz8bG
+         to1auudUx/skWt0mHQoJSWGaoZBZ0glaP8RSHXq15gkiB93FmzIb0snVgbK4iNqbxfGK
+         1wTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787305782; x=1787910582;
+        d=1e100.net; s=20251104; t=1787305781; x=1787910581;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8Jf25htTTjahKWtoEfo2hIZORvEQKfVJc2fvPx9rUTY=;
-        b=TBN79ZmOU+T7+QbswhzE7ssNeYjUKm+kKOrytKn58mig8ySV5OhYvdIAPTfQiJssRc
-         Nf3YpVkS8NoaNCFye8vbUoAE40kziRU5vw96trlFIYHp6RYEyuwPJuav6tZKCBqyDVMR
-         4U9avHZ1V32kC/mzqKQRPccskc1Y1/bftPYi7pblRxwGFz7korm+9XQQ00Xg61eLJcwE
-         IKnN6CJeMkcz58AR9c4H/DOKQoNo8SlARUKWHlGNbwq8uEEFXpBh0Wxfu69OWtNhayy+
-         mGpogs7xU25CeyGsDd59+DH4io7pt6HtGJG6pD+VqqEYqcOGPt0tYk2HI3lNfksM0tVd
-         KenA==
-X-Forwarded-Encrypted: i=1; AHgh+RpOC8ImTvG0trrV5wXZc4u1nGYJ8q1J09yqORqJVlua70TL2suSxBhjFcBiUcgM73bsOlbEgFTfVNI=@vger.kernel.org
-X-Gm-Message-State: AFuF++lZMy9t7R2pnJmAXDCd/gtUkjMdWlt9FM/7eQBkl21ss9usvQsN
-	1USuf2JzPcTjBvIK1Pq/D/VC1byjDBvcnNYB9ysYJXPAa1iNmycyoBdlSyd9h8IXO+I=
-X-Gm-Gg: AR+sD133eJGTme5aVkA53LEBQIq/+Hrb5eG/9FnoAocQnDtz2zZUpUe+d8tZVeBj+oP
-	YrvmugowgAkcEi6lbHqLq+lgU96svmjqhNMfh4eJov6jdrCBghLiYvBYr/znysnkx3BeT9cu9xk
-	hqLD6rI16GN9lF/QefMV1D1vOhFD/ZhvIQE1Ufmkba239iRopZgjvgllO8S2ps+nLl+FmTs8ksZ
-	a2hOgFRaKl926wZKE+RlyUwjkWYLrTIhfi4i9MncKusBZRarouIRSlSNfBfnPqKy8JzBELoJFSc
-	tvGy69MOPlyowYJmAWOOoe9mtIRy5mxMyU42pG8RYjawiMM+EZrLKYZd3Sj+wfQCwGkx6x1DN8T
-	I7RhT9oJfs/laHQpZNkn3uppwFGwt0ogR/XiVvhpxx5b4d6XJOQfS+Xb3FdDoxcluqqF6I2Q+x2
-	Z2E2qvwp8N/CqblXKSbNyxlyTG03uVIuofXjb5iusvdOKXx7qJw5Sv4fsgHOuo0gnu
-X-Received: by 2002:a05:6000:2589:b0:482:bf17:e685 with SMTP id ffacd0b85a97d-482c0b88f19mr8390069f8f.11.1787305782104;
-        Fri, 21 Aug 2026 02:49:42 -0700 (PDT)
+        bh=iIEqHB2kupPj+LJwStZlpRLPHkBGU+WfDNFf0olHiVQ=;
+        b=sLvK1Gl2R/X9/+4VUB5VwB4DuRic+hxbodxp0nzQ+Lh83vetHRpalxFDB5bAHsmpcm
+         NWV3Rx5eTCnO7yTRxK35Ltv5PcYFpKc8tfRporSavZK/R1bCrHcS+HeSXxx7tInXlVZp
+         FBlyC5B0SIAwSo2dQCGKapCU8sNINBlFTJEljOOrCxJI2GYR5nXSXDCYYefuBC6MaHvA
+         Hf4kSxKsWBvBTkQji9+KTCV9xjeeMv1AN0mEEjbDLRjl4yuMoVc1NijSGAbUVue1MJL2
+         NyYxtjpO4Ld0I6YEO7VDk6a5tgJZYaNGaBSAWktASXaLPkn2tlY0TwIdbBQyQesvHwMf
+         7e7g==
+X-Forwarded-Encrypted: i=1; AHgh+RpbZ24VtsHoQgbIZ7kC7MMcEaVqFcGnl0EyB+B/+KfogEEL1EtVS21wpBaIPabkwu4BGvo4BtXPXEY=@vger.kernel.org
+X-Gm-Message-State: AFuF++k1YMyit9JpAdym7DFxn4F+nvD5pcOlHLrh+01PezBJQLRYvWq1
+	ZWpku5sXazmVvFeTRlL3EWMxg9B1TBlb6ALcN1CmVlPMpll0ZegrIT8jE4idyANgH3U=
+X-Gm-Gg: AR+sD10h7g5wenlr+S5oyD/ZwI0n5Np+xnC/R1mQvTH8nOzmmeju8lr4oakK4a8mFlw
+	L4bYwC0RLP/gLLYeAeNKZi/eUmosXq/vf5cJaBFGPT0QldxNEW2k5AhqfV1i3kagHJemXIuZI21
+	moYcUbX6Otq0jPzeSJlcL5vekrxTYIURC8o67lWD1zkDhV7Y9fN0uXeECipLl0sXcU4i1vAKeXp
+	r0yg3J7+Zdgll2xGVDOts+GiLvVyt0I+Dkn8mcDYf67KgGZ/1NzXu7GBGBGELIjSs4aD6v32/NU
+	NfqgFN8kEo3llReHM6fnKIMib7ZkIf5R2kDccExRYARPtargz6pAqccj+izleAudwt+l7ihzpYA
+	HVzSe9iOyVpksA8Q8XD7fWHnlE+WvmzofMIwtjGjnuF3veNkAWeGAXD6jrvfoKThcxMocDIYbVb
+	euAl49GM17+4qq/9dD5Fumrk0ROQbrg3NmVJHHZm51xZcH1eVvPWgoD+jA/4Hs9FSs
+X-Received: by 2002:a5d:6f06:0:b0:475:da0e:744d with SMTP id ffacd0b85a97d-482c117267emr5590675f8f.8.1787305780785;
+        Fri, 21 Aug 2026 02:49:40 -0700 (PDT)
 Received: from pop-os.local ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm17683479f8f.35.2026.08.21.02.49.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm17683479f8f.35.2026.08.21.02.49.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 02:49:41 -0700 (PDT)
+        Fri, 21 Aug 2026 02:49:40 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Fri, 21 Aug 2026 10:49:10 +0100
-Subject: [PATCH v2 12/14] perf test: Allow infinite named_thread loops
+Date: Fri, 21 Aug 2026 10:49:09 +0100
+Subject: [PATCH v2 11/14] perf auxtrace: cs-etm: Capture wrapped snapshots
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-james-cs-unformatted-per-thread-fix-v2-12-00c4fd0701b4@linaro.org>
+Message-Id: <20260821-james-cs-unformatted-per-thread-fix-v2-11-00c4fd0701b4@linaro.org>
 References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
 In-Reply-To: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -91,63 +91,124 @@ Cc: Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.15.2
 
-The following test will want this to run forever, so add support by
-treating 0 loops as infinite.
+snapshot_has_wrapped() isn't implemented for Coresight, so when a wrap
+occurs we only save from offset 0 to current head, modulo buffer size,
+rather than capturing the whole buffer. Coresight drivers currently use
+a monotonic head pointer even in snapshot mode, which gives a lot more
+information for taking snapshots than a wrapped pointer. It means we
+don't need to search for data at the end of the buffer to guess if a
+wrap has occurred, and we can go back to saving partial buffers after a
+wrap by checking if the next size to take is less than the buffer
+size.
 
-Convert i and named_threads_work to be unsigned to avoid undefined
-signed overflow behavior in infinite loop mode.
+The drivers will always be able to generate a monotonic head because
+TRBE has a bytes written counter, so even if we stop generating an AUX
+record on every overflow, we can check if the counter indicated an
+overwrite and offset head by a whole buffer size if it wrapped. This
+forces userspace to read the whole buffer rather than between last and
+current head. ETR and other sinks use software double buffering, so can
+continue as they are.
+
+Add a much simpler 'monotonic_snapshot_head' path for tracers to use,
+and use it for Coresight.
 
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/Documentation/perf-test.txt     | 2 +-
- tools/perf/tests/workloads/named_threads.c | 7 ++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ tools/perf/arch/arm/util/cs-etm.c                  |  1 +
+ .../perf/tests/shell/coresight/raw_dump_stress.sh  |  5 -----
+ tools/perf/util/auxtrace.c                         | 22 ++++++++++++++++------
+ tools/perf/util/auxtrace.h                         |  2 ++
+ 4 files changed, 19 insertions(+), 11 deletions(-)
 
-diff --git a/tools/perf/Documentation/perf-test.txt b/tools/perf/Documentation/perf-test.txt
-index 859df74e62ef..dca8972fec8d 100644
---- a/tools/perf/Documentation/perf-test.txt
-+++ b/tools/perf/Documentation/perf-test.txt
-@@ -68,7 +68,7 @@ OPTIONS
- 		nrloops: brstack, context_switch_loop
- 
- 	'named_threads' accepts the number of threads and the number of loops to
--	do in each thread.
-+	do in each thread. Use 0 for an infinite loop.
- 
- 	The datasym, landlock, deterministic and callchain workloads don't accept
- 	any.
-diff --git a/tools/perf/tests/workloads/named_threads.c b/tools/perf/tests/workloads/named_threads.c
-index d051d41a3cfe..6672c2f77684 100644
---- a/tools/perf/tests/workloads/named_threads.c
-+++ b/tools/perf/tests/workloads/named_threads.c
-@@ -11,7 +11,7 @@
- #define MAX_THREADS 25
- 
- static int iterations = 500;
--int named_threads_work = 1234;
-+unsigned int named_threads_work = 1234;
- 
- typedef void *(*thread_fn_t)(void *);
- 
-@@ -19,7 +19,8 @@ typedef void *(*thread_fn_t)(void *);
- noinline void *named_threads_thread##n(void *arg __maybe_unused)	\
- {									\
- 	pthread_setname_np(pthread_self(), "thread" #n);		\
--	for (int i = 0; i < iterations; i++)				\
-+	for (unsigned int i = 0;					\
-+	     i < (unsigned int) iterations || iterations == 0; i++)	\
- 		named_threads_work += 3;				\
- 									\
- 	return NULL;							\
-@@ -65,7 +66,7 @@ static thread_fn_t thread_fns[MAX_THREADS] = {
- 
- /*
-  * Creates argv[0] threads that run a unique function named "thread[x]" which performs
-- * a multiplication in a loop for argv[1] loops.
-+ * a multiplication in a loop for argv[1] loops (use 0 for infinite loop).
-  */
- static int named_threads(int argc, const char **argv)
+diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
+index d36b7e41399b..dbf76dd3349e 100644
+--- a/tools/perf/arch/arm/util/cs-etm.c
++++ b/tools/perf/arch/arm/util/cs-etm.c
+@@ -918,6 +918,7 @@ struct auxtrace_record *cs_etm_record_init(int *err)
+ 	ptr->itr.info_fill		= cs_etm_info_fill;
+ 	ptr->itr.snapshot_start		= cs_etm_snapshot_start;
+ 	ptr->itr.snapshot_finish	= cs_etm_snapshot_finish;
++	ptr->itr.monotonic_snapshot_head = true;
+ 	ptr->itr.reference		= cs_etm_reference;
+ 	ptr->itr.free			= cs_etm_recording_free;
+ 	ptr->itr.read_finish		= auxtrace_record__read_finish;
+diff --git a/tools/perf/tests/shell/coresight/raw_dump_stress.sh b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
+index bea70d825596..c9459ded4cbe 100755
+--- a/tools/perf/tests/shell/coresight/raw_dump_stress.sh
++++ b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
+@@ -48,11 +48,6 @@ read -r size offset last_idx <<< "$(awk '
+ # everything was dumped. Allow 48 bytes difference to cover 3 frames: current
+ # frame length, a partial frame and a final empty one, all of which aren't
+ # dumped.
+-#
+-# TODO: for a single snapshot, offset should always be zero. However, we
+-# currently output AUX records in snapshot mode when we shouldn't, which
+-# increments the offset. Allow for that until it's fixed so we can test raw
+-# dumping.
+ decode_size=$((1 + last_idx - offset))
+ if [ "$decode_size" -gt "$((size - 48))" ] && [ "$decode_size" -le "$((size))" ]; then
+ 	echo "PASS: AUXTRACE buffer length matches dumped packet index"
+diff --git a/tools/perf/util/auxtrace.c b/tools/perf/util/auxtrace.c
+index 8ca872e6d465..e3c770b46e94 100644
+--- a/tools/perf/util/auxtrace.c
++++ b/tools/perf/util/auxtrace.c
+@@ -2051,9 +2051,9 @@ static int __auxtrace_mmap__read(struct mmap *map,
+ 				 bool snapshot, size_t snapshot_size)
  {
+ 	struct auxtrace_mmap *mm = &map->auxtrace_mmap;
+-	u64 head, old = mm->prev, offset, ref;
++	u64 head, old = mm->prev, offset, ref, size;
+ 	unsigned char *data = mm->base;
+-	size_t size, head_off, old_off, len1, len2, padding;
++	size_t head_off, old_off, len1, len2, padding;
+ 	union perf_event ev;
+ 	void *data1, *data2;
+ 	int kernel_is_64_bit = perf_env__kernel_is_64_bit(env);
+@@ -2061,10 +2061,20 @@ static int __auxtrace_mmap__read(struct mmap *map,
+ 
+ 	head = auxtrace_mmap__read_head(mm, kernel_is_64_bit);
+ 
+-	if (snapshot && itr->snapshot_has_wrapped) {
+-		err = auxtrace_find_snapshot(itr, mm->idx, mm, data, &head, &old);
+-		if (err)
+-			return err;
++	if (snapshot) {
++		if (itr->snapshot_has_wrapped) {
++			err = auxtrace_find_snapshot(itr, mm->idx, mm, data, &head, &old);
++			if (err)
++				return err;
++		} else if (itr->monotonic_snapshot_head) {
++			size = head - old;
++			/* Force a full buffer read if a wrap has occurred */
++			if (size > mm->len) {
++				pr_debug3("%s: wrap detected, adjusting old from 0x%"PRIx64" to 0x%"PRIx64"\n",
++					  __func__, old, head - mm->len);
++				old = head - mm->len;
++			}
++		}
+ 	}
+ 
+ 	if (old == head)
+diff --git a/tools/perf/util/auxtrace.h b/tools/perf/util/auxtrace.h
+index a9d0c84184c5..971b817d3396 100644
+--- a/tools/perf/util/auxtrace.h
++++ b/tools/perf/util/auxtrace.h
+@@ -385,6 +385,7 @@ struct auxtrace_mmap_params {
+  * @evlist: selected events list
+  * @snapshot_wrapped_len: number of bits in @snapshot_wrapped
+  * @snapshot_wrapped: bitmap indicating if each aux buffer has wrapped
++ * @monotonic_snapshot_head: driver doesn't wrap head pointer on overflow
+  */
+ struct auxtrace_record {
+ 	int (*recording_options)(struct auxtrace_record *itr,
+@@ -412,6 +413,7 @@ struct auxtrace_record {
+ 	int snapshot_wrapped_len;
+ 	unsigned long *snapshot_wrapped;
+ 	int snapshot_search_bytes;
++	bool monotonic_snapshot_head;
+ };
+ 
+ /**
 
 -- 
 2.43.0
