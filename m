@@ -1,131 +1,118 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01DE440636;
-	Fri, 21 Aug 2026 12:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFB22D838E
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 12:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787314685; cv=none; b=ewT0APvrTGFzCNGa7jNevvZssygFy0PWkY76iMak6gt28O8lhMn2Ss0ZjhwRy8I4ueySv8rDC287aZWaOE8kOloQ26QM+bvE/R/K01W45Zf5Uh89xMQE1EihuM2/ElPgwl2ZG5lMCYQw8zlUX4buzty+omyVmy3D79qhBdhh2k4=
+	t=1787315412; cv=none; b=HWSCRFiJM1pXyLGlJyoCqT3i0ucu+HYVeTD0mK/lYg1lT2L/FLh4U/wBuerdV9+tDCL/Fi/I83Ijguqvt4evSxN4kP7mCIPpQssM1D7K2PoGdpnwGNdMrNF/Xdpqw1CK7HmL8ePTNvBLTeLG71dYMuNx95xlXhj3lobESXU2FLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787314685; c=relaxed/simple;
-	bh=j91qUGXSoVoVK5oTg4J+tPd8tWH7B5Ly7ci/7Il6c1s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VFlAoU4Z2McxmyiwGCjouVr+iVAepe8s4Bv61e+euZNNgL6jlRsfXKFCwlq7rT9ISH3fFLWmLxp60Ukvewr1RFFgDMmiXp40MbsgWxVvPgdOaaS16M0PudIV8faqgcIBMF5sLz/hM3LQs0M6ax7isUWexztpKD/4aohVwFvQDZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrABXfaLFQYhqCI2qAw--.15510S2;
-	Fri, 21 Aug 2026 20:17:09 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wC3sKPCQYhqnLECAA--.4439S2;
-	Fri, 21 Aug 2026 20:17:08 +0800 (CST)
-Message-ID: <0e437b53-5a44-406f-a482-518a6c09f7e2@hust.edu.cn>
-Date: Fri, 21 Aug 2026 20:17:06 +0800
+	s=arc-20240116; t=1787315412; c=relaxed/simple;
+	bh=f6YWX4JaKHfoxBtRZia+JZbw071klqQdJimBMOZqknM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=crmrigAbsI9FjEWQmKsnqQxL7ph2YGMrNvU/owv3e3XUcLSx5jFbRGPKNEBOPW8j33u0foVB1xIFeWemqLh6tA++O4FkXKPfI6pJKZcFQwWxlTWntqZyFndIuY1dNkNhAfdfDDUONgPOHOH6z4+L95bu8l5iaiDy0cmBYnZQ42U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LPTJWPAK; arc=none smtp.client-ip=209.85.210.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LPTJWPAK"
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-84870e7f498so941816b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 05:30:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787315410; x=1787920210; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=C0TDZ3//ZKM374BdreK4yr9CabYhqfPGunU2baHmMPE=;
+        b=LPTJWPAKkvLWrMreDySEm3inMdKsS3pcHQH8aHNFS9JsrDYzcTdGw+23vixaCau+l0
+         YDqng1awjS+UwuhQkZ6Q6P2vHzZ3pW6OmNXcbqKnnIIYL0SgF3PmF423YiA7R4oaMvIE
+         BFI7cGLKqcQBapjmQgj2HXU1WK2xMwGK3uxn6VER8Ef7tEsrraP/Nb9YsGkGUGBW5cjF
+         6zPX8THNYgfjQMsH8401adc11mJUZHnxbr8YEa+AchdbtgGyXpRYLvIFRYOm5AwEsziX
+         4QCGvaZHuIZXNwd8syCIYlc7+J+kwUkX4OQlh4txDJyBwRvIY1mLUOqZiOEOVgtv6J2L
+         0wVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787315410; x=1787920210;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=C0TDZ3//ZKM374BdreK4yr9CabYhqfPGunU2baHmMPE=;
+        b=MaDyrgA/qlDWJtcyWzNzI6rWhZfbZ2lwBUGL3jM2VtqX7zFinUWlG/JTHHPj+hFDpI
+         60qcf2QSsn0THKhHXnm49qV8xUXxFB841P5KeElA3UcjLg8Xzhc7aYYSTg0l48/TlfoB
+         k2D7E/lKuQr0vXy4UxjXsicM6YMLMKPgyVeA8M3powDO+sHCh/ciE93OKZMdGg8AoRuC
+         Fg3kdWKazcp54zeH8oLrfF/5ydX4mJbU/6sEHeOJtDMPZUVp3y0pdk/FFPYaQG7hzUu0
+         6cibplXC5wK0HWSfPfksXg/lsOEzA4Q6nDNA5zSmVC0+eRuETtNkOu9AdX/fg3oG5GZy
+         K7bg==
+X-Forwarded-Encrypted: i=1; AHgh+RoYW39jvN+AMGMZph3xrYZhOZS81PN7NpV9PRAyVKsvvDUvxtZCGZIa8oFfXBwS5I1QeXQTDhjD9qY=@vger.kernel.org
+X-Gm-Message-State: AFuF++n1TtmolMKIXgS6xfrpVY8OCuWeflaKra2w7NMMlSJ0of8HirB8
+	r/sFsa7kQjQrmn/PSEyI2D6fZ44B5Xo2xFuwWhhdZCuy/oKm4aZLDAkq1hceGgjhx2+1N7bZ/89
+	+eoc8xg==
+X-Received: from pgly12.prod.google.com ([2002:a63:180c:0:b0:cb5:f989:9b3e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:ab03:b0:847:8acd:747c
+ with SMTP id d2e1a72fcca58-851fa01e93fmr11460030b3a.13.1787315408882; Fri, 21
+ Aug 2026 05:30:08 -0700 (PDT)
+Date: Fri, 21 Aug 2026 05:30:07 -0700
+In-Reply-To: <fe1c6359-7371-4ccd-9807-1d81c160d12b@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Update maintainer-pgp-guide.rst Chinese translation
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260821-maintainer-pgp-guide-v1-0-08e5e3602c04@wyuan.org>
- <5b107aad-2826-4bf6-97aa-14592131b6a8@hust.edu.cn>
- <aof8rCuuwzHUNtka@wyuan.org>
- <7232a999-0bb8-45fa-8d33-a11efc661012@hust.edu.cn>
- <aog87UzDIz20XzU_@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <aog87UzDIz20XzU_@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrABXfaLFQYhqCI2qAw--.15510S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxXr4UGw4kZr4kKryfCFy5XFb_yoW5XFyxpa
-	93Ka4DtFsYyasIya97Za1fAryjyw1fG3y7WF98Xr1rZan8u3Z3KF1ftF4Y9Fy3Wws5Kw4U
-	Xr4UtFyFkwn8Za7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07bIiiDUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Mime-Version: 1.0
+References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
+ <20260807-gmem-inplace-conversion-v10-40-2fc18ee6d3ba@google.com> <fe1c6359-7371-4ccd-9807-1d81c160d12b@intel.com>
+Message-ID: <aohEz_1JFVDtlSnE@google.com>
+Subject: Re: [PATCH v10 40/41] KVM: selftests: Update private_mem_conversions_test
+ to mmap() guest_memfd
+From: Sean Christopherson <seanjc@google.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
+On Fri, Aug 21, 2026, Xiaoyao Li wrote:
+> On 8/8/2026 5:53 AM, Ackerley Tng via B4 Relay wrote:
+> > From: Ackerley Tng<ackerleytng@google.com>
+> > 
+> > Update the private memory conversions selftest to also test conversions
+> > that are done "in-place" via per-guest_memfd memory attributes. In-place
+> > conversions require the host to be able to mmap() the guest_memfd so that
+> > the host and guest can share the same backing physical memory.
+> > 
+> > This includes several updates, that are conditioned on the system
+> > supporting per-guest_memfd attributes (kvm_has_gmem_attributes):
+> > 
+> > 1. Set up guest_memfd requesting MMAP and INIT_SHARED.
+> 
+> If I understand correctly, even with in-place gmem, the model that shared
+> memory comes from the userspace_addr and private memory comes from gmem can
+> still work without passing GUEST_MEMFD_FLAG_MMAP flag.
+> 
+> Since this model is not prohibited by KVM. I think we should keep the
+> testcase for this model to ensure test coverage?
 
-On 8/21/26 7:56 PM, Weijie Yuan wrote:
-> On Fri, Aug 21, 2026 at 07:18:56PM +0800, Dongliang Mu wrote:
->>> [...]
->>> Thanks for emphasizing this. While I do remember I used "make cleandocs
->>> && make htmldocs", and checked among those long lines of red warning
->>> output to find anything caused by my commit, I indeed didn't notice this
->>> warning appearing at the early stage of the compilation.
->>>
->>> It seems that I need to have my eyes checked soon. ;-)
->>>
->>> Apologize for my recklessness.
->>>
->>> Even so, do we have any way to distinguish these long-standing warnings
->>> from the new warnings that appear during compilation? In fact, every
->>> time I was worried that I might not have noticed the newly appeared
->>> warning. Unfortunately, this time it really happened. (For example,
->>> setting a new color? for new warnings?) Do you have a better idea or
->>> tips for this?
->> My suggestion is to keep the log in each file, and you can easily observe
->> the diff. Otherwise, even I can ignore some warnings.
-> Ah, makes sense! I was actually wondering earlier why we need to put
-> this log in the directory instead of just keeping it in the CLI.
->
-> (I definitely won´t admit that the log file annoyed me a few times
-> because I accidentally included it with 'git add .' and then had to 'git
-> commit --amend' right after) ;-)
-My experience is to not use 'git add .'. In Linux, hidden files are not 
-listed by default.
-> Very useful, thanks!
->
->> And many contributors are coming together to fix those warnings. If they are
->> done, all new warnings are easily captured. Let us do more contribution to
->> help this.
-> Yeah, eliminating these warnings at their root is the straightforward
-> solution.
->
-> And that's exactly what Jon expects:
->
-> Kernel Recipes 2019 - Kernel documentation: past, present, and future
-> #Build warnings
->
-> https://youtu.be/1LuAIUKqKDk?t=876&si=XgHhHtukyjyDdtzF
->
-> It'd certainly be worth spending some time with folks from those
-> subsystems to get these warnings fixed once and for all.
-Yes, you are right. Eliminating these warnings need collaboration from 
-other subsystems.
->
->>> Btw I've been trying to know more about Sphinx and kernel-docs, hope my
->>> mistake won't happen again.
->> That change can fix problem. The underlying problem is RST syntax. Maybe you
->> can have a look at this or query it in the LLM.
-> Absolutely. I did have relatively little experience writing rst before.
-> But that's definitely no excuse - I'll try to pick it up quickly.
-
-LLM is really useful to capture some syntax and semantics issues. 
-Therefore, before submitting patch, use LLM to scan problem in this 
-issue. I am writing a draft skill for reviewing patches of kernel 
-Chinese documentation.
-
-Dongliang Mu
-
->
-> Thanks!
-
++1.  Deprecated doesn't mean unsupported.
