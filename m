@@ -1,86 +1,86 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAF63E0093
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4023E0097
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787338691; cv=none; b=oTgAGNnT2Ya8iEXDlYUVCgb/rFnFgeCRHoXpKSkgJmeonN7tEWcFzmQEdHHsjrui0nh7YvvJ+B+35YTnKzDtmUtXshp/lOaS6US0WaIS3dScWU9IyKQeC8byFoXiHPT4RO889ka5GjtkSY82SwI8tkOPnR2XfqSGY18O0UHba+s=
+	t=1787338693; cv=none; b=kVMepj+9E05Bk4xMeUBQig9XJWW4eVyelv0+gR8ZdiwlIc2imZDwZf7h72yDrzCjAdGrPHi8Eevq2kv1imSiVPPiP41hesnGUx1sb0TmpQOq2FBDThiQfdhGqWZdKvyodOuhGFrKlPXwKnrZXAeiuRc6ZrOMO5uisAbOX/jzGno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787338691; c=relaxed/simple;
-	bh=zxisU4FNxtIBooALKv+M4gVONpDA/GuCc0no7zuCciA=;
+	s=arc-20240116; t=1787338693; c=relaxed/simple;
+	bh=zgVqh1WXqUuA20jAM25nJa6XotPJcX0sGqZSpoFydf4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nKpx2GyRPLNDAeN+UPown9XPMMesE2ZmePwrZACFalH09/TfKMOgWZhWcTEQIAnd0y1ZfiyVIZ2wYcd4JWkXhCoUFT3CIUckq/ZtyXbEj/QSpKnnLRQiVDUf0yR+EAY46pYO2+kDsiDb0/mbYrsOr8yyywvjjJiq/jYTAo+AEVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RDrIJfuH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=YWd4OfEe; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=OdWsQdbP/6U+zWCz0diGMowfo98CvBZ9mEm8BAT4F+GxEZzH6OjzMOspSluwYALu1SrnmfTNhFaxQXslUggQBtQ8jOHuVgeWYfZk4CAsvTZTErQTKjiRGcAOVWy4HxAMloi2sLjhqQZPdZeEWdoUCKwgSoLAp3tOXUADWU9kuh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PqhBP+ik; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=tzdgfYjb; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RDrIJfuH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="YWd4OfEe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PqhBP+ik";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="tzdgfYjb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787338688;
+	s=mimecast20190719; t=1787338689;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=222y2tNP5AAzgrcKEwSA0V5PiUFlYG+znMLqhuMeRAg=;
-	b=RDrIJfuH6kZBEW9Qz/xlBWQoLUTetpsQUMAcTfAZZKGjq99KftntIeNDCIeuhwLLMlOmbD
-	ITiGg4MTowP/cTid+9jJbGJPXpnh5MNG7T77EsbJdMaUI/6c/aOzlLgBAH2vBOZSaWNf1q
-	Z/jmLahAoSauo90hDx5MJTiGaf+nzgw=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=L4q5Fof+ukHytC/x5b+k7VwkCJq156UwS0JZy64G2so=;
+	b=PqhBP+ikIrrTQS0JVJq1Y6vgO7gRrb2y9oYQT5r+0bbcXc5DegVJV1B/caultPkVhKKuZ1
+	MP6J278hP/lxXXuCrdV2o+2c+qwMzvmvgxziw5FnXbAC/BzhQRvgNYWQE8iZeJ4p/eNW08
+	LpHsnIq0Hjh7e5GUZsUpujQf2haWyJA=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-duUgqAy7M6OAVwQ2IfIPGQ-1; Fri, 21 Aug 2026 14:58:02 -0400
-X-MC-Unique: duUgqAy7M6OAVwQ2IfIPGQ-1
-X-Mimecast-MFC-AGG-ID: duUgqAy7M6OAVwQ2IfIPGQ_1787338681
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-52d33c89a29so17261171cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:01 -0700 (PDT)
+ us-mta-589-eUSU_0ErPLCe5mORtYkoRA-1; Fri, 21 Aug 2026 14:58:03 -0400
+X-MC-Unique: eUSU_0ErPLCe5mORtYkoRA-1
+X-Mimecast-MFC-AGG-ID: eUSU_0ErPLCe5mORtYkoRA_1787338683
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-8eec6acbe21so24597296d6.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787338681; x=1787943481; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1787338683; x=1787943483; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=222y2tNP5AAzgrcKEwSA0V5PiUFlYG+znMLqhuMeRAg=;
-        b=YWd4OfEeu6DEZ3X8HYB0axvQq3Xz0OnHTE4SBqrbDCWVB8PG3KwCOr9xOSvnLIo3vQ
-         RecDosVmA3Vco23tt1uOpOgSxT2vwHKY5tP++MBli5ayVVbL8w4qOb4f23t9eknnUF83
-         UgqeFp2+c8zfCX84O9EIYsBLi4YNm7FFPLtNTeUPS9SqJaT6OBUX+l32Wz1gWXUY+04k
-         Y1WRgESBtM0AO0u9MWdzDraZjsBBF4MFqewCgz1jQr+ef1bvTMu/vHqZZPyIUZmqSVVn
-         h4opxBIzOXEF2VRUlsJUm9dQULbiBdRuCQlnMFKvYOUUvOdr9Ja8ec2EOz6y/2w9r61q
-         +njw==
+        bh=L4q5Fof+ukHytC/x5b+k7VwkCJq156UwS0JZy64G2so=;
+        b=tzdgfYjbAUY8qm+VIUUKGKNeyzdEbEc2UhIMmLLoTvz2vCIhJHpwaVJ5/gUzWohwBU
+         Nx5nYHNYA+C3itREbqlH/Tw+3wmh9/X7FK24J7fCOD6pSqPerrsonnAoiiAYfJgSyJuz
+         98xk0wZVEAOLAwaUUtn3O/jVkl2kAN11X7Ukkv8DngbNYkQ3kVaR/VA991HfI0+dyW3Q
+         FwflzqUc/5RjJZzoKICax97wC0kEPOPfGouuOjBqamEBMAM7fZTfeSrARZfZzYW8CNih
+         f52Oj7hVV17apmoYLTSy07/nCf3AQUfx2noKZYC26H1GlJrdoZsAUrN8DK+WPIuIFaw3
+         2PYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787338681; x=1787943481;
+        d=1e100.net; s=20251104; t=1787338683; x=1787943483;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=222y2tNP5AAzgrcKEwSA0V5PiUFlYG+znMLqhuMeRAg=;
-        b=rIEtGPvQIP+DXrpsWWOhSnDkKXSve+OQ9+VeR1HSVEL99KUdKJm+8dxC9SEUjUhZb9
-         oRqOEDP3CThsFjZFFFREyFBcYap0nChGZgjibD8ZQzdUN1+C7b5uttGQ50SOAM5Vfy+N
-         yoHKgJ1sCG6PYxt3VezepP2Szu8MNiQLfGAEOc5qBL++w+f+HrfFAuelEefE5dM/Z3lY
-         L0evHjO6xIIJO2GAfob+cfjbldkIskR5408Plynl8V1TlUcgb6a47D8Hz+mabaANY/Lm
-         5NKRuZGT57apppwEQI5UD/eqVooaaLoRxkryWcunnm2GcUrpN3MWrUOEfrbusetpEzWb
-         TN0g==
-X-Forwarded-Encrypted: i=1; AHgh+RoRpCJFcZIPOeP4qAe+lEGZFfNOqkUKNo2bmllctwaiadFrwXt14V0a88IG9eOSldjQWHJ/E3ZztK4=@vger.kernel.org
-X-Gm-Message-State: AFuF++kn6a0RnxHoyJLkwQsGjcyz5FPBOKSlUkB+X3FjX5zijQHZqv6v
-	nOg4VANp/RBSBEJr6NM9jprWh/pFclgD3/fZnkF1iCMRNVY98X+o/y7gGW04CFiyQr8Pb4m+xxf
-	6bGNxs8jdVnVQOqKCbbUMBopcACiSce4kizhytdGM5+0OvFMAeuPVMVr71vL68w==
-X-Gm-Gg: AR+sD137hf/3Aup3GegeCK01KoaTBNoz8f1ebOO9/+GeKUvE/4SbBBR8ighFfYOJqp3
-	UgYAWdQHddLT7HYfb19To9IezFhNV4/28ph1CnUr+bOKkUGosoTV/yZ0Dnby4eqrdFgwezNexAC
-	v6tZ2KIuTFGps0Cfe1n1fS+nJs/SNXG7FnL8aeMYWAiyC5Se17HciNQgSoRcL82QIzT8MTK2H/q
-	oBL27wXI1zcUMkiz9fJ71f0CMw8fIgeqrsBB9XCITAcoYTMcufY732tkTK8YoakupD6jvIkmU0O
-	rrwXwD16HgrVVg4JK3Pa1sVMIA29OAz/Nb68sIbOnwGTedIn2vLVXN8Fe0UAlh09hBB3//RvU9w
-	swo2orJtBonMsFHiifgAEw1Q1B3ASGfgzS0ku3O9sTu/o
-X-Received: by 2002:a05:622a:4d8d:b0:527:7813:a439 with SMTP id d75a77b69052e-52df5a09808mr94676161cf.27.1787338681280;
-        Fri, 21 Aug 2026 11:58:01 -0700 (PDT)
-X-Received: by 2002:a05:622a:4d8d:b0:527:7813:a439 with SMTP id d75a77b69052e-52df5a09808mr94675291cf.27.1787338680742;
-        Fri, 21 Aug 2026 11:58:00 -0700 (PDT)
+        bh=L4q5Fof+ukHytC/x5b+k7VwkCJq156UwS0JZy64G2so=;
+        b=JxD0Io6T6r6WcJK+P71EclFr9woXQjaLYzqEUQAOsS1XsbCnW0iUUx2myWxNUtSGGq
+         bKKZIiqM3alPzz1+qd+C6M8zuy0KMyHNbnZPAkI32Etk+SVoEuNuAP/lYUHwNTSeMGgY
+         vnZy4s9jURDT4QiQPUL087O5k+xsqNIWPFKYwmckeZv2QemScPWoBLgaoF+FEVvbDy3R
+         tnj0mnunTKgPSXHQpF5EF48Lk18DOG0WhAGYnwNIUrz2qEo2JaZnBI/dEtjgMFTfyuNu
+         Fg/dr0upYzVy04GUi15xZuCxMc3ey2wISgv2itT/BodgPTMIauv2gLgnXo9ScbO6YNx1
+         VzSQ==
+X-Forwarded-Encrypted: i=1; AHgh+RruaxO45o39Bkk1uYOeN+Bpf7KZ60vJCDl9uh8ZgzJMkzXIX0Lp3N9hP5cwcWXh9E4yWf3q8HLiIQ0=@vger.kernel.org
+X-Gm-Message-State: AFuF++nCVj+462R1f5bjM1oOdI6iK9BtTVdOpU6N/i7iMlSETEs8EBRV
+	BbUPnpvkjf/DWngi9rzAABCvGBzaHR32FPgcenS14Cl4i/VnrpuRiPtiGBCulwiKUTv9f2C5ZqF
+	mcw3QcA0ZDaxJNSxgQ5UkNQQbW6wSJCDoqywbEhNXmje6df64XNpSLWBq5ZFN6w==
+X-Gm-Gg: AR+sD112AfPkD5S8vaXtNai/IX94aOLo1RArExcxs5D1FGk+OgX7Ja5pACV7tLjwgHc
+	s40l3ynmDr8at9zAaC98AmGoy0lorHFsVsnI4cViObwurr8eyLbhDh3WHlcaE/SAkuPMixa+9n/
+	V6MjbMjFlzakkUJAmWRyXYrfE58WUe/cmX23FImdGTs+ehWkNS0HCShtgimLd5WVJqBvoMo6eW7
+	wb489sK7uje3R9LP8sntCpdnw1nM3x/lTL90MX1sRvZDhFT/LfWy20roXKBVCqBR4aJD6G89Zxu
+	0e2XA36k0JGmDPUYIP6XQ4Vj73F+NWlqkxp3BKubsNtZaaUqrKCGXjtl0ojR67aZbIs8ROgCUCm
+	WgEQAxOgb7cxxgkjSvNM6nULgyFf7xrvnY9A3zts5GkWN
+X-Received: by 2002:ad4:5d67:0:b0:8f7:43f4:fe8d with SMTP id 6a1803df08f44-90c8fa5ed5emr5634386d6.29.1787338683104;
+        Fri, 21 Aug 2026 11:58:03 -0700 (PDT)
+X-Received: by 2002:ad4:5d67:0:b0:8f7:43f4:fe8d with SMTP id 6a1803df08f44-90c8fa5ed5emr5633776d6.29.1787338682532;
+        Fri, 21 Aug 2026 11:58:02 -0700 (PDT)
 Received: from localhost (pool-100-17-17-231.bstnma.fios.verizon.net. [100.17.17.231])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c5f2b5ccesm69150516d6.46.2026.08.21.11.57.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c5f2b4ad5sm69468316d6.42.2026.08.21.11.58.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 11:57:57 -0700 (PDT)
+        Fri, 21 Aug 2026 11:58:01 -0700 (PDT)
 From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 21 Aug 2026 14:56:56 -0400
-Subject: [PATCH 04/11] memcg: add cma charge/uncharge functions for area
+Date: Fri, 21 Aug 2026 14:56:57 -0400
+Subject: [PATCH 05/11] mm/cma: charge cma allocation to memcg per area
  counters
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-cma-memcg-regions-v1-4-d21b165b8440@redhat.com>
+Message-Id: <20260821-cma-memcg-regions-v1-5-d21b165b8440@redhat.com>
 References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 In-Reply-To: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -110,261 +110,43 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Albert Esteve <aesteve@redhat.com>, Eric Chanudet <echanude@redhat.com>
 X-Mailer: b4 0.14.3
 
-Introduce mem_cgroup_charge_cma() and mem_cgroup_uncharge_cma() to
-account CMA allocations under memcg when memory_cma_accounting is
-enabled in cgroupfs.
+Hook mem_cgroup_charge_cma() and mem_cgroup_uncharge_cma() into the CMA
+alloc/release paths.
 
-memcg counters to account for allocation in each CMA area are kcalloc'd
-in mem_cgroup_alloc() and added to the page-counter hierarchy in
-mem_cgroup_css_alloc(). cma_area_count is used to size the array. It is
-calculated during setup_arch(), before mem_cgroup_alloc() is called
-(for the first time in cgroup_init()).
-
-On cma_alloc(), pages are charged both to the cgroup's memory controller
-(with try_charge_memcg()) and to the per area page counter for the CMA
-region used.
-
-CMA ranges can be either pages with a 0-order folio (cma_alloc_frozen,
-!__GFP_COMP) or pages under a large folio (cma_alloc_frozen_compound,
-__GFP_COMP). In the first case, mark each page's folio with the cgroup's
-obj_cgroup. In the second case, only mark the large folio from the first
-page.
-
-On cma_release(), get the first page's folio and uncharge both counters
-accordingly if it is a large folio or not.
-
-A small cma_area_index() helper is introduced to succinctly get the
-counter of a given CMA region in the memcg CMA area counters array.
+In __cma_alloc_frozen(), charge the pages to the current task's cgroup
+if the allocation succeeds. Should charging fail (e.g, reaches a limit),
+release the pages. Uncharge in __cma_release_frozen().
 
 Signed-off-by: Eric Chanudet <echanude@redhat.com>
 ---
- include/linux/memcontrol.h |  19 ++++++++
- mm/cma.h                   |   5 ++
- mm/memcontrol.c            | 116 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 140 insertions(+)
+ mm/cma.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 8170bb8066a2..801fbde94137 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -320,6 +320,10 @@ struct mem_cgroup {
- 	spinlock_t event_list_lock;
- #endif /* CONFIG_MEMCG_V1 */
+diff --git a/mm/cma.c b/mm/cma.c
+index 03f98f6d45a5..03eb3acbd3c7 100644
+--- a/mm/cma.c
++++ b/mm/cma.c
+@@ -904,6 +904,12 @@ static struct page *__cma_alloc_frozen(struct cma *cma,
+ 		cma_debug_show_areas(cma);
+ 	}
  
-+#ifdef CONFIG_CMA
-+	struct page_counter *cma_counters;
-+#endif /* CONFIG_CMA */
-+
- 	struct mem_cgroup_per_node *nodeinfo[];
- };
- 
-@@ -662,6 +666,11 @@ int mem_cgroup_charge_hugetlb(struct folio* folio, gfp_t gfp);
- int mem_cgroup_swapin_charge_folio(struct folio *folio, unsigned short id,
- 				   struct mm_struct *mm, gfp_t gfp);
- 
-+int mem_cgroup_charge_cma(struct page *page, unsigned long count,
-+			  struct cma *cma);
-+void mem_cgroup_uncharge_cma(struct page *page, unsigned long count,
-+			     struct cma *cma);
-+
- void __mem_cgroup_uncharge(struct folio *folio);
- 
- /**
-@@ -1160,6 +1169,16 @@ static inline int mem_cgroup_swapin_charge_folio(struct folio *folio,
- 	return 0;
- }
- 
-+static inline int mem_cgroup_charge_cma(struct page *page, unsigned long count,
-+					struct cma *cma)
-+{
-+	return 0;
-+}
-+static inline void mem_cgroup_uncharge_cma(struct page *page,
-+					   unsigned long count, struct cma *cma)
-+{
-+}
-+
- static inline void mem_cgroup_uncharge(struct folio *folio)
- {
- }
-diff --git a/mm/cma.h b/mm/cma.h
-index 0c9de38d6bff..52b7d4be5170 100644
---- a/mm/cma.h
-+++ b/mm/cma.h
-@@ -81,6 +81,11 @@ static inline unsigned long cma_bitmap_maxno(struct cma *cma,
- 	return cmr->count >> cma->order_per_bit;
- }
- 
-+static inline int cma_area_index(const struct cma *cma)
-+{
-+	return cma - cma_areas;
-+}
-+
- #ifdef CONFIG_CMA_SYSFS
- void cma_sysfs_account_success_pages(struct cma *cma, unsigned long nr_pages);
- void cma_sysfs_account_fail_pages(struct cma *cma, unsigned long nr_pages);
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 6dc4888a90f3..8eca00d30fc5 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -68,6 +68,7 @@
- #include <net/ip.h>
- #include "slab.h"
- #include "memcontrol-v1.h"
-+#include "cma.h"
- 
- #include <linux/uaccess.h>
- 
-@@ -4062,6 +4063,9 @@ static void __mem_cgroup_free(struct mem_cgroup *memcg)
- {
- 	int node;
- 
-+#ifdef CONFIG_CMA
-+	kfree(memcg->cma_counters);
-+#endif
- 	for_each_node(node) {
- 		struct mem_cgroup_per_node *pn = memcg->nodeinfo[node];
- 		if (!pn)
-@@ -4144,6 +4148,15 @@ static struct mem_cgroup *mem_cgroup_alloc(struct mem_cgroup *parent)
- 	for (i = 0; i < MEMCG_CGWB_FRN_CNT; i++)
- 		memcg->cgwb_frn[i].done =
- 			__WB_COMPLETION_INIT(&memcg_cgwb_frn_waitq);
-+#endif
-+#ifdef CONFIG_CMA
-+	if (cma_area_count) {
-+		memcg->cma_counters = kcalloc(cma_area_count,
-+					      sizeof(struct page_counter),
-+					      GFP_KERNEL);
-+		if (!memcg->cma_counters)
-+			goto fail;
-+	}
- #endif
- 	lru_gen_init_memcg(memcg);
- 	return memcg;
-@@ -4159,6 +4172,7 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
- 	struct mem_cgroup *parent = mem_cgroup_from_css(parent_css);
- 	struct mem_cgroup *memcg, *old_memcg;
- 	bool memcg_on_dfl = cgroup_subsys_on_dfl(memory_cgrp_subsys);
-+	unsigned int __maybe_unused i;
- 
- 	old_memcg = set_active_memcg(parent);
- 	memcg = mem_cgroup_alloc(parent);
-@@ -4171,6 +4185,12 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
- #ifdef CONFIG_ZSWAP
- 	memcg->zswap_max = PAGE_COUNTER_MAX;
- 	WRITE_ONCE(memcg->zswap_writeback, true);
-+#endif
-+#ifdef CONFIG_CMA
-+	for (i = 0; i < cma_area_count; ++i)
-+		page_counter_init(&memcg->cma_counters[i],
-+				  parent ? &parent->cma_counters[i] : NULL,
-+				  false);
- #endif
- 	page_counter_set_high(&memcg->swap, PAGE_COUNTER_MAX);
- 	if (parent) {
-@@ -5213,6 +5233,102 @@ int mem_cgroup_swapin_charge_folio(struct folio *folio, unsigned short id,
- 	return ret;
- }
- 
-+#ifdef CONFIG_CMA
-+static bool memcg_accounts_cma(void)
-+{
-+	return cgrp_dfl_root.flags & CGRP_ROOT_MEMORY_CMA_ACCOUNTING;
-+}
-+
-+int mem_cgroup_charge_cma(struct page *page, unsigned long count,
-+			  struct cma *cma)
-+{
-+	struct page_counter *counter, *fail;
-+	struct obj_cgroup *objcg;
-+	struct mem_cgroup *memcg;
-+	unsigned int i;
-+	int rc = 0;
-+
-+	if (mem_cgroup_disabled() || !memcg_accounts_cma())
-+		return 0;
-+
-+	memcg = get_mem_cgroup_from_current();
-+	if (!memcg)
-+		return 0;
-+
-+	if (mem_cgroup_is_root(memcg))
-+		goto cgroup_put;
-+
-+	rc = try_charge_memcg(memcg, GFP_KERNEL, count);
-+	if (rc)
-+		goto cgroup_put;
-+
-+	counter = &memcg->cma_counters[cma_area_index(cma)];
-+	if (!page_counter_try_charge(counter, count, &fail)) {
-+		refill_stock(memcg, count);
-+		rc = -ENOMEM;
-+		goto cgroup_put;
++	if (page && mem_cgroup_charge_cma(page, count, cma)) {
++		free_contig_frozen_range(page_to_pfn(page), count);
++		cma_clear_bitmap(cma, &cma->ranges[r], page_to_pfn(page), count);
++		page = NULL;
 +	}
 +
-+	objcg = get_obj_cgroup_from_memcg(memcg);
-+	if (folio_test_large(page_folio(page))) {
-+		commit_charge(page_folio(page), objcg);
-+	} else {
-+		obj_cgroup_get_many(objcg, count - 1);
-+		for (i = 0; i < count; i++)
-+			commit_charge(page_folio(page + i), objcg);
-+	}
-+
-+cgroup_put:
-+	mem_cgroup_put(memcg);
-+	return rc;
-+}
-+
-+void mem_cgroup_uncharge_cma(struct page *page, unsigned long count,
-+			     struct cma *cma)
-+{
-+	struct page_counter *counter;
-+	struct obj_cgroup *objcg;
-+	struct mem_cgroup *memcg;
-+	struct folio *folio;
-+	unsigned int i;
-+
-+	if (mem_cgroup_disabled() || !memcg_accounts_cma())
-+		return;
-+
-+	/*
-+	 * Get the objcg from the first page.
-+	 * page_objcg() expects MEMCG_DATA_KMEM, but for CMA we used
-+	 * commit_charge() which sets folio->memcg_data = objcg
-+	 * without flags, so we cannot use it.
-+	 */
-+	objcg = folio_objcg(page_folio(page));
-+	if (!objcg)
-+		return;
-+
-+	rcu_read_lock();
-+	memcg = obj_cgroup_memcg(objcg);
-+
-+	counter = &memcg->cma_counters[cma_area_index(cma)];
-+	page_counter_uncharge(counter, count);
-+
-+	memcg_uncharge(memcg, count);
-+
-+	rcu_read_unlock();
-+
-+	folio = page_folio(page);
-+	if (folio_test_large(folio)) {
-+		folio->memcg_data = 0;
-+		obj_cgroup_put(objcg);
-+	} else {
-+		for (i = 0; i < count; ++i) {
-+			folio = page_folio(page + i);
-+			folio->memcg_data = 0;
-+			obj_cgroup_put(objcg);
-+		}
-+	}
-+}
-+#endif /* CONFIG_CMA */
-+
- struct uncharge_gather {
- 	struct obj_cgroup *objcg;
- 	unsigned long nr_memory;
+ 	pr_debug("%s(): returned %p\n", __func__, page);
+ 	trace_cma_alloc_finish(name, page ? page_to_pfn(page) : 0,
+ 			       page, count, align, ret);
+@@ -997,6 +1003,7 @@ static void __cma_release_frozen(struct cma *cma, struct cma_memrange *cmr,
+ 
+ 	pr_debug("%s(page %p, count %lu)\n", __func__, (void *)pages, count);
+ 
++	mem_cgroup_uncharge_cma(pages, count, cma);
+ 	free_contig_frozen_range(pfn, count);
+ 	cma_clear_bitmap(cma, cmr, pfn, count);
+ 	cma_sysfs_account_release_pages(cma, count);
 
 -- 
 2.53.0
