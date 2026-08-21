@@ -1,45 +1,47 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80A154949ED;
-	Fri, 21 Aug 2026 14:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0B3474258
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 14:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787321742; cv=none; b=tfDZgtppnkS+TZ+CEgPcazDd2/eWdwAMVK99gWnBCrNFIScbVf9RYsuO/Oti5XLSIza5UmjUKy3KhGZiUWie6LDgj/8nbPsY79hT5pB4nhGqDgQD0Duub3FPmFDjhgiRb7v0EVCg9kodqHimMto1f1LFtCoFu69R90Q+af97d4c=
+	t=1787321877; cv=none; b=f2zOC3YfSee12in6xVYinLp6RM/73ySZUAyv0Mggex48a9iKxBGz/nknMUXMTo1UweslfnvtuGnuF48d2QUePTOtIuw/Tn9kqdBqzf4C2qDpeHHgYIHrSrll+/Q5XPtJYqPTDQDgelk2JXrbLgVB6keEuc9S1GIKl3HAMkec6Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787321742; c=relaxed/simple;
-	bh=wr+oDs6GaWbQ12XdjZDarAcNoSJgxK7egAFc5/zGO30=;
+	s=arc-20240116; t=1787321877; c=relaxed/simple;
+	bh=6Dc1uj76PXzahLbEXG6AvZYaX/LTli1K1ud4Mr/TZVU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qrYdKIl54/8//Ou9D7vVhifRBKjlpBMXzCJ9MPHDyull4uGlHIpkKCSHjtI0TxRVwwn76Akxj+D1Rfm1+F2qLHm6OFHlcNlxO9KnN5X5nCMGrr7j4lxndWd2S8SP7+l3iAvylio0IoTflRkTs++DXneeDz/UeMaMrWNVgPXIU84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=RHs4kc7X; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RYI2jXMaetxcAuwXmn1BBVgOzt6l2x4Typk1BSx8rZLXMtnMUwnGheY2voiDrK+ao6RitUY35WTmuNUhz9JLkfHV1Fafuc1s/nzBekQLiscSf5KeE5A13SIc2x8oZun1fNuPqUnOx/b3qpvtmJx+N9uKGj/nbenkn8TdAOhraMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=QPp3Ty3K; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="RHs4kc7X"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5799153B;
-	Fri, 21 Aug 2026 07:15:35 -0700 (PDT)
-Received: from thinkpad-e142931.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5412E3F85F;
-	Fri, 21 Aug 2026 07:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787321739; bh=wr+oDs6GaWbQ12XdjZDarAcNoSJgxK7egAFc5/zGO30=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RHs4kc7X/JIMYPOZt3UHHS0UF10RItxSgEwu/gJcUgPays+T/VhcyM3Zj0+O6JD9q
-	 9pEGZIgyxqw6W8R+la4pH2O0tDoFOQm5XMRiwmLROx9/wX+H6eO1I8xzF4hz8EPt9l
-	 PN5eYbMbey7tAMIoAinLM0uQF5Utj7iLYrYHg0Ew=
-Date: Fri, 21 Aug 2026 15:15:26 +0100
-From: Wei-Lin Chang <weilin.chang@arm.com>
-To: Mark Brown <broonie@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>, Oliver Upton <oupton@kernel.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, 
-	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v19 05/14] KVM: arm64: Set PSTATE.EXLOCK when entering an
- exception
-Message-ID: <wu4y6mfg7avc32gg55vkxy565errbecy6kgckmthrjvuben2sc@xmrqciocdmgb>
-References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org>
- <20260812-arm64-gcs-v19-5-9105afd828ac@kernel.org>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="QPp3Ty3K"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=6Dc1uj76PXzahLbEXG6AvZYaX/LTli1K1ud4Mr/TZVU=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787321872; v=1; x=1787926672;
+ b=QPp3Ty3K5uMpdepaFB5Lpo7RbfMTKYCYdKLZy0SFZAPeTBknzNG4TpF880M+eX8w73filSOh
+ 3C1o3B8DHNgYadBLzsOs7MLLhxRWcKEeDZu3xf3BjFk4r3MHYWiUCqa9fN7RvduLEyddypjnDpy
+ Oe2DYO7yvV5lJ08QKLXNg7HcMJ5l43KKFFDBp7bqvIcJYsrlPCGY5p0foPxipEaGHiMF8OUj52h
+ fzwYP9IwBaVztfNYx82mXmcI8565AcYUH8PkyN76BLoj8wKSZoKiE8530HIcFHBPk3xCfFR2vVE
+ DoQLft8B3YIzZSW7SozWCtmNpBKisKfkWKu2idngsj4yA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: from localhost (117.176.242.187)
+	by smtp.migadu.com with ESMTPS id dc02663f8510eeb6;
+	Fri, 21 Aug 2026 14:17:42 +0000
+X-Mizu-Trace-ID: dc02663f8510eeb6
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 21 Aug 2026 22:17:34 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: Re: What's cooking in Chinese docs (Aug 2026, #01)
+Message-ID: <aohd_tB47nF0kKgf@wyuan.org>
+References: <aoLkMBQszbzqYowy@wyuan.org>
+ <ae0b74c4-e6c2-4240-96b4-66c3415e8f79@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,81 +50,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260812-arm64-gcs-v19-5-9105afd828ac@kernel.org>
+In-Reply-To: <ae0b74c4-e6c2-4240-96b4-66c3415e8f79@hust.edu.cn>
 
-On Wed, Aug 12, 2026 at 08:12:04PM +0100, Mark Brown wrote:
-> As per DDI 0487 R_WTXBY we need to manage PSTATE.EXLOCK when entering an
-> exception, when the exception is entered from a lower EL the bit is cleared
-> while if entering from the same EL it is set to GCSCR_ELx.EXLOCKEN.
-> Implement this behaviour in enter_exception64().
+On Fri, Aug 21, 2026 at 10:11:25PM +0800, Dongliang Mu wrote:
+> > [Stalled]
+> > 
+> > * Haoyang Liu (2026-03-05) 1 commit
+> >    [PATCH] docs/zh_CN: fix an inconsistent statement in dev-tools/testing-overview
+> > 
+> >    No response for too long, will discard.
+> > 
+> >    comment: https://lore.kernel.org/linux-doc/29bd0dbc-c6f9-43ce-b95f-4e787e3fe9c3@gmail.com/
+> >    source: https://lore.kernel.org/linux-doc/20260305192048.16405-1-tttturtleruss@gmail.com/
 > 
-> Reviewed-by: Yuan Yao <yaoyuan@linux.alibaba.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/uapi/asm/ptrace.h |  1 +
->  arch/arm64/kvm/hyp/exception.c       | 37 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 38 insertions(+)
+> https://lore.kernel.org/linux-doc/062e7436-20dc-467f-9a4d-787eeec19228@hust.edu.cn/
 > 
-> diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
-> index 6fed93fb2536..6113b9f9771b 100644
-> --- a/arch/arm64/include/uapi/asm/ptrace.h
-> +++ b/arch/arm64/include/uapi/asm/ptrace.h
-> @@ -56,6 +56,7 @@
->  #define PSR_C_BIT	0x20000000
->  #define PSR_Z_BIT	0x40000000
->  #define PSR_N_BIT	0x80000000
-> +#define PSR_EXLOCK_BIT 0x400000000
->  
->  #define PSR_BTYPE_SHIFT		10
->  
-> diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
-> index bef40ddb16db..15b00e0ee1ec 100644
-> --- a/arch/arm64/kvm/hyp/exception.c
-> +++ b/arch/arm64/kvm/hyp/exception.c
-> @@ -65,6 +65,38 @@ static void __vcpu_write_spsr_und(struct kvm_vcpu *vcpu, u64 val)
->  		vcpu->arch.ctxt.spsr_und = val;
->  }
->  
-> +static unsigned long compute_exlock(struct kvm_vcpu *vcpu,
-> +				    unsigned long mode,
-> +				    unsigned long target_mode)
-> +{
-> +	u64 gcscr;
-> +
-> +	if (!kvm_has_gcs(kern_hyp_va(vcpu->kvm)))
-> +		return 0;
-> +
-> +	/* GCS can't be enabled for 32 bit */
-> +	if (mode & PSR_MODE32_BIT)
-> +		return 0;
-> +
-> +	/* When taking an exception to a higher EL EXLOCK is cleared. */
-> +	if ((mode | PSR_MODE_THREAD_BIT) != target_mode)
-> +		return 0;
+> Your cooking bot seems have a bug. This patch is already applied.
 
-This is essentially doing an EL comparison, which is also done in
-kvm_check_illegal_exlock_return() later. Would it be clearer if we
-follow the EL comparison pattern there? exlock_el_from_spsr() can have
-more use too.
-
-Thanks,
-Wei-Lin Chang
-
-> +
-> +	/*
-> +	 * When taking an exception to the same EL EXLOCK is set to
-> +	 * the effective value of GCSR_ELx.EXLOCKEN.
-> +	 */
-> +	if (is_hyp_ctxt(vcpu))
-> +		gcscr = __vcpu_read_sys_reg(vcpu, GCSCR_EL2);
-> +	else
-> +		gcscr = __vcpu_read_sys_reg(vcpu, GCSCR_EL1);
-> +
-> +	if (gcscr & GCSCR_ELx_EXLOCKEN)
-> +		return PSR_EXLOCK_BIT;
-> +
-> +	return 0;
-> +}
-> +
-
-[...]
+Ah, that's because in his v1, he used "Haoyang Liu", and later he
+changed to "LIU Haoyang". So my rough script and manual search didn't
+catch this. Sorry!
