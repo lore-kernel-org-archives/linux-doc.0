@@ -1,48 +1,25 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374E336680E;
-	Fri, 21 Aug 2026 03:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AF832C3251;
+	Fri, 21 Aug 2026 04:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787281947; cv=none; b=AIUYhn9RV2FuiGixZ2kRwUNPcPJ2K/v2xmLwweFKq6ali60n+Z7YxTPbvRmgUQuqNZk/JUg1b2TEYgc1Ah26tV0DDuQLhXW16DJ9mBS7X7TKVQdYM33AQ4H8Kg/CKt/ElD3c+Oy+g6aCQNgiysVjES5sFatqvSU3OA0mez2eqqE=
+	t=1787285752; cv=none; b=B/dCG4OQ2KT2CHSrO8wwZyXpgTpwhr9mo1DVVqmT/DPIJRouhBM2hT2gKDpoket3xPgKzv5HkPkTTVldNG+fIgtKQv2D7Ip4V4X8trlsF/2jWN4GHpEpc3eQiLr8SdlC5JcF1aW7zeoDsO0Fx7d4pUO9kqPLoYqJ0xSOh1Nin3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787281947; c=relaxed/simple;
-	bh=LLdCyUIMvTLvV0Qwwzwy3ePPzmdPaDmUaU/9K8yTvoE=;
+	s=arc-20240116; t=1787285752; c=relaxed/simple;
+	bh=LO0r4+Il1Wfu2lZIHRaSOjvjyJDWH4XX9th6qikyDWc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jBazlZrK35CtADQtBV3z36aHBvYDmEdHsLgJVSqh2QVFzzsUht2ckiYWFIMijDY0hLBPYqVBjtdo3TLPKiuSsyxGKDTrkIGTX8qeuMYF3PTiUE3SmvOJBlVEIy8lznEk8Fl1bwO3V2qkL3R2rwZrf3F507exT88lEB0S0EiaLGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AErrDzW8; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AErrDzW8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787281936; x=1818817936;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=LLdCyUIMvTLvV0Qwwzwy3ePPzmdPaDmUaU/9K8yTvoE=;
-  b=AErrDzW8Lrl5OggMZs0wUlBqQT8JGU9lcIhvZi2TX2GPtBnUm/ITBPNp
-   K0JF6fxRz9uyGc7gLJBoA8Dl6i/jVvkgDxkDu6suVACFl8clfHGG8DGS0
-   P9HZHdz/IOqrE9FgxXYPbLkPA827HbamAJTkuSKTbw9TzreU1D0uCf1R+
-   sj+w0rTHpwGawgCEUenRtnWOQu5KCISzptlUHuqDANImrjykhX+mWEclp
-   JCrTm7uwUQXCnH2LRPvVjQYVPfYpOaoeU8Nny7fUZ4X5J160hMOqlCplT
-   o/Vzft3+d3Uht0lq3vX8CLUpfbSnOXfbIi+/63SG3d0EyJ+p7Q8znCL1E
-   g==;
-X-CSE-ConnectionGUID: uSZJSUhnRTuS7aB8Gs0/FQ==
-X-CSE-MsgGUID: hoW+MYjVTmedm2DPYhCJ8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11881"; a="91701114"
-X-IronPort-AV: E=Sophos;i="6.25,234,1779174000"; 
-   d="scan'208";a="91701114"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 20:12:09 -0700
-X-CSE-ConnectionGUID: NOkWPYcAQ6ua/qZWMjhxVQ==
-X-CSE-MsgGUID: OFKp6eRTSFCxoY11hYwwiA==
-X-ExtLoop1: 1
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.240.119]) ([10.124.240.119])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 20:11:54 -0700
-Message-ID: <fe1c6359-7371-4ccd-9807-1d81c160d12b@intel.com>
-Date: Fri, 21 Aug 2026 11:11:51 +0800
+	 In-Reply-To:Content-Type; b=GDevj+hsC7DHI5LsI0UNNcKRUxQUxsOLvSXE6ce0aSLZX7ojM/w6Wug/Df5p0ZMkiYfiXtT0CS30B5bYm9T34//laZ/6ou7NHA5Gt8Y/hbLku2GcgG1UFRKnqfpsoeZcGxlZDVFpaFUxiPsYCGvb8HIfJ9x/MBkeE59XBmb/T4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrAAX7qLI0IdqSQOnAw--.13212S2;
+	Fri, 21 Aug 2026 12:15:04 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wDHpNHB0IdqNLwAAA--.1127S2;
+	Fri, 21 Aug 2026 12:14:59 +0800 (CST)
+Message-ID: <821f84c5-9344-473d-91e4-998f183f96f3@hust.edu.cn>
+Date: Fri, 21 Aug 2026 12:14:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,64 +27,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 40/41] KVM: selftests: Update
- private_mem_conversions_test to mmap() guest_memfd
-To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
- binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
- david@kernel.org, jmattson@google.com, jthoughton@google.com,
- michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
- qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
- shivankg@amd.com, steven.price@arm.com, tabba@google.com,
- willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com,
- forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com,
- aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
- Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260807-gmem-inplace-conversion-v10-0-2fc18ee6d3ba@google.com>
- <20260807-gmem-inplace-conversion-v10-40-2fc18ee6d3ba@google.com>
-Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20260807-gmem-inplace-conversion-v10-40-2fc18ee6d3ba@google.com>
+Subject: Re: [PATCH 4/4] docs/zh_CN: add kernel.org trust repository reference
+To: Weijie Yuan <wy@wyuan.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260821-maintainer-pgp-guide-v1-0-08e5e3602c04@wyuan.org>
+ <20260821-maintainer-pgp-guide-v1-4-08e5e3602c04@wyuan.org>
+ <aoc7l-n861pdN71_@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <aoc7l-n861pdN71_@wyuan.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAAX7qLI0IdqSQOnAw--.13212S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoW7Wr48JF4rAr4UJF15CF4fAFb_yoWkZwb_Za
+	1kZa10kr47Jr97KF48Cr1j9r4DAF4xuFyUJFn5ta4UJw4kGFZ8uFn8W3s5JayrZFs09ry5
+	GFs8ZrnIgr17ujkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbPkYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
+	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26F
+	4UJVW0owAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
+	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
+	xVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUOR6zUUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On 8/8/2026 5:53 AM, Ackerley Tng via B4 Relay wrote:
-> From: Ackerley Tng<ackerleytng@google.com>
-> 
-> Update the private memory conversions selftest to also test conversions
-> that are done "in-place" via per-guest_memfd memory attributes. In-place
-> conversions require the host to be able to mmap() the guest_memfd so that
-> the host and guest can share the same backing physical memory.
-> 
-> This includes several updates, that are conditioned on the system
-> supporting per-guest_memfd attributes (kvm_has_gmem_attributes):
-> 
-> 1. Set up guest_memfd requesting MMAP and INIT_SHARED.
 
-If I understand correctly, even with in-place gmem, the model that 
-shared memory comes from the userspace_addr and private memory comes 
-from gmem can still work without passing GUEST_MEMFD_FLAG_MMAP flag.
+On 8/21/26 1:38 AM, Weijie Yuan wrote:
+> On Fri, Aug 21, 2026 at 01:13:23AM +0800, Weijie Yuan wrote:
+>> Add the kernel.org trust repository reference to the Chinese
+>> translation.
+>>
+>> Update the translation through commit 54857c52452a
+>> ("docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign")
+>>
+>> Signed-off-by: Weijie Yuan <wy@wyuan.org>
+>> ---
+>>   Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst b/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+>> index 12b3e8030364..f6e8ac2d11de 100644
+>> --- a/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+>> +++ b/Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+>> @@ -767,6 +767,8 @@ SSH 的信任方法”。使用 SSH，第一次连接到远程系统时，其密
+>>   
+>>       trust-model tofu+pgp
+>>   
+>> +.. _kernel_org_trust_repository:
+> It should be cn_kernel_org... My bad. Sorry.
+No worry, fix it in the next revision.
 
-Since this model is not prohibited by KVM. I think we should keep the 
-testcase for this model to ensure test coverage?
