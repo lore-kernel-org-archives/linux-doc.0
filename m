@@ -1,419 +1,351 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECF03AFD03;
-	Fri, 21 Aug 2026 13:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7C53769E9
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 13:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787318210; cv=none; b=BDtGT8YDQ+il+mpspZwd32JC0AlO91f+9h37BUrr+iwrUUk0RO695exWLS6bk8CB3yg+AlNTfiWcgFk0Z9zqALhy7SYKY4NV7yEtawMuH2D+lAKze1gF/emRFS9IpAl95VeZ8R+es0XjkjShmH6zAIXHgfj0c6JKItr0YbkzwAk=
+	t=1787318541; cv=none; b=B2mwpF6EjFGvXSGzT5RqLWgNshHgKsMT/xYftEnjXxujSm91bkRKKezsmeZf22orMMrX/VBoNWBm6uID3XG5XYoY/A+xSTclLYtnvgpkyABn2ZEswEZI7ALA+UF6dZD0XB59rZCCsFZynoylNANadVjBgKJj4+ZKkM98zqgVOdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787318210; c=relaxed/simple;
-	bh=mFQeiGUM9dHfF6xABuT1qe621J+n7EAwg91rA4n4YbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VAQkWt/YfV1UyxNTt0JHtQtUWRP/PyWxDoVG3ANhYc1EgPMI7JSD9HXdI59YDfEBv1JUnMDjWoFhYBVyr7pyKfOnxp5dosELX+gq/Vuy85hY2LuEP32TgUPDesF76SEZAqrk327ztiHtKwn/8u/30xxxYh94IxJLzxuiBQ9hrao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Js++vq7z; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787318541; c=relaxed/simple;
+	bh=BAyBGdY5R59IZ2X7Kx76TF9SuCwi5V19TEBUExdLL8I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rsVCz4cEAneWPf1cZQV3aAuN7FqwHTlewEfdaejGnl5Ob/Jl+hjKuEQUbJoZ8GEYZbnihUezlHT6CF0d1uT2/IqAJYgdgYXoSEG3mXdRSW8jcp+aZcq7W/l4XuYiyWsE3YXbOkudr0k/thcZ0+5q5Or7l057I1OSHw8IAFfVKp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NrVJWXUj; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Js++vq7z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787318198; x=1818854198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mFQeiGUM9dHfF6xABuT1qe621J+n7EAwg91rA4n4YbY=;
-  b=Js++vq7zLHAGAmfkrFYGnEvDYA2FU0RKz3Mf8LHFrAri3GMERSyf4D7Q
-   ZgyGHMbxM6v2gILUMBR27pXI8A1Q7JQFr5mRx20swUf8PSuYw1AH5OVoU
-   HrXxZNpFeJ1rnbzjOIrs+sCdPHKik98X8c0QYDeNONKAThOFLPf/wk2nb
-   sww47lYhxQSFOqT6FmkimrCFGGgKVhS9OcUUBJXvRXAH+jNdIL2/wm5XY
-   bx32BqBPYI5SAW/FkEf8AGzjBCwI0kp5extXWWKB3TL0t8FUD5u8YH+dN
-   enDuD3yGRTaaeTZibNND3VgVHF3EcZ6Y4dWGt5w6xuEm+xIIE28GpPhCr
-   Q==;
-X-CSE-ConnectionGUID: gHuTiBIkT4Kyf+W7eqNdEg==
-X-CSE-MsgGUID: pU7Flox0QM6tvJhmtozDcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="91738959"
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="91738959"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 06:16:30 -0700
-X-CSE-ConnectionGUID: FyWoSdOVQMmJhrmTM8kHtA==
-X-CSE-MsgGUID: wyLPXuhxSiO2w24PR3267A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="271572530"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.241])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 06:16:23 -0700
-Date: Fri, 21 Aug 2026 16:16:21 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	Marius Cristea <marius.cristea@microchip.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Kent Gustavsson <kent@minoris.se>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Janani Sunil <jan.sun97@gmail.com>, linux-spi@vger.kernel.org,
-	Kent Gustavsson <nedo80@gmail.com>, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v9 3/3] iio: dac: Add AD5529R DAC driver support
-Message-ID: <aohPpQRn5tOANk-c@ashevche-desk.local>
-References: <20260820-ad5529r-driver-v9-0-ba62e0b2a816@analog.com>
- <20260820-ad5529r-driver-v9-3-ba62e0b2a816@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NrVJWXUj"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-81ff017d420so30565967b3.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 06:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787318533; x=1787923333; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=bwEiFx6fpVbLNRTvN8TsAw1/7zLIHkL0ilf8cWzr0W8=;
+        b=NrVJWXUjKa7wXI1w6DLWIaRAqGSfb3ETLLLq5wPqvoqngX69AvQNEtVPpLLMyWTne1
+         XD7xNeApq+0uWb7Li0foUs7g2Kl7S/S6mMozM8lz02cC1blYCqFZmI+wT6FdRXGFkTcN
+         E8m3lfuDHXkFtP5bxgth4EZM+I5UWS8NX2fAU3zj9mu/kGQL+BBuMBqEVcd1NQGbqrtf
+         w+6HYq6wz2jmXe7PsSo7tbgp/R6Zyw7fdna3zzpxh9q0GjcwhEHDO62YV0ZN0pOBzI35
+         XyCwVB7/FKLcqn7nXI8v1GgPl0IFgyATbY1ZjcS1cwergHTSXuBGaNx73vk/XrBoem5n
+         nNTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787318533; x=1787923333;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=bwEiFx6fpVbLNRTvN8TsAw1/7zLIHkL0ilf8cWzr0W8=;
+        b=UxDY24H79I2YDmL9uvfvch1gwNkApa7gdbb7mABAU+wVJqfMd/PXurEOPjuV9Nf8xr
+         RMfzwRh8fMXLLy1xX7cIfvRlkvOwXM01thdF29AZoxKnNKK3emc+YYPAm+nJUEgGMthK
+         sOsx7bBX2H05XwOdHmaDFYAAYBWmv3zs3b1f2D+VdZlQtYsl0FfrgLIG6mdyI0yLEWR3
+         zm3e7NRN5YZgecXYpE9wJ78KAJVg7G/aWBE6czNEVzYdmjfkeC3UBgJUsrKr5nhoFb4h
+         mO8tENY15cpuSVJuiqeLX79llQ56erOblIs17oZOgDeZ5O+3ZeyXZkA5f4GxrSchelDO
+         RXyQ==
+X-Gm-Message-State: AFuF++ksXNe2KUTmn3LsOCEN63vECcLTNN+omQFWWbYHpJgtRFGgYs8k
+	0yf78ltLMu/lOJW/One0vcZJ1gG0+joAMKfi2NTgZi8KQeDsoTXH62PS
+X-Gm-Gg: AR+sD13sN9kUf4n8T/XCUOiA3OKE5lGtUvgDb6WWOiEtW/Gi2MAi270tdckXLQWeziV
+	JmB0SLlBp8FxLRuOAbpI1Pi5phFHawnNCVQYBccNo8jsHrRL/dvQvElCOGVKhogIAK0g+XUoJPH
+	hFlUpD7YilyIcCdHBIMyDxS8W9W2Di6W9EmrvNsiKzPcxETHgXxGFByioSbt/rIWwLPr+Ib5PC1
+	p55+5LeLBEvoRbseMf4JVRKTcO/R9TAV52nGOQpAtwY2vFSFzJvrowVAVBq2uwwPZWqeMjukI3Z
+	2Oe+4yNyrLTNEFeNQf24vzuSR0kpr3HqrKgg9rM1vsEBZ+uB2sqqWBkbEE9ZdH/3V7uetzmCtUY
+	glCCHn0fxpex/RYBEGuoost9uPd5U5ofXAFEwIzdOdsOmkrOVRSK4ZwqtU9xxDXSJ2nZQZqCG34
+	jFvUj8Aj7EHtlmngBvHHA+n0P9793e4eBE5Nm3SgVZCgBW06oFjM3hZ1anc4gFeuRL8ZeSwm8=
+X-Received: by 2002:a05:690c:e0d0:10b0:80c:16ad:2f16 with SMTP id 00721157ae682-84a16f25227mr15783807b3.8.1787318533261;
+        Fri, 21 Aug 2026 06:22:13 -0700 (PDT)
+Received: from [192.168.50.238] ([206.42.51.82])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84518a9d7c8sm40237967b3.40.2026.08.21.06.22.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 06:22:12 -0700 (PDT)
+From: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+Date: Fri, 21 Aug 2026 10:22:01 -0300
+Subject: [PATCH v2] docs: translations: pt_BR: translate
+ stable-api-nonsense.rst
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260820-ad5529r-driver-v9-3-ba62e0b2a816@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260821-ptbr-stable-api-nonsense-v2-1-f07df4a0fc3b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNwQqDMBBEf0X23C1JNKX25H8UDzFudEETSURax
+ H9vKr0W5vIG5s0OiSJTgkexQ6SNEwefQV0KsKPxAyH3mUEJdRN3WeOydhHTarqJ0CyMPvhEOWi
+ rsleVNsbpGvJ8ieT4daqfbeaR0xri+3za5Lf9SZX4L90kShRlJZ3Wjqzqm2E2PF1tmKE9juMDc
+ 4c0vcAAAAA=
+X-Change-ID: 20260819-ptbr-stable-api-nonsense-c43d245aaf59
+To: Daniel Pereira <danielmaraboo@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787318529; l=13735;
+ i=lucasadramalho@gmail.com; h=from:subject:message-id;
+ bh=BAyBGdY5R59IZ2X7Kx76TF9SuCwi5V19TEBUExdLL8I=;
+ b=mHOn4QAqTf5VjLbNXQsJ3VGimr6vFj59MQY9Sx5S+mlrw665zKmPaHA9EjCXeNJQ8xQPc1OcA
+ pV8w+wByaZbDD73PIjXvaoCbVhlF9+Cy0NnkOCIn5ATj2DOok22V3bI
+X-Developer-Key: i=lucasadramalho@gmail.com; a=ed25519;
+ pk=m3TQ0mH3ARCg0EdGRQWOTlBoFnDen6VWMNGjXW+W4NM=
 
-On Thu, Aug 20, 2026 at 09:08:23AM +0200, Janani Sunil wrote:
-> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
-> from Analog Devices.
-> 
-> The device communicates over SPI and supports per-channel output range
-> configuration. An optional external 4.096V reference can be used in
-> place of the internal reference.
+Translate Documentation/process/stable-api-nonsense.rst into Brazilian
+Portuguese.
 
-...
+Assisted-by: ChatGPT:GPT-5.5
+Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+---
+Changes in v2:
+- Remove the unnecessary top-of-file label that caused a duplicate-label warning during the documentation build.
+- Add disclosure for generative tools used while preparing and reviewing the translation.
+- Build the documentation with make htmldocs and verify that the translated document introduces no new warnings or errors.
+- Link to v1: https://lore.kernel.org/r/20260820-ptbr-stable-api-nonsense-v1-1-0341f55fec2d@gmail.com
 
-> +enum ad5529r_output_range {
-> +	AD5529R_RANGE_0V_5V,
-> +	AD5529R_RANGE_0V_10V,
-> +	AD5529R_RANGE_0V_20V,
-> +	AD5529R_RANGE_0V_40V,
-> +	AD5529R_RANGE_NEG5V_5V,
-> +	AD5529R_RANGE_NEG10V_10V,
-> +	AD5529R_RANGE_NEG15V_15V,
-> +	AD5529R_RANGE_NEG20V_20V,
+I used ChatGPT and DeepL to help me clarify some Portuguese sentences that did not sound entirely natural or clear to me.
+---
+ Documentation/translations/pt_BR/process/index.rst |   1 +
+ .../pt_BR/process/stable-api-nonsense.rst          | 216 +++++++++++++++++++++
+ 2 files changed, 217 insertions(+)
 
-TBH I don't see the value in 'NEG'. It's kinda obvious that they are all ranges
-and from -X volts to +Y volts. I don't expect to see the "range" out of an single
-exclusive constant.
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index eda2a3fc5..1fb2f325f 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -58,6 +58,7 @@ Estas são as regras pelas quais tentamos viver na comunidade do kernel
+    Interpretação do Código de Conduta do Kernel Linux <code-of-conduct-interpretation>
+    Modelos de Maturidade para Contribuição no Kernel Linux <contribution-maturity-model.rst>
+    Declaração sobre Drivers do Kernel <kernel-driver-statement>
++   A interface de drivers do kernel Linux <stable-api-nonsense>
+    Estilo de gerenciamento do kernel Linux <management-style>
+    Conclave (Continuidade do projeto) <conclave>
+ 
+diff --git a/Documentation/translations/pt_BR/process/stable-api-nonsense.rst b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+new file mode 100644
+index 000000000..526cac3f2
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/stable-api-nonsense.rst
+@@ -0,0 +1,216 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++A interface de drivers do kernel Linux
++=======================================
++
++(todas as suas perguntas respondidas e mais algumas)
++
++Greg Kroah-Hartman <greg@kroah.com>
++
++Este texto foi escrito para tentar explicar por que o Linux **não possui uma
++interface binária do kernel nem uma interface estável do kernel**.
++
++.. note::
++
++   Observe que este artigo descreve as interfaces **internas do kernel**, e não
++   as interfaces entre o kernel e o espaço de usuário.
++
++   A interface entre o kernel e o espaço de usuário é aquela utilizada pelos
++   aplicativos: a interface de chamadas de sistema (syscalls). Essa
++   interface é **muito** estável ao longo do tempo e não será quebrada. Tenho
++   programas antigos, compilados em uma versão do kernel anterior à 0.9 e alguma
++   coisa, que ainda funcionam perfeitamente na versão mais recente do kernel
++   2.6. Essa é a interface cuja estabilidade os usuários e desenvolvedores de
++   aplicativos podem considerar garantida.
++
++
++Resumo executivo
++----------------
++
++Você acha que quer uma interface estável do kernel, mas, na verdade, não quer,
++e nem sabe disso. O que você realmente quer é um driver que continue
++funcionando de maneira estável, e isso só é possível se o seu driver estiver
++na árvore principal do kernel. Você também obtém muitos outros benefícios se
++o seu driver fizer parte da árvore principal do kernel. São esses benefícios
++que ajudaram a tornar o Linux um sistema operacional tão robusto, estável e
++maduro — justamente a razão pela qual você o está usando.
++
++
++Introdução
++----------
++
++Apenas quem escreve drivers para o kernel precisa se preocupar com as mudanças
++nas interfaces internas do kernel. Para a grande maioria das pessoas, essas
++interfaces nem sequer são visíveis e tampouco são motivo de preocupação.
++
++Antes de mais nada, não abordarei **nenhuma** questão jurídica relacionada a
++código-fonte fechado, código-fonte oculto, blobs binários, wrappers de
++código-fonte ou qualquer outro termo usado para descrever drivers do kernel
++cujo código-fonte não seja disponibilizado sob a GPL. Consulte um advogado
++caso tenha alguma dúvida jurídica. Sou programador e, portanto, descreverei
++aqui apenas as questões técnicas (isso não significa que as questões
++jurídicas sejam pouco importantes; elas são reais e você precisa estar sempre
++ciente delas).
++
++Portanto, há dois tópicos principais: interfaces binárias do kernel e
++interfaces estáveis de código-fonte do kernel. Ambos dependem um do outro,
++mas discutiremos primeiro a parte referente às interfaces binárias para
++deixá-la de lado.
++
++
++Interface binária do kernel
++---------------------------
++
++Supondo que tivéssemos uma interface estável de código-fonte para o kernel,
++uma interface binária surgiria naturalmente também, certo? Errado. Considere
++os seguintes fatos sobre o kernel Linux:
++
++  - Dependendo da versão do compilador C utilizada, diferentes estruturas de
++    dados do kernel terão diferentes alinhamentos e poderão até mesmo incluir
++    funções de maneiras distintas (por exemplo, tornando determinadas funções
++    inline ou não). A organização das funções individuais não é tão importante,
++    mas as diferenças no preenchimento das estruturas de dados são muito
++    importantes.
++
++  - Dependendo das opções selecionadas durante a compilação do kernel, uma
++    grande variedade de comportamentos pode ser assumida pelo kernel:
++
++      - diferentes estruturas podem conter campos diferentes;
++      - algumas funções podem nem sequer ser implementadas (por exemplo,
++        determinados bloqueios são completamente eliminados durante a
++        compilação em kernels sem SMP);
++      - a memória dentro do kernel pode ser alinhada de maneiras diferentes,
++        dependendo das opções de compilação.
++
++  - O Linux é executado em uma grande variedade de arquiteturas de
++    processadores. Não há como drivers binários compilados para uma arquitetura
++    funcionarem corretamente em outra.
++
++Vários desses problemas podem ser contornados simplesmente compilando o módulo
++para uma configuração específica e exata do kernel, utilizando exatamente o
++mesmo compilador C empregado na compilação do kernel. Isso é suficiente caso
++você queira fornecer um módulo para uma determinada versão de uma distribuição
++Linux específica. Porém, multiplique essa única compilação pelo número de
++distribuições Linux existentes e pelo número de versões suportadas de cada
++distribuição e você rapidamente terá um pesadelo de diferentes opções de
++compilação em diferentes versões. Além disso, cada versão de uma distribuição
++Linux contém vários kernels, cada um ajustado para diferentes tipos de
++hardware (diferentes tipos de processadores e diferentes opções). Portanto,
++mesmo para uma única versão, você precisará criar várias versões do seu módulo.
++
++Acredite em mim: com o tempo, você enlouquecerá se tentar oferecer suporte a
++esse tipo de distribuição. Aprendi isso da maneira mais difícil há muito
++tempo...
++
++Interfaces estáveis de código-fonte do kernel
++----------------------------------------------
++
++Esse é um tópico um pouco mais "volátil" se você conversar com alguém que está
++tentando manter atualizado, ao longo do tempo, um driver do kernel Linux que
++não está na árvore principal do kernel.
++
++O desenvolvimento do kernel Linux é contínuo e ocorre em ritmo acelerado,
++sem desacelerar. Por isso, os desenvolvedores do kernel encontram bugs nas
++interfaces existentes ou descobrem maneiras melhores de fazer as coisas.
++Quando isso acontece, eles corrigem as interfaces atuais para que funcionem
++melhor. Nesse processo, nomes de funções podem mudar, estruturas podem crescer
++ou diminuir e parâmetros de funções podem ser reformulados. Quando isso
++acontece, todos os locais dentro do kernel que utilizam essa interface são
++corrigidos ao mesmo tempo, garantindo que tudo continue funcionando
++corretamente.
++
++Como exemplos específicos disso, as interfaces USB internas do kernel
++passaram por pelo menos três reformulações diferentes ao longo da existência
++desse subsistema. Essas reformulações foram feitas para resolver diversos
++problemas:
++
++  - Uma mudança de um modelo síncrono de fluxos de dados para um modelo
++    assíncrono. Isso reduziu a complexidade de vários drivers e aumentou a
++    taxa de transferência de todos os drivers USB, de modo que atualmente
++    executamos quase todos os dispositivos USB na maior velocidade possível.
++
++  - Foi feita uma mudança na maneira como os pacotes de dados eram alocados
++    pelos drivers USB a partir do núcleo USB, de modo que todos os drivers
++    passaram a precisar fornecer mais informações ao núcleo USB, corrigindo
++    diversos deadlocks documentados.
++
++Isso contrasta fortemente com vários sistemas operacionais de código fechado,
++que tiveram de manter suas interfaces USB antigas ao longo do tempo. Isso
++permite que novos desenvolvedores utilizem acidentalmente interfaces antigas
++e façam as coisas de maneira inadequada, prejudicando a estabilidade do
++sistema operacional.
++
++Em ambos os casos, todos os desenvolvedores concordaram que essas eram
++mudanças importantes que precisavam ser feitas, e elas foram realizadas com
++relativamente pouco esforço. Se o Linux tivesse de garantir a preservação de
++uma interface de código-fonte estável, uma nova interface teria de ser criada,
++enquanto a interface antiga e defeituosa teria de continuar sendo mantida ao
++longo do tempo, resultando em trabalho adicional para os desenvolvedores USB.
++Como todos os desenvolvedores USB do Linux realizam esse trabalho em seu
++próprio tempo, pedir que programadores façam trabalho extra, sem nenhum
++benefício e gratuitamente, não é uma possibilidade.
++
++Questões de segurança também são muito importantes para o Linux. Quando um
++problema de segurança é encontrado, ele é corrigido em um período muito curto.
++Em diversas ocasiões, isso fez com que interfaces internas do kernel fossem
++reformuladas para impedir que o problema de segurança ocorresse. Quando isso
++acontece, todos os drivers que utilizam essas interfaces também são corrigidos
++ao mesmo tempo, garantindo que o problema de segurança seja resolvido e não
++possa reaparecer acidentalmente no futuro. Se as interfaces internas não
++pudessem ser alteradas, não seria possível corrigir esse tipo de problema de
++segurança e garantir que ele não voltasse a ocorrer.
++
++As interfaces do kernel são aprimoradas ao longo do tempo. Se ninguém estiver
++utilizando uma determinada interface, ela é removida. Isso garante que o
++kernel permaneça o menor possível e que todas as interfaces existentes possam
++ser testadas da melhor maneira possível (é praticamente impossível testar
++adequadamente a validade de interfaces que não são utilizadas).
++
++
++O que fazer
++-----------
++
++Então, se você possui um driver do kernel Linux que não está na árvore
++principal do kernel, o que você, como desenvolvedor, deve fazer? Distribuir
++um driver binário para cada versão diferente do kernel em cada distribuição
++é um pesadelo, e tentar acompanhar uma interface do kernel que está em
++constante mudança também é uma tarefa difícil.
++
++Simples: coloque seu driver na árvore principal do kernel (lembre-se de que
++estamos falando aqui de drivers distribuídos sob uma licença compatível com
++a GPL; se seu código não se enquadra nessa categoria, boa sorte, você está
++por conta própria aqui, seu parasita). Se seu driver estiver na árvore e uma
++interface do kernel mudar, ele será corrigido pela própria pessoa que realizou
++a alteração no kernel. Isso garante que seu driver continue sempre compilável
++e funcionando ao longo do tempo, exigindo muito pouco esforço de sua parte.
++
++Os excelentes efeitos colaterais de ter seu driver na árvore principal do
++kernel são:
++
++  - A qualidade do driver aumentará, enquanto os custos de manutenção
++    (para o desenvolvedor original) diminuirão.
++
++  - Outros desenvolvedores adicionarão funcionalidades ao seu driver.
++
++  - Outras pessoas encontrarão e corrigirão bugs no seu driver.
++
++  - Outras pessoas encontrarão oportunidades de otimização no seu driver.
++
++  - Outras pessoas atualizarão o driver para você quando mudanças em
++    interfaces externas exigirem isso.
++
++  - O driver será automaticamente distribuído por todas as distribuições
++    Linux, sem que seja necessário pedir às distribuições que o adicionem.
++
++Como o Linux oferece suporte, "pronto para uso", a um número maior de
++dispositivos diferentes do que qualquer outro sistema operacional, e oferece
++suporte a esses dispositivos em mais arquiteturas de processadores diferentes
++do que qualquer outro sistema operacional, esse modelo comprovado de
++desenvolvimento deve estar fazendo alguma coisa certa :)
++
++
++------
++
++Agradecimentos a Randy Dunlap, Andrew Morton, David Brownell, Hanna Linder,
++Robert Love e Nishanth Aravamudan pela revisão e pelos comentários sobre
++este documento.
 
-> +};
+---
+base-commit: 791e420360669d55b7f90ca0c6d61b10e4992aec
+change-id: 20260819-ptbr-stable-api-nonsense-c43d245aaf59
 
-...
-
-> +static int ad5529r_reset(struct ad5529r_state *st)
-> +{
-> +	struct reset_control *rst;
-> +	int ret;
-> +
-> +	rst = devm_reset_control_get_optional_exclusive(&st->spi->dev, NULL);
-
-It seems having an 'spi' member in the state structure is overkill.
-This all can be done here locally
-
-	struct regmap *map = st->regmap_8bit;
-	struct device *dev = regmap_get_device(map);
-
-> +	if (IS_ERR(rst))
-> +		return PTR_ERR(rst);
-> +
-> +	if (rst) {
-> +		ret = reset_control_assert(rst);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/* Minimum reset low width (t_reset) is 20 ns per datasheet. */
-> +		ndelay(20);
-> +
-> +		ret = reset_control_deassert(rst);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		ret = regmap_write(st->regmap_8bit, AD5529R_REG_INTERFACE_CONFIG_A,
-> +				   AD5529R_INTERFACE_CONFIG_A_SW_RESET);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	/*
-> +	 * Wait 10 ms for digital initialization to complete.
-> +	 * Per datasheet, Interface Status A register NOT_READY_ERR bit is
-> +	 * set if SPI transactions are attempted before digital initialization
-> +	 * completes.
-> +	 */
-> +	fsleep(10 * USEC_PER_MSEC);
-> +
-> +	return regmap_write(st->regmap_8bit, AD5529R_REG_INTERFACE_CONFIG_A,
-> +			    AD5529R_INTERFACE_CONFIG_A_SDO_ENABLE |
-> +			    AD5529R_INTERFACE_CONFIG_A_ADDR_ASCENSION);
-> +}
-
-...
-
-> +static int ad5529r_read_raw(struct iio_dev *indio_dev,
-> +			    struct iio_chan_spec const *chan,
-> +			    int *val, int *val2, long mask)
-> +{
-> +	struct ad5529r_state *st = iio_priv(indio_dev);
-> +	unsigned int reg_addr, reg_val_h;
-> +	int ret, range_idx, span_mv;
-
-_mV
-
-> +	switch (mask) {
-> +	case IIO_CHAN_INFO_RAW:
-> +		/*
-> +		 * Read from DAC_INPUT_A register rather than DAC_DATA_READBACK.
-> +		 * The DAC operates in transparent mode and directly reflects
-> +		 * whatever value is written to the INPUT_A register.
-> +		 */
-> +		reg_addr = AD5529R_REG_DAC_INPUT_A(chan->channel);
-> +		ret = regmap_read(st->regmap_16bit, reg_addr, &reg_val_h);
-> +		if (ret)
-> +			return ret;
-> +
-> +		*val = reg_val_h;
-> +
-> +		return IIO_VAL_INT;
-> +	case IIO_CHAN_INFO_SCALE:
-> +		range_idx = st->output_range_idx[chan->channel];
-> +
-> +		/*
-> +		 * The datasheet specifies a 4.096 V external reference,
-> +		 * matching the nominal output voltage of the internal
-> +		 * reference.
-> +		 */
-> +		span_mv = ad5529r_output_ranges_mV[range_idx][1] -
-> +			  ad5529r_output_ranges_mV[range_idx][0];
-> +		*val = span_mv;
-> +		*val2 = st->model_data->resolution;
-> +
-> +		return IIO_VAL_FRACTIONAL_LOG2;
-> +	case IIO_CHAN_INFO_OFFSET:
-> +		range_idx = st->output_range_idx[chan->channel];
-> +
-> +		if (ad5529r_output_ranges_mV[range_idx][0] < 0)
-> +			*val = -(1 << (st->model_data->resolution - 1));
-
-Hmm... Why not -BIT(st->model_data->resolution - 1)?
-
-> +		else
-> +			*val = 0;
-> +
-> +		return IIO_VAL_INT;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-
-...
-
-> +static int ad5529r_parse_channel_ranges(struct device *dev,
-> +					struct ad5529r_state *st)
-> +{
-> +	unsigned long channel_mask = 0;
-> +	s32 vals[2];
-> +	int ret, range_idx;
-> +	u32 ch;
-> +
-> +	device_for_each_child_node_scoped(dev, child) {
-> +		if (st->num_channels == ARRAY_SIZE(st->channels))
-> +			return dev_err_probe(dev, -EINVAL, "Too many channels\n");
-
-Perhaps -ECHRNG?
-
-> +		ret = fwnode_property_read_u32(child, "reg", &ch);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Missing reg property in channel node\n");
-> +
-> +		if (ch >= AD5529R_MAX_CHANNELS)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Channel %u exceeds maximum 15\n",
-> +					     ch);
-> +
-> +		if (channel_mask & BIT(ch))
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Duplicate channel %u\n", ch);
-> +
-> +		channel_mask |= BIT(ch);
-> +
-> +		if (fwnode_property_present(child, "output-range-microvolt")) {
-> +			/*
-> +			 * DT stores cells as raw 32-bit values; signed endpoints are
-> +			 * encoded by dtc in two's-complement and then interpreted
-> +			 * here as s32.
-> +			 */
-> +			ret = fwnode_property_read_u32_array(child,
-> +							     "output-range-microvolt",
-> +							     (u32 *)vals, ARRAY_SIZE(vals));
-> +			if (ret < 0)
-> +				return dev_err_probe(dev, ret,
-> +						     "Failed to read range for ch %u\n",
-> +						     ch);
-> +
-> +			range_idx = ad5529r_find_output_range(vals);
-> +			if (range_idx < 0)
-> +				return dev_err_probe(dev, range_idx,
-> +						     "Invalid range [%d %d] for ch %u\n",
-> +						     vals[0], vals[1], ch);
-> +		} else {
-> +			range_idx = AD5529R_RANGE_0V_5V;
-> +		}
-> +
-> +		st->output_range_idx[ch] = range_idx;
-> +		ret = regmap_write(st->regmap_16bit,
-> +				   AD5529R_REG_OUT_RANGE(ch), range_idx);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to configure range for ch %u\n",
-> +					     ch);
-> +
-> +		st->channels[st->num_channels++] = AD5529R_DAC_CHANNEL(ch);
-> +	}
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static int ad5529r_probe(struct spi_device *spi)
-> +{
-> +	struct device *dev = &spi->dev;
-> +	struct iio_dev *indio_dev;
-> +	struct ad5529r_state *st;
-
-> +	struct regmap_config regmap_8bit_cfg;
-> +	struct regmap_config regmap_16bit_cfg;
-
-Make them to be first in the list, it will follow reversed xmas tree order.
-
-> +	bool external_vref;
-> +	u32 dev_addr = 0;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	st = iio_priv(indio_dev);
-
-> +	st->spi = spi;
-
-No need, the same is used when both regmap:s are initialised.
-
-> +	st->model_data = spi_get_device_match_data(spi);
-> +	if (!st->model_data)
-> +		return dev_err_probe(dev, -ENODATA,
-> +				     "Failed to identify device variant\n");
-> +
-> +	device_property_read_u32(dev, "spi-device-addr", &dev_addr);
-> +	if (dev_addr > 3)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "spi-device-addr %u out of range [0, 3]\n",
-> +				     dev_addr);
-> +
-> +	regmap_8bit_cfg = (struct regmap_config) {
-> +		.name = "ad5529r-8bit",
-> +		.reg_bits = 16,
-> +		.val_bits = 8,
-> +		.max_register = AD5529R_8BIT_REG_MAX,
-> +		.read_flag_mask = AD5529R_SPI_READ_FLAG,
-> +		.rd_table = &ad5529r_8bit_readable_table,
-> +		.wr_table = &ad5529r_8bit_writeable_table,
-> +		.reg_base = dev_addr << AD5529R_ADDR_SHIFT,
-> +	};
-> +	regmap_16bit_cfg = (struct regmap_config) {
-> +		.name = "ad5529r-16bit",
-> +		.reg_bits = 16,
-> +		.val_bits = 16,
-> +		.max_register = AD5529R_MAX_REGISTER,
-> +		.read_flag_mask = AD5529R_SPI_READ_FLAG,
-> +		.val_format_endian = REGMAP_ENDIAN_LITTLE,
-> +		.rd_table = &ad5529r_16bit_readable_table,
-> +		.wr_table = &ad5529r_16bit_writeable_table,
-> +		.reg_stride = 2,
-> +		.reg_base = dev_addr << AD5529R_ADDR_SHIFT,
-> +	};
-> +
-> +	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(ad5529r_supply_names),
-> +					     ad5529r_supply_names);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to get and enable regulators\n");
-
-> +	for (i = 0; i < ARRAY_SIZE(ad5529r_vss_supply_names); i++) {
-
-	for (unsigned int i = 0; i < ARRAY_SIZE(ad5529r_vss_supply_names); i++) {
-
-> +		ret = devm_regulator_get_enable_optional(dev,
-> +							 ad5529r_vss_supply_names[i]);
-> +		if (ret && ret != -ENODEV)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to get and enable %s regulator\n",
-> +					     ad5529r_vss_supply_names[i]);
-> +	}
-> +
-> +	ret = devm_regulator_get_enable_optional(dev, "vref");
-> +	if (ret == -ENODEV)
-> +		external_vref = false;
-> +	else if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to get and enable vref regulator\n");
-> +	else
-> +		external_vref = true;
-> +
-> +	/* Wait 10 ms after power-up before the first SPI transaction. */
-> +	fsleep(10 * USEC_PER_MSEC);
-> +
-> +	st->regmap_8bit = devm_regmap_init_spi(spi, &regmap_8bit_cfg);
-> +	if (IS_ERR(st->regmap_8bit))
-> +		return dev_err_probe(dev, PTR_ERR(st->regmap_8bit),
-> +				     "Failed to initialize 8-bit regmap\n");
-> +
-> +	st->regmap_16bit = devm_regmap_init_spi(spi, &regmap_16bit_cfg);
-> +	if (IS_ERR(st->regmap_16bit))
-> +		return dev_err_probe(dev, PTR_ERR(st->regmap_16bit),
-> +				     "Failed to initialize 16-bit regmap\n");
-> +
-> +	ret = ad5529r_reset(st);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to reset device\n");
-> +
-> +	ret = regmap_assign_bits(st->regmap_16bit, AD5529R_REG_REF_SEL,
-> +				 AD5529R_REF_SEL_INTERNAL_REF,
-> +				 !external_vref);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to configure reference\n");
-> +
-> +	ret = ad5529r_parse_channel_ranges(dev, st);
-> +	if (ret)
-> +		return ret;
-> +
-> +	indio_dev->name = st->model_data->model_name;
-> +	indio_dev->info = &ad5529r_info;
-> +	indio_dev->modes = INDIO_DIRECT_MODE;
-> +	indio_dev->channels = st->channels;
-> +	indio_dev->num_channels = st->num_channels;
-> +
-> +	return devm_iio_device_register(dev, indio_dev);
-> +}
-
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Lucas Adryell Ramalho <lucasadramalho@gmail.com>
 
