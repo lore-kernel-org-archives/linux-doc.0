@@ -1,152 +1,141 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76714746BB
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 09:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787306137; cv=pass; b=dU8PL2QJ1CvspNxaOLtIEpyG86uN7FpuIAd4Zjvp1Bh1RbvgvqpGgJF8WsBRG39MQ8xhIM95ippRXmNof1YGkeoSkak7qQtoiwnrANNcIEoMMybCb/2t/SVzkkufy5QQMgvKxvvJHwa57oLsksNJtdxtRcjoa5/7tyxDm+OiBec=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787306137; c=relaxed/simple;
-	bh=XyIuSqWOzg847lGxsHuF4rkjnY+0QJdXhS5NihM+L/U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rLRWHrBaVDqAdgVNJUlUXl28DvgSSTm/rjzySgXlDuB1wFwulkD7GzWEL6mfOEQJtJlxas5SseBHjpVF+ayCdUmF93tN2lCfvEki6fQ2Bh9+X6lvBeoe/9OBPRE/3WOcHf+Fswg2npO+MZD6Np8DHKXrsfgpEYaXjD9mAa6wtEg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPJnchbz; arc=pass smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C993DABE3;
+	Fri, 21 Aug 2026 10:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787307872; cv=none; b=Eh08uvEzdEz3gz5WDhOgfStokZiQMpMBwd4hJK/44DF0t1TxnJn6RdFO2ZvXf3gqHsHAq911LK64lOgZg/vdw73A7ODA1czEFix06pAS0u/8Bf7c+aIHgUjBx3/BFfVUrLgIMWRgnjE6haZcwxCxwX9HI5QUpr+cQhvDBgKjFQY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787307872; c=relaxed/simple;
+	bh=gc0aPv8jRNrLG2l2U/ppz2zQ2v8zFd3jRszGDWu+atQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=oCLPBkfrCN5EHcO8GspCpjFXxczylGw74rH+mAtPKnplT5mcfFKxxF4OLZWKbL01r9A0fxT6iQoDuj4KxZIPufAgdYHWqHhbxwUx/+zyKhxfgxv64/FR3caoMhtLFp2l6kgzM1rIMIkTpUteSZHiWddqdug+RUoHaES1hzIPvsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=fBCypKmI; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPJnchbz"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-495437bb891so4103085e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 02:55:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787306125; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RoidzqgdprcR2sDAPB0TCfARGyCSkXiJF6O/ehi8h6loXoh1oQzf7U9l80Jp1h2AoP
-         5DEEHgQ/BgmFxLQUEvsxpDjf3UH2Is3QCYVEoo4TG1t0DwupSvxLcjg7bFbf06fYBgH4
-         wPHSwYR7CS9GaIgRcVgNuMOiuV4MPI0dm5AUiKrgDs4UXN5cA95WvzbEULaveqCQCAnz
-         l0HOv1zEk0pFqkfAblutt6c5CH4osugOccSgnS/j5rCpZLYDVQNYpf8CaCifeEqnNWoa
-         Bau4BgDjFJzas/zmtIvkcpXZWcHl2xrRrUEg9Vv6MC3Wjn8Q3TlaHGCDAO8zmKxT4SHJ
-         MnSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BebempJ9dvkwz+WZ53hR+1ZE+ffzaH6TRYMnpDAc13M=;
-        fh=y5gDEcdnjCtLeAYrAJGx5GKuJWsN1hPyG4pAhLkfHx8=;
-        b=mutPgVuxhIcgwXXoAFya6KItT/P6hYYZ6vLak0TwYC2QOU8+r8Q4jaaZV/u+1pC/xH
-         2O57lyCWpOjp5jKYFMlkYAcd2XzZDza9/tSgrQ/A4T/+mEKDuznVKokDH6cGs2bZkRfQ
-         nyYb1en3F/D1p/HZnkfBADulZk6fgh9AraODqB+tZmBeIAm0HO4tcE5yIiS1Bz6WxNwY
-         s/W4+qGGOxZx9ercIwBPCk0QZfHHBqGf/4QI6Zo2BpgFAjss6MhSrnS9pWztUZC9FXMe
-         EpvaO86WceKzwiN6UtKLsOnK8YsbS6pSt8x27bRFC4a4FyDL6qnessH50GB4shYOfMuZ
-         MWBQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787306125; x=1787910925; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BebempJ9dvkwz+WZ53hR+1ZE+ffzaH6TRYMnpDAc13M=;
-        b=bPJnchbzuSOsBQ6twubiMhT/NaIJZOyEKXlr4J68Yd45RHQPx215RA/PmCBF7Dq0hm
-         xZLjjjSTm6LWXchjg5e90KaoSZGKOur+FjWt1Bpd0+HPH0eenzdKcAlyavI4+Q9MHnZr
-         aWO/P+fxp3R95LHkfEvcmSzXxzMW/h8IjzWtCDnst23SxNhQ+D+nVwPuIbwb/nSXkD9w
-         cg/kAAvH5OPraqjFQ/y39RSPwBwN6ctYOTr9IseFj6HHoRoZPtYgZUBCpL+ewUmxkLtZ
-         xjKRpXTRrhwocQUiIm3ZQE3d9X5TEoKMbBPn301YgpzdJhnTUjwazspiuXhK6rmiA5Pa
-         mkHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787306125; x=1787910925;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BebempJ9dvkwz+WZ53hR+1ZE+ffzaH6TRYMnpDAc13M=;
-        b=Rj4Tm2eG1bLIQaKbRUKAzA9/P7rzS7txDzhRyR8aZ8pc9HgY9eYxqpmRJ0+cT7owT9
-         gUsFGZCj1G/CkcANom8dLclErQWMGzzpmXzzG5WIWkuSoxtlvAuf78i5JXy+J9IVOCNT
-         8Hh84LWrMHSjNUZpn+1O8vACIsN30UQA88AbUZzxBgOnCAalD1+/xsWmKh8v3aR+5OiP
-         /G5PBRM5sDCxekMSSeyfGlBvSmdQdxNu92Z/NbIr4tNTrpqdFNAr/rDNivuSc4rARwps
-         03ZZ5mcAXkkjuvAm+XzZqKdMJP/Z1wzg3kJHuVPyWuBNzOHusaeV0fCajACmiK94EySO
-         stOA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq/6y5RhUD+Erqk9yaGLfQilf5E8/axA71pqLDfbzMw/JwruMjbC3vfqCyjWWfj6hxBGY667wYXIIk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQ2kEWsiVR5Rcgdjl1QHpnUegPvZOALEc3j5TAHsqrtfBjNLpM
-	5MALwAsUwaF8near/cw8To74DbC7Ra9uKM+3diibYkXOV/jI8kp3GQpOXniHf+q45cjc+V8RdYW
-	vG6DIXCW62FCr+tPkgww2Mcl/na2S0X4=
-X-Gm-Gg: AR+sD11FISWaAErrJ6Py4q8KS7+WfILFXVtJtEwwPEJkHsaLkz+uEEoId17ArgR904q
-	fGiOodBVE87aSn5tR7gbm4oAyQ3QzMUC1J/Gnw2l6Sa9Zdb+ks/C7+rpjeeFnvgSADFwuL3O8bB
-	sDsEw3g84bUS9a+prznIMW+t2Nb3Owgq0kTEDdUscgHv5Q1zEVnN6ybIjdcSIqxO/iG8cuu3dfr
-	NLcDSnSKxxCbIluL5bpNKAO84VPIXQhY1iJv9qGqbGmouGzU4Z7fgcboAcecUV7DAgjrUX4j359
-	4XZZ8lKCMBMVKB8upmGseL4Z1a7Fx7l3tT9AF7ZpyUedCLY4Ql0xbNCDOyI5ueQ6/XN4esPekEX
-	5TQ==
-X-Received: by 2002:a05:600c:4688:b0:499:5f80:83ac with SMTP id
- 5b1f17b1804b1-499b91ad940mr38916495e9.7.1787306124204; Fri, 21 Aug 2026
- 02:55:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="fBCypKmI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
+	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description;
+	bh=6Hho0TITdQeYLfNeIBNU2j2g48FSD7UnHlK0l1sFoug=; b=fBCypKmIjZd42fyeJhdVyIosxB
+	pVwkDKR+i4VPptyCpuPS5gURXkfyiQLMgkSS4xoW+Sw6NK4zNUFNugFAcVwIa4Hw/qgR+uqu/HsWy
+	Z+cj5f4epC7xjVsZh/i/f+tJrdMIT2dluOyOk/3KNpu2HTdWzHXLd28qTkMfuxfzFaKO66Sc2n698
+	HDa4D+UIp40CF4c++RcS7GYHOX8Z0sjy7xG50BJ8E1MsJasvs+B1c1HSBxR1eLEuVZc9glFe46Y2C
+	w8I3NN4GjBVEZ4y9Lytpn0rkAGP7z4HyyY3Dma3gIZlGVAmSzWf717o+QJMy8eoHWq2Xloi07iKFD
+	cWVvzgjg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wxMQ7-00BH2x-1m;
+	Fri, 21 Aug 2026 10:24:19 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Fri, 21 Aug 2026 03:24:07 -0700
+Subject: [PATCH 1/2] x86/mce: Rate-limit the CMCI storm transition notices
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260529165640.820-1-ravis.opensrc@gmail.com> <20260818073546.832476-1-kunwu.chan@linux.dev>
- <CALa+Y16xODsaFZDfh7ZeP3gWbycK92gvP5N8_NFpOvW=R2BWbg@mail.gmail.com>
-In-Reply-To: <CALa+Y16xODsaFZDfh7ZeP3gWbycK92gvP5N8_NFpOvW=R2BWbg@mail.gmail.com>
-From: KunWu Chan <kunwu.chan@gmail.com>
-Date: Fri, 21 Aug 2026 17:55:12 +0800
-X-Gm-Features: AcwNN1XF81EEMAI-2sCN9DpjO0D8fvVc3wuFNPsACQIR2_DkOmL8KEG1jq8ABI0
-Message-ID: <CAN_Opa_h2W1hRimy2YXPC4EgueCi2UNwnZ5gSYV=cr8M7yfCmA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] mm/damon: hardware-sampled access reports
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: Kunwu Chan <kunwu.chan@linux.dev>, sj@kernel.org, akinobu.mita@gmail.com, 
-	damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
-	yunjeong.mun@sk.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260821-mce-panic-on-storm-v1-1-7a465c708d82@debian.org>
+References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
+In-Reply-To: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
+ kernel-team@meta.com
+X-Mailer: b4 0.16-dev-f8e9d
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2317; i=leitao@debian.org;
+ h=from:subject:message-id; bh=gc0aPv8jRNrLG2l2U/ppz2zQ2v8zFd3jRszGDWu+atQ=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqiCdLv7yXolgo+J/qJ8JOAfPj75qqpoEYJRxSY
+ G905HDSXoaJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaognSwAKCRA1o5Of/Hh3
+ bbjhD/9s3YSGAhCMTBeXhV6w6f2EN1EnkJKs+1/Q2gfqrGmbqLuZ9z2JZVNcG5WTKj3tb9Aq7j1
+ G1BkMApdiRXq/k9ZZD98NSt4df+/hVrsYmbu14xoxK3NirywXd77HzBx1lrT12I5EpTZYRYXQu2
+ g9aGHd6zv8fJjyCjUj4/zqNS1wZhYBRwytP4Byfh4n0SyDBymJvOV0bqX2BPk2JYrpTl883DdTV
+ E0D7x0K3nnP+lnFkbQ+eWdowyDxB30mtrbHh5fRTB2TPvipewR/DU9/vpCR4A1k8lpfjwnaWCWa
+ a+SdA3Efl+OT8hMLYKnY7eYtVnlU1Cnhksvum9wPbCX4Fm+zwBFEO0SvOObmu18oU8WxP2BMDKy
+ V+qeODl2bxoi6immx1tm0bYuWxQ740EEGBV2zzbYFyHlNFNkVdVnU6z374Evdi5KK7ytybkGC3q
+ VXFBXos5MpI3TXPrRyHP0q4UyRniBLKmQCteDOP8ks5sICbp/rkLs4D/SaYnKH8pkHbnbLDz5eG
+ aktKMy995lUzQ5uQxV+zWTbOIIbWeI/QFONIWmUMJHIPRMy9Y8gMyZM5H4ah++EgbqgzSqvstlV
+ /Ea7k0v+IfAGthz+2/OW/HPKgACqlHORbQxzpUrwbeA6I4z+az6hz9COxmBFLSTHNQrhN5fxWYj
+ Cm9vI8y9NqwAZPg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-Hi Ravi,
+mce_track_storm() prints a line every time a bank enters storm mode and
+another every time it leaves. Neither is bounded, so the log volume
+follows whatever rate the bank flaps at.
 
-Thanks for the detailed reply.  The fan-in diagnosis makes perfect sense.
+One host in our fleet logged 9970726 "CMCI storm detected" and 9970734
+"CMCI storm subsided" lines for a single bank over four days, which is
+a bit excessive for all monitoring purposes.
 
-> Your series is based on the v1 substrate, and the way an event is
-> configured is the part that moves most.
->
-> [...]
+Put both transitions behind one ratelimit.
 
-Glad to hear v2 is on the way.  The probe-based model is actually
-something I encountered while building the AUX backend. When multiple
-sources can feed the same region (e.g. PTE scanning + SPE/IBS), the
-question of how to combine their reports becomes interesting.
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ arch/x86/kernel/cpu/mce/threshold.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-For example, CXL tiering may care about physical-address locality, while
-per-process monitoring may need virtual-address attribution.  How do you
-see probe weights being determined =E2=80=94 is that expected to be
-scenario-specific, or is there a more general principle behind the
-weighting?
+diff --git a/arch/x86/kernel/cpu/mce/threshold.c b/arch/x86/kernel/cpu/mce/threshold.c
+index 6c370d5af5bd2..8591715ce2430 100644
+--- a/arch/x86/kernel/cpu/mce/threshold.c
++++ b/arch/x86/kernel/cpu/mce/threshold.c
+@@ -4,6 +4,7 @@
+  */
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
++#include <linux/ratelimit.h>
+ 
+ #include <asm/irq_vectors.h>
+ #include <asm/traps.h>
+@@ -111,6 +112,13 @@ void cmci_storm_end(unsigned int bank)
+ 		mce_timer_kick(false);
+ }
+ 
++/*
++ * Shared by both transitions so that a bank flapping between them cannot
++ * outrun the console.
++ */
++static DEFINE_RATELIMIT_STATE(storm_rs, DEFAULT_RATELIMIT_INTERVAL,
++			      DEFAULT_RATELIMIT_BURST);
++
+ void mce_track_storm(struct mce *mce)
+ {
+ 	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
+@@ -150,13 +158,17 @@ void mce_track_storm(struct mce *mce)
+ 	if (storm->banks[mce->bank].in_storm_mode) {
+ 		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD, 0))
+ 			return;
+-		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), mce->bank);
++		if (__ratelimit(&storm_rs))
++			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n",
++					smp_processor_id(), mce->bank);
+ 		mce_handle_storm(mce->bank, false);
+ 		cmci_storm_end(mce->bank);
+ 	} else {
+ 		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
+ 			return;
+-		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), mce->bank);
++		if (__ratelimit(&storm_rs))
++			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n",
++					smp_processor_id(), mce->bank);
+ 		mce_handle_storm(mce->bank, true);
+ 		cmci_storm_begin(mce->bank);
+ 	}
 
-> 2. The 67.9% drop rate is fan-in, not sizing
->
-> ---
->
-> [...]
+-- 
+2.53.0-Meta
 
-I completely missed this.  The observability framework showed the
-symptom (67.9% drop) but got the root cause wrong =E2=80=94 it's not a ring
-sizing issue, it's a fan-in problem.  With a single kdamond thread
-draining the per-CPU sources, the samples effectively get funneled
-into a single ring, which explains the numbers.
-
-The per-CPU drain approach using `system_percpu_wq` and `queue_work_on()`
-looks like the right fix.  Our AUX backend already carries a CPU argument
-through the ops, so adapting it should be straightforward.  I'll take a
-look at your v2 branch and re-test with the per-CPU drain.
-
-Two questions:
-1. Is `damon/perf-rfc-v2-08-20-26` ready for me to rebase the
-   AUX backend and observability framework on top of it?  I'd like to
-   validate the per-CPU drain fix with real SPE hardware.
-
-2. For the probe-based configuration, does the `prep_action =3D "perf_event=
-"`
-   model preserve the same event lifecycle?  Our AUX path needs to create
-   and bind the event during apply, keep it disabled initially, and enable
-   it when kdamond starts.
-
-Thanks,
-KunWu
