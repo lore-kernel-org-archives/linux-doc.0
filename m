@@ -1,365 +1,231 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C6A388862
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787338710; cv=none; b=VptM3qw5Sk1eF6rIqTfq8NP8DChmoMrdthHto77G0ylNi6SNY/wl+IpcvKxOCBD+EhhcHqJIgi9Ma+xh3bs7G9v45r6hyfhFckaX6iKpEznnSmKY4pQlTPgEeIvDb+ieAZ+Xr0fTJuGi/MMmiTAK13ea9x7u17dB7SeH1mP/sSI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787338710; c=relaxed/simple;
-	bh=TCbGsETC5zbx2qOdJrl9p/Ic1W1ZL40CCT82Qzdw3mc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=trmvZqjheKlQIti+OC1w6/INO7C0e2DjAk8nhlVJw/+q1/DGAVzhQTsWUxYbrXBxma8bOt0z7mtnm9XwaPyjYeyPj+wl/A9DrTI+yVknUmUfozAE5yFVWN/0YNOa3ByUIibEnceWOkqSB+QH/6vusJxUc7c4lh/XdJNyJSoRdnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DSRg0UHg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hxj2v5xy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8AF3D8907
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 19:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787341181; cv=pass; b=D9mHxdSVj8uQpH0jrixPxJOEcnXe5ur5s4HyIvVtMpNn4iSTGh3THMWLfO4nbrpQD0HLbWWOCpKD3ggYYducuiRSN6xKFeQgRgEfj46s3Pi9pwLHUUGZiC8OPspWjX6jd8mmQoS5GVfqaqEmMgo2/3fktdm2iXqNMVD78cUHL8o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787341181; c=relaxed/simple;
+	bh=2QaAsriM6IS3lTgDPUOF48nwqc8aTC29sa5P2y66CZ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KvFO/YyjcvD1ReQcRJqU+eP5mwBZ14D1nt+GhIOTVYLUoLXrzhKxSS0bTr3NfYOT+MSMwRLHcvgxdmF9qo/SsOtIgVWJicfIk/bF57iOi0hnuPB1H/sJEzRRuYVpveh/sUEKXc0WV9YTAneo8Ah3opuWQpzc1VdGZfjFzdblkvY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ntRi3l6f; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DSRg0UHg";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hxj2v5xy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787338696;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kx9TWcXB6g4zQsYJ1k0m/LLY9asJkpc0FRvOq2JFBz8=;
-	b=DSRg0UHglyplbbWK1I8pHVXanNYfOSZk19IzEfL/E2e7HHvMXLK17deLE9dMOtgVubFpLq
-	pnszbWV9I11N2wlFO6SvzIg9kQ7ss1kCnGIhoDtj5pHQ91JwscpK9zXE0nGJyLTWUH66pP
-	hHI+DGJAI+LvuX0sc+PdiXn/EuR7XUU=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-301-mYzjAg2tP62-EtTOjt1DdQ-1; Fri, 21 Aug 2026 14:58:10 -0400
-X-MC-Unique: mYzjAg2tP62-EtTOjt1DdQ-1
-X-Mimecast-MFC-AGG-ID: mYzjAg2tP62-EtTOjt1DdQ_1787338689
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c19493ac2so14896681cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ntRi3l6f"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-527e352a167so9280461cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 12:39:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787341178; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dElJ1BmJKjyBHMhNpZwWsoVskFX5KF3BiE9HSTjVQUjOSnnl36F4fzgGRAjhlVRZTp
+         I1LWQlXOC5wo4TnONSODtbCNrgKXrTo5whmvJnxpaVqzDr7/80XAi/y1pnxnaBj3I/q9
+         z7Ptfg04NKLUmIuUDjOtTTOBLkrzg1oNLfnj1IHxbYvDqKVldP2b+r7xp93WYC86rA51
+         ZzNmd+2sQ8d8rA2W7F9eVLDExpM6SL303YVOz2o2HLFTP+gtLjmjSwPbU0n5cA6QnTcc
+         FiclXnKDgZWguu+cr+LGmKC1Au+ELO9HKqiwOujkxxhOKBaqu0Q0m6avzWkts/TH9PcD
+         nU1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=KUV4QsUdOhj/C4gedxjcRezZM90WK5l233fM+QINPEo=;
+        fh=1+XvMqOLh3bI/p2q1tu2qNFKKDsKqwh6HyYwHoQpar4=;
+        b=sLoloZVJ8Ep3u3qaFdiX2pEY9kbLKBHoPLtGSV6on2ZCC5Inv260xjUA4Cl4VB7dD7
+         krhWC7jLLHtXsv393u8s4V4Dfq+wmmWMF6TFmJhPNX3BnH97ZtJ16luH2DE1ThBWF/BG
+         NrRFUAWw2Eua1KPYoWg6q2aDeHgpAufM63GUsNcIt7GFPrHxr0WyC0PxuTdoKc99lrWp
+         RMN+L28DXHZ7gCied3ZVqTbT7u5B64dz1pB4SK6FYZ9QunK8mZmM/3OduLDiaFGdt1qX
+         bFLNqo9iQycni8JXhE995tNycMLDEizcf3g2YjbseCYVG5IlR1vp9yajdrK3xY4eQlTy
+         DOYA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787338689; x=1787943489; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Kx9TWcXB6g4zQsYJ1k0m/LLY9asJkpc0FRvOq2JFBz8=;
-        b=Hxj2v5xyOzyUxF/PLaxHl18N/3jBLr28za1o0M/u2QzEDK4lYGGLpW3g2gUx7itJm5
-         X97y8A8Vw5obo9N123Y28Pe9ZTzDR7BCsOMvNnMWc7uDS35GieSZLiXhCaHte2RRLPxX
-         mWyJXGNRaiZGxxeZ0YME2GRnWCO+NMf5ycOMvjOepGJKENOPVTEaa1LRNszOB5jZ+i4/
-         IfsoIbSUJ9ps1ErQ0o+G9enwRvGgX9lQr7WO0SId1rpivLFc9J7J6bqxE/7LiKR/etr8
-         k0pup+fZLeBLszy7RQl7HWV1Uh9R2u2Cy/WaPkOOdfND0g7OYlBy8W0T4Leg8Ku/6W65
-         4N2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787338689; x=1787943489;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1787341178; x=1787945978; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Kx9TWcXB6g4zQsYJ1k0m/LLY9asJkpc0FRvOq2JFBz8=;
-        b=jSVVhNXsMMHq5o8e6me3xtFrRa9ODSRVpc7BT24nNE+cgw6R2OYcUiEpgWiPNDBXYD
-         UItjBP0/jgv67idIcHFpm09kSerPFJWslN7T46loZmTs1IUofN99W/t/JIGIC44b8Unb
-         2cPgFRscBIPou2MSnJcqF9WLyhEbvuGOiAOTRidOaiAZmFu7ATn+g/TyyUI1d5/rY9cw
-         FTLqczoz//06a17pNHJRuXS4lznDBXfLyGI/xGL+kZnBKeCBFA+PBAIqRc0lA2TwPJ6F
-         MHokjxc0ToOH+PJEyYe1Blj0HcCsYmg+GQM5b0d24yU8RPwOGcqVnFHL5lZ6UhJi+/VH
-         8AqQ==
-X-Forwarded-Encrypted: i=1; AHgh+RquVdMWL9IshgN4TUGGo6FJaAPPpXb5JXWAgm/xi0T9lioiR5MKp7xN6l9aAP8PsbmwVaYTG3thd6Y=@vger.kernel.org
-X-Gm-Message-State: AFuF++mQbWkTjdctZXHR3CHosDHiYND2EvB2RmwpR9u1AHJcEOazlO0l
-	mBwv9D8MtZ4qg9PeaPV0xH1q0dR0O6rhqvKNdMNG9ag42BZmWu56YLrIBRNLZkbxTHgsmmRHX/L
-	ma/aOM2Hv1RUvXONeAR8BQKTJAHp1p63MhaLFRdVYV1OBHc7X4cIdQJWczuRUVg==
-X-Gm-Gg: AR+sD13j/KXDu8hgWvbeLfl8vDLirf7ydcEyUb0U3Duj/xOXZc6a3mrupX4nrL/R3+V
-	IQw/SDi3nRaUkFkO/WYpDFhR+cSrIwzlzHn9HvgpVXJmdrR4Dg+ivP1YehEWNPiJXCoH5uDPqrX
-	UlubIesFhAfGU7aXBdcVOV3rK29m6fdCMXABZbySsfytwG9Ma2l0ZVQGUhEzc+OAlDV3f7kEfTx
-	7IsCcn8V7iI1gNI21XJHTD2AL1TR1c27J36kSFd/2Cdpj+Ntom3KBlgnMr8hD0xSD+wqnuJ22W0
-	xmOMVCUacyabzfjdwlhJDl8kHwgGKy/kInzV0dEwTTE/UiuYpExPnzdYJ13Gbc+uED2JRSnU/xg
-	10iyjO2TE2z2hzQdCiA/RCm5DTjWlHHijdGKaWw+3mkzm
-X-Received: by 2002:a05:622a:1496:b0:52d:a4e5:6b3c with SMTP id d75a77b69052e-52df5748a04mr82975891cf.15.1787338689305;
-        Fri, 21 Aug 2026 11:58:09 -0700 (PDT)
-X-Received: by 2002:a05:622a:1496:b0:52d:a4e5:6b3c with SMTP id d75a77b69052e-52df5748a04mr82975391cf.15.1787338688779;
-        Fri, 21 Aug 2026 11:58:08 -0700 (PDT)
-Received: from localhost (pool-100-17-17-231.bstnma.fios.verizon.net. [100.17.17.231])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e09974c7asm1255941cf.6.2026.08.21.11.58.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 11:58:07 -0700 (PDT)
-From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 21 Aug 2026 14:57:00 -0400
-Subject: [PATCH 08/11] selftests: cgroup: add memcg cma tests
+        bh=KUV4QsUdOhj/C4gedxjcRezZM90WK5l233fM+QINPEo=;
+        b=ntRi3l6fuSV9/6tG2fuYlr7KOGFjHLWC/IgW2qf4q3GpWubqv3EwQ7RyHdfc8ip+bC
+         BDtWmCiJmttrako1jPZQNWy5Jaqm4OO197ZG2Rd93WJZYtJjQ7TA9wN/jYOZEeWm9gF0
+         Ic5xTwX5EPosMMv4rEDJxzTHyYNoRBavvuNXc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787341178; x=1787945978;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=KUV4QsUdOhj/C4gedxjcRezZM90WK5l233fM+QINPEo=;
+        b=h0mFELL4HQtjfDr5Q0GuzYx4DxjOs2631Mr2nte5Ur+fcdIplvOnhq0ddVj967w8Uq
+         xrVSvVq2jefH/ibT/tkuwneE+PuQhyUFTycxaNLsmM1VbU1Z1b+Vck3rogaSdkYHhlPu
+         RYpG/zGYi+Svb1BQQGEbZtECm+QIVh8Wgi/0a6fcMVf7OFHJ+72+2A3hSR8YC/Cr569A
+         VML60xc8S4EPd1mkX4ZtZGdLVZTtXxaAgj9YRnSJDxwIUGJyLCKTyWILFHsCwx+d1XM1
+         P3culipxgY9ba0dVDsICkJeYg7gfp1TbxCmYRAX1PmWYYNG1GKygC3GJjxPelWODmXiz
+         e/nw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpuq76/prUIChyAAjWPLIwxhALsSLKA9WRZUG01ZKnj7l6y0hTpzVprCWPNGwQNe8ErcVBVP+ct8Ew=@vger.kernel.org
+X-Gm-Message-State: AFuF++kiVperWHU90kxh5BXqlQuaYs5t2F63ot//lUAk7aswuRB6R9Un
+	A+fJvty5Njh1nBS/UxU1xJeSCyKfFiV4LuCaqWT7ujjuta+il1DZ/BPqdumIg4w6Waqp11dwyrp
+	18e3/VVlg/YyBATl/KRAT1lILhx3nJMAUM2oQ1FNO3A==
+X-Gm-Gg: AR+sD11vKVXg7fwZWkHGoI0fowmOUZC3ltbxMRH8KFnkmUp3X8zO+JGku+G29Yu5dvm
+	f7DN1G7gTKs7GVhCRb6Jmltkh4Wq/gmd3OK3k2baZBwZMcXFdDQslLzQ2ynXGiAdf9n8suILnyK
+	9cyQHVCu0zf0UHuJIMX1xEYn0rxi343JGhXUwJKcJDA1ARa99C/Wuk6o7zMnZIVW8ZUw3Q2TfIm
+	dkGGaOlrq9DyMXwRZQftQJb3IuExZ3nBSF6urNhcqd027dh7BAPnnXVsdtdqk4hSarChCW/moeb
+	sSSM0wO48qrEOaKyiTQCVBu0hDi+KwmAJKNupjYDoHcBskJoOh3xneihtipzdeEmmElC2Ok0fBU
+	2HnAabr9LbBssgbujGkv7zz/ythHaVCGi
+X-Received: by 2002:a05:622a:1f8a:b0:51c:1532:ae93 with SMTP id
+ d75a77b69052e-52df5a32867mr88198341cf.26.1787341177980; Fri, 21 Aug 2026
+ 12:39:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-cma-memcg-regions-v1-8-d21b165b8440@redhat.com>
-References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
-In-Reply-To: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Tejun Heo <tj@kernel.org>, 
- Johannes Weiner <hannes@cmpxchg.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Maxime Ripard <mripard@redhat.com>, 
- Albert Esteve <aesteve@redhat.com>, Eric Chanudet <echanude@redhat.com>
-X-Mailer: b4 0.14.3
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com> <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs> <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner> <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+In-Reply-To: <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 21 Aug 2026 21:39:26 +0200
+X-Gm-Features: AcwNN1V5lCcm6_l8LY5VakD6tTocDvE06I1hYgFmfavubxTv285rgBmrPN7M8XY
+Message-ID: <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+	John Groves <john@jagalactic.com>, John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-Add test_cma_memcg with two simple tests to exercise CMA memcg
-accounting using the dma-buf CMA heap
-(/dev/dma_heap/default_cma_region).
+On Fri, 21 Aug 2026 at 13:40, David Hildenbrand (Arm) <david@kernel.org> wrote:
 
-test_cma_charge allocates a 4MB buffer in the default CMA area, verifies
-memory.cma.reserved.current increased by that amount, then frees the
-buffer and verifies that the counter returns to its original value.
+> (a) Whether a fuse-based approach is feasible.
+>
+>     Are there any major blockers remaining?
 
-test_cma_limit sets memory.cma.reserved.max to 2MB, attempts a 4MB
-allocation in the default CMA area and verifies it fails as expected.
+No.
 
-Skip the test if memory_cma_accounting is not enabled on the cgroupfs.
+> (b) Whether a fuse-based approach is inefficient.
+>
+>     Are there scenarios remaining where performance or metadata overhead would
+>     be bad without an easy way to improve the situation?
 
-Signed-off-by: Eric Chanudet <echanude@redhat.com>
----
- tools/testing/selftests/cgroup/.gitignore       |   1 +
- tools/testing/selftests/cgroup/Makefile         |   2 +
- tools/testing/selftests/cgroup/test_cma_memcg.c | 193 ++++++++++++++++++++++++
- 3 files changed, 196 insertions(+)
+Lookups can be cached, extent mappings can also be cached.   After the
+inode is in cache and the mapping is set up zero requests are needed
+for open/mmap/read/write/close.
 
-diff --git a/tools/testing/selftests/cgroup/.gitignore b/tools/testing/selftests/cgroup/.gitignore
-index 952e4448bf07..b9a4298d4944 100644
---- a/tools/testing/selftests/cgroup/.gitignore
-+++ b/tools/testing/selftests/cgroup/.gitignore
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- test_core
-+test_cma_memcg
- test_cpu
- test_cpuset
- test_freezer
-diff --git a/tools/testing/selftests/cgroup/Makefile b/tools/testing/selftests/cgroup/Makefile
-index e01584c2189a..601d930160a4 100644
---- a/tools/testing/selftests/cgroup/Makefile
-+++ b/tools/testing/selftests/cgroup/Makefile
-@@ -8,6 +8,7 @@ TEST_PROGS     := test_stress.sh test_cpuset_prs.sh test_cpuset_v1_hp.sh
- TEST_GEN_FILES := wait_inotify
- # Keep the lists lexicographically sorted
- TEST_GEN_PROGS  = test_core
-+TEST_GEN_PROGS += test_cma_memcg
- TEST_GEN_PROGS += test_cpu
- TEST_GEN_PROGS += test_cpuset
- TEST_GEN_PROGS += test_freezer
-@@ -24,6 +25,7 @@ include ../lib.mk
- include lib/libcgroup.mk
- 
- $(OUTPUT)/test_core: $(LIBCGROUP_O)
-+$(OUTPUT)/test_cma_memcg: $(LIBCGROUP_O)
- $(OUTPUT)/test_cpu: $(LIBCGROUP_O)
- $(OUTPUT)/test_cpuset: $(LIBCGROUP_O)
- $(OUTPUT)/test_freezer: $(LIBCGROUP_O)
-diff --git a/tools/testing/selftests/cgroup/test_cma_memcg.c b/tools/testing/selftests/cgroup/test_cma_memcg.c
-new file mode 100644
-index 000000000000..b5b5ea140518
---- /dev/null
-+++ b/tools/testing/selftests/cgroup/test_cma_memcg.c
-@@ -0,0 +1,193 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+
-+#include <linux/limits.h>
-+#include <sys/mman.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <fcntl.h>
-+#include <linux/dma-heap.h>
-+#include <sys/ioctl.h>
-+#include "kselftest.h"
-+#include "cgroup_util.h"
-+
-+#define CMA_HEAP_DEFAULT_PATH	"/dev/dma_heap/default_cma_region"
-+#define CMA_RESERVED_CURRENT	"memory.cma.reserved.current"
-+#define CMA_RESERVED_MAX	"memory.cma.reserved.max"
-+
-+static int cma_heap_alloc(int heap_fd, size_t size)
-+{
-+	struct dma_heap_allocation_data data = {
-+		.len = size,
-+		.fd_flags = O_RDWR | O_CLOEXEC,
-+	};
-+
-+	if (ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &data) < 0)
-+		return -1;
-+
-+	return data.fd;
-+}
-+
-+static int test_cma_charge(const char *root)
-+{
-+	int heap_fd = -1, buf_fd = -1;
-+	int rc = KSFT_FAIL, in_cg = 0;
-+	size_t size = 4UL << 20;
-+	long before, after;
-+	char *cg;
-+
-+	cg = cg_name(root, "memcg_cma_charge");
-+	if (!cg)
-+		goto cleanup;
-+
-+	if (cg_create(cg))
-+		goto cleanup;
-+
-+	if (cg_enter_current(cg))
-+		goto cleanup;
-+	in_cg = 1;
-+
-+	heap_fd = open(CMA_HEAP_DEFAULT_PATH, O_RDONLY | O_CLOEXEC);
-+	if (heap_fd < 0) {
-+		ksft_print_msg("cannot open CMA heap (%m)\n");
-+		goto cleanup;
-+	}
-+
-+	before = cg_read_long(cg, CMA_RESERVED_CURRENT);
-+
-+	buf_fd = cma_heap_alloc(heap_fd, size);
-+	if (buf_fd < 0) {
-+		ksft_print_msg("cannot allocate in CMA heap (%m)\n");
-+		goto cleanup;
-+	}
-+
-+	after = cg_read_long(cg, CMA_RESERVED_CURRENT);
-+
-+	if (after - before < (long)size) {
-+		ksft_print_msg(
-+			"invalid CMA counter after charge: before=%ld after=%ld\n",
-+			before, after);
-+		goto cleanup;
-+	}
-+
-+	close(buf_fd);
-+	buf_fd = -1;
-+
-+	after = cg_read_long(cg, CMA_RESERVED_CURRENT);
-+	if (!values_close(before, after, 3)) {
-+		ksft_print_msg(
-+			"invalid CMA counter after uncharge: before=%ld after=%ld\n",
-+			before, after);
-+		goto cleanup;
-+	}
-+
-+	rc = KSFT_PASS;
-+
-+cleanup:
-+	if (buf_fd >= 0)
-+		close(buf_fd);
-+	if (heap_fd >= 0)
-+		close(heap_fd);
-+
-+	if (in_cg)
-+		cg_enter_current(root);
-+	cg_destroy(cg);
-+	free(cg);
-+
-+	return rc;
-+}
-+
-+static int test_cma_limit(const char *root)
-+{
-+	int heap_fd = -1, buf_fd = -1;
-+	int rc = KSFT_FAIL, in_cg = 0;
-+	size_t size = 4UL << 20;
-+	char *cg;
-+
-+	cg = cg_name(root, "memcg_cma_limit");
-+	if (!cg)
-+		goto cleanup;
-+
-+	if (cg_create(cg))
-+		goto cleanup;
-+
-+	if (cg_enter_current(cg))
-+		goto cleanup;
-+	in_cg = 1;
-+
-+	if (cg_write(cg, CMA_RESERVED_MAX, "2M")) {
-+		ksft_print_msg("cannot set CMA limit (%m)\n");
-+		goto cleanup;
-+	}
-+
-+	heap_fd = open(CMA_HEAP_DEFAULT_PATH, O_RDONLY | O_CLOEXEC);
-+	if (heap_fd < 0) {
-+		ksft_print_msg("cannot open CMA heap (%m)\n");
-+		goto cleanup;
-+	}
-+
-+	buf_fd = cma_heap_alloc(heap_fd, size);
-+	if (buf_fd >= 0) {
-+		ksft_print_msg("CMA limit not enforced.\n");
-+		close(buf_fd);
-+	} else
-+		rc = KSFT_PASS;
-+
-+cleanup:
-+	if (heap_fd >= 0)
-+		close(heap_fd);
-+
-+	if (in_cg)
-+		cg_enter_current(root);
-+	cg_destroy(cg);
-+	free(cg);
-+
-+	return rc;
-+}
-+
-+#define T(x) { x, #x }
-+struct cma_memcg_tests {
-+	int (*fn)(const char *root);
-+	const char *name;
-+} tests[] = {
-+	T(test_cma_charge),
-+	T(test_cma_limit),
-+};
-+#undef T
-+
-+int main(int argc, char *argv[])
-+{
-+	char root[PATH_MAX];
-+	int has_memory_cma_acc, i;
-+
-+	ksft_print_header();
-+	ksft_set_plan(ARRAY_SIZE(tests));
-+
-+	has_memory_cma_acc = proc_mount_contains("memory_cma_accounting");
-+	if (has_memory_cma_acc < 0)
-+		ksft_exit_skip("cannot query cgroup mount option.\n");
-+	else if (!has_memory_cma_acc)
-+		ksft_exit_skip("CMA accounting is disabled.\n");
-+
-+	if (cg_find_unified_root(root, sizeof(root), NULL))
-+		ksft_exit_skip("cgroupfs is not available.\n");
-+
-+	if (cg_read_strstr(root, "cgroup.controllers", "memory"))
-+		ksft_exit_skip("memory controller is not available (CONFIG_CGROUP_MEMCG?)\n");
-+
-+	for (i = 0; i < ARRAY_SIZE(tests); ++i) {
-+		switch (tests[i].fn(root)) {
-+		case KSFT_PASS:
-+			ksft_test_result_pass("%s\n", tests[i].name);
-+			break;
-+		case KSFT_SKIP:
-+			ksft_test_result_skip("%s\n", tests[i].name);
-+			break;
-+		default:
-+			ksft_test_result_fail("%s\n", tests[i].name);
-+			break;
-+		}
-+	}
-+
-+	ksft_finished();
-+}
+> (c) Whether a fuse-based approach is a bad conceptual fit.
+>
+>     Will fuse have to carry a lot of famfs special sauce that cannot
+>     really be used elsewhere / generalized?
 
--- 
-2.53.0
+None.
 
+But "can" and "will" are not the same.  The striping code might not be
+very useful outside of famfs.
+
+> (d) Whether a fuse-based approach is too invasive.
+>
+>     Will fuse extensions to support famfs actually make it harder to maintain or
+>     slower on some paths?
+
+No.
+
+> (e) Whether a fuse-based approach will make famfs harder to extend.
+>
+>     Is there known follow-up work that will be hard/impossible to model in fuse?
+
+It would actually make famfs much easier to extend, since the
+directory structure, metadata, etc. is now controllable within the
+userspace server.
+
+> (f) Whether a fuse-based approach will reduce maintenance effor
+>
+>     Will maintaining fuse extensions possibly be harder than maintaining
+>     standalone famfs?
+
+Testing is a key point.  Famfs needs special hardware or emulation, so
+it's not straightforward to test.  This could be solved by adding a
+"dummy" mode to famfs server that exercises the same fuse API, but
+instead of special hardware would just use plain memory.
+
+> (g) Whether a fuse-based approach would make famfs more complex.
+>
+>     Will the shift to user space result in a significantly more complicated
+>     overall solution that must be maintained?
+
+The server would be somewhat more complex, since it's now implementing
+things like pathname lookup, etc.  But the other stuff (managing file
+maps) should be very similar.
+
+> (h) Who would help drive the fuse approach?
+>
+>     Fuse people seem to be willing to help, but I expect that there must be a
+>     close cooperation with John to make this fly. I don't expect that John
+>     himself can easily (or understandably wants to :) ) do the heavy fuse
+>     lifting.
+
+Yes, this is where previous efforts seem to have gone off the rails.
+So I agree to take responsibility for implementing the kernel side and
+help with the server side on the condition that John has trust in
+this.   I'm not promising -7.4, but can at least try.
+
+Without John's trust I'm not taking this on.
+
+> (i) Who would maintain any famfs fuse extensions and own any bugs?
+>
+>     famfs will possibly depend on fuse extensions that might initially only be
+>     used by famfs. Would the fuse maintainers just naturally deal with that?
+
+I can take responsibility for the fuse kernel bits.
+
+> (j) Whether a fuse-based approach has an end in sight.
+>
+>     famfs goes back .... quite a long time. It would be nice to close that
+>     chapter :)
+>
+>     Is there an end in sight, or could we end up in the same situation in 6m/1y/
+>     ...
+>
+>     IOW, is there a way to agree on an MVP that won't require a lot of further
+>     re-planning and changes to a fuse-based design?
+
+I already sent patches to implement the dax dev mapping, and the
+striping.  We've discussed adding support for fixed backing ID, which
+was something that John asked for.  The only missing piece was adding
+a protocol extension to set up  simple extent mappings, which already
+existed in the famfs_fuse patch, just needed to be renamed and unused
+fields changed to "spare".
+
+We (Amir, Joanne, me) explained to John how this is exactly what's
+needed to make famfs work.  We've not seen an acceptance of that yet.
+
+From my PoV this would be extra work, but in the longer term would
+expect to be less overall maintenance work and fuse would gain some
+useful features in the process.
+
+Thanks,
+Miklos
