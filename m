@@ -1,86 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B061C3E009D
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C6A388862
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787338705; cv=none; b=oiYE/ldWwAesFZT+b07LixHzSIDdF2NDQJPTu1sSwcybK7bgifp8RGRkf09tXyQ4q3vkq00bJCh1TmNMpstHYlmjE5I8Zv1y1r8KntqgZjyKAzCCEwHdn4xyRkHaPQZ3rXOJSRuvQWtkoil25prqvjfvfff5CmmquMsfKvL7rjM=
+	t=1787338710; cv=none; b=VptM3qw5Sk1eF6rIqTfq8NP8DChmoMrdthHto77G0ylNi6SNY/wl+IpcvKxOCBD+EhhcHqJIgi9Ma+xh3bs7G9v45r6hyfhFckaX6iKpEznnSmKY4pQlTPgEeIvDb+ieAZ+Xr0fTJuGi/MMmiTAK13ea9x7u17dB7SeH1mP/sSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787338705; c=relaxed/simple;
-	bh=bE3pWVKKdTpuMaQ8HVFIYEoYxc3fMC8VaZaqYRmtIio=;
+	s=arc-20240116; t=1787338710; c=relaxed/simple;
+	bh=TCbGsETC5zbx2qOdJrl9p/Ic1W1ZL40CCT82Qzdw3mc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ku0YCKRK7h9QaYbv61dz9gD+EP3o81J6la2lw9Q/IQgjGjHJ1GcL5VGFbk3xl0fAv1LnIEzuiFrGc8r1fykrZ8b4C2vqoDPIHhez1Kx72nwr8jwx42Y+ouWMV43GcLC6Cosxx4mOQqOcfrpHE3492HoZTbEKhOO0VPMM+DmI/jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WpYdYx5F; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ADzPuKSH; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:To:Cc; b=trmvZqjheKlQIti+OC1w6/INO7C0e2DjAk8nhlVJw/+q1/DGAVzhQTsWUxYbrXBxma8bOt0z7mtnm9XwaPyjYeyPj+wl/A9DrTI+yVknUmUfozAE5yFVWN/0YNOa3ByUIibEnceWOkqSB+QH/6vusJxUc7c4lh/XdJNyJSoRdnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DSRg0UHg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hxj2v5xy; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WpYdYx5F";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ADzPuKSH"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DSRg0UHg";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hxj2v5xy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787338700;
+	s=mimecast20190719; t=1787338696;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W7KnOp/dzi6YYMtNTCErSrAxbzUuBVlszjrt1QEKyR0=;
-	b=WpYdYx5FwqPwr15Ewp5o6jCsSj9ktNXPEUQqyunqdhCpiQyNIczuShxFLCQPtR31s43LSE
-	ZwvYnvU0rP09YK9XRWzx7oxR+mDk2TFYV2+6Auqt0pwGbzxS/HM95vXyvCgTuzOGE/oRWc
-	RM+Jya18DVU370UgPMrS/AE+NYk1z9k=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Kx9TWcXB6g4zQsYJ1k0m/LLY9asJkpc0FRvOq2JFBz8=;
+	b=DSRg0UHglyplbbWK1I8pHVXanNYfOSZk19IzEfL/E2e7HHvMXLK17deLE9dMOtgVubFpLq
+	pnszbWV9I11N2wlFO6SvzIg9kQ7ss1kCnGIhoDtj5pHQ91JwscpK9zXE0nGJyLTWUH66pP
+	hHI+DGJAI+LvuX0sc+PdiXn/EuR7XUU=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-26-Ap64Ch8ROLaLarR1VMgdFA-1; Fri, 21 Aug 2026 14:58:06 -0400
-X-MC-Unique: Ap64Ch8ROLaLarR1VMgdFA-1
-X-Mimecast-MFC-AGG-ID: Ap64Ch8ROLaLarR1VMgdFA_1787338685
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e8004d60eso230522885a.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:05 -0700 (PDT)
+ us-mta-301-mYzjAg2tP62-EtTOjt1DdQ-1; Fri, 21 Aug 2026 14:58:10 -0400
+X-MC-Unique: mYzjAg2tP62-EtTOjt1DdQ-1
+X-Mimecast-MFC-AGG-ID: mYzjAg2tP62-EtTOjt1DdQ_1787338689
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c19493ac2so14896681cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787338685; x=1787943485; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1787338689; x=1787943489; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=W7KnOp/dzi6YYMtNTCErSrAxbzUuBVlszjrt1QEKyR0=;
-        b=ADzPuKSHQH6pEXjFXHRaIBShK89x8kcJkNsdxqErDNLjymnJlwhaxZxXRuG/v0zsFZ
-         m7Kr9QM2WmVdubt2ebx1S1gOfXAdyh6Rc+8R60MkKEh+TzBaTMvaXjBVoh9yp2rUAWaT
-         3KYJMIBW+4+MCmEG70mWJxlXYo6pz5cuMcOnzbYtJaqBDD+sGhHiFZl03Tz2F1uyOG6v
-         fdbgMyVFEUoSe+5DemlDeZh3l08Z3BlIX4hwAZ17F9FHoFrBr5pSL18YDYs5SvHD8aXN
-         EyyiXfYsos2PzdbIVcPee/X4adSgDlKNQvUDxdwpSr1zGR5M5Abtph96+FUI4vp8h4f2
-         9eFw==
+        bh=Kx9TWcXB6g4zQsYJ1k0m/LLY9asJkpc0FRvOq2JFBz8=;
+        b=Hxj2v5xyOzyUxF/PLaxHl18N/3jBLr28za1o0M/u2QzEDK4lYGGLpW3g2gUx7itJm5
+         X97y8A8Vw5obo9N123Y28Pe9ZTzDR7BCsOMvNnMWc7uDS35GieSZLiXhCaHte2RRLPxX
+         mWyJXGNRaiZGxxeZ0YME2GRnWCO+NMf5ycOMvjOepGJKENOPVTEaa1LRNszOB5jZ+i4/
+         IfsoIbSUJ9ps1ErQ0o+G9enwRvGgX9lQr7WO0SId1rpivLFc9J7J6bqxE/7LiKR/etr8
+         k0pup+fZLeBLszy7RQl7HWV1Uh9R2u2Cy/WaPkOOdfND0g7OYlBy8W0T4Leg8Ku/6W65
+         4N2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787338685; x=1787943485;
+        d=1e100.net; s=20251104; t=1787338689; x=1787943489;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=W7KnOp/dzi6YYMtNTCErSrAxbzUuBVlszjrt1QEKyR0=;
-        b=XKZzv9fPl1QrKx2z0OkIooiMbw5eXFa8YqmXLEakqHqSl/OY3bkhvvdPYKfEdkt474
-         eNaQHhtQMPj0Vi4vCP2y1ZQqASW8j2yfHQZ4RZbOAhnFtQW3ZhWpSgVxwIN/qHu/rbc6
-         s+LTDoZ+G039QR9hFsKHdGymhuCH59nCKCfKR1nOJQxYjRreDHmcvcgU3iAsNrRcjJ7o
-         aeSSyFjVSy+ZCmWz6XcskuoChldVfL7ZTWG7iU0vPw6MmniW6ZSlor16CUtR7eEV0wlj
-         Rsg9qw7TEEADXUzgsEs8pB9YthBqzH9DVyPHXJ5ZUEeM+j/Gc2xaBau1QqXwbDtQevoK
-         lO5g==
-X-Forwarded-Encrypted: i=1; AHgh+RrKHAUmmyhnuWQvofTJABi1QrQqj4nJq4Ihl8qh1XATxiUM5d4HsKHptrmZzKVquB9/EhYZs9bXoPk=@vger.kernel.org
-X-Gm-Message-State: AFuF++kyX3WDm2hRgK6VFUU/xKn+pYQdpND/QqcipWjMRRJwqpGlmSm8
-	uGIfTgDhb/VbV77kp2FWnXqkanFnlAM7yV6Y5WGkN2BxRU2Wm3NUUR1WMjy3QCgFvBK8LBKKtJa
-	I8BmZ+OI6ZxLZtcCoUNcmB7pborxW6yLuFyGQYNwqMmLSBZ9q6Wphzh6AMB+Cxg==
-X-Gm-Gg: AR+sD13ed3PoUHAjqYVXARzRZGognuziQi/vK9l9uKHnxR4jU7gBXuvVx+ZTte6S+tC
-	2EVIPE7n6X0SO3oJbIG9KlW/eY2HFn3J3bAqHHGydFP0TDn/7KCuGFVGcOs+FLopAkxXTEh+SoP
-	IwFgWz34jO+OPDM4Mr3Q0RPfBF4LyGjYmWhZ1KXCR8bVTRXp/4QatAta0RwfAreUOjTT+Bj6F3k
-	cvpsCk8M6aGkHJOzxHxzFpNDdXpvWTLJETl2Qy2qyjvO5KysQsnqCp3IpoBtT1Wwlvg9jkKM58I
-	puZd10c1h0eRQKWtnnMmWMwHGVkaRM447kxUZk5gg/d1oOL7+8k1f9TNxXmjGsCmGEcUxRg4cN0
-	oIoaR+wdbi6sobnNwdETYgS/UjyYZ6nKUl8xoPG4tWcDa
-X-Received: by 2002:a05:620a:601b:b0:930:a26a:fb2a with SMTP id af79cd13be357-937394324demr865128885a.2.1787338684941;
-        Fri, 21 Aug 2026 11:58:04 -0700 (PDT)
-X-Received: by 2002:a05:620a:601b:b0:930:a26a:fb2a with SMTP id af79cd13be357-937394324demr865124585a.2.1787338684435;
-        Fri, 21 Aug 2026 11:58:04 -0700 (PDT)
+        bh=Kx9TWcXB6g4zQsYJ1k0m/LLY9asJkpc0FRvOq2JFBz8=;
+        b=jSVVhNXsMMHq5o8e6me3xtFrRa9ODSRVpc7BT24nNE+cgw6R2OYcUiEpgWiPNDBXYD
+         UItjBP0/jgv67idIcHFpm09kSerPFJWslN7T46loZmTs1IUofN99W/t/JIGIC44b8Unb
+         2cPgFRscBIPou2MSnJcqF9WLyhEbvuGOiAOTRidOaiAZmFu7ATn+g/TyyUI1d5/rY9cw
+         FTLqczoz//06a17pNHJRuXS4lznDBXfLyGI/xGL+kZnBKeCBFA+PBAIqRc0lA2TwPJ6F
+         MHokjxc0ToOH+PJEyYe1Blj0HcCsYmg+GQM5b0d24yU8RPwOGcqVnFHL5lZ6UhJi+/VH
+         8AqQ==
+X-Forwarded-Encrypted: i=1; AHgh+RquVdMWL9IshgN4TUGGo6FJaAPPpXb5JXWAgm/xi0T9lioiR5MKp7xN6l9aAP8PsbmwVaYTG3thd6Y=@vger.kernel.org
+X-Gm-Message-State: AFuF++mQbWkTjdctZXHR3CHosDHiYND2EvB2RmwpR9u1AHJcEOazlO0l
+	mBwv9D8MtZ4qg9PeaPV0xH1q0dR0O6rhqvKNdMNG9ag42BZmWu56YLrIBRNLZkbxTHgsmmRHX/L
+	ma/aOM2Hv1RUvXONeAR8BQKTJAHp1p63MhaLFRdVYV1OBHc7X4cIdQJWczuRUVg==
+X-Gm-Gg: AR+sD13j/KXDu8hgWvbeLfl8vDLirf7ydcEyUb0U3Duj/xOXZc6a3mrupX4nrL/R3+V
+	IQw/SDi3nRaUkFkO/WYpDFhR+cSrIwzlzHn9HvgpVXJmdrR4Dg+ivP1YehEWNPiJXCoH5uDPqrX
+	UlubIesFhAfGU7aXBdcVOV3rK29m6fdCMXABZbySsfytwG9Ma2l0ZVQGUhEzc+OAlDV3f7kEfTx
+	7IsCcn8V7iI1gNI21XJHTD2AL1TR1c27J36kSFd/2Cdpj+Ntom3KBlgnMr8hD0xSD+wqnuJ22W0
+	xmOMVCUacyabzfjdwlhJDl8kHwgGKy/kInzV0dEwTTE/UiuYpExPnzdYJ13Gbc+uED2JRSnU/xg
+	10iyjO2TE2z2hzQdCiA/RCm5DTjWlHHijdGKaWw+3mkzm
+X-Received: by 2002:a05:622a:1496:b0:52d:a4e5:6b3c with SMTP id d75a77b69052e-52df5748a04mr82975891cf.15.1787338689305;
+        Fri, 21 Aug 2026 11:58:09 -0700 (PDT)
+X-Received: by 2002:a05:622a:1496:b0:52d:a4e5:6b3c with SMTP id d75a77b69052e-52df5748a04mr82975391cf.15.1787338688779;
+        Fri, 21 Aug 2026 11:58:08 -0700 (PDT)
 Received: from localhost (pool-100-17-17-231.bstnma.fios.verizon.net. [100.17.17.231])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9372fdf59f3sm385976385a.10.2026.08.21.11.58.03
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e09974c7asm1255941cf.6.2026.08.21.11.58.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 11:58:03 -0700 (PDT)
+        Fri, 21 Aug 2026 11:58:07 -0700 (PDT)
 From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 21 Aug 2026 14:56:58 -0400
-Subject: [PATCH 06/11] memcg: register per-area usage counters in cgroupfs
+Date: Fri, 21 Aug 2026 14:57:00 -0400
+Subject: [PATCH 08/11] selftests: cgroup: add memcg cma tests
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,7 +89,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-cma-memcg-regions-v1-6-d21b165b8440@redhat.com>
+Message-Id: <20260821-cma-memcg-regions-v1-8-d21b165b8440@redhat.com>
 References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 In-Reply-To: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -109,144 +109,256 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Albert Esteve <aesteve@redhat.com>, Eric Chanudet <echanude@redhat.com>
 X-Mailer: b4 0.14.3
 
-Expose memory.cma.<area>.{current,max} files under each non-root cgroup
-when cgroupfs memory_cma_accounting option is enabled.
+Add test_cma_memcg with two simple tests to exercise CMA memcg
+accounting using the dma-buf CMA heap
+(/dev/dma_heap/default_cma_region).
 
-memory.cma.<area>.current reports the cgroup's CMA usage for that area.
-memory.cma.<area>.max is a read-write limit (default: max).
+test_cma_charge allocates a 4MB buffer in the default CMA area, verifies
+memory.cma.reserved.current increased by that amount, then frees the
+buffer and verifies that the counter returns to its original value.
 
-Each CMA area gets a cftype template with its name set from the CMA
-area's name.
+test_cma_limit sets memory.cma.reserved.max to 2MB, attempts a 4MB
+allocation in the default CMA area and verifies it fails as expected.
+
+Skip the test if memory_cma_accounting is not enabled on the cgroupfs.
 
 Signed-off-by: Eric Chanudet <echanude@redhat.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 15 ++++++
- mm/memcontrol.c                         | 89 +++++++++++++++++++++++++++++++++
- 2 files changed, 104 insertions(+)
+ tools/testing/selftests/cgroup/.gitignore       |   1 +
+ tools/testing/selftests/cgroup/Makefile         |   2 +
+ tools/testing/selftests/cgroup/test_cma_memcg.c | 193 ++++++++++++++++++++++++
+ 3 files changed, 196 insertions(+)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 3dfc13f31a0c..39871a7a08a8 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1928,6 +1928,21 @@ The following nested keys are defined.
- 	This setting has no effect if zswap is disabled, and swapping
- 	is allowed unless memory.swap.max is set to 0.
+diff --git a/tools/testing/selftests/cgroup/.gitignore b/tools/testing/selftests/cgroup/.gitignore
+index 952e4448bf07..b9a4298d4944 100644
+--- a/tools/testing/selftests/cgroup/.gitignore
++++ b/tools/testing/selftests/cgroup/.gitignore
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ test_core
++test_cma_memcg
+ test_cpu
+ test_cpuset
+ test_freezer
+diff --git a/tools/testing/selftests/cgroup/Makefile b/tools/testing/selftests/cgroup/Makefile
+index e01584c2189a..601d930160a4 100644
+--- a/tools/testing/selftests/cgroup/Makefile
++++ b/tools/testing/selftests/cgroup/Makefile
+@@ -8,6 +8,7 @@ TEST_PROGS     := test_stress.sh test_cpuset_prs.sh test_cpuset_v1_hp.sh
+ TEST_GEN_FILES := wait_inotify
+ # Keep the lists lexicographically sorted
+ TEST_GEN_PROGS  = test_core
++TEST_GEN_PROGS += test_cma_memcg
+ TEST_GEN_PROGS += test_cpu
+ TEST_GEN_PROGS += test_cpuset
+ TEST_GEN_PROGS += test_freezer
+@@ -24,6 +25,7 @@ include ../lib.mk
+ include lib/libcgroup.mk
  
-+  memory.cma.<area>.current
-+        A read-only single value file which exists on non-root cgroups. <area>
-+        is the CMA area name (e.g. "reserved" for the default DMA CMA area).
+ $(OUTPUT)/test_core: $(LIBCGROUP_O)
++$(OUTPUT)/test_cma_memcg: $(LIBCGROUP_O)
+ $(OUTPUT)/test_cpu: $(LIBCGROUP_O)
+ $(OUTPUT)/test_cpuset: $(LIBCGROUP_O)
+ $(OUTPUT)/test_freezer: $(LIBCGROUP_O)
+diff --git a/tools/testing/selftests/cgroup/test_cma_memcg.c b/tools/testing/selftests/cgroup/test_cma_memcg.c
+new file mode 100644
+index 000000000000..b5b5ea140518
+--- /dev/null
++++ b/tools/testing/selftests/cgroup/test_cma_memcg.c
+@@ -0,0 +1,193 @@
++// SPDX-License-Identifier: GPL-2.0
++#define _GNU_SOURCE
 +
-+        The total amount of CMA memory currently charged to the cgroup for the
-+        given CMA area. Only accounted when memory_cma_accounting is enabled.
++#include <linux/limits.h>
++#include <sys/mman.h>
++#include <stdio.h>
++#include <string.h>
++#include <fcntl.h>
++#include <linux/dma-heap.h>
++#include <sys/ioctl.h>
++#include "kselftest.h"
++#include "cgroup_util.h"
 +
-+  memory.cma.<area>.max
-+        A read-write single value file which exists on non-root cgroups. The
-+        default is "max".
++#define CMA_HEAP_DEFAULT_PATH	"/dev/dma_heap/default_cma_region"
++#define CMA_RESERVED_CURRENT	"memory.cma.reserved.current"
++#define CMA_RESERVED_MAX	"memory.cma.reserved.max"
 +
-+        CMA usage hard limit for the given area. If a cgroup's CMA usage for
-+        this area exceeds this limit, the allocation will fail. Only enforced
-+        when memory_cma_accounting is enabled.
-+
-   memory.pressure
- 	A read-only nested-keyed file.
- 
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 8eca00d30fc5..f28d610a59ce 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -6182,3 +6182,92 @@ void mem_cgroup_show_protected_memory(struct mem_cgroup *memcg)
- 		K(atomic_long_read(&memcg->memory.children_min_usage)),
- 		K(atomic_long_read(&memcg->memory.children_low_usage)));
- }
-+
-+#ifdef CONFIG_CMA
-+static int memory_cma_current_show(struct seq_file *m, void *v)
++static int cma_heap_alloc(int heap_fd, size_t size)
 +{
-+	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-+	int idx = seq_cft(m)->private;
-+	unsigned long cur = page_counter_read(&memcg->cma_counters[idx]);
++	struct dma_heap_allocation_data data = {
++		.len = size,
++		.fd_flags = O_RDWR | O_CLOEXEC,
++	};
 +
-+	seq_printf(m, "%lu\n", cur * PAGE_SIZE);
++	if (ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &data) < 0)
++		return -1;
 +
-+	return 0;
++	return data.fd;
 +}
 +
-+static int memory_cma_max_show(struct seq_file *m, void *v)
++static int test_cma_charge(const char *root)
 +{
-+	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-+	int idx = seq_cft(m)->private;
-+	unsigned long max = READ_ONCE(memcg->cma_counters[idx].max);
++	int heap_fd = -1, buf_fd = -1;
++	int rc = KSFT_FAIL, in_cg = 0;
++	size_t size = 4UL << 20;
++	long before, after;
++	char *cg;
 +
-+	return seq_puts_memcg_tunable(m, max);
++	cg = cg_name(root, "memcg_cma_charge");
++	if (!cg)
++		goto cleanup;
++
++	if (cg_create(cg))
++		goto cleanup;
++
++	if (cg_enter_current(cg))
++		goto cleanup;
++	in_cg = 1;
++
++	heap_fd = open(CMA_HEAP_DEFAULT_PATH, O_RDONLY | O_CLOEXEC);
++	if (heap_fd < 0) {
++		ksft_print_msg("cannot open CMA heap (%m)\n");
++		goto cleanup;
++	}
++
++	before = cg_read_long(cg, CMA_RESERVED_CURRENT);
++
++	buf_fd = cma_heap_alloc(heap_fd, size);
++	if (buf_fd < 0) {
++		ksft_print_msg("cannot allocate in CMA heap (%m)\n");
++		goto cleanup;
++	}
++
++	after = cg_read_long(cg, CMA_RESERVED_CURRENT);
++
++	if (after - before < (long)size) {
++		ksft_print_msg(
++			"invalid CMA counter after charge: before=%ld after=%ld\n",
++			before, after);
++		goto cleanup;
++	}
++
++	close(buf_fd);
++	buf_fd = -1;
++
++	after = cg_read_long(cg, CMA_RESERVED_CURRENT);
++	if (!values_close(before, after, 3)) {
++		ksft_print_msg(
++			"invalid CMA counter after uncharge: before=%ld after=%ld\n",
++			before, after);
++		goto cleanup;
++	}
++
++	rc = KSFT_PASS;
++
++cleanup:
++	if (buf_fd >= 0)
++		close(buf_fd);
++	if (heap_fd >= 0)
++		close(heap_fd);
++
++	if (in_cg)
++		cg_enter_current(root);
++	cg_destroy(cg);
++	free(cg);
++
++	return rc;
 +}
 +
-+static ssize_t memory_cma_max_write(struct kernfs_open_file *of, char *buf,
-+				    size_t nbytes, loff_t off)
++static int test_cma_limit(const char *root)
 +{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-+	int idx = of_cft(of)->private;
-+	unsigned long max;
-+	int rc;
++	int heap_fd = -1, buf_fd = -1;
++	int rc = KSFT_FAIL, in_cg = 0;
++	size_t size = 4UL << 20;
++	char *cg;
 +
-+	buf = strstrip(buf);
-+	rc = page_counter_memparse(buf, "max", &max);
-+	if (rc)
-+		return rc;
++	cg = cg_name(root, "memcg_cma_limit");
++	if (!cg)
++		goto cleanup;
 +
-+	xchg(&memcg->cma_counters[idx].max, max);
++	if (cg_create(cg))
++		goto cleanup;
 +
-+	return nbytes;
++	if (cg_enter_current(cg))
++		goto cleanup;
++	in_cg = 1;
++
++	if (cg_write(cg, CMA_RESERVED_MAX, "2M")) {
++		ksft_print_msg("cannot set CMA limit (%m)\n");
++		goto cleanup;
++	}
++
++	heap_fd = open(CMA_HEAP_DEFAULT_PATH, O_RDONLY | O_CLOEXEC);
++	if (heap_fd < 0) {
++		ksft_print_msg("cannot open CMA heap (%m)\n");
++		goto cleanup;
++	}
++
++	buf_fd = cma_heap_alloc(heap_fd, size);
++	if (buf_fd >= 0) {
++		ksft_print_msg("CMA limit not enforced.\n");
++		close(buf_fd);
++	} else
++		rc = KSFT_PASS;
++
++cleanup:
++	if (heap_fd >= 0)
++		close(heap_fd);
++
++	if (in_cg)
++		cg_enter_current(root);
++	cg_destroy(cg);
++	free(cg);
++
++	return rc;
 +}
 +
-+static struct cftype cma_dfl_tmpl[] = {
-+	{
-+		.name = "current",
-+		.seq_show = memory_cma_current_show,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+	{
-+		.name = "max",
-+		.seq_show = memory_cma_max_show,
-+		.write = memory_cma_max_write,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+	{ }
++#define T(x) { x, #x }
++struct cma_memcg_tests {
++	int (*fn)(const char *root);
++	const char *name;
++} tests[] = {
++	T(test_cma_charge),
++	T(test_cma_limit),
 +};
-+#define CMA_DFL_TMPL_SIZE	(ARRAY_SIZE(cma_dfl_tmpl) - 1)
++#undef T
 +
-+static struct cftype *cma_dfl_files;
-+
-+static int __init mem_cgroup_cma_init(void)
++int main(int argc, char *argv[])
 +{
-+	struct cftype *cft;
-+	unsigned int i, j;
-+	int count;
++	char root[PATH_MAX];
++	int has_memory_cma_acc, i;
 +
-+	if (mem_cgroup_disabled() || !cma_area_count)
-+		return 0;
++	ksft_print_header();
++	ksft_set_plan(ARRAY_SIZE(tests));
 +
-+	count = cma_area_count * CMA_DFL_TMPL_SIZE;
-+	cma_dfl_files = kcalloc(count + 1, sizeof(*cma_dfl_tmpl), GFP_KERNEL);
-+	if (!cma_dfl_files)
-+		return -ENOMEM;
++	has_memory_cma_acc = proc_mount_contains("memory_cma_accounting");
++	if (has_memory_cma_acc < 0)
++		ksft_exit_skip("cannot query cgroup mount option.\n");
++	else if (!has_memory_cma_acc)
++		ksft_exit_skip("CMA accounting is disabled.\n");
 +
-+	for (i = 0; i < cma_area_count; ++i)
-+		for (j = 0; j < CMA_DFL_TMPL_SIZE; ++j) {
-+			cft = &cma_dfl_files[i * CMA_DFL_TMPL_SIZE + j];
-+			*cft = cma_dfl_tmpl[j];
-+			snprintf(cft->name, MAX_CFTYPE_NAME, "cma.%s.%s",
-+				 cma_get_name(&cma_areas[i]),
-+				 cma_dfl_tmpl[j].name);
-+			cft->private = i; /* cma area index for counters in callbacks. */
-+			lockdep_register_key(&cft->lockdep_key);
++	if (cg_find_unified_root(root, sizeof(root), NULL))
++		ksft_exit_skip("cgroupfs is not available.\n");
++
++	if (cg_read_strstr(root, "cgroup.controllers", "memory"))
++		ksft_exit_skip("memory controller is not available (CONFIG_CGROUP_MEMCG?)\n");
++
++	for (i = 0; i < ARRAY_SIZE(tests); ++i) {
++		switch (tests[i].fn(root)) {
++		case KSFT_PASS:
++			ksft_test_result_pass("%s\n", tests[i].name);
++			break;
++		case KSFT_SKIP:
++			ksft_test_result_skip("%s\n", tests[i].name);
++			break;
++		default:
++			ksft_test_result_fail("%s\n", tests[i].name);
++			break;
 +		}
++	}
 +
-+	WARN_ON(cgroup_add_dfl_cftypes(&memory_cgrp_subsys, cma_dfl_files));
-+
-+	return 0;
++	ksft_finished();
 +}
-+subsys_initcall(mem_cgroup_cma_init);
-+#endif /* CONFIG_CMA */
 
 -- 
 2.53.0
