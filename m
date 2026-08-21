@@ -1,182 +1,263 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013060.outbound.protection.outlook.com [40.107.162.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3148E4D8D96;
-	Fri, 21 Aug 2026 15:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.60
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787325986; cv=fail; b=poaDtUJuR28Xsn+a5E0OtSh3AngFe+bsNGF1R07wWimjV+qUn+tvattb2W6w5+tOtwgdQeepVCRDt7h51ear+WHB1vHEMlVlDWXRDLtkQAhM8X3GBZypccQis5n/mmjJ3rU2e9coNtBw9RiPfxaXa7xcrlQEF2BPtAPKhcal1yc=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787325986; c=relaxed/simple;
-	bh=vv4HsPzB31NtoahxxATxvOWEafvg87t6rYK32Z1YNWE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:Content-Type:
-	 MIME-Version; b=Sj0MHhYoeWfirDk/GBt/IZF4Yd9WTjENu4IAGWn+S2LYxUUUdtUlfSpwlzYpZqogvFoS1UwIrtMvzLIHAvEJ5TX99ePVErTwjPtg7zCtG6Mj+04QapRuJP+2Fc+0Tv08NGB3mbIeecynQqD7/MTrK70ZE34DPUe4GsITHiGBRlA=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DXeAxHyI; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DXeAxHyI; arc=fail smtp.client-ip=40.107.162.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727D336308A
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 15:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.199
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787326496; cv=none; b=dqQUdu8VJM7PhJVMBImCSf5sV3pr0YIZcX2oC04frSjP/d9AOXGb2udrobdsQcRZl7Z4WrBU9+lgltArTKzrbty+v4mX4lIExgzXLt3ygqlV5O8b3BrAKX5RHOfNKxcLmSmxYsUHHK3DTfeYNLqoreyurRslAFEJ7JyRxJZX+l0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787326496; c=relaxed/simple;
+	bh=GkJXWIi/YBaGv7wnccaUrCemSFcPpUY5fH1FwbC+Jqc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=txbmTrHFMu9Lg+y0KUImHGb87c2lTrmy9KUk8+Wbal2BHjCmtOa1csDcL/g3UqYALBr4MiY+XraUrUvf5ZiXUMetqg5m+eBbXM2X7nh3xMc+McGGtSzG0JicpH+Rn70xn3qy6ikiTmkvvGz+EF+dCfgRCON+GBtOoPQy0D4aX+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NtJBVYYS; arc=none smtp.client-ip=209.85.210.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DXeAxHyI";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DXeAxHyI"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=rGsg/IzdOMWisDqmlpdCZMBsVaEHItciV13qMPQzyBzFJpcW9uMJlFNkWBhgP4H59xcEnahWeVr0D8P4bNKnHoKJBjOMlwzBRGMGn5NrFZtrRdj95YvmrRjo0KFVmkdq9yvAuB5buO2e/uUFSm6XMlw8dehMVc144JIgaKygV2x0l0PIY9KcdM9eow/L5dTfxZCqqUnPDun1PLyN+HEWDlA1QmFSSUx/LVjyFSDocrTQPNmZ2NmeEmFzF9CXWLLstdOnw2XN5sE0UjDJRfIZSWxX/W2oUE7besmzwVYGIqmy4gYgxx5U9S+BVgGLh0Eg7+Wy6xM15oymzTyLKCrQDA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vv4HsPzB31NtoahxxATxvOWEafvg87t6rYK32Z1YNWE=;
- b=O+Im+Ig+ukkBGT2bVZfItrOUYBsyEWxaUhYwWEDoanAZ8mVwA5EDXyBM/IaIuxbCmMJLNip61WIUzkFUC0PGqg3yiGpm7U8KBP49jJSVP5ifMMYQZbuy5tf5VsxdFllcHaVEio+Y7oFLLHg+R6RhYgp0eMyFX8czgBRe+XXDjiNwHki7VWnGQBqWivwWitFcs0zGykraXZP9cM6nJuGXDK3eZORQ5gOOX3zcBcKhETtFxUcluZ/j2sXnxUBQAYABlLbM53LLHDcueEWbh7iPw6aPm79gxhzttPGbTI6+b4d/lmcZb5ySHMRPgt63mgyUWSOJwK/+X7cuS1lSD0oNyQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vv4HsPzB31NtoahxxATxvOWEafvg87t6rYK32Z1YNWE=;
- b=DXeAxHyIHhP24JxVTJJaX1nLmUbQxtXPZAhsRW7wUf/+apmV3lcbHnQ40+n2FACsHY8qm0aLloz0IkSTK87KnRRn2P1bvCWblCLkU4OT6AhNemUEF1dRtqZiGjS7MKn2oDwtwXrA3/3JLWcGDxboCUpZWJXbYjo70e+7Hi5iO1k=
-Received: from AS9PR06CA0718.eurprd06.prod.outlook.com (2603:10a6:20b:49f::33)
- by AMZPR08MB140321.eurprd08.prod.outlook.com (2603:10a6:20b:7cb::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
- 2026 15:26:20 +0000
-Received: from DB5PEPF00014B8F.eurprd02.prod.outlook.com
- (2603:10a6:20b:49f:cafe::9a) by AS9PR06CA0718.outlook.office365.com
- (2603:10a6:20b:49f::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.11 via Frontend Transport; Fri,
- 21 Aug 2026 15:26:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB5PEPF00014B8F.mail.protection.outlook.com (10.167.8.203) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.3
- via Frontend Transport; Fri, 21 Aug 2026 15:26:19 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BSSoFaU5kC0G7nUoWJEz8k+7Zo+GSq6aL4JdwGJ58Tzuh9tPKzqDr58ali2NBy5DakoF4CMMEnL1JL1aO4bSxVRXNdrNK5PC8bFfLhugQUNK3IOZmO3pp8fir8FuR9a9otFG+APCwRMAUET0HM1zcCuF6AUbzp4vMuB8DB3cYdjYOWnezYLGHruiOBFlU72wqI96zA3HsM6fGJPcOwUK8qRu7grJdP4JtTsdgeCK2mXG1gy1a7Wp8hUjR0HmsKjXHKaCRxU+lYWEXnUJiBe+eJ6MkHVrX7QeG7XV74nPlP/x6FFVsaqRcqv8QBIlGLjLpof8MnN3ZnCAvhCdYSvuAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vv4HsPzB31NtoahxxATxvOWEafvg87t6rYK32Z1YNWE=;
- b=V8SW+CZ5Ay3ojPkMnuproy5RWErKAieMBg4l8yPTy33Cw8DZM9LtWJeiZ92lVlOCqaeHnvtyiB5TMp1/2/vynooIOGGVYvdAFzisgO3iFIgd1z+YnURDr8yvaIDcrZT16cfZ8elgYfIi5LKO9AZ0uJ6gUJuPE90bZ/uC94Ndw1s35BEMC9dyOBt368nKG0Oq4cKmfie66zzzVZW1shHaUk5RVsofMyxJa4o5T9P+xvc0TRQOFVPlEN/aAjA95uCaMAgcoV32bxYM5r4dWnxcODCVGmqJnBfhvT36kf3rQephr+TTmenmTU2esz2sXmiIkdX1ZDS5ukClaEqwrPQdtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vv4HsPzB31NtoahxxATxvOWEafvg87t6rYK32Z1YNWE=;
- b=DXeAxHyIHhP24JxVTJJaX1nLmUbQxtXPZAhsRW7wUf/+apmV3lcbHnQ40+n2FACsHY8qm0aLloz0IkSTK87KnRRn2P1bvCWblCLkU4OT6AhNemUEF1dRtqZiGjS7MKn2oDwtwXrA3/3JLWcGDxboCUpZWJXbYjo70e+7Hi5iO1k=
-Received: from DB9PR08MB8651.eurprd08.prod.outlook.com (2603:10a6:10:3d1::9)
- by DB9PR08MB6553.eurprd08.prod.outlook.com (2603:10a6:10:25b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
- 2026 15:22:03 +0000
-Received: from DB9PR08MB8651.eurprd08.prod.outlook.com
- ([fe80::8fb8:7cf9:49c4:6f90]) by DB9PR08MB8651.eurprd08.prod.outlook.com
- ([fe80::8fb8:7cf9:49c4:6f90%4]) with mapi id 15.21.0339.008; Fri, 21 Aug 2026
- 15:22:03 +0000
-From: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
-To: Cristian Marussi <Cristian.Marussi@arm.com>
-CC: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, "d-gole@ti.com"
-	<d-gole@ti.com>, "david@kernel.org" <david@kernel.org>, Elif Topuz
-	<Elif.Topuz@arm.com>, "etienne.carriere@st.com" <etienne.carriere@st.com>,
-	"f.fainelli@gmail.com" <f.fainelli@gmail.com>, "james.quinlan@broadcom.com"
-	<james.quinlan@broadcom.com>, "jic23@kernel.org" <jic23@kernel.org>,
-	"kas@kernel.org" <kas@kernel.org>, "kernel-team@meta.com"
-	<kernel-team@meta.com>, "leitao@kernel.org" <leitao@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Lukasz Luba <Lukasz.Luba@arm.com>,
-	"michal.simek@amd.com" <michal.simek@amd.com>, "peng.fan@oss.nxp.com"
-	<peng.fan@oss.nxp.com>, Philip Radford <Philip.Radford@arm.com>,
-	"puranjay@kernel.org" <puranjay@kernel.org>, Souvik Chakravarty
-	<Souvik.Chakravarty@arm.com>, "sudeep.holla@kernel.org"
-	<sudeep.holla@kernel.org>, "usama.arif@linux.dev" <usama.arif@linux.dev>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v10 16/24] firmware: arm_scmi: Add Telemetry debugfs SHMTI
- dump support
-Thread-Topic: [PATCH v10 16/24] firmware: arm_scmi: Add Telemetry debugfs
- SHMTI dump support
-Thread-Index: AQHdMYDRGTa94cKS1kiesvyjirk0/w==
-Date: Fri, 21 Aug 2026 15:22:03 +0000
-Message-ID: <E24DC6AD-01E4-4F8E-B564-CAA3A0A032D2@contoso.com>
-In-Reply-To: <<20260815232604.3730754-17-cristian.marussi@arm.com>>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic:
-	DB9PR08MB8651:EE_|DB9PR08MB6553:EE_|DB5PEPF00014B8F:EE_|AMZPR08MB140321:EE_
-X-MS-Office365-Filtering-Correlation-Id: 65e3fc4f-8b83-44e4-baed-08deff988d08
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|7416014|376014|23010399003|1800799024|38070700021|10067099003|11063799006|56012099006|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info-Original:
- eSITPvUMAwjngPVz38Hz/Efn5BvnhqJoJZQ5K6/Wxud8eIDBnIie0A8SJkxCPnoG3PdkI0IH4aTqmIpSRDZbUlRdqcb5Y0+q7Gz0kyKM6DkvuVSZiE4Snxd92nXFQLUNkLiUT5ixhrlXKy5rq5F1ublMKbQFHHzv+dtzzmvDapxJnAxxypWgCC90wzbRRV08G5rcJQqeIFHj96imkF4pncsNagfbjo8makQrJ5S8c6Xe4ZQl3P+PsoYPaHOm1lsL0ZCzxkbvMJVsZvJSNgjqIJYQVr65L429fqH/+35uOjtI4D2vwiETK0UFTr/9ywAnqXOntd6dn/a2XFMuUlggVl7MroN/XH5WT90T2XyBWE7dEna4CPBqXMqjAJiuqH6zXGtaDMLqY6vmBVNmNFlImj3cnkLvlw5XgmpeNl0F1KKtX2DDBPbpzJaXe3Buz+VRUhiFSvQq4iBxi3pJbNmworfxc4A59ONV+7mXwy33sxd31AvJrE8E52/g9+lps1/wfKboXbf4y3blbbbEpcLqMKLuTWqz/vno6qrY0DcpyLPPPLOme4dUDqSASkKptdgoBuUUwZw1frKqMX4UyhlrGmDp0f7zMSFEn4ufEAO1y3XbcKtDsSX/P9GpBhnDb2BCcf+dv11oB+curXrmSC8epxEBVxEQxpKLRIT2ZQocOYfccMTtoF7uyEHr3eyFhM/vi8axpvGDwAh+MJgAE74cSs9mVMLDMlllO+/Qw+bFqu8=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB8651.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(1800799024)(38070700021)(10067099003)(11063799006)(56012099006)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5D6DC12E895D064B9B5B4F18AAF9831D@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NtJBVYYS"
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8487ed7f7beso1142368b3a.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 08:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787326492; x=1787931292; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ti5oxrQTNw6Tr45mwB3Y4z0EOV4HeTrBLFVAFF1S+N4=;
+        b=NtJBVYYSIXUR6jqn8dYn7gpsd1oLIHpimk4ag4RI5VOGu2uhXcn033P/47Er4TioUc
+         PgZc4SfHLqhN2A8GEhJHGrUfKenWPMtYISEgjeBrCEfpTPcp/sadFuP1ctKWPt6WvzIZ
+         x4GvqQM4PKfY4ONJ1vb92N54PdMX7ruQy7f/GoJLfwhYfvRdDkWO0wiSnCONMy1A157O
+         y51dt//p0s0XUnfUiUGl/87Q5Yh8o7rCr28pgVA34oG5io5hDcmJ4+N5DJFPn5DmJTox
+         0S8y9zs/lOug1qNS731ZvUgiemliBj4VAOaq17lPVuReeC+fmb3sqmQsV32TsYG0WYDT
+         oG2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787326492; x=1787931292;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ti5oxrQTNw6Tr45mwB3Y4z0EOV4HeTrBLFVAFF1S+N4=;
+        b=VukqKsu+tGl76KLcZf1mT9AZrvDUGZjG7D+chO9IuSE6nC8WqrM4XEeIuzaNjPkaly
+         QHw6q+CBtGKH+ZK2BEM3TRzk5x/bGpfOXZ0skNWyJvg4clw45pBc4eVRxSH+GLPyR7ZH
+         O1tu2/J6RQBTLc+RCoWLuuIJhUi4HLro4clFOPrwB4wImLXt7UavSAbdyE39RIiJJYAf
+         4mZKP8tytBwIXLmYWBg0pb925+5WN5AlTYkGEsVaYWd96povq3PbhPhnVsDvc58dwuEd
+         UJNpdRSm71l/Pm+Kq87M6lxp1fs7UjFxVABtz+f5ESlD3SYqCjRP7VA/VEHomzLKMX4g
+         bq2A==
+X-Forwarded-Encrypted: i=1; AHgh+Rot0ZbUruq+sNKhsiKG9P1SXtk/sWB9Ex1U1Tif7Fc3sZMtTJFVjhQ5w/RGIuVEWrGpJb8nW1q11LU=@vger.kernel.org
+X-Gm-Message-State: AFuF++n0ByVEXJhWZSJbfj2V+GhrjXZ9cSavg7Z+8Wb1CdvqkfkdQfVZ
+	Y9Vy6itHJfKcUkZqzRe6WRdpenw/xWIecia9qqljhMLrdvtgU8W6XSs1peL9xUWFUtoBNgB5xHC
+	hn+4vgA==
+X-Received: from pfdc3.prod.google.com ([2002:aa7:8c03:0:b0:84c:2e88:693d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:14d4:b0:84a:2fff:cef9
+ with SMTP id d2e1a72fcca58-851f9f84b8emr10555555b3a.13.1787326491490; Fri, 21
+ Aug 2026 08:34:51 -0700 (PDT)
+Date: Fri, 21 Aug 2026 08:34:50 -0700
+In-Reply-To: <2vxzy0dzy4gn.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
- JDkEHvsQw8XvcTFMvQg1gkT4UiOTYJ8XMxbRv20sfWFZpkrwEU1igOdE5kEqiKJAPFU7Hb2iKPKfvn2Kq1+MqfSHk1xvuLuGP5DFjgbHsyu5ukxbgwZsYhLn2ePTomZvEbL7vJ7N2Nx1m7za+YlH13RbPC0cYODdse+Ph2YHRTo3+TX2WW5T9j2iy7isUvh1sEJpdY9S0vzyuB101aOuH43KUIRTRy7XqfGx1N7i0zj+YXUc7unNPZK6VbgBYvIUHA3UrlaWhzTa2c0hjnPb9Mps+CYBIeCXF+/lL5ZmSJEBPS0aJJK6x0WS9Ip3Whacbo8feGgpf8yleBzvcoj++A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6553
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DB5PEPF00014B8F.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	10125146-5968-4d38-9309-08deff97f3ea
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|36860700016|14060799003|7416014|376014|35042699022|1800799024|82310400026|56012099006|3023799007|10067099003|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	/yO1J6ZNILAVMW5cuXl2FU9L1A62OSJvfwkSCm7rIxEykJtyrEsevOpKViJa12VdTvMv1I8NBobgNgRi/328NZMkJial/KuXh0u3aTR+UBzsbHhPQ4IJ3MqChegfZxBfpIVw8b6664jqALmZ5H+NuNYi3fgIOtBj1jHesmUP7wTPINptM1K14jbMAIUKWbNo0UXWII2YVfqpchvb0lNUFnCoeg4eWxBS1ovcLcUMn/AefRQEpzGtcq3uOjZtdbxlBnD6L5Ka9QdfLgCVpJTcAGMbclVdM+AfbpjTLcv1/MvyGWHxjHG6SWPaIFDKggTmm5a6tUtqPND18Kl2l8YEFQ2q7JzH/1LFwgSgb8/485qhCwm2Ai0YLtjWnCOxmITiuhncU4UWGtkS8ruVAiS/nIFYMLs3BRY+Q+qSRynHjzlKkCokPzoPrIQ0ogMT+e2Uav6i6sZlLsDUehPIU7jTMRwNqGEEyW+90aZbwHsGKJmL1pQXBeawXOuE3IwdFDbpv7pRRxukbgc3X12B9kUonIHaLLWecUZ8qYC41o71JPvsi7Rsa7WP3o8c8IJiyltwQ62b9WtSe45zVdSFKs5uEYo3GNPNbheUtZDONie7ImGefK6ZuK1B2vVJdy4hC3FE0kwH618ZgTwl33UKRr512neUftUVbNEdd/9J+A1elGaGu/wMhMGNb8NdifDPtX2t5Ure/YHG5Xuea7s31gTLIw==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(14060799003)(7416014)(376014)(35042699022)(1800799024)(82310400026)(56012099006)(3023799007)(10067099003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	tu3YTfjZVRHGc+j553QgPcp5GnVG9QwxcS9LjE1TKrwETDDwBiaBD9yYq7yKP59ghO2rM+3+AyWi6f/lNKwhO1kERl3poRDXpfOPMK8C67Uo0tKJSfYiNT2qAAENF6tTNbuwCpiHkZrVNR2MfQaQ28ilfdEP5XxS7KQs4Nm1IygadJ5zQRHHNHZMpqMTW6v4V93m9NOCWa8kojziKpAlAIjDipIRToPXgLzbBZdcDlDck1hfEC9qCrKJ3sWyA4iCQv2K8W35UrlmXebtl8v/JJXAb81x+Tn1/eKR6CyGmM2lX9PrielEU77Tg7RHad94Ni/Q/3DefmUiCnCrmDEtny9baQUiPuvTWGwUdEnWWl6iqRQzfIs+3SUMAAIHkjSyVCmYM4u7Dxah/UTlMF937s5WqqpmeW4kuG6el894UyMmazQsjkX/4cwCH0r2M3WX
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 15:26:19.8479
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65e3fc4f-8b83-44e4-baed-08deff988d08
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB5PEPF00014B8F.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMZPR08MB140321
+Mime-Version: 1.0
+References: <anphyjFv3FhF61iB@google.com> <2vxzpkzo51wg.fsf@kernel.org>
+ <anssOQFNZ2LfihbU@google.com> <2vxzik5f311e.fsf@kernel.org>
+ <anyObKiZIhfok5mk@google.com> <2vxzqzjz1x5f.fsf@kernel.org>
+ <aoMcqp0gr06YXAPU@google.com> <2vxzy0e3zgqz.fsf@kernel.org>
+ <aoSCCTTBn9D5hqzk@google.com> <2vxzy0dzy4gn.fsf@kernel.org>
+Message-ID: <aohwGv6TRqPg9Dwx@google.com>
+Subject: Re: [PATCH v4 05/11] KVM: LUO: Support VM preservation across live updates
+From: Sean Christopherson <seanjc@google.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>, ackerleytng@google.com, fuad.tabba@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, dmatlack@google.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, david@redhat.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, sagis@google.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	linux-kselftest@vger.kernel.org, andre.przywara@arm.com, michael.roth@amd.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, will@kernel.org, 
+	vannapurve@google.com, maz@kernel.org, fvdl@google.com, kvm@vger.kernel.org, 
+	oliver.upton@linux.dev, kvmarm@lists.linux.dev, alexandru.elisei@arm.com, 
+	skhawaja@google.com, aneesh.kumar@kernel.org, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, yan.y.zhao@intel.com, kexec@lists.infradead.org, 
+	suzuki.poulose@arm.com
+Content-Type: text/plain; charset="us-ascii"
 
-SGkgQ3Jpc3RpYW4sDQoNClRoZSB0d28gVjcgZGVidWdmcyBpc3N1ZXMgYXBwZWFyIHRvIHJlbWFp
-bi4NCg0KRmlyc3QsIHNjbWlfdGVsZW1ldHJ5X2RiZ19zaG10aV9vcGVuKCkgc3RvcmVzIGEgcG9p
-bnRlciB0byB0aGUgZGV2bS1vd25lZA0KdGVsZW1ldHJ5X3NobXRpIGRlc2NyaXB0b3IgYW5kIGl0
-cyBkZXZtIG1hcHBpbmcuIEFuIG9wZW4gZGVidWdmcyBmZCBjYW4NCm91dGxpdmUgZGVidWdmcyBy
-ZW1vdmFsIGFuZCBwcm90b2NvbCB0ZWFyZG93biwgYnV0IHRoZSBvcGVuL3JlbGVhc2UgcGF0aA0K
-ZG9lcyBub3QgcGluIHRoZSBTQ01JIGRldmljZSBvciBwcm90b2NvbC4NCg0KVGhlIGZpbGVfb3Bl
-cmF0aW9ucyBvd25lciBwaW5zIHRoZSBtb2R1bGUsIG5vdCB0aGUgcHJvdG9jb2wgaW5zdGFuY2Ug
-b3INCnRoZSBkZXZtLW1hbmFnZWQgU0hNVEkgc3RhdGUuIEEgbGF0ZXIgcmVhZCBmcm9tIGFuIGFs
-cmVhZHkgb3BlbiBmZCBjYW4NCnRoZXJlZm9yZSBhY2Nlc3MgcmVsZWFzZWQgc3RhdGUuDQoNClBs
-ZWFzZSB1c2UgdGhlIGRlYnVnZnMgZmlsZS1saWZldGltZSBoZWxwZXJzIG9yIGV4cGxpY2l0bHkg
-cGluIHRoZSBvd25pbmcNClNDTUkgaW5zdGFuY2UgZnJvbSBvcGVuIHVudGlsIHJlbGVhc2UsIGFu
-ZCByZWplY3QgcmVhZHMgYWZ0ZXIgdGVhcmRvd24gaGFzDQpzdGFydGVkLg0KDQpTZWNvbmQsIGZp
-bGVzIGFyZSBzdGlsbCBuYW1lZCB1c2luZyB0aGUgZW51bWVyYXRpb24gaW5kZXg6DQoNCiAgICAg
-ICAgc25wcmludGYoaWQsIDE2LCAiJXUiLCBpKTsNCg0Kd2hpbGUgdGhlIEFCSSBkb2N1bWVudGF0
-aW9uIHNheXMgdGhleSBhcmUgbmFtZWQgdXNpbmcgdGhlIGZpcm13YXJlIFNITVRJDQpJRC4gUGxl
-YXNlIHVzZSB0aS0+c2htdGlbaV0uaW5mby5zaWQsIG9yIGNoYW5nZSB0aGUgQUJJIGRvY3VtZW50
-YXRpb24gdG8NCmRlZmluZSB0aGUgZmlsZW5hbWUgYXMgYW4gZW51bWVyYXRpb24gaW5kZXguDQoN
-ClRoYW5rcywNCkZhecOnYWwNCg0KDQo=
+On Fri, Aug 21, 2026, Pratyush Yadav wrote:
+> Hi Sean,
+> 
+> On Tue, Aug 18 2026, Sean Christopherson wrote:
+> >> Does this idea of "backwards compatibility" sound acceptable to you, at
+> >> least at a high level?
+> >
+> > No.
+> >
+> > It's probably fine for Google and other large companies that tightly control their
+> > kernels and use cases, and have the resources to juggle the resulting complexity,
+> > e.g. have kernel engineers on staff to track feature and dependencies, coordinate
+> > and plan kernel upgrades, etc.
+> >
+> > It's not acceptable for upstream, where downstream consumers often run a distro
+> > kernel, have much more varied use cases, and don't always have a horde of kernel
+> > engineers on staff to help them thread the needle you describe above.  And if
+> > supporting live update as a general feature for all users of the kernel isn't
+> > being factored into design considerations, then that needs to change, otherwise
+> > this is all dead in the water.
+> >
+> > I also don't see the point.  Maintaining a rigid save/restore ABI is annoying,
+> > but it's not _hard_ (or at least, not _that_ hard), especially if there's a set
+> > of well-documented best known practices that subsystems can follow, e.g. so that
+> > individual subsystems don't need to learn painful lessons first-hand.  I genuinely
+> > believe that maintaining the version hell you describe above would be more costly
+> > in the long run than simply committing to full backwards compatibility within a
+> > given subsystem.  I can imagine that enumerating what subsystems' information is
+> > in the payload will require a different scheme, but for a given subsystem, I don't
+> > see any reason to aim for anything less than full backwards compatibility.
+> 
+> Let's say for argument's sake that we commit for a fully stable
+> backwards compatible ABI. Even then, you have to deal with multiple ABI
+> versions.
+> 
+> Live update's ABI is more complex compared to KVM's save/restore ABI.
+> For the KVM save/restore uAPI, you are largely describing architectural
+> state like CPU registers, etc. These things don't evolve as fast and
+> more or less stay the same.
+
+Right, because nothing meaningful has changed in any architecture in the 20+
+years since KVM has provided save/restore support, whereas guest_memfd looks
+nothing like it did when it was introduced three years ago.
+
+> Live update needs to describe the state of kernel objects. These are
+> more complex
+
+LOL, you might be the first to claim x86 virtualization isn't all that complex.
+
+> and evolve faster.
+
+The speed at which things change doesn't automatically mean we shouldn't strive
+for backwards compatibility.  Yes, providing backwards compatibility requires
+additional care and planning, and over time *might* lead to an ABI that is
+difficult to maintain.  But IMO, that just makes it all the more important to
+get the design right the first time, not that we shouldn't even try because it's
+hard.
+
+> For example, say you merge guest_memfd preservation today. Some time
+> later, someone comes up with a more efficient data structure to track
+> the folios in the file. You _have_ to make a backwards-incompatible ABI
+> change to use this data structure.
+
+Only if those details bleed into the ABI/contract.  I actually have a concrete
+KVM (well, virtualization) example for this.
+
+Intel's VMX architecture disallows direct memory accesses to the VMCS, and instead
+requires software to access the VMCS via dedicated ISA, using architectural encoding
+numbers to reference VMCS fields.  I.e. VMX decouples how data is stored in memory
+(the data structures) from the ABI/contract with software (VMCS field encodings).
+
+This allows Intel to optimize the data structures to be more efficient and performant
+for each microarchitecture based on the features and properties of each uarch, all
+without breaking backwards/forwards compatibility with software.
+
+My favorite esoteric example is AR_BYTES packing.  For Haswell, Intel added an
+optimization in ucode to allow saving/loading segment register state in a single
+uop (IIRC).  The optimization was especially valuable for virtualization as it
+shaved cycles off the VM-Enter/VM-Exit hot paths.  A key piece of the optimization
+was it required the AR_BYTES metadata to be stored in 16 bits, but existing CPUs
+stored AR_BYTES using 32 bits in an "unpacked" format.
+
+Fortunately, because the in-memory representation was decoupled from the contract
+with software, Intel could pack AR_BYTES into 16 bits for Haswell+ and pack/unpack
+the data on VMWRITE/VMREAD, so that the format presented to software remained
+unchanged.
+
+Does VMX's decoupling of the in-memory represntation of a VMCS have downsides?
+Absolutely.  Most notably, it incurs extra complexity (in software and hardware)
+to achieve comparable performance to directly accessible data structures (AMD's
+VMCB and Hyper-V's eVMCS) for nested virtualization.  And I'm sure it has placed
+contraints on Intel's designs, and obviously introduces complexity into the
+overall system by adding a layer of indirection.  But IMO the VMX architecture
+has been a huge win overall for Intel.
+
+> Or say you add a new memory backend (like the HugeTLB patches in
+> flight). That likely will need a different ABI to describe the state of
+> the guest_memfd.
+> 
+> So you will end up with multiple ABI versions that aren't always
+> backwards compatible.
+
+No, you end up with *features* that aren't backwards compatible.  I can't imagine
+anyone will argue that we should never add new features because then we can't
+rollback to an older kernel.
+
+But adding a new feature shouldn't break the existing ABI.  E.g. adding support
+for HugeTLB in guest_memfd shouldn't prevent rolling back to an older kernel when
+the HugeTLB functionality isn't being used.
+
+Using AMD's VMCB and Intel's VMCS as examples, literally every major new AMD/Intel
+uarch extends the VMC{B,S} in some way, but without fail it's always done in a way
+that is backwards compatible with existing software.  I.e. AMD and Intel ship new
+features, but existing software continues to work, and VMs continue to be migratable
+across CPU generations[*], with the obvious restriction that migrating a VM using
+a feature introduced on generation N to a generation N-1 CPU isn't a smart idea.
+
+[*] There are exceptions.  E.g. Intel removed MPX, and so VMs with MPX can't be
+    migrated to newer CPUs.  Migrating between CPUs with different MAXPHYADDR is
+    sketchy (and simply not done by some CSPs) because neither AMD nor Intel
+    virtualizes MAXPHYADDR.  But those exceptions are absolutely Big Deals that
+    undergo significant scrutiny, from all parties involved.
+
+> If you refuse that idea too, then KVM live update will be dead in the
+> water for a different reason. It will be damn near useless because it
+> can't keep up with an evolving subsystem.
+> 
+> Now once you get multiple ABI versions and you can seamlessly go from
+> old to new one, say you have a version that was superseded 5 years ago.
+> It would be completely reasonable to say that this version is old enough
+> and no one should be going from a 5 year old kernel to a modern one.
+
+LOL, Google literally does this.  Granted, the extreme cases only happen for
+stragglers, and I think we do force VMs to bounce through a "middle" kernel in
+those cases, but I doubt Google is the only company that runs frankenkernels
+for an absurd number of years for a variety of reasons.  E.g. 4.4 LTS was officially
+supported for 6 years, and I'll bet dollars to donuts people ran it for much longer
+than that.
+
+> So you deprecate this ABI. Deprecating old unused uAPIs is not unprecedented.
+
+When there are provably no users, or we can convince existing userspace to migrate
+to an alternative.
+
+> I think we are better off formalizing this deprecation period from the
+> get go.
+
+Why?  What does it buy us?  Because all I see is potential abuse and an excuse
+for not spending time getting the designs right.
+
+> A somewhat tangential example is BPF kfuncs. My BPF program that works
+> in kernel X might not work in kernel Y because the kfunc has changed or
+> been removed.
+> 
+> The argument they make in kfuncs.rst is that kfuncs "provide a kernel
+> <-> kernel API, and thus are not bound by any of the strict stability
+> restrictions associated with kernel <-> user UAPIs".
+
+BPF's documentation isn't arguing anything, it's merely reiterating Linux's
+long-standing policy that there is no such thing as a stable kernel ABI (in upstream).
+
+> For LUO as well, this is a kernel -> kernel API.
+
+Stating the obvious, I disagree with this.  As I said before, if this is the
+stance LUO wants to take, then so be it, but my NAK stands.
+
+> Users can also still do a regular kexec or reboot. They just won't get the
+> performance optimization of LUO.
+
+The amount of time, energy, and money poured into minimizing VM downtime on live
+migration suggests the overwhelming majority of LUO's targeted users aren't going
+to take kindly to this stance.
+
+> Regardless of if you agree with the last bit about deprecating old
+> versions, ABIs evolving with the subsystem is a ground reality of live
+> update and it would be foolish to think we can do with only
+> backwards-compatible ABI changes forever.
+
+I never said the ABI is immutable, I said it needs to be backwards/forwards
+compatible.
