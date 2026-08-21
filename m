@@ -1,68 +1,25 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFD347ECDE
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 13:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AAF339B94F;
+	Fri, 21 Aug 2026 13:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787318836; cv=none; b=KUu7PYs8wzD5VpnXQpfP0uevnsF+8cSM9ykVvDfnV4RvQTySSquTM9e26oW/W2Mf1JD+fGoC1jHii6Znm2rtGc4zXaep0VPbD7zeVTkTr2s74k1BiY6QvVwaNyYgENtGJvSYoofvtXTZw1fWoHz/kyiHdjGmuOAaPQB24wMxuYY=
+	t=1787318993; cv=none; b=R8z33xsyQfFiL+foN5eCcEMJJeOONmi+CP5E2VCnhMvSm3Wfz1EnOagVFH6x4luV/0HVHMThvnQlQWGJ9MqkyXTG81eCdPPAKrKq1J/p3AFjuNnyUP4OfzwNTp4VBRFVIu7RfKNxylmBdjj1rNxHJK0cd82Pyn+0wDQFQUoWEaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787318836; c=relaxed/simple;
-	bh=5klepE7p4Hg1qEAbCF6RZZu8Pu13Alz4PVZPELP3bS0=;
+	s=arc-20240116; t=1787318993; c=relaxed/simple;
+	bh=BabC3+kcFbGerHBn7gigcxFRR/snSxye8aGfaa02f/8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XUXFFrL3+AAFNxKTrRIEcar9dJZRWRH3abevSZB+aofDuT6+N5P/9TrgVjXQb5GmpL3A/zR2XsCi86fDamMFd83qeMc1ktkL/WaPNXtole1VIAk6fUbn6RtNjLOWhHJVX4VyGh9YbhXagAPq+N3HpR8PXISD/fqR4Dh7Km65q+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uuvg/Hmf; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uuvg/Hmf"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47fecbbafdaso348574f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 06:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787318830; x=1787923630; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=93TKIYVELb3f7XMDYi0bAF+lcotYrliPfpYhNsdjWuM=;
-        b=Uuvg/HmfdhudG2I4OkIcuqi0ihof2HdqZeKDbGqe4K7rtcg/jZuIV+5wtYUtm0VrSH
-         Few3nfouzm529EJIoWKAZkfHTZqnlZMbKqV/0+rsqABiJzOoVNqBeLXHgmY86Hint+xo
-         aRcqJVH2GGtDgvuKIo0xtdXWOM6rA6CBJ+JSOPugVTPwXrXN8CwNstu7nCpwr/O83XcM
-         XMdTD5c4+ruoXBOHgQeS+DZ14vYPUBia9mBAlPrrdJjoWtkbbeuwnU+GbMFukPsoOE/h
-         WElOgELVgPVCokpRqEMCO7y9F1QUYCx8hHaSyNvmDeu7WNquADXA3oF0H9canxnKrYeT
-         QDaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787318830; x=1787923630;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=93TKIYVELb3f7XMDYi0bAF+lcotYrliPfpYhNsdjWuM=;
-        b=ms2+G+6+qbDGkQKqJsEwWuBxh76alwOh11gdH91KIt3Y7EKZCujedecoU/YCCeND+b
-         F0jtyUmwfSsK2OZWHbhJ3W1IqIUsJNsNRAwG3tWlYkuQm7wi4NfYHFCwxqFOeT3TgVut
-         wk93pYSrmXYfZWH8XZFI1XHKnxeWlzc82XoPmmWSM8Hy2CqQWRe4LtqSydqtrqqy8eZA
-         iF+NoljdzR8+bRK1RCkh4ygu+g1Krfi+QXjzK32UTnpwPTZDPWUQKgjrH0DFFd+mxgXI
-         FW5D/oWtCC6ZvGKSQXenn4l2L4sFHvzAxRYp/v+Y5+UrNc/EBzIqRNjrM2o9yGz0uXmv
-         nmKw==
-X-Forwarded-Encrypted: i=1; AHgh+RrGrf2oUwdWkJL4Oq6KdS6gisz34eEMJdXXOb7cq2ENUmRlkMyBfDSVu1UWZ7zQBvpzN891RKG9lL8=@vger.kernel.org
-X-Gm-Message-State: AFuF++lh4nitJmcn2pf7OYoypEvTS4eY/rgN7OyevYFIRvCL1WzygvHR
-	l5AkJkdbpgY8G74rADoxcmjWNS64k1S+A/LIUFg/Z5CaoihrGLP/l+2b
-X-Gm-Gg: AR+sD11chhxae4lzv6KfV0E1xZVdIOOrNyBBZSypGwNlWXHyAB/dafb+OavI2Gs0686
-	4tctxQXrQnEVyTuh1tYyBoTi1aVLvfXqyxZvh09hI8ArGJvXELmMCFn3ihVJL35oG3G+NZnzqhx
-	Xb6S4eYUxG0pOqTunePSfmF5YwWgKS6K6iinWCJwDndUO1dNIu4+fdehvAXiUWo3876zX6FIvY2
-	XC4c8V8tD1VgaeJu3KQfkDBUlbrR20/VkaIdnShUWmSJVumMndJHfdMJ15e5O+jlYxGnH+/RW1Z
-	If3RqXazmA/8i7gxzHUTwbmII8vFS8zzSYfv6f6DYED5//A6tUE7pGzJNSsgE0+UZunh44QMFNe
-	ghWmPdrh5pUK2fLRF7glNezCEcZBRNlLbAUkjwaakS3BM3JuKQKX44esOTCr0FnsnGh+lc2ut1w
-	wCKpca8HRI5pQtYpD4hn89kUTukYgQ5qKw7qHQCy27PPtcWJcl+jE2rbVOA04s0PvyH6svlgD4a
-	+a6Sw==
-X-Received: by 2002:a05:6000:41dc:b0:482:aa2a:52f6 with SMTP id ffacd0b85a97d-482c0b41f95mr10002245f8f.1.1787318830006;
-        Fri, 21 Aug 2026 06:27:10 -0700 (PDT)
-Received: from [10.45.28.226] ([15.248.2.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482bf82594esm3408856f8f.29.2026.08.21.06.27.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Aug 2026 06:27:09 -0700 (PDT)
-Message-ID: <12442106-e756-4902-b9fd-c760da04f849@gmail.com>
-Date: Fri, 21 Aug 2026 14:27:08 +0100
+	 In-Reply-To:Content-Type; b=eqAO+Tld//zl5KuD343qLnm6/ADWJ7SDb0NUS+eLR++0Dxv1mVd2grw5CBUHWEN73tSz3tYhZskEHQihyIWtuNwLM8+uCYKlB6UGQ6jPMR197b3pQY9K+AUz3zPw1lZ1bQaXFZTbXk07iHw/NLFlQVl6r99vVDmW6MG/J2AooI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrAAn_jSlUohq9Py9AA--.5164S2;
+	Fri, 21 Aug 2026 21:29:09 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wA39tCiUohqxAkDAA--.3715S2;
+	Fri, 21 Aug 2026 21:29:08 +0800 (CST)
+Message-ID: <b45c6389-a048-4a94-8649-ab0c5a80fac2@hust.edu.cn>
+Date: Fri, 21 Aug 2026 21:29:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,50 +27,117 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/5] KVM: arm64: Add pre_fault_memory implementation
-To: Alexandru Elisei <alexandru.elisei@arm.com>
-Cc: maz@kernel.org, oupton@kernel.org, pbonzini@redhat.com,
- joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com,
- yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
- shuah@kernel.org, corbet@lwn.net, vladimir.murzin@arm.com,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- isaku.yamahata@intel.com, Jack Thomson <jackabt@amazon.com>
-References: <20260612162354.73378-1-jackabt.amazon@gmail.com>
- <20260612162354.73378-3-jackabt.amazon@gmail.com> <ak5sAxb3G6hhFmBF@raptor>
- <alEXGmKiXgWPPdhF@raptor>
-Content-Language: en-US
-From: "Thomson, Jack" <jackabt.amazon@gmail.com>
-In-Reply-To: <alEXGmKiXgWPPdhF@raptor>
+Subject: Re: [PATCH v4 5/5] docs/zh_CN: Add LSM/SeLinux secid Chinese
+ translation
+To: Siwei Chen <anka@stu.cdut.edu.cn>, alexs@kernel.org,
+ si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wy@wyuan.org,
+ Siwei Chen <businiaoanka@anka1.top>
+References: <20260817021340.17318-1-anka@stu.cdut.edu.cn>
+ <20260817021340.17318-6-anka@stu.cdut.edu.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260817021340.17318-6-anka@stu.cdut.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAAn_jSlUohq9Py9AA--.5164S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw17uF4Dur4DGw4rAF4kXrb_yoW5WF4xpF
+	n5KryfJa1xWr17t39rGr17Gr15KF4xuw45Gr1xW3ZYqr95Jr4vkrnFyrZ0krWxKrW0yFW3
+	Xan5trW5WFW0y3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUAV
+	WUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
+	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jfvtZUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-Hi Alex,
+On 8/17/26 10:13 AM, Siwei Chen wrote:
+> From: Siwei Chen <businiaoanka@anka1.top>
+>
+> Translate .../networking/secid.rst into Chinese.
+>
+> Update the translation through commit de1fd4a7b0f2
+> ("docs: networking: convert secid.txt to ReST")
 
-On 10/07/2026 5:00 pm, Alexandru Elisei wrote:
->> Does it guarantee that, after it completes and returns to userspace, the
->> address range [gpa, gpa + size] is mapped in the VM's stage 2 tables? Or
->> does it guarantee that the address range was mapped at stage 2 at some
->> point during the ioctl's execution, but parts, or all of it, might not be
->> mapped after the ioctl completes and returns to userspace?
-> 
-> Nevermind, spend some time thinking about it and it turns out it's
-> impossible for KVM to guarantee that the memory is still mapped after the
-> ioctls returns.  So I answered my own question, thanks.
-> 
-> Alex
-> 
+Two small issues in this patch:
 
-Yeah it's best effort, as if a vCPU had faulted the range itself. This
-could be undone by an invalidation or memslot update. The value is in
-the common cast (for us, post-copy migration) the guest doesn't pay the
-stage-2 fault fault cost at run time.
+1. revise the commit title: SeLinux -> SELinux. You may miss one of my 
+email - 
+https://lore.kernel.org/all/e98bd534-4496-433f-9847-2c5040ecd315@hust.edu.cn/
 
-I think it would be worth me adding a sentence to the documentation
-noting there is no persistance guarentee.
+2. I observed one small inconsistency: flowi structure and flow 
+structure. After searching, the flow structure may refer to flowi, 
+flowi4, flowi6, or simple typo, no matter what it is, let us translate 
+it into "flowi 结构体"
 
--- 
-Thanks,
-Jack
+Dongliang Mu
+
+>
+> Signed-off-by: Siwei Chen <businiaoanka@anka1.top>
+> ---
+>   .../translations/zh_CN/networking/index.rst   |  2 +-
+>   .../translations/zh_CN/networking/secid.rst   | 24 +++++++++++++++++++
+>   2 files changed, 25 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/networking/secid.rst
+>
+> diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
+> index cd768d0a2837..bf22d22b64db 100644
+> --- a/Documentation/translations/zh_CN/networking/index.rst
+> +++ b/Documentation/translations/zh_CN/networking/index.rst
+> @@ -24,6 +24,7 @@
+>      driver
+>      ipv6
+>      napi
+> +   secid
+>      vxlan
+>      netif-msg
+>      xfrm_proc
+> @@ -126,7 +127,6 @@ Todolist:
+>   *   representors
+>   *   rxrpc
+>   *   sctp
+> -*   secid
+>   *   seg6-sysctl
+>   *   smc-sysctl
+>   *   statistics
+> diff --git a/Documentation/translations/zh_CN/networking/secid.rst b/Documentation/translations/zh_CN/networking/secid.rst
+> new file mode 100644
+> index 000000000000..45c79d1b9e07
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/networking/secid.rst
+> @@ -0,0 +1,24 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/networking/secid.rst
+> +
+> +:翻译:
+> +
+> +	陈思为 Siwei Chen <businiaoanka@anka1.top>
+> +
+> +=================
+> +LSM/SeLinux secid
+> +=================
+> +
+> +flowi 结构体：
+> +
+> +flow 结构体中的 secid 成员在 LSM（如 SELinux）中用于表示该流的标签。
+> +该流的标签目前用于选择相匹配的带标签 xfrm。
+> +
+> +若为出向流，标签派生自套接字（若有）；如果该流是为响应某个入站报文而生成的，
+> +则标签派生自相应的入站报文（例如 TCP 复位、timewait ACK 等）。
+> +在特殊情况下，也可酌情让标签派生自其他来源，如进程上下文、设备等。
+> +
+> +若为入向流，标签派生自报文所使用的 IPSec 安全关联（若存在）。
+
