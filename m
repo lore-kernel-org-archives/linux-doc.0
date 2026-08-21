@@ -1,110 +1,271 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 120974749DE
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 13:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787317673; cv=none; b=C+f4dItWiWr0OURr7UGNS9VverjBNYYP4sob0E1YFjeEeDRMYXiC334np1MnlOuT9IRqWt/8szB+Nr4UX0Qk2B/04eOyVi9/mxTjkUtqGFdCSNCQYDhgJOylIrG2IeUJiV4thU4ibAQDnZjanOWYQZDw70apTPIuwd5f64Jr1PU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787317673; c=relaxed/simple;
-	bh=KckKfrWYq6noduu7N6WSuzfIp5N2rWPnFyIEjz/0kvY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mJjtcmkk9st3Asitt1xDB/H7h1FY/ZbViV/Pb/DWzx3j5L9BNPdQkfasrl7tKBcCVAnBK9dt9a4kq63vPhusA6Ul/6cifm8rAO1hRUQgRy3+Fg+xGdWc1yPqDD8sBNRn+vC7a5CqNLgss3ibb6qp82k98mdyJyHYiqlklkHbSzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=207.46.229.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrAB3naJwTYhqSwWrAw--.17382S2;
-	Fri, 21 Aug 2026 21:06:56 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wDHpNFsTYhqMO0CAA--.3988S2;
-	Fri, 21 Aug 2026 21:06:53 +0800 (CST)
-Message-ID: <01451650-af87-4362-bda2-3ba17fda386a@hust.edu.cn>
-Date: Fri, 21 Aug 2026 21:06:52 +0800
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010014.outbound.protection.outlook.com [52.101.84.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1657C234994;
+	Fri, 21 Aug 2026 13:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787317676; cv=fail; b=Z5glg2slfcK2oOApAWYPpkjBUNWPTF3bYsX1q8IR6USH/KCbxFcUC/wZ3PplvLVd2KRN04cbrFRHjd8sjpvUvhxCdkYf74QXkjCHAn5enEj0lg3XqzukikyYdE5L7XL226OXrpQ4P/MivMP/6vyZ1hHAtCo8a4Kla8vWSmNdyNI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787317676; c=relaxed/simple;
+	bh=WweNHDHiElH8o82jk8npSceeFRcm3zMBKegXgf5E3CE=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=pev/f+BDAfMwZH9svvrE1I29HCPS80LEOyvW3rPvbLF4FUTYvKkN5UFVMcR8yXd6YJvu65ZizhcT034elgqXtAU9uxklDcIrTCckSKeD6XNlqR48QWRO/wN+V/jXY46U0RVRUStW979CzVzN06HNoAcLdb8WM7FTZXg6q8oz7/s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=GcfWTaRU; arc=fail smtp.client-ip=52.101.84.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="GcfWTaRU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=R+tkqDm/aC0JauBlQB53xKFvn1dVEgLA/t324CETCOF57pKErbcHV4px7Az/S1KXhmbVyXrEOohKCI7RPjjvxHzkdvYufyuDBVfaorwVCvjjSwMCVin25ndSHnx6sn5u8pZfKNExbM5BAoYnwJBr6zCqYzl3lEEo73ObVdzUsSL915wGYd03VSDndkV5InADXtGTkTbP0phGwS4C7vTX4BNdoxujCY/dptnxudfvPBRk13mEupP0m51zaX390MEr64ac/jhF96D/YyrRNvJ+JV0l8BlBTUvutiFL0x+e/VllC7VAYTpS2d3gTc+QLG+Pm/2tmMsPWwBJkGPc/xrIPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6rHFjSqf+6DCLeGgGMXnp2u+e8Dc03oxwYB+p+SScKQ=;
+ b=EDXkqa2GBtzvExCVYI3g7RAQ8WHjgxIZz4iqGXGNBPK7Qx3obx8O7GP6cb1mCA83ma70OtK9iwgHY4tZaDlHOd1OJIGgc0KeKBN6OnXcO0PdMI+c7qgKCFBTEtT8uUbDzGDCCbHbok5FjenSTb8l+P2G8tiAtLx3J/YOoSbzjRGvX9nw+0xXNvpCxbiKKKC/JZMyxWsBehNgTYU5ZataMItAtSjHRat4PXG7+VVsJ6z40RKFr/sPcr2wvgxfVBmFZa6S7ja78SmkSLWX2qxUuYWWdddITU1i6iem+7OScl2r/Vb+bBX0F4wVa3VYjDnFqhcQrmGFHJfoMm/xsIRJEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6rHFjSqf+6DCLeGgGMXnp2u+e8Dc03oxwYB+p+SScKQ=;
+ b=GcfWTaRU+Kk8WUNEfN88mAlFBnpU65CtvbGdDNdkJfXaxe36dFRulcgwkEdNXJR85PsLnsypqM+erlaux6ru+Nma74JqhiVLC6+HY6QMOB4VcI0rC9KO1qjPL1ECQ1KjNOquERGt4UtLpEsDkkJozIKA1xy9MkDOSm5q+KJX07s/BuuP3QtW96uhSaCkoSXMl97wnN6DnFSqolOgsrqOeNYIwbKjlHFAsurr57YLI7+YmaizYe0DEd9mh+T7s1SjDiZQtuKKTPv7XvRb7pCIKScuLW6dEjCOT2YbmKHflfRDvQsnlzVsgTHr/Lu7HgEyFwqw9NgcIjOAkqXkS6ZEgg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM9PR04MB8469.eurprd04.prod.outlook.com (2603:10a6:20b:414::15)
+ by AMZPR04MB191951.eurprd04.prod.outlook.com (2603:10a6:20b:7c5::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
+ 2026 13:07:50 +0000
+Received: from AM9PR04MB8469.eurprd04.prod.outlook.com
+ ([fe80::1f31:d3d0:6150:b49c]) by AM9PR04MB8469.eurprd04.prod.outlook.com
+ ([fe80::1f31:d3d0:6150:b49c%3]) with mapi id 15.21.0339.010; Fri, 21 Aug 2026
+ 13:07:50 +0000
+From: pankaj.gupta@oss.nxp.com
+Date: Sat, 22 Aug 2026 00:06:09 +0530
+Subject: [PATCH v40 2/7] dt-bindings: arm: fsl: add imx-se-fw binding doc
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260822-imx-se-if-v40-2-74fbce2f2f95@nxp.com>
+References: <20260822-imx-se-if-v40-0-74fbce2f2f95@nxp.com>
+In-Reply-To: <20260822-imx-se-if-v40-0-74fbce2f2f95@nxp.com>
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787337485; l=3245;
+ i=pankaj.gupta@nxp.com; s=20260817; h=from:subject:message-id;
+ bh=T+yyPOpdxzPdIuNJ+imfCdmSEVDwuOuBb/dhiIQRNpY=;
+ b=3cggXtrHEh+enre37E75yrGlCjqMarZZhXDdG5PH7gocNXdhc+vPeBy6PkTfyY6XdrcFcq+d9
+ wFFV+1nro3yB4U8Ci4bl7eknO0z14Z0JgJc7rrLfhlThWrAMVQtwguh
+X-Developer-Key: i=pankaj.gupta@nxp.com; a=ed25519;
+ pk=g4ZgzIWbpXnSxRsoH+l6PWLP78a+Mzpl8e6RQe74d5Y=
+X-ClientProxiedBy: SI1PR02CA0040.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::7) To AM9PR04MB8469.eurprd04.prod.outlook.com
+ (2603:10a6:20b:414::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: What's cooking in Chinese docs (Aug 2026, #01)
-To: Weijie Yuan <wy@wyuan.org>, linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Chen-Yu Yeh <chenyou910331@gmail.com>
-References: <aoLkMBQszbzqYowy@wyuan.org> <aoWmQ965W4WxU4yZ@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <aoWmQ965W4WxU4yZ@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrAB3naJwTYhqSwWrAw--.17382S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWDJw47ZF4DZFyfWFW7Jwb_yoW8Aw1UpF
-	4xJwn7KrWrJr4UAw1Ska1I9ayjqr95Cry3Jan8G3y5AF9IqF9Yqr109F4agFnrZw409rWF
-	yF18X34Ygas8AFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBYb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAac4AC62xK8x
-	CEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0U
-	Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr1j6F4UJwAv7VCjz4
-	8v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_
-	Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uF
-	yUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x
-	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0dOzDUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8469:EE_|AMZPR04MB191951:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9188553f-6160-4a78-cce8-08deff853419
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|23010399003|366016|376014|7416014|1800799024|3023799007|6133799003|10067099003|56012099006|11063799006|22082099003|921020|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	e1YqOVRz3f7Y002ak8MKGzrJyqiQOYv2sKxLQRIMY9/UVOiF16kcVzVIZhfKoFk/BFacwUzsQIc5U7muShEQtKqQWmRo6ZB86EXsseKV12G7EIBtEp5f1fHjLcmaYLh/hINTVIfALTnQ/ltQOzURGZBfa6M8FLrRwA3iWIJ7yLKpkx6+GIAAeW/gg9x3VpWgHdMgb0nzEudtFdxbZ7y2p89i5SSwey/KkbqccqNhZdiivJ42V9V/R8dsAKywlDDqbw8aNoLoOY9lACxJIX+C5j1M8jQrlLABBFtHE6qJBQ8PSLF3+PcMaFTSSEhqPodIa9WQF08STxNkr+2sYXyVa9LPlpO5O9e5CfoTCUWZxrxK9rsUvF4PJARPIJpfwkebxPKbyqCYc2JUUmvqxUIvNWnHSl8M3SvYrAKTK+i8dpxwOACDHelbtTBs0DMMyvP9LdFUYSgcX+BfqBbXxjySl0M+28Ko8Ts0Gv+sIkmL0RBrlob4HZuvD7N8+MHGa0e7xhx2gFAtUk9sLSCkZJdBaBRFdusPkMRIoqnJaIzDqtwpQ9Wzjb1UxuVyc+ATI5+J5uBJdvuI1CXsQdokZ1WDjzNXeH5GXpMUE8O7RUcZyo1rVtaUSj6wjqxuUABiVdW+bV8d6wUcIjAgXqQDBqkmsjaI31b3UDw4mK1Uud9+1aU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8469.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(23010399003)(366016)(376014)(7416014)(1800799024)(3023799007)(6133799003)(10067099003)(56012099006)(11063799006)(22082099003)(921020)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bG1lTFZRYjFwanVYRTA3Vy82Z0NGVlNEUUtTS2swWXhqYTVQSlFOTkYvKzhr?=
+ =?utf-8?B?WGFzSHNZSGpFaXNYOHFVU1hNVmx4SkhveU5aQVA4b0M3RTU4eTFVUzZXeWJj?=
+ =?utf-8?B?WmEwSDJadWxTeUd3NjJheWpYN0FrTkQyMU5BZkNtMGhSdkoydVgvUWM0WmJt?=
+ =?utf-8?B?ZHRDblJzMHBvQlU1bFBNNnNRUjJSK2hXOElueXVMNXIzN2V1UmU3eUdMY3RB?=
+ =?utf-8?B?bGY4S0xCaUxBb0FPdzVwS1k3ZmJJT1JSNDJtR1dWY3dSakhidUlEM1p6T2xq?=
+ =?utf-8?B?WFA0aEYrVGh6cVB6MUhjN0JMdG9CQk42Y2cvRmcvVzNNNUZqeURSNGRGaVo5?=
+ =?utf-8?B?SWpucWNsUWsvTDlsekVhR1JZVzJReUZFM0E1UmFET2FWUWRubUJHY2lGQTVC?=
+ =?utf-8?B?TW0yNVpNbnlsbW1ydUxmb0YzL2RYLzBoaXhYaDFnSTVSVVZidjJTKzgvNzhh?=
+ =?utf-8?B?Zi9NaThDcW1Ndm9qbG5TQUFqOW5Wb2EvT1lxTDRDUExmN09BVFJsUE1MV3d4?=
+ =?utf-8?B?Q3dYVTlOTk95bmh5YnZHRk15ak5ZSUo1emxTQXJzV2FIZnI1Y1pvM3I0eDhk?=
+ =?utf-8?B?RnlWb1NlS2psak8yOWFNT3FNZllweWJLYk80U3BQMmduTURFK0xqWjBKUndF?=
+ =?utf-8?B?VkJzdlhXSTQxbVo0T3I4RHNOR3JhVUZLQ0RCR0FmbU10dGlpWS9Wc0NRaER1?=
+ =?utf-8?B?UG16SXBPSDJ6Tll0a2VySUROcmh0MGpCTlhUNHRjR0FpSTc0djNJazFaTno0?=
+ =?utf-8?B?U0l2UDI2RmxSdnBBSVVxUHJhVjlzMEhHbjE0dEkyV1llc05PbmhCTGxBT2dS?=
+ =?utf-8?B?Z2FXVGFSVFRyN2E1NmUrSXNHK2FPL2lEV2dvSjhWc2VENDVtMU1RUzdWa0ti?=
+ =?utf-8?B?MEZ6T0lkVUNFNFlELzdCV0c3RkVCcVNlSnBxOFdMNU14bm92OHB1VmhpeWc1?=
+ =?utf-8?B?MXFKK0syVkpnZ2xYY09mMEZjVi9Oc0xjdzRSdXFzLzdlVCtLajlXc0JaREMv?=
+ =?utf-8?B?OFREQzBIMTBpS2x0MjFzWVZyL2tKdHlRbEh1aWM0TTQrUElZZVBEamFycXAx?=
+ =?utf-8?B?YnlNTEJ1Vk5CeWlwcThCcGpPQkRCWUxpYkpuU1haVGJ3a09UbStzM1hjZHcx?=
+ =?utf-8?B?WkVKd0ljcm0rejh1aG0rVjJkUFlYSm1heWZHL2svM1VDdzVTKzd0bUY1NWdE?=
+ =?utf-8?B?bGswZ3V0ZjE3aVFPSG1ac1JhaEdFY05qekJZNGRQR1ZIdEFNc2NKNG1RT1ND?=
+ =?utf-8?B?N0QyZk94d3BhRGhwMkZWbmw3OFdSOWpjcjB0REtnSklPbE5UcFB1WGhzVEFh?=
+ =?utf-8?B?eFk5TWZzV09sZXlOSGU4ajZvSEhHTzF4b3JrZUVTdEM3TitsMk03ZXpObjN3?=
+ =?utf-8?B?RWJPakJZNzgrYWl4L1V6enM2RG03VFlDbEk3U2crM2lHT0N6THJGS2FPY3lQ?=
+ =?utf-8?B?VENaVTh3ai9QM0FmZlMvR25tVkJXZ1lNTzNVKzJhYzlCRkNUOXNMd2pBMmwy?=
+ =?utf-8?B?T3IzendBOGc4SmwwMEM0OHExL0grd0tzMmdIaHcyRG5jYU9ZSHRCTUVzNHRx?=
+ =?utf-8?B?S0FaQVNadTA2cVhxNm5WT0xyRVVQa1p0dDQxeDM4SGlUZ0FheGJqc3A3SmFG?=
+ =?utf-8?B?NTdvelFBKzhQZFZ4aHZuOE40UXlHMzZGbHdmNFBmeDlMNnRxOEoxQTZCZ01Q?=
+ =?utf-8?B?Nk5GQ0F3WUlkU29IUWVjR3pJTWkxRnZZMnc3RzFGZmxTdSs2bEtjOW9hTXpM?=
+ =?utf-8?B?MWkzeVQxRFYvaElSUFA2MVYrdjdwVHUwK2pmS2NzaFlITVAwaG1pZnhNcGdq?=
+ =?utf-8?B?OW5Sc01LL0hVL2NaOWMxKzluVXorRkNyazF1SHRSUkZrVFNGeEVIS29JRzR0?=
+ =?utf-8?B?UGUyY200cGZBcEptSzlaYUUzakl1QkwyL0ZjWW1wdzI3L1dxalllaWtjVWlP?=
+ =?utf-8?B?VHZmQnlvYVcwMVArOUZMZGJSYXZEbldOakVBaTNCcmtGMnRIcFU3VWtlNU0z?=
+ =?utf-8?B?REloR0pUMWpxYjFXaHF5eE9ZS004b0RiTmVYWDlhMWQwRkVxQjMwNHBFVHg3?=
+ =?utf-8?B?ejNLNld5MVdGeWVPSkJjeURvcHhENDZ0MDh1MmRLQm9BYUJSV2lweGwwTW12?=
+ =?utf-8?B?dFNBcUVEeERneWEyZ2Jvbkh2eWlVbVB3Y1ZFU2o1KzNxT3FGM3E3QTBwRnRU?=
+ =?utf-8?B?bUdzdXFXTlg1anRWdlFDNVh0bXE2d3l5TTNnMVhkblIxZUNHQ0pGV2FhOXlX?=
+ =?utf-8?B?WU85REY4M1Z2QkE5bHMwUmlQS0dLR3QwTWowamFwblh0cFJ1eGR3THJyUkNN?=
+ =?utf-8?B?NW4vTi9YNVE4dFpLQ2NMSkszamtNOHd2eVZDUlpySzNwc1JTL0NGbTFrK01C?=
+ =?utf-8?Q?onqx+qUxQdgwjDIMLB0iJ9lfPz0WDc3cIqksI?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9188553f-6160-4a78-cce8-08deff853419
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8469.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 13:07:50.5860
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KcWqRhSCa+F63aKm4UB6es9K+3hopbZif6wh5odOjiLyDIfHV5hKggZHx08CDPjqNYiax/UTGeR6Hb2MsVGX+204h7QzuH//6VTj9Ei86W3C+OYl9na97JXq+tyGjfa3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMZPR04MB191951
 
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
 
-On 8/19/26 8:49 PM, Weijie Yuan wrote:
-> On Mon, Aug 17, 2026 at 06:36:32PM +0800, Weijie Yuan wrote:
->> Here are the topics waiting to be merged.
->>
->> Sorry for the late update.
->>
->> Last time, a contributor mentioned that he did not want to be copied, so
->> this time I will only send it to the maintainer. Meanwhile, I am looking
->> forward to the emergence of an automated system for our work. ;-)
->>
->>
->> Copies of the source code to Chinese documentation development tree live
->> in here:
->>
->>      git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->>      https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->>      https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs linux.git
->>
->> Mirrors:
->>
->>      https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
->>      https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
-> BTW, I just set up a mirror at github.com:
->
->    https://github.com/kernel-zh/linux-zh_CN
+The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X etc.,
+creates an embedded secure enclave within the SoC boundary to enable
+features like:
+- HSM
+- SHE
+- V2X
 
-That's a good idea. I remember Haowen maintained his tree in the Github.
+Secure-Enclave(s) communication interface are typically via message
+unit, i.e., based on mailbox linux kernel driver. This driver enables
+communication ensuring well defined message sequence protocol between
+Application Core and enclave's firmware.
 
-Maybe CDN is also worth a try.
+Driver configures multiple misc-device on the MU, for multiple
+user-space applications, to be able to communicate over single MU.
 
-We will setup a code hosting platform in the HUST. It's not a good idea 
-to host git repository in the mirror site.
+It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
 
-Dongliang Mu
+Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+ .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 91 ++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
->
-> It uses a relatively bare-bones GitHub Action to sync from kernel.org
-> every day (I guess it can do every 2 hours as well, but every day seems
-> fine, as I'm afraid that if the frequency is too high, there might be
-> problems.)
->
-> I don't know much about GitHub Actions, so if you have a better solution
-> or thoughts on this, please let me know. Or, I would be very pleased to
-> invite you to take over the org account and set it up.
-LLM helps here. It does not need any sophisticated technique.
->
-> Although I know that people here may not be so fond of GitHub, this is
-> what I can do now.
->
-> Thanks.
+diff --git a/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+new file mode 100644
+index 000000000000..fa81adbf9b80
+--- /dev/null
++++ b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+@@ -0,0 +1,91 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/firmware/fsl,imx-se.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NXP i.MX HW Secure Enclave(s) EdgeLock Enclave
++
++maintainers:
++  - Pankaj Gupta <pankaj.gupta@nxp.com>
++
++description: |
++  NXP's SoC may contain one or multiple embedded secure-enclave HW
++  IP(s) like i.MX EdgeLock Enclave, V2X etc. These NXP's HW IP(s)
++  enables features like
++    - Hardware Security Module (HSM),
++    - Security Hardware Extension (SHE), and
++    - Vehicular to Anything (V2X)
++
++  Communication interface to the secure-enclaves(se) is based on the
++  messaging unit(s).
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8ulp-se-ele-hsm
++      - fsl,imx93-se-ele-hsm
++      - fsl,imx95-se-ele-hsm
++
++  mboxes:
++    items:
++      - description: mailbox phandle to send message to se firmware
++      - description: mailbox phandle to receive message from se firmware
++
++  mbox-names:
++    items:
++      - const: tx
++      - const: rx
++
++  memory-region:
++    maxItems: 1
++
++  sram:
++    maxItems: 1
++
++required:
++  - compatible
++  - mboxes
++  - mbox-names
++
++allOf:
++  # memory-region
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx8ulp-se-ele-hsm
++              - fsl,imx93-se-ele-hsm
++    then:
++      required:
++        - memory-region
++    else:
++      properties:
++        memory-region: false
++
++  # sram
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx8ulp-se-ele-hsm
++    then:
++      required:
++        - sram
++
++    else:
++      properties:
++        sram: false
++
++additionalProperties: false
++
++examples:
++  - |
++    secure-enclave {
++      compatible = "fsl,imx95-se-ele-hsm";
++      mboxes = <&ele_mu0 0 0>, <&ele_mu0 1 0>;
++      mbox-names = "tx", "rx";
++    };
++...
+
+-- 
+2.43.0
 
