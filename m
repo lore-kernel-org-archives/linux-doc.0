@@ -1,492 +1,290 @@
-Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012045.outbound.protection.outlook.com [52.101.53.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4987937A821
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 05:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B125376BC6;
+	Fri, 21 Aug 2026 05:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787291144; cv=pass; b=Ll9zbHMt+asLyCcAwGjth4VfETiF+SpOoQ50fWQg8vCA7dlAVpXke3cH/u2MA7KDFYkUtumlakjPDHZDo7aCgim1dRZ549sAfecemEiUgClVeBwjBNL7IrSiAVjWYdSRX4+lWntHBDTWbkxIwQSr6CZr0kiZeMnELL6h3BPi5Pk=
+	t=1787291834; cv=fail; b=m8xfp14HRsVCN7477yXYsSAB0ut6e3LLU9nWjPCf6KjTcho9WexIrzrmpvsmAjX+Yc/+qVEvdOojO/3Twr5JGRpFE0WbkrwVGXDFHpj0mJnERxiPWOEpOf0LfnsDU8ksTCYpten+WLFCYBo71cotWBhthu0vFGsDDup3vAbe1pg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787291144; c=relaxed/simple;
-	bh=s8Pd23hRQXPgYKv3WbZ07mMPpHJGeydy79wN7oFXgh8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Abg/YpJhEvrgkkbrS4RjdngXeySRq9P2fqlcn8MWrsrpGLiWNq2DPMpg5bZ1q4HnC71iWEK4vdylAByjoT1QFir2Cu4OMBPsd5U/wqmL8LQNHMgeokPsx6viHtCj1eSkSgqObHKDbjiSR1VwrqYtXfnPWBj2abopx0rcLvpSFHo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gM+KsuQG; arc=pass smtp.client-ip=74.125.227.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787291834; c=relaxed/simple;
+	bh=FRnao4t/0sYM9oahz8IQxv0aBc1MQDqyRrNcXu87XNs=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a3ThpGDYCqJNM9fD6puMQx0+zQhFL/u2n4s00JWf+NHlg0QBAxHSRpMVBXrKQ40hj+hLnHDTZ+xvz2ULWMSJu7Dw+81vBhSnwFoUfTzmuQlvzIgR+w8FsYKeSoCOwSiMtFNCIGrgXwAlvmlBzVgPNfAse3AYX48zeSz60CD1MnU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Phm41HW5; arc=fail smtp.client-ip=52.101.53.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gM+KsuQG"
-Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-381c69ad0d9so156216a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Aug 2026 22:45:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787291141; cv=none;
-        d=google.com; s=arc-20260327;
-        b=G0DaK3mNb2gql2CeCli5ZXmcbv0Q7gNoCoALfD7uQoB/risPe7s8aCRuckaTIHBEbs
-         NsWF8jtCdpgIOn+96tiHt/Su3vIBpAizbcCqiON9HPwTS0JFtnuo0Y4AdzDsfADtaZFD
-         9JKWcHHMOBzt1/KKeVtciW1TCvvUTrd/HKuaefkawO4k67TuVde2PUjjlpezzq3Irm4b
-         nL545qf83OsYamUNEhkKEh3Dgavwbe69PFnwWYq8uy27EIwVOFCLhia402+G4ZwV1eyK
-         7bszS8hu/gplidX6UBuwUs8vlTeLK+hTbt9CnmPe1InzmEhlxPqL1B/JjDvy9UOFZNp1
-         FdGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ROW98uhKqBpi1d3PuLKKH072x+hvcaVcm5AXC+FLU20=;
-        fh=aVJD8TNBUa7nvVtGXoUSbPq06emXV35iM63W3vgV0Bs=;
-        b=nMyu3T9w9PSAy3ZRjpNMbS2d0HnFSiSBFWr53wJ12UU18BzwAlPw4AjXIz5Q331dHe
-         4fjlbBgIqAhcLy1kBsl79XRGIktHR1kudU0X2D9UNrh9glSPGRwQJkN/3AOMAlLacmUh
-         XXXzl1b+FeGzBYps/TizDzeSEIsPzr/a5R6TZqdSRZTy5ilvAwwlLKgn3Pow2ODSztml
-         u4Jx2tyBhF0z4BWA5QdevJVdiAHR5qY0E3qv4MZGurl6xq4sukkSIFGCF/Zr0EN+/CX0
-         kHImp+Jbj2H6SKPKbZ7VlgQH/VGbhsyRVaTD+Kzq3uMHfeTEFaY9h91+P87sVx2qCZUC
-         yuSQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787291141; x=1787895941; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ROW98uhKqBpi1d3PuLKKH072x+hvcaVcm5AXC+FLU20=;
-        b=gM+KsuQG7N4efviteo/hYogJZL4eFTolbNMANXFUSvk43IHrF4Ykgif4fxeznoEnaB
-         q5d7JFiuTu1R2SZHRklQBusY70NpQM0lSW5aou+X3Fx99yhgMrbd+sshET1eta4+oy+P
-         la9VH6wK+jC668ayLBRXgul07pOoaapO3CuR/pE6bghXvSYG+7e123lALB8jv6elZ3LN
-         6bSm+Ird9uF0QJBP0tEL/hHjUbBKmYr9jNBzRxoS8iDp13EvHTluVja+0BKjYYuWKnV/
-         j/VceQ5STtnKuaXYS2LBcCLi2wv8CvDQfBfdC9Yh8dG/H7ctUDaRb/wu4cCBhpi9b4EN
-         ujKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787291141; x=1787895941;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ROW98uhKqBpi1d3PuLKKH072x+hvcaVcm5AXC+FLU20=;
-        b=Ac8AZWIgFxwqr0Se1coIYG39DgHMsudoANRbq/z2+DzkRB0YFDRe13UUVq+dKUMwTR
-         hMO3qrBVJ8po5W3I/aj21pQhHMK1oKavRsSSq7j/JtYNdfpdon1aQZZzvvtstPaVgLqu
-         y53Zfwoun3XZPJADOLe+QPvhD4JjtJJQJ4yTisMGEnDCSHEi4TkStJKQMlGDAkZZpDJr
-         dadeTT5IysUt223YT0JNET3T8FjsgGGzau4I0Fv3v0DsAmMdFn5WdN8xgx5rvWX1Hlfk
-         l5cA2KlpznoRBYEdxUZk+E+q/7ZBIf6Ws3msaG/VOR5GXPqmFgXKbU7B0dcIzFPNXREG
-         zMSA==
-X-Forwarded-Encrypted: i=1; AHgh+RrQbzJFS3Xv97D5E1Lljl08YNbnThzH+F1RN7RZAxz/OEhZ2yk2P7SsKloSzKS1ww6K41bJLIU6ntU=@vger.kernel.org
-X-Gm-Message-State: AFuF++kXenipdMKAmGbyjJAri82NgE5k9pu7eQLJBFuD//vgjQdpc+zj
-	iPUbfhWkSVFcQij8h5siOHoKhcX+QJuKYPPmPaqwKaV8AUX9VmluVFkX4CHnQHDNUA3/GsIQPt5
-	puwDEqLkf65xkbxowvImrvl8aYPyouQ==
-X-Gm-Gg: AR+sD10Y2NMb4PN6dKL9PXK8u9ZPUuvxFMZ+rdoEOhATVRIg5yxmDoumAUc9F1NudUO
-	3RsKNfLlaCaluGUzm8hBiCmE+oAuVJ7Ronox/NDB+DiRFDMps/uj76/RCkxXzCNK/QXQO+NEmUz
-	xyewbA7t/esI+jyj6uHB4O1cBX/oYosB2zHpqBivb86XTYFQrb0APbUcb4u+vVqlX+AyZIZYvKQ
-	mZ8QBFnSnE1ysX0+MKx/b6puTMXQ9Ek5/EufnR41P57h1+2/KHtU/gE70oEyd74D6jzQj2pzX1t
-	LX4AoyylBdaCdFbJI9WLJTfMV8P6Zv70pxgeWLE3j2A=
-X-Received: by 2002:a17:90b:5646:b0:38d:f5bb:e0f4 with SMTP id
- 98e67ed59e1d1-395c33367ebmr7628908a91.1.1787291141208; Thu, 20 Aug 2026
- 22:45:41 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Phm41HW5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vp0t0MSl8p4StDn4T/gPJ+agdhs6YcWN3tkE6pdCSGijTHFItATZt0d3Dk3daAXMcp+4ukCIKwKmuvQeWUOKq748Eof8D54vXpHaUUPUfIT5i83EZHgwV3NmiJKCHZOFkkt62bJrUf1aCuiNeU9S1TExEOYFGuAkQB1Ov4079qnl0GLB1rU55R300j30IwR7O/7BjNN+CaSwQE69Tox7y7GYtTr68qc8sVZhpvXswkb8qycgT8VUcutov08MO/fCiFHWS2I3dhoY1aQtRlu83wF2ZIld3JE3nH8LQ96UmpKZpKcr2sJMCdn9p+ZiFFJ/u4W+G+cv1yRuHFLg0gCUiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DDPgRUgPAOza4DD2Kxxt9pj+531K1qqDfuUTWhACkT4=;
+ b=fhyZb3Z8mmQDxhUy1SVgiD1ZHG7ZDw+YqQGUHne+hAky6o7jFvUbB7PvybsRgZV4NUxHkaIoUHvzCO374O8iJ2rICFCAIs5zBLQezzq8GsHqj46j5C0bkUIvmlt+CQ51ONPraM/ddpG4CpaEEcRfVHhvcM79+6YCLsrBzQqVXUPAYvTpNiD7IKI/0+SqWErf8VDhSYCwLdVnMEOWRhB4lsEp0jgmx1AhGhJIAwOAXCZnPWt8Q7IHd17JBG0AewJHDrYeUUHEStB+WefVEWvhMNwMLg7CI095c3DE3+hFfs5q/n+XAxT2qDxTt6oO9jgH3+LexXMYcjm/5XEG4c+XXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DDPgRUgPAOza4DD2Kxxt9pj+531K1qqDfuUTWhACkT4=;
+ b=Phm41HW5BSKNtlFgdWXAvVr6hEjZsSYt1hWYIf/lEkStAsMUimOc8zeFYK4IbNSW9/fTh09lTGr+tr1KmF+XsbbTUhnUfI+Z3HAGdWxZO4FycdiHzzdNDpUwsV+0MZ6JWjK6OPkpttxHABVV3oyGmMV9Tbe7JxxcgWZHFBmr3fs=
+Received: from SN7PR04CA0025.namprd04.prod.outlook.com (2603:10b6:806:f2::30)
+ by MW5PR12MB5681.namprd12.prod.outlook.com (2603:10b6:303:19e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Fri, 21 Aug
+ 2026 05:57:00 +0000
+Received: from SA2PEPF000015C9.namprd03.prod.outlook.com
+ (2603:10b6:806:f2:cafe::5f) by SN7PR04CA0025.outlook.office365.com
+ (2603:10b6:806:f2::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.10 via Frontend Transport; Fri,
+ 21 Aug 2026 05:57:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SA2PEPF000015C9.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.3 via Frontend Transport; Fri, 21 Aug 2026 05:56:59 +0000
+Received: from BLR-L1-SARUNKOD.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 21 Aug
+ 2026 00:56:50 -0500
+From: Sairaj Kodilkar <sarunkod@amd.com>
+To: "Borislav Petkov (AMD)" <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, "Paul E. McKenney"
+	<paulmck@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Breno Leitao
+	<leitao@debian.org>, Christian Brauner <brauner@kernel.org>, Dapeng Mi
+	<dapeng1.mi@linux.intel.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+	"Eric Biggers" <ebiggers@kernel.org>, Ingo Molnar <mingo@redhat.com>, Jakub
+ Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Kiryl Shutsemau
+	<kas@kernel.org>, Li RongQing <lirongqing@baidu.com>, Marco Elver
+	<elver@google.com>, Paolo Bonzini <pbonzini@redhat.com>, Rick Edgecombe
+	<rick.p.edgecombe@intel.com>, Robin Murphy <robin.murphy@arm.com>, "Sairaj
+ Kodilkar" <sarunkod@amd.com>, Sean Christopherson <seanjc@google.com>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Suravee Suthikulpanit
+	<suravee.suthikulpanit@amd.com>, Thomas Gleixner <tglx@kernel.org>, "Vasant
+ Hegde" <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	<iommu@lists.linux.dev>, <kvm@vger.kernel.org>, <linux-coco@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <x86@kernel.org>
+Subject: [PATCH v4 0/7] Add support for AMD IOMMU GAPPI
+Date: Fri, 21 Aug 2026 11:26:04 +0530
+Message-ID: <20260821055611.27138-1-sarunkod@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260529165640.820-1-ravis.opensrc@gmail.com> <20260818073546.832476-1-kunwu.chan@linux.dev>
-In-Reply-To: <20260818073546.832476-1-kunwu.chan@linux.dev>
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Thu, 20 Aug 2026 22:45:29 -0700
-X-Gm-Features: AcwNN1XTH3yf2lIUJKRgEj9C_pmU-GAS-OSXTPMCUhXxZy1uKBamL6-BlgamdhU
-Message-ID: <CALa+Y16xODsaFZDfh7ZeP3gWbycK92gvP5N8_NFpOvW=R2BWbg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] mm/damon: hardware-sampled access reports
-To: Kunwu Chan <kunwu.chan@gmail.com>
-Cc: Kunwu Chan <kunwu.chan@linux.dev>, sj@kernel.org, akinobu.mita@gmail.com, 
-	damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
-	yunjeong.mun@sk.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C9:EE_|MW5PR12MB5681:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9bff804-e0b6-4187-c685-08deff49041c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|82310400026|7416014|1800799024|36860700016|13003099007|921020|6133799003|3023799007|56012099006|10067099003|11063799006|5023799004|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	e/sH5Jtx+QvY29q4xIeEdK/y+Bmh/CG7oTujjnW/ZIfBKbboG1rtQsJEvqNcNSIkzm7I3QykMiUyTCIzPsCm+yXYMN8zF/btTOQlcpwbOw0NI7SHtg71npTRaq8F+fCC93pQNJ/Q9DHjJAazR4QkLUzYILtyQHDCpynd2V3M+BTszoxvirRtOGbcsTZ9r6m7n/vME1olg0mXT2fQY6fx29kwn25cZpeWdgSB3mZG3pbwmJ6fkP4QUC5WjVbXNIHm3kP765ZVAlwyN3LUfzRx29F/9Dmkad9/QRvGjyIT4bQ65wBnLGuNu8RIe04A+PeWqKfQTyhINvElu/j/OEbW9/Sc/dHr9gBo+xHtY5yl1OJ6c8a4S55Z51Pb96AKie3JtTi0nIvlteKTrNfUpUvLqhYlOCrn59ly9MTqo+Y2BbsrnqHgIz4dNLr4L4JXZG+Bw43G0K/m+IhRSfpdfMiA5ot3OG9JitB5MrBZYIQQwXZZJDulDZiLEbm1uW6d3GgQgrKb6E4V0FRZyk7li0x20J4IwWcwk9tgDVxYGtvjBt9frrDYrS82fUOABEh97ro1zmXbKF8tmNqOfRtp2SNsy2q6dBjJB4aW+gxpaIGK2jbIong+0A2a0cirFAPfBzeIT2ZmYOgUmtv5riAi6yNRLVW1+FmsHbtRKnmtaLSmdStyaTpmRN21u3VVF9v1WtJevtjUbwKSQV/+fVDVBbMlTglYzLNrO1RmRE8pY7T5oWKXChiYLfP+1KBW3PLmN8hM
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(82310400026)(7416014)(1800799024)(36860700016)(13003099007)(921020)(6133799003)(3023799007)(56012099006)(10067099003)(11063799006)(5023799004)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	okJTwoPs+Nr6RmvE3cfUljaRMDy04DGHp39P0QVr642w9irUI4QGjuBfRvjQGM8kke01iXSEr9riVju41MwWOOXZd06CcRBgHtquAGgoaWUyZDxJqQvBH9wFO3NWg1wghtWUb2bH5fWYiEipyRAXpdPvs2cQns9EDvdBZi8x5z5/YSfS1uB/982s3cjVSjY+weMpyyXoHBWsYSI+fgP8NF0wj+ZAKZIaeFTNAaSkL7VHU1ruHje0V0HpC3CJFeYIDDVgWCumaN6/92JXqjWhxZ+m2RRb31Nn7UbygtStSJKCSUxSUe1nJpxHDYbVH5PXrUkacdmpsAv6TYNHyywX8AsREf5GXiRXaDDKIsjKdwX97RbK09EU6zjs1BR5coP8iyu5cr4kzbOIYY2ekb32epN3ZhFIdXTto5weRydRnQdifChdHzVnIIbbVey+D/9k
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 05:56:59.9274
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9bff804-e0b6-4187-c685-08deff49041c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF000015C9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5681
 
-On Tue, Aug 18, 2026 at 12:36=E2=80=AFAM Kunwu Chan <kunwu.chan@gmail.com> =
-wrote:
->
-> On Fri, 29 May 2026 09:56:34 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
-.com> wrote:
->
-> Hi Ravi,
->
-> I've been building on your RFC [1] to add ARM SPE support to DAMON,
-> and wanted to share what we've implemented and where things stand.
->
-> Your series provides the vendor- and PMU-agnostic reporting substrate,
-> including the per-CPU SPSC ring and kdamond drain:
->
-> > This series introduces a vendor and PMU-agnostic substrate inside DAMON
-> > that consumes hardware-sampled access reports through the standard
-> > perf-event interface.  Userspace selects the PMU through sysfs (raw
-> > type/config knobs), driving either Intel PEBS L3-miss sampling or AMD
-> > IBS Op sampling.
-> >
-> > Why a unified perf-event substrate
-> >
-> > Earlier hardware-sampled access-monitoring proposal [1] took an AMD IBS
-> > specific module path backend, owning its own probe configuration,
-> > sysfs knobs, and lifecycle.
-> >
-> > SeongJae Park has previously highlighted the advantage of Akinobu
-> > Mita's perf-event proposal [2]: let DAMON register kernel-counter perf
-> > events and consume samples from any sampling PMU that perf core knows
-> > about.  This series builds on that direction with the changes we
-> > needed to run it cross-vendor:
-> >
-> >   - a per-CPU lockless ring between the NMI sample handler and the
-> >     kdamond drain,
-> >   - per-CPU events that follow CPU hotplug cleanly,
-> >   - events fire only while the monitor is running -- created disabled,
-> >     armed when kdamond starts, disarmed and drained when it stops,
-> >   - all-or-nothing init across CPUs: a partial-CPU create failure rolls
-> >     the whole event back rather than leaving silent gaps,
-> >   - safe handling of vendor sample-validity flags so a stale or
-> >     unpopulated address is never mistaken for a valid sample.
-> >
-> > What the series adds
-> >
-> > Patch 1 introduces the substrate's data types: a per-event
-> > configuration struct and a per-context list to hang them on.  A
-> > CONFIG_PERF_EVENTS=3Dn build folds to no-op stubs.
-> >
-> > Patch 2 exposes those types through sysfs.  Each entry maps to one
-> > perf event and lets userspace pick the PMU and how to sample it: the
-> > raw PMU type/config, addressing flags, and period or frequency.  The
-> > defaults are tuned for Intel PEBS; userspace overrides them for other
-> > PMUs.
-> >
-> > Patch 3 wires the sysfs apply path so configured events get attached
-> > to the running monitoring context.
-> >
-> > Patch 4 is the core of the series.  It replaces the mutex-protected
-> > report queue with a per-CPU lockless ring fed from NMI by the perf
-> > overflow handler and drained once per sample tick by the kdamond.
-> > Drained reports are matched to monitored regions by binary search
-> > over a per-tick snapshot.  The patch also wires the per-event
-> > lifecycle into kdamond: events arm when the monitor starts, disarm
-> > and drain when it stops, roll back cleanly when per-CPU init fails on
-> > some CPUs, and a second context that asks for the substrate while
-> > it is in use is rejected with -EBUSY.
->
-> ARM SPE delivers samples through the AUX trace buffer rather than the
-> regular perf overflow callback, so `perf_event_create_kernel_counter()`
-> does not provide a way to consume the SPE AUX trace stream directly.
-> To close this gap, we developed two pieces:
->
-> 1. A perf AUX kernel-consumer API [2] that allows in-kernel code to
->    consume AUX trace data.
->
-> 2. A DAMON ARM SPE AUX backend [3] that feeds the decoded access reports
->    into `damon_report_access()`.  This is a transport layer and does not
->    change DAMON's matching logic; it provides another way for hardware
->    samples to enter the existing reporting pipeline.
->
-> While bringing up the SPE backend, we kept hitting the same question:
-> "why does the PMU report zero accesses?"  The answer could be anywhere in
-> the pipeline =E2=80=94 event creation, binding, enabling, the PMU itself,=
- the
-> ring, or the drain =E2=80=94 and without per-stage visibility, the only p=
-ractical
-> way to debug this was to add printk instrumentation throughout the
-> pipeline.
->
-> So we also developed a lightweight PMU-agnostic observability framework
-> [4] that instruments the pipeline with per-CPU monotonic counters and
-> tracepoints.  It immediately helped diagnose the initial SPE issue:
-> event creation, binding and enabling all passed, while the PMU produced
-> no samples.  This pointed to a PMU-level issue rather than a DAMON
-> pipeline issue, and confirmed that SPE needed an AUX-based backend.
->
-> We used the framework throughout the AUX backend development to verify
-> each stage of the pipeline.  With the completed AUX backend, the same
-> framework showed a functional end-to-end pipeline: 27/0/0 selftest
-> results, 47,248 callbacks, with all seven stages observed as expected.
->
-> One interesting observation is that the framework's ring counters showed
-> 32,087 dropped reports.  This is about 68% of the 47,248 callbacks.  The
-> current `DAMON_REPORT_RING_SIZE=3D256` and drain interval were designed
-> around much lower sampling rates, while SPE can produce
-> samples at a much higher rate.  On the current Kunpeng 920 setup, the SPE
-> sample rate can fill the 256-entry ring much faster than the
-> current drain interval.
->
-> This looks more like a throughput/rate mismatch than a correctness
-> issue with the reporting path.  For high-rate PMUs such as SPE, do you
-> think the ring size or drain interval should eventually be tunable?
->
-> The observability framework is PMU-agnostic and is posted as a standalone
-> series [4], so that other PMU backends can reuse the same instrumentation=
-.
->
-> The relationship between the pieces is roughly:
->
-> Ravi's hardware-sampled reporting infrastructure
->                     |
->           +---------+---------+
->           |                   |
->     perf overflow        ARM SPE AUX
->           |                   |
->           |             AUX kernel consumer
->           |                   |
->           |              SPE AUX backend
->           |                   |
->           +---------+---------+
->                     |
->           damon_report_access()
->                     |
->                 report ring
->                     |
->                 kdamond drain
->
+Introduction
+============
+On newer generations of AMD processors, IOMMU AVIC/x2AVIC guest-mode interrupt
+remapping can use Guest APIC Physical Processor Interrupt (GAPPI) as an
+alternative host-notification path when device interrupts target a vCPU that
+is not running (IRTE[IsRun] = 0).
 
-Hello Kunwu,
-     Thanks for this, and sorry for the slow reply. I have been off for a c=
-ouple
-of days this week.
+With AVIC enabled, the IOMMU posts device interrupts into the guest virtual
+APIC backing page. When the vCPU is not running, KVM must additionally be
+notified so it can schedule the vCPU.
 
-      The shape you picked is exactly the one the RFC was hoping for:
-a new transport feeding the same damon_report_access() sink.
-Reaching an AUX-only PMU from an in-kernel consumer is a real gap,
-and closing it with a small generic API in perf/core is the right layering.
-Good to see the substrate turn out to be useful this way.
+The legacy notification path is the GA log (GALOG): the IOMMU appends vCPU
+tags to a shared GA log buffer and raises a single GA log interrupt.  KVM
+registers a notifier and scans the buffer to decide which vCPUs to wake.
+Under heavy interrupt load this adds latency and can overflow the buffer
+because all wakeups funnel through one interrupt and one shared log.
 
-Two things to flag:
+Guest APIC Physical Processor Interrupt (GAPPI), defined in section 2.2.5.4
+of the AMD I/O Virtualization Technology (IOMMU) Specification [1], is an
+alternative.  With GAPPI enabled, the IOMMU still updates the guest vAPIC
+backing page IRR, but may deliver a physical APIC interrupt directly to
+IRTE[Destination], using IRTE[GATag][7:0] as the vector.  This distributes
+host wakeup notifications across CPUs instead of centralizing them in a
+log buffer.
 
-1. The event-configuration surface changes in my upcoming v2
-------------------------------------------------
+This series programs guest-mode IRTEs accordingly: IRTE[Destination] carries
+the target host physical APIC ID, IRTE[GATag] is set to
+POSTED_INTR_WAKEUP_VECTOR, and IRTE[GAPPIDis] / IRTE[GALogIntr] are set
+based on whether KVM requests host wakeup.  GAPPI is selected at boot via
+the amd_iommu=gappi kernel parameter on capable hardware, otherwise the
+existing GA log path is unchanged.
 
-Your series is based on the v1 substrate, and the way an event is
-configured is the part that moves most.
 
-In v1 a perf event is a property of the sampling attributes: a flat
-array under
+SVM/AMD IOMMU interface changes
+===============================
+The first four patches refactor the SVM/AMD IOMMU interface ahead of GAPPI.
 
-  monitoring_attrs/sample/perf_events/nr_perf_events
-  monitoring_attrs/sample/perf_events/<N>/{type,config,freq,sample_period}
+The cpu field is renamed to apicid because it carries the host physical
+APIC ID for IRTE[Destination], not a Linux CPU number.
 
-which is what your selftest drives, and struct damon_perf_event is the
-in-kernel object.
+The ga_log_intr boolean is renamed to wakeup_intr (and the synthetic
+AVIC_PHYSICAL_ID_ENTRY_GA_LOG_INTR shadow bit to
+AVIC_PHYSICAL_ID_ENTRY_WAKEUP_INTR). wakeup_intr describes KVM's intent
+(request host wakeup while the vCPU is not running), not a specific hardware
+mechanism.
 
-In v2 the configuration hangs off a *probe* instead.  A probe is the unit
-of "one thing DAMON measures about a region", it carries a weight, and
-the region score is the weighted sum over probes.  A perf event is then
-one kind of *prep* action on a probe -- prep_action =3D "perf_event" -- so
-the same probe machinery covers both a PTE-scanning probe and a
-hardware-sampled one, and several can coexist and be weighted against
-each other:
+A separate is_running boolean is added to IOMMU interface because GAPPI
+requires a valid apicid in IRTE[Destination] even when the vCPU is not running. 
+The prior encoding (apicid >= 0 means running, apicid == -1 means not running)
+no longer works once apicid carries the GAPPI destination while IRTE[IsRun] is
+clear.  The IOMMU driver keys IRTE[IsRun] and destination programming off this
+explicit boolean instead of inferring running state from apicid.
 
-  monitoring_attrs/probes/nr_probes
-  monitoring_attrs/probes/<N>/weight
-  monitoring_attrs/probes/<N>/filters/...
-  monitoring_attrs/probes/<N>/preps/nr_preps
-  monitoring_attrs/probes/<N>/preps/<M>/prep_action     <- "perf_event"
-  monitoring_attrs/probes/<N>/preps/<M>/{type,config,config1,config2,
-      sample_period,sample_freq,freq,wakeup_events,precise_ip,
-      sample_phys_addr,sample_weight_struct,exclude_kernel,exclude_hv,
-      single_instance}
 
-So for SPE the freq=3D0 / sample_period=3D256 pair your selftest sets keeps
-the same names, just under preps/<M>/ rather than perf_events/<N>/.
+KVM GAPPI wakeup scheme
+=======================
+SVM follows the Intel posted-interrupt wakeup model already used by VMX.
+Each pCPU maintains a list of blocked vCPUs that may be woken by a GAPPI
+delivery to that CPU.  When a vCPU blocks while waiting for a device
+interrupt, SVM enqueues it on the wakeup list of the pCPU on which it was
+previously running (gappi_cpu) and passes that pCPU's physical APIC ID to
+the IOMMU to program IRTE[Destination].  The rationale is that the vCPU is
+likely to run again on the same pCPU, which is common when vCPUs are pinned;
+targeting GAPPI notifications there reduces unnecessary VMEXITs from GAPPI
+deliveries on other CPUs.  When the vCPU is scheduled in again, it is
+removed from the list and IRTE[Destination] is updated to the current pCPU.
 
-This is done as part of the roadmap plan of SJ.
-https://lore.kernel.org/damon/20260816165630.84808-1-sj@kernel.org/
+List maintenance is moved from VMX layer to common KVM layer so that both VMX
+and SVM layer can share the same list handling code. 
 
-2. The 67.9% drop rate is fan-in, not sizing
---------------------------------------------
+Note
+====
+kvm_pi_enable_wakeup_handler() and kvm_pi_disable_wakeup_handler() take the
+target pCPU explicitly instead of using vcpu->cpu, because on SVM the two can
+differ. avic_vcpu_load() returns early while the vCPU is blocking and leaves
+the target wakeup CPU untouched, but the generic layer still refreshes
+vcpu->cpu on every load. Using vcpu->cpu would then unlink the vCPU under the
+wrong per-pCPU lock, so SVM tracks the pCPU it last programmed in
+svm->gappi_cpu and passes that instead.
 
-You asked whether DAMON_REPORT_RING_SIZE and the drain interval should
-become tunable.  I don't think either knob is the fix here.
 
-- The cause is where the drain runs, not how big the ring is.
-  damon_report_access() picks the ring with this_cpu_ptr(), i.e. by the
-  CPU of the caller.  Decoding every CPU's AUX buffer from the single
-  kdamond thread therefore funnels the whole machine into one ring, so
-  capacity per aggregation tick is 255 rather than 255 * nCPUs.
+Changes since v3
+================
+https://lore.kernel.org/all/20260713105033.15405-1-sarunkod@amd.com/
 
-- I avoided it by draining on the source CPU -- per-CPU parse work
-  queued over the cpumask, so each ring keeps a single producer and the
-  ring geometry stays as is.  One detail worth knowing: it has to be
-  system_percpu_wq, since an unbound queue silently ignores
-  queue_work_on()'s CPU targeting.  Your ops already carry a cpu
-  argument, so it should be a contained change.
+Patch 3:
+  - Make amd_iommu_activate_guest_mode() as wrapper around
+    __amd_iommu_activate_guest_mode() to in order to hardcode is_running
+    flag to "true" for external calls
 
-- I did a quick sanity test on a plain QEMU guest with a virtual PMU in
-  AUX mode on the branch below with your RFC patches.
+Patch 5:
+  - Newly introduced, moves wakeup list handling from VMX to the KVM layer
 
-  https://github.com/ravis-opensrc/linux.git
-  branch damon/perf-rfc-v2-08-20-26
+Patch 6:
+  - Use common list handling functions introduced in patch 5.
+  - Remove list addition during pi_update_irte by moving list handling
+    functions before list_empty(&svm->ir_list) check.
 
-Thanks again for taking this on and sharing your results.
 
-Best Regards,
-Ravi.
+Changes since v2
+================
+https://lore.kernel.org/linux-iommu/20260708091408.12106-1-sarunkod@amd.com/
 
-> The observability framework is orthogonal to these transport paths and
-> can observe both of them.
->
-> Everything has been tested on Kunpeng 920 (256 CPUs, ARM SPE).  The DAMON
-> AUX backend [3] and the observability framework [4] are separate RFC
-> series, both based on the infrastructure from [1].
->
-> Would appreciate any feedback on the approach, especially on extending
-> the reporting infrastructure from perf overflow samples to AUX-based
-> PMUs.
->
-> Thanks for the foundation =E2=80=94 the per-CPU reporting and drain
-> infrastructure provided a useful base for the AUX path.
->
-> [1] https://lore.kernel.org/linux-mm/20260529165640.820-1-ravis.opensrc@g=
-mail.com/
-> [2] https://lore.kernel.org/all/20260814144927.489172-1-kunwu.chan@linux.=
-dev/
-> [3] https://lore.kernel.org/all/20260816142222.689624-1-kunwu.chan@linux.=
-dev/
-> [4] https://lore.kernel.org/all/20260818061031.827057-1-kunwu.chan@linux.=
-dev/
->
->
-> >
-> > Patch 5 is the perf-event backend.  Two stateless overflow handlers
-> > (one vaddr-keyed, one paddr-keyed) are picked at event creation time
-> > and submit samples into the per-CPU ring.  Vendor-specific sample
-> > validity is honored at this layer.
-> >
-> > Patch 6 adds a tracepoint at every node_eligible_mem_bp quota-goal
-> > evaluation so userspace can watch goal convergence without polling
-> > sysfs.
-> >
-> > Userspace setup model
-> >
-> > Userspace selects the sampling PMU by pointing the perf event's
-> > `type` / `config` at it, and chooses the scheme topology that suits
-> > the address space the PMU reports on.  No module load or unload step
-> > is involved; `echo on > state` arms the substrate, `echo off > state`
-> > disarms it.
-> >
-> > Two configurations were used for validation.
-> >
-> > Configuration A: AMD IBS Op, paddr ops, system-wide PULL+PUSH tiering
-> >
-> >   IBS Op stamps samples with physical addresses, so DAMON reasons over
-> >   every backing page in the system regardless of which task or guest
-> >   touched it -- the substrate becomes a system-wide tiering controller.
-> >
-> >   Setup (abridged; `D=3D/sys/kernel/mm/damon/admin/kdamonds/0`):
-> >
-> >     echo 1     > /sys/kernel/mm/damon/admin/kdamonds/nr_kdamonds
-> >     echo 1     > $D/contexts/nr_contexts
-> >     echo paddr > $D/contexts/0/operations
-> >
-> >     # Two regions, one per NUMA node (DRAM + CXL).  PA ranges
-> >     # are derived per host from /proc/iomem; omitted here.
-> >     echo 1 > $D/contexts/0/targets/nr_targets
-> >     echo 2 > $D/contexts/0/targets/0/regions/nr_regions
-> >     echo <DRAM_LO> > $D/contexts/0/targets/0/regions/0/start
-> >     echo <DRAM_HI> > $D/contexts/0/targets/0/regions/0/end
-> >     echo <CXL_LO>  > $D/contexts/0/targets/0/regions/1/start
-> >     echo <CXL_HI>  > $D/contexts/0/targets/0/regions/1/end
-> >
-> >     # IBS Op event, period-based, paddr-stamped:
-> >     PE=3D$D/contexts/0/monitoring_attrs/sample/perf_events
-> >     echo 1 > $PE/nr_perf_events
-> >     echo $(cat /sys/bus/event_source/devices/ibs_op/type) > $PE/0/type
-> >     echo 0      > $PE/0/config
-> >     echo 1      > $PE/0/sample_phys_addr
-> >     echo 0      > $PE/0/freq
-> >     echo 262144 > $PE/0/sample_period
-> >     echo 0      > $PE/0/exclude_kernel
-> >     echo 0      > $PE/0/exclude_hv
-> >
-> >     # PULL scheme: migrate_hot toward DRAM, gated on
-> >     # node_eligible_mem_bp(nid=3DDRAM) goal target_value=3DTARGET_BP.
-> >     # addr filter restricts source to the CXL range.
-> >     # PUSH scheme: migrate_hot toward CXL, gated on
-> >     # node_eligible_mem_bp(nid=3DCXL) target_value=3D10000-TARGET_BP.
-> >     # addr filter restricts source to the DRAM range.
-> >     # Both schemes are migrate_hot; they converge from opposite
-> >     # directions on the same hot working set.
-> >
-> >     echo on > $D/state
-> >
-> >   Userspace tunes the steady-state DRAM:CXL split by writing the goal
-> >   `target_value`s; DAMON's quota autotuner drives migration intensity
-> >   to match.
-> >
-> >   Workload: a QEMU/KVM guest pinned to one NUMA node, running 32
-> >   multichase multiload threads each touching a 4 GiB working set
-> >   (~128 GiB aggregate) with the memcpy-libc kernel.  The guest sees
-> >   a flat single-NUMA layout and has no direct view of the host's
-> >   tiering topology, yet its hot pages are migrated to DRAM and cold
-> >   pages pushed to CXL by host-side DAMON acting on IBS-stamped
-> >   physical addresses -- the application inside the guest benefits
-> >   from tiering it never had to be aware of.  Validated on AMD Turin
-> >   (132-CPU EPYC).  The configuration converged to its target ratio
-> >   in seconds and remained stable for 7+ hours continuously, with no
-> >   perf core auto-throttle and no measurable drift in the achieved
-> >   interleave ratio.
-> >
-> > Configuration B: Intel PEBS L3-miss, vaddr ops, per-PID weighted-dest
-> >
-> >   PEBS reports vaddr samples in the context of the running task.
-> >   DAMON's vaddr ops monitors a specific PID.
-> >
-> >   Setup (abridged):
-> >
-> >     echo 1     > /sys/kernel/mm/damon/admin/kdamonds/nr_kdamonds
-> >     echo 1     > $D/contexts/nr_contexts
-> >     echo vaddr > $D/contexts/0/operations
-> >
-> >     echo 1     > $D/contexts/0/targets/nr_targets
-> >     echo $PID  > $D/contexts/0/targets/0/pid_target
-> >     echo 0     > $D/contexts/0/targets/0/regions/nr_regions
-> >
-> >     # PEBS MEM_LOAD_RETIRED.L3_MISS, frequency-based, vaddr-stamped:
-> >     echo 1      > $PE/nr_perf_events
-> >     echo 4      > $PE/0/type           # PERF_TYPE_RAW
-> >     echo 0x20d1 > $PE/0/config         # umask=3D0x20 event=3D0xd1
-> >     echo 0      > $PE/0/sample_phys_addr
-> >     echo 1      > $PE/0/freq
-> >     echo 5003   > $PE/0/sample_freq
-> >     echo 2      > $PE/0/precise_ip
-> >     echo 1      > $PE/0/wakeup_events
-> >
-> >     # Single migrate_hot scheme with two weighted destinations
-> >     # (DRAM + CXL).  Userspace tunes the steady-state interleave by
-> >     # writing dests/{0,1}/weight.
-> >
-> >     echo on > $D/state
-> >
-> >   Workload: 32 multichase multiload threads with a 4 GiB working set
-> >   each (~128 GiB aggregate) running directly on the host, monitored
-> >   by DAMON via the multiload PID.  Validated on Intel Granite Rapids
-> >   (144-CPU).  Convergence is fast and the system is stable.
-> >
-> > [1] https://lore.kernel.org/linux-mm/20260516223439.4033-1-ravis.opensr=
-c@gmail.com/
-> > [2] https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.co=
-m
-> >
-> > Ravi Jonnalagadda (6):
-> >   mm/damon: add struct damon_perf_event{,_attr} and per-ctx perf_events
-> >     list
-> >   mm/damon/sysfs-sample: expose perf_events configuration via sysfs
-> >   mm/damon/sysfs: install perf_events on apply
-> >   mm/damon/core: per-CPU SPSC ring drain and damon_perf_event lifecycle
-> >   mm/damon/vaddr: implement perf-event access check
-> >   mm/damon: add damos_node_eligible_mem_bp tracepoint
-> >
-> >  include/linux/damon.h        |  80 +++++
-> >  include/trace/events/damon.h |  49 +++
-> >  mm/damon/core.c              | 403 ++++++++++++++++++++----
-> >  mm/damon/ops-common.h        |  39 +++
-> >  mm/damon/sysfs-common.h      |   6 +
-> >  mm/damon/sysfs-sample.c      | 579 +++++++++++++++++++++++++++++++++++
-> >  mm/damon/sysfs.c             |   3 +
-> >  mm/damon/vaddr.c             | 267 ++++++++++++++++
-> >  8 files changed, 1370 insertions(+), 56 deletions(-)
-> >
-> >
-> > base-commit: 4c8ad15abf15eb480d3ad85f902001e35465ef18
-> > --
-> > 2.43.0
-> >
-> >
->
-> Sent using hkml (https://github.com/sjp38/hackermail)
+Patch[1-6]
+  - Expand commit messages to explain GAPPI, the interface changes, and the
+    per-CPU wakeup list scheme [Sean].
+
+Patch[1-3]
+  - Split the monolithic SVM/IOMMU API refactor into four preparatory
+    patches [Sean]
+  - Rename posted_intr to wakeup_intr to reflect host wakeup intent, not
+    guest interrupt posting [Sean]
+  - Pass vCPU running status with a extra parameter (is_running) instead of
+    flags.
+
+Patch[4,5]
+  - Move ga_tag=POSTED_INTR_WAKEUP_VECTOR setting from IOMMU to SVM layer.
+
+
+Changes since V1:
+================
+https://lore.kernel.org/all/20260626105906.14577-1-sarunkod@amd.com/
+
+Patch4
+    - Disable interrupts while holding wakeup list lock inside [sashiko]
+      avic_add_vcpu_to_gappi_wakeup_list and avic_remove_vcpu_from_gappi_wakeup_list
+    - Unregister posted_intr_wakeup_handler during module unload [sashiko]
+
+Patch5
+    - Disable GAPPI feature during kexec and suspend path [sashiko]
+
+
+------
+[1] https://docs.amd.com/v/u/en-US/48882_3.11_IOMMU_PUB
+
+------
+Base: 89516a1c6837156f43525ef49fdbd781145942f5
+
+Sairaj Kodilkar (7):
+  iommu/amd: KVM: SVM: Rename cpu to apicid in IOMMU interface
+  iommu/amd: KVM: SVM: Rename ga_log_intr to wakeup_intr in IOMMU
+    interface
+  iommu/amd: KVM: SVM: Add explicit vCPU running state to IOMMU
+    interface
+  iommu/amd: Program guest-mode IRTEs for GAPPI wakeup when IRTE[IsRun]
+    = 0
+  KVM: VMX: Factor out wakeup list handling code to KVM
+  KVM: SVM: Add support for AMD IOMMU Guest APIC Physical Processor
+    Interrupt (GAPPI)
+  iommu/amd: Provide kernel command line option to enable GAPPI
+
+ .../admin-guide/kernel-parameters.txt         |   3 +-
+ arch/x86/include/asm/irq_remapping.h          |   5 +-
+ arch/x86/include/asm/kvm-x86-ops.h            |   1 +
+ arch/x86/include/asm/kvm_host.h               |   1 +
+ arch/x86/include/asm/svm.h                    |   9 +-
+ arch/x86/kvm/svm/avic.c                       | 109 +++++++++++++----
+ arch/x86/kvm/svm/svm.c                        |   3 +
+ arch/x86/kvm/svm/svm.h                        |   5 +
+ arch/x86/kvm/vmx/common.h                     |   3 -
+ arch/x86/kvm/vmx/main.c                       |   6 +
+ arch/x86/kvm/vmx/posted_intr.c                |  82 +------------
+ arch/x86/kvm/vmx/tdx.c                        |   1 -
+ arch/x86/kvm/vmx/vmx.c                        |  14 +--
+ arch/x86/kvm/vmx/x86_ops.h                    |   1 +
+ arch/x86/kvm/x86.c                            | 111 ++++++++++++++++++
+ drivers/iommu/amd/amd_iommu_types.h           |   6 +-
+ drivers/iommu/amd/init.c                      |  31 ++++-
+ drivers/iommu/amd/iommu.c                     |  65 ++++++----
+ include/linux/amd-iommu.h                     |  16 ++-
+ include/linux/kvm_host.h                      |   6 +
+ 20 files changed, 323 insertions(+), 155 deletions(-)
+
+-- 
+2.34.1
+
