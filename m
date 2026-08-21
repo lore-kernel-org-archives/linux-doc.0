@@ -1,87 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5FA337BAB
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723C43E009D
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 18:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787338693; cv=none; b=EE3xJUMVoEoe1JKmQCE1PMUB7U69l4P4FwjJ3t/XVQdkB8vh18D84VgQhznukTteyk3OZX2GDYK5r3072F06G9in4D2bG+PDPwFky6Os9bhLCcC3y8J92jooakB1i72iBdq+nOMrt3e8UHCJi8A4LhV/BIGVFEyEKRagAgNrhnQ=
+	t=1787338696; cv=none; b=aJhaw6Y17loefRHvmL97FZOHE/Uz1zm69av8Qap5JN427lREQLtBGjI79osIV4KxJ7QiGQyRY3pTBWO4WO+NPloymggnVzth9Lj7SOZHdG2a9MWpvzAV8hdx7zLA/CQiT7rljEBKxm0EsSOQCGvuhgpZcoAgy7s1YisUAoomMGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787338693; c=relaxed/simple;
-	bh=nUrrX6fvJ8xXWDGBUO+9oVkzQeBBL3WL+YrpDDcGXjk=;
+	s=arc-20240116; t=1787338696; c=relaxed/simple;
+	bh=Rj1uN9sO0+0eAEpjdehT8sKOBNe7Ctc1s/qVw1u0B/A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pi0/4a0RKW9WqFAVLCXoU07VVK+ms0cAjJYJMkC+JfCUvAXk2bHhj/H6sAbYJGC+Wl1BXrxBKIQ8sSP7Jp+cjtVyz5p7J4wXhYQMNONxBsUPrwu3qW8oJaUd73vhV6Lg5rMl3WNdbLhWgeyPh/40IR7MqhK3BvyVSOsArDwrPWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DAuIY1x3; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=RqbbnNPr; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=SNBEkk9k9iVAFCWOl+pwwiIACvyZx8h82c+M5JJ3RakiwWevWY/hl7IeT4MTP7nFpTjIWIRQd1y/qdd+4KsS5GJ0XZdnfcNYXXs/SXG8mcDI5ngrnZGNwwS+dZcLJO9McqGAx/EFG2XPjuOxxdIJMD1MHmDerry8/ZUxzSA4MX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hrDpbLyV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bYEWsG2h; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DAuIY1x3";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="RqbbnNPr"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hrDpbLyV";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bYEWsG2h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787338690;
+	s=mimecast20190719; t=1787338693;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G/jSTYPb5+iqfnKrVpM0EYbQbnYNP4KDzbEmhzVmVac=;
-	b=DAuIY1x34uOgOjq1fmDLVBjc/8Jka4CexY0rUIHQaenVP4/KDn8/v2IpqgAEri3C+xrkpi
-	GobYjdRGfOcut+ozk2jBTL5Sx9hADrrUWA4c2OHfFC0FfrHY8Zge1JWJ4NawpB9hE2tDlv
-	PdDQqJ6Gv20ZwgrIlPsxkjuEeA9uND8=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=jb8nkZgnYdLG8ktPFayByOUpa/ch44LcnfTYgPP/10M=;
+	b=hrDpbLyV3Gt8Cq58qJdk8tmzaO6BQGzJUthltqLx1JHMg/hDZB7+GC7MQGKpBsb++QXhGQ
+	DLYumPEMmXLo+5sMurn2nvtHY0Ex5WdnfaG8jcxdDNiMd/se4MyljaRmHgW8lmqVRcc8DP
+	597m0Ue8yGjqwMPQh8mGxVzf5COhxAQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-QXAkMo6sNz6LSaixvmo_wA-1; Fri, 21 Aug 2026 14:58:07 -0400
-X-MC-Unique: QXAkMo6sNz6LSaixvmo_wA-1
-X-Mimecast-MFC-AGG-ID: QXAkMo6sNz6LSaixvmo_wA_1787338687
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c01ff996dso16301341cf.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:07 -0700 (PDT)
+ us-mta-220-kDhlMU9sP86-Buic2QYr4w-1; Fri, 21 Aug 2026 14:58:12 -0400
+X-MC-Unique: kDhlMU9sP86-Buic2QYr4w-1
+X-Mimecast-MFC-AGG-ID: kDhlMU9sP86-Buic2QYr4w_1787338691
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-92e52306621so105803585a.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 11:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1787338687; x=1787943487; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1787338691; x=1787943491; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=G/jSTYPb5+iqfnKrVpM0EYbQbnYNP4KDzbEmhzVmVac=;
-        b=RqbbnNPrQpdUFOXnIcCmfqjz78gnIKTFTulla98SVS9yyqQxUD+SM6fPZaUyyNcEt2
-         iqN12iiMW+l70aZPA+NRYVdTAQvajKeLjy+k7J7HcgxgmTiYjVLY8FAC4TOQsdaGYDZ1
-         0fH1HA4vLr16P5bAqXeV8qgN3NGcEywgi7MTJ3IF15bj4Eck+ZBTgMkE8ds2AZ1fL2A5
-         VhxfseF5rsEksM7BC9+W2OZAypaf3axoW5Sa4L+Zz9bUkqOJyBTGywWfYvVGnOPkhY48
-         cJvq/SxzlwPXAZxHxU7aJJZnSlU83/8tRUfGVjBQD6YyvpfzMQlfmlIKq+ixBawMPVCe
-         /z+Q==
+        bh=jb8nkZgnYdLG8ktPFayByOUpa/ch44LcnfTYgPP/10M=;
+        b=bYEWsG2hyD9HXNWQRM4S5snQALdv+ujihPmW2eua23zChwkJEYezZzat2wdXsRijIP
+         huSLwnm8fzL2/BAN1ZO7OGZh7kio8aHiJQFt7SjQqW+gT/NALPP65j2uPT+VeFJ0yYAM
+         jHejqIc6DjCr784XwZAlMXQcDAqBqh0A28uBEBJamc8ezERclRSCtwZnl6ypJsPesLV7
+         q9Ef21Z1ccNU725UdtKEqMb3ku1kRAUmX948/QEBOUdAj6P7rrOwKnjX4PuqAqO+zril
+         M4P5fgD0VbkKV2O581EGWXB1vbLyp9KnlGnRiR9Gr6yAuVwqwU93z3+/9+AlWTGCBymg
+         cNbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787338687; x=1787943487;
+        d=1e100.net; s=20251104; t=1787338691; x=1787943491;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=G/jSTYPb5+iqfnKrVpM0EYbQbnYNP4KDzbEmhzVmVac=;
-        b=qQofsA+3g5FRfujHttHP3FHAlFHCx3ECz834M44xiFD/b/kP2C+6wV/2DKLM7coQzq
-         krqQp7vgsdO3iFq4aiqutfuuBmRylOKCPnJhGv1niUhDe1bp+qOJgl/gqKa0NdL28Eiu
-         klugASl6p6toFDV7IhVBi9AKMqeW/3ViUdNQdBY6tARGheD0nIka1iQsloe2/FflL1EF
-         OUv9SeU4hfTwygzLPLpmm89ZHg5RETbeNOZIHhjgrwN1Gb5K87NvPF2bG8WtwWg115mM
-         y2y8RqStYVEWZmvt8nQYTCW8EL3FJMlXJnAH4Jh2qI0R7Y+tIN9KJrQNlB1Fmm+u1Nr7
-         4R/g==
-X-Forwarded-Encrypted: i=1; AHgh+RpyaS0+VwAm3xcraSpz5QAaH1MpFzxeAUblkrR2yb8s5fqlHCOLC5gtr+KTkVBKxPoKWPLsV/9uOdw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lZbKUx3wDN52e7j3d8ZviCrPWBlAOh1uLqZKECm04ZWfvr6HTG
-	T4XY/B9bHk3EAey2PnkKEEbs+GR1qgdZaYN9a4vCswy+nevEGNoR5+BP97S+AdWCSBd/e0ylN5a
-	rjOcvl9TVT5WqFLlXgK53DsRMo5gyP4GMPjvdNoDIcSxK1gDL6lXWrGdv+1pEAg==
-X-Gm-Gg: AR+sD13GnyhxY9pcl3x1BQvOVBmqLC2svx5zvHGTdMR0oKIiv9urywy/axKhDdeypA3
-	mTRhA0sH0O/6YutL9+5rPz1ndSoxj6pHVOJ7l61aW8OWHDkAVbKt7HT/pXAKOJdEEYrU0L2e29l
-	Rw+QD6l6c2gZALUAJIO3qhK/4e4w1t6RszI6thmEaMOPQdZFK7AcycpmxUAWPYIarGdDuSOMJ4i
-	BjSov50Un5uO5MGdH2w1gtuGJAFqMNW8OlCXsfz+LVagodTIftwn7Z1pZyWZFI6PHrAzrcA91G2
-	/2EB6GsWbWYzQoQgdSWKCHHaT0vDMDhLprAMmptWPIEr37ALtA2nleufA/5mT7hiPgCgn4R3J9z
-	VQoyO/nS0uxMkHss55Ged9heU60QBGa9D5PcN5UWOOxTN
-X-Received: by 2002:a05:622a:1353:b0:52d:74ac:6ff1 with SMTP id d75a77b69052e-52df5a08383mr81012131cf.25.1787338687110;
-        Fri, 21 Aug 2026 11:58:07 -0700 (PDT)
-X-Received: by 2002:a05:622a:1353:b0:52d:74ac:6ff1 with SMTP id d75a77b69052e-52df5a08383mr81011751cf.25.1787338686645;
-        Fri, 21 Aug 2026 11:58:06 -0700 (PDT)
+        bh=jb8nkZgnYdLG8ktPFayByOUpa/ch44LcnfTYgPP/10M=;
+        b=Nz1smuXmalBoBBeHy12aq0n0nNNu/oXoVCmgDZHwFhViJPwIldnw9MHJfD4ZHwQQs/
+         sSsj6ld7Mel2YUvwUmX48AwIyq+GX9J0adq7dB9V34CT4lylvM/aUbRUl+g8Iz7b+gM6
+         DTe/3FoNhTwevbapCZ8f+k3/v7H34wKD9Yt0UcyCRzXwwvZN1XeJFmx/NpF1pucTRVMI
+         dJHcDnr5Tn9TjixJiMudz4Ia5iqjo11jlxLDxMTicveoTcYVfedJlsckhvo0wW0JA2no
+         gNp0K5vjiESs0Fybu7pEmGmja5oZ5rs5D2l2EXR9G8wuQseS1ympLK7PpYFvjS88t9E5
+         x3wQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rob9rHG1wOIgUqoscr3HKADTzs4r7EXpLJLD9DAzyoi7DeaKPk93uqm3p348B9PyZXUJNTrVuP44u4=@vger.kernel.org
+X-Gm-Message-State: AFuF++koxupZ4aCNVJ3sS+J7UxeEnsldTR26qLEBvpbrBX9oRZQPYmn6
+	ylxRRS2IUQfIm+EKRT448+zY62Z/jmUO2pe3j1c929xg34Ul8zxooSbVrV0RASYHVaDrTwtSBgN
+	I/QSND02G9a/CUQgN70PW2IJuGf8gdMAPRhKVRniuEPOGPpjdRuABqdSk4Gw4bA==
+X-Gm-Gg: AR+sD12F2s5usQ49fxB10NbC2eUpyrYdkweveMWhaRt4jLRKF3fTHHgw8G3hRb+4bFb
+	jxa/wN9P6jslQY3T6cCM8WoulnskfnUFcrWEYAc/YpwRxveaXFj+NyUg6/FMgj4Z4HXAnF1T+PQ
+	6vAUsdMeKGAZPbmkfGnURUoCsiPH3Vh1koxDNs7ARlqJtuv7/0uDCQYO+xoxMLtKK5ukTWZypF0
+	aUSIdE230GBCsgNDThoMapZAuyQNyxOFfKt8jRMTLrFRXOyccAM4TDEkeIM8JEa55ZI/FxlBAnZ
+	5ukNweXBR4ZnFySaurOpBJF0D1kxJ4h0LbWVfJJu9SXUUvS9+It27voZOavXnkVwwvoyxEC9GjY
+	8jHWZ9baL7RhvqaxCzfwTbOKCv3s5bpX4u+GyjtGflN8b
+X-Received: by 2002:a05:620a:6192:b0:915:9e84:85d1 with SMTP id af79cd13be357-9373952c7a5mr808448885a.23.1787338691137;
+        Fri, 21 Aug 2026 11:58:11 -0700 (PDT)
+X-Received: by 2002:a05:620a:6192:b0:915:9e84:85d1 with SMTP id af79cd13be357-9373952c7a5mr808442485a.23.1787338690612;
+        Fri, 21 Aug 2026 11:58:10 -0700 (PDT)
 Received: from localhost (pool-100-17-17-231.bstnma.fios.verizon.net. [100.17.17.231])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e099a8331sm1163531cf.9.2026.08.21.11.58.05
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-937204b7b6bsm663030085a.20.2026.08.21.11.58.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 11:58:05 -0700 (PDT)
+        Fri, 21 Aug 2026 11:58:09 -0700 (PDT)
 From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 21 Aug 2026 14:56:59 -0400
-Subject: [PATCH 07/11] selftests: cgroup: add cma configs for cgroup
- selftest suite
+Date: Fri, 21 Aug 2026 14:57:01 -0400
+Subject: [PATCH 09/11] selftests: cgroup: add a vmtest script for memcg
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,7 +89,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-cma-memcg-regions-v1-7-d21b165b8440@redhat.com>
+Message-Id: <20260821-cma-memcg-regions-v1-9-d21b165b8440@redhat.com>
 References: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 In-Reply-To: <20260821-cma-memcg-regions-v1-0-d21b165b8440@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -110,27 +109,225 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Albert Esteve <aesteve@redhat.com>, Eric Chanudet <echanude@redhat.com>
 X-Mailer: b4 0.14.3
 
-Enable CMA and the dma-buf CMA heap. The CMA memcg tests will use the
-dma-buf heap to allocate in the CMA and exercise the charge/uncharge
-accounting.
+Following dmem's example[1], add a vmtest-memcg.sh to provide a
+repeatable VM workflow using virtme-ng for memcg tests.
+
+Boot a VM using virtme-ng with cma=64M in its kargs and enable
+memory_cma_accounting on cgroupfs, then run the cgroup tests inside the
+guest.
+
+Provide -b to build the kernel first, -q to use a different qemu binary,
+-s to start a shell in the VM, and -v for verbose boot.
+
+[1] https://lore.kernel.org/all/20260706-kunit_cgroups-v5-3-6c42c8753468@redhat.com/
 
 Signed-off-by: Eric Chanudet <echanude@redhat.com>
 ---
- tools/testing/selftests/cgroup/config | 4 ++++
- 1 file changed, 4 insertions(+)
+ tools/testing/selftests/cgroup/vmtest-memcg.sh | 196 +++++++++++++++++++++++++
+ 1 file changed, 196 insertions(+)
 
-diff --git a/tools/testing/selftests/cgroup/config b/tools/testing/selftests/cgroup/config
-index 39f979690dd3..c4f7df4f1b24 100644
---- a/tools/testing/selftests/cgroup/config
-+++ b/tools/testing/selftests/cgroup/config
-@@ -4,3 +4,7 @@ CONFIG_CGROUP_FREEZER=y
- CONFIG_CGROUP_SCHED=y
- CONFIG_MEMCG=y
- CONFIG_PAGE_COUNTER=y
-+CONFIG_CMA=y
-+CONFIG_DMA_CMA=y
-+CONFIG_DMABUF_HEAPS=y
-+CONFIG_DMABUF_HEAPS_CMA=y
+diff --git a/tools/testing/selftests/cgroup/vmtest-memcg.sh b/tools/testing/selftests/cgroup/vmtest-memcg.sh
+new file mode 100755
+index 000000000000..b19b96731784
+--- /dev/null
++++ b/tools/testing/selftests/cgroup/vmtest-memcg.sh
+@@ -0,0 +1,196 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (c) 2026 Red Hat, Inc.
++#
++# Run cgroup memory controller selftests inside a virtme-ng VM
++# Dependencies:
++#		* virtme-ng
++#		* busybox-static (used by virtme-ng)
++#		* qemu	(used by virtme-ng)
++
++set -euo pipefail
++
++readonly SCRIPT_DIR="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
++readonly KERNEL_CHECKOUT="$(realpath "${SCRIPT_DIR}"/../../../../)"
++
++source "${SCRIPT_DIR}"/../kselftest/ktap_helpers.sh
++
++readonly SSH_GUEST_PORT="${SSH_GUEST_PORT:-22}"
++readonly WAIT_PERIOD=3
++readonly WAIT_PERIOD_MAX=80
++readonly WAIT_TOTAL=$((WAIT_PERIOD * WAIT_PERIOD_MAX))
++readonly QEMU_PIDFILE="$(mktemp /tmp/qemu_memcg_vmtest_XXXX.pid)"
++readonly QEMU_OPTS=" --pidfile ${QEMU_PIDFILE} "
++
++BUILD=0
++QEMU="qemu-system-$(uname -m)"
++VERBOSE=0
++SHELL_MODE=0
++GUEST_TREE="${GUEST_TREE:-$KERNEL_CHECKOUT}"
++
++usage() {
++	cat <<EOF
++$0 [OPTIONS]
++    -b        Build kernel from source tree before booting
++    -q <qemu> QEMU binary/path (default: $QEMU)
++    -s        Start interactive shell in VM
++    -v        Verbose output (vng boot logs on stdout)
++EOF
++	exit 1
++}
++
++die() {
++	echo "$*" >&2
++	exit "${KSFT_FAIL}"
++}
++
++cleanup() {
++	if [[ -s "$QEMU_PIDFILE" ]]; then
++		pkill -SIGTERM -F "$QEMU_PIDFILE" >/dev/null 2>&1 || true
++	fi
++
++	if [[ -e "$QEMU_PIDFILE" ]]; then
++		rm -f "$QEMU_PIDFILE"
++	fi
++}
++
++vm_ssh() {
++	stdbuf -oL ssh -q \
++		-F "$HOME/.cache/virtme-ng/.ssh/virtme-ng-ssh.conf" \
++		-l root "virtme-ng%$SSH_GUEST_PORT" \
++		"$@"
++}
++
++check_deps() {
++	for dep in vng "$QEMU" busybox pkill ssh; do
++		if ! command -v "$dep" >/dev/null 2>&1; then
++			echo "skip: dependency $dep not found"
++			exit "$KSFT_SKIP"
++		fi
++	done
++}
++
++handle_build() {
++	if [[ ! "$BUILD" -eq 1 ]]; then
++		return
++	fi
++
++	if [[ ! -d "$KERNEL_CHECKOUT" ]]; then
++		echo "-b requires $0 to be called from the kernel source tree" >&2
++		exit 1
++	fi
++
++	pushd "$KERNEL_CHECKOUT" &>/dev/null
++
++	if ! vng --kconfig --config "$SCRIPT_DIR"/config; then
++		die "failed to generate .config for kernel source tree ($KERNEL_CHECKOUT)"
++	fi
++
++	if ! make -j"$(nproc)"; then
++		die "failed to build kernel from source tree ($KERNEL_CHECKOUT)"
++	fi
++
++	popd &>/dev/null
++}
++
++vm_start() {
++	local logfile=/dev/null
++	local verbose_opt=""
++	local kernel_opt=""
++
++	if [[ "$VERBOSE" -eq 1 ]]; then
++		verbose_opt="--verbose"
++		logfile=/dev/stdout
++	fi
++
++	if [[ "$BUILD" -eq 1 ]]; then
++		kernel_opt="${KERNEL_CHECKOUT}"
++	fi
++
++	vng \
++		--run \
++		${kernel_opt} \
++		${verbose_opt} \
++		--qemu-opts="$QEMU_OPTS" \
++		--qemu="$(command -v "$QEMU")" \
++		--user root \
++		--ssh "$SSH_GUEST_PORT" \
++		--append "cma=64M" \
++		--rw &>"$logfile" &
++
++	local vng_pid=$!
++	local elapsed=0
++
++	while [[ ! -s "$QEMU_PIDFILE" ]]; do
++		kill -0 "$vng_pid" 2>/dev/null || \
++			die "vng exited early; failed to boot VM"
++		[[ "$elapsed" -ge "$WAIT_TOTAL" ]] && \
++			die "timed out waiting for VM boot"
++		sleep 1
++		elapsed=$((elapsed + 1))
++	done
++}
++
++vm_wait_for_ssh() {
++	local i=0
++	while true; do
++		vm_ssh -- true && break
++		i=$((i + 1))
++		[[ "${i}" -gt "$WAIT_PERIOD_MAX" ]] && \
++			die "timed out waiting for guest ssh"
++		sleep "$WAIT_PERIOD"
++	done
++}
++
++check_guest_requirements() {
++	vm_ssh -- "grep -q memory /sys/fs/cgroup/cgroup.controllers" \
++		|| die "memory controller not available (CONFIG_MEMCG?)"
++	vm_ssh -- "[[ -e /dev/dma_heap/default_cma_region ]]" \
++		|| die "CMA heap not available (CONFIG_DMABUF_HEAPS_CMA? cma= cmdline?)"
++}
++
++setup_guest_cma_accounting() {
++	vm_ssh -- "mount -o remount,memory_cma_accounting /sys/fs/cgroup" \
++		|| die "failed to enable memory_cma_accounting"
++	vm_ssh -- "echo +memory > /sys/fs/cgroup/cgroup.subtree_control" \
++		|| die "failed to enable memory controller"
++}
++
++run_test() {
++	vm_ssh -- "cd '$GUEST_TREE' && make -C tools/testing/selftests TARGETS=cgroup"
++	vm_ssh -- "cd '$GUEST_TREE' && make -C tools/testing/selftests TARGETS=cgroup run_tests"
++}
++
++while getopts ":hvq:sb" opt; do
++	case "$opt" in
++	v) VERBOSE=1 ;;
++	q) QEMU="${OPTARG}" ;;
++	b) BUILD=1 ;;
++	s) SHELL_MODE=1 ;;
++	h|*) usage ;;
++	esac
++done
++
++trap cleanup EXIT
++
++check_deps
++handle_build
++echo "Booting virtme-ng VM..."
++vm_start
++vm_wait_for_ssh
++echo "VM is reachable via SSH."
++
++if [[ "$SHELL_MODE" -eq 1 ]]; then
++	echo "Starting interactive shell in VM. Exit to stop VM."
++	vm_ssh -t -- "cd '$GUEST_TREE' && exec bash --noprofile --norc"
++	exit "$KSFT_PASS"
++fi
++
++check_guest_requirements
++setup_guest_cma_accounting
++
++echo "Running cgroup selftests in VM..."
++run_test
++echo "PASS: cgroup selftests completed"
++exit "$KSFT_PASS"
 
 -- 
 2.53.0
