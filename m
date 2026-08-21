@@ -1,286 +1,139 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F3A4756D2;
-	Fri, 21 Aug 2026 10:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 596FF3CB546;
+	Fri, 21 Aug 2026 11:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787307874; cv=none; b=B1+7zuAFmc5Ep8+DoEh7zvO94h8UXm5x75LI4FqyaiaNMIyeXZnB6JCqw3+gnIftNRmqpoXJxMNhscCtf9QHUOUnMY/mU2DZWg1oQ0uETWoE6cPEHeeGX7COAne73ZLIZx1IvzNcqOF6lh2ZsQyn544FXVGT0Saw7cuazFQKYjk=
+	t=1787311195; cv=none; b=JGgK9salOlqJg+R/5aW2A1A1glgh7rO3+lalxc2LKnvZMrwwOUtxSYzOZbc/dna5acW2NbEZ4WL5AnYhyfNcdNQPUVCqycX1wlP0+lmLVekl32ysPOGyIicSMMhfN9GZ9o8se/QD0U1WyewiPNSJrT99/kezuOLCw+P2ya3dyxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787307874; c=relaxed/simple;
-	bh=xyIHTH07+xKIY0xqKbzsHLS/FThvipvksxH9hFx8Gy0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bq+l1kUNK2iW1YAlUR9sPKGD9Dsxb8/4WBPtM/d7ODfADCFYxX7YmsObe1AdOI2RjB9vrFLSwTYy9rzcM8iOrDATotqDrZHNu0f532f5D0YOWP0/fk/tpyf9VgoT9GCCTJISJW7xxdC0wbhfDeFyoI5KTsULrw+jIM4i+1HA0GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=VB+4WkBG; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="VB+4WkBG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=ma/oyiZEnUiqsZRo5AgRobLf9XEFeJTg6Dx6RZ5ZKGc=; b=VB+4WkBGyndesnxF+HcCY0/c8X
-	RjLSAwDHjxUqgobzOj/witm5SAIzaAsLOgr8wyeFAiu/6pa/66L//zxMSoDnG/3mzt+JtLeum/0Mj
-	dEUaEuuFZzziZ6oP5g6eruGQvYa4Vffg2Pu7VIs2ux0k0TlPXO39G7yccDpYP5t0228bcWVmvBuk8
-	JaYz5lNqstLWpHEhgC81DhV3VUwYitEOz/cuOm+PmSBGywt/t5oTuO+ptZ4nxhjlAaSAMwJvfRiqK
-	5I0v5/s4mfFCMSEBA4VH61Y2pM2MegbwupFhvTolu11iJjwg09AKRlUex+Z0yiUsz2nfQ4prEeLjB
-	9i9jYeRQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wxMQB-00BH34-2N;
-	Fri, 21 Aug 2026 10:24:24 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 21 Aug 2026 03:24:08 -0700
-Subject: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
- corrected error flood
+	s=arc-20240116; t=1787311195; c=relaxed/simple;
+	bh=ipf7LdNJfFzYNKI2VngtwwKOHqRfCEwZhrHexM2mSdE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HEz9mvmaeffngmJ2tVMsPLQQIqZURvyzlZPKtrI2zkaDikqkuF+LSBRG5DAYthV3GY7fatCkVkJKN4L7wYWKp0cvspDMe72cMhhmpawkojabdrhMWgjKdgvV/Z/Td1Gg2Nbq/nOICVJRNE+M7z8ZWYhTR35Tr6B5DQk8B5FE4lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrAB3naIiNIhqjRCqAw--.14788S2;
+	Fri, 21 Aug 2026 19:18:58 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wC3sKMgNIhqV2gCAA--.4089S2;
+	Fri, 21 Aug 2026 19:18:57 +0800 (CST)
+Message-ID: <7232a999-0bb8-45fa-8d33-a11efc661012@hust.edu.cn>
+Date: Fri, 21 Aug 2026 19:18:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
-References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
-In-Reply-To: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
-To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-f8e9d
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8343; i=leitao@debian.org;
- h=from:subject:message-id; bh=xyIHTH07+xKIY0xqKbzsHLS/FThvipvksxH9hFx8Gy0=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqiCdL7QXhlwGG2CvKpvgLepna319lBoyhQ8GFF
- IG27sjGwIiJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaognSwAKCRA1o5Of/Hh3
- bTyFD/wI39Ba7slTj66RduHa7D1ytc15mdQJUYKwREGR2BpTFXgOCIg0oXpvAuDJIIFJakxxsNb
- PsWVPtLmJQ0bsyAuA98DqkQzUs0ms0ErPV0ihkd+W6ZepeL+HnzVP30wxUYMC4W1MSImJBb91bH
- s7OBFURezizMWviAb3Ixzr3XoF+WLdmPoDNr2pi1C7GnUsvhRfGdeT+TRy/9rq/oKhRK7/Z44KP
- 3LaXiHM8cGgH0Y0jmKKKw2NnRb3u1eHOGT4rbhz1PpEnN4xWu2FA2J/a6oeyYXGkkj4Snnjpt0t
- vNPfekz0WiN/3vZUMrkbuPQ4t0VBN+cNVK4t915nxrmHlC6lyhalGolsnvtWkh5SFThBGDQIVvN
- xinpeZO2lbm5q4Pk5B4EA5v9HG+v9HCSbcXxHFKorXjrcdxkwT4IvikrGI73D9i+dY2CaowO820
- 0IYg5QxlVGEjJ3glx61FGgd43UWssh7yRh0Gp5xA+ZNXGLckrTzSpLuQOuOECp3ceQUwa8gcqyZ
- USAABOczZ6X2IIlD8AkgwMhKYLRneYU5ERYJDvdLXy24UdpdlzlWOXVPNmSeIFAOhvs3GyS+P/J
- 8KPGlsoGQrlkIajmLi4BJEsEQj0FM38eV5Kn4hHY+10BFWBZNR9IP+fDGc6XIyZamuzgCt/aSNc
- spY8VpHJwT5/ZCA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] Update maintainer-pgp-guide.rst Chinese translation
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260821-maintainer-pgp-guide-v1-0-08e5e3602c04@wyuan.org>
+ <5b107aad-2826-4bf6-97aa-14592131b6a8@hust.edu.cn>
+ <aof8rCuuwzHUNtka@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <aof8rCuuwzHUNtka@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAB3naIiNIhqjRCqAw--.14788S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxJF1ktFWUtr13Wr4DJF4kCrg_yoW5ur15pF
+	y8KF92kw4qy3W3A397Ww4xZFWFyrn2yrW2qa4UWr43ta90k3Z2qr4ftFs09a4UWFs5Kw45
+	Xw4jqr9Yv3yjva7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
+	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
+	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
+	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUYVMNUUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-A machine check bank producing corrected errors faster than the kernel can
-drain them is not a machine anyone wants to keep in service, but nothing
-takes it out. mce_track_storm() throttles CMCI for the bank and the
-machine stays up.
 
-Count corrected errors per bank and add mce=panic_on_ce_count=<count>
-and panic the host if we have more events than set.
+On 8/21/26 3:22 PM, Weijie Yuan wrote:
+> On Fri, Aug 21, 2026 at 02:54:59PM +0800, Dongliang Mu wrote:
+>> On 8/21/26 1:13 AM, Weijie Yuan wrote:
+>>> The script says:
+>>>
+>>> $ tools/docs/checktransupdate.py Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+>>> [1787244823.341547] Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+>>> [1787244823.630509] commit 54857c52452a ("docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign")
+>>> [1787244823.680849] commit 6c5c07bc8589 ("docs: process: maintainer-pgp-guide: update kernel.org docs link")
+>>> [1787244823.730027] commit 273aa250f138 ("Documentation: Improve wording on requirements for a free Nitrokey")
+>>> [1787244823.779408] commit f44a29784f68 ("Documentation: update maintainer-pgp-guide for latest best practices")
+>>> [1787244823.779522] 4 commits needs resolving in total
+>>>
+>>> So I updated this document in chronological order, created four patches
+>>> based on these four outdated commits to make it easier for you to
+>>> review. Hence, you can freely squash them when applying them.
+>>>
+>>> Tested with make htmldocs, no warning or error made by these patches.
+>> Hi Weijie,
+>>
+>> Please make sure you execute "  make cleandocs & make htmldocs". Some
+>> warnings may be ignored by further compilation.
+> Hi!
+>
+> Thanks for emphasizing this. While I do remember I used "make cleandocs
+> && make htmldocs", and checked among those long lines of red warning
+> output to find anything caused by my commit, I indeed didn't notice this
+> warning appearing at the early stage of the compilation.
+>
+> It seems that I need to have my eyes checked soon. ;-)
+>
+> Apologize for my recklessness.
+>
+> Even so, do we have any way to distinguish these long-standing warnings
+> from the new warnings that appear during compilation? In fact, every
+> time I was worried that I might not have noticed the newly appeared
+> warning. Unfortunately, this time it really happened. (For example,
+> setting a new color? for new warnings?) Do you have a better idea or
+> tips for this?
 
-Off by default, for obvious reasons.
+My suggestion is to keep the log in each file, and you can easily 
+observe the diff. Otherwise, even I can ignore some warnings.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/ABI/testing/sysfs-mce             | 12 ++++++++++++
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
- arch/x86/kernel/cpu/mce/core.c                  | 14 ++++++++++++--
- arch/x86/kernel/cpu/mce/internal.h              |  6 ++++++
- arch/x86/kernel/cpu/mce/threshold.c             | 23 +++++++++++++++++++++++
- 5 files changed, 63 insertions(+), 2 deletions(-)
+And many contributors are coming together to fix those warnings. If they 
+are done, all new warnings are easily captured. Let us do more 
+contribution to help this.
 
-diff --git a/Documentation/ABI/testing/sysfs-mce b/Documentation/ABI/testing/sysfs-mce
-index 83172f50e27c6..02009b5d581a4 100644
---- a/Documentation/ABI/testing/sysfs-mce
-+++ b/Documentation/ABI/testing/sysfs-mce
-@@ -95,3 +95,15 @@ Contact:	Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
- Date:		Jun 2009
- Description:
- 		Disables the CMCI feature.
-+
-+What:		/sys/devices/system/machinecheck/machinecheckX/panic_on_ce_count
-+Contact:	Breno Leitao <leitao@debian.org>
-+Date:		Aug 2026
-+Description:
-+		Panic once a machine check bank has logged this many corrected
-+		errors. 0, the default, disables it.
-+
-+		The setting is global rather than per-CPU, and it is compared
-+		against a running total kept per CPU and per bank. Lowering it
-+		below a total a bank has already reached takes the machine
-+		down on that bank's next corrected error.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index d55524e3b7246..d5005bfefb7be 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3924,6 +3924,16 @@ Kernel parameters
- 		print_all
- 			print all machine check logs to the console.
- 
-+		panic_on_ce_count=<count>
-+			panic once a machine check bank has logged this many
-+			corrected errors. 0, the default, disables it.
-+
-+			This is a running total per CPU and per bank for the
-+			life of the boot, not a rate, so a machine that logs
-+			a slow trickle for long enough will reach any value
-+			eventually. Pick one a failing part reaches in
-+			minutes and a healthy one does not reach at all.
-+
- 		monarchtimeout (number)
- 			sets the time in us to wait for other CPUs on machine
- 			checks. 0 to disable.
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index ab469605fc893..43dcdef1a7bbe 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -261,7 +261,7 @@ static const char *mce_dump_aux_info(struct mce *m)
- 	return NULL;
- }
- 
--static noinstr void mce_panic(const char *msg, struct mce_hw_err *final, char *exp)
-+noinstr void mce_panic(const char *msg, struct mce_hw_err *final, char *exp)
- {
- 	struct llist_node *pending;
- 	struct mce_evt_llist *l;
-@@ -813,6 +813,10 @@ void machine_check_poll(enum mcp_flags flags, mce_banks_t *b)
- 		barrier();
- 		m->status = mce_rdmsrq(mca_msr_reg(i, MCA_STATUS));
- 
-+		/* The boot time poll replays errors from before this boot. */
-+		if (!(flags & MCP_QUEUE_LOG))
-+			mce_track_ce_count(m);
-+
- 		/*
- 		 * Update storm tracking here, before checking for the
- 		 * MCI_STATUS_VAL bit. Valid corrected errors count
-@@ -2326,6 +2330,7 @@ void mce_disable_bank(int bank)
-  * mce=nobootlog Don't log MCEs from before booting.
-  * mce=bios_cmci_threshold Don't program the CMCI threshold
-  * mce=recovery force enable copy_mc_fragile()
-+ * mce=panic_on_ce_count=<n> Panic after n corrected errors on one bank
-  */
- static int __init mcheck_enable(char *str)
- {
-@@ -2349,7 +2354,10 @@ static int __init mcheck_enable(char *str)
- 		cfg->print_all = true;
- 	else if (!strcmp(str, "ignore_ce"))
- 		cfg->ignore_ce = true;
--	else if (!strcmp(str, "bootlog") || !strcmp(str, "nobootlog"))
-+	else if (str_has_prefix(str, "panic_on_ce_count=")) {
-+		str += strlen("panic_on_ce_count=");
-+		get_option(&str, &cfg->panic_on_ce_count);
-+	} else if (!strcmp(str, "bootlog") || !strcmp(str, "nobootlog"))
- 		cfg->bootlog = (str[0] == 'b');
- 	else if (!strcmp(str, "bios_cmci_threshold"))
- 		cfg->bios_cmci_threshold = 1;
-@@ -2617,6 +2625,7 @@ static ssize_t store_int_with_restart(struct device *s,
- }
- 
- static DEVICE_INT_ATTR(monarch_timeout, 0644, mca_cfg.monarch_timeout);
-+static DEVICE_INT_ATTR(panic_on_ce_count, 0644, mca_cfg.panic_on_ce_count);
- static DEVICE_BOOL_ATTR(dont_log_ce, 0644, mca_cfg.dont_log_ce);
- static DEVICE_BOOL_ATTR(print_all, 0644, mca_cfg.print_all);
- 
-@@ -2641,6 +2650,7 @@ static struct device_attribute *mce_device_attrs[] = {
- 	&dev_attr_trigger,
- #endif
- 	&dev_attr_monarch_timeout.attr,
-+	&dev_attr_panic_on_ce_count.attr,
- 	&dev_attr_dont_log_ce.attr,
- 	&dev_attr_print_all.attr,
- 	&dev_attr_ignore_ce.attr,
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index a31cf984619ca..7ebf87f6ca346 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -37,6 +37,7 @@ struct llist_node *mce_gen_pool_prepare_records(void);
- 
- int mce_severity(struct mce *a, struct pt_regs *regs, char **msg, bool is_excp);
- struct dentry *mce_get_debugfs_dir(void);
-+noinstr void mce_panic(const char *msg, struct mce_hw_err *final, char *exp);
- 
- extern mce_banks_t mce_banks_ce_disabled;
- 
-@@ -64,6 +65,7 @@ void mce_timer_kick(bool storm);
- void cmci_storm_begin(unsigned int bank);
- void cmci_storm_end(unsigned int bank);
- void mce_track_storm(struct mce *mce);
-+void mce_track_ce_count(struct mce *mce);
- void mce_inherit_storm(unsigned int bank);
- bool mce_get_storm_mode(void);
- void mce_set_storm_mode(bool storm);
-@@ -72,6 +74,7 @@ u32  mce_get_apei_thr_limit(void);
- static inline void cmci_storm_begin(unsigned int bank) {}
- static inline void cmci_storm_end(unsigned int bank) {}
- static inline void mce_track_storm(struct mce *mce) {}
-+static inline void mce_track_ce_count(struct mce *mce) {}
- static inline void mce_inherit_storm(unsigned int bank) {}
- static inline bool mce_get_storm_mode(void) { return false; }
- static inline void mce_set_storm_mode(bool storm) {}
-@@ -83,12 +86,14 @@ static inline u32  mce_get_apei_thr_limit(void) { return 0; }
-  *			represents an error seen.
-  *
-  * timestamp:		Last time (in jiffies) that the bank was polled.
-+ * ce_count:		Corrected errors logged since boot.
-  * in_storm_mode:	Is this bank in storm mode?
-  * poll_only:		Bank does not support CMCI, skip storm tracking.
-  */
- struct storm_bank {
- 	u64 history;
- 	u64 timestamp;
-+	u64 ce_count;
- 	bool in_storm_mode;
- 	bool poll_only;
- };
-@@ -183,6 +188,7 @@ struct mca_config {
- 	bool ignore_ce;
- 	bool print_all;
- 
-+	int panic_on_ce_count;
- 	int monarch_timeout;
- 	int panic_timeout;
- 	u32 rip_msr;
-diff --git a/arch/x86/kernel/cpu/mce/threshold.c b/arch/x86/kernel/cpu/mce/threshold.c
-index 8591715ce2430..208dd6c8a5b18 100644
---- a/arch/x86/kernel/cpu/mce/threshold.c
-+++ b/arch/x86/kernel/cpu/mce/threshold.c
-@@ -119,6 +119,29 @@ void cmci_storm_end(unsigned int bank)
- static DEFINE_RATELIMIT_STATE(storm_rs, DEFAULT_RATELIMIT_INTERVAL,
- 			      DEFAULT_RATELIMIT_BURST);
- 
-+/*
-+ * A bank that keeps reporting corrected errors is repairing them faster than
-+ * anything acts on it. Count them and let the admin put a ceiling on it.
-+ */
-+void mce_track_ce_count(struct mce *mce)
-+{
-+	struct storm_bank *bank = &this_cpu_ptr(&storm_desc)->banks[mce->bank];
-+	int limit = READ_ONCE(mca_cfg.panic_on_ce_count);
-+
-+	if (limit <= 0)
-+		return;
-+
-+	if (!(mce->status & MCI_STATUS_VAL) || !mce_is_correctable(mce))
-+		return;
-+
-+	if (++bank->ce_count < (u64)limit)
-+		return;
-+
-+	printk_deferred(KERN_EMERG "CPU%d BANK%d logged %llu corrected errors\n",
-+			smp_processor_id(), mce->bank, bank->ce_count);
-+	mce_panic("Too many corrected errors", NULL, NULL);
-+}
-+
- void mce_track_storm(struct mce *mce)
- {
- 	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
+Dongliang Mu
 
--- 
-2.53.0-Meta
+>
+> Btw I've been trying to know more about Sphinx and kernel-docs, hope my
+> mistake won't happen again.
+
+That change can fix problem. The underlying problem is RST syntax. Maybe 
+you can have a look at this or query it in the LLM.
+
+Dongliang Mu
+
+>
+> Thanks.
+>
+>>    > WARNING: duplicate label kernel_org_trust_repository
+>>    >
+>>    > The same label is already defined in the English document. Please use a translation-specific label, for example:
+>>    >
+>>    > .. _zh_kernel_org_trust_repository:
+>
+>>    > checkpatch.pl reports:
+>>    >
+>>    > WARNING: Assisted-by expects 'AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]' format
+>>    >
+>>    > Please replace Assisted-by: LLM with the actual agent, model version, and tools used.
+> And this one has been updated from Jon's PR last night, so I ignored
+> this output, left just a simple LLM.
 
