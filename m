@@ -1,68 +1,68 @@
 Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF1E3B71BD
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 09:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864BC44D685
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 09:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787305778; cv=none; b=nXUigediE2qMk+xYsZif510gIUg5g+xXMca+3doCuyc/+Ss7bYJZUgZff16mUAodr040vsS4NZN+fSUPCM41bjP8kPYPHdoDAy23DWSBqDVZOAnEviN4YRvnh1EvMo9/mk29wS/7QCLImumGGdz4hE2jvC2dm9GnqJxBN2ryKl0=
+	t=1787305779; cv=none; b=sT23vW7JuRflcJNwKQr6vH3HesyIDqwqW26kSrKhCzUR7aGrieA09PjYNl+TMAplznLH+A9YEJAx59AasPk2oNWhMahAvaWk8bvDKVFAyGNSQsqnKXy/CPdqBXlpeTADB+LgGnx9v63NyPusKerTlaFy9OyQg86fZ5t5/t5U+AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787305778; c=relaxed/simple;
-	bh=Zl8zJhePqsl4XxqWo/nMyVaX7NU6Mei8MsQZ1ECwbYM=;
+	s=arc-20240116; t=1787305779; c=relaxed/simple;
+	bh=h2Q0M74fb6yudEF8zDu1K70Lt8wJfWd+FJHyFrYnfK0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YRC7YL8ppOeldcVdrjanONUWKJrS2TpvSQNJUG+u37ns8QSCiYztsu7m0qi0H/fA0gnmCTajP1gAcN3cVLikeoDmBw364LU9JHfRHuXaDX2TcNAz2jZdCwo2BidYhxmfJVq5Iejv25kTXiEqYdMk+eMnbld6YktfongUmPc5kWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tty1qgR3; arc=none smtp.client-ip=209.85.221.43
+	 In-Reply-To:To:Cc; b=K8kTrrGpVXEEI6UBfHR5gwool7IL9dGavPecsxeYIyUmqcuFr23SNIxVWd4b2DfbQf4yfNwNZ5tSaaq6n0sjRjX9WNjNW9hoTcooYBQDG7/bMyUHD/lIwDtP39BglZX/1JYxcOiOUraEUqkZ8NCBNVGcsOcXV8YMAgwPWg05j/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yRHObLfo; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tty1qgR3"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47f84023916so659172f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 02:49:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yRHObLfo"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47de008b020so413537f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 02:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1787305766; x=1787910566; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1787305767; x=1787910567; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8eAS2yWgoyXdx0wzQOuU1GOQ+foCx6winuzdwJ7kHsY=;
-        b=Tty1qgR35pkmgsE8YoRqwfUBbbp3yjlXpd8IcF5RJWQ+zGOlG/dsOCBTPCCqG2ClPr
-         RxQ1SzYDALOs0KadEnvJM320jcnlkK2wbHI/dEm6SsFQTmn5hjmhPOxNjrFoTiY+DnsY
-         HHC/ZZdt3NnNTxXL69mseUzfOV4/ndWNAdjJ1i5Q5n9G07ASbCzx0bLADwU5viMf1XFL
-         nRMefWvjDjiQlMWTzkVeJKmE5gtoUSGMzr7MJcc7xqfkR3Jwdvhx7EPOEMP4bU2vLxWu
-         Fc9U4AUt4FbNoohRnQ9Zy2UFjbh1wyZ/unO2LjVQvEhh+2314ZIys2sJkxJMDITQvYU1
-         x8rg==
+        bh=zjkcq8l0GSb9YOwXmla3++8CiBcoyxIkWo/FH5SvfOY=;
+        b=yRHObLfoToUFaETJVNEIsodYXUXhy4bnofOQMJGo5rGXvEpWgolomWuigdAIj/NDN+
+         zAB6Jz3OnxeEvCSAnJCPACSg2Ref5w2ulMHAbIkrKuq6Ga/3Uz6ss08VeW4QsDdxM59d
+         /yGGSs7qx/ok2/CvTxXBSM3wGNxvtSKwxbYcIUIMMrhxhW99K60jvgfynp8LLFP409mm
+         5V89sjCr79CEQPWDnweYQupJx0z5IRW0VPSef20U81T8joKK6soWgbetUK1MdqeqkyUR
+         PWsdMXOrZ6ua6HLGp8XQveK2qTMyHV4t1T5mGrpOO5jzDtpdi11TORBGJKoph53WPhoU
+         wRaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787305766; x=1787910566;
+        d=1e100.net; s=20251104; t=1787305767; x=1787910567;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8eAS2yWgoyXdx0wzQOuU1GOQ+foCx6winuzdwJ7kHsY=;
-        b=QZ1dv/0horGFUfPEutI49TD6OF1pbn6zW5ppN5nt30Dq6TXYAM0CVE0Geqhx+jjWM7
-         GfdMed/MFvCCQlt0UJWqDH1Oyy7aR8HFyts6lTK/AT0wyMQMsllmiWP7PxgbiDS+JALR
-         8EfCTSATaHZ/oBPGcdNuR86rutHNex0lWNiPB+JYrFuLQI98aN2UEsi3Vnvr6q569Js4
-         iqRJ5Zt+VGajdh62y4+FM88s+EqmOmzi5MrpZDYDKqkAa66sw21LzwRtRzBGvg/0gXUe
-         XQ52hUXAziYomNE82uOeH2nbKExHhJouIa5OCMHcIxSgvNtAObfs1SEEIK7IyefkY0Se
-         qxtw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp6EH12O3W+BrmybcE56MbA/vp6giaTsgC/KZHhTYTHR/6egLXgiBnCL+087b1wVkB9CqE4WlIXp3k=@vger.kernel.org
-X-Gm-Message-State: AFuF++k0YkTdhBW0tOFuQ0Li6PPys9p1icG26BSbT23uNGm5BFn/bioC
-	yivOEne/X2gf68GCR8WlROOode0icp3jCP3pe5xkTWEVASMsRmNs/VQHVZbygKGnPOM=
-X-Gm-Gg: AR+sD128bjNDe1vy1dyGmDWHQvFrEYpZvo/GKPkDFLbZTYMJ2nOS7ekzfwg2qxK9zkg
-	UAbK0KqF05JE8pbwTWOIA3ieKMJALiQKPCBq0vbRRLYVf7OOsAuouGY10JwMZKaamtJC+JBSwTk
-	gj11rOdtBkXCVi2m70YqgZS1bl355BQObesvKTrD0RiLRoVlpe3YA22hS9byrZ1hy+MA9CJS/0Y
-	DxJ+OMctNRpEtUiVlzIijwO+M12O6Vj81P6Nnkf3jU0+y+Z2UoGpgLUO3bZkEmgCk4KlpCRpGV7
-	sGwEBftqGc9rd4SkJcW0v+ICg71s7fYqcxUbBetdf5N6fVutTqEKQ503dUJHNJVhxL36FeCE/89
-	C+LC34D3q6Wqdaiyy6oGPcQu0eq6t2NOwDPhrKvZsvsKQkC05nubClT/CMhuko/GL9yBHeSPF0/
-	jKZVGeys2fSF70bLHEn5gVzAlzs9hNeKbWz5sxyqWFOXMhtxWQdSwOQsLNG/WPeqMJBHXHEVnDQ
-	d14
-X-Received: by 2002:a05:6000:26c6:b0:482:a36c:a5e1 with SMTP id ffacd0b85a97d-482c0b44b1fmr7088817f8f.1.1787305766006;
-        Fri, 21 Aug 2026 02:49:26 -0700 (PDT)
+        bh=zjkcq8l0GSb9YOwXmla3++8CiBcoyxIkWo/FH5SvfOY=;
+        b=qDJtuyUv6hduEJSqgYTALNil+Ddme2YXSIS+gq9KoAad6IelvGPRXKVxPWyxo+uhrc
+         qfO1X9rbTIFUMyjbvRCnWh4IGbGVndTrclSQA9esrJYoRTkUIXM18VWXTuClVRMxLUBT
+         a9DgOhKnPjW9GmAbJmEwQWT4ynwUQoTtzQA6hqjybno8V/pO2tQvClazMav7qPka2H2D
+         G4untf3L6R28yERkWJpC9HE62ocrHp1axOyfds7u+nNe0lureUjXeeHUAFtrWOSsh809
+         OZQFSUmkLJMNGkQKvayU6Do8Lc/Hr5p09ROr3YxEVitUkSAANKZiOAF8YxGsP/j+cUVf
+         6y8Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rq1VXK0hbzriAXPViHnLaNTRzJSVfDw9cPTPy2JraWMtioO/tfsaq1fuF/cLQhSgI6Yu9LZft5Q2u8=@vger.kernel.org
+X-Gm-Message-State: AFuF++lRGZLuyyuFZGJa2xFIrnNKLdNx21zS2ts9TLe685KRGRo4RESu
+	lMozc/0Kj781AEna/C07cv2p54A80MOei8F18aBO2U2o6j6qXVKbG/BsxjVeGdN1H2Q=
+X-Gm-Gg: AR+sD11GpCOItSG5a6sePI9P4UbjyYTulyTedAi2BjkOs/X9z5OdcEO+hipaBFyfCV5
+	1iv6Bs3iHsEvq94BifhjTOb884Xk+jaVbUiN8o/oA0XQel3loqizKsngeY5DuvLZmMkbU9R/gk7
+	0oiXkPVhUYvBS3npqr20IOqKmM9YfsrpEDlYwB5G4HzmUFzS/QB2QyKQgNiFR662HdoGiTn4iXD
+	rQ9foOwT/KwYxEXTB+OrH5CBYHPBQCz5in0Bdc5U5nCBN/eNK26K7tDD56cdNd0jHgogzT+LMXj
+	1SbW/3xPh+g6Ib5F/ZDhVCUPYbZJJSOkkUy72wTK+aHBdId3aF6PZ+9dAbl/+pyalVld4WkWxdk
+	9WOJ+rYzzU7OAGSx9eAjjhTiL6XNM3T7M93f5gN0mxKgr6qT2iAnK+b+mYCj8N1gsVW7RsQVSzY
+	D3OPe6geuK78Z0HFcyEiaQPiRMDFo2iXch93TgUhsANjxACNFHyPdxTsvNy58ewuQBL/Esxxm6v
+	l8=
+X-Received: by 2002:a05:6000:985:b0:47f:e746:dcab with SMTP id ffacd0b85a97d-482c1184819mr5551648f8f.10.1787305767292;
+        Fri, 21 Aug 2026 02:49:27 -0700 (PDT)
 Received: from pop-os.local ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm17683479f8f.35.2026.08.21.02.49.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm17683479f8f.35.2026.08.21.02.49.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 02:49:25 -0700 (PDT)
+        Fri, 21 Aug 2026 02:49:26 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Fri, 21 Aug 2026 10:48:59 +0100
-Subject: [PATCH v2 01/14] perf cs-etm: Fix nVHE per-thread decoding
+Date: Fri, 21 Aug 2026 10:49:00 +0100
+Subject: [PATCH v2 02/14] perf cs-etm: Warn for invalid timestamp option
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-james-cs-unformatted-per-thread-fix-v2-1-00c4fd0701b4@linaro.org>
+Message-Id: <20260821-james-cs-unformatted-per-thread-fix-v2-2-00c4fd0701b4@linaro.org>
 References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
 In-Reply-To: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -92,43 +92,30 @@ Cc: Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.15.2
 
-pid_fmt is unset in per-thread mode because we don't need PIDs, so we
-can't use it as a hint to determine which EL the host is running at.
-That results in falling though to the next part where EL1 is treated as
-guest, which is wrong for nVHE.
-
-Fix it by only returning a guest machine when run from perf kvm where a
-guest image would be provided, which matches existing behavior in other
-parts of Perf.
+Instead of silently returning an error, print a useful warning.
 
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/util/cs-etm.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ tools/perf/arch/arm/util/cs-etm.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
-index 114b3cd2da49..d423f1cb408f 100644
---- a/tools/perf/util/cs-etm.c
-+++ b/tools/perf/util/cs-etm.c
-@@ -1071,6 +1071,18 @@ static struct machine *cs_etm__get_machine(struct cs_etm_queue *etmq,
- 	if (pid_fmt == CS_ETM_PIDFMT_CTXTID)
- 		return &etmq->etm->session->machines.host;
+diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
+index d2861d66a661..acfdb3f53821 100644
+--- a/tools/perf/arch/arm/util/cs-etm.c
++++ b/tools/perf/arch/arm/util/cs-etm.c
+@@ -176,8 +176,11 @@ static int cs_etm_validate_timestamp(struct perf_pmu *cs_etm_pmu, struct evsel *
+ 	 *  0b01000 Implementation supports a maximum timestamp of 64bits.
+ 	 */
+ 	trcidr0 &= GENMASK(28, 24);
+-	if (!trcidr0)
++	if (!trcidr0) {
++		pr_err("%s: timestamp not supported by HW, disable with %s/timestamp=0/\n",
++		       CORESIGHT_ETM_PMU_NAME, CORESIGHT_ETM_PMU_NAME);
+ 		return -EINVAL;
++	}
  
-+	/*
-+	 * If guest processing hasn't been enabled, also assume everything is
-+	 * the host.
-+	 *
-+	 * This matches Perf's guest handling in machines__find_for_cpumode()
-+	 * etc where guest machines are only created and used when perf_guest is
-+	 * set. This also guards against accidentally using guest machines when
-+	 * pid_fmt can't be used as a hint (per-thread mode).
-+	 */
-+	if (!perf_guest)
-+		return &etmq->etm->session->machines.host;
-+
- 	/*
- 	 * Not perfect, but otherwise assume anything in EL1 is the default
- 	 * guest, and everything else is the host. Distinguishing between guest
+ 	return 0;
+ }
 
 -- 
 2.43.0
