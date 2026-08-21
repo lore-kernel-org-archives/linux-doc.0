@@ -1,211 +1,130 @@
-Received: from mta0.migadu.com (out-253.mta0.migadu.com [91.218.175.253])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1024D2EEB
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 14:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.253
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83F4D485CD1;
+	Fri, 21 Aug 2026 14:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787322316; cv=none; b=asjAfOoI7JqxTIvdypJV8ecpPml2bZRUoiBPQoilQAOBtqj4LblP/Da3ZZUR9TH0yfcGGDX+G0ZsCE66woBlKOHVhR0CQnteXCswIMbZuAOhDzkGTD1XE1o8xfMj4KluZtTv02JWaaS0B5PjOjFOnS21aBIU0YePigfOFsHrcgo=
+	t=1787322797; cv=none; b=e/tTIA3Ha2YnMTbzDfT9C8+yC7jfAkdE/RpWQt8A5uFvd+IO6fXBdOkrPG6cZj9ZBSkdDcvsHQRXexTRVntvo0utc5hEPTATkVvr9+eYLdqfYKaPD7Lul5x7o3mLf2GlEcULPFlabJWAAteTtdo9diBnU1fUMxJuGJABmCsopE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787322316; c=relaxed/simple;
-	bh=Bs6w0sN5b4uGBc0KFLsYd6ZtLIJddUPMizmfX3vWO9Q=;
+	s=arc-20240116; t=1787322797; c=relaxed/simple;
+	bh=0Xa7Oehcy9x1McUKUPlTBOCPe3WmYJS7pLp5g3Y//5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iF30+882oSetU3azVr0etUf0x20zztO4ficaL1N9Su9UN1WGoHurMj68yWo4bE5XPVpqG6kOuOe0NaffuDhB4ngAU/sXQ4L+UFk0uP6CN/Ao+43tIi/wo8bRKITZGNsIgvLA6gEdTi/Ocp+ihXRxsC+FW89qVoHw8d2UE1N5J+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=EPc0XU1R; arc=none smtp.client-ip=91.218.175.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=n9Ea7h0GwfKwexffmuReYLXcT0Rn1aA0o7Z9O10Qwwtd86OhgpMwqpsG5dNLNQxeG52hr/WHOQzAULBzpCfPz6KaDj1WjH7Tot2H7AdIbWbiQknhAfCv4YMFFlXKN0fG4NVhZ/GURfLfiEW3DpftPWhFxKABdKBoBVtcmIHde4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=sOB5zNlW; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="EPc0XU1R"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Bs6w0sN5b4uGBc0KFLsYd6ZtLIJddUPMizmfX3vWO9Q=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787322310; v=1; x=1787927110;
- b=EPc0XU1Rtt2x2AJonpvqupGogbjGUItKod2F3fGdG/wR6RLzBqeFSFS3bhEhlttlMezDhobB
- sCXGqulcmIU7nuVBN1FNg7x6NDc5y0QeP545aGtZrm8Oe/l41osphHeBAs5Qv4VujMkcuFQSZBs
- 4KiOShZvGu1lvpABo2NSR91DNHpWM1KreD0c7MvW4u6s4c955REt9e1+ELJw0ZSt4AnX8xMFSuV
- OYhhBkNsAld+nvtHYDK4PMCV3dQs57IvgbV2/JxHqmxp69Kj1FxFF+YCKuM+G5GfO4u85Yu8NA/
- iymGwHduPYQMgKUcwlhTsleQ3ADsudGzuPx2hRA9F92wQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: from localhost (117.176.242.187)
-	by smtp.migadu.com with ESMTPS id 2408ad9ddb8da986;
-	Fri, 21 Aug 2026 14:25:09 +0000
-X-Mizu-Trace-ID: 2408ad9ddb8da986
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 21 Aug 2026 22:25:00 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Siwei Chen <anka@stu.cdut.edu.cn>, alexs@kernel.org,
-	si.yanteng@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Siwei Chen <businiaoanka@anka1.top>
-Subject: Re: [PATCH v4 2/5] docs/zh_CN: Add NIC SR-IOV APIs Chinese
- translation
-Message-ID: <aohfvHAXygvtKLFv@wyuan.org>
-References: <20260817021340.17318-1-anka@stu.cdut.edu.cn>
- <20260817021340.17318-3-anka@stu.cdut.edu.cn>
- <7724c093-cb99-490d-b632-1381e16962ff@hust.edu.cn>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="sOB5zNlW"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA075153B;
+	Fri, 21 Aug 2026 07:33:04 -0700 (PDT)
+Received: from thinkpad-e142931.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26AE93F85F;
+	Fri, 21 Aug 2026 07:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787322788; bh=0Xa7Oehcy9x1McUKUPlTBOCPe3WmYJS7pLp5g3Y//5o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sOB5zNlWly8ECDNc6e96+rPB4KK8F8ATbYU6GSwUAWXmJ77Kyrb6Zlvr37vN+qZ/U
+	 +zYbTubLHh8rD3ZXaZIj3DxaCtXn3nOL/b4mnX0kRza/RCZrLO0x8dt6Av4B+FXCN8
+	 oBTO+ZfpcnRLZGPd4ej4+3Ssg1OxdkQXzgirz2PM=
+Date: Fri, 21 Aug 2026 15:32:58 +0100
+From: Wei-Lin Chang <weilin.chang@arm.com>
+To: Mark Brown <broonie@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Shuah Khan <shuah@kernel.org>, Fuad Tabba <tabba@google.com>, Oliver Upton <oupton@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, 
+	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v19 06/14] KVM: arm64: Validate GCS exception lock when
+ emulating ERET
+Message-ID: <vdmz43ogvmwu4liilfqzdrgsf5v765bucl7mybhfdxj7yrywkd@5mssukdegdwg>
+References: <20260812-arm64-gcs-v19-0-9105afd828ac@kernel.org>
+ <20260812-arm64-gcs-v19-6-9105afd828ac@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7724c093-cb99-490d-b632-1381e16962ff@hust.edu.cn>
+In-Reply-To: <20260812-arm64-gcs-v19-6-9105afd828ac@kernel.org>
 
-On Fri, Aug 21, 2026 at 09:34:59PM +0800, Dongliang Mu wrote:
-> > +强烈建议现代网卡专注于实现 ``switchdev`` 模型（参见 :ref:`switchdev`）
+On Wed, Aug 12, 2026 at 08:12:05PM +0100, Mark Brown wrote:
+> As per DDI0487 R_TYTWB GCS adds an additional case where an illegal
+> exception return can be generated. If all of:
 > 
-> The compilation complains this switchdev reference. This documentation has
-> no translation in the same directory:
+>  - PSTATE.EXLOCK is 0.
+>  - The EL is not being changed by the ERET.
+>  - GCSCR_ELx.EXLOCKEN is 1.
 > 
->   Documentation/translations/zh_CN/networking/sriov.rst:15:
->   WARNING: undefined label: 'switchdev' [ref.ref]
+> are true then the return is illegal. Emulate this behaviour when
+> emulating ERET for nested guests, while we're at it using the symbolic
+> definition for EXLOCK in SPSR.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_nested.h | 39 +++++++++++++++++++++++++++++++++++++
+>  arch/arm64/kvm/emulate-nested.c     |  5 ++++-
+>  arch/arm64/kvm/hyp/vhe/switch.c     |  4 ++++
+>  3 files changed, 47 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_nested.h b/arch/arm64/include/asm/kvm_nested.h
+> index 012d711034d1..f25ddee89206 100644
+> --- a/arch/arm64/include/asm/kvm_nested.h
+> +++ b/arch/arm64/include/asm/kvm_nested.h
+> @@ -240,6 +240,45 @@ static inline bool kvm_auth_eretax(struct kvm_vcpu *vcpu, u64 *elr)
+>  }
+>  #endif
+>  
+> +#ifdef CONFIG_ARM64_GCS
+> +/*
+> + * A subset of the pseudocode ELFromSPSR(), validity checks are
+> + * assumed to have been done in code that is not GCS specific.
+> + */
+> +static inline int exlock_el_from_spsr(u64 spsr)
+> +{
+> +	return FIELD_GET(GENMASK(3, 2), spsr);
+> +}
 
-I'm here again because I'm on the blame line. ;-)
+It feels a bit odd to me to have this function named exlock specific, as
+it's just spsr_to_el, right?
 
-OK, I compiled it twice on my mac mini with this series applied based on
-commit dcb68831eac7 (Merge tag 'block-7.2-20260815' of git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux)
+Thanks,
+Wei-Lin Chang
 
----
-linux on b4/review/20260817-docs-zh_cn-add-chinese-translations-for-five-networking-docu-6824c9b859bd via py v3.9.6 (sphinx_latest) 
-> gmake cleandocs && gmake -j6 htmldocs
-Using alabaster theme
-/Volumes/Linux/linux/sphinx_latest/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'fast' description in 'page_pool_params'
-WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'slow' description in 'page_pool_params'
-WARNING: ./include/linux/host1x.h:159 struct member 'get' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'put' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'mmap' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'munmap' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'get' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'put' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'mmap' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'munmap' not described in 'host1x_bo_ops'
-/Volumes/Linux/linux/Documentation/gpu/xe/xe_mm:22: ./drivers/gpu/drm/xe/xe_ggtt.c:125: ERROR: Unexpected indentation.
-/Volumes/Linux/linux/Documentation/firmware-guide/acpi/dsd/motorcomm-yt8xxx-phy.rst:70: ERROR: Unexpected indentation.
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'power_module' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 Excess struct member 'dm_boot_time_crc_info' description in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'power_module' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 Excess struct member 'dm_boot_time_crc_info' description in 'amdgpu_display_manager'
-WARNING: ./fs/inode.c:1303 Excess function parameter 'isnew' description in 'inode_insert5'
-WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
-WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
-/Volumes/Linux/linux/Documentation/gpu/drm-kms:302: ./drivers/gpu/drm/drm_atomic.c:1761: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:405.
-Declaration is '.. c:function:: int drm_atomic_commit (struct drm_atomic_commit *state)'.
-/Volumes/Linux/linux/Documentation/gpu/drm-kms:365: ./drivers/gpu/drm/drm_fourcc.c:408: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
-Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'.
-/Volumes/Linux/linux/Documentation/gpu/drm-kms:496: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
-Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
-WARNING: ./drivers/gpu/drm/drm_gem_shmem_helper.c:174 expecting prototype for __drm_gem_shmem_release_sgt_locked(). Prototype was for __drm_gem_shmem_free_sgt_locked() instead
-WARNING: ./drivers/gpu/buddy.c:1509 Excess function parameter 'p' description in 'gpu_buddy_print'
-WARNING: ./include/drm/drm_exec.h:159 function parameter '_exec' not described in 'drm_exec_retry'
-WARNING: ./include/drm/drm_exec.h:159 Excess function parameter 'exec' description in 'drm_exec_retry'
-WARNING: ./include/drm/drm_exec.h:159 function parameter '_exec' not described in 'drm_exec_retry'
-WARNING: ./include/drm/drm_exec.h:159 Excess function parameter 'exec' description in 'drm_exec_retry'
-/Volumes/Linux/linux/Documentation/gpu/drm-uapi:613: ./drivers/gpu/drm/drm_ioctl.c:936: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
-Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
-WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
-WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
-WARNING: ./include/linux/dma-fence-array.h:47 Excess struct member 'lock' description in 'dma_fence_array'
-WARNING: ./include/linux/dma-fence-array.h:47 Excess struct member 'lock' description in 'dma_fence_array'
-WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
-WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
-/Volumes/Linux/linux/Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'.
-/Volumes/Linux/linux/Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'.
-WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-linux on b4/review/20260817-docs-zh_cn-add-chinese-translations-for-five-networking-docu-6824c9b859bd via py v3.9.6 (sphinx_latest) took 4m51s 
-> gmake cleandocs                      
-linux on b4/review/20260817-docs-zh_cn-add-chinese-translations-for-five-networking-docu-6824c9b859bd via py v3.9.6 (sphinx_latest) 
-> gmake -j8 htmldocs
-Using alabaster theme
-/Volumes/Linux/linux/sphinx_latest/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'fast' description in 'page_pool_params'
-WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'slow' description in 'page_pool_params'
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-WARNING: ./include/linux/host1x.h:159 struct member 'get' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'put' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'mmap' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'munmap' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'get' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'put' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'mmap' not described in 'host1x_bo_ops'
-WARNING: ./include/linux/host1x.h:159 struct member 'munmap' not described in 'host1x_bo_ops'
-/Volumes/Linux/linux/Documentation/gpu/xe/xe_mm:22: ./drivers/gpu/drm/xe/xe_ggtt.c:125: ERROR: Unexpected indentation.
-/Volumes/Linux/linux/Documentation/firmware-guide/acpi/dsd/motorcomm-yt8xxx-phy.rst:70: ERROR: Unexpected indentation.
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'power_module' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 Excess struct member 'dm_boot_time_crc_info' description in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'power_module' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
-WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:721 Excess struct member 'dm_boot_time_crc_info' description in 'amdgpu_display_manager'
-WARNING: ./fs/inode.c:1303 Excess function parameter 'isnew' description in 'inode_insert5'
-WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
-WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
-/Volumes/Linux/linux/Documentation/gpu/drm-kms:302: ./drivers/gpu/drm/drm_atomic.c:1761: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:405.
-Declaration is '.. c:function:: int drm_atomic_commit (struct drm_atomic_commit *state)'.
-/Volumes/Linux/linux/Documentation/gpu/drm-kms:365: ./drivers/gpu/drm/drm_fourcc.c:408: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
-Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'.
-/Volumes/Linux/linux/Documentation/gpu/drm-kms:496: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
-Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
-WARNING: ./drivers/gpu/drm/drm_gem_shmem_helper.c:174 expecting prototype for __drm_gem_shmem_release_sgt_locked(). Prototype was for __drm_gem_shmem_free_sgt_locked() instead
-WARNING: ./drivers/gpu/buddy.c:1509 Excess function parameter 'p' description in 'gpu_buddy_print'
-WARNING: ./include/drm/drm_exec.h:159 function parameter '_exec' not described in 'drm_exec_retry'
-WARNING: ./include/drm/drm_exec.h:159 Excess function parameter 'exec' description in 'drm_exec_retry'
-WARNING: ./include/drm/drm_exec.h:159 function parameter '_exec' not described in 'drm_exec_retry'
-WARNING: ./include/drm/drm_exec.h:159 Excess function parameter 'exec' description in 'drm_exec_retry'
-/Volumes/Linux/linux/Documentation/gpu/drm-uapi:613: ./drivers/gpu/drm/drm_ioctl.c:936: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
-Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
-WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
-WARNING: ./include/media/media-entity.h:1394 function parameter 'args' not described in 'media_entity_call'
-WARNING: ./include/linux/dma-fence-array.h:47 Excess struct member 'lock' description in 'dma_fence_array'
-WARNING: ./include/linux/dma-fence-array.h:47 Excess struct member 'lock' description in 'dma_fence_array'
-WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
-WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
-/Volumes/Linux/linux/Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'.
-/Volumes/Linux/linux/Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'.
-WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; /Volumes/Linux/linux/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+> +
+> +/* See IllegalExceptionReturn() pseudocode */
+> +static inline bool kvm_check_illegal_exlock_return(struct kvm_vcpu *vcpu,
+> +						   u64 spsr)
+> +{
+> +	u64 cur_el, target_el;
+> +
+> +	if (!kvm_has_gcs(vcpu->kvm))
+> +		return false;
+> +
+> +	if (vcpu->arch.ctxt.regs.pstate & PSR_EXLOCK_BIT)
+> +		return false;
+> +
+> +	cur_el = exlock_el_from_spsr(vcpu->arch.ctxt.regs.pstate);
+> +	target_el = exlock_el_from_spsr(spsr);
+> +
+> +	if (cur_el != target_el)
+> +		return false;
+> +
+> +	return vcpu_read_sys_reg(vcpu, GCSCR_EL2) & GCSCR_ELx_EXLOCKEN;
+> +}
+> +
+> +#else
+> +static inline bool kvm_check_illegal_exlock_return(struct kvm_vcpu *vcpu,
+> +						   u64 spsr)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>  #define KVM_NV_GUEST_MAP_SZ	(KVM_PGTABLE_PROT_SW1 | KVM_PGTABLE_PROT_SW0)
+>  
+>  static inline u64 kvm_encode_nested_level(struct kvm_s2_trans *trans)
 
-And I greped 'zh_CN', but nothing found.
-
-Please give me some time to figure it out.
-
-Thanks.
+[...]
