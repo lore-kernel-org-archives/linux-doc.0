@@ -1,413 +1,520 @@
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6947470E85;
-	Fri, 21 Aug 2026 09:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881EC47141A
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 09:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787305788; cv=none; b=PK7cLHmjCESPqEvQ/iOWRDXYJ0v8XVATY/kkoEZm7daP524lvXeSGdxOGCSJdfOFObVGkp7vxkz2TJ2Hsm6NefBgTd0ey+trxVfj8JjLLH1MaSL18nQ4PTrovGzMJqmRbTnCNr53WpRMZwMAVWufhWYL2S7NYCakI13oKainrOY=
+	t=1787305789; cv=none; b=OnC4WavzF34ydtnWu7MQpgF64fwPQRa0F2JEg0ZJyqFoOBMmFEKgtWbdYtFpv6c/XEf2AwRk5e44imB374nycA25kDrNOc36zAcr4hUPrIlLXsb/CbxpnW3QvDbG4kpUb7oDVAs1P4+132Xh1u9kEAr+ujqqprUXZzwP7DpMo/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787305788; c=relaxed/simple;
-	bh=IrOnRU7YvMCe0BoU6uVgRl5JaiZ2kfQjdkmbuhOrw1A=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=X0NHjyoLJzacjnxmvvSUs2pYR0ry7yNPGePfUokrw9b3yrO/sR7UcO293igrf0+SC9jrDTh6SxCSQKvrpWS5/zwT4BCN/5ih18tJObV7xgH05A8Vll0nVPmoCrAwIPrWzvKk+E73Ss+CJXA+yg0/PIm6Rhpa9j9MMI/MsReWw8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=TQgYGvEA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AVx2q5aB; arc=none smtp.client-ip=202.12.124.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1787305789; c=relaxed/simple;
+	bh=8nKlxlZ9rNdVq6/YuvGCZHeAcrIjZBPa7mfw49A5I68=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YZBteT/M5jJGAArXoG/NUnHrIHCXmZZo9bCXbGhsgzL3fprnHxVaP7toFbxBvmuhLlUeUaSgXBuq4wBBu/+QC6ySq1L7lzt7fU2i4lLkomvK/Phu4v03bYUAfnlf/9DjkPOhZD0ID6+Y2NMGmukjDrJolVKIvgmz5xX/byuEnjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kllZsaNa; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="TQgYGvEA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AVx2q5aB"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailflow.stl.internal (Postfix) with ESMTP id 365B51300097;
-	Fri, 21 Aug 2026 05:49:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Fri, 21 Aug 2026 05:49:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1787305774; x=1787312974; bh=LZN3dRb6O4n1DGanxgPGM96/L4jGpv+x2YP
-	/J0/Rxx0=; b=TQgYGvEASDkb8prssEbYw4aE6jWw8kbTTMWT/DSLzpwVoWwd07g
-	z2Te+ay6O/F7+lIQlunHmXBKO9HR+BB0dZGWW1G3B4Urb1l2YtJO/EgYiBQz7DZq
-	ra0NleT7KIZv8A4wbefogWHmIJNIy/M878CJdxzDk+l+WI6geq2zU9Ylq7A37aJP
-	5LpPfQtFaqEAdz+5FRBR2wDj1D1+tAJyIeZsRrMzApNzBeY5ErzZFH2TSrgtDI9i
-	Wtq43rMkhGmzQfJFDWIsBbYWYF6T/9d9GsCizy0w9k7g5PbCf88Pr+z1yz5HBwFP
-	Gns8kJqFIst/cekqcA+BR9R/FIbPMR3Z2vA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787305774; x=
-	1787312974; bh=LZN3dRb6O4n1DGanxgPGM96/L4jGpv+x2YP/J0/Rxx0=; b=A
-	Vx2q5aB2HoAph1TG77q9ZVmuJ76sAoWHob9Xqt/M23MGoTs834OczlotaLGn4g3H
-	wD01vyUtk10r5bfS4z2Xrm/PpudoGo+5Y0iA63Upqd6rQtO6j2lSzpd9gvDEP9Yb
-	l9RJOd2luneFA0gzGTWYKAIlzAvxX8oHQLE/celBhS8L9JIdAyJIBCwhYRU1iebO
-	QfuxeFTWtzypAhw+i3Gzg9Rc5UrKrwt1pNnxGpmwIU6tnY/gdfU548td9AzbKL0K
-	HjxPc4y4jbKUPpXJhoKGwK0m7JTLivG2LKRajbwoH5tcgnCyoEe3u0I0zsnfbfVm
-	er3EQKefxJ7M+zdvrjF+w==
-X-ME-Sender: <xms:KB-Ias7GcYORlk0h-K1Fnhi7hf1dHmDgHLxfgMlvfiF56u7eeTVolQ>
-    <xme:KB-IanHF6Qx-UrqE6eO2Al3eAyQUPeFY-FnHy_gI86t0cjuGtrCkldHtmZFh-rTR4
-    v4aaW7DqvlqUm512mSaPs2PxXLKZtSqECZ-U4tl49Lobbbrdg>
-X-ME-Received: <xmr:KB-IagDxcGvbEa3W34gbgoowtf-BRKaRIsTwj51q7A_53YqPsPsN3WcWwHIWT62zr5F6icne32yyvk3dTYPzL-5Xz2tVLD8>
-X-ME-Proxy-Cause: dmFkZTFeSKFYHiJq4UWC4aDuB8q+QTKUGTKsTWyXZx75ppwbCfO+Em+gmuTLp/uT/vsLX8
-    R40CrvBGJHn6Z0PhtpUuW7xwr/8UnMo+lGV9fArWvYo8dDAS/BlySRUm7I6sX4713vD9bQ
-    3z40r8nzxvuhOv3b4w2G11oaM0hHZuIwVuixEoVqAQgcxRgOMHXICYSpR2CpttRr+BdW+X
-    tk9ighUyrbCqxcsrWrRqPfa8lTX4lyOF077NMVazBrdLInyMtTlmW/mBru8VIf8lDsvlba
-    lGzBMkNbQe6eTlRiAbnikqUb5YjT/ikxbITh9yb6dmuxK/ACAYGMf2kUmjY8u58KGWV5TI
-    +AuRAUrHq8VTLtipX4nu9hy6X3I2ElJlUoZpxAoSw5/Qd1F+tl6Y1rXYDBEaiImqr/sb83
-    HVmroG1dMHhheiYZm/nIix4f49UD8clhm2DhI/ntDpEnVutlgCB/brjeurlqg1oIV4lFQu
-    E+E8B34FX/62ft8/kiJhXk07B0FTyn/WRXxO8dJSd4xHs1161GY27ViXsF6mesd50wjFz1
-    1ulzLV5An51Apg9CNqS3bpRWhkZFfzLT3fr7ovYXyk6LW0BtxRvAcM5txgBbwLs1YFUAGe
-    bF66cROShtu9+RgJG5+1la+Q2fizk2x6IqVq1nBe05/tomjxVaxKizFdRJfg
-X-ME-Proxy: <xmx:KB-IaiT4VSmlgKHPem5z79dLXELMfVvt9BTPPO0I08vWb5qF-Vq6RA>
-    <xmx:KR-Ian5vxKM-dAx9mqgRKs5RJ8sVwPmleMD1IvPRoHPL9_yjH2JQDQ>
-    <xmx:KR-Iaqln5zR4zsXKLtxToQ1wS7QeKa6hnAKWr5SW5kpdBiiuLsTuYw>
-    <xmx:KR-Iaq4AUMCaanV3L-pPEd2je7wDv-EX-KHWhtGOw-MKJo_obx9OuQ>
-    <xmx:Lh-IanlWRF41RYo5QKQb68muEG3GPSp1FO6Vvhb751LWSw8vAUZ9VRWu>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Aug 2026 05:48:45 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kllZsaNa"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47c2b362ee2so717753f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 02:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1787305772; x=1787910572; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+YA8YrDL1uH8EMoAnO7TYw3jh/MqqDQQTE9sn5mADtM=;
+        b=kllZsaNapbfANlhJ1PQrDc6GxE8zpnsNilu8CnlOhejtJSZru7V5geeA/5R6KOalTH
+         aefClnSf4e9pvx7wQvhcB3HvGKuRG6U0wiJyRxP0Pt9u20hZJsmG0Ipgbfn/WGW72UiN
+         DLO0l6qJw5Vc4WxIgoWVSETfC8OZlTkWJ7gPb+LFqj0vl2ttHSuD/yMEYSYJ3eDOOg6K
+         +nCfmUE7oxE0iPczDqMbsMpGsAB+UPlbKqvbIUTWVqTFGII9wt+Pu5O2BBMS7i+1x6zz
+         w02zJbptyyE+wjuJihfk9YgUj0boxrZatL27MB7BVrrvee36l1vKTukiqZfAIqqLHbsp
+         LObw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787305772; x=1787910572;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+YA8YrDL1uH8EMoAnO7TYw3jh/MqqDQQTE9sn5mADtM=;
+        b=NZaOpy1AUwmWfsdbGCu2e4KSmVkR9kqPbV+AhlfiKSydlrXbA9KDVHat40kMbyW5ii
+         +Baolzjby93KAFrAkdGdly9VsKmKAOW8G90PfSweuiFNVOGWTQa6QhYBhLmdpnabN7+v
+         +4z4NN6l2U/FhfmbmtNjdqrcDNBUYKx0gxQZu2yp55llSbPSk5NOfVaW1aP+sKso6/xA
+         D2QNJLiF/SPk7f8lUt/IXnK6hog9Pke1yngji27R1AuUiY6vZ1N8Y8LKOMKbdBHTIkcy
+         BJ+llBLEGxmFEPN2sVN3w+x2Prs/kNQwaMNrq9S/rwOr/fjfTixa10+HFbJNQGsC7j/y
+         54MA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1V3D+1M48nkrdoyNi1vqZOWodUktRVR6CnRppMLii4C7qPd8RzcNgiH5OJu83WOI0yvP+4RWJvSg=@vger.kernel.org
+X-Gm-Message-State: AFuF++m8swvqJz3GGcLW8cjMdKMx7AOh3bb/wQpelfUiGX+TsEV/5Z/m
+	GiM9mijn/HAxh5lJvmmXan/O1zkaf91RmCfX6iGqdzJAGRo3EzoU7PB7mwYAdCI6mdM=
+X-Gm-Gg: AR+sD131ktIp12f/2eS+8lOXo1ZFwUlAm04eQXfi7nHNnK6RSfbrDIBbWLp1+GdIlbo
+	APT8LWBCakGEbbzd0URJCyeNPtwlkzqVviim+IYF2FN/IvZlixeA4f4KaXzYNn7MvSHpJhmsEkl
+	6HoLV9fbSjgIxNXYach7L02wX+4PjJ3dFdJ2Sg3kM4RNO7Tl+M6Wjm0vmgReOln5r9FgQSjDLRG
+	aR5uuTNlH9YWGXRL+/lDkeQXMFOyqKAqaNZz3f+dIO7tdeifORFerqHBBmLO/l5alhwerwJeCoO
+	LxLF/Atm/GT8Dk7ztO+N6P2oR3QFwEBpM5UGEdy3Ulcam+jedODDw9N62nCLMSesIC32HjxLohR
+	A+v8DBfE9j2QxqlOFBnZfMGYdJokmiMN4nkqe+dGmjUFzUxOdVzompbjF1DxK67UgWpzTw5oDvR
+	1YFwm6XSfjiHbTRPiTbYffMetr/60aKVSzeZOlirMJTm+I2Ph9UiYvoebmklOLsFfoQy1rg+wSh
+	9k=
+X-Received: by 2002:a05:6000:22c6:b0:481:5021:33cd with SMTP id ffacd0b85a97d-482c0b5482cmr6699145f8f.3.1787305772510;
+        Fri, 21 Aug 2026 02:49:32 -0700 (PDT)
+Received: from pop-os.local ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm17683479f8f.35.2026.08.21.02.49.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 02:49:31 -0700 (PDT)
+From: James Clark <james.clark@linaro.org>
+Date: Fri, 21 Aug 2026 10:49:04 +0100
+Subject: [PATCH v2 06/14] perf auxtrace: Turn Intel BTS snapshot search
+ into a generic one
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Byungchul Park" <byungchul@sk.com>, linux-kernel@vger.kernel.org,
- max.byungchul.park@gmail.com, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
- will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
- joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
- duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
- tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
- ngupta@vflare.org, linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
- ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
- matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
- catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
- luto@kernel.org, sumit.semwal@linaro.org, gustavo@padovan.org,
- christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org,
- surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
- da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
- trondmy@kernel.org, anna@kernel.org, kees@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, mark.rutland@arm.com,
- ada.coupriediaz@arm.com, kristina.martsenko@arm.com,
- wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com,
- dwmw@amazon.co.uk, shakeel.butt@linux.dev, ast@kernel.org,
- ziy@nvidia.com, yuzhao@google.com, baolin.wang@linux.alibaba.com,
- usamaarif642@gmail.com, joel.granados@kernel.org,
- richard.weiyang@gmail.com, geert+renesas@glider.be,
- tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
- bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
- dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v19 00/40] DEPT(DEPendency Tracker)
-In-reply-to: <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
-References: <20260706061928.66713-1-byungchul@sk.com>
-  <359ea967-9b97-4584-88e6-bddb4044de2e@kernel.org>
-  <20260821042143.GA40890@system.software.com>
-  <825134a8-ceae-430c-b2fc-d1d0c7240f39@kernel.org>
-Date: Fri, 21 Aug 2026 19:48:40 +1000
-Message-id: <178730572084.2852630.7732425311008244683@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260821-james-cs-unformatted-per-thread-fix-v2-6-00c4fd0701b4@linaro.org>
+References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
+In-Reply-To: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>, 
+ John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
+Cc: Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org, 
+ coresight@lists.linaro.org, linux-perf-users@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+ linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
+X-Mailer: b4 0.15.2
 
-On Fri, 21 Aug 2026, David Hildenbrand (Arm) wrote:
-> [...]
->=20
-> > Exactly.  That's why we use classification e.g. lock class - DEPT also
-> > makes use of the concept.
-> >=20
-> > DEPT doesn't use a full map in each page but uses a minimum space for a
-> > timestamp in each to track when each starts to wait so as to use the
-> > recorded timestamp when the event occurs e.g. folio_unlock().
->=20
-> Thanks for that information!
->=20
-> >=20
-> >> Given that lockdep is a debug feature, and we will at some point allocat=
-e struct
-> >> folio separately, I assume we could just squeeze a "struct lockdep_map" =
-in there
-> >> in such debug configs and the world would not collapse.
-> >=20
-> > That's a good news for lockdep.  (And even for DEPT :)
->=20
-> He :) Where do you currently store the additional per-page information?
+Currently each auxtrace user has to implement both the snapshot search
+and the logic to fixup the 'head' and 'old' values after finding a wrap.
+IntelPT and BTS have the same fixup logic but different wrap searches.
+BTS and Arm SPE have the same search but SPE modifies head differently
+(although it probably shouldn’t), and Arm Coresight doesn't have a
+search at all, but later it will want its own search and same fixup
+logic.
 
-lockdep doesn't need to store per-page information.  Possibly DEPT
-doesn't either.
+Start moving towards a system where the pointers are always fixed up in
+the same way by auxtrace.c, and users only have to provide a search
+function or can use the generic one without reimplementing it.
 
-lockdep needs one lockdep_map for each lock class.  It would make sense
-for all folio locks to use the same global lockdep_map.
+The new auxtrace_find_snapshot() calls the search callback if it's
+implemented, handles pointer fixup in a consistent way and is based on
+intel_bts_find_snapshot(). auxtrace_record__has_wrapped() is the generic
+search function based on intel_bts_has_wrapped() and includes the
+caching from intel_bts_find_snapshot(). The old find_snapshot callback
+will eventually be removed.
 
-Each specific lock is known to lockdep as a task which holds the lock, a
-lockdep_map which represents the class of locks, and subclass number
-which allows a given task to hold multiple locks of the same class
-providing it declare (e.g. with spin_lock_nested() etc).
+No functional changes intended apart from changing the pr_debug3()s
+to print hex to match __auxtrace_mmap__read() and no longer leaking
+snapshot_refs when expanding the array length.
 
->=20
-> >=20
-> >> Doing that today (one "struct lockdep_map" in each "struct page") wouldn=
-'t work
-> >> as mm_zero_struct_page() would not expect such large "struct page". But
-> >> conceptually, for a debug kernel with a special CONFIG_LOCKDEP_PAGE_LOCK=
-, maybe
-> >> that would already be ok and we could just do that (and optimize it as we
-> >> allocate folios separately).
-> >=20
-> > Sounds great.
-> >=20
-> >> Not that it's ideal, but for a debug feature to at least check PG_lock, =
-probably
-> >> an easier way to achieve it than some completely new infrastructure.
-> >=20
-> > I understand what you are going to tell.
-> >=20
-> > However, it's worth noting that lockdep tracks dependencies basically
-> > based on **lock acqusition orders** in the system.  To make it track
-> > even rwlock and general synchronization mechanism as well, lockdep has
-> > no choice but to get more complicated.
->=20
-> Well, yes, sure :)
->=20
-> >=20
-> > Focusing on only the dependency checking, the most parts of lockdep are
-> > for the tricky things, so the reusable parts are not that big.
-> >=20
-> >> Now, Willy said "locking rules don't really apply to individual folios",=
- I
-> >> wonder if that could just help to also let lockdep check PG_lock with le=
-ss
-> >> metadata? (didn't fully wrap my head around the implications)
-> >=20
-> > That's what DEPT did and what brought external wgen introduced in DEPT.
-> > I was considering the exactly same thing :)
-> >=20
-> > Again, lockdep that tracks lock acquisition orders can't do that.
-> >=20
-> >> [1]
-> >> https://lore.kernel.org/all/aR3WHf9QZ_dizNun@casper.infradead.org/?utm_s=
-ource=3Dchatgpt.com
-> >>
-> >>
-> >> It's your guiding example, that's why I mention it. You do mention other=
- wait
-> >> cases here, I don't know anything about them, but for folios it's really=
- just
-> >> "we used a single bit so far" AFAIKs.
-> >=20
-> > It doesn't matter whether it's implemented using bit or not.  folio lock
-> > is quite special since it's allowed to be released other than the
-> > acquisition context that makes lockdep impossible to track them.
->=20
-> Does that really make lockdep *impossible* to track them? IOW, there is no =
-way
-> to extend lockdep to support lock release in different context?
+Signed-off-by: James Clark <james.clark@linaro.org>
+---
+ Documentation/userspace-api/perf_ring_buffer.rst |   6 +-
+ tools/perf/arch/x86/util/intel-bts.c             | 115 +-------------------
+ tools/perf/util/auxtrace.c                       | 128 +++++++++++++++++++++--
+ tools/perf/util/auxtrace.h                       |  11 ++
+ 4 files changed, 133 insertions(+), 127 deletions(-)
 
-Yes and no....
+diff --git a/Documentation/userspace-api/perf_ring_buffer.rst b/Documentation/userspace-api/perf_ring_buffer.rst
+index dc71544532ce..687c95a738f7 100644
+--- a/Documentation/userspace-api/perf_ring_buffer.rst
++++ b/Documentation/userspace-api/perf_ring_buffer.rst
+@@ -796,9 +796,9 @@ The perf only accesses the head pointer ``perf_event_mmap_page::aux_head``
+ in snapshot mode and doesn’t touch tail pointer ``aux_tail``, this is
+ because the AUX ring buffer can overflow in free run mode, the tail
+ pointer is useless in this case.  Alternatively, the callback
+-``auxtrace_record::find_snapshot()`` is introduced for making the decision
+-of whether the AUX ring buffer has been wrapped around or not, at the
+-end it fixes up the AUX buffer's head which are used to calculate the
++``auxtrace_record::snapshot_has_wrapped()`` is introduced for making the
++decision of whether the AUX ring buffer has been wrapped around or not, at the
++end Perf fixes up the AUX buffer's head which are used to calculate the
+ trace data size.
+ 
+ As we know, the buffers' deployment can be per-thread mode, per-CPU
+diff --git a/tools/perf/arch/x86/util/intel-bts.c b/tools/perf/arch/x86/util/intel-bts.c
+index d44d568a6d21..1b1df0003435 100644
+--- a/tools/perf/arch/x86/util/intel-bts.c
++++ b/tools/perf/arch/x86/util/intel-bts.c
+@@ -34,20 +34,12 @@
+ #define KiB_MASK(x) (KiB(x) - 1)
+ #define MiB_MASK(x) (MiB(x) - 1)
+ 
+-struct intel_bts_snapshot_ref {
+-	void	*ref_buf;
+-	size_t	ref_offset;
+-	bool	wrapped;
+-};
+-
+ struct intel_bts_recording {
+ 	struct auxtrace_record		itr;
+ 	struct perf_pmu			*intel_bts_pmu;
+ 	struct evlist		*evlist;
+ 	bool				snapshot_mode;
+ 	size_t				snapshot_size;
+-	int				snapshot_ref_cnt;
+-	struct intel_bts_snapshot_ref	*snapshot_refs;
+ };
+ 
+ struct branch {
+@@ -280,46 +272,11 @@ static u64 intel_bts_reference(struct auxtrace_record *itr __maybe_unused)
+ 	return rdtsc();
+ }
+ 
+-static int intel_bts_alloc_snapshot_refs(struct intel_bts_recording *btsr,
+-					 int idx)
+-{
+-	const size_t sz = sizeof(struct intel_bts_snapshot_ref);
+-	int cnt = btsr->snapshot_ref_cnt, new_cnt = cnt * 2;
+-	struct intel_bts_snapshot_ref *refs;
+-
+-	if (!new_cnt)
+-		new_cnt = 16;
+-
+-	while (new_cnt <= idx)
+-		new_cnt *= 2;
+-
+-	refs = calloc(new_cnt, sz);
+-	if (!refs)
+-		return -ENOMEM;
+-
+-	memcpy(refs, btsr->snapshot_refs, cnt * sz);
+-
+-	btsr->snapshot_refs = refs;
+-	btsr->snapshot_ref_cnt = new_cnt;
+-
+-	return 0;
+-}
+-
+-static void intel_bts_free_snapshot_refs(struct intel_bts_recording *btsr)
+-{
+-	int i;
+-
+-	for (i = 0; i < btsr->snapshot_ref_cnt; i++)
+-		zfree(&btsr->snapshot_refs[i].ref_buf);
+-	zfree(&btsr->snapshot_refs);
+-}
+-
+ static void intel_bts_recording_free(struct auxtrace_record *itr)
+ {
+ 	struct intel_bts_recording *btsr =
+ 			container_of(itr, struct intel_bts_recording, itr);
+ 
+-	intel_bts_free_snapshot_refs(btsr);
+ 	free(btsr);
+ }
+ 
+@@ -349,75 +306,6 @@ static int intel_bts_snapshot_finish(struct auxtrace_record *itr)
+ 	return -EINVAL;
+ }
+ 
+-static bool intel_bts_first_wrap(u64 *data, size_t buf_size)
+-{
+-	int i, a, b;
+-
+-	b = buf_size >> 3;
+-	a = b - 512;
+-	if (a < 0)
+-		a = 0;
+-
+-	for (i = a; i < b; i++) {
+-		if (data[i])
+-			return true;
+-	}
+-
+-	return false;
+-}
+-
+-static int intel_bts_find_snapshot(struct auxtrace_record *itr, int idx,
+-				   struct auxtrace_mmap *mm, unsigned char *data,
+-				   u64 *head, u64 *old)
+-{
+-	struct intel_bts_recording *btsr =
+-			container_of(itr, struct intel_bts_recording, itr);
+-	bool wrapped;
+-	int err;
+-
+-	pr_debug3("%s: mmap index %d old head %zu new head %zu\n",
+-		  __func__, idx, (size_t)*old, (size_t)*head);
+-
+-	if (idx >= btsr->snapshot_ref_cnt) {
+-		err = intel_bts_alloc_snapshot_refs(btsr, idx);
+-		if (err)
+-			goto out_err;
+-	}
+-
+-	wrapped = btsr->snapshot_refs[idx].wrapped;
+-	if (!wrapped && intel_bts_first_wrap((u64 *)data, mm->len)) {
+-		btsr->snapshot_refs[idx].wrapped = true;
+-		wrapped = true;
+-	}
+-
+-	/*
+-	 * In full trace mode 'head' continually increases.  However in snapshot
+-	 * mode 'head' is an offset within the buffer.  Here 'old' and 'head'
+-	 * are adjusted to match the full trace case which expects that 'old' is
+-	 * always less than 'head'.
+-	 */
+-	if (wrapped) {
+-		*old = *head;
+-		*head += mm->len;
+-	} else {
+-		if (mm->mask)
+-			*old &= mm->mask;
+-		else
+-			*old %= mm->len;
+-		if (*old > *head)
+-			*head += mm->len;
+-	}
+-
+-	pr_debug3("%s: wrap-around %sdetected, adjusted old head %zu adjusted new head %zu\n",
+-		  __func__, wrapped ? "" : "not ", (size_t)*old, (size_t)*head);
+-
+-	return 0;
+-
+-out_err:
+-	pr_err("%s: failed, error %d\n", __func__, err);
+-	return err;
+-}
+-
+ struct auxtrace_record *intel_bts_recording_init(int *err)
+ {
+ 	struct perf_pmu *intel_bts_pmu = perf_pmus__find(INTEL_BTS_PMU_NAME);
+@@ -444,7 +332,8 @@ struct auxtrace_record *intel_bts_recording_init(int *err)
+ 	btsr->itr.free = intel_bts_recording_free;
+ 	btsr->itr.snapshot_start = intel_bts_snapshot_start;
+ 	btsr->itr.snapshot_finish = intel_bts_snapshot_finish;
+-	btsr->itr.find_snapshot = intel_bts_find_snapshot;
++	btsr->itr.snapshot_has_wrapped = auxtrace_record__has_wrapped;
++	btsr->itr.snapshot_search_bytes = 4096;
+ 	btsr->itr.parse_snapshot_options = intel_bts_parse_snapshot_options;
+ 	btsr->itr.reference = intel_bts_reference;
+ 	btsr->itr.read_finish = auxtrace_record__read_finish;
+diff --git a/tools/perf/util/auxtrace.c b/tools/perf/util/auxtrace.c
+index aa749e1c3036..9586989e645e 100644
+--- a/tools/perf/util/auxtrace.c
++++ b/tools/perf/util/auxtrace.c
+@@ -603,8 +603,10 @@ int auxtrace_record__info_fill(struct auxtrace_record *itr,
+ 
+ void auxtrace_record__free(struct auxtrace_record *itr)
+ {
+-	if (itr)
++	if (itr) {
++		zfree(&itr->snapshot_wrapped);
+ 		itr->free(itr);
++	}
+ }
+ 
+ int auxtrace_record__snapshot_start(struct auxtrace_record *itr)
+@@ -621,12 +623,109 @@ int auxtrace_record__snapshot_finish(struct auxtrace_record *itr, bool on_exit)
+ 	return 0;
+ }
+ 
+-int auxtrace_record__find_snapshot(struct auxtrace_record *itr, int idx,
+-				   struct auxtrace_mmap *mm,
+-				   unsigned char *data, u64 *head, u64 *old)
++static int auxtrace_alloc_wrap_bitmap(struct auxtrace_record *itr, int idx)
++{
++	int len = itr->snapshot_wrapped_len;
++	unsigned long *new_bitmap;
++	int new_len = len * 2;
++
++	if (!new_len)
++		new_len = BITS_PER_LONG;
++
++	while (new_len <= idx)
++		new_len *= 2;
++
++	new_bitmap = realloc(itr->snapshot_wrapped, bitmap_size(new_len));
++	if (!new_bitmap)
++		return -ENOMEM;
++
++	itr->snapshot_wrapped = new_bitmap;
++	bitmap_clear(itr->snapshot_wrapped, len, new_len - len);
++	itr->snapshot_wrapped_len = new_len;
++
++	return 0;
++}
++
++/*
++ * Generic auxtrace_record::has_wrapped() implementation that returns 1 if non
++ * zero data exists within auxtrace_record::snapshot_search_bytes of the end of
++ * the buffer. The result is cached for each buffer idx so the search is not
++ * repeated.
++ *
++ * Writes at the end mean a high chance that trace would have continued past
++ * this search area and wrapped to the beginning. It's not a perfect heuristic,
++ * but it's only to avoid saving mostly empty buffers into the file. A false
++ * positive results in saving up to snapshot_search_bytes zeros before the
++ * actual data, which a decoder should be able to skip over.
++ */
++int auxtrace_record__has_wrapped(struct auxtrace_record *itr, int idx,
++				 unsigned char *data, size_t buf_size,
++				 u64 head __maybe_unused)
++{
++	u64 *wide_data = (u64 *)data;
++	s64 i, a, b;
++
++	if (idx >= itr->snapshot_wrapped_len) {
++		int err = auxtrace_alloc_wrap_bitmap(itr, idx);
++
++		if (err)
++			return err;
++	}
++
++	if (test_bit(idx, itr->snapshot_wrapped))
++		return 1;
++
++	b = buf_size / sizeof(u64);
++	a = b - (itr->snapshot_search_bytes / sizeof(u64));
++	if (a < 0)
++		a = 0;
++
++	for (i = a; i < b; i++) {
++		if (wide_data[i]) {
++			__set_bit(idx, itr->snapshot_wrapped);
++			return 1;
++		}
++	}
++
++	return 0;
++}
++
++static int auxtrace_find_snapshot(struct auxtrace_record *itr, int idx,
++				   struct auxtrace_mmap *mm, unsigned char *data,
++				   u64 *head, u64 *old)
+ {
+-	if (itr && itr->find_snapshot)
+-		return itr->find_snapshot(itr, idx, mm, data, head, old);
++	int wrapped;
++
++	pr_debug3("%s: mmap index %d old head 0x%"PRIx64" new head 0x%"PRIx64"\n",
++		  __func__, idx, *old, *head);
++
++	wrapped = itr->snapshot_has_wrapped(itr, idx, data, mm->len, *head);
++	if (wrapped < 0) {
++		pr_err("%s: failed, error %d\n", __func__, wrapped);
++		return wrapped;
++	}
++
++	/*
++	 * In full trace mode 'head' continually increases.  However in snapshot
++	 * mode 'head' is an offset within the buffer.  Here 'old' and 'head'
++	 * are adjusted to match the full trace case which expects that 'old' is
++	 * always less than 'head'.
++	 */
++	if (wrapped) {
++		*old = *head;
++		*head += mm->len;
++	} else {
++		if (mm->mask)
++			*old &= mm->mask;
++		else
++			*old %= mm->len;
++		if (*old > *head)
++			*head += mm->len;
++	}
++
++	pr_debug3("%s: wrap-around %sdetected, adjusted old head 0x%"PRIx64" adjusted new head 0x%"PRIx64"\n",
++		  __func__, wrapped ? "" : "not ", *old, *head);
++
+ 	return 0;
+ }
+ 
+@@ -1958,12 +2057,21 @@ static int __auxtrace_mmap__read(struct mmap *map,
+ 	union perf_event ev;
+ 	void *data1, *data2;
+ 	int kernel_is_64_bit = perf_env__kernel_is_64_bit(env);
++	int err;
+ 
+ 	head = auxtrace_mmap__read_head(mm, kernel_is_64_bit);
+ 
+-	if (snapshot &&
+-	    auxtrace_record__find_snapshot(itr, mm->idx, mm, data, &head, &old))
+-		return -1;
++	if (snapshot) {
++		if (itr->find_snapshot) {
++			err = itr->find_snapshot(itr, mm->idx, mm, data, &head, &old);
++			if (err)
++				return err;
++		} else if (itr->snapshot_has_wrapped) {
++			err = auxtrace_find_snapshot(itr, mm->idx, mm, data, &head, &old);
++			if (err)
++				return err;
++		}
++	}
+ 
+ 	if (old == head)
+ 		return 0;
+@@ -2042,8 +2150,6 @@ static int __auxtrace_mmap__read(struct mmap *map,
+ 	mm->prev = head;
+ 
+ 	if (!snapshot) {
+-		int err;
+-
+ 		err = auxtrace_mmap__write_tail(mm, head, kernel_is_64_bit);
+ 		if (err < 0)
+ 			return err;
+diff --git a/tools/perf/util/auxtrace.h b/tools/perf/util/auxtrace.h
+index 6947f3f284c0..c2342d0f4afb 100644
+--- a/tools/perf/util/auxtrace.h
++++ b/tools/perf/util/auxtrace.h
+@@ -376,6 +376,7 @@ struct auxtrace_mmap_params {
+  * @snapshot_start: starting a snapshot
+  * @snapshot_finish: finishing a snapshot
+  * @find_snapshot: find data to snapshot within auxtrace mmap
++ * @snapshot_has_wrapped: callback to check if the buffer has wrapped in snapshot mode
+  * @parse_snapshot_options: parse snapshot options
+  * @reference: provide a 64-bit reference number for auxtrace_event
+  * @read_finish: called after reading from an auxtrace mmap
+@@ -383,6 +384,8 @@ struct auxtrace_mmap_params {
+  * @default_aux_sample_size: default sample size for --aux sample option
+  * @pmu: associated pmu
+  * @evlist: selected events list
++ * @snapshot_wrapped_len: number of bits in @snapshot_wrapped
++ * @snapshot_wrapped: bitmap indicating if each aux buffer has wrapped
+  */
+ struct auxtrace_record {
+ 	int (*recording_options)(struct auxtrace_record *itr,
+@@ -400,6 +403,8 @@ struct auxtrace_record {
+ 	int (*find_snapshot)(struct auxtrace_record *itr, int idx,
+ 			     struct auxtrace_mmap *mm, unsigned char *data,
+ 			     u64 *head, u64 *old);
++	int (*snapshot_has_wrapped)(struct auxtrace_record *itr, int idx,
++				    unsigned char *data, size_t size, u64 head);
+ 	int (*parse_snapshot_options)(struct auxtrace_record *itr,
+ 				      struct record_opts *opts,
+ 				      const char *str);
+@@ -408,6 +413,9 @@ struct auxtrace_record {
+ 	unsigned int alignment;
+ 	unsigned int default_aux_sample_size;
+ 	struct evlist *evlist;
++	int snapshot_wrapped_len;
++	unsigned long *snapshot_wrapped;
++	int snapshot_search_bytes;
+ };
+ 
+ /**
+@@ -590,6 +598,9 @@ int auxtrace_record__snapshot_finish(struct auxtrace_record *itr, bool on_exit);
+ int auxtrace_record__find_snapshot(struct auxtrace_record *itr, int idx,
+ 				   struct auxtrace_mmap *mm,
+ 				   unsigned char *data, u64 *head, u64 *old);
++int auxtrace_record__has_wrapped(struct auxtrace_record *itr, int idx,
++				 unsigned char *data, size_t buf_size,
++				 u64 head __maybe_unused);
+ u64 auxtrace_record__reference(struct auxtrace_record *itr);
+ int auxtrace_record__read_finish(struct auxtrace_record *itr, int idx);
+ 
 
-lockdep has no knowledge of control flows moving across threads in the
-way that I assume DEPT does.  But it should be possible to tell it.
-
-If you have some code that takes a lock and then hands it off to
-another thread, at the hand-off point you call
-   lock_map_release(&the_lock_map)
-
-This says "no task owns this lock any more".
-
-maybe you put the folio which is locked on a queue or an lru or
-whatever.
-
-There is no way to say "that queue owns this lock".  Maybe that could
-usefully be added - assuming coherent semantics can be designed.
-
-Somewhere else some other task takes responsibility for that folio and
-the lock.  maybe it dequeues a page, or maybe an lru callback gives the
-locked page to some code.
-That code then calls
-   lock_map_acquire_try(&the_lock_map)
-
-This says "this task is now holding this lock" (or more accurately "now
-holding a lock of this class").
-Note the "_try" - that says that the task didn't have to wait for the
-lock, it just got it for free, which in fact it did.
-
-Now if that task takes some other lock, lockdep will see a dependency
-between the page lock and the new lock, and will accept or reject it as
-you would expect.
-
-So you definitely *can* send lock dependency information between tasks
-with lockdep.  I have only tried it in extremely simple cases where a
-single object is being locked by one task and unlocked by another - no
-queues or lists.
-There may be - and probably are - more complexities involved with
-locking folios and passing them around.  Maybe it is so complex that you
-need all the support that DEPT provides.  But I'd like to see a coherent
-explanation of how the functionality offered by DEPT is clearly better.
-
-NeilBrown
-
->=20
-> I guess there is a way, but the question is at which price (I seriously hav=
-e no
-> idea, maybe this was already discussed and people have a pointer for me).
->=20
-> >=20
-> >> [...]
-> >>
-> >>>
-> >>> Q. Why not build DEPT into lockdep?
-> >>>
-> >>> A. Lockdep is stable, battle-tested code. I chose separation because
-> >>>    while DEPT borrows BFS and hashing ideas, the wait/event model
-> >>>    requires rebuilding from scratch. Lockdep was designed for lock
-> >>>    acquisition order =E2=80=94 retrofitting it would risk its stability.
-> >>
-> >> Why can't this just be some configurable extension to lockdep
-> >> (CONFIG_LOCKDEP_XYZ) until the feature is stable and can unconditionally=
- be
-> >> enabled along with it?
-> >=20
-> > Answered?
->=20
-> Not quite. I don't understand why this must be a completely separate machin=
-ery,
-> even if, conceptually, it would do more than traditional lockdep.
->=20
-> Is it either DEPT or LOCKDEP in current configurations? Can both run at the=
- same
-> time?
->=20
-> >=20
-> >> I don't quite buy the "would risk its stability" argument. A lot of stuf=
-f we do
-> >> "risks stability", every day :)
-> >=20
-> > That's awsome anyway :)
-> >=20
-> >> Is there another good reason (incompatible with X, dangerous with Y, cin=
-fusing
-> >> Z) why this really must be a separate thing?
-> >=20
-> > Roughly:
-> >=20
-> >    1. Similar or less effort is needed for the new one - retrofitting
-> >       lockdep is not easy and big changes are required since the
-> >       reusable parts are not that big.
-> >=20
-> >    2. Even though you didn't agree, retrofitting it would risk its
-> >       stability.
->=20
-> Well, I don't buy the stability argument, really :)
->=20
-> Retrofitting effort for lockdep is an interesting point, though. Lockdep
-> maintainers would have to make the call here regarding direction and feasib=
-ility.
->=20
-> [...]
->=20
-> >> But I am not a locking maintainer. I think there was plenty of discussio=
-n in the
-> >> past, so I might just be raising points that were already discussed in t=
-he past,
-> >> but I really just read some random pieces of earlier discussions. (ideal=
-ly
-> >> previous discussions would be summarized here)
-> >>
-> >> Long story short: we are now in v19 and I think there was pushback in th=
-e past.
-> >> Did the opinion of locking maintainers change, or is there a way forward=
- to
-> >> integrate this in a way that would make locking maintainers accept this?
-> >=20
-> > One of locking maintainers who I met in an LPC told me that he agrees
-> > with the direction of DEPT and supports DEPT, not officially tho.
->=20
-> Hm.
->=20
-> >=20
-> > What he and other people are concerning w.r.t DEPT the most is, false
-> > positives, which is the most important issue for now.
->=20
-> Thanks for highlighting that. What's the main reason for false positives? I=
-s it
-> something conceptual that is mostly impossible to solve, or rather just
-> implementation work to cover all edge cases?
->=20
-> >=20
-> > At the same time, I think the most important thing is to make DEPT
-> > useful in practice especially with folio locks involved.  Actually, I'm
-> > planning to share DEPT's true reports periodically to LKML and work with
-> > people who believe DEPT can make things better.
-> >=20
-> > Any advices will be welcome.  Thanks for your opinions.
->=20
-> I think we must come to some conclusion on how to proceed with DEPT. I see =
-the
-> following options:
->=20
-> (1) Don't merge it and carry it OOT. Shame if it delivers real value.
->=20
-> (2) Merge it (after proper review and acks from relevant maintainers ;) ),
->     keeping it entirely separate from lockdep.
->=20
-> (3) Integrate it with lockdep on a high level, giving us a single locking
->     dependency checker, but mostly letting dept have a separate implementat=
-ion.
->     Look into possible merging afterwards.
->=20
-> (4) Retrofit and extend lockdep to really have one mechanism.
->=20
-> As the saying goes, it's hard to teach old dogs new tricks, but in the end
-> taking care of two dogs is likely harder than only a single dog? :)
->=20
-> I tend to favor (4) (or 3 with possible future work to achieve 4), but I am=
- not
-> a locking maintainer, so really they have to voice what to do.
->=20
-> I do see value in DEPT (even if the folio lock might be handled differently=
-).
->=20
-> --=20
-> Cheers,
->=20
-> David
->=20
+-- 
+2.43.0
 
