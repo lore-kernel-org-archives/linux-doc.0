@@ -1,25 +1,68 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA0F042BEBA;
-	Fri, 21 Aug 2026 13:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A5433938F
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 13:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787319953; cv=none; b=muvuUGhQiPBARKZKXuDj5admPdbsat823Kq/+iNLeHrcMNnQ6S00zSFnbXiT4EaKOuebhuUTQnTgrlJGDNTnS1z+BWsOno/n24UeEJxdvMNMooRNx5snqLIEguXk/vTZa1YeX+SX/iPWttLgcniSMrWvzKNQmRzLwWwbLUqZUv4=
+	t=1787320343; cv=none; b=rjn28eJFcGVByy6GM3SQt/lXndU+PUkn/AkgnimS4p2ombzWiEEM54LxVXDdG0NjG0TcIUtS/GrF/eNM5pTLXxWAArZ4iNnA1ouX1nLFwP17O6X+ePZph+F7FFWcNBqSpvsrdPYf3LPdnHgUmRLi3ghA9Gle44UZvGamdbYrma0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787319953; c=relaxed/simple;
-	bh=hGZU6sF+H/YppPU+gvkMCxUIZ3vhekgtdVkx59xHz0A=;
+	s=arc-20240116; t=1787320343; c=relaxed/simple;
+	bh=/ZPuMKdYiSpLFDDj6KBd5YfXG9RrVJ/W8yRsczFgpRQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xrw07Zqw17bytv1Hrz8HSHL7pab/4AvJf3e3iTV8OIjyWK92cj/aeYxXjdPqfYQhxnJXFtdeYaRLYnNtF/Iw1J8ZTUQ4IS3K0vSCirBJX3EMSwTtf6FoKb4FOH0AmuPGt0hfTBPmTyzy9SVmT4ifhSXvAOqBl2JglhJnMVyTsG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.75.44.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrABnSQ55VohqpgO+AA--.53979S2;
-	Fri, 21 Aug 2026 21:45:29 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wCXdNF2VohqLh0DAA--.3640S2;
-	Fri, 21 Aug 2026 21:45:28 +0800 (CST)
-Message-ID: <b7c913d1-578b-47c1-a2b7-c1420deb4d21@hust.edu.cn>
-Date: Fri, 21 Aug 2026 21:45:26 +0800
+	 In-Reply-To:Content-Type; b=cdGyEf43frGHAJIAWmnyCxmsUk1bdbHpSoToPzxkb+TVc/EXL0lOr2DLf1zlOcElIy9DGXeD/LtiTolPnvmdNDNEiZayAKXy4iFevsfaJmu8FgY1rlmH39d1CfEBaUqCzpCsS6TVt7UQ8Aiy7mjIfQvW9XSJiEWpqDAs04Q/PnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4LzxSVn; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4LzxSVn"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-499ac87c92bso8419465e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 06:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787320340; x=1787925140; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RKNX+Kx6HqLYYsW8IMt0XRzUyioNItYEZfBrRy9B9xA=;
+        b=H4LzxSVngeAf3Wh0ntJxuV9qFGOkoRFpRooSksCwHqjuJDYqnQ79/JGg1lfifQu3P9
+         Jh7H7YZ5oRo9GdYiqJliqxwuAcZC3tKe8vg48Ijx6whEIxRkO8T+1cpXIos7PGD9wGXy
+         49CeUASa1xwLV+bCUpU6jnZ8+OsAntGpbhD1+NTYmvdjcnRc/lXDKr6dRvIcCVsf7ewh
+         gMZl3nxsHWFBzUBlCTo02ArYRnWX/LEDAT2NjCau96tQgSlCNiin1mmYUcfLLFLR68fx
+         NMfMpn0Ds8kX3cxPbPGEr3c83icZq1IsVfsVvCeMJQJCPqGO5KDet6+fxkD6m8bxXxPV
+         Q3lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787320340; x=1787925140;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RKNX+Kx6HqLYYsW8IMt0XRzUyioNItYEZfBrRy9B9xA=;
+        b=Qun+Yz1zjMpPqerVnVIK67z2SNEjUDZDoxR3QAAZncEgEaog1DjB/maG0wb/TdQXwI
+         qobs0LO/94uY4UL1IKsHLCkxvQStd8G/0umraJwq2Ye7KVcnCYMsP8vS9E8HvmPMkMk8
+         fISJldX0Tsk3z/+gs22ZHejb/U/p/c6SLDzTUtApuZN5RWb66U8lQtWoQ0DeS5S8RZ3n
+         PatdojltWuNruuccKZUAFzEX5xFD4NmV5PjWVFIE6O+COct7/mXlFtoNZOrXf++s1HKH
+         oeOARI1AiVbm6wd54iEI5sNAx08KkMp8Gga/Tgxau13hsJMQDdQW7WOfYZiLEzlUjgk5
+         JTkA==
+X-Forwarded-Encrypted: i=1; AHgh+Roj1Wh9IyjN3GYvubd41R0QND+2T+7UTAYOilPx3k+ptxvYgfSlQ+DoJ8RRTYBwLid+BrZTNj52670=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYxm0BT1lYXBtEqa+Ntf1rqvpDp/bDZV0Kkq3zv0Lu21RZbfu/
+	KEim4B1Xp81aQR84fSzR1ZUX1R3k7pzTVKhck2zqotED9D3+2K5fziXK
+X-Gm-Gg: AR+sD10SeCymmiN5isGFL3zhQDgW533GzYUYtw80jbWPRbRLPDEfRmmQJGRJ26lmvXf
+	9/ghTUDWbzfv8gBpK6bg14rbmDbyiWpgBQR7bE5x3U0xZdtGjfsaPireHXlqAB8ZC9mJXr8msrx
+	tMPySGmcsIsqMgUHzStgY1hScH87zVEH965yFQvAepNojNVs/AJlECIHx1Qq6h1WD7VtbXHy6OS
+	fwAOHVkhxCKk62Ee1quAjNo21vt2CaHu690xrNdaDmvfvfXbbiYk4t6av6OsduiDuV3Wmht2Sw+
+	64oZDAZg4NlGcbYCr6nyXect2HaLh6Oaau4IFFezacEIt7NX8woDZLm8RIpnxRBWCJ81p8a9kYm
+	NipKrsvv+60yyxms0qCp7s40DI9aUvaBLVaHQeCDXiVhbqDlEqwhyFKNL/+U/tfdpRwCvWz4Qw7
+	7nSLYyMubLsBb6kRvNUtQLNASoq86uiwv30Cp1oC+axRC2MmGp/HZQlks9z2PUhLnkwcyV7Pww2
+	O8Q
+X-Received: by 2002:a05:600c:a087:b0:499:86ce:465e with SMTP id 5b1f17b1804b1-499b8324b09mr117557705e9.4.1787320339715;
+        Fri, 21 Aug 2026 06:52:19 -0700 (PDT)
+Received: from [10.45.28.226] ([15.248.3.94])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14b80a5sm17753598f8f.24.2026.08.21.06.52.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Aug 2026 06:52:19 -0700 (PDT)
+Message-ID: <0365d77d-616b-47f7-a5f2-3388bad692a1@gmail.com>
+Date: Fri, 21 Aug 2026 14:52:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,147 +70,105 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Update maintainer-pgp-guide.rst Chinese translation
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260821-maintainer-pgp-guide-v1-0-08e5e3602c04@wyuan.org>
- <5b107aad-2826-4bf6-97aa-14592131b6a8@hust.edu.cn>
- <aof8rCuuwzHUNtka@wyuan.org>
- <7232a999-0bb8-45fa-8d33-a11efc661012@hust.edu.cn>
- <aog87UzDIz20XzU_@wyuan.org>
- <0e437b53-5a44-406f-a482-518a6c09f7e2@hust.edu.cn>
- <aohJLNK5Cqv1iMLd@wyuan.org>
- <771c1b11-f7d3-4a1b-a26a-b20187eeae59@hust.edu.cn>
- <aohOiXppk2Px7SXx@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <aohOiXppk2Px7SXx@wyuan.org>
+Subject: Re: [PATCH v5 2/5] KVM: arm64: Add pre_fault_memory implementation
+To: Alexandru Elisei <alexandru.elisei@arm.com>
+Cc: maz@kernel.org, oupton@kernel.org, pbonzini@redhat.com,
+ joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com,
+ yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+ shuah@kernel.org, corbet@lwn.net, vladimir.murzin@arm.com,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ isaku.yamahata@intel.com, Jack Thomson <jackabt@amazon.com>
+References: <20260612162354.73378-1-jackabt.amazon@gmail.com>
+ <20260612162354.73378-3-jackabt.amazon@gmail.com> <alEXtW7w-rqlNG09@raptor>
+Content-Language: en-US
+From: "Thomson, Jack" <jackabt.amazon@gmail.com>
+In-Reply-To: <alEXtW7w-rqlNG09@raptor>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrABnSQ55VohqpgO+AA--.53979S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxXr18Cw1UCw13ZFW8tr15twb_yoWrtF1xpF
-	WSkanxtF4ktr17Ars2k3WUZFyxt3Z8Ary5Wr95Xr1kZFn0vF1ftrsa9r4Y9a9rGr1kWa12
-	vr4jqryIqay5A37anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQIb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVW8ZVWrXwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IUYVMNUUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Transfer-Encoding: 7bit
+
+Hi Alex,
+
+On 10/07/2026 5:03 pm, Alexandru Elisei wrote:
+>> +	unsigned long		*page_size;
+> 
+> As far as I know, fault handling was reworked to use struct
+> kvm_s2_fault_desc to store the fault information that user_mem_abort()
+> needs to handle the fault.  Adding a 'page_size' field, that represents the
+> result of the gpa mapping process, might not be desirable.
+> 
+
+Yeah agreed, Vincent suggested a separate output struct that
+kvm_s2_fault_map() fills with what was actually mapped. I'll do that in
+v6 thanks!
+
+>> +	struct kvm_vcpu_fault_info *fault_info = &vcpu->arch.fault;
+>> +	struct kvm_vcpu_fault_info fault_backup = *fault_info;
+> 
+> I'm not sure you need to make a backup here. vcpu->arch.fault is populated
+> each time the CPU takes a fault.
+> 
+
+So this was actually flagged up by sashiko when I ran it before
+submission, it suggested handling this for the case in which the vCPU
+exited for MMIO, the next KVM_RUN calls kvm_handle_mmio_return which
+uses the vcu->arch.fault.esr_el2. I'll add some comments to this maybe
+to explain why this would be needed.
+
+>> +	if (memslot->flags & KVM_MEMSLOT_INVALID) {
+> 
+> I don't think that's something we should care about, the flag can be set
+> immediately after the check as the function doesn't take kvm->slots_lock.
+> kvm_vcpu_prefault_memory() takes the srcu lock in read mode, so the
+> function is safe to run even if userspace does something silly like
+> deleting a memslot at the same time that it's prefaulting the guest memory
+> it represents.
+
+I was there not as much for safety, but rather to pick up that error.
+This way rather than userspace getting an -EFAULT it can just retry.
+This is the same way it is handled in x86 as well.
+
+> 
+> It might not be obvious, but taking kvm->mmu_lock in read mode does not
+> guarantee that gpa will be mapped when kvm_pgtable_get_leaf() returns.
+> That's because a concurrent kvm_pgtable_stage2_map() for a different gpa
+> can destroy the mapping of the current gpa.
+[ ... ]
+> The kvm->mmu_lock is dropped here, which means that it is possible for a
+> MMU notifier callback to have just unmapped the entire stage 2 for the VM.
+> 
+
+Yeah as we mentioned in the other thread, this is best effort and we
+can't guarantee that is survives the return. We do this for forward
+progression, reporting the correct advance size for ranges which are
+already mapped, instead of repeating the full dance for every page of them.
+
+> 
+> handle_access_fault() will fail if the mapping is gone. But I guess that's
+> fine if the ioctl does not guarantee that memory is still mapped after it
+> completes.
 
 
-On 8/21/26 9:11 PM, Weijie Yuan wrote:
-> On Fri, Aug 21, 2026 at 08:57:46PM +0800, Dongliang Mu wrote:
->> On 8/21/26 8:48 PM, Weijie Yuan wrote:
->>> On Fri, Aug 21, 2026 at 08:17:06PM +0800, Dongliang Mu wrote:
->>> [...]
->>>>> (I definitely won't admit that the log file annoyed me a few times
->>>>> because I accidentally included it with 'git add .' and then had to 'git
->>>>> commit --amend' right after) ;-)
->>>> My experience is to not use 'git add .'. In Linux, hidden files are not
->>>> listed by default.
->>> Yes, I was being lazy to type the full pach/full file name, oops.
->>>
->>> While hidden files are not listed by default on Linux, thankfully the
->>> kernel source tree ignores .* via .gitignore. But 'git add .' is indeed
->>> a bad habit.
->>>
->>> Btw, git commit -v, or setting commit.verbose = true, can really save
->>> one at the last minute. (as mentioned in our how-to doc) And sadly I
->>> actually happened to use another computer to write patches last night,
->>> which I hadn't configured it. XD
->> Actually these labor-tensive works should be done by LLM. This is one of the
->> right directions of LLM usage.
->>
->> You can write a simple skill to help you complete these works.
-> That makes sense. I'll give it a try. Still, given that the kernel
-> community tends to be a bit conservative, I've generally tried to do
-> things myself. Of course, the most important thing is that we supervise
-> what the LLM is doing and make sure it follows our actual intent rather
-> than hallucinating.
+Yeah I think it's fine and will degrade to a no-op in this case.
 
-My experience is to always double check the result of LLM.
+> 
+> Also, the documentation that this patch adds says: 'On arm64, newly created
+> stage-2 PTEs are marked Accessed'. Does not say anything about marking
+> **existing** ptes as accessed. Would be useful to explain the code does it.
+> 
 
-However, to be honest, translation is not a complicated task. Sometimes 
-LLM proposes greater translation than me.
+Ack, will do thanks!
 
-And LLM is really good at capturing some common problems in the patchset.
+>> +		hva = gfn_to_hva_memslot_prot(memslot, gfn, NULL);
+> 
+> There's gfn_to_hva_memslot(memslot, gfn), is that what you are looking for?
+> 
 
->
->>>>>>> Btw I've been trying to know more about Sphinx and kernel-docs, hope my
->>>>>>> mistake won't happen again.
->>>>>> That change can fix problem. The underlying problem is RST syntax. Maybe you
->>>>>> can have a look at this or query it in the LLM.
->>>>> Absolutely. I did have relatively little experience writing rst before.
->>>>> But that's definitely no excuse - I'll try to pick it up quickly.
->>>> LLM is really useful to capture some syntax and semantics issues. Therefore,
->>>> before submitting patch, use LLM to scan problem in this issue.
->>> Got it, thanks.
->>>
->>>> I am writing a draft skill for reviewing patches of kernel Chinese
->>>> documentation.
->>> Nice! I've been trying "b4 review tui" these days and I also made some
->>> modifications to its pre-configured prompt to fit our specific
->>> workflows:
->>>
->>>     https://git.kernel.org/pub/scm/utils/b4/b4.git/tree/misc/agent-reviewer.md
->>>
->>> b4 review tui 'agents' - AI-assisted review:
->>>
->>>     https://b4.docs.kernel.org/en/latest/reviewer/getting-started.html#ai-assisted-review
->>>
->>> Sometimes my agent makes false alarms, but at other times it does manage
->>> to identify the issues that we have overlooked. This is probably also
->>> one of the reasons why the community is gradually becoming more
->>> accepting of LLMs.
->> Ah, this is interesting.
->>
->> My skill is to use LLM to search the patch name, use b4 to apply patches and
->> finally ask LLM to refer to how-to.rst and review the patch or patchset.
-> As Chen-Yu mentioned before, I´ve basically trained myself to find
-> almost any email in the lore archives manually. ;-)
->
-> And yes, every time before I send a patch, I have an LLM check whether
-> it follows the instructions in the how-to.rst.
+I think gfn_to_hva_memslot() resolves the hva for write, so would fail
+on KVM_MEM_READONLY slots, and prefualting is a read. Also this mirrors
+the guest abort path so matches the way the run path resolves the HVA.
 
-Please take a look at my review:
-
-https://lore.kernel.org/all/b45c6389-a048-4a94-8649-ab0c5a80fac2@hust.edu.cn/
-
-The first comment is from Codex + ChatGPT.
-
-And my skill complains the following warning:
-
-https://lore.kernel.org/all/7724c093-cb99-490d-b632-1381e16962ff@hust.edu.cn/
-
->
->> And I think we could try to add our subsystem to sashiko. What we need to do
->> is to write some subsystem-related prompts.
-> I was thinking about this a few days ago. I'd actually planned to talk
-> to the Sashiko maintainer about it first, but I haven´t gotten around
-> to it yet. As far as I know, though, Sashiko can currently only be
-> enabled based on mailing lists; it can't filter or match patches
-> specifically for the Chinese translation subsystem.
->
-> Overall, though, I´m in favor of enabling Sashiko for us. Having an
-> extra pair of automated eyes certainly doesn't hurt. That said, some
-> settings may be worth discussing - for example, whether the Sashiko bot
-> should be allowed to send review comments directly to the original patch
-> thread.
-Maybe we can do some tricks in the prompt. docs/zh_CN: is an obvious 
-signal for us.
->
-> Thanks!
-
+-- 
+Thanks,
+Jack
