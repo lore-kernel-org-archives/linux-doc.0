@@ -1,174 +1,152 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011031.outbound.protection.outlook.com [40.93.194.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A5433938F
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 13:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787320343; cv=none; b=rjn28eJFcGVByy6GM3SQt/lXndU+PUkn/AkgnimS4p2ombzWiEEM54LxVXDdG0NjG0TcIUtS/GrF/eNM5pTLXxWAArZ4iNnA1ouX1nLFwP17O6X+ePZph+F7FFWcNBqSpvsrdPYf3LPdnHgUmRLi3ghA9Gle44UZvGamdbYrma0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787320343; c=relaxed/simple;
-	bh=/ZPuMKdYiSpLFDDj6KBd5YfXG9RrVJ/W8yRsczFgpRQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cdGyEf43frGHAJIAWmnyCxmsUk1bdbHpSoToPzxkb+TVc/EXL0lOr2DLf1zlOcElIy9DGXeD/LtiTolPnvmdNDNEiZayAKXy4iFevsfaJmu8FgY1rlmH39d1CfEBaUqCzpCsS6TVt7UQ8Aiy7mjIfQvW9XSJiEWpqDAs04Q/PnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4LzxSVn; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B0948F842;
+	Fri, 21 Aug 2026 13:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787320446; cv=fail; b=u7TRH1u2aWlrg8j4uaToDOUJG/sHSyAGc1Ggd+SYSgn9nWGwq5k0S43aI8fdMQW+4Hos7KediPVCVfZBjd3KQe++3wKT9lYw01aDNUE+P6/oRiy8hwHL6MjhvThkF2rdLXTVg2fygK8MaT361CM292xmi4v0CVOFKCG2AAmpB2w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787320446; c=relaxed/simple;
+	bh=tWbQdd7mrV0XQ7d+8ibw0T9fL9l4PuplZVJxZm3m4Qc=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=el6wNyuR0acCiBPUgOFDmKd+B9skF5NEwBBWbN4RIoL7rAqVC4a8OUk1OIVwVPiHDtApK6Gr1e4QdfQUWYXQkCveUKXaqzQZh4gQrt7JHdb9SSg3CYeWhdv11vXNJh6tpuDxY0ahS3LW19DiFb7Y8E7QcOnQwBEeuKKxrdyTSdI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IVENXyTC; arc=fail smtp.client-ip=40.93.194.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4LzxSVn"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-499ac87c92bso8419465e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 06:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787320340; x=1787925140; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RKNX+Kx6HqLYYsW8IMt0XRzUyioNItYEZfBrRy9B9xA=;
-        b=H4LzxSVngeAf3Wh0ntJxuV9qFGOkoRFpRooSksCwHqjuJDYqnQ79/JGg1lfifQu3P9
-         Jh7H7YZ5oRo9GdYiqJliqxwuAcZC3tKe8vg48Ijx6whEIxRkO8T+1cpXIos7PGD9wGXy
-         49CeUASa1xwLV+bCUpU6jnZ8+OsAntGpbhD1+NTYmvdjcnRc/lXDKr6dRvIcCVsf7ewh
-         gMZl3nxsHWFBzUBlCTo02ArYRnWX/LEDAT2NjCau96tQgSlCNiin1mmYUcfLLFLR68fx
-         NMfMpn0Ds8kX3cxPbPGEr3c83icZq1IsVfsVvCeMJQJCPqGO5KDet6+fxkD6m8bxXxPV
-         Q3lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787320340; x=1787925140;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RKNX+Kx6HqLYYsW8IMt0XRzUyioNItYEZfBrRy9B9xA=;
-        b=Qun+Yz1zjMpPqerVnVIK67z2SNEjUDZDoxR3QAAZncEgEaog1DjB/maG0wb/TdQXwI
-         qobs0LO/94uY4UL1IKsHLCkxvQStd8G/0umraJwq2Ye7KVcnCYMsP8vS9E8HvmPMkMk8
-         fISJldX0Tsk3z/+gs22ZHejb/U/p/c6SLDzTUtApuZN5RWb66U8lQtWoQ0DeS5S8RZ3n
-         PatdojltWuNruuccKZUAFzEX5xFD4NmV5PjWVFIE6O+COct7/mXlFtoNZOrXf++s1HKH
-         oeOARI1AiVbm6wd54iEI5sNAx08KkMp8Gga/Tgxau13hsJMQDdQW7WOfYZiLEzlUjgk5
-         JTkA==
-X-Forwarded-Encrypted: i=1; AHgh+Roj1Wh9IyjN3GYvubd41R0QND+2T+7UTAYOilPx3k+ptxvYgfSlQ+DoJ8RRTYBwLid+BrZTNj52670=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYxm0BT1lYXBtEqa+Ntf1rqvpDp/bDZV0Kkq3zv0Lu21RZbfu/
-	KEim4B1Xp81aQR84fSzR1ZUX1R3k7pzTVKhck2zqotED9D3+2K5fziXK
-X-Gm-Gg: AR+sD10SeCymmiN5isGFL3zhQDgW533GzYUYtw80jbWPRbRLPDEfRmmQJGRJ26lmvXf
-	9/ghTUDWbzfv8gBpK6bg14rbmDbyiWpgBQR7bE5x3U0xZdtGjfsaPireHXlqAB8ZC9mJXr8msrx
-	tMPySGmcsIsqMgUHzStgY1hScH87zVEH965yFQvAepNojNVs/AJlECIHx1Qq6h1WD7VtbXHy6OS
-	fwAOHVkhxCKk62Ee1quAjNo21vt2CaHu690xrNdaDmvfvfXbbiYk4t6av6OsduiDuV3Wmht2Sw+
-	64oZDAZg4NlGcbYCr6nyXect2HaLh6Oaau4IFFezacEIt7NX8woDZLm8RIpnxRBWCJ81p8a9kYm
-	NipKrsvv+60yyxms0qCp7s40DI9aUvaBLVaHQeCDXiVhbqDlEqwhyFKNL/+U/tfdpRwCvWz4Qw7
-	7nSLYyMubLsBb6kRvNUtQLNASoq86uiwv30Cp1oC+axRC2MmGp/HZQlks9z2PUhLnkwcyV7Pww2
-	O8Q
-X-Received: by 2002:a05:600c:a087:b0:499:86ce:465e with SMTP id 5b1f17b1804b1-499b8324b09mr117557705e9.4.1787320339715;
-        Fri, 21 Aug 2026 06:52:19 -0700 (PDT)
-Received: from [10.45.28.226] ([15.248.3.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14b80a5sm17753598f8f.24.2026.08.21.06.52.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Aug 2026 06:52:19 -0700 (PDT)
-Message-ID: <0365d77d-616b-47f7-a5f2-3388bad692a1@gmail.com>
-Date: Fri, 21 Aug 2026 14:52:17 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IVENXyTC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RtknVh0yuVhc3iyaeDwbL88FTXySxUAyMofM8baTBSXpetYsHgeSxUelmJB0jqcaxPheeBEk4r/h//BGVm7F/aNpDtAjhGz4+St8bY9LyjRv8I4GcjzSYGR8joc38HN6nTpTfzyncHBjqK0pssyTtQj4QkhTw8dXhqdiJ3oA2D5f2JHs+hh/VRf5uOiLRtfgBpoGhEIDyRC6E6yJe596uKogvEUd/oA3qdjM6w93rlSmmOgqBAbLYimN0EKTe270RExvs2wC89+0Xo7BuYd6mlYxIf4JG5deC5QCbFlzQ2ONqRS84tVTmk7gOrXS4bPI5fybdgL5bZOT0OEmbNmWpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tWbQdd7mrV0XQ7d+8ibw0T9fL9l4PuplZVJxZm3m4Qc=;
+ b=RdhrTBvdhC7UcUVEBkl4oNWoHPiKbM7BEwtnFLxuG+9+x+zHeEdH7b2Gu2nx+hsQntSZ2b+gaGQJP0ghoE7mJWxw8ha4ViAwp8zhfYQCgUjD8zoCZ51qsj8mA3tBwMHSS26kjtv2s+65btsKDnxIiQSUa/9n6Y4wCV1o0QA1LwUFrr6hPWDFFZnXFxjYBVZqLnOo+xWs74rI5zDB7tXohP/BKZukWTjBoprOkww7FtOgCkbKdkdCXDR6TlcOq89nPu3R2OdCz7iw4XqHJTcetmn/J3cJ+4R8vSWREH3ZQK3n+679XkZFKazvewJhVk+2jidm2fluFmA1nQAr3DDJdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tWbQdd7mrV0XQ7d+8ibw0T9fL9l4PuplZVJxZm3m4Qc=;
+ b=IVENXyTCfTcJfiQY7WC6mXlfFEV77/tFudWl57P6pK/jwqO/WUagDBC32JWTaHFfjbCNVEVkglpffspq/+LodzJS5sRnRmrXF+P7ti4p3LjkE7qM8eppapMDIhjFwoCuvzt8IBLVoj50GawMpXC/szZ89TeOeoQm1xxkxPJlgeXPpE/NPmXYpDmkQwnmZ2aitH6IFXEvXykvjKLDyZ5V9ZjwO4YPtQzT7keiiX13rA0Mv8af3hbT3ZgtwqxYc4QxZM6ii42KA4aPkmL7du4lkxNvQYDuQvT/XpHu/7YDHwbFH3C2Mx7HhI+WCMCqGXDe84DlrRlkK+Hi7rRk1HQ1+g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CY8PR12MB7266.namprd12.prod.outlook.com (2603:10b6:930:56::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
+ 2026 13:53:59 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0339.007; Fri, 21 Aug 2026
+ 13:53:59 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 21 Aug 2026 22:53:56 +0900
+Message-Id: <DKUO7T5FN47F.3J21T5BJZ6Q5@nvidia.com>
+Subject: Re: [PATCH v2 01/12] rust: num: use const_assert! in Bounded
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Eliot Courtney" <ecourtney@nvidia.com>
+Cc: "Yury Norov" <yury.norov@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
+ Krummrich" <dakr@kernel.org>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Timur Tabi"
+ <ttabi@nvidia.com>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+References: <20260810-pramin-split-v2-0-65a00b3c7309@nvidia.com>
+ <20260810-pramin-split-v2-1-65a00b3c7309@nvidia.com>
+In-Reply-To: <20260810-pramin-split-v2-1-65a00b3c7309@nvidia.com>
+X-ClientProxiedBy: TY6P301CA0014.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:3be::19) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/5] KVM: arm64: Add pre_fault_memory implementation
-To: Alexandru Elisei <alexandru.elisei@arm.com>
-Cc: maz@kernel.org, oupton@kernel.org, pbonzini@redhat.com,
- joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com,
- yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org,
- shuah@kernel.org, corbet@lwn.net, vladimir.murzin@arm.com,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- isaku.yamahata@intel.com, Jack Thomson <jackabt@amazon.com>
-References: <20260612162354.73378-1-jackabt.amazon@gmail.com>
- <20260612162354.73378-3-jackabt.amazon@gmail.com> <alEXtW7w-rqlNG09@raptor>
-Content-Language: en-US
-From: "Thomson, Jack" <jackabt.amazon@gmail.com>
-In-Reply-To: <alEXtW7w-rqlNG09@raptor>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY8PR12MB7266:EE_
+X-MS-Office365-Filtering-Correlation-Id: a281bea2-7203-4745-9187-08deff8ba665
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|376014|7416014|23010399003|1800799024|366016|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	XluHgd4+FvlgzYXOtGvsY7x9OQpBJTQ7gJRs1ytos6cLpGntv6fauGUDHOMHU0NWuM6GoyrqVYK6YMV5cbwRuXiDgWB/fzWu+WP/+TB08LKP9EZ6jY3gQtUJAxxhMgNcbqHdB/d6Vjop6wZ28d4EpNVerQ5H7BGlia3n9PCV9rOaD9Ij/1MeCksJvMTZ/PfVgfwF3JvkNJxVpZMYNrbrhhh69TBzooN3zxn903hwwhlDQvynTKrIDL6AY2mycQLCv9p4QB0p+iGuyDrKP7ntjGc0RVxZP+a+jDpZR+j3fNxRH1ENFJWdXbLK7jPoIqtXgz3LEYh2hpkD5ecCN3TmaQc8UEGuGq9Z0BxrX5pxgfrPx/9naCTAYmeV+FpkYfvzQBQlVjPGFMjxYLcznU1r6j1xPTI/YipLhd7aTYWQR6WWuVAylgY2k8mZUORd3d243YpzKuC+JOmCemFBg6klYQPOCqrCz+wHOXFqGRbcfk/2aACLwvT5YHsb5qNCLPBceVf2BsI7GSvNeyjIUB2hCsEt1CqhQAFH3ZlLSjcMkjyILRiqIl3YKH729y6d5i6jBBMsD26uCTHZcg3Pc0KvmveMAfOWtQ1E95dZ95ZLNB0yNwx/jG4co32kk8cqfFkQNIdq+RR947x6AcFCcHmAx1ViBPHUvtDOmu+3bOwk5rM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(23010399003)(1800799024)(366016)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RGtVakRSbFQ2NzdhRkZxRjI5UVN6RHJKSmVOMC85OTI2OWs1UlRPaWVNbFJh?=
+ =?utf-8?B?eWF6dkxSQWJjR3JKWStremllT3F4WW1zT01kSWxUWUhGRUtVRUVTVGhUSEVu?=
+ =?utf-8?B?aHkxU0NZczltbVVONXEzNGxmVFFVeFZ2dUo1Zy9aUmIwU1hIQkxoT3BmTERu?=
+ =?utf-8?B?R2R6STFwTTN4cW9kMXFFWS9wL1J5T3lxZ2pnTmlEcFBEV3NZSnVIY1FJOUxY?=
+ =?utf-8?B?bGNraDdNRTJJOXZpbGlIZUxsNVZsWUNvM3N5c3RtYnRBdnI1OGc4Slp2aGdx?=
+ =?utf-8?B?cTJHTnNkM0kyTzkrMytkbVBFMVpiekNEdVM4ZjgxbWoyUkVqR1N1Wk9EdHh6?=
+ =?utf-8?B?ZFVxdDFEVWJNbTk2Z1BKOXkrKzlpOEhqM01JVG5oTzBoY29Lc1o5K2E1Q2dQ?=
+ =?utf-8?B?K2p1aks5cThuVG9nT0tyeFg1cHR3K2w1T1B6L2JtL0RJd0FYREYvckhHc3hr?=
+ =?utf-8?B?M0hMbWpmaVFZVzZhdEhaNkpQZUJrMUk5NmxURFdOTGlWY1pkS0dNV0F0SUtJ?=
+ =?utf-8?B?dGVIaWdRdUxkUVF4WmRJeG00RUR4Q01xajRGTEpTd2s1WGg3cTkwS1dlQUJ6?=
+ =?utf-8?B?VGxDSHg5OFNuRVpMb0srMzltQmdsei83T3BtSHEzZ2xPelh5L2w4L01wVUxH?=
+ =?utf-8?B?TzVVZ1NYRmtQRE4venUwc0tXcVpNbmFKM2hCQVQ5ZGhURUk5bDc1dkE1VDND?=
+ =?utf-8?B?K1p1Yk9pc0ljUmxyMEo3ZGhleUlISkV6YjZhTTJ3ZGh5UjNhc3ZVOHJJa2dI?=
+ =?utf-8?B?eDhzK09GaE5xU3VuaXNTclNlMkhVQnBOaWxiZlhkakFKVWF5YXBNVjc1UHBI?=
+ =?utf-8?B?RlZEQndQZkp1YUhSblBWajJtWExvdUt4eW54U1Q4LzA3NGVlZ2hXYUhEZ2Z0?=
+ =?utf-8?B?YXo1L2ZuZ1lBZXZQV2paZlJaMmRzRE5iMVBYVThORXRPN0kvZGx5WXp6NHJ4?=
+ =?utf-8?B?dGFaTFZnN2c4aEp2ZERhSHA5M1dEcER4WW0wZDNGU0VYUUpUem5pYWJ5NlZY?=
+ =?utf-8?B?SWh2YUVtdm5aK2lsSktycWVoRnIzblJCYXhvWWNBNjlPRUYyb09rc21aN3Rr?=
+ =?utf-8?B?SzM4U0MrRnU0NndMLzBDb01pSnBzTEVYYTRRbjNUZ3RISmZFRWg4VVN1L1Rj?=
+ =?utf-8?B?M2VMQkVaWjNHZ1FoMDJoTkFRSHBnN1dianRUSkt1Q0dwcHR4MVE1RmZKMHlj?=
+ =?utf-8?B?MVRPMlQ1bm9XS2Z3d2pWRmUwU1ZyNU9HdzNQWGZnRHZBbWpyU2piN00xOUZh?=
+ =?utf-8?B?QjFablN6QTAvYVU4Yks3ampiRWpvQU9LVEpJZlRtcjBjbVdkMURCaEpvMFl1?=
+ =?utf-8?B?SWhuY1RtNVZVV1NxUm5KN1RTTGVPRy9iTmZzL2lYMHNuRXAyWWRmNVlZR0c2?=
+ =?utf-8?B?bFpOcGJyNTFtdlplbjlhODNOYjIwdXVPeVFmYlNDUzdKS0FWSGlOUEpWNE5q?=
+ =?utf-8?B?dC9CZEljQU5jNjBVL2ZwdWtERXRqV0xUUG1ESXBTMEpXNkRGZ2hJWWlkM3g4?=
+ =?utf-8?B?VlNrN0JpTHNVWnJKbjc3NHVST2RZWi8vc085RmZXNi9aVFVDVHJWM2RtNzZk?=
+ =?utf-8?B?NHM0SmM2WGFvVEs0WUZiRzQ5aW1HMnB5Y1MwRzVXUmpSeUVGQ1RVMFBrNGZp?=
+ =?utf-8?B?c2JvMDk5T2NEZU1PODRoRTJpaC9TVUVNVzVJOTM3c0ZGNnZVRUo1OTljSjd6?=
+ =?utf-8?B?VXdESkdmK25zdFVvYlZTRHBNRy9vNVJWbTNCY3Z3MEZvVGowdDNMNnhrY3JW?=
+ =?utf-8?B?SGQyYW51SWI0cmwwS1d3M2FrN2tzRU44TWVISVVJWS95UkxIaFB5VWtjU05N?=
+ =?utf-8?B?L3lGZTF5Y0xZNTdVSk9FcUFXd3lrVnBvanllQk8wT054Y3hHeG4vcWlCWE9E?=
+ =?utf-8?B?eWlDMGl1Mm9KMWdqUjBQUm1xRldwQ2NPRFNJWHhXMVArV3JYR0QvZXhSSk9I?=
+ =?utf-8?B?aDJ1OGtSWkpqMlFGZk9RbE44d25xaGx0NUhIM0NmRjdDM1RyM3VYTTVSSmta?=
+ =?utf-8?B?QmtoVW4xcFJjRUtDTkh3L3ZCMkhGYVh1MUEwQXZaU2FvSlo1cXRQNlVUaHV1?=
+ =?utf-8?B?OFhtbWYxSTMydTExOVNKcmFpZ29KMXJEa3pFOGQzd0V1anQ0cTZZK1ZMaVVq?=
+ =?utf-8?B?Y2JJM2VZN3d1SkFXVzVtTG1hV2hSTTgwSGFtMXloSHV6RTAyV2FNRkpqSS80?=
+ =?utf-8?B?VVBlU1R2cWppQ0l2eGZOYjRuSUZGL2JyUk5HaEhHQnJBenNxTW5lUXdHT1By?=
+ =?utf-8?B?UjRlUnpNNDlHcnIxNndGNGlvcW9RNENCV3dTRXNObTRORWEydHRzbjVwM3Fx?=
+ =?utf-8?B?dVlVKzBLbWptR3dBSEQ0NHo1bkwyZmlYTlByUHRKZWNEMDhxck9OdWRpN0hm?=
+ =?utf-8?Q?yhEAIoJQxP0/sMPKz0rl23Ix3r8ub1kLke+v58aWFnwXc?=
+X-MS-Exchange-AntiSpam-MessageData-1: FOqM3DgTTMEAVw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a281bea2-7203-4745-9187-08deff8ba665
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 13:53:59.2890
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6L+ehKJxihFie6INJWpnHDjqcoZdpWvfcD9g7htq+8UT4++iH5MtUW9CFsprptiUTVuI2/++lyXi5jWk+IH+vQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7266
 
-Hi Alex,
+On Mon Aug 10, 2026 at 10:55 PM JST, Eliot Courtney wrote:
+> Convert the const-block asserts in bounded.rs to const_assert!,
+> matching the rest of the file.
+>
+> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 
-On 10/07/2026 5:03 pm, Alexandru Elisei wrote:
->> +	unsigned long		*page_size;
-> 
-> As far as I know, fault handling was reworked to use struct
-> kvm_s2_fault_desc to store the fault information that user_mem_abort()
-> needs to handle the fault.  Adding a 'page_size' field, that represents the
-> result of the gpa mapping process, might not be desirable.
-> 
-
-Yeah agreed, Vincent suggested a separate output struct that
-kvm_s2_fault_map() fills with what was actually mapped. I'll do that in
-v6 thanks!
-
->> +	struct kvm_vcpu_fault_info *fault_info = &vcpu->arch.fault;
->> +	struct kvm_vcpu_fault_info fault_backup = *fault_info;
-> 
-> I'm not sure you need to make a backup here. vcpu->arch.fault is populated
-> each time the CPU takes a fault.
-> 
-
-So this was actually flagged up by sashiko when I ran it before
-submission, it suggested handling this for the case in which the vCPU
-exited for MMIO, the next KVM_RUN calls kvm_handle_mmio_return which
-uses the vcu->arch.fault.esr_el2. I'll add some comments to this maybe
-to explain why this would be needed.
-
->> +	if (memslot->flags & KVM_MEMSLOT_INVALID) {
-> 
-> I don't think that's something we should care about, the flag can be set
-> immediately after the check as the function doesn't take kvm->slots_lock.
-> kvm_vcpu_prefault_memory() takes the srcu lock in read mode, so the
-> function is safe to run even if userspace does something silly like
-> deleting a memslot at the same time that it's prefaulting the guest memory
-> it represents.
-
-I was there not as much for safety, but rather to pick up that error.
-This way rather than userspace getting an -EFAULT it can just retry.
-This is the same way it is handled in x86 as well.
-
-> 
-> It might not be obvious, but taking kvm->mmu_lock in read mode does not
-> guarantee that gpa will be mapped when kvm_pgtable_get_leaf() returns.
-> That's because a concurrent kvm_pgtable_stage2_map() for a different gpa
-> can destroy the mapping of the current gpa.
-[ ... ]
-> The kvm->mmu_lock is dropped here, which means that it is possible for a
-> MMU notifier callback to have just unmapped the entire stage 2 for the VM.
-> 
-
-Yeah as we mentioned in the other thread, this is best effort and we
-can't guarantee that is survives the return. We do this for forward
-progression, reporting the correct advance size for ranges which are
-already mapped, instead of repeating the full dance for every page of them.
-
-> 
-> handle_access_fault() will fail if the mapping is gone. But I guess that's
-> fine if the ioctl does not guarantee that memory is still mapped after it
-> completes.
-
-
-Yeah I think it's fine and will degrade to a no-op in this case.
-
-> 
-> Also, the documentation that this patch adds says: 'On arm64, newly created
-> stage-2 PTEs are marked Accessed'. Does not say anything about marking
-> **existing** ptes as accessed. Would be useful to explain the code does it.
-> 
-
-Ack, will do thanks!
-
->> +		hva = gfn_to_hva_memslot_prot(memslot, gfn, NULL);
-> 
-> There's gfn_to_hva_memslot(memslot, gfn), is that what you are looking for?
-> 
-
-I think gfn_to_hva_memslot() resolves the hva for write, so would fail
-on KVM_MEM_READONLY slots, and prefualting is a read. Also this mirrors
-the guest abort path so matches the way the run path resolves the HVA.
-
--- 
-Thanks,
-Jack
+Acked-by: Alexandre Courbot <acourbot@nvidia.com>
