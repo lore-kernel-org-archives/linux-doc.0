@@ -1,62 +1,64 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E7418C332
-	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 21:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1B13C2786
+	for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 21:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787348859; cv=none; b=oSicqYJ0wAXwldEBH8/pV15PB+NtT4eRxyRuqiIBVTdaZmb4mtrP4OA+ona86+kX3j40hmNeZo52opBaqSP+apL51HwaWgUk8xtQW/klsnP0m+5eCANv7tvFenrRZpo2yMvVd6I1CpKmvZ2IlVKGBU9YCkLpXifJYlYgjwkNn/s=
+	t=1787348863; cv=none; b=XWbBKF6Ttco6DDaz+GtJCzp/xeTyUHQ9bYHDcAKaeeTvWsn5sbnoM3xuiz0lEuDmojpmf8EyoaoXLA2m9V5TPEI3bY8HdnE9D53VDZ03FHNb3LN8FO0McU0Sy0mu/QevRorBASCFFtBha70e3w/W6YsTVwOfprq5KzehHlG48IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787348859; c=relaxed/simple;
-	bh=5Z2Lpou+idaDjMdbBLj5870okjZ93hYD6gJizvIkOTQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=howL8wALgZDAp0j+umJsRHXT/ZQSRAfcYLEarBuxlKscnu5dfni0shsIW4Pq2kJbD5PwvffSG2RlYjzsTMQ6TI6s9IMRMOkY3a2pNmy/FmfgauXqSosxZoq25S8QeM/wYD2UJ3KftzFxJl2YA7YRvJ2vgv2cKlWTSEI+7Gk+S7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dSoHFjH+; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1787348863; c=relaxed/simple;
+	bh=F4LO7wmBLLIwQF+4rvvhzn4HaS/bCVrX06hJixd63Xg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AuDKG4zxEY73mNQniGI8sVY1YbldamINxQB/Gr1qbD5IttK7QCgf0x/vFL46qhvbJspSZuQQFVcubVyF8Xt6YS2yi4xYOj1tDEr9XGeIOlQAsyU/nt5XwJ7CkzZUcOOJRQgQvZKCa1yFm6pZwd/i3gVFPHg++iHRM3Y9sKA3/ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZU23ykz; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dSoHFjH+"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cacf197759so20662155ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 14:47:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZU23ykz"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-ca88130e09aso933604a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 14:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787348856; x=1787953656; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YSjgsk8Yvs83A8c6v1zqzSAqyvIC2+XLW+Y3mp3uQzE=;
-        b=dSoHFjH+UTqPqeLtzrtAgF0CDXKh3AMuXJ7+Wmc9Rnn5jF1vTkDXKHAiB19pPYh8+p
-         9/9py2zqtMufVoWPRABVnr6UMxKXZrXU1OZmigB+WbYtqT3XmRTOPTTc2y3ilfUBucPy
-         O2kqQec5Bd0FvdRflpZsniymUKA12W+sS8rFMwzxIrTgqyuO2LSOCtcfMnQ36yVnqWA5
-         1p6phqLgV/IAkU4rtI1BOXPHpSgSsCoY5X9muU29sjNLQphzYoVHHcyLQTNKf2t0pv3F
-         rZ6KiIE5byDnUFTrLwcy8P8mqmjNTtba0JRBm+1TRXk9QqqDaEWCDZ3sf+gXiE0DLDbF
-         6S9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787348856; x=1787953656;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1787348861; x=1787953661; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YSjgsk8Yvs83A8c6v1zqzSAqyvIC2+XLW+Y3mp3uQzE=;
-        b=bbMeMtPG/8y3jZt4+KrH5vskzbERlFk+9o2Y7IjF3Yf9bQ4FDGg0/TQnYp9bKYegmg
-         Iy+S1kylU/S4bOPrlnC5U7Vyfzr23nJOsCnRLXvC00qDd3auweAu6JMbp77pq1Y0q6yK
-         Zrf18z3G6VV0RJw1ieWULDZ2fFxXElrZyQ0kcEYSRO7IWMUEr4dMg5Hu7VnfTOpnoGHO
-         Vy4q9qxw0luo1EVS2sDzlSYr3t6VQc6EoRdnSS9/Vek+5hgDQrUYdQ6Zv4gZbK/Eripi
-         QPbUwrrPhU9tJON4+S8gzRVSFnYzzA6nHCKbGiVUigMVo1/U+9RK+tJDptb7+Y1famRS
-         aDcg==
-X-Forwarded-Encrypted: i=1; AHgh+RocxDP+lZ/9yie1pBu2oV6Sh/p25ujBn8QT2Q+uaUtTBhxH9jzmTb7PdHhgoPATk18Xpb9hvUMhsZ0=@vger.kernel.org
-X-Gm-Message-State: AFuF++ni3NZM8erv6vM7LoUwOvZ5v+nuaqD8QbxklAyGba3wiIP/ye5G
-	mDiVDrAMn3sCP2WA9y5DvhsdN96kMLg5CPdSFUl9l+2sImq7+F9V6CXK
-X-Gm-Gg: AR+sD11VH+cH9e7zg1idE4Q5gbku9rlcBPCBt6UMTYUtx/nVpY+0GazOskGDVQ/j0ED
-	fHUD9SCdQjoqxyHusPpqb2oBtLiUrKs/zdMNwD80jMvMXO+DeKK2Z9elVBF/FpRFNzcmMNPRJNe
-	P1smhAX+vVj7KKresq4Ck56Em14AQiFurW0TTaAN6qtR7lV3oO7n5myxFr26IeBqLlm/k7xV0jc
-	IfDkalCqmVrucDmtfnht/hZSKkE9RAQWE2pl1VckqCb63i5R6m2kldPJNqqkC+0hZG9z9x9oLUK
-	s2zh7wlG734MQhdMWQRM66Ce2LGoYPzIoFXmGOggSyYeB5CY9IDk5VznACctdCSAPaWVTjYW/EJ
-	7RlLjozlNbQTptL/AzQCi8Zdl76ShDpf/cMIfnKMQIU2vwRvpowXqS18XVDYeKJcqV+P819UqqS
-	5tPEJfr8cEkEJ1yKq2K+8YRE8JYaKg9UmhiQxYuZGEunYLdFr1+PvmsbJ/r+G2XU72+BaCdrlAf
-	DdXV0hgwwmLoPTgEwc=
-X-Received: by 2002:a17:902:cf43:b0:2d0:cc92:f7ae with SMTP id d9443c01a7336-2d64ade9363mr188665515ad.3.1787348855568;
-        Fri, 21 Aug 2026 14:47:35 -0700 (PDT)
+        bh=fkDDTrK1TveWR5ufs0Rnfw82A2Z1a3+coe/mtCRQsac=;
+        b=IZU23ykzsGxzVPT+PBOlLNvMBm8ESNMYGLYt4Qp5pm0BWNPnaivAjQGXZd2CL9ZEFW
+         8z8uwfP7EjM1p/zVRgSClgQul3bTdFTxKvZETKXnMLWcY0jBKNEQmHp3ZuSnwiTsml6d
+         ZXJ9QRoyGG4Pb+LPb3QnBC9QPZQBMG1nfKHLICOfaLP1z2lnj3kaQxYW9vwk9FxxCtzM
+         SdtLK3vHMeeWUbgPdJ2UsMtzZl0iYkLMBxerxsJu37wU6py1+5FgtaL5NAGcwzwGphAA
+         PJY68alBVfNIcnftIiaYfdNEvd5EF3hytbZFjOSP7yGZNvOwoLZ6GrtOYuKHsZwIastM
+         zWEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787348861; x=1787953661;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fkDDTrK1TveWR5ufs0Rnfw82A2Z1a3+coe/mtCRQsac=;
+        b=gcf7+gFDbpuOH2ZhEJUWQKZ8JuCM/9AXMAGB1jKL6Sl+GoCYaCpsWXp9blTg0qFWfF
+         f7mMUsPi/pihMNQ+LO7OKuqnzNNI65ncKtrJFMNdra0HPgZKyrpuvZp5qN4V7AKCpYur
+         SbyUxDUY12B1jnidhVL+dFY3DOKTKwqWmteWvrZUa9JukduGIbX5StOH1JwZ1aQm2uvQ
+         zqLxv/xoG44VD4LrHMw5D75wz4chiD2X53UVdjv7vLtGHCjtlP/N1gB/Wd4vDVSo56Nz
+         jUvRadRgRG4Qo/9FEAVlxrzixaAWHltj7NtW3FGB4cQKxvNBpp7iuFVAw7NnRBBIATaD
+         zTRg==
+X-Forwarded-Encrypted: i=1; AHgh+RoVqV3gcGpIapdCV++Mzj+J/mXT0G+Scpcw6F0tlY6ZyreQTAtcLCet/uOpXokKHh2PeNnH0/b0RLg=@vger.kernel.org
+X-Gm-Message-State: AFuF++m8BbODcwna8XNHzHkGe4jbdRnW980t3fBbjCnLcyMSB0JNDFhc
+	XkMIq7mTxu8dE01zYig1q/7o8/EYrPLlsMyEfJ7DdMT2oRYEg6yBJAg3
+X-Gm-Gg: AR+sD10UJGnvmzYCp0/NxNNy2Bg262Bkh0iKKsNWls7twMpeO5GNqZIcZ4WEWculduH
+	+ApgEKOnlHcr9t6z7LPXNnmwMMpAiFEygxU9YwRo8WZSBNdPFubmIhztez4JTqkJ5DH6qniMsKA
+	jSzdGJ8nu1TDzRF5BidXHRM+RQEeeRzs+SeFUPmJ0/Jxf8MJGPSGvZw60OdtSX3fUS+nwIGiAqk
+	eP1DE9UZZ5d6mU9JBcg2Uio082d9IWSoAWx8wU+Q6W3rj1qYGCCoAUfWmZiCVG3doIiafJI185m
+	HEI9+l8rzISLtTvkfE1Q2h/NGtMrgEvAKTOhYvqirPskCa8RLnKpB6BwElYK58jXCInLbhgZfCe
+	JP4bzSK4/0xm2deOvTiyHkF8FrTy+dHvF4+099bsYi3CVQPh7t2nKbMkg5xif8/qQTc/ohwmP9I
+	9aCGaE7TJB+la2VZjyPcduj9MoXyNxAYo/wEewZllTm8s+qgG+LRtL498MN7ia74JVUW0DFNA7I
+	7ZPFTieJl8Cq8bwvmU=
+X-Received: by 2002:a05:6a20:684a:b0:3cd:1037:36d6 with SMTP id adf61e73a8af0-3cd2fa5643bmr19087616637.0.1787348860697;
+        Fri, 21 Aug 2026 14:47:40 -0700 (PDT)
 Received: from localhost.localdomain ([103.16.69.193])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bf10d497sm45664198eec.14.2026.08.21.14.47.31
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327bf10d497sm45664198eec.14.2026.08.21.14.47.35
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 21 Aug 2026 14:47:34 -0700 (PDT)
+        Fri, 21 Aug 2026 14:47:39 -0700 (PDT)
 From: Aditya Dash <mradityadash@gmail.com>
 To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
 	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
@@ -70,10 +72,12 @@ Cc: Guenter Roeck <linux@roeck-us.net>,
 	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	platform-driver-x86@vger.kernel.org
-Subject: [RFC PATCH 0/3] platform/x86: lenovo: Add Legion Go fan controls
-Date: Sat, 22 Aug 2026 03:17:24 +0530
-Message-ID: <20260821214728.87773-1-mradityadash@gmail.com>
+Subject: [RFC PATCH 1/3] platform/x86: lenovo-wmi-other: Add Legion Go Full Speed control
+Date: Sat, 22 Aug 2026 03:17:25 +0530
+Message-ID: <20260821214728.87773-2-mradityadash@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260821214728.87773-1-mradityadash@gmail.com>
+References: <20260821214728.87773-1-mradityadash@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,46 +86,243 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Capability Data does not cover all fan controls on the Legion Go. Full
-Speed uses a separate Other Mode feature, some firmware exposes an RPM
-reading that Capability Data does not advertise, and the custom fan table
-uses a separate Fan Method WMI interface.
+Selected Legion Go firmware exposes Full Speed as Other Mode feature
+0x04020000. Capability Data does not describe this feature, so
+lenovo-wmi-other currently ignores it.
 
-Patches 1 and 2 add Full Speed and the RPM fallback to the existing HWMON
-device. Patch 3 adds a Fan Method driver and attaches the ten curve points
-to that device when both WMI interfaces belong to the same provider. Other
-Mode continues to work without Fan Method.
+Probe the feature during HWMON setup on those products. If the read
+succeeds and returns a Boolean value, expose it as pwm1_enable. Value 0
+selects Full Speed, and value 2 returns fan control to firmware automatic
+mode. Reject all other values.
 
-The open question is how the firmware control range should map to HWMON.
-On the tested Legion Go 8APU1, values from 0 through 115 produce the
-observable fan response and correspond to Lenovo's 0 through 115 percent
-range. Lenovo software shows 0 through 100 percent to the user, and 115
-reaches the RPM observed in Full Speed mode. Firmware accepts values
-through 255, but no RPM increase was observed above 115.
+Assisted-by: Pi:gpt-5.6-sol
+Signed-off-by: Aditya Dash <mradityadash@gmail.com>
+---
+ .../wmi/devices/lenovo-wmi-other.rst          |   7 ++
+ drivers/platform/x86/lenovo/wmi-other.c       | 108 +++++++++++++++++-
+ 2 files changed, 114 insertions(+), 1 deletion(-)
 
-This series keeps the native values unchanged and exposes the fixed
-temperatures as read-only automatic points. Should the driver map the
-effective 0 through 115 range to the standard HWMON 0 through 255 scale,
-or keep the native firmware values unchanged?
-
-Aditya Dash (3):
-  platform/x86: lenovo-wmi-other: Add Legion Go Full Speed control
-  platform/x86: lenovo-wmi-other: Add Legion Go fan RPM fallback
-  platform/x86: lenovo: Add Legion Go Fan Method curve driver
-
- .../wmi/devices/lenovo-wmi-fan-method.rst     |  34 ++
- .../wmi/devices/lenovo-wmi-other.rst          |  14 +
- MAINTAINERS                                   |   1 +
- drivers/platform/x86/lenovo/Kconfig           |  11 +
- drivers/platform/x86/lenovo/Makefile          |   1 +
- drivers/platform/x86/lenovo/wmi-fan-method.c  | 380 ++++++++++++++++++
- drivers/platform/x86/lenovo/wmi-other.c       | 215 +++++++++-
- 7 files changed, 649 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/wmi/devices/lenovo-wmi-fan-method.rst
- create mode 100644 drivers/platform/x86/lenovo/wmi-fan-method.c
-
-
-base-commit: aca39607c1734ed976fdd65deb75b3555a5a0326
+diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst b/Documentation/wmi/devices/lenovo-wmi-other.rst
+index 011054d64eac..75f2deaaef16 100644
+--- a/Documentation/wmi/devices/lenovo-wmi-other.rst
++++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+@@ -49,6 +49,13 @@ The following HWMON attributes are implemented:
+ Due to the internal RPM divisor, the current/target RPMs are rounded down to
+ its nearest multiple. The divisor itself is not necessary to be a power of two.
+ 
++Legion Go fan controls
++----------------------
++
++On supported Legion Go models, Other Mode feature ``0x04020000`` controls
++Full Speed mode in firmware. The driver exposes it as ``pwm1_enable``. Value 0
++enables Full Speed, and value 2 returns fan control to firmware.
++
+ LENOVO_CAPABILITY_DATA_01
+ -------------------------
+ 
+diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform/x86/lenovo/wmi-other.c
+index fbb32bf404f2..c180933e1d18 100644
+--- a/drivers/platform/x86/lenovo/wmi-other.c
++++ b/drivers/platform/x86/lenovo/wmi-other.c
+@@ -32,6 +32,7 @@
+ #include <linux/component.h>
+ #include <linux/container_of.h>
+ #include <linux/device.h>
++#include <linux/dmi.h>
+ #include <linux/export.h>
+ #include <linux/gfp_types.h>
+ #include <linux/hwmon.h>
+@@ -83,6 +84,7 @@ enum lwmi_feature_id_psu {
+ 	LWMI_FEATURE_ID_PSU_CHARGE_BEHAVIOUR =	0x02,
+ };
+ 
++#define LWMI_FEATURE_ID_FAN_FULLSPEED 0x02
+ #define LWMI_FEATURE_ID_FAN_RPM 0x03
+ 
+ #define LWMI_TYPE_ID_CROSSLOAD	0x01
+@@ -102,6 +104,10 @@ enum lwmi_feature_id_psu {
+ #define LWMI_CHARGE_TYPE_STANDARD	0x00
+ #define LWMI_CHARGE_TYPE_LONGLIFE	0x01
+ 
++#define LWMI_ATTR_ID_FAN_FULLSPEED					\
++	lwmi_attr_id(LWMI_DEVICE_ID_FAN, LWMI_FEATURE_ID_FAN_FULLSPEED, \
++		     LWMI_GZ_THERMAL_MODE_NONE, LWMI_TYPE_ID_NONE)
++
+ #define LWMI_ATTR_ID_FAN_RPM(x)                                   \
+ 	lwmi_attr_id(LWMI_DEVICE_ID_FAN, LWMI_FEATURE_ID_FAN_RPM, \
+ 		     LWMI_GZ_THERMAL_MODE_NONE, LWMI_FAN_ID(x))
+@@ -115,6 +121,50 @@ enum lwmi_feature_id_psu {
+ 
+ static DEFINE_IDA(lwmi_om_ida);
+ 
++static const struct dmi_system_id lwmi_fan_dmi_table[] = {
++	{
++		.ident = "Lenovo Legion Go 8APU1",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8APU1"),
++		},
++	},
++	{
++		.ident = "Lenovo Legion Go S 8APU1",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8APU1"),
++		},
++	},
++	{
++		.ident = "Lenovo Legion Go S 8ARP1",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8ARP1"),
++		},
++	},
++	{
++		.ident = "Lenovo Legion Go 8ASP2",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8ASP2"),
++		},
++	},
++	{
++		.ident = "Lenovo Legion Go 8AHP2",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8AHP2"),
++		},
++	},
++	{}
++};
++
++static bool lwmi_fan_supported(void)
++{
++	return dmi_check_system(lwmi_fan_dmi_table);
++}
++
+ enum attribute_property {
+ 	DEFAULT_VAL,
+ 	MAX_VAL,
+@@ -144,6 +194,7 @@ struct lwmi_om_priv {
+ 	int ida_id;
+ 
+ 	struct lwmi_fan_info fan_info[LWMI_FAN_NR];
++	bool fullspeed_supported;
+ 
+ 	struct {
+ 		bool capdata00_collected : 1;
+@@ -237,6 +288,38 @@ static int lwmi_om_fan_get_set(struct lwmi_om_priv *priv, int channel, u32 *val,
+ 	return (retval == 0 || retval == 1) ? 0 : -EIO;
+ }
+ 
++static int lwmi_om_fullspeed_get(struct lwmi_om_priv *priv, long *enable)
++{
++	struct wmi_method_args_32 args = {
++		.arg0 = LWMI_ATTR_ID_FAN_FULLSPEED,
++	};
++	u32 value;
++	int ret;
++
++	ret = lwmi_dev_evaluate_int(priv->wdev, 0, LWMI_FEATURE_VALUE_GET,
++				    (u8 *)&args, sizeof(args), &value);
++	if (ret)
++		return ret;
++
++	if (value > 1)
++		return -ERANGE;
++
++	*enable = value ? 0 : 2;
++	return 0;
++}
++
++static int lwmi_om_fullspeed_set(struct lwmi_om_priv *priv, bool fullspeed)
++{
++	struct wmi_method_args_32 args = {
++		.arg0 = LWMI_ATTR_ID_FAN_FULLSPEED,
++		.arg1 = fullspeed,
++	};
++
++	/* The WMI method has no return value. */
++	return lwmi_dev_evaluate_int(priv->wdev, 0, LWMI_FEATURE_VALUE_SET,
++				     (u8 *)&args, sizeof(args), NULL);
++}
++
+ /**
+  * lwmi_om_hwmon_is_visible() - Determine visibility of HWMON attributes
+  * @drvdata: Driver private data
+@@ -255,6 +338,10 @@ static umode_t lwmi_om_hwmon_is_visible(const void *drvdata, enum hwmon_sensor_t
+ 	struct lwmi_om_priv *priv = (struct lwmi_om_priv *)drvdata;
+ 	bool visible = false;
+ 
++	if (type == hwmon_pwm && priv->fullspeed_supported && channel == 0 &&
++	    attr == hwmon_pwm_enable)
++		return 0644;
++
+ 	if (type == hwmon_fan) {
+ 		if (!(priv->fan_info[channel].supported & LWMI_SUPP_VALID))
+ 			return 0;
+@@ -311,6 +398,9 @@ static int lwmi_om_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ 	u32 retval = 0;
+ 	int err;
+ 
++	if (type == hwmon_pwm && attr == hwmon_pwm_enable && channel == 0)
++		return lwmi_om_fullspeed_get(priv, val);
++
+ 	if (type == hwmon_fan) {
+ 		switch (attr) {
+ 		/*
+@@ -366,6 +456,17 @@ static int lwmi_om_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+ 	u32 raw, min_rpm, max_rpm;
+ 	int err;
+ 
++	if (type == hwmon_pwm && attr == hwmon_pwm_enable && channel == 0) {
++		switch (val) {
++		case 0:
++			return lwmi_om_fullspeed_set(priv, true);
++		case 2:
++			return lwmi_om_fullspeed_set(priv, false);
++		default:
++			return -EINVAL;
++		}
++	}
++
+ 	if (type == hwmon_fan) {
+ 		switch (attr) {
+ 		case hwmon_fan_target:
+@@ -420,6 +521,7 @@ static const struct hwmon_channel_info * const lwmi_om_hwmon_info[] = {
+ 			   HWMON_F_MIN | HWMON_F_MAX,
+ 			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_DIV |
+ 			   HWMON_F_MIN | HWMON_F_MAX),
++	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_ENABLE),
+ 	NULL
+ };
+ 
+@@ -440,6 +542,7 @@ static const struct hwmon_chip_info lwmi_om_hwmon_chip_info = {
+  */
+ static void lwmi_om_hwmon_add(struct lwmi_om_priv *priv)
+ {
++	long enable;
+ 	int i, valid;
+ 
+ 	if (WARN_ON(priv->hwmon_dev))
+@@ -458,6 +561,9 @@ static void lwmi_om_hwmon_add(struct lwmi_om_priv *priv)
+ 	if (relax_fan_constraint)
+ 		dev_warn(&priv->wdev->dev, "fan RPM constraint relaxed. Use with caution\n");
+ 
++	priv->fullspeed_supported =
++		lwmi_fan_supported() && !lwmi_om_fullspeed_get(priv, &enable);
++
+ 	valid = 0;
+ 	for (i = 0; i < LWMI_FAN_NR; i++) {
+ 		if (!(priv->fan_info[i].supported & LWMI_SUPP_VALID))
+@@ -474,7 +580,7 @@ static void lwmi_om_hwmon_add(struct lwmi_om_priv *priv)
+ 		}
+ 	}
+ 
+-	if (valid == 0) {
++	if (valid == 0 && !priv->fullspeed_supported) {
+ 		dev_warn(&priv->wdev->dev,
+ 			 "fan reporting/tuning is unsupported on this device\n");
+ 		return;
 -- 
 2.55.0
 
