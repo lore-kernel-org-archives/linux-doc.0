@@ -1,201 +1,260 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCF3386576;
-	Sat, 22 Aug 2026 08:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5772D7DD7;
+	Sat, 22 Aug 2026 09:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787387026; cv=none; b=mhQRUZMqc0ViFMC14OWmJAXUXC8lqH9ez93BXnmC9pdBTG6BBn7LKootv5UjtsveZJcyniC2p7sQVVAz8ouZP8st1Tkr3GMaNKd8to6itarjU/EO666Sg0KLZseb3cHCnBNRmgqw674Ghw42N6gKj3Vl0qaOlb/9k3Hr0MKAB2U=
+	t=1787390547; cv=none; b=M54ZTrq9HDo4BfEQ6Swdzzqo/a0eI5hscnPbVN8pI0dyIe8zeEvvjbwQZQ+9UM1AFhIw/yCe7XRS9jl33WRO8X4vSpr9cwmhk17pDsGkigrr+O+aL8HSfh+R7Yk2N3x8/OugLzm6UJwU5Hn+gzOKsi7DKylmK4ynpYPdNTA8EkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787387026; c=relaxed/simple;
-	bh=mKX771uc3lutMQpZFJQnhdt7GyWKMRqSH02u/uA/bLk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QgbwXoQNVzoTliKS+JPZE1r6rytneytzW4h4IMdeG1YwpX5BRpbNIR7o7y8WzFzLeIoRR0xygT6E/LURrYETnnfdqpYMya0j4YyaVRoGP22iCVTVGPnTTO2uk8+B5TOn0W79kDY4iEZOOf6BSnNXYKrYEgVdQwkqwKtu/ig7SkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bzSa0KwD; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787390547; c=relaxed/simple;
+	bh=qE+Ho9KhJORbCY3/v7BGmZV9s0YocMsMAlvP5gwmZkY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=u/LKVdWw8x0A+IwAE7EDnhGVWMOv1x7ScxcOMif/bCHXGpfKfET+t6FX7dRRC0fTLdLiraIhtJJtpjFIlVmdLoppFMp72Ln6lxmGHaQJk1NV7vZHneH75Huevr9azxZZTLHFAm2QFe4RtYC+ggieDFhOlsPIiJPJQYP8kdbpDic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gFKtstz5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bzSa0KwD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787387022; x=1818923022;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mKX771uc3lutMQpZFJQnhdt7GyWKMRqSH02u/uA/bLk=;
-  b=bzSa0KwDi1DBgMaq4thWtU5swOsHWuXZbFAC+TaVl3PKByxIcl/6UoZZ
-   Ik7jl1HUZdcYJwqEl1+PSjgDIncqjyyy+lf5V8PWcDLJOdEHeUGUbhuUz
-   Foi9Ex5sLZTII0bjnNTpOhGbxGndQNX8pskuWIKLcfUFNbZtjWu5xWQoO
-   FcjRLeMaBJGImmh3w5czrFE9aTorUnyVbM8x6qOHCVln2D1QtIvJ8zbPC
-   69bOhTi0UtsIT3dAfIeCcd7rWrRBpvZqYxCQD9P3+snx8LNusY4RdFZ6j
-   2qAsdhmY5xkvMdVNSaxRcpOOH6DN8O1SBSWR/LzpgH9WzibxYnaAzXLs8
-   g==;
-X-CSE-ConnectionGUID: p6fEkXQ1RrW54SOZ3w9TqA==
-X-CSE-MsgGUID: T8aGbqAJTBCsquNHPr1dvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="91796496"
-X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="91796496"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2026 01:23:37 -0700
-X-CSE-ConnectionGUID: /YgIAr4mQsGKCSsoRiV6zA==
-X-CSE-MsgGUID: VVsAZtviQCa29IMg3EZXjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,236,1779174000"; 
-   d="scan'208";a="265242919"
-Received: from junjie-desk-dev.bj.intel.com ([10.238.152.71])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2026 01:23:30 -0700
-From: Junjie Cao <junjie.cao@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Dan Williams <djbw@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Ira Weiny <iweiny@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robert Richter <rrichter@amd.com>,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	Alejandro Lucero <alucerop@amd.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ben Cheatham <Benjamin.Cheatham@amd.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gFKtstz5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED3321F000E9;
+	Sat, 22 Aug 2026 09:22:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787390545;
+	bh=svN9mnflLu3LtTjrG+3wbnaBOpoQ5909yGvkQVBe+EU=;
+	h=From:To:Cc:Subject:Date;
+	b=gFKtstz5tqM6NhxBRYdEPb3jNQ99hLjcfOBGmWbpf9AWITP5r15bRjAspomnVt6Qu
+	 vfj6Pfy2ojh4FGv+MJr0xaDZwMLwoWTRYsw7YppXG8vJF/PM3+RVBkltkt62h0KfDC
+	 z94NccrOpofrzwDaG2V0tZwkEEPE+XDGX9ehv3j2/Eq28gZQqQzHzSte11ZoOlLWer
+	 Q+La4cvUbM3AEqY6qTjBQ9LWKgWoVH7hQ2HGtRr2QQiOYmIrr5tIP39BIXyw556vow
+	 8DkjCXSihykDT/a87SYb5mUsBrEQMwZ+UOFmv7zyWssXHZ+U7jfbLoz+egOqoqkQsh
+	 Rcn7bXbuJN2mg==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	x86@kernel.org
+Cc: Jinchao Wang <wangjinchao600@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Borislav Petkov <bp@alien8.de>,
-	Breno Leitao <leitao@debian.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	Gregory Price <gourry@gourry.net>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kees Cook <kees@kernel.org>,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Li Ming <ming.li@zohomail.com>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"Oliver O'Halloran" <oohall@gmail.com>,
-	Richard Cheng <icheng@nvidia.com>,
-	Shiju Jose <shiju.jose@huawei.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>
-Subject: Re: [RFC] cxl: Device protocol AER injection
-Date: Sat, 22 Aug 2026 16:23:25 +0800
-Message-ID: <20260822082325.301100-1-junjie.cao@intel.com>
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ian Rogers <irogers@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH v13 00/12] tracing: wprobe: x86: Add wprobe for watchpoint
+Date: Sat, 22 Aug 2026 18:22:19 +0900
+Message-ID: <178739053919.1520941.17662338993878200834.stgit@devnote2>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260717225700.3543801-1-terry.bowman@amd.com>
-References: <20260717225700.3543801-1-terry.bowman@amd.com>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Hi Terry,
+Hi,
 
-On Fri, 17 Jul 2026 17:57:00 -0500, Terry Bowman wrote:
-> This patch is intended to provide a method of testing the recently
-> submitted cxl series "cxl: Enable CXL PCIe Port Protocol Error
-> handling and logging"
+Here is the 13th version of the series for adding new wprobe (watch probe)
+which provides memory access tracing event. Moreover, this can be used
+via event trigger. Thus it can trace memory access on dynamically
+allocated objects too.
+The previous version is here:
 
-Ran this on 7.2-rc3 with v18, under QEMU with a switch topology so all
-four port classes are present.  v19 wasn't out yet when I ran it; the
-findings below are in the RFC's own code and don't move with the delta.
-It works -- one CE per class with a different RAS status bit each time,
-attribution correct in all four:
+  https://lore.kernel.org/all/178611679753.237811.10190793347982785419.stgit@devnote2/
 
-  RP  ras=0x1  port=port1 dport=0000:0c:00.0  'Cache Data ECC Error'
-  USP ras=0x2  port=port2 dport=              'Memory Data ECC Error'
-  DSP ras=0x4  port=port2 dport=0000:0e:00.0  'CRC Threshold Hit'
-  EP  ras=0x8  memdev=mem1 port=endpoint4     'Retry Threshold'
+This version adds RCU protection for kprobe_blacklist, fixes trigger
+reference counting and error paths, eliminates race conditions in selftests,
+and addresses review comments. See below for more details.
 
-A UCE panics via cxl_pci_error_detected() as the series intends, and six
-malformed inputs are rejected.  Only VH here, so I can't say anything
-about whether the RCH branch is right.
+Changes in v13:
+ - kprobes: Protect kprobe_blacklist with RCU to allow safe lockless
+   traversals from atomic/NMI sections.
+ - tracing/wprobe: Use %pS to format symbol and offset in trace_wprobe_show().
+ - tracing/wprobe: Align WPROBE_DEFAULT_CLEAR_ADDRESS to 8 bytes using a
+   dedicated u64 variable.
+ - tracing/wprobe: Remove manual trigger count decrement to rely on core
+   event_trigger_count().
+ - tracing/wprobe: Check for field tokens before field parsing in clear_wprobe
+   to avoid spurious error logs on numeric counts and avoid masking syntax
+   errors.
+ - tracing/wprobe: Fix trigger reference count leak and error cleanup paths
+   in wprobe_trigger_cmd_parse().
+ - x86/hw_breakpoints: Add compiler barrier() before checking cpu_dr7_seq.
+ - HWBP: Add comments to modify_local_hw_breakpoint_addr() clarifying
+   the early bp->attr.bp_addr update behavior during the NMI race window.
+ - selftests/ftrace: Look up target functions dynamically in
+   trigger-wprobe-syntax-errors.tc.
+ - selftests/ftrace: Disable set_wprobe trigger before verifying clear_wprobe
+   in trigger-wprobe.tc to prevent sample_timer_cb race conditions.
+ - Documentation/trace: Add [:COUNT] to trigger syntax synopsis.
 
-Tested-by: Junjie Cao <junjie.cao@intel.com>
+Public branch
+-------------
+I will push this branch as topic/wprobe-v2 to my tree so that it
+can be easily tested.
 
-> +	depends on PCIEAER_INJECT
+https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/log/?h=topic/wprobe-v2
 
-Beyond Jonathan's question about asking at all -- a bool depending on a
-tristate means kconfig will give you PCIEAER_INJECT=m with CXL_BUS=y
-and this =y.  olddefconfig produces that from a defconfig and it
-doesn't link:
+This is based on linux-trace tree's linux-trace/for-next.
 
-  ld: ras.c: undefined reference to `aer_inject'
+Usage
+-----
 
-Deriving it from the combination rather than asking would take the
-broken config with the question.
+The basic usage of this wprobe is similar to other probes;
 
-> +	cxl_aer_einj.aer_registers[aer_offset] = aer_status;
+  w:[GRP/][EVENT] [r|w|rw]@<ADDRESS|SYMBOL[+|-OFFS]>[:LEN] [FETCHARGS]
 
-Only reference to aer_registers[] in the tree.  aer_inject() builds
-its own AER config space and the RCH path skips
-cxl_rch_get_aer_info(), so nothing reads it.  Is it still needed, or
-can it go with the core/ras_einj.c move?
+This defines a new wprobe event. For example, to trace jiffies update,
+you can do;
 
-> +	cxl_aer_einj.dev = NULL;
+ echo 'w:my_jiffies w@jiffies:8 value=+0($addr)' >> dynamic_events
+ echo 1 > events/wprobes/my_jiffies/enable
 
-Clears the pointer but not the reference.  Every non-RCH arm takes a
-pci_dev_get() below; to_einj_ras_base() on a match and
-cxl_ras_exit() drop it.  Both need .dev to still point there.  So an
-arm not consumed before the next write is orphaned.
+Moreover, this can be combined with event trigger to trace the memory
+access on slab objects. The trigger syntax is;
 
-Thirty back-to-back injections gave 26 trace events, with aer_inject
-run 30 times and the kfifo-add-failed, port-not-found, port-unbound,
-dport-not-found and RAS-not-mapped counts all zero (kfifo is 128 deep,
-so no overflow).  Four arms were never disarmed.  I can't tell whether
-the AER core folded them into one pass or the next write replaced .dev
-first, and either way the reference goes.  I couldn't make it fire on
-demand -- unbinding cxl_port fails the arm-time lookup instead -- so
-it's a race, but it's the one a test loop hits.
+  set_wprobe:WPROBE_EVENT:FIELD[+|-OFFSET][:COUNT] [if FILTER]
+  clear_wprobe:WPROBE_EVENT[:FIELD[+|-OFFSET][:COUNT]] [if FILTER]
 
-Behind it the handshake has no single owner: the mutex is writer-only,
-while to_einj_ras_base() mutates the same fields and drops a reference
-without it.  Both consumers are live: the CE runs consume arms from
-the kfifo work, and the UCE backtrace has cxl_pci_error_detected()
-doing it from the AER IRQ thread.  A disarm helper
-owning the reference would cover this and the asymmetry Jonathan
-raised about putting a reference it didn't get.
+set_wprobe sets WPROBE_EVENT's watch address on FIELD[+|-OFFSET].
+clear_wprobe clears WPROBE_EVENT's watch address if it is set to
+FIELD[+|-OFFSET]. If FIELD is omitted, forcibly clear the watch address
+when trigger event is hit.
 
-> +	cxl_aer_einj.is_rch = (nargs == 5 && strcmp(topology, "RCH") == 0);
+For example, trace the first 8 byte of the dentry data structure passed
+to do_truncate() until it is deleted by dentry_kill().
+(Note: all tracefs setup uses '>>' so that it does not kick do_truncate())
 
-RCH on a VH device is accepted:
+  # echo 'w:watch rw@0:8 address=$addr value=+0($addr)' > dynamic_events
 
-  # echo "0000:0c:00.0 CE 0 0x80 RCH" > .../aer_einj_inject   -> 0
+  # echo 'f:truncate do_truncate dentry=$arg2' >> dynamic_events
+  # echo 'set_wprobe:watch:dentry' >> events/fprobes/truncate/trigger
 
-aer_inject() fires and AER logs it, but no CXL trace event appears --
-the RCH branch can't match a VH dport.  Reproduces every time.  So a
-typo gets you a real AER error with the CXL path silently skipped,
-which reads as "the handler didn't fire".  is_cxl_restricted(pdev),
-already used further down the file, would make it -EINVAL.
+  # echo 'f:dentry_kill dentry_kill dentry=$arg1' >> dynamic_events
+  # echo 'clear_wprobe:watch:dentry' >> events/fprobes/dentry_kill/trigger
 
-> Also worth discussing is the commandline takes multiple parameters for
-> a single sysfs file
+  # echo 1 >> events/fprobes/truncate/enable
+  # echo 1 >> events/fprobes/dentry_kill/enable
 
-One file also suits the state handling above better.  Several files
-spread one request over several writes with no commit point.
+  # echo aaa > /tmp/hoge
+  # echo bbb > /tmp/hoge
+  # echo ccc > /tmp/hoge
+  # rm /tmp/hoge
 
-> How do we incorporate this with the existing CXL EINJ functionality
+Then, the trace data will show;
 
-core/ras_einj.c sounds right, and the Kconfig above is another reason
-for both in one place.  Worth a line in the ABI doc that ACPI EINJ is
-a real injection but Root Port only while this covers every class with
-software registers -- that's what decides which one a test wants.
+ # tracer: nop
+ #
+ # entries-in-buffer/entries-written: 32/32   #P:8
+ #
+ #                                _-----=> irqs-off/BH-disabled
+ #                               / _----=> need-resched
+ #                              | / _---=> hardirq/softirq
+ #                              || / _--=> preempt-depth
+ #                              ||| / _-=> migrate-disable
+ #                              |||| /     delay
+ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+ #              | |         |   |||||     |         |
+               sh-107     [004] ...1.     9.990418: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.     9.990914: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b3de78
+               sh-107     [004] ...1.     9.993175: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049ddd40
+               sh-107     [004] .....     9.995198: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.995389: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db998
+               sh-107     [004] ..Zff     9.997503: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997509: watch: (path_openat+0x211/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997514: watch: (path_openat+0xa56/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] ..Zff     9.997518: watch: (path_openat+0xae2/0xda0) address=0xffff8880048083a8 value=0x8200080
+               sh-107     [004] .....     9.997521: truncate: (do_truncate+0x4/0x120) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.     9.997582: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004808270
+               sh-107     [004] ...1.     9.999365: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db728
+               sh-107     [004] ...1.     9.999388: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b1c000
+               rm-113     [005] ..Zff    10.000965: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000971: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000984: watch: (lookup_fast+0xaa/0x150) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.000988: watch: (path_lookupat+0x97/0x1e0) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001010: watch: (lookup_one_qstr_excl+0x28/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001014: watch: (lookup_one_qstr_excl+0xd1/0x140) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001018: watch: (may_delete_dentry+0x1c/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001021: watch: (may_delete_dentry+0x195/0x200) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] ..Zff    10.001031: watch: (vfs_unlink+0x5e/0x260) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001067: watch: (d_make_discardable+0x1b/0x40) address=0xffff8880048083a8 value=0x8200080
+               rm-113     [005] d.Z..    10.001071: watch: (d_make_discardable+0x29/0x40) address=0xffff8880048083a8 value=0x200080
+               rm-113     [005] ...1.    10.001072: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               rm-113     [005] ...1.    10.001218: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880048083a8
+               sh-107     [004] ...1.    10.001416: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db110
+               sh-107     [004] ...1.    10.001444: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff8880049db248
+               sh-107     [004] ...1.    10.001500: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
+               sh-107     [004] ...1.    10.002067: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.904920: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004b41e78
+               sh-107     [004] ...1.    10.905129: dentry_kill: (dentry_kill+0x0/0x2c0) dentry=0xffff888004ad6618
 
-Last thing, off this patch: with the registers a kernel-side array this
-can't exercise the MMIO readback, the offsets against a real capability
-block, or the header log.  QEMU has RAS on root and switch ports but
-injects only on endpoints, so it can't cover the classes today either.
-I'm looking at adding port-level injection there as a second path
-through the real reads.
 
-Many thanks,
-Junjie
+Thank you,
+
+---
+base-commit: 54f133c6178d06b169dceae18cc92c4945933b8c
+
+Jinchao Wang (2):
+      x86/hw_breakpoints: Make DR7 updates NMI safe
+      x86/hw_breakpoints: Add arch_modify_local_hw_breakpoint_addr() API
+
+Masami Hiramatsu (Google) (10):
+      kprobes: Protect kprobe_blacklist with RCU
+      HWBP: Add modify_local_hw_breakpoint_addr() API
+      tracing/wprobe: Add wprobe (watchpoint probe) trace event support
+      x86: hw_breakpoint: Add a kconfig to clarify when a breakpoint fires
+      selftests: tracing: Add a basic testcase for wprobe
+      selftests: tracing: Add syntax testcase for wprobe
+      tracing/wprobe: Add set_wprobe and clear_wprobe event triggers
+      selftests: ftrace: Add wprobe trigger testcase
+      tracing/wprobe: Support BTF typecast in fetchargs
+      tracing/wprobe: Support BTF struct offset resolution in set_wprobe trigger
+
+
+ Documentation/trace/index.rst                      |    1 
+ Documentation/trace/wprobetrace.rst                |  185 +++
+ arch/Kconfig                                       |   18 
+ arch/x86/Kconfig                                   |    2 
+ arch/x86/include/asm/debugreg.h                    |   37 -
+ arch/x86/include/asm/hw_breakpoint.h               |    2 
+ arch/x86/kernel/cpu/mce/core.c                     |   20 
+ arch/x86/kernel/hw_breakpoint.c                    |  139 +-
+ arch/x86/kernel/nmi.c                              |    7 
+ arch/x86/kernel/traps.c                            |   10 
+ include/linux/hw_breakpoint.h                      |    6 
+ include/linux/kprobes.h                            |    1 
+ include/linux/trace_events.h                       |    3 
+ kernel/events/hw_breakpoint.c                      |   48 +
+ kernel/kprobes.c                                   |   14 
+ kernel/trace/Kconfig                               |   24 
+ kernel/trace/Makefile                              |    1 
+ kernel/trace/trace.c                               |    9 
+ kernel/trace/trace.h                               |    6 
+ kernel/trace/trace_events_trigger.c                |    2 
+ kernel/trace/trace_probe.c                         |   36 -
+ kernel/trace/trace_probe.h                         |   22 
+ kernel/trace/trace_wprobe.c                        | 1440 ++++++++++++++++++++
+ tools/testing/selftests/ftrace/config              |    3 
+ .../ftrace/test.d/dynevent/add_remove_wprobe.tc    |   63 +
+ .../test.d/dynevent/wprobes_syntax_errors.tc       |   22 
+ .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   74 +
+ .../test.d/trigger/trigger-wprobe-btf-typecast.tc  |   72 +
+ .../test.d/trigger/trigger-wprobe-syntax-errors.tc |   37 +
+ .../ftrace/test.d/trigger/trigger-wprobe.tc        |   87 +
+ 30 files changed, 2309 insertions(+), 82 deletions(-)
+ create mode 100644 Documentation/trace/wprobetrace.rst
+ create mode 100644 kernel/trace/trace_wprobe.c
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/add_remove_wprobe.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/wprobes_syntax_errors.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-typecast.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-syntax-errors.tc
+ create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe.tc
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
