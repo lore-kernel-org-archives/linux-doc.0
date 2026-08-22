@@ -1,76 +1,76 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6114639734A
-	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D423BD225
+	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787401026; cv=none; b=r+UtV+87ypCA4HEFZwbwzVKJqHCkem89y6/P70kpaVsLOcLs3bkA5KX6G6vHy9GDI2EUXkYO4RBI80zDXXsycJmfm3Nw197rNOKB7w5FBO2KTg1qkpqQVSa0F4a94s+i8IvSW13n3xvLqoIVTju8MNyX7V3PEUCEr8096hulKXg=
+	t=1787401027; cv=none; b=D1j76BFHWgrDTnUMOmqfCDelZV0DaEYl6SLY3mRmAQnrN32MfGSGFNamXCc1D4n7AMJcxkv/ftjdWfOIfwVkfNHLNlhStewLlTyVjE7+ZJC9X5WjiuDgchy25TuFduNEez2BRMJ2+uioWlR3SiPDujgqghd91f2e3qsdLY+oMok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787401026; c=relaxed/simple;
-	bh=zAR5xcwzNFmHM0U6B06whose7P93OcldQYIG0S4DIis=;
+	s=arc-20240116; t=1787401027; c=relaxed/simple;
+	bh=fw5VpdYq0K5ku0qatR0RvsgLztlfq95NkgJWi83f/NA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jh4BEZvPtc7oDqfppaa/aSbwcbcnRxgDuooM03QOkTIfeRnCUzmWRcLuD2jsl0oecG95lo2JARbdCB0ayGP0agtgt2VcIg25B40a57K7kZwlDy05boKr7hsn2PGNYszIJmyz9bK0zeM/l6CZibin28ZGigIctSt/L51JoGAzR6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ArD632Gh; arc=none smtp.client-ip=209.85.208.52
+	 MIME-Version; b=PNrHSAFNtio6wGgdA0ZAPnGAWhy7ndW3l1hUxPlj9It14FIlJ51p6rpzKgn4hmZVnKPa4WdYIdhvgdFaJSXL4vZ3ZZXjddAxbLJpHnR2gqj/GyrtmJXLtnBrbrz9S2B/yD6fs1teAy+NdShEh+PkAwasndaF6Dm90wjmrohhz+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mRm8vMN6; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ArD632Gh"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a0a4aa99bdso3454297a12.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRm8vMN6"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a17211b9ecso5232993a12.2
         for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787401022; x=1788005822; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787401023; x=1788005823; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vDQl0QFr+CVOpsxDW+qwQjndljswVmu894qFs3wIGt0=;
-        b=ArD632GhH227cgrXBoKw2BpRVgtmeXduFSWCaWh510M02/XDi7DQGeM+odUweNcI2F
-         JIc72vK1sMJiEgPChcfTyPLD+N2a8AZXGocWXpHzNZ5iKiYr9ISOIRXDbI9iz5q1voO3
-         GE0LEd0rZ2AyefbPgDzWNvLUEoD2Bll7QadzV8CP04eNpsfh2dW0NFFWKEiDzR+2XQC/
-         Iwa669P3Wfxhx024Fak98DKpeOymF5yre0RzLorTbv7mEZgRvgx0h237H035Ro04xjx4
-         H7S3GCQAQlx/jqDpk7Ukg9eyKovbLGQFORt5R0mRxjIBMEDi5xy7aj1g8/o40Oxv4MyB
-         KEjw==
+        bh=JCQsunrvNdXa/eWs1SVMxqySCA7kUPdIECHm5s9pb4c=;
+        b=mRm8vMN6slzEDkvPDrzPxybfn8OwIvNDO1k1EXptEflEM+AVJEy5C4Ns5c84EuXt+I
+         ofN+gJcojYvAAEfezKyadNCGr3mPAWrDcha9dE754Jb3qi18ysQSpurzKiyAB4OJSj8I
+         HINTFZF8m1VZSroPg3awMjHOIqxm8P5sYfWxgElgLxEA6T380w33gGyziAOPEW5hwbP8
+         dOp5X5tl28BjwZozJnZjuGDVcSjp6kbHjI2G2cwqSopQNkee5ujmns12K4KRCg3op9Zg
+         HxifKe3gqwGQ/M37K5Heswz6xQuxLyoOgfpLIPWZ6j0Mcd0VgIWZxAEE40+6QtEQO3wg
+         LbaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787401022; x=1788005822;
+        d=1e100.net; s=20251104; t=1787401023; x=1788005823;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vDQl0QFr+CVOpsxDW+qwQjndljswVmu894qFs3wIGt0=;
-        b=NZ/FN53QJAuF3Jmc22jJ46Q8FCrpgmK2Ctl3H1/ZnE4QQQ6vAkBBn9Bk5MTVZfNn7o
-         nwoqe7AQGmQQVau99zdRGHW3YfAeuGHZfcyvmK5HHhrjfKMY7upAgmNsUn0eHRT1Uud8
-         60ihSDHRg9Jd2Chb4EutszDTAvBkgRTEsRbONi4OJvZW3ycUqAOndbi/Zd+vJ6GwlR3d
-         zHJ9t7KjjNs8cF98gxjN4AybClBdBY+2Z/oizAYa5I6rVGD3tFOqL+92hlBqSxBeUSL4
-         /iuUxtsLmpBUeqtLH36UnS8TgFL/qYqk+q4/6DFtLOG+hR7C62kxa8gpG0aL1ko+op4A
-         Uwxw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrktv0QRd3bjv00cnm297yBedX6QE39TAsCpLTmYQh1hGSENuVbqehQ/z9xIP5gZohZrBahWbj4cnM=@vger.kernel.org
-X-Gm-Message-State: AFuF++nmfAI9W2//Ufcq9Hi/uCWHLBF2E0SoXhIcNA1DKVaYm4715TID
-	CLPzBuJdMpbQI+uirpcSB2RE5QJzvBSAcroiNkhXB53t+zQweHLpxq5I
-X-Gm-Gg: AR+sD13QzsZb94nRSoAxwOScd39VNsMDtNPxMNDN7nX+VTaFXPMMgulh4yRJtbnXb8U
-	kOrFJIoGxT/DYBAQEnM4OIOeia0b6tvl2opKDUp1PEPIPpOm+OrTawisLY74TEARF7sQ6bd5NmA
-	PTZkdgQbhaYcDNzNfyKv3hgnicxaolEl3DHo4FCrMk4M5cBnToSSglCj8oAufKkaFHu4POd5JYi
-	jeqD39f8O86nqDHFSxSC5pRc7XE0U53E0vE3X2ho8ythEBgqFw3jiRoj45DaWKseAG65R2mwvSF
-	I0YRztpgWLz2HTqnnRgqnzosDB2ql3bDeLK+8Kw+AmWdqCMNDLRM7PxePmjaBDQz806mvatf9dC
-	/Of5fIf3VdVVDR0Cu8sP9/hMAFE5LsbtMw/6ugh/GrwTu6iSyfUR426RkV/WVdcLagl7CQ7ojhw
-	HXzfJj1axyY/LqWjPGAVEFtY01nwSjvltVeybzBNL92nVTeT4KFy8s2rBsCQ80GHwAsJY2tOSuP
-	hBlH7ilToUwF3ww/FlCKYlr3OLDifxfevUu9ZyVcsA/J+wsoFpTUnb0iNFVoTflrDLpuUOwGvBb
-	By+RvEq5QTeFLZ+iEK1zxJuyMT8wk2ndRKzghRjEu2lHydyxnnlN9NLEx1TKxCZC3/5j
-X-Received: by 2002:a05:6402:2356:b0:698:e614:e4bf with SMTP id 4fb4d7f45d1cf-6a5829790b0mr4918019a12.0.1787401022267;
-        Sat, 22 Aug 2026 05:17:02 -0700 (PDT)
+        bh=JCQsunrvNdXa/eWs1SVMxqySCA7kUPdIECHm5s9pb4c=;
+        b=FC+Xp6pcFDbLYqOePM71pglh5DqJPhcYuwAghgbdAU3qy3n2yVodoB3snq/6hwryXG
+         hknNTVUJYUdCsBflAxOnM0jG7igKdaEnZmjRhpU/lZU7KkaTlZ8urLuZP995gHXod9PM
+         ictiyQMARD3s+KJ2oZ7+PgRY/61uKdRtdlEoFg3GKE3ieI0wGD9RDejKt5cFMGgZmNCk
+         3uqKtUY2i5bxlq3AGAwNfX5aQZTWNs7pkl32+KaBrUdz7X39kzEmY+Siba8j0velrnX2
+         qhxQ0i3B2boLD4NBVMHbI8NskzudOT2B23wkXyV8vP2f6QinsNY3qejXQcfrF4DtwGwF
+         8nNg==
+X-Forwarded-Encrypted: i=1; AHgh+RrRtPASILHuOX6lHveW9q60SM3oHMeulzpxuAzmg4PcsozNkCNqEAqauT/gfEHCIMg6seN0Yu5FgMA=@vger.kernel.org
+X-Gm-Message-State: AFuF++npnXdRD/KD/k6RM6cMPg2FbiNJPHb3QfA1dIg8k7ExmTkjoa5U
+	W3Z4ZEY1jOxkxJre0QmBVR4f3/nwouUEVK3gDaxmWlrF4imKEOX9B+T6
+X-Gm-Gg: AR+sD13Rp5KL9pfKy0ssqv62jk28EpN8zL8P57+ENyHiNgDxpq439GRl7FdN6dellKe
+	Ar8luPiR+VNmsl9/rkTQkVlQTqlujo+MM4PX+gdgPc89WAh8XLZYc06GND8IEgzmGCYDtTyviUK
+	hmQEHP1Js7ISjgMjCGyUyzBenSKKoOArMJ34n926alFauz3TiFkZreppfbvkffKQgDngFHS+WUK
+	bS2MlClKezHVMKwLL1MVncVeMx1N2GEecayOFr6cLNB5WJme1YL2S0YGFqd6iE0d2NtkkMHbj72
+	L+I6XB1b8rLdvw5llKMDlSEjW2J/T1U3+d9/SRf2mKA/bFUEmaaYONP0sAiWB1NjBinA2FHxpu6
+	3G1X69PGXJxb4wJJIsKVGGGg+4MDqlJNkgqWn2Ij+YdP9X+uJ96P8hRm93R5dt3ZAMyxYxrBBzR
+	UBKRz6ZPwihtiiOFE2+RLIUmSVXNoH3GrULN71+EqOAfL7JuMhL+hiVifzTtwwBIrPW8WhC2Pce
+	hbfLvgbrUjTTAx/m8buFOtRnK9tWuH82btVoDkp7ZSPebhuz5mMXZ6dMb8u+LPhtKHUJniVzjlo
+	XsJgGzeo0gRFYSDCxbmgW+/LCXRWsqSHrAQGT3tVjDJhbfej5gkAEp/STWWH0jT5Xxg3
+X-Received: by 2002:a05:6402:2382:b0:6a0:ffb0:273b with SMTP id 4fb4d7f45d1cf-6a42eebff97mr14014957a12.0.1787401023185;
+        Sat, 22 Aug 2026 05:17:03 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a0f5-8c01-3de3-cd62-aa6f-2fb0.310.pool.telefonica.de. [2a02:3100:a0f5:8c01:3de3:cd62:aa6f:2fb0])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.01
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 22 Aug 2026 05:17:01 -0700 (PDT)
+        Sat, 22 Aug 2026 05:17:02 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/7] docs: irq-affinity: Restore grep in example
-Date: Sat, 22 Aug 2026 14:16:46 +0200
-Message-Id: <20260822121651.1559-3-kmehltretter@gmail.com>
+Subject: [PATCH 3/7] docs: dma-attributes: Fix dma_alloc_attrs() name
+Date: Sat, 22 Aug 2026 14:16:47 +0200
+Message-Id: <20260822121651.1559-4-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260822121651.1559-1-kmehltretter@gmail.com>
 References: <20260822121651.1559-1-kmehltretter@gmail.com>
@@ -82,28 +82,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The command is missing grep between the pipe and its pattern.
+dma_alloc_attr() does not exist; the allocation API is
+dma_alloc_attrs().
 
-Fixes: 18404756765c ("genirq: Expose default irq affinity mask (take 3)")
+Fixes: d5724f172fd1 ("common: DMA-mapping: add DMA_ATTR_NO_KERNEL_MAPPING attribute")
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/core-api/irq/irq-affinity.rst | 2 +-
+ Documentation/core-api/dma-attributes.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/irq/irq-affinity.rst b/Documentation/core-api/irq/irq-affinity.rst
-index 9cb460cf60b61..671604c7395fe 100644
---- a/Documentation/core-api/irq/irq-affinity.rst
-+++ b/Documentation/core-api/irq/irq-affinity.rst
-@@ -53,7 +53,7 @@ Now lets restrict that IRQ to CPU(4-7).
- 	--- hell ping statistics ---
- 	2779 packets transmitted, 2777 packets received, 0% packet loss
- 	round-trip min/avg/max = 0.1/0.5/585.4 ms
--	[root@moon 44]# cat /proc/interrupts |  'CPU\|44:'
-+	[root@moon 44]# cat /proc/interrupts | grep 'CPU\|44:'
- 		CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
- 	44:       1068       1785       1785       1783      1784       1069        1070       1069   IO-APIC-level  eth1
- 
+diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
+index 123c8468d58f2..067ce6dbb404b 100644
+--- a/Documentation/core-api/dma-attributes.rst
++++ b/Documentation/core-api/dma-attributes.rst
+@@ -34,7 +34,7 @@ such mapping is non-trivial task and consumes very limited resources
+ (like kernel virtual address space or dma consistent address space).
+ Buffers allocated with this attribute can be only passed to user space
+ by calling dma_mmap_attrs(). By using this API, you are guaranteeing
+-that you won't dereference the pointer returned by dma_alloc_attr(). You
++that you won't dereference the pointer returned by dma_alloc_attrs(). You
+ can treat it as a cookie that must be passed to dma_mmap_attrs() and
+ dma_free_attrs(). Make sure that both of these also get this attribute
+ set on each call.
 -- 
 2.53.0
 
