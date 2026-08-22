@@ -1,64 +1,63 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BDB367B63
-	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6114639734A
+	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787401024; cv=none; b=TzVxAraSVwbGU5mu3l1nRUuembBhmgV8RBnEmPO5dbajfJfak4ZYMKk6QAwhVaF1EMDNZkSdL3HIhliFpfwlGycpxB1ZvGD+iChgjctmptDxNThXHEtc6kIXOidmJGLV08goKVKTcVYyScNbVUN7m6Ve/yzTJn1742BdahS7ig0=
+	t=1787401026; cv=none; b=r+UtV+87ypCA4HEFZwbwzVKJqHCkem89y6/P70kpaVsLOcLs3bkA5KX6G6vHy9GDI2EUXkYO4RBI80zDXXsycJmfm3Nw197rNOKB7w5FBO2KTg1qkpqQVSa0F4a94s+i8IvSW13n3xvLqoIVTju8MNyX7V3PEUCEr8096hulKXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787401024; c=relaxed/simple;
-	bh=MkgF8sJYkXQMUSnvBLYjUs718iTtLzAZhEjW6mSSQrY=;
+	s=arc-20240116; t=1787401026; c=relaxed/simple;
+	bh=zAR5xcwzNFmHM0U6B06whose7P93OcldQYIG0S4DIis=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tcV/l1IBeAmZcVFhYKDsFOX6vQVct/wawVgPNuk8hAKJJ3DpJVB+vbw4LvqA/K8dxVvOCKzX9vWN6WU3STwDwV6NBE8H4ySbSdfs0PGyYUKtkgYuWfagKJrFHl/Sg4/goFlHW6oDs94VeI5AlBGOzrMfMP0uekWXv6DwxzbUzzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4SAqvaq; arc=none smtp.client-ip=209.85.208.47
+	 MIME-Version; b=jh4BEZvPtc7oDqfppaa/aSbwcbcnRxgDuooM03QOkTIfeRnCUzmWRcLuD2jsl0oecG95lo2JARbdCB0ayGP0agtgt2VcIg25B40a57K7kZwlDy05boKr7hsn2PGNYszIJmyz9bK0zeM/l6CZibin28ZGigIctSt/L51JoGAzR6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ArD632Gh; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4SAqvaq"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a0c8283146so3498509a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ArD632Gh"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a0a4aa99bdso3454297a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1787401022; x=1788005822; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7FyktL5v23pmy2y7D+Amk5WqPXGUmXdq2zDMDrpclJw=;
-        b=m4SAqvaq2NmlxwknXc0wwMNfqiQulIexrpSTQh6jSoHl0fpXLm0Oop2GZxkrhs6jGY
-         NeIMgzJJiWQUgIyP27VwEVP/nHOHziAkhdl7ZgiIbpYcyHgfR6XGwIIiPmRJdptTamG7
-         1obcvJ1egVAPdDxhR5NGl3mTGBPYHH8qaKL6T2MzJ0HyxcSmxWW2hPkJZliu4d8VvvNd
-         6Jk/FKjtJl2vPVK2wJjR0ymLUwC82RStpW5bxCnottvVgcvFiQbDPTPylKDHgF4wyMhR
-         HsFnuzrntXxr4kd1yPwNLJRXu5MikrayCGgHFFfCkgkvINWp79JpRZ8Aqp1CTGDVG4u5
-         5KoA==
+        bh=vDQl0QFr+CVOpsxDW+qwQjndljswVmu894qFs3wIGt0=;
+        b=ArD632GhH227cgrXBoKw2BpRVgtmeXduFSWCaWh510M02/XDi7DQGeM+odUweNcI2F
+         JIc72vK1sMJiEgPChcfTyPLD+N2a8AZXGocWXpHzNZ5iKiYr9ISOIRXDbI9iz5q1voO3
+         GE0LEd0rZ2AyefbPgDzWNvLUEoD2Bll7QadzV8CP04eNpsfh2dW0NFFWKEiDzR+2XQC/
+         Iwa669P3Wfxhx024Fak98DKpeOymF5yre0RzLorTbv7mEZgRvgx0h237H035Ro04xjx4
+         H7S3GCQAQlx/jqDpk7Ukg9eyKovbLGQFORt5R0mRxjIBMEDi5xy7aj1g8/o40Oxv4MyB
+         KEjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1787401022; x=1788005822;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7FyktL5v23pmy2y7D+Amk5WqPXGUmXdq2zDMDrpclJw=;
-        b=Re/w/iTxEjt11Z9bDI90sxr8w7NTqAZN2MfsNZULgZbljtPkVvr3F9Vp8TnVZvCOyb
-         tD7Ieo/YWmPzfmPEL8WBOxBCLvdm0X5AmlSKNJpd80eVgZnB580/FE9724BkJ0+6fybf
-         2AL8WsU9idu3xsYwfiW8YuyHQzPXrgNf9AP8gUKPP6IETgh12Chl4iCeJ24B4HSCTfg1
-         57nnGMH0D0OCpYx1SCpK2CmSAt7xZmtyAdnL5BUmsnOXhERH4qaaxMkVK0ZNhHCbmzoT
-         xlDKpQq3JF8McKdyvT5NRRIWTanygD3AiIO4pQhtFBJ14S8fdna9aPhx8IyaTCuV1/+T
-         lbBQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqny6DxuiBIXbllTsuzTEE7d1At6mnM9A7pmNarNtof5UtiGt8WIhU5Tag19CuBeV47cWgrL4VShOw=@vger.kernel.org
-X-Gm-Message-State: AFuF++locexqWad8JbumMUYF6iRgR6LZ+IHDPQpic8ODliLVqjtHxgxB
-	0sZuPC2LPJpwpD8ART6K9FWSTbs4ACKoV2AvnXRE306urfSOJn9XGmwL
-X-Gm-Gg: AR+sD11S5Btk13y0E3So/CRlbeJnW3rb5E9RCClGprVyVq8MAxxZ873KtUge9tocISH
-	QRWMvkAXxFV3QL5oEwI4mf4Z+oDr9z4wAjBdjMhM0w5/PKffnUAtYRkDqaXoBC/7FnXmQNRXrvn
-	3ZdrN56jzOdGBB7kw77e21dV0VRuud048uTG2FozIKgoSoE3D56fXomc4TOqA5yrB1lXUcOEzpJ
-	G6zlc+4MNqM68+CbcCE9Rx1Q07GRNrGqobtE/WZbfJ4Tv6T8Yq0jSS0bczHFDN6sN7QENv/78Lu
-	Z+Mi6RQo+6icBkvP4cr03YF7F8NErW/KIX2x/Bvlx9ETJyBpjc6gdJ0iM1SXKzIkOeafltXZInG
-	dsSFkT6dYVaPaM0cb8/Sv4rca3TWQYeL9mQS3PIqoNeolOE5Vrc9IZFW4PAiYp1EpuNJNLQaBJs
-	tgv4R3/ViEgHDqG+4dlH5LPgYql53Cfked6TyeSCOO0m9+ZXpB7iqQ+FlCkrAMOHkqL7/u5XatK
-	IJmQwNouAary+V4WdBbSkiSwnhXSkwmovjrz+jOB1WnwbZhQ08Gh9ICbP50MptfQj0OMyIutRqS
-	SI3GiiD85iGy4xfvme7hv98wBm/LS2nQXV5GtuxJVE4T7UXq4KqtvcSz+SY5hyUNdNW0NQNFbab
-	kvOY=
-X-Received: by 2002:a05:6402:2491:b0:6a1:284f:7891 with SMTP id 4fb4d7f45d1cf-6a42f1c0568mr15979510a12.7.1787401021374;
-        Sat, 22 Aug 2026 05:17:01 -0700 (PDT)
+        bh=vDQl0QFr+CVOpsxDW+qwQjndljswVmu894qFs3wIGt0=;
+        b=NZ/FN53QJAuF3Jmc22jJ46Q8FCrpgmK2Ctl3H1/ZnE4QQQ6vAkBBn9Bk5MTVZfNn7o
+         nwoqe7AQGmQQVau99zdRGHW3YfAeuGHZfcyvmK5HHhrjfKMY7upAgmNsUn0eHRT1Uud8
+         60ihSDHRg9Jd2Chb4EutszDTAvBkgRTEsRbONi4OJvZW3ycUqAOndbi/Zd+vJ6GwlR3d
+         zHJ9t7KjjNs8cF98gxjN4AybClBdBY+2Z/oizAYa5I6rVGD3tFOqL+92hlBqSxBeUSL4
+         /iuUxtsLmpBUeqtLH36UnS8TgFL/qYqk+q4/6DFtLOG+hR7C62kxa8gpG0aL1ko+op4A
+         Uwxw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrktv0QRd3bjv00cnm297yBedX6QE39TAsCpLTmYQh1hGSENuVbqehQ/z9xIP5gZohZrBahWbj4cnM=@vger.kernel.org
+X-Gm-Message-State: AFuF++nmfAI9W2//Ufcq9Hi/uCWHLBF2E0SoXhIcNA1DKVaYm4715TID
+	CLPzBuJdMpbQI+uirpcSB2RE5QJzvBSAcroiNkhXB53t+zQweHLpxq5I
+X-Gm-Gg: AR+sD13QzsZb94nRSoAxwOScd39VNsMDtNPxMNDN7nX+VTaFXPMMgulh4yRJtbnXb8U
+	kOrFJIoGxT/DYBAQEnM4OIOeia0b6tvl2opKDUp1PEPIPpOm+OrTawisLY74TEARF7sQ6bd5NmA
+	PTZkdgQbhaYcDNzNfyKv3hgnicxaolEl3DHo4FCrMk4M5cBnToSSglCj8oAufKkaFHu4POd5JYi
+	jeqD39f8O86nqDHFSxSC5pRc7XE0U53E0vE3X2ho8ythEBgqFw3jiRoj45DaWKseAG65R2mwvSF
+	I0YRztpgWLz2HTqnnRgqnzosDB2ql3bDeLK+8Kw+AmWdqCMNDLRM7PxePmjaBDQz806mvatf9dC
+	/Of5fIf3VdVVDR0Cu8sP9/hMAFE5LsbtMw/6ugh/GrwTu6iSyfUR426RkV/WVdcLagl7CQ7ojhw
+	HXzfJj1axyY/LqWjPGAVEFtY01nwSjvltVeybzBNL92nVTeT4KFy8s2rBsCQ80GHwAsJY2tOSuP
+	hBlH7ilToUwF3ww/FlCKYlr3OLDifxfevUu9ZyVcsA/J+wsoFpTUnb0iNFVoTflrDLpuUOwGvBb
+	By+RvEq5QTeFLZ+iEK1zxJuyMT8wk2ndRKzghRjEu2lHydyxnnlN9NLEx1TKxCZC3/5j
+X-Received: by 2002:a05:6402:2356:b0:698:e614:e4bf with SMTP id 4fb4d7f45d1cf-6a5829790b0mr4918019a12.0.1787401022267;
+        Sat, 22 Aug 2026 05:17:02 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a0f5-8c01-3de3-cd62-aa6f-2fb0.310.pool.telefonica.de. [2a02:3100:a0f5:8c01:3de3:cd62:aa6f:2fb0])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.00
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.01
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
         Sat, 22 Aug 2026 05:17:01 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
@@ -69,9 +68,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Thomas Gleixner <tglx@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/7] docs: cpu_hotplug: Fix multi-instance removal calls
-Date: Sat, 22 Aug 2026 14:16:45 +0200
-Message-Id: <20260822121651.1559-2-kmehltretter@gmail.com>
+Subject: [PATCH 2/7] docs: irq-affinity: Restore grep in example
+Date: Sat, 22 Aug 2026 14:16:46 +0200
+Message-Id: <20260822121651.1559-3-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260822121651.1559-1-kmehltretter@gmail.com>
 References: <20260822121651.1559-1-kmehltretter@gmail.com>
@@ -83,31 +82,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function is named cpuhp_state_remove_instance(), not
-cpuhp_remove_instance().
+The command is missing grep between the pipe and its pattern.
 
-Fixes: c9871c800f65 ("Documentation: core-api/cpuhotplug: Rewrite the API section")
+Fixes: 18404756765c ("genirq: Expose default irq affinity mask (take 3)")
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/core-api/cpu_hotplug.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/core-api/irq/irq-affinity.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
-index 6de26d1c6a9ad..f8b3f59a3d5f7 100644
---- a/Documentation/core-api/cpu_hotplug.rst
-+++ b/Documentation/core-api/cpu_hotplug.rst
-@@ -607,9 +607,9 @@ ONLINE section for notifications on online and offline operation::
-    if (ret)
-         return ret;
-    ....
--   cpuhp_remove_instance(state, &inst1->node);
-+   cpuhp_state_remove_instance(state, &inst1->node);
-    ....
--   cpuhp_remove_instance(state, &inst2->node);
-+   cpuhp_state_remove_instance(state, &inst2->node);
-    ....
-    cpuhp_remove_multi_state(state);
+diff --git a/Documentation/core-api/irq/irq-affinity.rst b/Documentation/core-api/irq/irq-affinity.rst
+index 9cb460cf60b61..671604c7395fe 100644
+--- a/Documentation/core-api/irq/irq-affinity.rst
++++ b/Documentation/core-api/irq/irq-affinity.rst
+@@ -53,7 +53,7 @@ Now lets restrict that IRQ to CPU(4-7).
+ 	--- hell ping statistics ---
+ 	2779 packets transmitted, 2777 packets received, 0% packet loss
+ 	round-trip min/avg/max = 0.1/0.5/585.4 ms
+-	[root@moon 44]# cat /proc/interrupts |  'CPU\|44:'
++	[root@moon 44]# cat /proc/interrupts | grep 'CPU\|44:'
+ 		CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
+ 	44:       1068       1785       1785       1783      1784       1069        1070       1069   IO-APIC-level  eth1
  
 -- 
 2.53.0
