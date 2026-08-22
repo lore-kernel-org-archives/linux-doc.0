@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A39F137750;
-	Sat, 22 Aug 2026 17:00:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E139B3264F9;
+	Sat, 22 Aug 2026 17:02:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787418030; cv=none; b=ljHp/FfVTQGkPnEGFnplxMYiOpqW31y0jPHWAWtD4JZaWozdxCSrR/xODz1qTXdqq9pL7POEjVhXz7+8+7zb0zhHfd0ErIoJP1yRHUvn1NvQ2vCj7Qc01sunjHn3iNA0D8h08MaWYZWMwFSVLpjRfLu81xiF7ThozJ6x5QS2gIo=
+	t=1787418139; cv=none; b=HwF064QAezTk1QnS4HZvw7Gg1ijM1COtoud12TbNwbsBDkRWxAq2HgUrjbJk4zNqA4iwZLE4LFTXKIY7ikEWd+UJSRUk1POLKBEPxT5byiKCZDOKbmUDgJnDKsGf9uGorzc0NtzNAmV1YX251iqiRNjwz4In+nvzwncdnCSskRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787418030; c=relaxed/simple;
-	bh=MtnB9l/KP5iYOj5jmxqjez/3NhKPOJo5xJPYjcgNkuk=;
+	s=arc-20240116; t=1787418139; c=relaxed/simple;
+	bh=tP9nXSCTkwLARlqLxiw4oPWPD2VzynMa8wbgduz0+wo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kmtW2PWPgtZ0S0OrdG9TMYu0uinCvXQLoGB+/rP7O10eT16+sZUh6t/ZMfSJFyt2CUcVL+ctw0aTD9LW8vaiD8M2vtPIOarjru2R0eE+fG7sLgOSi2hABrUdwM/PAR4uNhBBR7wjiEU29RbS9PjJ0mpgURU/AngyC7DtFb6WABs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Qkds8baX; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=fyqQ0xEOqWE2YWIxHgxdwmbV/aEwA1gcLxy7bWlMxdMZUsYatkQwMOB3YHLIzHo/sGeLrUlmkZyFEth55pvDXrVxk2MQDZ3iKGRGoM0in2rMimjKbbC2IEyJDtxraXZVovMtCBiV37X2N55mlh8sWWhK94qce5nomMgkgIe8B0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cF1l84Kx; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Qkds8baX"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cF1l84Kx"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=VDb4qU+OUP/SfcfDdg5bSA4/21fc8YQn2UsRC0Iy+VM=; b=Qkds8baXr/Li/yxPUYFUiiHgmW
-	p8a+Txz/uWm9orI2gP+BBEuv0U86bOTLLCnvrXgiW6IP/JPPquR+jrYhSERcUETIMyp7eIcg4RrNG
-	kYldQYSWoeW4NQ1ih7EDscTpiCJ6sjx1yLx0f3pMEgC2prGoHR2ZK9q3BNYUq52bqlAcpM7BuWyH4
-	B15kUnFMZdLQjSt2W6C41hbhR2d/rdQM3xcDGdxrBpYkWFdgMNZEpIWxwSWIJbe6AIiWU+q7CWoLg
-	X2d1llxIho9b21no/6JxviZmkxibyTmgopLphySHfVpVgvBJa3Z9iC3p1eHLyIEjbnKXWU4uq1ImX
-	T3/J/Yzg==;
+	bh=5FhimZe/3supwg5oxoPa0IkzmcIdASJJzneKN7B7Epc=; b=cF1l84KxlrXoaHLQw6wTStcv+t
+	DEuJMSA+ykQ84ebBczU0Wnns8mqY9uDPBzHVMwqr6m5LqxGgD2TZGLl+KYvrTBr2PYBq+ndCCWPHH
+	bMlgx3GTQ661ymBJ8iQ4WkLy0Z0HXFARbGuRp7xANlRbXSxt48mP4QpMqdNpvdNn74tb1lVa+MzlW
+	wPzvGZp4DOw3Czr5815Z9ae/tQKIRI85OlIFt0Pwb8pIFw2bhMkVh3na9Ob62gPl9BwByrBCygG+h
+	cz9OCRPAQwanMrn5+IRo7Ax1SL4L4D3Q7jmCX/OkDoMB9N3o52Wsxp8mFdE114sjSkhSpjhcdzY7P
+	PJqHFB/g==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxp4q-0000000Eg7i-3IDU;
-	Sat, 22 Aug 2026 17:00:16 +0000
-Message-ID: <a1eb791e-64b5-4602-8b5f-afe1ac15b7db@infradead.org>
-Date: Sat, 22 Aug 2026 10:00:14 -0700
+	id 1wxp6j-0000000EgAU-1s12;
+	Sat, 22 Aug 2026 17:02:13 +0000
+Message-ID: <90519e6f-dea2-4556-b928-fd0903e81603@infradead.org>
+Date: Sat, 22 Aug 2026 10:02:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,67 +39,50 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: iio: Correct ADXL380 filter descriptions
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Ramona Gradinariu <ramona.gradinariu@analog.com>, linux-iio@vger.kernel.org,
+Subject: Re: [PATCH] NFSD: docs: Fix pNFS SCSI Kconfig symbol
+To: Karl Mehltretter <kmehltretter@gmail.com>, Chuck Lever <cel@kernel.org>
+Cc: Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+ Tom Talpey <tom@talpey.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nfs@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260822073653.54545-1-kmehltretter@gmail.com>
+References: <20260822081033.82098-1-kmehltretter@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260822073653.54545-1-kmehltretter@gmail.com>
+In-Reply-To: <20260822081033.82098-1-kmehltretter@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 8/22/26 12:36 AM, Karl Mehltretter wrote:
-> The high-pass attributes were described as low-pass filters and vice
-> versa. Correct all four descriptions.
+
+On 8/22/26 1:10 AM, Karl Mehltretter wrote:
+> The pNFS SCSI layout server is controlled by NFSD_SCSILAYOUT.
+> NFSD_SCSI has never existed.
 > 
-> Fixes: b6a097a9af00 ("docs: iio: add documentation for adxl380 driver")
+> Fixes: f99d4fbdae67 ("nfsd: add SCSI layout support")
 > Assisted-by: Codex:gpt-5.6-sol
 > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+
+LGTM. Thanks.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
 > ---
->  Documentation/iio/adxl380.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  Documentation/admin-guide/nfs/pnfs-scsi-server.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/iio/adxl380.rst b/Documentation/iio/adxl380.rst
-> index 654d4c0e84a19..a1c249dc2e51c 100644
-> --- a/Documentation/iio/adxl380.rst
-> +++ b/Documentation/iio/adxl380.rst
-> @@ -39,13 +39,13 @@ specific device folder path ``/sys/bus/iio/devices/iio:deviceX``.
->  +---------------------------------------------------+----------------------------------------------------------+
->  | in_accel_scale                                    | Scale for the accelerometer channels.                    |
->  +---------------------------------------------------+----------------------------------------------------------+
-> -| in_accel_filter_high_pass_3db_frequency           | Low pass filter bandwidth.                               |
-> +| in_accel_filter_high_pass_3db_frequency           | High pass filter bandwidth.                              |
->  +---------------------------------------------------+----------------------------------------------------------+
-> -| in_accel_filter_high_pass_3db_frequency_available | Available low pass filter bandwidth configurations.      |
-> +| in_accel_filter_high_pass_3db_frequency_available | Available high pass filter bandwidth configurations.     |
->  +---------------------------------------------------+----------------------------------------------------------+
-> -| in_accel_filter_low_pass_3db_frequency            | High pass filter bandwidth.                              |
-> +| in_accel_filter_low_pass_3db_frequency            | Low pass filter bandwidth.                               |
->  +---------------------------------------------------+----------------------------------------------------------+
-> -| in_accel_filter_low_pass_3db_frequency_available  | Available high pass filter bandwidth configurations.     |
-> +| in_accel_filter_low_pass_3db_frequency_available  | Available low pass filter bandwidth configurations.      |
->  +---------------------------------------------------+----------------------------------------------------------+
->  | in_accel_x_calibbias                              | Calibration offset for the X-axis accelerometer channel. |
->  +---------------------------------------------------+----------------------------------------------------------+
-
-These changes LGTM. Thanks.
-
-Although I am a bit confused. When I look at the adxl380 driver,
-I don't see any of these device attributes.
-The attributes with these names are in other drivers/iio/accel/
-drivers: bma180.c, mma8452.c, and sca3000.c
-Can someone try to explain this, please?
-thanks.
+> diff --git a/Documentation/admin-guide/nfs/pnfs-scsi-server.rst b/Documentation/admin-guide/nfs/pnfs-scsi-server.rst
+> index b202508d281d5..a3074450ac158 100644
+> --- a/Documentation/admin-guide/nfs/pnfs-scsi-server.rst
+> +++ b/Documentation/admin-guide/nfs/pnfs-scsi-server.rst
+> @@ -16,7 +16,7 @@ addition to the MDS.  As of now the file system needs to sit directly on the
+>  exported LUN, striping or concatenation of LUNs on the MDS and clients
+>  is not supported yet.
+>  
+> -On a server built with CONFIG_NFSD_SCSI, the pNFS SCSI volume support is
+> +On a server built with CONFIG_NFSD_SCSILAYOUT, the pNFS SCSI volume support is
+>  automatically enabled if the file system is exported using the "pnfs"
+>  option and the underlying SCSI device support persistent reservations.
+>  On the client make sure the kernel has the CONFIG_PNFS_BLOCK option
 
 -- 
 ~Randy
-
