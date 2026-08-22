@@ -1,118 +1,159 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2362DB79F
-	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 04:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0219493633
+	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 07:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787372344; cv=none; b=Yb3XzFXDKfNOZkjdxY5yrSFC3SWuttXfiIT1JUYetBRgHoUONESUWjaMOAj+9w8WEMoGsP7B+ndWbh0lzkv6AZfEy6U+qs4XKRKeB33L5e805ou3IeqjQTCLzWSfjVGAxX4d38ntGFYGcGckjbyEBOxlFKmB6YSknkTSlGG1GyQ=
+	t=1787383415; cv=none; b=hRwzLuN+1pWobtTE33/kiijT2KX7Zgir1HCVrtNELkueXeg5RUlhEc/EUmFCTr/eD1I0cuth3mO1vIqF4rDnTZt8Og20QDqFTjKnqISz2POUFDkJLva8irX/OivATa0W1MwDy9ckdFUmfLbH8aE5PYPxAkg8uoevWdMVvY4jAVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787372344; c=relaxed/simple;
-	bh=/Q12GR875iD93KhzcjUTpLysJ1kI3/4TfP0uOO6zmB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imK3h4t3K7uydUSJ3F2jOLiaexWAK3npjk9u+Co/X8ZTHlVYNdcll2Y8fTxMXRz1PgEoyJunhHcktAK6lSeIVZ7H2SnJfx2Af7t2UD6M8RlJRfhc0zlbNt5SposOvNH3eUR/WlTqndKChjiGFa3mtzMUZHNiL8qZ3g9ILL2/g54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=THhyu0up; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1787383415; c=relaxed/simple;
+	bh=RWNYz384e4rKemzcuA5opb+syrbmhY7THbxYU3MsYLY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ocxKQCAMtZCyytNSRrX/y7SjGMJVmOMgC6+HRe9MAixXXzsdifwATXpRTpabXvhQ6iwdhfYsRjiiloy94PKcgsIrA0mwea92URny6bvyPRKjZMrUEmpaghKfdQ/AsQu6Ns8n7dClt+jU+ktQ8zwpm6wlr/2lHHXKK/6Xx/HgeY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktIK5t4/; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="THhyu0up"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51c16ac21acso11491131cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Aug 2026 21:19:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktIK5t4/"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso287980166b.3
+        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 00:23:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1787372342; x=1787977142; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bV2EmVqYabp31e4KZo4BjvE2tm+i0eWvAIeJunRO/yE=;
-        b=THhyu0up9pDDkhcf62wTIZYViQLq/cJwTfNR2ZMcY7vgtfRIu0XTTrTnctZ2Rkyl5z
-         OTCGrPlYMvBVlgd27wCbOfsiQF2xOwHJkiz16KTcjLKpNqOLH0jPsXu9zbsy3X2syX9B
-         oz5WCbMoLt5+smI92QbGiUGV1+hyE3IkFB+K+F+52HooS2VFJ0HAuQj/ah5rvSgnBkMQ
-         ZhT+0CYXJ1pOXUYziIujTNFjqboyrtBIdB4LV+r8k/obUy6PcrBYBj3UH2sPm8ucfkoM
-         2zRV8CVUPYQvHB086yPizUecls8pHdti4Zss+CM7XoF42UJXDT6AXrhCRQIDQPfNVYQG
-         V9Ig==
+        d=gmail.com; s=20251104; t=1787383412; x=1787988212; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2FueEl+ZcII/8wuXmKky1Fcrh7O6MxQGPP0G/0IKJwg=;
+        b=ktIK5t4/DBb6lCHQrH95SfNnoXE0Olq/qs9qjRKup8OaOL+VshSBaBGKEVWZC58tQf
+         9PFPOtcRugZxLZC88HBhLaY/K0V+xw59svyhfsoqrd7duaTcBCUHkYdrxNDropwRzFij
+         EH24+OYzA0j1qHuIehSNE1G7d61FwiWAINASe3POoCsV8V9mi7piXwAwJisUgaYfjDRc
+         UOKLbhHAC3ifK8wEJrjAY9JH7ZyinnsWRcFFF5jR4LEeVvKs82QgGmEvdm82D4FptAJh
+         MfxMtJQzspu+L7GX5AI4bbRgQdY0oiQ+5f4squBGerRIwKQWVytMSuajcTi27mA3ILTi
+         qZPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787372342; x=1787977142;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bV2EmVqYabp31e4KZo4BjvE2tm+i0eWvAIeJunRO/yE=;
-        b=TUYHuX8RNxy4lFjF5CBjuT3iLwy1d+W2cyZGyy/BTHNJycH06dRVHZ+zcr84nUTYKI
-         j1g/mVIa6KvIQCiyeTLQ3b0/qsDvoH6lhpMMLb2CzRye91prdyKc9utsGfVXjesz7rHT
-         /faBt6XNoM3PNA72FizvvcYJSfYELTEB+UyHrGtdaz0FmFulLLwZh+aUcdwTczbD5cPF
-         RgnmEWcHSUTjMYtm5Yn0LC3jFLNjc/sdHHxb6NTk1aE7fPyWzhI4x9bwunqngxvnV1bR
-         GGxjeq7L/9V9arhjp7Oo2mpXtjuGL0LHimqdBcM/mGzy96jK6WLWJqqxa+JQvRbT9loC
-         zNjA==
-X-Forwarded-Encrypted: i=1; AHgh+RrjW6W/sd7lc5007AdrK4fq5rG5p1xSA6ZXDWh9QHBqPctKnMB5GM7UpS0SulwkeuPCY3sfh7VcJuc=@vger.kernel.org
-X-Gm-Message-State: AFuF++mib+DOdyVy1I7GpkOq4Wq41ssUL2KIf5D094m1465ynMRwY0q2
-	tUI4ZfZ7X84PNePStLtEDMi2VxJeMY/a669za8fhvW8LaSV6hFbZH9fZ8StMdQ9bzhE=
-X-Gm-Gg: AR+sD13v5wsGaLlKfv8knQEaVtew2L6ynyZp1dlXowcv/BziD/wet6ANvexWPOzotBQ
-	GIESZ3l0S824lGKH30huxtRkY578UR1F/ADeqPGGg/SSsupCdp1E4j1FByiGl8wIKYKmrtJ8Iqb
-	rAtN0kwwYj1lsNkMkAemmBViUeJIseCkIcJte5cjlUS0yzvnOBnc5JQg6fWgpmaHCq8MIr2qsZ0
-	WVyX24U9tcDvvSlXjnC/SnSyImO5Hzk3Lxjsd94dzkde2uP/SHAnXCqGYG2mKBQElDkUrwyTn2E
-	uU7hQIoXsWwidy1Av9GA/7a2rQBp7fr+7D3VafC5EqGdxWT9v3+UiES8WQUpAWjNHzQFCd2BQAE
-	NGXVxlvTb5PTEquZ/5Ko34WpNaFBK39bLXrLHMwCLRr8vZr8xvhhVtVUsWzjkyVOx3ZRRwcQEiX
-	nwUUJD/OLN9rxFmrRvNHLsvIvly5bUskW3MV973GCSveDOtfoR5iPjaVR0lXPZrWhqo2uTa0GeW
-	PtNhVicSmTN6lxH0HO/X86I+p81iYCxytLJ4pY67mXF
-X-Received: by 2002:a05:622a:17c5:b0:52d:a247:bf5f with SMTP id d75a77b69052e-52df5a54f6dmr101297051cf.33.1787372341767;
-        Fri, 21 Aug 2026 21:19:01 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c939314d2sm4857616d6.25.2026.08.21.21.19.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 21:19:01 -0700 (PDT)
-Date: Sat, 22 Aug 2026 00:18:58 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ira Weiny <iweiny@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Haren Myneni <haren@linux.ibm.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, 
-	Jiri Slaby <jirislaby@kernel.org>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH v13 10/12] famfs: Add runtime operation-permission (opts)
- framework
-Message-ID: <aokdSo9li0RtEt35@gourry-fedora-PF4VCD3F>
-References: <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
- <20260810202539.96378-1-john@jagalactic.com>
- <0100019fed5a5210-a09f1bdb-c705-44fc-8108-a7e7995a7af0-000000@email.amazonses.com>
- <20260822000728.GB6047@frogsfrogsfrogs>
+        d=1e100.net; s=20251104; t=1787383412; x=1787988212;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2FueEl+ZcII/8wuXmKky1Fcrh7O6MxQGPP0G/0IKJwg=;
+        b=Hw/haVoMUdyz5SwoaGr66fUylKWmuG2nLYn7ZRVWOz1A83d8miGsqJkre5y4SAG72o
+         l2JLadq6cFaD4mFxhzFteVkulEENJlC7p2xa35WsSpa9c86PS5SRXim8VoVoxp+eaWgc
+         GI8E0EmYNPXuyHTl3SCJC6X3r0D2S72hhcMkyj2TY5dQ+eZS3n5k604FlB0qG+fxdHYq
+         HsZi2dyAZVG4XKTQFlcx64cS7D/JL1nt0Ve8qRurGor7muNw79MlBK2BlUXwi44Syhpp
+         pBC+hgRC+jDx4+pFzCwTQMEAQJYbVifpnBv7N/R0+1TMyTiBXOKhnowKMwhG4CHiZbK8
+         pTLA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrp+dRPkvj9Mn2KpBWcnmIyUZg9uBwu5wdOKpxikhbygSHzCsO4YE1vXvNr8OdcPFqkAPUxGd1lSXc=@vger.kernel.org
+X-Gm-Message-State: AFuF++l/Jxyvdf/Fw1n8hdAny1Qysm/ncvJETMogzIPqWe675pm6IJbK
+	lSbrDRD1Ju7TGvYVoCzPr+Z5aRN2n8nQZQsW53AiuG0SihnEDCCQVATX
+X-Gm-Gg: AR+sD10XlZq5AqiTLJ0zVpy3ek7Vlo9gflr2v/lXhOUKYR/qYP/xEzX9SY5cVobJ3+A
+	A9cIv0Q9cdv7C0wTGdFNrkcVYMx+8QOewcHmsSK5R4jHPsRVF4o5GrleOehswzWwS9PNEItUpZ3
+	ZIHKqRAnciztHsZ90Lw7M3zQGH/y+6EbHOpxuEUMILlCZ2Ay8T5+Z3pIjWSVTbsj9+GDk/t5jNr
+	rxeTL/s2GDAQjgcuhk0tDAWGfOOvbY1/9F0jh01Nc7kKJf2PTp3emzOQUEO+NYn0hppdBFGv51K
+	XrFErMTzo+udJpMqN6EPYWFLQQgf0PlAouIZmRCvkxRxXSKThy9zxJ9P7D91GIXJ40doJAyAr2N
+	AvZcAcK+p/IPj388gUiNtRhU2363bvJCzcOs6z0moEhrEodCGEt51vwf0w75AhW3UZvuFDFshGO
+	ZOailEsyhL84Y3ji/T9Jogi7Fc5exKqd7ZsTWdXci2g8UGdvVuRsfPi6HYSm4WcTAGLsKVWVCzA
+	N8ywMsxdsbXDQIpig1QsF0JWH5Khe9Npt+H+TPi3UiBnQZljuZlqFwmBG7nn+ITj9wneMljtcJP
+	HttbaytIyK2jFB5P3h/RzQ6761AdDQSh80SNPRxwgxCncYdnfgUJyUaEZof6IJA3ZuO+f7krnQ=
+	=
+X-Received: by 2002:a17:906:ba97:b0:c12:9b98:209e with SMTP id a640c23a62f3a-c246a692891mr1298531366b.23.1787383411862;
+        Sat, 22 Aug 2026 00:23:31 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a0f5-8c01-3de3-cd62-aa6f-2fb0.310.pool.telefonica.de. [2a02:3100:a0f5:8c01:3de3:cd62:aa6f:2fb0])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24966f6b48sm183689866b.33.2026.08.22.00.23.30
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 22 Aug 2026 00:23:31 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Gregory Price <gourry@gourry.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Joel Granados <joel.granados@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-next@vger.kernel.org
+Subject: [PATCH v2] syscall_user_dispatch: Use CONFIG_SYSCTL for sysctl guard
+Date: Sat, 22 Aug 2026 09:23:25 +0200
+Message-Id: <20260822072325.51994-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260813062039.14567-1-kmehltretter@gmail.com>
+References: <20260813062039.14567-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260822000728.GB6047@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 21, 2026 at 05:07:28PM -0700, Darrick J. Wong wrote:
-> 
-> But what prevents a malicious program that is /not/ the famfs client
-> software but has CAP_SYS_ADMIN from doing that?
-> 
+Commit 8d75c338f0bc ("sysctl: remove CONFIG_PROC_SYSCTL, it just mirrors
+CONFIG_SYSCTL") removed CONFIG_PROC_SYSCTL, but the sysctl added by
+commit 5b6e32ba7b59 ("syscall_user_dispatch: Add
+kernel.syscall_user_dispatch sysctl") is still guarded by it. Now that
+both commits are merged, kernel.syscall_user_dispatch is no longer
+registered.
 
-Such a program can already unmount famfs, rebind the device to
-device_dax, and mmap the whole range directly. MAP_CREATE isn't
-handing it reach it didn't have.
+syscall_user_dispatch_allowed defaults to true. SUD therefore remains
+available, but administrators cannot disable new activations.
 
-~Gregory
+Use CONFIG_SYSCTL for the guard and documentation.
+
+Fixes: 5b6e32ba7b59 ("syscall_user_dispatch: Add kernel.syscall_user_dispatch sysctl")
+Assisted-by: Codex:gpt-5.6-sol
+Acked-by: Oleg Nesterov <oleg@redhat.com>
+Reviewed-by: Joel Granados <joel.granados@kernel.org>
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+Changes in v2:
+  - Reword changelog and rebase onto mainline now that both commits
+    are merged there (v7.2 is unaffected, it has neither commit).
+  - Collected Acked-by/Reviewed-by tags from v1. No code change.
+
+v1: https://lore.kernel.org/all/20260813062039.14567-1-kmehltretter@gmail.com/
+
+ Documentation/admin-guide/sysctl/kernel.rst | 2 +-
+ kernel/entry/syscall_user_dispatch.c        | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index b6328cd0f43e..ffea61d448eb 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1416,7 +1416,7 @@ Controls whether userspace may arm Syscall User Dispatch via
+   ==  ===================================================================
+ 
+ Only present when the kernel is built with ``CONFIG_SYSCALL_USER_DISPATCH``
+-and ``CONFIG_PROC_SYSCTL``.
++and ``CONFIG_SYSCTL``.
+ 
+ 
+ sysctl_writes_strict
+diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
+index 2002c7aae435..59c861866941 100644
+--- a/kernel/entry/syscall_user_dispatch.c
++++ b/kernel/entry/syscall_user_dispatch.c
+@@ -178,7 +178,7 @@ int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long siz
+ 					      (char __user *)(uintptr_t)cfg.selector);
+ }
+ 
+-#ifdef CONFIG_PROC_SYSCTL
++#ifdef CONFIG_SYSCTL
+ static const struct ctl_table syscall_user_dispatch_sysctls[] = {
+ 	{
+ 		.procname	= "syscall_user_dispatch",
+@@ -195,4 +195,4 @@ static int __init syscall_user_dispatch_sysctl_init(void)
+ 	return 0;
+ }
+ late_initcall(syscall_user_dispatch_sysctl_init);
+-#endif /* CONFIG_PROC_SYSCTL */
++#endif /* CONFIG_SYSCTL */
+
+base-commit: 26260251022fbc2f248a3d747a9b2b961b18d2d8
+-- 
+2.39.5 (Apple Git-154)
+
