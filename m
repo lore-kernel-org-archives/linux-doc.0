@@ -1,45 +1,45 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059C8282F12;
-	Sat, 22 Aug 2026 15:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E589233A9E2;
+	Sat, 22 Aug 2026 16:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787412081; cv=none; b=Y0QlArkaDUTiiDRpQAeLAnVF+MRgBOaovP5GG2YJ/PpDjwKHteD8/hPQpZvWoztcymJEgVJ+qGLvqexXfNb3Sf++lQWz1NygnchgFjguyPXNGPqlKl1G5P31evTuH2eUq16aRidS8BxbAobSh3QTvaF94v/lEECz5R2M2GcLMQw=
+	t=1787416748; cv=none; b=HOfYbm8VNdAZ2cpIoAL8KOrAov//gnfkpXaN+MmYVt6F3VJCaDfG6en2+lQ9p7HwRdBZObp3O/kcdkgTOJHh0hlVFzDXz4gIz/Rn+cV2ezjy/8bMMnwAE90jpSXpO6T7xfaXg4kl9fLrLL+Cg4cwyiQpSQGVJ4dkYIVIZbLZukE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787412081; c=relaxed/simple;
-	bh=T94twWXCFx8BtTI+lC1rno0eFwzZEYK3U7HBxmWWZVM=;
+	s=arc-20240116; t=1787416748; c=relaxed/simple;
+	bh=Nzj3j4IgZ49mqsfukgw8gZNxG73mt8LrRpV//3KTMvc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J1t7JonZ7Oa9koE7CRWDc8aJfLTzwn3SwogZb2Pz6nTvplRko25ibl3kfQtS1V78BWBxcJAR9JjbH2ekYYBQPkFgqgxhIH4H5E2FNXwU4y/qBJ12OU8inzlQkMpfbGu938vXdszWl9coR9RZgBIPhE/xnR9FNp7kjR5Y1AZ6xj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=s+khEKZi; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=teTcK4yj0II+VFdoQNh9dka2qW0BUNBiN5DM1AQ5ja1tsDw7ogv6R5NKXHNb5ulsoChmThoZHXaJQDOXYRrFL1GTgisH8o+72TVUZWnYFMFCmX87OWrX0jzGwCdHEgsKTlvBehjSMfHq7R3zFwDwFP4tQOLK0CguQDZ1pi4igo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHC+rDgB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s+khEKZi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=sxPMAnFppI9PaRRi3qLwjoYr8in5wU5HrZps0PY83dg=; b=s+khEKZiXE8ZQHzIOnxOMQ9nB4
-	0KLISxt95v8D/tgsy6663C3lZzjI/oRamW70iiBqPjHv4lIjfozvJrvi6zJY/qRb5pkWj0rFwErZH
-	qGuWd57GWUu/ZqGar9ZR5tGdfD0izJDS8EvEf6JwW6UROY8lsL2OsWlt+Q0SoLAq6hLwXtaXsC50q
-	7N3GdXSAPtJ+iy9rLNR8jfMK/C7wMZb2Cq/nZEt9GA4hqZIdnKUqK0NoFqUk+p89juBzR288bUCG2
-	eFp67lwWOn2KUhw2IdSRsRp/OXEIKMKulOxurCv2vVVhY8sxkmrP49Ati5Qnx+1mr4vWZ7yrSUEg9
-	DNAleP/w==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxnWs-00000001aKK-0rhH;
-	Sat, 22 Aug 2026 15:21:06 +0000
-Date: Sat, 22 Aug 2026 16:21:06 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHC+rDgB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22C5B1F000E9;
+	Sat, 22 Aug 2026 16:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787416746;
+	bh=4s9u2WN0f4NPDWTK3ew4FU+LtINwv+CGJFTA6JAlljg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=QHC+rDgBaM3gVUz/yLt2tnlVvdhYPOaBmYhIwW7YAL542RNi7hQuxaiqTu3ItT825
+	 Cu+qvoHB8lmd9QogFn21GhiJzACF6JTl/947UkmqvHC9v8ev78fbXLkREBAPNnvzBc
+	 RPn3IWQUCEA9gh0NxN0S/1jOAUXAtfL36NM7hljudQeloByXlCyNPNjcVWnoAr2aFt
+	 220QV3OY0mS8pcpEKOEV2YYU6S88Llm/N9gS6BCt6jbeSyBDemOwip76TFA8SxSJkf
+	 kBIyWIL9ceowLDiTGsxPrF+g/1SMloHbooR0MREButdDUurlemRkywZ7qylWS2xuFM
+	 1xS5U4cuxPizA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D76D5CE1D6C; Sat, 22 Aug 2026 09:39:05 -0700 (PDT)
+Date: Sat, 22 Aug 2026 09:39:05 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Boqun Feng <boqun@kernel.org>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/1] ALSA: pci: add PreSonus Quantum PCI driver
-Message-ID: <aom-YjzhIG5BN2ks@casper.infradead.org>
-References: <20260820083646.11383-1-nicholas.johnson-opensource@outlook.com.au>
- <20260820083646.11383-2-nicholas.johnson-opensource@outlook.com.au>
+Subject: Re: [PATCH 5/7] docs: this_cpu_ops: Fix SRCU helper names
+Message-ID: <656d37b7-e41b-4a49-8f8b-84a000cb0406@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260822121651.1559-1-kmehltretter@gmail.com>
+ <20260822121651.1559-6-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,14 +48,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260820083646.11383-2-nicholas.johnson-opensource@outlook.com.au>
+In-Reply-To: <20260822121651.1559-6-kmehltretter@gmail.com>
 
-On Thu, Aug 20, 2026 at 04:36:46PM +0800, Nicholas Johnson wrote:
-> Add an ALSA PCI driver for PreSonus Quantum PCIe/Thunderbolt audio
-> interfaces.
+On Sat, Aug 22, 2026 at 02:16:49PM +0200, Karl Mehltretter wrote:
+> Use the actual srcu_read_lock_nmisafe() and atomic_long_inc()
+> helper names.
+> 
+> Fixes: df0cee43114b ("docs: Improve discussion of this_cpu_ptr(), add raw_cpu_ptr()")
+> Assisted-by: Codex:gpt-5.6-sol
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-Hi Nicholas,
+Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
 
-I see you've attracted the attention of the Elfring bot.  Please feel
-free to ignore everything he says; most of us do.  He may have some good
-points, but you should not feel obliged to address any of them.
+> ---
+>  Documentation/core-api/this_cpu_ops.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/core-api/this_cpu_ops.rst b/Documentation/core-api/this_cpu_ops.rst
+> index 533ac5dd57507..367706d1714b1 100644
+> --- a/Documentation/core-api/this_cpu_ops.rst
+> +++ b/Documentation/core-api/this_cpu_ops.rst
+> @@ -150,10 +150,10 @@ preemptible code are addressed by raw_cpu_ptr(), but such use cases need
+>  to handle cases where two different CPUs are accessing the same per cpu
+>  variable, which might well be that of a third CPU.  These use cases are
+>  typically performance optimizations.  For example, SRCU implements a pair
+> -of counters as a pair of per-CPU variables, and rcu_read_lock_nmisafe()
+> +of counters as a pair of per-CPU variables, and srcu_read_lock_nmisafe()
+>  uses raw_cpu_ptr() to get a pointer to some CPU's counter, and uses
+> -atomic_inc_long() to handle migration between the raw_cpu_ptr() and
+> -the atomic_inc_long().
+> +atomic_long_inc() to handle migration between the raw_cpu_ptr() and
+> +the atomic_long_inc().
+>  
+>  Per cpu variables and offsets
+>  -----------------------------
+> -- 
+> 2.53.0
+> 
