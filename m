@@ -1,96 +1,123 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B133BBFB4;
-	Sat, 22 Aug 2026 09:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.30.148.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9994F3469F6
+	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787392300; cv=none; b=a6z9V7ZyZQrqVT/lSNnT4tcnnz13R17C4lmczP+Ug9xClzSDyvtGtXSmmaJjDhwsxILqUcy+8N+gMyqkJ0Stg6pR3GQtDhstWK7MeDCPgTdQ3gmVM8d8llzDifCsK051nNOBzMzpW1diUt7T0LrknOvgZgsn+Lwjx4mm7R9Sf8w=
+	t=1787401024; cv=none; b=klJxpmQ+DRU5uyEplb3PXmL+wQxY4jWN9J2f86b2P0sjml+P00ye4nsgPOwkm8FDzQzv7IBYMkWWg8rASpTnUK/1erlWfxfIJdVBO8o17UldvQSwmSPC1Jvkgvm31g5Jst6UPS2tf46CKfhVyP23dbnivBka7lTHNoWLC7GTbEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787392300; c=relaxed/simple;
-	bh=zW5gVktdMz9JAjtMXj6C1HID1TSMro1NJ8yKW79SqLA=;
-	h=Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=RmMrVXJCq2/4QEHce0Y8l3MZxoC+FIHhz+dULihhp/Q43F1L1Xbo+P+yP2LgAMh5pEOLOI2a7GXK6J74LwSGB8FctJNiqgyc8oz22hepavShWsKj4k+XTLEEuWFg/UhzCLOlVrxEa3y5VzUMYkVw8+0t1i5//rK0jBh+UF3S05I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=160.30.148.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4hRsrc5Sstz8Xrnw;
-	Sat, 22 Aug 2026 17:51:28 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 67M9pKOK063053;
-	Sat, 22 Aug 2026 17:51:20 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sat, 22 Aug 2026 17:51:22 +0800 (CST)
-X-Zmail-TransId: 2af96a89711ab04-a9e84
-X-Mailer: Zmail v1.0
-Message-ID: <20260822175122673CMjaqFZBAcm-DUczLtnOP@zte.com.cn>
-In-Reply-To: <20260804093703-ba9926fe-7b51-4e3f-8436-b6a83100dc45@linutronix.de>
-References: 2026072415043227725SuvoyQ3SGDOmHLp8tdn@zte.com.cn,20260724150700955ST0xNghN8r7XiXr9PfwXH@zte.com.cn,20260804093703-ba9926fe-7b51-4e3f-8436-b6a83100dc45@linutronix.de
-Date: Sat, 22 Aug 2026 17:51:22 +0800 (CST)
+	s=arc-20240116; t=1787401024; c=relaxed/simple;
+	bh=UyjqKJihcX+fex0/pp/SeTJ1UlazmQycm9DjA0TUdpQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Wm4dFdy0tdAuL9Eq0sIWH2bV8uMjRaY7Vs92Jo64WmLQ8mqbivXZgcTdi3FXDAQlGcb5oazw74DpxptVlESbRvYjrsjN8B4AMITnHly+t5WQVdsXGN2PUWoyufFyBcyQ1V+LcAo06ZxZRzJ34BOjncoZpkGp8RUlptf/87tfqOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q8AZkByJ; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q8AZkByJ"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a0794669a6so3798387a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787401021; x=1788005821; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jsN6LvX9NPfCQNk61W1iZUjewLQksV8dhJul9MwmJzE=;
+        b=q8AZkByJ4QSNljimJH4X/bBnZYkftpiXQxowHqp7FHU4I/9TQngMrDrWHWV4Ds96+p
+         W5Gkb1cT90rIJKUhpgzm+IWXm1zTBHD6/hwADeldOFAUj5ZnKpD7dmzL6YdrQ+rIRtbu
+         s+BQXRhBEvxipDdDGQ4xuQHjYa9WBCeGMO6qUskk1aurJlDvL3wjWgMKJplSQFp1zZ6I
+         YOTNVB6IzSG8m5SzcTW0IGqPk1c3Z5PWCgtOUceqZ91wb7JuOqL3AvrpB/GBYpaxAlfk
+         vbuAhsDXGyDSUFhE2ahwnIhWu4Pyf9KfFlrgDJ6zm8VK+Z7Az201oEA0xO9IxReFXU8U
+         uMbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787401021; x=1788005821;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jsN6LvX9NPfCQNk61W1iZUjewLQksV8dhJul9MwmJzE=;
+        b=Eemi0RClofA+zovhmLScMIw2yPVf8nLiUDf89KLmwr/GxcSmAvj7uV9lJADH74TCt4
+         PhaQ246IR4GYVp4K2ffU/5gFiZ6LolkI3lukGCX8lVBFkdNMV1N6dAIgGvhLK3VWwyI8
+         a/tWXX7u6iq2kAGkns2qIJ6TzM277AQVugWPsCjAqdHgYlfcpkOvtYbIUHJxb5VQzJIY
+         ClX7M9e+woIyJWz4UNWG9KuElTQtxQLxiJBUViDP8epeyNgMqgSJYFrz9LnlZBch5ci4
+         HE2uFGnF/aoVJVZDHEKrh56Q6teHZhidbqAGs0piOUaE2+xMZBgMJf0qSjI5mb22DSFN
+         pZwA==
+X-Forwarded-Encrypted: i=1; AHgh+RqNxyjN1UWXD6GWUjZmfbm+hNTpSG9/76Me+OUuoF59v0got7nIMK6UQC/BG2L7nYlIB71uFVZ5L3M=@vger.kernel.org
+X-Gm-Message-State: AFuF++mcgAWzdMq/1J5+NkdgD8Nyr8tuq1KP5EaWPoFgsr5v/bOfPZI4
+	6cumHvCbcmchjtjFKDlsIxheSLf03FtYMEonVR3knO2xfhmgSd/Pypqe
+X-Gm-Gg: AR+sD10aNNBw9Ef5jfNuxT7VfjDpx0wdsCWjuzIi5hCtrLHIKQbycuMfCSbq74RkPtE
+	AmKKLWu3PveWzQa6RzyboDy7lwI7mPWLFnz6RYuZYal53pf5iTX4R29DMFptllNz4HcPle0betc
+	M0UIHzBzAePmxUap6GvHlbdMi0HihhtLY1eaUrVIcuztiRZGiL7fSr/8CoW3lmsbPfwSU9cFGzX
+	g5gf6o5eBnbCvL6wPBwEWxlcb1xpRD7tOZ9wGWqbYRbrjhW5rISiphQy34KOhMroNwoZZ11r4Yg
+	A90MA4mSedzA2ySm6YITh2s07+lMR/PEeEVGi+NrMDjs8wPoBncQ5+Swkss1pQdW7aHZ2u7e79s
+	9EMb5rfeXOy1Fr639Y5iFHn8QUJSyd9iUEdj6LRXuhoD47CajKjQ0lBw9VGV8KAqdNONp7B4V7H
+	EWLcwI5RJ0AmGBmbCtBkpc0MhU6jjHAo2yfvRbShaeK6eHPdm824DkVvW+qrrmRRPt8bRCGN4H2
+	+vc6XDFvc9qm9UWbuU8KKoTF66EYG9dpGVxjh1f2zAG3/CrdeLui5NDpp7GkB//sQZRuMgdGZjR
+	ePFcN1zADSKFCDyGhRBDN7KbsE3LTXRIIDrWnHVU/+LWYr2N2cM4wYm13Mcthqu2lmAX
+X-Received: by 2002:a05:6402:5513:b0:6a4:2ee:5c6d with SMTP id 4fb4d7f45d1cf-6a582b16d2bmr6451179a12.6.1787401020491;
+        Sat, 22 Aug 2026 05:17:00 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a0f5-8c01-3de3-cd62-aa6f-2fb0.310.pool.telefonica.de. [2a02:3100:a0f5:8c01:3de3:cd62:aa6f:2fb0])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.16.58
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 22 Aug 2026 05:16:59 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Petr Tesarik <petr@tesarici.cz>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/7] docs: core-api: Fix stale function names and a broken example
+Date: Sat, 22 Aug 2026 14:16:44 +0200
+Message-Id: <20260822121651.1559-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <thomas.weissschuh@linutronix.de>
-Cc: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2NCAyLzNdIHRvb2xzL2FjY291bnRpbmc6IGZhY3RvciBvdXQgc2hhcmVkIGZvcm1hdF90aW1lc3BlYygpIGltcGxlbWVudGF0aW9u?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 67M9pKOK063053
-X-TLS: YES
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Sat, 22 Aug 2026 17:51:28 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6A897120.000/4hRsrc5Sstz8Xrnw
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
->> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->> +#ifndef _TOOLS_UAPI_LINUX_TIME_TYPES_H
->> +#define _TOOLS_UAPI_LINUX_TIME_TYPES_H
->> +
->> +#include <linux/types.h>
->> +#include <asm/posix_types.h>
->
->So the tools/include/ header are supposed to be platform independent and standalone.
->But this relies on an asm/ header which itself is not part of tools/include/.
->The addition of this header did not remove the dependency on system UAPI headers.
->
->So why is this new header copy needed in its current form?
+A review of Documentation/core-api turned up a handful of places where
+the text names a function that does not exist, or an example command
+that cannot work as written.  Each one is a plain typo from the day the
+text was written rather than an API rename: for every patch the wrong
+name was checked against the tree at the time of the Fixes: commit, and
+the correct name exists in current mainline.
 
-Thank you for identifying this issue. We agree that `#include <asm/posix_types.h>`
-creates an undesirable dependency on system headers.
+The changes are independent of each other and only touch prose and
+examples, so each can be applied on its own.
 
-The problem: System headers (`/usr/include/asm-generic/posix_types.h`) are outdated
-and lack `__kernel_old_time_t` (a y2038 fix added in the kernel). Simply removing
-the include would cause compilation failures.
+Karl Mehltretter (7):
+  docs: cpu_hotplug: Fix multi-instance removal calls
+  docs: irq-affinity: Restore grep in example
+  docs: dma-attributes: Fix dma_alloc_attrs() name
+  docs: swiotlb: Fix maximum mapping size helper
+  docs: this_cpu_ops: Fix SRCU helper names
+  docs: xarray: Fix xas_try_split() name
+  docs: debugobjects: Fix debug_object_init() name
 
-Our fix (two steps):
+ Documentation/core-api/cpu_hotplug.rst | 4 ++--
+ Documentation/core-api/irq/irq-affinity.rst | 2 +-
+ Documentation/core-api/dma-attributes.rst | 2 +-
+ Documentation/core-api/swiotlb.rst | 2 +-
+ Documentation/core-api/this_cpu_ops.rst | 6 +++---
+ Documentation/core-api/xarray.rst | 2 +-
+ Documentation/core-api/debug-objects.rst | 2 +-
+ 7 files changed, 10 insertions(+), 10 deletions(-)
 
-1. Change `time_types.h` to use `#include <asm-generic/posix_types.h>`
-   - This is architecture-independent: `asm-generic/posix_types.h` directly defines
-     all POSIX types (`__kernel_long_t`, `__kernel_time64_t`, `__kernel_old_time_t`)
-     without architecture-specific dispatching
-   - This follows the same pattern as `types.h` which uses `<asm-generic/int-ll64.h>`
+base-commit: 26260251022fbc2f248a3d747a9b2b961b18d2d8
+-- 
+2.53.0
 
-2. Copy `include/uapi/asm-generic/posix_types.h` to `tools/include/uapi/asm-generic/`
-   - This restores the self-containment of tools/include/uapi/
-   - The copied file provides up-to-date type definitions (including y2038 fixes)
-   - No longer relies on outdated system headers
-
-This addresses your concern by making `time_types.h` truly self-contained and
-architecture-independent within tools/include/.
-
-Thanks
-Yaxin
