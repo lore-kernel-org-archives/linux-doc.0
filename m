@@ -1,77 +1,78 @@
 Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D146E332638
-	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682B93C1414
+	for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 12:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787401032; cv=none; b=IwV3kJhSWtg86Szqrw5RLWe5CxR0jK/rUfWWzYXbNSjbPBcOL1JUqyzjgtZcFIku/3HxM2LLne+SPIXVPxZu0vUFZj3GKVzEVTsoJa+plynd/p22EuqSbPpsg2RQmg1KW50yrZ+N4qTRnkIcFiRVaX3jCRYBzUixQskbZCFogHo=
+	t=1787401036; cv=none; b=VUaotO37dC1yKxR7YdM+UoBwl/gW5lR6XbEFgBOSO/W+Vcs8OE8lYDq8dQpztJwetqDpPlaIzd4dK/ETvo87hVMnCWWwUDBFzuZ6YwONH1B2qSVSNtspm6sBajGLmNXc+eBCaQOu+xRkMannVNTRyvUi+VZjFq0A2V/ZmgCOOag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787401032; c=relaxed/simple;
-	bh=FSHFaf84+K1WEeLxw+lt7p4CyHZ1xmh8ft4DVc489SA=;
+	s=arc-20240116; t=1787401036; c=relaxed/simple;
+	bh=c7hqCgp8op4KJJghy/4AR6tAgvPRIOuvrSJcSpDAnEI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lwaHmMXPFXjNKlgMtf//XoLPzfVVDbUhHtKFM2LbBzQiJRt0/yJauxL66LI9xWttjtGSPpAlIYps5RcII0ee8HF+3FIsHrpCNHfUm4Z7NcsIWPeklDCyHp1T5XVKtnc37DHDUlI7k5ytUAw61H0lPUxnFy5/WkJCAyasxfB+dqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZtpacSKD; arc=none smtp.client-ip=209.85.208.42
+	 MIME-Version; b=L1iMFe3R/TWuRZqxZ9f2bxfQClTSm3XvPRr0/s6ZDy59t1t3jjAhcssknEiEh/crSPgcaH63asCi3/VkOdRdJwyaK+cFmzwtRtMUnO3t0kwzYpjtfYwl0IiqE6boitvB5Fprlm4hio5Q9aqZ0vt3zFYrG9pRl/O5WIovU+P6uoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4BzwU+S; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZtpacSKD"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a3efa2b38aso3595065a12.2
-        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4BzwU+S"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a0a4a28cbdso3497308a12.3
+        for <linux-doc@vger.kernel.org>; Sat, 22 Aug 2026 05:17:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787401027; x=1788005827; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787401031; x=1788005831; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MCK7+BAcRGf3cJd5hC9mXgWW8o3rf0I1eoOWIWB/QlM=;
-        b=ZtpacSKDpcbVkxoyRlaCUvy76+YPFFw4UrZjHGK72wiLRpM7z9Zb9CSY/KPrbrkYLz
-         vtuO6j2VXTWORMser2fCN6Oy/c0qMR3/twyX6iuXMZYgicg9ytSbB+gTeE4FETmSP6nb
-         Mg6ZbLHhhkwhcAIBB5QnnhVPgAQpAPLq+tYz2JHFsdiC/emVsojxCN2lkPmAWdlT12RU
-         2mV3+UiIeT8xti6Fc1MXEXM92F/ZVN297FDRBxeWDP8eE2dHUiige/B9dfbFj78TZcHs
-         oRCHBAkOW2zHpirOkL+oeqhW/U2UT3NfN93eW7brBMXs9Gbj1mOS17K5WKEIebot5MPg
-         Ey0w==
+        bh=sytsAqA8XLvV9RIcnKuLKORFXpX82LoVo7/RGgggj5c=;
+        b=X4BzwU+SKowSHyl+uAqCR7+kOoyTukMApUekiLok0vamHJSWQpUcxHjCjW+DJCmOm/
+         cRcZKNDbRFO9ruDDPG67zlKm0TTS2nAhO4QWtXgGfKuxRUiP+3hALtGVzbVfQWGeka+m
+         AMNwo3GlgHQAjfFgJy7fRzRVdIcPEGJT31a8y55EDYVujXk3Day93fdILxqbxnbwkugZ
+         EMiAJ/cWiMFdxyIrwDIhu+TOdRfbaGMOiYV8vs0hyxNNF1xcyU3OAjlny0dgZ5qXZVcj
+         iPK8Y3Njs4RPmn8nX3kku/syUyQyO6C46CCG7IgE6FTWLgej7XeqZMiEeqMovXAM8O60
+         Dr0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787401027; x=1788005827;
+        d=1e100.net; s=20251104; t=1787401031; x=1788005831;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MCK7+BAcRGf3cJd5hC9mXgWW8o3rf0I1eoOWIWB/QlM=;
-        b=EXigAJ1ZAyMVkYwO29v/ZUP4cV+T7yixWF28w3/5VMgJ+1zFIBQeRg/+NrzDLxkgBx
-         8ZOPq1JmwN5dNZkGLKVm/L00POpzrXwky7xIwIRNC4yESdpw8Ygy6L0vZoGmWSD9w06j
-         tWIWYkmlqZxsxyQWMZxYTa8G21E5Weaom9TQHauyxFtfGR9/UA646Oz0DDBl0wKEYP+i
-         28SHjkowojcP1VObYkxbmXewqj+jKPrUz4sT6FhiAr0iSpzVtQIFeIFRzGNdjkCYOftp
-         Yeooj3PRMY+n9Ja5t9tY63X80DONRMue54016/jNvaA2k57rK+B46vH/iakpEsx2jUQI
-         70ww==
-X-Forwarded-Encrypted: i=1; AHgh+Rp18BdhSWi7vdl0PQkyg4SBOyrK4DuVAaK13ynZ7PuqaOfXObps4ST3TzvK3Bvp9HFzdUNsifisLU8=@vger.kernel.org
-X-Gm-Message-State: AFuF++nNtXjmc99LXqBfKpRqQs5+COM3NUUcJnkQuSRywAL3jj61/1nC
-	1FxlkzZ8ZQTHLhZX2T0nPvoxcIvzY9RA8xOIIBbhiqw1vpyEPTSXrHfVCLmiIIr5
-X-Gm-Gg: AR+sD13vdr8+9wJDaf9QmQcm3dfuihFGBxrmfbPD8T4XYNyc+YtRPTplMVKNzcamh8N
-	LSFdqsBaETKrrSHTCmnaujc16rxZOGotkCtekYRUY+ddEjSF5MR5FBIGU2RFkaKu3xmSGUMb8c9
-	Qi7bbWUjaW9TWu0v0fk3XP7X4mmIR6mAIglCV4pvfsw5MEPBzQhkj92WFYFActQ1xsK2Sg6EBLh
-	TMTo62hGTQFCUav+yDWK2j9FTWx70EnWwVyfdmx1qV7p25cBiUIPtKfMBgUrSjnyLSsoLi875nz
-	NwTQiR+Hz0UPWd+u+oaZfhdWvETPe904Rv6jC3TwWGCb4Wj/Y1olszlHDF9RYOmN+qikgckDfjc
-	JyzZEiohZMC0XDSm2j/tcEb1c4o3zNya5Cef0LXsGHGRqBBv53biHzXgtO9eADQrHywhMofWO2a
-	xu9TXHuNFx3fmdulGgW3A+j/2oxYZKcXH+1F7FdsuKIRFBsVcZOy+I6beVrtIJx1NfVHyZbXel+
-	5XHpAzrlZVa47nyUOn4o4JSn0dBeqNbvfZhh5NAxXpY1OMi82K/o0k+Tg/ckP9Le7HQVlaaVeo2
-	M6rv1QalbQP7/eknoat52YUhngMBiRlQ1TrrCQ6++0Wrbh7BukFG/iPorv90kb26aUME
-X-Received: by 2002:a05:6402:4613:b0:698:9e5e:5df8 with SMTP id 4fb4d7f45d1cf-6a42f1aca88mr12849258a12.7.1787401026969;
-        Sat, 22 Aug 2026 05:17:06 -0700 (PDT)
+        bh=sytsAqA8XLvV9RIcnKuLKORFXpX82LoVo7/RGgggj5c=;
+        b=dIPohRoddGgXcW8eO6flMSgU+MK0Hn51D5p2yC+zVKxe1zPOzjE6GHClCm6Cjyb4dr
+         /gQpbkuCMPRR/poPPuxK4f2XfSU9+EXFjj772JFioitwgTG4WRABdopFKOBrGN0rO2K9
+         jFRTx1n6x3MNlcD90/KVS1c8lClO8GMRpW6PrIZ3VqW2/dEILlDZ75qATMGvNST3cT6w
+         rSWGFo/T0sytP0wpBxAT1Lpfl0BUNSnE+5X+k2VLI6tPnh71FpxrlM6scwPwRLKCOnMM
+         OOxgFC5GLVduZwTeyC7j0XtqQDcyy7PtDcJgRNiMys+JGw1GhLD3zL84g0Dmj5LNOMeL
+         mQ5g==
+X-Forwarded-Encrypted: i=1; AHgh+RokqspD27y2QW/10igRDVg2KzXVn0DTORur0JanmKROnVjNJCOYN8qQbM/P+Zv6fXKCs11arl62V1s=@vger.kernel.org
+X-Gm-Message-State: AFuF++mUmk5kNmtAYrLt3cNJ4NNar+AB6ZqN3SINZo7xC5GGfYcEiTNX
+	n/4K64UXQKvfOZwDXHcKRYoexQfxPmngTBhGYsspzWyNztCEBexRaGCU
+X-Gm-Gg: AR+sD13c3l1lvqvi96oc69uf8F2GGhk7YjeMGC1T+VHxSfxbIWHxNQSxmsWYzaCdubM
+	56fysLdrJyweOkWCY7vndLSiT8g6Ka/AfjiqGfmLX8Q48IaCVpEYsdLo7e+nYq99QQLpNP7aljF
+	TrUzKoDXuEgL9B7Lm0E15ARX6iDyzUAprV5x7fxB5fhXBdbKzXUD4a9Np3ycog5NzDQknb4EohS
+	EV7fLW3tXRaPVvEn9AcQLq3UJrMyQnYVN8pV6IfNPUGpavLbIzkIdS9SPxtno4GmfxRBP/B5C9S
+	5nNHUbfBpIYZgxkyb3gWXMwIRIafAFHUch0UWEb84v7cKrhbWMHuoMe6wQt/VJjCx5VX4OtL8Cx
+	bytQyZtGn2xmm0LDsMjPJGCGqbGiCASr3tiX8AgRwLJmPDXD6lznI1zN0nx1wzRNsxrMKza38zA
+	DtMnw2XBBgX+YR1cylZIEXQHpBKnRa501Zge2GX9wS4kKlqGk4Nt/RSe76pLRv7fILiAlipvcPV
+	HPAxAjVKpdn2eNZERcw51acr3cjHFSt6k0Aa8pIHHDVKVFkvdqdf8DF+w5iNMAbddYNu43lskqb
+	Em/cmBdOCKoQMyTVqm2nmU9jjZpaYFPYeDYQz8nvI62df9mX8fNkZ3O7Ezkjj+AgdjPhKJDNMw=
+	=
+X-Received: by 2002:a05:6402:5049:b0:6a3:f63a:4997 with SMTP id 4fb4d7f45d1cf-6a582af9535mr6141711a12.3.1787401030613;
+        Sat, 22 Aug 2026 05:17:10 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a0f5-8c01-3de3-cd62-aa6f-2fb0.310.pool.telefonica.de. [2a02:3100:a0f5:8c01:3de3:cd62:aa6f:2fb0])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.06
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3ff0c30casm10998322a12.7.2026.08.22.05.17.08
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 22 Aug 2026 05:17:06 -0700 (PDT)
+        Sat, 22 Aug 2026 05:17:09 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] docs: this_cpu_ops: Fix SRCU helper names
-Date: Sat, 22 Aug 2026 14:16:49 +0200
-Message-Id: <20260822121651.1559-6-kmehltretter@gmail.com>
+Subject: [PATCH 7/7] docs: debugobjects: Fix debug_object_init() name
+Date: Sat, 22 Aug 2026 14:16:51 +0200
+Message-Id: <20260822121651.1559-8-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260822121651.1559-1-kmehltretter@gmail.com>
 References: <20260822121651.1559-1-kmehltretter@gmail.com>
@@ -83,34 +84,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the actual srcu_read_lock_nmisafe() and atomic_long_inc()
-helper names.
+The initialization helper is debug_object_init(), not
+debug_objects_init().
 
-Fixes: df0cee43114b ("docs: Improve discussion of this_cpu_ptr(), add raw_cpu_ptr()")
+Fixes: 691cc54c7d28 ("debugobjects: add documentation")
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- Documentation/core-api/this_cpu_ops.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/core-api/debug-objects.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/this_cpu_ops.rst b/Documentation/core-api/this_cpu_ops.rst
-index 533ac5dd57507..367706d1714b1 100644
---- a/Documentation/core-api/this_cpu_ops.rst
-+++ b/Documentation/core-api/this_cpu_ops.rst
-@@ -150,10 +150,10 @@ preemptible code are addressed by raw_cpu_ptr(), but such use cases need
- to handle cases where two different CPUs are accessing the same per cpu
- variable, which might well be that of a third CPU.  These use cases are
- typically performance optimizations.  For example, SRCU implements a pair
--of counters as a pair of per-CPU variables, and rcu_read_lock_nmisafe()
-+of counters as a pair of per-CPU variables, and srcu_read_lock_nmisafe()
- uses raw_cpu_ptr() to get a pointer to some CPU's counter, and uses
--atomic_inc_long() to handle migration between the raw_cpu_ptr() and
--the atomic_inc_long().
-+atomic_long_inc() to handle migration between the raw_cpu_ptr() and
-+the atomic_long_inc().
+diff --git a/Documentation/core-api/debug-objects.rst b/Documentation/core-api/debug-objects.rst
+index ac926fd55a64a..708775fc581b7 100644
+--- a/Documentation/core-api/debug-objects.rst
++++ b/Documentation/core-api/debug-objects.rst
+@@ -129,7 +129,7 @@ When the real object is not yet tracked by debugobjects then the
+ fixup_activate function is called if available. This is necessary to
+ allow the legitimate activation of statically allocated and initialized
+ objects. The fixup function checks whether the object is valid and calls
+-the debug_objects_init() function to initialize the tracking of this
++the debug_object_init() function to initialize the tracking of this
+ object.
  
- Per cpu variables and offsets
- -----------------------------
+ When the activation is legitimate, then the state of the associated
 -- 
 2.53.0
 
